@@ -1,0 +1,36 @@
+{
+  "name": "client_dev",
+  "version": "1.0.0",
+  "description": "Janda Reservation Module for Development(client)",
+  "main": "index.js",
+  "author": "BKY",
+  "license": "MIT", 
+  "private": true,
+  "dependencies": {
+    "apollo-boost": "^0.1.23",
+    "babel-cli": "^6.26.0",
+    "global": "^4.3.2",
+    "graphql": "^14.0.2",
+    "graphql-tag": "^2.10.0",
+    "react": "^16.7.0",
+    "react-apollo": "^2.3.3",
+    "react-dom": "^16.7.0",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "2.1.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}

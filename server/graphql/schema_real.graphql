@@ -1,0 +1,80 @@
+scalar DateTime
+
+type Franchise {
+	id: String!
+	name: String!
+	loc: String!
+	host: String!
+	phone_num: String!
+	code: String!
+	created: DateTime!
+	updated: DateTime!
+}
+
+type Guest {
+	id: String!
+	name: String!
+	phone_num: String!
+	email: String
+	pwd: String!
+	history: [ Franchise! ]
+	created: DateTime!
+	updated: DateTime!
+}
+
+"티켓 스키마"
+type Reservation {
+	id: String!
+	name: String!
+	description: String!
+	franchise: [ Franchise! ]!
+	price_policy: [ Price! ]
+	created: DateTime!
+	updated: DateTime!
+}
+
+"""
+결제 방식 enum
+"""
+enum Paymethod {
+	"카드 결제"
+	CARD
+	"현금 결제"
+	CASH
+	"기타.. PG사"
+	PG
+}
+
+type Deal {
+	id: String!
+	ticket: Reservation!
+	customer: Guest!
+	amount: Int!
+	price: Int!
+	paymethod: Paymethod!
+	is_paid: Boolean! @default(value: false)
+	state: State!
+	franchise: Franchise!
+	code: String!
+	created: DateTime!
+	updated: DateTime!
+}
+
+type Period {
+	start_date: DateTime!
+	end_date: DateTime!
+}
+
+type Price {
+	period: Period!
+	price: Int!
+	description: String!
+}
+
+type Query{
+
+}
+
+type Mutation{
+
+}
