@@ -1,5 +1,5 @@
 import ApolloClient from "apollo-boost";
-import uri from "uri";
+import uri from "./uri";
 
 const client = new ApolloClient({
     uri
