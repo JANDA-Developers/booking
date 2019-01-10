@@ -24,3 +24,11 @@
 * style_config // scss 편수들 / mixin  
 * utils // 공통적으로 사용되는 함수 / validation / ...
 
+
+
+## 버전 관리 규칙
+
+### Flow 
+* 영상 참조!
+https://youtu.be/v2cixb4Zh6Q
+* Comming Soon~
