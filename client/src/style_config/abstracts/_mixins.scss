@@ -1,0 +1,123 @@
+// -----------------------------------------------------------------------------
+// This file contains all application-wide Sass mixins.
+// -----------------------------------------------------------------------------
+
+/// Event wrapper
+/// @author Harry Roberts
+/// @param {Bool} $self (false) - Whether or not to include current selector
+/// @see https://twitter.com/csswizardry/status/478938530342006784 Original tweet from Harry Roberts
+
+//마우스가 위에 올라왔을때 효과
+@mixin on-event($self: false) {
+    @if $self {
+
+        &,
+        &:hover,
+        &:active,
+        &:focus {
+            @content;
+        }
+    }
+
+    @else {
+
+        &:hover,
+        &:active,
+        &:focus {
+            @content;
+        }
+    }
+}
+
+
+/// Make a context based selector a little more friendly
+/// @author Hugo Giraudel
+/// @param {String} $context
+
+//어떠한 컨텐츠가 어떤 부모안에 들어왔을때에 효과
+@mixin when-inside($context) {
+    #{$context} & {
+        @content;
+    }
+}
+
+// Components Flex-Grid
+@mixin component-layout($margin,$width) {
+    .flex-grid {
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+    }
+
+    .flex-grid>* {
+        flex: 1;
+
+        &.flex-grid__col {
+            flex-grow: 4;
+            margin-left: $margin;
+        }
+
+        &.flex-grid__col--fixed-width {
+            flex: 0 0 $width;
+        }
+
+        &.flex-grid__col--sm {
+            flex-grow: 2;
+        }
+
+        &.flex-grid__col--lg {
+            flex-grow: 8;
+        }
+
+        &:first-child {
+            margin-left: 0rem;
+        }
+
+        &:last-child {
+            margin-right: 0rem;
+        }
+    }
+
+    @media (max-width: 549px) {
+        .flex-grid--md {
+            display: block;
+        }
+
+        .flex-grid--md>* {
+            padding-left: 0;
+            padding-right: 0;
+
+            &.flex-grid__col {
+                margin-left: 0;
+            }
+
+        }
+    }
+
+    @media (max-width: 959px) {
+        .flex-grid--lg {
+            display: block;
+        }
+
+        .flex-grid--lg>* {
+            padding-left: 0;
+            padding-right: 0;
+
+            &.flex-grid__col {
+                margin-left: 0;
+            }
+        }
+    }
+}
+
+@mixin hover-style {
+    color: $gray-dark;
+    border-color: lighten($gray-dark, 33.3%);
+    outline: 0;
+}
+
+@mixin focus-style {
+    color: $gray-darker;
+    border-color: lighten($gray-darker, 33.3%);
+    outline: 0;
+}

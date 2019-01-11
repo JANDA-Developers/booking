@@ -1,0 +1,28 @@
+@import '../style_config/style_config';
+
+$nav-color:#3cb878;
+
+.header {
+
+    @include component-layout(2%, 200px);
+    background-color: $nav-color;
+    text-align: center;
+
+    &__link {
+        color: white;
+    }
+
+    .header__link {
+
+        @include on-event() {
+            background-color: lighten($nav-color, 20%);
+        }
+
+        &.active {
+            background-color: lighten($nav-color, 20%);
+        }
+
+    }
+
+
+}
