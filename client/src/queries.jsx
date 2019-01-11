@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-const HOME_PAGE = gql`
+const BOOKER = gql`
   {
     bookers {
       id
@@ -12,4 +12,4 @@ const HOME_PAGE = gql`
   }
 `;
 
-export default HOME_PAGE;
+export default BOOKER;
