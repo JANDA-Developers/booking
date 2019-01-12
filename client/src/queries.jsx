@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-const BOOKER = gql`
+export const Booker = gql`
   {
     bookers {
       id
@@ -12,4 +12,12 @@ const BOOKER = gql`
   }
 `;
 
-export default BOOKER;
+export const GetBookerNameById = gql`
+  query getBookerById($personId: ID!) {
+    get_booker_by_id(_id: $personId) {
+      id
+      name
+      phone_num
+    }
+  }
+`;

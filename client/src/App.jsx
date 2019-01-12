@@ -54,6 +54,7 @@ class App extends Component {
             <Header />
             <Switch>
               <Route exact path="/" component={Home} />
+              <Route exact path="/detail/:param" component={Home} />
               <Route path="/test/:username" component={Test} />
               <Route path="/post" component={Post} />
               <Route path="/login" component={Login} />
@@ -67,5 +68,4 @@ class App extends Component {
     );
   }
 }
-
 export default App;

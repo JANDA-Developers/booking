@@ -1,7 +1,9 @@
 import ErrProtecter from './ErrProtecter';
+import isEmpty from './IsEmpty';
 
-const JDutills = {
+const JDutils = {
   ErrProtecter,
+  isEmpty,
 };
 
-export default JDutills;
+export default JDutils;
