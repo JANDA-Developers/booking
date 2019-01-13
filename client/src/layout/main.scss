@@ -1,0 +1,18 @@
+@charset 'UTF-8';
+
+// 1. Vendors
+@import 'vendors/normalize';
+
+// 2 . styleConfig
+@import '../style_config/style_config';
+
+// 3. Base files
+@import 'base/base',
+'base/helpers',
+'base/typography',
+'base/spacing',
+'base/print';
+
+// 4. Layout-related sections
+@import 'layout/grid',
+'layout/grid-flex';

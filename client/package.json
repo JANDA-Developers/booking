@@ -2,16 +2,21 @@
   "name": "client_dev",
   "version": "1.0.0",
   "description": "Janda Reservation Module for Development(client)",
-  "main": "index.js",
+  "main": "index.jsx",
   "author": "BKY",
-  "license": "MIT", 
+  "license": "MIT",
   "private": true,
   "dependencies": {
     "apollo-boost": "^0.1.23",
     "babel-cli": "^6.26.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-graphql": "^3.0.1",
+    "eslint-plugin-prettier": "^3.0.1",
     "global": "^4.3.2",
     "graphql": "^14.0.2",
     "graphql-tag": "^2.10.0",
+    "node-sass": "^4.11.0",
+    "prop-types": "^15.6.2",
     "react": "^16.7.0",
     "react-apollo": "^2.3.3",
     "react-dom": "^16.7.0",
@@ -25,7 +30,24 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "env": {
+      "browser": true,
+      "node": true
+    },
+    "parser": "babel-eslint",
+    "extends": "airbnb",
+    "plugins": [
+      "react",
+      "jsx-a11y",
+      "import",
+      "graphql",
+      "prettier"
+    ],
+    "rules": {
+      "react/jsx-filename-extension": 0,
+      "linebreak-style": 0,
+      "no-console": "off"
+    }
   },
   "browserslist": [
     ">0.2%",
