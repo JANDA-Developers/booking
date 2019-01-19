@@ -20,6 +20,9 @@
 11. 이벤트 핸들러 함수 Prefix "handle"
 12. Debounce 처리된 함수  Prefix "debounce"
 
+13. Enum 을 만들때는 Prefix "em"
+14. Utils 변수명은 가능한 짧게 작성하세요.
+
 #### 폴더 구조
 * actions  // actions 함수 모음
 * atoms // 가장 작은 단위의 페이지 구성요소 / btns / icons / search_bar / pagination ...  
