@@ -17,7 +17,7 @@
 2. 컴포넌트들은 외부 css로부터 **독립적** 이여야 합니다.
 3. compoents 와 pages 폴더에 있는 파일명은 대문자로 시작하는 카멜케이스를 사용합니다.
 4. 모든 query를 참조하는 변수는 대문자로 시작합니다.
-5. __layout 폴더에 기술된 css는 page 단위 에서만 사용하도록 합니다.__  [참고] https://github.com/BaeKY/jd-api-server/issues/9
+5. __layout 폴더에 기술된 css는 page 단위 에서만 사용하도록 합니다.__  [참고](https://github.com/BaeKY/jd-api-server/issues/9)
 6. 특별한 경우가 아니면 margin-top을 사용하지 마십시오.   [참고](https://github.com/BaeKY/jd-api-server/issues/8)
 7. 특별한 경우가 아니면 margin-right을 사용하지 마십시오.
 8. css들은 각폴더에 알맞은 위치에 기술합니다.
