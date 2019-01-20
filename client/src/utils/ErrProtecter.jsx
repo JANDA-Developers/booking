@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 const ErrorFallback = 'sorry Something Wrong';
 
-const ErrProtect = CheckComponent => class ErrProtecter extends Component {
+const ErrProtecter = CheckComponent => class ErrProtect extends Component {
     state = {
       hasErr: false,
     };
@@ -18,8 +18,8 @@ const ErrProtect = CheckComponent => class ErrProtecter extends Component {
       if (hasErr) {
         return <ErrorFallback />;
       }
-      return <CheckComponent />;
+      return <CheckComponent {...this.props} />;
     }
 };
 
-export default ErrProtect;
+export default ErrProtecter;

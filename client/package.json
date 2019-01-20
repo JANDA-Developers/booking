@@ -15,6 +15,7 @@
     "global": "^4.3.2",
     "graphql": "^14.0.2",
     "graphql-tag": "^2.10.0",
+    "lodash.debounce": "^4.0.8",
     "node-sass": "^4.11.0",
     "prop-types": "^15.6.2",
     "react": "^16.7.0",
@@ -46,7 +47,25 @@
     "rules": {
       "react/jsx-filename-extension": 0,
       "linebreak-style": 0,
-      "no-console": "off"
+      "no-console": "off",
+      "//": [
+        "아래는 label은 input을 자식으로 포함해야한다 를 제거"
+      ],
+      "jsx-a11y/label-has-for": [
+        2,
+        {
+          "components": [
+            "Label"
+          ],
+          "required": {
+            "every": [
+              "nesting",
+              "id"
+            ]
+          },
+          "allowChildren": true
+        }
+      ]
     }
   },
   "browserslist": [

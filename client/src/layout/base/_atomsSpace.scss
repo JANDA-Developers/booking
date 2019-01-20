@@ -1,0 +1,18 @@
+
+@import '../../style_config/style_config';
+
+.JDcheck_box_wrap + * {
+    margin-left: $check_box__space;
+}
+
+.JDcheck_box_wrap {
+    margin-bottom: 16px;
+}
+
+.JDswitch + * {
+    margin-left: $switch__space;
+}
+
+.JDswitch {
+    margin-bottom: 16px;
+}

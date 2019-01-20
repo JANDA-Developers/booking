@@ -1,6 +1,7 @@
 import React from 'react';
 import './header.scss';
 import { NavLink } from 'react-router-dom';
+import ErrProtecter from '../utils/ErrProtecter';
 
 const Header = () => (
   <div className="header">
@@ -23,8 +24,15 @@ const Header = () => (
       <NavLink className="flex-grid__col header__link" to="/search" activeClassName="active">
         {'검색'}
       </NavLink>
+      <NavLink
+        className="flex-grid__col header__link"
+        to="/showComponents"
+        activeClassName="active"
+      >
+        {'컴포넌트들'}
+      </NavLink>
     </div>
   </div>
 );
 
-export default Header;
+export default ErrProtecter(Header);

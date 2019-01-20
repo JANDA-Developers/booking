@@ -1,5 +1,7 @@
-# Main file
+layout 폴더를 style_config 함수와 합쳐야하는지에 대한 생각은 계속 하고있습니다.
+이렇게 분리한까닥은 scss 파일을 불러오는 방식때문 입니다.
 
-The main file (usually labelled `main.scss`) should be the only Sass file from the whole code base not to begin with an underscore. This file should not contain anything but `@import` and comments.
+Atoms 와 Component 와 같은 작은 파일에서 이렇게 까지 큰 파일을 가져올 필요는 없으니까요.
+Page 단위에서 이 폴더를 불러올것이고
 
-Reference: [Sass Guidelines](http://sass-guidelin.es/) > [Architecture](http://sass-guidelin.es/#architecture) > [Main file](http://sass-guidelin.es/#main-file)
+이폴더의 모든것은 Page 단위에서만 작동할것입니다.

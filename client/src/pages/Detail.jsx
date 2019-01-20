@@ -1,8 +1,5 @@
 import React from 'react';
 
-const Detail = ({ match }) => {
-  console.log(match);
-  return <div>soemthing</div>;
-};
+const Detail = () => <div>soemthing</div>;
 
 export default Detail;

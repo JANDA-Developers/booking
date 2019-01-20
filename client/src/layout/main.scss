@@ -6,13 +6,11 @@
 // 2 . styleConfig
 @import '../style_config/style_config';
 
-// 3. Base files
-@import 'base/base',
-'base/helpers',
-'base/typography',
-'base/spacing',
-'base/print';
+// 3. Layout-related sections
+@import 'grid/grid',
+'grid/grid-flex';
 
-// 4. Layout-related sections
-@import 'layout/grid',
-'layout/grid-flex';
+// 4. base section 
+@import 'base/_typography',
+'base/_atomsSpace',
+'base/_sectionsSpace';
