@@ -35,7 +35,7 @@
 3. Enum 객체 키값은 풀 대문자로 작성합니다.
 
 ### 폴더 구조 및 주요 파일
-![Directory](/DirectoryGuide.svg)
+![Directory](/client/DirectoryGuide.svg)
 
 
 ## 버전 관리 규칙
