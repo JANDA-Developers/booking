@@ -1,80 +1,60 @@
+/* -------------------------------- TO DO LIST -------------------------------- */
+/* ---------------- 1.현재 명명법이 BEM 스럽지 못합니다. 변수명을 BEM에 맞춰 바꾸세요 --------------- */
+/* ------------------------- 2. 쓰이지않는 변수들을 찾아서 제거하세요 ------------------------ */
+
 // -----------------------------------------------------------------------------
 // This file contains all application-wide Sass variables.
 // -----------------------------------------------------------------------------
 
-// Breakpoints
-$bp-larger-than-mobile    : "min-width: 400px" !default;
-$bp-larger-than-phablet   : "min-width: 550px" !default;
-$bp-larger-than-tablet    : "min-width: 750px" !default;
-$bp-larger-than-desktop   : "min-width: 1000px" !default;
-$bp-larger-than-desktophd : "min-width: 1200px" !default;
-
-//Globals
-$line-height:            2.4rem !default;
-$global-radius:          .2rem !default;
-$border-color:            #bbb !default;
-
-// Font variables
-$font-sans-serif: "Roboto", Helvetica, Arial, sans-serif !default;
-$font-serif:       "Merriweather", Georgia, "Times New Roman", Times, serif;
-//** Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
-$font-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace;
-$font-base:        $font-sans-serif;
-$font-color:       #222222 !default;
-
-$font-size:                1.6rem !default;
-$font-size--lg:            ceil($font-size * 1.23); // ~20px
-$font-size--md:            ceil($font-size * 1.14); // ~16px
-$font-size--sm:            ceil($font-size * 0.92); // ~13px
-$font-size--xs:            ceil($font-size * 0.85); // ~12px
-
-
-// Gray colors for theme
-$gray-lightest:          #f6f6f6;
-$gray-lighter:           #e4e4e4;
-$gray-light:             #d3d3d3;
-$gray:                   #a8a8a8;
-$gray-dark:              #7e7e7e;
-$gray-darker:            #545454;
-$gray-darkest:           #2a2a2a;
-
-// Classic brand colors
-$color-primary:         rgba(52, 152, 219,1.0);
-$color-primary--dark:   darken($color-primary, 5%) !default;
-$color-secondary:       $gray-dark !default;
-
-$color-info:            #5BC0EB;
-$color-success:         #2BC016;
-$color-warning:         #E67E22;
-$color-danger:          #C3423F;
-
-$color-link:            #496DDB !default;
-$color-link--visited:   #9140D4 !default;
-$color-link--hover:     darken($color-link, 10%) !default;
-$color-link--active:    #D44076 !default;
-
-$white:         #ffffff !default;
-
-/// Copy text color
-/// @type Color
-$text-color: rgb(34, 34, 34) !default;
-
-/// Main brand color
-$color-brand: rgb(229, 0, 80) !default;
 
 // Z-Index
-$z-index-0:   -1;
-$z-index-1:   10;
-$z-index-2:   20;
-$z-index-3:   30;
-$z-index-4:   40;
-$z-index-5:   50;
-$z-index-6:   60;
-$z-index-7:   70;
-$z-index-8:   80;
-$z-index-9:   90;
+$z-index-0: -1;
+$z-index-1: 10;
+$z-index-2: 20;
+$z-index-3: 30;
+$z-index-4: 40;
+$z-index-5: 50;
+$z-index-6: 60;
+$z-index-7: 70;
+$z-index-8: 80;
+$z-index-9: 90;
 $z-index-10: 100;
 
+
+// 1. Colors
+// ==========================================================================
+
+$primary-color: color("materialize-red", "lighten-2") !default;
+$primary-color-light: lighten($primary-color, 15%) !default;
+$primary-color-dark: darken($primary-color, 15%) !default;
+
+$secondary-color: color("teal", "lighten-1") !default;
+$success-color: color("green", "base") !default;
+$error-color: color("red", "base") !default;
+$link-color: color("light-blue", "darken-1") !default;
+
+
+// 2. breackPoints
+// ==========================================================================
+
+$bp-larger-than-mobile : "min-width: 400px" !default;
+$bp-larger-than-phablet : "min-width: 550px" !default;
+$bp-larger-than-tablet : "min-width: 750px" !default;
+$bp-larger-than-desktop : "min-width: 1000px" !default;
+$bp-larger-than-desktophd : "min-width: 1200px" !default;
+$bp-larger-than-desktophdup : "min-width: 1201px" !default;
+
+// mediaQuery for reactiveDesign
+$desktop-and-up: "only screen and (min-width : #{$bp-larger-than-desktop})" !default;
+$desktophd-and-up: "only screen and (min-width : #{$bp-larger-than-desktophd})" !default;
+$desktophdup: "only screen and (min-width : #{$bp-larger-than-desktophdup})" !default;
+$phablet-and-down: "only screen and (max-width : #{$bp-larger-than-tablet})" !default;
+$desktop-and-down: "only screen and (max-width : #{$bp-larger-than-desktophd})" !default;
+$desktop-only: "only screen and (min-width : #{$bp-larger-than-desktop}) and (max-width : #{$bp-larger-than-desktophd})" !default;
+
+
+// 3. Grid
+// ===========================================================================
 
 // Grid Variables
 $container-width: 1000px !default;
@@ -88,8 +68,57 @@ $column-margin: 2% !default; // space between column grids
 $flex-grid__column--fixed-width: 200px !default;
 $flex-grid--column-margin: 2% !default;
 
-/// Relative or absolute URL where all assets are served from
-/// @type String
-/// @example scss - When using a CDN
-///   $base-url: 'http://cdn.example.com/assets/';
-$base-url: '/assets/' !default;
+
+// 4. Forms
+// ==========================================================================
+
+
+// Text Inputs + Textarea
+$input-height: 3rem !default;
+$input-border-color: color("grey", "base") !default;
+$input-border: 1px solid $input-border-color !default;
+$input-background: #fff !default;
+$input-error-color: $error-color !default;
+$input-success-color: $success-color !default;
+$input-focus-color: $secondary-color !default;
+$input-font-size: 1rem !default;
+$input-margin-bottom: 1.4rem;
+$input-margin-top: 0rem;
+$input-margin: $input-margin-top 0 $input-margin-bottom 0 !default;
+$input-padding: 1rem 0 0 0 !default;
+$input-transition: all .3s !default;
+$label-font-size: .8rem !default;
+$input-disabled-color: rgba(0, 0, 0, .42) !default;
+$input-disabled-solid-color: #949494 !default;
+$input-disabled-border: 1px dotted $input-disabled-color !default;
+$input-invalid-border: 1px solid $input-error-color !default;
+$placeholder-text-color: lighten($input-border-color, 20%) !default;
+$input-label-fontsize: .5rem;
+// Radio Buttons
+$radio-fill-color: $secondary-color !default;
+$radio-empty-color: #5a5a5a !default;
+$radio-border: 2px solid $radio-fill-color !default;
+
+// Select
+$select-border: 1px solid #f2f2f2 !default;
+$select-background: rgba(255, 255, 255, 0.90) !default;
+$select-focus: 1px solid lighten($secondary-color, 47%) !default;
+$select-option-hover: rgba(0, 0, 0, .06) !default;
+$select-option-focus: rgba(0, 0, 0, .03) !default;
+$select-padding: 5px !default;
+$select-radius: 2px !default;
+$select-disabled-color: rgba(0, 0, 0, .3) !default;
+
+// Switches
+$switch-bg-color: $secondary-color !default;
+$switch-checked-lever-bg: desaturate(lighten($switch-bg-color, 25%), 25%) !default;
+$switch-unchecked-bg: #F1F1F1 !default;
+$switch-unchecked-lever-bg: rgba(0, 0, 0, .38) !default;
+$switch-radius: 15px !default;
+$switch__space : 13px;
+
+// CheckBox 
+$check_box__space : 13px;
+
+//textarea
+$textarea-margin-top: 1.8rem;  //라벨 덮힘 방지

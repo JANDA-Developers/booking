@@ -1,0 +1,185 @@
+@import '../../style_config/style_config';
+
+
+/* ----------------------------- 코드 최적화가 필요합니다. ----------------------------- */
+/* Text Inputs + Textarea
+/* Text inputs */
+
+.JDinput {
+
+  //아래에있는 라벨을 위로 끌어올립니다
+  &+.JDinput_label,&+.JDtextarea_label {
+    position: absolute;
+    top:0;
+    left: 0;
+  }
+
+  &::placeholder {
+    color: $placeholder-text-color;
+  }
+
+
+  // General Styles
+  background-color: transparent;
+  border: none;
+  border-bottom: $input-border;
+  border-radius: 0;
+  outline: none;
+  height: $input-height;
+  width: 100%;
+  font-size: $input-font-size;
+  margin: $input-margin;
+  padding: $input-padding;
+  box-shadow: none;
+  box-sizing: content-box;
+  transition: $input-transition;
+
+  // Disabled input style
+  &:disabled,
+  &[readonly="readonly"] {
+    color: $input-disabled-color;
+    border-bottom: $input-disabled-border;
+  }
+
+  // Disabled .JDinput_label style
+  &:disabled+.JDinput_label,
+  &[readonly="readonly"]+.JDinput_label {
+    color: $input-disabled-color;
+  }
+
+  // Focused input style
+  &:focus:not([readonly]) {
+    border-bottom: 1px solid $input-focus-color;
+    box-shadow: 0 1px 0 0 $input-focus-color;
+  }
+
+  // Focused .JDinput_label style
+  &:focus:not([readonly])+.JDinput_label {
+    color: $input-focus-color;
+  }
+
+  // Valid Input Style
+  &--valid,
+  &--valid:focus {
+    @extend %valid-input-style;
+  }
+
+  // Custom Success Message
+  &--valid+.JDinput_label:after,
+  &--valid:focus+.JDinput_label:after {
+    @extend %custom-success-message;
+  }
+
+  // Invalid Input Style
+  &--invalid,
+  &--invalid:focus {
+    @extend %invalid-input-style;
+  }
+
+  // Custom Error message
+  &--invalid+.JDinput_label:after,
+  &--invalid:focus+.JDinput_label:after {
+    @extend %custom-error-message;
+  }
+
+  // Full width .JDinput_label when using validate for error messages
+  &--validate+.JDinput_label {
+    width: 100%;
+  }
+
+  // Form Message Shared Styles
+  &+.JDinput_label:after {
+    @extend %input-after-style;
+  }
+
+  // TODO: Remove once input fields are reworked to support validation messages better
+  &--invalid+.JDinput_label:after,
+  &--valid+.JDinput_label:after {
+    display: none;
+  }
+
+  &--invalid+.JDinput_label--active:after,
+  &--valid+.JDinput_label--active:after {
+    display: block;
+  }
+}
+
+
+/* Validation Sass Placeholders */
+%valid-input-style {
+  border-bottom: 1px solid $input-success-color;
+  box-shadow: 0 1px 0 0 $input-success-color;
+}
+
+%invalid-input-style {
+  border-bottom: $input-invalid-border;
+  box-shadow: 0 1px 0 0 $input-error-color;
+}
+
+%custom-success-message {
+  content: attr(data-success);
+  color: $input-success-color;
+  opacity: 1;
+  transform: translateY(9px);
+}
+
+%custom-error-message {
+  content: attr(data-error);
+  color: $input-error-color;
+  opacity: 1;
+  transform: translateY(9px);
+}
+
+%input-after-style {
+  display: block;
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  opacity: 0;
+  transition: .2s opacity ease-out, .2s color ease-out;
+}
+
+/* Textarea */
+
+// Default textarea
+.JDtextarea {
+  width: 100%;
+  height: $input-height;
+  background-color: transparent;
+
+  // Fixes validation messages for dynamic textareas
+  &--validate+.JDinput_label {
+    &::after {
+      top: calc(100% - 12px);
+    }
+
+    &:not(.JDinput_label-icon).active {
+      transform: translateY(-25px);
+    }
+
+    height: 100%;
+  }
+
+  overflow-y: hidden;
+  /* prevents scroll bar flash */
+  padding: .8rem 0 1.6rem 0;
+  /* prevents text jump on Enter keypress */
+  resize: none;
+  min-height: $input-height;
+}
+
+// For textarea autoresize
+.hiddendiv {
+  display: none;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  /* future version of deprecated 'word-wrap' */
+  padding-top: 1.2rem;
+  /* prevents text jump on Enter keypress */
+
+  // Reduces repaints
+  position: absolute;
+  top: 0;
+}

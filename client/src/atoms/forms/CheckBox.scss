@@ -1,0 +1,198 @@
+/*처음 머티리얼 디자인에서 코드를 분핼해올때 
+체크박스 모델은 여러가지 였습니다. 
+하나로 만들려고했으나  코드를 분석하기
+ 어려운 부분이 있어 우선은 일부 css가 불필요한 상태입니다.*/
+
+
+
+
+@import '../../style_config/style_config';
+
+/* 기본 체크박스 제거 */
+.JDcheck_box:not(:checked),
+.JDcheck_box:checked {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.JDcheck_box_wrap {
+    display: inline-block;
+}
+
+.JDinput-wrap {
+    position: relative;
+}
+
+// 더아래에 filed 부분을 수정하세요.
+// Checkbox Styles
+.JDcheck_box {
+
+    // 라벨스타일
+    +.JDcheck_box_label {
+        position: relative;
+        padding-left: 35px;
+        cursor: pointer;
+        display: inline-block;
+        height: 25px;
+        line-height: 25px;
+        font-size: 1rem;
+        user-select: none;
+    }
+
+    /* checkbox aspect */
+    &:not(:checked):disabled+.JDcheck_box_label:before {
+        border: none;
+        background-color: $input-disabled-color;
+    }
+
+    // 포커스 스타일
+    &--tabbed:focus+.JDcheck_box_label:after {
+        transform: scale(1);
+        border: 0;
+        border-radius: 50%;
+        box-shadow: 0 0 0 10px rgba(0, 0, 0, .1);
+        background-color: rgba(0, 0, 0, .1);
+    }
+}
+
+.JDcheck_box:checked {
+    +.JDcheck_box_label:before {
+        top: -4px;
+        left: -5px;
+        width: 12px;
+        height: 22px;
+        border-top: 2px solid transparent;
+        border-left: 2px solid transparent;
+        border-right: $radio-border;
+        border-bottom: $radio-border;
+        transform: rotate(40deg);
+        backface-visibility: hidden;
+        transform-origin: 100% 100%;
+    }
+
+    &:disabled+.JDcheck_box_label:before {
+        border-right: 2px solid $input-disabled-color;
+        border-bottom: 2px solid $input-disabled-color;
+    }
+}
+
+/* 중립상태 checkbox */
+.JDcheck_box:indeterminate {
+    +.JDcheck_box_label:before {
+        top: -11px;
+        left: -12px;
+        width: 10px;
+        height: 22px;
+        border-top: none;
+        border-left: none;
+        border-right: $radio-border;
+        border-bottom: none;
+        transform: rotate(90deg);
+        backface-visibility: hidden;
+        transform-origin: 100% 100%;
+    }
+
+    // Disabled 중립
+    &:disabled+.JDcheck_box_label:before {
+        border-right: 2px solid $input-disabled-color;
+        background-color: transparent;
+    }
+}
+
+// Filled in Style ***
+.JDcheck_box {
+
+    // General
+    +.JDcheck_box_label:after {
+        border-radius: 2px;
+    }
+
+    +.JDcheck_box_label:before,
+    +.JDcheck_box_label:after {
+        content: '';
+        left: 0;
+        position: absolute;
+        /* .1s delay is for check animation */
+        transition: border .25s, background-color .25s, width .20s .1s, height .20s .1s, top .20s .1s, left .20s .1s;
+        z-index: 1;
+    }
+
+    // Unchecked style
+    &:not(:checked)+.JDcheck_box_label:before {
+        width: 0;
+        height: 0;
+        border: 3px solid transparent;
+        left: 6px;
+        top: 10px;
+        transform: rotateZ(37deg);
+        transform-origin: 100% 100%;
+    }
+
+    &:not(:checked)+.JDcheck_box_label:after {
+        height: 20px;
+        width: 20px;
+        background-color: transparent;
+        border: 2px solid $radio-empty-color;
+        top: 0px;
+        z-index: 0;
+    }
+
+    // Checked style
+    &:checked {
+        +.JDcheck_box_label:before {
+            top: 0;
+            left: 1px;
+            width: 8px;
+            height: 13px;
+            border-top: 2px solid transparent;
+            border-left: 2px solid transparent;
+            border-right: 2px solid $input-background;
+            border-bottom: 2px solid $input-background;
+            transform: rotateZ(37deg);
+            transform-origin: 100% 100%;
+        }
+
+        +.JDcheck_box_label:after {
+            top: 0;
+            width: 20px;
+            height: 20px;
+            border: 2px solid $secondary-color;
+            background-color: $secondary-color;
+            z-index: 0;
+        }
+    }
+
+    // Focused styles
+    &--tabbed:focus+.JDcheck_box_label:after {
+        border-radius: 2px;
+        border-color: $radio-empty-color;
+        background-color: rgba(0, 0, 0, .1);
+    }
+
+    &--tabbed:checked:focus+.JDcheck_box_label:after {
+        border-radius: 2px;
+        background-color: $secondary-color;
+        border-color: $secondary-color;
+    }
+
+    // Disabled style
+    &:disabled:not(:checked)+.JDcheck_box_label:before {
+        background-color: transparent;
+        border: 2px solid transparent;
+    }
+
+    &:disabled:not(:checked)+.JDcheck_box_label:after {
+        border-color: transparent;
+        background-color: $input-disabled-solid-color;
+    }
+
+    &:disabled:checked+.JDcheck_box_label:before {
+        background-color: transparent;
+    }
+
+    &:disabled:checked+.JDcheck_box_label:after {
+        background-color: $input-disabled-solid-color;
+        border-color: $input-disabled-solid-color;
+    }
+}

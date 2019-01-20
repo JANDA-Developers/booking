@@ -13,6 +13,12 @@ const Test = props => (
   </DynamicImport>
 );
 
+const ShowComponents = props => (
+  <DynamicImport load={() => import('./pages/ShowComponents')}>
+    {DNcompoent => (DNcompoent === null ? <p>Loading</p> : <DNcompoent {...props} />)}
+  </DynamicImport>
+);
+
 const MyPage = props => (
   <DynamicImport load={() => import('./pages/MyPage')}>
     {DNcompoent => (DNcompoent === null ? <p>Loading</p> : <DNcompoent {...props} />)}
@@ -60,6 +66,7 @@ class App extends Component {
               <Route path="/login" component={Login} />
               <Route path="/mypage" component={MyPage} />
               <Route path="/search" component={Search} />
+              <Route path="/showComponents" component={ShowComponents} />
               <Route component={NoMatch} />
             </Switch>
           </main>

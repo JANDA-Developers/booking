@@ -3,6 +3,7 @@ import { Query } from 'react-apollo';
 import { Booker, GetBookerNameById } from '../queries';
 import Detail from './Detail';
 import JDutils from '../utils/utils';
+import CheckBox from '../atoms/forms/CheckBox';
 
 // eslint-disable-next-line react/prop-types
 const Home = ({ history, match: { params } }) => (
@@ -25,6 +26,7 @@ const Home = ({ history, match: { params } }) => (
                 >
                   {'버튼 TO Post'}
                 </button>
+                <CheckBox />
               </Fragment>
             );
           }}
