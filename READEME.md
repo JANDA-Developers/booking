@@ -34,17 +34,8 @@
 2. Utils 변수명은 가능한 짧게 작성하세요.
 3. Enum 객체 키값은 풀 대문자로 작성합니다.
 
-### 폴더 구조
-* actions  // actions 함수 모음
-* atoms // 가장 작은 단위의 페이지 구성요소 / btns / icons / search_bar / pagination ...  
-* components // atoms가 그룹화 되어있는 단위 / Header / footer / nav  ...
-* layout // page에 관여하는 / css / grid / typhography 
-* lib // 외부 라이브러리
-* pages // 페이지 컴포넌트 모음 
-* style_config // scss 편수들 / mixin  
-* utils // 공통적으로 사용되는 함수 / validation / ...
-_각폴더에는 ReadMe.md 파일이 존재합니다. 참고바람니다._
-
+### 폴더 구조 및 주요 파일
+![Directory](/DirectoryGuide.svg)
 
 
 ## 버전 관리 규칙
