@@ -19,13 +19,15 @@
 4. 모든 query를 참조하는 변수는 대문자로 시작합니다.
 5. __layout 폴더에 기술된 css는 page 단위 에서만 사용하도록 합니다.__
 6. 특별한 경우가 아니면 margin-top을 사용하지 마십시오.
-7. css들은 각폴더에 알맞은 위치에 기술합니다.
+7. 특별한 경우가 아니면 margin-right을 사용하지 마십시오.
+8. css들은 각폴더에 알맞은 위치에 기술합니다.
 
 ### Prefix
 1. boolean 값 변수 Prefix "is"
 2. 전역 객체, 변수, 함수 등 Prefix "JD + 소문자 연결"
 3. 이벤트 핸들러 함수 Prefix "handle"
 4. Debounce 처리된 함수  Prefix "debounce"
+5. 많이 사용되는 className 일경우 JD Prefix 를 사용하세요.
 
 ### Utils
 1. Enum 을 만들때는 Prefix "em"
