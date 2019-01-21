@@ -1,21 +1,19 @@
 import React, { Component } from 'react';
 import './CheckBox.scss';
-import PropTypes from 'prop-types';
 import ErrProtecter from '../../utils/ErrProtecter';
+import { Forms, FormsDefault } from '../../utils/PropTypes';
 
 class Checkbox extends Component {
-  static propTypes = {
-    disabled: PropTypes.bool,
-    label: PropTypes.string,
-  };
+  static propTypes = Forms;
 
   constructor(props) {
     super(props);
     this.disabled = props.disabled;
     this.label = props.label;
+    this.classes = props.classes;
   }
 
-  state = { checked: false, disabled: false };
+  state = { checked: false, disabled: false, classes: '' };
 
   handleCheckboxChange = (checkedFlag) => {
     if (!this.disabled) {
@@ -27,11 +25,12 @@ class Checkbox extends Component {
   componentWillMount = () => {
     this.setState({
       disabled: this.disabled,
+      classes: this.classes,
     });
   };
 
   render() {
-    const { checked, disabled } = this.state;
+    const { checked, disabled, classes } = this.state;
     return (
       <span
         className="JDcheck_box_wrap"
@@ -44,7 +43,7 @@ class Checkbox extends Component {
           onChange={() => {}}
           checked={checked}
           disabled={disabled}
-          className="JDcheck_box"
+          className={`JDcheck_box ${classes.join(' ')}`}
           type="checkbox"
         />
         <span className="JDcheck_box_label">{this.label}</span>
@@ -53,9 +52,6 @@ class Checkbox extends Component {
   }
 }
 
-Checkbox.defaultProps = {
-  disabled: false,
-  label: '',
-};
+Checkbox.defaultProps = FormsDefault;
 
 export default ErrProtecter(Checkbox);

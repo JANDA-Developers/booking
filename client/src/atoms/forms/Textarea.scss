@@ -18,7 +18,6 @@
     color: $placeholder-text-color;
   }
 
-
   // General Styles
   background-color: transparent;
   border: none;
@@ -102,6 +101,9 @@
   &--invalid+.JDinput_label--active:after,
   &--valid+.JDinput_label--active:after {
     display: block;
+  }
+  &.JDtextarea--scroll {
+    overflow-y:scroll
   }
 }
 

@@ -45,6 +45,9 @@ const ShowComponents = () => (
         <div className="flex-grid__col">
           <Textarea label="disabled" disabled />
         </div>
+        <div className="flex-grid__col">
+          <Textarea label="scrollbar" classes={['JDtextarea--scroll', 'something']} />
+        </div>
       </div>
     </div>
   </div>

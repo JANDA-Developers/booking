@@ -35,7 +35,6 @@ const Home = ({ history, match: { params } }) => (
           {({ loading, data, error }) => {
             if (loading) return 'loading';
             if (error) return 'wrong component';
-            console.log(data);
             return 'hi';
           }}
         </Query>
@@ -47,7 +46,6 @@ const Home = ({ history, match: { params } }) => (
 );
 
 const Bookers = ({ data }) => {
-  console.log(data);
   const compoent = data.bookers.map(booker => (
     <h3 key={booker.id}>
       {'BookerName:'}

@@ -2,26 +2,25 @@ import React, { Component } from 'react';
 import './Switch.scss';
 import PropTypes from 'prop-types';
 import ErrProtecter from '../../utils/ErrProtecter';
+import { Forms, FormsDefault } from '../../utils/PropTypes';
 
 class Switch extends Component {
-  static propTypes = {
-    disabled: PropTypes.bool,
-    ltxt: PropTypes.string,
-    rtxt: PropTypes.string,
-  };
+  static propTypes = Forms;
 
   constructor(props) {
     super(props);
     this.disabled = props.disabled;
     this.rtxt = props.rtxt;
     this.ltxt = props.ltxt;
+    this.classes = props.classes;
   }
 
-  state = { checked: false, disabled: false };
+  state = { checked: false, disabled: false, classes: '' };
 
   componentWillMount = () => {
     this.setState({
       disabled: this.disabled,
+      classes: this.classes,
     });
   };
 
@@ -37,7 +36,7 @@ class Switch extends Component {
   };
 
   render() {
-    const { checked, disabled } = this.state;
+    const { checked, disabled, classes } = this.state;
     return (
       <span
         tabIndex={0}
@@ -53,7 +52,7 @@ class Switch extends Component {
           <input
             onChange={() => {}}
             checked={checked}
-            className="JDswitch__input"
+            className={`JDswitch__input ${classes}`}
             disabled={disabled}
             type="checkbox"
           />
@@ -67,10 +66,6 @@ class Switch extends Component {
   }
 }
 
-Switch.defaultProps = {
-  disabled: false,
-  ltxt: '',
-  rtxt: '',
-};
+Switch.defaultProps = FormsDefault;
 
 export default ErrProtecter(Switch);

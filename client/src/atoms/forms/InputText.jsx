@@ -1,25 +1,21 @@
 import React, { Component } from 'react';
 import './InputText.scss';
-import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
 import { emBol } from '../../utils/Enums';
 import ErrProtecter from '../../utils/ErrProtecter';
+import { Forms, FormsDefault } from '../../utils/PropTypes';
 
 class InputText extends Component {
-  static propTypes = {
-    disabled: PropTypes.bool,
-    validation: PropTypes.func,
-    max: PropTypes.number,
-    label: PropTypes.string,
-  };
+  static propTypes = Forms;
 
+  // 이부분은 반복을 줄일수 없나..
   constructor(props) {
     super(props);
     this.disabled = props.disabled;
     this.validation = props.validation;
     // 디바운스 함수는 메모리에서 사라지는 EVENT 객체를 보호합니다.
     this.debounceHandleChange = debounce(this.debounceHandleChange, 500);
-    this.classes = ['JDinput'];
+    this.classes = ['JDinput'].concat(props.classes);
     this.max = props.max;
     this.label = props.label;
   }
@@ -43,15 +39,17 @@ class InputText extends Component {
     const validation = this.validation(target.value, this.max);
     if (validation === emBol.NEUTRAL) {
       this.setState({
-        classes: [this.classes],
+        classes: this.classes,
       });
     } else if (validation) {
+      this.classes.concat('JDinput--valid');
       this.setState({
-        classes: [this.classes, 'JDinput--valid'],
+        classes: this.classes,
       });
     } else {
+      this.classes.concat('JDinput--invalid');
       this.setState({
-        classes: [this.classes, 'JDinput--invalid'],
+        classes: this.classes,
       });
     }
   };
@@ -74,11 +72,6 @@ class InputText extends Component {
   }
 }
 
-InputText.defaultProps = {
-  disabled: false,
-  validation: () => emBol.NEUTRAL,
-  max: 10000,
-  label: '',
-};
+InputText.defaultProps = FormsDefault;
 
 export default ErrProtecter(InputText);
