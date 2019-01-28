@@ -5,12 +5,15 @@
 /* Text Inputs + Textarea
 /* Text inputs */
 
+
+
 .JDinput {
 
   //아래에있는 라벨을 위로 끌어올립니다
-  &+.JDinput_label,&+.JDtextarea_label {
+  &+.JDinput_label,
+  &+.JDtextarea_label {
     position: absolute;
-    top:0;
+    top: 0;
     left: 0;
   }
 
@@ -36,7 +39,7 @@
 
   // Disabled input style
   &:disabled,
-  &[readonly="readonly"] {
+  &[readonly] {
     color: $input-disabled-color;
     border-bottom: $input-disabled-border;
   }

@@ -13,6 +13,7 @@ class Switch extends Component {
     this.rtxt = props.rtxt;
     this.ltxt = props.ltxt;
     this.classes = props.classes;
+    this.checked = props.checked;
   }
 
   state = { checked: false, disabled: false, classes: '' };
@@ -21,6 +22,7 @@ class Switch extends Component {
     this.setState({
       disabled: this.disabled,
       classes: this.classes,
+      checked: this.checked,
     });
   };
 
@@ -46,20 +48,16 @@ class Switch extends Component {
         onKeyPress={() => this.handleCheckboxChange(checked)}
       >
         <label htmlFor="JDswitch">
-          {this.ltxt !== ''
-          && <span className="JDswitch__ltxt">{this.ltxt}</span>
-          }
+          {this.ltxt !== '' && <span className="JDswitch__ltxt">{this.ltxt}</span>}
           <input
             onChange={() => {}}
             checked={checked}
-            className={`JDswitch__input ${classes}`}
+            className={`JDswitch__input ${classes.join(' ')}`}
             disabled={disabled}
             type="checkbox"
           />
           <span className="JDswitch__lever" />
-          {this.rtxt !== ''
-          && <span className="JDswitch__ltxt">{this.rtxt}</span>
-          }
+          {this.rtxt !== '' && <span className="JDswitch__ltxt">{this.rtxt}</span>}
         </label>
       </span>
     );

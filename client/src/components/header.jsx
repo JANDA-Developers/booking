@@ -1,5 +1,5 @@
 import React from 'react';
-import './header.scss';
+import './Header.scss';
 import { NavLink } from 'react-router-dom';
 import ErrProtecter from '../utils/ErrProtecter';
 
@@ -9,8 +9,8 @@ const Header = () => (
       <NavLink exact className="flex-grid__col header__link" to="/" activeClassName="active">
         {'Home'}
       </NavLink>
-      <NavLink className="flex-grid__col header__link" to="/test/KMJ" activeClassName="active">
-        {'TEST'}
+      <NavLink className="flex-grid__col header__link" to="/margin" activeClassName="active">
+        {'Margin'}
       </NavLink>
       <NavLink className="flex-grid__col header__link" to="/post" activeClassName="active">
         {'POST'}

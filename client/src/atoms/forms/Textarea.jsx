@@ -17,6 +17,7 @@ class Textarea extends Component {
     this.classes = ['JDtextarea'].concat(props.classes);
     this.max = props.max;
     this.label = props.label;
+    this.value = props.value;
   }
 
   state = { disabled: false, classes: '' };
@@ -35,19 +36,21 @@ class Textarea extends Component {
   // 인풋의 상태에따라서 상태값이 표시됨
   // 이부분이 input 과 중복 이긴하나 추후에 제거 하겠습니다. 이게 얼마나 반복될지에따라서...
   debounceHandleChange = (target) => {
-    this.classes.filter(val => val !== 'JDinput--valid' || 'JDinput--invalid');
+    this.classes = this.classes.filter(
+      val => val !== 'JDinput--valid' && val !== 'JDinput--invalid',
+    );
     const validation = this.validation(target.value, this.max);
     if (validation === emBol.NEUTRAL) {
       this.setState({
         classes: this.classes,
       });
     } else if (validation) {
-      this.classes.concat('JDinput--valid');
+      this.classes.push('JDinput--valid');
       this.setState({
         classes: this.classes,
       });
     } else {
-      this.classes.concat('JDinput--invalid');
+      this.classes.push('JDinput--invalid');
       this.setState({
         classes: this.classes,
       });
@@ -59,6 +62,7 @@ class Textarea extends Component {
     return (
       <div className="JDinput-wrap">
         <textarea
+          value={this.value}
           onChange={this.handleChange}
           id="JDtextarea"
           className={`${classes.join(' ')}`}

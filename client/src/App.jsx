@@ -4,11 +4,14 @@ import { ApolloProvider } from 'react-apollo';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import DynamicImport from './utils/DynamicImport';
 import client from './apolloClient';
-import Header from './components/header';
+import Header from './components/Header';
 import NoMatch from './pages/NoMatch';
+// Library
+import './lib/wave'; // 웨이브 이펙트
+import './lib/wave.scss'; // 웨이브 이펙트
 
-const Test = props => (
-  <DynamicImport load={() => import('./pages/Test')}>
+const Margin = props => (
+  <DynamicImport load={() => import('./pages/Margin')}>
     {DNcompoent => (DNcompoent === null ? <p>Loading</p> : <DNcompoent {...props} />)}
   </DynamicImport>
 );
@@ -61,7 +64,7 @@ class App extends Component {
             <Switch>
               <Route exact path="/" component={Home} />
               <Route exact path="/detail/:param" component={Home} />
-              <Route path="/test/:username" component={Test} />
+              <Route path="/margin" component={Margin} />
               <Route path="/post" component={Post} />
               <Route path="/login" component={Login} />
               {/* <Route path="/mypage" component={MyPage} /> */}

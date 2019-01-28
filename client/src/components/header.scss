@@ -1,6 +1,5 @@
 @import '../style_config/style_config';
 
-$nav-color:#3cb878;
 
 .header {
 
@@ -10,6 +9,10 @@ $nav-color:#3cb878;
 
     &__link {
         color: white;
+        text-decoration: none;
+        line-height: 100%;
+        padding: $nav-link-padding;
+        font-size: $nav-font-size;
     }
 
     .header__link {

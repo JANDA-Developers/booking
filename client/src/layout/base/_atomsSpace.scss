@@ -1,18 +1,24 @@
+//이파일 언젠가 해체 해야할듯 생각좀 해보고 결정함
+// 이부분 어떻게 처리하는게 좋을지 잘 생각해보자 임시로 여기에둠
 
 @import '../../style_config/style_config';
 
-.JDcheck_box_wrap + * {
-    margin-left: $check_box__space;
+.JDcheck_box_wrap+*,
+.JDswitch+*,
+.JDradio+*,
+.JDselect+*,
+.JDbtn+* {
+    margin-left: $forms-space;
 }
 
-.JDcheck_box_wrap {
-    margin-bottom: 16px;
+.JDbtn+.JDbtn {
+    margin-left: $buttons-space;
 }
 
-.JDswitch + * {
-    margin-left: $switch__space;
-}
-
-.JDswitch {
-    margin-bottom: 16px;
+.JDcheck_box_wrap,
+.JDswitch,
+.JDradio,
+.JDselectm,
+.JDbtn {
+    margin-bottom: $forms-margin-bottom;
 }

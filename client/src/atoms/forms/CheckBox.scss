@@ -15,6 +15,11 @@
 
 .JDcheck_box_wrap {
     display: inline-block;
+    outline: 0;
+
+    * {
+        outline: 0;
+    }
 }
 
 .JDinput-wrap {
@@ -138,8 +143,8 @@
     // Checked style
     &:checked {
         +.JDcheck_box_label:before {
-            top: 0;
-            left: 1px;
+            top: 1px;
+            left: 0px;
             width: 8px;
             height: 13px;
             border-top: 2px solid transparent;
