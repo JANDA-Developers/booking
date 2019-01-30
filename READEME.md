@@ -21,6 +21,7 @@
 6. 특별한 경우가 아니면 margin-top을 사용하지 마십시오.   [참고](https://github.com/BaeKY/jd-api-server/issues/8)
 7. 특별한 경우가 아니면 margin-right을 사용하지 마십시오.
 8. css들은 각폴더에 알맞은 위치에 기술합니다.
+9. page 폴더안에 잇는 scss 들은 variable.scss 를 참조하지 않습니다. 각자의 영역에 맞게 커스텀 하라는 의미입니다. 
 
 ### Prefix
 1. boolean 값 변수 Prefix "is"
