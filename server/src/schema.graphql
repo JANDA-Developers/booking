@@ -1,0 +1,8 @@
+type SayHello {
+    text: String!
+    err: Boolean!
+}
+
+type Query {
+    sayHello: SayHello
+}
