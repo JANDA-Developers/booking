@@ -2,6 +2,7 @@
 import ErrProtecter from './ErrProtecter';
 import isEmpty from './IsEmpty';
 import Enums from './Enums';
+import { JDMonthTextChanger, JDWeekChanger } from './TextChanger';
 import {
   isEmail, isPhone, isName, isUrl, isMaxOver,
 } from './InputValidation';
@@ -15,6 +16,8 @@ const JDutils = {
   isUrl,
   isName,
   isMaxOver,
+  JDMonthTextChanger,
 };
 
 export default JDutils;
+export { JDMonthTextChanger, JDWeekChanger };

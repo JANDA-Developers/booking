@@ -1,8 +1,10 @@
 //이파일 언젠가 해체 해야할듯 생각좀 해보고 결정함
-// 이부분 어떻게 처리하는게 좋을지 잘 생각해보자 임시로 여기에둠
+// 이부분을 섹션에따라 다르게 가져가는게 좋지않을까? 
+// 그러나 디펄트는 필요할것 같은데?
 
 @import '../../style_config/style_config';
 
+// 마진 left
 .JDcheck_box_wrap+*,
 .JDswitch+*,
 .JDradio+*,
@@ -15,10 +17,12 @@
     margin-left: $buttons-space;
 }
 
+// 마진 bottom
 .JDcheck_box_wrap,
 .JDswitch,
 .JDradio,
-.JDselectm,
-.JDbtn {
+.JDselect,
+.JDbtn,
+.JDdatePcikerInformation {
     margin-bottom: $forms-margin-bottom;
 }

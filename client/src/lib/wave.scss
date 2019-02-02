@@ -47,7 +47,12 @@
     }
 
     // Waves Colors
-    &--dark .JDwaves-effect__ripple {
+    &-dark .JDwaves-effect__ripple {
+        background: rgba(0, 0, 0, 0.2) !important;
+    }
+
+    // flat 에 웨이브 다크만 적용
+    &.JDbtn--flat .JDwaves-effect__ripple {
         background: rgba(0, 0, 0, 0.2) !important;
     }
 

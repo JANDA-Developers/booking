@@ -31,7 +31,7 @@ $margin-color:#F9CC9D;
         background-color: $margin-color;
     }
 
-    @media (#{$bp-larger-than-mobile}) {
+    @media Only screen and (max-width:$mobile) {
         .container_ml {
             width: calc((100% - #{$container-width-larger-than-mobile})/2);
             padding: 0;
@@ -39,12 +39,11 @@ $margin-color:#F9CC9D;
     }
 
     // For devices larger than 550px
-    @media (#{$bp-larger-than-phablet}) {
+    @media Only screen and (max-width:$mobile) {
         .container_mr {
             width: calc((100% - #{$container-width-larger-than-phablet})/2);
         }
     }
-
 
     .docs_section_pb {
         height: $docs-section-padding-top;

@@ -15,10 +15,18 @@
   color: $button-raised-color;
   background-color: $button-raised-background;
   text-align: center;
-  letter-spacing: 0.5px;
+  letter-spacing: $button-letter-sapcing;
   @extend %z-depth-1;
   transition: 0.2s ease-out;
   cursor: pointer;
+
+  &--left {
+    float: left
+  }
+
+  &--right {
+    float: right;
+  }
 
   &:hover {
     background-color: $button-raised-background-hover;
@@ -49,6 +57,12 @@
     line-height: inherit;
     margin-left: $buttons-icon-margin;
     float: right;
+
+    &--left {
+      float: left;
+      margin-left: 0;
+      margin-right: $buttons-icon-margin;
+    }
   }
 
   // Large buttonf
@@ -69,6 +83,17 @@
     line-height: $button-small-height;
     padding: $button-small-padding;
     font-size: $button-small-font-size;
+
+    .JDbtn__icon {
+      margin-left: $buttons-small-icon-margin;
+
+      &--left {
+        float: left;
+        margin-left: 0;
+        margin-right: $buttons-small-icon-margin;
+      }
+
+    }
   }
 
   // Flat button
@@ -88,6 +113,8 @@
       background-color: transparent;
       box-shadow: none;
     }
+
+
 
   }
 

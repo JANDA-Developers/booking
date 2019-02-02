@@ -15,14 +15,8 @@ const Header = () => (
       <NavLink className="flex-grid__col header__link" to="/post" activeClassName="active">
         {'POST'}
       </NavLink>
-      <NavLink className="flex-grid__col header__link" to="/mypage" activeClassName="active">
-        {'MyPage'}
-      </NavLink>
-      <NavLink className="flex-grid__col header__link" to="/login" activeClassName="active">
-        {'Login'}
-      </NavLink>
-      <NavLink className="flex-grid__col header__link" to="/search" activeClassName="active">
-        {'검색'}
+      <NavLink className="flex-grid__col header__link" to="/color" activeClassName="active">
+        {'color'}
       </NavLink>
       <NavLink
         className="flex-grid__col header__link"

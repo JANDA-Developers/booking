@@ -1,9 +1,7 @@
+
 /* -------------------------------- TO DO LIST -------------------------------- */
-
 /* ---------------- 1.현재 명명법이 BEM 스럽지 못합니다. 변수명을 BEM에 맞춰 바꾸세요 --------------- */
-
 /* ------------------------- 2. 쓰이지않는 변수들을 찾아서 제거하세요 ------------------------ */
-
 // -----------------------------------------------------------------------------
 // This file contains all application-wide Sass variables.
 // -----------------------------------------------------------------------------
@@ -21,16 +19,17 @@ $z-index-8: 80;
 $z-index-9: 90;
 $z-index-10: 100;
 
+
 // 1. Colors
 // ==========================================================================
 
-$html-color: #333;
+$html-color: #343434;
 $primary-color: #4c5b73 !default;
 $primary-color-on: #fff !default;
 $primary-color-light: lighten($primary-color, 15%) !default;
-$primary-color-light-on: lighten($primary-color, 15%) !default;
+$primary-color-light-on: #fff !default !default;
 $primary-color-dark: darken($primary-color, 15%) !default;
-$primary-color-dark-on: lighten($primary-color, 15%) !default;
+$primary-color-dark-on: #fff !default !default;
 $secondary-color: #c56c47 !default;
 $secondary-color-on: #fff !default;
 $secondary-color-light: lighten($secondary-color, 15%) !default;
@@ -44,19 +43,14 @@ $link-color: color("light-blue", "darken-1") !default;
 // 2. breackPoints
 // ==========================================================================
 
-$bp-larger-than-mobile: "min-width: 400px" !default;
-$bp-larger-than-phablet: "min-width: 550px" !default;
-$bp-larger-than-tablet: "min-width: 750px" !default;
-$bp-larger-than-desktop: "min-width: 1000px" !default;
-$bp-larger-than-desktophd: "min-width: 1200px" !default;
-$bp-larger-than-desktophdup: "min-width: 1201px" !default;
-// mediaQuery for reactiveDesign
-$desktop-and-up: "only screen and (min-width : #{$bp-larger-than-desktop})" !default;
-$desktophd-and-up: "only screen and (min-width : #{$bp-larger-than-desktophd})" !default;
-$desktophdup: "only screen and (min-width : #{$bp-larger-than-desktophdup})" !default;
-$phablet-and-down: "only screen and (max-width : #{$bp-larger-than-tablet})" !default;
-$desktop-and-down: "only screen and (max-width : #{$bp-larger-than-desktophd})" !default;
-$desktop-only: "only screen and (min-width : #{$bp-larger-than-desktop}) and (max-width : #{$bp-larger-than-desktophd})" !default;
+// todo: 여기 믹스인 처리할겁니다.
+// 각각은 최대크기
+$mobile: "400px" !default; // sm
+$phablet: "550px" !default; //  md
+$tablet: "750px" !default; //  wmd
+$desktop: "1000px" !default; // lg
+$desktophd: "1200px" !default; //  wlg 
+$desktophdup: "1201px" !default; //  wide 
 
 // 3. Grid
 // ===========================================================================
@@ -76,15 +70,17 @@ $flex-grid--column-margin: 2% !default;
 // ==========================================================================
 
 // Unity
-$forms-label-font-size: 0.8rem;
 $forms-disabled-color: rgba(0, 0, 0, 0.42);
 $forms-space: 13px; // except textInput 구조가 다름
 $forms-margin-bottom: 16px; // except textInput 구조가 다름
 $white-hover-color-bg: #eee;
 $white-active-color-bg: rgba(0, 0, 0, 0.03) !default;
 
+
+//  Exception  : Check Box, Switch
 // labeles
-$input-label-fontsize: 0.5rem;
+$label-font-size: 0.8rem;
+$label-font-color: $html-color;
 $input-label-top-margin: 0 0 0.5rem 0;
 
 // Text Inputs + Textarea
@@ -94,7 +90,7 @@ $input-border: 1px solid $input-border-color !default;
 $input-background: #fff !default;
 $input-error-color: $error-color !default;
 $input-success-color: $success-color !default;
-$input-focus-color: $secondary-color !default;
+$input-focus-color: $primary-color-light !default;
 $input-font-size: 1rem !default;
 $input-margin-bottom: 1.4rem;
 $input-margin-top: 0rem;
@@ -131,44 +127,16 @@ $switch-checked-lever-bg: desaturate(lighten($switch-bg-color, 25%), 25%) !defau
 $switch-unchecked-bg: #f1f1f1 !default;
 $switch-unchecked-lever-bg: rgba(0, 0, 0, 0.38) !default;
 $switch-radius: 15px !default;
+$switch-label-fontSize:1rem !default;
+$switch-label-color:$html-color !default;
 
 // CheckBox
+$checkBox-label-fontSize:1rem !default;
+$checkBox-label-color:$html-color !default;
+$checkbox-border-radius: 2px;
+
 //textarea
 $textarea-margin-top: 1.8rem; //라벨 덮힘 방지
-
-// 4. Forms
-// ==========================================================================
-// box-shadow @extends
-
-%z-depth-5 {
-  -webkit-box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.2);
-  box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.2);
-}
-
-%z-depth-4 {
-  -webkit-box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -7px rgba(0, 0, 0, 0.2);
-  box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -7px rgba(0, 0, 0, 0.2);
-}
-
-%z-depth-3 {
-  -webkit-box-shadow: 0 8px 17px 2px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
-  box-shadow: 0 8px 17px 2px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
-}
-
-%z-depth-2 {
-  -webkit-box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
-  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
-}
-
-%z-depth-1-half {
-  -webkit-box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
-  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
-}
-
-%z-depth-1 {
-  -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
-}
 
 // 4 DOC__Header
 // ==========================================================================
@@ -189,15 +157,16 @@ $docs-section__box-bottom: 1rem !default;
 // =========================================================================
 
 $daypicker-block-height: 3rem !default;
-$daypicker-border-tick: .3rem !default;
+$daypicker-border-tick: .2rem !default;
 $daypicker-margin-bottom: 20px !default;
 $daypicker-disabled-color: $forms-disabled-color !default;
 $daypicker-otuside-color: #fff !default;
 $daypicker-otuside-bg: rgba(0, 0, 0, .1) !default;
 $daypicker-dot-size: 5px !default; // calculator
 $daypicker-dot-top: 5px !default; // calculator
-$daypicker-caption-margin-bottom: 2rem !default; // it must be a pixcel
-$daypicker-caption-height: 36px !default;
+$daypicker-caption-margin-bottom: 1rem !default; // it must be a pixcel
+$daypicker-caption-height: 34px !default;
+$daypicker-day-transition: 0.2s !default;
 // 6 Buttons
 // =========================================================================
 
@@ -209,7 +178,9 @@ $button-height: 36px !default;
 $button-padding: 0 1rem !default;
 $button-radius: 2px !default;
 $buttons-space: .4rem;
-$buttons-icon-margin: 0.8em;
+$buttons-icon-margin: 0.75em;
+$buttons-small-icon-margin: 0.45em;
+$button-letter-sapcing: .5px;
 
 // Disabled styles
 $button-disabled-background: #dfdfdf !default;
@@ -239,6 +210,6 @@ $button-floating-radius: 50% !default;
 
 //small buttons
 $button-small-height: 34px !default;
-$button-small-padding: 0 1rem !default;
-$button-small-font-size: .9rem !default;
+$button-small-padding: 0 .8rem !default;
+$button-small-font-size: 1rem !default;
 $button-large-font-size: 1.2rem !default;

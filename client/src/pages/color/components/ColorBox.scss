@@ -1,0 +1,120 @@
+@import "../../../style_config/style_config";
+
+.colorPage {
+
+    &-box {
+
+        &-wrap {
+            padding: 4px;
+        }
+
+        padding-top: 100%;
+        position: relative;
+        margin-bottom: 1rem;
+    }
+
+    &-circle {
+
+        background-color: white;
+
+        &__txt {
+            position: absolute;
+            top: calc(50% - 1rem);
+            width: 100%;
+        }
+
+        @extend %z-depth-3;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 50%;
+        text-align: center;
+
+        &--primary {
+            background-color: $primary-color;
+
+            .colorPage-circle__txt {
+                color: $primary-color-on
+            }
+        }
+
+        &--primary-light {
+            background-color: $primary-color-light;
+
+            .colorPage-circle__txt {
+                color: $primary-color-light-on
+            }
+        }
+
+        &--primary-dark {
+            background-color: $primary-color-dark;
+
+            .colorPage-circle__txt {
+                color: $primary-color-dark-on
+            }
+        }
+
+        &--secondary {
+            background-color: $secondary-color;
+
+            .colorPage-circle__txt {
+                color: $secondary-color-on
+            }
+        }
+
+        &--secondary-light {
+            background-color: $secondary-color-light;
+
+            .colorPage-circle__txt {
+                color: $secondary-color-light-on
+            }
+        }
+
+        &--secondary-dark {
+            background-color: $secondary-color-dark;
+
+            .colorPage-circle__txt {
+                color: $secondary-color-dark-on
+            }
+        }
+
+        &--html-color {
+            background-color: $html-color;
+
+            .colorPage-circle__txt {
+                color: #fff
+            }
+        }
+
+        &--button-disabled {
+            background-color: $button-disabled-background;
+        }
+
+        &--success {
+            background-color: $success-color;
+
+            .colorPage-circle__txt {
+                color: #fff
+            }
+        }
+
+        &--error {
+            background-color: $error-color;
+
+            .colorPage-circle__txt {
+                color: #fff
+            }
+        }
+
+        &--link {
+            background-color: $link-color;
+
+            .colorPage-circle__txt {
+                color: #fff
+            }
+        }
+
+    }
+}

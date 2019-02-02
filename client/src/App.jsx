@@ -16,6 +16,12 @@ const Margin = props => (
   </DynamicImport>
 );
 
+const ColorPage = props => (
+  <DynamicImport load={() => import('./pages/color/ColorPage')}>
+    {DNcompoent => (DNcompoent === null ? <p>Loading</p> : <DNcompoent {...props} />)}
+  </DynamicImport>
+);
+
 const ShowComponents = props => (
   <DynamicImport load={() => import('./pages/ShowComponents')}>
     {DNcompoent => (DNcompoent === null ? <p>Loading</p> : <DNcompoent {...props} />)}
@@ -67,6 +73,7 @@ class App extends Component {
               <Route path="/margin" component={Margin} />
               <Route path="/post" component={Post} />
               <Route path="/login" component={Login} />
+              <Route path="/color" component={ColorPage} />
               {/* <Route path="/mypage" component={MyPage} /> */}
               <Route path="/search" component={Search} />
               <Route path="/showComponents" component={ShowComponents} />

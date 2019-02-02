@@ -29,7 +29,6 @@ const isEmail = (string) => {
 const isMaxOver = (string, max) => {
   if (string === '') return emBol.NEUTRAL;
   const val = string.length;
-  console.log(val <= max);
   return val <= max;
 };
 

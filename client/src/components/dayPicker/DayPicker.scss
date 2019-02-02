@@ -1,23 +1,11 @@
-@import "../style_config/style_config";
-
-
+@import "../../style_config/style_config";
 
 .DayPicker {
     max-width: $daypicker-block-height * 7;
     margin-bottom: $daypicker-margin-bottom;
 
-    .DayPicker-NavBar {
-        &__button {
-            margin-bottom: 0;
-
-            &--left {
-                float: left;
-            }
-
-            &--right {
-                float: right;
-            }
-        }
+    .JDbtn {
+        margin-bottom: 0;
     }
 
     .DayPicker-Months {
@@ -36,11 +24,17 @@
         }
 
         .DayPicker-Month {
+
             .DayPicker-Caption {
                 height: $daypicker-caption-height;
                 line-height: $daypicker-caption-height;
                 text-align: center;
                 margin-bottom: $daypicker-caption-margin-bottom;
+                font-weight: bold;
+
+                &__year {
+                    margin-right: .5rem;
+                }
             }
 
             .DayPicker-Body {
@@ -58,6 +52,9 @@
                         border-top: $daypicker-border-tick solid white;
                         border-bottom: $daypicker-border-tick solid white;
                         box-sizing: border-box;
+                        transition: border-radius $daypicker-day-transition;
+                        transition-timing-function: ease-out;
+                        border-radius: 50%;
 
                         &--outside {
                             cursor: default;
@@ -66,6 +63,7 @@
                         &--selected {
                             background-color: $primary-color;
                             color: $primary-color-on;
+                            border-radius: 0%;
                         }
 
                         &--start {
@@ -118,4 +116,7 @@
             }
         }
     }
+
+    @import "./horizen/Horizen.scss";
+
 }

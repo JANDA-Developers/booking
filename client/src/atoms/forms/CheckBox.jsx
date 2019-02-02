@@ -3,6 +3,7 @@ import './CheckBox.scss';
 import ErrProtecter from '../../utils/ErrProtecter';
 import { FormsDefault, Forms } from '../../utils/PropTypes';
 
+//
 class Checkbox extends Component {
   static propTypes = Forms;
 

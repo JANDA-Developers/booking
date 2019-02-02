@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './Buttons.scss';
 import PropTypes from 'prop-types';
 import ErrProtecter from '../utils/ErrProtecter';
+import Icon from '../img/icon/icons';
 
 class Buttons extends Component {
   static propTypes = {
@@ -10,15 +11,16 @@ class Buttons extends Component {
     label: PropTypes.string,
     icon: PropTypes.string,
     onClick: PropTypes.func,
+    iconClasses: PropTypes.arrayOf(PropTypes.string),
   };
 
   constructor(props) {
     super(props);
     this.disabled = props.disabled;
     this.classes = props.classes;
-    this.label = props.label;
     this.icon = props.icon;
     this.onClick = props.onClick;
+    this.iconClasses = props.iconClasses;
   }
 
   state = { disabled: false, classes: '' };
@@ -34,6 +36,7 @@ class Buttons extends Component {
 
   render() {
     const { disabled, classes } = this.state;
+    const { label } = this.props;
     return (
       <button
         type="button"
@@ -41,8 +44,12 @@ class Buttons extends Component {
         className={`JDbtn JDwaves-effect ${classes.join(' ')}`}
         onClick={this.onClick}
       >
-        {this.label}
-        {this.icon !== '' && <i className="JDbtn__icon">{this.icon}</i>}
+        {label}
+        {this.icon !== '' && (
+          <i className={`JDbtn__icon ${this.iconClasses.join(' ')}`}>
+            <Icon icon={this.icon} />
+          </i>
+        )}
       </button>
     );
   }
@@ -54,6 +61,7 @@ Buttons.defaultProps = {
   label: '',
   icon: '',
   onClick: () => {},
+  iconClasses: [''],
 };
 
 export default ErrProtecter(Buttons);

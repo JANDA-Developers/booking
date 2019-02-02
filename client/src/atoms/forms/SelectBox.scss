@@ -3,6 +3,9 @@
 .JDselect {
 
   .JDselect__label {
+    font-size: $label-font-size;
+    color: $label-font-color;
+
     &--top {
       display: inline-block;
       margin: $input-label-top-margin;

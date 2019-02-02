@@ -12,6 +12,12 @@
 .JDswitch {
     display: inline-block;
 
+    &__lxt,
+    &__rtxt {
+        font-size: $switch-label-fontSize;
+        color: $switch-label-color;
+    }
+
     // 좌측 라벨
     &__ltxt {
         margin-right: 10px;

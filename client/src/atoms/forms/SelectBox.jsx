@@ -23,14 +23,16 @@ class JDselect extends React.Component {
 
   handleChange = (selectedOption) => {
     this.setState({ selectedOption });
-    console.log('Option selected:', selectedOption);
   };
 
   render() {
     const { selectedOption } = this.state;
     const {
       // eslint-disable-next-line no-unused-vars
-      label, disabled, isOpen, isMulti,
+      label,
+      disabled,
+      isOpen,
+      isMulti,
     } = this.props;
 
     return (
