@@ -1,17 +1,12 @@
 import React, { Component } from 'react';
 import './Textarea.scss';
-import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
+import { Forms, FormsDefault } from '../../utils/PropTypes';
 import { emBol } from '../../utils/Enums';
 import ErrProtecter from '../../utils/ErrProtecter';
 
 class Textarea extends Component {
-  static propTypes = {
-    disabled: PropTypes.bool,
-    validation: PropTypes.func,
-    max: PropTypes.number,
-    label: PropTypes.string,
-  };
+  static propTypes = Forms;
 
   constructor(props) {
     super(props);
@@ -19,9 +14,10 @@ class Textarea extends Component {
     this.validation = props.validation;
     // 디바운스 함수는 메모리에서 사라지는 EVENT 객체를 보호합니다.
     this.debounceHandleChange = debounce(this.debounceHandleChange, 500);
-    this.classes = ['JDtextarea'];
+    this.classes = ['JDtextarea'].concat(props.classes);
     this.max = props.max;
     this.label = props.label;
+    this.value = props.value;
   }
 
   state = { disabled: false, classes: '' };
@@ -38,20 +34,25 @@ class Textarea extends Component {
   };
 
   // 인풋의 상태에따라서 상태값이 표시됨
+  // 이부분이 input 과 중복 이긴하나 추후에 제거 하겠습니다. 이게 얼마나 반복될지에따라서...
   debounceHandleChange = (target) => {
-    this.classes.filter(val => val !== 'JDinput--valid' || 'JDinput--invalid');
+    this.classes = this.classes.filter(
+      val => val !== 'JDinput--valid' && val !== 'JDinput--invalid',
+    );
     const validation = this.validation(target.value, this.max);
     if (validation === emBol.NEUTRAL) {
       this.setState({
-        classes: [this.classes],
+        classes: this.classes,
       });
     } else if (validation) {
+      this.classes.push('JDinput--valid');
       this.setState({
-        classes: [this.classes, 'JDinput--valid'],
+        classes: this.classes,
       });
     } else {
+      this.classes.push('JDinput--invalid');
       this.setState({
-        classes: [this.classes, 'JDinput--invalid'],
+        classes: this.classes,
       });
     }
   };
@@ -61,6 +62,7 @@ class Textarea extends Component {
     return (
       <div className="JDinput-wrap">
         <textarea
+          value={this.value}
           onChange={this.handleChange}
           id="JDtextarea"
           className={`${classes.join(' ')}`}
@@ -74,11 +76,6 @@ class Textarea extends Component {
   }
 }
 
-Textarea.defaultProps = {
-  disabled: false,
-  validation: () => emBol.NEUTRAL,
-  max: 10000,
-  label: '',
-};
+Textarea.defaultProps = FormsDefault;
 
 export default ErrProtecter(Textarea);

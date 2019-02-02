@@ -42,7 +42,7 @@
 }
 
 // Components Flex-Grid
-@mixin component-layout($margin,$width) {
+@mixin component-layout($margin, $width) {
     .flex-grid {
         display: -ms-flexbox;
         display: -webkit-flex;
@@ -78,7 +78,7 @@
         }
     }
 
-    @media (max-width: 549px) {
+    @media (max-width: $phablet) {
         .flex-grid--md {
             display: block;
         }
@@ -94,7 +94,7 @@
         }
     }
 
-    @media (max-width: 959px) {
+    @media (max-width: $desktop) {
         .flex-grid--lg {
             display: block;
         }

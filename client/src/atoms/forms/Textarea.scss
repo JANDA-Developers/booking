@@ -9,15 +9,16 @@
 
   //아래에있는 라벨을 위로 끌어올립니다
   &+.JDtextarea_label {
+    font-size: $label-font-size;
+    color: $label-font-color;
     position: absolute;
-    top:0;
+    top: 0;
     left: 0;
   }
 
   &::placeholder {
     color: $placeholder-text-color;
   }
-
 
   // General Styles
   background-color: transparent;
@@ -60,31 +61,31 @@
   }
 
   // Valid Input Style
-  &--valid,
-  &--valid:focus {
+  &--valid.JDtextarea,
+  &--valid.JDtextarea:focus {
     @extend %valid-input-style;
   }
 
   // Custom Success Message
-  &--valid+.JDinput_label:after,
-  &--valid:focus+.JDinput_label:after {
+  &--valid.JDtextarea+.JDinput_label:after,
+  &--valid.JDtextarea:focus+.JDinput_label:after {
     @extend %custom-success-message;
   }
 
   // Invalid Input Style
-  &--invalid,
-  &--invalid:focus {
+  &--invalid.JDtextarea,
+  &--invalid.JDtextarea:focus {
     @extend %invalid-input-style;
   }
 
   // Custom Error message
-  &--invalid+.JDinput_label:after,
-  &--invalid:focus+.JDinput_label:after {
+  &--invalid.JDtextarea+.JDinput_label:after,
+  &--invalid.JDtextarea:focus+.JDinput_label:after {
     @extend %custom-error-message;
   }
 
   // Full width .JDinput_label when using validate for error messages
-  &--validate+.JDinput_label {
+  &--validate.JDtextarea+.JDinput_label {
     width: 100%;
   }
 
@@ -94,51 +95,19 @@
   }
 
   // TODO: Remove once input fields are reworked to support validation messages better
-  &--invalid+.JDinput_label:after,
-  &--valid+.JDinput_label:after {
+  &--invalid.JDtextarea+.JDinput_label:after,
+  &--valid.JDtextarea+.JDinput_label:after {
     display: none;
   }
 
-  &--invalid+.JDinput_label--active:after,
-  &--valid+.JDinput_label--active:after {
+  &--invalid.JDtextarea+.JDinput_label--active:after,
+  &--valid.JDtextarea+.JDinput_label--active:after {
     display: block;
   }
-}
 
-
-/* Validation Sass Placeholders */
-%valid-input-style {
-  border-bottom: 1px solid $input-success-color;
-  box-shadow: 0 1px 0 0 $input-success-color;
-}
-
-%invalid-input-style {
-  border-bottom: $input-invalid-border;
-  box-shadow: 0 1px 0 0 $input-error-color;
-}
-
-%custom-success-message {
-  content: attr(data-success);
-  color: $input-success-color;
-  opacity: 1;
-  transform: translateY(9px);
-}
-
-%custom-error-message {
-  content: attr(data-error);
-  color: $input-error-color;
-  opacity: 1;
-  transform: translateY(9px);
-}
-
-%input-after-style {
-  display: block;
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 0;
-  opacity: 0;
-  transition: .2s opacity ease-out, .2s color ease-out;
+  &.JDtextarea--scroll {
+    overflow-y: scroll
+  }
 }
 
 /* Textarea */

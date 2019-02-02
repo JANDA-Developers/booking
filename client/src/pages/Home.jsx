@@ -32,10 +32,9 @@ const Home = ({ history, match: { params } }) => (
           }}
         </Query>
         <Query query={GetBookerNameById} variables={{ personId: '5c330463ed83c143088c499a' }}>
-          {({ loading, data, error }) => {
+          {({ loading, error }) => {
             if (loading) return 'loading';
             if (error) return 'wrong component';
-            console.log(data);
             return 'hi';
           }}
         </Query>
@@ -47,7 +46,6 @@ const Home = ({ history, match: { params } }) => (
 );
 
 const Bookers = ({ data }) => {
-  console.log(data);
   const compoent = data.bookers.map(booker => (
     <h3 key={booker.id}>
       {'BookerName:'}

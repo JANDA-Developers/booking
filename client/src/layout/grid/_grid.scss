@@ -1,3 +1,5 @@
+@import '../../style_config/style_config.scss';
+
 // Grid
 
 /*
@@ -42,7 +44,7 @@ Markup:
 }
 
 // For devices larger than 400px
-@media (#{$bp-larger-than-mobile}) {
+@media (min-width:$mobile) {
   .container {
     width: $container-width-larger-than-mobile;
     padding: 0;
@@ -50,7 +52,7 @@ Markup:
 }
 
 // For devices larger than 550px
-@media (#{$bp-larger-than-phablet}) {
+@media (min-width:$phablet) {
   .container {
     width: $container-width-larger-than-phablet;
   }

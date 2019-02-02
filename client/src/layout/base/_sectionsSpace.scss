@@ -1,6 +1,9 @@
+@import '../../style_config/style_config';
+
 .docs_section {
-    padding: 6rem 0;
+    padding: $docs-section-padding;
+
     &__box {
-        padding-bottom: 1rem ;
+        padding-bottom: $docs-section__box-bottom;
     }
 }
