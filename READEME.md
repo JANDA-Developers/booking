@@ -23,6 +23,7 @@
 4. 모든 query를 참조하는 변수는 대문자로 시작합니다.
 5. __layout 폴더에 기술된 css는 page 단위 에서만 사용하도록 합니다.__  [참고](https://github.com/BaeKY/jd-api-server/issues/9)
 6. 특별한 경우가 아니면 margin-top,margin-right을 사용하지 마십시오.   [참고](https://github.com/BaeKY/jd-api-server/issues/8)
+7. 클래스명은 합성단위의 경우 카멜케이스로 어떤 그룹을 나타낸다면 하이픈을 사용하세요.
 
 ### Prefix
 1. boolean 값 변수 Prefix "is"
