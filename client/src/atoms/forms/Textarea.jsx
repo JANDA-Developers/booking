@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './Textarea.scss';
 import debounce from 'lodash.debounce';
+import classNames from 'classnames/bind';
 import { Forms, FormsDefault } from '../../utils/PropTypes';
-import { emBol } from '../../utils/Enums';
 import ErrProtecter from '../../utils/ErrProtecter';
 
 class Textarea extends Component {
@@ -10,66 +10,53 @@ class Textarea extends Component {
 
   constructor(props) {
     super(props);
-    this.disabled = props.disabled;
-    this.validation = props.validation;
     // 디바운스 함수는 메모리에서 사라지는 EVENT 객체를 보호합니다.
     this.debounceHandleChange = debounce(this.debounceHandleChange, 500);
-    this.classes = ['JDtextarea'].concat(props.classes);
-    this.max = props.max;
-    this.label = props.label;
-    this.value = props.value;
+    this.state = {
+      isValid: '',
+    };
   }
-
-  state = { disabled: false, classes: '' };
-
-  componentWillMount = () => {
-    this.setState({
-      disabled: this.disabled,
-      classes: this.classes,
-    });
-  };
 
   handleChange = (event) => {
     this.debounceHandleChange(event.target);
   };
 
-  // 인풋의 상태에따라서 상태값이 표시됨
-  // 이부분이 input 과 중복 이긴하나 추후에 제거 하겠습니다. 이게 얼마나 반복될지에따라서...
+  // todo: em부분 좀 어떻게 해보자 좋은 방법이 있을텐데
+  // todo: 이부분이 input 과 중복 이긴하나 추후에 제거 하겠습니다. 이게 얼마나 반복될지에따라서...
   debounceHandleChange = (target) => {
-    this.classes = this.classes.filter(
-      val => val !== 'JDinput--valid' && val !== 'JDinput--invalid',
-    );
-    const validation = this.validation(target.value, this.max);
-    if (validation === emBol.NEUTRAL) {
-      this.setState({
-        classes: this.classes,
-      });
-    } else if (validation) {
-      this.classes.push('JDinput--valid');
-      this.setState({
-        classes: this.classes,
-      });
-    } else {
-      this.classes.push('JDinput--invalid');
-      this.setState({
-        classes: this.classes,
-      });
-    }
+    const { validation, max } = this.props;
+    const result = validation(target.value, max);
+    this.setState({
+      isValid: result,
+    });
   };
 
+  // todo: html for 저거좀 어떻게 해보자
   render() {
-    const { disabled, classes } = this.state;
+    const { isValid } = this.state;
+    const {
+      disabled, value, label, readOnly, scroll,
+    } = this.props;
+
+    const classes = classNames({
+      JDtextarea: true,
+      'JDtextarea--scroll': scroll,
+      'JDtextarea--valid': isValid === true,
+      'JDtextarea--invalid': isValid === false,
+    });
+
     return (
       <div className="JDinput-wrap">
         <textarea
-          value={this.value}
+          value={value}
           onChange={this.handleChange}
           id="JDtextarea"
-          className={`${classes.join(' ')}`}
+          className={classes}
           disabled={disabled}
+          readOnly={readOnly}
         />
         <label htmlFor="JDtextarea" className="JDtextarea_label">
-          {this.label}
+          {label}
         </label>
       </div>
     );

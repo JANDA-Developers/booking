@@ -1,7 +1,7 @@
 // 이부분 해체 해산 할것
 
 import PropTypes from 'prop-types';
-import { emBol } from './Enums';
+import { NEUTRAL } from './Enums';
 
 // 모아놓고 한번에 정리 ㄱㄱ
 const Forms = {
@@ -18,11 +18,13 @@ const Forms = {
   groupName: PropTypes.string, // Radio
   id: PropTypes.string, // Radio
   selected: PropTypes.string, // SelectBox
+  type: PropTypes.string, //  inputText
+  check: PropTypes.bool, //  inputText
 };
 
 const FormsDefault = {
   disabled: false,
-  validation: () => emBol.NEUTRAL,
+  validation: () => NEUTRAL,
   max: 10000,
   label: '',
   classes: [''],
@@ -33,6 +35,8 @@ const FormsDefault = {
   groupName: '',
   id: '',
   selected: '',
+  type: '',
+  check: false,
 };
 
 export { Forms, FormsDefault };

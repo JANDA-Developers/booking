@@ -1,9 +1,12 @@
-@import '../style_config/style_config';
+@import '../../style_config/style_config';
 
 $padding-color:#BBD6AF;
 $margin-color:#F9CC9D;
 
 #MarginDOC {
+    
+    text-align: center;
+
     .flex-grid>* {
         flex: none;
     }
@@ -31,7 +34,7 @@ $margin-color:#F9CC9D;
         background-color: $margin-color;
     }
 
-    @media Only screen and (max-width:$mobile) {
+    @mixin response ($mobile) {
         .container_ml {
             width: calc((100% - #{$container-width-larger-than-mobile})/2);
             padding: 0;
@@ -39,18 +42,18 @@ $margin-color:#F9CC9D;
     }
 
     // For devices larger than 550px
-    @media Only screen and (max-width:$mobile) {
+    @mixin response ($mobile) {
         .container_mr {
             width: calc((100% - #{$container-width-larger-than-phablet})/2);
         }
     }
 
-    .docs_section_pb {
+    .docs-section_pb {
         height: $docs-section-padding-top;
         background-color: $padding-color;
     }
 
-    .docs_section__box_pb {
+    .docs-section__box_pb {
         height: $docs-section__box-bottom;
         background-color: $padding-color;
     }

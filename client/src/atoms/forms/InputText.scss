@@ -5,7 +5,9 @@
 /* Text Inputs + Textarea
 /* Text inputs */
 
-
+.JDinput-wrap {
+  position: relative;
+}
 
 .JDinput {
 
@@ -15,7 +17,7 @@
     position: absolute;
     font-size: $label-font-size;
     color: $label-font-color;
-    top: 0;
+    top: 0.1rem;
     left: 0;
   }
 
@@ -31,6 +33,7 @@
   border-radius: 0;
   outline: none;
   height: $input-height;
+  line-height: $input-height;
   width: 100%;
   font-size: $input-font-size;
   margin: $input-margin;

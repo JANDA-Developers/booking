@@ -18,6 +18,11 @@
         opacity: 0;
     }
 
+    &__label-text {
+        margin-left: 10px;
+        vertical-align: top;
+    }
+
     &__input:not(:checked)+&__label,
     &__input:checked+&__label {
         position: relative;

@@ -22,14 +22,16 @@ const Navbar = ({
       <Button
         label={JDMonthTextChanger(prev)}
         icon="arrow_left"
+        mode="flat"
+        float="left"
         iconClasses={['JDbtn__icon--left']}
-        classes={['JDbtn--flat', 'JDbtn--small', 'JDbtn--left']}
         onClick={() => onPreviousClick()}
       />
       <Button
         label={JDMonthTextChanger(next)}
         icon="arrow_right"
-        classes={['JDbtn--flat', 'JDbtn--small', 'JDbtn--right']}
+        mode="flat"
+        float="right"
         onClick={() => onNextClick()}
       />
     </div>

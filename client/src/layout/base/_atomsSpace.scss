@@ -1,10 +1,9 @@
-//이파일 언젠가 해체 해야할듯 생각좀 해보고 결정함
-// 이부분을 섹션에따라 다르게 가져가는게 좋지않을까? 
-// 그러나 디펄트는 필요할것 같은데?
+// todo: 내생각엔 여기는 디펄트 간격으로 레이아웃에 넣고 
+// 각페이지마다 간격 수정 적용 하는건 어떨까?
 
 @import '../../style_config/style_config';
 
-// 마진 left
+// 인풋과 다음 물체의 간격
 .JDcheck_box_wrap+*,
 .JDswitch+*,
 .JDradio+*,
@@ -13,16 +12,19 @@
     margin-left: $forms-space;
 }
 
+// 버튼 사이의 간격
 .JDbtn+.JDbtn {
     margin-left: $buttons-space;
 }
 
 // 마진 bottom
+// todo: 컴포넌트들 마진을어떻게 분류할지 생각
 .JDcheck_box_wrap,
 .JDswitch,
 .JDradio,
 .JDselect,
 .JDbtn,
+.JDlabel,
 .JDdatePcikerInformation {
     margin-bottom: $forms-margin-bottom;
 }

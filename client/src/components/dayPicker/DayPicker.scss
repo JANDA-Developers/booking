@@ -1,6 +1,8 @@
 @import "../../style_config/style_config";
 
 .DayPicker {
+
+    border: $daypicker-border;
     max-width: $daypicker-block-height * 7;
     margin-bottom: $daypicker-margin-bottom;
 

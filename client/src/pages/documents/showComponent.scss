@@ -9,6 +9,11 @@
         overflow-wrap: break-word;
         display: block;
         flex: none;
+
+        svg {
+            display: block;
+            margin: 0 auto;
+        }
     }
 
     .showComponent__container {

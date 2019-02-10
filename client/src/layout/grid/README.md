@@ -1,7 +1,4 @@
 # Layout
 
-The `layout/` folder contains everything that takes part in laying out the site or application. This folder could have stylesheets for the main parts of the site (header, footer, navigation, sidebar…), the grid system or even CSS styles for all the forms.
-
-*Note — The `layout/` folder might also be called `partials/`, depending on what you prefer.*
-
-Reference: [Sass Guidelines](http://sass-guidelin.es/) > [Architecture](http://sass-guidelin.es/#architecture) > [Layout folder](http://sass-guidelin.es/#layout-folder)
+플렉스 그리드와 일반그리드가 있습니다.
+크로스 브라우징 문제가아니라면 일반 그리드를 사용할 일은 없을 것입니다.

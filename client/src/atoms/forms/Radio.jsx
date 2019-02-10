@@ -8,44 +8,36 @@ class Radio extends Component {
 
   constructor(props) {
     super(props);
-    this.disabled = props.disabled;
-    this.label = props.label;
-    this.classes = props.classes;
-    this.groupName = props.groupName;
-    this.id = props.id;
+    this.state = {
+      checked: props.checked,
+    };
   }
 
-  state = { checked: false, disabled: false, classes: '' };
-
-  handleRadioChange = (checkedFlag) => {
+  handleRadioChange = () => {
     if (!this.disabled) {
-      const checkFlag = !checkedFlag;
-      this.setState({ checked: checkFlag });
+      this.setState(state => ({ checked: !state.checked }));
     }
   };
 
-  componentWillMount = () => {
-    this.setState({
-      disabled: this.disabled,
-      classes: this.classes,
-      checked: this.checked,
-    });
-  };
-
   render() {
-    const { checked, disabled, classes } = this.state;
+    const { checked } = this.state;
+    const {
+      id, classes, disabled, groupName, label,
+    } = this.props;
     return (
       <span className="JDradio">
-        <label tabIndex={0} role="button" htmlFor={this.id}>
+        <label tabIndex={0} role="button" htmlFor={id}>
           <input
-            id={this.id}
+            id={id}
             className={`JDradio__input JDradio__input--gap ${classes.join(' ')}`}
-            name={this.groupName}
+            name={groupName}
             type="radio"
             checked={checked}
             disabled={disabled}
+            onChange={this.handleRadioChange}
           />
-          <span className="JDradio__label">{this.label}</span>
+          <span className="JDradio__label" />
+          <span className="JDradio__label-text">{label}</span>
         </label>
       </span>
     );

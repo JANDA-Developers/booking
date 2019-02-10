@@ -1,60 +1,82 @@
 @import '../../style_config/style_config.scss';
 
-/*
-Grid This is a grid made using flexbox. Use the ff classes to setup a flexbox grid: .flex-grid - Grid is always shown,
-even in small screens // Modifier classes for `.flex-grid`.
-// Use these classes to set the screen width when the grid is visible.
-
-// Grid Modifiers
-.flex-grid--md - Grid starts at medium sized screens .flex-grid--lg - Grid starts at large and up screens Use `.flex-grid__col` to define a column inside a `.flex-grid` grid. Direct children of `.flex-grid` are columns with the class,
-`.flex-grid__col` Markup: <div class="demo-grid"><div class="flex-grid"><div class="flex-grid__col">Cell 1</div><div class="flex-grid__col">Cell 2</div><div class="flex-grid__col">Cell 3</div></div><div class="flex-grid flex-grid--md"><div class="flex-grid__col flex-grid__col--sm">Half-width column</div><div class="flex-grid__col">Default width column</div></div><div class="flex-grid flex-grid--md"><div class="flex-grid__col flex-grid__col--fixed-width">Cell 1</div><div class="flex-grid__col">Cell 2</div></div><div class="flex-grid flex-grid--lg"><div class="flex-grid__col flex-grid__col--lg">Double-width column</div><div class="flex-grid__col">Default width column</div></div></div> // Column modifiers
-
-.flex-grid__col--sm - half the width of default column .flex-grid__col--lg - double the width of default column .flex-grid__col--fixed-width - fixed-width column (default=200px) */
-// row
-
-.flex-grid {
+// stylelint-disable declaration-block-no-duplicate-properties
+.flex-grid-grow {
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
-}
 
-// columns
-.flex-grid>* {
-  flex: 1;
-  // padding-left: 1rem;
-  // padding-right: 1rem;
-
-  //default column width
-  &.flex-grid__col {
-    flex-grow: 4;
+  & > * {
+  
+    flex: 1;
     margin-left: $flex-grid--column-margin;
-  }
 
-  // fixed-width column (default = 200px)
-  &.flex-grid__col--fixed-width {
-    flex: 0 0 $flex-grid__column--fixed-width;
-  }
-
-  // half the width of default column
-  &.flex-grid__col--sm {
-    flex-grow: 2;
-  }
-
-  // double the width of default column
-  &.flex-grid__col--lg {
-    flex-grow: 8;
-  }
-
-  &:first-child {
-    margin-left: 0rem;
-  }
-
-  &:last-child {
-    margin-right: 0rem;
+    &.col--grow-1 {
+      flex-grow: 1;
+    }
+    
+    &.col--grow-2 {
+      flex-grow: 2;
+    }
+  
+    &.col--grow-3 {
+      flex-grow: 3;
+    }
+  
+    &.col--grow-4 {
+      flex-grow: 4;
+    }
+  
+    &.col--grow-5 {
+      flex-grow: 5;
+    }
+  
+    &.col--grow-6 {
+      flex-grow: 6;
+    }
+  
+    &.col--grow-7 {
+      flex-grow: 7;
+    }
+  
+    &.col--grow-8 {
+      flex-grow: 8;
+    }
+  
+    &.col--grow-9 {
+      flex-grow: 9;
+    }
+  
+    &.col--grow-10 {
+      flex-grow: 10;
+    }
+  
+    &.col--grow-11 {
+      flex-grow: 11;
+    }
+  
+    &.col--grow-12 {
+      flex-grow: 12;
+    }
+    
+    // fixed-width column (default = 200px)
+    &.flex-grid__col--fixed-width {
+      flex: 0 0 $flex-grid__column--fixed-width;
+    }
+  
+    &:first-child {
+      margin-left: 0rem;
+    }
+  
+    &:last-child {
+      margin-right: 0rem;
+    }
   }
 }
 
-@media (max-width:$phablet) {
+// todo: 이부분 mixin으로 하자 
+// 특정 시점에 Grow 풀기
+@include response ($phablet) {
   .flex-grid--md {
     display: block;
   }
@@ -66,11 +88,25 @@ even in small screens // Modifier classes for `.flex-grid`.
     &.flex-grid__col {
       margin-left: 0;
     }
-
   }
 }
 
-@media (max-width: 959px) {
+@include response ($tablet) {
+  .flex-grid--wmd {
+    display: block;
+  }
+
+  .flex-grid--wmd>* {
+    padding-left: 0;
+    padding-right: 0;
+
+    &.flex-grid__col {
+      margin-left: 0;
+    }
+  }
+}
+
+@include response ($desktop) {
   .flex-grid--lg {
     display: block;
   }
@@ -83,4 +119,22 @@ even in small screens // Modifier classes for `.flex-grid`.
       margin-left: 0;
     }
   }
+}
+
+// 그리드 비대 정리 시스템
+// 마진은 space-between 에 의하여 빈 자리로 사용된다.
+.flex-grid {
+
+  flex-wrap: wrap;
+  display: flex;
+  justify-content: space-between;
+
+  @include grid-system(full);
+  @include grid-system(wlg);
+  @include grid-system(lg);
+  @include grid-system(wmd);
+  @include grid-system(wmd);
+  @include grid-system(md);
+  @include grid-system(sm);
+
 }

@@ -17,41 +17,47 @@ class JDdayPicker extends React.Component {
 
   constructor(props) {
     super(props);
-    this.handleDayClick = this.handleDayClick.bind(this);
-    this.handleDayMouseEnter = this.handleDayMouseEnter.bind(this);
-    this.handleResetClick = this.handleResetClick.bind(this);
-    this.isSelectingFirstDay = this.isSelectingFirstDay;
-    this.state = this.getInitialState();
-    this.horizen = props.horizen;
-  }
 
-  // state
-  getInitialState() {
     const classes = [''];
-    const { horizen } = this.props;
+    if (props.horizen) classes.push('DayPicker--horizen');
 
-    if (horizen) {
-      console.log('pushed');
-      classes.push('DayPicker--horizen');
-    }
+    this.box = React.createRef();
 
-    return {
-      from: null,
-      to: null,
-      enteredTo: null, // Keep track of the last day for mouseEnter.
+    this.state = {
       classes,
+      from: null,
+      enteredTo: null,
     };
   }
 
+  componentDidMount() {
+    const { horizen } = this.props;
+    if (horizen) {
+      const Months = this.box.current.querySelector('.DayPicker-Months');
+      const today = Months.querySelector('.DayPicker-Day--today');
+      const todayOffestX = today.offsetLeft;
+      Months.scrollLeft = todayOffestX - Months.offsetWidth / 2 + 40;
+    }
+  }
+
+  handleDayMouseEnter = (day) => {
+    const { from, to } = this.state;
+    if (!this.isSelectingFirstDay(from, to, day)) {
+      this.setState({
+        enteredTo: day,
+      });
+    }
+  };
+
   // 첫번째 날자를 선택하였다면
-  isSelectingFirstDay(from, to, day) {
+  isSelectingFirstDay = (from, to, day) => {
     this.isBeforeFirstDay = from && DateUtils.isDayBefore(day, from);
     const isRangeSelected = from && to;
     return !from || this.isBeforeFirstDay || isRangeSelected;
-  }
+  };
 
   // 날자 클릭 이벤트
-  handleDayClick(day, modifiers) {
+  handleDayClick = (day, modifiers) => {
     if (modifiers.disabled) return;
     const { from, to } = this.state;
     if (from && to && day >= from && day <= to) {
@@ -70,27 +76,21 @@ class JDdayPicker extends React.Component {
         enteredTo: day,
       });
     }
-  }
-
-  // 마우스 엔더 이벤트
-  handleDayMouseEnter(day) {
-    const { from, to } = this.state;
-    if (!this.isSelectingFirstDay(from, to, day)) {
-      this.setState({
-        enteredTo: day,
-      });
-    }
-  }
+  };
 
   // 리셋버튼 클릭 이벤트
-  handleResetClick() {
-    this.setState(this.getInitialState());
-  }
+  handleResetClick = () => {
+    this.setState({
+      from: null,
+      enteredTo: null,
+    });
+  };
 
   render() {
     const {
       from, to, enteredTo, classes,
     } = this.state;
+    const { horizen } = this.props;
     const modifiers = { start: from, end: enteredTo };
     const selectedDays = [from, { from, to: enteredTo }];
     /* ----------------------------------- 설정 ----------------------------------- */
@@ -116,14 +116,14 @@ class JDdayPicker extends React.Component {
     /* -------------------------------------------------------------------------- */
 
     return (
-      <div>
+      <div ref={this.box}>
         <DayPicker
-          renderDay={this.horizen ? HorizenDay : undefined}
+          renderDay={horizen ? HorizenDay : undefined}
           navbarElement={<Navbar />}
-          weekdayElement={this.horizen ? undefined : undefined}
-          showWeekDays={!this.horizen}
+          weekdayElement={horizen ? undefined : undefined}
+          showWeekDays={!horizen}
           captionElement={({ date }) => {
-            const element = this.horizen ? (
+            const element = horizen ? (
               <HorizenCaption date={date} onChange={this.handleYearMonthChange} />
             ) : (
               <Caption date={date} onChange={this.handleYearMonthChange} />
@@ -137,7 +137,7 @@ class JDdayPicker extends React.Component {
           onDayClick={this.handleDayClick}
           onDayMouseEnter={this.handleDayMouseEnter}
           onDayFocus={this.handleDayFocus}
-          numberOfMonths={this.horizen ? 3 : 1}
+          numberOfMonths={horizen ? 3 : 1}
           pagedNavigation
           months={MONTHS}
           weekdaysLong={WEEKDAYS_LONG}

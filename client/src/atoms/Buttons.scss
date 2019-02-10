@@ -20,6 +20,8 @@
   transition: 0.2s ease-out;
   cursor: pointer;
 
+
+
   &--left {
     float: left
   }
@@ -103,6 +105,10 @@
     background-color: transparent;
     color: $button-flat-color;
     cursor: pointer;
+    
+    &.JDbtn--white {
+      color:white;
+    }
 
     &:disabled {
       color: $button-flat-disabled-color;
@@ -113,7 +119,12 @@
       background-color: transparent;
       box-shadow: none;
     }
+    
+  // colors
 
+  &--white {
+    color:white;
+  }
 
 
   }

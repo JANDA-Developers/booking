@@ -1,53 +1,61 @@
 import React, { Component } from 'react';
 import './Buttons.scss';
 import PropTypes from 'prop-types';
+import classNames from 'classnames/bind';
 import ErrProtecter from '../utils/ErrProtecter';
-import Icon from '../img/icon/icons';
+import Icon from './icons/Icons';
 
 class Buttons extends Component {
   static propTypes = {
     disabled: PropTypes.bool,
-    classes: PropTypes.arrayOf(PropTypes.string),
     label: PropTypes.string,
     icon: PropTypes.string,
     onClick: PropTypes.func,
     iconClasses: PropTypes.arrayOf(PropTypes.string),
+    dataTip: PropTypes.bool,
+    dataFor: PropTypes.string,
+    mode: PropTypes.string,
+    float: PropTypes.string,
+    color: PropTypes.string,
   };
 
   constructor(props) {
     super(props);
-    this.disabled = props.disabled;
-    this.classes = props.classes;
-    this.icon = props.icon;
     this.onClick = props.onClick;
-    this.iconClasses = props.iconClasses;
+    this.state = {
+      disabled: props.disabled,
+    };
   }
 
-  state = { disabled: false, classes: '' };
-
-  componentWillMount = () => {
-    this.setState({
-      disabled: this.disabled,
-      classes: this.classes,
-    });
-  };
-
-  handleButtonClick = () => {};
-
   render() {
-    const { disabled, classes } = this.state;
-    const { label } = this.props;
+    const { disabled } = this.state;
+    const {
+      label, iconClasses, icon, dataTip, dataFor, mode, float, color,
+    } = this.props;
+
+    const classes = classNames({
+      JDbtn: true,
+      'JDbtn--flat': mode === 'flat',
+      'JDbtn--small': mode === 'small',
+      'JDbtn--large': mode === 'large',
+      'JDbtn--left': float === 'left',
+      'JDbtn--right': float === 'right',
+      'JDbtn--white': color === 'white',
+    });
+
     return (
       <button
         type="button"
         disabled={disabled}
-        className={`JDbtn JDwaves-effect ${classes.join(' ')}`}
+        className={`JDbtn JDwaves-effect ${classes}`}
         onClick={this.onClick}
+        data-tip={dataTip}
+        data-for={dataFor}
       >
         {label}
-        {this.icon !== '' && (
-          <i className={`JDbtn__icon ${this.iconClasses.join(' ')}`}>
-            <Icon icon={this.icon} />
+        {icon !== '' && (
+          <i className={`JDbtn__icon ${iconClasses.join(' ')}`}>
+            <Icon icon={icon} />
           </i>
         )}
       </button>
@@ -57,11 +65,15 @@ class Buttons extends Component {
 
 Buttons.defaultProps = {
   disabled: false,
-  classes: [''],
   label: '',
   icon: '',
   onClick: () => {},
   iconClasses: [''],
+  dataTip: false,
+  dataFor: '',
+  mode: '',
+  float: '',
+  color: '',
 };
 
 export default ErrProtecter(Buttons);

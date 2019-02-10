@@ -1,14 +1,14 @@
 import React, { Fragment } from 'react';
 import { Query } from 'react-apollo';
-import { Booker, GetBookerNameById } from '../queries';
+import { Booker, GetBookerNameById } from '../../queries';
 import Detail from './Detail';
-import JDutils from '../utils/utils';
-import CheckBox from '../atoms/forms/CheckBox';
+import { isEmpty } from '../../utils/utils';
+import CheckBox from '../../atoms/forms/CheckBox';
 
 // eslint-disable-next-line react/prop-types
 const Home = ({ history, match: { params } }) => (
   <Fragment>
-    {JDutils.isEmpty(params) ? (
+    {isEmpty(params) ? (
       <Fragment>
         <Query query={Booker}>
           {({ loading, data, error }) => {

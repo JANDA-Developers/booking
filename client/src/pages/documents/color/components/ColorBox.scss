@@ -1,11 +1,12 @@
-@import "../../../style_config/style_config";
+@import "../../../../style_config/style_config";
 
 .colorPage {
 
+    //todo: 명명규칙 BEM 
     &-box {
 
         &-wrap {
-            padding: 4px;
+            padding: .5rem;
         }
 
         padding-top: 100%;
@@ -21,6 +22,11 @@
             position: absolute;
             top: calc(50% - 1rem);
             width: 100%;
+            
+            @include response($tablet){
+                font-size:1.2rem;
+                top: calc(50% - .6rem);
+            }
         }
 
         @extend %z-depth-3;

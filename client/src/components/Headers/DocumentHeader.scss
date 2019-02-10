@@ -1,7 +1,7 @@
-@import '../style_config/style_config';
+@import '../../style_config/style_config';
 
 
-.header {
+.doc-header {
 
     @include component-layout(2%, 200px);
     background-color: $nav-color;

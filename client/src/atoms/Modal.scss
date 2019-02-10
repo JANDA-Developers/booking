@@ -1,0 +1,32 @@
+@import "../style_config/style_config";
+
+.ReactModal {
+
+    &__Overlay {
+        display: flex;
+        position: fixed;
+        top:0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        align-items: center;
+        justify-content: center;
+        z-index: $z-index-6;
+        background-color: $modal-background-color;
+    }
+
+    &__Content  {
+        background-color:white;
+        padding: $modal-content-padding;
+        outline: none;
+        border-radius: $modal-border-radius;
+        @extend %z-depth-3;
+    }
+
+    &__EndSection {
+        .JDbtn {
+            margin-bottom: 0;
+        }
+    }
+}
+

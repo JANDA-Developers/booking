@@ -6,17 +6,18 @@ const Margin = () => (
   <Fragment>
     <div id="MarginDOC">
       {/* container */}
-      <h1 className="contianer flex-grid">
+      <div className="flex-grid">
         <div className="container_ml" />
-        {'CONTAINER'}
+        <h1>CONTAINER</h1>
         <div className="container_mr" />
-      </h1>
+      </div>
       {/* docs_section */}
-      <div />
-      <h1>docs_section</h1>
-      <div className="docs_section_pb" />
-      <h3>docs_section__box</h3>
-      <div className="docs_section__box_pb" />
+      <div className="container">
+        <h1>docs-section</h1>
+        <div className="docs_section_pb" />
+        <h3>docs-section__box</h3>
+        <div className="docs_section__box_pb" />
+      </div>
     </div>
   </Fragment>
 );

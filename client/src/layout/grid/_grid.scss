@@ -43,16 +43,14 @@ Markup:
   box-sizing: border-box;
 }
 
-// For devices larger than 400px
-@media (min-width:$mobile) {
+@include response ($full,$mobile) {
   .container {
     width: $container-width-larger-than-mobile;
     padding: 0;
   }
 }
 
-// For devices larger than 550px
-@media (min-width:$phablet) {
+@include response ($full,$phablet) {
   .container {
     width: $container-width-larger-than-phablet;
   }
