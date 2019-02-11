@@ -1,0 +1,19 @@
+type CreateRoomTypeResponse {
+    ok: Boolean!
+    error: String!
+}
+
+type Mutation {
+    CreateRoomType(
+        name: String!
+        house: String!
+        pricingType: PricingType!
+        people_count_std: Int!
+        people_count_max: Int!
+        sort: Int!
+        roomCount: Int!
+        isEnable: Boolean!
+        description: String!
+        tags: [TagInput!]
+    ): CreateRoomTypeResponse!
+}

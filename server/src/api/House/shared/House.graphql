@@ -1,0 +1,37 @@
+type House {
+    _id: ID!
+    name: String!
+    houseType: String!
+    user: User!
+    roomCount: Int!
+    bedCount: Int!
+    capacity: Int!
+    bookingCondition: BookingCondition!
+    refundPolicy: RefundPolicy!
+    createdAt: String!
+    updatedAt: String
+}
+
+enum HouseType {
+    GUEST_HOUSE
+    HOSTEL
+    HOTEL
+    MOTEL
+    PENSION
+    YOUTH_HOSTEL
+}
+
+# 예약 가능한 조건. 
+type BookingCondition {
+    limitSelectStartDate: Int!
+    minSelectStartDate: Int!
+    availableDateRange: Int!
+}
+
+type RefundPolicy {
+    _id: ID!
+    name: String!
+    dateRange: DateRange!
+    rate: Float!
+    description: String!
+}

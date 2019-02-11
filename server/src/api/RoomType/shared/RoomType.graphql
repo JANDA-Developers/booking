@@ -1,0 +1,33 @@
+type RoomType {
+    _id: ID!
+    name: String!
+    house: House!
+    pricingType: PricingType!
+    people_count_std: Int!
+    people_count_max: Int!
+    sort: Int!
+    roomCount: Int!
+    isEnable: Boolean!
+    description: String!
+    # 예전에 Facilities 랑 같은 아이임...
+    tags: [Tag!]!
+    rooms: [Room!]!
+    createdAt: String!
+    updatedAt: String
+}
+
+type Room {
+    _id: ID!
+    name: String!
+    roomType: RoomType!
+    isEnable: Boolean!
+}
+
+enum PricingType {
+    DOMITORY
+    ROOM
+}
+
+type Query {
+    getRoomTypes(types: String!):RoomType
+}

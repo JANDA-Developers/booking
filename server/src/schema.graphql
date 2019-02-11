@@ -1,8 +1,236 @@
-type SayHello {
-    text: String!
-    err: Boolean!
+type Booking {
+  _id: ID!
+  house: House!
+  booker: User!
+  roomTypes: [RoomType!]!
+  dateRange: DateRange!
+  price: Float!
+  bookingStatus: BookingStatus!
+  guests: [String!]
+  memo: String!
+}
+
+enum BookingStatus {
+  WAIT_DEPOSIT
+  COMPLETE
+  CANCEL
+  REFUND_WAIT
+  PAY_WHEN_CHK_IN
+}
+
+# DB에 저장할 떄는 0101010의 형태로 저장하도록 Resolver에서 처리한다.
+enum Day {
+  SUN
+  MON
+  TUE
+  WED
+  THU
+  FRI
+  SAT
+}
+
+type DateRange {
+  startDate: String!
+  endDate: String!
+  isPast: Boolean!
+}
+
+input DateRangeInput {
+  startDate: String!
+  endDate: String!
+}
+
+type Tag {
+  name: String!
+  content: String!
+  icon: String!
+}
+
+input TagInput {
+  name: String!
+  content: String!
+  icon: String
+}
+
+type Guest {
+  _id: ID!
+  house: House!
+  booker: User!
+  roomType: String!
+  guestType: String!
+  allocatedRoom: Room!
+  stay: String!
+  price: Int!
+  isChkIn: Boolean!
+  bookingId: String!
+  createdAt: String!
+  updatedAt: String
+}
+
+type House {
+  _id: ID!
+  name: String!
+  houseType: String!
+  user: User!
+  roomCount: Int!
+  bedCount: Int!
+  capacity: Int!
+  bookingCondition: BookingCondition!
+  refundPolicy: RefundPolicy!
+  createdAt: String!
+  updatedAt: String
+}
+
+enum HouseType {
+  GUEST_HOUSE
+  HOSTEL
+  HOTEL
+  MOTEL
+  PENSION
+  YOUTH_HOSTEL
+}
+
+# 예약 가능한 조건. 
+type BookingCondition {
+  limitSelectStartDate: Int!
+  minSelectStartDate: Int!
+  availableDateRange: Int!
+}
+
+type RefundPolicy {
+  _id: ID!
+  name: String!
+  dateRange: DateRange!
+  rate: Float!
+  description: String!
+}
+
+type SeasonPrice {
+  _id: ID!
+  house: House!
+  roomType: RoomType!
+  season: Season!
+  price: Float!
+  applyDays: [Day]!
+}
+
+type Season {
+  _id: ID!
+  house: House!
+  name: String!
+  dateRange: DateRange!
+  color: String!
+  description: String!
+}
+
+input SeasonPriceInput {
+  price: Float!
+  applyDays: Int!
+}
+
+type RoomPrice {
+  _id: ID!
+  house: House!
+  roomType: RoomType!
+  price: Float!
+  date: String!
+}
+
+type CreateRoomTypeResponse {
+  ok: Boolean!
+  error: String!
+}
+
+type Mutation {
+  CreateRoomType(name: String!, house: String!, pricingType: PricingType!, people_count_std: Int!, people_count_max: Int!, sort: Int!, roomCount: Int!, isEnable: Boolean!, description: String!, tags: [TagInput!]): CreateRoomTypeResponse!
+  CompletePhoneVerification(phoneNumber: String!, key: String!): CompletePhoneVerificationResponse!
+  GmailConnect(firstName: String!, lastName: String!, gmail: String!): GmailConnectionResponse!
+  StartPhoneVerification(phoneNumber: String!): StartPhoneVerificationResponse!
+}
+
+type RoomType {
+  _id: ID!
+  name: String!
+  house: House!
+  pricingType: PricingType!
+  people_count_std: Int!
+  people_count_max: Int!
+  sort: Int!
+  roomCount: Int!
+  isEnable: Boolean!
+  description: String!
+  # 예전에 Facilities 랑 같은 아이임...
+  tags: [Tag!]!
+  rooms: [Room!]!
+  createdAt: String!
+  updatedAt: String
+}
+
+type Room {
+  _id: ID!
+  name: String!
+  roomType: RoomType!
+  isEnable: Boolean!
+}
+
+enum PricingType {
+  DOMITORY
+  ROOM
 }
 
 type Query {
-    sayHello: SayHello
+  getRoomTypes(types: String!): RoomType
+  users: User!
+}
+
+type CompletePhoneVerificationResponse {
+  ok: Boolean!
+  error: String
+  token: String
+}
+
+type GmailConnectionResponse {
+  ok: Boolean!
+  error: String
+  token: String
+}
+
+type User {
+  _id: ID!
+  name: String!
+  phone: String!
+  verifiedPhone: Boolean!
+  email: String!
+  verifiedEmail: Boolean!
+  role: Role!
+  bookings: [Booking!]
+  houses: [House!]
+  createdAt: String!
+  updatedAt: String
+}
+
+enum Role {
+  ADMIN
+  HOST
+  BOOKER
+}
+
+type StartPhoneVerificationResponse {
+  ok: Boolean!
+  error: String
+}
+
+type Verification {
+  id: ID!
+  target: String!
+  payload: VerificationPayload!
+  verified: Boolean!
+  key: String!
+  createdAt: String!
+  updatedAt: String
+}
+
+enum VerificationPayload {
+  PHONE
+  EMAIL
 }

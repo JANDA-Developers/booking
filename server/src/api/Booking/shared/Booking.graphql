@@ -1,0 +1,19 @@
+type Booking {
+    _id: ID!
+    house: House!
+    booker: User!
+    roomTypes: [RoomType!]!
+    dateRange: DateRange!
+    price: Float!
+    bookingStatus: BookingStatus!
+    guests: [String!]
+    memo: String!
+}
+
+enum BookingStatus{
+    WAIT_DEPOSIT
+    COMPLETE
+    CANCEL
+    REFUND_WAIT
+    PAY_WHEN_CHK_IN
+}

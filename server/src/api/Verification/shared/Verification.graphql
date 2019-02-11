@@ -1,0 +1,14 @@
+type Verification {
+    id: ID!
+    target: String!
+    payload: VerificationPayload!
+    verified: Boolean!
+    key: String!
+    createdAt: String!
+    updatedAt: String
+}
+
+enum VerificationPayload {
+    PHONE
+    EMAIL
+}

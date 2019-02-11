@@ -1,0 +1,14 @@
+type Guest {
+    _id: ID!
+    house: House!
+    booker: User!
+    roomType: String!
+    guestType: String!
+    allocatedRoom: Room!
+    stay: String!
+    price: Int!
+    isChkIn: Boolean!
+    bookingId: String!
+    createdAt: String!
+    updatedAt: String
+}
