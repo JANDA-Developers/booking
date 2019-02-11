@@ -12,6 +12,14 @@ export const Booker = gql`
   }
 `;
 
+export const IS_LOGGED_IN = gql`
+  {
+    auth {
+      isLoggedIn @client
+    }
+  }
+`;
+
 export const GetBookerNameById = gql`
   query getBookerById($personId: ID!) {
     get_booker_by_id(_id: $personId) {
