@@ -7,6 +7,7 @@
 /// @param {String} $type - asset type folder (e.g. `fonts/`)
 /// @param {String} $path - asset path
 /// @return {Url}
+
 @function asset($base, $type, $path) {
   @return url($base + $type + $path);
 }
@@ -31,6 +32,11 @@
 
 @function grid-column-width($n) {
   @return $column-width * $n - ($column-margin*($total-columns - $n)/$total-columns);
+}
+
+//todo:아래 라인 그냥 grid 와 독립
+@function flex-grid-column-width($n) {
+  @return $column-width * $n - ($flex-grid--column-margin*($total-columns - $n)/$total-columns);
 }
 
 @function grid-offset-length($n) {

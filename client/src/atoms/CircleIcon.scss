@@ -1,0 +1,25 @@
+@import "../style_config/style_config";
+
+.circleIcon {
+    border-radius:50%;
+    background: none;
+    border: none;
+    outline: none;
+    width: 2rem;
+    height: 2rem;
+    font-size: 1rem;
+    display: flex;
+    align-content: center;
+    justify-content:center;
+    cursor:pointer;
+
+
+    &--white {
+        color:white;
+    }
+
+    &:hover {
+        background-color: rgba(0,0,0,.1);
+        transition:0.3s;
+    }
+}

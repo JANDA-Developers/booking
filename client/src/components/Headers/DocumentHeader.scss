@@ -1,8 +1,7 @@
-@import '../style_config/style_config';
+@import '../../style_config/style_config';
 
-$nav-color:#3cb878;
 
-.header {
+.doc-header {
 
     @include component-layout(2%, 200px);
     background-color: $nav-color;
@@ -10,6 +9,10 @@ $nav-color:#3cb878;
 
     &__link {
         color: white;
+        text-decoration: none;
+        line-height: 100%;
+        padding: $nav-link-padding;
+        font-size: $nav-font-size;
     }
 
     .header__link {

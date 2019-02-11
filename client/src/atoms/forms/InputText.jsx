@@ -1,37 +1,21 @@
 import React, { Component } from 'react';
 import './InputText.scss';
-import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
-import { emBol } from '../../utils/Enums';
+import classNames from 'classnames/bind';
 import ErrProtecter from '../../utils/ErrProtecter';
+import { Forms, FormsDefault } from '../../utils/PropTypes';
 
 class InputText extends Component {
-  static propTypes = {
-    disabled: PropTypes.bool,
-    validation: PropTypes.func,
-    max: PropTypes.number,
-    label: PropTypes.string,
-  };
+  static propTypes = Forms;
 
   constructor(props) {
     super(props);
-    this.disabled = props.disabled;
-    this.validation = props.validation;
     // 디바운스 함수는 메모리에서 사라지는 EVENT 객체를 보호합니다.
     this.debounceHandleChange = debounce(this.debounceHandleChange, 500);
-    this.classes = ['JDinput'];
-    this.max = props.max;
-    this.label = props.label;
+    this.state = {
+      isValid: '',
+    };
   }
-
-  state = { disabled: false, classes: '' };
-
-  componentWillMount = () => {
-    this.setState({
-      disabled: this.disabled,
-      classes: this.classes,
-    });
-  };
 
   handleChange = (event) => {
     this.debounceHandleChange(event.target);
@@ -39,46 +23,44 @@ class InputText extends Component {
 
   // 인풋의 상태에따라서 상태값이 표시됨
   debounceHandleChange = (target) => {
-    this.classes.filter(val => val !== 'JDinput--valid' || 'JDinput--invalid');
-    const validation = this.validation(target.value, this.max);
-    if (validation === emBol.NEUTRAL) {
-      this.setState({
-        classes: [this.classes],
-      });
-    } else if (validation) {
-      this.setState({
-        classes: [this.classes, 'JDinput--valid'],
-      });
-    } else {
-      this.setState({
-        classes: [this.classes, 'JDinput--invalid'],
-      });
-    }
+    const { validation, max } = this.props;
+    const result = validation(target.value, max);
+    console.log(result);
+    this.setState({
+      isValid: result,
+    });
   };
 
   render() {
-    const { disabled, classes } = this.state;
+    const { isValid } = this.state;
+    const {
+      readOnly, value, label, disabled, type,
+    } = this.props;
+
+    const classes = classNames({
+      JDinput: true,
+      'JDinput--valid': isValid === true,
+      'JDinput--invalid': isValid === false,
+    });
+
     return (
       <div className="JDinput-wrap">
         <input
           onChange={this.handleChange}
-          id="JDinput"
-          className={`${classes.join(' ')}`}
+          className={classes}
           disabled={disabled}
+          readOnly={readOnly}
+          value={value}
+          type={type}
         />
         <label htmlFor="JDinput" className="JDinput_label">
-          {this.label}
+          {label}
         </label>
       </div>
     );
   }
 }
 
-InputText.defaultProps = {
-  disabled: false,
-  validation: () => emBol.NEUTRAL,
-  max: 10000,
-  label: '',
-};
+InputText.defaultProps = FormsDefault;
 
 export default ErrProtecter(InputText);

@@ -1,11 +1,10 @@
+
 /* -------------------------------- TO DO LIST -------------------------------- */
 /* ---------------- 1.현재 명명법이 BEM 스럽지 못합니다. 변수명을 BEM에 맞춰 바꾸세요 --------------- */
 /* ------------------------- 2. 쓰이지않는 변수들을 찾아서 제거하세요 ------------------------ */
-
 // -----------------------------------------------------------------------------
 // This file contains all application-wide Sass variables.
 // -----------------------------------------------------------------------------
-
 
 // Z-Index
 $z-index-0: -1;
@@ -13,8 +12,8 @@ $z-index-1: 10;
 $z-index-2: 20;
 $z-index-3: 30;
 $z-index-4: 40;
-$z-index-5: 50;
-$z-index-6: 60;
+$z-index-5: 50; 
+$z-index-6: 60; // Modal Level 1
 $z-index-7: 70;
 $z-index-8: 80;
 $z-index-9: 90;
@@ -24,33 +23,37 @@ $z-index-10: 100;
 // 1. Colors
 // ==========================================================================
 
-$primary-color: color("materialize-red", "lighten-2") !default;
+$html-color: #343434 !default;
+$primary-color: #4c5b73 !default;
+$primary-color-on: #fff !default;
 $primary-color-light: lighten($primary-color, 15%) !default;
+$primary-color-light-on: #fff !default !default;
 $primary-color-dark: darken($primary-color, 15%) !default;
-
-$secondary-color: color("teal", "lighten-1") !default;
-$success-color: color("green", "base") !default;
-$error-color: color("red", "base") !default;
-$link-color: color("light-blue", "darken-1") !default;
-
+$primary-color-dark-on: #fff !default !default;
+$secondary-color: #c56c47 !default;
+$secondary-color-on: #fff !default;
+$secondary-color-light: lighten($secondary-color, 15%) !default;
+$secondary-color-light-on: #fff !default;
+$secondary-color-dark: darken($secondary-color, 15%) !default;
+$secondary-color-dark-on: #fff !default;
+$success-color: #4CAF50 !default;
+$error-color: #e51c23 !default;
+$link-color: #039be5 !default;
+$warring-color: EE9D5C !default;
 
 // 2. breackPoints
 // ==========================================================================
 
-$bp-larger-than-mobile : "min-width: 400px" !default;
-$bp-larger-than-phablet : "min-width: 550px" !default;
-$bp-larger-than-tablet : "min-width: 750px" !default;
-$bp-larger-than-desktop : "min-width: 1000px" !default;
-$bp-larger-than-desktophd : "min-width: 1200px" !default;
-$bp-larger-than-desktophdup : "min-width: 1201px" !default;
+// todo: 여기 믹스인 처리할겁니다.
+// 각각은 최대크기
+$mobile: "400px" !default; // sm
+$phablet: "550px" !default; //  md
+$tablet: "750px" !default; //  wmd
+$desktop: "1000px" !default; // lg
+$desktophd: "1200px" !default; //  wlg 
+$full: "9999px" !default; 
+$null: "0px" !default; 
 
-// mediaQuery for reactiveDesign
-$desktop-and-up: "only screen and (min-width : #{$bp-larger-than-desktop})" !default;
-$desktophd-and-up: "only screen and (min-width : #{$bp-larger-than-desktophd})" !default;
-$desktophdup: "only screen and (min-width : #{$bp-larger-than-desktophdup})" !default;
-$phablet-and-down: "only screen and (max-width : #{$bp-larger-than-tablet})" !default;
-$desktop-and-down: "only screen and (max-width : #{$bp-larger-than-desktophd})" !default;
-$desktop-only: "only screen and (min-width : #{$bp-larger-than-desktop}) and (max-width : #{$bp-larger-than-desktophd})" !default;
 
 
 // 3. Grid
@@ -63,62 +66,172 @@ $container-width-larger-than-phablet: 80% !default;
 $total-columns: 12 !default;
 $column-width: 100 / $total-columns !default; // calculates individual column width based off of # of columns
 $column-margin: 2% !default; // space between column grids
-
 // Flex Grid Variables
 $flex-grid__column--fixed-width: 200px !default;
 $flex-grid--column-margin: 2% !default;
 
-
 // 4. Forms
 // ==========================================================================
 
+// Unity
+$forms-disabled-color: rgba(0, 0, 0, 0.42) !default;
+$forms-space: 13px !default; // except textInput 구조가 다름
+$forms-margin-bottom: 16px !default; // except textInput 구조가 다름
+$white-hover-color-bg: #eee !default;
+$white-active-color-bg: rgba(0, 0, 0, 0.03) !default;
+
+
+//  Exception  : Check Box, Switch
+// labeles
+$label-font-size: 0.8rem !default;
+$label-font-color: $html-color !default;
 
 // Text Inputs + Textarea
 $input-height: 3rem !default;
-$input-border-color: color("grey", "base") !default;
+$input-border-color: #999999 !default;
 $input-border: 1px solid $input-border-color !default;
 $input-background: #fff !default;
 $input-error-color: $error-color !default;
 $input-success-color: $success-color !default;
-$input-focus-color: $secondary-color !default;
+$input-focus-color: $secondary-color-light !default;
 $input-font-size: 1rem !default;
 $input-margin-bottom: 1.4rem;
 $input-margin-top: 0rem;
 $input-margin: $input-margin-top 0 $input-margin-bottom 0 !default;
 $input-padding: 1rem 0 0 0 !default;
-$input-transition: all .3s !default;
-$label-font-size: .8rem !default;
-$input-disabled-color: rgba(0, 0, 0, .42) !default;
+$input-transition: all 0.3s !default;
+$input-disabled-color: $forms-disabled-color !default;
 $input-disabled-solid-color: #949494 !default;
 $input-disabled-border: 1px dotted $input-disabled-color !default;
 $input-invalid-border: 1px solid $input-error-color !default;
 $placeholder-text-color: lighten($input-border-color, 20%) !default;
-$input-label-fontsize: .5rem;
+
 // Radio Buttons
 $radio-fill-color: $secondary-color !default;
 $radio-empty-color: #5a5a5a !default;
 $radio-border: 2px solid $radio-fill-color !default;
 
 // Select
-$select-border: 1px solid #f2f2f2 !default;
-$select-background: rgba(255, 255, 255, 0.90) !default;
-$select-focus: 1px solid lighten($secondary-color, 47%) !default;
-$select-option-hover: rgba(0, 0, 0, .06) !default;
-$select-option-focus: rgba(0, 0, 0, .03) !default;
-$select-padding: 5px !default;
+$select-border: 1px soligba(0, 0, 0, 0.06) !default;
+$select-option-active-bg: $white-active-color-bg !default;
+$select-option-selected-bg: $secondary-color !default;
+$select-option-selected-color: #fff !default;
+$select-padding: 2px 8px !default;
 $select-radius: 2px !default;
-$select-disabled-color: rgba(0, 0, 0, .3) !default;
+$select-disabled-color: rgba(0, 0, 0, 0.3) !default;
+$select-menue-radius: 0px !default;
+$select-background: #fff !default;
+$select-focus-border-color: $secondary-color !default;
+$select-option-hover-bg: $white-hover-color-bg !default;
 
 // Switches
 $switch-bg-color: $secondary-color !default;
 $switch-checked-lever-bg: desaturate(lighten($switch-bg-color, 25%), 25%) !default;
-$switch-unchecked-bg: #F1F1F1 !default;
-$switch-unchecked-lever-bg: rgba(0, 0, 0, .38) !default;
+$switch-unchecked-bg: #f1f1f1 !default;
+$switch-unchecked-lever-bg: rgba(0, 0, 0, 0.38) !default;
 $switch-radius: 15px !default;
-$switch__space : 13px;
+$switch-label-fontSize:1rem !default;
+$switch-label-color:$html-color !default;
 
-// CheckBox 
-$check_box__space : 13px;
+// CheckBox
+$checkBox-label-fontSize:1rem !default;
+$checkBox-label-color:$html-color !default;
+$checkbox-border-radius: 2px !default;
 
 //textarea
-$textarea-margin-top: 1.8rem;  //라벨 덮힘 방지
+$textarea-margin-top: 1.6rem !default; //라벨 덮힘 방지
+
+// 4 DOC__Header
+// ==========================================================================
+
+$nav-color: $primary-color !default;
+$nav-font-size: 1.5rem !default;
+$nav-link-padding: 1rem 0rem !default;
+
+// 5 DOC__Header
+// ==========================================================================
+
+$docs-section-padding-top: 6rem !default;
+$docs-section-padding-bottom: 6rem !default;
+$docs-section-padding: $docs-section-padding-top 0 $docs-section-padding-bottom 0 !default;
+$docs-section__box-bottom: 2.5rem !default;
+
+// 6 Calender
+// =========================================================================
+
+$daypicker-block-height: 3rem !default;
+$daypicker-border-tick: .2rem !default;
+$daypicker-margin-bottom: 20px !default;
+$daypicker-disabled-color: $forms-disabled-color !default;
+$daypicker-otuside-color: #fff !default;
+$daypicker-otuside-bg: rgba(0, 0, 0, .1) !default;
+$daypicker-dot-size: 5px !default; // calculator
+$daypicker-dot-top: 5px !default; // calculator
+$daypicker-caption-margin-bottom: 1rem !default; // it must be a pixcel
+$daypicker-caption-height: 34px !default;
+$daypicker-day-transition: 0.2s !default;
+$daypicker-border: 1px solid rgba(0,0,0,0.18)!default;
+
+// 7 Buttons
+// =========================================================================
+
+// Shared styles
+$button-border: none !default;
+$button-background-focus: lighten($secondary-color, 4%) !default;
+$button-font-size: 1.3rem !default;
+$button-height: 36px !default;
+$button-padding: 0 1rem !default;
+$button-radius: 2px !default;
+$buttons-space: .4rem !default;
+$buttons-icon-margin: 0.75em !default;
+$buttons-small-icon-margin: 0.45em !default;
+$button-letter-sapcing: .5px !default;
+
+// Disabled styles
+$button-disabled-background: #dfdfdf !default;
+$button-disabled-color: #9f9f9f !default;
+
+// Raised buttons
+$button-raised-background: $secondary-color !default;
+$button-raised-background-hover: lighten($button-raised-background, 5%) !default;
+$button-raised-color: #fff !default;
+
+// Large buttons
+$button-large-icon-font-size: 1.6rem !default;
+$button-large-height: $button-height * 1.5 !default;
+$button-large-padding: 0 2rem !default;
+
+// Flat buttons
+$button-flat-color: $html-color !default;
+$button-flat-disabled-color: $button-disabled-color !default;
+
+// Floating buttons
+$button-floating-background: $secondary-color !default;
+$button-floating-background-hover: $button-floating-background !default;
+$button-floating-color: #fff !default;
+$button-floating-size: 37px !default;
+$button-floating-large-size: $button-floating-size * 1.5 !default;
+$button-floating-radius: 50% !default;
+
+//small buttons
+$button-small-height: 34px !default;
+$button-small-padding: 0 .8rem !default;
+$button-small-font-size: 1rem !default;
+$button-large-font-size: 1.2rem !default;
+
+// 8 Modals
+// =========================================================================
+
+$modal-background-color: rgba(0,0,0,.78) !default;
+$modal-content-padding: 10px !default;
+$modal-border-radius: 2px !default;
+$button-height: 36px !default;
+
+// 8 SearchInput
+// =========================================================================
+
+$searchInput-input-height: $input-height !default;
+$searchInput-input-border: $input-border !default;
+$searchInput-input-margin-bottom: .5rem !default;
+$searchInput-li-border-top: 1px solid rgba(0,0,0,.03) !default;
+$searchInput-li-padding: 5px !default;

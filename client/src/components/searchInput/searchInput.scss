@@ -1,0 +1,42 @@
+@import '../../style_config/style_config';
+
+.JDsearchInput{
+    
+    &__icon {
+        font-size: 1.2rem;
+        .JDicon__svg {
+            right: 1.25em;
+        }
+    }
+    &--showList {
+        .JDsearchInput__ul {
+            position: static;
+        }
+    }
+
+    display: inline-block;
+    
+    &__input {
+        height: $searchInput-input-height;
+        line-height: $searchInput-input-height;
+        border:none;
+        padding-right: 1.75rem;
+        border-bottom: $searchInput-input-border;
+        margin-bottom: $searchInput-input-margin-bottom;
+        outline:none;
+    }
+
+    &__ul {
+        position: absolute;
+        @extend %z-depth-1;
+        margin: 0;
+        padding: 0;
+        background-color:white;
+    }
+
+    &__li {
+        padding:$searchInput-li-padding;
+        border-top:$searchInput-li-border-top
+    }
+
+}

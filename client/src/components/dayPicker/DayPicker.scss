@@ -1,0 +1,124 @@
+@import "../../style_config/style_config";
+
+.DayPicker {
+
+    border: $daypicker-border;
+    max-width: $daypicker-block-height * 7;
+    margin-bottom: $daypicker-margin-bottom;
+
+    .JDbtn {
+        margin-bottom: 0;
+    }
+
+    .DayPicker-Months {
+        .DayPicker-WeekdaysRow {
+            display: flex;
+            flex: auto;
+
+            .DayPicker-Weekday {
+                flex: 1 1;
+                text-align: center;
+
+                abbr {
+                    text-decoration: none;
+                }
+            }
+        }
+
+        .DayPicker-Month {
+
+            .DayPicker-Caption {
+                height: $daypicker-caption-height;
+                line-height: $daypicker-caption-height;
+                text-align: center;
+                margin-bottom: $daypicker-caption-margin-bottom;
+                font-weight: bold;
+
+                &__year {
+                    margin-right: .5rem;
+                }
+            }
+
+            .DayPicker-Body {
+                .DayPicker-Week {
+                    display: flex;
+                    flex: auto;
+
+                    .DayPicker-Day {
+                        cursor: pointer;
+                        flex: 1 1;
+                        text-align: center;
+                        height: $daypicker-block-height;
+                        line-height: $daypicker-block-height - ($daypicker-border-tick * 2);
+                        outline: 0;
+                        border-top: $daypicker-border-tick solid white;
+                        border-bottom: $daypicker-border-tick solid white;
+                        box-sizing: border-box;
+                        transition: border-radius $daypicker-day-transition;
+                        transition-timing-function: ease-out;
+                        border-radius: 50%;
+
+                        &--outside {
+                            cursor: default;
+                        }
+
+                        &--selected {
+                            background-color: $primary-color;
+                            color: $primary-color-on;
+                            border-radius: 0%;
+                        }
+
+                        &--start {
+                            border-radius: 50% 0 0 50%;
+                        }
+
+                        &--start.DayPicker-Day--end {
+                            border-radius: 0;
+                            background-color: $primary-color;
+                        }
+
+                        //disabled style
+                        &--disabled {
+                            cursor: default;
+                            color: $daypicker-disabled-color;
+                        }
+
+                        &--end {
+                            border-radius: 0 50% 50% 0;
+                        }
+
+                        &--today {
+                            font-weight: bold;
+                            position: relative;
+
+                            &:before {
+                                width: $daypicker-dot-size;
+                                height: $daypicker-dot-size;
+                                border-radius: 50%;
+                                content: "";
+                                display: block;
+                                position: absolute;
+                                top: $daypicker-dot-top;
+                                left: 50% - ($daypicker-dot-size / 2px);
+                                background-color: $success-color;
+                            }
+                        }
+
+                        &--outside {
+                            font-size: .8rem;
+
+                            &.DayPicker-Day--selected {
+                                opacity: 0.5;
+                                color: $daypicker-otuside-color;
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
+    @import "./horizen/Horizen.scss";
+
+}

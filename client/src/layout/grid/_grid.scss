@@ -1,3 +1,5 @@
+@import '../../style_config/style_config.scss';
+
 // Grid
 
 /*
@@ -41,16 +43,14 @@ Markup:
   box-sizing: border-box;
 }
 
-// For devices larger than 400px
-@media (#{$bp-larger-than-mobile}) {
+@include response ($full,$mobile) {
   .container {
     width: $container-width-larger-than-mobile;
     padding: 0;
   }
 }
 
-// For devices larger than 550px
-@media (#{$bp-larger-than-phablet}) {
+@include response ($full,$phablet) {
   .container {
     width: $container-width-larger-than-phablet;
   }

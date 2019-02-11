@@ -1,61 +1,37 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import './CheckBox.scss';
-import PropTypes from 'prop-types';
+import classNames from 'classnames/bind';
 import ErrProtecter from '../../utils/ErrProtecter';
+import { FormsDefault, Forms } from '../../utils/PropTypes';
 
-class Checkbox extends Component {
-  static propTypes = {
-    disabled: PropTypes.bool,
-    label: PropTypes.string,
-  };
+function Checkbox({ disabled, check, label }) {
+  const [checked, setChecked] = useState(check);
+  const classes = classNames({
+    JDcheck_box: true,
+  });
 
-  constructor(props) {
-    super(props);
-    this.disabled = props.disabled;
-    this.label = props.label;
-  }
-
-  state = { checked: false, disabled: false };
-
-  handleCheckboxChange = (checkedFlag) => {
-    if (!this.disabled) {
-      const checkFlag = !checkedFlag;
-      this.setState({ checked: checkFlag });
-    }
-  };
-
-  componentWillMount = () => {
-    this.setState({
-      disabled: this.disabled,
-    });
-  };
-
-  render() {
-    const { checked, disabled } = this.state;
-    return (
-      <span
-        className="JDcheck_box_wrap"
-        tabIndex={0}
-        role="button"
-        onKeyPress={() => this.handleCheckboxChange(checked)}
-        onClick={() => this.handleCheckboxChange(checked)}
-      >
-        <input
-          onChange={() => {}}
-          checked={checked}
-          disabled={disabled}
-          className="JDcheck_box"
-          type="checkbox"
-        />
-        <span className="JDcheck_box_label">{this.label}</span>
-      </span>
-    );
-  }
+  return (
+    <span
+      className="JDcheck_box_wrap"
+      tabIndex={0}
+      role="button"
+      onKeyPress={() => setChecked(() => (disabled ? checked : !checked))}
+      onClick={() => setChecked(() => (disabled ? checked : !checked))}
+    >
+      <input
+        onChange={() => {}}
+        checked={checked}
+        disabled={disabled}
+        className={classes}
+        type="checkbox"
+      />
+      <span className="JDcheck_box_label">{label}</span>
+    </span>
+  );
 }
 
-Checkbox.defaultProps = {
-  disabled: false,
-  label: '',
-};
+Checkbox.propTypes = Forms;
+
+Checkbox.defaultProps = FormsDefault;
 
 export default ErrProtecter(Checkbox);

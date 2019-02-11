@@ -1,0 +1,91 @@
+@import '../../style_config/style_config';
+
+.JDselect {
+
+  .JDselect__label {
+    font-size: $label-font-size;
+    color: $label-font-color;
+
+    &--top {
+      display: inline-block;
+      margin: 1rem;
+      margin-left: 0;
+      margin-right: 0;
+      margin-top: 0;
+    }
+  }
+
+  .react-select-container {
+
+    &--is-disabled {
+      border-color: $select-disabled-color;
+    }
+
+    .react-select__multi-value__remove {
+      &:hover{
+       color: $error-color;
+      }
+    }
+
+    .react-select {
+
+      //아이콘 이전 라인
+      &__indicator-separator {
+        display: none;
+      }
+
+      &-container {
+        border-radius: $select-radius;
+      }
+
+      &__control {
+
+        border: $select-border;
+        background-color: $select-background;
+        border-radius: $select-radius;
+
+        &--is-focused {
+          border-color: $select-focus-border-color;
+          @extend %z-depth-1;
+        }
+      }
+
+      &__value-container {
+        padding: $select-padding
+      }
+
+      &__menu {
+        border-radius: $select-menue-radius;
+        margin: 0;
+        @extend %z-depth-1;
+      }
+
+      &__menu-list {
+        padding: 0;
+      }
+
+      &__option {
+        &--is-focused {
+          background-color: $select-option-hover-bg;
+        }
+
+        &:hover {
+          background-color: $select-option-hover-bg;
+        }
+
+        &:active {
+          background-color: $select-option-active-bg;
+        }
+
+        &--is-selected {
+          background-color: $select-option-selected-bg;
+
+          &:hover {
+            background-color: $select-option-selected-bg;
+          }
+        }
+      }
+
+    }
+  }
+}

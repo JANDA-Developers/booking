@@ -1,0 +1,60 @@
+@import '../../style_config/style_config';
+
+$padding-color:#BBD6AF;
+$margin-color:#F9CC9D;
+
+#MarginDOC {
+    
+    text-align: center;
+
+    .flex-grid>* {
+        flex: none;
+    }
+
+    .flex-grid {
+        justify-content: space-between
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        margin-bottom: 0;
+    }
+
+    .container_ml {
+        width: calc((100% - #{$container-width})/2);
+        background-color: $margin-color;
+    }
+
+    .container_mr {
+        width: calc((100% - #{$container-width})/2);
+        background-color: $margin-color;
+    }
+
+    @mixin response ($mobile) {
+        .container_ml {
+            width: calc((100% - #{$container-width-larger-than-mobile})/2);
+            padding: 0;
+        }
+    }
+
+    // For devices larger than 550px
+    @mixin response ($mobile) {
+        .container_mr {
+            width: calc((100% - #{$container-width-larger-than-phablet})/2);
+        }
+    }
+
+    .docs-section_pb {
+        height: $docs-section-padding-top;
+        background-color: $padding-color;
+    }
+
+    .docs-section__box_pb {
+        height: $docs-section__box-bottom;
+        background-color: $padding-color;
+    }
+}

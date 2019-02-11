@@ -6,10 +6,18 @@
 .JDswitch * {
     -webkit-tap-highlight-color: transparent;
     user-select: none;
-    
+    outline: 0;
 }
-.JDswitch{
-    display:inline-block;
+
+.JDswitch {
+    display: inline-block;
+
+    &__lxt,
+    &__rtxt {
+        font-size: $switch-label-fontSize;
+        color: $switch-label-color;
+    }
+
     // 좌측 라벨
     &__ltxt {
         margin-right: 10px;
@@ -17,9 +25,10 @@
 
     // 우측 라벨
     &__rtxt {
-    margin-left: 10px
+        margin-left: 10px
     }
 }
+
 .JDswitch label {
     cursor: pointer;
 }

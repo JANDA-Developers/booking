@@ -1,5 +1,7 @@
 # Base
 
-The `base/` folder holds the boilerplate code for the project. Here is where you define some standard styles for commonly used HTML elements and helper classes.
+베이스 폴더는 다음과 같은 기능을 합니다.
 
-Reference: [Sass Guidelines](http://sass-guidelin.es/) > [Architecture](http://sass-guidelin.es/#architecture) > [Base folder](http://sass-guidelin.es/#base-folder)
+- 컴포넌트 간의 기본 여백 설정
+- 각섹션간의 여백 설정
+- 타이포그래피 설정

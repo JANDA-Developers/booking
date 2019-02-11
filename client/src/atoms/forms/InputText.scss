@@ -5,12 +5,19 @@
 /* Text Inputs + Textarea
 /* Text inputs */
 
+.JDinput-wrap {
+  position: relative;
+}
+
 .JDinput {
 
   //아래에있는 라벨을 위로 끌어올립니다
-  &+.JDinput_label,&+.JDtextarea_label {
+  &+.JDinput_label,
+  &+.JDtextarea_label {
     position: absolute;
-    top:0;
+    font-size: $label-font-size;
+    color: $label-font-color;
+    top: 0.1rem;
     left: 0;
   }
 
@@ -26,6 +33,7 @@
   border-radius: 0;
   outline: none;
   height: $input-height;
+  line-height: $input-height;
   width: 100%;
   font-size: $input-font-size;
   margin: $input-margin;
@@ -36,7 +44,7 @@
 
   // Disabled input style
   &:disabled,
-  &[readonly="readonly"] {
+  &[readonly] {
     color: $input-disabled-color;
     border-bottom: $input-disabled-border;
   }
@@ -55,35 +63,39 @@
 
   // Focused .JDinput_label style
   &:focus:not([readonly])+.JDinput_label {
-    color: $input-focus-color;
+    color: $label-font-color;
   }
 
   // Valid Input Style
-  &--valid,
-  &--valid:focus {
+  &--valid.JDinput:not([readonly]),
+  &--valid.JDinput:focus:not([readonly]) {
     @extend %valid-input-style;
   }
 
+  &--valid.JDinput:focus:not([readonly])+.JDinput_label {
+    color: $label-font-color
+  }
+
   // Custom Success Message
-  &--valid+.JDinput_label:after,
-  &--valid:focus+.JDinput_label:after {
+  &--valid:not([readonly])+.JDinput_label:after,
+  &--valid:focus:not([readonly])+.JDinput_label:after {
     @extend %custom-success-message;
   }
 
   // Invalid Input Style
-  &--invalid,
-  &--invalid:focus {
+  &--invalid.JDinput,
+  &--invalid.JDinput:focus {
     @extend %invalid-input-style;
   }
 
   // Custom Error message
-  &--invalid+.JDinput_label:after,
-  &--invalid:focus+.JDinput_label:after {
+  &--invalid.JDinput+.JDinput_label:after,
+  &--invalid.JDinput:focus+.JDinput_label:after {
     @extend %custom-error-message;
   }
 
   // Full width .JDinput_label when using validate for error messages
-  &--validate+.JDinput_label {
+  &--validate.JDinput+.JDinput_label {
     width: 100%;
   }
 
@@ -93,93 +105,13 @@
   }
 
   // TODO: Remove once input fields are reworked to support validation messages better
-  &--invalid+.JDinput_label:after,
-  &--valid+.JDinput_label:after {
+  &--invalid.JDinput+.JDinput_label:after,
+  &--valid.JDinput+.JDinput_label:after {
     display: none;
   }
 
-  &--invalid+.JDinput_label--active:after,
-  &--valid+.JDinput_label--active:after {
+  &--invalid.JDinput+.JDinput_label--active:after,
+  &--valid.JDinput+.JDinput_label--active:after {
     display: block;
   }
-}
-
-
-/* Validation Sass Placeholders */
-%valid-input-style {
-  border-bottom: 1px solid $input-success-color;
-  box-shadow: 0 1px 0 0 $input-success-color;
-}
-
-%invalid-input-style {
-  border-bottom: $input-invalid-border;
-  box-shadow: 0 1px 0 0 $input-error-color;
-}
-
-%custom-success-message {
-  content: attr(data-success);
-  color: $input-success-color;
-  opacity: 1;
-  transform: translateY(9px);
-}
-
-%custom-error-message {
-  content: attr(data-error);
-  color: $input-error-color;
-  opacity: 1;
-  transform: translateY(9px);
-}
-
-%input-after-style {
-  display: block;
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 0;
-  opacity: 0;
-  transition: .2s opacity ease-out, .2s color ease-out;
-}
-
-/* Textarea */
-
-// Default textarea
-.JDtextarea {
-  width: 100%;
-  height: $input-height;
-  background-color: transparent;
-
-  // Fixes validation messages for dynamic textareas
-  &--validate+.JDinput_label {
-    &::after {
-      top: calc(100% - 12px);
-    }
-
-    &:not(.JDinput_label-icon).active {
-      transform: translateY(-25px);
-    }
-
-    height: 100%;
-  }
-
-  overflow-y: hidden;
-  /* prevents scroll bar flash */
-  padding: .8rem 0 1.6rem 0;
-  /* prevents text jump on Enter keypress */
-  resize: none;
-  min-height: $input-height;
-}
-
-// For textarea autoresize
-.hiddendiv {
-  display: none;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  /* future version of deprecated 'word-wrap' */
-  padding-top: 1.2rem;
-  /* prevents text jump on Enter keypress */
-
-  // Reduces repaints
-  position: absolute;
-  top: 0;
 }

@@ -1,18 +1,30 @@
+// todo: 내생각엔 여기는 디펄트 간격으로 레이아웃에 넣고 
+// 각페이지마다 간격 수정 적용 하는건 어떨까?
 
 @import '../../style_config/style_config';
 
-.JDcheck_box_wrap + * {
-    margin-left: $check_box__space;
+// 인풋과 다음 물체의 간격
+.JDcheck_box_wrap+*,
+.JDswitch+*,
+.JDradio+*,
+.JDselect+*,
+.JDbtn+* {
+    margin-left: $forms-space;
 }
 
-.JDcheck_box_wrap {
-    margin-bottom: 16px;
+// 버튼 사이의 간격
+.JDbtn+.JDbtn {
+    margin-left: $buttons-space;
 }
 
-.JDswitch + * {
-    margin-left: $switch__space;
-}
-
-.JDswitch {
-    margin-bottom: 16px;
+// 마진 bottom
+// todo: 컴포넌트들 마진을어떻게 분류할지 생각
+.JDcheck_box_wrap,
+.JDswitch,
+.JDradio,
+.JDselect,
+.JDbtn,
+.JDlabel,
+.JDdatePcikerInformation {
+    margin-bottom: $forms-margin-bottom;
 }
