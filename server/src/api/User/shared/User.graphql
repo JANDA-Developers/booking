@@ -6,8 +6,8 @@ type User {
     email: String!
     verifiedEmail: Boolean!
     userRole: UserRole!
-    bookings: [Booking!]
-    houses: [House!]
+    bookings: String
+    houses: String
     checkPrivacyPolicy: Boolean!
     createdAt: String!
     updatedAt: String

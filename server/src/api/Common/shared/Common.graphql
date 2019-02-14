@@ -10,6 +10,18 @@ enum Day{
     SAT
 }
 
+type Location {
+    address: String!
+    lat: Float!
+    lng: Float!
+}
+
+input LocationInput {
+    address: String!
+    lat: Float!
+    lng: Float!
+}
+
 type DateRange {
     startDate: String!
     endDate: String!

@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import { IsEmail } from "class-validator";
-import { BeforeInsert, BeforeUpdate, Column, Entity, ObjectID } from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, Entity } from "typeorm";
 // import { userRole } from "../types/types";
 import JdBaseEntity from "./JdBaseEntity";
 
@@ -16,10 +16,7 @@ const BCRYPT_ROUNDS = 10;
 @Entity()
 class User extends JdBaseEntity {
     @Column({ type: "text" })
-    firstName: string;
-
-    @Column({ type: "text" })
-    lastName: string;
+    name: string;
 
     @Column({ type: "text", nullable: true })
     password: string;
@@ -41,23 +38,13 @@ class User extends JdBaseEntity {
     userRole: UserRole;
 
     @Column()
-    bookings: ObjectID[];
+    bookings: string;
 
     @Column()
-    houses: ObjectID[];
+    houses: string;
 
     @Column({ type: "boolean", default: false })
     checkPrivacyPolicy: boolean;
-
-    get fullName(): string {
-        return `${this.firstName} ${this.lastName}`;
-    }
-
-    @BeforeInsert()
-    @BeforeUpdate()
-    setDefaultData() {
-        // default data Setting!
-    }
 
     @BeforeInsert()
     @BeforeUpdate()

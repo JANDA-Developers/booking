@@ -1,13 +1,12 @@
 type House {
-    _id: ID!
+    id: String!
     name: String!
-    houseType: String!
+    houseType: HouseType!
     user: User!
+    location: Location!
     roomCount: Int!
     bedCount: Int!
     capacity: Int!
-    bookingCondition: BookingCondition!
-    refundPolicy: RefundPolicy!
     createdAt: String!
     updatedAt: String
 }
@@ -29,7 +28,7 @@ type BookingCondition {
 }
 
 type RefundPolicy {
-    _id: ID!
+    id: ID!
     name: String!
     dateRange: DateRange!
     rate: Float!

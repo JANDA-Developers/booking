@@ -1,39 +1,29 @@
 import { Column } from "typeorm";
+import { HouseType, Location } from "../types/graph";
 import JdBaseEntity from "./JdBaseEntity";
-
-export enum HouseType {
-    GUEST_HOUSE = "GUEST_HOUSE",
-    HOSTEL = "HOSTEL",
-    HOTEL = "HOTEL",
-    MOTEL = "MOTEL",
-    PENSION = "PENSION",
-    YOUTH_HOSTEL = "YOUTH_HOSTEL"
-}
+import User from "./User";
 
 class House extends JdBaseEntity {
-    @Column({ type: "text", unique: true })
+    @Column({ type: "text" })
     name: string;
 
-    @Column({ type: "text", enum: HouseType, default: HouseType.GUEST_HOUSE })
+    @Column({ type: "enum", default: "GUEST_HOUSE" })
     houseType: HouseType;
 
-    @Column({ type: "text" })
-    user: string;
+    @Column()
+    location: Location;
 
-    @Column({ type: "text" })
-    roomCount: string;
+    @Column()
+    user: User;
 
-    @Column({ type: "text" })
-    bedCount: string;
+    @Column({ type: "int", default: 0 })
+    roomCount: number;
 
-    @Column({ type: "text" })
-    capacity: string;
+    @Column({ type: "int", default: 0 })
+    bedCount: number;
 
-    @Column({ type: "text" })
-    bookingCondition: string;
-
-    @Column({ type: "text" })
-    refundPolicy: string;
+    @Column({ type: "int", default: 0 })
+    capacity: number;
 }
 
 export default House;

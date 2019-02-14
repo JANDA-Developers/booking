@@ -1,0 +1,13 @@
+type CreateHouseResponse{
+    ok: Boolean!
+    error: String
+    house: House
+}
+
+type Mutation {
+    CreateHouse(
+        name: String!
+        houseType: HouseType!
+        location: LocationInput!
+    ): CreateHouseResponse!
+}

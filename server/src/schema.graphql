@@ -29,6 +29,18 @@ enum Day {
   SAT
 }
 
+type Location {
+  address: String!
+  lat: Float!
+  lng: Float!
+}
+
+input LocationInput {
+  address: String!
+  lat: Float!
+  lng: Float!
+}
+
 type DateRange {
   startDate: String!
   endDate: String!
@@ -67,16 +79,30 @@ type Guest {
   updatedAt: String
 }
 
+type CreateHouseResponse {
+  ok: Boolean!
+  error: String
+  house: House
+}
+
+type Mutation {
+  CreateHouse(name: String!, houseType: HouseType!, location: LocationInput!): CreateHouseResponse!
+  CreateRoomType(name: String!, house: String!, pricingType: PricingType!, people_count_std: Int!, people_count_max: Int!, sort: Int!, roomCount: Int!, isEnable: Boolean!, description: String!, tags: [TagInput!]): CreateRoomTypeResponse!
+  CompletePhoneVerification(phoneNumber: String!, key: String!): CompletePhoneVerificationResponse!
+  EmailSignUp(firstName: String!, lastName: String!, email: String!, password: String!, profilePhoto: String!, age: Int!, phoneNumber: String!): EmailSignUpResponse!
+  GmailConnect(firstName: String!, lastName: String!, gmail: String!): GmailConnectionResponse!
+  StartPhoneVerification(phoneNumber: String!): StartPhoneVerificationResponse!
+}
+
 type House {
-  _id: ID!
+  id: String!
   name: String!
-  houseType: String!
+  houseType: HouseType!
   user: User!
+  location: Location!
   roomCount: Int!
   bedCount: Int!
   capacity: Int!
-  bookingCondition: BookingCondition!
-  refundPolicy: RefundPolicy!
   createdAt: String!
   updatedAt: String
 }
@@ -98,7 +124,7 @@ type BookingCondition {
 }
 
 type RefundPolicy {
-  _id: ID!
+  id: ID!
   name: String!
   dateRange: DateRange!
   rate: Float!
@@ -139,14 +165,6 @@ type RoomPrice {
 type CreateRoomTypeResponse {
   ok: Boolean!
   error: String!
-}
-
-type Mutation {
-  CreateRoomType(name: String!, house: String!, pricingType: PricingType!, people_count_std: Int!, people_count_max: Int!, sort: Int!, roomCount: Int!, isEnable: Boolean!, description: String!, tags: [TagInput!]): CreateRoomTypeResponse!
-  CompletePhoneVerification(phoneNumber: String!, key: String!): CompletePhoneVerificationResponse!
-  EmailSignUp(firstName: String!, lastName: String!, email: String!, password: String!, profilePhoto: String!, age: Int!, phoneNumber: String!): EmailSignUpResponse!
-  GmailConnect(firstName: String!, lastName: String!, gmail: String!): GmailConnectionResponse!
-  StartPhoneVerification(phoneNumber: String!): StartPhoneVerificationResponse!
 }
 
 type RoomType {
@@ -224,8 +242,8 @@ type User {
   email: String!
   verifiedEmail: Boolean!
   userRole: UserRole!
-  bookings: [Booking!]
-  houses: [House!]
+  bookings: String
+  houses: String
   checkPrivacyPolicy: Boolean!
   createdAt: String!
   updatedAt: String
