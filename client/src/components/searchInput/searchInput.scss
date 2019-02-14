@@ -36,7 +36,12 @@
 
     &__li {
         padding:$searchInput-li-padding;
-        border-top:$searchInput-li-border-top
+        border-top:$searchInput-li-border-top;
+        line-height: 100%;
+
+        &:first-child {
+            border-top:none;
+        }
     }
 
 }

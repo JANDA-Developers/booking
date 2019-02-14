@@ -29,3 +29,22 @@ export const GetBookerNameById = gql`
     }
   }
 `;
+
+export const PHONE_VERIFICATION = gql`
+  mutation startPhoneVerification($phoneNumber: String!) {
+    StartPhoneVerification(phoneNumber: $phoneNumber) {
+      ok
+      error
+    }
+  }
+`;
+
+export const COMEPLETE_PHONE_VERIFICATION = gql`
+  mutation completePhoneVerification($phoneNumber: String!, $key: String!) {
+    CompletePhoneVerification(phoneNumber: $phoneNumber, key: $key) {
+      ok
+      error
+      token
+    }
+  }
+`;

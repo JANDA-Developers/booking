@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React, { Component } from 'react';
 import './InputText.scss';
 import debounce from 'lodash.debounce';
@@ -11,30 +12,35 @@ class InputText extends Component {
   constructor(props) {
     super(props);
     // 디바운스 함수는 메모리에서 사라지는 EVENT 객체를 보호합니다.
-    this.debounceHandleChange = debounce(this.debounceHandleChange, 500);
+    this.inDebounceHandleChange = debounce(this.inDebounceHandleChange, 500);
     this.state = {
       isValid: '',
+      value: props.value,
     };
   }
 
-  handleChange = (event) => {
-    this.debounceHandleChange(event.target);
+  inHandleChange = (event) => {
+    this.inDebounceHandleChange(event.target);
+    this.setState({
+      value: event.target.value,
+    });
   };
 
   // 인풋의 상태에따라서 상태값이 표시됨
-  debounceHandleChange = (target) => {
-    const { validation, max } = this.props;
+  inDebounceHandleChange = (target) => {
+    const { validation, max, onChange } = this.props;
     const result = validation(target.value, max);
-    console.log(result);
+    onChange(target.value);
     this.setState({
       isValid: result,
+      value: target.value,
     });
   };
 
   render() {
-    const { isValid } = this.state;
+    const { isValid, value } = this.state;
     const {
-      readOnly, value, label, disabled, type,
+      readOnly, label, disabled, type,
     } = this.props;
 
     const classes = classNames({
@@ -46,7 +52,7 @@ class InputText extends Component {
     return (
       <div className="JDinput-wrap">
         <input
-          onChange={this.handleChange}
+          onChange={this.inHandleChange}
           className={classes}
           disabled={disabled}
           readOnly={readOnly}

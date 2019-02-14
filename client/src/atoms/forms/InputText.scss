@@ -51,7 +51,7 @@
 
   // Disabled .JDinput_label style
   &:disabled+.JDinput_label,
-  &[readonly="readonly"]+.JDinput_label {
+  &[readonly]+.JDinput_label {
     color: $input-disabled-color;
   }
 

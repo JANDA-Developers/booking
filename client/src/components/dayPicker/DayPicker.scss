@@ -2,6 +2,10 @@
 
 .DayPicker {
 
+    &-wrapper {
+        outline:none;
+    }
+
     border: $daypicker-border;
     max-width: $daypicker-block-height * 7;
     margin-bottom: $daypicker-margin-bottom;
@@ -109,7 +113,7 @@
 
                             &.DayPicker-Day--selected {
                                 opacity: 0.5;
-                                color: $daypicker-otuside-color;
+                                color: $daypicker-otuside-bgcolor;
                             }
                         }
 

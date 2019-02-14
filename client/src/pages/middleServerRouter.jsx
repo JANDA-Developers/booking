@@ -1,5 +1,5 @@
 /* eslint-disable react/forbid-prop-types */
-import React, { Fragment, Component } from 'react';
+import React, { Fragment } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { graphql } from 'react-apollo';
 import Header from '../components/Headers/Header';
@@ -7,9 +7,7 @@ import DynamicImport from '../utils/DynamicImport';
 import NoMatch from './NoMatch';
 import { IS_LOGGED_IN } from '../queries';
 
-function JDmiddleServer({ data }) {
-  console.log(data);
-
+function JDmiddleServer() {
   const isLoggin = false;
 
   const Home = props => (

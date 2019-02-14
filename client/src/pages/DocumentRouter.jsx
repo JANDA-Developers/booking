@@ -1,6 +1,7 @@
 /* eslint-disable react/forbid-prop-types */
 import React, { Fragment, Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import Helmet from 'react-helmet';
 import DynamicImport from '../utils/DynamicImport';
 import Header from '../components/Headers/DocumentHeader';
 import NoMatch from './NoMatch';
@@ -41,6 +42,9 @@ class DocumentRouter extends Component {
 
     return (
       <Fragment>
+        <Helmet>
+          <title> Janda | Document </title>
+        </Helmet>
         <Route path="/documents" component={Header} />
         <Switch>
           <Route exact path="/documents" component={DocumentsMain} />

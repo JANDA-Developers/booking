@@ -6,9 +6,10 @@ const connectionOptions: ConnectionOptions = {
     synchronize: true,
     logging: true, 
     entities: ["models/**/*.*"],
-    // host: process.env.DB_ENDPOINT,
-    url: `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0-gk4ly.mongodb.net/${process.env.DB_NAME}?retryWrites=true`,
-    useNewUrlParser: true
+    host: process.env.DB_ENDPOINT,
+    // url: `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0-gk4ly.mongodb.net/${process.env.DB_NAME}?retryWrites=true`,
+    useNewUrlParser: true,
+    port : 27017
 }
 
 export default connectionOptions;

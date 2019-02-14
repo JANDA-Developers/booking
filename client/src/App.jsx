@@ -1,12 +1,11 @@
 /* eslint-disable no-shadow */
-import React, { Component } from 'react';
-import { ApolloProvider, graphql } from 'react-apollo';
+import React from 'react';
+import { ApolloProvider } from 'react-apollo';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import client from './apolloClient';
 import DocumentRouter from './pages/DocumentRouter';
 import NoMatch from './pages/NoMatch';
 import middleServerRouter from './pages/middleServerRouter';
-import { IS_LOGGED_IN } from './queries';
 // Library
 import './lib/wave'; // 웨이브 이펙트
 import './lib/wave.scss'; // 웨이브 이펙트

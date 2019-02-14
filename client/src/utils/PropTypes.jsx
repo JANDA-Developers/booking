@@ -20,6 +20,7 @@ const Forms = {
   selected: PropTypes.string, // SelectBox
   type: PropTypes.string, //  inputText
   check: PropTypes.bool, //  inputText
+  onChange: PropTypes.func,
 };
 
 const FormsDefault = {
@@ -37,6 +38,9 @@ const FormsDefault = {
   selected: '',
   type: '',
   check: false,
+  onChange: () => {},
+  isValid: '',
+  setIsValid: () => {},
 };
 
 export { Forms, FormsDefault };
