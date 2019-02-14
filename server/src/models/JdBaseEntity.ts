@@ -1,17 +1,16 @@
 import {
     AfterLoad,
-    BaseEntity,
     CreateDateColumn,
     ObjectID,
     ObjectIdColumn,
-    UpdateDateColumn
+    UpdateDateColumn,
 } from "typeorm";
 import { transformDate } from "../utils/transformData";
 
 /**
  * id, createdAt, updatedAt 칼럼 포함
  */
-abstract class JdBaseEntity extends BaseEntity {
+abstract class JdBaseEntity {
     @ObjectIdColumn()
     id: ObjectID;
 

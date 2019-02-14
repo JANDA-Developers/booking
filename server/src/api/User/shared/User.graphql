@@ -1,21 +1,23 @@
 type User {
-    _id: ID!
+    id: ID!
     name: String!
-    phone: String!
+    phoneNumber: String!
     verifiedPhone: Boolean!
     email: String!
     verifiedEmail: Boolean!
-    role: Role!
+    userRole: UserRole!
     bookings: [Booking!]
     houses: [House!]
+    checkPrivacyPolicy: Boolean!
     createdAt: String!
     updatedAt: String
 }
 
-enum Role {
+enum UserRole {
     ADMIN
     HOST
     BOOKER
+    GHOST
 }
 
 type Query {

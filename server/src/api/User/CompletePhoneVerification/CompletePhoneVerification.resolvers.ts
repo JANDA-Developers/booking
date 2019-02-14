@@ -1,3 +1,4 @@
+import { getMongoManager } from "typeorm";
 import User from "../../../models/User";
 import Verification from "../../../models/Verification";
 import {
@@ -5,6 +6,7 @@ import {
     CompletePhoneVerificationResponse
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
+import createJWT from "../../../utils/createJWT";
 
 const resolvers: Resolvers = {
     Mutation: {
@@ -13,6 +15,7 @@ const resolvers: Resolvers = {
             args: CompletePhoneVerificationMutationArgs
         ): Promise<CompletePhoneVerificationResponse> => {
             const { phoneNumber, key } = args;
+            const mmg = getMongoManager();
             try {
                 const verification = await Verification.findOne({
                     target: "PHONE",
@@ -38,14 +41,16 @@ const resolvers: Resolvers = {
             }
 
             try {
-                const user = await User.findOne({ phoneNumber });
+                // const user = await User.findOne({ phoneNumber });
+                const user = await mmg.findOne(User, {phoneNumber});
                 if (user) {
-                    user.phoneVerificaiton = true;
-                    await user.save();
+                    user.verifiedPhone = true;
+                    await mmg.save(user);
+                    const token = createJWT(user.id);
                     return {
                         ok: true,
                         error: null,
-                        token: "Coming soon~"
+                        token
                     };
                 } else {
                     return {
