@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 // 참고: https://codepen.io/manpreet/pen/EyXwrE
 import React, { Component } from 'react';
 import classNames from 'classnames/bind';
@@ -10,7 +9,9 @@ class SearchInput extends Component {
   constructor(props) {
     super(props);
 
-    this.state = props;
+    this.state = {
+      userList: props.userList,
+    };
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -30,7 +31,6 @@ class SearchInput extends Component {
   }
 
   render() {
-    // todo: 이제알겠다 class 자체를 state에 두지말고 render에 둔뒤 그 상태값만 관리하면됨
     const { show, children } = this.props;
     const classes = classNames({
       JDsearchInput: true,
@@ -49,7 +49,7 @@ class SearchInput extends Component {
             placeholder={children}
           />
           <span className="JDsearchInput__icon">
-            <Icon icon="magnifier" />
+            <Icon hover icon="magnifier" />
           </span>
         </div>
         {<List {...this.state} />}

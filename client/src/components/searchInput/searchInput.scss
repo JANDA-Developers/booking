@@ -1,11 +1,12 @@
 @import '../../style_config/style_config';
 
 .JDsearchInput{
-    
+
     &__icon {
         font-size: 1.2rem;
         .JDicon__svg {
             right: 1.25em;
+            top:.2em;
         }
     }
     &--showList {
@@ -32,12 +33,14 @@
         margin: 0;
         padding: 0;
         background-color:white;
+        border-radius: $searchInput-border-radius;
     }
 
     &__li {
         padding:$searchInput-li-padding;
         border-top:$searchInput-li-border-top;
         line-height: 100%;
+
 
         &:first-child {
             border-top:none;

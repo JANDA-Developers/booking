@@ -154,5 +154,13 @@
             }
         }
 
+        &--background-color {
+            background-color: $background-color;
+
+            .colorPage-circle__txt {
+                color: $html-color
+            }
+        }
+
     }
 }

@@ -1,20 +1,21 @@
 import ReactModal from 'react-modal';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import ReactTooltip from 'react-tooltip';
 import CheckBox from '../../atoms/forms/CheckBox';
 import Switch from '../../atoms/forms/Switch';
 import InputText from '../../atoms/forms/InputText';
-import Textarea from '../../atoms/forms/Textarea';
 import Radio from '../../atoms/forms/Radio';
 import SearchInput from '../../components/searchInput/SearchInput';
 import SelectBox from '../../atoms/forms/SelectBox';
 import DayPicker from '../../components/dayPicker/DayPicker';
-import CicleIcon from '../../atoms/CircleIcon';
+import CircleIcon from '../../atoms/CircleIcon';
 import Button from '../../atoms/Buttons';
 import JDLabel from '../../atoms/JDLabel';
 import utils from '../../utils/utils';
 import Icon from '../../atoms/icons/Icons';
-import useInput from '../../actions/hook';
+import {
+  useInput, useCheckBox, useRadio, useSwitch, useSelect,
+} from '../../actions/hook';
 import './showComponent.scss';
 import '../../atoms/Modal.scss';
 import '../../atoms/tooltip.scss';
@@ -22,7 +23,16 @@ import '../../atoms/tooltip.scss';
 function ShowComponents() {
   const [showModal, setShowModal] = useState(false);
   // the wayMake a Controlled Value
-  const inputVali = useInput('123123');
+  const inputVali = useInput(undefined);
+  const inputVali2 = useInput(undefined);
+  const checkHook = useCheckBox();
+  // eslint-disable-next-line no-unused-vars
+  const [value, setValue] = useRadio('');
+  const useSelect1 = useSelect(null);
+  const useSelect2 = useSelect(null);
+  const useSelect3 = useSelect(null);
+  const switchHook = useSwitch(false);
+  const refContainer = useRef(null);
 
   const handleOpenModal = () => {
     setShowModal(true);
@@ -32,11 +42,17 @@ function ShowComponents() {
     setShowModal(false);
   };
 
-  const dummyData = [
+  const searchDummyData = [
     { name: 'Manpreet Singh', pic: '' },
     { name: 'Abhimanyu Kapoor', pic: '' },
     { name: 'Richard B. Gomes', pic: '' },
     { name: 'Utkarsh Jain', pic: '' },
+  ];
+
+  const selectDummyOptions = [
+    { value: 'chocolate', label: 'Chocolate' },
+    { value: 'strawberry', label: 'Strawberry' },
+    { value: 'vanilla', label: 'Vanilla' },
   ];
 
   return (
@@ -46,16 +62,16 @@ function ShowComponents() {
         <div className="docs-section__box">
           <h6>Check Box</h6>
 
-          <CheckBox check label="normal" />
+          <CheckBox {...checkHook} label="normal" />
 
-          <CheckBox label="disabled" disabled />
+          <CheckBox {...checkHook} label="disabled" disabled />
         </div>
 
         {/* 스위치 */}
         <div className="docs-section__box">
           <h6>Switch</h6>
 
-          <Switch checked ltxt="normal" />
+          <Switch {...switchHook} ltxt="normal" />
 
           <Switch ltxt="disabled" disabled />
         </div>
@@ -63,10 +79,10 @@ function ShowComponents() {
         {/* 라디오 */}
         <div className="docs-section__box">
           <h6>Radio</h6>
-          <Radio checked id="RD1--1" groupName="RD1" />
-          <Radio id="RD1--2" groupName="RD1" />
-          <Radio id="RD1--3" groupName="RD1" />
-          <Radio id="RD1--4" groupName="RD1" />
+          <Radio onChange={setValue} value="rd1" checked id="RD1--1" groupName="RD1" />
+          <Radio onChange={setValue} value="rd2" id="RD1--2" groupName="RD1" />
+          <Radio onChange={setValue} value="rd3" id="RD1--3" groupName="RD1" />
+          <Radio onChange={setValue} value="rd4" id="RD1--4" groupName="RD1" />
           <Radio id="RD2--1" label="라벨" groupName="RD2" />
           <Radio id="RD2--2" label="라벨2" groupName="RD2" />
         </div>
@@ -76,7 +92,11 @@ function ShowComponents() {
           <h6>InputText</h6>
           <div className="flex-grid">
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
-              <InputText value="" label="noraml" />
+              <InputText
+                {...inputVali2}
+                refContainer={refContainer}
+                label="noraml"
+              />
             </div>
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
               <InputText
@@ -111,25 +131,39 @@ function ShowComponents() {
           </div>
         </div>
 
-        {/* 텍스트어리어 */}
-        <h6>Textarea</h6>
-        <div className="flex-grid-grow flex-grid--md docs-Section__box">
-          <div className="flex-grid__col">
-            <Textarea label="normal" />
-          </div>
-          <div className="flex-grid__col">
-            <Textarea label="disabled" disabled />
-          </div>
-          <div className="flex-grid__col">
-            <Textarea label="scrollbar" scroll />
+        {/* 텍스트 어리어 */}
+        <div className="docs-section__box">
+          <h6>TextArea</h6>
+          <div className="flex-grid">
+            <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
+              <InputText
+                label="noraml"
+                textarea
+              />
+            </div>
+            <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
+              <InputText
+                label="scroll"
+                scroll
+                textarea
+              />
+            </div>
+            <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
+              <InputText
+                disabled
+                label="disabled"
+                textarea
+              />
+            </div>
           </div>
         </div>
+
 
         {/* 서치바 */}
         <h6>SearchInput</h6>
         <div className="flex-grid-grow flex-grid--md docs-section__box">
           <div className="flex-grid__col">
-            <SearchInput show userList={dummyData} label="normal" />
+            <SearchInput show userList={searchDummyData} label="normal" />
           </div>
         </div>
 
@@ -137,13 +171,13 @@ function ShowComponents() {
         <h6>SelectBox</h6>
         <div className="flex-grid-grow docs-section__box">
           <div className="flex-grid__col">
-            <SelectBox isOpen label="normal" />
+            <SelectBox {...useSelect1} options={selectDummyOptions} isOpen label="normal" />
           </div>
           <div className="flex-grid__col">
-            <SelectBox disabled label="disalbed" />
+            <SelectBox {...useSelect2} options={selectDummyOptions} disabled label="disalbed" />
           </div>
           <div className="flex-grid__col">
-            <SelectBox isMulti label="multi" />
+            <SelectBox {...useSelect3} options={selectDummyOptions} isMulti label="multi" />
           </div>
         </div>
 
@@ -173,13 +207,20 @@ function ShowComponents() {
             <Button label="small" mode="small" />
             {/* 플랫은 화이트 배경뿐입니다.--지금은  */}
             <Button label="flat" mode="flat" />
-            <CicleIcon label="flat" mode="flat">
-              <Icon label="arrow_left" icon="arrow_left" />
-            </CicleIcon>
             {/* 아래내용은 서클형태의 버튼으로 아직까지 활용가치가 없습니다. */}
             {/* <Button label="floating" classes={['JDbtn--floating']} /> */}
             {/* <Button label="floating-large"
           classes={['JDbtn--floating', 'JDbtn--floating-large']} /> */}
+          </div>
+          <div className="flex-grid__col">
+            <Button label="primary" thema="primary" mode="large" />
+            <Button label="secondary" thema="secondary" mode="large" />
+            <CircleIcon darkWave>
+              <Icon icon="arrow_left" />
+            </CircleIcon>
+            <CircleIcon wave thema="greybg">
+              <Icon icon="arrow_left" />
+            </CircleIcon>
           </div>
         </div>
 
@@ -203,11 +244,10 @@ function ShowComponents() {
         {/* 툴팁 */}
         <div className="docs-section__box">
           <h6>tooltip</h6>
-
-          <Button dataTip dataFor="tooltip__A" label="Some Btn" classes={['JDbtn--small']} />
-
-          <Button dataTip dataFor="tooltip__B" label="Some Btn" classes={['JDbtn--small']} />
-
+          {/* <Button dataTip dataFor="tooltip__A" label="Some Btn"
+         classes={['JDbtn--small']} /> */}
+          {/* <Button dataTip dataFor="tooltip__B" label="Some Btn"
+         classes={['JDbtn--small']} /> */}
           <Button dataTip dataFor="tooltip__C" label="Some Btn" classes={['JDbtn--small']} />
 
           <Button dataTip dataFor="tooltip__D" label="Some Btn" classes={['JDbtn--small']} />

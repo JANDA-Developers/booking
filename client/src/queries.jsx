@@ -31,8 +31,8 @@ export const GetBookerNameById = gql`
 `;
 
 export const PHONE_VERIFICATION = gql`
-  mutation startPhoneVerification($phoneNumber: String!) {
-    StartPhoneVerification(phoneNumber: $phoneNumber) {
+  mutation startPhoneVerification() {
+    StartPhoneVerification() {
       ok
       error
     }
@@ -40,8 +40,8 @@ export const PHONE_VERIFICATION = gql`
 `;
 
 export const COMEPLETE_PHONE_VERIFICATION = gql`
-  mutation completePhoneVerification($phoneNumber: String!, $key: String!) {
-    CompletePhoneVerification(phoneNumber: $phoneNumber, key: $key) {
+  mutation completePhoneVerification($key: String!) {
+    CompletePhoneVerification(key: $key) {
       ok
       error
       token

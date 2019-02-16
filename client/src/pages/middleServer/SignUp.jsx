@@ -3,33 +3,20 @@ import ReactModal from 'react-modal';
 import React, { useState } from 'react';
 import { Mutation } from 'react-apollo';
 import InputText from '../../atoms/forms/InputText';
-import Textarea from '../../atoms/forms/Textarea';
 import Radio from '../../atoms/forms/Radio';
 import Button from '../../atoms/Buttons';
-import './SignUp.scss';
-import { PHONE_VERIFICATION } from '../../queries';
 import '../../atoms/Modal.scss';
+import './SignUp.scss';
 import utils from '../../utils/utils';
-
-// function useInput(defaultValue) {
-//   const [value,setValue] = useState(defaultValue);
-//   const [validate,setValidate] = useState(utils.NEUTRAL);
-
-// }
+import { useInput, useRadio } from '../../actions/hook';
 
 function SignUp() {
-  const [phoneNumber, changePhoneNumber] = useState('');
-  const [email, setEmail] = useState('');
-  const [popPhone, setPopPhone] = useState(false);
-  const [popEmail, setPopEmail] = useState(false);
-  const [phoneVerfication, setPhoneVerfication] = useState(false);
-  const [emailVerfication, setEmailVerfication] = useState(false);
-  const [key, setKey] = useState(false);
-  const [infoAgreement, setKeyAgreement] = useState(false);
-  const [Name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordCheck, setPasswordCheck] = useState('');
+  const nameHoook = useInput('');
+  const eamilHook = useInput('');
+  const phoneNumberHook = useInput('');
+  const passwordHook = useInput('');
+  const checkPasswordHook = useInput('');
+  const [infoAgreement, setInfoAgreement] = useRadio();
 
   const handlePopVerification = e => {
     e.stopPropagation();
@@ -44,70 +31,25 @@ function SignUp() {
     <div id="signUpPage" className="container">
       <div className="docs-section">
         {/* 인증모달 */}
-        <form onSubmit={checkVerification}>
-          <ReactModal
-            isOpen={popPhone}
-            onRequestClose={handlePopVerification}
-            className="Modal"
-            overlayClassName="Overlay"
-          >
-            <p>핸드폰 인증번호</p>
-            <InputText onChange={setKey} label="인증번호" />
-            <div className="ReactModal__EndSection">
-              <Mutation
-                mutation={PHONE_VERIFICATION}
-                variables={{
-                  phoneNumber,
-                  key,
-                }}
-                onCompleted={() => {
-                  setPhoneVerfication(true);
-                }}
-              >
-                {mutation => <Button label="인증하기" onClick={mutation} />}
-              </Mutation>
-              <Button label="Close Modal" onClick={handlePopVerification} />
-            </div>
-          </ReactModal>
-
+        <form onSubmit={signUpSubmit}>
           <h3>회원가입</h3>
           <div className="flex-grid docs-section__box">
             <div className="flex-grid__col col--full-12 col--md-12">
-              <InputText validation={utils.isName} label="성함" />
+              <InputText {...nameHoook} validation={utils.isName} label="성함" />
             </div>
             <div className="flex-grid__col col--full-12 col--md-12">
-              <InputText validation={utils.isPassword} type="password" label="비밀번호" />
+              <InputText
+                {...passwordHook}
+                validation={utils.isPassword}
+                type="password"
+                label="비밀번호"
+              />
             </div>
             <div className="flex-grid__col col--full-12 col--md-12">
-              <InputText type="password" label="비밀번호 확인" />
-            </div>
-            <div className="flex-grid__col col--full-12 col--md-12">
-              <InputText validation={utils.isPhone} onChange={changePhoneNumber} label="핸드폰" />
-              <Mutation
-                mutation={PHONE_VERIFICATION}
-                variables={{
-                  phoneNumber,
-                }}
-                onCompleted={() => {
-                  setPopPhone(true);
-                }}
-              >
-                {mutation => <Button onClick={mutation} mode="small" label="인증하기" />}
-              </Mutation>
+              <InputText {...checkPasswordHook} type="password" label="비밀번호 확인" />
             </div>
             <div className="flex-grid__col col--full-12 col--md-12">
               <InputText validation={utils.isEmail} onChange={setEmail} label="이메일" />
-              <Mutation
-                mutation={PHONE_VERIFICATION}
-                variables={{
-                  email,
-                }}
-                onCompleted={() => {
-                  setPopEmail(true);
-                }}
-              >
-                {mutation => <Button onClick={mutation} mode="small" label="인증하기" />}
-              </Mutation>
             </div>
             <div className="flex-grid__col col--full-12 col--md-12">
               <Textarea
@@ -127,8 +69,14 @@ function SignUp() {
               />
             </div>
             <div className="flex-grid__col col--full-12 col--md-12">
-              <Radio label="동의" checked id="RD1--1" groupName="Agree" />
-              <Radio label="동의안함" id="RD1--2" groupName="Agree" />
+              <Radio
+                onChange={setInfoAgreement}
+                label="동의"
+                checked
+                id="RD1--1"
+                groupName="Agree"
+              />
+              <Radio onChange={setInfoAgreement} label="동의안함" id="RD1--2" groupName="Agree" />
             </div>
           </div>
           <div>

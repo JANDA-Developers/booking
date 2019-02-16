@@ -30,7 +30,8 @@ export const sendSMS = async (
     console.log({
         result_code,
         msg_id: msgId,
-        msg_type: msgType
+        msg_type: msgType,
+        msg
     });
 
     return {

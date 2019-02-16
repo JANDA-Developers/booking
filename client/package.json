@@ -60,6 +60,7 @@
     "rules": {
       "react/jsx-filename-extension": 0,
       "linebreak-style": 0,
+      "react/forbid-prop-types": 0,
       "react-hooks/rules-of-hooks": "error",
       "no-console": "off",
       "//": [

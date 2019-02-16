@@ -1,7 +1,5 @@
 export type pricingType = "DOMITORY" | "ROOM";
 
-export type role = "ADMIN" | "HOST" | "GUEST";
-
 export type target = "PHONE" | "EMAIL";
 
 export type houseType =

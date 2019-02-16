@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
-import { PropTypes } from 'prop-types';
+import { PropTypes as PT } from 'prop-types';
+import classNames from 'classnames/bind';
 import './icons.scss';
 
 const icons = {
@@ -11,15 +12,19 @@ const icons = {
 };
 
 function Icon({
-  label, icon, width, height,
+  label, icon, width, height, hover,
 }) {
+  const classes = classNames({
+    JDicon__svg: true,
+    'JDicon__svg--hover': hover,
+  });
   return (
     <Fragment>
       <svg
         alignmentBaseline="central"
+        className={classes}
         width={width}
         height={height}
-        className="JDicon__svg"
         version="1.1"
         viewBox="0 0 24 24 "
       >
@@ -33,16 +38,18 @@ function Icon({
 }
 
 Icon.propTypes = {
-  icon: PropTypes.string.isRequired,
-  width: PropTypes.string,
-  height: PropTypes.string,
-  label: PropTypes.string,
+  icon: PT.string.isRequired,
+  width: PT.string,
+  height: PT.string,
+  label: PT.string,
+  hover: PT.bool,
 };
 
 Icon.defaultProps = {
   width: '1em',
   height: '1em',
   label: '',
+  hover: false,
 };
 
 export default Icon;

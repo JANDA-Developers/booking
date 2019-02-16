@@ -33,8 +33,8 @@ class App {
         res: Response,
         next: NextFunction
     ): Promise<void> => {
-        // todo
         const token = req.get("X-JWT");
+        
         if (token) {
             const user = await decodeJWT(token);
             req.user = user;

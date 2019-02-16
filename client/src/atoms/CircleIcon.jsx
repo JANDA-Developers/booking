@@ -10,6 +10,7 @@ const CircleIcon = ({
   const classes = classNames({
     circleIcon: true,
     'circleIcon--white': thema === 'white',
+    'circleIcon--greybg': thema === 'greybg',
     'JDwaves-effect': wave || darkWave,
     'JDwaves-effect-dark': darkWave,
   });

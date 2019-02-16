@@ -22,6 +22,8 @@ $z-index-10: 100;
 
 // 0. TyphoGraphy 타이포 그래피  
 // ==========================================================================
+$typho-large : 1.3rem;
+$typho-normal : 1rem;
 $typho-small : 0.8rem;
 $typho-tiny : 1rem;
 
@@ -43,14 +45,13 @@ $secondary-color-light-on: #fff !default;
 $secondary-color-dark: darken($secondary-color, 15%) !default;
 $secondary-color-dark-on: #fff !default;
 $success-color: #4CAF50 !default;
+$background-color: #fff;
 $error-color: #ff6760 !default;
 $link-color: #039be5 !default;
 $warring-color: EE9D5C !default;
 $grey-level1: #ddd;
-$grey-level2: #c1c1c1;
+$grey-level2: #a1a1a1;
 $grey-level3: #787878;
-$white-bgcolor: #fff;
-
 
 // 2. breackPoints 브레이크 포인트
 // ==========================================================================
@@ -90,25 +91,24 @@ $forms-margin-bottom: 16px !default; // except textInput 구조가 다름
 
 //  Exception  : Check Box, Switch
 // labeles 라벨
-$label-font-size: 0.8rem !default;
+$label-font-size: $typho-small !default;
 $label-font-color: $html-color !default;
 
 
 // Text Inputs + Textarea 인풋
 $input-height: 3rem !default;
 $input-border: 1px solid $html-color !default;
-$input-background: $white-bgcolor !default;
+$input-background: #fff !default;
 $input-error-color: $error-color !default;
 $input-success-color: $success-color !default;
 $input-focus-color: $secondary-color-light !default;
-$input-font-size: 1rem !default;
+$input-font-size: $typho-normal !default;
 $input-margin-bottom: 1.4rem;
 $input-margin-top: 0rem;
 $input-margin: $input-margin-top 0 $input-margin-bottom 0 !default;
 $input-padding: 1rem 0 0 0 !default;
 $input-transition: all 0.3s !default;
 $input-disabled-color: $forms-disabled-color !default;
-$input-disabled-solid-color: $forms-disabled-color !default;
 $input-disabled-border: 1px dotted $input-disabled-color !default;
 $input-invalid-border: 1px solid $input-error-color !default;
 $placeholder-text-color: $grey-level1 !default;
@@ -118,6 +118,7 @@ $placeholder-text-color: $grey-level1 !default;
 $radio-fill-color: $secondary-color !default;
 $radio-empty-color: $html-color !default;
 $radio-border: 2px solid $radio-fill-color !default;
+$radio-disabled-color: $forms-disabled-color;
 
 
 // Select 셀렉트
@@ -144,19 +145,20 @@ $select-multi-color:  $html-color;
 
 
 // Switches 스위치
-$switch-bg-color: $secondary-color !default;
-$switch-checked-lever-bg: $secondary-color-light !default;
-$switch-unchecked-bg: $grey-level1 !default;
-$switch-unchecked-lever-bg: $grey-level2 !default;
+$switch-checked-bgcolor: $secondary-color !default;
+$switch-checked-lever-bgcolor: $secondary-color-light !default;
+$switch-unchecked-bgcolor: $grey-level2 !default;
+$switch-unchecked-lever-bgcolor: $grey-level1 !default;
 $switch-radius: 15px !default;
 $switch-label-fontSize:1rem !default;
 $switch-label-color:$html-color !default;
-
+$switch-disabled-solid-color: $forms-disabled-color;
 
 // CheckBox 체크박스
 $checkBox-label-fontSize:1rem !default;
 $checkBox-label-color:$html-color !default;
 $checkbox-border-radius: 2px !default;
+$checkbox-disabled-border-color: $forms-disabled-color !default;
 
 
 //textarea 텍스트어리어
@@ -193,6 +195,7 @@ $daypicker-caption-margin-bottom: 1rem !default; // it must be a pixcel
 $daypicker-caption-height: 34px !default;
 $daypicker-day-transition: 0.2s !default;
 $daypicker-border: 1px solid $grey-level2!default;
+$daypicker-border-radius: 2px;
 
 //horizen
 $horizen-caption-bgcolor : $grey-level1;
@@ -205,7 +208,7 @@ $horizen-month-bordeRight :  none;
 // Shared styles
 $button-border: none !default;
 $button-background-focus: lighten($secondary-color, 4%) !default;
-$button-font-size: 1.3rem !default;
+$button-font-size: $typho-large !default;
 $button-height: 36px !default;
 $button-padding: 0 1rem !default;
 $button-radius: 2px !default;
@@ -224,7 +227,7 @@ $button-raised-background: $grey-level3 !default;
 $button-raised-background-hover: lighten($button-raised-background, 5%) !default;
 
 // Large buttons
-$button-large-icon-font-size: 1.6rem !default;
+$button-large-icon-font-size: $typho-large !default;
 $button-large-height: $button-height * 1.5 !default;
 $button-large-padding: 0 2rem !default;
 
@@ -243,8 +246,8 @@ $button-floating-radius: 50% !default;
 //small buttons
 $button-small-height: 34px !default;
 $button-small-padding: 0 .8rem !default;
-$button-small-font-size: 1rem !default;
-$button-large-font-size: 1.2rem !default;
+$button-small-font-size: $typho-normal !default;
+$button-large-font-size: $typho-large !default;
 
 
 // 8 Modals
@@ -263,5 +266,6 @@ $searchInput-input-height: $input-height !default;
 $searchInput-input-border: $input-border !default;
 $searchInput-input-margin-bottom: .5rem !default;
 $searchInput-border-color:$grey-level1 !default;
+$searchInput-border-radius: 2px;
 $searchInput-li-border-top: 1px dotted $searchInput-border-color !default;
 $searchInput-li-padding: 5px !default;

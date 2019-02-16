@@ -14,12 +14,14 @@
       margin-top: 0;
     }
   }
-
+  // disabled style 디스에이블 스타일 1
+  &--disabled {
+  .JDselect__label{
+    color:$select-disabled-color;
+  }
+}
+  
   .react-select-container {
-
-    &--is-disabled {
-      border-color: $select-disabled-color;
-    }
 
     .react-select__multi-value__remove {
       &:hover{
@@ -28,6 +30,18 @@
     }
 
     .react-select {
+
+      // disabled style 디스에이블 스타일 2
+      &__control--is-disabled.react-select__control {
+        border-color: $select-disabled-color;
+        .react-select__placeholder{
+          color: $select-disabled-color;
+        }
+        // 화살표 
+        .react-select__indicator {
+          color: $select-disabled-color;
+        }
+      }
 
       &__label {
         color: $select-multi-color;
