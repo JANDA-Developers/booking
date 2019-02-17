@@ -4,7 +4,14 @@ import './SelectBox.scss';
 import PropTypes from 'prop-types';
 
 function JDselect({
-  label, disabled, isOpen, isMulti, onChange, options, selectedOption,
+  label,
+  disabled,
+  // eslint-disable-next-line no-unused-vars
+  isOpen,
+  isMulti,
+  onChange,
+  options,
+  selectedOption,
 }) {
   const handleChange = (selectOption) => {
     onChange(selectOption);

@@ -18,15 +18,12 @@ class SearchInput extends Component {
   handleChange() {
     const self = this;
     const { userList } = this.props;
-    console.log(userList);
     const filteredItems = userList.filter(item => item.name.toLowerCase().includes(self.search.value.toLowerCase()));
     this.setState(
       {
         userList: filteredItems,
       },
-      () => {
-        console.log(userList);
-      },
+      () => {},
     );
   }
 

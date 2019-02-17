@@ -31,8 +31,8 @@ export const GetBookerNameById = gql`
 `;
 
 export const PHONE_VERIFICATION = gql`
-  mutation startPhoneVerification() {
-    StartPhoneVerification() {
+  mutation startPhoneVerification {
+    StartPhoneVerification {
       ok
       error
     }

@@ -18,9 +18,15 @@ function SignUp() {
   const checkPasswordHook = useInput('');
   const [infoAgreement, setInfoAgreement] = useRadio();
 
-  const handlePopVerification = e => {
-    e.stopPropagation();
-    setPopPhone(!popPhone);
+  const signUpSubmit = e => {
+    e.preventDefault();
+    console.log(e);
+    console.log(nameHoook);
+    console.log(eamilHook);
+    console.log(phoneNumberHook);
+    console.log(passwordHook);
+    console.log(checkPasswordHook);
+    console.log(infoAgreement);
   };
 
   const checkVerification = () => {
@@ -49,10 +55,13 @@ function SignUp() {
               <InputText {...checkPasswordHook} type="password" label="비밀번호 확인" />
             </div>
             <div className="flex-grid__col col--full-12 col--md-12">
-              <InputText validation={utils.isEmail} onChange={setEmail} label="이메일" />
+              <InputText {...phoneNumberHook} validation={utils.isPhone} label="전화번호" />
             </div>
             <div className="flex-grid__col col--full-12 col--md-12">
-              <Textarea
+              <InputText {...eamilHook} validation={utils.isEmail} label="이메일" />
+            </div>
+            <div className="flex-grid__col col--full-12 col--md-12">
+              <InputText
                 value="Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex tempora, corrupti, iure magnam pariatur vero atque esse ipsum delectus, suscipit amet! Modi commodi libero maxime dignissimos dolor aspernatur similique consectetur.
             Inventore ab nisi assumenda ullam excepturi! Quidem veritatis tempore minima dolores rem cum nesciunt, corporis praesentium facere nihil laudantium neque tenetur fugit labore facilis minus adipisci cumque incidunt mollitia in?
             Quibusdam inventore quas similique maxime a magnam, repellat ducimus officiis beatae! Voluptas amet id aliquam quidem necessitatibus harum delectus consequatur exercitationem, totam error temporibus illum, veritatis nulla beatae iusto at!
@@ -66,6 +75,7 @@ function SignUp() {
                 label="개인정보 이용동의"
                 readOnly
                 scroll
+                textarea
               />
             </div>
             <div className="flex-grid__col col--full-12 col--md-12">
@@ -80,7 +90,7 @@ function SignUp() {
             </div>
           </div>
           <div>
-            <Button onSubmit={checkVerification} label="가입완료" mode="large" />
+            <Button type="submit" onSubmit={checkVerification} label="가입완료" mode="large" />
           </div>
         </form>
       </div>

@@ -28,7 +28,6 @@ function InputText({
   useEffect(() => {
     const domInput = refContainer.current;
     if (value !== undefined) domInput.value = value;
-    console.log(refContainer);
   }, []);
 
   const inbounceHandleChange = (target) => {
@@ -85,6 +84,7 @@ function InputText({
   );
 }
 
+// todo: Max를 어떻게 할수없나?
 InputText.propTypes = {
   readOnly: PropTypes.bool,
   label: PropTypes.string,
@@ -93,7 +93,7 @@ InputText.propTypes = {
   validation: PropTypes.func,
   onChange: PropTypes.func,
   max: PropTypes.number,
-  isValid: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  isValid: PropTypes.any,
   onChangeValid: PropTypes.func,
   refContainer: PropTypes.object,
   textarea: PropTypes.bool,
