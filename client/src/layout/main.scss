@@ -1,10 +1,8 @@
 @charset 'UTF-8';
 
 // 1. Vendors
-@import 'vendors/normalize';
-
-// 2 . styleConfig
-@import '../style_config/style_config';
+@import 'vendors/normalize',
+'vendors/customAll';
 
 // 3. Layout-related sections
 @import 'grid/grid',

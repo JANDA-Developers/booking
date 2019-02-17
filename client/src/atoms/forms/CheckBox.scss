@@ -43,7 +43,7 @@
     /* checkbox aspect */
     &:not(:checked):disabled+.JDcheck_box_label:before {
         border: none;
-        background-color: $input-disabled-color;
+        background-color: $checkbox-disabled-border-color;
     }
 
     // 포커스 스타일
@@ -73,8 +73,8 @@
     }
 
     &:disabled+.JDcheck_box_label:before {
-        border-right: 2px solid $input-disabled-color;
-        border-bottom: 2px solid $input-disabled-color;
+        border-right: 2px solid $checkbox-disabled-border-color;
+        border-bottom: 2px solid $checkbox-disabled-border-color;
     }
 }
 
@@ -96,7 +96,7 @@
 
     // Disabled 중립
     &:disabled+.JDcheck_box_label:before {
-        border-right: 2px solid $input-disabled-color;
+        border-right: 2px solid $checkbox-disabled-border-color;
         background-color: transparent;
     }
 }
@@ -185,7 +185,7 @@
 
     &:disabled:not(:checked)+.JDcheck_box_label:after {
         border-color: transparent;
-        background-color: $input-disabled-solid-color;
+        background-color: $checkbox-disabled-border-color;
     }
 
     &:disabled:checked+.JDcheck_box_label:before {
@@ -193,7 +193,12 @@
     }
 
     &:disabled:checked+.JDcheck_box_label:after {
-        background-color: $input-disabled-solid-color;
-        border-color: $input-disabled-solid-color;
+        background-color: $checkbox-disabled-border-color;
+        border-color: $checkbox-disabled-border-color;
+    }
+
+    &:disabled+.JDcheck_box_label {
+        color:$forms-disabled-color;
+        cursor:default;
     }
 }

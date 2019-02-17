@@ -3,7 +3,6 @@
 import PropTypes from 'prop-types';
 import { NEUTRAL } from './Enums';
 
-// 모아놓고 한번에 정리 ㄱㄱ
 const Forms = {
   disabled: PropTypes.bool, // Unity
   validation: PropTypes.func, // Unity
@@ -15,11 +14,12 @@ const Forms = {
   max: PropTypes.number, // Input TextArea
   readOnly: PropTypes.bool, // Input, TesxtArea
   value: PropTypes.string, // Input, TesxtArea
+  type: PropTypes.string, //  inputText
+  check: PropTypes.bool, //  inputText
   groupName: PropTypes.string, // Radio
   id: PropTypes.string, // Radio
   selected: PropTypes.string, // SelectBox
-  type: PropTypes.string, //  inputText
-  check: PropTypes.bool, //  inputText
+  onChange: PropTypes.func, // Unity
 };
 
 const FormsDefault = {
@@ -37,6 +37,9 @@ const FormsDefault = {
   selected: '',
   type: '',
   check: false,
+  onChange: () => {},
+  isValid: '',
+  setIsValid: () => {},
 };
 
 export { Forms, FormsDefault };

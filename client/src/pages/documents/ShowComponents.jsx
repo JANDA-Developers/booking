@@ -1,275 +1,314 @@
 import ReactModal from 'react-modal';
-import React, { Component } from 'react';
+import React, { useState, useRef } from 'react';
 import ReactTooltip from 'react-tooltip';
 import CheckBox from '../../atoms/forms/CheckBox';
 import Switch from '../../atoms/forms/Switch';
 import InputText from '../../atoms/forms/InputText';
-import Textarea from '../../atoms/forms/Textarea';
 import Radio from '../../atoms/forms/Radio';
 import SearchInput from '../../components/searchInput/SearchInput';
 import SelectBox from '../../atoms/forms/SelectBox';
 import DayPicker from '../../components/dayPicker/DayPicker';
-import CicleIcon from '../../atoms/CircleIcon';
+import CircleIcon from '../../atoms/CircleIcon';
 import Button from '../../atoms/Buttons';
 import JDLabel from '../../atoms/JDLabel';
 import utils from '../../utils/utils';
 import Icon from '../../atoms/icons/Icons';
+import {
+  useInput, useCheckBox, useRadio, useSwitch, useSelect,
+} from '../../actions/hook';
 import './showComponent.scss';
 import '../../atoms/Modal.scss';
 import '../../atoms/tooltip.scss';
 
-class ShowComponents extends Component {
-  constructor() {
-    super();
+function ShowComponents() {
+  const [showModal, setShowModal] = useState(false);
+  // the wayMake a Controlled Value
+  const inputVali = useInput(undefined);
+  const inputVali2 = useInput(undefined);
+  const checkHook = useCheckBox();
+  // eslint-disable-next-line no-unused-vars
+  const [value, setValue] = useRadio('');
+  const useSelect1 = useSelect(null);
+  const useSelect2 = useSelect(null);
+  const useSelect3 = useSelect(null);
+  const switchHook = useSwitch(false);
+  const refContainer = useRef(null);
 
-    this.state = {
-      showModal: false,
-    };
-  }
-
-  handleOpenModal = () => {
-    this.setState({ showModal: true });
+  const handleOpenModal = () => {
+    setShowModal(true);
   };
 
-  handleCloseModal = () => {
-    this.setState({ showModal: false });
+  const handleCloseModal = () => {
+    setShowModal(false);
   };
 
-  render() {
-    const dummyData = [
-      { name: 'Manpreet Singh', pic: '' },
-      { name: 'Abhimanyu Kapoor', pic: '' },
-      { name: 'Richard B. Gomes', pic: '' },
-      { name: 'Utkarsh Jain', pic: '' },
-    ];
+  const searchDummyData = [
+    { name: 'Manpreet Singh', pic: '' },
+    { name: 'Abhimanyu Kapoor', pic: '' },
+    { name: 'Richard B. Gomes', pic: '' },
+    { name: 'Utkarsh Jain', pic: '' },
+  ];
 
-    const { showModal } = this.state;
-    return (
-      <div className="container">
-        <div className="docs-section showCompoent">
-          {/* 체크박스 */}
-          <div className="docs-section__box">
-            <h6>Check Box</h6>
+  const selectDummyOptions = [
+    { value: 'chocolate', label: 'Chocolate' },
+    { value: 'strawberry', label: 'Strawberry' },
+    { value: 'vanilla', label: 'Vanilla' },
+  ];
 
-            <CheckBox check label="normal" />
+  return (
+    <div className="container">
+      <div className="docs-section showCompoent">
+        {/* 체크박스 */}
+        <div className="docs-section__box">
+          <h6>Check Box</h6>
 
-            <CheckBox label="disabled" disabled />
-          </div>
+          <CheckBox {...checkHook} label="normal" />
 
-          {/* 스위치 */}
-          <div className="docs-section__box">
-            <h6>Switch</h6>
+          <CheckBox {...checkHook} label="disabled" disabled />
+        </div>
 
-            <Switch checked ltxt="normal" />
+        {/* 스위치 */}
+        <div className="docs-section__box">
+          <h6>Switch</h6>
 
-            <Switch ltxt="disabled" disabled />
-          </div>
+          <Switch {...switchHook} ltxt="normal" />
 
-          {/* 라디오 */}
-          <div className="docs-section__box">
-            <h6>Radio</h6>
-            <Radio checked id="RD1--1" groupName="RD1" />
-            <Radio id="RD1--2" groupName="RD1" />
-            <Radio id="RD1--3" groupName="RD1" />
-            <Radio id="RD1--4" groupName="RD1" />
-            <Radio id="RD2--1" label="라벨" groupName="RD2" />
-            <Radio id="RD2--2" label="라벨2" groupName="RD2" />
-          </div>
+          <Switch ltxt="disabled" disabled />
+        </div>
 
-          {/* 인풋 텍스트 */}
-          <div className="docs-section__box">
-            <h6>InputText</h6>
-            <div className="flex-grid">
-              <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
-                <InputText label="noraml" />
-              </div>
-              <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
-                <InputText label="validation MaxOver 10 ?" validation={utils.isMaxOver} max={10} />
-              </div>
-              <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
-                <InputText label="validation isName ?" validation={utils.isName} />
-              </div>
-              <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
-                <InputText label="disabled" disabled />
-              </div>
-              <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
-                <InputText label="disabled" disabled />
-              </div>
-              <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
-                <InputText value="you can't fix this" readOnly label="readOnly" />
-              </div>
-              <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
-                <InputText
-                  label="Vaild Message PH"
-                  validation={utils.isPhone}
-                  data-error="Wrong"
-                  data-success="Checked"
-                />
-              </div>
-              <div className="flex-grid__col col--full-3 col--lg-4 col--md-6" />
-              <div className="flex-grid__col col--full-3 col--lg-4 col--md-6" />
+        {/* 라디오 */}
+        <div className="docs-section__box">
+          <h6>Radio</h6>
+          <Radio onChange={setValue} value="rd1" checked id="RD1--1" groupName="RD1" />
+          <Radio onChange={setValue} value="rd2" id="RD1--2" groupName="RD1" />
+          <Radio onChange={setValue} value="rd3" id="RD1--3" groupName="RD1" />
+          <Radio onChange={setValue} value="rd4" id="RD1--4" groupName="RD1" />
+          <Radio id="RD2--1" label="라벨" groupName="RD2" />
+          <Radio id="RD2--2" label="라벨2" groupName="RD2" />
+        </div>
+
+        {/* 인풋 텍스트 */}
+        <div className="docs-section__box">
+          <h6>InputText</h6>
+          <div className="flex-grid">
+            <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
+              <InputText
+                {...inputVali2}
+                refContainer={refContainer}
+                label="noraml"
+              />
             </div>
-          </div>
-
-          {/* 텍스트어리어 */}
-          <h6>Textarea</h6>
-          <div className="flex-grid-grow flex-grid--md docs-Section__box">
-            <div className="flex-grid__col">
-              <Textarea label="normal" />
+            <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
+              <InputText
+                {...inputVali}
+                label="validation MaxOver 10 ?"
+                validation={utils.isMaxOver}
+                max={10}
+              />
             </div>
-            <div className="flex-grid__col">
-              <Textarea label="disabled" disabled />
+            <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
+              <InputText label="validation isName ?" validation={utils.isName} />
             </div>
-            <div className="flex-grid__col">
-              <Textarea label="scrollbar" scroll />
+            <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
+              <InputText label="disabled" disabled />
             </div>
-          </div>
-
-          {/* 서치바 */}
-          <h6>SearchInput</h6>
-          <div className="flex-grid-grow flex-grid--md docs-section__box">
-            <div className="flex-grid__col">
-              <SearchInput show userList={dummyData} label="normal" />
+            <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
+              <InputText label="disabled" disabled />
             </div>
-          </div>
-
-          {/* 셀렉트박스 */}
-          <h6>SelectBox</h6>
-          <div className="flex-grid-grow docs-section__box">
-            <div className="flex-grid__col">
-              <SelectBox isOpen label="normal" />
+            <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
+              <InputText value="you can't fix this" readOnly label="readOnly" />
             </div>
-            <div className="flex-grid__col">
-              <SelectBox disabled label="disalbed" />
+            <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
+              <InputText
+                label="Vaild Message PH"
+                validation={utils.isPhone}
+                data-error="Wrong"
+                data-success="Checked"
+              />
             </div>
-            <div className="flex-grid__col">
-              <SelectBox isMulti label="multi" />
-            </div>
-          </div>
-
-          {/* 달력 */}
-          <h6>datePicker</h6>
-          <div className="flex-grid-grow flex-grid--wmd docs-section__box">
-            <div className="flex-grid__col">
-              <div className="showComponent__container">
-                <JDLabel txt="horizen" />
-                <DayPicker horizen />
-              </div>
-            </div>
-            <div className="flex-grid__col">
-              <JDLabel txt="normal" />
-              <DayPicker />
-            </div>
-          </div>
-
-          {/* 버튼 */}
-          <h6>buttons</h6>
-          <div className="docs-section__box">
-            <div className="flex-grid__col">
-              {/* todo: 버튼 노멀 없애기 */}
-              <Button label="noraml" icon="arrow_right" />
-              <Button label="disabled" disabled />
-              <Button label="large" mode="large" />
-              <Button label="small" mode="small" />
-              {/* 플랫은 화이트 배경뿐입니다.--지금은  */}
-              <Button label="flat" mode="flat" />
-              <CicleIcon label="flat" mode="flat">
-                <Icon label="arrow_left" icon="arrow_left" />
-              </CicleIcon>
-              {/* 아래내용은 서클형태의 버튼으로 아직까지 활용가치가 없습니다. */}
-              {/* <Button label="floating" classes={['JDbtn--floating']} /> */}
-              {/* <Button label="floating-large"
-          classes={['JDbtn--floating', 'JDbtn--floating-large']} /> */}
-            </div>
-          </div>
-
-          {/* 모달 */}
-          <div className="docs-section__box">
-            <h6>Modal</h6>
-            <Button label="Open Modal" onClick={this.handleOpenModal} />
-            <ReactModal
-              isOpen={showModal}
-              onRequestClose={this.handleCloseModal}
-              className="Modal"
-              overlayClassName="Overlay"
-            >
-              <p>Modal text!</p>
-              <div className="ReactModal__EndSection">
-                <Button label="Close Modal" onClick={this.handleCloseModal} />
-              </div>
-            </ReactModal>
-          </div>
-
-          {/* 툴팁 */}
-          <div className="docs-section__box">
-            <h6>tooltip</h6>
-
-            <Button dataTip dataFor="tooltip__A" label="Some Btn" classes={['JDbtn--small']} />
-
-            <Button dataTip dataFor="tooltip__B" label="Some Btn" classes={['JDbtn--small']} />
-
-            <Button dataTip dataFor="tooltip__C" label="Some Btn" classes={['JDbtn--small']} />
-
-            <Button dataTip dataFor="tooltip__D" label="Some Btn" classes={['JDbtn--small']} />
-
-            <Button dataTip dataFor="tooltip__E" label="Some Btn" classes={['JDbtn--small']} />
-
-            <ReactTooltip class="JDtooltip" id="tooltip__B" type="info" effect="solid">
-              <span>some txt</span>
-            </ReactTooltip>
-
-            <ReactTooltip class="JDtooltip" id="tooltip__C" type="success" effect="solid">
-              <span>some txt</span>
-            </ReactTooltip>
-
-            <ReactTooltip class="JDtooltip" id="tooltip__E" type="error" effect="solid">
-              <span>some txt</span>
-            </ReactTooltip>
-
-            <ReactTooltip class="JDtooltip" id="tooltip__D" type="dark" effect="solid">
-              <span>some txt</span>
-            </ReactTooltip>
-
-            <ReactTooltip class="JDtooltip" id="tooltip__A" type="warning" effect="solid">
-              <span>some txt</span>
-            </ReactTooltip>
-          </div>
-
-          {/* 아이콘들 */}
-          <h6>Icons</h6>
-          <div className="flex-grid-grow docs-section__box">
-            <div className="showCompoent__icon_box">
-              <Icon label="arrow_right" icon="arrow_right" />
-            </div>
-            <div className="showCompoent__icon_box">
-              <Icon label="arrow_left" icon="arrow_left" />
-            </div>
-            <div className="showCompoent__icon_box">
-              <Icon label="magnifier" icon="magnifier" />
-            </div>
-          </div>
-
-          {/* 타이포그래피  */}
-          {/* 타이포그래피에 대한 정의는 추후에 정리가 필요함 */}
-          <h6>TyphoGraphy</h6>
-          <div className="docs-section__box">
-            <h1>H1: Lorem Text</h1>
-            <h2>H2: Lorem Text</h2>
-            <h3>H3: Lorem Text</h3>
-            <h4>H4: Lorem Text</h4>
-            <h5>H5: Lorem Text</h5>
-            <h6>H6: Lorem Text</h6>
-            <p>Normal: Lorem Text</p>
-          </div>
-          {/* scss변수 연결이 애매해서 이런식으로 놓음 */}
-          <h6>elseThings</h6>
-          <div className="docs-section__box">
-            <JDLabel txt="small: Lorem Text" />
-            <p className="showComponent__tiny"> tiny </p>
+            <div className="flex-grid__col col--full-3 col--lg-4 col--md-6" />
+            <div className="flex-grid__col col--full-3 col--lg-4 col--md-6" />
           </div>
         </div>
+
+        {/* 텍스트 어리어 */}
+        <div className="docs-section__box">
+          <h6>TextArea</h6>
+          <div className="flex-grid">
+            <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
+              <InputText
+                label="noraml"
+                textarea
+              />
+            </div>
+            <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
+              <InputText
+                label="scroll"
+                scroll
+                textarea
+              />
+            </div>
+            <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
+              <InputText
+                disabled
+                label="disabled"
+                textarea
+              />
+            </div>
+          </div>
+        </div>
+
+
+        {/* 서치바 */}
+        <h6>SearchInput</h6>
+        <div className="flex-grid-grow flex-grid--md docs-section__box">
+          <div className="flex-grid__col">
+            <SearchInput show userList={searchDummyData} label="normal" />
+          </div>
+        </div>
+
+        {/* 셀렉트박스 */}
+        <h6>SelectBox</h6>
+        <div className="flex-grid-grow docs-section__box">
+          <div className="flex-grid__col">
+            <SelectBox {...useSelect1} options={selectDummyOptions} isOpen label="normal" />
+          </div>
+          <div className="flex-grid__col">
+            <SelectBox {...useSelect2} options={selectDummyOptions} disabled label="disalbed" />
+          </div>
+          <div className="flex-grid__col">
+            <SelectBox {...useSelect3} options={selectDummyOptions} isMulti label="multi" />
+          </div>
+        </div>
+
+        {/* 달력 */}
+        <h6>datePicker</h6>
+        <div className="flex-grid-grow flex-grid--wmd docs-section__box">
+          <div className="flex-grid__col">
+            <div className="showComponent__container">
+              <JDLabel txt="horizen" />
+              <DayPicker horizen />
+            </div>
+          </div>
+          <div className="flex-grid__col">
+            <JDLabel txt="normal" />
+            <DayPicker />
+          </div>
+        </div>
+
+        {/* 버튼 */}
+        <h6>buttons</h6>
+        <div className="docs-section__box">
+          <div className="flex-grid__col">
+            {/* todo: 버튼 노멀 없애기 */}
+            <Button label="noraml" icon="arrow_right" />
+            <Button label="disabled" disabled />
+            <Button label="large" mode="large" />
+            <Button label="small" mode="small" />
+            {/* 플랫은 화이트 배경뿐입니다.--지금은  */}
+            <Button label="flat" mode="flat" />
+            {/* 아래내용은 서클형태의 버튼으로 아직까지 활용가치가 없습니다. */}
+            {/* <Button label="floating" classes={['JDbtn--floating']} /> */}
+            {/* <Button label="floating-large"
+          classes={['JDbtn--floating', 'JDbtn--floating-large']} /> */}
+          </div>
+          <div className="flex-grid__col">
+            <Button label="primary" thema="primary" mode="large" />
+            <Button label="secondary" thema="secondary" mode="large" />
+            <CircleIcon darkWave>
+              <Icon icon="arrow_left" />
+            </CircleIcon>
+            <CircleIcon wave thema="greybg">
+              <Icon icon="arrow_left" />
+            </CircleIcon>
+          </div>
+        </div>
+
+        {/* 모달 */}
+        <div className="docs-section__box">
+          <h6>Modal</h6>
+          <Button label="Open Modal" onClick={handleOpenModal} />
+          <ReactModal
+            isOpen={showModal}
+            onRequestClose={handleCloseModal}
+            className="Modal"
+            overlayClassName="Overlay"
+          >
+            <p>Modal text!</p>
+            <div className="ReactModal__EndSection">
+              <Button label="Close Modal" onClick={handleCloseModal} />
+            </div>
+          </ReactModal>
+        </div>
+
+        {/* 툴팁 */}
+        <div className="docs-section__box">
+          <h6>tooltip</h6>
+          {/* <Button dataTip dataFor="tooltip__A" label="Some Btn"
+         classes={['JDbtn--small']} /> */}
+          {/* <Button dataTip dataFor="tooltip__B" label="Some Btn"
+         classes={['JDbtn--small']} /> */}
+          <Button dataTip dataFor="tooltip__C" label="Some Btn" classes={['JDbtn--small']} />
+
+          <Button dataTip dataFor="tooltip__D" label="Some Btn" classes={['JDbtn--small']} />
+
+          <Button dataTip dataFor="tooltip__E" label="Some Btn" classes={['JDbtn--small']} />
+
+          <ReactTooltip class="JDtooltip" id="tooltip__B" type="info" effect="solid">
+            <span>some txt</span>
+          </ReactTooltip>
+
+          <ReactTooltip class="JDtooltip" id="tooltip__C" type="success" effect="solid">
+            <span>some txt</span>
+          </ReactTooltip>
+
+          <ReactTooltip class="JDtooltip" id="tooltip__E" type="error" effect="solid">
+            <span>some txt</span>
+          </ReactTooltip>
+
+          <ReactTooltip class="JDtooltip" id="tooltip__D" type="dark" effect="solid">
+            <span>some txt</span>
+          </ReactTooltip>
+
+          <ReactTooltip class="JDtooltip" id="tooltip__A" type="warning" effect="solid">
+            <span>some txt</span>
+          </ReactTooltip>
+        </div>
+
+        {/* 아이콘들 */}
+        <h6>Icons</h6>
+        <div className="flex-grid-grow docs-section__box">
+          <div className="showCompoent__icon_box">
+            <Icon label="arrow_right" icon="arrow_right" />
+          </div>
+          <div className="showCompoent__icon_box">
+            <Icon label="arrow_left" icon="arrow_left" />
+          </div>
+          <div className="showCompoent__icon_box">
+            <Icon label="magnifier" icon="magnifier" />
+          </div>
+        </div>
+
+        {/* 타이포그래피  */}
+        {/* 타이포그래피에 대한 정의는 추후에 정리가 필요함 */}
+        <h6>TyphoGraphy</h6>
+        <div className="docs-section__box">
+          <h1>H1: Lorem Text</h1>
+          <h2>H2: Lorem Text</h2>
+          <h3>H3: Lorem Text</h3>
+          <h4>H4: Lorem Text</h4>
+          <h5>H5: Lorem Text</h5>
+          <h6>H6: Lorem Text</h6>
+          <p>Normal: Lorem Text</p>
+        </div>
+        {/* scss변수 연결이 애매해서 이런식으로 놓음 */}
+        <h6>elseThings</h6>
+        <div className="docs-section__box">
+          <JDLabel txt="small: Lorem Text" />
+          <p className="showComponent__tiny"> tiny </p>
+        </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 export default ShowComponents;

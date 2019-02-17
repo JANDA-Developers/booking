@@ -23,7 +23,7 @@ $horizen-calendarCell-width : calc(14.28vw - 2.8px);
 
         .DayPicker-Month {
             display: inline-block;
-            border-right:1px dotted;
+            border-right:$horizen-month-bordeRight;
 
             .DayPicker-Caption {
                 height: auto;
@@ -32,9 +32,9 @@ $horizen-calendarCell-width : calc(14.28vw - 2.8px);
 
                 &__year {
                     text-align: left;
-                    font-weight: bold;
+                    font-weight: normal;
                     padding-left: 1rem;
-                    background-color:rgba(0,0,0,.1);
+                    background-color: $horizen-caption-bgcolor;
                     margin-right: 0;
                 }
 

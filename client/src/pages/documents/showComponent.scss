@@ -1,7 +1,9 @@
+@import "../../style_config/style_config";
+
 .showCompoent {
     .showCompoent__icon_box {
         padding: 4px;
-        background-color: #dfdfdf;
+        background-color: $grey-level1;
         text-align: center;
         margin: 1px;
         width: 50px;

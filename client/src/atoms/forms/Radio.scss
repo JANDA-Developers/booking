@@ -130,7 +130,7 @@
 
     &__input:disabled:checked+&__label:after {
         background-color: $input-disabled-color;
-        border-color: $input-disabled-solid-color;
+        border-color: $radio-disabled-color;
     }
 
 }

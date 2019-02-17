@@ -8,14 +8,21 @@
     width: 2rem;
     height: 2rem;
     font-size: 1rem;
-    display: flex;
     align-content: center;
     justify-content:center;
+    display: inline-block;
     cursor:pointer;
-
+    
+    .JDicon__svg {
+        line-height: 100%;
+        top:.1em;
+    }
 
     &--white {
         color:white;
+    }
+    &--greybg {
+        background-color: $grey-level1;
     }
 
     &:hover {

@@ -17,6 +17,8 @@ class Buttons extends Component {
     mode: PropTypes.string,
     float: PropTypes.string,
     color: PropTypes.string,
+    thema: PropTypes.string,
+    type: PropTypes.string,
   };
 
   constructor(props) {
@@ -30,7 +32,16 @@ class Buttons extends Component {
   render() {
     const { disabled } = this.state;
     const {
-      label, iconClasses, icon, dataTip, dataFor, mode, float, color,
+      label,
+      iconClasses,
+      icon,
+      dataTip,
+      dataFor,
+      mode,
+      float,
+      color,
+      thema,
+      type,
     } = this.props;
 
     const classes = classNames({
@@ -41,11 +52,13 @@ class Buttons extends Component {
       'JDbtn--left': float === 'left',
       'JDbtn--right': float === 'right',
       'JDbtn--white': color === 'white',
+      'JDbtn--primary': thema === 'primary',
+      'JDbtn--secondary': thema === 'secondary',
     });
 
     return (
       <button
-        type="button"
+        type={type}
         disabled={disabled}
         className={`JDbtn JDwaves-effect ${classes}`}
         onClick={this.onClick}
@@ -74,6 +87,8 @@ Buttons.defaultProps = {
   mode: '',
   float: '',
   color: '',
+  thema: 'normal',
+  type: 'button',
 };
 
 export default ErrProtecter(Buttons);

@@ -4,7 +4,7 @@ import isEmpty from './IsEmpty';
 import { NEUTRAL } from './Enums';
 import { JDMonthTextChanger, JDWeekChanger } from './TextChanger';
 import {
-  isEmail, isPhone, isName, isUrl, isMaxOver,
+  isEmail, isPhone, isName, isUrl, isMaxOver, isPassword,
 } from './InputValidation';
 
 const JDutils = {
@@ -16,6 +16,7 @@ const JDutils = {
   isUrl,
   isName,
   isMaxOver,
+  isPassword,
   JDMonthTextChanger,
 };
 

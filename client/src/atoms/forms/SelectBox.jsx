@@ -3,62 +3,49 @@ import Select from 'react-select';
 import './SelectBox.scss';
 import PropTypes from 'prop-types';
 
-const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' },
-];
-
-class JDselect extends React.Component {
-  static propTypes = {
-    disabled: PropTypes.bool,
-    isOpen: PropTypes.bool,
-    label: PropTypes.string,
-    isMulti: PropTypes.bool,
+function JDselect({
+  label, disabled, isOpen, isMulti, onChange, options, selectedOption,
+}) {
+  const handleChange = (selectOption) => {
+    onChange(selectOption);
   };
 
-  state = {
-    selectedOption: null,
-  };
-
-  handleChange = (selectedOption) => {
-    this.setState({ selectedOption });
-  };
-
-  render() {
-    const { selectedOption } = this.state;
-    const {
-      // eslint-disable-next-line no-unused-vars
-      label,
-      disabled,
-      isOpen,
-      isMulti,
-    } = this.props;
-
-    return (
-      <div className="JDselect">
-        <span className="JDselect__label JDselect__label--top">{label}</span>
-        <Select
-          value={selectedOption}
-          onChange={this.handleChange}
-          options={options}
-          className="react-select-container"
-          classNamePrefix="react-select"
-          // 개발후 삭제 아래줄
-          // menuIsOpen={isOpen}
-          isDisabled={disabled}
-          isMulti={isMulti}
-        />
-      </div>
-    );
-  }
+  return (
+    <div className={disabled ? 'JDselect JDselect--disabled' : 'JDselect'}>
+      <span className="JDselect__label JDselect__label--top">{label}</span>
+      <Select
+        value={selectedOption}
+        onChange={handleChange}
+        options={options}
+        className="react-select-container"
+        classNamePrefix="react-select"
+        // 개발후 삭제 아래줄
+        // menuIsOpen={isOpen}
+        isDisabled={disabled}
+        isMulti={isMulti}
+      />
+    </div>
+  );
 }
 
+JDselect.propTypes = {
+  selectedOption: PropTypes.object,
+  disabled: PropTypes.bool,
+  isOpen: PropTypes.bool,
+  label: PropTypes.string,
+  isMulti: PropTypes.bool,
+  onChange: PropTypes.func,
+  // todo: objectShape
+  options: PropTypes.object,
+};
 JDselect.defaultProps = {
   disabled: false,
   isOpen: false,
   label: '',
   isMulti: false,
+  onChange: () => {},
+  options: {},
+  selectedOption: {},
 };
 
 export default JDselect;

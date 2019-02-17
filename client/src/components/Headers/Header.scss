@@ -13,6 +13,10 @@
         width: 70px;
     }
     
+    .circleIcon {
+        margin-bottom: 0;
+    }
+    
     &__logoPlace {
         padding: $button-padding;
         &:hover {
@@ -21,6 +25,7 @@
             cursor:pointer;
         }
     }
+
     &__logoPlace + * {
         margin-left: $buttons-space;
     }

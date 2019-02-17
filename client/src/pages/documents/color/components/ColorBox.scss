@@ -94,6 +94,38 @@
             }
         }
 
+        &--grey-level1 {
+            background-color: $grey-level1;
+
+            .colorPage-circle__txt {
+                color: #fff
+            }
+        }
+
+        &--grey-level2 {
+            background-color: $grey-level2;
+
+            .colorPage-circle__txt {
+                color: #fff
+            }
+        }
+
+        &--grey-level3 {
+            background-color: $grey-level3;
+
+            .colorPage-circle__txt {
+                color: #fff
+            }
+        }
+
+        &--html-color {
+            background-color: $html-color;
+
+            .colorPage-circle__txt {
+                color: #fff
+            }
+        }
+
         &--button-disabled {
             background-color: $button-disabled-background;
         }
@@ -119,6 +151,14 @@
 
             .colorPage-circle__txt {
                 color: #fff
+            }
+        }
+
+        &--background-color {
+            background-color: $background-color;
+
+            .colorPage-circle__txt {
+                color: $html-color
             }
         }
 

@@ -1,66 +1,120 @@
-import React, { Component } from 'react';
+/* eslint-disable no-underscore-dangle */
+import React, { useEffect } from 'react';
 import './InputText.scss';
+import './Textarea.scss';
 import debounce from 'lodash.debounce';
+import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import ErrProtecter from '../../utils/ErrProtecter';
-import { Forms, FormsDefault } from '../../utils/PropTypes';
+import { NEUTRAL } from '../../utils/Enums';
 
-class InputText extends Component {
-  static propTypes = Forms;
-
-  constructor(props) {
-    super(props);
-    // 디바운스 함수는 메모리에서 사라지는 EVENT 객체를 보호합니다.
-    this.debounceHandleChange = debounce(this.debounceHandleChange, 500);
-    this.state = {
-      isValid: '',
-    };
-  }
-
-  handleChange = (event) => {
-    this.debounceHandleChange(event.target);
-  };
-
+function InputText({
+  readOnly,
+  label,
+  disabled,
+  type,
+  validation,
+  onChange,
+  max,
+  isValid,
+  onChangeValid,
+  refContainer,
+  textarea,
+  scroll,
+  value,
+}) {
   // 인풋의 상태에따라서 상태값이 표시됨
-  debounceHandleChange = (target) => {
-    const { validation, max } = this.props;
+
+  useEffect(() => {
+    const domInput = refContainer.current;
+    if (value !== undefined) domInput.value = value;
+    console.log(refContainer);
+  }, []);
+
+  const inbounceHandleChange = (target) => {
     const result = validation(target.value, max);
-    console.log(result);
-    this.setState({
-      isValid: result,
-    });
+    onChange(target.value);
+    onChangeValid(result);
   };
 
-  render() {
-    const { isValid } = this.state;
-    const {
-      readOnly, value, label, disabled, type,
-    } = this.props;
+  const inDebounceHandleChange = debounce(inbounceHandleChange, 500);
 
-    const classes = classNames({
-      JDinput: true,
-      'JDinput--valid': isValid === true,
-      'JDinput--invalid': isValid === false,
-    });
+  const inHandleChange = (event) => {
+    const { target } = event;
+    inDebounceHandleChange(target);
+  };
 
-    return (
-      <div className="JDinput-wrap">
-        <input
-          onChange={this.handleChange}
-          className={classes}
-          disabled={disabled}
-          readOnly={readOnly}
-          value={value}
-          type={type}
-        />
-        <label htmlFor="JDinput" className="JDinput_label">
-          {label}
-        </label>
-      </div>
-    );
-  }
+  const classes = classNames({
+    JDinput: true && !textarea,
+    'JDinput--valid': isValid === true && !textarea,
+    'JDinput--invalid': isValid === false && !textarea,
+    JDtextarea: true && textarea,
+    'JDtextarea--scroll': scroll && textarea,
+    'JDtextarea--valid': isValid === true,
+    'JDtextarea--invalid': isValid === false,
+  });
+
+  return !textarea ? (
+    <div className="JDinput-wrap">
+      <input
+        onChange={inHandleChange}
+        className={classes}
+        disabled={disabled}
+        readOnly={readOnly}
+        type={type}
+        ref={refContainer}
+      />
+      <label htmlFor="JDinput" className="JDinput_label">
+        {label}
+      </label>
+    </div>
+  ) : (
+    <div className="JDinput-wrap">
+      <textarea
+        disabled={disabled}
+        value={value}
+        onChange={inHandleChange}
+        id="JDtextarea"
+        className={classes}
+        readOnly={readOnly}
+      />
+      <label htmlFor="JDtextarea" className="JDtextarea_label">
+        {label}
+      </label>
+    </div>
+  );
 }
 
-InputText.defaultProps = FormsDefault;
+InputText.propTypes = {
+  readOnly: PropTypes.bool,
+  label: PropTypes.string,
+  disabled: PropTypes.bool,
+  type: PropTypes.string,
+  validation: PropTypes.func,
+  onChange: PropTypes.func,
+  max: PropTypes.number,
+  isValid: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  onChangeValid: PropTypes.func,
+  refContainer: PropTypes.object,
+  textarea: PropTypes.bool,
+  scroll: PropTypes.bool,
+  value: PropTypes.any,
+};
+
+InputText.defaultProps = {
+  readOnly: false,
+  label: '',
+  disabled: false,
+  type: '',
+  validation: () => NEUTRAL,
+  onChange: () => {},
+  max: 10000,
+  isValid: '',
+  onChangeValid: () => {},
+  refContainer: React.createRef(),
+  textarea: false,
+  scroll: false,
+  value: undefined,
+};
 
 export default ErrProtecter(InputText);
