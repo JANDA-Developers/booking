@@ -1,5 +1,5 @@
-import { getMongoManager } from "typeorm";
-import House from "../../../models/House";
+// import { getMongoManager } from "typeorm";
+// import House from "../../../entities/House";
 import {
     CreateHouseMutationArgs,
     CreateHouseResponse
@@ -15,7 +15,7 @@ const resolvers: Resolvers = {
                 args: CreateHouseMutationArgs,
                 { req }
             ): Promise<CreateHouseResponse> => {
-                const mmg = getMongoManager();
+                // const mmg = getMongoManager();
                 const { user } = req;
 
                 if (!user) {
@@ -26,20 +26,16 @@ const resolvers: Resolvers = {
                     };
                 }
                 try {
-                    const newHouse = await mmg.save(
-                        mmg.create(House, {
-                            ...args,
-                            user
-                        })
-                    );
+                    // const newHouse = await mmg.save(
+                    //     mmg.create(House, {
+                    //         ...args,
+                    //         user
+                    //     })
+                    // );
                     return {
                         ok: true,
                         error: null,
-                        house: {
-                            ...newHouse, 
-                            id: newHouse.id.toString(),
-                            user
-                        }
+                        house: null
                     };
                 } catch (error) {
                     return {

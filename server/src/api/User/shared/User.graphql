@@ -1,16 +1,16 @@
 type User {
-    id: ID!
-    name: String!
+    _id: ID!
+    firstName: String!
+    lastName: String!
     phoneNumber: String!
-    verifiedPhone: Boolean!
+    password: String
     email: String!
+    verifiedPhone: Boolean!
     verifiedEmail: Boolean!
     userRole: UserRole!
-    bookings: String
-    houses: String
     checkPrivacyPolicy: Boolean!
-    createdAt: String!
-    updatedAt: String
+    createdAt: DateTime!
+    updatedAt: DateTime
 }
 
 enum UserRole {
@@ -18,8 +18,4 @@ enum UserRole {
     HOST
     BOOKER
     GHOST
-}
-
-type Query {
-    users: User!
 }

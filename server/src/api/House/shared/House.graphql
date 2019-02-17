@@ -1,14 +1,14 @@
 type House {
-    id: String!
+    _id: ID!
     name: String!
     houseType: HouseType!
     user: User!
     location: Location!
-    roomCount: Int!
-    bedCount: Int!
-    capacity: Int!
-    createdAt: String!
-    updatedAt: String
+    # roomCount: Int!
+    # bedCount: Int!
+    # capacity: Int!
+    createdAt: DateTime!
+    updatedAt: DateTime
 }
 
 enum HouseType {

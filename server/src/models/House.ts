@@ -1,29 +1,40 @@
-import { Column } from "typeorm";
-import { HouseType, Location } from "../types/graph";
-import JdBaseEntity from "./JdBaseEntity";
-import User from "./User";
+import { Schema } from "mongoose";
+import { prop, Typegoose } from "typegoose";
 
-class House extends JdBaseEntity {
-    @Column({ type: "text" })
+export enum HouseType {
+    GUEST_HOUSE = "GUEST_HOUSE",
+    HOSTEL = "HOSTEL",
+    HOTEL = "HOTEL",
+    MOTEL = "MOTEL",
+    PENSION = "PENSION",
+    YOUTH_HOSTEL = "YOUTH_HOSTEL"
+}
+class HouseSchema extends Typegoose {
+    @prop({ required: true })
     name: string;
 
-    @Column({ type: "enum", default: "GUEST_HOUSE" })
-    houseType: HouseType;
+    @prop({ required: true })
+    houseType: string;
 
-    @Column()
-    location: Location;
+    @prop({ required: true, ref: "users" })
+    user: Schema.Types.ObjectId;
 
-    @Column()
-    user: User;
+    @prop({ required: true })
+    location: string;
 
-    @Column({ type: "int", default: 0 })
-    roomCount: number;
+    // @prop({ required: true })
+    // roomCount: string;
 
-    @Column({ type: "int", default: 0 })
-    bedCount: number;
+    // @prop({ required: true })
+    // bedCount: string;
 
-    @Column({ type: "int", default: 0 })
-    capacity: number;
+    @prop({ required: true })
+    capacity: string;
 }
 
-export default House;
+export const House = new HouseSchema().getModelForClass(HouseSchema, {
+    schemaOptions: {
+        timestamps: true,
+        collection: "houses"
+    }
+});

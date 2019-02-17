@@ -18,6 +18,18 @@ enum BookingStatus {
   PAY_WHEN_CHK_IN
 }
 
+scalar Date
+
+scalar DateTime
+
+scalar EmailAddress
+
+scalar Name
+
+scalar PhoneNumber
+
+scalar URL
+
 # DB에 저장할 떄는 0101010의 형태로 저장하도록 Resolver에서 처리한다.
 enum Day {
   SUN
@@ -88,23 +100,23 @@ type CreateHouseResponse {
 type Mutation {
   CreateHouse(name: String!, houseType: HouseType!, location: LocationInput!): CreateHouseResponse!
   CreateRoomType(name: String!, house: String!, pricingType: PricingType!, people_count_std: Int!, people_count_max: Int!, sort: Int!, roomCount: Int!, isEnable: Boolean!, description: String!, tags: [TagInput!]): CreateRoomTypeResponse!
-  CompletePhoneVerification(phoneNumber: String!, key: String!): CompletePhoneVerificationResponse!
-  EmailSignUp(firstName: String!, lastName: String!, email: String!, password: String!, profilePhoto: String!, age: Int!, phoneNumber: String!): EmailSignUpResponse!
+  CompletePhoneVerification(key: String!): CompletePhoneVerificationResponse!
+  EmailSignUp(firstName: String!, lastName: String!, email: String!, password: String!, phoneNumber: String!): EmailSignUpResponse!
   GmailConnect(firstName: String!, lastName: String!, gmail: String!): GmailConnectionResponse!
-  StartPhoneVerification(phoneNumber: String!): StartPhoneVerificationResponse!
+  StartPhoneVerification: StartPhoneVerificationResponse!
 }
 
 type House {
-  id: String!
+  _id: ID!
   name: String!
   houseType: HouseType!
   user: User!
   location: Location!
-  roomCount: Int!
+  # roomCount: Int!
   bedCount: Int!
   capacity: Int!
-  createdAt: String!
-  updatedAt: String
+  createdAt: DateTime!
+  updatedAt: DateTime
 }
 
 enum HouseType {
@@ -201,13 +213,11 @@ type Query {
   getRoomTypes(types: String!): RoomType
   EmailSignIn(email: String!, password: String!): EmailSignInResponse!
   GetMyProfile: GetMyProfileResponse!
-  users: User!
 }
 
 type CompletePhoneVerificationResponse {
   ok: Boolean!
   error: String
-  token: String
 }
 
 type EmailSignInResponse {
@@ -235,18 +245,18 @@ type GmailConnectionResponse {
 }
 
 type User {
-  id: ID!
-  name: String!
+  _id: ID!
+  firstName: String!
+  lastName: String!
   phoneNumber: String!
-  verifiedPhone: Boolean!
+  password: String
   email: String!
+  verifiedPhone: Boolean!
   verifiedEmail: Boolean!
   userRole: UserRole!
-  bookings: String
-  houses: String
   checkPrivacyPolicy: Boolean!
-  createdAt: String!
-  updatedAt: String
+  createdAt: DateTime!
+  updatedAt: DateTime
 }
 
 enum UserRole {
@@ -262,16 +272,17 @@ type StartPhoneVerificationResponse {
 }
 
 type Verification {
-  id: ID!
-  target: String!
-  payload: VerificationPayload!
+  _id: ID!
+  target: VerificationTarget!
+  payload: String!
   verified: Boolean!
   key: String!
+  user: User!
   createdAt: String!
   updatedAt: String
 }
 
-enum VerificationPayload {
+enum VerificationTarget {
   PHONE
   EMAIL
 }

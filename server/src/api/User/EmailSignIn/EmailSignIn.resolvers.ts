@@ -1,5 +1,4 @@
-import { getMongoManager } from "typeorm";
-import User from "../../../models/User";
+import { User } from "../../../models/User";
 import {
     EmailSignInQueryArgs,
     EmailSignInResponse
@@ -13,11 +12,9 @@ const resolvers: Resolvers = {
             _,
             args: EmailSignInQueryArgs
         ): Promise<EmailSignInResponse> => {
-            const mmg = getMongoManager();
             const { email, password } = args;
             try {
-                // const user = await User.findOne({ email });
-                const user = await mmg.findOne(User, { email });
+                const user = await User.findOne({ email });
                 if (!user) {
                     return {
                         ok: false,

@@ -1,72 +1,62 @@
-import { getMongoManager } from "typeorm";
-import User from "../../../models/User";
-import Verification from "../../../models/Verification";
+import { Verification, VerificationTarget } from "../../../models/Verification";
 import {
     CompletePhoneVerificationMutationArgs,
     CompletePhoneVerificationResponse
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
-import createJWT from "../../../utils/createJWT";
+import privateResolver from "../../../utils/privateResolver";
 
 const resolvers: Resolvers = {
     Mutation: {
-        CompletePhoneVerification: async (
-            _,
-            args: CompletePhoneVerificationMutationArgs
-        ): Promise<CompletePhoneVerificationResponse> => {
-            const { phoneNumber, key } = args;
-            const mmg = getMongoManager();
-            try {
-                const verification = await Verification.findOne({
-                    target: "PHONE",
-                    payload: phoneNumber,
-                    key
-                });
-                if (verification) {
-                    verification.verified = true;
-                    verification.save();
-                } else {
-                    return {
-                        ok: false,
-                        error: "Invalid Verification Key",
-                        token: null
-                    };
-                }
-            } catch (error) {
-                return {
-                    ok: false,
-                    error: error.message,
-                    token: null
-                };
-            }
+        CompletePhoneVerification: privateResolver(
+            async (
+                _,
+                args: CompletePhoneVerificationMutationArgs,
+                { req }
+            ): Promise<CompletePhoneVerificationResponse> => {
+                const { key } = args;
+                const user = req.user;
+                try {
+                    const verification = await Verification.findOne({
+                        target: VerificationTarget.PHONE,
+                        payload: user.phoneNumber,
+                        key
+                    });
+                    if (verification && !verification.user) {
+                        verification.verified = true;
+                        verification.user = user._id;
+                        await verification.save();
+                    } else {
+                        return {
+                            ok: false,
+                            error: "Invalid Verification"
+                        };
+                    }
 
-            try {
-                // const user = await User.findOne({ phoneNumber });
-                const user = await mmg.findOne(User, {phoneNumber});
-                if (user) {
-                    user.verifiedPhone = true;
-                    await mmg.save(user);
-                    const token = createJWT(user.id);
-                    return {
-                        ok: true,
-                        error: null,
-                        token
-                    };
-                } else {
+                    if (user) {
+                        user.verifiedPhone = true;
+                        console.log({
+                            CompletePhoneVerification: user
+                        });
+                        await user.save();
+                        return {
+                            ok: true,
+                            error: null
+                        };
+                    } else {
+                        return {
+                            ok: false,
+                            error: "No User Match"
+                        };
+                    }
+                } catch (error) {
                     return {
                         ok: false,
-                        error: "User is not Exist!",
-                        token: null
+                        error: error.message
                     };
                 }
-            } catch (error) {
-                return {
-                    ok: false,
-                    error: error.message,
-                    token: null
-                };
             }
-        }
+        )
     }
 };
 export default resolvers;

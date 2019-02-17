@@ -1,5 +1,4 @@
-import { getMongoManager } from "typeorm";
-import User from "../../../models/User";
+import { User } from "../../../models/User";
 import {
     EmailSignUpMutationArgs,
     EmailSignUpResponse
@@ -14,28 +13,16 @@ const resolvers: Resolvers = {
             args: EmailSignUpMutationArgs
         ): Promise<EmailSignUpResponse> => {
             const { email, phoneNumber } = args;
-            const mmg = getMongoManager();
             try {
-                const isExistingEmail =
-                    (await mmg.findOne(User, { email })) !== undefined;
-                const isExistingPhoneNumber =
-                    (await mmg.findOne(User, {
-                        phoneNumber
-                    })) !== undefined;
-                    
-                const existingInfo: string[] = [];
-                if (isExistingEmail) {
-                    existingInfo.push("Email");
-                }
-                if (isExistingPhoneNumber) {
-                    existingInfo.push("PhoneNumner");
-                }
-                if (isExistingEmail || isExistingPhoneNumber) {
+                const existingUser = await User.findOne({
+                    email,
+                    phoneNumber
+                });
+                if (existingUser) {
+                    // 이미 가입된 id가 존재하면 로그인 페이지로 넘긴다.
                     return {
                         ok: false,
-                        error: `Duplicate Information: ${existingInfo.join(
-                            ", "
-                        )}`,
+                        error: "Already Sign Up User",
                         token: null
                     };
                 }
@@ -48,11 +35,13 @@ const resolvers: Resolvers = {
             }
 
             try {
-                const newUser = await mmg.create(User, {
+                // 유저가 존재하지 않을 때
+                const newUser = new User({
                     ...args
                 });
-                mmg.save(newUser);
-                const token = createJWT(newUser.id);
+                await newUser.hashPassword();
+                await newUser.save();
+                const token = createJWT(newUser._id);
                 return {
                     ok: true,
                     error: null,

@@ -1,3 +1,9 @@
+scalar Date
+scalar DateTime
+scalar EmailAddress
+scalar Name
+scalar PhoneNumber
+scalar URL
 
 # DB에 저장할 떄는 0101010의 형태로 저장하도록 Resolver에서 처리한다.
 enum Day{

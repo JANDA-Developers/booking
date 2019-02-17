@@ -1,21 +1,13 @@
 import jwt from "jsonwebtoken";
-import { getMongoRepository } from "typeorm";
-import User from "../models/User";
+import { MongooseDocument } from "mongoose";
+import { User as u } from "../models/User";
 
-const decodeJWT = async (token: string): Promise<User | undefined> => {
+const decodeJWT = async (token: string): Promise<MongooseDocument | undefined> => {
     try {
         const decoded: any = jwt.verify(token, process.env.JWT_SECRET || "");
         const { id } = decoded;
-        const rmg = getMongoRepository(User);
-        const user = await rmg.findOne(id);
-        // const user = await User.findOne({ where:{id} });
-        console.log({
-            token,
-            id,
-            // objectId: new ObjectId(id.toString()),
-            user
-        });
-        return user;
+        const user = await u.findById(id);
+        return user || undefined;
     } catch (error) {
         return undefined;
     }

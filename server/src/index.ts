@@ -2,9 +2,8 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import { Options } from "graphql-yoga";
-import { createConnection } from "typeorm";
+import { connect } from "mongoose";
 import app from "./app";
-import connectionOptions from "./ormConfig";
 
 const PORT: number | string = process.env.PORT || 4000;
 const PLAYGROUND_ENDPOINT: string =
@@ -25,8 +24,15 @@ const handleAppStart = () => {
     );
 };
 
-createConnection(connectionOptions)
-    .then(() => {
+connect(
+    `mongodb+srv://${process.env.DB_USER}:${
+        process.env.DB_PASSWORD
+    }@cluster0-gk4ly.mongodb.net/${process.env.DB_NAME}?retryWrites=true`,
+    {
+        useNewUrlParser: true
+    }
+)
+    .then(connection => {
         app.start(appOptions, handleAppStart);
     })
     .catch(err => {
