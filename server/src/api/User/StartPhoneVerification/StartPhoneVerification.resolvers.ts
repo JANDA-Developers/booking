@@ -1,46 +1,53 @@
-import Verification from "../../../models/Verification";
-import {
-    StartPhoneVerificationMutationArgs,
-    StartPhoneVerificationResponse
-} from "../../../types/graph";
+import { Verification, VerificationTarget } from "../../../models/Verification";
+import { StartPhoneVerificationResponse } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
+import privateResolver from "../../../utils/privateResolver";
 import { sendVerificationSMS } from "../../../utils/sendSMS";
 
 const resolvers: Resolvers = {
     Mutation: {
-        StartPhoneVerification: async (
-            _,
-            args: StartPhoneVerificationMutationArgs
-        ): Promise<StartPhoneVerificationResponse> => {
-            const { phoneNumber } = args;
-            try {
-                const existingVerification = await Verification.findOne({
-                    payload: phoneNumber
-                });
-                if (existingVerification) {
-                    existingVerification.remove();
+        StartPhoneVerification: privateResolver(
+            async (
+                _: any,
+                __: any,
+                { req }
+            ): Promise<StartPhoneVerificationResponse> => {
+                const { user } = req;
+                const { phoneNumber } = user;
+
+                try {
+                    const existingVerification = await Verification.findOne({
+                        target: VerificationTarget.PHONE,
+                        payload: phoneNumber
+                    });
+                    console.log({
+                        userId: user._id,
+                        vfId: !existingVerification || existingVerification.user
+                    });
+                    
+                    if (existingVerification && existingVerification.user.toString() === user._id.toString()) {
+                        await existingVerification.remove();
+                    }
+
+                    const verification = new Verification({
+                        target: VerificationTarget.PHONE,
+                        payload: phoneNumber
+                    });
+                    await verification.save();
+                    sendVerificationSMS(phoneNumber, verification.key);
+                    return {
+                        ok: true,
+                        error: null
+                    };
+                } catch (error) {
+                    return {
+                        ok: false,
+                        error: error.message
+                    };
                 }
-                const verification = Verification.create({
-                    target: "PHONE",
-                    payload: phoneNumber
-                });
-
-                console.log(verification);
-
-                await verification.save();
-                // send key to that phonenumber.
-                sendVerificationSMS(phoneNumber, verification.key);
-                return {
-                    ok: true,
-                    error: null
-                };
-            } catch (error) {
-                return {
-                    ok: false,
-                    error: error.message
-                };
             }
-        }
+        )
     }
 };
+
 export default resolvers;

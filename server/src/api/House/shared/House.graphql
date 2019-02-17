@@ -1,15 +1,14 @@
 type House {
     _id: ID!
     name: String!
-    houseType: String!
+    houseType: HouseType!
     user: User!
-    roomCount: Int!
-    bedCount: Int!
-    capacity: Int!
-    bookingCondition: BookingCondition!
-    refundPolicy: RefundPolicy!
-    createdAt: String!
-    updatedAt: String
+    location: Location!
+    # roomCount: Int!
+    # bedCount: Int!
+    # capacity: Int!
+    createdAt: DateTime!
+    updatedAt: DateTime
 }
 
 enum HouseType {
@@ -29,7 +28,7 @@ type BookingCondition {
 }
 
 type RefundPolicy {
-    _id: ID!
+    id: ID!
     name: String!
     dateRange: DateRange!
     rate: Float!

@@ -1,4 +1,7 @@
 Host-Side:
+    Development Env:
+        ✔ Migrate 'typeORM' to 'typegoose' @done(19-02-16 11:03)
+        ✔ Make Custom Scalars @done(19-02-16 12:15)
     User Flow Visualize:
         ☐ Make Document with FrontEnd Developer
     Sign In & Sign Up:
@@ -16,6 +19,7 @@ Host-Side:
         Make House: 
             ☐ Create House
                 # name, houseType, RefundRule?, BookingCondition
+            ☐ Modify House
             ☐ Delete House
         Create/Modify/Delete RoomType:
             ☐ Create RoomType

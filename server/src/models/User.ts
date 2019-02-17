@@ -1,8 +1,5 @@
 import bcrypt from "bcryptjs";
-import { IsEmail } from "class-validator";
-import { BeforeInsert, BeforeUpdate, Column, Entity, ObjectID } from "typeorm";
-// import { userRole } from "../types/types";
-import JdBaseEntity from "./JdBaseEntity";
+import { instanceMethod, InstanceType, prop, Typegoose } from "typegoose";
 
 export enum UserRole {
     ADMIN = "ADMIN",
@@ -10,75 +7,65 @@ export enum UserRole {
     BOOKER = "BOOKER",
     GHOST = "GHOST"
 }
-
 const BCRYPT_ROUNDS = 10;
 
-@Entity()
-class User extends JdBaseEntity {
-    @Column({ type: "text" })
+export class UserSchema extends Typegoose {
+    @prop({ required: [true, `firstName is missing`] })
     firstName: string;
 
-    @Column({ type: "text" })
+    @prop({ required: [true, `lastName is missing`] })
     lastName: string;
 
-    @Column({ type: "text", nullable: true })
-    password: string;
-
-    @Column({ type: "text", unique: true })
-    phoneNumber: string;
-
-    @Column({ type: "boolean", default: false })
-    verifiedPhone: boolean;
-
-    @IsEmail()
-    @Column({ type: "text" })
-    email: string;
-
-    @Column({ type: "boolean", default: false })
-    verifiedEmail: boolean;
-
-    @Column({ type: "text", enum: UserRole, default: UserRole.HOST })
-    userRole: UserRole;
-
-    @Column()
-    bookings: ObjectID[];
-
-    @Column()
-    houses: ObjectID[];
-
-    @Column({ type: "boolean", default: false })
-    checkPrivacyPolicy: boolean;
-
-    get fullName(): string {
+    @prop() // this will create a virtual property called 'fullName'
+    get fullName() {
         return `${this.firstName} ${this.lastName}`;
     }
-
-    @BeforeInsert()
-    @BeforeUpdate()
-    setDefaultData() {
-        // default data Setting!
+    set fullName(full: string) {
+        const [firstName, lastName] = full.split(" ");
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
-    @BeforeInsert()
-    @BeforeUpdate()
-    async savePassword(): Promise<void> {
+    @prop()
+    password: string | undefined;
+
+    @prop({ unique: true })
+    phoneNumber: string;
+
+    @prop({ default: false })
+    verifiedPhone: boolean;
+
+    @prop({ required: true, unique: true })
+    email: string;
+
+    @prop({ default: false })
+    verifiedEmail: boolean;
+
+    @prop({ enum: UserRole, default: UserRole.GHOST })
+    userRole?: UserRole;
+
+    @prop({ default: false })
+    checkPrivacyPolicy: boolean;
+
+    @instanceMethod
+    public async comparePassword(
+        this: InstanceType<UserSchema>,
+        password: string
+    ): Promise<boolean> {
+        return await bcrypt.compare(password, this.password || "");
+    }
+
+    @instanceMethod
+    public async hashPassword(this: InstanceType<UserSchema>): Promise<void> {
         if (this.password) {
-            const hashedPassword = await this.hashPassword(this.password);
-            this.password = hashedPassword;
+            this.password = await bcrypt.hash(this.password, BCRYPT_ROUNDS);
         }
-    }
-
-    public comparePassword(password: string): Promise<boolean> {
-        if (this.password === null) {
-            throw new Error("Null password");
-        }
-
-        return bcrypt.compare(password, this.password);
-    }
-
-    private hashPassword(password: string): Promise<string> {
-        return bcrypt.hash(password, BCRYPT_ROUNDS);
     }
 }
 
-export default User;
+export const User = new UserSchema().getModelForClass(UserSchema, {
+    schemaOptions: {
+        timestamps: true,
+        collection: "users"
+    }
+});

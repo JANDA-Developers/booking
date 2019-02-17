@@ -6,14 +6,21 @@ const resolvers: Resolvers = {
     Query: {
         GetMyProfile: privateResolver(
             async (_: any, __: any, { req }): Promise<GetMyProfileResponse> => {
-                console.log(req);
-
                 const { user } = req;
+                // console.log({
+                //     GetMyProfile_user: {
+                //         ...user
+                //     }
+                // });
+                
                 if (user) {
                     return {
                         ok: true,
                         error: null,
-                        user
+                        user: {
+                            ...user._doc,
+                            password: null
+                        }
                     };
                 } else {
                     return {

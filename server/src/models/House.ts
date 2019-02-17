@@ -1,5 +1,5 @@
-import { Column } from "typeorm";
-import JdBaseEntity from "./JdBaseEntity";
+import { Schema } from "mongoose";
+import { prop, Typegoose } from "typegoose";
 
 export enum HouseType {
     GUEST_HOUSE = "GUEST_HOUSE",
@@ -9,31 +9,32 @@ export enum HouseType {
     PENSION = "PENSION",
     YOUTH_HOSTEL = "YOUTH_HOSTEL"
 }
-
-class House extends JdBaseEntity {
-    @Column({ type: "text", unique: true })
+class HouseSchema extends Typegoose {
+    @prop({ required: true })
     name: string;
 
-    @Column({ type: "text", enum: HouseType, default: HouseType.GUEST_HOUSE })
-    houseType: HouseType;
+    @prop({ required: true })
+    houseType: string;
 
-    @Column({ type: "text" })
-    user: string;
+    @prop({ required: true, ref: "users" })
+    user: Schema.Types.ObjectId;
 
-    @Column({ type: "text" })
-    roomCount: string;
+    @prop({ required: true })
+    location: string;
 
-    @Column({ type: "text" })
-    bedCount: string;
+    // @prop({ required: true })
+    // roomCount: string;
 
-    @Column({ type: "text" })
+    // @prop({ required: true })
+    // bedCount: string;
+
+    @prop({ required: true })
     capacity: string;
-
-    @Column({ type: "text" })
-    bookingCondition: string;
-
-    @Column({ type: "text" })
-    refundPolicy: string;
 }
 
-export default House;
+export const House = new HouseSchema().getModelForClass(HouseSchema, {
+    schemaOptions: {
+        timestamps: true,
+        collection: "houses"
+    }
+});

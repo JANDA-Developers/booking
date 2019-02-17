@@ -38,6 +38,8 @@ class App {
         if (token) {
             const user = await decodeJWT(token);
             req.user = user;
+            // confirm!
+            
         } else {
             req.user = undefined;
         }

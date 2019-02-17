@@ -1,45 +1,47 @@
-import {
-    BaseEntity,
-    BeforeInsert,
-    Column,
-    Entity,
-    ObjectID,
-    ObjectIdColumn
-} from "typeorm";
-import { target } from "../types/types";
+import { pre, prop, Ref, Typegoose } from "typegoose";
+import { UserSchema } from "./User";
 
-const PHONE = "PHONE";
-const EMAIL = "EMAIL";
+export enum VerificationTarget {
+    PHONE = "PHONE",
+    EMAIL = "EMAIL"
+}
+@pre<VerificationSchema>("save", function(next) {
+    if (this.key !== undefined) {
+        next();
+        return;
+    }
+    if (this.target === VerificationTarget.PHONE) {
+        this.key = Math.floor(Math.random() * 100000).toString();
+    } else if (this.target === VerificationTarget.EMAIL) {
+        this.key = Math.random()
+            .toString(36)
+            .substr(2);
+    }
+    next();
+})
+class VerificationSchema extends Typegoose {
+    @prop({ enum: VerificationTarget, default: VerificationTarget.PHONE })
+    target: string;
 
-@Entity()
-class Verification extends BaseEntity {
-    @ObjectIdColumn()
-    id: ObjectID;
-
-    @Column({ type: "text", nullable: false })
+    @prop({ required: true, unique: true })
     payload: string;
 
-    @Column({ type: "text", enum: [PHONE, EMAIL], nullable: false })
-    target: target;
-
-    @Column()
-    key: string;
-
-    @Column({ type: "boolean", default: false })
+    @prop({ default: false })
     verified: boolean;
 
-    @BeforeInsert()
-    createKey(): void {
-        if (this.target === PHONE) {
-            // Short Key 생성
-            this.key = Math.floor(Math.random() * 1000000).toString();
-        } else if (this.target === EMAIL) {
-            // Long Key 생성
-            this.key = Math.random()
-                .toString(36)
-                .substr(2);
-        }
-    }
+    @prop()
+    key: string;
+
+    @prop({ ref: UserSchema, required: true, unique: true })
+    user: Ref<UserSchema>;
 }
 
-export default Verification;
+export const Verification = new VerificationSchema().getModelForClass(
+    VerificationSchema,
+    {
+        schemaOptions: {
+            timestamps: true,
+            collection: "verifications"
+        }
+    }
+);
