@@ -1,4 +1,4 @@
-import { User } from "../../../models/User";
+import { UserModel } from "../../../models/User";
 import {
     EmailSignInQueryArgs,
     EmailSignInResponse
@@ -14,7 +14,7 @@ const resolvers: Resolvers = {
         ): Promise<EmailSignInResponse> => {
             const { email, password } = args;
             try {
-                const user = await User.findOne({ email });
+                const user = await UserModel.findOne({ email });
                 if (!user) {
                     return {
                         ok: false,

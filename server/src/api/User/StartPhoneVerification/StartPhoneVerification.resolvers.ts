@@ -1,4 +1,4 @@
-import { Verification, VerificationTarget } from "../../../models/Verification";
+import { Target, VerificationModel } from "../../../models/Verification";
 import { StartPhoneVerificationResponse } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
 import privateResolver from "../../../utils/privateResolver";
@@ -16,8 +16,8 @@ const resolvers: Resolvers = {
                 const { phoneNumber } = user;
 
                 try {
-                    const existingVerification = await Verification.findOne({
-                        target: VerificationTarget.PHONE,
+                    const existingVerification = await VerificationModel.findOne({
+                        target: Target.PHONE,
                         payload: phoneNumber
                     });
                     console.log({
@@ -29,8 +29,8 @@ const resolvers: Resolvers = {
                         await existingVerification.remove();
                     }
 
-                    const verification = new Verification({
-                        target: VerificationTarget.PHONE,
+                    const verification = new VerificationModel({
+                        target: Target.PHONE,
                         payload: phoneNumber
                     });
                     await verification.save();

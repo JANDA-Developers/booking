@@ -1,7 +1,8 @@
-import { Schema } from "mongoose";
+import { Types } from "mongoose";
 import { prop, Typegoose } from "typegoose";
+import { HouseType, Location, TermsOfBooking } from "../types/graph";
 
-export enum HouseType {
+export enum Type {
     GUEST_HOUSE = "GUEST_HOUSE",
     HOSTEL = "HOSTEL",
     HOTEL = "HOTEL",
@@ -9,30 +10,30 @@ export enum HouseType {
     PENSION = "PENSION",
     YOUTH_HOSTEL = "YOUTH_HOSTEL"
 }
-class HouseSchema extends Typegoose {
+export class HouseSchema extends Typegoose {
     @prop({ required: true })
     name: string;
 
-    @prop({ required: true })
-    houseType: string;
-
-    @prop({ required: true, ref: "users" })
-    user: Schema.Types.ObjectId;
+    @prop({ required: true, enum: Type, default: Type.GUEST_HOUSE })
+    houseType: HouseType;
 
     @prop({ required: true })
-    location: string;
+    location: Location;
 
-    // @prop({ required: true })
-    // roomCount: string;
+    @prop()
+    termsOfBooking: TermsOfBooking | undefined;
 
-    // @prop({ required: true })
-    // bedCount: string;
+    @prop({ required: true, unique: true })
+    user: Types.ObjectId;
 
-    @prop({ required: true })
-    capacity: string;
+    @prop()
+    createdAt: Date;
+
+    @prop()
+    updatedAt: Date;
 }
 
-export const House = new HouseSchema().getModelForClass(HouseSchema, {
+export const HouseModel = new HouseSchema().getModelForClass(HouseSchema, {
     schemaOptions: {
         timestamps: true,
         collection: "houses"

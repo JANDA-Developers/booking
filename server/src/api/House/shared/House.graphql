@@ -2,11 +2,9 @@ type House {
     _id: ID!
     name: String!
     houseType: HouseType!
-    user: User!
+    user: User
     location: Location!
-    # roomCount: Int!
-    # bedCount: Int!
-    # capacity: Int!
+    termsOfBooking: TermsOfBooking!
     createdAt: DateTime!
     updatedAt: DateTime
 }
@@ -20,10 +18,15 @@ enum HouseType {
     YOUTH_HOSTEL
 }
 
-# 예약 가능한 조건. 
-type BookingCondition {
+# 예약 가능한 조건.
+type TermsOfBooking {
+    # 선택 가능한 '숙박 시작일자'
     limitSelectStartDate: Int!
+
+    # 최소 간격 예약 가능 일자
     minSelectStartDate: Int!
+
+    # 숙박 가능 날짜 범위
     availableDateRange: Int!
 }
 
@@ -33,4 +36,12 @@ type RefundPolicy {
     dateRange: DateRange!
     rate: Float!
     description: String!
+}
+
+input HouseInput {
+    name: String!
+    houseType: HouseType!
+    userId: ID!
+    location: Location!
+    termsOfBooking: TermsOfBooking
 }
