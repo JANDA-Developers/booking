@@ -6,12 +6,10 @@ function useInput(defaultValue) {
   const [isValid, setIsValid] = useState('');
 
   const onChange = (value) => {
-    console.log(value);
     setValue(value);
   };
 
   const onChangeValid = (value) => {
-    console.log(value);
     setIsValid(value);
   };
 
@@ -41,7 +39,6 @@ function useRadio(defaultValue) {
 
   const onChange = (value) => {
     setValue(value);
-    console.log(value);
   };
 
   return [value, onChange];

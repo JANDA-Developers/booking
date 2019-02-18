@@ -9,7 +9,6 @@ function Switch({
 }) {
   const handleCheckboxChange = () => {
     const flag = disabled ? checked : !checked;
-    console.log(flag);
     onChange(flag);
   };
 
