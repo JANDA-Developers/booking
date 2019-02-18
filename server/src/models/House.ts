@@ -23,7 +23,7 @@ export class HouseSchema extends Typegoose {
     @prop()
     termsOfBooking: TermsOfBooking | undefined;
 
-    @prop({ required: true, unique: true })
+    @prop({ required: true })
     user: Types.ObjectId;
 
     @prop()

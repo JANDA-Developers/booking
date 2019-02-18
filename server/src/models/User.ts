@@ -55,7 +55,11 @@ export class UserSchema extends Typegoose {
         this: InstanceType<UserSchema>,
         password: string
     ): Promise<boolean> {
-        return await bcrypt.compare(password, this.password || "");
+        if (this.password) {
+            return await bcrypt.compare(password, this.password || "");
+        } else {
+            throw new Error("Password is not exist!");
+        }
     }
 
     @instanceMethod

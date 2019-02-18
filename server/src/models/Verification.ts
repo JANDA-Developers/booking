@@ -37,6 +37,12 @@ class VerificationSchema extends Typegoose {
     @prop()
     user: Types.ObjectId
 
+    @prop()
+    createdAt: Date;
+
+    @prop()
+    updatedAt: Date;
+
     @instanceMethod
     public async getUser(
         this: InstanceType<VerificationSchema>
