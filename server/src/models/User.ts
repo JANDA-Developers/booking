@@ -23,13 +23,13 @@ export class UserSchema extends Typegoose {
     @prop()
     password: string | null;
 
-    @prop({ unique: true })
+    @prop({ required: true })
     phoneNumber: string;
 
     @prop({ default: false })
     verifiedPhone: boolean;
 
-    @prop({ required: true, unique: true })
+    @prop({ required: true, index: true })
     email: string;
 
     @prop({ default: false })

@@ -23,10 +23,8 @@ const resolvers: Resolvers = {
                         ...args,
                         user: user._id
                     });
+                    
                     await house.save();
-                    console.log({
-                        user
-                    });
                     await user.update({
                         $push: {
                             houses: house._id

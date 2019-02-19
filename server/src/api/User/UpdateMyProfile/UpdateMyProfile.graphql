@@ -1,0 +1,21 @@
+type UpdateMyProfileResponse {
+    ok: Boolean!
+    error: String
+    user: User
+}
+type ChangePasswordResponse{
+    ok: Boolean!
+    error: String
+}
+type Mutation {
+    UpdateMyProfile(
+        name: String!
+        phoneNumber: String!
+        password: String!
+    ): UpdateMyProfileResponse!
+    ChangePassword(
+        currentPassword: String!
+        newPassword: String!
+        newPasswordRepeat: String!
+    ): ChangePasswordResponse!
+}

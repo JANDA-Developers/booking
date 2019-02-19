@@ -26,6 +26,8 @@ scalar EmailAddress
 
 scalar Name
 
+scalar Password
+
 scalar PhoneNumber
 
 scalar URL
@@ -33,6 +35,7 @@ scalar URL
 # DB에 저장할 떄는 0101010의 형태로 저장하도록 Resolver에서 처리한다.
 enum Day {
   SUN
+  # BackEndog!
   MON
   TUE
   WED
@@ -99,19 +102,29 @@ type CreateHouseResponse {
 
 type Mutation {
   CreateHouse(name: String!, houseType: HouseType!, location: LocationInput!): CreateHouseResponse!
+  DeleteHouse(_id: String!): DeleteHouseResponse!
+  UpdateHouse(houseId: ID!, name: String!, houseType: HouseType!, location: LocationInput!, refundPolicy: [TermsOfRefundInput!], termsOfBooking: TermsOfBookingInput): UpdateHouseResponse!
   CreateRoomType(name: String!, house: String!, pricingType: PricingType!, people_count_std: Int!, people_count_max: Int!, sort: Int!, roomCount: Int!, isEnable: Boolean!, description: String!, tags: [TagInput!]): CreateRoomTypeResponse!
   CompletePhoneVerification(key: String!): CompletePhoneVerificationResponse!
-  EmailSignUp(name: String!, email: String!, password: String!, phoneNumber: String!): EmailSignUpResponse!
+  EmailSignUp(name: String!, email: EmailAddress!, password: Password!, phoneNumber: PhoneNumber!): EmailSignUpResponse!
   GmailConnect(firstName: String!, lastName: String!, gmail: String!): GmailConnectionResponse!
   StartPhoneVerification: StartPhoneVerificationResponse!
+  UpdateMyProfile(name: String!, phoneNumber: String!, password: String!): UpdateMyProfileResponse!
+  ChangePassword(currentPassword: String!, newPassword: String!, newPasswordRepeat: String!): ChangePasswordResponse!
+}
+
+type DeleteHouseResponse {
+  ok: Boolean!
+  error: String
 }
 
 type House {
   _id: ID!
   name: String!
   houseType: HouseType!
-  user: User
+  user: User!
   location: Location!
+  refundPolicy: [TermsOfRefund!]!
   termsOfBooking: TermsOfBooking!
   createdAt: DateTime!
   updatedAt: DateTime
@@ -126,21 +139,42 @@ enum HouseType {
   YOUTH_HOSTEL
 }
 
-# 예약 가능한 조건. 
+# 예약 가능한 조건.
 type TermsOfBooking {
-  # 선택 가능한 '숙박 시작일자'
-  limitSelectStartDate: Int!
-  minSelectStartDate: Int!
-  # 숙박 가능 날짜 범위
-  availableDateRange: Int!
+  # 선택 가능한 가장 멀리있는 날짜(today 를 기준으로 ~일 뒤)
+  farthestSelectableDate: Int!
+  # 선택 가능한 가장 가까히 있는 날짜(today 를 기준으로 ~일 뒤)
+  nearestSelectableDate: Int!
+  # 선택 가능 날짜 범위
+  selectableDateRange: Int!
 }
 
-type RefundPolicy {
-  id: ID!
-  name: String!
-  dateRange: DateRange!
+type TermsOfRefund {
+  # 환불 가능 기간: 숙박일로부터 ~일 전
+  beforeDays: Int!
   rate: Float!
-  description: String!
+  description: String
+}
+
+input TermsOfRefundInput {
+  beforeDays: Int!
+  rate: Float!
+  description: String
+}
+
+input TermsOfBookingInput {
+  # 선택 가능한 가장 멀리있는 날짜(today 를 기준으로 ~일 뒤)
+  farthestSelectableDate: Int!
+  # 선택 가능한 가장 가까히 있는 날짜(today 를 기준으로 ~일 뒤)
+  nearestSelectableDate: Int!
+  # 선택 가능 날짜 범위
+  selectableDateRange: Int!
+}
+
+type UpdateHouseResponse {
+  ok: Boolean!
+  error: String
+  house: House
 }
 
 type SeasonPrice {
@@ -176,7 +210,8 @@ type RoomPrice {
 
 type CreateRoomTypeResponse {
   ok: Boolean!
-  error: String!
+  error: String
+  roomType: RoomType
 }
 
 type RoomType {
@@ -184,8 +219,8 @@ type RoomType {
   name: String!
   house: House!
   pricingType: PricingType!
-  people_count_std: Int!
-  people_count_max: Int!
+  peopleCount: Int!
+  peopleCountMax: Int!
   sort: Int!
   roomCount: Int!
   isEnable: Boolean!
@@ -247,9 +282,9 @@ type GmailConnectionResponse {
 type User {
   _id: ID!
   name: String!
-  phoneNumber: String!
+  phoneNumber: PhoneNumber!
   password: String
-  email: String!
+  email: EmailAddress!
   verifiedPhone: Boolean!
   verifiedEmail: Boolean!
   userRole: UserRole!
@@ -267,6 +302,17 @@ enum UserRole {
 }
 
 type StartPhoneVerificationResponse {
+  ok: Boolean!
+  error: String
+}
+
+type UpdateMyProfileResponse {
+  ok: Boolean!
+  error: String
+  user: User
+}
+
+type ChangePasswordResponse {
   ok: Boolean!
   error: String
 }

@@ -36,10 +36,6 @@ export const extractHouses = async (
 ): Promise<Array<Promise<House>>> => {
     try {
         const houses = await HouseModel.find({ _id: { $in: houseIds } });
-        console.log({
-            extracteHouses: houses // Empty Array...
-        });
-        
         return houses.map(async (house) => {
             return await extractHouse(house);
         });

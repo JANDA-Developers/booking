@@ -2,6 +2,8 @@ Host-Side:
     Development Env:
         ✔ Migrate 'typeORM' to 'typegoose' @done(19-02-16 11:03)
         ✔ Make Custom Scalars @done(19-02-16 12:15)
+        ☐ Figure out How to apply 'order by' condition in MongoDB and Mongoose @high @today
+        ☐ Figure out How to use AWS S3 to Up/Download File
     User Flow Visualize:
         ☐ Make Document with FrontEnd Developer
     Sign In & Sign Up:
@@ -19,15 +21,15 @@ Host-Side:
         Make House: 
             ✔ Create House @done(19-02-18 18:53)
                 # name, houseType, RefundRule?, BookingCondition
-            ☐ Modify House @today
-            ☐ Delete House @today
+            ✔ Update House @done(19-02-19 18:29)
+            ✔ Delete House @done(19-02-19 18:29)
         Create/Modify/Delete RoomType:
-            ☐ Create RoomType
-            ☐ Create Room(linked with RoomType)
-            ☐ Modify RoomType
-            ☐ Modify Room
-            ☐ Delete RoomType
-            ☐ Delete Room
+            ☐ Create RoomType @today 
+            ☐ Update RoomType @today 
+            ☐ Delete RoomType @today 
+            ☐ Create Room(linked with RoomType) @today 
+            ☐ Update Room @today 
+            ☐ Delete Room @today 
         Search Bar:
             ☐ Search Booker Info
             ☐ Show the Today's Check-In Guest

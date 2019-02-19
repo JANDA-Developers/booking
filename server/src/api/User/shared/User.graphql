@@ -1,9 +1,9 @@
 type User {
     _id: ID!
     name: String!
-    phoneNumber: String!
+    phoneNumber: PhoneNumber!
     password: String
-    email: String!
+    email: EmailAddress!
     verifiedPhone: Boolean!
     verifiedEmail: Boolean!
     userRole: UserRole!

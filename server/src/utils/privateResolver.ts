@@ -4,9 +4,6 @@ const privateResolver = resolverFunction => async (
     context,
     info
 ) => {
-
-    // console.log(context);
-    
     if (!context.req.user) {
         throw new Error("Unauthorized");
     }

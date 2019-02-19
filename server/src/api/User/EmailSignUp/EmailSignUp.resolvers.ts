@@ -15,8 +15,7 @@ const resolvers: Resolvers = {
             const { email, phoneNumber } = args;
             try {
                 const existingUser = await UserModel.findOne({
-                    email,
-                    phoneNumber
+                    $or: [{ email }, { phoneNumber }]
                 });
                 if (existingUser) {
                     // 이미 가입된 id가 존재하면 로그인 페이지로 넘긴다.

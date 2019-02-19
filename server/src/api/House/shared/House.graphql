@@ -2,8 +2,9 @@ type House {
     _id: ID!
     name: String!
     houseType: HouseType!
-    user: User
+    user: User!
     location: Location!
+    refundPolicy: [TermsOfRefund!]!
     termsOfBooking: TermsOfBooking!
     createdAt: DateTime!
     updatedAt: DateTime
@@ -20,28 +21,32 @@ enum HouseType {
 
 # 예약 가능한 조건.
 type TermsOfBooking {
-    # 선택 가능한 '숙박 시작일자'
-    limitSelectStartDate: Int!
-
-    # 최소 간격 예약 가능 일자
-    minSelectStartDate: Int!
-
-    # 숙박 가능 날짜 범위
-    availableDateRange: Int!
+    # 선택 가능한 가장 멀리있는 날짜(today 를 기준으로 ~일 뒤)
+    farthestSelectableDate: Int!
+    # 선택 가능한 가장 가까히 있는 날짜(today 를 기준으로 ~일 뒤)
+    nearestSelectableDate: Int!
+    # 선택 가능 날짜 범위
+    selectableDateRange: Int!
 }
 
-type RefundPolicy {
-    id: ID!
-    name: String!
-    dateRange: DateRange!
+type TermsOfRefund {
+    # 환불 가능 기간: 숙박일로부터 ~일 전
+    beforeDays: Int!
     rate: Float!
-    description: String!
+    description: String
 }
 
-input HouseInput {
-    name: String!
-    houseType: HouseType!
-    userId: ID!
-    location: Location!
-    termsOfBooking: TermsOfBooking
+input TermsOfRefundInput {
+    beforeDays: Int!
+    rate: Float!
+    description: String
+}
+
+input TermsOfBookingInput {
+    # 선택 가능한 가장 멀리있는 날짜(today 를 기준으로 ~일 뒤)
+    farthestSelectableDate: Int!
+    # 선택 가능한 가장 가까히 있는 날짜(today 를 기준으로 ~일 뒤)
+    nearestSelectableDate: Int!
+    # 선택 가능 날짜 범위
+    selectableDateRange: Int!
 }

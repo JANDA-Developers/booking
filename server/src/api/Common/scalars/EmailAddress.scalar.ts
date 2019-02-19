@@ -1,9 +1,13 @@
-import { GraphQLScalarType } from 'graphql';
-import { Kind } from 'graphql/language';
+import { GraphQLScalarType } from "graphql";
+import { Kind } from "graphql/language";
 
 function serialize(val: string) {
     const regExp = /^[-$^_=+0-9A-Za-z~]+@[-$%/0-9=?A-Z^_a-z~]+.[0-9A-Za-z~]+\w$/;
-    return regExp.test(val) ? val : null;
+    const validation = regExp.test(val);
+    if (!validation) {
+        throw new Error("Invalid EmailAddress");
+    }
+    return val;
 }
 
 function parseValue(value: string) {
@@ -15,10 +19,11 @@ function parseLiteral(ast) {
 }
 
 export default new GraphQLScalarType({
-    name: 'EmailAddress',
-    description: 
-    `EmailAddress... 
+    name: "EmailAddress",
+    description: `EmailAddress... 
     /^[-$^_=+0-9A-Za-z~]+@[-$%/0-9=?A-Z^_a-z~]+.[0-9A-Za-z~]+\w$/
     `,
-    serialize, parseValue, parseLiteral
+    serialize,
+    parseValue,
+    parseLiteral
 });

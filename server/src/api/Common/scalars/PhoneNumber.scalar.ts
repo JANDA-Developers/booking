@@ -8,7 +8,10 @@ function serialize(val: string) {
         data: result,
         validation
     });
-    return validation ? result : null;
+    if (!validation) {
+        throw new Error("Invalid PhoneNumber");
+    }
+    return result;
 }
 
 function parseValue(value: string) {

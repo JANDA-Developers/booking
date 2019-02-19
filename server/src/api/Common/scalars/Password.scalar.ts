@@ -2,12 +2,13 @@ import { GraphQLScalarType } from "graphql";
 import { Kind } from "graphql/language";
 
 function serialize(val: string) {
-    const regExp = /^http(s)?:\/\/(www\.)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
+    // 특수문자 1개 이상 포함 & 7~15숫자, 영문 조합
+    const regExp = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/gi;
     const validation = regExp.test(val);
     if (!validation) {
-        throw new Error("Invalid URL");
+        throw new Error("Invalid Name");
     }
-    return regExp.test(val) ? val : null;
+    return val;
 }
 
 function parseValue(value: string) {
@@ -19,9 +20,8 @@ function parseLiteral(ast) {
 }
 
 export default new GraphQLScalarType({
-    name: "URL",
-    description:
-        "URL.../^http(s)?://(www.)?[a-z0-9]+([-.]{1}[a-z0-9]+)*.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?$/",
+    name: "Name",
+    description: "이름. 특수문자 사용 불가 ('.', ''', 공백 만 사용 가능)",
     serialize,
     parseValue,
     parseLiteral
