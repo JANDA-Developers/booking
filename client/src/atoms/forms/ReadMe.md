@@ -1,7 +1,7 @@
 ## 폼즈는 기본적으로 정보를 저장할수 있는 공간을 의미합니다.
 
 ### Checkbox
-
+**Discussion option 1**
 | Props    | Tpye   | Description    | Options | Require | Default |
 | -------- | ------ | -------------- | ------- | ------- | ------- |
 | disabled | bool   |                |         | X       | false   |
