@@ -10,6 +10,7 @@ class DocumentRouter extends Component {
   state = {};
 
   render() {
+    console.log(this.props);
     const Margin = props => (
       <DynamicImport load={() => import('./documents/Margin')}>
         {DNcompoent => (DNcompoent === null ? <p>Loading</p> : <DNcompoent {...props} />)}
@@ -24,6 +25,12 @@ class DocumentRouter extends Component {
 
     const Grid = props => (
       <DynamicImport load={() => import('./documents/Grid')}>
+        {DNcompoent => (DNcompoent === null ? <p>Loading</p> : <DNcompoent {...props} />)}
+      </DynamicImport>
+    );
+
+    const Brand = props => (
+      <DynamicImport load={() => import('./documents/Brand')}>
         {DNcompoent => (DNcompoent === null ? <p>Loading</p> : <DNcompoent {...props} />)}
       </DynamicImport>
     );
@@ -52,6 +59,7 @@ class DocumentRouter extends Component {
           <Route exact path="/documents/grid" component={Grid} />
           <Route exact path="/documents/color" component={ColorPage} />
           <Route exact path="/documents/margin" component={Margin} />
+          <Route exact path="/documents/brand" component={Brand} />
           <Route path="/documents/" component={NoMatch} />
         </Switch>
       </Fragment>

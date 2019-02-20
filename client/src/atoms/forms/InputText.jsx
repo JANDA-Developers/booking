@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import './InputText.scss';
 import './Textarea.scss';
 import debounce from 'lodash.debounce';
@@ -22,13 +22,9 @@ function InputText({
   textarea,
   scroll,
   value,
+  doubleHeight,
 }) {
   // 인풋의 상태에따라서 상태값이 표시됨
-
-  useEffect(() => {
-    const domInput = refContainer.current;
-    if (value !== undefined) domInput.value = value;
-  }, []);
 
   const inbounceHandleChange = (target) => {
     const result = validation(target.value, max);
@@ -49,9 +45,23 @@ function InputText({
     'JDinput--invalid': isValid === false && !textarea,
     JDtextarea: true && textarea,
     'JDtextarea--scroll': scroll && textarea,
+    'JDtextarea--doubleHeight': doubleHeight && textarea,
     'JDtextarea--valid': isValid === true,
     'JDtextarea--invalid': isValid === false,
   });
+
+  const inRefContainer = useRef(null);
+
+  useEffect(() => {
+    let domInput;
+    if (refContainer) {
+      domInput = refContainer.current;
+    } else {
+      domInput = inRefContainer.current;
+    }
+    console.log(domInput);
+    if (value !== undefined) domInput.value = value;
+  }, []);
 
   return !textarea ? (
     <div className="JDinput-wrap">
@@ -61,7 +71,7 @@ function InputText({
         disabled={disabled}
         readOnly={readOnly}
         type={type}
-        ref={refContainer}
+        ref={refContainer || inRefContainer}
       />
       <label htmlFor="JDinput" className="JDinput_label">
         {label}
@@ -76,6 +86,7 @@ function InputText({
         id="JDtextarea"
         className={classes}
         readOnly={readOnly}
+        ref={refContainer || inRefContainer}
       />
       <label htmlFor="JDtextarea" className="JDtextarea_label">
         {label}
@@ -95,10 +106,11 @@ InputText.propTypes = {
   max: PropTypes.number,
   isValid: PropTypes.any,
   onChangeValid: PropTypes.func,
-  refContainer: PropTypes.object,
+  refContainer: PropTypes.any,
   textarea: PropTypes.bool,
   scroll: PropTypes.bool,
   value: PropTypes.any,
+  doubleHeight: PropTypes.bool,
 };
 
 InputText.defaultProps = {
@@ -111,10 +123,11 @@ InputText.defaultProps = {
   max: 10000,
   isValid: '',
   onChangeValid: () => {},
-  refContainer: React.createRef(),
+  refContainer: undefined,
   textarea: false,
   scroll: false,
   value: undefined,
+  doubleHeight: false,
 };
 
 export default ErrProtecter(InputText);

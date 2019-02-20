@@ -26,6 +26,7 @@
 | textarea      | bool   | 텍스트어리어로 사용할지          |                        | X       | false   |
 | scroll        | bool   | 텍스트어리어 일때 스크롤 노출    |                        | X       | false   |
 | max           | number | validation이 MaxOver 일떄 최대값 |                        | X       | 10000   |
+| doubleHeight  | bool   | 텍스트어리어 일때 높이 2배       |                        | X       | false   |
 
 ### Radio
 

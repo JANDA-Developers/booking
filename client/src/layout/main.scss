@@ -4,11 +4,14 @@
 @import 'vendors/normalize',
 'vendors/customAll';
 
-// 3. Layout-related sections
+// 2. Layout-related sections
 @import 'grid/grid',
 'grid/grid-flex';
 
-// 4. base section 
+// 3. base section 
 @import 'base/_typography',
 'base/_atomsSpace',
 'base/_sectionsSpace';
+
+// 4. effects
+@import 'effect/_pulse';

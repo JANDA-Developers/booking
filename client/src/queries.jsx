@@ -48,3 +48,47 @@ export const COMEPLETE_PHONE_VERIFICATION = gql`
     }
   }
 `;
+
+export const EMAIL_SIGN_UP = gql`
+  mutation emailSignUp(
+    $firstName: String!
+    $lastName: String!
+    $email: String!
+    $phoneNumber: String!
+    $password: String!
+  ) {
+    EmailSignUp(
+      firstName: $firstName
+      lastName: $lastName
+      email: $email
+      password: $password
+      phoneNumber: $phoneNumber
+    ) {
+      ok
+      error
+      token
+    }
+  }
+`;
+
+export const EMAIL_SIGN_IN = gql`
+  query emailSignIn($email: String!, $password: String!) {
+    EmailSignIn(email: $email, password: $password) {
+      ok
+      error
+      token
+    }
+  }
+`;
+
+export const LOG_USER_IN = gql`
+  mutation logUserIn($token: String!) {
+    LogUserIn(token: $token) @client
+  }
+`;
+
+export const LOG_USER_OUT = gql`
+  mutation logUserOut {
+    LogUserOut @client
+  }
+`;

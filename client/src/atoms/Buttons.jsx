@@ -1,80 +1,81 @@
-import React, { Component } from 'react';
+/* eslint-disable react/button-has-type */
+import React from 'react';
 import './Buttons.scss';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import ErrProtecter from '../utils/ErrProtecter';
 import Icon from './icons/Icons';
 
-class Buttons extends Component {
-  static propTypes = {
-    disabled: PropTypes.bool,
-    label: PropTypes.string,
-    icon: PropTypes.string,
-    onClick: PropTypes.func,
-    iconClasses: PropTypes.arrayOf(PropTypes.string),
-    dataTip: PropTypes.bool,
-    dataFor: PropTypes.string,
-    mode: PropTypes.string,
-    float: PropTypes.string,
-    color: PropTypes.string,
-    thema: PropTypes.string,
-    type: PropTypes.string,
+function Buttons({
+  disabled,
+  label,
+  icon,
+  onClick,
+  iconClasses,
+  dataTip,
+  dataFor,
+  mode,
+  float,
+  type,
+  color,
+  thema,
+  pulse,
+  blink,
+}) {
+  const classes = classNames({
+    JDbtn: true,
+    'JDbtn--flat': mode === 'flat',
+    'JDbtn--small': mode === 'small',
+    'JDbtn--large': mode === 'large',
+    'JDbtn--left': float === 'left',
+    'JDbtn--right': float === 'right',
+    'JDbtn--white': color === 'white',
+    'JDbtn--primary': thema === 'primary',
+    'JDbtn--secondary': thema === 'secondary',
+    'JDbtn--pulse-primary': pulse,
+    'JDtext-blink': blink,
+  });
+
+  const handleKeyPress = (e) => {
+    console.log(e);
   };
 
-  constructor(props) {
-    super(props);
-    this.onClick = props.onClick;
-    this.state = {
-      disabled: props.disabled,
-    };
-  }
-
-  render() {
-    const { disabled } = this.state;
-    const {
-      label,
-      iconClasses,
-      icon,
-      dataTip,
-      dataFor,
-      mode,
-      float,
-      color,
-      thema,
-      type,
-    } = this.props;
-
-    const classes = classNames({
-      JDbtn: true,
-      'JDbtn--flat': mode === 'flat',
-      'JDbtn--small': mode === 'small',
-      'JDbtn--large': mode === 'large',
-      'JDbtn--left': float === 'left',
-      'JDbtn--right': float === 'right',
-      'JDbtn--white': color === 'white',
-      'JDbtn--primary': thema === 'primary',
-      'JDbtn--secondary': thema === 'secondary',
-    });
-
-    return (
-      <button
-        type={type}
-        disabled={disabled}
-        className={`JDbtn JDwaves-effect ${classes}`}
-        onClick={this.onClick}
-        data-tip={dataTip}
-        data-for={dataFor}
-      >
-        {label}
-        {icon !== '' && (
-          <i className={`JDbtn__icon ${iconClasses.join(' ')}`}>
-            <Icon icon={icon} />
-          </i>
-        )}
-      </button>
-    );
-  }
+  return (
+    <button
+      type={type}
+      disabled={disabled}
+      className={`JDbtn JDwaves-effect  ${classes}`}
+      onClick={onClick}
+      onKeyPress={handleKeyPress}
+      data-tip={dataTip}
+      data-for={dataFor}
+    >
+      {label}
+      {icon !== '' && (
+        <i className={`JDbtn__icon ${iconClasses.join(' ')}`}>
+          <Icon icon={icon} />
+        </i>
+      )}
+    </button>
+  );
 }
+
+Buttons.propTypes = {
+  disabled: PropTypes.bool,
+  label: PropTypes.string,
+  icon: PropTypes.string,
+  onClick: PropTypes.func,
+  iconClasses: PropTypes.arrayOf(PropTypes.string),
+  dataTip: PropTypes.bool,
+  pulse: PropTypes.bool,
+  blink: PropTypes.bool,
+  dataFor: PropTypes.string,
+  mode: PropTypes.string,
+  float: PropTypes.string,
+  color: PropTypes.string,
+  thema: PropTypes.string,
+  type: PropTypes.string,
+};
 
 Buttons.defaultProps = {
   disabled: false,
@@ -85,6 +86,8 @@ Buttons.defaultProps = {
   dataTip: false,
   dataFor: '',
   mode: '',
+  pulse: false,
+  blink: false,
   float: '',
   color: '',
   thema: 'normal',

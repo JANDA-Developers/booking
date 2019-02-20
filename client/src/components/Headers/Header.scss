@@ -5,8 +5,8 @@
     background-color: $nav-color;
     display:flex;
     align-items: center;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: $nav-lr-padding;
+    padding-right: $nav-lr-padding;
     @extend %z-depth-1;
 
     &__logo {
@@ -40,6 +40,9 @@
         &:hover{
             background-color:rgba(0,0,0,.1);
         }
+        &--verify {
+            background-color: $primary-color-light;
+        }
     }
     
     &__link+&__link {
@@ -48,5 +51,20 @@
 
     .JDbtn{
         margin-bottom: 0;
+    }
+    // 헤더부분 에서 패딩조절
+    @include response($mobile) {
+        padding-left: 0rem;
+        padding-right: 0rem;
+
+        &__logoPlace {
+            padding-left: $container-padding;
+            padding-right: $container-padding;
+        }
+        .JDbtn  {
+            padding-left: $container-padding;
+            padding-right: $container-padding;
+        }
+
     }
 }

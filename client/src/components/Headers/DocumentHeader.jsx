@@ -14,6 +14,7 @@ const Header = () => (
       >
         {'Home'}
       </NavLink>
+
       <NavLink
         className="flex-grid__col doc-header__link"
         to="/documents/margin"
@@ -21,13 +22,15 @@ const Header = () => (
       >
         {'Margin'}
       </NavLink>
+
       <NavLink
         className="flex-grid__col doc-header__link"
-        to="/documents/post"
+        to="/documents/brand"
         activeClassName="active"
       >
-        {'POST'}
+        {'Brand'}
       </NavLink>
+
       <NavLink
         className="flex-grid__col doc-header__link"
         to="/documents/color"
@@ -35,6 +38,7 @@ const Header = () => (
       >
         {'Color'}
       </NavLink>
+
       <NavLink
         className="flex-grid__col doc-header__link"
         to="/documents/grid"
@@ -42,12 +46,13 @@ const Header = () => (
       >
         {'Grid'}
       </NavLink>
+
       <NavLink
         className="flex-grid__col doc-header__link"
         to="/documents/showComponents"
         activeClassName="active"
       >
-        {'컴포넌트들'}
+        {'컴포넌트'}
       </NavLink>
     </div>
   </div>

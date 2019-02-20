@@ -1,12 +1,5 @@
-
-/* -------------------------------- TO DO LIST -------------------------------- */
-/* ---------------- 1.현재 명명법이 BEM 스럽지 못합니다. 변수명을 BEM에 맞춰 바꾸세요 --------------- */
-/* ------------------------- 2. 쓰이지않는 변수들을 찾아서 제거하세요 ------------------------ */
-// -----------------------------------------------------------------------------
-// This file contains all application-wide Sass variables.
-// -----------------------------------------------------------------------------
-
-// Z-Index
+/* ------------------------------ // STUB UNITY ----------------------------- */
+// -- z-index 
 $z-index-0: -1;
 $z-index-1: 10;
 $z-index-2: 20;
@@ -16,21 +9,16 @@ $z-index-5: 50;
 $z-index-6: 60; // Modal Level 1
 $z-index-7: 70;
 $z-index-8: 80;
-$z-index-9: 90;
-$z-index-10: 100;
+$z-index-9: 90; // sideNav Curton
+$z-index-10: 100; // sideNav
 
-
-// 0. TyphoGraphy 타이포 그래피  
-// ==========================================================================
-$typho-large : 1.3rem;
+// -- TyphoGraphy 타이포 그래피
+$typho-large : 1.2rem;
 $typho-normal : 1rem;
 $typho-small : 0.8rem;
-$typho-tiny : 1rem;
+$typho-tiny : .5rem;
 
-
-// 1. Colors 컬러 칼라 
-// ==========================================================================
-
+// -- Colors 컬러 칼라 
 $html-color: #343434 !default;
 $primary-color: #4c5b73 !default;
 $primary-color-on: #fff !default;
@@ -53,10 +41,7 @@ $grey-level1: #ddd;
 $grey-level2: #a1a1a1;
 $grey-level3: #787878;
 
-// 2. breackPoints 브레이크 포인트
-// ==========================================================================
-
-// todo: 여기 믹스인 처리할겁니다.
+// -- BreackPoints 브레이크 포인트
 // 각각은 최대크기
 $mobile: "400px" !default; // sm
 $phablet: "550px" !default; //  md
@@ -66,13 +51,11 @@ $desktophd: "1200px" !default; //  wlg
 $full: "9999px" !default; 
 $null: "0px" !default; 
 
-
-// 3. Grid 그리드
-// ===========================================================================
-
+// -- Grid 그리드
 $container-width: 1000px !default;
 $container-width-larger-than-mobile: 85% !default;
 $container-width-larger-than-phablet: 80% !default;
+$container-padding: 0.5rem;
 $total-columns: 12 !default;
 $column-width: 100 / $total-columns !default; // calculates individual column width based off of # of columns
 $column-margin: 2% !default; // space between column grids
@@ -80,22 +63,28 @@ $column-margin: 2% !default; // space between column grids
 $flex-grid__column--fixed-width: 200px !default;
 $flex-grid--column-margin: 2% !default;
 
+// -- Section 섹션여백
+$docs-section-padding-top: 6rem !default;
+$docs-section-padding-bottom: 6rem !default;
+$docs-section-padding: $docs-section-padding-top 0 $docs-section-padding-bottom 0 !default;
+$docs-section__box-bottom: 2.5rem !default;
 
-// 4. Forms 폼
-// ==========================================================================
-
-// Unity 유니티 
+// -- forms
 $forms-disabled-color: $grey-level1 !default;
 $forms-space: 13px !default; // except textInput 구조가 다름
 $forms-margin-bottom: 16px !default; // except textInput 구조가 다름
+// ===========================================================================
 
+
+// 1. Forms 폼
+// ANCHOR Forms ==========================================================================
+
+// -- labeles 라벨
 //  Exception  : Check Box, Switch
-// labeles 라벨
 $label-font-size: $typho-small !default;
 $label-font-color: $html-color !default;
 
-
-// Text Inputs + Textarea 인풋
+// -- Text Inputs + Textarea 인풋
 $input-height: 3rem !default;
 $input-border: 1px solid $html-color !default;
 $input-background: #fff !default;
@@ -113,15 +102,16 @@ $input-disabled-border: 1px dotted $input-disabled-color !default;
 $input-invalid-border: 1px solid $input-error-color !default;
 $placeholder-text-color: $grey-level1 !default;
 
+// -- textarea 텍스트어리어
+$textarea-margin-top: 1.6rem !default; //라벨 덮힘 방지
 
-// Radio Buttons 라디오
+// -- Radio Buttons 라디오
 $radio-fill-color: $secondary-color !default;
 $radio-empty-color: $html-color !default;
 $radio-border: 2px solid $radio-fill-color !default;
 $radio-disabled-color: $forms-disabled-color;
 
-
-// Select 셀렉트
+// -- Select 셀렉트
 $select-border: 1px solid $html-color !default;
 $select-option-active-bgcolor: $grey-level1 !default;
 $select-option-selected-bgcolor: $secondary-color !default;
@@ -135,16 +125,14 @@ $select-focus-border-color: $secondary-color !default;
 $select-option-hover-bgcolor: $grey-level1 !default;
 $selcet-placeholder-color: $html-color;
 
-
-// Multi Select 멀티 셀렉트
+// -- Multi Select 멀티 셀렉트
 $select-multi-remove-hover-color: $html-color;
 $select-multi-remove-hover-bgcolor: $error-color;
 $select-multi-remove-bgcolor: $grey-level2;
 $select-multi-bgcolor: $grey-level1;
 $select-multi-color:  $html-color;
 
-
-// Switches 스위치
+// -- Switches 스위치
 $switch-checked-bgcolor: $secondary-color !default;
 $switch-checked-lever-bgcolor: $secondary-color-light !default;
 $switch-unchecked-bgcolor: $grey-level2 !default;
@@ -154,36 +142,23 @@ $switch-label-fontSize:1rem !default;
 $switch-label-color:$html-color !default;
 $switch-disabled-solid-color: $forms-disabled-color;
 
-// CheckBox 체크박스
+// -- CheckBox 체크박스
 $checkBox-label-fontSize:1rem !default;
 $checkBox-label-color:$html-color !default;
 $checkbox-border-radius: 2px !default;
 $checkbox-disabled-border-color: $forms-disabled-color !default;
 
+// 2 DOC__ 다큐먼트
+// ANCHOR DOC ==========================================================================
 
-//textarea 텍스트어리어
-$textarea-margin-top: 1.6rem !default; //라벨 덮힘 방지
-
-
-// 4 DOC__ 다큐먼트
-// ==========================================================================
-
-//nav 네비 
+// -- nav 다큐먼트 네비  
 $nav-color: $primary-color !default;
-$nav-font-size: 1.5rem !default;
 $nav-link-padding: 1rem 0rem !default;
 
-// 섹션
-$docs-section-padding-top: 6rem !default;
-$docs-section-padding-bottom: 6rem !default;
-$docs-section-padding: $docs-section-padding-top 0 $docs-section-padding-bottom 0 !default;
-$docs-section__box-bottom: 2.5rem !default;
+// 3 Calender 캘랜더 달력
+// ANCHOR DayPicker=========================================================================
 
-
-// 6 Calender 캘랜더 달력
-// =========================================================================
-
-// Shared styles
+// -- Shared styles
 $daypicker-block-height: 3rem !default;
 $daypicker-border-tick: .2rem !default;
 $daypicker-margin-bottom: 20px !default;
@@ -197,15 +172,14 @@ $daypicker-day-transition: 0.2s !default;
 $daypicker-border: 1px solid $grey-level2!default;
 $daypicker-border-radius: 2px;
 
-//horizen
+// -- horizen
 $horizen-caption-bgcolor : $grey-level1;
 $horizen-month-bordeRight :  none;
 
+// 4 Buttons
+// ANCHOR Buttons =========================================================================
 
-// 7 Buttons
-// =========================================================================
-
-// Shared styles
+// -- Shared styles
 $button-border: none !default;
 $button-background-focus: lighten($secondary-color, 4%) !default;
 $button-font-size: $typho-large !default;
@@ -218,24 +192,24 @@ $buttons-small-icon-margin: 0.45em !default;
 $button-letter-sapcing: .5px !default;
 $button-color: #fff !default;
 
-// Disabled styles
+// -- Disabled styles
 $button-disabled-background: $grey-level1 !default;
 $button-disabled-color: $grey-level3 !default;
 
-// Raised buttons
+// -- Raised buttons
 $button-raised-background: $grey-level3 !default;
 $button-raised-background-hover: lighten($button-raised-background, 5%) !default;
 
-// Large buttons
+// -- Large buttons
 $button-large-icon-font-size: $typho-large !default;
 $button-large-height: $button-height * 1.5 !default;
 $button-large-padding: 0 2rem !default;
 
-// Flat buttons
+// -- Flat buttons
 $button-flat-color: $html-color !default;
 $button-flat-disabled-color: $button-disabled-color !default;
 
-// Floating buttons
+// -- Floating buttons
 $button-floating-background: $secondary-color !default;
 $button-floating-background-hover: $button-floating-background !default;
 $button-floating-color: #fff !default;
@@ -243,24 +217,22 @@ $button-floating-size: 37px !default;
 $button-floating-large-size: $button-floating-size * 1.5 !default;
 $button-floating-radius: 50% !default;
 
-//small buttons
+// -- small buttons
 $button-small-height: 34px !default;
 $button-small-padding: 0 .8rem !default;
 $button-small-font-size: $typho-normal !default;
 $button-large-font-size: $typho-large !default;
 
-
-// 8 Modals
-// =========================================================================
+// 5 Modals
+// ANCHOR Modals =========================================================================
 
 $modal-background-color: rgba(0,0,0,.78) !default;
 $modal-content-padding: 10px !default;
 $modal-border-radius: 2px !default;
 $button-height: 36px !default;
 
-
-// 8 SearchInput
-// =========================================================================
+// 6 SearchInput
+// ANCHOR Search Input =========================================================================
 
 $searchInput-input-height: $input-height !default;
 $searchInput-input-border: $input-border !default;
@@ -269,3 +241,7 @@ $searchInput-border-color:$grey-level1 !default;
 $searchInput-border-radius: 2px;
 $searchInput-li-border-top: 1px dotted $searchInput-border-color !default;
 $searchInput-li-padding: 5px !default;
+
+// 7 SideNav 사이드 네비
+// ANCHOR Side NAV =========================================================================
+$nav-lr-padding: 1rem;

@@ -25,9 +25,7 @@ const handleAppStart = () => {
 };
 
 connect(
-    `mongodb+srv://${process.env.DB_USER}:${
-        process.env.DB_PASSWORD
-    }@cluster0-gk4ly.mongodb.net/${process.env.DB_NAME}?retryWrites=true`,
+    `mongodb://localhost:27017/${process.env.DB_NAME}`,
     {
         useNewUrlParser: true
     }
