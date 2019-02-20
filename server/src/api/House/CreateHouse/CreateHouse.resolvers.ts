@@ -1,5 +1,7 @@
-// import { getMongoManager } from "typeorm";
-// import House from "../../../entities/House";
+import { InstanceType } from "typegoose";
+import { HouseModel } from "../../../models/House";
+import { extractHouse } from "../../../models/Merge";
+import { UserSchema } from "../../../models/User";
 import {
     CreateHouseMutationArgs,
     CreateHouseResponse
@@ -15,27 +17,23 @@ const resolvers: Resolvers = {
                 args: CreateHouseMutationArgs,
                 { req }
             ): Promise<CreateHouseResponse> => {
-                // const mmg = getMongoManager();
-                const { user } = req;
-
-                if (!user) {
-                    return {
-                        ok: false,
-                        error: "Auth first",
-                        house: null
-                    };
-                }
                 try {
-                    // const newHouse = await mmg.save(
-                    //     mmg.create(House, {
-                    //         ...args,
-                    //         user
-                    //     })
-                    // );
+                    const user: InstanceType<UserSchema> = req.user;
+                    const house = new HouseModel({
+                        ...args,
+                        user: user._id
+                    });
+                    
+                    await house.save();
+                    await user.update({
+                        $push: {
+                            houses: house._id
+                        }
+                    });
                     return {
                         ok: true,
                         error: null,
-                        house: null
+                        house: await extractHouse(house)
                     };
                 } catch (error) {
                     return {

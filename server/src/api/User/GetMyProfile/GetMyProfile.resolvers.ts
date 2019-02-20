@@ -1,3 +1,4 @@
+import { extractUser } from "../../../models/Merge";
 import { GetMyProfileResponse } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
 import privateResolver from "../../../utils/privateResolver";
@@ -7,20 +8,15 @@ const resolvers: Resolvers = {
         GetMyProfile: privateResolver(
             async (_: any, __: any, { req }): Promise<GetMyProfileResponse> => {
                 const { user } = req;
-                // console.log({
-                //     GetMyProfile_user: {
-                //         ...user
-                //     }
-                // });
-                
                 if (user) {
+                    const extractedUser = await extractUser(user);
+                    console.log({
+                        GetMyProfile: extractedUser
+                    });
                     return {
                         ok: true,
                         error: null,
-                        user: {
-                            ...user._doc,
-                            password: null
-                        }
+                        user: extractedUser
                     };
                 } else {
                     return {

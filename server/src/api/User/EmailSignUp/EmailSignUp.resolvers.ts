@@ -1,4 +1,4 @@
-import { User } from "../../../models/User";
+import { UserModel } from "../../../models/User";
 import {
     EmailSignUpMutationArgs,
     EmailSignUpResponse
@@ -14,9 +14,8 @@ const resolvers: Resolvers = {
         ): Promise<EmailSignUpResponse> => {
             const { email, phoneNumber } = args;
             try {
-                const existingUser = await User.findOne({
-                    email,
-                    phoneNumber
+                const existingUser = await UserModel.findOne({
+                    $or: [{ email }, { phoneNumber }]
                 });
                 if (existingUser) {
                     // 이미 가입된 id가 존재하면 로그인 페이지로 넘긴다.
@@ -36,7 +35,7 @@ const resolvers: Resolvers = {
 
             try {
                 // 유저가 존재하지 않을 때
-                const newUser = new User({
+                const newUser = new UserModel({
                     ...args
                 });
                 await newUser.hashPassword();

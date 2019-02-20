@@ -1,5 +1,12 @@
 import bcrypt from "bcryptjs";
-import { instanceMethod, InstanceType, prop, Typegoose } from "typegoose";
+import { Types } from "mongoose";
+import {
+    arrayProp,
+    instanceMethod,
+    InstanceType,
+    prop,
+    Typegoose
+} from "typegoose";
 
 export enum UserRole {
     ADMIN = "ADMIN",
@@ -11,48 +18,48 @@ const BCRYPT_ROUNDS = 10;
 
 export class UserSchema extends Typegoose {
     @prop({ required: [true, `firstName is missing`] })
-    firstName: string;
-
-    @prop({ required: [true, `lastName is missing`] })
-    lastName: string;
-
-    @prop() // this will create a virtual property called 'fullName'
-    get fullName() {
-        return `${this.firstName} ${this.lastName}`;
-    }
-    set fullName(full: string) {
-        const [firstName, lastName] = full.split(" ");
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
+    name: string;
 
     @prop()
-    password: string | undefined;
+    password: string | null;
 
-    @prop({ unique: true })
+    @prop({ required: true })
     phoneNumber: string;
 
     @prop({ default: false })
     verifiedPhone: boolean;
 
-    @prop({ required: true, unique: true })
+    @prop({ required: true, index: true })
     email: string;
 
     @prop({ default: false })
     verifiedEmail: boolean;
 
     @prop({ enum: UserRole, default: UserRole.GHOST })
-    userRole?: UserRole;
+    userRole: UserRole;
 
     @prop({ default: false })
     checkPrivacyPolicy: boolean;
+
+    @prop()
+    createdAt: Date;
+
+    @prop()
+    updatedAt: Date;
+
+    @arrayProp({ items: Types.ObjectId, default: [] })
+    houses: Types.ObjectId[];
 
     @instanceMethod
     public async comparePassword(
         this: InstanceType<UserSchema>,
         password: string
     ): Promise<boolean> {
-        return await bcrypt.compare(password, this.password || "");
+        if (this.password) {
+            return await bcrypt.compare(password, this.password || "");
+        } else {
+            throw new Error("Password is not exist!");
+        }
     }
 
     @instanceMethod
@@ -63,7 +70,7 @@ export class UserSchema extends Typegoose {
     }
 }
 
-export const User = new UserSchema().getModelForClass(UserSchema, {
+export const UserModel = new UserSchema().getModelForClass(UserSchema, {
     schemaOptions: {
         timestamps: true,
         collection: "users"

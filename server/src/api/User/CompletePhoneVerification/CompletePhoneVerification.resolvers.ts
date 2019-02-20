@@ -1,4 +1,4 @@
-import { Verification, VerificationTarget } from "../../../models/Verification";
+import { Target, VerificationModel } from "../../../models/Verification";
 import {
     CompletePhoneVerificationMutationArgs,
     CompletePhoneVerificationResponse
@@ -17,8 +17,8 @@ const resolvers: Resolvers = {
                 const { key } = args;
                 const user = req.user;
                 try {
-                    const verification = await Verification.findOne({
-                        target: VerificationTarget.PHONE,
+                    const verification = await VerificationModel.findOne({
+                        target: Target.PHONE,
                         payload: user.phoneNumber,
                         key
                     });
