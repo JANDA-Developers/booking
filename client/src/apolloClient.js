@@ -11,7 +11,7 @@ const client = new ApolloClient({
     },
     resolvers: {
       Mutation: {
-        logUserIn: (_, {
+        LogUserIn: (_, {
           token,
         }, {
           cache,
@@ -27,7 +27,7 @@ const client = new ApolloClient({
           });
           return null;
         },
-        logUserOut: (_, __, {
+        LogUserOut: (_, __, {
           cache,
         }) => {
           localStorage.removeItem('jwt');

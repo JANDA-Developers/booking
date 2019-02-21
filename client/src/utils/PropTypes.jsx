@@ -17,7 +17,6 @@ const Forms = {
   type: PropTypes.string, //  inputText
   check: PropTypes.bool, //  inputText
   groupName: PropTypes.string, // Radio
-  id: PropTypes.string, // Radio
   selected: PropTypes.string, // SelectBox
   onChange: PropTypes.func, // Unity
 };

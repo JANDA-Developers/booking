@@ -43,15 +43,13 @@
   transition: $input-transition;
 
   // Disabled input style
-  &:disabled,
-  &[readonly] {
+  &:disabled {
     color: $input-disabled-color;
     border-bottom: $input-disabled-border;
   }
 
   // Disabled .JDinput_label style
-  &:disabled+.JDinput_label,
-  &[readonly]+.JDinput_label {
+  &:disabled+.JDinput_label {
     color: $input-disabled-color;
   }
 

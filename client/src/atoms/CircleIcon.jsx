@@ -5,8 +5,12 @@ import ErrProtecter from '../utils/ErrProtecter';
 import './CircleIcon.scss';
 
 const CircleIcon = ({
-  children, thema, darkWave, wave,
+  children, thema, darkWave, wave, onClick,
 }) => {
+  const handleOnclick = () => {
+    onClick();
+  };
+
   const classes = classNames({
     circleIcon: true,
     'circleIcon--white': thema === 'white',
@@ -16,7 +20,7 @@ const CircleIcon = ({
   });
 
   return (
-    <button type="button" className={classes}>
+    <button type="button" onClick={handleOnclick} className={classes}>
       {children}
     </button>
   );
@@ -27,12 +31,14 @@ CircleIcon.propTypes = {
   thema: PropTypes.string,
   darkWave: PropTypes.bool,
   wave: PropTypes.bool,
+  onClick: PropTypes.func,
 };
 
 CircleIcon.defaultProps = {
   thema: '',
   darkWave: false,
   wave: false,
+  onClick: () => {},
 };
 
 export default ErrProtecter(CircleIcon);

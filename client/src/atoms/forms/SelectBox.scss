@@ -23,12 +23,6 @@
   
   .react-select-container {
 
-    .react-select__multi-value__remove {
-      &:hover{
-       color: $error-color;
-      }
-    }
-
     .react-select {
 
       // disabled style 디스에이블 스타일 2
@@ -70,6 +64,10 @@
       //아이콘 이전 라인
       &__indicator {
         color: $html-color;
+      }
+
+      &__indicator:hover {
+        color: $grey-level3;
       }
 
       &__indicator-separator {

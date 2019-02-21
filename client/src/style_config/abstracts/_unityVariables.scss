@@ -1,0 +1,70 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+
+// -- TyphoGraphy 타이포 그래피
+// ==========================================================================
+$typho-large : 1.2rem;
+$typho-normal : 1rem;
+$typho-small : 0.8rem;
+$typho-tiny : .5rem;
+
+
+// -- Colors 컬러 칼라 
+// ==========================================================================
+$html-color: #343434 !default;
+$primary-color: #4c5b73 !default;
+$primary-color-on: #fff !default;
+$primary-color-light: lighten($primary-color, 15%) !default;
+$primary-color-light-on: #fff !default !default;
+$primary-color-dark: darken($primary-color, 15%) !default;
+$primary-color-dark-on: #fff !default !default;
+$secondary-color: #c56c47 !default;
+$secondary-color-on: #fff !default;
+$secondary-color-light: lighten($secondary-color, 15%) !default;
+$secondary-color-light-on: #fff !default;
+$secondary-color-dark: darken($secondary-color, 15%) !default;
+$secondary-color-dark-on: #fff !default;
+$success-color: #4CAF50 !default;
+$background-color: #fff;
+$error-color: #ff6760 !default;
+$link-color: #039be5 !default;
+$warring-color: EE9D5C !default;
+$grey-level1: #ddd;
+$grey-level2: #a1a1a1;
+$grey-level3: #787878;
+
+// -- BreackPoints 브레이크 포인트
+// ==========================================================================
+// 각각은 최대크기
+$mobile: "400px" !default; // sm
+$phablet: "550px" !default; //  md
+$tablet: "750px" !default; //  wmd
+$desktop: "1000px" !default; // lg
+$desktophd: "1200px" !default; //  wlg 
+$full: "9999px" !default; 
+$null: "0px" !default; 
+
+// -- Grid 그리드
+// ===========================================================================
+$container-width: 1000px !default;
+$container-width-larger-than-mobile: 85% !default;
+$container-width-larger-than-phablet: 80% !default;
+$container-padding: 0.5rem;
+$total-columns: 12 !default;
+$column-width: 100 / $total-columns !default; // calculates individual column width based off of # of columns
+$column-margin: 2% !default; // space between column grids
+// Flex Grid Variables
+$flex-grid__column--fixed-width: 200px !default;
+$flex-grid--column-margin: 2% !default;
+
+// -- Section 섹션여백
+// ===========================================================================
+$docs-section-padding-top: 6rem !default;
+$docs-section-padding-bottom: 6rem !default;
+$docs-section-padding: $docs-section-padding-top 0 $docs-section-padding-bottom 0 !default;
+$docs-section__box-bottom: 2.5rem !default;
+
+// -- forms
+$forms-disabled-color: $grey-level1 !default;
+$forms-space: 13px !default; // except textInput 구조가 다름
+$forms-margin-bottom: 16px !default; // except textInput 구조가 다름
+
