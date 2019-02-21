@@ -34,10 +34,7 @@ const resolvers: Resolvers = {
                     }
 
                     if (user) {
-                        user.verifiedPhone = true;
-                        console.log({
-                            CompletePhoneVerification: user
-                        });
+                        user.isPhoneVerified = true;
                         await user.save();
                         return {
                             ok: true,

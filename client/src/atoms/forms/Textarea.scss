@@ -36,6 +36,9 @@
   box-sizing: content-box;
   transition: $input-transition;
 
+  &--doubleHeight {
+    height: $input-height *2;
+  }
   // Disabled input style
   &:disabled,
   &[readonly="readonly"] {
@@ -117,7 +120,6 @@
 // Default textarea
 .JDtextarea {
   width: 100%;
-  height: $input-height;
   background-color: transparent;
 
   &:not(.JDtextarea--scroll)::-webkit-scrollbar {

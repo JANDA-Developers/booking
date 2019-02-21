@@ -20,6 +20,16 @@ export const IS_LOGGED_IN = gql`
   }
 `;
 
+export const GET_USER_INFO = gql`
+  {
+    GetMyProfile {
+      user {
+        verifiedPhone
+      }
+    }
+  }
+`;
+
 export const GetBookerNameById = gql`
   query getBookerById($personId: ID!) {
     get_booker_by_id(_id: $personId) {
@@ -46,5 +56,61 @@ export const COMEPLETE_PHONE_VERIFICATION = gql`
       error
       token
     }
+  }
+`;
+
+export const EMAIL_SIGN_UP = gql`
+  mutation emailSignUp(
+    $firstName: String!
+    $lastName: String!
+    $email: String!
+    $phoneNumber: String!
+    $password: String!
+  ) {
+    EmailSignUp(
+      firstName: $firstName
+      lastName: $lastName
+      email: $email
+      password: $password
+      phoneNumber: $phoneNumber
+    ) {
+      ok
+      error
+      token
+    }
+  }
+`;
+
+export const EMAIL_SIGN_IN = gql`
+  query emailSignIn($email: String!, $password: String!) {
+    EmailSignIn(email: $email, password: $password) {
+      ok
+      error
+      token
+    }
+  }
+`;
+
+export const GET_MY_PHON_NUMBER = gql`
+  query {
+    GetMyProfile {
+      ok
+      error
+      user {
+        phoneNumber
+      }
+    }
+  }
+`;
+
+export const LOG_USER_IN = gql`
+  mutation logUserIn($token: String!) {
+    LogUserIn(token: $token) @client
+  }
+`;
+
+export const LOG_USER_OUT = gql`
+  mutation logUserOut {
+    LogUserOut @client
   }
 `;

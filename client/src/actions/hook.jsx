@@ -64,6 +64,16 @@ function useSelect(defaultValue) {
   return { selectedOption, onChange };
 }
 
+function useToggle(defaultValue) {
+  const [toggle, setToggle] = useState(defaultValue);
+
+  const onClick = () => {
+    setToggle(!toggle);
+  };
+
+  return [toggle, onClick];
+}
+
 export {
-  useInput, useCheckBox, useRadio, useSwitch, useSelect,
+  useInput, useCheckBox, useRadio, useSwitch, useSelect, useToggle,
 };

@@ -6,7 +6,7 @@
         background-color: $grey-level1;
         text-align: center;
         margin: 1px;
-        width: 50px;
+        width: 51px;
         flex-wrap: nowrap;
         overflow-wrap: break-word;
         display: block;
@@ -27,7 +27,13 @@
         }
     }
 
+    .showComponent__large {
+        font-size: $typho-large;
+        margin-top: 0;
+    }
+    
     .showComponent__tiny {
-        font-size: 8px;
+        font-size: $typho-tiny;
+        margin-top: 0;
     }
 }

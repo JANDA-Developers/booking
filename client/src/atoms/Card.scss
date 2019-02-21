@@ -2,7 +2,7 @@
 
 .JDcard {
     @extend %z-depth-1;
-    padding: 10px;
+    padding: $container-padding;
     text-align: left;
     .JDbtn {
         margin-bottom: 0;

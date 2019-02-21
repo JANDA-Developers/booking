@@ -18,7 +18,7 @@ Markup:
 .container {
   margin: 0 auto;
   max-width: $container-width;
-  padding: 0 10px;
+  padding: 0 $container-padding;
   position: relative;
   width: 100%;
   box-sizing: border-box;
@@ -50,7 +50,6 @@ Markup:
   }
 }
 
-@include response ($full,$phablet) {
   .container {
     width: $container-width-larger-than-phablet;
   }
@@ -182,8 +181,6 @@ Markup:
   .col--offset-1-2 {
     margin-left: grid-offset-length(6) !important;
   }
-
-}
 
 // Clearing
 //––––––––––––––––––––––––––––––––––––––––––––––––––

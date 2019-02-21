@@ -10,9 +10,10 @@ import SelectBox from '../../atoms/forms/SelectBox';
 import DayPicker from '../../components/dayPicker/DayPicker';
 import CircleIcon from '../../atoms/CircleIcon';
 import Button from '../../atoms/Buttons';
+import Preloader from '../../atoms/Preloader';
 import JDLabel from '../../atoms/JDLabel';
 import utils from '../../utils/utils';
-import Icon from '../../atoms/icons/Icons';
+import Icon, { icons } from '../../atoms/icons/Icons';
 import {
   useInput, useCheckBox, useRadio, useSwitch, useSelect,
 } from '../../actions/hook';
@@ -23,8 +24,7 @@ import '../../atoms/tooltip.scss';
 function ShowComponents() {
   const [showModal, setShowModal] = useState(false);
   // the wayMake a Controlled Value
-  const inputVali = useInput(undefined);
-  const inputVali2 = useInput(undefined);
+  const inputVali = useInput('1232');
   const checkHook = useCheckBox();
   // eslint-disable-next-line no-unused-vars
   const [value, setValue] = useRadio('');
@@ -93,14 +93,13 @@ function ShowComponents() {
           <div className="flex-grid">
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
               <InputText
-                {...inputVali2}
+              {...inputVali}
                 refContainer={refContainer}
                 label="noraml"
               />
             </div>
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
               <InputText
-                {...inputVali}
                 label="validation MaxOver 10 ?"
                 validation={utils.isMaxOver}
                 max={10}
@@ -108,12 +107,6 @@ function ShowComponents() {
             </div>
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
               <InputText label="validation isName ?" validation={utils.isName} />
-            </div>
-            <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
-              <InputText label="disabled" disabled />
-            </div>
-            <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
-              <InputText label="disabled" disabled />
             </div>
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
               <InputText value="you can't fix this" readOnly label="readOnly" />
@@ -125,6 +118,9 @@ function ShowComponents() {
                 data-error="Wrong"
                 data-success="Checked"
               />
+            </div>
+            <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
+              <InputText label="disabled" disabled />
             </div>
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6" />
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6" />
@@ -215,6 +211,7 @@ function ShowComponents() {
           <div className="flex-grid__col">
             <Button label="primary" thema="primary" mode="large" />
             <Button label="secondary" thema="secondary" mode="large" />
+            <Button label="" preloader icon="arrow_right" />
             <CircleIcon darkWave>
               <Icon icon="arrow_left" />
             </CircleIcon>
@@ -278,15 +275,12 @@ function ShowComponents() {
         {/* 아이콘들 */}
         <h6>Icons</h6>
         <div className="flex-grid-grow docs-section__box">
-          <div className="showCompoent__icon_box">
-            <Icon label="arrow_right" icon="arrow_right" />
-          </div>
-          <div className="showCompoent__icon_box">
-            <Icon label="arrow_left" icon="arrow_left" />
-          </div>
-          <div className="showCompoent__icon_box">
-            <Icon label="magnifier" icon="magnifier" />
-          </div>
+          { Object.keys(icons).map((key, index) => (
+            <div key={`showComponent__${key}`} className="showCompoent__icon_box">
+              <Icon label={key} icon={key} />
+            </div>
+          ))
+          }
         </div>
 
         {/* 타이포그래피  */}
@@ -299,14 +293,17 @@ function ShowComponents() {
           <h4>H4: Lorem Text</h4>
           <h5>H5: Lorem Text</h5>
           <h6>H6: Lorem Text</h6>
+          <p className="showComponent__large"> large: Lorem Text </p>
           <p>Normal: Lorem Text</p>
+          <JDLabel txt="small: Lorem Text" />
+          <p className="showComponent__tiny"> tiny: Lorem Text </p>
         </div>
-        {/* scss변수 연결이 애매해서 이런식으로 놓음 */}
+
         <h6>elseThings</h6>
         <div className="docs-section__box">
-          <JDLabel txt="small: Lorem Text" />
-          <p className="showComponent__tiny"> tiny </p>
+          <Preloader />
         </div>
+      
       </div>
     </div>
   );

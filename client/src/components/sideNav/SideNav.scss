@@ -1,0 +1,78 @@
+@import '../../style_config/style_config.scss';
+
+$sideNav-width : 200px;
+$sideNav-profile-height : 142px;
+$sideNav-profile-circle-size : 72px;
+$sideNav-profile-circle-margin-top : 2rem;
+$sideNav-list-li-height : 3rem;
+.JDsideNav {
+    position: fixed;
+    top:0;
+    left: -$sideNav-width;
+    background-color:white;
+    width: $sideNav-width;
+    z-index: $z-index-10;
+    height: 100vh;
+    box-sizing:border-box;
+    transition: 0.3s;
+    
+    &--open {
+        left:0px;
+        @extend %z-depth-5;
+    }
+    
+    &__profill {
+        display: flex;
+        height: $sideNav-profile-height;
+        background-color:  $secondary-color;
+        flex-direction: row;
+        justify-content: center;
+        align-content: center;
+    }
+    
+    &__circle {
+        width: $sideNav-profile-circle-size;
+        height: $sideNav-profile-circle-size;
+        background-color:white;
+        border-radius:50%;
+        margin-top: $sideNav-profile-circle-margin-top;
+        background-size:100%;
+    }
+
+    &__navLink {
+        text-decoration: none;
+        color: $html-color;
+        display: block;
+        font-size: $typho-large;
+        height: $sideNav-list-li-height;
+        line-height: $sideNav-list-li-height;
+        background-color: $sideNav-list-li-bgColor;
+        padding-left: $sideNav-list-padding;
+        border-bottom : 1px solid $grey-level1;
+        .JDicon__svg {
+            padding: 0rem 1rem;
+            top:.05em;
+        }
+    }
+    @include response($mobile) {
+        &__navLink {
+            padding-left: 0;
+        }
+    }
+}
+
+.JDsideNav-curtain {
+    position: fixed;
+    top:0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    transition: background-color 0.3s;
+    z-index: $z-index-9;
+    visibility: hidden;
+    background-color: rgba(0,0,0,0);
+    &--open {
+        visibility: visible;
+        background-color: $sideNav-curtain-color;
+    }
+}

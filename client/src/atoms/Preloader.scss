@@ -1,0 +1,11 @@
+@import '../style_config/style_config.scss';
+
+.preloader {
+    width: 1.5em;
+    height: inherit;
+    position: relative;
+    fill:inherit;
+    &__outerline {
+        fill: $grey-level1;
+    }
+}

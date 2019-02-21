@@ -56,6 +56,11 @@ h6 {
 }
 
 @mixin response ($full,$tablet) {
+// 여길 수정해서 전체가 변한다 
+  html {
+    font-size: 0.8rem;
+  }
+
   h1 {
     font-size: 5.0rem;
   }

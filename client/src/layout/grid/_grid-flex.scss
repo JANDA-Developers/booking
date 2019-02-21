@@ -91,6 +91,36 @@
   }
 }
 
+@include response ($mobile) {
+  .flex-grid--sm {
+    display: block;
+  }
+
+  .flex-grid--sm>* {
+    padding-left: 0;
+    padding-right: 0;
+
+    &.flex-grid__col {
+      margin-left: 0;
+    }
+  }
+}
+
+@include response ($desktophd) {
+  .flex-grid--wlg {
+    display: block;
+  }
+
+  .flex-grid--wlg>* {
+    padding-left: 0;
+    padding-right: 0;
+
+    &.flex-grid__col {
+      margin-left: 0;
+    }
+  }
+}
+
 @include response ($tablet) {
   .flex-grid--wmd {
     display: block;
