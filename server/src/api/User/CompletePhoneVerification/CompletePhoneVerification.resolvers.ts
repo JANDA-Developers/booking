@@ -4,7 +4,7 @@ import {
     CompletePhoneVerificationResponse
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
-import privateResolver from "../../../utils/privateResolver";
+import privateResolver from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Mutation: {
@@ -22,9 +22,9 @@ const resolvers: Resolvers = {
                         payload: user.phoneNumber,
                         key
                     });
-                    if (verification && !verification.user) {
+                    if (verification && verification.user) {
                         verification.verified = true;
-                        verification.user = user._id;
+                        // verification.user = user._id;
                         await verification.save();
                     } else {
                         return {
