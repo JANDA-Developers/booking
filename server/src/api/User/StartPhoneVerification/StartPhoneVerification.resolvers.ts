@@ -25,7 +25,7 @@ const resolvers: Resolvers = {
                         vfId: !existingVerification || existingVerification.user
                     });
                     
-                    if (existingVerification && existingVerification.user.toString() === user._id.toString()) {
+                    if (existingVerification && existingVerification.user === user._id) {
                         await existingVerification.remove();
                     }
 

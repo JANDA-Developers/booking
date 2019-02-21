@@ -10,7 +10,6 @@ class DocumentRouter extends Component {
   state = {};
 
   render() {
-    console.log(this.props);
     const Margin = props => (
       <DynamicImport load={() => import('./documents/Margin')}>
         {DNcompoent => (DNcompoent === null ? <p>Loading</p> : <DNcompoent {...props} />)}

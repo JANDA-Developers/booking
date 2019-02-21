@@ -210,8 +210,7 @@ type RoomPrice {
 
 type CreateRoomTypeResponse {
   ok: Boolean!
-  error: String
-  roomType: RoomType
+  error: String!
 }
 
 type RoomType {
@@ -219,8 +218,8 @@ type RoomType {
   name: String!
   house: House!
   pricingType: PricingType!
-  peopleCount: Int!
-  peopleCountMax: Int!
+  people_count_std: Int!
+  people_count_max: Int!
   sort: Int!
   roomCount: Int!
   isEnable: Boolean!

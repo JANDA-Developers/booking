@@ -10,7 +10,7 @@ import ErrProtecter from '../../utils/ErrProtecter';
 import logo from '../../img/logo/logo--white.png'; // with import
 import { LOG_USER_OUT } from '../../queries';
 
-const Header = ({ isLoggin, sideNavOpener }) => (
+const Header = ({ verifiedPhone, isLoggin, sideNavOpener }) => (
   <div className="header">
     <span className="header__logoPlace JDwaves-effect JDwaves-effect-dark">
       <img className="header__logo" src={logo} alt="" />
@@ -30,7 +30,7 @@ const Header = ({ isLoggin, sideNavOpener }) => (
             </span>
           )}
         </Mutation>
-        <NavLink className="header__link" to="/middleServer/signUp">
+        <NavLink className="header__link" to="/middleServer/phoneVerification">
           <Button label="인증하기" blink mode="flat" color="white" />
         </NavLink>
       </Fragment>
@@ -49,6 +49,7 @@ const Header = ({ isLoggin, sideNavOpener }) => (
 
 Header.propTypes = {
   isLoggin: PropTypes.bool.isRequired,
+  verifiedPhone: PropTypes.bool.isRequired,
   sideNavOpener: PropTypes.func,
 };
 

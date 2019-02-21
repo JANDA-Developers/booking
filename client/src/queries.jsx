@@ -20,6 +20,16 @@ export const IS_LOGGED_IN = gql`
   }
 `;
 
+export const GET_USER_INFO = gql`
+  {
+    GetMyProfile {
+      user {
+        verifiedPhone
+      }
+    }
+  }
+`;
+
 export const GetBookerNameById = gql`
   query getBookerById($personId: ID!) {
     get_booker_by_id(_id: $personId) {
@@ -77,6 +87,18 @@ export const EMAIL_SIGN_IN = gql`
       ok
       error
       token
+    }
+  }
+`;
+
+export const GET_MY_PHON_NUMBER = gql`
+  query {
+    GetMyProfile {
+      ok
+      error
+      user {
+        phoneNumber
+      }
     }
   }
 `;

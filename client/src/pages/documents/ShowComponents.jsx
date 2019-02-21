@@ -10,6 +10,7 @@ import SelectBox from '../../atoms/forms/SelectBox';
 import DayPicker from '../../components/dayPicker/DayPicker';
 import CircleIcon from '../../atoms/CircleIcon';
 import Button from '../../atoms/Buttons';
+import Preloader from '../../atoms/Preloader';
 import JDLabel from '../../atoms/JDLabel';
 import utils from '../../utils/utils';
 import Icon, { icons } from '../../atoms/icons/Icons';
@@ -24,7 +25,6 @@ function ShowComponents() {
   const [showModal, setShowModal] = useState(false);
   // the wayMake a Controlled Value
   const inputVali = useInput('1232');
-  const inputVali2 = useInput(undefined);
   const checkHook = useCheckBox();
   // eslint-disable-next-line no-unused-vars
   const [value, setValue] = useRadio('');
@@ -211,6 +211,7 @@ function ShowComponents() {
           <div className="flex-grid__col">
             <Button label="primary" thema="primary" mode="large" />
             <Button label="secondary" thema="secondary" mode="large" />
+            <Button label="" preloader icon="arrow_right" />
             <CircleIcon darkWave>
               <Icon icon="arrow_left" />
             </CircleIcon>
@@ -292,15 +293,17 @@ function ShowComponents() {
           <h4>H4: Lorem Text</h4>
           <h5>H5: Lorem Text</h5>
           <h6>H6: Lorem Text</h6>
-          <p>Normal: Lorem Text</p>
-        </div>
-        {/* scss변수 연결이 애매해서 이런식으로 놓음 */}
-        <h6>elseThings</h6>
-        <div className="docs-section__box">
           <p className="showComponent__large"> large: Lorem Text </p>
+          <p>Normal: Lorem Text</p>
           <JDLabel txt="small: Lorem Text" />
           <p className="showComponent__tiny"> tiny: Lorem Text </p>
         </div>
+
+        <h6>elseThings</h6>
+        <div className="docs-section__box">
+          <Preloader />
+        </div>
+      
       </div>
     </div>
   );

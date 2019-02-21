@@ -40,7 +40,6 @@ function SideNav({ isOpen, setIsOpen }) {
       </div>
       <div
         role="presentation"
-        onkeyPress
         onClick={handleCurtainClick}
         className={`JDsideNav-curtain ${isOpen ? 'JDsideNav-curtain--open' : ''}`}
       />

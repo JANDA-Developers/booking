@@ -59,7 +59,6 @@ function InputText({
     } else {
       domInput = inRefContainer.current;
     }
-    console.log(domInput);
     if (value !== undefined) domInput.value = value;
   }, []);
 

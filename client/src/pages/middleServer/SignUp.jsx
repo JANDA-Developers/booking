@@ -45,7 +45,7 @@ function SignUp({ history }) {
                       },
                     });
                     // 인증 화면으로 이동
-                    history.push(`/middleServer/PhoneVerification/${phoneNumberHook.value}`);
+                    history.push(`/middleServer/PhoneVerification`);
                   }
                 }
                 if (error) console.log(error);
@@ -53,7 +53,6 @@ function SignUp({ history }) {
             >
               {(mutation, data) => {
                 const signUpSubmit = e => {
-                  console.log(nameHoook);
                   e.preventDefault();
                   if (!nameHoook.isValid) {
                     alert('올바른 이름이 아닙니다.');

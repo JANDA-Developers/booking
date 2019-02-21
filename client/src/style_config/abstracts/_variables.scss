@@ -20,6 +20,7 @@ $typho-tiny : .5rem;
 
 // -- Colors 컬러 칼라 
 $html-color: #343434 !default;
+$html-color-hover: $grey-level3!default;
 $primary-color: #4c5b73 !default;
 $primary-color-on: #fff !default;
 $primary-color-light: lighten($primary-color, 15%) !default;
@@ -37,10 +38,12 @@ $background-color: #fff;
 $error-color: #ff6760 !default;
 $link-color: #039be5 !default;
 $warring-color: EE9D5C !default;
-$grey-level1: #ddd;
-$grey-level2: #a1a1a1;
+$grey-level1: #EBEBEB;
+$grey-level2: #b8b8b8;
 $grey-level3: #787878;
-
+$hover-effect-white: rgba(255,255,255,.1);
+$hover-effect-dark: rgba(0,0,0,.08);
+$curtain-color: rgba(0,0,0,.78) !default;
 // -- BreackPoints 브레이크 포인트
 // 각각은 최대크기
 $mobile: "400px" !default; // sm
@@ -90,7 +93,7 @@ $input-border: 1px solid $html-color !default;
 $input-background: #fff !default;
 $input-error-color: $error-color !default;
 $input-success-color: $success-color !default;
-$input-focus-color: $secondary-color-light !default;
+$input-focus-color: $primary-color-light !default;
 $input-font-size: $typho-normal !default;
 $input-margin-bottom: 1.4rem;
 $input-margin-top: 0rem;
@@ -106,23 +109,23 @@ $placeholder-text-color: $grey-level1 !default;
 $textarea-margin-top: 1.6rem !default; //라벨 덮힘 방지
 
 // -- Radio Buttons 라디오
-$radio-fill-color: $secondary-color !default;
+$radio-fill-color: $primary-color !default;
 $radio-empty-color: $html-color !default;
 $radio-border: 2px solid $radio-fill-color !default;
 $radio-disabled-color: $forms-disabled-color;
 
 // -- Select 셀렉트
 $select-border: 1px solid $html-color !default;
-$select-option-active-bgcolor: $grey-level1 !default;
-$select-option-selected-bgcolor: $secondary-color !default;
+$select-option-active-bgcolor: $hover-effect-dark !default;
+$select-option-selected-bgcolor: $primary-color !default;
 $select-option-selected-color: #fff !default;
 $select-padding: 2px 8px !default;
 $select-radius: 2px !default;
 $select-disabled-color: $forms-disabled-color !default;
 $select-menue-radius: 0px !default;
 $select-background: #fff !default;
-$select-focus-border-color: $secondary-color !default;
-$select-option-hover-bgcolor: $grey-level1 !default;
+$select-focus-border-color: $primary-color !default;
+$select-option-hover-bgcolor: $hover-effect-dark !default;
 $selcet-placeholder-color: $html-color;
 
 // -- Multi Select 멀티 셀렉트
@@ -133,8 +136,8 @@ $select-multi-bgcolor: $grey-level1;
 $select-multi-color:  $html-color;
 
 // -- Switches 스위치
-$switch-checked-bgcolor: $secondary-color !default;
-$switch-checked-lever-bgcolor: $secondary-color-light !default;
+$switch-checked-bgcolor: $primary-color !default;
+$switch-checked-lever-bgcolor: $primary-color-light !default;
 $switch-unchecked-bgcolor: $grey-level2 !default;
 $switch-unchecked-lever-bgcolor: $grey-level1 !default;
 $switch-radius: 15px !default;
@@ -146,7 +149,10 @@ $switch-disabled-solid-color: $forms-disabled-color;
 $checkBox-label-fontSize:1rem !default;
 $checkBox-label-color:$html-color !default;
 $checkbox-border-radius: 2px !default;
+$checkBox-border-color: $html-color;
 $checkbox-disabled-border-color: $forms-disabled-color !default;
+$checkbox-checked-color: $primary-color;
+$checkbox-sign-color : #fff;
 
 // 2 DOC__ 다큐먼트
 // ANCHOR DOC ==========================================================================
@@ -181,7 +187,6 @@ $horizen-month-bordeRight :  none;
 
 // -- Shared styles
 $button-border: none !default;
-$button-background-focus: lighten($secondary-color, 4%) !default;
 $button-font-size: $typho-large !default;
 $button-height: 36px !default;
 $button-padding: 0 1rem !default;
@@ -190,15 +195,14 @@ $buttons-space: .4rem !default;
 $buttons-icon-margin: 0.75em !default;
 $buttons-small-icon-margin: 0.45em !default;
 $button-letter-sapcing: .5px !default;
-$button-color: #fff !default;
+$button-color: $html-color !default;
+$button-bgColor: #fff !default;
+$button-bgColor-hover: $hover-effect-dark !default;
 
 // -- Disabled styles
 $button-disabled-background: $grey-level1 !default;
 $button-disabled-color: $grey-level3 !default;
 
-// -- Raised buttons
-$button-raised-background: $grey-level3 !default;
-$button-raised-background-hover: lighten($button-raised-background, 5%) !default;
 
 // -- Large buttons
 $button-large-icon-font-size: $typho-large !default;
@@ -209,14 +213,6 @@ $button-large-padding: 0 2rem !default;
 $button-flat-color: $html-color !default;
 $button-flat-disabled-color: $button-disabled-color !default;
 
-// -- Floating buttons
-$button-floating-background: $secondary-color !default;
-$button-floating-background-hover: $button-floating-background !default;
-$button-floating-color: #fff !default;
-$button-floating-size: 37px !default;
-$button-floating-large-size: $button-floating-size * 1.5 !default;
-$button-floating-radius: 50% !default;
-
 // -- small buttons
 $button-small-height: 34px !default;
 $button-small-padding: 0 .8rem !default;
@@ -226,7 +222,7 @@ $button-large-font-size: $typho-large !default;
 // 5 Modals
 // ANCHOR Modals =========================================================================
 
-$modal-background-color: rgba(0,0,0,.78) !default;
+$modal-background-color: $curtain-color !default;
 $modal-content-padding: 10px !default;
 $modal-border-radius: 2px !default;
 $button-height: 36px !default;
@@ -244,4 +240,21 @@ $searchInput-li-padding: 5px !default;
 
 // 7 SideNav 사이드 네비
 // ANCHOR Side NAV =========================================================================
-$nav-lr-padding: 1rem;
+
+$sideNav-list-padding: 1rem;
+$sideNav-width : 200px;
+$sideNav-profile-height : 142px;
+$sideNav-profile-circle-size : 72px;
+$sideNav-profile-circle-margin-top : 2rem;
+$sideNav-list-li-height : 3rem;
+$sideNav-list-li-bgColor : white;
+$sideNav-curtain-color: $curtain-color;
+
+// 8 Header 헤더
+// ANCHOR Header NAV =========================================================================
+$header-padding: 1rem;
+
+// 9 CircleIcon 둥근 아이콘
+// ANCHOR Header NAV =========================================================================
+$circle-icon-size: 2rem;
+$circle-icon-font-size: 1rem;

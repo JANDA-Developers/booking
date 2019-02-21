@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import ErrProtecter from '../utils/ErrProtecter';
 import Icon from './icons/Icons';
+import Preloader from './Preloader';
 
 function Buttons({
   disabled,
@@ -21,6 +22,7 @@ function Buttons({
   thema,
   pulse,
   blink,
+  preloader,
 }) {
   const classes = classNames({
     JDbtn: true,
@@ -50,8 +52,8 @@ function Buttons({
       data-tip={dataTip}
       data-for={dataFor}
     >
-      {label}
-      {icon !== '' && (
+      {preloader ? <Preloader /> : label}
+      {!preloader && icon !== '' && (
         <i className={`JDbtn__icon ${iconClasses.join(' ')}`}>
           <Icon icon={icon} />
         </i>
@@ -69,6 +71,7 @@ Buttons.propTypes = {
   dataTip: PropTypes.bool,
   pulse: PropTypes.bool,
   blink: PropTypes.bool,
+  preloader: PropTypes.bool,
   dataFor: PropTypes.string,
   mode: PropTypes.string,
   float: PropTypes.string,
@@ -92,6 +95,7 @@ Buttons.defaultProps = {
   color: '',
   thema: 'normal',
   type: 'button',
+  preloader: false,
 };
 
 export default ErrProtecter(Buttons);

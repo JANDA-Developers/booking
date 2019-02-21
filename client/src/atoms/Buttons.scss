@@ -15,7 +15,7 @@
   -webkit-tap-highlight-color: transparent;
   text-decoration: none;
   color: $button-color;
-  background-color: $button-raised-background;
+  background-color: $button-bgColor;
   text-align: center;
   letter-spacing: $button-letter-sapcing;
   @extend %z-depth-1;
@@ -28,10 +28,18 @@
 
   &.JDbtn--primary {
     background-color: $primary-color;
+    color: $primary-color-light-on;
+    &:hover {
+      background-color: $primary-color-light
+    }
   }
-
+  
   &.JDbtn--secondary {
     background-color: $secondary-color;
+    color: $secondary-color-light-on;
+    &:hover {
+      background-color: $secondary-color-light
+    }
   }
 
 
@@ -44,7 +52,7 @@
   }
 
   &:hover {
-    background-color: $button-raised-background-hover;
+    background-color: $button-bgColor-hover;
     @extend %z-depth-1-half;
   }
 
@@ -143,55 +151,5 @@
     color:white;
   }
 
-
   }
-
-  /* ----------------------------- Floating button ---------------------------- */
-
-  // Floating은 아직 까지 활용 가치가 없습니다. 추후에 플로팅 버튼을 쓰겠다면 오픈하세요.
-  // &--floating {
-  //   display: inline-block;
-  //   color: $button-floating-color;
-  //   position: relative;
-  //   overflow: hidden;
-  //   z-index: 1;
-  //   width: $button-floating-size;
-  //   height: $button-floating-size;
-  //   line-height: $button-floating-size;
-  //   padding: 0;
-  //   background-color: $button-floating-background;
-  //   border-radius: $button-floating-radius;
-  //   @extend %z-depth-1;
-  //   transition: 0.3s;
-  //   cursor: pointer;
-  //   vertical-align: middle;
-
-  //   &__icon {
-  //     width: inherit;
-  //     display: inline-block;
-  //     text-align: center;
-  //     color: $button-floating-color;
-  //     font-size: $button-large-icon-font-size;
-  //     line-height: $button-floating-size;
-  //   }
-
-  //   &:hover {
-  //     background-color: $button-floating-background-hover;
-  //     @extend %z-depth-1-half;
-  //   }
-
-  //   &:before {
-  //     border-radius: 0;
-  //   }
-
-  //   &-large {
-  //     width: $button-floating-large-size;
-  //     height: $button-floating-large-size;
-
-  //     .JDbtn__icon {
-  //       line-height: $button-floating-large-size;
-  //     }
-  //   }
-  // }
-  /* -------------------------------------------------------------------------- */
 }

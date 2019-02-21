@@ -5,8 +5,8 @@
     background-color: $nav-color;
     display:flex;
     align-items: center;
-    padding-left: $nav-lr-padding;
-    padding-right: $nav-lr-padding;
+    padding-left: $header-padding;
+    padding-right: $header-padding;
     @extend %z-depth-1;
 
     &__logo {

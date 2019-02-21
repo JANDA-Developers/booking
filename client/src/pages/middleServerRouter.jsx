@@ -1,23 +1,23 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/forbid-prop-types */
 import React, { Fragment } from 'react';
-import { Route, Switch } from 'react-router-dom';
-import { graphql } from 'react-apollo';
+import { Route, Switch, Redirect } from 'react-router-dom';
+import { graphql, compose } from 'react-apollo';
 import Header from '../components/Headers/Header';
 import SideNav from '../components/sideNav/SideNav';
 import DynamicImport from '../utils/DynamicImport';
 import NoMatch from './NoMatch';
-import { IS_LOGGED_IN } from '../queries';
+import { IS_LOGGED_IN, GET_USER_INFO } from '../queries';
 import { useToggle } from '../actions/hook';
 
 function JDmiddleServer({
-  data: {
+  IsLoggedIn: {
     auth: { isLoggedIn },
   },
+  GetUserInfo: { GetMyProfile: { user: { verifiedPhone = false } = {} } = {} } = {},
 }) {
   // 사이드바가 열렸는지 체크
   const [SideNavIsOpen, setSideNavIsOpen] = useToggle(false);
-
   const Home = props => (
     <DynamicImport load={() => import('./middleServer/Home')}>
       {DNcompoent => (DNcompoent === null ? <p>Loading</p> : <DNcompoent {...props} />)}
@@ -50,25 +50,41 @@ function JDmiddleServer({
 
   return (
     <Fragment>
-      <Route render={() => <Header sideNavOpener={setSideNavIsOpen} isLoggin={isLoggedIn} />} />
+      <Route
+        render={() => (
+          <Header
+            sideNavOpener={setSideNavIsOpen}
+            verifiedPhone={verifiedPhone}
+            isLoggin={isLoggedIn}
+          />
+        )}
+      />
       <SideNav isOpen={SideNavIsOpen} setIsOpen={setSideNavIsOpen} />
       <Switch>
-        {/* 토큰필요 */}
-        <Route exact path="/" component={isLoggedIn ? Home : Login} />
-        <Route exact path="/middleServer/myPage" component={isLoggedIn ? MyPage : Login} />
-        <Route
-          exact
-          path="/middleServer/phoneVerification/:phoneNumber"
-          component={isLoggedIn ? PhoneVerification : Login}
-        />
-
-        {/* 토큰필요 없음 */}
-        <Route exact path="/middleServer/signUp" component={SignUp} />
-        <Route exact path="/middleServer/login" component={Login} />
-        <Route component={NoMatch} />
+        {isLoggedIn ? (
+          <Fragment>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/middleServer/myPage" component={isLoggedIn ? MyPage : Login} />
+            <Route
+              exact
+              path="/middleServer/phoneVerification"
+              component={isLoggedIn ? PhoneVerification : Login}
+            />
+          </Fragment>
+        ) : (
+          <Fragment>
+            <Redirect />
+            <Route exact path="/middleServer/signUp" component={SignUp} />
+            <Route exact path="/middleServer/login" component={Login} />
+            <Route component={NoMatch} />
+          </Fragment>
+        )}
       </Switch>
     </Fragment>
   );
 }
 
-export default graphql(IS_LOGGED_IN)(JDmiddleServer);
+export default compose(
+  graphql(IS_LOGGED_IN, { name: 'IsLoggedIn' }),
+  graphql(GET_USER_INFO, { name: 'GetUserInfo' }),
+)(JDmiddleServer);
