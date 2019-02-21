@@ -103,8 +103,11 @@ type CreateHouseResponse {
 type Mutation {
   CreateHouse(name: String!, houseType: HouseType!, location: LocationInput!): CreateHouseResponse!
   DeleteHouse(_id: String!): DeleteHouseResponse!
-  UpdateHouse(houseId: ID!, name: String!, houseType: HouseType!, location: LocationInput!, refundPolicy: [TermsOfRefundInput!], termsOfBooking: TermsOfBookingInput): UpdateHouseResponse!
-  CreateRoomType(name: String!, house: String!, pricingType: PricingType!, people_count_std: Int!, people_count_max: Int!, sort: Int!, roomCount: Int!, isEnable: Boolean!, description: String!, tags: [TagInput!]): CreateRoomTypeResponse!
+  UpdateHouse(houseId: ID!, name: String, houseType: HouseType, location: LocationInput, refundPolicy: [TermsOfRefundInput!], termsOfBooking: TermsOfBookingInput): UpdateHouseResponse!
+  # 로그인 token 필요함!
+  CreateRoomType(name: String!, house: String!, pricingType: PricingType!, peopleCount: Int!, peopleCountMax: Int, isEnable: Boolean!, description: String, tags: [TagInput!]): CreateRoomTypeResponse!
+  DeleteRoomType(roomTypeId: String!): DeleteRoomTypeResponse!
+  UpdateRoomType(roomTypeId: String!, name: String, peopleCount: Int, peopleCountMax: Int, index: Int, isEnable: Boolean, description: String): UpdateRoomTypeResponse!
   CompletePhoneVerification(key: String!): CompletePhoneVerificationResponse!
   EmailSignUp(name: String!, email: EmailAddress!, password: Password!, phoneNumber: PhoneNumber!): EmailSignUpResponse!
   GmailConnect(firstName: String!, lastName: String!, gmail: String!): GmailConnectionResponse!
@@ -214,6 +217,20 @@ type CreateRoomTypeResponse {
   roomType: RoomType
 }
 
+type DeleteRoomTypeResponse {
+  ok: Boolean!
+  error: String
+}
+
+type Room {
+  _id: ID!
+  name: String!
+  roomType: RoomType!
+  isEnable: Boolean!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
 type RoomType {
   _id: ID!
   name: String!
@@ -221,7 +238,7 @@ type RoomType {
   pricingType: PricingType!
   peopleCount: Int!
   peopleCountMax: Int!
-  sort: Int!
+  index: Int!
   roomCount: Int!
   isEnable: Boolean!
   description: String!
@@ -232,22 +249,15 @@ type RoomType {
   updatedAt: String
 }
 
-type Room {
-  _id: ID!
-  name: String!
-  roomType: RoomType!
-  isEnable: Boolean!
-}
-
 enum PricingType {
   DOMITORY
   ROOM
 }
 
-type Query {
-  getRoomTypes(types: String!): RoomType
-  EmailSignIn(email: String!, password: String!): EmailSignInResponse!
-  GetMyProfile: GetMyProfileResponse!
+type UpdateRoomTypeResponse {
+  ok: Boolean!
+  error: String
+  roomType: RoomType
 }
 
 type CompletePhoneVerificationResponse {
@@ -259,6 +269,12 @@ type EmailSignInResponse {
   ok: Boolean!
   error: String
   token: String
+}
+
+type Query {
+  EmailSignIn(email: String!, password: String!): EmailSignInResponse!
+  # 로그인 token 필요!
+  GetMyProfile: GetMyProfileResponse!
 }
 
 type EmailSignUpResponse {
@@ -285,8 +301,8 @@ type User {
   phoneNumber: PhoneNumber!
   password: String
   email: EmailAddress!
-  verifiedPhone: Boolean!
-  verifiedEmail: Boolean!
+  isPhoneVerified: Boolean!
+  isEmailVerified: Boolean!
   userRole: UserRole!
   checkPrivacyPolicy: Boolean!
   houses: [House!]!

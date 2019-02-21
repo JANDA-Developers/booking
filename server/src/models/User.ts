@@ -27,13 +27,13 @@ export class UserSchema extends Typegoose {
     phoneNumber: string;
 
     @prop({ default: false })
-    verifiedPhone: boolean;
+    isPhoneVerified: boolean;
 
     @prop({ required: true, index: true })
     email: string;
 
     @prop({ default: false })
-    verifiedEmail: boolean;
+    isEmailVerified: boolean;
 
     @prop({ enum: UserRole, default: UserRole.GHOST })
     userRole: UserRole;
@@ -73,6 +73,6 @@ export class UserSchema extends Typegoose {
 export const UserModel = new UserSchema().getModelForClass(UserSchema, {
     schemaOptions: {
         timestamps: true,
-        collection: "users"
+        collection: "Users"
     }
 });

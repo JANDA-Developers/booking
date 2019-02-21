@@ -1,0 +1,8 @@
+type Room {
+    _id: ID!
+    name: String!
+    roomType: RoomType!
+    isEnable: Boolean!
+    createdAt: DateTime
+    updatedAt: DateTime
+}

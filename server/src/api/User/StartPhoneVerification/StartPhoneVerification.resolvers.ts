@@ -21,17 +21,6 @@ const resolvers: Resolvers = {
                         target: Target.PHONE,
                         payload: phoneNumber
                     });
-                    console.log({
-                        userId: user._id,
-                        vfId: existingVerification,
-                    });
-                    if(existingVerification){
-                        console.log({
-                            id1: existingVerification.user,
-                            id2: user._id,
-                            validate: existingVerification.user.equals(user._id)
-                        });
-                    }
                     if (existingVerification && existingVerification.user.equals(user._id)) {
                         await existingVerification.remove();
                     }

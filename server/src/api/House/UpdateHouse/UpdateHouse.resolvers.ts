@@ -6,7 +6,7 @@ import {
     UpdateHouseResponse
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
-import privateResolver from "../../../utils/privateResolver";
+import privateResolver from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Mutation: {
@@ -19,15 +19,19 @@ const resolvers: Resolvers = {
                 const { user } = req;
                 try {
                     // 1. userId와 houseId로 존재하는 객체인지 조회한다.
-                    const existingHouse = await HouseModel.findOne({
-                        _id: args.houseId,
-                        user: new ObjectId(user._id)
-                    });
-                    if (existingHouse) {
-                        await existingHouse.update({
+                    const existingHouse = await HouseModel.findByIdAndUpdate(
+                        {
+                            _id: args.houseId,
+                            user: new ObjectId(user._id)
+                        },
+                        {
                             ...args
-                        });
-
+                        },
+                        {
+                            new: true
+                        }
+                    );
+                    if (existingHouse) {
                         const house = await extractHouse(existingHouse);
                         return {
                             ok: true,

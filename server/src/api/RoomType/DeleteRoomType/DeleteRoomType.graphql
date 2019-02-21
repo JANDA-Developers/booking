@@ -1,0 +1,7 @@
+type DeleteRoomTypeResponse {
+    ok: Boolean!
+    error: String
+}
+type Mutation {
+    DeleteRoomType(roomTypeId: String!): DeleteRoomTypeResponse!
+}

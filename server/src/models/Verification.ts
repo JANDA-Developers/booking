@@ -56,7 +56,7 @@ export const VerificationModel = new VerificationSchema().getModelForClass(
     {
         schemaOptions: {
             timestamps: true,
-            collection: "verifications"
+            collection: "Verifications"
         }
     }
 );

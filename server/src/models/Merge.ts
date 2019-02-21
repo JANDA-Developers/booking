@@ -1,10 +1,13 @@
 import { Types } from "mongoose";
 import { InstanceType } from "typegoose";
-import { House, User } from "../types/graph";
+import { House, RoomType, User } from "../types/graph";
 import { HouseModel, HouseSchema } from "./House";
+import { RoomTypeSchema } from "./RoomType";
 import { UserModel, UserSchema } from "./User";
 
-export const extractUser = async (user: InstanceType<UserSchema>): Promise<User> => {
+export const extractUser = async (
+    user: InstanceType<UserSchema>
+): Promise<User> => {
     const extractResult: any = {
         ...user
     };
@@ -24,7 +27,10 @@ export const extractHouse = async (
         };
         return {
             ...extracted._doc,
-            user: await extractUser.bind(extractUser, await UserModel.findById(house.user))
+            user: await extractUser.bind(
+                extractUser,
+                await UserModel.findById(house.user)
+            )
         };
     } catch (error) {
         throw error;
@@ -36,10 +42,27 @@ export const extractHouses = async (
 ): Promise<Array<Promise<House>>> => {
     try {
         const houses = await HouseModel.find({ _id: { $in: houseIds } });
-        return houses.map(async (house) => {
+        return houses.map(async house => {
             return await extractHouse(house);
         });
     } catch (error) {
         throw error;
     }
+};
+
+export const extractRoomType = async (
+    roomType: InstanceType<RoomTypeSchema>
+): Promise<RoomType> => {
+    const extractResult: any = {
+        ...roomType
+    };
+    const house = await HouseModel.findById(extractResult._doc.house);
+    const result = {
+        ...extractResult._doc
+    };
+
+    if (house) {
+        result.house = await extractHouse(house);
+    }
+    return result;
 };
