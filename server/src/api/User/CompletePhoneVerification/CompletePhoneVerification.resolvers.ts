@@ -34,7 +34,7 @@ const resolvers: Resolvers = {
                     }
 
                     if (user) {
-                        user.verifiedPhone = true;
+                        user.isPhoneVerified = true;
                         await user.save();
                         return {
                             ok: true,

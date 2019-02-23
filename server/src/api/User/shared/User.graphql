@@ -4,8 +4,8 @@ type User {
     phoneNumber: PhoneNumber!
     password: String
     email: EmailAddress!
-    verifiedPhone: Boolean!
-    verifiedEmail: Boolean!
+    isPhoneVerified: Boolean!
+    isEmailVerified: Boolean!
     userRole: UserRole!
     checkPrivacyPolicy: Boolean!
     houses: [House!]!

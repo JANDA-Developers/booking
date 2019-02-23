@@ -36,6 +36,6 @@ export class HouseSchema extends Typegoose {
 export const HouseModel = new HouseSchema().getModelForClass(HouseSchema, {
     schemaOptions: {
         timestamps: true,
-        collection: "houses"
+        collection: "Houses"
     }
 });

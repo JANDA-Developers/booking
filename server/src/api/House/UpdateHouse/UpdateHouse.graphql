@@ -7,9 +7,9 @@ type UpdateHouseResponse {
 type Mutation {
     UpdateHouse(
         houseId: ID!
-        name: String!
-        houseType: HouseType!
-        location: LocationInput!
+        name: String
+        houseType: HouseType
+        location: LocationInput
         refundPolicy: [TermsOfRefundInput!]
         termsOfBooking: TermsOfBookingInput
     ): UpdateHouseResponse!
