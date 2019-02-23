@@ -24,6 +24,12 @@ function JDmiddleServer({
     </DynamicImport>
   );
 
+  const MakeHouse = props => (
+    <DynamicImport load={() => import('./middleServer/MakeHouse')}>
+      {DNcompoent => (DNcompoent === null ? <p>Loading</p> : <DNcompoent {...props} />)}
+    </DynamicImport>
+  );
+
   const PhoneVerification = props => (
     <DynamicImport load={() => import('./middleServer/PhoneVerification')}>
       {DNcompoent => (DNcompoent === null ? <p>Loading</p> : <DNcompoent {...props} />)}
@@ -50,6 +56,7 @@ function JDmiddleServer({
 
   return (
     <Fragment>
+      {/* 헤더에 정보전달 */}
       <Route
         render={() => (
           <Header
@@ -59,27 +66,27 @@ function JDmiddleServer({
           />
         )}
       />
+      {/* 사이드 네비게이션 */}
       <SideNav isOpen={SideNavIsOpen} setIsOpen={setSideNavIsOpen} />
-      <Switch>
-        {isLoggedIn ? (
-          <Fragment>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/middleServer/myPage" component={isLoggedIn ? MyPage : Login} />
-            <Route
-              exact
-              path="/middleServer/phoneVerification"
-              component={isLoggedIn ? PhoneVerification : Login}
-            />
-          </Fragment>
-        ) : (
-          <Fragment>
-            <Redirect />
-            <Route exact path="/middleServer/signUp" component={SignUp} />
-            <Route exact path="/middleServer/login" component={Login} />
-            <Route component={NoMatch} />
-          </Fragment>
-        )}
-      </Switch>
+      {isLoggedIn ? (
+        // 로그인후 라운터
+        <Switch>
+          <Route exact path="/" render={() => <Home isLoggin={isLoggedIn} />} />
+          <Route exact path="/middleServer" component={Home} />
+          <Route exact path="/middleServer/myPage" component={MyPage} />
+          <Route exact path="/middleServer/phoneVerification" component={PhoneVerification} />
+        </Switch>
+      ) : (
+        // 로그인전 라운터
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/middleServer" component={Home} />
+          <Route exact path="/middleServer/makeHouse" component={MakeHouse} />
+          <Route exact path="/middleServer/signUp" component={SignUp} />
+          <Route exact path="/middleServer/login" component={Login} />
+          <Route component={NoMatch} />
+        </Switch>
+      )}
     </Fragment>
   );
 }

@@ -53,6 +53,9 @@ $sideNav-list-li-height : 3rem;
             padding: 0rem 1rem;
             top:.05em;
         }
+        &:hover {
+            background-color:$grey-level1;
+        }
     }
     @include response($mobile) {
         &__navLink {

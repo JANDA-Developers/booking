@@ -25,7 +25,7 @@ $primary-color: #4c5b73 !default;
 $primary-color-on: #fff !default;
 $primary-color-light: lighten($primary-color, 15%) !default;
 $primary-color-light-on: #fff !default !default;
-$primary-color-dark: darken($primary-color, 15%) !default;
+$primary-color-dark: #445267 !default; // 흰색 호버 bg 에 오버랩 되었을때 컬러임
 $primary-color-dark-on: #fff !default !default;
 $secondary-color: #c56c47 !default;
 $secondary-color-on: #fff !default;
@@ -38,8 +38,8 @@ $background-color: #fff;
 $error-color: #ff6760 !default;
 $link-color: #039be5 !default;
 $warring-color: EE9D5C !default;
-$grey-level1: #EBEBEB;
-$grey-level2: #b8b8b8;
+$grey-level1: #EBEBEB; // 흰색 effect-dark 받을때 컬러 오버랩을 원치 않을때 사용
+$grey-level2: #b8b8b8; 
 $grey-level3: #787878;
 $hover-effect-white: rgba(255,255,255,.1);
 $hover-effect-dark: rgba(0,0,0,.08);
@@ -66,6 +66,8 @@ $column-margin: 2% !default; // space between column grids
 $flex-grid__column--fixed-width: 200px !default;
 $flex-grid--column-margin: 2% !default;
 
+$container-small-width: 850px !default;
+
 // -- Section 섹션여백
 $docs-section-padding-top: 6rem !default;
 $docs-section-padding-bottom: 6rem !default;
@@ -76,16 +78,16 @@ $docs-section__box-bottom: 2.5rem !default;
 $forms-disabled-color: $grey-level1 !default;
 $forms-space: 13px !default; // except textInput 구조가 다름
 $forms-margin-bottom: 16px !default; // except textInput 구조가 다름
-// ===========================================================================
-
-
-// 1. Forms 폼
-// ANCHOR Forms ==========================================================================
 
 // -- labeles 라벨
 //  Exception  : Check Box, Switch
 $label-font-size: $typho-small !default;
 $label-font-color: $html-color !default;
+
+// ===========================================================================
+
+// 1. Forms 폼
+// ANCHOR Forms ==========================================================================
 
 // -- Text Inputs + Textarea 인풋
 $input-height: 3rem !default;

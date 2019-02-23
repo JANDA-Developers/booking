@@ -1,13 +1,19 @@
 @import '../../style_config/style_config';
 
 .JDsearchInput{
+    position: relative;
+    display: block;
+
+    &__label {
+        font-size: $label-font-size;
+        color: $label-font-color;
+    }
 
     &__icon {
+        position: absolute;
         font-size: 1.2rem;
-        .JDicon__svg {
-            right: 1.25em;
-            top:.2em;
-        }
+        right: 0.25em;
+        top:1.5em;
     }
     &--showList {
         .JDsearchInput__ul {
@@ -15,8 +21,6 @@
         }
     }
 
-    display: inline-block;
-    
     &__input {
         height: $searchInput-input-height;
         line-height: $searchInput-input-height;
@@ -25,6 +29,8 @@
         border-bottom: $searchInput-input-border;
         margin-bottom: $searchInput-input-margin-bottom;
         outline:none;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     &__ul {
@@ -35,7 +41,9 @@
         background-color:white;
         border-radius: $searchInput-border-radius;
     }
-
+    &__input_wrapper { 
+        display: block;
+    }
     &__li {
         padding:$searchInput-li-padding;
         border-top:$searchInput-li-border-top;

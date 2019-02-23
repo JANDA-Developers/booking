@@ -60,7 +60,7 @@ function Login({ client, history }) {
                     type="password"
                     label="PW"
                   />
-                  <Buttons type="submit" label="로그인" />
+                  <Buttons type="submit" thema="primary" label="로그인" />
                 </form>
               );
             }}

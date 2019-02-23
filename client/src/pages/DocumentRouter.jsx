@@ -35,13 +35,13 @@ class DocumentRouter extends Component {
     );
 
     const ShowComponents = props => (
-      <DynamicImport load={() => import('./documents/ShowComponents')}>
+      <DynamicImport load={() => import('./documents/show/ShowComponents')}>
         {DNcompoent => (DNcompoent === null ? <p>Loading</p> : <DNcompoent {...props} />)}
       </DynamicImport>
     );
 
-    const DocumentsMain = props => (
-      <DynamicImport load={() => import('./documents/Main')}>
+    const DocumentsHome = props => (
+      <DynamicImport load={() => import('./documents/Home')}>
         {DNcompoent => (DNcompoent === null ? <p>Loading</p> : <DNcompoent {...props} />)}
       </DynamicImport>
     );
@@ -53,7 +53,7 @@ class DocumentRouter extends Component {
         </Helmet>
         <Route path="/documents" component={Header} />
         <Switch>
-          <Route exact path="/documents" component={DocumentsMain} />
+          <Route exact path="/documents" component={DocumentsHome} />
           <Route exact path="/documents/ShowComponents" component={ShowComponents} />
           <Route exact path="/documents/grid" component={Grid} />
           <Route exact path="/documents/color" component={ColorPage} />

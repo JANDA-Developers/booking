@@ -30,9 +30,11 @@ const Header = ({ verifiedPhone, isLoggin, sideNavOpener }) => (
             </span>
           )}
         </Mutation>
-        <NavLink className="header__link" to="/middleServer/phoneVerification">
-          <Button label="인증하기" blink mode="flat" color="white" />
-        </NavLink>
+        {verifiedPhone || (
+          <NavLink className="header__link" to="/middleServer/phoneVerification">
+            <Button label="인증하기" blink mode="flat" color="white" />
+          </NavLink>
+        )}
       </Fragment>
     ) : (
       <Fragment>

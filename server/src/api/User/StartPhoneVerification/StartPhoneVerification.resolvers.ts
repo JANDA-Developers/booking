@@ -1,8 +1,7 @@
-import { ObjectId } from "bson";
 import { Target, VerificationModel } from "../../../models/Verification";
 import { StartPhoneVerificationResponse } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
-import privateResolver from "../../../utils/privateResolvers";
+import privateResolver from "../../../utils/privateResolver";
 import { sendVerificationSMS } from "../../../utils/sendSMS";
 
 const resolvers: Resolvers = {
@@ -23,17 +22,16 @@ const resolvers: Resolvers = {
                     });
                     console.log({
                         userId: user._id,
-                        vfId: existingVerification,
+                        vfId: !existingVerification || existingVerification.user
                     });
                     
-                    if (existingVerification && existingVerification.user === user._id) {
+                    if (existingVerification && existingVerification.user.toString() === user._id.toString()) {
                         await existingVerification.remove();
                     }
 
                     const verification = new VerificationModel({
                         target: Target.PHONE,
-                        payload: phoneNumber,
-                        user: new ObjectId(user._id)
+                        payload: phoneNumber
                     });
                     await verification.save();
                     sendVerificationSMS(phoneNumber, verification.key);

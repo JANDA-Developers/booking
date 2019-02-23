@@ -148,7 +148,7 @@ function SignUp({ history }) {
                       </div>
                     </div>
                     <div>
-                      <Button type="submit" label="가입완료" mode="large" />
+                      <Button thema="primary" type="submit" label="가입완료" mode="large" />
                     </div>
                   </form>
                 );

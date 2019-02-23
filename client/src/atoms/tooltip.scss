@@ -1,5 +1,10 @@
 @import "../style_config/style_config";
 
+.JDtooltip {
+        &--center {
+            text-align: center;
+        }
+}
 .JDtooltip.__react_component_tooltip {
 
     &.show {

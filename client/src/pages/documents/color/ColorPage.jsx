@@ -1,5 +1,5 @@
 import React from 'react';
-
+import Tooltip from '../../../atoms/tooltip';
 import ColorBox from './components/ColorBox';
 import './ColorPage.scss';
 
@@ -9,13 +9,29 @@ const ColorPage = () => (
       <div className="docs-section">
         <div className="flex-grid flex-grid--around">
           <div className="flex-grid__col col--full-6 col--wmd-6">
-            <ColorBox color="primary" summary="" txt="primary" />
+            <ColorBox dataTip dataFor="tooltip__primary" color="primary" summary="" txt="primary" />
+            <Tooltip class="JDtooltip" id="tooltip__primary" type="dark" effect="solid">
+              <span>
+                <h6 className="JDtooltip__title">주 사용 컬러</h6>
+                <p>중요한 정보를 표시합니다.</p>
+                <p>의미 : 통찰과 포용</p>
+              </span>
+            </Tooltip>
           </div>
           <div className="flex-grid__col col--full-3 col--wmd-6">
             <ColorBox color="primary-light" summary="" txt="primary-light" />
+            <Tooltip class="JDtooltip" id="tooltip__primary" type="dark" effect="solid">
+              <span>
+                <h6 className="JDtooltip__title">주 사용 컬러</h6>
+                <p>중요한 정보를 표시합니다.</p>
+                <p>의미 : 안전과 완강한 힘</p>
+                {/* 양감 버튼을 호버 했을때 */}
+              </span>
+            </Tooltip>
           </div>
           <div className="flex-grid__col col--full-3 col--wmd-6">
             <ColorBox color="primary-dark" summary="" txt="primary-dark" />
+            {/* Flat 호버 했을때 */}
           </div>
         </div>
         <div className="flex-grid flex-grid--around">

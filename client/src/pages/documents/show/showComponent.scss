@@ -1,16 +1,18 @@
-@import "../../style_config/style_config";
+@import "../../../style_config/style_config";
 
-.showCompoent {
-    .showCompoent__icon_box {
+.showComponent {
+    .showComponent__icon_box {
         padding: 4px;
         background-color: $grey-level1;
         text-align: center;
-        margin: 1px;
         width: 51px;
         flex-wrap: nowrap;
         overflow-wrap: break-word;
         display: block;
         flex: none;
+        &+.showComponent__icon_box {
+            margin-left: 2px;
+        }
 
         svg {
             display: block;
@@ -36,4 +38,15 @@
         font-size: $typho-tiny;
         margin-top: 0;
     }
+
+    .showComponent__blink {
+        margin-left: $forms-space;
+    }
+
+    &__pulse {
+        float:right;
+    }
+}
+.showComponent__pulse{
+    float:right;
 }
