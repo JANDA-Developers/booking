@@ -24,9 +24,9 @@ Host-Side:
             ✔ Update House @done(19-02-19 18:29)
             ✔ Delete House @done(19-02-19 18:29)
         Create/Modify/Delete RoomType:
-            ☐ Create RoomType @today 
-            ☐ Update RoomType @today 
-            ☐ Delete RoomType @today 
+            ✔ Create RoomType @today @done(19-02-21 17:28)
+            ✔ Update RoomType @today @done(19-02-21 17:28)
+            ✔ Delete RoomType @today @done(19-02-21 17:28)
             ☐ Create Room(linked with RoomType) @today 
             ☐ Update Room @today 
             ☐ Delete Room @today 
