@@ -23,6 +23,9 @@ export class HouseSchema extends Typegoose {
     @prop()
     termsOfBooking: TermsOfBooking | undefined;
 
+    @prop({ default: Array<Types.ObjectId>() })
+    refundPolicy: Types.ObjectId[] | undefined;
+    
     @prop({ required: true })
     user: Types.ObjectId;
 

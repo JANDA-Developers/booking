@@ -1,4 +1,3 @@
-import { ObjectId } from "bson";
 import { InstanceType } from "typegoose";
 import { extractRoomType } from "../../../models/Merge";
 import { RoomTypeModel } from "../../../models/RoomType";
@@ -29,6 +28,19 @@ const resolvers: Resolvers = {
                             roomType: null
                         };
                     }
+
+                    if (
+                        !(await RoomTypeModel.find({
+                            name: args.name,
+                            house: args.house
+                        }))
+                    ) {
+                        return {
+                            ok: false,
+                            error: "Existing RoomType Name",
+                            roomType: null
+                        };
+                    }
                 } catch (error) {
                     return {
                         ok: false,
@@ -39,7 +51,7 @@ const resolvers: Resolvers = {
                 try {
                     const roomType = await new RoomTypeModel({
                         ...args,
-                        house: new ObjectId(args.house),
+                        house: args.house,
                         user: user._id
                     });
                     // 방 타입을 생성해야함... 방 타입에 들어갈 정보들부터 확인해보자...

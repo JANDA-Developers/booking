@@ -1,8 +1,9 @@
 import { Types } from "mongoose";
 import { InstanceType } from "typegoose";
-import { House, RoomType, User } from "../types/graph";
+import { House, Room, RoomType, User } from "../types/graph";
 import { HouseModel, HouseSchema } from "./House";
-import { RoomTypeSchema } from "./RoomType";
+import { RoomSchema } from "./Room";
+import { RoomTypeModel, RoomTypeSchema } from "./RoomType";
 import { UserModel, UserSchema } from "./User";
 
 export const extractUser = async (
@@ -65,4 +66,21 @@ export const extractRoomType = async (
         result.house = await extractHouse(house);
     }
     return result;
+};
+
+export const extractRoom = async (
+    room: InstanceType<RoomSchema>
+): Promise<Room> => {
+    const extractResult: any = {
+        ...room
+    };
+    const roomType = await RoomTypeModel.findById(extractResult._doc.roomType);
+    if (roomType) {
+        return {
+            ...extractResult._doc,
+            roomType: await extractRoomType(roomType)
+        };
+    } else {
+        throw new Error("RoomType is Null...");
+    }
 };

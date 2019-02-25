@@ -19,6 +19,7 @@ export enum PricingTypeEnum {
                 this.index = test.index + 1;
             }
         }
+        this.house = new ObjectId(this.house);
     } catch (error) {
         throw error;
     }

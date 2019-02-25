@@ -19,6 +19,8 @@ const resolvers: Resolvers = {
                 const { user } = req;
                 try {
                     // 1. userId와 houseId로 존재하는 객체인지 조회한다.
+                    console.log(args);
+                    
                     const existingHouse = await HouseModel.findByIdAndUpdate(
                         {
                             _id: args.houseId,
