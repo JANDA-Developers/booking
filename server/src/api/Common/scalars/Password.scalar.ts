@@ -20,8 +20,8 @@ function parseLiteral(ast) {
 }
 
 export default new GraphQLScalarType({
-    name: "Name",
-    description: "이름. 특수문자 사용 불가 ('.', ''', 공백 만 사용 가능)",
+    name: "Password",
+    description: "특수문자 1개이상 포함, 7~15자리 숫자 & 영문",
     serialize,
     parseValue,
     parseLiteral
