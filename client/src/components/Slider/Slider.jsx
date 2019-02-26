@@ -12,22 +12,23 @@ const JDslideDefaultSettings = {
   speed: 500,
   slidesToShow: 1,
   slidesToScroll: 1,
+  slideCount: 1,
   nextArrow: (
-    <div>
-      <CircleIcon darkWave>
-        <Icon icon="arrow_right" />
-      </CircleIcon>
-    </div>
+    <CircleIcon darkWave>
+      <Icon icon="arrow_right" />
+    </CircleIcon>
   ),
   prevArrow: (
-    <div>
-      <CircleIcon darkWave>
-        <Icon icon="arrow_left" />
-      </CircleIcon>
-    </div>
+    <CircleIcon darkWave>
+      <Icon icon="arrow_left" />
+    </CircleIcon>
   ),
 };
 
-const JDSlider = ({ children, ...props }) => <Slider {...JDslideDefaultSettings}>{children}</Slider>;
+const JDSlider = ({ children, ...props }) => (
+  <Slider {...JDslideDefaultSettings} {...props}>
+    {children}
+  </Slider>
+);
 
 export default JDSlider;

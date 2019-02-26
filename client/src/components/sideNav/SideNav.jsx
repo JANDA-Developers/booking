@@ -23,18 +23,17 @@ function SideNav({ isOpen, setIsOpen }) {
   return (
     <Fragment>
       <div className={classes}>
-        <div className="JDsideNav__profill">
-          <div style={profileStyle} className="JDsideNav__circle" />
-          <div />
+        <div className="JDsideNav__profill JD">
+          <div style={profileStyle} className="JDsideNav__circle JDwaves-effect" />
         </div>
         <div className="JDsideNav__listContainer">
           <NavLink to="/" className="JDsideNav__navLink">
             <Icon icon="list" />
-            <span className="JDsideNav__title">예약목록</span>
+            <span className="JDsideNav__title">Mnue1</span>
           </NavLink>
           <NavLink to="/" className="JDsideNav__navLink">
             <Icon icon="list" />
-            <span className="JDsideNav__title">예약목록</span>
+            <span className="JDsideNav__title">Mnue2</span>
           </NavLink>
         </div>
       </div>

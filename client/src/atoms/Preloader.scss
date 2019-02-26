@@ -1,5 +1,26 @@
 @import '../style_config/style_config.scss';
 
+@keyframes rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+}
+
+@keyframes disapper {
+    0% {
+        opacity: 0;
+    }
+    20% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
 .preloader {
     width: 1.5em;
     height: inherit;
@@ -7,5 +28,24 @@
     fill:inherit;
     &__outerline {
         fill: $grey-level1;
+    }
+}
+
+.preloader--page__wrap {
+    opacity: 0;
+    animation: disapper 2s 1 linear;
+    animation-fill-mode: forwards;
+    .preloader--page {
+        width: 20%;
+        padding-top: 20%;
+        margin: 22vh auto;
+        border: 5vw solid $grey-level1;
+        border-top: 5vw solid $primary-color;
+        border-radius: 50%;
+        animation: rotate 3s infinite linear;
+        @include response ($phablet) {
+            width: 50%;
+            padding-top: 50%;
+        }
     }
 }

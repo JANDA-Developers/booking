@@ -10,6 +10,7 @@
   
     flex: 1;
     margin-left: $flex-grid--column-margin;
+    max-width: 100%; //for slider....
 
     &.col--grow-1 {
       flex-grow: 1;

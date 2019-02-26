@@ -26,7 +26,7 @@ function PhoneVerification() {
               setPopPhone(true);
             } else {
               console.log('StartPhoneVerification Error');
-              console.log(error);
+              console.error(error);
             }
           }}
         >
@@ -47,7 +47,7 @@ function PhoneVerification() {
           <Query query={GET_MY_PHON_NUMBER}>
             {({ loading, error, data: { GetMyProfile: { user: { phoneNumber = {} } = {} } = {} } }) => {
               if (error) {
-                console.log(error);
+                console.error(error);
                 return false;
               }
               console.log(phoneNumber);

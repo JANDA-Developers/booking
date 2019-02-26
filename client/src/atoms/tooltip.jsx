@@ -7,11 +7,11 @@ import './tooltip.scss';
 const ToolTip = ({ children, ...props }) => <ReactTooltip {...props}>{children}</ReactTooltip>;
 
 ToolTip.propTypes = {
-  props: PropTypes.object.isRequired,
+  props: PropTypes.any,
 };
 
 ToolTip.defaultProps = {
-  className: {},
+  props: {},
 };
 
 export default ErrProtecter(ToolTip);

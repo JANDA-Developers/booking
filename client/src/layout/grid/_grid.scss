@@ -32,7 +32,7 @@ Markup:
 
 .container--sm {
   margin: 0 auto;
-  max-width: 640px;
+  max-width: $container-small-width;
   padding: 2.4rem 2rem;
 }
 
@@ -45,14 +45,14 @@ Markup:
 
 @include response ($full,$mobile) {
   .container {
-    width: $container-width-larger-than-mobile;
     padding: 0;
+
+    @include response ($tablet){
+      width: 100%;
+    }
   }
 }
 
-  .container {
-    width: $container-width-larger-than-phablet;
-  }
 
   .col {
     margin-left: $column-margin;
@@ -192,3 +192,4 @@ Markup:
   content: "";
   display: table;
 }
+

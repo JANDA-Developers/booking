@@ -1,10 +1,5 @@
 @import '../../style_config/style_config.scss';
 
-$sideNav-width : 200px;
-$sideNav-profile-height : 142px;
-$sideNav-profile-circle-size : 72px;
-$sideNav-profile-circle-margin-top : 2rem;
-$sideNav-list-li-height : 3rem;
 .JDsideNav {
     position: fixed;
     top:0;
@@ -37,6 +32,20 @@ $sideNav-list-li-height : 3rem;
         border-radius:50%;
         margin-top: $sideNav-profile-circle-margin-top;
         background-size:100%;
+        position: relative;
+        overflow:hidden;
+        &:hover {
+            cursor:pointer;
+            &:after{
+                content:"";
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                top:0;
+                left: 0;
+                background-color:$hover-effect-dark;
+            }
+        }
     }
 
     &__navLink {
@@ -50,8 +59,7 @@ $sideNav-list-li-height : 3rem;
         padding-left: $sideNav-list-padding;
         border-bottom : 1px solid $grey-level1;
         .JDicon__svg {
-            padding: 0rem 1rem;
-            top:.05em;
+            padding: 0rem $sideNav-icon-padding;
         }
         &:hover {
             background-color:$grey-level1;

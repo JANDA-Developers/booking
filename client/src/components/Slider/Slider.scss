@@ -1,36 +1,43 @@
 @import '../../style_config/style_config.scss';
 
-$slider-dot-size : 10px;
-$slider-dot-margin : 12px;
-$slider-dots-padding : 15px;
-$slider-arrow-height : $circle-icon-size;
-
 .JDslider {
     position: relative;
     overflow:hidden;
 
     &__slide {
-        background-color: $grey-level1;
         &-wrap{
             text-align: center;
             box-sizing:border-box;
             outline:0;
         }
     }
-    .slick-arrow {
+    // arrow
+    .circleIcon {
         position: absolute; 
         top: calc( 50% - (#{$slider-arrow-height} + #{$slider-dot-size} + #{$slider-dots-padding}) / 2);
-        color: transparent;
-        border: 0;
-        outline: none;
-        background: transparent;
         z-index: 9;
+        // first arrow ◀️
+        &:first-child{
+            left: 0;
+            // last arrow ▶️
+            & ~ .circleIcon {
+                right: 0;
+            }
+        }
     }
-    .slick-slide {
-        float: left;
-    }
-    .slick-next {
-        right: 0;
+
+    // button + 마진 떄문
+    .slick-list {
+        margin: 0;
+        //  슬라이드 한장 한장
+        .slick-slide {
+            float: left;
+        }
+        .slick-track:after {
+            display:block;
+            clear:both;
+            content:"";
+        }
     }
     
     // 클릭시 효과
@@ -41,59 +48,66 @@ $slider-arrow-height : $circle-icon-size;
         justify-content: center;
         padding: $slider-dots-padding 0;
         padding-bottom: 0;
-    }
 
-    .JDslider__dots li.slick-active {
-        button {
-            font-size: 0;
-            line-height: 0;
-            display: block;
-            color: transparent;
-            border: 0;
-            outline: none;
-            background: transparent;
-            height: $slider-dot-size;
+
+        // 인덱스 버튼들
+        li {
+            border-radius:100%;
+            cursor: pointer;
+            position: relative;
+            display: inline-block;
+            margin: 0 $slider-dot-margin/2;
+            padding: 0;
             
-            // 점으로 셋팅
-            &:before{
-                background-color: $html-color;
+            // 기본 버튼 가림
+            button {
+                font-size: 0;
+                line-height: 0;
+                display: block;
+                padding: 5px;
+                color: transparent;
+                border: 0;
+                outline: none;
+                background: transparent;
+                
+                // 점                
+                &:before{
+                    content:"";
+                    background-color: $slider-dot-bgColor;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: $slider-dot-size;
+                    height: $slider-dot-size;
+                    border-radius:50%;
+                    text-align: center;
+                    cursor:pointer;
+                    -webkit-font-smoothing: antialiased;
+                }
+                &:hover {
+                    &:before {
+                        background-color:$slider-dot-hover-bgColor;
+                    }
+                }
             }
-        }
-    }
 
-    // 인덱스 버튼들
-    .JDslider__dots li {
-        border-radius:100%;
-        cursor: pointer;
-        position: relative;
-        display: inline-block;
-        margin: 0 $slider-dot-margin/2;
-        padding: 0;
-        
-        // 기본 버튼 가림
-        button {
-            font-size: 0;
-            line-height: 0;
-            display: block;
-            padding: 5px;
-            color: transparent;
-            border: 0;
-            outline: none;
-            background: transparent;
-            
-            // 점으로 셋팅
-            &:before{
-                content:"";
-                background-color: $grey-level2;
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: $slider-dot-size;
-                height: $slider-dot-size;
-                border-radius:50%;
-                text-align: center;
-                cursor:pointer;
-                -webkit-font-smoothing: antialiased;
+            // 엑티브된 dot 
+            &.slick-active {
+                button {
+                    font-size: 0;
+                    line-height: 0;
+                    display: block;
+                    color: transparent;
+                    border: 0;
+                    outline: none;
+                    background: transparent;
+                    height: $slider-dot-size;
+                    
+                    // 점
+                    &:before{
+                        background-color: $slider-dot-active-bgColor;
+                    }
+                }
             }
         }
     }

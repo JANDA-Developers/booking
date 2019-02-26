@@ -6,6 +6,7 @@ import { JDMonthTextChanger, JDWeekChanger } from './TextChanger';
 import {
   isEmail, isPhone, isName, isUrl, isMaxOver, isPassword,
 } from './InputValidation';
+import searchListFormat from './SearchListFormat';
 
 const JDutils = {
   ErrProtecter,
@@ -18,6 +19,7 @@ const JDutils = {
   isMaxOver,
   isPassword,
   JDMonthTextChanger,
+  searchListFormat,
 };
 
 export default JDutils;

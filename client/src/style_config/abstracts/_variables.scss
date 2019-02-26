@@ -2,8 +2,8 @@
 // -- z-index 
 $z-index-0: -1;
 $z-index-1: 10;
-$z-index-2: 20;
-$z-index-3: 30;
+$z-index-2: 20; // searchUl
+$z-index-3: 30; // JDselect
 $z-index-4: 40;
 $z-index-5: 50; 
 $z-index-6: 60; // Modal Level 1
@@ -20,7 +20,6 @@ $typho-tiny : .5rem;
 
 // -- Colors 컬러 칼라 
 $html-color: #343434 !default;
-$html-color-hover: $grey-level3!default;
 $primary-color: #4c5b73 !default;
 $primary-color-on: #fff !default;
 $primary-color-light: lighten($primary-color, 15%) !default;
@@ -33,17 +32,19 @@ $secondary-color-light: lighten($secondary-color, 15%) !default;
 $secondary-color-light-on: #fff !default;
 $secondary-color-dark: darken($secondary-color, 15%) !default;
 $secondary-color-dark-on: #fff !default;
-$success-color: #4CAF50 !default;
+// 성공색은 너무 이질적인 느낌을 주어서 폐기합니다.
+// $success-color: #52a071 !default;
+$success-color: '-' !default;
 $background-color: #fff;
 $error-color: #ff6760 !default;
-$link-color: #039be5 !default;
-$warring-color: EE9D5C !default;
-$grey-level1: #EBEBEB; // 흰색 effect-dark 받을때 컬러 오버랩을 원치 않을때 사용
-$grey-level2: #b8b8b8; 
-$grey-level3: #787878;
+$link-color: rgb(66, 62, 199) !default;
+$grey-level1: #EBEBEB !default; // 흰색 effect-dark 받을때 컬러 오버랩을 원치 않을때 사용
+$grey-level2: #b8b8b8 !default; 
+$grey-level3: #787878 !default;
 $hover-effect-white: rgba(255,255,255,.1);
 $hover-effect-dark: rgba(0,0,0,.08);
 $curtain-color: rgba(0,0,0,.78) !default;
+$html-color-hover: $grey-level3!default;
 // -- BreackPoints 브레이크 포인트
 // 각각은 최대크기
 $mobile: "400px" !default; // sm
@@ -56,8 +57,6 @@ $null: "0px" !default;
 
 // -- Grid 그리드
 $container-width: 1000px !default;
-$container-width-larger-than-mobile: 85% !default;
-$container-width-larger-than-phablet: 80% !default;
 $container-padding: 0.5rem;
 $total-columns: 12 !default;
 $column-width: 100 / $total-columns !default; // calculates individual column width based off of # of columns
@@ -83,6 +82,12 @@ $forms-margin-bottom: 16px !default; // except textInput 구조가 다름
 //  Exception  : Check Box, Switch
 $label-font-size: $typho-small !default;
 $label-font-color: $html-color !default;
+
+// -- 표준규격 
+$standard-border-radius : 2px;
+$standard-li-height : 36px;
+$standard-li-padding : 1rem;
+$standard-icon-margin : 1rem;
 
 // ===========================================================================
 
@@ -116,18 +121,20 @@ $radio-empty-color: $html-color !default;
 $radio-border: 2px solid $radio-fill-color !default;
 $radio-disabled-color: $forms-disabled-color;
 
-// -- Select 셀렉트
+// -- Select 셀렉트  option is a li 😸
 $select-border: 1px solid $html-color !default;
 $select-option-active-bgcolor: $hover-effect-dark !default;
 $select-option-selected-bgcolor: $primary-color !default;
 $select-option-selected-color: #fff !default;
-$select-padding: 2px 8px !default;
-$select-radius: 2px !default;
+$select-option-hover-bgcolor: $hover-effect-dark !default;
+$select-option-padding: 0px 1rem;
+$select-option-height: $standard-li-height;
+$select-padding: 2px 1rem !default;
+$select-radius: $standard-border-radius !default;
 $select-disabled-color: $forms-disabled-color !default;
 $select-menue-radius: 0px !default;
 $select-background: #fff !default;
 $select-focus-border-color: $primary-color !default;
-$select-option-hover-bgcolor: $hover-effect-dark !default;
 $selcet-placeholder-color: $html-color;
 
 // -- Multi Select 멀티 셀렉트
@@ -150,7 +157,7 @@ $switch-disabled-solid-color: $forms-disabled-color;
 // -- CheckBox 체크박스
 $checkBox-label-fontSize:1rem !default;
 $checkBox-label-color:$html-color !default;
-$checkbox-border-radius: 2px !default;
+$checkbox-border-radius: $standard-border-radius !default;
 $checkBox-border-color: $html-color;
 $checkbox-disabled-border-color: $forms-disabled-color !default;
 $checkbox-checked-color: $primary-color;
@@ -179,6 +186,7 @@ $daypicker-caption-height: 34px !default;
 $daypicker-day-transition: 0.2s !default;
 $daypicker-border: 1px solid $grey-level2!default;
 $daypicker-border-radius: 2px;
+$daypicker-today-color: $primary-color-dark;
 
 // -- horizen
 $horizen-caption-bgcolor : $grey-level1;
@@ -190,11 +198,11 @@ $horizen-month-bordeRight :  none;
 // -- Shared styles
 $button-border: none !default;
 $button-font-size: $typho-large !default;
-$button-height: 36px !default;
+$button-height: 2.25rem !default;
 $button-padding: 0 1rem !default;
 $button-radius: 2px !default;
 $buttons-space: .4rem !default;
-$buttons-icon-margin: 0.75em !default;
+$buttons-icon-margin: $standard-icon-margin !default;
 $buttons-small-icon-margin: 0.45em !default;
 $button-letter-sapcing: .5px !default;
 $button-color: $html-color !default;
@@ -226,7 +234,7 @@ $button-large-font-size: $typho-large !default;
 
 $modal-background-color: $curtain-color !default;
 $modal-content-padding: 10px !default;
-$modal-border-radius: 2px !default;
+$modal-border-radius: $standard-border-radius !default;
 $button-height: 36px !default;
 
 // 6 SearchInput
@@ -236,21 +244,23 @@ $searchInput-input-height: $input-height !default;
 $searchInput-input-border: $input-border !default;
 $searchInput-input-margin-bottom: .5rem !default;
 $searchInput-border-color:$grey-level1 !default;
-$searchInput-border-radius: 2px;
+$searchInput-border-radius: $standard-border-radius;
 $searchInput-li-border-top: 1px dotted $searchInput-border-color !default;
-$searchInput-li-padding: 5px !default;
+$searchInput-li-padding: .0rem $standard-li-padding !default;
+$searchInput-li-height: $standard-li-height !default;
 
 // 7 SideNav 사이드 네비
 // ANCHOR Side NAV =========================================================================
 
-$sideNav-list-padding: 1rem;
+$sideNav-list-padding: $standard-li-padding;
 $sideNav-width : 200px;
 $sideNav-profile-height : 142px;
 $sideNav-profile-circle-size : 72px;
 $sideNav-profile-circle-margin-top : 2rem;
-$sideNav-list-li-height : 3rem;
+$sideNav-list-li-height : 54px;
 $sideNav-list-li-bgColor : white;
 $sideNav-curtain-color: $curtain-color;
+$sideNav-icon-padding: $standard-icon-margin;
 
 // 8 Header 헤더
 // ANCHOR Header NAV =========================================================================
@@ -260,3 +270,23 @@ $header-padding: 1rem;
 // ANCHOR Header NAV =========================================================================
 $circle-icon-size: 2rem;
 $circle-icon-font-size: 1rem;
+
+// 10 Slider 슬라이더
+// ANCHOR slider Slider =========================================================================
+$slider-dots-padding: 15px;
+$slider-dot-size: 10px;
+$slider-dot-margin: 12px;
+$slider-dot-bgColor: $grey-level2;
+$slider-dot-active-bgColor: $html-color;
+$slider-dot-hover-bgColor: $grey-level3;
+$slider-arrow-height : $circle-icon-size;
+
+// 11 pagination 페이지네이션
+// ANCHOR paginiation Paginiation =========================================================================
+// 버튼 사이즈와 같게 제작된 것임
+$pagination-li-radius: $standard-border-radius;
+$pagination-li-height: 2.25rem;
+$pagination-li-padding: 1rem;
+$pagination-li-margin: 0.5rem;
+$pagination-li-hover: $grey-level1;
+$pagination-li-active: $grey-level1;

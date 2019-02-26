@@ -1,26 +1,11 @@
 @import "../style_config/style_config";
 
-.JDtooltip {
-        &--center {
-            text-align: center;
-        }
-}
 .JDtooltip.__react_component_tooltip {
 
     &.show {
         opacity: 1;
     }
  
-    //todo: icon
-    &.type-warning{
-
-        background-color:$warring-color;
-        
-        &:after{
-            border-top-color:$warring-color;
-        }
-    }
-
     &.type-info{
         background-color:$link-color;
         

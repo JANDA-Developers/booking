@@ -11,8 +11,10 @@ $margin-color:#F9CC9D;
         flex: none;
     }
 
-    .flex-grid {
-        justify-content: space-between
+    .containers {
+        height:100px;
+        text-align: center;
+        line-height:100%;
     }
 
     h1,
@@ -21,17 +23,49 @@ $margin-color:#F9CC9D;
     h4,
     h5,
     h6 {
-        margin-bottom: 0;
+        display: inline;
     }
 
     .container_ml {
         width: calc((100% - #{$container-width})/2);
         background-color: $margin-color;
+        height: 100%;
+        float:left
     }
 
     .container_mr {
         width: calc((100% - #{$container-width})/2);
         background-color: $margin-color;
+        height: 100%;
+        float:right
+    }
+    
+    .container_pl {
+        width: calc(#{$container-padding} / 2);
+        background-color: $padding-color;
+        float:left;
+        height: 100%;
+    }
+    
+    .container_pr {
+        width: calc(#{$container-padding} / 2);
+        background-color: $padding-color;
+        float:right;
+        height: 100%;
+    }
+    
+    .container-sm_ml {
+        width: calc((100% - #{$container-small-width})/2);
+        background-color: $margin-color;
+        float:left;
+        height: 100%;
+    }
+    
+    .container-sm_mr {
+        width: calc((100% - #{$container-small-width})/2);
+        background-color: $margin-color;
+        float:right;
+        height: 100%;
     }
 
     @mixin response ($mobile) {

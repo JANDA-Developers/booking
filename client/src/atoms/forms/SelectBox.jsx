@@ -43,7 +43,7 @@ JDselect.propTypes = {
   isMulti: PropTypes.bool,
   onChange: PropTypes.func,
   // todo: objectShape
-  options: PropTypes.object,
+  options: PropTypes.array,
 };
 JDselect.defaultProps = {
   disabled: false,
@@ -51,7 +51,7 @@ JDselect.defaultProps = {
   label: '',
   isMulti: false,
   onChange: () => {},
-  options: {},
+  options: [],
   selectedOption: {},
 };
 

@@ -18,6 +18,11 @@
     margin-left: $buttons-space;
 }
 
+// 링크와 아이콘 간격
+.JDanchor .JDicon__svg {
+    margin-left: $standard-icon-margin;
+}
+
 // 마진 bottom
 // todo: 컴포넌트들 마진을어떻게 분류할지 생각
 .JDcheck_box_wrap,
@@ -28,6 +33,7 @@
 .JDlabel,
 .JDdatePcikerInformation,
 .circleIcon,
-.JDslider  {
+.JDslider,
+.JDpagination  {
     margin-bottom: $forms-margin-bottom;
 }

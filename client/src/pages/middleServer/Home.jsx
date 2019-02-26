@@ -1,5 +1,8 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import Button from '../../atoms/Buttons';
+import './Home.scss';
+
 // eslint-disable-next-line react/prop-types
 const Home = ({ history, ...pros }) => {
   const startService = () => {
@@ -12,19 +15,13 @@ const Home = ({ history, ...pros }) => {
     }
   };
   return (
-    <div id="homePage" className="container">
+    <div id="HomePage" className="container">
       <div className="docs-section">
         <h1>JANDA</h1>
-        <Button
-          label="시작하기"
-          onClick={startService}
-          mode="large"
-          thema="secondary"
-          type="button"
-        />
+        <Button label="시작하기" onClick={startService} mode="large" thema="secondary" type="button" />
       </div>
     </div>
   );
 };
 
-export default Home;
+export default withRouter(Home);

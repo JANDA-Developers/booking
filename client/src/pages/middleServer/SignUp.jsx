@@ -20,7 +20,7 @@ function SignUp({ history }) {
   const [infoAgreement, setInfoAgreement] = useRadio();
 
   return (
-    <div id="signUpPage" className="container">
+    <div id="signUpPage" className="container container--sm">
       <div className="docs-section">
         {/* 인증모달 */}
         <Mutation mutation={LOG_USER_IN}>
@@ -28,8 +28,7 @@ function SignUp({ history }) {
             <Mutation
               mutation={EMAIL_SIGN_UP}
               variables={{
-                firstName: nameHoook.value,
-                lastName: nameHoook.value,
+                name: nameHoook.value,
                 email: emailHook.value,
                 phoneNumber: phoneNumberHook.value,
                 password: passwordHook.value,
@@ -48,7 +47,7 @@ function SignUp({ history }) {
                     history.push(`/middleServer/PhoneVerification`);
                   }
                 }
-                if (error) console.log(error);
+                if (error) console.error(error);
               }}
             >
               {(mutation, data) => {
@@ -92,22 +91,13 @@ function SignUp({ history }) {
                         <InputText {...nameHoook} validation={utils.isName} label="성함" />
                       </div>
                       <div className="flex-grid__col col--full-12 col--md-12">
-                        <InputText
-                          {...passwordHook}
-                          validation={utils.isPassword}
-                          type="password"
-                          label="비밀번호"
-                        />
+                        <InputText {...passwordHook} validation={utils.isPassword} type="password" label="비밀번호" />
                       </div>
                       <div className="flex-grid__col col--full-12 col--md-12">
                         <InputText {...checkPasswordHook} type="password" label="비밀번호 확인" />
                       </div>
                       <div className="flex-grid__col col--full-12 col--md-12">
-                        <InputText
-                          {...phoneNumberHook}
-                          validation={utils.isPhone}
-                          label="전화번호"
-                        />
+                        <InputText {...phoneNumberHook} validation={utils.isPhone} label="전화번호" />
                       </div>
                       <div className="flex-grid__col col--full-12 col--md-12">
                         <InputText {...emailHook} validation={utils.isEmail} label="이메일" />
@@ -132,19 +122,8 @@ function SignUp({ history }) {
                         />
                       </div>
                       <div className="flex-grid__col col--full-12 col--md-12">
-                        <Radio
-                          onChange={setInfoAgreement}
-                          label="동의"
-                          checked
-                          id="RD1--1"
-                          groupName="Agree"
-                        />
-                        <Radio
-                          onChange={setInfoAgreement}
-                          label="동의안함"
-                          id="RD1--2"
-                          groupName="Agree"
-                        />
+                        <Radio onChange={setInfoAgreement} label="동의" checked id="RD1--1" groupName="Agree" />
+                        <Radio onChange={setInfoAgreement} label="동의안함" id="RD1--2" groupName="Agree" />
                       </div>
                     </div>
                     <div>
