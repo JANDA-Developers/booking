@@ -7,8 +7,8 @@ type RoomType {
     peopleCountMax: Int!
     index: Int!
     roomCount: Int!
-    isEnable: Boolean!
-    description: String!
+    disableRanges: [DisableRange!]
+    description: String
     # 예전에 Facilities 랑 같은 아이임...
     tags: [Tag!]!
     rooms: [Room!]!

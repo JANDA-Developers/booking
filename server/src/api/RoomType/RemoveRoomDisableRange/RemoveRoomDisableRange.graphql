@@ -1,0 +1,11 @@
+type RemoveRoomDisableRangeResponse {
+    ok: Boolean!
+    error: String
+}
+type Mutation {
+    RemoveRoomDisableRange(
+        roomId: ID!
+        startDate: DateTime
+        endDate: DateTime
+    ): RemoveRoomDisableRangeResponse!
+}

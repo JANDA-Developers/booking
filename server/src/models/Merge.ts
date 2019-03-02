@@ -1,3 +1,4 @@
+import { ObjectId } from "bson";
 import { Types } from "mongoose";
 import { InstanceType } from "typegoose";
 import { House, Room, RoomType, User } from "../types/graph";
@@ -52,11 +53,18 @@ export const extractHouses = async (
 };
 
 export const extractRoomType = async (
-    roomType: InstanceType<RoomTypeSchema>
+    roomType: InstanceType<RoomTypeSchema> | string
 ): Promise<RoomType> => {
-    const extractResult: any = {
-        ...roomType
-    };
+    let extractResult: any;
+    if (typeof(roomType) === 'string') {
+        extractResult = {
+            ...(await RoomTypeModel.findById({ _id: new ObjectId(roomType) }))
+        };
+    } else {
+        extractResult = {
+            ...roomType
+        };
+    }
     const house = await HouseModel.findById(extractResult._doc.house);
     const result = {
         ...extractResult._doc
@@ -65,6 +73,27 @@ export const extractRoomType = async (
     if (house) {
         result.house = await extractHouse(house);
     }
+    return result;
+};
+
+export const extractRoomTypes = async (
+    houseId: ObjectId
+): Promise<RoomType[]> => {
+    const house = await HouseModel.findOne({ _id: houseId }, { roomTypes: 1 });
+    console.log({
+        extractRoomTypes: house
+    });
+
+    const result: RoomType[] = [];
+    if (house) {
+        await house.roomTypes.forEach(async roomTypeId => {
+            const temp = await RoomTypeModel.findById(roomTypeId);
+            if (temp) {
+                result.push(await extractRoomType(temp));
+            }
+        });
+    }
+
     return result;
 };
 
@@ -78,7 +107,8 @@ export const extractRoom = async (
     if (roomType) {
         return {
             ...extractResult._doc,
-            roomType: await extractRoomType(roomType)
+            roomType: await extractRoomType(roomType),
+            disableRanges: extractResult._doc.disableRanges || []
         };
     } else {
         throw new Error("RoomType is Null...");

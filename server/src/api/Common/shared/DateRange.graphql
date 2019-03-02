@@ -1,0 +1,30 @@
+enum DateRangeStatus {
+    PAST
+    PRESENT
+    FUTURE
+}
+
+type DateRange {
+    startDate: DateTime
+    # null인 경우 startDate 로부터 기약없이 나아감...
+    endDate: DateTime
+    status: DateRangeStatus!
+}
+
+input DateRangeInput {
+    startDate: DateTime
+    endDate: DateTime
+}
+
+type DisableRange {
+    startDate: DateTime
+    endDate: DateTime
+    description: String
+    status: DateRangeStatus!
+}
+
+input DisableRangeInput {
+    startDate: DateTime
+    endDate: DateTime
+    description: String
+}

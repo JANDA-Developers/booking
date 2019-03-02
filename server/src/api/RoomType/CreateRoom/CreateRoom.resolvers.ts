@@ -1,43 +1,47 @@
 import { ObjectId } from "bson";
-import { HouseModel } from "../../../models/House";
+import { extractRoom } from "../../../models/Merge";
+import { RoomModel } from "../../../models/Room";
 import { RoomTypeModel } from "../../../models/RoomType";
 import {
-    DeleteRoomTypeMutationArgs,
-    DeleteRoomTypeResponse
+    CreateRoomMutationArgs,
+    CreateRoomResponse
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
 import privateResolver from "../../../utils/privateResolvers";
 
 const resolver: Resolvers = {
     Mutation: {
-        DeleteRoomType: privateResolver(
+        CreateRoom: privateResolver(
             async (
                 _,
-                args: DeleteRoomTypeMutationArgs
-            ): Promise<DeleteRoomTypeResponse> => {
+                args: CreateRoomMutationArgs,
+                context
+            ): Promise<CreateRoomResponse> => {
                 try {
-                    await RoomTypeModel.findOneAndDelete({
-                        _id: args.roomTypeId,
-                        house: new ObjectId(args.houseId)
+                    const room = new RoomModel({
+                        ...args
                     });
-                    await HouseModel.updateOne(
+                    await room.save();
+                    await RoomTypeModel.updateOne(
                         {
-                            _id: new ObjectId(args.houseId)
+                            _id: new ObjectId(args.roomType)
                         },
                         {
-                            $pull: {
-                                roomTypes: new ObjectId(args.roomTypeId)
+                            $push: {
+                                rooms: new ObjectId(room._id)
                             }
                         }
                     );
                     return {
                         ok: true,
-                        error: null
+                        error: null,
+                        room: await extractRoom(room)
                     };
                 } catch (error) {
                     return {
                         ok: false,
-                        error: error.message
+                        error: error.message,
+                        room: null
                     };
                 }
             }

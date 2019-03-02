@@ -1,18 +1,19 @@
-import { GraphQLScalarType } from 'graphql';
-import { Kind } from 'graphql/language';
+import { GraphQLScalarType } from "graphql";
+import { Kind } from "graphql/language";
 
 function serialize(value: string) {
     const date = new Date(value).toISOString();
     return date.substr(0, date.search("T"));
 }
 
-function parseValue(value: Date) {
-    if (value instanceof Date || typeof value === 'string') {
-        return value.getTime();
-    } else if (typeof value === 'number') {
+function parseValue(value: any) {
+    if (value instanceof Date) {
         return value;
+    } else if (typeof value === "number" || typeof value === "string") {
+        const time: number = Math.floor(Number(value) * 0.000001) * 100000;
+        return new Date(time);
     } else {
-        return null;
+        throw new Error("Invalid Date value");
     }
 }
 
@@ -27,7 +28,9 @@ function parseLiteral(ast) {
 }
 
 export default new GraphQLScalarType({
-    name: 'Date',
-    description: 'YYYY-MM-DD',
-    serialize, parseValue, parseLiteral
+    name: "Date",
+    description: "YYYY-MM-DD",
+    serialize,
+    parseValue,
+    parseLiteral
 });

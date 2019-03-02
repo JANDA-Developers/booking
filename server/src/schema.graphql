@@ -18,8 +18,6 @@ enum BookingStatus {
   PAY_WHEN_CHK_IN
 }
 
-scalar Date
-
 scalar DateTime
 
 scalar EmailAddress
@@ -35,36 +33,12 @@ scalar URL
 # DB에 저장할 떄는 0101010의 형태로 저장하도록 Resolver에서 처리한다.
 enum Day {
   SUN
-  # BackEndog!
   MON
   TUE
   WED
   THU
   FRI
   SAT
-}
-
-type Location {
-  address: String!
-  lat: Float!
-  lng: Float!
-}
-
-input LocationInput {
-  address: String!
-  lat: Float!
-  lng: Float!
-}
-
-type DateRange {
-  startDate: String!
-  endDate: String!
-  isPast: Boolean!
-}
-
-input DateRangeInput {
-  startDate: String!
-  endDate: String!
 }
 
 type Tag {
@@ -77,6 +51,51 @@ input TagInput {
   name: String!
   content: String!
   icon: String
+}
+
+enum DateRangeStatus {
+  PAST
+  PRESENT
+  FUTURE
+}
+
+type DateRange {
+  startDate: DateTime
+  # null인 경우 startDate 로부터 기약없이 나아감...
+  endDate: DateTime
+  status: DateRangeStatus!
+}
+
+input DateRangeInput {
+  startDate: DateTime
+  endDate: DateTime
+}
+
+type DisableRange {
+  startDate: DateTime
+  endDate: DateTime
+  description: String
+  status: DateRangeStatus!
+}
+
+input DisableRangeInput {
+  startDate: DateTime
+  endDate: DateTime
+  description: String
+}
+
+type Location {
+  address: String!
+  addressDetail: String
+  lat: Float!
+  lng: Float!
+}
+
+input LocationInput {
+  address: String!
+  addressDetail: String
+  lat: Float!
+  lng: Float!
 }
 
 type Guest {
@@ -104,12 +123,20 @@ type Mutation {
   CreateHouse(name: String!, houseType: HouseType!, location: LocationInput!): CreateHouseResponse!
   DeleteHouse(_id: String!): DeleteHouseResponse!
   UpdateHouse(houseId: ID!, name: String, houseType: HouseType, location: LocationInput, refundPolicy: [TermsOfRefundInput!], termsOfBooking: TermsOfBookingInput): UpdateHouseResponse!
+  AddRoomDisableRange(roomId: ID!, disableRange: DisableRangeInput!): AddRoomDisableRangeResponse!
+  AddRoomTypeDisableRange(roomTypeId: ID!, houseId: ID!, disableRange: DisableRangeInput!): AddRoomTypeDisableRangeResponse!
+  CreateRoom(name: String!, roomType: ID!, disableRange: [DisableRangeInput!]): CreateRoomResponse!
   # 로그인 token 필요함!
-  CreateRoomType(name: String!, house: String!, pricingType: PricingType!, peopleCount: Int!, peopleCountMax: Int, isEnable: Boolean!, description: String, tags: [TagInput!]): CreateRoomTypeResponse!
-  DeleteRoomType(roomTypeId: String!): DeleteRoomTypeResponse!
-  UpdateRoomType(roomTypeId: String!, name: String, peopleCount: Int, peopleCountMax: Int, index: Int, isEnable: Boolean, description: String): UpdateRoomTypeResponse!
+  CreateRoomType(name: String!, house: ID!, pricingType: PricingType!, peopleCount: Int!, peopleCountMax: Int, isEnable: Boolean, description: String, tags: [TagInput!]): CreateRoomTypeResponse!
+  DeleteRoom(roomId: ID!): DeleteRoomResponse!
+  DeleteRoomType(roomTypeId: ID!, houseId: ID!): DeleteRoomTypeResponse!
+  RemoveRoomDisableRange(roomId: ID!, startDate: DateTime, endDate: DateTime): RemoveRoomDisableRangeResponse!
+  RemoveRoomTypeDisableRange(roomTypeId: ID!, houseId: ID!, disableRange: DisableRangeInput!): RemoveRoomTypeDisableRangeResponse!
+  UpdateRoom(roomId: ID!, name: String): UpdateRoomResponse!
+  ChangeIndex(roomTypeId: ID!, houseId: ID!, index: Int!): ChangeIndexResponse!
+  UpdateRoomType(roomTypeId: ID!, houseId: ID!, name: String, peopleCount: Int, peopleCountMax: Int, description: String): UpdateRoomTypeResponse!
   CompletePhoneVerification(key: String!): CompletePhoneVerificationResponse!
-  EmailSignUp(name: String!, email: EmailAddress!, password: Password!, phoneNumber: PhoneNumber!): EmailSignUpResponse!
+  EmailSignUp(name: Name!, email: EmailAddress!, password: Password!, phoneNumber: PhoneNumber!): EmailSignUpResponse!
   GmailConnect(firstName: String!, lastName: String!, gmail: String!): GmailConnectionResponse!
   StartPhoneVerification: StartPhoneVerificationResponse!
   UpdateMyProfile(name: String!, phoneNumber: String!, password: String!): UpdateMyProfileResponse!
@@ -211,12 +238,57 @@ type RoomPrice {
   date: String!
 }
 
+type AddRoomDisableRangeResponse {
+  ok: Boolean!
+  error: String
+}
+
+type AddRoomTypeDisableRangeResponse {
+  ok: Boolean!
+  error: String
+}
+
+type CreateRoomResponse {
+  ok: Boolean
+  error: String
+  room: Room
+}
+
 type CreateRoomTypeResponse {
   ok: Boolean!
-  error: String!
+  error: String
+  roomType: RoomType
+}
+
+type DeleteRoomResponse {
+  ok: Boolean!
+  error: String
 }
 
 type DeleteRoomTypeResponse {
+  ok: Boolean!
+  error: String
+}
+
+type GetAllRoomTypeResponse {
+  ok: Boolean
+  error: String
+  roomTypes: [RoomType!]
+}
+
+type Query {
+  GetAllRoomType(houseId: ID): GetAllRoomTypeResponse!
+  EmailSignIn(email: EmailAddress!, password: Password!): EmailSignInResponse!
+  # 로그인 token 필요!
+  GetMyProfile: GetMyProfileResponse!
+}
+
+type RemoveRoomDisableRangeResponse {
+  ok: Boolean!
+  error: String
+}
+
+type RemoveRoomTypeDisableRangeResponse {
   ok: Boolean!
   error: String
 }
@@ -225,8 +297,9 @@ type Room {
   _id: ID!
   name: String!
   roomType: RoomType!
-  isEnable: Boolean!
-  createdAt: DateTime
+  disableRanges: [DisableRange!]!
+  index: Int!
+  createdAt: DateTime!
   updatedAt: DateTime
 }
 
@@ -235,28 +308,32 @@ type RoomType {
   name: String!
   house: House!
   pricingType: PricingType!
-<<<<<<< HEAD
   peopleCount: Int!
   peopleCountMax: Int!
   index: Int!
-=======
-  people_count_std: Int!
-  people_count_max: Int!
-  sort: Int!
->>>>>>> 75a26891627f1f411cf403be5ffa95eff9eefed0
   roomCount: Int!
-  isEnable: Boolean!
-  description: String!
+  disableRanges: [DisableRange!]
+  description: String
   # 예전에 Facilities 랑 같은 아이임...
   tags: [Tag!]!
   rooms: [Room!]!
-  createdAt: String!
-  updatedAt: String
+  createdAt: DateTime!
+  updatedAt: DateTime
 }
 
 enum PricingType {
   DOMITORY
   ROOM
+}
+
+type UpdateRoomResponse {
+  ok: Boolean!
+  error: String
+}
+
+type ChangeIndexResponse {
+  ok: Boolean!
+  error: String
 }
 
 type UpdateRoomTypeResponse {
@@ -274,12 +351,6 @@ type EmailSignInResponse {
   ok: Boolean!
   error: String
   token: String
-}
-
-type Query {
-  EmailSignIn(email: String!, password: String!): EmailSignInResponse!
-  # 로그인 token 필요!
-  GetMyProfile: GetMyProfileResponse!
 }
 
 type EmailSignUpResponse {
@@ -302,9 +373,9 @@ type GmailConnectionResponse {
 
 type User {
   _id: ID!
-  name: String!
+  name: Name!
   phoneNumber: PhoneNumber!
-  password: String
+  password: Password
   email: EmailAddress!
   isPhoneVerified: Boolean!
   isEmailVerified: Boolean!

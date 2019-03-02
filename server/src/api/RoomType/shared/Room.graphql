@@ -2,7 +2,8 @@ type Room {
     _id: ID!
     name: String!
     roomType: RoomType!
-    isEnable: Boolean!
-    createdAt: DateTime
+    disableRanges: [DisableRange!]!
+    index: Int!
+    createdAt: DateTime!
     updatedAt: DateTime
 }

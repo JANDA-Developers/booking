@@ -1,17 +1,18 @@
-import { GraphQLScalarType } from 'graphql';
-import { Kind } from 'graphql/language';
+import { GraphQLScalarType } from "graphql";
+import { Kind } from "graphql/language";
 
 function serialize(value: string) {
     return new Date(value).toISOString();
 }
 
-function parseValue(value: Date) {
-    if (value instanceof Date || typeof value === 'string') {
-        return value.getTime();
-    } else if (typeof value === 'number') {
+function parseValue(value: any) {
+    const tov = typeof value;
+    if (tov === "string" || tov === "number") {
+        return new Date(value);
+    } else if (value instanceof Date) {
         return value;
     } else {
-        return null;
+        throw new Error("Invalid Date Value");
     }
 }
 
@@ -26,7 +27,9 @@ function parseLiteral(ast) {
 }
 
 export default new GraphQLScalarType({
-    name: 'DateTime',
-    description: 'JavaScript Date object as an ISO timestamp',
-    serialize, parseValue, parseLiteral
+    name: "DateTime",
+    description: "JavaScript Date object as an ISO timestamp",
+    serialize,
+    parseValue,
+    parseLiteral
 });

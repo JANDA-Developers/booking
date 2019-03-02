@@ -3,5 +3,5 @@ type DeleteRoomTypeResponse {
     error: String
 }
 type Mutation {
-    DeleteRoomType(roomTypeId: String!): DeleteRoomTypeResponse!
+    DeleteRoomType(roomTypeId: ID!, houseId: ID!): DeleteRoomTypeResponse!
 }

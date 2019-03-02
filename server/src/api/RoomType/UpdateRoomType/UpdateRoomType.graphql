@@ -3,21 +3,13 @@ type UpdateRoomTypeResponse{
     error: String
     roomType: RoomType
 }
-type ChangeIndexResponse {
-    ok: Boolean!
-    error: String
-}
 type Mutation {
     UpdateRoomType(
-        roomTypeId: String!
+        roomTypeId: ID!
+        houseId: ID!
         name: String
         peopleCount: Int
         peopleCountMax: Int
-        isEnable: Boolean
         description: String
     ): UpdateRoomTypeResponse!
-    ChangeIndex(
-        roomTypeId: ID!
-        index: Int!
-    ): ChangeIndexResponse!
 }

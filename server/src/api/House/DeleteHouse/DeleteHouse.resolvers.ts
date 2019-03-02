@@ -1,5 +1,6 @@
 import { ObjectId } from "bson";
 import { HouseModel } from "../../../models/House";
+import { UserModel } from "../../../models/User";
 import {
     DeleteHouseMutationArgs,
     DeleteHouseResponse
@@ -10,22 +11,25 @@ const resolvers: Resolvers = {
     Mutation: {
         DeleteHouse: async (
             _,
-            args: DeleteHouseMutationArgs,
+            { _id }: DeleteHouseMutationArgs,
             { req }
         ): Promise<DeleteHouseResponse> => {
             const { user } = req;
             try {
-                const deleteResult = (await HouseModel.findOneAndDelete({
-                    ...args,
+                await HouseModel.findOneAndDelete({
+                    _id,
                     user: new ObjectId(user._id)
-                }));
-                console.log({
-                    deleteResult
                 });
+                await UserModel.updateOne(
+                    {
+                        _id: user._id
+                    },
+                    { $pull: { houses: new ObjectId(_id) } }
+                );
                 return {
                     ok: true,
                     error: null
-                }
+                };
             } catch (error) {
                 return {
                     ok: false,

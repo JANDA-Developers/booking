@@ -25,9 +25,12 @@ export class HouseSchema extends Typegoose {
 
     @prop({ default: Array<Types.ObjectId>() })
     refundPolicy: Types.ObjectId[] | undefined;
-    
+
     @prop({ required: true })
     user: Types.ObjectId;
+
+    @prop({ default: [] })
+    roomTypes: Types.ObjectId[];
 
     @prop()
     createdAt: Date;

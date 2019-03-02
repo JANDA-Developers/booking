@@ -1,4 +1,6 @@
+import { ObjectId } from "bson";
 import { InstanceType } from "typegoose";
+import { HouseModel } from "../../../models/House";
 import { extractRoomType } from "../../../models/Merge";
 import { RoomTypeModel } from "../../../models/RoomType";
 import { UserSchema } from "../../../models/User";
@@ -51,11 +53,21 @@ const resolvers: Resolvers = {
                 try {
                     const roomType = await new RoomTypeModel({
                         ...args,
-                        house: args.house,
-                        user: user._id
+                        house: args.house
                     });
                     // 방 타입을 생성해야함... 방 타입에 들어갈 정보들부터 확인해보자...
                     await roomType.save();
+
+                    await HouseModel.updateOne(
+                        {
+                            _id: new ObjectId(args.house)
+                        },
+                        {
+                            $push: {
+                                roomTypes: new ObjectId(roomType._id)
+                            }
+                        }
+                    );
                     const result = await extractRoomType(roomType);
                     return {
                         ok: true,

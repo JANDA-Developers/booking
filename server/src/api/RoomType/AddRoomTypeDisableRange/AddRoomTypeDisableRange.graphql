@@ -1,0 +1,11 @@
+type AddRoomTypeDisableRangeResponse {
+    ok: Boolean!
+    error: String
+}
+type Mutation {
+    AddRoomTypeDisableRange(
+        roomTypeId: ID!
+        houseId: ID!
+        disableRange: DisableRangeInput!
+    ): AddRoomTypeDisableRangeResponse!
+}
