@@ -5,5 +5,9 @@
 
     &__box {
         padding-bottom: $docs-section__box-bottom;
+        
+        & > * {
+            vertical-align: top;
+        }
     }
 }

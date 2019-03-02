@@ -1,6 +1,8 @@
 @import '../../style_config/style_config';
 
 .JDselect {
+  position: relative;
+  z-index: $z-index-3;
 
   .JDselect__label {
     font-size: $label-font-size;
@@ -64,6 +66,7 @@
       //아이콘 이전 라인
       &__indicator {
         color: $html-color;
+        padding: $select-padding;
       }
 
       &__indicator:hover {
@@ -104,7 +107,11 @@
         padding: 0;
       }
 
+      // this is a li !!! 😆
       &__option {
+        height: $select-option-height;
+        padding: $select-option-padding;
+        line-height: $select-option-height;
         &--is-focused {
           background-color: $select-option-hover-bgcolor;
         }

@@ -12,9 +12,11 @@ import { LOG_USER_OUT } from '../../queries';
 
 const Header = ({ verifiedPhone, isLoggin, sideNavOpener }) => (
   <div className="header">
-    <span className="header__logoPlace JDwaves-effect JDwaves-effect-dark">
-      <img className="header__logo" src={logo} alt="" />
-    </span>
+    <NavLink to="/">
+      <span className="header__logoPlace JDwaves-effect JDwaves-effect-dark">
+        <img className="header__logo" src={logo} alt="" />
+      </span>
+    </NavLink>
     <span className="header__menue">
       <CircleIcon onClick={sideNavOpener} flat thema="white" darkWave>
         <Icon icon="menue" />
@@ -30,9 +32,11 @@ const Header = ({ verifiedPhone, isLoggin, sideNavOpener }) => (
             </span>
           )}
         </Mutation>
-        <NavLink className="header__link" to="/middleServer/phoneVerification">
-          <Button label="인증하기" blink mode="flat" color="white" />
-        </NavLink>
+        {verifiedPhone || (
+          <NavLink className="header__link" to="/middleServer/phoneVerification">
+            <Button label="인증하기" blink mode="flat" color="white" />
+          </NavLink>
+        )}
       </Fragment>
     ) : (
       <Fragment>

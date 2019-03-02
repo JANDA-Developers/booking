@@ -1,8 +1,10 @@
+/* eslint-disable max-len */
 import React from 'react';
+import PropTypes from 'prop-types';
 import ErrProtecter from '../utils/ErrProtecter';
 import './Preloader.scss';
 
-const Preloader = () => (
+const Preloader = ({ page }) => (!page ? (
   <svg
     version="1.1"
     className="preloader"
@@ -37,6 +39,18 @@ const Preloader = () => (
       />
     </path>
   </svg>
-);
+) : (
+  <div className="preloader--page__wrap">
+    <div className="preloader--page" />
+  </div>
+));
+
+Preloader.propTypes = {
+  page: PropTypes.bool,
+};
+
+Preloader.defaultProps = {
+  page: false,
+};
 
 export default ErrProtecter(Preloader);

@@ -10,8 +10,9 @@
 
 // 3. base section 
 @import 'base/_typography',
-'base/_atomsSpace',
+'base/_baseSpace',
 'base/_sectionsSpace';
 
 // 4. effects
-@import 'effect/_pulse';
+@import 'effect/_pulse',
+'effect/_blink';;

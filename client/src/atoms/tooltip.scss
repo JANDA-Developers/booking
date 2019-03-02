@@ -6,16 +6,6 @@
         opacity: 1;
     }
  
-    //todo: icon
-    &.type-warning{
-
-        background-color:$warring-color;
-        
-        &:after{
-            border-top-color:$warring-color;
-        }
-    }
-
     &.type-info{
         background-color:$link-color;
         

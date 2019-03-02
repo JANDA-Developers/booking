@@ -26,11 +26,11 @@ function PhoneVerification() {
               setPopPhone(true);
             } else {
               console.log('StartPhoneVerification Error');
-              console.log(error);
+              console.error(error);
             }
           }}
         >
-          {mutation => <Button onClick={mutation} mode="large" label="인증번호 발송" />}
+          {mutation => <Button onClick={mutation} thema="primary" mode="large" label="인증번호 발송" />}
         </Mutation>
       </div>
       {/* 모달 */}
@@ -45,13 +45,9 @@ function PhoneVerification() {
         <InputText {...keyHook} label="인증번호" />
         <div className="ReactModal__EndSection">
           <Query query={GET_MY_PHON_NUMBER}>
-            {({
-              loading,
-              error,
-              data: { GetMyProfile: { user: { phoneNumber = {} } = {} } = {} },
-            }) => {
+            {({ loading, error, data: { GetMyProfile: { user: { phoneNumber = {} } = {} } = {} } }) => {
               if (error) {
-                console.log(error);
+                console.error(error);
                 return false;
               }
               console.log(phoneNumber);

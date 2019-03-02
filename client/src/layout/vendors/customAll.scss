@@ -1,6 +1,42 @@
 @import '../../style_config/style_config.scss';
 
+// 왼만하면 안쓰는게 좋습니다.  ⛔️
 p {
     margin-top: 0;
     margin-bottom: 0.5rem;
 }
+
+ul, menu, dir {
+    display: block;
+    list-style-type: none;
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 0em;
+    list-style:none;
+}
+
+.clear-fix:after {
+    content:"";
+    display: block;
+    clear:both;
+}
+
+a.JDanchor {
+    outline: 0;
+    text-decoration: none;
+    color: $link-color;
+    &:hover {
+        text-decoration:underline;
+    }
+}
+
+body *::-moz-selection {
+    background: $secondary-color;
+    color: #fff;
+}
+body *::selection {
+    background: $secondary-color;
+    color: #fff;
+ }

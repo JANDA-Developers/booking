@@ -24,7 +24,7 @@ export const GET_USER_INFO = gql`
   {
     GetMyProfile {
       user {
-        verifiedPhone
+        isPhoneVerified
       }
     }
   }
@@ -60,20 +60,8 @@ export const COMEPLETE_PHONE_VERIFICATION = gql`
 `;
 
 export const EMAIL_SIGN_UP = gql`
-  mutation emailSignUp(
-    $firstName: String!
-    $lastName: String!
-    $email: String!
-    $phoneNumber: String!
-    $password: String!
-  ) {
-    EmailSignUp(
-      firstName: $firstName
-      lastName: $lastName
-      email: $email
-      password: $password
-      phoneNumber: $phoneNumber
-    ) {
+  mutation emailSignUp($name: Name!, $email: EmailAddress!, $phoneNumber: PhoneNumber!, $password: String!) {
+    EmailSignUp(name: $name, email: $email, password: $password, phoneNumber: $phoneNumber) {
       ok
       error
       token

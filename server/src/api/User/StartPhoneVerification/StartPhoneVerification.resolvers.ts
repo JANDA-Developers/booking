@@ -1,4 +1,3 @@
-import { ObjectId } from "bson";
 import { Target, VerificationModel } from "../../../models/Verification";
 import { StartPhoneVerificationResponse } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
@@ -19,7 +18,7 @@ const resolvers: Resolvers = {
                 try {
                     const existingVerification = await VerificationModel.findOne({
                         target: Target.PHONE,
-                        payload: phoneNumber
+                        payloayd: phoneNumber
                     });
                     if (existingVerification && existingVerification.user.equals(user._id)) {
                         await existingVerification.remove();
@@ -27,8 +26,7 @@ const resolvers: Resolvers = {
 
                     const verification = new VerificationModel({
                         target: Target.PHONE,
-                        payload: phoneNumber,
-                        user: new ObjectId(user._id)
+                        payload: phoneNumber
                     });
                     await verification.save();
                     sendVerificationSMS(phoneNumber, verification.key);

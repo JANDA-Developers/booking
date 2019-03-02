@@ -258,11 +258,14 @@ type CreateRoomTypeResponse {
   ok: Boolean!
   error: String
   roomType: RoomType
+<<<<<<< HEAD
 }
 
 type DeleteRoomResponse {
   ok: Boolean!
   error: String
+=======
+>>>>>>> 862d42f3a7d708a9cbcc42c1affa8f7488940f31
 }
 
 type DeleteRoomTypeResponse {

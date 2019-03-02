@@ -1,28 +1,31 @@
-import ReactModal from 'react-modal';
-import React, { useState, useRef } from 'react';
-import ReactTooltip from 'react-tooltip';
-import CheckBox from '../../atoms/forms/CheckBox';
-import Switch from '../../atoms/forms/Switch';
-import InputText from '../../atoms/forms/InputText';
-import Radio from '../../atoms/forms/Radio';
-import SearchInput from '../../components/searchInput/SearchInput';
-import SelectBox from '../../atoms/forms/SelectBox';
-import DayPicker from '../../components/dayPicker/DayPicker';
-import CircleIcon from '../../atoms/CircleIcon';
-import Button from '../../atoms/Buttons';
-import Preloader from '../../atoms/Preloader';
-import JDLabel from '../../atoms/JDLabel';
-import utils from '../../utils/utils';
-import Icon, { icons } from '../../atoms/icons/Icons';
+import React, { useRef } from 'react';
+import Tooltip from '../../../atoms/tooltip';
+import CheckBox from '../../../atoms/forms/CheckBox';
+import Switch from '../../../atoms/forms/Switch';
+import InputText from '../../../atoms/forms/InputText';
+import Radio from '../../../atoms/forms/Radio';
+import SearchInput from '../../../components/searchInput/SearchInput';
+import SideNav from '../../../components/sideNav/SideNav';
+import SelectBox from '../../../atoms/forms/SelectBox';
+import DayPicker from '../../../components/dayPicker/DayPicker';
+import Pagination from '../../../components/pagination/Pagination';
+import CircleIcon from '../../../atoms/CircleIcon';
+import Button from '../../../atoms/Buttons';
+import Preloader from '../../../atoms/Preloader';
+import SliderExample from './examples/example_slider';
+import SliderExample2 from './examples/example_slider2';
+import JDlabel from '../../../atoms/JDLabel';
+import JDmodal from '../../../atoms/Modal';
+import utils from '../../../utils/utils';
+import Icon, { icons } from '../../../atoms/icons/Icons';
 import {
-  useInput, useCheckBox, useRadio, useSwitch, useSelect,
-} from '../../actions/hook';
+  useInput, useCheckBox, useRadio, useSwitch, useSelect, useToggle, useModal,
+} from '../../../actions/hook';
 import './showComponent.scss';
-import '../../atoms/Modal.scss';
-import '../../atoms/tooltip.scss';
+import '../../../atoms/tooltip.scss';
 
 function ShowComponents() {
-  const [showModal, setShowModal] = useState(false);
+  const [isOpen, openModal, closeModal] = useModal(false);
   // the wayMake a Controlled Value
   const inputVali = useInput('1232');
   const checkHook = useCheckBox();
@@ -33,14 +36,7 @@ function ShowComponents() {
   const useSelect3 = useSelect(null);
   const switchHook = useSwitch(false);
   const refContainer = useRef(null);
-
-  const handleOpenModal = () => {
-    setShowModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
+  const [SideNavIsOpen, setSideNavIsOpen] = useToggle(false);
 
   const searchDummyData = [
     { name: 'Manpreet Singh', pic: '' },
@@ -57,7 +53,8 @@ function ShowComponents() {
 
   return (
     <div className="container">
-      <div className="docs-section showCompoent">
+      <div className="docs-section showComponent">
+
         {/* 체크박스 */}
         <div className="docs-section__box">
           <h6>Check Box</h6>
@@ -93,7 +90,7 @@ function ShowComponents() {
           <div className="flex-grid">
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
               <InputText
-              {...inputVali}
+                {...inputVali}
                 refContainer={refContainer}
                 label="noraml"
               />
@@ -159,7 +156,7 @@ function ShowComponents() {
         <h6>SearchInput</h6>
         <div className="flex-grid-grow flex-grid--md docs-section__box">
           <div className="flex-grid__col">
-            <SearchInput show userList={searchDummyData} label="normal" />
+            <SearchInput staticList userList={searchDummyData} label="normal" />
           </div>
         </div>
 
@@ -178,22 +175,33 @@ function ShowComponents() {
         </div>
 
         {/* 달력 */}
-        <h6>datePicker</h6>
+        <h6>DatePicker</h6>
         <div className="flex-grid-grow flex-grid--wmd docs-section__box">
           <div className="flex-grid__col">
             <div className="showComponent__container">
-              <JDLabel txt="horizen" />
+              <JDlabel txt="horizen" />
               <DayPicker horizen />
             </div>
           </div>
           <div className="flex-grid__col">
-            <JDLabel txt="normal" />
+            <JDlabel txt="normal" />
             <DayPicker />
           </div>
         </div>
 
+        {/* Slider 슬라이더 */}
+        <h6>Slider</h6>
+        <div className="docs-section__box flex-grid">
+          <div className="flex-grid__col col--full-6 col--wmd-12">
+            <SliderExample />
+          </div>
+          <div className="flex-grid__col col--full-6 col--wmd-12">
+            <SliderExample2 />
+          </div>
+        </div>
+
         {/* 버튼 */}
-        <h6>buttons</h6>
+        <h6>Buttons</h6>
         <div className="docs-section__box">
           <div className="flex-grid__col">
             {/* todo: 버튼 노멀 없애기 */}
@@ -203,10 +211,6 @@ function ShowComponents() {
             <Button label="small" mode="small" />
             {/* 플랫은 화이트 배경뿐입니다.--지금은  */}
             <Button label="flat" mode="flat" />
-            {/* 아래내용은 서클형태의 버튼으로 아직까지 활용가치가 없습니다. */}
-            {/* <Button label="floating" classes={['JDbtn--floating']} /> */}
-            {/* <Button label="floating-large"
-          classes={['JDbtn--floating', 'JDbtn--floating-large']} /> */}
           </div>
           <div className="flex-grid__col">
             <Button label="primary" thema="primary" mode="large" />
@@ -223,60 +227,51 @@ function ShowComponents() {
 
         {/* 모달 */}
         <div className="docs-section__box">
-          <h6>Modal</h6>
-          <Button label="Open Modal" onClick={handleOpenModal} />
-          <ReactModal
-            isOpen={showModal}
-            onRequestClose={handleCloseModal}
+          <h6>Modal & SideNav</h6>
+          <Button label="Open Modal" onClick={openModal} />
+          <Button icon="menue" label="Open SideNav" onClick={setSideNavIsOpen} />
+          <JDmodal
+            isOpen={isOpen}
+            onRequestClose={closeModal}
             className="Modal"
             overlayClassName="Overlay"
           >
             <p>Modal text!</p>
             <div className="ReactModal__EndSection">
-              <Button label="Close Modal" onClick={handleCloseModal} />
+              <Button label="Close Modal" onClick={closeModal} />
             </div>
-          </ReactModal>
+          </JDmodal>
         </div>
 
         {/* 툴팁 */}
         <div className="docs-section__box">
-          <h6>tooltip</h6>
-          {/* <Button dataTip dataFor="tooltip__A" label="Some Btn"
-         classes={['JDbtn--small']} /> */}
-          {/* <Button dataTip dataFor="tooltip__B" label="Some Btn"
-         classes={['JDbtn--small']} /> */}
+          <h6>Tooltip</h6>
+
           <Button dataTip dataFor="tooltip__C" label="Some Btn" classes={['JDbtn--small']} />
 
           <Button dataTip dataFor="tooltip__D" label="Some Btn" classes={['JDbtn--small']} />
 
           <Button dataTip dataFor="tooltip__E" label="Some Btn" classes={['JDbtn--small']} />
 
-          <ReactTooltip class="JDtooltip" id="tooltip__B" type="info" effect="solid">
+          <Tooltip class="JDtooltip" id="tooltip__C" type="success" effect="solid">
             <span>some txt</span>
-          </ReactTooltip>
+          </Tooltip>
 
-          <ReactTooltip class="JDtooltip" id="tooltip__C" type="success" effect="solid">
+          <Tooltip class="JDtooltip" id="tooltip__E" type="error" effect="solid">
             <span>some txt</span>
-          </ReactTooltip>
+          </Tooltip>
 
-          <ReactTooltip class="JDtooltip" id="tooltip__E" type="error" effect="solid">
+          <Tooltip class="JDtooltip" id="tooltip__D" type="dark" effect="solid">
             <span>some txt</span>
-          </ReactTooltip>
+          </Tooltip>
 
-          <ReactTooltip class="JDtooltip" id="tooltip__D" type="dark" effect="solid">
-            <span>some txt</span>
-          </ReactTooltip>
-
-          <ReactTooltip class="JDtooltip" id="tooltip__A" type="warning" effect="solid">
-            <span>some txt</span>
-          </ReactTooltip>
         </div>
 
         {/* 아이콘들 */}
         <h6>Icons</h6>
         <div className="flex-grid-grow docs-section__box">
-          { Object.keys(icons).map((key, index) => (
-            <div key={`showComponent__${key}`} className="showCompoent__icon_box">
+          { Object.keys(icons).map(key => (
+            <div key={`showComponent__${key}`} className="showComponent__icon_box">
               <Icon label={key} icon={key} />
             </div>
           ))
@@ -284,7 +279,6 @@ function ShowComponents() {
         </div>
 
         {/* 타이포그래피  */}
-        {/* 타이포그래피에 대한 정의는 추후에 정리가 필요함 */}
         <h6>TyphoGraphy</h6>
         <div className="docs-section__box">
           <h1>H1: Lorem Text</h1>
@@ -295,15 +289,42 @@ function ShowComponents() {
           <h6>H6: Lorem Text</h6>
           <p className="showComponent__large"> large: Lorem Text </p>
           <p>Normal: Lorem Text</p>
-          <JDLabel txt="small: Lorem Text" />
+          <JDlabel txt="small: Lorem Text" />
           <p className="showComponent__tiny"> tiny: Lorem Text </p>
         </div>
 
-        <h6>elseThings</h6>
-        <div className="docs-section__box">
-          <Preloader />
+        {/* 페이지네이션 */}
+        <h6>Pagination</h6>
+        <div className="docs-section__box clear-fix">
+          <Pagination align="left" pageCount={13} initialPage={0} marginPagesDisplayed={1} pageRangeDisplayed={5} />
         </div>
-      
+
+        {/* 그외 것들 */}
+        <h6>ElseThings</h6>
+        <div className="docs-section__box clear-fix">
+          <Preloader />
+          <span className="JDtext-blink showComponent__blink JDtext-blink--infinity">Blink</span>
+          <span className="showComponent__pulse">
+            <Button label="pulse" pulse thema="primary" />
+          </span>
+        </div>
+
+        {/* 더 많은 컴포넌트 보기 */}
+        <div>
+          <Pagination
+            textSize="large"
+            previousLabel=""
+            nextLabel="NEXT (AlignCalender)"
+            pageCount={0}
+            initialPage={0}
+            marginPagesDisplayed={1}
+            align="center"
+            pageRangeDisplayed={5}
+            />
+        </div>
+
+        {/* 사이드네비 sideNav */}
+        <SideNav isOpen={SideNavIsOpen} setIsOpen={setSideNavIsOpen} />
       </div>
     </div>
   );

@@ -1,22 +1,27 @@
 @import '../../style_config/style_config';
 
 .JDsearchInput{
-
-    &__icon {
-        font-size: 1.2rem;
-        .JDicon__svg {
-            right: 1.25em;
-            top:.2em;
-        }
+    position: relative;
+    z-index: $z-index-2;
+    display: block;
+    
+    &__label {
+        font-size: $label-font-size;
+        color: $label-font-color;
     }
-    &--showList {
+    
+    &__icon {
+        position: absolute;
+        font-size: 1.2rem;
+        right: 0.25em;
+        top:1.5em;
+    }
+    &--staticList {
         .JDsearchInput__ul {
             position: static;
         }
     }
 
-    display: inline-block;
-    
     &__input {
         height: $searchInput-input-height;
         line-height: $searchInput-input-height;
@@ -25,6 +30,31 @@
         border-bottom: $searchInput-input-border;
         margin-bottom: $searchInput-input-margin-bottom;
         outline:none;
+        width: 100%;
+        box-sizing: border-box;
+
+
+        &:focus {
+            border-color: $primary-color-light;
+            box-shadow: 0 1px 0 0 $primary-color-light;
+            
+            & + .JDsearchInput__icon {
+                color: $primary-color;
+                &:hover {
+                    color: $primary-color-light;
+                }
+            }
+        }
+
+        &--valid {
+            border-color: $success-color;
+            box-shadow: 0px 1px 0px 0px $success-color;
+
+            & + .JDsearchInput__icon {
+                color: $success-color;
+            }
+        }
+
     }
 
     &__ul {
@@ -34,16 +64,44 @@
         padding: 0;
         background-color:white;
         border-radius: $searchInput-border-radius;
+        max-height: $searchInput-li-height * 5;
+        overflow-y: auto;
     }
-
+    &__input_wrapper { 
+        display: block;
+    }
     &__li {
-        padding:$searchInput-li-padding;
-        border-top:$searchInput-li-border-top;
-        line-height: 100%;
+        padding: $searchInput-li-padding;
+        border-top: $searchInput-li-border-top;
+        line-height: $searchInput-li-height;
+        height: $searchInput-li-height;
+        overflow:hidden;
+        text-overflow: ellipsis;    
+        white-space: nowrap;
 
+        &:hover{
+            cursor:pointer;
+            background-color: $grey-level1;
+        }
 
         &:first-child {
             border-top:none;
+        }
+
+
+        &--active {
+            background-color: $grey-level1;
+        }
+        &--selected {
+            background-color: $primary-color;
+            color: #fff;
+            &:hover{
+                background-color: $primary-color;
+                color: #fff;
+            }
+            & ~ li {
+                display:none;
+            }
         }
     }
 

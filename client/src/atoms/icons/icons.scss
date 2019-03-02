@@ -1,3 +1,5 @@
+@import '../../style_config/style_config';
+
 .JDicon__svg {
     display: inline-flex;
     align-self: center;
@@ -6,11 +8,11 @@
     fill: currentColor;
     top: .125em;
     position: relative;
+    text-decoration: inherit;
 
     &--hover:hover {
-        //todo: 이거 어캐함?
         cursor: pointer;;
-        filter:brightness(2);
+        color: $grey-level3;
     }
 }
 

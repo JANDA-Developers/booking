@@ -45,7 +45,7 @@ function Login({ client, history }) {
                       }
                     }
                     if (error) {
-                      console.log(error);
+                      console.error(error);
                       if (error === 'Wrong Password') alert('잘못된 패스워드 입니다.');
                       else alert('해당 이메일을 찾을수 없습니다.');
                     }
@@ -54,13 +54,8 @@ function Login({ client, history }) {
               return (
                 <form onSubmit={emailSignIn}>
                   <InputText {...emailHook} validation={utils.isEmail} label="ID" />
-                  <InputText
-                    {...passwordHook}
-                    validation={utils.isPassword}
-                    type="password"
-                    label="PW"
-                  />
-                  <Buttons type="submit" label="로그인" />
+                  <InputText {...passwordHook} validation={utils.isPassword} type="password" label="PW" />
+                  <Buttons type="submit" thema="primary" label="로그인" />
                 </form>
               );
             }}
