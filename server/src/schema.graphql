@@ -46,12 +46,14 @@ enum Day {
 
 type Location {
   address: String!
+  addressDetail: String
   lat: Float!
   lng: Float!
 }
 
 input LocationInput {
   address: String!
+  addressDetail: String
   lat: Float!
   lng: Float!
 }
@@ -109,7 +111,7 @@ type Mutation {
   DeleteRoomType(roomTypeId: String!): DeleteRoomTypeResponse!
   UpdateRoomType(roomTypeId: String!, name: String, peopleCount: Int, peopleCountMax: Int, index: Int, isEnable: Boolean, description: String): UpdateRoomTypeResponse!
   CompletePhoneVerification(key: String!): CompletePhoneVerificationResponse!
-  EmailSignUp(name: String!, email: EmailAddress!, password: Password!, phoneNumber: PhoneNumber!): EmailSignUpResponse!
+  EmailSignUp(name: Name!, email: EmailAddress!, password: Password!, phoneNumber: PhoneNumber!): EmailSignUpResponse!
   GmailConnect(firstName: String!, lastName: String!, gmail: String!): GmailConnectionResponse!
   StartPhoneVerification: StartPhoneVerificationResponse!
   UpdateMyProfile(name: String!, phoneNumber: String!, password: String!): UpdateMyProfileResponse!
@@ -272,7 +274,7 @@ type EmailSignInResponse {
 }
 
 type Query {
-  EmailSignIn(email: String!, password: String!): EmailSignInResponse!
+  EmailSignIn(email: EmailAddress!, password: Password!): EmailSignInResponse!
   # 로그인 token 필요!
   GetMyProfile: GetMyProfileResponse!
 }
@@ -297,9 +299,9 @@ type GmailConnectionResponse {
 
 type User {
   _id: ID!
-  name: String!
+  name: Name!
   phoneNumber: PhoneNumber!
-  password: String
+  password: Password
   email: EmailAddress!
   isPhoneVerified: Boolean!
   isEmailVerified: Boolean!

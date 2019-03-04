@@ -1,6 +1,6 @@
 import React from 'react';
 import Slider from 'react-slick';
-import CircleIcon from '../../atoms/CircleIcon';
+import CircleIcon from '../../atoms/circleIcon/CircleIcon';
 import Icon from '../../atoms/icons/Icons';
 import './Slider.scss';
 

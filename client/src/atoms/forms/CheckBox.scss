@@ -199,7 +199,7 @@
     }
 
     &:disabled+.JDcheck_box_label {
-        color:$forms-disabled-color;
+        color: $standard-disabled-color;
         cursor:default;
     }
 }

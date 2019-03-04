@@ -6,6 +6,7 @@ import client from './apolloClient';
 import DocumentRouter from './pages/DocumentRouter';
 import NoMatch from './pages/NoMatch';
 import middleServerRouter from './pages/middleServerRouter';
+import JDtoast from './atoms/toast/Toast';
 // Library
 import './lib/wave'; // 웨이브 이펙트
 import './lib/wave.scss'; // 웨이브 이펙트
@@ -16,7 +17,7 @@ function App() {
       <Router>
         <main>
           <Switch>
-            {/* todo: router 한번 공부해서 정리 ㄱㄱ */}
+            {/* 상위 컴포넌트 영향에벋어날수 없다. */}
             <Route exact path="/" component={middleServerRouter} />
             <Route path="/MiddleServer" component={middleServerRouter} />
             <Route path="/documents" component={DocumentRouter} />
@@ -24,6 +25,7 @@ function App() {
           </Switch>
         </main>
       </Router>
+      <JDtoast />
     </ApolloProvider>
   );
 }

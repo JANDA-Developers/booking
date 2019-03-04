@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import React from 'react';
 import PropTypes from 'prop-types';
-import ErrProtecter from '../utils/ErrProtecter';
+import ErrProtecter from '../../utils/ErrProtecter';
 import './Preloader.scss';
 
 const Preloader = ({ page }) => (!page ? (

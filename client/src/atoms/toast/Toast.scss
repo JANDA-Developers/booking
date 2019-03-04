@@ -1,0 +1,71 @@
+@import '../../style_config/style_config.scss';
+
+@keyframes Toastify__trackProgress {
+}
+
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    50% {
+        opacity: 1;
+    }
+}
+    
+.zoomIn {
+    animation-name: zoomIn;
+}
+    
+@keyframes zoomOut {
+}
+
+.zoomOut {
+    animation-name: zoomOut;
+}
+    
+.animate {
+    animation-duration: 800ms;
+}
+
+.Toastify {
+    &__toast-container {
+        position:fixed;
+        
+        &--bottom-right {
+            right: $toast-position-x;
+            bottom: $toast-position-y;
+        }
+    }
+    
+    &__toast {
+        height: $toast-height;
+        line-height: $toast-height;
+        @extend %z-depth-1;
+        padding: 0rem $toast-padding;
+        box-sizing: border-box;
+        margin-bottom: $toast-margin-bottom;
+        user-select: none;
+
+        &--warning {
+            background-color: $error-color;
+            color:white;
+        }
+        &--success {
+            background-color: $primary-color;
+            color: $primary-color-on;
+        }
+
+        &:hover {
+            cursor:pointer;
+        }
+    }
+
+    &__close-button {
+        display: none;
+    }
+
+    &__progress-bar{
+        animation: Toastify__trackProgress linear 1;
+    }
+}

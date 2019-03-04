@@ -3,9 +3,9 @@ import React from 'react';
 import './Buttons.scss';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import ErrProtecter from '../utils/ErrProtecter';
-import Icon from './icons/Icons';
-import Preloader from './Preloader';
+import ErrProtecter from '../../utils/ErrProtecter';
+import Icon from '../icons/Icons';
+import Preloader from '../preloader/Preloader';
 
 function Buttons({
   disabled,
@@ -38,9 +38,7 @@ function Buttons({
     'JDtext-blink': blink,
   });
 
-  const handleKeyPress = (e) => {
-    console.log(e);
-  };
+  const handleKeyPress = () => {};
 
   return (
     <button

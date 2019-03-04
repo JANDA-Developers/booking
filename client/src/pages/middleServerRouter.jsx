@@ -4,22 +4,24 @@
 import React, { Fragment } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { graphql, compose } from 'react-apollo';
-import Header from '../components/Headers/Header';
+import Header from '../components/headers/Header';
 import SideNav from '../components/sideNav/SideNav';
 import DynamicImport from '../utils/DynamicImport';
 import NoMatch from './NoMatch';
 import { IS_LOGGED_IN, GET_USER_INFO } from '../queries';
 import { useToggle } from '../actions/hook';
-import Preloader from '../atoms/Preloader';
+import Preloader from '../atoms/preloader/Preloader';
 
 function JDmiddleServer({
   IsLoggedIn: {
     auth: { isLoggedIn },
   },
-  GetUserInfo: { GetMyProfile: { user: { verifiedPhone = false } = {} } = {} } = {},
-}) {
+  GetUserInfo: { GetMyProfile: { user } = {} } = {},
+} = {}) {
   // 사이드바가 열렸는지 체크
+  const verifiedPhone = user && user.verifiedPhone;
   const [SideNavIsOpen, setSideNavIsOpen] = useToggle(false);
+
   const Home = props => (
     <DynamicImport load={() => import('./middleServer/Home')}>
       {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
@@ -60,36 +62,39 @@ function JDmiddleServer({
     <Fragment>
       {/* 헤더에 정보전달 */}
       <Route
-        render={() => <Header sideNavOpener={setSideNavIsOpen} verifiedPhone={verifiedPhone} isLoggin={isLoggedIn} />}
+        render={() => <Header sideNavOpener={setSideNavIsOpen} verifiedPhone={verifiedPhone} isLoggedIn={isLoggedIn} />}
       />
       {/* 사이드 네비게이션 */}
-      <SideNav isOpen={SideNavIsOpen} setIsOpen={setSideNavIsOpen} />
-      {isLoggedIn ? (
-        // 로그인후 라운터
-        <Switch>
-          <Route exact path="/">
-            <Home isLoggin={isLoggedIn} />
-          </Route>
-          <Route exact path="/middleServer" component={Home} />
-          <Route exact path="/middleServer/myPage" component={MyPage} />
-          <Route exact path="/middleServer/makeHouse" children={MakeHouse} />
-          <Route exact path="/middleServer/phoneVerification" component={PhoneVerification} />
-        </Switch>
-      ) : (
-        // 로그인전 라운터
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/middleServer" component={Home} />
-          <Route exact path="/middleServer/signUp" component={SignUp} />
-          <Route exact path="/middleServer/login" component={Login} />
-          <Route component={NoMatch} />
-        </Switch>
-      )}
+      <SideNav isOpen={SideNavIsOpen} userInformation={user} setIsOpen={setSideNavIsOpen} />
+      <Switch>
+        <Route exact path="/">
+          <Home isLoggedIn={isLoggedIn} />
+        </Route>
+        <Route exact path="/middleServer">
+          <Home isLoggedIn={isLoggedIn} />
+        </Route>
+        <Route exact path="/middleServer/myPage" component={isLoggedIn ? MyPage : Login} />
+        <Route exact path="/middleServer/makeHouse" children={isLoggedIn ? MakeHouse : Login} />
+        <Route exact path="/middleServer/phoneVerification" component={isLoggedIn ? PhoneVerification : undefined} />
+        <Route exact path="/middleServer/signUp" component={isLoggedIn ? undefined : SignUp} />
+        <Route exact path="/middleServer/login" component={isLoggedIn ? undefined : Login} />
+        <Route component={NoMatch} />
+      </Switch>
     </Fragment>
   );
 }
 
+//  how to branch query
+// https://stackoverflow.com/questions/48880071/use-result-for-first-query-in-second-query-with-apollo-client
 export default compose(
   graphql(IS_LOGGED_IN, { name: 'IsLoggedIn' }),
-  graphql(GET_USER_INFO, { name: 'GetUserInfo' }),
+  graphql(GET_USER_INFO, {
+    name: 'GetUserInfo',
+    skip: ({ IsLoggedIn }) => {
+      if (IsLoggedIn && IsLoggedIn.auth) {
+        return !IsLoggedIn.auth.isLoggedIn;
+      }
+      return true;
+    },
+  }),
 )(JDmiddleServer);

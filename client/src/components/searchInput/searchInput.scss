@@ -4,8 +4,11 @@
     position: relative;
     z-index: $z-index-2;
     display: block;
-    
+
     &__label {
+        position: absolute;
+        top: 0.1rem;
+        left: 0;
         font-size: $label-font-size;
         color: $label-font-color;
     }
@@ -18,8 +21,17 @@
     }
     &--staticList {
         .JDsearchInput__ul {
-            position: static;
+            position: relative;
+            // base Space에 정의된만큼 뛰워준 겁니다.
+            top: calc( -#{$standard-margin-bottom}  - 1px);
         }
+    }
+    
+    &__feedBack {
+        position:absolute;
+        bottom: 8px;
+        left: 0;
+        font-size: $typho-tiny;
     }
 
     &__input {
@@ -31,8 +43,9 @@
         margin-bottom: $searchInput-input-margin-bottom;
         outline:none;
         width: 100%;
-        box-sizing: border-box;
-
+        box-sizing: content-box;
+        padding: $input-padding;
+        margin: $input-margin;
 
         &:focus {
             border-color: $primary-color-light;
@@ -55,7 +68,7 @@
             }
         }
 
-    }
+}
 
     &__ul {
         position: absolute;
@@ -66,18 +79,26 @@
         border-radius: $searchInput-border-radius;
         max-height: $searchInput-li-height * 5;
         overflow-y: auto;
+        &--show {
+            display: block;
+        }
     }
-    &__input_wrapper { 
-        display: block;
-    }
+
     &__li {
         padding: $searchInput-li-padding;
         border-top: $searchInput-li-border-top;
-        line-height: $searchInput-li-height;
         height: $searchInput-li-height;
         overflow:hidden;
         text-overflow: ellipsis;    
         white-space: nowrap;
+
+        &--unDetail {
+            line-height: $searchInput-li-height;
+        }
+
+        &--hide {
+            display:none;
+        }
 
         &:hover{
             cursor:pointer;
@@ -92,6 +113,7 @@
         &--active {
             background-color: $grey-level1;
         }
+        
         &--selected {
             background-color: $primary-color;
             color: #fff;
@@ -99,10 +121,15 @@
                 background-color: $primary-color;
                 color: #fff;
             }
-            & ~ li {
-                display:none;
-            }
         }
+    }
+
+    &__input_wrapper { 
+        display: block;
+
+    }
+    &__detail {
+        font-size: $typho-small;
     }
 
 }

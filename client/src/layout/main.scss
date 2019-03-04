@@ -6,13 +6,14 @@
 
 // 2. Layout-related sections
 @import 'grid/grid',
-'grid/grid-flex';
+'grid/_sectionsSpace',
+'grid/grid-flex',
+'grid/container';
 
 // 3. base section 
 @import 'base/_typography',
-'base/_baseSpace',
-'base/_sectionsSpace';
+'base/_baseSpace';
 
 // 4. effects
 @import 'effect/_pulse',
-'effect/_blink';;
+'effect/_blink';

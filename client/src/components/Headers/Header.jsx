@@ -1,19 +1,24 @@
 import React, { Fragment } from 'react';
 import './Header.scss';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Mutation } from 'react-apollo';
-import Button from '../../atoms/Buttons';
+import { toast } from 'react-toastify';
+import Button from '../../atoms/button/Buttons';
 import Icon from '../../atoms/icons/Icons';
-import CircleIcon from '../../atoms/CircleIcon';
+import CircleIcon from '../../atoms/circleIcon/CircleIcon';
 import ErrProtecter from '../../utils/ErrProtecter';
 import logo from '../../img/logo/logo--white.png'; // with import
 import { LOG_USER_OUT } from '../../queries';
 
-const Header = ({ verifiedPhone, isLoggin, sideNavOpener }) => (
+const Header = ({
+  verifiedPhone, isLoggedIn, sideNavOpener, history,
+}) => {
+  console.log(verifiedPhone);
+  return (
   <div className="header">
     <NavLink to="/">
-      <span className="header__logoPlace JDwaves-effect JDwaves-effect-dark">
+      <span className="header__logoPlace">
         <img className="header__logo" src={logo} alt="" />
       </span>
     </NavLink>
@@ -22,10 +27,15 @@ const Header = ({ verifiedPhone, isLoggin, sideNavOpener }) => (
         <Icon icon="menue" />
       </CircleIcon>
     </span>
-
-    {isLoggin ? (
+    {isLoggedIn ? (
       <Fragment>
-        <Mutation mutation={LOG_USER_OUT} onCompleted={() => {}}>
+        <Mutation
+          mutation={LOG_USER_OUT}
+          onCompleted={() => {
+            toast.success('로그아웃 완료');
+            history.push('./');
+          }}
+        >
           {mutation => (
             <span className="header__link">
               <Button onClick={mutation} label="로그아웃" mode="flat" color="white" />
@@ -50,15 +60,18 @@ const Header = ({ verifiedPhone, isLoggin, sideNavOpener }) => (
     )}
   </div>
 );
+    }
 
 Header.propTypes = {
-  isLoggin: PropTypes.bool.isRequired,
-  verifiedPhone: PropTypes.bool.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired,
+  verifiedPhone: PropTypes.bool,
   sideNavOpener: PropTypes.func,
+  history: PropTypes.any.isRequired,
 };
 
 Header.defaultProps = {
   sideNavOpener: () => {},
+  verifiedPhone: false,
 };
 
-export default ErrProtecter(Header);
+export default ErrProtecter(withRouter(Header));

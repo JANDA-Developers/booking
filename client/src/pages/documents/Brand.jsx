@@ -3,7 +3,7 @@ import React from 'react';
 import logo from '../../img/logo/JD_logo_example.jpg';
 import logoBlack from '../../img/logo/JD_logo_example--black.jpg';
 import logoComplex from '../../img/logo/JD_logo_example--complex.jpg';
-import JDLabel from '../../atoms/JDLabel';
+import JDLabel from '../../atoms/label/JDLabel';
 import './Brand.scss';
 
 const Brand = () => (

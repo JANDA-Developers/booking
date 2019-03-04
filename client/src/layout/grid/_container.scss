@@ -1,0 +1,68 @@
+
+body,html {
+    height: 100%;
+}
+
+#root {
+    height: 100%;
+}
+main {
+    height: 100%;
+}
+.container {
+    margin: 0 auto;
+    max-width: $container-width;
+    padding: 0 $container-padding;
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    min-height:90%;
+  }
+  
+  .container--full {
+    margin: 0 auto;
+    max-width: $container-full-width;
+    padding: 2.4rem 2rem;
+  }
+  
+  .container--lg {
+    margin: 0 auto;
+    max-width: 1200px;
+    padding: 3.2rem 1rem;
+  }
+  
+  .container--sm {
+    margin: 0 auto;
+    max-width: $container-small-width;
+    padding: 2.4rem 2rem;
+  }
+
+  .container--centerlize {
+      position: fixed;
+      top:0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+  }
+  
+  @include response ($full,$mobile) {
+    .container {
+      padding: 0;
+  
+      @include response ($tablet){
+        width: 100%;
+      }
+    }
+  }
+  
+  /* Self Clearing Goodness */
+  .container:after,
+  .row:after {
+    clear: both;
+    content: "";
+    display: table;
+  }
+  

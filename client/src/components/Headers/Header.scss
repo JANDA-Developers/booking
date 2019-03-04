@@ -19,11 +19,6 @@
     
     &__logoPlace {
         padding: $button-padding;
-        &:hover {
-            transition:0.2s;
-            background-color:rgba(0,0,0,.1);
-            cursor:pointer;
-        }
     }
 
     &__logoPlace + * {

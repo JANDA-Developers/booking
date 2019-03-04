@@ -1,7 +1,7 @@
 ## 아이콘 객체에 path를 복사하여 등록해서 사용합니다.
 
 [패스출처](https://material.io/tools/icons/?style=baseline)
-[노마드 추천](https://icomoon.io/app/#/select)
+[노마드 추천](https://iconmonstr.com)
 
 ### Icon
 
@@ -12,3 +12,5 @@
 | width  | string |                      |               | X       | 1em     |
 | height | string |                      |               | X       | 1em     |
 | hover  | bool   | 호버 이펙트 사용여부 |               | X       |         |
+
+- .anchor 안에서 마진은 basSpace에 설정되어있음

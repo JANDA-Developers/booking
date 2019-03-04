@@ -16,7 +16,7 @@ $z-index-10: 100; // sideNav
 $typho-large : 1.2rem;
 $typho-normal : 1rem;
 $typho-small : 0.8rem;
-$typho-tiny : .5rem;
+$typho-tiny : 10px;
 
 // -- Colors 컬러 칼라 
 $html-color: #343434 !default;
@@ -38,6 +38,7 @@ $success-color: '-' !default;
 $background-color: #fff;
 $error-color: #ff6760 !default;
 $link-color: rgb(66, 62, 199) !default;
+$link-color-active: rgb(48, 45, 131) !default;
 $grey-level1: #EBEBEB !default; // 흰색 effect-dark 받을때 컬러 오버랩을 원치 않을때 사용
 $grey-level2: #b8b8b8 !default; 
 $grey-level3: #787878 !default;
@@ -57,6 +58,8 @@ $null: "0px" !default;
 
 // -- Grid 그리드
 $container-width: 1000px !default;
+$container-full-width: 96% !default;
+$container-small-width: 850px !default;
 $container-padding: 0.5rem;
 $total-columns: 12 !default;
 $column-width: 100 / $total-columns !default; // calculates individual column width based off of # of columns
@@ -65,7 +68,6 @@ $column-margin: 2% !default; // space between column grids
 $flex-grid__column--fixed-width: 200px !default;
 $flex-grid--column-margin: 2% !default;
 
-$container-small-width: 850px !default;
 
 // -- Section 섹션여백
 $docs-section-padding-top: 6rem !default;
@@ -73,10 +75,6 @@ $docs-section-padding-bottom: 6rem !default;
 $docs-section-padding: $docs-section-padding-top 0 $docs-section-padding-bottom 0 !default;
 $docs-section__box-bottom: 2.5rem !default;
 
-// -- forms
-$forms-disabled-color: $grey-level1 !default;
-$forms-space: 13px !default; // except textInput 구조가 다름
-$forms-margin-bottom: 16px !default; // except textInput 구조가 다름
 
 // -- labeles 라벨
 //  Exception  : Check Box, Switch
@@ -84,6 +82,9 @@ $label-font-size: $typho-small !default;
 $label-font-color: $html-color !default;
 
 // -- 표준규격 
+$standard-disabled-color: $grey-level1 !default;
+$standard-space: 1rem !default; // except textInput 구조가 다름
+$standard-margin-bottom: 1.4rem !default; // except textInput 구조가 다름
 $standard-border-radius : 2px;
 $standard-li-height : 36px;
 $standard-li-padding : 1rem;
@@ -102,12 +103,12 @@ $input-error-color: $error-color !default;
 $input-success-color: $success-color !default;
 $input-focus-color: $primary-color-light !default;
 $input-font-size: $typho-normal !default;
-$input-margin-bottom: 1.4rem;
+$input-margin-bottom: $standard-margin-bottom;
 $input-margin-top: 0rem;
 $input-margin: $input-margin-top 0 $input-margin-bottom 0 !default;
 $input-padding: 1rem 0 0 0 !default;
 $input-transition: all 0.3s !default;
-$input-disabled-color: $forms-disabled-color !default;
+$input-disabled-color: $standard-disabled-color!default;
 $input-disabled-border: 1px dotted $input-disabled-color !default;
 $input-invalid-border: 1px solid $input-error-color !default;
 $placeholder-text-color: $grey-level1 !default;
@@ -119,7 +120,7 @@ $textarea-margin-top: 1.6rem !default; //라벨 덮힘 방지
 $radio-fill-color: $primary-color !default;
 $radio-empty-color: $html-color !default;
 $radio-border: 2px solid $radio-fill-color !default;
-$radio-disabled-color: $forms-disabled-color;
+$radio-disabled-color: $standard-disabled-color;
 
 // -- Select 셀렉트  option is a li 😸
 $select-border: 1px solid $html-color !default;
@@ -131,7 +132,7 @@ $select-option-padding: 0px 1rem;
 $select-option-height: $standard-li-height;
 $select-padding: 2px 1rem !default;
 $select-radius: $standard-border-radius !default;
-$select-disabled-color: $forms-disabled-color !default;
+$select-disabled-color: $standard-disabled-color !default;
 $select-menue-radius: 0px !default;
 $select-background: #fff !default;
 $select-focus-border-color: $primary-color !default;
@@ -152,14 +153,14 @@ $switch-unchecked-lever-bgcolor: $grey-level1 !default;
 $switch-radius: 15px !default;
 $switch-label-fontSize:1rem !default;
 $switch-label-color:$html-color !default;
-$switch-disabled-solid-color: $forms-disabled-color;
+$switch-disabled-solid-color: $standard-disabled-color;
 
 // -- CheckBox 체크박스
 $checkBox-label-fontSize:1rem !default;
 $checkBox-label-color:$html-color !default;
 $checkbox-border-radius: $standard-border-radius !default;
 $checkBox-border-color: $html-color;
-$checkbox-disabled-border-color: $forms-disabled-color !default;
+$checkbox-disabled-border-color: $standard-disabled-color !default;
 $checkbox-checked-color: $primary-color;
 $checkbox-sign-color : #fff;
 
@@ -281,12 +282,19 @@ $slider-dot-active-bgColor: $html-color;
 $slider-dot-hover-bgColor: $grey-level3;
 $slider-arrow-height : $circle-icon-size;
 
-// 11 pagination 페이지네이션
+// 11 Pagination 페이지네이션
 // ANCHOR paginiation Paginiation =========================================================================
-// 버튼 사이즈와 같게 제작된 것임
 $pagination-li-radius: $standard-border-radius;
 $pagination-li-height: 2.25rem;
 $pagination-li-padding: 1rem;
 $pagination-li-margin: 0.5rem;
 $pagination-li-hover: $grey-level1;
 $pagination-li-active: $grey-level1;
+
+// 12 Toast 토스트
+// ANCHOR toast Toast=========================================================================
+$toast-height: 3rem;
+$toast-padding: 1rem;
+$toast-position-x: 4%;
+$toast-position-y: 5%;
+$toast-margin-bottom: $standard-margin-bottom/2;

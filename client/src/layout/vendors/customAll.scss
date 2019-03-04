@@ -30,6 +30,9 @@ a.JDanchor {
     &:hover {
         text-decoration:underline;
     }
+    &:focus {
+        color:$link-color-active
+    }
 }
 
 body *::-moz-selection {
@@ -40,3 +43,7 @@ body *::selection {
     background: $secondary-color;
     color: #fff;
  }
+
+ html{
+    overflow-y: scroll;
+}

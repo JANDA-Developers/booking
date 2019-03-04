@@ -4,9 +4,8 @@ import React, { useState } from 'react';
 import { Mutation } from 'react-apollo';
 import InputText from '../../atoms/forms/InputText';
 import Radio from '../../atoms/forms/Radio';
-import Button from '../../atoms/Buttons';
+import Button from '../../atoms/button/Buttons';
 import { EMAIL_SIGN_UP, LOG_USER_IN } from '../../queries';
-import '../../atoms/Modal.scss';
 import './SignUp.scss';
 import utils from '../../utils/utils';
 import { useInput, useRadio } from '../../actions/hook';
@@ -44,7 +43,7 @@ function SignUp({ history }) {
                       },
                     });
                     // 인증 화면으로 이동
-                    history.push(`/middleServer/PhoneVerification`);
+                    history.replace(`/middleServer/PhoneVerification`);
                   }
                 }
                 if (error) console.error(error);
