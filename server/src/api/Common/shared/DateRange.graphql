@@ -5,10 +5,9 @@ enum DateRangeStatus {
 }
 
 type DateRange {
+    hashCode: Int!
     startDate: DateTime
-    # null인 경우 startDate 로부터 기약없이 나아감...
     endDate: DateTime
-    status: DateRangeStatus!
 }
 
 input DateRangeInput {
@@ -17,10 +16,10 @@ input DateRangeInput {
 }
 
 type DisableRange {
+    hashCode: Int!
     startDate: DateTime
     endDate: DateTime
     description: String
-    status: DateRangeStatus!
 }
 
 input DisableRangeInput {

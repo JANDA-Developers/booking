@@ -1,6 +1,6 @@
 import { InstanceType } from "typegoose";
 import { HouseModel } from "../../../models/House";
-import { extractHouse } from "../../../models/Merge";
+import { extractHouse } from "../../../models/merge/Merge";
 import { UserSchema } from "../../../models/User";
 import {
     CreateHouseMutationArgs,

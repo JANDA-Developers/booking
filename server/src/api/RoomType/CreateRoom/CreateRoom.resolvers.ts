@@ -1,5 +1,5 @@
 import { ObjectId } from "bson";
-import { extractRoom } from "../../../models/Merge";
+import { extractRoom } from "../../../models/merge/Merge";
 import { RoomModel } from "../../../models/Room";
 import { RoomTypeModel } from "../../../models/RoomType";
 import {

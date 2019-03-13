@@ -44,7 +44,7 @@ export class RoomTypeSchema extends Typegoose {
     @prop({
         required: [
             function(this: RoomTypeSchema) {
-                return 1 < this.peopleCount;
+                return 0 < this.peopleCount;
             },
             "Too Few peopleCount..."
         ],

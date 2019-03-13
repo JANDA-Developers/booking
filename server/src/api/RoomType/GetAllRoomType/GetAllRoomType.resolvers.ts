@@ -1,5 +1,5 @@
-import { ObjectId } from "bson";
-import { extractRoomTypes } from "../../../models/Merge";
+import { HouseModel } from "../../../models/House";
+import { extractRoomTypes } from "../../../models/merge/Merge";
 import {
     GetAllRoomTypeQueryArgs,
     GetAllRoomTypeResponse
@@ -13,23 +13,25 @@ const resolvers: Resolvers = {
             async (
                 _,
                 { houseId }: GetAllRoomTypeQueryArgs,
-                { req }
             ): Promise<GetAllRoomTypeResponse> => {
                 try {
-                    if (houseId) {
+                    const house = await HouseModel.findOne(
+                        { _id: houseId },
+                        { roomTypes: 1 }
+                    );
+                    if (house) {
                         return {
                             ok: true,
                             error: null,
-                            roomTypes: await extractRoomTypes(
-                                new ObjectId(houseId)
-                            )
+                            roomTypes: await extractRoomTypes(house.roomTypes)
+                        };
+                    } else {
+                        return {
+                            ok: false,
+                            error: "Under Delveop",
+                            roomTypes: []
                         };
                     }
-                    return {
-                        ok: false,
-                        error: "Under Delveop",
-                        roomTypes: []
-                    };
                 } catch (error) {
                     return {
                         ok: false,

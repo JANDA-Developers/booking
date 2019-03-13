@@ -1,7 +1,7 @@
 import { ObjectId } from "bson";
 import { InstanceType } from "typegoose";
 import { HouseModel } from "../../../models/House";
-import { extractRoomType } from "../../../models/Merge";
+import { extractRoomType } from "../../../models/merge/Merge";
 import { RoomTypeModel } from "../../../models/RoomType";
 import { UserSchema } from "../../../models/User";
 import {

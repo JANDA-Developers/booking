@@ -2,13 +2,21 @@ import { GraphQLScalarType } from "graphql";
 import { Kind } from "graphql/language";
 
 function serialize(value: string) {
-    return new Date(value).toISOString();
+    const date = new Date(value);
+    // date.setTime(date.getTime() - date.getTimezoneOffset() * 1000 * 60);
+    // console.log({
+    //     date
+    // });
+    
+    return date.toISOString();
 }
 
 function parseValue(value: any) {
     const tov = typeof value;
-    if (tov === "string" || tov === "number") {
-        return new Date(value);
+    if (tov === "string") {
+        return new Date(value).getTime();
+    } else if (tov === "number") {
+        return value;
     } else if (value instanceof Date) {
         return value;
     } else {

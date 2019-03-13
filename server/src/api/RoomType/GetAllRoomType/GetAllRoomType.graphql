@@ -4,5 +4,5 @@ type GetAllRoomTypeResponse {
     roomTypes: [RoomType!]
 }
 type Query {
-    GetAllRoomType(houseId: ID): GetAllRoomTypeResponse!
+    GetAllRoomType(houseId: ID!): GetAllRoomTypeResponse!
 }

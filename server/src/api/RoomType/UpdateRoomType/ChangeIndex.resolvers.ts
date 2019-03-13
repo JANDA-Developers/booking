@@ -1,6 +1,7 @@
 import { ObjectId } from "bson";
 import { InstanceType } from "typegoose";
 import { RoomTypeModel, RoomTypeSchema } from "../../../models/RoomType";
+import { selectNumberRange } from "../../../queries/queries";
 import {
     ChangeIndexMutationArgs,
     ChangeIndexResponse
@@ -19,25 +20,21 @@ const resolvers: Resolvers = {
                 try {
                     const existingRoomType: InstanceType<RoomTypeSchema> =
                         context.existingRoomType;
+                    // 우선 존재하는 roomType의 index를 먼저 업데이트함.
                     await existingRoomType.update({
                         index: args.index
                     });
-                    const gt = args.index;
-                    const lt = existingRoomType.index;
-                    let increment = 1;
-                    let indexCondition: any;
-                    if (gt > lt) {
-                        increment = -1;
-                        indexCondition = { $gt: lt, $lte: gt };
-                    } else {
-                        indexCondition = { $gte: gt, $lt: lt };
-                    }
+                    const conditions = selectNumberRange(
+                        args.index,
+                        existingRoomType.index
+                    );
+
                     await RoomTypeModel.updateMany(
                         {
                             _id: { $ne: new ObjectId(args.roomTypeId) },
-                            index: indexCondition
+                            index: conditions.condition
                         },
-                        { $inc: { index: increment } },
+                        { $inc: { index: conditions.increment } },
                         { new: true }
                     );
                     return {

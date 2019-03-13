@@ -1,14 +1,21 @@
 type Guest {
     _id: ID!
     house: House!
-    booker: User!
-    roomType: String!
-    guestType: String!
-    allocatedRoom: Room!
-    stay: String!
-    price: Int!
+    booking: Booking!
+    room: Room!
+    dateRange: DateRange!
+    guestType: GuestType!
+    price: Float!
     isChkIn: Boolean!
-    bookingId: String!
-    createdAt: String!
-    updatedAt: String
+    createdAt: DateTime!
+    updatedAt: DateTime
+}
+
+enum GuestType {
+    # 방 막는 용도로 잡은 예약임
+    BLOCK_ROOM
+    # 도미토리 형식의 방을 예약한 게스트
+    DOMITORY
+    # 방 타입 예약
+    ROOM
 }

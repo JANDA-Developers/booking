@@ -1,4 +1,4 @@
-import { extractUser } from "../../../models/Merge";
+import { extractUser } from "../../../models/merge/Merge";
 import { GetMyProfileResponse } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
 import privateResolver from "../../../utils/privateResolvers";

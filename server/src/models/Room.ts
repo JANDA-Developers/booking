@@ -1,7 +1,13 @@
 import { ObjectId } from "bson";
 import { Types } from "mongoose";
 import { pre, prop, Typegoose } from "typegoose";
-import { DisableRange } from "../types/graph";
+
+interface DisableRange {
+    hashCode: number;
+    startDate?: Date;
+    endDate?: Date;
+    description?: string | null;
+}
 
 @pre<RoomSchema>("save", async function(next) {
     try {
