@@ -2,4 +2,9 @@
 
 #makeHomePage {
     visibility: visible;
+    .makeHomePage {
+        &__map {
+            margin-bottom: $standard-margin-bottom;
+        }
+    }
 }

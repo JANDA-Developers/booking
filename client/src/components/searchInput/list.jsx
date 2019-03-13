@@ -1,18 +1,23 @@
 /* eslint-disable react/no-array-index-key */
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames/bind';
 
 function List({
-  userList, refContainer, onListClick, onListKeyPress, currentValue, setIsMatched,
+  dataList, refContainer, onListClick, onListKeyPress, currentValue, setIsMatched,
 }) {
   return (
     <ul ref={refContainer} className="JDsearchInput__ul">
-      {userList.map((user, index) => {
-        let classes = 'JDsearchInput__li';
-        if (currentValue === user.name) {
-          classes = 'JDsearchInput__li JDsearchInput__li--selected';
+      {dataList.map((data, index) => {
+        if (currentValue === data.name) {
           setIsMatched(true);
         }
+        const classes = classNames({
+          JDsearchInput__li: true,
+          'JDsearchInput__li--selected': currentValue === data.name,
+          'JDsearchInput__li--unDetail': !data.detail,
+        });
+
         return (
           // eslint-disable-next-line react/no-array-index-key
           <li
@@ -20,10 +25,18 @@ function List({
             onKeyPress={onListKeyPress}
             onClick={onListClick}
             className={classes}
-            key={`list${user}${index}`}
-            value={user.name}
+            key={`list${data}${index}`}
+            value={data.name}
           >
-            {user.name}
+            <span>
+              {data.name}
+              {data.detail && (
+                <Fragment>
+                  <br />
+                  <span className="JDsearchInput__detail">{data.detail}</span>
+                </Fragment>
+              )}
+            </span>
           </li>
         );
       })}
@@ -32,16 +45,19 @@ function List({
 }
 
 List.propTypes = {
-  userList: PropTypes.array,
+  dataList: PropTypes.array,
   refContainer: PropTypes.object,
   onListClick: PropTypes.func,
   onListKeyPress: PropTypes.func,
+  setIsMatched: PropTypes.func,
+  currentValue: PropTypes.string.isRequired,
 };
 
 List.defaultProps = {
-  userList: [],
+  dataList: [],
   refContainer: {},
   onListClick: PropTypes.func,
   onListKeyPress: PropTypes.func,
+  setIsMatched: () => {},
 };
 export default List;

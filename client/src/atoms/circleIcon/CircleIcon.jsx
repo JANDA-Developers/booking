@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames/bind';
-import ErrProtecter from '../utils/ErrProtecter';
+import ErrProtecter from '../../utils/ErrProtecter';
 import './CircleIcon.scss';
 
 const CircleIcon = ({

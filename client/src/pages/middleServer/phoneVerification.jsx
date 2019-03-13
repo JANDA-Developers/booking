@@ -1,77 +1,85 @@
 import React, { useState } from 'react';
-import ReactModal from 'react-modal';
 import { Mutation, Query } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
 import InputText from '../../atoms/forms/InputText';
-import '../../atoms/Modal.scss';
-import Button from '../../atoms/Buttons';
-import './PhoneVerification.scss';
+import Modal from '../../atoms/modal/Modal';
+import Button from '../../atoms/button/Buttons';
 import { useInput } from '../../actions/hook';
+import utils, { toast } from '../../utils/utils';
 import { GET_MY_PHON_NUMBER, PHONE_VERIFICATION } from '../../queries';
+import './PhoneVerification.scss';
 
-function PhoneVerification() {
+function PhoneVerification({ history }) {
   const [popPhone, setPopPhone] = useState(false);
   const keyHook = useInput('');
-  // eslint-disable-next-line no-unused-vars
   const [phoneVerfication, setPhoneVerfication] = useState(false);
 
   return (
-    <div id="PhoneVerification" className="container">
-      <div className="docs-section" />
-      <div className="flex-grid__col col--full-12 col--md-12">
-        <h1>핸드폰 인증하기</h1>
-        <Mutation
-          mutation={PHONE_VERIFICATION}
-          onCompleted={({ StartPhoneVerification: { ok, error } }) => {
-            if (ok) {
-              setPopPhone(true);
-            } else {
-              console.log('StartPhoneVerification Error');
-              console.error(error);
-            }
-          }}
-        >
-          {mutation => <Button onClick={mutation} thema="primary" mode="large" label="인증번호 발송" />}
-        </Mutation>
-      </div>
-      {/* 모달 */}
-      <ReactModal
-        isOpen={popPhone}
-        onRequestClose={() => setPopPhone(false)}
-        className="Modal"
-        overlayClassName="Overlay"
-        ariaHideApp={false}
-      >
-        <h5>핸드폰 인증번호</h5>
-        <InputText {...keyHook} label="인증번호" />
-        <div className="ReactModal__EndSection">
-          <Query query={GET_MY_PHON_NUMBER}>
-            {({ loading, error, data: { GetMyProfile: { user: { phoneNumber = {} } = {} } = {} } }) => {
-              if (error) {
+    <div id="PhoneVerification" className="container container--centerlize">
+      <div className="docs-section">
+        <div className="flex-grid__col col--full-12 col--md-12">
+          <h1>핸드폰 인증하기</h1>
+          <Mutation
+            mutation={PHONE_VERIFICATION}
+            onCompleted={({ StartPhoneVerification: { ok, error } }) => {
+              if (ok) {
+                setPopPhone(true);
+                toast('인증번호 발송');
+              } else {
                 console.error(error);
-                return false;
+                toast.warn('인증번호 발송실패');
               }
-              console.log(phoneNumber);
-              return (
-                <Mutation
-                  mutation={PHONE_VERIFICATION}
-                  variables={{
-                    key: keyHook.value,
-                    phoneNumber,
-                  }}
-                  onCompleted={() => {
-                    setPhoneVerfication(true);
-                  }}
-                >
-                  {mutation => <Button preloader={loading} label="인증하기" onClick={mutation} />}
-                </Mutation>
-              );
             }}
-          </Query>
-          <Button label="닫기" onClick={() => setPopPhone(false)} />
+          >
+            {mutation => <Button onClick={mutation} thema="primary" mode="large" label="인증번호 발송" />}
+          </Mutation>
         </div>
-      </ReactModal>
+        {/* 모달 */}
+        <Modal
+          isOpen={popPhone}
+          onRequestClose={() => setPopPhone(false)}
+          className="Modal"
+          overlayClassName="Overlay"
+          ariaHideApp={false}
+        >
+          <h5>핸드폰 인증번호</h5>
+          <InputText {...keyHook} label="인증번호" />
+          <div className="ReactModal__EndSection">
+            <Query query={GET_MY_PHON_NUMBER}>
+              {({ loading, error, data: { GetMyProfile: { user: { phoneNumber = {} } = {} } = {} } }) => {
+                if (error) {
+                  toast.error('메세지 발송에 문제가 생겼습니다. 별도 문의 바랍니다.');
+                  console.error(error);
+                  return false;
+                }
+                return (
+                  <Mutation
+                    mutation={PHONE_VERIFICATION}
+                    variables={{
+                      key: keyHook.value,
+                      phoneNumber,
+                    }}
+                    onCompleted={() => {
+                      setPhoneVerfication(true);
+                      toast.success('핸드폰 인증완료');
+                      history.replace('./');
+                    }}
+                    onError={(verficationError) => {
+                      toast.error('인증 절차에 문제가 생겼습니다. 별도 문의 바랍니다.');
+                      console.error(verficationError);
+                    }}
+                  >
+                    {mutation => <Button preloader={loading} label="인증하기" onClick={mutation} />}
+                  </Mutation>
+                );
+              }}
+            </Query>
+            <Button label="닫기" onClick={() => setPopPhone(false)} />
+          </div>
+        </Modal>
+      </div>
     </div>
   );
 }
 
-export default PhoneVerification;
+export default utils.ErrProtecter(withRouter(PhoneVerification));

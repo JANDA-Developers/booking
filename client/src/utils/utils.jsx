@@ -1,6 +1,7 @@
 // 유틸리티가 더 많이 쌓이면
 import ErrProtecter from './ErrProtecter';
 import isEmpty from './IsEmpty';
+import toast from './Toast';
 import { NEUTRAL } from './Enums';
 import { JDMonthTextChanger, JDWeekChanger } from './TextChanger';
 import {
@@ -20,9 +21,10 @@ const JDutils = {
   isPassword,
   JDMonthTextChanger,
   searchListFormat,
+  toast,
 };
 
 export default JDutils;
 export {
-  JDMonthTextChanger, JDWeekChanger, isEmpty, NEUTRAL,
+  JDMonthTextChanger, JDWeekChanger, isEmpty, NEUTRAL, toast,
 };

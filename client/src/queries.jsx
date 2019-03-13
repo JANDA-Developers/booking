@@ -1,16 +1,6 @@
 import gql from 'graphql-tag';
 
-export const Booker = gql`
-  {
-    bookers {
-      id
-      name
-      phone_num
-      email
-      status
-    }
-  }
-`;
+/* -------------------------------- client ------------------------------- */
 
 export const IS_LOGGED_IN = gql`
   {
@@ -20,8 +10,22 @@ export const IS_LOGGED_IN = gql`
   }
 `;
 
+export const LOG_USER_IN = gql`
+  mutation logUserIn($token: String!) {
+    LogUserIn(token: $token) @client
+  }
+`;
+
+export const LOG_USER_OUT = gql`
+  mutation logUserOut {
+    LogUserOut @client
+  }
+`;
+
+/* ---------------------------------- query --------------------------------- */
+
 export const GET_USER_INFO = gql`
-  {
+  query {
     GetMyProfile {
       user {
         isPhoneVerified
@@ -30,15 +34,29 @@ export const GET_USER_INFO = gql`
   }
 `;
 
-export const GetBookerNameById = gql`
-  query getBookerById($personId: ID!) {
-    get_booker_by_id(_id: $personId) {
-      id
-      name
-      phone_num
+export const EMAIL_SIGN_IN = gql`
+  query emailSignIn($email: EmailAddress!, $password: Password!) {
+    EmailSignIn(email: $email, password: $password) {
+      ok
+      error
+      token
     }
   }
 `;
+
+export const GET_MY_PHON_NUMBER = gql`
+  query {
+    GetMyProfile {
+      ok
+      error
+      user {
+        phoneNumber
+      }
+    }
+  }
+`;
+
+/* -------------------------------- mutation -------------------------------- */
 
 export const PHONE_VERIFICATION = gql`
   mutation startPhoneVerification {
@@ -60,7 +78,7 @@ export const COMEPLETE_PHONE_VERIFICATION = gql`
 `;
 
 export const EMAIL_SIGN_UP = gql`
-  mutation emailSignUp($name: Name!, $email: EmailAddress!, $phoneNumber: PhoneNumber!, $password: String!) {
+  mutation emailSignUp($name: Name!, $email: EmailAddress!, $phoneNumber: PhoneNumber!, $password: Password!) {
     EmailSignUp(name: $name, email: $email, password: $password, phoneNumber: $phoneNumber) {
       ok
       error
@@ -69,36 +87,11 @@ export const EMAIL_SIGN_UP = gql`
   }
 `;
 
-export const EMAIL_SIGN_IN = gql`
-  query emailSignIn($email: String!, $password: String!) {
-    EmailSignIn(email: $email, password: $password) {
+export const CREATE_HOUSE = gql`
+  mutation createHouse($name: String!, $houseType: HouseType!, $location: LocationInput!) {
+    CreateHouse(name: $name, houseType: $houseType, location: $location) {
       ok
       error
-      token
     }
-  }
-`;
-
-export const GET_MY_PHON_NUMBER = gql`
-  query {
-    GetMyProfile {
-      ok
-      error
-      user {
-        phoneNumber
-      }
-    }
-  }
-`;
-
-export const LOG_USER_IN = gql`
-  mutation logUserIn($token: String!) {
-    LogUserIn(token: $token) @client
-  }
-`;
-
-export const LOG_USER_OUT = gql`
-  mutation logUserOut {
-    LogUserOut @client
   }
 `;

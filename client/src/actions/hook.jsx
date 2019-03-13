@@ -4,35 +4,36 @@ import Axios from 'axios';
 
 // 한방에 패치
 // A X I O S  : (http://codeheaven.io/how-to-use-axios-as-your-http-client/)
-function useFetch(url) {
-  const [payload, setPayload] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState('');
+const useFetch = (url) => {
+  const [data, setData] = useState([]);
+  const [inUrl, setInUrl] = useState(url);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
-  const callUrl = async () => {
+  const fetchData = async () => {
+    setIsError(false);
+    setIsLoading(true);
+
     try {
-      const { data } = await Axios.get(url);
-      setPayload(data);
+      const result = await Axios(inUrl);
+      setData(result.data);
     } catch (error) {
-      setError('useFetchERR');
+      setIsError(true);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const returnUrl = url;
-
   useEffect(() => {
-    callUrl();
-  }, [url]);
+    fetchData();
+  }, [inUrl]);
 
-  return {
-    payload,
-    isLoading,
-    error,
-    returnUrl,
+  const doGet = (url) => {
+    setInUrl(url);
   };
-}
+
+  return [data, isLoading, isError, doGet];
+};
 
 // 밸리데이션을 포함한 훅 리턴
 function useInput(defaultValue) {

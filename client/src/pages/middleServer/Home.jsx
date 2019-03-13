@@ -1,21 +1,21 @@
-import React from 'react';
-import { withRouter } from 'react-router-dom';
-import Button from '../../atoms/Buttons';
+import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
+import Button from '../../atoms/button/Buttons';
 import './Home.scss';
+import utils, { toast } from '../../utils/utils';
 
 // eslint-disable-next-line react/prop-types
-const Home = ({ history, ...pros }) => {
+const Home = ({ isLoggedIn }) => {
+  const [redirect, setRedirect] = useState(false);
+
   const startService = () => {
-    console.log(history);
-    console.log(pros);
-    if (pros) {
-      history.push('./middleServer/makeHouse');
-    } else {
-      history.push('./');
-    }
+    if (!isLoggedIn) toast.warn('로그인후 시작해주세요.');
+    else setRedirect(true);
   };
+
   return (
-    <div id="HomePage" className="container">
+    <div id="HomePage" className="container container--centerlize">
+      {redirect ? <Redirect to="./middleServer/makeHouse" /> : null}
       <div className="docs-section">
         <h1>JANDA</h1>
         <Button label="시작하기" onClick={startService} mode="large" thema="secondary" type="button" />
@@ -24,4 +24,4 @@ const Home = ({ history, ...pros }) => {
   );
 };
 
-export default withRouter(Home);
+export default utils.ErrProtecter(Home);

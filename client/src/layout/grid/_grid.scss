@@ -15,27 +15,6 @@ Markup:
 .container--lg      - Large Container
 */
 
-.container {
-  margin: 0 auto;
-  max-width: $container-width;
-  padding: 0 $container-padding;
-  position: relative;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.container--lg {
-  margin: 0 auto;
-  max-width: 1200px;
-  padding: 3.2rem 1rem;
-}
-
-.container--sm {
-  margin: 0 auto;
-  max-width: $container-small-width;
-  padding: 2.4rem 2rem;
-}
-
 // Column
 .col {
   width: 100%;
@@ -43,15 +22,6 @@ Markup:
   box-sizing: border-box;
 }
 
-@include response ($full,$mobile) {
-  .container {
-    padding: 0;
-
-    @include response ($tablet){
-      width: 100%;
-    }
-  }
-}
 
 
   .col {
@@ -184,12 +154,3 @@ Markup:
 
 // Clearing
 //––––––––––––––––––––––––––––––––––––––––––––––––––
-
-/* Self Clearing Goodness */
-.container:after,
-.row:after {
-  clear: both;
-  content: "";
-  display: table;
-}
-

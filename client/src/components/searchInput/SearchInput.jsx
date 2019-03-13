@@ -6,97 +6,128 @@ import classNames from 'classnames/bind';
 import List from './list';
 import './searchInput.scss';
 import Icon from '../../atoms/icons/Icons';
+import Preloader from '../../atoms/preloader/Preloader';
+import searchListFormat from '../../utils/SearchListFormat';
 
 function SearchInput({
-  userList,
+  dataList,
   staticList,
   placeholder,
   label,
   onSearch,
-  unfilter,
+  filter,
   onTypeChange,
   onTypeValue,
   isMatched,
   setIsMatched,
   alwaysListShow,
+  asName,
+  asDetail,
+  isLoading,
+  feedBackMessage,
 }) {
-  const [inUserList, inSetUserList] = useState(userList); // * 필터에 의해서 걸러진 유저 리스트
+  // Naming Format
+  const formatDataList = searchListFormat(dataList, asName, asDetail);
+  const [filteredDataList, SetFilteredDataList] = useState(formatDataList);
   const inputRef = useRef(null);
   const ulRef = useRef(null);
 
-  // 리스트를 여러가지 조건으로 분기 필터
+  //  Check it is matched and set filteredDataList
   const setList = (value = inputRef.current.value) => {
-    if (!unfilter) {
-      let filteredItems = [];
+    // CASE: do filter
+    if (filter) {
+      let filteredItems = []; // if value == '' filter all
       if (value !== '') {
-        filteredItems = userList.filter(item => item.name.toLowerCase().includes(value.toLowerCase()));
+        filteredItems = formatDataList.filter(item => item.name.toLowerCase().includes(value.toLowerCase()));
       }
-      inSetUserList(filteredItems);
-    } else if (value !== '' || alwaysListShow) {
-      // 필터를 사용안하는 조건이면 현재 리스트는 Prop의 리스트와 동일
-      inSetUserList(userList);
-    }
-    if (value === '') {
-      inSetUserList([]);
-    }
+      SetFilteredDataList(filteredItems);
+    } else if (value !== '' || alwaysListShow) SetFilteredDataList(formatDataList);
+    // CASE: input has no value
+    if (value === '' && !alwaysListShow) SetFilteredDataList([]);
   };
 
-  // input값이 바뀔때
-  const handleChange = ({ target: { value } }) => {
-    // 값이 바뀌지 않는 조건이 아니라면
-    if (!unfilter) {
-      setList(value);
-    }
-    // 칠때마다 값을 반환하는 조건이라면
-    if (onTypeChange) onSearch(value);
-  };
-
-  //  리스트를 클릭했을때
-  const handleOnListClick = (e) => {
-    onSearch($(e.target).attr('value'));
-  };
-
-  //  리스트에 포커스후 키를 눌를떄  -- 현재 의미없습니다
-  const handleOnListKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      onSearch(e.target.value);
-    }
-  };
-
-  // 포커싱 키클릭
+  // Handler - input : onKeyPress
   const handleOnKeyPress = (e) => {
-    // 엔터를 누를경우
+    // CASE: press Enter
     if (e.key === 'Enter') {
-      const selectedNode = $(ulRef.current).find('.JDsearchInput__li--active');
-      if (selectedNode.length) {
+      e.preventDefault();
+      const selectedNode = $(ulRef.current)
+        .find('.JDsearchInput__li--active')
+        .get(0);
+      // CASE: children select
+      if (selectedNode) {
         onSearch($(selectedNode).attr('value'));
+        // CASE: uncontrolled value change
+        if (!onTypeChange) inputRef.current.value = $(selectedNode).attr('value');
       } else {
+        // CASE: input select
         onSearch(inputRef.current.value);
       }
     }
-    // 위 아래 화살표 일경우
+
+    // CASE: press up && down
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
-      if (ulRef.current.children.length) {
-        const selectedNode = $(ulRef.current).find('.JDsearchInput__li--active');
-        if (selectedNode.length) {
-          if (e.key === 'ArrowUp') {
-            $(selectedNode)
-              .prev()
-              .addClass('JDsearchInput__li--active');
-          } else {
-            $(selectedNode)
-              .next()
-              .addClass('JDsearchInput__li--active');
-          }
-          $(selectedNode).removeClass('JDsearchInput__li--active');
-        } else if (e.key === 'ArrowDown') {
-          ulRef.current.children[0].classList.add('JDsearchInput__li--active');
+      // CASE: ul has no children
+      if (!ulRef.current.children.length) return;
+
+      const selectedNode = $(ulRef.current).find('.JDsearchInput__li--active');
+
+      // CASE: li is selected
+      if (selectedNode.length) {
+        // active select
+        if (e.key === 'ArrowUp') {
+          $(selectedNode)
+            .prev()
+            .addClass('JDsearchInput__li--active');
+        } else {
+          $(selectedNode)
+            .next()
+            .addClass('JDsearchInput__li--active');
         }
-      }
+        // remove select
+        $(selectedNode).removeClass('JDsearchInput__li--active');
+
+        // first select
+      } else if (e.key === 'ArrowDown') ulRef.current.children[0].classList.add('JDsearchInput__li--active');
     }
   };
 
-  // 서치 아이콘을 누를경우
+  // Handler - input : onChange
+  const handleChange = (e) => {
+    e.preventDefault();
+    if (filter) setList(e.target.value);
+    if (onTypeChange) onSearch(e.target.value);
+  };
+  // Handler - input : onFocus
+  const handleOnFocus = (e) => {
+    e.preventDefault();
+    onSearch(e.target.value);
+    setTimeout(() => {
+      $(ulRef.current).show();
+    }, 100);
+  };
+  // Handler - input : onBlur
+  const handleOnBlur = (e) => {
+    e.preventDefault();
+    onSearch(e.target.value);
+    setTimeout(() => {
+      $(ulRef.current).hide();
+    }, 100);
+  };
+  // Handler - list : onClick
+  const handleOnListClick = (e) => {
+    e.preventDefault();
+    onSearch($(e.currentTarget).attr('value'));
+    $(inputRef.current).val($(e.currentTarget).attr('value'));
+  };
+  // Handler - list : onKeyPress - x
+  const handleOnListKeyPress = (e) => {
+    e.preventDefault();
+    if (e.key === 'Enter') {
+      onSearch(e.currentTarget.value);
+    }
+  };
+  // Handler - icon : onKeyPress
   const handleOnSearchClick = () => {
     onSearch(inputRef.current.value);
   };
@@ -106,9 +137,9 @@ function SearchInput({
     'JDsearchInput--staticList': staticList === true,
   });
 
-  useEffect(setList, [userList]); // 유저 리스트가 변할때마다 새롭게 리스트를 작성해줍니다
+  useEffect(setList, [dataList]); // 유저 리스트가 변할때마다 새롭게 리스트를 작성해줍니다
   useEffect(() => {
-    if (isMatched) $(inputRef.current).addClass('JDsearchInput__input--valid');
+    if (isMatched) $(inputRef.current).addClass('JDsearchInput__input--matched');
   }); // 매칭된 리스트일경우에 인풋에 밸리
 
   return (
@@ -116,6 +147,8 @@ function SearchInput({
       <div className="JDsearchInput__input_wrapper">
         <span className="JDsearchInput__label">{label}</span>
         <input
+          onFocus={handleOnFocus}
+          onBlur={handleOnBlur}
           onKeyDown={handleOnKeyPress}
           ref={inputRef}
           className="JDsearchInput__input"
@@ -130,46 +163,57 @@ function SearchInput({
           onKeyDown={handleOnKeyPress}
           className="JDsearchInput__icon"
         >
-          <Icon hover icon="magnifier" />
+          {isLoading ? <Preloader /> : <Icon hover icon="magnifier" />}
         </span>
+        {feedBackMessage !== '' && <span className="JDsearchInput__feedBack">{`${feedBackMessage}`}</span>}
       </div>
       <List
         currentValue={onTypeValue}
         onListKeyPress={handleOnListKeyPress}
         onListClick={handleOnListClick}
         refContainer={ulRef}
-        userList={inUserList}
+        dataList={filteredDataList}
         setIsMatched={setIsMatched}
+        asName={asName}
+        asDetail={asDetail}
       />
     </div>
   );
 }
 
 SearchInput.propTypes = {
-  userList: PropTypes.array,
-  staticList: PropTypes.bool,
+  dataList: PropTypes.array,
   placeholder: PropTypes.string,
   label: PropTypes.string,
   onSearch: PropTypes.func,
   setIsMatched: PropTypes.func,
-  unfilter: PropTypes.bool,
+  staticList: PropTypes.bool,
+  filter: PropTypes.bool,
   onTypeChange: PropTypes.bool,
   isMatched: PropTypes.bool,
+  isLoading: PropTypes.bool,
   alwaysListShow: PropTypes.bool,
   onTypeValue: PropTypes.string,
+  asName: PropTypes.string,
+  asDetail: PropTypes.string,
+  feedBackMessage: PropTypes.string,
 };
 
 SearchInput.defaultProps = {
-  userList: {},
+  dataList: [],
   staticList: false,
   placeholder: 'search',
   label: '',
   onSearch: () => {},
-  unfilter: false,
+  filter: true,
   onTypeChange: false,
   isMatched: false,
   alwaysListShow: false,
+  isLoading: false,
   onTypeValue: '',
   setIsMatched: () => {},
+  asName: 'name',
+  asDetail: 'detail',
+  feedBackMessage: '',
 };
 export default SearchInput;

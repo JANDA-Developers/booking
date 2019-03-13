@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 export const typeDefs = ["type Booking {\n  _id: ID!\n  house: House!\n  booker: User!\n  roomTypes: [RoomType!]!\n  dateRange: DateRange!\n  price: Float!\n  bookingStatus: BookingStatus!\n  guests: [Guest!]\n  memo: String!\n  createdAt: DateTime!\n  updatedAt: DateTime!\n}\n\nenum BookingStatus {\n  # 입금 대기\n  WAIT_DEPOSIT\n  # 예약 완료\n  COMPLETE\n  # 예약 취소(입금 전에 취소를 신청하여 바로 처리되었거나 환불이 완료되어 취소된 상태를 뜻함)\n  CANCEL\n  # 환불 대기\n  REFUND_WAIT\n  # 체크인 할떄 방값 지불\n  PAY_WHEN_CHK_IN\n}\n\nscalar DateTime\n\nscalar EmailAddress\n\nscalar Name\n\nscalar Password\n\nscalar PhoneNumber\n\nscalar URL\n\n# DB에 저장할 떄는 0101010의 형태로 저장하도록 Resolver에서 처리한다.\nenum Day {\n  SUN\n  MON\n  TUE\n  WED\n  THU\n  FRI\n  SAT\n}\n\ntype Tag {\n  name: String!\n  content: String!\n  icon: String!\n}\n\ninput TagInput {\n  name: String!\n  content: String!\n  icon: String\n}\n\nenum DateRangeStatus {\n  PAST\n  PRESENT\n  FUTURE\n}\n\ntype DateRange {\n  hashCode: Int!\n  startDate: DateTime\n  endDate: DateTime\n}\n\ninput DateRangeInput {\n  startDate: DateTime\n  endDate: DateTime\n}\n\ntype DisableRange {\n  hashCode: Int!\n  startDate: DateTime\n  endDate: DateTime\n  description: String\n}\n\ninput DisableRangeInput {\n  startDate: DateTime\n  endDate: DateTime\n  description: String\n}\n\ntype Location {\n  address: String!\n  addressDetail: String\n  lat: Float!\n  lng: Float!\n}\n\ninput LocationInput {\n  address: String!\n  addressDetail: String\n  lat: Float!\n  lng: Float!\n}\n\ntype Guest {\n  _id: ID!\n  house: House!\n  booking: Booking!\n  room: Room!\n  dateRange: DateRange!\n  guestType: GuestType!\n  price: Float!\n  isChkIn: Boolean!\n  createdAt: DateTime!\n  updatedAt: DateTime\n}\n\nenum GuestType {\n  # 방 막는 용도로 잡은 예약임\n  BLOCK_ROOM\n  # 도미토리 형식의 방을 예약한 게스트\n  DOMITORY\n  # 방 타입 예약\n  ROOM\n}\n\ntype CreateHouseResponse {\n  ok: Boolean!\n  error: String\n  house: House\n}\n\ntype Mutation {\n  CreateHouse(name: String!, houseType: HouseType!, location: LocationInput!): CreateHouseResponse!\n  DeleteHouse(_id: String!): DeleteHouseResponse!\n  UpdateHouse(houseId: ID!, name: String, houseType: HouseType, location: LocationInput, refundPolicy: [TermsOfRefundInput!], termsOfBooking: TermsOfBookingInput): UpdateHouseResponse!\n  CreateProduct(name: String!, price: Int!, roomCount: Int!, roomCountExtraCharge: Int!, bookingCount: Int!, bookingCountExtraCharge: Int!, description: String): CreateProductResponse!\n  CreateProductType(name: String!, price: Int!, roomCount: Int!, roomCountExtraCharge: Int!, bookingCount: Int!, bookingCountExtraCharge: Int!, description: String): CreateProductTypeResponse!\n  DeleteProductType(productTypeId: ID!): DeleteProductTypeResponse!\n  UpdateProductType(productTypeId: ID!, name: String!, price: Int!, roomCount: Int!, roomCountExtraCharge: Int!, bookingCount: Int!, bookingCountExtraCharge: Int!, description: String): UpdateProductTypeResponse!\n  AddRoomDisableRange(roomId: ID!, disableRange: DisableRangeInput!): AddRoomDisableRangeResponse!\n  AddRoomTypeDisableRange(roomTypeId: ID!, houseId: ID!, disableRange: DisableRangeInput!): AddRoomTypeDisableRangeResponse!\n  CreateRoom(name: String!, roomType: ID!, disableRange: [DisableRangeInput!]): CreateRoomResponse!\n  # 로그인 token 필요함!\n  CreateRoomType(name: String!, house: ID!, pricingType: PricingType!, peopleCount: Int!, peopleCountMax: Int, isEnable: Boolean, description: String, tags: [TagInput!]): CreateRoomTypeResponse!\n  DeleteRoom(roomId: ID!): DeleteRoomResponse!\n  DeleteRoomType(roomTypeId: ID!, houseId: ID!): DeleteRoomTypeResponse!\n  RemoveRoomDisableRange(roomId: ID!, hashCode: Int!): RemoveRoomDisableRangeResponse!\n  RemoveRoomTypeDisableRange(roomTypeId: ID!, houseId: ID!, disableRange: DisableRangeInput!): RemoveRoomTypeDisableRangeResponse!\n  UpdateRoom(roomId: ID!, name: String): UpdateRoomResponse!\n  UpdateRoomDisableRange(roomId: ID!, hashCode: Int!, startDate: DateTime, endDate: DateTime, description: String): UpdateRoomDisableRangeResponse!\n  ChangeIndex(roomTypeId: ID!, houseId: ID!, index: Int!): ChangeIndexResponse!\n  UpdateRoomType(roomTypeId: ID!, houseId: ID!, name: String, peopleCount: Int, peopleCountMax: Int, description: String): UpdateRoomTypeResponse!\n  ChangePriority(seasonId: ID!, houseId: ID!, priority: Int!): ChangePriorityResponse!\n  CreateSeason(name: String!, houseId: ID!, dateRange: DateRangeInput!, color: String, description: String): CreateSeasonResponse!\n  UpdateSeason(seasonId: ID!, houseId: ID!, name: String, dateRange: DateRangeInput, color: String, description: String): UpdateSeasonResponse!\n  CompletePhoneVerification(key: String!): CompletePhoneVerificationResponse!\n  EmailSignUp(name: Name!, email: EmailAddress!, password: Password!, phoneNumber: PhoneNumber!): EmailSignUpResponse!\n  GmailConnect(firstName: String!, lastName: String!, gmail: String!): GmailConnectionResponse!\n  StartPhoneVerification: StartPhoneVerificationResponse!\n  UpdateMyProfile(name: String!, phoneNumber: String!, password: String!): UpdateMyProfileResponse!\n  ChangePassword(currentPassword: String!, newPassword: String!, newPasswordRepeat: String!): ChangePasswordResponse!\n}\n\ntype DeleteHouseResponse {\n  ok: Boolean!\n  error: String\n}\n\ntype House {\n  _id: ID!\n  name: String!\n  houseType: HouseType!\n  user: User!\n  location: Location!\n  refundPolicy: [TermsOfRefund!]!\n  termsOfBooking: TermsOfBooking!\n  createdAt: DateTime!\n  updatedAt: DateTime\n}\n\nenum HouseType {\n  GUEST_HOUSE\n  HOSTEL\n  HOTEL\n  MOTEL\n  PENSION\n  YOUTH_HOSTEL\n}\n\n# 예약 가능한 조건.\ntype TermsOfBooking {\n  # 선택 가능한 가장 멀리있는 날짜(today 를 기준으로 ~일 뒤)\n  farthestSelectableDate: Int!\n  # 선택 가능한 가장 가까히 있는 날짜(today 를 기준으로 ~일 뒤)\n  nearestSelectableDate: Int!\n  # 선택 가능 날짜 범위\n  selectableDateRange: Int!\n}\n\ntype TermsOfRefund {\n  # 환불 가능 기간: 숙박일로부터 ~일 전\n  beforeDays: Int!\n  rate: Float!\n  description: String\n}\n\ninput TermsOfRefundInput {\n  beforeDays: Int!\n  rate: Float!\n  description: String\n}\n\ninput TermsOfBookingInput {\n  # 선택 가능한 가장 멀리있는 날짜(today 를 기준으로 ~일 뒤)\n  farthestSelectableDate: Int!\n  # 선택 가능한 가장 가까히 있는 날짜(today 를 기준으로 ~일 뒤)\n  nearestSelectableDate: Int!\n  # 선택 가능 날짜 범위\n  selectableDateRange: Int!\n}\n\ntype UpdateHouseResponse {\n  ok: Boolean!\n  error: String\n  house: House\n}\n\ntype CreateProductResponse {\n  ok: Boolean!\n  error: String\n  product: Product\n}\n\ntype Product {\n  _id: ID!\n  house: House\n  productType: ProductType!\n  createdAt: DateTime!\n  updatedAt: DateTime\n}\n\ntype CreateProductTypeResponse {\n  ok: Boolean!\n  error: String\n  productType: ProductType\n}\n\ntype DeleteProductTypeResponse {\n  ok: Boolean!\n  error: String\n}\n\ntype ProductType {\n  _id: ID!\n  # 제품 이름\n  name: String!\n  # 제품 가격(월)\n  price: Int!\n  # 만들 수 있는 최대 방 / 배드 수 => -1 일때 무제한\n  roomCount: Int!\n  # 방 수 추가시 추가 가격  => default: 0\n  roomCountExtraCharge: Int!\n  # 한달간 받을 수 있는 최대 예약 수 => -1 일 떄 무제한\n  bookingCount: Int!\n  # 예약 초과시 부과되는 금액 => defualt: 0\n  bookingCountExtraCharge: Int!\n  # 상세 설명\n  description: String\n  createdAt: DateTime!\n  updatedAt: DateTime\n}\n\ntype UpdateProductTypeResponse {\n  ok: Boolean!\n  error: String\n  productType: ProductType\n}\n\ntype RoomPrice {\n  _id: ID!\n  house: House!\n  roomType: RoomType!\n  price: Float!\n  date: String!\n}\n\ntype SeasonPrice {\n  _id: ID!\n  house: House!\n  roomType: RoomType!\n  season: Season!\n  price: Float!\n  applyDays: [Day]!\n}\n\ninput SeasonPriceInput {\n  price: Float!\n  applyDays: Int!\n}\n\ntype AddRoomDisableRangeResponse {\n  ok: Boolean!\n  error: String\n  disableRange: DisableRange\n}\n\ntype AddRoomTypeDisableRangeResponse {\n  ok: Boolean!\n  error: String\n}\n\ntype CreateRoomResponse {\n  ok: Boolean\n  error: String\n  room: Room\n}\n\ntype CreateRoomTypeResponse {\n  ok: Boolean!\n  error: String\n  roomType: RoomType\n}\n\ntype DeleteRoomResponse {\n  ok: Boolean!\n  error: String\n}\n\ntype DeleteRoomTypeResponse {\n  ok: Boolean!\n  error: String\n}\n\ntype GetAllRoomTypeResponse {\n  ok: Boolean\n  error: String\n  roomTypes: [RoomType!]\n}\n\ntype Query {\n  GetAllRoomType(houseId: ID!): GetAllRoomTypeResponse!\n  EmailSignIn(email: EmailAddress!, password: Password!): EmailSignInResponse!\n  # 로그인 token 필요!\n  GetMyProfile: GetMyProfileResponse!\n}\n\ntype RemoveRoomDisableRangeResponse {\n  ok: Boolean!\n  error: String\n}\n\ntype RemoveRoomTypeDisableRangeResponse {\n  ok: Boolean!\n  error: String\n}\n\ntype Room {\n  _id: ID!\n  name: String!\n  roomType: RoomType!\n  disableRanges: [DisableRange!]!\n  index: Int!\n  createdAt: DateTime!\n  updatedAt: DateTime\n}\n\ntype RoomType {\n  _id: ID!\n  name: String!\n  house: House!\n  pricingType: PricingType!\n  peopleCount: Int!\n  peopleCountMax: Int!\n  index: Int!\n  roomCount: Int!\n  disableRanges: [DisableRange!]\n  description: String\n  # 예전에 Facilities 랑 같은 아이임...\n  tags: [Tag!]!\n  rooms: [Room!]!\n  createdAt: DateTime!\n  updatedAt: DateTime\n}\n\nenum PricingType {\n  DOMITORY\n  ROOM\n}\n\ntype UpdateRoomResponse {\n  ok: Boolean!\n  error: String\n}\n\ntype UpdateRoomDisableRangeResponse {\n  ok: Boolean!\n  error: String\n  disableRange: DisableRange\n}\n\ntype ChangeIndexResponse {\n  ok: Boolean!\n  error: String\n}\n\ntype UpdateRoomTypeResponse {\n  ok: Boolean!\n  error: String\n  roomType: RoomType\n}\n\ntype ChangePriorityResponse {\n  ok: Boolean!\n  error: String\n  season: Season\n}\n\ntype CreateSeasonResponse {\n  ok: Boolean!\n  error: String\n  season: Season\n}\n\ntype Season {\n  _id: ID!\n  house: House!\n  name: String!\n  dateRange: DateRange!\n  priority: Int!\n  color: String\n  description: String\n  createdAt: DateTime!\n  updatedAt: DateTime\n}\n\ntype UpdateSeasonResponse {\n  ok: Boolean\n  error: String\n  season: Season\n}\n\ntype CompletePhoneVerificationResponse {\n  ok: Boolean!\n  error: String\n}\n\ntype EmailSignInResponse {\n  ok: Boolean!\n  error: String\n  token: String\n}\n\ntype EmailSignUpResponse {\n  ok: Boolean!\n  error: String\n  token: String\n}\n\ntype GetMyProfileResponse {\n  ok: Boolean!\n  error: String\n  user: User\n}\n\ntype GmailConnectionResponse {\n  ok: Boolean!\n  error: String\n  token: String\n}\n\ntype User {\n  _id: ID!\n  name: Name!\n  phoneNumber: PhoneNumber!\n  password: Password\n  email: EmailAddress!\n  isPhoneVerified: Boolean!\n  isEmailVerified: Boolean!\n  userRole: UserRole!\n  checkPrivacyPolicy: Boolean!\n  houses: [House!]!\n  createdAt: DateTime!\n  updatedAt: DateTime\n}\n\nenum UserRole {\n  ADMIN\n  HOST\n  GUEST\n  # 비회원 => name, phoneNumber, password, email, createdAt, updatedAt 데이터 만을 가짐\n  GHOST\n}\n\ntype StartPhoneVerificationResponse {\n  ok: Boolean!\n  error: String\n}\n\ntype UpdateMyProfileResponse {\n  ok: Boolean!\n  error: String\n  user: User\n}\n\ntype ChangePasswordResponse {\n  ok: Boolean!\n  error: String\n}\n\ntype Verification {\n  _id: ID!\n  target: VerificationTarget!\n  payload: String!\n  verified: Boolean!\n  key: String!\n  user: User!\n  createdAt: String!\n  updatedAt: String\n}\n\nenum VerificationTarget {\n  PHONE\n  EMAIL\n}\n"];
+=======
+export const typeDefs = ["type Booking {\n  _id: ID!\n  house: House!\n  booker: User!\n  roomTypes: [RoomType!]!\n  dateRange: DateRange!\n  price: Float!\n  bookingStatus: BookingStatus!\n  guests: [String!]\n  memo: String!\n}\n\nenum BookingStatus {\n  WAIT_DEPOSIT\n  COMPLETE\n  CANCEL\n  REFUND_WAIT\n  PAY_WHEN_CHK_IN\n}\n\nscalar Date\n\nscalar DateTime\n\nscalar EmailAddress\n\nscalar Name\n\nscalar Password\n\nscalar PhoneNumber\n\nscalar URL\n\n# DB에 저장할 떄는 0101010의 형태로 저장하도록 Resolver에서 처리한다.\nenum Day {\n  SUN\n  # BackEndog!\n  MON\n  TUE\n  WED\n  THU\n  FRI\n  SAT\n}\n\ntype Location {\n  address: String!\n  addressDetail: String\n  lat: Float!\n  lng: Float!\n}\n\ninput LocationInput {\n  address: String!\n  addressDetail: String\n  lat: Float!\n  lng: Float!\n}\n\ntype DateRange {\n  startDate: String!\n  endDate: String!\n  isPast: Boolean!\n}\n\ninput DateRangeInput {\n  startDate: String!\n  endDate: String!\n}\n\ntype Tag {\n  name: String!\n  content: String!\n  icon: String!\n}\n\ninput TagInput {\n  name: String!\n  content: String!\n  icon: String\n}\n\ntype Guest {\n  _id: ID!\n  house: House!\n  booker: User!\n  roomType: String!\n  guestType: String!\n  allocatedRoom: Room!\n  stay: String!\n  price: Int!\n  isChkIn: Boolean!\n  bookingId: String!\n  createdAt: String!\n  updatedAt: String\n}\n\ntype CreateHouseResponse {\n  ok: Boolean!\n  error: String\n  house: House\n}\n\ntype Mutation {\n  CreateHouse(name: String!, houseType: HouseType!, location: LocationInput!): CreateHouseResponse!\n  DeleteHouse(_id: String!): DeleteHouseResponse!\n  UpdateHouse(houseId: ID!, name: String, houseType: HouseType, location: LocationInput, refundPolicy: [TermsOfRefundInput!], termsOfBooking: TermsOfBookingInput): UpdateHouseResponse!\n  # 로그인 token 필요함!\n  CreateRoomType(name: String!, house: String!, pricingType: PricingType!, peopleCount: Int!, peopleCountMax: Int, isEnable: Boolean!, description: String, tags: [TagInput!]): CreateRoomTypeResponse!\n  DeleteRoomType(roomTypeId: String!): DeleteRoomTypeResponse!\n  UpdateRoomType(roomTypeId: String!, name: String, peopleCount: Int, peopleCountMax: Int, index: Int, isEnable: Boolean, description: String): UpdateRoomTypeResponse!\n  CompletePhoneVerification(key: String!): CompletePhoneVerificationResponse!\n  EmailSignUp(name: Name!, email: EmailAddress!, password: Password!, phoneNumber: PhoneNumber!): EmailSignUpResponse!\n  GmailConnect(firstName: String!, lastName: String!, gmail: String!): GmailConnectionResponse!\n  StartPhoneVerification: StartPhoneVerificationResponse!\n  UpdateMyProfile(name: String!, phoneNumber: String!, password: String!): UpdateMyProfileResponse!\n  ChangePassword(currentPassword: String!, newPassword: String!, newPasswordRepeat: String!): ChangePasswordResponse!\n}\n\ntype DeleteHouseResponse {\n  ok: Boolean!\n  error: String\n}\n\ntype House {\n  _id: ID!\n  name: String!\n  houseType: HouseType!\n  user: User!\n  location: Location!\n  refundPolicy: [TermsOfRefund!]!\n  termsOfBooking: TermsOfBooking!\n  createdAt: DateTime!\n  updatedAt: DateTime\n}\n\nenum HouseType {\n  GUEST_HOUSE\n  HOSTEL\n  HOTEL\n  MOTEL\n  PENSION\n  YOUTH_HOSTEL\n}\n\n# 예약 가능한 조건.\ntype TermsOfBooking {\n  # 선택 가능한 가장 멀리있는 날짜(today 를 기준으로 ~일 뒤)\n  farthestSelectableDate: Int!\n  # 선택 가능한 가장 가까히 있는 날짜(today 를 기준으로 ~일 뒤)\n  nearestSelectableDate: Int!\n  # 선택 가능 날짜 범위\n  selectableDateRange: Int!\n}\n\ntype TermsOfRefund {\n  # 환불 가능 기간: 숙박일로부터 ~일 전\n  beforeDays: Int!\n  rate: Float!\n  description: String\n}\n\ninput TermsOfRefundInput {\n  beforeDays: Int!\n  rate: Float!\n  description: String\n}\n\ninput TermsOfBookingInput {\n  # 선택 가능한 가장 멀리있는 날짜(today 를 기준으로 ~일 뒤)\n  farthestSelectableDate: Int!\n  # 선택 가능한 가장 가까히 있는 날짜(today 를 기준으로 ~일 뒤)\n  nearestSelectableDate: Int!\n  # 선택 가능 날짜 범위\n  selectableDateRange: Int!\n}\n\ntype UpdateHouseResponse {\n  ok: Boolean!\n  error: String\n  house: House\n}\n\ntype SeasonPrice {\n  _id: ID!\n  house: House!\n  roomType: RoomType!\n  season: Season!\n  price: Float!\n  applyDays: [Day]!\n}\n\ntype Season {\n  _id: ID!\n  house: House!\n  name: String!\n  dateRange: DateRange!\n  color: String!\n  description: String!\n}\n\ninput SeasonPriceInput {\n  price: Float!\n  applyDays: Int!\n}\n\ntype RoomPrice {\n  _id: ID!\n  house: House!\n  roomType: RoomType!\n  price: Float!\n  date: String!\n}\n\ntype CreateRoomTypeResponse {\n  ok: Boolean!\n  error: String\n  roomType: RoomType\n}\n\ntype DeleteRoomTypeResponse {\n  ok: Boolean!\n  error: String\n}\n\ntype Room {\n  _id: ID!\n  name: String!\n  roomType: RoomType!\n  isEnable: Boolean!\n  createdAt: DateTime\n  updatedAt: DateTime\n}\n\ntype RoomType {\n  _id: ID!\n  name: String!\n  house: House!\n  pricingType: PricingType!\n  peopleCount: Int!\n  peopleCountMax: Int!\n  index: Int!\n  roomCount: Int!\n  isEnable: Boolean!\n  description: String!\n  # 예전에 Facilities 랑 같은 아이임...\n  tags: [Tag!]!\n  rooms: [Room!]!\n  createdAt: String!\n  updatedAt: String\n}\n\nenum PricingType {\n  DOMITORY\n  ROOM\n}\n\ntype UpdateRoomTypeResponse {\n  ok: Boolean!\n  error: String\n  roomType: RoomType\n}\n\ntype CompletePhoneVerificationResponse {\n  ok: Boolean!\n  error: String\n}\n\ntype EmailSignInResponse {\n  ok: Boolean!\n  error: String\n  token: String\n}\n\ntype Query {\n  EmailSignIn(email: EmailAddress!, password: Password!): EmailSignInResponse!\n  # 로그인 token 필요!\n  GetMyProfile: GetMyProfileResponse!\n}\n\ntype EmailSignUpResponse {\n  ok: Boolean!\n  error: String\n  token: String\n}\n\ntype GetMyProfileResponse {\n  ok: Boolean!\n  error: String\n  user: User\n}\n\ntype GmailConnectionResponse {\n  ok: Boolean!\n  error: String\n  token: String\n}\n\ntype User {\n  _id: ID!\n  name: Name!\n  phoneNumber: PhoneNumber!\n  password: Password\n  email: EmailAddress!\n  isPhoneVerified: Boolean!\n  isEmailVerified: Boolean!\n  userRole: UserRole!\n  checkPrivacyPolicy: Boolean!\n  houses: [House!]!\n  createdAt: DateTime!\n  updatedAt: DateTime\n}\n\nenum UserRole {\n  ADMIN\n  HOST\n  BOOKER\n  GHOST\n}\n\ntype StartPhoneVerificationResponse {\n  ok: Boolean!\n  error: String\n}\n\ntype UpdateMyProfileResponse {\n  ok: Boolean!\n  error: String\n  user: User\n}\n\ntype ChangePasswordResponse {\n  ok: Boolean!\n  error: String\n}\n\ntype Verification {\n  _id: ID!\n  target: VerificationTarget!\n  payload: String!\n  verified: Boolean!\n  key: String!\n  user: User!\n  createdAt: String!\n  updatedAt: String\n}\n\nenum VerificationTarget {\n  PHONE\n  EMAIL\n}\n"];
+>>>>>>> 71260d0e34ac233800f143d81c242a1c5a62588b
 /* tslint:disable */
 
 export interface Query {
@@ -7,6 +11,7 @@ export interface Query {
   GetMyProfile: GetMyProfileResponse;
 }
 
+<<<<<<< HEAD
 export interface GetAllRoomTypeQueryArgs {
   houseId: string;
 }
@@ -14,6 +19,21 @@ export interface GetAllRoomTypeQueryArgs {
 export interface EmailSignInQueryArgs {
   email: EmailAddress;
   password: Password;
+=======
+export interface EmailSignInQueryArgs {
+  email: EmailAddress;
+  password: Password;
+}
+
+export type EmailAddress = any;
+
+export type Password = any;
+
+export interface EmailSignInResponse {
+  ok: boolean;
+  error: string | null;
+  token: string | null;
+>>>>>>> 71260d0e34ac233800f143d81c242a1c5a62588b
 }
 
 export interface GetAllRoomTypeResponse {
@@ -24,6 +44,7 @@ export interface GetAllRoomTypeResponse {
 
 export interface RoomType {
   _id: string;
+<<<<<<< HEAD
   name: string;
   house: House;
   pricingType: PricingType;
@@ -35,10 +56,30 @@ export interface RoomType {
   description: string | null;
   tags: Array<Tag>;
   rooms: Array<Room>;
+=======
+  name: Name;
+  phoneNumber: PhoneNumber;
+  password: Password | null;
+  email: EmailAddress;
+  isPhoneVerified: boolean;
+  isEmailVerified: boolean;
+  userRole: UserRole;
+  checkPrivacyPolicy: boolean;
+  houses: Array<House>;
+>>>>>>> 71260d0e34ac233800f143d81c242a1c5a62588b
   createdAt: DateTime;
   updatedAt: DateTime | null;
 }
 
+<<<<<<< HEAD
+=======
+export type Name = any;
+
+export type PhoneNumber = any;
+
+export type UserRole = "ADMIN" | "HOST" | "BOOKER" | "GHOST";
+
+>>>>>>> 71260d0e34ac233800f143d81c242a1c5a62588b
 export interface House {
   _id: string;
   name: string;
@@ -512,6 +553,7 @@ export interface ChangePriorityResponse {
   season: Season | null;
 }
 
+<<<<<<< HEAD
 export interface Season {
   _id: string;
   house: House;
@@ -552,6 +594,8 @@ export interface CompletePhoneVerificationResponse {
   error: string | null;
 }
 
+=======
+>>>>>>> 71260d0e34ac233800f143d81c242a1c5a62588b
 export interface EmailSignUpResponse {
   ok: boolean;
   error: string | null;
@@ -609,8 +653,11 @@ export interface Guest {
   updatedAt: DateTime | null;
 }
 
+<<<<<<< HEAD
 export type GuestType = "BLOCK_ROOM" | "DOMITORY" | "ROOM";
 
+=======
+>>>>>>> 71260d0e34ac233800f143d81c242a1c5a62588b
 export type URL = any;
 
 export type Day = "SUN" | "MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT";

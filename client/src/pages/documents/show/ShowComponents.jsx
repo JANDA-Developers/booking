@@ -1,5 +1,7 @@
 import React, { useRef } from 'react';
-import Tooltip from '../../../atoms/tooltip';
+import { NavLink } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Tooltip from '../../../atoms/tooltip/tooltip';
 import CheckBox from '../../../atoms/forms/CheckBox';
 import Switch from '../../../atoms/forms/Switch';
 import InputText from '../../../atoms/forms/InputText';
@@ -9,20 +11,22 @@ import SideNav from '../../../components/sideNav/SideNav';
 import SelectBox from '../../../atoms/forms/SelectBox';
 import DayPicker from '../../../components/dayPicker/DayPicker';
 import Pagination from '../../../components/pagination/Pagination';
-import CircleIcon from '../../../atoms/CircleIcon';
-import Button from '../../../atoms/Buttons';
-import Preloader from '../../../atoms/Preloader';
+import CircleIcon from '../../../atoms/circleIcon/CircleIcon';
+import Button from '../../../atoms/button/Buttons';
+import Preloader from '../../../atoms/preloader/Preloader';
 import SliderExample from './examples/example_slider';
 import SliderExample2 from './examples/example_slider2';
-import JDlabel from '../../../atoms/JDLabel';
-import JDmodal from '../../../atoms/Modal';
+import JDlabel from '../../../atoms/label/JDLabel';
+import JDmodal from '../../../atoms/modal/Modal';
+import {
+  Tab, Tabs, TabList, TabPanel,
+} from '../../../atoms/tabs/tabs';
 import utils from '../../../utils/utils';
 import Icon, { icons } from '../../../atoms/icons/Icons';
 import {
   useInput, useCheckBox, useRadio, useSwitch, useSelect, useToggle, useModal,
 } from '../../../actions/hook';
-import './showComponent.scss';
-import '../../../atoms/tooltip.scss';
+import './ShowComponent.scss';
 
 function ShowComponents() {
   const [isOpen, openModal, closeModal] = useModal(false);
@@ -50,6 +54,7 @@ function ShowComponents() {
     { value: 'strawberry', label: 'Strawberry' },
     { value: 'vanilla', label: 'Vanilla' },
   ];
+
 
   return (
     <div className="container">
@@ -151,12 +156,53 @@ function ShowComponents() {
           </div>
         </div>
 
-
         {/* 서치바 */}
         <h6>SearchInput</h6>
         <div className="flex-grid-grow flex-grid--md docs-section__box">
           <div className="flex-grid__col">
-            <SearchInput staticList userList={searchDummyData} label="normal" />
+            <SearchInput staticList dataList={searchDummyData} filter label="normal" />
+          </div>
+        </div>
+
+        {/* 탭바 */}
+        <h6>Tabs</h6>
+        <div className="flex-grid-grow flex-grid--md docs-section__box">
+          <div className="flex-grid__col">
+            <Tabs>
+              <TabList>
+                <Tab>Title 1</Tab>
+                <Tab>Title 2</Tab>
+              </TabList>
+
+              <TabPanel>
+                <h2>Any content 1</h2>
+              </TabPanel>
+              <TabPanel>
+                <h2>Any content 2</h2>
+              </TabPanel>
+            </Tabs>
+          </div>
+        </div>
+
+        {/* 토스트 알림 */}
+        <h6>Toast</h6>
+        <div className="flex-grid-grow flex-grid--md docs-section__box">
+          <div className="flex-grid__col">
+            <Button
+              label="noraml"
+              icon="notify"
+              onClick={() => toast('noraml')}
+            />
+            <Button
+              label="warning"
+              icon="notify"
+              onClick={() => toast.warn('warning')}
+            />
+            <Button
+              label="success"
+              icon="notify"
+              onClick={() => toast.success('success')}
+            />
           </div>
         </div>
 
@@ -215,7 +261,7 @@ function ShowComponents() {
           <div className="flex-grid__col">
             <Button label="primary" thema="primary" mode="large" />
             <Button label="secondary" thema="secondary" mode="large" />
-            <Button label="" preloader icon="arrow_right" />
+            <Button href="./sss" label="" preloader icon="arrow_right" />
             <CircleIcon darkWave>
               <Icon icon="arrow_left" />
             </CircleIcon>
@@ -311,16 +357,11 @@ function ShowComponents() {
 
         {/* 더 많은 컴포넌트 보기 */}
         <div>
-          <Pagination
-            textSize="large"
-            previousLabel=""
-            nextLabel="NEXT (AlignCalender)"
-            pageCount={0}
-            initialPage={0}
-            marginPagesDisplayed={1}
-            align="center"
-            pageRangeDisplayed={5}
-            />
+          <h6>
+            <NavLink className="JDanchor" to="./showComponents/timeline">
+              {'NEXT Timeline && Search Input'}
+            </NavLink>
+          </h6>
         </div>
 
         {/* 사이드네비 sideNav */}

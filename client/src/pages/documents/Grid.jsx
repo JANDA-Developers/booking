@@ -1,7 +1,7 @@
 /* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import './Grid.scss';
-import JDlabel from '../../atoms/JDLabel';
+import JDlabel from '../../atoms/label/JDLabel';
 
 const Grid = () => (
   <div className="container PageGrid">
