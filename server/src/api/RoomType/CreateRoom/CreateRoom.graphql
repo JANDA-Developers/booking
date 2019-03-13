@@ -1,0 +1,12 @@
+type CreateRoomResponse {
+    ok: Boolean
+    error: String
+    room: Room
+}
+type Mutation {
+    CreateRoom(
+        name: String!
+        roomType: ID!
+        disableRange: [DisableRangeInput!]
+    ): CreateRoomResponse!
+}

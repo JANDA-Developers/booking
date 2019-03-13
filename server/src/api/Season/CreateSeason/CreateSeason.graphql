@@ -1,0 +1,14 @@
+type CreateSeasonResponse {
+    ok: Boolean!
+    error: String
+    season: Season
+}
+type Mutation {
+    CreateSeason(
+        name: String!
+        houseId: ID!
+        dateRange: DateRangeInput!
+        color: String
+        description: String
+    ): CreateSeasonResponse!
+}

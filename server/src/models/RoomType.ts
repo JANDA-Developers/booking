@@ -1,13 +1,15 @@
 import { ObjectId } from "bson";
 import { Types } from "mongoose";
-import { index, pre, prop, Typegoose } from "typegoose";
-import { PricingType } from "../types/graph";
+import { arrayProp, index, pre, prop, Ref, Typegoose } from "typegoose";
+import { DisableRange, PricingType } from "../types/graph";
+import { RoomSchema } from "./Room";
 
 export enum PricingTypeEnum {
     ROOM = "ROOM",
     DOMITORY = "DOMITORY"
 }
 
+@index({ house: 1 })
 @index({ index: -1 })
 @pre<RoomTypeSchema>("save", async function(next) {
     try {
@@ -19,6 +21,7 @@ export enum PricingTypeEnum {
                 this.index = test.index + 1;
             }
         }
+        this.house = new ObjectId(this.house);
     } catch (error) {
         throw error;
     }
@@ -31,9 +34,6 @@ export class RoomTypeSchema extends Typegoose {
     @prop({ required: true })
     house: Types.ObjectId;
 
-    @prop({ required: true })
-    user: Types.ObjectId;
-
     @prop({
         required: true,
         default: PricingTypeEnum.ROOM,
@@ -44,7 +44,7 @@ export class RoomTypeSchema extends Typegoose {
     @prop({
         required: [
             function(this: RoomTypeSchema) {
-                return 1 < this.peopleCount;
+                return 0 < this.peopleCount;
             },
             "Too Few peopleCount..."
         ],
@@ -71,21 +71,21 @@ export class RoomTypeSchema extends Typegoose {
     })
     index: number;
 
-    @prop({ required: true, default: true })
-    isEnable: boolean;
-
-    @prop({ default: "" })
+    @prop()
     description: string;
 
     // ------------------------------------------
     // room 객체 생성시에 Relation 구성하기
     // RoomType 객체가 User 정보도 들고있어야할까? 고민좀 해보자...
 
+    @prop({ default: [] })
+    disableRanges: DisableRange[];
+
     @prop()
     tags: string;
 
-    @prop()
-    rooms: string;
+    @arrayProp({ itemsRef: RoomSchema, default: [] })
+    rooms: Array<Ref<RoomSchema>>;
 
     @prop()
     get roomCount(): number {

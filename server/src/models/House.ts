@@ -1,6 +1,7 @@
 import { Types } from "mongoose";
-import { prop, Typegoose } from "typegoose";
+import { prop, Ref, Typegoose } from "typegoose";
 import { HouseType, Location, TermsOfBooking } from "../types/graph";
+import { ProductSchema } from "./Product";
 
 export enum Type {
     GUEST_HOUSE = "GUEST_HOUSE",
@@ -11,6 +12,9 @@ export enum Type {
     YOUTH_HOSTEL = "YOUTH_HOSTEL"
 }
 export class HouseSchema extends Typegoose {
+    @prop({ ref: ProductSchema, required: true })
+    product: Ref<ProductSchema>;
+
     @prop({ required: true })
     name: string;
 
@@ -23,8 +27,14 @@ export class HouseSchema extends Typegoose {
     @prop()
     termsOfBooking: TermsOfBooking | undefined;
 
+    @prop({ default: Array<Types.ObjectId>() })
+    refundPolicy: Types.ObjectId[] | undefined;
+
     @prop({ required: true })
     user: Types.ObjectId;
+
+    @prop({ default: [] })
+    roomTypes: Types.ObjectId[];
 
     @prop()
     createdAt: Date;

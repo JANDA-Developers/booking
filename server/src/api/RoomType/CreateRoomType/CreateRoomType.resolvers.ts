@@ -1,6 +1,7 @@
 import { ObjectId } from "bson";
 import { InstanceType } from "typegoose";
-import { extractRoomType } from "../../../models/Merge";
+import { HouseModel } from "../../../models/House";
+import { extractRoomType } from "../../../models/merge/Merge";
 import { RoomTypeModel } from "../../../models/RoomType";
 import { UserSchema } from "../../../models/User";
 import {
@@ -29,6 +30,19 @@ const resolvers: Resolvers = {
                             roomType: null
                         };
                     }
+
+                    if (
+                        !(await RoomTypeModel.find({
+                            name: args.name,
+                            house: args.house
+                        }))
+                    ) {
+                        return {
+                            ok: false,
+                            error: "Existing RoomType Name",
+                            roomType: null
+                        };
+                    }
                 } catch (error) {
                     return {
                         ok: false,
@@ -39,11 +53,21 @@ const resolvers: Resolvers = {
                 try {
                     const roomType = await new RoomTypeModel({
                         ...args,
-                        house: new ObjectId(args.house),
-                        user: user._id
+                        house: args.house
                     });
                     // 방 타입을 생성해야함... 방 타입에 들어갈 정보들부터 확인해보자...
                     await roomType.save();
+
+                    await HouseModel.updateOne(
+                        {
+                            _id: new ObjectId(args.house)
+                        },
+                        {
+                            $push: {
+                                roomTypes: new ObjectId(roomType._id)
+                            }
+                        }
+                    );
                     const result = await extractRoomType(roomType);
                     return {
                         ok: true,

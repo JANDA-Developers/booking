@@ -1,0 +1,15 @@
+type UpdateSeasonResponse {
+    ok: Boolean
+    error: String
+    season: Season
+}
+type Mutation {
+    UpdateSeason(
+        seasonId: ID!
+        houseId: ID!
+        name: String
+        dateRange: DateRangeInput
+        color: String
+        description: String
+    ): UpdateSeasonResponse!
+}

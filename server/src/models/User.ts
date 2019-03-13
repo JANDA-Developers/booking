@@ -17,7 +17,7 @@ export enum UserRole {
 const BCRYPT_ROUNDS = 10;
 
 export class UserSchema extends Typegoose {
-    @prop({ required: [true, `firstName is missing`] })
+    @prop({ required: [true, `Name is missing`] })
     name: string;
 
     @prop()

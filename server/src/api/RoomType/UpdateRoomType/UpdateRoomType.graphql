@@ -5,12 +5,11 @@ type UpdateRoomTypeResponse{
 }
 type Mutation {
     UpdateRoomType(
-        roomTypeId: String!
+        roomTypeId: ID!
+        houseId: ID!
         name: String
         peopleCount: Int
         peopleCountMax: Int
-        index: Int
-        isEnable: Boolean
         description: String
     ): UpdateRoomTypeResponse!
 }

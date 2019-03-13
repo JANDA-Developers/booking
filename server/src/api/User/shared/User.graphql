@@ -16,6 +16,7 @@ type User {
 enum UserRole {
     ADMIN
     HOST
-    BOOKER
+    GUEST
+    # 비회원 => name, phoneNumber, password, email, createdAt, updatedAt 데이터 만을 가짐
     GHOST
 }

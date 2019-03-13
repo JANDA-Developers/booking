@@ -1,0 +1,17 @@
+type CreateProductResponse {
+    ok: Boolean!
+    error: String
+    product: Product
+}
+
+type Mutation {
+    CreateProduct(
+        name: String!
+        price: Int!
+        roomCount: Int!
+        roomCountExtraCharge: Int!
+        bookingCount: Int!
+        bookingCountExtraCharge: Int!
+        description: String
+    ): CreateProductResponse!
+}
