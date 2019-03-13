@@ -1,0 +1,14 @@
+type UpdateRoomDisableRangeResponse{
+    ok: Boolean!
+    error: String
+    disableRange: DisableRange
+}
+type Mutation {
+    UpdateRoomDisableRange(
+        roomId: ID!
+        hashCode: Int!
+        startDate: DateTime
+        endDate: DateTime
+        description: String
+    ): UpdateRoomDisableRangeResponse!
+}

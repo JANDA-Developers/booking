@@ -1,6 +1,7 @@
 type AddRoomDisableRangeResponse {
     ok: Boolean!
     error: String
+    disableRange: DisableRange
 }
 type Mutation {
     AddRoomDisableRange(

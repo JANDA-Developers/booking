@@ -1,0 +1,25 @@
+type UpdateProductTypeResponse {
+    ok: Boolean!
+    error: String
+    productType: ProductType
+}
+type Mutation {
+    UpdateProductType(
+        # 제품 타입 ID
+        productTypeId: ID!
+        # 제품 타입 이름
+        name: String!
+        # 제품 가격(월)
+        price: Int!
+        # 만들 수 있는 최대 방 / 배드 수 => -1 일때 무제한
+        roomCount: Int!
+        # 방 수 추가시 추가 가격  => default: 0
+        roomCountExtraCharge: Int!
+        # 한달간 받을 수 있는 최대 예약 수 => -1 일 떄 무제한
+        bookingCount: Int!
+        # 예약 초과시 부과되는 금액 => defualt: 0
+        bookingCountExtraCharge: Int!
+        # 상세 설명
+        description: String
+    ): UpdateProductTypeResponse!
+}

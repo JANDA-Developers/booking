@@ -12,6 +12,21 @@ export type Period = {
     endDate?: Date | undefined;
 };
 
-export type CompareOption = {
+export type PeriodWithDescription = {
+    startDate?: Date | undefined;
+    endDate?: Date | undefined;
+    description?: string | null;
+};
+
+export type compareOption = {
     compareScope?: "date" | "time";
+    ignoreYear?: boolean;
+};
+
+export type Interval = {
+    time: number;
+    minute: number;
+    hour: number;
+    date: number;
+    year: number;
 };

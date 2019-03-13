@@ -7,15 +7,6 @@ type SeasonPrice {
     applyDays: [Day]!
 }
 
-type Season {
-    _id: ID!
-    house: House!
-    name: String!
-    dateRange: DateRange!
-    color: String!
-    description: String!
-}
-
 input SeasonPriceInput{
     price: Float!
     applyDays: Int!

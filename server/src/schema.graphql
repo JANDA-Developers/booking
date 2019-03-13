@@ -6,15 +6,22 @@ type Booking {
   dateRange: DateRange!
   price: Float!
   bookingStatus: BookingStatus!
-  guests: [String!]
+  guests: [Guest!]
   memo: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 enum BookingStatus {
+  # 입금 대기
   WAIT_DEPOSIT
+  # 예약 완료
   COMPLETE
+  # 예약 취소(입금 전에 취소를 신청하여 바로 처리되었거나 환불이 완료되어 취소된 상태를 뜻함)
   CANCEL
+  # 환불 대기
   REFUND_WAIT
+  # 체크인 할떄 방값 지불
   PAY_WHEN_CHK_IN
 }
 
@@ -60,10 +67,9 @@ enum DateRangeStatus {
 }
 
 type DateRange {
+  hashCode: Int!
   startDate: DateTime
-  # null인 경우 startDate 로부터 기약없이 나아감...
   endDate: DateTime
-  status: DateRangeStatus!
 }
 
 input DateRangeInput {
@@ -72,10 +78,10 @@ input DateRangeInput {
 }
 
 type DisableRange {
+  hashCode: Int!
   startDate: DateTime
   endDate: DateTime
   description: String
-  status: DateRangeStatus!
 }
 
 input DisableRangeInput {
@@ -101,16 +107,23 @@ input LocationInput {
 type Guest {
   _id: ID!
   house: House!
-  booker: User!
-  roomType: String!
-  guestType: String!
-  allocatedRoom: Room!
-  stay: String!
-  price: Int!
+  booking: Booking!
+  room: Room!
+  dateRange: DateRange!
+  guestType: GuestType!
+  price: Float!
   isChkIn: Boolean!
-  bookingId: String!
-  createdAt: String!
-  updatedAt: String
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+enum GuestType {
+  # 방 막는 용도로 잡은 예약임
+  BLOCK_ROOM
+  # 도미토리 형식의 방을 예약한 게스트
+  DOMITORY
+  # 방 타입 예약
+  ROOM
 }
 
 type CreateHouseResponse {
@@ -123,6 +136,10 @@ type Mutation {
   CreateHouse(name: String!, houseType: HouseType!, location: LocationInput!): CreateHouseResponse!
   DeleteHouse(_id: String!): DeleteHouseResponse!
   UpdateHouse(houseId: ID!, name: String, houseType: HouseType, location: LocationInput, refundPolicy: [TermsOfRefundInput!], termsOfBooking: TermsOfBookingInput): UpdateHouseResponse!
+  CreateProduct(name: String!, price: Int!, roomCount: Int!, roomCountExtraCharge: Int!, bookingCount: Int!, bookingCountExtraCharge: Int!, description: String): CreateProductResponse!
+  CreateProductType(name: String!, price: Int!, roomCount: Int!, roomCountExtraCharge: Int!, bookingCount: Int!, bookingCountExtraCharge: Int!, description: String): CreateProductTypeResponse!
+  DeleteProductType(productTypeId: ID!): DeleteProductTypeResponse!
+  UpdateProductType(productTypeId: ID!, name: String!, price: Int!, roomCount: Int!, roomCountExtraCharge: Int!, bookingCount: Int!, bookingCountExtraCharge: Int!, description: String): UpdateProductTypeResponse!
   AddRoomDisableRange(roomId: ID!, disableRange: DisableRangeInput!): AddRoomDisableRangeResponse!
   AddRoomTypeDisableRange(roomTypeId: ID!, houseId: ID!, disableRange: DisableRangeInput!): AddRoomTypeDisableRangeResponse!
   CreateRoom(name: String!, roomType: ID!, disableRange: [DisableRangeInput!]): CreateRoomResponse!
@@ -130,11 +147,15 @@ type Mutation {
   CreateRoomType(name: String!, house: ID!, pricingType: PricingType!, peopleCount: Int!, peopleCountMax: Int, isEnable: Boolean, description: String, tags: [TagInput!]): CreateRoomTypeResponse!
   DeleteRoom(roomId: ID!): DeleteRoomResponse!
   DeleteRoomType(roomTypeId: ID!, houseId: ID!): DeleteRoomTypeResponse!
-  RemoveRoomDisableRange(roomId: ID!, startDate: DateTime, endDate: DateTime): RemoveRoomDisableRangeResponse!
+  RemoveRoomDisableRange(roomId: ID!, hashCode: Int!): RemoveRoomDisableRangeResponse!
   RemoveRoomTypeDisableRange(roomTypeId: ID!, houseId: ID!, disableRange: DisableRangeInput!): RemoveRoomTypeDisableRangeResponse!
   UpdateRoom(roomId: ID!, name: String): UpdateRoomResponse!
+  UpdateRoomDisableRange(roomId: ID!, hashCode: Int!, startDate: DateTime, endDate: DateTime, description: String): UpdateRoomDisableRangeResponse!
   ChangeIndex(roomTypeId: ID!, houseId: ID!, index: Int!): ChangeIndexResponse!
   UpdateRoomType(roomTypeId: ID!, houseId: ID!, name: String, peopleCount: Int, peopleCountMax: Int, description: String): UpdateRoomTypeResponse!
+  ChangePriority(seasonId: ID!, houseId: ID!, priority: Int!): ChangePriorityResponse!
+  CreateSeason(name: String!, houseId: ID!, dateRange: DateRangeInput!, color: String, description: String): CreateSeasonResponse!
+  UpdateSeason(seasonId: ID!, houseId: ID!, name: String, dateRange: DateRangeInput, color: String, description: String): UpdateSeasonResponse!
   CompletePhoneVerification(key: String!): CompletePhoneVerificationResponse!
   EmailSignUp(name: Name!, email: EmailAddress!, password: Password!, phoneNumber: PhoneNumber!): EmailSignUpResponse!
   GmailConnect(firstName: String!, lastName: String!, gmail: String!): GmailConnectionResponse!
@@ -207,27 +228,55 @@ type UpdateHouseResponse {
   house: House
 }
 
-type SeasonPrice {
-  _id: ID!
-  house: House!
-  roomType: RoomType!
-  season: Season!
-  price: Float!
-  applyDays: [Day]!
+type CreateProductResponse {
+  ok: Boolean!
+  error: String
+  product: Product
 }
 
-type Season {
+type Product {
   _id: ID!
-  house: House!
+  house: House
+  productType: ProductType!
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+type CreateProductTypeResponse {
+  ok: Boolean!
+  error: String
+  productType: ProductType
+}
+
+type DeleteProductTypeResponse {
+  ok: Boolean!
+  error: String
+}
+
+type ProductType {
+  _id: ID!
+  # 제품 이름
   name: String!
-  dateRange: DateRange!
-  color: String!
-  description: String!
+  # 제품 가격(월)
+  price: Int!
+  # 만들 수 있는 최대 방 / 배드 수 => -1 일때 무제한
+  roomCount: Int!
+  # 방 수 추가시 추가 가격  => default: 0
+  roomCountExtraCharge: Int!
+  # 한달간 받을 수 있는 최대 예약 수 => -1 일 떄 무제한
+  bookingCount: Int!
+  # 예약 초과시 부과되는 금액 => defualt: 0
+  bookingCountExtraCharge: Int!
+  # 상세 설명
+  description: String
+  createdAt: DateTime!
+  updatedAt: DateTime
 }
 
-input SeasonPriceInput {
-  price: Float!
-  applyDays: Int!
+type UpdateProductTypeResponse {
+  ok: Boolean!
+  error: String
+  productType: ProductType
 }
 
 type RoomPrice {
@@ -238,9 +287,24 @@ type RoomPrice {
   date: String!
 }
 
+type SeasonPrice {
+  _id: ID!
+  house: House!
+  roomType: RoomType!
+  season: Season!
+  price: Float!
+  applyDays: [Day]!
+}
+
+input SeasonPriceInput {
+  price: Float!
+  applyDays: Int!
+}
+
 type AddRoomDisableRangeResponse {
   ok: Boolean!
   error: String
+  disableRange: DisableRange
 }
 
 type AddRoomTypeDisableRangeResponse {
@@ -258,14 +322,11 @@ type CreateRoomTypeResponse {
   ok: Boolean!
   error: String
   roomType: RoomType
-<<<<<<< HEAD
 }
 
 type DeleteRoomResponse {
   ok: Boolean!
   error: String
-=======
->>>>>>> 862d42f3a7d708a9cbcc42c1affa8f7488940f31
 }
 
 type DeleteRoomTypeResponse {
@@ -280,7 +341,7 @@ type GetAllRoomTypeResponse {
 }
 
 type Query {
-  GetAllRoomType(houseId: ID): GetAllRoomTypeResponse!
+  GetAllRoomType(houseId: ID!): GetAllRoomTypeResponse!
   EmailSignIn(email: EmailAddress!, password: Password!): EmailSignInResponse!
   # 로그인 token 필요!
   GetMyProfile: GetMyProfileResponse!
@@ -334,6 +395,12 @@ type UpdateRoomResponse {
   error: String
 }
 
+type UpdateRoomDisableRangeResponse {
+  ok: Boolean!
+  error: String
+  disableRange: DisableRange
+}
+
 type ChangeIndexResponse {
   ok: Boolean!
   error: String
@@ -343,6 +410,36 @@ type UpdateRoomTypeResponse {
   ok: Boolean!
   error: String
   roomType: RoomType
+}
+
+type ChangePriorityResponse {
+  ok: Boolean!
+  error: String
+  season: Season
+}
+
+type CreateSeasonResponse {
+  ok: Boolean!
+  error: String
+  season: Season
+}
+
+type Season {
+  _id: ID!
+  house: House!
+  name: String!
+  dateRange: DateRange!
+  priority: Int!
+  color: String
+  description: String
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+type UpdateSeasonResponse {
+  ok: Boolean
+  error: String
+  season: Season
 }
 
 type CompletePhoneVerificationResponse {
@@ -392,7 +489,8 @@ type User {
 enum UserRole {
   ADMIN
   HOST
-  BOOKER
+  GUEST
+  # 비회원 => name, phoneNumber, password, email, createdAt, updatedAt 데이터 만을 가짐
   GHOST
 }
 

@@ -1,0 +1,7 @@
+type Product {
+    _id: ID!
+    house: House
+    productType: ProductType!
+    createdAt: DateTime!
+    updatedAt: DateTime
+}

@@ -12,23 +12,28 @@ const resolvers: Resolvers = {
         RemoveRoomDisableRange: privateResolver(
             async (
                 _,
-                {
-                    roomId,
-                    startDate,
-                    endDate
-                }: RemoveRoomDisableRangeMutationArgs,
-                ctx
+                { roomId, hashCode }: RemoveRoomDisableRangeMutationArgs,
+                __
             ): Promise<RemoveRoomDisableRangeResponse> => {
                 try {
-                    // disableRange;
-
-                    await RoomModel.remove({
-                        _id: new ObjectId(roomId),
-                        disableRanges: { $eq: { startDate, endDate } }
-                    });
+                    await RoomModel.updateOne(
+                        {
+                            _id: new ObjectId(roomId)
+                        },
+                        {
+                            $pull: {
+                                disableRanges: {
+                                    hashCode
+                                }
+                            }
+                        },
+                        {
+                            new: true
+                        }
+                    );
                     return {
-                        ok: false,
-                        error: "Underdevelop"
+                        ok: true,
+                        error: null
                     };
                 } catch (error) {
                     return {

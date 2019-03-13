@@ -5,7 +5,6 @@ type RemoveRoomDisableRangeResponse {
 type Mutation {
     RemoveRoomDisableRange(
         roomId: ID!
-        startDate: DateTime
-        endDate: DateTime
+        hashCode: Int!
     ): RemoveRoomDisableRangeResponse!
 }
