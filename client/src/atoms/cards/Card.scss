@@ -2,9 +2,16 @@
 
 .JDcard {
     @extend %z-depth-1;
-    padding: $container-padding;
+    padding: $card-padding;
     text-align: left;
+    border-radius: $standard-border-radius;
+
     .JDbtn {
         margin-bottom: 0;
+    }
+
+    &--hoverDark:hover  {
+        background-color: $grey-level1;
+        cursor:pointer;
     }
 }

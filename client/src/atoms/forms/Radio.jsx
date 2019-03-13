@@ -32,7 +32,7 @@ function Radio({
           onChange={handleRadioChange}
         />
         <span className="JDradio__label" />
-        <span className="JDradio__label-text">{label}</span>
+        {label !== '' ? <span className="JDradio__label-text">{label}</span> : null}
       </label>
     </span>
   );
@@ -40,20 +40,20 @@ function Radio({
 
 Radio.propTypes = {
   id: PropTypes.string,
-  disabled: PropTypes.bool,
   groupName: PropTypes.string,
   label: PropTypes.string,
+  disabled: PropTypes.bool,
   onChange: PropTypes.func,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 Radio.defaultProps = {
   id: '',
-  disabled: false,
   groupName: '',
   label: '',
-  onChange: () => {},
   value: '',
+  disabled: false,
+  onChange: () => {},
 };
 
 export default ErrProtecter(Radio);

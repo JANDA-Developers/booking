@@ -1,0 +1,13 @@
+@import '../../../style_config/style_config.scss';
+
+
+
+#products {
+    .products__productWrap {
+        margin-bottom: $standard-margin-bottom;
+    }
+    // with Wmd Mark up in product.jsx
+    @media(max-width:$tablet) {
+        text-align:center;
+    }
+}

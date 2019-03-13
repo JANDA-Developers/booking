@@ -1,10 +1,11 @@
 import React, { Fragment } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import './SideNav.scss';
 import classNames from 'classnames/bind';
 import ErrProtecter from '../../utils/ErrProtecter';
 import Icon from '../../atoms/icons/Icons';
+import ProfileCircle from '../../atoms/profileCircle/ProfileCircle';
 import profileImg from '../../img/profile/default_profile.jpg';
 
 function SideNav({ isOpen, setIsOpen, userInformation }) {
@@ -24,17 +25,21 @@ function SideNav({ isOpen, setIsOpen, userInformation }) {
     <Fragment>
       <div className={classes}>
         <div className="JDsideNav__profill">
-          <div style={profileStyle} className="JDsideNav__circle JDwaves-effect" />
+          <Link to="/middleServer/myPage">
+            <div className="JDsideNav__circle">
+              <ProfileCircle style={profileStyle} />
+            </div>
+          </Link>
           <span>{userInformation.name}</span>
         </div>
         <div className="JDsideNav__listContainer">
           <NavLink to="/" className="JDsideNav__navLink">
             <Icon icon="list" />
-            <span className="JDsideNav__title">Mnue1</span>
+            <span className="JDsideNav__title">숙소생성</span>
           </NavLink>
           <NavLink to="/" className="JDsideNav__navLink">
             <Icon icon="list" />
-            <span className="JDsideNav__title">Mnue2</span>
+            <span className="JDsideNav__title">서비스 상품</span>
           </NavLink>
         </div>
       </div>

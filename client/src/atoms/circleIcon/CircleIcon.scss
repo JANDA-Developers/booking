@@ -11,18 +11,19 @@
     align-content: center;
     justify-content:center;
     display: inline-block;
+    font-size:inherit;
     cursor:pointer;
     
-    .JDicon__svg {
-        line-height: 100%;
-        top:.1em;
-    }
-
     &--white {
         color:white;
     }
     &--greybg {
         background-color: $grey-level1;
+    }
+
+    .JDicon__svg {
+        line-height: 100%;
+        top:.1em;
     }
 
     &:hover {

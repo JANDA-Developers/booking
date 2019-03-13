@@ -12,9 +12,10 @@
 
 %custom-success-message {
     content: attr(data-success);
+    display: block;
     color: $input-success-color;
     opacity: 1;
-    transform: translateY(9px);
+    transform: translateY(3.2rem);
 }
 
 %custom-error-message {

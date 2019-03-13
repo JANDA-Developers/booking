@@ -5,7 +5,7 @@
     display: flex;
     justify-content:inherit;
     
-    // 커스텀 규칙들 ⭐️
+    // ⭐ Modifiers ️
     &-wrap {
         &--text-large {
             font-size: $typho-large;

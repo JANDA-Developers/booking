@@ -18,6 +18,7 @@ import SliderExample from './examples/example_slider';
 import SliderExample2 from './examples/example_slider2';
 import JDlabel from '../../../atoms/label/JDLabel';
 import JDmodal from '../../../atoms/modal/Modal';
+import ProfileCircle from '../../../atoms/profileCircle/ProfileCircle';
 import {
   Tab, Tabs, TabList, TabPanel,
 } from '../../../atoms/tabs/tabs';
@@ -55,10 +56,17 @@ function ShowComponents() {
     { value: 'vanilla', label: 'Vanilla' },
   ];
 
-
   return (
     <div className="container">
       <div className="docs-section showComponent">
+        {/* 더 많은 컴포넌트 보기 */}
+        <div>
+          <h6>
+            <NavLink className="JDanchor showComponent__float-link" to="./showComponents/timeline">
+              {'NEXT :: Timeline'}
+            </NavLink>
+          </h6>
+        </div>
 
         {/* 체크박스 */}
         <div className="docs-section__box">
@@ -94,18 +102,10 @@ function ShowComponents() {
           <h6>InputText</h6>
           <div className="flex-grid">
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
-              <InputText
-                {...inputVali}
-                refContainer={refContainer}
-                label="noraml"
-              />
+              <InputText {...inputVali} refContainer={refContainer} label="noraml" />
             </div>
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
-              <InputText
-                label="validation MaxOver 10 ?"
-                validation={utils.isMaxOver}
-                max={10}
-              />
+              <InputText label="validation MaxOver 10 ?" validation={utils.isMaxOver} max={10} />
             </div>
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
               <InputText label="validation isName ?" validation={utils.isName} />
@@ -114,12 +114,7 @@ function ShowComponents() {
               <InputText value="you can't fix this" readOnly label="readOnly" />
             </div>
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
-              <InputText
-                label="Vaild Message PH"
-                validation={utils.isPhone}
-                data-error="Wrong"
-                data-success="Checked"
-              />
+              <InputText label="Vaild Message" isValid dataError="Wrong" dataSuccess="Checked" />
             </div>
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
               <InputText label="disabled" disabled />
@@ -134,24 +129,13 @@ function ShowComponents() {
           <h6>TextArea</h6>
           <div className="flex-grid">
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
-              <InputText
-                label="noraml"
-                textarea
-              />
+              <InputText label="noraml" textarea />
             </div>
             <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
-              <InputText
-                label="scroll"
-                scroll
-                textarea
-              />
+              <InputText label="scroll" scroll textarea />
             </div>
             <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
-              <InputText
-                disabled
-                label="disabled"
-                textarea
-              />
+              <InputText disabled label="disabled" textarea />
             </div>
           </div>
         </div>
@@ -188,21 +172,9 @@ function ShowComponents() {
         <h6>Toast</h6>
         <div className="flex-grid-grow flex-grid--md docs-section__box">
           <div className="flex-grid__col">
-            <Button
-              label="noraml"
-              icon="notify"
-              onClick={() => toast('noraml')}
-            />
-            <Button
-              label="warning"
-              icon="notify"
-              onClick={() => toast.warn('warning')}
-            />
-            <Button
-              label="success"
-              icon="notify"
-              onClick={() => toast.success('success')}
-            />
+            <Button label="noraml" icon="notify" onClick={() => toast('noraml')} />
+            <Button label="warning" icon="notify" onClick={() => toast.warn('warning')} />
+            <Button label="success" icon="notify" onClick={() => toast.success('success')} />
           </div>
         </div>
 
@@ -232,6 +204,9 @@ function ShowComponents() {
           <div className="flex-grid__col">
             <JDlabel txt="normal" />
             <DayPicker />
+          </div>
+          <div className="flex-grid__col">
+            <DayPicker input label="input" isRange={false} />
           </div>
         </div>
 
@@ -276,12 +251,7 @@ function ShowComponents() {
           <h6>Modal & SideNav</h6>
           <Button label="Open Modal" onClick={openModal} />
           <Button icon="menue" label="Open SideNav" onClick={setSideNavIsOpen} />
-          <JDmodal
-            isOpen={isOpen}
-            onRequestClose={closeModal}
-            className="Modal"
-            overlayClassName="Overlay"
-          >
+          <JDmodal isOpen={isOpen} onRequestClose={closeModal} className="Modal" overlayClassName="Overlay">
             <p>Modal text!</p>
             <div className="ReactModal__EndSection">
               <Button label="Close Modal" onClick={closeModal} />
@@ -310,18 +280,16 @@ function ShowComponents() {
           <Tooltip class="JDtooltip" id="tooltip__D" type="dark" effect="solid">
             <span>some txt</span>
           </Tooltip>
-
         </div>
 
         {/* 아이콘들 */}
         <h6>Icons</h6>
         <div className="flex-grid-grow docs-section__box">
-          { Object.keys(icons).map(key => (
+          {Object.keys(icons).map(key => (
             <div key={`showComponent__${key}`} className="showComponent__icon_box">
               <Icon label={key} icon={key} />
             </div>
-          ))
-          }
+          ))}
         </div>
 
         {/* 타이포그래피  */}
@@ -349,19 +317,15 @@ function ShowComponents() {
         <h6>ElseThings</h6>
         <div className="docs-section__box clear-fix">
           <Preloader />
-          <span className="JDtext-blink showComponent__blink JDtext-blink--infinity">Blink</span>
-          <span className="showComponent__pulse">
+          <span className="showComponent__elseThings JDtext-blink showComponent__blink JDtext-blink--infinity">
+            {'Blink'}
+          </span>
+          <span className="showComponent__elseThings showComponent__pulse">
             <Button label="pulse" pulse thema="primary" />
           </span>
-        </div>
-
-        {/* 더 많은 컴포넌트 보기 */}
-        <div>
-          <h6>
-            <NavLink className="JDanchor" to="./showComponents/timeline">
-              {'NEXT Timeline && Search Input'}
-            </NavLink>
-          </h6>
+          <span className="showComponent__elseThings">
+            <ProfileCircle isBordered />
+          </span>
         </div>
 
         {/* 사이드네비 sideNav */}

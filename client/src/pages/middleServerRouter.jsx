@@ -20,6 +20,10 @@ function JDmiddleServer({
 } = {}) {
   // 사이드바가 열렸는지 체크
   const verifiedPhone = user && user.verifiedPhone;
+  const houses = user && user.houses;
+
+  console.log(user);
+
   const [SideNavIsOpen, setSideNavIsOpen] = useToggle(false);
 
   const Home = props => (
@@ -34,6 +38,12 @@ function JDmiddleServer({
     </DynamicImport>
   );
 
+  const Products = props => (
+    <DynamicImport load={() => import('./middleServer/product/Products')}>
+      {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
+    </DynamicImport>
+  );
+
   const PhoneVerification = props => (
     <DynamicImport load={() => import('./middleServer/PhoneVerification')}>
       {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
@@ -41,7 +51,7 @@ function JDmiddleServer({
   );
 
   const MyPage = props => (
-    <DynamicImport load={() => import('./middleServer/Mypage')}>
+    <DynamicImport load={() => import('./middleServer/myPage/MyPage')}>
       {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
     </DynamicImport>
   );
@@ -62,7 +72,14 @@ function JDmiddleServer({
     <Fragment>
       {/* 헤더에 정보전달 */}
       <Route
-        render={() => <Header sideNavOpener={setSideNavIsOpen} verifiedPhone={verifiedPhone} isLoggedIn={isLoggedIn} />}
+        render={() => (
+          <Header
+            sideNavOpener={setSideNavIsOpen}
+            userInformation={user}
+            verifiedPhone={verifiedPhone}
+            isLoggedIn={isLoggedIn}
+          />
+        )}
       />
       {/* 사이드 네비게이션 */}
       <SideNav isOpen={SideNavIsOpen} userInformation={user} setIsOpen={setSideNavIsOpen} />
@@ -73,8 +90,9 @@ function JDmiddleServer({
         <Route exact path="/middleServer">
           <Home isLoggedIn={isLoggedIn} />
         </Route>
-        <Route exact path="/middleServer/myPage" component={isLoggedIn ? MyPage : Login} />
+        <Route exact path="/middleServer/myPage" children={isLoggedIn ? <MyPage userInformation={user} /> : Login} />
         <Route exact path="/middleServer/makeHouse" children={isLoggedIn ? MakeHouse : Login} />
+        <Route exact path="/middleServer/products" children={isLoggedIn ? Products : Login} />
         <Route exact path="/middleServer/phoneVerification" component={isLoggedIn ? PhoneVerification : undefined} />
         <Route exact path="/middleServer/signUp" component={isLoggedIn ? undefined : SignUp} />
         <Route exact path="/middleServer/login" component={isLoggedIn ? undefined : Login} />

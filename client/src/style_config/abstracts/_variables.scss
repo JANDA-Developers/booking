@@ -1,16 +1,16 @@
 /* ------------------------------ // STUB UNITY ----------------------------- */
 // -- z-index 
-$z-index-0: -1;
-$z-index-1: 10;
+$z-index-0: -1; // container--centerlize
+$z-index-1: 10; // tineline Select__meunu
 $z-index-2: 20; // searchUl
-$z-index-3: 30; // JDselect
+$z-index-3: 30; // dayPicker
 $z-index-4: 40;
 $z-index-5: 50; 
 $z-index-6: 60; // Modal Level 1
 $z-index-7: 70;
 $z-index-8: 80;
-$z-index-9: 90; // sideNav Curton
-$z-index-10: 100; // sideNav
+$z-index-9: 90; // sideNav Curton header
+$z-index-10: 100; // sideNav 
 
 // -- TyphoGraphy 타이포 그래피
 $typho-large : 1.2rem;
@@ -46,6 +46,7 @@ $hover-effect-white: rgba(255,255,255,.1);
 $hover-effect-dark: rgba(0,0,0,.08);
 $curtain-color: rgba(0,0,0,.78) !default;
 $html-color-hover: $grey-level3!default;
+
 // -- BreackPoints 브레이크 포인트
 // 각각은 최대크기
 $mobile: "400px" !default; // sm
@@ -59,7 +60,7 @@ $null: "0px" !default;
 // -- Grid 그리드
 $container-width: 1000px !default;
 $container-full-width: 96% !default;
-$container-small-width: 850px !default;
+$container-small-width: 550px !default;
 $container-padding: 0.5rem;
 $total-columns: 12 !default;
 $column-width: 100 / $total-columns !default; // calculates individual column width based off of # of columns
@@ -85,11 +86,14 @@ $label-font-color: $html-color !default;
 $standard-disabled-color: $grey-level1 !default;
 $standard-space: 1rem !default; // except textInput 구조가 다름
 $standard-margin-bottom: 1.4rem !default; // except textInput 구조가 다름
-$standard-border-radius : 2px;
+$standard-border-radius : 4px;
 $standard-li-height : 36px;
 $standard-li-padding : 1rem;
+$standard-li-height: 150%;
 $standard-icon-margin : 1rem;
-
+$standard-small-icon-margin : .5rem;
+// TODO: 새로추가됨 이걸로 정리해야함
+$standard-label-margin : 0.8rem;
 // ===========================================================================
 
 // 1. Forms 폼
@@ -186,12 +190,15 @@ $daypicker-caption-margin-bottom: 1rem !default; // it must be a pixcel
 $daypicker-caption-height: 34px !default;
 $daypicker-day-transition: 0.2s !default;
 $daypicker-border: 1px solid $grey-level2!default;
-$daypicker-border-radius: 2px;
+$daypicker-border-radius: $standard-border-radius;
 $daypicker-today-color: $primary-color-dark;
 
 // -- horizen
 $horizen-caption-bgcolor : $grey-level1;
 $horizen-month-bordeRight :  none;
+
+// -- input
+$dayPicker-input-height : $input-height + 1rem;
 
 // 4 Buttons
 // ANCHOR Buttons =========================================================================
@@ -265,6 +272,7 @@ $sideNav-icon-padding: $standard-icon-margin;
 
 // 8 Header 헤더
 // ANCHOR Header NAV =========================================================================
+$header-height: 3rem;
 $header-padding: 1rem;
 
 // 9 CircleIcon 둥근 아이콘
@@ -284,7 +292,7 @@ $slider-arrow-height : $circle-icon-size;
 
 // 11 Pagination 페이지네이션
 // ANCHOR paginiation Paginiation =========================================================================
-$pagination-li-radius: $standard-border-radius;
+$pagination-li-radius: 0px;
 $pagination-li-height: 2.25rem;
 $pagination-li-padding: 1rem;
 $pagination-li-margin: 0.5rem;
@@ -298,3 +306,21 @@ $toast-padding: 1rem;
 $toast-position-x: 4%;
 $toast-position-y: 5%;
 $toast-margin-bottom: $standard-margin-bottom/2;
+
+// 13 ProfileCircle 프로파일 서클
+// ANCHOR toast Toast=========================================================================
+$profileCircle-size: 4rem;
+$profileCircle-small-size: 2rem;
+
+// 14 Card 카드
+// ANCHOR card Card=========================================================================
+$card-padding: $container-padding;
+
+// 15 Tabs 탭
+// ANCHOR tabs Tabs=========================================================================
+
+$tabs-height: $standard-li-height;
+$tabs-margin-bottom: $standard-margin-bottom;
+$tabs-tab-padding:  $standard-li-padding;
+$tabs-tab-border-color: $html-color;
+$tabs-tab-border-radious: $standard-border-radius;

@@ -28,8 +28,26 @@ export const GET_USER_INFO = gql`
   query {
     GetMyProfile {
       user {
+        name
+        phoneNumber
+        password
+        email
         isPhoneVerified
+        checkPrivacyPolicy
+        houses {
+          name
+          houseType
+          location {
+            address
+            addressDetail
+          }
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
       }
+      ok
     }
   }
 `;

@@ -1,6 +1,4 @@
-# searchInput
-
-### PROPS
+# SearchInput
 
 | Props           | Tpye   | Description                                                      | Options | Require | Default |
 | --------------- | ------ | ---------------------------------------------------------------- | ------- | ------- | ------- |

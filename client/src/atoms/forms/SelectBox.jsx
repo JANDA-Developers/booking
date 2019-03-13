@@ -19,7 +19,7 @@ function JDselect({
 
   return (
     <div className={disabled ? 'JDselect JDselect--disabled' : 'JDselect'}>
-      <span className="JDselect__label JDselect__label--top">{label}</span>
+      {label !== '' ? <span className="JDselect__label JDselect__label--top">{label}</span> : null}
       <Select
         value={selectedOption}
         onChange={handleChange}

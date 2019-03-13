@@ -202,18 +202,18 @@ SearchInput.propTypes = {
 SearchInput.defaultProps = {
   dataList: [],
   staticList: false,
-  placeholder: 'search',
-  label: '',
-  onSearch: () => {},
   filter: true,
   onTypeChange: false,
   isMatched: false,
   alwaysListShow: false,
   isLoading: false,
+  label: '',
   onTypeValue: '',
-  setIsMatched: () => {},
+  feedBackMessage: '',
+  placeholder: 'search',
   asName: 'name',
   asDetail: 'detail',
-  feedBackMessage: '',
+  onSearch: () => {},
+  setIsMatched: () => {},
 };
 export default SearchInput;

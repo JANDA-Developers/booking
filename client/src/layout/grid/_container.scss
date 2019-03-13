@@ -22,19 +22,16 @@ main {
   .container--full {
     margin: 0 auto;
     max-width: $container-full-width;
-    padding: 2.4rem 2rem;
   }
   
   .container--lg {
     margin: 0 auto;
     max-width: 1200px;
-    padding: 3.2rem 1rem;
   }
   
   .container--sm {
     margin: 0 auto;
     max-width: $container-small-width;
-    padding: 2.4rem 2rem;
   }
 
   .container--centerlize {
