@@ -38,9 +38,23 @@
         font-size: $typho-tiny;
         margin-top: 0;
     }
-
-    .showComponent__blink {
+    
+    .showComponent__elseThings {
         margin-left: $standard-space;
+    }
+
+
+    //TODO  이것은 규칙도없고 컴포넌트도 없다 
+    .showComponent__float-link {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        height: 3rem;
+        line-height: 3rem;
+        padding: 0rem 1rem;
+        background-color: $secondary-color;
+        color:white;
+        z-index: $z-index-9;
     }
 
     &__pulse {

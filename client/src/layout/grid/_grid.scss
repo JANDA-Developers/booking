@@ -22,6 +22,15 @@ Markup:
   box-sizing: border-box;
 }
 
+.row {
+  @include grid-system(full);
+  @include grid-system(wlg);
+  @include grid-system(lg);
+  @include grid-system(wmd);
+  @include grid-system(wmd);
+  @include grid-system(md);
+  @include grid-system(sm);
+}
 
 
   .col {
@@ -30,7 +39,10 @@ Markup:
     &:first-child {
       margin-left: 0;
     }
+    
   }
+  
+
 
   .col--1 {
     width: grid-column-width(1);

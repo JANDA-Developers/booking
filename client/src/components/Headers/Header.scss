@@ -1,16 +1,22 @@
 @import '../../style_config/style_config';
 
 
+
 .header {
     background-color: $nav-color;
     display:flex;
     align-items: center;
     padding-left: $header-padding;
     padding-right: $header-padding;
+    height: $header-height;
+    z-index: $z-index-9;
     @extend %z-depth-1;
-
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
     &__logo {
-        width: 70px;
+        width: 80px;
+        margin-top: -3px; // 보정
     }
     
     .circleIcon {
@@ -28,9 +34,14 @@
     &__menue {
         color:white;
     }
-    
-    &__link {
+
+    &__profile {
         margin-left: auto;
+    }
+
+    &__link {
+        height: 100%;
+        line-height: 100%;
         justify-content: flex-end;
         &:hover{
             background-color:rgba(0,0,0,.1);
@@ -46,9 +57,11 @@
 
     .JDbtn {
         margin-bottom: 0;
+        height: 100%;
+        font-size: $typho-normal;
     }
     // 헤더부분 에서 패딩조절
-    @include response($mobile) {
+    @include response($phablet) {
         padding-left: 0rem;
         padding-right: 0rem;
 
@@ -56,9 +69,32 @@
             padding-left: $container-padding;
             padding-right: $container-padding;
         }
+        
         .JDbtn  {
             padding-left: $container-padding;
             padding-right: $container-padding;
+        }
+        
+        &__link,&__profile,.JDselect {
+            display:none;
+        }
+        
+        .header__apps {
+            padding-right: $container-padding;
+            margin-left: auto;
+        }
+    } 
+    
+    .JDselect {
+        width: 180px;
+        margin-bottom: 0;
+        margin-left: $standard-space;
+
+        .react-select-container {
+            .react-select__control {
+                border:none;
+                min-height:28px;
+            }
         }
 
     }

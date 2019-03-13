@@ -15,7 +15,7 @@ const Home = ({ isLoggedIn }) => {
 
   return (
     <div id="HomePage" className="container container--centerlize">
-      {redirect ? <Redirect to="./middleServer/makeHouse" /> : null}
+      {redirect ? <Redirect push to="/middleServer/makeHouse" /> : null}
       <div className="docs-section">
         <h1>JANDA</h1>
         <Button label="시작하기" onClick={startService} mode="large" thema="secondary" type="button" />

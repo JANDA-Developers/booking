@@ -1,8 +1,7 @@
-// todo: 일부 필요없는 css 찾아 제거
 
 @import '../../style_config/style_config';
 
-/* 기본 체크박스 제거 */
+/* 브라우저 기본 css 제거 */
 .JDcheck_box:not(:checked),
 .JDcheck_box:checked {
     position: absolute;
@@ -23,11 +22,10 @@
     position: relative;
 }
 
-// 더아래에 filed 부분을 수정하세요.
-// Checkbox Styles
+// Filled in Style ***
 .JDcheck_box {
 
-    // 라벨스타일
+    /* ---------------------------------- 라벨스타일 --------------------------------- */
     +.JDcheck_box_label {
         position: relative;
         padding-left: 35px; // space with label
@@ -39,73 +37,10 @@
         color: $checkBox-label-color;
         user-select: none;
     }
-
-    /* checkbox aspect */
-    &:not(:checked):disabled+.JDcheck_box_label:before {
-        border: none;
-        background-color: $checkbox-disabled-border-color;
-    }
-
-    // 포커스 스타일
-    &--tabbed:focus+.JDcheck_box_label:after {
-        transform: scale(1);
-        border: 0;
-        border-radius: 50%;
-        box-shadow: 0 0 0 10px rgba(0, 0, 0, .1);
-        background-color: rgba(0, 0, 0, .1);
-    }
-}
-
-//checked style
-.JDcheck_box:checked {
-    +.JDcheck_box_label:before {
-        top: -4px;
-        left: -5px;
-        width: 12px;
-        height: 22px;
-        border-top: 2px solid transparent;
-        border-left: 2px solid transparent;
-        transform: rotate(40deg);
-        backface-visibility: hidden;
-        transform-origin: 100% 100%;
-    }
-
-    &:disabled+.JDcheck_box_label:before {
-        border-right: 2px solid $checkbox-disabled-border-color;
-        border-bottom: 2px solid $checkbox-disabled-border-color;
-    }
-}
-
-/* 중립상태 checkbox */
-.JDcheck_box:indeterminate {
-    +.JDcheck_box_label:before {
-        top: -11px;
-        left: -12px;
-        width: 10px;
-        height: 22px;
-        border-top: none;
-        border-left: none;
-        border-bottom: none;
-        transform: rotate(90deg);
-        backface-visibility: hidden;
-        transform-origin: 100% 100%;
-    }
-
-    // Disabled 중립
-    &:disabled+.JDcheck_box_label:before {
-        border-right: 2px solid $checkbox-disabled-border-color;
-        background-color: transparent;
-    }
-}
-
-// Filled in Style ***
-.JDcheck_box {
-
     // General
     +.JDcheck_box_label:after {
         border-radius: 2px;
     }
-
     +.JDcheck_box_label:before,
     +.JDcheck_box_label:after {
         content: '';
@@ -116,7 +51,7 @@
         z-index: 1;
     }
 
-    // Unchecked style
+    /* ----------------------------- Unchecked style ---------------------------- */
     &:not(:checked)+.JDcheck_box_label:before {
         width: 0;
         height: 0;
@@ -126,9 +61,6 @@
         transform: rotateZ(37deg);
         transform-origin: 100% 100%;
     }
-
-
-    // 체크 안되어 있을때 스타일
     &:not(:checked)+.JDcheck_box_label:after {
         height: 20px;
         width: 20px;
@@ -138,7 +70,7 @@
         z-index: 0;
     }
 
-    //체크스타일
+    /* ---------------------------------- 체크스타일 --------------------------------- */
     &:checked {
         // 체크후 안헤 화살표 색상
         +.JDcheck_box_label:before {
@@ -153,8 +85,6 @@
             transform: rotateZ(37deg);
             transform-origin: 100% 100%;
         }
-
-        //체크후 색상
         +.JDcheck_box_label:after {
             top: 0;
             width: 20px;
@@ -165,39 +95,22 @@
         }
     }
 
-    // Focused styles
-    &--tabbed:focus+.JDcheck_box_label:after {
-        border-radius: $checkbox-border-radius;
-        border-color: $radio-empty-color;
-        background-color: rgba(0, 0, 0, .1);
-    }
-
-    &--tabbed:checked:focus+.JDcheck_box_label:after {
-        border-radius: $checkbox-border-radius;
-        background-color: $secondary-color;
-        border-color: $secondary-color;
-    }
-
-    // Disabled style
+    /* ----------------------------- Disabled style ----------------------------- */
     &:disabled:not(:checked)+.JDcheck_box_label:before {
         background-color: transparent;
         border: 2px solid transparent;
     }
-
     &:disabled:not(:checked)+.JDcheck_box_label:after {
         border-color: transparent;
         background-color: $checkbox-disabled-border-color;
     }
-
     &:disabled:checked+.JDcheck_box_label:before {
         background-color: transparent;
     }
-
     &:disabled:checked+.JDcheck_box_label:after {
         background-color: $checkbox-disabled-border-color;
         border-color: $checkbox-disabled-border-color;
     }
-
     &:disabled+.JDcheck_box_label {
         color: $standard-disabled-color;
         cursor:default;

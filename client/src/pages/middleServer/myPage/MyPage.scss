@@ -1,0 +1,16 @@
+@import '../../../style_config/style_config.scss';
+
+.myPage{
+    text-align: center;
+
+    &__profileCircle {
+        margin-bottom: $standard-margin-bottom;
+    }
+    
+    &__profileCircle {
+        .profileCircle {
+            margin-bottom: $standard-margin-bottom;
+        }
+    }
+
+}

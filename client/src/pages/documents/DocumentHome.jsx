@@ -56,13 +56,26 @@ const DocumentHome = () => {
     if (value === 4) path = require('../../components/sideNav/ReadMe.md');
     //  timeline
     if (value === 5) path = require('../../components/timeline/ReadMe.md');
+    //  slider
+    if (value === 6) path = require('../../components/slider/ReadMe.md');
+
+    getMD(path);
+  };
+
+  /*  ------------------------------- components ------------------------------- */
+  const otherThingsOnSelectTab = (value) => {
+    let path = '';
+
+    //  documents
+    if (value === 0) path = require('./ReadMe.md');
+    //  siteMap
+    if (value === 1) path = require('./SiteMap.md');
 
     getMD(path);
   };
 
   useEffect(() => {
     if (typeof mdSource === 'string') setMarkDownTxt(mdSource);
-    console.log(mdSource);
   }, [mdSource]);
   return (
     <div id="DocumentHome" className="container">
@@ -88,15 +101,19 @@ const DocumentHome = () => {
             </a>
           </span>
         </div>
-        <Tabs>
+        <Tabs defaultIndex="2">
+          {/* 상위탭 */}
           <div className="documentHome__tabs-higher">
             <TabList>
               <Tab> Atoms</Tab>
               <Tab> Components</Tab>
+              <Tab> Pages</Tab>
             </TabList>
           </div>
+
+          {/* 하위1 */}
           <TabPanel>
-            <Tabs onSelect={atomOnSelectTab}>
+            <Tabs defaultIndex="null" onSelect={atomOnSelectTab}>
               <TabList>
                 <Tab>forms</Tab>
                 <Tab>buttons</Tab>
@@ -109,8 +126,9 @@ const DocumentHome = () => {
               </TabList>
             </Tabs>
           </TabPanel>
+          {/* 하위2 */}
           <TabPanel>
-            <Tabs onSelect={componentsOnSelectTab}>
+            <Tabs defaultIndex="null" onSelect={componentsOnSelectTab}>
               <TabList>
                 <Tab>dayPicker</Tab>
                 <Tab>headers</Tab>
@@ -118,6 +136,16 @@ const DocumentHome = () => {
                 <Tab>searchInput</Tab>
                 <Tab>sidNav</Tab>
                 <Tab>timeline</Tab>
+                <Tab>slider</Tab>
+              </TabList>
+            </Tabs>
+          </TabPanel>
+          {/* 하위3 */}
+          <TabPanel>
+            <Tabs onSelect={otherThingsOnSelectTab}>
+              <TabList>
+                <Tab>documents</Tab>
+                <Tab>siteMap</Tab>
               </TabList>
             </Tabs>
           </TabPanel>

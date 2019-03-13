@@ -31,7 +31,6 @@ const MakeHouse = ({ history }) => {
   };
 
   const submitValidation = () => {
-
     // 로딩이끝나면 모든 값이 다시 셋팅된 다음 다시 요청 되어야한다 좋은 방법이 없을까
     if (locationIsLoading || isLoading) {
       return false;
@@ -71,7 +70,7 @@ const MakeHouse = ({ history }) => {
 
   useEffect(() => {
     doGet(adressGeturl);
-    if ( adressSearchValue !== '') locationDoGet(locationGetUrl);
+    if (adressSearchValue !== '') locationDoGet(locationGetUrl);
   }, [adressGeturl]);
 
   useEffect(() => {
@@ -104,7 +103,7 @@ const MakeHouse = ({ history }) => {
           onCompleted={({ CreateHouse }) => {
             if (CreateHouse.ok) {
               toast.success('숙소생성완료');
-              history.push('/middleServer/mypage');
+              history.replace('/middleServer/products');
             }
             if (CreateHouse.error) console.error(CreateHouse.error);
           }}

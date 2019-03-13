@@ -41,8 +41,8 @@ class DocumentRouter extends Component {
       </DynamicImport>
     );
 
-    const ShowComponentsTimeline = props => (
-      <DynamicImport load={() => import('./documents/show/ShowComponentsTimeline')}>
+    const ShowTimeline = props => (
+      <DynamicImport load={() => import('./documents/show/ShowTimeLine/ShowTimeline')}>
         {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
       </DynamicImport>
     );
@@ -62,7 +62,7 @@ class DocumentRouter extends Component {
         <Switch>
           <Route exact path="/documents" component={DocumentHome} />
           <Route exact path="/documents/ShowComponents" component={ShowComponents} />
-          <Route exact path="/documents/ShowComponents/timeline" component={ShowComponentsTimeline} />
+          <Route exact path="/documents/ShowComponents/timeline" component={ShowTimeline} />
           <Route exact path="/documents/grid" component={Grid} />
           <Route exact path="/documents/color" component={ColorPage} />
           <Route exact path="/documents/margin" component={Margin} />

@@ -28,6 +28,7 @@ const useFetch = (url) => {
     fetchData();
   }, [inUrl]);
 
+  // 내부에 STATE URL을 바꾸어서 다시동작
   const doGet = (url) => {
     setInUrl(url);
   };
@@ -56,7 +57,7 @@ function useInput(defaultValue) {
   };
 }
 
-// OnChnage 로서 리턴
+// NAME SPACE
 function useCheckBox(defaultValue) {
   const [checked, setChecked] = useState(defaultValue);
 
@@ -70,6 +71,7 @@ function useCheckBox(defaultValue) {
   };
 }
 
+// NAME SPACE
 function useRadio(defaultValue) {
   const [value, setValue] = useState(defaultValue);
 
@@ -80,6 +82,7 @@ function useRadio(defaultValue) {
   return [value, onChange];
 }
 
+// NAME SPACE
 function useSwitch(defaultValue) {
   const [checked, setChecked] = useState(defaultValue);
 
@@ -90,6 +93,7 @@ function useSwitch(defaultValue) {
   return { checked, onChange };
 }
 
+// NAME SPACE
 function useSelect(defaultValue) {
   const [selectedOption, setSelectedOption] = useState(defaultValue);
 
@@ -123,6 +127,32 @@ function useModal(defaultValue) {
   return [isOpen, openModal, closeModal];
 }
 
+function useBookPOP(defaultValue) {
+  const [bookerModalIsOpen, setIsOpen] = useState(defaultValue);
+  const [bookerInfo, inSetPOPInfo] = useState(null);
+
+  const bookerModalOpen = () => {
+    setIsOpen(true);
+  };
+
+  const bookerModalClose = () => {
+    setIsOpen(false);
+    inSetPOPInfo(null);
+  };
+
+  const setModalInfo = (info) => {
+    inSetPOPInfo(info);
+  };
+
+  return {
+    bookerModalIsOpen,
+    bookerModalOpen,
+    bookerModalClose,
+    setModalInfo,
+    bookerInfo,
+  };
+}
+
 export {
-  useInput, useCheckBox, useRadio, useSwitch, useSelect, useToggle, useFetch, useModal,
+  useInput, useCheckBox, useRadio, useSwitch, useSelect, useToggle, useFetch, useModal, useBookPOP,
 };

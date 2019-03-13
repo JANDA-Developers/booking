@@ -35,6 +35,10 @@ a.JDanchor {
     }
 }
 
+body {
+    letter-spacing: -1px;
+}
+
 body *::-moz-selection {
     background: $secondary-color;
     color: #fff;
@@ -47,3 +51,4 @@ body *::selection {
  html{
     overflow-y: scroll;
 }
+

@@ -11,7 +11,7 @@
   outline: 0;
   padding: $button-padding;
   text-transform: uppercase;
-  vertical-align: middle; // Gets rid of tap active state
+  vertical-align: middle; 
   -webkit-tap-highlight-color: transparent;
   text-decoration: none;
   color: $button-color;
@@ -22,10 +22,20 @@
   transition: 0.2s ease-out;
   cursor: pointer;
 
+  // Flot
+  &--left {
+    float: left
+  }
+
+  &--right {
+    float: right;
+  }
+
   &.JDbtn--white {
     color:white;
   }
 
+  // MODE
   &.JDbtn--primary {
     background-color: $primary-color;
     color: $primary-color-light-on;
@@ -33,7 +43,6 @@
       background-color: $primary-color-light
     }
   }
-  
   &.JDbtn--secondary {
     background-color: $secondary-color;
     color: $secondary-color-light-on;
@@ -42,13 +51,22 @@
     }
   }
 
-
-  &--left {
-    float: left
+  // Colors
+  &--white {
+    color:white;
   }
-
-  &--right {
+  
+  // TODO: 왼쪽 아이콘은 아직 없음
+  &__icon {
+    line-height: inherit;
+    margin-left: $buttons-icon-margin;
     float: right;
+  
+    &--left {
+      float: left;
+      margin-left: 0;
+      margin-right: $buttons-icon-margin;
+    }
   }
 
   &:hover {
@@ -73,54 +91,40 @@
       color: $button-disabled-color;
     }
   }
-
-  // Shared icon styles
-  //오른쪽 아이콘은 아직 없음
-  &__icon {
-    line-height: inherit;
-    margin-left: $buttons-icon-margin;
-    float: right;
-
-    &--left {
-      float: left;
-      margin-left: 0;
-      margin-right: $buttons-icon-margin;
-    }
-  }
-
-  // Large buttonf
+  
+  
+  // Large button
   &--large {
     height: $button-large-height;
     line-height: $button-large-height;
     padding: $button-large-padding;
     font-size: $button-large-font-size;
-
+    
     .JDbtn__icon {
       font-size: $button-large-icon-font-size;
     }
   }
-
+  
   // Small button
   &--small {
     height: $button-small-height;
     line-height: $button-small-height;
     padding: $button-small-padding;
     font-size: $button-small-font-size;
-
+    
     .JDbtn__icon {
       margin-left: $buttons-small-icon-margin;
-
+      
       &--left {
         float: left;
         margin-left: 0;
         margin-right: $buttons-small-icon-margin;
       }
-
+      
     }
   }
-
+  
   // Flat button
-
   &--flat {
     box-shadow: none;
     background-color: transparent;
@@ -130,26 +134,21 @@
     &.JDbtn--white {
       color:white;
     }
-
+    
     &.JDbtn--primary {
       background-color: $primary-color;
     }
-
+    
     &:disabled {
       color: $button-flat-disabled-color;
       cursor: default;
     }
-
+    
     &:hover {
       background-color: transparent;
       box-shadow: none;
     }
     
-  // colors
-
-  &--white {
-    color:white;
-  }
 
   }
 }

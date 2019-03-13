@@ -16,20 +16,8 @@ function Checkbox({
     onChange(flag);
   };
   return (
-    <span
-      className="JDcheck_box_wrap"
-      tabIndex={0}
-      role="button"
-      onKeyPress={onHandleClick}
-      onClick={onHandleClick}
-    >
-      <input
-        onChange={() => {}}
-        checked={checked}
-        disabled={disabled}
-        className={classes}
-        type="checkbox"
-      />
+    <span className="JDcheck_box_wrap" tabIndex={0} role="button" onKeyPress={onHandleClick} onClick={onHandleClick}>
+      <input onChange={() => {}} checked={checked} disabled={disabled} className={classes} type="checkbox" />
       <span className="JDcheck_box_label">{label}</span>
     </span>
   );

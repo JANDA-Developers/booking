@@ -1,7 +1,9 @@
 ## 아이콘 객체에 path를 복사하여 등록해서 사용합니다.
 
-[패스출처](https://material.io/tools/icons/?style=baseline)
-[노마드 추천](https://iconmonstr.com)
+### 아이콘출처
+
+[머티리얼 아이콘](https://material.io/tools/icons/?style=baseline)  
+[아이콘몬스터](https://iconmonstr.com)
 
 ### Icon
 

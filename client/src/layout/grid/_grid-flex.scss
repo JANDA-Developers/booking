@@ -154,6 +154,7 @@
 
 // 그리드 비대 정리 시스템
 // 마진은 space-between 에 의하여 빈 자리로 사용된다.
+
 .flex-grid {
 
   flex-wrap: wrap;
@@ -162,6 +163,14 @@
 
   &--around {
     justify-content: space-around;
+  }
+
+  &--end {
+    align-items: flex-end;
+  }
+
+  &--start {
+    justify-content: flex-start;
   }
 
   @include grid-system(full);

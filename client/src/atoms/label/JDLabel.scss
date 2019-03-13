@@ -4,4 +4,6 @@
     display: inline-block;
     font-size: $label-font-size;
     color: $label-font-color;
+    vertical-align: top;
+    margin-bottom: $standard-margin-bottom;
 }

@@ -2,15 +2,15 @@
 
 .react-tabs {
     &__tab-list {
-        height: $standard-li-height;
-        line-height: $standard-li-height;
+        height: $tabs-height;
+        line-height: $tabs-height;
         border-bottom: 1px solid $html-color;
         display:flex;
-        margin-bottom: $standard-margin-bottom;
+        margin-bottom: $tabs-margin-bottom;
     }
     
     &__tab {
-        padding: 0px $standard-li-padding;
+        padding: 0px $tabs-tab-padding;
         outline:0;
         &--selected {
             position: relative;
@@ -18,8 +18,8 @@
             background-color: #fff;
             border: 1px solid $html-color;
             border-bottom: 0px solid transparent;
-            border-radius: $standard-border-radius $standard-border-radius 0px 0px ;
-            line-height : calc(#{$standard-li-height} - 4px);
+            border-radius: $tabs-tab-border-radious $tabs-tab-border-radious 0px 0px ;
+            line-height : calc(#{$tabs-height} - 4px);
         }
 
         &:hover {

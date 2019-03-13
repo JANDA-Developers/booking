@@ -39,7 +39,6 @@ Navbar.propTypes = {
   nextMonth: PropTypes.instanceOf(Date),
   previousMonth: PropTypes.instanceOf(Date),
   className: PropTypes.string,
-  // eslint-disable-next-line react/forbid-prop-types
   localeUtils: PropTypes.object,
 };
 

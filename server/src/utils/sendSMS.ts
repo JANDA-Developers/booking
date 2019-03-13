@@ -9,7 +9,7 @@ export const sendSMS = async (
     const key = process.env.SMS_KEY;
     const sender = process.env.SMS_SENDER;
     const user = process.env.SMS_USER;
-    const host = process.env.SMS_HOST;
+    const host = process.env.SMS_HOST; 
 
     const requestOptions: Options = {
         headers: {
