@@ -48,7 +48,6 @@ enum Day {
   SAT
 }
 
-<<<<<<< HEAD
 type Tag {
   name: String!
   content: String!
@@ -65,20 +64,6 @@ enum DateRangeStatus {
   PAST
   PRESENT
   FUTURE
-=======
-type Location {
-  address: String!
-  addressDetail: String
-  lat: Float!
-  lng: Float!
-}
-
-input LocationInput {
-  address: String!
-  addressDetail: String
-  lat: Float!
-  lng: Float!
->>>>>>> 71260d0e34ac233800f143d81c242a1c5a62588b
 }
 
 type DateRange {
@@ -151,7 +136,8 @@ type Mutation {
   CreateHouse(name: String!, houseType: HouseType!, location: LocationInput!): CreateHouseResponse!
   DeleteHouse(_id: String!): DeleteHouseResponse!
   UpdateHouse(houseId: ID!, name: String, houseType: HouseType, location: LocationInput, refundPolicy: [TermsOfRefundInput!], termsOfBooking: TermsOfBookingInput): UpdateHouseResponse!
-  CreateProduct(name: String!, price: Int!, roomCount: Int!, roomCountExtraCharge: Int!, bookingCount: Int!, bookingCountExtraCharge: Int!, description: String): CreateProductResponse!
+  BuyProduct(houseId: ID!, productId: ID!): BuyProductResponse!
+  CreateProduct(name: String!, price: Int, discountedPrice: Int, roomCount: Int, roomCountExtraCharge: Int, bookingCount: Int, bookingCountExtraCharge: Int, description: String): CreateProductResponse!
   CreateProductType(name: String!, price: Int!, roomCount: Int!, roomCountExtraCharge: Int!, bookingCount: Int!, bookingCountExtraCharge: Int!, description: String): CreateProductTypeResponse!
   DeleteProductType(productTypeId: ID!): DeleteProductTypeResponse!
   UpdateProductType(productTypeId: ID!, name: String!, price: Int!, roomCount: Int!, roomCountExtraCharge: Int!, bookingCount: Int!, bookingCountExtraCharge: Int!, description: String): UpdateProductTypeResponse!
@@ -188,6 +174,7 @@ type House {
   _id: ID!
   name: String!
   houseType: HouseType!
+  product: Product
   user: User!
   location: Location!
   refundPolicy: [TermsOfRefund!]!
@@ -243,6 +230,12 @@ type UpdateHouseResponse {
   house: House
 }
 
+type BuyProductResponse {
+  ok: Boolean!
+  error: String
+  house: House
+}
+
 type CreateProductResponse {
   ok: Boolean!
   error: String
@@ -251,8 +244,22 @@ type CreateProductResponse {
 
 type Product {
   _id: ID!
-  house: House
-  productType: ProductType!
+  # 제품 이름
+  name: String!
+  # 제품 가격(월)
+  price: Int!
+  # 할인된 가격
+  discountedPrice: Int
+  # 만들 수 있는 최대 방 / 배드 수 => -1 일때 무제한
+  roomCount: Int!
+  # 방 수 추가시 추가 가격  => default: 0
+  roomCountExtraCharge: Int!
+  # 한달간 받을 수 있는 최대 예약 수 => -1 일 떄 무제한
+  bookingCount: Int!
+  # 예약 초과시 부과되는 금액 => defualt: 0
+  bookingCountExtraCharge: Int!
+  # 상세 설명
+  description: String
   createdAt: DateTime!
   updatedAt: DateTime
 }
@@ -468,15 +475,6 @@ type EmailSignInResponse {
   token: String
 }
 
-<<<<<<< HEAD
-=======
-type Query {
-  EmailSignIn(email: EmailAddress!, password: Password!): EmailSignInResponse!
-  # 로그인 token 필요!
-  GetMyProfile: GetMyProfileResponse!
-}
-
->>>>>>> 71260d0e34ac233800f143d81c242a1c5a62588b
 type EmailSignUpResponse {
   ok: Boolean!
   error: String

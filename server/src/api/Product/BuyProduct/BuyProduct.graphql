@@ -1,0 +1,9 @@
+type BuyProductResponse {
+    ok: Boolean!
+    error: String
+    house: House
+}
+
+type Mutation {
+    BuyProduct(houseId: ID!, productId: ID!): BuyProductResponse!
+}

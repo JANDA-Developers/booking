@@ -2,6 +2,7 @@ type House {
     _id: ID!
     name: String!
     houseType: HouseType!
+    product: Product
     user: User!
     location: Location!
     refundPolicy: [TermsOfRefund!]!

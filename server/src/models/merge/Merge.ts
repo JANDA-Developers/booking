@@ -9,10 +9,10 @@ import {
     Room,
     RoomType,
     Season,
-    User,
+    User
 } from "../../types/graph";
 import { HouseModel, HouseSchema } from "../House";
-import { ProductSchema } from "../Product";
+import { ProductModel, ProductSchema } from "../Product";
 import { ProductTypeSchema } from "../ProductType";
 import { RoomModel, RoomSchema } from "../Room";
 import { RoomTypeModel, RoomTypeSchema } from "../RoomType";
@@ -31,6 +31,7 @@ export const extractUser = async (
     };
     return {
         ...extractResult._doc,
+        _id: user._id.toString(),
         password: null,
         houses: await extractHouses.bind(extractHouses, user.houses)
     };
@@ -58,9 +59,14 @@ export const extractHouse = async (
         };
         return {
             ...extracted._doc,
+            _id: house._id.toString(),
             user: await extractUser.bind(
                 extractUser,
                 await UserModel.findById(house.user)
+            ),
+            product: await transformProduct.bind(
+                transformProduct,
+                house.product
             )
         };
     } catch (error) {
@@ -95,31 +101,22 @@ export const extractHouses = async (
 };
 
 export const extractRoomType = async (
-    roomType: InstanceType<RoomTypeSchema> | string
+    roomType: InstanceType<RoomTypeSchema>
 ): Promise<RoomType> => {
-    let extractResult: any;
-    if (typeof roomType === "string") {
-        extractResult = {
-            ...(await RoomTypeModel.findById(roomType))
-        };
-    } else {
-        extractResult = {
-            ...roomType
-        };
-    }
+    const extractResult: any = {
+        ...roomType
+    };
+
     const house = await HouseModel.findById(extractResult._doc.house);
-    const result = {
+    return {
         ...extractResult._doc,
+        _id: roomType._id.toString(),
         rooms: await transformRooms.bind(
             transformRooms,
             extractResult._doc.rooms
-        )
+        ),
+        house: await transformHouse.bind(transformHouse, house)
     };
-
-    if (house) {
-        result.house = await extractHouse(house);
-    }
-    return result;
 };
 
 export const transformRoomType = async (
@@ -209,6 +206,7 @@ export const extractSeason = async (
 
     return {
         ...extractResult._doc,
+        _id: season._id.toString(), 
         house: await transformHouse.bind(
             transformHouse,
             extractResult._doc.house
@@ -235,7 +233,8 @@ export const extractProductType = (
 ): ProductType => {
     const result: any = { ...productType };
     return {
-        ...result._doc
+        ...result._doc,
+        _id: productType._id.toString()
     };
 };
 
@@ -244,6 +243,18 @@ export const extractProduct = (
 ): Product => {
     const result: any = { ...product };
     return {
-        ...result._doc
+        ...result._doc,
+        _id: product._id.toString()
     };
+};
+
+export const transformProduct = async (
+    productId: ObjectId | string
+): Promise<Product | null> => {
+    const product = await ProductModel.findById(productId);
+    if (product) {
+        return await extractProduct(product);
+    } else {
+        return null;
+    }
 };

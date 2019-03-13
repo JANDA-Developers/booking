@@ -1,3 +1,4 @@
+import { ObjectId } from "bson";
 import { RoomModel } from "../../../models/Room";
 import {
     UpdateRoomMutationArgs,
@@ -16,11 +17,17 @@ const resolvers: Resolvers = {
                 try {
                     const existingRoom = await RoomModel.findById(roomId);
                     if (existingRoom) {
-                        await existingRoom.update(args, { new: true });
+                        await RoomModel.updateOne(
+                            {
+                                _id: new ObjectId(roomId)
+                            },
+                            args,
+                            { new: true }
+                        );
                         return {
                             ok: true,
                             error: null
-                        }
+                        };
                     } else {
                         return {
                             ok: false,
