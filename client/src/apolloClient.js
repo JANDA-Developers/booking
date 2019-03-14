@@ -7,6 +7,11 @@ const client = new ApolloClient({
       auth: {
         __typename: 'Auth',
         isLoggedIn: Boolean(localStorage.getItem('jwt')),
+        lastSelectedHouse: {
+          __typename: 'House',
+          value: localStorage.getItem('value'),
+          label: localStorage.getItem('label')
+        },
       },
     },
     resolvers: {
@@ -34,12 +39,43 @@ const client = new ApolloClient({
           cache.writeData({
             data: {
               auth: {
+                ...cache.data.auth,
                 __typename: 'Auth',
                 isLoggedIn: false,
               },
             },
           });
           return null;
+        },
+        selectHouse: (_, args, {
+          cache,
+        }) => {
+
+          try {
+            cache.writeData({
+              data: {
+                auth: {
+                  __typename: 'Auth',
+                  lastSelectedHouse: {
+                    __typename: 'House',
+                    value: args.selectedHouse.value,
+                    label: args.selectedHouse.label,
+                  },
+                },
+              },
+            });
+            localStorage.setItem('value', args.selectedHouse.value);
+            localStorage.setItem('label', args.selectedHouse.label);
+            return {
+              ok: true,
+              erorr: null,
+            };
+          } catch (error) {
+            return {
+              ok: false,
+              error: error.message,
+            }
+          }
         },
       },
     },

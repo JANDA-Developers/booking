@@ -33,6 +33,10 @@
 
     &__menue {
         color:white;
+
+        & + * {
+            margin-left: auto;
+        }
     }
 
     &__profile {

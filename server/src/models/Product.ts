@@ -1,15 +1,13 @@
-import { prop, Ref, Typegoose } from "typegoose";
-import { HouseSchema } from "./House";
+import { prop, Typegoose } from "typegoose";
 
 export class ProductSchema extends Typegoose {
-    @prop({ ref: HouseSchema, required: true })
-    house: Ref<HouseSchema>;
+    @prop({ required: true })
+    name: string;
 
     @prop({ required: true, default: 0 })
     price: number;
 
     @prop({
-        required: true,
         default(this: ProductSchema) {
             return this.price;
         }

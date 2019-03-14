@@ -30,14 +30,14 @@ function SideNav({ isOpen, setIsOpen, userInformation }) {
               <ProfileCircle style={profileStyle} />
             </div>
           </Link>
-          <span>{userInformation.name}</span>
+          <span className="JDsideNav__name">{userInformation.name}</span>
         </div>
         <div className="JDsideNav__listContainer">
           <NavLink to="/" className="JDsideNav__navLink">
             <Icon icon="list" />
             <span className="JDsideNav__title">숙소생성</span>
           </NavLink>
-          <NavLink to="/" className="JDsideNav__navLink">
+          <NavLink to="/middleServer/products" className="JDsideNav__navLink">
             <Icon icon="list" />
             <span className="JDsideNav__title">서비스 상품</span>
           </NavLink>

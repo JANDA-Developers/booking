@@ -23,12 +23,20 @@
         flex-direction: row;
         justify-content: center;
         align-content: center;
+        flex-direction: column;
+        text-align: center;
     }
     
+    &__name {
+        color:white;
+        font-size: $typho-small;
+    }
+
     &__circle {
         width: $sideNav-profile-circle-size;
         height: $sideNav-profile-circle-size;
         margin-top: $sideNav-profile-circle-margin-top;
+        margin: 0 auto;
     }
 
     &__navLink {

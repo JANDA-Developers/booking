@@ -5,25 +5,30 @@ import PropTypes from 'prop-types';
 import { Mutation } from 'react-apollo';
 import { toast } from 'react-toastify';
 import Button from '../../atoms/button/Buttons';
+import TooltipList from '../../atoms/tooltipList/TooltipList';
 import ProfileCircle from '../../atoms/profileCircle/ProfileCircle';
 import CircleIcon from '../../atoms/circleIcon/CircleIcon';
 import SelectBox from '../../atoms/forms/SelectBox';
 import Icon from '../../atoms/icons/Icons';
 import ErrProtecter from '../../utils/ErrProtecter';
 import logo from '../../img/logo/logo--white.png'; // with import
-import { LOG_USER_OUT } from '../../queries';
+import { LOG_USER_OUT, SELECT_HOUSE, SELECTED_HOUSE} from '../../queries';
 import { useSelect } from '../../actions/hook';
 
 const Header = ({
-  verifiedPhone, isLoggedIn, sideNavOpener, history, userInformation,
+  verifiedPhone, isLoggedIn, sideNavOpener, history, userInformation, lastSelectedHouse,
 }) => {
 
-  const useSelect1 = useSelect(null);
-  
+  let houseOptions = ['생성된 숙소 없음'];
+
+  if (userInformation && userInformation.houses) {
+    const { houses } = userInformation;
+    houseOptions = houses.map(house => ({ value: house.name, label: house.name }));
+  }
+
+  const houseHook = useSelect(lastSelectedHouse);
+
   // dummy
-  const SELECTDUMMYOPTION = [
-    { value: 'MYGUESTHOUSE', label: 'MYGUESTHOUSE' },
-  ];
 
   return (
     <div className="header">
@@ -45,21 +50,61 @@ const Header = ({
               toast.success('로그아웃 완료');
               history.push('./');
             }}
-            >
+          >
             {mutation => (
               <Fragment>
-                <span className="header__profile">
-                  <ProfileCircle isBordered whiteBorder small></ProfileCircle>
+                <span
+                  data-tip
+                  data-delay-hide={0}
+                  data-for="listAboutUser"
+                  data-event="click"
+                  className="header__profile"
+                >
+                  <ProfileCircle isBordered whiteBorder small />
                 </span>
-                <SelectBox options={SELECTDUMMYOPTION} {...useSelect1} />
-                {/* <span className="header__link">
-                  <Button onClick={mutation} label="로그아웃" mode="flat" color="white" />
-                </span> */}
-                <span className="header__apps">
-                  <CircleIcon onClick={sideNavOpener} flat thema="white" darkWave>
-                    <Icon icon="apps" />
-                  </CircleIcon>
-                </span>
+
+                <TooltipList id="listAboutUser">
+                  <ul>
+                    <li>
+                      <Button onClick={mutation} label="로그아웃" mode="flat" color="white" />
+                    </li>
+                  </ul>
+                </TooltipList>
+                <Mutation
+                  mutation={SELECT_HOUSE}
+                  nError={(error) => {
+                    console.error('error');
+                    console.error(error);
+                  }}
+                  onCompleted={({ selectHouse }) => {
+                    if (selectHouse && selectHouse.ok) {
+                      console.log(selectHouse);
+                    }
+                  }}
+                >
+                  {(mutation) => {
+                    const handleSelectHouse = (value) => {
+                      console.log('value');
+                      console.log(value);
+                      houseHook.onChange(value);
+                      mutation({ variables: { selectedHouse: value } });
+                    };
+                    return (
+                      <Fragment>
+                        <SelectBox
+                          options={houseOptions}
+                          {...houseHook}
+                          onChange={handleSelectHouse}
+                        />
+                        <span className="header__apps">
+                          <CircleIcon onClick={sideNavOpener} flat thema="white" darkWave>
+                            <Icon icon="apps" />
+                          </CircleIcon>
+                        </span>
+                      </Fragment>
+                    );
+                  }}
+                </Mutation>
               </Fragment>
             )}
           </Mutation>

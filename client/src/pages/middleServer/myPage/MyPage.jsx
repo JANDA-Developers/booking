@@ -34,10 +34,10 @@ const Mypage = ({ userInformation }) => {
           <Button label="프로필 수정" />
         </div>
         <h4>생성한 숙소</h4>
-        <div className="row">
-          <div className="col col--4 col--md-6">
-            {houses
-              ? houses.map(house => (
+        <div className="row myPage__myProducts">
+          {houses
+            ? houses.map(house => (
+              <div className="myPage__myProduct col col--4 col--md-6">
                 <MyProduct
                   title={house.name}
                   productId="123"
@@ -45,10 +45,10 @@ const Mypage = ({ userInformation }) => {
                   dateCreated={house.createdAt}
                   location={house.location && house.location.address}
                   key={`${house.name}${house.dateCreated}`}
-                />
-              ))
-              : null}
-          </div>
+                  />
+              </div>
+            ))
+            : null}
           <div className="col col--4 col--md-6">
             <MyProductAdd />
           </div>

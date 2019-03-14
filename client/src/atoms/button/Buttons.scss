@@ -19,7 +19,7 @@
   text-align: center;
   letter-spacing: $button-letter-sapcing;
   @extend %z-depth-1;
-  transition: 0.2s ease-out;
+  transition: background-color 0.2s ease-out;
   cursor: pointer;
 
   // Flot

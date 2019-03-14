@@ -7,7 +7,6 @@
     padding:1rem;
     background-color: $grey-level1;
     touch-action: none;
-    width:150px;
 
     &__roomCondition {
         margin-bottom: $standard-margin-bottom * 2;
@@ -20,6 +19,9 @@
         li:before { 
             content:'\2219';
             margin-right:0.5em; 
+         }
+         .product__specification-li--warring {
+             color: $secondary-color;
          }
     }
     &__priceBox {

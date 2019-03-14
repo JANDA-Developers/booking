@@ -10,6 +10,17 @@ export const IS_LOGGED_IN = gql`
   }
 `;
 
+export const SELECTED_HOUSE = gql`
+  {
+    auth {
+      lastSelectedHouse @client {
+        label
+        value
+      }
+    }
+  }
+`;
+
 export const LOG_USER_IN = gql`
   mutation logUserIn($token: String!) {
     LogUserIn(token: $token) @client
@@ -22,12 +33,22 @@ export const LOG_USER_OUT = gql`
   }
 `;
 
+export const SELECT_HOUSE = gql`
+  mutation selectHouse($selectedHouse: SelectOption!) {
+    selectHouse(selectedHouse: $selectedHouse) @client {
+      label
+      value
+    }
+  }
+`;
+
 /* ---------------------------------- query --------------------------------- */
 
 export const GET_USER_INFO = gql`
   query {
     GetMyProfile {
       user {
+        _id
         name
         phoneNumber
         password
@@ -35,6 +56,11 @@ export const GET_USER_INFO = gql`
         isPhoneVerified
         checkPrivacyPolicy
         houses {
+          product {
+            _id
+            name
+          }
+          _id
           name
           houseType
           location {

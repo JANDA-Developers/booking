@@ -1,5 +1,6 @@
 /* eslint-disable react/forbid-prop-types */
 import React, { useEffect } from 'react';
+import { Mutation } from 'react-apollo';
 import Product from './components/Product';
 import { useRadio } from '../../../actions/hook';
 import Button from '../../../atoms/button/Buttons';
@@ -59,7 +60,12 @@ const Products = () => {
     roomLimit: '',
     roomCondition: '(무료체험 서비스)',
     price: '무료체험',
-    specification: ['숙소홈페이지 셋팅 체험', '실시간 예약 체험', '하우스메뉴얼 체험'],
+    specification: [
+      '숙소홈페이지 셋팅 체험',
+      '실시간 예약 체험',
+      '하우스메뉴얼 체험',
+      <span className="product__specification-li--warring">본상품은 예약이 불가능합니다.</span>,
+    ],
     setRadio: setSelectedProduct,
   };
 
@@ -78,9 +84,7 @@ const Products = () => {
       buyer_tel: '01052374492',
     };
 
-    window.IMP.request_pay(param, (rsp) => {
-      console.log(rsp);
-    });
+    window.IMP.request_pay(param, (rsp) => {});
 
     // // TODO: get this cod from secrety
     // const iamporter = new Iamporter({

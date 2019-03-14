@@ -8,7 +8,7 @@ import Header from '../components/headers/Header';
 import SideNav from '../components/sideNav/SideNav';
 import DynamicImport from '../utils/DynamicImport';
 import NoMatch from './NoMatch';
-import { IS_LOGGED_IN, GET_USER_INFO } from '../queries';
+import { IS_LOGGED_IN, GET_USER_INFO, SELECTED_HOUSE } from '../queries';
 import { useToggle } from '../actions/hook';
 import Preloader from '../atoms/preloader/Preloader';
 
@@ -17,12 +17,17 @@ function JDmiddleServer({
     auth: { isLoggedIn },
   },
   GetUserInfo: { GetMyProfile: { user } = {} } = {},
+  lastSelectedHouse: { auth: { lastSelectedHouse } = {} } = {},
 } = {}) {
-  // 사이드바가 열렸는지 체크
+  // 사이드바가 열렸는지 체1크
+
+  const inLastSelectedHouse = {
+    value: lastSelectedHouse.value,
+    label: lastSelectedHouse.label,
+  };
+
   const verifiedPhone = user && user.verifiedPhone;
   const houses = user && user.houses;
-
-  console.log(user);
 
   const [SideNavIsOpen, setSideNavIsOpen] = useToggle(false);
 
@@ -77,6 +82,7 @@ function JDmiddleServer({
             sideNavOpener={setSideNavIsOpen}
             userInformation={user}
             verifiedPhone={verifiedPhone}
+            lastSelectedHouse={inLastSelectedHouse}
             isLoggedIn={isLoggedIn}
           />
         )}
@@ -105,6 +111,7 @@ function JDmiddleServer({
 //  how to branch query
 // https://stackoverflow.com/questions/48880071/use-result-for-first-query-in-second-query-with-apollo-client
 export default compose(
+  graphql(SELECTED_HOUSE, { name: 'lastSelectedHouse' }),
   graphql(IS_LOGGED_IN, { name: 'IsLoggedIn' }),
   graphql(GET_USER_INFO, {
     name: 'GetUserInfo',
