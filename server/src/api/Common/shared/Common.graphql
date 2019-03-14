@@ -27,3 +27,9 @@ input TagInput {
     content: String!
     icon: String
 }
+
+# 이하 프론트에서 필요한 input 요청
+input SelectOption {
+    value: String!
+    label: String!
+}

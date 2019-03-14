@@ -13,7 +13,7 @@ export enum Type {
 }
 export class HouseSchema extends Typegoose {
     @prop({ ref: ProductSchema, required: true })
-    product: Ref<ProductSchema>;
+    product: Ref<ProductSchema> | null;
 
     @prop({ required: true })
     name: string;

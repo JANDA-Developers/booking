@@ -138,6 +138,7 @@ type Mutation {
   UpdateHouse(houseId: ID!, name: String, houseType: HouseType, location: LocationInput, refundPolicy: [TermsOfRefundInput!], termsOfBooking: TermsOfBookingInput): UpdateHouseResponse!
   BuyProduct(houseId: ID!, productId: ID!): BuyProductResponse!
   CreateProduct(name: String!, price: Int, discountedPrice: Int, roomCount: Int, roomCountExtraCharge: Int, bookingCount: Int, bookingCountExtraCharge: Int, description: String): CreateProductResponse!
+  RefundProduct(houseId: ID!, productId: ID!): RefundProductResponse!
   CreateProductType(name: String!, price: Int!, roomCount: Int!, roomCountExtraCharge: Int!, bookingCount: Int!, bookingCountExtraCharge: Int!, description: String): CreateProductTypeResponse!
   DeleteProductType(productTypeId: ID!): DeleteProductTypeResponse!
   UpdateProductType(productTypeId: ID!, name: String!, price: Int!, roomCount: Int!, roomCountExtraCharge: Int!, bookingCount: Int!, bookingCountExtraCharge: Int!, description: String): UpdateProductTypeResponse!
@@ -240,6 +241,26 @@ type CreateProductResponse {
   ok: Boolean!
   error: String
   product: Product
+}
+
+type GetAllProductsResponse {
+  ok: Boolean!
+  error: String
+  products: [Product!]
+}
+
+type Query {
+  GetAllProducts: GetAllProductsResponse!
+  GetAllRoomType(houseId: ID!): GetAllRoomTypeResponse!
+  EmailSignIn(email: EmailAddress!, password: Password!): EmailSignInResponse!
+  # 로그인 token 필요!
+  GetMyProfile: GetMyProfileResponse!
+}
+
+type RefundProductResponse {
+  ok: Boolean!
+  error: String
+  house: House
 }
 
 type Product {
@@ -360,13 +381,6 @@ type GetAllRoomTypeResponse {
   ok: Boolean
   error: String
   roomTypes: [RoomType!]
-}
-
-type Query {
-  GetAllRoomType(houseId: ID!): GetAllRoomTypeResponse!
-  EmailSignIn(email: EmailAddress!, password: Password!): EmailSignInResponse!
-  # 로그인 token 필요!
-  GetMyProfile: GetMyProfileResponse!
 }
 
 type RemoveRoomDisableRangeResponse {
