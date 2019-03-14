@@ -206,7 +206,7 @@ export const extractSeason = async (
 
     return {
         ...extractResult._doc,
-        _id: season._id.toString(), 
+        _id: season._id.toString(),
         house: await transformHouse.bind(
             transformHouse,
             extractResult._doc.house
