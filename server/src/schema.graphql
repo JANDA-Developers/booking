@@ -48,7 +48,6 @@ enum Day {
   SAT
 }
 
-<<<<<<< HEAD
 type Tag {
   name: String!
   content: String!
@@ -65,20 +64,6 @@ enum DateRangeStatus {
   PAST
   PRESENT
   FUTURE
-=======
-type Location {
-  address: String!
-  addressDetail: String
-  lat: Float!
-  lng: Float!
-}
-
-input LocationInput {
-  address: String!
-  addressDetail: String
-  lat: Float!
-  lng: Float!
->>>>>>> 71260d0e34ac233800f143d81c242a1c5a62588b
 }
 
 type DateRange {
@@ -468,15 +453,6 @@ type EmailSignInResponse {
   token: String
 }
 
-<<<<<<< HEAD
-=======
-type Query {
-  EmailSignIn(email: EmailAddress!, password: Password!): EmailSignInResponse!
-  # 로그인 token 필요!
-  GetMyProfile: GetMyProfileResponse!
-}
-
->>>>>>> 71260d0e34ac233800f143d81c242a1c5a62588b
 type EmailSignUpResponse {
   ok: Boolean!
   error: String
