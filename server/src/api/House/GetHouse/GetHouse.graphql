@@ -1,0 +1,8 @@
+type GetHouseResponse {
+    ok: Boolean!
+    error: String
+    house: House
+}
+type Query {
+    GetHouse(userId: ID!, houseId: ID!): GetHouseResponse!
+}
