@@ -4,5 +4,5 @@ type GetHouseResponse {
     house: House
 }
 type Query {
-    GetHouse(userId: ID!, houseId: ID!): GetHouseResponse!
+    GetHouse(houseId: ID!): GetHouseResponse!
 }
