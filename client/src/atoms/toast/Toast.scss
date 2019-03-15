@@ -29,6 +29,10 @@
 }
 
 .Toastify {
+    position:relative;
+    z-index: $z-index-10;
+    font-weight: 600;
+
     &__toast-container {
         position:fixed;
         
@@ -39,6 +43,7 @@
     }
     
     &__toast {
+        background-color: white;
         height: $toast-height;
         line-height: $toast-height;
         @extend %z-depth-1;
@@ -46,6 +51,8 @@
         box-sizing: border-box;
         margin-bottom: $toast-margin-bottom;
         user-select: none;
+
+        
 
         &--warning {
             background-color: $error-color;

@@ -37,9 +37,9 @@ const useFetch = (url) => {
 };
 
 // 밸리데이션을 포함한 훅 리턴
-function useInput(defaultValue) {
+function useInput(defaultValue, defulatValid = '') {
   const [value, setValue] = useState(defaultValue);
-  const [isValid, setIsValid] = useState('');
+  const [isValid, setIsValid] = useState(defulatValid);
 
   const onChange = (value) => {
     setValue(value);

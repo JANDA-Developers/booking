@@ -6,7 +6,6 @@ import './Product.scss';
 const product = ({
   productIndex,
   productName,
-  productId,
   value,
   roomLimit,
   roomCondition,
@@ -19,7 +18,7 @@ const product = ({
   if (slider) modifer = '--slider';
 
   return (
-    <div className="JDproduct" key={`product--${productId}${modifer}`}>
+    <div className="JDproduct" key={`product--${value}${modifer}`}>
       <span className="JDproduct__index">
         <span className="JDproduct__index-inner">{productIndex}</span>
       </span>
@@ -28,7 +27,7 @@ const product = ({
       <span className="JDproduct__roomCondition">{roomCondition}</span>
       <ul className="JDproduct__specification-ul">
         {specification.map(value => (
-          <li key={`${productId}${modifer}${value}`} className="JDproduct__specification-li">
+          <li key={`${modifer}${value}`} className="JDproduct__specification-li">
             {value}
           </li>
         ))}
@@ -37,12 +36,7 @@ const product = ({
         <span className="JDproduct__inner">
           {price}
           <span className="JDproduct__select">
-            <Radio
-              onChange={setRadio}
-              value={value}
-              id={`RD--${productId}${modifer}`}
-              groupName={`RD-product${modifer}`}
-            />
+            <Radio onChange={setRadio} value={value} id={`RD--${value}${modifer}`} groupName={`RD-product${modifer}`} />
           </span>
         </span>
       </div>
@@ -53,7 +47,6 @@ const product = ({
 product.propTypes = {
   productIndex: PT.oneOfType([PT.string, PT.node]),
   productName: PT.oneOfType([PT.string, PT.node]),
-  productId: PT.oneOfType([PT.string, PT.node]),
   value: PT.oneOfType([PT.string, PT.node]),
   roomLimit: PT.oneOfType([PT.string, PT.node]),
   roomCondition: PT.oneOfType([PT.string, PT.node]),
@@ -66,7 +59,6 @@ product.propTypes = {
 product.defaultProps = {
   productIndex: '',
   productName: '',
-  productId: '',
   value: '',
   roomLimit: '',
   roomCondition: '',

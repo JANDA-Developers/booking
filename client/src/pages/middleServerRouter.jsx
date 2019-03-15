@@ -19,15 +19,18 @@ function JDmiddleServer({
   GetUserInfo: { GetMyProfile: { user } = {} } = {},
   lastSelectedHouse: { auth: { lastSelectedHouse } = {} } = {},
 } = {}) {
-  // 사이드바가 열렸는지 체1크
+  // 사이드바가 열렸는지 체크
+
+  const houses = user && user.houses;
 
   const inLastSelectedHouse = {
     value: lastSelectedHouse.value,
     label: lastSelectedHouse.label,
   };
 
+  console.log(inLastSelectedHouse);
+
   const verifiedPhone = user && user.verifiedPhone;
-  const houses = user && user.houses;
 
   const [SideNavIsOpen, setSideNavIsOpen] = useToggle(false);
 
@@ -73,6 +76,12 @@ function JDmiddleServer({
     </DynamicImport>
   );
 
+  const Ready = props => (
+    <DynamicImport load={() => import('./middleServer/Ready')}>
+      {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
+    </DynamicImport>
+  );
+
   return (
     <Fragment>
       {/* 헤더에 정보전달 */}
@@ -96,12 +105,21 @@ function JDmiddleServer({
         <Route exact path="/middleServer">
           <Home isLoggedIn={isLoggedIn} />
         </Route>
-        <Route exact path="/middleServer/myPage" children={isLoggedIn ? <MyPage userInformation={user} /> : Login} />
+        <Route
+          exact
+          path="/middleServer/myPage"
+          children={isLoggedIn ? <MyPage userInformation={user} houses={houses} /> : Login}
+        />
         <Route exact path="/middleServer/makeHouse" children={isLoggedIn ? MakeHouse : Login} />
-        <Route exact path="/middleServer/products" children={isLoggedIn ? Products : Login} />
+        <Route
+          exact
+          path="/middleServer/products"
+          children={isLoggedIn ? <Products selectedHouse={inLastSelectedHouse.value} /> : Login}
+        />
         <Route exact path="/middleServer/phoneVerification" component={isLoggedIn ? PhoneVerification : undefined} />
         <Route exact path="/middleServer/signUp" component={isLoggedIn ? undefined : SignUp} />
         <Route exact path="/middleServer/login" component={isLoggedIn ? undefined : Login} />
+        <Route exact path="/middleServer/ready" component={isLoggedIn ? Ready : Login} />
         <Route component={NoMatch} />
       </Switch>
     </Fragment>

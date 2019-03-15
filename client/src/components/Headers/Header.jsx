@@ -23,7 +23,7 @@ const Header = ({
 
   if (userInformation && userInformation.houses) {
     const { houses } = userInformation;
-    houseOptions = houses.map(house => ({ value: house.name, label: house.name }));
+    houseOptions = houses.map(house => ({ value: house._id, label: house.name }));
   }
 
   const houseHook = useSelect(lastSelectedHouse);

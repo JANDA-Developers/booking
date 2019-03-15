@@ -44,6 +44,20 @@ export const SELECT_HOUSE = gql`
 
 /* ---------------------------------- query --------------------------------- */
 
+// 프로덕트 UI와  DB의 정보 싱크는 수동으로 맞추세요.
+export const GET_All_PRODUCTS = gql`
+  query {
+    GetAllProducts {
+      ok
+      error
+      products {
+        _id
+        name
+      }
+    }
+  }
+`;
+
 export const GET_USER_INFO = gql`
   query {
     GetMyProfile {
@@ -101,6 +115,24 @@ export const GET_MY_PHON_NUMBER = gql`
 `;
 
 /* -------------------------------- mutation -------------------------------- */
+
+export const UPDATE_MYPROFILE = gql`
+  mutation updateMyProfile($name: Name!, $phoneNumber: PhoneNumber!, $email: EmailAddress!) {
+    UpdateMyProfile(name: $name, phoneNumber: $phoneNumber, email: $email) {
+      ok
+      error
+    }
+  }
+`;
+
+export const BUY_PRODUCTS = gql`
+  mutation buyProduct($houseId: ID!, $productId: ID!) {
+    BuyProduct(houseId: $houseId, productId: $productId) {
+      ok
+      error
+    }
+  }
+`;
 
 export const PHONE_VERIFICATION = gql`
   mutation startPhoneVerification {

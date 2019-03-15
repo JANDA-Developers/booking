@@ -3,6 +3,7 @@ import ErrProtecter from './ErrProtecter';
 import isEmpty from './IsEmpty';
 import toast from './Toast';
 import { NEUTRAL } from './Enums';
+import download from './DownloadFile';
 import { JDMonthTextChanger, JDWeekChanger } from './TextChanger';
 import {
   isEmail, isPhone, isName, isUrl, isMaxOver, isPassword,
@@ -22,9 +23,10 @@ const JDutils = {
   JDMonthTextChanger,
   searchListFormat,
   toast,
+  download,
 };
 
 export default JDutils;
 export {
-  JDMonthTextChanger, JDWeekChanger, isEmpty, NEUTRAL, toast,
+  JDMonthTextChanger, JDWeekChanger, isEmpty, NEUTRAL, toast, download, ErrProtecter,
 };

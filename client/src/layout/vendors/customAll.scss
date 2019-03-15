@@ -23,10 +23,15 @@ ul, menu, dir {
     clear:both;
 }
 
+.large-text {
+    font-size: $typho-large
+}
+
 a.JDanchor {
     outline: 0;
     text-decoration: none;
     color: $link-color;
+    cursor:pointer;
     &:hover {
         text-decoration:underline;
     }
@@ -34,6 +39,7 @@ a.JDanchor {
         color:$link-color-active
     }
 }
+
 
 body {
     letter-spacing: -1px;
