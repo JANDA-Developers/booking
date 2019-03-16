@@ -1,0 +1,18 @@
+type GetMatchedSeasonWithDateRangeResponse {
+    ok: Boolean!
+    error: String
+    dateRangeWithSeason: [DateWithSeason!]
+}
+
+type DateWithSeason {
+    date: DateTime!
+    season: Season!
+}
+
+type Query {
+    GetMatchedSeasonWithDateRange(
+        houseId: ID!
+        start: DateTime!
+        end: DateTime!
+    ): GetMatchedSeasonWithDateRangeResponse!
+}

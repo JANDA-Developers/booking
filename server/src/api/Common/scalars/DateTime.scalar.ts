@@ -8,17 +8,17 @@ function serialize(value: string) {
     //     date
     // });
     
-    return date.toISOString();
+    return date;
 }
 
 function parseValue(value: any) {
     const tov = typeof value;
     if (tov === "string") {
-        return new Date(value).getTime();
+        return new Date(value).toISOString();
     } else if (tov === "number") {
-        return value;
+        return new Date(value).toISOString();
     } else if (value instanceof Date) {
-        return value;
+        return value.toISOString();
     } else {
         throw new Error("Invalid Date Value");
     }

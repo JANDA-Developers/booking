@@ -1,7 +1,6 @@
 import { ObjectId } from "bson";
 import { Types } from "mongoose";
 import { InstanceType } from "typegoose";
-import DateRange from "../../dtos/DateRange.class";
 import {
     House,
     Product,
@@ -199,19 +198,13 @@ export const extractSeason = async (
     season: InstanceType<SeasonSchema>
 ): Promise<Season> => {
     const extractResult: any = { ...season };
-
-    console.log({
-        extractResult
-    });
-
     return {
         ...extractResult._doc,
         _id: season._id.toString(),
         house: await transformHouse.bind(
             transformHouse,
             extractResult._doc.house
-        ),
-        dateRange: new DateRange(extractResult._doc.dateRange).getParams()
+        )
     };
 };
 

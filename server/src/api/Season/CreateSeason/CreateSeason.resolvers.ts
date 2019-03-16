@@ -13,14 +13,18 @@ const resolvers: Resolvers = {
         CreateSeason: privateResolver(
             async (
                 _,
-                { houseId, name, dateRange, ...args }: CreateSeasonMutationArgs
+                { houseId, start, end, ...args }: CreateSeasonMutationArgs
             ): Promise<CreateSeasonResponse> => {
                 const existingHouse = await HouseModel.findById(houseId);
+                const validStartEnd = start <= end;
+                const st = validStartEnd ? start : end;
+                const ed = validStartEnd ? end : start;
+
                 if (existingHouse) {
                     const season = new SeasonModel({
-                        name,
                         house: houseId,
-                        dateRange,
+                        start: st,
+                        end: ed,
                         ...args
                     });
                     await season.save();

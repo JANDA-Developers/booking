@@ -72,3 +72,18 @@ export const selectNumberRange = (
         increment
     };
 };
+
+export const between = (
+    val: any,
+    start: string = "start",
+    end: string = "end"
+) => {
+    return {
+        [start]: {
+            $lte: new Date(val)
+        },
+        [end]: {
+            $gt: new Date(val)
+        }
+    };
+};
