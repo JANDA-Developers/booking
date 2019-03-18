@@ -1,5 +1,8 @@
 import { Target, VerificationModel } from "../../../models/Verification";
-import { StartPhoneVerificationResponse } from "../../../types/graph";
+import {
+    StartPhoneVerificationMutationArgs,
+    StartPhoneVerificationResponse
+} from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
 import privateResolver from "../../../utils/privateResolvers";
 import { sendVerificationSMS } from "../../../utils/sendSMS";
@@ -9,24 +12,34 @@ const resolvers: Resolvers = {
         StartPhoneVerification: privateResolver(
             async (
                 _: any,
-                __: any,
+                { email, password }: StartPhoneVerificationMutationArgs,
                 { req }
             ): Promise<StartPhoneVerificationResponse> => {
                 const { user } = req;
                 const { phoneNumber } = user;
 
                 try {
-                    const existingVerification = await VerificationModel.findOne({
-                        target: Target.PHONE,
-                        payloayd: phoneNumber
+                    const existingVerification = await VerificationModel.findOne(
+                        {
+                            target: Target.PHONE,
+                            payload: phoneNumber
+                        }
+                    );
+                    console.log({
+                        user,
+                        existingVerification
                     });
-                    if (existingVerification && existingVerification.user.equals(user._id)) {
+                    if (
+                        existingVerification &&
+                        existingVerification.user.equals(user._id)
+                    ) {
                         await existingVerification.remove();
                     }
 
                     const verification = new VerificationModel({
                         target: Target.PHONE,
-                        payload: phoneNumber
+                        payload: phoneNumber,
+                        user: user._id
                     });
                     await verification.save();
                     sendVerificationSMS(phoneNumber, verification.key);

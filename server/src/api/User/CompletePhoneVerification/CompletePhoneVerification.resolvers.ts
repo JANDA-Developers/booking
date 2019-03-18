@@ -24,7 +24,6 @@ const resolvers: Resolvers = {
                     });
                     if (verification && verification.user) {
                         verification.verified = true;
-                        // verification.user = user._id;
                         await verification.save();
                     } else {
                         return {
