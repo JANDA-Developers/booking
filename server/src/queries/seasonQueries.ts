@@ -1,7 +1,145 @@
 import { ObjectId } from "bson";
-import { transformSeason } from "../models/merge/Merge";
+import { transformSeason, transformSeasons } from "../models/merge/Merge";
 import { SeasonModel } from "../models/Season";
 import { Season } from "../types/graph";
+import { transformYMDToMD } from "../utils/transformData";
+
+export const includeDateRangeWithOutYear = async (
+    start: Date,
+    end: Date,
+    houseId: string
+): Promise<Season[]> => {
+    const st = transformYMDToMD(start);
+    const ed = transformYMDToMD(end);
+    const project = {
+        house: "$house",
+        sMD: {
+            $toInt: {
+                $dateToString: {
+                    date: "$start",
+                    format: "%m%d"
+                }
+            }
+        },
+        eMD: {
+            $toInt: {
+                $dateToString: {
+                    date: "$end",
+                    format: "%m%d"
+                }
+            }
+        },
+        priority: "$priority"
+    };
+    const matchHouseId = {
+        house: {
+            $eq: new ObjectId(houseId)
+        }
+    };
+    const matchDateRange = {
+        $or: [
+            {
+                $and: [
+                    {
+                        $expr: {
+                            $gte: ["$eMD", "$sMD"]
+                        }
+                    },
+                    {
+                        $or: [
+                            {
+                                $and: [
+                                    {
+                                        $expr: {
+                                            $lte: [st, ed]
+                                        }
+                                    },
+                                    {
+                                        sMD: {
+                                            $lte: ed
+                                        }
+                                    },
+                                    {
+                                        eMD: {
+                                            $gte: st
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                $and: [
+                                    {
+                                        $expr: {
+                                            $gt: [st, ed]
+                                        }
+                                    },
+                                    {
+                                        $or: [
+                                            {
+                                                sMD: {
+                                                    $lte: ed
+                                                }
+                                            },
+                                            {
+                                                eMD: {
+                                                    $gte: st
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                $and: [
+                    {
+                        $expr: {
+                            $gte: ["$sMD", "$eMD"]
+                        }
+                    },
+                    {
+                        $or: [
+                            {
+                                $expr: {
+                                    $gt: ["$st", "$ed"]
+                                }
+                            },
+                            {
+                                eMD: {
+                                    $gte: st
+                                }
+                            },
+                            {
+                                sMD: {
+                                    $lte: ed
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+    const sort = {
+        priority: -1
+    };
+    const result = await SeasonModel.aggregate()
+        .sort(sort)
+        .project(project)
+        .match(matchHouseId)
+        .match(matchDateRange);
+    if (result.length) {
+        const ids: ObjectId[] = result.map(season => {
+            return new ObjectId(season._id);
+        });
+        return await transformSeasons(ids);
+    } else {
+        return [];
+    }
+};
 
 /**
  * 달, 일만 가지고 betweenDate
@@ -12,14 +150,7 @@ export const betweenDateWithoutYear = async (
     date: Date,
     houseId: string
 ): Promise<Season | null> => {
-    const d = new Date(date);
-    const month = d.getMonth() + 1;
-    const dayOfMonth = d.getDate();
-    const md = parseInt(month + String(dayOfMonth).padStart(2, "0"), 10);
-    console.log({
-        md
-    });
-
+    const md = transformYMDToMD(date);
     const project = {
         house: "$house",
         sMD: {
@@ -55,14 +186,18 @@ export const betweenDateWithoutYear = async (
                                 }
                             },
                             {
-                                sMD: {
-                                    $lte: md
-                                }
-                            },
-                            {
-                                eMD: {
-                                    $gt: md
-                                }
+                                $or: [
+                                    {
+                                        sMD: {
+                                            $lte: md
+                                        }
+                                    },
+                                    {
+                                        eMD: {
+                                            $gt: md
+                                        }
+                                    }
+                                ]
                             }
                         ]
                     },
@@ -97,14 +232,10 @@ export const betweenDateWithoutYear = async (
         priority: -1
     };
     const result = await SeasonModel.aggregate()
+        .sort(sort)
         .project(project)
         .match(match)
-        .sort(sort)
         .limit(1);
-    console.log({
-        result
-    });
-
     if (result.length) {
         return await transformSeason(result[0]._id);
     } else {

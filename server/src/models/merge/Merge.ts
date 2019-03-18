@@ -88,12 +88,15 @@ export const transformHouse = async (
 
 export const extractHouses = async (
     houseIds: Types.ObjectId[]
-): Promise<Array<Promise<House>>> => {
+): Promise<House[]> => {
     try {
         const houses = await HouseModel.find({ _id: { $in: houseIds } });
-        return houses.map(async house => {
-            return await extractHouse(house);
-        });
+        const result = Promise.all(
+            houses.map(async house => {
+                return await extractHouse(house);
+            })
+        );
+        return result;
     } catch (error) {
         throw error;
     }
@@ -148,31 +151,32 @@ export const extractRoomTypes = async (
     }
 };
 
-export const transformRooms = async (roomIds: ObjectId[]): Promise<Room[]> => {
-    try {
-        const result: Room[] = await Promise.all(
-            roomIds.map(
-                async (roomId): Promise<Room> => {
-                    return await transformRoom(roomId);
-                }
-            )
-        );
-        return result;
-    } catch (error) {
-        return [];
-    }
-};
-
 export const transformRoom = async (
     roomId: ObjectId | string
-): Promise<Room> => {
+): Promise<Room | null> => {
     const roomSchema: InstanceType<
         RoomSchema
     > | null = await RoomModel.findById(roomId);
     if (roomSchema) {
         return await extractRoom(roomSchema);
     } else {
-        throw new Error("Unexist Id");
+        return null;
+    }
+};
+
+export const transformRooms = async (roomIds: ObjectId[]): Promise<Room[]> => {
+    try {
+        const result: Array<Room | null> = await Promise.all(
+            roomIds.map(
+                async (roomId): Promise<Room | null> => {
+                    return await transformRoom(roomId);
+                }
+            )
+        );
+        const tempArr: any = result.filter(room => room);
+        return tempArr;
+    } catch (error) {
+        return [];
     }
 };
 
@@ -218,6 +222,26 @@ export const transformSeason = async (
         return await extractSeason(season);
     } else {
         return null;
+    }
+};
+
+export const transformSeasons = async (
+    seasonIds: ObjectId[]
+): Promise<Season[]> => {
+    try {
+        const seasons: Array<
+            InstanceType<SeasonSchema>
+        > = await SeasonModel.find({ _id: { $in: seasonIds } });
+        const results: Season[] = await Promise.all(
+            seasons.map(
+                async (season): Promise<Season> => {
+                    return await extractSeason(season);
+                }
+            )
+        );
+        return results;
+    } catch (error) {
+        return [];
     }
 };
 

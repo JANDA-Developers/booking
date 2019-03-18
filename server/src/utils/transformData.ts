@@ -95,3 +95,11 @@ export const transformDateToDateElement = (date: Date): DateElement => {
         }
     };
 };
+
+export const transformYMDToMD = (date: Date): number => {
+    const d = new Date(date);
+    const month = d.getMonth() + 1;
+    const dayOfMonth = d.getDate();
+    const md = parseInt(month + String(dayOfMonth).padStart(2, "0"), 10);
+    return md;
+}
