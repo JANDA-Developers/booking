@@ -11,6 +11,7 @@ const resolvers: Resolvers = {
         StartPhoneVerification: privateResolver(
             async (
                 _: any, 
+                __, 
                 { req }
             ): Promise<StartPhoneVerificationResponse> => {
                 const { user } = req;

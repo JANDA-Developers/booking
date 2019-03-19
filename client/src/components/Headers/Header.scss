@@ -16,9 +16,15 @@
     box-sizing: border-box;
     &__logo {
         width: 80px;
-        margin-top: -3px; // 보정
+        margin-top: -2px; // 보정
     }
     
+    #listAboutUser {
+        li {
+            text-align: center;
+        }
+    }
+
     .circleIcon {
         margin-bottom: 0;
     }
@@ -33,6 +39,10 @@
 
     &__menue {
         color:white;
+
+        & + * {
+            margin-left: auto;
+        }
     }
 
     &__profile {
@@ -86,7 +96,7 @@
     } 
     
     .JDselect {
-        width: 180px;
+        width: 200px;
         margin-bottom: 0;
         margin-left: $standard-space;
 

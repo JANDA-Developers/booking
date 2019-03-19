@@ -6,30 +6,33 @@ import PropTypes from 'prop-types';
 function JDselect({
   label,
   disabled,
-  // eslint-disable-next-line no-unused-vars
-  isOpen,
-  isMulti,
-  onChange,
-  options,
   selectedOption,
+  onChange,
+  // eslint-disable-next-line no-unused-vars
+  ...props
 }) {
   const handleChange = (selectOption) => {
     onChange(selectOption);
   };
 
+  // for placeHolder
+  let validSelectedOption;
+  if (selectedOption && selectedOption.value === null) {
+    validSelectedOption = undefined;
+  } else {
+    validSelectedOption = selectedOption;
+  }
+
   return (
     <div className={disabled ? 'JDselect JDselect--disabled' : 'JDselect'}>
       {label !== '' ? <span className="JDselect__label JDselect__label--top">{label}</span> : null}
       <Select
-        value={selectedOption}
+        {...props}
+        value={validSelectedOption}
         onChange={handleChange}
-        options={options}
         className="react-select-container"
         classNamePrefix="react-select"
-        // 개발후 삭제 아래줄
-        // menuIsOpen={isOpen}
         isDisabled={disabled}
-        isMulti={isMulti}
       />
     </div>
   );
@@ -38,21 +41,16 @@ function JDselect({
 JDselect.propTypes = {
   selectedOption: PropTypes.object,
   disabled: PropTypes.bool,
-  isOpen: PropTypes.bool,
   label: PropTypes.string,
-  isMulti: PropTypes.bool,
   onChange: PropTypes.func,
-  // todo: objectShape
-  options: PropTypes.array,
+  props: PropTypes.object,
 };
 JDselect.defaultProps = {
   disabled: false,
-  isOpen: false,
   label: '',
-  isMulti: false,
   onChange: () => {},
-  options: [],
-  selectedOption: {},
+  selectedOption: undefined,
+  props: {},
 };
 
 export default JDselect;

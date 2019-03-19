@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import ErrProtecter from '../../utils/ErrProtecter';
 
 function Radio({
-  id, disabled, groupName, label, onChange, value,
+  id, disabled, groupName, label, onChange, value, checked,
 }) {
   const handleRadioChange = (e) => {
     const radioVlaue = e.target.value;
@@ -29,6 +29,7 @@ function Radio({
           type="radio"
           value={value}
           disabled={disabled}
+          checked={checked}
           onChange={handleRadioChange}
         />
         <span className="JDradio__label" />

@@ -1,12 +1,12 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import Radio from '../../../../atoms/forms/Radio';
+import Tooltip from '../../../../atoms/tooltip/Tooltip';
 import './Product.scss';
 
 const product = ({
   productIndex,
   productName,
-  productId,
   value,
   roomLimit,
   roomCondition,
@@ -14,21 +14,24 @@ const product = ({
   specification,
   setRadio,
   slider,
+  isSelected,
+  isCurrent,
 }) => {
   let modifer = '';
   if (slider) modifer = '--slider';
 
   return (
-    <div className="JDproduct" key={`product--${productId}${modifer}`}>
+    <div className={`JDproduct ${isSelected ? 'JDproduct--selected' : null}`} key={`product--${value}${modifer}`}>
       <span className="JDproduct__index">
         <span className="JDproduct__index-inner">{productIndex}</span>
+        {isCurrent ? <span className="JDproduct__index-use">(사용중)</span> : null}
       </span>
       <h6 className="JDproduct__name">{productName}</h6>
       <span className="JDproduct__roomLimit">{roomLimit}</span>
       <span className="JDproduct__roomCondition">{roomCondition}</span>
       <ul className="JDproduct__specification-ul">
         {specification.map(value => (
-          <li key={`${productId}${modifer}${value}`} className="JDproduct__specification-li">
+          <li key={`${modifer}${value}`} className="JDproduct__specification-li">
             {value}
           </li>
         ))}
@@ -40,7 +43,8 @@ const product = ({
             <Radio
               onChange={setRadio}
               value={value}
-              id={`RD--${productId}${modifer}`}
+              checked={isSelected}
+              id={`RD--${value}${modifer}`}
               groupName={`RD-product${modifer}`}
             />
           </span>
@@ -53,7 +57,6 @@ const product = ({
 product.propTypes = {
   productIndex: PT.oneOfType([PT.string, PT.node]),
   productName: PT.oneOfType([PT.string, PT.node]),
-  productId: PT.oneOfType([PT.string, PT.node]),
   value: PT.oneOfType([PT.string, PT.node]),
   roomLimit: PT.oneOfType([PT.string, PT.node]),
   roomCondition: PT.oneOfType([PT.string, PT.node]),
@@ -61,12 +64,13 @@ product.propTypes = {
   specification: PT.array,
   setRadio: PT.func,
   slider: PT.bool,
+  isSelected: PT.bool,
+  isCurrent: PT.bool,
 };
 
 product.defaultProps = {
   productIndex: '',
   productName: '',
-  productId: '',
   value: '',
   roomLimit: '',
   roomCondition: '',
@@ -74,5 +78,7 @@ product.defaultProps = {
   specification: ['lorem 1', 'lorem 2', 'lorem 3', 'lorem 4'],
   setRadio: () => {},
   slider: false,
+  isSelected: false,
+  isCurrent: false,
 };
 export default product;

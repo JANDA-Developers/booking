@@ -2,7 +2,6 @@
 
 .JDsearchInput{
     position: relative;
-    z-index: $z-index-2;
     display: block;
 
     &__label {
@@ -22,29 +21,28 @@
     &--staticList {
         .JDsearchInput__ul {
             position: relative;
-            // base Space에 정의된만큼 뛰워준 겁니다.
-            top: calc( -#{$standard-margin-bottom}  - 1px);
         }
     }
     
     &__feedBack {
         position:absolute;
-        bottom: 8px;
+        bottom: calc(#{$standard-margin-bottom} - .9rem);
         left: 0;
         font-size: $typho-tiny;
     }
 
     &__input {
-        height: $searchInput-input-height;
+        // 1px은 보더값을 위한것
+        height: calc(#{$searchInput-input-height} + 1px ); 
         line-height: $searchInput-input-height;
         border:none;
-        padding-right: 1.75rem;
         border-bottom: $searchInput-input-border;
         margin-bottom: $searchInput-input-margin-bottom;
         outline:none;
         width: 100%;
-        box-sizing: content-box;
+        box-sizing: border-box;
         padding: $input-padding;
+        padding-right: 1.75rem;
         margin: $input-margin;
 
         &:focus {
@@ -70,6 +68,7 @@
 
 }
 
+//리스트
     &__ul {
         position: absolute;
         @extend %z-depth-1;
@@ -79,6 +78,13 @@
         border-radius: $searchInput-border-radius;
         max-height: $searchInput-li-height * 5;
         overflow-y: auto;
+        z-index: $z-index-2;
+        max-width: 100%;
+        overflow-x:auto;
+
+        // base Space에 정의된만큼 뛰워준 겁니다.
+        top: calc( 100% - #{$standard-margin-bottom});
+
         &--show {
             display: block;
         }

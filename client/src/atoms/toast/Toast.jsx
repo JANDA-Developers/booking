@@ -18,7 +18,7 @@ JDtoast.propTypes = {
 };
 
 JDtoast.defaultProps = {
-  autoClose: 3000,
+  autoClose: 6000,
   position: 'bottom-right',
   props: {},
 };

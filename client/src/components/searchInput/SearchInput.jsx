@@ -16,6 +16,7 @@ function SearchInput({
   label,
   onSearch,
   filter,
+  isTypeChange,
   onTypeChange,
   onTypeValue,
   isMatched,
@@ -25,9 +26,10 @@ function SearchInput({
   asDetail,
   isLoading,
   feedBackMessage,
+  maxCount,
 }) {
   // Naming Format
-  const formatDataList = searchListFormat(dataList, asName, asDetail);
+  const formatDataList = searchListFormat(dataList && dataList.slice(0, maxCount), asName, asDetail);
   const [filteredDataList, SetFilteredDataList] = useState(formatDataList);
   const inputRef = useRef(null);
   const ulRef = useRef(null);
@@ -56,17 +58,19 @@ function SearchInput({
         .get(0);
       // CASE: children select
       if (selectedNode) {
-        onSearch($(selectedNode).attr('value'));
         // CASE: uncontrolled value change
-        if (!onTypeChange) inputRef.current.value = $(selectedNode).attr('value');
+        onSearch($(selectedNode).attr('value'));
+        if (!isTypeChange) inputRef.current.value = $(selectedNode).attr('value');
+        $(inputRef.current).blur();
       } else {
-        // CASE: input select
+        // ConSearchASE: input select
         onSearch(inputRef.current.value);
       }
     }
 
     // CASE: press up && down
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
       // CASE: ul has no children
       if (!ulRef.current.children.length) return;
 
@@ -96,37 +100,38 @@ function SearchInput({
   const handleChange = (e) => {
     e.preventDefault();
     if (filter) setList(e.target.value);
-    if (onTypeChange) onSearch(e.target.value);
+    if (isTypeChange) onTypeChange(e.target.value);
   };
+
   // Handler - input : onFocus
   const handleOnFocus = (e) => {
     e.preventDefault();
-    onSearch(e.target.value);
     setTimeout(() => {
       $(ulRef.current).show();
     }, 100);
   };
+
   // Handler - input : onBlur
   const handleOnBlur = (e) => {
     e.preventDefault();
-    onSearch(e.target.value);
     setTimeout(() => {
       $(ulRef.current).hide();
     }, 100);
   };
+
   // Handler - list : onClick
   const handleOnListClick = (e) => {
     e.preventDefault();
-    onSearch($(e.currentTarget).attr('value'));
-    $(inputRef.current).val($(e.currentTarget).attr('value'));
+    const value = $(e.currentTarget).attr('value');
+    $(inputRef.current).val(value);
+    onSearch(value);
   };
-  // Handler - list : onKeyPress - x
+
+  // Handler - list : onKeyPress - 🚫 useless
   const handleOnListKeyPress = (e) => {
     e.preventDefault();
-    if (e.key === 'Enter') {
-      onSearch(e.currentTarget.value);
-    }
   };
+
   // Handler - icon : onKeyPress
   const handleOnSearchClick = () => {
     onSearch(inputRef.current.value);
@@ -154,7 +159,7 @@ function SearchInput({
           className="JDsearchInput__input"
           onChange={handleChange}
           placeholder={placeholder}
-          value={onTypeValue || undefined}
+          value={onTypeValue}
         />
         <span
           tabIndex="0"
@@ -187,9 +192,10 @@ SearchInput.propTypes = {
   label: PropTypes.string,
   onSearch: PropTypes.func,
   setIsMatched: PropTypes.func,
+  onTypeChange: PropTypes.func,
   staticList: PropTypes.bool,
   filter: PropTypes.bool,
-  onTypeChange: PropTypes.bool,
+  isTypeChange: PropTypes.bool,
   isMatched: PropTypes.bool,
   isLoading: PropTypes.bool,
   alwaysListShow: PropTypes.bool,
@@ -197,13 +203,14 @@ SearchInput.propTypes = {
   asName: PropTypes.string,
   asDetail: PropTypes.string,
   feedBackMessage: PropTypes.string,
+  maxCount: PropTypes.number,
 };
 
 SearchInput.defaultProps = {
   dataList: [],
   staticList: false,
   filter: true,
-  onTypeChange: false,
+  isTypeChange: false,
   isMatched: false,
   alwaysListShow: false,
   isLoading: false,
@@ -215,5 +222,7 @@ SearchInput.defaultProps = {
   asDetail: 'detail',
   onSearch: () => {},
   setIsMatched: () => {},
+  onTypeChange: () => {},
+  maxCount: 999,
 };
 export default SearchInput;

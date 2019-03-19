@@ -1,0 +1,16 @@
+@import '../../style_config/style_config.scss';
+
+#Ready {
+    .Ready {
+        &__pc {
+            @include response ($mobile) {
+                display:none;
+            }
+        }
+        &__mobile {
+            @include response ($full,$mobile) {
+                display:none;
+            }
+        }
+    }
+}

@@ -7,11 +7,11 @@ import Radio from '../../atoms/forms/Radio';
 import Button from '../../atoms/button/Buttons';
 import { EMAIL_SIGN_UP, LOG_USER_IN } from '../../queries';
 import './SignUp.scss';
-import utils from '../../utils/utils';
+import utils, { toast } from '../../utils/utils';
 import { useInput, useRadio } from '../../actions/hook';
 
 function SignUp({ history }) {
-  const nameHoook = useInput('');
+  const nameHook = useInput('');
   const emailHook = useInput('');
   const phoneNumberHook = useInput('');
   const passwordHook = useInput('');
@@ -27,16 +27,20 @@ function SignUp({ history }) {
             <Mutation
               mutation={EMAIL_SIGN_UP}
               variables={{
-                name: nameHoook.value,
+                name: nameHook.value,
                 email: emailHook.value,
                 phoneNumber: phoneNumberHook.value,
                 password: passwordHook.value,
+              }}
+              onError={error => {
+                toast.warn('통신에러 발생 잠시후 다시 시도해주세요.');
+                console.log(error);
               }}
               onCompleted={({ EmailSignUp: { ok, error, token } }) => {
                 // 자동로그인
                 if (ok) {
                   if (token) {
-                    alert('회원가입완료');
+                    toast.warn('회원가입완료');
                     logUserIn({
                       variables: {
                         token: token,
@@ -46,38 +50,41 @@ function SignUp({ history }) {
                     history.replace(`/middleServer/PhoneVerification`);
                   }
                 }
-                if (error) console.error(error);
+                if (error) {
+                  toast.warn(error);
+                  console.error(error);
+                }
               }}
             >
               {(mutation, data) => {
                 const signUpSubmit = e => {
                   e.preventDefault();
-                  if (!nameHoook.isValid) {
-                    alert('올바른 이름이 아닙니다.');
+                  if (!nameHook.isValid) {
+                    toast.warn('올바른 이름이 아닙니다.');
                     return false;
                   }
                   if (!emailHook.isValid) {
-                    alert('올바른 이메일이 아닙니다.');
+                    toast.warn('올바른 이메일이 아닙니다.');
                     return false;
                   }
                   if (!phoneNumberHook.isValid) {
-                    alert('올바른 핸드폰 번호가 아닙니다.');
+                    toast.warn('올바른 핸드폰 번호가 아닙니다.');
                     return false;
                   }
                   if (!passwordHook.isValid) {
-                    alert('올바른 패스워드가 아닙니다.');
+                    toast.warn('올바른 패스워드가 아닙니다.');
                     return false;
                   }
                   if (passwordHook.value !== checkPasswordHook.value) {
-                    alert('패스워드 확인이 일치하지 않습니다.');
+                    toast.warn('패스워드 확인이 일치하지 않습니다.');
                     return false;
                   }
                   if (passwordHook.value !== checkPasswordHook.value) {
-                    alert('패스워드 확인이 일치하지 않습니다.');
+                    toast.warn('패스워드 확인이 일치하지 않습니다.');
                     return false;
                   }
                   if (infoAgreement) {
-                    alert('정보제공 동의를 해주세요.');
+                    toast.warn('정보제공 동의를 해주세요.');
                     return false;
                   }
                   mutation();
@@ -87,7 +94,7 @@ function SignUp({ history }) {
                     <h3>회원가입</h3>
                     <div className="flex-grid docs-section__box">
                       <div className="flex-grid__col col--full-12 col--md-12">
-                        <InputText {...nameHoook} validation={utils.isName} label="성함" />
+                        <InputText {...nameHook} validation={utils.isName} label="성함" />
                       </div>
                       <div className="flex-grid__col col--full-12 col--md-12">
                         <InputText {...passwordHook} validation={utils.isPassword} type="password" label="비밀번호" />
