@@ -2,6 +2,10 @@
 
 .ReactModal {
 
+    &--center {
+        text-align:center;
+    }
+    
     &__Overlay {
         display: flex;
         position: fixed;
@@ -11,7 +15,7 @@
         bottom: 0;
         align-items: center;
         justify-content: center;
-        z-index: $z-index-6;
+        z-index: $z-index-9;
         background-color: $modal-background-color;
     }
 

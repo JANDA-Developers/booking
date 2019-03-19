@@ -19,8 +19,6 @@ const POPbookerInfo = ({ bookerModalIsOpen, bookerInfo, bookerModalClose }) => {
     },
   ]);
 
-  console.log(bookerInfo);
-
   const ReservationInfo = () => {
     // 예약정보
     const handleReservationInfoChange = (value, index) => {

@@ -14,8 +14,6 @@ const pgImportCall = ({
     buyer_tel,
   };
 
-  console.log(param);
-
   window.IMP.request_pay(param, (rsp) => {
     // callback
     callBackFn(rsp);

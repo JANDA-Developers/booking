@@ -7,7 +7,16 @@
     padding:1rem;
     background-color: $grey-level1;
     touch-action: none;
-    width:150px;
+    
+    &__index-use {
+        color: $primary-color;
+        font-size: $typho-small;
+        margin-left: $standard-space;
+    }
+
+    &--selected {
+        background-color: $grey-level2;
+    }
 
     &__roomCondition {
         margin-bottom: $standard-margin-bottom * 2;
@@ -41,7 +50,7 @@
     }
 
     &__index {
-        margin-bottom: $standard-margin-bottom;
+        margin-bottom: $standard-margin-bottom + 0.2rem;
     }
 
     &__inner {

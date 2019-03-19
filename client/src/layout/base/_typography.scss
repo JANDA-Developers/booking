@@ -40,23 +40,23 @@ h3 {
 h4 {
   font-size: 2.4rem;
   letter-spacing: -.08rem;
-  margin-bottom: 1.3rem
+  margin-bottom: 1.0rem
 }
 
 h5 {
   font-size: 1.8rem;
   letter-spacing: -.05rem;
-  margin-bottom: 1.1rem
+  margin-bottom: 1.0rem
 }
 
 h6 {
   font-size: 1.5rem;
   letter-spacing: 0;
-  margin-bottom: .8rem
+  margin-bottom: 1.0rem
 }
 
+// 타블렛 이상일때
 @mixin response ($full,$tablet) {
-// 여길 수정해서 전체가 변한다 
   html {
     font-size: 0.8rem;
   }

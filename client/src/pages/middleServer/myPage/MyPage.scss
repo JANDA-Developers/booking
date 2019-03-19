@@ -12,5 +12,20 @@
             margin-bottom: $standard-margin-bottom;
         }
     }
+    
+    &__myProduct {
+        margin-bottom: $standard-margin-bottom;
+    }
+    
+    @include response ($full,$mobile) {
+        .myPage__myProducts > .col:nth-child(3n + 1){
+            margin-left: 0;
+        }
+    }
 
+    @include response ($mobile) {
+        .myPage__myProducts > .col:nth-child(2n + 1){
+            margin-left: 0;
+        }
+    }
 }

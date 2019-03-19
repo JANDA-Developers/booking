@@ -10,7 +10,7 @@ $z-index-6: 60; // Modal Level 1
 $z-index-7: 70;
 $z-index-8: 80;
 $z-index-9: 90; // sideNav Curton header
-$z-index-10: 100; // sideNav 
+$z-index-10: 100; // sideNav  toast
 
 // -- TyphoGraphy 타이포 그래피
 $typho-large : 1.2rem;
@@ -85,15 +85,16 @@ $label-font-color: $html-color !default;
 // -- 표준규격 
 $standard-disabled-color: $grey-level1 !default;
 $standard-space: 1rem !default; // except textInput 구조가 다름
-$standard-margin-bottom: 1.4rem !default; // except textInput 구조가 다름
-$standard-border-radius : 4px;
-$standard-li-height : 36px;
-$standard-li-padding : 1rem;
-$standard-li-height: 150%;
+$standard-margin-bottom: 1.0rem !default; // except textInput 구조가 다름
+$standard-border-radius: 4px;
+$standard-li-height: 36px;
+$standard-lists-line: 150%; // 옹기종기모인 div들 정리용
+$standard-li-padding: 1rem; // side
 $standard-icon-margin : 1rem;
 $standard-small-icon-margin : .5rem;
 // TODO: 새로추가됨 이걸로 정리해야함
 $standard-label-margin : 0.8rem;
+$standard-placeholder-color : $grey-level3;
 // ===========================================================================
 
 // 1. Forms 폼
@@ -110,12 +111,13 @@ $input-font-size: $typho-normal !default;
 $input-margin-bottom: $standard-margin-bottom;
 $input-margin-top: 0rem;
 $input-margin: $input-margin-top 0 $input-margin-bottom 0 !default;
-$input-padding: 1rem 0 0 0 !default;
+$input-padding-top: 1rem;
+$input-padding: $input-padding-top 0 0 0 !default;
 $input-transition: all 0.3s !default;
 $input-disabled-color: $standard-disabled-color!default;
 $input-disabled-border: 1px dotted $input-disabled-color !default;
 $input-invalid-border: 1px solid $input-error-color !default;
-$placeholder-text-color: $grey-level1 !default;
+$placeholder-text-color: $standard-placeholder-color !default;
 
 // -- textarea 텍스트어리어
 $textarea-margin-top: 1.6rem !default; //라벨 덮힘 방지
@@ -132,7 +134,7 @@ $select-option-active-bgcolor: $hover-effect-dark !default;
 $select-option-selected-bgcolor: $primary-color !default;
 $select-option-selected-color: #fff !default;
 $select-option-hover-bgcolor: $hover-effect-dark !default;
-$select-option-padding: 0px 1rem;
+$select-option-padding: 0rem $standard-li-padding;
 $select-option-height: $standard-li-height;
 $select-padding: 2px 1rem !default;
 $select-radius: $standard-border-radius !default;
@@ -140,7 +142,7 @@ $select-disabled-color: $standard-disabled-color !default;
 $select-menue-radius: 0px !default;
 $select-background: #fff !default;
 $select-focus-border-color: $primary-color !default;
-$selcet-placeholder-color: $html-color;
+$selcet-placeholder-color: $standard-placeholder-color;
 
 // -- Multi Select 멀티 셀렉트
 $select-multi-remove-hover-color: $html-color;
@@ -207,7 +209,8 @@ $dayPicker-input-height : $input-height + 1rem;
 $button-border: none !default;
 $button-font-size: $typho-large !default;
 $button-height: 2.25rem !default;
-$button-padding: 0 1rem !default;
+$button-padding-side: 1rem !default;
+$button-padding: 0 $button-padding-side !default;
 $button-radius: 2px !default;
 $buttons-space: .4rem !default;
 $buttons-icon-margin: $standard-icon-margin !default;
@@ -233,7 +236,8 @@ $button-flat-disabled-color: $button-disabled-color !default;
 
 // -- small buttons
 $button-small-height: 34px !default;
-$button-small-padding: 0 .8rem !default;
+$button-small-padding-side: .8rem !default;
+$button-small-padding: 0 $button-small-padding-side !default;
 $button-small-font-size: $typho-normal !default;
 $button-large-font-size: $typho-large !default;
 
@@ -248,19 +252,19 @@ $button-height: 36px !default;
 // 6 SearchInput
 // ANCHOR Search Input =========================================================================
 
-$searchInput-input-height: $input-height !default;
+$searchInput-input-height: $input-height + $input-padding-top!default;
 $searchInput-input-border: $input-border !default;
 $searchInput-input-margin-bottom: .5rem !default;
 $searchInput-border-color:$grey-level1 !default;
 $searchInput-border-radius: $standard-border-radius;
 $searchInput-li-border-top: 1px dotted $searchInput-border-color !default;
-$searchInput-li-padding: .0rem $standard-li-padding !default;
+$searchInput-li-padding: .3rem $standard-li-padding !default;
 $searchInput-li-height: $standard-li-height !default;
 
 // 7 SideNav 사이드 네비
 // ANCHOR Side NAV =========================================================================
 
-$sideNav-list-padding: $standard-li-padding;
+$sideNav-list-padding: $standard-li-padding * 1.5;
 $sideNav-width : 200px;
 $sideNav-profile-height : 142px;
 $sideNav-profile-circle-size : 72px;

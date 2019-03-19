@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import Tooltip from '../../../atoms/tooltip/tooltip';
+import Tooltip from '../../../atoms/tooltip/Tooltip';
 import CheckBox from '../../../atoms/forms/CheckBox';
 import Switch from '../../../atoms/forms/Switch';
 import InputText from '../../../atoms/forms/InputText';
@@ -181,7 +181,7 @@ function ShowComponents() {
         {/* 셀렉트박스 */}
         <h6>SelectBox</h6>
         <div className="flex-grid-grow docs-section__box">
-          <div className="flex-grid__col">
+        <div className="flex-grid__col">
             <SelectBox {...useSelect1} options={selectDummyOptions} isOpen label="normal" />
           </div>
           <div className="flex-grid__col">

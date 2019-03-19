@@ -10,6 +10,36 @@
     height: 100vh;
     box-sizing:border-box;
     transition: 0.3s;
+
+    // 본구간이 좌우 패딩이 일치하도록 합니다.
+    &__productView {
+        display:flex;
+        position: absolute;
+        bottom: 0;
+        width: calc(100% - #{$sideNav-list-padding});
+        padding-left: $sideNav-list-padding;
+        line-height: 100%;
+        border-top: 1px solid $grey-level1;
+        padding-bottom:1rem;
+        padding-top:1rem;
+        justify-content: space-between;
+
+        .JDsideNav__billing-title {
+            font-weight: 600;
+            font-size: $typho-small;
+        }
+        .JDsideNav__billing-detail {
+            font-size: $typho-tiny
+        }
+        
+        // TODO  flat 이면서  small 일수가 없다 이거 처리해야함
+        .JDbtn {
+            padding: $button-small-padding;
+            font-size: $typho-small;
+            margin-bottom: 0;
+            margin-right: $sideNav-list-padding - $button-small-padding-side;
+        }
+    }
     
     &--open {
         left:0px;
@@ -20,15 +50,22 @@
         display: flex;
         height: $sideNav-profile-height;
         background-color:  $secondary-color;
-        flex-direction: row;
         justify-content: center;
         align-content: center;
+        flex-direction: column;
+        text-align: center;
     }
     
+    &__name {
+        color:white;
+        font-size: $typho-small;
+    }
+
     &__circle {
         width: $sideNav-profile-circle-size;
         height: $sideNav-profile-circle-size;
         margin-top: $sideNav-profile-circle-margin-top;
+        margin: 0 auto;
     }
 
     &__navLink {
@@ -43,16 +80,13 @@
         border-bottom : 1px solid $grey-level1;
         .JDicon__svg {
             padding: 0rem $sideNav-icon-padding;
+            padding-left: 0;
         }
         &:hover {
             background-color:$grey-level1;
         }
     }
-    @include response($mobile) {
-        &__navLink {
-            padding-left: 0;
-        }
-    }
+
 }
 
 .JDsideNav-curtain {

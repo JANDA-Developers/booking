@@ -12,7 +12,6 @@ const useFetch = (url) => {
 
   const fetchData = async () => {
     setIsError(false);
-    setIsLoading(true);
 
     try {
       const result = await Axios(inUrl);
@@ -30,6 +29,7 @@ const useFetch = (url) => {
 
   // 내부에 STATE URL을 바꾸어서 다시동작
   const doGet = (url) => {
+    setIsLoading(true);
     setInUrl(url);
   };
 
@@ -37,9 +37,9 @@ const useFetch = (url) => {
 };
 
 // 밸리데이션을 포함한 훅 리턴
-function useInput(defaultValue) {
+function useInput(defaultValue, defulatValid = '') {
   const [value, setValue] = useState(defaultValue);
-  const [isValid, setIsValid] = useState('');
+  const [isValid, setIsValid] = useState(defulatValid);
 
   const onChange = (value) => {
     setValue(value);
@@ -120,6 +120,7 @@ function useModal(defaultValue) {
   const openModal = () => {
     setIsOpen(true);
   };
+
   const closeModal = () => {
     setIsOpen(false);
   };

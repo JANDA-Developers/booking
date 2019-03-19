@@ -1,9 +1,9 @@
 @import '../../style_config/style_config.scss';
 
-// 왼만하면 안쓰는게 좋습니다.  ⛔️
+// ⛔️ 진짜 필요한 기능이 아니면 글로벌 속성을 쓰지 않습니다. ⛔️
 p {
     margin-top: 0;
-    margin-bottom: 0.5rem;
+    margin-bottom: $standard-margin-bottom;
 }
 
 ul, menu, dir {
@@ -23,16 +23,25 @@ ul, menu, dir {
     clear:both;
 }
 
+.large-text {
+    font-size: $typho-large
+}
+
 a.JDanchor {
     outline: 0;
     text-decoration: none;
     color: $link-color;
+    cursor:pointer;
     &:hover {
         text-decoration:underline;
     }
     &:focus {
         color:$link-color-active
     }
+}
+
+span.JDpoint-text {
+    color: $secondary-color;
 }
 
 body {

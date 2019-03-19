@@ -43,6 +43,11 @@
 - 라디오는 그룹이 같은것끼리 사용됩니다.
 - 라디오의 value 는 다른 value 들과 다르게 onChange와 연관성이 없습니다.
 
+#### Default Select 하는방법
+
+선택된 밸류를 라디오들에 전달한다음  
+checked 프로프를 자기가가진 밸류와 일치함에 따른 true || false 로 하여 input에 넣어야함
+
 # JDselect
 
 | Props          | Tpye   | Description                 | Options | Require | Default |

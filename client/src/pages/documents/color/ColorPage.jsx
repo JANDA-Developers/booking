@@ -1,5 +1,5 @@
 import React from 'react';
-import Tooltip from '../../../atoms/tooltip/tooltip';
+import Tooltip from '../../../atoms/tooltip/Tooltip';
 import ColorBox from './components/ColorBox';
 import './ColorPage.scss';
 
@@ -10,7 +10,7 @@ const ColorPage = () => (
         <div className="flex-grid flex-grid--around">
           <div className="flex-grid__col col--full-6 col--wmd-6">
             <ColorBox dataTip dataFor="tooltip__primary" color="primary" summary="" txt="primary" />
-            <Tooltip class="JDtooltip" id="tooltip__primary" type="dark" effect="solid">
+            <Tooltip className="JDtooltip" id="tooltip__primary" type="dark" effect="solid">
               <span>
                 <h6 className="JDtooltip__title">주 사용 컬러</h6>
                 <p>중요한 정보를 표시합니다.</p>
