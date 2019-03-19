@@ -1,6 +1,5 @@
 import { Target, VerificationModel } from "../../../models/Verification";
 import {
-    StartPhoneVerificationMutationArgs,
     StartPhoneVerificationResponse
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
@@ -11,8 +10,7 @@ const resolvers: Resolvers = {
     Mutation: {
         StartPhoneVerification: privateResolver(
             async (
-                _: any,
-                { email, password }: StartPhoneVerificationMutationArgs,
+                _: any, 
                 { req }
             ): Promise<StartPhoneVerificationResponse> => {
                 const { user } = req;
