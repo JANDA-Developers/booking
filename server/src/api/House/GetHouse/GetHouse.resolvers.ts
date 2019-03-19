@@ -15,10 +15,6 @@ const resolvers: Resolvers = {
             ): Promise<GetHouseResponse> => {
                 try {
                     const { user } = req;
-                    console.log({
-                        user
-                    });
-
                     const house = await HouseModel.findOne({
                         _id: new ObjectId(houseId),
                         user: new ObjectId(user._id)

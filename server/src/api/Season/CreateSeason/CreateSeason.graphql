@@ -6,8 +6,9 @@ type CreateSeasonResponse {
 type Mutation {
     CreateSeason(
         name: String!
+        start: DateTime!
+        end: DateTime!
         houseId: ID!
-        dateRange: DateRangeInput!
         color: String
         description: String
     ): CreateSeasonResponse!

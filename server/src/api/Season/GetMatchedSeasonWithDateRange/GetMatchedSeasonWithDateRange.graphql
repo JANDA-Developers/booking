@@ -1,0 +1,24 @@
+type GetMatchedSeasonWithDateRangeResponse {
+    ok: Boolean!
+    error: String
+    dateRangeWithSeason: [DateRangeWithSeason!]
+}
+
+# 날짜 범위에 Season을 포함.
+type DateRangeWithSeason {
+    # 시작 날짜
+    start: DateTime!
+    # 끝 날짜
+    end: DateTime!
+    # 해당되는 시즌
+    season: Season!
+}
+
+type Query {
+    # DateRange안에 해당하는 Season을 구함
+    GetMatchedSeasonWithDateRange(
+        houseId: ID!
+        start: DateTime!
+        end: DateTime!
+    ): GetMatchedSeasonWithDateRangeResponse!
+}

@@ -1,54 +1,3 @@
-interface DuplicateRangeParams {
-    startDate: number;
-    endDate: number;
-    className?: "disableRanges" | "dateRanges";
-}
-
-export const dateRangeDuplicateCheckQuery = ({
-    startDate,
-    endDate,
-    className = "dateRanges"
-}: DuplicateRangeParams): any => {
-    return {
-        [className]: {
-            $elemMatch: {
-                $or: [
-                    {
-                        $or: [
-                            {
-                                startDate: {
-                                    $gte: startDate || 0,
-                                    $lt: endDate || startDate * 3
-                                }
-                            },
-                            {
-                                endDate: {
-                                    $gt: startDate || 0,
-                                    $lte: endDate || startDate * 3
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        $and: [
-                            {
-                                startDate: {
-                                    $lte: startDate || 0
-                                }
-                            },
-                            {
-                                endDate: {
-                                    $gte: endDate || startDate * 3
-                                }
-                            }
-                        ]
-                    }
-                ]
-            }
-        }
-    };
-};
-
 export interface SelectNumberRangeReturn {
     condition: any;
     increment: number;
@@ -70,5 +19,20 @@ export const selectNumberRange = (
     return {
         condition,
         increment
+    };
+};
+
+export const between = (
+    val: any,
+    start: string = "start",
+    end: string = "end"
+) => {
+    return {
+        [start]: {
+            $lte: new Date(val)
+        },
+        [end]: {
+            $gt: new Date(val)
+        }
     };
 };

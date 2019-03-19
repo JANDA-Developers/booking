@@ -9,13 +9,14 @@ type ChangePasswordResponse{
 }
 type Mutation {
     UpdateMyProfile(
-        name: String!
-        phoneNumber: String!
-        password: String!
+        name: Name!
+        password: Password!
+        phoneNumber: PhoneNumber
+        email: EmailAddress
     ): UpdateMyProfileResponse!
     ChangePassword(
-        currentPassword: String!
-        newPassword: String!
-        newPasswordRepeat: String!
+        currentPassword: Password!
+        newPassword: Password!
+        newPasswordRepeat: Password!
     ): ChangePasswordResponse!
 }

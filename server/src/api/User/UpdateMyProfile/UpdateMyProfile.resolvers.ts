@@ -1,4 +1,5 @@
 import { InstanceType } from "typegoose";
+import { extractUser } from "../../../models/merge/Merge";
 import { UserSchema } from "../../../models/User";
 import {
     UpdateMyProfileMutationArgs,
@@ -17,14 +18,20 @@ const resolvers: Resolvers = {
             ): Promise<UpdateMyProfileResponse> => {
                 // todo: 바꿀만한 정보가 없어서 일단 그냥 둠... 받는 데이터가 많아지면 변경하기
                 const user: InstanceType<UserSchema> = req.user;
-                user.update({
-                    name: args.name,
-                    phoneNumber: args.phoneNumber
-                });
+                await user.update(
+                    {
+                        name: args.name,
+                        phoneNumber: args.phoneNumber,
+                        email: args.email
+                    },
+                    {
+                        new: true
+                    }
+                );
                 return {
                     ok: false,
                     error: null,
-                    user: null
+                    user: await extractUser(user)
                 };
             }
         )

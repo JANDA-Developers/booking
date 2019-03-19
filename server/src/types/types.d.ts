@@ -8,25 +8,14 @@ export type SMSResult = {
 export type DateRangeStatusType = "PAST" | "PRESENT" | "FUTURE";
 
 export type Period = {
-    startDate?: Date | undefined;
-    endDate?: Date | undefined;
+    startDate: Date;
+    endDate: Date;
 };
 
 export type PeriodWithDescription = {
-    startDate?: Date | undefined;
-    endDate?: Date | undefined;
+    startDate: Date;
+    endDate: Date;
     description?: string | null;
 };
 
-export type compareOption = {
-    compareScope?: "date" | "time";
-    ignoreYear?: boolean;
-};
-
-export type Interval = {
-    time: number;
-    minute: number;
-    hour: number;
-    date: number;
-    year: number;
-};
+export type compareScope = "ymd" | "md" | "ymdhi" | "mdhi";

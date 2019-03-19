@@ -1,7 +1,6 @@
 import { ObjectId } from "bson";
 import { Types } from "mongoose";
 import { index, pre, prop, Typegoose } from "typegoose";
-import { DateRange } from "../types/graph";
 
 @index({ house: 1 })
 @index({ priority: -1 })
@@ -26,7 +25,10 @@ export class SeasonSchema extends Typegoose {
     name: string;
 
     @prop({ required: true })
-    dateRange: DateRange;
+    start: Date;
+
+    @prop({ required: true })
+    end: Date;
 
     @prop({ default: 0, min: 0 })
     priority: number;
