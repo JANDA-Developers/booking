@@ -36,7 +36,7 @@ function InputText({
     onChangeValid(result);
   };
 
-  const inDebounceHandleChange = debounce(inbounceHandleChange, 500);
+  const inDebounceHandleChange = debounce(inbounceHandleChange, 100);
 
   const inHandleChange = (event) => {
     const { target } = event;

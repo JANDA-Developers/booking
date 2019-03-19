@@ -1,5 +1,5 @@
 import React from 'react';
-import Tooltip from '../../../atoms/tooltip/tooltip';
+import Tooltip from '../../../atoms/tooltip/Tooltip';
 import ColorBox from './components/ColorBox';
 import './ColorPage.scss';
 

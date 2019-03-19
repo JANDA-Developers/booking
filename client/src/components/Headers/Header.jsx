@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import './Header.scss';
 import { NavLink, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -12,13 +12,12 @@ import SelectBox from '../../atoms/forms/SelectBox';
 import Icon from '../../atoms/icons/Icons';
 import ErrProtecter from '../../utils/ErrProtecter';
 import logo from '../../img/logo/logo--white.png'; // with import
-import { LOG_USER_OUT, SELECT_HOUSE, SELECTED_HOUSE} from '../../queries';
+import { LOG_USER_OUT, SELECT_HOUSE } from '../../queries';
 import { useSelect } from '../../actions/hook';
 
 const Header = ({
   verifiedPhone, isLoggedIn, sideNavOpener, history, userInformation, lastSelectedHouse,
 }) => {
-
   let houseOptions = ['생성된 숙소 없음'];
 
   if (userInformation && userInformation.houses) {
@@ -26,8 +25,13 @@ const Header = ({
     houseOptions = houses.map(house => ({ value: house._id, label: house.name }));
   }
 
+  console.log(houseOptions);
+
   const houseHook = useSelect(lastSelectedHouse);
 
+  useEffect(() => {
+    houseHook.onChange(lastSelectedHouse);
+  }, [lastSelectedHouse]);
   // dummy
 
   return (
@@ -68,8 +72,14 @@ const Header = ({
                     <li>
                       <Button onClick={mutation} label="로그아웃" mode="flat" color="white" />
                     </li>
+                    <li>
+                      <NavLink to="/middleServer/myPage">
+                        <Button label="MYpage" mode="flat" color="white" />
+                      </NavLink>
+                    </li>
                   </ul>
                 </TooltipList>
+                {/* 숙소선택 뮤테이션 */}
                 <Mutation
                   mutation={SELECT_HOUSE}
                   nError={(error) => {
@@ -82,16 +92,15 @@ const Header = ({
                     }
                   }}
                 >
-                  {(mutation) => {
+                  {(selectHouseMutation) => {
                     const handleSelectHouse = (value) => {
-                      console.log('value');
-                      console.log(value);
                       houseHook.onChange(value);
-                      mutation({ variables: { selectedHouse: value } });
+                      selectHouseMutation({ variables: { selectedHouse: value } });
                     };
                     return (
                       <Fragment>
                         <SelectBox
+                          placeholder="숙소를 선택해주세요."
                           options={houseOptions}
                           {...houseHook}
                           onChange={handleSelectHouse}

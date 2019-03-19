@@ -19,6 +19,12 @@
         margin-top: -2px; // 보정
     }
     
+    #listAboutUser {
+        li {
+            text-align: center;
+        }
+    }
+
     .circleIcon {
         margin-bottom: 0;
     }
@@ -90,7 +96,7 @@
     } 
     
     .JDselect {
-        width: 180px;
+        width: 200px;
         margin-bottom: 0;
         margin-left: $standard-space;
 

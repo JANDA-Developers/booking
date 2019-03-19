@@ -4,23 +4,27 @@
 import React, { useState, useEffect } from 'react';
 import { Mutation, graphql } from 'react-apollo';
 import { Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import Product from './components/Product';
 import { useRadio, useModal } from '../../../actions/hook';
 import Button from '../../../atoms/button/Buttons';
 import Modal from '../../../atoms/modal/Modal';
 import Slider from '../../../components/slider/Slider';
-import { GET_All_PRODUCTS, BUY_PRODUCTS } from '../../../queries';
+import { GET_All_PRODUCTS, BUY_PRODUCTS, GET_USER_INFO } from '../../../queries';
 import { ErrProtecter, download, toast } from '../../../utils/utils';
 import './Products.scss';
 
-const Products = ({ data: { GetAllProducts, loading }, selectedHouse } = {}) => {
+const Products = ({ data: { GetAllProducts, loading }, currentProduct, selectedHouse } = {}) => {
   const products = GetAllProducts && GetAllProducts.products;
-  const [selectedProduct, setSelectedProduct] = useRadio();
+  const [selectedProduct, setSelectedProduct] = useRadio(currentProduct._id);
   const [redirect, setRedirect] = useState(false);
   const [isOpen, openModal] = useModal(false);
+  const [vvv, setVVV] = useState('123');
+
+  console.log(vvv);
+  const handleSelectProduct = value => setSelectedProduct(value.replace('--slider', ''));
 
   const testProductId = products && products.filter(product => product.name === '상품1')[0]._id;
-
   const product0 = {
     productIndex: '상품1',
     productName: '데모 상품',
@@ -32,37 +36,46 @@ const Products = ({ data: { GetAllProducts, loading }, selectedHouse } = {}) => 
       '숙소홈페이지 셋팅 체험',
       '실시간 예약 체험',
       '하우스메뉴얼 체험',
-      <span className="product__specification-li--warring">본상품은 예약이 불가능합니다.</span>,
+      <span className="JDpoint-text">본상품은 예약이 불가능합니다.</span>,
     ],
-    setRadio: setSelectedProduct,
+    setRadio: handleSelectProduct,
+    isSelected: selectedProduct === testProductId,
+    isCurrent: currentProduct._id === testProductId,
   };
 
+  const product1Value = products && products.filter(product => product.name === '상품2')[0]._id;
   const product1 = {
     productIndex: '상품2',
     productName: '작은숙소',
-    value: products && products.filter(product => product.name === '상품2')[0]._id,
+    value: product1Value,
     roomLimit: '룸 7개이하',
     roomCondition: '(공유민박, 소규모 숙소)',
     price: '설치비 무료',
     specification: ['직접 세팅이 가능한 숙소 홈페이지', '실시간 예약 시스템', '다국어 하우스 메뉴얼'],
-    setRadio: setSelectedProduct,
+    setRadio: handleSelectProduct,
+    isSelected: selectedProduct === product1Value,
+    isCurrent: currentProduct._id === product1Value,
   };
 
+  const product2Value = products && products.filter(product => product.name === '상품3')[0]._id;
   const product2 = {
     productIndex: '상품3',
     productName: '중간 규모숙박업',
-    value: products && products.filter(product => product.name === '상품3')[0]._id,
+    value: product2Value,
     roomLimit: '룸 8 ~ 20개',
     roomCondition: '(게스트하우스, 펜션)',
     price: '30.000 /월',
     specification: ['직접 세팅이 가능한 숙소 홈페이지', '실시간 예약 시스템', '다국어 하우스 메뉴얼(월 1만원 추가)'],
-    setRadio: setSelectedProduct,
+    setRadio: handleSelectProduct,
+    isSelected: selectedProduct === product2Value,
+    isCurrent: currentProduct._id === product2Value,
   };
 
+  const product3Value = products && products.filter(product => product.name === '상품4')[0]._id;
   const product3 = {
     productIndex: '상품4',
     productName: '큰 규모숙박업',
-    value: products && products.filter(product => product.name === '상품4')[0]._id,
+    value: product3Value,
     roomLimit: '룸 20개 이상',
     roomCondition: '(공유민박, 소규모 숙소)',
     price: '별도협의',
@@ -73,7 +86,9 @@ const Products = ({ data: { GetAllProducts, loading }, selectedHouse } = {}) => 
       '객실관리 IOT 시스템 연동',
       '맞춤제작 별도 문의',
     ],
-    setRadio: setSelectedProduct,
+    setRadio: handleSelectProduct,
+    isSelected: selectedProduct === product3Value,
+    isCurrent: currentProduct._id === product3Value,
   };
 
   useEffect(() => {
@@ -85,6 +100,11 @@ const Products = ({ data: { GetAllProducts, loading }, selectedHouse } = {}) => 
     newScript2.src = 'https://cdn.iamport.kr/js/iamport.payment-1.1.5.js';
     document.body.appendChild(newScript);
     document.body.appendChild(newScript2);
+    setVVV(222);
+
+    return () => {
+      console.log('didUnMount');
+    };
   }, []);
 
   return (
@@ -132,25 +152,32 @@ const Products = ({ data: { GetAllProducts, loading }, selectedHouse } = {}) => 
               </Slider>
             </div>
           </div>
+          <p>
+            {'* 선택하신 상품은 숙소 '}
+            <span className="JDpoint-text">{selectedHouse.name}</span>
+            {' 에 적용됩니다.'}
+          </p>
           <Mutation
             mutation={BUY_PRODUCTS}
             variables={{
-              houseId: selectedHouse,
+              houseId: selectedHouse._id,
               productId: selectedProduct && selectedProduct.replace('--slider', ''),
             }}
+            refetchQueries={[{ query: GET_USER_INFO }]}
             onCompleted={({ BuyProduct }) => {
               if (BuyProduct.ok) {
                 toast.success('서비스 구매 완료');
 
                 // 체험상품을 선택했을경우에
                 if (testProductId === selectedProduct) {
-                  openModal();
                   toast('서비스 사용 메뉴얼 다운로드');
                   download('https://stayjanda.com/docs/홈페이지 사용 메뉴얼--legacy-0.90.hwp', 'superWallaby').then(
                     data => console.log(data),
                   );
-                  return false;
+                  openModal();
+                  return;
                 }
+                console.log('redirect?');
                 setRedirect(true);
 
                 // 통신에러
@@ -184,7 +211,7 @@ const Products = ({ data: { GetAllProducts, loading }, selectedHouse } = {}) => 
         </div>
       </div>
 
-      <Modal center isOpen={isOpen}>
+      <Modal appElement={document.getElementById('root')} center isOpen={isOpen}>
         <h5>JANDA</h5>
         <h6> 서비스체험을 시작합니다.</h6>
         <a href="http://janda-tmp.com" className="JDanchor large-text">
@@ -193,6 +220,14 @@ const Products = ({ data: { GetAllProducts, loading }, selectedHouse } = {}) => 
       </Modal>
     </div>
   );
+};
+
+Products.prototype = {
+  currentProduct: PropTypes.object,
+};
+
+Products.defaultProps = {
+  currentProduct: { _id: '' },
 };
 
 export default ErrProtecter(graphql(GET_All_PRODUCTS)(Products));

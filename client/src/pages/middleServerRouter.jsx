@@ -11,78 +11,73 @@ import NoMatch from './NoMatch';
 import { IS_LOGGED_IN, GET_USER_INFO, SELECTED_HOUSE } from '../queries';
 import { useToggle } from '../actions/hook';
 import Preloader from '../atoms/preloader/Preloader';
+import { isEmpty } from '../utils/utils';
 
+const Products = props => (
+  <DynamicImport load={() => import('./middleServer/product/Products')}>
+    {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
+  </DynamicImport>
+);
+
+const Home = props => (
+  <DynamicImport load={() => import('./middleServer/Home')}>
+    {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
+  </DynamicImport>
+);
+
+const MakeHouse = props => (
+  <DynamicImport load={() => import('./middleServer/product/makeHouse/MakeHouse')}>
+    {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
+  </DynamicImport>
+);
+
+const PhoneVerification = props => (
+  <DynamicImport load={() => import('./middleServer/PhoneVerification')}>
+    {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
+  </DynamicImport>
+);
+
+const MyPage = props => (
+  <DynamicImport load={() => import('./middleServer/myPage/MyPage')}>
+    {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
+  </DynamicImport>
+);
+
+const SignUp = props => (
+  <DynamicImport load={() => import('./middleServer/SignUp')}>
+    {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
+  </DynamicImport>
+);
+
+const Login = props => (
+  <DynamicImport load={() => import('./middleServer/Login')}>
+    {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
+  </DynamicImport>
+);
+
+const Ready = props => (
+  <DynamicImport load={() => import('./middleServer/Ready')}>
+    {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
+  </DynamicImport>
+);
+
+// lastSelectedHouse : 마지막으로 선택된 하우스 객체 정보값
 function JDmiddleServer({
-  IsLoggedIn: {
-    auth: { isLoggedIn },
-  },
-  GetUserInfo: { GetMyProfile: { user } = {} } = {},
-  lastSelectedHouse: { auth: { lastSelectedHouse } = {} } = {},
-} = {}) {
-  // 사이드바가 열렸는지 체크
-
-  const houses = user && user.houses;
-
-  const inLastSelectedHouse = {
-    value: lastSelectedHouse.value,
-    label: lastSelectedHouse.label,
-  };
-
-  console.log(inLastSelectedHouse);
-
+  IsLoggedIn: { auth: { isLoggedIn } = {}, loading } = {},
+  GetUserInfo: { GetMyProfile: { user = {} } = {}, loading: loading2 } = {},
+  lastSelectedHouse: { auth: { lastSelectedHouse = {} } = {}, loading: loading3 } = {},
+}) {
+  const [SideNavIsOpen, setSideNavIsOpen] = useToggle(false);
+  const isloading = loading || loading2 || loading3;
+  const houses = user.houses || [];
+  const selectedHouse = houses.filter(house => house._id === lastSelectedHouse.value)[0] || {};
+  const selectedProduct = selectedHouse.product || {};
   const verifiedPhone = user && user.verifiedPhone;
 
-  const [SideNavIsOpen, setSideNavIsOpen] = useToggle(false);
 
-  const Home = props => (
-    <DynamicImport load={() => import('./middleServer/Home')}>
-      {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
-    </DynamicImport>
-  );
-
-  const MakeHouse = props => (
-    <DynamicImport load={() => import('./middleServer/MakeHouse')}>
-      {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
-    </DynamicImport>
-  );
-
-  const Products = props => (
-    <DynamicImport load={() => import('./middleServer/product/Products')}>
-      {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
-    </DynamicImport>
-  );
-
-  const PhoneVerification = props => (
-    <DynamicImport load={() => import('./middleServer/PhoneVerification')}>
-      {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
-    </DynamicImport>
-  );
-
-  const MyPage = props => (
-    <DynamicImport load={() => import('./middleServer/myPage/MyPage')}>
-      {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
-    </DynamicImport>
-  );
-
-  const SignUp = props => (
-    <DynamicImport load={() => import('./middleServer/SignUp')}>
-      {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
-    </DynamicImport>
-  );
-
-  const Login = props => (
-    <DynamicImport load={() => import('./middleServer/Login')}>
-      {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
-    </DynamicImport>
-  );
-
-  const Ready = props => (
-    <DynamicImport load={() => import('./middleServer/Ready')}>
-      {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
-    </DynamicImport>
-  );
-
-  return (
+  return isloading ? (
+    <Preloader page />
+  ) : (
     <Fragment>
       {/* 헤더에 정보전달 */}
       <Route
@@ -91,16 +86,27 @@ function JDmiddleServer({
             sideNavOpener={setSideNavIsOpen}
             userInformation={user}
             verifiedPhone={verifiedPhone}
-            lastSelectedHouse={inLastSelectedHouse}
+            lastSelectedHouse={lastSelectedHouse}
             isLoggedIn={isLoggedIn}
           />
         )}
       />
       {/* 사이드 네비게이션 */}
-      <SideNav isOpen={SideNavIsOpen} userInformation={user} setIsOpen={setSideNavIsOpen} />
+      <SideNav
+        isOpen={SideNavIsOpen}
+        selectedHouse={selectedHouse}
+        selectedProduct={selectedProduct}
+        userInformation={user}
+        setIsOpen={setSideNavIsOpen}
+      />
       <Switch>
         <Route exact path="/">
-          <Home isLoggedIn={isLoggedIn} />
+          <Home
+            selectedHouse={selectedHouse}
+            houses={houses}
+            selectedProduct={selectedProduct}
+            isLoggedIn={isLoggedIn}
+          />
         </Route>
         <Route exact path="/middleServer">
           <Home isLoggedIn={isLoggedIn} />
@@ -108,18 +114,25 @@ function JDmiddleServer({
         <Route
           exact
           path="/middleServer/myPage"
-          children={isLoggedIn ? <MyPage userInformation={user} houses={houses} /> : Login}
+          render={() => (isLoggedIn ? <MyPage userInformation={user} houses={houses} /> : Login)}
         />
-        <Route exact path="/middleServer/makeHouse" children={isLoggedIn ? MakeHouse : Login} />
+        <Route exact path="/middleServer/makeHouse" component={isLoggedIn ? MakeHouse : Login} />
         <Route
           exact
           path="/middleServer/products"
-          children={isLoggedIn ? <Products selectedHouse={inLastSelectedHouse.value} /> : Login}
+          render={() => (isLoggedIn ? <Products selectedHouse={selectedHouse} currentProduct={selectedProduct} /> : Login)
+          }
         />
         <Route exact path="/middleServer/phoneVerification" component={isLoggedIn ? PhoneVerification : undefined} />
         <Route exact path="/middleServer/signUp" component={isLoggedIn ? undefined : SignUp} />
         <Route exact path="/middleServer/login" component={isLoggedIn ? undefined : Login} />
-        <Route exact path="/middleServer/ready" component={isLoggedIn ? Ready : Login} />
+        {isEmpty(selectedProduct) ? <Route component={NoMatch} /> : (
+          <Route
+            exact
+            path="/middleServer/ready"
+            render={() => (isLoggedIn ? <Ready currentProduct={selectedProduct} selectedHouse={selectedHouse} /> : Login)}
+          />
+        )}
         <Route component={NoMatch} />
       </Switch>
     </Fragment>

@@ -55,8 +55,8 @@ h6 {
   margin-bottom: 1.0rem
 }
 
+// 타블렛 이상일때
 @mixin response ($full,$tablet) {
-// 여길 수정해서 전체가 변한다 
   html {
     font-size: 0.8rem;
   }

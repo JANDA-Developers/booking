@@ -50,7 +50,6 @@
         display: flex;
         height: $sideNav-profile-height;
         background-color:  $secondary-color;
-        flex-direction: row;
         justify-content: center;
         align-content: center;
         flex-direction: column;
@@ -87,11 +86,7 @@
             background-color:$grey-level1;
         }
     }
-    @include response($mobile) {
-        &__navLink {
-            padding-left: 0;
-        }
-    }
+
 }
 
 .JDsideNav-curtain {

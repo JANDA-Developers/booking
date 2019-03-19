@@ -177,6 +177,21 @@ type DeleteHouseResponse {
   error: String
 }
 
+type GetHouseResponse {
+  ok: Boolean!
+  error: String
+  house: House
+}
+
+type Query {
+  GetHouse(houseId: ID!): GetHouseResponse!
+  GetAllProducts: GetAllProductsResponse!
+  GetAllRoomType(houseId: ID!): GetAllRoomTypeResponse!
+  EmailSignIn(email: EmailAddress!, password: Password!): EmailSignInResponse!
+  # 로그인 token 필요!
+  GetMyProfile: GetMyProfileResponse!
+}
+
 type House {
   _id: ID!
   name: String!
@@ -253,14 +268,6 @@ type GetAllProductsResponse {
   ok: Boolean!
   error: String
   products: [Product!]
-}
-
-type Query {
-  GetAllProducts: GetAllProductsResponse!
-  GetAllRoomType(houseId: ID!): GetAllRoomTypeResponse!
-  EmailSignIn(email: EmailAddress!, password: Password!): EmailSignInResponse!
-  # 로그인 token 필요!
-  GetMyProfile: GetMyProfileResponse!
 }
 
 type RefundProductResponse {

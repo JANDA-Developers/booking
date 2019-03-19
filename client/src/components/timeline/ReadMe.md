@@ -320,7 +320,7 @@ import Timeline, {
     <CustomMarker date={today} />
     <CustomMarker date={tomorrow}>
       {/* custom renderer for this marker */}
-      {({ styles, date }) => {
+      {({styles, date}) => {
         const customStyles = {
           ...styles,
           backgroundColor: "deeppink",

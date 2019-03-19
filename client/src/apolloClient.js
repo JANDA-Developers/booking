@@ -9,8 +9,8 @@ const client = new ApolloClient({
         isLoggedIn: Boolean(localStorage.getItem('jwt')),
         lastSelectedHouse: {
           __typename: 'House',
-          value: localStorage.getItem('value'),
-          label: localStorage.getItem('label')
+          value: localStorage.getItem('selectId'),
+          label: localStorage.getItem('selectHouseLabel')
         },
       },
     },
@@ -50,7 +50,6 @@ const client = new ApolloClient({
         selectHouse: (_, args, {
           cache,
         }) => {
-
           try {
             cache.writeData({
               data: {
@@ -64,8 +63,8 @@ const client = new ApolloClient({
                 },
               },
             });
-            localStorage.setItem('value', args.selectedHouse.value);
-            localStorage.setItem('label', args.selectedHouse.label);
+            localStorage.setItem('selectId', args.selectedHouse.value);
+            localStorage.setItem('selectHouseLabel', args.selectedHouse.label);
             return {
               ok: true,
               erorr: null,

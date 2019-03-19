@@ -28,7 +28,7 @@ const Mypage = ({ userInformation, houses = [] }) => {
             <h2>MyPage</h2>
             <div className="myPage__profileCircle">
               <ProfileCircle isBordered style={profileStyle} />
-              <p>숙소 {houses.length}개 보유중</p>
+              <p>{`숙소 ${houses.length}개 보유중`}</p>
             </div>
             <InputText {...nameHook} validation={utils.isName} label="성함" />
             <InputText {...phoneNumberHook} validation={utils.isPhone} label="핸드폰번호" />
@@ -42,7 +42,7 @@ const Mypage = ({ userInformation, houses = [] }) => {
               }}
               onError={(error) => {
                 toast.warn('통신에러 발생 별도 문의바랍니다.');
-                console.log(error);
+                console.error(error);
               }}
               onCompleted={(result) => {
                 console.log('result');
@@ -67,6 +67,7 @@ const Mypage = ({ userInformation, houses = [] }) => {
                     return false;
                   }
                   mutation();
+                  return null;
                 };
                 return <Button onClick={checkUpdateMutation} label="프로필 수정" />;
               }}
@@ -80,9 +81,9 @@ const Mypage = ({ userInformation, houses = [] }) => {
               <div className="myPage__myProduct col col--4 col--md-6">
                 <MyProduct
                   title={house.name}
-                  productId="123"
+                  productId={house.product ? house.product.name : '없음'}
                   purchaseProduct={house.houseType}
-                  dateCreated={house.createdAt}
+                  dateCreated={house.createdAt.substr(0, 10)}
                   location={house.location && house.location.address}
                   key={`${house.name}${house.dateCreated}`}
                 />

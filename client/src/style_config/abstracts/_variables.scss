@@ -86,14 +86,15 @@ $label-font-color: $html-color !default;
 $standard-disabled-color: $grey-level1 !default;
 $standard-space: 1rem !default; // except textInput 구조가 다름
 $standard-margin-bottom: 1.0rem !default; // except textInput 구조가 다름
-$standard-border-radius : 4px;
-$standard-li-height : 36px;
-$standard-li-padding : 1rem;
-$standard-li-height: 150%;
+$standard-border-radius: 4px;
+$standard-li-height: 36px;
+$standard-lists-line: 150%; // 옹기종기모인 div들 정리용
+$standard-li-padding: 1rem; // side
 $standard-icon-margin : 1rem;
 $standard-small-icon-margin : .5rem;
 // TODO: 새로추가됨 이걸로 정리해야함
 $standard-label-margin : 0.8rem;
+$standard-placeholder-color : $grey-level3;
 // ===========================================================================
 
 // 1. Forms 폼
@@ -110,12 +111,13 @@ $input-font-size: $typho-normal !default;
 $input-margin-bottom: $standard-margin-bottom;
 $input-margin-top: 0rem;
 $input-margin: $input-margin-top 0 $input-margin-bottom 0 !default;
-$input-padding: 1rem 0 0 0 !default;
+$input-padding-top: 1rem;
+$input-padding: $input-padding-top 0 0 0 !default;
 $input-transition: all 0.3s !default;
 $input-disabled-color: $standard-disabled-color!default;
 $input-disabled-border: 1px dotted $input-disabled-color !default;
 $input-invalid-border: 1px solid $input-error-color !default;
-$placeholder-text-color: $grey-level1 !default;
+$placeholder-text-color: $standard-placeholder-color !default;
 
 // -- textarea 텍스트어리어
 $textarea-margin-top: 1.6rem !default; //라벨 덮힘 방지
@@ -132,7 +134,7 @@ $select-option-active-bgcolor: $hover-effect-dark !default;
 $select-option-selected-bgcolor: $primary-color !default;
 $select-option-selected-color: #fff !default;
 $select-option-hover-bgcolor: $hover-effect-dark !default;
-$select-option-padding: 0px 1rem;
+$select-option-padding: 0rem $standard-li-padding;
 $select-option-height: $standard-li-height;
 $select-padding: 2px 1rem !default;
 $select-radius: $standard-border-radius !default;
@@ -140,7 +142,7 @@ $select-disabled-color: $standard-disabled-color !default;
 $select-menue-radius: 0px !default;
 $select-background: #fff !default;
 $select-focus-border-color: $primary-color !default;
-$selcet-placeholder-color: $html-color;
+$selcet-placeholder-color: $standard-placeholder-color;
 
 // -- Multi Select 멀티 셀렉트
 $select-multi-remove-hover-color: $html-color;
@@ -250,13 +252,13 @@ $button-height: 36px !default;
 // 6 SearchInput
 // ANCHOR Search Input =========================================================================
 
-$searchInput-input-height: $input-height !default;
+$searchInput-input-height: $input-height + $input-padding-top!default;
 $searchInput-input-border: $input-border !default;
 $searchInput-input-margin-bottom: .5rem !default;
 $searchInput-border-color:$grey-level1 !default;
 $searchInput-border-radius: $standard-border-radius;
 $searchInput-li-border-top: 1px dotted $searchInput-border-color !default;
-$searchInput-li-padding: .0rem $standard-li-padding !default;
+$searchInput-li-padding: .3rem $standard-li-padding !default;
 $searchInput-li-height: $standard-li-height !default;
 
 // 7 SideNav 사이드 네비

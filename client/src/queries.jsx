@@ -32,12 +32,12 @@ export const LOG_USER_OUT = gql`
     LogUserOut @client
   }
 `;
-
+// 하우스 선택
 export const SELECT_HOUSE = gql`
   mutation selectHouse($selectedHouse: SelectOption!) {
     selectHouse(selectedHouse: $selectedHouse) @client {
-      label
-      value
+      ok
+      erorr
     }
   }
 `;
@@ -45,6 +45,7 @@ export const SELECT_HOUSE = gql`
 /* ---------------------------------- query --------------------------------- */
 
 // 프로덕트 UI와  DB의 정보 싱크는 수동으로 맞추세요.
+// eslint-disable-next-line camelcase
 export const GET_All_PRODUCTS = gql`
   query {
     GetAllProducts {
@@ -168,6 +169,10 @@ export const CREATE_HOUSE = gql`
     CreateHouse(name: $name, houseType: $houseType, location: $location) {
       ok
       error
+      house {
+        _id
+        name
+      }
     }
   }
 `;
