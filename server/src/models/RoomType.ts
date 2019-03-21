@@ -1,7 +1,7 @@
 import { ObjectId } from "bson";
 import { Types } from "mongoose";
 import { arrayProp, index, pre, prop, Ref, Typegoose } from "typegoose";
-import { DisableRange, PricingType } from "../types/graph";
+import { PricingType } from "../types/graph";
 import { RoomSchema } from "./Room";
 
 export enum PricingTypeEnum {
@@ -74,12 +74,8 @@ export class RoomTypeSchema extends Typegoose {
     @prop()
     description: string;
 
-    // ------------------------------------------
-    // room 객체 생성시에 Relation 구성하기
-    // RoomType 객체가 User 정보도 들고있어야할까? 고민좀 해보자...
-
-    @prop({ default: [] })
-    disableRanges: DisableRange[];
+    @prop({ default: 0 })
+    price: number;
 
     @prop()
     tags: string;

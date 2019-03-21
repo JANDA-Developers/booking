@@ -20,7 +20,7 @@ const resolvers: Resolvers = {
                 try {
                     // 1. userId와 houseId로 존재하는 객체인지 조회한다.
                     console.log(args);
-                    
+
                     const existingHouse = await HouseModel.findByIdAndUpdate(
                         {
                             _id: args.houseId,
@@ -34,7 +34,10 @@ const resolvers: Resolvers = {
                         }
                     );
                     if (existingHouse) {
-                        const house = await extractHouse(existingHouse);
+                        const house = await extractHouse.bind(
+                            extractHouse,
+                            existingHouse
+                        );
                         return {
                             ok: true,
                             error: null,

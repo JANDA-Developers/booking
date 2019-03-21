@@ -23,7 +23,10 @@ const resolvers: Resolvers = {
                 return {
                     ok: true,
                     error: null,
-                    productType: extractProductType(productType)
+                    productType: extractProductType.bind(
+                        extractProductType,
+                        productType
+                    )
                 };
             } catch (error) {
                 return {

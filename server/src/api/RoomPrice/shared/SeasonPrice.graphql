@@ -1,13 +1,12 @@
 type SeasonPrice {
     _id: ID!
-    house: House!
     roomType: RoomType!
     season: Season!
     price: Float!
-    applyDays: [Day]!
+    applyDays: String!
 }
 
-input SeasonPriceInput{
+input SeasonPriceInput {
     price: Float!
     applyDays: Int!
 }

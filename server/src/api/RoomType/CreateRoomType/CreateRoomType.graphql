@@ -8,7 +8,7 @@ type Mutation {
     # 로그인 token 필요함!
     CreateRoomType(
         name: String!
-        house: ID!
+        houseId: ID!
         pricingType: PricingType!
         peopleCount: Int!
         peopleCountMax: Int

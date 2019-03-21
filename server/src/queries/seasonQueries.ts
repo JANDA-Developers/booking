@@ -4,6 +4,7 @@ import { SeasonModel } from "../models/Season";
 import { Season } from "../types/graph";
 import { transformYMDToMD } from "../utils/transformData";
 
+// 2019-03-21 여기까지 완벽
 export const includeDateRangeWithOutYear = async (
     start: Date,
     end: Date,
@@ -82,7 +83,7 @@ export const includeDateRangeWithOutYear = async (
                                             },
                                             {
                                                 eMD: {
-                                                    $gte: st
+                                                    $gt: st
                                                 }
                                             }
                                         ]
@@ -97,7 +98,7 @@ export const includeDateRangeWithOutYear = async (
                 $and: [
                     {
                         $expr: {
-                            $gte: ["$sMD", "$eMD"]
+                            $gt: ["$sMD", "$eMD"]
                         }
                     },
                     {
@@ -127,9 +128,9 @@ export const includeDateRangeWithOutYear = async (
         priority: -1
     };
     const result = await SeasonModel.aggregate()
+        .match(matchHouseId)
         .sort(sort)
         .project(project)
-        .match(matchHouseId)
         .match(matchDateRange);
     if (result.length) {
         const ids: ObjectId[] = result.map(season => {
@@ -202,6 +203,7 @@ export const betweenDateWithoutYear = async (
                         ]
                     },
                     {
+                        // TODO: 여기 문제 있다... 그냥 작은걸로 비교해서는 안되네 ㅜㅜ
                         $and: [
                             {
                                 $expr: {

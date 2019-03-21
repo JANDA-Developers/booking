@@ -11,7 +11,7 @@ const resolvers: Resolvers = {
             async (
                 _,
                 { houseId }: GetHouseQueryArgs,
-                {req}
+                { req }
             ): Promise<GetHouseResponse> => {
                 try {
                     const { user } = req;
@@ -23,7 +23,7 @@ const resolvers: Resolvers = {
                         return {
                             ok: true,
                             error: null,
-                            house: await extractHouse(house)
+                            house: await extractHouse.bind(extractHouse, house)
                         };
                     } else {
                         return {

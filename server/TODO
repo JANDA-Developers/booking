@@ -2,7 +2,7 @@ Host-Side:
     Development Env:
         ✔ Migrate 'typeORM' to 'typegoose' @done(19-02-16 11:03)
         ✔ Make Custom Scalars @done(19-02-16 12:15)
-        ☐ Figure out How to apply 'order by' condition in MongoDB and Mongoose @high @today
+        ✔ Figure out How to apply 'order by' condition in MongoDB and Mongoose @high @today @done(19-03-20 14:27)
         ☐ Figure out How to use AWS S3 to Up/Download File
     User Flow Visualize:
         ☐ Make Document with FrontEnd Developer
@@ -47,16 +47,19 @@ Host-Side:
         Create/Update/Remove Season:
             ✔ Make Season GraphQL Schema @done(19-03-08 19:27)
             ✔ Create Season @done(19-03-13 11:41)
-            ☐ Update Season
-            ☐ Remove Season
+            ☐ Update Season 
+            ✔ Remove Season @done(19-03-20 14:27)
+        Query Season Data:
+            ✔ GetMatchedSeasonWithDateRange => 날짜 범위에 해당하는 시즌 가져오는 쿼리 @done(19-03-19 12:15)
+            ✔ GetMatchedSeasonWIthDate => 날짜 하나만 가지고 시즌 가져오는 쿼리 @done(19-03-19 12:15)
         Make ProductType & Product:
-            ☐ Define both of Schema @today
-            ☐ CreateProductType
-            ☐ DeleteProductType
-            ☐ UpdateProductType
-            ☐ CreateProduct
-            ☐ DeleteProduct
-            ☐ UpdateProduct
+            ✘ Define both of Schema @today @cancelled(19-03-19 12:14)
+            ✘ CreateProductType @cancelled(19-03-19 12:14)
+            ✘ DeleteProductType @cancelled(19-03-19 12:14)
+            ✘ UpdateProductType @cancelled(19-03-19 12:14)
+            ✔ CreateProduct @done(19-03-19 12:14)
+            ☐ DeleteProduct @low 
+            ☐ UpdateProduct @low 
         Search Bar:
             ☐ Search Booker Info
             ☐ Show the Today's Check-In Guest
@@ -65,11 +68,14 @@ Host-Side:
             ☐ Modify Booker
             ☐ Delete Booker
         Make Room Price:
-            ☐ Create / Update Room Price for Season (Default Room Price)
-            ☐ Create / Update Room Price for Specific Date
+            ✔ Define Schema...(SeasonPrice, RoomPrice) @done(19-03-20 14:29)
+            ☐ Inspect Schema @today
+            ☐ Create / Update Season Price for Season (Default Room Price) @today
+            ☐ Create / Update Room Price for Specific Date @today
             ☐ Inspection
         Delete Room Price:
             ☐ Delete Room Price For Season (Default Room Price)
+                => 시즌 삭제시에 실행되는 이벤트...
         BookingList:
             ☐ Present BookingList
             ☐ Pagination
@@ -102,6 +108,13 @@ Host-Side:
         Payment API:
             ☐ Booking Data Server-Side Validation.
             ☐ Define Response Data for client
+    Intergraction With Lagarcy:
+        BookerList:
+            ☐ Booking Data Intergration
+        RoomTemplates & Rooms:
+            ☐ RoomTemplate Data Modeling
+            ☐ RoomTemplate Data Intergration
+            ☐ RoomData....
     PG:
-        ☐ Check API Document
-        ☐ PG Intergration
+        ☐ Check API Document @low
+        ☐ PG Intergration @low

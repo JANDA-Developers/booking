@@ -1,11 +1,11 @@
-type GetMatchedSeasonWithDateResponse {
+type GetSeasonWithDateResponse {
     ok: Boolean!
     error: String
     season: Season
 }
 type Query {
-    GetMatchedSeasonWithDate(
+    GetSeasonWithDate(
         houseId: ID!
         date: DateTime!
-    ): GetMatchedSeasonWithDateResponse!
+    ): GetSeasonWithDateResponse!
 }

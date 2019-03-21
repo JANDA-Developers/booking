@@ -15,7 +15,10 @@ const resolvers: Resolvers = {
                         error: null,
                         products: products.map(
                             (product): Product => {
-                                return extractProduct(product);
+                                return extractProduct.bind(
+                                    extractProduct,
+                                    product
+                                );
                             }
                         )
                     };

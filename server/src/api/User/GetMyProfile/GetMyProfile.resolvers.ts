@@ -9,14 +9,10 @@ const resolvers: Resolvers = {
             async (_: any, __: any, { req }): Promise<GetMyProfileResponse> => {
                 const { user } = req;
                 if (user) {
-                    const extractedUser = await extractUser(user);
-                    console.log({
-                        GetMyProfile: extractedUser
-                    });
                     return {
                         ok: true,
                         error: null,
-                        user: extractedUser
+                        user: await extractUser.bind(extractUser, user)
                     };
                 } else {
                     return {

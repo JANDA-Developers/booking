@@ -148,9 +148,11 @@ type Mutation {
   CreateProductType(name: String!, price: Int!, roomCount: Int!, roomCountExtraCharge: Int!, bookingCount: Int!, bookingCountExtraCharge: Int!, description: String): CreateProductTypeResponse!
   DeleteProductType(productTypeId: ID!): DeleteProductTypeResponse!
   UpdateProductType(productTypeId: ID!, name: String!, price: Int!, roomCount: Int!, roomCountExtraCharge: Int!, bookingCount: Int!, bookingCountExtraCharge: Int!, description: String): UpdateProductTypeResponse!
+  CreateRoomPrice(price: Float!, roomTypeId: ID!, date: DateTime!): CreateRoomPriceResponse!
+  CreateSeasonPrice(roomTypeId: ID!, seasonId: ID!, price: Float!, applyDays: Int): CreateSeasonPriceResponse!
   CreateRoom(name: String!, roomType: ID!, disableRange: [DisableRangeInput!]): CreateRoomResponse!
   # 로그인 token 필요함!
-  CreateRoomType(name: String!, house: ID!, pricingType: PricingType!, peopleCount: Int!, peopleCountMax: Int, isEnable: Boolean, description: String, tags: [TagInput!]): CreateRoomTypeResponse!
+  CreateRoomType(name: String!, houseId: ID!, pricingType: PricingType!, peopleCount: Int!, peopleCountMax: Int, isEnable: Boolean, description: String, tags: [TagInput!]): CreateRoomTypeResponse!
   DeleteRoom(roomId: ID!): DeleteRoomResponse!
   DeleteRoomType(roomTypeId: ID!, houseId: ID!): DeleteRoomTypeResponse!
   UpdateRoom(roomId: ID!, name: String): UpdateRoomResponse!
@@ -158,6 +160,7 @@ type Mutation {
   UpdateRoomType(roomTypeId: ID!, houseId: ID!, name: String, peopleCount: Int, peopleCountMax: Int, description: String): UpdateRoomTypeResponse!
   ChangePriority(seasonId: ID!, houseId: ID!, priority: Int!): ChangePriorityResponse!
   CreateSeason(name: String!, start: DateTime!, end: DateTime!, houseId: ID!, color: String, description: String): CreateSeasonResponse!
+  DeleteSeason(seasonId: ID!, houseId: ID!): DeleteSeasonResponse!
   UpdateSeason(seasonId: ID!, houseId: ID!, name: String, dateRange: DateRangeInput, color: String, description: String): UpdateSeasonResponse!
   CompletePhoneVerification(key: String!): CompletePhoneVerificationResponse!
   EmailSignUp(name: Name!, email: EmailAddress!, password: Password!, phoneNumber: PhoneNumber!): EmailSignUpResponse!
@@ -181,10 +184,12 @@ type GetHouseResponse {
 type Query {
   GetHouse(houseId: ID!): GetHouseResponse!
   GetAllProducts: GetAllProductsResponse!
+  GetRoomPriceWithDateRange(roomTypeId: ID!, start: DateTime!, end: DateTime!): GetRoomPriceWithDateRangeResponse!
+  GetSeasonPriceWithDateRange(roomTypeId: ID!, start: DateTime!, end: DateTime!): GetSeasonPriceWithDateRangeResponse!
   GetAllRoomType(houseId: ID!): GetAllRoomTypeResponse!
-  GetMatchedSeasonWithDate(houseId: ID!, date: DateTime!): GetMatchedSeasonWithDateResponse!
+  GetSeasonWithDate(houseId: ID!, date: DateTime!): GetSeasonWithDateResponse!
   # DateRange안에 해당하는 Season을 구함
-  GetMatchedSeasonWithDateRange(houseId: ID!, start: DateTime!, end: DateTime!): GetMatchedSeasonWithDateRangeResponse!
+  GetSeasonWithDateRange(houseId: ID!, start: DateTime!, end: DateTime!): GetSeasonWithDateRangeResponse!
   EmailSignIn(email: EmailAddress!, password: Password!): EmailSignInResponse!
   # 로그인 token 필요!
   GetMyProfile: GetMyProfileResponse!
@@ -333,21 +338,50 @@ type UpdateProductTypeResponse {
   productType: ProductType
 }
 
+type CreateRoomPriceResponse {
+  ok: Boolean!
+  error: String
+  roomPrice: RoomPrice
+}
+
+type CreateSeasonPriceResponse {
+  ok: Boolean!
+  error: String
+  seasonPrice: SeasonPrice
+}
+
+type GetRoomPriceWithDateRangeResponse {
+  ok: Boolean!
+  error: String
+  roomPrices: [RoomPrice!]
+}
+
+type GetSeasonPriceWithDateRangeResponse {
+  ok: Boolean!
+  error: String
+  seasonPriceWithDateRange: [DateRangeWithSeasonPrice!]
+}
+
+type DateRangeWithSeasonPrice {
+  start: DateTime!
+  end: DateTime!
+  # 시즌 가격: null인 경우 방의 기본 가격으로 적용
+  seasonPrice: SeasonPrice
+}
+
 type RoomPrice {
   _id: ID!
-  house: House!
   roomType: RoomType!
   price: Float!
-  date: String!
+  date: DateTime!
 }
 
 type SeasonPrice {
   _id: ID!
-  house: House!
   roomType: RoomType!
   season: Season!
   price: Float!
-  applyDays: [Day]!
+  applyDays: String!
 }
 
 input SeasonPriceInput {
@@ -404,6 +438,8 @@ type RoomType {
   roomCount: Int!
   disableRanges: [DisableRange!]
   description: String
+  # 일괄적으로 적용되는 기본 방 가격... RoomPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
+  price: Float
   # 예전에 Facilities 랑 같은 아이임...
   tags: [Tag!]!
   rooms: [Room!]!
@@ -444,13 +480,18 @@ type CreateSeasonResponse {
   season: Season
 }
 
-type GetMatchedSeasonWithDateResponse {
+type DeleteSeasonResponse {
+  ok: Boolean!
+  error: String
+}
+
+type GetSeasonWithDateResponse {
   ok: Boolean!
   error: String
   season: Season
 }
 
-type GetMatchedSeasonWithDateRangeResponse {
+type GetSeasonWithDateRangeResponse {
   ok: Boolean!
   error: String
   dateRangeWithSeason: [DateRangeWithSeason!]

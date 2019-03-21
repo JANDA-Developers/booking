@@ -1,4 +1,4 @@
-type GetMatchedSeasonWithDateRangeResponse {
+type GetSeasonWithDateRangeResponse {
     ok: Boolean!
     error: String
     dateRangeWithSeason: [DateRangeWithSeason!]
@@ -16,9 +16,9 @@ type DateRangeWithSeason {
 
 type Query {
     # DateRange안에 해당하는 Season을 구함
-    GetMatchedSeasonWithDateRange(
+    GetSeasonWithDateRange(
         houseId: ID!
         start: DateTime!
         end: DateTime!
-    ): GetMatchedSeasonWithDateRangeResponse!
+    ): GetSeasonWithDateRangeResponse!
 }

@@ -1,20 +1,23 @@
 import { betweenDateWithoutYear } from "../../../queries/seasonQueries";
 import {
-    GetMatchedSeasonWithDateQueryArgs,
-    GetMatchedSeasonWithDateResponse
+    GetSeasonWithDateQueryArgs,
+    GetSeasonWithDateResponse
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
 import privateResolver from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Query: {
-        GetMatchedSeasonWithDate: privateResolver(
+        GetSeasonWithDate: privateResolver(
             async (
                 _,
-                { date, houseId }: GetMatchedSeasonWithDateQueryArgs
-            ): Promise<GetMatchedSeasonWithDateResponse> => {
+                { date, houseId }: GetSeasonWithDateQueryArgs
+            ): Promise<GetSeasonWithDateResponse> => {
                 try {
-                    const aggregateSeason = await betweenDateWithoutYear(date, houseId)
+                    const aggregateSeason = await betweenDateWithoutYear(
+                        date,
+                        houseId
+                    );
                     if (aggregateSeason) {
                         return {
                             ok: true,

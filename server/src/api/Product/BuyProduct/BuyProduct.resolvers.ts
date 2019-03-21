@@ -20,12 +20,12 @@ const resolvers: Resolvers = {
                     const existingProduct = await ProductModel.findById(
                         productId
                     );
-                    if(!existingProduct){
+                    if (!existingProduct) {
                         return {
                             ok: false,
                             error: "Product is not exist",
                             house: null
-                        }
+                        };
                     }
                     const updatedHouse = await HouseModel.findOneAndUpdate(
                         {
@@ -46,7 +46,10 @@ const resolvers: Resolvers = {
                         return {
                             ok: true,
                             error: null,
-                            house: await extractHouse(updatedHouse)
+                            house: await extractHouse.bind(
+                                extractHouse,
+                                updatedHouse
+                            )
                         };
                     } else {
                         return {

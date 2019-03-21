@@ -23,7 +23,7 @@ const resolvers: Resolvers = {
                 const user: InstanceType<UserSchema> = req.user;
                 try {
                     // 유저가 가지고 있는 집인지 확인
-                    if (!(await isUsersHouse(args.house, user._id))) {
+                    if (!(await isUsersHouse(args.houseId, user._id))) {
                         return {
                             ok: false,
                             error: "User and House is not match",
@@ -34,7 +34,7 @@ const resolvers: Resolvers = {
                     if (
                         !(await RoomTypeModel.find({
                             name: args.name,
-                            house: args.house
+                            house: args.houseId
                         }))
                     ) {
                         return {
@@ -53,14 +53,14 @@ const resolvers: Resolvers = {
                 try {
                     const roomType = await new RoomTypeModel({
                         ...args,
-                        house: args.house
+                        house: args.houseId
                     });
                     // 방 타입을 생성해야함... 방 타입에 들어갈 정보들부터 확인해보자...
                     await roomType.save();
 
                     await HouseModel.updateOne(
                         {
-                            _id: new ObjectId(args.house)
+                            _id: new ObjectId(args.houseId)
                         },
                         {
                             $push: {
@@ -71,7 +71,7 @@ const resolvers: Resolvers = {
                     const result = await extractRoomType(roomType);
                     return {
                         ok: true,
-                        error: "Under Develop",
+                        error: null, 
                         roomType: result
                     };
                 } catch (error) {

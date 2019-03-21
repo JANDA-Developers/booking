@@ -26,7 +26,10 @@ const resolvers: Resolvers = {
                         return {
                             ok: false,
                             error: null,
-                            house: await extractHouse(existingHouse)
+                            house: await extractHouse.bind(
+                                extractHouse,
+                                existingHouse
+                            )
                         };
                     } else {
                         return {

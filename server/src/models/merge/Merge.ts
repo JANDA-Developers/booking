@@ -6,16 +6,21 @@ import {
     Product,
     ProductType,
     Room,
+    RoomPrice,
     RoomType,
     Season,
+    SeasonPrice,
     User
 } from "../../types/graph";
+import { applyDaysToBinary } from "../../utils/applyDays";
 import { HouseModel, HouseSchema } from "../House";
 import { ProductModel, ProductSchema } from "../Product";
 import { ProductTypeSchema } from "../ProductType";
 import { RoomModel, RoomSchema } from "../Room";
+import { RoomPriceSchema } from "../RoomPrice";
 import { RoomTypeModel, RoomTypeSchema } from "../RoomType";
 import { SeasonModel, SeasonSchema } from "../Season";
+import { SeasonPriceModel, SeasonPriceSchema } from "../SeasonPrice";
 import { UserModel, UserSchema } from "../User";
 
 /*
@@ -58,7 +63,7 @@ export const extractHouse = async (
         };
         return {
             ...extracted._doc,
-            _id: house._id.toString(),
+            _id: extracted._doc._id.toString(),
             user: await extractUser.bind(
                 extractUser,
                 await UserModel.findById(house.user)
@@ -91,7 +96,7 @@ export const extractHouses = async (
 ): Promise<House[]> => {
     try {
         const houses = await HouseModel.find({ _id: { $in: houseIds } });
-        const result = Promise.all(
+        const result = await Promise.all(
             houses.map(async house => {
                 return await extractHouse(house);
             })
@@ -166,15 +171,14 @@ export const transformRoom = async (
 
 export const transformRooms = async (roomIds: ObjectId[]): Promise<Room[]> => {
     try {
-        const result: Array<Room | null> = await Promise.all(
+        const result: any = (await Promise.all(
             roomIds.map(
                 async (roomId): Promise<Room | null> => {
                     return await transformRoom(roomId);
                 }
             )
-        );
-        const tempArr: any = result.filter(room => room);
-        return tempArr;
+        )).filter(room => room);
+        return result;
     } catch (error) {
         return [];
     }
@@ -274,4 +278,78 @@ export const transformProduct = async (
     } else {
         return null;
     }
+};
+
+export const extractSeasonPrice = async (
+    seasonPrice: InstanceType<SeasonPriceSchema>
+): Promise<SeasonPrice> => {
+    const sp: any = {
+        ...seasonPrice
+    };
+    return {
+        ...sp._doc,
+        _id: sp._doc._id.toString(),
+        applyDays: applyDaysToBinary(sp._doc.applyDays),
+        roomType: await transformRoomType.bind(
+            transformRoomType,
+            sp._doc.roomType
+        ),
+        season: await transformSeason.bind(transformSeason, sp._doc.season)
+    };
+};
+
+export const transformSeasonPrice = async (
+    seasonPriceId?: string,
+    args?: { seasonId: string; roomTypeId: string }
+): Promise<SeasonPrice | null> => {
+    try {
+        let existingSeasonPrice: InstanceType<SeasonPriceSchema> | null = null;
+        if (seasonPriceId) {
+            existingSeasonPrice = await SeasonPriceModel.findById(
+                seasonPriceId
+            );
+        } else if (args) {
+            existingSeasonPrice = await SeasonPriceModel.findOne({
+                season: new ObjectId(args.seasonId),
+                roomType: new ObjectId(args.roomTypeId)
+            });
+        }
+        if (existingSeasonPrice) {
+            return {
+                ...(await extractSeasonPrice(existingSeasonPrice))
+            };
+        } else {
+            return null;
+        }
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const extractRoomPrice = async (
+    roomPrice: InstanceType<RoomPriceSchema>
+): Promise<RoomPrice> => {
+    const result: any = {
+        ...roomPrice
+    };
+    return {
+        ...result._doc,
+        _id: result._doc._id.toString(),
+        roomType: await transformRoomType.bind(
+            transformRoomType,
+            result._doc.roomType
+        )
+    };
+};
+
+export const extractRoomPrices = async (
+    roomPrices: Array<InstanceType<RoomPriceSchema>>
+): Promise<RoomPrice[]> => {
+    return await Promise.all(
+        await roomPrices.map(
+            async (roomPrice): Promise<RoomPrice> => {
+                return await extractRoomPrice(roomPrice);
+            }
+        )
+    );
 };
