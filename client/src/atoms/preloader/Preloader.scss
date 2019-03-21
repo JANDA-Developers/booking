@@ -27,7 +27,7 @@
     position: relative;
     fill:inherit;
     &__outerline {
-        fill: $grey-level1;
+        fill: $preloader-background-color;
     }
 }
 
@@ -39,11 +39,12 @@
         width: 20%;
         padding-top: 20%;
         margin: 22vh auto;
-        border: 5vw solid $grey-level1;
-        border-top: 5vw solid $primary-color;
+        border: 5vw solid $preloader-background-color;
+        border-top: 5vw solid $preloader-fill-color;
         border-radius: 50%;
         animation: rotate 3s infinite linear;
     }
+    // 모바일 가운데정렬
     @include response ($phablet) {
         position:fixed;
         top:0;

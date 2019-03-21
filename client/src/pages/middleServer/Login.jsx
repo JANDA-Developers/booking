@@ -6,7 +6,7 @@ import Card from '../../atoms/cards/Card';
 import InputText from '../../atoms/forms/InputText';
 import Buttons from '../../atoms/button/Buttons';
 import './Login.scss';
-import { EMAIL_SIGN_IN, LOG_USER_IN } from '../../queries';
+import { EMAIL_SIGN_IN, LOG_USER_IN, GET_USER_INFO } from '../../queries';
 import { useInput } from '../../actions/hook';
 import utils, { toast } from '../../utils/utils';
 
@@ -27,6 +27,7 @@ function Login({ client, history }) {
               toast.warn('로그엔 Error');
               console.error(err);
             }}
+            refetchQueries={[{ query: GET_USER_INFO }]}
           >
             {(logUserIn) => {
               const emailSignIn = (e) => {

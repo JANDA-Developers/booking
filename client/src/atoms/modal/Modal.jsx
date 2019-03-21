@@ -8,7 +8,7 @@ const JDmodal = ({ center, ...props }) => {
     overlayClassName: 'Overlay',
   };
 
-  return <ReactModal {...props} {...defualtJDmodalProps} />;
+  return <ReactModal appElement={document.getElementById('root')} {...props} {...defualtJDmodalProps} />;
 };
 
 export default JDmodal;

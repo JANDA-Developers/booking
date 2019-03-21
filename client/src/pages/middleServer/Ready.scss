@@ -3,12 +3,12 @@
 #Ready {
     .Ready {
         &__pc {
-            @include response ($mobile) {
+            @include response ($mobile, $null) {
                 display:none;
             }
         }
         &__mobile {
-            @include response ($full,$mobile) {
+            @include response ($full,$mobileUp) {
                 display:none;
             }
         }

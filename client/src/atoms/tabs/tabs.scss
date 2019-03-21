@@ -12,6 +12,7 @@
     &__tab {
         padding: 0px $tabs-tab-padding;
         outline:0;
+        // 선택된
         &--selected {
             position: relative;
             bottom: -1px;
@@ -21,7 +22,6 @@
             border-radius: $tabs-tab-border-radious $tabs-tab-border-radious 0px 0px ;
             line-height : calc(#{$tabs-height} - 4px);
         }
-
         &:hover {
             cursor: pointer;
         }

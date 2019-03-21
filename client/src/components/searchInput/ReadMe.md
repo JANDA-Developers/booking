@@ -12,14 +12,14 @@
 | onTypeValue     | string | controll input 일때 값                                           |         |         |         |
 | placeHolder     | string |                                                                  |         |         |         |
 | label           | string | 라벨텍스트                                                       |         |         |         |
-| isMatched       | string | onTypeValue 가 있을경우에 정확하게 일치하는 리스트 name이 있는지 |         |         |         |
 | asName          | string | dateFormatter에 들어갈 변환 키값                                 |         |         |         |
 | asDetail        | string | dateFormatter에 들어갈 변환 키값                                 |         |         |         |
 | feedBackMessage | string | 인풋 아래에피드백으로 나타날 메세지                              |         |         |         |
+| isMatched       | string | onTypeValue 가 있을경우에 정확하게 일치하는 리스트 name이 있는지 |         |         |         |
 | maxCount        | number | 리스트에 나타날 카운트                                           |         |         | 999     |
 | setIsMatched    | func   |                                                                  |         |         |         |
 
 ### DESCRIPTION
 
-리스트에 적용될수 있는 키값으로 데이터를 변환하지 않아도 됩니다.
-asName 과 asDetail 에 원하는 데이터 키값을 넣으면 그키값으로 리스트가 표시됩니다.
+- 리스트에 적용될수 있는 키값으로 데이터를 변환하지 않아도 됩니다.
+- <code>asName</code> 과 <code>asDetail</code> 에 원하는 데이터 키값을 넣으면 그키값으로 리스트가 표시됩니다.

@@ -4,6 +4,7 @@ import isEmpty from './IsEmpty';
 import toast from './Toast';
 import { NEUTRAL } from './Enums';
 import download from './DownloadFile';
+import autoHypen from './AutoHyphen';
 import { JDMonthTextChanger, JDWeekChanger } from './TextChanger';
 import {
   isEmail, isPhone, isName, isUrl, isMaxOver, isPassword,
@@ -24,9 +25,10 @@ const JDutils = {
   searchListFormat,
   toast,
   download,
+  autoHypen,
 };
 
 export default JDutils;
 export {
-  JDMonthTextChanger, JDWeekChanger, isEmpty, NEUTRAL, toast, download, ErrProtecter,
+  JDMonthTextChanger, JDWeekChanger, isEmpty, NEUTRAL, toast, download, ErrProtecter, autoHypen,
 };

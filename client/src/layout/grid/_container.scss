@@ -51,17 +51,6 @@ main {
     text-align: center;
 }
 
-// 모바일 아닐때
-@include response ($full,$mobile) {
-  .container {
-    padding: 0;
-
-    @include response ($tablet){
-      width: 100%;
-    }
-  }
-}
-
 /* Self Clearing Goodness */
 .container:after,
 .row:after {

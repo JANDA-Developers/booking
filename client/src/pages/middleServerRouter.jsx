@@ -1,79 +1,39 @@
-/* eslint-disable react/no-children-prop */
-/* eslint-disable react/prop-types */
 /* eslint-disable react/forbid-prop-types */
 import React, { Fragment } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { graphql, compose } from 'react-apollo';
+import PT from 'prop-types';
 import Header from '../components/headers/Header';
 import SideNav from '../components/sideNav/SideNav';
-import DynamicImport from '../utils/DynamicImport';
 import NoMatch from './NoMatch';
 import { IS_LOGGED_IN, GET_USER_INFO, SELECTED_HOUSE } from '../queries';
 import { useToggle } from '../actions/hook';
-import Preloader from '../atoms/preloader/Preloader';
 import { isEmpty } from '../utils/utils';
+import Preloader from '../atoms/preloader/Preloader';
+import {
+  Products, Home, MakeHouse, PhoneVerification, MyPage, SignUp, Login, Ready,
+} from './pages';
 
-const Products = props => (
-  <DynamicImport load={() => import('./middleServer/product/Products')}>
-    {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
-  </DynamicImport>
-);
-
-const Home = props => (
-  <DynamicImport load={() => import('./middleServer/Home')}>
-    {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
-  </DynamicImport>
-);
-
-const MakeHouse = props => (
-  <DynamicImport load={() => import('./middleServer/product/makeHouse/MakeHouse')}>
-    {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
-  </DynamicImport>
-);
-
-const PhoneVerification = props => (
-  <DynamicImport load={() => import('./middleServer/PhoneVerification')}>
-    {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
-  </DynamicImport>
-);
-
-const MyPage = props => (
-  <DynamicImport load={() => import('./middleServer/myPage/MyPage')}>
-    {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
-  </DynamicImport>
-);
-
-const SignUp = props => (
-  <DynamicImport load={() => import('./middleServer/SignUp')}>
-    {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
-  </DynamicImport>
-);
-
-const Login = props => (
-  <DynamicImport load={() => import('./middleServer/Login')}>
-    {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
-  </DynamicImport>
-);
-
-const Ready = props => (
-  <DynamicImport load={() => import('./middleServer/Ready')}>
-    {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
-  </DynamicImport>
-);
-
-// lastSelectedHouse : 마지막으로 선택된 하우스 객체 정보값
+// TODO: protoTypes에 정의 옮기자
+// lastSelectedHouse : 마지막으로 선택된 하우스 객체 정보값 파라미터에서만 사용합니다.
 function JDmiddleServer({
-  IsLoggedIn: { auth: { isLoggedIn } = {}, loading } = {},
-  GetUserInfo: { GetMyProfile: { user = {} } = {}, loading: loading2 } = {},
-  lastSelectedHouse: { auth: { lastSelectedHouse = {} } = {}, loading: loading3 } = {},
+  IsLoggedIn: {
+    auth: { isLoggedIn },
+    loading,
+  },
+  GetUserInfo: { GetMyProfile: { user = {} } = {}, loading: loading2 },
+  selectedHouse: { auth: { lastSelectedHouse = {} } = {}, loading: loading3 } = {},
 }) {
   const [SideNavIsOpen, setSideNavIsOpen] = useToggle(false);
   const isloading = loading || loading2 || loading3;
   const houses = user.houses || [];
-  const selectedHouse = houses.filter(house => house._id === lastSelectedHouse.value)[0] || {};
-  const selectedProduct = selectedHouse.product || {};
-  const verifiedPhone = user && user.verifiedPhone;
+  let selectedHouse = houses.filter(house => house._id === lastSelectedHouse.value)[0] || {};
+  
+  // 선택된 숙소가 없다면 선택된 숙소는 첫번째 숙소입니다.
+  if (isEmpty(selectedHouse) && !isEmpty(houses)) [selectedHouse] = houses;
 
+  const selectedProduct = selectedHouse.product || {};
+  const { isPhoneVerified } = user;
 
   return isloading ? (
     <Preloader page />
@@ -85,8 +45,8 @@ function JDmiddleServer({
           <Header
             sideNavOpener={setSideNavIsOpen}
             userInformation={user}
-            verifiedPhone={verifiedPhone}
-            lastSelectedHouse={lastSelectedHouse}
+            isPhoneVerified={isPhoneVerified}
+            lastSelectedHouse={selectedHouse}
             isLoggedIn={isLoggedIn}
           />
         )}
@@ -100,49 +60,81 @@ function JDmiddleServer({
         setIsOpen={setSideNavIsOpen}
       />
       <Switch>
+        {/* TODO : 인덱스 1 , 2 통합방법 찾기 */}
+        {/* 인덱스 */}
         <Route exact path="/">
           <Home
             selectedHouse={selectedHouse}
             houses={houses}
             selectedProduct={selectedProduct}
             isLoggedIn={isLoggedIn}
+            isPhoneVerified={isPhoneVerified}
           />
         </Route>
-        <Route exact path="/middleServer">
-          <Home isLoggedIn={isLoggedIn} />
+        {/* 인덱스2 */}
+        <Route exact path="/">
+          <Home
+            selectedHouse={selectedHouse}
+            houses={houses}
+            selectedProduct={selectedProduct}
+            isLoggedIn={isLoggedIn}
+            isPhoneVerified={isPhoneVerified}
+          />
         </Route>
+        {/* 마이 페이지 */}
         <Route
           exact
           path="/middleServer/myPage"
-          render={() => (isLoggedIn ? <MyPage userInformation={user} houses={houses} /> : Login)}
+          render={() => (isLoggedIn ? <MyPage userInformation={user} houses={houses} /> : <Login />)}
         />
+        {/* 숙소생성 */}
         <Route exact path="/middleServer/makeHouse" component={isLoggedIn ? MakeHouse : Login} />
+        {/* 상품선택 */}
         <Route
           exact
           path="/middleServer/products"
-          render={() => (isLoggedIn ? <Products selectedHouse={selectedHouse} currentProduct={selectedProduct} /> : Login)
+          render={() => (isLoggedIn ? <Products selectedHouse={selectedHouse} currentProduct={selectedProduct} /> : <Login />)
           }
         />
+        {/* 인증 */}
         <Route exact path="/middleServer/phoneVerification" component={isLoggedIn ? PhoneVerification : undefined} />
+        {/* 회원가입 */}
         <Route exact path="/middleServer/signUp" component={isLoggedIn ? undefined : SignUp} />
+        {/* 회원가입ㅌ */}
         <Route exact path="/middleServer/login" component={isLoggedIn ? undefined : Login} />
-        {isEmpty(selectedProduct) ? <Route component={NoMatch} /> : (
+        {/* 대기 */}
+        {isEmpty(selectedProduct) ? (
+          <Route component={NoMatch} />
+        ) : (
           <Route
             exact
             path="/middleServer/ready"
-            render={() => (isLoggedIn ? <Ready currentProduct={selectedProduct} selectedHouse={selectedHouse} /> : Login)}
+            render={() => (isLoggedIn ? <Ready currentProduct={selectedProduct} selectedHouse={selectedHouse} /> : <Login />)
+            }
           />
         )}
+        {/* 404 */}
         <Route component={NoMatch} />
       </Switch>
     </Fragment>
   );
 }
 
+JDmiddleServer.propTypes = {
+  IsLoggedIn: PT.object,
+  GetUserInfo: PT.object,
+  selectedHouse: PT.object,
+};
+
+JDmiddleServer.defaultProps = {
+  IsLoggedIn: {},
+  GetUserInfo: {},
+  selectedHouse: {},
+};
+
 //  how to branch query
 // https://stackoverflow.com/questions/48880071/use-result-for-first-query-in-second-query-with-apollo-client
 export default compose(
-  graphql(SELECTED_HOUSE, { name: 'lastSelectedHouse' }),
   graphql(IS_LOGGED_IN, { name: 'IsLoggedIn' }),
   graphql(GET_USER_INFO, {
     name: 'GetUserInfo',
@@ -152,5 +144,7 @@ export default compose(
       }
       return true;
     },
+    fetchPolicy: 'network-only',
   }),
+  graphql(SELECTED_HOUSE, { name: 'selectedHouse' }),
 )(JDmiddleServer);

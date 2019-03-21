@@ -4,17 +4,17 @@ import { Mutation } from 'react-apollo';
 import { GoogleApiWrapper } from 'google-maps-react';
 import { withRouter } from 'react-router-dom';
 import { reverseGeoCode, geoCode } from './mapHelper';
-import { useInput, useSelect, useFetch } from '../../../../actions/hook';
+import { useInput, useSelect, useFetch, useDebounce } from '../../../actions/hook';
 import {
   CREATE_HOUSE, SELECT_HOUSE, GET_USER_INFO, SELECTED_HOUSE,
-} from '../../../../queries';
-import { ADDRESS_API_KEY } from '../../../../keys';
-import utils, { ErrProtecter, toast } from '../../../../utils/utils';
+} from '../../../queries';
+import { ADDRESS_API_KEY } from '../../../keys';
+import utils, { ErrProtecter, toast } from '../../../utils/utils';
 import GoogleMap from './components/googleMap';
-import InputText from '../../../../atoms/forms/InputText';
-import SelectBox from '../../../../atoms/forms/SelectBox';
-import Button from '../../../../atoms/button/Buttons';
-import SearchInput from '../../../../components/searchInput/SearchInput';
+import InputText from '../../../atoms/forms/InputText';
+import SelectBox from '../../../atoms/forms/SelectBox';
+import Button from '../../../atoms/button/Buttons';
+import SearchInput from '../../../components/searchInput/SearchInput';
 import './MakeHouse.scss';
 
 let map = null;
@@ -25,8 +25,9 @@ const MakeHouse = ({ history, google }) => {
   const deatailaddressHook = useInput('');
   const typeSelectHook = useSelect(null);
   const [location, setlocation] = useState({ address: '', lat: 0, lng: 0 });
+  const debouncedAdress = useDebounce(location.address, 500);
   const addressGeturl = `http://www.juso.go.kr/addrlink/addrLinkApi.do?currentPage=1&resultType=json&countPerPage=100&keyword=${
-    location.address
+    debouncedAdress
   }&confmKey=${ADDRESS_API_KEY}`;
   const [adressData, adressLoading, getAdressError, adressGet] = useFetch(addressGeturl);
   const mapRef = useRef(null);
@@ -142,6 +143,7 @@ const MakeHouse = ({ history, google }) => {
   // 도로명주소 가져오기
   useEffect(() => {
     adressGet(addressGeturl);
+    console.log('doget');
   }, [addressGeturl]);
 
   // 구글맵 첫 생성 (현재위치)
@@ -168,7 +170,7 @@ const MakeHouse = ({ history, google }) => {
           }}
         >
           {selectHouseMutation => (
-            // 숙소생성
+            // Mutation : 숙소생성
             <Mutation
               mutation={CREATE_HOUSE}
               variables={{
@@ -207,9 +209,11 @@ const MakeHouse = ({ history, google }) => {
                   <form onSubmit={makeHouseSubmit}>
                     <h3>숙소생성</h3>
                     <div className="flex-grid docs-section__box">
+                      {/* 숙소명 입력 */}
                       <div className="flex-grid__col col--full-12 col--md-12">
                         <InputText {...houseNameHoook} validation={utils.isMaxOver} max={20} label="숙소명" />
                       </div>
+                      {/* 숙소 타입 선택 */}
                       <div className="flex-grid__col col--full-12 col--md-12">
                         <SelectBox {...typeSelectHook} options={selectTypeHouse} isOpen label="숙소타입 선택" />
                       </div>
