@@ -38,8 +38,6 @@ const resolvers: Resolvers = {
                         console.log({
                             seasons
                         });
-                        
-
                         const dateRangeWithSeason = extractSeasonWithDateRange(
                             start,
                             end,
@@ -48,7 +46,6 @@ const resolvers: Resolvers = {
                         console.log({
                             dateRangeWithSeason
                         });
-                        
                         // 여기서 받은 타입들로 다시 ㄱㄱ
                         const result: any = (await Promise.all(
                             dateRangeWithSeason.map(
