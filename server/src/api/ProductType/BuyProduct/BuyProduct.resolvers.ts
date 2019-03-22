@@ -1,6 +1,6 @@
 import { ObjectId } from "bson";
 import { HouseModel } from "../../../models/House";
-import { extractHouse } from "../../../models/merge/Merge";
+import { extractProduct } from "../../../models/merge/Merge";
 import { ProductTypeModel } from "../../../models/ProductType";
 import {
     BuyProductMutationArgs,
@@ -24,7 +24,7 @@ const resolvers: Resolvers = {
                         return {
                             ok: false,
                             error: "ProductTypeId is not Matched",
-                            house: null
+                            product: null
                         };
                     }
                     const existingHouse = await HouseModel.findById(houseId);
@@ -32,16 +32,18 @@ const resolvers: Resolvers = {
                         return {
                             ok: false,
                             error: "존재하지 않는 숙소입니다.",
-                            house: null
+                            product: null
                         };
                     }
                     console.log({
                         existingProductType
                     });
-                    
+
                     const product = await existingProductType.makeProduct(
                         houseId
                     );
+                    product.productType = new ObjectId(productTypeId);
+
                     console.log({
                         product
                     });
@@ -59,30 +61,26 @@ const resolvers: Resolvers = {
                         }
                     );
                     if (updatedHouse) {
-                        console.log({
-                            ...updatedHouse
-                        });
-
                         return {
                             ok: true,
                             error: null,
-                            house: await extractHouse.bind(
-                                extractHouse,
-                                updatedHouse
+                            product: await extractProduct.bind(
+                                extractProduct,
+                                product
                             )
                         };
                     } else {
                         return {
                             ok: false,
                             error: "HouseId or productId is not matched",
-                            house: null
+                            product: null
                         };
                     }
                 } catch (error) {
                     return {
                         ok: false,
                         error: error.message,
-                        house: null
+                        product: null
                     };
                 }
             }
