@@ -16,6 +16,7 @@ function SideNav({
     JDsideNav: true,
     'JDsideNav--open': isOpen,
   });
+
   const handleCurtainClick = () => {
     setIsOpen();
   };
@@ -23,10 +24,6 @@ function SideNav({
   const profileStyle = {
     backgroundImage: `url(${profileImg})`,
   };
-
-  console.log(userInformation);
-  console.log(userInformation);
-  console.log(userInformation);
 
   return (
     <Fragment>
@@ -67,7 +64,7 @@ function SideNav({
           </div>
         </div>
       </div>
-      {/* 블랙 커튼 */}
+      {/* 사이드 네비 외 가림막 */}
       <div
         role="presentation"
         onClick={handleCurtainClick}

@@ -10,7 +10,7 @@ const Ready = ({ currentProduct, selectedHouse }) => {
       {/* PC용 */}
       <div className="container container--centerlize">
         <div className="Ready__pc">
-          <h1>상품 구매 접수가 완료되었습니다.</h1>
+          <h1>서비스 적용 접수가 완료되었습니다.</h1>
           <h3>
             <span aria-label="handPhone" role="img">
               {'📞'}
@@ -26,9 +26,9 @@ const Ready = ({ currentProduct, selectedHouse }) => {
         </div>
       </div>
       {/* 모바일용 */}
-      <div className="container container--centerlize">
+      <div className="Ready__mobile container container--centerlize">
         <div className="Ready__mobile">
-          <h4>상품 구매 접수가 완료되었습니다.</h4>
+          <h4>서비스 적용 접수가 완료되었습니다.</h4>
           <h5>
             <span aria-label="handPhone" role="img">
               {'📞'}

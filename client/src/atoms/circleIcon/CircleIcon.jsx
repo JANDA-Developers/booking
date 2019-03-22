@@ -8,7 +8,7 @@ const CircleIcon = ({
   children, thema, darkWave, wave, onClick,
 }) => {
   const handleOnclick = () => {
-    onClick();
+    onClick && onClick();
   };
 
   const classes = classNames({

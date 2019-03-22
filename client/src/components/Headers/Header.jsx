@@ -58,9 +58,9 @@ const Header = ({
             mutation={LOG_USER_OUT}
             onCompleted={() => {
               toast.success('로그아웃 완료');
-              history.push('./');
+              history.replace('./');
             }}
-            >
+          >
             {mutation => (
               <Fragment>
                 {/* 프로필 서클 */}

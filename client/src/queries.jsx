@@ -47,12 +47,12 @@ export const SELECT_HOUSE = gql`
 // 프로덕트 UI와  DB의 정보 싱크는 수동으로 맞추세요.
 // 상품 모두 가져오기
 // eslint-disable-next-line camelcase
-export const GET_All_PRODUCTS = gql`
+export const GET_All_PRODUCTS_TYPES = gql`
   query {
-    GetAllProducts {
+    GetAllProductTypes {
       ok
       error
-      products {
+      productTypes {
         _id
         name
       }
@@ -176,8 +176,8 @@ export const UPDATE_HOUSE = gql`
 `;
 // 상품구매
 export const BUY_PRODUCTS = gql`
-  mutation buyProduct($houseId: ID!, $productId: ID!) {
-    BuyProduct(houseId: $houseId, productId: $productId) {
+  mutation buyProduct($houseId: ID!, $prodcutTypeId: ID!) {
+    BuyProduct(houseId: $houseId, prodcutTypeId: $prodcutTypeId) {
       ok
       error
     }

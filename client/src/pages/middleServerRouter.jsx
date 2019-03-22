@@ -72,7 +72,7 @@ function JDmiddleServer({
           />
         </Route>
         {/* 인덱스2 */}
-        <Route exact path="/">
+        <Route exact path="/middleServer">
           <Home
             selectedHouse={selectedHouse}
             houses={houses}

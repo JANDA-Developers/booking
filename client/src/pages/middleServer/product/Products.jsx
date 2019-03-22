@@ -11,24 +11,23 @@ import Preloader from '../../../atoms/preloader/Preloader';
 import Modal from '../../../atoms/modal/Modal';
 import Slider from '../../../components/slider/Slider';
 import {
-  GET_All_PRODUCTS, BUY_PRODUCTS, GET_USER_INFO, REFUND_PRODUCT,
+  GET_All_PRODUCTS_TYPES, BUY_PRODUCTS, GET_USER_INFO, REFUND_PRODUCT,
 } from '../../../queries';
 import {
   ErrProtecter, download, toast, isEmpty,
 } from '../../../utils/utils';
 import './Products.scss';
 
-const Products = ({ data: { GetAllProducts, loading }, currentProduct, selectedHouse } = {}) => {
-  const products = GetAllProducts && GetAllProducts.products;
+const Products = ({ data: { GetAllProductTypes, loading }, currentProduct, selectedHouse } = {}) => {
+  const productTypes = GetAllProductTypes && GetAllProductTypes.productTypes;
   const [selectedProduct, setSelectedProduct] = useRadio(currentProduct._id);
   const [redirect, setRedirect] = useState(false);
-  const [demo, demoOpen] = useModal(false);
+  const [demo, demoOpen, demoClose] = useModal(false);
   const [refund, refundOpen, refundClose] = useModal(false);
-
 
   const handleSelectProduct = value => setSelectedProduct(value.replace('--slider', ''));
 
-  const testProductId = products && products.filter(product => product.name === '상품1')[0]._id;
+  const testProductId = productTypes && productTypes.filter(product => product.name === '상품1')[0]._id;
   const product0 = {
     productIndex: '상품1',
     productName: '데모 상품',
@@ -47,7 +46,7 @@ const Products = ({ data: { GetAllProducts, loading }, currentProduct, selectedH
     isCurrent: currentProduct._id === testProductId,
   };
 
-  const product1Value = products && products.filter(product => product.name === '상품2')[0]._id;
+  const product1Value = productTypes && productTypes.filter(product => product.name === '상품2')[0]._id;
 
   console.log(currentProduct);
   console.log(product1Value);
@@ -64,7 +63,7 @@ const Products = ({ data: { GetAllProducts, loading }, currentProduct, selectedH
     isCurrent: currentProduct._id === product1Value,
   };
 
-  const product2Value = products && products.filter(product => product.name === '상품3')[0]._id;
+  const product2Value = productTypes && productTypes.filter(product => product.name === '상품3')[0]._id;
   const product2 = {
     productIndex: '상품3',
     productName: '중간 규모숙박업',
@@ -78,7 +77,7 @@ const Products = ({ data: { GetAllProducts, loading }, currentProduct, selectedH
     isCurrent: currentProduct._id === product2Value,
   };
 
-  const product3Value = products && products.filter(product => product.name === '상품4')[0]._id;
+  const product3Value = productTypes && productTypes.filter(product => product.name === '상품4')[0]._id;
   const product3 = {
     productIndex: '상품4',
     productName: '큰 규모숙박업',
@@ -186,7 +185,7 @@ const Products = ({ data: { GetAllProducts, loading }, currentProduct, selectedH
             refetchQueries={[{ query: GET_USER_INFO }]}
             onCompleted={({ BuyProduct }) => {
               if (BuyProduct.ok) {
-                toast.success('서비스 구매 완료');
+                toast.success('서비스 적용 완료');
 
                 // 체험상품을 선택했을경우에
                 if (testProductId === selectedProduct) {
@@ -242,12 +241,14 @@ const Products = ({ data: { GetAllProducts, loading }, currentProduct, selectedH
         </div>
       </div>
       {/* 무료상품 시작 */}
-      <Modal appElement={document.getElementById('root')} center isOpen={demo}>
+      <Modal appElement={document.getElementById('root')} center onRequestClose={demoClose} isOpen={demo}>
         <h5>JANDA</h5>
         <h6> 서비스체험을 시작합니다.</h6>
-        <a href="http://janda-tmp.com" className="JDanchor JDlarge-text">
-          {'체험시작'}
-        </a>
+        <div className="ReactModal__EndSection">
+          <h6>
+            <a href="http://janda-tmp.com" className="JDanchor">{'체험시작'}</a>
+          </h6>
+        </div>
       </Modal>
       {/* 리펀트 시작 */}
       <Modal appElement={document.getElementById('root')} onRequestClose={refundClose} center isOpen={refund}>
@@ -296,4 +297,4 @@ Products.defaultProps = {
   currentProduct: { _id: '' },
 };
 
-export default ErrProtecter(graphql(GET_All_PRODUCTS)(Products));
+export default ErrProtecter(graphql(GET_All_PRODUCTS_TYPES)(Products));

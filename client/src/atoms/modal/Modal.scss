@@ -6,6 +6,7 @@
         text-align:center;
     }
     
+    // 모달 장막
     &__Overlay {
         display: flex;
         position: fixed;
@@ -19,18 +20,33 @@
         background-color: $modal-background-color;
     }
 
+    // 모달 내용
     &__Content  {
         background-color:white;
         padding: $modal-content-padding;
         outline: none;
         border-radius: $modal-border-radius;
         @extend %z-depth-3;
+        
+        @include response ($full,$phablet) {
+            max-width: 80%;
+        }
+
+        @include response ($phablet) {
+            margin: $container-padding;
+        }
+
     }
 
     &__EndSection {
         .JDbtn {
             margin-bottom: 0;
         }
+        h6 {
+            margin-bottom: 0;
+        }
     }
+
+
 }
 
