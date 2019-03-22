@@ -15,7 +15,7 @@ const resolvers: Resolvers = {
                         productTypes: productTypes.map((productType: any) => {
                             return {
                                 ...productType._doc,
-                                _id: productType._doc._id
+                                _id: productType._doc._id.toString()
                             };
                         })
                     };
