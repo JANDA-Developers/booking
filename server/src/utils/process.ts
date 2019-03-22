@@ -61,7 +61,7 @@ export const extractSeasonWithDateRange = (
                         });
                     }
                 } else {
-                    
+                    //
                 }
 
                 result.push({
@@ -70,6 +70,7 @@ export const extractSeasonWithDateRange = (
                     season: curSeason
                 });
             } else if (!tempSeason) {
+                //
             } else {
                 // result의 마지막 배열에 들어있는 시즌 === 해당 날짜에 해당하는 시즌인 경우
                 // start, end 를 바꿔줘야 함...

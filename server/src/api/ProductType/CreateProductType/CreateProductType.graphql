@@ -8,10 +8,10 @@ type Mutation {
     CreateProductType(
         name: String!
         price: Int!
-        roomCount: Int!
-        roomCountExtraCharge: Int!
-        bookingCount: Int!
-        bookingCountExtraCharge: Int!
+        roomCount: Int
+        roomCountExtraCharge: Int
+        bookingCount: Int
+        bookingCountExtraCharge: Int
         description: String
     ): CreateProductTypeResponse!
 }

@@ -1,4 +1,4 @@
-import { includeDateRangeWithOutYear } from "../../../queries/seasonQueries";
+import { getAllSeasons } from "../../../queries/seasonQueries";
 import {
     GetSeasonWithDateRangeQueryArgs,
     GetSeasonWithDateRangeResponse
@@ -15,14 +15,17 @@ const resolvers: Resolvers = {
                 { houseId, start, end }: GetSeasonWithDateRangeQueryArgs
             ): Promise<GetSeasonWithDateRangeResponse> => {
                 try {
-                    const seasons = await includeDateRangeWithOutYear(
-                        start,
-                        end,
-                        houseId
-                    );
-                    // 여기까지는 제대로 동작함
-                    // start를 기준으로... seasons에 있는 start, end들의 year 변경
-                    
+                    // 전체 시즌
+                    const seasons = await getAllSeasons(houseId);
+
+                    const newSeasons = seasons.map(season => {
+                        
+                        return season;
+                    });
+                    console.log({
+                        newSeasons
+                    });
+
                     const curDate = new Date(start);
                     const endDate = new Date(end);
                     console.log({

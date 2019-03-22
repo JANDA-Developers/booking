@@ -1,7 +1,7 @@
 import { ObjectId } from "bson";
 import { HouseModel } from "../../../models/House";
 import { extractHouse } from "../../../models/merge/Merge";
-import { ProductModel } from "../../../models/Product";
+import { ProductTypeModel } from "../../../models/ProductType";
 import {
     BuyProductMutationArgs,
     BuyProductResponse
@@ -14,25 +14,45 @@ const resolvers: Resolvers = {
         BuyProduct: privateResolver(
             async (
                 _,
-                { houseId, productId }: BuyProductMutationArgs
+                { houseId, productTypeId }: BuyProductMutationArgs
             ): Promise<BuyProductResponse> => {
                 try {
-                    const existingProduct = await ProductModel.findById(
-                        productId
+                    const existingProductType = await ProductTypeModel.findById(
+                        productTypeId
                     );
-                    if (!existingProduct) {
+                    if (!existingProductType) {
                         return {
                             ok: false,
-                            error: "Product is not exist",
+                            error: "ProductTypeId is not Matched",
                             house: null
                         };
                     }
+                    const existingHouse = await HouseModel.findById(houseId);
+                    if (!existingHouse) {
+                        return {
+                            ok: false,
+                            error: "존재하지 않는 숙소입니다.",
+                            house: null
+                        };
+                    }
+                    console.log({
+                        existingProductType
+                    });
+                    
+                    const product = await existingProductType.makeProduct(
+                        houseId
+                    );
+                    console.log({
+                        product
+                    });
+
+                    await product.save();
                     const updatedHouse = await HouseModel.findOneAndUpdate(
                         {
                             _id: new ObjectId(houseId)
                         },
                         {
-                            product: new ObjectId(productId)
+                            product: new ObjectId(product._id)
                         },
                         {
                             new: true

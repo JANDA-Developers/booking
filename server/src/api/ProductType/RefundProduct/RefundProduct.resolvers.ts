@@ -1,6 +1,7 @@
 import { ObjectId } from "bson";
 import { HouseModel } from "../../../models/House";
 import { extractHouse } from "../../../models/merge/Merge";
+import { ProductModel } from "../../../models/Product";
 import {
     RefundProductMutationArgs,
     RefundProductResponse
@@ -21,8 +22,20 @@ const resolvers: Resolvers = {
                         product: new ObjectId(productId)
                     });
                     if (existingHouse) {
-                        existingHouse.product = null;
-                        await existingHouse.save();
+                        const product = await ProductModel.findById(
+                            existingHouse.product
+                        );
+                        if (product) {
+                            await product.remove();
+                            existingHouse.product = undefined;
+                            await existingHouse.save();
+                        } else {
+                            return {
+                                ok: false,
+                                error: "구매한 제품이 없습니다.",
+                                house: null
+                            };
+                        }
                         return {
                             ok: false,
                             error: null,

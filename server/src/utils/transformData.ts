@@ -103,3 +103,19 @@ export const transformYMDToMD = (date: Date): number => {
     const md = parseInt(month + String(dayOfMonth).padStart(2, "0"), 10);
     return md;
 }
+
+/**
+ * 0: 같음, -1: date가 target 보다 작음, 1: date가 target 보다 큼
+ * @param date 날짜
+ * @param target 비교 기준 날짜
+ * @param opt MD: Month & Date / YMD: Year & Month & Date
+ */
+export const compareDate = (date: Date, target: Date, opt: "MD" | "YMD"): number => {
+    if(opt === "YMD"){
+        const t1 = date.getTime();
+        const t2 = target.getTime();
+        const eq = (date.getTime() === target.getTime()) && 0;
+        return eq === false ? t1 : t2
+    }
+    return 0;
+}

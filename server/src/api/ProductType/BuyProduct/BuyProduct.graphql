@@ -5,5 +5,5 @@ type BuyProductResponse {
 }
 
 type Mutation {
-    BuyProduct(houseId: ID!, productId: ID!): BuyProductResponse!
+    BuyProduct(houseId: ID!, productTypeId: ID!): BuyProductResponse!
 }

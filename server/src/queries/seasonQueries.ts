@@ -1,5 +1,9 @@
 import { ObjectId } from "bson";
-import { transformSeason, transformSeasons } from "../models/merge/Merge";
+import {
+    extractSeason,
+    transformSeason,
+    transformSeasons
+} from "../models/merge/Merge";
 import { SeasonModel } from "../models/Season";
 import { Season } from "../types/graph";
 import { transformYMDToMD } from "../utils/transformData";
@@ -243,4 +247,15 @@ export const betweenDateWithoutYear = async (
     } else {
         return null;
     }
+};
+
+export const getAllSeasons = async (houseId: string): Promise<Season[]> => {
+    const seasons = await SeasonModel.find({
+        house: new ObjectId(houseId)
+    });
+    return await Promise.all(
+        seasons.map(async season => {
+            return await extractSeason(season);
+        })
+    );
 };
