@@ -1,27 +1,31 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable camelcase */
-/* eslint-disable react/forbid-prop-types */
-import React, { useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Mutation, graphql } from 'react-apollo';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Product from './components/Product';
 import { useRadio, useModal } from '../../../actions/hook';
 import Button from '../../../atoms/button/Buttons';
+import Preloader from '../../../atoms/preloader/Preloader';
 import Modal from '../../../atoms/modal/Modal';
 import Slider from '../../../components/slider/Slider';
-import { GET_All_PRODUCTS, BUY_PRODUCTS, GET_USER_INFO } from '../../../queries';
-import { ErrProtecter, download, toast } from '../../../utils/utils';
+import {
+  GET_All_PRODUCTS, BUY_PRODUCTS, GET_USER_INFO, REFUND_PRODUCT,
+} from '../../../queries';
+import {
+  ErrProtecter, download, toast, isEmpty,
+} from '../../../utils/utils';
 import './Products.scss';
 
 const Products = ({ data: { GetAllProducts, loading }, currentProduct, selectedHouse } = {}) => {
   const products = GetAllProducts && GetAllProducts.products;
   const [selectedProduct, setSelectedProduct] = useRadio(currentProduct._id);
   const [redirect, setRedirect] = useState(false);
-  const [isOpen, openModal] = useModal(false);
-  const [vvv, setVVV] = useState('123');
+  const [demo, demoOpen] = useModal(false);
+  const [refund, refundOpen, refundClose] = useModal(false);
 
-  console.log(vvv);
+
   const handleSelectProduct = value => setSelectedProduct(value.replace('--slider', ''));
 
   const testProductId = products && products.filter(product => product.name === '상품1')[0]._id;
@@ -44,6 +48,9 @@ const Products = ({ data: { GetAllProducts, loading }, currentProduct, selectedH
   };
 
   const product1Value = products && products.filter(product => product.name === '상품2')[0]._id;
+
+  console.log(currentProduct);
+  console.log(product1Value);
   const product1 = {
     productIndex: '상품2',
     productName: '작은숙소',
@@ -100,12 +107,15 @@ const Products = ({ data: { GetAllProducts, loading }, currentProduct, selectedH
     newScript2.src = 'https://cdn.iamport.kr/js/iamport.payment-1.1.5.js';
     document.body.appendChild(newScript);
     document.body.appendChild(newScript2);
-    setVVV(222);
 
     return () => {
       console.log('didUnMount');
     };
   }, []);
+
+  useEffect(() => {
+    setSelectedProduct(currentProduct._id);
+  }, [currentProduct]);
 
   return (
     <div id="products" className="container">
@@ -113,49 +123,59 @@ const Products = ({ data: { GetAllProducts, loading }, currentProduct, selectedH
       <div className="docs-section">
         <h3>서비스 선택</h3>
         <div className="docs-section__box">
-          <div className="flex-grid flex-grid-grow products__productWrap">
-            <div className="flex-grid__col col--wmd-0">
-              <Product {...product0} />
-            </div>
-            <div className="flex-grid__col col--wmd-0">
-              <Product {...product1} />
-            </div>
-            <div className="flex-grid__col col--wmd-0">
-              <Product {...product2} />
-            </div>
-            <div className="flex-grid__col col--wmd-0">
-              <Product {...product3} />
-            </div>
-            {/* MD 사이즈 이하 디바이스에서 슬라이더 */}
-            <div className="flex-grid__col col--wmd-6 col--full-0">
-              <Slider infinite={false}>
-                <div className="JDslider__slide-wrap">
-                  <div className="JDslider__slide">
-                    <Product {...product0} value={`${product0.value}--slider`} slider />
+          {loading ? (
+            <Preloader />
+          ) : (
+            <div className="flex-grid flex-grid-grow products__productWrap">
+              <div className="flex-grid__col col--wmd-0">
+                <Product {...product0} />
+              </div>
+              <div className="flex-grid__col col--wmd-0">
+                <Product {...product1} />
+              </div>
+              <div className="flex-grid__col col--wmd-0">
+                <Product {...product2} />
+              </div>
+              <div className="flex-grid__col col--wmd-0">
+                <Product {...product3} />
+              </div>
+              {/* MD 사이즈 이하 디바이스에서 슬라이더 */}
+              <div className="flex-grid__col col--wmd-6 col--full-0">
+                <Slider infinite={false}>
+                  <div className="JDslider__slide-wrap">
+                    <div className="JDslider__slide">
+                      <Product {...product0} value={`${product0.value}--slider`} slider />
+                    </div>
                   </div>
-                </div>
-                <div className="JDslider__slide-wrap">
-                  <div className="JDslider__slide">
-                    <Product {...product1} value={`${product1.value}--slider`} slider />
+                  <div className="JDslider__slide-wrap">
+                    <div className="JDslider__slide">
+                      <Product {...product1} value={`${product1.value}--slider`} slider />
+                    </div>
                   </div>
-                </div>
-                <div className="JDslider__slide-wrap">
-                  <div className="JDslider__slide">
-                    <Product {...product2} value={`${product2.value}--slider`} slider />
+                  <div className="JDslider__slide-wrap">
+                    <div className="JDslider__slide">
+                      <Product {...product2} value={`${product2.value}--slider`} slider />
+                    </div>
                   </div>
-                </div>
-                <div className="JDslider__slide-wrap">
-                  <div className="JDslider__slide">
-                    <Product {...product3} value={`${product3.value}--slider`} slider />
+                  <div className="JDslider__slide-wrap">
+                    <div className="JDslider__slide">
+                      <Product {...product3} value={`${product3.value}--slider`} slider />
+                    </div>
                   </div>
-                </div>
-              </Slider>
+                </Slider>
+              </div>
             </div>
-          </div>
+          )}
           <p>
-            {'* 선택하신 상품은 숙소 '}
-            <span className="JDpoint-text">{selectedHouse.name}</span>
-            {' 에 적용됩니다.'}
+            {isEmpty(selectedHouse) ? (
+              <span className="JDlarge-warring-text">현재 생성된 숙소가 없습니다.</span>
+            ) : (
+              <Fragment>
+                {'* 선택하신 상품은 숙소 '}
+                <span className="JDpoint-text">{selectedHouse.name}</span>
+                {' 에 적용됩니다.'}
+              </Fragment>
+            )}
           </p>
           <Mutation
             mutation={BUY_PRODUCTS}
@@ -174,7 +194,7 @@ const Products = ({ data: { GetAllProducts, loading }, currentProduct, selectedH
                   download('https://stayjanda.com/docs/홈페이지 사용 메뉴얼--legacy-0.90.hwp', 'superWallaby').then(
                     data => console.log(data),
                   );
-                  openModal();
+                  demoOpen();
                   return;
                 }
                 console.log('redirect?');
@@ -185,7 +205,6 @@ const Products = ({ data: { GetAllProducts, loading }, currentProduct, selectedH
                 console.error(BuyProduct.error);
                 toast.warn('구매절차에 문제가 발생했습니다. 별도 문의 바랍니다.');
               }
-              return false;
             }}
             onError={(buyProductErr) => {
               console.log(buyProductErr);
@@ -205,18 +224,65 @@ const Products = ({ data: { GetAllProducts, loading }, currentProduct, selectedH
                 mutation();
                 return false;
               };
-              return <Button onClick={checkMutation} thema="primary" label="선택완료" mode="large" />;
+              return (
+                <Button
+                  onClick={checkMutation}
+                  disabled={isEmpty(selectedHouse)}
+                  thema="primary"
+                  label="선택완료"
+                  mode="large"
+                />
+              );
             }}
           </Mutation>
+          {/* 상품해지 버튼 */}
+          {currentProduct._id && (
+            <Button onClick={refundOpen} disabled={isEmpty(selectedHouse)} thema="warn" label="상품해지" mode="large" />
+          )}
         </div>
       </div>
-
-      <Modal appElement={document.getElementById('root')} center isOpen={isOpen}>
+      {/* 무료상품 시작 */}
+      <Modal appElement={document.getElementById('root')} center isOpen={demo}>
         <h5>JANDA</h5>
         <h6> 서비스체험을 시작합니다.</h6>
-        <a href="http://janda-tmp.com" className="JDanchor large-text">
+        <a href="http://janda-tmp.com" className="JDanchor JDlarge-text">
           {'체험시작'}
         </a>
+      </Modal>
+      {/* 리펀트 시작 */}
+      <Modal appElement={document.getElementById('root')} onRequestClose={refundClose} center isOpen={refund}>
+        <h6>서비스 해지</h6>
+        <p>
+          {`Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsam a asperiores libero nam sunt! Ducimus ipsam
+          obcaecati ipsum earum delectus molestiae, accusantium, minima asperiores ex ab esse impedit at omnis. Sequi
+          quos atque eligendi fugiat sunt quidem aliquid accusantium debitis quia consectetur sapiente possimus ut nobis
+          deserunt quibusdam natus totam quaerat, optio distinctio facilis accusamus recusandae quae repellendus! Porro,
+          debitis? Similique nobis, magnam provident numquam, maxime laborum aut, vero non quod excepturi at sapiente
+          consequuntur veritatis nesciunt cupiditate soluta aliquid eum ab dolores praesentium velit? Atque temporibus
+          consequuntur non nesciunt.`}
+        </p>
+        <div className="ReactModal__EndSection">
+          <Mutation
+            mutation={REFUND_PRODUCT}
+            variables={{
+              houseId: selectedHouse._id,
+              productId: currentProduct._id,
+            }}
+            refetchQueries={[{ query: GET_USER_INFO }]}
+            onCompleted={({ RefundProduct }) => {}}
+          >
+            {refundMutation => (
+              <Button
+                onClick={refundMutation}
+                disabled={isEmpty(selectedHouse)}
+                thema="warn"
+                label="상품해지"
+                mode="flat"
+              />
+            )}
+          </Mutation>
+          <Button onClick={refundClose} label="닫기" mode="flat" />
+        </div>
       </Modal>
     </div>
   );

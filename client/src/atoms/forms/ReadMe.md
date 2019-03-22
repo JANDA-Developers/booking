@@ -1,4 +1,4 @@
-# Checkbox
+a# Checkbox
 
 | Props    | Tpye   | Description    | Options | Require | Default |
 | -------- | ------ | -------------- | ------- | ------- | ------- |
@@ -9,24 +9,27 @@
 
 # InputText
 
-| Props         | Tpye   | Description                      | Options                | Require | Default |
-| ------------- | ------ | -------------------------------- | ---------------------- | ------- | ------- |
-| value         | any    | 값(hook)                         |                        |         |         |
-| onChange      | func   | func(인풋값);                    |                        | Y       |         |
-| label         | string |                                  |                        |         |         |
-| disabled      | string |                                  |                        |         | false   |
-| type          | string | 인풋에 들어갈 타입               | password               |         |         |
-| dataSuccess   | string | 에러메세지                       |                        |         | ''      |
-| dataErr       | string | 성공메세지                       |                        |         | ''      |
-| validation    | func   | 유효성검사                       | utils.validation       |         |         |
-| onChangeValid | func   | func(검사결과)                   |                        |         |         |
-| isValid       | any    | 값에따라 classNames 결정         | onChangeValid 검사결과 | Y       |         |
-| refContainer  | object | input 객체 저장                  |                        |         | {}      |
-| readOnly      | bool   | 읽기전용 모드                    |                        |         |         |
-| textarea      | bool   | 텍스트어리어로 사용할지          |                        |         | false   |
-| scroll        | bool   | 텍스트어리어 일때 스크롤 노출    |                        |         | false   |
-| doubleHeight  | bool   | 텍스트어리어 일때 높이 2배       |                        |         | false   |
-| max           | number | validation이 MaxOver 일떄 최대값 |                        |         | 10000   |
+| Props         | Tpye   | Description                               | Options                | Require | Default |
+| ------------- | ------ | ----------------------------------------- | ---------------------- | ------- | ------- |
+| value         | any    | 값(hook)                                  |                        |         |         |
+| onChange      | func   | func(인풋값);                             |                        | Y       |         |
+| label         | string |                                           |                        |         |         |
+| disabled      | string |                                           |                        |         | false   |
+| type          | string | 인풋에 들어갈 타입                        | password               |         |         |
+| dataSuccess   | string | 에러메세지                                |                        |         | ''      |
+| dataErr       | string | 성공메세지                                |                        |         | ''      |
+| validation    | func   | 유효성검사                                | utils.validation       |         |         |
+| onChangeValid | func   | func(검사결과)                            |                        |         |         |
+| isValid       | any    | 값에따라 classNames 결정                  | onChangeValid 검사결과 | Y       |         |
+| refContainer  | object | input 객체 저장                           |                        |         | {}      |
+| readOnly      | bool   | 읽기전용 모드                             |                        |         |         |
+| textarea      | bool   | 텍스트어리어로 사용할지                   |                        |         | false   |
+| scroll        | bool   | 텍스트어리어 일때 스크롤 노출             |                        |         | false   |
+| hyphen        | bool   | 한국 전화번호에 맞춘 오토 하이픈 사용여부 |                        |         | false   |
+| doubleHeight  | bool   | 텍스트어리어 일때 높이 2배                |                        |         | false   |
+| max           | number | validation이 MaxOver 일떄 최대값          |                        |         | 10000   |
+
+- hyphen : 하이픈된 것은 리턴할때 하이픈 때서 줍니다
 
 # Radio
 

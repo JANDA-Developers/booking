@@ -10,7 +10,7 @@ import ProfileCircle from '../../atoms/profileCircle/ProfileCircle';
 import profileImg from '../../img/profile/default_profile.jpg';
 
 function SideNav({
-  isOpen, setIsOpen, userInformation, selectedProduct = {},
+  isOpen, setIsOpen, userInformation, selectedProduct,
 }) {
   const classes = classNames({
     JDsideNav: true,
@@ -24,6 +24,10 @@ function SideNav({
     backgroundImage: `url(${profileImg})`,
   };
 
+  console.log(userInformation);
+  console.log(userInformation);
+  console.log(userInformation);
+
   return (
     <Fragment>
       <div className={classes}>
@@ -34,9 +38,9 @@ function SideNav({
               <ProfileCircle style={profileStyle} />
             </div>
           </Link>
-          <span className="JDsideNav__name">{userInformation.name}</span>
+          <span className="JDsideNav__name">{userInformation.name || '비회원'}</span>
         </div>
-        {/* 리스트 컨테이 */}
+        {/* 리스트 컨테이너 */}
         <div className="JDsideNav__listContainer">
           <NavLink to="/middleServer/makeHouse" className="JDsideNav__navLink">
             <Icon icon="list" />
@@ -47,12 +51,13 @@ function SideNav({
             <span className="JDsideNav__title">서비스 상품</span>
           </NavLink>
         </div>
+        {/* 하단 상품뷰 */}
         <div className="JDsideNav__productView">
           <div className="JDsideNav__billing-info">
-            <div className="JDsideNav__billing-title">{selectedProduct.name || '적용된 상품이 없습니다.'}</div>
+            <div className="JDsideNav__billing-title">{selectedProduct.name || '적용안됨'}</div>
             <div className="JDsideNav__billing-detail">
-              <span>무료</span>
-              <span>/월</span>
+              <span>{selectedProduct.price}</span>
+              <span>{selectedProduct.name || '/ 월'}</span>
             </div>
           </div>
           <div className="JDsideNav__upgrade-btn">
@@ -76,12 +81,14 @@ SideNav.propTypes = {
   isOpen: PropTypes.bool,
   setIsOpen: PropTypes.func,
   userInformation: PropTypes.object,
+  selectedProduct: PropTypes.object,
 };
 
 SideNav.defaultProps = {
   isOpen: false,
   setIsOpen: () => {},
   userInformation: {},
+  selectedProduct: {},
 };
 
 export default ErrProtecter(SideNav);

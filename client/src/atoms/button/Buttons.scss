@@ -43,11 +43,20 @@
       background-color: $primary-color-light
     }
   }
+  
   &.JDbtn--secondary {
     background-color: $secondary-color;
     color: $secondary-color-light-on;
     &:hover {
       background-color: $secondary-color-light
+    }
+  }
+
+  &.JDbtn--warn {
+    background-color: $warn-color;
+    color: #fff;
+    &:hover {
+      background-color: $warn-color-light
     }
   }
 

@@ -18,12 +18,13 @@
         right: 0.25em;
         top:1.5em;
     }
+    // 오픈된 리스트
     &--staticList {
         .JDsearchInput__ul {
             position: relative;
         }
     }
-    
+    // 피드백 메세지
     &__feedBack {
         position:absolute;
         bottom: calc(#{$standard-margin-bottom} - .9rem);
@@ -132,8 +133,8 @@
 
     &__input_wrapper { 
         display: block;
-
     }
+    // 리스트 아래 부분 설명
     &__detail {
         font-size: $typho-small;
     }

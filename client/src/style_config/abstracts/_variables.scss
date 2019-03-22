@@ -36,6 +36,9 @@ $secondary-color-dark-on: #fff !default;
 // $success-color: #52a071 !default;
 $success-color: '-' !default;
 $background-color: #fff;
+//TODO  여기 warn으로 이름교체
+$warn-color: #ff6760 !default;
+$warn-color-light: #ff8f89 !default;
 $error-color: #ff6760 !default;
 $link-color: rgb(66, 62, 199) !default;
 $link-color-active: rgb(48, 45, 131) !default;
@@ -56,6 +59,14 @@ $desktop: "1000px" !default; // lg
 $desktophd: "1200px" !default; //  wlg 
 $full: "9999px" !default; 
 $null: "0px" !default; 
+
+// 함수를 만드는방법이 있지만 복잡합니다. 
+// https://hugogiraudel.com/2014/01/15/sass-string-to-number/
+$mobileUp: "401px" !default; // sm
+$phabletUp: "551px" !default; //  md
+$tabletUp: "751px" !default; //  wmd
+$desktopUp: "1001px" !default; // lg
+$desktophdUp: "1201px" !default; //  wlg 
 
 // -- Grid 그리드
 $container-width: 1000px !default;
@@ -211,7 +222,7 @@ $button-font-size: $typho-large !default;
 $button-height: 2.25rem !default;
 $button-padding-side: 1rem !default;
 $button-padding: 0 $button-padding-side !default;
-$button-radius: 2px !default;
+$button-radius: $standard-border-radius !default;
 $buttons-space: .4rem !default;
 $buttons-icon-margin: $standard-icon-margin !default;
 $buttons-small-icon-margin: 0.45em !default;
@@ -328,3 +339,16 @@ $tabs-margin-bottom: $standard-margin-bottom;
 $tabs-tab-padding:  $standard-li-padding;
 $tabs-tab-border-color: $html-color;
 $tabs-tab-border-radious: $standard-border-radius;
+
+// 16 ToolTipList 툴팁리스트
+// ANCHOR tabs Tabs=========================================================================
+$tooltipList-border-radius: $standard-border-radius;
+$tooltipList-background-color: white;
+$tooltipList-li-border-bottom: 1px solid $grey-level1;
+$tooltipList-li-padding: 0px;
+$tooltipList-ul-padding: .5rem;
+
+// 17 Preloader 프리로더
+// ANCHOR preloader loading=========================================================================
+$preloader-background-color: $grey-level1;
+$preloader-fill-color: $primary-color;

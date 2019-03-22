@@ -1,5 +1,5 @@
 import React from 'react';
-import './myProductAdd.scss';
+import './myHouseAdd.scss';
 import Card from '../../../../atoms/cards/Card';
 import Icon from '../../../../atoms/icons/Icons';
 

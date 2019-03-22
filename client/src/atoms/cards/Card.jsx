@@ -4,13 +4,17 @@ import React from 'react';
 import ErrProtecter from '../../utils/ErrProtecter';
 import './Card.scss';
 
-const JDcard = ({ children, hoverDark }) => {
+const JDcard = ({ children, hoverDark, ...props }) => {
   const classes = classNames({
     JDcard: true,
     'JDcard--hoverDark': hoverDark,
   });
 
-  return <div className={classes}>{children}</div>;
+  return (
+    <div {...props} className={classes}>
+      {children}
+    </div>
+  );
 };
 
 JDcard.propTypes = {

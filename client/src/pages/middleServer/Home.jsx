@@ -3,17 +3,18 @@ import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import Button from '../../atoms/button/Buttons';
 import './Home.scss';
-import utils, { toast, isEmpty } from '../../utils/utils';
+import { ErrProtecter, toast, isEmpty } from '../../utils/utils';
 
 // eslint-disable-next-line react/prop-types
 const Home = ({
-  isLoggedIn, selectedProduct, selectedHouse, houses = [],
+  isLoggedIn, selectedProduct, selectedHouse, houses,
 }) => {
   const [redirect, setRedirect] = useState(false);
   const [redirectUrl, setRedirectUrl] = useState('/middleServer/makeHouse');
 
   const startService = () => {
     // 로그인 상태인가?
+
     if (!isLoggedIn) {
       toast.warn('로그인후 시작해주세요.');
       return;
@@ -31,7 +32,7 @@ const Home = ({
       toast.warn('현재 적용된 서비스가 없습니다.');
       return;
     }
-    
+
     // 상품을 구매했는가?
     if (isEmpty(selectedProduct)) {
       toast('선택된 상품이 없습니다. 상품을 선택해 주세요.');
@@ -58,5 +59,17 @@ const Home = ({
 
 Home.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
+  selectedProduct: PropTypes.object,
+  selectedHouse: PropTypes.object,
+  houses: PropTypes.array,
+  isPhoneVerified: PropTypes.bool,
 };
-export default utils.ErrProtecter(Home);
+
+Home.defaultProps = {
+  selectedProduct: {},
+  selectedHouse: {},
+  houses: [],
+  isPhoneVerified: false,
+};
+
+export default ErrProtecter(Home);

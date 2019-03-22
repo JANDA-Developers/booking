@@ -5,7 +5,7 @@ import { Mutation } from 'react-apollo';
 import InputText from '../../atoms/forms/InputText';
 import Radio from '../../atoms/forms/Radio';
 import Button from '../../atoms/button/Buttons';
-import { EMAIL_SIGN_UP, LOG_USER_IN } from '../../queries';
+import { EMAIL_SIGN_UP, LOG_USER_IN, GET_USER_INFO, IS_LOGGED_IN } from '../../queries';
 import './SignUp.scss';
 import utils, { toast } from '../../utils/utils';
 import { useInput, useRadio } from '../../actions/hook';
@@ -22,9 +22,10 @@ function SignUp({ history }) {
     <div id="signUpPage" className="container container--sm">
       <div className="docs-section">
         {/* 인증모달 */}
-        <Mutation mutation={LOG_USER_IN}>
+        <Mutation mutation={LOG_USER_IN} refetchQueries={[{ query: IS_LOGGED_IN }]}>
           {logUserIn => (
             <Mutation
+              refetchQueries={[{ query: GET_USER_INFO }]}
               mutation={EMAIL_SIGN_UP}
               variables={{
                 name: nameHook.value,
@@ -34,13 +35,12 @@ function SignUp({ history }) {
               }}
               onError={error => {
                 toast.warn('통신에러 발생 잠시후 다시 시도해주세요.');
-                console.log(error);
               }}
               onCompleted={({ EmailSignUp: { ok, error, token } }) => {
                 // 자동로그인
                 if (ok) {
                   if (token) {
-                    toast.warn('회원가입완료');
+                    toast.success('회원가입완료');
                     logUserIn({
                       variables: {
                         token: token,
@@ -103,7 +103,7 @@ function SignUp({ history }) {
                         <InputText {...checkPasswordHook} type="password" label="비밀번호 확인" />
                       </div>
                       <div className="flex-grid__col col--full-12 col--md-12">
-                        <InputText {...phoneNumberHook} validation={utils.isPhone} label="전화번호" />
+                        <InputText {...phoneNumberHook} hyphen validation={utils.isPhone} label="전화번호" />
                       </div>
                       <div className="flex-grid__col col--full-12 col--md-12">
                         <InputText {...emailHook} validation={utils.isEmail} label="이메일" />

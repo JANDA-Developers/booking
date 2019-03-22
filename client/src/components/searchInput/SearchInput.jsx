@@ -145,7 +145,7 @@ function SearchInput({
   useEffect(setList, [dataList]); // 유저 리스트가 변할때마다 새롭게 리스트를 작성해줍니다
   useEffect(() => {
     if (isMatched) $(inputRef.current).addClass('JDsearchInput__input--matched');
-  }); // 매칭된 리스트일경우에 인풋에 밸리
+  }, [isMatched]); // 매칭된 리스트일경우에 인풋에 밸리
 
   return (
     <div className={classes}>

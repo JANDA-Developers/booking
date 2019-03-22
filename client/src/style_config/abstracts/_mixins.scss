@@ -100,7 +100,7 @@
 
 // 반응형 생성기
 @mixin response($max:9999px,$min:0px) {
-    @media only screen and (max-width: $max) and (min-width: $min + 1) {
+    @media only screen and (max-width: $max) and (min-width: $min) {
       @content; 
   }
 }

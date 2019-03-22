@@ -251,7 +251,7 @@ function ShowComponents() {
           <h6>Modal & SideNav</h6>
           <Button label="Open Modal" onClick={openModal} />
           <Button icon="menue" label="Open SideNav" onClick={setSideNavIsOpen} />
-          <JDmodal isOpen={isOpen} onRequestClose={closeModal} className="Modal" overlayClassName="Overlay">
+          <JDmodal isOpen={isOpen} onRequestClose={closeModal}>
             <p>Modal text!</p>
             <div className="ReactModal__EndSection">
               <Button label="Close Modal" onClick={closeModal} />

@@ -34,6 +34,8 @@ function Buttons({
     'JDbtn--white': color === 'white',
     'JDbtn--primary': thema === 'primary',
     'JDbtn--secondary': thema === 'secondary',
+    'JDbtn--warn': thema === 'warn',
+    'JDwaves-effect-dark': mode === 'flat' && thema === 'normal',
     'JDbtn--pulse-primary': pulse,
     'JDtext-blink': blink,
   });
@@ -44,7 +46,7 @@ function Buttons({
     <button
       type={type}
       disabled={disabled}
-      className={`JDbtn JDwaves-effect  ${classes}`}
+      className={`JDbtn JDwaves-effect ${classes}`}
       onClick={onClick}
       onKeyPress={handleKeyPress}
       data-tip={dataTip}

@@ -23,10 +23,6 @@ ul, menu, dir {
     clear:both;
 }
 
-.large-text {
-    font-size: $typho-large
-}
-
 a.JDanchor {
     outline: 0;
     text-decoration: none;
@@ -38,6 +34,14 @@ a.JDanchor {
     &:focus {
         color:$link-color-active
     }
+}
+
+.JDlarge-text {
+    font-size: $typho-large
+}
+
+.JDlarge-warring-text {
+    color: $error-color
 }
 
 span.JDpoint-text {

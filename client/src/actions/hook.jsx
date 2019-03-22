@@ -36,6 +36,24 @@ const useFetch = (url) => {
   return [data, isLoading, isError, doGet];
 };
 
+// Our hook
+function useDebounce(value, delay) {
+  // State and setters for debounced value
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value]);
+
+  return debouncedValue;
+}
+
 // 밸리데이션을 포함한 훅 리턴
 function useInput(defaultValue, defulatValid = '') {
   const [value, setValue] = useState(defaultValue);
@@ -155,5 +173,14 @@ function useBookPOP(defaultValue) {
 }
 
 export {
-  useInput, useCheckBox, useRadio, useSwitch, useSelect, useToggle, useFetch, useModal, useBookPOP,
+  useInput,
+  useCheckBox,
+  useRadio,
+  useSwitch,
+  useSelect,
+  useToggle,
+  useFetch,
+  useModal,
+  useBookPOP,
+  useDebounce,
 };

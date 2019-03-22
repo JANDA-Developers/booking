@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { toast } from '../../../../utils/utils';
-import { MAPS_KEY } from '../../../../keys';
+import { toast } from '../../../utils/utils';
+import { MAPS_KEY } from '../../../keys';
 
 export const geoCode = async (address) => {
   const URL = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${MAPS_KEY}`;

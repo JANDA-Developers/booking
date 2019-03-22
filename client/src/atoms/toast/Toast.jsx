@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import { ToastContainer, cssTransition } from 'react-toastify';
 import './Toast.scss';
 
+//  enter 와 exit 의 값은 css 에니메이션 이름입니다.
 const Zoom = cssTransition({
   enter: 'zoomIn',
   exit: 'zoomOut',
-  duration: [500, 800],
+  duration: [400, 400],
 });
 
 const JDtoast = ({ autoClose, ...props }) => <ToastContainer transition={Zoom} {...props} autoClose={autoClose} />;
@@ -18,7 +19,7 @@ JDtoast.propTypes = {
 };
 
 JDtoast.defaultProps = {
-  autoClose: 6000,
+  autoClose: 4000,
   position: 'bottom-right',
   props: {},
 };

@@ -1,12 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import './InputText.scss';
 import './Textarea.scss';
-import debounce from 'lodash.debounce';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import JDicon from '../icons/Icons';
 import ErrProtecter from '../../utils/ErrProtecter';
 import { NEUTRAL } from '../../utils/Enums';
+import autoHyphen from '../../utils/AutoHyphen';
 
 function InputText({
   readOnly,
@@ -27,20 +27,14 @@ function InputText({
   dataError,
   dataSuccess,
   icon,
+  hyphen,
   ...props
 }) {
-  // 중복방지
-  const inbounceHandleChange = (target) => {
-    const result = validation(target.value, max);
-    onChange(target.value);
-    onChangeValid(result);
-  };
-
-  const inDebounceHandleChange = debounce(inbounceHandleChange, 100);
-
   const inHandleChange = (event) => {
     const { target } = event;
-    inDebounceHandleChange(target);
+    const result = validation(target.value, max);
+    onChange(target.value.replace(/-/gi, ''));
+    onChangeValid(result);
   };
 
   const classes = classNames({
@@ -57,12 +51,12 @@ function InputText({
 
   const inRefContainer = useRef(null);
 
+  // ⚠️ 언컨트롤드를 위해서 만들었는데  왜필요한지 모르겠다
   useEffect(() => {
-    let domInput;
-
-    if (refContainer) domInput = refContainer.current;
-    else domInput = inRefContainer.current;
-    if (value !== undefined) domInput.value = value;
+    // let domInput;
+    // if (refContainer) domInput = refContainer.current;
+    // else domInput = inRefContainer.current;
+    // if (value !== undefined) domInput.value = value;
   }, []);
 
   // 인풋 과 텍스트어리어 경계
@@ -79,7 +73,7 @@ function InputText({
         disabled={disabled}
         readOnly={readOnly}
         type={type}
-        value={dayPicker ? value : undefined}
+        value={hyphen ? autoHyphen(value) : value}
         ref={refContainer || inRefContainer}
         data-color="1213"
         {...props}

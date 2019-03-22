@@ -11,17 +11,14 @@ function JDselect({
   // eslint-disable-next-line no-unused-vars
   ...props
 }) {
+  // placeHolder 가 보일려면 value 는 undefined 여야 합니다.
+  let validSelectedOption;
+  if (selectedOption && !selectedOption.value) validSelectedOption = undefined;
+  else validSelectedOption = selectedOption;
+
   const handleChange = (selectOption) => {
     onChange(selectOption);
   };
-
-  // for placeHolder
-  let validSelectedOption;
-  if (selectedOption && selectedOption.value === null) {
-    validSelectedOption = undefined;
-  } else {
-    validSelectedOption = selectedOption;
-  }
 
   return (
     <div className={disabled ? 'JDselect JDselect--disabled' : 'JDselect'}>

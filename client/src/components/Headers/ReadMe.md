@@ -1,8 +1,3 @@
 # Headers
 
-| Props         | Tpye | Description       | Options | Require | Default |
-| ------------- | ---- | ----------------- | ------- | ------- | ------- |
-| isLoggedIn    | bool | 수평달력으로 변환 |         | Y       |         |
-| verifiedPhone | bool | 수평달력으로 변환 |         | Y       |         |
-| sideNavOpener | func | 수평달력으로 변환 |         | Y       |         |
-| history       | any  | 수평달력으로 변환 |         | Y       |         |
+- 헤더에서 상품을 전환하는 부분은 각별히 신경써야합니다. (캐시와 혼동하지 않도록 도우십시요.)
