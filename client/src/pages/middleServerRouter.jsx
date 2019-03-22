@@ -132,6 +132,7 @@ JDmiddleServer.defaultProps = {
   selectedHouse: {},
 };
 
+
 //  how to branch query
 // https://stackoverflow.com/questions/48880071/use-result-for-first-query-in-second-query-with-apollo-client
 export default compose(

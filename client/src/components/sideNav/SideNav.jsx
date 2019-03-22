@@ -24,6 +24,10 @@ function SideNav({
     backgroundImage: `url(${profileImg})`,
   };
 
+  console.log(userInformation);
+  console.log(userInformation);
+  console.log(userInformation);
+
   return (
     <Fragment>
       <div className={classes}>
