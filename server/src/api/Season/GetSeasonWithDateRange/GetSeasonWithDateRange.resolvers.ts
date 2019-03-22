@@ -5,7 +5,6 @@ import {
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
 import privateResolver from "../../../utils/privateResolvers";
-import { extractSeasonWithDateRange } from "../../../utils/process";
 
 const resolvers: Resolvers = {
     Query: {
@@ -18,31 +17,21 @@ const resolvers: Resolvers = {
                     // 전체 시즌
                     const seasons = await getAllSeasons(houseId);
 
-                    const newSeasons = seasons.map(season => {
-                        
-                        return season;
-                    });
-                    console.log({
-                        newSeasons
-                    });
+                    const cur = new Date(start);
+                    const ed = new Date(end);
 
-                    const curDate = new Date(start);
-                    const endDate = new Date(end);
-                    console.log({
-                        seasons
-                    });
-                    const result = extractSeasonWithDateRange(
-                        curDate,
-                        endDate,
-                        seasons
-                    );
-                    console.log({
-                        result
-                    });
+                    // start, end 를 돌면서...
+                    while (cur.getTime() <= ed.getTime()) {
+                        // cur 를 이용하여 seasons에서 하루하루 배열마다 시즌을 다 더해줌...
+                        // 그리고 마지막에 이 배열들을 연결시켜서 합쳐버리기...
+                        
+                        cur.setDate(cur.getDate() + 1);
+                    }
+
                     return {
                         ok: true,
-                        error: null,
-                        dateRangeWithSeason: result
+                        error: "개발중... ㅜㅜ",
+                        dateRangeWithSeason: []
                     };
                 } catch (error) {
                     return {

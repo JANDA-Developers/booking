@@ -12,9 +12,11 @@ const resolvers: Resolvers = {
                     return {
                         ok: true,
                         error: null,
-                        productTypes: productTypes.map(productType => {
-                            productType._id = productType._id.toString();
-                            return productType;
+                        productTypes: productTypes.map((productType: any) => {
+                            return {
+                                ...productType._doc,
+                                _id: productType._doc._id.toString()
+                            };
                         })
                     };
                 } catch (error) {
