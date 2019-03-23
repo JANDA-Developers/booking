@@ -15,7 +15,7 @@ import {
 import { applyDaysToBinary } from "../../utils/applyDays";
 import { HouseModel, HouseSchema } from "../House";
 import { ProductModel, ProductSchema } from "../Product";
-import { ProductTypeSchema } from "../ProductType";
+import { ProductTypeModel, ProductTypeSchema } from "../ProductType";
 import { RoomModel, RoomSchema } from "../Room";
 import { RoomPriceSchema } from "../RoomPrice";
 import { RoomTypeModel, RoomTypeSchema } from "../RoomType";
@@ -255,17 +255,32 @@ export const extractProductType = (
     const result: any = { ...productType };
     return {
         ...result._doc,
-        _id: productType._id.toString()
+        _id: result._doc._id.toString()
     };
 };
 
-export const extractProduct = (
+export const transformProductType = async (
+    productTypeId: ObjectId | string
+): Promise<ProductType | null> => {
+    const productType = await ProductTypeModel.findById(productTypeId);
+    if (productType) {
+        return await extractProductType(productType);
+    } else {
+        return null;
+    }
+};
+
+export const extractProduct = async (
     product: InstanceType<ProductSchema>
-): Product => {
+): Promise<Product> => {
     const result: any = { ...product };
     return {
         ...result._doc,
-        _id: product._id.toString()
+        _id: product._id.toString(),
+        productType: await transformProductType.bind(
+            transformProductType,
+            result._doc._id
+        )
     };
 };
 
