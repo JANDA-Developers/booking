@@ -1,3 +1,4 @@
+import { extractProductType } from "../../../models/merge/Merge";
 import { ProductTypeModel } from "../../../models/ProductType";
 import { GetAllProductTypesResponse } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
@@ -12,11 +13,8 @@ const resolvers: Resolvers = {
                     return {
                         ok: true,
                         error: null,
-                        productTypes: productTypes.map((productType: any) => {
-                            return {
-                                ...productType._doc,
-                                _id: productType._doc._id.toString()
-                            };
+                        productTypes: productTypes.map(productType => {
+                            return extractProductType(productType);
                         })
                     };
                 } catch (error) {
