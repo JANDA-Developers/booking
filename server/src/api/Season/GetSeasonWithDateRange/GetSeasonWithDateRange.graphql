@@ -1,7 +1,7 @@
 type GetSeasonWithDateRangeResponse {
     ok: Boolean!
     error: String
-    dateRangeWithSeason: [DateRangeWithSeason!]
+    seasons: [Season!]
 }
 
 # 날짜 범위에 Season을 포함.
