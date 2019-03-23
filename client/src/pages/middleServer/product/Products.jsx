@@ -18,6 +18,7 @@ import {
 } from '../../../utils/utils';
 import './Products.scss';
 
+// currentProduct : 현재 적용중인 상품
 const Products = ({ data: { GetAllProductTypes, loading }, currentProduct, selectedHouse } = {}) => {
   const productTypes = GetAllProductTypes && GetAllProductTypes.productTypes;
   const [selectedProduct, setSelectedProduct] = useRadio(currentProduct._id);
@@ -25,6 +26,8 @@ const Products = ({ data: { GetAllProductTypes, loading }, currentProduct, selec
   const [demo, demoOpen, demoClose] = useModal(false);
   const [refund, refundOpen, refundClose] = useModal(false);
 
+  console.log(currentProduct);
+  console.log(currentProduct);
   const handleSelectProduct = value => setSelectedProduct(value.replace('--slider', ''));
 
   const testProductId = productTypes && productTypes.filter(product => product.name === '상품1')[0]._id;
@@ -180,7 +183,7 @@ const Products = ({ data: { GetAllProductTypes, loading }, currentProduct, selec
             mutation={BUY_PRODUCTS}
             variables={{
               houseId: selectedHouse._id,
-              productId: selectedProduct && selectedProduct.replace('--slider', ''),
+              productTypeId: selectedProduct && selectedProduct.replace('--slider', ''),
             }}
             refetchQueries={[{ query: GET_USER_INFO }]}
             onCompleted={({ BuyProduct }) => {
@@ -263,11 +266,12 @@ const Products = ({ data: { GetAllProductTypes, loading }, currentProduct, selec
           consequuntur non nesciunt.`}
         </p>
         <div className="ReactModal__EndSection">
+          {/* Mutation : 환불 뮤테이션 */}
           <Mutation
             mutation={REFUND_PRODUCT}
             variables={{
               houseId: selectedHouse._id,
-              productId: currentProduct._id,
+              productTypeId: currentProduct._id,
             }}
             refetchQueries={[{ query: GET_USER_INFO }]}
             onCompleted={({ RefundProduct }) => {}}

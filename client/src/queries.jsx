@@ -129,6 +129,9 @@ export const GET_HOUSE = gql`
         product {
           _id
           name
+          productType {
+            _id
+          }
         }
         location {
           address
@@ -176,8 +179,8 @@ export const UPDATE_HOUSE = gql`
 `;
 // 상품구매
 export const BUY_PRODUCTS = gql`
-  mutation buyProduct($houseId: ID!, $prodcutTypeId: ID!) {
-    BuyProduct(houseId: $houseId, prodcutTypeId: $prodcutTypeId) {
+  mutation buyProduct($houseId: ID!, $productTypeId: ID!) {
+    BuyProduct(houseId: $houseId, productTypeId: $productTypeId) {
       ok
       error
     }

@@ -32,6 +32,10 @@ function JDmiddleServer({
   // 선택된 숙소가 없다면 선택된 숙소는 첫번째 숙소입니다.
   if (isEmpty(selectedHouse) && !isEmpty(houses)) [selectedHouse] = houses;
 
+  console.log(selectedHouse.product);
+  console.log(selectedHouse.product);
+  console.log(selectedHouse.product);
+  
   const selectedProduct = selectedHouse.product || {};
   const { isPhoneVerified } = user;
 
