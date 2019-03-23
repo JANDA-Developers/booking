@@ -1,6 +1,12 @@
 @import '../../style_config/style_config';
 
 .JDselect {
+
+  // NO 옵션
+  .react-select__menu-notice--no-options {
+    color: $selcet-placeholder-color;
+  }
+
   font-size: $typho-normal;
 
   .JDselect__label {

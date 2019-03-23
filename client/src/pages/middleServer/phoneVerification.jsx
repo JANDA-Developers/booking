@@ -66,7 +66,7 @@ function PhoneVerification({ history }) {
                         history.replace('./');
                       } else {
                         console.error(CompletePhoneVerification.error);
-                        toast.warn('핸드폰 인증에 실패했습니다. ㅠ');
+                        toast.warn('인증실패');
                       }
                     }}
                     onError={(verficationError) => {

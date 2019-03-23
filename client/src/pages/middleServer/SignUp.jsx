@@ -22,10 +22,15 @@ function SignUp({ history }) {
     <div id="signUpPage" className="container container--sm">
       <div className="docs-section">
         {/* 인증모달 */}
-        <Mutation mutation={LOG_USER_IN} refetchQueries={[{ query: IS_LOGGED_IN }]}>
+        <Mutation
+          mutation={LOG_USER_IN}
+          refetchQueries={[{ query: IS_LOGGED_IN }, { query: GET_USER_INFO }]}
+          onCompleted={() => {
+            history.replace(`/middleServer/PhoneVerification`);
+          }}
+        >
           {logUserIn => (
             <Mutation
-              refetchQueries={[{ query: GET_USER_INFO }]}
               mutation={EMAIL_SIGN_UP}
               variables={{
                 name: nameHook.value,
@@ -46,8 +51,6 @@ function SignUp({ history }) {
                         token: token,
                       },
                     });
-                    // 인증 화면으로 이동
-                    history.replace(`/middleServer/PhoneVerification`);
                   }
                 }
                 if (error) {
