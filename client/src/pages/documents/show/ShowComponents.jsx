@@ -181,7 +181,7 @@ function ShowComponents() {
         {/* 셀렉트박스 */}
         <h6>SelectBox</h6>
         <div className="flex-grid-grow docs-section__box">
-        <div className="flex-grid__col">
+          <div className="flex-grid__col">
             <SelectBox {...useSelect1} options={selectDummyOptions} isOpen label="normal" />
           </div>
           <div className="flex-grid__col">
@@ -269,15 +269,15 @@ function ShowComponents() {
 
           <Button dataTip dataFor="tooltip__E" label="Some Btn" classes={['JDbtn--small']} />
 
-          <Tooltip class="JDtooltip" id="tooltip__C" type="success" effect="solid">
+          <Tooltip id="tooltip__C" type="success" effect="solid">
             <span>some txt</span>
           </Tooltip>
 
-          <Tooltip class="JDtooltip" id="tooltip__E" type="error" effect="solid">
+          <Tooltip id="tooltip__E" type="error" effect="solid">
             <span>some txt</span>
           </Tooltip>
 
-          <Tooltip class="JDtooltip" id="tooltip__D" type="dark" effect="solid">
+          <Tooltip id="tooltip__D" type="dark" effect="solid">
             <span>some txt</span>
           </Tooltip>
         </div>

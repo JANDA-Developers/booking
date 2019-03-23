@@ -28,13 +28,15 @@ function JDmiddleServer({
   const isloading = loading || loading2 || loading3;
   const houses = user.houses || [];
   let selectedHouse = houses.filter(house => house._id === lastSelectedHouse.value)[0] || {};
-  
+
+  console.log(PhoneVerification);
+  console.log(PhoneVerification);
+
   // 선택된 숙소가 없다면 선택된 숙소는 첫번째 숙소입니다.
   if (isEmpty(selectedHouse) && !isEmpty(houses)) [selectedHouse] = houses;
 
-  console.log(selectedHouse.product);
-  console.log(selectedHouse.product);
-  console.log(selectedHouse.product);
+  console.log(selectedHouse);
+  console.log(selectedHouse);
   
   const selectedProduct = selectedHouse.product || {};
   const { isPhoneVerified } = user;

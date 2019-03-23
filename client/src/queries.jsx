@@ -88,6 +88,9 @@ export const GET_USER_INFO = gql`
           product {
             _id
             name
+            productType {
+              _id
+            }
           }
           _id
           name
