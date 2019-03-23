@@ -37,7 +37,7 @@ const resolvers: Resolvers = {
                             };
                         }
                         return {
-                            ok: false,
+                            ok: true,
                             error: null,
                             house: await extractHouse.bind(
                                 extractHouse,
