@@ -1,3 +1,6 @@
+import { GuestType } from "./graph";
+import { ObjectId } from "bson";
+
 export type SMSResult = {
     ok: boolean;
     error: string | null;
@@ -5,17 +8,20 @@ export type SMSResult = {
     msgType: string;
 };
 
-export type DateRangeStatusType = "PAST" | "PRESENT" | "FUTURE";
-
 export type Period = {
     startDate: Date;
     endDate: Date;
 };
 
-export type PeriodWithDescription = {
-    startDate: Date;
-    endDate: Date;
-    description?: string | null;
-};
-
 export type compareScope = "ymd" | "md" | "ymdhi" | "mdhi";
+
+export type GuestInputType = {
+    booker: ObjectId;
+    booking: ObjectId;
+    house: ObjectId;
+    roomType: ObjectId;
+    room?: ObjectId;
+    start: Date;
+    end: Date;
+    guestType: GuestType;
+};

@@ -1,7 +1,7 @@
 type GetSeasonPriceWithDateRangeResponse {
     ok: Boolean!
     error: String
-    seasonPriceWithDateRange: [DateRangeWithSeasonPrice!]
+    seasonPrices: [SeasonPrice!]
 }
 type DateRangeWithSeasonPrice {
     start: DateTime!

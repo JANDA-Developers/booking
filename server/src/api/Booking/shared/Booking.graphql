@@ -1,18 +1,19 @@
 type Booking {
     _id: ID!
+    bookingId: String!
     house: House!
-    booker: User!
-    roomTypes: [RoomType!]!
-    dateRange: DateRange!
-    price: Float!
-    bookingStatus: BookingStatus!
+    roomType: RoomType!
+    booker: Booker!
     guests: [Guest!]
-    memo: String!
+    # 가격
+    price: Float!
+    discountedPrice: Float!
+    bookingStatus: BookingStatus!
     createdAt: DateTime!
-    updatedAt: DateTime!
+    updatedAt: DateTime
 }
 
-enum BookingStatus{
+enum BookingStatus {
     # 입금 대기
     WAIT_DEPOSIT
     # 예약 완료
@@ -23,4 +24,20 @@ enum BookingStatus{
     REFUND_WAIT
     # 체크인 할떄 방값 지불
     PAY_WHEN_CHK_IN
+}
+
+input BookingInput {
+    booker: BookerInput!
+    start: DateTime!
+    end: DateTime!
+    guest: [GuestPartInput!]!
+}
+
+input GuestPartInput {
+    roomTypeId: ID!
+    price: Float!
+    discountedPrice: Float
+    guestType: GuestType!
+    count: Int!
+    genders: [Gender!]
 }

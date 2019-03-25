@@ -2,6 +2,9 @@ import { ObjectId } from "bson";
 import { Types } from "mongoose";
 import { InstanceType } from "typegoose";
 import {
+    Booker,
+    Booking,
+    Guest,
     House,
     Product,
     ProductType,
@@ -13,6 +16,9 @@ import {
     User
 } from "../../types/graph";
 import { applyDaysToBinary } from "../../utils/applyDays";
+import { BookerModel, BookerSchema } from "../Booker";
+import { BookingModel, BookingSchema } from "../Booking";
+import { GuestModel, GuestSchema } from "../Guest";
 import { HouseModel, HouseSchema } from "../House";
 import { ProductModel, ProductSchema } from "../Product";
 import { ProductTypeModel, ProductTypeSchema } from "../ProductType";
@@ -367,4 +373,101 @@ export const extractRoomPrices = async (
             }
         )
     );
+};
+
+export const extractBooker = async (
+    booker: InstanceType<BookerSchema>
+): Promise<Booker> => {
+    const result: any = {
+        ...booker
+    };
+    return {
+        ...result._doc,
+        _id: result._doc._id.toString()
+    };
+};
+
+export const transformBooker = async (
+    bookerId: string | ObjectId
+): Promise<Booker | null> => {
+    const booker = await BookerModel.findById(bookerId);
+    if (booker) {
+        return await extractBooker(booker);
+    } else {
+        return null;
+    }
+};
+
+export const extractGuest = async (
+    guest: InstanceType<GuestSchema>
+): Promise<Guest> => {
+    const temp: any = {
+        ...guest
+    };
+    return {
+        ...temp._doc,
+        _id: temp._doc._id.toString(),
+        booker: await transformBooker.bind(transformBooker, temp._doc.booker),
+        booking: await transformBooking.bind(
+            transformBooking,
+            temp._doc.booking
+        ),
+        house: await transformHouse.bind(transformHouse, temp._doc.house),
+        roomType: await transformRoomType.bind(
+            transformRoomType,
+            temp._doc.roomType
+        ),
+        room: temp.room
+            ? await transformRoom.bind(transformRoom, temp.room)
+            : null
+    };
+};
+
+export const transformGuest = async (
+    guestId: string | ObjectId
+): Promise<Guest | null> => {
+    const guest = await GuestModel.findById(guestId);
+    if (guest) {
+        return await extractGuest(guest);
+    } else {
+        return null;
+    }
+};
+
+export const transformGuests = async (
+    guestIds: Array<string | ObjectId>
+): Promise<Guest[]> => {
+    const objectIds: ObjectId[] = guestIds.map(
+        guestId => new ObjectId(guestId)
+    );
+    const guests = await GuestModel.find({ _id: { $in: objectIds } });
+    const result = await Promise.all(
+        guests.map(async guest => {
+            return await extractGuest(guest);
+        })
+    );
+    return result;
+};
+
+export const extractBooking = async (
+    booking: InstanceType<BookingSchema>
+): Promise<Booking> => {
+    const result: any = {
+        ...booking
+    };
+    return {
+        ...result._doc,
+        _id: result._doc._id.toString()
+    };
+};
+
+export const transformBooking = async (
+    bookingId: string | ObjectId
+): Promise<Booking | null> => {
+    const booking = await BookingModel.findById(bookingId);
+    if (booking) {
+        return await extractBooking(booking);
+    } else {
+        return null;
+    }
 };
