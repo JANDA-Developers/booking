@@ -9,6 +9,13 @@ export enum PricingTypeEnum {
     DOMITORY = "DOMITORY"
 }
 
+export enum RoomGenderEnum {
+    FEMALE,
+    MALE,
+    MIXED,
+    SEPARATELY
+}
+
 @index({ house: 1 })
 @index({ index: -1 })
 @pre<RoomTypeSchema>("save", async function(next) {

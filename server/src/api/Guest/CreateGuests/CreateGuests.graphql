@@ -1,0 +1,17 @@
+type CreateGuestsResponse {
+    ok: Boolean!
+    error: String
+    guests: [Guest!]
+}
+type Mutation {
+    # 게스트 생성
+    CreateGuests(
+        houseId: ID!
+        bookerId: ID!
+        roomTypeId: ID!
+        roomIds: [ID!]
+        start: DateTime!
+        end: DateTime!
+        geustType: GuestType!
+    ): CreateGuestsResponse!
+}

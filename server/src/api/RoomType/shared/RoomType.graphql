@@ -7,6 +7,7 @@ type RoomType {
     peopleCountMax: Int!
     index: Int!
     roomCount: Int!
+    roomGender: RoomGender!
     disableRanges: [DisableRange!]
     description: String
     # 일괄적으로 적용되는 기본 방 가격... RoomPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -21,4 +22,11 @@ type RoomType {
 enum PricingType {
     DOMITORY
     ROOM
+}
+
+enum RoomGender {
+    MAKE
+    FEMALE
+    MIXED
+    SEPARATELY
 }
