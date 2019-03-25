@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { graphql, compose } from 'react-apollo';
 import PT from 'prop-types';
-import Header from '../components/headers/Header';
+import Header from '../components/headers/HeaderWrap';
 import SideNav from '../components/sideNav/SideNav';
 import NoMatch from './NoMatch';
 import { IS_LOGGED_IN, GET_USER_INFO, SELECTED_HOUSE } from '../queries';
@@ -24,13 +24,11 @@ function JDmiddleServer({
   GetUserInfo: { GetMyProfile: { user = {} } = {}, loading: loading2 },
   selectedHouse: { auth: { lastSelectedHouse = {} } = {}, loading: loading3 } = {},
 }) {
+
   const [SideNavIsOpen, setSideNavIsOpen] = useToggle(false);
   const isloading = loading || loading2 || loading3;
   const houses = user.houses || [];
   let selectedHouse = houses.filter(house => house._id === lastSelectedHouse.value)[0] || {};
-
-  console.log(PhoneVerification);
-  console.log(PhoneVerification);
 
   // 선택된 숙소가 없다면 선택된 숙소는 첫번째 숙소입니다.
   if (isEmpty(selectedHouse) && !isEmpty(houses)) [selectedHouse] = houses;

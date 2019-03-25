@@ -45,6 +45,7 @@
         padding: $input-padding;
         padding-right: 1.75rem;
         margin: $input-margin;
+        line-height: 100%;
 
         &:focus {
             border-color: $primary-color-light;

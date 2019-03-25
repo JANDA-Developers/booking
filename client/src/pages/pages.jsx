@@ -3,7 +3,7 @@ import DynamicImport from '../utils/DynamicImport';
 import Preloader from '../atoms/preloader/Preloader';
 
 export const Products = props => (
-  <DynamicImport load={() => import('./middleServer/product/Products')}>
+  <DynamicImport load={() => import('./middleServer/product/ProductsWrap')}>
     {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
   </DynamicImport>
 );
@@ -27,7 +27,7 @@ export const PhoneVerification = props => (
 );
 
 export const MyPage = props => (
-  <DynamicImport load={() => import('./middleServer/myPage/MyPage')}>
+  <DynamicImport load={() => import('./middleServer/myPage/MyPageWrap')}>
     {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
   </DynamicImport>
 );

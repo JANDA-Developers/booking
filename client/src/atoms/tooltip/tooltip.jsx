@@ -10,7 +10,6 @@ const ToolTip = ({ children, ...props }) => (
   </OutReactTooltip>
 );
 
-
 ToolTip.propTypes = {
   props: PropTypes.any,
 };

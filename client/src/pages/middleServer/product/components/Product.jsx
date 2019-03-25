@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import Radio from '../../../../atoms/forms/Radio';
 import './Product.scss';
-import Tooltip, { ReactTooltip } from '../../../../atoms/tooltip/Tooltip';
+
 const product = ({
   productIndex,
   productName,
@@ -20,24 +20,25 @@ const product = ({
   let modifer = '';
   if (slider) modifer = '--slider';
 
-  useEffect(()=>{
-    ReactTooltip.rebuild();
-  });
-
   return (
     <div
-      data-tip={disabled || isSelected}
-      data-for={isSelected ? 'tooltip__selected' : 'tooltip__disabled'}
+      data-tip={isCurrent}
+      data-tip-disable={!disabled && !isSelected}
+      data-for="tooltip__disabled"
+      data-type={isCurrent ? 'success' : 'dark'}
       className={`JDproduct ${isSelected ? 'JDproduct--selected' : null}`}
       key={`product--${value}${modifer}`}
     >
+      {/* 인덱스 */}
       <span className="JDproduct__index">
         <span className="JDproduct__index-inner">{productIndex}</span>
         {isCurrent ? <span className="JDproduct__index-use">(사용중)</span> : null}
       </span>
+      {/* 기타특성 */}
       <h6 className="JDproduct__name">{productName}</h6>
       <span className="JDproduct__roomLimit">{roomLimit}</span>
       <span className="JDproduct__roomCondition">{roomCondition}</span>
+      {/* 상품명세 */}
       <ul className="JDproduct__specifications-ul">
         {specifications.map(specification => (
           <li key={`${modifer}${specification}`} className="JDproduct__specifications-li">
@@ -45,6 +46,7 @@ const product = ({
           </li>
         ))}
       </ul>
+      {/* 가격선택 */}
       <div className="JDproduct__priceBox">
         <span className="JDproduct__inner">
           {price}
@@ -60,14 +62,6 @@ const product = ({
           </span>
         </span>
       </div>
-            {/* 툴팁  : disabled */}
-      <Tooltip class="JDtooltip" id="tooltip__disabled" type="dark" effect="solid">
-        <span>핸드폰 인증후 사용가능</span>
-      </Tooltip>
-      {/* 툴팁  : seleceted */}
-      <Tooltip id="tooltip__selected" type="success" effect="solid">
-        <span>현재 적용된 서비스</span>
-      </Tooltip>
     </div>
   );
 };

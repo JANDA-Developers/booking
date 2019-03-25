@@ -10,7 +10,7 @@ import ProfileCircle from '../../atoms/profileCircle/ProfileCircle';
 import profileImg from '../../img/profile/default_profile.jpg';
 
 function SideNav({
-  isOpen, setIsOpen, userInformation, selectedProduct,
+  isOpen, setIsOpen, userInformation, selectedProduct, selectedHouse,
 }) {
   const classes = classNames({
     JDsideNav: true,
@@ -36,6 +36,7 @@ function SideNav({
             </div>
           </Link>
           <span className="JDsideNav__name">{userInformation.name || '비회원'}</span>
+          <span className="JDsideNav__houseName">{selectedHouse.name}</span>
         </div>
         {/* 리스트 컨테이너 */}
         <div className="JDsideNav__listContainer">

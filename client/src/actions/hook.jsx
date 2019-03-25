@@ -132,6 +132,7 @@ function useToggle(defaultValue) {
   return [toggle, onClick];
 }
 
+// 없어질겁니다
 function useModal(defaultValue) {
   const [isOpen, setIsOpen] = useState(defaultValue);
 
@@ -144,6 +145,20 @@ function useModal(defaultValue) {
   };
 
   return [isOpen, openModal, closeModal];
+}
+
+function useModal2(defaultValue) {
+  const [isOpen, setIsOpen] = useState(defaultValue);
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+  return { isOpen, openModal, closeModal };
 }
 
 function useBookPOP(defaultValue) {
@@ -182,5 +197,6 @@ export {
   useFetch,
   useModal,
   useBookPOP,
+  useModal2,
   useDebounce,
 };

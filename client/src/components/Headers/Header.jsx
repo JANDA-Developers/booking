@@ -2,8 +2,6 @@ import React, { Fragment, useEffect } from 'react';
 import './Header.scss';
 import { NavLink, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Mutation } from 'react-apollo';
-import { toast } from 'react-toastify';
 import Button from '../../atoms/button/Buttons';
 import TooltipList from '../../atoms/tooltipList/TooltipList';
 import ProfileCircle from '../../atoms/profileCircle/ProfileCircle';
@@ -12,11 +10,16 @@ import SelectBox from '../../atoms/forms/SelectBox';
 import Icon from '../../atoms/icons/Icons';
 import { ErrProtecter } from '../../utils/utils';
 import logo from '../../img/logo/logo--white.png'; // with import
-import { LOG_USER_OUT, SELECT_HOUSE } from '../../queries';
 import { useSelect } from '../../actions/hook';
 
 const Header = ({
-  isPhoneVerified, isLoggedIn, sideNavOpener, history, userInformation, lastSelectedHouse,
+  isPhoneVerified,
+  isLoggedIn,
+  sideNavOpener,
+  userInformation,
+  lastSelectedHouse,
+  logOutMutation,
+  selectHouseMutation,
 }) => {
   // 셀렉트박스가 읽을수 있도록 변환
   const formetedSelectedHouse = {
@@ -32,6 +35,11 @@ const Header = ({
     const { houses } = userInformation;
     houseOptions = houses.map(house => ({ value: house._id, label: house.name }));
   }
+
+  const handleSelectHouse = (value) => {
+    selectedHouseHook.onChange(value);
+    selectHouseMutation({ variables: { selectedHouse: value } });
+  };
 
   useEffect(() => {
     selectedHouseHook.onChange(formetedSelectedHouse);
@@ -53,93 +61,68 @@ const Header = ({
       </span>
       {isLoggedIn ? (
         <Fragment>
-          {/* Mutation: 로그아웃 */}
-          <Mutation
-            mutation={LOG_USER_OUT}
-            onCompleted={() => {
-              toast.success('로그아웃 완료');
-              history.replace('./');
-            }}
-          >
-            {mutation => (
-              <Fragment>
-                {/* 프로필 서클 */}
-                <span
-                  data-tip
-                  data-delay-hide={0}
-                  data-for="listAboutUser"
-                  data-event="click"
-                  className="header__profile"
-                >
-                  <ProfileCircle isBordered whiteBorder small />
-                </span>
-                {/* 사용자 메뉴 */}
-                <TooltipList id="listAboutUser">
-                  <ul>
-                    <li>
-                      <Button onClick={mutation} label="로그아웃" mode="flat" color="white" />
-                    </li>
-                    <li>
-                      <NavLink to="/middleServer/myPage">
-                        <Button label="MYpage" mode="flat" color="white" />
-                      </NavLink>
-                    </li>
-                  </ul>
-                </TooltipList>
-                {/* 숙소선택 뮤테이션 */}
-                <Mutation
-                  mutation={SELECT_HOUSE}
-                  nError={(error) => {
-                    console.error('error');
-                    console.warn(error);
-                  }}
-                  onCompleted={({ selectHouse }) => {
-                    if (selectHouse && selectHouse.ok) {
-                      console.log(selectHouse);
-                    }
-                  }}
-                >
-                  {(selectHouseMutation) => {
-                    const handleSelectHouse = (value) => {
-                      selectedHouseHook.onChange(value);
-                      selectHouseMutation({ variables: { selectedHouse: value } });
-                    };
-                    return (
-                      <Fragment>
-                        <SelectBox
-                          placeholder="숙소를 생성해주세요."
-                          options={houseOptions}
-                          {...selectedHouseHook}
-                          onChange={handleSelectHouse}
-                        />
-                        <span className="header__apps">
-                          <CircleIcon onClick={sideNavOpener} flat thema="white" darkWave>
-                            <Icon icon="apps" />
-                          </CircleIcon>
-                        </span>
-                      </Fragment>
-                    );
-                  }}
-                </Mutation>
-              </Fragment>
-            )}
-          </Mutation>
+          <span data-tip data-delay-hide={0} data-for="listAboutUser" data-event="click" className="header__profile">
+            <ProfileCircle isBordered whiteBorder small />
+          </span>
+          <SelectBox
+            placeholder="숙소를 생성해주세요."
+            options={houseOptions}
+            {...selectedHouseHook}
+            onChange={handleSelectHouse}
+          />
           {isPhoneVerified || (
-            <NavLink className="header__link" to="/middleServer/phoneVerification">
+            <NavLink className="header__btns header__btns--mobile" to="/middleServer/phoneVerification">
               <Button label="인증하기" blink mode="flat" color="white" />
             </NavLink>
           )}
         </Fragment>
       ) : (
         <Fragment>
-          <NavLink className="header__link" to="/middleServer/login">
+          <NavLink className="header__btns header__btns--mobile" to="/middleServer/login">
             <Button label="로그인" mode="flat" color="white" />
           </NavLink>
-          <NavLink className="header__link" to="/middleServer/signUp">
+          <NavLink className="header__btns header__btns--mobile" to="/middleServer/signUp">
             <Button label="회원가입" mode="flat" color="white" />
           </NavLink>
         </Fragment>
       )}
+      {/* 앱 서클 */}
+      <span
+        data-tip
+        data-delay-hide={0}
+        data-for="listAboutUser"
+        data-event="click"
+        className="header__apps"
+        data-place="bottom"
+        data-offset="{'top': 10, 'left': 40}"
+      >
+        <CircleIcon flat thema="white" darkWave>
+          <Icon icon="apps" />
+        </CircleIcon>
+      </span>
+      {/* 사용자 메뉴 */}
+      <TooltipList id="listAboutUser">
+        <ul>
+          {isLoggedIn ? (
+            <Fragment>
+              <li>
+                <Button onClick={logOutMutation} label="로그아웃" mode="flat" color="white" />
+              </li>
+              <li>
+                <NavLink to="/middleServer/myPage">
+                  <Button label="MYpage" mode="flat" color="white" />
+                </NavLink>
+              </li>
+            </Fragment>
+          ) : (
+            <li>
+              <NavLink to="/middleServer/login">
+                <Button label="로그인" mode="flat" color="white" />
+              </NavLink>
+            </li>
+          )}
+        </ul>
+      </TooltipList>
     </div>
   );
 };

@@ -11,6 +11,11 @@
     box-sizing:border-box;
     transition: 0.3s;
 
+    &__houseName {
+        font-size: $typho-large;
+        color:white;
+    }
+
     // 본구간이 좌우 패딩이 일치하도록 합니다.
     &__productView {
         display:flex;
@@ -59,6 +64,7 @@
     &__name {
         color:white;
         font-size: $typho-small;
+        margin-bottom: $standard-margin-bottom / 2;
     }
 
     &__circle {
