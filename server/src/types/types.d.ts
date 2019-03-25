@@ -1,20 +1,27 @@
-export type pricingType = "DOMITORY" | "ROOM";
-
-export type role = "ADMIN" | "HOST" | "GUEST";
-
-export type target = "PHONE" | "EMAIL";
-
-export type houseType =
-    | "GUEST_HOUSE"
-    | "HOSTEL"
-    | "HOTEL"
-    | "MOTEL"
-    | "PENSION"
-    | "YOUTH_HOSTEL";
+import { GuestType } from "./graph";
+import { ObjectId } from "bson";
 
 export type SMSResult = {
     ok: boolean;
     error: string | null;
     msgId: string | null;
     msgType: string;
+};
+
+export type Period = {
+    startDate: Date;
+    endDate: Date;
+};
+
+export type compareScope = "ymd" | "md" | "ymdhi" | "mdhi";
+
+export type GuestInputType = {
+    booker: ObjectId;
+    booking: ObjectId;
+    house: ObjectId;
+    roomType: ObjectId;
+    room?: ObjectId;
+    start: Date;
+    end: Date;
+    guestType: GuestType;
 };

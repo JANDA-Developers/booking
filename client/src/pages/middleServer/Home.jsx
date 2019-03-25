@@ -1,58 +1,76 @@
-import React, { Fragment } from 'react';
-import { Query } from 'react-apollo';
-import { Booker, GetBookerNameById } from '../../queries';
-import Detail from './Detail';
-import { isEmpty } from '../../utils/utils';
-import CheckBox from '../../atoms/forms/CheckBox';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
+import Button from '../../atoms/button/Buttons';
+import './Home.scss';
+import { ErrProtecter, toast, isEmpty } from '../../utils/utils';
 
 // eslint-disable-next-line react/prop-types
-const Home = ({ history, match: { params } }) => (
-  <Fragment>
-    {isEmpty(params) ? (
-      <Fragment>
-        <Query query={Booker}>
-          {({ loading, data, error }) => {
-            if (loading) return 'loading';
-            if (error) return 'wrong component';
-            return (
-              <Fragment>
-                <h1>hellow this is a home.jsx</h1>
-                <Bookers data={data} />
-                <button
-                  type="button"
-                  onClick={() => {
-                    history.push('detail/파라미터');
-                  }}
-                >
-                  {'버튼 TO Post'}
-                </button>
-                <CheckBox />
-              </Fragment>
-            );
-          }}
-        </Query>
-        <Query query={GetBookerNameById} variables={{ personId: '5c330463ed83c143088c499a' }}>
-          {({ loading, error }) => {
-            if (loading) return 'loading';
-            if (error) return 'wrong component';
-            return 'hi';
-          }}
-        </Query>
-      </Fragment>
-    ) : (
-      <Detail />
-    )}
-  </Fragment>
-);
+const Home = ({
+  isLoggedIn, selectedProduct, selectedHouse, houses, isPhoneVerified,
+}) => {
+  const [redirect, setRedirect] = useState(false);
+  const [redirectUrl, setRedirectUrl] = useState('/middleServer/makeHouse');
 
-const Bookers = ({ data }) => {
-  const compoent = data.bookers.map(booker => (
-    <h3 key={booker.id}>
-      {'BookerName:'}
-      {booker.name}
-    </h3>
-  ));
-  return compoent;
+  const startService = () => {
+    // 로그인 상태인가?
+
+    if (!isLoggedIn) {
+      toast.warn('로그인후 시작해주세요.');
+      return;
+    }
+
+    // 만들어둔 숙소가 있는가?
+    if (houses.length === 0) {
+      toast('숙소 생성을 시작합니다.');
+      setRedirectUrl('/middleServer/makeHouse');
+      setRedirect(true);
+      return;
+    }
+
+    // 선택된 숙소가 있는가?
+    if (isEmpty(selectedHouse)) {
+      toast.warn('현재 적용된 서비스가 없습니다.');
+      return;
+    }
+
+    // 상품을 구매했는가?
+    if (isEmpty(selectedProduct)) {
+      toast('선택된 상품이 없습니다. 상품을 선택해 주세요.');
+      setRedirectUrl('/middleServer/products');
+      setRedirect(true);
+      return;
+    }
+
+    toast('현 숙소는 연락대기중 입니다.');
+    setRedirectUrl('/middleServer/ready');
+    setRedirect(true);
+  };
+
+  return (
+    <div id="HomePage" className="container container--centerlize">
+      {redirect ? <Redirect push to={redirectUrl} /> : null}
+      <div className="docs-section">
+        <h1>JANDA</h1>
+        <Button label="시작하기" onClick={startService} mode="large" thema="secondary" type="button" />
+      </div>
+    </div>
+  );
 };
 
-export default Home;
+Home.propTypes = {
+  isLoggedIn: PropTypes.bool.isRequired,
+  selectedProduct: PropTypes.object,
+  selectedHouse: PropTypes.object,
+  houses: PropTypes.array,
+  isPhoneVerified: PropTypes.bool,
+};
+
+Home.defaultProps = {
+  selectedProduct: {},
+  selectedHouse: {},
+  houses: [],
+  isPhoneVerified: false,
+};
+
+export default ErrProtecter(Home);

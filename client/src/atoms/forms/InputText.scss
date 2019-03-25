@@ -8,25 +8,15 @@
 .JDinput-wrap {
   position: relative;
 }
+.JDinput-iconWrap{
+  position: absolute;
+  font-size: 1.2rem;
+  right: 0.25em;
+  top: 1.5em;
+}
 
 .JDinput {
 
-  //아래에있는 라벨을 위로 끌어올립니다
-  &+.JDinput_label,
-  &+.JDtextarea_label {
-    position: absolute;
-    font-size: $label-font-size;
-    color: $label-font-color;
-    top: 0.1rem;
-    left: 0;
-  }
-
-  &::placeholder {
-    color: $placeholder-text-color;
-  }
-
-
-  // General Styles
   background-color: transparent;
   border: none;
   border-bottom: $input-border;
@@ -42,16 +32,28 @@
   box-sizing: content-box;
   transition: $input-transition;
 
+  //아래에있는 라벨을 위로 끌어올립니다
+  &+.JDinput_label,
+  &+.JDtextarea_label {
+    position: absolute;
+    font-size: $label-font-size;
+    color: $label-font-color;
+    top: 0.1rem;
+    left: 0;
+  }
+
+  &::placeholder {
+    color: $placeholder-text-color;
+  }
+
   // Disabled input style
-  &:disabled,
-  &[readonly] {
+  &:disabled {
     color: $input-disabled-color;
     border-bottom: $input-disabled-border;
   }
 
   // Disabled .JDinput_label style
-  &:disabled+.JDinput_label,
-  &[readonly="readonly"]+.JDinput_label {
+  &:disabled+.JDinput_label {
     color: $input-disabled-color;
   }
 
@@ -71,7 +73,6 @@
   &--valid.JDinput:focus:not([readonly]) {
     @extend %valid-input-style;
   }
-
   &--valid.JDinput:focus:not([readonly])+.JDinput_label {
     color: $label-font-color
   }

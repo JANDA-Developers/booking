@@ -1,0 +1,12 @@
+type GetRoomPriceWithDateRangeResponse {
+    ok: Boolean!
+    error: String
+    roomPrices: [RoomPrice!]
+}
+type Query {
+    GetRoomPriceWithDateRange(
+        roomTypeId: ID!
+        start: DateTime!
+        end: DateTime!
+    ): GetRoomPriceWithDateRangeResponse!
+}

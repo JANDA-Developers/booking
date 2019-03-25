@@ -1,0 +1,30 @@
+@keyframes blink {  
+    0% { opacity: 1; }
+    12% { opacity: 0; }
+    25% { opacity: 1; }
+    37% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 1; }
+}
+  
+  @-webkit-keyframes blink {
+    0% { opacity: 1; }
+    12% { opacity: 0; }
+    25% { opacity: 1; }
+    37% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 1; }
+  }
+
+.JDtext-blink {
+    opacity: 1;
+    -webkit-animation: blink 2s linear;
+    -moz-animation: blink 2s linear;
+    animation: blink 2s linear;
+    animation-iteration-count: 1;
+    animation-fill-mode:forwards;
+    &--infinity{
+        animation-iteration-count: infinite;
+        animation-delay: 2000
+    }
+}

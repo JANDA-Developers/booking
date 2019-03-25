@@ -1,66 +1,145 @@
-import React, { Component } from 'react';
+import React, { useEffect, useRef } from 'react';
 import './InputText.scss';
-import debounce from 'lodash.debounce';
+import './Textarea.scss';
+import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
+import JDicon from '../icons/Icons';
 import ErrProtecter from '../../utils/ErrProtecter';
-import { Forms, FormsDefault } from '../../utils/PropTypes';
+import { NEUTRAL } from '../../utils/Enums';
+import autoHyphen from '../../utils/AutoHyphen';
 
-class InputText extends Component {
-  static propTypes = Forms;
-
-  constructor(props) {
-    super(props);
-    // 디바운스 함수는 메모리에서 사라지는 EVENT 객체를 보호합니다.
-    this.debounceHandleChange = debounce(this.debounceHandleChange, 500);
-    this.state = {
-      isValid: '',
-    };
-  }
-
-  handleChange = (event) => {
-    this.debounceHandleChange(event.target);
-  };
-
-  // 인풋의 상태에따라서 상태값이 표시됨
-  debounceHandleChange = (target) => {
-    const { validation, max } = this.props;
+function InputText({
+  readOnly,
+  label,
+  disabled,
+  type,
+  validation,
+  onChange,
+  max,
+  isValid,
+  onChangeValid,
+  refContainer,
+  textarea,
+  scroll,
+  value,
+  dayPicker,
+  doubleHeight,
+  dataError,
+  dataSuccess,
+  icon,
+  hyphen,
+  ...props
+}) {
+  const inHandleChange = (event) => {
+    const { target } = event;
     const result = validation(target.value, max);
-    console.log(result);
-    this.setState({
-      isValid: result,
-    });
+    onChange(target.value.replace(/-/gi, ''));
+    onChangeValid(result);
   };
 
-  render() {
-    const { isValid } = this.state;
-    const {
-      readOnly, value, label, disabled, type,
-    } = this.props;
+  const classes = classNames({
+    JDinput: true && !textarea,
+    'JDinput--valid': isValid === true && !textarea,
+    'JDinput--invalid': isValid === false && !textarea,
+    /* --------------------------------- 텍스트어리어 --------------------------------- */
+    JDtextarea: true && textarea,
+    'JDtextarea--scroll': scroll && textarea,
+    'JDtextarea--doubleHeight': doubleHeight && textarea,
+    'JDtextarea--valid': isValid === true,
+    'JDtextarea--invalid': isValid === false,
+  });
 
-    const classes = classNames({
-      JDinput: true,
-      'JDinput--valid': isValid === true,
-      'JDinput--invalid': isValid === false,
-    });
+  const inRefContainer = useRef(null);
 
-    return (
-      <div className="JDinput-wrap">
-        <input
-          onChange={this.handleChange}
-          className={classes}
-          disabled={disabled}
-          readOnly={readOnly}
-          value={value}
-          type={type}
-        />
-        <label htmlFor="JDinput" className="JDinput_label">
-          {label}
-        </label>
-      </div>
-    );
-  }
+  // ⚠️ 언컨트롤드를 위해서 만들었는데  왜필요한지 모르겠다
+  useEffect(() => {
+    // let domInput;
+    // if (refContainer) domInput = refContainer.current;
+    // else domInput = inRefContainer.current;
+    // if (value !== undefined) domInput.value = value;
+  }, []);
+
+  // 인풋 과 텍스트어리어 경계
+  return !textarea ? (
+    <div className="JDinput-wrap">
+      {icon !== '' ? (
+        <span className="JDinput-iconWrap">
+          <JDicon icon={icon} />
+        </span>
+      ) : null}
+      <input
+        onChange={inHandleChange}
+        className={classes}
+        disabled={disabled}
+        readOnly={readOnly}
+        type={type}
+        value={hyphen ? autoHyphen(value) : value}
+        ref={refContainer || inRefContainer}
+        data-color="1213"
+        {...props}
+      />
+      <label htmlFor="JDinput" data-error={dataError} data-success={dataSuccess} className="JDinput_label">
+        {label}
+      </label>
+    </div>
+  ) : (
+    <div className="JDinput-wrap">
+      <textarea
+        disabled={disabled}
+        value={value}
+        onChange={inHandleChange}
+        id="JDtextarea"
+        className={classes}
+        readOnly={readOnly}
+        ref={refContainer || inRefContainer}
+      />
+      <label htmlFor="JDtextarea" className="JDtextarea_label">
+        {label}
+      </label>
+    </div>
+  );
 }
 
-InputText.defaultProps = FormsDefault;
+InputText.propTypes = {
+  readOnly: PropTypes.bool,
+  disabled: PropTypes.bool,
+  textarea: PropTypes.bool,
+  dayPicker: PropTypes.bool,
+  scroll: PropTypes.bool,
+  doubleHeight: PropTypes.bool,
+  label: PropTypes.string,
+  type: PropTypes.string,
+  dataError: PropTypes.string,
+  icon: PropTypes.string,
+  dataSuccess: PropTypes.string,
+  validation: PropTypes.func,
+  onChange: PropTypes.func,
+  onChangeValid: PropTypes.func,
+  refContainer: PropTypes.any,
+  isValid: PropTypes.any,
+  value: PropTypes.any,
+  max: PropTypes.number,
+};
+
+InputText.defaultProps = {
+  readOnly: false,
+  disabled: false,
+  textarea: false,
+  scroll: false,
+  doubleHeight: false,
+  dayPicker: false,
+  label: '',
+  type: '',
+  dataError: '',
+  icon: '',
+  dataSuccess: '',
+  isValid: '',
+  onChangeValid: () => {},
+  onChange: () => {},
+  validation: () => NEUTRAL,
+  max: 10000,
+  refContainer: undefined,
+  value: undefined,
+};
 
 export default ErrProtecter(InputText);

@@ -3,24 +3,20 @@ type RoomType {
     name: String!
     house: House!
     pricingType: PricingType!
-    people_count_std: Int!
-    people_count_max: Int!
-    sort: Int!
+    peopleCount: Int!
+    peopleCountMax: Int!
+    index: Int!
     roomCount: Int!
-    isEnable: Boolean!
-    description: String!
+    roomGender: RoomGender!
+    disableRanges: [DisableRange!]
+    description: String
+    # 일괄적으로 적용되는 기본 방 가격... RoomPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
+    price: Float
     # 예전에 Facilities 랑 같은 아이임...
     tags: [Tag!]!
     rooms: [Room!]!
-    createdAt: String!
-    updatedAt: String
-}
-
-type Room {
-    _id: ID!
-    name: String!
-    roomType: RoomType!
-    isEnable: Boolean!
+    createdAt: DateTime!
+    updatedAt: DateTime
 }
 
 enum PricingType {
@@ -28,6 +24,9 @@ enum PricingType {
     ROOM
 }
 
-type Query {
-    getRoomTypes(types: String!):RoomType
+enum RoomGender {
+    MAKE
+    FEMALE
+    MIXED
+    SEPARATELY
 }

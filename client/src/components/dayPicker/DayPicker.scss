@@ -2,7 +2,16 @@
 
 .DayPicker {
 
+    &-box {
+        position: relative;
+    }
+
+    &-wrapper {
+        outline:none;
+    }
+
     border: $daypicker-border;
+    border-radius: $daypicker-border-radius;
     max-width: $daypicker-block-height * 7;
     margin-bottom: $daypicker-margin-bottom;
 
@@ -62,6 +71,7 @@
                             cursor: default;
                         }
 
+                        // 시작과 끝 포함 사이의 날자들 포함
                         &--selected {
                             background-color: $primary-color;
                             color: $primary-color-on;
@@ -100,7 +110,7 @@
                                 position: absolute;
                                 top: $daypicker-dot-top;
                                 left: 50% - ($daypicker-dot-size / 2px);
-                                background-color: $success-color;
+                                background-color: $daypicker-today-color;
                             }
                         }
 
@@ -109,7 +119,7 @@
 
                             &.DayPicker-Day--selected {
                                 opacity: 0.5;
-                                color: $daypicker-otuside-color;
+                                color: $daypicker-otuside-bgcolor;
                             }
                         }
 
@@ -120,5 +130,5 @@
     }
 
     @import "./horizen/Horizen.scss";
-
+    @import "./input/Input.scss";
 }

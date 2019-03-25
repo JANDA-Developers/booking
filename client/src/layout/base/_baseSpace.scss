@@ -1,0 +1,37 @@
+// todo: 내생각엔 여기는 디펄트 간격으로 레이아웃에 넣고 
+// 각페이지마다 간격 수정 적용 하는건 어떨까?
+
+@import '../../style_config/style_config';
+
+// 인풋과 다음 물체의 간격
+.JDcheck_box_wrap+*,
+.JDswitch+*,
+.JDradio+*,
+.JDselect+*,
+.JDbtn+*,
+.circleIcon+* {
+    margin-left: $standard-space;
+}
+
+// 버튼 사이의 간격
+.JDbtn+.JDbtn {
+    margin-left: $buttons-space;
+}
+
+// 링크와 아이콘 간격
+.JDanchor .JDicon__svg {
+    margin-left: $standard-icon-margin / 2 ;
+}
+
+// 마진 bottom
+.JDcheck_box_wrap,
+.JDswitch,
+.JDradio,
+.JDselect,
+.JDbtn,
+.JDdatePcikerInformation,
+.circleIcon,
+.JDslider,
+.JDpagination  {
+    margin-bottom: $standard-margin-bottom;
+}

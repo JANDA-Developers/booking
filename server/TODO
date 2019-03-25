@@ -1,3 +1,129 @@
-
-Todo:
-  ☐ Item
+Host-Side:
+    Development Env:
+        ✔ Migrate 'typeORM' to 'typegoose' @done(19-02-16 11:03)
+        ✔ Make Custom Scalars @done(19-02-16 12:15)
+        ✔ Figure out How to apply 'order by' condition in MongoDB and Mongoose @high @today @done(19-03-20 14:27)
+        ☐ Figure out How to use AWS S3 to Up/Download File
+    User Flow Visualize:
+        ☐ Make Document with FrontEnd Developer
+    Sign In & Sign Up:
+        ✔ Email @done(19-02-14 13:08)
+        ☐ Gmail
+        ☐ Facebook
+        ✔ Generate JWT @done(19-02-14 13:08)
+        ✔ Verify JWT @done(19-02-14 13:08)
+    Create House:
+        Input Host Data:
+            ✔ Phone Number Verification @done(19-02-14 13:12)
+            ✘ Email Verification @cancelled(19-02-14 13:12)
+            ✔ Input Profile @done(19-02-18 18:53)
+            ✔ Get Profile @done(19-02-14 13:39)
+        Make House: 
+            ✔ Create House @done(19-02-18 18:53)
+                # name, houseType, RefundRule?, BookingCondition
+            ✔ Update House @done(19-02-19 18:29)
+            ✔ Delete House @done(19-02-19 18:29)
+        Create/Modify/Delete RoomType:
+            ✔ Create RoomType @today @done(19-02-21 17:28)
+            ✔ Update RoomType @today @done(19-02-21 17:28)
+            ✔ Delete RoomType @today @done(19-02-21 17:28)
+            ✔ Create Room(linked with RoomType) @today @done(19-03-06 17:24)
+            ✔ Update Room @today @done(19-03-06 17:24)
+            ✔ Delete Room @today @done(19-03-06 17:24)
+        Make DateRange Dto:
+            ✔ Make Interface @done(19-03-06 17:26)
+            ✔ get/set Date @done(19-03-06 17:26)
+            ✔ get/set HashCode @done(19-03-06 17:26)
+            ✔ compareDate @done(19-03-06 17:26)
+            ✔ interval @done(19-03-06 17:26)
+            ✔ getParams @done(19-03-06 17:26)
+        Add/Remove/Update DisableRange:
+            ✔ AddRoomDisableRange @done(19-03-06 18:17)
+            ✔ RemoveRoomDisableRange @done(19-03-06 20:20)
+            ☐ UpdateRoomDisableRange
+            ✘ AddRoomTypeDisableRange @cancelled(19-03-06 20:21)
+            ✘ RemoveRoomTypeDisableRange @cancelled(19-03-06 20:21)
+            ✘ UpdateRoomTypeDisableRange @cancelled(19-03-06 20:21)
+        Create/Update/Remove Season:
+            ✔ Make Season GraphQL Schema @done(19-03-08 19:27)
+            ✔ Create Season @done(19-03-13 11:41)
+            ☐ Update Season 
+            ✔ Remove Season @done(19-03-20 14:27)
+        Query Season Data:
+            ✔ GetMatchedSeasonWithDateRange => 날짜 범위에 해당하는 시즌 가져오는 쿼리 @done(19-03-19 12:15)
+            ✔ GetMatchedSeasonWIthDate => 날짜 하나만 가지고 시즌 가져오는 쿼리 @done(19-03-19 12:15)
+        Make ProductType & Product:
+            ✔ Define both of Schema @today @done(19-03-23 21:51)
+            ✔ CreateProductType @done(19-03-23 21:51)
+            ☐ DeleteProductType
+            ☐ UpdateProductType
+            ✔ CreateProduct @done(19-03-19 12:14)
+            ☐ DeleteProduct @low 
+            ☐ UpdateProduct @low 
+        Booking API:
+            ✔ Define Booker, Guest, Booking Schema @done(19-03-25 11:06)
+            ✔ Draw Booking Flow with Draw.io in my browser @done(19-03-25 11:06)
+            ☐ CreateBooking
+                # CreateBooker, CreateGuest 포함...
+            ☐ UpdateBooking
+                # BookingStatus 변경 포함 x
+            ☐ CancelBooking
+            ☐ DeleteBooking
+        Search Bar:
+            ☐ Search Booker Info
+            ☐ Show the Today's Check-In Guest
+            ☐ Show Booker Info PopUp
+        Booker Infomation PopUp:
+            ☐ Modify Booker
+            ☐ Delete Booker
+        Make Room Price:
+            ✔ Define Schema...(SeasonPrice, RoomPrice) @done(19-03-20 14:29)
+            ☐ Inspect Schema @today
+            ☐ Create / Update Season Price for Season (Default Room Price) @today
+            ☐ Create / Update Room Price for Specific Date @today
+            ☐ Inspection
+        Delete Room Price:
+            ☐ Delete Room Price For Season (Default Room Price)
+                => 시즌 삭제시에 실행되는 이벤트...
+        BookingList:
+            ☐ Present BookingList
+            ☐ Pagination
+            ☐ Filter & Sort
+            ☐ Confirm Booking
+            ☐ Cancel Booking
+            ☐ Delete Booking
+        Allocating Guest to Rooms:
+            ☐ Show the List of the Ready to Allocate Guest
+            ☐ Show the Season in Calendar
+            ☐ Show the RoomTypes and Rooms
+            ☐ Move Guest to Room Calendar
+        SMS Config:
+            ☐ Make SMS Form
+            ☐ Send SMS
+            ☐ Make SMS Setting Options
+            ☐ Create Default Auto Send
+        Skin Setting:
+            ☐ Color Setting
+        House Manual:
+            ☐ Contents Setting
+    Make Booking:
+        Calendar:
+            ☐ Throw Season Data to Calendar
+            ☐ Get Selected DateRange from Calendar
+        RoomTypeList / Selector:
+            ☐ Throw RoomType Data to Client(RoomTypeList)
+            ☐ 혼숙 방지 인원 계산 get
+            ☐ 방 선택하기 Event - 장바구니에 들어갈 데이터 보내기
+        Payment API:
+            ☐ Booking Data Server-Side Validation.
+            ☐ Define Response Data for client
+    Intergraction With Lagarcy:
+        BookerList:
+            ☐ Booking Data Intergration
+        RoomTemplates & Rooms:
+            ☐ RoomTemplate Data Modeling
+            ☐ RoomTemplate Data Intergration
+            ☐ RoomData....
+    PG:
+        ☐ Check API Document @low
+        ☐ PG Intergration @low

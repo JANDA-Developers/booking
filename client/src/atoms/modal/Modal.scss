@@ -1,0 +1,52 @@
+@import "../../style_config/style_config";
+
+.ReactModal {
+
+    &--center {
+        text-align:center;
+    }
+    
+    // 모달 장막
+    &__Overlay {
+        display: flex;
+        position: fixed;
+        top:0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        align-items: center;
+        justify-content: center;
+        z-index: $z-index-9;
+        background-color: $modal-background-color;
+    }
+
+    // 모달 내용
+    &__Content  {
+        background-color:white;
+        padding: $modal-content-padding;
+        outline: none;
+        border-radius: $modal-border-radius;
+        @extend %z-depth-3;
+        
+        @include response ($full,$phablet) {
+            max-width: 80%;
+        }
+
+        @include response ($phablet) {
+            margin: $container-padding;
+        }
+
+    }
+
+    &__EndSection {
+        .JDbtn {
+            margin-bottom: 0;
+        }
+        h6 {
+            margin-bottom: 0;
+        }
+    }
+
+
+}
+

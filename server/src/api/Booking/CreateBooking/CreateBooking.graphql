@@ -1,0 +1,10 @@
+type CreateBookingResponse {
+    ok: Boolean!
+    error: String
+    booking: Booking
+}
+type Mutation {
+    CreateBooking(
+        bookingParams: BookingInput!
+    ): CreateBookingResponse!
+}

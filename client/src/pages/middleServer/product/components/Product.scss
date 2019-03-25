@@ -1,0 +1,64 @@
+@import '../../../../style_config/style_config.scss';
+
+.JDproduct {
+    display:flex;
+    height:300px;
+    flex-direction: column;
+    padding:1rem;
+    background-color: $grey-level1;
+    
+    &__index-use {
+        color: $primary-color;
+        font-size: $typho-small;
+        margin-left: $standard-space;
+    }
+
+    &--selected {
+        background-color: $grey-level2;
+    }
+
+    &__roomCondition {
+        margin-bottom: $standard-margin-bottom * 2;
+    }
+    &__specifications-ul {
+        line-height:150%;
+        font-size: $typho-small;
+        margin-bottom: auto;
+
+        li:before { 
+            content:'\2219';
+            margin-right:0.5em; 
+         }
+    }
+    &__priceBox {
+        font-size: $typho-large;
+        .JDradio {
+            margin-bottom:0;
+        }
+    }
+
+    &__name {
+        font-size: $typho-large;
+        font-weight: bold;
+    }
+
+    &__index-inner {
+        background-color: $html-color;
+        color:white;
+        padding:0.2rem;
+    }
+
+    &__index {
+        margin-bottom: $standard-margin-bottom + 0.2rem;
+    }
+
+    &__inner {
+        font-weight:600;
+    }
+
+    &__select {
+        margin-left: 1rem;
+        position:relative;
+        top:0.2rem;
+    }
+}

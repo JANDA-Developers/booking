@@ -1,0 +1,12 @@
+type Season {
+    _id: ID!
+    house: House!
+    name: String!
+    start: DateTime!
+    end: DateTime!
+    priority: Int!
+    color: String
+    description: String
+    createdAt: DateTime!
+    updatedAt: DateTime
+}

@@ -1,0 +1,15 @@
+type CreateBookerResponse {
+    ok: Boolean!
+    error: String
+    booker: Booker
+}
+type Mutation {
+    CreateBooker(
+        houseId: ID!
+        name: Name!
+        password: Password!
+        phoneNumber: PhoneNumber!
+        email: EmailAddress
+        agreePrivacyPolicy: Boolean!
+    ): CreateBookerResponse!
+}

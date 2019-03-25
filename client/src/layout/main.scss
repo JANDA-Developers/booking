@@ -1,16 +1,19 @@
 @charset 'UTF-8';
 
 // 1. Vendors
-@import 'vendors/normalize';
+@import 'vendors/normalize',
+'vendors/customAll';
 
-// 2 . styleConfig
-@import '../style_config/style_config';
-
-// 3. Layout-related sections
+// 2. Layout-related sections
 @import 'grid/grid',
-'grid/grid-flex';
+'grid/_sectionsSpace',
+'grid/grid-flex',
+'grid/container';
 
-// 4. base section 
+// 3. base section 
 @import 'base/_typography',
-'base/_atomsSpace',
-'base/_sectionsSpace';
+'base/_baseSpace';
+
+// 4. effects
+@import 'effect/_pulse',
+'effect/_blink';

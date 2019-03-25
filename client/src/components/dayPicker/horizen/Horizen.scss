@@ -1,7 +1,5 @@
 $horizen-calendarCell-width : calc(14.28vw - 2.8px);
 
-
-//todo : 의견나눔 변수 제어 연결
 /*  Horizen-------------------------------------------------------------------------- */
 &--horizen {
     min-width: 100%;
@@ -23,7 +21,7 @@ $horizen-calendarCell-width : calc(14.28vw - 2.8px);
 
         .DayPicker-Month {
             display: inline-block;
-            border-right:1px dotted;
+            border-right:$horizen-month-bordeRight;
 
             .DayPicker-Caption {
                 height: auto;
@@ -32,9 +30,9 @@ $horizen-calendarCell-width : calc(14.28vw - 2.8px);
 
                 &__year {
                     text-align: left;
-                    font-weight: bold;
+                    font-weight: normal;
                     padding-left: 1rem;
-                    background-color:rgba(0,0,0,.1);
+                    background-color: $horizen-caption-bgcolor;
                     margin-right: 0;
                 }
 

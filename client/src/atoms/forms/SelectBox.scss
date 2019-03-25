@@ -2,34 +2,89 @@
 
 .JDselect {
 
+  // NO 옵션
+  .react-select__menu-notice--no-options {
+    color: $selcet-placeholder-color;
+  }
+
+  font-size: $typho-normal;
+
   .JDselect__label {
     font-size: $label-font-size;
     color: $label-font-color;
 
     &--top {
       display: inline-block;
-      margin: 1rem;
+      margin: $standard-label-margin;
       margin-left: 0;
       margin-right: 0;
       margin-top: 0;
+      vertical-align:top;
     }
   }
-
+  // disabled style 디스에이블 스타일 1
+  &--disabled {
+  .JDselect__label{
+    color:$select-disabled-color;
+  }
+}
+  
   .react-select-container {
-
-    &--is-disabled {
-      border-color: $select-disabled-color;
-    }
-
-    .react-select__multi-value__remove {
-      &:hover{
-       color: $error-color;
-      }
-    }
 
     .react-select {
 
+      // disabled style 디스에이블 스타일 2
+      &__control--is-disabled.react-select__control {
+        border-color: $select-disabled-color;
+        .react-select__placeholder{
+          color: $select-disabled-color;
+        }
+        // 화살표 
+        .react-select__indicator {
+          color: $select-disabled-color;
+        }
+      }
+
+      &__label {
+        color: $select-multi-color;
+        font-size: $typho-small;
+      }
+
+      
+      &__multi-value {
+        background-color:$select-multi-bgcolor;
+
+          &__remove {
+            background-color: $select-multi-remove-bgcolor;
+            
+            &:hover {
+              background-color: $select-multi-remove-hover-bgcolor;
+              color: $select-multi-remove-hover-color;
+            }
+          }
+          
+      }
+
+      &__placeholder {
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        color: $selcet-placeholder-color;
+        padding-right: 1rem;
+        width: 100%;
+        margin: 0;
+      }
+
       //아이콘 이전 라인
+      &__indicator {
+        color: $html-color;
+        padding: $select-padding;
+      }
+
+      &__indicator:hover {
+        color: $grey-level3;
+      }
+
       &__indicator-separator {
         display: none;
       }
@@ -64,24 +119,28 @@
         padding: 0;
       }
 
+      // this is a li !!! 😆
       &__option {
+        height: $select-option-height;
+        padding: $select-option-padding;
+        line-height: $select-option-height;
         &--is-focused {
-          background-color: $select-option-hover-bg;
+          background-color: $select-option-hover-bgcolor;
         }
 
         &:hover {
-          background-color: $select-option-hover-bg;
+          background-color: $select-option-hover-bgcolor;
         }
 
         &:active {
-          background-color: $select-option-active-bg;
+          background-color: $select-option-active-bgcolor;
         }
 
         &--is-selected {
-          background-color: $select-option-selected-bg;
+          background-color: $select-option-selected-bgcolor;
 
           &:hover {
-            background-color: $select-option-selected-bg;
+            background-color: $select-option-selected-bgcolor;
           }
         }
       }

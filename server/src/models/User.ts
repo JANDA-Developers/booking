@@ -1,39 +1,78 @@
-import { IsEmail } from "class-validator";
+import bcrypt from "bcryptjs";
+import { Types } from "mongoose";
 import {
-    Column,
-    Entity,
-    ObjectID,
-} from "typeorm";
-import { role } from "../types/types";
-import JdBaseEntity from "./JdBaseEntity";
+    arrayProp,
+    instanceMethod,
+    InstanceType,
+    prop,
+    Typegoose
+} from "typegoose";
 
-const ADMIN = "ADMIN";
-const HOST = "HOST";
-const GUEST = "GUEST";
+export enum UserRole {
+    ADMIN = "ADMIN",
+    HOST = "HOST",
+    BOOKER = "BOOKER",
+    GHOST = "GHOST"
+}
+const BCRYPT_ROUNDS = 10;
 
-@Entity()
-class User extends JdBaseEntity {
-    @Column({ type: "text" })
+export class UserSchema extends Typegoose {
+    @prop({ required: [true, `Name is missing`] })
     name: string;
 
-    @Column({ type: "text", unique: true })
+    @prop()
+    password: string | null;
+
+    @prop({ required: true })
     phoneNumber: string;
 
-    @Column({ type: "boolean", default: false })
-    phoneVerificaiton: boolean;
+    @prop({ default: false })
+    isPhoneVerified: boolean;
 
-    @IsEmail()
-    @Column({ type: "text" })
+    @prop({ required: true, index: true })
     email: string;
 
-    @Column({ type: "text", enum: [ADMIN, HOST, GUEST], default: HOST })
-    role: role;
+    @prop({ default: false })
+    isEmailVerified: boolean;
 
-    @Column()
-    bookings: ObjectID[];
+    @prop({ enum: UserRole, default: UserRole.GHOST })
+    userRole: UserRole;
 
-    @Column()
-    houses: ObjectID[];
+    @prop({ default: false })
+    checkPrivacyPolicy: boolean;
+
+    @prop()
+    createdAt: Date;
+
+    @prop()
+    updatedAt: Date;
+
+    @arrayProp({ items: Types.ObjectId, default: [] })
+    houses: Types.ObjectId[];
+
+    @instanceMethod
+    public async comparePassword(
+        this: InstanceType<UserSchema>,
+        password: string
+    ): Promise<boolean> {
+        if (this.password) {
+            return await bcrypt.compare(password, this.password || "");
+        } else {
+            throw new Error("Password is not exist!");
+        }
+    }
+
+    @instanceMethod
+    public async hashPassword(this: InstanceType<UserSchema>): Promise<void> {
+        if (this.password) {
+            this.password = await bcrypt.hash(this.password, BCRYPT_ROUNDS);
+        }
+    }
 }
 
-export default User;
+export const UserModel = new UserSchema().getModelForClass(UserSchema, {
+    schemaOptions: {
+        timestamps: true,
+        collection: "Users"
+    }
+});

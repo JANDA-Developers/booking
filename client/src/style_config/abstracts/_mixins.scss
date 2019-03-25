@@ -100,7 +100,7 @@
 
 // 반응형 생성기
 @mixin response($max:9999px,$min:0px) {
-    @media only screen and (max-width: $max) and (min-width: $min + 1) {
+    @media only screen and (max-width: $max) and (min-width: $min) {
       @content; 
   }
 }
@@ -129,56 +129,68 @@
         @content; 
         
         //Todo: for 문으로 간추리자
-        .flex-grid__col {
+        .flex-grid__col,.col {
             &.col--#{$mode}-0 {
                 display: none;
             }
 
             &.col--#{$mode}-1 {
+                display:block;
                 width: flex-grid-column-width(1);
             }
             
             &.col--#{$mode}-2 {
+                display:block;
                 width: flex-grid-column-width(2);
             }
             
             &.col--#{$mode}-3 {
+                display:block;
                 width: flex-grid-column-width(3);
             }
             
             &.col--#{$mode}-4 {
+                display:block;
                 width: flex-grid-column-width(4);
             }
             
             &.col--#{$mode}-5 {
+                display:block;
                 width: flex-grid-column-width(5);
             }
             
             &.col--#{$mode}-6 {
+                display:block;
                 width: flex-grid-column-width(6);
             }
             
             &.col--#{$mode}-7 {
+                display:block;
                 width: flex-grid-column-width(7);
             }
             
             &.col--#{$mode}-8 {
+                display:block;
                 width: flex-grid-column-width(8);
             }
             
             &.col--#{$mode}-9 {
+                display:block;
                 width: flex-grid-column-width(9);
             }
             
             &.col--#{$mode}-10 {
+                display:block;
                 width: flex-grid-column-width(10);
             }
             
             &.col--#{$mode}-11 {
+                display:block;
                 width: flex-grid-column-width(11);
             }
             
             &.col--#{$mode}-12 {
+                display:block;
                 width: flex-grid-column-width(12);
             }
         }

@@ -1,45 +1,62 @@
-import {
-    BaseEntity,
-    BeforeInsert,
-    Column,
-    Entity,
-    ObjectID,
-    ObjectIdColumn
-} from "typeorm";
-import { target } from "../types/types";
+import { Types } from "mongoose";
+import { instanceMethod, InstanceType, pre, prop, Typegoose } from "typegoose";
+import { VerificationTarget } from "../types/graph";
+import { UserModel, UserSchema } from "./User";
 
-const PHONE = "PHONE";
-const EMAIL = "EMAIL";
+export enum Target {
+    PHONE = "PHONE",
+    EMAIL = "EMAIL"
+}
+@pre<VerificationSchema>("save", function(next) {
+    if (this.key !== undefined) {
+        next();
+        return;
+    }
+    if (this.target === Target.PHONE) {
+        this.key = Math.floor(Math.random() * 100000).toString();
+    } else if (this.target === Target.EMAIL) {
+        this.key = Math.random()
+            .toString(36)
+            .substr(2);
+    }
+    next();
+})
+class VerificationSchema extends Typegoose {
+    @prop({ enum: Target, default: Target.PHONE })
+    target: VerificationTarget;
 
-@Entity()
-class Verification extends BaseEntity {
-    @ObjectIdColumn()
-    id: ObjectID;
-
-    @Column({ type: "text", nullable: false })
+    @prop({ required: true, unique: true })
     payload: string;
 
-    @Column({ type: "text", enum: [PHONE, EMAIL], nullable: false })
-    target: target;
-
-    @Column()
-    key: string;
-
-    @Column({ type: "boolean", default: false })
+    @prop({ default: false })
     verified: boolean;
 
-    @BeforeInsert()
-    createKey(): void {
-        if (this.target === PHONE) {
-            // Short Key 생성
-            this.key = Math.floor(Math.random() * 1000000).toString();
-        } else if (this.target === EMAIL) {
-            // Long Key 생성
-            this.key = Math.random()
-                .toString(36)
-                .substr(2);
-        }
+    @prop()
+    key: string;
+
+    @prop()
+    user: Types.ObjectId
+
+    @prop()
+    createdAt: Date;
+
+    @prop()
+    updatedAt: Date;
+
+    @instanceMethod
+    public async getUser(
+        this: InstanceType<VerificationSchema>
+    ): Promise<InstanceType<UserSchema> | undefined> {
+        return (await UserModel.findById(this.user)) || undefined;
     }
 }
 
-export default Verification;
+export const VerificationModel = new VerificationSchema().getModelForClass(
+    VerificationSchema,
+    {
+        schemaOptions: {
+            timestamps: true,
+            collection: "Verifications"
+        }
+    }
+);

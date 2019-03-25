@@ -10,6 +10,7 @@
   
     flex: 1;
     margin-left: $flex-grid--column-margin;
+    max-width: 100%; //for slider....
 
     &.col--grow-1 {
       flex-grow: 1;
@@ -91,6 +92,36 @@
   }
 }
 
+@include response ($mobile) {
+  .flex-grid--sm {
+    display: block;
+  }
+
+  .flex-grid--sm>* {
+    padding-left: 0;
+    padding-right: 0;
+
+    &.flex-grid__col {
+      margin-left: 0;
+    }
+  }
+}
+
+@include response ($desktophd) {
+  .flex-grid--wlg {
+    display: block;
+  }
+
+  .flex-grid--wlg>* {
+    padding-left: 0;
+    padding-right: 0;
+
+    &.flex-grid__col {
+      margin-left: 0;
+    }
+  }
+}
+
 @include response ($tablet) {
   .flex-grid--wmd {
     display: block;
@@ -123,11 +154,24 @@
 
 // 그리드 비대 정리 시스템
 // 마진은 space-between 에 의하여 빈 자리로 사용된다.
+
 .flex-grid {
 
   flex-wrap: wrap;
   display: flex;
   justify-content: space-between;
+
+  &--around {
+    justify-content: space-around;
+  }
+
+  &--end {
+    align-items: flex-end;
+  }
+
+  &--start {
+    justify-content: flex-start;
+  }
 
   @include grid-system(full);
   @include grid-system(wlg);

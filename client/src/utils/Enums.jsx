@@ -1,5 +1,4 @@
-// 명명 em Prefix
-
+/** 중립 */
 const NEUTRAL = '';
 
 const EMPTY = '';

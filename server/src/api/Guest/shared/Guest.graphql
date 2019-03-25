@@ -1,14 +1,61 @@
 type Guest {
     _id: ID!
+    # roomType,
+    guestId: String!
+    booker: Booker!
     house: House!
-    booker: User!
-    roomType: String!
-    guestType: String!
-    allocatedRoom: Room!
-    stay: String!
-    price: Int!
-    isChkIn: Boolean!
-    bookingId: String!
-    createdAt: String!
-    updatedAt: String
+    # roomType 은 처음 예약하고나서 절대로 변경되지 않음.
+    roomType: RoomType
+    # 현재 묵는 방으로 변경될수 있음.
+    room: Room
+    booking: Booking
+    name: Name
+    start: DateTime!
+    end: DateTime!
+    # 도미토리, 룸, 블록 구분
+    guestType: GuestType!
+    gender: Gender
+    createdAt: DateTime!
+    updatedAt: DateTime
+}
+
+enum GuestType {
+    # 방 막는 용도로 잡은 예약임
+    BLOCK_ROOM
+    # 도미토리
+    DOMITORY
+    # 방 타입
+    ROOM
+}
+
+# 도미토리 방식으로 예약한 게스트만 적용됨
+enum Gender {
+    # 도미토리 남
+    MALE
+    # 도미토리 여
+    FEMALE
+}
+
+input GuestInput {
+    houseId: ID!
+    bookerId: ID!
+    roomTypeId: ID!
+    roomId: ID
+    bookingId: ID!
+    start: DateTime!
+    end: DateTime!
+    guestType: GuestType!
+    gender: Gender
+}
+
+input GuestsInput {
+    houseId: ID!
+    bookerId: ID!
+    bookingId: ID
+    roomTypeId: ID!
+    start: DateTime!
+    end: DateTime!
+    guestType: [GuestType!]!
+    gender: [Gender!]
+    roomId: [ID!]
 }

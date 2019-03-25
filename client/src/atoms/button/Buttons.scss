@@ -1,0 +1,163 @@
+
+
+@import "../../style_config/style_config";
+
+.JDbtn {
+  border: $button-border;
+  border-radius: $button-radius;
+  display: inline-block;
+  height: $button-height;
+  line-height: $button-height;
+  outline: 0;
+  padding: $button-padding;
+  text-transform: uppercase;
+  vertical-align: middle; 
+  -webkit-tap-highlight-color: transparent;
+  text-decoration: none;
+  color: $button-color;
+  background-color: $button-bgColor;
+  text-align: center;
+  letter-spacing: $button-letter-sapcing;
+  @extend %z-depth-1;
+  transition: background-color 0.2s ease-out;
+  cursor: pointer;
+
+  // Flot
+  &--left {
+    float: left
+  }
+
+  &--right {
+    float: right;
+  }
+
+  &.JDbtn--white {
+    color:white;
+  }
+
+  // MODE
+  &.JDbtn--primary {
+    background-color: $primary-color;
+    color: $primary-color-light-on;
+    &:hover {
+      background-color: $primary-color-light
+    }
+  }
+  
+  &.JDbtn--secondary {
+    background-color: $secondary-color;
+    color: $secondary-color-light-on;
+    &:hover {
+      background-color: $secondary-color-light
+    }
+  }
+
+  &.JDbtn--warn {
+    background-color: $warn-color;
+    color: #fff;
+    &:hover {
+      background-color: $warn-color-light
+    }
+  }
+
+  // Colors
+  &--white {
+    color:white;
+  }
+  
+  // TODO: 왼쪽 아이콘은 아직 없음
+  &__icon {
+    line-height: inherit;
+    margin-left: $buttons-icon-margin;
+    float: right;
+  
+    &--left {
+      float: left;
+      margin-left: 0;
+      margin-right: $buttons-icon-margin;
+    }
+  }
+
+  &:hover {
+    background-color: $button-bgColor-hover;
+    @extend %z-depth-1-half;
+  }
+
+  // Disabled shared style
+
+  &:disabled {
+    background-color: $button-disabled-background;
+    box-shadow: none;
+    color: $button-disabled-color;
+    cursor: default;
+
+    * {
+      pointer-events: none;
+    }
+
+    &:hover {
+      background-color: $button-disabled-background;
+      color: $button-disabled-color;
+    }
+  }
+  
+  
+  // Large button
+  &--large {
+    height: $button-large-height;
+    line-height: $button-large-height;
+    padding: $button-large-padding;
+    font-size: $button-large-font-size;
+    
+    .JDbtn__icon {
+      font-size: $button-large-icon-font-size;
+    }
+  }
+  
+  // Small button
+  &--small {
+    height: $button-small-height;
+    line-height: $button-small-height;
+    padding: $button-small-padding;
+    font-size: $button-small-font-size;
+    
+    .JDbtn__icon {
+      margin-left: $buttons-small-icon-margin;
+      
+      &--left {
+        float: left;
+        margin-left: 0;
+        margin-right: $buttons-small-icon-margin;
+      }
+      
+    }
+  }
+  
+  // Flat button
+  &--flat {
+    box-shadow: none;
+    background-color: transparent;
+    color: $button-flat-color;
+    cursor: pointer;
+    
+    &.JDbtn--white {
+      color:white;
+    }
+    
+    &.JDbtn--primary {
+      background-color: $primary-color;
+    }
+    
+    &:disabled {
+      color: $button-flat-disabled-color;
+      cursor: default;
+    }
+    
+    &:hover {
+      background-color: transparent;
+      box-shadow: none;
+    }
+    
+
+  }
+}

@@ -23,7 +23,7 @@ const isName = (string) => {
 const isEmail = (string) => {
   if (string === '') return NEUTRAL;
   const regExp = /^[-$^_=+0-9A-Za-z~]+@[-$%/0-9=?A-Z^_a-z~]+.[0-9A-Za-z~]+\w$/;
-  return !!regExp.test(string);
+  return regExp.test(string);
 };
 
 const isMaxOver = (string, max) => {
@@ -32,6 +32,13 @@ const isMaxOver = (string, max) => {
   return val <= max;
 };
 
+const isPassword = (string) => {
+  if (string === '') return NEUTRAL;
+  // 특수문자 1개이상 숫자 0 에서  9  7~15 자리의 숫자
+  const regExp = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/;
+  return regExp.test(string);
+};
+
 export {
-  isEmail, isPhone, isName, isUrl, isMaxOver,
+  isEmail, isPhone, isName, isUrl, isMaxOver, isPassword,
 };

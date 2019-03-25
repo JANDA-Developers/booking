@@ -1,0 +1,61 @@
+@import '../../style_config/style_config.scss';
+
+@keyframes rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+}
+
+@keyframes disapper {
+    0% {
+        opacity: 0;
+    }
+    20% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.preloader {
+    width: 1.5em;
+    height: inherit;
+    position: relative;
+    fill:inherit;
+    &__outerline {
+        fill: $preloader-background-color;
+    }
+}
+
+.preloader--page__wrap {
+    opacity: 0;
+    animation: disapper 2s 1 linear;
+    animation-fill-mode: forwards;
+    .preloader--page {
+        width: 20%;
+        padding-top: 20%;
+        margin: 22vh auto;
+        border: 5vw solid $preloader-background-color;
+        border-top: 5vw solid $preloader-fill-color;
+        border-radius: 50%;
+        animation: rotate 3s infinite linear;
+    }
+    // 모바일 가운데정렬
+    @include response ($phablet) {
+        position:fixed;
+        top:0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display:flex;
+        align-items: center;
+        .preloader--page {
+            width: 50%;
+            padding-top: 50%;
+        }
+    }
+}

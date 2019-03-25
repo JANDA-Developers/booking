@@ -1,49 +1,60 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './Radio.scss';
+import classNames from 'classnames/bind';
+import PropTypes from 'prop-types';
 import ErrProtecter from '../../utils/ErrProtecter';
-import { Forms, FormsDefault } from '../../utils/PropTypes';
 
-class Radio extends Component {
-  static propTypes = Forms;
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      checked: props.checked,
-    };
-  }
-
-  handleRadioChange = () => {
-    if (!this.disabled) {
-      this.setState(state => ({ checked: !state.checked }));
+function Radio({
+  id, disabled, groupName, label, onChange, value, checked,
+}) {
+  const handleRadioChange = (e) => {
+    const radioVlaue = e.target.value;
+    if (!disabled) {
+      onChange(radioVlaue);
     }
   };
 
-  render() {
-    const { checked } = this.state;
-    const {
-      id, classes, disabled, groupName, label,
-    } = this.props;
-    return (
-      <span className="JDradio">
-        <label tabIndex={0} role="button" htmlFor={id}>
-          <input
-            id={id}
-            className={`JDradio__input JDradio__input--gap ${classes.join(' ')}`}
-            name={groupName}
-            type="radio"
-            checked={checked}
-            disabled={disabled}
-            onChange={this.handleRadioChange}
-          />
-          <span className="JDradio__label" />
-          <span className="JDradio__label-text">{label}</span>
-        </label>
-      </span>
-    );
-  }
+  const classes = classNames({
+    JDradio__input: true,
+    'JDradio__input--gap': true,
+  });
+
+  return (
+    <span className="JDradio">
+      <label tabIndex={0} role="button" htmlFor={id}>
+        <input
+          id={id}
+          className={classes}
+          name={groupName}
+          type="radio"
+          value={value}
+          disabled={disabled}
+          checked={checked}
+          onChange={handleRadioChange}
+        />
+        <span className="JDradio__label" />
+        {label !== '' ? <span className="JDradio__label-text">{label}</span> : null}
+      </label>
+    </span>
+  );
 }
 
-Radio.defaultProps = FormsDefault;
+Radio.propTypes = {
+  id: PropTypes.string,
+  groupName: PropTypes.string,
+  label: PropTypes.string,
+  disabled: PropTypes.bool,
+  onChange: PropTypes.func,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+};
+
+Radio.defaultProps = {
+  id: '',
+  groupName: '',
+  label: '',
+  value: '',
+  disabled: false,
+  onChange: () => {},
+};
 
 export default ErrProtecter(Radio);

@@ -1,6 +1,20 @@
+@import '../../style_config/style_config';
+
+
 .PageGrid{
-    .flex-grid__col {
-        height: 100px;
-        background-color:#666;
+    .flex-grid__col,.block {
+        height: 2rem;
+        line-height: 2rem;
+        text-align: center;
+        background-color: $grey-level2;
+        text-overflow: ellipsis;
+        overflow:hidden;
+        margin-bottom: 1px;
+    }
+    .flex-grid,
+    .flex-grid-grow,
+    .row {
+        margin-bottom: .5rem;
     }
 }
+

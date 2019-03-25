@@ -1,0 +1,11 @@
+type ChangeIndexResponse {
+    ok: Boolean!
+    error: String
+}
+type Mutation {
+    ChangeIndex(
+        roomTypeId: ID!
+        houseId: ID!
+        index: Int!
+    ): ChangeIndexResponse!
+}

@@ -1,23 +1,22 @@
 type User {
     _id: ID!
-    name: String!
-    phone: String!
-    verifiedPhone: Boolean!
-    email: String!
-    verifiedEmail: Boolean!
-    role: Role!
-    bookings: [Booking!]
-    houses: [House!]
-    createdAt: String!
-    updatedAt: String
+    name: Name!
+    phoneNumber: PhoneNumber!
+    password: Password
+    email: EmailAddress!
+    isPhoneVerified: Boolean!
+    isEmailVerified: Boolean!
+    userRole: UserRole!
+    checkPrivacyPolicy: Boolean!
+    houses: [House!]!
+    createdAt: DateTime!
+    updatedAt: DateTime
 }
 
-enum Role {
+enum UserRole {
     ADMIN
     HOST
-    BOOKER
-}
-
-type Query {
-    users: User!
+    GUEST
+    # 비회원 => name, phoneNumber, password, email, createdAt, updatedAt 데이터 만을 가짐
+    GHOST
 }

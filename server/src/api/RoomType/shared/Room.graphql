@@ -1,0 +1,9 @@
+type Room {
+    _id: ID!
+    name: String!
+    roomType: RoomType!
+    disableRanges: [DisableRange!]!
+    index: Int!
+    createdAt: DateTime!
+    updatedAt: DateTime
+}

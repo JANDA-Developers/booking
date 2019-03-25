@@ -1,0 +1,12 @@
+type CreateRoomPriceResponse {
+    ok: Boolean!
+    error: String
+    roomPrice: RoomPrice
+}
+type Mutation {
+    CreateRoomPrice(
+        price: Float!
+        roomTypeId: ID!
+        date: DateTime!
+    ): CreateRoomPriceResponse!
+}

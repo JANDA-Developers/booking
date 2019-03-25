@@ -23,8 +23,10 @@ function HorizeCaption({ date }) {
         {year}
         <span className="DayPicker-Caption__month">{month}</span>
       </div>
-      {weeks.map(value => (
-        <div className="DayPicker-Caption__week">{value}</div>
+      {weeks.map((value, index) => (
+        <div className="DayPicker-Caption__week" key={`week${value + index}`}>
+          {value}
+        </div>
       ))}
     </div>
   );

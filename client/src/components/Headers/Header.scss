@@ -1,47 +1,128 @@
 @import '../../style_config/style_config';
 
-
 .header {
     background-color: $nav-color;
     display:flex;
     align-items: center;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: $header-padding;
+    padding-right: $header-padding;
+    height: $header-height;
+    z-index: $z-index-9;
     @extend %z-depth-1;
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
 
-    &__logo {
-        width: 70px;
-    }
-    
-    &__logoPlace {
-        padding: $button-padding;
-        &:hover {
-            transition:0.2s;
-            background-color:rgba(0,0,0,.1);
-            cursor:pointer;
+    // 모바일 앱버튼 
+    &__apps {
+        padding-right: $container-padding;
+        margin-left: auto;
+        display:none;
+        
+        @include response($phablet) {
+            display:block;
         }
     }
-    &__logoPlace + * {
-        margin-left: $buttons-space;
+
+
+    // 로고 랩
+    &__logoPlace {
+        padding: $button-padding;
     }
 
+    // 로고
+    &__logo {
+        width: 80px;
+        margin-top: -2px; // 보정
+    }
+
+    // 메뉴버튼 (써클버튼)
     &__menue {
         color:white;
+        // 메뉴버튼 후로 우측배치
+        & ~ * {
+            margin-left: auto;
+        }
     }
-    
-    &__link {
+
+    // 프로필 써클
+    &__profile {
         margin-left: auto;
+    }
+
+    // 버튼들 로그인 로그아웃...
+    &__btns {
+        height: 100%;
+        line-height: 100%;
         justify-content: flex-end;
         &:hover{
             background-color:rgba(0,0,0,.1);
         }
+        &--verify {
+            background-color: $primary-color-light;
+        }
     }
-    
-    &__link+&__link {
+
+    // 버튼사이 간격조절
+    &__btns+&__btns {
         margin-left: $buttons-space;
     }
 
-    .JDbtn{
+    // 툴팁리스트
+    #listAboutUser {
+        li {
+            text-align: center;
+        }
+    }
+    .circleIcon {
         margin-bottom: 0;
+    }
+
+    // 버튼들 마진 폰트 조정
+    .JDbtn {
+        margin-bottom: 0;
+        height: 100%;
+        font-size: $typho-normal;
+    }
+    
+    // 셀렉트박스 조정
+    .JDselect {
+        width: 200px;
+        margin-bottom: 0;
+        margin-left: $standard-space;
+
+        .react-select-container {
+            .react-select__control {
+                border:none;
+                min-height:28px;
+            }
+        }
+
+    }
+
+    @include response($phablet) {
+        padding-left: 0rem;
+        padding-right: 0rem;
+        
+        &__logoPlace {
+            padding-left: $container-padding;
+            padding-right: $container-padding;
+        }
+        
+        &__btns--mobile,&__profile,.JDselect {
+            display:none;
+        }
+        
+        .JDbtn  {
+            padding-left: $container-padding;
+            padding-right: $container-padding;
+        }
+
+        //  툴팁 화살표 방향 설정  모바일일때 구석에있어야함
+        .__react_component_tooltip::before,.__react_component_tooltip::after {
+            left: auto;
+            right: 4px;
+        }
+
     }
 }

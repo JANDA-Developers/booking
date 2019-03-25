@@ -1,0 +1,43 @@
+@import "../../style_config/style_config";
+
+#root {
+    div.tooltipList.__react_component_tooltip {
+        pointer-events: auto; 
+        background-color: white;
+        opacity:1;
+        @extend %z-depth-1;
+        padding: 0;
+
+        ul {
+            position:relative;
+            background-color: $tooltipList-background-color;
+            z-index:5;
+            border-radius:$tooltipList-border-radius;
+            padding: $tooltipList-ul-padding;
+
+            & > li {
+                padding: $tooltipList-li-padding;
+                border-bottom: $tooltipList-li-border-bottom;
+                .JDbtn  {
+                    color: $html-color;
+                }
+            }
+
+            & > li:last-child {
+                border-bottom: 0px
+            }
+        }
+
+        // 상단 화살표
+        &:after{
+            border-radius:3px;
+            border:none;
+            width:16px;
+            height:16px;
+            z-index:0;
+            background-color:white;
+            transform: translateY(2px) rotate(45deg);
+            @extend %z-depth-1;
+        }
+    }
+}
