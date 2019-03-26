@@ -1,0 +1,22 @@
+type User {
+    _id: ID!
+    name: Name!
+    phoneNumber: PhoneNumber!
+    password: Password
+    email: EmailAddress!
+    isPhoneVerified: Boolean!
+    isEmailVerified: Boolean!
+    userRole: UserRole!
+    checkPrivacyPolicy: Boolean!
+    houses: [House!]!
+    createdAt: DateTime!
+    updatedAt: DateTime
+}
+
+enum UserRole {
+    ADMIN
+    HOST
+    GUEST
+    # 비회원 => name, phoneNumber, password, email, createdAt, updatedAt 데이터 만을 가짐
+    GHOST
+}

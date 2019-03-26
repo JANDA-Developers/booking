@@ -1,0 +1,31 @@
+@import '../../../style_config/style_config.scss';
+
+.myPage{
+    text-align: center;
+
+    &__profileCircle {
+        margin-bottom: $standard-margin-bottom;
+    }
+    
+    &__profileCircle {
+        .profileCircle {
+            margin-bottom: $standard-margin-bottom;
+        }
+    }
+    
+    &__myHouse {
+        margin-bottom: $standard-margin-bottom;
+    }
+    
+    @include response ($full,$phabletUp) {
+        .myPage__myHouses > .col:nth-child(3n + 1){
+            margin-left: 0;
+        }
+    }
+
+    @include response ($phablet) {
+        .myPage__myHouses > .col:nth-child(2n + 1){
+            margin-left: 0;
+        }
+    }
+}

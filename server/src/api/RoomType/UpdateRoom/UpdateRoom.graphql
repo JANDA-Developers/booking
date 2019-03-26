@@ -1,0 +1,10 @@
+type UpdateRoomResponse {
+    ok: Boolean!
+    error: String
+}
+type Mutation {
+    UpdateRoom(
+        roomId: ID!
+        name: String
+    ): UpdateRoomResponse!
+}

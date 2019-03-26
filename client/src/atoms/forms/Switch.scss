@@ -1,0 +1,124 @@
+@import '../../style_config/style_config';
+
+
+
+/* Switch
+   ========================================================================== */
+
+.JDswitch,
+.JDswitch * {
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    outline: 0;
+}
+
+.JDswitch {
+    display: inline-block;
+
+    &__lxt,
+    &__rtxt {
+        font-size: $switch-label-fontSize;
+        color: $switch-label-color;
+    }
+    // 좌측 라벨
+    &__ltxt {
+        margin-right: 10px;
+    }
+    // 우측 라벨
+    &__rtxt {
+        margin-left: 10px
+    }
+}
+
+.JDswitch label {
+    cursor: pointer;
+}
+.JDswitch[disabled] label {
+    cursor: default;
+}
+
+
+.JDswitch label input[type=checkbox] {
+    opacity: 0;
+    width: 0;
+    height: 0;
+
+    &:checked+.JDswitch__lever {
+        background-color: $switch-checked-lever-bgcolor;
+        
+        &:before,
+        &:after {
+            left: 18px;
+        }
+        
+        &:after {
+            background-color: $switch-checked-bgcolor;
+        }
+    }
+}
+
+.JDswitch label .JDswitch__lever {
+    content: "";
+    display: inline-block;
+    position: relative;
+    width: 36px;
+    height: 14px;
+    background-color: $switch-unchecked-lever-bgcolor;
+    border-radius: $switch-radius;
+    transition: background 0.3s ease;
+    vertical-align: middle;
+
+    &:before,
+    &:after {
+        content: "";
+        position: absolute;
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        left: 0;
+        top: -3px;
+        transition: left 0.3s ease, background .3s ease, box-shadow 0.1s ease, transform .1s ease;
+    }
+
+    &:before {
+        background-color: transparentize($switch-checked-bgcolor, .85);
+    }
+
+    &:after {
+        background-color: $switch-unchecked-bgcolor;
+        box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+    }
+}
+
+// Switch active style
+.JDswitch__input[type=checkbox]:checked:not(:disabled)~.JDswitch__lever:active::before,
+.JDswitch__input[type=checkbox]:checked:not(:disabled).tabbed:focus~.JDswitch__lever::before {
+    transform: scale(2.4);
+    background-color: transparentize($switch-checked-bgcolor, .85);
+}
+
+.JDswitch__input[type=checkbox]:not(:disabled)~.JDswitch__lever:active:before,
+.JDswitch__input[type=checkbox]:not(:disabled).tabbed:focus~.JDswitch__lever::before {
+    transform: scale(2.4);
+    background-color: rgba(0, 0, 0, .08);
+}
+
+// Disabled Styles
+.JDswitch input[type=checkbox][disabled]+.JDswitch__lever {
+    cursor: default;
+    background-color: rgba(0, 0, 0, .12);
+}
+
+
+.JDswitch label input[type=checkbox][disabled]+.JDswitch__lever:after,
+.JDswitch label input[type=checkbox][disabled]:checked+.JDswitch__lever:after {
+    background-color: $switch-disabled-solid-color;
+}
+
+.JDswitch[disabled] {
+    .JDswitch__ltxt,
+    .JDswitch__ltxt__rtxt {
+        color: $standard-disabled-color;
+    }   
+}

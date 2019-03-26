@@ -1,0 +1,112 @@
+@import '../../style_config/style_config.scss';
+
+.JDsideNav {
+    position: fixed;
+    top:0;
+    left: -$sideNav-width;
+    background-color:white;
+    width: $sideNav-width;
+    z-index: $z-index-10;
+    height: 100vh;
+    box-sizing:border-box;
+    transition: 0.3s;
+
+    &__houseName {
+        font-size: $typho-large;
+        color:white;
+    }
+
+    // 본구간이 좌우 패딩이 일치하도록 합니다.
+    &__productView {
+        display:flex;
+        position: absolute;
+        bottom: 0;
+        width: calc(100% - #{$sideNav-list-padding});
+        padding-left: $sideNav-list-padding;
+        line-height: 100%;
+        border-top: 1px solid $grey-level1;
+        padding-bottom:1rem;
+        padding-top:1rem;
+        justify-content: space-between;
+
+        .JDsideNav__billing-title {
+            font-weight: 600;
+            font-size: $typho-small;
+        }
+        .JDsideNav__billing-detail {
+            font-size: $typho-tiny
+        }
+        
+        // TODO  flat 이면서  small 일수가 없다 이거 처리해야함
+        .JDbtn {
+            padding: $button-small-padding;
+            font-size: $typho-small;
+            margin-bottom: 0;
+            margin-right: $sideNav-list-padding - $button-small-padding-side;
+        }
+    }
+    
+    &--open {
+        left:0px;
+        @extend %z-depth-5;
+    }
+    
+    &__profill {
+        display: flex;
+        height: $sideNav-profile-height;
+        background-color:  $secondary-color;
+        justify-content: center;
+        align-content: center;
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    &__name {
+        color:white;
+        font-size: $typho-small;
+        margin-bottom: $standard-margin-bottom / 2;
+    }
+
+    &__circle {
+        width: $sideNav-profile-circle-size;
+        height: $sideNav-profile-circle-size;
+        margin-top: $sideNav-profile-circle-margin-top;
+        margin: 0 auto;
+    }
+
+    &__navLink {
+        text-decoration: none;
+        color: $html-color;
+        display: block;
+        font-size: $typho-large;
+        height: $sideNav-list-li-height;
+        line-height: $sideNav-list-li-height;
+        background-color: $sideNav-list-li-bgColor;
+        padding-left: $sideNav-list-padding;
+        border-bottom : 1px solid $grey-level1;
+        .JDicon__svg {
+            padding: 0rem $sideNav-icon-padding;
+            padding-left: 0;
+        }
+        &:hover {
+            background-color:$grey-level1;
+        }
+    }
+
+}
+
+.JDsideNav-curtain {
+    position: fixed;
+    top:0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    transition: background-color 0.3s;
+    z-index: $z-index-9;
+    visibility: hidden;
+    background-color: rgba(0,0,0,0);
+    &--open {
+        visibility: visible;
+        background-color: $sideNav-curtain-color;
+    }
+}

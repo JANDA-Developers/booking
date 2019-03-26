@@ -1,0 +1,198 @@
+// -----------------------------------------------------------------------------
+// This file contains all application-wide Sass mixins.
+// -----------------------------------------------------------------------------
+
+
+//마우스가 위에 올라왔을때 효과
+@mixin on-event($self: false) {
+    @if $self {
+
+        &,
+        &:hover,
+        &:active,
+        &:focus {
+            @content;
+        }
+    }
+
+    @else {
+
+        &:hover,
+        &:active,
+        &:focus {
+            @content;
+        }
+    }
+}
+
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+
+// Components Flex-Grid
+// todo: 생각후 다시 정립 해보자.
+// 의미가 그때마다 다른 마진 쓰고싶다일 뿐인것 같긴한데...
+@mixin component-layout($margin, $width) {
+    .flex-grid {
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+    }
+
+    .flex-grid>* {
+        flex: 1;
+
+        &.flex-grid__col {
+            flex-grow: 4;
+            margin-left: $margin;
+        }
+
+        &.flex-grid__col--fixed-width {
+            flex: 0 0 $width;
+        }
+
+        &.flex-grid__col--sm {
+            flex-grow: 2;
+        }
+
+        &.flex-grid__col--lg {
+            flex-grow: 8;
+        }
+
+        &:first-child {
+            margin-left: 0rem;
+        }
+
+        &:last-child {
+            margin-right: 0rem;
+        }
+    }
+
+    @media (max-width: $phablet) {
+        .flex-grid--md {
+            display: block;
+        }
+
+        .flex-grid--md>* {
+            padding-left: 0;
+            padding-right: 0;
+
+            &.flex-grid__col {
+                margin-left: 0;
+            }
+
+        }
+    }
+
+    @media (max-width: $desktop) {
+        .flex-grid--lg {
+            display: block;
+        }
+
+        .flex-grid--lg>* {
+            padding-left: 0;
+            padding-right: 0;
+
+            &.flex-grid__col {
+                margin-left: 0;
+            }
+        }
+    }
+}
+
+// 반응형 생성기
+@mixin response($max:9999px,$min:0px) {
+    @media only screen and (max-width: $max) and (min-width: $min) {
+      @content; 
+  }
+}
+
+// 그리드 생성기
+@mixin grid-system($mode) {
+
+    $max:9999px !default;
+    
+    @if $mode == sm {
+        $max: $mobile;
+    } @else if $mode == md {
+        $max: $phablet;
+    } @else if $mode == wmd {
+        $max: $tablet;
+    } @else if $mode == lg {
+        $max: $desktop;
+    } @else if $mode == wlg {
+        $max: $desktophd;
+    } @else if $mode == full {
+        $max: $full;
+    }
+    
+    @include response($max){
+        
+        @content; 
+        
+        //Todo: for 문으로 간추리자
+        .flex-grid__col,.col {
+            &.col--#{$mode}-0 {
+                display: none;
+            }
+
+            &.col--#{$mode}-1 {
+                display:block;
+                width: flex-grid-column-width(1);
+            }
+            
+            &.col--#{$mode}-2 {
+                display:block;
+                width: flex-grid-column-width(2);
+            }
+            
+            &.col--#{$mode}-3 {
+                display:block;
+                width: flex-grid-column-width(3);
+            }
+            
+            &.col--#{$mode}-4 {
+                display:block;
+                width: flex-grid-column-width(4);
+            }
+            
+            &.col--#{$mode}-5 {
+                display:block;
+                width: flex-grid-column-width(5);
+            }
+            
+            &.col--#{$mode}-6 {
+                display:block;
+                width: flex-grid-column-width(6);
+            }
+            
+            &.col--#{$mode}-7 {
+                display:block;
+                width: flex-grid-column-width(7);
+            }
+            
+            &.col--#{$mode}-8 {
+                display:block;
+                width: flex-grid-column-width(8);
+            }
+            
+            &.col--#{$mode}-9 {
+                display:block;
+                width: flex-grid-column-width(9);
+            }
+            
+            &.col--#{$mode}-10 {
+                display:block;
+                width: flex-grid-column-width(10);
+            }
+            
+            &.col--#{$mode}-11 {
+                display:block;
+                width: flex-grid-column-width(11);
+            }
+            
+            &.col--#{$mode}-12 {
+                display:block;
+                width: flex-grid-column-width(12);
+            }
+        }
+    }
+}

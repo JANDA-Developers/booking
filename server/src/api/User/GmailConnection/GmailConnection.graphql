@@ -1,0 +1,13 @@
+type GmailConnectionResponse {
+    ok: Boolean!
+    error: String
+    token: String
+}
+
+type Mutation{
+    GmailConnect(
+        firstName: String!
+        lastName: String!
+        gmail: String!
+    ): GmailConnectionResponse!
+}

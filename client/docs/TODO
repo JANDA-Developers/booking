@@ -1,0 +1,24 @@
+
+make middle server:
+
+  - Sign up
+  - Sign out
+
+  - Choose product
+  Buy product:
+    - Option choose
+    - Connect PG for buy
+    - Pay Money month by month
+    // extenstion - Connect PG for guest 
+    // extenstion - SMS  
+  - Cancle product
+
+  - Log of paymenet
+  - Message
+
+  - Dashboard
+
+  - Make a roomType
+
+  Extenstion-----------------
+  - QnA board

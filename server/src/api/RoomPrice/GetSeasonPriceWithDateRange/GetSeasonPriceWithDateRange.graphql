@@ -1,0 +1,18 @@
+type GetSeasonPriceWithDateRangeResponse {
+    ok: Boolean!
+    error: String
+    seasonPrices: [SeasonPrice!]
+}
+type DateRangeWithSeasonPrice {
+    start: DateTime!
+    end: DateTime!
+    # 시즌 가격: null인 경우 방의 기본 가격으로 적용
+    seasonPrice: SeasonPrice
+}
+type Query {
+    GetSeasonPriceWithDateRange(
+        roomTypeId: ID!
+        start: DateTime!
+        end: DateTime!
+    ): GetSeasonPriceWithDateRangeResponse!
+}

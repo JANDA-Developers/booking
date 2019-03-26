@@ -1,0 +1,35 @@
+scalar DateTime
+scalar EmailAddress
+scalar Name
+scalar Password
+scalar PhoneNumber
+scalar URL
+
+# DB에 저장할 떄는 0101010의 형태로 저장하도록 Resolver에서 처리한다.
+enum Day {
+    SUN
+    MON
+    TUE
+    WED
+    THU
+    FRI
+    SAT
+}
+
+type Tag {
+    name: String!
+    content: String!
+    icon: String!
+}
+
+input TagInput {
+    name: String!
+    content: String!
+    icon: String
+}
+
+# 이하 프론트에서 필요한 input 요청
+input SelectOption {
+    value: String!
+    label: String!
+}

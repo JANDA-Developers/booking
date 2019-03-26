@@ -1,0 +1,11 @@
+type GetSeasonWithDateResponse {
+    ok: Boolean!
+    error: String
+    season: Season
+}
+type Query {
+    GetSeasonWithDate(
+        houseId: ID!
+        date: DateTime!
+    ): GetSeasonWithDateResponse!
+}

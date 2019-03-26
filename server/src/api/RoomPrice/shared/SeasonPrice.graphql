@@ -1,0 +1,12 @@
+type SeasonPrice {
+    _id: ID!
+    roomType: RoomType!
+    season: Season!
+    price: Float!
+    applyDays: String!
+}
+
+input SeasonPriceInput {
+    price: Float!
+    applyDays: Int!
+}

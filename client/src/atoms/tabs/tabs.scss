@@ -1,0 +1,29 @@
+@import '../../style_config/style_config';
+
+.react-tabs {
+    &__tab-list {
+        height: $tabs-height;
+        line-height: $tabs-height;
+        border-bottom: 1px solid $html-color;
+        display:flex;
+        margin-bottom: $tabs-margin-bottom;
+    }
+    
+    &__tab {
+        padding: 0px $tabs-tab-padding;
+        outline:0;
+        // 선택된
+        &--selected {
+            position: relative;
+            bottom: -1px;
+            background-color: #fff;
+            border: 1px solid $html-color;
+            border-bottom: 0px solid transparent;
+            border-radius: $tabs-tab-border-radious $tabs-tab-border-radious 0px 0px ;
+            line-height : calc(#{$tabs-height} - 4px);
+        }
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}

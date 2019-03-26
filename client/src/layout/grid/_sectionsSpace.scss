@@ -1,0 +1,13 @@
+@import '../../style_config/style_config';
+
+.docs-section {
+    padding: $docs-section-padding;
+
+    &__box {
+        padding-bottom: $docs-section__box-bottom;
+        
+        & > * {
+            vertical-align: top;
+        }
+    }
+}

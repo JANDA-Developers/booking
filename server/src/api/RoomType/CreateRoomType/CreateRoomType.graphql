@@ -1,0 +1,19 @@
+type CreateRoomTypeResponse {
+    ok: Boolean!
+    error: String
+    roomType: RoomType
+}
+
+type Mutation {
+    # 로그인 token 필요함!
+    CreateRoomType(
+        name: String!
+        houseId: ID!
+        pricingType: PricingType!
+        peopleCount: Int!
+        peopleCountMax: Int
+        isEnable: Boolean
+        description: String
+        tags: [TagInput!]
+    ): CreateRoomTypeResponse!
+}

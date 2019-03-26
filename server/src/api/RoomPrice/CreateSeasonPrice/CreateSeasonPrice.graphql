@@ -1,0 +1,9 @@
+type CreateSeasonPriceResponse {
+    ok: Boolean!
+    error: String
+    seasonPrice: SeasonPrice
+}
+type Mutation {
+    CreateSeasonPrice(roomTypeId: ID!, seasonId: ID!,
+    price: Float!, applyDays: Int): CreateSeasonPriceResponse!
+}

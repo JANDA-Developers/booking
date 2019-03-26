@@ -1,0 +1,94 @@
+@import '../../style_config/style_config';
+
+$padding-color:#BBD6AF;
+$margin-color:#F9CC9D;
+
+#MarginDOC {
+    
+    text-align: center;
+
+    .flex-grid>* {
+        flex: none;
+    }
+
+    .containers {
+        height:100px;
+        text-align: center;
+        line-height:100%;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        display: inline;
+    }
+
+    .container_ml {
+        width: calc((100% - #{$container-width})/2);
+        background-color: $margin-color;
+        height: 100%;
+        float:left
+    }
+
+    .container_mr {
+        width: calc((100% - #{$container-width})/2);
+        background-color: $margin-color;
+        height: 100%;
+        float:right
+    }
+    
+    .container_pl {
+        width: calc(#{$container-padding} / 2);
+        background-color: $padding-color;
+        float:left;
+        height: 100%;
+    }
+    
+    .container_pr {
+        width: calc(#{$container-padding} / 2);
+        background-color: $padding-color;
+        float:right;
+        height: 100%;
+    }
+    
+    .container-sm_ml {
+        width: calc((100% - #{$container-small-width})/2);
+        background-color: $margin-color;
+        float:left;
+        height: 100%;
+    }
+    
+    .container-sm_mr {
+        width: calc((100% - #{$container-small-width})/2);
+        background-color: $margin-color;
+        float:right;
+        height: 100%;
+    }
+
+    @mixin response ($mobile) {
+        .container_ml {
+            width: calc((100% - #{$container-width-larger-than-mobile})/2);
+            padding: 0;
+        }
+    }
+
+    // For devices larger than 550px
+    @mixin response ($mobile) {
+        .container_mr {
+            width: calc((100% - #{$container-width-larger-than-phablet})/2);
+        }
+    }
+
+    .docs-section_pb {
+        height: $docs-section-padding-top;
+        background-color: $padding-color;
+    }
+
+    .docs-section__box_pb {
+        height: $docs-section__box-bottom;
+        background-color: $padding-color;
+    }
+}
