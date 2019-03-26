@@ -17,7 +17,7 @@ input BookerInput {
     house: ID!
     booking: ID
     name: Name!
-    password: Password
+    password: String!
     phoneNumber: PhoneNumber!
     email: EmailAddress
     agreePrivacyPolicy: Boolean!

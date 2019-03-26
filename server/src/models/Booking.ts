@@ -34,6 +34,12 @@ export class BookingSchema extends Typegoose {
     @prop({ default: 0 })
     price: number;
 
+    @prop({ required: true })
+    start: Date;
+
+    @prop({ required: true })
+    end: Date;
+
     @prop({
         default(this: BookingSchema) {
             return this.price;
