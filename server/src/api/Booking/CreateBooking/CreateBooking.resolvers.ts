@@ -3,7 +3,7 @@ import { InstanceType } from "typegoose";
 import { BookerModel } from "../../../models/Booker";
 import { BookingModel, BookingSchema } from "../../../models/Booking";
 import { GuestModel } from "../../../models/Guest";
-import { extractBookings } from "../../../models/merge/Merge";
+import { extractBookings } from "../../../models/merge/merge";
 import {
     CreateBookingMutationArgs,
     CreateBookingResponse

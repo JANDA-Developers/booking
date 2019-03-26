@@ -1,5 +1,5 @@
 import { BookerModel } from "../../../models/Booker";
-import { extractBooker } from "../../../models/merge/Merge";
+import { extractBooker } from "../../../models/merge/merge";
 import {
     CreateBookerMutationArgs,
     CreateBookerResponse

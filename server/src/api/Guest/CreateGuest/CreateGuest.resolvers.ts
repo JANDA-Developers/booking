@@ -1,6 +1,6 @@
 import { ObjectId } from "bson";
 import { GuestModel } from "../../../models/Guest";
-import { extractGuest } from "../../../models/merge/Merge";
+import { extractGuest } from "../../../models/merge/merge";
 import {
     CreateGuestMutationArgs,
     CreateGuestResponse

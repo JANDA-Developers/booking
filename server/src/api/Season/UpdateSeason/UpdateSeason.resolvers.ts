@@ -1,5 +1,5 @@
 import { ObjectId } from "bson";
-import { extractSeason } from "../../../models/merge/Merge";
+import { extractSeason } from "../../../models/merge/merge";
 import { SeasonModel } from "../../../models/Season";
 import {
     UpdateSeasonMutationArgs,

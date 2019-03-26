@@ -1,5 +1,5 @@
 import { ObjectId } from "bson";
-import { extractRoomPrice } from "../../../models/merge/Merge";
+import { extractRoomPrice } from "../../../models/merge/merge";
 import { RoomPriceModel } from "../../../models/RoomPrice";
 import {
     CreateRoomPriceMutationArgs,

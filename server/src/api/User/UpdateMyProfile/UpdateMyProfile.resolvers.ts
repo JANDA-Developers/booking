@@ -1,5 +1,5 @@
 import { InstanceType } from "typegoose";
-import { extractUser } from "../../../models/merge/Merge";
+import { extractUser } from "../../../models/merge/merge";
 import { UserSchema } from "../../../models/User";
 import {
     UpdateMyProfileMutationArgs,

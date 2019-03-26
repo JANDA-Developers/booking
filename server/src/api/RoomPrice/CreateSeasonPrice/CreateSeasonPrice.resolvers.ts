@@ -1,5 +1,5 @@
 import { ObjectId } from "bson";
-import { extractSeasonPrice } from "../../../models/merge/Merge";
+import { extractSeasonPrice } from "../../../models/merge/merge";
 import { RoomTypeModel } from "../../../models/RoomType";
 import { SeasonModel } from "../../../models/Season";
 import { SeasonPriceModel } from "../../../models/SeasonPrice";
