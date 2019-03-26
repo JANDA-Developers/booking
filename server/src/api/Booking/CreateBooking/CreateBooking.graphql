@@ -1,7 +1,8 @@
 type CreateBookingResponse {
     ok: Boolean!
     error: String
-    booking: Booking
+    # 리턴타입 검토중. 
+    booking: [Booking!]
 }
 type Mutation {
     CreateBooking(

@@ -1,0 +1,14 @@
+type UpdateBookingResponse {
+    ok: Boolean!
+    error: String
+    booking: [Booking!]
+}
+type Mutation {
+    UpdateBooking(
+        bookingId: ID!
+        bookingStatus: BookingStatus
+        start: DateTime
+        end: DateTime
+        price: Float
+    ): UpdateBookingResponse!
+}

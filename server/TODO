@@ -63,7 +63,7 @@ Host-Side:
         Booking API:
             ✔ Define Booker, Guest, Booking Schema @done(19-03-25 11:06)
             ✔ Draw Booking Flow with Draw.io in my browser @done(19-03-25 11:06)
-            ☐ CreateBooking
+            ✔ CreateBooking @done(19-03-26 11:18)
                 # CreateBooker, CreateGuest 포함...
             ☐ UpdateBooking
                 # BookingStatus 변경 포함 x

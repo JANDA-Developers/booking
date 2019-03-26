@@ -7,6 +7,10 @@ type Booking {
     guests: [Guest!]
     # 가격
     price: Float!
+    # 시작 날짜
+    start: DateTime!
+    # 끝 날짜
+    end: DateTime!
     discountedPrice: Float!
     bookingStatus: BookingStatus!
     createdAt: DateTime!
