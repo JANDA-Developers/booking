@@ -41,7 +41,13 @@ export class GuestSchema extends Typegoose {
     @prop({ enum: GuestTypeEnum, default: GuestTypeEnum.DOMITORY })
     guestType: GuestType;
 
-    @prop({ enum: GenderEnum, default: GenderEnum.MALE })
+    @prop({
+        enum: GenderEnum,
+        default: GenderEnum.MALE,
+        required(this: GuestSchema) {
+            return this.guestType === "DOMITORY";
+        }
+    })
     gender: Gender;
 
     @prop()
