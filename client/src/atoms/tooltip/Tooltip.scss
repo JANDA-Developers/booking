@@ -1,0 +1,41 @@
+@import "../../style_config/style_config";
+
+.JDtooltip.__react_component_tooltip {
+
+    &.show {
+        opacity: 1;
+    }
+ 
+    &.type-info{
+        background-color:$link-color;
+        
+        &:after{
+            border-top-color:$link-color;
+        }
+    }
+
+    &.type-success{
+        background-color:$primary-color;
+        
+        &:after{
+            border-top-color:$primary-color;
+        }
+    }
+
+    &.type-error{
+        background-color:$error-color;
+        
+        &:after{
+            border-top-color:$error-color;
+        }
+
+    }
+
+    &.type-dark{
+        background-color:$html-color;
+        
+        &:after{
+            border-top-color:$html-color;
+        }
+    }
+}
