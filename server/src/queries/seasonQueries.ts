@@ -3,7 +3,7 @@ import {
     extractSeason,
     transformSeason,
     transformSeasons
-} from "../models/merge/Merge";
+} from "../models/merge/merge";
 import { SeasonModel } from "../models/Season";
 import { Season } from "../types/graph";
 import { transformYMDToMD } from "../utils/transformData";

@@ -1,4 +1,4 @@
-import { extractProduct } from "../../../models/merge/Merge";
+import { extractProduct } from "../../../models/merge/merge";
 import { ProductModel } from "../../../models/Product";
 import { GetAllProductsResponse, Product } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";

@@ -1,4 +1,4 @@
-import { extractProductType } from "../../../models/merge/Merge";
+import { extractProductType } from "../../../models/merge/merge";
 import { ProductTypeModel } from "../../../models/ProductType";
 import {
     CreateProductTypeMutationArgs,

@@ -1,6 +1,6 @@
 import { ObjectId } from "bson";
 import { HouseModel } from "../../../models/House";
-import { extractHouse } from "../../../models/merge/Merge";
+import { extractHouse } from "../../../models/merge/merge";
 import {
     UpdateHouseMutationArgs,
     UpdateHouseResponse

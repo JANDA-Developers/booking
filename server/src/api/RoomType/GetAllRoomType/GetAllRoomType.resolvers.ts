@@ -1,5 +1,5 @@
 import { HouseModel } from "../../../models/House";
-import { extractRoomTypes } from "../../../models/merge/Merge";
+import { extractRoomTypes } from "../../../models/merge/merge";
 import {
     GetAllRoomTypeQueryArgs,
     GetAllRoomTypeResponse

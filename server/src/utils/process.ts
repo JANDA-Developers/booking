@@ -1,5 +1,5 @@
 import { ObjectId } from "bson";
-import { extractSeasonPrice } from "../models/merge/Merge";
+import { extractSeasonPrice } from "../models/merge/merge";
 import { SeasonPriceModel } from "../models/SeasonPrice";
 import { Season, SeasonPrice } from "../types/graph";
 import { dayOfYear } from "./mDate";
