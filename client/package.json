@@ -7,13 +7,6 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "@types/faker": "^4.1.5",
-    "@types/googlemaps": "^3.30.19",
-    "@types/graphql": "^14.0.7",
-    "@types/jquery": "^3.3.29",
-    "@types/moment": "^2.13.0",
-    "@types/react": "^16.8.6",
-    "@types/react-dom": "^16.8.2",
     "apollo-boost": "^0.1.23",
     "axios": "^0.18.0",
     "babel-cli": "^6.26.0",
@@ -21,10 +14,6 @@
     "dotenv": "^6.2.0",
     "download": "^7.1.0",
     "download-file": "^0.1.5",
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-plugin-graphql": "^3.0.1",
-    "eslint-plugin-prettier": "^3.0.1",
-    "eslint-plugin-react-hooks": "^1.0.1",
     "faker": "^4.1.0",
     "fs": "^0.0.1-security",
     "github-markdown-css": "^3.0.1",
@@ -39,7 +28,6 @@
     "markdown-to-jsx": "^6.9.1",
     "moment": "^2.24.0",
     "node-sass": "^4.11.0",
-    "npm": "^6.7.0",
     "prop-types": "^15.6.2",
     "randomcolor": "^0.5.4",
     "react": "^16.7.0",
@@ -58,11 +46,7 @@
     "react-slick": "^0.23.2",
     "react-tabs": "^3.0.0",
     "react-toastify": "^4.5.2",
-    "react-tooltip": "^3.9.2",
-    "stylelint": "^9.10.1",
-    "stylelint-config-prettier": "^4.0.0",
-    "stylelint-config-recommended-scss": "^3.2.0",
-    "typescript": "^3.3.3333"
+    "react-tooltip": "^3.9.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -127,5 +111,22 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "typescript": "^3.3.4000",
+    "@types/faker": "^4.1.5",
+    "@types/googlemaps": "^3.30.19",
+    "@types/graphql": "^14.0.7",
+    "@types/jquery": "^3.3.29",
+    "@types/moment": "^2.13.0",
+    "@types/react": "^16.8.6",
+    "@types/react-dom": "^16.8.2",
+    "stylelint": "^9.10.1",
+    "stylelint-config-prettier": "^4.0.0",
+    "stylelint-config-recommended-scss": "^3.2.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-graphql": "^3.0.1",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-react-hooks": "^1.0.1"
+  }
 }
