@@ -80,6 +80,7 @@ SideNav.propTypes = {
   setIsOpen: PropTypes.func,
   userInformation: PropTypes.object,
   selectedProduct: PropTypes.object,
+  selectedHouse: PropTypes.object,
 };
 
 SideNav.defaultProps = {
@@ -87,6 +88,7 @@ SideNav.defaultProps = {
   setIsOpen: () => {},
   userInformation: {},
   selectedProduct: {},
+  selectedHouse: {},
 };
 
 export default ErrProtecter(SideNav);

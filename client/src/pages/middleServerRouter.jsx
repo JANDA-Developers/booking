@@ -30,12 +30,9 @@ function JDmiddleServer({
   const houses = user.houses || [];
   let selectedHouse = houses.filter(house => house._id === lastSelectedHouse.value)[0] || {};
 
-  // 선택된 숙소가 없다면 선택된 숙소는 첫번째 숙소입니다.
+  // 최근에 선택된 숙소가 없다면 선택된 숙소는 첫번째 숙소입니다.
   if (isEmpty(selectedHouse) && !isEmpty(houses)) [selectedHouse] = houses;
 
-  console.log(selectedHouse);
-  console.log(selectedHouse);
-  
   const selectedProduct = selectedHouse.product || {};
   const { isPhoneVerified } = user;
 

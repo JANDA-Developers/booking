@@ -1,9 +1,11 @@
 import moment from 'moment';
 import React from 'react';
-import { defaultHeaderLabelFormats, defaultSubHeaderLabelFormats } from '../../../../components/timeline/Timeline.jsx';
+import { defaultHeaderLabelFormats, defaultSubHeaderLabelFormats } from '../../../../components/timeline/Timeline';
 import generateFakeData from '../examples/timeline_fakedata';
-import groupRendererFn from '../components/groupRender';
-import itemRendererFn from '../components/itemRender';
+import groupRendererFn from './components/groupRender';
+import itemRendererFn from './components/itemRender';
+
+moment.lang('kr');
 
 const keys = {
   groupIdKey: 'id',
@@ -38,7 +40,7 @@ const defaultTimeEnd = moment()
   .toDate();
 
 // Timeline 으로 전달될 객체
-const propSender = {
+const defaultProps = {
   minZoom: 7 * 24 * 60 * 60 * 1000,
   maxZoom: 180 * 24 * 60 * 60 * 1000,
   dragSnap: 24 * 60 * 60 * 1000,
@@ -70,7 +72,7 @@ const propSender = {
   showCursorLine: true,
 };
 export {
-  propSender,
+  defaultProps,
   keys,
   initGroups,
   initItems,

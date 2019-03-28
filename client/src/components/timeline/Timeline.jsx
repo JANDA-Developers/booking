@@ -10,7 +10,6 @@ import Timeline, {
 import React from 'react';
 import PropTypes from 'prop-types';
 import ErrProtecter from '../../utils/ErrProtecter';
-import './Timeline';
 import './Timeline.scss';
 // import 'react-calendar-timeline/lib/Timeline.css';
 

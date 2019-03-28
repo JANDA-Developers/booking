@@ -42,7 +42,7 @@ class DocumentRouter extends Component {
     );
 
     const ShowTimeline = props => (
-      <DynamicImport load={() => import('./documents/show/ShowTimeLine/ShowTimeline')}>
+      <DynamicImport load={() => import('./documents/show/showTimeLine/ShowTimelineWrap')}>
         {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
       </DynamicImport>
     );
