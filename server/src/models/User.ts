@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { Types } from "mongoose";
+import { ObjectId } from "bson";
 import {
     arrayProp,
     instanceMethod,
@@ -41,14 +41,14 @@ export class UserSchema extends Typegoose {
     @prop({ default: false })
     checkPrivacyPolicy: boolean;
 
+    @arrayProp({ items: ObjectId, default: [] })
+    houses: ObjectId[];
+
     @prop()
     createdAt: Date;
 
     @prop()
     updatedAt: Date;
-
-    @arrayProp({ items: Types.ObjectId, default: [] })
-    houses: Types.ObjectId[];
 
     @instanceMethod
     public async comparePassword(

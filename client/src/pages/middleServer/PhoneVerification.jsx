@@ -70,10 +70,6 @@ function PhoneVerification({ history }) {
                       }
                     }}
                     onError={(verficationError) => {
-                      console.log(phoneNumber);
-                      console.log(keyHook.value);
-                      console.log(verficationError);
-                      console.log(verficationError);
                       toast.error('인증 절차에 문제가 생겼습니다. 별도 문의 바랍니다.');
                       console.error(verficationError);
                     }}

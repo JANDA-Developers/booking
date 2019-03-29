@@ -24,18 +24,15 @@ function JDmiddleServer({
   GetUserInfo: { GetMyProfile: { user = {} } = {}, loading: loading2 },
   selectedHouse: { auth: { lastSelectedHouse = {} } = {}, loading: loading3 } = {},
 }) {
-
+  //  유저 유저
   const [SideNavIsOpen, setSideNavIsOpen] = useToggle(false);
   const isloading = loading || loading2 || loading3;
   const houses = user.houses || [];
   let selectedHouse = houses.filter(house => house._id === lastSelectedHouse.value)[0] || {};
 
-  // 선택된 숙소가 없다면 선택된 숙소는 첫번째 숙소입니다.
+  // 최근에 선택된 숙소가 없다면 선택된 숙소는 첫번째 숙소입니다.
   if (isEmpty(selectedHouse) && !isEmpty(houses)) [selectedHouse] = houses;
 
-  console.log(selectedHouse);
-  console.log(selectedHouse);
-  
   const selectedProduct = selectedHouse.product || {};
   const { isPhoneVerified } = user;
 
@@ -97,7 +94,7 @@ function JDmiddleServer({
         <Route
           exact
           path="/middleServer/products"
-          render={() => (isLoggedIn ? <Products selectedHouse={selectedHouse} currentProduct={selectedProduct} /> : <Login />)
+          render={() => (isLoggedIn ? <Products isPhoneVerified={isPhoneVerified} selectedHouse={selectedHouse} currentProduct={selectedProduct} /> : <Login />)
           }
         />
         {/* 인증 */}

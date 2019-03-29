@@ -12,7 +12,6 @@ type Mutation {
         pricingType: PricingType!
         peopleCount: Int!
         peopleCountMax: Int
-        isEnable: Boolean
         description: String
         tags: [TagInput!]
     ): CreateRoomTypeResponse!

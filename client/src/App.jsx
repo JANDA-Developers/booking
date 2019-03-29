@@ -7,9 +7,11 @@ import DocumentRouter from './pages/DocumentRouter';
 import NoMatch from './pages/NoMatch';
 import middleServerRouter from './pages/middleServerRouter';
 import JDtoast from './atoms/toast/Toast';
+
 // Library
 import './lib/wave/wave'; // 웨이브 이펙트
-import './lib/wave/wave.scss'; // 웨이브 이펙트
+import './lib/wave/wave.scss';
+
 
 function App() {
   return (

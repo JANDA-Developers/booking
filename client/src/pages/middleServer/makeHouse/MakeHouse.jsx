@@ -4,7 +4,9 @@ import { Mutation } from 'react-apollo';
 import { GoogleApiWrapper } from 'google-maps-react';
 import { withRouter } from 'react-router-dom';
 import { reverseGeoCode, geoCode } from './mapHelper';
-import { useInput, useSelect, useFetch, useDebounce } from '../../../actions/hook';
+import {
+  useInput, useSelect, useFetch, useDebounce,
+} from '../../../actions/hook';
 import {
   CREATE_HOUSE, SELECT_HOUSE, GET_USER_INFO, SELECTED_HOUSE,
 } from '../../../queries';
@@ -143,7 +145,6 @@ const MakeHouse = ({ history, google }) => {
   // 도로명주소 가져오기
   useEffect(() => {
     adressGet(addressGeturl);
-    console.log('doget');
   }, [addressGeturl]);
 
   // 구글맵 첫 생성 (현재위치)
@@ -194,7 +195,6 @@ const MakeHouse = ({ history, google }) => {
                     value: CreateHouse.house._id,
                     label: CreateHouse.house.name,
                   };
-                  console.log(variables);
                   selectHouseMutation({ variables: { selectedHouse: variables } });
                 }
                 if (CreateHouse.error) console.error(CreateHouse.error);

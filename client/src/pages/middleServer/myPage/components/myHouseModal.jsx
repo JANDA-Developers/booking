@@ -8,8 +8,6 @@ import { DELETE_HOUSE, GET_USER_INFO, UPDATE_HOUSE } from '../../../../queries';
 import { toast } from '../../../../utils/utils';
 
 const MyHouseModal = ({ isOpen, onRequestClose, houseData }) => {
-  console.log(houseData);
-
   const verifyDeleteMutation = (mutation) => {
     if (houseData.product && houseData.product._id) {
       toast('상품을 먼저 해지 해주세요.');
