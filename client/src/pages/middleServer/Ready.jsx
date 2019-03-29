@@ -2,10 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './Ready.scss';
 
-const Ready = ({ currentProduct, selectedHouse }) => {
-  console.log(selectedHouse);
-
-  return (
+const Ready = ({ currentProduct, selectedHouse }) => (
     <div id="Ready">
       {/* PC용 */}
       <div className="container container--centerlize">
@@ -45,7 +42,6 @@ const Ready = ({ currentProduct, selectedHouse }) => {
       </div>
     </div>
   );
-};
 
 Ready.propTypes = {
   product: PropTypes.string,

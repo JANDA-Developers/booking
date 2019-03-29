@@ -134,11 +134,10 @@ const ProductsWrap = ({
           toast.success('서비스 적용 완료');
           // 체험상품을 선택했을경우에
           if (testProductId === selectedProductTypeId) {
-            toast('서비스 사용 메뉴얼 다운로드');
             download(
               manual,
               '홈페이지 사용 메뉴얼.hwp',
-            ).then(data => console.log(data));
+            ).then(() => { toast.success('메뉴얼 다운로드 완료'); });
             demoModal.openModal();
             return;
           }
@@ -150,8 +149,8 @@ const ProductsWrap = ({
         }
       }}
       onError={(buyProductErr) => {
-        console.log(buyProductErr);
         toast.warn('구매절차에 문제가 발생했습니다. 별도 문의 바랍니다.');
+        console.error(buyProductErr);
       }}
     >
       {productMutation => (

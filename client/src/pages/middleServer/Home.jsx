@@ -7,14 +7,13 @@ import { ErrProtecter, toast, isEmpty } from '../../utils/utils';
 
 // eslint-disable-next-line react/prop-types
 const Home = ({
-  isLoggedIn, selectedProduct, selectedHouse, houses, isPhoneVerified,
+  isLoggedIn, selectedProduct, selectedHouse, houses,
 }) => {
   const [redirect, setRedirect] = useState(false);
   const [redirectUrl, setRedirectUrl] = useState('/middleServer/makeHouse');
 
   const startService = () => {
     // 로그인 상태인가?
-
     if (!isLoggedIn) {
       toast.warn('로그인후 시작해주세요.');
       return;
@@ -46,7 +45,6 @@ const Home = ({
     setRedirectUrl('/middleServer/ready');
     setRedirect(true);
   };
-
   return (
     <div id="HomePage" className="container container--centerlize">
       {redirect ? <Redirect push to={redirectUrl} /> : null}

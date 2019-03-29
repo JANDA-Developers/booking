@@ -7,6 +7,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "@types/react-router-dom": "^4.3.1",
     "apollo-boost": "^0.1.23",
     "axios": "^0.18.0",
     "babel-cli": "^6.26.0",
@@ -41,12 +42,14 @@
     "react-paginate": "^6.3.0",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.1",
+    "react-scripts-ts": "^3.1.0",
     "react-search-field": "^1.0.0",
     "react-select": "^2.3.0",
     "react-slick": "^0.23.2",
     "react-tabs": "^3.0.0",
     "react-toastify": "^4.5.2",
-    "react-tooltip": "^3.9.2"
+    "react-tooltip": "^3.9.2",
+    "tslint": "^5.14.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -77,6 +80,7 @@
       "no-unused-expressions": 0,
       "no-underscore-dangle": 0,
       "no-console": "off",
+      "import/no-unresolved": "off",
       "max-len": [
         1,
         120,
@@ -113,7 +117,6 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "typescript": "^3.3.4000",
     "@types/faker": "^4.1.5",
     "@types/googlemaps": "^3.30.19",
     "@types/graphql": "^14.0.7",
@@ -121,12 +124,13 @@
     "@types/moment": "^2.13.0",
     "@types/react": "^16.8.6",
     "@types/react-dom": "^16.8.2",
-    "stylelint": "^9.10.1",
-    "stylelint-config-prettier": "^4.0.0",
-    "stylelint-config-recommended-scss": "^3.2.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-graphql": "^3.0.1",
     "eslint-plugin-prettier": "^3.0.1",
-    "eslint-plugin-react-hooks": "^1.0.1"
+    "eslint-plugin-react-hooks": "^1.0.1",
+    "stylelint": "^9.10.1",
+    "stylelint-config-prettier": "^4.0.0",
+    "stylelint-config-recommended-scss": "^3.2.0",
+    "typescript": "^3.3.4000"
   }
 }
