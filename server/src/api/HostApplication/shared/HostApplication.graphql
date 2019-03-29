@@ -1,0 +1,15 @@
+type HostApplication {
+    _id: ID!
+    applicationType: ApplicationType!
+    house: House!
+    user: User!
+    url: URL!
+    hostApplicationAdmin: HostApplicationAdmin!
+    description: String
+    createdAt: DateTime!
+    updatedAt: DateTime
+}
+
+enum ApplicationType {
+    BOOKING_WEB
+}
