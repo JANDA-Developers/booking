@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react';
+import { Mutation, Query } from 'react-apollo';
 import { useBookPOP, useToggle } from '../../../../actions/hook';
 import ModifyShowTimeline from './ShowTimeline';
-import { defaultProps, initItems } from './timelineConfig';
+import { ModifydefaultProps, initItems } from './timelineConfig';
 
 const ModifyTimelineWrap = () => {
   const [_, setConfigMode] = useToggle(false);
@@ -13,10 +14,26 @@ const ModifyTimelineWrap = () => {
     <ModifyShowTimeline
       bookerModal={bookerModal}
       setConfigMode={setConfigMode}
-      defaultProps={defaultProps}
+      defaultProps={ModifydefaultProps}
       items={initItems}
     />
   );
+  // return (
+  //   <Query fetchPolicy="no-cahce" query={XXXX} skip={!houseModalId} variables={{ houseId: houseModalId }}>
+  //     {roomsInfo => (
+  //       <Mutation mutation={XXXXX}>
+  //         {createHouseMutation => (
+  //           <ModifyShowTimeline
+  //             bookerModal={bookerModal}
+  //             setConfigMode={setConfigMode}
+  //             defaultProps={ModifydefaultProps}
+  //             items={initItems}
+  //           />
+  //         )}
+  //       </Mutation>
+  //     )}
+  //   </Query>
+  // );
 };
 
 export default ModifyTimelineWrap;

@@ -1,6 +1,6 @@
 // 구글 맵
-export const MAPS_KEY = process.env.MAP_KEY;
+export const MAPS_KEY = process.env.REACT_APP_API_MAP_KEY;
 // 네이버 지도
-export const { LOAD_ADRESS_KEY } = process.env;
+export const { LOAD_ADRESS_KEY } = process.env.REACT_APP_API_LOAD_ADRESS_KEY;
 // 한국 개발자 지원 도로명 주소
-export const { ADDRESS_API_KEY } = process.env;
+export const { ADDRESS_API_KEY } = process.env.REACT_APP_API_ADDRESS_API_KEY;

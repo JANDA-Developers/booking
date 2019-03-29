@@ -18,7 +18,7 @@ const ShowTimeline: React.SFC<IProps> = ({ setConfigMode, defaultProps, items })
         <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
           <DayPicker input label="input" isRange={false} />
         </div>
-        <Button float="right" onClick={setConfigMode} icon="roomChange" label="방구조 변경" />
+        <Button float="right" onClick={setConfigMode} icon="persons" label="배정화면으로 전환" />
       </div>
       <Timeline
         {...defaultProps}

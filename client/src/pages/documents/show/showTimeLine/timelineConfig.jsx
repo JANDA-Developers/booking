@@ -55,7 +55,6 @@ const defaultProps = {
   keys,
   defaultTimeStart,
   defaultTimeEnd,
-  // 동적 변화시 올려야함
   groups: initGroups,
   groupRenderer: groupRendererFn,
   itemRenderer: itemRendererFn,
@@ -71,6 +70,38 @@ const defaultProps = {
   itemHeightRatio: 1,
   showCursorLine: true,
 };
+// ModifyTimeline 으로 전달될 객체
+const ModifydefaultProps = {
+  minZoom: 7 * 24 * 60 * 60 * 1000,
+  maxZoom: 180 * 24 * 60 * 60 * 1000,
+  dragSnap: 24 * 60 * 60 * 1000,
+  subHeaderLabelFormats: krSubHeaderLabelFormats,
+  headerLabelFormats: krHeaderLabelFormats,
+  timeSteps: {
+    hour: 24,
+    day: 1,
+    month: 1,
+    year: 1,
+  },
+  keys,
+  defaultTimeStart,
+  defaultTimeEnd,
+  groups: initGroups,
+  groupRenderer: groupRendererFn,
+  itemRenderer: itemRendererFn,
+  fixedHeader: 'fixed',
+  sidebarWidth: 240,
+  sidebarContent: <div className="modify__sideTop">방 설정</div>,
+  canMove: false,
+  canResize: false,
+  canSelect: true,
+  itemsSorted: true,
+  itemTouchSendsClick: false,
+  stackItems: true,
+  itemHeightRatio: 1,
+  showCursorLine: true,
+};
+
 export {
   defaultProps,
   keys,
@@ -80,4 +111,5 @@ export {
   krHeaderLabelFormats,
   defaultTimeEnd,
   defaultTimeStart,
+  ModifydefaultProps,
 };

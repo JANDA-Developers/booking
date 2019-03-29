@@ -40,7 +40,7 @@
     &__menue {
         color:white;
         // 메뉴버튼 후로 우측배치
-        & ~ * {
+        & + * {
             margin-left: auto;
         }
     }

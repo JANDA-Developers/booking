@@ -1,6 +1,8 @@
 import ApolloClient from 'apollo-boost';
 import uri from './uri';
 import resolvers from './resolvers';
+import dotenv from "dotenv";
+dotenv.config({ path: "../.env" });
 
 const client = new ApolloClient({
   clientState: {

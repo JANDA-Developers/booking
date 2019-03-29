@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import 'moment/locale/ko';
 import DayPicker from '../../../../components/dayPicker/DayPicker';
 import Timeline from '../../../../components/timeline/Timeline';
@@ -35,7 +36,9 @@ const ShowTimeline: React.SFC<IProps> = ({
         <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
           <DayPicker input label="input" isRange={false} />
         </div>
-        <Button float="right" onClick={setConfigMode} icon="roomChange" label="방구조 변경" />
+        <Link to="/documents/ShowComponents/timelineConfig">
+          <Button float="right" onClick={setConfigMode} icon="roomChange" label="방구조 변경" />
+        </Link>
       </div>
       <Timeline
         {...defaultProps}

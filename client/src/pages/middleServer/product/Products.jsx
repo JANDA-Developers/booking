@@ -29,6 +29,7 @@ const Products = ({
   const closeTooltip = () => {
     ReactTooltip.hide();
   };
+
   return (
     <div id="products" className="container">
       <div className="docs-section">
@@ -99,7 +100,7 @@ const Products = ({
           {/* 상품해지 버튼 */}
           {currentProduct._id && (
             <Button
-              onClick={refundModal.modalOpen}
+              onClick={refundModal.openModal}
               disabled={isEmpty(selectedHouse)}
               thema="warn"
               label="상품해지"

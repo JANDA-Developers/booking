@@ -24,7 +24,7 @@ function JDmiddleServer({
   GetUserInfo: { GetMyProfile: { user = {} } = {}, loading: loading2 },
   selectedHouse: { auth: { lastSelectedHouse = {} } = {}, loading: loading3 } = {},
 }) {
-
+  //  유저 유저
   const [SideNavIsOpen, setSideNavIsOpen] = useToggle(false);
   const isloading = loading || loading2 || loading3;
   const houses = user.houses || [];
@@ -94,7 +94,7 @@ function JDmiddleServer({
         <Route
           exact
           path="/middleServer/products"
-          render={() => (isLoggedIn ? <Products selectedHouse={selectedHouse} currentProduct={selectedProduct} /> : <Login />)
+          render={() => (isLoggedIn ? <Products isPhoneVerified={isPhoneVerified} selectedHouse={selectedHouse} currentProduct={selectedProduct} /> : <Login />)
           }
         />
         {/* 인증 */}
