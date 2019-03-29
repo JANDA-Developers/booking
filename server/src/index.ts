@@ -29,7 +29,8 @@ connect(
     process.env.DB_ENDPOINT
     }:${process.env.DB_PORT}/${process.env.DB_NAME}`,
     {
-        useNewUrlParser: true
+        useNewUrlParser: true,
+        useCreateIndex: true,
     }
 )
     .then(connection => {
