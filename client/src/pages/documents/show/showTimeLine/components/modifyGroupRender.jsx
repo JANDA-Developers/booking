@@ -1,7 +1,7 @@
 import React from 'react';
 
 // 그룹 렌더링
-const groupRendererFn = ({ group }) => (
+const ModifyGroupRendererFn = ({ group }) => (
   <div>
     <div className="modifyGroups custom-group">
       <span className="title">
@@ -13,4 +13,4 @@ const groupRendererFn = ({ group }) => (
   </div>
 );
 
-export default groupRendererFn;
+export default ModifyGroupRendererFn;

@@ -6,6 +6,7 @@ import ErrProtecter from '../../../../utils/ErrProtecter';
 import Button from '../../../../atoms/button/Buttons';
 
 interface IProps {
+  setConfigMode: any;
   defaultProps: any;
   items: any;
 }

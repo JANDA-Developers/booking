@@ -1,1 +1,1 @@
-export default 'http://localhost:4000/graphql';
+export default `http://${process.env.HOST}:${process.env.SERVER_PORT}/${process.env.ENDPOINT}`
