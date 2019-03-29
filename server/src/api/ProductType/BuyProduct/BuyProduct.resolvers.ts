@@ -1,6 +1,6 @@
 import { ObjectId } from "bson";
 import { HouseModel } from "../../../models/House";
-import { extractProduct } from "../../../models/merge/Merge";
+import { extractProduct } from "../../../models/merge/merge";
 import { ProductTypeModel } from "../../../models/ProductType";
 import {
     BuyProductMutationArgs,

@@ -1,5 +1,5 @@
 import { ObjectId } from "bson";
-import { extractRoomPrices } from "../../../models/merge/Merge";
+import { extractRoomPrices } from "../../../models/merge/merge";
 import { RoomPriceModel } from "../../../models/RoomPrice";
 import {
     GetRoomPriceWithDateRangeQueryArgs,

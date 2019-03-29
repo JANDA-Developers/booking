@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-dotenv.config();
+dotenv.config({ path: "../.env" });
 
 import { Options } from "graphql-yoga";
 import { connect } from "mongoose";
@@ -18,17 +18,16 @@ const appOptions: Options = {
 
 const handleAppStart = () => {
     console.log(
-        `Listening on http://localhost:${PORT}${
-            process.env.PLAYGROUND_ENDPOINT
+        `Listening on http://${process.env.DB_ENDPOINT}:${PORT}${
+        process.env.PLAYGROUND_ENDPOINT
         }`
     );
 };
 
 connect(
-    `mongodb://localhost:27017/${process.env.DB_NAME}`,
-    // `mongodb+srv://${process.env.DB_USER}:${
-    //     process.env.DB_PASSWORD
-    // }@cluster0-gk4ly.mongodb.net/${process.env.DB_NAME}?retryWrites=true`,
+    `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${
+    process.env.DB_ENDPOINT
+    }:${process.env.DB_PORT}/${process.env.DB_NAME}`,
     {
         useNewUrlParser: true
     }

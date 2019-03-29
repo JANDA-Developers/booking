@@ -1,5 +1,5 @@
 import { InstanceType } from "typegoose";
-import { extractRoomType } from "../../../models/merge/Merge";
+import { extractRoomType } from "../../../models/merge/merge";
 import { RoomTypeSchema } from "../../../models/RoomType";
 import {
     UpdateRoomTypeMutationArgs,

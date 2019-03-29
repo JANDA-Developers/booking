@@ -1,5 +1,5 @@
 import { HouseModel } from "../../../models/House";
-import { extractSeason } from "../../../models/merge/Merge";
+import { extractSeason } from "../../../models/merge/merge";
 import { SeasonModel } from "../../../models/Season";
 import {
     CreateSeasonMutationArgs,
