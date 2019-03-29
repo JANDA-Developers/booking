@@ -1,9 +1,11 @@
 import moment from 'moment';
 import React from 'react';
-import { defaultHeaderLabelFormats, defaultSubHeaderLabelFormats } from '../../../../components/timeline/Timeline.jsx';
+import { defaultHeaderLabelFormats, defaultSubHeaderLabelFormats } from '../../../../components/timeline/Timeline';
 import generateFakeData from '../examples/timeline_fakedata';
-import groupRendererFn from '../components/groupRender';
-import itemRendererFn from '../components/itemRender';
+import groupRendererFn from './components/groupRender';
+import itemRendererFn from './components/itemRender';
+
+moment.lang('kr');
 
 const keys = {
   groupIdKey: 'id',
@@ -38,7 +40,7 @@ const defaultTimeEnd = moment()
   .toDate();
 
 // Timeline 으로 전달될 객체
-const propSender = {
+const defaultProps = {
   minZoom: 7 * 24 * 60 * 60 * 1000,
   maxZoom: 180 * 24 * 60 * 60 * 1000,
   dragSnap: 24 * 60 * 60 * 1000,
@@ -53,7 +55,6 @@ const propSender = {
   keys,
   defaultTimeStart,
   defaultTimeEnd,
-  // 동적 변화시 올려야함
   groups: initGroups,
   groupRenderer: groupRendererFn,
   itemRenderer: itemRendererFn,
@@ -69,8 +70,40 @@ const propSender = {
   itemHeightRatio: 1,
   showCursorLine: true,
 };
+// ModifyTimeline 으로 전달될 객체
+const ModifydefaultProps = {
+  minZoom: 7 * 24 * 60 * 60 * 1000,
+  maxZoom: 180 * 24 * 60 * 60 * 1000,
+  dragSnap: 24 * 60 * 60 * 1000,
+  subHeaderLabelFormats: krSubHeaderLabelFormats,
+  headerLabelFormats: krHeaderLabelFormats,
+  timeSteps: {
+    hour: 24,
+    day: 1,
+    month: 1,
+    year: 1,
+  },
+  keys,
+  defaultTimeStart,
+  defaultTimeEnd,
+  groups: initGroups,
+  groupRenderer: groupRendererFn,
+  itemRenderer: itemRendererFn,
+  fixedHeader: 'fixed',
+  sidebarWidth: 240,
+  sidebarContent: <div className="modify__sideTop">방 설정</div>,
+  canMove: false,
+  canResize: false,
+  canSelect: true,
+  itemsSorted: true,
+  itemTouchSendsClick: false,
+  stackItems: true,
+  itemHeightRatio: 1,
+  showCursorLine: true,
+};
+
 export {
-  propSender,
+  defaultProps,
   keys,
   initGroups,
   initItems,
@@ -78,4 +111,5 @@ export {
   krHeaderLabelFormats,
   defaultTimeEnd,
   defaultTimeStart,
+  ModifydefaultProps,
 };

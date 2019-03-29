@@ -161,15 +161,16 @@ function useModal2(defaultValue) {
   return { isOpen, openModal, closeModal };
 }
 
+// booker ID 를 모달 여기 함수에 전달하고 booker info를 리턴하도록 설계
 function useBookPOP(defaultValue) {
-  const [bookerModalIsOpen, setIsOpen] = useState(defaultValue);
+  const [isOpen, setIsOpen] = useState(defaultValue);
   const [bookerInfo, inSetPOPInfo] = useState(null);
 
-  const bookerModalOpen = () => {
+  const openModal = (tmp, tmp2) => {
     setIsOpen(true);
   };
 
-  const bookerModalClose = () => {
+  const closeModal = () => {
     setIsOpen(false);
     inSetPOPInfo(null);
   };
@@ -179,9 +180,9 @@ function useBookPOP(defaultValue) {
   };
 
   return {
-    bookerModalIsOpen,
-    bookerModalOpen,
-    bookerModalClose,
+    isOpen,
+    openModal,
+    closeModal,
     setModalInfo,
     bookerInfo,
   };
