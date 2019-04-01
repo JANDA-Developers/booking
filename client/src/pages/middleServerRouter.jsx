@@ -11,7 +11,16 @@ import { useToggle } from '../actions/hook';
 import { isEmpty } from '../utils/utils';
 import Preloader from '../atoms/preloader/Preloader';
 import {
-  Products, Home, MakeHouse, PhoneVerification, MyPage, SignUp, Login, Ready,
+  Products,
+  Home,
+  MakeHouse,
+  PhoneVerification,
+  MyPage,
+  SignUp,
+  Login,
+  Ready,
+  AssigTimeline,
+  ModifyTimeline,
 } from './pages';
 
 // TODO: protoTypes에 정의 옮기자
@@ -94,7 +103,15 @@ function JDmiddleServer({
         <Route
           exact
           path="/middleServer/products"
-          render={() => (isLoggedIn ? <Products isPhoneVerified={isPhoneVerified} selectedHouse={selectedHouse} currentProduct={selectedProduct} /> : <Login />)
+          render={() => (isLoggedIn ? (
+            <Products
+              isPhoneVerified={isPhoneVerified}
+              selectedHouse={selectedHouse}
+              currentProduct={selectedProduct}
+            />
+          ) : (
+            <Login />
+          ))
           }
         />
         {/* 인증 */}
@@ -114,6 +131,9 @@ function JDmiddleServer({
             }
           />
         )}
+        {/* 타임라인 */}
+        <Route exact path="/middleServer/timeline" component={AssigTimeline} />
+        <Route exact path="/middleServer/timelineConfig" component={ModifyTimeline} />
         {/* 404 */}
         <Route component={NoMatch} />
       </Switch>
@@ -132,7 +152,6 @@ JDmiddleServer.defaultProps = {
   GetUserInfo: {},
   selectedHouse: {},
 };
-
 
 //  how to branch query
 // https://stackoverflow.com/questions/48880071/use-result-for-first-query-in-second-query-with-apollo-client

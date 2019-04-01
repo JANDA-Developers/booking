@@ -7,8 +7,6 @@ import NoMatch from './NoMatch';
 import {
   DocumentHome,
   ShowComponents,
-  ShowTimeline,
-  ModifyTimeline,
   Grid,
   ColorPage,
   Margin,
@@ -28,8 +26,6 @@ class DocumentRouter extends Component {
         <Switch>
           <Route exact path="/documents" component={DocumentHome} />
           <Route exact path="/documents/ShowComponents" component={ShowComponents} />
-          <Route exact path="/documents/ShowComponents/timeline" component={ShowTimeline} />
-          <Route exact path="/documents/ShowComponents/timelineConfig" component={ModifyTimeline} />
           <Route exact path="/documents/grid" component={Grid} />
           <Route exact path="/documents/color" component={ColorPage} />
           <Route exact path="/documents/margin" component={Margin} />

@@ -32,6 +32,8 @@ export const SELECTED_HOUSE = gql`
     }
   }
 `;
+
+
 // 하우스 선택
 export const SELECT_HOUSE = gql`
   mutation selectHouse($selectedHouse: SelectOption!) {
@@ -146,8 +148,53 @@ export const GET_HOUSE = gql`
     }
   }
 `;
+// 모든 방타입 가져오기
+export const GET_ALL_ROOMTYPES = gql`
+  query getAllRoomType($houseId: ID!){
+    GetAllRoomType(houseId:$houseId) {
+      ok
+      error
+      roomTypes {
+        _id
+        name
+        pricingType
+        peopleCount
+        peopleCountMax
+        index
+        roomCount
+        roomGender
+        description
+        createdAt
+        updatedAt
+        rooms {
+          _id       
+          name
+          index
+          roomType
+          createdAt
+          updatedAt
+        }
+      }
+    }
+  }`;
 
 /* -------------------------------- mutation -------------------------------- */
+// 방타입 생성
+export const CREATE_ROOMTYPE = gql`
+  mutation createRoomType($name: String!, $houseId: ID!, $pricingType: PricingType!, $peopleCount: Int!, $peopleCountMax: Int, $description: String, $tags: tags) {
+    CreateRoomType(name: $name, houseId: $houseId, pricingType: $pricingType, peopleCount: $peopleCount ,peopleCountMax: $peopleCountMax, description: $description, tags: $tags) {
+      ok
+      error
+  }
+}`;
+// 방 생성
+export const CREATE_ROOM = gql`
+mutation createRoom($name: String!, $roomType: ID!) {
+  CreateRoom(name: $name, roomTyp: $roomType) {
+    ok
+    error
+  }
+}`;
 // 프로필 업데이트
 export const UPDATE_MYPROFILE = gql`
   mutation updateMyProfile($name: Name!, $phoneNumber: PhoneNumber!, $email: EmailAddress!, $password: Password!) {

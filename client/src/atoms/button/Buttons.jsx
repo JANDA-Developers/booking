@@ -23,9 +23,9 @@ function Buttons({
   pulse,
   blink,
   preloader,
+  ...props
 }) {
-  const classes = classNames({
-    JDbtn: true,
+  const classes = classNames('JDbtn', props && props.className, {
     'JDbtn--flat': mode === 'flat',
     'JDbtn--small': mode === 'small',
     'JDbtn--large': mode === 'large',
@@ -36,7 +36,7 @@ function Buttons({
     'JDbtn--secondary': thema === 'secondary',
     'JDbtn--warn': thema === 'warn',
     'JDwaves-effect-dark': mode === 'flat' && thema === 'normal',
-    'JDbtn--pulse-primary': pulse,
+    'JDbtn--pulse': pulse,
     'JDtext-blink': blink,
   });
 
@@ -44,6 +44,7 @@ function Buttons({
 
   return (
     <button
+      {...props}
       type={type}
       disabled={disabled}
       className={`JDbtn JDwaves-effect ${classes}`}

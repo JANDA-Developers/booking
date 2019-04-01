@@ -49,3 +49,15 @@ export const Ready = props => (
     {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
   </DynamicImport>
 );
+
+export const AssigTimeline = props => (
+  <DynamicImport load={() => import('./middleServer/timelines/AssigTimeline')}>
+    {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
+  </DynamicImport>
+);
+
+export const ModifyTimeline = props => (
+  <DynamicImport load={() => import('./middleServer/timelines/ModifyTimeline')}>
+    {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
+  </DynamicImport>
+);
