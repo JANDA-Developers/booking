@@ -1,15 +1,15 @@
-type UpdateSeasonResponse {
+type UpdateSeasonToHostAppResponse {
     ok: Boolean
     error: String
     season: Season
 }
 type Mutation {
-    UpdateSeason(
+    UpdateSeasonToHostApp(
         seasonId: ID!
         name: String
         start: DateTime
         end: DateTime
         color: String
         description: String
-    ): UpdateSeasonResponse!
+    ): UpdateSeasonToHostAppResponse!
 }

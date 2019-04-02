@@ -1,0 +1,11 @@
+type GetAllHouseToHostAppResponse {
+    ok: Boolean!
+    error: String
+    houses: [House!]
+}
+type Query {
+    GetAllHouseToHostApp(
+        email: EmailAddress!
+        password: Password!
+    ): GetAllHouseToHostAppResponse!
+}

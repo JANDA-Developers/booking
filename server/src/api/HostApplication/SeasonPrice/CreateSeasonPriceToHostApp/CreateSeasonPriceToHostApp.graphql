@@ -1,0 +1,13 @@
+type CreateSeasonPriceToHostAppResponse {
+    ok: Boolean!
+    error: String
+    seasonPrice: SeasonPrice
+}
+type Mutation {
+    CreateSeasonPriceToHostApp(
+        roomTypeId: ID!
+        seasonId: ID!
+        price: Float!
+        applyDays: Int
+    ): CreateSeasonPriceToHostAppResponse!
+}

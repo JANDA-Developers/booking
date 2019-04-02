@@ -1,0 +1,12 @@
+type ChangePriorityToHostAppResponse {
+    ok: Boolean!
+    error: String
+    season: Season
+}
+type Mutation {
+    ChangePriorityToHostApp(
+        seasonId: ID!
+        houseId: ID!
+        priority: Int!
+    ): ChangePriorityToHostAppResponse!
+}
