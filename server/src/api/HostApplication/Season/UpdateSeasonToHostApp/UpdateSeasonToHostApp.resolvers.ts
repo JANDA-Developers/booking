@@ -1,25 +1,40 @@
-import { extractSeason } from "../../../models/merge/merge";
-import { SeasonModel } from "../../../models/Season";
+import { extractSeason } from "../../../../models/merge/merge";
+import { SeasonModel } from "../../../../models/Season";
 import {
-    UpdateSeasonMutationArgs,
-    UpdateSeasonResponse
-} from "../../../types/graph";
-import { Resolvers } from "../../../types/resolvers";
-import privateResolver from "../../../utils/privateResolvers";
+    UpdateSeasonToHostAppMutationArgs,
+    UpdateSeasonToHostAppResponse
+} from "../../../../types/graph";
+import { Resolvers } from "../../../../types/resolvers";
+import { InstanceType } from "typegoose";
+import { HouseSchema } from "../../../../models/House";
+import privateResolverForHostApp from "../../../../utils/privateResolverForHostApplication";
 
 const resolvers: Resolvers = {
     Mutation: {
-        UpdateSeason: privateResolver(
+        UpdateSeasonToHostApp: privateResolverForHostApp(
             async (
                 _,
-                { seasonId, ...args }: UpdateSeasonMutationArgs
-            ): Promise<UpdateSeasonResponse> => {
+                { seasonId, ...args }: UpdateSeasonToHostAppMutationArgs,
+                { req }
+            ): Promise<UpdateSeasonToHostAppResponse> => {
                 try {
+                    const house: InstanceType<HouseSchema> = req.house;
                     const season = await SeasonModel.findById(seasonId);
                     if (!season) {
                         return {
                             ok: false,
                             error: "시즌이 존재하지 않습니다",
+                            season: null
+                        };
+                    }
+                    if (house._id !== season._id) {
+                        console.log({
+                            house: house._id,
+                            season: season._id
+                        });
+                        return {
+                            ok: false,
+                            error: "선택한 숙소에 해당하는 시즌이 아닙니다.",
                             season: null
                         };
                     }

@@ -1,0 +1,12 @@
+type UpdateSeasonPriceResponse {
+    ok: Boolean!
+    error: String
+    seasonPrice: SeasonPrice
+}
+type Mutation {
+    UpdateSeasonPrice(
+        seasonPriceId: ID!
+        price: Float
+        applyDays: Int!
+    ): UpdateSeasonPriceResponse!
+}

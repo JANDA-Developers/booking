@@ -12,6 +12,12 @@ export class HostApplicationAdminSchema extends Typegoose {
     @prop({ required: true })
     url: string;
 
+    @prop({ required: true })
+    id: string;
+
+    @prop({ required: true })
+    password: string;
+
     @prop()
     description: string;
 
