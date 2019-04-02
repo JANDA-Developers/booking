@@ -29,13 +29,12 @@ connect(
     process.env.DB_ENDPOINT
     }:${process.env.DB_PORT}/${process.env.DB_NAME}`,
     {
-        useNewUrlParser: true,
-        useCreateIndex: true,
+        useNewUrlParser: true
     }
 )
-    .then(connection => {
-        app.start(appOptions, handleAppStart);
-    })
-    .catch(err => {
-        console.log(err);
-    });
+.then(connection => {
+    app.start(appOptions, handleAppStart);
+})
+.catch(err => {
+    console.log(err);
+});

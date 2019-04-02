@@ -1,7 +1,7 @@
 import moment from 'moment';
 import React from 'react';
-import { defaultHeaderLabelFormats, defaultSubHeaderLabelFormats } from '../../../../components/timeline/Timeline';
-import generateFakeData from '../examples/timeline_fakedata';
+import { defaultHeaderLabelFormats, defaultSubHeaderLabelFormats } from '../../../components/timeline/Timeline';
+import generateFakeData from './components/timeline_fakedata';
 import groupRendererFn from './components/groupRender';
 import itemRendererFn from './components/itemRender';
 
@@ -87,8 +87,6 @@ const ModifydefaultProps = {
   defaultTimeStart,
   defaultTimeEnd,
   groups: initGroups,
-  groupRenderer: groupRendererFn,
-  itemRenderer: itemRendererFn,
   fixedHeader: 'fixed',
   sidebarWidth: 240,
   sidebarContent: <div className="modify__sideTop">방 설정</div>,
@@ -100,6 +98,7 @@ const ModifydefaultProps = {
   stackItems: true,
   itemHeightRatio: 1,
   showCursorLine: true,
+  lineHeight: 36,
 };
 
 export {

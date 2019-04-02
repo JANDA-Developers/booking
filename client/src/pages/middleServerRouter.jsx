@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { graphql, compose } from 'react-apollo';
 import PT from 'prop-types';
+import { Helmet } from 'react-helmet';
 import Header from '../components/headers/HeaderWrap';
 import SideNav from '../components/sideNav/SideNav';
 import NoMatch from './NoMatch';
@@ -49,6 +50,9 @@ function JDmiddleServer({
     <Preloader page />
   ) : (
     <Fragment>
+      <Helmet>
+        <title>JANDA | APP</title>
+      </Helmet>
       {/* 헤더에 정보전달 */}
       <Route
         render={() => (
@@ -81,6 +85,9 @@ function JDmiddleServer({
             isPhoneVerified={isPhoneVerified}
           />
         </Route>
+        {/* 타임라인 */}
+        <Route exact path="/middleServer/timeline" render={AssigTimeline} />
+        <Route exact path="/middleServer/timelineConfig" render={ModifyTimeline} />
         {/* 인덱스2 */}
         <Route exact path="/middleServer">
           <Home
@@ -120,6 +127,7 @@ function JDmiddleServer({
         <Route exact path="/middleServer/signUp" component={isLoggedIn ? undefined : SignUp} />
         {/* 회원가입ㅌ */}
         <Route exact path="/middleServer/login" component={isLoggedIn ? undefined : Login} />
+
         {/* 대기 */}
         {isEmpty(selectedProduct) ? (
           <Route component={NoMatch} />
@@ -131,9 +139,7 @@ function JDmiddleServer({
             }
           />
         )}
-        {/* 타임라인 */}
-        <Route exact path="/middleServer/timeline" component={AssigTimeline} />
-        <Route exact path="/middleServer/timelineConfig" component={ModifyTimeline} />
+
         {/* 404 */}
         <Route component={NoMatch} />
       </Switch>

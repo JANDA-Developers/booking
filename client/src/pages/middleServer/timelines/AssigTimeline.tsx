@@ -5,7 +5,7 @@ import DayPicker from '../../../components/dayPicker/DayPicker';
 import Timeline from '../../../components/timeline/Timeline';
 import ErrProtecter from '../../../utils/ErrProtecter';
 import Button from '../../../atoms/button/Buttons';
-import POPbookerInfo from '../../../components/bookerInfo/POPbookerModal';
+import POPbookerInfo from '../../../components/bookerInfo/BookerModal';
 
 interface IProps {
   handleCanvasDoubleClick(): void;
@@ -29,7 +29,11 @@ const ShowTimeline: React.SFC<IProps> = ({
   setConfigMode,
   defaultProps,
   items,
-}) => (
+}) => {
+  console.log(defaultProps);
+  console.log(defaultProps);
+  console.log(defaultProps);
+  return (
   <div id="ShowTimeline" className="container container--full">
     <div className="docs-section">
       <div className="flex-grid flex-grid--end">
@@ -61,6 +65,18 @@ const ShowTimeline: React.SFC<IProps> = ({
       />
     </div>
   </div>
-);
+)};
+
+ShowTimeline.defaultProps = {
+  handleCanvasDoubleClick: ()=>{},
+  handleItemResize: ()=>{},
+  bookerModal: {},
+  defaultProps: {},
+  items: {},
+  handleItemMove: ()=>{},
+  handleItemDoubleClick: ()=>{},
+  isConfigMode: false,
+  setConfigMode: ()=>{},
+}
 
 export default ErrProtecter(ShowTimeline);

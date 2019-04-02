@@ -1,0 +1,39 @@
+@import '../../style_config/style_config';
+
+.imageUploader {
+    position:relative;
+    width:100%;
+    border: 2px solid $html-color; 
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    cursor:pointer;
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/c/cd/Cloud_upload_font_awesome.svg');
+    display:flex;
+    align-items: center;
+    justify-content:center;
+    max-height:100%;
+    overflow:hidden;
+    min-height:3rem;
+
+    &--error {
+        border-color: $error-color;
+    }
+    &--loading {
+        background-image:none;
+    }
+
+    img {
+        width: 100%;
+    }
+
+    &__input {
+        position:absolute;
+        top:0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0;
+        cursor:pointer;
+    }
+}

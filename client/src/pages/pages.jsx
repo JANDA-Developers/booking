@@ -33,7 +33,7 @@ export const MyPage = props => (
 );
 
 export const SignUp = props => (
-  <DynamicImport load={() => import('./middleServer/SignUp')}>
+  <DynamicImport load={() => import('./middleServer/signUp/SignUp')}>
     {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
   </DynamicImport>
 );
@@ -51,13 +51,13 @@ export const Ready = props => (
 );
 
 export const AssigTimeline = props => (
-  <DynamicImport load={() => import('./middleServer/timelines/AssigTimeline')}>
+  <DynamicImport load={() => import('./middleServer/timelines/AssigTimelineWrap')}>
     {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
   </DynamicImport>
 );
 
 export const ModifyTimeline = props => (
-  <DynamicImport load={() => import('./middleServer/timelines/ModifyTimeline')}>
+  <DynamicImport load={() => import('./middleServer/timelines/ModifyTimelineWrap')}>
     {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
   </DynamicImport>
 );

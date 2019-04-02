@@ -1,0 +1,16 @@
+#ModifyTimeline {
+    .modifyGroups {
+        padding-left: 6rem;
+        &__roomGroup {
+            position:absolute;
+            left: 0;
+        }
+
+        &__input {
+            height: 33px;
+            padding: 0;
+            margin-bottom:3px;
+        }
+
+    } 
+}
