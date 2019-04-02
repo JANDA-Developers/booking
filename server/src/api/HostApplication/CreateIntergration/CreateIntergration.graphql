@@ -1,0 +1,8 @@
+type CreateIntergrationResponse {
+    ok: Boolean!
+    error: String
+    token: String
+}
+type Mutation {
+    CreateIntergration(houseId: ID!): CreateIntergrationResponse!
+}

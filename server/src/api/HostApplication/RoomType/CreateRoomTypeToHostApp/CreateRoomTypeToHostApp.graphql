@@ -1,0 +1,17 @@
+type CreateRoomTypeToHostAppResponse {
+    ok: Boolean!
+    error: String
+    roomType: RoomType
+}
+
+type Mutation {
+    # 로그인 token 필요함!
+    CreateRoomTypeToHostApp(
+        name: String!
+        pricingType: PricingType!
+        peopleCount: Int!
+        peopleCountMax: Int
+        description: String
+        tags: [TagInput!]
+    ): CreateRoomTypeToHostAppResponse!
+}

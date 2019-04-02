@@ -1,0 +1,14 @@
+type CreateSeasonToHostAppResponse {
+    ok: Boolean!
+    error: String
+    season: Season
+}
+type Mutation {
+    CreateSeasonToHostApp(
+        name: String!
+        start: DateTime!
+        end: DateTime!
+        color: String
+        description: String
+    ): CreateSeasonToHostAppResponse!
+}

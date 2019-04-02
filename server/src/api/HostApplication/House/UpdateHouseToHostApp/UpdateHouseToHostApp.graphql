@@ -1,0 +1,14 @@
+type UpdateHouseToHostAppResponse {
+    ok: Boolean!
+    error: String
+    house: House
+}
+type Mutation {
+    UpdateHouseToHostApp(
+        name: String
+        houseType: HouseType
+        location: LocationInput
+        refundPolicy: [TermsOfRefundInput!]
+        termsOfBooking: TermsOfBookingInput
+    ): UpdateHouseToHostAppResponse!
+}
