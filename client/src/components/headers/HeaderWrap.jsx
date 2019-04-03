@@ -22,7 +22,7 @@ const HeaderWrap = ({ history, ...props }) => (
         }}
         onCompleted={({ selectHouse }) => {
           if (selectHouse && selectHouse.ok) {
-            console.toast('숙소변경');
+            toast.success('숙소변경');
           }
         }}
       >
