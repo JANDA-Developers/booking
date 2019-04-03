@@ -49,11 +49,19 @@ const Home = ({
     <div id="HomePage" className="container container--centerlize">
       {redirect ? <Redirect push to={redirectUrl} /> : null}
       <div className="docs-section">
-        <h1 className="HomePage__title">
-          <span className="HomePage__title-main">JANDA</span>
-          <h6>숙박산업 온 · 오프라인 솔루션 (잔다)</h6>
-        </h1>
-        <Button className="HomePage__button" pulse label="시작하기" onClick={startService} mode="large" thema="secondary" type="button" />
+        <div className="HomePage__title">
+          <h1 className="HomePage__title-main">JANDA</h1>
+          <h6 className="HomePage__title-sub">숙박산업 온 · 오프라인 솔루션 (잔다)</h6>
+        </div>
+        <Button
+          className="HomePage__button"
+          pulse
+          label="시작하기"
+          onClick={startService}
+          mode="large"
+          thema="secondary"
+          type="button"
+        />
       </div>
     </div>
   );
