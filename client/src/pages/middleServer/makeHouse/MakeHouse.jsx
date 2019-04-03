@@ -8,7 +8,10 @@ import {
   useInput, useSelect, useFetch, useDebounce,
 } from '../../../actions/hook';
 import {
-  CREATE_HOUSE, SELECT_HOUSE, GET_USER_INFO, SELECTED_HOUSE,
+  SELECT_HOUSE,
+} from '../../../clientQueries';
+import {
+  CREATE_HOUSE, GET_USER_INFO,
 } from '../../../queries';
 import { ADDRESS_API_KEY } from '../../../keys';
 import utils, { ErrProtecter, toast } from '../../../utils/utils';

@@ -8,6 +8,7 @@ import Modal from '../../../atoms/modal/Modal';
 import Slider from '../../../components/slider/Slider';
 import { isEmpty } from '../../../utils/utils';
 import Tooltip, { ReactTooltip } from '../../../atoms/tooltip/Tooltip';
+import { RefundPolicyNode } from '../../../docs/refundPolicy';
 import './Products.scss';
 
 // currentProduct : 현재 적용중인 상품
@@ -135,13 +136,7 @@ const Products = ({
       >
         <h6>서비스 해지</h6>
         <p>
-          {`Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsam a asperiores libero nam sunt! Ducimus ipsam
-          obcaecati ipsum earum delectus molestiae, accusantium, minima asperiores ex ab esse impedit at omnis. Sequi
-          quos atque eligendi fugiat sunt quidem aliquid accusantium debitis quia consectetur sapiente possimus ut nobis
-          deserunt quibusdam natus totam quaerat, optio distinctio facilis accusamus recusandae quae repellendus! Porro,
-          debitis? Similique nobis, magnam provident numquam, maxime laborum aut, vero non quod excepturi at sapiente
-          consequuntur veritatis nesciunt cupiditate soluta aliquid eum ab dolores praesentium velit? Atque temporibus
-          consequuntur non nesciunt.`}
+          <RefundPolicyNode />
         </p>
         <div className="ReactModal__EndSection">
           <Button

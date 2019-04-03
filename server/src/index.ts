@@ -19,18 +19,18 @@ const appOptions: Options = {
 const handleAppStart = () => {
     console.log(
         `Listening on http://${process.env.DB_ENDPOINT}:${PORT}${
-        process.env.PLAYGROUND_ENDPOINT
+            process.env.PLAYGROUND_ENDPOINT
         }`
     );
 };
 
 connect(
     `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${
-    process.env.DB_ENDPOINT
+        process.env.DB_ENDPOINT
     }:${process.env.DB_PORT}/${process.env.DB_NAME}`,
     {
         useNewUrlParser: true,
-        useCreateIndex: true,
+        useCreateIndex: true
     }
 )
     .then(connection => {

@@ -36,6 +36,8 @@
             margin: $container-padding;
         }
 
+        max-height: 90%;
+        overflow-y:auto;
     }
 
     &__EndSection {

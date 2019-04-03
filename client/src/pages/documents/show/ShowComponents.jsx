@@ -11,6 +11,7 @@ import SideNav from '../../../components/sideNav/SideNav';
 import SelectBox from '../../../atoms/forms/SelectBox';
 import DayPicker from '../../../components/dayPicker/DayPicker';
 import Pagination from '../../../components/pagination/Pagination';
+import ImageUploader from '../../../components/imageUploader/ImageUploader';
 import CircleIcon from '../../../atoms/circleIcon/CircleIcon';
 import Button from '../../../atoms/button/Buttons';
 import Preloader from '../../../atoms/preloader/Preloader';
@@ -25,7 +26,7 @@ import {
 import utils from '../../../utils/utils';
 import Icon, { icons } from '../../../atoms/icons/Icons';
 import {
-  useInput, useCheckBox, useRadio, useSwitch, useSelect, useToggle, useModal,
+  useInput, useCheckBox, useRadio, useSwitch, useSelect, useToggle, useModal, useImageUploader,
 } from '../../../actions/hook';
 import './ShowComponent.scss';
 
@@ -42,6 +43,7 @@ function ShowComponents() {
   const switchHook = useSwitch(false);
   const refContainer = useRef(null);
   const [SideNavIsOpen, setSideNavIsOpen] = useToggle(false);
+  const imageUploaderHook = useImageUploader();
 
   const searchDummyData = [
     { name: 'Manpreet Singh', pic: '' },
@@ -218,6 +220,14 @@ function ShowComponents() {
           </div>
           <div className="flex-grid__col col--full-6 col--wmd-12">
             <SliderExample2 />
+          </div>
+        </div>
+
+        {/* 이미지 업로더 */}
+        <h6>Image Uploader</h6>
+        <div className="docs-section__box flex-grid">
+          <div className="flex-grid__col col--full-4 col--wmd-12">
+            <ImageUploader minHeight="200px" {...imageUploaderHook} />
           </div>
         </div>
 

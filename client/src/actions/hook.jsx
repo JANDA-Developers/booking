@@ -1,6 +1,9 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-shadow */
 import { useState, useEffect } from 'react';
 import Axios from 'axios';
+import { toast } from 'react-toastify';
+import { CLOUDINARY_KEY } from '../keys';
 
 // 한방에 패치
 // A X I O S  : (http://codeheaven.io/how-to-use-axios-as-your-http-client/)
@@ -34,6 +37,47 @@ const useFetch = (url) => {
   };
 
   return [data, isLoading, isError, doGet];
+};
+
+//  이미지 업로더
+const useImageUploader = () => {
+  const [fileUrl, setFileUrl] = useState('');
+  const [uploading, setUploading] = useState(false);
+  const [isError, setIsError] = useState(false);
+
+  const onChange = async (event) => {
+    if (event) {
+      const { target: { name, value, files } } = event;
+      if (files) {
+        setUploading(true);
+        const formData = new FormData();
+        formData.append('api_key', CLOUDINARY_KEY);
+        formData.append('upload_preset', 'jandaAPP');
+        formData.append('file', files[0]);
+        formData.append('timestamp', String(Date.now() / 1000));
+        try {
+          const { data: { secure_url } } = await Axios.post('https://api.cloudinary.com/v1_1/stayjanda-com/image/upload', formData);
+          if (secure_url) {
+            setFileUrl(secure_url);
+          }
+        } catch (error) {
+          setIsError(true);
+          console.error(error);
+          toast.error(error);
+        } finally {
+          setUploading(false);
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    onChange();
+  });
+
+  return {
+    fileUrl, uploading, isError, onChange,
+  };
 };
 
 // Our hook
@@ -200,4 +244,5 @@ export {
   useBookPOP,
   useModal2,
   useDebounce,
+  useImageUploader,
 };

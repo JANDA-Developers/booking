@@ -3,7 +3,7 @@ import React from 'react';
 import { toast } from 'react-toastify';
 import { withRouter } from 'react-router-dom';
 import Header from './Header';
-import { LOG_USER_OUT, SELECT_HOUSE } from '../../queries';
+import { LOG_USER_OUT, SELECT_HOUSE } from '../../clientQueries';
 
 const HeaderWrap = ({ history, ...props }) => (
   <Mutation
@@ -22,7 +22,7 @@ const HeaderWrap = ({ history, ...props }) => (
         }}
         onCompleted={({ selectHouse }) => {
           if (selectHouse && selectHouse.ok) {
-            console.toast('숙소변경');
+            toast.success('숙소변경');
           }
         }}
       >

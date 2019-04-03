@@ -1,15 +1,15 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import moment from 'moment';
 import React, { useState } from 'react';
-import { useBookPOP, useToggle } from '../../../../actions/hook';
-import ShowTimeline from './ShowTimeline';
+import { useBookPOP, useToggle } from '../../../actions/hook';
+import AssigTimeline from './AssigTimeline';
 import { defaultProps, initGroups, initItems } from './timelineConfig';
 
 moment.lang('kr');
 let timer: null | number = null; // timer required to reset
 const timeout = 200; // timer reset in ms
 
-const ShowTimelineWrap = () => {
+const AssigTimelineWrap = () => {
   const [items, setItems] = useState(initItems);
   const [_, setConfigMode] = useToggle(false);
   console.log(_);
@@ -47,7 +47,7 @@ const ShowTimelineWrap = () => {
     const group = initGroups[newGroupOrder];
 
     setItems(
-      items.map(item => (item.id === itemId
+      items.map((item: any) => (item.id === itemId
         ? Object.assign({}, item, {
           start: dragTime,
           end: dragTime + (item.end - item.start),
@@ -61,7 +61,7 @@ const ShowTimelineWrap = () => {
   // Handle --item : Resize
   const handleItemResize = (itemId: any, time: any, edge: any) => {
     setItems(
-      items.map(item => (item.id === itemId
+      items.map((item: any) => (item.id === itemId
         ? Object.assign({}, item, {
           start: edge === 'left' ? time : item.start,
           end: edge === 'left' ? item.end : time,
@@ -73,7 +73,7 @@ const ShowTimelineWrap = () => {
   };
 
   return (
-    <ShowTimeline
+    <AssigTimeline
       handleCanvasDoubleClick={handleCanvasDoubleClick}
       bookerModal={bookerModal}
       handleItemResize={handleItemResize}
@@ -86,4 +86,4 @@ const ShowTimelineWrap = () => {
   );
 };
 
-export default ShowTimelineWrap;
+export default AssigTimelineWrap;
