@@ -20,7 +20,7 @@ const POPbookerInfo = ({ bookerModalIsOpen, bookerInfo, bookerModalClose }) => {
   ]);
 
   const ReservationInfo = () => {
-    // 예약정보
+    // SelectBox
     const handleReservationInfoChange = (value, index) => {
       setReservationInfo();
     };

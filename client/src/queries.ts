@@ -1,56 +1,12 @@
 import gql from 'graphql-tag';
 
-/* -------------------------------- client ------------------------------- */
-// 로그인이 되었는지?
-export const IS_LOGGED_IN = gql`
-  {
-    auth {
-      isLoggedIn @client
-    }
-  }
-`;
-// 로그인 인
-export const LOG_USER_IN = gql`
-  mutation logUserIn($token: String!) {
-    LogUserIn(token: $token) @client
-  }
-`;
-// 로그인 아웃
-export const LOG_USER_OUT = gql`
-  mutation logUserOut {
-    LogUserOut @client
-  }
-`;
-// 선택된 집 가져옴
-export const SELECTED_HOUSE = gql`
-  {
-    auth {
-      lastSelectedHouse @client {
-        label
-        value
-      }
-    }
-  }
-`;
-
-
-// 하우스 선택
-export const SELECT_HOUSE = gql`
-  mutation selectHouse($selectedHouse: SelectOption!) {
-    selectHouse(selectedHouse: $selectedHouse) @client {
-      ok
-      erorr
-    }
-  }
-`;
-
 /* ---------------------------------- query --------------------------------- */
 
 // 프로덕트 UI와  DB의 정보 싱크는 수동으로 맞추세요.
 // 상품 모두 가져오기
 // eslint-disable-next-line camelcase
 export const GET_All_PRODUCTS_TYPES = gql`
-  query {
+  query getAllProductTypes {
     GetAllProductTypes {
       ok
       error
@@ -61,22 +17,21 @@ export const GET_All_PRODUCTS_TYPES = gql`
     }
   }
 `;
+
 // 유저 핸드폰 가져오기
 export const GET_MY_PHON_NUMBER = gql`
-  query {
-    GetMyProfile {
-      ok
-      error
-      user {
-        phoneNumber
+  query getMyProfile {
+    GetMyProfile{
+        user {
+          phoneNumber
+        }
       }
     }
-  }
 `;
 
 // 유저 정보 가져오기
 export const GET_USER_INFO = gql`
-  query {
+  query getMyProfile {
     GetMyProfile {
       user {
         _id
@@ -107,7 +62,6 @@ export const GET_USER_INFO = gql`
         createdAt
         updatedAt
       }
-      ok
     }
   }
 `;
@@ -170,7 +124,6 @@ export const GET_ALL_ROOMTYPES = gql`
           _id       
           name
           index
-          roomType
           createdAt
           updatedAt
         }
@@ -181,7 +134,7 @@ export const GET_ALL_ROOMTYPES = gql`
 /* -------------------------------- mutation -------------------------------- */
 // 방타입 생성
 export const CREATE_ROOMTYPE = gql`
-  mutation createRoomType($name: String!, $houseId: ID!, $pricingType: PricingType!, $peopleCount: Int!, $peopleCountMax: Int, $description: String, $tags: tags) {
+  mutation createRoomType($name: String!, $houseId: ID!, $pricingType: PricingType!, $peopleCount: Int!, $peopleCountMax: Int, $description: String, $tags: [TagInput!]) {
     CreateRoomType(name: $name, houseId: $houseId, pricingType: $pricingType, peopleCount: $peopleCount ,peopleCountMax: $peopleCountMax, description: $description, tags: $tags) {
       ok
       error
@@ -190,7 +143,7 @@ export const CREATE_ROOMTYPE = gql`
 // 방 생성
 export const CREATE_ROOM = gql`
 mutation createRoom($name: String!, $roomType: ID!) {
-  CreateRoom(name: $name, roomTyp: $roomType) {
+  CreateRoom(name: $name, roomType: $roomType) {
     ok
     error
   }

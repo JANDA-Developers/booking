@@ -43,7 +43,7 @@ function ShowComponents() {
   const switchHook = useSwitch(false);
   const refContainer = useRef(null);
   const [SideNavIsOpen, setSideNavIsOpen] = useToggle(false);
-  const imageUploaderHook = useImageUploader(false);
+  const imageUploaderHook = useImageUploader();
 
   const searchDummyData = [
     { name: 'Manpreet Singh', pic: '' },
@@ -226,8 +226,8 @@ function ShowComponents() {
         {/* 이미지 업로더 */}
         <h6>Image Uploader</h6>
         <div className="docs-section__box flex-grid">
-          <div className="flex-grid__col col--full-6 col--wmd-12">
-            <ImageUploader {...imageUploaderHook} />
+          <div className="flex-grid__col col--full-4 col--wmd-12">
+            <ImageUploader minHeight="200px" {...imageUploaderHook} />
           </div>
         </div>
 

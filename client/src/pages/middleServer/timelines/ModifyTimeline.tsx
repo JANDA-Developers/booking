@@ -11,16 +11,18 @@ interface IProps {
   defaultProps: any;
   items: any;
   props: any;
-  data:  any;
-  roomTypeModal:  any;
+  data: any;
+  roomTypeModal: any;
 }
 
-const ModifyTimeline: React.SFC<IProps> = ({roomTypeModal, data, setConfigMode, defaultProps, items, ...props }) => (
+const ModifyTimeline: React.SFC<IProps> = ({
+  roomTypeModal, data, setConfigMode, defaultProps, items, ...props
+}) => (
   <div id="ModifyTimeline" className="container container--full">
     <div className="docs-section">
       <div className="flex-grid flex-grid--end">
-        <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
-          <DayPicker input label="input" isRange={false} />
+        <div className="flex-grid__col col--full-4 col--lg-4 col--md-6">
+          <h3>방생성 및 수정</h3>
         </div>
         <Button float="right" onClick={setConfigMode} icon="persons" label="배정화면으로" />
       </div>

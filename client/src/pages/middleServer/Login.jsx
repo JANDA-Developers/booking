@@ -6,7 +6,8 @@ import Card from '../../atoms/cards/Card';
 import InputText from '../../atoms/forms/InputText';
 import Buttons from '../../atoms/button/Buttons';
 import './Login.scss';
-import { EMAIL_SIGN_IN, LOG_USER_IN, GET_USER_INFO } from '../../queries';
+import { LOG_USER_IN } from '../../clientQueries';
+import { EMAIL_SIGN_IN, GET_USER_INFO } from '../../queries';
 import { useInput } from '../../actions/hook';
 import utils, { toast } from '../../utils/utils';
 

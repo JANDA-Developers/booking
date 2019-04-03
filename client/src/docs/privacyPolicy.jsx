@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 
 const privacyPolicy = `개인정보 취급 및 이용에 관한 규정
 

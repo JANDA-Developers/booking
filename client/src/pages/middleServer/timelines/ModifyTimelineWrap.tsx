@@ -2,7 +2,7 @@
 
 import React, { Fragment, useState } from 'react';
 import { Mutation, Query } from 'react-apollo';
-import { useBookPOP, useToggle, useModal2 } from '../../../actions/hook';
+import { useToggle, useModal2, useImageUploader } from '../../../actions/hook';
 import ModifyTimeline from './ModifyTimeline';
 import { ModifydefaultProps, initItems } from './timelineConfig';
 import { GET_ALL_ROOMTYPES, CREATE_ROOMTYPE, CREATE_ROOM } from '../../../queries';
@@ -18,12 +18,12 @@ interface IProps {
 const ModifyTimelineWrap: React.SFC<IProps> = ({ houseId }) => {
   const roomTypeModalHook = useModal2(false);
   const [_, setConfigMode] = useToggle(false);
+  const roomImageHook = useImageUploader();
   const [roomTypeModalValue, setRoomTypeModal] = useState({
     name: '',
     peopleCountMax: '',
     houseId: '',
     description: '',
-    image: '',
   });
   console.log(_);
   return (
@@ -43,7 +43,7 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({ houseId }) => {
               name: roomTypeModalValue.name,
               peopleCountMax: roomTypeModalValue.peopleCountMax,
               description: roomTypeModalValue.description,
-              image: roomTypeModalValue.image,
+              image: roomImageHook.fileUrl,
             }}
           >
             {createRoomTypeMutation => (
@@ -65,7 +65,7 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({ houseId }) => {
                       value={roomTypeModalValue}
                       setValue={setRoomTypeModal}
                     />
-                    <RoomTypeModal setValue={setRoomTypeModal} value={roomTypeModalValue} roomData={roomData} modalHook={roomTypeModalHook} createRoomTypeMutation={createRoomTypeMutation}  />
+                    <RoomTypeModal roomImageHook={roomImageHook} setValue={setRoomTypeModal} value={roomTypeModalValue} roomData={roomData} modalHook={roomTypeModalHook} createRoomTypeMutation={createRoomTypeMutation} />
                   </Fragment>
                 )}
               </Mutation>
@@ -77,4 +77,8 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({ houseId }) => {
   );
 };
 
-export default ModifyTimelineWrap;
+ModifyTimelineWrap.defaultProps = {
+  houseId: '',
+};
+
+export default ErrProtecter(ModifyTimelineWrap);
