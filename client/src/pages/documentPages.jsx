@@ -32,18 +32,6 @@ export const ShowComponents = props => (
   </DynamicImport>
 );
 
-export const ShowTimeline = props => (
-  <DynamicImport load={() => import('./documents/show/showTimeLine/ShowTimelineWrap')}>
-    {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
-  </DynamicImport>
-);
-
-export const ModifyTimeline = props => (
-  <DynamicImport load={() => import('./documents/show/showTimeLine/ModifyTimelineWrap')}>
-    {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
-  </DynamicImport>
-);
-
 export const DocumentHome = props => (
   <DynamicImport load={() => import('./documents/DocumentHome')}>
     {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}

@@ -28,13 +28,13 @@
 /* stylelint-disable declaration-block-no-duplicate-properties  */
 
 // Components Flex-Grid
-// todo: 생각후 다시 정립 해보자.
-// 의미가 그때마다 다른 마진 쓰고싶다일 뿐인것 같긴한데...
 @mixin component-layout($margin, $width) {
     .flex-grid {
         display: -ms-flexbox;
         display: -webkit-flex;
         display: flex;
+
+
     }
 
     .flex-grid>* {
@@ -44,7 +44,7 @@
             flex-grow: 4;
             margin-left: $margin;
         }
-
+        
         &.flex-grid__col--fixed-width {
             flex: 0 0 $width;
         }
@@ -64,6 +64,8 @@
         &:last-child {
             margin-right: 0rem;
         }
+        
+            
     }
 
     @media (max-width: $phablet) {
@@ -192,6 +194,12 @@
             &.col--#{$mode}-12 {
                 display:block;
                 width: flex-grid-column-width(12);
+            }
+
+            // TODO display 를 통합해서 어딘가로 옮기고 flex명령도 같이 수정자로서 자리를 잡아야하는데.. 여기위치는 너무 애매해
+            &.flex-grid__col--vertical {
+                display:flex;
+                flex-direction: column;
             }
         }
     }

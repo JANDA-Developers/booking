@@ -37,12 +37,10 @@ function InputText({
     onChangeValid(result);
   };
 
-  const classes = classNames({
-    JDinput: true && !textarea,
+  const classes = classNames(textarea ? 'JDtextarea' : 'JDinput', props && props.className, {
     'JDinput--valid': isValid === true && !textarea,
     'JDinput--invalid': isValid === false && !textarea,
     /* --------------------------------- 텍스트어리어 --------------------------------- */
-    JDtextarea: true && textarea,
     'JDtextarea--scroll': scroll && textarea,
     'JDtextarea--doubleHeight': doubleHeight && textarea,
     'JDtextarea--valid': isValid === true,
@@ -69,7 +67,6 @@ function InputText({
       ) : null}
       <input
         onChange={inHandleChange}
-        className={classes}
         disabled={disabled}
         readOnly={readOnly}
         type={type}
@@ -77,6 +74,7 @@ function InputText({
         ref={refContainer || inRefContainer}
         data-color="1213"
         {...props}
+        className={classes}
       />
       <label htmlFor="JDinput" data-error={dataError} data-success={dataSuccess} className="JDinput_label">
         {label}
