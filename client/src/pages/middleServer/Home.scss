@@ -15,6 +15,9 @@
             margin-bottom: $standard-margin-bottom * 1;
         }
     }
+    .HomePage__title-sub {
+        margin-bottom: $standard-margin-bottom * 2;
+    }
 
     .HomePage__button {
         @extend %z-depth-5;
