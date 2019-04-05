@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 import Modal from '../../../../atoms/modal/Modal';
-import { useInput, useSelect, useImageUploader } from '../../../../actions/hook';
 import SelectBox from '../../../../atoms/forms/SelectBox';
 import InputText from '../../../../atoms/forms/InputText';
 import Button from '../../../../atoms/button/Buttons';
@@ -25,6 +25,34 @@ const RoomTypeModal: React.SFC<IProps> = ({
   value,
   roomImageHook,
 }) => {
+  const [peopleCountOption, setPeopleCountOption] = useState([{}]);
+
+  const onCreateRoomType = () => {
+    if (value.name === '') {
+      toast.error('방타입명을 입력해주세요.');
+      return;
+    }
+
+    createRoomTypeMutation();
+    modalHook.closeModal();
+  };
+
+  const onChangeMaxPeople = (inValue: any) => {
+    setValue({ ...value, peopleCountMax: inValue });
+
+    const inPeopleCountOption = [];
+    for (let i = 1; i <= inValue.value; i += 1) {
+      const tmp = { value: i, label: `${i}명` };
+      inPeopleCountOption.push(tmp);
+    }
+
+    console.log(inValue);
+    console.log(inPeopleCountOption);
+    console.log(inPeopleCountOption);
+
+    setPeopleCountOption(inPeopleCountOption);
+  };
+
   const maxPeopleCountOption = [
     { value: 1, label: '1명' },
     { value: 2, label: '2명' },
@@ -37,6 +65,8 @@ const RoomTypeModal: React.SFC<IProps> = ({
     { value: 9, label: '9명' },
     { value: 10, label: '10명' },
   ];
+
+  const pricingTypeOptions = [{ value: 'DOMITORY', label: '도미토리' }, { value: 'ROOM', label: '방단위' }];
 
   return (
     <Modal
@@ -52,25 +82,45 @@ const RoomTypeModal: React.SFC<IProps> = ({
       }}
     >
       <div className="flex-grid">
-        <div className="flex-grid__col col--full-9 col--lg-6 col--md-12">
+        <div className="flex-grid__col col--full-6 col--lg-6 col--md-12">
           <InputText
-            onChange={(inValue:any) => {
+            label="방타입이름"
+            value={value.name}
+            onChange={(inValue: any) => {
               setValue({ ...value, name: inValue });
             }}
-            value={value.name}
-            label="방타입이름"
           />
         </div>
         <div className="flex-grid__col  col--full-3 col--lg-6 col--md-12">
           <SelectBox
-            onChange={(inValue:any) => {
-              setValue({ ...value, peopleCountMax: inValue });
-            }}
+            label="수용인원"
             disabled={false}
+            onChange={(inValue: any) => {
+              setValue({ ...value, peopleCount: inValue });
+            }}
+            options={peopleCountOption}
+            selectedOption={value.peopleCount}
+          />
+        </div>
+        <div className="flex-grid__col  col--full-3 col--lg-6 col--md-12">
+          <SelectBox
+            label="수용최대인원"
+            disabled={false}
+            onChange={onChangeMaxPeople}
             options={maxPeopleCountOption}
             selectedOption={value.peopleCountMax}
-            label="최대인원"
-            />
+          />
+        </div>
+        <div className="flex-grid__col  col--full-6 col--lg-6 col--md-12">
+          <SelectBox
+            label="방타입선택"
+            disabled={false}
+            onChange={(inValue: any) => {
+              setValue({ ...value, pricingType: inValue });
+            }}
+            options={pricingTypeOptions}
+            selectedOption={value.pricingType}
+          />
         </div>
         <div className="flex-grid__col flex-grid__col--vertical col--full-12 col--lg-12 col--md-12">
           <JDLabel txt="방사진업로드" />
@@ -78,7 +128,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
         </div>
         <div className="flex-grid__col col--full-12 col--lg-12 col--md-12">
           <InputText
-            onChange={(inValue:any) => {
+            onChange={(inValue: any) => {
               setValue({ ...value, description: inValue });
             }}
             value={value.description}
@@ -88,7 +138,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
         </div>
       </div>
       <div className="ReactModal__EndSection">
-        <Button label="생성하기" mode="flat" onClick={modalHook.closeModal} />
+        <Button label="생성하기" mode="flat" onClick={onCreateRoomType} />
         <Button label="수정하기" mode="flat" onClick={modalHook.closeModal} />
         <Button label="삭제하기" mode="flat" onClick={modalHook.closeModal} />
         <Button label="닫기" mode="flat" onClick={modalHook.closeModal} />

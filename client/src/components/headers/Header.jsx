@@ -3,7 +3,7 @@ import './Header.scss';
 import { NavLink, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Button from '../../atoms/button/Buttons';
-import TooltipList from '../../atoms/tooltipList/TooltipList';
+import TooltipList, { ReactTooltip } from '../../atoms/tooltipList/TooltipList';
 import ProfileCircle from '../../atoms/profileCircle/ProfileCircle';
 import CircleIcon from '../../atoms/circleIcon/CircleIcon';
 import SelectBox from '../../atoms/forms/SelectBox';
@@ -43,8 +43,11 @@ const Header = ({
 
   useEffect(() => {
     selectedHouseHook.onChange(formetedSelectedHouse);
-  }, [formetedSelectedHouse]);
+  }, []);
 
+  useEffect(() => {
+    ReactTooltip.rebuild();
+  });
   return (
     <div className="header">
       {/* 로고 */}

@@ -55,7 +55,6 @@ const defaultProps = {
   keys,
   defaultTimeStart,
   defaultTimeEnd,
-  groups: initGroups,
   groupRenderer: groupRendererFn,
   itemRenderer: itemRendererFn,
   fixedHeader: 'fixed',
@@ -69,6 +68,12 @@ const defaultProps = {
   stackItems: true,
   itemHeightRatio: 1,
   showCursorLine: true,
+  // 아래 속성은 퍼포먼스에 민감하게 작용합니다.
+  verticalLineClassNamesForTime: (timeStart, timeEnd) => {
+    if (timeStart < new Date().getTime()) return ['verticalLine', 'verticalLine--past'];
+    return ['verticalLine'];
+  },
+  horizontalLineClassNamesForGroup: group => ['group'],
 };
 // ModifyTimeline 으로 전달될 객체
 const ModifydefaultProps = {
@@ -86,7 +91,6 @@ const ModifydefaultProps = {
   keys,
   defaultTimeStart,
   defaultTimeEnd,
-  groups: initGroups,
   fixedHeader: 'fixed',
   sidebarWidth: 240,
   sidebarContent: <div className="modify__sideTop">방 설정</div>,
@@ -99,16 +103,14 @@ const ModifydefaultProps = {
   itemHeightRatio: 1,
   showCursorLine: true,
   lineHeight: 36,
+  // 아래 속성은 퍼포먼스에 민감하게 작용합니다.
+  verticalLineClassNamesForTime: (timeStart, timeEnd) => {
+    if (timeStart < new Date().getTime()) return ['verticalLine', 'verticalLine--past'];
+    return ['verticalLine'];
+  },
+  horizontalLineClassNamesForGroup: group => ['group'],
 };
 
 export {
-  defaultProps,
-  keys,
-  initGroups,
-  initItems,
-  krSubHeaderLabelFormats,
-  krHeaderLabelFormats,
-  defaultTimeEnd,
-  defaultTimeStart,
-  ModifydefaultProps,
+  initItems, initGroups, defaultProps, krHeaderLabelFormats, ModifydefaultProps,
 };

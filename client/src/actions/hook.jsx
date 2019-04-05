@@ -47,7 +47,9 @@ const useImageUploader = () => {
 
   const onChange = async (event) => {
     if (event) {
-      const { target: { name, value, files } } = event;
+      const {
+        target: { name, value, files },
+      } = event;
       if (files) {
         setUploading(true);
         const formData = new FormData();
@@ -56,7 +58,9 @@ const useImageUploader = () => {
         formData.append('file', files[0]);
         formData.append('timestamp', String(Date.now() / 1000));
         try {
-          const { data: { secure_url } } = await Axios.post('https://api.cloudinary.com/v1_1/stayjanda-com/image/upload', formData);
+          const {
+            data: { secure_url },
+          } = await Axios.post('https://api.cloudinary.com/v1_1/stayjanda-com/image/upload', formData);
           if (secure_url) {
             setFileUrl(secure_url);
           }
@@ -76,7 +80,10 @@ const useImageUploader = () => {
   });
 
   return {
-    fileUrl, uploading, isError, onChange,
+    fileUrl,
+    uploading,
+    isError,
+    onChange,
   };
 };
 
@@ -191,18 +198,25 @@ function useModal(defaultValue) {
   return [isOpen, openModal, closeModal];
 }
 
-function useModal2(defaultValue) {
+function useModal2(defaultValue, defaultInfo = '') {
   const [isOpen, setIsOpen] = useState(defaultValue);
+  const [info, setInfo] = useState(defaultInfo);
 
-  const openModal = () => {
+  const openModal = (inInfo) => {
     setIsOpen(true);
+    setInfo(inInfo);
   };
 
   const closeModal = () => {
     setIsOpen(false);
   };
 
-  return { isOpen, openModal, closeModal };
+  return {
+    isOpen,
+    openModal,
+    closeModal,
+    info,
+  };
 }
 
 // booker ID 를 모달 여기 함수에 전달하고 booker info를 리턴하도록 설계
