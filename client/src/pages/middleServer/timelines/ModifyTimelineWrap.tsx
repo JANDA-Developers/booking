@@ -60,6 +60,8 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
       variables={{ houseId: selectedHouse._id }}
     >
       {({ data: roomData, loading, error }) => {
+        console.log('%c roomData', 'font-size:30px');
+        console.log(roomData);
         if (error) {
           console.error(error);
           toast.error(error.message);
@@ -77,8 +79,13 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
               roomModal={roomModalHook}
               roomData={formatedRoomData}
             />
-            <RoomTypeModal modalHook={roomTypeModalHook} roomData={roomData} selectedHouse={selectedHouse} />
-            <RoomModal modalHook={roomModalHook} />
+            <RoomTypeModal
+              selectedHouseId={selectedHouse._id}
+              modalHook={roomTypeModalHook}
+              roomData={roomData}
+              selectedHouse={selectedHouse}
+            />
+            <RoomModal selectedHouseId={selectedHouse._id} modalHook={roomModalHook} />
           </Fragment>
         );
       }}

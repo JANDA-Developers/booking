@@ -114,6 +114,8 @@ export const GET_ALL_ROOMTYPES = gql`
         pricingType
         peopleCount
         peopleCountMax
+        roomGender
+        roomCount
         index
         description
         createdAt

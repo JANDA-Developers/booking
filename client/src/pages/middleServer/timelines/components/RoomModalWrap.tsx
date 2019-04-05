@@ -2,7 +2,7 @@ import React from 'react';
 import { Mutation } from 'react-apollo';
 import { ApolloError } from 'apollo-client';
 import { createRoom, createRoomVariables } from '../../../../types/api';
-import { CREATE_ROOM } from '../../../../queries';
+import { CREATE_ROOM, GET_ALL_ROOMTYPES } from '../../../../queries';
 import { useInput } from '../../../../actions/hook';
 import { ErrProtecter, toast } from '../../../../utils/utils';
 import RoomModal from './RoomModal';
@@ -11,15 +11,17 @@ class CreateRoomMutation extends Mutation<createRoom, createRoomVariables> {}
 
 interface IProps {
   modalHook: any;
+  selectedHouseId: string;
 }
 
-const ModifyTimelineWrap: React.SFC<IProps> = ({ modalHook }) => {
+const ModifyTimelineWrap: React.SFC<IProps> = ({ modalHook, selectedHouseId }) => {
   const roomNameHook = useInput('');
 
   return (
     // 방타입 생성 뮤테이션
     <CreateRoomMutation
       mutation={CREATE_ROOM}
+      refetchQueries={[{ query: GET_ALL_ROOMTYPES, variables: { houseId: selectedHouseId } }]}
       variables={{
         name: roomNameHook.value,
         roomType: modalHook.info.roomTypeId,
