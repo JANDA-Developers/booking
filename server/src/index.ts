@@ -4,7 +4,9 @@ dotenv.config({ path: "../.env" });
 import { Options } from "graphql-yoga";
 import { connect } from "mongoose";
 import app from "./app";
+import fs from "fs";
 
+const isDev: boolean = process.env.NODE_ENV === "development";
 const PORT: number | string = process.env.PORT || 4000;
 const PLAYGROUND_ENDPOINT: string =
     process.env.PLAYGROUND_ENDPOINT || "/playground";
@@ -15,6 +17,13 @@ const appOptions: Options = {
     playground: PLAYGROUND_ENDPOINT,
     endpoint: GRAPHQL_ENDPOINT
 };
+
+if(!isDev){
+    appOptions.https = {
+        key: fs.readFileSync(process.env.SSL_KEY_PATH || "", "utf-8"),
+        cert: fs.readFileSync(process.env.SSL_CERT_PATH || "", "utf-8")
+    };
+}
 
 const handleAppStart = () => {
     console.log(
