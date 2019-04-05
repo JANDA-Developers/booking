@@ -7,6 +7,8 @@ type House {
     location: Location!
     refundPolicy: [TermsOfRefund!]!
     termsOfBooking: TermsOfBooking!
+    # Legarcy 연동을 위한 module_srl...
+    module_srl: Int
     createdAt: DateTime!
     updatedAt: DateTime
 }

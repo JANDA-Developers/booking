@@ -22,7 +22,6 @@ const resolvers: Resolvers = {
             ): Promise<CreateRoomTypeResponse> => {
                 const user: InstanceType<UserSchema> = req.user;
                 try {
-                    // 유저가 가지고 있는 집인지 확인
                     if (!(await isUsersHouse(args.houseId, user._id))) {
                         return {
                             ok: false,
@@ -43,14 +42,6 @@ const resolvers: Resolvers = {
                             roomType: null
                         };
                     }
-                } catch (error) {
-                    return {
-                        ok: false,
-                        error: error.message,
-                        roomType: null
-                    };
-                }
-                try {
                     const roomType = await new RoomTypeModel({
                         ...args,
                         house: args.houseId
@@ -71,7 +62,7 @@ const resolvers: Resolvers = {
                     const result = await extractRoomType(roomType);
                     return {
                         ok: true,
-                        error: null, 
+                        error: null,
                         roomType: result
                     };
                 } catch (error) {

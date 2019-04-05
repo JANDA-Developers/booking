@@ -1,7 +1,14 @@
 import { ObjectId } from "bson";
-import { Types } from "mongoose";
-import { arrayProp, index, pre, prop, Ref, Typegoose } from "typegoose";
-import { PricingType } from "../types/graph";
+import {
+    arrayProp,
+    index,
+    pre,
+    prop,
+    Ref,
+    Typegoose,
+    InstanceType
+} from "typegoose";
+import { PricingType, RoomGender } from "../types/graph";
 import { RoomSchema } from "./Room";
 
 export enum PricingTypeEnum {
@@ -10,10 +17,10 @@ export enum PricingTypeEnum {
 }
 
 export enum RoomGenderEnum {
-    FEMALE,
-    MALE,
-    MIXED,
-    SEPARATELY
+    FEMALE = "FEMALE",
+    MALE = "MALE",
+    MIXED = "MIXED",
+    SEPARATELY = "SEPARATELY"
 }
 
 @index({ house: 1 })
@@ -28,6 +35,9 @@ export enum RoomGenderEnum {
                 this.index = test.index + 1;
             }
         }
+        if (this.peopleCount > this.peopleCountMax) {
+            this.peopleCountMax = this.peopleCount;
+        }
         this.house = new ObjectId(this.house);
     } catch (error) {
         throw error;
@@ -39,7 +49,7 @@ export class RoomTypeSchema extends Typegoose {
     name: string;
 
     @prop({ required: true })
-    house: Types.ObjectId;
+    house: ObjectId;
 
     @prop({
         required: true,
@@ -47,6 +57,18 @@ export class RoomTypeSchema extends Typegoose {
         enum: PricingTypeEnum
     })
     pricingType: PricingType;
+
+    @prop({
+        required(this: InstanceType<RoomTypeSchema>) {
+            return this.pricingType === "DOMITORY";
+        },
+        enum: RoomGenderEnum,
+        default: RoomGenderEnum.MIXED
+    })
+    roomGender: RoomGender;
+
+    @prop()
+    img: string;
 
     @prop({
         required: [
