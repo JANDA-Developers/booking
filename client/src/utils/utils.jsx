@@ -10,7 +10,7 @@ import {
   isEmail, isPhone, isName, isUrl, isMaxOver, isPassword,
 } from './InputValidation';
 import searchListFormat from './SearchListFormat';
-
+import onError from './ApolloError'
 const JDutils = {
   ErrProtecter,
   NEUTRAL,
@@ -30,5 +30,5 @@ const JDutils = {
 
 export default JDutils;
 export {
-  JDMonthTextChanger, JDWeekChanger, isEmpty, NEUTRAL, toast, download, ErrProtecter, autoHypen,
+  JDMonthTextChanger, JDWeekChanger, isEmpty, NEUTRAL, toast, download, ErrProtecter, autoHypen,onError
 };

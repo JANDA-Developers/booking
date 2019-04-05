@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Mutation } from 'react-apollo';
+import { ApolloError } from 'apollo-client';
 import { createRoomType, createRoomTypeVariables } from '../../../../types/api';
 import RoomTypeModal from './RoomTypeModal';
-import { CREATE_ROOMTYPE } from '../../../../queries';
+import { CREATE_ROOMTYPE, GET_ALL_ROOMTYPES } from '../../../../queries';
 import { useImageUploader } from '../../../../actions/hook';
-import { ErrProtecter, toast } from '../../../../utils/utils';
+import { ErrProtecter, toast, onError } from '../../../../utils/utils';
 
 enum PricingType {
   DOMITORY = 'DOMITORY',
@@ -12,14 +13,16 @@ enum PricingType {
 }
 
 class CreateRoomTypeMutation extends Mutation<createRoomType, createRoomTypeVariables> {}
+class DeleteRoomTypeMutation extends Mutation<deleteRoomType, createRoomTypeVariables> {}
+class UpdateRoomTypeMutation extends Mutation<createRoomType, createRoomTypeVariables> {}
 
 interface IProps {
-  selectedHouse: any;
+  selectedHouseId: string;
   roomData: any;
   modalHook: any;
 }
 
-const ModifyTimelineWrap: React.SFC<IProps> = ({ selectedHouse, roomData, modalHook }) => {
+const ModifyTimelineWrap: React.SFC<IProps> = ({ selectedHouseId, roomData, modalHook }) => {
   const roomImageHook = useImageUploader();
   const [roomTypeValue, setRoomTypeModal] = useState({
     name: '',
@@ -33,23 +36,16 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({ selectedHouse, roomData, modalH
     // 방타입 생성 뮤테이션
     <CreateRoomTypeMutation
       mutation={CREATE_ROOMTYPE}
+      refetchQueries={[{ query: GET_ALL_ROOMTYPES, variables: { houseId: selectedHouseId } }]}
       variables={{
-        houseId: selectedHouse._id,
+        houseId: selectedHouseId,
         name: roomTypeValue.name,
         pricingType: roomTypeValue.pricingType.value,
         peopleCount: roomTypeValue.peopleCount.value,
         peopleCountMax: roomTypeValue.peopleCountMax.value,
         description: roomTypeValue.description,
       }}
-      onCompleted={({ CreateRoomType }: any) => {
-        console.log({
-          houseId: selectedHouse._id,
-          name: roomTypeValue.name,
-          pricingType: roomTypeValue.pricingType.value,
-          peopleCount: roomTypeValue.peopleCount.value,
-          peopleCountMax: roomTypeValue.peopleCountMax.value,
-          description: roomTypeValue.description,
-        });
+      onCompleted={({ CreateRoomType }: ApolloComplete) => {
         if (CreateRoomType.ok) {
           toast.success('방타입 생성완료');
         } else {
@@ -57,20 +53,27 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({ selectedHouse, roomData, modalH
           toast.warn('방타입 생성에 문제가 생겼습니다. 별도문의 바랍니다.');
         }
       }}
-      onError={({ CreateRoomType }: any) => {
-        console.error(CreateRoomType && CreateRoomType.error);
-        toast.warn('통신에러 발생 잠시후 다시 시도해주세요');
-      }}
+      onError={onError}
     >
       {createRoomTypeMutation => (
-        <RoomTypeModal
-          roomImageHook={roomImageHook}
-          setValue={setRoomTypeModal}
-          value={roomTypeValue}
-          roomData={roomData}
-          modalHook={modalHook}
-          createRoomTypeMutation={createRoomTypeMutation}
-        />
+        <DeleteRoomTypeMutation>
+          {deleteRoomTypeMutation => (
+            <UpdateRoomTypeMutation>
+              {updateRoomTypeMutation => (
+                <RoomTypeModal
+                  roomImageHook={roomImageHook}
+                  setValue={setRoomTypeModal}
+                  value={roomTypeValue}
+                  roomData={roomData}
+                  modalHook={modalHook}
+                  createRoomTypeMutation={createRoomTypeMutation}
+                  deleteRoomTypeMutation={deleteRoomTypeMutation}
+                  updateRoomTypeMutation={updateRoomTypeMutation}
+                />
+              )}
+            </UpdateRoomTypeMutation>
+          )}
+        </DeleteRoomTypeMutation>
       )}
     </CreateRoomTypeMutation>
   );
