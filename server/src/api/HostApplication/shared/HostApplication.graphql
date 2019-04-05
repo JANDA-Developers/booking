@@ -4,7 +4,8 @@ type HostApplication {
     house: House!
     user: User!
     url: URL!
-    hostApplicationAdmin: HostApplicationAdmin!
+    id: String!
+    password: String
     description: String
     createdAt: DateTime!
     updatedAt: DateTime

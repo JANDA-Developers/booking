@@ -9,9 +9,11 @@ type Mutation {
     CreateRoomType(
         name: String!
         houseId: ID!
+        img: URL
         pricingType: PricingType!
         peopleCount: Int!
         peopleCountMax: Int
+        roomGender: RoomGender
         description: String
         tags: [TagInput!]
     ): CreateRoomTypeResponse!

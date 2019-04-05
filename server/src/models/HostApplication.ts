@@ -1,5 +1,4 @@
 import { prop, Ref, Typegoose } from "typegoose";
-import { HostApplicationAdminSchema } from "./HostApplicationAdmin";
 import { HouseSchema } from "./House";
 import { UserSchema } from "./User";
 
@@ -13,8 +12,11 @@ export class HostApplicationSchema extends Typegoose {
     @prop({ required: true })
     url: string;
 
-    @prop({ ref: HostApplicationAdminSchema })
-    hostWebAdmin: Ref<HostApplicationAdminSchema>;
+    @prop()
+    id: string;
+
+    @prop()
+    password: string | null;
 
     @prop()
     description: string;

@@ -12,6 +12,8 @@ type ProductType {
     bookingCount: Int!
     # 예약 초과시 부과되는 금액 => defualt: 0
     bookingCountExtraCharge: Int!
+    # HostApplication을 가질 수 있는지
+    canUseHostApp: Boolean!
     # 상세 설명
     description: String
     createdAt: DateTime!
