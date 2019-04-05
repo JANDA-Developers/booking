@@ -128,7 +128,6 @@ export const extractRoomType = async (
             transformRooms,
             extractResult._doc.rooms
         ),
-        roomCount:extractResult._doc.rooms.length, 
         house: await transformHouse.bind(transformHouse, house)
     };
 };

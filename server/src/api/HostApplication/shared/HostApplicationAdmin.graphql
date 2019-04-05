@@ -1,7 +1,7 @@
 type HostApplicationAdmin {
     _id: ID!
-    email: EmailAddress!
-    password: Password
+    name: String
+    password: String
     createdAt: DateTime!
     updatedAt: DateTime
 }

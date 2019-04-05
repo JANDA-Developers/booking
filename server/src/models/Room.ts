@@ -1,5 +1,13 @@
 import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { pre, prop, Typegoose } from "typegoose";
+
+interface DisableRange {
+    hashCode: number;
+    startDate?: Date;
+    endDate?: Date;
+    description?: string | null;
+}
 
 @pre<RoomSchema>("save", async function(next) {
     try {
@@ -22,10 +30,13 @@ export class RoomSchema extends Typegoose {
     name: string;
 
     @prop({ required: true })
-    roomType: ObjectId;
+    roomType: Types.ObjectId;
 
-    @prop({ min: 0, default: 0 })
+    @prop({ min: 0 })
     index: number;
+
+    @prop({ default: [] })
+    disableRanges: DisableRange[];
 
     @prop()
     createdAt: Date;

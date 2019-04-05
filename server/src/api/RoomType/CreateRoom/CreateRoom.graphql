@@ -7,5 +7,6 @@ type Mutation {
     CreateRoom(
         name: String!
         roomType: ID!
+        disableRange: [DisableRangeInput!]
     ): CreateRoomResponse!
 }

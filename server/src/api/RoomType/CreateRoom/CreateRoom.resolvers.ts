@@ -14,7 +14,8 @@ const resolver: Resolvers = {
         CreateRoom: privateResolver(
             async (
                 _,
-                args: CreateRoomMutationArgs
+                args: CreateRoomMutationArgs,
+                context
             ): Promise<CreateRoomResponse> => {
                 try {
                     const room = new RoomModel({
