@@ -1,7 +1,7 @@
 import { ObjectId } from "bson";
 import { Types } from "mongoose";
 import { arrayProp, index, pre, prop, Ref, Typegoose } from "typegoose";
-import { PricingType } from "../types/graph";
+import { PricingType, RoomGender } from "../types/graph";
 import { RoomSchema } from "./Room";
 
 export enum PricingTypeEnum {
@@ -10,10 +10,10 @@ export enum PricingTypeEnum {
 }
 
 export enum RoomGenderEnum {
-    FEMALE,
-    MALE,
-    MIXED,
-    SEPARATELY
+    FEMALE = "FEMALE",
+    MALE = "MALE",
+    MIXED = "MIXED",
+    SEPARATELY = "SEPARATELY"
 }
 
 @index({ house: 1 })
@@ -27,6 +27,9 @@ export enum RoomGenderEnum {
             if (test) {
                 this.index = test.index + 1;
             }
+        }
+        if (this.peopleCount > this.peopleCountMax) {
+            this.peopleCountMax = this.peopleCount;
         }
         this.house = new ObjectId(this.house);
     } catch (error) {
@@ -91,9 +94,10 @@ export class RoomTypeSchema extends Typegoose {
     rooms: Array<Ref<RoomSchema>>;
 
     @prop()
-    get roomCount(): number {
-        return -1;
-    }
+    roomCount: number;
+
+    @prop({ enum: RoomGenderEnum, default: RoomGenderEnum.MIXED })
+    roomGender: RoomGender;
 
     @prop()
     createdAt: Date;

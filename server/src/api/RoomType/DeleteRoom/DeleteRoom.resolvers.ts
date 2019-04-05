@@ -13,35 +13,32 @@ const resolvers: Resolvers = {
         DeleteRoom: privateResolver(
             async (
                 _,
-                { roomId }: DeleteRoomMutationArgs,
-                __
+                { roomId }: DeleteRoomMutationArgs
             ): Promise<DeleteRoomResponse> => {
                 try {
                     const existingRoom = await RoomModel.findById(roomId);
-                    if (existingRoom) {
-                        const roomTypeId = existingRoom.roomType;
-                        await existingRoom.remove();
-                        // RoomType.rooms 배열에서 제외하기
-                        await RoomTypeModel.update(
-                            { _id: new ObjectId(roomTypeId) },
-                            {
-                                $pull: { rooms: new ObjectId(roomId) }
-                            },
-                            {
-                                new: true
-                            }
-                        );
-
-                        return {
-                            ok: true,
-                            error: null
-                        };
-                    } else {
+                    if (!existingRoom) {
                         return {
                             ok: false,
-                            error: "Room does not exist"
+                            error: "Can not find Room"
                         };
                     }
+                    const roomTypeId = existingRoom.roomType;
+                    await existingRoom.remove();
+                    // RoomType.rooms 배열에서 제외하기
+                    await RoomTypeModel.update(
+                        { _id: roomTypeId },
+                        {
+                            $pull: { rooms: new ObjectId(roomId) }
+                        },
+                        {
+                            new: true
+                        }
+                    );
+                    return {
+                        ok: true,
+                        error: null
+                    };
                 } catch (error) {
                     return {
                         ok: false,
