@@ -13,20 +13,42 @@ const resolver: Resolvers = {
         DeleteRoomType: privateResolver(
             async (
                 _,
-                args: DeleteRoomTypeMutationArgs
+                { roomTypeId, houseId }: DeleteRoomTypeMutationArgs
             ): Promise<DeleteRoomTypeResponse> => {
                 try {
-                    await RoomTypeModel.findOneAndDelete({
-                        _id: args.roomTypeId,
-                        house: new ObjectId(args.houseId)
+                    const roomType = await RoomTypeModel.findOne({
+                        _id: new ObjectId(roomTypeId),
+                        house: new ObjectId(houseId)
                     });
+                    if (!roomType) {
+                        return {
+                            ok: false,
+                            error: "RoomType is not exist"
+                        };
+                    }
+                    const index = roomType.index;
+
+                    // 기존에 존재하던 인덱스값들 하나씩 -1 ㄱㄱ
+                    await RoomTypeModel.updateMany(
+                        {
+                            house: new ObjectId(houseId),
+                            index: {
+                                $gt: index
+                            }
+                        },
+                        {
+                            $inc: {
+                                index: -1
+                            }
+                        }
+                    );
                     await HouseModel.updateOne(
                         {
-                            _id: new ObjectId(args.houseId)
+                            _id: new ObjectId(houseId)
                         },
                         {
                             $pull: {
-                                roomTypes: new ObjectId(args.roomTypeId)
+                                roomTypes: new ObjectId(roomTypeId)
                             }
                         }
                     );
