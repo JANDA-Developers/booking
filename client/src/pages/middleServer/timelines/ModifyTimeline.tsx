@@ -40,12 +40,11 @@ const ModifyTimeline: React.SFC<IProps> = ({
     };
 
     let renderGroup: boolean = true;
-    if (RENDERED_ROOMTYPE === group.roomTypeId) renderGroup = false;
-    else RENDERED_ROOMTYPE = group.roomTypeId;
 
-    console.log('roomType RRRR');
-    console.log('roomType RRRR');
-    console.log(group.roomTypeIndex);
+    console.log(roomType);
+    if (RENDERED_ROOMTYPE === group.roomTypeId && group.roomTypeId !== -1) renderGroup = false;
+    else RENDERED_ROOMTYPE = group.roomTypeId;
+    console.log(RENDERED_ROOMTYPE);
 
     return (
       <div>

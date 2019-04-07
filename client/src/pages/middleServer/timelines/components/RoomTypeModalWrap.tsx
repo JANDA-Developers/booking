@@ -61,18 +61,17 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({
     if (!isEmpty(modalHook.info)) {
       const roomType = roomData[modalHook.info.roomTypeIndex];
 
-      const lastRoomTypeValue = {
-        name: roomType.name,
-        description: roomType.description,
-        pricingType: { label: PricingTypeKr[roomType.pricingType], value: PricingType[roomType.pricingType] },
-        peopleCount: { label: `${roomType.peopleCount}명`, value: roomType.peopleCount },
-        roomGender: { label: `${roomType.peopleCount}명`, value: roomType.roomGender },
-        peopleCountMax: { label: `${roomType.peopleCount}명`, value: roomType.peopleCountMax },
-      };
-
       if (roomType) {
+        const lastRoomTypeValue = {
+          name: roomType.name,
+          description: roomType.description,
+          pricingType: { label: PricingTypeKr[roomType.pricingType], value: PricingType[roomType.pricingType] },
+          peopleCount: { label: `${roomType.peopleCount}명`, value: roomType.peopleCount },
+          roomGender: { label: `${roomType.peopleCount}명`, value: roomType.roomGender },
+          peopleCountMax: { label: `${roomType.peopleCount}명`, value: roomType.peopleCountMax },
+        };
         setRoomTypeValue(lastRoomTypeValue);
-        roomImageHook.setFileUrl(roomType.img);
+        roomImageHook.setFileUrl(roomType);
       } else {
         setRoomTypeValue(defaultRoomTypeValue);
         roomImageHook.setFileUrl('');
@@ -110,6 +109,7 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({
               variables={{
                 houseId: selectedHouseId,
                 roomTypeId: modalHook.info.roomTypeId,
+                ...updateRoomTypeValue,
               }}
               onCompleted={({ UpdateRoomType }: any) => {
                 onCompletedMessage(UpdateRoomType, '방타입 업데이트 완료', '방타입 업데이트 실패');

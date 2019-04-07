@@ -52,13 +52,14 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
             roomIndex: -1,
           });
         });
-        // 마지막 방타입 후 추가버튼
-        roomGroups.push({
-          id: 'addRoomTypes',
-          title: '방추가',
-          roomTypeIndex: -1,
-        });
       }
+      // 마지막 방타입후 추가버튼
+      roomGroups.push({
+        id: 'addRoomTypes',
+        title: '방추가',
+        roomTypeIndex: -1,
+        roomTypeId: -1,
+      });
     }
     return roomGroups;
   };
@@ -75,6 +76,7 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
           console.error(error);
           toast.error(error.message);
         }
+        console.log(roomData);
         const GetAllRoomType = roomData ? roomData.GetAllRoomType : undefined; // TEMP
         const roomTypesData = GetAllRoomType ? GetAllRoomType.roomTypes : undefined; // 원본데이터
         const formatedRoomData = roomDataManufacture(roomData); // 타임라인을 위해 가공된 데이터
