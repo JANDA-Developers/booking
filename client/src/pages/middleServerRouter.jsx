@@ -47,6 +47,9 @@ function JDmiddleServer({
   const selectedProduct = selectedHouse.product || {};
   const { isPhoneVerified } = user;
 
+  console.log(selectedHouse);
+  console.log('-------------------------------');
+
   return isloading ? (
     <Preloader page />
   ) : (
@@ -86,9 +89,14 @@ function JDmiddleServer({
             isPhoneVerified={isPhoneVerified}
           />
         </Route>
+
         {/* 타임라인 */}
         <Route exact path="/middleServer/timeline" render={AssigTimeline} />
-        <Route exact path="/middleServer/timelineConfig" render={ModifyTimeline} />
+        <Route
+          exact
+          path="/middleServer/timelineConfig"
+          render={() => (isEmpty(selectedHouse) ? <NoMatch /> : <ModifyTimeline selectedHouse={selectedHouse} />)}
+        />
         {/* 인덱스2 */}
         <Route exact path="/middleServer">
           <Home

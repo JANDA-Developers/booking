@@ -26,6 +26,10 @@ main {
 .container--full {
   margin: 0 auto;
   max-width: $container-full-width;
+
+  @include response ($phablet) {
+    max-width: none;
+  }
 }
 
 .container--lg {

@@ -1,4 +1,4 @@
-import ReactTooltip from 'react-tooltip';
+import OutReactTooltip from 'react-tooltip';
 import React from 'react';
 import PropTypes from 'prop-types';
 import ErrProtecter from '../../utils/ErrProtecter';
@@ -13,9 +13,9 @@ const ToolTipList = ({ children, ...props }) => {
   };
 
   return (
-    <ReactTooltip className="tooltipList" {...props} {...defualtProps}>
+    <OutReactTooltip className="tooltipList" {...props} {...defualtProps}>
       {children}
-    </ReactTooltip>
+    </OutReactTooltip>
   );
 };
 
@@ -28,3 +28,4 @@ ToolTipList.defaultProps = {
 };
 
 export default ErrProtecter(ToolTipList);
+export const ReactTooltip = OutReactTooltip;

@@ -1,13 +1,20 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-shadow */
+/* ts-ignore */
 import { useState, useEffect } from 'react';
 import Axios from 'axios';
 import { toast } from 'react-toastify';
+import { bool } from 'prop-types';
 import { CLOUDINARY_KEY } from '../keys';
 
 // 한방에 패치
 // A X I O S  : (http://codeheaven.io/how-to-use-axios-as-your-http-client/)
-const useFetch = (url) => {
+
+interface useFetchProp {
+  url: string | undefined;
+}
+
+const useFetch = (url: useFetchProp) => {
   const [data, setData] = useState([]);
   const [inUrl, setInUrl] = useState(url);
   const [isLoading, setIsLoading] = useState(false);
@@ -31,7 +38,7 @@ const useFetch = (url) => {
   }, [inUrl]);
 
   // 내부에 STATE URL을 바꾸어서 다시동작
-  const doGet = (url) => {
+  const doGet = (url: useFetchProp) => {
     setIsLoading(true);
     setInUrl(url);
   };
@@ -45,18 +52,22 @@ const useImageUploader = () => {
   const [uploading, setUploading] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  const onChange = async (event) => {
+  const onChange = async (event: React.ChangeEventHandler<HTMLInputElement | undefined>) => {
     if (event) {
-      const { target: { name, value, files } } = event;
+      const {
+        target: { name, value, files },
+      }: any = event;
       if (files) {
         setUploading(true);
         const formData = new FormData();
-        formData.append('api_key', CLOUDINARY_KEY);
+        formData.append('api_key', CLOUDINARY_KEY || '');
         formData.append('upload_preset', 'jandaAPP');
         formData.append('file', files[0]);
         formData.append('timestamp', String(Date.now() / 1000));
         try {
-          const { data: { secure_url } } = await Axios.post('https://api.cloudinary.com/v1_1/stayjanda-com/image/upload', formData);
+          const {
+            data: { secure_url },
+          } = await Axios.post('https://api.cloudinary.com/v1_1/stayjanda-com/image/upload', formData);
           if (secure_url) {
             setFileUrl(secure_url);
           }
@@ -71,17 +82,17 @@ const useImageUploader = () => {
     }
   };
 
-  useEffect(() => {
-    onChange();
-  });
-
   return {
-    fileUrl, uploading, isError, onChange,
+    fileUrl,
+    uploading,
+    isError,
+    onChange,
+    setFileUrl,
   };
 };
 
 // Our hook
-function useDebounce(value, delay) {
+function useDebounce(value: any, delay: number) {
   // State and setters for debounced value
   const [debouncedValue, setDebouncedValue] = useState(value);
 
@@ -99,15 +110,15 @@ function useDebounce(value, delay) {
 }
 
 // 밸리데이션을 포함한 훅 리턴
-function useInput(defaultValue, defulatValid = '') {
+function useInput(defaultValue: string, defulatValid: boolean | string = '') {
   const [value, setValue] = useState(defaultValue);
   const [isValid, setIsValid] = useState(defulatValid);
 
-  const onChange = (value) => {
+  const onChange = (value: string) => {
     setValue(value);
   };
 
-  const onChangeValid = (value) => {
+  const onChangeValid = (value: boolean | string) => {
     setIsValid(value);
   };
 
@@ -120,10 +131,10 @@ function useInput(defaultValue, defulatValid = '') {
 }
 
 // NAME SPACE
-function useCheckBox(defaultValue) {
+function useCheckBox(defaultValue: boolean) {
   const [checked, setChecked] = useState(defaultValue);
 
-  const onChange = (value) => {
+  const onChange = (value: boolean) => {
     setChecked(value);
   };
 
@@ -134,10 +145,10 @@ function useCheckBox(defaultValue) {
 }
 
 // NAME SPACE
-function useRadio(defaultValue) {
+function useRadio(defaultValue: boolean) {
   const [value, setValue] = useState(defaultValue);
 
-  const onChange = (value) => {
+  const onChange = (value: boolean) => {
     setValue(value);
   };
 
@@ -145,10 +156,10 @@ function useRadio(defaultValue) {
 }
 
 // NAME SPACE
-function useSwitch(defaultValue) {
+function useSwitch(defaultValue: boolean) {
   const [checked, setChecked] = useState(defaultValue);
 
-  const onChange = (value) => {
+  const onChange = (value: boolean) => {
     setChecked(value);
   };
 
@@ -156,17 +167,17 @@ function useSwitch(defaultValue) {
 }
 
 // NAME SPACE
-function useSelect(defaultValue) {
+function useSelect(defaultValue: any) {
   const [selectedOption, setSelectedOption] = useState(defaultValue);
 
-  const onChange = (value) => {
+  const onChange = (value: any) => {
     setSelectedOption(value);
   };
 
   return { selectedOption, onChange };
 }
 
-function useToggle(defaultValue) {
+function useToggle(defaultValue: any) {
   const [toggle, setToggle] = useState(defaultValue);
 
   const onClick = () => {
@@ -177,7 +188,7 @@ function useToggle(defaultValue) {
 }
 
 // 없어질겁니다
-function useModal(defaultValue) {
+function useModal(defaultValue: boolean) {
   const [isOpen, setIsOpen] = useState(defaultValue);
 
   const openModal = () => {
@@ -191,26 +202,34 @@ function useModal(defaultValue) {
   return [isOpen, openModal, closeModal];
 }
 
-function useModal2(defaultValue) {
+function useModal2(defaultValue: boolean, defaultInfo: object | undefined = {}) {
   const [isOpen, setIsOpen] = useState(defaultValue);
+  const [info, setInfo] = useState(defaultInfo);
 
-  const openModal = () => {
+  const openModal = (inInfo: any) => {
     setIsOpen(true);
+    setInfo(inInfo);
   };
 
   const closeModal = () => {
     setIsOpen(false);
   };
 
-  return { isOpen, openModal, closeModal };
+  return {
+    isOpen,
+    openModal,
+    closeModal,
+    info,
+  };
 }
 
+// 🚫 Depreacted 될겁니다.
 // booker ID 를 모달 여기 함수에 전달하고 booker info를 리턴하도록 설계
-function useBookPOP(defaultValue) {
+function useBookPOP(defaultValue: boolean) {
   const [isOpen, setIsOpen] = useState(defaultValue);
   const [bookerInfo, inSetPOPInfo] = useState(null);
 
-  const openModal = (tmp, tmp2) => {
+  const openModal = () => {
     setIsOpen(true);
   };
 
@@ -219,7 +238,7 @@ function useBookPOP(defaultValue) {
     inSetPOPInfo(null);
   };
 
-  const setModalInfo = (info) => {
+  const setModalInfo = (info: any) => {
     inSetPOPInfo(info);
   };
 

@@ -21,10 +21,7 @@ const AssigTimelineWrap = () => {
       timer = null;
     }, timeout);
     // items[itemID].key
-    bookerModal.openModal({
-      bookerInfo: itemId,
-      time,
-    });
+    bookerModal.openModal();
   };
   // Handle -- item : TripleClick
   window.addEventListener('click', (evt: any) => {
