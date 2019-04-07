@@ -17,6 +17,9 @@ type RoomType {
     rooms: [Room!]!
     createdAt: DateTime!
     updatedAt: DateTime
+
+    # Legarcy
+    roomTemplateSrl: Int
 }
 
 enum PricingType {
@@ -25,7 +28,7 @@ enum PricingType {
 }
 
 enum RoomGender {
-    MAKE
+    MALE
     FEMALE
     MIXED
     SEPARATELY
