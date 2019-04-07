@@ -11,6 +11,9 @@ type House {
     module_srl: Int
     createdAt: DateTime!
     updatedAt: DateTime
+    
+    # Legarcy
+    moduleSrl: Int
 }
 
 enum HouseType {

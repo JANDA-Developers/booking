@@ -5,4 +5,7 @@ type Room {
     index: Int!
     createdAt: DateTime!
     updatedAt: DateTime
+
+    # Legarcy
+    roomSrl: Int
 }

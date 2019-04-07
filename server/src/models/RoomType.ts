@@ -122,6 +122,10 @@ export class RoomTypeSchema extends Typegoose {
 
     @prop()
     updatedAt: Date;
+
+    // Legarcy 연동을 위한 엔티티...
+    @prop()
+    roomTemplateSrl?: number;
 }
 
 export const RoomTypeModel = new RoomTypeSchema().getModelForClass(

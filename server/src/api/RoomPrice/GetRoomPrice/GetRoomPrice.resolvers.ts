@@ -2,19 +2,19 @@ import { ObjectId } from "bson";
 import { extractRoomPrices } from "../../../models/merge/merge";
 import { RoomPriceModel } from "../../../models/RoomPrice";
 import {
-    GetRoomPriceWithDateRangeQueryArgs,
-    GetRoomPriceWithDateRangeResponse
+    GetRoomPriceQueryArgs,
+    GetRoomPriceResponse
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
 import privateResolver from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Query: {
-        GetRoomPriceWithDateRange: privateResolver(
+        GetRoomPrice: privateResolver(
             async (
                 _,
-                { roomTypeId, start, end }: GetRoomPriceWithDateRangeQueryArgs
-            ): Promise<GetRoomPriceWithDateRangeResponse> => {
+                { roomTypeId, start, end }: GetRoomPriceQueryArgs
+            ): Promise<GetRoomPriceResponse> => {
                 try {
                     const roomPrices = await RoomPriceModel.find({
                         roomType: new ObjectId(roomTypeId),
