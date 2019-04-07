@@ -5,8 +5,9 @@ import Timeline from '../../../components/timeline/Timeline';
 import ErrProtecter from '../../../utils/ErrProtecter';
 import Button from '../../../atoms/button/Buttons';
 import './ModifyTimeline.scss';
+import { getAllRoomType_GetAllRoomType_roomTypes } from '../../../types/api';
 
-const LAST_GROUP = 'unRendered'; // 방들중에 방타입이 다른 마지막을 체크할것
+let RENDERED_ROOMTYPE = 'unRendered'; // 방들중에 방타입이 다른 마지막을 체크할것
 
 interface IProps {
   items: any;
@@ -16,6 +17,7 @@ interface IProps {
   setConfigMode: any;
   timelineProps: any;
   roomTypeModal: any;
+  roomTypesData: getAllRoomType_GetAllRoomType_roomTypes[] | undefined;
 }
 
 const ModifyTimeline: React.SFC<IProps> = ({
@@ -25,30 +27,51 @@ const ModifyTimeline: React.SFC<IProps> = ({
   setConfigMode,
   roomTypeModal,
   defaultProps,
+  roomTypesData,
   ...timelineProps
 }) => {
   // 그룹 렌더
   const ModifyGroupRendererFn = ({ group }: any) => {
+    const roomType: getAllRoomType_GetAllRoomType_roomTypes | undefined = roomTypesData && roomTypesData[group.roomTypeIndex];
+    const roomTypeCount: number = roomType ? roomType.roomCount : 0;
     const roomGroupStyle = {
-      height: 36, // 여기다가 * group.roomType.roomCount 곱함
+      height: 36 * (roomTypeCount + 1),
+      minHeight: 36,
     };
 
-    console.log(roomData);
+    let renderGroup: boolean = true;
+    if (RENDERED_ROOMTYPE === group.roomTypeId) renderGroup = false;
+    else RENDERED_ROOMTYPE = group.roomTypeId;
+
+    console.log('roomType RRRR');
+    console.log('roomType RRRR');
+    console.log(group.roomTypeIndex);
 
     return (
       <div>
+        {/* 방타입 */}
         <div className="modifyGroups custom-group">
-          {/* {LAST_GROUP ==='group.roomType.name' && <div>   } */}
-          <div className="modifyGroups__roomGroup" style={roomGroupStyle}>
-            {'룸그룹'}
-          </div>
+          {renderGroup && (
+            <Button
+              className="modifyGroups__roomGroup"
+              thema="secondary"
+              label={roomType ? roomType.name : '방타입추가'}
+              style={roomGroupStyle}
+              icon={group.roomTypeIndex === -1 ? 'add' : undefined}
+              onClick={() => {
+                roomTypeModal.openModal({ roomTypeId: group.roomTypeId, roomTypeIndex: group.roomTypeIndex });
+              }}
+            />
+          )}
+          {/* 방 */}
           <span className="title">
             <Button
               label={group.title}
               thema="primary"
               mode="flat"
+              disabled={group.roomTypeIndex === -1}
               onClick={() => {
-                roomModal.openModal({ roomTypeId: group.roomTypeId });
+                roomModal.openModal({ roomTypeId: group.roomTypeId, roomId: group.id });
               }}
               className="modifyGroups__button"
             />
@@ -85,14 +108,18 @@ const ModifyTimeline: React.SFC<IProps> = ({
             <Button float="right" onClick={setConfigMode} icon="persons" label="배정화면으로" />
           </Link>
         </div>
-        <Timeline
-          {...defaultProps}
-          {...timelineProps}
-          items={[{}]}
-          groups={roomData}
-          itemRenderer={itemRendererFn}
-          groupRenderer={ModifyGroupRendererFn}
-        />
+        <div className="ModifyTimeline__timelineWrapScroll">
+          <div className="ModifyTimeline__timelineWrap">
+            <Timeline
+              {...defaultProps}
+              {...timelineProps}
+              items={[{}]}
+              groups={roomData}
+              itemRenderer={itemRendererFn}
+              groupRenderer={ModifyGroupRendererFn}
+            />
+          </div>
+        </div>
         <div className="ModifyTimeline__bottom">
           <Button onClick={roomTypeModal.openModal} label="추가" />
         </div>

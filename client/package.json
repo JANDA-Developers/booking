@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "@types/react-calendar-timeline": "^0.16.1",
+    "@types/react-select": "^2.0.15",
     "apollo": "^2.6.2",
     "apollo-boost": "^0.1.23",
     "axios": "^0.18.0",
@@ -50,8 +50,7 @@
     "react-slick": "^0.23.2",
     "react-tabs": "^3.0.0",
     "react-toastify": "^4.5.2",
-    "react-tooltip": "^3.9.2",
-    "tslint": "^5.14.0"
+    "react-tooltip": "^3.9.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -66,7 +65,7 @@
       "browser": true,
       "node": true
     },
-    "parser": "babel-eslint",
+    "parser": "@typescript-eslint/parser",
     "extends": "airbnb",
     "plugins": [
       "react",
@@ -74,7 +73,8 @@
       "import",
       "graphql",
       "prettier",
-      "react-hooks"
+      "react-hooks",
+      "@typescript-eslint"
     ],
     "rules": {
       "react/jsx-filename-extension": 0,
@@ -85,6 +85,11 @@
       "no-underscore-dangle": 0,
       "no-console": "off",
       "import/no-unresolved": "off",
+      "typescript/no-unused-vars": "off",
+      "array-callback-return": "off",
+      "camelcase": [0, {
+        "properties": "never"
+      }],
       "max-len": [
         1,
         120,
@@ -108,7 +113,14 @@
           "allowChildren": true
         }
       ]
-    }
+    },
+    "overrides": [{
+      "files": ["**/*.ts", "**/*.tsx"],
+      "rules": {
+        "no-unused-vars": ["off"],
+        "no-undef": ["off"]
+      }
+    }]
   },
   "eslintIgnore": [
     "naverMap.js",
@@ -128,8 +140,11 @@
     "@types/jquery": "^3.3.29",
     "@types/moment": "^2.13.0",
     "@types/react": "^16.8.6",
+    "@types/react-calendar-timeline": "^0.16.1",
     "@types/react-dom": "^16.8.2",
     "@types/react-router-dom": "^4.3.1",
+    "@typescript-eslint/eslint-plugin": "^1.6.0",
+    "@typescript-eslint/parser": "^1.6.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-graphql": "^3.0.1",
     "eslint-plugin-prettier": "^3.0.1",
@@ -137,6 +152,7 @@
     "stylelint": "^9.10.1",
     "stylelint-config-prettier": "^4.0.0",
     "stylelint-config-recommended-scss": "^3.2.0",
+    "tslint": "^5.14.0",
     "typescript": "^3.3.4000"
   }
 }

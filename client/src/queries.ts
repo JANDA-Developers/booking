@@ -120,6 +120,7 @@ export const GET_ALL_ROOMTYPES = gql`
         description
         createdAt
         updatedAt
+        img
         rooms {
           _id
           name
@@ -144,6 +145,8 @@ export const CREATE_ROOMTYPE = gql`
     $peopleCountMax: Int
     $description: String
     $tags: [TagInput!]
+    $img: URL
+    $roomGender: RoomGender
   ) {
     CreateRoomType(
       name: $name
@@ -152,7 +155,9 @@ export const CREATE_ROOMTYPE = gql`
       peopleCount: $peopleCount
       peopleCountMax: $peopleCountMax
       description: $description
+      roomGender: $roomGender
       tags: $tags
+      img: $img
     ) {
       ok
       error
@@ -189,7 +194,7 @@ export const DELETE_ROOM = gql`
 // 방 업데이트
 export const UPDATE_ROOM = gql`
   mutation updateRoom($roomId: ID!, $name: String) {
-    UpdateRoom(roomTypeId: $roomTypeId, name: $name) {
+    UpdateRoom(roomId: $roomId, name: $name) {
       ok
       error
     }

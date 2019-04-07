@@ -24,6 +24,8 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
   const [_, setConfigMode] = useToggle(false);
   console.log(_);
 
+  const refetchRoomData = [{ query: GET_ALL_ROOMTYPES, variables: { houseId: selectedHouse._id } }];
+
   const roomDataManufacture = (roomData: getAllRoomType | undefined): TimelineGroup | [] => {
     const roomGroups: any = [];
     if (roomData && roomData.GetAllRoomType) {
@@ -36,16 +38,25 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
                 id: room._id,
                 title: room.name,
                 roomTypeId: roomType._id,
+                roomTypeIndex: roomType.index,
+                roomIndex: room.index,
               });
             });
-          } else {
-            // case: 방타입이 있으나 방이없음
-            roomGroups.push({
-              id: `falsyRoom-${roomType._id}`,
-              title: '방없음',
-              roomTypeId: roomType._id,
-            });
           }
+          // 방타입의 마지막 방 추가버튼
+          roomGroups.push({
+            id: `addRoom-${roomType._id}`,
+            title: '방추가',
+            roomTypeId: roomType._id,
+            roomTypeIndex: roomType.index,
+            roomIndex: -1,
+          });
+        });
+        // 마지막 방타입 후 추가버튼
+        roomGroups.push({
+          id: 'addRoomTypes',
+          title: '방추가',
+          roomTypeIndex: -1,
         });
       }
     }
@@ -60,32 +71,32 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
       variables={{ houseId: selectedHouse._id }}
     >
       {({ data: roomData, loading, error }) => {
-        console.log('%c roomData', 'font-size:30px');
-        console.log(roomData);
         if (error) {
           console.error(error);
           toast.error(error.message);
         }
-        const formatedRoomData = roomDataManufacture(roomData);
+        const GetAllRoomType = roomData ? roomData.GetAllRoomType : undefined; // TEMP
+        const roomTypesData = GetAllRoomType ? GetAllRoomType.roomTypes : undefined; // 원본데이터
+        const formatedRoomData = roomDataManufacture(roomData); // 타임라인을 위해 가공된 데이터
         return (
           // 방생성 뮤테이션
           <Fragment>
             <ModifyTimeline
               loading={loading}
-              // roomData={}
               setConfigMode={setConfigMode}
               defaultProps={ModifydefaultProps}
               roomTypeModal={roomTypeModalHook}
               roomModal={roomModalHook}
               roomData={formatedRoomData}
+              roomTypesData={roomTypesData}
             />
             <RoomTypeModal
+              refetchRoomData={refetchRoomData}
               selectedHouseId={selectedHouse._id}
               modalHook={roomTypeModalHook}
-              roomData={roomData}
-              selectedHouse={selectedHouse}
+              roomData={roomTypesData}
             />
-            <RoomModal selectedHouseId={selectedHouse._id} modalHook={roomModalHook} />
+            <RoomModal refetchRoomData={refetchRoomData} modalHook={roomModalHook} />
           </Fragment>
         );
       }}

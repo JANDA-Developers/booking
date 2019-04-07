@@ -7,7 +7,7 @@
 // ====================================================
 
 export interface getAllProductTypes_GetAllProductTypes_productTypes {
-  __typename: 'ProductType';
+  __typename: "ProductType";
   _id: string;
   /**
    * 제품 이름
@@ -16,7 +16,7 @@ export interface getAllProductTypes_GetAllProductTypes_productTypes {
 }
 
 export interface getAllProductTypes_GetAllProductTypes {
-  __typename: 'GetAllProductTypesResponse';
+  __typename: "GetAllProductTypesResponse";
   ok: boolean;
   error: string | null;
   productTypes: getAllProductTypes_GetAllProductTypes_productTypes[] | null;
@@ -35,12 +35,12 @@ export interface getAllProductTypes {
 // ====================================================
 
 export interface getMyProfile_GetMyProfile_user_houses_product_productType {
-  __typename: 'ProductType';
+  __typename: "ProductType";
   _id: string;
 }
 
 export interface getMyProfile_GetMyProfile_user_houses_product {
-  __typename: 'Product';
+  __typename: "Product";
   _id: string;
   /**
    * 제품 이름
@@ -50,13 +50,13 @@ export interface getMyProfile_GetMyProfile_user_houses_product {
 }
 
 export interface getMyProfile_GetMyProfile_user_houses_location {
-  __typename: 'Location';
+  __typename: "Location";
   address: string;
   addressDetail: string | null;
 }
 
 export interface getMyProfile_GetMyProfile_user_houses {
-  __typename: 'House';
+  __typename: "House";
   product: getMyProfile_GetMyProfile_user_houses_product | null;
   _id: string;
   name: string;
@@ -67,7 +67,7 @@ export interface getMyProfile_GetMyProfile_user_houses {
 }
 
 export interface getMyProfile_GetMyProfile_user {
-  __typename: 'User';
+  __typename: "User";
   _id: string;
   name: any;
   phoneNumber: any;
@@ -81,7 +81,7 @@ export interface getMyProfile_GetMyProfile_user {
 }
 
 export interface getMyProfile_GetMyProfile {
-  __typename: 'GetMyProfileResponse';
+  __typename: "GetMyProfileResponse";
   user: getMyProfile_GetMyProfile_user | null;
 }
 
@@ -101,7 +101,7 @@ export interface getMyProfile {
 // ====================================================
 
 export interface emailSignIn_EmailSignIn {
-  __typename: 'EmailSignInResponse';
+  __typename: "EmailSignInResponse";
   ok: boolean;
   error: string | null;
   token: string | null;
@@ -125,12 +125,12 @@ export interface emailSignInVariables {
 // ====================================================
 
 export interface getHouse_GetHouse_house_product_productType {
-  __typename: 'ProductType';
+  __typename: "ProductType";
   _id: string;
 }
 
 export interface getHouse_GetHouse_house_product {
-  __typename: 'Product';
+  __typename: "Product";
   _id: string;
   /**
    * 제품 이름
@@ -140,13 +140,13 @@ export interface getHouse_GetHouse_house_product {
 }
 
 export interface getHouse_GetHouse_house_location {
-  __typename: 'Location';
+  __typename: "Location";
   address: string;
   addressDetail: string | null;
 }
 
 export interface getHouse_GetHouse_house {
-  __typename: 'House';
+  __typename: "House";
   _id: string;
   name: string;
   houseType: HouseType;
@@ -157,7 +157,7 @@ export interface getHouse_GetHouse_house {
 }
 
 export interface getHouse_GetHouse {
-  __typename: 'GetHouseResponse';
+  __typename: "GetHouseResponse";
   ok: boolean;
   error: string | null;
   house: getHouse_GetHouse_house | null;
@@ -180,7 +180,7 @@ export interface getHouseVariables {
 // ====================================================
 
 export interface getAllRoomType_GetAllRoomType_roomTypes_rooms {
-  __typename: 'Room';
+  __typename: "Room";
   _id: string;
   name: string;
   index: number;
@@ -189,23 +189,24 @@ export interface getAllRoomType_GetAllRoomType_roomTypes_rooms {
 }
 
 export interface getAllRoomType_GetAllRoomType_roomTypes {
-  __typename: 'RoomType';
+  __typename: "RoomType";
   _id: string;
   name: string;
   pricingType: PricingType;
   peopleCount: number;
   peopleCountMax: number;
-  index: number;
-  roomCount: number;
   roomGender: RoomGender;
+  roomCount: number;
+  index: number;
   description: string | null;
   createdAt: any;
   updatedAt: any | null;
+  img: any | null;
   rooms: getAllRoomType_GetAllRoomType_roomTypes_rooms[];
 }
 
 export interface getAllRoomType_GetAllRoomType {
-  __typename: 'GetAllRoomTypeResponse';
+  __typename: "GetAllRoomTypeResponse";
   ok: boolean | null;
   error: string | null;
   roomTypes: getAllRoomType_GetAllRoomType_roomTypes[] | null;
@@ -228,7 +229,7 @@ export interface getAllRoomTypeVariables {
 // ====================================================
 
 export interface createRoomType_CreateRoomType {
-  __typename: 'CreateRoomTypeResponse';
+  __typename: "CreateRoomTypeResponse";
   ok: boolean;
   error: string | null;
 }
@@ -248,6 +249,8 @@ export interface createRoomTypeVariables {
   peopleCountMax?: number | null;
   description?: string | null;
   tags?: TagInput[] | null;
+  img?: any | null;
+  roomGender?: RoomGender | null;
 }
 
 /* tslint:disable */
@@ -259,7 +262,7 @@ export interface createRoomTypeVariables {
 // ====================================================
 
 export interface createRoom_CreateRoom {
-  __typename: 'CreateRoomResponse';
+  __typename: "CreateRoomResponse";
   ok: boolean | null;
   error: string | null;
 }
@@ -278,11 +281,106 @@ export interface createRoomVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: deleteRoomType
+// ====================================================
+
+export interface deleteRoomType_DeleteRoomType {
+  __typename: "DeleteRoomTypeResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface deleteRoomType {
+  DeleteRoomType: deleteRoomType_DeleteRoomType;
+}
+
+export interface deleteRoomTypeVariables {
+  houseId: string;
+  roomTypeId: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: deleteRoom
+// ====================================================
+
+export interface deleteRoom_DeleteRoom {
+  __typename: "DeleteRoomResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface deleteRoom {
+  DeleteRoom: deleteRoom_DeleteRoom;
+}
+
+export interface deleteRoomVariables {
+  roomId: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: updateRoom
+// ====================================================
+
+export interface updateRoom_UpdateRoom {
+  __typename: "UpdateRoomResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface updateRoom {
+  UpdateRoom: updateRoom_UpdateRoom;
+}
+
+export interface updateRoomVariables {
+  roomId: string;
+  name?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: updateRoomType
+// ====================================================
+
+export interface updateRoomType_UpdateRoomType {
+  __typename: "UpdateRoomTypeResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface updateRoomType {
+  UpdateRoomType: updateRoomType_UpdateRoomType;
+}
+
+export interface updateRoomTypeVariables {
+  roomTypeId: string;
+  houseId: string;
+  name?: string | null;
+  peopleCount?: number | null;
+  peopleCountMax?: number | null;
+  description?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: updateMyProfile
 // ====================================================
 
 export interface updateMyProfile_UpdateMyProfile {
-  __typename: 'UpdateMyProfileResponse';
+  __typename: "UpdateMyProfileResponse";
   ok: boolean;
   error: string | null;
 }
@@ -303,11 +401,77 @@ export interface updateMyProfileVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: startPhoneVerification
+// ====================================================
+
+export interface startPhoneVerification_StartPhoneVerification {
+  __typename: "StartPhoneVerificationResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface startPhoneVerification {
+  StartPhoneVerification: startPhoneVerification_StartPhoneVerification;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: completePhoneVerification
+// ====================================================
+
+export interface completePhoneVerification_CompletePhoneVerification {
+  __typename: "CompletePhoneVerificationResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface completePhoneVerification {
+  CompletePhoneVerification: completePhoneVerification_CompletePhoneVerification;
+}
+
+export interface completePhoneVerificationVariables {
+  key: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: emailSignUp
+// ====================================================
+
+export interface emailSignUp_EmailSignUp {
+  __typename: "EmailSignUpResponse";
+  ok: boolean;
+  error: string | null;
+  token: string | null;
+}
+
+export interface emailSignUp {
+  EmailSignUp: emailSignUp_EmailSignUp;
+}
+
+export interface emailSignUpVariables {
+  name: any;
+  email: any;
+  phoneNumber: any;
+  password: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: updateHouse
 // ====================================================
 
 export interface updateHouse_UpdateHouse {
-  __typename: 'UpdateHouseResponse';
+  __typename: "UpdateHouseResponse";
   ok: boolean;
   error: string | null;
 }
@@ -330,106 +494,17 @@ export interface updateHouseVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: buyProduct
-// ====================================================
-
-export interface buyProduct_BuyProduct {
-  __typename: 'BuyProductResponse';
-  ok: boolean;
-  error: string | null;
-}
-
-export interface buyProduct {
-  BuyProduct: buyProduct_BuyProduct;
-}
-
-export interface buyProductVariables {
-  houseId: string;
-  productTypeId: string;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: startPhoneVerification
-// ====================================================
-
-export interface startPhoneVerification_StartPhoneVerification {
-  __typename: 'StartPhoneVerificationResponse';
-  ok: boolean;
-  error: string | null;
-}
-
-export interface startPhoneVerification {
-  StartPhoneVerification: startPhoneVerification_StartPhoneVerification;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: completePhoneVerification
-// ====================================================
-
-export interface completePhoneVerification_CompletePhoneVerification {
-  __typename: 'CompletePhoneVerificationResponse';
-  ok: boolean;
-  error: string | null;
-}
-
-export interface completePhoneVerification {
-  CompletePhoneVerification: completePhoneVerification_CompletePhoneVerification;
-}
-
-export interface completePhoneVerificationVariables {
-  key: string;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: emailSignUp
-// ====================================================
-
-export interface emailSignUp_EmailSignUp {
-  __typename: 'EmailSignUpResponse';
-  ok: boolean;
-  error: string | null;
-  token: string | null;
-}
-
-export interface emailSignUp {
-  EmailSignUp: emailSignUp_EmailSignUp;
-}
-
-export interface emailSignUpVariables {
-  name: any;
-  email: any;
-  phoneNumber: any;
-  password: any;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// This file was automatically generated and should not be edited.
-
-// ====================================================
 // GraphQL mutation operation: createHouse
 // ====================================================
 
 export interface createHouse_CreateHouse_house {
-  __typename: 'House';
+  __typename: "House";
   _id: string;
   name: string;
 }
 
 export interface createHouse_CreateHouse {
-  __typename: 'CreateHouseResponse';
+  __typename: "CreateHouseResponse";
   ok: boolean;
   error: string | null;
   house: createHouse_CreateHouse_house | null;
@@ -454,7 +529,7 @@ export interface createHouseVariables {
 // ====================================================
 
 export interface deleteHouse_DeleteHouse {
-  __typename: 'DeleteHouseResponse';
+  __typename: "DeleteHouseResponse";
   ok: boolean;
   error: string | null;
 }
@@ -472,11 +547,34 @@ export interface deleteHouseVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: buyProduct
+// ====================================================
+
+export interface buyProduct_BuyProduct {
+  __typename: "BuyProductResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface buyProduct {
+  BuyProduct: buyProduct_BuyProduct;
+}
+
+export interface buyProductVariables {
+  houseId: string;
+  productTypeId: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: refundProduct
 // ====================================================
 
 export interface refundProduct_RefundProduct {
-  __typename: 'RefundProductResponse';
+  __typename: "RefundProductResponse";
   ok: boolean;
   error: string | null;
 }
@@ -499,24 +597,24 @@ export interface refundProductVariables {
 //==============================================================
 
 export enum HouseType {
-  GUEST_HOUSE = 'GUEST_HOUSE',
-  HOSTEL = 'HOSTEL',
-  HOTEL = 'HOTEL',
-  MOTEL = 'MOTEL',
-  PENSION = 'PENSION',
-  YOUTH_HOSTEL = 'YOUTH_HOSTEL',
+  GUEST_HOUSE = "GUEST_HOUSE",
+  HOSTEL = "HOSTEL",
+  HOTEL = "HOTEL",
+  MOTEL = "MOTEL",
+  PENSION = "PENSION",
+  YOUTH_HOSTEL = "YOUTH_HOSTEL",
 }
 
 export enum PricingType {
-  DOMITORY = 'DOMITORY',
-  ROOM = 'ROOM',
+  DOMITORY = "DOMITORY",
+  ROOM = "ROOM",
 }
 
 export enum RoomGender {
-  FEMALE = 'FEMALE',
-  MAKE = 'MAKE',
-  MIXED = 'MIXED',
-  SEPARATELY = 'SEPARATELY',
+  FEMALE = "FEMALE",
+  MAKE = "MAKE",
+  MIXED = "MIXED",
+  SEPARATELY = "SEPARATELY",
 }
 
 export interface LocationInput {

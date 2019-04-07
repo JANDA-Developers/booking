@@ -10,6 +10,8 @@ import ImageUploader from '../../../../components/imageUploader/ImageUploader';
 
 interface IProps {
   createRoomTypeMutation: any;
+  deleteRoomTypeMutation: any;
+  updateRoomTypeMutation: any;
   modalHook: any;
   roomData: any;
   setValue: any;
@@ -20,6 +22,8 @@ interface IProps {
 const RoomTypeModal: React.SFC<IProps> = ({
   modalHook,
   createRoomTypeMutation,
+  deleteRoomTypeMutation,
+  updateRoomTypeMutation,
   roomData,
   setValue,
   value,
@@ -27,14 +31,33 @@ const RoomTypeModal: React.SFC<IProps> = ({
 }) => {
   const [peopleCountOption, setPeopleCountOption] = useState([{}]);
 
-  const onCreateRoomType = () => {
+  const validater = () => {
     if (value.name === '') {
       toast.error('방타입명을 입력해주세요.');
-      return;
+      return false;
     }
+    return true;
+  };
 
-    createRoomTypeMutation();
-    modalHook.closeModal();
+  const onCreateRoomType = async () => {
+    if (await validater()) {
+      createRoomTypeMutation();
+      modalHook.closeModal();
+    }
+  };
+
+  const onDeleteRoomType = async () => {
+    if (await validater()) {
+      deleteRoomTypeMutation();
+      modalHook.closeModal();
+    }
+  };
+
+  const onUpdateRoomType = async () => {
+    if (await validater()) {
+      updateRoomTypeMutation();
+      modalHook.closeModal();
+    }
   };
 
   const onChangeMaxPeople = (inValue: any) => {
@@ -45,10 +68,6 @@ const RoomTypeModal: React.SFC<IProps> = ({
       const tmp = { value: i, label: `${i}명` };
       inPeopleCountOption.push(tmp);
     }
-
-    console.log(inValue);
-    console.log(inPeopleCountOption);
-    console.log(inPeopleCountOption);
 
     setPeopleCountOption(inPeopleCountOption);
   };
@@ -139,8 +158,8 @@ const RoomTypeModal: React.SFC<IProps> = ({
       </div>
       <div className="ReactModal__EndSection">
         <Button label="생성하기" mode="flat" onClick={onCreateRoomType} />
-        <Button label="수정하기" mode="flat" onClick={modalHook.closeModal} />
-        <Button label="삭제하기" mode="flat" onClick={modalHook.closeModal} />
+        <Button label="수정하기" mode="flat" onClick={onUpdateRoomType} />
+        <Button label="삭제하기" mode="flat" onClick={onDeleteRoomType} />
         <Button label="닫기" mode="flat" onClick={modalHook.closeModal} />
       </div>
     </Modal>

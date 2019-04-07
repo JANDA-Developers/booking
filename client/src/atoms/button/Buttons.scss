@@ -42,6 +42,9 @@
     &:hover {
       background-color: $primary-color-light
     }
+    &:disabled:hover {
+      background-color: $primary-color;
+    }
   }
   
   &.JDbtn--secondary {

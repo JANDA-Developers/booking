@@ -9,10 +9,44 @@ import utils from '../../../../utils/utils';
 interface IProps {
   modalHook: any;
   roomNameHook: any;
-  onCreateRoom: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  createRoomMutation: any;
+  updateRoomMutation: any;
+  deleteRoomMutation: any;
 }
 
-const RoomTypeModal: React.SFC<IProps> = ({ modalHook, roomNameHook, onCreateRoom }) => {
+const RoomTypeModal: React.SFC<IProps> = ({
+  modalHook,
+  roomNameHook,
+  createRoomMutation,
+  updateRoomMutation,
+  deleteRoomMutation,
+}) => {
+  const validater = (): boolean => {
+    if (!roomNameHook.isValid) {
+      toast.warn('방이름은 10자 이하여야합니다.');
+      return false;
+    }
+    return true;
+  };
+
+  const onDeleteRoom = (): void => {
+    deleteRoomMutation();
+    modalHook.closeModal();
+  };
+
+  const onCreateRoom = async (): Promise<void> => {
+    if (await validater()) {
+      modalHook.closeModal();
+      createRoomMutation();
+    }
+  };
+
+  const onUpdateRoom = async (): Promise<void> => {
+    if (await validater()) {
+      updateRoomMutation();
+      modalHook.closeModal();
+    }
+  };
 
   return (
     <Modal
@@ -28,18 +62,17 @@ const RoomTypeModal: React.SFC<IProps> = ({ modalHook, roomNameHook, onCreateRoo
       }}
     >
       <div className="flex-grid">
-        <div className="flex-grid__col col--full-6 col--lg-6 col--md-12">
-          <InputText label="방이름" {...roomNameHook} validation={utils.isMaxOver} max="10" />
+        <div className="flex-grid__col col--full-12 col--lg-12 col--md-12">
+          <InputText label="방이름" {...roomNameHook} validation={utils.isMaxOver} max={10} />
         </div>
       </div>
       <div className="ReactModal__EndSection">
         <Button label="생성하기" mode="flat" onClick={onCreateRoom} />
-        <Button label="수정하기" mode="flat" onClick={modalHook.closeModal} />
-        <Button label="삭제하기" mode="flat" onClick={modalHook.closeModal} />
+        <Button label="수정하기" mode="flat" onClick={onUpdateRoom} />
+        <Button label="삭제하기" mode="flat" onClick={onDeleteRoom} />
         <Button label="닫기" mode="flat" onClick={modalHook.closeModal} />
       </div>
     </Modal>
   );
 };
-
 export default RoomTypeModal;
