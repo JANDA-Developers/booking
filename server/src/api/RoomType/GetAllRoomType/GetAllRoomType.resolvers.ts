@@ -28,7 +28,7 @@ const resolvers: Resolvers = {
                     } else {
                         return {
                             ok: false,
-                            error: "Under Delveop",
+                            error: "House is not Exist",
                             roomTypes: []
                         };
                     }

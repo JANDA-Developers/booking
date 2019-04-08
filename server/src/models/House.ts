@@ -46,6 +46,9 @@ export class HouseSchema extends Typegoose {
 
     @prop()
     updatedAt: Date;
+
+    @prop()
+    moduleSrl?: number;
 }
 
 export const HouseModel = new HouseSchema().getModelForClass(HouseSchema, {

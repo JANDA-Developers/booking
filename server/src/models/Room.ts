@@ -32,6 +32,9 @@ export class RoomSchema extends Typegoose {
 
     @prop()
     updatedAt: Date;
+
+    @prop()
+    roomSrl?: number;
 }
 
 export const RoomModel = new RoomSchema().getModelForClass(RoomSchema, {

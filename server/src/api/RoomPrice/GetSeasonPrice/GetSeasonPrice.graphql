@@ -1,4 +1,4 @@
-type GetSeasonPriceWithDateRangeResponse {
+type GetSeasonPriceResponse {
     ok: Boolean!
     error: String
     seasonPrices: [SeasonPrice!]
@@ -10,9 +10,9 @@ type DateRangeWithSeasonPrice {
     seasonPrice: SeasonPrice
 }
 type Query {
-    GetSeasonPriceWithDateRange(
+    GetSeasonPrice(
         roomTypeId: ID!
         start: DateTime!
         end: DateTime!
-    ): GetSeasonPriceWithDateRangeResponse!
+    ): GetSeasonPriceResponse!
 }

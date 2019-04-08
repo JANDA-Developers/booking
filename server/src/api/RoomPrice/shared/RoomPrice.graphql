@@ -3,4 +3,6 @@ type RoomPrice {
     roomType: RoomType!
     price: Float!
     date: DateTime!
+    createdAt: DateTime!
+    updatedAt: DateTime
 }

@@ -1,8 +1,8 @@
 import { RoomTypeModel } from "../../../models/RoomType";
 import { getAllSeasons } from "../../../queries/seasonQueries";
 import {
-    GetSeasonPriceWithDateRangeQueryArgs,
-    GetSeasonPriceWithDateRangeResponse,
+    GetSeasonPriceQueryArgs,
+    GetSeasonPriceResponse,
     Season,
     SeasonPrice
 } from "../../../types/graph";
@@ -17,15 +17,15 @@ import { ONE_DAY } from "../../../utils/variables";
 
 const resolvers: Resolvers = {
     Query: {
-        GetSeasonPriceWithDateRange: privateResolver(
+        GetSeasonPrice: privateResolver(
             async (
                 _,
                 {
                     start: startDate,
                     end: endDate,
                     roomTypeId
-                }: GetSeasonPriceWithDateRangeQueryArgs
-            ): Promise<GetSeasonPriceWithDateRangeResponse> => {
+                }: GetSeasonPriceQueryArgs
+            ): Promise<GetSeasonPriceResponse> => {
                 try {
                     const start = new Date(startDate);
                     const end = new Date(endDate);

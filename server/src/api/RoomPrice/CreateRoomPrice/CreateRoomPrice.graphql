@@ -4,6 +4,7 @@ type CreateRoomPriceResponse {
     roomPrice: RoomPrice
 }
 type Mutation {
+    # 만약 RoomTypeId로 조회한 방타입이 해당 날짜에 RoomPrice가 존재한다면 가격 덮어 씌움
     CreateRoomPrice(
         price: Float!
         roomTypeId: ID!
