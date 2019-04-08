@@ -71,7 +71,7 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({
           peopleCountMax: { label: `${roomType.peopleCount}명`, value: roomType.peopleCountMax },
         };
         setRoomTypeValue(lastRoomTypeValue);
-        roomImageHook.setFileUrl(roomType);
+        roomImageHook.setFileUrl(roomType.img);
       } else {
         setRoomTypeValue(defaultRoomTypeValue);
         roomImageHook.setFileUrl('');

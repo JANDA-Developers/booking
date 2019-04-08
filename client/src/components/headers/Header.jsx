@@ -43,7 +43,7 @@ const Header = ({
 
   useEffect(() => {
     selectedHouseHook.onChange(formetedSelectedHouse);
-  }, []);
+  }, [formetedSelectedHouse.value]);
 
   useEffect(() => {
     ReactTooltip.rebuild();

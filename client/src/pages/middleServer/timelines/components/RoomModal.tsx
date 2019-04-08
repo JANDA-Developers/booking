@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import Modal from '../../../../atoms/modal/Modal';
 import InputText from '../../../../atoms/forms/InputText';

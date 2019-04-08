@@ -1,5 +1,6 @@
 import moment from 'moment';
 import React from 'react';
+import { VerticalAlignProperty } from 'csstype';
 import { defaultHeaderLabelFormats, defaultSubHeaderLabelFormats } from '../../../components/timeline/Timeline';
 import generateFakeData from './components/timeline_fakedata';
 import groupRendererFn from './components/groupRender';
@@ -69,11 +70,11 @@ const defaultProps = {
   itemHeightRatio: 1,
   showCursorLine: true,
   // 아래 속성은 퍼포먼스에 민감하게 작용합니다.
-  verticalLineClassNamesForTime: (timeStart, timeEnd) => {
+  verticalLineClassNamesForTime: (timeStart: any, timeEnd: any) => {
     if (timeStart < new Date().getTime()) return ['verticalLine', 'verticalLine--past'];
     return ['verticalLine'];
   },
-  horizontalLineClassNamesForGroup: group => ['group'],
+  horizontalLineClassNamesForGroup: (group: any) => ['group'],
 };
 // ModifyTimeline 으로 전달될 객체
 const ModifydefaultProps = {
@@ -104,11 +105,11 @@ const ModifydefaultProps = {
   showCursorLine: true,
   lineHeight: 36,
   // 아래 속성은 퍼포먼스에 민감하게 작용합니다.
-  verticalLineClassNamesForTime: (timeStart, timeEnd) => {
+  verticalLineClassNamesForTime: (timeStart: any, timeEnd: any) => {
     if (timeStart < new Date().getTime()) return ['verticalLine', 'verticalLine--past'];
     return ['verticalLine'];
   },
-  horizontalLineClassNamesForGroup: group => ['group'],
+  horizontalLineClassNamesForGroup: (group: any) => ['group'],
 };
 
 export {

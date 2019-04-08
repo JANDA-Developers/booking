@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ApolloError } from 'apollo-boost';
 import { Mutation } from 'react-apollo';
-import { useInput } from '../../../../actions/hook';
+import { useInput, TuseModal } from '../../../../actions/hook';
 import {
   ErrProtecter, toast, onError, onCompletedMessage,
 } from '../../../../utils/utils';
@@ -13,6 +13,8 @@ import {
   deleteRoomVariables,
   updateRoom,
   updateRoomVariables,
+  getAllRoomType_GetAllRoomType_roomTypes,
+  getAllRoomType_GetAllRoomType_roomTypes_rooms,
 } from '../../../../types/api';
 import {
   CREATE_ROOM, GET_ALL_ROOMTYPES, DELETE_ROOM, UPDATE_ROOM,
@@ -23,13 +25,30 @@ class DeleteRoomMutation extends Mutation<deleteRoom, deleteRoomVariables> {}
 class UpdateRoomMutation extends Mutation<updateRoom, updateRoomVariables> {}
 
 interface IProps {
-  modalHook: any;
+  modalHook: TuseModal;
   refetchRoomData: any;
   selectedHouseId: string;
+  roomData: getAllRoomType_GetAllRoomType_roomTypes[] | null | undefined;
 }
 
-const ModifyTimelineWrap: React.SFC<IProps> = ({ modalHook, selectedHouseId, refetchRoomData }) => {
+const ModifyTimelineWrap: React.SFC<IProps> = ({
+  modalHook, selectedHouseId, refetchRoomData, roomData,
+}) => {
   const roomNameHook = useInput('');
+
+  // 팝업시 올바른 데이터를 전달
+  useEffect(() => {
+    if (roomData) {
+      const roomTypeInfo = roomData[modalHook.info.roomTypeIndex];
+      if (roomTypeInfo) {
+        const roomInfo: getAllRoomType_GetAllRoomType_roomTypes_rooms | undefined = roomTypeInfo.rooms[modalHook.info.roomIndex];
+        if (roomInfo) roomNameHook.onChange(roomInfo.name);
+        else {
+          roomNameHook.onChange('');
+        }
+      }
+    }
+  }, [modalHook.info]);
 
   return (
     // 방타입 생성 뮤테이션

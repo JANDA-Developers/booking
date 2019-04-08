@@ -12,6 +12,11 @@ import { ErrProtecter, toast, isEmpty } from '../../../utils/utils';
 import RoomTypeModal from './components/RoomTypeModalWrap';
 import RoomModal from './components/RoomModalWrap';
 
+export enum ADD_ROOM {
+  'ADDROOM' = -1,
+  'ADDROOM_TYPE' = -1,
+}
+
 interface IProps {
   selectedHouse: any;
 }
@@ -26,39 +31,42 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
 
   const refetchRoomData = [{ query: GET_ALL_ROOMTYPES, variables: { houseId: selectedHouse._id } }];
 
-  const roomDataManufacture = (roomData: getAllRoomType | undefined): TimelineGroup | [] => {
-    const roomGroups: any = [];
+  const roomDataManufacture = (roomData: getAllRoomType | undefined) => {
+    const roomGroups = [];
     if (roomData && roomData.GetAllRoomType) {
       if (!isEmpty(roomData.GetAllRoomType.roomTypes)) {
-        const { roomTypes }: any = roomData.GetAllRoomType;
-        roomTypes.map((roomType: any) => {
-          if (!isEmpty(roomType.rooms)) {
-            roomType.rooms.map((room: any) => {
-              roomGroups.push({
-                id: room._id,
-                title: room.name,
-                roomTypeId: roomType._id,
-                roomTypeIndex: roomType.index,
-                roomIndex: room.index,
+        const { roomTypes } = roomData.GetAllRoomType;
+        if (roomTypes) {
+          roomTypes.map((roomType) => {
+            if (!isEmpty(roomType.rooms)) {
+              roomType.rooms.map((room) => {
+                roomGroups.push({
+                  id: room._id,
+                  title: room.name,
+                  roomTypeId: roomType._id,
+                  roomTypeIndex: roomType.index,
+                  roomIndex: room.index,
+                });
               });
+            }
+            // 방타입의 마지막 방 추가버튼
+            roomGroups.push({
+              id: `addRoom-${roomType._id}`,
+              title: '방추가',
+              roomTypeId: roomType._id,
+              roomTypeIndex: roomType.index,
+              roomIndex: ADD_ROOM.ADDROOM,
             });
-          }
-          // 방타입의 마지막 방 추가버튼
-          roomGroups.push({
-            id: `addRoom-${roomType._id}`,
-            title: '방추가',
-            roomTypeId: roomType._id,
-            roomTypeIndex: roomType.index,
-            roomIndex: -1,
           });
-        });
+        }
       }
       // 마지막 방타입후 추가버튼
       roomGroups.push({
         id: 'addRoomTypes',
         title: '방추가',
-        roomTypeIndex: -1,
-        roomTypeId: -1,
+        roomTypeIndex: ADD_ROOM.ADDROOM_TYPE,
+        roomTypeId: ADD_ROOM.ADDROOM_TYPE,
+        roomIndex: ADD_ROOM.ADDROOM,
       });
     }
     return roomGroups;
@@ -76,7 +84,6 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
           console.error(error);
           toast.error(error.message);
         }
-        console.log(roomData);
         const GetAllRoomType = roomData ? roomData.GetAllRoomType : undefined; // TEMP
         const roomTypesData = GetAllRoomType ? GetAllRoomType.roomTypes : undefined; // 원본데이터
         const formatedRoomData = roomDataManufacture(roomData); // 타임라인을 위해 가공된 데이터
@@ -98,7 +105,7 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
               modalHook={roomTypeModalHook}
               roomData={roomTypesData}
             />
-            <RoomModal refetchRoomData={refetchRoomData} modalHook={roomModalHook} />
+            <RoomModal refetchRoomData={refetchRoomData} roomData={roomTypesData} modalHook={roomModalHook} />
           </Fragment>
         );
       }}

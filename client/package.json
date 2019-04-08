@@ -117,8 +117,9 @@
     "overrides": [{
       "files": ["**/*.ts", "**/*.tsx"],
       "rules": {
-        "no-unused-vars": ["off"],
-        "no-undef": ["off"]
+        "no-unused-vars": 0,
+        "no-undef": ["off"],
+        "react/prop-types": 0
       }
     }]
   },

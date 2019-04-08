@@ -202,7 +202,14 @@ function useModal(defaultValue: boolean) {
   return [isOpen, openModal, closeModal];
 }
 
-function useModal2(defaultValue: boolean, defaultInfo: object | undefined = {}) {
+export interface TuseModal {
+  isOpen: boolean;
+  openModal: (inInfo: any) => void;
+  closeModal: () => void;
+  info: any;
+}
+
+function useModal2<TuseModal>(defaultValue: boolean, defaultInfo: any = {}) {
   const [isOpen, setIsOpen] = useState(defaultValue);
   const [info, setInfo] = useState(defaultInfo);
 
