@@ -1,0 +1,16 @@
+type UpdateRoomTypeToHostAppResponse {
+    ok: Boolean!
+    error: String
+    roomType: RoomType
+}
+type Mutation {
+    UpdateRoomTypeToHostApp(
+        roomTemplateSrl: Int!
+        name: String
+        peopleCount: Int
+        peopleCountMax: Int
+        img: String
+        roomGender: Int
+        description: String
+    ): UpdateRoomTypeToHostAppResponse!
+}

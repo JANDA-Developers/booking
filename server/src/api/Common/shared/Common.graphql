@@ -33,3 +33,10 @@ input SelectOption {
     value: String!
     label: String!
 }
+
+type PageInfo {
+    startCursor: String
+    endCursor: String
+    hasPreviousPage: Boolean!
+    hasNextPage: Boolean!
+}
