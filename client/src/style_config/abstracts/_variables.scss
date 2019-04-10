@@ -32,13 +32,13 @@ $secondary-color-light: lighten($secondary-color, 15%) !default;
 $secondary-color-light-on: #fff !default;
 $secondary-color-dark: darken($secondary-color, 15%) !default;
 $secondary-color-dark-on: #fff !default;
+$new-color: #ffb021 !default;
+$new-color-on: $html-color !default;
 // 성공색은 너무 이질적인 느낌을 주어서 폐기합니다.
 // $success-color: #52a071 !default;
 $success-color: '-' !default;
 $background-color: #fff;
 //TODO  여기 warn으로 이름교체
-$warn-color: #ff6760 !default;
-$warn-color-light: #ff8f89 !default;
 $error-color: #ff6760 !default;
 $link-color: rgb(66, 62, 199) !default;
 $link-color-active: rgb(48, 45, 131) !default;
@@ -110,7 +110,6 @@ $standard-placeholder-color : $grey-level3;
 
 // 1. Forms 폼
 // ANCHOR Forms ==========================================================================
-
 // -- Text Inputs + Textarea 인풋
 $input-height: 3rem !default;
 $input-border: 1px solid $html-color !default;
@@ -325,7 +324,8 @@ $toast-margin-bottom: $standard-margin-bottom/2;
 // 13 ProfileCircle 프로파일 서클
 // ANCHOR toast Toast=========================================================================
 $profileCircle-size: 4rem;
-$profileCircle-small-size: 2rem;
+$profileCircle-small-size: 3rem;
+$profileCircle-tiny-size: 2rem;
 
 // 14 Card 카드
 // ANCHOR card Card=========================================================================

@@ -3,7 +3,7 @@ import 'moment/locale/ko';
 import { Link } from 'react-router-dom';
 import Timeline from '../../../components/timeline/Timeline';
 import ErrProtecter from '../../../utils/ErrProtecter';
-import Button from '../../../atoms/button/Buttons';
+import Button from '../../../atoms/button/Button';
 import './ModifyTimeline.scss';
 import { getAllRoomType_GetAllRoomType_roomTypes } from '../../../types/api';
 import { ADD_ROOM } from './ModifyTimelineWrap';
@@ -101,6 +101,8 @@ const ModifyTimeline: React.SFC<IProps> = ({
       </div>
     );
   };
+  // 사이드 탑 렌더
+  const modifySideBarRendererFn = () => <div className="modify__sideTop"></div>;
 
   return (
     <div id="ModifyTimeline" className="container container--full">
@@ -122,6 +124,7 @@ const ModifyTimeline: React.SFC<IProps> = ({
               groups={roomData}
               itemRenderer={itemRendererFn}
               groupRenderer={ModifyGroupRendererFn}
+              sidebarContent={modifySideBarRendererFn()}
             />
             {loading && <Preloader />}
           </div>

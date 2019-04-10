@@ -41,6 +41,7 @@ export const GET_USER_INFO = gql`
         email
         isPhoneVerified
         checkPrivacyPolicy
+        userRole
         houses {
           product {
             _id
@@ -65,6 +66,60 @@ export const GET_USER_INFO = gql`
     }
   }
 `;
+
+// 모든 유저 정보 가져오기
+export const GEA_All_HOUSE_SUPER_USER = gql`
+  query getAllHouseForSuperUser {
+    GetAllHouseForSuperUser {
+      ok
+      error
+      allHouse {
+        _id
+        name
+        houseType
+        product {
+          _id
+          name
+          price
+          discountedPrice
+          roomCount
+          roomCountExtraCharge
+          bookingCount
+          bookingCountExtraCharge
+          description
+          createdAt
+          updatedAt
+          productType {
+            _id
+            name
+          }
+        }
+        user {
+          _id
+          name
+          phoneNumber
+          password
+          email
+          isPhoneVerified
+          userRole
+          createdAt
+          updatedAt
+        }
+        location {
+          address
+          addressDetail
+          lat
+          lng
+        }
+        module_srl
+        createdAt
+        updatedAt
+        moduleSrl
+      }
+    }
+  }
+`;
+
 // 이메일 로그인
 export const EMAIL_SIGN_IN = gql`
   query emailSignIn($email: EmailAddress!, $password: Password!) {

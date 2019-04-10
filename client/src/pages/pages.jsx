@@ -8,6 +8,12 @@ export const Products = props => (
   </DynamicImport>
 );
 
+export const SuperMain = props => (
+  <DynamicImport load={() => import('./middleServer/super/SuperMainWrap')}>
+    {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
+  </DynamicImport>
+);
+
 export const Home = props => (
   <DynamicImport load={() => import('./middleServer/Home')}>
     {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}

@@ -7,18 +7,14 @@ import { reverseGeoCode, geoCode } from './mapHelper';
 import {
   useInput, useSelect, useFetch, useDebounce,
 } from '../../../actions/hook';
-import {
-  SELECT_HOUSE,
-} from '../../../clientQueries';
-import {
-  CREATE_HOUSE, GET_USER_INFO,
-} from '../../../queries';
+import { SELECT_HOUSE } from '../../../clientQueries';
+import { CREATE_HOUSE, GET_USER_INFO } from '../../../queries';
 import { ADDRESS_API_KEY } from '../../../keys';
 import utils, { ErrProtecter, toast } from '../../../utils/utils';
 import GoogleMap from './components/googleMap';
 import InputText from '../../../atoms/forms/InputText';
 import SelectBox from '../../../atoms/forms/SelectBox';
-import Button from '../../../atoms/button/Buttons';
+import Button from '../../../atoms/button/Button';
 import SearchInput from '../../../components/searchInput/SearchInput';
 import './MakeHouse.scss';
 
@@ -31,9 +27,7 @@ const MakeHouse = ({ history, google }) => {
   const typeSelectHook = useSelect(null);
   const [location, setlocation] = useState({ address: '', lat: 0, lng: 0 });
   const debouncedAdress = useDebounce(location.address, 500);
-  const addressGeturl = `http://www.juso.go.kr/addrlink/addrLinkApi.do?currentPage=1&resultType=json&countPerPage=100&keyword=${
-    debouncedAdress
-  }&confmKey=${ADDRESS_API_KEY}`;
+  const addressGeturl = `http://www.juso.go.kr/addrlink/addrLinkApi.do?currentPage=1&resultType=json&countPerPage=100&keyword=${debouncedAdress}&confmKey=${ADDRESS_API_KEY}`;
   const [adressData, adressLoading, getAdressError, adressGet] = useFetch(addressGeturl);
   const mapRef = useRef(null);
 

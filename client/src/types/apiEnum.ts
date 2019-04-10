@@ -1,6 +1,13 @@
 //= =============================================================
-// START Enums and Input Objects
+// START Enums from BackEnd
 //= =============================================================
+
+export enum UserRole {
+  ADMIN = 'ADMIN',
+  GHOST = 'GHOST',
+  GUEST = 'GUEST',
+  HOST = 'HOST',
+}
 
 export enum HouseType {
   GUEST_HOUSE = 'GUEST_HOUSE',
@@ -16,14 +23,9 @@ export enum PricingType {
   ROOM = 'ROOM',
 }
 
-export enum PricingTypeKr {
-  DOMITORY = '도미토리',
-  ROOM = '방 타입',
-}
-
 export enum RoomGender {
   FEMALE = 'FEMALE',
-  MAKE = 'MAKE',
+  MALE = 'MALE',
   MIXED = 'MIXED',
   SEPARATELY = 'SEPARATELY',
 }
@@ -54,5 +56,17 @@ export interface TermsOfRefundInput {
 }
 
 //= =============================================================
-// END Enums and Input Objects
+// START Enums from Front End
 //= =============================================================
+
+export enum PricingTypeKr {
+  DOMITORY = '도미토리',
+  ROOM = '방 타입',
+}
+
+export enum RoomGenderKr {
+  FEMALE = '여성',
+  MALE = '남성',
+  MIXED = '성별제한없음',
+  SEPARATELY = '혼숙금지',
+}

@@ -3,7 +3,7 @@ import { Mutation, Query } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import InputText from '../../atoms/forms/InputText';
 import Modal from '../../atoms/modal/Modal';
-import Button from '../../atoms/button/Buttons';
+import Button from '../../atoms/button/Button';
 import { useInput } from '../../actions/hook';
 import { ErrProtecter, toast } from '../../utils/utils';
 import {

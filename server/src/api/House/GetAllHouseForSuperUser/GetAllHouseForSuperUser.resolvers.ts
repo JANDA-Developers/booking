@@ -31,8 +31,7 @@ const resolvers: Resolvers = {
                         error: null,
                         allHouse: await Promise.all(
                             allHouse.map(async house => {
-                                return await extractHouse.bind(
-                                    extractHouse,
+                                return await extractHouse(
                                     house
                                 );
                             })

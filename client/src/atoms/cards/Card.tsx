@@ -1,11 +1,21 @@
 import PropTypes from 'prop-types';
-import classNames from 'classnames/bind';
+import classNames from 'classnames';
 import React from 'react';
+import { Node } from 'unist';
 import ErrProtecter from '../../utils/ErrProtecter';
 import './Card.scss';
 
-const JDcard = ({ children, hoverDark, ...props }) => {
-  const classes = classNames({
+interface IProps {
+  children: Node;
+  hoverDark: boolean;
+  className?: string;
+  props: React.HTMLAttributes<HTMLDivElement>;
+}
+
+const JDcard: React.SFC<IProps> = ({
+  children, hoverDark, className, ...props
+}) => {
+  const classes = classNames('JDcard', className, {
     JDcard: true,
     'JDcard--hoverDark': hoverDark,
   });
@@ -15,11 +25,6 @@ const JDcard = ({ children, hoverDark, ...props }) => {
       {children}
     </div>
   );
-};
-
-JDcard.propTypes = {
-  children: PropTypes.node.isRequired,
-  hoverDark: PropTypes.bool,
 };
 
 JDcard.defaultProps = {

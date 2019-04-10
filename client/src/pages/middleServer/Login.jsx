@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import Card from '../../atoms/cards/Card';
 import InputText from '../../atoms/forms/InputText';
-import Buttons from '../../atoms/button/Buttons';
+import Button from '../../atoms/button/Button';
 import './Login.scss';
 import { LOG_USER_IN } from '../../clientQueries';
 import { EMAIL_SIGN_IN, GET_USER_INFO } from '../../queries';
@@ -72,7 +72,7 @@ function Login({ client, history }) {
                 <form onSubmit={emailSignIn}>
                   <InputText {...emailHook} validation={utils.isEmail} label="Email" />
                   <InputText {...passwordHook} validation={utils.isPassword} type="password" label="Password" />
-                  <Buttons type="submit" thema="primary" label="로그인" />
+                  <Button type="submit" thema="primary" label="로그인" />
                 </form>
               );
             }}

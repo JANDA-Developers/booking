@@ -31,6 +31,10 @@
         width: $profileCircle-small-size;
         height: $profileCircle-small-size;
     }
+    &--tiny {
+        width: $profileCircle-tiny-size;
+        height: $profileCircle-tiny-size;
+    }
     &--whiteBorder {
         border-color:white;
     }

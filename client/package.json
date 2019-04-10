@@ -7,6 +7,8 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "@types/react-helmet": "^5.0.8",
+    "@types/react-modal": "^3.8.1",
     "@types/react-select": "^2.0.15",
     "apollo": "^2.6.2",
     "apollo-boost": "^0.1.23",
@@ -87,9 +89,12 @@
       "import/no-unresolved": "off",
       "typescript/no-unused-vars": "off",
       "array-callback-return": "off",
-      "camelcase": [0, {
-        "properties": "never"
-      }],
+      "camelcase": [
+        0,
+        {
+          "properties": "never"
+        }
+      ],
       "max-len": [
         1,
         120,
@@ -114,14 +119,21 @@
         }
       ]
     },
-    "overrides": [{
-      "files": ["**/*.ts", "**/*.tsx"],
-      "rules": {
-        "no-unused-vars": 0,
-        "no-undef": ["off"],
-        "react/prop-types": 0
+    "overrides": [
+      {
+        "files": [
+          "**/*.ts",
+          "**/*.tsx"
+        ],
+        "rules": {
+          "no-unused-vars": 0,
+          "no-undef": [
+            "off"
+          ],
+          "react/prop-types": 0
+        }
       }
-    }]
+    ]
   },
   "eslintIgnore": [
     "naverMap.js",

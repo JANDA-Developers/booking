@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from 'react';
 import './Header.scss';
 import { NavLink, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import Button from '../../atoms/button/Buttons';
+import Button from '../../atoms/button/Button';
 import TooltipList, { ReactTooltip } from '../../atoms/tooltipList/TooltipList';
 import ProfileCircle from '../../atoms/profileCircle/ProfileCircle';
 import CircleIcon from '../../atoms/circleIcon/CircleIcon';
@@ -65,7 +65,7 @@ const Header = ({
       {isLoggedIn ? (
         <Fragment>
           <span data-tip data-delay-hide={0} data-for="listAboutUser" data-event="click" className="header__profile">
-            <ProfileCircle isBordered whiteBorder small />
+            <ProfileCircle isBordered whiteBorder tiny />
           </span>
           <SelectBox
             placeholder="숙소를 생성해주세요."

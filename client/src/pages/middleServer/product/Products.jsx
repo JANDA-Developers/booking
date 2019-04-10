@@ -2,7 +2,7 @@
 import React, { useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Product from './components/Product';
-import Button from '../../../atoms/button/Buttons';
+import Button from '../../../atoms/button/Button';
 import Preloader from '../../../atoms/preloader/Preloader';
 import Modal from '../../../atoms/modal/Modal';
 import Slider from '../../../components/slider/Slider';

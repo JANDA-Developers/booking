@@ -23,7 +23,9 @@ import {
   Ready,
   AssigTimeline,
   ModifyTimeline,
+  SuperMain,
 } from './pages';
+import { UserRole } from '../types/apiEnum';
 
 // TODO: protoTypes에 정의 옮기자
 // lastSelectedHouse : 마지막으로 선택된 하우스 객체 정보값 파라미터에서만 사용합니다.
@@ -33,22 +35,23 @@ function JDmiddleServer({
     loading,
   },
   GetUserInfo: { GetMyProfile: { user = {} } = {}, loading: loading2 },
-  selectedHouse: { auth: { lastSelectedHouse = {} } = {}, loading: loading3 } = {},
-}) {
+  selectedHouse: { auth: { lastSelectedHouse = {} } = {}, loading: loading3 = false } = {},
+}: any) {
   //  유저 유저
   const [SideNavIsOpen, setSideNavIsOpen] = useToggle(false);
   const isloading = loading || loading2 || loading3;
   const houses = user.houses || [];
-  let selectedHouse = houses.filter(house => house._id === lastSelectedHouse.value)[0] || {};
+  let selectedHouse = houses.filter((house: { _id: any }): any => house._id === lastSelectedHouse.value)[0] || {};
 
   // 최근에 선택된 숙소가 없다면 선택된 숙소는 첫번째 숙소입니다.
   if (isEmpty(selectedHouse) && !isEmpty(houses)) [selectedHouse] = houses;
 
   const selectedProduct = selectedHouse.product || {};
-  const { isPhoneVerified } = user;
+  const { isPhoneVerified, userRole } = user;
 
-  console.log(selectedHouse);
-  console.log('-------------------------------');
+  console.log(userRole);
+  console.log(userRole);
+  console.log(userRole);
 
   return isloading ? (
     <Preloader page />
@@ -60,12 +63,13 @@ function JDmiddleServer({
       {/* 헤더에 정보전달 */}
       <Route
         render={() => (
+          // @ts-ignore
           <Header
-            sideNavOpener={setSideNavIsOpen}
             userInformation={user}
             isPhoneVerified={isPhoneVerified}
             lastSelectedHouse={selectedHouse}
             isLoggedIn={isLoggedIn}
+            sideNavOpener={setSideNavIsOpen}
           />
         )}
       />
@@ -134,8 +138,10 @@ function JDmiddleServer({
         <Route exact path="/middleServer/phoneVerification" component={isLoggedIn ? PhoneVerification : undefined} />
         {/* 회원가입 */}
         <Route exact path="/middleServer/signUp" component={isLoggedIn ? undefined : SignUp} />
-        {/* 회원가입ㅌ */}
+        {/* 회원가입 */}
         <Route exact path="/middleServer/login" component={isLoggedIn ? undefined : Login} />
+        {/* 슈퍼관리자 */}
+        <Route exact path="/middleServer/superAdmin" component={userRole === UserRole.ADMIN ? SuperMain : NoMatch} />
 
         {/* 대기 */}
         {isEmpty(selectedProduct) ? (
@@ -174,13 +180,12 @@ export default compose(
   graphql(IS_LOGGED_IN, { name: 'IsLoggedIn' }),
   graphql(GET_USER_INFO, {
     name: 'GetUserInfo',
-    skip: ({ IsLoggedIn }) => {
+    skip: ({ IsLoggedIn }: any) => {
       if (IsLoggedIn && IsLoggedIn.auth) {
         return !IsLoggedIn.auth.isLoggedIn;
       }
       return true;
     },
-    fetchPolicy: 'network-only',
   }),
   graphql(SELECTED_HOUSE, { name: 'selectedHouse' }),
 )(JDmiddleServer);

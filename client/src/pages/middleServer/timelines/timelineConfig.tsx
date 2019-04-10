@@ -94,7 +94,6 @@ const ModifydefaultProps = {
   defaultTimeEnd,
   fixedHeader: 'fixed',
   sidebarWidth: 360,
-  sidebarContent: <div className="modify__sideTop">방 설정</div>,
   canMove: false,
   canResize: false,
   canSelect: true,

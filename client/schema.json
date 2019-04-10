@@ -59,6 +59,22 @@
             "deprecationReason": null
           },
           {
+            "name": "GetAllHouseForSuperUser",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "GetAllHouseForSuperUserResponse",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "GetHouse",
             "description": "",
             "args": [
@@ -122,7 +138,7 @@
             "deprecationReason": null
           },
           {
-            "name": "GetRoomPriceWithDateRange",
+            "name": "GetRoomPrice",
             "description": "",
             "args": [
               {
@@ -173,7 +189,7 @@
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "GetRoomPriceWithDateRangeResponse",
+                "name": "GetRoomPriceResponse",
                 "ofType": null
               }
             },
@@ -181,7 +197,7 @@
             "deprecationReason": null
           },
           {
-            "name": "GetSeasonPriceWithDateRange",
+            "name": "GetSeasonPrice",
             "description": "",
             "args": [
               {
@@ -232,7 +248,7 @@
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "GetSeasonPriceWithDateRangeResponse",
+                "name": "GetSeasonPriceResponse",
                 "ofType": null
               }
             },
@@ -712,6 +728,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "DateTime",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "moduleSrl",
+            "description": "Legarcy",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
               "ofType": null
             },
             "isDeprecated": false,
@@ -1605,6 +1633,65 @@
       },
       {
         "kind": "OBJECT",
+        "name": "GetAllHouseForSuperUserResponse",
+        "description": "",
+        "fields": [
+          {
+            "name": "ok",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "error",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "allHouse",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "House",
+                  "ofType": null
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
         "name": "GetHouseResponse",
         "description": "",
         "fields": [
@@ -1774,7 +1861,7 @@
       },
       {
         "kind": "OBJECT",
-        "name": "GetRoomPriceWithDateRangeResponse",
+        "name": "GetRoomPriceResponse",
         "description": "",
         "fields": [
           {
@@ -1896,6 +1983,34 @@
                 "name": "DateTime",
                 "ofType": null
               }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "createdAt",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "updatedAt",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "DateTime",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -2166,6 +2281,18 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "roomTemplateSrl",
+            "description": "Legarcy",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -2205,7 +2332,7 @@
         "interfaces": null,
         "enumValues": [
           {
-            "name": "MAKE",
+            "name": "MALE",
             "description": "",
             "isDeprecated": false,
             "deprecationReason": null
@@ -2396,6 +2523,18 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "roomSrl",
+            "description": "Legarcy",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -2405,7 +2544,7 @@
       },
       {
         "kind": "OBJECT",
-        "name": "GetSeasonPriceWithDateRangeResponse",
+        "name": "GetSeasonPriceResponse",
         "description": "",
         "fields": [
           {
@@ -3552,6 +3691,20 @@
                 "defaultValue": null
               },
               {
+                "name": "roomTemplateSrl",
+                "description": "",
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null
+              },
+              {
                 "name": "pricingType",
                 "description": "",
                 "type": {
@@ -3595,6 +3748,26 @@
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "roomGender",
+                "description": "",
+                "type": {
+                  "kind": "ENUM",
+                  "name": "RoomGender",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "img",
+                "description": "",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "URL",
                   "ofType": null
                 },
                 "defaultValue": null
@@ -4596,7 +4769,7 @@
           },
           {
             "name": "CreateRoomPrice",
-            "description": "",
+            "description": "만약 RoomTypeId로 조회한 방타입이 해당 날짜에 RoomPrice가 존재한다면 가격 덮어 씌움",
             "args": [
               {
                 "name": "price",
@@ -5205,6 +5378,16 @@
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "img",
+                "description": "",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "URL",
                   "ofType": null
                 },
                 "defaultValue": null

@@ -4,9 +4,12 @@ import { toast } from 'react-toastify';
 import Modal from '../../../../atoms/modal/Modal';
 import SelectBox, { IselectedOption } from '../../../../atoms/forms/SelectBox';
 import InputText from '../../../../atoms/forms/InputText';
-import Button from '../../../../atoms/button/Buttons';
+import Button from '../../../../atoms/button/Button';
 import JDLabel from '../../../../atoms/label/JDLabel';
 import ImageUploader from '../../../../components/imageUploader/ImageUploader';
+import {
+  PricingType, RoomGender, PricingTypeKr, RoomGenderKr,
+} from '../../../../types/apiEnum';
 
 interface IProps {
   createRoomTypeMutation: any;
@@ -77,7 +80,17 @@ const RoomTypeModal: React.SFC<IProps> = ({
     maxPeopleCountOption.push({ value: i, label: `${i}명` });
   }
 
-  const pricingTypeOptions = [{ value: 'DOMITORY', label: '도미토리' }, { value: 'ROOM', label: '방단위' }];
+  const pricingTypeOptions = [
+    { value: PricingType.DOMITORY, label: PricingTypeKr.DOMITORY },
+    { value: PricingType.ROOM, label: PricingTypeKr.ROOM },
+  ];
+
+  const genderOptions = [
+    { value: RoomGender.MIXED, label: RoomGenderKr.MIXED },
+    { value: RoomGender.SEPARATELY, label: RoomGenderKr.SEPARATELY },
+    { value: RoomGender.MALE, label: RoomGenderKr.MALE },
+    { value: RoomGender.FEMALE, label: RoomGenderKr.FEMALE },
+  ];
 
   return (
     <Modal
@@ -137,15 +150,15 @@ const RoomTypeModal: React.SFC<IProps> = ({
           <SelectBox
             label="방성별선택"
             disabled={false}
-            onChange={(inValue: any) => {
-              setValue({ ...value, pricingType: inValue });
+            onChange={(inValue: IselectedOption) => {
+              setValue({ ...value, roomGender: inValue });
             }}
-            options={pricingTypeOptions}
-            selectedOption={value.pricingType}
+            options={genderOptions}
+            selectedOption={value.roomGender}
           />
         </div>
         <div className="flex-grid__col flex-grid__col--vertical col--full-12 col--lg-12 col--md-12">
-          <JDLabel txt="방사진업로드" />
+          <JDLabel txt="방사진" />
           <ImageUploader {...roomImageHook} minHeight="200px" />
         </div>
         <div className="flex-grid__col col--full-12 col--lg-12 col--md-12">

@@ -2,7 +2,7 @@
 // http://react-day-picker.js.org/examples/elements-navbar
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from '../../atoms/button/Buttons';
+import Button from '../../atoms/button/Button';
 import { JDMonthTextChanger } from '../../utils/utils';
 
 const Navbar = ({

@@ -3,7 +3,7 @@ import Modal from '../../atoms/modal/Modal';
 import { useInput, useSelect } from '../../actions/hook';
 import SelectBox from '../../atoms/forms/SelectBox';
 import InputText from '../../atoms/forms/InputText';
-import Button from '../../atoms/button/Buttons';
+import Button from '../../atoms/button/Button';
 import DayPicker from '../dayPicker/DayPicker';
 
 const POPbookerInfo = ({ bookerModalIsOpen, bookerInfo, bookerModalClose }) => {

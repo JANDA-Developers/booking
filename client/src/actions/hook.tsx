@@ -145,10 +145,10 @@ function useCheckBox(defaultValue: boolean) {
 }
 
 // NAME SPACE
-function useRadio(defaultValue: boolean) {
+function useRadio(defaultValue: any = '') {
   const [value, setValue] = useState(defaultValue);
 
-  const onChange = (value: boolean) => {
+  const onChange = (value: any) => {
     setValue(value);
   };
 
@@ -167,7 +167,7 @@ function useSwitch(defaultValue: boolean) {
 }
 
 // NAME SPACE
-function useSelect(defaultValue: any) {
+function useSelect(defaultValue: any = {}) {
   const [selectedOption, setSelectedOption] = useState(defaultValue);
 
   const onChange = (value: any) => {
@@ -202,14 +202,14 @@ function useModal(defaultValue: boolean) {
   return [isOpen, openModal, closeModal];
 }
 
-export interface TuseModal {
+export interface TUseModal {
   isOpen: boolean;
   openModal: (inInfo: any) => void;
   closeModal: () => void;
   info: any;
 }
 
-function useModal2<TuseModal>(defaultValue: boolean, defaultInfo: any = {}) {
+function useModal2<TUseModal>(defaultValue: boolean, defaultInfo: any = {}) {
   const [isOpen, setIsOpen] = useState(defaultValue);
   const [info, setInfo] = useState(defaultInfo);
 

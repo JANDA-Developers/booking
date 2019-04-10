@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import Button from '../../atoms/button/Buttons';
+import Button from '../../atoms/button/Button';
 import './Home.scss';
 import { ErrProtecter, toast, isEmpty } from '../../utils/utils';
 

@@ -9,11 +9,12 @@ import Radio from '../../../atoms/forms/Radio';
 import SearchInput from '../../../components/searchInput/SearchInput';
 import SideNav from '../../../components/sideNav/SideNav';
 import SelectBox from '../../../atoms/forms/SelectBox';
+import JDbadge from '../../../atoms/badge/Badge';
 import DayPicker from '../../../components/dayPicker/DayPicker';
 import Pagination from '../../../components/pagination/Pagination';
 import ImageUploader from '../../../components/imageUploader/ImageUploader';
 import CircleIcon from '../../../atoms/circleIcon/CircleIcon';
-import Button from '../../../atoms/button/Buttons';
+import Button from '../../../atoms/button/Button';
 import Preloader from '../../../atoms/preloader/Preloader';
 import SliderExample from './examples/example_slider';
 import SliderExample2 from './examples/example_slider2';
@@ -26,7 +27,14 @@ import {
 import utils from '../../../utils/utils';
 import Icon, { icons } from '../../../atoms/icons/Icons';
 import {
-  useInput, useCheckBox, useRadio, useSwitch, useSelect, useToggle, useModal, useImageUploader,
+  useInput,
+  useCheckBox,
+  useRadio,
+  useSwitch,
+  useSelect,
+  useToggle,
+  useModal,
+  useImageUploader,
 } from '../../../actions/hook';
 import './ShowComponent.scss';
 
@@ -34,14 +42,13 @@ function ShowComponents() {
   const [isOpen, openModal, closeModal] = useModal(false);
   // the wayMake a Controlled Value
   const inputVali = useInput('1232');
-  const checkHook = useCheckBox();
-  // eslint-disable-next-line no-unused-vars
+  const checkHook = useCheckBox(false);
   const [value, setValue] = useRadio('');
-  const useSelect1 = useSelect(null);
-  const useSelect2 = useSelect(null);
-  const useSelect3 = useSelect(null);
+  const useSelect1 = useSelect();
+  const useSelect2 = useSelect();
+  const useSelect3 = useSelect();
   const switchHook = useSwitch(false);
-  const refContainer = useRef(null);
+  const refContainer = useRef();
   const [SideNavIsOpen, setSideNavIsOpen] = useToggle(false);
   const imageUploaderHook = useImageUploader();
 
@@ -229,6 +236,16 @@ function ShowComponents() {
           <div className="flex-grid__col col--full-4 col--wmd-12">
             <ImageUploader minHeight="200px" {...imageUploaderHook} />
           </div>
+        </div>
+
+        {/* 뱃지 */}
+        <h6>Badge</h6>
+        <div className="docs-section__box flex-grid">
+          <JDbadge thema="white">white</JDbadge>
+          <JDbadge thema="black">black</JDbadge>
+          <JDbadge thema="primary">primary</JDbadge>
+          <JDbadge thema="secondary">secondary</JDbadge>
+          <JDbadge thema="new">new</JDbadge>
         </div>
 
         {/* 버튼 */}
