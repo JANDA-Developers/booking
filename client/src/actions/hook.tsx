@@ -109,8 +109,15 @@ function useDebounce(value: any, delay: number) {
   return debouncedValue;
 }
 
+export interface TUseInput {
+  value: string;
+  openModal: (inInfo: any) => void;
+  onChange: (foo: string) => void;
+  info: any;
+}
+
 // 밸리데이션을 포함한 훅 리턴
-function useInput(defaultValue: string, defulatValid: boolean | string = '') {
+function useInput<TUseInput>(defaultValue: string, defulatValid: boolean | string = '') {
   const [value, setValue] = useState(defaultValue);
   const [isValid, setIsValid] = useState(defulatValid);
 
