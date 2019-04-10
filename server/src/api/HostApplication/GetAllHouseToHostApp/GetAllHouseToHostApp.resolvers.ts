@@ -4,7 +4,7 @@ import {
     GetAllHouseToHostAppResponse
 } from "../../../types/graph";
 import { UserModel } from "../../../models/User";
-import { extractHouses } from "../../../models/merge/merge";
+import { transformHouses } from "../../../models/merge/merge";
 
 const resolvers: Resolvers = {
     Query: {
@@ -33,7 +33,7 @@ const resolvers: Resolvers = {
                         houses: []
                     };
                 }
-                const houses = await extractHouses(user.houses);
+                const houses = await transformHouses(user.houses);
 
                 return {
                     ok: true,

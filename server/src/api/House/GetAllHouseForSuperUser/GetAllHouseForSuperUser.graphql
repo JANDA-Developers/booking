@@ -1,8 +1,0 @@
-type GetAllHouseForSuperUserResponse {
-    ok: Boolean!
-    error: String
-    allHouse: [House!]
-}
-type Query {
-    GetAllHouseForSuperUser: GetAllHouseForSuperUserResponse!
-}

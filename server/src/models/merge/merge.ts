@@ -43,7 +43,7 @@ export const extractUser = async (
         ...extractResult._doc,
         _id: user._id.toString(),
         password: null,
-        houses: await extractHouses.bind(extractHouses, user.houses)
+        houses: await transformHouses.bind(transformHouses, user.houses)
     };
 };
 
@@ -97,7 +97,7 @@ export const transformHouse = async (
     }
 };
 
-export const extractHouses = async (
+export const transformHouses = async (
     houseIds: Types.ObjectId[]
 ): Promise<House[]> => {
     try {
@@ -111,6 +111,24 @@ export const extractHouses = async (
     } catch (error) {
         throw error;
     }
+};
+
+export const extractHouses = async (
+    houseTypes: InstanceType<HouseSchema>[]
+): Promise<House[]> => {
+    return await Promise.all(
+        houseTypes.map(
+            async (house: InstanceType<HouseSchema>): Promise<House> => {
+                return {
+                    ...(await extractHouse(house)),
+                    roomTypes: await extractRoomTypes.bind(
+                        extractRoomTypes,
+                        house.roomTypes
+                    )
+                };
+            }
+        )
+    );
 };
 
 export const extractRoomType = async (
@@ -221,6 +239,18 @@ export const extractSeason = async (
             extractResult._doc.house
         )
     };
+};
+
+export const extractSeasons = async (
+    seasons: InstanceType<SeasonSchema>[]
+): Promise<Season[]> => {
+    return await Promise.all(
+        seasons.map(
+            async (season: InstanceType<SeasonSchema>): Promise<Season> => {
+                return await extractSeason(season);
+            }
+        )
+    );
 };
 
 export const transformSeason = async (
