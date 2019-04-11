@@ -1,10 +1,10 @@
 import dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
+import fs from "fs";
 import { Options } from "graphql-yoga";
 import { connect } from "mongoose";
 import app from "./app";
-import fs from "fs";
 
 const isDev: boolean = process.env.NODE_ENV === "development";
 const PORT: number | string = process.env.PORT || 4000;
@@ -18,7 +18,7 @@ const appOptions: Options = {
     endpoint: GRAPHQL_ENDPOINT
 };
 
-if(!isDev){
+if (!isDev) {
     appOptions.https = {
         key: fs.readFileSync(process.env.SSL_KEY_PATH || "", "utf-8"),
         cert: fs.readFileSync(process.env.SSL_CERT_PATH || "", "utf-8")

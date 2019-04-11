@@ -6,8 +6,8 @@ import { extractHouses } from "../../../models/merge/merge";
 import { extractEdges } from "../../../models/merge/pagination";
 import { UserSchema } from "../../../models/User";
 import {
-    GetHousesForSuperUserQueryArgs,
-    GetHousesForSuperUserResponse,
+    GetHousesForSuQueryArgs,
+    GetHousesForSUResponse,
     House
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
@@ -16,12 +16,12 @@ import privateResolver from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Query: {
-        GetHousesForSuperUser: privateResolver(
+        GetHousesForSU: privateResolver(
             async (
                 _,
-                { first, cursor, sort, filter }: GetHousesForSuperUserQueryArgs,
+                { first, cursor, sort, filter }: GetHousesForSuQueryArgs,
                 { req }
-            ): Promise<GetHousesForSuperUserResponse> => {
+            ): Promise<GetHousesForSUResponse> => {
                 try {
                     const user: InstanceType<UserSchema> = req.user;
                     // first: 시작부터 몇 개의 데이터를 출력할지 지정.
