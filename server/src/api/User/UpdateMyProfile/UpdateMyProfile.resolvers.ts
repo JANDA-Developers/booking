@@ -13,7 +13,7 @@ const resolvers: Resolvers = {
         UpdateMyProfile: privateResolver(
             async (
                 _,
-                {password, ...args}: UpdateMyProfileMutationArgs,
+                { password, ...args }: UpdateMyProfileMutationArgs,
                 { req }
             ): Promise<UpdateMyProfileResponse> => {
                 // todo: 바꿀만한 정보가 없어서 일단 그냥 둠... 받는 데이터가 많아지면 변경하기
@@ -21,16 +21,9 @@ const resolvers: Resolvers = {
                 const comparePassword = await user.comparePassword(password);
                 try {
                     if (comparePassword) {
-                        await user.update(
-                            {
-                                name: args.name,
-                                phoneNumber: args.phoneNumber,
-                                email: args.email
-                            },
-                            {
-                                new: true
-                            }
-                        );
+                        await user.update(args, {
+                            new: true
+                        });
                         return {
                             ok: true,
                             error: null,
@@ -41,14 +34,14 @@ const resolvers: Resolvers = {
                             ok: false,
                             error: "패스워드가 틀렸습니다",
                             user: null
-                        }
+                        };
                     }
                 } catch (error) {
                     return {
                         ok: false,
                         error: error.message,
                         user: null
-                    }
+                    };
                 }
             }
         )

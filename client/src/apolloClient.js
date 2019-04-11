@@ -1,8 +1,12 @@
 import ApolloClient from 'apollo-boost';
+import dotenv from 'dotenv';
 import uri from './uri';
 import resolvers from './resolvers';
-import dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+
+dotenv.config({
+  path: '../.env',
+});
+
 
 const client = new ApolloClient({
   clientState: {
@@ -13,7 +17,7 @@ const client = new ApolloClient({
         lastSelectedHouse: {
           __typename: 'House',
           value: localStorage.getItem('selectId'),
-          label: localStorage.getItem('selectHouseLabel')
+          label: localStorage.getItem('selectHouseLabel'),
         },
       },
     },
@@ -27,6 +31,7 @@ const client = new ApolloClient({
     });
   },
   uri,
+  credentials: 'omit',
 });
 
 export default client;

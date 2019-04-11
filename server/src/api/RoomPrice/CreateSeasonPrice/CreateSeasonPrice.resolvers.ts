@@ -39,7 +39,10 @@ const resolvers: Resolvers = {
                         return {
                             ok: true,
                             error: null,
-                            seasonPrice: await extractSeasonPrice.bind(extractSeasonPrice, seasonPrice)
+                            seasonPrice: await extractSeasonPrice.bind(
+                                extractSeasonPrice,
+                                seasonPrice
+                            )
                         };
                     } else {
                         return {

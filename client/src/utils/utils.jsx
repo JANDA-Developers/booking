@@ -10,6 +10,10 @@ import {
   isEmail, isPhone, isName, isUrl, isMaxOver, isPassword,
 } from './InputValidation';
 import searchListFormat from './SearchListFormat';
+import onError from './ApolloError';
+import onCompletedMessage from './ApolloOnCompleted';
+import QueryDataFormater from './QueryDataFormat';
+import OnError, {showError} from './ApolloError';
 
 const JDutils = {
   ErrProtecter,
@@ -26,9 +30,22 @@ const JDutils = {
   toast,
   download,
   autoHypen,
+  onCompletedMessage,
+  QueryDataFormater,
 };
 
 export default JDutils;
 export {
-  JDMonthTextChanger, JDWeekChanger, isEmpty, NEUTRAL, toast, download, ErrProtecter, autoHypen,
+  onCompletedMessage,
+  JDMonthTextChanger,
+  JDWeekChanger,
+  isEmpty,
+  NEUTRAL,
+  toast,
+  download,
+  ErrProtecter,
+  autoHypen,
+  onError,
+  showError,
+  QueryDataFormater,
 };

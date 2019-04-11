@@ -19,6 +19,8 @@ const resolvers: Resolvers = {
         ): Promise<UpdateBookingResponse> => {
             const booking = await BookingModel.findById(bookingId);
             console.log(booking);
+            // start, end 날짜를 변경하는 경우. 
+            // booking 에 해당하는것들 다 변경해야됨...?
             
             return {
                 ok: false,

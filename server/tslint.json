@@ -1,22 +1,16 @@
 {
-    "extends": [
-        "tslint:recommended",
-        "tslint-config-prettier"
-    ],
+    "extends": ["tslint:recommended", "tslint-config-prettier"],
     "linterOptions": {
-        "exclude": [
-            "config/**/*.js",
-            "node_modules/**/*.",
-            "../client/*"
-        ]
+        "exclude": ["config/**/*.js", "node_modules/**/*.", "../client/*"]
     },
     "rules": {
+        "prettier": true,
         "no-console": false,
         "member-access": false,
         "object-literal-sort-keys": false,
         "ordered-imports": true,
         "interface-name": false,
-        "strict-null-checks": false,
+        "strict-null-checks": false
     },
     "rulesDirectory": []
 }

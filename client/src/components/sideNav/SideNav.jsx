@@ -5,7 +5,7 @@ import './SideNav.scss';
 import classNames from 'classnames/bind';
 import ErrProtecter from '../../utils/ErrProtecter';
 import Icon from '../../atoms/icons/Icons';
-import Button from '../../atoms/button/Buttons';
+import Button from '../../atoms/button/Button';
 import ProfileCircle from '../../atoms/profileCircle/ProfileCircle';
 import profileImg from '../../img/profile/default_profile.jpg';
 

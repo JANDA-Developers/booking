@@ -7,8 +7,9 @@ import {
     prop,
     Typegoose
 } from "typegoose";
+import { UserRole } from "../types/graph";
 
-export enum UserRole {
+export enum UserRoleEnum {
     ADMIN = "ADMIN",
     HOST = "HOST",
     BOOKER = "BOOKER",
@@ -35,8 +36,11 @@ export class UserSchema extends Typegoose {
     @prop({ default: false })
     isEmailVerified: boolean;
 
-    @prop({ enum: UserRole, default: UserRole.GHOST })
+    @prop({ enum: UserRoleEnum, default: UserRoleEnum.GHOST })
     userRole: UserRole;
+
+    @prop()
+    profileImg: string;
 
     @prop({ default: false })
     checkPrivacyPolicy: boolean;

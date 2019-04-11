@@ -3,7 +3,7 @@ type UpdateMyProfileResponse {
     error: String
     user: User
 }
-type ChangePasswordResponse{
+type ChangePasswordResponse {
     ok: Boolean!
     error: String
 }
@@ -11,6 +11,7 @@ type Mutation {
     UpdateMyProfile(
         name: Name!
         password: Password!
+        profileImg: URL
         phoneNumber: PhoneNumber
         email: EmailAddress
     ): UpdateMyProfileResponse!

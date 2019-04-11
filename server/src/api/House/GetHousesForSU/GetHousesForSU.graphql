@@ -1,0 +1,22 @@
+type GetHousesForSUResponseCursor {
+    edges: [HouseEdge!]
+    pageInfo: PageInfo!
+    totalCount: Int!
+}
+type GetHousesForSUResponse {
+    ok: Boolean!
+    error: String
+    result: GetHousesForSUResponseCursor
+}
+type HouseEdge {
+    cursor: String
+    node: House
+}
+type Query {
+    GetHousesForSU(
+        first: Int!
+        cursor: String
+        sort: HouseSortInput
+        filter: HouseFilter
+    ): GetHousesForSUResponse!
+}

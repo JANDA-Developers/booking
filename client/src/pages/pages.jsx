@@ -2,8 +2,20 @@ import React from 'react';
 import DynamicImport from '../utils/DynamicImport';
 import Preloader from '../atoms/preloader/Preloader';
 
+export const SetPrice = props => (
+  <DynamicImport load={() => import('./middleServer/setPrice/SetPriceWrap')}>
+    {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
+  </DynamicImport>
+);
+
 export const Products = props => (
   <DynamicImport load={() => import('./middleServer/product/ProductsWrap')}>
+    {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
+  </DynamicImport>
+);
+
+export const SuperMain = props => (
+  <DynamicImport load={() => import('./middleServer/super/SuperMainWrap')}>
     {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
   </DynamicImport>
 );

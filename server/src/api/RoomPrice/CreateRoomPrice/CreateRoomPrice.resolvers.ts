@@ -16,35 +16,28 @@ const resolvers: Resolvers = {
                 { roomTypeId, ...args }: CreateRoomPriceMutationArgs
             ): Promise<CreateRoomPriceResponse> => {
                 try {
-                    const roomPrice = new RoomPriceModel({
-                        roomType: new ObjectId(roomTypeId),
-                        ...args
-                    });
-                    // 날짜 중복 검사 해야됨...
-                    const existingRoomPrice = await RoomPriceModel.find({
+                    let existRoomPrice = await RoomPriceModel.findOne({
                         roomType: new ObjectId(roomTypeId),
                         date: new Date(args.date)
                     });
-                    console.log({
-                        existingRoomPrice
-                    });
-                    
-                    if (existingRoomPrice.length === 0) {
-                        await roomPrice.save();
-                        return {
-                            ok: false,
-                            error: null,
-                            roomPrice: await extractRoomPrice.bind(
-                                extractRoomPrice, roomPrice
-                            )
-                        };
+
+                    if (existRoomPrice) {
+                        existRoomPrice.price = args.price;
+                        await existRoomPrice.save();
                     } else {
-                        return {
-                            ok: false,
-                            error: "해당 날짜에 이미 RoomPrice가 존재합니다",
-                            roomPrice: null
-                        };
+                        existRoomPrice = await new RoomPriceModel({
+                            roomType: new ObjectId(roomTypeId),
+                            ...args
+                        }).save();
                     }
+                    return {
+                        ok: true,
+                        error: null,
+                        roomPrice: await extractRoomPrice.bind(
+                            extractRoomPrice,
+                            existRoomPrice
+                        )
+                    };
                 } catch (error) {
                     return {
                         ok: false,

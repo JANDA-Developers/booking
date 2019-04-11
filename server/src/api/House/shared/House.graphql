@@ -7,8 +7,14 @@ type House {
     location: Location!
     refundPolicy: [TermsOfRefund!]!
     termsOfBooking: TermsOfBooking!
+    roomTypes: [RoomType!]
+    # Legarcy 연동을 위한 module_srl...
+    module_srl: Int
     createdAt: DateTime!
     updatedAt: DateTime
+
+    # Legarcy
+    moduleSrl: Int
 }
 
 enum HouseType {
@@ -50,4 +56,19 @@ input TermsOfBookingInput {
     nearestSelectableDate: Int!
     # 선택 가능 날짜 범위
     selectableDateRange: Int!
+}
+
+input HouseSortInput {
+    key: HouseSortKeyEnum!
+    order: Int!
+}
+
+input HouseFilter {
+    houseType: HouseType
+}
+
+enum HouseSortKeyEnum {
+    _id
+    updatedAt
+    createdAt
 }

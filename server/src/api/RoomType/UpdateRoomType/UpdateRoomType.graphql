@@ -10,6 +10,7 @@ type Mutation {
         name: String
         peopleCount: Int
         peopleCountMax: Int
+        img: URL
         description: String
     ): UpdateRoomTypeResponse!
 }

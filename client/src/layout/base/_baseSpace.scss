@@ -9,12 +9,13 @@
 .JDradio+*,
 .JDselect+*,
 .JDbtn+*,
-.circleIcon+* {
+.circleIcon+*,
+.profileCircle+* {
     margin-left: $standard-space;
 }
 
 // 버튼 사이의 간격
-.JDbtn+.JDbtn {
+.JDbtn+.JDbtn, .JDbtn + a {
     margin-left: $buttons-space;
 }
 
@@ -33,6 +34,7 @@
 .circleIcon,
 .imageUploader,
 .JDslider,
-.JDpagination  {
+.JDpagination,
+.JDcard  {
     margin-bottom: $standard-margin-bottom;
 }

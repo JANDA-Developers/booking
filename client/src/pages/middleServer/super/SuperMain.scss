@@ -1,0 +1,13 @@
+
+@import '../../../style_config/style_config.scss';
+
+.houseCard {
+    display:flex;
+    align-items: center;
+    margin-bottom: $standard-margin-bottom / 2;
+    &__gird {
+        flex-grow: 1;
+    }
+    &__profile {
+    }
+}

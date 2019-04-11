@@ -60,7 +60,7 @@ const ProductsWrap = ({
       '숙소홈페이지 셋팅 체험',
       '실시간 예약 체험',
       '하우스메뉴얼 체험',
-      <span className="JDpoint-text">본상품은 예약이 불가능합니다.</span>,
+      <span className="JDtextColor--secondary">본상품은 예약이 불가능합니다.</span>,
     ],
     isSelected: selectedProductTypeId === testProductId,
     isCurrent: currentProductTypeId === testProductId,
@@ -134,10 +134,9 @@ const ProductsWrap = ({
           toast.success('서비스 적용 완료');
           // 체험상품을 선택했을경우에
           if (testProductId === selectedProductTypeId) {
-            download(
-              manual,
-              '홈페이지 사용 메뉴얼.hwp',
-            ).then(() => { toast.success('메뉴얼 다운로드 완료'); });
+            download(manual, '홈페이지 사용 메뉴얼.hwp').then(() => {
+              toast.success('메뉴얼 다운로드 완료');
+            });
             demoModal.openModal();
             return;
           }

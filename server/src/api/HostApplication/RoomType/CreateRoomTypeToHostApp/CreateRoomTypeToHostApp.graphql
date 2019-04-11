@@ -8,10 +8,13 @@ type Mutation {
     # 로그인 token 필요함!
     CreateRoomTypeToHostApp(
         name: String!
+        roomTemplateSrl: Int!
         pricingType: PricingType!
         peopleCount: Int!
         peopleCountMax: Int
         description: String
+        roomGender: RoomGender
+        img: URL
         tags: [TagInput!]
     ): CreateRoomTypeToHostAppResponse!
 }

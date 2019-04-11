@@ -36,7 +36,7 @@ const ImageUploader: React.SFC<IProps> = ({
     <div className="imageUploader" style={!uploading && !fileUrl ? undefined : imageUploaderStyle}>
       <input className="imageUploader__input" onChange={onChange} id="photo" type="file" accept="image/*" />
       <div className="imageUploader__image" style={imageStyle} />
-      { uploading && <Preloader /> }
+      {uploading && <Preloader />}
     </div>
   );
 };

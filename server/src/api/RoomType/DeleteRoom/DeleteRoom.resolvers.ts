@@ -13,8 +13,7 @@ const resolvers: Resolvers = {
         DeleteRoom: privateResolver(
             async (
                 _,
-                { roomId }: DeleteRoomMutationArgs,
-                __
+                { roomId }: DeleteRoomMutationArgs
             ): Promise<DeleteRoomResponse> => {
                 try {
                     const existingRoom = await RoomModel.findById(roomId);
