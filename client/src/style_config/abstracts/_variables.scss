@@ -40,6 +40,8 @@ $success-color: '-' !default;
 $background-color: #fff;
 //TODO  여기 warn으로 이름교체
 $error-color: #ff6760 !default;
+$warn-color: #ff6760 !default;
+$warn-color-light: #ff9892 !default;
 $link-color: rgb(66, 62, 199) !default;
 $link-color-active: rgb(48, 45, 131) !default;
 $grey-level1: #EBEBEB !default; // 흰색 effect-dark 받을때 컬러 오버랩을 원치 않을때 사용

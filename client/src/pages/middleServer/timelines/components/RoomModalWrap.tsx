@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { ApolloError } from 'apollo-boost';
 import { Mutation } from 'react-apollo';
-import { useInput, TUseModal } from '../../../../actions/hook';
+import { useInput, IUseModal } from '../../../../actions/hook';
 import {
   ErrProtecter, toast, onError, onCompletedMessage,
 } from '../../../../utils/utils';
@@ -25,7 +25,7 @@ class DeleteRoomMutation extends Mutation<deleteRoom, deleteRoomVariables> {}
 class UpdateRoomMutation extends Mutation<updateRoom, updateRoomVariables> {}
 
 interface IProps {
-  modalHook: TUseModal;
+  modalHook: IUseModal;
   refetchRoomData: any;
   selectedHouseId: string;
   roomData: getAllRoomType_GetAllRoomType_roomTypes[] | null | undefined;

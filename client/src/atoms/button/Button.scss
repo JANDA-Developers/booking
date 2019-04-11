@@ -62,13 +62,13 @@
     }
   }
 
-  // &.JDbtn--warn {
-  //   background-color: $warn-color;
-  //   color: #fff;
-  //   &:hover {
-  //     background-color: $warn-color-light
-  //   }
-  // }
+  &.JDbtn--warn {
+    background-color: $warn-color;
+    color: #fff;
+    &:hover {
+      background-color: $warn-color-light
+    }
+  }
 
   // Colors
   &--white {

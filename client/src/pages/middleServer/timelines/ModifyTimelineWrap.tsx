@@ -8,7 +8,9 @@ import { useToggle, useModal2 } from '../../../actions/hook';
 import ModifyTimeline from './ModifyTimeline';
 import { ModifydefaultProps } from './timelineConfig';
 import { GET_ALL_ROOMTYPES } from '../../../queries';
-import { ErrProtecter, toast, isEmpty, QueryDataFormater, showError } from '../../../utils/utils';
+import {
+  ErrProtecter, toast, isEmpty, QueryDataFormater, showError,
+} from '../../../utils/utils';
 import RoomTypeModal from './components/RoomTypeModalWrap';
 import RoomModal from './components/RoomModalWrap';
 
@@ -77,8 +79,13 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
       variables={{ houseId: selectedHouse._id }}
     >
       {({ data: roomData, loading, error }) => {
-        showError(error)
-        const roomTypesData: roomTypes[] | undefined = QueryDataFormater(roomData,'GetAllRoomType','roomTypes',undefined); // 원본데이터
+        showError(error);
+        const roomTypesData: roomTypes[] | undefined = QueryDataFormater(
+          roomData,
+          'GetAllRoomType',
+          'roomTypes',
+          undefined,
+        ); // 원본데이터
         const formatedRoomData = roomDataManufacture(roomTypesData); // 타임라인을 위해 가공된 데이터
         return (
           // 방생성 뮤테이션

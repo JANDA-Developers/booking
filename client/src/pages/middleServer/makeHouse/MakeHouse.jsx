@@ -182,6 +182,7 @@ const MakeHouse = ({ history, google }) => {
                 },
               }}
               refetchQueries={[{ query: GET_USER_INFO }]}
+              awaitRefetchQueries
               onError={(error) => {
                 console.error(error);
               }}

@@ -102,7 +102,7 @@ const ModifyTimeline: React.SFC<IProps> = ({
     );
   };
   // 사이드 탑 렌더
-  const modifySideBarRendererFn = () => <div className="modify__sideTop"></div>;
+  const modifySideBarRendererFn = () => <div className="modify__sideTop" />;
 
   return (
     <div id="ModifyTimeline" className="container container--full">

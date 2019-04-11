@@ -151,7 +151,8 @@ const Products = ({
       </Modal>
       {/* 툴팁  : disabled */}
       <Tooltip
-        getContent={isCurrent => (isCurrent !== 'false' ? <span>현재 적용된 서비스</span> : <span>핸드폰 인증후 사용가능</span>)}
+        getContent={isCurrent => (isCurrent !== 'false' ? <span>현재 적용된 서비스</span> : <span>핸드폰 인증후 사용가능</span>)
+        }
         class="JDtooltip"
         clickable
         id="tooltip__disabled"

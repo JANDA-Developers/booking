@@ -1,36 +1,50 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect } from 'react';
 import { toast } from 'react-toastify';
+import { SketchPicker } from 'react-color';
 import Modal from '../../../../atoms/modal/Modal';
 import InputText from '../../../../atoms/forms/InputText';
 import Button from '../../../../atoms/button/Button';
 import utils from '../../../../utils/utils';
-import { TUseModal, TUseInput } from '../../../../actions/hook';
+import { IUseModal, TUseInput } from '../../../../actions/hook';
 import JDdayPicker from '../../../../components/dayPicker/DayPicker';
+import { ISeasonValue } from './seasonModalWrap';
+
+interface IsetModalValue extends React.Dispatch<React.SetStateAction<ISeasonValue>> {}
 
 interface IProps {
-  modalHook: TUseModal;
-  seasonNameHook: TUseInput;
+  modalValue: ISeasonValue;
+  modalHook: IUseModal;
+  setModalValue: IsetModalValue;
+  updateSeasonMutation(): any;
+  deleteSeasonMutation(): any;
+  createSeasonMutation(): any;
 }
 
-const RoomTypeModal: React.SFC<IProps> = ({ modalHook, seasonNameHook }) => {
+const SeasonModal: React.SFC<IProps> = ({
+  createSeasonMutation,
+  deleteSeasonMutation,
+  updateSeasonMutation,
+  setModalValue,
+  modalHook,
+}) => {
   const validater = (): boolean => false;
 
   const onDeleteTable = (): void => {
-    deleteRoomMutation();
+    deleteSeasonMutation();
     modalHook.closeModal();
   };
 
   const onCreateTable = async (): Promise<void> => {
     if (await validater()) {
       modalHook.closeModal();
-      createRoomMutation();
+      createSeasonMutation();
     }
   };
 
   const onUpdateTable = async (): Promise<void> => {
     if (await validater()) {
-      updateRoomMutation();
+      updateSeasonMutation();
       modalHook.closeModal();
     }
   };
@@ -39,10 +53,13 @@ const RoomTypeModal: React.SFC<IProps> = ({ modalHook, seasonNameHook }) => {
     <Modal onRequestClose={modalHook.closeModal} isOpen={modalHook.isOpen}>
       <div className="flex-grid">
         <div className="flex-grid__col col--full-6 col--lg-6 col--md-12">
-          <InputText label="시즌명" {...seasonNameHook} validation={utils.isMaxOver} max={10} />
+          <InputText label="시즌명" validation={utils.isMaxOver} max={10} />
         </div>
         <div className="flex-grid__col col--full-6 col--lg-6 col--md-12">
-          <DayPicker input label="input" isRange />
+          <JDdayPicker input label="input" isRange />
+        </div>
+        <div className="flex-grid__col col--full-6 col--lg-6 col--md-12">
+          <JDdayPicker input label="input" isRange />
         </div>
       </div>
       <div className="ReactModal__EndSection">
@@ -54,4 +71,4 @@ const RoomTypeModal: React.SFC<IProps> = ({ modalHook, seasonNameHook }) => {
     </Modal>
   );
 };
-export default RoomTypeModal;
+export default SeasonModal;

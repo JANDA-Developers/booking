@@ -7,14 +7,16 @@ import {
   getAllRoomType,
   getAllRoomType_GetAllRoomType_roomTypes as roomTypes,
   getMyProfile_GetMyProfile_user_houses as IHouse,
+  getAllSeason,
+  getAllSeasonVariables,
 } from '../../../types/api';
 import { useToggle, useModal2 } from '../../../actions/hook';
-import { GET_ALL_ROOMTYPES } from '../../../queries';
+import { GET_ALL_ROOMTYPES, GET_ALL_SEASON } from '../../../queries';
 import {
   ErrProtecter, toast, isEmpty, QueryDataFormater, showError,
 } from '../../../utils/utils';
-import SetPrice from './setPrice';
-import SetPriceModal from './components/setPriceModalWrap';
+import SetPrice from './SetPrice';
+import SetPriceModal from './components/seasonModalWrap';
 
 export enum PRICE_TABLE {
   'DEFAULT_TABLE' = -2,
@@ -25,29 +27,25 @@ interface IProps {
   selectedHouse: IHouse;
 }
 
-class GetAllRoomTypeQuery extends Query<getAllRoomType> {}
+class GetAllSeasonQuery extends Query<getAllSeason, getAllSeasonVariables> {}
 
 const SetPriceWrap: React.SFC<IProps> = ({ selectedHouse }) => {
   const priceModalHook = useModal2(false);
 
   return (
     // 모든 방 가져오기
-    <GetAllRoomTypeQuery
-      fetchPolicy="network-only"
-      query={GET_ALL_ROOMTYPES}
-      variables={{ houseId: selectedHouse._id }}
-    >
+    <GetAllSeasonQuery fetchPolicy="network-only" query={GET_ALL_SEASON} variables={{ houseId: selectedHouse._id }}>
       {({ data: roomData, loading, error }) => {
         showError(error);
         return (
           // 방생성 뮤테이션
           <Fragment>
             <SetPrice />
-            <SetPriceModal />
+            <SetPriceModal selectedHouseId={selectedHouse._id} />
           </Fragment>
         );
       }}
-    </GetAllRoomTypeQuery>
+    </GetAllSeasonQuery>
   );
 };
 

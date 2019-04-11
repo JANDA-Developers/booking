@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { getAllHouseForSuperUser_GetAllHouseForSuperUser_allHouse as allHouse } from '../../../types/api';
 import Card from '../../../atoms/cards/Card';
-import { TUseModal } from '../../../actions/hook';
+import { IUseModal } from '../../../actions/hook';
 import Button from '../../../atoms/button/Button';
 import Badge, { BADGE_THEMA } from '../../../atoms/badge/Badge';
 import ProfileCircle from '../../../atoms/profileCircle/ProfileCircle';
@@ -11,7 +11,7 @@ import './SuperMain.scss';
 interface Iprops {
   houseData: allHouse[];
   loading: boolean;
-  userModal: TUseModal;
+  userModal: IUseModal;
 }
 
 const SuperMain: React.SFC<Iprops> = ({ userModal, houseData, loading }) => (

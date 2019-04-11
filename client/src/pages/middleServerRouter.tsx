@@ -148,19 +148,21 @@ const JDmiddleServer: React.SFC<IProps> = ({
             }
           />
         )}
-        {/* /* ------------------------------ JANDA BOOKING ----------------------------- */ */}
+        {/* /* ------------------------------ JANDA BOOKING ----------------------------- */}
         {/* 방배정 */}
-        <Route exact path="/middleServer/timeline" render={AssigTimeline} />
+        {/* <Route exact path="/middleServer/timeline" render={AssigTimeline} /> */}
         {/* 방생성 */}
-        <Route
+        {/* <Route
           exact
           path="/middleServer/timelineConfig"
           render={() => (isEmpty(selectedHouse) ? <NoMatch /> : <ModifyTimeline selectedHouse={selectedHouse} />)}
-          />
+        /> */}
         {/* 가격설정 */}
-        <Route exact path="/middleServer/setPrice"
-          render={() => (isEmpty(selectedHouse) ? <NoMatch /> : <ModifyTimeline selectedHouse={selectedHouse} />
-        {/* 404 */}
+        {/* <Route
+          exact
+          path="/middleServer/setPrice"
+          render={() => (isEmpty(selectedHouse) ? <NoMatch /> : <ModifyTimeline selectedHouse={selectedHouse} />)}
+        /> */}
         <Route component={NoMatch} />
       </Switch>
     </Fragment>

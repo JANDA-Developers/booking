@@ -73,6 +73,7 @@ function PhoneVerification({ history }) {
                       toast.error('인증 절차에 문제가 생겼습니다. 별도 문의 바랍니다.');
                       console.error(verficationError);
                     }}
+                    awaitRefetchQueries
                     refetchQueries={[{ query: GET_USER_INFO }]}
                   >
                     {mutation => <Button mode="flat" preloader={loading} label="인증하기" onClick={mutation} />}
