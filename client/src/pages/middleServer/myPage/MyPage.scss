@@ -14,7 +14,6 @@
     }
     
     &__myHouse {
-        margin-bottom: $standard-margin-bottom;
     }
     
     @include response ($full,$phabletUp) {

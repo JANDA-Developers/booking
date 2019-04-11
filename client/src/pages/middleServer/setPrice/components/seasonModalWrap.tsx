@@ -42,7 +42,9 @@ export interface ISeasonValue {
   description?: string | null;
 }
 
-const SeasonModalWrap: React.SFC<IProps> = ({ loading, selectedHouseId, seasonData, seasonModal: modalHook }) => {
+const SeasonModalWrap: React.SFC<IProps> = ({
+  loading, selectedHouseId, seasonData, seasonModal: modalHook,
+}) => {
   const defaultModalValue = {
     color: randomColor(),
     name: '',
