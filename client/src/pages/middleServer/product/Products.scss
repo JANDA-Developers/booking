@@ -3,6 +3,12 @@
 
 
 #products {
+
+    // 모바일 슬라이더
+    .col--full-0 {
+        margin-left: 0;
+    }
+
     .products__productWrap {
         margin-bottom: $standard-margin-bottom;
     }
