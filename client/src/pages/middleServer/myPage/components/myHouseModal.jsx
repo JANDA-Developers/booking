@@ -1,10 +1,9 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { Mutation } from 'react-apollo';
-import Icon from '../../../../atoms/icons/Icons';
 import Modal from '../../../../atoms/modal/Modal';
-import Button from '../../../../atoms/button/Buttons';
-import { DELETE_HOUSE, GET_USER_INFO, UPDATE_HOUSE } from '../../../../queries';
+import Button from '../../../../atoms/button/Button';
+import { DELETE_HOUSE, GET_USER_INFO } from '../../../../queries';
 import { toast } from '../../../../utils/utils';
 
 const MyHouseModal = ({ isOpen, onRequestClose, houseData }) => {

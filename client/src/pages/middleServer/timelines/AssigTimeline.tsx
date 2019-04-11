@@ -4,7 +4,7 @@ import 'moment/locale/ko';
 import DayPicker from '../../../components/dayPicker/DayPicker';
 import Timeline from '../../../components/timeline/Timeline';
 import ErrProtecter from '../../../utils/ErrProtecter';
-import Button from '../../../atoms/button/Buttons';
+import Button from '../../../atoms/button/Button';
 import POPbookerInfo from '../../../components/bookerInfo/BookerModal';
 
 interface IProps {

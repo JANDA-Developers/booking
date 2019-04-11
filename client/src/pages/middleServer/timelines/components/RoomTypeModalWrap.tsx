@@ -18,7 +18,9 @@ import { useImageUploader } from '../../../../actions/hook';
 import {
   ErrProtecter, toast, onError, isEmpty, onCompletedMessage,
 } from '../../../../utils/utils';
-import { PricingType, PricingTypeKr } from '../../../../types/apiEnum';
+import {
+  PricingType, PricingTypeKr, RoomGender, RoomGenderKr,
+} from '../../../../types/apiEnum';
 
 class CreateRoomTypeMutation extends Mutation<createRoomType, createRoomTypeVariables> {}
 class DeleteRoomTypeMutation extends Mutation<deleteRoomType, deleteRoomTypeVariables> {}
@@ -39,7 +41,7 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({
     description: '',
     pricingType: { label: PricingTypeKr[PricingType.DOMITORY], value: PricingType.DOMITORY },
     peopleCount: { label: '', value: 0 },
-    roomGender: { label: '', value: 0 },
+    roomGender: { label: RoomGenderKr[RoomGender.MIXED], value: RoomGender.MIXED },
     peopleCountMax: { label: '', value: 0 },
   };
 
@@ -51,6 +53,7 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({
     name: roomTypeValue.name,
     img: roomImageHook.fileUrl,
     pricingType: roomTypeValue.pricingType.value,
+    roomGender: roomTypeValue.roomGender.value,
     peopleCount: roomTypeValue.peopleCount.value,
     peopleCountMax: roomTypeValue.peopleCountMax.value,
     description: roomTypeValue.description,
@@ -67,11 +70,11 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({
           description: roomType.description,
           pricingType: { label: PricingTypeKr[roomType.pricingType], value: PricingType[roomType.pricingType] },
           peopleCount: { label: `${roomType.peopleCount}명`, value: roomType.peopleCount },
-          roomGender: { label: `${roomType.peopleCount}명`, value: roomType.roomGender },
+          roomGender: { label: RoomGenderKr[roomType.roomGender], value: RoomGender[roomType.roomGender] },
           peopleCountMax: { label: `${roomType.peopleCount}명`, value: roomType.peopleCountMax },
         };
         setRoomTypeValue(lastRoomTypeValue);
-        roomImageHook.setFileUrl(roomType);
+        roomImageHook.setFileUrl(roomType.img);
       } else {
         setRoomTypeValue(defaultRoomTypeValue);
         roomImageHook.setFileUrl('');

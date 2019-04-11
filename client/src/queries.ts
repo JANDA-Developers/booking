@@ -41,6 +41,7 @@ export const GET_USER_INFO = gql`
         email
         isPhoneVerified
         checkPrivacyPolicy
+        userRole
         houses {
           product {
             _id
@@ -65,6 +66,60 @@ export const GET_USER_INFO = gql`
     }
   }
 `;
+
+// 모든 유저 정보 가져오기
+export const GEA_All_HOUSE_SUPER_USER = gql`
+  query getAllHouseForSuperUser {
+    GetAllHouseForSuperUser {
+      ok
+      error
+      allHouse {
+        _id
+        name
+        houseType
+        product {
+          _id
+          name
+          price
+          discountedPrice
+          roomCount
+          roomCountExtraCharge
+          bookingCount
+          bookingCountExtraCharge
+          description
+          createdAt
+          updatedAt
+          productType {
+            _id
+            name
+          }
+        }
+        user {
+          _id
+          name
+          phoneNumber
+          password
+          email
+          isPhoneVerified
+          userRole
+          createdAt
+          updatedAt
+        }
+        location {
+          address
+          addressDetail
+          lat
+          lng
+        }
+        module_srl
+        createdAt
+        updatedAt
+        moduleSrl
+      }
+    }
+  }
+`;
+
 // 이메일 로그인
 export const EMAIL_SIGN_IN = gql`
   query emailSignIn($email: EmailAddress!, $password: Password!) {
@@ -132,9 +187,30 @@ export const GET_ALL_ROOMTYPES = gql`
     }
   }
 `;
+// START 시즌관련 ────────────────────────────────────────────────────────────────────────────────
+// 모든 시즌 가져오기
+export const GET_ALL_SEASON = gql`
+  query getAllSeason($houseId: ID!) {
+    GetAllSeason(houseId: $houseId) {
+      ok
+      error
+      seasons {
+        _id
+        name
+        start
+        end
+        priority
+        color
+        description
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
 
 /* -------------------------------- mutation -------------------------------- */
-// 방관련 ────────────────────────────────────────────────────────────────────────────────
+// START 방관련 ────────────────────────────────────────────────────────────────────────────────
 // 방타입 생성
 export const CREATE_ROOMTYPE = gql`
   mutation createRoomType(
@@ -218,6 +294,49 @@ export const UPDATE_ROOMTYPE = gql`
       peopleCountMax: $peopleCountMax
       description: $description
     ) {
+      ok
+      error
+    }
+  }
+`;
+
+// START 시즌관련 ────────────────────────────────────────────────────────────────────────────────
+// 시즌 생성
+export const CREATE_SEASON = gql`
+  mutation createSeason(
+    $name: String!
+    $start: DateTime!
+    $end: DateTime!
+    $houseId: ID!
+    $color: String
+    $description: String
+  ) {
+    CreateSeason(name: $name, start: $start, end: $end, houseId: $houseId, color: $color, description: $description) {
+      ok
+      error
+    }
+  }
+`;
+// 시즌 삭제
+export const DELETE_SEASON = gql`
+  mutation deleteSeason($seasonId: ID!, $houseId: ID!) {
+    DeleteSeason(seasonId: $seasonId, houseId: $houseId) {
+      ok
+      error
+    }
+  }
+`;
+// 시즌 업데이트
+export const UPDATE_SEASON = gql`
+  mutation updateSeason(
+    $name: String!
+    $start: DateTime!
+    $end: DateTime!
+    $seasonId: ID!
+    $color: String
+    $description: String
+  ) {
+    UpdateSeason(name: $name, start: $start, end: $end, seasonId: $seasonId, color: $color, description: $description) {
       ok
       error
     }

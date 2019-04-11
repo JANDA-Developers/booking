@@ -23,32 +23,36 @@ import {
   Ready,
   AssigTimeline,
   ModifyTimeline,
+  SuperMain,
 } from './pages';
+import { UserRole } from '../types/apiEnum';
+import { getMyProfile_GetMyProfile_user_houses as IHouses, getMyProfile_GetMyProfile_user } from '../types/api';
+
+interface IProps {
+  [key: string]: any;
+}
 
 // TODO: protoTypes에 정의 옮기자
 // lastSelectedHouse : 마지막으로 선택된 하우스 객체 정보값 파라미터에서만 사용합니다.
-function JDmiddleServer({
+const JDmiddleServer: React.SFC<IProps> = ({
   IsLoggedIn: {
     auth: { isLoggedIn },
     loading,
   },
   GetUserInfo: { GetMyProfile: { user = {} } = {}, loading: loading2 },
-  selectedHouse: { auth: { lastSelectedHouse = {} } = {}, loading: loading3 } = {},
-}) {
+  selectedHouse: { auth: { lastSelectedHouse = {} } = {}, loading: loading3 = false } = {},
+}: any) => {
   //  유저 유저
   const [SideNavIsOpen, setSideNavIsOpen] = useToggle(false);
-  const isloading = loading || loading2 || loading3;
-  const houses = user.houses || [];
-  let selectedHouse = houses.filter(house => house._id === lastSelectedHouse.value)[0] || {};
+  const isloading: boolean = loading || loading2 || loading3;
+  const houses: IHouses[] = user.houses || [];
+  let selectedHouse = houses.filter((house: { _id: any }): any => house._id === lastSelectedHouse.value)[0] || {};
 
   // 최근에 선택된 숙소가 없다면 선택된 숙소는 첫번째 숙소입니다.
   if (isEmpty(selectedHouse) && !isEmpty(houses)) [selectedHouse] = houses;
 
   const selectedProduct = selectedHouse.product || {};
-  const { isPhoneVerified } = user;
-
-  console.log(selectedHouse);
-  console.log('-------------------------------');
+  const { isPhoneVerified, userRole } = user;
 
   return isloading ? (
     <Preloader page />
@@ -57,19 +61,20 @@ function JDmiddleServer({
       <Helmet>
         <title>JANDA | APP</title>
       </Helmet>
-      {/* 헤더에 정보전달 */}
+      {/* 헤더 */}
       <Route
         render={() => (
+          // @ts-ignore
           <Header
-            sideNavOpener={setSideNavIsOpen}
             userInformation={user}
             isPhoneVerified={isPhoneVerified}
             lastSelectedHouse={selectedHouse}
             isLoggedIn={isLoggedIn}
+            sideNavOpener={setSideNavIsOpen}
           />
         )}
       />
-      {/* 사이드 네비게이션 */}
+      {/* 사이드 네비 */}
       <SideNav
         isOpen={SideNavIsOpen}
         selectedHouse={selectedHouse}
@@ -77,6 +82,7 @@ function JDmiddleServer({
         userInformation={user}
         setIsOpen={setSideNavIsOpen}
       />
+      {/* 라우팅 시작 */}
       <Switch>
         {/* TODO : 인덱스 1 , 2 통합방법 찾기 */}
         {/* 인덱스 */}
@@ -89,14 +95,6 @@ function JDmiddleServer({
             isPhoneVerified={isPhoneVerified}
           />
         </Route>
-
-        {/* 타임라인 */}
-        <Route exact path="/middleServer/timeline" render={AssigTimeline} />
-        <Route
-          exact
-          path="/middleServer/timelineConfig"
-          render={() => (isEmpty(selectedHouse) ? <NoMatch /> : <ModifyTimeline selectedHouse={selectedHouse} />)}
-        />
         {/* 인덱스2 */}
         <Route exact path="/middleServer">
           <Home
@@ -134,8 +132,10 @@ function JDmiddleServer({
         <Route exact path="/middleServer/phoneVerification" component={isLoggedIn ? PhoneVerification : undefined} />
         {/* 회원가입 */}
         <Route exact path="/middleServer/signUp" component={isLoggedIn ? undefined : SignUp} />
-        {/* 회원가입ㅌ */}
+        {/* 회원가입 */}
         <Route exact path="/middleServer/login" component={isLoggedIn ? undefined : Login} />
+        {/* 슈퍼관리자 */}
+        <Route exact path="/middleServer/superAdmin" component={userRole === UserRole.ADMIN ? SuperMain : NoMatch} />
 
         {/* 대기 */}
         {isEmpty(selectedProduct) ? (
@@ -148,13 +148,26 @@ function JDmiddleServer({
             }
           />
         )}
-
-        {/* 404 */}
+        {/* /* ------------------------------ JANDA BOOKING ----------------------------- */}
+        {/* 방배정 */}
+        {/* <Route exact path="/middleServer/timeline" render={AssigTimeline} /> */}
+        {/* 방생성 */}
+        {/* <Route
+          exact
+          path="/middleServer/timelineConfig"
+          render={() => (isEmpty(selectedHouse) ? <NoMatch /> : <ModifyTimeline selectedHouse={selectedHouse} />)}
+        /> */}
+        {/* 가격설정 */}
+        {/* <Route
+          exact
+          path="/middleServer/setPrice"
+          render={() => (isEmpty(selectedHouse) ? <NoMatch /> : <ModifyTimeline selectedHouse={selectedHouse} />)}
+        /> */}
         <Route component={NoMatch} />
       </Switch>
     </Fragment>
   );
-}
+};
 
 JDmiddleServer.propTypes = {
   IsLoggedIn: PT.object,
@@ -174,13 +187,12 @@ export default compose(
   graphql(IS_LOGGED_IN, { name: 'IsLoggedIn' }),
   graphql(GET_USER_INFO, {
     name: 'GetUserInfo',
-    skip: ({ IsLoggedIn }) => {
+    skip: ({ IsLoggedIn }: any) => {
       if (IsLoggedIn && IsLoggedIn.auth) {
         return !IsLoggedIn.auth.isLoggedIn;
       }
       return true;
     },
-    fetchPolicy: 'network-only',
   }),
   graphql(SELECTED_HOUSE, { name: 'selectedHouse' }),
 )(JDmiddleServer);

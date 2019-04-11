@@ -50,7 +50,7 @@ const ColorPage = () => (
             <ColorBox color="link" summary="" txt="link-color" />
           </div>
           <div className="flex-grid__col col--full-4 col--wmd-6">
-            <ColorBox color="success" summary="" txt="success-color" />
+            <ColorBox color="new" summary="" txt="new-color" />
           </div>
           <div className="flex-grid__col col--full-4 col--wmd-6">
             <ColorBox color="error" summary="" txt="error-color" />

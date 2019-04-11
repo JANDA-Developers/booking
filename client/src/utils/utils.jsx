@@ -12,6 +12,8 @@ import {
 import searchListFormat from './SearchListFormat';
 import onError from './ApolloError';
 import onCompletedMessage from './ApolloOnCompleted';
+import QueryDataFormater from './QueryDataFormat';
+import OnError, {showError} from './ApolloError';
 
 const JDutils = {
   ErrProtecter,
@@ -29,6 +31,7 @@ const JDutils = {
   download,
   autoHypen,
   onCompletedMessage,
+  QueryDataFormater,
 };
 
 export default JDutils;
@@ -43,4 +46,6 @@ export {
   ErrProtecter,
   autoHypen,
   onError,
+  showError,
+  QueryDataFormater,
 };

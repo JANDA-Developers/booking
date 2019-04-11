@@ -1,0 +1,33 @@
+@import "../../style_config/style_config";
+
+.JDbadge {
+    padding: 0.15em 0.4em;
+    border-radius: $standard-border-radius;
+    line-height: 1;
+    text-transform: uppercase;
+    text-align: center;
+    font-size:$typho-small;
+    white-space: nowrap;
+    vertical-align: baseline;
+    margin-left: $standard-space / 2;
+    &--primary {
+        background-color: $primary-color;
+        color: $primary-color-on;
+    }   
+    &--secondary {
+        background-color: $secondary-color;
+        color: $secondary-color-on;
+    }   
+    &--black {
+        background-color: $html-color;
+        color:white;
+    }   
+    &--white {
+        background-color: white;
+        color: $html-color;
+    }   
+    &--new {
+        background-color: $new-color;
+        color: $new-color-on;
+    }   
+}

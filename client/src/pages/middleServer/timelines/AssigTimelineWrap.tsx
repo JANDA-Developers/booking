@@ -65,7 +65,6 @@ const AssigTimelineWrap = () => {
         })
         : item)),
     );
-
     console.log(`Resized ${itemId}, ${time}, ${edge}`);
   };
 

@@ -75,6 +75,7 @@ export interface getMyProfile_GetMyProfile_user {
   email: any;
   isPhoneVerified: boolean;
   checkPrivacyPolicy: boolean;
+  userRole: UserRole;
   houses: getMyProfile_GetMyProfile_user_houses[];
   createdAt: any;
   updatedAt: any | null;
@@ -90,6 +91,112 @@ export interface getMyProfile {
    * 로그인 token 필요!
    */
   GetMyProfile: getMyProfile_GetMyProfile;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: getAllHouseForSuperUser
+// ====================================================
+
+export interface getAllHouseForSuperUser_GetAllHouseForSuperUser_allHouse_product_productType {
+  __typename: "ProductType";
+  _id: string;
+  /**
+   * 제품 이름
+   */
+  name: string;
+}
+
+export interface getAllHouseForSuperUser_GetAllHouseForSuperUser_allHouse_product {
+  __typename: "Product";
+  _id: string;
+  /**
+   * 제품 이름
+   */
+  name: string;
+  /**
+   * 제품 가격(월)
+   */
+  price: number | null;
+  /**
+   * 할인된 가격
+   */
+  discountedPrice: number | null;
+  /**
+   * 만들 수 있는 최대 방 / 배드 수 => -1 일때 무제한
+   */
+  roomCount: number | null;
+  /**
+   * 방 수 추가시 추가 가격  => default: 0
+   */
+  roomCountExtraCharge: number | null;
+  /**
+   * 한달간 받을 수 있는 최대 예약 수 => -1 일 떄 무제한
+   */
+  bookingCount: number | null;
+  /**
+   * 예약 초과시 부과되는 금액 => defualt: 0
+   */
+  bookingCountExtraCharge: number | null;
+  description: string | null;
+  createdAt: any;
+  updatedAt: any | null;
+  productType: getAllHouseForSuperUser_GetAllHouseForSuperUser_allHouse_product_productType;
+}
+
+export interface getAllHouseForSuperUser_GetAllHouseForSuperUser_allHouse_user {
+  __typename: "User";
+  _id: string;
+  name: any;
+  phoneNumber: any;
+  password: any | null;
+  email: any;
+  isPhoneVerified: boolean;
+  userRole: UserRole;
+  createdAt: any;
+  updatedAt: any | null;
+}
+
+export interface getAllHouseForSuperUser_GetAllHouseForSuperUser_allHouse_location {
+  __typename: "Location";
+  address: string;
+  addressDetail: string | null;
+  lat: number;
+  lng: number;
+}
+
+export interface getAllHouseForSuperUser_GetAllHouseForSuperUser_allHouse {
+  __typename: "House";
+  _id: string;
+  name: string;
+  houseType: HouseType;
+  product: getAllHouseForSuperUser_GetAllHouseForSuperUser_allHouse_product | null;
+  user: getAllHouseForSuperUser_GetAllHouseForSuperUser_allHouse_user;
+  location: getAllHouseForSuperUser_GetAllHouseForSuperUser_allHouse_location;
+  /**
+   * Legarcy 연동을 위한 module_srl...
+   */
+  module_srl: number | null;
+  createdAt: any;
+  updatedAt: any | null;
+  /**
+   * Legarcy
+   */
+  moduleSrl: number | null;
+}
+
+export interface getAllHouseForSuperUser_GetAllHouseForSuperUser {
+  __typename: "GetAllHouseForSuperUserResponse";
+  ok: boolean;
+  error: string | null;
+  allHouse: getAllHouseForSuperUser_GetAllHouseForSuperUser_allHouse[] | null;
+}
+
+export interface getAllHouseForSuperUser {
+  GetAllHouseForSuperUser: getAllHouseForSuperUser_GetAllHouseForSuperUser;
 }
 
 /* tslint:disable */
@@ -217,6 +324,42 @@ export interface getAllRoomType {
 }
 
 export interface getAllRoomTypeVariables {
+  houseId: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: getAllSeason
+// ====================================================
+
+export interface getAllSeason_GetAllSeason_seasons {
+  __typename: "Season";
+  _id: string;
+  name: string;
+  start: any;
+  end: any;
+  priority: number;
+  color: string | null;
+  description: string | null;
+  createdAt: any;
+  updatedAt: any | null;
+}
+
+export interface getAllSeason_GetAllSeason {
+  __typename: "GetAllSeasonResponse";
+  ok: boolean;
+  error: string | null;
+  seasons: getAllSeason_GetAllSeason_seasons[] | null;
+}
+
+export interface getAllSeason {
+  GetAllSeason: getAllSeason_GetAllSeason;
+}
+
+export interface getAllSeasonVariables {
   houseId: string;
 }
 
@@ -368,6 +511,83 @@ export interface updateRoomTypeVariables {
   name?: string | null;
   peopleCount?: number | null;
   peopleCountMax?: number | null;
+  description?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: createSeason
+// ====================================================
+
+export interface createSeason_CreateSeason {
+  __typename: "CreateSeasonResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface createSeason {
+  CreateSeason: createSeason_CreateSeason;
+}
+
+export interface createSeasonVariables {
+  name: string;
+  start: any;
+  end: any;
+  houseId: string;
+  color?: string | null;
+  description?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: deleteSeason
+// ====================================================
+
+export interface deleteSeason_DeleteSeason {
+  __typename: "DeleteSeasonResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface deleteSeason {
+  DeleteSeason: deleteSeason_DeleteSeason;
+}
+
+export interface deleteSeasonVariables {
+  seasonId: string;
+  houseId: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: updateSeason
+// ====================================================
+
+export interface updateSeason_UpdateSeason {
+  __typename: "UpdateSeasonResponse";
+  ok: boolean | null;
+  error: string | null;
+}
+
+export interface updateSeason {
+  UpdateSeason: updateSeason_UpdateSeason;
+}
+
+export interface updateSeasonVariables {
+  name: string;
+  start: any;
+  end: any;
+  seasonId: string;
+  color?: string | null;
   description?: string | null;
 }
 
@@ -612,9 +832,16 @@ export enum PricingType {
 
 export enum RoomGender {
   FEMALE = "FEMALE",
-  MAKE = "MAKE",
+  MALE = "MALE",
   MIXED = "MIXED",
   SEPARATELY = "SEPARATELY",
+}
+
+export enum UserRole {
+  ADMIN = "ADMIN",
+  GHOST = "GHOST",
+  GUEST = "GUEST",
+  HOST = "HOST",
 }
 
 export interface LocationInput {

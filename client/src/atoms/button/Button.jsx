@@ -1,13 +1,13 @@
 /* eslint-disable react/button-has-type */
 import React from 'react';
-import './Buttons.scss';
+import './Button.scss';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import ErrProtecter from '../../utils/ErrProtecter';
 import Icon from '../icons/Icons';
 import Preloader from '../preloader/Preloader';
 
-function Buttons({
+function Button({
   disabled,
   label,
   icon,
@@ -23,9 +23,10 @@ function Buttons({
   pulse,
   blink,
   preloader,
+  className,
   ...props
 }) {
-  const classes = classNames('JDbtn', props && props.className, {
+  const classes = classNames('JDbtn', className, {
     'JDbtn--flat': mode === 'flat',
     'JDbtn--small': mode === 'small',
     'JDbtn--large': mode === 'large',
@@ -33,6 +34,7 @@ function Buttons({
     'JDbtn--right': float === 'right',
     'JDbtn--white': color === 'white',
     'JDbtn--primary': thema === 'primary',
+    'JDbtn--grey': thema === 'grey',
     'JDbtn--secondary': thema === 'secondary',
     'JDbtn--warn': thema === 'warn',
     'JDwaves-effect-dark': mode === 'flat' && thema === 'normal',
@@ -63,7 +65,7 @@ function Buttons({
   );
 }
 
-Buttons.propTypes = {
+Button.propTypes = {
   disabled: PropTypes.bool,
   label: PropTypes.string,
   icon: PropTypes.string,
@@ -81,7 +83,7 @@ Buttons.propTypes = {
   type: PropTypes.string,
 };
 
-Buttons.defaultProps = {
+Button.defaultProps = {
   disabled: false,
   label: '',
   icon: '',
@@ -99,4 +101,4 @@ Buttons.defaultProps = {
   preloader: false,
 };
 
-export default ErrProtecter(Buttons);
+export default ErrProtecter(Button);

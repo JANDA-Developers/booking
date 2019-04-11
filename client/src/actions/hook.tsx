@@ -109,8 +109,15 @@ function useDebounce(value: any, delay: number) {
   return debouncedValue;
 }
 
+export interface TUseInput {
+  value: string;
+  openModal: (inInfo: any) => void;
+  onChange: (foo: string) => void;
+  info: any;
+}
+
 // 밸리데이션을 포함한 훅 리턴
-function useInput(defaultValue: string, defulatValid: boolean | string = '') {
+function useInput<TUseInput>(defaultValue: string, defulatValid: boolean | string = '') {
   const [value, setValue] = useState(defaultValue);
   const [isValid, setIsValid] = useState(defulatValid);
 
@@ -145,10 +152,10 @@ function useCheckBox(defaultValue: boolean) {
 }
 
 // NAME SPACE
-function useRadio(defaultValue: boolean) {
+function useRadio(defaultValue: any = '') {
   const [value, setValue] = useState(defaultValue);
 
-  const onChange = (value: boolean) => {
+  const onChange = (value: any) => {
     setValue(value);
   };
 
@@ -167,7 +174,7 @@ function useSwitch(defaultValue: boolean) {
 }
 
 // NAME SPACE
-function useSelect(defaultValue: any) {
+function useSelect(defaultValue: any = {}) {
   const [selectedOption, setSelectedOption] = useState(defaultValue);
 
   const onChange = (value: any) => {
@@ -202,7 +209,14 @@ function useModal(defaultValue: boolean) {
   return [isOpen, openModal, closeModal];
 }
 
-function useModal2(defaultValue: boolean, defaultInfo: object | undefined = {}) {
+export interface IUseModal {
+  isOpen: boolean;
+  openModal: (inInfo: any) => void;
+  closeModal: () => void;
+  info: any;
+}
+
+function useModal2<IUseModal>(defaultValue: boolean, defaultInfo: any = {}) {
   const [isOpen, setIsOpen] = useState(defaultValue);
   const [info, setInfo] = useState(defaultInfo);
 

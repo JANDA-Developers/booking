@@ -3,7 +3,7 @@ import { Mutation, Query } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import InputText from '../../atoms/forms/InputText';
 import Modal from '../../atoms/modal/Modal';
-import Button from '../../atoms/button/Buttons';
+import Button from '../../atoms/button/Button';
 import { useInput } from '../../actions/hook';
 import { ErrProtecter, toast } from '../../utils/utils';
 import {
@@ -73,6 +73,7 @@ function PhoneVerification({ history }) {
                       toast.error('인증 절차에 문제가 생겼습니다. 별도 문의 바랍니다.');
                       console.error(verficationError);
                     }}
+                    awaitRefetchQueries
                     refetchQueries={[{ query: GET_USER_INFO }]}
                   >
                     {mutation => <Button mode="flat" preloader={loading} label="인증하기" onClick={mutation} />}

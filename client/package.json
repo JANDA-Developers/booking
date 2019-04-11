@@ -7,7 +7,6 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "@types/react-select": "^2.0.15",
     "apollo": "^2.6.2",
     "apollo-boost": "^0.1.23",
     "axios": "^0.18.0",
@@ -35,6 +34,7 @@
     "react": "^16.7.0",
     "react-apollo": "^2.3.3",
     "react-calendar-timeline": "^0.23.0",
+    "react-color": "^2.17.0",
     "react-day-picker": "^7.2.4",
     "react-dom": "^16.7.0",
     "react-favicon": "^0.0.14",
@@ -87,9 +87,12 @@
       "import/no-unresolved": "off",
       "typescript/no-unused-vars": "off",
       "array-callback-return": "off",
-      "camelcase": [0, {
-        "properties": "never"
-      }],
+      "camelcase": [
+        0,
+        {
+          "properties": "never"
+        }
+      ],
       "max-len": [
         1,
         120,
@@ -114,13 +117,21 @@
         }
       ]
     },
-    "overrides": [{
-      "files": ["**/*.ts", "**/*.tsx"],
-      "rules": {
-        "no-unused-vars": ["off"],
-        "no-undef": ["off"]
+    "overrides": [
+      {
+        "files": [
+          "**/*.ts",
+          "**/*.tsx"
+        ],
+        "rules": {
+          "no-unused-vars": 0,
+          "no-undef": [
+            "off"
+          ],
+          "react/prop-types": 0
+        }
       }
-    }]
+    ]
   },
   "eslintIgnore": [
     "naverMap.js",
@@ -139,10 +150,15 @@
     "@types/graphql": "^14.0.7",
     "@types/jquery": "^3.3.29",
     "@types/moment": "^2.13.0",
+    "@types/randomcolor": "^0.5.1",
     "@types/react": "^16.8.6",
     "@types/react-calendar-timeline": "^0.16.1",
+    "@types/react-color": "^3.0.0",
     "@types/react-dom": "^16.8.2",
+    "@types/react-helmet": "^5.0.8",
+    "@types/react-modal": "^3.8.1",
     "@types/react-router-dom": "^4.3.1",
+    "@types/react-select": "^2.0.15",
     "@typescript-eslint/eslint-plugin": "^1.6.0",
     "@typescript-eslint/parser": "^1.6.0",
     "eslint-config-airbnb": "^17.1.0",

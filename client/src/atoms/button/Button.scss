@@ -35,6 +35,13 @@
     color:white;
   }
 
+  &.JDbtn--grey {
+    background-color: $grey-level1;
+    &:hover {
+      background-color: $grey-level2;
+    }
+  }
+
   // MODE
   &.JDbtn--primary {
     background-color: $primary-color;

@@ -2,11 +2,14 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import Modal from '../../../../atoms/modal/Modal';
-import SelectBox from '../../../../atoms/forms/SelectBox';
+import SelectBox, { IselectedOption } from '../../../../atoms/forms/SelectBox';
 import InputText from '../../../../atoms/forms/InputText';
-import Button from '../../../../atoms/button/Buttons';
+import Button from '../../../../atoms/button/Button';
 import JDLabel from '../../../../atoms/label/JDLabel';
 import ImageUploader from '../../../../components/imageUploader/ImageUploader';
+import {
+  PricingType, RoomGender, PricingTypeKr, RoomGenderKr,
+} from '../../../../types/apiEnum';
 
 interface IProps {
   createRoomTypeMutation: any;
@@ -29,7 +32,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
   value,
   roomImageHook,
 }) => {
-  const [peopleCountOption, setPeopleCountOption] = useState([{}]);
+  const [peopleCountOption, setPeopleCountOption] = useState<IselectedOption[]>([]);
 
   const validater = () => {
     if (value.name === '') {
@@ -72,20 +75,22 @@ const RoomTypeModal: React.SFC<IProps> = ({
     setPeopleCountOption(inPeopleCountOption);
   };
 
-  const maxPeopleCountOption = [
-    { value: 1, label: '1명' },
-    { value: 2, label: '2명' },
-    { value: 3, label: '3명' },
-    { value: 4, label: '4명' },
-    { value: 5, label: '5명' },
-    { value: 6, label: '6명' },
-    { value: 7, label: '7명' },
-    { value: 8, label: '8명' },
-    { value: 9, label: '9명' },
-    { value: 10, label: '10명' },
+  const maxPeopleCountOption: IselectedOption[] = [];
+  for (let i = 1; i < 100; i += 1) {
+    maxPeopleCountOption.push({ value: i, label: `${i}명` });
+  }
+
+  const pricingTypeOptions = [
+    { value: PricingType.DOMITORY, label: PricingTypeKr.DOMITORY },
+    { value: PricingType.ROOM, label: PricingTypeKr.ROOM },
   ];
 
-  const pricingTypeOptions = [{ value: 'DOMITORY', label: '도미토리' }, { value: 'ROOM', label: '방단위' }];
+  const genderOptions = [
+    { value: RoomGender.MIXED, label: RoomGenderKr.MIXED },
+    { value: RoomGender.SEPARATELY, label: RoomGenderKr.SEPARATELY },
+    { value: RoomGender.MALE, label: RoomGenderKr.MALE },
+    { value: RoomGender.FEMALE, label: RoomGenderKr.FEMALE },
+  ];
 
   return (
     <Modal
@@ -96,7 +101,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
       className="Modal"
       style={{
         content: {
-          maxWidth: '800px',
+          maxWidth: '600px',
         },
       }}
     >
@@ -141,8 +146,19 @@ const RoomTypeModal: React.SFC<IProps> = ({
             selectedOption={value.pricingType}
           />
         </div>
+        <div className="flex-grid__col  col--full-6 col--lg-6 col--md-12">
+          <SelectBox
+            label="방성별선택"
+            disabled={false}
+            onChange={(inValue: IselectedOption) => {
+              setValue({ ...value, roomGender: inValue });
+            }}
+            options={genderOptions}
+            selectedOption={value.roomGender}
+          />
+        </div>
         <div className="flex-grid__col flex-grid__col--vertical col--full-12 col--lg-12 col--md-12">
-          <JDLabel txt="방사진업로드" />
+          <JDLabel txt="방사진" />
           <ImageUploader {...roomImageHook} minHeight="200px" />
         </div>
         <div className="flex-grid__col col--full-12 col--lg-12 col--md-12">
