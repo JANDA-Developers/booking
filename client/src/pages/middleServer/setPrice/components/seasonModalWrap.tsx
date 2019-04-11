@@ -30,7 +30,8 @@ class UpdateRoomTypeMutation extends Mutation<updateSeason, updateSeasonVariable
 interface IProps {
   selectedHouseId: string;
   seasonData: ISeason[];
-  modalHook: IUseModal;
+  seasonModal: IUseModal;
+  loading: boolean;
 }
 
 export interface ISeasonValue {
@@ -41,7 +42,7 @@ export interface ISeasonValue {
   description?: string | null;
 }
 
-const SeasonModalWrap: React.SFC<IProps> = ({ selectedHouseId, seasonData, modalHook }) => {
+const SeasonModalWrap: React.SFC<IProps> = ({ loading, selectedHouseId, seasonData, seasonModal: modalHook }) => {
   const defaultModalValue = {
     color: randomColor(),
     name: '',

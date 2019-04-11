@@ -16,7 +16,7 @@ import {
   ErrProtecter, toast, isEmpty, QueryDataFormater, showError,
 } from '../../../utils/utils';
 import SetPrice from './SetPrice';
-import SetPriceModal from './components/seasonModalWrap';
+import SeasonModal from './components/seasonModalWrap';
 
 export enum PRICE_TABLE {
   'DEFAULT_TABLE' = -2,
@@ -35,13 +35,19 @@ const SetPriceWrap: React.SFC<IProps> = ({ selectedHouse }) => {
   return (
     // 모든 방 가져오기
     <GetAllSeasonQuery fetchPolicy="network-only" query={GET_ALL_SEASON} variables={{ houseId: selectedHouse._id }}>
-      {({ data: roomData, loading, error }) => {
+      {({ data: seasonData, loading, error }) => {
         showError(error);
+        const seasones = QueryDataFormater(seasonData, 'GetAllSeason', 'seasons', []);
         return (
           // 방생성 뮤테이션
           <Fragment>
             <SetPrice />
-            <SetPriceModal selectedHouseId={selectedHouse._id} />
+            <SeasonModal
+              loading={loading}
+              seasonData={seasones}
+              seasonModal={priceModalHook}
+              selectedHouseId={selectedHouse._id}
+            />
           </Fragment>
         );
       }}

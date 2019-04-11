@@ -74,17 +74,17 @@ const Header = ({
             onChange={handleSelectHouse}
           />
           {isPhoneVerified || (
-            <NavLink className="header__btns header__btns--mobile" to="/middleServer/phoneVerification">
+            <NavLink className="header__btns header__btns--mobileX" to="/middleServer/phoneVerification">
               <Button label="인증하기" blink mode="flat" color="white" />
             </NavLink>
           )}
         </Fragment>
       ) : (
         <Fragment>
-          <NavLink className="header__btns header__btns--mobile" to="/middleServer/login">
+          <NavLink className="header__btns header__btns--mobileX" to="/middleServer/login">
             <Button label="로그인" mode="flat" color="white" />
           </NavLink>
-          <NavLink className="header__btns header__btns--mobile" to="/middleServer/signUp">
+          <NavLink className="header__btns header__btns--mobileX" to="/middleServer/signUp">
             <Button label="회원가입" mode="flat" color="white" />
           </NavLink>
         </Fragment>
@@ -103,7 +103,7 @@ const Header = ({
           <Icon icon="apps" />
         </CircleIcon>
       </span>
-      {/* 사용자 메뉴 */}
+      {/* 🌜 모바일 메뉴 */}
       <TooltipList id="listAboutUser">
         <ul>
           {isLoggedIn ? (
@@ -118,11 +118,18 @@ const Header = ({
               </li>
             </Fragment>
           ) : (
-            <li>
-              <NavLink to="/middleServer/login">
-                <Button label="로그인" mode="flat" color="white" />
-              </NavLink>
-            </li>
+            <Fragment>
+              <li>
+                <NavLink to="/middleServer/login">
+                  <Button label="로그인" mode="flat" color="white" />
+                </NavLink>
+              </li>
+              <li>
+                <NavLink className="header__btns" to="/middleServer/signUp">
+                  <Button label="회원가입" mode="flat" color="white" />
+                </NavLink>
+              </li>
+            </Fragment>
           )}
         </ul>
       </TooltipList>

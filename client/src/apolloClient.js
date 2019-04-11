@@ -31,6 +31,7 @@ const client = new ApolloClient({
     });
   },
   uri,
+  credentials: 'omit',
 });
 
 export default client;

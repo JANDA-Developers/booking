@@ -74,7 +74,8 @@ $desktophdUp: "1201px" !default; //  wlg
 $container-width: 1000px !default;
 $container-full-width: 96% !default;
 $container-small-width: 550px !default;
-$container-padding: 0.5rem;
+$container-padding: 0.5rem; // ⭐️
+$container-content-full: calc(100% - #{$container-padding * 2}); // ⭐️
 $total-columns: 12 !default;
 $column-width: 100 / $total-columns !default; // calculates individual column width based off of # of columns
 $column-margin: 2% !default; // space between column grids

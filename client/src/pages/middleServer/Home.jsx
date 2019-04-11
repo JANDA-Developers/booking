@@ -15,7 +15,9 @@ const Home = ({
   const startService = () => {
     // 로그인 상태인가?
     if (!isLoggedIn) {
-      toast.warn('로그인후 시작해주세요.');
+      toast.success('로그인후 시작해주세요.');
+      setRedirectUrl('/middleServer/login');
+      setRedirect(true);
       return;
     }
 

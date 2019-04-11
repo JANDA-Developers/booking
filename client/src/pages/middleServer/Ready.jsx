@@ -26,8 +26,20 @@ const Ready = ({ currentProduct, selectedHouse }) => (
           <h4>서비스 신청이 완료되었습니다.</h4>
         </div>
         <p>빠른시간내에 연락 드리겠습니다.</p>
-        <p>{`적용 숙소: ${selectedHouse.name}`}</p>
-        <p>{`요청 상품: ${currentProduct.name}`}</p>
+        <p>
+          {'적용 숙소:'}
+          <span className="JDtextColor--secondary">
+            {' '}
+            {selectedHouse.name}
+          </span>
+        </p>
+        <p>
+          {'요청 상품:'}
+          <span className="JDtextColor--secondary">
+            {' '}
+            {currentProduct.name}
+          </span>
+        </p>
 
         <div>
           <p>⏲ 영업시간 11:00 ~ 17: 30</p>

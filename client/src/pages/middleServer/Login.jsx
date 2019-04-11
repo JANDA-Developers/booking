@@ -1,7 +1,7 @@
 import React from 'react';
 import { Mutation, withApollo } from 'react-apollo';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import Card from '../../atoms/cards/Card';
 import InputText from '../../atoms/forms/InputText';
 import Button from '../../atoms/button/Button';
@@ -73,6 +73,9 @@ function Login({ client, history }) {
                   <InputText {...emailHook} validation={utils.isEmail} label="Email" />
                   <InputText {...passwordHook} validation={utils.isPassword} type="password" label="Password" />
                   <Button type="submit" thema="primary" label="로그인" />
+                  <Link to="/middleServer/signUp">
+                    <Button thema="primary" label="회원가입" />
+                  </Link>
                 </form>
               );
             }}

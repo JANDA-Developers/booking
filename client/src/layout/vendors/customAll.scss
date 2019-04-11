@@ -44,12 +44,15 @@ a.JDanchor {
     font-size: $typho-large
 }
 
-.JDlarge-warring-text {
-    color: $error-color
+.JDtextColor--primary {
+    color: $primary-color
+}
+.JDtextColor--secondary {
+    color: $secondary-color
 }
 
-span.JDpoint-text {
-    color: $secondary-color;
+.JDlarge-warring-text {
+    color: $error-color
 }
 
 body {

@@ -84,7 +84,7 @@ const Products = ({
             ) : (
               <Fragment>
                 {'* 선택하신 상품은 숙소 '}
-                <span className="JDpoint-text">{selectedHouse.name}</span>
+                <span className="JDtextColor--secondary">{selectedHouse.name}</span>
                 {' 에 적용됩니다.'}
               </Fragment>
             )}

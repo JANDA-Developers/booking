@@ -1,10 +1,16 @@
-import ReactPaginate from 'react-paginate';
+import ReactPaginate, { ReactPaginateProps } from 'react-paginate';
 import React from 'react';
 import classNames from 'classnames';
 import './Pagination.scss';
 
-const Pagination = ({
-  onListClick, previousDisplay, textSize, align, ...props
+interface IProps extends ReactPaginateProps {
+  previousDisplay?: boolean;
+  textSize?: string;
+  align?: string;
+}
+
+const JDPagination: React.SFC<IProps> = ({
+  previousDisplay, textSize, align, ...props
 }) => {
   const classes = classNames({
     'JDpagination-wrap': true,
@@ -35,4 +41,4 @@ const Pagination = ({
   );
 };
 //
-export default Pagination;
+export default JDPagination;

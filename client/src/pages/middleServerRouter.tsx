@@ -24,6 +24,7 @@ import {
   AssigTimeline,
   ModifyTimeline,
   SuperMain,
+  SetPrice,
 } from './pages';
 import { UserRole } from '../types/apiEnum';
 import { getMyProfile_GetMyProfile_user_houses as IHouses, getMyProfile_GetMyProfile_user } from '../types/api';
@@ -53,7 +54,11 @@ const JDmiddleServer: React.SFC<IProps> = ({
 
   const selectedProduct = selectedHouse.product || {};
   const { isPhoneVerified, userRole } = user;
-
+  console.log(userRole);
+  console.log(userRole);
+  console.log(userRole);
+  console.log(userRole);
+  console.log(userRole);
   return isloading ? (
     <Preloader page />
   ) : (
@@ -128,6 +133,7 @@ const JDmiddleServer: React.SFC<IProps> = ({
           ))
           }
         />
+
         {/* 인증 */}
         <Route exact path="/middleServer/phoneVerification" component={isLoggedIn ? PhoneVerification : undefined} />
         {/* 회원가입 */}
@@ -161,7 +167,7 @@ const JDmiddleServer: React.SFC<IProps> = ({
         {/* <Route
           exact
           path="/middleServer/setPrice"
-          render={() => (isEmpty(selectedHouse) ? <NoMatch /> : <ModifyTimeline selectedHouse={selectedHouse} />)}
+          render={() => (isEmpty(selectedHouse) ? <NoMatch /> : <SetPrice selectedHouse={selectedHouse} />)}
         /> */}
         <Route component={NoMatch} />
       </Switch>

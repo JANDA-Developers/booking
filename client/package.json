@@ -157,6 +157,7 @@
     "@types/react-dom": "^16.8.2",
     "@types/react-helmet": "^5.0.8",
     "@types/react-modal": "^3.8.1",
+    "@types/react-paginate": "^6.2.1",
     "@types/react-router-dom": "^4.3.1",
     "@types/react-select": "^2.0.15",
     "@typescript-eslint/eslint-plugin": "^1.6.0",
