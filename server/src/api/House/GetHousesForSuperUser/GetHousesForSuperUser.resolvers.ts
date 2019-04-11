@@ -1,18 +1,18 @@
 import { ObjectId } from "bson";
 import { InstanceType } from "typegoose";
+import { Edge } from "../../../dtos/Edge.class";
 import { HouseModel } from "../../../models/House";
-import { UserSchema } from "../../../models/User";
 import { extractHouses } from "../../../models/merge/merge";
-import { Resolvers } from "../../../types/resolvers";
+import { extractEdges } from "../../../models/merge/pagination";
+import { UserSchema } from "../../../models/User";
 import {
-    GetHousesForSuperUserResponse,
     GetHousesForSuperUserQueryArgs,
+    GetHousesForSuperUserResponse,
     House
 } from "../../../types/graph";
+import { Resolvers } from "../../../types/resolvers";
 import { decodeB64, encodeB64 } from "../../../utils/b64Func";
 import privateResolver from "../../../utils/privateResolvers";
-import { extractEdges } from "../../../models/merge/pagination";
-import { Edge } from "../../../dtos/Edge.class";
 
 const resolvers: Resolvers = {
     Query: {
@@ -59,16 +59,10 @@ const resolvers: Resolvers = {
                             [sort.key]: sort.order
                         };
                     }
-                    console.log(query);
-                    // query 확인해보기
                     const houses = await HouseModel.find(query)
                         .sort(orderBy)
                         .limit(first);
-                    console.log({
-                        houses
-                    });
-
-                    const result: Edge<House>[] = extractEdges(
+                    const result: Array<Edge<House>> = extractEdges(
                         (args: House): string => {
                             const val = new Date(args.updatedAt).toISOString();
                             console.log({
@@ -78,18 +72,26 @@ const resolvers: Resolvers = {
                         },
                         await extractHouses(houses)
                     );
+                    const isEmptyResult = result.length === 0;
+                    const startCursor = isEmptyResult ? null : result[0].cursor;
+                    const endCursor = isEmptyResult
+                        ? null
+                        : result[result.length - 1].cursor;
+
+                    // TODO hasNextPage, hasPreviousPage 구현 ㄱㄱ
+
                     return {
                         ok: true,
                         error: null,
                         result: {
-                            edges: result, 
+                            edges: result,
                             pageInfo: {
-                                endCursor: null,
+                                hasPreviousPage: false,
                                 hasNextPage: false,
-                                hasPreviousPage: true,
-                                startCursor: null
+                                startCursor,
+                                endCursor
                             },
-                            totalCount: 11
+                            totalCount: result.length
                         }
                     };
                 } catch (error) {

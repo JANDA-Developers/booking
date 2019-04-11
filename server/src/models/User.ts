@@ -39,6 +39,9 @@ export class UserSchema extends Typegoose {
     @prop({ enum: UserRoleEnum, default: UserRoleEnum.GHOST })
     userRole: UserRole;
 
+    @prop()
+    profileImg: string;
+
     @prop({ default: false })
     checkPrivacyPolicy: boolean;
 

@@ -4,6 +4,7 @@ type User {
     phoneNumber: PhoneNumber!
     password: Password
     email: EmailAddress!
+    profileImg: URL
     isPhoneVerified: Boolean!
     isEmailVerified: Boolean!
     userRole: UserRole!
