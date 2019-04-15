@@ -1,4 +1,4 @@
-type GetHousesForSUResponseCursor {
+type GetHousesForSUData {
     edges: [HouseEdge!]
     pageInfo: PageInfo!
     totalCount: Int!
@@ -6,7 +6,7 @@ type GetHousesForSUResponseCursor {
 type GetHousesForSUResponse {
     ok: Boolean!
     error: String
-    result: GetHousesForSUResponseCursor
+    result: GetHousesForSUData
 }
 type HouseEdge {
     cursor: String

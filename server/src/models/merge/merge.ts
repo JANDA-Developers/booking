@@ -114,7 +114,7 @@ export const transformHouses = async (
 };
 
 export const extractHouses = async (
-    houseTypes: InstanceType<HouseSchema>[]
+    houseTypes: Array<InstanceType<HouseSchema>>
 ): Promise<House[]> => {
     return await Promise.all(
         houseTypes.map(
@@ -242,7 +242,7 @@ export const extractSeason = async (
 };
 
 export const extractSeasons = async (
-    seasons: InstanceType<SeasonSchema>[]
+    seasons: Array<InstanceType<SeasonSchema>>
 ): Promise<Season[]> => {
     return await Promise.all(
         seasons.map(
@@ -414,7 +414,12 @@ export const extractBooker = async (
     };
     return {
         ...result._doc,
-        _id: result._doc._id.toString()
+        _id: result._doc._id,
+        house: await transformHouse.bind(transformHouse, result._doc.house),
+        bookings: await transformBookings.bind(
+            transformBookings,
+            result._doc.bookings
+        )
     };
 };
 
@@ -488,7 +493,14 @@ export const extractBooking = async (
     };
     return {
         ...result._doc,
-        _id: result._doc._id.toString()
+        _id: result._doc._id,
+        house: await transformHouse.bind(transformHouse, result._doc.house),
+        booker: await transformBooker.bind(transformBooker, result._doc.booker),
+        roomType: await transformRoomType.bind(
+            transformRoomType,
+            result._doc.roomType
+        ),
+        guests: await transformGuests.bind(transformGuests, result._doc.guests)
     };
 };
 
@@ -496,9 +508,11 @@ export const extractBookings = async (
     bookings: Array<InstanceType<BookingSchema>>
 ): Promise<Booking[]> => {
     return await Promise.all(
-        bookings.map(async booking => {
-            return await extractBooking(booking);
-        })
+        bookings.map(
+            async (booking): Promise<Booking> => {
+                return await extractBooking(booking);
+            }
+        )
     );
 };
 
@@ -511,4 +525,23 @@ export const transformBooking = async (
     } else {
         return null;
     }
+};
+
+export const transformBookings = async (
+    bookingIds: Array<string | ObjectId>
+): Promise<Booking[]> => {
+    const temp: Array<InstanceType<BookingSchema>> = await BookingModel.find({
+        _id: {
+            $in: bookingIds.map(
+                (bookingId: string | ObjectId): ObjectId => {
+                    return new ObjectId(bookingId);
+                }
+            )
+        }
+    });
+    return await Promise.all(
+        temp.map(async booking => {
+            return await extractBooking(booking);
+        })
+    );
 };

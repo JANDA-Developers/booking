@@ -1,5 +1,6 @@
 type Booking {
     _id: ID!
+    # 예약 ID
     bookingId: String!
     house: House!
     roomType: RoomType!
@@ -44,4 +45,20 @@ input GuestPartInput {
     guestType: GuestType!
     count: Int!
     genders: [Gender!]
+}
+
+input BookingSortInput {
+    key: BookingSortKeyEnum!
+    order: Int!
+}
+
+input BookingFilter {
+    roomTypeId: ID!
+    booker: ID!
+}
+
+enum BookingSortKeyEnum {
+    _id
+    updatedAt
+    createdAt
 }
