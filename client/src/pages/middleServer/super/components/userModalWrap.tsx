@@ -8,8 +8,8 @@ interface IProps {
 }
 
 const UserModalWrap: React.SFC<IProps> = ({ modalHook }) => (
-  <Query>
-    <MyPage />
+  <Query query={}>
+    <MyPage modalHook={modalHook} />
   </Query>
 );
 export default UserModalWrap;
