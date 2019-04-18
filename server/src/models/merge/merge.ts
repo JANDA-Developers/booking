@@ -350,6 +350,20 @@ export const extractSeasonPrice = async (
     };
 };
 
+export const extractSeasonPrices = async (
+    seasonPrices: Array<InstanceType<SeasonPriceSchema>>
+): Promise<SeasonPrice[]> => {
+    return await Promise.all(
+        seasonPrices.map(
+            async (
+                seasonPrice: InstanceType<SeasonPriceSchema>
+            ): Promise<SeasonPrice> => {
+                return await extractSeasonPrice(seasonPrice);
+            }
+        )
+    );
+};
+
 export const transformSeasonPrice = async (
     seasonPriceId?: string,
     args?: { seasonId: string; roomTypeId: string }

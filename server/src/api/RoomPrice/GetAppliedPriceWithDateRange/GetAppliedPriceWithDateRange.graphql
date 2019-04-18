@@ -5,8 +5,8 @@ type GetAppliedPriceWithDateRangeResponse {
 }
 type Query {
     GetAppliedPriceWithDateRange(
+        roomTypeId: ID!
         start: DateTime!
         end: DateTime!
-        roomTypeId: ID
     ): GetAppliedPriceWithDateRangeResponse!
 }
