@@ -3,6 +3,10 @@ import { instanceMethod, InstanceType, prop, Typegoose } from "typegoose";
 import { ProductModel, ProductSchema } from "./Product";
 
 export class ProductTypeSchema extends Typegoose {
+    // TODO - HasHostApp: Boolean~ 생성하기
+    @prop({ default: true})
+    canHaveHostApp: boolean;
+
     @prop({ required: true })
     name: string;
 

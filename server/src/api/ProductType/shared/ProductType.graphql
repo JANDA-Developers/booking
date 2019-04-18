@@ -14,6 +14,7 @@ type ProductType {
     bookingCountExtraCharge: Int!
     # 상세 설명
     description: String
+    canHaveHostApp: Boolean!
     createdAt: DateTime!
     updatedAt: DateTime
 }

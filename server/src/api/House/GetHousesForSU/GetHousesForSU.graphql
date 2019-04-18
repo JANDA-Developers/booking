@@ -1,22 +1,22 @@
-type GetHousesForSuperUserResponseCursor {
+type GetHousesForSUData {
     edges: [HouseEdge!]
     pageInfo: PageInfo!
     totalCount: Int!
 }
-type GetHousesForSuperUserResponse {
+type GetHousesForSUResponse {
     ok: Boolean!
     error: String
-    result: GetHousesForSuperUserResponseCursor
+    result: GetHousesForSUData
 }
 type HouseEdge {
     cursor: String
     node: House
 }
 type Query {
-    GetHousesForSuperUser(
+    GetHousesForSU(
         first: Int!
         cursor: String
         sort: HouseSortInput
         filter: HouseFilter
-    ): GetHousesForSuperUserResponse!
+    ): GetHousesForSUResponse!
 }

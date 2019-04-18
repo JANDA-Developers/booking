@@ -1,9 +1,9 @@
-import { prop, Ref, Typegoose, arrayProp } from "typegoose";
+import { ObjectId } from "bson";
+import { arrayProp, prop, Ref, Typegoose } from "typegoose";
 import { HouseType, Location, TermsOfBooking } from "../types/graph";
 import { HostApplicationSchema } from "./HostApplication";
 import { ProductSchema } from "./Product";
 import { UserSchema } from "./User";
-import { ObjectId } from "bson";
 
 export enum Type {
     GUEST_HOUSE = "GUEST_HOUSE",

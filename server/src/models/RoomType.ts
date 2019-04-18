@@ -2,11 +2,11 @@ import { ObjectId } from "bson";
 import {
     arrayProp,
     index,
+    InstanceType,
     pre,
     prop,
     Ref,
-    Typegoose,
-    InstanceType
+    Typegoose
 } from "typegoose";
 import { PricingType, RoomGender } from "../types/graph";
 import { RoomSchema } from "./Room";
