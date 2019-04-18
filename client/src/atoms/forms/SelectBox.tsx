@@ -2,18 +2,20 @@ import React from 'react';
 import Select from 'react-select';
 import './SelectBox.scss';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import { SelectComponentsProps } from 'react-select/lib/Select';
 
 export interface IselectedOption {
   label: string;
   value: string | number;
 }
-
-interface Iprops {
+interface Iprops extends SelectComponentsProps {
   label?: string;
   disabled?: boolean;
   selectedOption?: IselectedOption;
   options?: IselectedOption[] | [];
   onChange(foo: IselectedOption): void;
+  className?: string;
   props?: any;
 }
 
@@ -23,6 +25,7 @@ const JDselect: React.SFC<Iprops> = ({
   selectedOption,
   onChange,
   options,
+  className,
   // eslint-disable-next-line no-unused-vars
   ...props
 }) => {
@@ -35,8 +38,12 @@ const JDselect: React.SFC<Iprops> = ({
     onChange(selectOption);
   };
 
+  const classes = classNames('JDselect', className, {
+    'JDselect--disabled': disabled,
+  });
+
   return (
-    <div className={disabled ? 'JDselect JDselect--disabled' : 'JDselect'}>
+    <div className={classes}>
       {label !== '' ? <span className="JDselect__label JDselect__label--top">{label}</span> : null}
       <Select
         {...props}

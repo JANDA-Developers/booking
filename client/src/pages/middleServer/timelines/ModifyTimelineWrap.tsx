@@ -36,7 +36,7 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
   const roomDataManufacture = (roomDatas: roomTypes[] | undefined = []) => {
     const roomGroups = [];
 
-    if (!isEmpty(roomDatas)) {
+    if (roomDatas) {
       roomDatas.map((roomData) => {
         // 우선 방들을 원하는 폼으로 변환
         if (!isEmpty(roomData.rooms)) {

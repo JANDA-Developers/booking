@@ -1,0 +1,32 @@
+@import '../../style_config/style_config.scss';
+
+
+#root {
+    .JDtable {
+
+        * {
+            border-color: $grey-opacity1;
+        }
+
+        &--center {
+            text-align: center;
+        }
+        .JDbtn {
+            margin-bottom: 0;
+        }
+// 👼 REACT TABLE
+        .rt {
+            &-thead {
+                    box-shadow: none;
+                    border-bottom: 2px solid $html-color;
+            }
+
+            &-td {
+                display:flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+
+    }
+}

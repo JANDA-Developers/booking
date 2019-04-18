@@ -41,12 +41,12 @@ export default function (groupCount = 80, itemCount = 80, daysInPast = 30) {
       end: endValue,
       canMove: startValue > new Date().getTime(),
       canResize: startValue > new Date().getTime()
-                ? endValue > new Date().getTime()
-                ? 'both'
-                : 'left' : endValue > new Date().getTime()
-                ? 'right' : false,
+        ? endValue > new Date().getTime()
+        ? 'both'
+        : 'left' : endValue > new Date().getTime()
+        ? 'right' : false,
       className: moment(startDate).day() === 6 || moment(startDate).day() === 0
-                ? 'item-weekend' : '',
+        ? 'item-weekend' : '',
       bgColor: randomColor({
         luminosity: 'light',
         seed: randomSeed + i,

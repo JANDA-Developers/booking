@@ -1,11 +1,13 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-shadow */
 /* ts-ignore */
+import randomColor from 'randomcolor';
 import { useState, useEffect } from 'react';
 import Axios from 'axios';
 import { toast } from 'react-toastify';
 import { bool } from 'prop-types';
 import { CLOUDINARY_KEY } from '../keys';
+import { IselectedOption } from '../atoms/forms/SelectBox';
 
 // 한방에 패치
 // A X I O S  : (http://codeheaven.io/how-to-use-axios-as-your-http-client/)
@@ -151,7 +153,35 @@ function useCheckBox(defaultValue: boolean) {
   };
 }
 
+export interface IUseColor {
+  color: string;
+  setColor: (inInfo: string) => void;
+  setDisplay: (inInfo: boolean) => void;
+  display: boolean;
+}
+
 // NAME SPACE
+function useColorPicker<IUseColor>(defaultValue: string | null) {
+  const [color, inSetColor] = useState(defaultValue || randomColor());
+  const [display, inSetDisplay] = useState(false);
+
+  const setColor = (value: string) => {
+    inSetColor(value);
+  };
+
+  const setDisplay = (value: boolean) => {
+    inSetDisplay(value);
+  };
+
+  return {
+    color,
+    setColor,
+    setDisplay,
+    display,
+  };
+}
+
+// 라디오 훅
 function useRadio(defaultValue: any = '') {
   const [value, setValue] = useState(defaultValue);
 
@@ -162,7 +192,7 @@ function useRadio(defaultValue: any = '') {
   return [value, onChange];
 }
 
-// NAME SPACE
+// 스위치 훅
 function useSwitch(defaultValue: boolean) {
   const [checked, setChecked] = useState(defaultValue);
 
@@ -173,8 +203,13 @@ function useSwitch(defaultValue: boolean) {
   return { checked, onChange };
 }
 
-// NAME SPACE
-function useSelect(defaultValue: any = {}) {
+export interface IUseSelect {
+  selectedOption: IselectedOption;
+  onChange(foo: any): void;
+}
+
+// 셀렉트박스 훅
+function useSelect(defaultValue: IselectedOption) {
   const [selectedOption, setSelectedOption] = useState(defaultValue);
 
   const onChange = (value: any) => {
@@ -278,4 +313,5 @@ export {
   useModal2,
   useDebounce,
   useImageUploader,
+  useColorPicker,
 };

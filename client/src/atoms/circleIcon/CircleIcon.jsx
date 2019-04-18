@@ -5,7 +5,7 @@ import ErrProtecter from '../../utils/ErrProtecter';
 import './CircleIcon.scss';
 
 const CircleIcon = ({
-  children, thema, darkWave, wave, onClick,
+  children, thema, darkWave, wave, onClick, hover, large,
 }) => {
   const handleOnclick = () => {
     onClick && onClick();
@@ -13,6 +13,8 @@ const CircleIcon = ({
 
   const classes = classNames({
     circleIcon: true,
+    'circleIcon--large': large,
+    'circleIcon--noHover': !hover,
     'circleIcon--white': thema === 'white',
     'circleIcon--greybg': thema === 'greybg',
     'JDwaves-effect': wave || darkWave,
@@ -31,12 +33,14 @@ CircleIcon.propTypes = {
   thema: PropTypes.string,
   darkWave: PropTypes.bool,
   wave: PropTypes.bool,
+  hover: PropTypes.bool,
   onClick: PropTypes.func,
 };
 
 CircleIcon.defaultProps = {
   thema: '',
   darkWave: false,
+  hover: true,
   wave: false,
   onClick: () => {},
 };

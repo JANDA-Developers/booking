@@ -8,27 +8,31 @@ import DocumentRouter from './pages/DocumentRouter';
 import NoMatch from './pages/NoMatch';
 import middleServerRouter from './pages/middleServerRouter';
 import JDtoast from './atoms/toast/Toast';
-// Library
 import './lib/wave/wave'; // 웨이브 이펙트
 import './lib/wave/wave.scss';
-
+import JDoutdatedBrowserRework from './utils/oldBrowser';
 
 function App() {
+  // const browser = browserDetect();
+  // console.log(browser);
+
+  JDoutdatedBrowserRework();
+
   return (
     <ApolloProvider client={client}>
       <Favicon url="https://res.cloudinary.com/stayjanda-com/image/upload/v1554092565/favicon.ico" />
       <Router>
-        <main>
-          <Switch>
-            {/* 상위 컴포넌트 영향에벋어날수 없다. */}
-            <Route exact path="/" component={middleServerRouter} />
-            <Route path="/MiddleServer" component={middleServerRouter} />
-            <Route path="/documents" component={DocumentRouter} />
-            <Route component={NoMatch} />
-          </Switch>
-        </main>
+        <Switch>
+          {/* 상위 컴포넌트 영향에벋어날수 없다. */}
+          <Route exact path="/" component={middleServerRouter} />
+          <Route path="/MiddleServer" component={middleServerRouter} />
+          <Route path="/documents" component={DocumentRouter} />
+          <Route component={NoMatch} />
+        </Switch>
       </Router>
       <JDtoast />
+      {/* for old borwser */}
+      <div id="outdated" />
     </ApolloProvider>
   );
 }

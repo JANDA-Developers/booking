@@ -1,0 +1,13 @@
+@import '../../../style_config/style_config.scss';
+
+.seasonT {
+    &__arrows {
+        font-size: $typho-large;
+        & > .JDicon__svg {
+            margin-left: $standard-space;
+        }
+        & > .JDicon__svg:first-child {
+            margin-left: 0;
+        }
+    }
+}

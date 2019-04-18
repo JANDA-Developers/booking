@@ -3,9 +3,11 @@ import React from 'react';
 import { toast } from 'react-toastify';
 import { withRouter } from 'react-router-dom';
 import Header from './Header';
-import { LOG_USER_OUT, SELECT_HOUSE } from '../../clientQueries';
+import { LOG_USER_OUT } from '../../clientQueries';
 
-const HeaderWrap = ({ history, ...props }) => (
+const HeaderWrap = ({
+  selectedHouse, houses, history, ...props
+}) => (
   <Mutation
     mutation={LOG_USER_OUT}
     onCompleted={() => {
@@ -14,22 +16,7 @@ const HeaderWrap = ({ history, ...props }) => (
     }}
   >
     {logOutMutation => (
-      <Mutation
-        mutation={SELECT_HOUSE}
-        nError={(error) => {
-          console.error('error');
-          console.warn(error);
-        }}
-        onCompleted={({ selectHouse }) => {
-          if (selectHouse && selectHouse.ok) {
-            toast.success('숙소변경');
-          }
-        }}
-      >
-        {selectHouseMutation => (
-          <Header {...props} logOutMutation={logOutMutation} selectHouseMutation={selectHouseMutation} />
-        )}
-      </Mutation>
+      <Header {...props} selectedHouse={selectedHouse} houses={houses} logOutMutation={logOutMutation} />
     )}
   </Mutation>
 );

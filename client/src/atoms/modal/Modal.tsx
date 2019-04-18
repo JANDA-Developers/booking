@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactModal from 'react-modal';
 import './Modal.scss';
+import classNames from 'classnames';
 
 interface IProps {
   center?: boolean;
@@ -10,9 +11,14 @@ interface IProps {
   [key: string]: any;
 }
 
-const JDmodal: React.SFC<IProps> = ({ center, isOpen, ...props }) => {
+const JDmodal: React.SFC<IProps> = ({
+  center, className, isOpen, ...props
+}) => {
+  const classes = classNames('Modal', className, {
+    'ReactModal--center': center,
+  });
   const defualtJDmodalProps = {
-    className: `Modal ${center ? 'ReactModal--center' : null}`,
+    className: `Modal ${classes}`,
     overlayClassName: 'Overlay',
   };
 

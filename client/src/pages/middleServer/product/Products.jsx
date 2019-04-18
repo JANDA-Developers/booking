@@ -4,12 +4,19 @@ import PropTypes from 'prop-types';
 import Product from './components/Product';
 import Button from '../../../atoms/button/Button';
 import Preloader from '../../../atoms/preloader/Preloader';
+import CircleIcon from '../../../atoms/circleIcon/CircleIcon';
 import Modal from '../../../atoms/modal/Modal';
 import Slider from '../../../components/slider/Slider';
-import { isEmpty } from '../../../utils/utils';
+import {
+  isEmpty, downloadisEmpty, toast, download,
+} from '../../../utils/utils';
 import Tooltip, { ReactTooltip } from '../../../atoms/tooltip/Tooltip';
 import { RefundPolicyNode } from '../../../docs/refundPolicy';
+import hwpIcon from '../../../img/icon/hwpIcon.png';
+import pdfIcon from '../../../img/icon/pdfIcon.png';
 import './Products.scss';
+import manualHwp from '../../../docs/manual.hwp';
+import manualPdf from '../../../docs/manual.pdf';
 
 // currentProduct : 현재 적용중인 상품
 const Products = ({
@@ -27,8 +34,28 @@ const Products = ({
   useEffect(() => {
     ReactTooltip.rebuild();
   });
+
   const closeTooltip = () => {
     ReactTooltip.hide();
+  };
+
+  const onDownloadHwp = () => {
+    downloadMenual('hwp');
+  };
+
+  const onDownloadPdf = () => {
+    downloadMenual('pdf');
+  };
+
+  // 설명서 다운로드
+  const downloadMenual = (form) => {
+    let manual = '';
+    if (form === 'hwp') manual = manualHwp;
+    if (form === 'pdf') manual = manualPdf;
+
+    download(manual, `홈페이지 사용 메뉴얼.${form}`).then(() => {
+      toast.success('메뉴얼 다운로드 완료');
+    });
   };
 
   return (
@@ -114,17 +141,40 @@ const Products = ({
       <Modal
         appElement={document.getElementById('root')}
         center
-        onRequestClose={demoModal.modalOpen}
+        className="products__experience"
+        onRequestClose={demoModal.modalClose}
         isOpen={demoModal.isOpen}
       >
-        <h5>JANDA</h5>
-        <h6> 서비스체험을 시작합니다.</h6>
-        <div className="ReactModal__EndSection">
-          <h6>
-            <a href="http://janda-tmp.com" className="JDanchor">
-              {'체험시작'}
-            </a>
-          </h6>
+        <div>
+          <h5>JANDA 무료 체험하기</h5>
+          <h6>이용 메뉴얼</h6>
+          <div className="flex-grid">
+            <div className="flex-grid__col col--full-6 downloadBox">
+              <p className="downloadBox__header">
+                <span>HWP파일</span>
+                <CircleIcon onClick={onDownloadHwp} hover={false}>
+                  <img src={hwpIcon} />
+                </CircleIcon>
+              </p>
+              <Button onClick={onDownloadHwp} label="다운로드" thema="grey" mode="flat" icon="download" />
+            </div>
+            <div className="flex-grid__col col--full-6 downloadBox">
+              <p className="downloadBox__header">
+                <span>PDF파일</span>
+                <CircleIcon onClick={onDownloadPdf} hover={false}>
+                  <img src={pdfIcon} />
+                </CircleIcon>
+              </p>
+              <Button onClick={onDownloadPdf} label="다운로드" thema="grey" mode="flat" icon="download" />
+            </div>
+          </div>
+          <div className="ReactModal__EndSection ReactModal__EndSection--float">
+            <h6>
+              <a href="http://janda-tmp.com" className="JDanchor">
+                {'체험시작'}
+              </a>
+            </h6>
+          </div>
         </div>
       </Modal>
       {/* 리펀트 시작 */}

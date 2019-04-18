@@ -4,7 +4,6 @@ import { Mutation, graphql } from 'react-apollo';
 import { Redirect } from 'react-router-dom';
 import { useRadio, useModal2 } from '../../../actions/hook';
 import Products from './Products';
-import manual from '../../../manual.hwp';
 import {
   GET_All_PRODUCTS_TYPES, BUY_PRODUCTS, GET_USER_INFO, REFUND_PRODUCT,
 } from '../../../queries';
@@ -75,7 +74,12 @@ const ProductsWrap = ({
     value: product1Id,
     roomLimit: '룸 7개이하',
     roomCondition: '(공유민박, 소규모 숙소)',
-    price: '설치비 무료',
+    price: (
+      <span>
+        {'55,000'}
+        <span className="JDsmall-text"> /월 (부가세포함)</span>
+      </span>
+    ),
     specifications: ['직접 세팅이 가능한 숙소 홈페이지', '실시간 예약 시스템', '다국어 하우스 메뉴얼'],
     isSelected: selectedProductTypeId === product1Id,
     isCurrent: currentProductTypeId === product1Id,
@@ -89,7 +93,12 @@ const ProductsWrap = ({
     value: product2Id,
     roomLimit: '룸 8 ~ 20개',
     roomCondition: '(게스트하우스, 펜션)',
-    price: '30.000 /월',
+    price: (
+      <span>
+        {'55,000+'}
+        <span className="JDsmall-text"> /월 (부가세포함)</span>
+      </span>
+    ),
     specifications: ['직접 세팅이 가능한 숙소 홈페이지', '실시간 예약 시스템', '다국어 하우스 메뉴얼(월 1만원 추가)'],
     isSelected: selectedProductTypeId === product2Id,
     isCurrent: currentProductTypeId === product2Id,
@@ -132,11 +141,7 @@ const ProductsWrap = ({
       onCompleted={({ BuyProduct }) => {
         if (BuyProduct.ok) {
           toast.success('서비스 적용 완료');
-          // 체험상품을 선택했을경우에
           if (testProductId === selectedProductTypeId) {
-            download(manual, '홈페이지 사용 메뉴얼.hwp').then(() => {
-              toast.success('메뉴얼 다운로드 완료');
-            });
             demoModal.openModal();
             return;
           }

@@ -13,12 +13,23 @@
     display: inline-block;
     font-size:inherit;
     cursor:pointer;
-    
+
+    &:hover {
+        background-color: $hover-effect-dark;
+        transition:0.3s;
+    }
     &--white {
         color:white;
     }
     &--greybg {
         background-color: $grey-level1;
+    }
+    &--large {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+    &--noHover:hover {
+        background-color:unset;
     }
 
     .JDicon__svg {
@@ -26,8 +37,8 @@
         top:.1em;
     }
 
-    &:hover {
-        background-color: $hover-effect-dark;
-        transition:0.3s;
+
+    img {
+        width: 100%;
     }
 }

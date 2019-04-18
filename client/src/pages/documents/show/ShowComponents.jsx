@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import faker from 'faker';
 import Tooltip from '../../../atoms/tooltip/Tooltip';
 import CheckBox from '../../../atoms/forms/CheckBox';
 import Switch from '../../../atoms/forms/Switch';
@@ -20,6 +21,7 @@ import SliderExample from './examples/example_slider';
 import SliderExample2 from './examples/example_slider2';
 import JDlabel from '../../../atoms/label/JDLabel';
 import JDmodal from '../../../atoms/modal/Modal';
+import JDtable from '../../../atoms/table/Table';
 import ProfileCircle from '../../../atoms/profileCircle/ProfileCircle';
 import {
   Tab, Tabs, TabList, TabPanel,
@@ -35,10 +37,15 @@ import {
   useToggle,
   useModal,
   useImageUploader,
+  useColorPicker,
 } from '../../../actions/hook';
 import './ShowComponent.scss';
+import JDcolorPicker from '../../../atoms/colorPicker/ColorPicker';
 
 function ShowComponents() {
+  const defaultColor = faker.commerce.color();
+  const defaultColor2 = faker.commerce.color();
+  const defaultColor3 = faker.commerce.color();
   const [isOpen, openModal, closeModal] = useModal(false);
   // the wayMake a Controlled Value
   const inputVali = useInput('1232');
@@ -47,6 +54,9 @@ function ShowComponents() {
   const useSelect1 = useSelect();
   const useSelect2 = useSelect();
   const useSelect3 = useSelect();
+  const colorPickerHook = useColorPicker(defaultColor);
+  const colorPickerHook2 = useColorPicker(defaultColor2);
+  const colorPickerHook3 = useColorPicker(defaultColor3);
   const switchHook = useSwitch(false);
   const refContainer = useRef();
   const [SideNavIsOpen, setSideNavIsOpen] = useToggle(false);
@@ -63,6 +73,41 @@ function ShowComponents() {
     { value: 'chocolate', label: 'Chocolate' },
     { value: 'strawberry', label: 'Strawberry' },
     { value: 'vanilla', label: 'Vanilla' },
+  ];
+
+  const TableData = [
+    { color: 'blue', food: 'food', actor: 'i' },
+    { color: 'blue', food: 'food', actor: 'i' },
+    { color: 'blue', food: 'food', actor: 'i' },
+  ];
+
+  const TableColumns = [
+    {
+      Header: '번호',
+      accessor: 'index',
+      Cell: props => <span>{props.index}</span>,
+    },
+    {
+      Header: '우선순위',
+      accessor: 'priority',
+    },
+    {
+      Header: '시즌명',
+      accessor: 'name',
+    },
+    {
+      Header: '시즌기간',
+      accessor: 'term',
+    },
+    {
+      Header: '대표색',
+      accessor: 'color',
+    },
+    {
+      Header: '삭제/생성',
+      accessor: 'controll',
+      Cell: props => <Button mode="flat" thema="warn" label="삭제" />,
+    },
   ];
 
   return (
@@ -203,19 +248,22 @@ function ShowComponents() {
 
         {/* 달력 */}
         <h6>DatePicker</h6>
-        <div className="flex-grid-grow flex-grid--wmd docs-section__box">
-          <div className="flex-grid__col">
+        <div className="flex-grid docs-section__box">
+          <div className="flex-grid__col col--full-4 col--wmd-12">
             <div className="showComponent__container">
               <JDlabel txt="horizen" />
-              <DayPicker horizen />
+              <DayPicker onChange={() => {}} horizen />
             </div>
           </div>
-          <div className="flex-grid__col">
+          <div className="flex-grid__col col--full-4 col--wmd-12">
             <JDlabel txt="normal" />
-            <DayPicker />
+            <DayPicker onChange={() => {}} />
           </div>
-          <div className="flex-grid__col">
-            <DayPicker input label="input" isRange={false} />
+          <div className="flex-grid__col col--full-4 col--wmd-12">
+            <DayPicker onChange={() => {}} input label="input" isRange />
+          </div>
+          <div className="flex-grid__col col--full-4 col--wmd-12">
+            <DayPicker onChange={() => {}} input label="input" isRange={false} />
           </div>
         </div>
 
@@ -240,12 +288,33 @@ function ShowComponents() {
 
         {/* 뱃지 */}
         <h6>Badge</h6>
-        <div className="docs-section__box flex-grid">
+        <div className="docs-section__box">
           <JDbadge thema="white">white</JDbadge>
           <JDbadge thema="black">black</JDbadge>
           <JDbadge thema="primary">primary</JDbadge>
           <JDbadge thema="secondary">secondary</JDbadge>
           <JDbadge thema="new">new</JDbadge>
+        </div>
+
+        {/* 테이블 */}
+        <h6>Table</h6>
+        <div className="docs-section__box flex-grid">
+          <JDtable
+            columns={TableColumns}
+            data={TableData}
+            showPagination={false}
+            loading={false}
+            align="center"
+            minRows={0}
+          />
+        </div>
+
+        {/* 컬러픽커 */}
+        <h6>ColorPikcer</h6>
+        <div className="docs-section__box">
+          <JDcolorPicker colorPickerHook={colorPickerHook} />
+          <JDcolorPicker colorPickerHook={colorPickerHook2} />
+          <JDcolorPicker colorPickerHook={colorPickerHook3} />
         </div>
 
         {/* 버튼 */}
@@ -311,7 +380,7 @@ function ShowComponents() {
 
         {/* 아이콘들 */}
         <h6>Icons</h6>
-        <div className="flex-grid-grow docs-section__box">
+        <div className=" docs-section__box">
           {Object.keys(icons).map(key => (
             <div key={`showComponent__${key}`} className="showComponent__icon_box">
               <Icon label={key} icon={key} />

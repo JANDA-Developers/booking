@@ -29,44 +29,39 @@ const ShowTimeline: React.SFC<IProps> = ({
   setConfigMode,
   defaultProps,
   items,
-}) => {
-  console.log(defaultProps);
-  console.log(defaultProps);
-  console.log(defaultProps);
-  return (
-    <div id="ShowTimeline" className="container container--full">
-      <div className="docs-section">
-        <div className="flex-grid flex-grid--end">
-          <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
-            <DayPicker input label="input" isRange={false} />
-          </div>
-          <Link to="/middleServer/timelineConfig">
-            <Button float="right" onClick={setConfigMode} icon="roomChange" label="방구조 변경" />
-          </Link>
+}) => (
+  <div id="ShowTimeline" className="container container--full">
+    <div className="docs-section">
+      <div className="flex-grid flex-grid--end">
+        <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
+          <DayPicker onChange={() => {}} input label="input" isRange={false} />
         </div>
-        <Timeline
-          {...defaultProps}
-          onItemMove={handleItemMove}
-          onItemResize={handleItemResize}
-          items={items}
-          // 아래 속성은 퍼포먼스에 민감하게 작용합니다.
-          verticalLineClassNamesForTime={(timeStart: any, timeEnd: any) => {
-            if (timeStart < new Date().getTime()) return ['verticalLine', 'verticalLine--past'];
-            return ['verticalLine'];
-          }}
-          horizontalLineClassNamesForGroup={(group: any) => ['group']}
-          onItemDoubleClick={handleItemDoubleClick}
-          onCanvasDoubleClick={handleCanvasDoubleClick}
-        />
-        <POPbookerInfo
-          bookerInfo={undefined}
-          bookerModalIsOpen={bookerModal.isOpen}
-          bookerModalClose={bookerModal.closeModal}
-        />
+        <Link to="/middleServer/timelineConfig">
+          <Button float="right" onClick={setConfigMode} icon="roomChange" label="방구조 변경" />
+        </Link>
       </div>
+      <Timeline
+        {...defaultProps}
+        onItemMove={handleItemMove}
+        onItemResize={handleItemResize}
+        items={items}
+        // 아래 속성은 퍼포먼스에 민감하게 작용합니다.
+        verticalLineClassNamesForTime={(timeStart: any, timeEnd: any) => {
+          if (timeStart < new Date().getTime()) return ['verticalLine', 'verticalLine--past'];
+          return ['verticalLine'];
+        }}
+        horizontalLineClassNamesForGroup={(group: any) => ['group']}
+        onItemDoubleClick={handleItemDoubleClick}
+        onCanvasDoubleClick={handleCanvasDoubleClick}
+      />
+      <POPbookerInfo
+        bookerInfo={undefined}
+        bookerModalIsOpen={bookerModal.isOpen}
+        bookerModalClose={bookerModal.closeModal}
+      />
     </div>
-  );
-};
+  </div>
+);
 
 ShowTimeline.defaultProps = {
   handleCanvasDoubleClick: () => {},

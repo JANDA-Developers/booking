@@ -11,40 +11,17 @@ import Icon from '../../atoms/icons/Icons';
 import { ErrProtecter } from '../../utils/utils';
 import logo from '../../img/logo/logo--white.png'; // with import
 import { useSelect } from '../../actions/hook';
+import SelectHouseWrap from '../selectHouse/SelectHouseWrap';
 
 const Header = ({
   isPhoneVerified,
   isLoggedIn,
   sideNavOpener,
-  userInformation,
-  lastSelectedHouse,
+  selectedHouse,
+  houses,
   logOutMutation,
-  selectHouseMutation,
 }) => {
   // 셀렉트박스가 읽을수 있도록 변환
-  const formetedSelectedHouse = {
-    value: lastSelectedHouse._id,
-    label: lastSelectedHouse.name,
-  };
-
-  const selectedHouseHook = useSelect(formetedSelectedHouse);
-
-  // 유저가 생선한 모든 하우스들을 select에 맞게 포맷
-  let houseOptions = [];
-  if (userInformation && userInformation.houses) {
-    const { houses } = userInformation;
-    houseOptions = houses.map(house => ({ value: house._id, label: house.name }));
-  }
-
-  const handleSelectHouse = (value) => {
-    selectedHouseHook.onChange(value);
-    selectHouseMutation({ variables: { selectedHouse: value } });
-  };
-
-  useEffect(() => {
-    selectedHouseHook.onChange(formetedSelectedHouse);
-  }, [formetedSelectedHouse.value]);
-
   useEffect(() => {
     ReactTooltip.rebuild();
   });
@@ -67,11 +44,9 @@ const Header = ({
           <span data-tip data-delay-hide={0} data-for="listAboutUser" data-event="click" className="header__profile">
             <ProfileCircle isBordered whiteBorder tiny />
           </span>
-          <SelectBox
-            placeholder="숙소를 생성해주세요."
-            options={houseOptions}
-            {...selectedHouseHook}
-            onChange={handleSelectHouse}
+          <SelectHouseWrap
+            selectedHouse={selectedHouse}
+            houses={houses}
           />
           {isPhoneVerified || (
             <NavLink className="header__btns header__btns--mobileX" to="/middleServer/phoneVerification">

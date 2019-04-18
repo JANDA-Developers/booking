@@ -1,3 +1,7 @@
+// ⭐️ Style Rule 
+// h3 : 페이지 제목
+// standard 로부터 뻗어나가게
+
 /* ------------------------------ // STUB UNITY ----------------------------- */
 // -- z-index 
 $z-index-0: -1; // container--centerlize
@@ -47,6 +51,7 @@ $link-color-active: rgb(48, 45, 131) !default;
 $grey-level1: #EBEBEB !default; // 흰색 effect-dark 받을때 컬러 오버랩을 원치 않을때 사용
 $grey-level2: #b8b8b8 !default; 
 $grey-level3: #787878 !default;
+$grey-opacity1: rgba(0,0,0,.04);
 $hover-effect-white: rgba(255,255,255,.1);
 $hover-effect-dark: rgba(0,0,0,.08);
 $curtain-color: rgba(0,0,0,.78) !default;
@@ -74,7 +79,7 @@ $desktophdUp: "1201px" !default; //  wlg
 $container-width: 1000px !default;
 $container-full-width: 96% !default;
 $container-small-width: 550px !default;
-$container-padding: 0.5rem; // ⭐️
+$container-padding: 0.8rem; // ⭐️
 $container-content-full: calc(100% - #{$container-padding * 2}); // ⭐️
 $total-columns: 12 !default;
 $column-width: 100 / $total-columns !default; // calculates individual column width based off of # of columns
@@ -103,7 +108,7 @@ $standard-margin-bottom: 1.0rem !default; // except textInput 구조가 다름
 $standard-border-radius: 4px;
 $standard-li-height: 36px;
 $standard-lists-line: 150%; // 옹기종기모인 div들 정리용
-$standard-li-padding: 1rem; // side
+$standard-side-padding: .5rem; // side
 $standard-icon-margin : 1rem;
 $standard-small-icon-margin : .5rem;
 // TODO: 새로추가됨 이걸로 정리해야함
@@ -147,9 +152,9 @@ $select-option-active-bgcolor: $hover-effect-dark !default;
 $select-option-selected-bgcolor: $primary-color !default;
 $select-option-selected-color: #fff !default;
 $select-option-hover-bgcolor: $hover-effect-dark !default;
-$select-option-padding: 0rem $standard-li-padding;
+$select-option-padding: 0rem $standard-side-padding;
 $select-option-height: $standard-li-height;
-$select-padding: 2px 1rem !default;
+$select-padding: 2px .5rem !default;
 $select-radius: $standard-border-radius !default;
 $select-disabled-color: $standard-disabled-color !default;
 $select-menue-radius: 0px !default;
@@ -271,15 +276,15 @@ $searchInput-input-margin-bottom: .5rem !default;
 $searchInput-border-color:$grey-level1 !default;
 $searchInput-border-radius: $standard-border-radius;
 $searchInput-li-border-top: 1px dotted $searchInput-border-color !default;
-$searchInput-li-padding: .3rem $standard-li-padding !default;
+$searchInput-li-padding: .3rem $standard-side-padding !default;
 $searchInput-li-height: $standard-li-height !default;
 
 // 7 SideNav 사이드 네비
 // ANCHOR Side NAV =========================================================================
 
-$sideNav-list-padding: $standard-li-padding * 1.5;
+$sideNav-list-padding: $standard-side-padding * 1.5;
 $sideNav-width : 200px;
-$sideNav-profile-height : 10rem;
+$sideNav-profile-height : 12rem;
 $sideNav-profile-circle-size : 72px;
 $sideNav-profile-circle-margin-top : 2rem;
 $sideNav-list-li-height : 54px;
@@ -339,7 +344,7 @@ $card-padding: $container-padding;
 
 $tabs-height: $standard-li-height;
 $tabs-margin-bottom: $standard-margin-bottom;
-$tabs-tab-padding:  $standard-li-padding;
+$tabs-tab-padding:  $standard-side-padding;
 $tabs-tab-border-color: $html-color;
 $tabs-tab-border-radious: $standard-border-radius;
 

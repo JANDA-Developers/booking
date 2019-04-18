@@ -103,6 +103,7 @@ function SignUp({ history }) {
                       </div>
                       <div className="flex-grid__col col--full-12 col--md-12">
                         <InputText {...passwordHook} validation={utils.isPassword} type="password" label="비밀번호" />
+                        <p className="JDsmall-text">* 특수문자 1개이상, 7~15자리 영문 숫자 조합</p>
                       </div>
                       <div className="flex-grid__col col--full-12 col--md-12">
                         <InputText {...checkPasswordHook} type="password" label="비밀번호 확인" />

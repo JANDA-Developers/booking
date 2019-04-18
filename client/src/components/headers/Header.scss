@@ -24,10 +24,10 @@
         }
     }
 
-
-    // 로고 랩
+    // 로고 이미지 여백 맞춤
     &__logoPlace {
-        padding: $button-padding;
+        margin-left: -4px;
+        padding-right: $standard-side-padding;
     }
 
     // 로고
@@ -97,7 +97,6 @@
                 min-height:28px;
             }
         }
-
     }
 
     @include response($phablet) {
@@ -106,8 +105,7 @@
         
         
         &__logoPlace {
-            padding-left: $container-padding;
-            padding-right: $container-padding;
+            padding-left: calc(#{$standard-side-padding} * 2);
         }
         
         &__btns--mobileX,&__profile,.JDselect {

@@ -16,13 +16,18 @@ export interface Data {
   [foo: string]: any;
 }
 
-const QueryDataFormater = (data: Data | undefined, queryName: string, dataName: string | undefined, falsyReturn : any): any => {
+const QueryDataFormater = (
+  data: Data | undefined,
+  queryName: string,
+  dataName: string | undefined,
+  falsyReturn: any,
+): any => {
   if (!isEmpty(data)) {
     if (!isEmpty(data[queryName])) {
       if (dataName) {
-          if(!isEmpty(data[queryName][dataName])){
-            return data[queryName][dataName];
-          }
+        if (!isEmpty(data[queryName][dataName])) {
+          return data[queryName][dataName];
+        }
       }
       return data[queryName];
     }
@@ -30,8 +35,8 @@ const QueryDataFormater = (data: Data | undefined, queryName: string, dataName: 
       console.error('QueryDataFormater: Error From BackEnd');
       console.error(data.error);
       toast.error(data.error);
-    }else {
-    console.error('QueryDataFormater: Error From Front');
+    } else {
+      console.error('QueryDataFormater: Error From Front');
     }
   }
   return falsyReturn;

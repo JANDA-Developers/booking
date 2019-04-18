@@ -59,6 +59,16 @@
         align-content: center;
         flex-direction: column;
         text-align: center;
+
+
+        .JDselect {
+            padding: $standard-side-padding;
+            margin-bottom:0;
+            text-align:left;
+            .react-select__control {
+                border:none;
+            }
+        }
     }
     
     &__name {

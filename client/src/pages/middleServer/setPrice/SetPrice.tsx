@@ -1,10 +1,23 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import ErrProtecter from '../../../utils/ErrProtecter';
 import './SetPrice.scss';
+import SeasonTable from './components/seasonTableWrap';
 
-interface IProps {}
+import { IUseModal } from '../../../actions/hook';
 
-const SetPrice: React.SFC<IProps> = () => <div />;
+interface IProps {
+  loading: boolean;
+  seasonData: any;
+  seasonModal: IUseModal;
+}
+
+const SetPrice: React.SFC<IProps> = ({ loading, seasonData, seasonModal }) => (
+  <div id="seasonTable" className="seasonT container">
+    <div className="docs-section">
+      <h3>가격설정</h3>
+      <SeasonTable />
+    </div>
+  </div>
+);
 
 export default ErrProtecter(SetPrice);

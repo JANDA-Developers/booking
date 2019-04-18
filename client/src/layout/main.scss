@@ -17,3 +17,6 @@
 // 4. effects
 @import 'effect/_pulse',
 'effect/_blink';
+
+// 5 for old browser
+@import 'base/_oldBrowser';

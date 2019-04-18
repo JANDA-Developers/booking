@@ -1372,6 +1372,18 @@
             "deprecationReason": null
           },
           {
+            "name": "profileImg",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "URL",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "isPhoneVerified",
             "description": "",
             "args": [],
@@ -1507,6 +1519,16 @@
         "kind": "SCALAR",
         "name": "PhoneNumber",
         "description": "전화번호임. 특수문자(+,-만 사용 가능), 문자열 수 14자 이하, 숫자 only",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "URL",
+        "description": "URL.../^http(s)?://(www.)?[a-z0-9]+([-.]{1}[a-z0-9]+)*.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?$/",
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -2078,16 +2100,6 @@
             "deprecationReason": null
           }
         ],
-        "possibleTypes": null
-      },
-      {
-        "kind": "SCALAR",
-        "name": "URL",
-        "description": "URL.../^http(s)?://(www.)?[a-z0-9]+([-.]{1}[a-z0-9]+)*.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?$/",
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
-        "enumValues": null,
         "possibleTypes": null
       },
       {
@@ -6468,6 +6480,16 @@
                     "name": "Password",
                     "ofType": null
                   }
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "profileImg",
+                "description": "",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "URL",
+                  "ofType": null
                 },
                 "defaultValue": null
               },

@@ -1,5 +1,5 @@
 /* eslint-disable react/forbid-prop-types */
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { graphql, compose } from 'react-apollo';
 import PT from 'prop-types';
@@ -9,7 +9,7 @@ import SideNav from '../components/sideNav/SideNav';
 import NoMatch from './NoMatch';
 import { IS_LOGGED_IN, SELECTED_HOUSE } from '../clientQueries';
 import { GET_USER_INFO } from '../queries';
-import { useToggle } from '../actions/hook';
+import { useToggle, useSelect } from '../actions/hook';
 import { isEmpty } from '../utils/utils';
 import Preloader from '../atoms/preloader/Preloader';
 import {
@@ -27,7 +27,7 @@ import {
   SetPrice,
 } from './pages';
 import { UserRole } from '../types/apiEnum';
-import { getMyProfile_GetMyProfile_user_houses as IHouses, getMyProfile_GetMyProfile_user } from '../types/api';
+import IHouses from '../types/interface';
 
 interface IProps {
   [key: string]: any;
@@ -54,11 +54,7 @@ const JDmiddleServer: React.SFC<IProps> = ({
 
   const selectedProduct = selectedHouse.product || {};
   const { isPhoneVerified, userRole } = user;
-  console.log(userRole);
-  console.log(userRole);
-  console.log(userRole);
-  console.log(userRole);
-  console.log(userRole);
+
   return isloading ? (
     <Preloader page />
   ) : (
@@ -73,9 +69,10 @@ const JDmiddleServer: React.SFC<IProps> = ({
           <Header
             userInformation={user}
             isPhoneVerified={isPhoneVerified}
-            lastSelectedHouse={selectedHouse}
+            selectedHouse={selectedHouse}
             isLoggedIn={isLoggedIn}
             sideNavOpener={setSideNavIsOpen}
+            houses={houses}
           />
         )}
       />
@@ -86,6 +83,7 @@ const JDmiddleServer: React.SFC<IProps> = ({
         selectedProduct={selectedProduct}
         userInformation={user}
         setIsOpen={setSideNavIsOpen}
+        houses={houses}
       />
       {/* 라우팅 시작 */}
       <Switch>
@@ -114,7 +112,7 @@ const JDmiddleServer: React.SFC<IProps> = ({
         <Route
           exact
           path="/middleServer/myPage"
-          render={() => (isLoggedIn ? <MyPage userInformation={user} houses={houses} /> : <Login />)}
+          render={() => (isLoggedIn ? <MyPage userData={user} houses={houses} /> : <Login />)}
         />
         {/* 숙소생성 */}
         <Route exact path="/middleServer/makeHouse" component={isLoggedIn ? MakeHouse : Login} />
@@ -133,7 +131,6 @@ const JDmiddleServer: React.SFC<IProps> = ({
           ))
           }
         />
-
         {/* 인증 */}
         <Route exact path="/middleServer/phoneVerification" component={isLoggedIn ? PhoneVerification : undefined} />
         {/* 회원가입 */}
@@ -142,7 +139,6 @@ const JDmiddleServer: React.SFC<IProps> = ({
         <Route exact path="/middleServer/login" component={isLoggedIn ? undefined : Login} />
         {/* 슈퍼관리자 */}
         <Route exact path="/middleServer/superAdmin" component={userRole === UserRole.ADMIN ? SuperMain : NoMatch} />
-
         {/* 대기 */}
         {isEmpty(selectedProduct) ? (
           <Route component={NoMatch} />
@@ -155,20 +151,21 @@ const JDmiddleServer: React.SFC<IProps> = ({
           />
         )}
         {/* /* ------------------------------ JANDA BOOKING ----------------------------- */}
+        {' '}
         {/* 방배정 */}
-        {/* <Route exact path="/middleServer/timeline" render={AssigTimeline} /> */}
+        <Route exact path="/middleServer/timeline" render={AssigTimeline} />
         {/* 방생성 */}
-        {/* <Route
+        <Route
           exact
           path="/middleServer/timelineConfig"
           render={() => (isEmpty(selectedHouse) ? <NoMatch /> : <ModifyTimeline selectedHouse={selectedHouse} />)}
-        /> */}
+        />
         {/* 가격설정 */}
-        {/* <Route
+        <Route
           exact
           path="/middleServer/setPrice"
           render={() => (isEmpty(selectedHouse) ? <NoMatch /> : <SetPrice selectedHouse={selectedHouse} />)}
-        /> */}
+        />
         <Route component={NoMatch} />
       </Switch>
     </Fragment>

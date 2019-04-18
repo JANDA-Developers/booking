@@ -1,3 +1,5 @@
+import 'whatwg-fetch';
+import 'babel-polyfill';
 import 'react-app-polyfill/ie11';
 /* eslint-disable */
 // prettier-ignore

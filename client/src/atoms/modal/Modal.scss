@@ -23,6 +23,7 @@
     // 모달 내용
     &__Content  {
         background-color:white;
+        position: relative;
         padding: $modal-content-padding;
         outline: none;
         border-radius: $modal-border-radius;
@@ -41,6 +42,13 @@
     }
 
     &__EndSection {
+
+        &--float {
+          position:absolute;   
+        }
+        
+        bottom: 0 + $modal-content-padding;
+        width: calc(100% - #{$modal-content-padding * 2});
         .JDbtn {
             margin-bottom: 0;
         }

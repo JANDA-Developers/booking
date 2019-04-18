@@ -7,10 +7,14 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "@types/react-table": "^6.8.1",
     "apollo": "^2.6.2",
     "apollo-boost": "^0.1.23",
+    "apollo-cache-inmemory": "^1.5.1",
     "axios": "^0.18.0",
     "babel-cli": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "browser-detect": "^0.2.28",
     "classnames": "^2.2.6",
     "dotenv": "^6.2.0",
     "download": "^7.1.0",
@@ -29,6 +33,7 @@
     "markdown-to-jsx": "^6.9.1",
     "moment": "^2.24.0",
     "node-sass": "^4.11.0",
+    "outdated-browser-rework": "^2.8.0",
     "prop-types": "^15.6.2",
     "randomcolor": "^0.5.4",
     "react": "^16.7.0",
@@ -49,9 +54,11 @@
     "react-search-field": "^1.0.0",
     "react-select": "^2.3.0",
     "react-slick": "^0.23.2",
+    "react-table": "^6.9.2",
     "react-tabs": "^3.0.0",
     "react-toastify": "^4.5.2",
-    "react-tooltip": "^3.9.2"
+    "react-tooltip": "^3.9.2",
+    "whatwg-fetch": "^3.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -163,7 +170,6 @@
     "@types/react-select": "^2.0.15",
     "@typescript-eslint/eslint-plugin": "^1.6.0",
     "@typescript-eslint/parser": "^1.6.0",
-    "babel-polyfill": "^6.26.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-graphql": "^3.0.1",
     "eslint-plugin-prettier": "^3.0.1",

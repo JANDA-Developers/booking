@@ -12,11 +12,13 @@
     .products__productWrap {
         margin-bottom: $standard-margin-bottom;
     }
-
+ 
+    
     // with Wmd Mark up in product.jsx
     @media(max-width:$tablet) {
         text-align: center;
     }
+
 
     .JDslider {
         .JDradio {
@@ -51,5 +53,29 @@
                 border-color: $grey-level2;
             }
         }
+    }
+}
+
+.downloadBox {
+    border: 1px solid $html-color;
+    padding: $standard-side-padding;
+    box-sizing: border-box;
+
+    .circleIcon  {
+        vertical-align: middle;
+    }
+
+    .JDbtn  {
+        margin-bottom:0;
+    }
+
+}
+
+.products__experience {
+    width: 380px;
+    height: 280px;
+
+    .circleIcon  {
+        margin: 0;
     }
 }

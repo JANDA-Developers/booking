@@ -332,6 +332,37 @@ export interface getAllRoomTypeVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: getAllRoomTypeSeason
+// ====================================================
+
+export interface getAllRoomTypeSeason_GetAllRoomType_roomTypes {
+  __typename: "RoomType";
+  _id: string;
+  name: string;
+  index: number;
+  description: string | null;
+}
+
+export interface getAllRoomTypeSeason_GetAllRoomType {
+  __typename: "GetAllRoomTypeResponse";
+  ok: boolean | null;
+  error: string | null;
+  roomTypes: getAllRoomTypeSeason_GetAllRoomType_roomTypes[] | null;
+}
+
+export interface getAllRoomTypeSeason {
+  GetAllRoomType: getAllRoomTypeSeason_GetAllRoomType;
+}
+
+export interface getAllRoomTypeSeasonVariables {
+  houseId: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: getAllSeason
 // ====================================================
 

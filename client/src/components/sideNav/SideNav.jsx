@@ -8,9 +8,10 @@ import Icon from '../../atoms/icons/Icons';
 import Button from '../../atoms/button/Button';
 import ProfileCircle from '../../atoms/profileCircle/ProfileCircle';
 import profileImg from '../../img/profile/default_profile.jpg';
+import SelectHouseWrap from '../selectHouse/SelectHouseWrap';
 
 function SideNav({
-  isOpen, setIsOpen, userInformation, selectedProduct, selectedHouse,
+  isOpen, setIsOpen, userInformation, selectedProduct, selectedHouse, houses,
 }) {
   const classes = classNames({
     JDsideNav: true,
@@ -36,7 +37,7 @@ function SideNav({
             </div>
           </Link>
           <span className="JDsideNav__name">{userInformation.name || '비회원'}</span>
-          <span className="JDsideNav__houseName">{selectedHouse.name}</span>
+          <SelectHouseWrap selectedHouse={selectedHouse} houses={houses} />
         </div>
         {/* 리스트 컨테이너 */}
         <div className="JDsideNav__listContainer">

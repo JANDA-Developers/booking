@@ -187,7 +187,53 @@ export const GET_ALL_ROOMTYPES = gql`
     }
   }
 `;
+// 모든 방타입 가져오기
+export const GET_ALL_SEASON_PRICE = gql`
+  query getSeasonPrice($houseId: ID!) {
+    GetSeasonPrice(houseId: $houseId) {
+      ok
+      error
+      roomTypes {
+        _id
+        name
+        index
+        description
+      }
+    }
+  }
+`;
 // START 시즌관련 ────────────────────────────────────────────────────────────────────────────────
+// 가격 테이블 만들기
+export const PRICING_TABLE = gql`
+  query getAllSeason($houseId: ID!) {
+    GetAllSeason(houseId: $houseId) {
+      ok
+      error
+      seasons {
+        _id
+        name
+        start
+        end
+        priority
+        color
+        description
+        createdAt
+        updatedAt
+      }
+    }
+    GetAllRoomType(houseId: $houseId) {
+      ok
+      error
+      roomTypes {
+        _id
+        name
+        index
+        description
+      }
+    }
+  }
+`;
+
 // 모든 시즌 가져오기
 export const GET_ALL_SEASON = gql`
   query getAllSeason($houseId: ID!) {
