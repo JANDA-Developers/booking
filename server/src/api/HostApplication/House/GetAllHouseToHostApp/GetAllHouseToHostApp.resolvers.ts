@@ -1,10 +1,10 @@
-import { Resolvers } from "../../../types/resolvers";
+import { transformHouses } from "../../../../models/merge/merge";
+import { UserModel } from "../../../../models/User";
 import {
     GetAllHouseToHostAppQueryArgs,
     GetAllHouseToHostAppResponse
-} from "../../../types/graph";
-import { UserModel } from "../../../models/User";
-import { transformHouses } from "../../../models/merge/merge";
+} from "../../../../types/graph";
+import { Resolvers } from "../../../../types/resolvers";
 
 const resolvers: Resolvers = {
     Query: {
