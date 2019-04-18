@@ -1,6 +1,5 @@
 import React from 'react';
 import { IUseModal } from '../../../../actions/hook';
-import { getAllHouseForSuperUser_GetAllHouseForSuperUser_allHouse as allHouse } from '../../../../types/api';
 import Card from '../../../../atoms/cards/Card';
 import ProfileCircle from '../../../../atoms/profileCircle/ProfileCircle';
 import Button from '../../../../atoms/button/Button';
@@ -8,7 +7,7 @@ import Badge, { BADGE_THEMA } from '../../../../atoms/badge/Badge';
 
 interface IProps {
   userModal: IUseModal;
-  houseData: allHouse;
+  houseData: any;
 }
 
 const HouseCard: React.SFC<IProps> = ({ userModal, houseData }) => (

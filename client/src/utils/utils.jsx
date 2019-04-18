@@ -12,7 +12,8 @@ import {
 import searchListFormat from './SearchListFormat';
 import onError, { showError } from './ApolloError';
 import onCompletedMessage from './ApolloOnCompleted';
-import QueryDataFormater from './QueryDataFormat';
+import QueryDataFormater, { pageNationFormater } from './QueryDataFormat';
+import {encodeB64, decodeB64} from './BtoA';
 
 const JDutils = {
   ErrProtecter,
@@ -31,6 +32,9 @@ const JDutils = {
   autoHypen,
   onCompletedMessage,
   QueryDataFormater,
+  pageNationFormater,
+  encodeB64,
+  decodeB64,
 };
 
 export default JDutils;
@@ -45,6 +49,9 @@ export {
   ErrProtecter,
   autoHypen,
   onError,
+  pageNationFormater,
   showError,
   QueryDataFormater,
+  encodeB64,
+  decodeB64,
 };

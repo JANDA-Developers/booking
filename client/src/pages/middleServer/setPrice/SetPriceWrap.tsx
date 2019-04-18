@@ -4,12 +4,9 @@ import React, { Fragment, useState } from 'react';
 import { Mutation, Query } from 'react-apollo';
 import { TimelineGroup } from 'react-calendar-timeline';
 import {
-  getAllRoomTypeSeason_GetAllRoomType_roomTypes as IRoomTypes,
   getMyProfile_GetMyProfile_user_houses as IHouse,
   getAllSeason,
   getAllSeasonVariables,
-  getAllRoomTypeVariables as getAllRoomTypeV,
-  getAllRoomTypeSeason as getAllRoomType,
 } from '../../../types/api';
 import { GET_ALL_SEASON } from '../../../queries';
 import {
@@ -34,7 +31,6 @@ export interface IAddSeason {
 }
 
 class GetAllSeasonQuery extends Query<getAllSeason, getAllSeasonVariables> {}
-class GetAllRoomType extends Query<getAllRoomType, getAllRoomTypeV> {}
 
 const SetPriceWrap: React.SFC<IProps> = ({ selectedHouse }) => {
   const addSeasonHook = useState<IAddSeason>({
@@ -50,7 +46,7 @@ const SetPriceWrap: React.SFC<IProps> = ({ selectedHouse }) => {
       {({ data: seasonData, loading: seasonL, error: seasonE }) => {
         showError(seasonE);
         const seasones = QueryDataFormater(seasonData, 'GetAllSeason', 'seasons', []);
-        return <SetPrice seasones={seasones}  />;
+        return <SetPrice seasones={seasones} />;
       }}
     </GetAllSeasonQuery>
   );

@@ -1,5 +1,46 @@
 import gql from 'graphql-tag';
 
+const F_LOCATION = gql`
+  fragment fieldsLocation on House {
+    location {
+      address
+      addressDetail
+    }
+  }
+`;
+// 유저 기본정보 빼오기
+const F_USER_INFO = gql`
+  fragment fieldsUser on User {
+    _id
+    name
+    phoneNumber
+    password
+    email
+    isPhoneVerified
+    checkPrivacyPolicy
+    userRole
+    houses {
+      product {
+        _id
+        name
+        productType {
+          _id
+        }
+      }
+      _id
+      name
+      houseType
+      location {
+        address
+        addressDetail
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+`;
 /* ---------------------------------- query --------------------------------- */
 
 // 프로덕트 UI와  DB의 정보 싱크는 수동으로 맞추세요.
@@ -34,87 +75,52 @@ export const GET_USER_INFO = gql`
   query getMyProfile {
     GetMyProfile {
       user {
-        _id
-        name
-        phoneNumber
-        password
-        email
-        isPhoneVerified
-        checkPrivacyPolicy
-        userRole
-        houses {
-          product {
-            _id
-            name
-            productType {
-              _id
-            }
-          }
-          _id
-          name
-          houseType
-          location {
-            address
-            addressDetail
-          }
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
+        ...fieldsUser
       }
     }
   }
+  ${F_USER_INFO}
 `;
 
 // 모든 유저 정보 가져오기
 export const GEA_All_HOUSE_SUPER_USER = gql`
-  query getAllHouseForSuperUser {
-    GetAllHouseForSuperUser {
+  query getHousesForSU($first: Int!, $cursor: String, $sort: HouseSortInput, $filter: HouseFilter) {
+    GetHousesForSU(first: $first, cursor: $cursor, sort: $sort, filter: $filter) {
       ok
       error
-      allHouse {
-        _id
-        name
-        houseType
-        product {
-          _id
-          name
-          price
-          discountedPrice
-          roomCount
-          roomCountExtraCharge
-          bookingCount
-          bookingCountExtraCharge
-          description
-          createdAt
-          updatedAt
-          productType {
+      result {
+        totalCount
+        pageInfo {
+          startCursor
+          endCursor
+          hasPreviousPage
+          hasNextPage
+        }
+        edges {
+          cursor
+          node {
             _id
             name
+            houseType
+            user {
+              phoneNumber
+              profileImg
+            }
+            location {
+              address
+              addressDetail
+            }
+            createdAt
+            product {
+              _id
+              name
+              productType {
+                _id
+              }
+            }
+            updatedAt
           }
         }
-        user {
-          _id
-          name
-          phoneNumber
-          password
-          email
-          isPhoneVerified
-          userRole
-          createdAt
-          updatedAt
-        }
-        location {
-          address
-          addressDetail
-          lat
-          lng
-        }
-        module_srl
-        createdAt
-        updatedAt
-        moduleSrl
       }
     }
   }
@@ -188,23 +194,36 @@ export const GET_ALL_ROOMTYPES = gql`
   }
 `;
 // 모든 방타입 가져오기
-export const GET_ALL_SEASON_PRICE = gql`
-  query getSeasonPrice($houseId: ID!) {
-    GetSeasonPrice(houseId: $houseId) {
+// export const GET_ALL_SEASON_PRICE = gql`
+//   query getSeasonPrice($houseId: ID!) {
+//     GetSeasonPrice(houseId: $houseId) {
+//       ok
+//       error
+//       roomTypes {
+//         _id
+//         name
+//         index
+//         description
+//       }
+//     }
+//   }
+// `;
+// 모든 방타입 가져오기
+export const GET_USER_FOR_SU = gql`
+  query getUserForSU($userId: ID!) {
+    GetUserForSU(userId: $userId) {
       ok
       error
-      roomTypes {
-        _id
-        name
-        index
-        description
+      user {
+        ...fieldsUser
       }
     }
   }
+  ${F_USER_INFO}
 `;
 // START 시즌관련 ────────────────────────────────────────────────────────────────────────────────
 // 가격 테이블 만들기
-export const PRICING_TABLE = gql`
+export const SEASON_TABLE = gql`
   query getAllSeason($houseId: ID!) {
     GetAllSeason(houseId: $houseId) {
       ok

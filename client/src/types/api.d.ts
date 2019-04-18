@@ -98,105 +98,85 @@ export interface getMyProfile {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: getAllHouseForSuperUser
+// GraphQL query operation: getHousesForSU
 // ====================================================
 
-export interface getAllHouseForSuperUser_GetAllHouseForSuperUser_allHouse_product_productType {
-  __typename: "ProductType";
-  _id: string;
-  /**
-   * 제품 이름
-   */
-  name: string;
+export interface getHousesForSU_GetHousesForSU_result_pageInfo {
+  __typename: "PageInfo";
+  startCursor: string | null;
+  endCursor: string | null;
+  hasPreviousPage: boolean;
+  hasNextPage: boolean;
 }
 
-export interface getAllHouseForSuperUser_GetAllHouseForSuperUser_allHouse_product {
+export interface getHousesForSU_GetHousesForSU_result_edges_node_user {
+  __typename: "User";
+  phoneNumber: any;
+  profileImg: any | null;
+}
+
+export interface getHousesForSU_GetHousesForSU_result_edges_node_location {
+  __typename: "Location";
+  address: string;
+  addressDetail: string | null;
+}
+
+export interface getHousesForSU_GetHousesForSU_result_edges_node_product_productType {
+  __typename: "ProductType";
+  _id: string;
+}
+
+export interface getHousesForSU_GetHousesForSU_result_edges_node_product {
   __typename: "Product";
   _id: string;
   /**
    * 제품 이름
    */
   name: string;
-  /**
-   * 제품 가격(월)
-   */
-  price: number | null;
-  /**
-   * 할인된 가격
-   */
-  discountedPrice: number | null;
-  /**
-   * 만들 수 있는 최대 방 / 배드 수 => -1 일때 무제한
-   */
-  roomCount: number | null;
-  /**
-   * 방 수 추가시 추가 가격  => default: 0
-   */
-  roomCountExtraCharge: number | null;
-  /**
-   * 한달간 받을 수 있는 최대 예약 수 => -1 일 떄 무제한
-   */
-  bookingCount: number | null;
-  /**
-   * 예약 초과시 부과되는 금액 => defualt: 0
-   */
-  bookingCountExtraCharge: number | null;
-  description: string | null;
-  createdAt: any;
-  updatedAt: any | null;
-  productType: getAllHouseForSuperUser_GetAllHouseForSuperUser_allHouse_product_productType;
+  productType: getHousesForSU_GetHousesForSU_result_edges_node_product_productType;
 }
 
-export interface getAllHouseForSuperUser_GetAllHouseForSuperUser_allHouse_user {
-  __typename: "User";
-  _id: string;
-  name: any;
-  phoneNumber: any;
-  password: any | null;
-  email: any;
-  isPhoneVerified: boolean;
-  userRole: UserRole;
-  createdAt: any;
-  updatedAt: any | null;
-}
-
-export interface getAllHouseForSuperUser_GetAllHouseForSuperUser_allHouse_location {
-  __typename: "Location";
-  address: string;
-  addressDetail: string | null;
-  lat: number;
-  lng: number;
-}
-
-export interface getAllHouseForSuperUser_GetAllHouseForSuperUser_allHouse {
+export interface getHousesForSU_GetHousesForSU_result_edges_node {
   __typename: "House";
   _id: string;
   name: string;
   houseType: HouseType;
-  product: getAllHouseForSuperUser_GetAllHouseForSuperUser_allHouse_product | null;
-  user: getAllHouseForSuperUser_GetAllHouseForSuperUser_allHouse_user;
-  location: getAllHouseForSuperUser_GetAllHouseForSuperUser_allHouse_location;
-  /**
-   * Legarcy 연동을 위한 module_srl...
-   */
-  module_srl: number | null;
+  user: getHousesForSU_GetHousesForSU_result_edges_node_user;
+  location: getHousesForSU_GetHousesForSU_result_edges_node_location;
   createdAt: any;
+  product: getHousesForSU_GetHousesForSU_result_edges_node_product | null;
   updatedAt: any | null;
-  /**
-   * Legarcy
-   */
-  moduleSrl: number | null;
 }
 
-export interface getAllHouseForSuperUser_GetAllHouseForSuperUser {
-  __typename: "GetAllHouseForSuperUserResponse";
+export interface getHousesForSU_GetHousesForSU_result_edges {
+  __typename: "HouseEdge";
+  cursor: string | null;
+  node: getHousesForSU_GetHousesForSU_result_edges_node | null;
+}
+
+export interface getHousesForSU_GetHousesForSU_result {
+  __typename: "GetHousesForSUData";
+  totalCount: number;
+  pageInfo: getHousesForSU_GetHousesForSU_result_pageInfo;
+  edges: getHousesForSU_GetHousesForSU_result_edges[] | null;
+}
+
+export interface getHousesForSU_GetHousesForSU {
+  __typename: "GetHousesForSUResponse";
   ok: boolean;
   error: string | null;
-  allHouse: getAllHouseForSuperUser_GetAllHouseForSuperUser_allHouse[] | null;
+  result: getHousesForSU_GetHousesForSU_result | null;
 }
 
-export interface getAllHouseForSuperUser {
-  GetAllHouseForSuperUser: getAllHouseForSuperUser_GetAllHouseForSuperUser;
+export interface getHousesForSU {
+  GetHousesForSU: getHousesForSU_GetHousesForSU;
+}
+
+export interface getHousesForSUVariables {
+  first: number;
+  cursor?: string | null;
+  sort?: HouseSortInput | null;
+  filter?: HouseFilter | null;
 }
 
 /* tslint:disable */
@@ -332,30 +312,69 @@ export interface getAllRoomTypeVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: getAllRoomTypeSeason
+// GraphQL query operation: getUserForSU
 // ====================================================
 
-export interface getAllRoomTypeSeason_GetAllRoomType_roomTypes {
-  __typename: "RoomType";
+export interface getUserForSU_GetUserForSU_user_houses_product_productType {
+  __typename: "ProductType";
+  _id: string;
+}
+
+export interface getUserForSU_GetUserForSU_user_houses_product {
+  __typename: "Product";
+  _id: string;
+  /**
+   * 제품 이름
+   */
+  name: string;
+  productType: getUserForSU_GetUserForSU_user_houses_product_productType;
+}
+
+export interface getUserForSU_GetUserForSU_user_houses_location {
+  __typename: "Location";
+  address: string;
+  addressDetail: string | null;
+}
+
+export interface getUserForSU_GetUserForSU_user_houses {
+  __typename: "House";
+  product: getUserForSU_GetUserForSU_user_houses_product | null;
   _id: string;
   name: string;
-  index: number;
-  description: string | null;
+  houseType: HouseType;
+  location: getUserForSU_GetUserForSU_user_houses_location;
+  createdAt: any;
+  updatedAt: any | null;
 }
 
-export interface getAllRoomTypeSeason_GetAllRoomType {
-  __typename: "GetAllRoomTypeResponse";
-  ok: boolean | null;
+export interface getUserForSU_GetUserForSU_user {
+  __typename: "User";
+  _id: string;
+  name: any;
+  phoneNumber: any;
+  password: any | null;
+  email: any;
+  isPhoneVerified: boolean;
+  checkPrivacyPolicy: boolean;
+  userRole: UserRole;
+  houses: getUserForSU_GetUserForSU_user_houses[];
+  createdAt: any;
+  updatedAt: any | null;
+}
+
+export interface getUserForSU_GetUserForSU {
+  __typename: "GetUserForSUResponse";
+  ok: boolean;
   error: string | null;
-  roomTypes: getAllRoomTypeSeason_GetAllRoomType_roomTypes[] | null;
+  user: getUserForSU_GetUserForSU_user | null;
 }
 
-export interface getAllRoomTypeSeason {
-  GetAllRoomType: getAllRoomTypeSeason_GetAllRoomType;
+export interface getUserForSU {
+  GetUserForSU: getUserForSU_GetUserForSU;
 }
 
-export interface getAllRoomTypeSeasonVariables {
-  houseId: string;
+export interface getUserForSUVariables {
+  userId: string;
 }
 
 /* tslint:disable */
@@ -843,9 +862,89 @@ export interface refundProductVariables {
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
+// ====================================================
+// GraphQL fragment: fieldsLocation
+// ====================================================
+
+export interface fieldsLocation_location {
+  __typename: "Location";
+  address: string;
+  addressDetail: string | null;
+}
+
+export interface fieldsLocation {
+  __typename: "House";
+  location: fieldsLocation_location;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: fieldsUser
+// ====================================================
+
+export interface fieldsUser_houses_product_productType {
+  __typename: "ProductType";
+  _id: string;
+}
+
+export interface fieldsUser_houses_product {
+  __typename: "Product";
+  _id: string;
+  /**
+   * 제품 이름
+   */
+  name: string;
+  productType: fieldsUser_houses_product_productType;
+}
+
+export interface fieldsUser_houses_location {
+  __typename: "Location";
+  address: string;
+  addressDetail: string | null;
+}
+
+export interface fieldsUser_houses {
+  __typename: "House";
+  product: fieldsUser_houses_product | null;
+  _id: string;
+  name: string;
+  houseType: HouseType;
+  location: fieldsUser_houses_location;
+  createdAt: any;
+  updatedAt: any | null;
+}
+
+export interface fieldsUser {
+  __typename: "User";
+  _id: string;
+  name: any;
+  phoneNumber: any;
+  password: any | null;
+  email: any;
+  isPhoneVerified: boolean;
+  checkPrivacyPolicy: boolean;
+  userRole: UserRole;
+  houses: fieldsUser_houses[];
+  createdAt: any;
+  updatedAt: any | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
 //==============================================================
 // START Enums and Input Objects
 //==============================================================
+
+export enum HouseSortKeyEnum {
+  _id = "_id",
+  createdAt = "createdAt",
+  updatedAt = "updatedAt",
+}
 
 export enum HouseType {
   GUEST_HOUSE = "GUEST_HOUSE",
@@ -873,6 +972,15 @@ export enum UserRole {
   GHOST = "GHOST",
   GUEST = "GUEST",
   HOST = "HOST",
+}
+
+export interface HouseFilter {
+  houseType?: HouseType | null;
+}
+
+export interface HouseSortInput {
+  key: HouseSortKeyEnum;
+  order: number;
 }
 
 export interface LocationInput {

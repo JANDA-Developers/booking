@@ -1,24 +1,28 @@
 import React, { Fragment } from 'react';
-import { getAllHouseForSuperUser_GetAllHouseForSuperUser_allHouse as allHouse } from '../../../types/api';
+import { getHousesForSU_GetHousesForSU_result_edges_node as Ihouse } from '../../../types/api';
 import { IUseModal } from '../../../actions/hook';
 import Preloader from '../../../atoms/preloader/Preloader';
 import './SuperMain.scss';
 import JDPagination from '../../../components/pagination/Pagination';
 import HouseCard from './components/houseCard';
+import { IPageInfo } from '../../../types/interface';
 
 interface Iprops {
-  houseData: allHouse[];
+  houseData: Ihouse[];
   loading: boolean;
   userModal: IUseModal;
+  pageData: IPageInfo | {};
 }
 
-const SuperMain: React.SFC<Iprops> = ({ userModal, houseData, loading }) => (
+const SuperMain: React.SFC<Iprops> = ({
+  userModal, houseData, loading, pageData,
+}) => (
   <div id="superMain" className="container container--sm">
     <div className="docs-section">
       <Fragment>
         {loading && <Preloader />}
         <div className="docs-section__box">
-          {houseData.map((house: allHouse) => (
+          {houseData.map((house: Ihouse) => (
             <HouseCard houseData={house} userModal={userModal} />
           ))}
         </div>
