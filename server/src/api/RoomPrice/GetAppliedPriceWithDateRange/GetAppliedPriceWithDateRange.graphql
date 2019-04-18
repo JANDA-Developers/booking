@@ -1,0 +1,12 @@
+type GetAppliedPriceWithDateRangeResponse {
+    ok: Boolean!
+    error: String
+    seasonPrices: [SeasonPrice!]
+}
+type Query {
+    GetAppliedPriceWithDateRange(
+        start: DateTime!
+        end: DateTime!
+        roomTypeId: ID
+    ): GetAppliedPriceWithDateRangeResponse!
+}

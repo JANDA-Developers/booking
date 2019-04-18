@@ -1,11 +1,8 @@
 import { InstanceType } from "typegoose";
-import { Edge } from "../../../dtos/pagination/Edge.class";
+import { Edge, extractEdges } from "../../../dtos/pagination/Edge.class";
 import { HouseModel } from "../../../models/House";
 import { extractHouses } from "../../../models/merge/merge";
-import {
-    extractEdges,
-    getQueryAndSort
-} from "../../../models/merge/pagination";
+import { getQueryAndSort } from "../../../models/merge/pagination";
 import { UserSchema } from "../../../models/User";
 import {
     GetHousesForSuQueryArgs,
@@ -49,6 +46,7 @@ const resolvers: Resolvers = {
                         },
                         await extractHouses(houses)
                     );
+
                     const isEmptyResult = result.length === 0;
                     const startCursor = isEmptyResult ? null : result[0].cursor;
                     const endCursor = isEmptyResult
@@ -56,7 +54,8 @@ const resolvers: Resolvers = {
                         : result[result.length - 1].cursor;
 
                     // TODO hasNextPage, hasPreviousPage 구현 ㄱㄱ
-
+                    // hasNextPage 는 EndCursor로 구현
+                    // hasPreviousPage 는 StartCursor로 구현
                     return {
                         ok: true,
                         error: null,

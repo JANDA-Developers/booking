@@ -75,17 +75,20 @@ const resolvers: Resolvers = {
                         arr.map(
                             async (season): Promise<SeasonPrice | null> => {
                                 // TODO: 여기부터 ㄱㄱ ㅜ
-                                return await convertSeasonToSeaeonPrice(season, roomTypeId);
+                                return await convertSeasonToSeaeonPrice(
+                                    season,
+                                    roomTypeId
+                                );
                             }
                         )
                     )).filter(seasonPrice => seasonPrice);
                     console.log({
                         result
                     });
-                    
+
                     return {
                         ok: true,
-                        error: "개발중 ㅜㅜ",
+                        error: null,
                         seasonPrices: result
                     };
                 } catch (error) {

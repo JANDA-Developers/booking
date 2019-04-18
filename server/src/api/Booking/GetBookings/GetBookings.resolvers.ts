@@ -1,17 +1,14 @@
-import { Edge } from "../../../dtos/pagination/Edge.class";
+import { Edge, extractEdges } from "../../../dtos/pagination/Edge.class";
 import { BookingModel } from "../../../models/Booking";
 import { extractBookings } from "../../../models/merge/merge";
-import {
-    extractEdges,
-    getQueryAndSort
-} from "../../../models/merge/pagination";
+import { getQueryAndSort } from "../../../models/merge/pagination";
 import {
     Booking,
     GetBookingsQueryArgs,
     GetBookingsResponse
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
-import { encodeB64 } from "../../../utils/b64Func";
+import { decodeB64, encodeB64 } from "../../../utils/b64Func";
 import privateResolver from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
@@ -19,7 +16,7 @@ const resolvers: Resolvers = {
         GetBookings: privateResolver(
             async (
                 _,
-                { first, last, cursor, sort, filter }: GetBookingsQueryArgs
+                { first, cursor, sort }: GetBookingsQueryArgs
             ): Promise<GetBookingsResponse> => {
                 try {
                     const queryAndSort = getQueryAndSort(cursor, sort);
@@ -43,11 +40,29 @@ const resolvers: Resolvers = {
                         },
                         await extractBookings(bookings)
                     );
+                    // const sortInfo: ISort = {
+                    //     [sort !== null ? sort.key : "updatedAt"]:
+                    //         sort !== null ? (sort.order > 0 ? 1 : -1) : -1
+                    // };
+                    // const pageInfo = getPageInfo<Booking>(edges, sortInfo);
+                    // console.log({
+                    //     pageInfo
+                    // });
                     const isNotEmpty = bookings.length !== 0;
                     const startCursor = isNotEmpty ? edges[0].cursor : null;
                     const endCursor = isNotEmpty
                         ? edges[edges.length - 1].cursor
                         : null;
+                    // startCursor & endCursor 를 가지고 한번 더 조회한다...
+                    // sort 에 따라서 달라지겠지... ㅜㅜ 흐규흐규흐규흐규
+                    // sort.order = 1 인 경우.
+                    // sort.order = -1 인 경우.
+                    if (sort) {
+                        const decodedStartCursor = await decodeB64(startCursor);
+                        await BookingModel.countDocuments({
+                            [sort.key]: decodedStartCursor
+                        });
+                    }
                     return {
                         ok: true,
                         error: null,
