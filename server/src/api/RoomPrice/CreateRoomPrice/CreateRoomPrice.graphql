@@ -8,6 +8,7 @@ type Mutation {
     CreateRoomPrice(
         price: Float!
         roomTypeId: ID!
+        houseId: ID!
         date: DateTime!
     ): CreateRoomPriceResponse!
 }

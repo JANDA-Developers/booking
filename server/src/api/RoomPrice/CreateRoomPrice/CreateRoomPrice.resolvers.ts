@@ -13,11 +13,12 @@ const resolvers: Resolvers = {
         CreateRoomPrice: privateResolver(
             async (
                 _,
-                { roomTypeId, ...args }: CreateRoomPriceMutationArgs
+                { roomTypeId, houseId, ...args }: CreateRoomPriceMutationArgs
             ): Promise<CreateRoomPriceResponse> => {
                 try {
                     let existRoomPrice = await RoomPriceModel.findOne({
                         roomType: new ObjectId(roomTypeId),
+                        house: new ObjectId(houseId),
                         date: new Date(args.date)
                     });
 
