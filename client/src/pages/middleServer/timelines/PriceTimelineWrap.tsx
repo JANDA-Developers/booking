@@ -2,9 +2,12 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { Fragment } from 'react';
 import { Mutation, Query } from 'react-apollo';
+import { printIntrospectionSchema } from 'graphql';
+import moment from 'moment';
+import { any } from 'prop-types';
 import {
   getAllRoomType,
-  getAllRoomType_GetAllRoomType_roomTypes as roomTypes,
+  getAllRoomType_GetAllRoomType_roomTypes as IRoomTypes,
   getAllRoomType_GetAllRoomType_roomTypes_rooms as IRoom,
 } from '../../../types/api';
 import PriceTimeline from './PriceTimeline';
@@ -14,6 +17,7 @@ import {
   ErrProtecter, toast, isEmpty, QueryDataFormater, showError,
 } from '../../../utils/utils';
 import RoomModal from './components/RoomModalWrap';
+import { TimePerMs } from '../../../types/apiEnum';
 
 export enum ADD_ROOM {
   'ADDROOM' = -1,
@@ -26,25 +30,56 @@ interface IProps {
 
 class GetAllRoomTypeQuery extends Query<getAllRoomType> {}
 
+interface IPropItemMaker {
+  startDate: string;
+  endDate: string;
+  priceMap: any;
+  roomTypes: IRoomTypes[];
+}
+
+export interface IItems {
+  id: string;
+  group: string;
+  start: number;
+  end: number;
+}
+// 날자와 방타입 2중 순환 시켜서 모든 블럭에 맞는 item 을 생성
+// price 부분은 Map 에서호출
+
+const itemMaker = ({
+  startDate, endDate, priceMap, roomTypes,
+}: IPropItemMaker): IItems[] => {
+  const items: IItems[] = [];
+  const end = parseInt(endDate.replace(/#/gi, '.'), 10);
+  let now = parseInt(startDate.replace(/#/gi, '.'), 10);
+  const toMiliSecound = (inNow: number): number => moment(inNow.toString(), 'YYYY-MM-DD').valueOf() * TimePerMs.DAY;
+
+  for (let i = 0; now <= end; i += 1) {
+    const date = toMiliSecound(now);
+    roomTypes.map((roomType) => {
+      //  이부분 나중에 Utils 함수로 빠질듯
+      const item = {
+        id: `${i}`,
+        group: roomType._id,
+        start: date,
+        end: date + TimePerMs.DAY,
+      };
+      items.push(item);
+    });
+    now += i;
+  }
+  return items;
+};
+
 const ModifyTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
-  const refetchRoomData = [{ query: GET_ALL_ROOMTYPES, variables: { houseId: selectedHouse._id } }];
-
-  // FUNC :  방타입에 관한정보들에서 방들에 대한 순수한 정보로 치환
-  const roomDataManufacture = (roomDatas: roomTypes[] | null | undefined = []) => {
-    const roomGroups: IRoom[] = [];
-
-    if (roomDatas) {
-      roomDatas.map((roomData) => {
-        if (!isEmpty(roomData.rooms)) {
-          roomData.rooms.map((room) => {
-            roomGroups.push(room);
-          });
-        }
-      });
-    }
-
-    return roomGroups;
-  };
+  // 오늘날자 기준으로 5일전 앞으로 12일 더 여유분을 호출함.
+  // 포멧 형식 "2019.04.09."
+  const startDate = moment()
+    .subtract(5, 'days')
+    .calendar();
+  const endDate = moment()
+    .add(10, 'days')
+    .calendar();
 
   return (
     // 모든 방 가져오기 NOTE
@@ -58,38 +93,18 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
         const roomTypesData = QueryDataFormater(roomData, 'GetAllRoomType', 'roomTypes', undefined); // 원본데이터
         const formatedRoomData = roomDataManufacture(roomTypesData); // 타임라인을 위해 가공된 데이터
 
-        const itemMaker = ({startDate,endDate,priceData})=> {
-          let items = [];
-          for (let i = 0; i < itemCount; i++) {
-            const startDate = (faker.date.recent(daysInPast).valueOf() + daysInPast * 0.3 * 86400 * 1000);
-            const startValue = (Math.floor(moment(startDate).valueOf() / (24 * 60 * 60 * 1000)) * (24 * 60 * 60 * 1000)) - (32400 * 1000);
-            const endValue = Math.floor(moment(
-              startDate + faker.random.number({
-                min: 1,
-                max: 4,
-              }) * 24 * 60 * 60 * 1000,
-            ).valueOf() / (24 * 60 * 60 * 1000)) * (24 * 60 * 60 * 1000) - (32400 * 1000);
-        
-            items.push({
-              id: `${i}`,
-              group: priceData.roomType,
-              title: '',
-              start: startValue,
-              end: endValue,
-            });
-          }
-        }
+        // 방타입과 날자 조합의 키를 가지고 value로 pirce를 가지는 Map 생성
+        const priceMapMaker = (priceData) => {
+          const priceMap = new Map();
+          priceData.map((price) => {
+            priceMap.set();
+          });
+        };
 
         return (
           // 방생성 뮤테이션
           <Fragment>
-            <PriceTimeline
-              loading={loading}
-              defaultProps={ModifydefaultProps}
-              roomData={formatedRoomData}
-              roomTypesData={roomTypesData}
-            />
-            <RoomModal refetchRoomData={refetchRoomData} roomData={roomTypesData} modalHook={roomModalHook} />
+            <PriceTimeline loading={loading} defaultProps={ModifydefaultProps} roomTypesData={roomTypesData} />
           </Fragment>
         );
       }}

@@ -20,7 +20,9 @@ export default function (groupCount = 80, itemCount = 80, daysInPast = 30) {
   }
 
   let items = [];
-  for (let i = 0; i < itemCount; i++) {
+
+  // * 24 * 60 * 60 * 1000  === 1시간!
+  for (let i = 0; i < itemCount; i += 1) {
     const startDate = (faker.date.recent(daysInPast).valueOf() + daysInPast * 0.3 * 86400 * 1000);
     const startValue = (Math.floor(moment(startDate).valueOf() / (24 * 60 * 60 * 1000)) * (24 * 60 * 60 * 1000)) - (32400 * 1000);
     const endValue = Math.floor(moment(

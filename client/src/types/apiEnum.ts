@@ -70,3 +70,7 @@ export enum RoomGenderKr {
   MIXED = '성별제한없음',
   SEPARATELY = '혼숙금지',
 }
+
+export enum TimePerMs {
+  HOUR = 24 * 60 * 60 * 1000;
+}
