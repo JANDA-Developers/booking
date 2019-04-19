@@ -33,7 +33,7 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
 
   const refetchRoomData = [{ query: GET_ALL_ROOMTYPES, variables: { houseId: selectedHouse._id } }];
 
-  const roomDataManufacture = (roomDatas: roomTypes[] | undefined = []) => {
+  const roomDataManufacture = (roomDatas: roomTypes[] | null | undefined = [] ) => {
     const roomGroups = [];
 
     if (roomDatas) {
@@ -80,12 +80,7 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
     >
       {({ data: roomData, loading, error }) => {
         showError(error);
-        const roomTypesData: roomTypes[] | undefined = QueryDataFormater(
-          roomData,
-          'GetAllRoomType',
-          'roomTypes',
-          undefined,
-        ); // 원본데이터
+        const roomTypesData = QueryDataFormater(roomData, 'GetAllRoomType', 'roomTypes', undefined); // 원본데이터
         const formatedRoomData = roomDataManufacture(roomTypesData); // 타임라인을 위해 가공된 데이터
         return (
           // 방생성 뮤테이션

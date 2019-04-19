@@ -4,10 +4,9 @@ import { getHousesForSU, getHousesForSUVariables } from '../../../types/api';
 import SuperMain from './SuperMain';
 import { GEA_All_HOUSE_SUPER_USER } from '../../../queries';
 import QueryError from '../../../utils/QueryError';
-import { isEmpty } from '../../../utils/utils';
+import { isEmpty, QueryDataFormater, pageNationFormater } from '../../../utils/utils';
 import { useModal2 } from '../../../actions/hook';
 import Modal from '../../../atoms/modal/Modal';
-import QueryDataFormater, { pageNationFormater } from '../../../utils/QueryDataFormat';
 
 class GetAllHouse extends Query<getHousesForSU, getHousesForSUVariables> {}
 

@@ -12,8 +12,9 @@ import {
 import searchListFormat from './SearchListFormat';
 import onError, { showError } from './ApolloError';
 import onCompletedMessage from './ApolloOnCompleted';
-import QueryDataFormater, { pageNationFormater } from './QueryDataFormat';
-import {encodeB64, decodeB64} from './BtoA';
+import QueryDataFormater from './QueryDataFormat';
+import pageNationFormater from './paginationFormat';
+import { encodeB64, decodeB64 } from './BtoA';
 
 const JDutils = {
   ErrProtecter,

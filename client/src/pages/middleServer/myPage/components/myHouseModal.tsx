@@ -11,7 +11,7 @@ interface IProps {
   modalHook: IUseModal;
   deleteMu: MutationFn<any, any>;
   houseChangeMu: MutationFn<any, any>;
-  house: IHouse | undefined;
+  house: IHouse | undefined | null;
   loading: boolean;
 }
 

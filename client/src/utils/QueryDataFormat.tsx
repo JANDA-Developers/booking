@@ -13,19 +13,17 @@ import { IPageResult } from '../types/interface';
 //   [foo: string]: any;
 // }
 
-export interface Data {
-  [foo: string]: any;
-}
+// ⛔️ [https://github.com/Microsoft/TypeScript/issues/24929]
 
-const QueryDataFormater = (
-  data: Data | undefined,
-  queryName: string,
-  dataName: string | undefined,
-  falsyReturn: any,
-): any => {
+function QueryDataFormater<T, K extends keyof T, C extends keyof T[K], D>(
+  data: T | undefined,
+  queryName: K,
+  dataName: C | undefined,
+  falsyReturn: D,
+): C extends undefined ? T[K] | D : T[K][C] | D {
   if (!isEmpty(data)) {
     if (!isEmpty(data[queryName])) {
-      const inData = data[queryName];
+      const inData: any = data[queryName];
       if (dataName) {
         if (!isEmpty(inData[dataName])) {
           return inData[dataName];
@@ -35,57 +33,17 @@ const QueryDataFormater = (
         console.error('QueryDataFormater: Error From BackEnd');
         console.error(inData.error);
         toast.error(inData.error);
-        return falsyReturn;
+        return falsyReturn as any;
       }
       return inData;
     }
   }
   console.error('QueryDataFormater: Error From Front');
-  return falsyReturn;
-};
+  return falsyReturn as any;
+}
 
 // 페이지네이션 ok error 처리,
 // 순수정보까지 도달하게해줌
 //  원본 data 객체 찾기 기능이 있음
-function pageNationFormater<T>(
-  data: any,
-  queryName: string,
-  falsyReturn: T,
-  getOrigin: boolean = false,
-): IPageResult | T {
-  if (!isEmpty(data)) {
-    if (!isEmpty(data[queryName])) {
-      const upData = data[queryName];
-      if (upData.error) {
-        console.error('QueryDataFormater: Error From BackEnd');
-        console.error(upData.error);
-        toast.error(upData.error);
-        return falsyReturn;
-      }
-
-      let origin: any = null;
-      if (getOrigin) {
-        origin = upData.result.edges.map((edge: any) => edge.node);
-      }
-      const inData: any = upData.result.edges;
-      const { pageInfo, totalCount } = upData.result;
-      const inPageInfo = {
-        pageInfo,
-        totalCount,
-      };
-      const result: IPageResult = {
-        origin,
-        data: inData,
-        pageInfo: inPageInfo,
-      };
-      return result;
-    }
-    console.log('errorCode utils 901');
-    return falsyReturn;
-  }
-  console.log('errorCode utils 902');
-  return falsyReturn;
-}
 
 export default QueryDataFormater;
-export { QueryDataFormater, pageNationFormater };
