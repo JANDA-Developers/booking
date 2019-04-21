@@ -1,5 +1,5 @@
-import { GuestType } from "./graph";
 import { ObjectId } from "bson";
+import { GuestType } from "./graph";
 
 export type SMSResult = {
     ok: boolean;
@@ -24,4 +24,9 @@ export type GuestInputType = {
     start: Date;
     end: Date;
     guestType: GuestType;
+};
+
+export type DayOfWeekPriceType = {
+    price: number;
+    applyDays: string;
 };
