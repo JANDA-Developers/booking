@@ -72,5 +72,5 @@ export enum RoomGenderKr {
 }
 
 export enum TimePerMs {
-  HOUR = 24 * 60 * 60 * 1000;
+  DAY = 24 * 60 * 60 * 1000,
 }

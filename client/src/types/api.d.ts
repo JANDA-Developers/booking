@@ -312,6 +312,60 @@ export interface getAllRoomTypeVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: getAllRoomTypePrice
+// ====================================================
+
+export interface getAllRoomTypePrice_GetAllRoomType_roomTypes {
+  __typename: "RoomType";
+  _id: string;
+  name: string;
+  index: number;
+  description: string | null;
+}
+
+export interface getAllRoomTypePrice_GetAllRoomType {
+  __typename: "GetAllRoomTypeResponse";
+  ok: boolean | null;
+  error: string | null;
+  roomTypes: getAllRoomTypePrice_GetAllRoomType_roomTypes[] | null;
+}
+
+export interface getAllRoomTypePrice_GetAllRoomPrice_roomPrices_roomType {
+  __typename: "RoomType";
+  _id: string;
+}
+
+export interface getAllRoomTypePrice_GetAllRoomPrice_roomPrices {
+  __typename: "RoomPrice";
+  _id: string;
+  price: number;
+  date: any;
+  roomType: getAllRoomTypePrice_GetAllRoomPrice_roomPrices_roomType;
+}
+
+export interface getAllRoomTypePrice_GetAllRoomPrice {
+  __typename: "GetAllRoomPriceResponse";
+  ok: boolean;
+  error: string | null;
+  roomPrices: getAllRoomTypePrice_GetAllRoomPrice_roomPrices[] | null;
+}
+
+export interface getAllRoomTypePrice {
+  GetAllRoomType: getAllRoomTypePrice_GetAllRoomType;
+  GetAllRoomPrice: getAllRoomTypePrice_GetAllRoomPrice;
+}
+
+export interface getAllRoomTypePriceVariables {
+  houseId: string;
+  start: any;
+  end: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: getUserForSU
 // ====================================================
 
@@ -467,6 +521,34 @@ export interface createRoom {
 export interface createRoomVariables {
   name: string;
   roomType: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: createRoomPrice
+// ====================================================
+
+export interface createRoomPrice_CreateRoomPrice {
+  __typename: "CreateRoomPriceResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface createRoomPrice {
+  /**
+   * 만약 RoomTypeId로 조회한 방타입이 해당 날짜에 RoomPrice가 존재한다면 가격 덮어 씌움
+   */
+  CreateRoomPrice: createRoomPrice_CreateRoomPrice;
+}
+
+export interface createRoomPriceVariables {
+  price: number;
+  roomTypeId: string;
+  houseId: string;
+  date: any;
 }
 
 /* tslint:disable */
@@ -875,6 +957,22 @@ export interface fieldsLocation_location {
 export interface fieldsLocation {
   __typename: "House";
   location: fieldsLocation_location;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: FminiRoomType
+// ====================================================
+
+export interface FminiRoomType {
+  __typename: "RoomType";
+  _id: string;
+  name: string;
+  index: number;
+  description: string | null;
 }
 
 /* tslint:disable */

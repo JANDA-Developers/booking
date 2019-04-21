@@ -35,11 +35,11 @@ const MyHouseModalWrap: React.SFC<IProps> = ({ MyHouseModalHook: modalHook }) =>
       <Mutation
         onError={onError}
         mutation={SELECT_HOUSE}
-        onCompleted={({ selectHouse }) => {
+        onCompleted={({ selectHouse }: any) => {
           onCompletedMessage(selectHouse, '현재숙소변경', '');
         }}
       >
-        {houseChangeMutation => (
+        {(houseChangeMutation: any) => (
           <GetHouseQuery
             fetchPolicy="network-only"
             query={GET_HOUSE}

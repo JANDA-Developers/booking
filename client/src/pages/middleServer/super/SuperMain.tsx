@@ -8,7 +8,7 @@ import HouseCard from './components/houseCard';
 import { IPageInfo } from '../../../types/interface';
 
 interface Iprops {
-  houseData: Ihouse[];
+  houseData: any;
   loading: boolean;
   userModal: IUseModal;
   pageData: IPageInfo | {};

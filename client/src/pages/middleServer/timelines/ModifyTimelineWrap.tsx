@@ -13,6 +13,7 @@ import {
 } from '../../../utils/utils';
 import RoomTypeModal from './components/RoomTypeModalWrap';
 import RoomModal from './components/RoomModalWrap';
+import { ISelectHouse } from '../../../types/interface';
 
 export enum ADD_ROOM {
   'ADDROOM' = -1,
@@ -33,7 +34,7 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
 
   const refetchRoomData = [{ query: GET_ALL_ROOMTYPES, variables: { houseId: selectedHouse._id } }];
 
-  const roomDataManufacture = (roomDatas: roomTypes[] | null | undefined = [] ) => {
+  const roomDataManufacture = (roomDatas: roomTypes[] | null | undefined = []) => {
     const roomGroups = [];
 
     if (roomDatas) {

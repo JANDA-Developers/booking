@@ -73,3 +73,9 @@ export const ModifyTimeline = props => (
     {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
   </DynamicImport>
 );
+
+export const PriceTimeline = props => (
+  <DynamicImport load={() => import('./middleServer/timelines/specificPrice/PriceTimelineWrap')}>
+    {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
+  </DynamicImport>
+);

@@ -32,11 +32,11 @@ const MypageWrap: React.SFC<IProps> = ({ houses, userData, ...props }) => {
         email: emailHook.value,
         password: passwordHook.value,
       }}
-      onCompleted={({ UpdateMyProfile }) => {
+      onCompleted={({ UpdateMyProfile }: any) => {
         onCompletedMessage(UpdateMyProfile, '프로필 업데이트', '프로필 업데이트 실패');
       }}
     >
-      {profileMutation => (
+      {(profileMutation:any) => (
         <MyPage
           houses={houses}
           nameHook={nameHook}

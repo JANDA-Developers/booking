@@ -8,6 +8,14 @@ const F_LOCATION = gql`
     }
   }
 `;
+const F_MINI_ROOM_TYPE = gql`
+  fragment FminiRoomType on RoomType {
+    _id
+    name
+    index
+    description
+  }
+`;
 // 유저 기본정보 빼오기
 const F_USER_INFO = gql`
   fragment fieldsUser on User {
@@ -193,6 +201,32 @@ export const GET_ALL_ROOMTYPES = gql`
     }
   }
 `;
+
+// 모든 방타입 가져오기
+export const GET_ALL_ROOMTYPES_PRICE = gql`
+  query getAllRoomTypePrice($houseId: ID!, $start: DateTime!, $end: DateTime!) {
+    GetAllRoomType(houseId: $houseId) {
+      ok
+      error
+      roomTypes {
+        ...FminiRoomType
+      }
+    }
+    GetAllRoomPrice(houseId: $houseId, start: $start, end: $end) {
+      ok
+      error
+      roomPrices {
+        _id
+        price
+        date
+        roomType {
+          _id
+        }
+      }
+    }
+  }
+  ${F_MINI_ROOM_TYPE}
+`;
 // 모든 방타입 가져오기
 // export const GET_ALL_SEASON_PRICE = gql`
 //   query getSeasonPrice($houseId: ID!) {
@@ -244,12 +278,10 @@ export const SEASON_TABLE = gql`
       ok
       error
       roomTypes {
-        _id
-        name
-        index
-        description
+        ...FminiRoomType
       }
     }
+    ${F_MINI_ROOM_TYPE}
   }
 `;
 
@@ -309,6 +341,14 @@ export const CREATE_ROOMTYPE = gql`
 export const CREATE_ROOM = gql`
   mutation createRoom($name: String!, $roomType: ID!) {
     CreateRoom(name: $name, roomType: $roomType) {
+      ok
+      error
+    }
+  }
+`;
+export const CREATE_ROOM_PRICE = gql`
+  mutation createRoomPrice($price: Float!, $roomTypeId: ID!, $houseId: ID!, $date: DateTime!) {
+    CreateRoomPrice(price: $price, roomTypeId: $roomTypeId, houseId: $houseId, date: $date) {
       ok
       error
     }

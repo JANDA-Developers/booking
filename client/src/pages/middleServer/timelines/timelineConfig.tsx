@@ -21,6 +21,19 @@ const keys = {
   groupLabelKey: 'title',
 };
 
+const priceTimelineKeys = {
+  groupIdKey: '_id',
+  groupTitleKey: 'name',
+  groupRightTitleKey: 'rightTitle',
+  itemIdKey: 'id',
+  itemTitleKey: 'name',
+  itemDivTitleKey: 'name',
+  itemGroupKey: 'group',
+  itemTimeStartKey: 'start',
+  itemTimeEndKey: 'end',
+  groupLabelKey: 'name',
+};
+
 const { groups: initGroups, items: initItems } = generateFakeData();
 
 const krSubHeaderLabelFormats = Object.assign({}, defaultSubHeaderLabelFormats, {
@@ -77,6 +90,7 @@ const defaultProps = {
   horizontalLineClassNamesForGroup: (group: any) => ['group'],
 };
 // ModifyTimeline 으로 전달될 객체
+
 const ModifydefaultProps = {
   minZoom: 7 * 24 * 60 * 60 * 1000,
   maxZoom: 180 * 24 * 60 * 60 * 1000,
@@ -111,6 +125,41 @@ const ModifydefaultProps = {
   horizontalLineClassNamesForGroup: (group: any) => ['group'],
 };
 
+const PriceDefaultProps = {
+  minZoom: 7 * 24 * 60 * 60 * 1000,
+  maxZoom: 7 * 24 * 60 * 60 * 1000,
+  dragSnap: 24 * 60 * 60 * 1000,
+  subHeaderLabelFormats: krSubHeaderLabelFormats,
+  headerLabelFormats: krHeaderLabelFormats,
+  timeSteps: {
+    hour: 24,
+    day: 1,
+    month: 1,
+    year: 1,
+  },
+  keys: priceTimelineKeys,
+  defaultTimeStart,
+  defaultTimeEnd,
+  fixedHeader: 'fixed',
+  sidebarWidth: 300,
+  canMove: false,
+  canResize: false,
+  canSelect: false,
+  itemsSorted: true,
+  canChangeGroup: false,
+  itemTouchSendsClick: false,
+  stackItems: true,
+  itemHeightRatio: 1,
+  showCursorLine: false,
+  lineHeight: 54,
+  // 아래 속성은 퍼포먼스에 민감하게 작용합니다.
+  verticalLineClassNamesForTime: (timeStart: any, timeEnd: any) => {
+    if (timeStart < new Date().getTime()) return ['verticalLine', 'verticalLine--past'];
+    return ['verticalLine'];
+  },
+  horizontalLineClassNamesForGroup: (group: any) => ['group'],
+};
+
 export {
-  initItems, initGroups, defaultProps, krHeaderLabelFormats, ModifydefaultProps,
+  initItems, initGroups, defaultProps, krHeaderLabelFormats, ModifydefaultProps, PriceDefaultProps,
 };

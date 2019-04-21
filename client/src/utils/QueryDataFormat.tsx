@@ -25,7 +25,11 @@ function QueryDataFormater<T, K extends keyof T, C extends keyof T[K], D>(
     if (!isEmpty(data[queryName])) {
       const inData: any = data[queryName];
       if (dataName) {
-        if (!isEmpty(inData[dataName])) {
+        console.log('🎅🎅🎅🎅');
+        console.log(inData[dataName]);
+        console.log(inData);
+        console.log(dataName);
+        if (inData[dataName]) {
           return inData[dataName];
         }
       }
@@ -38,7 +42,7 @@ function QueryDataFormater<T, K extends keyof T, C extends keyof T[K], D>(
       return inData;
     }
   }
-  console.error('QueryDataFormater: Error From Front');
+  console.error('QueryDataFormater: EMPTY DATA');
   return falsyReturn as any;
 }
 

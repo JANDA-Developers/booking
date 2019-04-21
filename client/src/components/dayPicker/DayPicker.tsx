@@ -142,7 +142,14 @@ const JDdayPicker: React.SFC<IProps> = ({
   return (
     <div className="DayPicker-box" ref={dayPickerFullWrap}>
       {input ? (
-        <DayPickerInput placeholder={placeholder} format={format} from={from} to={to} isRange={isRange} dayPickerProps={dayPickerProps} />
+        <DayPickerInput
+          placeholder={placeholder}
+          format={format}
+          from={from}
+          to={to}
+          isRange={isRange}
+          dayPickerProps={dayPickerProps}
+        />
       ) : (
         <Fragment>
           <DayPicker {...dayPickerProps} />

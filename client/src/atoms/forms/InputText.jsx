@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './InputText.scss';
 import './Textarea.scss';
 import PropTypes from 'prop-types';
@@ -15,6 +15,7 @@ function InputText({
   type,
   validation,
   onChange,
+  onBlur,
   max,
   isValid,
   onChangeValid,
@@ -22,6 +23,7 @@ function InputText({
   textarea,
   scroll,
   value,
+  defaultValue, // UNcontrolled
   dayPicker,
   doubleHeight,
   dataError,
@@ -49,12 +51,12 @@ function InputText({
 
   const inRefContainer = useRef(null);
 
-  // ⚠️ 언컨트롤드를 위해서 만들었는데  왜필요한지 모르겠다
+  // for unControlled
   useEffect(() => {
-    // let domInput;
-    // if (refContainer) domInput = refContainer.current;
-    // else domInput = inRefContainer.current;
-    // if (value !== undefined) domInput.value = value;
+    let domInput;
+    if (refContainer) domInput = refContainer.current;
+    else domInput = inRefContainer.current;
+    if (defaultValue !== undefined) domInput.value = defaultValue;
   }, []);
 
   // 인풋 과 텍스트어리어 경계
@@ -69,6 +71,7 @@ function InputText({
         onChange={inHandleChange}
         disabled={disabled}
         readOnly={readOnly}
+        onBlur={onBlur}
         type={type}
         value={hyphen ? autoHyphen(value) : value}
         ref={refContainer || inRefContainer}
@@ -86,6 +89,7 @@ function InputText({
         disabled={disabled}
         value={value}
         onChange={inHandleChange}
+        onBlur={onBlur}
         id="JDtextarea"
         className={classes}
         readOnly={readOnly}

@@ -1,0 +1,16 @@
+@import '../../../../style_config/style_config.scss';
+
+.specificPrice {
+    &__timeline {
+        .JDinput {
+            margin: 0;
+            padding: 0;
+            height: 2rem;
+            width: 80%;
+            margin-left: 10%;
+        }
+        .JDinput-wrap {
+            padding-bottom: $standard-margin-bottom;
+        }
+    }
+}

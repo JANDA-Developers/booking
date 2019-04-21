@@ -50,7 +50,7 @@ const useFetch = (url: useFetchProp) => {
 
 //  이미지 업로더
 const useImageUploader = () => {
-  const [fileUrl, setFileUrl] = useState('');
+  const [fileUrl, setFileUrl] = useState();
   const [uploading, setUploading] = useState(false);
   const [isError, setIsError] = useState(false);
 

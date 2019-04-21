@@ -25,6 +25,7 @@ import {
   ModifyTimeline,
   SuperMain,
   SetPrice,
+  PriceTimeline,
 } from './pages';
 import { UserRole } from '../types/apiEnum';
 import IHouses from '../types/interface';
@@ -154,6 +155,12 @@ const JDmiddleServer: React.SFC<IProps> = ({
         {' '}
         {/* 방배정 */}
         <Route exact path="/middleServer/timeline" render={AssigTimeline} />
+        {/* 방배정 */}
+        <Route
+          exact
+          path="/middleServer/specificPrice"
+          render={() => (isEmpty(selectedHouse) ? <NoMatch /> : <PriceTimeline selectedHouse={selectedHouse} />)}
+        />
         {/* 방생성 */}
         <Route
           exact

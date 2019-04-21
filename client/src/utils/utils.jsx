@@ -15,7 +15,7 @@ import onCompletedMessage from './ApolloOnCompleted';
 import QueryDataFormater from './QueryDataFormat';
 import pageNationFormater from './paginationFormat';
 import { encodeB64, decodeB64 } from './BtoA';
-
+import setMidNight from './setMidNight';
 const JDutils = {
   ErrProtecter,
   NEUTRAL,
@@ -36,6 +36,7 @@ const JDutils = {
   pageNationFormater,
   encodeB64,
   decodeB64,
+  setMidNight,
 };
 
 export default JDutils;
@@ -55,4 +56,5 @@ export {
   QueryDataFormater,
   encodeB64,
   decodeB64,
+  setMidNight,
 };
