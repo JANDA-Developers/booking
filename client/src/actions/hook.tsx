@@ -153,6 +153,32 @@ function useCheckBox(defaultValue: boolean) {
   };
 }
 
+// NAME SPACE
+
+export interface IUseDayPicker {
+  from: Date | null;
+  setFrom: React.Dispatch<React.SetStateAction<Date | null>>;
+  to: Date | null;
+  setTo: React.Dispatch<React.SetStateAction<Date | null>>;
+  entered: Date | null;
+  setEntered: React.Dispatch<React.SetStateAction<Date | null>>;
+}
+
+function useDayPicker<IUseDayPicker>(defaultFrom: Date | null, defaultTo: Date | null) {
+  const [from, setFrom] = useState<Date | null>(defaultFrom);
+  const [entered, setEntered] = useState<Date | null>(defaultTo);
+  const [to, setTo]: any = useState<Date | null>();
+
+  return {
+    from,
+    to,
+    entered,
+    setFrom,
+    setTo,
+    setEntered,
+  };
+}
+
 export interface IUseColor {
   color: string;
   setColor: (inInfo: string) => void;
@@ -314,4 +340,5 @@ export {
   useDebounce,
   useImageUploader,
   useColorPicker,
+  useDayPicker,
 };

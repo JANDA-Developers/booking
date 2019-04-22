@@ -6,6 +6,7 @@ import './SuperMain.scss';
 import JDPagination from '../../../components/pagination/Pagination';
 import HouseCard from './components/houseCard';
 import { IPageInfo } from '../../../types/interface';
+import UserModal from './components/userModalWrap';
 
 interface Iprops {
   houseData: any;
@@ -26,7 +27,9 @@ const SuperMain: React.SFC<Iprops> = ({
             <HouseCard houseData={house} userModal={userModal} />
           ))}
         </div>
+
         <JDPagination pageCount={4} pageRangeDisplayed={5} marginPagesDisplayed={4} />
+        {userModal.isOpen && <UserModal modalHook={userModal} />}
       </Fragment>
     </div>
   </div>

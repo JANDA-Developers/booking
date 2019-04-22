@@ -20,7 +20,9 @@ import {
 import {
   PricingType, PricingTypeKr, RoomGender, RoomGenderKr,
 } from '../../../../types/apiEnum';
-import { IUseModal, useColorPicker, IUseColor } from '../../../../actions/hook';
+import {
+  IUseModal, useColorPicker, IUseColor, useDayPicker,
+} from '../../../../actions/hook';
 
 class CreateSeasonMutation extends Mutation<createSeason, createSeasonVariables> {}
 class DeleteSeasonMutation extends Mutation<deleteSeason, deleteSeasonVariables> {}
@@ -45,6 +47,7 @@ export interface ITableValue {
 const SeasonModalWrap: React.SFC<IProps> = ({
   loading, selectedHouseId, seasonData, seasonModal: modalHook,
 }) => {
+  const dayPickerHook = useDayPicker(null, null);
   const colorHook: IUseColor = useColorPicker(null);
   const defaultModalValue: ITableValue = {
     color: colorHook.color,
@@ -97,6 +100,7 @@ const SeasonModalWrap: React.SFC<IProps> = ({
             >
               {updateSeasonMutation => (
                 <SeasonTable
+                  dayPickerHook={dayPickerHook}
                   colorHook={colorHook}
                   tableValue={tableValue}
                   setTableValue={setTableValue}

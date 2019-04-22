@@ -9,11 +9,12 @@ import utils from '../../../../utils/utils';
 import JDdayPicker from '../../../../components/dayPicker/DayPicker';
 import Card from '../../../../atoms/cards/Card';
 import { ITableValue } from './seasonTableWrap';
-import { IUseColor } from '../../../../actions/hook';
+import { IUseColor, IUseDayPicker } from '../../../../actions/hook';
 
 interface ISetTableValue extends React.Dispatch<React.SetStateAction<ITableValue>> {}
 
 interface IProps {
+  dayPickerHook: IUseDayPicker;
   colorHook: IUseColor;
   tableValue: ITableValue;
   setTableValue: ISetTableValue;
@@ -25,6 +26,7 @@ interface IProps {
 const SeasonModal: React.SFC<IProps> = ({
   colorHook,
   tableValue,
+  dayPickerHook,
   setTableValue,
   createSeasonMutation,
   deleteSeasonMutation,
@@ -84,7 +86,7 @@ const SeasonModal: React.SFC<IProps> = ({
           </span>
           <InputText label="시즌명" validation={utils.isMaxOver} max={10} />
           <JDcolorPicker colorHook={colorHook} />
-          <JDdayPicker onChange={onChangeDate} input label="input" isRange />
+          <JDdayPicker {...dayPickerHook} onChange={onChangeDate} input label="input" isRange />
         </div>
         <JDTable
           columns={TableColumns}

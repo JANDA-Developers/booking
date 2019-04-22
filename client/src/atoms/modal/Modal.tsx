@@ -12,7 +12,7 @@ interface IProps {
 }
 
 const JDmodal: React.SFC<IProps> = ({
-  center, className, isOpen, ...props
+  center, className, isOpen, closeModal, ...props
 }) => {
   const classes = classNames('Modal', className, {
     'ReactModal--center': center,
@@ -26,6 +26,7 @@ const JDmodal: React.SFC<IProps> = ({
     <ReactModal
       isOpen={isOpen}
       appElement={document.getElementById('root') || undefined}
+      onRequestClose={closeModal}
       {...props}
       {...defualtJDmodalProps}
     />

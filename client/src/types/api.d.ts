@@ -111,6 +111,7 @@ export interface getHousesForSU_GetHousesForSU_result_pageInfo {
 
 export interface getHousesForSU_GetHousesForSU_result_edges_node_user {
   __typename: "User";
+  _id: string;
   phoneNumber: any;
   profileImg: any | null;
 }
@@ -465,6 +466,28 @@ export interface getAllSeason {
 
 export interface getAllSeasonVariables {
   houseId: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: createBooking
+// ====================================================
+
+export interface createBooking_CreateBooking {
+  __typename: "CreateBookingResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface createBooking {
+  CreateBooking: createBooking_CreateBooking;
+}
+
+export interface createBookingVariables {
+  bookingParams: BookingInput;
 }
 
 /* tslint:disable */
@@ -1038,6 +1061,20 @@ export interface fieldsUser {
 // START Enums and Input Objects
 //==============================================================
 
+/**
+ * 도미토리 방식으로 예약한 게스트만 적용됨
+ */
+export enum Gender {
+  FEMALE = "FEMALE",
+  MALE = "MALE",
+}
+
+export enum GuestType {
+  BLOCK_ROOM = "BLOCK_ROOM",
+  DOMITORY = "DOMITORY",
+  ROOM = "ROOM",
+}
+
 export enum HouseSortKeyEnum {
   _id = "_id",
   createdAt = "createdAt",
@@ -1070,6 +1107,32 @@ export enum UserRole {
   GHOST = "GHOST",
   GUEST = "GUEST",
   HOST = "HOST",
+}
+
+export interface BookerInput {
+  house: string;
+  booking?: string | null;
+  name: any;
+  password: string;
+  phoneNumber: any;
+  email?: any | null;
+  agreePrivacyPolicy: boolean;
+}
+
+export interface BookingInput {
+  booker: BookerInput;
+  start: any;
+  end: any;
+  guest: GuestPartInput[];
+}
+
+export interface GuestPartInput {
+  roomTypeId: string;
+  price: number;
+  discountedPrice?: number | null;
+  guestType: GuestType;
+  count: number;
+  genders?: Gender[] | null;
 }
 
 export interface HouseFilter {

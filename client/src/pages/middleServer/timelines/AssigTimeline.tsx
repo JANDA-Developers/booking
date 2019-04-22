@@ -6,6 +6,7 @@ import Timeline from '../../../components/timeline/Timeline';
 import ErrProtecter from '../../../utils/ErrProtecter';
 import Button from '../../../atoms/button/Button';
 import POPbookerInfo from '../../../components/bookerInfo/BookerModal';
+import { IUseDayPicker } from '../../../actions/hook';
 
 interface IProps {
   handleCanvasDoubleClick(): void;
@@ -17,6 +18,7 @@ interface IProps {
   handleItemDoubleClick(): void;
   isConfigMode: boolean;
   setConfigMode(): void;
+  dayPickerHook: IUseDayPicker;
 }
 
 const ShowTimeline: React.SFC<IProps> = ({
@@ -25,6 +27,7 @@ const ShowTimeline: React.SFC<IProps> = ({
   handleItemResize,
   handleItemMove,
   handleItemDoubleClick,
+  dayPickerHook,
   isConfigMode,
   setConfigMode,
   defaultProps,
@@ -34,7 +37,7 @@ const ShowTimeline: React.SFC<IProps> = ({
     <div className="docs-section">
       <div className="flex-grid flex-grid--end">
         <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
-          <DayPicker onChange={() => {}} input label="input" isRange={false} />
+          <DayPicker {...dayPickerHook} onChange={() => {}} input label="input" isRange={false} />
         </div>
         <Link to="/middleServer/timelineConfig">
           <Button float="right" onClick={setConfigMode} icon="roomChange" label="방구조 변경" />

@@ -14,6 +14,11 @@ interface Iprops {}
 
 const SuperMainWrap: React.SFC<Iprops> = () => {
   const userModal = useModal2(false);
+
+  console.log(userModal);
+  console.log(userModal);
+  console.log(userModal);
+
   return (
     <GetAllHouse
       query={GEA_All_HOUSE_SUPER_USER}

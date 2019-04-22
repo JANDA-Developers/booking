@@ -5,7 +5,8 @@ import JDmodal from '../../../../atoms/modal/Modal';
 import { IUseModal } from '../../../../actions/hook';
 import { getUserForSU, getUserForSUVariables } from '../../../../types/api';
 import { GET_USER_FOR_SU } from '../../../../queries';
-import { showError } from '../../../../utils/utils';
+import { showError, QueryDataFormater } from '../../../../utils/utils';
+import Preloader from '../../../../atoms/preloader/Preloader';
 
 interface IProps {
   modalHook: IUseModal;
@@ -17,9 +18,15 @@ const UserModalWrap: React.SFC<IProps> = ({ modalHook }) => (
   <GetUserInfoQuery query={GET_USER_FOR_SU} variables={{ userId: modalHook.info.userId }}>
     {({ loading, error, data: userData }) => {
       showError(error);
+      const user = QueryDataFormater(userData, 'GetUserForSU', 'user', undefined);
+
       return (
         <JDmodal {...modalHook}>
-          <MyPage loading={loading} userData={userData} modalHook={modalHook} />
+          {!loading ? (
+            <MyPage loading={loading} houses={user ? user.houses : []} userData={user || {}} modalHook={modalHook} />
+          ) : (
+            <Preloader />
+          )}
         </JDmodal>
       );
     }}

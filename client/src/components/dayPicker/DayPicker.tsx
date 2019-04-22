@@ -13,8 +13,9 @@ import DayPickerInput from './input/JDdayPickerInput';
 import HorizenDay from './horizen/HorizenDays';
 import HorizenCaption from './horizen/HorizenCaption';
 import './DayPicker.scss';
+import { IUseDayPicker } from '../../actions/hook';
 
-interface IProps {
+interface IProps extends IUseDayPicker {
   horizen?: boolean;
   placeholder?: string;
   input?: boolean;
@@ -36,11 +37,14 @@ const JDdayPicker: React.SFC<IProps> = ({
   format,
   placeholder,
   lang = 'ko',
+  from,
+  setFrom,
+  to,
+  setTo,
+  entered,
+  setEntered,
 }) => {
   const dayPickerFullWrap: any = useRef();
-  const [from, setFrom] = useState<Date | null>();
-  const [entered, setEntered] = useState<Date | null>();
-  const [to, setTo]: any = useState<Date | null>();
 
   // 리셋버튼 클릭 이벤트
   const handleResetClick = () => {

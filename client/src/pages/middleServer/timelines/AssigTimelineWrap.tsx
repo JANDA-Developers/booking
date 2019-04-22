@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import moment from 'moment';
 import React, { useState } from 'react';
-import { useBookPOP, useToggle } from '../../../actions/hook';
+import { useBookPOP, useToggle, useDayPicker } from '../../../actions/hook';
 import AssigTimeline from './AssigTimeline';
 import { defaultProps, initGroups, initItems } from './timelineConfig';
 
@@ -10,6 +10,7 @@ let timer: null | number = null; // timer required to reset
 const timeout = 200; // timer reset in ms
 
 const AssigTimelineWrap = () => {
+  const dayPickerHook = useDayPicker(null, null);
   const [items, setItems] = useState(initItems);
   const [_, setConfigMode] = useToggle(false);
   console.log(_);
@@ -70,6 +71,7 @@ const AssigTimelineWrap = () => {
 
   return (
     <AssigTimeline
+      dayPickerHook={dayPickerHook}
       handleCanvasDoubleClick={handleCanvasDoubleClick}
       bookerModal={bookerModal}
       handleItemResize={handleItemResize}

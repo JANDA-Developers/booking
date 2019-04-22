@@ -111,6 +111,7 @@ export const GEA_All_HOUSE_SUPER_USER = gql`
             name
             houseType
             user {
+              _id
               phoneNumber
               profileImg
             }
@@ -307,6 +308,18 @@ export const GET_ALL_SEASON = gql`
 `;
 
 /* -------------------------------- mutation -------------------------------- */
+
+// START 예약관련 ────────────────────────────────────────────────────────────────────────────────
+// 예약 생성
+export const CREATE_BOOKING = gql`
+  mutation createBooking($bookingParams: BookingInput!) {
+    CreateBooking(bookingParams: $bookingParams) {
+      ok
+      error
+    }
+  }
+`;
+
 // START 방관련 ────────────────────────────────────────────────────────────────────────────────
 // 방타입 생성
 export const CREATE_ROOMTYPE = gql`

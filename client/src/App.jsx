@@ -5,6 +5,7 @@ import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import Favicon from 'react-favicon';
 import client from './apolloClient';
 import DocumentRouter from './pages/DocumentRouter';
+import OutPageRouter from './pages/OutPageRouter';
 import NoMatch from './pages/NoMatch';
 import middleServerRouter from './pages/middleServerRouter';
 import JDtoast from './atoms/toast/Toast';
@@ -27,6 +28,7 @@ function App() {
           <Route exact path="/" component={middleServerRouter} />
           <Route path="/MiddleServer" component={middleServerRouter} />
           <Route path="/documents" component={DocumentRouter} />
+          <Route path="/outpage" component={OutPageRouter} />
           <Route component={NoMatch} />
         </Switch>
       </Router>

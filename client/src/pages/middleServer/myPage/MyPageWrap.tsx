@@ -13,6 +13,9 @@ interface IProps {
 }
 
 const MypageWrap: React.SFC<IProps> = ({ houses, userData, ...props }) => {
+  console.log('userData 🎷');
+  console.log(userData);
+
   const nameHook = useInput(userData.name, true);
   const phoneNumberHook = useInput(userData.phoneNumber, true);
   const emailHook = useInput(userData.email, true);
@@ -36,7 +39,7 @@ const MypageWrap: React.SFC<IProps> = ({ houses, userData, ...props }) => {
         onCompletedMessage(UpdateMyProfile, '프로필 업데이트', '프로필 업데이트 실패');
       }}
     >
-      {(profileMutation:any) => (
+      {(profileMutation: any) => (
         <MyPage
           houses={houses}
           nameHook={nameHook}

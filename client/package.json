@@ -8,6 +8,7 @@
   "private": true,
   "dependencies": {
     "@types/react-table": "^6.8.1",
+    "@types/react-window-size": "^1.2.0",
     "apollo": "^2.6.2",
     "apollo-boost": "^0.1.23",
     "apollo-cache-inmemory": "^1.5.1",
@@ -58,6 +59,7 @@
     "react-tabs": "^3.0.0",
     "react-toastify": "^4.5.2",
     "react-tooltip": "^3.9.2",
+    "react-window-size": "^1.2.2",
     "whatwg-fetch": "^3.0.0"
   },
   "scripts": {
