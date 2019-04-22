@@ -18,8 +18,8 @@ const resolvers: Resolvers = {
                 {
                     seasonId,
                     roomTypeId,
-                    price,
-                    applyDays
+                    defaultPrice,
+                    dayOfWeekPrices
                 }: CreateSeasonPriceMutationArgs
             ): Promise<CreateSeasonPriceResponse> => {
                 try {
@@ -27,30 +27,39 @@ const resolvers: Resolvers = {
                     const existRoomType = await RoomTypeModel.findById(
                         roomTypeId
                     );
-                    if (existSeason && existRoomType) {
-                        // TODO: 음...
-                        const seasonPrice = new SeasonPriceModel({
-                            roomType: new ObjectId(roomTypeId),
-                            season: new ObjectId(seasonId),
-                            price,
-                            applyDays
-                        });
-                        await seasonPrice.save();
-                        return {
-                            ok: true,
-                            error: null,
-                            seasonPrice: await extractSeasonPrice.bind(
-                                extractSeasonPrice,
-                                seasonPrice
-                            )
-                        };
-                    } else {
+                    if (!(existSeason && existRoomType)) {
                         return {
                             ok: false,
                             error: "시즌 또는 방 타입이 존재하지 않습니다.",
                             seasonPrice: null
                         };
                     }
+                    const existSeasonPrice = await SeasonPriceModel.findOne({
+                        roomType: new ObjectId(roomTypeId),
+                        season: new ObjectId(seasonId)
+                    });
+                    if (existSeasonPrice) {
+                        return {
+                            ok: false,
+                            error: "이미 가격이 존재합니다",
+                            seasonPrice: null
+                        };
+                    }
+                    const seasonPrice = new SeasonPriceModel({
+                        roomType: new ObjectId(roomTypeId),
+                        season: new ObjectId(seasonId),
+                        defaultPrice,
+                        dayOfWeekPrices
+                    });
+                    await seasonPrice.save();
+                    return {
+                        ok: true,
+                        error: null,
+                        seasonPrice: await extractSeasonPrice.bind(
+                            extractSeasonPrice,
+                            seasonPrice
+                        )
+                    };
                 } catch (error) {
                     return {
                         ok: false,

@@ -341,6 +341,8 @@ export const extractSeasonPrice = async (
     return {
         ...sp._doc,
         _id: sp._doc._id.toString(),
+        // FIXME - Here... SeasonPriceSchema 변경으로 여기도 바뀌어야함.
+        dayOfWeekPrices: sp._doc.dayOfWeekPrices,
         applyDays: applyDaysToBinary(sp._doc.applyDays),
         roomType: await transformRoomType.bind(
             transformRoomType,

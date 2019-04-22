@@ -4,6 +4,10 @@ type CreateSeasonPriceResponse {
     seasonPrice: SeasonPrice
 }
 type Mutation {
-    CreateSeasonPrice(roomTypeId: ID!, seasonId: ID!,
-    price: Float!, applyDays: Int): CreateSeasonPriceResponse!
+    CreateSeasonPrice(
+        roomTypeId: ID!
+        seasonId: ID!
+        defaultPrice: Float!
+        dayOfWeekPrices: [DayOfWeekPriceInput!]
+    ): CreateSeasonPriceResponse!
 }
