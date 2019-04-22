@@ -1,7 +1,7 @@
 import { ObjectId } from "bson";
 import { RoomTypeModel } from "../models/RoomType";
 
-const privateResolver = resolverFunction => async (
+export const privateResolver = resolverFunction => async (
     parent,
     args,
     context,
@@ -39,4 +39,3 @@ export const privateResolverForSU = resolverFunction =>
         } // SuperUser 인증
         return await resolverFunction(parent, args, context, info);
     });
-export default privateResolver;

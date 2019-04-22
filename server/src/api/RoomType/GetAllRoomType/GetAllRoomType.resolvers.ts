@@ -5,14 +5,14 @@ import {
     GetAllRoomTypeResponse
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
-import privateResolver from "../../../utils/privateResolvers";
+import { privateResolver } from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Query: {
         GetAllRoomType: privateResolver(
             async (
                 _,
-                { houseId }: GetAllRoomTypeQueryArgs,
+                { houseId }: GetAllRoomTypeQueryArgs
             ): Promise<GetAllRoomTypeResponse> => {
                 try {
                     const house = await HouseModel.findOne(

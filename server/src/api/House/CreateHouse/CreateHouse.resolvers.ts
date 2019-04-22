@@ -7,7 +7,7 @@ import {
     CreateHouseResponse
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
-import privateResolver from "../../../utils/privateResolvers";
+import { privateResolver } from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Mutation: {
@@ -23,7 +23,7 @@ const resolvers: Resolvers = {
                         ...args,
                         user: user._id
                     });
-                    
+
                     await house.save();
                     await user.update({
                         $push: {

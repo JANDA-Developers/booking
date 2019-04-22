@@ -27,16 +27,10 @@ export class GuestSchema extends Typegoose {
     roomType: Ref<RoomTypeSchema>;
 
     @prop({ ref: RoomSchema })
-    room?: Ref<RoomSchema>;
+    allocatedRoom?: Ref<RoomSchema>;
 
     @prop()
     name: string;
-
-    @prop({ required: true })
-    start: Date;
-
-    @prop({ required: true })
-    end: Date;
 
     @prop({ enum: GuestTypeEnum, default: GuestTypeEnum.DOMITORY })
     guestType: GuestType;

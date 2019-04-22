@@ -5,8 +5,11 @@ import {
     Season
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
-import privateResolver from "../../../utils/privateResolvers";
-import { compareSeason, findSeasonAndMutateSeason } from "../../../utils/process";
+import { privateResolver } from "../../../utils/privateResolvers";
+import {
+    compareSeason,
+    findSeasonAndMutateSeason
+} from "../../../utils/process";
 import { ONE_DAY } from "../../../utils/variables";
 
 const resolvers: Resolvers = {

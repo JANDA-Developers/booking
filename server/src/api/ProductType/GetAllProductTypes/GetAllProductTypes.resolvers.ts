@@ -2,7 +2,7 @@ import { extractProductType } from "../../../models/merge/merge";
 import { ProductTypeModel } from "../../../models/ProductType";
 import { GetAllProductTypesResponse } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
-import privateResolver from "../../../utils/privateResolvers";
+import { privateResolver } from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Query: {

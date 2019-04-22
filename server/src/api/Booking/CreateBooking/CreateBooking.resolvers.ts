@@ -44,8 +44,6 @@ const resolvers: Resolvers = {
                                     booker: bookerId,
                                     roomType: new ObjectId(gst.roomTypeId),
                                     booking: new ObjectId(booking._id),
-                                    start,
-                                    end,
                                     guestType: gst.guestType,
                                     gender: gst.genders && gst.genders[i]
                                 }).save())._id

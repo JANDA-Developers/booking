@@ -7,7 +7,7 @@ import {
     CreateRoomResponse
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
-import privateResolver from "../../../utils/privateResolvers";
+import { privateResolver } from "../../../utils/privateResolvers";
 
 const resolver: Resolvers = {
     Mutation: {

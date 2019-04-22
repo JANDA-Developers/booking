@@ -1,12 +1,12 @@
-import { Resolvers } from "../../../types/resolvers";
-import privateResolver from "../../../utils/privateResolvers";
+import { ObjectId } from "bson";
+import { extractSeasons } from "../../../models/merge/merge";
+import { SeasonModel } from "../../../models/Season";
 import {
     GetAllSeasonQueryArgs,
     GetAllSeasonResponse
 } from "../../../types/graph";
-import { SeasonModel } from "../../../models/Season";
-import { ObjectId } from "bson";
-import { extractSeasons } from "../../../models/merge/merge";
+import { Resolvers } from "../../../types/resolvers";
+import { privateResolver } from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Query: {

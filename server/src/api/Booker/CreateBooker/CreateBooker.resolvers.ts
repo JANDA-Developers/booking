@@ -13,12 +13,12 @@ const resolvers: Resolvers = {
             args: CreateBookerMutationArgs
         ): Promise<CreateBookerResponse> => {
             try {
-                if(!args.agreePrivacyPolicy){
+                if (!args.agreePrivacyPolicy) {
                     return {
                         ok: false,
                         error: "개인정보 활용 정책에 동의해주세요.",
                         booker: null
-                    }
+                    };
                 }
                 const booker = new BookerModel({
                     ...args
@@ -26,7 +26,7 @@ const resolvers: Resolvers = {
                 await booker.save();
                 return {
                     ok: true,
-                    error: null, 
+                    error: null,
                     booker: extractBooker.bind(extractBooker, booker)
                 };
             } catch (error) {

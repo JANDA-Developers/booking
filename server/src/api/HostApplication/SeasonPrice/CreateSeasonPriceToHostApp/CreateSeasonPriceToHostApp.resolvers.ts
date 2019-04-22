@@ -1,4 +1,6 @@
 import { ObjectId } from "bson";
+import { InstanceType } from "typegoose";
+import { HouseSchema } from "../../../../models/House";
 import { extractSeasonPrice } from "../../../../models/merge/merge";
 import { RoomTypeModel } from "../../../../models/RoomType";
 import { SeasonModel } from "../../../../models/Season";
@@ -9,8 +11,6 @@ import {
 } from "../../../../types/graph";
 import { Resolvers } from "../../../../types/resolvers";
 import privateResolverForHostApp from "../../../../utils/privateResolverForHostApplication";
-import { InstanceType } from "typegoose";
-import { HouseSchema } from "../../../../models/House";
 
 const resolvers: Resolvers = {
     Mutation: {
@@ -45,12 +45,12 @@ const resolvers: Resolvers = {
                             seasonPrice: null
                         };
                     }
-                    if (new ObjectId(house._id).equals(existSeason.house)){
+                    if (new ObjectId(house._id).equals(existSeason.house)) {
                         return {
                             ok: false,
                             error: "숙소id와 매칭된 시즌가격이 아닙니다. ",
                             seasonPrice: null
-                        }
+                        };
                     }
                     const seasonPrice = new SeasonPriceModel({
                         roomType: new ObjectId(roomTypeId),

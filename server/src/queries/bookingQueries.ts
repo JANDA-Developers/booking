@@ -2,12 +2,7 @@ import { ObjectId } from "bson";
 import { InstanceType } from "typegoose";
 import { BookerModel, BookerSchema } from "../models/Booker";
 import { GuestModel, GuestSchema } from "../models/Guest";
-import {
-    BookerInput,
-    Gender,
-    GuestInput,
-    GuestType
-} from "../types/graph";
+import { BookerInput, Gender, GuestInput, GuestType } from "../types/graph";
 import { GuestInputType } from "../types/types";
 
 export const insertBooker = async (
@@ -31,7 +26,7 @@ export const insertGuest = async ({
         booker: new ObjectId(bookerId),
         roomType: new ObjectId(roomTypeId),
         booking: (bookingId && new ObjectId(bookingId)) || undefined,
-        room: (roomId && new ObjectId(roomId)) || undefined,
+        allocatedroom: (roomId && new ObjectId(roomId)) || undefined,
         ...args
     });
     return await guest.save();
@@ -58,7 +53,7 @@ export const insertGuests = async (
                 booking: new ObjectId(bookingId),
                 house: new ObjectId(houseId),
                 roomType: new ObjectId(roomTypeId),
-                room: roomIds && new ObjectId(roomIds[idx]),
+                allocatedRoom: roomIds && new ObjectId(roomIds[idx]),
                 start,
                 end,
                 guestType

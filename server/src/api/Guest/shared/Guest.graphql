@@ -7,7 +7,7 @@ type Guest {
     # roomType 은 처음 예약하고나서 절대로 변경되지 않음.
     roomType: RoomType
     # 현재 묵는 방으로 변경될수 있음.
-    room: Room
+    allocatedRoom: Room
     booking: Booking
     name: Name
     start: DateTime!

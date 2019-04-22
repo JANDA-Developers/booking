@@ -23,7 +23,7 @@ const resolvers: Resolvers = {
                     // 중복되는 방타입 이름인지 검사함.
                     if (
                         !(await RoomTypeModel.find({
-                            name: name,
+                            name,
                             house: new ObjectId(house._id)
                         }))
                     ) {
@@ -54,7 +54,7 @@ const resolvers: Resolvers = {
                     const result = await extractRoomType(roomType);
                     return {
                         ok: true,
-                        error: null, 
+                        error: null,
                         roomType: result
                     };
                 } catch (error) {
