@@ -76,7 +76,7 @@ const POPbookerInfo = ({ bookerModalIsOpen, bookerInfo, bookerModalClose }) => {
           <InputText textarea label="예약메모" />
         </div>
       </div>
-      <div className="ReactModal__EndSection">
+      <div className="JDmodal__EndSection">
         <Button label="닫기" mode="flat" onClick={bookerModalClose} />
         <Button label="수정하기" mode="flat" onClick={bookerModalClose} />
         <Button label="예약취소" mode="flat" onClick={bookerModalClose} />

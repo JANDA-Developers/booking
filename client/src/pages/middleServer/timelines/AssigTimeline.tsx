@@ -9,15 +9,15 @@ import POPbookerInfo from '../../../components/bookerInfo/BookerModal';
 import { IUseDayPicker } from '../../../actions/hook';
 
 interface IProps {
-  handleCanvasDoubleClick(): void;
-  handleItemResize(): void;
+  handleCanvasDoubleClick: any;
+  handleItemResize: any;
   bookerModal: any;
   defaultProps: any;
   items: any;
-  handleItemMove(): void;
-  handleItemDoubleClick(): void;
-  isConfigMode: boolean;
-  setConfigMode(): void;
+  handleItemMove: any;
+  handleItemDoubleClick: any;
+  isConfigMode?: boolean;
+  setConfigMode: any;
   dayPickerHook: IUseDayPicker;
 }
 

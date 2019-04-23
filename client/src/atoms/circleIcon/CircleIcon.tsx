@@ -1,10 +1,20 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import classNames from 'classnames/bind';
+import classNames from 'classnames';
 import ErrProtecter from '../../utils/ErrProtecter';
 import './CircleIcon.scss';
 
-const CircleIcon = ({
+interface IProps {
+  children: JSX.Element[] | JSX.Element;
+  thema?: string;
+  onClick?: any;
+  darkWave?: boolean;
+  wave?: boolean;
+  hover?: boolean;
+  large?: boolean;
+}
+
+const CircleIcon: React.FunctionComponent<IProps> = ({
   children, thema, darkWave, wave, onClick, hover, large,
 }) => {
   const handleOnclick = () => {
@@ -26,15 +36,6 @@ const CircleIcon = ({
       {children}
     </button>
   );
-};
-
-CircleIcon.propTypes = {
-  children: PropTypes.node.isRequired,
-  thema: PropTypes.string,
-  darkWave: PropTypes.bool,
-  wave: PropTypes.bool,
-  hover: PropTypes.bool,
-  onClick: PropTypes.func,
 };
 
 CircleIcon.defaultProps = {

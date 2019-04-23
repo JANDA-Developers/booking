@@ -7,7 +7,7 @@ import ErrProtecter from '../../../../utils/ErrProtecter';
 import Button from '../../../../atoms/button/Button';
 import './PriceTimeline.scss';
 import {
-  getAllRoomType_GetAllRoomType_roomTypes as IRoomType,
+  getAllRoomTypePrice_GetAllRoomType_roomTypes as IRoomType,
   createRoomPrice,
   createRoomPriceVariables,
 } from '../../../../types/api';
@@ -20,11 +20,11 @@ import InputText from '../../../../atoms/forms/InputText';
 const LAST_ROOMTYPE: any = 'unRendered'; // 방들중에 방타입이 다른 마지막을 체크할것
 
 interface IProps {
-  items: IItems | undefined;
+  items: IItems[] | undefined;
   houseId: string;
   priceMap: Map<any, any>;
   defaultProps: any;
-  timelineProps: any;
+  timelineProps?: any;
   loading: boolean;
   roomTypesData: IRoomType[] | undefined;
   createRoomPriceMu: MutationFn<createRoomPrice, createRoomPriceVariables>;
@@ -78,7 +78,6 @@ const ModifyTimeline: React.SFC<IProps> = ({
           onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
             onInputBlur(e.currentTarget.value, item.start, item.group);
           }}
-          focusable="true"
         />
       </div>
     );

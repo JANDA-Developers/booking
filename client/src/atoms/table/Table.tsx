@@ -2,25 +2,31 @@ import classNames from 'classnames';
 import 'react-table/react-table.css';
 import './Table.scss';
 import React from 'react';
-import ReactTable, { Column } from 'react-table';
+import ReactTable, { Column, TableProps, ReactTableDefaults } from 'react-table';
 import ErrProtecter from '../../utils/ErrProtecter';
 
-interface IProps {
+interface IProps extends TableProps {
   align?: string;
-  columns: Column<{}>[];
-  data: any;
-  className?: string;
-  [foo: string]: any;
+  inClassNames?: string;
 }
 
 const JDtable: React.SFC<IProps> = ({
-  align, children, className, ...props
+  align, children, inClassNames, ...props
 }) => {
-  const classes = classNames('JDtable', className, {
+  const classes = classNames('JDtable', inClassNames, {
     'JDtable--center ': align === 'center',
   });
 
-  return <ReactTable className={classes} {...props} />;
+  return <ReactTable {...props} className={classes} />;
 };
+
+export const ReactTableDefault = Object.assign(ReactTableDefaults, {
+  defaultPageSize: 10,
+  minRows: 3,
+  showPagination: false,
+  sortable: false,
+  resizable: false,
+  // etc...
+});
 
 export default JDtable;

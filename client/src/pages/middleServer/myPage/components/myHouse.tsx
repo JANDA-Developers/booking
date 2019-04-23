@@ -13,7 +13,7 @@ const MyHouse: React.SFC<IProps> = ({
   title, purchaseProduct, dateCreated, location, productName, houseModal, id,
 }) => (
   <Fragment>
-    <Card hoverDark role="button" tabIndex="0" onClick={() => houseModal.openModal({ houseId: id, productId: id })}>
+    <Card hoverDark role="button" tabIndex={0} onClick={() => houseModal.openModal({ houseId: id, productId: id })}>
       <div className="myHouse">
         <span className="myHouse__title">
           <h6>

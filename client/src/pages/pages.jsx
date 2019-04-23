@@ -2,6 +2,12 @@ import React from 'react';
 import DynamicImport from '../utils/DynamicImport';
 import Preloader from '../atoms/preloader/Preloader';
 
+export const Qna = props => (
+  <DynamicImport load={() => import('./middleServer/qna/Qna')}>
+    {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
+  </DynamicImport>
+);
+
 export const SetPrice = props => (
   <DynamicImport load={() => import('./middleServer/setPrice/SetPriceWrap')}>
     {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}

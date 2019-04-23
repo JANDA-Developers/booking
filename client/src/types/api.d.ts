@@ -460,11 +460,115 @@ export interface getAllSeason_GetAllSeason {
   seasons: getAllSeason_GetAllSeason_seasons[] | null;
 }
 
+export interface getAllSeason_GetAllRoomType_roomTypes {
+  __typename: "RoomType";
+  _id: string;
+  name: string;
+  index: number;
+  description: string | null;
+}
+
+export interface getAllSeason_GetAllRoomType {
+  __typename: "GetAllRoomTypeResponse";
+  ok: boolean | null;
+  error: string | null;
+  roomTypes: getAllSeason_GetAllRoomType_roomTypes[] | null;
+}
+
 export interface getAllSeason {
   GetAllSeason: getAllSeason_GetAllSeason;
+  GetAllRoomType: getAllSeason_GetAllRoomType;
 }
 
 export interface getAllSeasonVariables {
+  houseId: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: getAllSeasonTable
+// ====================================================
+
+export interface getAllSeasonTable_GetAllSeason_seasons {
+  __typename: "Season";
+  _id: string;
+  name: string;
+  start: any;
+  end: any;
+  priority: number;
+  color: string | null;
+  description: string | null;
+  createdAt: any;
+  updatedAt: any | null;
+}
+
+export interface getAllSeasonTable_GetAllSeason {
+  __typename: "GetAllSeasonResponse";
+  ok: boolean;
+  error: string | null;
+  seasons: getAllSeasonTable_GetAllSeason_seasons[] | null;
+}
+
+export interface getAllSeasonTable_GetAllRoomType_roomTypes {
+  __typename: "RoomType";
+  _id: string;
+  name: string;
+  index: number;
+  description: string | null;
+}
+
+export interface getAllSeasonTable_GetAllRoomType {
+  __typename: "GetAllRoomTypeResponse";
+  ok: boolean | null;
+  error: string | null;
+  roomTypes: getAllSeasonTable_GetAllRoomType_roomTypes[] | null;
+}
+
+export interface getAllSeasonTable_GetSeasonPrice_seasonPrices_roomType {
+  __typename: "RoomType";
+  _id: string;
+}
+
+export interface getAllSeasonTable_GetSeasonPrice_seasonPrices_season {
+  __typename: "Season";
+  _id: string;
+}
+
+export interface getAllSeasonTable_GetSeasonPrice_seasonPrices_dayOfWeekPrices {
+  __typename: "DayOfWeekPrice";
+  price: number;
+  applyDays: number;
+}
+
+export interface getAllSeasonTable_GetSeasonPrice_seasonPrices {
+  __typename: "SeasonPrice";
+  _id: string;
+  roomType: getAllSeasonTable_GetSeasonPrice_seasonPrices_roomType;
+  season: getAllSeasonTable_GetSeasonPrice_seasonPrices_season;
+  defaultPrice: number;
+  dayOfWeekPrices: getAllSeasonTable_GetSeasonPrice_seasonPrices_dayOfWeekPrices[] | null;
+}
+
+export interface getAllSeasonTable_GetSeasonPrice {
+  __typename: "GetSeasonPriceResponse";
+  ok: boolean;
+  error: string | null;
+  seasonPrices: getAllSeasonTable_GetSeasonPrice_seasonPrices[] | null;
+}
+
+export interface getAllSeasonTable {
+  GetAllSeason: getAllSeasonTable_GetAllSeason;
+  GetAllRoomType: getAllSeasonTable_GetAllRoomType;
+  /**
+   * houseId에 해당하는 전체 방 타입 시즌 가격 가져오기
+   */
+  GetSeasonPrice: getAllSeasonTable_GetSeasonPrice;
+}
+
+export interface getAllSeasonTableVariables {
   houseId: string;
 }
 

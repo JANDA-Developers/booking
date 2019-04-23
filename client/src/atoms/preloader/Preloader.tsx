@@ -4,7 +4,11 @@ import PropTypes from 'prop-types';
 import ErrProtecter from '../../utils/ErrProtecter';
 import './Preloader.scss';
 
-const Preloader = ({ page }) => (!page ? (
+interface IProps {
+  page?: boolean;
+}
+
+const Preloader: React.SFC<IProps> = ({ page }) => (!page ? (
   <svg
     version="1.1"
     className="preloader"
@@ -44,13 +48,5 @@ const Preloader = ({ page }) => (!page ? (
     <div className="preloader--page" />
   </div>
 ));
-
-Preloader.propTypes = {
-  page: PropTypes.bool,
-};
-
-Preloader.defaultProps = {
-  page: false,
-};
 
 export default ErrProtecter(Preloader);

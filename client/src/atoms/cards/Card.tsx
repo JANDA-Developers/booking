@@ -5,11 +5,10 @@ import { Node } from 'unist';
 import ErrProtecter from '../../utils/ErrProtecter';
 import './Card.scss';
 
-interface IProps {
-  children: Node;
-  hoverDark: boolean;
+interface IProps extends React.HTMLAttributes<HTMLDivElement> {
+  children: JSX.Element[] | JSX.Element;
+  hoverDark?: boolean;
   className?: string;
-  props: React.HTMLAttributes<HTMLDivElement>;
 }
 
 const JDcard: React.SFC<IProps> = ({
@@ -31,4 +30,4 @@ JDcard.defaultProps = {
   hoverDark: false,
 };
 
-export default ErrProtecter(JDcard);
+export default ErrProtecter<IProps>(JDcard);

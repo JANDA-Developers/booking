@@ -155,11 +155,11 @@ const PriceTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
             {createRoomPriceMu => (
               <PriceTimeline
                 houseId={selectedHouse._id}
-                items={items}
+                items={items || undefined}
                 loading={loading}
                 defaultProps={PriceDefaultProps}
                 priceMap={priceMap}
-                roomTypesData={roomTypesData}
+                roomTypesData={roomTypesData || undefined}
                 createRoomPriceMu={createRoomPriceMu}
               />
             )}

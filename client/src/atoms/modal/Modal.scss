@@ -1,11 +1,10 @@
 @import "../../style_config/style_config";
 
+
+// ⚠️ JDmodal 로 수정할수없음 
 .ReactModal {
 
-    &--center {
-        text-align:center;
-    }
-    
+
     // 모달 장막
     &__Overlay {
         display: flex;
@@ -41,6 +40,15 @@
         overflow-y:auto;
     }
 
+}
+
+// 커스텀 여기서부터
+.JDmodal {
+
+    &--center {
+        text-align:center;
+    }
+    
     &__EndSection {
 
         &--float {
@@ -56,7 +64,4 @@
             margin-bottom: 0;
         }
     }
-
-
 }
-

@@ -349,7 +349,7 @@ function ShowComponents() {
           <Button icon="menue" label="Open SideNav" onClick={setSideNavIsOpen} />
           <JDmodal isOpen={isOpen} onRequestClose={closeModal}>
             <p>Modal text!</p>
-            <div className="ReactModal__EndSection">
+            <div className="JDmodal__EndSection">
               <Button label="Close Modal" onClick={closeModal} />
             </div>
           </JDmodal>

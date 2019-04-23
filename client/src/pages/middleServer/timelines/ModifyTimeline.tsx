@@ -5,22 +5,22 @@ import Timeline from '../../../components/timeline/Timeline';
 import ErrProtecter from '../../../utils/ErrProtecter';
 import Button from '../../../atoms/button/Button';
 import './ModifyTimeline.scss';
-import { getAllRoomType_GetAllRoomType_roomTypes } from '../../../types/api';
+import { getAllRoomType_GetAllRoomType_roomTypes as IRoomType } from '../../../types/api';
 import { ADD_ROOM } from './ModifyTimelineWrap';
 import Preloader from '../../../atoms/preloader/Preloader';
 
 let LAST_ROOMTYPE = 'unRendered'; // 방들중에 방타입이 다른 마지막을 체크할것
 
 interface IProps {
-  items: any;
+  items?: any;
   roomData: any;
   roomModal: any;
   defaultProps: any;
   setConfigMode: any;
-  timelineProps: any;
+  timelineProps?: any;
   roomTypeModal: any;
-  loading: boolean;
-  roomTypesData: getAllRoomType_GetAllRoomType_roomTypes[] | undefined;
+  loading?: boolean;
+  roomTypesData: IRoomType[] | undefined | null;
 }
 
 const ModifyTimeline: React.SFC<IProps> = ({
@@ -36,7 +36,7 @@ const ModifyTimeline: React.SFC<IProps> = ({
 }) => {
   // 그룹 렌더
   const ModifyGroupRendererFn = ({ group }: any) => {
-    const roomType: getAllRoomType_GetAllRoomType_roomTypes | undefined = roomTypesData && roomTypesData[group.roomTypeIndex];
+    const roomType: IRoomType | undefined | null = roomTypesData && roomTypesData[group.roomTypeIndex];
     const roomTypeCount: number = roomType ? roomType.roomCount : 0;
     const roomGroupStyle = {
       height: 36 * (roomTypeCount + 1),

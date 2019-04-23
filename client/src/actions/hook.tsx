@@ -5,7 +5,6 @@ import randomColor from 'randomcolor';
 import { useState, useEffect } from 'react';
 import Axios from 'axios';
 import { toast } from 'react-toastify';
-import { bool } from 'prop-types';
 import { CLOUDINARY_KEY } from '../keys';
 import { IselectedOption } from '../atoms/forms/SelectBox';
 

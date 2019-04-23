@@ -25,6 +25,7 @@ import {
   ModifyTimeline,
   SuperMain,
   SetPrice,
+  Qna,
   PriceTimeline,
 } from './pages';
 import { UserRole } from '../types/apiEnum';
@@ -140,6 +141,8 @@ const JDmiddleServer: React.SFC<IProps> = ({
         <Route exact path="/middleServer/login" component={isLoggedIn ? undefined : Login} />
         {/* 슈퍼관리자 */}
         <Route exact path="/middleServer/superAdmin" component={userRole === UserRole.ADMIN ? SuperMain : NoMatch} />
+        {/* 고객문의 */}
+        <Route exact path="/middleServer/qna" component={isLoggedIn ? Qna : NoMatch} />
         {/* 대기 */}
         {isEmpty(selectedProduct) ? (
           <Route component={NoMatch} />

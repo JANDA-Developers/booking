@@ -14,8 +14,9 @@ interface IProps {
 const JDmodal: React.SFC<IProps> = ({
   center, className, isOpen, closeModal, ...props
 }) => {
-  const classes = classNames('Modal', className, {
-    'ReactModal--center': center,
+  // ⚠️ JDmodal 로 수정할수없음
+  const classes = classNames('Modal JDmodal', className, {
+    'JDmodal--center': center,
   });
   const defualtJDmodalProps = {
     className: `Modal ${classes}`,

@@ -4,15 +4,14 @@ import ErrProtecter from '../../utils/ErrProtecter';
 import './ProfileCircle.scss';
 import defaultImg from '../../img/profile/default_profile.jpg';
 
-interface Iprops {
-  profileImage: string;
-  isBordered: boolean;
-  small: boolean;
-  tiny: boolean;
-  whiteBorder: boolean;
+interface Iprops extends React.HTMLAttributes<HTMLDivElement> {
+  profileImage?: string;
+  isBordered?: boolean;
+  small?: boolean;
+  tiny?: boolean;
+  whiteBorder?: boolean;
   className?: string;
-  onClick(): void;
-  props?: React.HTMLAttributes<HTMLDivElement>;
+  onClick?(): void;
 }
 
 const ProfileCircle: React.SFC<Iprops> = ({

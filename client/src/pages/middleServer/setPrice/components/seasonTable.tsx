@@ -1,43 +1,61 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
+import { TableProps, RowInfo } from 'react-table';
 import InputText from '../../../../atoms/forms/InputText';
 import Button from '../../../../atoms/button/Button';
-import JDTable from '../../../../atoms/table/Table';
+import JDTable, { ReactTableDefault } from '../../../../atoms/table/Table';
 import JDcolorPicker from '../../../../atoms/colorPicker/ColorPicker';
 import Icon from '../../../../atoms/icons/Icons';
 import utils from '../../../../utils/utils';
 import JDdayPicker from '../../../../components/dayPicker/DayPicker';
 import Card from '../../../../atoms/cards/Card';
-import { ITableValue } from './seasonTableWrap';
-import { IUseColor, IUseDayPicker } from '../../../../actions/hook';
+import { ISeasonValue, ITableData } from './seasonTableWrap';
+import {
+  IUseColor, IUseDayPicker, useModal, useModal2,
+} from '../../../../actions/hook';
+import {
+  getAllSeasonTable_GetAllRoomType_roomTypes as IRoomType,
+  getAllSeason_GetAllSeason_seasons as ISeason,
+} from '../../../../types/api';
+import { IPriceMap } from '../SetPriceWrap';
+import CircleIcon from '../../../../atoms/circleIcon/CircleIcon';
+import DayOfWeekModal from './dayOfWeekModal';
 
-interface ISetTableValue extends React.Dispatch<React.SetStateAction<ITableValue>> {}
+interface ISetTableValue extends React.Dispatch<React.SetStateAction<ISeasonValue>> {}
 
 interface IProps {
+  priceMap?: IPriceMap | null;
   dayPickerHook: IUseDayPicker;
   colorHook: IUseColor;
-  tableValue: ITableValue;
-  setTableValue: ISetTableValue;
+  // roomTypes: IRoomType[]; 없어질듯
+  defaultTableData: ITableData[];
+  seasonData?: ISeason;
+  seasonValue: ISeasonValue;
+  setSeasonValue: ISetTableValue;
   updateSeasonMutation(): any;
   deleteSeasonMutation(): any;
   createSeasonMutation(): any;
+  add?: boolean;
 }
 
 const SeasonModal: React.SFC<IProps> = ({
+  priceMap,
+  seasonValue,
+  setSeasonValue,
+  seasonData,
+  // roomTypes, 없어질듯
+  defaultTableData,
   colorHook,
-  tableValue,
   dayPickerHook,
-  setTableValue,
   createSeasonMutation,
   deleteSeasonMutation,
   updateSeasonMutation,
+  add,
 }) => {
+  const modalHook = useModal2(false);
   const validater = (): boolean => false;
 
-  const onChangeDate = (from: string, to: string): void => {
-    console.log(from);
-    console.log(to);
-  };
+  const onChangeDate = (from: string, to: string): void => {};
 
   const onDeleteTable = (): void => {
     deleteSeasonMutation();
@@ -55,24 +73,53 @@ const SeasonModal: React.SFC<IProps> = ({
     }
   };
 
-  const TableData = [
-    { color: 'blue', food: 'food', actor: 'i' },
-    { color: 'blue', food: 'food', actor: 'i' },
-    { color: 'blue', food: 'food', actor: 'i' },
-  ];
+  const [tableValue, setTableValue] = useState(defaultTableData);
+
+  const onInputBlur = (value: string, roomTypeId: string) => {
+    const values = tableValue;
+    const index = values.findIndex(inValue => inValue.id !== roomTypeId) - 1;
+    values[index] = {
+      ...values[index],
+      defaultValue: value,
+    };
+
+    setTableValue([...values]);
+  };
 
   const TableColumns = [
     {
       Header: '룸타입명',
-      accessor: 'index',
+      accessor: 'name',
     },
     {
       Header: '가격',
-      accessor: 'priority',
+      accessor: 'defaultValue',
+      Cell: ({ original }: RowInfo) => (
+        <InputText
+          className="number"
+          defaultValue={original.defaultValue}
+          onBlur={(e: any) => {
+            onInputBlur(e.currentTarget.value, original.id);
+          }}
+        />
+      ), // Custom cell components!
     },
     {
       Header: '요일별 가격',
       accessor: 'dayOfWeek',
+      Cell: ({ original }: RowInfo) => (
+        <div className="">
+          <InputText className="number" defaultValue={original.defaultValue} onBlur={onInputBlur} />
+          <CircleIcon
+            onClick={() => {
+              modalHook.openModal({ aplyWeek: original.dayOfWeek });
+            }}
+            wave
+          >
+            <Icon icon="add" />
+          </CircleIcon>
+        </div>
+      ),
     },
   ];
 
@@ -88,20 +135,25 @@ const SeasonModal: React.SFC<IProps> = ({
           <JDcolorPicker colorHook={colorHook} />
           <JDdayPicker {...dayPickerHook} onChange={onChangeDate} input label="input" isRange />
         </div>
-        <JDTable
+        <div className="flex-grid__col col--full-6 col--lg-6 col--md-12">
+        {add && (
+          <JDTable
+          className="seasonTable"
+          {...ReactTableDefault}
+          data={tableValue}
           columns={TableColumns}
-          data={TableData}
-          showPagination={false}
-          loading={false}
-          align="center"
           minRows={0}
-        />
+          align="center"
+          />
+          )}
+        </div>
       </div>
-      <div className="ReactModal__EndSection">
+      <div className="JDmodal__EndSection">
         <Button label="생성하기" mode="flat" onClick={onCreateTable} />
         <Button label="수정하기" mode="flat" onClick={onUpdateTable} />
         <Button label="삭제하기" mode="flat" onClick={onDeleteTable} />
       </div>
+      <DayOfWeekModal modalHook={modalHook} />
     </Card>
   );
 };

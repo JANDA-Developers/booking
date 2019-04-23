@@ -229,21 +229,6 @@ export const GET_ALL_ROOMTYPES_PRICE = gql`
   ${F_MINI_ROOM_TYPE}
 `;
 // 모든 방타입 가져오기
-// export const GET_ALL_SEASON_PRICE = gql`
-//   query getSeasonPrice($houseId: ID!) {
-//     GetSeasonPrice(houseId: $houseId) {
-//       ok
-//       error
-//       roomTypes {
-//         _id
-//         name
-//         index
-//         description
-//       }
-//     }
-//   }
-// `;
-// 모든 방타입 가져오기
 export const GET_USER_FOR_SU = gql`
   query getUserForSU($userId: ID!) {
     GetUserForSU(userId: $userId) {
@@ -282,13 +267,13 @@ export const SEASON_TABLE = gql`
         ...FminiRoomType
       }
     }
-    ${F_MINI_ROOM_TYPE}
   }
+  ${F_MINI_ROOM_TYPE}
 `;
 
 // 모든 시즌 가져오기
-export const GET_ALL_SEASON = gql`
-  query getAllSeason($houseId: ID!) {
+export const GET_ALL_SEASON_TABLE = gql`
+  query getAllSeasonTable($houseId: ID!) {
     GetAllSeason(houseId: $houseId) {
       ok
       error
@@ -304,7 +289,33 @@ export const GET_ALL_SEASON = gql`
         updatedAt
       }
     }
+    GetAllRoomType(houseId: $houseId) {
+      ok
+      error
+      roomTypes {
+        ...FminiRoomType
+      }
+    }
+    GetSeasonPrice(houseId: $houseId) {
+      ok
+      error
+      seasonPrices {
+        _id
+        roomType {
+          _id
+        }
+        season {
+          _id
+        }
+        defaultPrice
+        dayOfWeekPrices {
+          price
+          applyDays
+        }
+      }
+    }
   }
+  ${F_MINI_ROOM_TYPE}
 `;
 
 /* -------------------------------- mutation -------------------------------- */

@@ -1,5 +1,4 @@
 /* eslint-disable  */
-import ReactModal from 'react-modal';
 import React, { useState } from 'react';
 import { Mutation } from 'react-apollo';
 import InputText from '../../../atoms/forms/InputText';

@@ -49,6 +49,10 @@ function SideNav({
             <Icon icon="list" />
             <span className="JDsideNav__title">서비스 상품</span>
           </NavLink>
+          <NavLink to="/middleServer/qna" className="JDsideNav__navLink">
+            <Icon icon="list" />
+            <span className="JDsideNav__title">고객문의</span>
+          </NavLink>
         </div>
         {/* 하단 상품뷰 */}
         <div className="JDsideNav__productView">

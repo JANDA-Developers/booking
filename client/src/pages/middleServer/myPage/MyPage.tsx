@@ -103,7 +103,7 @@ const Mypage: React.SFC<IProps> = ({
       <Modal center isOpen={passWordModal.isOpen}>
         <h6>프로필 변경</h6>
         <InputText {...passwordHook} validation={utils.isPassword} label="비밀번호" />
-        <div className="ReactModal__EndSection">
+        <div className="JDmodal__EndSection">
           <Button
             mode="flat"
             label="확인"

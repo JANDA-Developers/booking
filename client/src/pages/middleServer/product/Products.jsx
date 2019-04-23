@@ -168,7 +168,7 @@ const Products = ({
               <Button onClick={onDownloadPdf} label="다운로드" thema="grey" mode="flat" icon="download" />
             </div>
           </div>
-          <div className="ReactModal__EndSection ReactModal__EndSection--float">
+          <div className="JDmodal__EndSection JDmodal__EndSection--float">
             <h6>
               <a href="http://janda-tmp.com" className="JDanchor">
                 {'체험시작'}
@@ -188,7 +188,7 @@ const Products = ({
         <p>
           <RefundPolicyNode />
         </p>
-        <div className="ReactModal__EndSection">
+        <div className="JDmodal__EndSection">
           <Button
             onClick={refundMutation}
             disabled={isEmpty(selectedHouse)}

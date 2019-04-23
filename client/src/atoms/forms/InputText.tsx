@@ -2,13 +2,36 @@ import React, { useEffect, useRef, useState } from 'react';
 import './InputText.scss';
 import './Textarea.scss';
 import PropTypes from 'prop-types';
-import classNames from 'classnames/bind';
+import classNames from 'classnames';
 import JDicon from '../icons/Icons';
 import ErrProtecter from '../../utils/ErrProtecter';
 import { NEUTRAL } from '../../utils/Enums';
 import autoHyphen from '../../utils/AutoHyphen';
 
-function InputText({
+interface IProps extends React.HTMLAttributes<HTMLInputElement> {
+  readOnly?: boolean;
+  disabled?: boolean;
+  textarea?: boolean;
+  scroll?: boolean;
+  doubleHeight?: boolean;
+  label?: string;
+  type?: string;
+  dataError?: string;
+  icon?: string;
+  dataSuccess?: string;
+  validation?: any;
+  onChange?: any;
+  onChangeValid?: any;
+  onBlur?: any;
+  refContainer?: any;
+  isValid?: any;
+  value?: string;
+  max?: number;
+  defaultValue?: string;
+  hyphen?: boolean;
+}
+
+const InputText: React.FC<IProps> = ({
   readOnly,
   label,
   disabled,
@@ -24,15 +47,14 @@ function InputText({
   scroll,
   value,
   defaultValue, // UNcontrolled
-  dayPicker,
   doubleHeight,
   dataError,
   dataSuccess,
   icon,
   hyphen,
   ...props
-}) {
-  const inHandleChange = (event) => {
+}) => {
+  const inHandleChange = (event: any) => {
     const { target } = event;
     const result = validation(target.value, max);
     onChange(target.value.replace(/-/gi, ''));
@@ -62,11 +84,7 @@ function InputText({
   // 인풋 과 텍스트어리어 경계
   return !textarea ? (
     <div className="JDinput-wrap">
-      {icon !== '' ? (
-        <span className="JDinput-iconWrap">
-          <JDicon icon={icon} />
-        </span>
-      ) : null}
+      {icon !== '' ? <span className="JDinput-iconWrap">{icon && <JDicon icon={icon} />}</span> : null}
       <input
         onChange={inHandleChange}
         disabled={disabled}
@@ -100,27 +118,6 @@ function InputText({
       </label>
     </div>
   );
-}
-
-InputText.propTypes = {
-  readOnly: PropTypes.bool,
-  disabled: PropTypes.bool,
-  textarea: PropTypes.bool,
-  dayPicker: PropTypes.bool,
-  scroll: PropTypes.bool,
-  doubleHeight: PropTypes.bool,
-  label: PropTypes.string,
-  type: PropTypes.string,
-  dataError: PropTypes.string,
-  icon: PropTypes.string,
-  dataSuccess: PropTypes.string,
-  validation: PropTypes.func,
-  onChange: PropTypes.func,
-  onChangeValid: PropTypes.func,
-  refContainer: PropTypes.any,
-  isValid: PropTypes.any,
-  value: PropTypes.any,
-  max: PropTypes.number,
 };
 
 InputText.defaultProps = {
@@ -129,7 +126,6 @@ InputText.defaultProps = {
   textarea: false,
   scroll: false,
   doubleHeight: false,
-  dayPicker: false,
   label: '',
   type: '',
   dataError: '',

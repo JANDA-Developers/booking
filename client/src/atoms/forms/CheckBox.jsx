@@ -7,6 +7,8 @@ import ErrProtecter from '../../utils/ErrProtecter';
 function Checkbox({
   disabled, checked, onChange, label,
 }) {
+  console.log(':flage');
+  console.log(checked);
   const classes = classNames({
     JDcheck_box: true,
   });

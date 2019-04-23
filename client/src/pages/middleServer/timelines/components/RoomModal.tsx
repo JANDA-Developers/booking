@@ -66,7 +66,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
           <InputText label="방이름" {...roomNameHook} validation={utils.isMaxOver} max={10} />
         </div>
       </div>
-      <div className="ReactModal__EndSection">
+      <div className="JDmodal__EndSection">
         <Button label="생성하기" mode="flat" onClick={onCreateRoom} />
         <Button label="수정하기" mode="flat" onClick={onUpdateRoom} />
         <Button label="삭제하기" mode="flat" onClick={onDeleteRoom} />
