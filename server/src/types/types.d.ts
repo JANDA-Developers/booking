@@ -20,7 +20,7 @@ export type GuestInputType = {
     booking: ObjectId;
     house: ObjectId;
     roomType: ObjectId;
-    room?: ObjectId;
+    allocatedRoom?: ObjectId;
     start: Date;
     end: Date;
     guestType: GuestType;

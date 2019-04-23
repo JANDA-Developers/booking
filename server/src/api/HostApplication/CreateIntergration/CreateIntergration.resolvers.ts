@@ -1,9 +1,9 @@
-import { Resolvers } from "../../../types/resolvers";
+import { HouseModel } from "../../../models/House";
 import {
     CreateIntergrationMutationArgs,
     CreateIntergrationResponse
 } from "../../../types/graph";
-import { HouseModel } from "../../../models/House";
+import { Resolvers } from "../../../types/resolvers";
 import createHostApplicationJWT from "../../../utils/createHostApplicationJWT";
 
 const resolvers: Resolvers = {

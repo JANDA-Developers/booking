@@ -6,14 +6,18 @@ import {
     ChangePriorityToHostAppResponse
 } from "../../../../types/graph";
 import { Resolvers } from "../../../../types/resolvers";
-import privateResolver from "../../../../utils/privateResolvers";
+import { privateResolver } from "../../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Mutation: {
         ChangePriorityToHostApp: privateResolver(
             async (
                 _,
-                { houseId, seasonId, priority }: ChangePriorityToHostAppMutationArgs
+                {
+                    houseId,
+                    seasonId,
+                    priority
+                }: ChangePriorityToHostAppMutationArgs
             ): Promise<ChangePriorityToHostAppResponse> => {
                 const existingSeasons = await SeasonModel.find(
                     {

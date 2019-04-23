@@ -38,9 +38,9 @@ Host-Side:
             ✔ interval @done(19-03-06 17:26)
             ✔ getParams @done(19-03-06 17:26)
         Add/Remove/Update DisableRange:
-            ✔ AddRoomDisableRange @done(19-03-06 18:17)
-            ✔ RemoveRoomDisableRange @done(19-03-06 20:20)
-            ☐ UpdateRoomDisableRange
+            ✘ AddRoomDisableRange @cancelled(19-04-21 23:34)
+            ✘ RemoveRoomDisableRange @cancelled(19-04-21 23:34)
+            ✘ UpdateRoomDisableRange @cancelled(19-04-21 23:34)
             ✘ AddRoomTypeDisableRange @cancelled(19-03-06 20:21)
             ✘ RemoveRoomTypeDisableRange @cancelled(19-03-06 20:21)
             ✘ UpdateRoomTypeDisableRange @cancelled(19-03-06 20:21)
@@ -69,6 +69,13 @@ Host-Side:
                 # BookingStatus 변경 포함 x
             ☐ CancelBooking
             ☐ DeleteBooking
+        Allocation:@high @today 
+            ☐ GetAllocatedRoomList       => 배정된 방 목록 @started(19-04-22 15:11)
+            ☐ AllocateGuestToRoom        => 방 배정
+            ☐ CheckRoomAbleToAllocate    => Check the Room is able to allocate someone.
+            ☐ GetAllAvailableRooms       => Get All Available Rooms
+            ☐ GetAllAvailableRoomTypes   => Get All Available RoomTypes
+            ☐ CheckRoomTypeIsAvailable   => Check RoomType is Available
         Search Bar:
             ☐ Search Booker Info
             ☐ Show the Today's Check-In Guest
@@ -78,9 +85,9 @@ Host-Side:
             ☐ Delete Booker
         Make Room Price:
             ✔ Define Schema...(SeasonPrice, RoomPrice) @done(19-03-20 14:29)
-            ☐ Inspect Schema @today
-            ☐ Create / Update Season Price for Season (Default Room Price) @today
-            ☐ Create / Update Room Price for Specific Date @today
+            ✔ Inspect Schema @today @done(19-04-21 23:36)
+            ✔ Create / Update Season Price for Season (Default Room Price) @today @done(19-04-21 23:36)
+            ✔ Create / Update Room Price for Specific Date @today @done(19-04-21 23:36)
             ☐ Inspection
         Delete Room Price:
             ☐ Delete Room Price For Season (Default Room Price)

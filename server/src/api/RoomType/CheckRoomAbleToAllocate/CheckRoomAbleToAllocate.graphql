@@ -1,0 +1,19 @@
+type CheckRoomAbleToAllocateResponse {
+    ok: Boolean!
+    error: String
+    roomStatusList: [RoomStatus!]
+}
+# 방 상태 객체 => 어떤 날짜에 어떤 방에 어떤 사람이 배정되어 있는지
+type RoomStatus {
+    room: Room!
+    date: DateTime!
+    maxAllocating: Int!
+    guests: [Guest!]
+}
+type Query {
+    CheckRoomAbleToAllocate(
+        roomId: ID!
+        start: DateTime!
+        end: DateTime!
+    ): CheckRoomAbleToAllocateResponse!
+}

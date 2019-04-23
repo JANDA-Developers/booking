@@ -3,7 +3,7 @@ import { HouseModel } from "../../../models/House";
 import { extractHouse } from "../../../models/merge/merge";
 import { GetHouseQueryArgs, GetHouseResponse } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
-import privateResolver from "../../../utils/privateResolvers";
+import { privateResolver } from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Query: {

@@ -1,0 +1,17 @@
+type GetAllocatedRoomListResponse {
+    ok: Boolean!
+    error: String
+    allocatedRoomList: [AllocatedRoom!]
+}
+type AllocatedRoom {
+    room: Room!
+    date: DateTime!
+    guests: [Guest!]
+}
+type Query {
+    GetAllocatedRoomList(
+        houseId: ID!
+        start: DateTime!
+        end: DateTime!
+    ): GetAllocatedRoomListResponse!
+}

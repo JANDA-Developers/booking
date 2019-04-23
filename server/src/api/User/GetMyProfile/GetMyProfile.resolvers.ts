@@ -1,7 +1,7 @@
 import { extractUser } from "../../../models/merge/merge";
 import { GetMyProfileResponse } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
-import privateResolver from "../../../utils/privateResolvers";
+import { privateResolver } from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Query: {
