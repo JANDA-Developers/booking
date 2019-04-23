@@ -5,11 +5,9 @@ import {
     InstanceType,
     pre,
     prop,
-    Ref,
     Typegoose
 } from "typegoose";
 import { PricingType, RoomGender } from "../types/graph";
-import { RoomSchema } from "./Room";
 
 export enum PricingTypeEnum {
     ROOM = "ROOM",
@@ -109,8 +107,8 @@ export class RoomTypeSchema extends Typegoose {
     @prop()
     tags: string;
 
-    @arrayProp({ itemsRef: RoomSchema, default: [] })
-    rooms: Array<Ref<RoomSchema>>;
+    @arrayProp({ items: ObjectId, default: [] })
+    rooms: ObjectId[];
 
     @prop()
     get roomCount(): number {

@@ -26,7 +26,7 @@ export const insertGuest = async ({
         booker: new ObjectId(bookerId),
         roomType: new ObjectId(roomTypeId),
         booking: (bookingId && new ObjectId(bookingId)) || undefined,
-        allocatedroom: (roomId && new ObjectId(roomId)) || undefined,
+        allocatedBed: (roomId && new ObjectId(roomId)) || undefined,
         ...args
     });
     return await guest.save();
@@ -53,7 +53,7 @@ export const insertGuests = async (
                 booking: new ObjectId(bookingId),
                 house: new ObjectId(houseId),
                 roomType: new ObjectId(roomTypeId),
-                allocatedRoom: roomIds && new ObjectId(roomIds[idx]),
+                allocatedBed: roomIds && new ObjectId(roomIds[idx]),
                 start,
                 end,
                 guestType

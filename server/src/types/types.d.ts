@@ -20,7 +20,7 @@ export type GuestInputType = {
     booking: ObjectId;
     house: ObjectId;
     roomType: ObjectId;
-    allocatedRoom?: ObjectId;
+    allocatedBed?: ObjectId;
     start: Date;
     end: Date;
     guestType: GuestType;
@@ -29,4 +29,11 @@ export type GuestInputType = {
 export type DayOfWeekPriceType = {
     price: number;
     applyDays: string;
+};
+
+export type Allocation = {
+    start: Date;
+    end: Date;
+    bed: Bed;
+    guest: Guest;
 };

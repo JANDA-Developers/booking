@@ -1,17 +1,17 @@
-type GetAllocatedRoomListResponse {
+type GetallocatedBedListResponse {
     ok: Boolean!
     error: String
-    allocatedRoomList: [AllocatedRoom!]
+    allocatedBedList: [allocatedBed!]
 }
-type AllocatedRoom {
+type allocatedBed {
     room: Room!
     date: DateTime!
     guests: [Guest!]
 }
 type Query {
-    GetAllocatedRoomList(
+    GetallocatedBedList(
         houseId: ID!
         start: DateTime!
         end: DateTime!
-    ): GetAllocatedRoomListResponse!
+    ): GetallocatedBedListResponse!
 }

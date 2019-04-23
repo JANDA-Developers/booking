@@ -13,17 +13,19 @@ const resolvers: Resolvers = {
         GetHousesForSU: privateResolverForSU(
             async (
                 _,
-                { page, count }: GetHousesForSuQueryArgs
+                args: GetHousesForSuQueryArgs
             ): Promise<GetHousesForSUResponse> => {
                 try {
+                    const count = args.count || 0;
+                    const page = args.page || 0;
                     const rawHouses: Array<
                         InstanceType<HouseSchema>
                     > = await HouseModel.find()
                         .sort({
                             updatedAt: -1
                         })
-                        .limit(count || 0)
-                        .skip((page || 1) * (count || 1));
+                        .skip(page * count)
+                        .limit(count);
                     return {
                         ok: true,
                         error: null,

@@ -14,13 +14,13 @@ const resolver: Resolvers = {
         CreateRoom: privateResolver(
             async (
                 _,
-                args: CreateRoomMutationArgs,
-                context
+                args: CreateRoomMutationArgs
             ): Promise<CreateRoomResponse> => {
                 try {
                     const room = new RoomModel({
                         ...args
                     });
+                    await room.addBeds();
                     await room.save();
                     await RoomTypeModel.updateOne(
                         {

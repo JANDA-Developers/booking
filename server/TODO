@@ -70,7 +70,7 @@ Host-Side:
             ☐ CancelBooking
             ☐ DeleteBooking
         Allocation:@high @today 
-            ☐ GetAllocatedRoomList       => 배정된 방 목록 @started(19-04-22 15:11)
+            ☐ GetallocatedBedList       => 배정된 방 목록 @started(19-04-22 15:11)
             ☐ AllocateGuestToRoom        => 방 배정
             ☐ CheckRoomAbleToAllocate    => Check the Room is able to allocate someone.
             ☐ GetAllAvailableRooms       => Get All Available Rooms
