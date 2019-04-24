@@ -15,7 +15,7 @@ import {
     SeasonPrice,
     User
 } from "../../types/graph";
-import { applyDaysToBinary } from "../../utils/applyDays";
+import { applyDaysToBinaryString } from "../../utils/applyDays";
 import { BookerModel, BookerSchema } from "../Booker";
 import { BookingModel, BookingSchema } from "../Booking";
 import { GuestModel, GuestSchema } from "../Guest";
@@ -343,7 +343,7 @@ export const extractSeasonPrice = async (
         _id: sp._doc._id.toString(),
         // FIXME - Here... SeasonPriceSchema 변경으로 여기도 바뀌어야함.
         dayOfWeekPrices: sp._doc.dayOfWeekPrices,
-        applyDays: applyDaysToBinary(sp._doc.applyDays),
+        applyDays: applyDaysToBinaryString(sp._doc.applyDays),
         roomType: await transformRoomType.bind(
             transformRoomType,
             sp._doc.roomType

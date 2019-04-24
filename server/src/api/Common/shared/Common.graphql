@@ -40,3 +40,9 @@ type PageInfo {
     hasPreviousPage: Boolean!
     hasNextPage: Boolean!
 }
+
+type PageInfoOffsetBase {
+    currentPage: Int!
+    totalPage: Int!
+    rowCount: Int!
+}
