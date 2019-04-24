@@ -1,6 +1,6 @@
 import { instanceMethod, InstanceType, prop, Ref, Typegoose } from "typegoose";
 import { DayOfWeekPrice } from "../types/graph";
-import { applyDaysToBinary } from "../utils/applyDays";
+import { applyDaysToBinaryString } from "../utils/applyDays";
 import { RoomTypeSchema } from "./RoomType";
 import { SeasonSchema } from "./Season";
 
@@ -34,7 +34,7 @@ export class SeasonPriceSchema extends Typegoose {
         // applyDays 체크
         let applyDaysSum = (dayOfWeekPrices || this.dayOfWeekPrices)
             .map(dayOfWeekPrice =>
-                parseInt(applyDaysToBinary(dayOfWeekPrice.applyDays), 10)
+                parseInt(applyDaysToBinaryString(dayOfWeekPrice.applyDays), 10)
             )
             .reduce((n1, n2) => n1 + n2);
         for (let i = 7; i < 7; i--) {
