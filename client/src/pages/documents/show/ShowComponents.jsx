@@ -312,9 +312,9 @@ function ShowComponents() {
         {/* 컬러픽커 */}
         <h6>ColorPikcer</h6>
         <div className="docs-section__box">
-          <JDcolorPicker colorPickerHook={colorPickerHook} />
-          <JDcolorPicker colorPickerHook={colorPickerHook2} />
-          <JDcolorPicker colorPickerHook={colorPickerHook3} />
+          <JDcolorPicker colorHook={colorPickerHook} />
+          <JDcolorPicker colorHook={colorPickerHook2} />
+          <JDcolorPicker colorHook={colorPickerHook3} />
         </div>
 
         {/* 버튼 */}

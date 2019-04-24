@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { Query } from 'react-apollo';
 import { getHousesForSU, getHousesForSUVariables } from '../../../types/api';
 import SuperMain from './SuperMain';
-import { GEA_All_HOUSE_SUPER_USER } from '../../../queries';
+import { GET_HOUSES_FOR_SU } from '../../../queries';
 import QueryError from '../../../utils/QueryError';
 import { isEmpty, QueryDataFormater, pageNationFormater } from '../../../utils/utils';
 import { useModal2 } from '../../../actions/hook';
@@ -15,24 +15,17 @@ interface Iprops {}
 const SuperMainWrap: React.SFC<Iprops> = () => {
   const userModal = useModal2(false);
 
-  console.log(userModal);
-  console.log(userModal);
-  console.log(userModal);
-
   return (
     <GetAllHouse
-      query={GEA_All_HOUSE_SUPER_USER}
+      query={GET_HOUSES_FOR_SU}
       variables={{
-        first: 20,
+        page: 1,
+        count: 9999,
       }}
     >
       {({ data: housePages, loading, error }) => {
         QueryError(error);
         const housePageData = pageNationFormater<false>(housePages, 'GetHousesForSU', false, true);
-
-        console.log(housePageData);
-        console.log(housePageData);
-        console.log(housePageData);
 
         return (
           <Fragment>

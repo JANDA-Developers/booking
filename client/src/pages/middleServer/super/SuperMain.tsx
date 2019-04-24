@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { getHousesForSU_GetHousesForSU_result_edges_node as Ihouse } from '../../../types/api';
+import { getHousesForSU_GetHousesForSU_houses as Ihouse } from '../../../types/api';
 import { IUseModal } from '../../../actions/hook';
 import Preloader from '../../../atoms/preloader/Preloader';
 import './SuperMain.scss';

@@ -14,8 +14,6 @@ interface IProps {}
 
 // 하우스 아이디를 우선 Props를 통해서 받아야함
 const ReservationWrap: React.SFC<IProps> = () => {
-  const dayPickerHook = useDayPicker(null, null);
-
   const addSeasonHook = '';
   // TODO
 
@@ -24,7 +22,7 @@ const ReservationWrap: React.SFC<IProps> = () => {
 
   return (
     <CreatBookingMu mutation={CREATE_BOOKING}>
-      {createBookingMu => <Reservation houseId="" dayPickerHook={dayPickerHook} createBookingMu={createBookingMu} />}
+      {createBookingMu => <Reservation houseId="" createBookingMu={createBookingMu} />}
     </CreatBookingMu>
   );
 };

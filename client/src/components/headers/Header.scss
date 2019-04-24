@@ -27,7 +27,7 @@
     // 로고 이미지 여백 맞춤
     &__logoPlace {
         margin-left: -4px;
-        padding-right: $standard-side-padding;
+        padding-right: $standard-padding;
     }
 
     // 로고
@@ -105,7 +105,7 @@
         
         
         &__logoPlace {
-            padding-left: calc(#{$standard-side-padding} * 2);
+            padding-left: calc(#{$standard-padding} * 2);
         }
         
         &__btns--mobileX,&__profile,.JDselect {

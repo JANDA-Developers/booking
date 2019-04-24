@@ -1,10 +1,5 @@
 @import "../../style_config/style_config";
 
-$colorPicker-padding: 5px;
-$colorPicker-height: $standard-li-height  - ($colorPicker-padding * 2);
-$colorPicker-width: 3rem;
-$colorPicker-radius: $standard-border-radius;
-
 .JDcolorPicker {
      
     display:inline-block;
@@ -12,7 +7,7 @@ $colorPicker-radius: $standard-border-radius;
         padding: $colorPicker-padding;
         background-color: #fff;
         border-radius: $colorPicker-radius;
-        border: 1px solid $grey-level1;
+        border: 1px solid $colorPicker-outborder-color;
         display: inline-block;
         cursor: pointer;
    }

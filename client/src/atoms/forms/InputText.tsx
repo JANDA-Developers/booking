@@ -1,4 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  useEffect, useRef, useState, FormEvent,
+} from 'react';
 import './InputText.scss';
 import './Textarea.scss';
 import PropTypes from 'prop-types';
@@ -22,7 +24,9 @@ interface IProps extends React.HTMLAttributes<HTMLInputElement> {
   iconOnClick?: any;
   dataSuccess?: string;
   validation?: any;
-  onChange?: any;
+  // 음... 곤란하군 만약에 이벤트 객체를 핸들링할 경우가 생긴다면
+  // onChnage=> onChangeValue로 바꾸어야겠다.
+  onChange?(foo?:any): void;
   onChangeValid?: any;
   onBlur?: any;
   refContainer?: any;
@@ -61,7 +65,7 @@ const InputText: React.FC<IProps> = ({
   const inHandleChange = (event: any) => {
     const { target } = event;
     const result = validation(target.value, max);
-    onChange(target.value.replace(/-/gi, ''));
+    onChange && onChange(target.value.replace(/-/gi, ''));
     onChangeValid(result);
   };
 

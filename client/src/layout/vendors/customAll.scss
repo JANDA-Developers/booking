@@ -39,6 +39,9 @@ a.JDanchor {
         color:$link-color-active
     }
 }
+.JDstandard-margin-bottom {
+    margin-bottom: $standard-margin-bottom;
+}
 
 .JDlarge-text {
     font-size: $typho-large
@@ -46,6 +49,10 @@ a.JDanchor {
 
 .JDsmall-text {
     font-size: $typho-small
+}
+
+.JDtiny-text {
+    font-size: $typho-tiny
 }
 
 .JDtextColor--primary {

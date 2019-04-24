@@ -3,7 +3,8 @@
 .imageUploader {
     position:relative;
     width:100%;
-    border: 2px solid $html-color; 
+    border: 1px solid $IUploader-border-color; 
+    border-radius: $IUploader-border-radius;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;

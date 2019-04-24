@@ -10,7 +10,8 @@
 .JDselect+*,
 .JDbtn+*,
 .circleIcon+*,
-.profileCircle+* {
+.profileCircle+*,
+.JDcolorPicker+ *, {
     margin-left: $standard-space;
 }
 
@@ -36,6 +37,7 @@
 .JDslider,
 .JDpagination,
 .JDcard,
+.JDtable,
 .JDcolorPicker  {
     margin-bottom: $standard-margin-bottom;
 }

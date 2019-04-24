@@ -15,11 +15,12 @@ interface IProps extends React.HTMLAttributes<HTMLButtonElement> {
   iconClasses?: string[];
   dataTip?: any;
   dataFor?: any;
-  mode?: string;
+  mode?: 'flat' | 'small' | 'large' | 'normal' | 'long';
+  flat?: boolean;
   float?: string;
   type?: 'button' | 'submit' | 'reset' | undefined;
   color?: string;
-  thema?: string;
+  thema?: 'primary' | 'grey' | 'secondary' | 'warn' | 'normal';
   pulse?: boolean;
   blink?: boolean;
   preloader?: boolean;
@@ -34,6 +35,7 @@ const Button: React.FC<IProps> = ({
   iconClasses,
   dataTip,
   dataFor,
+  flat,
   mode,
   float,
   type,
@@ -46,9 +48,10 @@ const Button: React.FC<IProps> = ({
   ...props
 }) => {
   const classes = classNames('JDbtn', className, {
-    'JDbtn--flat': mode === 'flat',
+    'JDbtn--flat': mode === 'flat' || flat,
     'JDbtn--small': mode === 'small',
     'JDbtn--large': mode === 'large',
+    'JDbtn--long': mode === 'long',
     'JDbtn--left': float === 'left',
     'JDbtn--right': float === 'right',
     'JDbtn--white': color === 'white',
@@ -90,7 +93,6 @@ Button.defaultProps = {
   iconClasses: [''],
   dataTip: false,
   dataFor: '',
-  mode: '',
   pulse: false,
   blink: false,
   float: '',

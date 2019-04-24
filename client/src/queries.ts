@@ -90,44 +90,76 @@ export const GET_USER_INFO = gql`
   ${F_USER_INFO}
 `;
 
-// 모든 유저 정보 가져오기
-export const GEA_All_HOUSE_SUPER_USER = gql`
-  query getHousesForSU($first: Int!, $cursor: String, $sort: HouseSortInput, $filter: HouseFilter) {
-    GetHousesForSU(first: $first, cursor: $cursor, sort: $sort, filter: $filter) {
+// 모든 유저 정보 가져오기  👿 제거될 예정
+// export const GEA_All_HOUSE_SUPER_USER = gql`
+//   query getHousesForSU($first: Int!, $cursor: String, $sort: HouseSortInput, $filter: HouseFilter) {
+//     GetHousesForSU(first: $first, cursor: $cursor, sort: $sort, filter: $filter) {
+//       ok
+//       error
+//       result {
+//         totalCount
+//         pageInfo {
+//           startCursor
+//           endCursor
+//           hasPreviousPage
+//           hasNextPage
+//         }
+//         edges {
+//           cursor
+//           node {
+//             _id
+//             name
+//             houseType
+//             user {
+//               _id
+//               phoneNumber
+//               profileImg
+//             }
+//             location {
+//               address
+//               addressDetail
+//             }
+//             createdAt
+//             product {
+//               _id
+//               name
+//               productType {
+//                 _id
+//               }
+//             }
+//             updatedAt
+//           }
+//         }
+//       }
+//     }
+//   }
+// `;
+
+// 슈퍼어드민 모든 집 GET
+export const GET_HOUSES_FOR_SU = gql`
+  query getHousesForSU($page: Int, $count: Int) {
+    GetHousesForSU(page: $page, count: $count) {
       ok
       error
-      result {
-        totalCount
-        pageInfo {
-          startCursor
-          endCursor
-          hasPreviousPage
-          hasNextPage
+      houses {
+        _id
+        name
+        houseType
+        user {
+          _id
+          phoneNumber
+          profileImg
         }
-        edges {
-          cursor
-          node {
+        location {
+          address
+          addressDetail
+        }
+        createdAt
+        product {
+          _id
+          name
+          productType {
             _id
-            name
-            houseType
-            user {
-              _id
-              phoneNumber
-              profileImg
-            }
-            location {
-              address
-              addressDetail
-            }
-            createdAt
-            product {
-              _id
-              name
-              productType {
-                _id
-              }
-            }
-            updatedAt
           }
         }
       }
@@ -430,6 +462,25 @@ export const UPDATE_ROOMTYPE = gql`
 `;
 
 // START 시즌관련 ────────────────────────────────────────────────────────────────────────────────
+export const CREATE_SEASON_PRICE = gql`
+  mutation createSeasonPrice(
+    $roomTypeId: ID!
+    $seasonId: ID!
+    $defaultPrice: Float!
+    $dayOfWeekPrices: [DayOfWeekPriceInput!]
+  ) {
+    CreateSeasonPrice(
+      roomTypeId: $roomTypeId
+      seasonId: $seasonId
+      defaultPrice: $defaultPrice
+      dayOfWeekPrices: $dayOfWeekPrices
+    ) {
+      ok
+      error
+    }
+  }
+`;
+
 // 시즌 생성
 export const CREATE_SEASON = gql`
   mutation createSeason(

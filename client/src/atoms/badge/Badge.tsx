@@ -2,6 +2,7 @@ import React from 'react';
 import './Badge.scss';
 import classnames from 'classnames';
 
+// 이거보다는 풀어서 넣는게 좋을것 같다.
 export enum BADGE_THEMA {
   PRIMARY = 'primary',
   SECONDARY = 'secondary',

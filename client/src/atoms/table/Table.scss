@@ -4,9 +4,12 @@
 #root {
     .JDtable {
         width: 100%;
+        border-radius: $table-border-radius;
+        border-color: $table-outborder-color;
+        box-sizing: border-box;
 
         * {
-            border-color: $grey-opacity1;
+            border-color: $table-borders-color;
         }
 
         &--center {
@@ -19,7 +22,7 @@
         .rt {
             &-thead {
                     box-shadow: none;
-                    border-bottom: 2px solid $html-color;
+                    border-bottom: $table-header-border-bottom;
             }
 
             &-td {

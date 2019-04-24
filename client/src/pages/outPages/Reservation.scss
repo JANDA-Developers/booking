@@ -1,0 +1,92 @@
+@import '../../style_config/style_config';
+
+
+$flex-grid--column-margin: .8%;
+
+$roomCardHeight: 130px;
+
+#JDreservation {
+
+    // 😆 어떻게 그리드 시스템을 오버라이드 하는지 보여줌
+    .flex-grid {
+
+        @include grid-system(full);
+        @include grid-system(wlg);
+        @include grid-system(lg);
+        @include grid-system(wmd);
+        @include grid-system(wmd);
+        @include grid-system(md);
+        @include grid-system(sm);
+    }
+
+    .JDreservation {
+        &__card {
+            margin-bottom: $standard-margin-bottom /2;
+        }
+
+        &__dayPickerCard {
+            height: 95vh;
+            position: sticky;
+            top: 0;
+            border-radius:$standard-border-radius;
+
+            @include response ($tabletUp, $null) {
+                height: auto;
+                position: static;
+            }
+        }
+        
+        &__sectionTitle {
+            text-align: center;
+        }
+
+    }
+
+    .roomTypeCard {
+        height: $roomCardHeight;
+        border: 1px solid $standard-outborder-color;
+
+        &__imgSection {
+            max-width: $roomCardHeight * 1.68;
+            background-image: url('../../img/default_room.png');
+            background-size: contain;
+            background-position:center center;
+            background-repeat: no-repeat;
+            border-right: 1px solid $grey-opacity1;
+        }
+
+        &__middleSection {
+            padding:$standard-padding;
+        }
+
+        &__lastSection {
+            padding:$standard-padding;
+        }
+    }
+
+    .JDselectInfo {
+        .JDtable {
+            .rt-noData{
+                color: $standard-placeholder-color;
+                padding: 0;
+                top: auto;
+                bottom: 0;
+            }
+        }
+
+        //이게 박스안에 들어가는게 좋지않을까???
+        &__priceResultBox {
+            border-radius: $standard-border-radius;
+            padding: $standard-padding;
+            border: 1px solid $standard-outborder-color;
+        }
+    }
+}
+
+.paymentModal {
+    &__JDbox {
+        max-width:300px;
+        text-align: center;
+        color: $html-color;
+    }
+}

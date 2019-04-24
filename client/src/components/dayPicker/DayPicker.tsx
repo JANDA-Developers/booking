@@ -24,6 +24,7 @@ interface IProps extends IUseDayPicker {
   canSelectSameDate?: boolean;
   format?: string;
   lang?: string;
+  maxLimit?: boolean;
   onChange(foo?: string | Date | null, foo2?: string | Date | null): void;
 }
 
@@ -43,6 +44,7 @@ const JDdayPicker: React.SFC<IProps> = ({
   setTo,
   entered,
   setEntered,
+  maxLimit,
 }) => {
   const dayPickerFullWrap: any = useRef();
 
@@ -105,6 +107,7 @@ const JDdayPicker: React.SFC<IProps> = ({
   const classes = classNames({
     'DayPicker--horizen': horizen,
     'DayPicker--input': input,
+    'DayPicker--maxLimit': maxLimit,
   });
 
   const modifiers = { start: from, end: entered };
