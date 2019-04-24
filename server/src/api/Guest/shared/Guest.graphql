@@ -2,16 +2,13 @@ type Guest {
     _id: ID!
     # roomType,
     guestId: String!
-    booker: Booker!
     house: House!
     # roomType 은 처음 예약하고나서 절대로 변경되지 않음.
     roomType: RoomType
     # 현재 묵는 방으로 변경될수 있음.
-    allocatedRoom: Room
+    allocatedBed: Room
     booking: Booking
     name: Name
-    start: DateTime!
-    end: DateTime!
     # 도미토리, 룸, 블록 구분
     guestType: GuestType!
     gender: Gender

@@ -1,0 +1,8 @@
+# guest & bed 는 1:1 매칭 배정.
+type Bed {
+    room: Room!
+    roomType: RoomType!
+    name: Name
+    createdAt: DateTime!
+    updatedAt: DateTime
+}

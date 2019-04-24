@@ -1,6 +1,5 @@
 import { prop, Ref, Typegoose } from "typegoose";
 import { Gender, GuestType } from "../types/graph";
-import { BookerSchema } from "./Booker";
 import { BookingSchema } from "./Booking";
 import { RoomSchema } from "./Room";
 import { RoomTypeSchema } from "./RoomType";
@@ -17,9 +16,6 @@ enum GenderEnum {
 }
 
 export class GuestSchema extends Typegoose {
-    @prop({ ref: BookerSchema, required: true })
-    booker: Ref<BookerSchema>;
-
     @prop({ ref: BookingSchema, required: true })
     booking: Ref<BookingSchema>;
 
@@ -27,7 +23,7 @@ export class GuestSchema extends Typegoose {
     roomType: Ref<RoomTypeSchema>;
 
     @prop({ ref: RoomSchema })
-    allocatedRoom?: Ref<RoomSchema>;
+    allocatedBed?: Ref<RoomSchema>;
 
     @prop()
     name: string;

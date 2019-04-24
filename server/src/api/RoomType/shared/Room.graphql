@@ -3,6 +3,7 @@ type Room {
     name: String!
     roomType: RoomType!
     index: Int!
+    beds: [Bed!]
     createdAt: DateTime!
     updatedAt: DateTime
 
