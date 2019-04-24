@@ -3,13 +3,15 @@ import { SketchPicker, ColorResult } from 'react-color';
 import classnames from 'classnames';
 import { IUseColor } from '../../actions/hook';
 import './ColorPicker.scss';
+import JDLabel from '../label/JDLabel';
 
 interface IProps {
   colorHook: IUseColor;
   className?: string;
+  label?: string;
 }
 
-const JDcolorPicker: React.SFC<IProps> = ({ className, colorHook }) => {
+const JDcolorPicker: React.SFC<IProps> = ({ label, className, colorHook }) => {
   const handleClick = () => {
     colorHook.setDisplay(!colorHook.display);
   };
@@ -30,6 +32,11 @@ const JDcolorPicker: React.SFC<IProps> = ({ className, colorHook }) => {
 
   return (
     <div className={classNames}>
+      {label && (
+        <div>
+          <JDLabel txt={label} />
+        </div>
+      )}
       <div tabIndex={0} role="button" className="JDcolorPicker__swatch" onClick={handleClick} onKeyPress={handleClick}>
         <div className="JDcolorPicker__color" style={styleColor} />
       </div>

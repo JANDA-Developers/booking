@@ -6,6 +6,7 @@ $colorPicker-width: 3rem;
 $colorPicker-radius: $standard-border-radius;
 
 .JDcolorPicker {
+     
     display:inline-block;
    &__swatch {
         padding: $colorPicker-padding;
@@ -30,5 +31,9 @@ $colorPicker-radius: $standard-border-radius;
         right: 0px;
         bottom: 0px;
         left: 0px;
+   }
+
+   .JDLabel {
+        margin-bottom: 0;
    }
 }

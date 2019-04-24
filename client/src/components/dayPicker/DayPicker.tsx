@@ -19,9 +19,9 @@ interface IProps extends IUseDayPicker {
   horizen?: boolean;
   placeholder?: string;
   input?: boolean;
+  label?: string;
   isRange?: boolean;
   canSelectSameDate?: boolean;
-  label?: string;
   format?: string;
   lang?: string;
   onChange(foo?: string | Date | null, foo2?: string | Date | null): void;
@@ -151,6 +151,7 @@ const JDdayPicker: React.SFC<IProps> = ({
           format={format}
           from={from}
           to={to}
+          label={label}
           isRange={isRange}
           dayPickerProps={dayPickerProps}
         />

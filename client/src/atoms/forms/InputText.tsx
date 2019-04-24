@@ -18,6 +18,8 @@ interface IProps extends React.HTMLAttributes<HTMLInputElement> {
   type?: string;
   dataError?: string;
   icon?: string;
+  iconHover?: boolean;
+  iconOnClick?: any;
   dataSuccess?: string;
   validation?: any;
   onChange?: any;
@@ -51,6 +53,8 @@ const InputText: React.FC<IProps> = ({
   dataError,
   dataSuccess,
   icon,
+  iconOnClick,
+  iconHover,
   hyphen,
   ...props
 }) => {
@@ -84,7 +88,11 @@ const InputText: React.FC<IProps> = ({
   // 인풋 과 텍스트어리어 경계
   return !textarea ? (
     <div className="JDinput-wrap">
-      {icon !== '' ? <span className="JDinput-iconWrap">{icon && <JDicon icon={icon} />}</span> : null}
+      {icon !== '' ? (
+        <span className="JDinput-iconWrap">
+          {icon && <JDicon onClick={iconOnClick} hover={iconHover} icon={icon} />}
+        </span>
+      ) : null}
       <input
         onChange={inHandleChange}
         disabled={disabled}

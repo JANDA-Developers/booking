@@ -22,8 +22,8 @@ const DayOfWeekModal: React.SFC<IProps> = ({ modalHook }) => {
   return (
     <JDmodal {...modalHook} className={classes}>
       <h6>적용요일</h6>
-      {tempWeek.map(day => (
-        <div>
+      <div>
+        {tempWeek.map(day => (
           <CheckBox
             label={JDWeekChanger(day)}
             onChange={(value: boolean) => {
@@ -35,9 +35,11 @@ const DayOfWeekModal: React.SFC<IProps> = ({ modalHook }) => {
             disabled={false}
             //   disabled={modalHook.info.aplyWeek && modalHook.info.aplyWeek[day]}
           />
-        </div>
-      ))}
-      <InputText {...valueHook} />
+        ))}
+      </div>
+      <div>
+        <InputText {...valueHook} label="적용가격" />
+      </div>
       <div className="JDmodal__EndSection">
         <Button label="적용" thema="primary" mode="flat" />
       </div>

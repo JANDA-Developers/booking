@@ -9,17 +9,19 @@ import Icon from '../../../../atoms/icons/Icons';
 import utils from '../../../../utils/utils';
 import JDdayPicker from '../../../../components/dayPicker/DayPicker';
 import Card from '../../../../atoms/cards/Card';
-import { ISeasonValue, ITableData } from './seasonTableWrap';
+import { ISeasonValue, ITableData, IDayWeek } from './seasonTableWrap';
 import {
   IUseColor, IUseDayPicker, useModal, useModal2,
 } from '../../../../actions/hook';
 import {
+  getAllSeasonTable_GetSeasonPrice_seasonPrices_dayOfWeekPrices as IDayOfWeek,
   getAllSeasonTable_GetAllRoomType_roomTypes as IRoomType,
   getAllSeason_GetAllSeason_seasons as ISeason,
 } from '../../../../types/api';
 import { IPriceMap } from '../SetPriceWrap';
 import CircleIcon from '../../../../atoms/circleIcon/CircleIcon';
 import DayOfWeekModal from './dayOfWeekModal';
+import JDbox from '../../../../atoms/box/JDbox';
 
 interface ISetTableValue extends React.Dispatch<React.SetStateAction<ISeasonValue>> {}
 
@@ -72,12 +74,26 @@ const SeasonModal: React.SFC<IProps> = ({
       updateSeasonMutation();
     }
   };
+  const onIconClick = async (): Promise<void> => {
+    alert('clicked😄');
+  };
 
   const [tableValue, setTableValue] = useState(defaultTableData);
 
-  const onInputBlur = (value: string, roomTypeId: string) => {
+  const onDefaultBlur = (value: string, roomTypeId: string) => {
     const values = tableValue;
-    const index = values.findIndex(inValue => inValue.id !== roomTypeId) - 1;
+    const index = values.findIndex(inValue => inValue.id === roomTypeId);
+    values[index] = {
+      ...values[index],
+      defaultValue: value,
+    };
+
+    setTableValue([...values]);
+  };
+
+  const onWeekBlur = (value: string, roomTypeId: string) => {
+    const values = tableValue;
+    const index = values.findIndex(inValue => inValue.id === roomTypeId);
     values[index] = {
       ...values[index],
       defaultValue: value,
@@ -96,10 +112,9 @@ const SeasonModal: React.SFC<IProps> = ({
       accessor: 'defaultValue',
       Cell: ({ original }: RowInfo) => (
         <InputText
-          className="number"
           defaultValue={original.defaultValue}
           onBlur={(e: any) => {
-            onInputBlur(e.currentTarget.value, original.id);
+            onDefaultBlur(e.currentTarget.value, original.id);
           }}
         />
       ), // Custom cell components!
@@ -108,8 +123,19 @@ const SeasonModal: React.SFC<IProps> = ({
       Header: '요일별 가격',
       accessor: 'dayOfWeek',
       Cell: ({ original }: RowInfo) => (
-        <div className="">
-          <InputText className="number" defaultValue={original.defaultValue} onBlur={onInputBlur} />
+        <div>
+          {original.dayOfWeek.map((day: IDayWeek) => {
+            <JDbox
+              label={`${day.applyDays}`}
+              iconOnClick={() => {
+                onIconClick();
+              }}
+              iconHover
+              icon="eraser"
+            >
+              <span>{original.price}</span>
+            </JDbox>;
+          })}
           <CircleIcon
             onClick={() => {
               modalHook.openModal({ aplyWeek: original.dayOfWeek });
@@ -132,26 +158,24 @@ const SeasonModal: React.SFC<IProps> = ({
             <Icon hover icon="download" />
           </span>
           <InputText label="시즌명" validation={utils.isMaxOver} max={10} />
-          <JDcolorPicker colorHook={colorHook} />
-          <JDdayPicker {...dayPickerHook} onChange={onChangeDate} input label="input" isRange />
+          <JDcolorPicker label="대표색상" colorHook={colorHook} />
+          <JDdayPicker {...dayPickerHook} label="적용날자" onChange={onChangeDate} input isRange />
         </div>
         <div className="flex-grid__col col--full-6 col--lg-6 col--md-12">
-        {add && (
           <JDTable
-          className="seasonTable"
-          {...ReactTableDefault}
-          data={tableValue}
-          columns={TableColumns}
-          minRows={0}
-          align="center"
+            className="seasonTable"
+            {...ReactTableDefault}
+            data={tableValue}
+            columns={TableColumns}
+            minRows={0}
+            align="center"
           />
-          )}
         </div>
       </div>
       <div className="JDmodal__EndSection">
-        <Button label="생성하기" mode="flat" onClick={onCreateTable} />
+        <Button label="생성하기" mode="flat" thema="primary" onClick={onCreateTable} />
         <Button label="수정하기" mode="flat" onClick={onUpdateTable} />
-        <Button label="삭제하기" mode="flat" onClick={onDeleteTable} />
+        <Button label="삭제하기" mode="flat" thema="warn" onClick={onDeleteTable} />
       </div>
       <DayOfWeekModal modalHook={modalHook} />
     </Card>

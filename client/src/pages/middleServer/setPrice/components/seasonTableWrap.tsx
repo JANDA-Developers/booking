@@ -36,11 +36,14 @@ export interface ISeasonValue {
   seasonId: string;
 }
 
+export interface IDayWeek extends IDayOfWeek {
+  id: string;
+}
 export interface ITableData {
   id: string;
   name: string;
   defaultValue: string;
-  dayOfWeek: IDayOfWeek[];
+  dayOfWeek: IDayWeek[];
 }
 
 interface IProps {
@@ -112,7 +115,12 @@ const SeasonTableWrap: React.SFC<IProps> = ({
                   const priceMapGet = () => {
                     if (priceMap && seasonData) {
                       const priceMapResult = priceMap.get(roomType._id + seasonData._id);
-                      if (priceMapResult) return { defaultValue: priceMapResult.default.toString(), dayOfWeek: priceMapResult.dayOfWeek };
+                      if (priceMapResult) {
+                        return {
+                          defaultValue: priceMapResult.default.toString(),
+                          dayOfWeek: priceMapResult.dayOfWeek.map(day => ({ ...day, id: `${day.applyDays}` })),
+                        };
+                      }
                     }
                     return { defaultValue: '0', dayOfWeek: [] };
                   };

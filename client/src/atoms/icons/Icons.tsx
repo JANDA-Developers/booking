@@ -41,6 +41,10 @@ const icons: { [s: string]: string } = {
   arrowDown: 'M24 12c0-6.627-5.373-12-12-12s-12 5.373-12 12 5.373 12 12 12 12-5.373 12-12zm-17 1h4v-8h2v8h4l-5 6-5-6z',
   arrowUp: 'M0 12c0 6.627 5.373 12 12 12s12-5.373 12-12-5.373-12-12-12-12 5.373-12 12zm17-1h-4v8h-2v-8h-4l5-6 5 6z',
   download: 'M24 12c0-6.627-5.373-12-12-12s-12 5.373-12 12 5.373 12 12 12 12-5.373 12-12zm-18 1h4v-7h4v7h4l-6 6-6-6z',
+  clear:
+    'M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z',
+  eraser:
+    'M5.662 23l-5.369-5.365c-.195-.195-.293-.45-.293-.707 0-.256.098-.512.293-.707l14.929-14.928c.195-.194.451-.293.707-.293.255 0 .512.099.707.293l7.071 7.073c.196.195.293.451.293.708 0 .256-.097.511-.293.707l-11.216 11.219h5.514v2h-12.343zm3.657-2l-5.486-5.486-1.419 1.414 4.076 4.072h2.829zm.456-11.429l-4.528 4.528 5.658 5.659 4.527-4.53-5.657-5.657z',
 };
 
 interface IProps {
@@ -49,10 +53,11 @@ interface IProps {
   width?: string;
   height?: string;
   hover?: boolean;
+  onClick?: any;
 }
 
 const JDIcon: React.SFC<IProps> = ({
-  label, icon, width, height, hover,
+  label, icon, width, height, hover, onClick,
 }) => {
   const classes = classNames({
     JDicon__svg: true,
@@ -68,6 +73,7 @@ const JDIcon: React.SFC<IProps> = ({
         height={height}
         version="1.1"
         viewBox="0 0 24 24 "
+        onClick={onClick}
       >
         <g>
           <path d={icons[icon]} />
