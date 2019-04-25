@@ -21,4 +21,5 @@ input BookerInput {
     phoneNumber: PhoneNumber!
     email: EmailAddress
     agreePrivacyPolicy: Boolean!
+    memo: String
 }
