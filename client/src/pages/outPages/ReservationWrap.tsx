@@ -6,7 +6,6 @@ import Reservation from './Reservation';
 import { ErrProtecter } from '../../utils/utils';
 import { createBooking, createBookingVariables } from '../../types/api';
 import { CREATE_BOOKING } from '../../queries';
-import { useDayPicker } from '../../actions/hook';
 
 class CreatBookingMu extends Mutation<createBooking, createBookingVariables> {}
 
@@ -18,7 +17,7 @@ const ReservationWrap: React.SFC<IProps> = () => {
   // TODO
 
   /* 아직 가져오는 api가없음 여기다가 해당날자에 가능한 방타입들을 가져오는 쿼리를 날리는거임
-이쿼리는 State가 변경될때마다 날리게 되는거지. */
+ 쿼리 ⛔️아직 없음 */
 
   return (
     <CreatBookingMu mutation={CREATE_BOOKING}>

@@ -1,10 +1,10 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { Query } from 'react-apollo';
 import { getHousesForSU, getHousesForSUVariables } from '../../../types/api';
 import SuperMain from './SuperMain';
 import { GET_HOUSES_FOR_SU } from '../../../queries';
 import QueryError from '../../../utils/QueryError';
-import { isEmpty, QueryDataFormater, pageNationFormater } from '../../../utils/utils';
+import { QueryDataFormater } from '../../../utils/utils';
 import { useModal2 } from '../../../actions/hook';
 import Modal from '../../../atoms/modal/Modal';
 
@@ -14,25 +14,29 @@ interface Iprops {}
 
 const SuperMainWrap: React.SFC<Iprops> = () => {
   const userModal = useModal2(false);
+  const [page, setPage] = useState(1);
 
   return (
     <GetAllHouse
       query={GET_HOUSES_FOR_SU}
       variables={{
-        page: 1,
-        count: 9999,
+        page,
+        count: 2,
       }}
     >
       {({ data: housePages, loading, error }) => {
         QueryError(error);
-        const housePageData = pageNationFormater<false>(housePages, 'GetHousesForSU', false, true);
+        const housePageData = QueryDataFormater(housePages, 'GetHousesForSU', 'houses', undefined);
+        const pageInfo = QueryDataFormater(housePages, 'GetHousesForSU', 'pageInfo', undefined);
 
         return (
           <Fragment>
             <SuperMain
+              page={page}
+              setPage={setPage}
               userModal={userModal}
-              pageData={housePageData ? housePageData.pageInfo : {}}
-              houseData={housePageData ? housePageData.origin : []}
+              pageData={pageInfo}
+              houseData={housePageData || []}
               loading={loading}
             />
             {/* <MyPageModal {...userModal} userId={userModal.info.userId} /> */}

@@ -149,6 +149,7 @@ $radio-border: 2px solid $radio-fill-color !default;
 $radio-disabled-color: $standard-disabled-color;
 
 // -- Select 셀렉트  option is a li 😸
+$select-height: 38px;
 $select-border: 1px solid $standard-outborder-color !default;
 $select-option-active-bgcolor: $hover-effect-dark !default;
 $select-option-selected-bgcolor: $primary-color !default;

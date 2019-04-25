@@ -63,6 +63,7 @@ const SetPriceWrap: React.SFC<IProps> = ({ selectedHouse }) => {
     color: '',
   });
 
+  // TODO ⛔️ 아직 뮤테이션(한꺼번에 가격을 변동시키는)이 없다
   return (
     // 모든 방 가져오기
     <GetAllSeasonTQuery
@@ -78,14 +79,17 @@ const SetPriceWrap: React.SFC<IProps> = ({ selectedHouse }) => {
 
         const priceMap = seasonPrices && priceMapMaker(seasonPrices);
 
-        return (!dataL ? (
+        return !dataL ? (
           <SetPrice
             houseId={selectedHouse._id}
             priceMap={priceMap || new Map()}
             roomTypes={roomTypes || []}
             seasonData={seasones || []}
           />
-        ) : <Preloader page/>)}}
+        ) : (
+          <Preloader page />
+        );
+      }}
     </GetAllSeasonTQuery>
   );
 };

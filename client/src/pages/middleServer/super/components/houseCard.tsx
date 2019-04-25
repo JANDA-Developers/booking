@@ -17,6 +17,11 @@ const HouseCard: React.SFC<IProps> = ({ userModal, houseData }) => {
 
     const { createdAt, updatedAt } = houseData;
 
+    console.log('updatedAt');
+    console.log(updatedAt);
+    console.log(updatedAt);
+    console.log(updatedAt);
+
     if (moment(createdAt).isAfter(moment().subtract(1, 'days'))) {
       badgeInfoes.push({ thema: BADGE_THEMA.NEW, label: 'new' });
     }

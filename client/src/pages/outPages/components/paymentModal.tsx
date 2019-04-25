@@ -37,6 +37,8 @@ const PayMentModal: React.SFC<IProps> = ({
             <JDselect {...payMethod} options={selectDummyOptions} label="결제수단" />
           </div>
           <BookerInfoBox bookerInfo={bookerInfo} setBookerInfo={setBookerInfo} />
+        </div>
+        <div className="JDmodal__endSection">
           <Button flat onClick={onPayRequest} label="결제완료" mode="long" />
         </div>
       </div>

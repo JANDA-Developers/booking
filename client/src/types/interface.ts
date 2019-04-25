@@ -10,6 +10,12 @@ export interface IUser extends getMyProfile_GetMyProfile_user {}
 export interface IHouse extends getHouse_GetHouse_house {}
 export interface IDiv extends React.HTMLAttributes<HTMLDivElement> {}
 export interface IPageInfo {
+  currentPage: number;
+  totalPage: number;
+  rowCount: number;
+}
+// 👿 사용중지
+export interface ICursorPageInfo {
   startCursor: string;
   endCursor: string;
   hasPreviousPage: boolean;

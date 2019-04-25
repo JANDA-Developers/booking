@@ -16,6 +16,13 @@ const F_MINI_ROOM_TYPE = gql`
     description
   }
 `;
+const F_PAGE_INFO = gql`
+  fragment FpageInfo on PageInfoOffsetBase {
+    currentPage
+    totalPage
+    rowCount
+  }
+`;
 // 유저 기본정보 빼오기
 const F_USER_INFO = gql`
   fragment fieldsUser on User {
@@ -137,7 +144,7 @@ export const GET_USER_INFO = gql`
 
 // 슈퍼어드민 모든 집 GET
 export const GET_HOUSES_FOR_SU = gql`
-  query getHousesForSU($page: Int, $count: Int) {
+  query getHousesForSU($page: Int!, $count: Int!) {
     GetHousesForSU(page: $page, count: $count) {
       ok
       error
@@ -155,6 +162,7 @@ export const GET_HOUSES_FOR_SU = gql`
           addressDetail
         }
         createdAt
+        updatedAt
         product {
           _id
           name
@@ -163,8 +171,12 @@ export const GET_HOUSES_FOR_SU = gql`
           }
         }
       }
+      pageInfo {
+        ...FpageInfo
+      }
     }
   }
+  ${F_PAGE_INFO}
 `;
 
 // 이메일 로그인

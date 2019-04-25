@@ -172,7 +172,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
           />
         </div>
       </div>
-      <div className="JDmodal__EndSection">
+      <div className="JDmodal__endSection">
         <Button label="생성하기" mode="flat" onClick={onCreateRoomType} />
         <Button label="수정하기" mode="flat" onClick={onUpdateRoomType} />
         <Button label="삭제하기" mode="flat" onClick={onDeleteRoomType} />

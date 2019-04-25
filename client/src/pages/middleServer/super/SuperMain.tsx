@@ -9,26 +9,35 @@ import { IPageInfo } from '../../../types/interface';
 import UserModal from './components/userModalWrap';
 
 interface Iprops {
+  page: number;
+  setPage: any;
   houseData: any;
   loading: boolean;
   userModal: IUseModal;
-  pageData: IPageInfo | {};
+  pageData: IPageInfo | undefined | null;
 }
 
 const SuperMain: React.SFC<Iprops> = ({
-  userModal, houseData, loading, pageData,
+  userModal, houseData, loading, pageData, page, setPage,
 }) => (
   <div id="superMain" className="container container--sm">
     <div className="docs-section">
       <Fragment>
         {loading && <Preloader />}
         <div className="docs-section__box">
-          {houseData.map((house: Ihouse) => (
+          {houseData.reverse().map((house: Ihouse) => (
             <HouseCard houseData={house} userModal={userModal} />
           ))}
         </div>
 
-        <JDPagination pageCount={4} pageRangeDisplayed={5} marginPagesDisplayed={4} />
+        <JDPagination
+          onPageChange={(selectedItem) => {
+            setPage(selectedItem.selected + 1);
+          }}
+          pageCount={pageData ? pageData.totalPage : 1}
+          pageRangeDisplayed={1}
+          marginPagesDisplayed={4}
+        />
         {userModal.isOpen && <UserModal modalHook={userModal} />}
       </Fragment>
     </div>

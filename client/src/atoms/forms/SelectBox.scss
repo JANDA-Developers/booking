@@ -1,5 +1,7 @@
 @import '../../style_config/style_config';
 
+$select-height: 38px;
+
 .JDselect {
 
   // NO 옵션
@@ -21,6 +23,11 @@
       margin-top: 0;
       vertical-align:top;
     }
+
+    &--right {
+      line-height: $select-height;
+      padding-left: $standard-side-padding;
+    }
   }
   // disabled style 디스에이블 스타일 1
   &--disabled {
@@ -32,7 +39,7 @@
   .react-select-container {
 
     .react-select {
-
+      
       // disabled style 디스에이블 스타일 2
       &__control--is-disabled.react-select__control {
         border-color: $select-disabled-color;
@@ -70,8 +77,8 @@
         overflow:hidden;
         text-overflow:ellipsis;
         color: $selcet-placeholder-color;
-        padding-right: 1rem;
-        width: 100%;
+        padding-right: $standard-side-padding;
+        width: calc(100% - #{$standard-side-padding});
         margin: 0;
       }
 
@@ -94,11 +101,11 @@
       }
 
       &__control {
-
+        flex-wrap: inherit;
         border: $select-border;
         background-color: $select-background;
         border-radius: $select-radius;
-
+        min-height: $select-height;
         &--is-focused {
           border-color: $select-focus-border-color;
           @extend %z-depth-1;
@@ -145,6 +152,37 @@
         }
       }
 
+    }
+    
+  }
+  &--small {
+    display:flex;
+
+    .react-select-container {
+      .react-select__control{
+        padding: 0rem $standard-side-padding;
+      }
+      .react-select__value-container {
+        padding: 0;
+      }
+      .react-select {
+        .css-bgvzuu-indicatorSeparator {
+          width: 0px;
+        }
+        &__placeholder {
+          width: 100%;
+          overflow:hidden;
+          text-overflow: clip;
+        }
+        
+        &__indicators {
+          display:none;
+          // .react-select__indicator  {
+          //   margin-left: $standard-side-padding;
+          // }
+          // width: 0;
+        }
+      }
     }
   }
 }

@@ -16,7 +16,9 @@ interface Iprops extends SelectComponentsProps {
   options?: IselectedOption[] | [];
   onChange(foo: IselectedOption): void;
   className?: string;
+  rightLabel?: string;
   props?: any;
+  mode?: 'small';
 }
 
 const JDselect: React.SFC<Iprops> = ({
@@ -24,7 +26,9 @@ const JDselect: React.SFC<Iprops> = ({
   disabled,
   selectedOption,
   onChange,
+  rightLabel,
   options,
+  mode,
   className,
   // eslint-disable-next-line no-unused-vars
   ...props
@@ -40,6 +44,7 @@ const JDselect: React.SFC<Iprops> = ({
 
   const classes = classNames('JDselect', className, {
     'JDselect--disabled': disabled,
+    'JDselect--small': mode === 'small',
   });
 
   return (
@@ -54,6 +59,7 @@ const JDselect: React.SFC<Iprops> = ({
         classNamePrefix="react-select"
         isDisabled={disabled}
       />
+      {rightLabel && <span className="JDselect__label JDselect__label--right">{rightLabel}</span>}
     </div>
   );
 };

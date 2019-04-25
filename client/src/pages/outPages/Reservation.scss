@@ -43,8 +43,10 @@ $roomCardHeight: 130px;
     }
 
     .roomTypeCard {
+        border-radius: $standard-border-radius;
         height: $roomCardHeight;
         border: 1px solid $standard-outborder-color;
+        position: relative;
 
         &__imgSection {
             max-width: $roomCardHeight * 1.68;
@@ -55,12 +57,41 @@ $roomCardHeight: 130px;
             border-right: 1px solid $grey-opacity1;
         }
 
-        &__middleSection {
+        
+        &__lastSection {
             padding:$standard-padding;
         }
 
-        &__lastSection {
+        &__selectButton {
+            position: absolute;
+            bottom:0;
+            right:0;
+        }
+
+        &__lastTopSection {
+            display: flex;
+            flex-direction: row-reverse;
+
+            .roomTypeCard__price {
+                font-size: $typho-large;
+            }
+        }
+        
+        &__middleSection {
+            display: flex;
             padding:$standard-padding;
+            justify-content: space-between;
+            flex-direction: column;
+        }
+
+        &__middleBottomSection {
+            display: flex;
+            .JDselect {
+                margin-bottom: 0;
+                .react-select-container {
+                    width: 36px;
+                }
+            }
         }
     }
 

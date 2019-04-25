@@ -3,6 +3,7 @@ import React, { useRef } from 'react';
 import InputText from '../../../atoms/forms/InputText';
 import CheckBox from '../../../atoms/forms/CheckBox';
 import Button from '../../../atoms/button/Button';
+import utils from '../../../utils/utils';
 import { BookerInput as IBookerInput } from '../../../types/api';
 import { ISetBookerInfo } from '../Reservation';
 import TooltipList from '../../../atoms/tooltipList/TooltipList';
@@ -33,6 +34,7 @@ const BookerInfoBox: React.SFC<IProps> = ({ className, bookerInfo, setBookerInfo
         onChange={(value: string) => {
           setBookerInfo({ ...bookerInfo, phoneNumber: value });
         }}
+        hyphen
         id="JDbookerInfo__phoneNumber"
         label="연락처"
       />
@@ -41,6 +43,7 @@ const BookerInfoBox: React.SFC<IProps> = ({ className, bookerInfo, setBookerInfo
         onChange={(value: string) => {
           setBookerInfo({ ...bookerInfo, password: value });
         }}
+        type="password"
         id="JDbookerInfo__password"
         label="비밀번호"
       />

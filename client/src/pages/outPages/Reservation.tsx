@@ -40,14 +40,14 @@ const SetPrice: React.SFC<IProps | any> = ({
   return (
     <div id="JDreservation" className="JDreservation">
       <div className="flex-grid">
-        <div className="flex-grid__col col--full-4 col--wmd-12">
+        <div className="flex-grid__col col--full-4 col--lg-5 col--wmd-12">
           <Card className="JDreservation__card JDreservation__dayPickerCard">
             <h6 className="JDreservation__sectionTitle">① 예약날자 선택</h6>
             {/* TODO: change 될때마다 resvRooms를 초기화 해주어야함 */}
             <JDdayPicker maxLimit={false} {...dayPickerHook} horizen={windowWidth < 750} onChange={() => {}} />
           </Card>
         </div>
-        <div className="flex-grid__col col--full-8 col--wmd-12">
+        <div className="flex-grid__col col--full-8 col--lg-7 col--wmd-12">
           <Card className="JDreservation__card">
             <h6 className="JDreservation__sectionTitle">② 방 선택</h6>
             {/* TODO: roomTypes들의 반복문을 통해서 만들고 해당 정보는 resvRooms 에서 filter를 통해서 가져와야함 */}

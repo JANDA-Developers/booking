@@ -98,6 +98,7 @@
       "import/no-unresolved": "off",
       "typescript/no-unused-vars": "off",
       "array-callback-return": "off",
+      "no-bitwise": "off",
       "camelcase": [
         0,
         {
@@ -128,21 +129,19 @@
         }
       ]
     },
-    "overrides": [
-      {
-        "files": [
-          "**/*.ts",
-          "**/*.tsx"
+    "overrides": [{
+      "files": [
+        "**/*.ts",
+        "**/*.tsx"
+      ],
+      "rules": {
+        "no-unused-vars": 0,
+        "no-undef": [
+          "off"
         ],
-        "rules": {
-          "no-unused-vars": 0,
-          "no-undef": [
-            "off"
-          ],
-          "react/prop-types": 0
-        }
+        "react/prop-types": 0
       }
-    ]
+    }]
   },
   "eslintIgnore": [
     "naverMap.js",

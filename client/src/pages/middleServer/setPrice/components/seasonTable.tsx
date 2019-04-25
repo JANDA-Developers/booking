@@ -172,7 +172,7 @@ const SeasonModal: React.SFC<IProps> = ({
           />
         </div>
       </div>
-      <div className="JDmodal__EndSection">
+      <div className="JDmodal__endSection">
         <Button label="생성하기" mode="flat" thema="primary" onClick={onCreateTable} />
         <Button label="수정하기" mode="flat" onClick={onUpdateTable} />
         <Button label="삭제하기" mode="flat" thema="warn" onClick={onDeleteTable} />

@@ -140,11 +140,19 @@ export interface getHousesForSU_GetHousesForSU_houses {
   product: getHousesForSU_GetHousesForSU_houses_product | null;
 }
 
+export interface getHousesForSU_GetHousesForSU_pageInfo {
+  __typename: 'PageInfoOffsetBase';
+  currentPage: number;
+  totalPage: number;
+  rowCount: number;
+}
+
 export interface getHousesForSU_GetHousesForSU {
   __typename: 'GetHousesForSUResponse';
   ok: boolean;
   error: string | null;
   houses: getHousesForSU_GetHousesForSU_houses[] | null;
+  pageInfo: getHousesForSU_GetHousesForSU_pageInfo | null;
 }
 
 export interface getHousesForSU {
@@ -155,8 +163,8 @@ export interface getHousesForSU {
 }
 
 export interface getHousesForSUVariables {
-  page?: number | null;
-  count?: number | null;
+  page: number;
+  count: number;
 }
 
 /* tslint:disable */
@@ -757,6 +765,31 @@ export interface updateRoomTypeVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: createSeasonPrice
+// ====================================================
+
+export interface createSeasonPrice_CreateSeasonPrice {
+  __typename: 'CreateSeasonPriceResponse';
+  ok: boolean;
+  error: string | null;
+}
+
+export interface createSeasonPrice {
+  CreateSeasonPrice: createSeasonPrice_CreateSeasonPrice;
+}
+
+export interface createSeasonPriceVariables {
+  roomTypeId: string;
+  seasonId: string;
+  defaultPrice: number;
+  dayOfWeekPrices?: DayOfWeekPriceInput[] | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: createSeason
 // ====================================================
 
@@ -1086,6 +1119,21 @@ export interface FminiRoomType {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL fragment: FpageInfo
+// ====================================================
+
+export interface FpageInfo {
+  __typename: 'PageInfoOffsetBase';
+  currentPage: number;
+  totalPage: number;
+  rowCount: number;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL fragment: fieldsUser
 // ====================================================
 
@@ -1191,10 +1239,10 @@ export interface BookerInput {
   booking?: string | null;
   name: any;
   password: string;
-  memo: string;
   phoneNumber: any;
   email?: any | null;
   agreePrivacyPolicy: boolean;
+  memo?: string;
 }
 
 export interface BookingInput {
@@ -1202,6 +1250,11 @@ export interface BookingInput {
   start: any;
   end: any;
   guest: GuestPartInput[];
+}
+
+export interface DayOfWeekPriceInput {
+  price: number;
+  applyDays: number;
 }
 
 export interface GuestPartInput {

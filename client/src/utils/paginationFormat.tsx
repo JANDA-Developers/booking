@@ -2,6 +2,7 @@ import { IPageResult } from '../types/interface';
 import isEmpty from './IsEmpty';
 import toast from './Toast';
 
+//  🔴 보류
 function pageNationFormater<T>(
   data: any,
   queryName: string,

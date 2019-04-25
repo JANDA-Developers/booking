@@ -44,7 +44,7 @@ const MyHouseModal: React.SFC<IProps> = ({
             <p>{house && house.createdAt}</p>
           </Fragment>
         )}
-        <div className="JDmodal__EndSection">
+        <div className="JDmodal__endSection">
           <Button onClick={onDelete} thema="warn" mode="flat" label="삭제" />
           <Button mode="flat" label="닫기" onClick={modalHook.closeModal} />
         </div>

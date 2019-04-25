@@ -45,7 +45,7 @@ function PhoneVerification({ history }) {
         >
           <h5>핸드폰 인증번호</h5>
           <InputText {...keyHook} label="인증번호" />
-          <div className="JDmodal__EndSection">
+          <div className="JDmodal__endSection">
             <Query fetchPolicy="no-cache" query={GET_MY_PHON_NUMBER}>
               {({ loading, error, data: { GetMyProfile: { user: { phoneNumber = {} } = {} } = {} } = {} }) => {
                 if (error) {
