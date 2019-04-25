@@ -22,6 +22,24 @@ const JDWeekChanger = (number: number): string => {
   return weekLanguage[number % 7];
 };
 
+export const applyDaysToArr = (applyDaysBinary: number): DayOfWeekEnum[] => {
+  // val 은 0~127 사이의 숫자
+  let val = applyDaysBinary % (1 << 7);
+  const result: DayOfWeekEnum[] = [];
+  let index = 6;
+  while (val > 0) {
+    const day = 1 << index;
+    if (val >= day) {
+      result.push(day);
+      val -= day;
+    }
+    index--;
+  }
+  return result;
+};
+
+export const arrToApplyDays = (arr: Array<number | boolean>): number => arr.map((val, i) => (val ? 0 : 1) << i).reduce((v1, v2) => v1 + v2) % 128;
+
 //  숫자 이넘
 export enum DayOfWeekEnum {
   SUN = 1, // 1

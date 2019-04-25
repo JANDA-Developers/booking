@@ -28,7 +28,7 @@ export const applyDaysToArr = (applyDaysBinary: number): DayOfWeekEnum[] => {
     }
     return result;
 };
-export const arrToApplyDays = (arr: Array<number | boolean>) => {
+export const arrToApplyDays = (arr: Array<number | boolean>):number => {
     return (
         arr
             .map((val, i) => {

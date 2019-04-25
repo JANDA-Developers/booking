@@ -9,10 +9,11 @@ import { JDWeekChanger, ErrProtecter } from '../../../../utils/utils';
 import Button from '../../../../atoms/button/Button';
 import InputText from '../../../../atoms/forms/InputText';
 import { DayOfWeekPriceInput } from '../../../../types/api';
+import { arrToApplyDays } from '../../../../utils/dayOfweeks';
 
 interface IProps {
   modalHook: IUseModal;
-  onSubmit?(foo:DayOfWeekPriceInput): void;
+  onSubmit?(foo: DayOfWeekPriceInput): void;
 }
 
 const DayOfWeekModal: React.SFC<IProps> = ({ modalHook, onSubmit }) => {
@@ -20,9 +21,6 @@ const DayOfWeekModal: React.SFC<IProps> = ({ modalHook, onSubmit }) => {
   const valueHook = useInput('');
   const classes = classNames('dayOfWeekModal', '', {});
   const tempWeek = [0, 1, 2, 3, 4, 5, 6];
-
-
-  checking= [1,0,1,0,1,0,0] = > 2진수로
 
   return (
     <JDmodal {...modalHook} className={classes}>
@@ -48,10 +46,12 @@ const DayOfWeekModal: React.SFC<IProps> = ({ modalHook, onSubmit }) => {
       <div className="JDmodal__endSection">
         <Button
           onClick={() => {
-            onSubmit({
-              applyDays: parseInt(checking.join(""),2),
-              price: valueHook.value,
-            });
+            if (onSubmit) {
+              onSubmit({
+                applyDays: arrToApplyDays(checking),
+                price: parseInt(valueHook.value),
+              });
+            }
           }}
           label="적용"
           thema="primary"
