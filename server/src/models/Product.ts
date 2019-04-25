@@ -34,6 +34,9 @@ export class ProductSchema extends Typegoose {
     @prop({ required: true, default: 0 })
     bookingCountExtraCharge?: number;
 
+    @prop({ required: true })
+    canHaveHostApp: boolean;
+    
     @prop()
     description?: string;
 

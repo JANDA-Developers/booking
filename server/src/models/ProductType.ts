@@ -4,7 +4,7 @@ import { ProductModel, ProductSchema } from "./Product";
 
 export class ProductTypeSchema extends Typegoose {
     // TODO - HasHostApp: Boolean~ 생성하기
-    @prop({ default: true})
+    @prop({ default: true })
     canHaveHostApp: boolean;
 
     @prop({ required: true })
