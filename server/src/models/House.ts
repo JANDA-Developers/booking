@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { arrayProp, prop, Ref, Typegoose } from "typegoose";
 import { HouseType, Location, TermsOfBooking } from "../types/graph";
 import { HostApplicationSchema } from "./HostApplication";
@@ -23,7 +23,11 @@ export class HouseSchema extends Typegoose {
     @prop({ required: true })
     name: string;
 
-    @prop({ required: true, enum: Type, default: Type.GUEST_HOUSE })
+    @prop({
+        required: true,
+        enum: Type,
+        default: Type.GUEST_HOUSE
+    })
     houseType: HouseType;
 
     @prop({ required: true })
@@ -32,14 +36,14 @@ export class HouseSchema extends Typegoose {
     @prop()
     termsOfBooking: TermsOfBooking | undefined;
 
-    @arrayProp({ items: ObjectId, default: [] })
-    refundPolicy: ObjectId[];
+    @arrayProp({ items: Types.ObjectId, default: [] })
+    refundPolicy: Types.ObjectId[];
 
     @prop({ ref: UserSchema, required: true })
     user: Ref<UserSchema>;
 
-    @arrayProp({ items: ObjectId, default: [] })
-    roomTypes: ObjectId[];
+    @arrayProp({ items: Types.ObjectId, default: [] })
+    roomTypes: Types.ObjectId[];
 
     @prop()
     createdAt: Date;

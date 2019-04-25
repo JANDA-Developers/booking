@@ -11,7 +11,7 @@ type RoomType {
     img: URL
     description: String
     # 일괄적으로 적용되는 기본 방 가격... RoomPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
-    price: Float
+    defaultPrice: Float
     # 예전에 Facilities 랑 같은 아이임...
     tags: [Tag!]!
     rooms: [Room!]!

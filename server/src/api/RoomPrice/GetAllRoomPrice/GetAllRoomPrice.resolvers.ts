@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { extractRoomPrices } from "../../../models/merge/merge";
 import { RoomPriceModel } from "../../../models/RoomPrice";
 import {
@@ -13,11 +13,15 @@ const resolvers: Resolvers = {
         GetAllRoomPrice: privateResolver(
             async (
                 _,
-                { houseId }: GetAllRoomPriceQueryArgs
+                { houseId, start, end }: GetAllRoomPriceQueryArgs
             ): Promise<GetAllRoomPriceResponse> => {
                 try {
                     const allRoomPrices = await RoomPriceModel.find({
-                        house: new ObjectId(houseId)
+                        house: new Types.ObjectId(houseId),
+                        date: {
+                            $gte: new Date(start),
+                            $lte: new Date(end)
+                        }
                     });
                     return {
                         ok: true,

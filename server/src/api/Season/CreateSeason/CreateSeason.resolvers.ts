@@ -1,6 +1,13 @@
+import { Types } from "mongoose";
+import { InstanceType } from "typegoose";
 import { HouseModel } from "../../../models/House";
 import { extractSeason } from "../../../models/merge/merge";
+import { RoomTypeModel } from "../../../models/RoomType";
 import { SeasonModel } from "../../../models/Season";
+import {
+    SeasonPriceModel,
+    SeasonPriceSchema
+} from "../../../models/SeasonPrice";
 import {
     CreateSeasonMutationArgs,
     CreateSeasonResponse
@@ -15,29 +22,56 @@ const resolvers: Resolvers = {
                 _,
                 { houseId, start, end, ...args }: CreateSeasonMutationArgs
             ): Promise<CreateSeasonResponse> => {
-                const existingHouse = await HouseModel.findById(houseId);
-                const validStartEnd = start <= end;
-                const st = validStartEnd ? start : end;
-                const ed = validStartEnd ? end : start;
+                try {
+                    const existingHouse = await HouseModel.findById(houseId);
+                    const validStartEnd = start <= end;
+                    const st = validStartEnd ? start : end;
+                    const ed = validStartEnd ? end : start;
 
-                if (existingHouse) {
-                    const season = new SeasonModel({
+                    if (!existingHouse) {
+                        return {
+                            ok: false,
+                            error: "Nothing Match with HouseId",
+                            season: null
+                        };
+                    }
+                    const season = await new SeasonModel({
                         house: houseId,
                         start: st,
                         end: ed,
                         ...args
+                    }).save();
+                    // seasonPrice 생성
+                    const roomTypes = await RoomTypeModel.find({
+                        house: new Types.ObjectId(houseId)
                     });
-                    await season.save();
+                    const seasonPriceInstances: Array<
+                        InstanceType<SeasonPriceSchema>
+                    > = roomTypes.map(
+                        (roomType): InstanceType<SeasonPriceSchema> => {
+                            return new SeasonPriceModel({
+                                season: new Types.ObjectId(season._id),
+                                roomType: new Types.ObjectId(roomType._id),
+                                defaultPrice: roomType.defaultPrice
+                            });
+                        }
+                    );
+                    const result = await SeasonPriceModel.insertMany(
+                        seasonPriceInstances
+                    );
+                    console.log({
+                        result
+                    });
 
                     return {
                         ok: true,
                         error: null,
                         season: await extractSeason(season)
                     };
-                } else {
+                } catch (error) {
                     return {
                         ok: false,
-                        error: "Nothing Match with HouseId",
+                        error: error.message,
                         season: null
                     };
                 }

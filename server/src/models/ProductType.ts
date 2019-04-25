@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { instanceMethod, InstanceType, prop, Typegoose } from "typegoose";
 import { ProductModel, ProductSchema } from "./Product";
 
@@ -49,7 +49,7 @@ export class ProductTypeSchema extends Typegoose {
         const product = new ProductModel({
             ...this,
             name: this.name,
-            house: new ObjectId(houseId)
+            house: new Types.ObjectId(houseId)
         });
         delete product.createdAt;
         delete product.updatedAt;

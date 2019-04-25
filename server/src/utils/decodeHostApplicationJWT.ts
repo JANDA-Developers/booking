@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { InstanceType } from "typegoose";
-import { HouseSchema, HouseModel } from "../models/House";
+import { HouseModel, HouseSchema } from "../models/House";
 
 const decodeHostApplicationJWT = async (
     token: string
