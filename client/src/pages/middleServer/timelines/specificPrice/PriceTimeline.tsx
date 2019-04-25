@@ -66,6 +66,7 @@ const ModifyTimeline: React.SFC<IProps> = ({
       });
     }
   };
+  
   // 아이템 렌더
   const itemRendererFn = ({
     item, itemContext, getItemProps, getResizeProps,

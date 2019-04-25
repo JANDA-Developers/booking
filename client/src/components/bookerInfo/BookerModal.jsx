@@ -61,7 +61,7 @@ const POPbookerInfo = ({ bookerModalIsOpen, bookerInfo, bookerModalClose }) => {
           <InputText {...bookerPhoneHook} label="전화번호" />
         </div>
         <div className="flex-grid__col col--full-6 col--lg-6 col--md-6">
-          <DayPicker input label="input" isRange label="예약날자" />
+          <DayPicker input isRange label="예약날자" />
         </div>
         <div className="JD-z-index-1 flex-grid__col col--full-6 col--lg-6 col--md-6">
           <SelectBox {...bookerStatueHook} options={bookerStatueOptions} label="예약상태" />

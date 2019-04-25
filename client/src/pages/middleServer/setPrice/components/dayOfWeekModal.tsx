@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Node } from 'unist';
 import { IUseModal, useInput } from '../../../../actions/hook';
 import JDmodal from '../../../../atoms/modal/Modal';
 import CheckBox from '../../../../atoms/forms/CheckBox';
-import { JDWeekChanger, ErrProtecter } from '../../../../utils/utils';
+import { JDWeekChanger, ErrProtecter, stringToPrice } from '../../../../utils/utils';
 import Button from '../../../../atoms/button/Button';
 import InputText from '../../../../atoms/forms/InputText';
 import { DayOfWeekPriceInput } from '../../../../types/api';
-import { arrToApplyDays } from '../../../../utils/dayOfweeks';
+import { arrToApplyDays, applyDaysToArr } from '../../../../utils/dayOfweeks';
 
 interface IProps {
   modalHook: IUseModal;
@@ -21,12 +21,27 @@ const DayOfWeekModal: React.SFC<IProps> = ({ modalHook, onSubmit }) => {
   const valueHook = useInput('');
   const classes = classNames('dayOfWeekModal', '', {});
   const tempWeek = [0, 1, 2, 3, 4, 5, 6];
+  const applyedDays = applyDaysToArr(modalHook.info.applyedDays);
+
+  console.log(modalHook.info.applyedDays);
+
+  // 🐘 이미 선택된 요일들 체크해줌
+  useEffect(() => {
+    const updateChecking = checking.map((_, index) => !applyedDays.includes(2 ** index));
+    setChecking(updateChecking);
+  }, [modalHook.info.applyedDays]);
+
+  const submitValidate = (): boolean => {
+    //  전부 체크상태가 false인지 검사
+    if (!arrToApplyDays(checking)) return false;
+    return true;
+  };
 
   return (
     <JDmodal {...modalHook} className={classes}>
       <h6>적용요일</h6>
       <div>
-        {tempWeek.map(day => (
+        {tempWeek.map((day, index) => (
           <CheckBox
             label={JDWeekChanger(day)}
             onChange={(value: boolean) => {
@@ -35,8 +50,7 @@ const DayOfWeekModal: React.SFC<IProps> = ({ modalHook, onSubmit }) => {
               setChecking([...tempCehcking]);
             }}
             checked={checking[day]}
-            disabled={false}
-            //   disabled={modalHook.info.aplyWeek && modalHook.info.aplyWeek[day]}
+            disabled={applyedDays.includes(2 ** index)}
           />
         ))}
       </div>
@@ -46,11 +60,14 @@ const DayOfWeekModal: React.SFC<IProps> = ({ modalHook, onSubmit }) => {
       <div className="JDmodal__endSection">
         <Button
           onClick={() => {
-            if (onSubmit) {
+            if (submitValidate() && onSubmit) {
+              console.log('what the fuck?00');
+              console.log('what the fuck?00');
               onSubmit({
                 applyDays: arrToApplyDays(checking),
-                price: parseInt(valueHook.value),
+                price: stringToPrice(valueHook.value),
               });
+              modalHook.closeModal();
             }
           }}
           label="적용"

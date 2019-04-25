@@ -124,6 +124,7 @@ const PriceTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
     >
       {({ data, loading, error }) => {
         showError(error);
+        // ⛔️ 가격 제대로 안부러옴
         const roomTypesData = QueryDataFormater(data, 'GetAllRoomType', 'roomTypes', undefined); // 원본데이터
         const roomPriceData = QueryDataFormater(data, 'GetAllRoomPrice', 'roomPrices', undefined); // 원본데이터
 

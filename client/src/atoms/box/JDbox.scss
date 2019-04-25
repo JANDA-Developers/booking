@@ -2,6 +2,30 @@
 
 #root,.ReactModalPortal {
     .JDbox {
+
+        font-size: $typho-small;
+        padding: $standard-padding /2;
+        background-color: $grey-level1;
+        border-radius: $standard-border-radius;
+        text-align: left;
+        width: 100%;
+        margin-bottom: $standard-margin-bottom /3;
+
+        &__label {
+            font-size: $typho-tiny;
+            margin-bottom: $standard-margin-bottom /3;
+        }
+
+        &__content {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .JDinput {
+            margin-bottom: 0;
+            padding: 0;
+        }
+        
         &--table {
             table {
                 width: 100%;

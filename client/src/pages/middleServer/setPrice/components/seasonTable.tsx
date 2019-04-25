@@ -9,7 +9,7 @@ import Icon from '../../../../atoms/icons/Icons';
 import utils from '../../../../utils/utils';
 import JDdayPicker from '../../../../components/dayPicker/DayPicker';
 import Card from '../../../../atoms/cards/Card';
-import { ISeasonValue, ITableData, IDayWeek } from './seasonTableWrap';
+import { ISeasonValue, ITableData } from './seasonTableWrap';
 import {
   IUseColor, IUseDayPicker, useModal, useModal2,
 } from '../../../../actions/hook';
@@ -17,11 +17,14 @@ import {
   getAllSeasonTable_GetSeasonPrice_seasonPrices_dayOfWeekPrices as IDayOfWeek,
   getAllSeasonTable_GetAllRoomType_roomTypes as IRoomType,
   getAllSeason_GetAllSeason_seasons as ISeason,
+  DayOfWeekPriceInput,
 } from '../../../../types/api';
 import { IPriceMap } from '../SetPriceWrap';
 import CircleIcon from '../../../../atoms/circleIcon/CircleIcon';
 import DayOfWeekModal from './dayOfWeekModal';
 import JDbox from '../../../../atoms/box/JDbox';
+import { numberToStrings } from '../../../../utils/dayOfweeks';
+import arraySum from '../../../../utils/math';
 
 interface ISetTableValue extends React.Dispatch<React.SetStateAction<ISeasonValue>> {}
 
@@ -74,11 +77,28 @@ const SeasonModal: React.SFC<IProps> = ({
       updateSeasonMutation();
     }
   };
-  const onIconClick = async (): Promise<void> => {
-    alert('clicked😄');
-  };
+
+  const onIconClick = (foo: any) => {};
+
+  const deleteDayOfWeek = () => {};
 
   const [tableValue, setTableValue] = useState(defaultTableData);
+
+  const onWeekSubmit = (value: DayOfWeekPriceInput) => {
+    const tableValueCopy = tableValue.slice();
+    const roomTypeIndex = tableValueCopy.findIndex(tValue => tValue.id === modalHook.info.roomTypeId);
+    if (roomTypeIndex !== -1) {
+      const index = tableValueCopy[roomTypeIndex].dayOfWeek.findIndex(day => day.applyDays === value.applyDays);
+      if (index !== -1) {
+        // 수정일떄
+        tableValueCopy[roomTypeIndex].dayOfWeek[index] = value;
+      } else {
+        // 생성일때
+        tableValueCopy[roomTypeIndex].dayOfWeek.push(value);
+      }
+      setTableValue(tableValueCopy);
+    }
+  };
 
   const onDefaultBlur = (value: string, roomTypeId: string) => {
     const values = tableValue;
@@ -123,22 +143,25 @@ const SeasonModal: React.SFC<IProps> = ({
       Header: '요일별 가격',
       accessor: 'dayOfWeek',
       Cell: ({ original }: RowInfo) => (
-        <div>
-          {original.dayOfWeek.map((day: IDayWeek) => {
+        <div className="seasonT__cell">
+          {original.dayOfWeek.map((day: IDayOfWeek) => (
             <JDbox
-              label={`${day.applyDays}`}
+              label={`${numberToStrings(day.applyDays)}`}
               iconOnClick={() => {
-                onIconClick();
+                onIconClick(day.applyDays);
               }}
               iconHover
               icon="eraser"
             >
-              <span>{original.price}</span>
-            </JDbox>;
-          })}
+              <span>{day.price}</span>
+            </JDbox>
+          ))}
           <CircleIcon
             onClick={() => {
-              modalHook.openModal({ aplyWeek: original.dayOfWeek });
+              modalHook.openModal({
+                applyedDays: arraySum(original.dayOfWeek.map((day: IDayOfWeek) => day.applyDays)),
+                roomTypeId: original.id,
+              });
             }}
             wave
           >
@@ -153,13 +176,24 @@ const SeasonModal: React.SFC<IProps> = ({
     <Card>
       <div className="flex-grid">
         <div className="flex-grid__col col--full-6 col--lg-6 col--md-12">
-          <span className="JDlarge-text">
-            <Icon hover icon="arrowUp" />
-            <Icon hover icon="download" />
-          </span>
-          <InputText label="시즌명" validation={utils.isMaxOver} max={10} />
-          <JDcolorPicker label="대표색상" colorHook={colorHook} />
-          <JDdayPicker {...dayPickerHook} label="적용날자" onChange={onChangeDate} input isRange />
+          <div>
+            <InputText label="시즌명" validation={utils.isMaxOver} max={10} />
+          </div>
+          <div>
+            <JDdayPicker {...dayPickerHook} label="적용날자" onChange={onChangeDate} input isRange />
+          </div>
+          <div>
+            <JDcolorPicker label="대표색상" colorHook={colorHook} />
+            <span className="JDlarge-text">
+              <Icon hover icon="arrowUp" />
+              <Icon hover icon="download" />
+            </span>
+          </div>
+          <div className="seasonT__pcController">
+            <Button label="생성하기" mode="flat" thema="primary" onClick={onCreateTable} />
+            <Button label="수정하기" mode="flat" thema="primary" onClick={onUpdateTable} />
+            <Button label="삭제하기" mode="flat" thema="warn" onClick={onDeleteTable} />
+          </div>
         </div>
         <div className="flex-grid__col col--full-6 col--lg-6 col--md-12">
           <JDTable
@@ -172,12 +206,12 @@ const SeasonModal: React.SFC<IProps> = ({
           />
         </div>
       </div>
-      <div className="JDmodal__endSection">
+      <div className="seasonT__mbController JDmodal__endSection">
         <Button label="생성하기" mode="flat" thema="primary" onClick={onCreateTable} />
-        <Button label="수정하기" mode="flat" onClick={onUpdateTable} />
+        <Button label="수정하기" mode="flat" thema="primary" onClick={onUpdateTable} />
         <Button label="삭제하기" mode="flat" thema="warn" onClick={onDeleteTable} />
       </div>
-      <DayOfWeekModal modalHook={modalHook} />
+      <DayOfWeekModal onSubmit={onWeekSubmit} modalHook={modalHook} />
     </Card>
   );
 };

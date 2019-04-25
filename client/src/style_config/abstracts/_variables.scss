@@ -57,7 +57,7 @@ $hover-effect-dark: rgba(0,0,0,.08);
 $curtain-color: rgba(0,0,0,.78) !default;
 $html-color-hover: $grey-level3!default;
 
-// -- BreackPoints 브레이크 포인트
+// 💔 -- BreackPoints 브레이크 포인트
 // 각각은 최대크기
 $mobile: "400px" !default; // sm
 $phablet: "550px" !default; //  md
@@ -67,7 +67,7 @@ $desktophd: "1200px" !default; //  wlg
 $full: "9999px" !default; 
 $null: "0px" !default; 
 
-// 함수를 만드는방법이 있지만 복잡합니다. 
+// 함수로 만드는방법이 있지만 복잡합니다. 
 // https://hugogiraudel.com/2014/01/15/sass-string-to-number/
 $mobileUp: "401px" !default; // sm
 $phabletUp: "551px" !default; //  md
@@ -114,14 +114,14 @@ $standard-icon-margin : 1rem;
 $standard-small-icon-margin : .5rem;
 $standard-outborder-color: $html-color; //화면 가장자리에 붙어있는 border들의 컬러
 // TODO: 새로추가됨 이걸로 정리해야함
-$standard-label-margin : 0.8rem;
+$standard-label-margin : 0.6rem;
 $standard-placeholder-color : $grey-level3;
 // ===========================================================================
 
 // 1. Forms 폼
 // ANCHOR Forms ==========================================================================
 // -- Text Inputs + Textarea 인풋
-$input-height: 3rem !default;
+$input-height: 2.8rem !default;
 $input-border: 1px solid $standard-outborder-color !default;
 $input-background: #fff !default;
 $input-error-color: $error-color !default;
