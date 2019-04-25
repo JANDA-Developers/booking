@@ -28,11 +28,11 @@ export const applyDaysToArr = (applyDaysBinary: number): DayOfWeekEnum[] => {
     }
     return result;
 };
-export const arrToApplyDays = (arr: Array<number | boolean>):number => {
+export const arrToApplyDays = (arr: Array<number | boolean>): number => {
     return (
         arr
             .map((val, i) => {
-                return (val ? 0 : 1) << i;
+                return (val ? 1 : 0) << i;
             })
             .reduce((v1, v2) => {
                 return v1 + v2;
