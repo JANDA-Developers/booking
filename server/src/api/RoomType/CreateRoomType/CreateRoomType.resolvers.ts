@@ -1,8 +1,13 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { InstanceType } from "typegoose";
 import { HouseModel } from "../../../models/House";
 import { extractRoomType } from "../../../models/merge/merge";
 import { RoomTypeModel } from "../../../models/RoomType";
+import { SeasonModel, SeasonSchema } from "../../../models/Season";
+import {
+    SeasonPriceModel,
+    SeasonPriceSchema
+} from "../../../models/SeasonPrice";
 import { UserSchema } from "../../../models/User";
 import {
     CreateRoomTypeMutationArgs,
@@ -45,20 +50,42 @@ const resolvers: Resolvers = {
                     const roomType = await new RoomTypeModel({
                         ...args,
                         house: args.houseId
-                    });
-                    // 방 타입을 생성해야함... 방 타입에 들어갈 정보들부터 확인해보자...
-                    await roomType.save();
+                    }).save();
 
                     await HouseModel.updateOne(
                         {
-                            _id: new ObjectId(args.houseId)
+                            _id: new Types.ObjectId(args.houseId)
                         },
                         {
                             $push: {
-                                roomTypes: new ObjectId(roomType._id)
+                                roomTypes: new Types.ObjectId(roomType._id)
                             }
                         }
                     );
+                    // SeasonPrice 생성
+                    const allSeason = await SeasonModel.find({
+                        house: new Types.ObjectId(args.houseId)
+                    });
+                    const seasonPrices: Array<
+                        InstanceType<SeasonPriceSchema>
+                    > = allSeason.map(
+                        (
+                            season: InstanceType<SeasonSchema>
+                        ): InstanceType<SeasonPriceSchema> => {
+                            return new SeasonPriceModel({
+                                defaultPrice: args.defaultPrice,
+                                season: new Types.ObjectId(season._id),
+                                roomType: new Types.ObjectId(roomType._id)
+                            });
+                        }
+                    );
+                    const loggg = await SeasonPriceModel.insertMany(
+                        seasonPrices
+                    );
+                    console.log({
+                        loggg
+                    });
+
                     const result = await extractRoomType(roomType);
                     return {
                         ok: true,

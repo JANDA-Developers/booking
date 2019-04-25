@@ -1,4 +1,3 @@
-import { ObjectId } from "bson";
 import { Types } from "mongoose";
 import { InstanceType } from "typegoose";
 import {
@@ -31,7 +30,7 @@ import { UserModel, UserSchema } from "../User";
 
 /*
     - extract로 시작하느 함수들은 InstanceType<T> 를 변수로 받는 async 함수
-    - transform 으로 시작하는 함수들은 ObjectId 를 변수로 받아 함수 안에서 DB에 접속하여 결과값을 출력하는 async 함수
+    - transform 으로 시작하는 함수들은 Types.ObjectId 를 변수로 받아 함수 안에서 DB에 접속하여 결과값을 출력하는 async 함수
 */
 export const extractUser = async (
     user: InstanceType<UserSchema>
@@ -48,7 +47,7 @@ export const extractUser = async (
 };
 
 export const transformUser = async (
-    userId: ObjectId | string
+    userId: Types.ObjectId | string
 ): Promise<User | null> => {
     const user: InstanceType<UserSchema> | null = await UserModel.findById(
         userId
@@ -85,7 +84,7 @@ export const extractHouse = async (
 };
 
 export const transformHouse = async (
-    houseId: ObjectId | string
+    houseId: Types.ObjectId | string
 ): Promise<House | null> => {
     const house: InstanceType<HouseSchema> | null = await HouseModel.findById(
         houseId
@@ -152,7 +151,7 @@ export const extractRoomType = async (
 };
 
 export const transformRoomType = async (
-    roomTypeId: string | ObjectId
+    roomTypeId: string | Types.ObjectId
 ): Promise<RoomType> => {
     const roomTypeSchema: InstanceType<
         RoomTypeSchema
@@ -165,7 +164,7 @@ export const transformRoomType = async (
 };
 
 export const extractRoomTypes = async (
-    roomTypeIds: ObjectId[]
+    roomTypeIds: Types.ObjectId[]
 ): Promise<RoomType[]> => {
     try {
         const results: RoomType[] = await Promise.all(
@@ -182,7 +181,7 @@ export const extractRoomTypes = async (
 };
 
 export const transformRoom = async (
-    roomId: ObjectId | string
+    roomId: Types.ObjectId | string
 ): Promise<Room | null> => {
     const roomSchema: InstanceType<
         RoomSchema
@@ -194,7 +193,9 @@ export const transformRoom = async (
     }
 };
 
-export const transformRooms = async (roomIds: ObjectId[]): Promise<Room[]> => {
+export const transformRooms = async (
+    roomIds: Types.ObjectId[]
+): Promise<Room[]> => {
     try {
         const result: any = (await Promise.all(
             roomIds.map(
@@ -254,7 +255,7 @@ export const extractSeasons = async (
 };
 
 export const transformSeason = async (
-    seasonId: ObjectId
+    seasonId: Types.ObjectId
 ): Promise<Season | null> => {
     const season: InstanceType<
         SeasonSchema
@@ -267,7 +268,7 @@ export const transformSeason = async (
 };
 
 export const transformSeasons = async (
-    seasonIds: ObjectId[]
+    seasonIds: Types.ObjectId[]
 ): Promise<Season[]> => {
     try {
         const seasons: Array<
@@ -297,7 +298,7 @@ export const extractProductType = (
 };
 
 export const transformProductType = async (
-    productTypeId: ObjectId | string
+    productTypeId: Types.ObjectId | string
 ): Promise<ProductType | null> => {
     const productType = await ProductTypeModel.findById(productTypeId);
     if (productType) {
@@ -322,7 +323,7 @@ export const extractProduct = async (
 };
 
 export const transformProduct = async (
-    productId: ObjectId | string
+    productId: Types.ObjectId | string
 ): Promise<Product | null> => {
     const product = await ProductModel.findById(productId);
     if (product) {
@@ -378,8 +379,8 @@ export const transformSeasonPrice = async (
             );
         } else if (args) {
             existingSeasonPrice = await SeasonPriceModel.findOne({
-                season: new ObjectId(args.seasonId),
-                roomType: new ObjectId(args.roomTypeId)
+                season: new Types.ObjectId(args.seasonId),
+                roomType: new Types.ObjectId(args.roomTypeId)
             });
         }
         if (existingSeasonPrice) {
@@ -440,7 +441,7 @@ export const extractBooker = async (
 };
 
 export const transformBooker = async (
-    bookerId: string | ObjectId
+    bookerId: string | Types.ObjectId
 ): Promise<Booker | null> => {
     const booker = await BookerModel.findById(bookerId);
     if (booker) {
@@ -476,7 +477,7 @@ export const extractGuest = async (
 };
 
 export const transformGuest = async (
-    guestId: string | ObjectId
+    guestId: string | Types.ObjectId
 ): Promise<Guest | null> => {
     const guest = await GuestModel.findById(guestId);
     if (guest) {
@@ -487,12 +488,12 @@ export const transformGuest = async (
 };
 
 export const transformGuests = async (
-    guestIds: Array<string | ObjectId>
+    guestIds: Array<string | Types.ObjectId>
 ): Promise<Guest[]> => {
-    const objectIds: ObjectId[] = guestIds.map(
-        guestId => new ObjectId(guestId)
+    const objIds: Types.ObjectId[] = guestIds.map(
+        guestId => new Types.ObjectId(guestId)
     );
-    const guests = await GuestModel.find({ _id: { $in: objectIds } });
+    const guests = await GuestModel.find({ _id: { $in: objIds } });
     const result = await Promise.all(
         guests.map(async guest => {
             return await extractGuest(guest);
@@ -533,7 +534,7 @@ export const extractBookings = async (
 };
 
 export const transformBooking = async (
-    bookingId: string | ObjectId
+    bookingId: string | Types.ObjectId
 ): Promise<Booking | null> => {
     const booking = await BookingModel.findById(bookingId);
     if (booking) {
@@ -544,13 +545,13 @@ export const transformBooking = async (
 };
 
 export const transformBookings = async (
-    bookingIds: Array<string | ObjectId>
+    bookingIds: Array<string | Types.ObjectId>
 ): Promise<Booking[]> => {
     const temp: Array<InstanceType<BookingSchema>> = await BookingModel.find({
         _id: {
             $in: bookingIds.map(
-                (bookingId: string | ObjectId): ObjectId => {
-                    return new ObjectId(bookingId);
+                (bookingId: string | Types.ObjectId): Types.ObjectId => {
+                    return new Types.ObjectId(bookingId);
                 }
             )
         }

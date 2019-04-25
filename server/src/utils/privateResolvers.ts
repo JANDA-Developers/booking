@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { RoomTypeModel } from "../models/RoomType";
 
 export const privateResolver = resolverFunction => async (
@@ -16,8 +16,8 @@ export const privateResolver = resolverFunction => async (
 export const privateRoomTypeExistCheckResolver = resolverFunction =>
     privateResolver(async (parent, args, context, info) => {
         const existingRoomType = await RoomTypeModel.findOne({
-            _id: new ObjectId(args.roomTypeId),
-            house: new ObjectId(args.houseId)
+            _id: new Types.ObjectId(args.roomTypeId),
+            house: new Types.ObjectId(args.houseId)
         });
         if (!existingRoomType) {
             throw new Error("HouseId and RoomTypeId does not Matched!");

@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { extractRoomPrice } from "../../../models/merge/merge";
 import { RoomPriceModel } from "../../../models/RoomPrice";
 import {
@@ -17,8 +17,8 @@ const resolvers: Resolvers = {
             ): Promise<CreateRoomPriceResponse> => {
                 try {
                     let existRoomPrice = await RoomPriceModel.findOne({
-                        roomType: new ObjectId(roomTypeId),
-                        house: new ObjectId(houseId),
+                        roomType: new Types.ObjectId(roomTypeId),
+                        house: new Types.ObjectId(houseId),
                         date: new Date(args.date)
                     });
 
@@ -27,7 +27,8 @@ const resolvers: Resolvers = {
                         await existRoomPrice.save();
                     } else {
                         existRoomPrice = await new RoomPriceModel({
-                            roomType: new ObjectId(roomTypeId),
+                            roomType: new Types.ObjectId(roomTypeId),
+                            house: new Types.ObjectId(houseId),
                             ...args
                         }).save();
                     }

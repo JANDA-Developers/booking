@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { extractSeasonPrice } from "../models/merge/merge";
 import { SeasonPriceModel } from "../models/SeasonPrice";
 import { Season, SeasonPrice } from "../types/graph";
@@ -76,11 +76,11 @@ export const compareSeason = (season1: Season, season2?: Season): boolean => {
 
 export const convertSeasonToSeaeonPrice = async (
     season: Season,
-    roomTypeId: string | ObjectId
+    roomTypeId: string | Types.ObjectId
 ): Promise<SeasonPrice | null> => {
     const seasonPrice = await SeasonPriceModel.findOne({
-        roomType: new ObjectId(roomTypeId),
-        season: new ObjectId(season._id)
+        roomType: new Types.ObjectId(roomTypeId),
+        season: new Types.ObjectId(season._id)
     });
     if (seasonPrice) {
         const extractedSeasonPrice = await extractSeasonPrice(seasonPrice);

@@ -1,6 +1,6 @@
 import { instanceMethod, InstanceType, prop, Ref, Typegoose } from "typegoose";
 import { DayOfWeekPrice } from "../types/graph";
-import { applyDaysToBinaryString } from "../utils/applyDays";
+import { applyDaysToArr, DayOfWeekEnum } from "../utils/applyDays";
 import { RoomTypeSchema } from "./RoomType";
 import { SeasonSchema } from "./Season";
 
@@ -20,34 +20,29 @@ export class SeasonPriceSchema extends Typegoose {
             this: InstanceType<SeasonPriceSchema>,
             dayOfWeekPrices: DayOfWeekPrice[]
         ) {
-            return this.validateDayOfWeekPrice(dayOfWeekPrices);
+            if (dayOfWeekPrices.length === 0) {
+                return true;
+            }
+            let inspectArr: DayOfWeekEnum[] = [];
+            let flag = true;
+            dayOfWeekPrices
+                .map(dayOfWeekPrice => dayOfWeekPrice.applyDays)
+                .forEach(applyDays => {
+                    const temp: DayOfWeekEnum[] = applyDaysToArr(applyDays);
+                    inspectArr.forEach(elem => {
+                        temp.forEach(elem2 => {
+                            if (elem === elem2) {
+                                flag = false;
+                            }
+                        });
+                    });
+                    inspectArr = inspectArr.concat(temp);
+                });
+            return flag;
         },
         default: []
     })
     dayOfWeekPrices: DayOfWeekPrice[];
-
-    @instanceMethod
-    validateDayOfWeekPrice(
-        this: InstanceType<SeasonPriceSchema>,
-        dayOfWeekPrices?: DayOfWeekPrice[]
-    ) {
-        // applyDays 체크
-        let applyDaysSum = (dayOfWeekPrices || this.dayOfWeekPrices)
-            .map(dayOfWeekPrice =>
-                parseInt(applyDaysToBinaryString(dayOfWeekPrice.applyDays), 10)
-            )
-            .reduce((n1, n2) => n1 + n2);
-        for (let i = 7; i < 7; i--) {
-            const dec = Math.pow(10, i);
-            const v = Math.floor(applyDaysSum / dec);
-            if (v > 1) {
-                dayOfWeekPrices = this.dayOfWeekPrices = [];
-                return false;
-            }
-            applyDaysSum = applyDaysSum % dec;
-        }
-        return true;
-    }
 
     @instanceMethod
     pushDayOfWeekPrice(

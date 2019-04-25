@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import {
     arrayProp,
     index,
@@ -27,7 +27,7 @@ export enum RoomGenderEnum {
     try {
         if (this.index <= 0 || !this.index) {
             const test = await RoomTypeModel.findOne({
-                house: new ObjectId(this.house)
+                house: new Types.ObjectId(this.house)
             }).sort({ index: -1 });
             if (test) {
                 this.index = test.index + 1;
@@ -36,7 +36,7 @@ export enum RoomGenderEnum {
         if (this.peopleCount > this.peopleCountMax) {
             this.peopleCountMax = this.peopleCount;
         }
-        this.house = new ObjectId(this.house);
+        this.house = new Types.ObjectId(this.house);
     } catch (error) {
         throw error;
     }
@@ -47,7 +47,7 @@ export class RoomTypeSchema extends Typegoose {
     name: string;
 
     @prop({ required: true })
-    house: ObjectId;
+    house: Types.ObjectId;
 
     @prop({
         required: true,
@@ -102,13 +102,13 @@ export class RoomTypeSchema extends Typegoose {
     description: string;
 
     @prop({ default: 0 })
-    price: number;
+    defaultPrice: number;
 
     @prop()
     tags: string;
 
-    @arrayProp({ items: ObjectId, default: [] })
-    rooms: ObjectId[];
+    @arrayProp({ items: Types.ObjectId, default: [] })
+    rooms: Types.ObjectId[];
 
     @prop()
     get roomCount(): number {

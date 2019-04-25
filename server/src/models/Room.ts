@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import {
     arrayProp,
     instanceMethod,
@@ -16,13 +16,13 @@ import { RoomTypeSchema } from "./RoomType";
     try {
         if (this.index <= 0 || !this.index) {
             const test = await RoomModel.findOne({
-                roomType: new ObjectId(this.roomType)
+                roomType: new Types.ObjectId(this.roomType)
             }).sort({ index: -1 });
             if (test) {
                 this.index = test.index + 1;
             }
         }
-        this.roomType = new ObjectId(this.roomType);
+        this.roomType = new Types.ObjectId(this.roomType);
     } catch (error) {
         throw error;
     }
@@ -33,13 +33,13 @@ export class RoomSchema extends Typegoose {
     name: string;
 
     @prop({ required: true, ref: RoomTypeSchema })
-    roomType: ObjectId;
+    roomType: Types.ObjectId;
 
     @prop({ min: 0, default: 0 })
     index: number;
 
-    @arrayProp({ items: ObjectId })
-    beds: ObjectId[];
+    @arrayProp({ items: Types.ObjectId })
+    beds: Types.ObjectId[];
 
     @prop()
     createdAt: Date;
@@ -51,7 +51,9 @@ export class RoomSchema extends Typegoose {
     roomSrl?: number;
 
     @instanceMethod
-    async addBeds(this: InstanceType<RoomSchema>): Promise<Array<InstanceType<BedSchema>>> {
+    async addBeds(
+        this: InstanceType<RoomSchema>
+    ): Promise<Array<InstanceType<BedSchema>>> {
         // 필요한 프로퍼티... 뭐가있는가
         // 1. 몇 명의 게스트가 들어갈 수 있는가?
         // 2. Bed 마다 뭘할까?
@@ -65,8 +67,8 @@ export class RoomSchema extends Typegoose {
             beds.push(
                 new BedModel({
                     name: bedCount + "호",
-                    room: new ObjectId(this._id),
-                    roomType: new ObjectId(this.roomType)
+                    room: new Types.ObjectId(this._id),
+                    roomType: new Types.ObjectId(this.roomType)
                 })
             );
             bedCount--;
