@@ -1,6 +1,13 @@
 @import '../../style_config/style_config';
 
 .react-tabs {
+
+    .JDinput {
+        padding:0;
+        height: 2rem;
+        line-height: 2rem;
+    }
+
     &__tab-list {
         height: $tabs-height;
         line-height: $tabs-height;

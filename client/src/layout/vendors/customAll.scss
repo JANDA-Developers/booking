@@ -64,6 +64,16 @@ a.JDanchor {
     color: $error-color
 }
 
+.JDz-index-1 {
+    position: relative;
+    z-index: $z-index-1
+}
+
+.JDz-index-2 {
+    position: relative;
+    z-index: $z-index-2
+}
+
 body {
     letter-spacing: -1px;
 }

@@ -25,7 +25,7 @@ interface IProps extends IUseDayPicker {
   format?: string;
   lang?: string;
   maxLimit?: boolean;
-  onChange(foo?: string | Date | null, foo2?: string | Date | null): void;
+  onChange?(foo?: string | Date | null, foo2?: string | Date | null): void;
 }
 
 const JDdayPicker: React.SFC<IProps> = ({
@@ -101,7 +101,7 @@ const JDdayPicker: React.SFC<IProps> = ({
   }, []);
 
   useEffect(() => {
-    onChange(entered, to);
+    onChange && onChange(entered, to);
   }, [entered, to]);
 
   const classes = classNames({

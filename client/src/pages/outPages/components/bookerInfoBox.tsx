@@ -5,7 +5,7 @@ import CheckBox from '../../../atoms/forms/CheckBox';
 import Button from '../../../atoms/button/Button';
 import utils from '../../../utils/utils';
 import { BookerInput as IBookerInput } from '../../../types/api';
-import { ISetBookerInfo } from '../Reservation';
+import { ISetBookerInfo } from '../reservation/Reservation';
 import TooltipList from '../../../atoms/tooltipList/TooltipList';
 import JDbox from '../../../atoms/box/JDbox';
 

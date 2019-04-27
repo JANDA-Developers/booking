@@ -3,9 +3,9 @@
 import React, { Fragment, useState } from 'react';
 import { Mutation } from 'react-apollo';
 import Reservation from './Reservation';
-import { ErrProtecter } from '../../utils/utils';
-import { createBooking, createBookingVariables } from '../../types/api';
-import { CREATE_BOOKING } from '../../queries';
+import { ErrProtecter } from '../../../utils/utils';
+import { createBooking, createBookingVariables } from '../../../types/api';
+import { CREATE_BOOKING } from '../../../queries';
 
 class CreatBookingMu extends Mutation<createBooking, createBookingVariables> {}
 

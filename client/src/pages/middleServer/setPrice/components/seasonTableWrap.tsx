@@ -133,11 +133,6 @@ const SeasonTableWrap: React.SFC<IProps> = ({
                   };
                 });
 
-
-                console.log('defaultTableData');
-                console.log(defaultTableData);
-                console.log(defaultTableData);
-                console.log(defaultTableData);
                 return (
                   <SeasonTable
                     dayPickerHook={dayPickerHook}

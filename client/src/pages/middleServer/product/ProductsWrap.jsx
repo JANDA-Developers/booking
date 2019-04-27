@@ -146,14 +146,14 @@ const ProductsWrap = ({
             return;
           }
           setRedirect(true);
-          // 통신에러
         } else {
           console.error(BuyProduct.error);
           toast.warn('구매절차에 문제가 발생했습니다. 별도 문의 바랍니다.');
         }
       }}
+      // 통신에러
       onError={(buyProductErr) => {
-        toast.warn('구매절차에 문제가 발생했습니다. 별도 문의 바랍니다.');
+        toast.warn('통신 문제가 발생했습니다. 별도 문의 바랍니다.');
         console.error(buyProductErr);
       }}
     >

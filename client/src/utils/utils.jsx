@@ -2,7 +2,6 @@
 import ErrProtecter from './ErrProtecter';
 import isEmpty from './IsEmpty';
 import toast from './Toast';
-import { NEUTRAL } from './Enums';
 import download from './DownloadFile';
 import autoHypen from './AutoHyphen';
 import {
@@ -22,7 +21,6 @@ import stringToPrice from './stringToPrice';
 
 const JDutils = {
   ErrProtecter,
-  NEUTRAL,
   isEmpty,
   isEmail,
   isPhone,
@@ -52,7 +50,6 @@ export {
   JDMonthTextChanger,
   JDWeekChanger,
   isEmpty,
-  NEUTRAL,
   toast,
   download,
   ErrProtecter,

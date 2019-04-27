@@ -38,14 +38,12 @@
         line-height: $searchInput-input-height;
         border:none;
         border-bottom: $searchInput-input-border;
-        margin-bottom: $searchInput-input-margin-bottom;
         outline:none;
         width: 100%;
         box-sizing: border-box;
         padding: $input-padding;
         padding-right: 1.75rem;
-        margin: $input-margin;
-        line-height: 100%;
+        margin-bottom: $searchInput-message-space;
 
         &:focus {
             border-color: $primary-color-light;

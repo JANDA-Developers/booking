@@ -7,11 +7,11 @@
     outline: none;
     width: $circle-icon-size;
     height: $circle-icon-size;
-    font-size: $circle-icon-font-size;
     align-content: center;
     justify-content:center;
     display: inline-block;
     font-size:inherit;
+    line-height: 100%;
     cursor:pointer;
 
     &:hover {

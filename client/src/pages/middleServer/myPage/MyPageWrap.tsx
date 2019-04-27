@@ -4,10 +4,10 @@ import { useInput, useModal2 } from '../../../actions/hook';
 import { UPDATE_MYPROFILE, GET_USER_INFO } from '../../../queries';
 import { onError, onCompletedMessage } from '../../../utils/utils';
 import MyPage from './MyPage';
-import IHouses, { IUser } from '../../../types/interface';
+import { IUser, IHouse } from '../../../types/interface';
 
 interface IProps {
-  houses: IHouses[];
+  houses: IHouse[];
   userData: IUser;
   props: React.HTMLAttributes<HTMLDivElement>;
 }

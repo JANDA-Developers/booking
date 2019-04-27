@@ -6,7 +6,7 @@ import JDselect from '../../../atoms/forms/SelectBox';
 import Button from '../../../atoms/button/Button';
 import BookerInfoBox from './bookerInfoBox';
 import { BookerInput } from '../../../types/api';
-import { ISetBookerInfo } from '../Reservation';
+import { ISetBookerInfo } from '../reservation/Reservation';
 
 interface IProps {
   className?: string;
@@ -34,7 +34,7 @@ const PayMentModal: React.SFC<IProps> = ({
         <h6 className="JDreservation__sectionTitle">③ 결제 정보 입력</h6>
         <div>
           <div>
-            <JDselect {...payMethod} options={selectDummyOptions} label="결제수단" />
+            <JDselect {...payMethod} mode="small" options={selectDummyOptions} label="결제수단" />
           </div>
           <BookerInfoBox bookerInfo={bookerInfo} setBookerInfo={setBookerInfo} />
         </div>

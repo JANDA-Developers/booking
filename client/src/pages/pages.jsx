@@ -2,6 +2,18 @@ import React from 'react';
 import DynamicImport from '../utils/DynamicImport';
 import Preloader from '../atoms/preloader/Preloader';
 
+export const Sms = props => (
+  <DynamicImport load={() => import('./middleServer/sms/SmsWrap')}>
+    {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
+  </DynamicImport>
+);
+
+export const ResvList = props => (
+  <DynamicImport load={() => import('./middleServer/resvList/ResvListWrap')}>
+    {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
+  </DynamicImport>
+);
+
 export const Qna = props => (
   <DynamicImport load={() => import('./middleServer/qna/Qna')}>
     {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}

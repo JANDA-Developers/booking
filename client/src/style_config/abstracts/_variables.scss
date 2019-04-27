@@ -128,9 +128,7 @@ $input-error-color: $error-color !default;
 $input-success-color: $success-color !default;
 $input-focus-color: $primary-color-light !default;
 $input-font-size: $typho-normal !default;
-$input-margin-bottom: $standard-margin-bottom;
-$input-margin-top: 0rem;
-$input-margin: $input-margin-top 0 $input-margin-bottom 0 !default;
+
 $input-padding-top: 1rem;
 $input-padding: $input-padding-top 0 0 0 !default;
 $input-transition: all 0.3s !default;
@@ -275,12 +273,12 @@ $button-height: 36px !default;
 
 $searchInput-input-height: $input-height + $input-padding-top!default;
 $searchInput-input-border: $input-border !default;
-$searchInput-input-margin-bottom: .5rem !default;
 $searchInput-border-color:$grey-level1 !default;
 $searchInput-border-radius: $standard-border-radius;
 $searchInput-li-border-top: 1px dotted $searchInput-border-color !default;
 $searchInput-li-padding: .3rem $standard-side-padding !default;
 $searchInput-li-height: $standard-li-height !default;
+$searchInput-message-space: 1rem;
 
 // 7 SideNav 사이드 네비
 // ANCHOR Side NAV =========================================================================
@@ -303,7 +301,6 @@ $header-padding: 1rem;
 // 9 CircleIcon 둥근 아이콘
 // ANCHOR Header NAV =========================================================================
 $circle-icon-size: 2rem;
-$circle-icon-font-size: 1rem;
 
 // 10 Slider 슬라이더
 // ANCHOR slider Slider =========================================================================

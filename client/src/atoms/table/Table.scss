@@ -15,10 +15,16 @@
         &--center {
             text-align: center;
         }
-        .JDbtn {
-            margin-bottom: 0;
+
+        .rt-tbody {
+            overflow:hidden;
         }
-// 👼 REACT TABLE
+
+        .JDinput {
+            height: 2rem;
+            padding: 0;
+        }
+//      👼 REACT TABLE
         .rt {
             &-thead {
                     box-shadow: none;
@@ -32,5 +38,20 @@
             }
         }
 
+        .rt-th,.rt-td {
+            display:flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        &--checkable {
+            //  ❗️ 강제 오버라이드
+            .rt-tr > div:first-child {
+                width: 35px!important;
+                flex: 35 0 auto!important;
+                max-width: 35px!important;
+                justify-content: end;
+            }
+        }
     }
 }

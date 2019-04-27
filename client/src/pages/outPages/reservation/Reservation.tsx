@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import windowSize, { WindowSizeProps } from 'react-window-size';
 import { MutationFn } from 'react-apollo';
-import ErrProtecter from '../../utils/ErrProtecter';
-import JDdayPicker from '../../components/dayPicker/DayPicker';
-import RoomTypeCard from './components/roomTypeCard';
-import { useDayPicker, useModal2 } from '../../actions/hook';
+import ErrProtecter from '../../../utils/ErrProtecter';
+import JDdayPicker from '../../../components/dayPicker/DayPicker';
+import RoomTypeCard from '../components/roomTypeCard';
+import { useDayPicker, useModal2 } from '../../../actions/hook';
 import './Reservation.scss';
-import Button from '../../atoms/button/Button';
-import Card from '../../atoms/cards/Card';
+import Button from '../../../atoms/button/Button';
+import Card from '../../../atoms/cards/Card';
 import {
   createBooking, createBookingVariables, GuestPartInput, BookerInput,
-} from '../../types/api';
-import RoomSelectInfo from './components/roomSelectInfo';
-import PayMentModal from './components/paymentModal';
+} from '../../../types/api';
+import RoomSelectInfo from '../components/roomSelectInfo';
+import PayMentModal from '../components/paymentModal';
 
 export interface ISetBookerInfo extends React.Dispatch<React.SetStateAction<BookerInput>> {}
 
@@ -28,7 +28,7 @@ const SetPrice: React.SFC<IProps | any> = ({
     house: houseId,
     name: '',
     password: '',
-    memo:'',
+    memo: '',
     phoneNumber: '',
     agreePrivacyPolicy: false,
   };

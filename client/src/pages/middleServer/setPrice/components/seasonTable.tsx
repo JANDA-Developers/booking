@@ -24,7 +24,7 @@ import CircleIcon from '../../../../atoms/circleIcon/CircleIcon';
 import DayOfWeekModal from './dayOfWeekModal';
 import JDbox from '../../../../atoms/box/JDbox';
 import { numberToStrings } from '../../../../utils/dayOfweeks';
-import arraySum from '../../../../utils/math';
+import { arraySum } from '../../../../utils/math';
 
 interface ISetTableValue extends React.Dispatch<React.SetStateAction<ISeasonValue>> {}
 

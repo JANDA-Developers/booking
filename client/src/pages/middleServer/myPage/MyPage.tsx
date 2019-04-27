@@ -10,7 +10,7 @@ import utils, { toast } from '../../../utils/utils';
 import Modal from '../../../atoms/modal/Modal';
 import './MyPage.scss';
 import MyHouseModalWrap from './components/myHouseModalWrap';
-import IHouses, { IHouse } from '../../../types/interface';
+import { IHouse } from '../../../types/interface';
 import Preloader from '../../../atoms/preloader/Preloader';
 
 const profileStyle = {
@@ -18,7 +18,7 @@ const profileStyle = {
 };
 
 interface IProps {
-  houses: IHouses[];
+  houses: IHouse[];
   [foo: string]: any;
 }
 
@@ -33,7 +33,6 @@ const Mypage: React.SFC<IProps> = ({
   passWordModal,
   loading,
 }) => {
-
   const checkUpdateMutation = (e: any) => {
     e.preventDefault();
 
@@ -70,7 +69,9 @@ const Mypage: React.SFC<IProps> = ({
             <InputText {...nameHook} validation={utils.isName} label="성함" />
             <InputText {...phoneNumberHook} validation={utils.isPhone} label="핸드폰번호" />
             <InputText {...emailHook} validation={utils.isEmail} label="이메일" />
-            <Button onClick={passWordModal.openModal} label="프로필 수정" />
+            <div>
+              <Button onClick={passWordModal.openModal} label="프로필 수정" />
+            </div>
           </form>
         </div>
         <h4>생성한 숙소</h4>
@@ -115,7 +116,7 @@ const Mypage: React.SFC<IProps> = ({
           <Button mode="flat" label="닫기" onClick={passWordModal.closeModal} />
         </div>
       </Modal>
-      <MyHouseModalWrap MyHouseModalHook={houseModal}/>
+      <MyHouseModalWrap MyHouseModalHook={houseModal} />
     </div>
   );
 };
