@@ -25,7 +25,7 @@ interface IProps extends IUseDayPicker {
   format?: string;
   lang?: string;
   maxLimit?: boolean;
-  onChange?(foo?: string | Date | null, foo2?: string | Date | null): void;
+  onChangeDate?(foo?: string | Date | null, foo2?: string | Date | null): void;
 }
 
 const JDdayPicker: React.SFC<IProps> = ({
@@ -33,7 +33,7 @@ const JDdayPicker: React.SFC<IProps> = ({
   input,
   isRange = true,
   label,
-  onChange,
+  onChangeDate,
   canSelectSameDate,
   format,
   placeholder,
@@ -71,6 +71,11 @@ const JDdayPicker: React.SFC<IProps> = ({
 
   // handle --day : Click
   const handleDayClick = (day: Date, modifiers: DayModifiers) => {
+    if (!isRange) {
+      setFrom(day);
+      setTo(day);
+      return;
+    }
     if (modifiers.disabled) return;
     if (from && to && day >= from && day <= to) {
       handleResetClick();
@@ -101,8 +106,8 @@ const JDdayPicker: React.SFC<IProps> = ({
   }, []);
 
   useEffect(() => {
-    onChange && onChange(entered, to);
-  }, [entered, to]);
+    onChangeDate && onChangeDate(from, to);
+  }, [from, to]);
 
   const classes = classNames({
     'DayPicker--horizen': horizen,
@@ -134,7 +139,8 @@ const JDdayPicker: React.SFC<IProps> = ({
     fromMonth: from || undefined,
     selectedDays: isRange ? selectedDays : undefined,
     modifiers,
-    onDayClick: isRange ? handleDayClick : undefined,
+    // 👿 여기 문제가있다.
+    onDayClick: handleDayClick,
     onDayMouseEnter: handleDayMouseEnter,
     numberOfMonths: horizen ? 3 : 1,
     pagedNavigation: true,

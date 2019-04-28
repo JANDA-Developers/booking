@@ -32,6 +32,7 @@ const F_USER_INFO = gql`
     password
     email
     isPhoneVerified
+    profileImg
     checkPrivacyPolicy
     userRole
     houses {
@@ -538,8 +539,20 @@ export const UPDATE_SEASON = gql`
 // 호스트관련 ────────────────────────────────────────────────────────────────────────────────
 // 프로필 업데이트
 export const UPDATE_MYPROFILE = gql`
-  mutation updateMyProfile($name: Name!, $phoneNumber: PhoneNumber!, $email: EmailAddress!, $password: Password!) {
-    UpdateMyProfile(name: $name, phoneNumber: $phoneNumber, email: $email, password: $password) {
+  mutation updateMyProfile(
+    $name: Name!
+    $phoneNumber: PhoneNumber!
+    $email: EmailAddress!
+    $password: Password!
+    $profileImg: URL
+  ) {
+    UpdateMyProfile(
+      name: $name
+      phoneNumber: $phoneNumber
+      email: $email
+      password: $password
+      profileImg: $profileImg
+    ) {
       ok
       error
     }

@@ -31,8 +31,8 @@ const RoomTypeCard: React.SFC<IProps> = ({ className, setResvRooms, resvRooms })
         </div>
         <div className="roomTypeCard__middleBottomSection">
           {/* 여기서나온 값을 state 에 저장하는거임 */}
-          <JDselect rightLabel="남" mode="small" onChange={handleChange} />
-          <JDselect rightLabel="여" mode="small" onChange={handleChange} />
+          <JDselect size="3.8rem" rightLabel="남" mode="small" onChange={handleChange} />
+          <JDselect size="3.8rem" rightLabel="여" mode="small" onChange={handleChange} />
         </div>
       </div>
       <div className="flex-grid__col col--grow-1 roomTypeCard__lastSection">

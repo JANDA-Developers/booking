@@ -6,7 +6,25 @@
 /* Text inputs */
 
 .JDtextarea {
-
+  
+  // General Styles
+  background-color: transparent;
+  border: none;
+  border-bottom: $input-border;
+  border-radius: 0;
+  outline: none;
+  height: $input-height;
+  width: 100%;
+  font-size: $input-font-size;
+  margin-top: $textarea-margin-top;
+  // padding: $input-padding;
+  box-shadow: none;
+  box-sizing: content-box;
+  transition: $input-transition;
+  padding: .8rem 0 1.6rem 0;
+  resize: none;
+  min-height: $input-height;
+  
   //아래에있는 라벨을 위로 끌어올립니다
   &+.JDtextarea_label {
     font-size: $label-font-size;
@@ -20,23 +38,14 @@
     color: $placeholder-text-color;
   }
 
-  // General Styles
-  background-color: transparent;
-  border: none;
-  border-bottom: $input-border;
-  border-radius: 0;
-  outline: none;
-  height: $input-height;
-  width: 100%;
-  font-size: $input-font-size;
-  margin-top: $textarea-margin-top;
-  padding: $input-padding;
-  box-shadow: none;
-  box-sizing: content-box;
-  transition: $input-transition;
 
   &--doubleHeight {
     height: $input-height *2;
+  }
+
+  &--halfHeight {
+    min-height: $input-height /2;
+    height: $input-height /2;
   }
   // Disabled input style
   &:disabled,
@@ -143,11 +152,7 @@
     height: 100%;
   }
 
-  /* prevents scroll bar flash */
-  padding: .8rem 0 1.6rem 0;
-  /* prevents text jump on Enter keypress */
-  resize: none;
-  min-height: $input-height;
+
 
   // 🅱️ 바이트 계산 
   &__byte {

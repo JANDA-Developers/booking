@@ -61,6 +61,7 @@
     "react-toastify": "^4.5.2",
     "react-tooltip": "^3.9.2",
     "react-window-size": "^1.2.2",
+    "tui-editor": "^1.4.0",
     "whatwg-fetch": "^3.0.0"
   },
   "scripts": {

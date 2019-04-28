@@ -23,7 +23,7 @@
     &__Content  {
         background-color:white;
         position: relative;
-        padding: $modal-content-padding;
+        padding: $modal-content-padding * 2;
         outline: none;
         border-radius: $modal-border-radius;
         @extend %z-depth-3;
@@ -38,6 +38,14 @@
 
         max-height: 90%;
         overflow-y:auto;
+
+        .container {
+            padding: 0;
+        }
+
+        @include response($phablet) {
+            padding: $modal-content-padding;
+        }
     }
 
 }
@@ -63,5 +71,9 @@
         h6 {
             margin-bottom: 0;
         }
+    }
+
+    .modal__section {
+        padding-bottom: $modal-section;
     }
 }

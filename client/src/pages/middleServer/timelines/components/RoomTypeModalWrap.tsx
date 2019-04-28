@@ -59,7 +59,10 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({
     description: roomTypeValue.description,
   };
 
-  // 팝업에서 가져온 정보를 호출
+  // ⛔️️️️️ 👿 이건 안티패턴이다 더 좋은방법이있다.
+  // key가 바뀌면 모든걸 다시만든다 즉
+  // default로 값들을주고 key만 바꿔주면되는것
+  // 이건 개선되어야한다.
   useEffect(() => {
     if (!isEmpty(modalHook.info)) {
       const roomType = roomData[modalHook.info.roomTypeIndex];

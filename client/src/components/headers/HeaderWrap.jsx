@@ -6,7 +6,7 @@ import Header from './Header';
 import { LOG_USER_OUT } from '../../clientQueries';
 
 const HeaderWrap = ({
-  selectedHouse, houses, history, ...props
+  selectedHouse, houses, history, profileImg, ...props
 }) => (
   <Mutation
     mutation={LOG_USER_OUT}
@@ -16,7 +16,13 @@ const HeaderWrap = ({
     }}
   >
     {logOutMutation => (
-      <Header {...props} selectedHouse={selectedHouse} houses={houses} logOutMutation={logOutMutation} />
+      <Header
+        {...props}
+        profileImg={profileImg}
+        selectedHouse={selectedHouse}
+        houses={houses}
+        logOutMutation={logOutMutation}
+      />
     )}
   </Mutation>
 );

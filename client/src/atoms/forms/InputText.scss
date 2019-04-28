@@ -8,11 +8,16 @@
 .JDinput-wrap {
   position: relative;
 }
+
+//  😄 인풋라인에 아이콘 맞춰줌 
 .JDinput-iconWrap{
   position: absolute;
-  font-size: 1.0rem;
   right: 0.25em;
-  top: 1.5em;
+  height: 100%;
+  display: flex;
+  .JDicon__svg {
+    top:unset;
+  }
 }
 
 .JDinput {

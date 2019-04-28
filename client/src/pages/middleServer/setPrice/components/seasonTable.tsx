@@ -180,7 +180,7 @@ const SeasonModal: React.SFC<IProps> = ({
             <InputText label="시즌명" validation={utils.isMaxOver} max={10} />
           </div>
           <div>
-            <JDdayPicker {...dayPickerHook} label="적용날자" onChange={onChangeDate} input isRange />
+            <JDdayPicker {...dayPickerHook} label="적용날자" onChangeDate={onChangeDate} input isRange />
           </div>
           <div>
             <JDcolorPicker label="대표색상" colorHook={colorHook} />

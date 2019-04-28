@@ -138,8 +138,6 @@ const PriceDefaultProps = {
     year: 1,
   },
   keys: priceTimelineKeys,
-  defaultTimeStart,
-  defaultTimeEnd,
   fixedHeader: 'fixed',
   sidebarWidth: 300,
   canMove: false,

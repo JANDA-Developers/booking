@@ -5,7 +5,7 @@ import './InputText.scss';
 import './Textarea.scss';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import JDicon from '../icons/Icons';
+import JDicon, { IconSize } from '../icons/Icons';
 import ErrProtecter from '../../utils/ErrProtecter';
 import autoHyphen from '../../utils/AutoHyphen';
 import { NEUTRAL } from '../../types/apiEnum';
@@ -18,6 +18,7 @@ interface IProps extends React.HTMLAttributes<HTMLInputElement> {
   textarea?: boolean;
   scroll?: boolean;
   doubleHeight?: boolean;
+  halfHeight?: boolean;
   label?: string;
   type?: string;
   dataError?: string;
@@ -33,11 +34,12 @@ interface IProps extends React.HTMLAttributes<HTMLInputElement> {
   onBlur?: any;
   refContainer?: any;
   isValid?: any;
-  value?: string;
+  value?: string | null;
   max?: number;
   defaultValue?: string;
   // 컨트롤 일때만 작동함
   hyphen?: boolean;
+  byte?: boolean;
 }
 
 const InputText: React.FC<IProps> = ({
@@ -57,12 +59,14 @@ const InputText: React.FC<IProps> = ({
   value,
   defaultValue, // UNcontrolled
   doubleHeight,
+  halfHeight,
   dataError,
   dataSuccess,
   icon,
   iconOnClick,
   iconHover,
   hyphen,
+  byte,
   ...props
 }) => {
   const inHandleChange = (event: any) => {
@@ -79,6 +83,7 @@ const InputText: React.FC<IProps> = ({
     /* --------------------------------- 텍스트어리어 --------------------------------- */
     'JDtextarea--scroll': scroll && textarea,
     'JDtextarea--doubleHeight': doubleHeight && textarea,
+    'JDtextarea--halfHeight': halfHeight && textarea,
     'JDtextarea--valid': isValid === true,
     'JDtextarea--invalid': isValid === false,
   });
@@ -102,13 +107,11 @@ const InputText: React.FC<IProps> = ({
   const formatedValue = valueFormat();
 
   // 인풋 과 텍스트어리어 경계
-
-  console.log(props);
   return !textarea ? (
     <div className="JDinput-wrap">
       {icon !== '' ? (
         <span className="JDinput-iconWrap">
-          {icon && <JDicon onClick={iconOnClick} hover={iconHover} icon={icon} />}
+          {icon && <JDicon size={IconSize.MEDIUM} onClick={iconOnClick} hover={iconHover} icon={icon} />}
         </span>
       ) : null}
       <input
@@ -131,7 +134,7 @@ const InputText: React.FC<IProps> = ({
     <div className="JDinput-wrap">
       <textarea
         disabled={disabled}
-        value={value}
+        value={value || undefined}
         onChange={inHandleChange}
         onBlur={onBlur}
         id="JDtextarea"
@@ -142,7 +145,7 @@ const InputText: React.FC<IProps> = ({
       <label htmlFor="JDtextarea" className="JDtextarea_label">
         {label}
       </label>
-      <span className="JDtextarea__byte">{getByteLength(value)}</span>
+      {byte && <span className="JDtextarea__byte">{getByteLength(value || undefined)}</span>}
     </div>
   );
 };

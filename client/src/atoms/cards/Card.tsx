@@ -11,7 +11,7 @@ interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;
 }
 
-const JDcard: React.SFC<IProps> = ({
+const JDcard: React.FC<IProps> = ({
   children, hoverDark, className, ...props
 }) => {
   const classes = classNames('JDcard', className, {

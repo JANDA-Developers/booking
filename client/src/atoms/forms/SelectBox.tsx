@@ -19,7 +19,7 @@ interface Iprops extends SelectComponentsProps {
   rightLabel?: string;
   props?: any;
   mode?: 'small';
-  size?: '9rem' | '11rem' | '13rem';
+  size?: '2rem' | '3rem' | '3.5rem' | '3.8rem' | '4rem' | '9rem' | '11rem' | '13rem';
 }
 
 const JDselect: React.SFC<Iprops> = ({

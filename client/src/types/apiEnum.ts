@@ -97,11 +97,12 @@ export enum BookingStatus {
 }
 
 export enum PayMethod {
-  WAIT_DEPOSIT = 'WAIT_DEPOSIT',
-  COMPLETE = 'COMPLETE',
-  CANCEL = 'CANCEL',
-  REFUND_WAIT = 'REFUND_WAIT',
-  PAY_WHEN_CHK_IN = 'PAY_WHEN_CHK_IN',
+  ACCOUNT_SEND = 'ACCOUNT_SEND',
+  CARD = 'CARD',
+  CASH = 'CASH',
+  KAKAOPAY = 'KAKAOPAY',
+  CHANNEL = 'CHANNEL',
+  ELSE = 'ELSE',
 }
 
 //= =============================================================
@@ -123,7 +124,7 @@ export const AUTO_SEND_OP = [
 
 // 💛 대기 랑 입금대기를 나누는게 좋다
 // 대기는 뭐가될지 모르는 상태인거임!!
-export const BOOKING_STATUS = [
+export const BOOKING_STATUS_OP = [
   { value: BookingStatus.COMPLETE, label: '예약완료' },
   { value: BookingStatus.WAIT_DEPOSIT, label: '입금대기' },
   { value: BookingStatus.CANCEL, label: '예약취소' },
@@ -135,6 +136,15 @@ export const SMS_TARGET_OP = [
   { value: SmsTarget.BOTH, label: '관리자,게스트' },
   { value: SmsTarget.GUEST, label: '게스트' },
   { value: SmsTarget.HOST, label: '관리자' },
+];
+
+export const PAYMETHOD_OP = [
+  { value: PayMethod.ACCOUNT_SEND, label: '무통장입금' },
+  { value: PayMethod.CARD, label: '카드결제' },
+  { value: PayMethod.CASH, label: '현금결제' },
+  { value: PayMethod.KAKAOPAY, label: '카카오페이' },
+  { value: PayMethod.CHANNEL, label: '채널결제' },
+  { value: PayMethod.ELSE, label: '기타' },
 ];
 
 // --필요한것

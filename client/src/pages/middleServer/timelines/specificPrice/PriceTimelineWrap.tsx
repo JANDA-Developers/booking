@@ -102,10 +102,17 @@ const PriceTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
       .add(20, 'days')
       .valueOf(),
   );
-
-  const [getTime, setGetTime] = useState({ start: queryStartDate, end: queryEndDate });
   // 일주일치 view만 보이겠지만 미리미리 요청해두자
   // 포멧 형식 "2019.04.09."
+  const [getTime, setGetTime] = useState({ start: queryStartDate, end: queryEndDate });
+  const [visibleTime, setVisibleTime] = useState({
+    start: setMidNight(moment().valueOf()),
+    end: setMidNight(
+      moment()
+        .add(7, 'days')
+        .valueOf(),
+    ),
+  });
 
   // 방타입과 날자 조합의 키를 가지고 value로 pirce를 가지는 Map 생성
   const priceMapMaker = (priceData: roomPrices[]): Map<any, any> => {
@@ -127,14 +134,7 @@ const PriceTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
 
         const roomTypesData = QueryDataFormater(data, 'GetAllRoomType', 'roomTypes', undefined); // 원본데이터
         const roomPriceData = QueryDataFormater(data, 'GetAllRoomPrice', 'roomPrices', undefined); // 원본데이터
-
         const priceMap = roomPriceData ? priceMapMaker(roomPriceData) : new Map();
-
-        console.log('data');
-        console.log(data);
-        console.log('priceMap');
-        console.log(priceMap);
-
         const items = roomTypesData
           && itemMaker({
             startDate: getTime.start,
@@ -160,6 +160,8 @@ const PriceTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
                 priceMap={priceMap}
                 roomTypesData={roomTypesData || undefined}
                 createRoomPriceMu={createRoomPriceMu}
+                visibleTime={visibleTime}
+                setVisibleTime={setVisibleTime}
               />
             )}
           </CreateRoomPriceMu>

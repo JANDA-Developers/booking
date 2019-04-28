@@ -90,28 +90,13 @@ $roomCardHeight: 130px;
             display: flex;
             .JDselect {
                 margin-bottom: 0;
-                .react-select-container {
-                    width: 36px;
-                }
             }
         }
     }
 
     .JDselectInfo {
         .JDtable {
-            .rt-noData{
-                color: $standard-placeholder-color;
-                padding: 0;
-                top: auto;
-                bottom: 0;
-            }
-        }
 
-        //이게 박스안에 들어가는게 좋지않을까???
-        &__priceResultBox {
-            border-radius: $standard-border-radius;
-            padding: $standard-padding;
-            border: 1px solid $standard-outborder-color;
         }
     }
 }

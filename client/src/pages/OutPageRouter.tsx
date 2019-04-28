@@ -13,9 +13,12 @@ class DocumentRouter extends Component {
     return (
       <Fragment>
         {/* 예약페이지 */}
-        <Route exact path="/outpage/reservation" component={Reservation} />
-        <Route exact path="/outpage/CheckReservation" component={ReservationCheck} />
-        <Route exact path="/outpage/InfoReservation" component={ReservationInfo} />
+        <Switch>
+          <Route exact path="/outpage/reservation" component={Reservation} />
+          <Route exact path="/outpage/checkReservation" component={ReservationCheck} />
+          <Route exact path="/outpage/infoReservation" component={ReservationInfo} />
+          <Route component={NoMatch} />
+        </Switch>
       </Fragment>
     );
   }

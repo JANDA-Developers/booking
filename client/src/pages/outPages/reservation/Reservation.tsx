@@ -44,7 +44,7 @@ const SetPrice: React.SFC<IProps | any> = ({
           <Card className="JDreservation__card JDreservation__dayPickerCard">
             <h6 className="JDreservation__sectionTitle">① 예약날자 선택</h6>
             {/* TODO: change 될때마다 resvRooms를 초기화 해주어야함 */}
-            <JDdayPicker maxLimit={false} {...dayPickerHook} horizen={windowWidth < 750} onChange={() => {}} />
+            <JDdayPicker maxLimit={false} {...dayPickerHook} horizen={windowWidth < 750} />
           </Card>
         </div>
         <div className="flex-grid__col col--full-8 col--lg-7 col--wmd-12">

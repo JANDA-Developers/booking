@@ -21,6 +21,7 @@
     &--input {
         border:none;
         border-radius: 0px 0px $daypicker-border-radius $daypicker-border-radius;
+        min-width: 330px;
     }
 
     .JDbtn {
@@ -57,6 +58,9 @@
             }
 
             .DayPicker-Body {
+                overflow:hidden;
+                border-radius: 0px 0px $standard-border-radius $standard-border-radius;
+
                 .DayPicker-Week {
                     display: flex;
                     flex: auto;

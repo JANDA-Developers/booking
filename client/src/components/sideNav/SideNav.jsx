@@ -11,7 +11,7 @@ import profileImg from '../../img/profile/default_profile.jpg';
 import SelectHouseWrap from '../selectHouse/SelectHouseWrap';
 
 function SideNav({
-  isOpen, setIsOpen, userInformation, selectedProduct, selectedHouse, houses,
+  isOpen, setIsOpen, profileImg, userInformation, selectedProduct, selectedHouse, houses,
 }) {
   const classes = classNames({
     JDsideNav: true,
@@ -22,10 +22,6 @@ function SideNav({
     setIsOpen();
   };
 
-  const profileStyle = {
-    backgroundImage: `url(${profileImg})`,
-  };
-
   return (
     <Fragment>
       <div className={classes}>
@@ -33,7 +29,7 @@ function SideNav({
         <div className="JDsideNav__profill">
           <Link to="/middleServer/myPage">
             <div className="JDsideNav__circle">
-              <ProfileCircle style={profileStyle} />
+              <ProfileCircle profileImg={profileImg} />
             </div>
           </Link>
           <span className="JDsideNav__name">{userInformation.name || '비회원'}</span>

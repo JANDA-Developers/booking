@@ -1736,6 +1736,22 @@
             "deprecationReason": null
           },
           {
+            "name": "canHaveHostApp",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "description",
             "description": "",
             "args": [],
@@ -2639,7 +2655,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price",
+            "name": "defaultPrice",
             "description": "일괄적으로 적용되는 기본 방 가격... RoomPrice, SeasonPrice가 없는 경우 이 가격을 적용함.",
             "args": [],
             "type": {
@@ -6621,6 +6637,16 @@
                   "ofType": null
                 },
                 "defaultValue": null
+              },
+              {
+                "name": "canHaveHostApp",
+                "description": "",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                },
+                "defaultValue": null
               }
             ],
             "type": {
@@ -6758,6 +6784,16 @@
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "canHaveHostApp",
+                "description": "",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
                   "ofType": null
                 },
                 "defaultValue": null
@@ -7312,6 +7348,16 @@
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "defaultPrice",
+                "description": "",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Float",
                   "ofType": null
                 },
                 "defaultValue": null
@@ -8444,6 +8490,16 @@
                 "name": "Boolean",
                 "ofType": null
               }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "memo",
+            "description": "",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null
           }

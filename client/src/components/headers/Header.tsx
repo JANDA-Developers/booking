@@ -2,6 +2,7 @@ import React, { Fragment, useEffect } from 'react';
 import './Header.scss';
 import { NavLink, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { StaticContext, RouteComponentProps } from 'react-router';
 import Button from '../../atoms/button/Button';
 import TooltipList, { ReactTooltip } from '../../atoms/tooltipList/TooltipList';
 import ProfileCircle from '../../atoms/profileCircle/ProfileCircle';
@@ -12,14 +13,29 @@ import { ErrProtecter } from '../../utils/utils';
 import logo from '../../img/logo/logo--white.png'; // with import
 import { useSelect } from '../../actions/hook';
 import SelectHouseWrap from '../selectHouse/SelectHouseWrap';
+import { IHouse } from '../../types/interface';
 
-const Header = ({
+type ITempProps = React.HTMLAttributes<HTMLDivElement> & {
+  isPhoneVerified?: boolean;
+  isLoggedIn?: boolean;
+  className?: string;
+  sideNavOpener: any;
+  selectedHouse: IHouse;
+  houses: IHouse[];
+  logOutMutation: any;
+  profileImg: string;
+};
+
+type IProps = RouteComponentProps<any> & ITempProps;
+
+const Header: React.FC<IProps> = ({
   isPhoneVerified,
   isLoggedIn,
   sideNavOpener,
   selectedHouse,
   houses,
   logOutMutation,
+  profileImg,
 }) => {
   // 셀렉트박스가 읽을수 있도록 변환
   useEffect(() => {
@@ -35,19 +51,16 @@ const Header = ({
       </NavLink>
       {/* 메뉴버튼 */}
       <span className="header__menue">
-        <CircleIcon onClick={sideNavOpener} flat thema="white" darkWave>
+        <CircleIcon onClick={sideNavOpener} thema="white" darkWave>
           <Icon icon="menue" />
         </CircleIcon>
       </span>
       {isLoggedIn ? (
         <Fragment>
           <span data-tip data-delay-hide={0} data-for="listAboutUser" data-event="click" className="header__profile">
-            <ProfileCircle isBordered whiteBorder tiny />
+            <ProfileCircle profileImg={profileImg} isBordered whiteBorder tiny />
           </span>
-          <SelectHouseWrap
-            selectedHouse={selectedHouse}
-            houses={houses}
-          />
+          <SelectHouseWrap selectedHouse={selectedHouse} houses={houses} />
           {isPhoneVerified || (
             <NavLink className="header__btns header__btns--mobileX" to="/middleServer/phoneVerification">
               <Button label="인증하기" blink mode="flat" color="white" />
@@ -74,7 +87,7 @@ const Header = ({
         data-place="bottom"
         data-offset="{'top': 10, 'left': 40}"
       >
-        <CircleIcon flat thema="white" darkWave>
+        <CircleIcon thema="white" darkWave>
           <Icon icon="apps" />
         </CircleIcon>
       </span>
@@ -112,20 +125,5 @@ const Header = ({
   );
 };
 
-Header.propTypes = {
-  isLoggedIn: PropTypes.bool.isRequired,
-  verifiedPhone: PropTypes.bool,
-  sideNavOpener: PropTypes.func,
-  history: PropTypes.any.isRequired,
-  userInformation: PropTypes.object,
-  lastSelectedHouse: PropTypes.object,
-};
-
-Header.defaultProps = {
-  sideNavOpener: () => {},
-  verifiedPhone: false,
-  userInformation: {},
-  lastSelectedHouse: {},
-};
-
-export default ErrProtecter(withRouter(Header));
+//  👿 withRouter로 받는 prop가 없는데 왜...
+export default withRouter(ErrProtecter(Header));

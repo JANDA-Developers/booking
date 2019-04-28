@@ -9,7 +9,7 @@
     position: relative;
     overflow:hidden;
     box-sizing:border-box;
-
+ 
     &:hover {
         cursor:pointer;
         &:after{
@@ -37,5 +37,17 @@
     }
     &--whiteBorder {
         border-color:white;
+    }
+
+
+    &__input {
+        position: absolute;
+        z-index: 10;
+        height: 100%;
+        top: 0;
+        border: 0;
+        left: 0;
+        opacity: 0;
+        right: 0;
     }
 }

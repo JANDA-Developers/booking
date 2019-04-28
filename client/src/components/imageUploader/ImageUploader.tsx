@@ -3,19 +3,22 @@ import React from 'react';
 import './ImageUploader.scss';
 import classnames from 'classnames';
 import Preloader from '../../atoms/preloader/Preloader';
+import { IuseImageUploader } from '../../actions/hook';
 
-interface IProps {
-  uploading: boolean;
-  isError: boolean;
-  fileUrl: string;
+interface IProps extends IuseImageUploader {
   minHeight: string;
   height: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   className?: any;
 }
 
 const ImageUploader: React.SFC<IProps> = ({
-  uploading, fileUrl, isError, onChange, minHeight, height, ...props
+  uploading,
+  fileUrl,
+  isError,
+  onChangeFile,
+  minHeight,
+  height,
+  ...props
 }) => {
   const classes = classnames('imageUploader', props && props.className, {
     'imageUploader--error': isError,
@@ -34,7 +37,7 @@ const ImageUploader: React.SFC<IProps> = ({
 
   return (
     <div className="imageUploader" style={!uploading && !fileUrl ? undefined : imageUploaderStyle}>
-      <input className="imageUploader__input" onChange={onChange} id="photo" type="file" accept="image/*" />
+      <input className="imageUploader__input" onChange={onChangeFile} id="photo" type="file" accept="image/*" />
       <div className="imageUploader__image" style={imageStyle} />
       {uploading && <Preloader />}
     </div>
@@ -45,7 +48,7 @@ ImageUploader.defaultProps = {
   uploading: false,
   isError: false,
   fileUrl: '',
-  onChange: () => {},
+  onChangeFile: () => {},
 };
 
 export default ImageUploader;

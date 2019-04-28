@@ -6,8 +6,8 @@ import DayPicker from '../../../components/dayPicker/DayPicker';
 import Timeline from '../../../components/timeline/Timeline';
 import ErrProtecter from '../../../utils/ErrProtecter';
 import Button from '../../../atoms/button/Button';
-import POPbookerInfo from '../../../components/bookerInfo/BookerModal';
-import { IUseDayPicker, useBookPOP } from '../../../actions/hook';
+import BookerModal from '../../../components/bookerInfo/BookerModal';
+import { IUseDayPicker, useModal2 } from '../../../actions/hook';
 import { initItems, initGroups } from './timelineConfig';
 
 moment.lang('kr');
@@ -21,7 +21,7 @@ interface IProps {
 }
 
 const ShowTimeline: React.SFC<IProps> = ({ dayPickerHook, setConfigMode, defaultProps }) => {
-  const bookerModal = useBookPOP(false);
+  const bookerModal = useModal2(false);
   // 일단 이부분은 쿼리로 대체해보고 시간이 얼마나 걸리는지 재봐야할것같다
   //  !@#!@$!@#!@#!@# 아 몰라 일단 Query 로 해봐 Query 로 해!!!!!!!!!!@!!!!!!!@$$@!$!$@!@
 
@@ -48,23 +48,22 @@ const ShowTimeline: React.SFC<IProps> = ({ dayPickerHook, setConfigMode, default
       timer = null;
     }, timeout);
     // items[itemID].key
-    bookerModal.openModal();
+    bookerModal.openModal({});
   };
   // Handle -- item : TripleClick
   window.addEventListener('click', (evt: any) => {
     if (timer) {
       clearTimeout(timer);
       timer = null;
-      bookerModal.openModal();
+      bookerModal.openModal({});
     }
   });
   // Handle -- item : DoubleClick
   const handleCanvasDoubleClick = (group: any, time: any, e: any) => {
-    bookerModal.setModalInfo({
+    bookerModal.openModal({
       bookerInfo: 'Make',
       time,
     });
-    bookerModal.openModal();
   };
   // Handle --item : Move
   const handleItemMove = (itemId: any, dragTime: any, newGroupOrder: any) => {
@@ -99,12 +98,16 @@ const ShowTimeline: React.SFC<IProps> = ({ dayPickerHook, setConfigMode, default
     updateScrollCanvas(visibleTimeStart, visibleTimeEnd);
   };
 
+  console.log(visibleTime);
+  console.log(visibleTime);
+  console.log(visibleTime);
+
   return (
     <div id="ShowTimeline" className="container container--full">
       <div className="docs-section">
         <div className="flex-grid flex-grid--end">
           <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
-            <DayPicker {...dayPickerHook} onChange={() => {}} input label="input" isRange={false} />
+            <DayPicker {...dayPickerHook} input label="input" isRange={false} />
           </div>
           <Link to="/middleServer/timelineConfig">
             <Button float="right" onClick={setConfigMode} icon="roomChange" label="방구조 변경" />
@@ -128,11 +131,7 @@ const ShowTimeline: React.SFC<IProps> = ({ dayPickerHook, setConfigMode, default
           visibleTimeEnd={visibleTime.end}
           onTimeChange={handleTimeChange}
         />
-        <POPbookerInfo
-          bookerInfo={undefined}
-          bookerModalIsOpen={bookerModal.isOpen}
-          bookerModalClose={bookerModal.closeModal}
-        />
+        <BookerModal bookerInfo={undefined} modalHook={bookerModal} />
       </div>
     </div>
   );

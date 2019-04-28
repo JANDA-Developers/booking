@@ -1,6 +1,6 @@
 import React from 'react';
 import { Mutation } from 'react-apollo';
-import { useInput, useModal2 } from '../../../actions/hook';
+import { useInput, useModal2, useImageUploader } from '../../../actions/hook';
 import { UPDATE_MYPROFILE, GET_USER_INFO } from '../../../queries';
 import { onError, onCompletedMessage } from '../../../utils/utils';
 import MyPage from './MyPage';
@@ -13,15 +13,13 @@ interface IProps {
 }
 
 const MypageWrap: React.SFC<IProps> = ({ houses, userData, ...props }) => {
-  console.log('userData 🎷');
-  console.log(userData);
-
   const nameHook = useInput(userData.name, true);
   const phoneNumberHook = useInput(userData.phoneNumber, true);
   const emailHook = useInput(userData.email, true);
   const passwordHook = useInput('');
   const passWordModal = useModal2(false);
   const houseModal = useModal2(false);
+  const profileCircleHook = useImageUploader(userData.profileImg);
 
   return (
     // Mutation : 프로필 업데이트
@@ -34,6 +32,7 @@ const MypageWrap: React.SFC<IProps> = ({ houses, userData, ...props }) => {
         phoneNumber: phoneNumberHook.value,
         email: emailHook.value,
         password: passwordHook.value,
+        profileImg: profileCircleHook.fileUrl,
       }}
       onCompleted={({ UpdateMyProfile }: any) => {
         onCompletedMessage(UpdateMyProfile, '프로필 업데이트', '프로필 업데이트 실패');
@@ -43,6 +42,7 @@ const MypageWrap: React.SFC<IProps> = ({ houses, userData, ...props }) => {
         <MyPage
           houses={houses}
           nameHook={nameHook}
+          profileCircleHook={profileCircleHook}
           phoneNumberHook={phoneNumberHook}
           passwordHook={passwordHook}
           emailHook={emailHook}

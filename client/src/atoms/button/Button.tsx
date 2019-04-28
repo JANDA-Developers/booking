@@ -15,7 +15,8 @@ interface IProps extends React.HTMLAttributes<HTMLButtonElement> {
   iconClasses?: string[];
   dataTip?: any;
   dataFor?: any;
-  mode?: 'flat' | 'small' | 'large' | 'normal' | 'long';
+  mode?: 'flat' | 'normal' | 'long';
+  size?: 'small' | 'large';
   flat?: boolean;
   float?: string;
   type?: 'button' | 'submit' | 'reset' | undefined;
@@ -45,12 +46,13 @@ const Button: React.FC<IProps> = ({
   blink,
   preloader,
   className,
+  size,
   ...props
 }) => {
   const classes = classNames('JDbtn', className, {
     'JDbtn--flat': mode === 'flat' || flat,
-    'JDbtn--small': mode === 'small',
-    'JDbtn--large': mode === 'large',
+    'JDbtn--small': size === 'small',
+    'JDbtn--large': size === 'large',
     'JDbtn--long': mode === 'long',
     'JDbtn--left': float === 'left',
     'JDbtn--right': float === 'right',

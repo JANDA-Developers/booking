@@ -24,7 +24,7 @@ const product = ({
     <div
       data-tip={isCurrent}
       data-tip-disable={!disabled && !isSelected}
-      data-for="tooltip__disabled"
+      data-for={productIndex === '상품1' || 'tooltip__disabled'}
       data-type={isCurrent ? 'success' : 'dark'}
       className={`JDproduct ${isSelected ? 'JDproduct--selected' : null}`}
       key={`product--${value}${modifer}`}

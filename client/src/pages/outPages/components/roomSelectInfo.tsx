@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 import JDtable, { ReactTableDefault } from '../../../atoms/table/Table';
+import JDbox from '../../../atoms/box/JDbox';
 
 interface IProps {
   className?: string;
@@ -31,10 +32,10 @@ const RoomSelectInfo: React.FC<IProps> = ({ className }) => {
   return (
     <div className={classes}>
       <JDtable columns={TableColumns} {...ReactTableDefault} minRows={1} noDataText="선택사항이 없습니다." />
-      <div className="JDselectInfo__priceResultBox">
+      <JDbox mode="border">
         <span>총가격 :</span>
         <span> /원</span>
-      </div>
+      </JDbox>
     </div>
   );
 };

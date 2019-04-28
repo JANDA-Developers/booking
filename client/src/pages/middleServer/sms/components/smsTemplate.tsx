@@ -49,9 +49,9 @@ const HouseCard: React.SFC<IProps> = () => {
         <Switch label="활성화" />
       </div>
       <div>
-        <Button mode="large" thema="primary" label="추가" />
-        <Button mode="large" thema="primary" label="저장" />
-        <Button mode="large" thema="warn" label="삭제" />
+        <Button size="large" thema="primary" label="추가" />
+        <Button size="large" thema="primary" label="저장" />
+        <Button size="large" thema="warn" label="삭제" />
       </div>
     </Fragment>
   );

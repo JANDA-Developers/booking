@@ -47,13 +47,30 @@ const useFetch = (url: useFetchProp) => {
   return [data, isLoading, isError, doGet];
 };
 
+export interface IuseImageUploader {
+  fileUrl: string;
+  uploading: boolean;
+  isError: boolean;
+  onChangeFile(event: React.ChangeEvent<HTMLInputElement | undefined>): void;
+  setFileUrl: React.Dispatch<any>;
+}
+
+// 이건 프로필 서클 conifg를 위해서
+export interface IuseProfileUploader {
+  fileUrl?: string;
+  uploading?: boolean;
+  isError?: boolean;
+  onChangeFile?(event: React.ChangeEvent<HTMLInputElement | undefined>): void;
+  setFileUrl?: React.Dispatch<any>;
+}
+
 //  이미지 업로더
-const useImageUploader = () => {
-  const [fileUrl, setFileUrl] = useState();
+const useImageUploader = (foo?: any): IuseImageUploader => {
+  const [fileUrl, setFileUrl] = useState(foo);
   const [uploading, setUploading] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  const onChange = async (event: React.ChangeEventHandler<HTMLInputElement | undefined>) => {
+  const onChangeFile = async (event: React.ChangeEvent<HTMLInputElement | undefined>) => {
     if (event) {
       const {
         target: { name, value, files },
@@ -87,7 +104,7 @@ const useImageUploader = () => {
     fileUrl,
     uploading,
     isError,
-    onChange,
+    onChangeFile,
     setFileUrl,
   };
 };
@@ -297,34 +314,6 @@ function useModal2<IUseModal>(defaultValue: boolean, defaultInfo: any = {}) {
   };
 }
 
-// 🚫 Depreacted 될겁니다.
-// booker ID 를 모달 여기 함수에 전달하고 booker info를 리턴하도록 설계
-function useBookPOP(defaultValue: boolean) {
-  const [isOpen, setIsOpen] = useState(defaultValue);
-  const [bookerInfo, inSetPOPInfo] = useState(null);
-
-  const openModal = () => {
-    setIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsOpen(false);
-    inSetPOPInfo(null);
-  };
-
-  const setModalInfo = (info: any) => {
-    inSetPOPInfo(info);
-  };
-
-  return {
-    isOpen,
-    openModal,
-    closeModal,
-    setModalInfo,
-    bookerInfo,
-  };
-}
-
 export {
   useInput,
   useCheckBox,
@@ -334,7 +323,6 @@ export {
   useToggle,
   useFetch,
   useModal,
-  useBookPOP,
   useModal2,
   useDebounce,
   useImageUploader,

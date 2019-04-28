@@ -12,13 +12,11 @@ import './MyPage.scss';
 import MyHouseModalWrap from './components/myHouseModalWrap';
 import { IHouse } from '../../../types/interface';
 import Preloader from '../../../atoms/preloader/Preloader';
-
-const profileStyle = {
-  backgroundImage: `url(${profileImg})`,
-};
+import { useImageUploader, IuseImageUploader } from '../../../actions/hook';
 
 interface IProps {
   houses: IHouse[];
+  profileCircleHook: IuseImageUploader;
   [foo: string]: any;
 }
 
@@ -32,7 +30,12 @@ const Mypage: React.SFC<IProps> = ({
   houseModal,
   passWordModal,
   loading,
+  profileCircleHook,
 }) => {
+  const profileStyle = {
+    backgroundImage: `url(${profileImg})`,
+  };
+
   const checkUpdateMutation = (e: any) => {
     e.preventDefault();
 
@@ -63,7 +66,7 @@ const Mypage: React.SFC<IProps> = ({
           <form>
             <h2>MyPage</h2>
             <div className="myPage__profileCircle">
-              <ProfileCircle isBordered style={profileStyle} />
+              <ProfileCircle {...profileCircleHook} config isBordered style={profileStyle} />
               <p>{`숙소 ${houses.length}개 보유중`}</p>
             </div>
             <InputText {...nameHook} validation={utils.isName} label="성함" />

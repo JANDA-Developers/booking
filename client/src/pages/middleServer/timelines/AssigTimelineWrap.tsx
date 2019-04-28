@@ -1,9 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import moment from 'moment';
-import React, { useState } from 'react';
-import { useBookPOP, useToggle, useDayPicker } from '../../../actions/hook';
+import React from 'react';
+import { useToggle, useDayPicker } from '../../../actions/hook';
 import AssigTimeline from './AssigTimeline';
-import { defaultProps, initGroups, initItems } from './timelineConfig';
+import { defaultProps } from './timelineConfig';
 
 interface IProps {
   houseId: string;

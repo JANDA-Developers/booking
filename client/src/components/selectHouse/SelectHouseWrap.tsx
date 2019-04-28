@@ -24,6 +24,7 @@ const SelectHouseWrap: React.SFC<IProps> = ({ houses = [], selectedHouse }) => {
   };
   const selectedHouseHook = useSelect(selectedHouseOption);
 
+  //  👿 안티패턴: 키로 해결하는게 Better
   useEffect(() => {
     selectedHouseHook.onChange(selectedHouseOption);
   }, [selectedHouse._id]);

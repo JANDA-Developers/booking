@@ -19,6 +19,7 @@
     margin-right: $buttons-space;
 }
 
+// 🚩다이브 안 오른쪽에 마진제거
 div {
     & > .JDbtn,
     & > .JDcheck_box_wrap,
@@ -27,6 +28,7 @@ div {
     & > .JDselect,
     & > .JDdatePcikerInformation,
     & > .circleIcon,
+    & > .profileCircle,
     & > .imageUploader,
     & > .JDslider,
     & > .JDpagination,
@@ -41,6 +43,8 @@ div {
         }
     }
 }
+
+// 🚩카드의 마지막과 테이블안, 기타 안에서 마진 제거 
 
 // 링크와 아이콘 간격1
 .JDanchor .JDicon__svg {
@@ -63,7 +67,8 @@ div {
 .JDcolorPicker,
 .JDinput,
 .JDtextarea,
-.JDsearchInput {
+.JDsearchInput,
+.JDbox--border {
     margin-bottom: $standard-margin-bottom;
 }
 
@@ -84,7 +89,8 @@ div {
     .JDcolorPicker,
     .JDinput,
     .JDtextarea,
-    .JDsearchInput  {
+    .JDsearchInput,
+    .JDbox--border,  {
         margin: 0;
     } 
 }
@@ -92,41 +98,67 @@ div {
 
 //  카드의 마지막차일드  안에있는것 또는, 마지막의 마진을 제거
 .JDcard > *:last-child {
-    .JDcheck_box_wrap,
     &.JDcheck_box_wrap,
-    .JDswitch-wrap,
     &.JDswitch-wrap,
-    .JDradio,
     &.JDradio,
-    .JDselect,
     &.JDselect,
-    .JDbtn,
     &.JDbtn,
-    .JDdatePcikerInformation,
     &.JDdatePcikerInformation,
-    .circleIcon,
     &.circleIcon,
-    .imageUploader,
     &.imageUploader,
-    .JDslider,
     &.JDslider,
-    .JDpagination,
     &.JDpagination,
-    .JDcard,
     &.JDcard,
-    .JDtable,
     &.JDtable,
-    .JDcolorPicker,
     &.JDcolorPicker,
-    .JDinput,
     &.JDinput,
-    .JDtextarea,
     &.JDtextarea,
-    .JDinput-wrap,
     &.JDinput-wrap,
-    .JDsearchInput,
-    &.JDsearchInput  {
-            margin-bottom:0;
+    &.JDsearchInput
+    .JDcheck_box_wrap,
+    .JDswitch-wrap,
+    .JDradio,
+    .JDselect,
+    .JDbtn,
+    .JDdatePcikerInformation,
+    .circleIcon,
+    .imageUploader,
+    .JDslider,
+    .JDpagination,
+    .JDcard,
+    .JDtable,
+    .JDcolorPicker,
+    .JDinput,
+    .JDtextarea,
+    .JDinput-wrap,
+    .JDsearchInput {
+        &:last-child {
+        margin-bottom:0;
+            .JDinput {
+                margin-bottom:0;
+            }
         }
-
     }
+}
+
+.JDcard > *:last-child {
+    &.JDcheck_box_wrap,
+    &.JDswitch-wrap,
+    &.JDradio,
+    &.JDselect,
+    &.JDbtn,
+    &.JDdatePcikerInformation,
+    &.circleIcon,
+    &.imageUploader,
+    &.JDslider,
+    &.JDpagination,
+    &.JDcard,
+    &.JDtable,
+    &.JDcolorPicker,
+    &.JDinput,
+    &.JDtextarea,
+    &.JDinput-wrap,
+    &.JDsearchInput{
+        margin-bottom: 0;
+    }
+}

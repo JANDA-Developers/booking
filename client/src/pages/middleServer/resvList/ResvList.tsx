@@ -8,8 +8,9 @@ import JDtable, { ReactTableDefault } from '../../../atoms/table/Table';
 import JDselect from '../../../atoms/forms/SelectBox';
 import CheckBox from '../../../atoms/forms/CheckBox';
 import Button from '../../../atoms/button/Button';
-import JDIcon from '../../../atoms/icons/Icons';
+import JDIcon, { IconSize } from '../../../atoms/icons/Icons';
 import { useModal2 } from '../../../actions/hook';
+import BookerModalWrap from '../../../components/bookerInfo/BookerModalWrap';
 
 interface IProps {}
 
@@ -116,7 +117,7 @@ const ResvList: React.SFC<IProps> = () => {
       Header: '상세',
       accessor: 'id',
       minWidth: 50,
-      Cell: () => <JDIcon size="1.5rem" hover icon="person" />,
+      Cell: () => <JDIcon onClick={bookerModalHook.openModal} size={IconSize.MEDIUM} hover icon="person" />,
     },
   ];
 
@@ -145,10 +146,10 @@ const ResvList: React.SFC<IProps> = () => {
       <div className="docs-section">
         <h3>예약목록</h3>
         <div>
-          <Button thema="primary" label="예약확정" />
-          <Button thema="primary" label="예약대기" />
-          <Button thema="primary" label="예약취소" />
-          <Button thema="warn" label="예약삭제" />
+          <Button size="small" thema="primary" label="예약확정" />
+          <Button size="small" thema="primary" label="예약대기" />
+          <Button size="small" thema="primary" label="예약취소" />
+          <Button size="small" thema="warn" label="예약삭제" />
         </div>
         <SelectableJDtable
           {...ReactTableDefault}
@@ -163,6 +164,7 @@ const ResvList: React.SFC<IProps> = () => {
           isSelected={(key: string) => checkedIds[key] !== undefined}
           columns={TableColumns}
         />
+        <BookerModalWrap modalHook={bookerModalHook} />
       </div>
     </div>
   );

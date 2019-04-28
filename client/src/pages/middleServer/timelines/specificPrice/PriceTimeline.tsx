@@ -1,21 +1,20 @@
 import React from 'react';
 import 'moment/locale/ko';
+import moment from 'moment';
 import { MutationFn } from 'react-apollo';
-import { Link } from 'react-router-dom';
 import Timeline from '../../../../components/timeline/Timeline';
 import ErrProtecter from '../../../../utils/ErrProtecter';
-import Button from '../../../../atoms/button/Button';
 import './PriceTimeline.scss';
 import {
   getAllRoomTypePrice_GetAllRoomType_roomTypes as IRoomType,
   createRoomPrice,
   createRoomPriceVariables,
 } from '../../../../types/api';
-import { ADD_ROOM } from '../ModifyTimelineWrap';
 import Preloader from '../../../../atoms/preloader/Preloader';
-import isLastRendered from '../components/timelineUtils';
 import { IItem } from './PriceTimelineWrap';
 import InputText from '../../../../atoms/forms/InputText';
+import { useDayPicker } from '../../../../actions/hook';
+import JDdayPicker from '../../../../components/dayPicker/DayPicker';
 
 const LAST_ROOMTYPE: any = 'unRendered'; // 방들중에 방타입이 다른 마지막을 체크할것
 
@@ -28,6 +27,13 @@ interface IProps {
   loading: boolean;
   roomTypesData: IRoomType[] | undefined;
   createRoomPriceMu: MutationFn<createRoomPrice, createRoomPriceVariables>;
+  visibleTime: { start: number; end: number };
+  setVisibleTime: React.Dispatch<
+    React.SetStateAction<{
+      start: number;
+      end: number;
+    }>
+  >;
 }
 
 const ModifyTimeline: React.SFC<IProps> = ({
@@ -38,8 +44,11 @@ const ModifyTimeline: React.SFC<IProps> = ({
   createRoomPriceMu,
   houseId,
   priceMap,
+  visibleTime,
+  setVisibleTime,
   ...timelineProps
 }) => {
+  const dateInputHook = useDayPicker(null, null);
   // 그룹 렌더
   const ModifyGroupRendererFn = ({ group }: any) => {
     const roomType: IRoomType | undefined = roomTypesData && roomTypesData[group.roomTypeIndex];
@@ -52,7 +61,17 @@ const ModifyTimeline: React.SFC<IProps> = ({
     );
   };
 
-  const onInputBlur = (value: string, item: IItem) => {
+  const dateInputChange = (start: string, end: string) => {
+    setVisibleTime({
+      start: moment(start).valueOf(),
+      end: moment(end)
+        .add(7, 'day')
+        .valueOf(),
+    });
+  };
+
+  const handleItemClick = () => {};
+  const handleInputBlur = (value: string, item: IItem) => {
     const inValue = parseInt(value, 10);
 
     // ❓ 뭔가 잘못됨 이부분에 관해서는... 항상 값이 있어야하는데
@@ -79,14 +98,12 @@ const ModifyTimeline: React.SFC<IProps> = ({
     item, itemContext, getItemProps, getResizeProps,
   }: any) => {
     const props = getItemProps(item.itemProps);
-    console.log('item');
-    console.log(item);
     return (
       <div style={{ ...props.style, backgroundColor: 'transparent', border: 'none' }}>
         <InputText
           defaultValue={priceMap.get(item.id)}
           onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
-            onInputBlur(e.currentTarget.value, item);
+            handleInputBlur(e.currentTarget.value, item);
           }}
         />
       </div>
@@ -94,7 +111,12 @@ const ModifyTimeline: React.SFC<IProps> = ({
   };
   // 사이드 탑 렌더
 
-  const handleItemClick = () => {};
+  const handleTimeChnage = (visibleTimeStart: number, visibleTimeEnd: number, updateScrollCanvas: any) => {
+    console.log(visibleTimeStart);
+    console.log(visibleTimeStart);
+    console.log(visibleTimeStart);
+    updateScrollCanvas(visibleTimeStart, visibleTimeEnd);
+  };
 
   // Calendar methods
   const handleCanvasClick = (groupId: any, time: any, event: any) => {
@@ -103,10 +125,14 @@ const ModifyTimeline: React.SFC<IProps> = ({
 
   const modifySideBarRendererFn = () => <div className="modify__sideTop" />;
 
+  console.log('visibleTime');
+  console.log(visibleTime);
+  console.log(visibleTime);
+
   return (
     <div id="specificPrice" className="specificPrice container container--full">
       <div className="docs-section">
-        <InputText />
+        <JDdayPicker onChangeDate={dateInputChange} isRange={false} input label="달력날자" {...dateInputHook} />
         <div className="flex-grid flex-grid--end">
           <div className="flex-grid__col col--full-4 col--lg-4 col--md-6">
             <h3>방생성 및 수정</h3>
@@ -120,6 +146,9 @@ const ModifyTimeline: React.SFC<IProps> = ({
               items={items || []}
               groups={roomTypesData || []}
               onItemClick={handleItemClick}
+              onTimeChange={handleTimeChnage}
+              visibleTimeStart={visibleTime.start}
+              visibleTimeEnd={visibleTime.end}
               onCanvasClick={handleCanvasClick}
               itemRenderer={itemRendererFn}
               groupRenderer={ModifyGroupRendererFn}

@@ -6,7 +6,7 @@ import JDIcon from '../icons/Icons';
 
 interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;
-  mode?: 'table';
+  mode?: 'table' | 'border';
   label?: JSX.Element | string;
   icon?: string;
   iconHover?: boolean;
@@ -17,7 +17,9 @@ const JDbox: React.FC<IProps> = ({
   children, className, label, iconOnClick, icon, iconHover, mode, ...props
 }) => {
   const classes = classNames('JDbox', className, {
+    'JDbox--normal': mode === undefined,
     'JDbox--table': mode === 'table',
+    'JDbox--border': mode === 'border',
   });
 
   return (

@@ -57,7 +57,7 @@ const JDmiddleServer: React.SFC<IProps> = ({
   if (isEmpty(selectedHouse) && !isEmpty(houses)) [selectedHouse] = houses;
 
   const selectedProduct = selectedHouse.product || {};
-  const { isPhoneVerified, userRole } = user;
+  const { isPhoneVerified, userRole, profileImg } = user;
 
   return isloading ? (
     <Preloader page />
@@ -77,6 +77,7 @@ const JDmiddleServer: React.SFC<IProps> = ({
             isLoggedIn={isLoggedIn}
             sideNavOpener={setSideNavIsOpen}
             houses={houses}
+            profileImg={profileImg}
           />
         )}
       />
@@ -88,6 +89,7 @@ const JDmiddleServer: React.SFC<IProps> = ({
         userInformation={user}
         setIsOpen={setSideNavIsOpen}
         houses={houses}
+        profileImg={profileImg}
       />
       {/* 라우팅 시작 */}
       <Switch>
