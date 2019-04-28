@@ -32,7 +32,7 @@ import { IHouse } from '../../../../types/interface';
 class GetAllRoomTypePriceQuery extends Query<getAllRoomTypePrice, getAllRoomTypePriceVariables> {}
 class CreateRoomPriceMu extends Mutation<createRoomPrice, createRoomPriceVariables> {}
 
-export interface IItems {
+export interface IItem {
   id: string;
   group: string;
   name: string;
@@ -53,8 +53,8 @@ interface IPropItemMaker {
 
 const itemMaker = ({
   startDate, endDate, priceMap, roomTypes,
-}: IPropItemMaker): IItems[] => {
-  let items: IItems[] = [];
+}: IPropItemMaker): IItem[] => {
+  let items: IItem[] = [];
   let now = startDate;
 
   const roomTpyesMapFn = (roomType: IRoomType) => ({
@@ -111,7 +111,7 @@ const PriceTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
   const priceMapMaker = (priceData: roomPrices[]): Map<any, any> => {
     const priceMap = new Map();
     priceData.map((price) => {
-      priceMap.set(price.roomType._id + price.date, price.price);
+      priceMap.set(price.roomType._id + moment(price.date).valueOf(), price.price);
     });
     return priceMap;
   };
@@ -124,16 +124,15 @@ const PriceTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
     >
       {({ data, loading, error }) => {
         showError(error);
+
         const roomTypesData = QueryDataFormater(data, 'GetAllRoomType', 'roomTypes', undefined); // 원본데이터
         const roomPriceData = QueryDataFormater(data, 'GetAllRoomPrice', 'roomPrices', undefined); // 원본데이터
 
-        console.log('data');
-        console.log(data);
-        console.log('roomPriceData');
-        console.log(roomPriceData);
-
         const priceMap = roomPriceData ? priceMapMaker(roomPriceData) : new Map();
 
+        console.log('data');
+        console.log(data);
+        console.log('priceMap');
         console.log(priceMap);
 
         const items = roomTypesData

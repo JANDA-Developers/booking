@@ -129,19 +129,21 @@
         }
       ]
     },
-    "overrides": [{
-      "files": [
-        "**/*.ts",
-        "**/*.tsx"
-      ],
-      "rules": {
-        "no-unused-vars": 0,
-        "no-undef": [
-          "off"
+    "overrides": [
+      {
+        "files": [
+          "**/*.ts",
+          "**/*.tsx"
         ],
-        "react/prop-types": 0
+        "rules": {
+          "no-unused-vars": 0,
+          "no-undef": [
+            "off"
+          ],
+          "react/prop-types": 0
+        }
       }
-    }]
+    ]
   },
   "eslintIgnore": [
     "naverMap.js",

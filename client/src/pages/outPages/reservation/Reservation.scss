@@ -1,13 +1,15 @@
-@import '../../style_config/style_config';
+@import '../../../style_config/style_config';
 
 
 $flex-grid--column-margin: .8%;
 
 $roomCardHeight: 130px;
 
-#JDreservation {
 
+#JDreservation {
+    
     // 😆 어떻게 그리드 시스템을 오버라이드 하는지 보여줌
+
     .flex-grid {
 
         @include grid-system(full);
@@ -50,7 +52,7 @@ $roomCardHeight: 130px;
 
         &__imgSection {
             max-width: $roomCardHeight * 1.68;
-            background-image: url('../../img/default_room.png');
+            background-image: url('../../../img/default_room.png');
             background-size: contain;
             background-position:center center;
             background-repeat: no-repeat;

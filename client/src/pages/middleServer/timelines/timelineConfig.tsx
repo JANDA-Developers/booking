@@ -149,6 +149,7 @@ const PriceDefaultProps = {
   canChangeGroup: false,
   itemTouchSendsClick: false,
   stackItems: true,
+  traditionalZoom: false,
   itemHeightRatio: 1,
   showCursorLine: false,
   lineHeight: 54,

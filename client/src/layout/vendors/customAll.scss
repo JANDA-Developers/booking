@@ -25,8 +25,6 @@ ul, menu, dir {
     clear:both;
 }
 
-
-
 a.JDanchor {
     outline: 0;
     text-decoration: none;
@@ -64,6 +62,16 @@ a.JDanchor {
 
 .JDlarge-warring-text {
     color: $error-color
+}
+
+.JDz-index-1 {
+    position: relative;
+    z-index: $z-index-1
+}
+
+.JDz-index-2 {
+    position: relative;
+    z-index: $z-index-2
 }
 
 body {

@@ -14,4 +14,8 @@
         background-color: $grey-level1;
         cursor:pointer;
     }
+
+    & > *:last-child {
+        margin-bottom: 0;
+    }
 }

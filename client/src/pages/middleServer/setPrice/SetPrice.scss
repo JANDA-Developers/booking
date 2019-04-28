@@ -14,4 +14,20 @@
     .circleIcon {
         margin-bottom: 0;
     }
+
+    &__cell {
+        flex: 1;
+    }
+
+    &__mbController {
+        @include response ($full,$phablet) {
+            display: none;
+        }
+    }
+
+    &__pcController {
+        @include response ($phabletUp,$null) {
+            display: none;
+        }
+    }
 }

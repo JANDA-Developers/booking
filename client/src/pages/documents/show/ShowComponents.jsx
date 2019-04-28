@@ -85,7 +85,7 @@ function ShowComponents() {
     {
       Header: '번호',
       accessor: 'index',
-      Cell: props => <span>{props.index}</span>,
+      Cell: ({ index }) => <span>{index}</span>,
     },
     {
       Header: '우선순위',

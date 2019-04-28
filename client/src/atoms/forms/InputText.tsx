@@ -7,8 +7,10 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import JDicon from '../icons/Icons';
 import ErrProtecter from '../../utils/ErrProtecter';
-import { NEUTRAL } from '../../utils/Enums';
 import autoHyphen from '../../utils/AutoHyphen';
+import { NEUTRAL } from '../../types/apiEnum';
+import { isEmpty } from '../../utils/utils';
+import { getByteLength } from '../../utils/math';
 
 interface IProps extends React.HTMLAttributes<HTMLInputElement> {
   readOnly?: boolean;
@@ -26,7 +28,7 @@ interface IProps extends React.HTMLAttributes<HTMLInputElement> {
   validation?: any;
   // 음... 곤란하군 만약에 이벤트 객체를 핸들링할 경우가 생긴다면
   // onChnage=> onChangeValue로 바꾸어야겠다.
-  onChange?(foo?:any): void;
+  onChange?(foo?: any): void;
   onChangeValid?: any;
   onBlur?: any;
   refContainer?: any;
@@ -34,6 +36,7 @@ interface IProps extends React.HTMLAttributes<HTMLInputElement> {
   value?: string;
   max?: number;
   defaultValue?: string;
+  // 컨트롤 일때만 작동함
   hyphen?: boolean;
 }
 
@@ -69,7 +72,8 @@ const InputText: React.FC<IProps> = ({
     onChangeValid(result);
   };
 
-  const classes = classNames(textarea ? 'JDtextarea' : 'JDinput', props && props.className, {
+  const { className } = props;
+  const classes = classNames(textarea ? 'JDtextarea' : 'JDinput', className, {
     'JDinput--valid': isValid === true && !textarea,
     'JDinput--invalid': isValid === false && !textarea,
     /* --------------------------------- 텍스트어리어 --------------------------------- */
@@ -89,7 +93,17 @@ const InputText: React.FC<IProps> = ({
     if (defaultValue !== undefined) domInput.value = defaultValue;
   }, []);
 
+  const valueFormat = () => {
+    if (value) {
+      return hyphen ? autoHyphen(value) : value;
+    }
+    return undefined;
+  };
+  const formatedValue = valueFormat();
+
   // 인풋 과 텍스트어리어 경계
+
+  console.log(props);
   return !textarea ? (
     <div className="JDinput-wrap">
       {icon !== '' ? (
@@ -103,11 +117,11 @@ const InputText: React.FC<IProps> = ({
         readOnly={readOnly}
         onBlur={onBlur}
         type={type}
-        value={hyphen ? autoHyphen(value) : value}
+        value={formatedValue}
         ref={refContainer || inRefContainer}
         data-color="1213"
-        {...props}
         className={classes}
+        {...props}
       />
       <label htmlFor="JDinput" data-error={dataError} data-success={dataSuccess} className="JDinput_label">
         {label}
@@ -128,6 +142,7 @@ const InputText: React.FC<IProps> = ({
       <label htmlFor="JDtextarea" className="JDtextarea_label">
         {label}
       </label>
+      <span className="JDtextarea__byte">{getByteLength(value)}</span>
     </div>
   );
 };

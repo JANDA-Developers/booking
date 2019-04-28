@@ -29,7 +29,6 @@
   height: $input-height;
   width: 100%;
   font-size: $input-font-size;
-  margin: $input-margin;
   margin-top: $textarea-margin-top;
   padding: $input-padding;
   box-shadow: none;
@@ -149,6 +148,15 @@
   /* prevents text jump on Enter keypress */
   resize: none;
   min-height: $input-height;
+
+  // 🅱️ 바이트 계산 
+  &__byte {
+    position:absolute;
+    font-size: $typho-tiny;
+    color:$grey-level2;
+    right:0;
+    bottom: calc(#{$standard-margin-bottom} + 8px) ;
+  }
 }
 
 // For textarea autoresize

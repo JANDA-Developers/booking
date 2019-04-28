@@ -9,7 +9,7 @@ interface IProps {
   label?: string;
   className?: string;
   onChange?(foo: boolean): void;
-  id?:string
+  id?: string;
 }
 
 const Checkbox: React.FC<IProps> = ({
@@ -26,7 +26,7 @@ const Checkbox: React.FC<IProps> = ({
   return (
     <span className="JDcheck_box_wrap" tabIndex={0} role="button" onKeyPress={onHandleClick} onClick={onHandleClick}>
       <input {...props} onChange={() => {}} checked={checked} disabled={disabled} className={classes} type="checkbox" />
-      {label && <span className="JDcheck_box_label">{label}</span>}
+      <span className="JDcheck_box_label">{label}</span>
     </span>
   );
 };

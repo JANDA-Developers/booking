@@ -5,7 +5,6 @@ import {
 } from '../types/api';
 import { IselectedOption } from '../atoms/forms/SelectBox';
 
-export default interface IHouses extends getMyProfile_GetMyProfile_user_houses {}
 export interface IUser extends getMyProfile_GetMyProfile_user {}
 export interface IHouse extends getHouse_GetHouse_house {}
 export interface IDiv extends React.HTMLAttributes<HTMLDivElement> {}

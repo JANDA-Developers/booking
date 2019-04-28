@@ -2,10 +2,11 @@
 import ErrProtecter from './ErrProtecter';
 import isEmpty from './IsEmpty';
 import toast from './Toast';
-import { NEUTRAL } from './Enums';
 import download from './DownloadFile';
 import autoHypen from './AutoHyphen';
-import { JDMonthTextChanger, JDWeekChanger } from './TextChanger';
+import {
+  JDMonthTextChanger, JDWeekChanger, applyDaysToArr, arrToApplyDays,
+} from './dayOfweeks';
 import {
   isEmail, isPhone, isName, isUrl, isMaxOver, isPassword,
 } from './InputValidation';
@@ -16,9 +17,10 @@ import QueryDataFormater from './QueryDataFormat';
 import pageNationFormater from './paginationFormat';
 import { encodeB64, decodeB64 } from './BtoA';
 import setMidNight from './setMidNight';
+import stringToPrice from './stringToPrice';
+
 const JDutils = {
   ErrProtecter,
-  NEUTRAL,
   isEmpty,
   isEmail,
   isPhone,
@@ -37,6 +39,9 @@ const JDutils = {
   encodeB64,
   decodeB64,
   setMidNight,
+  applyDaysToArr,
+  arrToApplyDays,
+  stringToPrice,
 };
 
 export default JDutils;
@@ -45,7 +50,6 @@ export {
   JDMonthTextChanger,
   JDWeekChanger,
   isEmpty,
-  NEUTRAL,
   toast,
   download,
   ErrProtecter,
@@ -57,4 +61,7 @@ export {
   encodeB64,
   decodeB64,
   setMidNight,
+  applyDaysToArr,
+  arrToApplyDays,
+  stringToPrice,
 };

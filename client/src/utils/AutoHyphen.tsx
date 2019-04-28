@@ -1,4 +1,4 @@
-const autoHypenPhone = (str) => {
+const autoHypenPhone = (str: string = ''): string => {
   const inStr = str.replace(/[^0-9]/g, '');
   let tmp = '';
   if (inStr.length < 4) {

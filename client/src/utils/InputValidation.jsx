@@ -1,4 +1,4 @@
-import { NEUTRAL } from './Enums';
+import { NEUTRAL } from '../types/apiEnum';
 
 const isUrl = (string) => {
   const regExp = /^http(s)?:\/\/(www\.)?[a-z0-9]+([-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;

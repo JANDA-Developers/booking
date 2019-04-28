@@ -4,30 +4,52 @@
 @import '../../style_config/style_config';
 
 // 인풋과 다음 물체의 간격
-.JDcheck_box_wrap+*,
-.JDswitch+*,
-.JDradio+*,
-.JDselect+*,
-.JDbtn+*,
-.circleIcon+*,
-.profileCircle+*,
-.JDcolorPicker+ *, {
-    margin-left: $standard-space;
+.JDcheck_box_wrap,
+.JDswitch-wrap,
+.JDradio,
+.JDselect,
+.circleIcon,
+.profileCircle,
+.JDcolorPicker, {
+    margin-right: $standard-space;
 }
 
 // 버튼 사이의 간격
-.JDbtn+.JDbtn, .JDbtn + a {
-    margin-left: $buttons-space;
+.JDbtn, .JDbtn + a {
+    margin-right: $buttons-space;
 }
 
-// 링크와 아이콘 간격
+div {
+    & > .JDbtn,
+    & > .JDcheck_box_wrap,
+    & > .JDswitch,
+    & > .JDradio,
+    & > .JDselect,
+    & > .JDdatePcikerInformation,
+    & > .circleIcon,
+    & > .imageUploader,
+    & > .JDslider,
+    & > .JDpagination,
+    & > .JDcard,
+    & > .JDtable,
+    & > .JDcolorPicker,
+    & > .JDinput,
+    & > .JDtextarea,
+    & > .JDsearchInput {
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+}
+
+// 링크와 아이콘 간격1
 .JDanchor .JDicon__svg {
-    margin-left: $standard-icon-margin / 2 ;
+    margin-right: $standard-icon-margin / 2 ;
 }
 
 // 마진 bottom
 .JDcheck_box_wrap,
-.JDswitch,
+.JDswitch-wrap,
 .JDradio,
 .JDselect,
 .JDbtn,
@@ -38,6 +60,73 @@
 .JDpagination,
 .JDcard,
 .JDtable,
-.JDcolorPicker  {
+.JDcolorPicker,
+.JDinput,
+.JDtextarea,
+.JDsearchInput {
     margin-bottom: $standard-margin-bottom;
 }
+
+// 테이블 안의 마진 제거
+.JDtable,.react-tabs__tab {
+    .JDcheck_box_wrap,
+    .JDswitch-wrap,
+    .JDradio,
+    .JDselect,
+    .JDbtn,
+    .JDdatePcikerInformation,
+    .circleIcon,
+    .imageUploader,
+    .JDslider,
+    .JDpagination,
+    .JDcard,
+    .JDtable,
+    .JDcolorPicker,
+    .JDinput,
+    .JDtextarea,
+    .JDsearchInput  {
+        margin: 0;
+    } 
+}
+
+
+//  카드의 마지막차일드  안에있는것 또는, 마지막의 마진을 제거
+.JDcard > *:last-child {
+    .JDcheck_box_wrap,
+    &.JDcheck_box_wrap,
+    .JDswitch-wrap,
+    &.JDswitch-wrap,
+    .JDradio,
+    &.JDradio,
+    .JDselect,
+    &.JDselect,
+    .JDbtn,
+    &.JDbtn,
+    .JDdatePcikerInformation,
+    &.JDdatePcikerInformation,
+    .circleIcon,
+    &.circleIcon,
+    .imageUploader,
+    &.imageUploader,
+    .JDslider,
+    &.JDslider,
+    .JDpagination,
+    &.JDpagination,
+    .JDcard,
+    &.JDcard,
+    .JDtable,
+    &.JDtable,
+    .JDcolorPicker,
+    &.JDcolorPicker,
+    .JDinput,
+    &.JDinput,
+    .JDtextarea,
+    &.JDtextarea,
+    .JDinput-wrap,
+    &.JDinput-wrap,
+    .JDsearchInput,
+    &.JDsearchInput  {
+            margin-bottom:0;
+        }
+
+    }

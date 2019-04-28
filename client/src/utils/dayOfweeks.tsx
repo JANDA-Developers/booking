@@ -17,9 +17,19 @@ const JDMonthTextChanger = (Month: string | number): string => {
 };
 
 //  숫자(0~6)를 받아서 무슨 요일인지 반환
-const JDWeekChanger = (number: number): string => {
-  const weekLanguage = ['일', '월', '화', '수', '목', '금', '토'];
-  return weekLanguage[number % 7];
+const JDWeekChanger = (number: number, bit?: boolean): string => {
+  if (!bit) {
+    const weekLanguage = ['일', '월', '화', '수', '목', '금', '토'];
+    return weekLanguage[number % 7];
+  }
+  if (number === 1) return '일';
+  if (number === 2) return '월';
+  if (number === 4) return '화';
+  if (number === 8) return '수';
+  if (number === 16) return '목';
+  if (number === 32) return '금';
+  if (number === 64) return '토';
+  return 'err';
 };
 
 export const applyDaysToArr = (applyDaysBinary: number): DayOfWeekEnum[] => {
@@ -33,12 +43,12 @@ export const applyDaysToArr = (applyDaysBinary: number): DayOfWeekEnum[] => {
       result.push(day);
       val -= day;
     }
-    index--;
+    index -= 1;
   }
   return result;
 };
 
-export const arrToApplyDays = (arr: Array<number | boolean>): number => arr.map((val, i) => (val ? 0 : 1) << i).reduce((v1, v2) => v1 + v2) % 128;
+export const arrToApplyDays = (arr: Array<number | boolean>): number => arr.map((val, i) => (val ? 1 : 0) << i).reduce((v1, v2) => v1 + v2) % 128;
 
 //  숫자 이넘
 export enum DayOfWeekEnum {
@@ -51,5 +61,11 @@ export enum DayOfWeekEnum {
   SAT = FRI << 1, // 64
   ALL_DAY = (SAT << 1) - 1, // 127
 }
+
+export const numberToStrings = (number: number, merge?: string): string | string[] => {
+  const applyDaysLang = applyDaysToArr(number).map(num => JDWeekChanger(num, true));
+  if (merge) return applyDaysLang.join(merge);
+  return applyDaysLang;
+};
 
 export { JDMonthTextChanger, JDWeekChanger };

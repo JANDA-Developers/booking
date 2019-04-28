@@ -9,8 +9,9 @@ import {
   updateSeason,
   updateSeasonVariables,
   getAllSeason_GetAllSeason_seasons as ISeason,
-  getAllSeasonTable_GetSeasonPrice_seasonPrices_dayOfWeekPrices as IDayOfWeek,
+  DayOfWeekPriceInput as IDayOfWeek,
   getAllSeasonTable_GetAllRoomType_roomTypes as IRoomType,
+  DayOfWeekPriceInput,
 } from '../../../../types/api';
 import SeasonTable from './seasonTable';
 import { CREATE_SEASON, DELETE_SEASON, UPDATE_SEASON } from '../../../../queries';
@@ -36,14 +37,11 @@ export interface ISeasonValue {
   seasonId: string;
 }
 
-export interface IDayWeek extends IDayOfWeek {
-  id: string;
-}
 export interface ITableData {
   id: string;
   name: string;
   defaultValue: string;
-  dayOfWeek: IDayWeek[];
+  dayOfWeek: DayOfWeekPriceInput[];
 }
 
 interface IProps {
@@ -118,7 +116,7 @@ const SeasonTableWrap: React.SFC<IProps> = ({
                       if (priceMapResult) {
                         return {
                           defaultValue: priceMapResult.default.toString(),
-                          dayOfWeek: priceMapResult.dayOfWeek.map(day => ({ ...day, id: `${day.applyDays}` })),
+                          dayOfWeek: priceMapResult.dayOfWeek,
                         };
                       }
                     }

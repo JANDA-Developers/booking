@@ -7,9 +7,7 @@ import Preloader from '../../../atoms/preloader/Preloader';
 import CircleIcon from '../../../atoms/circleIcon/CircleIcon';
 import Modal from '../../../atoms/modal/Modal';
 import Slider from '../../../components/slider/Slider';
-import {
-  isEmpty, downloadisEmpty, toast, download,
-} from '../../../utils/utils';
+import { isEmpty, toast, download } from '../../../utils/utils';
 import Tooltip, { ReactTooltip } from '../../../atoms/tooltip/Tooltip';
 import { RefundPolicyNode } from '../../../docs/refundPolicy';
 import hwpIcon from '../../../img/icon/hwpIcon.png';
@@ -39,14 +37,6 @@ const Products = ({
     ReactTooltip.hide();
   };
 
-  const onDownloadHwp = () => {
-    downloadMenual('hwp');
-  };
-
-  const onDownloadPdf = () => {
-    downloadMenual('pdf');
-  };
-
   // 설명서 다운로드
   const downloadMenual = (form) => {
     let manual = '';
@@ -56,6 +46,14 @@ const Products = ({
     download(manual, `홈페이지 사용 메뉴얼.${form}`).then(() => {
       toast.success('메뉴얼 다운로드 완료');
     });
+  };
+
+  const onDownloadHwp = () => {
+    downloadMenual('hwp');
+  };
+
+  const onDownloadPdf = () => {
+    downloadMenual('pdf');
   };
 
   return (
@@ -153,7 +151,7 @@ const Products = ({
               <p className="downloadBox__header">
                 <span>HWP파일</span>
                 <CircleIcon onClick={onDownloadHwp} hover={false}>
-                  <img src={hwpIcon} />
+                  <img src={hwpIcon} alt="hwp Menual" />
                 </CircleIcon>
               </p>
               <Button onClick={onDownloadHwp} label="다운로드" thema="grey" mode="flat" icon="download" />
@@ -162,7 +160,7 @@ const Products = ({
               <p className="downloadBox__header">
                 <span>PDF파일</span>
                 <CircleIcon onClick={onDownloadPdf} hover={false}>
-                  <img src={pdfIcon} />
+                  <img src={pdfIcon} alt="pdf Menual" />
                 </CircleIcon>
               </p>
               <Button onClick={onDownloadPdf} label="다운로드" thema="grey" mode="flat" icon="download" />

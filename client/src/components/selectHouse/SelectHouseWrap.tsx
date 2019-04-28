@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { Mutation } from 'react-apollo';
 import SelectHouse from './SelectHouse';
 import { useSelect, IUseSelect } from '../../actions/hook';
-import IHouses, { ISelectHouse, ISelectHouseVariables, IHouse } from '../../types/interface';
+import { IHouse, ISelectHouse, ISelectHouseVariables } from '../../types/interface';
 import { SELECT_HOUSE } from '../../clientQueries';
 import { onError } from '../../utils/utils';
 import { IselectedOption } from '../../atoms/forms/SelectBox';
@@ -11,8 +11,8 @@ import { IselectedOption } from '../../atoms/forms/SelectBox';
 class SelectHouseMutation extends Mutation<ISelectHouse, ISelectHouseVariables> {}
 
 interface IProps {
-  houses: IHouses[];
-  selectedHouse: IHouses;
+  houses: IHouse[];
+  selectedHouse: IHouse;
 }
 
 const SelectHouseWrap: React.SFC<IProps> = ({ houses = [], selectedHouse }) => {

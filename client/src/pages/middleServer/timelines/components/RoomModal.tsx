@@ -14,7 +14,7 @@ interface IProps {
   deleteRoomMutation: any;
 }
 
-const RoomTypeModal: React.SFC<IProps> = ({
+const RoomTypeModal: React.FC<IProps> = ({
   modalHook,
   roomNameHook,
   createRoomMutation,

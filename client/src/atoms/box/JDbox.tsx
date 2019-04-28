@@ -5,7 +5,6 @@ import './JDbox.scss';
 import JDIcon from '../icons/Icons';
 
 interface IProps extends React.HTMLAttributes<HTMLDivElement> {
-  children: JSX.Element[] | JSX.Element;
   className?: string;
   mode?: 'table';
   label?: JSX.Element | string;
@@ -23,9 +22,11 @@ const JDbox: React.FC<IProps> = ({
 
   return (
     <div className={classes} {...props}>
-      {label && <div className="JDsmall-text">{label}</div>}
-      {children}
-      <span>{icon && <JDIcon onClick={iconOnClick} icon={icon} hover={iconHover} />}</span>
+      {label && <div className="JDbox__label">{label}</div>}
+      <div className="JDbox__content">
+        {children}
+        <span>{icon && <JDIcon onClick={iconOnClick} icon={icon} hover={iconHover} />}</span>
+      </div>
     </div>
   );
 };

@@ -57,7 +57,7 @@ $hover-effect-dark: rgba(0,0,0,.08);
 $curtain-color: rgba(0,0,0,.78) !default;
 $html-color-hover: $grey-level3!default;
 
-// -- BreackPoints 브레이크 포인트
+// 💔 -- BreackPoints 브레이크 포인트
 // 각각은 최대크기
 $mobile: "400px" !default; // sm
 $phablet: "550px" !default; //  md
@@ -67,7 +67,7 @@ $desktophd: "1200px" !default; //  wlg
 $full: "9999px" !default; 
 $null: "0px" !default; 
 
-// 함수를 만드는방법이 있지만 복잡합니다. 
+// 함수로 만드는방법이 있지만 복잡합니다. 
 // https://hugogiraudel.com/2014/01/15/sass-string-to-number/
 $mobileUp: "401px" !default; // sm
 $phabletUp: "551px" !default; //  md
@@ -114,23 +114,21 @@ $standard-icon-margin : 1rem;
 $standard-small-icon-margin : .5rem;
 $standard-outborder-color: $html-color; //화면 가장자리에 붙어있는 border들의 컬러
 // TODO: 새로추가됨 이걸로 정리해야함
-$standard-label-margin : 0.8rem;
+$standard-label-margin : 0.6rem;
 $standard-placeholder-color : $grey-level3;
 // ===========================================================================
 
 // 1. Forms 폼
 // ANCHOR Forms ==========================================================================
 // -- Text Inputs + Textarea 인풋
-$input-height: 3rem !default;
+$input-height: 2.8rem !default;
 $input-border: 1px solid $standard-outborder-color !default;
 $input-background: #fff !default;
 $input-error-color: $error-color !default;
 $input-success-color: $success-color !default;
 $input-focus-color: $primary-color-light !default;
 $input-font-size: $typho-normal !default;
-$input-margin-bottom: $standard-margin-bottom;
-$input-margin-top: 0rem;
-$input-margin: $input-margin-top 0 $input-margin-bottom 0 !default;
+
 $input-padding-top: 1rem;
 $input-padding: $input-padding-top 0 0 0 !default;
 $input-transition: all 0.3s !default;
@@ -275,12 +273,12 @@ $button-height: 36px !default;
 
 $searchInput-input-height: $input-height + $input-padding-top!default;
 $searchInput-input-border: $input-border !default;
-$searchInput-input-margin-bottom: .5rem !default;
 $searchInput-border-color:$grey-level1 !default;
 $searchInput-border-radius: $standard-border-radius;
 $searchInput-li-border-top: 1px dotted $searchInput-border-color !default;
 $searchInput-li-padding: .3rem $standard-side-padding !default;
 $searchInput-li-height: $standard-li-height !default;
+$searchInput-message-space: 1rem;
 
 // 7 SideNav 사이드 네비
 // ANCHOR Side NAV =========================================================================
@@ -303,7 +301,6 @@ $header-padding: 1rem;
 // 9 CircleIcon 둥근 아이콘
 // ANCHOR Header NAV =========================================================================
 $circle-icon-size: 2rem;
-$circle-icon-font-size: 1rem;
 
 // 10 Slider 슬라이더
 // ANCHOR slider Slider =========================================================================

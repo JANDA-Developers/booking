@@ -5,83 +5,18 @@ import { useBookPOP, useToggle, useDayPicker } from '../../../actions/hook';
 import AssigTimeline from './AssigTimeline';
 import { defaultProps, initGroups, initItems } from './timelineConfig';
 
-moment.lang('kr');
-let timer: null | number = null; // timer required to reset
-const timeout = 200; // timer reset in ms
+interface IProps {
+  houseId: string;
+}
 
-const AssigTimelineWrap = () => {
+const AssigTimelineWrap: React.SFC<IProps> = ({ houseId }) => {
   const dayPickerHook = useDayPicker(null, null);
-  const [items, setItems] = useState(initItems);
   const [_, setConfigMode] = useToggle(false);
-  console.log(_);
-  const bookerModal = useBookPOP(false);
-  // Handle -- item : doubleClick
-  const handleItemDoubleClick = (itemId: any, e: any, time: any) => {
-    // 퍼포먼스 향상을 위해서라면 ID 는 인덱스여야한다?
-    timer = window.setTimeout(() => {
-      timer = null;
-    }, timeout);
-    // items[itemID].key
-    bookerModal.openModal();
-  };
-  // Handle -- item : TripleClick
-  window.addEventListener('click', (evt: any) => {
-    if (timer) {
-      clearTimeout(timer);
-      timer = null;
-      bookerModal.openModal();
-    }
-  });
-  // Handle -- item : DoubleClick
-  const handleCanvasDoubleClick = (group: any, time: any, e: any) => {
-    bookerModal.setModalInfo({
-      bookerInfo: 'Make',
-      time,
-    });
-    bookerModal.openModal();
-  };
-  // Handle --item : Move
-  const handleItemMove = (itemId: any, dragTime: any, newGroupOrder: any) => {
-    const group = initGroups[newGroupOrder];
 
-    setItems(
-      items.map((item: any) => (item.id === itemId
-        ? Object.assign({}, item, {
-          start: dragTime,
-          end: dragTime + (item.end - item.start),
-          group: group.id,
-        })
-        : item)),
-    );
+  //  TODO 1. 한번의 쿼리로 끝내야겠지 modify Timelines 에 있는 거를 끌고와서 수정해서 넣으면 잘들어갈듯
+  //  🚫 Get Booking 이거 cursor 기반인데 어떻게하지... 우선 백엔드님 오면 물어봐야겠다.
 
-    console.log(`Moved ${itemId}, ${dragTime}, ${newGroupOrder}`);
-  };
-  // Handle --item : Resize
-  const handleItemResize = (itemId: any, time: any, edge: any) => {
-    setItems(
-      items.map((item: any) => (item.id === itemId
-        ? Object.assign({}, item, {
-          start: edge === 'left' ? time : item.start,
-          end: edge === 'left' ? item.end : time,
-        })
-        : item)),
-    );
-    console.log(`Resized ${itemId}, ${time}, ${edge}`);
-  };
-
-  return (
-    <AssigTimeline
-      dayPickerHook={dayPickerHook}
-      handleCanvasDoubleClick={handleCanvasDoubleClick}
-      bookerModal={bookerModal}
-      handleItemResize={handleItemResize}
-      handleItemMove={handleItemMove}
-      handleItemDoubleClick={handleItemDoubleClick}
-      setConfigMode={setConfigMode}
-      defaultProps={defaultProps}
-      items={items}
-    />
-  );
+  return <AssigTimeline dayPickerHook={dayPickerHook} setConfigMode={setConfigMode} defaultProps={defaultProps} />;
 };
 
 export default AssigTimelineWrap;

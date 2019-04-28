@@ -27,9 +27,11 @@ import {
   SetPrice,
   Qna,
   PriceTimeline,
+  Sms,
+  ResvList,
 } from './pages';
 import { UserRole } from '../types/apiEnum';
-import IHouses from '../types/interface';
+import { IHouse } from '../types/interface';
 
 interface IProps {
   [key: string]: any;
@@ -48,7 +50,7 @@ const JDmiddleServer: React.SFC<IProps> = ({
   //  유저 유저
   const [SideNavIsOpen, setSideNavIsOpen] = useToggle(false);
   const isloading: boolean = loading || loading2 || loading3;
-  const houses: IHouses[] = user.houses || [];
+  const houses: IHouse[] = user.houses || [];
   let selectedHouse = houses.filter((house: { _id: any }): any => house._id === lastSelectedHouse.value)[0] || {};
 
   // 최근에 선택된 숙소가 없다면 선택된 숙소는 첫번째 숙소입니다.
@@ -144,6 +146,7 @@ const JDmiddleServer: React.SFC<IProps> = ({
         {/* 고객문의 */}
         <Route exact path="/middleServer/qna" component={isLoggedIn ? Qna : NoMatch} />
         {/* 대기 */}
+        {/* 여기이후로 상품이 있어야 나타날수있게 바뀜 */}
         {isEmpty(selectedProduct) ? (
           <Route component={NoMatch} />
         ) : (
@@ -157,8 +160,8 @@ const JDmiddleServer: React.SFC<IProps> = ({
         {/* /* ------------------------------ JANDA BOOKING ----------------------------- */}
         {' '}
         {/* 방배정 */}
-        <Route exact path="/middleServer/timeline" render={AssigTimeline} />
-        {/* 방배정 */}
+        <Route exact path="/middleServer/assigTimeline" render={AssigTimeline} />
+        {/* 자세한 가격설정 */}
         <Route
           exact
           path="/middleServer/specificPrice"
@@ -170,11 +173,23 @@ const JDmiddleServer: React.SFC<IProps> = ({
           path="/middleServer/timelineConfig"
           render={() => (isEmpty(selectedHouse) ? <NoMatch /> : <ModifyTimeline selectedHouse={selectedHouse} />)}
         />
+        {/* SMS */}
+        <Route
+          exact
+          path="/middleServer/sms"
+          render={() => (isEmpty(selectedHouse) ? <NoMatch /> : <Sms selectedHouse={selectedHouse} />)}
+        />
         {/* 가격설정 */}
         <Route
           exact
           path="/middleServer/setPrice"
           render={() => (isEmpty(selectedHouse) ? <NoMatch /> : <SetPrice selectedHouse={selectedHouse} />)}
+        />
+        {/* 예약목록 */}
+        <Route
+          exact
+          path="/middleServer/resvList"
+          render={() => (isEmpty(selectedHouse) ? <NoMatch /> : <ResvList selectedHouse={selectedHouse} />)}
         />
         <Route component={NoMatch} />
       </Switch>

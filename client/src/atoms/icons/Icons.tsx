@@ -45,19 +45,22 @@ const icons: { [s: string]: string } = {
     'M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z',
   eraser:
     'M5.662 23l-5.369-5.365c-.195-.195-.293-.45-.293-.707 0-.256.098-.512.293-.707l14.929-14.928c.195-.194.451-.293.707-.293.255 0 .512.099.707.293l7.071 7.073c.196.195.293.451.293.708 0 .256-.097.511-.293.707l-11.216 11.219h5.514v2h-12.343zm3.657-2l-5.486-5.486-1.419 1.414 4.076 4.072h2.829zm.456-11.429l-4.528 4.528 5.658 5.659 4.527-4.53-5.657-5.657z',
+  person:
+    'M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm7.753 18.305c-.261-.586-.789-.991-1.871-1.241-2.293-.529-4.428-.993-3.393-2.945 3.145-5.942.833-9.119-2.489-9.119-3.388 0-5.644 3.299-2.489 9.119 1.066 1.964-1.148 2.427-3.393 2.945-1.084.25-1.608.658-1.867 1.246-1.405-1.723-2.251-3.919-2.251-6.31 0-5.514 4.486-10 10-10s10 4.486 10 10c0 2.389-.845 4.583-2.247 6.305z',
+  sms:
+    'M12 .02c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6.99 6.98l-6.99 5.666-6.991-5.666h13.981zm.01 10h-14v-8.505l7 5.673 7-5.672v8.504z',
 };
 
 interface IProps {
   label?: string;
   icon: string;
-  width?: string;
-  height?: string;
+  size?: '1em' | '1rem' | '1.5rem' | '2rem';
   hover?: boolean;
   onClick?: any;
 }
 
 const JDIcon: React.SFC<IProps> = ({
-  label, icon, width, height, hover, onClick,
+  label, icon, hover, onClick, size,
 }) => {
   const classes = classNames({
     JDicon__svg: true,
@@ -69,8 +72,8 @@ const JDIcon: React.SFC<IProps> = ({
       <svg
         alignmentBaseline="central"
         className={classes}
-        width={width}
-        height={height}
+        width={size}
+        height={size}
         version="1.1"
         viewBox="0 0 24 24 "
         onClick={onClick}
@@ -85,8 +88,7 @@ const JDIcon: React.SFC<IProps> = ({
 };
 
 JDIcon.defaultProps = {
-  width: '1em',
-  height: '1em',
+  size: '1em',
   label: '',
   hover: false,
 };
