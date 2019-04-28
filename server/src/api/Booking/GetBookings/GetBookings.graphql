@@ -1,22 +1,9 @@
 type Query {
-    GetBookings(
-        first: Int!
-        cursor: String
-        sort: BookingSortInput
-        filter: BookingFilter
-    ): GetBookingsResponse!
+    GetBookings(page: Int!, count: Int!, houseId: ID!): GetBookingsResponse!
 }
 type GetBookingsResponse {
     ok: Boolean!
     error: String
-    data: GetBookingsData
-}
-type GetBookingsData {
-    edges: [BookingEdge!]
-    pageInfo: PageInfo!
-    totalCount: Int!
-}
-type BookingEdge {
-    cursor: String
-    node: Booking
+    bookings: [Booking!]
+    pageInfo: PageInfoOffsetBase
 }
