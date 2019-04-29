@@ -15,6 +15,8 @@ import { IItem } from './PriceTimelineWrap';
 import InputText from '../../../../atoms/forms/InputText';
 import { useDayPicker } from '../../../../actions/hook';
 import JDdayPicker from '../../../../components/dayPicker/DayPicker';
+import { setMidNight } from '../../../../utils/utils';
+import { TimePerMs } from '../../../../types/apiEnum';
 
 const LAST_ROOMTYPE: any = 'unRendered'; // 방들중에 방타입이 다른 마지막을 체크할것
 
@@ -27,6 +29,14 @@ interface IProps {
   loading: boolean;
   roomTypesData: IRoomType[] | undefined;
   createRoomPriceMu: MutationFn<createRoomPrice, createRoomPriceVariables>;
+  delteRoomPriceMu: any;
+  setDataTime: React.Dispatch<
+    React.SetStateAction<{
+      start: number;
+      end: number;
+    }>
+  >;
+  dataTime: { start: number; end: number };
   defaultTime: { start: number; end: number };
   setDefaultTime: React.Dispatch<
     React.SetStateAction<{
@@ -42,8 +52,11 @@ const ModifyTimeline: React.SFC<IProps> = ({
   roomTypesData,
   loading,
   createRoomPriceMu,
+  delteRoomPriceMu,
   houseId,
   priceMap,
+  dataTime,
+  setDataTime,
   defaultTime,
   setDefaultTime,
   ...timelineProps
@@ -61,19 +74,29 @@ const ModifyTimeline: React.SFC<IProps> = ({
     );
   };
 
-  const dateInputChange = (start: string, end: string) => {
-    console.log('호출됨?');
-    // setDefaultTime({
-    //   start: moment(end).valueOf(),
-    //   end: moment(end)
-    //     .add(7, 'day')
-    //     .valueOf(),
-    // });
+  // date Input 변화시
+  const handleInputDateChange = (start: string, end: string) => {
+    setDefaultTime({
+      start: moment(end)
+        .subtract(2, 'day')
+        .valueOf(),
+      end: moment(end)
+        .add(4, 'day')
+        .valueOf(),
+    });
+    setDataTime({
+      start: moment(end)
+        .subtract(7, 'day')
+        .valueOf(),
+      end: moment(end)
+        .add(20, 'day')
+        .valueOf(),
+    });
   };
 
-  const handleItemClick = () => {};
-  const handleInputBlur = (value: string, item: IItem) => {
-    const inValue = parseInt(value, 10);
+  // 가격 인풋 블러시
+  const handlePriceBlur = (value: string | null, item: IItem) => {
+    const inValue = value ? parseInt(value, 10) : null;
 
     // ❓ 뭔가 잘못됨 이부분에 관해서는... 항상 값이 있어야하는데
 
@@ -81,17 +104,24 @@ const ModifyTimeline: React.SFC<IProps> = ({
 
     // ⛔️ 뮤테이션 문제가있음  4월 28일 이후로 안들어감 이게뭐냥...
 
-    if (priceMap.get(item.id) !== inValue) {
-      createRoomPriceMu({
-        variables: {
-          houseId,
-          date: item.start,
-          roomTypeId: item.group,
-          price: inValue || 0,
-        },
-      });
-      priceMap.set(item.id, inValue);
+    const beforePrice = priceMap.get(item.id);
+
+    if (beforePrice) {
+      // 이전가격과 같다면 리턴.
+      if (beforePrice === inValue) return;
+
+      if (inValue === null) delteRoomPriceMu({});
     }
+
+    createRoomPriceMu({
+      variables: {
+        houseId,
+        date: item.start,
+        roomTypeId: item.group,
+        price: inValue || 0,
+      },
+    });
+    priceMap.set(item.id, inValue);
   };
 
   // 아이템 렌더
@@ -105,21 +135,40 @@ const ModifyTimeline: React.SFC<IProps> = ({
         <InputText
           defaultValue={priceMap.get(item.id)}
           onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
-            handleInputBlur(e.currentTarget.value, item);
+            handlePriceBlur(e.currentTarget.value, item);
           }}
         />
       </div>
     );
   };
-  // 사이드 탑 렌더
 
-  const handleTimeChnage = (visibleTimeStart: any, visibleTimeEnd: number, updateScrollCanvas: any) => {
-    updateScrollCanvas(parseInt(visibleTimeStart, 10), visibleTimeEnd);
-  };
+  // 타임라인 이동시
+  const handleTimeChnage = (visibleTimeStart: number, visibleTimeEnd: number, updateScrollCanvas: any) => {
+    const dataLimitEnd = dataTime.end - TimePerMs.DAY * 4;
+    const dataLimitstart = dataTime.end + TimePerMs.DAY * 1;
 
-  // Calendar methods
-  const handleCanvasClick = (groupId: any, time: any, event: any) => {
-    window.alert(`Canvas clicked ${groupId} ${time}`);
+    //  뒤로 요청
+    if (visibleTimeStart < dataLimitstart) {
+      const queryStart = visibleTimeStart - TimePerMs.DAY * 20;
+      const queryEnd = visibleTimeEnd + TimePerMs.DAY * 4;
+
+      setDataTime({
+        start: setMidNight(queryStart),
+        end: setMidNight(queryEnd),
+      })
+    }
+
+    //  앞으로 요청
+    if (dataLimitEnd < visibleTimeEnd) {
+      const queryStart = visibleTimeStart - TimePerMs.DAY * 4;
+      const queryEnd = visibleTimeEnd + TimePerMs.DAY * 20;
+
+      setDataTime({
+        start: setMidNight(queryStart),
+        end: setMidNight(queryEnd),
+      })
+    }
+    updateScrollCanvas(visibleTimeStart, visibleTimeEnd);
   };
 
   const modifySideBarRendererFn = () => <div className="modify__sideTop" />;
@@ -127,11 +176,21 @@ const ModifyTimeline: React.SFC<IProps> = ({
   return (
     <div id="specificPrice" className="specificPrice container container--full">
       <div className="docs-section">
-        <JDdayPicker onChangeDate={dateInputChange} isRange={false} input label="달력날자" {...dateInputHook} />
-        <div className="flex-grid flex-grid--end">
-          <div className="flex-grid__col col--full-4 col--lg-4 col--md-6">
-            <h3>방생성 및 수정</h3>
+        <h3>상세가격 수정</h3>
+        <p className="JDtextColor--secondary">* 해당 가격 수정은 모든 가격설정중 최우선 적용 됩니다.</p>
+        <div className="flex-grid">
+          <div className="flex-grid__col col--full-4 col--md-6">
+            <JDdayPicker
+              onChangeDate={handleInputDateChange}
+              isRange={false}
+              input
+              label="달력날자"
+              {...dateInputHook}
+            />
           </div>
+        </div>
+        <div className="flex-grid flex-grid--end">
+          <div className="flex-grid__col col--full-4 col--lg-4 col--md-6" />
         </div>
         <div className="ModifyTimeline__timelineWrapScroll">
           <div className="ModifyTimeline__timelineWrap specificPrice__timeline">
@@ -140,11 +199,9 @@ const ModifyTimeline: React.SFC<IProps> = ({
               {...timelineProps}
               items={items || []}
               groups={roomTypesData || []}
-              onItemClick={handleItemClick}
               onTimeChange={handleTimeChnage}
               defaultTimeStart={defaultTime.start}
               defaultTimeEnd={defaultTime.end}
-              onCanvasClick={handleCanvasClick}
               itemRenderer={itemRendererFn}
               groupRenderer={ModifyGroupRendererFn}
               sidebarContent={modifySideBarRendererFn()}

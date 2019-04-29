@@ -47,6 +47,7 @@ const JDdayPicker: React.SFC<IProps> = ({
   maxLimit,
 }) => {
   const dayPickerFullWrap: any = useRef();
+  const isInitialMount = useRef(true);
 
   // 리셋버튼 클릭 이벤트
   const handleResetClick = () => {
@@ -69,8 +70,6 @@ const JDdayPicker: React.SFC<IProps> = ({
     if (!isSelectingFromDay(from, to, day)) setEntered(day);
   };
 
-  console.log('🌟from');
-  console.log(from);
   // handle --day : Click
   const handleDayClick = (day: Date, modifiers: DayModifiers) => {
     // 불가능한 날자를 눌럿을경우에
@@ -78,7 +77,6 @@ const JDdayPicker: React.SFC<IProps> = ({
 
     // 이미 선택된 날을 눌렀을경우에
     if (from && to && day >= from && day <= to) {
-      console.log('it Reseted');
       handleResetClick();
       return;
     }
@@ -114,7 +112,11 @@ const JDdayPicker: React.SFC<IProps> = ({
   }, []);
 
   useEffect(() => {
-    onChangeDate && onChangeDate(from, to);
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+      onChangeDate && onChangeDate(from, to);
   }, [from, to]);
 
   const classes = classNames({

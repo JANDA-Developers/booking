@@ -22,9 +22,9 @@
             margin: 0;
             color: #ffffff;
             background: $grey-level3;
-            border-right: 1px solid #bbb;
+            border-right: 1px solid $grey-opacity2;
             box-sizing: border-box;
-            border-bottom: 1px solid #bbb;
+            border-bottom: 1px solid $grey-opacity2;
             overflow: hidden;
             z-index: 40;
         }
@@ -44,10 +44,9 @@
                     top: 0;
                     font-size: 14px;
                     text-align: center;
-                    border-left: 2px solid #bbb;
                     color: #ffffff;
                     background: $grey-level3;
-                    border-bottom: 1px solid #bbb;
+                    border-bottom: 1px solid $grey-opacity2;
                     cursor: pointer;
                 }
             }
@@ -63,10 +62,10 @@
                     position: absolute;
                     text-align: center;
                     cursor: pointer;
-                    border-left: 1px solid #bbb;
+                    border-left: 1px solid $grey-opacity2;
                     color: #333333;
                     background: #f0f0f0;
-                    border-bottom: 1px solid #bbb;
+                    border-bottom: 1px solid $grey-opacity2;
                 }
             }
         }
@@ -80,7 +79,7 @@
         vertical-align: top;
         position: relative;
         box-sizing: border-box;
-        border-right: 1px solid #bbb;
+        border-right: 1px solid $grey-opacity2;
 
         // 사이드바에 줄 하나 하나 
         .rct-sidebar-row {
@@ -91,7 +90,7 @@
             text-overflow: ellipsis;
             box-sizing: content-box;
             margin: 0;
-            border-bottom: 1px solid #bbb;
+            border-bottom: 1px solid $grey-opacity2;
 
             &-odd{
                 background: $grey-level1;
@@ -137,12 +136,12 @@
             .rct-horizontal-lines {
                 
                 .rct-hl-even,.rct-hl-odd {
-                    border-bottom: 1px solid #bbb;
+                    border-bottom: 1px solid $grey-opacity2;
                     box-sizing: content-box;
                     z-index: 40;
                 }
                 .rct-hl-even {
-                    border-bottom: 1px solid #bbb;
+                    border-bottom: 1px solid $grey-opacity2;
                     background: $grey-level1;
                 }
 
@@ -161,20 +160,20 @@
                     position: absolute;
                     // 과거의
                     &--past {
-                        background-color:rgba(0,0,0,.4);
+                        background-color:rgba(0,0,0,.1);
                         z-index:80;
                         box-sizing: initial;
-                        border-color: rgba(138, 112, 112, 0.4);
+                        border-color: $grey-opacity2;
                         pointer-events: all!important;
-                        border-left: 2px solid #888;
+                        border-left: 2px solid $grey-opacity2;
                         &:hover {
-                            background-color:rgba(0,0,0,.4)!important;;
+                            background-color:rgba(0,0,0,.2)!important;;
                             cursor: default!important;
                         }
 
                     }
                     &.rct-vl:not(.verticalLine--past) {
-                        border-left: 1px solid #bbb;
+                        border-left: 1px solid $grey-opacity2;
                     }
                 }
             }

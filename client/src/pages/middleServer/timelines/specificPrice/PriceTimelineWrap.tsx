@@ -71,9 +71,6 @@ const itemMaker = ({
       // these optional attributes are passed to the root <div /> of each item as <div {...itemProps} />
       'data-custom-attribute': 'Random content',
       'aria-hidden': true,
-      onDoubleClick: () => {
-        console.log('You clicked double!');
-      },
     },
   });
 
@@ -91,7 +88,7 @@ interface IProps {
 }
 
 const PriceTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
-  //  State가 바뀌면 새로 Query를  요청할까? // 실험해보고 아니면 withApollo로 작업해야겠다.
+  //  Default 값
   const queryStartDate = setMidNight(
     moment()
       .subtract(7, 'days')
@@ -104,7 +101,6 @@ const PriceTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
   );
   // 일주일치 view만 보이겠지만 미리미리 요청해두자
   // 포멧 형식 "2019.04.09."
-  const [getTime, setGetTime] = useState({ start: queryStartDate, end: queryEndDate });
   const [defaultTime, setDefaultTime] = useState({
     start: setMidNight(moment().valueOf()),
     end: setMidNight(
@@ -113,6 +109,7 @@ const PriceTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
         .valueOf(),
     ),
   });
+  const [dataTime, setDataTime] = useState({ start: queryStartDate, end: queryEndDate });
 
   // 방타입과 날자 조합의 키를 가지고 value로 pirce를 가지는 Map 생성
   const priceMapMaker = (priceData: roomPrices[]): Map<any, any> => {
@@ -128,7 +125,7 @@ const PriceTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
     <GetAllRoomTypePriceQuery
       fetchPolicy="network-only"
       query={GET_ALL_ROOMTYPES_PRICE}
-      variables={{ houseId: selectedHouse._id, start: '2019-04-20', end: '2019-04-28' }}
+      variables={{ houseId: selectedHouse._id, start: dataTime.start, end: dataTime.end }}
     >
       {({ data, loading, error }) => {
         showError(error);
@@ -138,8 +135,8 @@ const PriceTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
         const priceMap = roomPriceData ? priceMapMaker(roomPriceData) : new Map();
         const items = roomTypesData
           && itemMaker({
-            startDate: getTime.start,
-            endDate: getTime.end,
+            startDate: dataTime.start,
+            endDate: dataTime.end,
             priceMap,
             roomTypes: roomTypesData,
           });
@@ -161,9 +158,12 @@ const PriceTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
                 priceMap={priceMap}
                 roomTypesData={roomTypesData || undefined}
                 createRoomPriceMu={createRoomPriceMu}
+                dataTime={dataTime}
+                setDataTime={setDataTime}
                 defaultTime={defaultTime}
                 key={`defaultTime${defaultTime.start}${defaultTime.end}`}
                 setDefaultTime={setDefaultTime}
+                delteRoomPriceMu={() => {}}
               />
             )}
           </CreateRoomPriceMu>

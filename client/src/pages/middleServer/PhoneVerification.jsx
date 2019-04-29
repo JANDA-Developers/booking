@@ -32,7 +32,7 @@ function PhoneVerification({ history }) {
               }
             }}
           >
-            {mutation => <Button onClick={mutation} thema="primary" mode="large" label="인증번호 발송" />}
+            {mutation => <Button onClick={mutation} thema="primary" mode="large" size="large" label="인증번호 발송" />}
           </Mutation>
         </div>
         {/* 모달 */}

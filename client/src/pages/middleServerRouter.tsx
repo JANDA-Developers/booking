@@ -155,7 +155,15 @@ const JDmiddleServer: React.SFC<IProps> = ({
           <Route
             exact
             path="/middleServer/ready"
-            render={() => (isLoggedIn ? <Ready currentProduct={selectedProduct} selectedHouse={selectedHouse} /> : <Login />)
+            render={() => (isLoggedIn ? (
+              <Ready
+                hostApp={selectedHouse.hostApplication}
+                currentProduct={selectedProduct}
+                selectedHouse={selectedHouse}
+              />
+            ) : (
+              <Login />
+            ))
             }
           />
         )}

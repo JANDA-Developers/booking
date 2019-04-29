@@ -36,6 +36,9 @@ const F_USER_INFO = gql`
     checkPrivacyPolicy
     userRole
     houses {
+      hostApplication {
+        url
+      }
       product {
         _id
         name
@@ -200,6 +203,9 @@ export const GET_HOUSE = gql`
         _id
         name
         houseType
+        hostApplication {
+          url
+        }
         product {
           _id
           name
