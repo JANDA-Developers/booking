@@ -429,6 +429,14 @@ export const CREATE_ROOM_PRICE = gql`
     }
   }
 `;
+export const DELETE_ROOM_PRICE = gql`
+  mutation createRoomPrice($price: Float!, $roomTypeId: ID!, $houseId: ID!, $date: DateTime!) {
+    CreateRoomPrice(price: $price, roomTypeId: $roomTypeId, houseId: $houseId, date: $date) {
+      ok
+      error
+    }
+  }
+`;
 // 방타입 제거
 export const DELETE_ROOMTYPE = gql`
   mutation deleteRoomType($houseId: ID!, $roomTypeId: ID!) {
