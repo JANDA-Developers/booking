@@ -1,0 +1,13 @@
+type CreateHostApplicationResponse {
+    ok: Boolean!
+    error: String
+    hostApp: HostApplication
+}
+type Mutation {
+    CreateHostApplication(
+        houseId: ID!
+        applicationType: ApplicationType
+        url: URL
+        description: String
+    ): CreateHostApplicationResponse!
+}
