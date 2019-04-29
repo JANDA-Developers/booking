@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { HouseModel } from "../../../models/House";
 import { extractProduct } from "../../../models/merge/merge";
 import { ProductTypeModel } from "../../../models/ProductType";
@@ -42,7 +42,7 @@ const resolvers: Resolvers = {
                     const product = await existingProductType.makeProduct(
                         houseId
                     );
-                    product.productType = new ObjectId(productTypeId);
+                    product.productType = new Types.ObjectId(productTypeId);
 
                     console.log({
                         product
@@ -51,10 +51,10 @@ const resolvers: Resolvers = {
                     await product.save();
                     const updatedHouse = await HouseModel.findOneAndUpdate(
                         {
-                            _id: new ObjectId(houseId)
+                            _id: new Types.ObjectId(houseId)
                         },
                         {
-                            product: new ObjectId(product._id)
+                            product: new Types.ObjectId(product._id)
                         },
                         {
                             new: true
