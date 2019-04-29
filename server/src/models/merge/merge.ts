@@ -4,6 +4,7 @@ import {
     Booker,
     Booking,
     Guest,
+    HostApplication,
     House,
     Product,
     ProductType,
@@ -18,6 +19,10 @@ import { applyDaysToBinaryString } from "../../utils/applyDays";
 import { BookerModel, BookerSchema } from "../Booker";
 import { BookingModel, BookingSchema } from "../Booking";
 import { GuestModel, GuestSchema } from "../Guest";
+import {
+    HostApplicationModel,
+    HostApplicationSchema
+} from "../HostApplication";
 import { HouseModel, HouseSchema } from "../House";
 import { ProductModel, ProductSchema } from "../Product";
 import { ProductTypeModel, ProductTypeSchema } from "../ProductType";
@@ -76,6 +81,10 @@ export const extractHouse = async (
             product: await transformProduct.bind(
                 transformProduct,
                 house.product
+            ),
+            hostApplication: await transformHostApp.bind(
+                transformHostApp,
+                house.hostApplication
             )
         };
     } catch (error) {
@@ -561,4 +570,27 @@ export const transformBookings = async (
             return await extractBooking(booking);
         })
     );
+};
+
+export const extractHostApp = async (
+    hostAppInstance: InstanceType<HostApplicationSchema>
+): Promise<HostApplication> => {
+    const temp: any = {
+        ...hostAppInstance
+    };
+    return {
+        ...temp._doc,
+        house: await transformHouse.bind(transformHouse, hostAppInstance.house),
+        user: await transformUser.bind(transformUser, hostAppInstance.user)
+    };
+};
+
+export const transformHostApp = async (
+    hostAppId: Types.ObjectId | string | undefined | null
+): Promise<HostApplication | null> => {
+    const hostAppInstance = await HostApplicationModel.findById(hostAppId);
+    if (!hostAppInstance) {
+        return null;
+    }
+    return await extractHostApp(hostAppInstance);
 };

@@ -1,0 +1,8 @@
+type DeleteRoomPriceResponse {
+    ok: Boolean!
+    error: String
+    roomPrice: RoomPrice
+}
+type Mutation {
+    DeleteRoomPrice(date: DateTime!, roomTypeId: ID!): DeleteRoomPriceResponse!
+}
