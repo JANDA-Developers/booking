@@ -27,8 +27,8 @@ interface IProps {
   loading: boolean;
   roomTypesData: IRoomType[] | undefined;
   createRoomPriceMu: MutationFn<createRoomPrice, createRoomPriceVariables>;
-  visibleTime: { start: number; end: number };
-  setVisibleTime: React.Dispatch<
+  defaultTime: { start: number; end: number };
+  setDefaultTime: React.Dispatch<
     React.SetStateAction<{
       start: number;
       end: number;
@@ -44,8 +44,8 @@ const ModifyTimeline: React.SFC<IProps> = ({
   createRoomPriceMu,
   houseId,
   priceMap,
-  visibleTime,
-  setVisibleTime,
+  defaultTime,
+  setDefaultTime,
   ...timelineProps
 }) => {
   const dateInputHook = useDayPicker(null, null);
@@ -62,12 +62,13 @@ const ModifyTimeline: React.SFC<IProps> = ({
   };
 
   const dateInputChange = (start: string, end: string) => {
-    setVisibleTime({
-      start: moment(start).valueOf(),
-      end: moment(end)
-        .add(7, 'day')
-        .valueOf(),
-    });
+    console.log('호출됨?');
+    // setDefaultTime({
+    //   start: moment(end).valueOf(),
+    //   end: moment(end)
+    //     .add(7, 'day')
+    //     .valueOf(),
+    // });
   };
 
   const handleItemClick = () => {};
@@ -97,6 +98,7 @@ const ModifyTimeline: React.SFC<IProps> = ({
   const itemRendererFn = ({
     item, itemContext, getItemProps, getResizeProps,
   }: any) => {
+    // props 안에 필수 좌표값 존재
     const props = getItemProps(item.itemProps);
     return (
       <div style={{ ...props.style, backgroundColor: 'transparent', border: 'none' }}>
@@ -111,11 +113,8 @@ const ModifyTimeline: React.SFC<IProps> = ({
   };
   // 사이드 탑 렌더
 
-  const handleTimeChnage = (visibleTimeStart: number, visibleTimeEnd: number, updateScrollCanvas: any) => {
-    console.log(visibleTimeStart);
-    console.log(visibleTimeStart);
-    console.log(visibleTimeStart);
-    updateScrollCanvas(visibleTimeStart, visibleTimeEnd);
+  const handleTimeChnage = (visibleTimeStart: any, visibleTimeEnd: number, updateScrollCanvas: any) => {
+    updateScrollCanvas(parseInt(visibleTimeStart, 10), visibleTimeEnd);
   };
 
   // Calendar methods
@@ -124,10 +123,6 @@ const ModifyTimeline: React.SFC<IProps> = ({
   };
 
   const modifySideBarRendererFn = () => <div className="modify__sideTop" />;
-
-  console.log('visibleTime');
-  console.log(visibleTime);
-  console.log(visibleTime);
 
   return (
     <div id="specificPrice" className="specificPrice container container--full">
@@ -147,8 +142,8 @@ const ModifyTimeline: React.SFC<IProps> = ({
               groups={roomTypesData || []}
               onItemClick={handleItemClick}
               onTimeChange={handleTimeChnage}
-              visibleTimeStart={visibleTime.start}
-              visibleTimeEnd={visibleTime.end}
+              defaultTimeStart={defaultTime.start}
+              defaultTimeEnd={defaultTime.end}
               onCanvasClick={handleCanvasClick}
               itemRenderer={itemRendererFn}
               groupRenderer={ModifyGroupRendererFn}

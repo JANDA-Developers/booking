@@ -105,7 +105,7 @@ const PriceTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
   // 일주일치 view만 보이겠지만 미리미리 요청해두자
   // 포멧 형식 "2019.04.09."
   const [getTime, setGetTime] = useState({ start: queryStartDate, end: queryEndDate });
-  const [visibleTime, setVisibleTime] = useState({
+  const [defaultTime, setDefaultTime] = useState({
     start: setMidNight(moment().valueOf()),
     end: setMidNight(
       moment()
@@ -123,6 +123,7 @@ const PriceTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
     return priceMap;
   };
 
+  // 날자 바뀌면 🌈 리렌더 하는방법 밖에없다.
   return (
     <GetAllRoomTypePriceQuery
       fetchPolicy="network-only"
@@ -160,8 +161,9 @@ const PriceTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
                 priceMap={priceMap}
                 roomTypesData={roomTypesData || undefined}
                 createRoomPriceMu={createRoomPriceMu}
-                visibleTime={visibleTime}
-                setVisibleTime={setVisibleTime}
+                defaultTime={defaultTime}
+                key={`defaultTime${defaultTime.start}${defaultTime.end}`}
+                setDefaultTime={setDefaultTime}
               />
             )}
           </CreateRoomPriceMu>

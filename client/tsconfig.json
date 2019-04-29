@@ -22,6 +22,6 @@
   },
   "include": [
     "src/**/*.ts",
-    "src/**/*.tsx", "src/pages/documents/show/ShowComponents.jsx"
+    "src/**/*.tsx", "src/pages/documents/show/ShowComponents.jsx", "src/pages/outPages/infoReservation/InfoReservation.jsx"
   ]
 }

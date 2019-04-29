@@ -23,7 +23,8 @@ interface IProps {
   dayPickerProps: DayPickerProps;
 }
 
-const JDdayPickerInput: React.SFC<IProps> = ({
+// 👿 이 파일은 전체적으로 타입스크립트 작업이 필요하다.
+const JDdayPickerInput: React.FC<IProps> = ({
   from,
   to,
   isRange,
@@ -46,9 +47,14 @@ const JDdayPickerInput: React.SFC<IProps> = ({
 
   useEffect(() => {
     // 상황에따라 DatePicker 투글
+
+    // 마운트 전인지 검사
     if (isInitialMount.current) {
       isInitialMount.current = false;
-    } else if (DayPickerInputRef && DayPickerInputRef.current) {
+      return;
+    }
+
+    if (DayPickerInputRef && DayPickerInputRef.current) {
       if (from && to) {
         DayPickerInputRef.current.hideDayPicker();
       } else {
@@ -57,12 +63,16 @@ const JDdayPickerInput: React.SFC<IProps> = ({
     }
   }, [from, to]);
 
+  // input에 들어갈 값을 여기서 조작
+  //  어째서인지 여기 2번쨰 호출시에만 호출됨
   const valueFormatter = (date: Date, informat: string, locale: string): string => {
+    console.log('from⭐️');
+    console.log(from);
     let inDate = from;
     if (!inDate) inDate = date;
-    console.log(dayPickerProps);
     const inFrom = dateForMatter(inDate, informat, locale);
     const inTo = dateForMatter(date, informat, locale);
+
     if (inFrom === '') return '';
     if (from && to && date >= from && date <= to) return '';
     if (inTo === '' || !from) return inFrom;
@@ -71,6 +81,8 @@ const JDdayPickerInput: React.SFC<IProps> = ({
 
   return (
     <Fragment>
+      {/* 😶 REF는 잘 작동하지만 브라우저상 오류를 낸다 이유는... ref가
+      그냥 맨껍데기에 적용되서 그렇다는데 아무래도 해결방법은 깃허브에 문의해봐야겠다. */}
       <DayPickerInput
         ref={DayPickerInputRef}
         placeholder={placeholder}
@@ -82,10 +94,11 @@ const JDdayPickerInput: React.SFC<IProps> = ({
             label={label}
             icon="calendar"
             size={IconSize.MEDIUM}
-            dayPicker
+            daypicker
             className="JDinput"
             {...props}
             {...inProps}
+            // value={!isRange && from && valueFormatter(from, format, locale)}
           />
         )}
         hideOnDayClick={!isRange}

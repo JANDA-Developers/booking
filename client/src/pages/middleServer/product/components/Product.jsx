@@ -16,15 +16,25 @@ const product = ({
   isSelected,
   isCurrent,
   disabled,
+  isPhoneVerified,
 }) => {
   let modifer = '';
   if (slider) modifer = '--slider';
 
+  const tooltipTargetFind = () => {
+    if (isCurrent) return 'tooltip__currentProduct';
+    if (productIndex === '상품1') return undefined;
+    if (!isPhoneVerified) return 'tooltip__productDisable';
+    return undefined;
+  };
+
+  const tooltipTarget = tooltipTargetFind();
+
   return (
     <div
-      data-tip={isCurrent}
+      data-tip="foo"
       data-tip-disable={!disabled && !isSelected}
-      data-for={productIndex === '상품1' || 'tooltip__disabled'}
+      data-for={tooltipTarget}
       data-type={isCurrent ? 'success' : 'dark'}
       className={`JDproduct ${isSelected ? 'JDproduct--selected' : null}`}
       key={`product--${value}${modifer}`}

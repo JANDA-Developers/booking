@@ -293,11 +293,11 @@ export interface IUseModal {
   info: any;
 }
 
-function useModal2<IUseModal>(defaultValue: boolean, defaultInfo: any = {}) {
+function useModal2<IUseModal>(defaultValue: boolean = false, defaultInfo: any = {}) {
   const [isOpen, setIsOpen] = useState(defaultValue);
   const [info, setInfo] = useState(defaultInfo);
 
-  const openModal = (inInfo: any) => {
+  const openModal = (inInfo?: any) => {
     setIsOpen(true);
     setInfo(inInfo);
   };

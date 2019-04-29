@@ -4,12 +4,12 @@ import { useInput, useModal2, useImageUploader } from '../../../actions/hook';
 import { UPDATE_MYPROFILE, GET_USER_INFO } from '../../../queries';
 import { onError, onCompletedMessage } from '../../../utils/utils';
 import MyPage from './MyPage';
-import { IUser, IHouse } from '../../../types/interface';
+import { IUser, IHouse, IDiv } from '../../../types/interface';
 
 interface IProps {
   houses: IHouse[];
   userData: IUser;
-  props: React.HTMLAttributes<HTMLDivElement>;
+  props: IDiv;
 }
 
 const MypageWrap: React.SFC<IProps> = ({ houses, userData, ...props }) => {

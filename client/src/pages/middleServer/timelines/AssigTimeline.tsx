@@ -98,10 +98,6 @@ const ShowTimeline: React.SFC<IProps> = ({ dayPickerHook, setConfigMode, default
     updateScrollCanvas(visibleTimeStart, visibleTimeEnd);
   };
 
-  console.log(visibleTime);
-  console.log(visibleTime);
-  console.log(visibleTime);
-
   return (
     <div id="ShowTimeline" className="container container--full">
       <div className="docs-section">

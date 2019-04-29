@@ -2,9 +2,11 @@ import {
   getMyProfile_GetMyProfile_user_houses,
   getMyProfile_GetMyProfile_user,
   getHouse_GetHouse_house,
+  getHouse_GetHouse_house_product,
 } from '../types/api';
 import { IselectedOption } from '../atoms/forms/SelectBox';
 
+export interface IProduct extends getHouse_GetHouse_house_product {}
 export interface IUser extends getMyProfile_GetMyProfile_user {}
 export interface IHouse extends getHouse_GetHouse_house {}
 export interface IDiv extends React.HTMLAttributes<HTMLDivElement> {}
