@@ -888,7 +888,7 @@ export interface updateMyProfileVariables {
   phoneNumber: any;
   email: any;
   password: any;
-  profileImg: any;
+  profileImg?: any | null;
 }
 
 /* tslint:disable */

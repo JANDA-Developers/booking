@@ -4,8 +4,9 @@ import ErrProtecter from '../../utils/ErrProtecter';
 import './ProfileCircle.scss';
 import defaultImg from '../../img/profile/default_profile.jpg';
 import { IuseProfileUploader } from '../../actions/hook';
+import { IDiv } from '../../types/interface';
 
-interface Iprops extends React.HTMLAttributes<HTMLDivElement>, IuseProfileUploader {
+interface Iprops extends IDiv, IuseProfileUploader {
   profileImg?: string;
   isBordered?: boolean;
   small?: boolean;

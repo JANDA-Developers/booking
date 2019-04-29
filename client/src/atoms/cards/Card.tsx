@@ -4,8 +4,9 @@ import React from 'react';
 import { Node } from 'unist';
 import ErrProtecter from '../../utils/ErrProtecter';
 import './Card.scss';
+import { IDiv } from '../../types/interface';
 
-interface IProps extends React.HTMLAttributes<HTMLDivElement> {
+interface IProps extends IDiv {
   children: JSX.Element[] | JSX.Element;
   hoverDark?: boolean;
   className?: string;

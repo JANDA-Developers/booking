@@ -12,7 +12,7 @@ interface IProps {
   id?: string;
 }
 
-const Checkbox: React.FC<IProps> = ({
+const JDcheckbox: React.FC<IProps> = ({
   disabled, checked, onChange, label, className, ...props
 }) => {
   const classes = classNames('JDcheck_box', className, {});
@@ -23,6 +23,7 @@ const Checkbox: React.FC<IProps> = ({
       onChange(flag);
     }
   };
+
   return (
     <span className="JDcheck_box_wrap" tabIndex={0} role="button" onKeyPress={onHandleClick} onClick={onHandleClick}>
       <input {...props} onChange={() => {}} checked={checked} disabled={disabled} className={classes} type="checkbox" />
@@ -31,9 +32,9 @@ const Checkbox: React.FC<IProps> = ({
   );
 };
 
-Checkbox.defaultProps = {
+JDcheckbox.defaultProps = {
   checked: false,
   disabled: false,
 };
 
-export default ErrProtecter(Checkbox);
+export default ErrProtecter(JDcheckbox);

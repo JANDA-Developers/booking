@@ -34,20 +34,5 @@ export const ReactTableDefault = Object.assign(ReactTableDefaults, {
   // etc...
 });
 
-export const selectInputCompoent = ({
-  selectType, onClick, checked, id, row,
-}: SelectInputComponentProps) => {
-  const onChange = (flag: boolean) => {
-    onClick(id.replace('select-',''), false, undefined);
-  };
-  return <CheckBox onChange={onChange} checked={checked} />;
-};
-
-export const selectAllInputComponentProps = ({ selectType, onClick, checked }: SelectAllInputComponentProps) => {
-  console.log(onClick);
-  console.log(checked);
-
-  return <CheckBox checked={checked} />;
-};
 
 export default JDtable;

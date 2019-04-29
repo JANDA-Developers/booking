@@ -9,7 +9,7 @@ import classNames from 'classnames';
 import Caption from './Caption';
 import Information from './Information';
 import Navbar from './Navbar';
-import DayPickerInput from './input/JDdayPickerInput';
+import JDdayPickerInput from './input/JDdayPickerInput';
 import HorizenDay from './horizen/HorizenDays';
 import HorizenCaption from './horizen/HorizenCaption';
 import './DayPicker.scss';
@@ -69,16 +69,24 @@ const JDdayPicker: React.SFC<IProps> = ({
     if (!isSelectingFromDay(from, to, day)) setEntered(day);
   };
 
+  console.log('🌟from');
+  console.log(from);
   // handle --day : Click
   const handleDayClick = (day: Date, modifiers: DayModifiers) => {
+    // 불가능한 날자를 눌럿을경우에
+    if (modifiers.disabled) return;
+
+    // 이미 선택된 날을 눌렀을경우에
+    if (from && to && day >= from && day <= to) {
+      console.log('it Reseted');
+      handleResetClick();
+      return;
+    }
+
+    // 범위선택이 아닌 경우에
     if (!isRange) {
       setFrom(day);
       setTo(day);
-      return;
-    }
-    if (modifiers.disabled) return;
-    if (from && to && day >= from && day <= to) {
-      handleResetClick();
       return;
     }
 
@@ -155,7 +163,7 @@ const JDdayPicker: React.SFC<IProps> = ({
   return (
     <div className="DayPicker-box" ref={dayPickerFullWrap}>
       {input ? (
-        <DayPickerInput
+        <JDdayPickerInput
           placeholder={placeholder}
           format={format}
           from={from}

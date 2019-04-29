@@ -13,9 +13,9 @@ import { ErrProtecter } from '../../utils/utils';
 import logo from '../../img/logo/logo--white.png'; // with import
 import { useSelect } from '../../actions/hook';
 import SelectHouseWrap from '../selectHouse/SelectHouseWrap';
-import { IHouse } from '../../types/interface';
+import { IHouse, IDiv } from '../../types/interface';
 
-type ITempProps = React.HTMLAttributes<HTMLDivElement> & {
+type ITempProps = IDiv & {
   isPhoneVerified?: boolean;
   isLoggedIn?: boolean;
   className?: string;

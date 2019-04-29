@@ -4,20 +4,33 @@ import PropTypes from 'prop-types';
 import Product from './components/Product';
 import Button from '../../../atoms/button/Button';
 import Preloader from '../../../atoms/preloader/Preloader';
-import CircleIcon from '../../../atoms/circleIcon/CircleIcon';
 import Modal from '../../../atoms/modal/Modal';
+import JDcheckbox from '../../../atoms/forms/CheckBox';
 import Slider from '../../../components/slider/Slider';
-import { isEmpty, toast, download } from '../../../utils/utils';
+import { isEmpty } from '../../../utils/utils';
 import Tooltip, { ReactTooltip } from '../../../atoms/tooltip/Tooltip';
 import { RefundPolicyNode } from '../../../docs/refundPolicy';
-import hwpIcon from '../../../img/icon/hwpIcon.png';
-import pdfIcon from '../../../img/icon/pdfIcon.png';
+import ExperienceModal from './components/experienceModal';
+import { IHouse, IProduct } from '../../../types/interface';
+import { IUseModal } from '../../../actions/hook';
 import './Products.scss';
-import manualHwp from '../../../docs/manual.hwp';
-import manualPdf from '../../../docs/manual.pdf';
+
+interface IProps {
+  refundMutation: any;
+  productMutation: any;
+  productLoading: boolean;
+  arrProducts: Array<any>;
+  checkMutation: any;
+  selectedHouse: IHouse;
+  currentProduct: IProduct;
+  isPhoneVerified: boolean;
+  refundModal: IUseModal;
+  exModalHook: IUseModal;
+  hostAppHook: any;
+}
 
 // currentProduct : 현재 적용중인 상품
-const Products = ({
+const Products: React.FC<IProps> = ({
   refundMutation,
   productMutation,
   productLoading,
@@ -25,35 +38,19 @@ const Products = ({
   checkMutation,
   selectedHouse,
   currentProduct,
+  isPhoneVerified,
   refundModal,
-  demoModal,
+  exModalHook,
+  hostAppHook,
 }) => {
   const [product1, product2, product3, product4] = arrProducts;
+
   useEffect(() => {
     ReactTooltip.rebuild();
   });
 
   const closeTooltip = () => {
     ReactTooltip.hide();
-  };
-
-  // 설명서 다운로드
-  const downloadMenual = (form) => {
-    let manual = '';
-    if (form === 'hwp') manual = manualHwp;
-    if (form === 'pdf') manual = manualPdf;
-
-    download(manual, `홈페이지 사용 메뉴얼.${form}`).then(() => {
-      toast.success('메뉴얼 다운로드 완료');
-    });
-  };
-
-  const onDownloadHwp = () => {
-    downloadMenual('hwp');
-  };
-
-  const onDownloadPdf = () => {
-    downloadMenual('pdf');
   };
 
   return (
@@ -64,7 +61,7 @@ const Products = ({
           {productLoading ? (
             <Preloader />
           ) : (
-            <div className="flex-grid flex-grid-grow products__productWrap">
+            <div title="프로덕트 그룹" className="flex-grid flex-grid-grow products__productWrap">
               <div className="flex-grid__col col--wmd-0">
                 <Product {...product1} />
               </div>
@@ -103,7 +100,8 @@ const Products = ({
               </div>
             </div>
           )}
-          <p>
+          {/* <JDcheckbox disabled={} onChange={hostAppHook.onChange} checked={hostAppHook.checked} label="홈페이지 신청" /> */}
+          <p title="하단 메세지">
             {isEmpty(selectedHouse) ? (
               <span className="JDlarge-warring-text">현재 생성된 숙소가 없습니다.</span>
             ) : (
@@ -121,60 +119,15 @@ const Products = ({
             disabled={isEmpty(selectedHouse)}
             thema="primary"
             label="선택완료"
-            mode="large"
           />
           {/* 상품해지 버튼 */}
           {currentProduct._id && (
-            <Button
-              onClick={refundModal.openModal}
-              disabled={isEmpty(selectedHouse)}
-              thema="warn"
-              label="상품해지"
-              mode="large"
-            />
+            <Button onClick={refundModal.openModal} disabled={isEmpty(selectedHouse)} thema="warn" label="상품해지" />
           )}
         </div>
       </div>
       {/* 무료상품 시작 */}
-      <Modal
-        appElement={document.getElementById('root')}
-        center
-        className="products__experience"
-        onRequestClose={demoModal.modalClose}
-        isOpen={demoModal.isOpen}
-      >
-        <div>
-          <h5>JANDA 무료 체험하기</h5>
-          <h6>이용 메뉴얼</h6>
-          <div className="flex-grid">
-            <div className="flex-grid__col col--full-6 downloadBox">
-              <p className="downloadBox__header">
-                <span>HWP파일</span>
-                <CircleIcon onClick={onDownloadHwp} hover={false}>
-                  <img src={hwpIcon} alt="hwp Menual" />
-                </CircleIcon>
-              </p>
-              <Button onClick={onDownloadHwp} label="다운로드" thema="grey" mode="flat" icon="download" />
-            </div>
-            <div className="flex-grid__col col--full-6 downloadBox">
-              <p className="downloadBox__header">
-                <span>PDF파일</span>
-                <CircleIcon onClick={onDownloadPdf} hover={false}>
-                  <img src={pdfIcon} alt="pdf Menual" />
-                </CircleIcon>
-              </p>
-              <Button onClick={onDownloadPdf} label="다운로드" thema="grey" mode="flat" icon="download" />
-            </div>
-          </div>
-          <div className="JDmodal__endSection JDmodal__endSection--float">
-            <h6>
-              <a href="http://janda-tmp.com" className="JDanchor">
-                {'체험시작'}
-              </a>
-            </h6>
-          </div>
-        </div>
-      </Modal>
+      <ExperienceModal modalHook={exModalHook} />
       {/* 리펀트 시작 */}
       <Modal
         appElement={document.getElementById('root')}
@@ -199,11 +152,17 @@ const Products = ({
       </Modal>
       {/* 툴팁  : disabled */}
       <Tooltip
-        getContent={isCurrent => (isCurrent !== 'false' ? <span>현재 적용된 서비스</span> : <span>핸드폰 인증후 사용가능</span>)
-        }
+        getContent={() => <span>핸드폰 인증후 사용가능</span>}
         class="JDtooltip"
         clickable
-        id="tooltip__disabled"
+        id="tooltip__productDisable"
+        effect="solid"
+      />
+      <Tooltip
+        getContent={() => <span>현재 적용된 서비스</span>}
+        class="JDtooltip"
+        clickable
+        id="tooltip__currentProduct"
         effect="solid"
       />
     </div>
@@ -214,12 +173,6 @@ Products.prototype = {
   currentProduct: PropTypes.object,
   isPhoneVerified: PropTypes.bool,
   arrProducts: PropTypes.array,
-};
-
-Products.defaultProps = {
-  currentProduct: {},
-  isPhoneVerified: false,
-  arrProducts: [],
 };
 
 export default Products;

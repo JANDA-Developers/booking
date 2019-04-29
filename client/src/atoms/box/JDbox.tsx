@@ -3,8 +3,9 @@ import React from 'react';
 import ErrProtecter from '../../utils/ErrProtecter';
 import './JDbox.scss';
 import JDIcon from '../icons/Icons';
+import { IDiv } from '../../types/interface';
 
-interface IProps extends React.HTMLAttributes<HTMLDivElement> {
+interface IProps extends IDiv {
   className?: string;
   mode?: 'table' | 'border';
   label?: JSX.Element | string;
