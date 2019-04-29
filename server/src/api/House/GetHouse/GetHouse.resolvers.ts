@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { HouseModel } from "../../../models/House";
 import { extractHouse } from "../../../models/merge/merge";
 import { GetHouseQueryArgs, GetHouseResponse } from "../../../types/graph";
@@ -16,8 +16,8 @@ const resolvers: Resolvers = {
                 try {
                     const { user } = req;
                     const house = await HouseModel.findOne({
-                        _id: new ObjectId(houseId),
-                        user: new ObjectId(user._id)
+                        _id: new Types.ObjectId(houseId),
+                        user: new Types.ObjectId(user._id)
                     });
                     if (house) {
                         return {
