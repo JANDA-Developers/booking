@@ -3,6 +3,7 @@ type House {
     name: String!
     houseType: HouseType!
     product: Product
+    hostApplication: HostApplication
     user: User!
     location: Location!
     refundPolicy: [TermsOfRefund!]!

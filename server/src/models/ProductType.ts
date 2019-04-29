@@ -4,7 +4,7 @@ import { ProductModel, ProductSchema } from "./Product";
 
 export class ProductTypeSchema extends Typegoose {
     // TODO - HasHostApp: Boolean~ 생성하기
-    @prop({ default: true })
+    @prop({ required: true, default: true })
     canHaveHostApp: boolean;
 
     @prop({ required: true })
@@ -49,7 +49,9 @@ export class ProductTypeSchema extends Typegoose {
         const product = new ProductModel({
             ...this,
             name: this.name,
-            house: new Types.ObjectId(houseId)
+            house: new Types.ObjectId(houseId),
+            canHaveHostApp:
+                this.canHaveHostApp === undefined ? true : this.canHaveHostApp
         });
         delete product.createdAt;
         delete product.updatedAt;
