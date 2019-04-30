@@ -25,17 +25,12 @@ function QueryDataFormater<T, K extends keyof T, C extends keyof T[K], D>(
     if (!isEmpty(data[queryName])) {
       const inData: any = data[queryName];
       if (dataName) {
-        console.log('🎅🎅🎅🎅');
-        console.log(inData[dataName]);
-        console.log(inData);
-        console.log(dataName);
         if (inData[dataName]) {
           return inData[dataName];
         }
       }
       if (inData.error) {
         console.error('QueryDataFormater: Error From BackEnd');
-        console.error(inData.error);
         toast.error(inData.error);
         return falsyReturn as any;
       }

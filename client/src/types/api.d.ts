@@ -691,6 +691,29 @@ export interface createRoomPriceVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: deleteRoomPrice
+// ====================================================
+
+export interface deleteRoomPrice_DeleteRoomPrice {
+  __typename: "DeleteRoomPriceResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface deleteRoomPrice {
+  DeleteRoomPrice: deleteRoomPrice_DeleteRoomPrice;
+}
+
+export interface deleteRoomPriceVariables {
+  roomTypeId: string;
+  date: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: deleteRoomType
 // ====================================================
 

@@ -430,8 +430,8 @@ export const CREATE_ROOM_PRICE = gql`
   }
 `;
 export const DELETE_ROOM_PRICE = gql`
-  mutation createRoomPrice($price: Float!, $roomTypeId: ID!, $houseId: ID!, $date: DateTime!) {
-    CreateRoomPrice(price: $price, roomTypeId: $roomTypeId, houseId: $houseId, date: $date) {
+  mutation deleteRoomPrice($roomTypeId: ID!, $date: DateTime!) {
+    DeleteRoomPrice(roomTypeId: $roomTypeId, date: $date) {
       ok
       error
     }

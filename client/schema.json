@@ -5607,6 +5607,67 @@
             "deprecationReason": null
           },
           {
+            "name": "CreateHostApplication",
+            "description": "",
+            "args": [
+              {
+                "name": "houseId",
+                "description": "",
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "applicationType",
+                "description": "",
+                "type": {
+                  "kind": "ENUM",
+                  "name": "ApplicationType",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "url",
+                "description": "",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "URL",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "description",
+                "description": "",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "CreateHostApplicationResponse",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "CreateIntergration",
             "description": "",
             "args": [
@@ -7062,6 +7123,51 @@
               "ofType": {
                 "kind": "OBJECT",
                 "name": "CreateSeasonPriceResponse",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "DeleteRoomPrice",
+            "description": "",
+            "args": [
+              {
+                "name": "date",
+                "description": "",
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "DateTime",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "roomTypeId",
+                "description": "",
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "DeleteRoomPriceResponse",
                 "ofType": null
               }
             },
@@ -8739,6 +8845,57 @@
       },
       {
         "kind": "OBJECT",
+        "name": "CreateHostApplicationResponse",
+        "description": "",
+        "fields": [
+          {
+            "name": "ok",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "error",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "hostApp",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "HostApplication",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
         "name": "CreateIntergrationResponse",
         "description": "",
         "fields": [
@@ -9971,6 +10128,57 @@
             "type": {
               "kind": "OBJECT",
               "name": "SeasonPrice",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "DeleteRoomPriceResponse",
+        "description": "",
+        "fields": [
+          {
+            "name": "ok",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "error",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "roomPrice",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "RoomPrice",
               "ofType": null
             },
             "isDeprecated": false,

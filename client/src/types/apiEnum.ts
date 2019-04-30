@@ -104,6 +104,9 @@ export enum PayMethod {
   CHANNEL = 'CHANNEL',
   ELSE = 'ELSE',
 }
+export enum Product {
+  TEST = '상품1',
+}
 
 //= =============================================================
 // START global options

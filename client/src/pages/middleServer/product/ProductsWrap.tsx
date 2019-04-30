@@ -15,6 +15,7 @@ import {
   buyProduct, buyProductVariables, refundProduct, refundProductVariables,
 } from '../../../types/api';
 import { ReactTooltip } from '../../../atoms/tooltipList/TooltipList';
+import { Product } from '../../../types/apiEnum';
 
 class BuyProductMutation extends Mutation<buyProduct, buyProductVariables> {}
 class RefundProductMutation extends Mutation<refundProduct, refundProductVariables> {}
@@ -55,7 +56,7 @@ const ProductsWrap: React.FC<any> = ({
     isPhoneVerified,
   };
 
-  const testProductId = productTypes && productTypes.filter((productType: any) => productType.name === '상품1')[0]._id;
+  const testProductId = productTypes && productTypes.filter((productType: any) => productType.name === Product.TEST)[0]._id;
   const tempProp = {
     productTypes,
     selectedProductTypeId,
