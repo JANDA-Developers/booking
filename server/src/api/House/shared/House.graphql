@@ -4,6 +4,7 @@ type House {
     houseType: HouseType!
     product: Product
     hostApplication: HostApplication
+    hostAppCreated: Boolean!
     user: User!
     location: Location!
     refundPolicy: [TermsOfRefund!]!

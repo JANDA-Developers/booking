@@ -1,14 +1,12 @@
 import bcrypt from "bcryptjs";
+import { Types } from "mongoose";
 import {
     arrayProp,
     instanceMethod,
     InstanceType,
     prop,
-    Ref,
     Typegoose
 } from "typegoose";
-import { BookingSchema } from "./Booking";
-import { HouseSchema } from "./House";
 
 const BCRYPT_ROUNDS = 10;
 /**
@@ -17,11 +15,11 @@ const BCRYPT_ROUNDS = 10;
  * 회원이 아님. 그냥 예약자들 목록임
  */
 export class BookerSchema extends Typegoose {
-    @prop({ ref: HouseSchema, required: true })
-    house: Ref<HouseSchema>;
+    @prop({ required: true })
+    house: Types.ObjectId;
 
-    @arrayProp({ itemsRef: BookingSchema })
-    bookings: Array<Ref<BookingSchema>>;
+    @arrayProp({ items: Types.ObjectId })
+    bookings: Types.ObjectId[];
 
     @prop({ required: [true, `Name is Missing`] })
     name: string;
@@ -35,9 +33,12 @@ export class BookerSchema extends Typegoose {
     @prop({ required: true, index: true })
     email: string;
 
-    @prop({ validate(this: BookerSchema) {
-        return this.agreePrivacyPolicy;
-    }, default: false })
+    @prop({
+        validate(this: BookerSchema) {
+            return this.agreePrivacyPolicy;
+        },
+        default: false
+    })
     agreePrivacyPolicy: boolean;
 
     @prop()

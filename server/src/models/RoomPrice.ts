@@ -9,7 +9,7 @@ export class RoomPriceSchema extends Typegoose {
     @prop({ required: true, ref: HouseSchema })
     house: Ref<HouseSchema>;
 
-    @prop({ required: true })
+    @prop({ required: true, index: true })
     date: Date;
 
     @prop({ required: true })

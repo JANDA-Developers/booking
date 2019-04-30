@@ -1,9 +1,7 @@
-import { arrayProp, prop, Ref, Typegoose } from "typegoose";
+import { Types } from "mongoose";
+import { arrayProp, post, prop, Typegoose } from "typegoose";
 import { BookingStatus } from "../types/graph";
-import { BookerSchema } from "./Booker";
-import { GuestSchema } from "./Guest";
-import { HouseSchema } from "./House";
-import { RoomTypeSchema } from "./RoomType";
+import { hashCode } from "../utils/hashCode";
 
 export enum BookingStatusEnum {
     WAIT_DEPOSIT = "WAIT_DEPOSIT",
@@ -15,18 +13,33 @@ export enum BookingStatusEnum {
 /**
  * Booking 스키마...
  */
+@post<BookingSchema>("save", async booking => {
+    if (!booking.bookingId) {
+        const bookingId =
+            booking.createdAt
+                .toISOString()
+                .split("T")[0]
+                .replace("-", "") +
+            Math.abs(hashCode(booking._id))
+                .toString(16)
+                .toUpperCase();
+        await booking.update({
+            bookingId
+        });
+    }
+})
 export class BookingSchema extends Typegoose {
-    @prop({ ref: HouseSchema, required: true })
-    house: Ref<HouseSchema>;
+    @prop({ required: true })
+    house: Types.ObjectId;
 
-    @prop({ ref: BookerSchema, required: true })
-    booker: Ref<BookerSchema>;
+    @prop({ required: true })
+    booker: Types.ObjectId;
 
-    @prop({ ref: RoomTypeSchema })
-    roomType: Ref<RoomTypeSchema>;
+    @prop({ required: true })
+    roomType: Types.ObjectId;
 
-    @arrayProp({ itemsRef: GuestSchema })
-    guests: Array<Ref<GuestSchema>>;
+    @arrayProp({ items: Types.ObjectId })
+    guests: Types.ObjectId[];
 
     @prop()
     bookingId: string;
@@ -47,7 +60,10 @@ export class BookingSchema extends Typegoose {
     })
     discountedPrice: number;
 
-    @prop({ enum: BookingStatusEnum, default: BookingStatusEnum.WAIT_DEPOSIT })
+    @prop({
+        enum: BookingStatusEnum,
+        default: BookingStatusEnum.WAIT_DEPOSIT
+    })
     bookingStatus: BookingStatus;
 
     @prop()

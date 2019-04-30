@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { InstanceType } from "typegoose";
 import { BookerModel } from "../../../models/Booker";
 import { BookingModel, BookingSchema } from "../../../models/Booking";
@@ -21,30 +21,32 @@ const resolvers: Resolvers = {
                 // Booker 생성
                 const bookerInstance = new BookerModel(booker);
                 await bookerInstance.hashPassword();
-                const bookerId = new ObjectId(bookerInstance._id);
+                const bookerId = new Types.ObjectId(bookerInstance._id);
                 // Booker 생성 완료
                 const bookings: Array<
                     InstanceType<BookingSchema>
                 > = await Promise.all(
                     await guest.map(async gst => {
                         const booking = await new BookingModel({
-                            house: new ObjectId(booker.house),
-                            booker: new ObjectId(bookerId),
-                            roomType: new ObjectId(gst.roomTypeId),
+                            house: new Types.ObjectId(booker.house),
+                            booker: new Types.ObjectId(bookerId),
+                            roomType: new Types.ObjectId(gst.roomTypeId),
                             price: gst.price,
                             discountedPrice: gst.discountedPrice,
                             start,
                             end
                         });
-                        const guests: ObjectId[] = [];
+                        const guests: Types.ObjectId[] = [];
                         for (let i = 0; i < gst.count; i++) {
                             guests.push(
                                 (await new GuestModel({
-                                    house: new ObjectId(booker.house),
+                                    house: new Types.ObjectId(booker.house),
                                     booker: bookerId,
-                                    roomType: new ObjectId(gst.roomTypeId),
-                                    booking: new ObjectId(booking._id),
-                                    guestType: gst.guestType,
+                                    roomType: new Types.ObjectId(
+                                        gst.roomTypeId
+                                    ),
+                                    booking: new Types.ObjectId(booking._id),
+                                    pricingType: gst.pricingType,
                                     gender: gst.genders && gst.genders[i]
                                 }).save())._id
                             );
@@ -54,7 +56,7 @@ const resolvers: Resolvers = {
                     })
                 );
                 bookerInstance.bookings = bookings.map(
-                    b => new ObjectId(b._id.toString())
+                    b => new Types.ObjectId(b._id.toString())
                 );
                 await bookerInstance.save();
                 return {

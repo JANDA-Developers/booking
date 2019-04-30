@@ -70,12 +70,19 @@ Host-Side:
             ☐ CancelBooking
             ☐ DeleteBooking
         Allocation:@high @today 
-            ☐ GetallocatedBedList        => 배정된 방 목록 @started(19-04-22 15:11)
-            ☐ AllocateGuestToRoom        => 방 배정
-            ☐ CheckRoomAbleToAllocate    => Check the Room is able to allocate someone.
-            ☐ GetAllAvailableRooms       => Get All Available Rooms
-            ☐ GetAllAvailableRoomTypes   => Get All Available RoomTypes
-            ☐ CheckRoomTypeIsAvailable   => Check RoomType is Available
+            ☐ 방 배정에 필요한 인터페이스 및 프로세스 설계 @started(19-04-30 11:43)
+            ☐ `DOMITORY` Room 객체에서 배정 가능 인원 수 출력
+            ☐ `DOMITORY` RoomType 객체에서 배정 가능한 방 수 및 인원 수 알려주기.
+            ☐ `ROOM` Room 객체에 배정 가능한지 알려주기
+            ☐ `ROOM` RoomType 객체에서 배정 가능한 방 수 알려주기.
+            ✔ AllocateGuestToRoom       => 방 배정 @started(19-04-26 13:55) @done(19-04-26 14:09) @lasted(14m54s)
+            ✔ GetGuests                 => 게스트 목록 가져오기 @started(19-04-26 14:27) @done(19-04-26 17:58) @lasted(3h31m12s)
+            ✘ IsAbleToAllocate          => Check the Room is able to allocate someone. @started(19-04-26 18:12) @cancelled(19-04-30 11:40) @wasted(3d17h28m11s)
+            ☐ GetAllAvailableRooms      => Get All Available Rooms
+            ☐ GetAllAvailableRoomTypes  => Get All Available RoomTypes
+            ☐ CheckRoomTypeIsAvailable  => Check RoomType is Available
+        Auto Allocation: 
+            ☐ 배정 할 방들 우선순위 선정 인터페이스 작성 @high
         Search Bar:
             ☐ Search Booker Info
             ☐ Show the Today's Check-In Guest

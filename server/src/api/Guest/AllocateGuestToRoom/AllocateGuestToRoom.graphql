@@ -1,0 +1,9 @@
+type AllocateGuestToRoomResponse {
+    ok: Boolean!
+    error: String
+    guest: Guest
+}
+
+type Mutation {
+    AllocateGuestToRoom(roomId: ID!, guestId: ID!): AllocateGuestToRoomResponse!
+}

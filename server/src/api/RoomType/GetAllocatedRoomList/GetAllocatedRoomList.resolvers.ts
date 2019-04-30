@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { HouseModel } from "../../../models/House";
 import { RoomModel } from "../../../models/Room";
 import { RoomTypeModel } from "../../../models/RoomType";
@@ -26,11 +26,11 @@ const resolvers: Resolvers = {
                         };
                     }
                     const roomTypes = await RoomTypeModel.find({
-                        house: new ObjectId(houseId)
+                        house: new Types.ObjectId(houseId)
                     });
                     const rooms = await RoomModel.find({
                         roomType: roomTypes.map(roomType => {
-                            return new ObjectId(roomType._id);
+                            return new Types.ObjectId(roomType._id);
                         })
                     });
 

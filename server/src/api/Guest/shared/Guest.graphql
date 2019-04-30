@@ -9,20 +9,13 @@ type Guest {
     allocatedBed: Room
     booking: Booking
     name: Name
+    start: DateTime!
+    end: DateTime!
     # 도미토리, 룸, 블록 구분
-    guestType: GuestType!
+    pricingType: PricingType!
     gender: Gender
     createdAt: DateTime!
     updatedAt: DateTime
-}
-
-enum GuestType {
-    # 방 막는 용도로 잡은 예약임
-    BLOCK_ROOM
-    # 도미토리
-    DOMITORY
-    # 방 타입
-    ROOM
 }
 
 # 도미토리 방식으로 예약한 게스트만 적용됨
@@ -41,7 +34,7 @@ input GuestInput {
     bookingId: ID!
     start: DateTime!
     end: DateTime!
-    guestType: GuestType!
+    pricingType: PricingType!
     gender: Gender
 }
 
@@ -52,7 +45,7 @@ input GuestsInput {
     roomTypeId: ID!
     start: DateTime!
     end: DateTime!
-    guestType: [GuestType!]!
+    pricingType: [PricingType!]!
     gender: [Gender!]
     roomId: [ID!]
 }

@@ -13,6 +13,6 @@ type Mutation {
         start: DateTime!
         end: DateTime!
         gender: Gender!
-        guestType: GuestType!
+        pricingType: PricingType!
     ): CreateGuestResponse!
 }

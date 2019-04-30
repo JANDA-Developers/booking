@@ -1,14 +1,8 @@
+import { Types } from "mongoose";
 import { prop, Ref, Typegoose } from "typegoose";
-import { Gender, GuestType } from "../types/graph";
-import { BookingSchema } from "./Booking";
+import { Gender, PricingType } from "../types/graph";
 import { RoomSchema } from "./Room";
-import { RoomTypeSchema } from "./RoomType";
-
-enum GuestTypeEnum {
-    BLOCK_ROOM = "BLOCK_ROOM",
-    DOMITORY = "DOMITORY",
-    ROOM = "ROOM"
-}
+import { PricingTypeEnum } from "./RoomType";
 
 enum GenderEnum {
     MALE = "MALE",
@@ -16,29 +10,41 @@ enum GenderEnum {
 }
 
 export class GuestSchema extends Typegoose {
-    @prop({ ref: BookingSchema, required: true })
-    booking: Ref<BookingSchema>;
+    @prop({ required: true })
+    house: Types.ObjectId;
 
-    @prop({ ref: RoomTypeSchema, required: true })
-    roomType: Ref<RoomTypeSchema>;
+    @prop({ required: true })
+    booking: Types.ObjectId;
+
+    @prop({ required: true })
+    roomType: Types.ObjectId;
 
     @prop({ ref: RoomSchema })
-    allocatedBed?: Ref<RoomSchema>;
+    allocatedRoom?: Ref<RoomSchema>;
 
     @prop()
     name: string;
 
-    @prop({ enum: GuestTypeEnum, default: GuestTypeEnum.DOMITORY })
-    guestType: GuestType;
+    @prop({ enum: PricingTypeEnum, default: PricingTypeEnum.DOMITORY })
+    pricingType: PricingType;
 
     @prop({
         enum: GenderEnum,
         default: GenderEnum.MALE,
         required(this: GuestSchema) {
-            return this.guestType === "DOMITORY";
+            return this.pricingType === "DOMITORY";
         }
     })
     gender: Gender;
+
+    @prop({ required: true })
+    start: Date;
+
+    @prop({ required: true })
+    end: Date;
+
+    @prop({ required: true, default: false })
+    blockRoom: boolean;
 
     @prop()
     createdAt: Date;

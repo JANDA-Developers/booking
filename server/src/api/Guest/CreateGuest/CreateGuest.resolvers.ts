@@ -27,7 +27,7 @@ const resolvers: Resolvers = {
                     ...args
                 });
                 if (roomId) {
-                    guest.allocatedBed = new ObjectId(roomId);
+                    guest.allocatedRoom = new ObjectId(roomId);
                 }
                 await guest.save();
                 return {

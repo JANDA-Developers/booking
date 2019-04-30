@@ -1,8 +1,8 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { InstanceType } from "typegoose";
 import { BookerModel, BookerSchema } from "../models/Booker";
 import { GuestModel, GuestSchema } from "../models/Guest";
-import { BookerInput, Gender, GuestInput, GuestType } from "../types/graph";
+import { BookerInput, Gender, GuestInput, PricingType } from "../types/graph";
 import { GuestInputType } from "../types/types";
 
 export const insertBooker = async (
@@ -22,11 +22,11 @@ export const insertGuest = async ({
     ...args
 }: GuestInput): Promise<InstanceType<GuestSchema>> => {
     const guest = new GuestModel({
-        house: new ObjectId(houseId),
-        booker: new ObjectId(bookerId),
-        roomType: new ObjectId(roomTypeId),
-        booking: (bookingId && new ObjectId(bookingId)) || undefined,
-        allocatedBed: (roomId && new ObjectId(roomId)) || undefined,
+        house: new Types.ObjectId(houseId),
+        booker: new Types.ObjectId(bookerId),
+        roomType: new Types.ObjectId(roomTypeId),
+        booking: (bookingId && new Types.ObjectId(bookingId)) || undefined,
+        allocatedBed: (roomId && new Types.ObjectId(roomId)) || undefined,
         ...args
     });
     return await guest.save();
@@ -39,24 +39,24 @@ export const insertGuests = async (
     roomTypeId: string,
     start: Date,
     end: Date,
-    guestTypes: GuestType[],
+    pricingTypes: PricingType[],
     genders?: Gender[],
     roomIds?: string[]
 ): Promise<Array<InstanceType<GuestSchema>>> => {
-    if (genders && guestTypes.length !== genders.length) {
-        throw new Error("Gender, GuestType의 길이가 다릅니다.");
+    if (genders && pricingTypes.length !== genders.length) {
+        throw new Error("Gender, PricingType의 길이가 다릅니다.");
     }
-    const params = guestTypes.map(
-        (guestType, idx): GuestInputType => {
+    const params = pricingTypes.map(
+        (pricingType, idx): GuestInputType => {
             return {
-                booker: new ObjectId(bookerId),
-                booking: new ObjectId(bookingId),
-                house: new ObjectId(houseId),
-                roomType: new ObjectId(roomTypeId),
-                allocatedBed: roomIds && new ObjectId(roomIds[idx]),
+                booker: new Types.ObjectId(bookerId),
+                booking: new Types.ObjectId(bookingId),
+                house: new Types.ObjectId(houseId),
+                roomType: new Types.ObjectId(roomTypeId),
+                allocatedBed: roomIds && new Types.ObjectId(roomIds[idx]),
                 start,
                 end,
-                guestType
+                pricingType
             };
         }
     );

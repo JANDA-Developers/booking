@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { extractSeasonPrice } from "../../../models/merge/merge";
 import { RoomTypeModel } from "../../../models/RoomType";
 import { SeasonModel } from "../../../models/Season";
@@ -35,8 +35,8 @@ const resolvers: Resolvers = {
                         };
                     }
                     const existSeasonPrice = await SeasonPriceModel.findOne({
-                        roomType: new ObjectId(roomTypeId),
-                        season: new ObjectId(seasonId)
+                        roomType: new Types.ObjectId(roomTypeId),
+                        season: new Types.ObjectId(seasonId)
                     });
                     if (existSeasonPrice) {
                         return {
@@ -46,8 +46,8 @@ const resolvers: Resolvers = {
                         };
                     }
                     const seasonPrice = new SeasonPriceModel({
-                        roomType: new ObjectId(roomTypeId),
-                        season: new ObjectId(seasonId),
+                        roomType: new Types.ObjectId(roomTypeId),
+                        season: new Types.ObjectId(seasonId),
                         defaultPrice,
                         dayOfWeekPrices
                     });

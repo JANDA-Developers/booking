@@ -42,7 +42,7 @@ input GuestPartInput {
     roomTypeId: ID!
     price: Float!
     discountedPrice: Float
-    guestType: GuestType!
+    pricingType: PricingType!
     count: Int!
     genders: [Gender!]
 }

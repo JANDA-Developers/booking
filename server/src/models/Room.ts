@@ -1,16 +1,8 @@
-import { Types } from "mongoose";
-import {
-    arrayProp,
-    instanceMethod,
-    InstanceType,
-    pre,
-    prop,
-    Typegoose
-} from "typegoose";
-import { Bed } from "../types/graph";
-import { BedModel, BedSchema } from "./Bed";
-import { transformRoomType } from "./merge/merge";
-import { RoomTypeSchema } from "./RoomType";
+import { DocumentQuery, Types } from "mongoose";
+import { instanceMethod, InstanceType, pre, prop, Typegoose } from "typegoose";
+import { Gender, RoomGender } from "../types/graph";
+import { GuestModel, GuestSchema } from "./Guest";
+import { RoomTypeModel, RoomTypeSchema } from "./RoomType";
 
 @pre<RoomSchema>("save", async function(next) {
     try {
@@ -38,9 +30,6 @@ export class RoomSchema extends Typegoose {
     @prop({ min: 0, default: 0 })
     index: number;
 
-    @arrayProp({ items: Types.ObjectId })
-    beds: Types.ObjectId[];
-
     @prop()
     createdAt: Date;
 
@@ -51,38 +40,128 @@ export class RoomSchema extends Typegoose {
     roomSrl?: number;
 
     @instanceMethod
-    async addBeds(
-        this: InstanceType<RoomSchema>
-    ): Promise<Array<InstanceType<BedSchema>>> {
-        // 필요한 프로퍼티... 뭐가있는가
-        // 1. 몇 명의 게스트가 들어갈 수 있는가?
-        // 2. Bed 마다 뭘할까?
-        const roomTypeObj = await transformRoomType(this.roomType);
-        if (!roomTypeObj) {
-            throw new Error("RoomTyoe이 존재하지 않습니다.");
+    findGuestQuery(
+        this: InstanceType<RoomSchema>,
+        start: Date,
+        end: Date
+    ): DocumentQuery<
+        Array<InstanceType<GuestSchema>>,
+        InstanceType<GuestSchema>,
+        {}
+    > {
+        // start, end로 해당 Room에 배정된 Guest들을 가져온다
+        return GuestModel.find({
+            allocatedRoom: new Types.ObjectId(this._id),
+            start: {
+                $lte: end
+            },
+            end: {
+                $gte: start
+            }
+        });
+    }
+
+    @instanceMethod
+    async isAllocatable(this: InstanceType<RoomSchema>) {
+        // PricingType === "ROOM" 인 경우
+        // 게스트들 먼저 다 구하기...
+        return false;
+    }
+
+    @instanceMethod
+    async getAllocateGuest(
+        this: InstanceType<RoomSchema>,
+        start: Date,
+        end: Date
+    ): Promise<{ female: number; male: number; total: number }> {
+        // PricingType === "DOMITORY" 인 경우
+        // 해당 기간 동안에 배정할 수 있는 인원을 구해준다.
+        const roomType = await RoomTypeModel.findById(this.roomType);
+        if (!roomType) {
+            return {
+                female: 0,
+                male: 0,
+                total: 0
+            };
         }
-        const beds: Array<InstanceType<BedSchema>> = [];
-        let bedCount = roomTypeObj.peopleCount;
-        while (bedCount) {
-            beds.push(
-                new BedModel({
-                    name: bedCount + "호",
-                    room: new Types.ObjectId(this._id),
-                    roomType: new Types.ObjectId(this.roomType)
-                })
-            );
-            bedCount--;
+        // 현재 상태를 알아야 함.
+        // 현재 배정되어 있는 방을 보여준다.
+
+        if (roomType.pricingType !== "DOMITORY") {
+            return {
+                female: 0,
+                male: 0,
+                total: 0
+            };
         }
-        return await BedModel.insertMany(
-            beds.map(
-                (bed): Bed => {
-                    const temp: any = {
-                        ...bed
-                    };
-                    return temp._doc;
+
+        const guests = await this.findGuestQuery(start, end).sort({
+            booking: -1
+        });
+
+        const roomGender: RoomGender = roomType.roomGender;
+        const peopleCount: number = roomType.peopleCount;
+        // const peopleLimit: number = roomType.peopleCountMax;
+        let maleCurrentCount = 0;
+        let femaleCurrentCount = 0;
+        let otherCurrentCount = 0;
+        guests.forEach((guest: InstanceType<GuestSchema>) => {
+            if (guest.gender === "FEMALE") {
+                femaleCurrentCount++;
+            }
+            if (guest.gender === "MALE") {
+                maleCurrentCount++;
+            }
+            if (!guest.gender) {
+                otherCurrentCount++;
+            }
+        });
+        const totalCurrentCount =
+            maleCurrentCount + femaleCurrentCount + otherCurrentCount;
+        console.log(totalCurrentCount);
+
+        const result = {
+            male: 0,
+            female: 0,
+            total: 0
+        };
+        // 1. roomGender === FEMALE or MALE 인 경우
+        if (
+            roomGender === "FEMALE" ||
+            roomGender === "MALE" ||
+            roomGender === "MIXED"
+        ) {
+            result.male = peopleCount - maleCurrentCount;
+            result.female = peopleCount - femaleCurrentCount;
+        } else if (roomGender === "SEPARATELY") {
+            // TODO 남여 혼숙 x 인 경우...
+            // 현재 배정되어있는 성별을 확인해 봐야함.
+            // guest.Gender 확인 ㄱㄱ
+            // 한 종류의 성별만 존재하는지 검사 ㄱㄱ
+            if (guests.length === 0) {
+                return {
+                    male: peopleCount,
+                    female: peopleCount,
+                    total: peopleCount
+                };
+            }
+            const gender: Gender = guests[0].gender;
+            result.male = peopleCount;
+            guests.forEach(guest => {
+                // 현재 예약되어있는 게스트들 목록.
+                if (guest.gender !== gender) {
+                    throw new Error("혼숙");
                 }
-            )
-        );
+                result.total++;
+                if (gender === "FEMALE") {
+                    result.male = 0;
+                }
+                if (gender === "MALE") {
+                    result.female = 0;
+                }
+            });
+        }
+        return result;
     }
 }
 

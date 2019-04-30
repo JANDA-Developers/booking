@@ -1,0 +1,12 @@
+type GetGuestsResponse {
+    ok: Boolean!
+    error: String
+    guests: [Guest!]
+}
+type Query {
+    GetGuests(
+        start: DateTime!
+        end: DateTime!
+        houseId: ID!
+    ): GetGuestsResponse!
+}

@@ -1,3 +1,4 @@
+# roomTyoe...
 type RoomType {
     _id: ID!
     name: String!

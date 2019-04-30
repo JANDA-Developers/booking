@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { extractRoom } from "../../../models/merge/merge";
 import { RoomModel } from "../../../models/Room";
 import { RoomTypeModel } from "../../../models/RoomType";
@@ -20,15 +20,14 @@ const resolver: Resolvers = {
                     const room = new RoomModel({
                         ...args
                     });
-                    await room.addBeds();
                     await room.save();
                     await RoomTypeModel.updateOne(
                         {
-                            _id: new ObjectId(args.roomType)
+                            _id: new Types.ObjectId(args.roomType)
                         },
                         {
                             $push: {
-                                rooms: new ObjectId(room._id)
+                                rooms: new Types.ObjectId(room._id)
                             }
                         }
                     );

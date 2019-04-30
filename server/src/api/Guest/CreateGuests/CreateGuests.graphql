@@ -12,6 +12,6 @@ type Mutation {
         roomIds: [ID!]
         start: DateTime!
         end: DateTime!
-        geustType: GuestType!
+        pricingType: PricingType!
     ): CreateGuestsResponse!
 }

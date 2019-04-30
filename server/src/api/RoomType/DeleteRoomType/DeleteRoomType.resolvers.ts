@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { HouseModel } from "../../../models/House";
 import { RoomTypeModel } from "../../../models/RoomType";
 import {
@@ -17,8 +17,8 @@ const resolver: Resolvers = {
             ): Promise<DeleteRoomTypeResponse> => {
                 try {
                     const roomType = await RoomTypeModel.findOne({
-                        _id: new ObjectId(roomTypeId),
-                        house: new ObjectId(houseId)
+                        _id: new Types.ObjectId(roomTypeId),
+                        house: new Types.ObjectId(houseId)
                     });
                     if (!roomType) {
                         return {
@@ -31,7 +31,7 @@ const resolver: Resolvers = {
                     // 기존에 존재하던 인덱스값들 하나씩 -1 ㄱㄱ
                     await RoomTypeModel.updateMany(
                         {
-                            house: new ObjectId(houseId),
+                            house: new Types.ObjectId(houseId),
                             index: {
                                 $gt: index
                             }
@@ -44,11 +44,11 @@ const resolver: Resolvers = {
                     );
                     await HouseModel.updateOne(
                         {
-                            _id: new ObjectId(houseId)
+                            _id: new Types.ObjectId(houseId)
                         },
                         {
                             $pull: {
-                                roomTypes: new ObjectId(roomTypeId)
+                                roomTypes: new Types.ObjectId(roomTypeId)
                             }
                         }
                     );

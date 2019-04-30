@@ -1,7 +1,7 @@
 type UpdateBookingResponse {
     ok: Boolean!
     error: String
-    booking: [Booking!]
+    bookings: [Booking!]
 }
 type Mutation {
     UpdateBooking(

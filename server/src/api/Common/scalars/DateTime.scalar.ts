@@ -7,21 +7,25 @@ function serialize(value: string) {
     // console.log({
     //     date
     // });
-    
     return date;
 }
 
-function parseValue(value: any) {
-    const tov = typeof value;
-    if (tov === "string") {
-        return new Date(value).toISOString();
-    } else if (tov === "number") {
-        return new Date(value).toISOString();
-    } else if (value instanceof Date) {
-        return value.toISOString();
-    } else {
+function parseValue(value: string | Date | number) {
+    const date = new Date(value);
+    date.setUTCHours(0, 0, 0, 0);
+    if (isNaN(date.getTime())) {
         throw new Error("Invalid Date Value");
     }
+    return date.toISOString();
+    // if (tov === "string") {
+    //     return new Date(value).toISOString();
+    // } else if (tov === "number") {
+    //     return new Date(value).toISOString();
+    // } else if (value instanceof Date) {
+    //     return value.toISOString();
+    // } else {
+    //     throw new Error("Invalid Date Value");
+    // }
 }
 
 function parseLiteral(ast) {
