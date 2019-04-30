@@ -38,6 +38,7 @@ import {
   useModal,
   useImageUploader,
   useColorPicker,
+  useDayPicker,
 } from '../../../actions/hook';
 import './ShowComponent.scss';
 import JDcolorPicker from '../../../atoms/colorPicker/ColorPicker';
@@ -57,6 +58,7 @@ function ShowComponents() {
   const colorPickerHook = useColorPicker(defaultColor);
   const colorPickerHook2 = useColorPicker(defaultColor2);
   const colorPickerHook3 = useColorPicker(defaultColor3);
+  const dayPickerHook = useDayPicker(null,null);
   const switchHook = useSwitch(false);
   const refContainer = useRef();
   const [SideNavIsOpen, setSideNavIsOpen] = useToggle(false);
@@ -252,18 +254,18 @@ function ShowComponents() {
           <div className="flex-grid__col col--full-4 col--wmd-12">
             <div className="showComponent__container">
               <JDlabel txt="horizen" />
-              <DayPicker onChange={() => {}} horizen />
+              <DayPicker {...dayPickerHook} onChange={() => {}} horizen />
             </div>
           </div>
           <div className="flex-grid__col col--full-4 col--wmd-12">
             <JDlabel txt="normal" />
-            <DayPicker onChange={() => {}} />
+            <DayPicker {...dayPickerHook} onChange={() => {}} />
           </div>
           <div className="flex-grid__col col--full-4 col--wmd-12">
-            <DayPicker onChange={() => {}} input label="input" isRange />
+            <DayPicker {...dayPickerHook} onChange={() => {}} input label="input" isRange />
           </div>
           <div className="flex-grid__col col--full-4 col--wmd-12">
-            <DayPicker onChange={() => {}} input label="input" isRange={false} />
+            <DayPicker {...dayPickerHook} onChange={() => {}} input label="input" isRange={false} />
           </div>
         </div>
 

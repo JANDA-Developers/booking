@@ -34,6 +34,11 @@ export interface getAllProductTypes {
 // GraphQL query operation: getMyProfile
 // ====================================================
 
+export interface getMyProfile_GetMyProfile_user_houses_hostApplication {
+  __typename: "HostApplication";
+  url: any;
+}
+
 export interface getMyProfile_GetMyProfile_user_houses_product_productType {
   __typename: "ProductType";
   _id: string;
@@ -57,6 +62,7 @@ export interface getMyProfile_GetMyProfile_user_houses_location {
 
 export interface getMyProfile_GetMyProfile_user_houses {
   __typename: "House";
+  hostApplication: getMyProfile_GetMyProfile_user_houses_hostApplication | null;
   product: getMyProfile_GetMyProfile_user_houses_product | null;
   _id: string;
   name: string;
@@ -201,6 +207,11 @@ export interface emailSignInVariables {
 // GraphQL query operation: getHouse
 // ====================================================
 
+export interface getHouse_GetHouse_house_hostApplication {
+  __typename: "HostApplication";
+  url: any;
+}
+
 export interface getHouse_GetHouse_house_product_productType {
   __typename: "ProductType";
   _id: string;
@@ -227,6 +238,7 @@ export interface getHouse_GetHouse_house {
   _id: string;
   name: string;
   houseType: HouseType;
+  hostApplication: getHouse_GetHouse_house_hostApplication | null;
   product: getHouse_GetHouse_house_product | null;
   location: getHouse_GetHouse_house_location;
   createdAt: any;
@@ -359,6 +371,11 @@ export interface getAllRoomTypePriceVariables {
 // GraphQL query operation: getUserForSU
 // ====================================================
 
+export interface getUserForSU_GetUserForSU_user_houses_hostApplication {
+  __typename: "HostApplication";
+  url: any;
+}
+
 export interface getUserForSU_GetUserForSU_user_houses_product_productType {
   __typename: "ProductType";
   _id: string;
@@ -382,6 +399,7 @@ export interface getUserForSU_GetUserForSU_user_houses_location {
 
 export interface getUserForSU_GetUserForSU_user_houses {
   __typename: "House";
+  hostApplication: getUserForSU_GetUserForSU_user_houses_hostApplication | null;
   product: getUserForSU_GetUserForSU_user_houses_product | null;
   _id: string;
   name: string;
@@ -665,6 +683,29 @@ export interface createRoomPriceVariables {
   price: number;
   roomTypeId: string;
   houseId: string;
+  date: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: deleteRoomPrice
+// ====================================================
+
+export interface deleteRoomPrice_DeleteRoomPrice {
+  __typename: "DeleteRoomPriceResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface deleteRoomPrice {
+  DeleteRoomPrice: deleteRoomPrice_DeleteRoomPrice;
+}
+
+export interface deleteRoomPriceVariables {
+  roomTypeId: string;
   date: any;
 }
 
@@ -1141,6 +1182,11 @@ export interface FpageInfo {
 // GraphQL fragment: fieldsUser
 // ====================================================
 
+export interface fieldsUser_houses_hostApplication {
+  __typename: "HostApplication";
+  url: any;
+}
+
 export interface fieldsUser_houses_product_productType {
   __typename: "ProductType";
   _id: string;
@@ -1164,6 +1210,7 @@ export interface fieldsUser_houses_location {
 
 export interface fieldsUser_houses {
   __typename: "House";
+  hostApplication: fieldsUser_houses_hostApplication | null;
   product: fieldsUser_houses_product | null;
   _id: string;
   name: string;

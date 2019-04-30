@@ -2,6 +2,7 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import Radio from '../../../../atoms/forms/Radio';
 import './Product.scss';
+import { Product } from '../../../../types/apiEnum';
 
 const product = ({
   productIndex,
@@ -23,7 +24,7 @@ const product = ({
 
   const tooltipTargetFind = () => {
     if (isCurrent) return 'tooltip__currentProduct';
-    if (productIndex === '상품1') return undefined;
+    if (productIndex === Product.TEST) return undefined;
     if (!isPhoneVerified) return 'tooltip__productDisable';
     return undefined;
   };

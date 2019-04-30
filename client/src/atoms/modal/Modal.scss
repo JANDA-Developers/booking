@@ -23,7 +23,7 @@
     &__Content  {
         background-color:white;
         position: relative;
-        padding: $modal-content-padding * 2;
+        padding: $modal-content-padding;
         outline: none;
         border-radius: $modal-border-radius;
         @extend %z-depth-3;
@@ -57,6 +57,7 @@
         text-align:center;
     }
     
+    // 엔드섹션
     &__endSection {
 
         &--float {
@@ -64,6 +65,8 @@
         }
         
         bottom: 0 + $modal-content-padding;
+        left: $modal-content-padding;
+        right: $modal-content-padding;
         .JDbtn {
             margin-bottom: 0;
         }
@@ -71,7 +74,8 @@
             margin-bottom: 0;
         }
     }
-
+    
+    // 모달 내부 영역구분
     .modal__section {
         padding-bottom: $modal-section;
     }

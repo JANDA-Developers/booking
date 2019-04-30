@@ -2,6 +2,15 @@
 
 .DayPicker {
 
+    &--unRange {
+        .DayPicker-Day {
+            border-radius: 0px!important;
+            &--start {
+                color:white;
+            }
+        }
+    }
+
     &-box {
         position: relative;
     }

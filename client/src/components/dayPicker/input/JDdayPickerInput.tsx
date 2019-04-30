@@ -98,7 +98,7 @@ const JDdayPickerInput: React.FC<IProps> = ({
             className="JDinput"
             {...props}
             {...inProps}
-            // value={!isRange && from && valueFormatter(from, format, locale)}
+            value={!isRange && from && dateForMatter(from, format, 'kr')}
           />
         )}
         hideOnDayClick={!isRange}

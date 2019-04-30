@@ -25,6 +25,7 @@ interface IProps extends IUseDayPicker {
   format?: string;
   lang?: string;
   maxLimit?: boolean;
+  canSelectBeforeDays?: boolean;
   onChangeDate?(foo?: string | Date | null, foo2?: string | Date | null): void;
 }
 
@@ -43,10 +44,12 @@ const JDdayPicker: React.SFC<IProps> = ({
   to,
   setTo,
   entered,
+  canSelectBeforeDays,
   setEntered,
   maxLimit,
 }) => {
   const dayPickerFullWrap: any = useRef();
+  const isInitialMount = useRef(true);
 
   // 리셋버튼 클릭 이벤트
   const handleResetClick = () => {
@@ -69,24 +72,24 @@ const JDdayPicker: React.SFC<IProps> = ({
     if (!isSelectingFromDay(from, to, day)) setEntered(day);
   };
 
-  console.log('🌟from');
   console.log(from);
+  console.log(to);
   // handle --day : Click
   const handleDayClick = (day: Date, modifiers: DayModifiers) => {
     // 불가능한 날자를 눌럿을경우에
     if (modifiers.disabled) return;
 
-    // 이미 선택된 날을 눌렀을경우에
-    if (from && to && day >= from && day <= to) {
-      console.log('it Reseted');
-      handleResetClick();
-      return;
-    }
-
     // 범위선택이 아닌 경우에
     if (!isRange) {
       setFrom(day);
+      setEntered(day);
       setTo(day);
+      return;
+    }
+
+    // 이미 선택된 날을 눌렀을경우에
+    if (from && to && day >= from && day <= to) {
+      handleResetClick();
       return;
     }
 
@@ -114,6 +117,10 @@ const JDdayPicker: React.SFC<IProps> = ({
   }, []);
 
   useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
     onChangeDate && onChangeDate(from, to);
   }, [from, to]);
 
@@ -121,6 +128,7 @@ const JDdayPicker: React.SFC<IProps> = ({
     'DayPicker--horizen': horizen,
     'DayPicker--input': input,
     'DayPicker--maxLimit': maxLimit,
+    'DayPicker--unRange': !isRange,
   });
 
   const modifiers = { start: from, end: entered };
@@ -144,10 +152,8 @@ const JDdayPicker: React.SFC<IProps> = ({
       return element;
     },
     className: `Range ${classes}`,
-    fromMonth: from || undefined,
-    selectedDays: isRange ? selectedDays : undefined,
+    selectedDays,
     modifiers,
-    // 👿 여기 문제가있다.
     onDayClick: handleDayClick,
     onDayMouseEnter: handleDayMouseEnter,
     numberOfMonths: horizen ? 3 : 1,
@@ -157,7 +163,7 @@ const JDdayPicker: React.SFC<IProps> = ({
     weekdaysShort: WEEKDAYS_SHORT,
     locale: lang,
     showOutsideDays: false,
-    disabledDays: [{ before: new Date() }],
+    disabledDays: canSelectBeforeDays ? undefined : [{ before: new Date() }] ,
   };
 
   return (

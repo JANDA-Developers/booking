@@ -36,6 +36,9 @@ const F_USER_INFO = gql`
     checkPrivacyPolicy
     userRole
     houses {
+      hostApplication {
+        url
+      }
       product {
         _id
         name
@@ -200,6 +203,9 @@ export const GET_HOUSE = gql`
         _id
         name
         houseType
+        hostApplication {
+          url
+        }
         product {
           _id
           name
@@ -418,6 +424,14 @@ export const CREATE_ROOM = gql`
 export const CREATE_ROOM_PRICE = gql`
   mutation createRoomPrice($price: Float!, $roomTypeId: ID!, $houseId: ID!, $date: DateTime!) {
     CreateRoomPrice(price: $price, roomTypeId: $roomTypeId, houseId: $houseId, date: $date) {
+      ok
+      error
+    }
+  }
+`;
+export const DELETE_ROOM_PRICE = gql`
+  mutation deleteRoomPrice($roomTypeId: ID!, $date: DateTime!) {
+    DeleteRoomPrice(roomTypeId: $roomTypeId, date: $date) {
       ok
       error
     }

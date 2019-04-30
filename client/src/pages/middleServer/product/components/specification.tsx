@@ -1,4 +1,5 @@
 import React from 'react';
+import { Product } from '../../../../types/apiEnum';
 
 const getProducts = ({
   productTypes,
@@ -9,7 +10,7 @@ const getProducts = ({
 }: any) => {
   const product0 = {
     ...sharedProductProps,
-    productIndex: '상품1',
+    productIndex: Product.TEST,
     productName: '데모 상품',
     value: testProductId,
     roomLimit: '',
