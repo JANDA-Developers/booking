@@ -19,16 +19,10 @@ type Booking {
 }
 
 enum BookingStatus {
-    # 입금 대기
-    WAIT_DEPOSIT
     # 예약 완료
     COMPLETE
-    # 예약 취소(입금 전에 취소를 신청하여 바로 처리되었거나 환불이 완료되어 취소된 상태를 뜻함)
+    # 예약 취소
     CANCEL
-    # 환불 대기
-    REFUND_WAIT
-    # 체크인 할떄 방값 지불
-    PAY_WHEN_CHK_IN
 }
 
 input BookingInput {

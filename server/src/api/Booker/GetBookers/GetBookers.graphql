@@ -1,0 +1,9 @@
+type GetBookersResponse {
+    ok: Boolean!
+    error: String
+    bookers: [Booker!]
+    pageInfo: PageInfoOffsetBase
+}
+type Query {
+    GetBookers(houseId: ID!, page: Int!, count: Int!): GetBookersResponse!
+}
