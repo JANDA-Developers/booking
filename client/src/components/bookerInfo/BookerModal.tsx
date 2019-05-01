@@ -8,7 +8,7 @@ import InputText from '../../atoms/forms/InputText';
 import Button from '../../atoms/button/Button';
 import RoomSelectInfoTable from './components/roomSelectInfoTable';
 import JDdayPicker from '../dayPicker/DayPicker';
-import { BOOKING_STATUS_OP } from '../../types/apiEnum';
+import { BOOKING_STATUS_OP, PAYMENT_STATUS_OP, PAYMETHOD_OP } from '../../types/apiEnum';
 import JDselect from '../../atoms/forms/SelectBox';
 import JDbox from '../../atoms/box/JDbox';
 import './BookerModal.scss';
@@ -20,6 +20,8 @@ interface IProps {
 
 // ❕ 어차피 버튼 눌러서 수정할거니까 전부 STATE 에 하면됨
 const POPbookerInfo: React.FC<IProps> = ({ modalHook, bookerInfo }) => {
+  // 모달 훅안에 id 를 기반으로 default Value들을 찾아내고
+  // key를 이용해서 초기화하면됨
   const bookerNameHook = useInput('');
   const bookerPhoneHook = useInput('');
   const bookerStatueHook = useSelect(BOOKING_STATUS_OP[0]);
@@ -46,7 +48,7 @@ const POPbookerInfo: React.FC<IProps> = ({ modalHook, bookerInfo }) => {
       overlayClassName="Overlay"
     >
       <div className="modal__section">
-        <h4>예약자정보</h4>
+        <h6>예약자정보</h6>
         <div className="flex-grid">
           <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
             <InputText {...bookerNameHook} label="예약자" />
@@ -63,7 +65,7 @@ const POPbookerInfo: React.FC<IProps> = ({ modalHook, bookerInfo }) => {
         </div>
       </div>
       <div className="modal__section">
-        <h4>예약정보</h4>
+        <h6>예약정보</h6>
         <div className="flex-grid">
           <div className="flex-grid__col col--full-8 col--lg-8 col--md-8">
             <JDdayPicker {...resvDateHook} input isRange label="숙박일자" />
@@ -74,11 +76,19 @@ const POPbookerInfo: React.FC<IProps> = ({ modalHook, bookerInfo }) => {
           <div className="flex-grid__col col--full-12 col--lg-12 col--md-12">
             <RoomSelectInfoTable />
           </div>
-          <div className="flex-grid__col col--full-6 col--lg-6 col--md-6">
+        </div>
+      </div>
+      <div className="modal__section">
+        <h6>결제정보</h6>
+        <div className="flex-grid">
+          <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
             <InputText label="총금액" />
           </div>
-          <div className="flex-grid__col col--full-6 col--lg-6 col--md-6">
-            <JDselect label="결제수단" />
+          <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
+            <JDselect options={PAYMETHOD_OP} label="결제수단" />
+          </div>
+          <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
+            <JDselect options={PAYMENT_STATUS_OP} label="결제상태" />
           </div>
         </div>
       </div>

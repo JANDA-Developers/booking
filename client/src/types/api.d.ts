@@ -281,13 +281,13 @@ export interface getAllRoomType_GetAllRoomType_roomTypes {
   __typename: "RoomType";
   _id: string;
   name: string;
+  index: number;
+  description: string | null;
   pricingType: PricingType;
   peopleCount: number;
   peopleCountMax: number;
   roomGender: RoomGender;
   roomCount: number;
-  index: number;
-  description: string | null;
   createdAt: any;
   updatedAt: any | null;
   img: any | null;
@@ -1252,12 +1252,6 @@ export enum Gender {
   MALE = "MALE",
 }
 
-export enum GuestType {
-  BLOCK_ROOM = "BLOCK_ROOM",
-  DOMITORY = "DOMITORY",
-  ROOM = "ROOM",
-}
-
 export enum HouseType {
   GUEST_HOUSE = "GUEST_HOUSE",
   HOSTEL = "HOSTEL",
@@ -1313,7 +1307,7 @@ export interface GuestPartInput {
   roomTypeId: string;
   price: number;
   discountedPrice?: number | null;
-  guestType: GuestType;
+  pricingType: PricingType;
   count: number;
   genders?: Gender[] | null;
 }

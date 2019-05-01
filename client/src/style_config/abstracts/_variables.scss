@@ -108,7 +108,7 @@ $standard-disabled-color: $grey-level1 !default;
 $standard-space: 1rem !default; // except textInput 구조가 다름
 $standard-margin-bottom: 1.0rem !default; // except textInput 구조가 다름
 $standard-border-radius: 3px;
-$standard-li-height: 36px;
+$standard-line-height: 2.25rem; // ⭐️ 구성요소들이 한줄에 섰을때 세로 크기를 정의합니다.
 $standard-lists-line: 150%; // 옹기종기모인 div들 정리용
 $standard-side-padding: .5rem; // side
 $standard-padding: $standard-side-padding; // side
@@ -123,7 +123,8 @@ $standard-placeholder-color : $grey-level3;
 // 1. Forms 폼
 // ANCHOR Forms ==========================================================================
 // -- Text Inputs + Textarea 인풋
-$input-height: 2.8rem !default;
+$input-padding-top: 0.875rem;
+$input-height: $standard-line-height !default;
 $input-border: 1px solid $standard-outborder-color !default;
 $input-background: #fff !default;
 $input-error-color: $error-color !default;
@@ -131,7 +132,6 @@ $input-success-color: $success-color !default;
 $input-focus-color: $primary-color-light !default;
 $input-font-size: $typho-normal !default;
 
-$input-padding-top: 1rem;
 $input-padding: $input-padding-top 0 0 0 !default;
 $input-transition: all 0.3s !default;
 $input-disabled-color: $standard-disabled-color!default;
@@ -149,14 +149,14 @@ $radio-border: 2px solid $radio-fill-color !default;
 $radio-disabled-color: $standard-disabled-color;
 
 // -- Select 셀렉트  option is a li 😸
-$select-height: 38px;
+$select-height: $standard-line-height;
 $select-border: 1px solid $standard-outborder-color !default;
 $select-option-active-bgcolor: $hover-effect-dark !default;
 $select-option-selected-bgcolor: $primary-color !default;
 $select-option-selected-color: #fff !default;
 $select-option-hover-bgcolor: $hover-effect-dark !default;
 $select-option-padding: 0rem $standard-padding;
-$select-option-height: $standard-li-height;
+$select-option-height: $standard-line-height;
 $select-padding: 2px .5rem !default;
 $select-radius: $standard-border-radius !default;
 $select-disabled-color: $standard-disabled-color !default;
@@ -229,7 +229,7 @@ $dayPicker-input-height : $input-height + 1rem;
 // -- Shared styles
 $button-border: none !default;
 $button-font-size: $typho-large !default;
-$button-height: 2.25rem !default;
+$button-height: $standard-line-height !default;
 $button-padding-side: 1rem !default;
 $button-padding: 0 $button-padding-side !default;
 $button-radius: $standard-border-radius !default;
@@ -256,7 +256,6 @@ $button-flat-color: $html-color !default;
 $button-flat-disabled-color: $button-disabled-color !default;
 
 // -- small buttons
-$button-small-height: 34px !default;
 $button-small-padding-side: .6rem !default;
 $button-small-padding: 0 $button-small-padding-side !default;
 $button-small-font-size: $typho-normal !default;
@@ -279,7 +278,7 @@ $searchInput-border-color:$grey-level1 !default;
 $searchInput-border-radius: $standard-border-radius;
 $searchInput-li-border-top: 1px dotted $searchInput-border-color !default;
 $searchInput-li-padding: .3rem $standard-side-padding !default;
-$searchInput-li-height: $standard-li-height !default;
+$searchInput-li-height: $standard-line-height !default;
 $searchInput-message-space: 1rem;
 
 // 7 SideNav 사이드 네비
@@ -346,7 +345,7 @@ $card-padding: $container-padding;
 // 15 Tabs 탭
 // ANCHOR tabs Tabs=========================================================================
 
-$tabs-height: $standard-li-height;
+$tabs-height: $standard-line-height;
 $tabs-margin-bottom: $standard-margin-bottom;
 $tabs-tab-padding:  $standard-padding;
 $tabs-tab-border-color: $standard-outborder-color;
@@ -379,8 +378,8 @@ $IUploader-border-color: $standard-outborder-color;
 
 // 20 colorPicker 컬러 칼라 컬러픽커
 // ANCHOR color Color=========================================================================
-$colorPicker-padding: 5px;
-$colorPicker-height: $standard-li-height  - ($colorPicker-padding * 2);
+$colorPicker-padding: 0.3125rem;
+$colorPicker-height: $standard-line-height  - ($colorPicker-padding * 2);
 $colorPicker-width: 3rem;
 $colorPicker-radius: $standard-border-radius;
 $colorPicker-outborder-color: $standard-outborder-color;

@@ -88,12 +88,14 @@ export enum TimePerMs {
   DAY = 24 * 60 * 60 * 1000,
 }
 
+export enum PaymentStatus {
+  NOT_YET = 'NOT_YET',
+  COMPLETE = 'COMPLETE',
+}
+
 export enum BookingStatus {
-  WAIT_DEPOSIT = 'WAIT_DEPOSIT',
   COMPLETE = 'COMPLETE',
   CANCEL = 'CANCEL',
-  REFUND_WAIT = 'REFUND_WAIT',
-  PAY_WHEN_CHK_IN = 'PAY_WHEN_CHK_IN',
 }
 
 export enum PayMethod {
@@ -108,6 +110,15 @@ export enum Product {
   TEST = '상품1',
 }
 
+// css variable 의 breackPoints 와 일치하도록 하세요.
+export enum WindowSize {
+  MOBILE = 400,
+  PHABLET = 550,
+  TABLET = 750,
+  DESKTOP = 1000,
+  DESKTOPHD = 1200,
+}
+
 //= =============================================================
 // START global options
 //= =============================================================
@@ -118,6 +129,20 @@ export const SELECT_DUMMY_OP = [
   { value: 'vanilla', label: 'Vanilla' },
 ];
 
+export const SELECT_COUNT_DUMMY_OP = [
+  { value: 0, label: '0' },
+  { value: 1, label: '1' },
+  { value: 2, label: '2' },
+  { value: 3, label: '3' },
+  { value: 4, label: '4' },
+  { value: 5, label: '5' },
+  { value: 6, label: '6' },
+  { value: 7, label: '7' },
+  { value: 8, label: '8' },
+  { value: 9, label: '9' },
+  { value: 10, label: '10' },
+];
+
 export const AUTO_SEND_OP = [
   { value: AutoSms.NO_SEND, label: '발신안함' },
   { value: AutoSms.COMPELETE, label: '예약완료시' },
@@ -125,14 +150,14 @@ export const AUTO_SEND_OP = [
   { value: AutoSms.CANCEL, label: '예약취소시' },
 ];
 
-// 💛 대기 랑 입금대기를 나누는게 좋다
-// 대기는 뭐가될지 모르는 상태인거임!!
 export const BOOKING_STATUS_OP = [
   { value: BookingStatus.COMPLETE, label: '예약완료' },
-  { value: BookingStatus.WAIT_DEPOSIT, label: '입금대기' },
   { value: BookingStatus.CANCEL, label: '예약취소' },
-  { value: BookingStatus.REFUND_WAIT, label: '환불대기' },
-  { value: BookingStatus.PAY_WHEN_CHK_IN, label: '대기' },
+];
+
+export const PAYMENT_STATUS_OP = [
+  { value: PaymentStatus.COMPLETE, label: '결제완료' },
+  { value: PaymentStatus.NOT_YET, label: '미결제' },
 ];
 
 export const SMS_TARGET_OP = [
@@ -149,6 +174,26 @@ export const PAYMETHOD_OP = [
   { value: PayMethod.CHANNEL, label: '채널결제' },
   { value: PayMethod.ELSE, label: '기타' },
 ];
+
+export const ROOM_GENDER_OP = [
+  { value: RoomGender.MIXED, label: RoomGenderKr.MIXED },
+  { value: RoomGender.SEPARATELY, label: RoomGenderKr.SEPARATELY },
+  { value: RoomGender.MALE, label: RoomGenderKr.MALE },
+  { value: RoomGender.FEMALE, label: RoomGenderKr.FEMALE },
+];
+
+export const PRICING_TYPE_OP = [
+  { value: PricingType.DOMITORY, label: PricingTypeKr.DOMITORY },
+  { value: PricingType.ROOM, label: PricingTypeKr.ROOM },
+];
+
+export const MAX_PEOPLE_COUNT_OP_FN = () => {
+  const maxPeopleCountOption = [];
+  for (let i = 0; i < 100; i += 1) {
+    maxPeopleCountOption.push({ value: i, label: `${i}명` });
+  }
+  return maxPeopleCountOption;
+};
 
 // --필요한것
 // 예약상태

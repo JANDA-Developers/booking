@@ -245,16 +245,16 @@ function useSwitch(defaultValue: boolean) {
   return { checked, onChange };
 }
 
-export interface IUseSelect {
-  selectedOption: IselectedOption;
-  onChange(foo: any): void;
+export interface IUseSelect<V = any> {
+  selectedOption: IselectedOption<V>;
+  onChange(foo: IselectedOption<V>): void;
 }
 
 // 셀렉트박스 훅
-function useSelect(defaultValue: IselectedOption) {
+function useSelect<V = any>(defaultValue: IselectedOption): IUseSelect<V> {
   const [selectedOption, setSelectedOption] = useState(defaultValue);
 
-  const onChange = (value: any) => {
+  const onChange = (value: IselectedOption) => {
     setSelectedOption(value);
   };
 

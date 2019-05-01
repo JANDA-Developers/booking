@@ -77,6 +77,20 @@ export const GET_All_PRODUCTS_TYPES = gql`
     }
   }
 `;
+// 예약모두 가져오기
+// export const GET_All_BOOKINGS = gql`
+//   query getBookings($page: Int!, $count: Int!, $houseId: ID!) {
+//     GetBookings {
+//     ok
+//       error
+//       bookings {
+//         _id
+//         bookingId
+//         name
+//       }
+//     }
+//   }
+// `;
 
 // 유저 핸드폰 가져오기
 export const GET_MY_PHON_NUMBER = gql`
@@ -230,15 +244,12 @@ export const GET_ALL_ROOMTYPES = gql`
       ok
       error
       roomTypes {
-        _id
-        name
+        ...FminiRoomType
         pricingType
         peopleCount
         peopleCountMax
         roomGender
         roomCount
-        index
-        description
         createdAt
         updatedAt
         img
@@ -252,6 +263,7 @@ export const GET_ALL_ROOMTYPES = gql`
       }
     }
   }
+  ${F_MINI_ROOM_TYPE}
 `;
 
 // 모든 방타입 가져오기

@@ -78,9 +78,11 @@ const InputText: React.FC<IProps> = ({
 
   const { className } = props;
   const classes = classNames(textarea ? 'JDtextarea' : 'JDinput', className, {
+    'JDinput--labeled': label !== undefined && !textarea,
     'JDinput--valid': isValid === true && !textarea,
     'JDinput--invalid': isValid === false && !textarea,
     /* --------------------------------- 텍스트어리어 --------------------------------- */
+    'JDtextarea--labeled': label !== undefined && textarea,
     'JDtextarea--scroll': scroll && textarea,
     'JDtextarea--doubleHeight': doubleHeight && textarea,
     'JDtextarea--halfHeight': halfHeight && textarea,

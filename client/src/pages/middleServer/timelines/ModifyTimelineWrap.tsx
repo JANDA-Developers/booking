@@ -3,7 +3,7 @@
 import React, { Fragment } from 'react';
 import { Mutation, Query } from 'react-apollo';
 import { TimelineGroup } from 'react-calendar-timeline';
-import { getAllRoomType, getAllRoomType_GetAllRoomType_roomTypes as roomTypes } from '../../../types/api';
+import { getAllRoomType } from '../../../types/api';
 import { useToggle, useModal2 } from '../../../actions/hook';
 import ModifyTimeline from './ModifyTimeline';
 import { ModifydefaultProps } from './timelineConfig';
@@ -13,7 +13,7 @@ import {
 } from '../../../utils/utils';
 import RoomTypeModal from './components/RoomTypeModalWrap';
 import RoomModal from './components/RoomModalWrap';
-import { ISelectHouse } from '../../../types/interface';
+import { ISelectHouse, IRoomType } from '../../../types/interface';
 
 export enum ADD_ROOM {
   'ADDROOM' = -1,
@@ -34,7 +34,7 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
 
   const refetchRoomData = [{ query: GET_ALL_ROOMTYPES, variables: { houseId: selectedHouse._id } }];
 
-  const roomDataManufacture = (roomDatas: roomTypes[] | null | undefined = []) => {
+  const roomDataManufacture = (roomDatas: IRoomType[] | null | undefined = []) => {
     const roomGroups = [];
 
     if (roomDatas) {
@@ -83,6 +83,12 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
         showError(error);
         const roomTypesData = QueryDataFormater(roomData, 'GetAllRoomType', 'roomTypes', undefined); // 원본데이터
         const formatedRoomData = roomDataManufacture(roomTypesData); // 타임라인을 위해 가공된 데이터
+        console.log('roomData');
+        console.log(roomData);
+        console.log('roomTypesData');
+        console.log(roomTypesData);
+        console.log('formatedRoomData');
+        console.log(formatedRoomData);
         return (
           // 방생성 뮤테이션
           <Fragment>

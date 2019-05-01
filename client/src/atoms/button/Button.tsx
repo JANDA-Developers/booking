@@ -24,6 +24,7 @@ interface IProps extends React.HTMLAttributes<HTMLButtonElement> {
   thema?: 'primary' | 'grey' | 'secondary' | 'warn' | 'normal';
   pulse?: boolean;
   blink?: boolean;
+  toggle?: boolean;
   preloader?: boolean;
   className?: string;
 }
@@ -47,6 +48,8 @@ const Button: React.FC<IProps> = ({
   preloader,
   className,
   size,
+  // 투글은 클래스만 바꾸어 줍니다.
+  toggle,
   ...props
 }) => {
   const classes = classNames('JDbtn', className, {
@@ -63,6 +66,7 @@ const Button: React.FC<IProps> = ({
     'JDbtn--warn': thema === 'warn',
     'JDwaves-effect-dark': mode === 'flat' && thema === 'normal',
     'JDbtn--pulse': pulse,
+    'JDbtn--toogleOn': toggle,
     'JDtext-blink': blink,
   });
 

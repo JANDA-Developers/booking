@@ -34,7 +34,7 @@ const ModifyTimeline: React.SFC<IProps> = ({
   loading,
   ...timelineProps
 }) => {
-  // 그룹 렌더
+  // 그룹 렌더 이건 밖으로 뺄수 있을것이다.
   const ModifyGroupRendererFn = ({ group }: any) => {
     const roomType: IRoomType | undefined | null = roomTypesData && roomTypesData[group.roomTypeIndex];
     const roomTypeCount: number = roomType ? roomType.roomCount : 0;

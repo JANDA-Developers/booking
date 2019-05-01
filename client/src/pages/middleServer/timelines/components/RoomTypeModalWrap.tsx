@@ -54,7 +54,7 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({
     img: roomImageHook.fileUrl,
     pricingType: roomTypeValue.pricingType.value,
     roomGender: roomTypeValue.roomGender.value,
-    peopleCount: roomTypeValue.peopleCount.value,
+    peopleCount: roomTypeValue.peopleCountMax.value,
     peopleCountMax: roomTypeValue.peopleCountMax.value,
     description: roomTypeValue.description,
   };

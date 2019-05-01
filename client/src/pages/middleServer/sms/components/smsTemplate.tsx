@@ -1,6 +1,6 @@
 import React, { useState, Fragment } from 'react';
 import JDLabel from '../../../../atoms/label/JDLabel';
-import JDselect from '../../../../atoms/forms/SelectBox';
+import JDselect, { SelectBoxSize } from '../../../../atoms/forms/SelectBox';
 import { AUTO_SEND_OP, SMS_TARGET_OP } from '../../../../types/apiEnum';
 import { useSelect, useInput } from '../../../../actions/hook';
 import InputText from '../../../../atoms/forms/InputText';
@@ -44,8 +44,8 @@ const HouseCard: React.SFC<IProps> = () => {
       </div>
       <div className="JDz-index-1 flex-grid flex-grid--start">
         {/* props 로부터 받아서 쓸거임. onChange시에는 뮤테이션을 날리겠지. */}
-        <JDselect isMulti size="11rem" options={AUTO_SEND_OP} label="자동발신" />
-        <JDselect size="9rem" options={SMS_TARGET_OP} label="발신대상" />
+        <JDselect isMulti size={SelectBoxSize.FIVE} options={AUTO_SEND_OP} label="자동발신" />
+        <JDselect size={SelectBoxSize.FOUR} options={SMS_TARGET_OP} label="발신대상" />
         <Switch label="활성화" />
       </div>
       <div>

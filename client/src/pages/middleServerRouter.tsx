@@ -170,7 +170,7 @@ const JDmiddleServer: React.SFC<IProps> = ({
         {/* /* ------------------------------ JANDA BOOKING ----------------------------- */}
         {' '}
         {/* 방배정 */}
-        <Route exact path="/middleServer/assigTimeline" render={AssigTimeline} />
+        <Route exact path="/middleServer/assigTimeline" render={() => <AssigTimeline houseId={selectedHouse._id} />} />
         {/* 자세한 가격설정 */}
         <Route
           exact

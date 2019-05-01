@@ -66,8 +66,6 @@ const JDdayPickerInput: React.FC<IProps> = ({
   // input에 들어갈 값을 여기서 조작
   //  어째서인지 여기 2번쨰 호출시에만 호출됨
   const valueFormatter = (date: Date, informat: string, locale: string): string => {
-    console.log('from⭐️');
-    console.log(from);
     let inDate = from;
     if (!inDate) inDate = date;
     const inFrom = dateForMatter(inDate, informat, locale);
@@ -93,9 +91,7 @@ const JDdayPickerInput: React.FC<IProps> = ({
           <InputText
             label={label}
             icon="calendar"
-            size={IconSize.MEDIUM}
             daypicker
-            className="JDinput"
             {...props}
             {...inProps}
             value={!isRange && from && dateForMatter(from, format, 'kr')}

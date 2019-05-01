@@ -8,7 +8,13 @@ import Button from '../../../../atoms/button/Button';
 import JDLabel from '../../../../atoms/label/JDLabel';
 import ImageUploader from '../../../../components/imageUploader/ImageUploader';
 import {
-  PricingType, RoomGender, PricingTypeKr, RoomGenderKr,
+  PricingType,
+  RoomGender,
+  PricingTypeKr,
+  RoomGenderKr,
+  MAX_PEOPLE_COUNT_OP_FN,
+  ROOM_GENDER_OP,
+  PRICING_TYPE_OP,
 } from '../../../../types/apiEnum';
 
 interface IProps {
@@ -66,6 +72,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
   const onChangeMaxPeople = (inValue: any) => {
     setValue({ ...value, peopleCountMax: inValue });
 
+    // 🔶 Deprecated
     const inPeopleCountOption = [];
     for (let i = 1; i <= inValue.value; i += 1) {
       const tmp = { value: i, label: `${i}명` };
@@ -75,22 +82,11 @@ const RoomTypeModal: React.SFC<IProps> = ({
     setPeopleCountOption(inPeopleCountOption);
   };
 
-  const maxPeopleCountOption: IselectedOption[] = [];
-  for (let i = 1; i < 100; i += 1) {
-    maxPeopleCountOption.push({ value: i, label: `${i}명` });
-  }
+  const maxPeopleCountOption = MAX_PEOPLE_COUNT_OP_FN();
 
-  const pricingTypeOptions = [
-    { value: PricingType.DOMITORY, label: PricingTypeKr.DOMITORY },
-    { value: PricingType.ROOM, label: PricingTypeKr.ROOM },
-  ];
+  const pricingTypeOptions = PRICING_TYPE_OP;
 
-  const genderOptions = [
-    { value: RoomGender.MIXED, label: RoomGenderKr.MIXED },
-    { value: RoomGender.SEPARATELY, label: RoomGenderKr.SEPARATELY },
-    { value: RoomGender.MALE, label: RoomGenderKr.MALE },
-    { value: RoomGender.FEMALE, label: RoomGenderKr.FEMALE },
-  ];
+  const genderOptions = ROOM_GENDER_OP;
 
   return (
     <Modal
@@ -115,7 +111,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
             }}
           />
         </div>
-        <div className="flex-grid__col  col--full-3 col--lg-6 col--md-12">
+        {/* <div className="flex-grid__col  col--full-3 col--lg-6 col--md-12">
           <SelectBox
             label="수용인원"
             disabled={false}
@@ -125,10 +121,10 @@ const RoomTypeModal: React.SFC<IProps> = ({
             options={peopleCountOption}
             selectedOption={value.peopleCount}
           />
-        </div>
-        <div className="flex-grid__col  col--full-3 col--lg-6 col--md-12">
+        </div> */}
+        <div className="flex-grid__col  col--full-6 col--lg-6 col--md-12">
           <SelectBox
-            label="수용최대인원"
+            label="수용인원"
             disabled={false}
             onChange={onChangeMaxPeople}
             options={maxPeopleCountOption}
@@ -173,10 +169,10 @@ const RoomTypeModal: React.SFC<IProps> = ({
         </div>
       </div>
       <div className="JDmodal__endSection">
-        <Button label="생성하기" mode="flat" onClick={onCreateRoomType} />
-        <Button label="수정하기" mode="flat" onClick={onUpdateRoomType} />
-        <Button label="삭제하기" mode="flat" onClick={onDeleteRoomType} />
-        <Button label="닫기" mode="flat" onClick={modalHook.closeModal} />
+        <Button thema="primary" label="생성하기" mode="flat" onClick={onCreateRoomType} />
+        <Button thema="primary" label="수정하기" mode="flat" onClick={onUpdateRoomType} />
+        <Button thema="warn" label="삭제하기" mode="flat" onClick={onDeleteRoomType} />
+        {/* <Button label="닫기" mode="flat" onClick={modalHook.closeModal} /> */}
       </div>
     </Modal>
   );
