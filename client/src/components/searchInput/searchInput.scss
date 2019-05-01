@@ -4,6 +4,10 @@
     position: relative;
     display: block;
 
+    &--labeled {
+        padding-top:$standard-label-margin;    
+    }
+
     &__label {
         position: absolute;
         top: 0.1rem;
