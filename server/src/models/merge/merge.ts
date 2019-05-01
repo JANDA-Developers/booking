@@ -542,6 +542,18 @@ export const extractBookings = async (
     );
 };
 
+export const extractBookers = async (
+    bookers: Array<InstanceType<BookerSchema>>
+): Promise<Booker[]> => {
+    return await Promise.all(
+        bookers.map(
+            async (booker): Promise<Booker> => {
+                return await extractBooker(booker);
+            }
+        )
+    );
+};
+
 export const transformBooking = async (
     bookingId: string | Types.ObjectId
 ): Promise<Booking | null> => {
