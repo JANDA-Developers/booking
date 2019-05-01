@@ -19,7 +19,10 @@ const resolvers: Resolvers = {
             const { booker, start, end, guest } = bookingParams;
             try {
                 // Booker 생성
-                const bookerInstance = new BookerModel(booker);
+                const bookerInstance = new BookerModel({
+                    ...booker,
+                    house: new Types.ObjectId(booker.house)
+                });
                 await bookerInstance.hashPassword();
                 const bookerId = new Types.ObjectId(bookerInstance._id);
                 // Booker 생성 완료
