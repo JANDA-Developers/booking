@@ -230,15 +230,12 @@ export const GET_ALL_ROOMTYPES = gql`
       ok
       error
       roomTypes {
-        _id
-        name
+        ...FminiRoomType
         pricingType
         peopleCount
         peopleCountMax
         roomGender
         roomCount
-        index
-        description
         createdAt
         updatedAt
         img
@@ -252,6 +249,7 @@ export const GET_ALL_ROOMTYPES = gql`
       }
     }
   }
+  ${F_MINI_ROOM_TYPE}
 `;
 
 // 모든 방타입 가져오기

@@ -22,8 +22,7 @@ const RoomSelectInfoTable: React.FC<IProps> = ({ className }) => {
     {
       roomInfo: 'add',
       person: 'add',
-      price: 'add',
-      value: 'add',
+      control: 'add',
     },
   ];
 
@@ -47,22 +46,11 @@ const RoomSelectInfoTable: React.FC<IProps> = ({ className }) => {
       ) : (
         <div />
       )),
-    },
-    {
-      Header: '이용금액',
-      accessor: 'price',
-      Cell: ({ value }: CellInfo) => (value === 'add' ? (
-        <div>
-          <InputText />
-        </div>
-      ) : (
-        <div />
-      )),
-      minWidth: 40,
+      minWidth: 50,
     },
     {
       Header: '',
-      accessor: 'controll',
+      accessor: 'control',
       Cell: ({ value }: CellInfo) => (value === 'add' ? (
         <CircleIcon>
           <JDIcon icon="add" />
@@ -72,7 +60,8 @@ const RoomSelectInfoTable: React.FC<IProps> = ({ className }) => {
           <JDIcon icon="clear" />
         </CircleIcon>
       )),
-      minWidth: 30,
+      minWidth: 20,
+      maxWidth: 40,
     },
   ];
 

@@ -72,6 +72,10 @@
     color: $label-font-color;
   }
 
+  &--labeled {
+    padding-top: $input-padding-top + $standard-label-margin;
+  }
+
   // Valid Input Style
   &--valid.JDinput:not([readonly]),
   &--valid.JDinput:focus:not([readonly]) {

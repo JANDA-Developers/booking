@@ -3,6 +3,7 @@ import {
   getMyProfile_GetMyProfile_user,
   getHouse_GetHouse_house,
   getHouse_GetHouse_house_product,
+  getAllRoomType_GetAllRoomType_roomTypes as getAllRoomType_GetAllRoomType_roomType,
 } from '../types/api';
 import { IselectedOption } from '../atoms/forms/SelectBox';
 
@@ -10,6 +11,7 @@ export interface IProduct extends getHouse_GetHouse_house_product {}
 export interface IUser extends getMyProfile_GetMyProfile_user {}
 export interface IHouse extends getHouse_GetHouse_house {}
 export interface IDiv extends React.HTMLAttributes<HTMLDivElement> {}
+export interface IRoomType extends getAllRoomType_GetAllRoomType_roomType {}
 export interface IPageInfo {
   currentPage: number;
   totalPage: number;

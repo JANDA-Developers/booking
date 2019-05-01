@@ -6,6 +6,8 @@ const isUrl = (string) => {
 };
 
 const isPhone = (string) => {
+  console.log('string');
+  console.log(string);
   if (string === '') return NEUTRAL;
   const result = string.replace(/[\s-]+/g, '');
   const validation = result.length < 14 && /^[0-9+]+\w$/g.test(result);

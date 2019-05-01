@@ -72,8 +72,6 @@ const JDdayPicker: React.SFC<IProps> = ({
     if (!isSelectingFromDay(from, to, day)) setEntered(day);
   };
 
-  console.log(from);
-  console.log(to);
   // handle --day : Click
   const handleDayClick = (day: Date, modifiers: DayModifiers) => {
     // 불가능한 날자를 눌럿을경우에
@@ -163,7 +161,7 @@ const JDdayPicker: React.SFC<IProps> = ({
     weekdaysShort: WEEKDAYS_SHORT,
     locale: lang,
     showOutsideDays: false,
-    disabledDays: canSelectBeforeDays ? undefined : [{ before: new Date() }] ,
+    disabledDays: canSelectBeforeDays ? undefined : [{ before: new Date() }],
   };
 
   return (

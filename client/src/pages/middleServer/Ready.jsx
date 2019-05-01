@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './Ready.scss';
-import { Redirect } from 'react-router';
 
 const Ready = ({ hostApp, currentProduct, selectedHouse }) => {
+  console.log('hostApp');
   console.log(hostApp);
   return (
     <div id="Ready">

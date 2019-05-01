@@ -28,7 +28,7 @@ function App() {
           <Route exact path="/" component={middleServerRouter} />
           <Route path="/MiddleServer" component={middleServerRouter} />
           <Route path="/documents" component={DocumentRouter} />
-          <Route path="/outpage" component={OutPageRouter} />
+          <Route path="/outpage/:token" component={OutPageRouter} />
           <Route component={NoMatch} />
         </Switch>
       </Router>

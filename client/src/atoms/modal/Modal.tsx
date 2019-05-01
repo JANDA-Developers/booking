@@ -8,15 +8,20 @@ interface IProps {
   className?: string;
   isOpen: boolean;
   props?: any;
+  isAlert?: boolean;
+  children?: any;
+  info?: any;
   [key: string]: any;
 }
 
 const JDmodal: React.SFC<IProps> = ({
-  center, className, isOpen, closeModal, ...props
+  info, center, className, isOpen, closeModal, isAlert, children, ...props
 }) => {
   // ⚠️ JDmodal 로 수정할수없음
   const classes = classNames('Modal JDmodal', className, {
     'JDmodal--center': center,
+    'JDmodal--alert': isAlert,
+    'JDmodal--alertWaring': info && info.thema === 'warn',
   });
   const defualtJDmodalProps = {
     className: `Modal ${classes}`,
@@ -30,7 +35,11 @@ const JDmodal: React.SFC<IProps> = ({
       onRequestClose={closeModal}
       {...props}
       {...defualtJDmodalProps}
-    />
+    >
+      {children}
+      {typeof info === 'string' && info}
+      {info && typeof info.txt === 'string' && info.txt}
+    </ReactModal>
   );
 };
 
@@ -40,3 +49,6 @@ JDmodal.defaultProps = {
 };
 
 export default JDmodal;
+
+const JDtoastModal = JDmodal;
+export { JDtoastModal };

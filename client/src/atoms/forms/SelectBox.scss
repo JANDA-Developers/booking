@@ -116,13 +116,16 @@
         padding: $select-padding
       }
 
+      //  메뉴 Wrap
       &__menu {
         border-radius: $select-menue-radius;
         margin: 0;
         @extend %z-depth-1;
       }
 
+      //  메뉴 
       &__menu-list {
+        @extend %JDscrollbar;
         padding: 0;
       }
 
@@ -161,7 +164,7 @@
     .react-select-container {
       width:100%;
       .react-select__control{
-        padding: 0rem $standard-side-padding;
+        padding: 0rem $standard-side-padding/2;
       }
       .react-select__value-container {
         padding: 0;

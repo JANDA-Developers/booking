@@ -49,6 +49,7 @@ $roomCardHeight: 130px;
         height: $roomCardHeight;
         border: 1px solid $standard-outborder-color;
         position: relative;
+        margin-bottom: $standard-margin-bottom;
 
         &__imgSection {
             max-width: $roomCardHeight * 1.68;
@@ -57,17 +58,33 @@ $roomCardHeight: 130px;
             background-position:center center;
             background-repeat: no-repeat;
             border-right: 1px solid $grey-opacity1;
+
+            @include response($mobile) {
+                max-width: 104px;
+            }
         }
 
         
         &__lastSection {
             padding:$standard-padding;
+
+            @include response($mobile) {
+                padding:$standard-padding /2;
+            }
         }
 
         &__selectButton {
             position: absolute;
             bottom:0;
             right:0;
+
+            border-radius: $standard-border-radius 0px $standard-border-radius 0px; 
+            
+            @include response($mobile) {
+                bottom:$standard-padding /2;
+                right:$standard-padding /2;
+                border-radius: $standard-border-radius; 
+            }
         }
 
         &__lastTopSection {
@@ -84,13 +101,27 @@ $roomCardHeight: 130px;
             padding:$standard-padding;
             justify-content: space-between;
             flex-direction: column;
+            
+            @include response($mobile) {
+                padding:$standard-padding /2;
+            }
         }
 
         &__middleBottomSection {
             display: flex;
             .JDselect {
                 margin-bottom: 0;
+
+                @include response($phablet) {
+                    margin-right: $standard-space /2;
+                }
             }
+        }
+
+        // 여기 색을바꾸어줘
+        .JDbtn--toogleOn {
+            background-color: $primary-color;
+            color: $primary-color-on;
         }
     }
 

@@ -5,10 +5,17 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { SelectComponentsProps } from 'react-select/lib/Select';
 
-export interface IselectedOption {
+export interface IselectedOption<T = any> {
   label: string;
-  value: string | number;
+  value: T;
 }
+
+export enum SelectBoxSize {
+  TWO = '3.4rem',
+  FOUR = '9rem',
+  FIVE = '11rem',
+}
+
 interface Iprops extends SelectComponentsProps {
   label?: string;
   disabled?: boolean;
@@ -18,8 +25,10 @@ interface Iprops extends SelectComponentsProps {
   className?: string;
   rightLabel?: string;
   props?: any;
+  defaultValue?: IselectedOption;
+  isOpen?: boolean;
   mode?: 'small';
-  size?: '2rem' | '3rem' | '3.5rem' | '3.8rem' | '4rem' | '9rem' | '11rem' | '13rem';
+  size?: SelectBoxSize;
 }
 
 const JDselect: React.SFC<Iprops> = ({
@@ -32,6 +41,8 @@ const JDselect: React.SFC<Iprops> = ({
   mode,
   className,
   size,
+  isOpen,
+  defaultValue,
   // eslint-disable-next-line no-unused-vars
   ...props
 }) => {
@@ -60,10 +71,12 @@ const JDselect: React.SFC<Iprops> = ({
         {...props}
         options={options}
         value={validSelectedOption}
+        defaultValue={defaultValue}
         onChange={handleChange}
         className="react-select-container"
         classNamePrefix="react-select"
         isDisabled={disabled}
+        // menuIsOpen={isOpen}
       />
       {rightLabel && <span className="JDselect__label JDselect__label--right">{rightLabel}</span>}
     </div>

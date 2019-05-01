@@ -2,6 +2,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { Fragment, useState } from 'react';
 import { Mutation } from 'react-apollo';
+import { withRouter, RouteComponentProps } from 'react-router';
 import CheckReservation from './CheckReservation';
 import { ErrProtecter } from '../../../utils/utils';
 import { createBooking, createBookingVariables } from '../../../types/api';
@@ -9,10 +10,13 @@ import { CREATE_BOOKING } from '../../../queries';
 
 class CreatBookingMu extends Mutation<createBooking, createBookingVariables> {}
 
-interface IProps {}
+interface IProps extends RouteComponentProps {}
 
 // 하우스 아이디를 우선 Props를 통해서 받아야함
-const CheckReservationWrap: React.SFC<IProps> = () => {
+const CheckReservationWrap: React.FC<IProps> = ({ match }) => {
+  console.log(match);
+  console.log('match');
+
   const addSeasonHook = '';
   // TODO
 
@@ -26,4 +30,4 @@ const CheckReservationWrap: React.SFC<IProps> = () => {
   );
 };
 
-export default ErrProtecter(CheckReservationWrap);
+export default withRouter(ErrProtecter<any>(CheckReservationWrap));
