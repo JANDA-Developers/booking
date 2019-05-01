@@ -37,10 +37,10 @@ export class GuestSchema extends Typegoose {
     })
     gender: Gender;
 
-    @prop({ required: true })
+    @prop()
     start: Date;
 
-    @prop({ required: true })
+    @prop()
     end: Date;
 
     @prop({ required: true, default: false })
