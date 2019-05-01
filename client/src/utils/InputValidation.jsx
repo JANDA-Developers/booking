@@ -1,16 +1,17 @@
+// 빈 문자열이면 중립을 반환합니다.
+
 import { NEUTRAL } from '../types/apiEnum';
 
 const isUrl = (string) => {
+  if (string === '') return NEUTRAL;
   const regExp = /^http(s)?:\/\/(www\.)?[a-z0-9]+([-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
   return regExp.test(string);
 };
 
 const isPhone = (string) => {
-  console.log('string');
-  console.log(string);
   if (string === '') return NEUTRAL;
   const result = string.replace(/[\s-]+/g, '');
-  const validation = result.length < 14 && /^[0-9+]+\w$/g.test(result);
+  const validation = result.length >= 10 && result.length < 14 && /^[0-9+]+\w$/g.test(result);
   return validation;
 };
 

@@ -8,7 +8,14 @@ import ErrProtecter from '../../../utils/ErrProtecter';
 import Button from '../../../atoms/button/Button';
 import BookerModal from '../../../components/bookerInfo/BookerModal';
 import { IUseDayPicker, useModal2 } from '../../../actions/hook';
-import { initItems, initGroups } from './timelineConfig';
+import { initItems, initGroups, ASSIGT_IMELINE_HEIGHT } from './timelineConfig';
+import { IGroup } from './AssigTimelineWrap';
+import { IRoomType } from '../../../types/interface';
+import { PricingType } from '../../../types/apiEnum';
+import Preloader from '../../../atoms/preloader/Preloader';
+
+let LAST_ROOMTYPE = 'unRendered';
+let LAST_ROOM = 'unRendered';
 
 moment.lang('kr');
 let timer: null | number = null; // timer required to reset
@@ -18,20 +25,17 @@ interface IProps {
   defaultProps: any;
   setConfigMode: any;
   dayPickerHook: IUseDayPicker;
+  roomData: IGroup[];
+  loading: boolean;
+  //  디프리 될수도
+  roomTypesData: IRoomType[] | null | undefined;
 }
 
-const ShowTimeline: React.SFC<IProps> = ({ dayPickerHook, setConfigMode, defaultProps }) => {
+const ShowTimeline: React.SFC<IProps> = ({
+  dayPickerHook, setConfigMode, defaultProps, roomData, roomTypesData, loading,
+}) => {
   const bookerModal = useModal2(false);
-  // 일단 이부분은 쿼리로 대체해보고 시간이 얼마나 걸리는지 재봐야할것같다
-  //  !@#!@$!@#!@#!@# 아 몰라 일단 Query 로 해봐 Query 로 해!!!!!!!!!!@!!!!!!!@$$@!$!$@!@
-
   const [items, setItems] = useState(initItems);
-  // Handle -- item : doubleClick
-  // onTimeChange(visibleTimeStart, visibleTimeEnd, updateScrollCanvas)
-  // 이게바뀌며 계속해서 새로운 쿼리를 보내면 되니까 ? => 드래그 될때마다 새로운 쿼리를 날릴것인가?
-  // 스크롤 임계점이 필요하다 스크롤 임계점에 다가갔는지 검사하는 예시가 다행이 있으니
-  // 임계점이 넘을때마다 밖에있는 state를 바꾸어 새로운 데이터를 요청하면된다.. <내생각>
-
   const [visibleTime, setVisibleTime] = useState({
     start: moment()
       .startOf('day')
@@ -101,6 +105,7 @@ const ShowTimeline: React.SFC<IProps> = ({ dayPickerHook, setConfigMode, default
   return (
     <div id="ShowTimeline" className="container container--full">
       <div className="docs-section">
+        <h3>방배정 {loading && <Preloader />}</h3>
         <div className="flex-grid flex-grid--end">
           <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
             <DayPicker {...dayPickerHook} input label="input" isRange={false} />
@@ -114,7 +119,7 @@ const ShowTimeline: React.SFC<IProps> = ({ dayPickerHook, setConfigMode, default
           onItemMove={handleItemMove}
           onItemResize={handleItemResize}
           items={items}
-          groups={initGroups}
+          groups={roomData}
           // 아래 속성은 퍼포먼스에 민감하게 작용합니다.
           verticalLineClassNamesForTime={(timeStart: any, timeEnd: any) => {
             if (timeStart < new Date().getTime()) return ['verticalLine', 'verticalLine--past'];
@@ -123,9 +128,8 @@ const ShowTimeline: React.SFC<IProps> = ({ dayPickerHook, setConfigMode, default
           horizontalLineClassNamesForGroup={(group: any) => ['group']}
           onItemDoubleClick={handleItemDoubleClick}
           onCanvasDoubleClick={handleCanvasDoubleClick}
-          visibleTimeStart={visibleTime.start}
-          visibleTimeEnd={visibleTime.end}
           onTimeChange={handleTimeChange}
+          groupRenderer={assigGroupRendererFn}
         />
         <BookerModal bookerInfo={undefined} modalHook={bookerModal} />
       </div>
@@ -134,3 +138,45 @@ const ShowTimeline: React.SFC<IProps> = ({ dayPickerHook, setConfigMode, default
 };
 
 export default ErrProtecter(ShowTimeline);
+
+interface IRenderGroupProps {
+  group: IGroup;
+}
+
+const assigGroupRendererFn = ({ group }: IRenderGroupProps) => {
+  console.log(group);
+  console.log(group);
+  console.log(group);
+  if (group && group.roomType) {
+  } else {
+    return <div />;
+  }
+  const placeCount = group.roomType.pricingType === PricingType.DOMITORY ? group.roomType.roomCount : 1;
+  const roomGroupStyle = {
+    height: ASSIGT_IMELINE_HEIGHT * placeCount,
+    minHeight: ASSIGT_IMELINE_HEIGHT,
+  };
+
+  let renderRoomType: boolean = true;
+  let renderRoom: boolean = true;
+
+  if (LAST_ROOMTYPE === group.roomTypeId) renderRoomType = false;
+  else LAST_ROOMTYPE = group.roomTypeId;
+
+  if (LAST_ROOM === group.roomId) renderRoom = false;
+  else LAST_ROOM = group.roomId;
+
+  return (
+    <div>
+      <div className="assigGroups custom-group">
+        {/* 방타입 */}
+        {renderRoomType && <div>{group.roomType.name}</div>}
+        {/* 방 */}
+        {renderRoom && <div>{group.title}</div>}
+        <span className="title">
+          <div>{group.roomTypeIndex}</div>
+        </span>
+      </div>
+    </div>
+  );
+};

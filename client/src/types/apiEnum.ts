@@ -175,6 +175,26 @@ export const PAYMETHOD_OP = [
   { value: PayMethod.ELSE, label: '기타' },
 ];
 
+export const ROOM_GENDER_OP = [
+  { value: RoomGender.MIXED, label: RoomGenderKr.MIXED },
+  { value: RoomGender.SEPARATELY, label: RoomGenderKr.SEPARATELY },
+  { value: RoomGender.MALE, label: RoomGenderKr.MALE },
+  { value: RoomGender.FEMALE, label: RoomGenderKr.FEMALE },
+];
+
+export const PRICING_TYPE_OP = [
+  { value: PricingType.DOMITORY, label: PricingTypeKr.DOMITORY },
+  { value: PricingType.ROOM, label: PricingTypeKr.ROOM },
+];
+
+export const MAX_PEOPLE_COUNT_OP_FN = () => {
+  const maxPeopleCountOption = [];
+  for (let i = 0; i < 100; i += 1) {
+    maxPeopleCountOption.push({ value: i, label: `${i}명` });
+  }
+  return maxPeopleCountOption;
+};
+
 // --필요한것
 // 예약상태
 // 결제상태

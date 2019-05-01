@@ -35,6 +35,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
     name: '',
     password: '',
     memo: '',
+    email: 'colton950901@naver.com',
     phoneNumber: '',
     agreePrivacyPolicy: false,
   };
@@ -55,11 +56,11 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
   };
 
   const bookerInfoValidation = (): boolean => {
-    if (!isName(bookerInfo.name)) {
+    if (isName(bookerInfo.name) !== true) {
       toastModalHook.openModal('올바른 이름이 아닙니다.');
       return false;
     }
-    if (!isPhone(bookerInfo.phoneNumber)) {
+    if (isPhone(bookerInfo.phoneNumber) !== true) {
       toastModalHook.openModal('올바른 핸드폰번호가 아닙니다.');
       return false;
     }

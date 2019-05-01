@@ -65,7 +65,6 @@ const ModifyTimeline: React.FC<IProps> = ({
   dateInputHook,
   ...timelineProps
 }) => {
-
   // 그룹 렌더
   const ModifyGroupRendererFn = ({ group }: any) => {
     const roomType: IRoomType | undefined = roomTypesData && roomTypesData[group.roomTypeIndex];
@@ -199,7 +198,7 @@ const ModifyTimeline: React.FC<IProps> = ({
               onChangeDate={handleInputDateChange}
               isRange={false}
               input
-              canSelectBeforeDays={false}              
+              canSelectBeforeDays={false}
               label="달력날자"
               {...dateInputHook}
             />

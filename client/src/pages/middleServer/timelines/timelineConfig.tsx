@@ -6,6 +6,10 @@ import generateFakeData from './components/timeline_fakedata';
 import groupRendererFn from './components/groupRender';
 import itemRendererFn from './components/itemRender';
 
+// 변수설정
+const ASSIGT_IMELINE_HEIGHT = 30;
+export { ASSIGT_IMELINE_HEIGHT };
+
 moment.lang('kr');
 
 const keys = {
@@ -82,6 +86,7 @@ const defaultProps = {
   stackItems: true,
   itemHeightRatio: 1,
   showCursorLine: true,
+  lineHeight: ASSIGT_IMELINE_HEIGHT,
   // 아래 속성은 퍼포먼스에 민감하게 작용합니다.
   verticalLineClassNamesForTime: (timeStart: any, timeEnd: any) => {
     if (timeStart < new Date().getTime()) return ['verticalLine', 'verticalLine--past'];

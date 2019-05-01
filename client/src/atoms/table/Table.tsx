@@ -34,5 +34,4 @@ export const ReactTableDefault = Object.assign(ReactTableDefaults, {
   // etc...
 });
 
-
 export default JDtable;

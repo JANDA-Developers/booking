@@ -20,7 +20,7 @@ interface Iprops extends SelectComponentsProps {
   label?: string;
   disabled?: boolean;
   selectedOption?: IselectedOption;
-  options?: IselectedOption[] | [];
+  options?: IselectedOption[];
   onChange?(foo: IselectedOption): void;
   className?: string;
   rightLabel?: string;
@@ -43,6 +43,7 @@ const JDselect: React.SFC<Iprops> = ({
   size,
   isOpen,
   defaultValue,
+  placeholder,
   // eslint-disable-next-line no-unused-vars
   ...props
 }) => {
@@ -76,6 +77,7 @@ const JDselect: React.SFC<Iprops> = ({
         className="react-select-container"
         classNamePrefix="react-select"
         isDisabled={disabled}
+        placeholder={placeholder || '선택...'}
         // menuIsOpen={isOpen}
       />
       {rightLabel && <span className="JDselect__label JDselect__label--right">{rightLabel}</span>}

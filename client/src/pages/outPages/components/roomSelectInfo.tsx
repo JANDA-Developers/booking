@@ -28,7 +28,7 @@ const RoomSelectInfo: React.FC<IProps> = ({
       Cell: () => (from && to ? (
         <div>
           {moment(from).format('YYYY-MM-DD')}
-{`~`}
+          {'~'}
           <br />
           {moment(to).format('YYYY-MM-DD')}
         </div>
