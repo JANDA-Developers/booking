@@ -2,14 +2,35 @@
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React, { useState, useRef, useEffect } from 'react';
-import classNames from 'classnames/bind';
+import classNames from 'classnames';
 import List from './list';
 import './searchInput.scss';
 import Icon from '../../atoms/icons/Icons';
 import Preloader from '../../atoms/preloader/Preloader';
 import searchListFormat from '../../utils/SearchListFormat';
+import { isEmpty } from '../../utils/utils';
 
-function SearchInput({
+interface IProps {
+  dataList: Array<any>;
+  placeholder?: string;
+  label?: string;
+  onSearch?(foo?: string | null): any;
+  setIsMatched?(foo?: boolean): any;
+  onTypeChange?(foo?: string): any;
+  staticList?: boolean;
+  filter?: boolean;
+  isTypeChange?: boolean;
+  isMatched?: boolean;
+  isLoading?: boolean;
+  alwaysListShow?: boolean;
+  onTypeValue?: string;
+  asName?: string;
+  asDetail?: string;
+  feedBackMessage?: string;
+  maxCount?: number;
+}
+
+const JDsearchInput: React.FC<IProps> = ({
   dataList,
   staticList,
   placeholder,
@@ -27,16 +48,16 @@ function SearchInput({
   isLoading,
   feedBackMessage,
   maxCount,
-}) {
+}) => {
   // Naming Format
-  const formatDataList = searchListFormat(dataList && dataList.slice(0, maxCount), asName, asDetail);
+  const formatDataList: Array<any> = searchListFormat(dataList && dataList.slice(0, maxCount), asName, asDetail);
   const [filteredDataList, SetFilteredDataList] = useState(formatDataList);
-  const inputRef = useRef(null);
-  const ulRef = useRef(null);
+  const inputRef: any = useRef(null);
+  const ulRef: any = useRef(null);
 
-  //  Check it is matched and set filteredDataList
+  //  value와 메치되는 리스트를 찾습니다.
   const setList = (value = inputRef.current.value) => {
-    // CASE: do filter
+    // CASE: 필터할경우
     if (filter) {
       let filteredItems = []; // if value == '' filter all
       if (value !== '') {
@@ -49,26 +70,27 @@ function SearchInput({
   };
 
   // Handler - input : onKeyPress
-  const handleOnKeyPress = (e) => {
-    // CASE: press Enter
+  const handleOnKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // CASE: 엔터를 쳤을경우에
     if (e.key === 'Enter') {
       e.preventDefault();
       const selectedNode = $(ulRef.current)
         .find('.JDsearchInput__li--active')
         .get(0);
-      // CASE: children select
+      // CASE: 키보드상 선택된 노드가 있을경우에
       if (selectedNode) {
-        // CASE: uncontrolled value change
-        onSearch($(selectedNode).attr('value'));
+        // 노드의 값을 방출
+        onSearch && onSearch($(selectedNode).attr('value'));
+        // ❓ 왜 분기처리 했는지 기억안남
         if (!isTypeChange) inputRef.current.value = $(selectedNode).attr('value');
         $(inputRef.current).blur();
       } else {
-        // ConSearchASE: input select
-        onSearch(inputRef.current.value);
+        // ❓ 이게 필요한가? 무조건 노드가 있을것 같은데.
+        onSearch && onSearch(inputRef.current.value);
       }
     }
 
-    // CASE: press up && down
+    // ⌨️ 키보드 위아래로 움직일경우에 노드 선택
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
       e.preventDefault();
       // CASE: ul has no children
@@ -96,56 +118,58 @@ function SearchInput({
     }
   };
 
-  // Handler - input : onChange
-  const handleChange = (e) => {
+  // Handler - 인풋 : onChange
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     if (filter) setList(e.target.value);
-    if (isTypeChange) onTypeChange(e.target.value);
+    if (isTypeChange && onTypeChange) onTypeChange(e.target.value);
   };
 
-  // Handler - input : onFocus
-  const handleOnFocus = (e) => {
+  // Handler - 인풋 : onFocus
+  const handleOnFocus = (e: React.FocusEvent<HTMLInputElement>) => {
     e.preventDefault();
     setTimeout(() => {
       $(ulRef.current).show();
     }, 100);
   };
 
-  // Handler - input : onBlur
-  const handleOnBlur = (e) => {
+  // Handler - 인풋 : onBlur
+  const handleOnBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     e.preventDefault();
     setTimeout(() => {
       $(ulRef.current).hide();
     }, 100);
   };
 
-  // Handler - list : onClick
-  const handleOnListClick = (e) => {
+  // Handler - 리스트 : onClick
+  const handleOnListClick = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     const value = $(e.currentTarget).attr('value');
-    $(inputRef.current).val(value);
-    onSearch(value);
+    $(inputRef.current).val(value || '');
+    onSearch && onSearch(value);
   };
 
-  // Handler - list : onKeyPress - 🚫 useless
-  const handleOnListKeyPress = (e) => {
+  // Handler - 리스트 : onKeyPress - 🚫 useless
+  const handleOnListKeyPress = (e: any) => {
     e.preventDefault();
   };
 
-  // Handler - icon : onKeyPress
+  // Handler - 아이콘 : onClick
   const handleOnSearchClick = () => {
-    onSearch(inputRef.current.value);
+    if (onSearch) onSearch(inputRef.current.value);
   };
 
   const classes = classNames({
     JDsearchInput: true,
     'JDsearchInput--staticList': staticList === true,
+    'JDsearchInput--labeled': label !== undefined,
   });
 
-  useEffect(setList, [dataList]); // 유저 리스트가 변할때마다 새롭게 리스트를 작성해줍니다
+  useEffect(setList, [dataList]); // 유저 리스트가 변할때마다 새롭게 리스트를 찾습니다.
+  // 매칭된 리스트가 있을경우에 클래스를 붙여줍니다.
   useEffect(() => {
     if (isMatched) $(inputRef.current).addClass('JDsearchInput__input--matched');
-  }, [isMatched]); // 매칭된 리스트일경우에 인풋에 밸리
+  }, [isMatched]); 
 
   return (
     <div className={classes}>
@@ -162,7 +186,7 @@ function SearchInput({
           value={onTypeValue}
         />
         <span
-          tabIndex="0"
+          tabIndex={0}
           role="button"
           onClick={handleOnSearchClick}
           onKeyDown={handleOnKeyPress}
@@ -179,34 +203,12 @@ function SearchInput({
         refContainer={ulRef}
         dataList={filteredDataList}
         setIsMatched={setIsMatched}
-        asName={asName}
-        asDetail={asDetail}
       />
     </div>
   );
-}
-
-SearchInput.propTypes = {
-  dataList: PropTypes.array,
-  placeholder: PropTypes.string,
-  label: PropTypes.string,
-  onSearch: PropTypes.func,
-  setIsMatched: PropTypes.func,
-  onTypeChange: PropTypes.func,
-  staticList: PropTypes.bool,
-  filter: PropTypes.bool,
-  isTypeChange: PropTypes.bool,
-  isMatched: PropTypes.bool,
-  isLoading: PropTypes.bool,
-  alwaysListShow: PropTypes.bool,
-  onTypeValue: PropTypes.string,
-  asName: PropTypes.string,
-  asDetail: PropTypes.string,
-  feedBackMessage: PropTypes.string,
-  maxCount: PropTypes.number,
 };
 
-SearchInput.defaultProps = {
+JDsearchInput.defaultProps = {
   dataList: [],
   staticList: false,
   filter: true,
@@ -225,4 +227,4 @@ SearchInput.defaultProps = {
   onTypeChange: () => {},
   maxCount: 999,
 };
-export default SearchInput;
+export default JDsearchInput;

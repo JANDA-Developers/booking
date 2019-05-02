@@ -7,6 +7,7 @@
 | filter          | bool   | 값에 일치하는리스트만 보입니다.                                  |         |         | false   |
 | alwaysListShow  | bool   | 포커스 되지않았을 때도 리스트가 보입니다.                        |         |         | false   |
 | isTypeChange    | bool   | controll input 인지?                                             |         |         | false   |
+| isLoading       | bool   | 로딩중인지 => 아이콘표시                                         |         |         | false   |
 | onTypeChange    | func   | 텍스트를 칠때마다 값을 전송                                      |         |         | false   |
 | onSearch        | func   | 사용자가 엔터키를 칠떄 && 아이콘 검색                            |         |         |         |
 | onTypeValue     | string | controll input 일때 값                                           |         |         |         |
