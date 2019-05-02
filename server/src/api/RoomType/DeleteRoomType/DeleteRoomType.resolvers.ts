@@ -1,6 +1,8 @@
 import { Types } from "mongoose";
 import { HouseModel } from "../../../models/House";
+import { RoomPriceModel } from "../../../models/RoomPrice";
 import { RoomTypeModel } from "../../../models/RoomType";
+import { SeasonPriceModel } from "../../../models/SeasonPrice";
 import {
     DeleteRoomTypeMutationArgs,
     DeleteRoomTypeResponse
@@ -52,6 +54,16 @@ const resolver: Resolvers = {
                             }
                         }
                     );
+                    // SeasonPrice, RoomPrice 삭제
+                    await RoomPriceModel.deleteMany({
+                        house: new Types.ObjectId(houseId),
+                        roomType: new Types.ObjectId(roomTypeId)
+                    });
+                    await SeasonPriceModel.deleteMany({
+                        house: new Types.ObjectId(houseId),
+                        roomType: new Types.ObjectId(roomTypeId)
+                    });
+                    // 트랜잭션이 필요하다... ㅜ
                     return {
                         ok: true,
                         error: null

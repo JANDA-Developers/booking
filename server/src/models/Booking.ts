@@ -1,15 +1,9 @@
 import { Types } from "mongoose";
-import { arrayProp, post, prop, Typegoose } from "typegoose";
+import { arrayProp, InstanceType, post, prop, Typegoose } from "typegoose";
+import { BookingStatusEnum } from "../types/enums";
 import { BookingStatus } from "../types/graph";
 import { hashCode } from "../utils/hashCode";
 
-export enum BookingStatusEnum {
-    WAIT_DEPOSIT = "WAIT_DEPOSIT",
-    COMPLETE = "COMPLETE",
-    CANCEL = "CANCEL",
-    REFUND_WAIT = "REFUND_WAIT",
-    PAY_WHEN_CHK_IN = "PAY_WHEN_CHK_IN"
-}
 /**
  * Booking 스키마...
  */
@@ -38,7 +32,7 @@ export class BookingSchema extends Typegoose {
     @prop({ required: true })
     roomType: Types.ObjectId;
 
-    @arrayProp({ items: Types.ObjectId })
+    @arrayProp({ items: Types.ObjectId, default: [] })
     guests: Types.ObjectId[];
 
     @prop()
@@ -62,9 +56,16 @@ export class BookingSchema extends Typegoose {
 
     @prop({
         enum: BookingStatusEnum,
-        default: BookingStatusEnum.WAIT_DEPOSIT
+        default: BookingStatusEnum.COMPLETE
     })
     bookingStatus: BookingStatus;
+
+    @prop({
+        default(this: InstanceType<BookingSchema>) {
+            return this.guests.length;
+        }
+    })
+    guestCount: number;
 
     @prop()
     createdAt: Date;

@@ -6,6 +6,7 @@ type Booking {
     roomType: RoomType!
     booker: Booker!
     guests: [Guest!]
+    guestCount: Int!
     # 가격
     price: Float!
     # 시작 날짜
