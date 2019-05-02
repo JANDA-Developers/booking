@@ -11,5 +11,6 @@ type Mutation {
         houseId: ID!
         color: String
         description: String
+        seasonPrices: [SeasonPriceInput!]
     ): CreateSeasonResponse!
 }

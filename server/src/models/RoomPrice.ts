@@ -1,13 +1,12 @@
-import { prop, Ref, Typegoose } from "typegoose";
-import { HouseSchema } from "./House";
-import { RoomTypeSchema } from "./RoomType";
+import { Types } from "mongoose";
+import { prop, Typegoose } from "typegoose";
 
 export class RoomPriceSchema extends Typegoose {
-    @prop({ required: true, ref: RoomTypeSchema })
-    roomType: Ref<RoomTypeSchema>;
+    @prop({ required: true })
+    roomType: Types.ObjectId;
 
-    @prop({ required: true, ref: HouseSchema })
-    house: Ref<HouseSchema>;
+    @prop({ required: true })
+    house: Types.ObjectId;
 
     @prop({ required: true, index: true })
     date: Date;

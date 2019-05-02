@@ -20,7 +20,13 @@ const resolvers: Resolvers = {
         CreateSeason: privateResolver(
             async (
                 _,
-                { houseId, start, end, ...args }: CreateSeasonMutationArgs
+                {
+                    houseId,
+                    start,
+                    end,
+                    seasonPrices,
+                    ...args
+                }: CreateSeasonMutationArgs
             ): Promise<CreateSeasonResponse> => {
                 try {
                     const existingHouse = await HouseModel.findById(houseId);
@@ -41,24 +47,55 @@ const resolvers: Resolvers = {
                         end: ed,
                         ...args
                     }).save();
+
                     // seasonPrice 생성
                     const roomTypes = await RoomTypeModel.find({
                         house: new Types.ObjectId(houseId)
                     });
+                    const sesaonObjectId = new Types.ObjectId(season._id);
+                    const filterdRoomTypes = seasonPrices
+                        ? roomTypes.filter(roomType => {
+                              return (
+                                  seasonPrices.findIndex(seasonPrice => {
+                                      return (
+                                          seasonPrice.roomTypeId !==
+                                          roomType._id
+                                      );
+                                  }) === -1
+                              );
+                          })
+                        : roomTypes;
                     const seasonPriceInstances: Array<
                         InstanceType<SeasonPriceSchema>
-                    > = roomTypes.map(
+                    > = filterdRoomTypes.map(
                         (roomType): InstanceType<SeasonPriceSchema> => {
-                            return new SeasonPriceModel({
-                                season: new Types.ObjectId(season._id),
+                            const seasonPriceInstance = new SeasonPriceModel({
+                                season: sesaonObjectId,
                                 roomType: new Types.ObjectId(roomType._id),
                                 defaultPrice: roomType.defaultPrice
                             });
+                            return seasonPriceInstance;
                         }
                     );
+                    if (seasonPrices) {
+                        seasonPrices.forEach(seasonPriceInput => {
+                            seasonPriceInstances.push(
+                                new SeasonPriceModel({
+                                    season: sesaonObjectId,
+                                    roomType: new Types.ObjectId(
+                                        seasonPriceInput.roomTypeId
+                                    ),
+                                    defaultPrice: seasonPriceInput.defaultPrice,
+                                    dayOfWeekPrices:
+                                        seasonPriceInput.dayOfWeekPrices
+                                })
+                            );
+                        });
+                    }
                     const result = await SeasonPriceModel.insertMany(
                         seasonPriceInstances
                     );
+
                     console.log({
                         result
                     });
