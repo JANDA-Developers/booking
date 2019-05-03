@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { RoomModel } from "../../../models/Room";
 import {
     UpdateRoomMutationArgs,
@@ -19,7 +19,7 @@ const resolvers: Resolvers = {
                     if (existingRoom) {
                         await RoomModel.updateOne(
                             {
-                                _id: new ObjectId(roomId)
+                                _id: new Types.ObjectId(roomId)
                             },
                             args,
                             { new: true }

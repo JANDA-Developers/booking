@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { InstanceType } from "typegoose";
 import { HouseModel } from "../../../models/House";
 import { extractSeasonPrices } from "../../../models/merge/merge";
@@ -29,7 +29,7 @@ const resolvers: Resolvers = {
                         };
                     }
                     const roomTypeIds = house.roomTypes.map(
-                        roomTypeId => new ObjectId(roomTypeId)
+                        roomTypeId => new Types.ObjectId(roomTypeId)
                     );
                     const seasonPrices: Array<
                         InstanceType<SeasonPriceSchema>

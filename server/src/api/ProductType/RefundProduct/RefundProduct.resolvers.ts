@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { HouseModel } from "../../../models/House";
 import { extractHouse } from "../../../models/merge/merge";
 import { ProductModel } from "../../../models/Product";
@@ -18,8 +18,8 @@ const resolvers: Resolvers = {
             ): Promise<RefundProductResponse> => {
                 try {
                     const existingHouse = await HouseModel.findOne({
-                        _id: new ObjectId(houseId),
-                        product: new ObjectId(productId)
+                        _id: new Types.ObjectId(houseId),
+                        product: new Types.ObjectId(productId)
                     });
                     if (existingHouse) {
                         const product = await ProductModel.findById(
