@@ -1,4 +1,4 @@
-import { getAllSeasons } from "../../../queries/seasonQueries";
+import { getAllSeasons } from "../../../queries/queriesSeason";
 import {
     GetSeasonWithDateRangeQueryArgs,
     GetSeasonWithDateRangeResponse,

@@ -1,5 +1,5 @@
 import { RoomTypeModel } from "../../../models/RoomType";
-import { getAllSeasons } from "../../../queries/seasonQueries";
+import { getAllSeasons } from "../../../queries/queriesSeason";
 import {
     GetAppliedPriceWithDateRangeQueryArgs,
     GetAppliedPriceWithDateRangeResponse,

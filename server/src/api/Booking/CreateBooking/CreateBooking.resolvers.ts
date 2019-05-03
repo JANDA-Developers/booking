@@ -69,6 +69,7 @@ const resolvers: Resolvers = {
                                         booking: new Types.ObjectId(
                                             booking._id
                                         ),
+                                        name: booker.name,
                                         start,
                                         end,
                                         pricingType,

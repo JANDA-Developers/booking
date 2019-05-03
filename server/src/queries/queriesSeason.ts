@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import {
     extractSeason,
     transformSeason,
@@ -38,7 +38,7 @@ export const includeDateRangeWithOutYear = async (
     };
     const matchHouseId = {
         house: {
-            $eq: new ObjectId(houseId)
+            $eq: new Types.ObjectId(houseId)
         }
     };
     const matchDateRange = {
@@ -137,8 +137,8 @@ export const includeDateRangeWithOutYear = async (
         .project(project)
         .match(matchDateRange);
     if (result.length) {
-        const ids: ObjectId[] = result.map(season => {
-            return new ObjectId(season._id);
+        const ids: Types.ObjectId[] = result.map(season => {
+            return new Types.ObjectId(season._id);
         });
         return await transformSeasons(ids);
     } else {
@@ -179,7 +179,7 @@ export const betweenDateWithoutYear = async (
     const match = {
         $and: [
             {
-                house: new ObjectId(houseId)
+                house: new Types.ObjectId(houseId)
             },
             {
                 $or: [
@@ -251,7 +251,7 @@ export const betweenDateWithoutYear = async (
 
 export const getAllSeasons = async (houseId: string): Promise<Season[]> => {
     const seasons = await SeasonModel.find({
-        house: new ObjectId(houseId)
+        house: new Types.ObjectId(houseId)
     });
     return await Promise.all(
         seasons.map(async season => {

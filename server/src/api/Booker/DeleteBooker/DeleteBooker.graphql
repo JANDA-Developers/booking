@@ -1,0 +1,7 @@
+type DeleteBookerResponse {
+    ok: Boolean!
+    error: String
+}
+type Mutation {
+    DeleteBooker(bookerId: ID!): DeleteBookerResponse!
+}
