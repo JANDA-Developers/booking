@@ -65,6 +65,8 @@ const JDselect: React.SFC<Iprops> = ({
     width: size,
   };
 
+  const deafultPlaceHolder = mode === 'small' ? '선택' : '선택...';
+
   return (
     <div style={selectStyle} className={classes}>
       {label !== '' ? <span className="JDselect__label JDselect__label--top">{label}</span> : null}
@@ -77,7 +79,7 @@ const JDselect: React.SFC<Iprops> = ({
         className="react-select-container"
         classNamePrefix="react-select"
         isDisabled={disabled}
-        placeholder={placeholder || '선택...'}
+        placeholder={placeholder || deafultPlaceHolder}
         // menuIsOpen={isOpen}
       />
       {rightLabel && <span className="JDselect__label JDselect__label--right">{rightLabel}</span>}

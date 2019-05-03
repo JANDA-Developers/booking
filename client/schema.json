@@ -14,6 +14,65 @@
         "description": "",
         "fields": [
           {
+            "name": "GetBookers",
+            "description": "",
+            "args": [
+              {
+                "name": "houseId",
+                "description": "",
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "page",
+                "description": "",
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "count",
+                "description": "",
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "GetBookersResponse",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "GetBookings",
             "description": "",
             "args": [
@@ -921,16 +980,6 @@
       },
       {
         "kind": "SCALAR",
-        "name": "Int",
-        "description": "The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. ",
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "SCALAR",
         "name": "ID",
         "description": "The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"4\"`) or integer (such as `4`) input value will be accepted as an ID.",
         "fields": null,
@@ -940,8 +989,18 @@
         "possibleTypes": null
       },
       {
+        "kind": "SCALAR",
+        "name": "Int",
+        "description": "The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. ",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
         "kind": "OBJECT",
-        "name": "GetBookingsResponse",
+        "name": "GetBookersResponse",
         "description": "",
         "fields": [
           {
@@ -973,7 +1032,7 @@
             "deprecationReason": null
           },
           {
-            "name": "bookings",
+            "name": "bookers",
             "description": "",
             "args": [],
             "type": {
@@ -984,7 +1043,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "Booking",
+                  "name": "Booker",
                   "ofType": null
                 }
               }
@@ -1032,7 +1091,7 @@
       },
       {
         "kind": "OBJECT",
-        "name": "Booking",
+        "name": "Booker",
         "description": "",
         "fields": [
           {
@@ -1045,22 +1104,6 @@
               "ofType": {
                 "kind": "SCALAR",
                 "name": "ID",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "bookingId",
-            "description": "예약 ID",
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
                 "ofType": null
               }
             },
@@ -1084,39 +1127,7 @@
             "deprecationReason": null
           },
           {
-            "name": "roomType",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "RoomType",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "booker",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Booker",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "guests",
+            "name": "bookings",
             "description": "",
             "args": [],
             "type": {
@@ -1127,7 +1138,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "Guest",
+                  "name": "Booking",
                   "ofType": null
                 }
               }
@@ -1136,55 +1147,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price",
-            "description": "가격",
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "start",
-            "description": "시작 날짜",
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "DateTime",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "end",
-            "description": "끝 날짜",
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "DateTime",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "discountedPrice",
+            "name": "name",
             "description": "",
             "args": [],
             "type": {
@@ -1192,7 +1155,7 @@
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "Float",
+                "name": "Name",
                 "ofType": null
               }
             },
@@ -1200,17 +1163,81 @@
             "deprecationReason": null
           },
           {
-            "name": "bookingStatus",
+            "name": "password",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "phoneNumber",
             "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "ENUM",
-                "name": "BookingStatus",
+                "kind": "SCALAR",
+                "name": "PhoneNumber",
                 "ofType": null
               }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "email",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "EmailAddress",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "agreePrivacyPolicy",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "isCheckIn",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "DateTime",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "memo",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -3087,7 +3114,7 @@
       },
       {
         "kind": "OBJECT",
-        "name": "Booker",
+        "name": "Booking",
         "description": "",
         "fields": [
           {
@@ -3100,6 +3127,22 @@
               "ofType": {
                 "kind": "SCALAR",
                 "name": "ID",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "bookingId",
+            "description": "예약 ID",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               }
             },
@@ -3123,7 +3166,39 @@
             "deprecationReason": null
           },
           {
-            "name": "bookings",
+            "name": "roomType",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "RoomType",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "booker",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Booker",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "guests",
             "description": "",
             "args": [],
             "type": {
@@ -3134,7 +3209,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "Booking",
+                  "name": "Guest",
                   "ofType": null
                 }
               }
@@ -3143,7 +3218,7 @@
             "deprecationReason": null
           },
           {
-            "name": "name",
+            "name": "guestCount",
             "description": "",
             "args": [],
             "type": {
@@ -3151,7 +3226,7 @@
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "Name",
+                "name": "Int",
                 "ofType": null
               }
             },
@@ -3159,19 +3234,55 @@
             "deprecationReason": null
           },
           {
-            "name": "password",
-            "description": "",
+            "name": "price",
+            "description": "가격",
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Float",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "phoneNumber",
+            "name": "start",
+            "description": "시작 날짜",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "end",
+            "description": "끝 날짜",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "discountedPrice",
             "description": "",
             "args": [],
             "type": {
@@ -3179,7 +3290,7 @@
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "PhoneNumber",
+                "name": "Float",
                 "ofType": null
               }
             },
@@ -3187,53 +3298,17 @@
             "deprecationReason": null
           },
           {
-            "name": "email",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "EmailAddress",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "agreePrivacyPolicy",
+            "name": "bookingStatus",
             "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "SCALAR",
-                "name": "Boolean",
+                "kind": "ENUM",
+                "name": "BookingStatus",
                 "ofType": null
               }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "isCheckIn",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "DateTime",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "memo",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -3338,7 +3413,7 @@
             "deprecationReason": null
           },
           {
-            "name": "allocatedBed",
+            "name": "allocatedRoom",
             "description": "현재 묵는 방으로 변경될수 있음.",
             "args": [],
             "type": {
@@ -3499,12 +3574,6 @@
         "interfaces": null,
         "enumValues": [
           {
-            "name": "WAIT_DEPOSIT",
-            "description": "입금 대기",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "COMPLETE",
             "description": "예약 완료",
             "isDeprecated": false,
@@ -3512,19 +3581,7 @@
           },
           {
             "name": "CANCEL",
-            "description": "예약 취소(입금 전에 취소를 신청하여 바로 처리되었거나 환불이 완료되어 취소된 상태를 뜻함)",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "REFUND_WAIT",
-            "description": "환불 대기",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "PAY_WHEN_CHK_IN",
-            "description": "체크인 할떄 방값 지불",
+            "description": "예약 취소",
             "isDeprecated": false,
             "deprecationReason": null
           }
@@ -3580,6 +3637,77 @@
                 "name": "Int",
                 "ofType": null
               }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "GetBookingsResponse",
+        "description": "",
+        "fields": [
+          {
+            "name": "ok",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "error",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "bookings",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Booking",
+                  "ofType": null
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "pageInfo",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "PageInfoOffsetBase",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -7333,7 +7461,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "SeasonPricesInput",
+                      "name": "SeasonPriceInput",
                       "ofType": null
                     }
                   }
@@ -8046,6 +8174,24 @@
                   "kind": "SCALAR",
                   "name": "String",
                   "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "seasonPrices",
+                "description": "",
+                "type": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "SeasonPriceInput",
+                      "ofType": null
+                    }
+                  }
                 },
                 "defaultValue": null
               }
@@ -10416,7 +10562,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "SeasonPricesInput",
+        "name": "SeasonPriceInput",
         "description": "",
         "fields": null,
         "inputFields": [
@@ -10449,7 +10595,7 @@
             "defaultValue": null
           },
           {
-            "name": "dayOfWeekPrice",
+            "name": "dayOfWeekPrices",
             "description": "",
             "type": {
               "kind": "LIST",

@@ -237,6 +237,40 @@ export const GET_HOUSE = gql`
     }
   }
 `;
+
+export const GetGuests = gql`
+  query getGuests($start: DateTime!, $end: DateTime!, $houseId: ID!) {
+    GetGuests(start: $start, end: $end, houseId: $houseId) {
+      ok
+      error
+      guests {
+        _id
+        roomType {
+          _id
+          index
+        }
+        name
+        start
+        end
+        pricingType
+        allocatedRoom {
+          _id
+          index
+        }
+        gender
+        updatedAt
+        createdAt
+        booking {
+          booker {
+            _id
+            isCheckIn
+          }
+        }
+      }
+    }
+  }
+`;
+
 // 모든 방타입 가져오기
 export const GET_ALL_ROOMTYPES = gql`
   query getAllRoomType($houseId: ID!) {
@@ -259,6 +293,64 @@ export const GET_ALL_ROOMTYPES = gql`
           index
           createdAt
           updatedAt
+        }
+      }
+    }
+  }
+  ${F_MINI_ROOM_TYPE}
+`;
+
+// ⭐️방배정!!
+// 모든 방타입 + 모든 게스트 가져오기!!
+export const GET_ALL_ROOMTYPES_WITH_GUESTS = gql`
+  query getAllRoomTypeWithGuest($houseId: ID!, $start: DateTime!, $end: DateTime!) {
+    GetAllRoomType(houseId: $houseId) {
+      ok
+      error
+      roomTypes {
+        ...FminiRoomType
+        pricingType
+        peopleCount
+        peopleCountMax
+        roomGender
+        roomCount
+        createdAt
+        updatedAt
+        img
+        rooms {
+          _id
+          name
+          index
+          createdAt
+          updatedAt
+        }
+      }
+    }
+    GetGuests(start: $start, end: $end, houseId: $houseId) {
+      ok
+      error
+      guests {
+        _id
+        roomType {
+          _id
+          index
+        }
+        name
+        start
+        end
+        pricingType
+        allocatedRoom {
+          _id
+          index
+        }
+        gender
+        updatedAt
+        createdAt
+        booking {
+          booker {
+            _id
+            isCheckIn
+          }
         }
       }
     }
@@ -303,6 +395,44 @@ export const GET_USER_FOR_SU = gql`
     }
   }
   ${F_USER_INFO}
+`;
+// 모든 예약자 가져오기
+export const GET_BOOKERS = gql`
+  query getBookers($houseId: ID!, $page: Int!, $count: Int!) {
+    GetBookers(houseId: $houseId, page: $page, count: $count) {
+      ok
+      error
+      bookers {
+        _id
+        bookings {
+          _id
+          bookingId
+          roomType {
+            _id
+            name
+          }
+          price
+          start
+          end
+          discountedPrice
+          bookingStatus
+          createdAt
+          updatedAt
+        }
+        name
+        phoneNumber
+        email
+        isCheckIn
+        memo
+        createdAt
+        updatedAt
+      }
+      pageInfo {
+        ...FpageInfo
+      }
+    }
+  }
+  ${F_PAGE_INFO}
 `;
 // START 시즌관련 ────────────────────────────────────────────────────────────────────────────────
 // 가격 테이블 만들기

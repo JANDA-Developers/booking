@@ -81,13 +81,13 @@ export const Ready = props => (
 );
 
 export const AssigTimeline = props => (
-  <DynamicImport load={() => import('./middleServer/timelines/AssigTimelineWrap')}>
+  <DynamicImport load={() => import('./middleServer/timelines/assig/AssigTimelineWrap')}>
     {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
   </DynamicImport>
 );
 
 export const ModifyTimeline = props => (
-  <DynamicImport load={() => import('./middleServer/timelines/ModifyTimelineWrap')}>
+  <DynamicImport load={() => import('./middleServer/timelines/roomConfig/ModifyTimelineWrap')}>
     {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
   </DynamicImport>
 );

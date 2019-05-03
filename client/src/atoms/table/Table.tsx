@@ -7,7 +7,7 @@ import { SelectInputComponentProps, SelectAllInputComponentProps } from 'react-t
 import ErrProtecter from '../../utils/ErrProtecter';
 import CheckBox from '../forms/CheckBox';
 
-interface IProps extends TableProps {
+interface IProps<D = any> extends TableProps<D> {
   align?: string;
   inClassNames?: string;
   // css 셋팅해줌

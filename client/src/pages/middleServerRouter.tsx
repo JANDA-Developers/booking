@@ -199,7 +199,7 @@ const JDmiddleServer: React.SFC<IProps> = ({
         <Route
           exact
           path="/middleServer/resvList"
-          render={() => (isEmpty(selectedHouse) ? <NoMatch /> : <ResvList selectedHouse={selectedHouse} />)}
+          render={() => (isEmpty(selectedHouse) ? <NoMatch /> : <ResvList houseId={selectedHouse._id} />)}
         />
         <Route component={NoMatch} />
       </Switch>

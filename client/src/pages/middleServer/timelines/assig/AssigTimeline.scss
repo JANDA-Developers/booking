@@ -1,0 +1,38 @@
+@import '../../../../style_config/style_config.scss';
+
+$AT-assigGroup-rooType-width: 100px;
+$AT-assigGroup-room-width: 100px;
+
+#AssigTimeline {
+    .assigGroups {
+        &__roomType {
+            position:absolute;
+            width: $AT-assigGroup-rooType-width;
+            background-color: $grey-level3;
+            color:white;
+            left: 0;
+            display:flex;
+            justify-content: center;
+            align-items: center;
+        }
+        &__room {
+            position:absolute;
+            left: $AT-assigGroup-rooType-width;
+            width: $AT-assigGroup-room-width;
+            background-color: $grey-level2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            &--roomType {
+                width: calc(100% - #{$AT-assigGroup-rooType-width});
+            }
+        }
+
+        &__place {
+            padding-left: $AT-assigGroup-rooType-width + $AT-assigGroup-room-width - 4px;
+            text-align: center;
+            width: calc(100% + 4px);
+        }
+    }
+}

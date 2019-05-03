@@ -175,7 +175,7 @@ const SeasonModal: React.SFC<IProps> = ({
   return (
     <Card>
       <div className="flex-grid">
-        <div className="flex-grid__col col--full-6 col--lg-6 col--md-12">
+        <div className="flex-grid__col col--full-5 col--lg-5 col--md-12">
           <div>
             <InputText label="시즌명" validation={utils.isMaxOver} max={10} />
           </div>
@@ -195,7 +195,7 @@ const SeasonModal: React.SFC<IProps> = ({
             <Button label="삭제하기" mode="flat" thema="warn" onClick={onDeleteTable} />
           </div>
         </div>
-        <div className="flex-grid__col col--full-6 col--lg-6 col--md-12">
+        <div className="flex-grid__col col--full-7 col--lg-7 col--md-12">
           <JDTable
             className="seasonTable"
             {...ReactTableDefault}

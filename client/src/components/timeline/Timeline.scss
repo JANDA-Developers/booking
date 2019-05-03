@@ -2,8 +2,16 @@
 
 // TODO: BEM 규칙에 맞게 node Modules 변경해야함
 
+
 // 최상단
 .react-calendar-timeline {
+
+
+    div {
+        // 🥇 이로서 드레그 끈김을 막을수있다.
+        user-select: none;
+    }
+
     position: relative;
     z-index: $z-index-1;
 
@@ -22,7 +30,7 @@
             margin: 0;
             color: #ffffff;
             background: $grey-level3;
-            border-right: 1px solid $grey-opacity2;
+            border-right: none;
             box-sizing: border-box;
             border-bottom: 1px solid $grey-opacity2;
             overflow: hidden;
@@ -79,7 +87,7 @@
         vertical-align: top;
         position: relative;
         box-sizing: border-box;
-        border-right: 1px solid $grey-opacity2;
+        border-right: none;
 
         // 사이드바에 줄 하나 하나 
         .rct-sidebar-row {
@@ -148,7 +156,17 @@
                 .group {
                     &:hover {
                         cursor:pointer;
-                        background-color: $hover-effect-dark;
+                        position: relative;
+                        &:after {
+                            position:absolute;
+                            content: '';
+                            display:block;
+                            top:0;
+                            left: 0;
+                            bottom: 0;
+                            right: 0;
+                            background-color: $hover-effect-dark;
+                        }
                     }
                 }
             }

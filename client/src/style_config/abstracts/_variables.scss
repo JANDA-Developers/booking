@@ -54,7 +54,7 @@ $grey-level3: #787878 !default;
 $grey-opacity1: rgba(0,0,0,.04);
 $grey-opacity2: rgba(0,0,0,.08);
 $hover-effect-white: rgba(255,255,255,.1);
-$hover-effect-dark: rgba(0,0,0,.08);
+$hover-effect-dark: $grey-opacity1;
 $curtain-color: rgba(0,0,0,.78) !default;
 $html-color-hover: $grey-level3!default;
 

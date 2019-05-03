@@ -52,6 +52,10 @@
         }
       }
 
+      &__single-value {
+        width: 100%;
+      }
+
       &__label {
         color: $select-multi-color;
         font-size: $typho-small;
@@ -160,6 +164,7 @@
   }
   &--small {
     display:flex;
+    font-size: $typho-small;
 
     .react-select-container {
       width:100%;

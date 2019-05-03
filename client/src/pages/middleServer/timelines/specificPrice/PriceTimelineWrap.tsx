@@ -93,12 +93,6 @@ interface IProps {
   selectedHouse: IHouse;
 }
 
-// 👿 프론트는 시간을 사용할떄 Miliseconds 을 사용
-// 👿 백엔드는 시간을 사용할떄 IOS string 을 사용
-// 😇 데이터 보내기 "직전"에만 IOS string으로 변환해 주는중.
-// ❓ 달력에서 사용하는 것은 number타입
-// 👼 백엔드쪽에서 Ms 통일하기로함.
-// 👿👼  Ms 변환후 버그가 없는지 확인해야함!
 // 👼 앞으로 무조건 milisecond를 사용하는 편이 편할듯하다.
 const PriceTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
   //  Default 값
@@ -115,6 +109,8 @@ const PriceTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
   );
   // 일주일치 view만 보이겠지만 미리미리 요청해두자
   // 포멧 형식 "2019.04.09."
+  // 👿 여기는 state일 필요가 없는것 같은데?
+  // 그냥 defaultTime 이고 변경하는곳은 오직 dateInput 뿐....
   const [defaultTime, setDefaultTime] = useState({
     start: setMidNight(moment().valueOf()),
     end: setMidNight(

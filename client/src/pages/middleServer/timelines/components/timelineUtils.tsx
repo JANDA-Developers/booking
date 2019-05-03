@@ -1,4 +1,4 @@
-import { ADD_ROOM } from '../ModifyTimelineWrap';
+import { ADD_ROOM } from '../roomConfig/ModifyTimelineWrap';
 
 // 그룹을 렌더해야하는지 판별....
 const isLastRendered = (group: any, last_roomtype: number): { renderGroup: boolean; inLast_roomtype: number } => {

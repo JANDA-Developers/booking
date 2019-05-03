@@ -265,6 +265,78 @@ export interface getHouseVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: getGuests
+// ====================================================
+
+export interface getGuests_GetGuests_guests_roomType {
+  __typename: "RoomType";
+  _id: string;
+  index: number;
+}
+
+export interface getGuests_GetGuests_guests_allocatedRoom {
+  __typename: "Room";
+  _id: string;
+  index: number;
+}
+
+export interface getGuests_GetGuests_guests_booking_booker {
+  __typename: "Booker";
+  _id: string;
+  isCheckIn: any | null;
+}
+
+export interface getGuests_GetGuests_guests_booking {
+  __typename: "Booking";
+  booker: getGuests_GetGuests_guests_booking_booker;
+}
+
+export interface getGuests_GetGuests_guests {
+  __typename: "Guest";
+  _id: string;
+  /**
+   * roomType 은 처음 예약하고나서 절대로 변경되지 않음.
+   */
+  roomType: getGuests_GetGuests_guests_roomType | null;
+  name: any | null;
+  start: any;
+  end: any;
+  /**
+   * 도미토리, 룸, 블록 구분
+   */
+  pricingType: PricingType;
+  /**
+   * 현재 묵는 방으로 변경될수 있음.
+   */
+  allocatedRoom: getGuests_GetGuests_guests_allocatedRoom | null;
+  gender: Gender | null;
+  updatedAt: any | null;
+  createdAt: any;
+  booking: getGuests_GetGuests_guests_booking | null;
+}
+
+export interface getGuests_GetGuests {
+  __typename: "GetGuestsResponse";
+  ok: boolean;
+  error: string | null;
+  guests: getGuests_GetGuests_guests[] | null;
+}
+
+export interface getGuests {
+  GetGuests: getGuests_GetGuests;
+}
+
+export interface getGuestsVariables {
+  start: any;
+  end: any;
+  houseId: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: getAllRoomType
 // ====================================================
 
@@ -307,6 +379,112 @@ export interface getAllRoomType {
 
 export interface getAllRoomTypeVariables {
   houseId: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: getAllRoomTypeWithGuest
+// ====================================================
+
+export interface getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms {
+  __typename: "Room";
+  _id: string;
+  name: string;
+  index: number;
+  createdAt: any;
+  updatedAt: any | null;
+}
+
+export interface getAllRoomTypeWithGuest_GetAllRoomType_roomTypes {
+  __typename: "RoomType";
+  _id: string;
+  name: string;
+  index: number;
+  description: string | null;
+  pricingType: PricingType;
+  peopleCount: number;
+  peopleCountMax: number;
+  roomGender: RoomGender;
+  roomCount: number;
+  createdAt: any;
+  updatedAt: any | null;
+  img: any | null;
+  rooms: getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms[];
+}
+
+export interface getAllRoomTypeWithGuest_GetAllRoomType {
+  __typename: "GetAllRoomTypeResponse";
+  ok: boolean | null;
+  error: string | null;
+  roomTypes: getAllRoomTypeWithGuest_GetAllRoomType_roomTypes[] | null;
+}
+
+export interface getAllRoomTypeWithGuest_GetGuests_guests_roomType {
+  __typename: "RoomType";
+  _id: string;
+  index: number;
+}
+
+export interface getAllRoomTypeWithGuest_GetGuests_guests_allocatedRoom {
+  __typename: "Room";
+  _id: string;
+  index: number;
+}
+
+export interface getAllRoomTypeWithGuest_GetGuests_guests_booking_booker {
+  __typename: "Booker";
+  _id: string;
+  isCheckIn: any | null;
+}
+
+export interface getAllRoomTypeWithGuest_GetGuests_guests_booking {
+  __typename: "Booking";
+  booker: getAllRoomTypeWithGuest_GetGuests_guests_booking_booker;
+}
+
+export interface getAllRoomTypeWithGuest_GetGuests_guests {
+  __typename: "Guest";
+  _id: string;
+  /**
+   * roomType 은 처음 예약하고나서 절대로 변경되지 않음.
+   */
+  roomType: getAllRoomTypeWithGuest_GetGuests_guests_roomType | null;
+  name: any | null;
+  start: any;
+  end: any;
+  /**
+   * 도미토리, 룸, 블록 구분
+   */
+  pricingType: PricingType;
+  /**
+   * 현재 묵는 방으로 변경될수 있음.
+   */
+  allocatedRoom: getAllRoomTypeWithGuest_GetGuests_guests_allocatedRoom | null;
+  gender: Gender | null;
+  updatedAt: any | null;
+  createdAt: any;
+  booking: getAllRoomTypeWithGuest_GetGuests_guests_booking | null;
+}
+
+export interface getAllRoomTypeWithGuest_GetGuests {
+  __typename: "GetGuestsResponse";
+  ok: boolean;
+  error: string | null;
+  guests: getAllRoomTypeWithGuest_GetGuests_guests[] | null;
+}
+
+export interface getAllRoomTypeWithGuest {
+  GetAllRoomType: getAllRoomTypeWithGuest_GetAllRoomType;
+  GetGuests: getAllRoomTypeWithGuest_GetGuests;
+}
+
+export interface getAllRoomTypeWithGuestVariables {
+  houseId: string;
+  start: any;
+  end: any;
 }
 
 /* tslint:disable */
@@ -438,6 +616,84 @@ export interface getUserForSU {
 
 export interface getUserForSUVariables {
   userId: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: getBookers
+// ====================================================
+
+export interface getBookers_GetBookers_bookers_bookings_roomType {
+  __typename: "RoomType";
+  _id: string;
+  name: string;
+}
+
+export interface getBookers_GetBookers_bookers_bookings {
+  __typename: "Booking";
+  _id: string;
+  /**
+   * 예약 ID
+   */
+  bookingId: string;
+  roomType: getBookers_GetBookers_bookers_bookings_roomType;
+  /**
+   * 가격
+   */
+  price: number;
+  /**
+   * 시작 날짜
+   */
+  start: any;
+  /**
+   * 끝 날짜
+   */
+  end: any;
+  discountedPrice: number;
+  bookingStatus: BookingStatus;
+  createdAt: any;
+  updatedAt: any | null;
+}
+
+export interface getBookers_GetBookers_bookers {
+  __typename: "Booker";
+  _id: string;
+  bookings: getBookers_GetBookers_bookers_bookings[] | null;
+  name: any;
+  phoneNumber: any;
+  email: any | null;
+  isCheckIn: any | null;
+  memo: string | null;
+  createdAt: any;
+  updatedAt: any | null;
+}
+
+export interface getBookers_GetBookers_pageInfo {
+  __typename: "PageInfoOffsetBase";
+  currentPage: number;
+  totalPage: number;
+  rowCount: number;
+}
+
+export interface getBookers_GetBookers {
+  __typename: "GetBookersResponse";
+  ok: boolean;
+  error: string | null;
+  bookers: getBookers_GetBookers_bookers[] | null;
+  pageInfo: getBookers_GetBookers_pageInfo | null;
+}
+
+export interface getBookers {
+  GetBookers: getBookers_GetBookers;
+}
+
+export interface getBookersVariables {
+  houseId: string;
+  page: number;
+  count: number;
 }
 
 /* tslint:disable */
@@ -1243,6 +1499,11 @@ export interface fieldsUser {
 //==============================================================
 // START Enums and Input Objects
 //==============================================================
+
+export enum BookingStatus {
+  CANCEL = "CANCEL",
+  COMPLETE = "COMPLETE",
+}
 
 /**
  * 도미토리 방식으로 예약한 게스트만 적용됨

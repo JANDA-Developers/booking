@@ -1,13 +1,13 @@
 import React from 'react';
 import 'moment/locale/ko';
 import { Link } from 'react-router-dom';
-import Timeline from '../../../components/timeline/Timeline';
-import ErrProtecter from '../../../utils/ErrProtecter';
-import Button from '../../../atoms/button/Button';
+import Timeline from '../../../../components/timeline/Timeline';
+import ErrProtecter from '../../../../utils/ErrProtecter';
+import Button from '../../../../atoms/button/Button';
 import './ModifyTimeline.scss';
-import { getAllRoomType_GetAllRoomType_roomTypes as IRoomType } from '../../../types/api';
+import { getAllRoomType_GetAllRoomType_roomTypes as IRoomType } from '../../../../types/api';
 import { ADD_ROOM } from './ModifyTimelineWrap';
-import Preloader from '../../../atoms/preloader/Preloader';
+import Preloader from '../../../../atoms/preloader/Preloader';
 
 let LAST_ROOMTYPE = 'unRendered'; // 방들중에 방타입이 다른 마지막을 체크할것
 

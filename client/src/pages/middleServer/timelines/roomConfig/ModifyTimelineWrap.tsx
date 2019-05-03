@@ -3,17 +3,17 @@
 import React, { Fragment } from 'react';
 import { Mutation, Query } from 'react-apollo';
 import { TimelineGroup } from 'react-calendar-timeline';
-import { getAllRoomType } from '../../../types/api';
-import { useToggle, useModal2 } from '../../../actions/hook';
+import { getAllRoomType } from '../../../../types/api';
+import { useToggle, useModal2 } from '../../../../actions/hook';
 import ModifyTimeline from './ModifyTimeline';
-import { ModifydefaultProps } from './timelineConfig';
-import { GET_ALL_ROOMTYPES } from '../../../queries';
+import { ModifydefaultProps } from '../timelineConfig';
+import { GET_ALL_ROOMTYPES } from '../../../../queries';
 import {
   ErrProtecter, toast, isEmpty, QueryDataFormater, showError,
-} from '../../../utils/utils';
-import RoomTypeModal from './components/RoomTypeModalWrap';
-import RoomModal from './components/RoomModalWrap';
-import { ISelectHouse, IRoomType } from '../../../types/interface';
+} from '../../../../utils/utils';
+import RoomTypeModal from '../components/RoomTypeModalWrap';
+import RoomModal from '../components/RoomModalWrap';
+import { ISelectHouse, IRoomType } from '../../../../types/interface';
 
 export enum ADD_ROOM {
   'ADDROOM' = -1,

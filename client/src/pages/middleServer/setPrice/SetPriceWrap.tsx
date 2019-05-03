@@ -76,7 +76,6 @@ const SetPriceWrap: React.SFC<IProps> = ({ selectedHouse }) => {
         const seasones = QueryDataFormater(data, 'GetAllSeason', 'seasons', undefined);
         const roomTypes = QueryDataFormater(data, 'GetAllRoomType', 'roomTypes', undefined);
         const seasonPrices = QueryDataFormater(data, 'GetSeasonPrice', 'seasonPrices', undefined);
-
         const priceMap = seasonPrices && priceMapMaker(seasonPrices);
 
         return !dataL ? (
