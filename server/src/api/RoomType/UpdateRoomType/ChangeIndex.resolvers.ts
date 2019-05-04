@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 import { InstanceType } from "typegoose";
 import { RoomTypeModel, RoomTypeSchema } from "../../../models/RoomType";
-import { selectNumberRange } from "../../../queries/queries";
+import { selectNumberRangeQuery } from "../../../queries/queries";
 import {
     ChangeIndexMutationArgs,
     ChangeIndexResponse
@@ -24,7 +24,7 @@ const resolvers: Resolvers = {
                     await existingRoomType.update({
                         index: args.index
                     });
-                    const conditions = selectNumberRange(
+                    const conditions = selectNumberRangeQuery(
                         args.index,
                         existingRoomType.index
                     );
