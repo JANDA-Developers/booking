@@ -479,7 +479,7 @@ export const extractGuest = async (
             transformRoomType,
             temp._doc.roomType
         ),
-        room: temp.room
+        allocatedRoom: temp.room
             ? await transformRoom.bind(transformRoom, temp.room)
             : null
     };

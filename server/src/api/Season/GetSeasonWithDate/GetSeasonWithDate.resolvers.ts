@@ -1,4 +1,4 @@
-import { betweenDateWithoutYear } from "../../../queries/seasonQueries";
+import { betweenDateWithoutYear } from "../../../queries/queriesSeason";
 import {
     GetSeasonWithDateQueryArgs,
     GetSeasonWithDateResponse

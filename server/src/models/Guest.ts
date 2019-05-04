@@ -37,6 +37,9 @@ export class GuestSchema extends Typegoose {
     })
     gender: Gender;
 
+    @prop({ default: true })
+    isTempAllocation: boolean;
+
     @prop()
     start: Date;
 

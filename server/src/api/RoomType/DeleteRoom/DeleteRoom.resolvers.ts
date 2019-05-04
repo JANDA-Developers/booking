@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { RoomModel } from "../../../models/Room";
 import { RoomTypeModel } from "../../../models/RoomType";
 import {
@@ -22,9 +22,9 @@ const resolvers: Resolvers = {
                         await existingRoom.remove();
                         // RoomType.rooms 배열에서 제외하기
                         await RoomTypeModel.update(
-                            { _id: new ObjectId(roomTypeId) },
+                            { _id: new Types.ObjectId(roomTypeId) },
                             {
-                                $pull: { rooms: new ObjectId(roomId) }
+                                $pull: { rooms: new Types.ObjectId(roomId) }
                             },
                             {
                                 new: true

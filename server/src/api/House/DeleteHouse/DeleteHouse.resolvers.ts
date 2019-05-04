@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { HouseModel } from "../../../models/House";
 import { UserModel } from "../../../models/User";
 import {
@@ -18,13 +18,13 @@ const resolvers: Resolvers = {
             try {
                 await HouseModel.findOneAndDelete({
                     _id,
-                    user: new ObjectId(user._id)
+                    user: new Types.ObjectId(user._id)
                 });
                 await UserModel.updateOne(
                     {
                         _id: user._id
                     },
-                    { $pull: { houses: new ObjectId(_id) } }
+                    { $pull: { houses: new Types.ObjectId(_id) } }
                 );
                 return {
                     ok: true,

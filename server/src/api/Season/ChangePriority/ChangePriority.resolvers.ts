@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { SeasonModel } from "../../../models/Season";
 import { selectNumberRange } from "../../../queries/queries";
 import {
@@ -17,7 +17,7 @@ const resolvers: Resolvers = {
             ): Promise<ChangePriorityResponse> => {
                 const existingSeasons = await SeasonModel.find(
                     {
-                        house: new ObjectId(houseId)
+                        house: new Types.ObjectId(houseId)
                     },
                     {
                         priority: 1
@@ -33,7 +33,7 @@ const resolvers: Resolvers = {
                     );
                     await SeasonModel.updateMany(
                         {
-                            _id: { $ne: new ObjectId(seasonId) },
+                            _id: { $ne: new Types.ObjectId(seasonId) },
                             priority: conditions.condition
                         },
                         { $inc: { priority: conditions.increment } },

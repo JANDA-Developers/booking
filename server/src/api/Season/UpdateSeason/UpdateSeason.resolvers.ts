@@ -1,5 +1,7 @@
+import { Types } from "mongoose";
 import { extractSeason } from "../../../models/merge/merge";
 import { SeasonModel } from "../../../models/Season";
+import { SeasonPriceModel } from "../../../models/SeasonPrice";
 import {
     UpdateSeasonMutationArgs,
     UpdateSeasonResponse
@@ -12,7 +14,7 @@ const resolvers: Resolvers = {
         UpdateSeason: privateResolver(
             async (
                 _,
-                { seasonId, ...args }: UpdateSeasonMutationArgs
+                { seasonId, seasonPrices, ...args }: UpdateSeasonMutationArgs
             ): Promise<UpdateSeasonResponse> => {
                 try {
                     const season = await SeasonModel.findById(seasonId);
@@ -41,6 +43,26 @@ const resolvers: Resolvers = {
                             new: true
                         }
                     );
+                    // [SeasonPrice!] ㄱㄱㄱ
+                    seasonPrices.forEach(async seasonPrice => {
+                        await SeasonPriceModel.findOneAndUpdate(
+                            {
+                                season: Types.ObjectId(seasonId),
+                                roomType: new Types.ObjectId(
+                                    seasonPrice.roomTypeId
+                                )
+                            },
+                            {
+                                $set: {
+                                    defaultPrice: seasonPrice.defaultPrice,
+                                    dayOfWeekPrices: seasonPrice.dayOfWeekPrices
+                                }
+                            },
+                            {
+                                upsert: true
+                            }
+                        );
+                    });
                     return {
                         ok: true,
                         error: null,

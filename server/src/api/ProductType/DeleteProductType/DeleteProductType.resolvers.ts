@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { ProductTypeModel } from "../../../models/ProductType";
 import {
     DeleteProductTypeMutationArgs,
@@ -14,7 +14,7 @@ const resolvers: Resolvers = {
         ): Promise<DeleteProductTypeResponse> => {
             try {
                 const existingProductType = await ProductTypeModel.findOne({
-                    _id: new ObjectId(productTypeId)
+                    _id: new Types.ObjectId(productTypeId)
                 });
                 if (existingProductType) {
                     await existingProductType.remove();

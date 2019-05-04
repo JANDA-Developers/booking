@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { InstanceType } from "typegoose";
 import { HouseSchema } from "../../../../models/House";
 import { extractRoomType } from "../../../../models/merge/merge";
@@ -24,7 +24,7 @@ const resolvers: Resolvers = {
                 try {
                     const house: InstanceType<HouseSchema> = req.house;
                     const existingRoomType = await RoomTypeModel.findOne({
-                        house: new ObjectId(house._id),
+                        house: new Types.ObjectId(house._id),
                         roomTemplateSrl
                     });
                     if (!existingRoomType) {
@@ -57,11 +57,6 @@ const resolvers: Resolvers = {
                         roomType: null
                     };
                 }
-                return {
-                    ok: false,
-                    error: null,
-                    roomType: null
-                };
             }
         )
     }

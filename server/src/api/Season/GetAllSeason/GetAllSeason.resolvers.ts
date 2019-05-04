@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { extractSeasons } from "../../../models/merge/merge";
 import { SeasonModel } from "../../../models/Season";
 import {
@@ -17,7 +17,7 @@ const resolvers: Resolvers = {
             ): Promise<GetAllSeasonResponse> => {
                 try {
                     const seasons = await SeasonModel.find({
-                        house: new ObjectId(houseId)
+                        house: new Types.ObjectId(houseId)
                     });
                     return {
                         ok: true,

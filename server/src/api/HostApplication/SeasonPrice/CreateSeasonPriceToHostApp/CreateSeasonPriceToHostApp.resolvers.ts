@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { InstanceType } from "typegoose";
 import { HouseSchema } from "../../../../models/House";
 import { extractSeasonPrice } from "../../../../models/merge/merge";
@@ -45,7 +45,9 @@ const resolvers: Resolvers = {
                             seasonPrice: null
                         };
                     }
-                    if (new ObjectId(house._id).equals(existSeason.house)) {
+                    if (
+                        new Types.ObjectId(house._id).equals(existSeason.house)
+                    ) {
                         return {
                             ok: false,
                             error: "숙소id와 매칭된 시즌가격이 아닙니다. ",
@@ -53,8 +55,8 @@ const resolvers: Resolvers = {
                         };
                     }
                     const seasonPrice = new SeasonPriceModel({
-                        roomType: new ObjectId(roomTypeId),
-                        season: new ObjectId(seasonId),
+                        roomType: new Types.ObjectId(roomTypeId),
+                        season: new Types.ObjectId(seasonId),
                         price,
                         applyDays
                     });

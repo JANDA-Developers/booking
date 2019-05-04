@@ -1,0 +1,11 @@
+type ToggleIsTempAllocatedResponse {
+    ok: Boolean!
+    error: String
+    guest: Guest
+}
+type Mutation {
+    ToggleIsTempAllocated(
+        guestId: ID!
+        isTempAllocated: Boolean!
+    ): ToggleIsTempAllocatedResponse!
+}

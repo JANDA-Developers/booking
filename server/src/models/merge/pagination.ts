@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { decodeB64 } from "../../utils/b64Func";
 
 export const getQueryAndSort = (
@@ -13,7 +13,7 @@ export const getQueryAndSort = (
         const direction: "$gt" | "$lt" = order === 1 ? "$gt" : "$lt";
         switch (key) {
             case "_id":
-                decodedCursor = new ObjectId(decodedCursor);
+                decodedCursor = new Types.ObjectId(decodedCursor);
                 break;
             case "createdAt":
             case "updatedAt":
