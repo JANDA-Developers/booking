@@ -13,7 +13,7 @@ type Guest {
     end: DateTime!
     # 도미토리, 룸, 블록 구분
     pricingType: PricingType!
-    isTempAllocated: Boolean!
+    isTempAllocation: Boolean!
     gender: Gender
     createdAt: DateTime!
     updatedAt: DateTime
