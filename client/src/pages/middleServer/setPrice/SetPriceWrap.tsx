@@ -11,8 +11,10 @@ import {
   getAllSeasonTableVariables,
   getAllSeasonTable_GetSeasonPrice_seasonPrices as ISeasonPrices,
   getAllSeasonTable_GetSeasonPrice_seasonPrices_dayOfWeekPrices as IDayOfWeek,
+  createSeasonVariables,
+  createSeason,
 } from '../../../types/api';
-import { GET_ALL_SEASON_TABLE } from '../../../queries';
+import { GET_ALL_SEASON_TABLE, CREATE_SEASON } from '../../../queries';
 import {
   ErrProtecter, toast, isEmpty, QueryDataFormater, showError,
 } from '../../../utils/utils';
@@ -43,6 +45,7 @@ export interface priceMapResult {
 export interface IPriceMap extends Map<string, priceMapResult> {}
 
 class GetAllSeasonTQuery extends Query<getAllSeasonTable, getAllSeasonTableVariables> {}
+class CreateSeasonMu extends Mutation<createSeason, createSeasonVariables> {}
 
 const priceMapMaker = (seasonPrices: ISeasonPrices[]) => {
   const priceMap: IPriceMap = new Map();
@@ -63,7 +66,9 @@ const SetPriceWrap: React.SFC<IProps> = ({ selectedHouse }) => {
     color: '',
   });
 
-  // TODO ⛔️ 아직 뮤테이션(한꺼번에 가격을 변동시키는)이 없다
+  // ❕ NOTE
+  // 쿼리로부터 3가지 정보를 호출한다 가격, 시즌정보, 룸타입 정보,
+  // 나머지 "뮤테이션"들은 테이블 안쪽에있다.
   return (
     // 모든 방 가져오기
     <GetAllSeasonTQuery

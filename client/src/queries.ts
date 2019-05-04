@@ -659,13 +659,32 @@ export const CREATE_SEASON = gql`
     $houseId: ID!
     $color: String
     $description: String
+    $seasonPrices: [SeasonPriceInput!]
   ) {
-    CreateSeason(name: $name, start: $start, end: $end, houseId: $houseId, color: $color, description: $description) {
+    CreateSeason(
+      name: $name
+      start: $start
+      end: $end
+      houseId: $houseId
+      color: $color
+      description: $description
+      seasonPrices: $seasonPrices
+    ) {
       ok
       error
     }
   }
 `;
+
+export const CHANGE_PRIORITY = gql`
+  mutation changePriority($seasonId: ID!, $houseId: ID!, $priority: Int!) {
+    ChangePriority(seasonId: $seasonId, houseId: $houseId, priority: $priority) {
+      ok
+      error
+    }
+  }
+`;
+
 // 시즌 삭제
 export const DELETE_SEASON = gql`
   mutation deleteSeason($seasonId: ID!, $houseId: ID!) {

@@ -42,6 +42,9 @@ import {
 } from '../../../actions/hook';
 import './ShowComponent.scss';
 import JDcolorPicker from '../../../atoms/colorPicker/ColorPicker';
+import DrragList from '../../../atoms/animation/DrragList';
+import Card from '../../../atoms/cards/Card';
+import JDbox from '../../../atoms/box/JDbox';
 
 function ShowComponents() {
   const defaultColor = faker.commerce.color();
@@ -58,7 +61,7 @@ function ShowComponents() {
   const colorPickerHook = useColorPicker(defaultColor);
   const colorPickerHook2 = useColorPicker(defaultColor2);
   const colorPickerHook3 = useColorPicker(defaultColor3);
-  const dayPickerHook = useDayPicker(null,null);
+  const dayPickerHook = useDayPicker(null, null);
   const switchHook = useSwitch(false);
   const refContainer = useRef();
   const [SideNavIsOpen, setSideNavIsOpen] = useToggle(false);
@@ -81,6 +84,24 @@ function ShowComponents() {
     { color: 'blue', food: 'food', actor: 'i' },
     { color: 'blue', food: 'food', actor: 'i' },
     { color: 'blue', food: 'food', actor: 'i' },
+  ];
+
+  const dummyDrragData = [
+    {
+      color: '#FF5500',
+      title: 'Senior Product Designer',
+      text: 'Senior Product Designer',
+    },
+    {
+      color: '#5FC296',
+      title: 'Senior Animator',
+      text: 'Senior Animator',
+    },
+    {
+      color: '#2DB7F5',
+      title: 'Visual Designer',
+      text: 'Visual Designer',
+    },
   ];
 
   const TableColumns = [
@@ -409,6 +430,47 @@ function ShowComponents() {
         <h6>Pagination</h6>
         <div className="docs-section__box clear-fix">
           <Pagination align="left" pageCount={13} initialPage={0} marginPagesDisplayed={1} pageRangeDisplayed={5} />
+        </div>
+
+        {/* 드래그리스트 */}
+        <h6>DragList</h6>
+        <div className="docs-section__box clear-fix">
+          <DrragList data={dummyDrragData} rowKey="tittle">
+            {(recode, index) => (
+              <Card key={index}>
+                <h6>this can Drragable</h6>
+                {' '}
+                {recode.title}
+              </Card>
+            )}
+          </DrragList>
+        </div>
+
+        {/* JDbox */}
+        <h6>JDbox</h6>
+        <div className="docs-section__box clear-fix">
+          <JDbox label="Box Label">boxContent</JDbox>
+          <JDbox mode="table">
+            <table>
+              <thead>
+                <tr>
+                  <th>TH</th>
+                  <th>TH</th>
+                  <th>TH</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>TD</td>
+                  <td>TD</td>
+                  <td>TD</td>
+                </tr>
+              </tbody>
+            </table>
+          </JDbox>
+          <JDbox mode="border" icon="apps" topLabel="Top Box Label" label="Box Label">
+            {'boxContent'}
+          </JDbox>
         </div>
 
         {/* 그외 것들 */}

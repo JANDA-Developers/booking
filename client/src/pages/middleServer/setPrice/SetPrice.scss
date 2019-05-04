@@ -1,6 +1,7 @@
 @import '../../../style_config/style_config.scss';
-
+#root {
 .seasonT {
+
     &__arrows {
         font-size: $typho-large;
         & > .JDicon__svg {
@@ -10,7 +11,21 @@
             margin-left: 0;
         }
     }
-    
+
+    &__JDboxWrap {
+        display: inline-block;
+        vertical-align: top;
+        .JDbox {
+            padding: $standard-small-padding;
+            font-size: $typho-large;
+            margin-bottom: 0;
+            .JDicon__svg {
+                margin-right: $standard-space /3;
+            }
+
+        }
+    }
+
     .circleIcon {
         margin-bottom: 0;
     }
@@ -19,15 +34,5 @@
         flex: 1;
     }
 
-    &__mbController {
-        @include response ($full,$phablet) {
-            display: none;
-        }
-    }
-
-    &__pcController {
-        @include response ($phabletUp,$null) {
-            display: none;
-        }
-    }
+}
 }

@@ -9,7 +9,7 @@ import Button from '../../../../atoms/button/Button';
 import BookerModal from '../../../../components/bookerInfo/BookerModal';
 import { IUseDayPicker, useModal2 } from '../../../../actions/hook';
 import { initItems, initGroups } from '../timelineConfig';
-import { IGroup } from './AssigTimelineWrap';
+import { IGroup, IAssigItem } from './AssigTimelineWrap';
 import assigGroupRendererFn from './components/groupRenderFn';
 import { IRoomType, IGuests } from '../../../../types/interface';
 import Preloader from '../../../../atoms/preloader/Preloader';
@@ -27,8 +27,7 @@ interface IProps {
   loading: boolean;
   //  디프리 될수도
   roomTypesData: IRoomType[];
-  guestsData: IGuests[];
-
+  guestsData: IAssigItem[];
 }
 
 const ShowTimeline: React.SFC<IProps> = ({
@@ -52,8 +51,6 @@ const ShowTimeline: React.SFC<IProps> = ({
       .toDate(),
   });
 
-  console.log('guestsData');
-  console.log(guestsData);
   const handleItemDoubleClick = (itemId: any, e: any, time: any) => {
     // 퍼포먼스 향상을 위해서라면 ID 는 인덱스여야한다?
     timer = window.setTimeout(() => {

@@ -180,10 +180,10 @@ export interface IUseDayPicker {
   setEntered: React.Dispatch<React.SetStateAction<Date | null>>;
 }
 
-function useDayPicker<IUseDayPicker>(defaultFrom: Date | null, defaultTo: Date | null) {
+function useDayPicker(defaultFrom: Date | null, defaultTo: Date | null): IUseDayPicker {
   const [from, setFrom] = useState<Date | null>(defaultFrom);
   const [entered, setEntered] = useState<Date | null>(defaultTo);
-  const [to, setTo]: any = useState<Date | null>();
+  const [to, setTo]: any = useState<Date | null>(defaultTo);
 
   return {
     from,

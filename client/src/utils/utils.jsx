@@ -13,7 +13,7 @@ import {
 import searchListFormat from './SearchListFormat';
 import onError, { showError } from './ApolloError';
 import onCompletedMessage from './ApolloOnCompleted';
-import QueryDataFormater from './QueryDataFormat';
+import QueryDataFormater, { copyFindReplace } from './QueryDataFormat';
 import pageNationFormater from './paginationFormat';
 import { encodeB64, decodeB64 } from './BtoA';
 import setMidNight from './setMidNight';
@@ -42,6 +42,7 @@ const JDutils = {
   applyDaysToArr,
   arrToApplyDays,
   stringToPrice,
+  copyFindReplace,
 };
 
 export default JDutils;
@@ -64,4 +65,5 @@ export {
   applyDaysToArr,
   arrToApplyDays,
   stringToPrice,
+  copyFindReplace,
 };

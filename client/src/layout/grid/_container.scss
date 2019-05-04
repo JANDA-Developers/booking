@@ -32,14 +32,19 @@ main {
   }
 }
 
-.container--lg {
-  margin: 0 auto;
-  max-width: 1200px;
-}
-
 .container--sm {
   margin: 0 auto;
   max-width: $container-small-width;
+}
+
+.container--md {
+  margin: 0 auto;
+  max-width: $container-middle-width;
+}
+
+.container--lg {
+  margin: 0 auto;
+  max-width: $container-large-width;
 }
 
 

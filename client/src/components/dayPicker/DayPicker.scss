@@ -2,6 +2,12 @@
 
 .DayPicker {
 
+    &--unYear {
+        .DayPicker-Caption__year {
+            display: none;
+        }
+    }
+
     &--unRange {
         .DayPicker-Day {
             border-radius: 0px!important;

@@ -1110,6 +1110,31 @@ export interface createSeasonVariables {
   houseId: string;
   color?: string | null;
   description?: string | null;
+  seasonPrices?: SeasonPriceInput[] | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: changePriority
+// ====================================================
+
+export interface changePriority_ChangePriority {
+  __typename: "ChangePriorityResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface changePriority {
+  ChangePriority: changePriority_ChangePriority;
+}
+
+export interface changePriorityVariables {
+  seasonId: string;
+  houseId: string;
+  priority: number;
 }
 
 /* tslint:disable */
@@ -1578,6 +1603,12 @@ export interface LocationInput {
   addressDetail?: string | null;
   lat: number;
   lng: number;
+}
+
+export interface SeasonPriceInput {
+  roomTypeId: string;
+  defaultPrice: number;
+  dayOfWeekPrices?: DayOfWeekPriceInput[] | null;
 }
 
 export interface TagInput {

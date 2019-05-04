@@ -21,6 +21,7 @@ interface IProps extends IUseDayPicker {
   input?: boolean;
   label?: string;
   isRange?: boolean;
+  displayYear?: boolean;
   canSelectSameDate?: boolean;
   format?: string;
   lang?: string;
@@ -44,6 +45,7 @@ const JDdayPicker: React.SFC<IProps> = ({
   to,
   setTo,
   entered,
+  displayYear = true,
   canSelectBeforeDays,
   setEntered,
   maxLimit,
@@ -126,6 +128,7 @@ const JDdayPicker: React.SFC<IProps> = ({
     'DayPicker--horizen': horizen,
     'DayPicker--input': input,
     'DayPicker--maxLimit': maxLimit,
+    'DayPicker--unYear': !displayYear,
     'DayPicker--unRange': !isRange,
   });
 

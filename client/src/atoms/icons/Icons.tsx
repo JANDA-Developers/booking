@@ -58,7 +58,7 @@ export enum IconSize {
   LARGE = '1.7rem',
 }
 
-interface IProps {
+interface IProps extends React.HTMLAttributes<HTMLOrSVGElement>{
   label?: string;
   icon: string;
   size?: IconSize;
@@ -67,9 +67,9 @@ interface IProps {
 }
 
 const JDIcon: React.SFC<IProps> = ({
-  label, icon, hover, onClick, size,
+  label, icon, hover, onClick, size, className, ...props
 }) => {
-  const classes = classNames({
+  const classes = classNames('JDicon',className,{
     JDicon__svg: true,
     'JDicon__svg--hover': hover,
   });
@@ -77,6 +77,7 @@ const JDIcon: React.SFC<IProps> = ({
   return (
     <Fragment>
       <svg
+        {...props}
         alignmentBaseline="central"
         className={classes}
         width={size}

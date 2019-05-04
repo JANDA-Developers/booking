@@ -21,7 +21,7 @@ import {
 } from '../../../../utils/utils';
 import { GET_ALL_ROOMTYPES, GET_ALL_ROOMTYPES_WITH_GUESTS } from '../../../../queries';
 import EerrorProtect from '../../../../utils/ErrProtecter';
-import { PricingType } from '../../../../types/apiEnum';
+import { PricingType, Gender } from '../../../../types/apiEnum';
 import { setMyForm } from '../../../../utils/setMidNight';
 
 export interface IGroup {
@@ -40,9 +40,11 @@ export interface IAssigItem {
   name: string;
   bookerId: string;
   isCheckin: boolean;
-  roomId: string;
+  roomTypeId: string;
+  // roomId: string;
   start: number;
   end: number;
+  gender: Gender | null;
 }
 
 interface IProps {
@@ -81,23 +83,31 @@ const AssigTimelineWrap: React.SFC<IProps> = ({ houseId }) => {
     if (!guestsData) return alloCateItems;
 
     guestsData.forEach((guestData) => {
-      // 배정된 경우
-      if (guestData.allocatedRoom) {
-        //  TODO
-        //  배정생기면 여기서처리
-        // 👿 이거는 널이면 안되지 애초에
-      } else if (guestData.booking && guestData.roomType) {
-        // 배정안된 경우
-        alloCateItems.push({
-          id: guestData._id,
-          name: guestData.name,
-          bookerId: guestData.booking.booker._id,
-          isCheckin: guestData.booking.booker.isCheckIn,
-          roomId: guestData.roomType._id,
-          start: setMyForm(guestData.start),
-          end: setMyForm(guestData.end),
-        });
-      }
+        const isDomitory = guestData.pricingType === PricingType.ROOM;
+
+        // ⭐️임의방배정
+        // 아이템에는 배정확정 버튼이있다.
+        // 임의 방배정된 사람들은 자유롭게 이동할수있다.
+        // 자유롭게 이동하되 이동할수 없는 방으로 갈경우네는 빨간 표시가된다.
+        // 배정확정 버튼이 필요한 이유:: 백엔드 에서 예약가능 인원을 계산할떄
+        // 배정된 화면을 기반으로 하기때문에 배정확정이 필요하다.
+        // 🌈 임의배정 연한회색 || 배정확정: 파란색 || 배정 불가 붉은색 || 체크인 === 아이콘
+        // 배정확정에 관해서는 말로 설명하는게 옳다.
+
+        if(guestData && guestData.booking) {
+          alloCateItems.push({
+            id: guestData._id,
+            name: guestData.name,
+            bookerId: guestData.booking.booker._id,
+            isCheckin: guestData.booking.booker.isCheckIn,
+            gender: guestData.gender,
+            roomTypeId: guestData.roomType._id,
+            // group: guestData.allocatedRoom._id + guestData.bedIndex;
+            // temp: guestData.temp // 임시방배정
+            start: moment(guestData.start).valueOf(),
+            end: moment(guestData.end).valueOf(),
+          });
+        }
     });
     return alloCateItems;
   };

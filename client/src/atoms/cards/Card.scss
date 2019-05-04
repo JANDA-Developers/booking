@@ -1,6 +1,7 @@
 @import "../../style_config/style_config";
 
 .JDcard {
+    position: relative;
     @extend %z-depth-1;
     padding: $card-padding;
     text-align: left;
@@ -17,6 +18,11 @@
 
     & > *:last-child {
         margin-bottom: 0;
+    }
+
+    // drragable 을 위해서
+    & > * {
+        cursor:auto;
     }
 
 }

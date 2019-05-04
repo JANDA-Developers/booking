@@ -119,6 +119,11 @@ export enum WindowSize {
   DESKTOPHD = 1200,
 }
 
+export enum Gender {
+  FEMALE = 'FEMALE',
+  MALE = 'MALE',
+}
+
 //= =============================================================
 // START global options
 //= =============================================================
