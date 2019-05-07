@@ -6,6 +6,6 @@ type ToggleIsTempAllocatedResponse {
 type Mutation {
     ToggleIsTempAllocated(
         guestId: ID!
-        isTempAllocated: Boolean!
+        isTempAllocation: Boolean!
     ): ToggleIsTempAllocatedResponse!
 }
