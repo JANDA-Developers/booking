@@ -2,6 +2,7 @@ import { Types } from "mongoose";
 import { extractSeason } from "../../../../models/merge/merge";
 import { SeasonModel } from "../../../../models/Season";
 import { selectNumberRangeQuery } from "../../../../queries/queries";
+import { getMaxPriority } from "../../../../queries/queriesSeason";
 import {
     ChangePriorityToHostAppMutationArgs,
     ChangePriorityToHostAppResponse
@@ -28,11 +29,18 @@ const resolvers: Resolvers = {
                         season: null
                     };
                 }
+                const priorityMax = await getMaxPriority(houseId);
+                const priorityUpdateTarget =
+                    priorityMax < priority
+                        ? priorityMax
+                        : priority < 0
+                        ? 0
+                        : priority;
                 await existingSeason.update({
-                    priority
+                    priority: priorityUpdateTarget
                 });
                 const conditions = selectNumberRangeQuery(
-                    priority,
+                    priorityUpdateTarget,
                     existingSeason.priority
                 );
 

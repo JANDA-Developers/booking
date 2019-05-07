@@ -1,88 +1,36 @@
 Host-Side:
     Development Env:
-        ✔ Migrate 'typeORM' to 'typegoose' @done(19-02-16 11:03)
-        ✔ Make Custom Scalars @done(19-02-16 12:15)
-        ✔ Figure out How to apply 'order by' condition in MongoDB and Mongoose @high @today @done(19-03-20 14:27)
         ☐ Figure out How to use AWS S3 to Up/Download File
     User Flow Visualize:
         ☐ Make Document with FrontEnd Developer
     Sign In & Sign Up:
-        ✔ Email @done(19-02-14 13:08)
         ☐ Gmail
         ☐ Facebook
-        ✔ Generate JWT @done(19-02-14 13:08)
-        ✔ Verify JWT @done(19-02-14 13:08)
     Create House:
-        Input Host Data:
-            ✔ Phone Number Verification @done(19-02-14 13:12)
-            ✘ Email Verification @cancelled(19-02-14 13:12)
-            ✔ Input Profile @done(19-02-18 18:53)
-            ✔ Get Profile @done(19-02-14 13:39)
-        Make House: 
-            ✔ Create House @done(19-02-18 18:53)
-                # name, houseType, RefundRule?, BookingCondition
-            ✔ Update House @done(19-02-19 18:29)
-            ✔ Delete House @done(19-02-19 18:29)
-        Create/Modify/Delete RoomType:
-            ✔ Create RoomType @today @done(19-02-21 17:28)
-            ✔ Update RoomType @today @done(19-02-21 17:28)
-            ✔ Delete RoomType @today @done(19-02-21 17:28)
-            ✔ Create Room(linked with RoomType) @today @done(19-03-06 17:24)
-            ✔ Update Room @today @done(19-03-06 17:24)
-            ✔ Delete Room @today @done(19-03-06 17:24)
-        Make DateRange Dto:
-            ✔ Make Interface @done(19-03-06 17:26)
-            ✔ get/set Date @done(19-03-06 17:26)
-            ✔ get/set HashCode @done(19-03-06 17:26)
-            ✔ compareDate @done(19-03-06 17:26)
-            ✔ interval @done(19-03-06 17:26)
-            ✔ getParams @done(19-03-06 17:26)
-        Add/Remove/Update DisableRange:
-            ✘ AddRoomDisableRange @cancelled(19-04-21 23:34)
-            ✘ RemoveRoomDisableRange @cancelled(19-04-21 23:34)
-            ✘ UpdateRoomDisableRange @cancelled(19-04-21 23:34)
-            ✘ AddRoomTypeDisableRange @cancelled(19-03-06 20:21)
-            ✘ RemoveRoomTypeDisableRange @cancelled(19-03-06 20:21)
-            ✘ UpdateRoomTypeDisableRange @cancelled(19-03-06 20:21)
         Create/Update/Remove Season:
-            ✔ Make Season GraphQL Schema @done(19-03-08 19:27)
-            ✔ Create Season @done(19-03-13 11:41)
             ☐ Update Season 
-            ✔ Remove Season @done(19-03-20 14:27)
-        Query Season Data:
-            ✔ GetMatchedSeasonWithDateRange => 날짜 범위에 해당하는 시즌 가져오는 쿼리 @done(19-03-19 12:15)
-            ✔ GetMatchedSeasonWIthDate => 날짜 하나만 가지고 시즌 가져오는 쿼리 @done(19-03-19 12:15)
         Make ProductType & Product:
-            ✔ Define both of Schema @today @done(19-03-23 21:51)
-            ✔ CreateProductType @done(19-03-23 21:51)
             ☐ DeleteProductType
             ☐ UpdateProductType
-            ✔ CreateProduct @done(19-03-19 12:14)
             ☐ DeleteProduct @low 
             ☐ UpdateProduct @low 
         Booking API:
-            ✔ Define Booker, Guest, Booking Schema @done(19-03-25 11:06)
-            ✔ Draw Booking Flow with Draw.io in my browser @done(19-03-25 11:06)
-            ✔ CreateBooking @done(19-03-26 11:18)
-                # CreateBooker, CreateGuest 포함...
             ☐ UpdateBooking
                 # BookingStatus 변경 포함 x
             ☐ CancelBooking
             ☐ DeleteBooking
         Allocation:@high @today 
-            ☐ 방 배정에 필요한 인터페이스 및 프로세스 설계 @started(19-04-30 11:43)
-            ☐ `DOMITORY` Room 객체에서 배정 가능 인원 수 출력
-            ☐ `DOMITORY` RoomType 객체에서 배정 가능한 방 수 및 인원 수 알려주기.
-            ☐ `ROOM` Room 객체에 배정 가능한지 알려주기
+            ☐ `DOMITORY` RoomType 객체에서 배정 가능한 방 수 및 인원 수 알려주기. @started(19-04-30 17:00)
             ☐ `ROOM` RoomType 객체에서 배정 가능한 방 수 알려주기.
-            ✔ AllocateGuestToRoom       => 방 배정 @started(19-04-26 13:55) @done(19-04-26 14:09) @lasted(14m54s)
-            ✔ GetGuests                 => 게스트 목록 가져오기 @started(19-04-26 14:27) @done(19-04-26 17:58) @lasted(3h31m12s)
-            ✘ IsAbleToAllocate          => Check the Room is able to allocate someone. @started(19-04-26 18:12) @cancelled(19-04-30 11:40) @wasted(3d17h28m11s)
             ☐ GetAllAvailableRooms      => Get All Available Rooms
             ☐ GetAllAvailableRoomTypes  => Get All Available RoomTypes
             ☐ CheckRoomTypeIsAvailable  => Check RoomType is Available
         Auto Allocation: 
             ☐ 배정 할 방들 우선순위 선정 인터페이스 작성 @high
+        Price History:
+            ☐ 왜 PriceHistory DB가 필요한가? 뭐하는 스키마임?
+            ☐ 스키마 설계
+            ☐ CreatePriceHistory 
         Search Bar:
             ☐ Search Booker Info
             ☐ Show the Today's Check-In Guest
@@ -91,10 +39,6 @@ Host-Side:
             ☐ Modify Booker
             ☐ Delete Booker
         Make Room Price:
-            ✔ Define Schema...(SeasonPrice, RoomPrice) @done(19-03-20 14:29)
-            ✔ Inspect Schema @today @done(19-04-21 23:36)
-            ✔ Create / Update Season Price for Season (Default Room Price) @today @done(19-04-21 23:36)
-            ✔ Create / Update Room Price for Specific Date @today @done(19-04-21 23:36)
             ☐ Inspection
         Delete Room Price:
             ☐ Delete Room Price For Season (Default Room Price)
@@ -141,3 +85,58 @@ Host-Side:
     PG:
         ☐ Check API Document @low
         ☐ PG Intergration @low
+Archive:
+  ✔ Migrate 'typeORM' to 'typegoose' @done(19-02-16 11:03) @project(Host-Side.Development Env)
+  ✔ Make Custom Scalars @done(19-02-16 12:15) @project(Host-Side.Development Env)
+  ✔ Figure out How to apply 'order by' condition in MongoDB and Mongoose @high @today @done(19-03-20 14:27) @project(Host-Side.Development Env)
+  ✔ Email @done(19-02-14 13:08) @project(Host-Side.Sign In & Sign Up)
+  ✔ Generate JWT @done(19-02-14 13:08) @project(Host-Side.Sign In & Sign Up)
+  ✔ Verify JWT @done(19-02-14 13:08) @project(Host-Side.Sign In & Sign Up)
+  ✔ Phone Number Verification @done(19-02-14 13:12) @project(Host-Side.Create House.Input Host Data)
+  ✘ Email Verification @cancelled(19-02-14 13:12) @project(Host-Side.Create House.Input Host Data)
+  ✔ Input Profile @done(19-02-18 18:53) @project(Host-Side.Create House.Input Host Data)
+  ✔ Get Profile @done(19-02-14 13:39) @project(Host-Side.Create House.Input Host Data)
+  ✔ Create House @done(19-02-18 18:53) @project(Host-Side.Create House.Make House)
+    # name, houseType, RefundRule?, BookingCondition
+  ✔ Update House @done(19-02-19 18:29) @project(Host-Side.Create House.Make House)
+  ✔ Delete House @done(19-02-19 18:29) @project(Host-Side.Create House.Make House)
+  ✔ Create RoomType @today @done(19-02-21 17:28) @project(Host-Side.Create House.Create/Modify/Delete RoomType)
+  ✔ Update RoomType @today @done(19-02-21 17:28) @project(Host-Side.Create House.Create/Modify/Delete RoomType)
+  ✔ Delete RoomType @today @done(19-02-21 17:28) @project(Host-Side.Create House.Create/Modify/Delete RoomType)
+  ✔ Create Room(linked with RoomType) @today @done(19-03-06 17:24) @project(Host-Side.Create House.Create/Modify/Delete RoomType)
+  ✔ Update Room @today @done(19-03-06 17:24) @project(Host-Side.Create House.Create/Modify/Delete RoomType)
+  ✔ Delete Room @today @done(19-03-06 17:24) @project(Host-Side.Create House.Create/Modify/Delete RoomType)
+  ✔ Make Interface @done(19-03-06 17:26) @project(Host-Side.Create House.Make DateRange Dto)
+  ✔ get/set Date @done(19-03-06 17:26) @project(Host-Side.Create House.Make DateRange Dto)
+  ✔ get/set HashCode @done(19-03-06 17:26) @project(Host-Side.Create House.Make DateRange Dto)
+  ✔ compareDate @done(19-03-06 17:26) @project(Host-Side.Create House.Make DateRange Dto)
+  ✔ interval @done(19-03-06 17:26) @project(Host-Side.Create House.Make DateRange Dto)
+  ✔ getParams @done(19-03-06 17:26) @project(Host-Side.Create House.Make DateRange Dto)
+  ✘ AddRoomDisableRange @cancelled(19-04-21 23:34) @project(Host-Side.Create House.Add/Remove/Update DisableRange)
+  ✘ RemoveRoomDisableRange @cancelled(19-04-21 23:34) @project(Host-Side.Create House.Add/Remove/Update DisableRange)
+  ✘ UpdateRoomDisableRange @cancelled(19-04-21 23:34) @project(Host-Side.Create House.Add/Remove/Update DisableRange)
+  ✘ AddRoomTypeDisableRange @cancelled(19-03-06 20:21) @project(Host-Side.Create House.Add/Remove/Update DisableRange)
+  ✘ RemoveRoomTypeDisableRange @cancelled(19-03-06 20:21) @project(Host-Side.Create House.Add/Remove/Update DisableRange)
+  ✘ UpdateRoomTypeDisableRange @cancelled(19-03-06 20:21) @project(Host-Side.Create House.Add/Remove/Update DisableRange)
+  ✔ Make Season GraphQL Schema @done(19-03-08 19:27) @project(Host-Side.Create House.Create/Update/Remove Season)
+  ✔ Create Season @done(19-03-13 11:41) @project(Host-Side.Create House.Create/Update/Remove Season)
+  ✔ Remove Season @done(19-03-20 14:27) @project(Host-Side.Create House.Create/Update/Remove Season)
+  ✔ GetMatchedSeasonWithDateRange => 날짜 범위에 해당하는 시즌 가져오는 쿼리 @done(19-03-19 12:15) @project(Host-Side.Create House.Query Season Data)
+  ✔ GetMatchedSeasonWIthDate => 날짜 하나만 가지고 시즌 가져오는 쿼리 @done(19-03-19 12:15) @project(Host-Side.Create House.Query Season Data)
+  ✔ Define both of Schema @today @done(19-03-23 21:51) @project(Host-Side.Create House.Make ProductType & Product)
+  ✔ CreateProductType @done(19-03-23 21:51) @project(Host-Side.Create House.Make ProductType & Product)
+  ✔ CreateProduct @done(19-03-19 12:14) @project(Host-Side.Create House.Make ProductType & Product)
+  ✔ Define Booker, Guest, Booking Schema @done(19-03-25 11:06) @project(Host-Side.Create House.Booking API)
+  ✔ Draw Booking Flow with Draw.io in my browser @done(19-03-25 11:06) @project(Host-Side.Create House.Booking API)
+  ✔ CreateBooking @done(19-03-26 11:18) @project(Host-Side.Create House.Booking API)
+    # CreateBooker, CreateGuest 포함...
+  ✔ 방 배정에 필요한 인터페이스 및 프로세스 설계 @started(19-04-30 11:43) @done(19-04-30 17:00) @lasted(5h17m16s) @project(Host-Side.Create House.Allocation)
+  ✔ `DOMITORY` Room 객체에서 배정 가능 인원 수 출력 @done(19-04-30 17:00) @project(Host-Side.Create House.Allocation)
+  ✔ `ROOM` Room 객체에 배정 가능한지 알려주기 @done(19-04-30 17:00) @project(Host-Side.Create House.Allocation)
+  ✔ AllocateGuestToRoom       => 방 배정 @started(19-04-26 13:55) @done(19-04-26 14:09) @lasted(14m54s) @project(Host-Side.Create House.Allocation)
+  ✔ GetGuests                 => 게스트 목록 가져오기 @started(19-04-26 14:27) @done(19-04-26 17:58) @lasted(3h31m12s) @project(Host-Side.Create House.Allocation)
+  ✘ IsAbleToAllocate          => Check the Room is able to allocate someone. @started(19-04-26 18:12) @cancelled(19-04-30 11:40) @wasted(3d17h28m11s) @project(Host-Side.Create House.Allocation)
+  ✔ Define Schema...(SeasonPrice, RoomPrice) @done(19-03-20 14:29) @project(Host-Side.Create House.Make Room Price)
+  ✔ Inspect Schema @today @done(19-04-21 23:36) @project(Host-Side.Create House.Make Room Price)
+  ✔ Create / Update Season Price for Season (Default Room Price) @today @done(19-04-21 23:36) @project(Host-Side.Create House.Make Room Price)
+  ✔ Create / Update Room Price for Specific Date @today @done(19-04-21 23:36) @project(Host-Side.Create House.Make Room Price)

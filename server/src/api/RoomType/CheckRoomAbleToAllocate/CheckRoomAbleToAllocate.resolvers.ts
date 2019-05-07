@@ -10,8 +10,7 @@ const resolvers: Resolvers = {
         CheckRoomAbleToAllocate: privateResolver(
             async (
                 _,
-                args: CheckRoomAbleToAllocateQueryArgs,
-                ctx
+                args: CheckRoomAbleToAllocateQueryArgs
             ): Promise<CheckRoomAbleToAllocateResponse> => {
                 try {
                     return {

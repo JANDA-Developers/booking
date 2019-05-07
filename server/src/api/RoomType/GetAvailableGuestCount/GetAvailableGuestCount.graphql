@@ -1,0 +1,14 @@
+type GetAvailableGuestCountResponse {
+    ok: Boolean!
+    error: String
+    roomCapacity: RoomCapacity
+}
+type Query {
+    GetAvailableGuestCount(
+        roomTypeId: ID!
+        start: DateTime!
+        end: DateTime!
+        gender: Gender!
+        paddingOtherGenderCount: Int!
+    ): GetAvailableGuestCountResponse!
+}
