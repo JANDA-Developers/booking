@@ -1,0 +1,13 @@
+type TestFunctionResponse {
+    ok: Boolean!
+    error: String
+}
+type Mutation {
+    TestFunction(
+        roomTypeId: ID!
+        start: DateTime!
+        end: DateTime!
+        gender: Gender!
+        paddingOtherGenderCount: Int!
+    ): TestFunctionResponse!
+}

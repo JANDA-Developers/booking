@@ -2,9 +2,11 @@ import { Types } from "mongoose";
 import { GuestModel } from "../../../models/Guest";
 import { extractGuest } from "../../../models/merge/merge";
 import { RoomModel } from "../../../models/Room";
+import { RoomTypeModel } from "../../../models/RoomType";
 import {
     AllocateGuestToRoomMutationArgs,
-    AllocateGuestToRoomResponse
+    AllocateGuestToRoomResponse,
+    RoomCapacity
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
 import { privateResolver } from "../../../utils/privateResolvers";
@@ -36,10 +38,41 @@ const resolvers: Resolvers = {
                             )
                         };
                     }
+                    const roomType = await RoomTypeModel.findById(
+                        existingRoom.roomType
+                    );
+                    if (!roomType) {
+                        return {
+                            ok: false,
+                            error: "잘못된 roomTypeId",
+                            guest: null
+                        };
+                    }
+                    let isAbleToAllocate = true;
+                    if (existingGuest.pricingType === "DOMITORY") {
+                        const allocatableGender: RoomCapacity = await existingRoom.getCapacity(
+                            existingGuest.start,
+                            existingGuest.end
+                        );
+                        isAbleToAllocate =
+                            allocatableGender.availableCount !== 0;
+                    } else {
+                        isAbleToAllocate = await existingRoom.isAllocatable(
+                            existingGuest.start,
+                            existingGuest.end
+                        );
+                    }
+                    if (!isAbleToAllocate) {
+                        return {
+                            ok: false,
+                            error: "배정 불가",
+                            guest: null
+                        };
+                    }
                     existingGuest.allocatedRoom = new Types.ObjectId(roomId);
                     await existingGuest.save();
                     return {
-                        ok: false,
+                        ok: true,
                         error: null,
                         guest: await extractGuest.bind(
                             extractGuest,

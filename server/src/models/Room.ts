@@ -1,7 +1,9 @@
-import { DocumentQuery, Types } from "mongoose";
+import * as _ from "lodash";
+import { Types } from "mongoose";
 import { instanceMethod, InstanceType, pre, prop, Typegoose } from "typegoose";
-import { Gender, RoomGender } from "../types/graph";
-import { GuestModel, GuestSchema } from "./Guest";
+import { RoomCapacity } from "../types/graph";
+import { removeUndefined } from "../utils/objFuncs";
+import { GuestModel } from "./Guest";
 import { RoomTypeModel, RoomTypeSchema } from "./RoomType";
 
 @pre<RoomSchema>("save", async function(next) {
@@ -43,125 +45,119 @@ export class RoomSchema extends Typegoose {
     findGuestQuery(
         this: InstanceType<RoomSchema>,
         start: Date,
-        end: Date
-    ): DocumentQuery<
-        Array<InstanceType<GuestSchema>>,
-        InstanceType<GuestSchema>,
-        {}
-    > {
+        end: Date,
+        tempAllocation?: boolean
+    ) {
         // start, end로 해당 Room에 배정된 Guest들을 가져온다
-        return GuestModel.find({
+        const query: {
+            allocatedRoom: any;
+            start: any;
+            end: any;
+            isTempAllocation?: boolean;
+        } = {
             allocatedRoom: new Types.ObjectId(this._id),
             start: {
-                $lte: end
+                $lte: new Date(end)
             },
             end: {
-                $gte: start
-            }
+                $gte: new Date(start)
+            },
+            isTempAllocation: tempAllocation
+        };
+        console.log({
+            before: query
         });
+
+        const undefineRemovedQuery = removeUndefined(query);
+        console.log({
+            after: undefineRemovedQuery
+        });
+
+        return GuestModel.find(undefineRemovedQuery);
     }
 
     @instanceMethod
-    async isAllocatable(this: InstanceType<RoomSchema>) {
+    async isAllocatable(
+        this: InstanceType<RoomSchema>,
+        start: Date,
+        end: Date,
+        tempAllocation?: boolean
+    ) {
         // PricingType === "ROOM" 인 경우
         // 게스트들 먼저 다 구하기...
+        const roomType = await RoomTypeModel.findById(this.roomType);
+        if (!roomType) {
+            return false;
+        }
+        const pricingType = roomType.pricingType;
+        if (pricingType !== "ROOM") {
+            return false;
+        }
+        // start, end 까지 이 방에 배정된 게스트가 있는가?
+        const guests = await this.findGuestQuery(start, end, tempAllocation);
+        console.log({
+            guests
+        });
+
+        if (guests.length === 0) {
+            return true;
+        }
         return false;
     }
 
+    /**
+     *
+     * @param start 시작 날짜
+     * @param end 끝 날짜
+     * @param tempAllocation 임시배정 조회여부. undefined 이면 무시하고 전부 조회함.
+     */
     @instanceMethod
-    async getAllocateGuest(
+    async getCapacity(
         this: InstanceType<RoomSchema>,
         start: Date,
-        end: Date
-    ): Promise<{ female: number; male: number; total: number }> {
-        // PricingType === "DOMITORY" 인 경우
-        // 해당 기간 동안에 배정할 수 있는 인원을 구해준다.
+        end: Date,
+        tempAllocation?: boolean
+    ): Promise<RoomCapacity> {
+        // 1. RoomType 체크 & peopleLimitCount 얻기
         const roomType = await RoomTypeModel.findById(this.roomType);
         if (!roomType) {
+            throw new Error("존재하지 않는 RoomType");
+        }
+        const peopleCount = roomType.peopleCount;
+
+        // 2. 현재 배정되어있는 guest 목록을 가져온다.
+        const guests = await this.findGuestQuery(start, end, tempAllocation);
+        const availableCount = peopleCount - guests.length;
+
+        // 배정된 게스트가 없는 경우 allocatedGender = "MIXED" 해서 리턴.
+        if (guests.length === 0) {
             return {
-                female: 0,
-                male: 0,
-                total: 0
+                roomGender: roomType.roomGender,
+                guestGender: null,
+                availableCount
             };
         }
-        // 현재 상태를 알아야 함.
-        // 현재 배정되어 있는 방을 보여준다.
-
-        if (roomType.pricingType !== "DOMITORY") {
-            return {
-                female: 0,
-                male: 0,
-                total: 0
-            };
-        }
-
-        const guests = await this.findGuestQuery(start, end).sort({
-            booking: -1
-        });
-
-        const roomGender: RoomGender = roomType.roomGender;
-        const peopleCount: number = roomType.peopleCount;
-        // const peopleLimit: number = roomType.peopleCountMax;
-        let maleCurrentCount = 0;
-        let femaleCurrentCount = 0;
-        let otherCurrentCount = 0;
-        guests.forEach((guest: InstanceType<GuestSchema>) => {
-            if (guest.gender === "FEMALE") {
-                femaleCurrentCount++;
-            }
-            if (guest.gender === "MALE") {
-                maleCurrentCount++;
-            }
-            if (!guest.gender) {
-                otherCurrentCount++;
-            }
-        });
-        const totalCurrentCount =
-            maleCurrentCount + femaleCurrentCount + otherCurrentCount;
-        console.log(totalCurrentCount);
-
-        const result = {
-            male: 0,
-            female: 0,
-            total: 0
-        };
-        // 1. roomGender === FEMALE or MALE 인 경우
-        if (
-            roomGender === "FEMALE" ||
-            roomGender === "MALE" ||
-            roomGender === "MIXED"
-        ) {
-            result.male = peopleCount - maleCurrentCount;
-            result.female = peopleCount - femaleCurrentCount;
-        } else if (roomGender === "SEPARATELY") {
-            // TODO 남여 혼숙 x 인 경우...
-            // 현재 배정되어있는 성별을 확인해 봐야함.
-            // guest.Gender 확인 ㄱㄱ
-            // 한 종류의 성별만 존재하는지 검사 ㄱㄱ
-            if (guests.length === 0) {
-                return {
-                    male: peopleCount,
-                    female: peopleCount,
-                    total: peopleCount
-                };
-            }
-            const gender: Gender = guests[0].gender;
-            result.male = peopleCount;
-            guests.forEach(guest => {
-                // 현재 예약되어있는 게스트들 목록.
-                if (guest.gender !== gender) {
-                    throw new Error("혼숙");
+        const allocated: number = guests
+            .map(
+                (guest): number => {
+                    const val = guest.gender === "MALE" ? 2 : 3;
+                    return val;
                 }
-                result.total++;
-                if (gender === "FEMALE") {
-                    result.male = 0;
-                }
-                if (gender === "MALE") {
-                    result.female = 0;
-                }
+            )
+            .reduce((previousVal, currentVal) => {
+                return previousVal * currentVal;
             });
-        }
-        return result;
+        const guestGender =
+            allocated % 6 === 0
+                ? "MIXED"
+                : allocated % 3 === 0
+                ? "FEMALE"
+                : "MALE";
+        return {
+            roomGender: roomType.roomGender,
+            guestGender,
+            availableCount
+        };
     }
 }
 

@@ -259,3 +259,17 @@ export const getAllSeasons = async (houseId: string): Promise<Season[]> => {
         })
     );
 };
+
+export const getMaxPriority = async (
+    houseId: string | Types.ObjectId
+): Promise<number> => {
+    try {
+        const maxValue =
+            (await SeasonModel.find({
+                house: new Types.ObjectId(houseId)
+            })).length - 1;
+        return maxValue;
+    } catch (error) {
+        return 0;
+    }
+};

@@ -1,0 +1,20 @@
+type GetRoomTypeGuestCapacityResponse {
+    ok: Boolean!
+    error: String
+    roomTypeCapacity: RoomTypeCapacity
+}
+type RoomTypeCapacity {
+    start: DateTime!
+    end: DateTime!
+    roomGender: RoomGender!
+    male: Int!
+    female: Int!
+    mixed: Int!
+}
+type Query {
+    GetRoomTypeGuestCapacity(
+        roomTypeId: ID!
+        start: DateTime
+        end: DateTime
+    ): GetRoomTypeGuestCapacityResponse!
+}

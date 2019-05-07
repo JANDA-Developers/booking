@@ -1,6 +1,4 @@
-export const removeUndefined = (obj: object) =>
-    Object.keys(obj).forEach(key => {
-        if (obj[key] === undefined) {
-            delete obj[key];
-        }
-    });
+import * as _ from "lodash";
+export const removeUndefined = (obj: object) => {
+    return _.pickBy(obj, _.identity);
+};

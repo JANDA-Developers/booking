@@ -59,6 +59,7 @@ const resolvers: Resolvers = {
                             });
                             const guests: Types.ObjectId[] = [];
                             for (let i = 0; i < count; i++) {
+                                // TODO: 여기서 방 배정을 자동으로...
                                 guests.push(
                                     (await new GuestModel({
                                         house: houseObjectId,
