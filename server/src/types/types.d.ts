@@ -35,17 +35,3 @@ export type DayOfWeekPriceType = {
     price: number;
     applyDays: string;
 };
-
-export type Allocation = {
-    start: Date;
-    end: Date;
-    bed: Bed;
-    guest: Guest;
-};
-
-export type AllocatedGuest = {
-    room: Room;
-    start: Date;
-    end: Date;
-    guests: Guest[];
-};

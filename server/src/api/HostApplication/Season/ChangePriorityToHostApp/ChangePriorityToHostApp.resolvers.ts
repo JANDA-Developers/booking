@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
 import { SeasonModel } from "../../../../models/Season";
-import { selectNumberRange } from "../../../../queries/queries";
+import { selectNumberRangeQuery } from "../../../../queries/queries";
 import {
     ChangePriorityToHostAppMutationArgs,
     ChangePriorityToHostAppResponse
@@ -31,7 +31,7 @@ const resolvers: Resolvers = {
                     const originalPriority = existingSeasons.filter(
                         season => season._id === seasonId
                     )[0].priority;
-                    const conditions = selectNumberRange(
+                    const conditions = selectNumberRangeQuery(
                         originalPriority,
                         priority
                     );

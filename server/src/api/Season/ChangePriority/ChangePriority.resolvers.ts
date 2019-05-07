@@ -1,6 +1,7 @@
 import { Types } from "mongoose";
+import { extractSeason } from "../../../models/merge/merge";
 import { SeasonModel } from "../../../models/Season";
-import { selectNumberRange } from "../../../queries/queries";
+import { selectNumberRangeQuery } from "../../../queries/queries";
 import {
     ChangePriorityMutationArgs,
     ChangePriorityResponse
@@ -15,41 +16,45 @@ const resolvers: Resolvers = {
                 _,
                 { houseId, seasonId, priority }: ChangePriorityMutationArgs
             ): Promise<ChangePriorityResponse> => {
-                const existingSeasons = await SeasonModel.find(
-                    {
-                        house: new Types.ObjectId(houseId)
-                    },
-                    {
-                        priority: 1
-                    }
-                );
-                if (existingSeasons.length) {
-                    const originalPriority = existingSeasons.filter(
-                        season => season._id === seasonId
-                    )[0].priority;
-                    const conditions = selectNumberRange(
-                        originalPriority,
-                        priority
-                    );
-                    await SeasonModel.updateMany(
-                        {
-                            _id: { $ne: new Types.ObjectId(seasonId) },
-                            priority: conditions.condition
-                        },
-                        { $inc: { priority: conditions.increment } },
-                        { new: true }
-                    );
-                } else {
+                const existingSeason = await SeasonModel.findById(seasonId);
+                if (!existingSeason) {
                     return {
                         ok: false,
-                        error: "Other Season is not Exist",
+                        error: "존재하지 않는 SeasonId",
                         season: null
                     };
                 }
+                await existingSeason.update({
+                    priority
+                });
+                const conditions = selectNumberRangeQuery(
+                    priority,
+                    existingSeason.priority
+                );
+
+                await SeasonModel.updateMany(
+                    {
+                        _id: {
+                            $ne: new Types.ObjectId(seasonId)
+                        },
+                        priority: conditions.condition
+                    },
+                    {
+                        $inc: {
+                            priority: conditions.increment
+                        }
+                    },
+                    {
+                        new: true
+                    }
+                );
                 return {
-                    ok: false,
-                    error: "UnderDevelop",
-                    season: null
+                    ok: true,
+                    error: null,
+                    season: await extractSeason.bind(
+                        extractSeason,
+                        existingSeason
+                    )
                 };
             }
         )
