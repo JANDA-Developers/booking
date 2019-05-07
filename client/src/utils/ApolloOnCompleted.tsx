@@ -10,7 +10,7 @@ const onCompletedMessage = (result: result, resultOK: string, resultFale: string
   if (result.ok) {
     toast.success(resultOK);
   } else {
-    console.error(result.error);
+    console.error(`BackEnd::${result.error}`);
     toast.warn(resultFale);
   }
 };

@@ -42,21 +42,35 @@ const SetPrice: React.SFC<IProps> = ({
     priority: -1,
   };
 
+  const seasonCount = seasonData.length;
+
   return (
     <div id="seasonTable" className="seasonT container container--sm">
       <div className="docs-section">
-        <h3>가격설정</h3>
-        <p>상위에 있을수록 우선 적용됩니다.</p>
+        <div className={seasonCount !== 0 ? 'docs-section__box' : undefined}>
+          <h3>가격설정</h3>
+          <p>상위에 있을수록 우선 적용됩니다.</p>
 
-        <JDanimation animation={[Animation.fadeInDown, Animation.fadeOutRight]}>
-          {seasonData
-            && seasonData.map(season => (
-              <SeasonTableWrap roomTypes={roomTypes || []} seasonData={season} priceMap={priceMap} houseId={houseId} />
-            ))}
-        </JDanimation>
-        {/* <SeasonTableWrap add /> */}
+          <JDanimation animation={[Animation.fadeInDown, Animation.fadeOutRight]}>
+            {seasonData
+              && seasonData.map((season, index) => (
+                <SeasonTableWrap
+                  key={`seasonT${season._id}`}
+                  roomTypes={roomTypes || []}
+                  seasonIndex={index}
+                  seasonCount={seasonData.length}
+                  seasonData={season}
+                  priceMap={priceMap}
+                  houseId={houseId}
+                />
+              ))}
+          </JDanimation>
+        </div>
+        {seasonCount !== 0 && <h6>시즌생성하기</h6>}
         <SeasonTableWrap
-          key={`addTable${seasonData.length}`}
+          key={`seasonAdd${seasonData.length}`}
+          seasonIndex={0}
+          seasonCount={seasonData.length}
           roomTypes={roomTypes || []}
           seasonData={unSeason}
           houseId={houseId}

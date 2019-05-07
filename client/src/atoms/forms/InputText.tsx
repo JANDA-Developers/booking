@@ -9,8 +9,8 @@ import JDicon, { IconSize } from '../icons/Icons';
 import ErrProtecter from '../../utils/ErrProtecter';
 import autoHyphen from '../../utils/AutoHyphen';
 import { NEUTRAL } from '../../types/apiEnum';
-import { isEmpty } from '../../utils/utils';
 import { getByteLength } from '../../utils/math';
+import { autoComma } from '../../utils/utils';
 
 interface IProps extends React.HTMLAttributes<HTMLInputElement> {
   readOnly?: boolean;
@@ -40,6 +40,7 @@ interface IProps extends React.HTMLAttributes<HTMLInputElement> {
   // 컨트롤 일때만 작동함
   hyphen?: boolean;
   byte?: boolean;
+  comma?: boolean;
 }
 
 const InputText: React.FC<IProps> = ({
@@ -67,13 +68,31 @@ const InputText: React.FC<IProps> = ({
   iconHover,
   hyphen,
   byte,
+  comma,
   ...props
 }) => {
+  const valueFormat = (inValue: any) => {
+    let inInValue = inValue;
+    if (typeof inValue === 'number') {
+      inInValue = inInValue.toString();
+    }
+    if (typeof inInValue === 'string') {
+      if (hyphen) return autoHyphen(inInValue);
+      if (comma) return autoComma(inInValue);
+      return inInValue;
+    }
+    return undefined;
+  };
+
   const inHandleChange = (event: any) => {
     const { target } = event;
     const result = validation(target.value, max);
-    onChange && onChange(target.value.replace(/-/gi, ''));
+    onChange && onChange(target.value);
     onChangeValid(result);
+
+    if (!value && (hyphen || comma)) {
+      target.value = valueFormat(target.value);
+    }
   };
 
   const { className } = props;
@@ -97,16 +116,11 @@ const InputText: React.FC<IProps> = ({
     let domInput;
     if (refContainer) domInput = refContainer.current;
     else domInput = inRefContainer.current;
-    if (defaultValue !== undefined) domInput.value = defaultValue;
+    if(typeof defaultValue === 'undefined') return;
+    if (typeof defaultValue === 'string' || 'number') domInput.value = valueFormat(defaultValue);
   }, []);
 
-  const valueFormat = () => {
-    if (value) {
-      return hyphen ? autoHyphen(value) : value;
-    }
-    return undefined;
-  };
-  const formatedValue = valueFormat();
+  const formatedValue = valueFormat(value);
 
   // 인풋 과 텍스트어리어 경계
   return !textarea ? (

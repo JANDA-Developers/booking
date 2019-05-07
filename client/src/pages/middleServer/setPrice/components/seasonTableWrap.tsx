@@ -15,11 +15,13 @@ import {
 } from '../../../../types/api';
 import SeasonTable from './seasonTable';
 import {
-  CREATE_SEASON, DELETE_SEASON, UPDATE_SEASON, GET_ALL_SEASON_TABLE, CHANGE_PRIORITY,
+  CREATE_SEASON,
+  DELETE_SEASON,
+  UPDATE_SEASON,
+  GET_ALL_SEASON_TABLE,
+  CHANGE_PRIORITY,
 } from '../../../../queries';
-import {
-   onError, onCompletedMessage,
-} from '../../../../utils/utils';
+import { onError, onCompletedMessage } from '../../../../utils/utils';
 import { IPriceMap } from '../SetPriceWrap';
 import { IDefaultSeason } from '../SetPrice';
 
@@ -48,11 +50,13 @@ interface IProps {
   seasonData: ISeason | IDefaultSeason;
   priceMap?: IPriceMap | null;
   roomTypes: IRoomType[];
+  seasonCount: number;
+  seasonIndex: number;
   add?: boolean;
 }
 
 const SeasonTableWrap: React.SFC<IProps> = ({
-  priceMap, houseId, roomTypes, seasonData, add,
+  priceMap, houseId, roomTypes, seasonData, seasonCount, seasonIndex,
 }) => {
   // 테이블 디펄트 밸류를 생산
   const defaultPriceInputs: ISeasonPriceInput[] = roomTypes.map((roomType) => {
@@ -113,7 +117,7 @@ const SeasonTableWrap: React.SFC<IProps> = ({
             seasonId: defaultTableValue.seasonId,
           }}
           onCompleted={({ DeleteSeason }) => {
-            onCompletedMessage(DeleteSeason, '시즌 삭제완료', '시즌 삭제실패');
+            onCompletedMessage(DeleteSeason, '가격설정 삭제완료', '시즌 삭제실패');
           }}
         >
           {deleteSeasonMutation => (
@@ -121,8 +125,8 @@ const SeasonTableWrap: React.SFC<IProps> = ({
               onError={onError}
               mutation={UPDATE_SEASON}
               refetchQueries={refetchQueries}
-              onCompleted={({ UpdateRoomType }: any) => {
-                onCompletedMessage(UpdateRoomType, '방타입 업데이트 완료', '방타입 업데이트 실패');
+              onCompleted={({ UpdateSeason }) => {
+                onCompletedMessage(UpdateSeason, '가격수정 완료', '가격수정 실패');
               }}
             >
               {updateSeasonMutation => (
@@ -130,12 +134,13 @@ const SeasonTableWrap: React.SFC<IProps> = ({
                   onError={onError}
                   mutation={CHANGE_PRIORITY}
                   refetchQueries={refetchQueries}
-                  onCompleted={({ UpdateRoomType }: any) => {
-                    onCompletedMessage(UpdateRoomType, '순위 변경완료', '순위변경 실패');
+                  onCompleted={({ ChangePriority }) => {
+                    onCompletedMessage(ChangePriority, '순위 변경성공', '순위변경 실패');
                   }}
                 >
                   {changePriorityMutation => (
                     <SeasonTable
+                      seasonCount={seasonCount}
                       defaultTableValue={defaultTableValue}
                       seasonData={seasonData}
                       updateSeasonMutation={updateSeasonMutation}
@@ -143,9 +148,9 @@ const SeasonTableWrap: React.SFC<IProps> = ({
                       createSeasonMutation={createSeasonMutation}
                       changePriorityMutation={changePriorityMutation}
                       houseId={houseId}
+                      seasonIndex={seasonIndex}
                     />
-                  )
-                  }
+                  )}
                 </ChangePriorityMutation>
               )}
             </UpdateSeasonMutation>

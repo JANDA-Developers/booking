@@ -54,7 +54,7 @@ const DayOfWeekModal: React.SFC<IProps> = ({ modalHook, onSubmit }) => {
         ))}
       </div>
       <div>
-        <InputText {...valueHook} label="적용가격" />
+        <InputText {...valueHook} comma label="적용가격" />
       </div>
       <div className="JDmodal__endSection">
         <Button

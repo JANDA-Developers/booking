@@ -703,8 +703,17 @@ export const UPDATE_SEASON = gql`
     $seasonId: ID!
     $color: String
     $description: String
+    $seasonPrices: [SeasonPriceInput!]
   ) {
-    UpdateSeason(name: $name, start: $start, end: $end, seasonId: $seasonId, color: $color, description: $description) {
+    UpdateSeason(
+      seasonPrices: $seasonPrices
+      name: $name
+      start: $start
+      end: $end
+      seasonId: $seasonId
+      color: $color
+      description: $description
+    ) {
       ok
       error
     }

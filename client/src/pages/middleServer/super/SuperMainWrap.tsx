@@ -21,7 +21,7 @@ const SuperMainWrap: React.SFC<Iprops> = () => {
       query={GET_HOUSES_FOR_SU}
       variables={{
         page,
-        count: 2,
+        count: 20,
       }}
     >
       {({ data: housePages, loading, error }) => {

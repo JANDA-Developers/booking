@@ -49,7 +49,7 @@ const JDselect: React.SFC<Iprops> = ({
 }) => {
   // placeHolder 가 보일려면 value 는 undefined 여야 합니다.
   let validSelectedOption;
-  if (selectedOption && !selectedOption.value) validSelectedOption = undefined;
+  if (selectedOption && selectedOption.value === undefined) validSelectedOption = undefined;
   else validSelectedOption = selectedOption;
 
   const handleChange = (selectOption: any) => {

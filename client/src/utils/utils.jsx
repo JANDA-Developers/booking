@@ -3,7 +3,7 @@ import ErrProtecter from './ErrProtecter';
 import isEmpty from './IsEmpty';
 import toast from './Toast';
 import download from './DownloadFile';
-import autoHypen from './AutoHyphen';
+import autoHypen, { autoComma, numberStr, stringToNumber } from './AutoHyphen';
 import {
   JDMonthTextChanger, JDWeekChanger, applyDaysToArr, arrToApplyDays,
 } from './dayOfweeks';
@@ -43,6 +43,9 @@ const JDutils = {
   arrToApplyDays,
   stringToPrice,
   copyFindReplace,
+  autoComma,
+  numberStr,
+  stringToNumber,
 };
 
 export default JDutils;
@@ -66,4 +69,7 @@ export {
   arrToApplyDays,
   stringToPrice,
   copyFindReplace,
+  autoComma,
+  numberStr,
+  stringToNumber,
 };

@@ -9,6 +9,11 @@
         white-space:nowrap;
         overflow:hidden;
         text-overflow:ellipsis;
+
+        h6 {
+            overflow:hidden;
+            text-overflow:ellipsis;
+        }
     }
 
     &__purchaseProduct {
@@ -28,4 +33,5 @@
     .JDicon__svg {
         margin-right: $standard-small-icon-margin;
     }
+    
 }

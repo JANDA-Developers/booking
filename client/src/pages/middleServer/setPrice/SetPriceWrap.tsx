@@ -45,7 +45,6 @@ export interface priceMapResult {
 export interface IPriceMap extends Map<string, priceMapResult> {}
 
 class GetAllSeasonTQuery extends Query<getAllSeasonTable, getAllSeasonTableVariables> {}
-class CreateSeasonMu extends Mutation<createSeason, createSeasonVariables> {}
 
 const priceMapMaker = (seasonPrices: ISeasonPrices[]) => {
   const priceMap: IPriceMap = new Map();

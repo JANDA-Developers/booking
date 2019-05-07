@@ -25,7 +25,7 @@ const SuperMain: React.SFC<Iprops> = ({
       <Fragment>
         {loading && <Preloader />}
         <div className="docs-section__box">
-          {houseData.reverse().map((house: Ihouse) => (
+          {houseData.map((house: Ihouse) => (
             <HouseCard houseData={house} userModal={userModal} />
           ))}
         </div>

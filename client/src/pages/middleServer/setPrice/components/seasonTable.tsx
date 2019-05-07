@@ -8,7 +8,7 @@ import InputText from '../../../../atoms/forms/InputText';
 import Button from '../../../../atoms/button/Button';
 import JDTable, { ReactTableDefault } from '../../../../atoms/table/Table';
 import Icon from '../../../../atoms/icons/Icons';
-import utils, { isEmpty, copyFindReplace } from '../../../../utils/utils';
+import utils, { isEmpty, stringToNumber } from '../../../../utils/utils';
 import JDdayPicker from '../../../../components/dayPicker/DayPicker';
 import Card from '../../../../atoms/cards/Card';
 import {
@@ -36,6 +36,7 @@ import { ITableValue } from './seasonTableWrap';
 import { IDefaultSeason } from '../SetPrice';
 import { setMyForm } from '../../../../utils/setMidNight';
 import { JDtoastModal } from '../../../../atoms/modal/Modal';
+import JDselect, { IselectedOption } from '../../../../atoms/forms/SelectBox';
 
 interface IProps {
   defaultTableValue: ITableValue;
@@ -45,6 +46,8 @@ interface IProps {
   createSeasonMutation: MutationFn<createSeason, createSeasonVariables>;
   changePriorityMutation: MutationFn<changePriority, changePriorityVariables>;
   houseId: string;
+  seasonCount: number;
+  seasonIndex: number;
 }
 
 const SeasonModal: React.SFC<IProps> = ({
@@ -55,7 +58,14 @@ const SeasonModal: React.SFC<IProps> = ({
   updateSeasonMutation,
   changePriorityMutation,
   houseId,
+  seasonCount,
+  seasonIndex,
 }) => {
+
+  console.log(defaultTableValue);
+  console.log(defaultTableValue);
+  console.log(defaultTableValue);
+  console.log(defaultTableValue);
   const [tableValue, setTableValue] = useState(defaultTableValue);
   const defaultStart = isEmpty(defaultTableValue.start) ? null : moment(defaultTableValue.start).toDate();
   const defaultEnd = isEmpty(defaultTableValue.end) ? null : moment(defaultTableValue.end).toDate();
@@ -65,6 +75,9 @@ const SeasonModal: React.SFC<IProps> = ({
   const confirmModalHook = useModal(false);
   const alertModalHook = useModal(false);
 
+  const priorityOP = Array(seasonCount)
+    .fill(0)
+    .map((value, index) => ({ value: seasonCount - index, label: `${index + 1}순위` }));
   const isForAdd = seasonData._id === '-1';
 
   const validater = (): boolean => {
@@ -87,34 +100,35 @@ const SeasonModal: React.SFC<IProps> = ({
     confirmModalHook.openModal({ txt: '시즌을 삭제하시겠습니까?', thema: 'warn' });
   };
 
-  const handleArrowClick = (flag: number): void => {
-    // flag 1 or -1
-
-    console.log({
-      houseId,
-      seasonId: seasonData._id,
-      priority: seasonData.priority + flag,
-    });
+  const handlePriorityChange = (flag: IselectedOption): void => {
     changePriorityMutation({
       variables: {
         houseId,
         seasonId: seasonData._id,
-        priority: seasonData.priority + flag,
+        priority: flag.value - 1,
       },
     });
   };
 
+  const updateFormChanger = () => {
+    const tempValueCopy = _.cloneDeep(tableValue);
+
+    const tableValueCopy = _.assign(tempValueCopy, {
+      start: setMyForm(dayPickerHook.from),
+      end: setMyForm(dayPickerHook.to),
+      color: colorHook.color,
+    });
+
+    tableValueCopy.seasonPrices.forEach((seasonPrice) => {
+      delete seasonPrice.name;
+    });
+
+    return tableValueCopy;
+  };
+
   const handleCreateTable = (): void => {
     if (validater()) {
-      const tableValueCopy = Object.assign(tableValue, {
-        start: setMyForm(dayPickerHook.from),
-        end: setMyForm(dayPickerHook.to),
-        color: colorHook.color,
-      });
-
-      tableValueCopy.seasonPrices.forEach((seasonPrice) => {
-        delete seasonPrice.name;
-      });
+      const tableValueCopy = updateFormChanger();
 
       createSeasonMutation({
         variables: tableValueCopy,
@@ -124,7 +138,15 @@ const SeasonModal: React.SFC<IProps> = ({
 
   const handleUpdateTable = (): void => {
     if (validater()) {
-      updateSeasonMutation();
+      const tableValueCopy = updateFormChanger();
+
+      updateSeasonMutation({
+        variables: { ...tableValueCopy, seasonId: seasonData._id },
+      });
+
+      console.log({ ...tableValueCopy, seasonId: seasonData._id });
+      console.log({ ...tableValueCopy, seasonId: seasonData._id });
+      console.log({ ...tableValueCopy, seasonId: seasonData._id });
     }
   };
 
@@ -133,7 +155,6 @@ const SeasonModal: React.SFC<IProps> = ({
     const seasonPrice = copyValue.seasonPrices.find(value => value.roomTypeId === roomTypeId);
     if (seasonPrice && seasonPrice.dayOfWeekPrices) {
       _.remove(seasonPrice.dayOfWeekPrices, { applyDays: applayDays });
-      // ❓ 이게도대체 무슨차이인지 모르겠네 {} 없으면 안된다.
       setTableValue({ ...copyValue });
     }
   };
@@ -171,7 +192,7 @@ const SeasonModal: React.SFC<IProps> = ({
     const index = seasonPrices.findIndex(inValue => inValue.roomTypeId === roomTypeId);
     seasonPrices[index] = {
       ...seasonPrices[index],
-      defaultPrice: parseInt(value, 10),
+      defaultPrice: stringToNumber(value),
     };
 
     setTableValue(tableValueCopy);
@@ -188,6 +209,7 @@ const SeasonModal: React.SFC<IProps> = ({
       Cell: ({ value, original }: CellInfo) => (
         <InputText
           defaultValue={value}
+          comma
           onBlur={(e: any) => {
             handleDefaultBlur(e.currentTarget.value, original.roomTypeId);
           }}
@@ -205,6 +227,7 @@ const SeasonModal: React.SFC<IProps> = ({
           <div className="seasonT__cell">
             {dayOfWeekPrices.map(dayOfWeek => (
               <JDbox
+                key={seasonData._id + seasonPriceInput.roomTypeId + dayOfWeek.applyDays}
                 label={`${numberToStrings(dayOfWeek.applyDays)}`}
                 iconOnClick={() => {
                   handleIconClick(dayOfWeek.applyDays, seasonPriceInput.roomTypeId);
@@ -248,19 +271,6 @@ const SeasonModal: React.SFC<IProps> = ({
     <Card>
       <div className="flex-grid">
         <div className="flex-grid__col col--full-12 col--wmd-12">
-          {/* <div>
-            <InputText
-              onChange={(value: string) => {
-                const tableValueCopy = Object.assign(tableValue, {});
-                tableValueCopy.name = value;
-                setTableValue(tableValueCopy);
-              }}
-              value={tableValue.name}
-              label="시즌명"
-              validation={utils.isMaxOver}
-              max={10}
-            />
-          </div> */}
           <div>
             <InputText
               onChange={(value: string) => {
@@ -288,23 +298,18 @@ const SeasonModal: React.SFC<IProps> = ({
             </div>
             {/* <JDcolorPicker label="대표색상" colorHook={colorHook} /> */}
             <div className="flex-grid__col col--grow-1 seasonT__JDboxWrap">
-              <JDbox mode="border" standard topLabel="우선순위">
-                <Icon
-                  hover
-                  onClick={() => {
-                    handleArrowClick(-1);
-                  }}
-                  icon="arrowUp"
+              {!isForAdd ? (
+                <JDselect
+                  label="우선순위"
+                  selectedOption={priorityOP[seasonIndex]}
+                  options={priorityOP}
+                  onChange={handlePriorityChange}
                 />
-                <Icon
-                  hover
-                  onClick={() => {
-                    handleArrowClick(1);
-                  }}
-                  icon="arrowDown"
-                />
-                <span>{seasonData.priority + 1}</span>
-              </JDbox>
+              ) : (
+                <JDbox topLabel="우선순위" standard mode="border">
+                  {'최우선'}
+                </JDbox>
+              )}
             </div>
           </div>
         </div>
