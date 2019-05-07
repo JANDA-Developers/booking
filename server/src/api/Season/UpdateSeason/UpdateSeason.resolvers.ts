@@ -43,26 +43,29 @@ const resolvers: Resolvers = {
                             new: true
                         }
                     );
-                    // [SeasonPrice!] ㄱㄱㄱ
-                    seasonPrices.forEach(async seasonPrice => {
-                        await SeasonPriceModel.findOneAndUpdate(
-                            {
-                                season: Types.ObjectId(seasonId),
-                                roomType: new Types.ObjectId(
-                                    seasonPrice.roomTypeId
-                                )
-                            },
-                            {
-                                $set: {
-                                    defaultPrice: seasonPrice.defaultPrice,
-                                    dayOfWeekPrices: seasonPrice.dayOfWeekPrices
+                    if (seasonPrices) {
+                        // [SeasonPrice!] ㄱㄱㄱ
+                        seasonPrices.forEach(async seasonPrice => {
+                            await SeasonPriceModel.findOneAndUpdate(
+                                {
+                                    season: Types.ObjectId(seasonId),
+                                    roomType: new Types.ObjectId(
+                                        seasonPrice.roomTypeId
+                                    )
+                                },
+                                {
+                                    $set: {
+                                        defaultPrice: seasonPrice.defaultPrice,
+                                        dayOfWeekPrices:
+                                            seasonPrice.dayOfWeekPrices
+                                    }
+                                },
+                                {
+                                    upsert: true
                                 }
-                            },
-                            {
-                                upsert: true
-                            }
-                        );
-                    });
+                            );
+                        });
+                    }
                     return {
                         ok: true,
                         error: null,
