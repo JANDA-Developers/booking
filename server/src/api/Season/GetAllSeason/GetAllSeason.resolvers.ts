@@ -18,7 +18,7 @@ const resolvers: Resolvers = {
                 try {
                     const seasons = await SeasonModel.find({
                         house: new Types.ObjectId(houseId)
-                    });
+                    }).sort({ priority: -1 });
                     return {
                         ok: true,
                         error: null,
