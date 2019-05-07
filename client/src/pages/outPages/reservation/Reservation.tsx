@@ -3,7 +3,7 @@ import windowSize, { WindowSizeProps } from 'react-window-size';
 import { MutationFn } from 'react-apollo';
 import ErrProtecter from '../../../utils/ErrProtecter';
 import JDdayPicker from '../../../components/dayPicker/DayPicker';
-import { useDayPicker, useModal2 } from '../../../actions/hook';
+import { useDayPicker, useModal } from '../../../actions/hook';
 import './Reservation.scss';
 import Button from '../../../atoms/button/Button';
 import Card from '../../../atoms/cards/Card';
@@ -42,8 +42,8 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
   const dayPickerHook = useDayPicker(null, null);
   const [resvRooms, setResvRooms] = useState<GuestPartInput[]>([]);
   const [bookerInfo, setBookerInfo] = useState<BookerInput>(defaultBookerInfo);
-  const rsevModalHook = useModal2(false);
-  const toastModalHook = useModal2(false);
+  const rsevModalHook = useModal(false);
+  const toastModalHook = useModal(false);
   // 👿 이건 오직 resvRooms에 룸 네임이 없어서다.
   const roomInfoHook = useState<IRoomType[]>([]);
 

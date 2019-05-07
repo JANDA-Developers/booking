@@ -12,7 +12,7 @@ import utils, { isEmpty, copyFindReplace } from '../../../../utils/utils';
 import JDdayPicker from '../../../../components/dayPicker/DayPicker';
 import Card from '../../../../atoms/cards/Card';
 import {
-  IUseColor, useModal2, useColorPicker, useDayPicker,
+  IUseColor, useModal, useColorPicker, useDayPicker,
 } from '../../../../actions/hook';
 import {
   getAllSeason_GetAllSeason_seasons as ISeason,
@@ -61,9 +61,9 @@ const SeasonModal: React.SFC<IProps> = ({
   const defaultEnd = isEmpty(defaultTableValue.end) ? null : moment(defaultTableValue.end).toDate();
   const dayPickerHook = useDayPicker(defaultStart, defaultEnd);
   const colorHook: IUseColor = useColorPicker(null);
-  const modalHook = useModal2(false);
-  const confirmModalHook = useModal2(false);
-  const alertModalHook = useModal2(false);
+  const modalHook = useModal(false);
+  const confirmModalHook = useModal(false);
+  const alertModalHook = useModal(false);
 
   const isForAdd = seasonData._id === '-1';
 

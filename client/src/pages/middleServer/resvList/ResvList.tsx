@@ -9,7 +9,7 @@ import JDselect from '../../../atoms/forms/SelectBox';
 import CheckBox from '../../../atoms/forms/CheckBox';
 import Button from '../../../atoms/button/Button';
 import JDIcon, { IconSize } from '../../../atoms/icons/Icons';
-import { useModal2 } from '../../../actions/hook';
+import { useModal } from '../../../actions/hook';
 import BookerModalWrap from '../../../components/bookerInfo/BookerModalWrap';
 import { IPageInfo, IBooker, IBooking } from '../../../types/interface';
 import JDbox from '../../../atoms/box/JDbox';
@@ -26,7 +26,7 @@ const ResvList: React.SFC<IProps> = ({ pageInfo, bookersData, loading }) => {
   //   ❔ 두개 합치는게 좋을까?
   const [checkedIds, setCheckedIds]: any = useState({});
   const [selectAll, setSelectAll]: any = useState(false);
-  const bookerModalHook = useModal2(false);
+  const bookerModalHook = useModal(false);
 
   //   여기에 key가 들어오면 id배열에서 찾아서 넣거나 제거해줌
   const onToogleRow = (key: string) => {
@@ -144,7 +144,9 @@ const ResvList: React.SFC<IProps> = ({ pageInfo, bookersData, loading }) => {
     return <CheckBox onChange={onChange} checked={checked} />;
   };
 
-  const selectAllInputComponentProps = ({ selectType, onClick, checked }: SelectAllInputComponentProps) => <CheckBox onChange={onToogleAllRow} checked={checked} />;
+  const selectAllInputComponentProps = ({ selectType, onClick, checked }: SelectAllInputComponentProps) => (
+    <CheckBox onChange={onToogleAllRow} checked={checked} />
+  );
 
   const SelectableJDtable = selectTableHOC(JDtable);
   return (

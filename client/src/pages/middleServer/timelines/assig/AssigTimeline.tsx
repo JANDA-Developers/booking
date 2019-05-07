@@ -7,7 +7,7 @@ import Timeline from '../../../../components/timeline/Timeline';
 import ErrProtecter from '../../../../utils/ErrProtecter';
 import Button from '../../../../atoms/button/Button';
 import BookerModal from '../../../../components/bookerInfo/BookerModal';
-import { IUseDayPicker, useModal2 } from '../../../../actions/hook';
+import { IUseDayPicker, useModal } from '../../../../actions/hook';
 import { initItems, initGroups } from '../timelineConfig';
 import { IGroup, IAssigItem } from './AssigTimelineWrap';
 import assigGroupRendererFn from './components/groupRenderFn';
@@ -39,7 +39,7 @@ const ShowTimeline: React.SFC<IProps> = ({
   loading,
   guestsData,
 }) => {
-  const bookerModal = useModal2(false);
+  const bookerModal = useModal(false);
   const [items, setItems] = useState(initItems);
   const [visibleTime, setVisibleTime] = useState({
     start: moment()

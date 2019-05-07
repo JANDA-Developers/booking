@@ -4,7 +4,7 @@ import React, { Fragment } from 'react';
 import { Mutation, Query } from 'react-apollo';
 import { TimelineGroup } from 'react-calendar-timeline';
 import { getAllRoomType } from '../../../../types/api';
-import { useToggle, useModal2 } from '../../../../actions/hook';
+import { useToggle, useModal } from '../../../../actions/hook';
 import ModifyTimeline from './ModifyTimeline';
 import { ModifydefaultProps } from '../timelineConfig';
 import { GET_ALL_ROOMTYPES } from '../../../../queries';
@@ -27,8 +27,8 @@ interface IProps {
 class GetAllRoomTypeQuery extends Query<getAllRoomType> {}
 
 const ModifyTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
-  const roomTypeModalHook = useModal2(false);
-  const roomModalHook = useModal2(false);
+  const roomTypeModalHook = useModal(false);
+  const roomModalHook = useModal(false);
   const [_, setConfigMode] = useToggle(false);
   console.log(_);
 

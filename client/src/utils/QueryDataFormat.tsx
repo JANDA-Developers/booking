@@ -3,16 +3,6 @@ import { toast } from './utils';
 import isEmpty from './IsEmpty';
 import { IPageResult } from '../types/interface';
 
-// ⛔️ 이거를 넣을려고했는데 도무지 들어갈 생각을 안한다 왜그런지 모르겠다.
-// TODO:그냥 에러처리 다른걸로 하자? STO gogo
-
-// interface InData {
-//   __typename: any;
-//   error: string | null;
-//   ok: boolean;
-//   [foo: string]: any;
-// }
-1;
 // ⛔️ [https://github.com/Microsoft/TypeScript/issues/24929]
 
 // 객체 배열에서 값을 복사하고 찾아서 일부 변경해주는 함수

@@ -11,11 +11,9 @@ import { IselectedOption } from '../atoms/forms/SelectBox';
 // 한방에 패치
 // A X I O S  : (http://codeheaven.io/how-to-use-axios-as-your-http-client/)
 
-interface useFetchProp {
-  url: string | undefined;
-}
+export type IUseFetch = [any, boolean, boolean, (url: string | undefined) => void];
 
-const useFetch = (url: useFetchProp) => {
+const useFetch = (url: string | undefined = ''): IUseFetch => {
   const [data, setData] = useState([]);
   const [inUrl, setInUrl] = useState(url);
   const [isLoading, setIsLoading] = useState(false);
@@ -39,14 +37,15 @@ const useFetch = (url: useFetchProp) => {
   }, [inUrl]);
 
   // 내부에 STATE URL을 바꾸어서 다시동작
-  const doGet = (url: useFetchProp) => {
+  const doGet = (url: string | undefined) => {
     setIsLoading(true);
-    setInUrl(url);
+    url && setInUrl(url);
   };
 
   return [data, isLoading, isError, doGet];
 };
 
+// 이미지업로더
 export interface IuseImageUploader {
   fileUrl: string;
   uploading: boolean;
@@ -55,7 +54,7 @@ export interface IuseImageUploader {
   setFileUrl: React.Dispatch<any>;
 }
 
-// 이건 프로필 서클 conifg를 위해서
+// 프로필 서클 업로더
 export interface IuseProfileUploader {
   fileUrl?: string;
   uploading?: boolean;
@@ -109,7 +108,7 @@ const useImageUploader = (foo?: any): IuseImageUploader => {
   };
 };
 
-// Our hook
+// 디바운스 정
 function useDebounce(value: any, delay: number) {
   // State and setters for debounced value
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -129,13 +128,13 @@ function useDebounce(value: any, delay: number) {
 
 export interface TUseInput {
   value: string;
-  openModal: (inInfo: any) => void;
+  onChangeValid: (value: boolean | string) => void;
   onChange: (foo: string) => void;
-  info: any;
+  isValid: any;
 }
 
 // 밸리데이션을 포함한 훅 리턴
-function useInput<TUseInput>(defaultValue: string, defulatValid: boolean | string = '') {
+function useInput(defaultValue: string, defulatValid: boolean | string = ''): TUseInput {
   const [value, setValue] = useState(defaultValue);
   const [isValid, setIsValid] = useState(defulatValid);
 
@@ -155,7 +154,7 @@ function useInput<TUseInput>(defaultValue: string, defulatValid: boolean | strin
   };
 }
 
-// NAME SPACE
+// 체크박스
 function useCheckBox(defaultValue: boolean) {
   const [checked, setChecked] = useState(defaultValue);
 
@@ -169,8 +168,7 @@ function useCheckBox(defaultValue: boolean) {
   };
 }
 
-// NAME SPACE
-
+// 데이트 픽커
 export interface IUseDayPicker {
   from: Date | null;
   setFrom: React.Dispatch<React.SetStateAction<Date | null>>;
@@ -195,6 +193,7 @@ function useDayPicker(defaultFrom: Date | null, defaultTo: Date | null): IUseDay
   };
 }
 
+// 색상 필커
 export interface IUseColor {
   color: string;
   setColor: (inInfo: string) => void;
@@ -203,7 +202,7 @@ export interface IUseColor {
 }
 
 // NAME SPACE
-function useColorPicker<IUseColor>(defaultValue: string | null) {
+function useColorPicker(defaultValue: string | null): IUseColor {
   const [color, inSetColor] = useState(defaultValue || randomColor());
   const [display, inSetDisplay] = useState(false);
 
@@ -261,6 +260,7 @@ function useSelect<V = any>(defaultValue: IselectedOption): IUseSelect<V> {
   return { selectedOption, onChange };
 }
 
+// 투글 훅
 function useToggle(defaultValue: any) {
   const [toggle, setToggle] = useState(defaultValue);
 
@@ -271,21 +271,6 @@ function useToggle(defaultValue: any) {
   return [toggle, onClick];
 }
 
-// 없어질겁니다
-function useModal(defaultValue: boolean) {
-  const [isOpen, setIsOpen] = useState(defaultValue);
-
-  const openModal = () => {
-    setIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsOpen(false);
-  };
-
-  return [isOpen, openModal, closeModal];
-}
-
 export interface IUseModal {
   isOpen: boolean;
   openModal: (inInfo: any) => void;
@@ -293,7 +278,8 @@ export interface IUseModal {
   info: any;
 }
 
-function useModal2<IUseModal>(defaultValue: boolean = false, defaultInfo: any = {}) {
+// 모달훅
+function useModal<IUseModal>(defaultValue: boolean = false, defaultInfo: any = {}) {
   const [isOpen, setIsOpen] = useState(defaultValue);
   const [info, setInfo] = useState(defaultInfo);
 
@@ -323,7 +309,6 @@ export {
   useToggle,
   useFetch,
   useModal,
-  useModal2,
   useDebounce,
   useImageUploader,
   useColorPicker,

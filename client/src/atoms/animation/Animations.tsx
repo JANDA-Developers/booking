@@ -1,6 +1,6 @@
 import React, { CSSTransitionGroupProps } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import './Animations.scss';
+import './ComponentAnimations.scss';
 
 export enum Animation {
   fadeOutRight = 'fadeOutRight',

@@ -5,8 +5,8 @@ import './Pagination.scss';
 
 interface IProps extends ReactPaginateProps {
   previousDisplay?: boolean;
-  textSize?: string;
-  align?: string;
+  textSize?: 'large' | 'small';
+  align?: 'center';
 }
 
 const JDPagination: React.SFC<IProps> = ({

@@ -35,10 +35,10 @@ import {
   useSwitch,
   useSelect,
   useToggle,
-  useModal,
   useImageUploader,
   useColorPicker,
   useDayPicker,
+  useModal,
 } from '../../../actions/hook';
 import './ShowComponent.scss';
 import JDcolorPicker from '../../../atoms/colorPicker/ColorPicker';
@@ -50,7 +50,7 @@ function ShowComponents() {
   const defaultColor = faker.commerce.color();
   const defaultColor2 = faker.commerce.color();
   const defaultColor3 = faker.commerce.color();
-  const [isOpen, openModal, closeModal] = useModal(false);
+  const useModalHook = useModal(false);
   // the wayMake a Controlled Value
   const inputVali = useInput('1232');
   const checkHook = useCheckBox(false);
@@ -368,12 +368,12 @@ function ShowComponents() {
         {/* 모달 */}
         <div className="docs-section__box">
           <h6>Modal & SideNav</h6>
-          <Button label="Open Modal" onClick={openModal} />
+          <Button label="Open Modal" onClick={useModalHook.openModal} />
           <Button icon="menue" label="Open SideNav" onClick={setSideNavIsOpen} />
-          <JDmodal isOpen={isOpen} onRequestClose={closeModal}>
+          <JDmodal isOpen={useModalHook.isOpen} onRequestClose={useModalHook.closeModal}>
             <p>Modal text!</p>
             <div className="JDmodal__endSection">
-              <Button label="Close Modal" onClick={closeModal} />
+              <Button label="Close Modal" onClick={useModalHook.closeModal} />
             </div>
           </JDmodal>
         </div>
