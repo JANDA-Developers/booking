@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { Guest, PricingType, Room, RoomType } from "./graph";
+import { Guest, PricingType, Room, RoomCapacity, RoomType } from "./graph";
 
 export type SMSResult = {
     ok: boolean;
@@ -34,4 +34,9 @@ export type GuestInputType = {
 export type DayOfWeekPriceType = {
     price: number;
     applyDays: string;
+};
+
+export type RoomCapacityWithRoomId = {
+    roomId: Types.ObjectId;
+    roomCapacity: RoomCapacity;
 };

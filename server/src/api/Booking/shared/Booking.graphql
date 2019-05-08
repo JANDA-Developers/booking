@@ -30,7 +30,7 @@ input BookingInput {
     booker: BookerInput!
     start: DateTime!
     end: DateTime!
-    guest: [GuestPartInput!]!
+    guestInputs: [GuestPartInput!]!
 }
 
 input GuestPartInput {
@@ -38,8 +38,9 @@ input GuestPartInput {
     price: Float!
     discountedPrice: Float
     pricingType: PricingType!
-    count: Int!
-    genders: [Gender!]
+    countFemaleGuest: Int!
+    countMaleGuest: Int!
+    countRoom: Int!
 }
 
 input BookingSortInput {

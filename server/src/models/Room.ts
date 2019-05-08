@@ -42,7 +42,7 @@ export class RoomSchema extends Typegoose {
     roomSrl?: number;
 
     @instanceMethod
-    findGuestQuery(
+    getQueryForGuests(
         this: InstanceType<RoomSchema>,
         start: Date,
         end: Date,
@@ -64,16 +64,7 @@ export class RoomSchema extends Typegoose {
             },
             isTempAllocation: tempAllocation
         };
-        console.log({
-            before: query
-        });
-
-        const undefineRemovedQuery = removeUndefined(query);
-        console.log({
-            after: undefineRemovedQuery
-        });
-
-        return GuestModel.find(undefineRemovedQuery);
+        return removeUndefined(query);
     }
 
     @instanceMethod
@@ -94,12 +85,10 @@ export class RoomSchema extends Typegoose {
             return false;
         }
         // start, end 까지 이 방에 배정된 게스트가 있는가?
-        const guests = await this.findGuestQuery(start, end, tempAllocation);
-        console.log({
-            guests
-        });
-
-        if (guests.length === 0) {
+        const guestCount = await GuestModel.countDocuments(
+            this.getQueryForGuests(start, end, tempAllocation)
+        );
+        if (guestCount === 0) {
             return true;
         }
         return false;
@@ -126,15 +115,17 @@ export class RoomSchema extends Typegoose {
         const peopleCount = roomType.peopleCount;
 
         // 2. 현재 배정되어있는 guest 목록을 가져온다.
-        const guests = await this.findGuestQuery(start, end, tempAllocation);
+        const query = this.getQueryForGuests(start, end, tempAllocation);
+        const guests = await GuestModel.find(query, { gender: 1 });
         const availableCount = peopleCount - guests.length;
 
-        // 배정된 게스트가 없는 경우 allocatedGender = "MIXED" 해서 리턴.
+        // 배정된 게스트가 없는 경우 allocatedGender = null 리턴.
         if (guests.length === 0) {
             return {
                 roomGender: roomType.roomGender,
                 guestGender: null,
-                availableCount
+                availableCount,
+                roomId: this._id
             };
         }
         const allocated: number = guests
@@ -156,7 +147,8 @@ export class RoomSchema extends Typegoose {
         return {
             roomGender: roomType.roomGender,
             guestGender,
-            availableCount
+            availableCount,
+            roomId: this._id
         };
     }
 }

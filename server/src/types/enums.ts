@@ -8,3 +8,8 @@ export enum BookingStatusEnum {
     COMPLETE = "COMPLETE",
     CANCEL = "CANCEL"
 }
+
+export enum GenderEnum {
+    MALE = "MALE",
+    FEMALE = "FEMALE"
+}

@@ -1,6 +1,7 @@
+import * as _ from "lodash";
 import { RoomTypeModel } from "../../../models/RoomType";
-import { getMaxPriority } from "../../../queries/queriesSeason";
 import {
+    RoomCapacity,
     TestFunctionMutationArgs,
     TestFunctionResponse
 } from "../../../types/graph";
@@ -9,7 +10,7 @@ import { Resolvers } from "../../../types/resolvers";
 const resolvers: Resolvers = {
     Mutation: {
         TestFunction: async (
-            _,
+            __,
             {
                 roomTypeId,
                 start,
@@ -27,7 +28,7 @@ const resolvers: Resolvers = {
                         error: "존재하지 않는 roomTypeId"
                     };
                 }
-                const domitoryCapacity = await roomType.getDomitoryCapacity(
+                const domitoryCapacity = await roomType.getCapacityForDomitory(
                     start,
                     end,
                     gender,
@@ -36,9 +37,32 @@ const resolvers: Resolvers = {
                 console.log({
                     "TestFunction.domitoryCapacity": domitoryCapacity
                 });
-                const maxPriority = await getMaxPriority(roomType.house);
+                const isDomitory = roomType.pricingType === "DOMITORY";
+
+                const allocatableRooms: RoomCapacity[] = _.orderBy(
+                    await roomType.getRoomCapacitiesWithRoomIdForDomitory(
+                        start,
+                        end
+                    ),
+                    ["guestGender", "availableCount"],
+                    ["asc", "asc"]
+                ).filter(capacity => {
+                    if (!isDomitory) {
+                        return !(
+                            capacity.roomGender === "FEMALE" ||
+                            capacity.roomGender === "MALE"
+                        );
+                    }
+                    // 이하 도미토리 방식인 경우.
+                    if (!gender) {
+                        return true;
+                    }
+                    return (
+                        capacity.guestGender === gender || !capacity.guestGender
+                    );
+                });
                 console.log({
-                    maxPriority
+                    allocatableRooms
                 });
 
                 return {

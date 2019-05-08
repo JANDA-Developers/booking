@@ -20,8 +20,8 @@ Host-Side:
             ☐ CancelBooking
             ☐ DeleteBooking
         Allocation:@high @today 
-            ☐ `DOMITORY` RoomType 객체에서 배정 가능한 방 수 및 인원 수 알려주기. @started(19-04-30 17:00)
-            ☐ `ROOM` RoomType 객체에서 배정 가능한 방 수 알려주기.
+            ✔ `DOMITORY` RoomType 객체에서 배정 가능한 방 수 및 인원 수 알려주기. @done(19-05-08 09:08)
+            ✔ `ROOM` RoomType 객체에서 배정 가능한 방 수 알려주기. @done(19-05-08 09:08)
             ☐ GetAllAvailableRooms      => Get All Available Rooms
             ☐ GetAllAvailableRoomTypes  => Get All Available RoomTypes
             ☐ CheckRoomTypeIsAvailable  => Check RoomType is Available

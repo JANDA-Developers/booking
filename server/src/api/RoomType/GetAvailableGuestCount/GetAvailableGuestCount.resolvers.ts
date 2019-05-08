@@ -27,7 +27,7 @@ const resolvers: Resolvers = {
                         roomCapacity: null
                     };
                 }
-                const roomCapacity = await roomType.getDomitoryCapacity(
+                const roomCapacity = await roomType.getCapacityForDomitory(
                     start,
                     end,
                     gender,

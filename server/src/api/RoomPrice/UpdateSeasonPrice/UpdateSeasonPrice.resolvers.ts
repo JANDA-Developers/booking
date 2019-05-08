@@ -16,8 +16,7 @@ const resolvers: Resolvers = {
                     price,
                     applyDays,
                     seasonPriceId
-                }: UpdateSeasonPriceMutationArgs,
-                { req }
+                }: UpdateSeasonPriceMutationArgs
             ): Promise<UpdateSeasonPriceResponse> => {
                 try {
                     const existingSeasonPrice = await SeasonPriceModel.findById(
@@ -42,7 +41,8 @@ const resolvers: Resolvers = {
                     return {
                         ok: true,
                         error: null,
-                        seasonPrice: await extractSeasonPrice(
+                        seasonPrice: await extractSeasonPrice.bind(
+                            extractSeasonPrice,
                             existingSeasonPrice
                         )
                     };
