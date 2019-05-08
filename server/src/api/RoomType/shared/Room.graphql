@@ -11,6 +11,7 @@ type Room {
 }
 
 type RoomCapacity {
+    roomId: ID!
     roomGender: RoomGender!
     # guestGender === null 이면 배정된 게스트 없는거...
     guestGender: GuestGender

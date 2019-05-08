@@ -142,7 +142,33 @@ export class RoomTypeSchema extends Typegoose {
      */
 
     @instanceMethod
-    async getRoomCapacities(
+    async getRoomCapacitiesWithRoomIdForDomitory(
+        this: InstanceType<RoomTypeSchema>,
+        start: Date,
+        end: Date,
+        includeTempAllocation?: boolean
+    ): Promise<RoomCapacity[]> {
+        return Promise.all(
+            (await RoomModel.find({
+                roomType: new Types.ObjectId(this._id)
+            })).map(async roomInstance => {
+                return await roomInstance.getCapacity(
+                    start,
+                    end,
+                    includeTempAllocation
+                );
+            })
+        );
+    }
+
+    /**
+     * 각각의 Room에 가용인원을 배열로 얻음.
+     * @param start 시작
+     * @param end 끝
+     * @param includeTempAllocation
+     */
+    @instanceMethod
+    async getRoomCapacitiesForDomitory(
         this: InstanceType<RoomTypeSchema>,
         start: Date,
         end: Date,
@@ -163,13 +189,14 @@ export class RoomTypeSchema extends Typegoose {
 
     /**
      * 선택한 성별의 배정 가능 인원 알아내는 함수.
+     * 게스트 페이지의 방 선택 섹션에서 사용
      * @param start 시작 날짜
      * @param end 끝 날짜
      * @param gender 인원 출력할 성별
      * @param otherGenderCount 다른 성별 인원 보정값. => 음... 설명하기 힘드네
      */
     @instanceMethod
-    async getDomitoryCapacity(
+    async getCapacityForDomitory(
         this: InstanceType<RoomTypeSchema>,
         start: Date,
         end: Date,
@@ -179,7 +206,7 @@ export class RoomTypeSchema extends Typegoose {
     ): Promise<RoomCapacity> {
         let availableCount = 0;
         // roomCapacities 구하기
-        const roomCapacities: RoomCapacity[] = await this.getRoomCapacities(
+        const roomCapacities: RoomCapacity[] = await this.getRoomCapacitiesForDomitory(
             start,
             end
         );
@@ -227,22 +254,16 @@ export class RoomTypeSchema extends Typegoose {
             return {
                 availableCount: 0,
                 roomGender: this.roomGender,
-                guestGender: gender
+                guestGender: gender,
+                roomId: ""
             };
         }
         return {
             availableCount,
+            roomGender: this.roomGender,
             guestGender: gender,
-            roomGender: this.roomGender
+            roomId: ""
         };
-    }
-
-    @instanceMethod
-    async autoAllocation(
-        this: InstanceType<RoomTypeSchema>,
-        guests: Types.ObjectId[]
-    ) {
-        // TODO: 2019-05-06 추후에 구현하는걸로..
     }
 
     @instanceMethod
@@ -276,6 +297,14 @@ export class RoomTypeSchema extends Typegoose {
         } catch (error) {
             return [];
         }
+    }
+
+    @instanceMethod
+    async autoAllocation(
+        this: InstanceType<RoomTypeSchema>,
+        guests: Types.ObjectId[]
+    ) {
+        // TODO: 2019-05-06 추후에 구현하는걸로..
     }
 }
 

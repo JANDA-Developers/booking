@@ -86,8 +86,10 @@ const resolvers: Resolvers = {
                                         seasonPriceInput.roomTypeId
                                     ),
                                     defaultPrice: seasonPriceInput.defaultPrice,
-                                    dayOfWeekPrices:
-                                        seasonPriceInput.dayOfWeekPrices
+                                    dayOfWeekPrices: {
+                                        _id: new Types.ObjectId(),
+                                        ...seasonPriceInput.dayOfWeekPrices
+                                    }
                                 })
                             );
                         });
@@ -103,7 +105,7 @@ const resolvers: Resolvers = {
                     return {
                         ok: true,
                         error: null,
-                        season: await extractSeason(season)
+                        season: await extractSeason.bind(extractSeason, season)
                     };
                 } catch (error) {
                     return {
