@@ -73,7 +73,7 @@ const AssigTimelineWrap: React.SFC<IProps> = ({ houseId }) => {
     if (!guestsData) return alloCateItems;
 
     guestsData.forEach((guestData) => {
-      const isDomitory = guestData.pricingType === PricingType.ROOM;
+      const isDomitory = guestData.pricingType === 'DOMITORY';
 
       // ⭐️임의방배정
       // 아이템에는 배정확정 버튼이있다.
@@ -117,7 +117,7 @@ const AssigTimelineWrap: React.SFC<IProps> = ({ houseId }) => {
       // 빈방타입 제외
       if (!isEmpty(rooms)) {
         // 🏠 방타입일 경우
-        if (roomTypeData.pricingType === PricingType.ROOM) {
+        if (roomTypeData.pricingType === 'ROOM') {
           rooms.map((room) => {
             roomGroups.push({
               id: room._id,
@@ -133,7 +133,7 @@ const AssigTimelineWrap: React.SFC<IProps> = ({ houseId }) => {
         }
 
         // 🛌 베드타입일경우
-        if (roomTypeData.pricingType === PricingType.DOMITORY) {
+        if (roomTypeData.pricingType === 'DOMITORY') {
           rooms.map((room) => {
             for (let i = 0; roomTypeData.peopleCount > i; i += 1) {
               roomGroups.push({

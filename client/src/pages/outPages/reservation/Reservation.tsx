@@ -117,6 +117,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
               resvRooms={resvRooms}
               windowWidth={windowWidth}
               toastModalHook={toastModalHook}
+              dayPickerHook={dayPickerHook}
             />
           </Card>
           <Card className="JDreservation__card">

@@ -250,10 +250,10 @@ export interface IUseSelect<V = any> {
 }
 
 // 셀렉트박스 훅
-function useSelect<V = any>(defaultValue: IselectedOption): IUseSelect<V> {
+function useSelect<V = any>(defaultValue: IselectedOption<V>): IUseSelect<V> {
   const [selectedOption, setSelectedOption] = useState(defaultValue);
 
-  const onChange = (value: IselectedOption) => {
+  const onChange = (value: IselectedOption<V>) => {
     setSelectedOption(value);
   };
 

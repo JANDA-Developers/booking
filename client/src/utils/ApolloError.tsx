@@ -1,6 +1,7 @@
 import { ApolloError } from 'apollo-client';
 import { toast } from './utils';
 
+// 👿 둘다 있을 필요없지 하나로 하자.
 const onError = ({ message }: ApolloError) => {
   console.error(message);
   toast.warn('요청 실패');

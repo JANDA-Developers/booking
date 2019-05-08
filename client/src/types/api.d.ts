@@ -337,6 +337,43 @@ export interface getGuestsVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: getAvailableGuestCount
+// ====================================================
+
+export interface getAvailableGuestCount_GetAvailableGuestCount_roomCapacity {
+  __typename: "RoomCapacity";
+  roomGender: RoomGender;
+  /**
+   * guestGender === null 이면 배정된 게스트 없는거...
+   */
+  guestGender: GuestGender | null;
+  availableCount: number;
+}
+
+export interface getAvailableGuestCount_GetAvailableGuestCount {
+  __typename: "GetAvailableGuestCountResponse";
+  ok: boolean;
+  error: string | null;
+  roomCapacity: getAvailableGuestCount_GetAvailableGuestCount_roomCapacity | null;
+}
+
+export interface getAvailableGuestCount {
+  GetAvailableGuestCount: getAvailableGuestCount_GetAvailableGuestCount;
+}
+
+export interface getAvailableGuestCountVariables {
+  roomTypeId: string;
+  start: any;
+  end: any;
+  gender: Gender;
+  paddingOtherGenderCount: number;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: getAllRoomType
 // ====================================================
 
@@ -1185,6 +1222,7 @@ export interface updateSeasonVariables {
   seasonId: string;
   color?: string | null;
   description?: string | null;
+  seasonPrices?: SeasonPriceInput[] | null;
 }
 
 /* tslint:disable */
@@ -1445,6 +1483,27 @@ export interface FminiRoomType {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL fragment: FallSeason
+// ====================================================
+
+export interface FallSeason {
+  __typename: "Season";
+  _id: string;
+  name: string;
+  start: any;
+  end: any;
+  priority: number;
+  color: string | null;
+  description: string | null;
+  createdAt: any;
+  updatedAt: any | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL fragment: FpageInfo
 // ====================================================
 
@@ -1536,6 +1595,12 @@ export enum BookingStatus {
 export enum Gender {
   FEMALE = "FEMALE",
   MALE = "MALE",
+}
+
+export enum GuestGender {
+  FEMALE = "FEMALE",
+  MALE = "MALE",
+  MIXED = "MIXED",
 }
 
 export enum HouseType {

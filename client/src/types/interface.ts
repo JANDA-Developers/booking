@@ -7,9 +7,11 @@ import {
   getBookers_GetBookers_bookers,
   getBookers_GetBookers_bookers_bookings,
   getAllRoomTypeWithGuest_GetGuests_guests,
+  getAvailableGuestCount_GetAvailableGuestCount_roomCapacity,
 } from '../types/api';
 import { IselectedOption } from '../atoms/forms/SelectBox';
 
+export interface IRoomCapacity extends getAvailableGuestCount_GetAvailableGuestCount_roomCapacity {}
 export interface IProduct extends getHouse_GetHouse_house_product {}
 export interface IUser extends getMyProfile_GetMyProfile_user {}
 export interface IHouse extends getHouse_GetHouse_house {}

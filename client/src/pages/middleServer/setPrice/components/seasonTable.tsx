@@ -61,11 +61,6 @@ const SeasonModal: React.SFC<IProps> = ({
   seasonCount,
   seasonIndex,
 }) => {
-
-  console.log(defaultTableValue);
-  console.log(defaultTableValue);
-  console.log(defaultTableValue);
-  console.log(defaultTableValue);
   const [tableValue, setTableValue] = useState(defaultTableValue);
   const defaultStart = isEmpty(defaultTableValue.start) ? null : moment(defaultTableValue.start).toDate();
   const defaultEnd = isEmpty(defaultTableValue.end) ? null : moment(defaultTableValue.end).toDate();

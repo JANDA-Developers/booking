@@ -3,11 +3,12 @@ import React, { Fragment, useState, useEffect } from 'react';
 import JDselect, { IselectedOption, SelectBoxSize } from '../../../../atoms/forms/SelectBox';
 import { GuestPartInput } from '../../../../types/api';
 import Button from '../../../../atoms/button/Button';
-import { IRoomType } from '../../../../types/interface';
+import { IRoomType, IRoomCapacity } from '../../../../types/interface';
 import Preloader from '../../../../atoms/preloader/Preloader';
 import { isEmpty } from '../../../../utils/utils';
-import { useSelect, IUseModal } from '../../../../actions/hook';
-import { SELECT_COUNT_DUMMY_OP, WindowSize } from '../../../../types/apiEnum';
+import { useSelect, IUseModal, IUseSelect } from '../../../../actions/hook';
+import { SELECT_COUNT_DUMMY_OP, WindowSize, Gender } from '../../../../types/apiEnum';
+import { IGuestCount } from './roomTypeCardsWrap';
 
 interface IProps {
   className?: string;
@@ -18,6 +19,10 @@ interface IProps {
   roomInfoHook: any;
   windowWidth: any;
   toastModalHook: IUseModal;
+  setGuestCount: React.Dispatch<React.SetStateAction<IGuestCount>>;
+  guestCountValue: IGuestCount;
+  availableCount: IRoomCapacity | null | undefined;
+  loading: boolean;
 }
 
 const RoomTypeCard: React.SFC<IProps> = ({
@@ -29,10 +34,11 @@ const RoomTypeCard: React.SFC<IProps> = ({
   roomInfoHook,
   windowWidth,
   toastModalHook,
+  setGuestCount,
+  guestCountValue,
+  loading,
 }) => {
   // ❕ 아직 쿼리에서 예약가능인원 조회하는게 안되니까 인원쪽은 비워놓자
-  const selectManHook = useSelect<number>(SELECT_COUNT_DUMMY_OP[0]);
-  const selectWomanHook = useSelect<number>(SELECT_COUNT_DUMMY_OP[0]);
 
   const classes = classNames('roomTypeCard', className, {});
 
@@ -44,6 +50,13 @@ const RoomTypeCard: React.SFC<IProps> = ({
   const isSelectedRoom = isSelectedRoomFn();
   const roomTypeIndex = resvRooms.findIndex(resvRoom => resvRoom.roomTypeId === roomTypeData._id);
 
+  const guestCountSelect = (selectedValue: number, flag: Gender) => {
+    setGuestCount({
+      ...guestCountValue,
+      male: flag === Gender.MALE ? selectedValue : guestCountValue.male,
+      female: flag === Gender.FEMALE ? selectedValue : guestCountValue.female,
+    });
+  };
   // 방배경사진
   const roomStyle = {
     // TODO :사진정보 여기에
@@ -59,7 +72,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
       return;
     }
 
-    const totalCount = selectManHook.selectedOption.value + selectWomanHook.selectedOption.value;
+    const totalCount = guestCountValue.female + guestCountValue.male;
 
     if (totalCount === 0) {
       toastModalHook.openModal('인원수를 선택해주세요.');
@@ -99,7 +112,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
               size={SelectBoxSize.TWO}
               rightLabel="남"
               mode="small"
-              {...selectManHook}
+              onChange={selectedOp => guestCountSelect(selectedOp.value, Gender.MALE)}
               isOpen
               default
             />
@@ -107,7 +120,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
               options={SELECT_COUNT_DUMMY_OP}
               size={SelectBoxSize.TWO}
               rightLabel="여"
-              {...selectWomanHook}
+              onChange={selectedOp => guestCountSelect(selectedOp.value, Gender.FEMALE)}
               mode="small"
             />
           </div>

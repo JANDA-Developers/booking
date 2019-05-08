@@ -16,6 +16,19 @@ const F_MINI_ROOM_TYPE = gql`
     description
   }
 `;
+const F_ALL_SEASON = gql`
+  fragment FallSeason on Season {
+    _id
+    name
+    start
+    end
+    priority
+    color
+    description
+    createdAt
+    updatedAt
+  }
+`;
 const F_PAGE_INFO = gql`
   fragment FpageInfo on PageInfoOffsetBase {
     currentPage
@@ -77,6 +90,7 @@ export const GET_All_PRODUCTS_TYPES = gql`
     }
   }
 `;
+
 // 예약모두 가져오기
 // export const GET_All_BOOKINGS = gql`
 //   query getBookings($page: Int!, $count: Int!, $houseId: ID!) {
@@ -271,7 +285,32 @@ export const GetGuests = gql`
   }
 `;
 
-// 모든 방타입 가져오기
+export const GET_AVAILABLE_GUEST_COUNT = gql`
+  query getAvailableGuestCount(
+    $roomTypeId: ID!
+    $start: DateTime!
+    $end: DateTime!
+    $gender: Gender!
+    $paddingOtherGenderCount: Int!
+  ) {
+    GetAvailableGuestCount(
+      roomTypeId: $roomTypeId
+      start: $start
+      end: $end
+      gender: $gender
+      paddingOtherGenderCount: $paddingOtherGenderCount
+    ) {
+      ok
+      error
+      roomCapacity {
+        roomGender
+        guestGender
+        availableCount
+      }
+    }
+  }
+`;
+
 export const GET_ALL_ROOMTYPES = gql`
   query getAllRoomType($houseId: ID!) {
     GetAllRoomType(houseId: $houseId) {
@@ -442,15 +481,7 @@ export const SEASON_TABLE = gql`
       ok
       error
       seasons {
-        _id
-        name
-        start
-        end
-        priority
-        color
-        description
-        createdAt
-        updatedAt
+        ...FallSeason
       }
     }
     GetAllRoomType(houseId: $houseId) {
@@ -462,6 +493,7 @@ export const SEASON_TABLE = gql`
     }
   }
   ${F_MINI_ROOM_TYPE}
+  ${F_ALL_SEASON}
 `;
 
 // 모든 시즌 가져오기
@@ -471,15 +503,7 @@ export const GET_ALL_SEASON_TABLE = gql`
       ok
       error
       seasons {
-        _id
-        name
-        start
-        end
-        priority
-        color
-        description
-        createdAt
-        updatedAt
+        ...FallSeason
       }
     }
     GetAllRoomType(houseId: $houseId) {
@@ -508,6 +532,7 @@ export const GET_ALL_SEASON_TABLE = gql`
       }
     }
   }
+  ${F_ALL_SEASON}
   ${F_MINI_ROOM_TYPE}
 `;
 
