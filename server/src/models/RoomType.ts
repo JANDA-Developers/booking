@@ -219,6 +219,9 @@ export class RoomTypeSchema extends Typegoose {
             roomCapacities.forEach((capacity: RoomCapacity) => {
                 availableCount = availableCount + capacity.availableCount;
             });
+            if (this.roomGender === "MIXED") {
+                availableCount = availableCount - addOtherGenderCount;
+            }
         } else if (this.roomGender === "SEPARATELY") {
             const otherGenderRoomCapacities = roomCapacities.filter(
                 capacity => capacity.guestGender !== gender
