@@ -2,9 +2,8 @@ import * as _ from "lodash";
 import { Types } from "mongoose";
 import { InstanceType } from "typegoose";
 import { BookerModel } from "../../../models/Booker";
-import { BookingModel, BookingSchema } from "../../../models/Booking";
+import { BookingSchema } from "../../../models/Booking";
 import { GuestModel, GuestSchema } from "../../../models/Guest";
-import { HouseModel } from "../../../models/House";
 import { extractBookings } from "../../../models/merge/merge";
 import { RoomTypeModel } from "../../../models/RoomType";
 import { GenderEnum } from "../../../types/enums";
@@ -21,26 +20,21 @@ const resolvers: Resolvers = {
             __,
             { bookingParams }: CreateBookingMutationArgs
         ): Promise<CreateBookingResponse> => {
-            const { booker, start, end, guestInputs } = bookingParams;
+            const {
+                booker: bookerArgs,
+                start,
+                end,
+                guestInputs
+            } = bookingParams;
 
             try {
                 // Booker 생성
                 const bookerInstance = new BookerModel({
-                    ...booker,
-                    house: new Types.ObjectId(booker.house)
+                    ...bookerArgs,
+                    house: new Types.ObjectId(bookerArgs.house)
                 });
                 await bookerInstance.hashPassword();
-                const bookerObjId = new Types.ObjectId(bookerInstance._id);
                 // Booker 생성 완료
-                const house = await HouseModel.findById(booker.house);
-                if (!house) {
-                    return {
-                        ok: false,
-                        error: "존재하지 않는 HouseID",
-                        bookings: []
-                    };
-                }
-                const houseObjId = new Types.ObjectId(house._id);
                 const bookings: Array<
                     InstanceType<BookingSchema>
                 > = await Promise.all(
@@ -53,22 +47,23 @@ const resolvers: Resolvers = {
                             countRoom,
                             ...args
                         }) => {
-                            const booking = await new BookingModel({
-                                house: houseObjId,
-                                booker: bookerObjId,
-                                roomType: new Types.ObjectId(roomTypeId),
-                                start,
-                                end,
-                                ...args
-                            });
-                            const roomType = await RoomTypeModel.findById(
+                            const roomTypeInstance = await RoomTypeModel.findById(
                                 roomTypeId
                             );
-                            if (!roomType) {
+                            if (!roomTypeInstance) {
                                 throw new Error(
                                     "치명적 오류... roomType이 존재하지 않음"
                                 );
                             }
+                            const booking = await bookerInstance.createBookingInstance(
+                                {
+                                    start,
+                                    end,
+                                    roomTypeInstance,
+                                    ...args
+                                }
+                            );
+
                             const genderCounts: Array<{
                                 gender?: GenderEnum;
                                 count: number;
@@ -86,49 +81,42 @@ const resolvers: Resolvers = {
                                     count: countFemaleGuest
                                 }
                             ].filter(genderCount => genderCount.count !== 0);
-                            const isDomitory =
-                                roomType.pricingType === "DOMITORY";
+
+                            // undefined 인 경우 => 게스트 Gender가 MIXED 또는 pricingType === "ROOM" 인 경우...
                             const gender =
                                 countFemaleGuest === 0
                                     ? GenderEnum.MALE
                                     : countMaleGuest === 0
                                     ? GenderEnum.FEMALE
                                     : undefined;
+
+                            // 배정 가능한 방들 목록 생성
                             const allocatableRooms: RoomCapacityWithEmptyBed[] = _.orderBy(
-                                await roomType.getRoomCapacitiesWithRoomIdForDomitory(
+                                await roomTypeInstance.getAllocatableRooms(
                                     start,
-                                    end
+                                    end,
+                                    {
+                                        gender
+                                    }
                                 ),
                                 ["guestGender", "availableCount"],
                                 ["asc", "asc"]
-                            ).filter(capacity => {
-                                if (!isDomitory) {
-                                    return !(
-                                        capacity.roomGender === "FEMALE" ||
-                                        capacity.roomGender === "MALE"
-                                    );
-                                }
-                                // 이하 도미토리 방식인 경우.
-                                if (!gender) {
-                                    return true;
-                                }
-                                return (
-                                    capacity.guestGender === gender ||
-                                    !capacity.guestGender
-                                );
-                            });
+                            );
+
+                            if (booking.pricingType !== "DOMITORY") {
+                                // 방타입인 경우 여기서 처리해버리자..
+                            }
                             // TODO: 배정하는거 만들긔... allocatableRooms & genderCounts 콜라보해서...
                             const guestInstances = _.flatMap(
                                 await Promise.all(
                                     genderCounts.map(async genderCount => {
-                                        const guestInances = await booking.createGuestInstances(
+                                        return await booking.createGuestInstances(
                                             {
-                                                bookerName: booker.name,
+                                                bookerName: bookerArgs.name,
                                                 pricingType,
                                                 genderCount
                                             }
                                         );
-                                        return guestInances;
                                     })
                                 )
                             ).map(
@@ -147,10 +135,6 @@ const resolvers: Resolvers = {
                                             guestInstance.allocatedRoom = new Types.ObjectId(
                                                 roomCapacity.roomId
                                             );
-                                            console.log({
-                                                roomCapacity
-                                            });
-
                                             // 된건가?
                                             guestInstance.bedIndex =
                                                 roomCapacity.emptyBeds[0];
@@ -161,10 +145,10 @@ const resolvers: Resolvers = {
                                 }
                             );
                             await GuestModel.insertMany(guestInstances);
-                            console.log(guestInstances);
-                            console.log(allocatableRooms);
 
-                            // booking.guests = guests;
+                            booking.guests = guestInstances.map(
+                                instance => new Types.ObjectId(instance._id)
+                            );
                             return await booking.save();
                         }
                     )

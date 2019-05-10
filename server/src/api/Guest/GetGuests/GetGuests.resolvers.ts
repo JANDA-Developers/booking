@@ -31,6 +31,13 @@ const resolvers: Resolvers = {
                             $gte: new Date(start)
                         }
                     });
+                    if (bookings.length === 0) {
+                        return {
+                            ok: true,
+                            error: null,
+                            guests: []
+                        };
+                    }
                     const guestIds = bookings
                         .map(booking => {
                             return booking.guests;
