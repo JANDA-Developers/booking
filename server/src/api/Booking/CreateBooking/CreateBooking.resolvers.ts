@@ -3,11 +3,7 @@ import { Types } from "mongoose";
 import { InstanceType } from "typegoose";
 import { BookerModel } from "../../../models/Booker";
 import { BookingModel, BookingSchema } from "../../../models/Booking";
-import {
-    createGuestInstances,
-    GuestModel,
-    GuestSchema
-} from "../../../models/Guest";
+import { GuestModel, GuestSchema } from "../../../models/Guest";
 import { HouseModel } from "../../../models/House";
 import { extractBookings } from "../../../models/merge/merge";
 import { RoomTypeModel } from "../../../models/RoomType";
@@ -15,7 +11,7 @@ import { GenderEnum } from "../../../types/enums";
 import {
     CreateBookingMutationArgs,
     CreateBookingResponse,
-    RoomCapacity
+    RoomCapacityWithEmptyBed
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
 
@@ -50,22 +46,20 @@ const resolvers: Resolvers = {
                 > = await Promise.all(
                     await guestInputs.map(
                         async ({
-                            price,
-                            discountedPrice,
                             pricingType,
                             roomTypeId,
                             countFemaleGuest,
                             countMaleGuest,
-                            countRoom
+                            countRoom,
+                            ...args
                         }) => {
                             const booking = await new BookingModel({
                                 house: houseObjId,
                                 booker: bookerObjId,
                                 roomType: new Types.ObjectId(roomTypeId),
-                                price,
-                                discountedPrice,
                                 start,
-                                end
+                                end,
+                                ...args
                             });
                             const roomType = await RoomTypeModel.findById(
                                 roomTypeId
@@ -100,7 +94,7 @@ const resolvers: Resolvers = {
                                     : countMaleGuest === 0
                                     ? GenderEnum.FEMALE
                                     : undefined;
-                            const allocatableRooms: RoomCapacity[] = _.orderBy(
+                            const allocatableRooms: RoomCapacityWithEmptyBed[] = _.orderBy(
                                 await roomType.getRoomCapacitiesWithRoomIdForDomitory(
                                     start,
                                     end
@@ -125,27 +119,25 @@ const resolvers: Resolvers = {
                             });
                             // TODO: 배정하는거 만들긔... allocatableRooms & genderCounts 콜라보해서...
                             const guestInstances = _.flatMap(
-                                genderCounts.map(genderCount => {
-                                    const guestInances = createGuestInstances(
-                                        bookerObjId,
-                                        houseObjId,
-                                        roomTypeId,
-                                        booking._id,
-                                        pricingType,
-                                        booker.name,
-                                        start,
-                                        end,
-                                        genderCount.count,
-                                        genderCount.gender
-                                    );
-                                    return guestInances;
-                                })
+                                await Promise.all(
+                                    genderCounts.map(async genderCount => {
+                                        const guestInances = await booking.createGuestInstances(
+                                            {
+                                                bookerName: booker.name,
+                                                pricingType,
+                                                genderCount
+                                            }
+                                        );
+                                        return guestInances;
+                                    })
+                                )
                             ).map(
                                 (
                                     guestInstance: InstanceType<GuestSchema>,
                                     index: number
                                 ) => {
                                     let i = 0;
+                                    // TODO: 여기서 배정해야함...
                                     allocatableRooms.forEach(roomCapacity => {
                                         if (
                                             i < index + 1 &&
@@ -155,6 +147,13 @@ const resolvers: Resolvers = {
                                             guestInstance.allocatedRoom = new Types.ObjectId(
                                                 roomCapacity.roomId
                                             );
+                                            console.log({
+                                                roomCapacity
+                                            });
+
+                                            // 된건가?
+                                            guestInstance.bedIndex =
+                                                roomCapacity.emptyBeds[0];
                                         }
                                         i = i + roomCapacity.availableCount;
                                     });

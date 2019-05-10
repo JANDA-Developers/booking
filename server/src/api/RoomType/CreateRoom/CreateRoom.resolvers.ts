@@ -1,6 +1,4 @@
-import { Types } from "mongoose";
 import { extractRoom } from "../../../models/merge/merge";
-import { RoomModel } from "../../../models/Room";
 import { RoomTypeModel } from "../../../models/RoomType";
 import {
     CreateRoomMutationArgs,
@@ -17,24 +15,23 @@ const resolver: Resolvers = {
                 args: CreateRoomMutationArgs
             ): Promise<CreateRoomResponse> => {
                 try {
-                    const room = new RoomModel({
-                        ...args
-                    });
-                    await room.save();
-                    await RoomTypeModel.updateOne(
-                        {
-                            _id: new Types.ObjectId(args.roomType)
-                        },
-                        {
-                            $push: {
-                                rooms: new Types.ObjectId(room._id)
-                            }
-                        }
+                    const roomType = await RoomTypeModel.findById(
+                        args.roomType
                     );
+                    if (!roomType) {
+                        return {
+                            ok: false,
+                            error: "존재하지 않는 RoomTypeId",
+                            room: null
+                        };
+                    }
+                    const room = await roomType.createRoomInstance({
+                        withSave: true
+                    });
                     return {
                         ok: true,
                         error: null,
-                        room: await extractRoom(room)
+                        room: await extractRoom.bind(extractRoom, room)
                     };
                 } catch (error) {
                     return {

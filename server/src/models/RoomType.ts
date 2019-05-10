@@ -13,11 +13,15 @@ import {
     GuestGender,
     PricingType,
     RoomCapacity,
+    RoomCapacityWithEmptyBed,
     RoomGender
 } from "../types/graph";
 import { removeUndefined } from "../utils/objFuncs";
 import { GuestModel, GuestSchema } from "./Guest";
-import { RoomModel } from "./Room";
+import { HouseModel } from "./House";
+import { RoomModel, RoomSchema } from "./Room";
+import { RoomPriceModel } from "./RoomPrice";
+import { SeasonPriceModel } from "./SeasonPrice";
 
 export enum PricingTypeEnum {
     ROOM = "ROOM",
@@ -135,6 +139,109 @@ export class RoomTypeSchema extends Typegoose {
     @prop()
     roomTemplateSrl?: number;
 
+    @instanceMethod
+    async createRoomInstance(
+        this: InstanceType<RoomTypeSchema>,
+        { withSave }: { withSave: boolean } = { withSave: false }
+    ): Promise<InstanceType<RoomSchema>> {
+        const room = new RoomModel({
+            name: this.name,
+            roomType: new Types.ObjectId(this._id),
+            pricingType: this.pricingType,
+            peopleCount: this.peopleCount,
+            peopleCountMax: this.peopleCountMax
+        });
+        if (withSave) {
+            await this.update({
+                $push: {
+                    rooms: new Types.ObjectId(room._id)
+                }
+            });
+            return await room.save();
+        }
+        return room;
+    }
+
+    @instanceMethod
+    async removeThis(
+        this: InstanceType<RoomTypeSchema>
+    ): Promise<{ ok: boolean; error: string | null }> {
+        // 1. 예약내역이 있는지 확인  o
+        // 2. 예약내역 삭제 o
+        // 3. 가격들 전부 삭제 o
+        // 4. room 삭제
+        const roomTypeObjId = new Types.ObjectId(this._id);
+        const guests = await GuestModel.countDocuments({
+            roomType: new Types.ObjectId(this._id)
+        });
+        if (guests) {
+            return {
+                ok: false,
+                error: "해당 방에 예약이 존재합니다."
+            };
+        }
+        const condition = {
+            roomType: roomTypeObjId
+        };
+        await GuestModel.deleteMany(condition);
+        // 설정된 가격 삭제
+        await RoomPriceModel.deleteMany(condition);
+        await SeasonPriceModel.deleteMany(condition);
+        await RoomModel.deleteMany(condition);
+        await this.remove();
+        // 기존에 존재하던 인덱스값들 하나씩 -1 ㄱㄱ
+        await RoomTypeModel.updateMany(
+            {
+                house: new Types.ObjectId(this.house),
+                index: {
+                    $gt: this.index
+                }
+            },
+            {
+                $inc: {
+                    index: -1
+                }
+            }
+        );
+        await HouseModel.updateOne(
+            {
+                _id: new Types.ObjectId(this.house)
+            },
+            {
+                $pull: {
+                    roomType: roomTypeObjId
+                }
+            }
+        );
+        // 핵복잡할듯
+        return {
+            ok: true,
+            error: null
+        };
+    }
+
+    @instanceMethod
+    async createThis(
+        this: InstanceType<RoomTypeSchema>,
+        { withSave }: { withSave: boolean } = { withSave: false }
+    ): Promise<InstanceType<RoomTypeSchema>> {
+        // HouseModel 배열에 추가
+        await HouseModel.updateOne(
+            {
+                _id: new Types.ObjectId(this.house)
+            },
+            {
+                $push: {
+                    roomTypes: new Types.ObjectId(this._id)
+                }
+            }
+        );
+
+        // 시즌 가격 추가.
+
+        return this;
+    }
+
     /*
      * --------------------------------------------------------------------------------------------------------------------------------------
      *                             이하 함수들은 pricingType === "DOMITORY" 인 방타입에 대한 메서드들임...
@@ -147,7 +254,7 @@ export class RoomTypeSchema extends Typegoose {
         start: Date,
         end: Date,
         includeTempAllocation?: boolean
-    ): Promise<RoomCapacity[]> {
+    ): Promise<RoomCapacityWithEmptyBed[]> {
         return Promise.all(
             (await RoomModel.find({
                 roomType: new Types.ObjectId(this._id)
@@ -173,7 +280,7 @@ export class RoomTypeSchema extends Typegoose {
         start: Date,
         end: Date,
         includeTempAllocation?: boolean
-    ): Promise<RoomCapacity[]> {
+    ): Promise<RoomCapacityWithEmptyBed[]> {
         return Promise.all(
             (await RoomModel.find({
                 roomType: new Types.ObjectId(this._id)
@@ -210,9 +317,6 @@ export class RoomTypeSchema extends Typegoose {
             start,
             end
         );
-        console.log({
-            "getDomitoryCapacity.RoomCapacities": roomCapacities
-        });
 
         // 1. Gender 검사
         if (this.roomGender === gender || this.roomGender === "MIXED") {
