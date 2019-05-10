@@ -2,6 +2,9 @@ type Room {
     _id: ID!
     name: String!
     roomType: RoomType!
+    pricingType: PricingType!
+    peopleCount: Int!
+    peopleCountMax: Int!
     index: Int!
     createdAt: DateTime!
     updatedAt: DateTime
@@ -16,6 +19,14 @@ type RoomCapacity {
     # guestGender === null 이면 배정된 게스트 없는거...
     guestGender: GuestGender
     availableCount: Int!
+}
+
+type RoomCapacityWithEmptyBed {
+    roomId: ID!
+    roomGender: RoomGender!
+    guestGender: GuestGender
+    availableCount: Int!
+    emptyBeds: [Int!]!
 }
 
 enum GuestGender {

@@ -1,10 +1,10 @@
 import * as _ from "lodash";
 import { Types } from "mongoose";
 import { instanceMethod, InstanceType, pre, prop, Typegoose } from "typegoose";
-import { RoomCapacity } from "../types/graph";
+import { PricingType, RoomCapacityWithEmptyBed } from "../types/graph";
 import { removeUndefined } from "../utils/objFuncs";
-import { GuestModel } from "./Guest";
-import { RoomTypeModel, RoomTypeSchema } from "./RoomType";
+import { GuestModel, GuestSchema } from "./Guest";
+import { PricingTypeEnum, RoomTypeModel, RoomTypeSchema } from "./RoomType";
 
 @pre<RoomSchema>("save", async function(next) {
     try {
@@ -29,6 +29,19 @@ export class RoomSchema extends Typegoose {
     @prop({ required: true, ref: RoomTypeSchema })
     roomType: Types.ObjectId;
 
+    @prop({ default: PricingTypeEnum.DOMITORY, enum: PricingTypeEnum })
+    pricingType: PricingType;
+
+    @prop({ default: 0 })
+    peopleCount: number;
+
+    @prop({
+        default(this: InstanceType<RoomSchema>) {
+            return this.peopleCount;
+        }
+    })
+    peopleCountMax: number;
+
     @prop({ min: 0, default: 0 })
     index: number;
 
@@ -40,6 +53,40 @@ export class RoomSchema extends Typegoose {
 
     @prop()
     roomSrl?: number;
+
+    @instanceMethod
+    async removeThis(
+        this: InstanceType<RoomSchema>
+    ): Promise<{ ok: boolean; error: string | null }> {
+        // 예약이 존재한다면 못지우게 해야함...
+        const roomObjId = new Types.ObjectId(this._id);
+        const guestCountAfterToday = await GuestModel.countDocuments({
+            allocatedRoom: roomObjId
+        });
+        if (guestCountAfterToday) {
+            return {
+                ok: false,
+                error: "해당 방에 예약이 존재합니다."
+            };
+        }
+        // roomType에서 id pull 해야함..
+        const roomTypeObjId = new Types.ObjectId(this.roomType);
+        await RoomTypeModel.update(
+            {
+                _id: roomTypeObjId
+            },
+            {
+                $pull: {
+                    rooms: roomObjId
+                }
+            }
+        );
+        await GuestModel.deleteMany({ allocatedRoom: roomObjId });
+        return {
+            ok: true,
+            error: null
+        };
+    }
 
     @instanceMethod
     getQueryForGuests(
@@ -95,7 +142,7 @@ export class RoomSchema extends Typegoose {
     }
 
     /**
-     *
+     * 이거 어떻게 할까
      * @param start 시작 날짜
      * @param end 끝 날짜
      * @param tempAllocation 임시배정 조회여부. undefined 이면 무시하고 전부 조회함.
@@ -106,7 +153,7 @@ export class RoomSchema extends Typegoose {
         start: Date,
         end: Date,
         tempAllocation?: boolean
-    ): Promise<RoomCapacity> {
+    ): Promise<RoomCapacityWithEmptyBed> {
         // 1. RoomType 체크 & peopleLimitCount 얻기
         const roomType = await RoomTypeModel.findById(this.roomType);
         if (!roomType) {
@@ -116,8 +163,14 @@ export class RoomSchema extends Typegoose {
 
         // 2. 현재 배정되어있는 guest 목록을 가져온다.
         const query = this.getQueryForGuests(start, end, tempAllocation);
-        const guests = await GuestModel.find(query, { gender: 1 });
+        const guests = await GuestModel.find(query, {
+            gender: true,
+            bedIndex: true
+        });
         const availableCount = peopleCount - guests.length;
+        const emptyBeds: number[] = Array(roomType.peopleCount)
+            .fill(0)
+            .map((___, i) => i);
 
         // 배정된 게스트가 없는 경우 allocatedGender = null 리턴.
         if (guests.length === 0) {
@@ -125,12 +178,18 @@ export class RoomSchema extends Typegoose {
                 roomGender: roomType.roomGender,
                 guestGender: null,
                 availableCount,
-                roomId: this._id
+                roomId: this._id,
+                emptyBeds
             };
         }
         const allocated: number = guests
             .map(
                 (guest): number => {
+                    _.pull(emptyBeds, guest.bedIndex);
+                    console.log({
+                        index: guest.bedIndex
+                    });
+
                     const val = guest.gender === "MALE" ? 2 : 3;
                     return val;
                 }
@@ -148,8 +207,57 @@ export class RoomSchema extends Typegoose {
             roomGender: roomType.roomGender,
             guestGender,
             availableCount,
-            roomId: this._id
+            roomId: this._id,
+            emptyBeds // TODO
         };
+    }
+
+    @instanceMethod
+    async getEmptyBeds(
+        this: InstanceType<RoomSchema>,
+        start: Date,
+        end: Date
+    ): Promise<number[]> {
+        // 1. 배정된 인덱스 게스트 목록을 구함.
+        const guests = await GuestModel.find(
+            {
+                allocatedRoom: new Types.ObjectId(this._id),
+                start: {
+                    $lte: new Date(end)
+                },
+                end: {
+                    $gte: new Date(start)
+                }
+            },
+            {
+                bedIndex: true
+            }
+        );
+        const usingBed = guests.map(guest => guest.bedIndex);
+        const emptyArr = Array(this.peopleCount)
+            .fill(0)
+            .map((___, i) => i);
+        return emptyArr.filter(
+            bedIndex => !usingBed.some(elem => elem === bedIndex)
+        );
+    }
+
+    @instanceMethod
+    async allocateGuestsToRoom(
+        this: InstanceType<RoomSchema>,
+        guest: InstanceType<GuestSchema>
+    ): Promise<InstanceType<GuestSchema>> {
+        const start = guest.start;
+        const end = guest.end;
+        // Bed Index 를 찾아서 넣어줘야 한다...
+        // start~end 까지 비는 bedIndex를 찾아야함...
+        console.log({
+            start,
+            end
+        });
+
+        guest.allocatedRoom = new Types.ObjectId(this._id);
+        return new GuestModel({});
     }
 }
 

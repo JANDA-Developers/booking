@@ -14,6 +14,7 @@ type Guest {
     # 도미토리, 룸, 블록 구분
     pricingType: PricingType!
     isTempAllocation: Boolean!
+    bedIndex: Int!
     gender: Gender
     createdAt: DateTime!
     updatedAt: DateTime

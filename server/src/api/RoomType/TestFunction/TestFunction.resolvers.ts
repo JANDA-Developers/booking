@@ -1,7 +1,8 @@
 import * as _ from "lodash";
+import { Types } from "mongoose";
+import { RoomModel } from "../../../models/Room";
 import { RoomTypeModel } from "../../../models/RoomType";
 import {
-    RoomCapacity,
     TestFunctionMutationArgs,
     TestFunctionResponse
 } from "../../../types/graph";
@@ -28,43 +29,27 @@ const resolvers: Resolvers = {
                         error: "존재하지 않는 roomTypeId"
                     };
                 }
-                const domitoryCapacity = await roomType.getCapacityForDomitory(
-                    start,
-                    end,
-                    gender,
-                    paddingOtherGenderCount
-                );
-                console.log({
-                    "TestFunction.domitoryCapacity": domitoryCapacity
-                });
-                const isDomitory = roomType.pricingType === "DOMITORY";
-
-                const allocatableRooms: RoomCapacity[] = _.orderBy(
-                    await roomType.getRoomCapacitiesWithRoomIdForDomitory(
-                        start,
-                        end
-                    ),
-                    ["guestGender", "availableCount"],
-                    ["asc", "asc"]
-                ).filter(capacity => {
-                    if (!isDomitory) {
-                        return !(
-                            capacity.roomGender === "FEMALE" ||
-                            capacity.roomGender === "MALE"
-                        );
-                    }
-                    // 이하 도미토리 방식인 경우.
-                    if (!gender) {
-                        return true;
-                    }
-                    return (
-                        capacity.guestGender === gender || !capacity.guestGender
-                    );
+                const rooms = roomType.rooms.map(roomId => {
+                    return new Types.ObjectId(roomId);
                 });
                 console.log({
-                    allocatableRooms
+                    rooms
                 });
 
+                const roomInstances = await RoomModel.find({
+                    _id: {
+                        $in: rooms
+                    }
+                });
+                console.log({
+                    rooms: roomInstances
+                });
+
+                roomInstances.forEach(async roomInstance => {
+                    console.log({
+                        log: await roomInstance.getCapacity(start, end)
+                    });
+                });
                 return {
                     ok: true,
                     error: null

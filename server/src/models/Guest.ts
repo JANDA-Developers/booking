@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { InstanceType, prop, Ref, Typegoose } from "typegoose";
+import { instanceMethod, InstanceType, prop, Ref, Typegoose } from "typegoose";
 import { Gender, PricingType } from "../types/graph";
 import { removeUndefined } from "../utils/objFuncs";
 import { RoomSchema } from "./Room";
@@ -22,6 +22,9 @@ export class GuestSchema extends Typegoose {
 
     @prop({ ref: RoomSchema })
     allocatedRoom?: Ref<RoomSchema>;
+
+    @prop({ default: 0 })
+    bedIndex: number; // PricingType === "ROOM" 인 경우 0으로 함...
 
     @prop()
     name: string;
@@ -55,6 +58,15 @@ export class GuestSchema extends Typegoose {
 
     @prop()
     updatedAt: Date;
+
+    @instanceMethod
+    async allocateRoom(
+        this: InstanceType<GuestSchema>,
+        roomId: Types.ObjectId
+    ): Promise<boolean> {
+        //  TODO
+        return false;
+    }
 }
 
 export const GuestModel = new GuestSchema().getModelForClass(GuestSchema, {
