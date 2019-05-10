@@ -7,6 +7,8 @@ import {
     prop,
     Typegoose
 } from "typegoose";
+import { BookingModel } from "./Booking";
+import { RoomTypeSchema } from "./RoomType";
 
 const BCRYPT_ROUNDS = 10;
 /**
@@ -70,6 +72,42 @@ export class BookerSchema extends Typegoose {
         if (this.password) {
             this.password = await bcrypt.hash(this.password, BCRYPT_ROUNDS);
         }
+    }
+
+    @instanceMethod
+    async createBookingInstance(
+        this: InstanceType<BookerSchema>,
+        args: {
+            start: Date;
+            end: Date;
+            roomTypeInstance: InstanceType<RoomTypeSchema>;
+            price: number;
+            discountedPrice: number | null;
+        },
+        opt: {
+            withSave: boolean;
+        } = { withSave: true }
+    ) {
+        const booking = new BookingModel({
+            house: new Types.ObjectId(args.roomTypeInstance.house),
+            booker: new Types.ObjectId(this._id),
+            roomType: new Types.ObjectId(args.roomTypeInstance._id),
+            pricingType: args.roomTypeInstance.pricingType,
+            start: args.start,
+            end: args.end,
+            name: this.name,
+            price: args.price,
+            discountedPrice: args.discountedPrice
+        });
+        if (opt.withSave) {
+            await this.update({
+                $push: {
+                    bookings: new Types.ObjectId(booking._id)
+                }
+            });
+            return await booking.save();
+        }
+        return booking;
     }
 }
 

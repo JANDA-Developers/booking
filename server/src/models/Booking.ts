@@ -7,13 +7,12 @@ import {
   prop,
   Typegoose
 } from "typegoose";
-import {BookingStatusEnum} from "../types/enums";
-import {BookingStatus, Gender, PricingType} from "../types/graph";
-import {hashCode} from "../utils/hashCode";
-import {removeUndefined} from "../utils/objFuncs";
-import {BookerModel} from "./Booker";
-import {GuestModel, GuestSchema} from "./Guest";
-import {RoomTypeModel} from "./RoomType";
+import { BookingStatusEnum } from "../types/enums";
+import { BookingStatus, Gender, PricingType } from "../types/graph";
+import { hashCode } from "../utils/hashCode";
+import { removeUndefined } from "../utils/objFuncs";
+import { GuestModel, GuestSchema } from "./Guest";
+import { PricingTypeEnum, RoomTypeModel } from "./RoomType";
 
 /**
  * Booking 스키마...
@@ -35,33 +34,97 @@ import {RoomTypeModel} from "./RoomType";
   }
 })
 export class BookingSchema extends Typegoose {
-  @prop({required: true})
-  house: Types.ObjectId;
+    @prop({ required: true })
+    house: Types.ObjectId;
 
-  @prop({required: true})
-  booker: Types.ObjectId;
+    @prop({ required: true })
+    booker: Types.ObjectId;
 
-  @prop({required: true})
-  roomType: Types.ObjectId;
+    @prop()
+    name: string; // bookerName
 
-  @arrayProp({items: Types.ObjectId, default: []})
-  guests: Types.ObjectId[];
+    @prop({ required: true })
+    roomType: Types.ObjectId;
 
-  @prop()
-  bookingId: string;
+    @prop({ enum: PricingTypeEnum })
+    pricingType: PricingType;
 
-  @prop({default: 0})
-  price: number;
+    @arrayProp({ items: Types.ObjectId, default: [] })
+    guests: Types.ObjectId[];
 
-  @prop({required: true})
-  start: Date;
+    @prop()
+    bookingId: string;
 
-  @prop({required: true})
-  end: Date;
+    @prop({ default: 0 })
+    price: number;
 
-  @prop({
-    default(this: BookingSchema) {
-      return this.price;
+    @prop({ required: true })
+    start: Date;
+
+    @prop({ required: true })
+    end: Date;
+
+    @prop({
+        default(this: BookingSchema) {
+            return this.price;
+        }
+    })
+    discountedPrice: number;
+
+    @prop({
+        enum: BookingStatusEnum,
+        default: BookingStatusEnum.COMPLETE
+    })
+    bookingStatus: BookingStatus;
+
+    @prop({
+        default(this: InstanceType<BookingSchema>) {
+            return this.guests.length;
+        }
+    })
+    guestCount: number;
+
+    @prop()
+    createdAt: Date;
+
+    @prop()
+    updatedAt: Date;
+
+    @instanceMethod
+    createGuestInstances(
+        this: InstanceType<BookingSchema>,
+        {
+            genderCount
+        }: {
+            pricingType?: PricingType;
+            bookerName?: string;
+            genderCount: {
+                count: number;
+                gender?: Gender; // PricingType === "ROOM" 인 경우에는 undefined임...
+            };
+        }
+    ): Array<InstanceType<GuestSchema>> {
+        let i = 0;
+        const result: Array<InstanceType<GuestSchema>> = [];
+        while (i < genderCount.count) {
+            result.push(
+                new GuestModel(
+                    removeUndefined({
+                        booker: new Types.ObjectId(this.booker),
+                        house: new Types.ObjectId(this.house),
+                        roomType: new Types.ObjectId(this.roomType),
+                        booking: new Types.ObjectId(this._id),
+                        name: this.name,
+                        start: new Date(this.start),
+                        end: new Date(this.end),
+                        pricingType: this.pricingType,
+                        gender: genderCount.gender
+                    })
+                )
+            );
+            i++;
+        }
+        return result;
     }
   })
   discountedPrice: number;

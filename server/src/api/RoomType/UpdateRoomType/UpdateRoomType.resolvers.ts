@@ -23,30 +23,27 @@ const resolver: Resolvers = {
                 try {
                     const existingRoomType: InstanceType<RoomTypeSchema> =
                         context.existingRoomType;
-                    if (existingRoomType) {
-                        await existingRoomType.update(
-                            { ...args },
-                            {
-                                new: true
-                            }
-                        );
-                        const roomType = await extractRoomType(
-                            existingRoomType
-                        );
-                        return {
-                            ok: true,
-                            error: null,
-                            roomType: {
-                                ...roomType
-                            }
-                        };
-                    } else {
+                    if (!existingRoomType) {
                         return {
                             ok: false,
                             error: "Invalid RoomTypeId",
                             roomType: null
                         };
                     }
+                    await existingRoomType.update(
+                        { ...args },
+                        {
+                            new: true
+                        }
+                    );
+                    return {
+                        ok: true,
+                        error: null,
+                        roomType: await extractRoomType.bind(
+                            extractRoomType,
+                            existingRoomType
+                        )
+                    };
                 } catch (error) {
                     return {
                         ok: false,
