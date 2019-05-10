@@ -26,7 +26,8 @@ const resolver: Resolvers = {
                         };
                     }
                     const room = await roomType.createRoomInstance({
-                        withSave: true
+                        withSave: true,
+                        name
                     });
                     return {
                         ok: true,
