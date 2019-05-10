@@ -142,10 +142,13 @@ export class RoomTypeSchema extends Typegoose {
     @instanceMethod
     async createRoomInstance(
         this: InstanceType<RoomTypeSchema>,
-        { withSave }: { withSave: boolean } = { withSave: false }
+        { withSave, name }: { withSave: boolean; name: string } = {
+            withSave: false,
+            name: this.name
+        }
     ): Promise<InstanceType<RoomSchema>> {
         const room = new RoomModel({
-            name: this.name,
+            name,
             roomType: new Types.ObjectId(this._id),
             pricingType: this.pricingType,
             peopleCount: this.peopleCount,
