@@ -1,0 +1,8 @@
+type GetRoomTypeByIdResponse {
+    ok: Boolean!
+    error: String
+    roomType: RoomType
+}
+type Query {
+    GetRoomTypeById(roomTypeId: ID!): GetRoomTypeByIdResponse!
+}

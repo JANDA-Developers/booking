@@ -142,10 +142,7 @@ export class RoomTypeSchema extends Typegoose {
     @instanceMethod
     async createRoomInstance(
         this: InstanceType<RoomTypeSchema>,
-        { withSave, name }: { withSave: boolean; name: string } = {
-            withSave: false,
-            name: this.name
-        }
+        { withSave, name }: { withSave: boolean; name: string }
     ): Promise<InstanceType<RoomSchema>> {
         const room = new RoomModel({
             name,
@@ -212,7 +209,7 @@ export class RoomTypeSchema extends Typegoose {
             },
             {
                 $pull: {
-                    roomType: roomTypeObjId
+                    roomTypes: roomTypeObjId
                 }
             }
         );
@@ -221,6 +218,19 @@ export class RoomTypeSchema extends Typegoose {
             ok: true,
             error: null
         };
+    }
+
+    @instanceMethod
+    async updateThis(
+        this: InstanceType<RoomTypeSchema>,
+        args: {
+            peopleCount: number;
+            peopleCountMax: number;
+            defaultPrice: number;
+            description: string;
+        }
+    ) {
+        // TODO: 방 업데이트 로직 ㄱㄱ updateRoomType 로직도 같이 바꿔주기
     }
 
     @instanceMethod
