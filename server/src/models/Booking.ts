@@ -7,12 +7,12 @@ import {
   prop,
   Typegoose
 } from "typegoose";
-import { BookingStatusEnum } from "../types/enums";
-import { BookingStatus, Gender, PricingType } from "../types/graph";
-import { hashCode } from "../utils/hashCode";
-import { removeUndefined } from "../utils/objFuncs";
-import { GuestModel, GuestSchema } from "./Guest";
-import { PricingTypeEnum, RoomTypeModel } from "./RoomType";
+import {BookingStatusEnum} from "../types/enums";
+import {BookingStatus, Gender, PricingType} from "../types/graph";
+import {hashCode} from "../utils/hashCode";
+import {removeUndefined} from "../utils/objFuncs";
+import {GuestModel, GuestSchema} from "./Guest";
+import {PricingTypeEnum, RoomTypeModel} from "./RoomType";
 
 /**
  * Booking 스키마...
@@ -34,97 +34,39 @@ import { PricingTypeEnum, RoomTypeModel } from "./RoomType";
   }
 })
 export class BookingSchema extends Typegoose {
-    @prop({ required: true })
-    house: Types.ObjectId;
+  @prop({required: true})
+  house: Types.ObjectId;
 
-    @prop({ required: true })
-    booker: Types.ObjectId;
+  @prop({required: true})
+  booker: Types.ObjectId;
 
-    @prop()
-    name: string; // bookerName
+  @prop()
+  name: string; // bookerName
 
-    @prop({ required: true })
-    roomType: Types.ObjectId;
+  @prop({required: true})
+  roomType: Types.ObjectId;
 
-    @prop({ enum: PricingTypeEnum })
-    pricingType: PricingType;
+  @prop({enum: PricingTypeEnum})
+  pricingType: PricingType;
 
-    @arrayProp({ items: Types.ObjectId, default: [] })
-    guests: Types.ObjectId[];
+  @arrayProp({items: Types.ObjectId, default: []})
+  guests: Types.ObjectId[];
 
-    @prop()
-    bookingId: string;
+  @prop()
+  bookingId: string;
 
-    @prop({ default: 0 })
-    price: number;
+  @prop({default: 0})
+  price: number;
 
-    @prop({ required: true })
-    start: Date;
+  @prop({required: true})
+  start: Date;
 
-    @prop({ required: true })
-    end: Date;
+  @prop({required: true})
+  end: Date;
 
-    @prop({
-        default(this: BookingSchema) {
-            return this.price;
-        }
-    })
-    discountedPrice: number;
-
-    @prop({
-        enum: BookingStatusEnum,
-        default: BookingStatusEnum.COMPLETE
-    })
-    bookingStatus: BookingStatus;
-
-    @prop({
-        default(this: InstanceType<BookingSchema>) {
-            return this.guests.length;
-        }
-    })
-    guestCount: number;
-
-    @prop()
-    createdAt: Date;
-
-    @prop()
-    updatedAt: Date;
-
-    @instanceMethod
-    createGuestInstances(
-        this: InstanceType<BookingSchema>,
-        {
-            genderCount
-        }: {
-            pricingType?: PricingType;
-            bookerName?: string;
-            genderCount: {
-                count: number;
-                gender?: Gender; // PricingType === "ROOM" 인 경우에는 undefined임...
-            };
-        }
-    ): Array<InstanceType<GuestSchema>> {
-        let i = 0;
-        const result: Array<InstanceType<GuestSchema>> = [];
-        while (i < genderCount.count) {
-            result.push(
-                new GuestModel(
-                    removeUndefined({
-                        booker: new Types.ObjectId(this.booker),
-                        house: new Types.ObjectId(this.house),
-                        roomType: new Types.ObjectId(this.roomType),
-                        booking: new Types.ObjectId(this._id),
-                        name: this.name,
-                        start: new Date(this.start),
-                        end: new Date(this.end),
-                        pricingType: this.pricingType,
-                        gender: genderCount.gender
-                    })
-                )
-            );
-            i++;
-        }
-        return result;
+  @prop({
+    default(this: BookingSchema) {
+      return this.price;
     }
   })
   discountedPrice: number;
@@ -149,11 +91,9 @@ export class BookingSchema extends Typegoose {
   updatedAt: Date;
 
   @instanceMethod
-  async createGuestInstances(
+  createGuestInstances(
     this: InstanceType<BookingSchema>,
     {
-      pricingType,
-      bookerName,
       genderCount
     }: {
       pricingType?: PricingType;
@@ -163,20 +103,8 @@ export class BookingSchema extends Typegoose {
         gender?: Gender; // PricingType === "ROOM" 인 경우에는 undefined임...
       };
     }
-  ): Promise<Array<InstanceType<GuestSchema>>> {
+  ): Array<InstanceType<GuestSchema>> {
     let i = 0;
-    let pt = pricingType;
-    if (!pt) {
-      const roomType = await RoomTypeModel.findById(this.roomType, {
-        pricingType: true
-      });
-      if (!roomType) {
-        throw new Error("치명적 에러... 존재하지 않는 RoomType");
-      }
-      pt = roomType.pricingType;
-    }
-    const booker = await BookerModel.findById(this.booker);
-    const name = bookerName || (booker && booker.name);
     const result: Array<InstanceType<GuestSchema>> = [];
     while (i < genderCount.count) {
       result.push(
@@ -186,10 +114,10 @@ export class BookingSchema extends Typegoose {
             house: new Types.ObjectId(this.house),
             roomType: new Types.ObjectId(this.roomType),
             booking: new Types.ObjectId(this._id),
-            name,
+            name: this.name,
             start: new Date(this.start),
             end: new Date(this.end),
-            pricingType: pt,
+            pricingType: this.pricingType,
             gender: genderCount.gender
           })
         )
