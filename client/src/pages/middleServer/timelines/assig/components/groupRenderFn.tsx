@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
-import { IGroup } from '../AssigTimelineWrap';
+import React, { useState, useEffect } from 'react';
+import { IAssigGroup } from '../AssigTimelineWrap';
 import { ASSIGT_IMELINE_HEIGHT } from '../../timelineConfig';
 import { PricingType } from '../../../../../types/enum';
 
 let LAST_ROOMTYPE = 'unRendered';
 let LAST_ROOM = 'unRendered';
 
+// ⭐️👿 인터페이스 네임스페이스 제작 https://stackoverflow.com/questions/12737942/does-typescript-support-namespace
 interface IRenderGroupProps {
-  group: IGroup;
+  group: IAssigGroup;
 }
 
 const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({ group }) => {
@@ -35,6 +36,11 @@ const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({ group }) => {
   if (LAST_ROOM === group.roomId) renderRoom = false;
   else LAST_ROOM = group.roomId;
 
+  useEffect(() => {
+    LAST_ROOMTYPE = 'unRendered';
+    LAST_ROOM = 'unRendered';
+  }, []);
+
   return (
     <div>
       <div className="assigGroups custom-group">
@@ -44,19 +50,18 @@ const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({ group }) => {
             {group.roomType.name}
           </div>
         )}
-        {/* 방 */}
         {renderRoom && (
           <div
             className={`assigGroups__room ${
               isDomitory ? 'assigGroups__room--domitory' : 'assigGroups__room--roomType'
-            }`}
+            }${group.isLastOfRoomType && 'assigGroups__room--last'}`}
             style={roomStyle}
           >
             {group.title}
           </div>
         )}
         {isDomitory && (
-          <div className="assigGroups__place title">
+          <div className={`assigGroups__place title ${group.isLastOfRoom && 'assigGroups__place--last'}`}>
             <span className="assigGroups__placeIn">{group.placeIndex}</span>
           </div>
         )}

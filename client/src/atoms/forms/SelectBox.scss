@@ -125,6 +125,7 @@
       &__menu {
         border-radius: $select-menue-radius;
         margin: 0;
+        width: auto;
         @extend %z-depth-1;
       }
 
@@ -139,6 +140,8 @@
         height: $select-option-height;
         padding: $select-option-padding;
         line-height: $select-option-height;
+        width: auto;
+        white-space: pre;
         &--is-focused {
           background-color: $select-option-hover-bgcolor;
         }

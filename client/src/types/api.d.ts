@@ -3,6 +3,49 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: getRoomTypeById
+// ====================================================
+
+export interface getRoomTypeById_GetRoomTypeById_roomType {
+  __typename: "RoomType";
+  _id: string;
+  name: string;
+  pricingType: PricingType;
+  peopleCount: number;
+  peopleCountMax: number;
+  index: number;
+  roomCount: number;
+  roomGender: RoomGender;
+  img: any | null;
+  description: string | null;
+  /**
+   * 일괄적으로 적용되는 기본 방 가격... RoomPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
+   */
+  defaultPrice: number | null;
+  createdAt: any;
+  updatedAt: any | null;
+}
+
+export interface getRoomTypeById_GetRoomTypeById {
+  __typename: "GetRoomTypeByIdResponse";
+  ok: boolean;
+  error: string | null;
+  roomType: getRoomTypeById_GetRoomTypeById_roomType | null;
+}
+
+export interface getRoomTypeById {
+  GetRoomTypeById: getRoomTypeById_GetRoomTypeById;
+}
+
+export interface getRoomTypeByIdVariables {
+  roomTypeId: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: getAllProductTypes
 // ====================================================
 
@@ -941,6 +984,7 @@ export interface createRoomTypeVariables {
   peopleCount: number;
   peopleCountMax?: number | null;
   description?: string | null;
+  defaultPrice: number;
   tags?: TagInput[] | null;
   img?: any | null;
   roomGender?: RoomGender | null;

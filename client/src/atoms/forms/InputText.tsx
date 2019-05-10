@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import JDicon, { IconSize, IIcons } from '../icons/Icons';
 import ErrProtecter from '../../utils/ErrProtecter';
-import autoHyphen from '../../utils/AutoHyphen';
+import autoHyphen, { numberStr, stringToNumber } from '../../utils/AutoHyphen';
 import { NEUTRAL } from '../../types/enum';
 import { getByteLength } from '../../utils/math';
 import { autoComma } from '../../utils/utils';
@@ -34,7 +34,7 @@ interface IProps extends React.HTMLAttributes<HTMLInputElement> {
   onBlur?: any;
   refContainer?: any;
   isValid?: any;
-  value?: string | null;
+  value?: string | null | number;
   max?: number;
   defaultValue?: string;
   // 컨트롤 일때만 작동함
@@ -87,7 +87,16 @@ const InputText: React.FC<IProps> = ({
   const inHandleChange = (event: any) => {
     const { target } = event;
     const result = validation(target.value, max);
-    onChange && onChange(target.value);
+    if (onChange) {
+      if (hyphen || comma) {
+        if (typeof value === 'number') {
+          onChange(stringToNumber(target.value));
+        } else {
+          onChange(numberStr(target.value));
+        }
+      } else onChange(target.value);
+    }
+
     onChangeValid(result);
 
     if (!value && (hyphen || comma)) {
@@ -150,7 +159,7 @@ const InputText: React.FC<IProps> = ({
     <div className="JDinput-wrap">
       <textarea
         disabled={disabled}
-        value={value || undefined}
+        value={formatedValue || undefined}
         onChange={inHandleChange}
         onBlur={onBlur}
         id="JDtextarea"
@@ -161,7 +170,7 @@ const InputText: React.FC<IProps> = ({
       <label htmlFor="JDtextarea" className="JDtextarea_label">
         {label}
       </label>
-      {byte && <span className="JDtextarea__byte">{getByteLength(value || undefined)}</span>}
+      {byte && <span className="JDtextarea__byte">{getByteLength(formatedValue || undefined)}</span>}
     </div>
   );
 };

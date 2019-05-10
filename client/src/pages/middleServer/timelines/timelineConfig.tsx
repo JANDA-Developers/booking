@@ -5,6 +5,7 @@ import { defaultHeaderLabelFormats, defaultSubHeaderLabelFormats } from '../../.
 import generateFakeData from './components/timeline_fakedata';
 import groupRendererFn from './components/groupRender';
 import itemRendererFn from './components/itemRender';
+import { IAssigGroup } from './assig/AssigTimelineWrap';
 
 // 변수설정
 const ASSIGT_IMELINE_HEIGHT = 30;
@@ -98,6 +99,13 @@ const assigDefaultProps = {
   itemHeightRatio: 1,
   showCursorLine: true,
   lineHeight: ASSIGT_IMELINE_HEIGHT,
+  horizontalLineClassNamesForGroup: (group: IAssigGroup) => {
+    const groupClasses = ['group'];
+    console.log(group);
+    group.isLastOfRoom && groupClasses.push('group--lastOfRoom');
+    group.isLastOfRoomType && groupClasses.push('group--lastOfRoomType');
+    return groupClasses;
+  },
 };
 
 // ModifyTimeline 으로 전달될 객체

@@ -101,10 +101,10 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
               roomTypesData={roomTypesData}
             />
             <RoomTypeModal
+              houseId={selectedHouse._id}
               refetchRoomData={refetchRoomData}
-              selectedHouseId={selectedHouse._id}
               modalHook={roomTypeModalHook}
-              roomData={roomTypesData}
+              key={roomTypeModalHook.info.roomTypeId}
             />
             <RoomModal
               selectedHouseId={selectedHouse._id}

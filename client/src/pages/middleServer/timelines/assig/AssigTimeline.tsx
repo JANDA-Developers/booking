@@ -2,19 +2,19 @@ import moment from 'moment';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import 'moment/locale/ko';
-import DayPicker from '../../../../atoms/dayPicker/DayPicker';
-import Timeline from '../../../../atoms/timeline/Timeline';
+import JDdayPicker from '../../../../atoms/dayPicker/DayPicker';
+import Timeline, { TimelineHeaders, SidebarHeader, DateHeader } from '../../../../atoms/timeline/Timeline';
 import ErrProtecter from '../../../../utils/ErrProtecter';
 import Button from '../../../../atoms/button/Button';
 import BookerModal from '../../../../components/bookerInfo/BookerModal';
-import { IUseDayPicker, useModal, useDayPicker } from '../../../../actions/hook';
+import { IUseDayPicker, useModal } from '../../../../actions/hook';
 import { initItems, initGroups } from '../timelineConfig';
-import { IGroup, IAssigItem } from './AssigTimelineWrap';
+import { IAssigGroup, IAssigItem } from './AssigTimelineWrap';
 import assigGroupRendererFn from './components/groupRenderFn';
-import { IRoomType, IGuests } from '../../../../types/interface';
+import { IRoomType } from '../../../../types/interface';
 import Preloader from '../../../../atoms/preloader/Preloader';
 import './AssigTimeline.scss';
-import { setMidNight } from '../../../../utils/utils';
+import JDIcon, { IconSize } from '../../../../atoms/icons/Icons';
 
 moment.lang('kr');
 let timer: null | number = null; // timer required to reset
@@ -24,7 +24,7 @@ interface IProps {
   defaultProps: any;
   setConfigMode: any;
   dayPickerHook: IUseDayPicker;
-  roomData: IGroup[];
+  roomData: IAssigGroup[];
   loading: boolean;
   //  디프리 될수도
   roomTypesData: IRoomType[];
@@ -38,7 +38,6 @@ const ShowTimeline: React.SFC<IProps> = ({
   setConfigMode,
   defaultProps,
   roomData,
-  roomTypesData,
   loading,
   guestsData,
   defaultTimeStart,
@@ -111,15 +110,11 @@ const ShowTimeline: React.SFC<IProps> = ({
           {loading && <Preloader />}
         </h3>
         <div className="flex-grid flex-grid--end">
-          <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
-            <DayPicker {...dayPickerHook} input label="달력날자" isRange={false} />
-          </div>
           <Link to="/middleServer/timelineConfig">
             <Button float="right" onClick={setConfigMode} icon="roomChange" label="방구조 변경" />
           </Link>
         </div>
         <Timeline
-          {...defaultProps}
           onItemMove={handleItemMove}
           onItemResize={handleItemResize}
           items={guestsData}
@@ -129,14 +124,37 @@ const ShowTimeline: React.SFC<IProps> = ({
             if (timeStart < new Date().getTime()) return ['verticalLine', 'verticalLine--past'];
             return ['verticalLine'];
           }}
-          horizontalLineClassNamesForGroup={(group: any) => ['group']}
+          {...defaultProps}
           onItemDoubleClick={handleItemDoubleClick}
           onCanvasDoubleClick={handleCanvasDoubleClick}
           onTimeChange={handleTimeChange}
           groupRenderer={assigGroupRendererFn}
           defaultTimeEnd={defaultTimeEnd}
           defaultTimeStart={defaultTimeStart}
-        />
+        >
+          <TimelineHeaders>
+            <SidebarHeader>
+              {({ getRootProps }: any) => (
+                <div {...getRootProps()}>
+                  <JDdayPicker
+                    isRange={false}
+                    input
+                    canSelectBeforeDays={false}
+                    label="달력날자"
+                    {...dayPickerHook}
+                    inputComponent={(
+                      <span>
+                        <JDIcon className="specificPrice__topLeftIcon" size={IconSize.MEDEIUM_SMALL} icon="calendar" />
+                      </span>
+                    )}
+                  />
+                </div>
+              )}
+            </SidebarHeader>
+            <DateHeader unit="primaryHeader" />
+            <DateHeader />
+          </TimelineHeaders>
+        </Timeline>
         <BookerModal bookerInfo={undefined} modalHook={bookerModal} />
       </div>
     </div>

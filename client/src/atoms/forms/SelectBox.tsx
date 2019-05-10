@@ -49,6 +49,7 @@ const JDselect: React.SFC<Iprops> = ({
   // eslint-disable-next-line no-unused-vars
   ...props
 }) => {
+  // 👿 이거 ㅇefaultValue랑 selectedOption이랑 많이 햇갈림ㅠㅠ
   // placeHolder 가 보일려면 value 는 undefined 여야 합니다.
   let validSelectedOption;
   if (selectedOption && selectedOption.value === undefined) validSelectedOption = undefined;

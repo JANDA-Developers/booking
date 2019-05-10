@@ -15,7 +15,7 @@ import AssigTimeline from './AssigTimeline';
 import { assigDefaultProps } from '../timelineConfig';
 import { setYYYYMMDD } from '../../../../utils/setMidNight';
 
-export interface IGroup {
+export interface IAssigGroup {
   id: string;
   title: string;
   roomTypeId: string;
@@ -24,6 +24,8 @@ export interface IGroup {
   roomType: IRoomType;
   roomId: string;
   placeIndex: number;
+  isLastOfRoom: boolean;
+  isLastOfRoomType: boolean;
 }
 
 export interface IAssigItem {
@@ -75,6 +77,8 @@ const AssigTimelineWrap: React.SFC<IProps> = ({ houseId }) => {
   // 게스트 데이터를 달력에서 쓸수있는 Item 데이터로 변경 절차
   const guestsDataManufacture = (guestsData: IGuests[] | null | undefined = []) => {
     const alloCateItems: IAssigItem[] = [];
+    console.log('guestData');
+    console.log(guestsData);
     if (!guestsData) return alloCateItems;
 
     guestsData.forEach((guestData) => {
@@ -90,7 +94,6 @@ const AssigTimelineWrap: React.SFC<IProps> = ({ houseId }) => {
       // 배정확정에 관해서는 말로 설명하는게 옳다.
 
       // 👿 애초에 null 이 아니여야하는거 아님?
-
       if (guestData && guestData.booking && guestData.roomType && guestData.allocatedRoom) {
         alloCateItems.push({
           id: guestData._id,
@@ -112,7 +115,7 @@ const AssigTimelineWrap: React.SFC<IProps> = ({ houseId }) => {
   //  TODO: 메모를 사용해서 데이터를 아끼자
   // 룸 데이타를 달력에서 사용할수있는 Group 데이터로 변경
   const roomDataManufacture = (roomTypeDatas: IRoomType[] | null | undefined = []) => {
-    const roomGroups: IGroup[] = [];
+    const roomGroups: IAssigGroup[] = [];
 
     if (!roomTypeDatas) return roomGroups;
 
@@ -125,7 +128,7 @@ const AssigTimelineWrap: React.SFC<IProps> = ({ houseId }) => {
       if (!isEmpty(rooms)) {
         // 🏠 방타입일 경우
         if (roomTypeData.pricingType === 'ROOM') {
-          rooms.map((room) => {
+          rooms.map((room, index) => {
             roomGroups.push({
               id: room._id,
               title: room.name,
@@ -135,14 +138,16 @@ const AssigTimelineWrap: React.SFC<IProps> = ({ houseId }) => {
               roomType: roomTypeData,
               roomId: room._id,
               placeIndex: -1,
+              isLastOfRoom: true,
+              isLastOfRoomType: roomTypeData.roomCount === index,
             });
           });
         }
 
         // 🛌 베드타입일경우
         if (roomTypeData.pricingType === 'DOMITORY') {
-          rooms.map((room) => {
-            for (let i = 0; roomTypeData.peopleCount > i; i += 1) {
+          rooms.map((room, index) => {
+            for (let i = 1; roomTypeData.peopleCount >= i; i += 1) {
               roomGroups.push({
                 id: room._id + i,
                 title: room.name,
@@ -151,7 +156,9 @@ const AssigTimelineWrap: React.SFC<IProps> = ({ houseId }) => {
                 roomIndex: room.index,
                 roomType: roomTypeData,
                 roomId: room._id,
-                placeIndex: i + 1,
+                placeIndex: i,
+                isLastOfRoom: roomTypeData.peopleCount === i,
+                isLastOfRoomType: roomTypeData.roomCount === index + 1 && roomTypeData.peopleCount === i,
               });
             }
           });
@@ -174,6 +181,9 @@ const AssigTimelineWrap: React.SFC<IProps> = ({ houseId }) => {
     >
       {({ data, loading, error }) => {
         showError(error);
+        console.log(data);
+        console.log(data);
+        console.log(data);
         const roomTypesData = QueryDataFormater(data, 'GetAllRoomType', 'roomTypes', undefined); // 원본데이터
         const guestsData = QueryDataFormater(data, 'GetGuests', 'guests', undefined); // 원본데이터
         const formatedRoomData = roomDataManufacture(roomTypesData); // 타임라인을 위해 가공된 데이터
@@ -190,7 +200,7 @@ const AssigTimelineWrap: React.SFC<IProps> = ({ houseId }) => {
             roomTypesData={roomTypesData || []}
             defaultTimeStart={defaultStartDate}
             defaultTimeEnd={defaultEndDate}
-            key={`defaultTime${defaultStartDate}${defaultEndDate}`}
+            key={`timeline${defaultStartDate}${defaultEndDate}`}
           />
         );
       }}

@@ -78,6 +78,29 @@ const F_USER_INFO = gql`
 // 프로덕트 UI와  DB의 정보 싱크는 수동으로 맞추세요.
 // 상품 모두 가져오기
 // eslint-disable-next-line camelcase
+
+export const GET_ROOMTYPE_BY_ID = gql`
+  query getRoomTypeById($roomTypeId: ID!) {
+    GetRoomTypeById(roomTypeId: $roomTypeId) {
+      ok
+      error
+      roomType {
+        name
+        pricingType
+        peopleCount
+        peopleCountMax
+        index
+        roomGender
+        img
+        description
+        defaultPrice
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+
 export const GET_All_PRODUCTS_TYPES = gql`
   query getAllProductTypes {
     GetAllProductTypes {
@@ -574,6 +597,7 @@ export const CREATE_ROOMTYPE = gql`
     $peopleCount: Int!
     $peopleCountMax: Int
     $description: String
+    $defaultPrice: Float!
     $tags: [TagInput!]
     $img: URL
     $roomGender: RoomGender
@@ -585,6 +609,7 @@ export const CREATE_ROOMTYPE = gql`
       peopleCount: $peopleCount
       peopleCountMax: $peopleCountMax
       description: $description
+      defaultPrice: $defaultPrice
       roomGender: $roomGender
       tags: $tags
       img: $img
