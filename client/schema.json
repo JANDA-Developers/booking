@@ -5446,6 +5446,22 @@
         "description": "",
         "fields": [
           {
+            "name": "roomId",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "roomGender",
             "description": "",
             "args": [],
@@ -9657,7 +9673,7 @@
             "defaultValue": null
           },
           {
-            "name": "guest",
+            "name": "guestInputs",
             "description": "",
             "type": {
               "kind": "NON_NULL",
@@ -9853,7 +9869,7 @@
             "defaultValue": null
           },
           {
-            "name": "count",
+            "name": "countFemaleGuest",
             "description": "",
             "type": {
               "kind": "NON_NULL",
@@ -9867,19 +9883,29 @@
             "defaultValue": null
           },
           {
-            "name": "genders",
+            "name": "countMaleGuest",
             "description": "",
             "type": {
-              "kind": "LIST",
+              "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "ENUM",
-                  "name": "Gender",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "countRoom",
+            "description": "",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
               }
             },
             "defaultValue": null
@@ -9923,8 +9949,8 @@
             "deprecationReason": null
           },
           {
-            "name": "booking",
-            "description": "리턴타입 검토중. ",
+            "name": "bookings",
+            "description": "리턴타입 검토중.",
             "args": [],
             "type": {
               "kind": "LIST",

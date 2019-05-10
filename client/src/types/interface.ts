@@ -1,5 +1,4 @@
 import {
-  getMyProfile_GetMyProfile_user_houses,
   getMyProfile_GetMyProfile_user,
   getHouse_GetHouse_house,
   getHouse_GetHouse_house_product,
@@ -7,11 +6,9 @@ import {
   getBookers_GetBookers_bookers,
   getBookers_GetBookers_bookers_bookings,
   getAllRoomTypeWithGuest_GetGuests_guests,
-  getAvailableGuestCount_GetAvailableGuestCount_roomCapacity,
-} from '../types/api';
+} from './api';
 import { IselectedOption } from '../atoms/forms/SelectBox';
 
-export interface IRoomCapacity extends getAvailableGuestCount_GetAvailableGuestCount_roomCapacity {}
 export interface IProduct extends getHouse_GetHouse_house_product {}
 export interface IUser extends getMyProfile_GetMyProfile_user {}
 export interface IHouse extends getHouse_GetHouse_house {}
@@ -46,5 +43,5 @@ export interface ISelectHouse {
   erorr: any;
 }
 export interface ISelectHouseVariables {
-  selectedHouse: IselectedOption;
+  selectedHouse: IselectedOption | null;
 }

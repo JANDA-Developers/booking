@@ -33,7 +33,7 @@ const SelectHouseWrap: React.SFC<IProps> = ({ houses = [], selectedHouse }) => {
     <SelectHouseMutation
       onError={onError}
       mutation={SELECT_HOUSE}
-      variables={{ selectedHouse: selectedHouseHook.selectedOption }}
+      variables={{ selectedHouse: selectedHouseHook.selectedOption && selectedHouseHook.selectedOption }}
     >
       {selectHouseMu => (
         <SelectHouse selectHouseMu={selectHouseMu} options={houseOptions} selectedHouseHook={selectedHouseHook} />

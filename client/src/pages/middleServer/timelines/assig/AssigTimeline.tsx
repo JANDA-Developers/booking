@@ -2,18 +2,19 @@ import moment from 'moment';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import 'moment/locale/ko';
-import DayPicker from '../../../../components/dayPicker/DayPicker';
-import Timeline from '../../../../components/timeline/Timeline';
+import DayPicker from '../../../../atoms/dayPicker/DayPicker';
+import Timeline from '../../../../atoms/timeline/Timeline';
 import ErrProtecter from '../../../../utils/ErrProtecter';
 import Button from '../../../../atoms/button/Button';
 import BookerModal from '../../../../components/bookerInfo/BookerModal';
-import { IUseDayPicker, useModal } from '../../../../actions/hook';
+import { IUseDayPicker, useModal, useDayPicker } from '../../../../actions/hook';
 import { initItems, initGroups } from '../timelineConfig';
 import { IGroup, IAssigItem } from './AssigTimelineWrap';
 import assigGroupRendererFn from './components/groupRenderFn';
 import { IRoomType, IGuests } from '../../../../types/interface';
 import Preloader from '../../../../atoms/preloader/Preloader';
 import './AssigTimeline.scss';
+import { setMidNight } from '../../../../utils/utils';
 
 moment.lang('kr');
 let timer: null | number = null; // timer required to reset
@@ -28,6 +29,8 @@ interface IProps {
   //  디프리 될수도
   roomTypesData: IRoomType[];
   guestsData: IAssigItem[];
+  defaultTimeStart: number;
+  defaultTimeEnd: number;
 }
 
 const ShowTimeline: React.SFC<IProps> = ({
@@ -38,18 +41,11 @@ const ShowTimeline: React.SFC<IProps> = ({
   roomTypesData,
   loading,
   guestsData,
+  defaultTimeStart,
+  defaultTimeEnd,
 }) => {
   const bookerModal = useModal(false);
   const [items, setItems] = useState(initItems);
-  const [visibleTime, setVisibleTime] = useState({
-    start: moment()
-      .startOf('day')
-      .toDate(),
-    end: moment()
-      .startOf('day')
-      .add(7, 'day')
-      .toDate(),
-  });
 
   const handleItemDoubleClick = (itemId: any, e: any, time: any) => {
     // 퍼포먼스 향상을 위해서라면 ID 는 인덱스여야한다?
@@ -116,7 +112,7 @@ const ShowTimeline: React.SFC<IProps> = ({
         </h3>
         <div className="flex-grid flex-grid--end">
           <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
-            <DayPicker {...dayPickerHook} input label="input" isRange={false} />
+            <DayPicker {...dayPickerHook} input label="달력날자" isRange={false} />
           </div>
           <Link to="/middleServer/timelineConfig">
             <Button float="right" onClick={setConfigMode} icon="roomChange" label="방구조 변경" />
@@ -138,6 +134,8 @@ const ShowTimeline: React.SFC<IProps> = ({
           onCanvasDoubleClick={handleCanvasDoubleClick}
           onTimeChange={handleTimeChange}
           groupRenderer={assigGroupRendererFn}
+          defaultTimeEnd={defaultTimeEnd}
+          defaultTimeStart={defaultTimeStart}
         />
         <BookerModal bookerInfo={undefined} modalHook={bookerModal} />
       </div>

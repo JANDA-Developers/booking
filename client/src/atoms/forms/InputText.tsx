@@ -5,10 +5,10 @@ import './InputText.scss';
 import './Textarea.scss';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import JDicon, { IconSize } from '../icons/Icons';
+import JDicon, { IconSize, IIcons } from '../icons/Icons';
 import ErrProtecter from '../../utils/ErrProtecter';
 import autoHyphen from '../../utils/AutoHyphen';
-import { NEUTRAL } from '../../types/apiEnum';
+import { NEUTRAL } from '../../types/enum';
 import { getByteLength } from '../../utils/math';
 import { autoComma } from '../../utils/utils';
 
@@ -22,7 +22,7 @@ interface IProps extends React.HTMLAttributes<HTMLInputElement> {
   label?: string;
   type?: string;
   dataError?: string;
-  icon?: string;
+  icon?: IIcons;
   iconHover?: boolean;
   iconOnClick?: any;
   dataSuccess?: string;
@@ -116,7 +116,7 @@ const InputText: React.FC<IProps> = ({
     let domInput;
     if (refContainer) domInput = refContainer.current;
     else domInput = inRefContainer.current;
-    if(typeof defaultValue === 'undefined') return;
+    if (typeof defaultValue === 'undefined') return;
     if (typeof defaultValue === 'string' || 'number') domInput.value = valueFormat(defaultValue);
   }, []);
 
@@ -125,7 +125,7 @@ const InputText: React.FC<IProps> = ({
   // 인풋 과 텍스트어리어 경계
   return !textarea ? (
     <div className="JDinput-wrap">
-      {icon !== '' ? (
+      {icon ? (
         <span className="JDinput-iconWrap">
           {icon && <JDicon size={IconSize.MEDIUM} onClick={iconOnClick} hover={iconHover} icon={icon} />}
         </span>
@@ -175,7 +175,6 @@ InputText.defaultProps = {
   label: '',
   type: '',
   dataError: '',
-  icon: '',
   dataSuccess: '',
   isValid: '',
   onChangeValid: () => {},

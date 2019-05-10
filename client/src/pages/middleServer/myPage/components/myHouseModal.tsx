@@ -37,7 +37,7 @@ const MyHouseModal: React.SFC<IProps> = ({
     loading ? (
       <Preloader />
     ) : (
-      <Modal isOpen={modalHook.isOpen} onRequestClose={modalHook.closeModal}>
+      <Modal {...modalHook}>
         {house && (
           <Fragment>
             <p>{house && house.name}</p>

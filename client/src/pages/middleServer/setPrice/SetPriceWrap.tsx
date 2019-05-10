@@ -2,7 +2,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { Fragment, useState } from 'react';
 import { Mutation, Query } from 'react-apollo';
-import { TimelineGroup } from 'react-calendar-timeline';
 import {
   getMyProfile_GetMyProfile_user_houses as IHouse,
   getAllSeason,

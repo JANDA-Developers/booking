@@ -20,7 +20,7 @@ import {
 } from '../../../../utils/utils';
 import {
   PricingType, PricingTypeKr, RoomGender, RoomGenderKr,
-} from '../../../../types/apiEnum';
+} from '../../../../types/enum';
 
 class CreateRoomTypeMutation extends Mutation<createRoomType, createRoomTypeVariables> {}
 class DeleteRoomTypeMutation extends Mutation<deleteRoomType, deleteRoomTypeVariables> {}

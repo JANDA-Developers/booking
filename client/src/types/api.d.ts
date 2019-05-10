@@ -340,7 +340,7 @@ export interface getGuestsVariables {
 // GraphQL query operation: getAvailableGuestCount
 // ====================================================
 
-export interface getAvailableGuestCount_GetAvailableGuestCount_roomCapacity {
+export interface getAvailableGuestCount_GetMale_roomCapacity {
   __typename: "RoomCapacity";
   roomGender: RoomGender;
   /**
@@ -350,23 +350,41 @@ export interface getAvailableGuestCount_GetAvailableGuestCount_roomCapacity {
   availableCount: number;
 }
 
-export interface getAvailableGuestCount_GetAvailableGuestCount {
+export interface getAvailableGuestCount_GetMale {
   __typename: "GetAvailableGuestCountResponse";
   ok: boolean;
   error: string | null;
-  roomCapacity: getAvailableGuestCount_GetAvailableGuestCount_roomCapacity | null;
+  roomCapacity: getAvailableGuestCount_GetMale_roomCapacity | null;
+}
+
+export interface getAvailableGuestCount_GetFemale_roomCapacity {
+  __typename: "RoomCapacity";
+  roomGender: RoomGender;
+  /**
+   * guestGender === null 이면 배정된 게스트 없는거...
+   */
+  guestGender: GuestGender | null;
+  availableCount: number;
+}
+
+export interface getAvailableGuestCount_GetFemale {
+  __typename: "GetAvailableGuestCountResponse";
+  ok: boolean;
+  error: string | null;
+  roomCapacity: getAvailableGuestCount_GetFemale_roomCapacity | null;
 }
 
 export interface getAvailableGuestCount {
-  GetAvailableGuestCount: getAvailableGuestCount_GetAvailableGuestCount;
+  GetMale: getAvailableGuestCount_GetMale;
+  GetFemale: getAvailableGuestCount_GetFemale;
 }
 
 export interface getAvailableGuestCountVariables {
   roomTypeId: string;
   start: any;
   end: any;
-  gender: Gender;
-  paddingOtherGenderCount: number;
+  femalePadding: number;
+  malePadding: number;
 }
 
 /* tslint:disable */
@@ -1646,7 +1664,7 @@ export interface BookingInput {
   booker: BookerInput;
   start: any;
   end: any;
-  guest: GuestPartInput[];
+  guestInputs: GuestPartInput[];
 }
 
 export interface DayOfWeekPriceInput {
@@ -1659,8 +1677,9 @@ export interface GuestPartInput {
   price: number;
   discountedPrice?: number | null;
   pricingType: PricingType;
-  count: number;
-  genders?: Gender[] | null;
+  countFemaleGuest: number;
+  countMaleGuest: number;
+  countRoom: number;
 }
 
 export interface LocationInput {

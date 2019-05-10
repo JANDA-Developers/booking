@@ -37,13 +37,7 @@ const ExperienceModal: React.FC<IProps> = ({ modalHook }) => {
   };
 
   return (
-    <Modal
-      appElement={document.getElementById('root')}
-      center
-      className="products__experience"
-      onRequestClose={modalHook.closeModal}
-      isOpen={modalHook.isOpen}
-    >
+    <Modal center className="products__experience" {...modalHook}>
       <div>
         <h5>JANDA 무료 체험하기</h5>
         <h6>이용 메뉴얼</h6>

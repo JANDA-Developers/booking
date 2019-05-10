@@ -6,7 +6,7 @@ import SelectBox, { IselectedOption } from '../../../../atoms/forms/SelectBox';
 import InputText from '../../../../atoms/forms/InputText';
 import Button from '../../../../atoms/button/Button';
 import JDLabel from '../../../../atoms/label/JDLabel';
-import ImageUploader from '../../../../components/imageUploader/ImageUploader';
+import ImageUploader from '../../../../atoms/imageUploader/ImageUploader';
 import {
   PricingType,
   RoomGender,
@@ -15,7 +15,7 @@ import {
   MAX_PEOPLE_COUNT_OP_FN,
   ROOM_GENDER_OP,
   PRICING_TYPE_OP,
-} from '../../../../types/apiEnum';
+} from '../../../../types/enum';
 
 interface IProps {
   createRoomTypeMutation: any;
@@ -90,11 +90,10 @@ const RoomTypeModal: React.SFC<IProps> = ({
 
   return (
     <Modal
-      onRequestClose={modalHook.closeModal}
       overlayClassName="Overlay"
-      isOpen={modalHook.isOpen}
       center={false} // 이거 제거 필요
       className="Modal"
+      {...modalHook}
       style={{
         content: {
           maxWidth: '600px',

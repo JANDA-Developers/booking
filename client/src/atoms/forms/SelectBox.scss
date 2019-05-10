@@ -85,6 +85,7 @@
         width: calc(100% - #{$standard-side-padding});
         margin: 0;
       }
+      
 
       //아이콘 이전 라인
       &__indicator {
@@ -194,4 +195,12 @@
       }
     }
   }
+
+  &--textOverflowVisible {
+    .react-select__placeholder,
+    .react-select__single-value {
+      overflow:visible!important;
+    }
+  }
 }
+

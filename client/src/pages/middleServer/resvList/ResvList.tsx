@@ -14,7 +14,7 @@ import BookerModalWrap from '../../../components/bookerInfo/BookerModalWrap';
 import { IPageInfo, IBooker, IBooking } from '../../../types/interface';
 import JDbox from '../../../atoms/box/JDbox';
 import { arraySum } from '../../../utils/math';
-import { setMyForm } from '../../../utils/setMidNight';
+import { setYYYYMMDD } from '../../../utils/setMidNight';
 
 interface IProps {
   pageInfo: IPageInfo | undefined;
@@ -49,7 +49,7 @@ const ResvList: React.SFC<IProps> = ({ pageInfo, bookersData, loading }) => {
     {
       Header: '예약일자',
       accessor: 'createdAt',
-      Cell: ({ value }: CellInfo) => <div>{setMyForm(value.createdAt)}</div>,
+      Cell: ({ value }: CellInfo) => <div>{setYYYYMMDD(value.createdAt)}</div>,
     },
     {
       Header: '숙박정보',
@@ -72,9 +72,9 @@ const ResvList: React.SFC<IProps> = ({ pageInfo, bookersData, loading }) => {
         const bookings: IBooking[] = value;
         return (
           <div>
-            {setMyForm(bookings[0].start)}
+            {setYYYYMMDD(bookings[0].start)}
             <br />
-            {setMyForm(bookings[0].end)}
+            {setYYYYMMDD(bookings[0].end)}
           </div>
         );
       },

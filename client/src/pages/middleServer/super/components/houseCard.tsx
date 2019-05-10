@@ -34,7 +34,7 @@ const HouseCard: React.SFC<IProps> = ({ userModal, houseData }) => {
         onClick={() => {
           userModal.openModal({ userId: houseData.user._id });
         }}
-        small
+        size="small"
         className="houseCard__profile"
       />
       <div className="houseCard__gird flex-grid">

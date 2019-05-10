@@ -19,6 +19,31 @@
 
     &-box {
         position: relative;
+        &--inputComponent {
+            display: inline-block;
+            .JDinput-wrap {
+                position:static;
+                opacity: 0;
+                padding:0;
+            }
+            .JDinput {
+                position:absolute;
+                top:0;
+                bottom: 0;
+                left:0;
+                right:0;
+                height:auto;
+            }
+            .JDinput_label {
+                display:none;
+            }
+            .JDinput-iconWrap {
+                display:none;
+            }
+            .DayPicker--input {
+                top:auto;
+            }
+        }
     }
 
     &-wrapper {
@@ -37,7 +62,7 @@
         border:none;
         border-radius: 0px 0px $daypicker-border-radius $daypicker-border-radius;
         min-width: 330px;
-    }
+    }    
 
     .JDbtn {
         margin-bottom: 0;

@@ -9,7 +9,7 @@ import Button from '../../../../atoms/button/Button';
 import JDTable, { ReactTableDefault } from '../../../../atoms/table/Table';
 import Icon from '../../../../atoms/icons/Icons';
 import utils, { isEmpty, stringToNumber } from '../../../../utils/utils';
-import JDdayPicker from '../../../../components/dayPicker/DayPicker';
+import JDdayPicker from '../../../../atoms/dayPicker/DayPicker';
 import Card from '../../../../atoms/cards/Card';
 import {
   IUseColor, useModal, useColorPicker, useDayPicker,
@@ -34,7 +34,7 @@ import { numberToStrings } from '../../../../utils/dayOfweeks';
 import { arraySum } from '../../../../utils/math';
 import { ITableValue } from './seasonTableWrap';
 import { IDefaultSeason } from '../SetPrice';
-import { setMyForm } from '../../../../utils/setMidNight';
+import { setYYYYMMDD } from '../../../../utils/setMidNight';
 import { JDtoastModal } from '../../../../atoms/modal/Modal';
 import JDselect, { IselectedOption } from '../../../../atoms/forms/SelectBox';
 
@@ -109,8 +109,8 @@ const SeasonModal: React.SFC<IProps> = ({
     const tempValueCopy = _.cloneDeep(tableValue);
 
     const tableValueCopy = _.assign(tempValueCopy, {
-      start: setMyForm(dayPickerHook.from),
-      end: setMyForm(dayPickerHook.to),
+      start: setYYYYMMDD(dayPickerHook.from),
+      end: setYYYYMMDD(dayPickerHook.to),
       color: colorHook.color,
     });
 

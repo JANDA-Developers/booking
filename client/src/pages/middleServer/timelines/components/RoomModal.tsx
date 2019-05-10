@@ -50,9 +50,8 @@ const RoomTypeModal: React.FC<IProps> = ({
 
   return (
     <Modal
-      onRequestClose={modalHook.closeModal}
+      {...modalHook}
       overlayClassName="Overlay"
-      isOpen={modalHook.isOpen}
       center={false} // 이거 제거 필요
       className="Modal"
       style={{

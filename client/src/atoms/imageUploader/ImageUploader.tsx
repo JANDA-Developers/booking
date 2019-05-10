@@ -2,12 +2,12 @@
 import React from 'react';
 import './ImageUploader.scss';
 import classnames from 'classnames';
-import Preloader from '../../atoms/preloader/Preloader';
+import Preloader from '../preloader/Preloader';
 import { IuseImageUploader } from '../../actions/hook';
 
 interface IProps extends IuseImageUploader {
   minHeight: string;
-  height: string;
+  height?: string;
   className?: any;
 }
 
@@ -17,7 +17,7 @@ const ImageUploader: React.SFC<IProps> = ({
   isError,
   onChangeFile,
   minHeight,
-  height,
+  height = '200px',
   ...props
 }) => {
   const classes = classnames('imageUploader', props && props.className, {

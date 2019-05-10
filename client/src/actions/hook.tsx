@@ -245,12 +245,12 @@ function useSwitch(defaultValue: boolean) {
 }
 
 export interface IUseSelect<V = any> {
-  selectedOption: IselectedOption<V>;
+  selectedOption: IselectedOption<V> | null;
   onChange(foo: IselectedOption<V>): void;
 }
 
 // 셀렉트박스 훅
-function useSelect<V = any>(defaultValue: IselectedOption<V>): IUseSelect<V> {
+function useSelect<V = any>(defaultValue: IselectedOption<V> | null): IUseSelect<V> {
   const [selectedOption, setSelectedOption] = useState(defaultValue);
 
   const onChange = (value: IselectedOption<V>) => {
@@ -271,15 +271,15 @@ function useToggle(defaultValue: any) {
   return [toggle, onClick];
 }
 
-export interface IUseModal {
+export interface IUseModal<T = any> {
   isOpen: boolean;
-  openModal: (inInfo: any) => void;
+  openModal: (inInfo?: T) => void;
   closeModal: () => void;
-  info: any;
+  info: T;
 }
 
 // 모달훅
-function useModal<IUseModal>(defaultValue: boolean = false, defaultInfo: any = {}) {
+function useModal<T = any>(defaultValue: boolean = false, defaultInfo: any = {}): IUseModal<T> {
   const [isOpen, setIsOpen] = useState(defaultValue);
   const [info, setInfo] = useState(defaultInfo);
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import 'moment/locale/ko';
 import { Link } from 'react-router-dom';
-import Timeline from '../../../../components/timeline/Timeline';
+import Timeline from '../../../../atoms/timeline/Timeline';
 import ErrProtecter from '../../../../utils/ErrProtecter';
 import Button from '../../../../atoms/button/Button';
 import './ModifyTimeline.scss';

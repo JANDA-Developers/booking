@@ -3,7 +3,11 @@ import React from 'react';
 import ErrProtecter from '../../utils/ErrProtecter';
 import './JDLabel.scss';
 
-const JDLabel = ({ txt }) => <span className="JDlabel">{txt}</span>;
+interface IProp {
+  txt: string;
+}
+
+const JDLabel = ({ txt }: IProp) => <span className="JDlabel">{txt}</span>;
 
 JDLabel.propTypes = {
   txt: PropTypes.string.isRequired,

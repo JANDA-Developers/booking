@@ -15,12 +15,12 @@ const JDslideDefaultSettings = {
   slideCount: 1,
   nextArrow: (
     <CircleIcon darkWave>
-      <Icon icon="arrow_right" />
+      <Icon icon="arrowRight" />
     </CircleIcon>
   ),
   prevArrow: (
     <CircleIcon darkWave>
-      <Icon icon="arrow_left" />
+      <Icon icon="arrowLeft" />
     </CircleIcon>
   ),
 };

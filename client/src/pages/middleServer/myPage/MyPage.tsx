@@ -104,7 +104,7 @@ const Mypage: React.SFC<IProps> = ({
         </div>
       </div>
       {/* Modal : 프로필 변경 */}
-      <Modal center isOpen={passWordModal.isOpen}>
+      <Modal center {...passWordModal}>
         <h6>프로필 변경</h6>
         <InputText {...passwordHook} validation={utils.isPassword} label="비밀번호" />
         <div className="JDmodal__endSection">

@@ -1,10 +1,26 @@
 import React from 'react';
-import { PropTypes as PT } from 'prop-types';
 import Radio from '../../../../atoms/forms/Radio';
 import './Product.scss';
-import { Product } from '../../../../types/apiEnum';
+import { Product } from '../../../../types/enum';
 
-const product = ({
+//  👿 방관련된 정보들을 정리해서 interfcae로 만드는편이 낳음
+interface IProps {
+  productIndex: string | JSX.Element | JSX.Element[];
+  productName: string | JSX.Element | JSX.Element[];
+  value: string;
+  roomLimit: string | JSX.Element | JSX.Element[];
+  roomCondition: string | JSX.Element | JSX.Element[];
+  price: string | JSX.Element | JSX.Element[];
+  specifications: Array<any>;
+  setRadio: any;
+  slider: boolean;
+  isPhoneVerified: boolean;
+  isSelected: boolean;
+  isCurrent: boolean;
+  disabled: boolean;
+}
+
+const JDproduct: React.FC<IProps> = ({
   productIndex,
   productName,
   value,
@@ -13,11 +29,11 @@ const product = ({
   price,
   specifications,
   setRadio,
-  slider,
-  isSelected,
-  isCurrent,
-  disabled,
   isPhoneVerified,
+  slider = false,
+  isSelected = false,
+  isCurrent = false,
+  disabled = false,
 }) => {
   let modifer = '';
   if (slider) modifer = '--slider';
@@ -77,33 +93,4 @@ const product = ({
   );
 };
 
-product.propTypes = {
-  productIndex: PT.oneOfType([PT.string, PT.node]),
-  productName: PT.oneOfType([PT.string, PT.node]),
-  value: PT.oneOfType([PT.string, PT.node]),
-  roomLimit: PT.oneOfType([PT.string, PT.node]),
-  roomCondition: PT.oneOfType([PT.string, PT.node]),
-  price: PT.oneOfType([PT.string, PT.node]),
-  specifications: PT.array,
-  setRadio: PT.func,
-  slider: PT.bool,
-  isSelected: PT.bool,
-  isCurrent: PT.bool,
-  disabled: PT.bool,
-};
-
-product.defaultProps = {
-  productIndex: '',
-  productName: '',
-  value: '',
-  roomLimit: '',
-  roomCondition: '',
-  price: '',
-  specifications: ['lorem 1', 'lorem 2', 'lorem 3', 'lorem 4'],
-  setRadio: () => {},
-  slider: false,
-  isSelected: false,
-  isCurrent: false,
-  disabled: false,
-};
-export default product;
+export default JDproduct;

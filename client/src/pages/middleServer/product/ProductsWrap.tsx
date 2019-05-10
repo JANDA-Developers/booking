@@ -15,7 +15,7 @@ import {
   buyProduct, buyProductVariables, refundProduct, refundProductVariables,
 } from '../../../types/api';
 import { ReactTooltip } from '../../../atoms/tooltipList/TooltipList';
-import { Product } from '../../../types/apiEnum';
+import { Product } from '../../../types/enum';
 
 class BuyProductMutation extends Mutation<buyProduct, buyProductVariables> {}
 class RefundProductMutation extends Mutation<refundProduct, refundProductVariables> {}

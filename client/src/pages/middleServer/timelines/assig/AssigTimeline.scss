@@ -4,6 +4,8 @@ $AT-assigGroup-rooType-width: 100px;
 $AT-assigGroup-room-width: 100px;
 
 #AssigTimeline {
+    .rct-sidebar {
+    }
     .assigGroups {
         &__roomType {
             position:absolute;

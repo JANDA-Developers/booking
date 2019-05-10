@@ -1,7 +1,7 @@
 import moment from 'moment';
 import React from 'react';
 import { VerticalAlignProperty } from 'csstype';
-import { defaultHeaderLabelFormats, defaultSubHeaderLabelFormats } from '../../../components/timeline/Timeline';
+import { defaultHeaderLabelFormats, defaultSubHeaderLabelFormats } from '../../../atoms/timeline/Timeline';
 import generateFakeData from './components/timeline_fakedata';
 import groupRendererFn from './components/groupRender';
 import itemRendererFn from './components/itemRender';
@@ -17,8 +17,8 @@ const keys = {
   groupTitleKey: 'title',
   groupRightTitleKey: 'rightTitle',
   itemIdKey: 'id',
-  itemTitleKey: 'title',
-  itemDivTitleKey: 'title',
+  itemTitleKey: 'bookerId',
+  itemDivTitleKey: 'id',
   itemGroupKey: 'group',
   itemTimeStartKey: 'start',
   itemTimeEndKey: 'end',
@@ -45,7 +45,9 @@ const krSubHeaderLabelFormats = Object.assign({}, defaultSubHeaderLabelFormats, 
   hourLong: 'M월 D일 ddd', // 월 일
 });
 
-const krHeaderLabelFormats = Object.assign({}, defaultHeaderLabelFormats, {});
+const krHeaderLabelFormats = Object.assign({}, defaultHeaderLabelFormats, {
+  dayLong: 'YYYY년 MM월 DD일 ',
+});
 
 const defaultTimeStart = moment()
   .startOf('day')
@@ -58,8 +60,8 @@ const defaultTimeEnd = moment()
   .toDate();
 
 const sharedProps = {
-  minZoom: 7 * 24 * 60 * 60 * 1000,
-  maxZoom: 180 * 24 * 60 * 60 * 1000,
+  minZoom: 14 * 24 * 60 * 60 * 1000,
+  maxZoom: 7 * 24 * 60 * 60 * 1000,
   dragSnap: 24 * 60 * 60 * 1000,
   subHeaderLabelFormats: krSubHeaderLabelFormats,
   headerLabelFormats: krHeaderLabelFormats,
@@ -87,7 +89,6 @@ const assigDefaultProps = {
   itemRenderer: itemRendererFn,
   fixedHeader: 'fixed',
   sidebarWidth: 230,
-  sidebarContent: <div>Above The Left</div>,
   canMove: true,
   canResize: 'right',
   canSelect: true,

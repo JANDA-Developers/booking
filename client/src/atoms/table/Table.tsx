@@ -2,15 +2,12 @@ import classNames from 'classnames';
 import 'react-table/react-table.css';
 import './Table.scss';
 import React from 'react';
-import ReactTable, { Column, TableProps, ReactTableDefaults } from 'react-table';
-import { SelectInputComponentProps, SelectAllInputComponentProps } from 'react-table/lib/hoc/selectTable';
-import ErrProtecter from '../../utils/ErrProtecter';
-import CheckBox from '../forms/CheckBox';
+import ReactTable, { TableProps, ReactTableDefaults } from 'react-table';
 
 interface IProps<D = any> extends TableProps<D> {
   align?: string;
   inClassNames?: string;
-  // css 셋팅해줌
+  // 기능은 HOC으로 구현해야하나 다음 boolean은 css 셋팅해줌
   isCheckable?: boolean;
 }
 

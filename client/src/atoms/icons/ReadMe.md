@@ -7,12 +7,12 @@
 
 ### Icon
 
-| Props  | Tpye   | Description          | Options       | Require | Default |
-| ------ | ------ | -------------------- | ------------- | ------- | ------- |
-| label  | bool   |                      |               | X       |         |
-| icon   | string | 사용할 아이콘명      | icon.jsx 참고 | Y       |         |
-| width  | string |                      |               | X       | 1em     |
-| height | string |                      |               | X       | 1em     |
-| hover  | bool   | 호버 이펙트 사용여부 |               | X       |         |
+| Props | Tpye   | Description             | Options       | Require | Default |
+| ----- | ------ | ----------------------- | ------------- | ------- | ------- |
+| label | bool   |                         |               | X       |         |
+| icon  | string | 사용할 아이콘명         | icon.jsx 참고 | Y       |         |
+| size  | ENUM   | With Height 같이 적용됨 |               | X       | 1em     |
+| hover | bool   | 호버 이펙트 사용여부    |               | X       |         |
 
-- .anchor 안에서 마진은 basSpace에 설정되어있음
+- anchor 안에서 마진은 basSpace에 설정되어있음
+- 아이콘 마다 고유 사이즈가 다릅니다. 알아서 조절 하시길...

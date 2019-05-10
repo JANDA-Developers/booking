@@ -29,14 +29,18 @@ const JDanimation: React.FC<IProps> = ({ children, animation, ...props }) => {
     transitionLeaveTimeout: 1000,
   };
 
+  // fadeInDown
   if (animation.includes(Animation.fadeInDown)) {
     animationProp.transitionName.enter = Animation.fadeInDown;
     animationProp.transitionEnter = true;
   }
+
+  // fadeOutRight
   if (animation.includes(Animation.fadeOutRight)) {
     animationProp.transitionName.leave = Animation.fadeOutRight;
     animationProp.transitionLeave = true;
   }
+
   return (
     <ReactCSSTransitionGroup {...animationProp} {...props}>
       {children}

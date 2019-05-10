@@ -3,7 +3,7 @@ import { getHousesForSU_GetHousesForSU_houses as Ihouse } from '../../../types/a
 import { IUseModal } from '../../../actions/hook';
 import Preloader from '../../../atoms/preloader/Preloader';
 import './SuperMain.scss';
-import JDPagination from '../../../components/pagination/Pagination';
+import JDPagination from '../../../atoms/pagination/Pagination';
 import HouseCard from './components/houseCard';
 import { IPageInfo } from '../../../types/interface';
 import UserModal from './components/userModalWrap';

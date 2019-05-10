@@ -7,13 +7,13 @@ import CheckBox from '../../../atoms/forms/CheckBox';
 import Switch from '../../../atoms/forms/Switch';
 import InputText from '../../../atoms/forms/InputText';
 import Radio from '../../../atoms/forms/Radio';
-import SearchInput from '../../../components/searchInput/SearchInput';
+import SearchInput from '../../../atoms/searchInput/SearchInput';
 import SideNav from '../../../components/sideNav/SideNav';
 import SelectBox from '../../../atoms/forms/SelectBox';
-import JDbadge from '../../../atoms/badge/Badge';
-import DayPicker from '../../../components/dayPicker/DayPicker';
-import Pagination from '../../../components/pagination/Pagination';
-import ImageUploader from '../../../components/imageUploader/ImageUploader';
+import JDbadge, { BADGE_THEMA } from '../../../atoms/badge/Badge';
+import DayPicker from '../../../atoms/dayPicker/DayPicker';
+import Pagination from '../../../atoms/pagination/Pagination';
+import ImageUploader from '../../../atoms/imageUploader/ImageUploader';
 import CircleIcon from '../../../atoms/circleIcon/CircleIcon';
 import Button from '../../../atoms/button/Button';
 import Preloader from '../../../atoms/preloader/Preloader';
@@ -21,7 +21,7 @@ import SliderExample from './examples/example_slider';
 import SliderExample2 from './examples/example_slider2';
 import JDlabel from '../../../atoms/label/JDLabel';
 import JDmodal from '../../../atoms/modal/Modal';
-import JDtable from '../../../atoms/table/Table';
+import JDtable, { ReactTableDefault } from '../../../atoms/table/Table';
 import ProfileCircle from '../../../atoms/profileCircle/ProfileCircle';
 import {
   Tab, Tabs, TabList, TabPanel,
@@ -45,19 +45,19 @@ import JDcolorPicker from '../../../atoms/colorPicker/ColorPicker';
 import DrragList from '../../../atoms/animation/DrragList';
 import Card from '../../../atoms/cards/Card';
 import JDbox from '../../../atoms/box/JDbox';
+import { CellInfo } from 'react-table';
 
 function ShowComponents() {
   const defaultColor = faker.commerce.color();
   const defaultColor2 = faker.commerce.color();
   const defaultColor3 = faker.commerce.color();
   const useModalHook = useModal(false);
-  // the wayMake a Controlled Value
   const inputVali = useInput('1232');
   const checkHook = useCheckBox(false);
   const [value, setValue] = useRadio('');
-  const useSelect1 = useSelect();
-  const useSelect2 = useSelect();
-  const useSelect3 = useSelect();
+  const useSelect1 = useSelect(null);
+  const useSelect2 = useSelect(null);
+  const useSelect3 = useSelect(null);
   const colorPickerHook = useColorPicker(defaultColor);
   const colorPickerHook2 = useColorPicker(defaultColor2);
   const colorPickerHook3 = useColorPicker(defaultColor3);
@@ -104,11 +104,12 @@ function ShowComponents() {
     },
   ];
 
+  const anyProp:any = {};
   const TableColumns = [
     {
       Header: '번호',
       accessor: 'index',
-      Cell: ({ index }) => <span>{index}</span>,
+      Cell: ({ index }: CellInfo) => <span>{index}</span>,
     },
     {
       Header: '우선순위',
@@ -129,7 +130,7 @@ function ShowComponents() {
     {
       Header: '삭제/생성',
       accessor: 'controll',
-      Cell: props => <Button mode="flat" thema="warn" label="삭제" />,
+      Cell: (props: CellInfo) => <Button mode="flat" thema="warn" label="삭제" />,
     },
   ];
 
@@ -275,18 +276,18 @@ function ShowComponents() {
           <div className="flex-grid__col col--full-4 col--wmd-12">
             <div className="showComponent__container">
               <JDlabel txt="horizen" />
-              <DayPicker {...dayPickerHook} onChange={() => {}} horizen />
+              <DayPicker {...dayPickerHook} horizen />
             </div>
           </div>
           <div className="flex-grid__col col--full-4 col--wmd-12">
             <JDlabel txt="normal" />
-            <DayPicker {...dayPickerHook} onChange={() => {}} />
+            <DayPicker {...dayPickerHook} />
           </div>
           <div className="flex-grid__col col--full-4 col--wmd-12">
-            <DayPicker {...dayPickerHook} onChange={() => {}} input label="input" isRange />
+            <DayPicker {...dayPickerHook} input label="input" isRange />
           </div>
           <div className="flex-grid__col col--full-4 col--wmd-12">
-            <DayPicker {...dayPickerHook} onChange={() => {}} input label="input" isRange={false} />
+            <DayPicker {...dayPickerHook} input label="input" isRange={false} />
           </div>
         </div>
 
@@ -312,17 +313,18 @@ function ShowComponents() {
         {/* 뱃지 */}
         <h6>Badge</h6>
         <div className="docs-section__box">
-          <JDbadge thema="white">white</JDbadge>
-          <JDbadge thema="black">black</JDbadge>
-          <JDbadge thema="primary">primary</JDbadge>
-          <JDbadge thema="secondary">secondary</JDbadge>
-          <JDbadge thema="new">new</JDbadge>
+          <JDbadge thema={BADGE_THEMA.WHITE}>white</JDbadge>
+          <JDbadge thema={BADGE_THEMA.BLACK}>black</JDbadge>
+          <JDbadge thema={BADGE_THEMA.PRIMARY}>primary</JDbadge>
+          <JDbadge thema={BADGE_THEMA.SECONDARY}>secondary</JDbadge>
+          <JDbadge thema={BADGE_THEMA.NEW}>new</JDbadge>
         </div>
 
         {/* 테이블 */}
         <h6>Table</h6>
         <div className="docs-section__box flex-grid">
           <JDtable
+            {...ReactTableDefault}
             columns={TableColumns}
             data={TableData}
             showPagination={false}
@@ -344,23 +346,21 @@ function ShowComponents() {
         <h6>Buttons</h6>
         <div className="docs-section__box">
           <div className="flex-grid__col">
-            {/* todo: 버튼 노멀 없애기 */}
-            <Button label="noraml" icon="arrow_right" />
+            <Button label="noraml" icon="arrowRight" />
             <Button label="disabled" disabled />
-            <Button label="large" mode="large" />
-            <Button label="small" mode="small" />
-            {/* 플랫은 화이트 배경뿐입니다.--지금은  */}
+            <Button label="large" size="large" />
+            <Button label="small" size="small" />
             <Button label="flat" mode="flat" />
           </div>
           <div className="flex-grid__col">
-            <Button label="primary" thema="primary" mode="large" />
-            <Button label="secondary" thema="secondary" mode="large" />
-            <Button href="./sss" label="" preloader icon="arrow_right" />
+            <Button label="primary" thema="primary" size="large" />
+            <Button label="secondary" thema="secondary" size="large" />
+            <Button hrefOpen="./sss" label="" preloader icon="arrowRight" />
             <CircleIcon darkWave>
-              <Icon icon="arrow_left" />
+              <Icon icon="arrowLeft" />
             </CircleIcon>
             <CircleIcon wave thema="greybg">
-              <Icon icon="arrow_left" />
+              <Icon icon="arrowLeft" />
             </CircleIcon>
           </div>
         </div>
@@ -370,7 +370,7 @@ function ShowComponents() {
           <h6>Modal & SideNav</h6>
           <Button label="Open Modal" onClick={useModalHook.openModal} />
           <Button icon="menue" label="Open SideNav" onClick={setSideNavIsOpen} />
-          <JDmodal isOpen={useModalHook.isOpen} onRequestClose={useModalHook.closeModal}>
+          <JDmodal {...useModalHook}>
             <p>Modal text!</p>
             <div className="JDmodal__endSection">
               <Button label="Close Modal" onClick={useModalHook.closeModal} />
@@ -382,11 +382,11 @@ function ShowComponents() {
         <div className="docs-section__box">
           <h6>Tooltip</h6>
 
-          <Button dataTip dataFor="tooltip__C" label="Some Btn" classes={['JDbtn--small']} />
+          <Button dataTip dataFor="tooltip__C" label="Some Btn" className='JDbtn--small' />
 
-          <Button dataTip dataFor="tooltip__D" label="Some Btn" classes={['JDbtn--small']} />
+          <Button dataTip dataFor="tooltip__D" label="Some Btn" className='JDbtn--small' />
 
-          <Button dataTip dataFor="tooltip__E" label="Some Btn" classes={['JDbtn--small']} />
+          <Button dataTip dataFor="tooltip__E" label="Some Btn" className='JDbtn--small' />
 
           <Tooltip id="tooltip__C" type="success" effect="solid">
             <span>some txt</span>
@@ -404,7 +404,7 @@ function ShowComponents() {
         {/* 아이콘들 */}
         <h6>Icons</h6>
         <div className=" docs-section__box">
-          {Object.keys(icons).map(key => (
+          {Object.keys(icons).map((key:any) => (
             <div key={`showComponent__${key}`} className="showComponent__icon_box">
               <Icon label={key} icon={key} />
             </div>
@@ -429,14 +429,14 @@ function ShowComponents() {
         {/* 페이지네이션 */}
         <h6>Pagination</h6>
         <div className="docs-section__box clear-fix">
-          <Pagination align="left" pageCount={13} initialPage={0} marginPagesDisplayed={1} pageRangeDisplayed={5} />
+          <Pagination pageCount={13} initialPage={0} marginPagesDisplayed={1} pageRangeDisplayed={5} />
         </div>
 
         {/* 드래그리스트 */}
         <h6>DragList</h6>
         <div className="docs-section__box clear-fix">
           <DrragList data={dummyDrragData} rowKey="tittle">
-            {(recode, index) => (
+            {(recode:any, index :any) => (
               <Card key={index}>
                 <h6>this can Drragable</h6>
                 {' '}
@@ -489,7 +489,7 @@ function ShowComponents() {
         </div>
 
         {/* 사이드네비 sideNav */}
-        <SideNav isOpen={SideNavIsOpen} setIsOpen={setSideNavIsOpen} />
+        <SideNav {...anyProp} isOpen={SideNavIsOpen} setIsOpen={setSideNavIsOpen} />
       </div>
     </div>
   );

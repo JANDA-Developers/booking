@@ -290,15 +290,30 @@ export const GET_AVAILABLE_GUEST_COUNT = gql`
     $roomTypeId: ID!
     $start: DateTime!
     $end: DateTime!
-    $gender: Gender!
-    $paddingOtherGenderCount: Int!
+    $femalePadding: Int!
+    $malePadding: Int!
   ) {
-    GetAvailableGuestCount(
+    GetMale: GetAvailableGuestCount(
       roomTypeId: $roomTypeId
       start: $start
       end: $end
-      gender: $gender
-      paddingOtherGenderCount: $paddingOtherGenderCount
+      gender: MALE
+      paddingOtherGenderCount: $femalePadding
+    ) {
+      ok
+      error
+      roomCapacity {
+        roomGender
+        guestGender
+        availableCount
+      }
+    }
+    GetFemale: GetAvailableGuestCount(
+      roomTypeId: $roomTypeId
+      start: $start
+      end: $end
+      gender: FEMALE
+      paddingOtherGenderCount: $malePadding
     ) {
       ok
       error

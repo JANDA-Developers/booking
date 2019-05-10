@@ -30,7 +30,7 @@ import {
   Sms,
   ResvList,
 } from './pages';
-import { UserRole } from '../types/apiEnum';
+import { UserRole } from '../types/enum';
 import { IHouse } from '../types/interface';
 
 interface IProps {

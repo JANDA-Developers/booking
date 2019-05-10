@@ -1,16 +1,10 @@
-import DayPicker, { DayPickerProps, DayPickerInputProps } from 'react-day-picker';
-import React, {
-  useState, useRef, Ref, useEffect, Fragment,
-} from 'react';
+import { DayPickerProps } from 'react-day-picker';
+import React, { useRef, useEffect, Fragment } from 'react';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import moment from 'moment';
-import InputText from '../../../atoms/forms/InputText';
+import InputText from '../../forms/InputText';
 import 'moment/locale/ko';
 import { isEmpty } from '../../../utils/utils';
-import JDLabel from '../../../atoms/label/JDLabel';
-import { IconSize } from '../../../atoms/icons/Icons';
-import { string } from 'prop-types';
-import { of } from 'zen-observable';
 // 데이픽커 인풋은 어레인이지를 지원하지 않을려는것만 같다.
 // 무리하게 바꾸었는데 잘 동작할지 모르겠다.
 
@@ -23,6 +17,7 @@ interface IProps {
   label?: string;
   placeholder?: string;
   dayPickerProps: DayPickerProps;
+  inputComponent?: JSX.Element[] | JSX.Element;
 }
 
 // 👿 이 파일은 전체적으로 타입스크립트 작업이 필요하다.
@@ -34,6 +29,7 @@ const JDdayPickerInput: React.FC<IProps> = ({
   dayPickerProps,
   placeholder = '날자를 선택해주세요',
   format = 'YYYY-MM-DD',
+  inputComponent: InputComponent,
   ...props
 }) => {
   let DayPickerInputRef: DayPickerInput | null = null;
@@ -110,6 +106,7 @@ const JDdayPickerInput: React.FC<IProps> = ({
     <Fragment>
       {/* 😶 REF는 잘 작동하지만 브라우저상 오류를 낸다 이유는... ref가
       그냥 맨껍데기에 적용되서 그렇다는데 아무래도 해결방법은 깃허브에 문의해봐야겠다. */}
+      {InputComponent}
       <DayPickerInput
         ref={(ref) => {
           DayPickerInputRef = ref;

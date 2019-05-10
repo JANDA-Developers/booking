@@ -5,8 +5,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import classNames from 'classnames';
 import List from './list';
 import './searchInput.scss';
-import Icon from '../../atoms/icons/Icons';
-import Preloader from '../../atoms/preloader/Preloader';
+import Icon from '../icons/Icons';
+import Preloader from '../preloader/Preloader';
 import searchListFormat from '../../utils/SearchListFormat';
 import { isEmpty } from '../../utils/utils';
 
@@ -169,7 +169,7 @@ const JDsearchInput: React.FC<IProps> = ({
   // 매칭된 리스트가 있을경우에 클래스를 붙여줍니다.
   useEffect(() => {
     if (isMatched) $(inputRef.current).addClass('JDsearchInput__input--matched');
-  }, [isMatched]); 
+  }, [isMatched]);
 
   return (
     <div className={classes}>

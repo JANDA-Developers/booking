@@ -1,6 +1,6 @@
 // 빈 문자열이면 중립을 반환합니다.
 
-import { NEUTRAL } from '../types/apiEnum';
+import { NEUTRAL } from '../types/enum';
 
 const isUrl = (string) => {
   if (string === '') return NEUTRAL;

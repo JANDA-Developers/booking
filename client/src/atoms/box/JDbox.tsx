@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React, { Fragment } from 'react';
 import ErrProtecter from '../../utils/ErrProtecter';
 import './JDbox.scss';
-import JDIcon from '../icons/Icons';
+import JDIcon, { IIcons } from '../icons/Icons';
 import { IDiv } from '../../types/interface';
 import JDLabel from '../label/JDLabel';
 
@@ -10,7 +10,7 @@ interface IProps extends IDiv {
   className?: string;
   mode?: 'table' | 'border';
   label?: JSX.Element | string;
-  icon?: string;
+  icon?: IIcons;
   topLabel?: string;
   iconHover?: boolean;
   standard?: boolean;

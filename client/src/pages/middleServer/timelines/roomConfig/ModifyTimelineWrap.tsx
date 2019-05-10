@@ -2,7 +2,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { Fragment } from 'react';
 import { Mutation, Query } from 'react-apollo';
-import { TimelineGroup } from 'react-calendar-timeline';
 import { getAllRoomType } from '../../../../types/api';
 import { useToggle, useModal } from '../../../../actions/hook';
 import ModifyTimeline from './ModifyTimeline';

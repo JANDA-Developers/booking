@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { IGroup } from '../AssigTimelineWrap';
 import { ASSIGT_IMELINE_HEIGHT } from '../../timelineConfig';
-import { PricingType } from '../../../../../types/apiEnum';
+import { PricingType } from '../../../../../types/enum';
 
 let LAST_ROOMTYPE = 'unRendered';
 let LAST_ROOM = 'unRendered';

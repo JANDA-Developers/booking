@@ -1,16 +1,26 @@
 import React from 'react';
 import './Radio.scss';
-import classNames from 'classnames/bind';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import ErrProtecter from '../../utils/ErrProtecter';
 
-function Radio({
-  id, disabled, groupName, label, onChange, value, checked,
-}) {
-  const handleRadioChange = (e) => {
+interface IProps {
+  id: string;
+  groupName: string;
+  label?: string;
+  disabled?: boolean;
+  onChange?(foo?: string | number): void;
+  value?: string | number;
+  checked?: boolean;
+}
+
+const JDradio: React.FC<IProps> = ({
+  id, disabled, groupName, label, onChange, value, checked = false,
+}) => {
+  const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const radioVlaue = e.target.value;
     if (!disabled) {
-      onChange(radioVlaue);
+      onChange && onChange(radioVlaue);
     }
   };
 
@@ -33,28 +43,10 @@ function Radio({
           onChange={handleRadioChange}
         />
         <span className="JDradio__label" />
-        {label !== '' ? <span className="JDradio__label-text">{label}</span> : null}
+        {label && <span className="JDradio__label-text">{label}</span>}
       </label>
     </span>
   );
-}
-
-Radio.propTypes = {
-  id: PropTypes.string,
-  groupName: PropTypes.string,
-  label: PropTypes.string,
-  disabled: PropTypes.bool,
-  onChange: PropTypes.func,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
-Radio.defaultProps = {
-  id: '',
-  groupName: '',
-  label: '',
-  value: '',
-  disabled: false,
-  onChange: () => {},
-};
-
-export default ErrProtecter(Radio);
+export default ErrProtecter(JDradio);

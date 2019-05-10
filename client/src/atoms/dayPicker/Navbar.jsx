@@ -2,7 +2,7 @@
 // http://react-day-picker.js.org/examples/elements-navbar
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from '../../atoms/button/Button';
+import Button from '../button/Button';
 import { JDMonthTextChanger } from '../../utils/utils';
 
 const Navbar = ({
@@ -16,7 +16,7 @@ const Navbar = ({
     <div className={className}>
       <Button
         label={JDMonthTextChanger(prev)}
-        icon="arrow_left"
+        icon="arrowLeft"
         mode="flat"
         float="left"
         iconClasses={['JDbtn__icon--left']}
@@ -24,7 +24,7 @@ const Navbar = ({
       />
       <Button
         label={JDMonthTextChanger(next)}
-        icon="arrow_right"
+        icon="arrowRight"
         mode="flat"
         float="right"
         onClick={() => onNextClick()}
