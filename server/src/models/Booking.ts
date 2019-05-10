@@ -11,9 +11,8 @@ import { BookingStatusEnum } from "../types/enums";
 import { BookingStatus, Gender, PricingType } from "../types/graph";
 import { hashCode } from "../utils/hashCode";
 import { removeUndefined } from "../utils/objFuncs";
-import { BookerModel } from "./Booker";
 import { GuestModel, GuestSchema } from "./Guest";
-import { RoomTypeModel } from "./RoomType";
+import { PricingTypeEnum, RoomTypeModel } from "./RoomType";
 
 /**
  * Booking 스키마...
@@ -41,8 +40,14 @@ export class BookingSchema extends Typegoose {
     @prop({ required: true })
     booker: Types.ObjectId;
 
+    @prop()
+    name: string; // bookerName
+
     @prop({ required: true })
     roomType: Types.ObjectId;
+
+    @prop({ enum: PricingTypeEnum })
+    pricingType: PricingType;
 
     @arrayProp({ items: Types.ObjectId, default: [] })
     guests: Types.ObjectId[];
@@ -86,11 +91,9 @@ export class BookingSchema extends Typegoose {
     updatedAt: Date;
 
     @instanceMethod
-    async createGuestInstances(
+    createGuestInstances(
         this: InstanceType<BookingSchema>,
         {
-            pricingType,
-            bookerName,
             genderCount
         }: {
             pricingType?: PricingType;
@@ -100,20 +103,8 @@ export class BookingSchema extends Typegoose {
                 gender?: Gender; // PricingType === "ROOM" 인 경우에는 undefined임...
             };
         }
-    ): Promise<Array<InstanceType<GuestSchema>>> {
+    ): Array<InstanceType<GuestSchema>> {
         let i = 0;
-        let pt = pricingType;
-        if (!pt) {
-            const roomType = await RoomTypeModel.findById(this.roomType, {
-                pricingType: true
-            });
-            if (!roomType) {
-                throw new Error("치명적 에러... 존재하지 않는 RoomType");
-            }
-            pt = roomType.pricingType;
-        }
-        const booker = await BookerModel.findById(this.booker);
-        const name = bookerName || (booker && booker.name);
         const result: Array<InstanceType<GuestSchema>> = [];
         while (i < genderCount.count) {
             result.push(
@@ -123,10 +114,10 @@ export class BookingSchema extends Typegoose {
                         house: new Types.ObjectId(this.house),
                         roomType: new Types.ObjectId(this.roomType),
                         booking: new Types.ObjectId(this._id),
-                        name,
+                        name: this.name,
                         start: new Date(this.start),
                         end: new Date(this.end),
-                        pricingType: pt,
+                        pricingType: this.pricingType,
                         gender: genderCount.gender
                     })
                 )

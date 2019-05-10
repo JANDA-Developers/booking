@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import { HouseModel } from "../../../models/House";
 import { extractRoomTypes } from "../../../models/merge/merge";
 import {
@@ -16,7 +17,7 @@ const resolvers: Resolvers = {
             ): Promise<GetAllRoomTypeResponse> => {
                 try {
                     const house = await HouseModel.findOne(
-                        { _id: houseId },
+                        { _id: new Types.ObjectId(houseId) },
                         { roomTypes: 1 }
                     );
                     if (house) {

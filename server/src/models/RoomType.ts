@@ -9,6 +9,7 @@ import {
     prop,
     Typegoose
 } from "typegoose";
+import { GenderEnum } from "../types/enums";
 import {
     GuestGender,
     PricingType,
@@ -262,47 +263,63 @@ export class RoomTypeSchema extends Typegoose {
      */
 
     @instanceMethod
-    async getRoomCapacitiesWithRoomIdForDomitory(
+    async getAllocatableRooms(
         this: InstanceType<RoomTypeSchema>,
         start: Date,
         end: Date,
-        includeTempAllocation?: boolean
+        {
+            includeTempAllocation,
+            gender
+        }: {
+            includeTempAllocation?: boolean;
+            gender?: GenderEnum;
+        } = {}
     ): Promise<RoomCapacityWithEmptyBed[]> {
-        return Promise.all(
-            (await RoomModel.find({
-                roomType: new Types.ObjectId(this._id)
-            })).map(async roomInstance => {
+        const roomInstances = await RoomModel.find({
+            _id: { $in: this.rooms.map(roomId => new Types.ObjectId(roomId)) }
+        });
+        const roomCapacities = (await Promise.all(
+            roomInstances.map(async roomInstance => {
                 return await roomInstance.getCapacity(
                     start,
                     end,
                     includeTempAllocation
                 );
             })
-        );
+        )).filter(capacity => {
+            if (capacity.availableCount === 0) {
+                return false;
+            }
+            if (!gender) {
+                return true;
+            }
+            if (capacity.roomGender === "SEPARATELY") {
+                return !capacity.guestGender || capacity.guestGender === gender;
+            } else if (capacity.roomGender === gender) {
+                return true;
+            }
+            return true;
+        });
+        return roomCapacities;
     }
 
-    /**
-     * 각각의 Room에 가용인원을 배열로 얻음.
-     * @param start 시작
-     * @param end 끝
-     * @param includeTempAllocation
-     */
     @instanceMethod
-    async getRoomCapacitiesForDomitory(
+    async getRoomCapacitiesWithRoomIdForDomitory(
         this: InstanceType<RoomTypeSchema>,
         start: Date,
         end: Date,
         includeTempAllocation?: boolean
     ): Promise<RoomCapacityWithEmptyBed[]> {
-        return Promise.all(
+        return await Promise.all(
             (await RoomModel.find({
                 roomType: new Types.ObjectId(this._id)
             })).map(async roomInstance => {
-                return await roomInstance.getCapacity(
+                const capacity = await roomInstance.getCapacity(
                     start,
                     end,
                     includeTempAllocation
                 );
+                return capacity;
             })
         );
     }
@@ -326,13 +343,13 @@ export class RoomTypeSchema extends Typegoose {
     ): Promise<RoomCapacity> {
         let availableCount = 0;
         // roomCapacities 구하기
-        const roomCapacities: RoomCapacity[] = await this.getRoomCapacitiesForDomitory(
+        const roomCapacities: RoomCapacity[] = await this.getRoomCapacitiesWithRoomIdForDomitory(
             start,
             end
         );
 
         // 1. Gender 검사
-        if (this.roomGender === gender || this.roomGender === "MIXED") {
+        if (this.roomGender === gender) {
             roomCapacities.forEach((capacity: RoomCapacity) => {
                 availableCount = availableCount + capacity.availableCount;
             });
