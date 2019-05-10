@@ -54,7 +54,7 @@ $grey-level3: #787878 !default;
 $grey-opacity1: rgba(0,0,0,.04);
 $grey-opacity2: rgba(0,0,0,.08);
 $hover-effect-white: rgba(255,255,255,.1);
-$hover-effect-dark: rgba(0,0,0,.08);
+$hover-effect-dark: $grey-opacity1;
 $curtain-color: rgba(0,0,0,.78) !default;
 $html-color-hover: $grey-level3!default;
 
@@ -80,6 +80,8 @@ $desktophdUp: "1201px" !default; //  wlg
 $container-width: 1000px !default;
 $container-full-width: 96% !default;
 $container-small-width: 550px !default;
+$container-middle-width: 800px !default;
+$container-large-width: 1200px !default;
 $container-padding: 0.8rem; // ⭐️
 $container-content-full: calc(100% - #{$container-padding * 2}); // ⭐️
 $total-columns: 12 !default;
@@ -111,6 +113,7 @@ $standard-border-radius: 3px;
 $standard-line-height: 2.25rem; // ⭐️ 구성요소들이 한줄에 섰을때 세로 크기를 정의합니다.
 $standard-lists-line: 150%; // 옹기종기모인 div들 정리용
 $standard-side-padding: .5rem; // side
+$standard-small-padding: 0.3125rem; // side
 $standard-padding: $standard-side-padding; // side
 $standard-icon-margin : 1rem;
 $standard-small-icon-margin : .5rem;
@@ -378,7 +381,7 @@ $IUploader-border-color: $standard-outborder-color;
 
 // 20 colorPicker 컬러 칼라 컬러픽커
 // ANCHOR color Color=========================================================================
-$colorPicker-padding: 0.3125rem;
+$colorPicker-padding: $standard-small-padding;
 $colorPicker-height: $standard-line-height  - ($colorPicker-padding * 2);
 $colorPicker-width: 3rem;
 $colorPicker-radius: $standard-border-radius;

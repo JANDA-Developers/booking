@@ -6,7 +6,7 @@ import Button from '../../../atoms/button/Button';
 import Preloader from '../../../atoms/preloader/Preloader';
 import Modal from '../../../atoms/modal/Modal';
 import JDcheckbox from '../../../atoms/forms/CheckBox';
-import Slider from '../../../components/slider/Slider';
+import Slider from '../../../atoms/slider/Slider';
 import { isEmpty } from '../../../utils/utils';
 import Tooltip, { ReactTooltip } from '../../../atoms/tooltip/Tooltip';
 import { RefundPolicyNode } from '../../../docs/refundPolicy';
@@ -129,12 +129,7 @@ const Products: React.FC<IProps> = ({
       {/* 무료상품 시작 */}
       <ExperienceModal modalHook={exModalHook} />
       {/* 리펀트 시작 */}
-      <Modal
-        appElement={document.getElementById('root')}
-        onRequestClose={refundModal.closeModal}
-        center
-        isOpen={refundModal.isOpen}
-      >
+      <Modal {...refundModal} center>
         <h6>서비스 해지</h6>
         <p>
           <RefundPolicyNode />

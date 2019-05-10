@@ -52,6 +52,10 @@
         }
       }
 
+      &__single-value {
+        width: 100%;
+      }
+
       &__label {
         color: $select-multi-color;
         font-size: $typho-small;
@@ -81,6 +85,7 @@
         width: calc(100% - #{$standard-side-padding});
         margin: 0;
       }
+      
 
       //아이콘 이전 라인
       &__indicator {
@@ -120,6 +125,7 @@
       &__menu {
         border-radius: $select-menue-radius;
         margin: 0;
+        width: auto;
         @extend %z-depth-1;
       }
 
@@ -134,6 +140,8 @@
         height: $select-option-height;
         padding: $select-option-padding;
         line-height: $select-option-height;
+        width: auto;
+        white-space: pre;
         &--is-focused {
           background-color: $select-option-hover-bgcolor;
         }
@@ -160,6 +168,7 @@
   }
   &--small {
     display:flex;
+    font-size: $typho-small;
 
     .react-select-container {
       width:100%;
@@ -189,4 +198,12 @@
       }
     }
   }
+
+  &--textOverflowVisible {
+    .react-select__placeholder,
+    .react-select__single-value {
+      overflow:visible!important;
+    }
+  }
 }
+

@@ -1,26 +1,35 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import ReactModal from 'react-modal';
 import './Modal.scss';
 import classNames from 'classnames';
+import Button from '../button/Button';
+import { IUseModal } from '../../actions/hook';
 
-interface IProps {
+interface IProps extends ReactModal.Props, IUseModal {
   center?: boolean;
   className?: string;
-  isOpen: boolean;
-  props?: any;
   isAlert?: boolean;
+  confirm?: boolean;
   children?: any;
-  info?: any;
-  [key: string]: any;
+  confirmCallBackFn?(foo: boolean): any;
 }
 
 const JDmodal: React.SFC<IProps> = ({
-  info, center, className, isOpen, closeModal, isAlert, children, ...props
+  info,
+  center,
+  className,
+  isOpen,
+  closeModal,
+  isAlert,
+  children,
+  confirm,
+  confirmCallBackFn,
+  appElement = document.getElementById('root') || undefined,
+  ...props
 }) => {
-  // ⚠️ JDmodal 로 수정할수없음
   const classes = classNames('Modal JDmodal', className, {
     'JDmodal--center': center,
-    'JDmodal--alert': isAlert,
+    'JDmodal--alert': isAlert || confirm,
     'JDmodal--alertWaring': info && info.thema === 'warn',
   });
   const defualtJDmodalProps = {
@@ -29,23 +38,41 @@ const JDmodal: React.SFC<IProps> = ({
   };
 
   return (
-    <ReactModal
-      isOpen={isOpen}
-      appElement={document.getElementById('root') || undefined}
-      onRequestClose={closeModal}
-      {...props}
-      {...defualtJDmodalProps}
-    >
+    <ReactModal isOpen={isOpen} onRequestClose={closeModal} appElement={appElement} {...props} {...defualtJDmodalProps}>
       {children}
       {typeof info === 'string' && info}
       {info && typeof info.txt === 'string' && info.txt}
+
+      {confirm && (
+        <Fragment>
+          <div className="JDmodal__endSection JDmodal__endSection--confirm">
+            <Button
+              thema="primary"
+              mode="flat"
+              label="확인"
+              onClick={() => {
+                confirmCallBackFn && confirmCallBackFn(true);
+                closeModal();
+              }}
+            />
+            <Button
+              mode="flat"
+              thema="warn"
+              label="취소"
+              onClick={() => {
+                confirmCallBackFn && confirmCallBackFn(false);
+                closeModal();
+              }}
+            />
+          </div>
+        </Fragment>
+      )}
     </ReactModal>
   );
 };
 
 JDmodal.defaultProps = {
   center: false,
-  props: {},
 };
 
 export default JDmodal;

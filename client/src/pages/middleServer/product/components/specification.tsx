@@ -1,5 +1,5 @@
 import React from 'react';
-import { Product } from '../../../../types/apiEnum';
+import { Product } from '../../../../types/enum';
 
 const getProducts = ({
   productTypes,

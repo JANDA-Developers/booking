@@ -15,7 +15,7 @@ import GoogleMap from './components/googleMap';
 import InputText from '../../../atoms/forms/InputText';
 import SelectBox from '../../../atoms/forms/SelectBox';
 import Button from '../../../atoms/button/Button';
-import SearchInput from '../../../components/searchInput/SearchInput';
+import SearchInput from '../../../atoms/searchInput/SearchInput';
 import './MakeHouse.scss';
 
 let map = null;

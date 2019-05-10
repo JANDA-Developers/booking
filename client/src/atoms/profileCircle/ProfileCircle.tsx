@@ -6,11 +6,12 @@ import defaultImg from '../../img/profile/default_profile.jpg';
 import { IuseProfileUploader } from '../../actions/hook';
 import { IDiv } from '../../types/interface';
 
+type ProfileCircleSize = 'small' | 'tiny';
+
 interface Iprops extends IDiv, IuseProfileUploader {
   profileImg?: string;
   isBordered?: boolean;
-  small?: boolean;
-  tiny?: boolean;
+  size?: ProfileCircleSize;
   whiteBorder?: boolean;
   config?: boolean;
   className?: string;
@@ -21,8 +22,6 @@ const ProfileCircle: React.SFC<Iprops> = ({
   profileImg,
   isBordered,
   whiteBorder,
-  tiny,
-  small,
   className,
   onClick,
   config,
@@ -30,12 +29,13 @@ const ProfileCircle: React.SFC<Iprops> = ({
   fileUrl,
   uploading,
   isError,
+  size,
   ...props
 }) => {
   const classes = classNames('profileCircle JDwaves-effect', className, {
     'profileCircle--bordered': isBordered,
-    'profileCircle--small': small,
-    'profileCircle--tiny': tiny,
+    'profileCircle--small': size === 'small',
+    'profileCircle--tiny': size === 'tiny',
     'profileCircle--whiteBorder': whiteBorder,
   });
 
@@ -63,7 +63,6 @@ const ProfileCircle: React.SFC<Iprops> = ({
 ProfileCircle.defaultProps = {
   profileImg: defaultImg,
   isBordered: false,
-  small: false,
   whiteBorder: false,
   onClick: () => {},
 };

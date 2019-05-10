@@ -1,0 +1,229 @@
+@import '../../style_config/style_config.scss';
+
+// TODO: BEM 규칙에 맞게 node Modules 변경해야함
+
+
+// 최상단
+.react-calendar-timeline {
+
+
+    div {
+        // 🥇 이로서 드레그 끈김을 막을수있다.
+        user-select: none;
+    }
+
+    position: relative;
+    z-index: $z-index-1;
+
+    * {
+        box-sizing: border-box;
+    }
+
+
+    .rct-header-root {
+        // left-top 부분
+        &> div:first-child {
+            border-right:1px solid $grey-opacity1;
+            background-color: $grey-level3;
+        }
+    }
+
+    .rct-dateHeader {
+        line-height: 30px;
+        height: 100%;
+        font-size: $typho-small;
+        text-align:center;
+    }
+
+    .rct-calendar-header {
+        pointer-events: none;
+        background-color:$grey-level3;
+        line-height:100%;
+
+        color:white;
+        & > div:nth-child(2) {
+            display:none;
+        }
+    }
+
+    // 🥉 헤더 콘테이너 디프리케이트
+    // .rct-header-container {
+
+    //     display: flex;
+    //     overflow: hidden;
+        
+    //     //헤더안 최좌측 사이드바 
+    //     .rct-sidebar-header {
+    //         margin: 0;
+    //         color: #ffffff;
+    //         background: $grey-level3;
+    //         border-right: none;
+    //         box-sizing: border-box;
+    //         border-bottom: 1px solid $grey-opacity2;
+    //         overflow: hidden;
+    //         z-index: 40;
+    //     }
+
+   
+    //     // deprecated
+    //     .rct-header {
+    //         margin: 0;
+    //         overflow-x: hidden;
+    //         z-index: 90;
+
+    //         // 헤더 상위 그룹
+    //         .rct-top-header {
+    //             position:relative;
+    //             //헤더 상위라벨
+    //             .rct-label-group {
+    //                 padding: 0 5px;
+    //                 position: absolute;
+    //                 top: 0;
+    //                 font-size: 14px;
+    //                 text-align: center;
+    //                 color: #ffffff;
+    //                 background: $grey-level3;
+    //                 border-bottom: 1px solid $grey-opacity2;
+    //                 cursor: pointer;
+    //             }
+    //         }
+    //         //헤더 하위 그룹
+    //         .rct-bottom-header {
+    //             position: relative;
+
+    //             &.header-sticky {
+    //                 position: sticky;
+    //             }
+    //             //헤더 하위라벨
+    //             .rct-label {
+    //                 position: absolute;
+    //                 text-align: center;
+    //                 cursor: pointer;
+    //                 border-left: 1px solid $grey-opacity2;
+    //                 color: #333333;
+    //                 background: #f0f0f0;
+    //                 border-bottom: 1px solid $grey-opacity2;
+    //             }
+    //         }
+    //     }
+
+    // }
+    // 사이드바
+    .rct-sidebar {
+        overflow: hidden;
+        white-space: normal;
+        display: inline-block;
+        vertical-align: top;
+        position: relative;
+        box-sizing: border-box;
+        border-right: none;
+
+        // 사이드바에 줄 하나 하나 
+        .rct-sidebar-row {
+
+            padding: 0 4px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            box-sizing: content-box;
+            margin: 0;
+            border-bottom: 1px solid $grey-opacity2;
+
+            &-odd{
+                background: $grey-level1;
+            }
+            &-even{
+
+            }
+        }
+        
+    }
+    // 본문
+    .rct-outer {
+
+        display: block;
+        overflow: hidden;
+        white-space: nowrap;
+
+        .rct-scroll {
+
+            display: inline-block;
+            white-space: normal;
+            vertical-align: top;
+            overflow-x: scroll;
+            overflow-y: hidden;
+            touch-action: none;
+
+            // 아이템들
+            .rct-items {
+                .rct-item {
+                    &-content {
+                        position: sticky;
+                        left: 0px;
+                        overflow: hidden;
+                        display: inline-block;
+                        border-radius: 2px;
+                        padding: 0 6px;
+                        height: 100%;
+                    }
+                }
+
+            }
+            // 가로라인
+            .rct-horizontal-lines {
+                
+                .rct-hl-even,.rct-hl-odd {
+                    border-bottom: 1px solid $grey-opacity2;
+                    box-sizing: content-box;
+                    z-index: 40;
+                }
+                .rct-hl-even {
+                    border-bottom: 1px solid $grey-opacity2;
+                    background: $grey-level1;
+                }
+
+                .group {
+                    &:hover {
+                        cursor:pointer;
+                        position: relative;
+                        &:after {
+                            position:absolute;
+                            content: '';
+                            display:block;
+                            top:0;
+                            left: 0;
+                            bottom: 0;
+                            right: 0;
+                            background-color: $hover-effect-dark;
+                        }
+                    }
+                }
+            }
+            // 세로라인
+            .rct-vertical-lines {
+                
+                // 세로줄 하나하나 
+                .verticalLine {
+                    position: absolute;
+                    // 과거의
+                    &--past {
+                        background-color:rgba(0,0,0,.1);
+                        z-index:80;
+                        box-sizing: initial;
+                        border-color: $grey-opacity2;
+                        pointer-events: all!important;
+                        border-left: 2px solid $grey-opacity2;
+                        &:hover {
+                            background-color:rgba(0,0,0,.2)!important;;
+                            cursor: default!important;
+                        }
+
+                    }
+                    &.rct-vl:not(.verticalLine--past) {
+                        border-left: 1px solid $grey-opacity2;
+                    }
+                }
+            }
+        }
+    }
+}

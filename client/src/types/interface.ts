@@ -1,10 +1,12 @@
 import {
-  getMyProfile_GetMyProfile_user_houses,
   getMyProfile_GetMyProfile_user,
   getHouse_GetHouse_house,
   getHouse_GetHouse_house_product,
   getAllRoomType_GetAllRoomType_roomTypes as getAllRoomType_GetAllRoomType_roomType,
-} from '../types/api';
+  getBookers_GetBookers_bookers,
+  getBookers_GetBookers_bookers_bookings,
+  getAllRoomTypeWithGuest_GetGuests_guests,
+} from './api';
 import { IselectedOption } from '../atoms/forms/SelectBox';
 
 export interface IProduct extends getHouse_GetHouse_house_product {}
@@ -12,6 +14,9 @@ export interface IUser extends getMyProfile_GetMyProfile_user {}
 export interface IHouse extends getHouse_GetHouse_house {}
 export interface IDiv extends React.HTMLAttributes<HTMLDivElement> {}
 export interface IRoomType extends getAllRoomType_GetAllRoomType_roomType {}
+export interface IBooker extends getBookers_GetBookers_bookers {}
+export interface IBooking extends getBookers_GetBookers_bookers_bookings {}
+export interface IGuests extends getAllRoomTypeWithGuest_GetGuests_guests {}
 export interface IPageInfo {
   currentPage: number;
   totalPage: number;
@@ -38,5 +43,5 @@ export interface ISelectHouse {
   erorr: any;
 }
 export interface ISelectHouseVariables {
-  selectedHouse: IselectedOption;
+  selectedHouse: IselectedOption | null;
 }

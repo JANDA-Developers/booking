@@ -4,13 +4,13 @@ import './Button.scss';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import ErrProtecter from '../../utils/ErrProtecter';
-import Icon from '../icons/Icons';
+import Icon, { IIcons } from '../icons/Icons';
 import Preloader from '../preloader/Preloader';
 
 interface IProps extends React.HTMLAttributes<HTMLButtonElement> {
   disabled?: boolean;
   label?: string;
-  icon?: string;
+  icon?: IIcons;
   onClick?: any;
   iconClasses?: string[];
   dataTip?: any;
@@ -27,6 +27,7 @@ interface IProps extends React.HTMLAttributes<HTMLButtonElement> {
   toggle?: boolean;
   preloader?: boolean;
   className?: string;
+  hrefOpen?: string;
 }
 
 const Button: React.FC<IProps> = ({
@@ -48,6 +49,7 @@ const Button: React.FC<IProps> = ({
   preloader,
   className,
   size,
+  hrefOpen,
   // 투글은 클래스만 바꾸어 줍니다.
   toggle,
   ...props
@@ -70,6 +72,10 @@ const Button: React.FC<IProps> = ({
     'JDtext-blink': blink,
   });
 
+  const handleRedirect = () => {
+    window.open(hrefOpen);
+  };
+
   const handleKeyPress = () => {};
 
   return (
@@ -78,13 +84,13 @@ const Button: React.FC<IProps> = ({
       type={type}
       disabled={disabled}
       className={`JDbtn JDwaves-effect ${classes}`}
-      onClick={onClick}
+      onClick={hrefOpen ? handleRedirect : onClick}
       onKeyPress={handleKeyPress}
       data-tip={dataTip}
       data-for={dataFor}
     >
       {preloader ? <Preloader /> : label}
-      {!preloader && icon !== '' && (
+      {!preloader && icon && (
         <i className={`JDbtn__icon ${iconClasses && iconClasses.join(' ')}`}>{icon && <Icon icon={icon} />}</i>
       )}
     </button>
@@ -94,7 +100,6 @@ const Button: React.FC<IProps> = ({
 Button.defaultProps = {
   disabled: false,
   label: '',
-  icon: '',
   onClick: () => {},
   iconClasses: [''],
   dataTip: false,

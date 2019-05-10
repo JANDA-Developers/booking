@@ -7,8 +7,8 @@ import SelectBox from '../../atoms/forms/SelectBox';
 import InputText from '../../atoms/forms/InputText';
 import Button from '../../atoms/button/Button';
 import RoomSelectInfoTable from './components/roomSelectInfoTable';
-import JDdayPicker from '../dayPicker/DayPicker';
-import { BOOKING_STATUS_OP, PAYMENT_STATUS_OP, PAYMETHOD_OP } from '../../types/apiEnum';
+import JDdayPicker from '../../atoms/dayPicker/DayPicker';
+import { BOOKING_STATUS_OP, PAYMENT_STATUS_OP, PAYMETHOD_OP } from '../../types/enum';
 import JDselect from '../../atoms/forms/SelectBox';
 import JDbox from '../../atoms/box/JDbox';
 import './BookerModal.scss';
@@ -42,8 +42,7 @@ const POPbookerInfo: React.FC<IProps> = ({ modalHook, bookerInfo }) => {
           maxWidth: '30rem',
         },
       }}
-      isOpen={modalHook.isOpen}
-      onRequestClose={modalHook.closeModal}
+      {...modalHook}
       className="Modal bookerModal"
       overlayClassName="Overlay"
     >

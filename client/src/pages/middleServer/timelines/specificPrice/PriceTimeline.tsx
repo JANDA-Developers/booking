@@ -2,7 +2,12 @@ import React from 'react';
 import 'moment/locale/ko';
 import moment from 'moment';
 import { MutationFn } from 'react-apollo';
-import Timeline from '../../../../components/timeline/Timeline';
+import Timeline, {
+  TimelineHeaders,
+  SidebarHeader,
+  DateHeader,
+  CustomHeader,
+} from '../../../../atoms/timeline/Timeline';
 import ErrProtecter from '../../../../utils/ErrProtecter';
 import './PriceTimeline.scss';
 import {
@@ -16,9 +21,10 @@ import Preloader from '../../../../atoms/preloader/Preloader';
 import { IItem } from './PriceTimelineWrap';
 import InputText from '../../../../atoms/forms/InputText';
 import { useDayPicker, IUseDayPicker } from '../../../../actions/hook';
-import JDdayPicker from '../../../../components/dayPicker/DayPicker';
+import JDdayPicker from '../../../../atoms/dayPicker/DayPicker';
 import { setMidNight } from '../../../../utils/utils';
-import { TimePerMs } from '../../../../types/apiEnum';
+import { TimePerMs } from '../../../../types/enum';
+import Icon, { IconSize } from '../../../../atoms/icons/Icons';
 
 const LAST_ROOMTYPE: any = 'unRendered'; // 방들중에 방타입이 다른 마지막을 체크할것
 
@@ -41,12 +47,6 @@ interface IProps {
   >;
   dataTime: { start: number; end: number };
   defaultTime: { start: number; end: number };
-  setDefaultTime: React.Dispatch<
-    React.SetStateAction<{
-      start: number;
-      end: number;
-    }>
-  >;
 }
 
 const ModifyTimeline: React.FC<IProps> = ({
@@ -61,7 +61,6 @@ const ModifyTimeline: React.FC<IProps> = ({
   dataTime,
   setDataTime,
   defaultTime,
-  setDefaultTime,
   dateInputHook,
   ...timelineProps
 }) => {
@@ -79,14 +78,6 @@ const ModifyTimeline: React.FC<IProps> = ({
 
   // date Input 변화시
   const handleInputDateChange = (start: string, end: string) => {
-    setDefaultTime({
-      start: moment(end)
-        .subtract(2, 'day')
-        .valueOf(),
-      end: moment(end)
-        .add(4, 'day')
-        .valueOf(),
-    });
     setDataTime({
       start: moment(end)
         .subtract(7, 'day')
@@ -192,18 +183,6 @@ const ModifyTimeline: React.FC<IProps> = ({
       <div className="docs-section">
         <h3>상세가격 수정</h3>
         <p className="JDtextColor--secondary">* 해당 가격 수정은 모든 가격설정중 최우선 적용 됩니다.</p>
-        <div className="flex-grid">
-          <div className="flex-grid__col col--full-4 col--md-6">
-            <JDdayPicker
-              onChangeDate={handleInputDateChange}
-              isRange={false}
-              input
-              canSelectBeforeDays={false}
-              label="달력날자"
-              {...dateInputHook}
-            />
-          </div>
-        </div>
         <div className="flex-grid flex-grid--end">
           <div className="flex-grid__col col--full-4 col--lg-4 col--md-6" />
         </div>
@@ -220,7 +199,35 @@ const ModifyTimeline: React.FC<IProps> = ({
               itemRenderer={itemRendererFn}
               groupRenderer={ModifyGroupRendererFn}
               sidebarContent={modifySideBarRendererFn()}
-            />
+            >
+              <TimelineHeaders>
+                <SidebarHeader>
+                  {({ getRootProps }: any) => (
+                    <div {...getRootProps()}>
+                      <JDdayPicker
+                        onChangeDate={handleInputDateChange}
+                        isRange={false}
+                        input
+                        canSelectBeforeDays={false}
+                        label="달력날자"
+                        {...dateInputHook}
+                        inputComponent={(
+                          <span>
+                            <Icon
+                              className="specificPrice__topLeftIcon"
+                              size={IconSize.MEDEIUM_SMALL}
+                              icon="calendar"
+                            />
+                          </span>
+)}
+                      />
+                    </div>
+                  )}
+                </SidebarHeader>
+                <DateHeader unit="primaryHeader" />
+                <DateHeader />
+              </TimelineHeaders>
+            </Timeline>
             {loading && <Preloader />}
           </div>
         </div>

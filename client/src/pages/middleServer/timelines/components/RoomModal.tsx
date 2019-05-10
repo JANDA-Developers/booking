@@ -50,9 +50,8 @@ const RoomTypeModal: React.FC<IProps> = ({
 
   return (
     <Modal
-      onRequestClose={modalHook.closeModal}
+      {...modalHook}
       overlayClassName="Overlay"
-      isOpen={modalHook.isOpen}
       center={false} // 이거 제거 필요
       className="Modal"
       style={{
@@ -67,10 +66,9 @@ const RoomTypeModal: React.FC<IProps> = ({
         </div>
       </div>
       <div className="JDmodal__endSection">
-        <Button label="생성하기" mode="flat" onClick={onCreateRoom} />
-        <Button label="수정하기" mode="flat" onClick={onUpdateRoom} />
-        <Button label="삭제하기" mode="flat" onClick={onDeleteRoom} />
-        <Button label="닫기" mode="flat" onClick={modalHook.closeModal} />
+        <Button label="생성하기" thema="primary" mode="flat" onClick={onCreateRoom} />
+        <Button label="수정하기" thema="primary" mode="flat" onClick={onUpdateRoom} />
+        <Button label="삭제하기" thema="warn" mode="flat" onClick={onDeleteRoom} />
       </div>
     </Modal>
   );

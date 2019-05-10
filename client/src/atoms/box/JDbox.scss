@@ -2,20 +2,21 @@
 
 #root,.ReactModalPortal {
     .JDbox {
-
+        
+        &__label {
+            font-size: $typho-tiny;
+            margin-bottom: $standard-margin-bottom /3;
+        }
+        
         &--normal {
             font-size: $typho-small;
-            padding: $standard-padding /2;
+            padding: $standard-small-padding;
             background-color: $grey-level1;
             border-radius: $standard-border-radius;
             text-align: left;
             width: 100%;
             margin-bottom: $standard-margin-bottom /3;
 
-            &__label {
-                font-size: $typho-tiny;
-                margin-bottom: $standard-margin-bottom /3;
-            }
 
             &__content {
                 display: flex;
@@ -58,6 +59,26 @@
             border-radius: $standard-border-radius;
             padding: $standard-padding;
             border: 1px solid $standard-outborder-color;
+        }
+        
+        &--standard {
+            height: $standard-line-height;
+            box-sizing: border-box;
+            line-height: 100%;
+        }
+
+        
+        &--withIcon {
+            padding-right: 1rem;
+            position: relative;
+
+            .JDbox__icon {
+                position:absolute;
+                right: $standard-small-padding;
+                top:50%;
+                transform: translateY(-50%);
+            }
+
         }
     }
 }

@@ -5,12 +5,12 @@ import './InputText.scss';
 import './Textarea.scss';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import JDicon, { IconSize } from '../icons/Icons';
+import JDicon, { IconSize, IIcons } from '../icons/Icons';
 import ErrProtecter from '../../utils/ErrProtecter';
-import autoHyphen from '../../utils/AutoHyphen';
-import { NEUTRAL } from '../../types/apiEnum';
-import { isEmpty } from '../../utils/utils';
+import autoHyphen, { numberStr, stringToNumber } from '../../utils/AutoHyphen';
+import { NEUTRAL } from '../../types/enum';
 import { getByteLength } from '../../utils/math';
+import { autoComma } from '../../utils/utils';
 
 interface IProps extends React.HTMLAttributes<HTMLInputElement> {
   readOnly?: boolean;
@@ -22,7 +22,7 @@ interface IProps extends React.HTMLAttributes<HTMLInputElement> {
   label?: string;
   type?: string;
   dataError?: string;
-  icon?: string;
+  icon?: IIcons;
   iconHover?: boolean;
   iconOnClick?: any;
   dataSuccess?: string;
@@ -34,12 +34,13 @@ interface IProps extends React.HTMLAttributes<HTMLInputElement> {
   onBlur?: any;
   refContainer?: any;
   isValid?: any;
-  value?: string | null;
+  value?: string | null | number;
   max?: number;
   defaultValue?: string;
   // 컨트롤 일때만 작동함
   hyphen?: boolean;
   byte?: boolean;
+  comma?: boolean;
 }
 
 const InputText: React.FC<IProps> = ({
@@ -67,13 +68,40 @@ const InputText: React.FC<IProps> = ({
   iconHover,
   hyphen,
   byte,
+  comma,
   ...props
 }) => {
+  const valueFormat = (inValue: any) => {
+    let inInValue = inValue;
+    if (typeof inValue === 'number') {
+      inInValue = inInValue.toString();
+    }
+    if (typeof inInValue === 'string') {
+      if (hyphen) return autoHyphen(inInValue);
+      if (comma) return autoComma(inInValue);
+      return inInValue;
+    }
+    return undefined;
+  };
+
   const inHandleChange = (event: any) => {
     const { target } = event;
     const result = validation(target.value, max);
-    onChange && onChange(target.value.replace(/-/gi, ''));
+    if (onChange) {
+      if (hyphen || comma) {
+        if (typeof value === 'number') {
+          onChange(stringToNumber(target.value));
+        } else {
+          onChange(numberStr(target.value));
+        }
+      } else onChange(target.value);
+    }
+
     onChangeValid(result);
+
+    if (!value && (hyphen || comma)) {
+      target.value = valueFormat(target.value);
+    }
   };
 
   const { className } = props;
@@ -97,21 +125,16 @@ const InputText: React.FC<IProps> = ({
     let domInput;
     if (refContainer) domInput = refContainer.current;
     else domInput = inRefContainer.current;
-    if (defaultValue !== undefined) domInput.value = defaultValue;
+    if (typeof defaultValue === 'undefined') return;
+    if (typeof defaultValue === 'string' || 'number') domInput.value = valueFormat(defaultValue);
   }, []);
 
-  const valueFormat = () => {
-    if (value) {
-      return hyphen ? autoHyphen(value) : value;
-    }
-    return undefined;
-  };
-  const formatedValue = valueFormat();
+  const formatedValue = valueFormat(value);
 
   // 인풋 과 텍스트어리어 경계
   return !textarea ? (
     <div className="JDinput-wrap">
-      {icon !== '' ? (
+      {icon ? (
         <span className="JDinput-iconWrap">
           {icon && <JDicon size={IconSize.MEDIUM} onClick={iconOnClick} hover={iconHover} icon={icon} />}
         </span>
@@ -136,7 +159,7 @@ const InputText: React.FC<IProps> = ({
     <div className="JDinput-wrap">
       <textarea
         disabled={disabled}
-        value={value || undefined}
+        value={formatedValue || undefined}
         onChange={inHandleChange}
         onBlur={onBlur}
         id="JDtextarea"
@@ -147,7 +170,7 @@ const InputText: React.FC<IProps> = ({
       <label htmlFor="JDtextarea" className="JDtextarea_label">
         {label}
       </label>
-      {byte && <span className="JDtextarea__byte">{getByteLength(value || undefined)}</span>}
+      {byte && <span className="JDtextarea__byte">{getByteLength(formatedValue || undefined)}</span>}
     </div>
   );
 };
@@ -161,7 +184,6 @@ InputText.defaultProps = {
   label: '',
   type: '',
   dataError: '',
-  icon: '',
   dataSuccess: '',
   isValid: '',
   onChangeValid: () => {},

@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 /* -------------------------------- client ------------------------------- */
 // 로그인이 되었는지?
 export const IS_LOGGED_IN = gql`
-  query auth{
+  query auth {
     auth {
       isLoggedIn @client
     }
@@ -35,7 +35,7 @@ export const SELECTED_HOUSE = gql`
 
 // 하우스 선택
 export const SELECT_HOUSE = gql`
-  mutation selectHouse($selectedHouse: SelectOption!) {
+  mutation selectHouse($selectedHouse: SelectOption) {
     selectHouse(selectedHouse: $selectedHouse) @client {
       ok
       erorr

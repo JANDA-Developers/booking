@@ -1,10 +1,10 @@
 import moment from 'moment';
-import { TimePerMs } from '../types/apiEnum';
+import { TimePerMs } from '../types/enum';
 
 // 밀리세컨드 타임 스탬프를  00:00:00:00 으로 만들어줍니다.
 
 const setMidNight = (date: number) => Math.floor(date / TimePerMs.DAY) * TimePerMs.DAY - 32400 * 1000;
-const setMyForm = (date: any) => {
+const setYYYYMMDD = (date: any) => {
   if (!date) {
     console.error('date Null');
     return moment()
@@ -17,4 +17,4 @@ const setMyForm = (date: any) => {
 };
 
 export default setMidNight;
-export { setMyForm };
+export { setYYYYMMDD };

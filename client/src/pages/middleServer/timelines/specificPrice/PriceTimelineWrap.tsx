@@ -17,20 +17,16 @@ import {
 } from '../../../../types/api';
 import PriceTimeline from './PriceTimeline';
 import { PriceDefaultProps } from '../timelineConfig';
-import {
-  GET_ALL_ROOMTYPES, CREATE_ROOM_PRICE, GET_ALL_ROOMTYPES_PRICE, DELETE_ROOM_PRICE,
-} from '../../../../queries';
+import { CREATE_ROOM_PRICE, GET_ALL_ROOMTYPES_PRICE, DELETE_ROOM_PRICE } from '../../../../queries';
 import {
   ErrProtecter,
-  toast,
-  isEmpty,
   QueryDataFormater,
   showError,
   setMidNight,
   onCompletedMessage,
   onError,
 } from '../../../../utils/utils';
-import { TimePerMs } from '../../../../types/apiEnum';
+import { TimePerMs } from '../../../../types/enum';
 import { IHouse } from '../../../../types/interface';
 import { useDayPicker } from '../../../../actions/hook';
 
@@ -93,38 +89,36 @@ interface IProps {
   selectedHouse: IHouse;
 }
 
-// 👿 프론트는 시간을 사용할떄 Miliseconds 을 사용
-// 👿 백엔드는 시간을 사용할떄 IOS string 을 사용
-// 😇 데이터 보내기 "직전"에만 IOS string으로 변환해 주는중.
-// ❓ 달력에서 사용하는 것은 number타입
-// 👼 백엔드쪽에서 Ms 통일하기로함.
-// 👿👼  Ms 변환후 버그가 없는지 확인해야함!
 // 👼 앞으로 무조건 milisecond를 사용하는 편이 편할듯하다.
 const PriceTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
   //  Default 값
   const dateInputHook = useDayPicker(null, null);
-  const queryStartDate = setMidNight(
-    moment()
-      .subtract(30, 'days')
-      .valueOf(),
-  );
-  const queryEndDate = setMidNight(
-    moment()
-      .add(60, 'days')
-      .valueOf(),
-  );
-  // 일주일치 view만 보이겠지만 미리미리 요청해두자
-  // 포멧 형식 "2019.04.09."
-  const [defaultTime, setDefaultTime] = useState({
-    start: setMidNight(moment().valueOf()),
+  const defaultTime = {
+    start: dateInputHook.from ? setMidNight(moment(dateInputHook.from).valueOf()) : setMidNight(moment().valueOf()),
+    end: dateInputHook.to
+      ? setMidNight(
+        moment(dateInputHook.to)
+          .add(7, 'days')
+          .valueOf(),
+      )
+      : setMidNight(
+        moment()
+          .add(7, 'days')
+          .valueOf(),
+      ),
+  };
+  const [dataTime, setDataTime] = useState({
+    start: setMidNight(
+      moment()
+        .subtract(30, 'days')
+        .valueOf(),
+    ),
     end: setMidNight(
       moment()
-        .add(7, 'days')
+        .add(60, 'days')
         .valueOf(),
     ),
   });
-
-  const [dataTime, setDataTime] = useState({ start: queryStartDate, end: queryEndDate });
 
   // 방타입과 날자 조합의 키를 가지고 value로 pirce를 가지는 Map 생성
   const priceMapMaker = (priceData: roomPrices[]): Map<string, number> => {
@@ -192,7 +186,6 @@ const PriceTimelineWrap: React.SFC<IProps> = ({ selectedHouse }) => {
                     setDataTime={setDataTime}
                     defaultTime={defaultTime}
                     key={`defaultTime${defaultTime.start}${defaultTime.end}`}
-                    setDefaultTime={setDefaultTime}
                     delteRoomPriceMu={deleteRoomPriceMu}
                     dateInputHook={dateInputHook}
                   />

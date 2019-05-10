@@ -42,7 +42,7 @@
 
     &__input {
         position: absolute;
-        z-index: 10;
+        @extend %z-depth-1;
         height: 100%;
         top: 0;
         border: 0;

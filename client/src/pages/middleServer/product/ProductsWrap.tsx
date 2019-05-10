@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Mutation, graphql } from 'react-apollo';
 import { Redirect } from 'react-router-dom';
-import { useRadio, useModal2, useCheckBox } from '../../../actions/hook';
+import { useRadio, useModal, useCheckBox } from '../../../actions/hook';
 import Products from './Products';
 import {
   GET_All_PRODUCTS_TYPES, BUY_PRODUCTS, GET_USER_INFO, REFUND_PRODUCT,
@@ -15,7 +15,7 @@ import {
   buyProduct, buyProductVariables, refundProduct, refundProductVariables,
 } from '../../../types/api';
 import { ReactTooltip } from '../../../atoms/tooltipList/TooltipList';
-import { Product } from '../../../types/apiEnum';
+import { Product } from '../../../types/enum';
 
 class BuyProductMutation extends Mutation<buyProduct, buyProductVariables> {}
 class RefundProductMutation extends Mutation<refundProduct, refundProductVariables> {}
@@ -30,8 +30,8 @@ const ProductsWrap: React.FC<any> = ({
   const productTypes = GetAllProductTypes && GetAllProductTypes.productTypes;
   const currentProductTypeId = !isEmpty(currentProduct) && currentProduct.productType._id;
   const [selectedProductTypeId, setSelectedProductTypeId] = useRadio(currentProductTypeId);
-  const exModalHook = useModal2(false);
-  const refundModal = useModal2(false);
+  const exModalHook = useModal(false);
+  const refundModal = useModal(false);
   const [redirect, setRedirect] = useState(false);
   const hostAppHook = useCheckBox(false);
 

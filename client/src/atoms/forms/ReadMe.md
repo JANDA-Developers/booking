@@ -29,7 +29,9 @@ a# Checkbox
 | doubleHeight  | bool   | 텍스트어리어 일때 높이 2배                |                        |         | false   |
 | max           | number | validation이 MaxOver 일떄 최대값          |                        |         | 10000   |
 
+- comma : 콤마 된것은 리턴할때 콤마를 때서 줍니다.
 - hyphen : 하이픈된 것은 리턴할때 하이픈 때서 줍니다
+- cooma hyphen 상태에서 type number가 들어온다면 리턴할떄 너버로 바꾸어 onChange로 전송합니다.
 
 # Radio
 

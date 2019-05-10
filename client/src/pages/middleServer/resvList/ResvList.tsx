@@ -9,53 +9,27 @@ import JDselect from '../../../atoms/forms/SelectBox';
 import CheckBox from '../../../atoms/forms/CheckBox';
 import Button from '../../../atoms/button/Button';
 import JDIcon, { IconSize } from '../../../atoms/icons/Icons';
-import { useModal2 } from '../../../actions/hook';
+import { useModal } from '../../../actions/hook';
 import BookerModalWrap from '../../../components/bookerInfo/BookerModalWrap';
+import { IPageInfo, IBooker, IBooking } from '../../../types/interface';
+import JDbox from '../../../atoms/box/JDbox';
+import { arraySum } from '../../../utils/math';
+import { setYYYYMMDD } from '../../../utils/setMidNight';
 
-interface IProps {}
+interface IProps {
+  pageInfo: IPageInfo | undefined;
+  bookersData: IBooker[];
+  loading: boolean;
+}
 
-const ResvList: React.SFC<IProps> = () => {
-  const datas = [
-    {
-      number: '1',
-      phoneNumber: '1',
-      resvInfo: '1',
-      date: '1',
-      bookerInfo: '1',
-      payment: '1',
-      memo: '1',
-      id: '응?',
-    },
-    {
-      number: '1',
-      phoneNumber: '1',
-      resvInfo: '1',
-      date: '1',
-      bookerInfo: '1',
-      payment: '1',
-      memo: '1',
-      id: '오?',
-    },
-    {
-      number: '1',
-      phoneNumber: '1',
-      resvInfo: '1',
-      date: '1',
-      bookerInfo: '1',
-      payment: '1',
-      memo: '1',
-      id: '헿?',
-    },
-  ];
-
+const ResvList: React.SFC<IProps> = ({ pageInfo, bookersData, loading }) => {
   //   ❔ 두개 합치는게 좋을까?
   const [checkedIds, setCheckedIds]: any = useState({});
   const [selectAll, setSelectAll]: any = useState(false);
-  const bookerModalHook = useModal2(false);
+  const bookerModalHook = useModal(false);
 
   //   여기에 key가 들어오면 id배열에서 찾아서 넣거나 제거해줌
   const onToogleRow = (key: string) => {
-    console.log(key);
     const newSelected: any = Object.assign({}, checkedIds);
     newSelected[key] = checkedIds[key] ? undefined : key;
     setCheckedIds(newSelected);
@@ -64,8 +38,8 @@ const ResvList: React.SFC<IProps> = () => {
   //    모든 라인들에대한 아이디를 투글함
   const onToogleAllRow = (flag: boolean) => {
     const newSelected: any = {};
-    datas.forEach((data) => {
-      newSelected[data.id] = checkedIds[data.id] ? undefined : data.id;
+    bookersData.forEach((booker) => {
+      newSelected[booker._id] = checkedIds[booker._id] ? undefined : booker._id;
     });
     setCheckedIds(newSelected);
     setSelectAll(flag);
@@ -73,20 +47,37 @@ const ResvList: React.SFC<IProps> = () => {
 
   const TableColumns = [
     {
-      Header: '번호',
-      accessor: 'number',
-    },
-    {
       Header: '예약일자',
-      accessor: 'phoneNumber',
+      accessor: 'createdAt',
+      Cell: ({ value }: CellInfo) => <div>{setYYYYMMDD(value.createdAt)}</div>,
     },
     {
       Header: '숙박정보',
-      accessor: 'resvInfo',
+      accessor: 'bookings',
+      Cell: ({ value }: CellInfo) => {
+        const bookings: IBooking[] = value;
+        return bookings.map((booking: IBooking) => (
+          <JDbox>
+            {booking.roomType.name}
+            <br />
+            {/* 🚩인원곧 받음 */}
+          </JDbox>
+        ));
+      },
     },
     {
       Header: '숙박일자',
-      accessor: 'date',
+      accessor: 'bookings',
+      Cell: ({ value }: CellInfo) => {
+        const bookings: IBooking[] = value;
+        return (
+          <div>
+            {setYYYYMMDD(bookings[0].start)}
+            <br />
+            {setYYYYMMDD(bookings[0].end)}
+          </div>
+        );
+      },
     },
     {
       Header: () => (
@@ -96,7 +87,17 @@ const ResvList: React.SFC<IProps> = () => {
           {'연락처'}
         </div>
       ),
-      accessor: 'bookerInfo',
+      accessor: 'name',
+      Cell: ({ original }: CellInfo) => {
+        const Booker: IBooker = original;
+        return (
+          <div>
+            {Booker.name}
+            <br />
+            {Booker.phoneNumber}
+          </div>
+        );
+      },
     },
     {
       Header: () => (
@@ -106,16 +107,27 @@ const ResvList: React.SFC<IProps> = () => {
           {'결제상태'}
         </div>
       ),
-      accessor: 'payment',
+      accessor: 'bookings',
+      Cell: ({ original }: CellInfo) => {
+        const booker: IBooker = original;
+        return (
+          <div>
+            {arraySum(booker.bookings ? booker.bookings.map(booking => booking.price) : [0])}
+            <br />
+            {/* 🚩 곧 가격 관련 들어올것 */}
+          </div>
+        );
+      },
     },
     {
       Header: '메모',
       accessor: 'memo',
       minWidth: 200,
+      Cell: ({ value }: CellInfo) => <div>{value}</div>,
     },
     {
       Header: '상세',
-      accessor: 'id',
+      accessor: 'email',
       minWidth: 50,
       Cell: () => <JDIcon onClick={bookerModalHook.openModal} size={IconSize.MEDIUM} hover icon="person" />,
     },
@@ -129,16 +141,12 @@ const ResvList: React.SFC<IProps> = () => {
       onToogleRow(inId);
     };
 
-    console.log(checkedIds);
     return <CheckBox onChange={onChange} checked={checked} />;
   };
 
-  const selectAllInputComponentProps = ({ selectType, onClick, checked }: SelectAllInputComponentProps) => {
-    console.log(onClick);
-    console.log(checked);
-
-    return <CheckBox onChange={onToogleAllRow} checked={checked} />;
-  };
+  const selectAllInputComponentProps = ({ selectType, onClick, checked }: SelectAllInputComponentProps) => (
+    <CheckBox onChange={onToogleAllRow} checked={checked} />
+  );
 
   const SelectableJDtable = selectTableHOC(JDtable);
   return (
@@ -153,18 +161,21 @@ const ResvList: React.SFC<IProps> = () => {
         </div>
         <SelectableJDtable
           {...ReactTableDefault}
-          keyField="id"
           toggleAll={() => {}}
           toggleSelection={onToogleRow}
           SelectAllInputComponent={selectAllInputComponentProps}
           SelectInputComponent={selectInputCompoent}
           isCheckable
-          data={datas}
+          data={bookersData}
           selectAll={selectAll}
           isSelected={(key: string) => checkedIds[key] !== undefined}
           columns={TableColumns}
+          keyField="_id"
         />
-        <BookerModalWrap modalHook={bookerModalHook} />
+        <BookerModalWrap
+          key={`${bookerModalHook.info.bookerId || 'BookerModaldefaultId'}`}
+          modalHook={bookerModalHook}
+        />
       </div>
     </div>
   );

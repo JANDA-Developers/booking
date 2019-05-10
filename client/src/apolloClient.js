@@ -1,4 +1,6 @@
-import ApolloClient from 'apollo-boost';
+import ApolloClient, {
+  InMemoryCache,
+} from 'apollo-boost';
 import dotenv from 'dotenv';
 import uri from './uri';
 import resolvers from './resolvers';
@@ -32,6 +34,9 @@ const client = new ApolloClient({
   },
   uri,
   credentials: 'omit',
+  cache: new InMemoryCache({
+    addTypename: false,
+  }),
 });
 
 export default client;

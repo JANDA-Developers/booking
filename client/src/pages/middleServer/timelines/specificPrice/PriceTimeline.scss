@@ -1,8 +1,6 @@
 @import '../../../../style_config/style_config.scss';
 
 .specificPrice {
-
-    
     &__timeline {
         .JDinput {
             margin: 0;
@@ -11,13 +9,27 @@
             width: 80%;
             margin-left: 10%;
         }
-
+        
         .rct-header {
             pointer-events: none;
         }
         
         .JDinput-wrap {
             padding-bottom: $standard-margin-bottom;
+        }
+
+        .rct-header-root {
+            position: relative;
+            z-index: 90;
+            text-align:center;
+            & > div {
+                display:flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .specificPrice__topLeftIcon {
+                color:white;
+            }
         }
     }
 }

@@ -1,10 +1,11 @@
 import moment from 'moment';
 import React from 'react';
 import { VerticalAlignProperty } from 'csstype';
-import { defaultHeaderLabelFormats, defaultSubHeaderLabelFormats } from '../../../components/timeline/Timeline';
+import { defaultHeaderLabelFormats, defaultSubHeaderLabelFormats } from '../../../atoms/timeline/Timeline';
 import generateFakeData from './components/timeline_fakedata';
 import groupRendererFn from './components/groupRender';
 import itemRendererFn from './components/itemRender';
+import { IAssigGroup } from './assig/AssigTimelineWrap';
 
 // 변수설정
 const ASSIGT_IMELINE_HEIGHT = 30;
@@ -17,8 +18,8 @@ const keys = {
   groupTitleKey: 'title',
   groupRightTitleKey: 'rightTitle',
   itemIdKey: 'id',
-  itemTitleKey: 'title',
-  itemDivTitleKey: 'title',
+  itemTitleKey: 'bookerId',
+  itemDivTitleKey: 'id',
   itemGroupKey: 'group',
   itemTimeStartKey: 'start',
   itemTimeEndKey: 'end',
@@ -45,7 +46,9 @@ const krSubHeaderLabelFormats = Object.assign({}, defaultSubHeaderLabelFormats, 
   hourLong: 'M월 D일 ddd', // 월 일
 });
 
-const krHeaderLabelFormats = Object.assign({}, defaultHeaderLabelFormats, {});
+const krHeaderLabelFormats = Object.assign({}, defaultHeaderLabelFormats, {
+  dayLong: 'YYYY년 MM월 DD일 ',
+});
 
 const defaultTimeStart = moment()
   .startOf('day')
@@ -57,10 +60,9 @@ const defaultTimeEnd = moment()
   .add(7, 'day')
   .toDate();
 
-// Timeline 으로 전달될 객체
-const defaultProps = {
-  minZoom: 7 * 24 * 60 * 60 * 1000,
-  maxZoom: 180 * 24 * 60 * 60 * 1000,
+const sharedProps = {
+  minZoom: 14 * 24 * 60 * 60 * 1000,
+  maxZoom: 7 * 24 * 60 * 60 * 1000,
   dragSnap: 24 * 60 * 60 * 1000,
   subHeaderLabelFormats: krSubHeaderLabelFormats,
   headerLabelFormats: krHeaderLabelFormats,
@@ -70,14 +72,24 @@ const defaultProps = {
     month: 1,
     year: 1,
   },
+  fixedHeader: 'fixed',
+  verticalLineClassNamesForTime: (timeStart: any, timeEnd: any) => {
+    if (timeStart < new Date().getTime()) return ['verticalLine', 'verticalLine--past'];
+    return ['verticalLine'];
+  },
+  horizontalLineClassNamesForGroup: (group: any) => ['group'],
+};
+
+// Assig Timeline 으로 전달될 객체
+const assigDefaultProps = {
+  ...sharedProps,
   keys,
   defaultTimeStart,
   defaultTimeEnd,
   groupRenderer: groupRendererFn,
   itemRenderer: itemRendererFn,
   fixedHeader: 'fixed',
-  sidebarWidth: 150,
-  sidebarContent: <div>Above The Left</div>,
+  sidebarWidth: 230,
   canMove: true,
   canResize: 'right',
   canSelect: true,
@@ -87,27 +99,18 @@ const defaultProps = {
   itemHeightRatio: 1,
   showCursorLine: true,
   lineHeight: ASSIGT_IMELINE_HEIGHT,
-  // 아래 속성은 퍼포먼스에 민감하게 작용합니다.
-  verticalLineClassNamesForTime: (timeStart: any, timeEnd: any) => {
-    if (timeStart < new Date().getTime()) return ['verticalLine', 'verticalLine--past'];
-    return ['verticalLine'];
+  horizontalLineClassNamesForGroup: (group: IAssigGroup) => {
+    const groupClasses = ['group'];
+    console.log(group);
+    group.isLastOfRoom && groupClasses.push('group--lastOfRoom');
+    group.isLastOfRoomType && groupClasses.push('group--lastOfRoomType');
+    return groupClasses;
   },
-  horizontalLineClassNamesForGroup: (group: any) => ['group'],
 };
-// ModifyTimeline 으로 전달될 객체
 
+// ModifyTimeline 으로 전달될 객체
 const ModifydefaultProps = {
-  minZoom: 7 * 24 * 60 * 60 * 1000,
-  maxZoom: 180 * 24 * 60 * 60 * 1000,
-  dragSnap: 24 * 60 * 60 * 1000,
-  subHeaderLabelFormats: krSubHeaderLabelFormats,
-  headerLabelFormats: krHeaderLabelFormats,
-  timeSteps: {
-    hour: 24,
-    day: 1,
-    month: 1,
-    year: 1,
-  },
+  ...sharedProps,
   keys,
   defaultTimeStart,
   defaultTimeEnd,
@@ -122,26 +125,10 @@ const ModifydefaultProps = {
   itemHeightRatio: 1,
   showCursorLine: true,
   lineHeight: 36,
-  // 아래 속성은 퍼포먼스에 민감하게 작용합니다.
-  verticalLineClassNamesForTime: (timeStart: any, timeEnd: any) => {
-    if (timeStart < new Date().getTime()) return ['verticalLine', 'verticalLine--past'];
-    return ['verticalLine'];
-  },
-  horizontalLineClassNamesForGroup: (group: any) => ['group'],
 };
 
 const PriceDefaultProps = {
-  minZoom: 7 * 24 * 60 * 60 * 1000,
-  maxZoom: 7 * 24 * 60 * 60 * 1000,
-  dragSnap: 24 * 60 * 60 * 1000,
-  subHeaderLabelFormats: krSubHeaderLabelFormats,
-  headerLabelFormats: krHeaderLabelFormats,
-  timeSteps: {
-    hour: 24,
-    day: 1,
-    month: 1,
-    year: 1,
-  },
+  ...sharedProps,
   keys: priceTimelineKeys,
   fixedHeader: 'fixed',
   sidebarWidth: 300,
@@ -156,14 +143,8 @@ const PriceDefaultProps = {
   itemHeightRatio: 1,
   showCursorLine: false,
   lineHeight: 54,
-  // 아래 속성은 퍼포먼스에 민감하게 작용합니다.
-  verticalLineClassNamesForTime: (timeStart: any, timeEnd: any) => {
-    if (timeStart < new Date().getTime()) return ['verticalLine', 'verticalLine--past'];
-    return ['verticalLine'];
-  },
-  horizontalLineClassNamesForGroup: (group: any) => ['group'],
 };
 
 export {
-  initItems, initGroups, defaultProps, krHeaderLabelFormats, ModifydefaultProps, PriceDefaultProps,
+  initItems, initGroups, assigDefaultProps, krHeaderLabelFormats, ModifydefaultProps, PriceDefaultProps,
 };

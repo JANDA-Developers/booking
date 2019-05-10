@@ -19,14 +19,15 @@ export enum SelectBoxSize {
 interface Iprops extends SelectComponentsProps {
   label?: string;
   disabled?: boolean;
-  selectedOption?: IselectedOption;
+  selectedOption?: IselectedOption | null;
   options?: IselectedOption[];
   onChange?(foo: IselectedOption): void;
   className?: string;
   rightLabel?: string;
   props?: any;
-  defaultValue?: IselectedOption;
+  defaultValue?: IselectedOption | null;
   isOpen?: boolean;
+  textOverflow?: 'visible' | 'hidden';
   mode?: 'small';
   size?: SelectBoxSize;
 }
@@ -44,12 +45,14 @@ const JDselect: React.SFC<Iprops> = ({
   isOpen,
   defaultValue,
   placeholder,
+  textOverflow,
   // eslint-disable-next-line no-unused-vars
   ...props
 }) => {
+  // 👿 이거 ㅇefaultValue랑 selectedOption이랑 많이 햇갈림ㅠㅠ
   // placeHolder 가 보일려면 value 는 undefined 여야 합니다.
   let validSelectedOption;
-  if (selectedOption && !selectedOption.value) validSelectedOption = undefined;
+  if (selectedOption && selectedOption.value === undefined) validSelectedOption = undefined;
   else validSelectedOption = selectedOption;
 
   const handleChange = (selectOption: any) => {
@@ -59,11 +62,14 @@ const JDselect: React.SFC<Iprops> = ({
   const classes = classNames('JDselect', className, {
     'JDselect--disabled': disabled,
     'JDselect--small': mode === 'small',
+    'JDselect--textOverflowVisible': textOverflow === 'visible',
   });
 
   const selectStyle: any = {
     width: size,
   };
+
+  const deafultPlaceHolder = mode === 'small' ? '선택' : '선택...';
 
   return (
     <div style={selectStyle} className={classes}>
@@ -77,7 +83,7 @@ const JDselect: React.SFC<Iprops> = ({
         className="react-select-container"
         classNamePrefix="react-select"
         isDisabled={disabled}
-        placeholder={placeholder || '선택...'}
+        placeholder={placeholder || deafultPlaceHolder}
         // menuIsOpen={isOpen}
       />
       {rightLabel && <span className="JDselect__label JDselect__label--right">{rightLabel}</span>}

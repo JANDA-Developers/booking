@@ -5,7 +5,7 @@ import SuperMain from './SuperMain';
 import { GET_HOUSES_FOR_SU } from '../../../queries';
 import QueryError from '../../../utils/QueryError';
 import { QueryDataFormater } from '../../../utils/utils';
-import { useModal2 } from '../../../actions/hook';
+import { useModal } from '../../../actions/hook';
 import Modal from '../../../atoms/modal/Modal';
 
 class GetAllHouse extends Query<getHousesForSU, getHousesForSUVariables> {}
@@ -13,7 +13,7 @@ class GetAllHouse extends Query<getHousesForSU, getHousesForSUVariables> {}
 interface Iprops {}
 
 const SuperMainWrap: React.SFC<Iprops> = () => {
-  const userModal = useModal2(false);
+  const userModal = useModal(false);
   const [page, setPage] = useState(1);
 
   return (
@@ -21,7 +21,7 @@ const SuperMainWrap: React.SFC<Iprops> = () => {
       query={GET_HOUSES_FOR_SU}
       variables={{
         page,
-        count: 2,
+        count: 20,
       }}
     >
       {({ data: housePages, loading, error }) => {

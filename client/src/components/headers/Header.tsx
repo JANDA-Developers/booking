@@ -58,7 +58,7 @@ const Header: React.FC<IProps> = ({
       {isLoggedIn ? (
         <Fragment>
           <span data-tip data-delay-hide={0} data-for="listAboutUser" data-event="click" className="header__profile">
-            <ProfileCircle profileImg={profileImg} isBordered whiteBorder tiny />
+            <ProfileCircle profileImg={profileImg} isBordered whiteBorder size="tiny" />
           </span>
           <SelectHouseWrap selectedHouse={selectedHouse} houses={houses} />
           {isPhoneVerified || (

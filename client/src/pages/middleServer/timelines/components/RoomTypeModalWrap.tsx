@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Mutation } from 'react-apollo';
+import { Mutation, Query } from 'react-apollo';
 import { any } from 'prop-types';
 import {
   createRoomType,
@@ -9,137 +9,125 @@ import {
   updateMyProfileVariables,
   updateRoomType,
   updateRoomTypeVariables,
+  getRoomTypeById,
+  getRoomTypeByIdVariables,
 } from '../../../../types/api';
 import RoomTypeModal from './RoomTypeModal';
 import {
-  CREATE_ROOMTYPE, GET_ALL_ROOMTYPES, DELETE_ROOMTYPE, UPDATE_ROOM, UPDATE_ROOMTYPE,
+  CREATE_ROOMTYPE,
+  DELETE_ROOMTYPE,
+  UPDATE_ROOM,
+  UPDATE_ROOMTYPE,
+  GET_ROOMTYPE_BY_ID,
 } from '../../../../queries';
-import { useImageUploader } from '../../../../actions/hook';
+import { useImageUploader, IUseModal } from '../../../../actions/hook';
 import {
-  ErrProtecter, toast, onError, isEmpty, onCompletedMessage,
+  ErrProtecter,
+  toast,
+  onError,
+  isEmpty,
+  onCompletedMessage,
+  showError,
+  QueryDataFormater,
 } from '../../../../utils/utils';
 import {
   PricingType, PricingTypeKr, RoomGender, RoomGenderKr,
-} from '../../../../types/apiEnum';
+} from '../../../../types/enum';
 
+class GetRoomTypeById extends Query<getRoomTypeById, getRoomTypeByIdVariables> {}
 class CreateRoomTypeMutation extends Mutation<createRoomType, createRoomTypeVariables> {}
 class DeleteRoomTypeMutation extends Mutation<deleteRoomType, deleteRoomTypeVariables> {}
 class UpdateRoomTypeMutation extends Mutation<updateRoomType, updateRoomTypeVariables> {}
 
+export interface IDefaultRoomType {
+  name: string;
+  pricingType: PricingType;
+  peopleCount: number;
+  peopleCountMax: number;
+  roomGender: RoomGender;
+  img?: string;
+  description: string;
+  defaultPrice: number;
+}
+
 interface IProps {
-  selectedHouseId: string;
-  roomData: any;
-  modalHook: any;
+  houseId: string;
+  modalHook: IUseModal;
   refetchRoomData: any;
 }
 
-const ModifyTimelineWrap: React.SFC<IProps> = ({
-  refetchRoomData, selectedHouseId, roomData, modalHook,
-}) => {
-  const defaultRoomTypeValue = {
-    name: '',
-    description: '',
-    pricingType: { label: PricingTypeKr[PricingType.DOMITORY], value: PricingType.DOMITORY },
-    peopleCount: { label: '', value: 0 },
-    roomGender: { label: RoomGenderKr[RoomGender.MIXED], value: RoomGender.MIXED },
-    peopleCountMax: { label: '', value: 0 },
-  };
-
-  const roomImageHook = useImageUploader();
-  const [roomTypeValue, setRoomTypeValue]: any = useState(defaultRoomTypeValue);
-
-  const updateRoomTypeValue = {
-    houseId: selectedHouseId,
-    name: roomTypeValue.name,
-    img: roomImageHook.fileUrl,
-    pricingType: roomTypeValue.pricingType.value,
-    roomGender: roomTypeValue.roomGender.value,
-    peopleCount: roomTypeValue.peopleCountMax.value,
-    peopleCountMax: roomTypeValue.peopleCountMax.value,
-    description: roomTypeValue.description,
-  };
-
-  // ⛔️️️️️ 👿 이건 안티패턴이다 더 좋은방법이있다.
-  // key가 바뀌면 모든걸 다시만든다 즉
-  // default로 값들을주고 key만 바꿔주면되는것
-  // 이건 개선되어야한다.
-  useEffect(() => {
-    if (!isEmpty(modalHook.info)) {
-      const roomType = roomData[modalHook.info.roomTypeIndex];
-
-      if (roomType) {
-        const lastRoomTypeValue = {
-          name: roomType.name,
-          description: roomType.description,
-          pricingType: { label: PricingTypeKr[roomType.pricingType], value: PricingType[roomType.pricingType] },
-          peopleCount: { label: `${roomType.peopleCount}명`, value: roomType.peopleCount },
-          roomGender: { label: RoomGenderKr[roomType.roomGender], value: RoomGender[roomType.roomGender] },
-          peopleCountMax: { label: `${roomType.peopleCount}명`, value: roomType.peopleCountMax },
-        };
-        setRoomTypeValue(lastRoomTypeValue);
-        roomImageHook.setFileUrl(roomType.img);
-      } else {
-        setRoomTypeValue(defaultRoomTypeValue);
-        roomImageHook.setFileUrl('');
-      }
-    }
-  }, [modalHook.info]);
-
+const ModifyTimelineWrap: React.SFC<IProps> = ({ refetchRoomData, houseId, modalHook }) => {
+  const { roomTypeId } = modalHook.info;
   return (
-    // 방타입 생성 뮤테이션
-    <CreateRoomTypeMutation
-      mutation={CREATE_ROOMTYPE}
-      refetchQueries={refetchRoomData}
-      variables={updateRoomTypeValue}
-      onCompleted={({ CreateRoomType }: any) => {
-        onCompletedMessage(CreateRoomType, '방타입 생성완료', '방타입 생성실패');
-      }}
-      onError={onError}
+    <GetRoomTypeById
+      fetchPolicy="network-only"
+      query={GET_ROOMTYPE_BY_ID}
+      skip={isEmpty(roomTypeId)}
+      variables={{ roomTypeId }}
     >
-      {createRoomTypeMutation => (
-        <DeleteRoomTypeMutation
-          refetchQueries={refetchRoomData}
-          variables={{
-            houseId: selectedHouseId,
-            roomTypeId: modalHook.info.roomTypeId,
-          }}
-          mutation={DELETE_ROOMTYPE}
-          onCompleted={({ DeleteRoomType }: any) => {
-            onCompletedMessage(DeleteRoomType, '방타입 제거완료', '방타입 제거실패');
-          }}
-          onError={onError}
-        >
-          {deleteRoomTypeMutation => (
-            <UpdateRoomTypeMutation
-              refetchQueries={refetchRoomData}
-              variables={{
-                houseId: selectedHouseId,
-                roomTypeId: modalHook.info.roomTypeId,
-                ...updateRoomTypeValue,
-              }}
-              onCompleted={({ UpdateRoomType }: any) => {
-                onCompletedMessage(UpdateRoomType, '방타입 업데이트 완료', '방타입 업데이트 실패');
-              }}
-              onError={onError}
-              mutation={UPDATE_ROOMTYPE}
-            >
-              {updateRoomTypeMutation => (
-                <RoomTypeModal
-                  roomImageHook={roomImageHook}
-                  setValue={setRoomTypeValue}
-                  value={roomTypeValue}
-                  roomData={roomData}
-                  modalHook={modalHook}
-                  createRoomTypeMutation={createRoomTypeMutation}
-                  deleteRoomTypeMutation={deleteRoomTypeMutation}
-                  updateRoomTypeMutation={updateRoomTypeMutation}
-                />
-              )}
-            </UpdateRoomTypeMutation>
-          )}
-        </DeleteRoomTypeMutation>
-      )}
-    </CreateRoomTypeMutation>
+      {({ data: queryRoomTypeData, loading, error }) => {
+        const roomType = QueryDataFormater(queryRoomTypeData, 'GetRoomTypeById', 'roomType', undefined);
+        const defaultRoomType: IDefaultRoomType = {
+          name: '',
+          pricingType: PricingType.DOMITORY,
+          peopleCount: 0,
+          peopleCountMax: 0,
+          roomGender: RoomGender.MIXED,
+          img: undefined,
+          description: '',
+          defaultPrice: 0,
+        };
+        return (
+          <CreateRoomTypeMutation
+            mutation={CREATE_ROOMTYPE}
+            refetchQueries={refetchRoomData}
+            onCompleted={({ CreateRoomType }: any) => {
+              onCompletedMessage(CreateRoomType, '방타입 생성완료', '방타입 생성실패');
+            }}
+            onError={onError}
+          >
+            {createRoomTypeMutation => (
+              <DeleteRoomTypeMutation
+                refetchQueries={refetchRoomData}
+                variables={{
+                  houseId,
+                  roomTypeId: modalHook.info.roomTypeId,
+                }}
+                mutation={DELETE_ROOMTYPE}
+                onCompleted={({ DeleteRoomType }: any) => {
+                  onCompletedMessage(DeleteRoomType, '방타입 제거완료', '방타입 제거실패');
+                }}
+                onError={onError}
+              >
+                {deleteRoomTypeMutation => (
+                  <UpdateRoomTypeMutation
+                    refetchQueries={refetchRoomData}
+                    onCompleted={({ UpdateRoomType }: any) => {
+                      onCompletedMessage(UpdateRoomType, '방타입 업데이트 완료', '방타입 업데이트 실패');
+                    }}
+                    onError={onError}
+                    mutation={UPDATE_ROOMTYPE}
+                  >
+                    {updateRoomTypeMutation => (
+                      <RoomTypeModal
+                        houseId={houseId}
+                        roomTypeData={roomType || defaultRoomType}
+                        modalHook={modalHook}
+                        loading={loading}
+                        createRoomTypeMutation={createRoomTypeMutation}
+                        deleteRoomTypeMutation={deleteRoomTypeMutation}
+                        updateRoomTypeMutation={updateRoomTypeMutation}
+                        key={`roomTypeModal__modal${roomType ? roomType._id : ''}`}
+                      />
+                    )}
+                  </UpdateRoomTypeMutation>
+                )}
+              </DeleteRoomTypeMutation>
+            )}
+          </CreateRoomTypeMutation>
+        );
+      }}
+    </GetRoomTypeById>
   );
 };
 

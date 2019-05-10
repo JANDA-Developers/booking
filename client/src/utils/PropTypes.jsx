@@ -1,7 +1,7 @@
 // 이부분 해체 해산 할것
 // todo: 삭제
 import PropTypes from 'prop-types';
-import { NEUTRAL } from './Enums';
+import { NEUTRAL } from './enums';
 
 const Forms = {
   disabled: PropTypes.bool, // Unity

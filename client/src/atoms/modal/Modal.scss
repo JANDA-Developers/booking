@@ -66,6 +66,10 @@
     // 엔드섹션
     &__endSection {
 
+        &--confirm {
+            padding-top: $modal-section;
+        }
+
         &--float {
           position:absolute;   
         }

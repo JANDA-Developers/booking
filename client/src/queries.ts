@@ -16,6 +16,19 @@ const F_MINI_ROOM_TYPE = gql`
     description
   }
 `;
+const F_ALL_SEASON = gql`
+  fragment FallSeason on Season {
+    _id
+    name
+    start
+    end
+    priority
+    color
+    description
+    createdAt
+    updatedAt
+  }
+`;
 const F_PAGE_INFO = gql`
   fragment FpageInfo on PageInfoOffsetBase {
     currentPage
@@ -65,6 +78,29 @@ const F_USER_INFO = gql`
 // 프로덕트 UI와  DB의 정보 싱크는 수동으로 맞추세요.
 // 상품 모두 가져오기
 // eslint-disable-next-line camelcase
+
+export const GET_ROOMTYPE_BY_ID = gql`
+  query getRoomTypeById($roomTypeId: ID!) {
+    GetRoomTypeById(roomTypeId: $roomTypeId) {
+      ok
+      error
+      roomType {
+        name
+        pricingType
+        peopleCount
+        peopleCountMax
+        index
+        roomGender
+        img
+        description
+        defaultPrice
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+
 export const GET_All_PRODUCTS_TYPES = gql`
   query getAllProductTypes {
     GetAllProductTypes {
@@ -77,6 +113,7 @@ export const GET_All_PRODUCTS_TYPES = gql`
     }
   }
 `;
+
 // 예약모두 가져오기
 // export const GET_All_BOOKINGS = gql`
 //   query getBookings($page: Int!, $count: Int!, $houseId: ID!) {
@@ -237,7 +274,81 @@ export const GET_HOUSE = gql`
     }
   }
 `;
-// 모든 방타입 가져오기
+
+export const GetGuests = gql`
+  query getGuests($start: DateTime!, $end: DateTime!, $houseId: ID!) {
+    GetGuests(start: $start, end: $end, houseId: $houseId) {
+      ok
+      error
+      guests {
+        _id
+        roomType {
+          _id
+          index
+        }
+        name
+        start
+        end
+        pricingType
+        allocatedRoom {
+          _id
+          index
+        }
+        gender
+        updatedAt
+        createdAt
+        booking {
+          booker {
+            _id
+            isCheckIn
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const GET_AVAILABLE_GUEST_COUNT = gql`
+  query getAvailableGuestCount(
+    $roomTypeId: ID!
+    $start: DateTime!
+    $end: DateTime!
+    $femalePadding: Int!
+    $malePadding: Int!
+  ) {
+    GetMale: GetAvailableGuestCount(
+      roomTypeId: $roomTypeId
+      start: $start
+      end: $end
+      gender: MALE
+      paddingOtherGenderCount: $femalePadding
+    ) {
+      ok
+      error
+      roomCapacity {
+        roomGender
+        guestGender
+        availableCount
+      }
+    }
+    GetFemale: GetAvailableGuestCount(
+      roomTypeId: $roomTypeId
+      start: $start
+      end: $end
+      gender: FEMALE
+      paddingOtherGenderCount: $malePadding
+    ) {
+      ok
+      error
+      roomCapacity {
+        roomGender
+        guestGender
+        availableCount
+      }
+    }
+  }
+`;
+
 export const GET_ALL_ROOMTYPES = gql`
   query getAllRoomType($houseId: ID!) {
     GetAllRoomType(houseId: $houseId) {
@@ -259,6 +370,64 @@ export const GET_ALL_ROOMTYPES = gql`
           index
           createdAt
           updatedAt
+        }
+      }
+    }
+  }
+  ${F_MINI_ROOM_TYPE}
+`;
+
+// ⭐️방배정!!
+// 모든 방타입 + 모든 게스트 가져오기!!
+export const GET_ALL_ROOMTYPES_WITH_GUESTS = gql`
+  query getAllRoomTypeWithGuest($houseId: ID!, $start: DateTime!, $end: DateTime!) {
+    GetAllRoomType(houseId: $houseId) {
+      ok
+      error
+      roomTypes {
+        ...FminiRoomType
+        pricingType
+        peopleCount
+        peopleCountMax
+        roomGender
+        roomCount
+        createdAt
+        updatedAt
+        img
+        rooms {
+          _id
+          name
+          index
+          createdAt
+          updatedAt
+        }
+      }
+    }
+    GetGuests(start: $start, end: $end, houseId: $houseId) {
+      ok
+      error
+      guests {
+        _id
+        roomType {
+          _id
+          index
+        }
+        name
+        start
+        end
+        pricingType
+        allocatedRoom {
+          _id
+          index
+        }
+        gender
+        updatedAt
+        createdAt
+        booking {
+          booker {
+            _id
+            isCheckIn
+          }
         }
       }
     }
@@ -304,6 +473,44 @@ export const GET_USER_FOR_SU = gql`
   }
   ${F_USER_INFO}
 `;
+// 모든 예약자 가져오기
+export const GET_BOOKERS = gql`
+  query getBookers($houseId: ID!, $page: Int!, $count: Int!) {
+    GetBookers(houseId: $houseId, page: $page, count: $count) {
+      ok
+      error
+      bookers {
+        _id
+        bookings {
+          _id
+          bookingId
+          roomType {
+            _id
+            name
+          }
+          price
+          start
+          end
+          discountedPrice
+          bookingStatus
+          createdAt
+          updatedAt
+        }
+        name
+        phoneNumber
+        email
+        isCheckIn
+        memo
+        createdAt
+        updatedAt
+      }
+      pageInfo {
+        ...FpageInfo
+      }
+    }
+  }
+  ${F_PAGE_INFO}
+`;
 // START 시즌관련 ────────────────────────────────────────────────────────────────────────────────
 // 가격 테이블 만들기
 export const SEASON_TABLE = gql`
@@ -312,15 +519,7 @@ export const SEASON_TABLE = gql`
       ok
       error
       seasons {
-        _id
-        name
-        start
-        end
-        priority
-        color
-        description
-        createdAt
-        updatedAt
+        ...FallSeason
       }
     }
     GetAllRoomType(houseId: $houseId) {
@@ -332,6 +531,7 @@ export const SEASON_TABLE = gql`
     }
   }
   ${F_MINI_ROOM_TYPE}
+  ${F_ALL_SEASON}
 `;
 
 // 모든 시즌 가져오기
@@ -341,15 +541,7 @@ export const GET_ALL_SEASON_TABLE = gql`
       ok
       error
       seasons {
-        _id
-        name
-        start
-        end
-        priority
-        color
-        description
-        createdAt
-        updatedAt
+        ...FallSeason
       }
     }
     GetAllRoomType(houseId: $houseId) {
@@ -378,6 +570,7 @@ export const GET_ALL_SEASON_TABLE = gql`
       }
     }
   }
+  ${F_ALL_SEASON}
   ${F_MINI_ROOM_TYPE}
 `;
 
@@ -404,6 +597,7 @@ export const CREATE_ROOMTYPE = gql`
     $peopleCount: Int!
     $peopleCountMax: Int
     $description: String
+    $defaultPrice: Float!
     $tags: [TagInput!]
     $img: URL
     $roomGender: RoomGender
@@ -415,6 +609,7 @@ export const CREATE_ROOMTYPE = gql`
       peopleCount: $peopleCount
       peopleCountMax: $peopleCountMax
       description: $description
+      defaultPrice: $defaultPrice
       roomGender: $roomGender
       tags: $tags
       img: $img
@@ -529,13 +724,32 @@ export const CREATE_SEASON = gql`
     $houseId: ID!
     $color: String
     $description: String
+    $seasonPrices: [SeasonPriceInput!]
   ) {
-    CreateSeason(name: $name, start: $start, end: $end, houseId: $houseId, color: $color, description: $description) {
+    CreateSeason(
+      name: $name
+      start: $start
+      end: $end
+      houseId: $houseId
+      color: $color
+      description: $description
+      seasonPrices: $seasonPrices
+    ) {
       ok
       error
     }
   }
 `;
+
+export const CHANGE_PRIORITY = gql`
+  mutation changePriority($seasonId: ID!, $houseId: ID!, $priority: Int!) {
+    ChangePriority(seasonId: $seasonId, houseId: $houseId, priority: $priority) {
+      ok
+      error
+    }
+  }
+`;
+
 // 시즌 삭제
 export const DELETE_SEASON = gql`
   mutation deleteSeason($seasonId: ID!, $houseId: ID!) {
@@ -554,8 +768,17 @@ export const UPDATE_SEASON = gql`
     $seasonId: ID!
     $color: String
     $description: String
+    $seasonPrices: [SeasonPriceInput!]
   ) {
-    UpdateSeason(name: $name, start: $start, end: $end, seasonId: $seasonId, color: $color, description: $description) {
+    UpdateSeason(
+      seasonPrices: $seasonPrices
+      name: $name
+      start: $start
+      end: $end
+      seasonId: $seasonId
+      color: $color
+      description: $description
+    ) {
       ok
       error
     }

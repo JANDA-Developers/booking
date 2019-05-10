@@ -64,6 +64,15 @@ $roomCardHeight: 130px;
             }
         }
 
+        &__img {
+            background-size: cover;
+            margin-left: -1px;
+            height: 100%;
+            margin-top: -1px;
+            border:1px solid $html-color;
+            border-radius: $standard-border-radius 0px 0px $standard-border-radius;
+        }
+
         
         &__lastSection {
             padding:$standard-padding;

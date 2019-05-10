@@ -23,8 +23,6 @@ const DayOfWeekModal: React.SFC<IProps> = ({ modalHook, onSubmit }) => {
   const tempWeek = [0, 1, 2, 3, 4, 5, 6];
   const applyedDays = applyDaysToArr(modalHook.info.applyedDays);
 
-  console.log(modalHook.info.applyedDays);
-
   // 🐘 이미 선택된 요일들 체크해줌
   useEffect(() => {
     const updateChecking = checking.map((_, index) => !applyedDays.includes(2 ** index));
@@ -43,6 +41,7 @@ const DayOfWeekModal: React.SFC<IProps> = ({ modalHook, onSubmit }) => {
       <div>
         {tempWeek.map((day, index) => (
           <CheckBox
+            key={`weekBox${day}`}
             label={JDWeekChanger(day)}
             onChange={(value: boolean) => {
               const tempCehcking = checking;
@@ -55,14 +54,12 @@ const DayOfWeekModal: React.SFC<IProps> = ({ modalHook, onSubmit }) => {
         ))}
       </div>
       <div>
-        <InputText {...valueHook} label="적용가격" />
+        <InputText {...valueHook} comma label="적용가격" />
       </div>
       <div className="JDmodal__endSection">
         <Button
           onClick={() => {
             if (submitValidate() && onSubmit) {
-              console.log('what the fuck?00');
-              console.log('what the fuck?00');
               onSubmit({
                 applyDays: arrToApplyDays(checking),
                 price: stringToPrice(valueHook.value),
