@@ -7,7 +7,7 @@ import './CheckReservation.scss';
 import {
   createBooking, createBookingVariables, GuestPartInput, BookerInput,
 } from '../../../types/api';
-import InputText from '../../../atoms/forms/InputText';
+import InputText from '../../../atoms/forms/inputText/InputText';
 import Button from '../../../atoms/button/Button';
 import JDtable from '../../../atoms/table/Table';
 

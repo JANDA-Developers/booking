@@ -1,5 +1,5 @@
 import React from 'react';
-import Radio from '../../../../atoms/forms/Radio';
+import Radio from '../../../../atoms/forms/radio/Radio';
 import './Product.scss';
 import { Product } from '../../../../types/enum';
 

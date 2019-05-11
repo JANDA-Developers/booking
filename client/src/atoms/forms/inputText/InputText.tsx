@@ -5,12 +5,12 @@ import './InputText.scss';
 import './Textarea.scss';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import JDicon, { IconSize, IIcons } from '../icons/Icons';
-import ErrProtecter from '../../utils/ErrProtecter';
-import autoHyphen, { numberStr, stringToNumber } from '../../utils/AutoHyphen';
-import { NEUTRAL } from '../../types/enum';
-import { getByteLength } from '../../utils/math';
-import { autoComma } from '../../utils/utils';
+import JDicon, { IconSize, IIcons } from '../../icons/Icons';
+import ErrProtecter from '../../../utils/ErrProtecter';
+import autoHyphen, { numberStr, stringToNumber } from '../../../utils/AutoHyphen';
+import { NEUTRAL } from '../../../types/enum';
+import { getByteLength } from '../../../utils/math';
+import { autoComma } from '../../../utils/utils';
 
 interface IProps extends React.HTMLAttributes<HTMLInputElement> {
   readOnly?: boolean;

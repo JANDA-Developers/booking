@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import Modal from '../../../../atoms/modal/Modal';
-import InputText from '../../../../atoms/forms/InputText';
+import InputText from '../../../../atoms/forms/inputText/InputText';
 import Button from '../../../../atoms/button/Button';
 import utils from '../../../../utils/utils';
 

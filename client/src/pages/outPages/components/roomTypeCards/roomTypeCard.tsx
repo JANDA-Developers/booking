@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import React, { Fragment, useState, useEffect } from 'react';
-import JDselect, { IselectedOption, SelectBoxSize } from '../../../../atoms/forms/SelectBox';
+import JDselect, { IselectedOption, SelectBoxSize } from '../../../../atoms/forms/selectBox/SelectBox';
 import {
   GuestPartInput,
   getAvailableGuestCount_GetMale_roomCapacity,
@@ -71,6 +71,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
     }
     return [];
   };
+
   const maleSeleteOption = countOpFn('maleCount');
   const femaleSeleteOption = countOpFn('femaleCount');
   const roomSeleteOption = countOpFn('roomCount');

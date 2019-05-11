@@ -1,10 +1,10 @@
 import React, { useState, Fragment } from 'react';
 import JDLabel from '../../../../atoms/label/JDLabel';
-import JDselect, { SelectBoxSize } from '../../../../atoms/forms/SelectBox';
+import JDselect, { SelectBoxSize } from '../../../../atoms/forms/selectBox/SelectBox';
 import { AUTO_SEND_OP, SMS_TARGET_OP } from '../../../../types/enum';
 import { useSelect, useInput } from '../../../../actions/hook';
-import InputText from '../../../../atoms/forms/InputText';
-import Switch from '../../../../atoms/forms/Switch';
+import InputText from '../../../../atoms/forms/inputText/InputText';
+import Switch from '../../../../atoms/forms/switch/Switch';
 import Button from '../../../../atoms/button/Button';
 import { ErrProtecter } from '../../../../utils/utils';
 

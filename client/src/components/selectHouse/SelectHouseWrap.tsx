@@ -6,7 +6,7 @@ import { useSelect, IUseSelect } from '../../actions/hook';
 import { IHouse, ISelectHouse, ISelectHouseVariables } from '../../types/interface';
 import { SELECT_HOUSE } from '../../clientQueries';
 import { onError } from '../../utils/utils';
-import { IselectedOption } from '../../atoms/forms/SelectBox';
+import { IselectedOption } from '../../atoms/forms/selectBox/SelectBox';
 
 class SelectHouseMutation extends Mutation<ISelectHouse, ISelectHouseVariables> {}
 

@@ -2,7 +2,7 @@ import React from 'react';
 import PT from 'prop-types';
 import profileImg from '../../../img/profile/default_profile.jpg';
 import Button from '../../../atoms/button/Button';
-import InputText from '../../../atoms/forms/InputText';
+import InputText from '../../../atoms/forms/inputText/InputText';
 import ProfileCircle from '../../../atoms/profileCircle/ProfileCircle';
 import MyHouse from './components/myHouse';
 import MyHouseAdd from './components/myHouseAdd';

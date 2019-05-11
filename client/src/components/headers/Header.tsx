@@ -7,7 +7,7 @@ import Button from '../../atoms/button/Button';
 import TooltipList, { ReactTooltip } from '../../atoms/tooltipList/TooltipList';
 import ProfileCircle from '../../atoms/profileCircle/ProfileCircle';
 import CircleIcon from '../../atoms/circleIcon/CircleIcon';
-import SelectBox from '../../atoms/forms/SelectBox';
+import SelectBox from '../../atoms/forms/selectBox/SelectBox';
 import Icon from '../../atoms/icons/Icons';
 import { ErrProtecter } from '../../utils/utils';
 import logo from '../../img/logo/logo--white.png'; // with import

@@ -3,8 +3,8 @@ import { MutationFn } from 'react-apollo';
 import React, { useState, Fragment, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import Modal from '../../../../atoms/modal/Modal';
-import SelectBox, { IselectedOption } from '../../../../atoms/forms/SelectBox';
-import InputText from '../../../../atoms/forms/InputText';
+import SelectBox, { IselectedOption } from '../../../../atoms/forms/selectBox/SelectBox';
+import InputText from '../../../../atoms/forms/inputText/InputText';
 import Button from '../../../../atoms/button/Button';
 import JDLabel from '../../../../atoms/label/JDLabel';
 import ImageUploader from '../../../../atoms/imageUploader/ImageUploader';
@@ -167,7 +167,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
                 disabled={false}
                 onChange={onChangeMaxPeople}
                 options={maxPeopleCountOption}
-                defaultValue={maxPeopleCountOption[0]}
+                defaultValue={value.peopleCount}
               />
             </div>
             <div className="flex-grid__col  col--full-6 col--lg-6 col--md-12">

@@ -2,8 +2,8 @@ import React, { Fragment } from 'react';
 import './Switch.scss';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import ErrProtecter from '../../utils/ErrProtecter';
-import JDlabel from '../label/JDLabel';
+import ErrProtecter from '../../../utils/ErrProtecter';
+import JDlabel from '../../label/JDLabel';
 
 interface IProps {
   disabled?: boolean;

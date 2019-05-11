@@ -3,7 +3,7 @@ import { Mutation, withApollo } from 'react-apollo';
 import PropTypes from 'prop-types';
 import { withRouter, Link } from 'react-router-dom';
 import Card from '../../atoms/cards/Card';
-import InputText from '../../atoms/forms/InputText';
+import InputText from '../../atoms/forms/inputText/InputText';
 import Button from '../../atoms/button/Button';
 import './Login.scss';
 import { LOG_USER_IN } from '../../clientQueries';

@@ -3,14 +3,12 @@ import Modal from '../../atoms/modal/Modal';
 import {
   useInput, useSelect, IUseModal, useDayPicker,
 } from '../../actions/hook';
-import SelectBox from '../../atoms/forms/SelectBox';
-import InputText from '../../atoms/forms/InputText';
+import SelectBox from '../../atoms/forms/selectBox/SelectBox';
+import InputText from '../../atoms/forms/inputText/InputText';
 import Button from '../../atoms/button/Button';
 import RoomSelectInfoTable from './components/roomSelectInfoTable';
 import JDdayPicker from '../../atoms/dayPicker/DayPicker';
 import { BOOKING_STATUS_OP, PAYMENT_STATUS_OP, PAYMETHOD_OP } from '../../types/enum';
-import JDselect from '../../atoms/forms/SelectBox';
-import JDbox from '../../atoms/box/JDbox';
 import './BookerModal.scss';
 
 interface IProps {
@@ -84,10 +82,10 @@ const POPbookerInfo: React.FC<IProps> = ({ modalHook, bookerInfo }) => {
             <InputText label="총금액" />
           </div>
           <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
-            <JDselect options={PAYMETHOD_OP} label="결제수단" />
+            <SelectBox options={PAYMETHOD_OP} label="결제수단" />
           </div>
           <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
-            <JDselect options={PAYMENT_STATUS_OP} label="결제상태" />
+            <SelectBox options={PAYMENT_STATUS_OP} label="결제상태" />
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@ import { DayPickerProps } from 'react-day-picker';
 import React, { useRef, useEffect, Fragment } from 'react';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import moment from 'moment';
-import InputText from '../../forms/InputText';
+import InputText from '../../forms/inputText/InputText';
 import 'moment/locale/ko';
 import { isEmpty } from '../../../utils/utils';
 // 데이픽커 인풋은 어레인이지를 지원하지 않을려는것만 같다.

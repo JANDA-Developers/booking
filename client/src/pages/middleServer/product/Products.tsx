@@ -5,7 +5,7 @@ import Product from './components/Product';
 import Button from '../../../atoms/button/Button';
 import Preloader from '../../../atoms/preloader/Preloader';
 import Modal from '../../../atoms/modal/Modal';
-import JDcheckbox from '../../../atoms/forms/CheckBox';
+import JDcheckbox from '../../../atoms/forms/checkBox/CheckBox';
 import Slider from '../../../atoms/slider/Slider';
 import { isEmpty } from '../../../utils/utils';
 import Tooltip, { ReactTooltip } from '../../../atoms/tooltip/Tooltip';

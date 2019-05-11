@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Mutation, Query } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
-import InputText from '../../atoms/forms/InputText';
+import InputText from '../../atoms/forms/inputText/InputText';
 import Modal from '../../atoms/modal/Modal';
 import Button from '../../atoms/button/Button';
 import { useInput } from '../../actions/hook';

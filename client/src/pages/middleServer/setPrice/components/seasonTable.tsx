@@ -4,7 +4,7 @@ import { CellInfo } from 'react-table';
 import { MutationFn } from 'react-apollo';
 import _ from 'lodash';
 import moment from 'moment';
-import InputText from '../../../../atoms/forms/InputText';
+import InputText from '../../../../atoms/forms/inputText/InputText';
 import Button from '../../../../atoms/button/Button';
 import JDTable, { ReactTableDefault } from '../../../../atoms/table/Table';
 import Icon from '../../../../atoms/icons/Icons';
@@ -36,7 +36,7 @@ import { ITableValue } from './seasonTableWrap';
 import { IDefaultSeason } from '../SetPrice';
 import { setYYYYMMDD } from '../../../../utils/setMidNight';
 import { JDtoastModal } from '../../../../atoms/modal/Modal';
-import JDselect, { IselectedOption } from '../../../../atoms/forms/SelectBox';
+import JDselect, { IselectedOption } from '../../../../atoms/forms/selectBox/SelectBox';
 
 interface IProps {
   defaultTableValue: ITableValue;
