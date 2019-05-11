@@ -5,6 +5,7 @@ import {Resolvers} from "../../../types/resolvers";
 import {privateResolver} from "../../../utils/privateResolvers";
 
 const resolver: Resolvers = {
+<<<<<<< HEAD
   Mutation: {
     CreateRoom: privateResolver(
       async (_, args: CreateRoomMutationArgs): Promise<CreateRoomResponse> => {
@@ -35,6 +36,45 @@ const resolver: Resolvers = {
       }
     )
   }
+=======
+    Mutation: {
+        CreateRoom: privateResolver(
+            async (
+                _,
+                args: CreateRoomMutationArgs
+            ): Promise<CreateRoomResponse> => {
+                try {
+                    const roomType = await RoomTypeModel.findById(
+                        args.roomType
+                    );
+                    if (!roomType) {
+                        return {
+                            ok: false,
+                            error: "존재하지 않는 RoomTypeId",
+                            room: null
+                        };
+                    }
+                    // git 오류인가? 왜 코드가 다르지 ㅜㅜ
+                    const room = await roomType.createRoomInstance({
+                        withSave: true,
+                        name: args.name
+                    });
+                    return {
+                        ok: true,
+                        error: null,
+                        room: await extractRoom.bind(extractRoom, room)
+                    };
+                } catch (error) {
+                    return {
+                        ok: false,
+                        error: error.message,
+                        room: null
+                    };
+                }
+            }
+        )
+    }
+>>>>>>> 31e883a0f7dcbea72641b2ac25baef971157c6b7
 };
 export default resolver;
 required;
