@@ -468,7 +468,7 @@ export const extractGuest = async (
     };
     return {
         ...temp._doc,
-        _id: temp._doc._id.toString(),
+        _id: guest._id,
         booker: await transformBooker.bind(transformBooker, temp._doc.booker),
         booking: await transformBooking.bind(
             transformBooking,

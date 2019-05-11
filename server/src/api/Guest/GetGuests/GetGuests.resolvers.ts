@@ -46,7 +46,7 @@ const resolvers: Resolvers = {
                             guestIds1.concat(guestIds2)
                         );
                     return {
-                        ok: false,
+                        ok: true,
                         error: null,
                         guests: await transformGuests.bind(
                             transformGuests,
