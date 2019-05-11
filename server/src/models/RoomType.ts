@@ -348,8 +348,12 @@ export class RoomTypeSchema extends Typegoose {
             end
         );
 
+        console.log({
+            roomCapacities
+        });
+
         // 1. Gender 검사
-        if (this.roomGender === gender) {
+        if (this.roomGender === gender || this.roomGender === "MIXED") {
             roomCapacities.forEach((capacity: RoomCapacity) => {
                 availableCount = availableCount + capacity.availableCount;
             });
