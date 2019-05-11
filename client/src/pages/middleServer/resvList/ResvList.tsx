@@ -5,8 +5,8 @@ import selectTableHOC, {
   SelectAllInputComponentProps,
 } from 'react-table/lib/hoc/selectTable';
 import JDtable, { ReactTableDefault } from '../../../atoms/table/Table';
-import JDselect from '../../../atoms/forms/SelectBox';
-import CheckBox from '../../../atoms/forms/CheckBox';
+import JDselect from '../../../atoms/forms/selectBox/SelectBox';
+import CheckBox from '../../../atoms/forms/checkBox/CheckBox';
 import Button from '../../../atoms/button/Button';
 import JDIcon, { IconSize } from '../../../atoms/icons/Icons';
 import { useModal } from '../../../actions/hook';

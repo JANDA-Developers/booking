@@ -4,10 +4,10 @@ import React, { useState, useEffect } from 'react';
 import { Node } from 'unist';
 import { IUseModal, useInput } from '../../../../actions/hook';
 import JDmodal from '../../../../atoms/modal/Modal';
-import CheckBox from '../../../../atoms/forms/CheckBox';
+import CheckBox from '../../../../atoms/forms/checkBox/CheckBox';
 import { JDWeekChanger, ErrProtecter, stringToPrice } from '../../../../utils/utils';
 import Button from '../../../../atoms/button/Button';
-import InputText from '../../../../atoms/forms/InputText';
+import InputText from '../../../../atoms/forms/inputText/InputText';
 import { DayOfWeekPriceInput } from '../../../../types/api';
 import { arrToApplyDays, applyDaysToArr } from '../../../../utils/dayOfweeks';
 

@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { useRef } from 'react';
-import InputText from '../../../atoms/forms/InputText';
-import CheckBox from '../../../atoms/forms/CheckBox';
+import InputText from '../../../atoms/forms/inputText/InputText';
+import CheckBox from '../../../atoms/forms/checkBox/CheckBox';
 import Button from '../../../atoms/button/Button';
 import utils from '../../../utils/utils';
 import { BookerInput as IBookerInput } from '../../../types/api';

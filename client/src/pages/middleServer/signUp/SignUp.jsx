@@ -1,8 +1,8 @@
 /* eslint-disable  */
 import React, { useState } from 'react';
 import { Mutation } from 'react-apollo';
-import InputText from '../../../atoms/forms/InputText';
-import Radio from '../../../atoms/forms/Radio';
+import InputText from '../../../atoms/forms/inputText/InputText';
+import Radio from '../../../atoms/forms/radio/Radio';
 import Button from '../../../atoms/button/Button';
 import { LOG_USER_IN, IS_LOGGED_IN } from '../../../clientQueries';
 import { EMAIL_SIGN_UP, GET_USER_INFO } from '../../../queries';

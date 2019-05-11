@@ -1,6 +1,6 @@
 import React from 'react';
 import { MutationFn } from 'react-apollo';
-import JDselect, { IselectedOption } from '../../atoms/forms/SelectBox';
+import JDselect, { IselectedOption } from '../../atoms/forms/selectBox/SelectBox';
 import { IUseSelect } from '../../actions/hook';
 
 interface IProps {

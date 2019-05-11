@@ -7,7 +7,7 @@ import {
   getBookers_GetBookers_bookers_bookings,
   getAllRoomTypeWithGuest_GetGuests_guests,
 } from './api';
-import { IselectedOption } from '../atoms/forms/SelectBox';
+import { IselectedOption } from '../atoms/forms/selectBox/SelectBox';
 
 export interface IProduct extends getHouse_GetHouse_house_product {}
 export interface IUser extends getMyProfile_GetMyProfile_user {}

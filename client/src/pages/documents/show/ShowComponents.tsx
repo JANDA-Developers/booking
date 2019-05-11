@@ -3,13 +3,13 @@ import { NavLink } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import faker from 'faker';
 import Tooltip from '../../../atoms/tooltip/Tooltip';
-import CheckBox from '../../../atoms/forms/CheckBox';
-import Switch from '../../../atoms/forms/Switch';
-import InputText from '../../../atoms/forms/InputText';
-import Radio from '../../../atoms/forms/Radio';
+import CheckBox from '../../../atoms/forms/checkBox/CheckBox';
+import Switch from '../../../atoms/forms/switch/Switch';
+import InputText from '../../../atoms/forms/inputText/InputText';
+import Radio from '../../../atoms/forms/radio/Radio';
 import SearchInput from '../../../atoms/searchInput/SearchInput';
 import SideNav from '../../../components/sideNav/SideNav';
-import SelectBox from '../../../atoms/forms/SelectBox';
+import SelectBox from '../../../atoms/forms/selectBox/SelectBox';
 import JDbadge, { BADGE_THEMA } from '../../../atoms/badge/Badge';
 import DayPicker from '../../../atoms/dayPicker/DayPicker';
 import Pagination from '../../../atoms/pagination/Pagination';
@@ -104,7 +104,7 @@ function ShowComponents() {
     },
   ];
 
-  const anyProp:any = {};
+  const anyProp: any = {};
   const TableColumns = [
     {
       Header: '번호',
@@ -382,11 +382,11 @@ function ShowComponents() {
         <div className="docs-section__box">
           <h6>Tooltip</h6>
 
-          <Button dataTip dataFor="tooltip__C" label="Some Btn" className='JDbtn--small' />
+          <Button dataTip dataFor="tooltip__C" label="Some Btn" className="JDbtn--small" />
 
-          <Button dataTip dataFor="tooltip__D" label="Some Btn" className='JDbtn--small' />
+          <Button dataTip dataFor="tooltip__D" label="Some Btn" className="JDbtn--small" />
 
-          <Button dataTip dataFor="tooltip__E" label="Some Btn" className='JDbtn--small' />
+          <Button dataTip dataFor="tooltip__E" label="Some Btn" className="JDbtn--small" />
 
           <Tooltip id="tooltip__C" type="success" effect="solid">
             <span>some txt</span>
@@ -404,7 +404,7 @@ function ShowComponents() {
         {/* 아이콘들 */}
         <h6>Icons</h6>
         <div className=" docs-section__box">
-          {Object.keys(icons).map((key:any) => (
+          {Object.keys(icons).map((key: any) => (
             <div key={`showComponent__${key}`} className="showComponent__icon_box">
               <Icon label={key} icon={key} />
             </div>
@@ -436,7 +436,7 @@ function ShowComponents() {
         <h6>DragList</h6>
         <div className="docs-section__box clear-fix">
           <DrragList data={dummyDrragData} rowKey="tittle">
-            {(recode:any, index :any) => (
+            {(recode: any, index: any) => (
               <Card key={index}>
                 <h6>this can Drragable</h6>
                 {' '}

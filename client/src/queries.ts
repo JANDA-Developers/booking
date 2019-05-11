@@ -1,7 +1,8 @@
 import gql from 'graphql-tag';
 
+// 👿 Read This [https://www.apollographql.com/docs/react/advanced/fragments#fragment-matcher]
 const F_LOCATION = gql`
-  fragment fieldsLocation on House {
+  fragment FieldsLocation on House {
     location {
       address
       addressDetail
@@ -38,7 +39,7 @@ const F_PAGE_INFO = gql`
 `;
 // 유저 기본정보 빼오기
 const F_USER_INFO = gql`
-  fragment fieldsUser on User {
+  fragment FieldsUser on User {
     _id
     name
     phoneNumber
@@ -145,7 +146,7 @@ export const GET_USER_INFO = gql`
   query getMyProfile {
     GetMyProfile {
       user {
-        ...fieldsUser
+        ...FieldsUser
       }
     }
   }
@@ -467,7 +468,7 @@ export const GET_USER_FOR_SU = gql`
       ok
       error
       user {
-        ...fieldsUser
+        ...FieldsUser
       }
     }
   }

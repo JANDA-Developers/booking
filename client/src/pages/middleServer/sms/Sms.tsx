@@ -5,12 +5,12 @@ import {
 } from '../../../atoms/tabs/tabs';
 import CircleIcon from '../../../atoms/circleIcon/CircleIcon';
 import Icon from '../../../atoms/icons/Icons';
-import InputText from '../../../atoms/forms/InputText';
+import InputText from '../../../atoms/forms/inputText/InputText';
 
 import Button from '../../../atoms/button/Button';
 import Card from '../../../atoms/cards/Card';
 import { useInput } from '../../../actions/hook';
-import Switch from '../../../atoms/forms/Switch';
+import Switch from '../../../atoms/forms/switch/Switch';
 import JDtable, { ReactTableDefault } from '../../../atoms/table/Table';
 import SmsTemplate from './components/smsTemplate';
 

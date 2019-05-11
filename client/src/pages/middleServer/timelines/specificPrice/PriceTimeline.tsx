@@ -19,8 +19,8 @@ import {
 } from '../../../../types/api';
 import Preloader from '../../../../atoms/preloader/Preloader';
 import { IItem } from './PriceTimelineWrap';
-import InputText from '../../../../atoms/forms/InputText';
-import { useDayPicker, IUseDayPicker } from '../../../../actions/hook';
+import InputText from '../../../../atoms/forms/inputText/InputText';
+import { IUseDayPicker } from '../../../../actions/hook';
 import JDdayPicker from '../../../../atoms/dayPicker/DayPicker';
 import { setMidNight } from '../../../../utils/utils';
 import { TimePerMs } from '../../../../types/enum';

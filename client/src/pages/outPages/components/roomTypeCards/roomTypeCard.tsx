@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import React, { Fragment, useState, useEffect } from 'react';
-import JDselect, { IselectedOption, SelectBoxSize } from '../../../../atoms/forms/SelectBox';
+import JDselect, { IselectedOption, SelectBoxSize } from '../../../../atoms/forms/selectBox/SelectBox';
 import {
   GuestPartInput,
   getAvailableGuestCount_GetMale_roomCapacity,

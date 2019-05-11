@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React from 'react';
 import JDmodal from '../../../atoms/modal/Modal';
 import { IUseModal, useSelect } from '../../../actions/hook';
-import JDselect from '../../../atoms/forms/SelectBox';
+import JDselect from '../../../atoms/forms/selectBox/SelectBox';
 import Button from '../../../atoms/button/Button';
 import BookerInfoBox from './bookerInfoBox';
 import { BookerInput } from '../../../types/api';

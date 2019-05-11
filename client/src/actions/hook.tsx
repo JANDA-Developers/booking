@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import Axios from 'axios';
 import { toast } from 'react-toastify';
 import { CLOUDINARY_KEY } from '../keys';
-import { IselectedOption } from '../atoms/forms/SelectBox';
+import { IselectedOption } from '../atoms/forms/selectBox/SelectBox';
 
 // 한방에 패치
 // A X I O S  : (http://codeheaven.io/how-to-use-axios-as-your-http-client/)
