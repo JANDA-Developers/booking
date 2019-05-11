@@ -63,6 +63,9 @@ const RoomTypeCardsWrap: React.SFC<IProps> = ({
     >
       {({ data: availableData, loading: countLoading, error }) => {
         showError(error);
+
+        console.log('availableData');
+        console.log(availableData);
         const maleCount = QueryDataFormater(availableData, 'GetMale', 'roomCapacity', undefined);
         const femaleCount = QueryDataFormater(availableData, 'GetFemale', 'roomCapacity', undefined);
         const availableCount = {

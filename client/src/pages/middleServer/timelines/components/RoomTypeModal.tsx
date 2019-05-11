@@ -167,7 +167,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
                 disabled={false}
                 onChange={onChangeMaxPeople}
                 options={maxPeopleCountOption}
-                defaultValue={maxPeopleCountOption[0]}
+                defaultValue={value.peopleCount}
               />
             </div>
             <div className="flex-grid__col  col--full-6 col--lg-6 col--md-12">

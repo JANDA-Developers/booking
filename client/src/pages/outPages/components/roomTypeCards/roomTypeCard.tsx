@@ -71,6 +71,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
     }
     return [];
   };
+
   const maleSeleteOption = countOpFn('maleCount');
   const femaleSeleteOption = countOpFn('femaleCount');
   const roomSeleteOption = countOpFn('roomCount');
