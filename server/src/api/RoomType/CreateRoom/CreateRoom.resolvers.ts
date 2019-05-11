@@ -25,6 +25,7 @@ const resolver: Resolvers = {
                             room: null
                         };
                     }
+                    // git 오류인가? 왜 코드가 다르지 ㅜㅜ
                     const room = await roomType.createRoomInstance({
                         withSave: true,
                         name: args.name
