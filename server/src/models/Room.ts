@@ -1,10 +1,21 @@
 import * as _ from "lodash";
 import { Types } from "mongoose";
 import { instanceMethod, InstanceType, pre, prop, Typegoose } from "typegoose";
-import { PricingType, RoomCapacityWithEmptyBed } from "../types/graph";
+import {
+    Gender,
+    PricingType,
+    RoomCapacityWithEmptyBed,
+    RoomGender
+} from "../types/graph";
+import { asyncForEach } from "../utils/etc";
 import { removeUndefined } from "../utils/objFuncs";
 import { GuestModel, GuestSchema } from "./Guest";
-import { PricingTypeEnum, RoomTypeModel, RoomTypeSchema } from "./RoomType";
+import {
+    PricingTypeEnum,
+    RoomGenderEnum,
+    RoomTypeModel,
+    RoomTypeSchema
+} from "./RoomType";
 
 @pre<RoomSchema>("save", async function(next) {
     try {
@@ -31,6 +42,9 @@ export class RoomSchema extends Typegoose {
 
     @prop({ default: PricingTypeEnum.DOMITORY, enum: PricingTypeEnum })
     pricingType: PricingType;
+
+    @prop({ enum: RoomGenderEnum })
+    roomGender: RoomGender;
 
     @prop({ default: 0 })
     peopleCount: number;
@@ -243,21 +257,197 @@ export class RoomSchema extends Typegoose {
     }
 
     @instanceMethod
-    async allocateGuestsToRoom(
+    async allocateGuests(
         this: InstanceType<RoomSchema>,
-        guest: InstanceType<GuestSchema>
-    ): Promise<InstanceType<GuestSchema>> {
-        const start = guest.start;
-        const end = guest.end;
+        guests: Array<InstanceType<GuestSchema>>
+    ): Promise<Array<InstanceType<GuestSchema>>> {
+        const allocatedGuests: Array<InstanceType<GuestSchema>> = [];
+
+        await asyncForEach(guests, async guestInstance => {
+            const allocatedGuest = await this.allocateGuest(guestInstance);
+            console.log({
+                // 이건 왜나옴?
+                allocatedGuestsForEach: allocatedGuest
+            });
+
+            if (allocatedGuest) {
+                allocatedGuests.push(allocatedGuest);
+                // await allocatedGuest.save();
+            }
+        });
         // Bed Index 를 찾아서 넣어줘야 한다...
         // start~end 까지 비는 bedIndex를 찾아야함...
+        return allocatedGuests;
+    }
+
+    @instanceMethod
+    async getGender(
+        this: InstanceType<RoomSchema>,
+        start: Date,
+        end: Date,
+        isTempAllocation?: boolean
+    ): Promise<Gender | null> {
+        if (this.roomGender !== "SEPARATELY") {
+            return this.roomGender === "MIXED" ? null : this.roomGender;
+        }
+        const guests = await GuestModel.find(
+            removeUndefined({
+                isTempAllocation,
+                allocatedRoom: new Types.ObjectId(this._id),
+                start: {
+                    $lte: end
+                },
+                end: {
+                    $gte: start
+                }
+            }),
+            {
+                bedIndex: true,
+                gender: true,
+                isTempAllocation: true
+            }
+        ).sort({ isTempAllocation: -1 }); // isTempAllocation === false 인 것을 앞쪽으로 정렬해야함...
+        let gender: Gender | null = null;
+        guests.forEach(guest => {
+            gender = guest.gender;
+        });
+        return gender;
+    }
+
+    @instanceMethod
+    async getAvailableGenderAndBed(
+        this: InstanceType<RoomSchema>,
+        start: Date,
+        end: Date
+    ): Promise<{
+        availableGenders: Gender[];
+        availableCount: number;
+        availableBeds: number[];
+        roomGender: RoomGender;
+        roomId: Types.ObjectId;
+    }> {
+        let availableGenders: Gender[] = [];
+        let availableCount: number = this.peopleCount;
+        if (this.roomGender === "MIXED" || this.pricingType === "ROOM") {
+            availableGenders = ["FEMALE", "MALE"];
+        } else if (this.roomGender !== "SEPARATELY") {
+            availableGenders = [this.roomGender];
+        }
+        if (this.pricingType === "ROOM") {
+            availableCount = 1;
+        }
+        // 이하 roomGender === "SEPARATELY"
+        const guests = await GuestModel.find(
+            {
+                allocatedRoom: new Types.ObjectId(this._id),
+                start: {
+                    $lte: end
+                },
+                end: {
+                    $gte: start
+                }
+            },
+            {
+                gender: true,
+                bedIndex: true
+            }
+        );
+        availableCount = availableCount - guests.length;
+        if (this.roomGender === "SEPARATELY") {
+            const isMale = guests.every(g => {
+                return g.gender === "FEMALE";
+            });
+            const isFemale = guests.every(g => {
+                return g.gender === "MALE";
+            });
+            if (isMale) {
+                availableGenders.push("MALE");
+            }
+            if (isFemale) {
+                availableGenders.push("FEMALE");
+            }
+        }
+        const availableBeds = Array(
+            this.pricingType === "DOMITORY" ? this.peopleCount : 1
+        )
+            .fill(0)
+            .map((val, i) => i)
+            .filter(bedIndex => {
+                return !guests.some(guest => guest.bedIndex === bedIndex);
+            });
+        return {
+            availableGenders,
+            availableCount,
+            availableBeds,
+            roomGender: this.roomGender,
+            roomId: new Types.ObjectId(this._id)
+        };
+    }
+
+    @instanceMethod
+    async allocateGuest(
+        this: InstanceType<RoomSchema>,
+        guestInstance: InstanceType<GuestSchema>,
+        opt: {
+            ignoreTempAllocation?: boolean;
+            bedIndex?: number;
+        } = {}
+    ): Promise<InstanceType<GuestSchema> | null> {
+        const start = new Date(guestInstance.start);
+        const end = new Date(guestInstance.end);
+        // 현재 배정되어있는 게스트들을 구함.
+        const allocatedGuests = await GuestModel.find(
+            removeUndefined({
+                allocatedRoom: new Types.ObjectId(this._id),
+                start: {
+                    $lte: end
+                },
+                end: {
+                    $gte: start
+                },
+                isTempAllocation: opt.ignoreTempAllocation
+            }),
+            {
+                allocatedRoom: true,
+                bedIndex: true,
+                isTempAllocation: true,
+                gender: true
+            }
+        );
         console.log({
-            start,
-            end
+            allocatedGuests
         });
 
-        guest.allocatedRoom = new Types.ObjectId(this._id);
-        return new GuestModel({});
+        const usingBed = allocatedGuests.map(instance => {
+            return instance.bedIndex;
+        });
+        const peopleCount = this.peopleCount;
+        if (peopleCount <= usingBed.length) {
+            // 배정 가능 인원 수 <= 사용하고있는 배드 수
+            return null;
+        }
+        const gender = await this.getGender(start, end);
+        if (gender !== guestInstance.gender && gender !== null) {
+            return null;
+        }
+
+        if (opt.bedIndex !== undefined) {
+            // 배드 인덱스를 지정해서 배정할때.
+            const canIuseBed = !usingBed.some(
+                bedIndex => bedIndex === opt.bedIndex
+            );
+            if (!canIuseBed) {
+                return null;
+            }
+        }
+        const availableBed = Array(peopleCount)
+            .fill(0)
+            .map((__, i) => i)
+            .filter(bedIndex => !usingBed.includes(bedIndex));
+
+        guestInstance.bedIndex = availableBed[opt.bedIndex || 0];
+        guestInstance.allocatedRoom = this._id;
+        return guestInstance;
     }
 }
 
