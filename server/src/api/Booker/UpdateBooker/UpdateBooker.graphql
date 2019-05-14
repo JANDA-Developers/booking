@@ -1,0 +1,18 @@
+type UpdateBookerResponse {
+    ok: Boolean!
+    error: String
+    booker: Booker
+}
+type Mutation {
+    UpdateBooker(
+        bookerId: ID!
+        name: Name
+        phoneNumber: PhoneNumber
+        email: EmailAddress
+        isCheckIn: Boolean
+        price: Float
+        payMethod: PayMethod
+        paymentStatus: PaymentStatus
+        memo: String
+    ): UpdateBookerResponse!
+}

@@ -9,8 +9,21 @@ type Booker {
     agreePrivacyPolicy: Boolean!
     isCheckIn: DateTime
     memo: String
+    payMethod: PayMethod!
+    paymentStatus: PaymentStatus!
     createdAt: DateTime!
     updatedAt: DateTime
+}
+
+enum PayMethod {
+    CASH
+    CREDIT_CARD
+}
+
+enum PaymentStatus {
+    NOT_YET
+    COMPLETE
+    CANCEL
 }
 
 input BookerInput {

@@ -7,6 +7,8 @@ import {
     prop,
     Typegoose
 } from "typegoose";
+import { PaymentStatusEnum, PayMethodEnum } from "../types/enums";
+import { PaymentStatus, PayMethod } from "../types/graph";
 import { BookingModel } from "./Booking";
 import { RoomTypeSchema } from "./RoomType";
 
@@ -48,6 +50,16 @@ export class BookerSchema extends Typegoose {
 
     @prop()
     memo?: string;
+
+    @prop({ required: true, enum: PayMethodEnum, default: PayMethodEnum.CASH })
+    payMethod: PayMethod;
+
+    @prop({
+        required: true,
+        enum: PaymentStatusEnum,
+        default: PaymentStatusEnum.NOT_YET
+    })
+    paymentStatus: PaymentStatus;
 
     @prop()
     createdAt: Date;
