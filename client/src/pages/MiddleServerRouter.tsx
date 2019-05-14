@@ -43,7 +43,7 @@ const JDmiddleServer: React.FC<IProps> = ({
     auth: { isLoggedIn },
     loading,
   },
-  GetUserInfo: { GetMyProfile: { user = {} } = {}, loading: loading2 },
+  GetUserInfo: { GetMyProfile: { user = {} } = {}, loading: loading2 } = {},
   selectedHouse: { auth: { lastSelectedHouse = {} } = {}, loading: loading3 = false } = {},
 }) => {
   const [sideNavIsOpen, setSideNavIsOpen] = useToggle(false);

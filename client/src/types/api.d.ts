@@ -7,7 +7,7 @@
 // ====================================================
 
 export interface getRoomTypeById_GetRoomTypeById_roomType {
-  __typename: "RoomType";
+  __typename: 'RoomType';
   _id: string;
   name: string;
   pricingType: PricingType;
@@ -26,7 +26,7 @@ export interface getRoomTypeById_GetRoomTypeById_roomType {
 }
 
 export interface getRoomTypeById_GetRoomTypeById {
-  __typename: "GetRoomTypeByIdResponse";
+  __typename: 'GetRoomTypeByIdResponse';
   ok: boolean;
   error: string | null;
   roomType: getRoomTypeById_GetRoomTypeById_roomType | null;
@@ -49,7 +49,7 @@ export interface getRoomTypeByIdVariables {
 // ====================================================
 
 export interface getAllProductTypes_GetAllProductTypes_productTypes {
-  __typename: "ProductType";
+  __typename: 'ProductType';
   _id: string;
   /**
    * 제품 이름
@@ -58,7 +58,7 @@ export interface getAllProductTypes_GetAllProductTypes_productTypes {
 }
 
 export interface getAllProductTypes_GetAllProductTypes {
-  __typename: "GetAllProductTypesResponse";
+  __typename: 'GetAllProductTypesResponse';
   ok: boolean;
   error: string | null;
   productTypes: getAllProductTypes_GetAllProductTypes_productTypes[] | null;
@@ -77,17 +77,17 @@ export interface getAllProductTypes {
 // ====================================================
 
 export interface getMyProfile_GetMyProfile_user_houses_hostApplication {
-  __typename: "HostApplication";
+  __typename: 'HostApplication';
   url: any;
 }
 
 export interface getMyProfile_GetMyProfile_user_houses_product_productType {
-  __typename: "ProductType";
+  __typename: 'ProductType';
   _id: string;
 }
 
 export interface getMyProfile_GetMyProfile_user_houses_product {
-  __typename: "Product";
+  __typename: 'Product';
   _id: string;
   /**
    * 제품 이름
@@ -97,13 +97,13 @@ export interface getMyProfile_GetMyProfile_user_houses_product {
 }
 
 export interface getMyProfile_GetMyProfile_user_houses_location {
-  __typename: "Location";
+  __typename: 'Location';
   address: string;
   addressDetail: string | null;
 }
 
 export interface getMyProfile_GetMyProfile_user_houses {
-  __typename: "House";
+  __typename: 'House';
   hostApplication: getMyProfile_GetMyProfile_user_houses_hostApplication | null;
   product: getMyProfile_GetMyProfile_user_houses_product | null;
   _id: string;
@@ -115,7 +115,7 @@ export interface getMyProfile_GetMyProfile_user_houses {
 }
 
 export interface getMyProfile_GetMyProfile_user {
-  __typename: "User";
+  __typename: 'User';
   _id: string;
   name: any;
   phoneNumber: any;
@@ -131,7 +131,7 @@ export interface getMyProfile_GetMyProfile_user {
 }
 
 export interface getMyProfile_GetMyProfile {
-  __typename: "GetMyProfileResponse";
+  __typename: 'GetMyProfileResponse';
   user: getMyProfile_GetMyProfile_user | null;
 }
 
@@ -151,25 +151,25 @@ export interface getMyProfile {
 // ====================================================
 
 export interface getHousesForSU_GetHousesForSU_houses_user {
-  __typename: "User";
+  __typename: 'User';
   _id: string;
   phoneNumber: any;
   profileImg: any | null;
 }
 
 export interface getHousesForSU_GetHousesForSU_houses_location {
-  __typename: "Location";
+  __typename: 'Location';
   address: string;
   addressDetail: string | null;
 }
 
 export interface getHousesForSU_GetHousesForSU_houses_product_productType {
-  __typename: "ProductType";
+  __typename: 'ProductType';
   _id: string;
 }
 
 export interface getHousesForSU_GetHousesForSU_houses_product {
-  __typename: "Product";
+  __typename: 'Product';
   _id: string;
   /**
    * 제품 이름
@@ -179,7 +179,7 @@ export interface getHousesForSU_GetHousesForSU_houses_product {
 }
 
 export interface getHousesForSU_GetHousesForSU_houses {
-  __typename: "House";
+  __typename: 'House';
   _id: string;
   name: string;
   houseType: HouseType;
@@ -191,14 +191,14 @@ export interface getHousesForSU_GetHousesForSU_houses {
 }
 
 export interface getHousesForSU_GetHousesForSU_pageInfo {
-  __typename: "PageInfoOffsetBase";
+  __typename: 'PageInfoOffsetBase';
   currentPage: number;
   totalPage: number;
   rowCount: number;
 }
 
 export interface getHousesForSU_GetHousesForSU {
-  __typename: "GetHousesForSUResponse";
+  __typename: 'GetHousesForSUResponse';
   ok: boolean;
   error: string | null;
   houses: getHousesForSU_GetHousesForSU_houses[] | null;
@@ -226,7 +226,7 @@ export interface getHousesForSUVariables {
 // ====================================================
 
 export interface emailSignIn_EmailSignIn {
-  __typename: "EmailSignInResponse";
+  __typename: 'EmailSignInResponse';
   ok: boolean;
   error: string | null;
   token: string | null;
@@ -250,17 +250,17 @@ export interface emailSignInVariables {
 // ====================================================
 
 export interface getHouse_GetHouse_house_hostApplication {
-  __typename: "HostApplication";
+  __typename: 'HostApplication';
   url: any;
 }
 
 export interface getHouse_GetHouse_house_product_productType {
-  __typename: "ProductType";
+  __typename: 'ProductType';
   _id: string;
 }
 
 export interface getHouse_GetHouse_house_product {
-  __typename: "Product";
+  __typename: 'Product';
   _id: string;
   /**
    * 제품 이름
@@ -270,13 +270,13 @@ export interface getHouse_GetHouse_house_product {
 }
 
 export interface getHouse_GetHouse_house_location {
-  __typename: "Location";
+  __typename: 'Location';
   address: string;
   addressDetail: string | null;
 }
 
 export interface getHouse_GetHouse_house {
-  __typename: "House";
+  __typename: 'House';
   _id: string;
   name: string;
   houseType: HouseType;
@@ -288,7 +288,7 @@ export interface getHouse_GetHouse_house {
 }
 
 export interface getHouse_GetHouse {
-  __typename: "GetHouseResponse";
+  __typename: 'GetHouseResponse';
   ok: boolean;
   error: string | null;
   house: getHouse_GetHouse_house | null;
@@ -311,30 +311,30 @@ export interface getHouseVariables {
 // ====================================================
 
 export interface getGuests_GetGuests_guests_roomType {
-  __typename: "RoomType";
+  __typename: 'RoomType';
   _id: string;
   index: number;
 }
 
 export interface getGuests_GetGuests_guests_allocatedRoom {
-  __typename: "Room";
+  __typename: 'Room';
   _id: string;
   index: number;
 }
 
 export interface getGuests_GetGuests_guests_booking_booker {
-  __typename: "Booker";
+  __typename: 'Booker';
   _id: string;
   isCheckIn: any | null;
 }
 
 export interface getGuests_GetGuests_guests_booking {
-  __typename: "Booking";
+  __typename: 'Booking';
   booker: getGuests_GetGuests_guests_booking_booker;
 }
 
 export interface getGuests_GetGuests_guests {
-  __typename: "Guest";
+  __typename: 'Guest';
   _id: string;
   /**
    * roomType 은 처음 예약하고나서 절대로 변경되지 않음.
@@ -360,7 +360,7 @@ export interface getGuests_GetGuests_guests {
 }
 
 export interface getGuests_GetGuests {
-  __typename: "GetGuestsResponse";
+  __typename: 'GetGuestsResponse';
   ok: boolean;
   error: string | null;
   guests: getGuests_GetGuests_guests[] | null;
@@ -385,7 +385,7 @@ export interface getGuestsVariables {
 // ====================================================
 
 export interface getAvailableGuestCount_GetMale_roomCapacity {
-  __typename: "RoomCapacity";
+  __typename: 'RoomCapacity';
   roomGender: RoomGender;
   /**
    * guestGender === null 이면 배정된 게스트 없는거...
@@ -395,14 +395,14 @@ export interface getAvailableGuestCount_GetMale_roomCapacity {
 }
 
 export interface getAvailableGuestCount_GetMale {
-  __typename: "GetAvailableGuestCountResponse";
+  __typename: 'GetAvailableGuestCountResponse';
   ok: boolean;
   error: string | null;
   roomCapacity: getAvailableGuestCount_GetMale_roomCapacity | null;
 }
 
 export interface getAvailableGuestCount_GetFemale_roomCapacity {
-  __typename: "RoomCapacity";
+  __typename: 'RoomCapacity';
   roomGender: RoomGender;
   /**
    * guestGender === null 이면 배정된 게스트 없는거...
@@ -412,7 +412,7 @@ export interface getAvailableGuestCount_GetFemale_roomCapacity {
 }
 
 export interface getAvailableGuestCount_GetFemale {
-  __typename: "GetAvailableGuestCountResponse";
+  __typename: 'GetAvailableGuestCountResponse';
   ok: boolean;
   error: string | null;
   roomCapacity: getAvailableGuestCount_GetFemale_roomCapacity | null;
@@ -440,7 +440,7 @@ export interface getAvailableGuestCountVariables {
 // ====================================================
 
 export interface getAllRoomType_GetAllRoomType_roomTypes_rooms {
-  __typename: "Room";
+  __typename: 'Room';
   _id: string;
   name: string;
   index: number;
@@ -449,7 +449,7 @@ export interface getAllRoomType_GetAllRoomType_roomTypes_rooms {
 }
 
 export interface getAllRoomType_GetAllRoomType_roomTypes {
-  __typename: "RoomType";
+  __typename: 'RoomType';
   _id: string;
   name: string;
   index: number;
@@ -466,7 +466,7 @@ export interface getAllRoomType_GetAllRoomType_roomTypes {
 }
 
 export interface getAllRoomType_GetAllRoomType {
-  __typename: "GetAllRoomTypeResponse";
+  __typename: 'GetAllRoomTypeResponse';
   ok: boolean | null;
   error: string | null;
   roomTypes: getAllRoomType_GetAllRoomType_roomTypes[] | null;
@@ -489,7 +489,7 @@ export interface getAllRoomTypeVariables {
 // ====================================================
 
 export interface getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms {
-  __typename: "Room";
+  __typename: 'Room';
   _id: string;
   name: string;
   index: number;
@@ -498,7 +498,7 @@ export interface getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms {
 }
 
 export interface getAllRoomTypeWithGuest_GetAllRoomType_roomTypes {
-  __typename: "RoomType";
+  __typename: 'RoomType';
   _id: string;
   name: string;
   index: number;
@@ -515,37 +515,37 @@ export interface getAllRoomTypeWithGuest_GetAllRoomType_roomTypes {
 }
 
 export interface getAllRoomTypeWithGuest_GetAllRoomType {
-  __typename: "GetAllRoomTypeResponse";
+  __typename: 'GetAllRoomTypeResponse';
   ok: boolean | null;
   error: string | null;
   roomTypes: getAllRoomTypeWithGuest_GetAllRoomType_roomTypes[] | null;
 }
 
 export interface getAllRoomTypeWithGuest_GetGuests_guests_booking_booker {
-  __typename: "Booker";
+  __typename: 'Booker';
   _id: string;
   isCheckIn: any | null;
 }
 
 export interface getAllRoomTypeWithGuest_GetGuests_guests_booking {
-  __typename: "Booking";
+  __typename: 'Booking';
   booker: getAllRoomTypeWithGuest_GetGuests_guests_booking_booker;
 }
 
 export interface getAllRoomTypeWithGuest_GetGuests_guests_roomType {
-  __typename: "RoomType";
+  __typename: 'RoomType';
   _id: string;
   index: number;
 }
 
 export interface getAllRoomTypeWithGuest_GetGuests_guests_allocatedRoom {
-  __typename: "Room";
+  __typename: 'Room';
   _id: string;
   index: number;
 }
 
 export interface getAllRoomTypeWithGuest_GetGuests_guests {
-  __typename: "Guest";
+  __typename: 'Guest';
   _id: string;
   name: any | null;
   start: any;
@@ -571,7 +571,7 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests {
 }
 
 export interface getAllRoomTypeWithGuest_GetGuests {
-  __typename: "GetGuestsResponse";
+  __typename: 'GetGuestsResponse';
   ok: boolean;
   error: string | null;
   guests: getAllRoomTypeWithGuest_GetGuests_guests[] | null;
@@ -597,7 +597,7 @@ export interface getAllRoomTypeWithGuestVariables {
 // ====================================================
 
 export interface getAllRoomTypePrice_GetAllRoomType_roomTypes {
-  __typename: "RoomType";
+  __typename: 'RoomType';
   _id: string;
   name: string;
   index: number;
@@ -605,19 +605,19 @@ export interface getAllRoomTypePrice_GetAllRoomType_roomTypes {
 }
 
 export interface getAllRoomTypePrice_GetAllRoomType {
-  __typename: "GetAllRoomTypeResponse";
+  __typename: 'GetAllRoomTypeResponse';
   ok: boolean | null;
   error: string | null;
   roomTypes: getAllRoomTypePrice_GetAllRoomType_roomTypes[] | null;
 }
 
 export interface getAllRoomTypePrice_GetAllRoomPrice_roomPrices_roomType {
-  __typename: "RoomType";
+  __typename: 'RoomType';
   _id: string;
 }
 
 export interface getAllRoomTypePrice_GetAllRoomPrice_roomPrices {
-  __typename: "RoomPrice";
+  __typename: 'RoomPrice';
   _id: string;
   price: number;
   date: any;
@@ -625,7 +625,7 @@ export interface getAllRoomTypePrice_GetAllRoomPrice_roomPrices {
 }
 
 export interface getAllRoomTypePrice_GetAllRoomPrice {
-  __typename: "GetAllRoomPriceResponse";
+  __typename: 'GetAllRoomPriceResponse';
   ok: boolean;
   error: string | null;
   roomPrices: getAllRoomTypePrice_GetAllRoomPrice_roomPrices[] | null;
@@ -651,17 +651,17 @@ export interface getAllRoomTypePriceVariables {
 // ====================================================
 
 export interface getUserForSU_GetUserForSU_user_houses_hostApplication {
-  __typename: "HostApplication";
+  __typename: 'HostApplication';
   url: any;
 }
 
 export interface getUserForSU_GetUserForSU_user_houses_product_productType {
-  __typename: "ProductType";
+  __typename: 'ProductType';
   _id: string;
 }
 
 export interface getUserForSU_GetUserForSU_user_houses_product {
-  __typename: "Product";
+  __typename: 'Product';
   _id: string;
   /**
    * 제품 이름
@@ -671,13 +671,13 @@ export interface getUserForSU_GetUserForSU_user_houses_product {
 }
 
 export interface getUserForSU_GetUserForSU_user_houses_location {
-  __typename: "Location";
+  __typename: 'Location';
   address: string;
   addressDetail: string | null;
 }
 
 export interface getUserForSU_GetUserForSU_user_houses {
-  __typename: "House";
+  __typename: 'House';
   hostApplication: getUserForSU_GetUserForSU_user_houses_hostApplication | null;
   product: getUserForSU_GetUserForSU_user_houses_product | null;
   _id: string;
@@ -689,7 +689,7 @@ export interface getUserForSU_GetUserForSU_user_houses {
 }
 
 export interface getUserForSU_GetUserForSU_user {
-  __typename: "User";
+  __typename: 'User';
   _id: string;
   name: any;
   phoneNumber: any;
@@ -705,7 +705,7 @@ export interface getUserForSU_GetUserForSU_user {
 }
 
 export interface getUserForSU_GetUserForSU {
-  __typename: "GetUserForSUResponse";
+  __typename: 'GetUserForSUResponse';
   ok: boolean;
   error: string | null;
   user: getUserForSU_GetUserForSU_user | null;
@@ -728,18 +728,18 @@ export interface getUserForSUVariables {
 // ====================================================
 
 export interface getBookers_GetBookers_bookers_bookings_roomType {
-  __typename: "RoomType";
+  __typename: 'RoomType';
   _id: string;
   name: string;
 }
 
 export interface getBookers_GetBookers_bookers_bookings_guests {
-  __typename: "Guest";
+  __typename: 'Guest';
   gender: Gender | null;
 }
 
 export interface getBookers_GetBookers_bookers_bookings {
-  __typename: "Booking";
+  __typename: 'Booking';
   _id: string;
   /**
    * 예약 ID
@@ -766,7 +766,7 @@ export interface getBookers_GetBookers_bookers_bookings {
 }
 
 export interface getBookers_GetBookers_bookers {
-  __typename: "Booker";
+  __typename: 'Booker';
   _id: string;
   bookings: getBookers_GetBookers_bookers_bookings[] | null;
   name: any;
@@ -779,14 +779,14 @@ export interface getBookers_GetBookers_bookers {
 }
 
 export interface getBookers_GetBookers_pageInfo {
-  __typename: "PageInfoOffsetBase";
+  __typename: 'PageInfoOffsetBase';
   currentPage: number;
   totalPage: number;
   rowCount: number;
 }
 
 export interface getBookers_GetBookers {
-  __typename: "GetBookersResponse";
+  __typename: 'GetBookersResponse';
   ok: boolean;
   error: string | null;
   bookers: getBookers_GetBookers_bookers[] | null;
@@ -812,20 +812,20 @@ export interface getBookersVariables {
 // ====================================================
 
 export interface getBooker_GetBooker_booker_bookings_guests {
-  __typename: "Guest";
+  __typename: 'Guest';
   _id: string;
   gender: Gender | null;
 }
 
 export interface getBooker_GetBooker_booker_bookings_roomType {
-  __typename: "RoomType";
+  __typename: 'RoomType';
   _id: string;
   name: string;
   pricingType: PricingType;
 }
 
 export interface getBooker_GetBooker_booker_bookings {
-  __typename: "Booking";
+  __typename: 'Booking';
   guestCount: number;
   _id: string;
   bookingStatus: BookingStatus;
@@ -846,7 +846,7 @@ export interface getBooker_GetBooker_booker_bookings {
 }
 
 export interface getBooker_GetBooker_booker {
-  __typename: "Booker";
+  __typename: 'Booker';
   _id: string;
   phoneNumber: any;
   memo: string | null;
@@ -857,7 +857,7 @@ export interface getBooker_GetBooker_booker {
 }
 
 export interface getBooker_GetBooker {
-  __typename: "GetBookerResponse";
+  __typename: 'GetBookerResponse';
   ok: boolean;
   error: string | null;
   booker: getBooker_GetBooker_booker | null;
@@ -880,7 +880,7 @@ export interface getBookerVariables {
 // ====================================================
 
 export interface getAllSeason_GetAllSeason_seasons {
-  __typename: "Season";
+  __typename: 'Season';
   _id: string;
   name: string;
   start: any;
@@ -893,14 +893,14 @@ export interface getAllSeason_GetAllSeason_seasons {
 }
 
 export interface getAllSeason_GetAllSeason {
-  __typename: "GetAllSeasonResponse";
+  __typename: 'GetAllSeasonResponse';
   ok: boolean;
   error: string | null;
   seasons: getAllSeason_GetAllSeason_seasons[] | null;
 }
 
 export interface getAllSeason_GetAllRoomType_roomTypes {
-  __typename: "RoomType";
+  __typename: 'RoomType';
   _id: string;
   name: string;
   index: number;
@@ -908,7 +908,7 @@ export interface getAllSeason_GetAllRoomType_roomTypes {
 }
 
 export interface getAllSeason_GetAllRoomType {
-  __typename: "GetAllRoomTypeResponse";
+  __typename: 'GetAllRoomTypeResponse';
   ok: boolean | null;
   error: string | null;
   roomTypes: getAllSeason_GetAllRoomType_roomTypes[] | null;
@@ -932,7 +932,7 @@ export interface getAllSeasonVariables {
 // ====================================================
 
 export interface getAllSeasonTable_GetAllSeason_seasons {
-  __typename: "Season";
+  __typename: 'Season';
   _id: string;
   name: string;
   start: any;
@@ -945,14 +945,14 @@ export interface getAllSeasonTable_GetAllSeason_seasons {
 }
 
 export interface getAllSeasonTable_GetAllSeason {
-  __typename: "GetAllSeasonResponse";
+  __typename: 'GetAllSeasonResponse';
   ok: boolean;
   error: string | null;
   seasons: getAllSeasonTable_GetAllSeason_seasons[] | null;
 }
 
 export interface getAllSeasonTable_GetAllRoomType_roomTypes {
-  __typename: "RoomType";
+  __typename: 'RoomType';
   _id: string;
   name: string;
   index: number;
@@ -960,30 +960,30 @@ export interface getAllSeasonTable_GetAllRoomType_roomTypes {
 }
 
 export interface getAllSeasonTable_GetAllRoomType {
-  __typename: "GetAllRoomTypeResponse";
+  __typename: 'GetAllRoomTypeResponse';
   ok: boolean | null;
   error: string | null;
   roomTypes: getAllSeasonTable_GetAllRoomType_roomTypes[] | null;
 }
 
 export interface getAllSeasonTable_GetSeasonPrice_seasonPrices_roomType {
-  __typename: "RoomType";
+  __typename: 'RoomType';
   _id: string;
 }
 
 export interface getAllSeasonTable_GetSeasonPrice_seasonPrices_season {
-  __typename: "Season";
+  __typename: 'Season';
   _id: string;
 }
 
 export interface getAllSeasonTable_GetSeasonPrice_seasonPrices_dayOfWeekPrices {
-  __typename: "DayOfWeekPrice";
+  __typename: 'DayOfWeekPrice';
   price: number;
   applyDays: number;
 }
 
 export interface getAllSeasonTable_GetSeasonPrice_seasonPrices {
-  __typename: "SeasonPrice";
+  __typename: 'SeasonPrice';
   _id: string;
   roomType: getAllSeasonTable_GetSeasonPrice_seasonPrices_roomType;
   season: getAllSeasonTable_GetSeasonPrice_seasonPrices_season;
@@ -992,7 +992,7 @@ export interface getAllSeasonTable_GetSeasonPrice_seasonPrices {
 }
 
 export interface getAllSeasonTable_GetSeasonPrice {
-  __typename: "GetSeasonPriceResponse";
+  __typename: 'GetSeasonPriceResponse';
   ok: boolean;
   error: string | null;
   seasonPrices: getAllSeasonTable_GetSeasonPrice_seasonPrices[] | null;
@@ -1020,7 +1020,7 @@ export interface getAllSeasonTableVariables {
 // ====================================================
 
 export interface createBooking_CreateBooking {
-  __typename: "CreateBookingResponse";
+  __typename: 'CreateBookingResponse';
   ok: boolean;
   error: string | null;
 }
@@ -1042,7 +1042,7 @@ export interface createBookingVariables {
 // ====================================================
 
 export interface createRoomType_CreateRoomType {
-  __typename: "CreateRoomTypeResponse";
+  __typename: 'CreateRoomTypeResponse';
   ok: boolean;
   error: string | null;
 }
@@ -1076,7 +1076,7 @@ export interface createRoomTypeVariables {
 // ====================================================
 
 export interface createRoom_CreateRoom {
-  __typename: "CreateRoomResponse";
+  __typename: 'CreateRoomResponse';
   ok: boolean | null;
   error: string | null;
 }
@@ -1099,7 +1099,7 @@ export interface createRoomVariables {
 // ====================================================
 
 export interface createRoomPrice_CreateRoomPrice {
-  __typename: "CreateRoomPriceResponse";
+  __typename: 'CreateRoomPriceResponse';
   ok: boolean;
   error: string | null;
 }
@@ -1127,7 +1127,7 @@ export interface createRoomPriceVariables {
 // ====================================================
 
 export interface deleteRoomPrice_DeleteRoomPrice {
-  __typename: "DeleteRoomPriceResponse";
+  __typename: 'DeleteRoomPriceResponse';
   ok: boolean;
   error: string | null;
 }
@@ -1150,7 +1150,7 @@ export interface deleteRoomPriceVariables {
 // ====================================================
 
 export interface deleteRoomType_DeleteRoomType {
-  __typename: "DeleteRoomTypeResponse";
+  __typename: 'DeleteRoomTypeResponse';
   ok: boolean;
   error: string | null;
 }
@@ -1173,7 +1173,7 @@ export interface deleteRoomTypeVariables {
 // ====================================================
 
 export interface deleteRoom_DeleteRoom {
-  __typename: "DeleteRoomResponse";
+  __typename: 'DeleteRoomResponse';
   ok: boolean;
   error: string | null;
 }
@@ -1195,7 +1195,7 @@ export interface deleteRoomVariables {
 // ====================================================
 
 export interface updateRoom_UpdateRoom {
-  __typename: "UpdateRoomResponse";
+  __typename: 'UpdateRoomResponse';
   ok: boolean;
   error: string | null;
 }
@@ -1218,7 +1218,7 @@ export interface updateRoomVariables {
 // ====================================================
 
 export interface updateRoomType_UpdateRoomType {
-  __typename: "UpdateRoomTypeResponse";
+  __typename: 'UpdateRoomTypeResponse';
   ok: boolean;
   error: string | null;
 }
@@ -1245,7 +1245,7 @@ export interface updateRoomTypeVariables {
 // ====================================================
 
 export interface createSeasonPrice_CreateSeasonPrice {
-  __typename: "CreateSeasonPriceResponse";
+  __typename: 'CreateSeasonPriceResponse';
   ok: boolean;
   error: string | null;
 }
@@ -1270,7 +1270,7 @@ export interface createSeasonPriceVariables {
 // ====================================================
 
 export interface createSeason_CreateSeason {
-  __typename: "CreateSeasonResponse";
+  __typename: 'CreateSeasonResponse';
   ok: boolean;
   error: string | null;
 }
@@ -1298,7 +1298,7 @@ export interface createSeasonVariables {
 // ====================================================
 
 export interface changePriority_ChangePriority {
-  __typename: "ChangePriorityResponse";
+  __typename: 'ChangePriorityResponse';
   ok: boolean;
   error: string | null;
 }
@@ -1322,7 +1322,7 @@ export interface changePriorityVariables {
 // ====================================================
 
 export interface deleteSeason_DeleteSeason {
-  __typename: "DeleteSeasonResponse";
+  __typename: 'DeleteSeasonResponse';
   ok: boolean;
   error: string | null;
 }
@@ -1345,7 +1345,7 @@ export interface deleteSeasonVariables {
 // ====================================================
 
 export interface updateSeason_UpdateSeason {
-  __typename: "UpdateSeasonResponse";
+  __typename: 'UpdateSeasonResponse';
   ok: boolean | null;
   error: string | null;
 }
@@ -1373,7 +1373,7 @@ export interface updateSeasonVariables {
 // ====================================================
 
 export interface updateMyProfile_UpdateMyProfile {
-  __typename: "UpdateMyProfileResponse";
+  __typename: 'UpdateMyProfileResponse';
   ok: boolean;
   error: string | null;
 }
@@ -1399,7 +1399,7 @@ export interface updateMyProfileVariables {
 // ====================================================
 
 export interface startPhoneVerification_StartPhoneVerification {
-  __typename: "StartPhoneVerificationResponse";
+  __typename: 'StartPhoneVerificationResponse';
   ok: boolean;
   error: string | null;
 }
@@ -1417,7 +1417,7 @@ export interface startPhoneVerification {
 // ====================================================
 
 export interface completePhoneVerification_CompletePhoneVerification {
-  __typename: "CompletePhoneVerificationResponse";
+  __typename: 'CompletePhoneVerificationResponse';
   ok: boolean;
   error: string | null;
 }
@@ -1439,7 +1439,7 @@ export interface completePhoneVerificationVariables {
 // ====================================================
 
 export interface emailSignUp_EmailSignUp {
-  __typename: "EmailSignUpResponse";
+  __typename: 'EmailSignUpResponse';
   ok: boolean;
   error: string | null;
   token: string | null;
@@ -1465,7 +1465,7 @@ export interface emailSignUpVariables {
 // ====================================================
 
 export interface updateHouse_UpdateHouse {
-  __typename: "UpdateHouseResponse";
+  __typename: 'UpdateHouseResponse';
   ok: boolean;
   error: string | null;
 }
@@ -1492,13 +1492,13 @@ export interface updateHouseVariables {
 // ====================================================
 
 export interface createHouse_CreateHouse_house {
-  __typename: "House";
+  __typename: 'House';
   _id: string;
   name: string;
 }
 
 export interface createHouse_CreateHouse {
-  __typename: "CreateHouseResponse";
+  __typename: 'CreateHouseResponse';
   ok: boolean;
   error: string | null;
   house: createHouse_CreateHouse_house | null;
@@ -1523,7 +1523,7 @@ export interface createHouseVariables {
 // ====================================================
 
 export interface deleteHouse_DeleteHouse {
-  __typename: "DeleteHouseResponse";
+  __typename: 'DeleteHouseResponse';
   ok: boolean;
   error: string | null;
 }
@@ -1545,7 +1545,7 @@ export interface deleteHouseVariables {
 // ====================================================
 
 export interface buyProduct_BuyProduct {
-  __typename: "BuyProductResponse";
+  __typename: 'BuyProductResponse';
   ok: boolean;
   error: string | null;
 }
@@ -1568,7 +1568,7 @@ export interface buyProductVariables {
 // ====================================================
 
 export interface refundProduct_RefundProduct {
-  __typename: "RefundProductResponse";
+  __typename: 'RefundProductResponse';
   ok: boolean;
   error: string | null;
 }
@@ -1591,13 +1591,13 @@ export interface refundProductVariables {
 // ====================================================
 
 export interface FieldsLocation_location {
-  __typename: "Location";
+  __typename: 'Location';
   address: string;
   addressDetail: string | null;
 }
 
 export interface FieldsLocation {
-  __typename: "House";
+  __typename: 'House';
   location: FieldsLocation_location;
 }
 
@@ -1610,7 +1610,7 @@ export interface FieldsLocation {
 // ====================================================
 
 export interface FminiRoomType {
-  __typename: "RoomType";
+  __typename: 'RoomType';
   _id: string;
   name: string;
   index: number;
@@ -1626,7 +1626,7 @@ export interface FminiRoomType {
 // ====================================================
 
 export interface FallSeason {
-  __typename: "Season";
+  __typename: 'Season';
   _id: string;
   name: string;
   start: any;
@@ -1647,7 +1647,7 @@ export interface FallSeason {
 // ====================================================
 
 export interface FpageInfo {
-  __typename: "PageInfoOffsetBase";
+  __typename: 'PageInfoOffsetBase';
   currentPage: number;
   totalPage: number;
   rowCount: number;
@@ -1662,17 +1662,17 @@ export interface FpageInfo {
 // ====================================================
 
 export interface FieldsUser_houses_hostApplication {
-  __typename: "HostApplication";
+  __typename: 'HostApplication';
   url: any;
 }
 
 export interface FieldsUser_houses_product_productType {
-  __typename: "ProductType";
+  __typename: 'ProductType';
   _id: string;
 }
 
 export interface FieldsUser_houses_product {
-  __typename: "Product";
+  __typename: 'Product';
   _id: string;
   /**
    * 제품 이름
@@ -1682,13 +1682,13 @@ export interface FieldsUser_houses_product {
 }
 
 export interface FieldsUser_houses_location {
-  __typename: "Location";
+  __typename: 'Location';
   address: string;
   addressDetail: string | null;
 }
 
 export interface FieldsUser_houses {
-  __typename: "House";
+  __typename: 'House';
   hostApplication: FieldsUser_houses_hostApplication | null;
   product: FieldsUser_houses_product | null;
   _id: string;
@@ -1700,7 +1700,7 @@ export interface FieldsUser_houses {
 }
 
 export interface FieldsUser {
-  __typename: "User";
+  __typename: 'User';
   _id: string;
   name: any;
   phoneNumber: any;
@@ -1724,50 +1724,50 @@ export interface FieldsUser {
 //==============================================================
 
 export enum BookingStatus {
-  CANCEL = "CANCEL",
-  COMPLETE = "COMPLETE",
+  CANCEL = 'CANCEL',
+  COMPLETE = 'COMPLETE',
 }
 
 /**
  * 도미토리 방식으로 예약한 게스트만 적용됨
  */
 export enum Gender {
-  FEMALE = "FEMALE",
-  MALE = "MALE",
+  FEMALE = 'FEMALE',
+  MALE = 'MALE',
 }
 
 export enum GuestGender {
-  FEMALE = "FEMALE",
-  MALE = "MALE",
-  MIXED = "MIXED",
+  FEMALE = 'FEMALE',
+  MALE = 'MALE',
+  MIXED = 'MIXED',
 }
 
 export enum HouseType {
-  GUEST_HOUSE = "GUEST_HOUSE",
-  HOSTEL = "HOSTEL",
-  HOTEL = "HOTEL",
-  MOTEL = "MOTEL",
-  PENSION = "PENSION",
-  YOUTH_HOSTEL = "YOUTH_HOSTEL",
+  GUEST_HOUSE = 'GUEST_HOUSE',
+  HOSTEL = 'HOSTEL',
+  HOTEL = 'HOTEL',
+  MOTEL = 'MOTEL',
+  PENSION = 'PENSION',
+  YOUTH_HOSTEL = 'YOUTH_HOSTEL',
 }
 
 export enum PricingType {
-  DOMITORY = "DOMITORY",
-  ROOM = "ROOM",
+  DOMITORY = 'DOMITORY',
+  ROOM = 'ROOM',
 }
 
 export enum RoomGender {
-  FEMALE = "FEMALE",
-  MALE = "MALE",
-  MIXED = "MIXED",
-  SEPARATELY = "SEPARATELY",
+  FEMALE = 'FEMALE',
+  MALE = 'MALE',
+  MIXED = 'MIXED',
+  SEPARATELY = 'SEPARATELY',
 }
 
 export enum UserRole {
-  ADMIN = "ADMIN",
-  GHOST = "GHOST",
-  GUEST = "GUEST",
-  HOST = "HOST",
+  ADMIN = 'ADMIN',
+  GHOST = 'GHOST',
+  GUEST = 'GUEST',
+  HOST = 'HOST',
 }
 
 export interface BookerInput {

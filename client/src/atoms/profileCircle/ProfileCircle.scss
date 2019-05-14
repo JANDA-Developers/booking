@@ -42,12 +42,12 @@
 
     &__input {
         position: absolute;
-        @extend %z-depth-1;
         height: 100%;
         top: 0;
         border: 0;
         left: 0;
         opacity: 0;
         right: 0;
+        z-index: $z-index-1;
     }
 }
