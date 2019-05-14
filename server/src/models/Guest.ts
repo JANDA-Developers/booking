@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { instanceMethod, InstanceType, prop, Ref, Typegoose } from "typegoose";
+import { InstanceType, prop, Ref, Typegoose } from "typegoose";
 import { Gender, PricingType } from "../types/graph";
 import { removeUndefined } from "../utils/objFuncs";
 import { RoomSchema } from "./Room";
@@ -58,15 +58,6 @@ export class GuestSchema extends Typegoose {
 
     @prop()
     updatedAt: Date;
-
-    @instanceMethod
-    async allocateRoom(
-        this: InstanceType<GuestSchema>,
-        roomId: Types.ObjectId
-    ): Promise<boolean> {
-        //  TODO
-        return false;
-    }
 }
 
 export const GuestModel = new GuestSchema().getModelForClass(GuestSchema, {
