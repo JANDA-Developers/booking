@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import './Ready.scss';
 
 const Ready = ({ hostApp, currentProduct, selectedHouse }) => (
-    <div id="Ready">
+  <div id="Ready">
+    <Fragment>
       {hostApp && window.open(hostApp.url)}
       {/* PC용 */}
       <div className="container container--centerlize">
@@ -47,8 +48,9 @@ const Ready = ({ hostApp, currentProduct, selectedHouse }) => (
           </div>
         </div>
       </div>
-    </div>
-  );
+    </Fragment>
+  </div>
+);
 
 Ready.propTypes = {
   product: PropTypes.string,
