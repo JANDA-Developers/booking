@@ -3,7 +3,7 @@ import { Query } from 'react-apollo';
 import ResvList from './ResvList';
 import { IHouse } from '../../../types/interface';
 import { getBookers, getBookersVariables } from '../../../types/api';
-import { showError, QueryDataFormater } from '../../../utils/utils';
+import { showError, queryDataFormater } from '../../../utils/utils';
 import { GET_BOOKERS } from '../../../queries';
 
 interface IProps {
@@ -18,8 +18,8 @@ const ResvListWrap: React.SFC<IProps> = ({ houseId }) => (
       console.log('boookerData');
       console.log(boookerData);
       showError(error);
-      const bookers = QueryDataFormater(boookerData, 'GetBookers', 'bookers', undefined);
-      const pageInfo = QueryDataFormater(boookerData, 'GetBookers', 'pageInfo', undefined);
+      const bookers = queryDataFormater(boookerData, 'GetBookers', 'bookers', undefined);
+      const pageInfo = queryDataFormater(boookerData, 'GetBookers', 'pageInfo', undefined);
       return <ResvList pageInfo={pageInfo || undefined} bookersData={bookers || []} loading={loading} />;
     }}
   </GetBookersQuery>

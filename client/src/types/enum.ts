@@ -43,31 +43,6 @@ export enum RoomGender {
   SEPARATELY = 'SEPARATELY',
 }
 
-export interface LocationInput {
-  address: string;
-  addressDetail?: string | null;
-  lat: number;
-  lng: number;
-}
-
-export interface TagInput {
-  name: string;
-  content: string;
-  icon?: string | null;
-}
-
-export interface TermsOfBookingInput {
-  farthestSelectableDate: number;
-  nearestSelectableDate: number;
-  selectableDateRange: number;
-}
-
-export interface TermsOfRefundInput {
-  beforeDays: number;
-  rate: number;
-  description?: string | null;
-}
-
 //= =============================================================
 // START Enums from Front End
 //= =============================================================
@@ -122,6 +97,11 @@ export enum WindowSize {
 export enum Gender {
   FEMALE = 'FEMALE',
   MALE = 'MALE',
+}
+
+export enum GenderKr {
+  FEMALE = '여',
+  MALE = '남',
 }
 
 //= =============================================================

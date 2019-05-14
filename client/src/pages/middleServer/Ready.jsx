@@ -2,10 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './Ready.scss';
 
-const Ready = ({ hostApp, currentProduct, selectedHouse }) => {
-  console.log('hostApp');
-  console.log(hostApp);
-  return (
+const Ready = ({ hostApp, currentProduct, selectedHouse }) => (
     <div id="Ready">
       {hostApp && window.open(hostApp.url)}
       {/* PC용 */}
@@ -52,7 +49,6 @@ const Ready = ({ hostApp, currentProduct, selectedHouse }) => {
       </div>
     </div>
   );
-};
 
 Ready.propTypes = {
   product: PropTypes.string,

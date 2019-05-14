@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import faker from 'faker';
@@ -46,6 +46,7 @@ import DrragList from '../../../atoms/animation/DrragList';
 import Card from '../../../atoms/cards/Card';
 import JDbox from '../../../atoms/box/JDbox';
 import { CellInfo } from 'react-table';
+import { UserRole } from '../../../types/enum';
 
 function ShowComponents() {
   const defaultColor = faker.commerce.color();
@@ -58,6 +59,7 @@ function ShowComponents() {
   const useSelect1 = useSelect(null);
   const useSelect2 = useSelect(null);
   const useSelect3 = useSelect(null);
+  const [onTypeValue, onTypeChange] = useState<any>('');
   const colorPickerHook = useColorPicker(defaultColor);
   const colorPickerHook2 = useColorPicker(defaultColor2);
   const colorPickerHook3 = useColorPicker(defaultColor3);
@@ -159,7 +161,11 @@ function ShowComponents() {
         <div className="docs-section__box">
           <h6>Switch</h6>
 
+          <Switch {...switchHook} label="normal" />
+
           <Switch {...switchHook} ltxt="normal" />
+
+          <Switch {...switchHook} rtxt="normal" />
 
           <Switch ltxt="disabled" disabled />
         </div>
@@ -192,7 +198,12 @@ function ShowComponents() {
               <InputText value="you can't fix this" readOnly label="readOnly" />
             </div>
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
-              <InputText label="Vaild Message" isValid dataError="Wrong" dataSuccess="Checked" />
+              <InputText
+                label="Vaild Message - is phone"
+                validation={utils.isPhone}
+                dataError="Wrong"
+                dataSuccess="Checked"
+              />
             </div>
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
               <InputText label="disabled" disabled />
@@ -206,14 +217,20 @@ function ShowComponents() {
         <div className="docs-section__box">
           <h6>TextArea</h6>
           <div className="flex-grid">
-            <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
+            <div className="flex-grid__col col--full-3 col--lg-3 col--md-6">
               <InputText label="noraml" textarea />
             </div>
-            <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
+            <div className="flex-grid__col col--full-3 col--lg-3 col--md-4">
               <InputText label="scroll" scroll textarea />
             </div>
-            <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
+            <div className="flex-grid__col col--full-3 col--lg-3 col--md-4">
               <InputText disabled label="disabled" textarea />
+            </div>
+            <div className="flex-grid__col col--full-3 col--lg-3 col--md-4">
+              <InputText doubleHeight label="doubleHeight" textarea />
+            </div>
+            <div className="flex-grid__col col--full-3 col--lg-3 col--md-4">
+              <InputText halfHeight label="halfHeight" textarea />
             </div>
           </div>
         </div>
@@ -222,7 +239,16 @@ function ShowComponents() {
         <h6>SearchInput</h6>
         <div className="flex-grid-grow flex-grid--md docs-section__box">
           <div className="flex-grid__col">
-            <SearchInput staticList dataList={searchDummyData} filter label="normal" />
+            <SearchInput
+              onTypeValue={onTypeValue}
+              onTypeChange={onTypeChange}
+              onSearch={onTypeChange}
+              feedBackMessage="feedBackMessage"
+              staticList
+              dataList={searchDummyData}
+              filter
+              label="normal"
+            />
           </div>
         </div>
 
@@ -489,7 +515,26 @@ function ShowComponents() {
         </div>
 
         {/* 사이드네비 sideNav */}
-        <SideNav {...anyProp} isOpen={SideNavIsOpen} setIsOpen={setSideNavIsOpen} />
+        <SideNav
+          {...anyProp}
+          userInformation={{
+            __typename: 'User',
+            _id: 'dummy',
+            name: '홍길동',
+            phoneNumber: '01052374492',
+            password: null,
+            email: '',
+            isPhoneVerified: false,
+            profileImg: null,
+            checkPrivacyPolicy: false,
+            userRole: UserRole.GHOST,
+            houses: [],
+            createdAt: '',
+            updatedAt: null,
+          }}
+          isOpen={SideNavIsOpen}
+          setIsOpen={setSideNavIsOpen}
+        />
       </div>
     </div>
   );

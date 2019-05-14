@@ -1,7 +1,7 @@
 @import "../../style_config/style_config";
 
 #root,.ReactModalPortal {
-    div.tooltipList.__react_component_tooltip {
+    .tooltipList {
         pointer-events: auto; 
         background-color: white;
         opacity:1;
@@ -22,6 +22,9 @@
                 border-bottom: $tooltipList-li-border-bottom;
                 .JDbtn  {
                     color: $html-color;
+                    margin:0;
+                    width: 100%;
+                    border-radius: 0;
                 }
             }
 
@@ -40,6 +43,12 @@
             background-color:white;
             transform: translateY(2px) rotate(45deg);
             @extend %z-depth-1;
+        }
+        
+        &--unPadding {
+            ul {
+                padding:0;
+            }
         }
     }
 }

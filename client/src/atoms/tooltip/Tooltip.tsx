@@ -1,6 +1,6 @@
 import OutReactTooltip from 'react-tooltip';
 import React from 'react';
-import ErrProtecter from '../../utils/ErrProtecter';
+import ErrProtecter from '../../utils/errProtect';
 import './Tooltip.scss';
 
 interface IProps extends OutReactTooltip.Props {

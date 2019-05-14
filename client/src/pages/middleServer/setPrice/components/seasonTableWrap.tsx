@@ -7,8 +7,6 @@ import {
   deleteSeasonVariables,
   updateSeason,
   updateSeasonVariables,
-  getAllSeason_GetAllSeason_seasons as ISeason,
-  getAllSeasonTable_GetAllRoomType_roomTypes as IRoomType,
   SeasonPriceInput,
   changePriority,
   changePriorityVariables,
@@ -21,9 +19,10 @@ import {
   GET_ALL_SEASON_TABLE,
   CHANGE_PRIORITY,
 } from '../../../../queries';
-import { onError, onCompletedMessage } from '../../../../utils/utils';
+import { onCompletedMessage, showError } from '../../../../utils/utils';
 import { IPriceMap } from '../SetPriceWrap';
 import { IDefaultSeason } from '../SetPrice';
+import { ISeason, GAST_RoomType } from '../../../../types/interface';
 
 class CreateSeasonMutation extends Mutation<createSeason, createSeasonVariables> {}
 class DeleteSeasonMutation extends Mutation<deleteSeason, deleteSeasonVariables> {}
@@ -49,7 +48,7 @@ interface IProps {
   houseId: string;
   seasonData: ISeason | IDefaultSeason;
   priceMap?: IPriceMap | null;
-  roomTypes: IRoomType[];
+  roomTypes: GAST_RoomType[];
   seasonCount: number;
   seasonIndex: number;
   add?: boolean;
@@ -105,11 +104,11 @@ const SeasonTableWrap: React.SFC<IProps> = ({
         onCompletedMessage(CreateSeason, '시즌 생성완료', '시즌 생성실패');
       }}
       refetchQueries={refetchQueries}
-      onError={onError}
+      onError={showError}
     >
       {createSeasonMutation => (
         <DeleteSeasonMutation
-          onError={onError}
+          onError={showError}
           mutation={DELETE_SEASON}
           refetchQueries={refetchQueries}
           variables={{
@@ -122,7 +121,7 @@ const SeasonTableWrap: React.SFC<IProps> = ({
         >
           {deleteSeasonMutation => (
             <UpdateSeasonMutation
-              onError={onError}
+              onError={showError}
               mutation={UPDATE_SEASON}
               refetchQueries={refetchQueries}
               onCompleted={({ UpdateSeason }) => {
@@ -131,7 +130,7 @@ const SeasonTableWrap: React.SFC<IProps> = ({
             >
               {updateSeasonMutation => (
                 <ChangePriorityMutation
-                  onError={onError}
+                  onError={showError}
                   mutation={CHANGE_PRIORITY}
                   refetchQueries={refetchQueries}
                   onCompleted={({ ChangePriority }) => {

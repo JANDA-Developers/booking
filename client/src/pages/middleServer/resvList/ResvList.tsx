@@ -13,7 +13,7 @@ import { useModal } from '../../../actions/hook';
 import BookerModalWrap from '../../../components/bookerInfo/BookerModalWrap';
 import { IPageInfo, IBooker, IBooking } from '../../../types/interface';
 import JDbox from '../../../atoms/box/JDbox';
-import { arraySum } from '../../../utils/math';
+import { arraySum } from '../../../utils/elses';
 import { setYYYYMMDD } from '../../../utils/setMidNight';
 
 interface IProps {

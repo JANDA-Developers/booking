@@ -5,13 +5,12 @@ import { IUseSelect } from '../../actions/hook';
 
 interface IProps {
   options: IselectedOption[];
-  selectedHouseHook: IUseSelect;
+  selectedHouseOption: IselectedOption | null;
   selectHouseMu: MutationFn<any, any>;
 }
 
-const JDPagination: React.SFC<IProps> = ({ selectHouseMu, selectedHouseHook, options }) => {
+const JDPagination: React.SFC<IProps> = ({ selectHouseMu, selectedHouseOption, options }) => {
   const handleSelectHouse = (value: IselectedOption) => {
-    selectedHouseHook.onChange(value);
     selectHouseMu({ variables: { selectedHouse: value } });
   };
 
@@ -19,7 +18,7 @@ const JDPagination: React.SFC<IProps> = ({ selectHouseMu, selectedHouseHook, opt
     <JDselect
       placeholder="숙소를 생성해주세요."
       options={options}
-      {...selectedHouseHook}
+      defaultValue={selectedHouseOption}
       onChange={handleSelectHouse}
     />
   );

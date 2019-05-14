@@ -6,7 +6,7 @@ import { Mutation, Query } from 'react-apollo';
 import { Redirect } from 'react-router';
 import Reservation from './Reservation';
 import {
-  ErrProtecter, QueryDataFormater, showError, onError, onCompletedMessage,
+  ErrProtecter, queryDataFormater, showError, onCompletedMessage,
 } from '../../../utils/utils';
 import {
   createBooking, createBookingVariables, getAllRoomType, getAllRoomTypeVariables,
@@ -30,7 +30,7 @@ const ReservationWrap: React.SFC<IProps> = ({ houseId }) => {
 
   return (
     <CreatBookingMu
-      onError={onError}
+      onError={showError}
       onCompleted={({ CreateBooking }) => {
         onCompletedMessage(CreateBooking, '예약완료', '예약실패');
         // Redirect 는 IFram 이 밖에 있어야가능하므로 일단생략

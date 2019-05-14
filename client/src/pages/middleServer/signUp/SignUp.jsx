@@ -1,13 +1,14 @@
 /* eslint-disable  */
 import React, { useState } from 'react';
 import { Mutation } from 'react-apollo';
+import { toast } from 'react-toastify';
 import InputText from '../../../atoms/forms/inputText/InputText';
 import Radio from '../../../atoms/forms/radio/Radio';
 import Button from '../../../atoms/button/Button';
 import { LOG_USER_IN, IS_LOGGED_IN } from '../../../clientQueries';
 import { EMAIL_SIGN_UP, GET_USER_INFO } from '../../../queries';
 import './SignUp.scss';
-import utils, { toast } from '../../../utils/utils';
+import utils from '../../../utils/utils';
 import { useInput, useRadio } from '../../../actions/hook';
 import privacyPolicy from '../../../docs/privacyPolicy';
 

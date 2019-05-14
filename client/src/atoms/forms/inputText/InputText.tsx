@@ -3,13 +3,12 @@ import React, {
 } from 'react';
 import './InputText.scss';
 import './Textarea.scss';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import JDicon, { IconSize, IIcons } from '../../icons/Icons';
-import ErrProtecter from '../../../utils/ErrProtecter';
-import autoHyphen, { numberStr, stringToNumber } from '../../../utils/AutoHyphen';
+import ErrProtecter from '../../../utils/errProtect';
+import autoHyphen, { numberStr, stringToNumber } from '../../../utils/autoFormat';
 import { NEUTRAL } from '../../../types/enum';
-import { getByteLength } from '../../../utils/math';
+import { getByteLength } from '../../../utils/elses';
 import { autoComma } from '../../../utils/utils';
 
 interface IProps extends React.HTMLAttributes<HTMLInputElement> {
@@ -41,6 +40,7 @@ interface IProps extends React.HTMLAttributes<HTMLInputElement> {
   hyphen?: boolean;
   byte?: boolean;
   comma?: boolean;
+  allWaysShowValidMessage?: boolean;
 }
 
 const InputText: React.FC<IProps> = ({
@@ -63,6 +63,7 @@ const InputText: React.FC<IProps> = ({
   halfHeight,
   dataError,
   dataSuccess,
+  allWaysShowValidMessage,
   icon,
   iconOnClick,
   iconHover,
@@ -71,6 +72,8 @@ const InputText: React.FC<IProps> = ({
   comma,
   ...props
 }) => {
+  const [selfValid, setSelfValid] = useState<boolean | ''>('');
+
   const valueFormat = (inValue: any) => {
     let inInValue = inValue;
     if (typeof inValue === 'number') {
@@ -97,7 +100,7 @@ const InputText: React.FC<IProps> = ({
       } else onChange(target.value);
     }
 
-    onChangeValid(result);
+    onChangeValid ? onChangeValid(result) : setSelfValid(result);
 
     if (!value && (hyphen || comma)) {
       target.value = valueFormat(target.value);
@@ -107,8 +110,9 @@ const InputText: React.FC<IProps> = ({
   const { className } = props;
   const classes = classNames(textarea ? 'JDtextarea' : 'JDinput', className, {
     'JDinput--labeled': label !== undefined && !textarea,
-    'JDinput--valid': isValid === true && !textarea,
-    'JDinput--invalid': isValid === false && !textarea,
+    'JDinput--valid': (isValid === true || selfValid === true) && !textarea,
+    'JDinput--invalid': (isValid === false || selfValid === false) && !textarea,
+    'JDinput--allWaysShowValidMessage': allWaysShowValidMessage === true && !textarea,
     /* --------------------------------- 텍스트어리어 --------------------------------- */
     'JDtextarea--labeled': label !== undefined && textarea,
     'JDtextarea--scroll': scroll && textarea,
@@ -186,8 +190,6 @@ InputText.defaultProps = {
   dataError: '',
   dataSuccess: '',
   isValid: '',
-  onChangeValid: () => {},
-  onChange: () => {},
   validation: () => NEUTRAL,
   max: 10000,
   refContainer: undefined,

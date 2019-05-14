@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 import Modal from '../../../../atoms/modal/Modal';
 import { IUseModal } from '../../../../actions/hook';
 import Button from '../../../../atoms/button/Button';
@@ -9,7 +10,7 @@ import manualHwp from '../../../../docs/manual.hwp';
 import manualPdf from '../../../../docs/manual.pdf';
 import hwpIcon from '../../../../img/icon/hwpIcon.png';
 import pdfIcon from '../../../../img/icon/pdfIcon.png';
-import { download, toast } from '../../../../utils/utils';
+import { download } from '../../../../utils/utils';
 
 interface IProps {
   modalHook: IUseModal;

@@ -4,64 +4,41 @@ import { CellInfo } from 'react-table';
 import JDtable, { ReactTableDefault } from '../../../atoms/table/Table';
 import JDselect from '../../../atoms/forms/selectBox/SelectBox';
 import InputText from '../../../atoms/forms/inputText/InputText';
-import EerrorProtect from '../../../utils/ErrProtecter';
+import EerrorProtect from '../../../utils/errProtect';
 import JDbox from '../../../atoms/box/JDbox';
 import CircleIcon from '../../../atoms/circleIcon/CircleIcon';
 import JDIcon from '../../../atoms/icons/Icons';
+import { IroomSelectInfoTable } from '../BookerModal';
+import { PricingType } from '../../../types/enum';
 
 interface IProps {
   className?: string;
+  resvInfo: IroomSelectInfoTable[];
 }
 
-const RoomSelectInfoTable: React.FC<IProps> = ({ className }) => {
+const RoomSelectInfoTable: React.FC<IProps> = ({ className, resvInfo }) => {
   const classes = classNames('roomSelectInfoTable', className, {});
-
-  const data: any = []; // 임시
-  //  주의 할점은 addbleData 는 TableColumns에 들어가기전에만 합류해야하는것이다.
-  const addableData = [
-    {
-      roomInfo: 'add',
-      person: 'add',
-      control: 'add',
-    },
-  ];
-
-  const tableData = data.concat(addableData);
 
   const TableColumns = [
     {
       Header: '객실정보',
-      accessor: 'roomInfo',
-      Cell: ({ value }: CellInfo) => (value === 'add' ? <JDselect className="roomSelectInfoTable__roomSelect" /> : <div />),
-      minWidth: 70,
+      accessor: 'roomTypeName',
+      // 여기다 모든 roomType 을 넣어주어야함.
+      Cell: ({ value }: CellInfo) => <div>{value}</div>,
     },
     {
       Header: '인원',
-      accessor: 'person',
-      Cell: ({ value }: CellInfo) => (value === 'add' ? (
-        <div className="flex-grid roomSelectInfoTable__personSelects">
-          <JDselect mode="small" rightLabel="남" />
-          <JDselect mode="small" rightLabel="여" />
+      accessor: 'count',
+      Cell: ({ value, original }: CellInfo) => (original.pricingType === PricingType.DOMITORY ? (
+        <div>
+          <span>{`${value.male}남 `}</span>
+          <span>{`${value.female}여 `}</span>
         </div>
       ) : (
-        <div />
+        <div>
+          <span>{`${value.roomCount}명`}</span>
+        </div>
       )),
-      minWidth: 50,
-    },
-    {
-      Header: '',
-      accessor: 'control',
-      Cell: ({ value }: CellInfo) => (value === 'add' ? (
-        <CircleIcon>
-          <JDIcon icon="add" />
-        </CircleIcon>
-      ) : (
-        <CircleIcon>
-          <JDIcon icon="clear" />
-        </CircleIcon>
-      )),
-      minWidth: 20,
-      maxWidth: 40,
     },
   ];
 
@@ -70,7 +47,7 @@ const RoomSelectInfoTable: React.FC<IProps> = ({ className }) => {
       <JDtable
         columns={TableColumns}
         {...ReactTableDefault}
-        data={tableData}
+        data={resvInfo}
         minRows={1}
         noDataText="선택사항이 없습니다."
       />

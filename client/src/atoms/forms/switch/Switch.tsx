@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import './Switch.scss';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import ErrProtecter from '../../../utils/ErrProtecter';
+import ErrProtecter from '../../../utils/errProtect';
 import JDlabel from '../../label/JDLabel';
 
 interface IProps {

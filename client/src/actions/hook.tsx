@@ -179,6 +179,7 @@ export interface IUseDayPicker {
 }
 
 function useDayPicker(defaultFrom: Date | null, defaultTo: Date | null): IUseDayPicker {
+  if (typeof defaultFrom !== 'object' || 'null') console.error('USEdayPciker:: it is not Date || null :(');
   const [from, setFrom] = useState<Date | null>(defaultFrom);
   const [entered, setEntered] = useState<Date | null>(defaultTo);
   const [to, setTo]: any = useState<Date | null>(defaultTo);

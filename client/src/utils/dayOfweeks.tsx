@@ -12,7 +12,7 @@ const JDMonthTextChanger = (Month: string | number): string => {
   if (Month === 'March' || Month === 2) return '3월';
   if (Month === 'February' || Month === 1) return '2월';
   if (Month === 'January' || Month === 0) return '1월';
-  console.error('JDMonthTextChanger');
+  console.error('JDMonthTextChanger Month is not 0~11');
   return '';
 };
 
@@ -32,6 +32,7 @@ const JDWeekChanger = (number: number, bit?: boolean): string => {
   return 'err';
 };
 
+// number를 DayOfWeekEnum[] (숫자배열) 반환
 export const applyDaysToArr = (applyDaysBinary: number): DayOfWeekEnum[] => {
   // val 은 0~127 사이의 숫자
   let val = applyDaysBinary % (1 << 7);
@@ -48,6 +49,7 @@ export const applyDaysToArr = (applyDaysBinary: number): DayOfWeekEnum[] => {
   return result;
 };
 
+// Array 를 nubmer로 합산 
 export const arrToApplyDays = (arr: Array<number | boolean>): number => arr.map((val, i) => (val ? 1 : 0) << i).reduce((v1, v2) => v1 + v2) % 128;
 
 //  숫자 이넘

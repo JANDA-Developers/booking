@@ -2,7 +2,7 @@ import React from 'react';
 import './Radio.scss';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import ErrProtecter from '../../../utils/ErrProtecter';
+import ErrProtecter from '../../../utils/errProtect';
 
 interface IProps {
   id: string;

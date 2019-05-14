@@ -4,9 +4,8 @@ import { DELETE_HOUSE, GET_USER_INFO, GET_HOUSE } from '../../../../queries';
 import MyHouseModal from './myHouseModal';
 import { IUseModal } from '../../../../actions/hook';
 import {
-  onCompletedMessage, onError, QueryDataFormater, showError, isEmpty,
+  onCompletedMessage, queryDataFormater, showError, isEmpty,
 } from '../../../../utils/utils';
-import { IHouse } from '../../../../types/interface';
 import { SELECT_HOUSE, SELECTED_HOUSE } from '../../../../clientQueries';
 import {
   getHouse, getHouseVariables, deleteHouse, deleteHouseVariables,
@@ -20,7 +19,7 @@ class DeleteHouseMutation extends Mutation<deleteHouse, deleteHouseVariables> {}
 
 const MyHouseModalWrap: React.SFC<IProps> = ({ MyHouseModalHook: modalHook }) => (
   <DeleteHouseMutation
-    onError={onError}
+    onError={showError}
     mutation={DELETE_HOUSE}
     refetchQueries={[{ query: GET_USER_INFO }, { query: SELECTED_HOUSE }]}
     variables={{
@@ -33,7 +32,7 @@ const MyHouseModalWrap: React.SFC<IProps> = ({ MyHouseModalHook: modalHook }) =>
   >
     {deleteMutation => (
       <Mutation
-        onError={onError}
+        onError={showError}
         mutation={SELECT_HOUSE}
         onCompleted={({ selectHouse }: any) => {
           onCompletedMessage(selectHouse, '현재숙소변경', '');
@@ -48,7 +47,7 @@ const MyHouseModalWrap: React.SFC<IProps> = ({ MyHouseModalHook: modalHook }) =>
           >
             {({ data: houseData, loading, error }) => {
               showError(error);
-              const house = QueryDataFormater(houseData, 'GetHouse', 'house', undefined);
+              const house = queryDataFormater(houseData, 'GetHouse', 'house', undefined);
               return (
                 <MyHouseModal
                   loading={loading}

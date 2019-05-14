@@ -23,7 +23,7 @@ const List: React.FC<IProps> = ({
   <ul ref={refContainer} className="JDsearchInput__ul">
     {setIsMatched && setIsMatched(false)}
     {dataList.map((data, index) => {
-      // 현재값이 데이터 와 일치되는것이 있다면 
+      // 현재값이 데이터 와 일치되는것이 있다면
       if (currentValue === data.name) {
         setIsMatched && setIsMatched(true);
       }
@@ -42,6 +42,7 @@ const List: React.FC<IProps> = ({
           className={classes}
           key={`list${data}${index}`}
           value={data.name}
+          id={data.id}
         >
           <span>
             {data.name}

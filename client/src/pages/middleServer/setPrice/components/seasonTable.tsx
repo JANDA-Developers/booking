@@ -4,9 +4,9 @@ import { CellInfo } from 'react-table';
 import { MutationFn } from 'react-apollo';
 import _ from 'lodash';
 import moment from 'moment';
-import InputText from '../../../../atoms/forms/inputText/InputText';
 import Button from '../../../../atoms/button/Button';
 import JDTable, { ReactTableDefault } from '../../../../atoms/table/Table';
+import InputText from '../../../../atoms/forms/inputText/InputText';
 import Icon from '../../../../atoms/icons/Icons';
 import utils, { isEmpty, stringToNumber } from '../../../../utils/utils';
 import JDdayPicker from '../../../../atoms/dayPicker/DayPicker';
@@ -15,7 +15,6 @@ import {
   IUseColor, useModal, useColorPicker, useDayPicker,
 } from '../../../../actions/hook';
 import {
-  getAllSeason_GetAllSeason_seasons as ISeason,
   DayOfWeekPriceInput,
   createSeason,
   createSeasonVariables,
@@ -31,12 +30,13 @@ import CircleIcon from '../../../../atoms/circleIcon/CircleIcon';
 import DayOfWeekModal from './dayOfWeekModal';
 import JDbox from '../../../../atoms/box/JDbox';
 import { numberToStrings } from '../../../../utils/dayOfweeks';
-import { arraySum } from '../../../../utils/math';
+import { arraySum } from '../../../../utils/elses';
 import { ITableValue } from './seasonTableWrap';
 import { IDefaultSeason } from '../SetPrice';
 import { setYYYYMMDD } from '../../../../utils/setMidNight';
 import { JDtoastModal } from '../../../../atoms/modal/Modal';
 import JDselect, { IselectedOption } from '../../../../atoms/forms/selectBox/SelectBox';
+import { ISeason } from '../../../../types/interface';
 
 interface IProps {
   defaultTableValue: ITableValue;
@@ -138,10 +138,6 @@ const SeasonModal: React.SFC<IProps> = ({
       updateSeasonMutation({
         variables: { ...tableValueCopy, seasonId: seasonData._id },
       });
-
-      console.log({ ...tableValueCopy, seasonId: seasonData._id });
-      console.log({ ...tableValueCopy, seasonId: seasonData._id });
-      console.log({ ...tableValueCopy, seasonId: seasonData._id });
     }
   };
 

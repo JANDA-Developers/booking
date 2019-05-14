@@ -1,18 +1,18 @@
 import React from 'react';
-import PT from 'prop-types';
+import { toast } from 'react-toastify';
 import profileImg from '../../../img/profile/default_profile.jpg';
 import Button from '../../../atoms/button/Button';
 import InputText from '../../../atoms/forms/inputText/InputText';
 import ProfileCircle from '../../../atoms/profileCircle/ProfileCircle';
 import MyHouse from './components/myHouse';
 import MyHouseAdd from './components/myHouseAdd';
-import utils, { toast } from '../../../utils/utils';
+import utils from '../../../utils/utils';
 import Modal from '../../../atoms/modal/Modal';
 import './MyPage.scss';
 import MyHouseModalWrap from './components/myHouseModalWrap';
 import { IHouse } from '../../../types/interface';
 import Preloader from '../../../atoms/preloader/Preloader';
-import { useImageUploader, IuseImageUploader } from '../../../actions/hook';
+import { IuseImageUploader } from '../../../actions/hook';
 
 interface IProps {
   houses: IHouse[];

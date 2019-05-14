@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
-import ErrProtecter from '../../utils/ErrProtecter';
+import ErrProtecter from '../../utils/errProtect';
 import './CircleIcon.scss';
 
 interface IProps {

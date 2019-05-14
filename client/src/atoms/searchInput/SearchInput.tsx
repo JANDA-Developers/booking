@@ -7,25 +7,25 @@ import List from './list';
 import './searchInput.scss';
 import Icon from '../icons/Icons';
 import Preloader from '../preloader/Preloader';
-import searchListFormat from '../../utils/SearchListFormat';
+import searchListFormat from '../../utils/searchListFormater';
 import { isEmpty } from '../../utils/utils';
 
 interface IProps {
   dataList: Array<any>;
   placeholder?: string;
   label?: string;
-  onSearch?(foo?: string | null): any;
+  onSearch(label?: string | null, id?: string): any;
   setIsMatched?(foo?: boolean): any;
-  onTypeChange?(foo?: string): any;
+  onTypeChange(foo?: string): any;
   staticList?: boolean;
   filter?: boolean;
-  isTypeChange?: boolean;
   isMatched?: boolean;
   isLoading?: boolean;
   alwaysListShow?: boolean;
   onTypeValue?: string;
   asName?: string;
   asDetail?: string;
+  asId?: string;
   feedBackMessage?: string;
   maxCount?: number;
 }
@@ -37,7 +37,6 @@ const JDsearchInput: React.FC<IProps> = ({
   label,
   onSearch,
   filter,
-  isTypeChange,
   onTypeChange,
   onTypeValue,
   isMatched,
@@ -48,9 +47,10 @@ const JDsearchInput: React.FC<IProps> = ({
   isLoading,
   feedBackMessage,
   maxCount,
+  asId,
 }) => {
   // Naming Format
-  const formatDataList: Array<any> = searchListFormat(dataList && dataList.slice(0, maxCount), asName, asDetail);
+  const formatDataList: Array<any> = searchListFormat(dataList && dataList.slice(0, maxCount), asName, asDetail, asId);
   const [filteredDataList, SetFilteredDataList] = useState(formatDataList);
   const inputRef: any = useRef(null);
   const ulRef: any = useRef(null);
@@ -60,13 +60,13 @@ const JDsearchInput: React.FC<IProps> = ({
     // CASE: 필터할경우
     if (filter) {
       let filteredItems = []; // if value == '' filter all
-      if (value !== '') {
+      if (value) {
         filteredItems = formatDataList.filter(item => item.name.toLowerCase().includes(value.toLowerCase()));
       }
       SetFilteredDataList(filteredItems);
-    } else if (value !== '' || alwaysListShow) SetFilteredDataList(formatDataList);
+    } else if (value || alwaysListShow) SetFilteredDataList(formatDataList);
     // CASE: input has no value
-    if (value === '' && !alwaysListShow) SetFilteredDataList([]);
+    if (!value && !alwaysListShow) SetFilteredDataList([]);
   };
 
   // Handler - input : onKeyPress
@@ -80,13 +80,8 @@ const JDsearchInput: React.FC<IProps> = ({
       // CASE: 키보드상 선택된 노드가 있을경우에
       if (selectedNode) {
         // 노드의 값을 방출
-        onSearch && onSearch($(selectedNode).attr('value'));
-        // ❓ 왜 분기처리 했는지 기억안남
-        if (!isTypeChange) inputRef.current.value = $(selectedNode).attr('value');
+        onSearch($(selectedNode).attr('value'), $(selectedNode).attr('id'));
         $(inputRef.current).blur();
-      } else {
-        // ❓ 이게 필요한가? 무조건 노드가 있을것 같은데.
-        onSearch && onSearch(inputRef.current.value);
       }
     }
 
@@ -122,7 +117,7 @@ const JDsearchInput: React.FC<IProps> = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     if (filter) setList(e.target.value);
-    if (isTypeChange && onTypeChange) onTypeChange(e.target.value);
+    onTypeChange(e.target.value);
   };
 
   // Handler - 인풋 : onFocus
@@ -145,8 +140,9 @@ const JDsearchInput: React.FC<IProps> = ({
   const handleOnListClick = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     const value = $(e.currentTarget).attr('value');
+    const id = $(e.currentTarget).attr('id');
     $(inputRef.current).val(value || '');
-    onSearch && onSearch(value);
+    onSearch(value, id);
   };
 
   // Handler - 리스트 : onKeyPress - 🚫 useless
@@ -156,7 +152,7 @@ const JDsearchInput: React.FC<IProps> = ({
 
   // Handler - 아이콘 : onClick
   const handleOnSearchClick = () => {
-    if (onSearch) onSearch(inputRef.current.value);
+    onSearch(inputRef.current.value);
   };
 
   const classes = classNames({
@@ -212,7 +208,6 @@ JDsearchInput.defaultProps = {
   dataList: [],
   staticList: false,
   filter: true,
-  isTypeChange: false,
   isMatched: false,
   alwaysListShow: false,
   isLoading: false,

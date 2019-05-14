@@ -1,7 +1,7 @@
 import React from 'react';
 import './CheckBox.scss';
 import classNames from 'classnames';
-import ErrProtecter from '../../../utils/ErrProtecter';
+import ErrProtecter from '../../../utils/errProtect';
 
 interface IProps {
   disabled?: boolean;

@@ -1,5 +1,5 @@
 import React from 'react';
-import DynamicImport from '../utils/DynamicImport';
+import DynamicImport from '../utils/dynamicComponent';
 import Preloader from '../atoms/preloader/Preloader';
 
 export const Sms = props => (
@@ -81,19 +81,19 @@ export const Ready = props => (
 );
 
 export const AssigTimeline = props => (
-  <DynamicImport load={() => import('./middleServer/timelines/assig/AssigTimelineWrap')}>
+  <DynamicImport load={() => import('./middleServer/assig/AssigTimelineWrap')}>
     {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
   </DynamicImport>
 );
 
 export const ModifyTimeline = props => (
-  <DynamicImport load={() => import('./middleServer/timelines/roomConfig/ModifyTimelineWrap')}>
+  <DynamicImport load={() => import('./middleServer/roomConfig/RoomConifgWrap')}>
     {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
   </DynamicImport>
 );
 
 export const PriceTimeline = props => (
-  <DynamicImport load={() => import('./middleServer/timelines/specificPrice/PriceTimelineWrap')}>
+  <DynamicImport load={() => import('./middleServer/specificPrice/PriceTimelineWrap')}>
     {DNcompoent => (DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />)}
   </DynamicImport>
 );

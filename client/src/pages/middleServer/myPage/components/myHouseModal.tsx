@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
+import { toast } from 'react-toastify';
 import { MutationFn } from 'react-apollo';
 import Modal from '../../../../atoms/modal/Modal';
 import Button from '../../../../atoms/button/Button';
-import { toast } from '../../../../utils/utils';
 import { IUseModal } from '../../../../actions/hook';
 import { IHouse } from '../../../../types/interface';
 import Preloader from '../../../../atoms/preloader/Preloader';
@@ -28,12 +28,7 @@ const MyHouseModal: React.SFC<IProps> = ({
     return false;
   };
 
-  // const onHouseChange = () => {
-  //   houseChangeMu();
-  // };
-
   return (
-    // {/* POP: 마이 하우스 */}
     loading ? (
       <Preloader />
     ) : (

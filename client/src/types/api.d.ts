@@ -14,7 +14,6 @@ export interface getRoomTypeById_GetRoomTypeById_roomType {
   peopleCount: number;
   peopleCountMax: number;
   index: number;
-  roomCount: number;
   roomGender: RoomGender;
   img: any | null;
   description: string | null;
@@ -355,6 +354,8 @@ export interface getGuests_GetGuests_guests {
   gender: Gender | null;
   updatedAt: any | null;
   createdAt: any;
+  isTempAllocation: boolean;
+  bedIndex: number;
   booking: getGuests_GetGuests_guests_booking | null;
 }
 
@@ -520,6 +521,17 @@ export interface getAllRoomTypeWithGuest_GetAllRoomType {
   roomTypes: getAllRoomTypeWithGuest_GetAllRoomType_roomTypes[] | null;
 }
 
+export interface getAllRoomTypeWithGuest_GetGuests_guests_booking_booker {
+  __typename: "Booker";
+  _id: string;
+  isCheckIn: any | null;
+}
+
+export interface getAllRoomTypeWithGuest_GetGuests_guests_booking {
+  __typename: "Booking";
+  booker: getAllRoomTypeWithGuest_GetGuests_guests_booking_booker;
+}
+
 export interface getAllRoomTypeWithGuest_GetGuests_guests_roomType {
   __typename: "RoomType";
   _id: string;
@@ -532,24 +544,9 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_allocatedRoom {
   index: number;
 }
 
-export interface getAllRoomTypeWithGuest_GetGuests_guests_booking_booker {
-  __typename: "Booker";
-  _id: string;
-  isCheckIn: any | null;
-}
-
-export interface getAllRoomTypeWithGuest_GetGuests_guests_booking {
-  __typename: "Booking";
-  booker: getAllRoomTypeWithGuest_GetGuests_guests_booking_booker;
-}
-
 export interface getAllRoomTypeWithGuest_GetGuests_guests {
   __typename: "Guest";
   _id: string;
-  /**
-   * roomType 은 처음 예약하고나서 절대로 변경되지 않음.
-   */
-  roomType: getAllRoomTypeWithGuest_GetGuests_guests_roomType | null;
   name: any | null;
   start: any;
   end: any;
@@ -557,14 +554,20 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests {
    * 도미토리, 룸, 블록 구분
    */
   pricingType: PricingType;
+  gender: Gender | null;
+  updatedAt: any | null;
+  createdAt: any;
+  bedIndex: number;
+  isTempAllocation: boolean;
+  booking: getAllRoomTypeWithGuest_GetGuests_guests_booking | null;
+  /**
+   * roomType 은 처음 예약하고나서 절대로 변경되지 않음.
+   */
+  roomType: getAllRoomTypeWithGuest_GetGuests_guests_roomType | null;
   /**
    * 현재 묵는 방으로 변경될수 있음.
    */
   allocatedRoom: getAllRoomTypeWithGuest_GetGuests_guests_allocatedRoom | null;
-  gender: Gender | null;
-  updatedAt: any | null;
-  createdAt: any;
-  booking: getAllRoomTypeWithGuest_GetGuests_guests_booking | null;
 }
 
 export interface getAllRoomTypeWithGuest_GetGuests {
@@ -730,6 +733,11 @@ export interface getBookers_GetBookers_bookers_bookings_roomType {
   name: string;
 }
 
+export interface getBookers_GetBookers_bookers_bookings_guests {
+  __typename: "Guest";
+  gender: Gender | null;
+}
+
 export interface getBookers_GetBookers_bookers_bookings {
   __typename: "Booking";
   _id: string;
@@ -752,6 +760,7 @@ export interface getBookers_GetBookers_bookers_bookings {
   end: any;
   discountedPrice: number;
   bookingStatus: BookingStatus;
+  guests: getBookers_GetBookers_bookers_bookings_guests[] | null;
   createdAt: any;
   updatedAt: any | null;
 }
@@ -792,6 +801,74 @@ export interface getBookersVariables {
   houseId: string;
   page: number;
   count: number;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: getBooker
+// ====================================================
+
+export interface getBooker_GetBooker_booker_bookings_guests {
+  __typename: "Guest";
+  _id: string;
+  gender: Gender | null;
+}
+
+export interface getBooker_GetBooker_booker_bookings_roomType {
+  __typename: "RoomType";
+  _id: string;
+  name: string;
+  pricingType: PricingType;
+}
+
+export interface getBooker_GetBooker_booker_bookings {
+  __typename: "Booking";
+  guestCount: number;
+  _id: string;
+  bookingStatus: BookingStatus;
+  /**
+   * 시작 날짜
+   */
+  start: any;
+  /**
+   * 끝 날짜
+   */
+  end: any;
+  guests: getBooker_GetBooker_booker_bookings_guests[] | null;
+  /**
+   * 가격
+   */
+  price: number;
+  roomType: getBooker_GetBooker_booker_bookings_roomType;
+}
+
+export interface getBooker_GetBooker_booker {
+  __typename: "Booker";
+  _id: string;
+  phoneNumber: any;
+  memo: string | null;
+  name: any;
+  bookings: getBooker_GetBooker_booker_bookings[] | null;
+  createdAt: any;
+  updatedAt: any | null;
+}
+
+export interface getBooker_GetBooker {
+  __typename: "GetBookerResponse";
+  ok: boolean;
+  error: string | null;
+  booker: getBooker_GetBooker_booker | null;
+}
+
+export interface getBooker {
+  GetBooker: getBooker_GetBooker;
+}
+
+export interface getBookerVariables {
+  bookerId: string;
 }
 
 /* tslint:disable */
@@ -1510,18 +1587,18 @@ export interface refundProductVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL fragment: fieldsLocation
+// GraphQL fragment: FieldsLocation
 // ====================================================
 
-export interface fieldsLocation_location {
+export interface FieldsLocation_location {
   __typename: "Location";
   address: string;
   addressDetail: string | null;
 }
 
-export interface fieldsLocation {
+export interface FieldsLocation {
   __typename: "House";
-  location: fieldsLocation_location;
+  location: FieldsLocation_location;
 }
 
 /* tslint:disable */
@@ -1581,48 +1658,48 @@ export interface FpageInfo {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL fragment: fieldsUser
+// GraphQL fragment: FieldsUser
 // ====================================================
 
-export interface fieldsUser_houses_hostApplication {
+export interface FieldsUser_houses_hostApplication {
   __typename: "HostApplication";
   url: any;
 }
 
-export interface fieldsUser_houses_product_productType {
+export interface FieldsUser_houses_product_productType {
   __typename: "ProductType";
   _id: string;
 }
 
-export interface fieldsUser_houses_product {
+export interface FieldsUser_houses_product {
   __typename: "Product";
   _id: string;
   /**
    * 제품 이름
    */
   name: string;
-  productType: fieldsUser_houses_product_productType;
+  productType: FieldsUser_houses_product_productType;
 }
 
-export interface fieldsUser_houses_location {
+export interface FieldsUser_houses_location {
   __typename: "Location";
   address: string;
   addressDetail: string | null;
 }
 
-export interface fieldsUser_houses {
+export interface FieldsUser_houses {
   __typename: "House";
-  hostApplication: fieldsUser_houses_hostApplication | null;
-  product: fieldsUser_houses_product | null;
+  hostApplication: FieldsUser_houses_hostApplication | null;
+  product: FieldsUser_houses_product | null;
   _id: string;
   name: string;
   houseType: HouseType;
-  location: fieldsUser_houses_location;
+  location: FieldsUser_houses_location;
   createdAt: any;
   updatedAt: any | null;
 }
 
-export interface fieldsUser {
+export interface FieldsUser {
   __typename: "User";
   _id: string;
   name: any;
@@ -1633,7 +1710,7 @@ export interface fieldsUser {
   profileImg: any | null;
   checkPrivacyPolicy: boolean;
   userRole: UserRole;
-  houses: fieldsUser_houses[];
+  houses: FieldsUser_houses[];
   createdAt: any;
   updatedAt: any | null;
 }

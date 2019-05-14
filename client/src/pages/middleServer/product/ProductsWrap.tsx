@@ -1,15 +1,14 @@
 /* eslint-disable camelcase */
 import React, { useState, useEffect } from 'react';
 import { Mutation, graphql } from 'react-apollo';
+import { toast } from 'react-toastify';
 import { Redirect } from 'react-router-dom';
 import { useRadio, useModal, useCheckBox } from '../../../actions/hook';
 import Products from './Products';
 import {
   GET_All_PRODUCTS_TYPES, BUY_PRODUCTS, GET_USER_INFO, REFUND_PRODUCT,
 } from '../../../queries';
-import {
-  ErrProtecter, download, toast, isEmpty, onError,
-} from '../../../utils/utils';
+import { ErrProtecter, isEmpty, showError } from '../../../utils/utils';
 import getProducts from './components/specification';
 import {
   buyProduct, buyProductVariables, refundProduct, refundProductVariables,
@@ -99,7 +98,7 @@ const ProductsWrap: React.FC<any> = ({
         }
       }}
       // 통신에러
-      onError={onError}
+      onError={showError}
     >
       {productMutation => (
         <RefundProductMutation

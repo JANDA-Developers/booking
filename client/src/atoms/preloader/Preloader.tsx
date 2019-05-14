@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import React from 'react';
 import classNames from 'classnames';
-import ErrProtecter from '../../utils/ErrProtecter';
+import ErrProtecter from '../../utils/errProtect';
 import './Preloader.scss';
 
 export type PreloaderSize = 'large' | 'default' | 'medium';

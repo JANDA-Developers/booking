@@ -1,7 +1,7 @@
 import React, { useState, Fragment } from 'react';
 import windowSize, { WindowSizeProps } from 'react-window-size';
 import { MutationFn, Query } from 'react-apollo';
-import ErrProtecter from '../../../utils/ErrProtecter';
+import ErrProtecter from '../../../utils/errProtect';
 import JDdayPicker from '../../../atoms/dayPicker/DayPicker';
 import { useDayPicker, useModal } from '../../../actions/hook';
 import './Reservation.scss';
@@ -19,8 +19,8 @@ import {
 import RoomSelectInfo from '../components/roomSelectInfo';
 import PayMentModal from '../components/paymentModal';
 import RoomTypeCardsWrap from '../components/roomTypeCards/roomTypeCardsWrap';
-import { isEmpty, showError, QueryDataFormater } from '../../../utils/utils';
-import { isName, isPhone } from '../../../utils/InputValidation';
+import { isEmpty, showError, queryDataFormater } from '../../../utils/utils';
+import { isName, isPhone } from '../../../utils/inputValidations';
 import { JDtoastModal } from '../../../atoms/modal/Modal';
 import { IRoomType } from '../../../types/interface';
 import { WindowSize } from '../../../types/enum';
@@ -134,7 +134,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
             >
               {({ data: roomTypeData, loading: roomLoading, error }) => {
                 showError(error);
-                const roomTypes = QueryDataFormater(roomTypeData, 'GetAllRoomType', 'roomTypes', undefined);
+                const roomTypes = queryDataFormater(roomTypeData, 'GetAllRoomType', 'roomTypes', undefined);
                 return !isEmpty(roomTypes) ? (
                   roomTypes.map(roomType => (
                     <RoomTypeCardsWrap

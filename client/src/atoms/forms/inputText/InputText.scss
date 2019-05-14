@@ -113,15 +113,15 @@
     @extend %input-after-style;
   }
 
-  // TODO: Remove once input fields are reworked to support validation messages better
   &--invalid.JDinput+.JDinput_label:after,
   &--valid.JDinput+.JDinput_label:after {
     display: none;
   }
 
-  &--invalid.JDinput+.JDinput_label--active:after,
-  &--valid.JDinput+.JDinput_label--active:after {
+  &--invalid.JDinput.JDinput--allWaysShowValidMessage+.JDinput_label:after,
+  &--valid.JDinput.JDinput--allWaysShowValidMessage+.JDinput_label:after {
     display: block;
   }
+
 
 }

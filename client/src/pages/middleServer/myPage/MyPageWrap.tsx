@@ -2,7 +2,7 @@ import React from 'react';
 import { Mutation } from 'react-apollo';
 import { useInput, useModal, useImageUploader } from '../../../actions/hook';
 import { UPDATE_MYPROFILE, GET_USER_INFO } from '../../../queries';
-import { onError, onCompletedMessage } from '../../../utils/utils';
+import { showError, onCompletedMessage } from '../../../utils/utils';
 import MyPage from './MyPage';
 import { IUser, IHouse, IDiv } from '../../../types/interface';
 
@@ -24,7 +24,7 @@ const MypageWrap: React.SFC<IProps> = ({ houses, userData, ...props }) => {
   return (
     // Mutation : 프로필 업데이트
     <Mutation
-      onError={onError}
+      onError={showError}
       mutation={UPDATE_MYPROFILE}
       refetchQueries={[{ query: GET_USER_INFO }]}
       variables={{

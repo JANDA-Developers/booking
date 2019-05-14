@@ -1,22 +1,16 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { Fragment, useState } from 'react';
-import { Mutation, Query } from 'react-apollo';
+import React, { useState } from 'react';
+import { Query } from 'react-apollo';
 import {
   getMyProfile_GetMyProfile_user_houses as IHouse,
-  getAllSeason,
-  getAllSeasonVariables,
   getAllSeasonTable,
   getAllSeasonTableVariables,
   getAllSeasonTable_GetSeasonPrice_seasonPrices as ISeasonPrices,
   getAllSeasonTable_GetSeasonPrice_seasonPrices_dayOfWeekPrices as IDayOfWeek,
-  createSeasonVariables,
-  createSeason,
 } from '../../../types/api';
-import { GET_ALL_SEASON_TABLE, CREATE_SEASON } from '../../../queries';
-import {
-  ErrProtecter, toast, isEmpty, QueryDataFormater, showError,
-} from '../../../utils/utils';
+import { GET_ALL_SEASON_TABLE } from '../../../queries';
+import { ErrProtecter, queryDataFormater, showError } from '../../../utils/utils';
 import SetPrice from './SetPrice';
 import Preloader from '../../../atoms/preloader/Preloader';
 
@@ -76,9 +70,9 @@ const SetPriceWrap: React.SFC<IProps> = ({ selectedHouse }) => {
     >
       {({ data, loading: dataL, error: seasonE }) => {
         showError(seasonE);
-        const seasones = QueryDataFormater(data, 'GetAllSeason', 'seasons', undefined);
-        const roomTypes = QueryDataFormater(data, 'GetAllRoomType', 'roomTypes', undefined);
-        const seasonPrices = QueryDataFormater(data, 'GetSeasonPrice', 'seasonPrices', undefined);
+        const seasones = queryDataFormater(data, 'GetAllSeason', 'seasons', undefined);
+        const roomTypes = queryDataFormater(data, 'GetAllRoomType', 'roomTypes', undefined);
+        const seasonPrices = queryDataFormater(data, 'GetSeasonPrice', 'seasonPrices', undefined);
         const priceMap = seasonPrices && priceMapMaker(seasonPrices);
 
         return !dataL ? (

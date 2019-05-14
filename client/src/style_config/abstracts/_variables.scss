@@ -12,7 +12,7 @@ $z-index-4: 40;
 $z-index-5: 50; 
 $z-index-6: 60; // Modal Level 1
 $z-index-7: 70;
-$z-index-8: 80;
+$z-index-8: 80; // Assig Item
 $z-index-9: 90; // sideNav Curton header
 $z-index-10: 100; // sideNav  toast
 
@@ -57,6 +57,8 @@ $hover-effect-white: rgba(255,255,255,.1);
 $hover-effect-dark: $grey-opacity1;
 $curtain-color: rgba(0,0,0,.78) !default;
 $html-color-hover: $grey-level3!default;
+$male-color: $link-color!default;
+$female-color: $error-color!default;
 
 // 💔 -- BreackPoints 브레이크 포인트
 // 각각은 최대크기

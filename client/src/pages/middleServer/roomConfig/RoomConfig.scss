@@ -1,0 +1,34 @@
+@import '../../../style_config/style_config.scss';
+
+$roomTypeWidth :10rem;
+
+#ModifyTimeline {
+    .modifyGroups {
+        padding-left: $roomTypeWidth;
+        &__roomGroup {
+            border-radius: 0px;
+            width: calc(#{$roomTypeWidth} + 4px); // 4px padding
+            position:absolute;
+            text-overflow: ellipsis;
+            left: 0;
+            & + *{
+                margin-left: 0;
+            }
+        }
+
+        &__button {
+            border-radius: 0px;
+            width: calc(100% + 4px);
+        }
+    } 
+    .ModifyTimeline {
+        &__timelineWrap {
+            min-width: 720px;
+        }
+        &__timelineWrapScroll {
+            max-width:100%;
+            overflow-x:auto;
+            overflow-y: hidden;
+        }
+    }
+}

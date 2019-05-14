@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import React, { Fragment } from 'react';
-import ErrProtecter from '../../utils/ErrProtecter';
+import ErrProtecter from '../../utils/errProtect';
 import './JDbox.scss';
 import JDIcon, { IIcons } from '../icons/Icons';
 import { IDiv } from '../../types/interface';

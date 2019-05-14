@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { toast } from '../../../utils/utils';
+import { toast } from 'react-toastify';
 import { MAPS_KEY } from '../../../keys';
 
 export const geoCode = async (address) => {

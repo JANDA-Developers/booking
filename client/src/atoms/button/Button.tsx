@@ -3,7 +3,7 @@ import React from 'react';
 import './Button.scss';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import ErrProtecter from '../../utils/ErrProtecter';
+import ErrProtecter from '../../utils/errProtect';
 import Icon, { IIcons } from '../icons/Icons';
 import Preloader from '../preloader/Preloader';
 

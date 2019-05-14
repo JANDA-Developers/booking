@@ -2,7 +2,7 @@ import React from 'react';
 import { WindowSizeProps } from 'react-window-size';
 import { ReactTableDefaults } from 'react-table';
 import { MutationFn } from 'react-apollo';
-import ErrProtecter from '../../../utils/ErrProtecter';
+import ErrProtecter from '../../../utils/errProtect';
 import './CheckReservation.scss';
 import {
   createBooking, createBookingVariables, GuestPartInput, BookerInput,

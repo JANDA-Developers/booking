@@ -86,6 +86,7 @@ export const GET_ROOMTYPE_BY_ID = gql`
       ok
       error
       roomType {
+        _id
         name
         pricingType
         peopleCount
@@ -298,6 +299,8 @@ export const GetGuests = gql`
         gender
         updatedAt
         createdAt
+        isTempAllocation
+        bedIndex
         booking {
           booker {
             _id
@@ -409,26 +412,28 @@ export const GET_ALL_ROOMTYPES_WITH_GUESTS = gql`
       error
       guests {
         _id
-        roomType {
-          _id
-          index
-        }
         name
         start
         end
         pricingType
-        allocatedRoom {
-          _id
-          index
-        }
         gender
         updatedAt
         createdAt
+        bedIndex
+        isTempAllocation
         booking {
           booker {
             _id
             isCheckIn
           }
+        }
+        roomType {
+          _id
+          index
+        }
+        allocatedRoom {
+          _id
+          index
         }
       }
     }
@@ -474,6 +479,7 @@ export const GET_USER_FOR_SU = gql`
   }
   ${F_USER_INFO}
 `;
+
 // 모든 예약자 가져오기
 export const GET_BOOKERS = gql`
   query getBookers($houseId: ID!, $page: Int!, $count: Int!) {
@@ -494,6 +500,9 @@ export const GET_BOOKERS = gql`
           end
           discountedPrice
           bookingStatus
+          guests {
+            gender
+          }
           createdAt
           updatedAt
         }
@@ -511,6 +520,40 @@ export const GET_BOOKERS = gql`
     }
   }
   ${F_PAGE_INFO}
+`;
+
+export const GET_BOOKER = gql`
+  query getBooker($bookerId: ID!) {
+    GetBooker(bookerId: $bookerId) {
+      ok
+      error
+      booker {
+        _id
+        phoneNumber
+        memo
+        name
+        bookings {
+          guestCount
+          _id
+          bookingStatus
+          start
+          end
+          guests {
+            _id
+            gender
+          }
+          price
+          roomType {
+            _id
+            name
+            pricingType
+          }
+        }
+        createdAt
+        updatedAt
+      }
+    }
+  }
 `;
 // START 시즌관련 ────────────────────────────────────────────────────────────────────────────────
 // 가격 테이블 만들기
@@ -588,8 +631,6 @@ export const CREATE_BOOKING = gql`
   }
 `;
 
-// START 방관련 ────────────────────────────────────────────────────────────────────────────────
-// 방타입 생성
 export const CREATE_ROOMTYPE = gql`
   mutation createRoomType(
     $name: String!
@@ -620,6 +661,7 @@ export const CREATE_ROOMTYPE = gql`
     }
   }
 `;
+
 // 방 생성
 export const CREATE_ROOM = gql`
   mutation createRoom($name: String!, $roomType: ID!) {

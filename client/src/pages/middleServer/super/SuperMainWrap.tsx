@@ -3,8 +3,7 @@ import { Query } from 'react-apollo';
 import { getHousesForSU, getHousesForSUVariables } from '../../../types/api';
 import SuperMain from './SuperMain';
 import { GET_HOUSES_FOR_SU } from '../../../queries';
-import QueryError from '../../../utils/QueryError';
-import { QueryDataFormater } from '../../../utils/utils';
+import { queryDataFormater, showError } from '../../../utils/utils';
 import { useModal } from '../../../actions/hook';
 import Modal from '../../../atoms/modal/Modal';
 
@@ -25,9 +24,9 @@ const SuperMainWrap: React.SFC<Iprops> = () => {
       }}
     >
       {({ data: housePages, loading, error }) => {
-        QueryError(error);
-        const housePageData = QueryDataFormater(housePages, 'GetHousesForSU', 'houses', undefined);
-        const pageInfo = QueryDataFormater(housePages, 'GetHousesForSU', 'pageInfo', undefined);
+        showError(error);
+        const housePageData = queryDataFormater(housePages, 'GetHousesForSU', 'houses', undefined);
+        const pageInfo = queryDataFormater(housePages, 'GetHousesForSU', 'pageInfo', undefined);
 
         return (
           <Fragment>

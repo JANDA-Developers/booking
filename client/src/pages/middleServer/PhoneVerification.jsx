@@ -5,11 +5,12 @@ import InputText from '../../atoms/forms/inputText/InputText';
 import Modal from '../../atoms/modal/Modal';
 import Button from '../../atoms/button/Button';
 import { useInput } from '../../actions/hook';
-import { ErrProtecter, toast } from '../../utils/utils';
+import { ErrProtecter } from '../../utils/utils';
 import {
   GET_MY_PHON_NUMBER, PHONE_VERIFICATION, GET_USER_INFO, COMEPLETE_PHONE_VERIFICATION,
 } from '../../queries';
 import './PhoneVerification.scss';
+import { toast } from 'react-toastify';
 
 function PhoneVerification({ history }) {
   const [popPhone, setPopPhone] = useState(false);

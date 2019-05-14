@@ -1,0 +1,108 @@
+@import '../../../style_config/style_config.scss';
+
+$AT-assigGroup-rooType-width: 100px;
+$AT-assigGroup-room-width: 100px;
+
+#AssigTimeline {
+
+    .rct-header-root {
+        position: relative;
+        z-index: 90;
+        text-align:center;
+        & > div {
+        display:flex;
+        align-items: center;
+        justify-content: center;
+        
+        }
+        .specificPrice__topLeftIcon {
+            color:white;
+        }
+    }
+
+    .rct-sidebar {
+    }
+
+    .group {
+        &--lastOfRoom {
+            border-bottom:1px solid $grey-level3;
+        }
+        &--lastOfRoomType {
+            border-bottom:1px solid $html-color;
+        }
+    }
+    
+    // 좌측 방 그룹 조정
+    .assigGroups {
+        &__roomType {
+            position:absolute;
+            width: $AT-assigGroup-rooType-width;
+            background-color: $grey-level3;
+            color:white;
+            left: 0;
+            display:flex;
+            justify-content: center;
+            align-items: center;
+        }
+        &__room {
+            position:absolute;
+            left: $AT-assigGroup-rooType-width;
+            width: $AT-assigGroup-room-width;
+            background-color: $grey-level2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            &--roomType {
+                width: calc(100% - #{$AT-assigGroup-rooType-width});
+            }
+        }
+
+        &__place {
+            padding-left: $AT-assigGroup-rooType-width + $AT-assigGroup-room-width - 4px;
+            text-align: center;
+            width: calc(100% + 4px);
+        }
+    }
+
+    // 🍓 배정아이템
+    .assigItem {
+        cursor: pointer;
+        z-index: $z-index-8;
+        color:$html-color;
+        
+        &--unAllocated {
+            background-color: $grey-opacity2;
+            border: 1px solid $grey-opacity2;
+        }
+        &--selected {
+            border-color: $secondary-color;
+        }
+        &--linkedSelected {
+            box-shadow: 0px 0px 4px $grey-opacity2;
+        }
+
+        &__gender {
+            &--female {
+                color: $female-color;
+            }
+            &--male {
+                color: $male-color;
+            }
+        }
+
+        &__content {
+            display:flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        &__configIconWrap {
+            display: flex;
+            align-items: end;
+            font-size: 0;
+            &:hover {
+                color: $grey-level3;
+            }
+        }
+    }
+}

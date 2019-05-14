@@ -2,23 +2,29 @@ import OutReactTooltip from 'react-tooltip';
 import $ from 'jquery';
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import ErrProtecter from '../../utils/ErrProtecter';
+import classNames from 'classnames';
+import ErrProtecter from '../../utils/errProtect';
 import './TooltipList.scss';
 
 interface IProps extends OutReactTooltip.Props {
   className?: string;
   scrollNodeClass?: string;
   tooltipRef?: React.MutableRefObject<any>;
+  unPadding?: boolean;
 }
 
 const ToolTipList: React.SFC<IProps> = ({
-  tooltipRef, scrollNodeClass, children, ...props
+  tooltipRef, scrollNodeClass, children, unPadding, className, ...props
 }) => {
   const defualtProps = {
     clickable: true,
     globalEventOff: 'click',
     border: true,
   };
+
+  const classes = classNames('tooltipList', className, {
+    'tooltipList--unPadding': unPadding,
+  });
 
   // 스크롤시 닫치게해줌
   useEffect(() => {
@@ -30,7 +36,7 @@ const ToolTipList: React.SFC<IProps> = ({
   }, []);
 
   return (
-    <OutReactTooltip className="tooltipList" {...props} effect="solid" {...defualtProps}>
+    <OutReactTooltip className={classes} {...props} effect="solid" {...defualtProps}>
       {children}
     </OutReactTooltip>
   );

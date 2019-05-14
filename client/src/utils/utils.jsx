@@ -1,21 +1,19 @@
 // 유틸리티가 더 많이 쌓이면
-import ErrProtecter from './ErrProtecter';
-import isEmpty from './IsEmpty';
-import toast from './Toast';
-import download from './DownloadFile';
-import autoHypen, { autoComma, numberStr, stringToNumber } from './AutoHyphen';
+import ErrProtecter from './errProtect';
+import isEmpty from './isEmptyData';
+import download from './download';
+import autoHypen, { autoComma, numberStr, stringToNumber } from './autoFormat';
 import {
   JDMonthTextChanger, JDWeekChanger, applyDaysToArr, arrToApplyDays,
 } from './dayOfweeks';
 import {
   isEmail, isPhone, isName, isUrl, isMaxOver, isPassword,
-} from './InputValidation';
-import searchListFormat from './SearchListFormat';
-import onError, { showError } from './ApolloError';
-import onCompletedMessage from './ApolloOnCompleted';
-import QueryDataFormater, { copyFindReplace } from './QueryDataFormat';
+} from './inputValidations';
+import searchListFormat from './searchListFormater';
+import { showError } from './errorMessage';
+import onCompletedMessage from './apolloCompleteM';
+import queryDataFormater, { copyFindReplace } from './queryFormater';
 import pageNationFormater from './paginationFormat';
-import { encodeB64, decodeB64 } from './BtoA';
 import setMidNight from './setMidNight';
 import stringToPrice from './stringToPrice';
 
@@ -30,14 +28,11 @@ const JDutils = {
   isPassword,
   JDMonthTextChanger,
   searchListFormat,
-  toast,
   download,
   autoHypen,
   onCompletedMessage,
-  QueryDataFormater,
+  queryDataFormater,
   pageNationFormater,
-  encodeB64,
-  decodeB64,
   setMidNight,
   applyDaysToArr,
   arrToApplyDays,
@@ -54,16 +49,12 @@ export {
   JDMonthTextChanger,
   JDWeekChanger,
   isEmpty,
-  toast,
   download,
   ErrProtecter,
   autoHypen,
-  onError,
   pageNationFormater,
   showError,
-  QueryDataFormater,
-  encodeB64,
-  decodeB64,
+  queryDataFormater,
   setMidNight,
   applyDaysToArr,
   arrToApplyDays,

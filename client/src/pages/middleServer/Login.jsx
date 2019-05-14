@@ -1,6 +1,7 @@
 import React from 'react';
 import { Mutation, withApollo } from 'react-apollo';
 import PropTypes from 'prop-types';
+import { toast } from 'react-toastify';
 import { withRouter, Link } from 'react-router-dom';
 import Card from '../../atoms/cards/Card';
 import InputText from '../../atoms/forms/inputText/InputText';
@@ -9,7 +10,7 @@ import './Login.scss';
 import { LOG_USER_IN } from '../../clientQueries';
 import { EMAIL_SIGN_IN, GET_USER_INFO } from '../../queries';
 import { useInput } from '../../actions/hook';
-import utils, { toast } from '../../utils/utils';
+import utils from '../../utils/utils';
 
 function Login({ client, history }) {
   const emailHook = useInput('');

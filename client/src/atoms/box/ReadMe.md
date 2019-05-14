@@ -4,4 +4,11 @@
 주된 의도는 작은 상자형태 컴포넌트들이며  
 여러가지 분기처리 하여 적용할것입니다.
 
-제작일시: 2019 04 23
+className?: string;
+mode?: 'table' | 'border';
+label?: JSX.Element | string;
+icon?: IIcons;
+topLabel?: string;
+iconHover?: boolean;
+standard?: boolean;
+iconOnClick?: any;

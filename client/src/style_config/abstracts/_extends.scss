@@ -15,14 +15,15 @@
     display: block;
     color: $input-success-color;
     opacity: 1;
-    transform: translateY(3.2rem);
+    transform: translateY(3rem);
 }
 
 %custom-error-message {
     content: attr(data-error);
+    display:block;
     color: $input-error-color;
     opacity: 1;
-    transform: translateY(9px);
+    transform: translateY(3rem);
 }
 
 %input-after-style {

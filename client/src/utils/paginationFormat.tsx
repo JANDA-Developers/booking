@@ -1,6 +1,6 @@
+import { toast } from 'react-toastify';
 import { IPageResult } from '../types/interface';
-import isEmpty from './IsEmpty';
-import toast from './Toast';
+import isEmpty from './isEmptyData';
 
 //  🔴 보류
 function pageNationFormater<T>(
@@ -13,7 +13,7 @@ function pageNationFormater<T>(
     if (!isEmpty(data[queryName])) {
       const upData = data[queryName];
       if (upData.error) {
-        console.error('QueryDataFormater: Error From BackEnd');
+        console.error('queryDataFormater: Error From BackEnd');
         console.error(upData.error);
         toast.error(upData.error);
         return falsyReturn;
@@ -36,10 +36,10 @@ function pageNationFormater<T>(
       };
       return result;
     }
-    console.log('errorCode utils 901');
+    console.log('utils 901');
     return falsyReturn;
   }
-  console.log('errorCode utils 902');
+  console.log('utils 902');
   return falsyReturn;
 }
 export default pageNationFormater;

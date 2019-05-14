@@ -4,7 +4,7 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { Mutation, Query } from 'react-apollo';
 import RoomTypeCard from './roomTypeCard';
 import {
-  ErrProtecter, QueryDataFormater, showError, isEmpty,
+  ErrProtecter, queryDataFormater, showError, isEmpty,
 } from '../../../../utils/utils';
 import { GuestPartInput, getAvailableGuestCount, getAvailableGuestCountVariables } from '../../../../types/api';
 import { GET_ALL_ROOMTYPES, GET_AVAILABLE_GUEST_COUNT } from '../../../../queries';
@@ -66,8 +66,8 @@ const RoomTypeCardsWrap: React.SFC<IProps> = ({
 
         console.log('availableData');
         console.log(availableData);
-        const maleCount = QueryDataFormater(availableData, 'GetMale', 'roomCapacity', undefined);
-        const femaleCount = QueryDataFormater(availableData, 'GetFemale', 'roomCapacity', undefined);
+        const maleCount = queryDataFormater(availableData, 'GetMale', 'roomCapacity', undefined);
+        const femaleCount = queryDataFormater(availableData, 'GetFemale', 'roomCapacity', undefined);
         const availableCount = {
           maleCount,
           femaleCount,

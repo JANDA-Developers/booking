@@ -1,15 +1,14 @@
 /* eslint-disable react/forbid-prop-types */
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { graphql, compose } from 'react-apollo';
-import PT from 'prop-types';
 import { Helmet } from 'react-helmet';
 import Header from '../components/headers/HeaderWrap';
 import SideNav from '../components/sideNav/SideNav';
 import NoMatch from './NoMatch';
 import { IS_LOGGED_IN, SELECTED_HOUSE } from '../clientQueries';
 import { GET_USER_INFO } from '../queries';
-import { useToggle, useSelect } from '../actions/hook';
+import { useToggle } from '../actions/hook';
 import { isEmpty } from '../utils/utils';
 import Preloader from '../atoms/preloader/Preloader';
 import {
@@ -34,29 +33,28 @@ import { UserRole } from '../types/enum';
 import { IHouse } from '../types/interface';
 
 interface IProps {
-  [key: string]: any;
+  GetUserInfo: any;
+  selectedHouse: any;
+  IsLoggedIn: any;
 }
 
-// TODO: protoTypes에 정의 옮기자
-// lastSelectedHouse : 마지막으로 선택된 하우스 객체 정보값 파라미터에서만 사용합니다.
-const JDmiddleServer: React.SFC<IProps> = ({
+const JDmiddleServer: React.FC<IProps> = ({
   IsLoggedIn: {
     auth: { isLoggedIn },
     loading,
   },
   GetUserInfo: { GetMyProfile: { user = {} } = {}, loading: loading2 },
   selectedHouse: { auth: { lastSelectedHouse = {} } = {}, loading: loading3 = false } = {},
-}: any) => {
-  //  유저 유저
-  const [SideNavIsOpen, setSideNavIsOpen] = useToggle(false);
+}) => {
+  const [sideNavIsOpen, setSideNavIsOpen] = useToggle(false);
   const isloading: boolean = loading || loading2 || loading3;
   const houses: IHouse[] = user.houses || [];
-  let selectedHouse = houses.filter((house: { _id: any }): any => house._id === lastSelectedHouse.value)[0] || {};
+  let selectedHouse = houses.find(house => house._id === lastSelectedHouse.value);
 
   // 최근에 선택된 숙소가 없다면 선택된 숙소는 첫번째 숙소입니다.
-  if (isEmpty(selectedHouse) && !isEmpty(houses)) [selectedHouse] = houses;
+  if (selectedHouse && !isEmpty(houses)) [selectedHouse] = houses;
 
-  const selectedProduct = selectedHouse.product || {};
+  const applyedProduct = (selectedHouse && selectedHouse.product) || undefined;
   const { isPhoneVerified, userRole, profileImg } = user;
 
   return isloading ? (
@@ -83,9 +81,9 @@ const JDmiddleServer: React.SFC<IProps> = ({
       />
       {/* 사이드 네비 */}
       <SideNav
-        isOpen={SideNavIsOpen}
+        isOpen={sideNavIsOpen}
         selectedHouse={selectedHouse}
-        selectedProduct={selectedProduct}
+        applyedProduct={applyedProduct}
         userInformation={user}
         setIsOpen={setSideNavIsOpen}
         houses={houses}
@@ -93,27 +91,18 @@ const JDmiddleServer: React.SFC<IProps> = ({
       />
       {/* 라우팅 시작 */}
       <Switch>
-        {/* TODO : 인덱스 1 , 2 통합방법 찾기 */}
         {/* 인덱스 */}
-        <Route exact path="/">
-          <Home
-            selectedHouse={selectedHouse}
-            houses={houses}
-            selectedProduct={selectedProduct}
-            isLoggedIn={isLoggedIn}
-            isPhoneVerified={isPhoneVerified}
-          />
-        </Route>
-        {/* 인덱스2 */}
-        <Route exact path="/middleServer">
-          <Home
-            selectedHouse={selectedHouse}
-            houses={houses}
-            selectedProduct={selectedProduct}
-            isLoggedIn={isLoggedIn}
-            isPhoneVerified={isPhoneVerified}
-          />
-        </Route>
+        {['/', '/middleServer'].map(path => (
+          <Route exact path={path}>
+            <Home
+              selectedHouse={selectedHouse}
+              houses={houses}
+              applyedProduct={applyedProduct}
+              isLoggedIn={isLoggedIn}
+              isPhoneVerified={isPhoneVerified}
+            />
+          </Route>
+        ))}
         {/* 마이 페이지 */}
         <Route
           exact
@@ -130,7 +119,7 @@ const JDmiddleServer: React.SFC<IProps> = ({
             <Products
               isPhoneVerified={isPhoneVerified}
               selectedHouse={selectedHouse}
-              currentProduct={selectedProduct}
+              currentProduct={applyedProduct}
             />
           ) : (
             <Login />
@@ -149,7 +138,7 @@ const JDmiddleServer: React.SFC<IProps> = ({
         <Route exact path="/middleServer/qna" component={isLoggedIn ? Qna : NoMatch} />
         {/* 대기 */}
         {/* 여기이후로 상품이 있어야 나타날수있게 바뀜 */}
-        {isEmpty(selectedProduct) ? (
+        {isEmpty(applyedProduct) ? (
           <Route component={NoMatch} />
         ) : (
           <Route
@@ -157,8 +146,8 @@ const JDmiddleServer: React.SFC<IProps> = ({
             path="/middleServer/ready"
             render={() => (isLoggedIn ? (
               <Ready
-                hostApp={selectedHouse.hostApplication}
-                currentProduct={selectedProduct}
+                hostApp={selectedHouse && selectedHouse.hostApplication}
+                currentProduct={applyedProduct}
                 selectedHouse={selectedHouse}
               />
             ) : (
@@ -170,12 +159,17 @@ const JDmiddleServer: React.SFC<IProps> = ({
         {/* /* ------------------------------ JANDA BOOKING ----------------------------- */}
         {' '}
         {/* 방배정 */}
-        <Route exact path="/middleServer/assigTimeline" render={() => <AssigTimeline houseId={selectedHouse._id} />} />
+        <Route
+          exact
+          path="/middleServer/assigTimeline"
+          render={() => <AssigTimeline houseId={selectedHouse && selectedHouse._id} />}
+        />
         {/* 자세한 가격설정 */}
         <Route
           exact
           path="/middleServer/specificPrice"
-          render={() => (isEmpty(selectedHouse) ? <NoMatch /> : <PriceTimeline selectedHouse={selectedHouse} />)}
+          render={() => (isEmpty(selectedHouse) ? <NoMatch /> : <PriceTimeline houseId={selectedHouse && selectedHouse._id} />)
+          }
         />
         {/* 방생성 */}
         <Route
@@ -205,18 +199,6 @@ const JDmiddleServer: React.SFC<IProps> = ({
       </Switch>
     </Fragment>
   );
-};
-
-JDmiddleServer.propTypes = {
-  IsLoggedIn: PT.object,
-  GetUserInfo: PT.object,
-  selectedHouse: PT.object,
-};
-
-JDmiddleServer.defaultProps = {
-  IsLoggedIn: {},
-  GetUserInfo: {},
-  selectedHouse: {},
 };
 
 //  how to branch query

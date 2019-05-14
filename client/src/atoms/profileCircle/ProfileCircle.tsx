@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import React from 'react';
-import ErrProtecter from '../../utils/ErrProtecter';
+import ErrProtecter from '../../utils/errProtect';
 import './ProfileCircle.scss';
 import defaultImg from '../../img/profile/default_profile.jpg';
 import { IuseProfileUploader } from '../../actions/hook';

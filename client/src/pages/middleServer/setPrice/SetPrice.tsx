@@ -1,14 +1,12 @@
 import React from 'react';
-import ErrProtecter, { EerrorProtect } from '../../../utils/ErrProtecter';
+import { EerrorProtect } from '../../../utils/errProtect';
 import './SetPrice.scss';
 import SeasonTableWrap from './components/seasonTableWrap';
 
-import { IUseModal } from '../../../actions/hook';
 import {
   getAllSeasonTable_GetAllRoomType_roomTypes as IRoomType,
   getAllSeasonTable_GetAllSeason_seasons as ISeason,
 } from '../../../types/api';
-import DrragList from '../../../atoms/animation/DrragList';
 import JDanimation, { Animation } from '../../../atoms/animation/Animations';
 
 interface IProps {
