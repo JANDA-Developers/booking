@@ -121,7 +121,7 @@ const Products: React.FC<IProps> = ({
             label="선택완료"
           />
           {/* 상품해지 버튼 */}
-          {currentProduct._id && (
+          {currentProduct && currentProduct._id && (
             <Button onClick={refundModal.openModal} disabled={isEmpty(selectedHouse)} thema="warn" label="상품해지" />
           )}
         </div>

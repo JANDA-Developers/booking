@@ -19,6 +19,7 @@ import { Product } from '../../../types/enum';
 class BuyProductMutation extends Mutation<buyProduct, buyProductVariables> {}
 class RefundProductMutation extends Mutation<refundProduct, refundProductVariables> {}
 
+//👿 타입스크립트좀 해놔라
 // currentProduct : 현재 적용중인 상품
 const ProductsWrap: React.FC<any> = ({
   data: { GetAllProductTypes, productLoading },
