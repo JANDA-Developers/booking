@@ -26,6 +26,7 @@ const ProfileCircle: React.SFC<Iprops> = ({
   onClick,
   config,
   onChangeFile,
+  setFileUrl,
   fileUrl,
   uploading,
   isError,

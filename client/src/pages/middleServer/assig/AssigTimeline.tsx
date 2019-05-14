@@ -122,11 +122,15 @@ const ShowTimeline: React.SFC<IProps> = ({
   };
 
   const handleItemSelect = (itemId: string, e: React.MouseEvent<HTMLElement>, time: number) => {
+    console.log('itemId');
+    console.log(itemId);
     const target = guestsData.find(guest => guest.id === itemId);
+    console.log('target');
+    console.log(target);
     const linkedClass = '.assigItem--linkedSelected';
-    if(target) {
+    if (target) {
       $('.assigItem').removeClass(linkedClass);
-      $(`.assigItem--guest${itemId}`).addClass(linkedClass);
+      $(`.assigItem--booker${target.bookerId}`).addClass(linkedClass);
     }
   };
 
