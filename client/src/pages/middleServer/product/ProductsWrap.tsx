@@ -105,7 +105,7 @@ const ProductsWrap: React.FC<any> = ({
           mutation={REFUND_PRODUCT}
           variables={{
             houseId: selectedHouse._id,
-            productId: currentProduct._id,
+            productId: currentProduct && currentProduct._id,
           }}
           refetchQueries={[{ query: GET_USER_INFO }]}
           onCompleted={({ RefundProduct: { ok, error } }: any) => {
