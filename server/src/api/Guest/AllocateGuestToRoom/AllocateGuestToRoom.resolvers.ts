@@ -5,8 +5,7 @@ import { RoomModel } from "../../../models/Room";
 import { RoomTypeModel } from "../../../models/RoomType";
 import {
     AllocateGuestToRoomMutationArgs,
-    AllocateGuestToRoomResponse,
-    RoomCapacity
+    AllocateGuestToRoomResponse
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
 import { privateResolver } from "../../../utils/privateResolvers";
@@ -16,7 +15,7 @@ const resolvers: Resolvers = {
         AllocateGuestToRoom: privateResolver(
             async (
                 _,
-                { guestId, roomId }: AllocateGuestToRoomMutationArgs
+                { guestId, roomId, bedIndex }: AllocateGuestToRoomMutationArgs
             ): Promise<AllocateGuestToRoomResponse> => {
                 try {
                     const existingGuest = await GuestModel.findById(guestId);
@@ -48,28 +47,8 @@ const resolvers: Resolvers = {
                             guest: null
                         };
                     }
-                    let isAbleToAllocate = true;
-                    if (existingGuest.pricingType === "DOMITORY") {
-                        const allocatableGender: RoomCapacity = await existingRoom.getCapacity(
-                            existingGuest.start,
-                            existingGuest.end
-                        );
-                        isAbleToAllocate =
-                            allocatableGender.availableCount !== 0;
-                    } else {
-                        isAbleToAllocate = await existingRoom.isAllocatable(
-                            existingGuest.start,
-                            existingGuest.end
-                        );
-                    }
-                    if (!isAbleToAllocate) {
-                        return {
-                            ok: false,
-                            error: "배정 불가",
-                            guest: null
-                        };
-                    }
                     existingGuest.allocatedRoom = new Types.ObjectId(roomId);
+                    existingGuest.bedIndex = bedIndex;
                     await existingGuest.save();
                     return {
                         ok: true,

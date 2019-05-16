@@ -5,5 +5,10 @@ type AllocateGuestToRoomResponse {
 }
 
 type Mutation {
-    AllocateGuestToRoom(roomId: ID!, guestId: ID!): AllocateGuestToRoomResponse!
+    # 배정확정인 Guest는 옮길 수 없음.
+    AllocateGuestToRoom(
+        roomId: ID!
+        guestId: ID!
+        bedIndex: Int!
+    ): AllocateGuestToRoomResponse!
 }
