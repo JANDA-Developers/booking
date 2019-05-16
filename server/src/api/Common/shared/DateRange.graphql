@@ -1,29 +1,9 @@
-enum DateRangeStatus {
-    PAST
-    PRESENT
-    FUTURE
-}
-
 type DateRange {
-    hashCode: Int!
-    startDate: DateTime
-    endDate: DateTime
+    start: DateTime!
+    end: DateTime!
 }
 
 input DateRangeInput {
-    startDate: DateTime
-    endDate: DateTime
-}
-
-type DisableRange {
-    hashCode: Int!
-    startDate: DateTime
-    endDate: DateTime
-    description: String
-}
-
-input DisableRangeInput {
-    startDate: DateTime
-    endDate: DateTime
-    description: String
+    start: DateTime!
+    end: DateTime!
 }

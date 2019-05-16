@@ -1,7 +1,6 @@
 import { Types } from "mongoose";
-import { InstanceType, prop, Ref, Typegoose } from "typegoose";
-import { Gender, PricingType } from "../types/graph";
-import { removeUndefined } from "../utils/objFuncs";
+import { instanceMethod, InstanceType, prop, Ref, Typegoose } from "typegoose";
+import { DateRange, Gender, IsSettleable, PricingType } from "../types/graph";
 import { RoomSchema } from "./Room";
 import { PricingTypeEnum } from "./RoomType";
 
@@ -42,7 +41,7 @@ export class GuestSchema extends Typegoose {
     gender: Gender | null;
 
     @prop({ default: true })
-    isTempAllocation: boolean;
+    isUnsettled: boolean;
 
     @prop()
     start: Date;
@@ -54,10 +53,62 @@ export class GuestSchema extends Typegoose {
     blockRoom: boolean;
 
     @prop()
+    isSettleable: IsSettleable;
+
+    @prop()
     createdAt: Date;
 
     @prop()
     updatedAt: Date;
+
+    @instanceMethod
+    async verifySettleable(
+        this: InstanceType<GuestSchema>
+    ): Promise<IsSettleable> {
+        // 배정 확정이면 무조건 verifySettleable.flag === true
+        // 해당 배드에 인원이 들어갈 수 있는지 체크하면됨.
+        // 1. 해당 배드에 "배정확정"된 인원이 있는지 확인한다.
+        //  => 배정 확정인 인원이 있는 경우 확정인 인원의 날짜를 가져옴.
+        // 배정 확정인 인원들 정보 가져오는 쿼리.
+        const guestInstances = await GuestModel.find(
+            {
+                start: {
+                    $lte: new Date(this.end)
+                },
+                end: {
+                    $gte: new Date(this.start)
+                },
+                isUnsettled: false
+            },
+            {
+                start: true,
+                end: true,
+                isUnsettled: true
+            }
+        );
+        const { start, end } = {
+            start: this.start.getTime(),
+            end: this.end.getTime()
+        };
+        const dates = guestInstances.map(
+            (guestInstance): DateRange => {
+                return {
+                    start:
+                        start > guestInstance.start.getTime()
+                            ? this.start
+                            : guestInstance.start,
+                    end:
+                        guestInstance.end.getTime() > end
+                            ? this.end
+                            : guestInstance.end
+                };
+            }
+        );
+        return {
+            flag: dates.length === 0,
+            duplicateDates: dates
+        };
+    }
 }
 
 export const GuestModel = new GuestSchema().getModelForClass(GuestSchema, {
@@ -66,38 +117,3 @@ export const GuestModel = new GuestSchema().getModelForClass(GuestSchema, {
         collection: "Guests"
     }
 });
-
-export const createGuestInstances = (
-    bookerId: Types.ObjectId | string,
-    houseId: Types.ObjectId | string,
-    roomTypeId: Types.ObjectId | string,
-    bookingId: Types.ObjectId | string,
-    pricingType: PricingType,
-    bookerName: string,
-    start: Date,
-    end: Date,
-    count: number = 0,
-    gender?: Gender // PricingType === "ROOM" 인 경우에는 undefined임...
-): Array<InstanceType<GuestSchema>> => {
-    let i = 0;
-    const result: Array<InstanceType<GuestSchema>> = [];
-    while (i < count) {
-        result.push(
-            new GuestModel(
-                removeUndefined({
-                    booker: new Types.ObjectId(bookerId),
-                    house: new Types.ObjectId(houseId),
-                    roomType: new Types.ObjectId(roomTypeId),
-                    booking: new Types.ObjectId(bookingId),
-                    name: bookerName,
-                    start,
-                    end,
-                    pricingType,
-                    gender
-                })
-            )
-        );
-        i++;
-    }
-    return result;
-};

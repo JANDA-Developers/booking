@@ -481,7 +481,8 @@ export const extractGuest = async (
         ),
         allocatedRoom: temp._doc.allocatedRoom
             ? await transformRoom.bind(transformRoom, temp._doc.allocatedRoom)
-            : null
+            : null,
+        isSettleable: await guest.verifySettleable()
     };
 };
 

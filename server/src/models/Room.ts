@@ -114,7 +114,7 @@ export class RoomSchema extends Typegoose {
             allocatedRoom: any;
             start: any;
             end: any;
-            isTempAllocation?: boolean;
+            isUnsettled?: boolean;
         } = {
             allocatedRoom: new Types.ObjectId(this._id),
             start: {
@@ -123,7 +123,7 @@ export class RoomSchema extends Typegoose {
             end: {
                 $gte: new Date(start)
             },
-            isTempAllocation: tempAllocation
+            isUnsettled: tempAllocation
         };
         return removeUndefined(query);
     }
@@ -285,14 +285,14 @@ export class RoomSchema extends Typegoose {
         this: InstanceType<RoomSchema>,
         start: Date,
         end: Date,
-        isTempAllocation?: boolean
+        isUnsettled?: boolean
     ): Promise<Gender | null> {
         if (this.roomGender !== "SEPARATELY") {
             return this.roomGender === "MIXED" ? null : this.roomGender;
         }
         const guests = await GuestModel.find(
             removeUndefined({
-                isTempAllocation,
+                isUnsettled,
                 allocatedRoom: new Types.ObjectId(this._id),
                 start: {
                     $lte: end
@@ -304,9 +304,9 @@ export class RoomSchema extends Typegoose {
             {
                 bedIndex: true,
                 gender: true,
-                isTempAllocation: true
+                isUnsettled: true
             }
-        ).sort({ isTempAllocation: -1 }); // isTempAllocation === false 인 것을 앞쪽으로 정렬해야함...
+        ).sort({ isUnsettled: -1 }); // isUnsettled === false 인 것을 앞쪽으로 정렬해야함...
         let gender: Gender | null = null;
         guests.forEach(guest => {
             gender = guest.gender;
@@ -405,12 +405,12 @@ export class RoomSchema extends Typegoose {
                 end: {
                     $gte: start
                 },
-                isTempAllocation: opt.ignoreTempAllocation
+                isUnsettled: opt.ignoreTempAllocation
             }),
             {
                 allocatedRoom: true,
                 bedIndex: true,
-                isTempAllocation: true,
+                isUnsettled: true,
                 gender: true
             }
         );

@@ -417,11 +417,10 @@ export class RoomTypeSchema extends Typegoose {
         this: InstanceType<RoomTypeSchema>,
         start: Date,
         end: Date,
-        flag?: "ROOMLESS" | "ALLOCATED"
+        flag?: "ROOMLESS" | "SETTLED"
     ): Promise<Array<InstanceType<GuestSchema>>> {
         try {
-            const isTempAllocation: boolean | undefined =
-                flag && flag === "ROOMLESS";
+            const isUnsettled: boolean | undefined = flag && flag === "ROOMLESS";
             const query = {
                 roomType: new Types.ObjectId(this._id),
                 start: {
@@ -430,14 +429,14 @@ export class RoomTypeSchema extends Typegoose {
                 end: {
                     $gte: new Date(start)
                 },
-                isTempAllocation
+                isUnsettled
             };
             console.log({
                 query,
                 removeObject: removeUndefined(query)
             });
-            if (isTempAllocation === undefined) {
-                delete query.isTempAllocation;
+            if (isUnsettled === undefined) {
+                delete query.isUnsettled;
             }
             return await GuestModel.find(query);
         } catch (error) {
