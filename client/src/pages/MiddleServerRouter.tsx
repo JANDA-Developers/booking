@@ -93,7 +93,7 @@ const JDmiddleServer: React.FC<IProps> = ({
         <Switch>
           {/* 인덱스 */}
           {['/', '/middleServer'].map(path => (
-            <Route exact path={path}>
+            <Route key={path} exact path={path}>
               <Home
                 selectedHouse={selectedHouse}
                 houses={houses}

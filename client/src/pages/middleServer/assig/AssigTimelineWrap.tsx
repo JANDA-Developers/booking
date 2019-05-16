@@ -1,17 +1,23 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState } from 'react';
-import { Query } from 'react-apollo';
+import { Query, Mutation } from 'react-apollo';
 import moment from 'moment';
+import _ from 'lodash';
 import assigDefaultProps from './timelineConfig';
-import { getAllRoomTypeWithGuest, getAllRoomTypeWithGuestVariables } from '../../../types/api';
+import {
+  getAllRoomTypeWithGuest,
+  getAllRoomTypeWithGuestVariables,
+  allocateGuestToRoom,
+  allocateGuestToRoomVariables,
+} from '../../../types/api';
 import { useToggle, useDayPicker } from '../../../actions/hook';
 import { IRoomType, IGuests } from '../../../types/interface';
 import {
-  isEmpty, setMidNight, showError, queryDataFormater,
+  isEmpty, setMidNight, showError, queryDataFormater, onCompletedMessage,
 } from '../../../utils/utils';
 import EerrorProtect from '../../../utils/errProtect';
 import { Gender } from '../../../types/enum';
-import { GET_ALL_ROOMTYPES_WITH_GUESTS } from '../../../queries';
+import { GET_ALL_ROOMTYPES_WITH_GUESTS, ALLOCATE_GUEST_TO_ROOM } from '../../../queries';
 import AssigTimeline from './AssigTimeline';
 import { setYYYYMMDD } from '../../../utils/setMidNight';
 
@@ -30,16 +36,25 @@ export interface IAssigGroup {
 
 export interface IAssigItem {
   id: string;
+  guestIndex: number;
   name: string;
   group: string;
   bookerId: string;
   isCheckin: boolean;
   roomTypeId: string;
-  // roomId: string;
+  roomId: string;
   start: number;
   end: number;
   gender: Gender | null;
   isTempAllocation: boolean;
+  validate: IAssigItemCrush[];
+}
+
+export interface IAssigItemCrush {
+  guestIndex: number;
+  reason: string;
+  start: number | null;
+  end: number | null;
 }
 
 interface IProps {
@@ -47,10 +62,10 @@ interface IProps {
 }
 
 class GetAllRoomTypeWithGuestQuery extends Query<getAllRoomTypeWithGuest, getAllRoomTypeWithGuestVariables> {}
+class AllocateGuestToRoomMu extends Mutation<allocateGuestToRoom, allocateGuestToRoomVariables> {}
 
 const AssigTimelineWrap: React.SFC<IProps> = ({ houseId }) => {
   const dayPickerHook = useDayPicker(null, null);
-  const [_, setConfigMode] = useToggle(false);
   const defaultStartDate = setMidNight(dayPickerHook.from ? moment(dayPickerHook.from).valueOf() : moment().valueOf());
   const defaultEndDate = setMidNight(
     dayPickerHook.from
@@ -80,21 +95,24 @@ const AssigTimelineWrap: React.SFC<IProps> = ({ houseId }) => {
     const alloCateItems: IAssigItem[] = [];
     if (!guestsData) return alloCateItems;
 
-    guestsData.forEach((guestData) => {
+    guestsData.forEach((guestData, index) => {
       const isDomitory = guestData.pricingType === 'DOMITORY';
 
       if (guestData && guestData.booking && guestData.roomType && guestData.allocatedRoom) {
         alloCateItems.push({
           id: guestData._id,
+          guestIndex: index,
           name: guestData.name,
           bookerId: guestData.booking.booker._id,
           isCheckin: guestData.booking.booker.isCheckIn,
           gender: guestData.gender,
           roomTypeId: guestData.roomType._id,
+          roomId: guestData.allocatedRoom._id,
           isTempAllocation: guestData.isTempAllocation,
           group: guestData.allocatedRoom._id + 1,
           start: moment(guestData.start).valueOf(),
           end: moment(guestData.end).valueOf(),
+          validate: [],
         });
       }
     });
@@ -134,7 +152,6 @@ const AssigTimelineWrap: React.SFC<IProps> = ({ houseId }) => {
             });
           });
         }
-
         // 🛌 베드타입일경우
         if (roomTypeData.pricingType === 'DOMITORY') {
           rooms.map((room, index) => {
@@ -160,15 +177,16 @@ const AssigTimelineWrap: React.SFC<IProps> = ({ houseId }) => {
     return roomGroups;
   };
 
+  const updateVariables = {
+    houseId,
+    start: setYYYYMMDD(moment(dataTime.start)),
+    end: setYYYYMMDD(moment(dataTime.end)),
+  };
   return (
     <GetAllRoomTypeWithGuestQuery
-      fetchPolicy="network-only"
+      fetchPolicy="cache-and-network"
       query={GET_ALL_ROOMTYPES_WITH_GUESTS}
-      variables={{
-        houseId,
-        start: setYYYYMMDD(moment(dataTime.start)),
-        end: setYYYYMMDD(moment(dataTime.end)),
-      }}
+      variables={updateVariables}
     >
       {({ data, loading, error }) => {
         showError(error);
@@ -177,22 +195,55 @@ const AssigTimelineWrap: React.SFC<IProps> = ({ houseId }) => {
         const formatedRoomData = roomDataManufacture(roomTypesData); // 타임라인을 위해 가공된 데이터
         const formatedGuestsData = guestsDataManufacture(guestsData); // 타임라인을 위해 가공된 데이터
 
-        console.log(formatedRoomData);
-        console.log(formatedGuestsData);
-
         return (
-          <AssigTimeline
-            loading={loading}
-            roomData={formatedRoomData}
-            guestsData={formatedGuestsData || []}
-            dayPickerHook={dayPickerHook}
-            setConfigMode={setConfigMode}
-            defaultProps={assigDefaultProps}
-            roomTypesData={roomTypesData || []}
-            defaultTimeStart={defaultStartDate}
-            defaultTimeEnd={defaultEndDate}
-            key={`timeline${defaultStartDate}${defaultEndDate}`}
-          />
+          <AllocateGuestToRoomMu
+            onCompleted={({ AllocateGuestToRoom }) => {
+              onCompletedMessage(AllocateGuestToRoom, '배정완료', '배정실패');
+            }}
+            update={(cache, { data: inData }) => {
+              const cacheData: getAllRoomTypeWithGuest | null = cache.readQuery({
+                query: GET_ALL_ROOMTYPES_WITH_GUESTS,
+                variables: updateVariables,
+              });
+              if (cacheData && inData) {
+                const result = _.unionBy([inData.AllocateGuestToRoom.guest], cacheData.GetGuests.guests, '_id');
+
+                cache.writeQuery({
+                  query: GET_ALL_ROOMTYPES_WITH_GUESTS,
+                  data: {
+                    GetAllRoomType: cacheData.GetAllRoomType,
+                    GetGuests: {
+                      ...cacheData.GetGuests,
+                      guests: result,
+                    },
+                  },
+                });
+              }
+            }}
+            // refetchQueries={[{
+            //   query: GET_ALL_ROOMTYPES_WITH_GUESTS ,
+            //   variables: {
+            //     houseId,
+            //     start: setYYYYMMDD(moment(dataTime.start)),
+            //     end: setYYYYMMDD(moment(dataTime.end)),
+            // }}]}
+            mutation={ALLOCATE_GUEST_TO_ROOM}
+          >
+            {allocateMu => (
+              <AssigTimeline
+                loading={loading}
+                groupData={formatedRoomData}
+                deafultGuestsData={formatedGuestsData || []}
+                dayPickerHook={dayPickerHook}
+                defaultProps={assigDefaultProps}
+                allocateMu={allocateMu}
+                roomTypesData={roomTypesData || []}
+                defaultTimeStart={defaultStartDate}
+                defaultTimeEnd={defaultEndDate}
+                key={`timeline${defaultStartDate}${defaultEndDate}${loading && 'loading'}`}
+              />
+            )}
+          </AllocateGuestToRoomMu>
         );
       }}
     </GetAllRoomTypeWithGuestQuery>

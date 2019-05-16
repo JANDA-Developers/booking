@@ -164,10 +164,4 @@ const Products: React.FC<IProps> = ({
   );
 };
 
-Products.prototype = {
-  currentProduct: PropTypes.object,
-  isPhoneVerified: PropTypes.bool,
-  arrProducts: PropTypes.array,
-};
-
 export default Products;

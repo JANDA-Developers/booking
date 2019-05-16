@@ -8,6 +8,11 @@ import JDIcon, { IconSize } from '../../../../atoms/icons/Icons';
 import TooltipList from '../../../../atoms/tooltipList/TooltipList';
 import { GenderKr } from '../../../../types/enum';
 
+const CLASS_LINKED = 'assigItem--linkedSelected';
+const CLASS_MOVING = 'assigItem--moving';
+const CLASS_DISABLE = 'assigItem--disable';
+export { CLASS_DISABLE, CLASS_MOVING, CLASS_LINKED };
+
 interface IRenderItemProps {
   item: IAssigItem;
   timelineContext: ITimelineContext;
@@ -51,6 +56,7 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
     background: '',
     border: '',
     color: '',
+    height: `${ASSIGT_IMELINE_HEIGHT - 2}px`,
   };
 
   return (

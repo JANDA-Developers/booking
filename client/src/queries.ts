@@ -9,6 +9,34 @@ const F_LOCATION = gql`
     }
   }
 `;
+const F_GUEST = gql`
+  fragment Fguest on Guest {
+    _id
+    name
+    start
+    end
+    pricingType
+    gender
+    updatedAt
+    createdAt
+    bedIndex
+    isTempAllocation
+    booking {
+      booker {
+        _id
+        isCheckIn
+      }
+    }
+    roomType {
+      _id
+      index
+    }
+    allocatedRoom {
+      _id
+      index
+    }
+  }
+`;
 const F_MINI_ROOM_TYPE = gql`
   fragment FminiRoomType on RoomType {
     _id
@@ -246,6 +274,7 @@ export const EMAIL_SIGN_IN = gql`
     }
   }
 `;
+
 // 단일 숙소 가져오기
 export const GET_HOUSE = gql`
   query getHouse($houseId: ID!) {
@@ -283,33 +312,11 @@ export const GetGuests = gql`
       ok
       error
       guests {
-        _id
-        roomType {
-          _id
-          index
-        }
-        name
-        start
-        end
-        pricingType
-        allocatedRoom {
-          _id
-          index
-        }
-        gender
-        updatedAt
-        createdAt
-        isTempAllocation
-        bedIndex
-        booking {
-          booker {
-            _id
-            isCheckIn
-          }
-        }
+        ...Fguest
       }
     }
   }
+  ${F_GUEST}
 `;
 
 export const GET_AVAILABLE_GUEST_COUNT = gql`
@@ -629,6 +636,19 @@ export const CREATE_BOOKING = gql`
       error
     }
   }
+`;
+
+export const ALLOCATE_GUEST_TO_ROOM = gql`
+  mutation allocateGuestToRoom($roomId: ID!, $guestId: ID!) {
+    AllocateGuestToRoom(roomId: $roomId, guestId: $guestId) {
+      ok
+      error
+      guest {
+        ...Fguest
+      }
+    }
+  }
+  ${F_GUEST}
 `;
 
 export const CREATE_ROOMTYPE = gql`

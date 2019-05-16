@@ -21,7 +21,7 @@ import { TimePerMs } from '../../types/enum';
 moment.lang('kr');
 
 // 변수설정
-const ASSIGT_IMELINE_HEIGHT = 30;
+const ASSIGT_IMELINE_HEIGHT = 34;
 export { ASSIGT_IMELINE_HEIGHT };
 
 const JDtimeline = ({ ...props }: any) => <Timeline {...props} />;

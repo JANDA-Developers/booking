@@ -9,7 +9,7 @@ const assigDefaultProps = {
   groupRenderer: assigGroupRendererFn,
   itemRenderer: itemRendererFn,
   fixedHeader: 'fixed',
-  sidebarWidth: 230,
+  sidebarWidth: 180,
   canMove: true,
   canResize: 'right',
   canSelect: true,

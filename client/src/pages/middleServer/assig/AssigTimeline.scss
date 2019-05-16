@@ -1,15 +1,60 @@
 @import '../../../style_config/style_config.scss';
 
-$AT-assigGroup-rooType-width: 100px;
+$AT-assigGroup-rooType-width: 50px;
 $AT-assigGroup-room-width: 100px;
+
+
+$assigItem-normal-background-color: rgba(33,83,219,.8);
+$assigItem-unSelected-linked-background-color: rgba(255,255,255,.5);
+$assigItem-unSelected-linked-border: 1px solid #387BDB;
 
 #AssigTimeline {
 
+    .rct-horizontal-lines {
+        & > div:last-child {
+            border-bottom:none;
+        }
+    }
+      
+    .rct-dateHeader {
+        line-height: 34px;
+    }
+
+    .rct-sidebar {
+        overflow: hidden;
+        white-space: normal;
+        display: inline-block;
+        vertical-align: top;
+        position: relative;
+        box-sizing: border-box;
+        border-right: none;
+
+        // 사이드바에 줄 하나 하나 
+        .rct-sidebar-row {
+
+            padding: 0 4px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            box-sizing: content-box;
+            margin: 0;
+            border-bottom: 1px dotted $grey-opacity3;
+
+            &-odd{
+            }
+            &-even{
+
+            }
+        }
+        
+    }
+    
     .rct-header-root {
         position: relative;
         z-index: 90;
         text-align:center;
-        & > div {
+        &__topLeft {
+        background-color: $primary-color;
         display:flex;
         align-items: center;
         justify-content: center;
@@ -37,21 +82,22 @@ $AT-assigGroup-room-width: 100px;
         &__roomType {
             position:absolute;
             width: $AT-assigGroup-rooType-width;
-            background-color: $grey-level3;
-            color:white;
+            background-color: white;
             left: 0;
             display:flex;
             justify-content: center;
             align-items: center;
+            border-right: 1px solid $grey-opacity3;
         }
         &__room {
             position:absolute;
             left: $AT-assigGroup-rooType-width;
             width: $AT-assigGroup-room-width;
-            background-color: $grey-level2;
+            background-color: white;
             display: flex;
             justify-content: center;
             align-items: center;
+            border-right: 1px solid $grey-opacity2;
 
             &--roomType {
                 width: calc(100% - #{$AT-assigGroup-rooType-width});
@@ -67,28 +113,52 @@ $AT-assigGroup-room-width: 100px;
 
     // 🍓 배정아이템
     .assigItem {
+        $B: '.assigItem';
         cursor: pointer;
         z-index: $z-index-8;
-        color:$html-color;
-        
+        background-color: $assigItem-normal-background-color;
+        color:white;
+        @extend %z-depth-half;
+        padding:2px;
+        box-sizing: border-box;
+
+        // 😲 배정안된
         &--unAllocated {
-            background-color: $grey-opacity2;
-            border: 1px solid $grey-opacity2;
         }
+        // 😲 선택된
         &--selected {
-            border-color: $secondary-color;
+            border-color: $primary-color;
         }
+        // 😲 선택된것과 관련된
         &--linkedSelected {
-            box-shadow: 0px 0px 4px $grey-opacity2;
+            color: $html-color;
+            background-color: $assigItem-unSelected-linked-background-color;
+            border: $assigItem-unSelected-linked-border;
+            #{$B}__configIconWrap {
+                &:hover {
+                    color: $grey-level3;
+                }
+            }
+            #{$B}__gender {
+                &--female {
+                    color: $female-color;
+                }
+                &--male {
+                    color: $male-color;
+                }
+            }
+        }
+        // 😲 
+        &--linkedSelected#{&}--unAllocated {
+        }
+        // 😲 움직이는 중인
+        &--moving {
+            opacity: 0.3;
+            box-shadow:none;
         }
 
         &__gender {
-            &--female {
-                color: $female-color;
-            }
-            &--male {
-                color: $male-color;
-            }
+            color:white;
         }
 
         &__content {
@@ -99,9 +169,9 @@ $AT-assigGroup-room-width: 100px;
         &__configIconWrap {
             display: flex;
             align-items: end;
-            font-size: 0;
+            
             &:hover {
-                color: $grey-level3;
+                color: $grey-level1;
             }
         }
     }

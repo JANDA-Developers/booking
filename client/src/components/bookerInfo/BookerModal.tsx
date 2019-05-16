@@ -15,7 +15,6 @@ import {
 import './BookerModal.scss';
 import { GB_booker, IResvCount } from '../../types/interface';
 import { bookingStatuMerge, bookingGuestsMerge, bookingPriceMerge } from '../../utils/booking';
-import { isEmpty } from '../../utils/utils';
 
 export interface IroomSelectInfoTable {
   roomTypeId: string;
@@ -44,8 +43,6 @@ const POPbookerInfo: React.FC<IProps> = ({ modalHook, bookerData }) => {
     defaultBookings[0] ? moment(defaultBookings[0].end).toDate() : null,
   );
 
-  console.log('booking.guests');
-  console.log(defaultBookings);
   const defaultFormat: IroomSelectInfoTable[] = defaultBookings.map(booking => ({
     roomTypeId: booking._id,
     roomTypeName: booking.roomType.name,
