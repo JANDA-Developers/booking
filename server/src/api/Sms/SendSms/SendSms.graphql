@@ -1,0 +1,11 @@
+type SendSmsResponse {
+    ok: Boolean!
+    error: String
+}
+type Mutation {
+    SendSms(
+        sender: PhoneNumber!
+        receivers: [PhoneNumber!]
+        msg: String!
+    ): SendSmsResponse
+}

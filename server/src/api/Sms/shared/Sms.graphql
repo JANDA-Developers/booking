@@ -1,0 +1,29 @@
+type Sms {
+    _id: ID!
+
+    apiKey: String
+    smsFormat: String
+    formatName: String
+    smsSendCase: SmsSendCase
+    autoSend: Boolean!
+    createdAt: DateTime
+    updatedAt: DateTime
+}
+
+type SmsSendCase {
+    when: SendSmsWhen!
+    who: SendTarget!
+    autoSend: Boolean!
+}
+
+enum SendTarget {
+    GUEST
+    HOST
+}
+
+enum SendSmsWhen {
+    WHEN_BOOKING_WAIT_DEPOSIT
+    WHEN_BOOKING_COMPLETE
+    WEHN_BOOKING_CANCEL
+    WHEN_BOOKING_REFUND
+}

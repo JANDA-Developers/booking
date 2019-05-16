@@ -12,8 +12,8 @@ const resolvers: Resolvers = {
             {
                 bookingId,
                 bookingStatus,
-                end,
                 start,
+                end,
                 price
             }: UpdateBookingMutationArgs
         ): Promise<UpdateBookingResponse> => {

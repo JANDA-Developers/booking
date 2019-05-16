@@ -206,6 +206,6 @@ const allocateFunc = (
         _.pull(availableGenders, guestGender !== "FEMALE" ? "FEMALE" : "MALE");
     }
     _.pull(availableBeds, guestInstance.bedIndex);
-    availableCount = availableBeds.length;
+    availableCount = availableCount - 1;
     return true;
 };

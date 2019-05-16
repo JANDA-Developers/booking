@@ -12,7 +12,7 @@ const resolvers: Resolvers = {
         ToggleIsTempAllocated: privateResolver(
             async (
                 _,
-                { guestId, isTempAllocation }: ToggleIsTempAllocatedMutationArgs
+                { guestId, isUnsettled }: ToggleIsTempAllocatedMutationArgs
             ): Promise<ToggleIsTempAllocatedResponse> => {
                 try {
                     const existingGuest = await GuestModel.findById(guestId);
@@ -23,8 +23,8 @@ const resolvers: Resolvers = {
                             guest: null
                         };
                     }
-                    existingGuest.isTempAllocation = isTempAllocation;
-                    existingGuest.save();
+                    existingGuest.isUnsettled = isUnsettled;
+                    await existingGuest.save();
                     return {
                         ok: true,
                         error: null,

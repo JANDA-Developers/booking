@@ -5,13 +5,16 @@ type Guest {
     roomType: RoomType
     # 현재 묵는 방으로 변경될수 있음.
     allocatedRoom: Room
+    isUnsettled: Boolean!
+    # 배드 단위로 계산한다. 배정 확정인 경우에는 이 필드값의 IsSettleable.flag === true
+    isSettleable: IsSettleable!
+
     booking: Booking
     name: Name
     start: DateTime!
     end: DateTime!
     # 도미토리, 룸, 블록 구분
     pricingType: PricingType!
-    isTempAllocation: Boolean!
     bedIndex: Int!
     gender: Gender
     createdAt: DateTime!
@@ -24,6 +27,11 @@ enum Gender {
     MALE
     # 도미토리 여
     FEMALE
+}
+
+type IsSettleable {
+    flag: Boolean!
+    duplicateDates: [DateRange!]
 }
 
 input GuestInput {

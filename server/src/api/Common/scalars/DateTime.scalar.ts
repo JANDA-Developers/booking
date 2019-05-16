@@ -1,5 +1,5 @@
 import { GraphQLScalarType } from "graphql";
-import { Kind } from "graphql/language";
+import { ASTNode, Kind } from "graphql/language";
 
 function serialize(value: string) {
     const date = new Date(value);
@@ -10,7 +10,7 @@ function serialize(value: string) {
     return date;
 }
 
-function parseValue(value: string | Date | number) {
+function parseValue(value: string | Date) {
     const date = new Date(value);
     date.setUTCHours(0, 0, 0, 0);
     if (isNaN(date.getTime())) {
@@ -28,7 +28,7 @@ function parseValue(value: string | Date | number) {
     // }
 }
 
-function parseLiteral(ast) {
+function parseLiteral(ast: ASTNode) {
     switch (ast.kind) {
         case Kind.STRING:
         case Kind.INT:

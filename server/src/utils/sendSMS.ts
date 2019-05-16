@@ -4,19 +4,21 @@ import { SMSResult } from "../types/types";
 export const sendSMS = async (
     receivers: string,
     msg: string,
+    sender?: string,
     testmodeYn: "Y" | "N" | string = process.env.SMS_TESTMODE || "N"
 ): Promise<SMSResult> => {
     const key = process.env.SMS_KEY;
-    const sender = process.env.SMS_SENDER;
     const user = process.env.SMS_USER;
-    const host = process.env.SMS_HOST; 
+    const host = process.env.SMS_HOST;
 
     const requestOptions: Options = {
         headers: {
             "Content-Type": "application/x-www-form-urlencoded"
         },
         url: host + "send/",
-        body: `key=${key}&user_id=${user}&sender=${sender}&receiver=${receivers}&msg=${msg}&testmode_yn=${testmodeYn}`,
+        body: `key=${key}&user_id=${user}&sender=${sender ||
+            process.env
+                .SMS_SENDER}&receiver=${receivers}&msg=${msg}&testmode_yn=${testmodeYn}`,
         json: false
     };
     const { result_code, msg_id: msgId, msg_type: msgType } = JSON.parse(
