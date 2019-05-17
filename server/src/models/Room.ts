@@ -133,7 +133,7 @@ export class RoomSchema extends Typegoose {
         this: InstanceType<RoomSchema>,
         start: Date,
         end: Date,
-        tempAllocation?: boolean
+        isUnsettled?: boolean
     ) {
         // PricingType === "ROOM" 인 경우
         // 게스트들 먼저 다 구하기...
@@ -147,7 +147,7 @@ export class RoomSchema extends Typegoose {
         }
         // start, end 까지 이 방에 배정된 게스트가 있는가?
         const guestCount = await GuestModel.countDocuments(
-            this.getQueryForGuests(start, end, tempAllocation)
+            this.getQueryForGuests(start, end, isUnsettled)
         );
         if (guestCount === 0) {
             return true;
@@ -318,7 +318,8 @@ export class RoomSchema extends Typegoose {
     async getAvailableGenderAndBed(
         this: InstanceType<RoomSchema>,
         start: Date,
-        end: Date
+        end: Date,
+        exceptions: Types.ObjectId[] = []
     ): Promise<{
         availableGenders: Gender[];
         availableCount: number;
@@ -337,21 +338,24 @@ export class RoomSchema extends Typegoose {
             availableCount = 1;
         }
         // 이하 roomGender === "SEPARATELY"
-        const guests = await GuestModel.find(
-            {
-                allocatedRoom: new Types.ObjectId(this._id),
-                start: {
-                    $lte: end
-                },
-                end: {
-                    $gte: start
-                }
+        const query: any = {
+            allocatedRoom: new Types.ObjectId(this._id),
+            start: {
+                $lte: end
             },
-            {
-                gender: true,
-                bedIndex: true
+            end: {
+                $gte: start
             }
-        );
+        };
+        if (exceptions.length !== 0) {
+            query.booking = {
+                $nin: exceptions
+            };
+        }
+        const guests = await GuestModel.find(query, {
+            gender: true,
+            bedIndex: true
+        });
         availableCount = availableCount - guests.length;
         if (this.roomGender === "SEPARATELY") {
             const isMale = guests.every(g => {
