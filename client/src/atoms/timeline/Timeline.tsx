@@ -13,15 +13,17 @@ import Timeline, {
 } from 'react-calendar-timeline';
 import React from 'react';
 import './Timeline.scss';
+import moment from 'moment-timezone';
+
 // import 'react-calendar-timeline/lib/Timeline.css';
-import moment from 'moment';
 import ErrProtecter from '../../utils/errProtect';
 import { TimePerMs } from '../../types/enum';
 
-moment.lang('kr');
+moment.tz.setDefault('Asia/Seoul');
+moment.locale('kr');
 
 // 변수설정
-const ASSIGT_IMELINE_HEIGHT = 34;
+const ASSIGT_IMELINE_HEIGHT = 36;
 export { ASSIGT_IMELINE_HEIGHT };
 
 const JDtimeline = ({ ...props }: any) => <Timeline {...props} />;
@@ -73,7 +75,7 @@ const sharedProps = {
   },
   fixedHeader: 'fixed',
   verticalLineClassNamesForTime: (timeStart: any, timeEnd: any) => {
-    if (timeStart < new Date().getTime()) return ['verticalLine', 'verticalLine--past'];
+    if (timeEnd < new Date().getTime()) return ['verticalLine', 'verticalLine--past'];
     return ['verticalLine'];
   },
   horizontalLineClassNamesForGroup: (group: any) => ['group'],

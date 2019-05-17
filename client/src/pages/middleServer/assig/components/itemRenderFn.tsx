@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
+import $ from 'jquery';
 import { TimelineContext } from 'react-calendar-timeline';
 import classnames from 'classnames';
 import { IAssigItem } from '../AssigTimelineWrap';
@@ -6,7 +7,8 @@ import { ASSIGT_IMELINE_HEIGHT } from '../../../../atoms/timeline/Timeline';
 import { ITimelineContext, IItemContext } from '../../../../types/interface';
 import JDIcon, { IconSize } from '../../../../atoms/icons/Icons';
 import TooltipList from '../../../../atoms/tooltipList/TooltipList';
-import { GenderKr } from '../../../../types/enum';
+import { GenderKr, TimePerMs } from '../../../../types/enum';
+import CircleIcon from '../../../../atoms/circleIcon/CircleIcon';
 
 const CLASS_LINKED = 'assigItem--linkedSelected';
 const CLASS_MOVING = 'assigItem--moving';
@@ -44,8 +46,11 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
 
   const baseItemCalsses = `assigItem--booker${item.bookerId}`;
   const classNames = classnames('assigItem', baseItemCalsses, {
-    'assigItem--unAllocated': item.isTempAllocation,
+    'assigItem--unAllocated': item.isUnsettled,
     'assigItem--selected': itemContext.selected,
+    'assigItem--checkIn': item.isCheckin,
+    'assigItem--block': item.type === 'block',
+    'assigItem--mark': item.type === 'mark',
   });
   const props = getItemProps({
     className: classNames,
@@ -59,31 +64,66 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
     height: `${ASSIGT_IMELINE_HEIGHT - 2}px`,
   };
 
+  console.log('item.type');
+  console.log(item.type);
   return (
     <div {...props} id={`assigItem--guest${item.id}`}>
       {itemContext.useResizeHandle ? <div {...leftResizeProps} /> : ''}
-      <div
-        className="rct-item-content assigItem__content myClasses"
-        style={{ maxHeight: `${itemContext.dimensions.height}` }}
-      >
-        <span>
-          {item.name}
-          {item.gender && (
-            <span className={`assigItem__gender ${`assigItem__gender--${item.gender.toLowerCase()}`}`}>
-              {` (${GenderKr[item.gender]})`}
-            </span>
-          )}
-        </span>
-        <span
-          data-tip="1"
-          data-place="top"
-          data-for="itemTooltip"
-          data-event="click"
-          className="assigItem__configIconWrap"
-        >
-          <JDIcon icon="config" size={IconSize.MEDEIUM_SMALL} />
-        </span>
-      </div>
+      {() => {
+        switch (item.type) {
+          case 'normal':
+            return (
+              <div
+                className="rct-item-content assigItem__content myClasses"
+                style={{ maxHeight: `${itemContext.dimensions.height}` }}
+              >
+                <span>
+                  {item.name}
+                  {item.gender && (
+                    <span className={`assigItem__gender ${`assigItem__gender--${item.gender.toLowerCase()}`}`}>
+                      {` (${GenderKr[item.gender]})`}
+                    </span>
+                  )}
+                </span>
+
+                {item.validate.map((validate) => {
+                  if (validate.start && validate.end) {
+                    const CellWidth = $('.rct-dateHeader').width() || 0;
+                    const cellFrom = (item.start - validate.start) / TimePerMs.DAY;
+                    const cellCount = (validate.end - validate.start) / TimePerMs.DAY;
+                    const style = {
+                      left: cellFrom * CellWidth,
+                      width: cellCount * CellWidth,
+                    };
+                    return <span style={style} className="assigItem__validateMarker" />;
+                  }
+                })}
+                <span
+                  data-tip="1"
+                  data-place="top"
+                  data-for="itemTooltip"
+                  data-event="click"
+                  className="assigItem__configIconWrap"
+                >
+                  <JDIcon icon="config" size={IconSize.MEDEIUM_SMALL} />
+                </span>
+              </div>
+            );
+          case 'block':
+            return (
+              <div className="block__content">
+                {'자리막음'}
+                <CircleIcon wave thema="white">
+                  <JDIcon icon="clear" />
+                </CircleIcon>
+              </div>
+            );
+          case 'mark':
+            return <div />;
+          default:
+            return null;
+        }
+      }}
       {itemContext.useResizeHandle ? <div {...rightResizeProps} /> : ''}
     </div>
   );

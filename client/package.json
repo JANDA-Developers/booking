@@ -8,6 +8,7 @@
   "private": true,
   "dependencies": {
     "@types/lodash": "^4.14.123",
+    "@types/moment-timezone": "^0.5.12",
     "@types/react-addons-css-transition-group": "^15.0.5",
     "@types/react-calendar-timeline": "^0.16.1",
     "@types/react-table": "^6.8.1",
@@ -39,6 +40,7 @@
     "lodash.debounce": "^4.0.8",
     "markdown-to-jsx": "^6.9.1",
     "moment": "^2.24.0",
+    "moment-timezone": "^0.5.25",
     "node-sass": "^4.11.0",
     "outdated-browser-rework": "^2.8.0",
     "prop-types": "^15.6.2",

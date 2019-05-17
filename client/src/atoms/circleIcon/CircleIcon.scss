@@ -20,6 +20,9 @@
     }
     &--white {
         color:white;
+        &:hover{
+            background-color: rgba(255,255,255,.16);
+        }
     }
     &--greybg {
         background-color: $grey-level1;

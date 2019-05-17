@@ -20,7 +20,7 @@ const F_GUEST = gql`
     updatedAt
     createdAt
     bedIndex
-    isTempAllocation
+    isUnsettled
     booking {
       booker {
         _id
@@ -427,7 +427,7 @@ export const GET_ALL_ROOMTYPES_WITH_GUESTS = gql`
         updatedAt
         createdAt
         bedIndex
-        isTempAllocation
+        isUnsettled
         booking {
           booker {
             _id
@@ -639,8 +639,8 @@ export const CREATE_BOOKING = gql`
 `;
 
 export const ALLOCATE_GUEST_TO_ROOM = gql`
-  mutation allocateGuestToRoom($roomId: ID!, $guestId: ID!) {
-    AllocateGuestToRoom(roomId: $roomId, guestId: $guestId) {
+  mutation allocateGuestToRoom($roomId: ID!, $guestId: ID!, $bedIndex: Int!) {
+    AllocateGuestToRoom(roomId: $roomId, guestId: $guestId, bedIndex: $bedIndex) {
       ok
       error
       guest {

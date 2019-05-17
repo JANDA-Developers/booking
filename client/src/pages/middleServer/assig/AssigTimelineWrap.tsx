@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState } from 'react';
 import { Query, Mutation } from 'react-apollo';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import _ from 'lodash';
 import assigDefaultProps from './timelineConfig';
 import {
@@ -21,6 +21,9 @@ import { GET_ALL_ROOMTYPES_WITH_GUESTS, ALLOCATE_GUEST_TO_ROOM } from '../../../
 import AssigTimeline from './AssigTimeline';
 import { setYYYYMMDD } from '../../../utils/setMidNight';
 
+moment.tz.setDefault('Asia/Seoul');
+moment.locale('kr');
+
 export interface IAssigGroup {
   id: string;
   title: string;
@@ -32,6 +35,7 @@ export interface IAssigGroup {
   placeIndex: number;
   isLastOfRoom: boolean;
   isLastOfRoomType: boolean;
+  bedIndex: number;
 }
 
 export interface IAssigItem {
@@ -46,9 +50,25 @@ export interface IAssigItem {
   start: number;
   end: number;
   gender: Gender | null;
-  isTempAllocation: boolean;
+  isUnsettled: boolean;
   validate: IAssigItemCrush[];
+  type: 'normal' | 'mark' | 'make' | 'block';
 }
+
+export const defaultItemProps = {
+  guestIndex: -1,
+  name: '',
+  group: '',
+  bookerId: '',
+  isCheckin: false,
+  roomTypeId: '',
+  roomId: '',
+  start: 0,
+  end: 0,
+  gender: null,
+  isUnsettled: false,
+  validate: [],
+};
 
 export interface IAssigItemCrush {
   guestIndex: number;
@@ -66,7 +86,7 @@ class AllocateGuestToRoomMu extends Mutation<allocateGuestToRoom, allocateGuestT
 
 const AssigTimelineWrap: React.SFC<IProps> = ({ houseId }) => {
   const dayPickerHook = useDayPicker(null, null);
-  const defaultStartDate = setMidNight(dayPickerHook.from ? moment(dayPickerHook.from).valueOf() : moment().valueOf());
+  const defaultStartDate = dayPickerHook.from ? moment(dayPickerHook.from).valueOf() : moment().valueOf();
   const defaultEndDate = setMidNight(
     dayPickerHook.from
       ? moment(dayPickerHook.from)
@@ -79,12 +99,12 @@ const AssigTimelineWrap: React.SFC<IProps> = ({ houseId }) => {
   const [dataTime, setDataTime] = useState({
     start: setMidNight(
       moment()
-        .subtract(30, 'days')
+        .subtract(5, 'days')
         .valueOf(),
     ),
     end: setMidNight(
       moment()
-        .add(60, 'days')
+        .add(14, 'days')
         .valueOf(),
     ),
   });
@@ -108,11 +128,12 @@ const AssigTimelineWrap: React.SFC<IProps> = ({ houseId }) => {
           gender: guestData.gender,
           roomTypeId: guestData.roomType._id,
           roomId: guestData.allocatedRoom._id,
-          isTempAllocation: guestData.isTempAllocation,
-          group: guestData.allocatedRoom._id + 1,
-          start: moment(guestData.start).valueOf(),
-          end: moment(guestData.end).valueOf(),
+          isUnsettled: guestData.isUnsettled,
+          group: guestData.allocatedRoom._id + guestData.bedIndex,
+          start: setMidNight(moment(guestData.start).valueOf()),
+          end: setMidNight(moment(guestData.end).valueOf()),
           validate: [],
+          type: 'normal',
         });
       }
     });
@@ -146,6 +167,7 @@ const AssigTimelineWrap: React.SFC<IProps> = ({ houseId }) => {
               roomIndex: room.index,
               roomType: roomTypeData,
               roomId: room._id,
+              bedIndex: index,
               placeIndex: -1,
               isLastOfRoom: true,
               isLastOfRoomType: roomTypeData.roomCount === index,
@@ -155,7 +177,7 @@ const AssigTimelineWrap: React.SFC<IProps> = ({ houseId }) => {
         // 🛌 베드타입일경우
         if (roomTypeData.pricingType === 'DOMITORY') {
           rooms.map((room, index) => {
-            for (let i = 1; roomTypeData.peopleCount >= i; i += 1) {
+            for (let i = 0; roomTypeData.peopleCount > i; i += 1) {
               roomGroups.push({
                 id: room._id + i,
                 title: room.name,
@@ -164,9 +186,10 @@ const AssigTimelineWrap: React.SFC<IProps> = ({ houseId }) => {
                 roomIndex: room.index,
                 roomType: roomTypeData,
                 roomId: room._id,
-                placeIndex: i,
-                isLastOfRoom: roomTypeData.peopleCount === i,
-                isLastOfRoomType: roomTypeData.roomCount === index + 1 && roomTypeData.peopleCount === i,
+                bedIndex: i,
+                placeIndex: i + 1,
+                isLastOfRoom: roomTypeData.peopleCount === i + 1,
+                isLastOfRoomType: roomTypeData.roomCount === index + 1 && roomTypeData.peopleCount === i + 1,
               });
             }
           });

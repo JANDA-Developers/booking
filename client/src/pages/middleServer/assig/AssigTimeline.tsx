@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment from 'moment-timezone';
 import React, { useState, useEffect } from 'react';
 import $ from 'jquery';
 import { Link } from 'react-router-dom';
@@ -16,7 +16,9 @@ import ErrProtecter from '../../../utils/errProtect';
 import Button from '../../../atoms/button/Button';
 import BookerModalWrap from '../../../components/bookerInfo/BookerModalWrap';
 import { IUseDayPicker, useModal } from '../../../actions/hook';
-import { IAssigGroup, IAssigItem, IAssigItemCrush } from './AssigTimelineWrap';
+import {
+  IAssigGroup, IAssigItem, IAssigItemCrush, defaultItemProps,
+} from './AssigTimelineWrap';
 import assigGroupRendererFn from './components/groupRenderFn';
 import { IRoomType } from '../../../types/interface';
 import Preloader from '../../../atoms/preloader/Preloader';
@@ -29,9 +31,16 @@ import {
 import { allocateGuestToRoom, allocateGuestToRoomVariables } from '../../../types/api';
 import { CLASS_LINKED, CLASS_MOVING, CLASS_DISABLE } from './components/itemRenderFn';
 import { number } from 'prop-types';
-import { isEmpty } from '../../../utils/utils';
+import { isEmpty, setMidNight } from '../../../utils/utils';
+import ItemMenu from './components/itemMenu';
+import CanvasMenu from './components/canvasMenu';
 
-moment.lang('kr');
+moment.tz.setDefault('Asia/Seoul');
+moment.locale('kr');
+
+
+// get timezone and locale from some config 
+
 let timer: null | number = null; // timer required to reset
 const timeout = 200; // timer reset in ms
 
@@ -64,19 +73,29 @@ const ShowTimeline: React.SFC<IProps> = ({
   });
 
   const bookerModal = useModal(false);
-
+  // 🦄 유틸
   const filterTimeZone = (from: number, to: number, roomId?: string): IAssigItem[] => {
-    if (!roomId) return guestValue.filter(guest => guest.start >= from && guest.end < to);
-    return guestValue.filter(guest => guest.start >= from && guest.end < to && guest.roomId === roomId);
+    if (!roomId) {
+      return guestValue.filter(
+        guest => (guest.start >= from && guest.start < to)
+          || (guest.end > from && guest.end <= to)
+          || (guest.end === from && guest.end === to),
+      );
+    }
+    return guestValue.filter(
+      guest => (guest.start >= from && guest.start < to)
+        || (guest.end > from && guest.end <= to)
+        || (guest.end === from && guest.end === to),
+    );
   };
-
   interface ICrushTime {
     crushGuest: string;
     crushGuest2: string;
+    guestIndex: number;
     start: number;
     end: number;
   }
-  // 게스트 둘의 충돌시간을 구해줌 충돌시간을 구해줌 없다면 false
+  // 🦄 유틸 게스트 둘의 충돌시간을 구해줌 충돌시간을 구해줌 없다면 false
   const crushTime = (guest: IAssigItem, guest2: IAssigItem): ICrushTime | false => {
     const minEnd = guest.end < guest2.end ? guest.end : guest2.end;
     const minStart = guest.start < guest2.start ? guest.start : guest2.start;
@@ -84,34 +103,24 @@ const ShowTimeline: React.SFC<IProps> = ({
     return {
       crushGuest: guest.id,
       crushGuest2: guest2.id,
+      guestIndex: guest.guestIndex,
       start: minStart,
       end: minEnd,
     };
   };
-
-  // 사람이 그장소에 그시간대에 있다면 충돌시간을 주고 아니면 false를 줌
+  // 🦄 유틸 사람이 그장소에 그시간대에 있다면 충돌시간을 주고 아니면 false를 줌
   const isTherePerson = (startTime: number, endTime: number, groupId: string, guest: IAssigItem) => {
-    const atTimeGuests = filterTimeZone(endTime, startTime);
-    const atTimePlaceGuests = atTimeGuests.filter(inGuest => inGuest.group === groupId && inGuest.id !== guest.id);
-    const crushTimes = atTimePlaceGuests.map(inGuest => crushTime(guest, inGuest));
-    if (!isEmpty(crushTimes)) return crushTimes;
+    const atTimeGuests = filterTimeZone(startTime, endTime);
+    const atTimePlaceGuests = atTimeGuests.filter(inGuest => inGuest.group === groupId);
+    // 자기자신이 포함됨니다..
+    if (atTimePlaceGuests.length > 1) {
+      const crushTimes = atTimePlaceGuests.map(inGuest => crushTime(inGuest, guest));
+      if (!isEmpty(crushTimes)) return crushTimes;
+    }
     return false;
   };
 
-  const handleItemDoubleClick = (itemId: any, e: any, time: any) => {
-    const target = guestValue.find(guest => guest.id === itemId);
-    if (!target) return;
-    // 퍼포먼스 향상을 위해서라면 ID 는 인덱스여야한다?
-    timer = window.setTimeout(() => {
-      timer = null;
-    }, timeout);
-    // items[itemID].key
-    bookerModal.openModal({ bookerId: target.bookerId });
-  };
-
-  // 시간을 받아서 게스트들중 그시간대에 있는 게스트들을 반환함
-  // Room Id 선택적 벨리데이션
-
+  // 🦄 유틸 성별이 맞는지 검사하고 CrushTime을 반환합니다.
   const isGenderSafe = (
     targetGroup: IAssigGroup,
     item: IAssigItem,
@@ -146,33 +155,51 @@ const ShowTimeline: React.SFC<IProps> = ({
     return true;
   };
 
-  //  그 게스트가 그 시간에 그 그룹에 괺찮은지 검사함
-  const oneValidation = (guest: IAssigItem, start: number, end: number, groupId: string) => {
+  const handleItemDoubleClick = (itemId: any, e: any, time: any) => {
+    const target = guestValue.find(guest => guest.id === itemId);
+    if (!target) return;
+    // 퍼포먼스 향상을 위해서라면 ID 는 인덱스여야한다?
+    timer = window.setTimeout(() => {
+      timer = null;
+    }, timeout);
+    // items[itemID].key
+    bookerModal.openModal({ bookerId: target.bookerId });
+  };
+
+  // 시간을 받아서 게스트들중 그시간대에 있는 게스트들을 반환함
+  // Room Id 선택적 벨리데이션
+
+  //  그 게스트가 그 시간에 그 그룹에 괺찮은지 검사함 검사한 결과를 즉각반영
+  const oneGuestValidation = (guest: IAssigItem, start: number, end: number, groupId: string) => {
     const tempGuest: IAssigItem = {
       ...guest,
       start,
       end,
       group: groupId,
     };
-    const isTherePersonResult = isTherePerson(start, end, groupId, tempGuest);
     let validater: IAssigItemCrush[] = [];
 
+    const isTherePersonResult = isTherePerson(start, end, groupId, tempGuest);
     // 자리충돌 발생
     if (isTherePersonResult) {
       const temp: any = isTherePersonResult.filter(inCrushTime => inCrushTime);
       const crushTimes: ICrushTime[] = temp;
+
       const validate = crushTimes.map(inCrushTime => ({
-        guestIndex: guest.guestIndex,
+        guestIndex: inCrushTime.guestIndex,
         reason: '자리충돌',
         start: inCrushTime.start,
         end: inCrushTime.end,
       }));
+
       validater = [...validater, ...validate];
     }
 
     const targetGroup = groupData.find(group => group.id === groupId);
     if (!targetGroup) return;
     const isGenderSafeResult = isGenderSafe(targetGroup, tempGuest, start, end);
+
+    // 성별충돌 발생
     if (isGenderSafeResult !== true) {
       if (isGenderSafeResult === false) {
         const validate = {
@@ -201,87 +228,31 @@ const ShowTimeline: React.SFC<IProps> = ({
     setGuestValue([...guestValue]);
   };
 
+  //  캔버스 클릭시 호출됨
   const handleCanvasClick = (groupId: string, time: number, e: React.MouseEvent<HTMLElement>) => {
+    if (e.ctrlKey) {
+      guestValue.push({
+        ...defaultItemProps,
+        type: 'block',
+        id: `block${time}${groupId}`,
+      });
+      setGuestValue([...guestValue]);
+    }
     $('.assigItem').removeClass(CLASS_LINKED);
   };
 
-  //
+  // 리사이즈 되었을때 벨리데이션 해줍니다.
   const resizeValidater = (item: IAssigItem, time: number) => {
     const linkedGuests = guestValue.filter(guest => guest.bookerId === item.bookerId);
 
     linkedGuests.forEach((guest) => {
-      if (guest.bookerId === item.bookerId) oneValidation(guest, guest.start, time, item.group);
+      if (guest.bookerId === item.bookerId) oneGuestValidation(guest, guest.start, time, guest.group);
     });
   };
 
   // 아이템이 그룹에 그시간대에 포함될수 있는지 검사해줍니다.
   // const moveValidater = (item: IAssigItem, targetGroup: IAssigGroup, time: number): IValidationResult[] => {
   //   const linkedGuests = guestValue.filter(guest => guest.bookerId === item.bookerId);
-
-  //   const validater = (guest: IAssigItem): IValidationResult => {
-  //     const guestGroup = groupData.find(group => group.id === guest.group);
-  //     // 베드검사
-  //     if (!guestGroup) {
-  //       return {
-  //         guestIndex: guest.guestIndex,
-  //         reason: 'none guest group',
-  //         possible: true,
-  //         start: null,
-  //         end: null,
-  //       };
-  //     }
-
-  //     if (targetGroup.roomType.pricingType === PricingType.DOMITORY) {
-  //       // 자리검사
-  //       const personThere = isTherePerson(guest, time);
-  //       if (personThere) {
-  //         return {
-  //           guestIndex: guest.guestIndex,
-  //           reason: '이미 배정된 사람이 있습니다.',
-  //           possible: false,
-  //           start: time,
-  //           end: time + TimePerMs.DAY,
-  //         };
-  //       }
-  //       // 성별검사
-  //       const genderSafe = isGenderSafe(guestGroup, guest, guest.start, time);
-  //       if (!genderSafe) {
-  //         return {
-  //           guestIndex: guest.guestIndex,
-  //           reason: '성별이 맞지않습니다.',
-  //           possible: false,
-  //           start: time,
-  //           end: time + TimePerMs.DAY,
-  //         };
-  //       }
-  //       return {
-  //         guestIndex: guest.guestIndex,
-  //         reason: '',
-  //         possible: true,
-  //         start: null,
-  //         end: null,
-  //       };
-  //       // ROOM 검사
-  //     }
-  //     // 자리검사
-  //     const personThere = isTherePerson(guest.start, time);
-  //     if (personThere) {
-  //       return {
-  //         guestIndex: guest.guestIndex,
-  //         reason: '이미 배정된 사람이 있습니다.',
-  //         possible: false,
-  //         start: time,
-  //         end: time + TimePerMs.DAY,
-  //       };
-  //     }
-  //     return {
-  //       guestIndex: guest.guestIndex,
-  //       reason: '',
-  //       possible: true,
-  //       start: null,
-  //       end: null,
-  //     };
-  //   };
   //   // 좌우MOVE 일경우
   //   if (Math.abs(time - item.start) >= TimePerMs.DAY) {
   //     const validaterResults = linkedGuests.map((guest) => {
@@ -303,13 +274,9 @@ const ShowTimeline: React.SFC<IProps> = ({
       bookerModal.openModal({});
     }
   });
-  // Handle -- item : DoubleClick
-  const handleCanvasDoubleClick = (group: any, time: any, e: any) => {
-    bookerModal.openModal({
-      bookerInfo: 'Make',
-      time,
-    });
-  };
+
+  // 캔버스 더블클릭시
+  const handleCanvasDoubleClick = (group: any, time: any, e: any) => {};
 
   // 같은 예약자가 예약한 게스트들을 한번에 변경
   const resizeLinkedItems = (bookerId: string, newTime: number) => {
@@ -344,6 +311,7 @@ const ShowTimeline: React.SFC<IProps> = ({
     if (action === 'resize') {
       // 최소 아이템줌 설정
       if (item.start >= time) return item.end;
+      if (setMidNight(new Date().getTime()) >= time) return item.end;
 
       resizeValidater(item, time);
       resizeLinkedItems(item.bookerId, time);
@@ -399,6 +367,7 @@ const ShowTimeline: React.SFC<IProps> = ({
       variables: {
         guestId: itemId,
         roomId: newGroupId,
+        bedIndex: groupData[newGroupOrder].bedIndex,
       },
     });
 
@@ -407,9 +376,47 @@ const ShowTimeline: React.SFC<IProps> = ({
     }
   };
 
-  // 🐭마우스 놓아야 호출됨
+  // 🐭 마우스 놓아야 호출됨
   const handleItemResize = (itemId: string, time: number, edge: 'left' | 'right') => {};
 
+  const hanldeItemClick = (itemId: string, e: React.MouseEvent<HTMLElement>, time: number) => {
+    const target = guestValue.find(guest => guest.id === itemId);
+
+    if (!target) return;
+    if (target.bookerId === 'block') return;
+    // 컨트롤: 체크인
+    if (e.ctrlKey) {
+      guestValue[target.guestIndex].isCheckin = !guestValue[target.guestIndex].isCheckin;
+      setGuestValue([...guestValue]);
+    }
+    // 쉬프트 팝업
+    if (e.shiftKey) {
+      bookerModal.openModal({ bookerId: target.bookerId });
+    }
+    // 알트: 배정확정
+    if (e.altKey) {
+      guestValue[target.guestIndex].isUnsettled = !guestValue[target.guestIndex].isUnsettled;
+      setGuestValue([...guestValue]);
+    }
+  };
+
+  const parallax = () => new Date().getTimezoneOffset() * 1000 * 60;
+
+  const handleCanvasContextMenu = (groupId: string, time: number, e: React.MouseEvent<HTMLElement>) => {
+
+    guestValue.push({
+      ...defaultItemProps,
+      id: `mark${groupId}${time}`,
+      type: 'mark',
+      start: time,
+      end: time + TimePerMs.DAY,
+      group: groupId,
+    });
+
+    setGuestValue([...guestValue]);
+  };
+
+  // 🐭 아이템이 선택되었을때
   const handleItemSelect = async (itemId: string, e: React.MouseEvent<HTMLElement>, time: number) => {
     const target = guestValue.find(guest => guest.id === itemId);
     if (target) {
@@ -417,7 +424,7 @@ const ShowTimeline: React.SFC<IProps> = ({
       $(`.assigItem--booker${target.bookerId}`).addClass(CLASS_LINKED);
     }
   };
-
+  // 시간이 변경되었을떄
   const handleTimeChange = (visibleTimeStart: number, visibleTimeEnd: number, updateScrollCanvas: any) => {
     updateScrollCanvas(visibleTimeStart, visibleTimeEnd);
   };
@@ -434,31 +441,16 @@ const ShowTimeline: React.SFC<IProps> = ({
             <Button float="right" icon="roomChange" label="방구조 변경" />
           </Link>
         </div>
-        <TooltipList unPadding getContent={() => <span>핸드폰 인증후 사용가능</span>} id="itemTooltip">
-          <ul>
-            <li>
-              <Button label="체크아웃" mode="flat" color="white" />
-            </li>
-            <li>
-              <Button label="배정확정" mode="flat" color="white" />
-            </li>
-            <li>
-              <Button label="삭제" mode="flat" color="white" />
-            </li>
-          </ul>
-        </TooltipList>
+        <CanvasMenu />
+        <ItemMenu />
         <Timeline
           onItemMove={handleItemMove}
           onItemResize={handleItemResize}
           items={guestValue}
           groups={groupData}
-          // 아래 속성은 퍼포먼스에 민감하게 작용합니다.
-          verticalLineClassNamesForTime={(timeStart: any, timeEnd: any) => {
-            if (timeStart < new Date().getTime()) return ['verticalLine', 'verticalLine--past'];
-            return ['verticalLine'];
-          }}
           {...defaultProps}
           onItemDoubleClick={handleItemDoubleClick}
+          onItemClick={hanldeItemClick}
           onCanvasDoubleClick={handleCanvasDoubleClick}
           onCanvasClick={handleCanvasClick}
           onTimeChange={handleTimeChange}
@@ -467,6 +459,7 @@ const ShowTimeline: React.SFC<IProps> = ({
           defaultTimeStart={defaultTimeStart}
           moveResizeValidator={handleMoveResizeValidator}
           onItemSelect={handleItemSelect}
+          onCanvasContextMenu={handleCanvasContextMenu}
         >
           <TimelineHeaders>
             <SidebarHeader>
@@ -478,6 +471,7 @@ const ShowTimeline: React.SFC<IProps> = ({
                     canSelectBeforeDays={false}
                     label="달력날자"
                     {...dayPickerHook}
+                    className="JDwaves-effect JDoverflow-visible"
                     inputComponent={(
                       <span>
                         <JDIcon className="specificPrice__topLeftIcon" size={IconSize.MEDEIUM_SMALL} icon="calendar" />

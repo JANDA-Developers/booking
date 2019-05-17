@@ -5,8 +5,10 @@ $AT-assigGroup-room-width: 100px;
 
 
 $assigItem-normal-background-color: rgba(33,83,219,.8);
-$assigItem-unSelected-linked-background-color: rgba(255,255,255,.5);
-$assigItem-unSelected-linked-border: 1px solid #387BDB;
+$assigItem-linked-background-color: rgba(255,255,255,.5);
+$assigItem-checkIn-background-color: rgba(255,255,0,.7);
+$assigItem-unSelected-linked-border: 3px solid #387BDB;
+$assigItem-padding: 6px;
 
 #AssigTimeline {
 
@@ -31,8 +33,6 @@ $assigItem-unSelected-linked-border: 1px solid #387BDB;
 
         // 사이드바에 줄 하나 하나 
         .rct-sidebar-row {
-
-            padding: 0 4px;
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
@@ -48,17 +48,31 @@ $assigItem-unSelected-linked-border: 1px solid #387BDB;
         }
         
     }
-    
+
     .rct-header-root {
         position: relative;
         z-index: 90;
         text-align:center;
         &__topLeft {
-        background-color: $primary-color;
-        display:flex;
-        align-items: center;
-        justify-content: center;
-        
+            background-color: $primary-color;
+            display:flex;
+            align-items: center;
+            justify-content: center;
+            overflow: visible!important;
+            transition: 0.3s;
+            &:hover {
+                background-color: $primary-color-light;
+            }
+            .DayPicker-box {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .DayPicker--input  {
+                left: 50%;
+            }
         }
         .specificPrice__topLeftIcon {
             color:white;
@@ -79,6 +93,8 @@ $assigItem-unSelected-linked-border: 1px solid #387BDB;
     
     // 좌측 방 그룹 조정
     .assigGroups {
+
+        overflow: hidden;
         &__roomType {
             position:absolute;
             width: $AT-assigGroup-rooType-width;
@@ -110,7 +126,7 @@ $assigItem-unSelected-linked-border: 1px solid #387BDB;
             width: calc(100% + 4px);
         }
     }
-
+      
     // 🍓 배정아이템
     .assigItem {
         $B: '.assigItem';
@@ -119,20 +135,37 @@ $assigItem-unSelected-linked-border: 1px solid #387BDB;
         background-color: $assigItem-normal-background-color;
         color:white;
         @extend %z-depth-half;
-        padding:2px;
         box-sizing: border-box;
+        position: relative;
 
         // 😲 배정안된
         &--unAllocated {
+            opacity: 0.5;
+        }
+        // 😲 체크인된
+        &--checkIn {
+            background-color: $assigItem-checkIn-background-color;
+            color: $html-color;
+            #{$B}__gender {
+                &--female {
+                    color: $female-color;
+                }
+                &--male {
+                    color: $male-color;
+                }
+            }   
         }
         // 😲 선택된
         &--selected {
             border-color: $primary-color;
+            border-right-width: $assigItem-padding!important;
+            border-right-style: ridge!important;
+            border: $assigItem-unSelected-linked-border;
         }
         // 😲 선택된것과 관련된
         &--linkedSelected {
             color: $html-color;
-            background-color: $assigItem-unSelected-linked-background-color;
+            background-color: $assigItem-linked-background-color;
             border: $assigItem-unSelected-linked-border;
             #{$B}__configIconWrap {
                 &:hover {
@@ -148,6 +181,10 @@ $assigItem-unSelected-linked-border: 1px solid #387BDB;
                 }
             }
         }
+        // 😲 링크선택 && 체크인된
+        &--linkedSelected.assigItem--checkIn {
+            background-color: $assigItem-checkIn-background-color;
+        }
         // 😲 
         &--linkedSelected#{&}--unAllocated {
         }
@@ -162,17 +199,48 @@ $assigItem-unSelected-linked-border: 1px solid #387BDB;
         }
 
         &__content {
-            display:flex;
+            display: flex;
             justify-content: space-between;
             align-items: center;
         }
         &__configIconWrap {
             display: flex;
             align-items: end;
-            
-            &:hover {
-                color: $grey-level1;
+        }
+        &__validateMarker {
+            position: absolute;
+            background-color: $error-color;
+            z-index: -1;
+            top: 0;
+            bottom:0;
+        }
+        // 😲 방막기일떄
+        &--block {
+            background-color: $html-color;
+            .block__content {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0px 0px 0px $assigItem-padding;
             }
+            // X 버튼
+            .circleIcon {
+                color:white;
+                margin: 0;
+            }
+        }
+        // 😲 방막기 선택된
+        &--block.assigItem--selected {
+            background-color: $html-color;
+            border:none;
+            color:white;
+            border-right-color: $grey-level3;
+        }
+        // 😲 마킹
+        &--mark {
+            box-shadow: none;
+            border:none;
+            background-color: $grey-level1;
         }
     }
 }
