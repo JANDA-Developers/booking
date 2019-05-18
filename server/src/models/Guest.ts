@@ -20,7 +20,7 @@ export class GuestSchema extends Typegoose {
     roomType: Types.ObjectId;
 
     @prop({ ref: RoomSchema })
-    allocatedRoom?: Ref<RoomSchema>;
+    allocatedRoom: Ref<RoomSchema>;
 
     @prop({ default: 0 })
     bedIndex: number; // PricingType === "ROOM" 인 경우 0으로 함...

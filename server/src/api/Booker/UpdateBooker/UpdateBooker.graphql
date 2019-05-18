@@ -19,5 +19,4 @@ input UpdateBookerMutationParamsInput {
     payMethod: PayMethod
     paymentStatus: PaymentStatus
     memo: String
-    dateRange: DateRangeInput
 }
