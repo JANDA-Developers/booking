@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 // 👿 Read This [https://www.apollographql.com/docs/react/advanced/fragments#fragment-matcher]
 const F_LOCATION = gql`
@@ -391,7 +391,11 @@ export const GET_ALL_ROOMTYPES = gql`
 // ⭐️방배정!!
 // 모든 방타입 + 모든 게스트 가져오기!!
 export const GET_ALL_ROOMTYPES_WITH_GUESTS = gql`
-  query getAllRoomTypeWithGuest($houseId: ID!, $start: DateTime!, $end: DateTime!) {
+  query getAllRoomTypeWithGuest(
+    $houseId: ID!
+    $start: DateTime!
+    $end: DateTime!
+  ) {
     GetAllRoomType(houseId: $houseId) {
       ok
       error
@@ -539,6 +543,9 @@ export const GET_BOOKER = gql`
         phoneNumber
         memo
         name
+        isCheckIn
+        payMethod
+        paymentStatus
         bookings {
           guestCount
           _id
@@ -629,6 +636,19 @@ export const GET_ALL_SEASON_TABLE = gql`
 
 // START 예약관련 ────────────────────────────────────────────────────────────────────────────────
 // 예약 생성
+
+export const UPDATE_BOOKER = gql`
+  mutation updateBooker(
+    $bookerId: ID!
+    $params: UpdateBookerMutationParamsInput!
+  ) {
+    UpdateBooker(bookerId: $bookerId, params: $params) {
+      ok
+      error
+    }
+  }
+`;
+
 export const CREATE_BOOKING = gql`
   mutation createBooking($bookingParams: BookingInput!) {
     CreateBooking(bookingParams: $bookingParams) {
@@ -640,7 +660,11 @@ export const CREATE_BOOKING = gql`
 
 export const ALLOCATE_GUEST_TO_ROOM = gql`
   mutation allocateGuestToRoom($roomId: ID!, $guestId: ID!, $bedIndex: Int!) {
-    AllocateGuestToRoom(roomId: $roomId, guestId: $guestId, bedIndex: $bedIndex) {
+    AllocateGuestToRoom(
+      roomId: $roomId
+      guestId: $guestId
+      bedIndex: $bedIndex
+    ) {
       ok
       error
       guest {
@@ -692,13 +716,33 @@ export const CREATE_ROOM = gql`
   }
 `;
 export const CREATE_ROOM_PRICE = gql`
-  mutation createRoomPrice($price: Float!, $roomTypeId: ID!, $houseId: ID!, $date: DateTime!) {
-    CreateRoomPrice(price: $price, roomTypeId: $roomTypeId, houseId: $houseId, date: $date) {
+  mutation createRoomPrice(
+    $price: Float!
+    $roomTypeId: ID!
+    $houseId: ID!
+    $date: DateTime!
+  ) {
+    CreateRoomPrice(
+      price: $price
+      roomTypeId: $roomTypeId
+      houseId: $houseId
+      date: $date
+    ) {
       ok
       error
     }
   }
 `;
+
+export const DELETE_BOOKER = gql`
+  mutation deleteBooker($bookerId: ID!) {
+    DeleteBooker(bookerId: $bookerId) {
+      ok
+      error
+    }
+  }
+`;
+
 export const DELETE_ROOM_PRICE = gql`
   mutation deleteRoomPrice($roomTypeId: ID!, $date: DateTime!) {
     DeleteRoomPrice(roomTypeId: $roomTypeId, date: $date) {
@@ -806,7 +850,11 @@ export const CREATE_SEASON = gql`
 
 export const CHANGE_PRIORITY = gql`
   mutation changePriority($seasonId: ID!, $houseId: ID!, $priority: Int!) {
-    ChangePriority(seasonId: $seasonId, houseId: $houseId, priority: $priority) {
+    ChangePriority(
+      seasonId: $seasonId
+      houseId: $houseId
+      priority: $priority
+    ) {
       ok
       error
     }
@@ -890,8 +938,18 @@ export const COMEPLETE_PHONE_VERIFICATION = gql`
 `;
 // 회원가입
 export const EMAIL_SIGN_UP = gql`
-  mutation emailSignUp($name: Name!, $email: EmailAddress!, $phoneNumber: PhoneNumber!, $password: Password!) {
-    EmailSignUp(name: $name, email: $email, password: $password, phoneNumber: $phoneNumber) {
+  mutation emailSignUp(
+    $name: Name!
+    $email: EmailAddress!
+    $phoneNumber: PhoneNumber!
+    $password: Password!
+  ) {
+    EmailSignUp(
+      name: $name
+      email: $email
+      password: $password
+      phoneNumber: $phoneNumber
+    ) {
       ok
       error
       token
@@ -925,7 +983,11 @@ export const UPDATE_HOUSE = gql`
 
 // 숙소생성
 export const CREATE_HOUSE = gql`
-  mutation createHouse($name: String!, $houseType: HouseType!, $location: LocationInput!) {
+  mutation createHouse(
+    $name: String!
+    $houseType: HouseType!
+    $location: LocationInput!
+  ) {
     CreateHouse(name: $name, houseType: $houseType, location: $location) {
       ok
       error

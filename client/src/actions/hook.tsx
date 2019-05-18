@@ -1,19 +1,24 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-shadow */
 /* ts-ignore */
-import randomColor from 'randomcolor';
-import { useState, useEffect } from 'react';
-import Axios from 'axios';
-import { toast } from 'react-toastify';
-import { CLOUDINARY_KEY } from '../keys';
-import { IselectedOption } from '../atoms/forms/selectBox/SelectBox';
+import randomColor from "randomcolor";
+import {useState, useEffect} from "react";
+import Axios from "axios";
+import {toast} from "react-toastify";
+import {CLOUDINARY_KEY} from "../keys";
+import {IselectedOption} from "../atoms/forms/selectBox/SelectBox";
 
 // 한방에 패치
 // A X I O S  : (http://codeheaven.io/how-to-use-axios-as-your-http-client/)
 
-export type IUseFetch = [any, boolean, boolean, (url: string | undefined) => void];
+export type IUseFetch = [
+  any,
+  boolean,
+  boolean,
+  (url: string | undefined) => void
+];
 
-const useFetch = (url: string | undefined = ''): IUseFetch => {
+const useFetch = (url: string | undefined = ""): IUseFetch => {
   const [data, setData] = useState([]);
   const [inUrl, setInUrl] = useState(url);
   const [isLoading, setIsLoading] = useState(false);
@@ -69,22 +74,27 @@ const useImageUploader = (foo?: any): IuseImageUploader => {
   const [uploading, setUploading] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  const onChangeFile = async (event: React.ChangeEvent<HTMLInputElement | undefined>) => {
+  const onChangeFile = async (
+    event: React.ChangeEvent<HTMLInputElement | undefined>
+  ) => {
     if (event) {
       const {
-        target: { name, value, files },
+        target: {name, value, files}
       }: any = event;
       if (files) {
         setUploading(true);
         const formData = new FormData();
-        formData.append('api_key', CLOUDINARY_KEY || '');
-        formData.append('upload_preset', 'jandaAPP');
-        formData.append('file', files[0]);
-        formData.append('timestamp', String(Date.now() / 1000));
+        formData.append("api_key", CLOUDINARY_KEY || "");
+        formData.append("upload_preset", "jandaAPP");
+        formData.append("file", files[0]);
+        formData.append("timestamp", String(Date.now() / 1000));
         try {
           const {
-            data: { secure_url },
-          } = await Axios.post('https://api.cloudinary.com/v1_1/stayjanda-com/image/upload', formData);
+            data: {secure_url}
+          } = await Axios.post(
+            "https://api.cloudinary.com/v1_1/stayjanda-com/image/upload",
+            formData
+          );
           if (secure_url) {
             setFileUrl(secure_url);
           }
@@ -104,7 +114,7 @@ const useImageUploader = (foo?: any): IuseImageUploader => {
     uploading,
     isError,
     onChangeFile,
-    setFileUrl,
+    setFileUrl
   };
 };
 
@@ -126,19 +136,22 @@ function useDebounce(value: any, delay: number) {
   return debouncedValue;
 }
 
-export interface TUseInput {
-  value: string;
+export interface TUseInput<T = string> {
+  value: T;
   onChangeValid: (value: boolean | string) => void;
-  onChange: (foo: string) => void;
+  onChange: (foo: T) => void;
   isValid: any;
 }
 
 // 밸리데이션을 포함한 훅 리턴
-function useInput(defaultValue: string, defulatValid: boolean | string = ''): TUseInput {
+function useInput<T = string>(
+  defaultValue: T,
+  defulatValid: boolean | string = ""
+): TUseInput<T> {
   const [value, setValue] = useState(defaultValue);
   const [isValid, setIsValid] = useState(defulatValid);
 
-  const onChange = (value: string) => {
+  const onChange = (value: T) => {
     setValue(value);
   };
 
@@ -150,7 +163,7 @@ function useInput(defaultValue: string, defulatValid: boolean | string = ''): TU
     value,
     onChange,
     isValid,
-    onChangeValid,
+    onChangeValid
   };
 }
 
@@ -164,7 +177,7 @@ function useCheckBox(defaultValue: boolean) {
 
   return {
     checked,
-    onChange,
+    onChange
   };
 }
 
@@ -178,7 +191,10 @@ export interface IUseDayPicker {
   setEntered: React.Dispatch<React.SetStateAction<Date | null>>;
 }
 
-function useDayPicker(defaultFrom: Date | null, defaultTo: Date | null): IUseDayPicker {
+function useDayPicker(
+  defaultFrom: Date | null,
+  defaultTo: Date | null
+): IUseDayPicker {
   const [from, setFrom] = useState<Date | null>(defaultFrom);
   const [entered, setEntered] = useState<Date | null>(defaultTo);
   const [to, setTo]: any = useState<Date | null>(defaultTo);
@@ -189,7 +205,7 @@ function useDayPicker(defaultFrom: Date | null, defaultTo: Date | null): IUseDay
     entered,
     setFrom,
     setTo,
-    setEntered,
+    setEntered
   };
 }
 
@@ -218,12 +234,12 @@ function useColorPicker(defaultValue: string | null): IUseColor {
     color,
     setColor,
     setDisplay,
-    display,
+    display
   };
 }
 
 // 라디오 훅
-function useRadio(defaultValue: any = '') {
+function useRadio(defaultValue: any = "") {
   const [value, setValue] = useState(defaultValue);
 
   const onChange = (value: any) => {
@@ -241,7 +257,7 @@ function useSwitch(defaultValue: boolean) {
     setChecked(value);
   };
 
-  return { checked, onChange };
+  return {checked, onChange};
 }
 
 export interface IUseSelect<V = any> {
@@ -250,14 +266,16 @@ export interface IUseSelect<V = any> {
 }
 
 // 셀렉트박스 훅
-function useSelect<V = any>(defaultValue: IselectedOption<V> | null): IUseSelect<V> {
+function useSelect<V = any>(
+  defaultValue: IselectedOption<V> | null
+): IUseSelect<V> {
   const [selectedOption, setSelectedOption] = useState(defaultValue);
 
   const onChange = (value: IselectedOption<V>) => {
     setSelectedOption(value);
   };
 
-  return { selectedOption, onChange };
+  return {selectedOption, onChange};
 }
 
 // 투글 훅
@@ -279,7 +297,10 @@ export interface IUseModal<T = any> {
 }
 
 // 모달훅
-function useModal<T = any>(defaultValue: boolean = false, defaultInfo: any = {}): IUseModal<T> {
+function useModal<T = any>(
+  defaultValue: boolean = false,
+  defaultInfo: any = {}
+): IUseModal<T> {
   const [isOpen, setIsOpen] = useState(defaultValue);
   const [info, setInfo] = useState(defaultInfo);
 
@@ -296,7 +317,7 @@ function useModal<T = any>(defaultValue: boolean = false, defaultInfo: any = {})
     isOpen,
     openModal,
     closeModal,
-    info,
+    info
   };
 }
 
@@ -312,5 +333,5 @@ export {
   useDebounce,
   useImageUploader,
   useColorPicker,
-  useDayPicker,
+  useDayPicker
 };

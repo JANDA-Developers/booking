@@ -298,6 +298,7 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
           >
             {allocateMu => (
               <AssigTimeline
+                houseId={houseId}
                 loading={loading}
                 groupData={formatedRoomData}
                 deafultGuestsData={formatedGuestsData || []}

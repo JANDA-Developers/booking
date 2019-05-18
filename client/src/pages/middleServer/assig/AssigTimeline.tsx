@@ -51,6 +51,7 @@ import MakeItemMenu from "./components/makeItemMenu";
 let MARKED = false;
 
 interface IProps {
+  houseId: string;
   defaultProps: any;
   dayPickerHook: IUseDayPicker;
   groupData: IAssigGroup[];
@@ -68,6 +69,7 @@ const ShowTimeline: React.SFC<IProps> = ({
   defaultProps,
   groupData,
   loading,
+  houseId,
   deafultGuestsData,
   defaultTimeStart,
   defaultTimeEnd,
@@ -613,7 +615,7 @@ const ShowTimeline: React.SFC<IProps> = ({
             <DateHeader />
           </TimelineHeaders>
         </Timeline>
-        <BookerModalWrap modalHook={bookerModal} />
+        <BookerModalWrap houseId={houseId} modalHook={bookerModal} />
       </div>
     </div>
   );

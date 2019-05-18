@@ -1,21 +1,43 @@
 import React from "react";
-import {Query} from "react-apollo";
+import {Query, Mutation} from "react-apollo";
 import BookerModal from "./BookerModal";
 import {IUseModal} from "../../actions/hook";
 import {
   getBooker,
   getBookerVariables,
-  getBooker_GetBooker_booker
+  getBooker_GetBooker_booker,
+  updateBooker,
+  updateBookerVariables,
+  createBookingVariables,
+  deleteBooker,
+  createBooking,
+  deleteBookerVariables
 } from "../../types/api";
-import {queryDataFormater, showError} from "../../utils/utils";
+import {
+  queryDataFormater,
+  showError,
+  onCompletedMessage
+} from "../../utils/utils";
 import {GB_booker} from "../../types/interface";
 import Preloader from "../../atoms/preloader/Preloader";
-import {GET_BOOKER} from "../../queries";
+import {
+  GET_BOOKER,
+  UPDATE_BOOKER,
+  CREATE_BOOKING,
+  DELETE_BOOKER,
+  GET_BOOKERS
+} from "../../queries";
+import {PayMethod, PaymentStatus} from "../../types/enum";
+import {getOperationName} from "apollo-utilities";
 
 interface IProps {
   modalHook: IUseModal;
+  houseId: string;
 }
-// class GetHouseQuery extends Query<getHouse, getHouseVariables> {}
+
+class UpdateBookerMu extends Mutation<updateBooker, updateBookerVariables> {}
+class CreatBookingMu extends Mutation<createBooking, createBookingVariables> {}
+class DeleteBookerMu extends Mutation<deleteBooker, deleteBookerVariables> {}
 
 class GetBookerQuery extends Query<getBooker, getBookerVariables> {}
 
@@ -25,7 +47,7 @@ class GetBookerQuery extends Query<getBooker, getBookerVariables> {}
 // 🆔 예약변경 뮤테이션
 // 🆔 예약생성 뮤테이션
 
-const BookerModalWrap: React.FC<IProps> = ({modalHook}) => (
+const BookerModalWrap: React.FC<IProps> = ({modalHook, houseId}) => (
   <GetBookerQuery
     query={GET_BOOKER}
     skip={!modalHook.info.bookerId}
@@ -49,22 +71,72 @@ const BookerModalWrap: React.FC<IProps> = ({modalHook}) => (
         createdAt: "",
         updatedAt: "",
         name: "",
-        phoneNumber: ""
+        phoneNumber: "",
+        isCheckIn: false,
+        payMethod: PayMethod.CASH,
+        paymentStatus: PaymentStatus.NOT_YET
       };
 
+      // TODO  생성일경우 Timeline으로 부터 전달받는 예약자 배정정보들
       let makeInfo: getBooker_GetBooker_booker | undefined = undefined;
       if (modalHook.info.type && modalHook.info.type === "make") {
-        console.log(modalHook.info);
-        console.log(modalHook.info);
-        console.log(modalHook.info);
       }
       return loading ? (
         <Preloader size="large" />
       ) : (
-        <BookerModal
-          bookerData={booker || defualtBooker}
-          modalHook={modalHook}
-        />
+        <UpdateBookerMu
+          mutation={UPDATE_BOOKER}
+          onError={showError}
+          onCompleted={({UpdateBooker}) => {
+            onCompletedMessage(
+              UpdateBooker,
+              "예약자 업데이트",
+              "예약자 업데이트 실패"
+            );
+          }}
+        >
+          {updateBookerMu => (
+            <CreatBookingMu
+              mutation={CREATE_BOOKING}
+              onError={showError}
+              onCompleted={({CreateBooking}) => {
+                onCompletedMessage(
+                  CreateBooking,
+                  "예약 생성 완료",
+                  "예약자 생성 실패"
+                );
+              }}
+            >
+              {createBookingMu => (
+                <DeleteBookerMu
+                  mutation={DELETE_BOOKER}
+                  onError={showError}
+                  refetchQueries={[getOperationName(GET_BOOKERS) || ""]}
+                  onCompleted={({DeleteBooker}) => {
+                    onCompletedMessage(
+                      DeleteBooker,
+                      "예약 삭제 완료",
+                      "예약 삭제 실패"
+                    );
+                    modalHook.closeModal();
+                  }}
+                >
+                  {deleteBookingMu => (
+                    <BookerModal
+                      bookerData={booker || defualtBooker}
+                      houseId={houseId}
+                      modalHook={modalHook}
+                      createBookingMu={createBookingMu}
+                      updateBookerMu={updateBookerMu}
+                      deleteBookerMu={deleteBookingMu}
+                      key={`bookerModal${modalHook.info.bookerId}`}
+                    />
+                  )}
+                </DeleteBookerMu>
+              )}
+            </CreatBookingMu>
+          )}
+        </UpdateBookerMu>
       );
     }}
   </GetBookerQuery>
