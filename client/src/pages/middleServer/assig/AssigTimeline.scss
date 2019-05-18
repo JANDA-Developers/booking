@@ -202,7 +202,14 @@ $assigItem-padding: 6px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 0px $assigItem-padding;
+            height: 100%;
+
+            .circleIcon {
+                margin: 0;
+            }
         }
+        
         &__configIconWrap {
             display: flex;
             align-items: end;
@@ -217,16 +224,9 @@ $assigItem-padding: 6px;
         // 😲 방막기일떄
         &--block {
             background-color: $html-color;
-            .block__content {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 0px 0px 0px $assigItem-padding;
-            }
             // X 버튼
             .circleIcon {
                 color:white;
-                margin: 0;
             }
         }
         // 😲 방막기 선택된
@@ -241,6 +241,27 @@ $assigItem-padding: 6px;
             box-shadow: none;
             border:none;
             background-color: $grey-level1;
+            pointer-events: none;
+        }
+        // 😲 생성
+        &--make {
+            box-shadow: none;
+            background-color: $secondary-color;
+            border-color: $secondary-color-dark;
+            color:white;
         }
     }
 }
+
+
+// 👿 여기 말풍선모양좀 달아줘
+.canvasTooltip,.makeTooltip {
+    display: none;
+    position: fixed;
+    background-color: white;
+    z-index: $z-index-3;
+    &--show {
+        display:inline-block;
+    }
+}
+

@@ -1,12 +1,16 @@
-import React from 'react';
-import { Query } from 'react-apollo';
-import BookerModal from './BookerModal';
-import { IUseModal } from '../../actions/hook';
-import { getBooker, getBookerVariables } from '../../types/api';
-import { queryDataFormater, showError } from '../../utils/utils';
-import { GB_booker } from '../../types/interface';
-import Preloader from '../../atoms/preloader/Preloader';
-import { GET_BOOKER } from '../../queries';
+import React from "react";
+import {Query} from "react-apollo";
+import BookerModal from "./BookerModal";
+import {IUseModal} from "../../actions/hook";
+import {
+  getBooker,
+  getBookerVariables,
+  getBooker_GetBooker_booker
+} from "../../types/api";
+import {queryDataFormater, showError} from "../../utils/utils";
+import {GB_booker} from "../../types/interface";
+import Preloader from "../../atoms/preloader/Preloader";
+import {GET_BOOKER} from "../../queries";
 
 interface IProps {
   modalHook: IUseModal;
@@ -21,31 +25,46 @@ class GetBookerQuery extends Query<getBooker, getBookerVariables> {}
 // 🆔 예약변경 뮤테이션
 // 🆔 예약생성 뮤테이션
 
-const BookerModalWrap: React.FC<IProps> = ({ modalHook }) => (
+const BookerModalWrap: React.FC<IProps> = ({modalHook}) => (
   <GetBookerQuery
     query={GET_BOOKER}
     skip={!modalHook.info.bookerId}
     variables={{
-      bookerId: modalHook.info.bookerId,
+      bookerId: modalHook.info.bookerId
     }}
   >
-    {({ data: bookerData, loading, error }) => {
+    {({data: bookerData, loading, error}) => {
       showError(error);
-      const booker = queryDataFormater(bookerData, 'GetBooker', 'booker', undefined);
+      const booker = queryDataFormater(
+        bookerData,
+        "GetBooker",
+        "booker",
+        undefined
+      );
       const defualtBooker: GB_booker = {
-        __typename: 'Booker',
-        _id: 'default',
+        __typename: "Booker",
+        _id: "default",
         bookings: [],
-        memo: '',
-        createdAt: '',
-        updatedAt: '',
-        name: '',
-        phoneNumber: '',
+        memo: "",
+        createdAt: "",
+        updatedAt: "",
+        name: "",
+        phoneNumber: ""
       };
+
+      let makeInfo: getBooker_GetBooker_booker | undefined = undefined;
+      if (modalHook.info.type && modalHook.info.type === "make") {
+        console.log(modalHook.info);
+        console.log(modalHook.info);
+        console.log(modalHook.info);
+      }
       return loading ? (
         <Preloader size="large" />
       ) : (
-        <BookerModal bookerData={booker || defualtBooker} modalHook={modalHook} />
+        <BookerModal
+          bookerData={booker || defualtBooker}
+          modalHook={modalHook}
+        />
       );
     }}
   </GetBookerQuery>
