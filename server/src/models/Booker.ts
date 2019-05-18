@@ -7,9 +7,14 @@ import {
     prop,
     Typegoose
 } from "typegoose";
-import { PaymentStatusEnum, PayMethodEnum } from "../types/enums";
-import { PaymentStatus, PayMethod } from "../types/graph";
-import { BookingModel } from "./Booking";
+import {
+    BookingStatusEnum,
+    GenderEnum,
+    PaymentStatusEnum,
+    PayMethodEnum
+} from "../types/enums";
+import { BookingStatus, PaymentStatus, PayMethod } from "../types/graph";
+import { GuestModel, GuestSchema } from "./Guest";
 import { RoomTypeSchema } from "./RoomType";
 
 const BCRYPT_ROUNDS = 10;
@@ -23,7 +28,7 @@ export class BookerSchema extends Typegoose {
     house: Types.ObjectId;
 
     @arrayProp({ items: Types.ObjectId })
-    bookings: Types.ObjectId[];
+    roomTypes: Types.ObjectId[];
 
     @prop({ required: [true, `Name is Missing`] })
     name: string;
@@ -37,6 +42,12 @@ export class BookerSchema extends Typegoose {
     @prop({ required: true, index: true })
     email: string;
 
+    @prop()
+    isCheckIn?: Date;
+
+    @prop()
+    memo?: string;
+
     @prop({
         validate(this: BookerSchema) {
             return this.agreePrivacyPolicy;
@@ -45,13 +56,23 @@ export class BookerSchema extends Typegoose {
     })
     agreePrivacyPolicy: boolean;
 
-    @prop()
-    isCheckIn?: Date;
+    @arrayProp({ items: Types.ObjectId, default: [] })
+    guests: Types.ObjectId[];
 
     @prop()
-    memo?: string;
+    start: Date;
 
-    @prop({ required: true, enum: PayMethodEnum, default: PayMethodEnum.CASH })
+    @prop()
+    end: Date;
+
+    @prop()
+    price: number;
+
+    @prop({
+        required: true,
+        enum: PayMethodEnum,
+        default: PayMethodEnum.CASH
+    })
     payMethod: PayMethod;
 
     @prop({
@@ -60,6 +81,9 @@ export class BookerSchema extends Typegoose {
         default: PaymentStatusEnum.NOT_YET
     })
     paymentStatus: PaymentStatus;
+
+    @prop({ enum: BookingStatusEnum, default: BookingStatusEnum.COMPLETE })
+    bookingStatus: BookingStatus;
 
     @prop()
     createdAt: Date;
@@ -86,40 +110,57 @@ export class BookerSchema extends Typegoose {
         }
     }
 
+    /**
+     * booker와 연동할 게스트 생성
+     * @param dateRange
+     * @param gender
+     * @param roomTypeInstance
+     * @param allocatedRoom
+     * @param bedIndex
+     * @param isUnsettled
+     */
     @instanceMethod
-    async createBookingInstance(
+    async createGuest(
         this: InstanceType<BookerSchema>,
-        args: {
-            start: Date;
-            end: Date;
-            roomTypeInstance: InstanceType<RoomTypeSchema>;
-            price: number;
-            discountedPrice: number | null;
-        },
-        opt: {
-            withSave: boolean;
-        } = { withSave: true }
-    ) {
-        const booking = new BookingModel({
-            house: new Types.ObjectId(args.roomTypeInstance.house),
+        dateRange: { start: Date; end: Date },
+        gender: GenderEnum | null,
+        roomTypeInstance: InstanceType<RoomTypeSchema>,
+        allocatedRoom: Types.ObjectId,
+        bedIndex: number,
+        isUnsettled: boolean = false
+    ): Promise<InstanceType<GuestSchema>> {
+        const { start, end } = dateRange;
+        const guestInstance = new GuestModel({
             booker: new Types.ObjectId(this._id),
-            roomType: new Types.ObjectId(args.roomTypeInstance._id),
-            pricingType: args.roomTypeInstance.pricingType,
-            start: args.start,
-            end: args.end,
             name: this.name,
-            price: args.price,
-            discountedPrice: args.discountedPrice
+            roomType: new Types.ObjectId(roomTypeInstance._id),
+            pricingType: roomTypeInstance.pricingType,
+            gender,
+            allocatedRoom,
+            bedIndex,
+            isUnsettled,
+            start,
+            end
         });
-        if (opt.withSave) {
-            await this.update({
-                $push: {
-                    bookings: new Types.ObjectId(booking._id)
-                }
-            });
-            return await booking.save();
-        }
-        return booking;
+        return guestInstance;
+    }
+
+    /**
+     * Booker.guests 배열에 게스트들을 push함
+     * @param guestInstances 연결할 게스트 인스턴스 목록
+     */
+    @instanceMethod
+    async pushGuests(
+        this: InstanceType<BookerSchema>,
+        guestInstances: Array<InstanceType<GuestSchema>>
+    ) {
+        this.guests = [
+            ...this.guests,
+            ...guestInstances.map(
+                guestInstance => new Types.ObjectId(guestInstance._id)
+            )
+        ];
+        await this.save();
     }
 }
 

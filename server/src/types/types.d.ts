@@ -30,13 +30,3 @@ export type GuestInputType = {
     end: Date;
     pricingType: PricingType;
 };
-
-export type DayOfWeekPriceType = {
-    price: number;
-    applyDays: string;
-};
-
-export type RoomCapacityWithRoomId = {
-    roomId: Types.ObjectId;
-    roomCapacity: RoomCapacity;
-};

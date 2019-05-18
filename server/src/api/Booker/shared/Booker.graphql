@@ -1,18 +1,30 @@
 type Booker {
     _id: ID!
     house: House!
-    bookings: [Booking!]
+    roomTypes: [RoomType!]
     name: Name!
     password: String
     phoneNumber: PhoneNumber!
     email: EmailAddress
-    agreePrivacyPolicy: Boolean!
     isCheckIn: DateTime
     memo: String
+    agreePrivacyPolicy: Boolean!
+    guests: [Guest!]
+    start: DateTime!
+    end: DateTime!
+    price: Float
     payMethod: PayMethod!
     paymentStatus: PaymentStatus!
+    bookingStatus: BookingStatus!
     createdAt: DateTime!
     updatedAt: DateTime
+}
+
+enum BookingStatus {
+    # 예약 완료
+    COMPLETE
+    # 예약 취소
+    CANCEL
 }
 
 enum PayMethod {
@@ -28,11 +40,36 @@ enum PaymentStatus {
 
 input BookerInput {
     house: ID!
-    booking: ID
     name: Name!
     password: String!
     phoneNumber: PhoneNumber!
     email: EmailAddress
     agreePrivacyPolicy: Boolean!
     memo: String
+}
+
+input GuestPartInput {
+    roomTypeId: ID!
+    price: Float!
+    discountedPrice: Float
+    pricingType: PricingType!
+    countFemaleGuest: Int!
+    countMaleGuest: Int!
+    countRoom: Int!
+}
+
+input BookingSortInput {
+    key: BookingSortKeyEnum!
+    order: Int!
+}
+
+input BookingFilter {
+    roomTypeId: ID!
+    booker: ID!
+}
+
+enum BookingSortKeyEnum {
+    _id
+    updatedAt
+    createdAt
 }

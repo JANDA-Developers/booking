@@ -27,12 +27,10 @@ const resolvers: Resolvers = {
                         roomCapacity: null
                     };
                 }
-                const roomCapacity = await roomType.getCapacityForDomitory(
-                    start,
-                    end,
-                    gender,
-                    paddingOtherGenderCount
-                );
+                const roomCapacity = await roomType.getCapacity(start, end, {
+                    female: gender !== "FEMALE" ? paddingOtherGenderCount : 0,
+                    male: gender !== "MALE" ? paddingOtherGenderCount : 0
+                });
                 return {
                     ok: true,
                     error: null,

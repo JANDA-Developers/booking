@@ -1,9 +1,0 @@
-type Query {
-    GetBookings(page: Int!, count: Int!, houseId: ID!): GetBookingsResponse!
-}
-type GetBookingsResponse {
-    ok: Boolean!
-    error: String
-    bookings: [Booking!]
-    pageInfo: PageInfoOffsetBase
-}

@@ -4,12 +4,12 @@ type CreateBookerResponse {
     booker: Booker
 }
 type Mutation {
-    CreateBooker(
-        houseId: ID!
-        name: Name!
-        password: Password!
-        phoneNumber: PhoneNumber!
-        email: EmailAddress
-        agreePrivacyPolicy: Boolean!
-    ): CreateBookerResponse!
+    CreateBooker(bookingParams: CreateBookerParams!): CreateBookerResponse!
+}
+
+input CreateBookerParams {
+    booker: BookerInput!
+    start: DateTime!
+    end: DateTime!
+    guestInputs: [GuestPartInput!]!
 }

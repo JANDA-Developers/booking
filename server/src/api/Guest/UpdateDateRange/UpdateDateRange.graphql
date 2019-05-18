@@ -1,0 +1,11 @@
+type UpdateDateRangeResponse {
+    ok: Boolean!
+    error: String
+    booker: Booker
+}
+type Mutation {
+    UpdateDateRange(
+        bookingId: ID!
+        dateRange: DateRangeInput!
+    ): UpdateDateRangeResponse!
+}
