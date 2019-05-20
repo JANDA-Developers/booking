@@ -14,11 +14,17 @@ type Room {
 }
 
 type RoomCapacity {
+    # 방 타입 ID
     roomId: ID!
+    # 방 성별
     roomGender: RoomGender!
+    # 배정할 수 있는 게스트 Gender 배열
     availableGenders: [Gender!]
+    # 배정 가능 인원 수
     availableCount: Int!
+    # 설정된 배정 기준인원
     peopleCount: Int!
+    # 빈 배드 목록 배열
     emptyBeds: [Int!]!
 }
 
