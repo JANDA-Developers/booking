@@ -10,6 +10,7 @@ type Booker {
     memo: String
     agreePrivacyPolicy: Boolean!
     guests: [Guest!]
+    guestCount: Int!
     start: DateTime!
     end: DateTime!
     price: Float
