@@ -22,7 +22,7 @@ const resolvers: Resolvers = {
                             guests: []
                         };
                     }
-                    const booker = await BookerModel.find({
+                    const bookers = await BookerModel.find({
                         house: new Types.ObjectId(houseId),
                         start: {
                             $lte: new Date(end)
@@ -31,16 +31,23 @@ const resolvers: Resolvers = {
                             $gte: new Date(start)
                         }
                     });
-                    if (booker.length === 0) {
+                    if (bookers.length === 0) {
                         return {
                             ok: true,
                             error: null,
                             guests: []
                         };
                     }
-                    const guestIds = booker
-                        .map(booking => {
-                            return booking.guests;
+                    if (bookers.length === 0) {
+                        return {
+                            ok: true,
+                            error: null,
+                            guests: []
+                        };
+                    }
+                    const guestIds = bookers
+                        .map(booker => {
+                            return booker.guests;
                         })
                         .reduce((guestIds1, guestIds2) =>
                             guestIds1.concat(guestIds2)
