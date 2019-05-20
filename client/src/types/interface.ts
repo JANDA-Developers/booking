@@ -4,7 +4,6 @@ import {
   getHouse_GetHouse_house_product,
   getAllRoomType_GetAllRoomType_roomTypes as getAllRoomType_GetAllRoomType_roomType,
   getBookers_GetBookers_bookers,
-  getBookers_GetBookers_bookers_bookings,
   getAllRoomTypeWithGuest_GetGuests_guests,
   getAllSeason_GetAllSeason_seasons,
   getAllSeasonTable_GetAllRoomType_roomTypes,
@@ -23,7 +22,6 @@ export interface IHouse extends getHouse_GetHouse_house {}
 export interface IDiv extends React.HTMLAttributes<HTMLDivElement> {}
 export interface IRoomType extends getAllRoomType_GetAllRoomType_roomType {}
 export interface IBooker extends getBookers_GetBookers_bookers {}
-export interface IBooking extends getBookers_GetBookers_bookers_bookings {}
 export interface IGuests extends getAllRoomTypeWithGuest_GetGuests_guests {}
 export interface ISeason extends getAllSeason_GetAllSeason_seasons {}
 export interface IPageInfo {

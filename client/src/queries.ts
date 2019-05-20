@@ -145,7 +145,6 @@ const F_ROOM_CAPACITY = gql`
     }
   }
   ${F_AVAILABLE_PEOPLE_COUNT}
-  ${F_ROOM}
 `;
 // 유저 기본정보 빼오기
 const F_USER_INFO = gql`
@@ -394,11 +393,14 @@ export const GetGuests = gql`
       ok
       error
       guests {
-        ...Fguest
+        roomType {
+          _id
+        }
         booker {
           _id
           isCheckIn
         }
+        ...Fguest
       }
     }
   }
@@ -513,10 +515,13 @@ export const GET_ALL_ROOMTYPES_WITH_GUESTS = gql`
         allocatedRoom {
           ...Froom
         }
+        booker {
+          _id
+          isCheckIn
+        }
       }
     }
   }
-  ${F_ROOM}
   ${F_GUEST}
   ${F_MINI_ROOM_TYPE}
 `;
@@ -581,7 +586,6 @@ export const GET_BOOKERS = gql`
     }
   }
   ${F_MINI_ROOM_TYPE}
-  ${F_GUEST}
   ${F_BOOKER}
   ${F_PAGE_INFO}
 `;
@@ -596,6 +600,9 @@ export const GET_BOOKER = gql`
         guests {
           _id
           gender
+          roomType {
+            _id
+          }
         }
         price
         roomTypes {

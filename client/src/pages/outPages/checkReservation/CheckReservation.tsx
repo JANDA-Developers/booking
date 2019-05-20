@@ -1,43 +1,50 @@
-import React from 'react';
-import { WindowSizeProps } from 'react-window-size';
-import { ReactTableDefaults } from 'react-table';
-import { MutationFn } from 'react-apollo';
-import ErrProtecter from '../../../utils/errProtect';
-import './CheckReservation.scss';
+import React from "react";
+import {WindowSizeProps} from "react-window-size";
+import {ReactTableDefaults} from "react-table";
+import {MutationFn} from "react-apollo";
+import ErrProtecter from "../../../utils/errProtect";
+import "./CheckReservation.scss";
 import {
-  createBooking, createBookingVariables, GuestPartInput, BookerInput,
-} from '../../../types/api';
-import InputText from '../../../atoms/forms/inputText/InputText';
-import Button from '../../../atoms/button/Button';
-import JDtable from '../../../atoms/table/Table';
+  GuestPartInput,
+  BookerInput,
+  createBooker,
+  createBookerVariables
+} from "../../../types/api";
+import InputText from "../../../atoms/forms/inputText/InputText";
+import Button from "../../../atoms/button/Button";
+import JDtable from "../../../atoms/table/Table";
 
-export interface ISetBookerInfo extends React.Dispatch<React.SetStateAction<BookerInput>> {}
+export interface ISetBookerInfo
+  extends React.Dispatch<React.SetStateAction<BookerInput>> {}
 
 interface IProps extends WindowSizeProps {
-  createBookingMu: MutationFn<createBooking, createBookingVariables>;
+  createBookingMu: MutationFn<createBooker, createBookerVariables>;
   houseId: string;
 }
 
 const SetPrice: React.SFC<IProps | any> = ({
-  windowWidth, windowHeight, createBookingMu, houseId,
+  windowWidth,
+  windowHeight,
+  createBookingMu,
+  houseId
 }) => {
   const TableColumns = [
     {
-      Header: '숙박일',
-      accessor: 'day',
+      Header: "숙박일",
+      accessor: "day"
     },
     {
-      Header: '객실/인원',
-      accessor: 'person',
+      Header: "객실/인원",
+      accessor: "person"
     },
     {
-      Header: '이용금액',
-      accessor: 'price',
+      Header: "이용금액",
+      accessor: "price"
     },
     {
-      Header: '상태',
-      accessor: 'statue',
-    },
+      Header: "상태",
+      accessor: "statue"
+    }
   ];
 
   return (

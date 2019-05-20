@@ -143,7 +143,7 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
 
       if (
         guestData &&
-        guestData.booking &&
+        guestData.booker &&
         guestData.roomType &&
         guestData.allocatedRoom
       ) {
@@ -151,8 +151,8 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
           id: guestData._id,
           guestIndex: index,
           name: guestData.name,
-          bookerId: guestData.booking.booker._id,
-          isCheckin: guestData.booking.booker.isCheckIn,
+          bookerId: guestData.booker._id,
+          isCheckin: guestData.booker.isCheckIn,
           gender: guestData.gender,
           roomTypeId: guestData.roomType._id,
           roomId: guestData.allocatedRoom._id,

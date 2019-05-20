@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, Fragment} from "react";
 import {CellInfo} from "react-table";
 import selectTableHOC, {
   SelectInputComponentProps,
@@ -11,7 +11,7 @@ import Button from "../../../atoms/button/Button";
 import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
 import {useModal} from "../../../actions/hook";
 import BookerModalWrap from "../../../components/bookerInfo/BookerModalWrap";
-import {IPageInfo, IBooker, IBooking} from "../../../types/interface";
+import {IPageInfo, IBooker, IRoomType} from "../../../types/interface";
 import JDbox from "../../../atoms/box/JDbox";
 import {arraySum} from "../../../utils/elses";
 import {setYYYYMMDD} from "../../../utils/setMidNight";
@@ -23,7 +23,8 @@ import {
   updateBooker
 } from "../../../types/api";
 import {JDtoastModal} from "../../../atoms/modal/Modal";
-import {PaymentStatus} from "../../../types/enum";
+import {PaymentStatus, PricingType} from "../../../types/enum";
+import {bookingGuestsMerge} from "../../../utils/booking";
 
 interface IProps {
   pageInfo: IPageInfo | undefined;
@@ -118,31 +119,48 @@ const ResvList: React.SFC<IProps> = ({
     },
     {
       Header: "숙박정보",
-      accessor: "bookings",
-      Cell: ({value}: CellInfo) => {
-        const bookings: IBooking[] = value;
-        return bookings.map((booking: IBooking) => (
+      accessor: "roomTypes",
+      Cell: ({value, original}: CellInfo) => {
+        const roomTypes: IRoomType[] = value;
+        return roomTypes.map(roomType => (
           <JDbox>
-            {booking.roomType.name}
+            {roomType.name}
             <br />
-            {/* 🚩인원곧 받음 */}
+            <span>
+              {(() => {
+                const guestsCount = bookingGuestsMerge(
+                  original.guests,
+                  roomType._id
+                );
+                return (
+                  <span>
+                    {roomType.pricingType === PricingType.DOMITORY ? (
+                      <Fragment>
+                        <span>{guestsCount.female}여</span>
+                        <span>{guestsCount.male}남</span>
+                      </Fragment>
+                    ) : (
+                      <span>{guestsCount.count}개</span>
+                    )}
+                  </span>
+                );
+              })()}
+            </span>
+            }
           </JDbox>
         ));
       }
     },
     {
       Header: "숙박일자",
-      accessor: "bookings",
-      Cell: ({value}: CellInfo) => {
-        const bookings: IBooking[] = value;
-        return (
-          <div>
-            {setYYYYMMDD(bookings[0].start)}
-            <br />
-            {setYYYYMMDD(bookings[0].end)}
-          </div>
-        );
-      }
+      accessor: "booker",
+      Cell: ({value}: CellInfo) => (
+        <div>
+          {setYYYYMMDD(value.start)}
+          <br />
+          {setYYYYMMDD(value.end)}
+        </div>
+      )
     },
     {
       Header: () => (
@@ -172,21 +190,8 @@ const ResvList: React.SFC<IProps> = ({
           {"결제상태"}
         </div>
       ),
-      accessor: "bookings",
-      Cell: ({original}: CellInfo) => {
-        const booker: IBooker = original;
-        return (
-          <div>
-            {arraySum(
-              booker.bookings
-                ? booker.bookings.map(booking => booking.price)
-                : [0]
-            )}
-            <br />
-            {/* 🚩 곧 가격 관련 들어올것 */}
-          </div>
-        );
-      }
+      accessor: "booker",
+      Cell: ({value}: CellInfo) => <div>{value.price}</div>
     },
     {
       Header: "메모",

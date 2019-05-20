@@ -1,52 +1,59 @@
-import React, { useState, Fragment } from 'react';
-import windowSize, { WindowSizeProps } from 'react-window-size';
-import { MutationFn, Query } from 'react-apollo';
-import ErrProtecter from '../../../utils/errProtect';
-import JDdayPicker from '../../../atoms/dayPicker/DayPicker';
-import { useDayPicker, useModal } from '../../../actions/hook';
-import './Reservation.scss';
-import Button from '../../../atoms/button/Button';
-import Card from '../../../atoms/cards/Card';
+import React, {useState, Fragment} from "react";
+import windowSize, {WindowSizeProps} from "react-window-size";
+import {MutationFn, Query} from "react-apollo";
+import ErrProtecter from "../../../utils/errProtect";
+import JDdayPicker from "../../../atoms/dayPicker/DayPicker";
+import {useDayPicker, useModal} from "../../../actions/hook";
+import "./Reservation.scss";
+import Button from "../../../atoms/button/Button";
+import Card from "../../../atoms/cards/Card";
 import {
-  createBooking,
-  createBookingVariables,
   GuestPartInput,
-  BookerInput,
-  BookingInput,
+  CreateBookerParams,
   getAllRoomType,
   getAllRoomTypeVariables,
-} from '../../../types/api';
-import RoomSelectInfo from '../components/roomSelectInfo';
-import PayMentModal from '../components/paymentModal';
-import RoomTypeCardsWrap from '../components/roomTypeCards/roomTypeCardsWrap';
-import { isEmpty, showError, queryDataFormater } from '../../../utils/utils';
-import { isName, isPhone } from '../../../utils/inputValidations';
-import { JDtoastModal } from '../../../atoms/modal/Modal';
-import { IRoomType } from '../../../types/interface';
-import { WindowSize } from '../../../types/enum';
-import { setYYYYMMDD } from '../../../utils/setMidNight';
-import { GET_ALL_ROOMTYPES } from '../../../queries';
-import Preloader from '../../../atoms/preloader/Preloader';
+  createBooker,
+  BookerInput,
+  createBookerVariables
+} from "../../../types/api";
+import RoomSelectInfo from "../components/roomSelectInfo";
+import PayMentModal from "../components/paymentModal";
+import RoomTypeCardsWrap from "../components/roomTypeCards/roomTypeCardsWrap";
+import {isEmpty, showError, queryDataFormater} from "../../../utils/utils";
+import {isName, isPhone} from "../../../utils/inputValidations";
+import {JDtoastModal} from "../../../atoms/modal/Modal";
+import {IRoomType} from "../../../types/interface";
+import {WindowSize} from "../../../types/enum";
+import {setYYYYMMDD} from "../../../utils/setMidNight";
+import {GET_ALL_ROOMTYPES} from "../../../queries";
+import Preloader from "../../../atoms/preloader/Preloader";
 
-class GetAllAvailRoomQu extends Query<getAllRoomType, getAllRoomTypeVariables> {}
-export interface ISetBookerInfo extends React.Dispatch<React.SetStateAction<BookerInput>> {}
+class GetAllAvailRoomQu extends Query<
+  getAllRoomType,
+  getAllRoomTypeVariables
+> {}
+export interface ISetBookerInfo
+  extends React.Dispatch<React.SetStateAction<BookerInput>> {}
 
 interface IProps {
-  createBookingMu: MutationFn<createBooking, createBookingVariables>;
+  createBookingMu: MutationFn<createBooker, createBookerVariables>;
   houseId: string;
 }
 
 const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
-  windowWidth, windowHeight, createBookingMu, houseId,
+  windowWidth,
+  windowHeight,
+  createBookingMu,
+  houseId
 }) => {
   const defaultBookerInfo = {
     house: houseId,
-    name: '',
-    password: '',
-    memo: '',
-    email: 'colton950901@naver.com',
-    phoneNumber: '',
-    agreePrivacyPolicy: false,
+    name: "",
+    password: "",
+    memo: "",
+    email: "colton950901@naver.com",
+    phoneNumber: "",
+    agreePrivacyPolicy: false
   };
   const dayPickerHook = useDayPicker(null, null);
   const [resvRooms, setResvRooms] = useState<GuestPartInput[]>([]);
@@ -58,7 +65,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
 
   const resvInfoValidation = () => {
     if (isEmpty(resvRooms)) {
-      toastModalHook.openModal('선택된방이 없습니다.');
+      toastModalHook.openModal("선택된방이 없습니다.");
       return false;
     }
     return true;
@@ -66,42 +73,44 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
 
   const bookerInfoValidation = (): boolean => {
     if (isName(bookerInfo.name) !== true) {
-      toastModalHook.openModal('올바른 이름이 아닙니다.');
+      toastModalHook.openModal("올바른 이름이 아닙니다.");
       return false;
     }
     if (isPhone(bookerInfo.phoneNumber) !== true) {
-      toastModalHook.openModal('올바른 핸드폰번호가 아닙니다.');
+      toastModalHook.openModal("올바른 핸드폰번호가 아닙니다.");
       return false;
     }
-    if (bookerInfo.password === '') {
-      toastModalHook.openModal('비밀번호를 입력해주세요.');
+    if (bookerInfo.password === "") {
+      toastModalHook.openModal("비밀번호를 입력해주세요.");
       return false;
     }
     if (bookerInfo.agreePrivacyPolicy === false) {
-      toastModalHook.openModal('개인정보 수집에 동의해주세요.');
+      toastModalHook.openModal("개인정보 수집에 동의해주세요.");
       return false;
     }
     return true;
   };
 
   const roomCardMessage = (() => {
-    if (!dayPickerHook.from) return '달력에서 날자를 선택해주세요.';
-    if (dayPickerHook.from && !dayPickerHook.to) return '체크아웃 날자를 선택해주세요.';
-    if (dayPickerHook.from && dayPickerHook.to) return '해당날자에 예약가능한 방이 없습니다.';
-    return '';
+    if (!dayPickerHook.from) return "달력에서 날자를 선택해주세요.";
+    if (dayPickerHook.from && !dayPickerHook.to)
+      return "체크아웃 날자를 선택해주세요.";
+    if (dayPickerHook.from && dayPickerHook.to)
+      return "해당날자에 예약가능한 방이 없습니다.";
+    return "";
   })();
 
-  const bookingParams: BookingInput = {
+  const bookingParams: CreateBookerParams = {
     booker: bookerInfo,
     start: setYYYYMMDD(dayPickerHook.from),
     end: setYYYYMMDD(dayPickerHook.to),
-    guestInputs: resvRooms,
+    guestInputs: resvRooms
   };
 
   const bookingCompleteFn = () => {
     if (bookerInfoValidation()) {
       createBookingMu({
-        variables: { bookingParams },
+        variables: {bookingParams}
       });
     }
   };
@@ -119,7 +128,10 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
           <Card className="JDreservation__card JDreservation__dayPickerCard">
             <h6 className="JDreservation__sectionTitle">① 예약날자 선택</h6>
             {/* TODO: change 될때마다 resvRooms를 초기화 해주어야함 */}
-            <JDdayPicker {...dayPickerHook} horizen={windowWidth < WindowSize.PHABLET} />
+            <JDdayPicker
+              {...dayPickerHook}
+              horizen={windowWidth < WindowSize.PHABLET}
+            />
           </Card>
         </div>
         <div className="flex-grid__col col--full-8 col--lg-7 col--wmd-12">
@@ -129,12 +141,17 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
 
             <GetAllAvailRoomQu
               skip={!dayPickerHook.from || !dayPickerHook.to}
-              variables={{ houseId }}
+              variables={{houseId}}
               query={GET_ALL_ROOMTYPES}
             >
-              {({ data: roomTypeData, loading: roomLoading, error }) => {
+              {({data: roomTypeData, loading: roomLoading, error}) => {
                 showError(error);
-                const roomTypes = queryDataFormater(roomTypeData, 'GetAllRoomType', 'roomTypes', undefined);
+                const roomTypes = queryDataFormater(
+                  roomTypeData,
+                  "GetAllRoomType",
+                  "roomTypes",
+                  undefined
+                );
                 return !isEmpty(roomTypes) ? (
                   roomTypes.map(roomType => (
                     <RoomTypeCardsWrap
@@ -151,7 +168,9 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
                 ) : (
                   <Fragment>
                     {roomLoading && <Preloader />}
-                    {roomLoading || <h6 className="JDtext-align-center">{roomCardMessage}</h6>}
+                    {roomLoading || (
+                      <h6 className="JDtext-align-center">{roomCardMessage}</h6>
+                    )}
                   </Fragment>
                 );
               }}

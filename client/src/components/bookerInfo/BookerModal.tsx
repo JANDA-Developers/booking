@@ -36,6 +36,7 @@ import {
   createBookerVariables
 } from "../../types/api";
 import {GET_ALL_ROOMTYPES_WITH_GUESTS} from "../../queries";
+import {IAssigInfo} from "../../pages/middleServer/assig/components/makeItemMenu";
 
 export interface IroomSelectInfoTable {
   roomTypeId: string;
@@ -50,6 +51,7 @@ interface IProps {
   createBookingMu: MutationFn<createBooker, createBookerVariables>;
   updateBookerMu: MutationFn<updateBooker, updateBookerVariables>;
   deleteBookerMu: MutationFn<deleteBooker, deleteBookerVariables>;
+  assigInfo: IAssigInfo;
   houseId: string;
 }
 
@@ -59,6 +61,7 @@ const POPbookerInfo: React.FC<IProps> = ({
   updateBookerMu,
   createBookingMu,
   deleteBookerMu,
+  assigInfo,
   houseId
 }) => {
   // ❓ State들을 합치는게 좋을까?
@@ -91,8 +94,14 @@ const POPbookerInfo: React.FC<IProps> = ({
     roomTypeId: roomType._id,
     roomTypeName: roomType.name,
     count: {
-      male: bookingGuestsMerge(bookerData.guests, roomType._id).male,
-      female: bookingGuestsMerge(bookerData.guests, roomType._id).female,
+      male: bookingGuestsMerge(
+        bookerData.guests,
+        roomType ? roomType._id : undefined
+      ).male,
+      female: bookingGuestsMerge(
+        bookerData.guests,
+        roomType ? roomType._id : undefined
+      ).female,
       roomCount: bookerData.guests ? bookerData.guests.length : 0
     },
     pricingType: roomType.pricingType
@@ -114,21 +123,24 @@ const POPbookerInfo: React.FC<IProps> = ({
   };
   // 예약생성
   const handleCreateBtnClick = () => {
-    // createBookingMu({
-    //   variables: {
-    //     booker: {
-    //       name: bookerNameHook.value,
-    //       password: "admin",
-    //       phoneNumber: bookerPhoneHook.value,
-    //       email: "demo@naver.com",
-    //       agreePrivacyPolicy: true,
-    //       memo: memoHook.value
-    //     },
-    //     start: resvDateHook.from,
-    //     end: resvDateHook.to,
-    //     guestInputs: []
-    //   }
-    // });
+    createBookingMu({
+      variables: {
+        bookingParams: {
+          start: resvDateHook.from,
+          booker: {
+            house: houseId,
+            name: bookerNameHook.value,
+            password: "admin",
+            phoneNumber: bookerPhoneHook.value,
+            email: "demo@naver.com",
+            agreePrivacyPolicy: true,
+            memo: memoHook.value
+          },
+          end: resvDateHook.to,
+          guestInputs: []
+        }
+      }
+    });
   };
 
   // 예약수정

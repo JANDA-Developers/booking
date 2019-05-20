@@ -1,18 +1,31 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { Fragment, useState, useEffect } from 'react';
-import { Mutation, Query } from 'react-apollo';
-import RoomTypeCard from './roomTypeCard';
+import React, {Fragment, useState, useEffect} from "react";
+import {Mutation, Query} from "react-apollo";
+import RoomTypeCard from "./roomTypeCard";
 import {
-  ErrProtecter, queryDataFormater, showError, isEmpty,
-} from '../../../../utils/utils';
-import { GuestPartInput, getAvailableGuestCount, getAvailableGuestCountVariables } from '../../../../types/api';
-import { GET_ALL_ROOMTYPES, GET_AVAILABLE_GUEST_COUNT } from '../../../../queries';
-import { IUseModal, IUseDayPicker, useSelect } from '../../../../actions/hook';
-import { setYYYYMMDD } from '../../../../utils/setMidNight';
-import { IRoomType } from '../../../../types/interface';
+  ErrProtecter,
+  queryDataFormater,
+  showError,
+  isEmpty
+} from "../../../../utils/utils";
+import {
+  GuestPartInput,
+  getAvailableGuestCount,
+  getAvailableGuestCountVariables
+} from "../../../../types/api";
+import {
+  GET_ALL_ROOMTYPES,
+  GET_AVAILABLE_GUEST_COUNT
+} from "../../../../queries";
+import {IUseModal, IUseDayPicker, useSelect} from "../../../../actions/hook";
+import {setYYYYMMDD} from "../../../../utils/setMidNight";
+import {IRoomType} from "../../../../types/interface";
 
-class GetAvailGuestCountQu extends Query<getAvailableGuestCount, getAvailableGuestCountVariables> {}
+class GetAvailGuestCountQu extends Query<
+  getAvailableGuestCount,
+  getAvailableGuestCountVariables
+> {}
 
 export interface IGuestCount {
   male: number;
@@ -40,12 +53,12 @@ const RoomTypeCardsWrap: React.SFC<IProps> = ({
   windowWidth,
   toastModalHook,
   dayPickerHook,
-  roomTypeData,
+  roomTypeData
 }) => {
   const [guestCountValue, setGuestCount] = useState<IGuestCount>({
     male: 0,
     female: 0,
-    room: 0,
+    room: 0
   });
 
   return (
@@ -58,20 +71,33 @@ const RoomTypeCardsWrap: React.SFC<IProps> = ({
         end: setYYYYMMDD(dayPickerHook.to),
         femalePadding: guestCountValue.female,
         malePadding: guestCountValue.male,
-        roomTypeId: roomTypeData._id,
+        roomTypeId: roomTypeData._id
       }}
     >
-      {({ data: availableData, loading: countLoading, error }) => {
+      {({data: roomCapacity, loading: countLoading, error}) => {
         showError(error);
 
-        console.log('availableData');
-        console.log(availableData);
-        const maleCount = queryDataFormater(availableData, 'GetMale', 'roomCapacity', undefined);
-        const femaleCount = queryDataFormater(availableData, 'GetFemale', 'roomCapacity', undefined);
+        const maleCount = queryDataFormater(
+          roomCapacity,
+          "GetMale",
+          "roomCapacity",
+          undefined
+        );
+        const femaleCount = queryDataFormater(
+          roomCapacity,
+          "GetFemale",
+          "roomCapacity",
+          undefined
+        );
         const availableCount = {
           maleCount,
-          femaleCount,
+          femaleCount
         };
+
+        console.log("availableCount");
+        console.log(availableCount);
+        console.log(availableCount);
+
         return (
           <RoomTypeCard
             resvRooms={resvRooms}

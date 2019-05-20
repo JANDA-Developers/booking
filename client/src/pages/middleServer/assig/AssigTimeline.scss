@@ -12,6 +12,16 @@ $assigItem-padding: 6px;
 
 #AssigTimeline {
 
+
+    .assigTimeline__placeHolderWrap {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;        
+    }
+    .assigTimeline__placeHolder {
+        position:absolute;
+    }
     .rct-horizontal-lines {
         & > div:last-child {
             border-bottom:none;

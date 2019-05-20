@@ -569,7 +569,7 @@ const ShowTimeline: React.SFC<IProps> = ({
   };
 
   return (
-    <div id="AssigTimeline" className="container container--full">
+    <div id="AssigTimeline" className="assigTimeline container container--full">
       <div className="docs-section">
         <h3>
           {"방배정"}
@@ -639,8 +639,19 @@ const ShowTimeline: React.SFC<IProps> = ({
             <DateHeader />
           </TimelineHeaders>
         </Timeline>
-        <BookerModalWrap houseId={houseId} modalHook={bookerModal} />
+        {groupData.length === 0 && (
+          <div className="assigTimeline__placeHolderWrap">
+            <Link to="/middleServer/timelineConfig">
+              <JDIcon
+                className="assigTimeline__placeHolder"
+                size={IconSize.LARGE}
+                icon="addCircle"
+              />
+            </Link>
+          </div>
+        )}
       </div>
+      <BookerModalWrap houseId={houseId} modalHook={bookerModal} />
     </div>
   );
 };

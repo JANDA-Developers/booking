@@ -1382,6 +1382,22 @@
             "deprecationReason": null
           },
           {
+            "name": "guestCount",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "start",
             "description": "",
             "args": [],
@@ -3495,6 +3511,22 @@
             "deprecationReason": null
           },
           {
+            "name": "booker",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Booker",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "name",
             "description": "",
             "args": [],
@@ -3619,11 +3651,11 @@
       {
         "kind": "OBJECT",
         "name": "IsSettleable",
-        "description": "",
+        "description": "배정 가능여부",
         "fields": [
           {
             "name": "flag",
-            "description": "",
+            "description": "배정 가능 flag",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -3639,7 +3671,7 @@
           },
           {
             "name": "duplicateDates",
-            "description": "",
+            "description": "배정 불가일때 겹치는 날짜범위들 배열",
             "args": [],
             "type": {
               "kind": "LIST",
