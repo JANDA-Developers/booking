@@ -467,32 +467,39 @@ export const extractGenderRoomCapacity = (
 export const getEmptyCount = (
     roomCapacityList: RoomCapacity[],
     pricingType: PricingType
-): AvailablePeopleCount =>
-    roomCapacityList
-        .map(capacity => {
-            const count = capacity.availableCount;
-            const temp: AvailablePeopleCount = {
-                countAny: 0,
-                countFemale: 0,
-                countMale: 0
-            };
-            if (pricingType === "DOMITORY") {
-                capacity.availableGenders.forEach(gender => {
-                    if (gender === "FEMALE") {
-                        temp.countFemale += count;
-                    } else if (gender === "MALE") {
-                        temp.countMale += count;
-                    }
-                });
-            } else if (pricingType === "ROOM") {
-                temp.countAny = count;
-            }
-            return temp;
-        })
-        .reduce((a, b) => {
+): AvailablePeopleCount => {
+    const temp = roomCapacityList.map(capacity => {
+        const count = capacity.availableCount;
+        const availables: AvailablePeopleCount = {
+            countAny: 0,
+            countFemale: 0,
+            countMale: 0
+        };
+        if (pricingType === "DOMITORY") {
+            capacity.availableGenders.forEach(gender => {
+                if (gender === "FEMALE") {
+                    availables.countFemale += count;
+                } else if (gender === "MALE") {
+                    availables.countMale += count;
+                }
+            });
+        } else if (pricingType === "ROOM") {
+            availables.countAny = count;
+        }
+        return availables;
+    });
+    if (temp.length !== 0) {
+        return temp.reduce((a, b) => {
             return {
                 countAny: a.countAny + b.countAny,
                 countFemale: a.countFemale + b.countFemale,
                 countMale: a.countMale + b.countMale
             };
         });
+    }
+    return {
+        countAny: 0,
+        countFemale: 0,
+        countMale: 0
+    };
+};

@@ -1,3 +1,5 @@
+import { Types } from "mongoose";
+import { BookerModel } from "../../../models/Booker";
 import { HouseModel } from "../../../models/House";
 import { transformGuests } from "../../../models/merge/merge";
 import { GetGuestsQueryArgs, GetGuestsResponse } from "../../../types/graph";
@@ -20,33 +22,36 @@ const resolvers: Resolvers = {
                             guests: []
                         };
                     }
-                    // const bookings = await BookingModel.find({
-                    //     house: new Types.ObjectId(houseId),
-                    //     start: {
-                    //         $lte: new Date(end)
-                    //     },
-                    //     end: {
-                    //         $gte: new Date(start)
-                    //     }
-                    // });
-                    // if (bookings.length === 0) {
-                    //     return {
-                    //         ok: true,
-                    //         error: null,
-                    //         guests: []
-                    //     };
-                    // }
-                    // const guestIds = bookings
-                    //     .map(booking => {
-                    //         return booking.guests;
-                    //     })
-                    //     .reduce((guestIds1, guestIds2) =>
-                    //         guestIds1.concat(guestIds2)
-                    //     );
+                    const booker = await BookerModel.find({
+                        house: new Types.ObjectId(houseId),
+                        start: {
+                            $lte: new Date(end)
+                        },
+                        end: {
+                            $gte: new Date(start)
+                        }
+                    });
+                    if (booker.length === 0) {
+                        return {
+                            ok: true,
+                            error: null,
+                            guests: []
+                        };
+                    }
+                    const guestIds = booker
+                        .map(booking => {
+                            return booking.guests;
+                        })
+                        .reduce((guestIds1, guestIds2) =>
+                            guestIds1.concat(guestIds2)
+                        );
                     return {
                         ok: true,
                         error: null,
-                        guests: await transformGuests.bind(transformGuests, [])
+                        guests: await transformGuests.bind(
+                            transformGuests,
+                            guestIds
+                        )
                     };
                 } catch (error) {
                     return {

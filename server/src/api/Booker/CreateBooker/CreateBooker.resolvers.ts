@@ -36,6 +36,8 @@ const resolvers: Resolvers = {
                 // 2. guestInputs 돌면서... roomType 별로 게스트 생성.
                 const bookerInstance = new BookerModel({
                     ...bookerParams,
+                    start,
+                    end,
                     house: new Types.ObjectId(bookerParams.house)
                 });
                 await bookerInstance.hashPassword();
