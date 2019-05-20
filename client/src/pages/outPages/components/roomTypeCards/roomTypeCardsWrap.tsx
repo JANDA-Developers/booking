@@ -64,8 +64,7 @@ const RoomTypeCardsWrap: React.SFC<IProps> = ({
   return (
     <GetAvailGuestCountQu
       query={GET_AVAILABLE_GUEST_COUNT}
-      // fetchPolicy="network-only"
-      // skip={roomType.pricingType === PricingType.DOMITORY}
+      fetchPolicy="network-only"
       variables={{
         start: setYYYYMMDD(dayPickerHook.from),
         end: setYYYYMMDD(dayPickerHook.to),
@@ -93,10 +92,6 @@ const RoomTypeCardsWrap: React.SFC<IProps> = ({
           maleCount,
           femaleCount
         };
-
-        console.log("availableCount");
-        console.log(availableCount);
-        console.log(availableCount);
 
         return (
           <RoomTypeCard
