@@ -1,8 +1,7 @@
 import { Types } from "mongoose";
-import { instanceMethod, InstanceType, prop, Ref, Typegoose } from "typegoose";
+import { instanceMethod, InstanceType, prop, Typegoose } from "typegoose";
+import { PricingTypeEnum } from "../types/enums";
 import { DateRange, Gender, IsSettleable, PricingType } from "../types/graph";
-import { RoomSchema } from "./Room";
-import { PricingTypeEnum } from "./RoomType";
 
 enum GenderEnum {
     MALE = "MALE",
@@ -14,21 +13,18 @@ export class GuestSchema extends Typegoose {
     house: Types.ObjectId;
 
     @prop({ required: true })
-    booking: Types.ObjectId;
-
-    @prop({ required: true })
-    roomType: Types.ObjectId;
-
-    @prop({ ref: RoomSchema })
-    allocatedRoom: Ref<RoomSchema>;
-
-    @prop({ default: 0 })
-    bedIndex: number; // PricingType === "ROOM" 인 경우 0으로 함...
+    booker: Types.ObjectId;
 
     @prop()
     name: string;
 
-    @prop({ enum: PricingTypeEnum, default: PricingTypeEnum.DOMITORY })
+    @prop({ required: true })
+    roomType: Types.ObjectId;
+
+    @prop({
+        enum: PricingTypeEnum,
+        default: PricingTypeEnum.DOMITORY
+    })
     pricingType: PricingType;
 
     @prop({
@@ -40,20 +36,26 @@ export class GuestSchema extends Typegoose {
     })
     gender: Gender | null;
 
+    @prop()
+    allocatedRoom: Types.ObjectId;
+
+    @prop({ default: 0 })
+    bedIndex: number; // PricingType === "ROOM" 인 경우 0으로 함...
+
+    @prop({ required: true, default: false })
+    blockRoom: boolean;
+
     @prop({ default: true })
     isUnsettled: boolean;
+
+    @prop()
+    isSettleable: IsSettleable;
 
     @prop()
     start: Date;
 
     @prop()
     end: Date;
-
-    @prop({ required: true, default: false })
-    blockRoom: boolean;
-
-    @prop()
-    isSettleable: IsSettleable;
 
     @prop()
     createdAt: Date;
@@ -108,6 +110,18 @@ export class GuestSchema extends Typegoose {
             flag: dates.length === 0,
             duplicateDates: dates
         };
+    }
+
+    @instanceMethod
+    async updageDateRange(
+        this: InstanceType<GuestSchema>,
+        dateRange: DateRange
+    ) {
+        const { start, end } = dateRange;
+        console.log({
+            start,
+            end
+        });
     }
 }
 

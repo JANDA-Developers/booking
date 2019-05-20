@@ -1,7 +1,0 @@
-type DeleteBookingResponse {
-    ok: Boolean!
-    error: String
-}
-type Mutation {
-    DeleteBooking(bookerId: ID!, bookingId: ID!): DeleteBookingResponse!
-}

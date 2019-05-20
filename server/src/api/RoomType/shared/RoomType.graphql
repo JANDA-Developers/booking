@@ -31,6 +31,19 @@ enum PricingType {
 enum RoomGender {
     MALE
     FEMALE
-    MIXED
+    ANY
     SEPARATELY
+}
+
+type RoomTypeCapacity {
+    roomTypeId: ID!
+    pricingType: PricingType!
+    roomCapacityList: [RoomCapacity!]
+    availablePeopleCount: AvailablePeopleCount!
+}
+
+type AvailablePeopleCount {
+    countAny: Int!
+    countFemale: Int!
+    countMale: Int!
 }

@@ -9,30 +9,26 @@ import {
     prop,
     Typegoose
 } from "typegoose";
-import { GenderEnum } from "../types/enums";
+import { PricingTypeEnum } from "../types/enums";
 import {
+    AvailablePeopleCount,
+    Gender,
     GuestGender,
     PricingType,
     RoomCapacity,
-    RoomCapacityWithEmptyBed,
-    RoomGender
+    RoomGender,
+    RoomTypeCapacity
 } from "../types/graph";
-import { removeUndefined } from "../utils/objFuncs";
 import { GuestModel, GuestSchema } from "./Guest";
 import { HouseModel } from "./House";
 import { RoomModel, RoomSchema } from "./Room";
 import { RoomPriceModel } from "./RoomPrice";
 import { SeasonPriceModel } from "./SeasonPrice";
 
-export enum PricingTypeEnum {
-    ROOM = "ROOM",
-    DOMITORY = "DOMITORY"
-}
-
 export enum RoomGenderEnum {
     FEMALE = "FEMALE",
     MALE = "MALE",
-    MIXED = "MIXED",
+    ANY = "ANY",
     SEPARATELY = "SEPARATELY"
 }
 
@@ -76,7 +72,7 @@ export class RoomTypeSchema extends Typegoose {
             return this.pricingType === "DOMITORY";
         },
         enum: RoomGenderEnum,
-        default: RoomGenderEnum.MIXED
+        default: RoomGenderEnum.ANY
     })
     roomGender: RoomGender;
 
@@ -267,68 +263,6 @@ export class RoomTypeSchema extends Typegoose {
      * --------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    @instanceMethod
-    async getAllocatableRooms(
-        this: InstanceType<RoomTypeSchema>,
-        start: Date,
-        end: Date,
-        {
-            includeTempAllocation,
-            gender
-        }: {
-            includeTempAllocation?: boolean;
-            gender?: GenderEnum;
-        } = {}
-    ): Promise<RoomCapacityWithEmptyBed[]> {
-        const roomInstances = await RoomModel.find({
-            _id: { $in: this.rooms.map(roomId => new Types.ObjectId(roomId)) }
-        });
-        const roomCapacities = (await Promise.all(
-            roomInstances.map(async roomInstance => {
-                return await roomInstance.getCapacity(
-                    start,
-                    end,
-                    includeTempAllocation
-                );
-            })
-        )).filter(capacity => {
-            if (capacity.availableCount === 0) {
-                return false;
-            }
-            if (!gender) {
-                return true;
-            }
-            if (capacity.roomGender === "SEPARATELY") {
-                return !capacity.guestGender || capacity.guestGender === gender;
-            } else if (capacity.roomGender === gender) {
-                return true;
-            }
-            return true;
-        });
-        return roomCapacities;
-    }
-
-    @instanceMethod
-    async getRoomCapacitiesWithRoomIdForDomitory(
-        this: InstanceType<RoomTypeSchema>,
-        start: Date,
-        end: Date,
-        includeTempAllocation?: boolean
-    ): Promise<RoomCapacityWithEmptyBed[]> {
-        return await Promise.all(
-            (await RoomModel.find({
-                roomType: new Types.ObjectId(this._id)
-            })).map(async roomInstance => {
-                const capacity = await roomInstance.getCapacity(
-                    start,
-                    end,
-                    includeTempAllocation
-                );
-                return capacity;
-            })
-        );
-    }
-
     /**
      * 선택한 성별의 배정 가능 인원 알아내는 함수.
      * 게스트 페이지의 방 선택 섹션에서 사용
@@ -338,77 +272,125 @@ export class RoomTypeSchema extends Typegoose {
      * @param otherGenderCount 다른 성별 인원 보정값. => 음... 설명하기 힘드네
      */
     @instanceMethod
-    async getCapacityForDomitory(
+    async getCapacity(
         this: InstanceType<RoomTypeSchema>,
         start: Date,
         end: Date,
-        gender: GuestGender,
+        genderPaddingCount: { female: number; male: number } = {
+            female: 0,
+            male: 0
+        },
+        includeSettled?: boolean,
+        exceptBookerIds?: Types.ObjectId[]
         // 임의로 다른 성별로 인원을 채움. this.roomGender === "SEPARATELY" 인 경우만 사용
-        addOtherGenderCount: number = 0
-    ): Promise<RoomCapacity> {
-        let availableCount = 0;
-        // roomCapacities 구하기
-        const roomCapacities: RoomCapacity[] = await this.getRoomCapacitiesWithRoomIdForDomitory(
-            start,
-            end
-        );
-
-        console.log({
-            roomCapacities
-        });
-
-        // 1. Gender 검사
-        if (this.roomGender === gender || this.roomGender === "MIXED") {
-            roomCapacities.forEach((capacity: RoomCapacity) => {
-                availableCount = availableCount + capacity.availableCount;
-            });
-            if (this.roomGender === "MIXED") {
-                availableCount = availableCount - addOtherGenderCount;
+    ): Promise<RoomTypeCapacity> {
+        const roomInstances = await RoomModel.find({
+            _id: {
+                $in: this.rooms
             }
-        } else if (this.roomGender === "SEPARATELY") {
-            const otherGenderRoomCapacities = roomCapacities.filter(
-                capacity => capacity.guestGender !== gender
-            );
-            // 다른 성별로 채울 수 있는 인원 수
-            let paddableGuestCount = 0;
-            // 빈방 수
-            let anyGenderRoomCount = 0;
-            otherGenderRoomCapacities.forEach(capacity => {
-                if (capacity.guestGender) {
-                    paddableGuestCount += capacity.availableCount;
-                } else {
-                    anyGenderRoomCount++;
-                }
-            });
-            const availableRoomCount =
-                anyGenderRoomCount -
-                Math.ceil(
-                    (addOtherGenderCount - paddableGuestCount) /
-                        this.peopleCount
+        });
+        const roomCapacityList = (await Promise.all(
+            roomInstances.map(async roomInstance => {
+                return roomInstance.getCapacity(
+                    {
+                        start,
+                        end
+                    },
+                    includeSettled,
+                    exceptBookerIds
                 );
-            availableCount =
-                availableCount + availableRoomCount * this.peopleCount;
-            // 방 성별이 배정된 게스트에 따라서 바뀜.
-            roomCapacities.forEach((capacity: RoomCapacity) => {
-                if (gender === capacity.guestGender) {
-                    // 이 안에서 이제 무엇을 할까...?
-                    availableCount = availableCount + capacity.availableCount;
-                }
-            });
-        } else {
-            // 배정 불가
-            return {
-                availableCount: 0,
-                roomGender: this.roomGender,
-                guestGender: gender,
-                roomId: ""
-            };
+            })
+        )).sort((c1, c2) => {
+            const c1Gender = convertGenderArrToGuestGender(c1.availableGenders);
+            const c2Gender = convertGenderArrToGuestGender(c2.availableGenders);
+            return c1Gender === c2Gender ? 1 : 0;
+        });
+        // 성별로 추출한 후에 수용가능인원순으로 정렬함(asc)
+        const extractFunc = (gstGender: GuestGender) => {
+            return roomCapacityList
+                .filter(capacity => {
+                    return (
+                        convertGenderArrToGuestGender(
+                            capacity.availableGenders
+                        ) === gstGender
+                    );
+                })
+                .sort((a, b) => a.availableCount - b.availableCount);
+        };
+        const calculatePadding = (
+            capacityList: RoomCapacity[],
+            genderPadding: number
+        ) => {
+            return capacityList
+                .map(capacity => {
+                    // 여기서 머해야되지?
+                    if (genderPadding > 0) {
+                        genderPadding = genderPadding - capacity.availableCount;
+                        capacity.availableCount =
+                            genderPadding >= 0 ? 0 : -genderPadding;
+                    }
+                    return capacity;
+                })
+                .filter(capacity => capacity.availableCount > 0);
+        };
+        const { female: femalePadding, male: malePadding } = genderPaddingCount;
+
+        const femaleCapacityList = calculatePadding(
+            extractFunc("FEMALE"),
+            femalePadding
+        );
+        const maleCapacityList = calculatePadding(
+            extractFunc("MALE"),
+            malePadding
+        );
+        // male, female 패딩 지나가고나서...
+        // TODO: 여기서부터 해야됨
+        let anyCapacityList = extractFunc("ANY");
+        if (femalePadding > 0) {
+            anyCapacityList = calculatePadding(anyCapacityList, femalePadding);
         }
+        if (malePadding > 0) {
+            anyCapacityList = calculatePadding(anyCapacityList, malePadding);
+        }
+        console.log([roomCapacityList]);
+
+        const availablePeopleCount = roomCapacityList
+            .map(capacity => {
+                const count = capacity.availableCount;
+                const temp: AvailablePeopleCount = {
+                    countAny: 0,
+                    countFemale: 0,
+                    countMale: 0
+                };
+                if (this.pricingType === "DOMITORY") {
+                    capacity.availableGenders.forEach(gender => {
+                        if (gender === "FEMALE") {
+                            temp.countFemale += count;
+                        } else if (gender === "MALE") {
+                            temp.countMale += count;
+                        }
+                    });
+                } else if (this.pricingType === "ROOM") {
+                    temp.countAny = count;
+                }
+                return temp;
+            })
+            .reduce((a, b) => {
+                return {
+                    countAny: a.countAny + b.countAny,
+                    countFemale: a.countFemale + b.countFemale,
+                    countMale: a.countMale + b.countMale
+                };
+            });
         return {
-            availableCount,
-            roomGender: this.roomGender,
-            guestGender: gender,
-            roomId: ""
+            availablePeopleCount,
+            pricingType: this.pricingType,
+            roomCapacityList: [
+                ...femaleCapacityList,
+                ...maleCapacityList,
+                ...anyCapacityList
+            ],
+            roomTypeId: this._id
         };
     }
 
@@ -417,10 +399,9 @@ export class RoomTypeSchema extends Typegoose {
         this: InstanceType<RoomTypeSchema>,
         start: Date,
         end: Date,
-        flag?: "ROOMLESS" | "SETTLED"
+        isUnsettled?: boolean
     ): Promise<Array<InstanceType<GuestSchema>>> {
         try {
-            const isUnsettled: boolean | undefined = flag && flag === "ROOMLESS";
             const query = {
                 roomType: new Types.ObjectId(this._id),
                 start: {
@@ -431,10 +412,6 @@ export class RoomTypeSchema extends Typegoose {
                 },
                 isUnsettled
             };
-            console.log({
-                query,
-                removeObject: removeUndefined(query)
-            });
             if (isUnsettled === undefined) {
                 delete query.isUnsettled;
             }
@@ -442,14 +419,6 @@ export class RoomTypeSchema extends Typegoose {
         } catch (error) {
             return [];
         }
-    }
-
-    @instanceMethod
-    async autoAllocation(
-        this: InstanceType<RoomTypeSchema>,
-        guests: Types.ObjectId[]
-    ) {
-        // TODO: 2019-05-06 추후에 구현하는걸로..
     }
 }
 
@@ -462,3 +431,13 @@ export const RoomTypeModel = new RoomTypeSchema().getModelForClass(
         }
     }
 );
+
+export const convertGenderArrToGuestGender = (
+    genders: Gender[]
+): GuestGender => {
+    if (genders.length === 1) {
+        return genders[0];
+    } else {
+        return "ANY";
+    }
+};

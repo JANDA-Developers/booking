@@ -1,7 +1,7 @@
 type GetAvailableGuestCountResponse {
     ok: Boolean!
     error: String
-    roomCapacity: RoomCapacity
+    roomCapacity: RoomTypeCapacity
 }
 type Query {
     GetAvailableGuestCount(

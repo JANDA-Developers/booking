@@ -25,3 +25,8 @@ export enum SendSmsWhenEnum {
     WEHN_BOOKING_CANCEL,
     WHEN_BOOKING_REFUND
 }
+
+export enum PricingTypeEnum {
+    ROOM = "ROOM",
+    DOMITORY = "DOMITORY"
+}

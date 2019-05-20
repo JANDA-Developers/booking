@@ -1,6 +1,4 @@
 import * as _ from "lodash";
-import { Types } from "mongoose";
-import { RoomModel } from "../../../models/Room";
 import { RoomTypeModel } from "../../../models/RoomType";
 import {
     TestFunctionMutationArgs,
@@ -21,35 +19,21 @@ const resolvers: Resolvers = {
             }: TestFunctionMutationArgs
         ): Promise<TestFunctionResponse> => {
             try {
-                // 렛츠 테스트 썸띵!
+                // 렛츠 테스트 썸띵
                 const roomType = await RoomTypeModel.findById(roomTypeId);
                 if (!roomType) {
                     return {
                         ok: false,
-                        error: "존재하지 않는 roomTypeId"
+                        error: "✈존재하지 않는 roomType"
                     };
                 }
-                const rooms = roomType.rooms.map(roomId => {
-                    return new Types.ObjectId(roomId);
-                });
-                console.log({
-                    rooms
-                });
-
-                const roomInstances = await RoomModel.find({
-                    _id: {
-                        $in: rooms
-                    }
-                });
-                console.log({
-                    rooms: roomInstances
-                });
-
-                roomInstances.forEach(async roomInstance => {
+                const roomTypeCapacity = await roomType.getCapacity(start, end);
+                roomTypeCapacity.roomCapacityList.forEach(capacity => {
                     console.log({
-                        log: await roomInstance.getCapacity(start, end)
+                        capacity
                     });
                 });
+
                 return {
                     ok: true,
                     error: null
