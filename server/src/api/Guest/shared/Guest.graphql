@@ -8,7 +8,7 @@ type Guest {
     isUnsettled: Boolean!
     # 배드 단위로 계산한다. 배정 확정인 경우에는 이 필드값의 IsSettleable.flag === true
     isSettleable: IsSettleable!
-
+    booker: Booker!
     name: Name
     start: DateTime!
     end: DateTime!
@@ -28,8 +28,11 @@ enum Gender {
     FEMALE
 }
 
+# 배정 가능여부
 type IsSettleable {
+    # 배정 가능 flag
     flag: Boolean!
+    # 배정 불가일때 겹치는 날짜범위들 배열
     duplicateDates: [DateRange!]
 }
 
