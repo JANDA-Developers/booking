@@ -13,6 +13,23 @@ interface IProps {
   groupData: IAssigGroup[];
 }
 
+export interface IAssigInfo {
+  bedIndex: number;
+  roomId: string;
+  gender: Gender | null;
+}
+// ⭐️ 배정달력에서 예약 생성시사용
+export interface ICreateBookerInfo {
+  type: "make" | "makeAndAssig";
+  start: number;
+  end: number;
+  resvInfoes: {
+    roomTypeId: string;
+    gender: Gender | null;
+  }[];
+  assigInfo: IAssigInfo[];
+}
+
 const MakeItemMenu: React.FC<IProps> = ({
   bookerModalHook,
   guestValue,
@@ -26,33 +43,39 @@ const MakeItemMenu: React.FC<IProps> = ({
           onClick={e => {
             e.stopPropagation();
             const makeItems = guestValue.filter(guest => guest.type === "make");
-            const roomTypes = makeItems.map(item => item.roomTypeId);
-            const resvInfoes = roomTypes.map(roomTypeId => ({
-              roomTypeId: roomTypeId,
-              male: makeItems.filter(item => item.gender === Gender.MALE)
-                .length,
-              female: makeItems.filter(item => item.gender === Gender.FEMALE)
-                .length,
-              count: makeItems.filter(item => !item.gender).length
+            const resvInfoes = makeItems.map(item => ({
+              roomTypeId: item.roomTypeId,
+              gender: item.gender
             }));
-            bookerModalHook.openModal({
-              type: "make",
-              makeInfo: {
-                start: makeItems[0].start,
-                end: makeItems[0].end,
-                resvInfoes
-              },
-              assigInfo: makeItems.map(item => {
-                const group = groupData.find(group => group.id === item.group);
-                if (group) {
-                  return {
-                    bedIndex: group.bedIndex,
-                    roomId: group.roomId,
-                    gender: item.gender
-                  };
-                }
-              })
-            });
+
+            const modalParam: ICreateBookerInfo = {
+              type: "makeAndAssig",
+              start: makeItems[0].start,
+              end: makeItems[0].end,
+              resvInfoes,
+              assigInfo: makeItems
+                .map(item => {
+                  const group = groupData.find(
+                    group => group.id === item.group
+                  );
+                  if (group) {
+                    return {
+                      bedIndex: group.bedIndex,
+                      roomId: group.roomId,
+                      gender: item.gender
+                    };
+                  } else {
+                    // 아래코드는 타입스크립트 때문
+                    return {
+                      bedIndex: -1,
+                      roomId: "",
+                      gender: Gender.FEMALE
+                    };
+                  }
+                })
+                .filter(group => group.bedIndex !== -1)
+            };
+            bookerModalHook.openModal(modalParam);
           }}
           mode="flat"
           color="white"

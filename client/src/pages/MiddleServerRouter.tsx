@@ -222,7 +222,7 @@ const JDmiddleServer: React.FC<IProps> = ({
             isEmpty(selectedHouse) ? (
               <NoMatch />
             ) : (
-              <ModifyTimeline selectedHouse={selectedHouse} />
+              <ModifyTimeline houseId={selectedHouse && selectedHouse._id} />
             )
           }
         />

@@ -11,7 +11,9 @@ import {
   deleteBooker,
   deleteBookerVariables,
   createBooker,
-  createBookerVariables
+  createBookerVariables,
+  allocateGuestToRoom,
+  allocateGuestToRoomVariables
 } from "../../types/api";
 import {
   queryDataFormater,
@@ -25,16 +27,22 @@ import {
   UPDATE_BOOKER,
   CREATE_BOOKING,
   DELETE_BOOKER,
-  GET_BOOKERS
+  GET_BOOKERS,
+  ALLOCATE_GUEST_TO_ROOM
 } from "../../queries";
 import {PayMethod, PaymentStatus, BookingStatus} from "../../types/enum";
 import {getOperationName} from "apollo-utilities";
+import {ICreateBookerInfo} from "../../pages/middleServer/assig/components/makeItemMenu";
 
 interface IProps {
   modalHook: IUseModal;
   houseId: string;
 }
 
+class AllocateGuestToRoomMu extends Mutation<
+  allocateGuestToRoom,
+  allocateGuestToRoomVariables
+> {}
 class UpdateBookerMu extends Mutation<updateBooker, updateBookerVariables> {}
 class CreatBookingMu extends Mutation<createBooker, createBookerVariables> {}
 class DeleteBookerMu extends Mutation<deleteBooker, deleteBookerVariables> {}
@@ -57,12 +65,16 @@ const BookerModalWrap: React.FC<IProps> = ({modalHook, houseId}) => (
   >
     {({data: bookerData, loading, error}) => {
       showError(error);
+
+      // 쿼리결과
       const booker = queryDataFormater(
         bookerData,
         "GetBooker",
         "booker",
         undefined
       );
+
+      // 유틸성을 위해 만들어둔 기본 booker
       const defualtBooker: GB_booker = {
         __typename: "Booker",
         _id: "default",
@@ -85,66 +97,100 @@ const BookerModalWrap: React.FC<IProps> = ({modalHook, houseId}) => (
         guests: null
       };
 
-      // TODO  생성일경우 Timeline으로 부터 전달받는 예약자 배정정보들
-      let makeInfo: getBooker_GetBooker_booker | undefined = undefined;
-      if (modalHook.info.type && modalHook.info.type === "make") {
+      // ⭐️ 생성일경우
+      // 생성일경우 만들어질 임시 booker
+      let makeInfo: GB_booker | undefined = undefined;
+      if (modalHook.info.type && modalHook.info.type === "makeAndAssig") {
+        // 👿 make 단어를 create로
+        // 👿 __typename 없앨방법을 알아보자.
+        const createMpdalInfoes: ICreateBookerInfo = modalHook.info;
+        makeInfo = {
+          ...defualtBooker,
+          agreePrivacyPolicy: true,
+          bookingStatus: BookingStatus.COMPLETE,
+          start: createMpdalInfoes.start,
+          end: createMpdalInfoes.end,
+          guests: createMpdalInfoes.resvInfoes.map(resv => ({
+            __typename: "Guest",
+            _id: "",
+            gender: resv.gender,
+            roomType: {
+              __typename: "RoomType",
+              _id: resv.roomTypeId
+            }
+          }))
+        };
       }
       return loading ? (
         <Preloader size="large" />
       ) : (
-        <UpdateBookerMu
-          mutation={UPDATE_BOOKER}
-          onError={showError}
-          onCompleted={({UpdateBooker}) => {
-            onCompletedMessage(
-              UpdateBooker,
-              "예약자 업데이트",
-              "예약자 업데이트 실패"
-            );
-          }}
-        >
-          {updateBookerMu => (
-            <CreatBookingMu
-              mutation={CREATE_BOOKING}
+        <AllocateGuestToRoomMu mutation={ALLOCATE_GUEST_TO_ROOM}>
+          {allocateGuestToRoomMu => (
+            <UpdateBookerMu
+              mutation={UPDATE_BOOKER}
               onError={showError}
-              onCompleted={({CreateBooker}) => {
+              onCompleted={({UpdateBooker}) => {
                 onCompletedMessage(
-                  CreateBooker,
-                  "예약 생성 완료",
-                  "예약자 생성 실패"
+                  UpdateBooker,
+                  "예약자 업데이트",
+                  "예약자 업데이트 실패"
                 );
               }}
             >
-              {createBookingMu => (
-                <DeleteBookerMu
-                  mutation={DELETE_BOOKER}
+              {updateBookerMu => (
+                <CreatBookingMu
+                  mutation={CREATE_BOOKING}
                   onError={showError}
-                  refetchQueries={[getOperationName(GET_BOOKERS) || ""]}
-                  onCompleted={({DeleteBooker}) => {
+                  onCompleted={({CreateBooker}) => {
                     onCompletedMessage(
-                      DeleteBooker,
-                      "예약 삭제 완료",
-                      "예약 삭제 실패"
+                      CreateBooker,
+                      "예약 생성 완료",
+                      "예약자 생성 실패"
                     );
-                    modalHook.closeModal();
+                    // TODO 여기에 컬백으로 배정
+                    // allocateGuestToRoomMu({
+                    //   variables: {
+                    //     bedIndex:
+                    //   }
+                    // })
                   }}
                 >
-                  {deleteBookingMu => (
-                    <BookerModal
-                      bookerData={booker || defualtBooker}
-                      houseId={houseId}
-                      modalHook={modalHook}
-                      createBookingMu={createBookingMu}
-                      updateBookerMu={updateBookerMu}
-                      deleteBookerMu={deleteBookingMu}
-                      key={`bookerModal${modalHook.info.bookerId}`}
-                    />
+                  {createBookingMu => (
+                    <DeleteBookerMu
+                      mutation={DELETE_BOOKER}
+                      onError={showError}
+                      refetchQueries={[getOperationName(GET_BOOKERS) || ""]}
+                      onCompleted={({DeleteBooker}) => {
+                        onCompletedMessage(
+                          DeleteBooker,
+                          "예약 삭제 완료",
+                          "예약 삭제 실패"
+                        );
+                        modalHook.closeModal();
+                      }}
+                    >
+                      {deleteBookingMu => (
+                        <BookerModal
+                          bookerData={booker || makeInfo || defualtBooker}
+                          assigInfo={
+                            modalHook.info.makeInfo &&
+                            modalHook.info.makeInfo.assigInfo
+                          }
+                          houseId={houseId}
+                          modalHook={modalHook}
+                          createBookingMu={createBookingMu}
+                          updateBookerMu={updateBookerMu}
+                          deleteBookerMu={deleteBookingMu}
+                          key={`bookerModal${modalHook.info.bookerId}`}
+                        />
+                      )}
+                    </DeleteBookerMu>
                   )}
-                </DeleteBookerMu>
+                </CreatBookingMu>
               )}
-            </CreatBookingMu>
+            </UpdateBookerMu>
           )}
-        </UpdateBookerMu>
+        </AllocateGuestToRoomMu>
       );
     }}
   </GetBookerQuery>
