@@ -250,23 +250,21 @@ export class RoomSchema extends Typegoose {
             }
         } else {
             // 게스트에 따라서 배정가능 젠더 변경됨.
-            if (allocatedGuests.length !== 0) {
-                const genders = allocatedGuests
-                    .filter(
-                        guest =>
-                            guest.gender !== null &&
-                            guest.allocatedRoom === new Types.ObjectId(this._id)
-                    )
-                    .map(
-                        (guest): Gender => {
-                            if (guest.gender === null) {
-                                throw new Error("뀨?");
-                            }
-                            return guest.gender;
-                        }
-                    );
-                return _.uniq(genders);
+            if (allocatedGuests.length === 0) {
+                return result;
             }
+            const genders = _.uniq(allocatedGuests.map(guest => guest.gender));
+            if (genders.includes("FEMALE") && genders.includes("MALE")) {
+                return [];
+            }
+            return genders.map(
+                (gender): Gender => {
+                    if (gender === null) {
+                        throw new Error("있을 수 없는 에러.");
+                    }
+                    return gender;
+                }
+            );
         }
         return result;
     }

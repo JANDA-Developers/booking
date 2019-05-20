@@ -1,4 +1,4 @@
-import { RoomTypeModel } from "../../../models/RoomType";
+import { addPadding, RoomTypeModel } from "../../../models/RoomType";
 import {
     GetAvailableGuestCountQueryArgs,
     GetAvailableGuestCountResponse
@@ -27,14 +27,25 @@ const resolvers: Resolvers = {
                         roomCapacity: null
                     };
                 }
-                const roomCapacity = await roomType.getCapacity(start, end, {
-                    female: gender !== "FEMALE" ? paddingOtherGenderCount : 0,
-                    male: gender !== "MALE" ? paddingOtherGenderCount : 0
-                });
+                const roomCapacity = await roomType.getCapacity(start, end);
+                console.log(roomCapacity);
+
+                const temp = addPadding(
+                    roomCapacity,
+                    gender,
+                    paddingOtherGenderCount,
+                    roomType.roomGender
+                );
+                console.log(
+                    "-------------------------------------------------------------------------------------------------"
+                );
+
+                console.log(temp);
+
                 return {
                     ok: true,
                     error: null,
-                    roomCapacity
+                    roomCapacity: temp
                 };
             } catch (error) {
                 return {

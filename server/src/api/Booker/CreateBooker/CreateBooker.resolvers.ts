@@ -70,13 +70,18 @@ const resolvers: Resolvers = {
                                 return aGender === bGender ? 1 : 0;
                             }
                         );
-                        await asyncForEach(roomCapacityList, roomCapacity => {
-                            // bookerInstance.createGuest(
-                            //     { start, end },
-                            //     GenderEnum.FEMALE,
-                            //     roomTypeInstance
-                            // );
+                        console.log({
+                            roomCapacityList
                         });
+
+                        // await asyncForEach(roomCapacityList, roomCapacity => {
+                        //     await asyncForEach();
+                        //     bookerInstance.createGuest(
+                        //         { start, end },
+                        //         GenderEnum.FEMALE,
+                        //         roomTypeInstance
+                        //     );
+                        // });
                     }
                 );
                 return {

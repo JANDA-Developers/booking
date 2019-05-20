@@ -1,5 +1,9 @@
 import * as _ from "lodash";
-import { RoomTypeModel } from "../../../models/RoomType";
+import {
+    addPadding,
+    convertGenderArrToGuestGender,
+    RoomTypeModel
+} from "../../../models/RoomType";
 import {
     TestFunctionMutationArgs,
     TestFunctionResponse
@@ -15,7 +19,7 @@ const resolvers: Resolvers = {
                 start,
                 end,
                 gender,
-                paddingOtherGenderCount
+                paddingGenderCountInput
             }: TestFunctionMutationArgs
         ): Promise<TestFunctionResponse> => {
             try {
@@ -27,12 +31,32 @@ const resolvers: Resolvers = {
                         error: "✈존재하지 않는 roomType"
                     };
                 }
+
                 const roomTypeCapacity = await roomType.getCapacity(start, end);
+                console.log(
+                    "------------------------------------------------------------------------------------"
+                );
                 roomTypeCapacity.roomCapacityList.forEach(capacity => {
                     console.log({
-                        capacity
+                        capacity,
+                        gender: convertGenderArrToGuestGender(
+                            capacity.availableGenders
+                        )
                     });
                 });
+                const temp = addPadding(
+                    roomTypeCapacity,
+                    gender,
+                    (paddingGenderCountInput &&
+                        paddingGenderCountInput.female) ||
+                        0,
+                    roomType.roomGender
+                );
+                console.log(
+                    "------------------------------------------------------------------------------------"
+                );
+
+                console.log(temp);
 
                 return {
                     ok: true,

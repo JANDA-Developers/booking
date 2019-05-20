@@ -276,10 +276,6 @@ export class RoomTypeSchema extends Typegoose {
         this: InstanceType<RoomTypeSchema>,
         start: Date,
         end: Date,
-        genderPaddingCount: { female: number; male: number } = {
-            female: 0,
-            male: 0
-        },
         includeSettled?: boolean,
         exceptBookerIds?: Types.ObjectId[]
         // 임의로 다른 성별로 인원을 채움. this.roomGender === "SEPARATELY" 인 경우만 사용
@@ -305,91 +301,15 @@ export class RoomTypeSchema extends Typegoose {
             const c2Gender = convertGenderArrToGuestGender(c2.availableGenders);
             return c1Gender === c2Gender ? 1 : 0;
         });
-        // 성별로 추출한 후에 수용가능인원순으로 정렬함(asc)
-        const extractFunc = (gstGender: GuestGender) => {
-            return roomCapacityList
-                .filter(capacity => {
-                    return (
-                        convertGenderArrToGuestGender(
-                            capacity.availableGenders
-                        ) === gstGender
-                    );
-                })
-                .sort((a, b) => a.availableCount - b.availableCount);
-        };
-        const calculatePadding = (
-            capacityList: RoomCapacity[],
-            genderPadding: number
-        ) => {
-            return capacityList
-                .map(capacity => {
-                    // 여기서 머해야되지?
-                    if (genderPadding > 0) {
-                        genderPadding = genderPadding - capacity.availableCount;
-                        capacity.availableCount =
-                            genderPadding >= 0 ? 0 : -genderPadding;
-                    }
-                    return capacity;
-                })
-                .filter(capacity => capacity.availableCount > 0);
-        };
-        const { female: femalePadding, male: malePadding } = genderPaddingCount;
 
-        const femaleCapacityList = calculatePadding(
-            extractFunc("FEMALE"),
-            femalePadding
+        const availablePeopleCount = getEmptyCount(
+            roomCapacityList,
+            this.pricingType
         );
-        const maleCapacityList = calculatePadding(
-            extractFunc("MALE"),
-            malePadding
-        );
-        // male, female 패딩 지나가고나서...
-        // TODO: 여기서부터 해야됨
-        let anyCapacityList = extractFunc("ANY");
-        if (femalePadding > 0) {
-            anyCapacityList = calculatePadding(anyCapacityList, femalePadding);
-        }
-        if (malePadding > 0) {
-            anyCapacityList = calculatePadding(anyCapacityList, malePadding);
-        }
-        console.log([roomCapacityList]);
-
-        const availablePeopleCount = roomCapacityList
-            .map(capacity => {
-                const count = capacity.availableCount;
-                const temp: AvailablePeopleCount = {
-                    countAny: 0,
-                    countFemale: 0,
-                    countMale: 0
-                };
-                if (this.pricingType === "DOMITORY") {
-                    capacity.availableGenders.forEach(gender => {
-                        if (gender === "FEMALE") {
-                            temp.countFemale += count;
-                        } else if (gender === "MALE") {
-                            temp.countMale += count;
-                        }
-                    });
-                } else if (this.pricingType === "ROOM") {
-                    temp.countAny = count;
-                }
-                return temp;
-            })
-            .reduce((a, b) => {
-                return {
-                    countAny: a.countAny + b.countAny,
-                    countFemale: a.countFemale + b.countFemale,
-                    countMale: a.countMale + b.countMale
-                };
-            });
         return {
             availablePeopleCount,
             pricingType: this.pricingType,
-            roomCapacityList: [
-                ...femaleCapacityList,
-                ...maleCapacityList,
-                ...anyCapacityList
-            ],
+            roomCapacityList,
             roomTypeId: this._id
         };
     }
@@ -441,3 +361,132 @@ export const convertGenderArrToGuestGender = (
         return "ANY";
     }
 };
+
+export const extractFunc = (
+    roomCapacityList: RoomCapacity[],
+    gstGender: GuestGender
+) => {
+    return roomCapacityList
+        .filter(capacity => {
+            return (
+                convertGenderArrToGuestGender(capacity.availableGenders) ===
+                gstGender
+            );
+        })
+        .sort((a, b) => a.availableCount - b.availableCount);
+};
+
+export const addPadding = (
+    roomTypeCapacity: RoomTypeCapacity,
+    gender: Gender,
+    paddingCount: number,
+    roomGender: RoomGender
+): RoomTypeCapacity => {
+    if (paddingCount <= 0) {
+        return roomTypeCapacity;
+    }
+    // 1. roomCapacity 얻음.
+    const curGenderRoomCapacity = extractGenderRoomCapacity(
+        roomTypeCapacity,
+        gender
+    );
+    const otherGenderRoomCapacity = extractGenderRoomCapacity(
+        roomTypeCapacity,
+        gender === "FEMALE" ? "MALE" : "FEMALE"
+    );
+    // 현재 성별로 가져온 Capacity
+    curGenderRoomCapacity.map(capacity => {
+        const avaialbleCount = capacity.availableCount;
+        const diff = paddingCount - avaialbleCount;
+        if (diff >= 0) {
+            capacity.availableCount = 0;
+            paddingCount = diff;
+        } else {
+            capacity.availableCount = -diff;
+            paddingCount = 0;
+        }
+        return capacity;
+    });
+
+    if (roomGender === "MALE" || roomGender === "FEMALE") {
+        return roomTypeCapacity;
+    }
+
+    // 2. roomGender === "SEPARATELY"인 경우
+    //  => paddingCount가 남았을때 처리
+    const anyGenderRoomCapacity = extractGenderRoomCapacity(
+        roomTypeCapacity,
+        "ANY"
+    ).map(capacity => {
+        // TODO: Something...........................
+        const avaialbleCount = capacity.availableCount;
+        const diff = paddingCount - avaialbleCount;
+        if (diff >= 0) {
+            capacity.availableCount = 0;
+            paddingCount = diff;
+        } else {
+            capacity.availableCount = -diff;
+            paddingCount = 0;
+        }
+        return capacity;
+    });
+    const temp = [
+        ...curGenderRoomCapacity,
+        ...otherGenderRoomCapacity,
+        ...anyGenderRoomCapacity
+    ];
+
+    return {
+        ...roomTypeCapacity,
+        roomCapacityList: temp,
+        availablePeopleCount: getEmptyCount(temp, roomTypeCapacity.pricingType)
+    };
+};
+
+const extractGenderRoomCapacity = (
+    roomTypeCapacity: RoomTypeCapacity,
+    gender: GuestGender
+) =>
+    roomTypeCapacity.roomCapacityList
+        .filter(capacity => {
+            return (
+                convertGenderArrToGuestGender(capacity.availableGenders) ===
+                gender
+            );
+        })
+        .sort((c1, c2) => {
+            return c1.availableCount - c2.availableCount;
+        });
+
+export const getEmptyCount = (
+    roomCapacityList: RoomCapacity[],
+    pricingType: PricingType
+): AvailablePeopleCount =>
+    roomCapacityList
+        .map(capacity => {
+            const count = capacity.availableCount;
+            const temp: AvailablePeopleCount = {
+                countAny: 0,
+                countFemale: 0,
+                countMale: 0
+            };
+            if (pricingType === "DOMITORY") {
+                capacity.availableGenders.forEach(gender => {
+                    if (gender === "FEMALE") {
+                        temp.countFemale += count;
+                    } else if (gender === "MALE") {
+                        temp.countMale += count;
+                    }
+                });
+            } else if (pricingType === "ROOM") {
+                temp.countAny = count;
+            }
+            return temp;
+        })
+        .reduce((a, b) => {
+            return {
+                countAny: a.countAny + b.countAny,
+                countFemale: a.countFemale + b.countFemale,
+                countMale: a.countMale + b.countMale
+            };
+        });

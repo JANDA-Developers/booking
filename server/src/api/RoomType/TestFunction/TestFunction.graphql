@@ -8,6 +8,11 @@ type Mutation {
         start: DateTime!
         end: DateTime!
         gender: Gender!
-        paddingOtherGenderCount: Int!
+        paddingGenderCountInput: PaddingGenderCountInput
     ): TestFunctionResponse!
+}
+
+input PaddingGenderCountInput {
+    female: Int!
+    male: Int!
 }
