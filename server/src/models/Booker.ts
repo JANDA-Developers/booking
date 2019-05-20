@@ -71,7 +71,7 @@ export class BookerSchema extends Typegoose {
     })
     agreePrivacyPolicy: boolean;
 
-    @arrayProp({ items: Types.ObjectId, default: [] })
+    @prop({ default: [] })
     guests: Types.ObjectId[];
 
     @prop({
@@ -142,7 +142,7 @@ export class BookerSchema extends Typegoose {
      * @param isUnsettled
      */
     @instanceMethod
-    async createGuest(
+    createGuest(
         this: InstanceType<BookerSchema>,
         dateRange: { start: Date; end: Date },
         gender: GenderEnum | null,
@@ -150,9 +150,10 @@ export class BookerSchema extends Typegoose {
         allocatedRoom: Types.ObjectId,
         bedIndex: number,
         isUnsettled: boolean = false
-    ): Promise<InstanceType<GuestSchema>> {
+    ): InstanceType<GuestSchema> {
         const { start, end } = dateRange;
         const guestInstance = new GuestModel({
+            house: new Types.ObjectId(this.house),
             booker: new Types.ObjectId(this._id),
             name: this.name,
             roomType: new Types.ObjectId(roomTypeInstance._id),

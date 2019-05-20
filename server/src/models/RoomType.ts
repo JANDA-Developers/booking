@@ -443,7 +443,13 @@ export const addPadding = (
     };
 };
 
-const extractGenderRoomCapacity = (
+/**
+ * roomTypeCapacity로 부터 gender에 해당하는 roomCapacity를 뽑아냄
+ * availableCount로 오름차순 정렬하여 출력
+ * @param roomTypeCapacity 방타입 Capacity
+ * @param gender 뽑아낼 성별
+ */
+export const extractGenderRoomCapacity = (
     roomTypeCapacity: RoomTypeCapacity,
     gender: GuestGender
 ) =>

@@ -440,10 +440,7 @@ export const extractBooker = async (
         ...result._doc,
         _id: result._doc._id,
         house: await transformHouse.bind(transformHouse, result._doc.house),
-        guests: await transformGuests.bind(
-            transformGuests,
-            result._doc.bookings
-        )
+        guests: await transformGuests.bind(transformGuests, result._doc.guests)
     };
 };
 
