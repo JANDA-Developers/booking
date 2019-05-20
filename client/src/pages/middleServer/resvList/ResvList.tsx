@@ -23,6 +23,7 @@ import {
   updateBooker
 } from "../../../types/api";
 import {JDtoastModal} from "../../../atoms/modal/Modal";
+import {PaymentStatus} from "../../../types/enum";
 
 interface IProps {
   pageInfo: IPageInfo | undefined;
@@ -42,25 +43,27 @@ const ResvList: React.SFC<IProps> = ({
   houseId
 }) => {
   //   ❔ 두개 합치는게 좋을까?
-  const [checkedIds, setCheckedIds]: any = useState({});
+  const [checkedIds, setCheckedIds] = useState<string[]>([]);
   const [selectAll, setSelectAll]: any = useState(false);
   const bookerModalHook = useModal(false);
   const alertModalHook = useModal(false);
 
   //   여기에 key가 들어오면 id배열에서 찾아서 넣거나 제거해줌
   const onToogleRow = (key: string) => {
-    const newSelected: any = Object.assign({}, checkedIds);
-    newSelected[key] = checkedIds[key] ? undefined : key;
-    setCheckedIds(newSelected);
+    if (checkedIds.includes(key)) {
+      setCheckedIds([...checkedIds.filter(value => value !== key)]);
+    } else {
+      setCheckedIds([...checkedIds, key]);
+    }
   };
 
   //    모든 라인들에대한 아이디를 투글함
   const onToogleAllRow = (flag: boolean) => {
-    const newSelected: any = {};
-    bookersData.forEach(booker => {
-      newSelected[booker._id] = checkedIds[booker._id] ? undefined : booker._id;
-    });
-    setCheckedIds(newSelected);
+    const bookerIds = bookersData.map(booker => booker._id);
+    const updateSelecetedes = bookerIds.map(id =>
+      checkedIds.includes(id) ? "" : id
+    );
+    setCheckedIds(updateSelecetedes);
     setSelectAll(flag);
   };
 
@@ -68,6 +71,31 @@ const ResvList: React.SFC<IProps> = ({
     alertModalHook.openModal(
       `다음 예약 ${checkedIds.length}개를  삭제하시겠습니까?`
     );
+  };
+
+  const handleCancleBookerBtnClick = () => {
+    checkedIds.forEach(id => {
+      updateBookerMu({
+        variables: {
+          bookerId: id,
+          params: {
+            name: ""
+          }
+        }
+      });
+    });
+  };
+
+  const handleCompleteBookingBtnClick = () => {
+    // checkedIds.forEach(id => {
+    //   updateBookerMu({
+    //     variables: {
+    //       bookerId: id,
+    //       params: {
+    //       }
+    //     }
+    //   });
+    // });
   };
 
   const deleteModalCallBackFn = (flag: boolean) => {
@@ -215,15 +243,17 @@ const ResvList: React.SFC<IProps> = ({
         <h3>예약목록</h3>
         <div>
           <Button size="small" thema="primary" label="예약확정" />
-          <Button size="small" thema="primary" label="예약대기" />
+          {/* ⛔️ 아래 두버튼은 하지마시요. 충분히 팝업에서 할수있는 일임 */}
+          {/* <Button size="small" thema="primary" label="결제완료" /> */}
+          {/* <Button size="small" thema="primary" label="미결제" /> */}
           <Button
             size="small"
-            onClick={handleDeleteBookerBtnClick}
+            onClick={handleCancleBookerBtnClick}
             thema="primary"
             label="예약취소"
           />
           <Button
-            onClick={() => {}}
+            onClick={handleDeleteBookerBtnClick}
             size="small"
             thema="warn"
             label="예약삭제"
@@ -238,7 +268,7 @@ const ResvList: React.SFC<IProps> = ({
           isCheckable
           data={bookersData}
           selectAll={selectAll}
-          isSelected={(key: string) => checkedIds[key] !== undefined}
+          isSelected={(key: string) => checkedIds.includes(key)}
           columns={TableColumns}
           keyField="_id"
         />

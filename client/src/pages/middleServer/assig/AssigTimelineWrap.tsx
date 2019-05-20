@@ -8,7 +8,9 @@ import {
   getAllRoomTypeWithGuest,
   getAllRoomTypeWithGuestVariables,
   allocateGuestToRoom,
-  allocateGuestToRoomVariables
+  allocateGuestToRoomVariables,
+  updateBooker,
+  updateBookerVariables
 } from "../../../types/api";
 import {useToggle, useDayPicker} from "../../../actions/hook";
 import {IRoomType, IGuests} from "../../../types/interface";
@@ -23,12 +25,15 @@ import EerrorProtect from "../../../utils/errProtect";
 import {Gender} from "../../../types/enum";
 import {
   GET_ALL_ROOMTYPES_WITH_GUESTS,
-  ALLOCATE_GUEST_TO_ROOM
+  ALLOCATE_GUEST_TO_ROOM,
+  UPDATE_BOOKER
 } from "../../../queries";
 import AssigTimeline from "./AssigTimeline";
 import {setYYYYMMDD, parallax} from "../../../utils/setMidNight";
 
 moment.tz.setDefault("UTC");
+
+class UpdateBookerMu extends Mutation<updateBooker, updateBookerVariables> {}
 
 export interface IAssigGroup {
   id: string;
@@ -297,20 +302,25 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
             mutation={ALLOCATE_GUEST_TO_ROOM}
           >
             {allocateMu => (
-              <AssigTimeline
-                houseId={houseId}
-                loading={loading}
-                groupData={formatedRoomData}
-                deafultGuestsData={formatedGuestsData || []}
-                dayPickerHook={dayPickerHook}
-                defaultProps={assigDefaultProps}
-                allocateMu={allocateMu}
-                roomTypesData={roomTypesData || []}
-                defaultTimeStart={defaultStartDate}
-                defaultTimeEnd={defaultEndDate}
-                key={`timeline${defaultStartDate}${defaultEndDate}${loading &&
-                  "loading"}`}
-              />
+              <UpdateBookerMu mutation={UPDATE_BOOKER} onError={showError}>
+                {updateBookerMu => (
+                  <AssigTimeline
+                    houseId={houseId}
+                    loading={loading}
+                    groupData={formatedRoomData}
+                    deafultGuestsData={formatedGuestsData || []}
+                    dayPickerHook={dayPickerHook}
+                    defaultProps={assigDefaultProps}
+                    allocateMu={allocateMu}
+                    roomTypesData={roomTypesData || []}
+                    defaultTimeStart={defaultStartDate}
+                    updateBookerMu={updateBookerMu}
+                    defaultTimeEnd={defaultEndDate}
+                    key={`timeline${defaultStartDate}${defaultEndDate}${loading &&
+                      "loading"}`}
+                  />
+                )}
+              </UpdateBookerMu>
             )}
           </AllocateGuestToRoomMu>
         );

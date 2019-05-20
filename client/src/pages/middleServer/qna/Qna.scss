@@ -2,4 +2,15 @@
     &__iframe {
         border:none;
     }
+    .qna__iframWrap {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .qna__preloader {
+            top:0;
+            position:absolute;
+            z-index: -1;
+        }
+    }
 }

@@ -119,21 +119,21 @@ const POPbookerInfo: React.FC<IProps> = ({
   };
   // 예약생성
   const handleCreateBtnClick = () => {
-    createBookingMu({
-      variables: {
-        booker: {
-          name: bookerNameHook.value,
-          password: "admin",
-          phoneNumber: bookerPhoneHook.value,
-          email: "demo@naver.com",
-          agreePrivacyPolicy: true,
-          memo: memoHook.value
-        },
-        start: resvDateHook.from,
-        end: resvDateHook.to,
-        guestInputs: []
-      }
-    });
+    // createBookingMu({
+    //   variables: {
+    //     booker: {
+    //       name: bookerNameHook.value,
+    //       password: "admin",
+    //       phoneNumber: bookerPhoneHook.value,
+    //       email: "demo@naver.com",
+    //       agreePrivacyPolicy: true,
+    //       memo: memoHook.value
+    //     },
+    //     start: resvDateHook.from,
+    //     end: resvDateHook.to,
+    //     guestInputs: []
+    //   }
+    // });
   };
 
   // 예약수정

@@ -279,7 +279,7 @@ function useSelect<V = any>(
 }
 
 // 투글 훅
-function useToggle(defaultValue: any) {
+function useToggle(defaultValue: boolean): [boolean, any] {
   const [toggle, setToggle] = useState(defaultValue);
 
   const onClick = () => {

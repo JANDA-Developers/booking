@@ -15,7 +15,8 @@ import {
   queryDataFormater,
   onCompletedMessage
 } from "../../../utils/utils";
-import {GET_BOOKERS} from "../../../queries";
+import {GET_BOOKERS, DELETE_BOOKER, UPDATE_BOOKER} from "../../../queries";
+import {getOperationName} from "apollo-link";
 
 interface IProps {
   houseId: string;
@@ -23,7 +24,6 @@ interface IProps {
 
 class UpdateBookerMu extends Mutation<updateBooker, updateBookerVariables> {}
 class DeleteBookerMu extends Mutation<deleteBooker, deleteBookerVariables> {}
-
 class GetBookersQuery extends Query<getBookers, getBookersVariables> {}
 
 const ResvListWrap: React.SFC<IProps> = ({houseId}) => (
@@ -57,7 +57,6 @@ const ResvListWrap: React.SFC<IProps> = ({houseId}) => (
               "예약 삭제 완료",
               "예약 삭제 실패"
             );
-            modalHook.closeModal();
           }}
         >
           {deleteBookerMu => (

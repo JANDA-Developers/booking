@@ -33,7 +33,9 @@ import TooltipList, {
 import {TimePerMs, PricingType, RoomGender, Gender} from "../../../types/enum";
 import {
   allocateGuestToRoom,
-  allocateGuestToRoomVariables
+  allocateGuestToRoomVariables,
+  updateBooker,
+  updateBookerVariables
 } from "../../../types/api";
 import itemRendererFn, {
   CLASS_LINKED,
@@ -41,7 +43,7 @@ import itemRendererFn, {
   CLASS_DISABLE
 } from "./components/itemRenderFn";
 import {number} from "prop-types";
-import {isEmpty, setMidNight} from "../../../utils/utils";
+import {isEmpty, setMidNight, onCompletedMessage} from "../../../utils/utils";
 import ItemMenu from "./components/itemMenu";
 import CanvasMenu, {ICanvasMenuProps} from "./components/canvasMenu";
 import {AssigTimeline} from "../../pages";
@@ -62,6 +64,7 @@ interface IProps {
   defaultTimeStart: number;
   defaultTimeEnd: number;
   allocateMu: MutationFn<allocateGuestToRoom, allocateGuestToRoomVariables>;
+  updateBookerMu: MutationFn<updateBooker, updateBookerVariables>;
 }
 
 const ShowTimeline: React.SFC<IProps> = ({
@@ -73,7 +76,8 @@ const ShowTimeline: React.SFC<IProps> = ({
   deafultGuestsData,
   defaultTimeStart,
   defaultTimeEnd,
-  allocateMu
+  allocateMu,
+  updateBookerMu
 }) => {
   // 임시 마킹 제거
 
@@ -489,7 +493,7 @@ const ShowTimeline: React.SFC<IProps> = ({
   ) => {};
 
   // 🐭 아이템 클릭
-  const hanldeItemClick = (
+  const hanldeItemClick = async (
     itemId: string,
     e: React.MouseEvent<HTMLElement>,
     time: number
@@ -498,11 +502,31 @@ const ShowTimeline: React.SFC<IProps> = ({
 
     if (!target) return;
     if (target.bookerId === "block") return;
+
     // 컨트롤: 체크인
     if (e.ctrlKey) {
-      guestValue[target.guestIndex].isCheckin = !guestValue[target.guestIndex]
-        .isCheckin;
-      setGuestValue([...guestValue]);
+      const result = await updateBookerMu({
+        variables: {
+          bookerId: target.bookerId,
+          params: {
+            isCheckIn: !guestValue[target.guestIndex].isCheckin
+          }
+        }
+      });
+
+      // 아폴로 통신 성공
+      if (result && result.data) {
+        onCompletedMessage(result.data.UpdateBooker, "체크인", "실패");
+        if (result.data.UpdateBooker.ok) {
+          // 뮤테이션 성공시
+          guestValue[target.guestIndex].isCheckin = !guestValue[
+            target.guestIndex
+          ].isCheckin;
+          setGuestValue([...guestValue]);
+        } else {
+          // 뮤테이션 실패시
+        }
+      }
     }
     // 쉬프트 팝업
     if (e.shiftKey) {

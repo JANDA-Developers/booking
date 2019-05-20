@@ -21,13 +21,16 @@
         display:flex;
         position: absolute;
         bottom: 0;
+        box-sizing: border-box;
         width: calc(100% - #{$sideNav-list-padding});
         padding-left: $sideNav-list-padding;
         line-height: 100%;
         border-top: 1px solid $grey-level1;
+        height: $sideNav-productView-height;
         padding-bottom:1rem;
         padding-top:1rem;
         justify-content: space-between;
+        background-color:white;
 
         .JDsideNav__billing-title {
             font-weight: 600;
@@ -84,11 +87,16 @@
         margin: 0 auto;
     }
 
+    &__listContainer {
+        overflow: auto;
+        @extend %JDscrollbar;
+        max-height: calc(100vh - #{$sideNav-profile-height} - #{$sideNav-productView-height});
+    }
+
     &__navLink {
         text-decoration: none;
         color: $html-color;
         display: block;
-        font-size: $typho-large;
         height: $sideNav-list-li-height;
         line-height: $sideNav-list-li-height;
         background-color: $sideNav-list-li-bgColor;

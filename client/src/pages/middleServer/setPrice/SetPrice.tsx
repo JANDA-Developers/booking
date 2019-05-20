@@ -1,13 +1,15 @@
-import React from 'react';
-import { EerrorProtect } from '../../../utils/errProtect';
-import './SetPrice.scss';
-import SeasonTableWrap from './components/seasonTableWrap';
+import React from "react";
+import {EerrorProtect} from "../../../utils/errProtect";
+import "./SetPrice.scss";
+import SeasonTableWrap from "./components/seasonTableWrap";
 
 import {
   getAllSeasonTable_GetAllRoomType_roomTypes as IRoomType,
-  getAllSeasonTable_GetAllSeason_seasons as ISeason,
-} from '../../../types/api';
-import JDanimation, { Animation } from '../../../atoms/animation/Animations';
+  getAllSeasonTable_GetAllSeason_seasons as ISeason
+} from "../../../types/api";
+import JDanimation, {Animation} from "../../../atoms/animation/Animations";
+import Button from "../../../atoms/button/Button";
+import {Link} from "react-router-dom";
 
 interface IProps {
   loading?: boolean;
@@ -28,16 +30,20 @@ export interface IDefaultSeason {
 }
 
 const SetPrice: React.SFC<IProps> = ({
-  priceMap, roomTypes, seasonData, loading, houseId,
+  priceMap,
+  roomTypes,
+  seasonData,
+  loading,
+  houseId
 }) => {
   const unSeason = {
-    name: '',
-    _id: '-1',
-    color: '',
+    name: "",
+    _id: "-1",
+    color: "",
     end: null,
     start: null,
-    description: '',
-    priority: -1,
+    description: "",
+    priority: -1
   };
 
   const seasonCount = seasonData.length;
@@ -45,13 +51,19 @@ const SetPrice: React.SFC<IProps> = ({
   return (
     <div id="seasonTable" className="seasonT container container--sm">
       <div className="docs-section">
-        <div className={seasonCount !== 0 ? 'docs-section__box' : undefined}>
+        <div className={seasonCount !== 0 ? "docs-section__box" : undefined}>
           <h3>가격설정</h3>
-          <p>상위에 있을수록 우선 적용됩니다.</p>
-
-          <JDanimation animation={[Animation.fadeInDown, Animation.fadeOutRight]}>
-            {seasonData
-              && seasonData.map((season, index) => (
+          <p className="setPrice__topBanner">
+            <span>상위에 있을수록 우선 적용됩니다.</span>
+            <Link to="/middleServer/specificPrice">
+              <Button label="정밀 가격설정" icon="money" />
+            </Link>
+          </p>
+          <JDanimation
+            animation={[Animation.fadeInDown, Animation.fadeOutRight]}
+          >
+            {seasonData &&
+              seasonData.map((season, index) => (
                 <SeasonTableWrap
                   key={`seasonT${season._id}`}
                   roomTypes={roomTypes || []}
