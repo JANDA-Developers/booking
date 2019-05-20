@@ -8,10 +8,10 @@ import {
   getBooker_GetBooker_booker,
   updateBooker,
   updateBookerVariables,
-  createBookingVariables,
   deleteBooker,
-  createBooking,
-  deleteBookerVariables
+  deleteBookerVariables,
+  createBooker,
+  createBookerVariables
 } from "../../types/api";
 import {
   queryDataFormater,
@@ -27,7 +27,7 @@ import {
   DELETE_BOOKER,
   GET_BOOKERS
 } from "../../queries";
-import {PayMethod, PaymentStatus} from "../../types/enum";
+import {PayMethod, PaymentStatus, BookingStatus} from "../../types/enum";
 import {getOperationName} from "apollo-utilities";
 
 interface IProps {
@@ -36,7 +36,7 @@ interface IProps {
 }
 
 class UpdateBookerMu extends Mutation<updateBooker, updateBookerVariables> {}
-class CreatBookingMu extends Mutation<createBooking, createBookingVariables> {}
+class CreatBookingMu extends Mutation<createBooker, createBookerVariables> {}
 class DeleteBookerMu extends Mutation<deleteBooker, deleteBookerVariables> {}
 
 class GetBookerQuery extends Query<getBooker, getBookerVariables> {}
@@ -66,15 +66,23 @@ const BookerModalWrap: React.FC<IProps> = ({modalHook, houseId}) => (
       const defualtBooker: GB_booker = {
         __typename: "Booker",
         _id: "default",
-        bookings: [],
         memo: "",
         createdAt: "",
         updatedAt: "",
+        roomTypes: null,
         name: "",
         phoneNumber: "",
         isCheckIn: false,
         payMethod: PayMethod.CASH,
-        paymentStatus: PaymentStatus.NOT_YET
+        paymentStatus: PaymentStatus.NOT_YET,
+        email: "",
+        end: null,
+        start: null,
+        agreePrivacyPolicy: true,
+        price: 0,
+        password: null,
+        bookingStatus: BookingStatus.COMPLETE,
+        guests: null
       };
 
       // TODO  생성일경우 Timeline으로 부터 전달받는 예약자 배정정보들
@@ -99,9 +107,9 @@ const BookerModalWrap: React.FC<IProps> = ({modalHook, houseId}) => (
             <CreatBookingMu
               mutation={CREATE_BOOKING}
               onError={showError}
-              onCompleted={({CreateBooking}) => {
+              onCompleted={({CreateBooker}) => {
                 onCompletedMessage(
-                  CreateBooking,
+                  CreateBooker,
                   "예약 생성 완료",
                   "예약자 생성 실패"
                 );

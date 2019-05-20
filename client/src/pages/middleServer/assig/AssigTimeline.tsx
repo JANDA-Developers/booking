@@ -193,7 +193,7 @@ const ShowTimeline: React.SFC<IProps> = ({
     end: number
   ): boolean | ICrushTime[] => {
     // 성별검사
-    if (targetGroup.roomType.roomGender === RoomGender.MIXED) {
+    if (targetGroup.roomType.roomGender === RoomGender.ANY) {
       return true;
     }
     if (targetGroup.roomType.roomGender === RoomGender.MALE) {

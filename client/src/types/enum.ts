@@ -39,7 +39,7 @@ export enum PricingType {
 export enum RoomGender {
   FEMALE = "FEMALE",
   MALE = "MALE",
-  MIXED = "MIXED",
+  ANY = "ANY",
   SEPARATELY = "SEPARATELY"
 }
 
@@ -50,8 +50,13 @@ export enum RoomGender {
 export enum RoomGenderKr {
   FEMALE = "여성",
   MALE = "남성",
-  MIXED = "성별제한없음",
+  ANY = "성별제한없음",
   SEPARATELY = "혼숙금지"
+}
+
+export enum BookingStatusKr {
+  COMPLETE = "완료",
+  CANCEL = "취소"
 }
 
 export enum PaymentStatusKr {
@@ -172,7 +177,7 @@ export const PAYMETHOD_OP = [
 ];
 
 export const ROOM_GENDER_OP = [
-  {value: RoomGender.MIXED, label: RoomGenderKr.MIXED},
+  {value: RoomGender.ANY, label: RoomGenderKr.ANY},
   {value: RoomGender.SEPARATELY, label: RoomGenderKr.SEPARATELY},
   {value: RoomGender.MALE, label: RoomGenderKr.MALE},
   {value: RoomGender.FEMALE, label: RoomGenderKr.FEMALE}

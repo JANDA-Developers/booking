@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import moment from "moment";
 import Modal, {JDtoastModal} from "../../atoms/modal/Modal";
 import {
@@ -19,25 +19,23 @@ import {
   PAYMETHOD_OP,
   PricingType,
   PaymentStatusKr,
-  PayMethodKr
+  PayMethodKr,
+  BookingStatus,
+  BookingStatusKr
 } from "../../types/enum";
 import "./BookerModal.scss";
 import {GB_booker, IResvCount} from "../../types/interface";
-import {
-  bookingStatuMerge,
-  bookingGuestsMerge,
-  bookingPriceMerge
-} from "../../utils/booking";
+import {bookingStatuMerge, bookingGuestsMerge} from "../../utils/booking";
 import {MutationFn} from "react-apollo";
 import {
-  createBooking,
-  createBookingVariables,
   updateBooker,
   updateBookerVariables,
   deleteBooker,
   deleteBookerVariables,
-  PayMethod
+  createBooker,
+  createBookerVariables
 } from "../../types/api";
+import {GET_ALL_ROOMTYPES_WITH_GUESTS} from "../../queries";
 
 export interface IroomSelectInfoTable {
   roomTypeId: string;
@@ -49,7 +47,7 @@ export interface IroomSelectInfoTable {
 interface IProps {
   modalHook: IUseModal;
   bookerData: GB_booker;
-  createBookingMu: MutationFn<createBooking, createBookingVariables>;
+  createBookingMu: MutationFn<createBooker, createBookerVariables>;
   updateBookerMu: MutationFn<updateBooker, updateBookerVariables>;
   deleteBookerMu: MutationFn<deleteBooker, deleteBookerVariables>;
   houseId: string;
@@ -79,29 +77,26 @@ const POPbookerInfo: React.FC<IProps> = ({
     // @ts-ignore
     label: PaymentStatusKr[bookerData.paymentuseStatus]
   });
-  const bookerStatueHook = useSelect(
-    BOOKING_STATUS_OP.find(
-      op => op.value === bookingStatuMerge(bookerData.bookings)
-    ) || null
-  );
-  const defaultBookings = bookerData.bookings || [];
+  const bookerStatueHook = useSelect({
+    value: bookerData.bookingStatus,
+    label: BookingStatusKr[bookerData.bookingStatus]
+  });
   const resvDateHook = useDayPicker(
-    defaultBookings[0] ? moment(defaultBookings[0].start).toDate() : null,
-    defaultBookings[0] ? moment(defaultBookings[0].end).toDate() : null
+    moment(bookerData.start).toDate(),
+    moment(bookerData.end).toDate()
   );
 
-  const defaultFormat: IroomSelectInfoTable[] = defaultBookings.map(
-    booking => ({
-      roomTypeId: booking._id,
-      roomTypeName: booking.roomType.name,
-      count: {
-        male: bookingGuestsMerge(booking.guests).male,
-        female: bookingGuestsMerge(booking.guests).female,
-        roomCount: booking.guestCount
-      },
-      pricingType: booking.roomType.pricingType
-    })
-  );
+  const roomTypes = bookerData.roomTypes || [];
+  const defaultFormat: IroomSelectInfoTable[] = roomTypes.map(roomType => ({
+    roomTypeId: roomType._id,
+    roomTypeName: roomType.name,
+    count: {
+      male: bookingGuestsMerge(bookerData.guests, roomType._id).male,
+      female: bookingGuestsMerge(bookerData.guests, roomType._id).female,
+      roomCount: bookerData.guests ? bookerData.guests.length : 0
+    },
+    pricingType: roomType.pricingType
+  }));
 
   // 예약삭제
   const handleDeletBtnClick = () => {

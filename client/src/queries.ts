@@ -9,34 +9,6 @@ const F_LOCATION = gql`
     }
   }
 `;
-const F_GUEST = gql`
-  fragment Fguest on Guest {
-    _id
-    name
-    start
-    end
-    pricingType
-    gender
-    updatedAt
-    createdAt
-    bedIndex
-    isUnsettled
-    booking {
-      booker {
-        _id
-        isCheckIn
-      }
-    }
-    roomType {
-      _id
-      index
-    }
-    allocatedRoom {
-      _id
-      index
-    }
-  }
-`;
 const F_MINI_ROOM_TYPE = gql`
   fragment FminiRoomType on RoomType {
     _id
@@ -64,6 +36,116 @@ const F_PAGE_INFO = gql`
     totalPage
     rowCount
   }
+`;
+const F_ROOMTYPE = gql`
+  fragment FroomType on RoomType {
+    _id
+    name
+    pricingType
+    peopleCount
+    peopleCountMax
+    index
+    roomCount
+    roomGender
+    img
+    description
+    defaultPrice
+    createdAt
+    updatedAt
+    roomTemplateSrl
+  }
+`;
+
+const F_AVAILABLE_PEOPLE_COUNT = gql`
+  fragment FavailablePeopleCount on AvailablePeopleCount {
+    countAny
+    countFemale
+    countMale
+  }
+`;
+
+const F_BOOKER = gql`
+  fragment Fbooker on Booker {
+    _id
+    roomTypes {
+      ...FroomType
+    }
+    name
+    password
+    phoneNumber
+    email
+    isCheckIn
+    memo
+    agreePrivacyPolicy
+    start
+    end
+    price
+    payMethod
+    paymentStatus
+    bookingStatus
+    createdAt
+    updatedAt
+  }
+  ${F_ROOMTYPE}
+`;
+
+const F_ROOM = gql`
+  fragment Froom on Room {
+    _id
+    name
+    pricingType
+    peopleCount
+    peopleCountMax
+    index
+    createdAt
+    updatedAt
+    roomSrl
+  }
+`;
+
+const F_GUEST = gql`
+  fragment Fguest on Guest {
+    _id
+    allocatedRoom {
+      ...Froom
+    }
+    isUnsettled
+    isSettleable {
+      flag
+      duplicateDates {
+        start
+        end
+      }
+    }
+    name
+    start
+    end
+    pricingType
+    bedIndex
+    gender
+    createdAt
+    updatedAt
+  }
+  ${F_ROOM}
+`;
+const F_ROOM_CAPACITY = gql`
+  fragment FroomCapacity on RoomTypeCapacity {
+    roomTypeId
+    pricingType
+    availablePeopleCount {
+      ...FavailablePeopleCount
+    }
+    roomCapacityList {
+      roomId
+      roomGender
+      availableGenders
+      availableCount
+      peopleCount
+      emptyBeds
+    }
+  }
+  ${F_AVAILABLE_PEOPLE_COUNT}
+  ${F_ROOM}
 `;
 // 유저 기본정보 빼오기
 const F_USER_INFO = gql`
@@ -313,6 +395,10 @@ export const GetGuests = gql`
       error
       guests {
         ...Fguest
+        booker {
+          _id
+          isCheckIn
+        }
       }
     }
   }
@@ -337,9 +423,7 @@ export const GET_AVAILABLE_GUEST_COUNT = gql`
       ok
       error
       roomCapacity {
-        roomGender
-        guestGender
-        availableCount
+        ...FroomCapacity
       }
     }
     GetFemale: GetAvailableGuestCount(
@@ -352,12 +436,11 @@ export const GET_AVAILABLE_GUEST_COUNT = gql`
       ok
       error
       roomCapacity {
-        roomGender
-        guestGender
-        availableCount
+        ...FroomCapacity
       }
     }
   }
+  ${F_ROOM_CAPACITY}
 `;
 
 export const GET_ALL_ROOMTYPES = gql`
@@ -422,33 +505,19 @@ export const GET_ALL_ROOMTYPES_WITH_GUESTS = gql`
       ok
       error
       guests {
-        _id
-        name
-        start
-        end
-        pricingType
-        gender
-        updatedAt
-        createdAt
-        bedIndex
-        isUnsettled
-        booking {
-          booker {
-            _id
-            isCheckIn
-          }
-        }
+        ...Fguest
         roomType {
           _id
           index
         }
         allocatedRoom {
-          _id
-          index
+          ...Froom
         }
       }
     }
   }
+  ${F_ROOM}
+  ${F_GUEST}
   ${F_MINI_ROOM_TYPE}
 `;
 
@@ -498,38 +567,22 @@ export const GET_BOOKERS = gql`
       ok
       error
       bookers {
-        _id
-        bookings {
-          _id
-          bookingId
+        ...Fbooker
+        guests {
+          ...Fguest
           roomType {
-            _id
-            name
+            ...FminiRoomType
           }
-          price
-          start
-          end
-          discountedPrice
-          bookingStatus
-          guests {
-            gender
-          }
-          createdAt
-          updatedAt
         }
-        name
-        phoneNumber
-        email
-        isCheckIn
-        memo
-        createdAt
-        updatedAt
       }
       pageInfo {
         ...FpageInfo
       }
     }
   }
+  ${F_MINI_ROOM_TYPE}
+  ${F_GUEST}
+  ${F_BOOKER}
   ${F_PAGE_INFO}
 `;
 
@@ -539,35 +592,23 @@ export const GET_BOOKER = gql`
       ok
       error
       booker {
-        _id
-        phoneNumber
-        memo
-        name
-        isCheckIn
-        payMethod
-        paymentStatus
-        bookings {
-          guestCount
+        ...Fbooker
+        guests {
           _id
-          bookingStatus
-          start
-          end
-          guests {
-            _id
-            gender
-          }
-          price
-          roomType {
-            _id
-            name
-            pricingType
-          }
+          gender
+        }
+        price
+        roomTypes {
+          _id
+          name
+          pricingType
         }
         createdAt
         updatedAt
       }
     }
   }
+  ${F_BOOKER}
 `;
 // START 시즌관련 ────────────────────────────────────────────────────────────────────────────────
 // 가격 테이블 만들기
@@ -650,8 +691,8 @@ export const UPDATE_BOOKER = gql`
 `;
 
 export const CREATE_BOOKING = gql`
-  mutation createBooking($bookingParams: BookingInput!) {
-    CreateBooking(bookingParams: $bookingParams) {
+  mutation createBooker($bookingParams: CreateBookerParams!) {
+    CreateBooker(bookingParams: $bookingParams) {
       ok
       error
     }

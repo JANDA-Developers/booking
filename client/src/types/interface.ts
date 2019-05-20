@@ -8,13 +8,14 @@ import {
   getAllRoomTypeWithGuest_GetGuests_guests,
   getAllSeason_GetAllSeason_seasons,
   getAllSeasonTable_GetAllRoomType_roomTypes,
-  getBooker_GetBooker_booker,
-} from './api';
-import { IselectedOption } from '../atoms/forms/selectBox/SelectBox';
+  getBooker_GetBooker_booker
+} from "./api";
+import {IselectedOption} from "../atoms/forms/selectBox/SelectBox";
 
 // 🥈 중복이 생기면 이렇게 감싸서 처리하자.
 //  moudle 과 naeme space를 사용하려 해보았으나 실패 ㅠ
-export interface GAST_RoomType extends getAllSeasonTable_GetAllRoomType_roomTypes {}
+export interface GAST_RoomType
+  extends getAllSeasonTable_GetAllRoomType_roomTypes {}
 export interface GB_booker extends getBooker_GetBooker_booker {}
 export interface IProduct extends getHouse_GetHouse_house_product {}
 export interface IUser extends getMyProfile_GetMyProfile_user {}
@@ -98,7 +99,7 @@ export interface IItemContext {
   dragStart: any;
   dragTime: number;
   resizing: boolean;
-  resizeEdge: 'left' | 'right';
+  resizeEdge: "left" | "right";
   resizeStart: number;
   resizeTime: number;
   width: boolean;

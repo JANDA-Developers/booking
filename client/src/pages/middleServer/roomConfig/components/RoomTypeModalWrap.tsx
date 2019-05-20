@@ -64,7 +64,7 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({ refetchRoomData, houseId, modal
           pricingType: PricingType.DOMITORY,
           peopleCount: 0,
           peopleCountMax: 0,
-          roomGender: RoomGender.MIXED,
+          roomGender: RoomGender.ANY,
           img: undefined,
           description: '',
           defaultPrice: 0,
