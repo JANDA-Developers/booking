@@ -8,7 +8,7 @@ type Mutation {
 }
 
 input CreateBookerParams {
-    booker: BookerInput!
+    bookerParams: BookerInput!
     start: DateTime!
     end: DateTime!
     guestInputs: [GuestPartInput!]!
