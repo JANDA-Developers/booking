@@ -1,9 +1,10 @@
 import bcrypt from "bcryptjs";
-import { Types } from "mongoose";
+import { HookNextFunction, Types } from "mongoose";
 import {
     arrayProp,
     instanceMethod,
     InstanceType,
+    pre,
     prop,
     Typegoose
 } from "typegoose";
@@ -23,6 +24,20 @@ const BCRYPT_ROUNDS = 10;
  * Booker는 숙소 웹사이트로부터 들어오는 '비회원'예약을 위한 스키마.
  * 회원이 아님. 그냥 예약자들 목록임
  */
+@pre<BookerSchema>("save", function(
+    this: InstanceType<BookerSchema>,
+    next: HookNextFunction
+) {
+    this.guestCount = this.guests.length;
+    next();
+})
+@pre<BookerSchema>("update", function(
+    this: InstanceType<BookerSchema>,
+    next: HookNextFunction
+) {
+    this.guestCount = this.guests.length;
+    next();
+})
 export class BookerSchema extends Typegoose {
     @prop({ required: true })
     house: Types.ObjectId;
@@ -58,6 +73,13 @@ export class BookerSchema extends Typegoose {
 
     @arrayProp({ items: Types.ObjectId, default: [] })
     guests: Types.ObjectId[];
+
+    @prop({
+        default(this: InstanceType<BookerSchema>) {
+            return this.guests.length;
+        }
+    })
+    guestCount: number;
 
     @prop()
     start: Date;
