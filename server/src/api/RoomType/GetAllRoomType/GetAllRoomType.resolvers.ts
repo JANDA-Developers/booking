@@ -24,7 +24,10 @@ const resolvers: Resolvers = {
                         return {
                             ok: true,
                             error: null,
-                            roomTypes: await extractRoomTypes(house.roomTypes)
+                            roomTypes: await extractRoomTypes.bind(
+                                extractRoomTypes,
+                                house.roomTypes
+                            )
                         };
                     } else {
                         return {
