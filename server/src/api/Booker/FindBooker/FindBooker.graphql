@@ -1,0 +1,13 @@
+type FindBookerResponse {
+    ok: Boolean!
+    error: String
+    booker: Booker
+}
+type Query {
+    FindBooker(
+        name: Name!
+        phoneNumber: PhoneNumber!
+        password: String!
+        houseId: ID
+    ): FindBookerResponse!
+}
