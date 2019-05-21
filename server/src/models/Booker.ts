@@ -1,13 +1,6 @@
 import bcrypt from "bcryptjs";
 import { HookNextFunction, Types } from "mongoose";
-import {
-    arrayProp,
-    instanceMethod,
-    InstanceType,
-    pre,
-    prop,
-    Typegoose
-} from "typegoose";
+import { instanceMethod, InstanceType, pre, prop, Typegoose } from "typegoose";
 import {
     BookingStatusEnum,
     GenderEnum,
@@ -42,7 +35,7 @@ export class BookerSchema extends Typegoose {
     @prop({ required: true })
     house: Types.ObjectId;
 
-    @arrayProp({ items: Types.ObjectId })
+    @prop({ default: [] })
     roomTypes: Types.ObjectId[];
 
     @prop({ required: [true, `Name is Missing`] })
