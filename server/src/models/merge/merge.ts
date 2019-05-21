@@ -10,6 +10,7 @@ import {
     Room,
     RoomPrice,
     RoomType,
+    RoomTypeWithCapacity,
     Season,
     SeasonPrice,
     User
@@ -155,6 +156,41 @@ export const extractRoomType = async (
         roomCount: extractResult._doc.rooms.length,
         house: await transformHouse.bind(transformHouse, house)
     };
+};
+
+export const extractRoomTypeWithCapacity = async (
+    roomType: InstanceType<RoomTypeSchema>,
+    start: Date,
+    end: Date,
+    includeSettled?: boolean | undefined,
+    exceptBookerIds?: Types.ObjectId[]
+): Promise<RoomTypeWithCapacity> => {
+    return {
+        roomType: extractRoomType.bind(extractRoomType, roomType),
+        roomTypeCapacity: await extractRoomTypeCapacity.bind(
+            extractRoomTypeCapacity,
+            roomType,
+            start,
+            end,
+            includeSettled,
+            exceptBookerIds
+        )
+    };
+};
+
+export const extractRoomTypeCapacity = async (
+    roomType: InstanceType<RoomTypeSchema>,
+    start: Date,
+    end: Date,
+    includeSettled?: boolean | undefined,
+    exceptBookerIds?: Types.ObjectId[]
+) => {
+    return await roomType.getCapacity(
+        start,
+        end,
+        includeSettled,
+        exceptBookerIds
+    );
 };
 
 export const transformRoomType = async (

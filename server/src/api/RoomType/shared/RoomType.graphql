@@ -35,6 +35,11 @@ enum RoomGender {
     SEPARATELY
 }
 
+type RoomTypeWithCapacity {
+    roomType: RoomType!
+    roomTypeCapacity: RoomTypeCapacity!
+}
+
 type RoomTypeCapacity {
     # 방 타입 ID
     roomTypeId: ID!

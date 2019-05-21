@@ -376,6 +376,15 @@ export const extractFunc = (
         .sort((a, b) => a.availableCount - b.availableCount);
 };
 
+/**
+ * 성별 인원 보정...emptyBeds 어떻게 할까?
+ * 이거 굳이 배열을 gender 별로 분류해서 각각 대입해야 했을까?
+ * 그냥 forEach 안에서 if문으로 Gender 구분해서 적용하면 되는거 아니었을까?
+ * @param roomTypeCapacity
+ * @param gender
+ * @param paddingCount 채울 인원 수
+ * @param roomGender 방 성별
+ */
 export const addPadding = (
     roomTypeCapacity: RoomTypeCapacity,
     gender: Gender,
@@ -405,6 +414,10 @@ export const addPadding = (
             capacity.availableCount = -diff;
             paddingCount = 0;
         }
+        capacity.emptyBeds = capacity.emptyBeds.slice(
+            0,
+            capacity.availableCount
+        );
         return capacity;
     });
 
@@ -420,6 +433,9 @@ export const addPadding = (
     ).map(capacity => {
         // TODO: Something...........................
         const avaialbleCount = capacity.availableCount;
+        if (paddingCount > 0 && capacity.availableCount > 0) {
+            capacity.availableGenders = [gender];
+        }
         const diff = paddingCount - avaialbleCount;
         if (diff >= 0) {
             capacity.availableCount = 0;
@@ -428,6 +444,10 @@ export const addPadding = (
             capacity.availableCount = -diff;
             paddingCount = 0;
         }
+        capacity.emptyBeds = capacity.emptyBeds.slice(
+            0,
+            capacity.availableCount
+        );
         return capacity;
     });
     const temp = [
