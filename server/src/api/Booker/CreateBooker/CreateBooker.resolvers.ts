@@ -209,7 +209,7 @@ const createGuestWithBookerAndAllocateHere = (
     const dateRange: { start: Date; end: Date } = bookerInstance;
     // 1. 현재 이방 예약 가능한지 확인...
     const bedCount = roomCapacity.emptyBeds.length;
-    if (bedCount <= 0 || roomCapacity.availableCount <= 0) {
+    if (bedCount === 0 || roomCapacity.availableCount <= 0) {
         return [];
     }
     if (
@@ -235,13 +235,14 @@ const createGuestWithBookerAndAllocateHere = (
             pricingType: roomTypeInstance.pricingType,
             gender: genderData.gender || null,
             allocatedRoom: new Types.ObjectId(roomCapacity.roomId),
-            bedIndex: roomCapacity.emptyBeds[index++],
+            bedIndex: roomCapacity.emptyBeds[index],
             isUnsettled,
             start: dateRange.start,
             end: dateRange.end
         });
         guestInstances.push(guest);
         roomCapacity.availableCount--;
+        _.pull(roomCapacity.emptyBeds, index++);
         genderData.count--;
     }
 

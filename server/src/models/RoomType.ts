@@ -18,9 +18,9 @@ import {
     RoomCapacity,
     RoomGender,
     RoomTypeCapacity,
-    UpdateRoomTypeParams
+    UpdateRoomTypeParams,
+    UpdateRoomTypeResponse
 } from "../types/graph";
-import { ResReturnType } from "../types/types";
 import { removeUndefined } from "../utils/objFuncs";
 import { GuestModel, GuestSchema } from "./Guest";
 import { HouseModel } from "./House";
@@ -229,7 +229,7 @@ export class RoomTypeSchema extends Typegoose {
     async updateThis(
         this: InstanceType<RoomTypeSchema>,
         params: UpdateRoomTypeParams
-    ): Promise<ResReturnType> {
+    ): Promise<UpdateRoomTypeResponse> {
         // TODO: 방 업데이트 로직 ㄱㄱ updateRoomType 로직도 같이 바꿔주기
         const guestCount = await GuestModel.countDocuments({
             roomType: new Types.ObjectId(this._id)
@@ -241,25 +241,22 @@ export class RoomTypeSchema extends Typegoose {
             return {
                 ok: false,
                 error:
-                    "해당 방타입에 배정된 게스트가 존재합니다. 모두 제거한 후 업데이트 해주세요."
+                    "해당 방타입에 배정된 게스트가 존재합니다. 모두 제거한 후 업데이트 해주세요.",
+                roomType: null
             };
-        } else if (
-            guestCount === 0 &&
-            (params.peopleCount !== null || params.peopleCountMax !== null)
-        ) {
+        } else {
             await RoomModel.updateMany(
                 {
                     roomType: new Types.ObjectId(this._id)
                 },
-                {
-                    updateData
-                }
+                updateData
             );
         }
         await this.update(updateData);
         return {
             ok: true,
-            error: null
+            error: null,
+            roomType: null
         };
     }
 
