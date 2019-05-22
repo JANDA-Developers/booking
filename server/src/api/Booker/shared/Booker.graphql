@@ -6,7 +6,7 @@ type Booker {
     password: String
     phoneNumber: PhoneNumber!
     email: EmailAddress
-    isCheckIn: DateTime
+    checkIn: CheckIn!
     memo: String
     agreePrivacyPolicy: Boolean!
     guests: [Guest!]
@@ -19,6 +19,11 @@ type Booker {
     bookingStatus: BookingStatus!
     createdAt: DateTime!
     updatedAt: DateTime
+}
+
+type CheckIn {
+    isIn: Boolean!
+    checkInDateTime: DateTime
 }
 
 enum BookingStatus {
