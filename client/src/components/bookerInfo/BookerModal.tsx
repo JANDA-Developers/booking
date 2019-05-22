@@ -119,6 +119,7 @@ const POPbookerInfo: React.FC<IProps> = ({
   };
   // 예약생성
   const handleCreateBtnClick = () => {
+    if (!bookerData.roomTypes) return;
     createBookerMu({
       variables: {
         bookingParams: {
@@ -133,7 +134,13 @@ const POPbookerInfo: React.FC<IProps> = ({
             memo: memoHook.value
           },
           end: resvDateHook.to,
-          guestInputs: []
+          guestInputs: defaultFormat.map(data => ({
+            roomTypeId: data.roomTypeId,
+            pricingType: data.pricingType,
+            countFemaleGuest: data.count.female,
+            countMaleGuest: data.count.male,
+            countRoom: data.count.roomCount
+          }))
         }
       }
     });
