@@ -1,0 +1,7 @@
+type DeleteGuestsResponse {
+    ok: Boolean!
+    error: String
+}
+type Mutation {
+    DeleteGuests(guestIds: [ID!]): DeleteGuestsResponse
+}
