@@ -3,5 +3,5 @@ type DeleteGuestsResponse {
     error: String
 }
 type Mutation {
-    DeleteGuests(guestIds: [ID!]): DeleteGuestsResponse
+    DeleteGuests(guestIds: [ID!]): DeleteGuestsResponse!
 }

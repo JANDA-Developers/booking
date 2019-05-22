@@ -249,7 +249,9 @@ export class RoomTypeSchema extends Typegoose {
                 {
                     roomType: new Types.ObjectId(this._id)
                 },
-                updateData
+                {
+                    $set: updateData
+                }
             );
         }
         await this.update(updateData);
