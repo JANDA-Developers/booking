@@ -759,6 +759,15 @@ export const UPDATE_BOOKER = gql`
   }
 `;
 
+export const DELETE_GUEST = gql`
+  mutation deleteGuests($guestIds: [ID!]) {
+    DeleteGuests(guestIds: $guestIds) {
+      ok
+      error
+    }
+  }
+`;
+
 export const CREATE_BOOKING = gql`
   mutation createBooker($bookingParams: CreateBookerParams!) {
     CreateBooker(bookingParams: $bookingParams) {

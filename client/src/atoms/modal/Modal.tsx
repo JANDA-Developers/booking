@@ -58,6 +58,7 @@ const JDmodal: React.SFC<IProps> = ({
               label="확인"
               onClick={() => {
                 confirmCallBackFn && confirmCallBackFn(true);
+                info.callBack && info.callBack(true);
                 closeModal();
               }}
             />
@@ -67,6 +68,7 @@ const JDmodal: React.SFC<IProps> = ({
               label="취소"
               onClick={() => {
                 confirmCallBackFn && confirmCallBackFn(false);
+                info.callBack && info.callBack(true);
                 closeModal();
               }}
             />
