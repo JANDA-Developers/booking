@@ -1,7 +1,8 @@
 import {BookingStatus, Gender} from "../types/enum";
 import {arraySum} from "./elses";
 import isEmpty from "./isEmptyData";
-import {any} from "prop-types";
+import {any, string} from "prop-types";
+import {IroomSelectInfoTable} from "../components/bookerInfo/BookerModal";
 
 // booking들을 받아서 종합 BookingStatu를 반환합니다.
 
@@ -87,4 +88,38 @@ export const bookingGuestsMerge = (
       };
     }
   }
+};
+
+interface IGetRoomTypePerGuestsParams {
+  roomTypes:
+    | {
+        _id: string;
+        name: string;
+        [foo: string]: any;
+      }[]
+    | null;
+  guests: IGuest[] | null;
+  [foo: string]: any;
+}
+
+export const getRoomTypePerGuests = (
+  bookerData: IGetRoomTypePerGuestsParams
+): IroomSelectInfoTable[] => {
+  const roomTypes = bookerData.roomTypes || [];
+  return roomTypes.map(roomType => ({
+    roomTypeId: roomType._id,
+    roomTypeName: roomType.name,
+    count: {
+      male: bookingGuestsMerge(
+        bookerData.guests,
+        roomType ? roomType._id : undefined
+      ).male,
+      female: bookingGuestsMerge(
+        bookerData.guests,
+        roomType ? roomType._id : undefined
+      ).female,
+      roomCount: bookerData.guests ? bookerData.guests.length : 0
+    },
+    pricingType: roomType.pricingType
+  }));
 };

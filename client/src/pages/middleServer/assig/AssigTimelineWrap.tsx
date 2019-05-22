@@ -130,6 +130,20 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
     )
   });
 
+  const crushTimeMake = (
+    guestData: IGuests,
+    index: number
+  ): IAssigItemCrush[] => {
+    if (guestData.isSettleable && guestData.isSettleable.duplicateDates) {
+      return guestData.isSettleable.duplicateDates.map(date => ({
+        start: moment(date.start).valueOf(),
+        end: moment(date.end).valueOf(),
+        guestIndex: index,
+        reason: ""
+      }));
+    }
+    return [];
+  };
   //  TODO: 메모를 사용해서 데이터를 아끼자
   // 게스트 데이터를 달력에서 쓸수있는 Item 데이터로 변경 절차
   const guestsDataManufacture = (
@@ -160,7 +174,7 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
           group: guestData.allocatedRoom._id + guestData.bedIndex,
           start: moment(guestData.start).valueOf(),
           end: moment(guestData.end).valueOf(),
-          validate: [],
+          validate: crushTimeMake(guestData, index),
           type: "normal",
           bedIndex: guestData.bedIndex
         });
@@ -207,6 +221,7 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
         }
         // 🛌 베드타입일경우
         if (roomTypeData.pricingType === "DOMITORY") {
+          console.log("roomTypeData.peopleCount");
           console.log(roomTypeData.peopleCount);
           console.log(roomTypeData.peopleCount);
           console.log(roomTypeData.peopleCount);

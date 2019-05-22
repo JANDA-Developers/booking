@@ -174,7 +174,7 @@ const JDsearchInput: React.FC<IProps> = ({
   const classes = classNames({
     JDsearchInput: true,
     "JDsearchInput--staticList": staticList === true,
-    "JDsearchInput--labeled": label !== undefined
+    "JDsearchInput--labeled": label
   });
 
   useEffect(setList, [dataList]); // 유저 리스트가 변할때마다 새롭게 리스트를 찾습니다.
@@ -187,7 +187,7 @@ const JDsearchInput: React.FC<IProps> = ({
   return (
     <div className={classes}>
       <div className="JDsearchInput__input_wrapper">
-        <span className="JDsearchInput__label">{label}</span>
+        {label && <span className="JDsearchInput__label">{label}</span>}
         <input
           onFocus={handleOnFocus}
           onBlur={handleOnBlur}
@@ -207,7 +207,7 @@ const JDsearchInput: React.FC<IProps> = ({
         >
           {isLoading ? <Preloader /> : <Icon hover icon="magnifier" />}
         </span>
-        {feedBackMessage !== "" && (
+        {feedBackMessage && (
           <span className="JDsearchInput__feedBack">{`${feedBackMessage}`}</span>
         )}
       </div>
@@ -230,9 +230,7 @@ JDsearchInput.defaultProps = {
   isMatched: false,
   alwaysListShow: false,
   isLoading: false,
-  label: "",
   onTypeValue: "",
-  feedBackMessage: "",
   placeholder: "search",
   asName: "name",
   asDetail: "detail",

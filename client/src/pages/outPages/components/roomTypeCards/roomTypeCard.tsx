@@ -69,7 +69,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
     // 남성 SelectOp 리턴
 
     const opFn = (count: number): IselectedOption<number>[] => {
-      return Array(count)
+      return Array(count + 1)
         .fill(0)
         .map((value, index) => ({
           label: `${index}`,
@@ -95,6 +95,10 @@ const RoomTypeCard: React.SFC<IProps> = ({
   const femaleSeleteOption = countSelectOpFn("femaleCount");
   const roomSeleteOption = countSelectOpFn("roomCount");
 
+  console.log("roomSeleteOption");
+  console.log(roomSeleteOption);
+  console.log(roomSeleteOption);
+  console.log(roomSeleteOption);
   // 이미 선택한 방인지 체크1
   const isSelectedRoom = ((): boolean => {
     const temp = resvRooms.filter(

@@ -70,6 +70,8 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
     height: `${ASSIGT_IMELINE_HEIGHT - 2}px`
   };
 
+  console.log("#asdqweqxczx::item.validate");
+  console.log(item.validate);
   return (
     <div {...props} id={`assigItem--guest${item.id}`}>
       {itemContext.useResizeHandle ? <div {...leftResizeProps} /> : ""}

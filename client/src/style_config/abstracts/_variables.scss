@@ -114,6 +114,7 @@ $standard-space: 1rem !default; // except textInput 구조가 다름
 $standard-margin-bottom: 1.0rem !default; // except textInput 구조가 다름
 $standard-border-radius: 3px;
 $standard-line-height: 2.25rem; // ⭐️ 구성요소들이 한줄에 섰을때 세로 크기를 정의합니다.
+$standard-small-line-height: 2.25rem; // 헤더부분에서 사용중
 $standard-lists-line: 150%; // 옹기종기모인 div들 정리용
 $standard-side-padding: .5rem; // side
 $standard-small-padding: 0.3125rem; // side
@@ -278,7 +279,7 @@ $button-height: 36px !default;
 // 6 SearchInput
 // ANCHOR Search Input =========================================================================
 
-$searchInput-input-height: $input-height + $input-padding-top!default;
+$searchInput-input-height-labeled: $input-height + $input-padding-top!default;
 $searchInput-input-border: $input-border !default;
 $searchInput-border-color:$grey-level1 !default;
 $searchInput-border-radius: $standard-border-radius;
@@ -303,7 +304,7 @@ $sideNav-productView-height: 4.3125rem;
 
 // 8 Header 헤더
 // ANCHOR Header NAV =========================================================================
-$header-height: 3rem;
+$header-height: 3.225rem;
 $header-padding: 1rem;
 
 // 9 CircleIcon 둥근 아이콘

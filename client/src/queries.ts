@@ -473,6 +473,37 @@ export const GET_ALL_ROOMTYPES = gql`
   ${F_MINI_ROOM_TYPE}
 `;
 
+export const FIND_BOOKER = gql`
+  query findBooker(
+    $name: Name!
+    $phoneNumber: PhoneNumber!
+    $password: String!
+    $houseId: ID
+  ) {
+    FindBooker(
+      name: $name
+      phoneNumber: $phoneNumber
+      password: $password
+      houseId: $houseId
+    ) {
+      ok
+      error
+      booker {
+        ...Fbooker
+        guests {
+          ...Fguest
+          roomType {
+            ...FminiRoomType
+          }
+        }
+      }
+    }
+  }
+  ${F_GUEST}
+  ${F_BOOKER}
+  ${F_MINI_ROOM_TYPE}
+`;
+
 // ⭐️방배정!!
 // 모든 방타입 + 모든 게스트 가져오기!!
 export const GET_ALL_ROOMTYPES_WITH_GUESTS = gql`

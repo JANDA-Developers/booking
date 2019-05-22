@@ -26,7 +26,11 @@ import {
 } from "../../types/enum";
 import "./BookerModal.scss";
 import {GB_booker, IResvCount} from "../../types/interface";
-import {bookingStatuMerge, bookingGuestsMerge} from "../../utils/booking";
+import {
+  bookingStatuMerge,
+  bookingGuestsMerge,
+  getRoomTypePerGuests
+} from "../../utils/booking";
 import {MutationFn} from "react-apollo";
 import {
   updateBooker,
@@ -95,23 +99,9 @@ const POPbookerInfo: React.FC<IProps> = ({
     moment(bookerData.end).toDate()
   );
 
-  const roomTypes = bookerData.roomTypes || [];
-  const defaultFormat: IroomSelectInfoTable[] = roomTypes.map(roomType => ({
-    roomTypeId: roomType._id,
-    roomTypeName: roomType.name,
-    count: {
-      male: bookingGuestsMerge(
-        bookerData.guests,
-        roomType ? roomType._id : undefined
-      ).male,
-      female: bookingGuestsMerge(
-        bookerData.guests,
-        roomType ? roomType._id : undefined
-      ).female,
-      roomCount: bookerData.guests ? bookerData.guests.length : 0
-    },
-    pricingType: roomType.pricingType
-  }));
+  const defaultFormat: IroomSelectInfoTable[] = getRoomTypePerGuests(
+    bookerData
+  );
 
   // 예약삭제
   const handleDeletBtnClick = () => {

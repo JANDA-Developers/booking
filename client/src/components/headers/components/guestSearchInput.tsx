@@ -12,11 +12,9 @@ const GuestSearchInput: React.FC<IProps> = ({onTypeValue, onTypeChange}) => (
     onTypeValue={onTypeValue}
     onTypeChange={onTypeChange}
     onSearch={onTypeChange}
-    feedBackMessage="feedBackMessage"
     staticList
     dataList={SELECT_DUMMY_OP}
     filter
-    label="normal"
   />
 );
 
