@@ -225,7 +225,7 @@ export class RoomTypeSchema extends Typegoose {
     @instanceMethod
     async updateThis(
         this: InstanceType<RoomTypeSchema>,
-        args: {
+        params: {
             peopleCount: number;
             peopleCountMax: number;
             defaultPrice: number;
@@ -301,7 +301,6 @@ export class RoomTypeSchema extends Typegoose {
             const c2Gender = convertGenderArrToGuestGender(c2.availableGenders);
             return c1Gender === c2Gender ? 1 : 0;
         });
-
         const availablePeopleCount = getEmptyCount(
             roomCapacityList,
             this.pricingType

@@ -206,6 +206,19 @@ export const transformRoomType = async (
     }
 };
 
+export const transformRoomTypes = async (
+    roomTypeIds: Types.ObjectId[]
+): Promise<RoomType[]> => {
+    const roomTypeInstances = await RoomTypeModel.find({
+        _id: { $in: roomTypeIds }
+    });
+    return await Promise.all(
+        roomTypeInstances.map(async roomTypeInstance => {
+            return await extractRoomType(roomTypeInstance);
+        })
+    );
+};
+
 export const extractRoomTypes = async (
     roomTypeIds: Types.ObjectId[]
 ): Promise<RoomType[]> => {
@@ -475,6 +488,10 @@ export const extractBooker = async (
     return {
         ...result._doc,
         _id: result._doc._id,
+        roomTypes: await transformRoomTypes.bind(
+            transformRoomTypes,
+            result._doc.roomTypes
+        ),
         house: await transformHouse.bind(transformHouse, result._doc.house),
         guests: await transformGuests.bind(transformGuests, result._doc.guests)
     };
