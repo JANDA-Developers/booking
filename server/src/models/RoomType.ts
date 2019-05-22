@@ -254,6 +254,10 @@ export class RoomTypeSchema extends Typegoose {
                 }
             );
         }
+        console.log({
+            ddd: this._id
+        });
+
         await this.update(updateData);
         return {
             ok: true,
