@@ -205,7 +205,7 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
         if (roomTypeData.pricingType === "ROOM") {
           rooms.map((room, index) => {
             roomGroups.push({
-              id: room._id,
+              id: room._id + 0,
               title: room.name,
               roomTypeId: roomTypeData._id,
               roomTypeIndex: roomTypeData.index,
@@ -221,11 +221,6 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
         }
         // 🛌 베드타입일경우
         if (roomTypeData.pricingType === "DOMITORY") {
-          console.log("roomTypeData.peopleCount");
-          console.log(roomTypeData.peopleCount);
-          console.log(roomTypeData.peopleCount);
-          console.log(roomTypeData.peopleCount);
-          console.log(roomTypeData.peopleCount);
           rooms.map((room, index) => {
             for (let i = 0; roomTypeData.peopleCount > i; i += 1) {
               roomGroups.push({
@@ -279,6 +274,9 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
         ); // 원본데이터
         const formatedRoomData = roomDataManufacture(roomTypesData); // 타임라인을 위해 가공된 데이터
         const formatedGuestsData = guestsDataManufacture(guestsData); // 타임라인을 위해 가공된 데이터
+
+        console.log("formatedGuestsData");
+        console.log(formatedGuestsData);
 
         return (
           <AllocateGuestToRoomMu

@@ -95,10 +95,6 @@ const RoomTypeCard: React.SFC<IProps> = ({
   const femaleSeleteOption = countSelectOpFn("femaleCount");
   const roomSeleteOption = countSelectOpFn("roomCount");
 
-  console.log("roomSeleteOption");
-  console.log(roomSeleteOption);
-  console.log(roomSeleteOption);
-  console.log(roomSeleteOption);
   // 이미 선택한 방인지 체크1
   const isSelectedRoom = ((): boolean => {
     const temp = resvRooms.filter(
@@ -140,7 +136,8 @@ const RoomTypeCard: React.SFC<IProps> = ({
       return;
     }
 
-    const totalCount = guestCountValue.female + guestCountValue.male;
+    const totalCount =
+      guestCountValue.female + guestCountValue.male + guestCountValue.room;
 
     // 선택된인원이 없는경우에
     if (totalCount === 0) {

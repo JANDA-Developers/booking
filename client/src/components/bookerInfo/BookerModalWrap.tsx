@@ -1,6 +1,7 @@
 import React from "react";
 import {Query, Mutation} from "react-apollo";
 import BookerModal from "./BookerModal";
+import _ from "lodash";
 import {IUseModal} from "../../actions/hook";
 import {
   getBooker,
@@ -97,11 +98,14 @@ const BookerModalWrap: React.FC<IProps> = ({modalHook, houseId}) => (
           bookingStatus: BookingStatus.COMPLETE,
           start: createMpdalInfoes.start,
           end: createMpdalInfoes.end,
-          roomTypes: createMpdalInfoes.resvInfoes.map(resvInfo => ({
-            ...DEFAULT_ROOMTYPE,
-            _id: resvInfo.roomTypeId,
-            name: resvInfo.roomTypeName
-          })),
+          roomTypes: _.uniqBy(
+            createMpdalInfoes.resvInfoes.map(resvInfo => ({
+              ...DEFAULT_ROOMTYPE,
+              _id: resvInfo.roomTypeId,
+              name: resvInfo.roomTypeName
+            })),
+            "_id"
+          ),
           guests: createMpdalInfoes.resvInfoes.map(resv => ({
             __typename: "Guest",
             _id: "",

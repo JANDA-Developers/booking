@@ -23,8 +23,14 @@ import {
   updateBooker
 } from "../../../types/api";
 import {JDtoastModal} from "../../../atoms/modal/Modal";
-import {PaymentStatus, PricingType} from "../../../types/enum";
+import {
+  PaymentStatus,
+  PricingType,
+  PricingTypeKr,
+  PaymentStatusKr
+} from "../../../types/enum";
 import {bookingGuestsMerge} from "../../../utils/booking";
+import moment from "moment";
 
 interface IProps {
   pageInfo: IPageInfo | undefined;
@@ -115,7 +121,9 @@ const ResvList: React.SFC<IProps> = ({
     {
       Header: "예약일자",
       accessor: "createdAt",
-      Cell: ({value}: CellInfo) => <div>{setYYYYMMDD(value.createdAt)}</div>
+      Cell: ({value}: CellInfo) => (
+        <div>{moment(value.createdAt).format("MM-DD-YYYY hh:mm")}</div>
+      )
     },
     {
       Header: "숙박정보",
@@ -136,8 +144,12 @@ const ResvList: React.SFC<IProps> = ({
                   <span>
                     {roomType.pricingType === PricingType.DOMITORY ? (
                       <Fragment>
-                        <span>{guestsCount.female}여</span>
-                        <span>{guestsCount.male}남</span>
+                        {guestsCount.female ? (
+                          <span>{guestsCount.female}여 </span>
+                        ) : null}
+                        {guestsCount.male ? (
+                          <span>{guestsCount.male}남</span>
+                        ) : null}
                       </Fragment>
                     ) : (
                       <span>{guestsCount.count}개</span>
@@ -146,7 +158,6 @@ const ResvList: React.SFC<IProps> = ({
                 );
               })()}
             </span>
-            }
           </JDbox>
         ));
       }
@@ -154,11 +165,11 @@ const ResvList: React.SFC<IProps> = ({
     {
       Header: "숙박일자",
       accessor: "booker",
-      Cell: ({value}: CellInfo) => (
+      Cell: ({original}: CellInfo) => (
         <div>
-          {setYYYYMMDD(value.start)}
+          {setYYYYMMDD(original.start)}
           <br />
-          {setYYYYMMDD(value.end)}
+          {setYYYYMMDD(original.end)}
         </div>
       )
     },
@@ -190,8 +201,14 @@ const ResvList: React.SFC<IProps> = ({
           {"결제상태"}
         </div>
       ),
-      accessor: "booker",
-      Cell: ({value}: CellInfo) => <div>{value.price}</div>
+      accessor: "price",
+      Cell: ({value, original}: CellInfo) => (
+        <div>
+          <span>{value}원</span>
+          <br />
+          <span>{PaymentStatusKr[original.paymentStatus]}</span>
+        </div>
+      )
     },
     {
       Header: "메모",
