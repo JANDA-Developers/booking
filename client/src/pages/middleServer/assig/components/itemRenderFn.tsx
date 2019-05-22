@@ -70,8 +70,6 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
     height: `${ASSIGT_IMELINE_HEIGHT - 2}px`
   };
 
-  console.log("#asdqweqxczx::item.validate");
-  console.log(item.validate);
   return (
     <div {...props} id={`assigItem--guest${item.id}`}>
       {itemContext.useResizeHandle ? <div {...leftResizeProps} /> : ""}
@@ -94,7 +92,7 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
                   )}
                 </span>
 
-                {item.validate.map(validate => {
+                {/* {item.validate.map(validate => {
                   if (validate.start && validate.end) {
                     const CellWidth = $(".rct-dateHeader").width() || 0;
                     const cellFrom =
@@ -112,9 +110,9 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
                       />
                     );
                   }
-                })}
+                })} */}
                 <span
-                  data-tip="1"
+                  data-tip={item.guestIndex}
                   data-place="top"
                   data-for="itemTooltip"
                   data-event="click"

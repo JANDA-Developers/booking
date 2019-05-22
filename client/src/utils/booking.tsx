@@ -1,4 +1,4 @@
-import {BookingStatus, Gender} from "../types/enum";
+import {BookingStatus, Gender, PricingType} from "../types/enum";
 import {arraySum} from "./elses";
 import isEmpty from "./isEmptyData";
 import {any, string} from "prop-types";
@@ -118,7 +118,12 @@ export const getRoomTypePerGuests = (
         bookerData.guests,
         roomType ? roomType._id : undefined
       ).female,
-      roomCount: bookerData.guests ? bookerData.guests.length : 0
+      roomCount:
+        roomType.pricingType === PricingType.DOMITORY
+          ? 0
+          : bookerData.guests
+          ? bookerData.guests.length
+          : 0
     },
     pricingType: roomType.pricingType
   }));

@@ -120,12 +120,14 @@ const POPbookerInfo: React.FC<IProps> = ({
   // 예약생성
   const handleCreateBtnClick = () => {
     if (!bookerData.roomTypes) return;
+
     createBookerMu({
       variables: {
         bookingParams: {
           start: resvDateHook.from,
           bookerParams: {
             house: houseId,
+            price: priceHook.value,
             name: bookerNameHook.value,
             password: "admin",
             phoneNumber: bookerPhoneHook.value,
@@ -139,7 +141,8 @@ const POPbookerInfo: React.FC<IProps> = ({
             pricingType: data.pricingType,
             countFemaleGuest: data.count.female,
             countMaleGuest: data.count.male,
-            countRoom: data.count.roomCount
+            countRoom:
+              data.pricingType === PricingType.ROOM ? data.count.roomCount : 0
           }))
         }
       }

@@ -526,28 +526,6 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
 
     // 컨트롤: 체크인
     if (e.ctrlKey) {
-      const result = await updateBookerMu({
-        variables: {
-          bookerId: target.bookerId,
-          params: {
-            isCheckIn: !guestValue[target.guestIndex].isCheckin
-          }
-        }
-      });
-
-      // 아폴로 통신 성공
-      if (result && result.data) {
-        onCompletedMessage(result.data.UpdateBooker, "체크인", "실패");
-        if (result.data.UpdateBooker.ok) {
-          // 뮤테이션 성공시
-          guestValue[target.guestIndex].isCheckin = !guestValue[
-            target.guestIndex
-          ].isCheckin;
-          setGuestValue([...guestValue]);
-        } else {
-          // 뮤테이션 실패시
-        }
-      }
     }
     // 쉬프트 팝업
     if (e.shiftKey) {
@@ -561,6 +539,35 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     }
   };
 
+  const toogleCheckInOut = async (guestId?: string, guestIndex?: number) => {
+    let target: IAssigItem;
+    if (guestIndex !== undefined) {
+      target = guestValue[guestIndex];
+    } else if (guestId) {
+      target = guestValue.find(guest => guest.id === guestId);
+    }
+
+    const result = await updateBookerMu({
+      variables: {
+        bookerId: target.bookerId,
+        params: {
+          isCheckIn: !guestValue[target.guestIndex].isCheckin
+        }
+      }
+    });
+    // 아폴로 통신 성공
+    if (result && result.data) {
+      onCompletedMessage(result.data.UpdateBooker, "체크인", "실패");
+      if (result.data.UpdateBooker.ok) {
+        // 뮤테이션 성공시
+        guestValue[target.guestIndex].isCheckin = !guestValue[target.guestIndex]
+          .isCheckin;
+        setGuestValue([...guestValue]);
+      } else {
+        // 뮤테이션 실패시
+      }
+    }
+  };
   // 🐭 캔버스 오른쪽 클릭
   const handleCanvasContextMenu = (
     groupId: string,

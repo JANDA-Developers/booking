@@ -48,9 +48,10 @@ const MakeItemMenu: React.FC<IProps> = ({
               const targetGroup = groupData.find(
                 group => group.id === item.group
               );
+
               return {
                 roomTypeName: targetGroup ? targetGroup.roomType.name : "",
-                roomTypeId: item.roomTypeId,
+                roomTypeId: targetGroup ? targetGroup.roomTypeId : "",
                 gender: item.gender
               };
             });

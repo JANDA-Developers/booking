@@ -50,6 +50,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
     house: houseId,
     name: "",
     password: "",
+    price: 0,
     memo: "",
     email: "colton950901@naver.com",
     phoneNumber: "",
