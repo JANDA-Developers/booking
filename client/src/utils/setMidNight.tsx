@@ -8,7 +8,6 @@ const setMidNight = (date: number) =>
   Math.floor(date / TimePerMs.DAY) * TimePerMs.DAY - 32400 * 1000;
 const setYYYYMMDD = (date: any) => {
   if (!date) {
-    console.error("date Null");
     return moment()
       .toISOString()
       .split("T")[0];

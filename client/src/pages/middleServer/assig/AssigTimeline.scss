@@ -1,13 +1,17 @@
 @import '../../../style_config/style_config.scss';
 
-$AT-assigGroup-rooType-width: 50px;
+$AT-assigGroup-roomType-width: 100px;
 $AT-assigGroup-room-width: 100px;
+
+$AT-mobile-assigGroup-roomType-width: 30px;
+$AT-mobile-assigGroup-room-width: 30px;
 
 
 $assigItem-normal-background-color: rgba(33,83,219,.8);
 $assigItem-linked-background-color: rgba(255,255,255,.5);
 $assigItem-checkIn-background-color: rgba(255,255,0,.7);
-$assigItem-unSelected-linked-border: 3px solid #387BDB;
+$assigItem-unSelected-linked-border-thick: 3px;
+$assigItem-unSelected-linked-border: $assigItem-unSelected-linked-border-thick solid #387BDB;
 $assigItem-padding: 6px;
 
 #AssigTimeline {
@@ -103,21 +107,31 @@ $assigItem-padding: 6px;
     
     // 좌측 방 그룹 조정
     .assigGroups {
-
         overflow: hidden;
         &__roomType {
             position:absolute;
-            width: $AT-assigGroup-rooType-width;
+            width: $AT-assigGroup-roomType-width;
             background-color: white;
             left: 0;
             display:flex;
             justify-content: center;
             align-items: center;
             border-right: 1px solid $grey-opacity3;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            
+
+            @include response($mobile) {
+                width: $AT-mobile-assigGroup-roomType-width;
+                display:initial;
+                font-size: $typho-small;
+                white-space: pre-wrap;
+                line-height: 100%;
+            }
         }
         &__room {
             position:absolute;
-            left: $AT-assigGroup-rooType-width;
+            left: $AT-assigGroup-roomType-width;
             width: $AT-assigGroup-room-width;
             background-color: white;
             display: flex;
@@ -125,13 +139,33 @@ $assigItem-padding: 6px;
             align-items: center;
             border-right: 1px solid $grey-opacity2;
 
+            // 방중에 도미토리가 아닌경우
             &--roomType {
-                width: calc(100% - #{$AT-assigGroup-rooType-width});
+                width: calc(100% - #{$AT-assigGroup-roomType-width});
+                @include response($mobile) {
+                    width: calc(100% - #{$AT-mobile-assigGroup-roomType-width});
+                }
+            }
+
+            @include response($mobile) {
+                left: $AT-mobile-assigGroup-roomType-width;
+                width: $AT-mobile-assigGroup-room-width;
+                display:initial;
+                font-size: $typho-small;
+                white-space: pre-wrap;
+                line-height: 100%;
+
+                &--roomType {
+                    width: calc(100% - #{$AT-assigGroup-roomType-width});
+                    @include response($mobile) {
+                        width: calc(100% - #{$AT-mobile-assigGroup-roomType-width});
+                    }
+                }
             }
         }
 
         &__place {
-            padding-left: $AT-assigGroup-rooType-width + $AT-assigGroup-room-width - 4px;
+            padding-left: $AT-assigGroup-roomType-width + $AT-assigGroup-room-width - 4px;
             text-align: center;
             width: calc(100% + 4px);
         }
@@ -147,7 +181,10 @@ $assigItem-padding: 6px;
         @extend %z-depth-half;
         box-sizing: border-box;
         position: relative;
-
+        font-size: $typho-small;
+        @include response($mobile) {
+            font-size: $typho-tiny;
+        }
         // 😲 배정안된
         &--unAllocated {
             opacity: 0.5;
@@ -177,6 +214,7 @@ $assigItem-padding: 6px;
             color: $html-color;
             background-color: $assigItem-linked-background-color;
             border: $assigItem-unSelected-linked-border;
+
             #{$B}__configIconWrap {
                 &:hover {
                     color: $grey-level3;
@@ -214,9 +252,12 @@ $assigItem-padding: 6px;
             align-items: center;
             padding: 0px $assigItem-padding;
             height: 100%;
+            white-space: nowrap;
 
             .circleIcon {
                 margin: 0;
+                max-height: 100%;
+                vertical-align: baseline;
             }
         }
         
@@ -234,6 +275,7 @@ $assigItem-padding: 6px;
         // 😲 방막기일떄
         &--block {
             background-color: $html-color;
+            color:white;
             // X 버튼
             .circleIcon {
                 color:white;
@@ -242,9 +284,7 @@ $assigItem-padding: 6px;
         // 😲 방막기 선택된
         &--block.assigItem--selected {
             background-color: $html-color;
-            border:none;
             color:white;
-            border-right-color: $grey-level3;
         }
         // 😲 마킹
         &--mark {
@@ -259,6 +299,15 @@ $assigItem-padding: 6px;
             background-color: $secondary-color;
             border-color: $secondary-color-dark;
             color:white;
+
+            #{$B}__gender {
+                &--female {
+                    color: white;
+                }
+                &--male {
+                    color: white;
+                }
+            }
         }
     }
 }

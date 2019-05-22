@@ -13,7 +13,8 @@ import {
   createBooker,
   createBookerVariables,
   allocateGuestToRoom,
-  allocateGuestToRoomVariables
+  allocateGuestToRoomVariables,
+  RoomGender
 } from "../../types/api";
 import {
   queryDataFormater,
@@ -30,9 +31,15 @@ import {
   GET_BOOKERS,
   ALLOCATE_GUEST_TO_ROOM
 } from "../../queries";
-import {PayMethod, PaymentStatus, BookingStatus} from "../../types/enum";
+import {
+  PayMethod,
+  PaymentStatus,
+  BookingStatus,
+  BookerModalType
+} from "../../types/enum";
 import {getOperationName} from "apollo-utilities";
 import {ICreateBookerInfo} from "../../pages/middleServer/assig/components/makeItemMenu";
+import {DEFAULT_BOOKER, DEFAULT_ROOMTYPE} from "../../types/defaults";
 
 interface IProps {
   modalHook: IUseModal;
@@ -74,42 +81,27 @@ const BookerModalWrap: React.FC<IProps> = ({modalHook, houseId}) => (
         undefined
       );
 
-      // 유틸성을 위해 만들어둔 기본 booker
-      const defualtBooker: GB_booker = {
-        __typename: "Booker",
-        _id: "default",
-        memo: "",
-        createdAt: "",
-        updatedAt: "",
-        roomTypes: null,
-        name: "",
-        phoneNumber: "",
-        isCheckIn: false,
-        payMethod: PayMethod.CASH,
-        paymentStatus: PaymentStatus.NOT_YET,
-        email: "",
-        end: null,
-        start: null,
-        agreePrivacyPolicy: true,
-        price: 0,
-        password: null,
-        bookingStatus: BookingStatus.COMPLETE,
-        guests: null
-      };
-
       // ⭐️ 생성일경우
       // 생성일경우 만들어질 임시 booker
       let makeInfo: GB_booker | undefined = undefined;
-      if (modalHook.info.type && modalHook.info.type === "makeAndAssig") {
+      if (
+        modalHook.info.type &&
+        modalHook.info.type === BookerModalType.CREATE_WITH_ASSIG
+      ) {
         // 👿 make 단어를 create로
         // 👿 __typename 없앨방법을 알아보자.
         const createMpdalInfoes: ICreateBookerInfo = modalHook.info;
         makeInfo = {
-          ...defualtBooker,
+          ...DEFAULT_BOOKER,
           agreePrivacyPolicy: true,
           bookingStatus: BookingStatus.COMPLETE,
           start: createMpdalInfoes.start,
           end: createMpdalInfoes.end,
+          roomTypes: createMpdalInfoes.resvInfoes.map(resvInfo => ({
+            ...DEFAULT_ROOMTYPE,
+            _id: resvInfo.roomTypeId,
+            name: resvInfo.roomTypeName
+          })),
           guests: createMpdalInfoes.resvInfoes.map(resv => ({
             __typename: "Guest",
             _id: "",
@@ -121,6 +113,7 @@ const BookerModalWrap: React.FC<IProps> = ({modalHook, houseId}) => (
           }))
         };
       }
+
       return loading ? (
         <Preloader size="large" />
       ) : (
@@ -155,7 +148,7 @@ const BookerModalWrap: React.FC<IProps> = ({modalHook, houseId}) => (
                     // })
                   }}
                 >
-                  {createBookingMu => (
+                  {createBookerMu => (
                     <DeleteBookerMu
                       mutation={DELETE_BOOKER}
                       onError={showError}
@@ -169,19 +162,22 @@ const BookerModalWrap: React.FC<IProps> = ({modalHook, houseId}) => (
                         modalHook.closeModal();
                       }}
                     >
-                      {deleteBookingMu => (
+                      {deleteBookerMu => (
                         <BookerModal
-                          bookerData={booker || makeInfo || defualtBooker}
+                          bookerData={booker || makeInfo || DEFAULT_BOOKER}
                           assigInfo={
                             modalHook.info.makeInfo &&
                             modalHook.info.makeInfo.assigInfo
                           }
+                          type={modalHook.info.type}
                           houseId={houseId}
                           modalHook={modalHook}
-                          createBookingMu={createBookingMu}
+                          createBookerMu={createBookerMu}
                           updateBookerMu={updateBookerMu}
-                          deleteBookerMu={deleteBookingMu}
-                          key={`bookerModal${modalHook.info.bookerId}`}
+                          deleteBookerMu={deleteBookerMu}
+                          key={`bookerModal${modalHook.info.bookerId}${
+                            modalHook.info.type
+                          }`}
                         />
                       )}
                     </DeleteBookerMu>

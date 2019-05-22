@@ -15,12 +15,14 @@ Controll Input 만 지원함
 | onTypeValue     | string | input 값                                                         |         |         | Y       |
 | placeHolder     | string |                                                                  |         |         |         |
 | label           | string | 라벨텍스트                                                       |         |         |         |
+| asId            | string | List 아이디로 사용될 키값                                        |         |         |         |
 | asName          | string | dateFormatter에 들어갈 변환 키값                                 |         |         |         |
 | asDetail        | string | dateFormatter에 들어갈 변환 키값                                 |         |         |         |
 | feedBackMessage | string | 인풋 아래에피드백으로 나타날 메세지                              |         |         |         |
 | isMatched       | string | onTypeValue 가 있을경우에 정확하게 일치하는 리스트 name이 있는지 |         |         |         |
 | maxCount        | number | 리스트에 나타날 카운트                                           |         |         | 999     |
 | setIsMatched    | func   |                                                                  |         |         |         |
+| onListClick     | func   | 리스트가 클릭될시 호출되며 value 와 id를 인자로 받습니다.        |         |         |         |
 
 ### DESCRIPTION
 

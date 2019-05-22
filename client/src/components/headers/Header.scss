@@ -18,6 +18,10 @@
         padding-right: $container-padding;
         margin-left: auto;
         display:none;
+        .circleIcon  {
+            margin-right:0;
+        }
+
         
         @include response($phablet) {
             display:block;

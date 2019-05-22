@@ -21,7 +21,8 @@ interface IRenderItemProps {
   itemContext: IItemContext;
   getItemProps(props?: any): any;
   getResizeProps(props?: any): any;
-  clearItem(itemId: string): any;
+  clearItem(itemId: string): void;
+  genderToggle(itemId: string): void;
 }
 // getItemProps 는 다음을 반환합니다.
 // className: "rct-item "
@@ -42,7 +43,8 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
   timelineContext,
   getItemProps,
   getResizeProps,
-  clearItem
+  clearItem,
+  genderToggle
 }) => {
   const {left: leftResizeProps, right: rightResizeProps} = getResizeProps();
 
@@ -61,6 +63,7 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
   /* getItemProps에 다양한 스타일 속성을 오버라이드 하기를 권장합니다. */
   props.style = {
     ...props.style,
+    fontSize: "",
     background: "",
     border: "",
     color: "",
@@ -138,11 +141,17 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
           case "make":
             return (
               <div className="assigItem__content assigItem__content--make">
-                <span>
-                  새로운예약
+                <div>
+                  <span>새로운예약</span>
                   {item.gender && (
                     <span className="assigItem__gender">
-                      <CircleIcon wave thema="white">
+                      <CircleIcon
+                        onClick={() => {
+                          genderToggle(item.id);
+                        }}
+                        wave
+                        thema="white"
+                      >
                         <span
                           className={`assigItem__gender ${`assigItem__gender--${item.gender.toLowerCase()}`}`}
                         >
@@ -151,7 +160,7 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
                       </CircleIcon>
                     </span>
                   )}
-                </span>
+                </div>
                 <CircleIcon
                   onClick={() => {
                     clearItem(item.id);

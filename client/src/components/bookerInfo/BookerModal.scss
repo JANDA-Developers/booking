@@ -1,6 +1,12 @@
 @import "../../style_config/style_config";
 
 .bookerModal {
+    @include response($mobile) {
+        .JDinput-iconWrap {
+           display:none;
+       }
+   }
+    
     .roomSelectInfoTable {
 
         &__roomSelect {
@@ -24,5 +30,6 @@
                 overflow:visible;
             }
         }
+
     }
 }

@@ -65,7 +65,10 @@ const RoomTypeModal: React.SFC<IProps> = ({
       label: RoomGenderKr[roomTypeData.roomGender],
       value: roomTypeData.roomGender
     },
-    peopleCountMax: {label: "", value: 0},
+    peopleCountMax: {
+      label: `${roomTypeData.peopleCountMax}개`,
+      value: roomTypeData.peopleCountMax
+    },
     defaultPrice: roomTypeData.defaultPrice || 0
   });
 
@@ -118,7 +121,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
   };
 
   const onChangePeople = (inValue: any) => {
-    setValue({...value, peopleCount: inValue});
+    setValue({...value, peopleCountMax: inValue});
 
     // // 🔶 Deprecated
     // const inPeopleCountOption = [];
@@ -179,7 +182,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
                 disabled={false}
                 onChange={onChangePeople}
                 options={maxPeopleCountOption}
-                selectedOption={value.peopleCount}
+                selectedOption={value.peopleCountMax}
               />
             </div>
             <div className="flex-grid__col  col--full-6 col--lg-6 col--md-12">

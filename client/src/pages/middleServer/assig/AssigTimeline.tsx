@@ -6,6 +6,7 @@ import "moment/locale/ko";
 import {MutationFn} from "react-apollo";
 import _ from "lodash";
 import JDdayPicker from "../../../atoms/dayPicker/DayPicker";
+import windowSize, {WindowSizeProps} from "react-window-size";
 import Timeline, {
   TimelineHeaders,
   SidebarHeader,
@@ -16,6 +17,7 @@ import ErrProtecter from "../../../utils/errProtect";
 import Button from "../../../atoms/button/Button";
 import BookerModalWrap from "../../../components/bookerInfo/BookerModalWrap";
 import {IUseDayPicker, useModal} from "../../../actions/hook";
+import classnames from "classnames";
 import {
   IAssigGroup,
   IAssigItem,
@@ -67,7 +69,7 @@ interface IProps {
   updateBookerMu: MutationFn<updateBooker, updateBookerVariables>;
 }
 
-const ShowTimeline: React.SFC<IProps> = ({
+const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   dayPickerHook,
   defaultProps,
   groupData,
@@ -77,10 +79,13 @@ const ShowTimeline: React.SFC<IProps> = ({
   defaultTimeStart,
   defaultTimeEnd,
   allocateMu,
+  windowWidth,
+  windowHeight,
   updateBookerMu
 }) => {
   // 임시 마킹 제거
 
+  const isMobile = windowWidth <= 400;
   const [guestValue, setGuestValue] = useState(deafultGuestsData);
   const [canvasMenuProps, setCanvasMenuProps] = useState<ICanvasMenuProps>({
     start: 0,
@@ -315,12 +320,24 @@ const ShowTimeline: React.SFC<IProps> = ({
     setGuestValue([...guestValue]);
   };
 
+  // Id 로 게스트 찾아서 투글해주는 함수
+  const genderToggle = (guestId: string) => {
+    const targetGuest = guestValue.find(guest => guest.id === guestId);
+    if (targetGuest)
+      targetGuest.gender =
+        targetGuest.gender === Gender.FEMALE ? Gender.MALE : Gender.FEMALE;
+    setGuestValue([...guestValue]);
+  };
+
   //  캔버스 클릭시 호출됨
   const handleCanvasClick = (
     groupId: string,
     time: number,
     e: React.MouseEvent<HTMLElement>
   ) => {
+    if (isMobile) {
+      handleCanvasDoubleClick(groupId, time, e);
+    }
     if (e.ctrlKey) {
       addBlock(time, groupId);
     }
@@ -459,11 +476,9 @@ const ShowTimeline: React.SFC<IProps> = ({
   ) => {
     const guestValueOriginCopy = guestValue.slice();
     const guestValueCopy = guestValue.slice();
-    const targetGuestIndex = guestValue.findIndex(guest => guest.id === itemId);
-    guestValueCopy[targetGuestIndex] = {
-      ...guestValueCopy[targetGuestIndex],
-      group: groupData[newGroupOrder].id
-    };
+    const targetGuest = guestValueCopy.find(guest => guest.id === itemId);
+    if (!targetGuest) return;
+    targetGuest.group = groupData[newGroupOrder].id;
     setGuestValue([...guestValueCopy]);
 
     const newGroupId = groupData[newGroupOrder].roomId;
@@ -471,17 +486,19 @@ const ShowTimeline: React.SFC<IProps> = ({
     $(`.${CLASS_MOVING}`).removeClass(CLASS_MOVING);
 
     // 배정 뮤테이션을 발생
-    const result = await allocateMu({
-      variables: {
-        guestId: itemId,
-        roomId: newGroupId,
-        bedIndex: groupData[newGroupOrder].bedIndex
-      }
-    });
+    if (targetGuest.type === ("normal" || "block")) {
+      const result = await allocateMu({
+        variables: {
+          guestId: itemId,
+          roomId: newGroupId,
+          bedIndex: groupData[newGroupOrder].bedIndex
+        }
+      });
 
-    // 실패하면 전부 되돌림
-    if (result && result.data && !result.data.AllocateGuestToRoom.ok) {
-      setGuestValue([...guestValueOriginCopy]);
+      // 실패하면 전부 되돌림
+      if (result && result.data && !result.data.AllocateGuestToRoom.ok) {
+        setGuestValue([...guestValueOriginCopy]);
+      }
     }
   };
 
@@ -502,6 +519,10 @@ const ShowTimeline: React.SFC<IProps> = ({
 
     if (!target) return;
     if (target.bookerId === "block") return;
+
+    if (isMobile) {
+      handleItemDoubleClick(itemId, e, time);
+    }
 
     // 컨트롤: 체크인
     if (e.ctrlKey) {
@@ -568,8 +589,15 @@ const ShowTimeline: React.SFC<IProps> = ({
     updateScrollCanvas(visibleTimeStart, visibleTimeEnd);
   };
 
+  const timelineClassNames = classnames("assigTimeline", undefined, {
+    "assiTimeline--mobile": windowWidth <= 400
+  });
+
   return (
-    <div id="AssigTimeline" className="assigTimeline container container--full">
+    <div
+      id="AssigTimeline"
+      className={`${timelineClassNames} container container--full`}
+    >
       <div className="docs-section">
         <h3>
           {"방배정"}
@@ -603,13 +631,18 @@ const ShowTimeline: React.SFC<IProps> = ({
           onCanvasDoubleClick={handleCanvasDoubleClick}
           onCanvasClick={handleCanvasClick}
           onTimeChange={handleTimeChange}
-          itemRenderer={(props: any) => itemRendererFn({...props, clearItem})}
+          itemRenderer={(props: any) =>
+            itemRendererFn({...props, clearItem, genderToggle})
+          }
           groupRenderer={assigGroupRendererFn}
-          defaultTimeEnd={defaultTimeEnd}
+          defaultTimeEnd={
+            isMobile ? defaultTimeEnd - TimePerMs.DAY * 3.8 : defaultTimeEnd
+          }
           defaultTimeStart={defaultTimeStart}
           moveResizeValidator={handleMoveResizeValidator}
           onItemSelect={handleItemSelect}
           onCanvasContextMenu={handleCanvasContextMenu}
+          sidebarWidth={isMobile ? 100 : 230}
         >
           <TimelineHeaders>
             <SidebarHeader>
@@ -656,4 +689,4 @@ const ShowTimeline: React.SFC<IProps> = ({
   );
 };
 
-export default ErrProtecter(ShowTimeline);
+export default windowSize<IProps>(ErrProtecter(ShowTimeline));

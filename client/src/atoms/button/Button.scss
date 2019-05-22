@@ -43,14 +43,11 @@
   }
 
   // MODE
-  &.JDbtn--primary {
+  &.JDbtn--primary:not(:disabled) {
     background-color: $primary-color;
     color: $primary-color-light-on;
     &:hover {
       background-color: $primary-color-light
-    }
-    &:disabled:hover {
-      background-color: $primary-color;
     }
   }
   
@@ -157,7 +154,7 @@
       color:white;
     }
     
-    &.JDbtn--primary {
+    &.JDbtn--primary:not(:disabled) {
       background-color: $primary-color;
     }
     

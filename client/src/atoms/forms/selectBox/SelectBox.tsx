@@ -91,7 +91,6 @@ const JDselect: React.SFC<Iprops> = ({
         classNamePrefix="react-select"
         isDisabled={disabled}
         placeholder={placeholder || deafultPlaceHolder}
-        // menuIsOpen={isOpen}
       />
       {rightLabel && (
         <span className="JDselect__label JDselect__label--right">

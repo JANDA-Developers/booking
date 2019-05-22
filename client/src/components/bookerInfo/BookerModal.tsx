@@ -21,7 +21,8 @@ import {
   PaymentStatusKr,
   PayMethodKr,
   BookingStatus,
-  BookingStatusKr
+  BookingStatusKr,
+  BookerModalType
 } from "../../types/enum";
 import "./BookerModal.scss";
 import {GB_booker, IResvCount} from "../../types/interface";
@@ -37,6 +38,7 @@ import {
 } from "../../types/api";
 import {GET_ALL_ROOMTYPES_WITH_GUESTS} from "../../queries";
 import {IAssigInfo} from "../../pages/middleServer/assig/components/makeItemMenu";
+import SendSMSmodalWrap from "../sendSMSmodal/sendSMSmodalWrap";
 
 export interface IroomSelectInfoTable {
   roomTypeId: string;
@@ -47,24 +49,28 @@ export interface IroomSelectInfoTable {
 
 interface IProps {
   modalHook: IUseModal;
+  // 👿 bookerData 이렇게 광범위하게 받지말고 필요한부분만 포함 [foo:string]:any 로서 받을수있도록
   bookerData: GB_booker;
-  createBookingMu: MutationFn<createBooker, createBookerVariables>;
+  createBookerMu: MutationFn<createBooker, createBookerVariables>;
   updateBookerMu: MutationFn<updateBooker, updateBookerVariables>;
   deleteBookerMu: MutationFn<deleteBooker, deleteBookerVariables>;
   assigInfo: IAssigInfo;
   houseId: string;
+  type?: BookerModalType;
 }
 
 const POPbookerInfo: React.FC<IProps> = ({
   modalHook,
   bookerData,
   updateBookerMu,
-  createBookingMu,
+  createBookerMu,
   deleteBookerMu,
   assigInfo,
+  type = BookerModalType.LOOKUP,
   houseId
 }) => {
   // ❓ State들을 합치는게 좋을까?
+  const sendSMSmodalHook = useModal(false);
   const confirmModalHook = useModal(false);
   const bookerNameHook = useInput(bookerData.name);
   const bookerPhoneHook = useInput(bookerData.phoneNumber);
@@ -78,7 +84,7 @@ const POPbookerInfo: React.FC<IProps> = ({
   const paymentStatusHook = useSelect({
     value: bookerData.paymentStatus,
     // @ts-ignore
-    label: PaymentStatusKr[bookerData.paymentuseStatus]
+    label: PaymentStatusKr[bookerData.paymentStatus]
   });
   const bookerStatueHook = useSelect({
     value: bookerData.bookingStatus,
@@ -123,11 +129,11 @@ const POPbookerInfo: React.FC<IProps> = ({
   };
   // 예약생성
   const handleCreateBtnClick = () => {
-    createBookingMu({
+    createBookerMu({
       variables: {
         bookingParams: {
           start: resvDateHook.from,
-          booker: {
+          bookerParams: {
             house: houseId,
             name: bookerNameHook.value,
             password: "admin",
@@ -189,6 +195,12 @@ const POPbookerInfo: React.FC<IProps> = ({
               hyphen
               label="전화번호"
               icon="sms"
+              iconHover
+              iconOnClick={() => {
+                sendSMSmodalHook.openModal({
+                  phoneNumber: bookerPhoneHook.value
+                });
+              }}
             />
           </div>
           <div className="JD-z-index-1 flex-grid__col col--full-4 col--lg-4 col--md-4">
@@ -248,12 +260,14 @@ const POPbookerInfo: React.FC<IProps> = ({
         <Button
           size="small"
           label="생성하기"
+          disabled={type === BookerModalType.LOOKUP}
           thema="primary"
           mode="flat"
           onClick={handleCreateBtnClick}
         />
         <Button
           size="small"
+          disabled={type !== BookerModalType.LOOKUP}
           label="수정하기"
           thema="primary"
           mode="flat"
@@ -262,18 +276,20 @@ const POPbookerInfo: React.FC<IProps> = ({
         <Button
           size="small"
           label="예약삭제"
+          disabled={type !== BookerModalType.LOOKUP}
           thema="warn"
           mode="flat"
           onClick={handleDeletBtnClick}
         />
-        <Button
+        {/* <Button
           size="small"
           label="닫기"
           mode="flat"
           thema="grey"
           onClick={modalHook.closeModal}
-        />
+        /> */}
       </div>
+      <SendSMSmodalWrap modalHook={sendSMSmodalHook} />
       <JDtoastModal
         confirm
         confirmCallBackFn={deleteModalCallBackFn}

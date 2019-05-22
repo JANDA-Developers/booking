@@ -207,6 +207,10 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
         }
         // 🛌 베드타입일경우
         if (roomTypeData.pricingType === "DOMITORY") {
+          console.log(roomTypeData.peopleCount);
+          console.log(roomTypeData.peopleCount);
+          console.log(roomTypeData.peopleCount);
+          console.log(roomTypeData.peopleCount);
           rooms.map((room, index) => {
             for (let i = 0; roomTypeData.peopleCount > i; i += 1) {
               roomGroups.push({

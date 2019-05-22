@@ -5,7 +5,7 @@ import {IAssigItem, defaultItemProps, IAssigGroup} from "../AssigTimelineWrap";
 import $ from "jquery";
 import {ICanvasMenuProps} from "./canvasMenu";
 import {IUseModal} from "../../../../actions/hook";
-import {Gender} from "../../../../types/enum";
+import {Gender, BookerModalType} from "../../../../types/enum";
 
 interface IProps {
   bookerModalHook: IUseModal;
@@ -20,10 +20,11 @@ export interface IAssigInfo {
 }
 // ⭐️ 배정달력에서 예약 생성시사용
 export interface ICreateBookerInfo {
-  type: "make" | "makeAndAssig";
+  type: BookerModalType.CREATE | BookerModalType.CREATE_WITH_ASSIG;
   start: number;
   end: number;
   resvInfoes: {
+    roomTypeName: string;
     roomTypeId: string;
     gender: Gender | null;
   }[];
@@ -43,13 +44,19 @@ const MakeItemMenu: React.FC<IProps> = ({
           onClick={e => {
             e.stopPropagation();
             const makeItems = guestValue.filter(guest => guest.type === "make");
-            const resvInfoes = makeItems.map(item => ({
-              roomTypeId: item.roomTypeId,
-              gender: item.gender
-            }));
+            const resvInfoes = makeItems.map(item => {
+              const targetGroup = groupData.find(
+                group => group.id === item.group
+              );
+              return {
+                roomTypeName: targetGroup ? targetGroup.roomType.name : "",
+                roomTypeId: item.roomTypeId,
+                gender: item.gender
+              };
+            });
 
             const modalParam: ICreateBookerInfo = {
-              type: "makeAndAssig",
+              type: BookerModalType.CREATE_WITH_ASSIG,
               start: makeItems[0].start,
               end: makeItems[0].end,
               resvInfoes,

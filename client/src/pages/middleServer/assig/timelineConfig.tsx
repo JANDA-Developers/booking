@@ -11,7 +11,7 @@ const assigDefaultProps = {
   ...sharedProps,
   groupRenderer: assigGroupRendererFn,
   fixedHeader: "fixed",
-  sidebarWidth: 180,
+  sidebarWidth: 230,
   canMove: true,
   canResize: "right",
   canSelect: true,

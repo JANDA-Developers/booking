@@ -129,7 +129,7 @@ const F_GUEST = gql`
   ${F_ROOM}
 `;
 const F_ROOM_CAPACITY = gql`
-  fragment FroomCapacity on RoomTypeCapacity {
+  fragment FroomTypeCapacity on RoomTypeCapacity {
     roomTypeId
     pricingType
     availablePeopleCount {
@@ -425,7 +425,7 @@ export const GET_AVAILABLE_GUEST_COUNT = gql`
       ok
       error
       roomCapacity {
-        ...FroomCapacity
+        ...FroomTypeCapacity
       }
     }
     GetFemale: GetAvailableGuestCount(
@@ -438,7 +438,7 @@ export const GET_AVAILABLE_GUEST_COUNT = gql`
       ok
       error
       roomCapacity {
-        ...FroomCapacity
+        ...FroomTypeCapacity
       }
     }
   }
@@ -565,6 +565,36 @@ export const GET_USER_FOR_SU = gql`
   ${F_USER_INFO}
 `;
 
+// 모든 방타입 가져오기
+export const GET_ALL_ROOM_TYPE_CAPACITY = gql`
+  query getAllRoomTypeCapacity(
+    $houseId: ID!
+    $start: DateTime!
+    $end: DateTime!
+    $filter: String
+  ) {
+    GetAllRoomTypeCapacity(
+      houseId: $houseId
+      start: $start
+      end: $end
+      filter: $filter
+    ) {
+      ok
+      error
+      roomTypeWithCapacityList {
+        roomType {
+          ...FroomType
+        }
+        roomTypeCapacity {
+          ...FroomTypeCapacity
+        }
+      }
+    }
+  }
+  ${F_ROOMTYPE}
+  ${F_ROOM_CAPACITY}
+`;
+
 // 모든 예약자 가져오기
 export const GET_BOOKERS = gql`
   query getBookers($houseId: ID!, $page: Int!, $count: Int!) {
@@ -585,6 +615,7 @@ export const GET_BOOKERS = gql`
       }
     }
   }
+  ${F_GUEST}
   ${F_MINI_ROOM_TYPE}
   ${F_BOOKER}
   ${F_PAGE_INFO}

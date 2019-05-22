@@ -1,4 +1,4 @@
-import React, {useState, Fragment} from "react";
+import React, {useState, Fragment, useEffect} from "react";
 import windowSize, {WindowSizeProps} from "react-window-size";
 import {MutationFn, Query} from "react-apollo";
 import ErrProtecter from "../../../utils/errProtect";
@@ -16,7 +16,7 @@ import {
   BookerInput,
   createBookerVariables
 } from "../../../types/api";
-import RoomSelectInfo from "../components/roomSelectInfo";
+import ResvRoomSelectInfo from "../components/resvRoomSelectInfo";
 import PayMentModal from "../components/paymentModal";
 import RoomTypeCardsWrap from "../components/roomTypeCards/roomTypeCardsWrap";
 import {isEmpty, showError, queryDataFormater} from "../../../utils/utils";
@@ -63,6 +63,11 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
   // 👿 이건 오직 resvRooms에 룸 네임이 없어서다.
   const roomInfoHook = useState<IRoomType[]>([]);
 
+  // 날자를 선택하면 예약선택 상태 초기화
+  useEffect(() => {
+    setResvRooms([]);
+  }, [dayPickerHook.to, dayPickerHook.from]);
+
   const resvInfoValidation = () => {
     if (isEmpty(resvRooms)) {
       toastModalHook.openModal("선택된방이 없습니다.");
@@ -101,7 +106,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
   })();
 
   const bookingParams: CreateBookerParams = {
-    booker: bookerInfo,
+    bookerParams: bookerInfo,
     start: setYYYYMMDD(dayPickerHook.from),
     end: setYYYYMMDD(dayPickerHook.to),
     guestInputs: resvRooms
@@ -163,6 +168,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
                       toastModalHook={toastModalHook}
                       dayPickerHook={dayPickerHook}
                       roomTypeData={roomType}
+                      key={`roomCard${roomType._id}`}
                     />
                   ))
                 ) : (
@@ -178,7 +184,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
           </Card>
           <Card className="JDreservation__card">
             <h6 className="JDreservation__sectionTitle"> 선택 확인</h6>
-            <RoomSelectInfo
+            <ResvRoomSelectInfo
               roomTypeInfo={roomInfoHook[0]}
               from={dayPickerHook.from}
               to={dayPickerHook.to}

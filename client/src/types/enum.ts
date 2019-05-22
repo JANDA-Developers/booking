@@ -120,6 +120,12 @@ export enum Gender {
   MALE = "MALE"
 }
 
+export enum BookerModalType {
+  CREATE = "create",
+  CREATE_WITH_ASSIG = "createWithAssig",
+  LOOKUP = "lookup"
+}
+
 //= =============================================================
 // START global options
 //= =============================================================

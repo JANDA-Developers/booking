@@ -125,8 +125,8 @@
       &__menu {
         border-radius: $select-menue-radius;
         margin: 0;
-        width: auto;
         @extend %z-depth-1;
+        width: 100%;
       }
 
       //  메뉴 
@@ -162,10 +162,9 @@
           }
         }
       }
-
     }
-    
   }
+
   &--small {
     display:flex;
     font-size: $typho-small;
