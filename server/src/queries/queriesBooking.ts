@@ -101,27 +101,3 @@ export const deleteGuests = async (
         };
     }
 };
-
-export const deleteBooker = async (
-    bookerId: Types.ObjectId
-): Promise<ResReturnType> => {
-    try {
-        const existingBooker = await BookerModel.findById(bookerId);
-        if (!existingBooker) {
-            return {
-                error: "존재하지 않는 BookerId",
-                ok: false
-            };
-        }
-        await existingBooker.remove();
-        return {
-            ok: true,
-            error: null
-        };
-    } catch (error) {
-        return {
-            ok: false,
-            error: error.message
-        };
-    }
-};
