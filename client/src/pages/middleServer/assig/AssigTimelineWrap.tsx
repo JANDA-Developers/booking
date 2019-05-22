@@ -10,7 +10,11 @@ import {
   allocateGuestToRoom,
   allocateGuestToRoomVariables,
   updateBooker,
-  updateBookerVariables
+  updateBookerVariables,
+  deleteBooker,
+  deleteBookerVariables,
+  deleteGuests,
+  deleteGuestsVariables
 } from "../../../types/api";
 import {useToggle, useDayPicker} from "../../../actions/hook";
 import {IRoomType, IGuests} from "../../../types/interface";
@@ -26,7 +30,8 @@ import {Gender} from "../../../types/enum";
 import {
   GET_ALL_ROOMTYPES_WITH_GUESTS,
   ALLOCATE_GUEST_TO_ROOM,
-  UPDATE_BOOKER
+  UPDATE_BOOKER,
+  DELETE_GUEST
 } from "../../../queries";
 import AssigTimeline from "./AssigTimeline";
 import {setYYYYMMDD, parallax} from "../../../utils/setMidNight";
@@ -102,6 +107,7 @@ class AllocateGuestToRoomMu extends Mutation<
   allocateGuestToRoom,
   allocateGuestToRoomVariables
 > {}
+class DeleteGuestMu extends Mutation<deleteGuests, deleteGuestsVariables> {}
 
 const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
   const dayPickerHook = useDayPicker(null, null);
@@ -275,9 +281,6 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
         const formatedRoomData = roomDataManufacture(roomTypesData); // 타임라인을 위해 가공된 데이터
         const formatedGuestsData = guestsDataManufacture(guestsData); // 타임라인을 위해 가공된 데이터
 
-        console.log("formatedGuestsData");
-        console.log(formatedGuestsData);
-
         return (
           <AllocateGuestToRoomMu
             onCompleted={({AllocateGuestToRoom}) => {
@@ -321,21 +324,32 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
             {allocateMu => (
               <UpdateBookerMu mutation={UPDATE_BOOKER} onError={showError}>
                 {updateBookerMu => (
-                  <AssigTimeline
-                    houseId={houseId}
-                    loading={loading}
-                    groupData={formatedRoomData}
-                    deafultGuestsData={formatedGuestsData || []}
-                    dayPickerHook={dayPickerHook}
-                    defaultProps={assigDefaultProps}
-                    allocateMu={allocateMu}
-                    roomTypesData={roomTypesData || []}
-                    defaultTimeStart={defaultStartDate}
-                    updateBookerMu={updateBookerMu}
-                    defaultTimeEnd={defaultEndDate}
-                    key={`timeline${defaultStartDate}${defaultEndDate}${loading &&
-                      "loading"}`}
-                  />
+                  <DeleteGuestMu
+                    onCompleted={({DeleteGuests}) => {
+                      onCompletedMessage(DeleteGuests, "삭제완료", "삭제실패");
+                    }}
+                    mutation={DELETE_GUEST}
+                    onError={showError}
+                  >
+                    {deleteGuestMu => (
+                      <AssigTimeline
+                        houseId={houseId}
+                        loading={loading}
+                        groupData={formatedRoomData}
+                        deafultGuestsData={formatedGuestsData || []}
+                        dayPickerHook={dayPickerHook}
+                        defaultProps={assigDefaultProps}
+                        allocateMu={allocateMu}
+                        roomTypesData={roomTypesData || []}
+                        defaultTimeStart={defaultStartDate}
+                        updateBookerMu={updateBookerMu}
+                        deleteGuestsMu={deleteGuestMu}
+                        defaultTimeEnd={defaultEndDate}
+                        key={`timeline${defaultStartDate}${defaultEndDate}${loading &&
+                          "loading"}`}
+                      />
+                    )}
+                  </DeleteGuestMu>
                 )}
               </UpdateBookerMu>
             )}

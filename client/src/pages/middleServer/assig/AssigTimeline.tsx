@@ -37,7 +37,9 @@ import {
   allocateGuestToRoom,
   allocateGuestToRoomVariables,
   updateBooker,
-  updateBookerVariables
+  updateBookerVariables,
+  deleteGuests,
+  deleteGuestsVariables
 } from "../../../types/api";
 import itemRendererFn, {
   CLASS_LINKED,
@@ -50,6 +52,8 @@ import ItemMenu from "./components/itemMenu";
 import CanvasMenu, {ICanvasMenuProps} from "./components/canvasMenu";
 import {AssigTimeline} from "../../pages";
 import MakeItemMenu from "./components/makeItemMenu";
+import {DEFAULT_ASSIGITEM} from "../../../types/defaults";
+import {JDtoastModal} from "../../../atoms/modal/Modal";
 
 // Temp 마킹용이 있는지
 let MARKED = false;
@@ -67,8 +71,14 @@ interface IProps {
   defaultTimeEnd: number;
   allocateMu: MutationFn<allocateGuestToRoom, allocateGuestToRoomVariables>;
   updateBookerMu: MutationFn<updateBooker, updateBookerVariables>;
+  deleteGuestsMu: MutationFn<deleteGuests, deleteGuestsVariables>;
 }
+export type TToogleCheckIn = (
+  guestId?: string | undefined,
+  guestIndex?: number | undefined
+) => void;
 
+// 👿 모든 Util들과 서브함수들은 파일분리 순수한 timeline Hadnler만 남길것
 const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   dayPickerHook,
   defaultProps,
@@ -81,12 +91,14 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   allocateMu,
   windowWidth,
   windowHeight,
-  updateBookerMu
+  updateBookerMu,
+  deleteGuestsMu
 }) => {
   // 임시 마킹 제거
 
   const isMobile = windowWidth <= 400;
   const [guestValue, setGuestValue] = useState(deafultGuestsData);
+  const confirmDelteGuestHook = useModal(false);
   const [canvasMenuProps, setCanvasMenuProps] = useState<ICanvasMenuProps>({
     start: 0,
     end: 0,
@@ -225,6 +237,21 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
         );
     }
     return true;
+  };
+
+  const deleteGuest = (guestId: string) => {
+    const deleteGuestCallBackFn = (flag: boolean) => {
+      if (flag) {
+        deleteGuestsMu({
+          variables: {
+            guestIds: [guestId]
+          }
+        });
+      }
+    };
+    confirmDelteGuestHook.openModal({
+      callBack: deleteGuestCallBackFn
+    });
   };
 
   const handleItemDoubleClick = (itemId: any, e: any, time: any) => {
@@ -526,6 +553,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
 
     // 컨트롤: 체크인
     if (e.ctrlKey) {
+      toogleCheckInOut(itemId);
     }
     // 쉬프트 팝업
     if (e.shiftKey) {
@@ -539,12 +567,17 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     }
   };
 
-  const toogleCheckInOut = async (guestId?: string, guestIndex?: number) => {
-    let target: IAssigItem;
+  // 체크인 투글함수
+  const toogleCheckInOut: TToogleCheckIn = async (
+    guestId?: string,
+    guestIndex?: number
+  ) => {
+    let target: IAssigItem = DEFAULT_ASSIGITEM;
     if (guestIndex !== undefined) {
       target = guestValue[guestIndex];
     } else if (guestId) {
-      target = guestValue.find(guest => guest.id === guestId);
+      const temp = guestValue.find(guest => guest.id === guestId);
+      if (temp) target = temp;
     }
 
     const result = await updateBookerMu({
@@ -568,6 +601,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
       }
     }
   };
+
   // 🐭 캔버스 오른쪽 클릭
   const handleCanvasContextMenu = (
     groupId: string,
@@ -626,7 +660,11 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
           guestValue={guestValue}
           bookerModalHook={bookerModal}
         />
-        <ItemMenu />
+        <ItemMenu
+          deleteGuest={deleteGuest}
+          toogleCheckInOut={toogleCheckInOut}
+          bookerModalHook={bookerModal}
+        />
         <Timeline
           onItemMove={handleItemMove}
           onItemResize={handleItemResize}
@@ -692,6 +730,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
         )}
       </div>
       <BookerModalWrap houseId={houseId} modalHook={bookerModal} />
+      <JDtoastModal confirm {...confirmDelteGuestHook} />
     </div>
   );
 };

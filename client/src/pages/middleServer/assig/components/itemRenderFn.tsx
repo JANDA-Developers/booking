@@ -112,7 +112,7 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
                   }
                 })} */}
                 <span
-                  data-tip={item.guestIndex}
+                  data-tip={item.id}
                   data-place="top"
                   data-for="itemTooltip"
                   data-event="click"

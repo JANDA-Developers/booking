@@ -56,14 +56,13 @@ const SideNav: React.FC<IProps> = ({
         {/* 리스트 컨테이너 */}
         <div className="JDsideNav__listContainer">
           <NavLink
-            push
             to="/middleServer/assigTimeline"
             className="JDsideNav__navLink"
           >
             <Icon icon="calendar" />
             <span className="JDsideNav__title">배정달력</span>
           </NavLink>
-          <NavLink  to="/middleServer/resvList" className="JDsideNav__navLink">
+          <NavLink to="/middleServer/resvList" className="JDsideNav__navLink">
             <Icon icon="list" />
             <span className="JDsideNav__title">예약목록</span>
           </NavLink>
