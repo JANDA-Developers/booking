@@ -18,5 +18,6 @@ input UpdateBookerMutationParamsInput {
     price: Float
     payMethod: PayMethod
     paymentStatus: PaymentStatus
+    bookingStatus: BookingStatus
     memo: String
 }
