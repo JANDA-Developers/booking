@@ -1,5 +1,4 @@
-import { Types } from "mongoose";
-import { deleteBooker } from "../../../queries/queriesBooking";
+import { BookerModel } from "../../../models/Booker";
 import {
     DeleteBookerMutationArgs,
     DeleteBookerResponse
@@ -14,7 +13,18 @@ const resolvers: Resolvers = {
                 _,
                 { bookerId }: DeleteBookerMutationArgs
             ): Promise<DeleteBookerResponse> => {
-                return deleteBooker(new Types.ObjectId(bookerId));
+                const bookerInstance = await BookerModel.findById(bookerId);
+                if (!bookerInstance) {
+                    return {
+                        ok: false,
+                        error: "존재하지 않는 BookerId"
+                    };
+                }
+                bookerInstance.deleteThis();
+                return {
+                    ok: true,
+                    error: null
+                };
             }
         )
     }

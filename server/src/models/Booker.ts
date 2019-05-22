@@ -178,6 +178,14 @@ export class BookerSchema extends Typegoose {
         ];
         await this.save();
     }
+
+    @instanceMethod
+    async deleteThis(this: InstanceType<BookerSchema>) {
+        await GuestModel.remove({
+            _id: { $in: this.guests }
+        });
+        await this.remove();
+    }
 }
 
 export const BookerModel = new BookerSchema().getModelForClass(BookerSchema, {
