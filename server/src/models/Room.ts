@@ -103,8 +103,10 @@ export class RoomSchema extends Typegoose {
             exceptBookerIds
         );
         const availableGenders = this.allocatableGenderPrivate(allocatedGuests);
-        const availableCount = this.peopleCount - allocatedGuests.length;
         const emptyBeds = this.getEmptyBeds(allocatedGuests);
+        const availableCount =
+            (this.pricingType === "DOMITORY" ? this.peopleCount : 1) -
+            allocatedGuests.length;
         return {
             availableCount,
             emptyBeds,
@@ -268,7 +270,6 @@ export class RoomSchema extends Typegoose {
         }
         return result;
     }
-
     @instanceMethod
     private getEmptyBeds(
         this: InstanceType<RoomSchema>,
