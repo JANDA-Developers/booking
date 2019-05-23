@@ -254,7 +254,13 @@ export class RoomTypeSchema extends Typegoose {
                 }
             );
         }
-        await this.update(updateData);
+        if (params.peopleCount !== null) {
+            // todo
+        }
+        if (params.peopleCountMax !== null) {
+            // todo
+        }
+        await this.update({ $set: updateData });
         return {
             ok: true,
             error: null,
@@ -366,7 +372,7 @@ export class RoomTypeSchema extends Typegoose {
             return [];
         }
     }
-}
+} // end of class
 
 export const RoomTypeModel = new RoomTypeSchema().getModelForClass(
     RoomTypeSchema,

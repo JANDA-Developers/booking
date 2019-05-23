@@ -485,15 +485,19 @@ export const extractBooker = async (
     const result: any = {
         ...booker
     };
+    console.log({
+        result
+    });
+
     return {
         ...result._doc,
-        _id: result._doc._id,
+        _id: booker._id,
         roomTypes: await transformRoomTypes.bind(
             transformRoomTypes,
-            result._doc.roomTypes
+            booker.roomTypes
         ),
-        house: await transformHouse.bind(transformHouse, result._doc.house),
-        guests: await transformGuests.bind(transformGuests, result._doc.guests)
+        house: await transformHouse.bind(transformHouse, booker.house),
+        guests: await transformGuests.bind(transformGuests, booker.guests)
     };
 };
 
