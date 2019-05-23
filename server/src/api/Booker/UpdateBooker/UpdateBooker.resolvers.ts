@@ -1,11 +1,12 @@
-import { BookerModel } from "../../../models/Booker";
-import { transformBooker } from "../../../models/merge/merge";
+import { Types } from "mongoose";
+import { InstanceType } from "typegoose";
+import { BookerModel, BookerSchema } from "../../../models/Booker";
+import { extractBooker } from "../../../models/merge/merge";
 import {
     UpdateBookerMutationArgs,
     UpdateBookerResponse
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
-import { removeUndefined } from "../../../utils/objFuncs";
 import { privateResolver } from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
@@ -15,25 +16,40 @@ const resolvers: Resolvers = {
                 __,
                 { bookerId, params }: UpdateBookerMutationArgs
             ): Promise<UpdateBookerResponse> => {
-                const existingBooker = await BookerModel.findById(bookerId);
-                if (!existingBooker) {
+                try {
+                    let bookerInstance: InstanceType<
+                        BookerSchema
+                    > | null = null;
+                    await BookerModel.findOneAndUpdate(
+                        { _id: new Types.ObjectId(bookerId) },
+                        {
+                            $set: { ...params }
+                        },
+                        { new: true },
+                        (err, doc) => {
+                            console.log({
+                                ...doc
+                            });
+                            bookerInstance = doc;
+                        }
+                    );
                     return {
-                        booker: null,
+                        ok: true,
+                        error: null,
+                        booker:
+                            bookerInstance &&
+                            (await extractBooker.bind(
+                                extractBooker,
+                                bookerInstance
+                            ))
+                    };
+                } catch (error) {
+                    return {
                         ok: false,
-                        error: "존재하지 않는 BookerId"
+                        error: error.message,
+                        booker: null
                     };
                 }
-                const args = removeUndefined(params);
-
-                await existingBooker.update(args);
-                return {
-                    ok: true,
-                    error: null,
-                    booker: await transformBooker.bind(
-                        transformBooker,
-                        existingBooker._id
-                    )
-                };
             }
         )
     }

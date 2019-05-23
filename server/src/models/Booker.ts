@@ -26,14 +26,18 @@ const BCRYPT_ROUNDS = 10;
     this: InstanceType<BookerSchema>,
     next: HookNextFunction
 ) {
-    this.guestCount = this.guests.length;
+    if (this.guests) {
+        this.guestCount = this.guests.length;
+    }
     next();
 })
 @pre<BookerSchema>("update", function(
     this: InstanceType<BookerSchema>,
     next: HookNextFunction
 ) {
-    this.guestCount = this.guests.length;
+    if (this.guests) {
+        this.guestCount = this.guests.length;
+    }
     next();
 })
 export class BookerSchema extends Typegoose {

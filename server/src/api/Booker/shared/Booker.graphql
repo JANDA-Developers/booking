@@ -26,6 +26,11 @@ type CheckIn {
     checkInDateTime: DateTime
 }
 
+input CheckInInput {
+    isIn: Boolean!
+    checkInDateTime: DateTime
+}
+
 enum BookingStatus {
     # 예약 완료
     COMPLETE

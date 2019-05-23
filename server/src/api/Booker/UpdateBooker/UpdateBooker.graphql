@@ -14,7 +14,7 @@ input UpdateBookerMutationParamsInput {
     name: Name
     phoneNumber: PhoneNumber
     email: EmailAddress
-    isCheckIn: Boolean
+    isCheckIn: CheckInInput
     price: Float
     payMethod: PayMethod
     paymentStatus: PaymentStatus
