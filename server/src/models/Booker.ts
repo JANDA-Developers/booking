@@ -7,7 +7,12 @@ import {
     PaymentStatusEnum,
     PayMethodEnum
 } from "../types/enums";
-import { BookingStatus, PaymentStatus, PayMethod } from "../types/graph";
+import {
+    BookingStatus,
+    CheckIn,
+    PaymentStatus,
+    PayMethod
+} from "../types/graph";
 import { GuestModel, GuestSchema } from "./Guest";
 import { RoomTypeSchema } from "./RoomType";
 
@@ -51,7 +56,7 @@ export class BookerSchema extends Typegoose {
     email: string;
 
     @prop()
-    isCheckIn?: Date;
+    checkIn: CheckIn;
 
     @prop()
     memo?: string;
