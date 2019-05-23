@@ -2,6 +2,7 @@ import { Types } from "mongoose";
 import { instanceMethod, InstanceType, prop, Typegoose } from "typegoose";
 import { PricingTypeEnum } from "../types/enums";
 import { DateRange, Gender, IsSettleable, PricingType } from "../types/graph";
+import { BookerModel } from "./Booker";
 
 enum GenderEnum {
     MALE = "MALE",
@@ -110,6 +111,21 @@ export class GuestSchema extends Typegoose {
             flag: dates.length === 0,
             duplicateDates: dates
         };
+    }
+
+    @instanceMethod
+    async unlinkWithBooker(this: InstanceType<GuestSchema>) {
+        const bookerInstance = await BookerModel.updateOne(
+            {
+                _id: this.booker
+            },
+            {
+                $pull: {
+                    guests: new Types.ObjectId(this._id)
+                }
+            }
+        );
+        console.log(bookerInstance);
     }
 
     @instanceMethod
