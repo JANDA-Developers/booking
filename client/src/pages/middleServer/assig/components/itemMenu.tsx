@@ -2,6 +2,7 @@ import React from "react";
 import TooltipList from "../../../../atoms/tooltipList/TooltipList";
 import Button from "../../../../atoms/button/Button";
 import {TToogleCheckIn} from "../AssigTimeline";
+import {IUseModal} from "../../../../actions/hook";
 
 interface IProps {
   toogleCheckInOut: TToogleCheckIn;

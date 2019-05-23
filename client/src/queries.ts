@@ -366,6 +366,9 @@ export const GET_HOUSE = gql`
         _id
         name
         houseType
+        roomTypes {
+          _id
+        }
         hostApplication {
           url
         }

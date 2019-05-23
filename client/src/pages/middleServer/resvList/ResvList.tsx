@@ -27,7 +27,8 @@ import {
   PaymentStatus,
   PricingType,
   PricingTypeKr,
-  PaymentStatusKr
+  PaymentStatusKr,
+  BookingStatus
 } from "../../../types/enum";
 import {bookingGuestsMerge} from "../../../utils/booking";
 import moment from "moment";
@@ -82,11 +83,21 @@ const ResvList: React.SFC<IProps> = ({
 
   const handleCancleBookerBtnClick = () => {
     checkedIds.forEach(id => {
+      console.log("aaaaaaa");
+      console.log({
+        variables: {
+          bookerId: id,
+          params: {
+            bookingStatus: BookingStatus.CANCEL
+          }
+        }
+      });
+
       updateBookerMu({
         variables: {
           bookerId: id,
           params: {
-            name: ""
+            bookingStatus: BookingStatus.CANCEL
           }
         }
       });
@@ -94,15 +105,16 @@ const ResvList: React.SFC<IProps> = ({
   };
 
   const handleCompleteBookingBtnClick = () => {
-    // checkedIds.forEach(id => {
-    //   updateBookerMu({
-    //     variables: {
-    //       bookerId: id,
-    //       params: {
-    //       }
-    //     }
-    //   });
-    // });
+    checkedIds.forEach(id => {
+      updateBookerMu({
+        variables: {
+          bookerId: id,
+          params: {
+            bookingStatus: BookingStatus.COMPLETE
+          }
+        }
+      });
+    });
   };
 
   const deleteModalCallBackFn = (flag: boolean) => {

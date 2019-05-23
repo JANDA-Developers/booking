@@ -9,6 +9,7 @@ import Button from "../../atoms/button/Button";
 import ProfileCircle from "../../atoms/profileCircle/ProfileCircle";
 import SelectHouseWrap from "../selectHouse/SelectHouseWrap";
 import {IUser, IProduct, IHouse} from "../../types/interface";
+import {isEmpty} from "../../utils/utils";
 
 interface IProps {
   isOpen: boolean;
@@ -38,6 +39,9 @@ const SideNav: React.FC<IProps> = ({
     setIsOpen();
   };
 
+  const isHouseMaked = !isEmpty(houses);
+  const isRoomTypeMaked = isHouseMaked && !isEmpty(houses[0].roomTypes);
+
   return (
     <Fragment>
       <div className={classes}>
@@ -57,7 +61,8 @@ const SideNav: React.FC<IProps> = ({
         <div className="JDsideNav__listContainer">
           <NavLink
             to="/middleServer/assigTimeline"
-            className="JDsideNav__navLink"
+            className={`JDsideNav__navLink ${isHouseMaked &&
+              "JDsideNav__navLink--disabled"}`}
           >
             <Icon icon="calendar" />
             <span className="JDsideNav__title">배정달력</span>
