@@ -32,6 +32,7 @@ import {
 } from "../../../types/enum";
 import {bookingGuestsMerge} from "../../../utils/booking";
 import moment from "moment";
+import JDbadge, {BADGE_THEMA} from "../../../atoms/badge/Badge";
 
 interface IProps {
   pageInfo: IPageInfo | undefined;
@@ -83,16 +84,6 @@ const ResvList: React.SFC<IProps> = ({
 
   const handleCancleBookerBtnClick = () => {
     checkedIds.forEach(id => {
-      console.log("aaaaaaa");
-      console.log({
-        variables: {
-          bookerId: id,
-          params: {
-            bookingStatus: BookingStatus.CANCEL
-          }
-        }
-      });
-
       updateBookerMu({
         variables: {
           bookerId: id,
@@ -133,9 +124,13 @@ const ResvList: React.SFC<IProps> = ({
     {
       Header: "예약일자",
       accessor: "createdAt",
-      Cell: ({value}: CellInfo) => (
-        <div>{moment(value.createdAt).format("MM-DD-YYYY hh:mm")}</div>
-      )
+      Cell: ({value, original}: CellInfo) => {
+        const isCancled = original.bookingStatus === BookingStatus.CANCEL;
+        <div>
+          {moment(value.createdAt).format("MM-DD-YYYY hh:mm")}
+          {isCancled && <JDbadge thema={BADGE_THEMA.ERROR}>cancle</JDbadge>}
+        </div>;
+      }
     },
     {
       Header: "숙박정보",
@@ -276,7 +271,12 @@ const ResvList: React.SFC<IProps> = ({
       <div className="docs-section">
         <h3>예약목록</h3>
         <div>
-          <Button size="small" thema="primary" label="예약확정" />
+          <Button
+            onClick={handleCompleteBookingBtnClick}
+            size="small"
+            thema="primary"
+            label="예약확정"
+          />
           {/* ⛔️ 아래 두버튼은 하지마시요. 충분히 팝업에서 할수있는 일임 */}
           {/* <Button size="small" thema="primary" label="결제완료" /> */}
           {/* <Button size="small" thema="primary" label="미결제" /> */}

@@ -74,7 +74,10 @@ const F_BOOKER = gql`
     password
     phoneNumber
     email
-    isCheckIn
+    checkIn {
+      isIn
+      checkInDateTime
+    }
     memo
     agreePrivacyPolicy
     start
@@ -401,7 +404,9 @@ export const GetGuests = gql`
         }
         booker {
           _id
-          isCheckIn
+          checkIn {
+            isIn
+          }
         }
         ...Fguest
       }
@@ -551,7 +556,9 @@ export const GET_ALL_ROOMTYPES_WITH_GUESTS = gql`
         }
         booker {
           _id
-          isCheckIn
+          checkIn {
+            isIn
+          }
         }
       }
     }

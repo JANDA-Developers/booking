@@ -1,0 +1,37 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+#root .seasonT__arrows {
+  font-size: 1.2rem;
+}
+
+#root .seasonT__arrows > .JDicon__svg {
+  margin-left: 1rem;
+}
+
+#root .seasonT__arrows > .JDicon__svg:first-child {
+  margin-left: 0;
+}
+
+#root .seasonT__JDboxWrap {
+  display: inline-block;
+  vertical-align: top;
+}
+
+#root .seasonT__JDboxWrap .JDbox {
+  margin-bottom: 0;
+}
+
+#root .seasonT__JDboxWrap .JDbox .JDicon__svg {
+  margin-right: 0.33333rem;
+}
+
+#root .seasonT .circleIcon {
+  margin-bottom: 0;
+}
+
+#root .seasonT__cell {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+/*# sourceMappingURL=SetPrice.css.map */

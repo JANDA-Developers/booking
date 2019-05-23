@@ -1,0 +1,38 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+.JDtooltip.__react_component_tooltip.show {
+  opacity: 1;
+}
+
+.JDtooltip.__react_component_tooltip.type-info {
+  background-color: #423ec7;
+}
+
+.JDtooltip.__react_component_tooltip.type-info:after {
+  border-top-color: #423ec7;
+}
+
+.JDtooltip.__react_component_tooltip.type-success {
+  background-color: #4c5b73;
+}
+
+.JDtooltip.__react_component_tooltip.type-success:after {
+  border-top-color: #4c5b73;
+}
+
+.JDtooltip.__react_component_tooltip.type-error {
+  background-color: #ff6760;
+}
+
+.JDtooltip.__react_component_tooltip.type-error:after {
+  border-top-color: #ff6760;
+}
+
+.JDtooltip.__react_component_tooltip.type-dark {
+  background-color: #343434;
+}
+
+.JDtooltip.__react_component_tooltip.type-dark:after {
+  border-top-color: #343434;
+}
+/*# sourceMappingURL=Tooltip.css.map */

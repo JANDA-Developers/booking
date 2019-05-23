@@ -38,7 +38,11 @@ export const DEFAULT_BOOKER: GB_booker = {
   roomTypes: null,
   name: "",
   phoneNumber: "",
-  isCheckIn: false,
+  checkIn: {
+    __typename: "CheckIn",
+    isIn: false,
+    checkInDateTime: new Date()
+  },
   payMethod: PayMethod.CASH,
   paymentStatus: PaymentStatus.NOT_YET,
   email: "",

@@ -1,0 +1,14 @@
+{
+    "version": 3,
+    "mappings": "AEIA,gFAAgF;AGuBhF,kEAAkE;ALzBlE,AAAA,OAAO,CAAA;EACH,UAAU,EAAE,MAAM;CA4BrB;;AA1BI,AAAD,sBAAgB,CAAC;EACb,aAAa,EE2GI,IAAM;CF1G1B;;AAEA,AACG,sBADY,CACZ,cAAc,CAAC;EACX,aAAa,EEsGA,IAAM;CFrGtB;;AK4FL,MAAM,MAAM,MAAM,MAAM,SAAS,EAAE,MAAM,OAAO,SAAS,EAAE,KAAK;ELtGpE,AAiBQ,OAjBD,CAiBC,iBAAiB,GAAG,IAAI,AAAA,UAAW,CAAA,MAAM,EAAC;IACtC,WAAW,EAAE,CAAC;GACjB;;;AKmFL,MAAM,MAAM,MAAM,MAAM,SAAS,EAAE,KAAK,OAAO,SAAS,EAAE,GAAG;ELtGjE,AAuBQ,OAvBD,CAuBC,iBAAiB,GAAG,IAAI,AAAA,UAAW,CAAA,MAAM,EAAC;IACtC,WAAW,EAAE,CAAC;GACjB",
+    "sources": [
+        "MyPage.scss",
+        "../../../style_config/style_config.scss",
+        "../../../style_config/abstracts/_variables.scss",
+        "../../../style_config/abstracts/_functions.scss",
+        "../../../style_config/abstracts/_extends.scss",
+        "../../../style_config/abstracts/_mixins.scss"
+    ],
+    "names": [],
+    "file": "MyPage.css"
+}

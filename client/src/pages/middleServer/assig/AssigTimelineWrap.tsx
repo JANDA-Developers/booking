@@ -172,7 +172,7 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
           guestIndex: index,
           name: guestData.name,
           bookerId: guestData.booker._id,
-          isCheckin: guestData.booker.isCheckIn,
+          isCheckin: guestData.booker.checkIn.isIn,
           gender: guestData.gender,
           roomTypeId: guestData.roomType._id,
           roomId: guestData.allocatedRoom._id,

@@ -13,7 +13,12 @@ import Button from "../../../../atoms/button/Button";
 import {IRoomType} from "../../../../types/interface";
 import Preloader from "../../../../atoms/preloader/Preloader";
 import {isEmpty} from "../../../../utils/utils";
-import {useSelect, IUseModal, IUseSelect} from "../../../../actions/hook";
+import {
+  useSelect,
+  IUseModal,
+  IUseSelect,
+  useModal
+} from "../../../../actions/hook";
 import {
   SELECT_COUNT_DUMMY_OP,
   WindowSize,
@@ -22,6 +27,7 @@ import {
   RoomGender
 } from "../../../../types/enum";
 import {IGuestCount} from "./roomTypeCardsWrap";
+import JDmodal from "../../../../atoms/modal/Modal";
 
 interface IProps {
   className?: string;
@@ -54,6 +60,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
   guestCountValue,
   availableCount
 }) => {
+  const roomImgModalHook = useModal(false);
   const [disabled, setDisabled] = useState({
     female: false,
     male: false,
@@ -163,7 +170,11 @@ const RoomTypeCard: React.SFC<IProps> = ({
     <Fragment>
       <div className={`flex-grid-grow flex-grid-grow--margin0 ${classes}`}>
         <div className="flex-grid__col col--grow-2 roomTypeCard__imgSection">
-          <div style={roomStyle} className="roomTypeCard__img" />
+          <div
+            onClick={roomImgModalHook.openModal}
+            style={roomStyle}
+            className="roomTypeCard__img"
+          />
         </div>
         <div className="flex-grid__col col--grow-2 roomTypeCard__middleSection">
           <div className="roomTypeCard__middleTopSection">
@@ -236,6 +247,16 @@ const RoomTypeCard: React.SFC<IProps> = ({
           />
         </div>
       </div>
+      <JDmodal className="roomImgPop" {...roomImgModalHook}>
+        <img
+          className="roomImgPop__img"
+          src={roomTypeData.img}
+          alt="방이미지"
+        />
+        <div className="roomImgPop__description">
+          {roomTypeData.description}
+        </div>
+      </JDmodal>
     </Fragment>
   );
 };

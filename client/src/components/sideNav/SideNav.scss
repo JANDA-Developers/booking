@@ -106,8 +106,13 @@
             padding: 0rem $sideNav-icon-padding;
             padding-left: 0;
         }
-        &:hover {
+        &:not(.JDsideNav__navLink--disabled):hover {
             background-color:$grey-level1;
+        }
+
+        &--disabled {
+            color: $standard-disabled-color;
+            cursor: auto;
         }
     }
 

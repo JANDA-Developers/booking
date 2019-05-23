@@ -16,6 +16,7 @@ import {
   Home,
   MakeHouse,
   PhoneVerification,
+  DashBoard,
   MyPage,
   SignUp,
   Login,
@@ -125,6 +126,12 @@ const JDmiddleServer: React.FC<IProps> = ({
           exact
           path="/middleServer/makeHouse"
           component={isLoggedIn ? MakeHouse : Login}
+        />
+        {/* 대쉬보드 */}
+        <Route
+          exact
+          path="/middleServer/dashBoard"
+          component={() => <DashBoard userData={user} />}
         />
         {/* 상품선택 */}
         <Route

@@ -1,19 +1,19 @@
 /* eslint-disable no-underscore-dangle */
-import React, { useEffect, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import Product from './components/Product';
-import Button from '../../../atoms/button/Button';
-import Preloader from '../../../atoms/preloader/Preloader';
-import Modal from '../../../atoms/modal/Modal';
-import JDcheckbox from '../../../atoms/forms/checkBox/CheckBox';
-import Slider from '../../../atoms/slider/Slider';
-import { isEmpty } from '../../../utils/utils';
-import Tooltip, { ReactTooltip } from '../../../atoms/tooltip/Tooltip';
-import { RefundPolicyNode } from '../../../docs/refundPolicy';
-import ExperienceModal from './components/experienceModal';
-import { IHouse, IProduct } from '../../../types/interface';
-import { IUseModal } from '../../../actions/hook';
-import './Products.scss';
+import React, {useEffect, Fragment} from "react";
+import PropTypes from "prop-types";
+import Product from "./components/Product";
+import Button from "../../../atoms/button/Button";
+import Preloader from "../../../atoms/preloader/Preloader";
+import Modal from "../../../atoms/modal/Modal";
+import JDcheckbox from "../../../atoms/forms/checkBox/CheckBox";
+import Slider from "../../../atoms/slider/Slider";
+import {isEmpty} from "../../../utils/utils";
+import Tooltip, {ReactTooltip} from "../../../atoms/tooltip/Tooltip";
+import {RefundPolicyNode} from "../../../docs/refundPolicy";
+import ExperienceModal from "./components/experienceModal";
+import {IHouse, IProduct} from "../../../types/interface";
+import {IUseModal} from "../../../actions/hook";
+import "./Products.scss";
 
 interface IProps {
   refundMutation: any;
@@ -41,7 +41,7 @@ const Products: React.FC<IProps> = ({
   isPhoneVerified,
   refundModal,
   exModalHook,
-  hostAppHook,
+  hostAppHook
 }) => {
   const [product1, product2, product3, product4] = arrProducts;
 
@@ -61,7 +61,10 @@ const Products: React.FC<IProps> = ({
           {productLoading ? (
             <Preloader />
           ) : (
-            <div title="프로덕트 그룹" className="flex-grid flex-grid-grow products__productWrap">
+            <div
+              title="프로덕트 그룹"
+              className="flex-grid flex-grid-grow products__productWrap"
+            >
               <div className="flex-grid__col col--wmd-0">
                 <Product {...product1} />
               </div>
@@ -78,22 +81,38 @@ const Products: React.FC<IProps> = ({
                 <Slider onSwipe={closeTooltip} infinite={false}>
                   <div className="JDslider__slide-wrap">
                     <div className="JDslider__slide">
-                      <Product {...product1} value={`${product1.value}--slider`} slider />
+                      <Product
+                        {...product1}
+                        value={`${product1.value}--slider`}
+                        slider
+                      />
                     </div>
                   </div>
                   <div className="JDslider__slide-wrap">
                     <div className="JDslider__slide">
-                      <Product {...product2} value={`${product2.value}--slider`} slider />
+                      <Product
+                        {...product2}
+                        value={`${product2.value}--slider`}
+                        slider
+                      />
                     </div>
                   </div>
                   <div className="JDslider__slide-wrap">
                     <div className="JDslider__slide">
-                      <Product {...product3} value={`${product3.value}--slider`} slider />
+                      <Product
+                        {...product3}
+                        value={`${product3.value}--slider`}
+                        slider
+                      />
                     </div>
                   </div>
                   <div className="JDslider__slide-wrap">
                     <div className="JDslider__slide">
-                      <Product {...product4} value={`${product4.value}--slider`} slider />
+                      <Product
+                        {...product4}
+                        value={`${product4.value}--slider`}
+                        slider
+                      />
                     </div>
                   </div>
                 </Slider>
@@ -103,12 +122,16 @@ const Products: React.FC<IProps> = ({
           {/* <JDcheckbox disabled={} onChange={hostAppHook.onChange} checked={hostAppHook.checked} label="홈페이지 신청" /> */}
           <p title="하단 메세지">
             {isEmpty(selectedHouse) ? (
-              <span className="JDlarge-warring-text">현재 생성된 숙소가 없습니다.</span>
+              <span className="JDlarge-warring-text">
+                현재 생성된 숙소가 없습니다.
+              </span>
             ) : (
               <Fragment>
-                {'* 선택하신 상품은 숙소 '}
-                <span className="JDtextColor--secondary">{selectedHouse.name}</span>
-                {' 에 적용됩니다.'}
+                {"* 선택하신 상품은 숙소 "}
+                <span className="JDtextColor--secondary">
+                  {selectedHouse.name}
+                </span>
+                {" 에 적용됩니다."}
               </Fragment>
             )}
           </p>
@@ -122,7 +145,12 @@ const Products: React.FC<IProps> = ({
           />
           {/* 상품해지 버튼 */}
           {currentProduct && currentProduct._id && (
-            <Button onClick={refundModal.openModal} disabled={isEmpty(selectedHouse)} thema="warn" label="상품해지" />
+            <Button
+              onClick={refundModal.openModal}
+              disabled={isEmpty(selectedHouse)}
+              thema="warn"
+              label="상품해지"
+            />
           )}
         </div>
       </div>

@@ -158,7 +158,7 @@ const POPbookerInfo: React.FC<IProps> = ({
         params: {
           email: "demo@naver.com",
           memo: memoHook.value,
-          isCheckIn: bookerData.isCheckIn,
+          isCheckIn: bookerData.checkIn.isIn,
           name: bookerNameHook.value,
           payMethod:
             payMethodHook.selectedOption && payMethodHook.selectedOption.value,

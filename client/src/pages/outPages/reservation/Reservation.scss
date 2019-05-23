@@ -148,3 +148,10 @@ $roomCardHeight: 130px;
         color: $html-color;
     }
 }
+
+
+.roomImgPop {
+    &__img {
+        margin-bottom: $standard-margin-bottom;   
+    }
+}

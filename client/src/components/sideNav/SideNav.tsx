@@ -1,10 +1,10 @@
 import React, {Fragment} from "react";
 import {NavLink, Link} from "react-router-dom";
-import PropTypes from "prop-types";
+import PropTypes, {string} from "prop-types";
 import "./SideNav.scss";
 import classNames from "classnames";
 import ErrProtecter from "../../utils/errProtect";
-import Icon from "../../atoms/icons/Icons";
+import Icon, {IIcons} from "../../atoms/icons/Icons";
 import Button from "../../atoms/button/Button";
 import ProfileCircle from "../../atoms/profileCircle/ProfileCircle";
 import SelectHouseWrap from "../selectHouse/SelectHouseWrap";
@@ -39,8 +39,83 @@ const SideNav: React.FC<IProps> = ({
     setIsOpen();
   };
 
-  const isHouseMaked = !isEmpty(houses);
+  const isHouseMaked = !isEmpty(selectedHouse);
+  const isHaveProduct = selectedHouse && selectedHouse.product ? true : false;
   const isRoomTypeMaked = isHouseMaked && !isEmpty(houses[0].roomTypes);
+
+  interface IMenuesItem {
+    to: string;
+    label: string;
+    icon: IIcons;
+    disabled: boolean;
+  }
+  const menues: IMenuesItem[] = [
+    {
+      to: "/middleServer/assigTimeline",
+      disabled: isRoomTypeMaked,
+      icon: "calendar",
+      label: "배정달력"
+    },
+    {
+      to: "/middleServer/resvList",
+      disabled: !isHaveProduct,
+      icon: "list",
+      label: "예약목록"
+    },
+    {
+      to: "/middleServer/setPrice",
+      icon: "money",
+      label: "가격설정",
+      disabled: !isRoomTypeMaked
+    },
+    {
+      to: "/middleServer/sms",
+      icon: "sms",
+      label: "SMS설정",
+      disabled: !isRoomTypeMaked
+    },
+    {
+      to: "/middleServer/timelineConfig",
+      icon: "roomChange",
+      label: "방구조변경",
+      disabled: !isHaveProduct
+    },
+    {
+      to: "/middleServer/makeHouse",
+      icon: "config",
+      label: "환경설정",
+      disabled: !isHaveProduct
+    },
+    {
+      to: "/middleServer/makeHouse",
+      icon: "house",
+      label: "숙소생성",
+      disabled: false
+    },
+    {
+      to: "/middleServer/products",
+      icon: "gift",
+      label: "서비스상품",
+      disabled: false
+    },
+    {
+      to: "/middleServer/qna",
+      icon: "question",
+      label: "고객문의",
+      disabled: false
+    }
+  ];
+
+  const handleClickNavLInk = (
+    e: React.MouseEvent<HTMLElement>,
+    disabled: boolean
+  ) => {
+    if (disabled) e.preventDefault();
+  };
+
+  const sortedMenues = menues.sort((menu, menu2) => {
+    return menu.disabled === menu2.disabled ? 0 : menu.disabled ? 1 : -1;
+  });
 
   return (
     <Fragment>
@@ -59,49 +134,20 @@ const SideNav: React.FC<IProps> = ({
         </div>
         {/* 리스트 컨테이너 */}
         <div className="JDsideNav__listContainer">
-          <NavLink
-            to="/middleServer/assigTimeline"
-            className={`JDsideNav__navLink ${isHouseMaked &&
-              "JDsideNav__navLink--disabled"}`}
-          >
-            <Icon icon="calendar" />
-            <span className="JDsideNav__title">배정달력</span>
-          </NavLink>
-          <NavLink to="/middleServer/resvList" className="JDsideNav__navLink">
-            <Icon icon="list" />
-            <span className="JDsideNav__title">예약목록</span>
-          </NavLink>
-          <NavLink to="/middleServer/setPrice" className="JDsideNav__navLink">
-            <Icon icon="money" />
-            <span className="JDsideNav__title">가격설정</span>
-          </NavLink>
-          <NavLink to="/middleServer/sms" className="JDsideNav__navLink">
-            <Icon icon="sms" />
-            <span className="JDsideNav__title">SMS설정</span>
-          </NavLink>
-          <NavLink
-            to="/middleServer/timelineConfig"
-            className="JDsideNav__navLink"
-          >
-            <Icon icon="roomChange" />
-            <span className="JDsideNav__title">방구조변경</span>
-          </NavLink>
-          <NavLink to="/middleServer/makeHouse" className="JDsideNav__navLink">
-            <Icon icon="config" />
-            <span className="JDsideNav__title">환경설정</span>
-          </NavLink>
-          <NavLink to="/middleServer/makeHouse" className="JDsideNav__navLink">
-            <Icon icon="house" />
-            <span className="JDsideNav__title">숙소생성</span>
-          </NavLink>
-          <NavLink to="/middleServer/products" className="JDsideNav__navLink">
-            <Icon icon="gift" />
-            <span className="JDsideNav__title">서비스 상품</span>
-          </NavLink>
-          <NavLink to="/middleServer/qna" className="JDsideNav__navLink">
-            <Icon icon="question" />
-            <span className="JDsideNav__title">고객문의</span>
-          </NavLink>
+          {sortedMenues.map(menu => (
+            <NavLink
+              to={menu.to}
+              onClick={e => {
+                handleClickNavLInk(e, menu.disabled);
+              }}
+              className={`JDsideNav__navLink ${
+                menu.disabled ? "JDsideNav__navLink--disabled" : ""
+              }`}
+            >
+              <Icon icon={menu.icon} />
+              <span className="JDsideNav__title">{menu.label}</span>
+            </NavLink>
+          ))}
         </div>
         {/* 하단 상품뷰 */}
         <div className="JDsideNav__productView">
