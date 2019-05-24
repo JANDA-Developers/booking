@@ -9,3 +9,15 @@ export const dayOfYear = (cur: Date): number => {
         (start.getTimezoneOffset() - cur.getTimezoneOffset()) * 60 * 1000;
     return Math.floor(diff / ONE_DAY);
 };
+
+export const getDateArr = (start: Date, end: Date): Date[] => {
+    const result = [start];
+    let i = 0;
+    const st = new Date(result[0]);
+    while (result[i].getTime() < end.getTime()) {
+        st.setDate(st.getDate() + i);
+        result.push(st);
+        i++;
+    }
+    return result;
+};

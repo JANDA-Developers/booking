@@ -1,3 +1,5 @@
+import { DayOfWeekPrice } from "../types/graph";
+
 export const applyDaysToBinaryString = (val: number) => {
     return parseInt(`${val}`, 0)
         .toString(2)
@@ -38,4 +40,33 @@ export const arrToApplyDays = (arr: Array<number | boolean>): number => {
                 return v1 + v2;
             }) % 128
     );
+};
+export const isIncludeDayOfWeek = (
+    dayOfWeek: number,
+    applyDays: number
+): boolean => {
+    const day = [
+        DayOfWeekEnum.SUN,
+        DayOfWeekEnum.MON,
+        DayOfWeekEnum.TUE,
+        DayOfWeekEnum.WED,
+        DayOfWeekEnum.THU,
+        DayOfWeekEnum.FRI,
+        DayOfWeekEnum.SAT
+    ][dayOfWeek];
+    const applyDaysArr = applyDaysToArr(applyDays);
+    return applyDaysArr.includes(day);
+};
+
+export const getPriceInApplyDaysArr = (
+    date: Date,
+    dayOfWeekPrices: DayOfWeekPrice[]
+): { price: number; suggestedPrice: number } => {
+    dayOfWeekPrices.forEach(dayofWeekPrice => {
+        //
+    });
+    return {
+        price: 0,
+        suggestedPrice: 0
+    };
 };
