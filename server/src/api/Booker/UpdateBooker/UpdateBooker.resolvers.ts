@@ -35,7 +35,7 @@ const resolvers: Resolvers = {
                         }
                     );
                     if (params.name) {
-                        await GuestModel.findOneAndUpdate(
+                        await GuestModel.updateMany(
                             {
                                 booker: new Types.ObjectId(bookerId)
                             },
@@ -44,6 +44,8 @@ const resolvers: Resolvers = {
                             }
                         );
                     }
+                    // 고쳤음
+
                     return {
                         ok: true,
                         error: null,
