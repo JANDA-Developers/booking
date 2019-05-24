@@ -1,7 +1,7 @@
 type FindBookerResponse {
     ok: Boolean!
     error: String
-    booker: Booker
+    bookers: [Booker!]
 }
 type Query {
     FindBooker(
