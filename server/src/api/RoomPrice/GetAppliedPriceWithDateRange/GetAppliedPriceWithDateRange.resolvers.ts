@@ -75,16 +75,19 @@ const resolvers: Resolvers = {
                         arr.map(
                             async (season): Promise<SeasonPrice | null> => {
                                 // TODO: 여기부터 ㄱㄱ ㅜ
-                                return await convertSeasonToSeaeonPrice(
+                                const temp = await convertSeasonToSeaeonPrice(
                                     season,
                                     roomTypeId
                                 );
+                                // console.log(temp);
+
+                                return temp;
                             }
                         )
                     )).filter(seasonPrice => seasonPrice);
-                    console.log({
-                        result
-                    });
+                    // console.log({
+                    //     result
+                    // });
 
                     return {
                         ok: true,

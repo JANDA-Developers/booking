@@ -59,7 +59,14 @@ export class BookerSchema extends Typegoose {
     @prop({ required: true, index: true })
     email: string;
 
-    @prop()
+    @prop({
+        default(): CheckIn {
+            return {
+                isIn: false,
+                checkInDateTime: null
+            };
+        }
+    })
     checkIn: CheckIn;
 
     @prop()
