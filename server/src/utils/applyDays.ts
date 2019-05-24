@@ -1,5 +1,3 @@
-import { DayOfWeekPrice } from "../types/graph";
-
 export const applyDaysToBinaryString = (val: number) => {
     return parseInt(`${val}`, 0)
         .toString(2)
@@ -15,6 +13,7 @@ export enum DayOfWeekEnum {
     SAT = FRI << 1,
     ALL_DAY = (SAT << 1) - 1
 }
+
 export const applyDaysToArr = (applyDaysBinary: number): DayOfWeekEnum[] => {
     // val 은 0~127 사이의 숫자
     let val = applyDaysBinary % (1 << 7);
@@ -41,32 +40,17 @@ export const arrToApplyDays = (arr: Array<number | boolean>): number => {
             }) % 128
     );
 };
+
+/**
+ * dayOfWeek가 applyDays에 포함되는지 확인함.
+ * @param dayOfWeek 요일
+ * @param applyDays 적용되는 요일들
+ */
 export const isIncludeDayOfWeek = (
     dayOfWeek: number,
     applyDays: number
 ): boolean => {
-    const day = [
-        DayOfWeekEnum.SUN,
-        DayOfWeekEnum.MON,
-        DayOfWeekEnum.TUE,
-        DayOfWeekEnum.WED,
-        DayOfWeekEnum.THU,
-        DayOfWeekEnum.FRI,
-        DayOfWeekEnum.SAT
-    ][dayOfWeek];
+    const day = 1 << dayOfWeek;
     const applyDaysArr = applyDaysToArr(applyDays);
     return applyDaysArr.includes(day);
-};
-
-export const getPriceInApplyDaysArr = (
-    date: Date,
-    dayOfWeekPrices: DayOfWeekPrice[]
-): { price: number; suggestedPrice: number } => {
-    dayOfWeekPrices.forEach(dayofWeekPrice => {
-        //
-    });
-    return {
-        price: 0,
-        suggestedPrice: 0
-    };
 };

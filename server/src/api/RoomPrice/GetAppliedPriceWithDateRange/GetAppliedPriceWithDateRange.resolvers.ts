@@ -1,3 +1,7 @@
+import { Types } from "mongoose";
+import { InstanceType } from "typegoose";
+import { extractRoomPrices } from "../../../models/merge/merge";
+import { RoomPriceSchema } from "../../../models/RoomPrice";
 import { RoomTypeModel } from "../../../models/RoomType";
 import { getAllSeasons } from "../../../queries/queriesSeason";
 import {
@@ -7,6 +11,7 @@ import {
     SeasonPrice
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
+import { getRoomPriceWithDateRange } from "../../../utils/priceFuncs";
 import { privateResolver } from "../../../utils/privateResolvers";
 import {
     compareSeason,
@@ -37,7 +42,8 @@ const resolvers: Resolvers = {
                             ok: false,
                             error:
                                 "roomTypeId에 해당하는 RoomType을 찾을 수 없습니다",
-                            seasonPrices: []
+                            seasonPrices: [],
+                            roomPrices: []
                         };
                     }
                     const seasons = await getAllSeasons(
@@ -89,16 +95,29 @@ const resolvers: Resolvers = {
                     //     result
                     // });
 
+                    const roomPrices: Array<
+                        InstanceType<RoomPriceSchema>
+                    > = await getRoomPriceWithDateRange(
+                        start,
+                        end,
+                        new Types.ObjectId(roomTypeId)
+                    );
+
                     return {
                         ok: true,
                         error: null,
-                        seasonPrices: result
+                        seasonPrices: result,
+                        roomPrices: await extractRoomPrices.bind(
+                            extractRoomPrices,
+                            roomPrices
+                        )
                     };
                 } catch (error) {
                     return {
                         ok: false,
                         error: error.message,
-                        seasonPrices: []
+                        seasonPrices: [],
+                        roomPrices: []
                     };
                 }
             }
