@@ -1,50 +1,52 @@
+import * as _ from "lodash";
 import { Types } from "mongoose";
-import { BookerModel } from "../../../models/Booker";
-import { extractBooker } from "../../../models/merge/merge";
+import { InstanceType } from "typegoose";
+import { BookerModel, BookerSchema } from "../../../models/Booker";
+import { extractBookers } from "../../../models/merge/merge";
 import { FindBookerQueryArgs, FindBookerResponse } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
+import { asyncForEach } from "../../../utils/etc";
 import { privateResolver } from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Query: {
         FindBooker: privateResolver(
             async (
-                _,
+                __,
                 { houseId, name, password, phoneNumber }: FindBookerQueryArgs
             ): Promise<FindBookerResponse> => {
                 try {
-                    const existingBooker = await BookerModel.findOne({
+                    const bookers = await BookerModel.find({
                         name,
                         phoneNumber,
                         house: houseId && new Types.ObjectId(houseId)
                     });
-                    if (!existingBooker) {
+                    if (!bookers.length) {
                         return {
                             ok: false,
                             error: "존재하지 않는 BookerId 입니다",
-                            booker: null
+                            bookers: []
                         };
                     }
-                    if (!existingBooker.comparePassword(password)) {
-                        return {
-                            ok: false,
-                            error: "패스워드가 일치하지 않습니다.",
-                            booker: null
-                        };
-                    }
+                    const realBooker: Array<InstanceType<BookerSchema>> = [];
+                    await asyncForEach(bookers, async booker => {
+                        if (await booker.comparePassword(password)) {
+                            realBooker.push(booker);
+                        }
+                    });
                     return {
                         ok: true,
                         error: null,
-                        booker: await extractBooker.bind(
-                            extractBooker,
-                            existingBooker
+                        bookers: await extractBookers.bind(
+                            extractBookers,
+                            realBooker
                         )
                     };
                 } catch (error) {
                     return {
                         ok: false,
                         error: error.message,
-                        booker: null
+                        bookers: []
                     };
                 }
             }
