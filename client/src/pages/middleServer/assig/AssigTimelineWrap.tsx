@@ -112,16 +112,20 @@ class DeleteGuestMu extends Mutation<deleteGuests, deleteGuestsVariables> {}
 const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
   const dayPickerHook = useDayPicker(null, null);
   const defaultStartDate = dayPickerHook.from
-    ? moment(dayPickerHook.from).valueOf()
-    : moment().valueOf();
+    ? setMidNight(moment(dayPickerHook.from).valueOf())
+    : setMidNight(moment().valueOf());
   const defaultEndDate = setMidNight(
     dayPickerHook.from
-      ? moment(dayPickerHook.from)
-          .add(7, "days")
-          .valueOf()
-      : moment()
-          .add(7, "days")
-          .valueOf()
+      ? setMidNight(
+          moment(dayPickerHook.from)
+            .add(7, "days")
+            .valueOf()
+        )
+      : setMidNight(
+          moment()
+            .add(7, "days")
+            .valueOf()
+        )
   );
   const [dataTime, setDataTime] = useState({
     start: setMidNight(

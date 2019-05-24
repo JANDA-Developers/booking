@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState } from 'react';
-import { Mutation, Query } from 'react-apollo';
-import moment from 'moment';
+import React, {useState} from "react";
+import {Mutation, Query} from "react-apollo";
+import moment from "moment-timezone";
 import {
   getAllRoomType,
   getAllRoomTypePrice_GetAllRoomType_roomTypes as IRoomType,
@@ -13,20 +13,39 @@ import {
   createRoomPrice,
   createRoomPriceVariables,
   deleteRoomPrice,
-  deleteRoomPriceVariables,
-} from '../../../types/api';
-import PriceTimeline from './PriceTimeline';
-import { PriceTimelineDefaultProps } from './timelineConfig';
-import { CREATE_ROOM_PRICE, GET_ALL_ROOMTYPES_PRICE, DELETE_ROOM_PRICE } from '../../../queries';
+  deleteRoomPriceVariables
+} from "../../../types/api";
+import PriceTimeline from "./PriceTimeline";
+import {PriceTimelineDefaultProps} from "./timelineConfig";
 import {
-  ErrProtecter, queryDataFormater, showError, setMidNight, onCompletedMessage,
-} from '../../../utils/utils';
-import { TimePerMs } from '../../../types/enum';
-import { useDayPicker } from '../../../actions/hook';
+  CREATE_ROOM_PRICE,
+  GET_ALL_ROOMTYPES_PRICE,
+  DELETE_ROOM_PRICE
+} from "../../../queries";
+import {
+  ErrProtecter,
+  queryDataFormater,
+  showError,
+  setMidNight,
+  onCompletedMessage
+} from "../../../utils/utils";
+import {TimePerMs} from "../../../types/enum";
+import {useDayPicker} from "../../../actions/hook";
 
-class GetAllRoomTypePriceQuery extends Query<getAllRoomTypePrice, getAllRoomTypePriceVariables> {}
-class CreateRoomPriceMu extends Mutation<createRoomPrice, createRoomPriceVariables> {}
-class DeleteRoomPriceMu extends Mutation<deleteRoomPrice, deleteRoomPriceVariables> {}
+moment.tz.setDefault("Asia/Seoul");
+
+class GetAllRoomTypePriceQuery extends Query<
+  getAllRoomTypePrice,
+  getAllRoomTypePriceVariables
+> {}
+class CreateRoomPriceMu extends Mutation<
+  createRoomPrice,
+  createRoomPriceVariables
+> {}
+class DeleteRoomPriceMu extends Mutation<
+  deleteRoomPrice,
+  deleteRoomPriceVariables
+> {}
 
 export interface IItem {
   id: string;
@@ -48,7 +67,10 @@ interface IPropItemMaker {
 }
 
 const itemMaker = ({
-  startDate, endDate, priceMap, roomTypes,
+  startDate,
+  endDate,
+  priceMap,
+  roomTypes
 }: IPropItemMaker): IItem[] => {
   let items: IItem[] = [];
   let now = startDate;
@@ -57,23 +79,23 @@ const itemMaker = ({
     id: roomType._id + now,
     group: roomType._id,
     start: now,
-    price: priceMap.get(roomType._id + now),
-    name: 'any',
     end: now + TimePerMs.DAY,
+    price: priceMap.get(roomType._id + now),
+    name: "any",
     style: {
-      backgroundColor: 'fuchsia',
+      backgroundColor: "fuchsia"
     },
     itemProps: {
       // these optional attributes are passed to the root <div /> of each item as <div {...itemProps} />
-      'data-custom-attribute': 'Random content',
-      'aria-hidden': true,
-    },
+      "data-custom-attribute": "Random content",
+      "aria-hidden": true
+    }
   });
 
   while (now <= endDate) {
     items = items.concat(roomTypes.map(roomTpyesMapFn));
     now = moment(now)
-      .add(1, 'days')
+      .add(1, "days")
       .valueOf();
   }
   return items;
@@ -84,41 +106,46 @@ interface IProps {
 }
 
 // 👼 앞으로 무조건 milisecond를 사용하는 편이 편할듯하다.
-const PriceTimelineWrap: React.SFC<IProps> = ({ houseId }) => {
+const PriceTimelineWrap: React.SFC<IProps> = ({houseId}) => {
   //  Default 값
   const dateInputHook = useDayPicker(null, null);
   const defaultTime = {
-    start: dateInputHook.from ? setMidNight(moment(dateInputHook.from).valueOf()) : setMidNight(moment().valueOf()),
+    start: dateInputHook.from
+      ? setMidNight(moment(dateInputHook.from).valueOf())
+      : setMidNight(moment().valueOf()),
     end: dateInputHook.to
       ? setMidNight(
-        moment(dateInputHook.to)
-          .add(7, 'days')
-          .valueOf(),
-      )
+          moment(dateInputHook.to)
+            .add(7, "days")
+            .valueOf()
+        )
       : setMidNight(
-        moment()
-          .add(7, 'days')
-          .valueOf(),
-      ),
+          moment()
+            .add(7, "days")
+            .valueOf()
+        )
   };
   const [dataTime, setDataTime] = useState({
     start: setMidNight(
       moment()
-        .subtract(30, 'days')
-        .valueOf(),
+        .subtract(30, "days")
+        .valueOf()
     ),
     end: setMidNight(
       moment()
-        .add(60, 'days')
-        .valueOf(),
-    ),
+        .add(60, "days")
+        .valueOf()
+    )
   });
 
   // 방타입과 날자 조합의 키를 가지고 value로 pirce를 가지는 Map 생성
   const priceMapMaker = (priceData: roomPrices[]): Map<string, number> => {
     const priceMap = new Map();
-    priceData.map((price) => {
-      priceMap.set(price.roomType._id + setMidNight(moment(price.date).valueOf()), price.price);
+    priceData.map(price => {
+      priceMap.set(
+        price.roomType._id + setMidNight(moment(price.date).valueOf()),
+        price.price
+      );
     });
     return priceMap;
   };
@@ -127,43 +154,72 @@ const PriceTimelineWrap: React.SFC<IProps> = ({ houseId }) => {
     houseId,
     start: moment(dataTime.start)
       .toISOString()
-      .split('T')[0],
+      .split("T")[0],
     end: moment(dataTime.end)
       .toISOString()
-      .split('T')[0],
+      .split("T")[0]
   };
 
   return (
-    <GetAllRoomTypePriceQuery fetchPolicy="network-only" query={GET_ALL_ROOMTYPES_PRICE} variables={queryVarialbes}>
-      {({ data, loading, error }) => {
+    <GetAllRoomTypePriceQuery
+      fetchPolicy="network-only"
+      query={GET_ALL_ROOMTYPES_PRICE}
+      variables={queryVarialbes}
+    >
+      {({data, loading, error}) => {
         showError(error);
-        const roomTypesData = queryDataFormater(data, 'GetAllRoomType', 'roomTypes', undefined); // 원본데이터
-        const roomPriceData = queryDataFormater(data, 'GetAllRoomPrice', 'roomPrices', undefined); // 원본데이터
-        const priceMap = roomPriceData ? priceMapMaker(roomPriceData) : new Map();
-        const items = roomTypesData
-          && itemMaker({
+        const roomTypesData = queryDataFormater(
+          data,
+          "GetAllRoomType",
+          "roomTypes",
+          undefined
+        ); // 원본데이터
+        const roomPriceData = queryDataFormater(
+          data,
+          "GetAllRoomPrice",
+          "roomPrices",
+          undefined
+        ); // 원본데이터
+        const priceMap = roomPriceData
+          ? priceMapMaker(roomPriceData)
+          : new Map();
+        const items =
+          roomTypesData &&
+          itemMaker({
             startDate: dataTime.start,
             endDate: dataTime.end,
             priceMap,
-            roomTypes: roomTypesData,
+            roomTypes: roomTypesData
           });
         return (
           // 방생성 뮤테이션
           <CreateRoomPriceMu
-            onCompleted={({ CreateRoomPrice }) => {
-              onCompletedMessage(CreateRoomPrice, '가격설정완료', '가격설정 실패');
+            onCompleted={({CreateRoomPrice}) => {
+              onCompletedMessage(
+                CreateRoomPrice,
+                "가격설정완료",
+                "가격설정 실패"
+              );
             }}
-            refetchQueries={[{ query: GET_ALL_ROOMTYPES_PRICE, variables: queryVarialbes }]}
+            refetchQueries={[
+              {query: GET_ALL_ROOMTYPES_PRICE, variables: queryVarialbes}
+            ]}
             onError={showError}
             mutation={CREATE_ROOM_PRICE}
           >
             {createRoomPriceMu => (
               // 방생성 뮤테이션
               <DeleteRoomPriceMu
-                onCompleted={({ DeleteRoomPrice }) => {
-                  onCompletedMessage(DeleteRoomPrice, '가격설정삭제', '가격설정삭제 실패');
+                onCompleted={({DeleteRoomPrice}) => {
+                  onCompletedMessage(
+                    DeleteRoomPrice,
+                    "가격설정삭제",
+                    "가격설정삭제 실패"
+                  );
                 }}
-                refetchQueries={[{ query: GET_ALL_ROOMTYPES_PRICE, variables: queryVarialbes }]}
+                refetchQueries={[
+                  {query: GET_ALL_ROOMTYPES_PRICE, variables: queryVarialbes}
+                ]}
                 onError={showError}
                 mutation={DELETE_ROOM_PRICE}
               >
