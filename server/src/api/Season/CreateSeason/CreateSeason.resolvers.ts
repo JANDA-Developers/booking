@@ -86,9 +86,8 @@ const resolvers: Resolvers = {
                                         seasonPriceInput.roomTypeId
                                     ),
                                     defaultPrice: seasonPriceInput.defaultPrice,
-                                    dayOfWeekPrices: {
-                                        ...seasonPriceInput.dayOfWeekPrices
-                                    }
+                                    dayOfWeekPrices:
+                                        seasonPriceInput.dayOfWeekPrices
                                 })
                             );
                         });

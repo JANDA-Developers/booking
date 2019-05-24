@@ -18,6 +18,7 @@ import { Resolvers } from "../../../types/resolvers";
 import { asyncForEach } from "../../../utils/etc";
 
 import * as _ from "lodash";
+import { DailyPrice } from "../../../types/dailyPrice";
 
 const resolvers: Resolvers = {
     Mutation: {
@@ -93,7 +94,6 @@ const resolvers: Resolvers = {
                             },
                             "availableCount"
                         ]);
-                        console.log(sortedCapacity);
 
                         const female: { gender: Gender; count: number } = {
                             gender: "FEMALE",
@@ -117,12 +117,6 @@ const resolvers: Resolvers = {
                                 );
                             })
                         );
-                        console.log("---------");
-                        console.log(female);
-                        console.log({
-                            countFemaleGuest
-                        });
-                        console.log("---------");
 
                         const maleGuest = _.flatMap(
                             sortedCapacity.map(capacity => {
@@ -144,7 +138,20 @@ const resolvers: Resolvers = {
                                 );
                             })
                         );
-                        guests.push(...femaleGuest, ...maleGuest, ...roomGuest);
+                        const tempGuests = [
+                            ...femaleGuest,
+                            ...maleGuest,
+                            ...roomGuest
+                        ];
+                        guests.push(...tempGuests);
+                        const dailyPrices: DailyPrice[] = [];
+                        await asyncForEach(tempGuests, async g => {
+                            // 여기서 가격을 불러오는걸로
+                        });
+                        console.log({
+                            dailyPrices
+                        });
+
                         countFemaleGuest--;
                     }
                 );
@@ -182,6 +189,8 @@ const resolvers: Resolvers = {
 };
 
 export default resolvers;
+
+// --------------------------------------------------------------------------------------------------------------------------------------
 
 export const createGuest = (
     bookerInstance: InstanceType<BookerSchema>,

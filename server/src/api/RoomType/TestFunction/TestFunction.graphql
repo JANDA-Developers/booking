@@ -3,13 +3,7 @@ type TestFunctionResponse {
     error: String
 }
 type Mutation {
-    TestFunction(
-        roomTypeId: ID!
-        start: DateTime!
-        end: DateTime!
-        gender: Gender!
-        paddingGenderCountInput: PaddingGenderCountInput
-    ): TestFunctionResponse!
+    TestFunction(roomTypeId: ID!, guestId: ID!): TestFunctionResponse!
 }
 
 input PaddingGenderCountInput {

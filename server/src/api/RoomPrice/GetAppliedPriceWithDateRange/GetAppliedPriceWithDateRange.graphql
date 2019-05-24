@@ -2,6 +2,7 @@ type GetAppliedPriceWithDateRangeResponse {
     ok: Boolean!
     error: String
     seasonPrices: [SeasonPrice!]
+    roomPrices: [RoomPrice!]
 }
 type Query {
     GetAppliedPriceWithDateRange(
