@@ -219,7 +219,17 @@ export interface IUseColor {
 
 // NAME SPACE
 function useColorPicker(defaultValue: string | null): IUseColor {
-  const [color, inSetColor] = useState(defaultValue || randomColor());
+  let defaultColor: string = "";
+  if (!defaultValue) {
+    const temp = randomColor();
+    if (temp instanceof Array) {
+      defaultColor = temp[0];
+    }
+  } else {
+    defaultColor = defaultValue;
+  }
+
+  const [color, inSetColor] = useState(defaultColor);
   const [display, inSetDisplay] = useState(false);
 
   const setColor = (value: string) => {
