@@ -44,6 +44,8 @@ const resolvers: Resolvers = {
                             }
                         );
                     }
+                    // 고쳤음
+
                     return {
                         ok: true,
                         error: null,
