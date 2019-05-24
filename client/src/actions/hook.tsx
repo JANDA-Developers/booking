@@ -2,11 +2,11 @@
 /* eslint-disable no-shadow */
 /* ts-ignore */
 import randomColor from "randomcolor";
-import { useState, useEffect } from "react";
+import {useState, useEffect} from "react";
 import Axios from "axios";
-import { toast } from "react-toastify";
-import { CLOUDINARY_KEY } from "../keys";
-import { IselectedOption } from "../atoms/forms/selectBox/SelectBox";
+import {toast} from "react-toastify";
+import {CLOUDINARY_KEY} from "../keys";
+import {IselectedOption} from "../atoms/forms/selectBox/SelectBox";
 
 // 한방에 패치
 // A X I O S  : (http://codeheaven.io/how-to-use-axios-as-your-http-client/)
@@ -79,7 +79,7 @@ const useImageUploader = (foo?: any): IuseImageUploader => {
   ) => {
     if (event) {
       const {
-        target: { name, value, files }
+        target: {name, value, files}
       }: any = event;
       if (files) {
         setUploading(true);
@@ -90,7 +90,7 @@ const useImageUploader = (foo?: any): IuseImageUploader => {
         formData.append("timestamp", String(Date.now() / 1000));
         try {
           const {
-            data: { secure_url }
+            data: {secure_url}
           } = await Axios.post(
             "https://api.cloudinary.com/v1_1/stayjanda-com/image/upload",
             formData
@@ -257,7 +257,7 @@ function useSwitch(defaultValue: boolean) {
     setChecked(value);
   };
 
-  return { checked, onChange };
+  return {checked, onChange};
 }
 
 export interface IUseSelect<V = any> {
@@ -275,7 +275,7 @@ function useSelect<V = any>(
     setSelectedOption(value);
   };
 
-  return { selectedOption, onChange };
+  return {selectedOption, onChange};
 }
 
 // 투글 훅
