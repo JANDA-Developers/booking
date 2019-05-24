@@ -1,0 +1,138 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+.JDradio {
+  display: inline-block;
+  /* Unchecked styles */
+  /* Checked styles */
+  /* Radio With gap */
+  /* Focused styles */
+  /* Disabled Radio With gap */
+  /* Disabled style */
+}
+
+.JDradio * {
+  outline: 0;
+}
+
+.JDradio__input:not(:checked), .JDradio__input:checked {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+}
+
+.JDradio__label-text {
+  margin-left: 10px;
+  vertical-align: top;
+}
+
+.JDradio__input:not(:checked) + .JDradio__label,
+.JDradio__input:checked + .JDradio__label {
+  position: relative;
+  padding-left: 20px;
+  cursor: pointer;
+  display: inline-block;
+  height: 20px;
+  line-height: 20px;
+  font-size: 1rem;
+  -webkit-transition: .28s ease;
+  transition: .28s ease;
+  /* webkit (konqueror) browsers */
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.JDradio__input + .JDradio__label:before,
+.JDradio__input + .JDradio__label:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 0px;
+  width: 16px;
+  height: 16px;
+  z-index: 0;
+  -webkit-transition: .28s ease;
+  transition: .28s ease;
+}
+
+.JDradio__input:not(:checked) + .JDradio__label:before,
+.JDradio__input:not(:checked) + .JDradio__label:after,
+.JDradio__input:checked + .JDradio__label:before,
+.JDradio__input:checked + .JDradio__label:after,
+.JDradio__input--gap:checked + .JDradio__label:before,
+.JDradio__input--gap:checked + .JDradio__label:after {
+  border-radius: 50%;
+}
+
+.JDradio__input:not(:checked) + .JDradio__label:before,
+.JDradio__input:not(:checked) + .JDradio__label:after {
+  border: 2px solid #343434;
+}
+
+.JDradio__input:not(:checked) + .JDradio__label:after {
+  z-index: -1;
+  -webkit-transform: scale(0);
+          transform: scale(0);
+}
+
+.JDradio__input:checked + .JDradio__label:before {
+  border: 2px solid transparent;
+}
+
+.JDradio__input:checked + .JDradio__label:after,
+.JDradio__input--gap:checked + .JDradio__label:before,
+.JDradio__input--gap:checked + .JDradio__label:after {
+  border: 2px solid #4c5b73;
+}
+
+.JDradio__input:checked + .JDradio__label:after,
+.JDradio__input--gap:checked + .JDradio__label:after {
+  background-color: #4c5b73;
+  z-index: 0;
+}
+
+.JDradio__input:checked + .JDradio__label:after {
+  -webkit-transform: scale(1.02);
+          transform: scale(1.02);
+}
+
+.JDradio__input--gap:checked + .JDradio__label:after {
+  -webkit-transform: scale(0.5);
+          transform: scale(0.5);
+}
+
+.JDradio__input--tabbed:focus + .JDradio__label:before {
+  -webkit-box-shadow: 0 0 0 10px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.JDradio__input--gap:disabled:checked + .JDradio__label:before {
+  border: 2px solid #EBEBEB;
+}
+
+.JDradio__input--gap:disabled:checked + .JDradio__label:after {
+  border: none;
+  background-color: #EBEBEB;
+}
+
+.JDradio__input:disabled:not(:checked) + .JDradio__label:before,
+.JDradio__input:disabled:checked + .JDradio__label:before {
+  background-color: transparent;
+  border-color: #EBEBEB;
+}
+
+.JDradio__input:disabled + .JDradio__label {
+  color: #EBEBEB;
+}
+
+.JDradio__input:disabled:not(:checked) + .JDradio__label:before {
+  border-color: #EBEBEB;
+}
+
+.JDradio__input:disabled:checked + .JDradio__label:after {
+  background-color: #EBEBEB;
+  border-color: #EBEBEB;
+}
+/*# sourceMappingURL=Radio.css.map */

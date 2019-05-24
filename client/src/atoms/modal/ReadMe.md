@@ -12,7 +12,8 @@
 | info              | any                   | Open으로 저장할 정보                | ------- | ------- | ------- |
 
 - &\_\_EndSection 클래스 네임을 주어 안의 버튼들의 margin바텀을 제어합니다.
-- modal info 타입이 txt일시 텍스트를 그대로 화면에 뛰웁니다.
+- modal info 타입이 String 일시 텍스트를 그대로 화면에 뛰웁니다.
+- modal info.txt 텍스트를 화면에 뛰웁니다.
 - modal info.thmea = warn 을 적용시 --wran 적용
-
-[모달 문서](https://github.com/reactjs/react-modal#installation);
+- modal info.callBack 으로 confirm 컬백을 줄수도 있습니다.
+  [모달 문서](https://github.com/reactjs/react-modal#installation);

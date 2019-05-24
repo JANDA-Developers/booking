@@ -4,17 +4,17 @@ import {
   getHouse_GetHouse_house_product,
   getAllRoomType_GetAllRoomType_roomTypes as getAllRoomType_GetAllRoomType_roomType,
   getBookers_GetBookers_bookers,
-  getBookers_GetBookers_bookers_bookings,
   getAllRoomTypeWithGuest_GetGuests_guests,
   getAllSeason_GetAllSeason_seasons,
   getAllSeasonTable_GetAllRoomType_roomTypes,
-  getBooker_GetBooker_booker,
-} from './api';
-import { IselectedOption } from '../atoms/forms/selectBox/SelectBox';
+  getBooker_GetBooker_booker
+} from "./api";
+import {IselectedOption} from "../atoms/forms/selectBox/SelectBox";
 
 // 🥈 중복이 생기면 이렇게 감싸서 처리하자.
 //  moudle 과 naeme space를 사용하려 해보았으나 실패 ㅠ
-export interface GAST_RoomType extends getAllSeasonTable_GetAllRoomType_roomTypes {}
+export interface GAST_RoomType
+  extends getAllSeasonTable_GetAllRoomType_roomTypes {}
 export interface GB_booker extends getBooker_GetBooker_booker {}
 export interface IProduct extends getHouse_GetHouse_house_product {}
 export interface IUser extends getMyProfile_GetMyProfile_user {}
@@ -22,7 +22,6 @@ export interface IHouse extends getHouse_GetHouse_house {}
 export interface IDiv extends React.HTMLAttributes<HTMLDivElement> {}
 export interface IRoomType extends getAllRoomType_GetAllRoomType_roomType {}
 export interface IBooker extends getBookers_GetBookers_bookers {}
-export interface IBooking extends getBookers_GetBookers_bookers_bookings {}
 export interface IGuests extends getAllRoomTypeWithGuest_GetGuests_guests {}
 export interface ISeason extends getAllSeason_GetAllSeason_seasons {}
 export interface IPageInfo {
@@ -98,7 +97,7 @@ export interface IItemContext {
   dragStart: any;
   dragTime: number;
   resizing: boolean;
-  resizeEdge: 'left' | 'right';
+  resizeEdge: "left" | "right";
   resizeStart: number;
   resizeTime: number;
   width: boolean;

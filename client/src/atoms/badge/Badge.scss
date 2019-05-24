@@ -30,4 +30,8 @@
         background-color: $new-color;
         color: $new-color-on;
     }   
+    &--error {
+        background-color: $error-color;
+        color:white;
+    }
 }

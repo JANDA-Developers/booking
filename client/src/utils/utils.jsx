@@ -1,21 +1,29 @@
 // 유틸리티가 더 많이 쌓이면
-import ErrProtecter from './errProtect';
-import isEmpty from './isEmptyData';
-import download from './download';
-import autoHypen, { autoComma, numberStr, stringToNumber } from './autoFormat';
+import ErrProtecter from "./errProtect";
+import isEmpty from "./isEmptyData";
+import download from "./download";
+import autoHypen, {autoComma, numberStr, stringToNumber} from "./autoFormat";
 import {
-  JDMonthTextChanger, JDWeekChanger, applyDaysToArr, arrToApplyDays,
-} from './dayOfweeks';
+  JDMonthTextChanger,
+  JDWeekChanger,
+  applyDaysToArr,
+  arrToApplyDays
+} from "./dayOfweeks";
 import {
-  isEmail, isPhone, isName, isUrl, isMaxOver, isPassword,
-} from './inputValidations';
-import searchListFormat from './searchListFormater';
-import { showError } from './errorMessage';
-import onCompletedMessage from './apolloCompleteM';
-import queryDataFormater, { copyFindReplace } from './queryFormater';
-import pageNationFormater from './paginationFormat';
-import setMidNight from './setMidNight';
-import stringToPrice from './stringToPrice';
+  isEmail,
+  isPhone,
+  isName,
+  isUrl,
+  isMaxOver,
+  isPassword
+} from "./inputValidations";
+import searchListFormat from "./searchListFormater";
+import {showError} from "./errorMessage";
+import onCompletedMessage from "./apolloCompleteM";
+import queryDataFormater, {copyFindReplace} from "./queryFormater";
+import pageNationFormater from "./paginationFormat";
+import setMidNight from "./setMidNight";
+import stringToPrice from "./stringToPrice";
 
 const JDutils = {
   ErrProtecter,
@@ -37,10 +45,9 @@ const JDutils = {
   applyDaysToArr,
   arrToApplyDays,
   stringToPrice,
-  copyFindReplace,
   autoComma,
   numberStr,
-  stringToNumber,
+  stringToNumber
 };
 
 export default JDutils;
@@ -59,8 +66,7 @@ export {
   applyDaysToArr,
   arrToApplyDays,
   stringToPrice,
-  copyFindReplace,
   autoComma,
   numberStr,
-  stringToNumber,
+  stringToNumber
 };

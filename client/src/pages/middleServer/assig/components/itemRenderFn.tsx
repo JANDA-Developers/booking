@@ -1,12 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { TimelineContext } from 'react-calendar-timeline';
-import classnames from 'classnames';
-import { IAssigItem } from '../AssigTimelineWrap';
-import { ASSIGT_IMELINE_HEIGHT } from '../../../../atoms/timeline/Timeline';
-import { ITimelineContext, IItemContext } from '../../../../types/interface';
-import JDIcon, { IconSize } from '../../../../atoms/icons/Icons';
-import TooltipList from '../../../../atoms/tooltipList/TooltipList';
-import { GenderKr } from '../../../../types/enum';
+import React, {useState, useEffect, Fragment} from "react";
+import $ from "jquery";
+import {TimelineContext} from "react-calendar-timeline";
+import classnames from "classnames";
+import {IAssigItem} from "../AssigTimelineWrap";
+import {ASSIGT_IMELINE_HEIGHT} from "../../../../atoms/timeline/Timeline";
+import {ITimelineContext, IItemContext} from "../../../../types/interface";
+import JDIcon, {IconSize} from "../../../../atoms/icons/Icons";
+import TooltipList from "../../../../atoms/tooltipList/TooltipList";
+import {GenderKr, TimePerMs} from "../../../../types/enum";
+import CircleIcon from "../../../../atoms/circleIcon/CircleIcon";
+
+const CLASS_LINKED = "assigItem--linkedSelected";
+const CLASS_MOVING = "assigItem--moving";
+const CLASS_DISABLE = "assigItem--disable";
+export {CLASS_DISABLE, CLASS_MOVING, CLASS_LINKED};
 
 interface IRenderItemProps {
   item: IAssigItem;
@@ -14,6 +21,8 @@ interface IRenderItemProps {
   itemContext: IItemContext;
   getItemProps(props?: any): any;
   getResizeProps(props?: any): any;
+  clearItem(itemId: string): void;
+  genderToggle(itemId: string): void;
 }
 // getItemProps 는 다음을 반환합니다.
 // className: "rct-item "
@@ -34,51 +43,140 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
   timelineContext,
   getItemProps,
   getResizeProps,
+  clearItem,
+  genderToggle
 }) => {
-  const { left: leftResizeProps, right: rightResizeProps } = getResizeProps();
+  const {left: leftResizeProps, right: rightResizeProps} = getResizeProps();
 
   const baseItemCalsses = `assigItem--booker${item.bookerId}`;
-  const classNames = classnames('assigItem', baseItemCalsses, {
-    'assigItem--unAllocated': item.isTempAllocation,
-    'assigItem--selected': itemContext.selected,
+  const classNames = classnames("assigItem", baseItemCalsses, {
+    "assigItem--unAllocated": item.isUnsettled,
+    "assigItem--selected": itemContext.selected,
+    "assigItem--checkIn": item.isCheckin,
+    "assigItem--block": item.type === "block",
+    "assigItem--mark": item.type === "mark",
+    "assigItem--make": item.type === "make"
   });
   const props = getItemProps({
-    className: classNames,
+    className: classNames
   });
   /* getItemProps에 다양한 스타일 속성을 오버라이드 하기를 권장합니다. */
   props.style = {
     ...props.style,
-    background: '',
-    border: '',
-    color: '',
+    fontSize: "",
+    background: "",
+    border: "",
+    color: "",
+    height: `${ASSIGT_IMELINE_HEIGHT - 2}px`
   };
 
   return (
     <div {...props} id={`assigItem--guest${item.id}`}>
-      {itemContext.useResizeHandle ? <div {...leftResizeProps} /> : ''}
-      <div
-        className="rct-item-content assigItem__content myClasses"
-        style={{ maxHeight: `${itemContext.dimensions.height}` }}
-      >
-        <span>
-          {item.name}
-          {item.gender && (
-            <span className={`assigItem__gender ${`assigItem__gender--${item.gender.toLowerCase()}`}`}>
-              {` (${GenderKr[item.gender]})`}
-            </span>
-          )}
-        </span>
-        <span
-          data-tip="1"
-          data-place="top"
-          data-for="itemTooltip"
-          data-event="click"
-          className="assigItem__configIconWrap"
-        >
-          <JDIcon icon="config" size={IconSize.MEDEIUM_SMALL} />
-        </span>
-      </div>
-      {itemContext.useResizeHandle ? <div {...rightResizeProps} /> : ''}
+      {itemContext.useResizeHandle ? <div {...leftResizeProps} /> : ""}
+      {(() => {
+        switch (item.type) {
+          case "normal":
+            return (
+              <div
+                className="rct-item-content assigItem__content myClasses"
+                style={{maxHeight: `${itemContext.dimensions.height}`}}
+              >
+                <span>
+                  {item.name}
+                  {item.gender && (
+                    <span
+                      className={`assigItem__gender ${`assigItem__gender--${item.gender.toLowerCase()}`}`}
+                    >
+                      {` (${GenderKr[item.gender]})`}
+                    </span>
+                  )}
+                </span>
+
+                {/* {item.validate.map(validate => {
+                  if (validate.start && validate.end) {
+                    const CellWidth = $(".rct-dateHeader").width() || 0;
+                    const cellFrom =
+                      (item.start - validate.start) / TimePerMs.DAY;
+                    const cellCount =
+                      (validate.end - validate.start) / TimePerMs.DAY;
+                    const style = {
+                      left: cellFrom * CellWidth,
+                      width: cellCount * CellWidth
+                    };
+                    return (
+                      <span
+                        style={style}
+                        className="assigItem__validateMarker"
+                      />
+                    );
+                  }
+                })} */}
+                <span
+                  data-tip={item.id}
+                  data-place="top"
+                  data-for="itemTooltip"
+                  data-event="click"
+                  className="assigItem__configIconWrap"
+                >
+                  <JDIcon icon="config" size={IconSize.MEDEIUM_SMALL} />
+                </span>
+              </div>
+            );
+          case "block":
+            return (
+              <div className="assigItem__content assigItem__content--block">
+                {"자리막음"}
+                <CircleIcon wave thema="white">
+                  <JDIcon
+                    onClick={() => {
+                      clearItem(item.id);
+                    }}
+                    icon="clear"
+                  />
+                </CircleIcon>
+              </div>
+            );
+          case "mark":
+            return <div />;
+          case "make":
+            return (
+              <div className="assigItem__content assigItem__content--make">
+                <div>
+                  <span>새로운예약</span>
+                  {item.gender && (
+                    <span className="assigItem__gender">
+                      <CircleIcon
+                        onClick={() => {
+                          genderToggle(item.id);
+                        }}
+                        wave
+                        thema="white"
+                      >
+                        <span
+                          className={`assigItem__gender ${`assigItem__gender--${item.gender.toLowerCase()}`}`}
+                        >
+                          {` (${GenderKr[item.gender]})`}
+                        </span>
+                      </CircleIcon>
+                    </span>
+                  )}
+                </div>
+                <CircleIcon
+                  onClick={() => {
+                    clearItem(item.id);
+                  }}
+                  wave
+                  thema="white"
+                >
+                  <JDIcon icon="clear" />
+                </CircleIcon>
+              </div>
+            );
+          default:
+            return <div />;
+        }
+      })()}
+      {itemContext.useResizeHandle ? <div {...rightResizeProps} /> : ""}
     </div>
   );
 };

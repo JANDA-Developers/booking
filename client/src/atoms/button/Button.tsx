@@ -1,27 +1,27 @@
 /* eslint-disable react/button-has-type */
-import React from 'react';
-import './Button.scss';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import ErrProtecter from '../../utils/errProtect';
-import Icon, { IIcons } from '../icons/Icons';
-import Preloader from '../preloader/Preloader';
+import React from "react";
+import "./Button.scss";
+import PropTypes from "prop-types";
+import classNames from "classnames";
+import ErrProtecter from "../../utils/errProtect";
+import Icon, {IIcons} from "../icons/Icons";
+import Preloader from "../preloader/Preloader";
 
 interface IProps extends React.HTMLAttributes<HTMLButtonElement> {
   disabled?: boolean;
   label?: string;
   icon?: IIcons;
-  onClick?: any;
+  onClick?(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void;
   iconClasses?: string[];
   dataTip?: any;
   dataFor?: any;
-  mode?: 'flat' | 'normal' | 'long';
-  size?: 'small' | 'large';
+  mode?: "flat" | "normal" | "long";
+  size?: "small" | "large";
   flat?: boolean;
   float?: string;
-  type?: 'button' | 'submit' | 'reset' | undefined;
+  type?: "button" | "submit" | "reset" | undefined;
   color?: string;
-  thema?: 'primary' | 'grey' | 'secondary' | 'warn' | 'normal';
+  thema?: "primary" | "grey" | "secondary" | "warn" | "normal";
   pulse?: boolean;
   blink?: boolean;
   toggle?: boolean;
@@ -54,22 +54,22 @@ const Button: React.FC<IProps> = ({
   toggle,
   ...props
 }) => {
-  const classes = classNames('JDbtn', className, {
-    'JDbtn--flat': mode === 'flat' || flat,
-    'JDbtn--small': size === 'small',
-    'JDbtn--large': size === 'large',
-    'JDbtn--long': mode === 'long',
-    'JDbtn--left': float === 'left',
-    'JDbtn--right': float === 'right',
-    'JDbtn--white': color === 'white',
-    'JDbtn--primary': thema === 'primary',
-    'JDbtn--grey': thema === 'grey',
-    'JDbtn--secondary': thema === 'secondary',
-    'JDbtn--warn': thema === 'warn',
-    'JDwaves-effect-dark': mode === 'flat' && thema === 'normal',
-    'JDbtn--pulse': pulse,
-    'JDbtn--toogleOn': toggle,
-    'JDtext-blink': blink,
+  const classes = classNames("JDbtn", className, {
+    "JDbtn--flat": mode === "flat" || flat,
+    "JDbtn--small": size === "small",
+    "JDbtn--large": size === "large",
+    "JDbtn--long": mode === "long",
+    "JDbtn--left": float === "left",
+    "JDbtn--right": float === "right",
+    "JDbtn--white": color === "white",
+    "JDbtn--primary": thema === "primary",
+    "JDbtn--grey": thema === "grey",
+    "JDbtn--secondary": thema === "secondary",
+    "JDbtn--warn": thema === "warn",
+    "JDwaves-effect-dark": mode === "flat" && thema === "normal",
+    "JDbtn--pulse": pulse,
+    "JDbtn--toogleOn": toggle,
+    "JDtext-blink": blink
   });
 
   const handleRedirect = () => {
@@ -91,7 +91,9 @@ const Button: React.FC<IProps> = ({
     >
       {preloader ? <Preloader /> : label}
       {!preloader && icon && (
-        <i className={`JDbtn__icon ${iconClasses && iconClasses.join(' ')}`}>{icon && <Icon icon={icon} />}</i>
+        <i className={`JDbtn__icon ${iconClasses && iconClasses.join(" ")}`}>
+          {icon && <Icon icon={icon} />}
+        </i>
       )}
     </button>
   );
@@ -99,18 +101,18 @@ const Button: React.FC<IProps> = ({
 
 Button.defaultProps = {
   disabled: false,
-  label: '',
+  label: "",
   onClick: () => {},
-  iconClasses: [''],
+  iconClasses: [""],
   dataTip: false,
-  dataFor: '',
+  dataFor: "",
   pulse: false,
   blink: false,
-  float: '',
-  color: '',
-  thema: 'normal',
-  type: 'button',
-  preloader: false,
+  float: "",
+  color: "",
+  thema: "normal",
+  type: "button",
+  preloader: false
 };
 
 export default ErrProtecter(Button);

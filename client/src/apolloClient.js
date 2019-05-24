@@ -35,7 +35,7 @@ const client = new ApolloClient({
   uri,
   credentials: 'omit',
   cache: new InMemoryCache({
-    addTypename: false,
+    addTypename: true,
   }),
 });
 

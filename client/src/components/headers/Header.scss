@@ -18,6 +18,10 @@
         padding-right: $container-padding;
         margin-left: auto;
         display:none;
+        .circleIcon  {
+            margin-right:0;
+        }
+
         
         @include response($phablet) {
             display:block;
@@ -90,14 +94,33 @@
         width: 200px;
         margin-bottom: 0;
         margin:0;
-
+        
         .react-select-container {
             .react-select__control {
                 border:none;
                 min-height:28px;
+                height: 2.25rem;
             }
         }
     }
+
+    // 에약자 검색바
+    .JDsearchInput {
+        margin-bottom: 0;
+        height: $standard-small-line-height;
+        line-height: $standard-small-line-height;
+        margin-right: $standard-space;
+        &__input {
+            margin:0;
+            padding:0;
+            padding-left: $standard-side-padding;
+            border-radius: $standard-border-radius;
+        }
+        &__ul {
+            @extend %z-depth-3
+        }
+    }
+    
 
     @include response($phablet) {
         padding-left: 0rem;

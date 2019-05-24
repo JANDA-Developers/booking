@@ -1,3 +1,4 @@
+
 @import '../../style_config/style_config.scss';
 
 // TODO: BEM 규칙에 맞게 node Modules 변경해야함
@@ -5,8 +6,8 @@
 
 // 최상단
 .react-calendar-timeline {
-
-
+    border-radius: $standard-border-radius;
+    border:3px solid $standard-outborder-color;
     div {
         // 🥇 이로서 드레그 끈김을 막을수있다.
         user-select: none;
@@ -117,7 +118,7 @@
         position: relative;
         box-sizing: border-box;
         border-right: none;
-
+        @extend %z-depth-1;
         // 사이드바에 줄 하나 하나 
         .rct-sidebar-row {
 
@@ -127,10 +128,9 @@
             text-overflow: ellipsis;
             box-sizing: content-box;
             margin: 0;
-            border-bottom: 1px solid $grey-opacity2;
+            border-bottom: 1px solid $grey-opacity3;
 
             &-odd{
-                background: $grey-level1;
             }
             &-even{
 
@@ -162,7 +162,6 @@
                         left: 0px;
                         overflow: hidden;
                         display: inline-block;
-                        border-radius: 2px;
                         padding: 0 6px;
                         height: 100%;
                     }
@@ -173,13 +172,12 @@
             .rct-horizontal-lines {
                 
                 .rct-hl-even,.rct-hl-odd {
-                    border-bottom: 1px solid $grey-opacity2;
+                    border-bottom: 1px dotted $grey-opacity3;
                     box-sizing: content-box;
                     z-index: 40;
                 }
                 .rct-hl-even {
-                    border-bottom: 1px solid $grey-opacity2;
-                    background: $grey-level1;
+                    border-bottom: 1px dotted $grey-opacity3;
                 }
 
                 .group {
@@ -207,12 +205,12 @@
                     position: absolute;
                     // 과거의
                     &--past {
-                        background-color:rgba(0,0,0,.1);
+                        background-color: $grey-opacity2;
                         z-index:80;
                         box-sizing: initial;
                         border-color: $grey-opacity2;
                         pointer-events: all!important;
-                        border-left: 2px solid $grey-opacity2;
+                        border-left: 1px solid $grey-opacity2;
                         &:hover {
                             background-color:rgba(0,0,0,.2)!important;;
                             cursor: default!important;

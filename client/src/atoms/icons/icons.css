@@ -1,0 +1,25 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+.JDicon__svg {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -ms-flex-item-align: center;
+      align-self: center;
+  fill: currentColor;
+  top: .125em;
+  position: relative;
+  text-decoration: inherit;
+}
+
+.JDicon__svg--hover:hover {
+  cursor: pointer;
+  color: #787878;
+}
+
+.Icon__label {
+  font-size: 8px;
+  width: 100%;
+  color: black;
+}
+/*# sourceMappingURL=icons.css.map */

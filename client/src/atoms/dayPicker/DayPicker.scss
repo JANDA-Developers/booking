@@ -32,7 +32,10 @@
                 bottom: 0;
                 left:0;
                 right:0;
-                height:auto;
+                cursor: pointer;
+                height: 100%;
+                margin:0;
+                padding: 0;
             }
             .JDinput_label {
                 display:none;
@@ -118,6 +121,7 @@
                         transition: border-radius $daypicker-day-transition;
                         transition-timing-function: ease-out;
                         border-radius: 50%;
+                        cursor: pointer;
 
                         &--outside {
                             cursor: default;

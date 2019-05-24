@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 // 👿 Read This [https://www.apollographql.com/docs/react/advanced/fragments#fragment-matcher]
 const F_LOCATION = gql`
@@ -36,6 +36,118 @@ const F_PAGE_INFO = gql`
     totalPage
     rowCount
   }
+`;
+const F_ROOMTYPE = gql`
+  fragment FroomType on RoomType {
+    _id
+    name
+    pricingType
+    peopleCount
+    peopleCountMax
+    index
+    roomCount
+    roomGender
+    img
+    description
+    defaultPrice
+    createdAt
+    updatedAt
+    roomTemplateSrl
+  }
+`;
+
+const F_AVAILABLE_PEOPLE_COUNT = gql`
+  fragment FavailablePeopleCount on AvailablePeopleCount {
+    countAny
+    countFemale
+    countMale
+  }
+`;
+
+const F_BOOKER = gql`
+  fragment Fbooker on Booker {
+    _id
+    roomTypes {
+      ...FroomType
+    }
+    name
+    password
+    phoneNumber
+    email
+    checkIn {
+      isIn
+      checkInDateTime
+    }
+    memo
+    agreePrivacyPolicy
+    start
+    end
+    price
+    payMethod
+    paymentStatus
+    bookingStatus
+    createdAt
+    updatedAt
+  }
+  ${F_ROOMTYPE}
+`;
+
+const F_ROOM = gql`
+  fragment Froom on Room {
+    _id
+    name
+    pricingType
+    peopleCount
+    peopleCountMax
+    index
+    createdAt
+    updatedAt
+    roomSrl
+  }
+`;
+
+const F_GUEST = gql`
+  fragment Fguest on Guest {
+    _id
+    allocatedRoom {
+      ...Froom
+    }
+    isUnsettled
+    isSettleable {
+      flag
+      duplicateDates {
+        start
+        end
+      }
+    }
+    name
+    start
+    end
+    pricingType
+    bedIndex
+    gender
+    createdAt
+    updatedAt
+  }
+  ${F_ROOM}
+`;
+const F_ROOM_CAPACITY = gql`
+  fragment FroomTypeCapacity on RoomTypeCapacity {
+    roomTypeId
+    pricingType
+    availablePeopleCount {
+      ...FavailablePeopleCount
+    }
+    roomCapacityList {
+      roomId
+      roomGender
+      availableGenders
+      availableCount
+      peopleCount
+      emptyBeds
+    }
+  }
+  ${F_AVAILABLE_PEOPLE_COUNT}
 `;
 // 유저 기본정보 빼오기
 const F_USER_INFO = gql`
@@ -246,6 +358,7 @@ export const EMAIL_SIGN_IN = gql`
     }
   }
 `;
+
 // 단일 숙소 가져오기
 export const GET_HOUSE = gql`
   query getHouse($houseId: ID!) {
@@ -256,6 +369,9 @@ export const GET_HOUSE = gql`
         _id
         name
         houseType
+        roomTypes {
+          _id
+        }
         hostApplication {
           url
         }
@@ -283,33 +399,20 @@ export const GetGuests = gql`
       ok
       error
       guests {
-        _id
         roomType {
           _id
-          index
         }
-        name
-        start
-        end
-        pricingType
-        allocatedRoom {
+        booker {
           _id
-          index
-        }
-        gender
-        updatedAt
-        createdAt
-        isTempAllocation
-        bedIndex
-        booking {
-          booker {
-            _id
-            isCheckIn
+          checkIn {
+            isIn
           }
         }
+        ...Fguest
       }
     }
   }
+  ${F_GUEST}
 `;
 
 export const GET_AVAILABLE_GUEST_COUNT = gql`
@@ -330,9 +433,7 @@ export const GET_AVAILABLE_GUEST_COUNT = gql`
       ok
       error
       roomCapacity {
-        roomGender
-        guestGender
-        availableCount
+        ...FroomTypeCapacity
       }
     }
     GetFemale: GetAvailableGuestCount(
@@ -345,12 +446,11 @@ export const GET_AVAILABLE_GUEST_COUNT = gql`
       ok
       error
       roomCapacity {
-        roomGender
-        guestGender
-        availableCount
+        ...FroomTypeCapacity
       }
     }
   }
+  ${F_ROOM_CAPACITY}
 `;
 
 export const GET_ALL_ROOMTYPES = gql`
@@ -381,10 +481,45 @@ export const GET_ALL_ROOMTYPES = gql`
   ${F_MINI_ROOM_TYPE}
 `;
 
+export const FIND_BOOKER = gql`
+  query findBooker(
+    $name: Name!
+    $phoneNumber: PhoneNumber!
+    $password: String!
+    $houseId: ID
+  ) {
+    FindBooker(
+      name: $name
+      phoneNumber: $phoneNumber
+      password: $password
+      houseId: $houseId
+    ) {
+      ok
+      error
+      booker {
+        ...Fbooker
+        guests {
+          ...Fguest
+          roomType {
+            ...FminiRoomType
+          }
+        }
+      }
+    }
+  }
+  ${F_GUEST}
+  ${F_BOOKER}
+  ${F_MINI_ROOM_TYPE}
+`;
+
 // ⭐️방배정!!
 // 모든 방타입 + 모든 게스트 가져오기!!
 export const GET_ALL_ROOMTYPES_WITH_GUESTS = gql`
-  query getAllRoomTypeWithGuest($houseId: ID!, $start: DateTime!, $end: DateTime!) {
+  query getAllRoomTypeWithGuest(
+    $houseId: ID!
+    $start: DateTime!
+    $end: DateTime!
+  ) {
     GetAllRoomType(houseId: $houseId) {
       ok
       error
@@ -411,33 +546,24 @@ export const GET_ALL_ROOMTYPES_WITH_GUESTS = gql`
       ok
       error
       guests {
-        _id
-        name
-        start
-        end
-        pricingType
-        gender
-        updatedAt
-        createdAt
-        bedIndex
-        isTempAllocation
-        booking {
-          booker {
-            _id
-            isCheckIn
-          }
-        }
+        ...Fguest
         roomType {
           _id
           index
         }
         allocatedRoom {
+          ...Froom
+        }
+        booker {
           _id
-          index
+          checkIn {
+            isIn
+          }
         }
       }
     }
   }
+  ${F_GUEST}
   ${F_MINI_ROOM_TYPE}
 `;
 
@@ -480,6 +606,36 @@ export const GET_USER_FOR_SU = gql`
   ${F_USER_INFO}
 `;
 
+// 모든 방타입 가져오기
+export const GET_ALL_ROOM_TYPE_CAPACITY = gql`
+  query getAllRoomTypeCapacity(
+    $houseId: ID!
+    $start: DateTime!
+    $end: DateTime!
+    $filter: String
+  ) {
+    GetAllRoomTypeCapacity(
+      houseId: $houseId
+      start: $start
+      end: $end
+      filter: $filter
+    ) {
+      ok
+      error
+      roomTypeWithCapacityList {
+        roomType {
+          ...FroomType
+        }
+        roomTypeCapacity {
+          ...FroomTypeCapacity
+        }
+      }
+    }
+  }
+  ${F_ROOMTYPE}
+  ${F_ROOM_CAPACITY}
+`;
+
 // 모든 예약자 가져오기
 export const GET_BOOKERS = gql`
   query getBookers($houseId: ID!, $page: Int!, $count: Int!) {
@@ -487,38 +643,22 @@ export const GET_BOOKERS = gql`
       ok
       error
       bookers {
-        _id
-        bookings {
-          _id
-          bookingId
+        ...Fbooker
+        guests {
+          ...Fguest
           roomType {
-            _id
-            name
+            ...FminiRoomType
           }
-          price
-          start
-          end
-          discountedPrice
-          bookingStatus
-          guests {
-            gender
-          }
-          createdAt
-          updatedAt
         }
-        name
-        phoneNumber
-        email
-        isCheckIn
-        memo
-        createdAt
-        updatedAt
       }
       pageInfo {
         ...FpageInfo
       }
     }
   }
+  ${F_GUEST}
+  ${F_MINI_ROOM_TYPE}
+  ${F_BOOKER}
   ${F_PAGE_INFO}
 `;
 
@@ -528,32 +668,26 @@ export const GET_BOOKER = gql`
       ok
       error
       booker {
-        _id
-        phoneNumber
-        memo
-        name
-        bookings {
-          guestCount
+        ...Fbooker
+        guests {
           _id
-          bookingStatus
-          start
-          end
-          guests {
-            _id
-            gender
-          }
-          price
+          gender
           roomType {
             _id
-            name
-            pricingType
           }
+        }
+        price
+        roomTypes {
+          _id
+          name
+          pricingType
         }
         createdAt
         updatedAt
       }
     }
   }
+  ${F_BOOKER}
 `;
 // START 시즌관련 ────────────────────────────────────────────────────────────────────────────────
 // 가격 테이블 만들기
@@ -622,13 +756,56 @@ export const GET_ALL_SEASON_TABLE = gql`
 
 // START 예약관련 ────────────────────────────────────────────────────────────────────────────────
 // 예약 생성
-export const CREATE_BOOKING = gql`
-  mutation createBooking($bookingParams: BookingInput!) {
-    CreateBooking(bookingParams: $bookingParams) {
+
+export const UPDATE_BOOKER = gql`
+  mutation updateBooker(
+    $bookerId: ID!
+    $params: UpdateBookerMutationParamsInput!
+  ) {
+    UpdateBooker(bookerId: $bookerId, params: $params) {
+      ok
+      error
+      booker {
+        ...Fbooker
+      }
+    }
+  }
+  ${F_BOOKER}
+`;
+
+export const DELETE_GUEST = gql`
+  mutation deleteGuests($guestIds: [ID!]) {
+    DeleteGuests(guestIds: $guestIds) {
       ok
       error
     }
   }
+`;
+
+export const CREATE_BOOKING = gql`
+  mutation createBooker($bookingParams: CreateBookerParams!) {
+    CreateBooker(bookingParams: $bookingParams) {
+      ok
+      error
+    }
+  }
+`;
+
+export const ALLOCATE_GUEST_TO_ROOM = gql`
+  mutation allocateGuestToRoom($roomId: ID!, $guestId: ID!, $bedIndex: Int!) {
+    AllocateGuestToRoom(
+      roomId: $roomId
+      guestId: $guestId
+      bedIndex: $bedIndex
+    ) {
+      ok
+      error
+      guest {
+        ...Fguest
+      }
+    }
+  }
+  ${F_GUEST}
 `;
 
 export const CREATE_ROOMTYPE = gql`
@@ -672,13 +849,33 @@ export const CREATE_ROOM = gql`
   }
 `;
 export const CREATE_ROOM_PRICE = gql`
-  mutation createRoomPrice($price: Float!, $roomTypeId: ID!, $houseId: ID!, $date: DateTime!) {
-    CreateRoomPrice(price: $price, roomTypeId: $roomTypeId, houseId: $houseId, date: $date) {
+  mutation createRoomPrice(
+    $price: Float!
+    $roomTypeId: ID!
+    $houseId: ID!
+    $date: DateTime!
+  ) {
+    CreateRoomPrice(
+      price: $price
+      roomTypeId: $roomTypeId
+      houseId: $houseId
+      date: $date
+    ) {
       ok
       error
     }
   }
 `;
+
+export const DELETE_BOOKER = gql`
+  mutation deleteBooker($bookerId: ID!) {
+    DeleteBooker(bookerId: $bookerId) {
+      ok
+      error
+    }
+  }
+`;
+
 export const DELETE_ROOM_PRICE = gql`
   mutation deleteRoomPrice($roomTypeId: ID!, $date: DateTime!) {
     DeleteRoomPrice(roomTypeId: $roomTypeId, date: $date) {
@@ -705,7 +902,7 @@ export const DELETE_ROOM = gql`
     }
   }
 `;
-// 방 업데이트
+// 방 업데이트yar
 export const UPDATE_ROOM = gql`
   mutation updateRoom($roomId: ID!, $name: String) {
     UpdateRoom(roomId: $roomId, name: $name) {
@@ -718,19 +915,23 @@ export const UPDATE_ROOM = gql`
 export const UPDATE_ROOMTYPE = gql`
   mutation updateRoomType(
     $roomTypeId: ID!
-    $houseId: ID!
     $name: String
     $peopleCount: Int
     $peopleCountMax: Int
+    $defaultPrice: Float
     $description: String
+    $img: URL
   ) {
     UpdateRoomType(
       roomTypeId: $roomTypeId
-      houseId: $houseId
-      name: $name
-      peopleCount: $peopleCount
-      peopleCountMax: $peopleCountMax
-      description: $description
+      params: {
+        name: $name
+        peopleCount: $peopleCount
+        peopleCountMax: $peopleCountMax
+        description: $description
+        defaultPrice: $defaultPrice
+        img: $img
+      }
     ) {
       ok
       error
@@ -786,7 +987,11 @@ export const CREATE_SEASON = gql`
 
 export const CHANGE_PRIORITY = gql`
   mutation changePriority($seasonId: ID!, $houseId: ID!, $priority: Int!) {
-    ChangePriority(seasonId: $seasonId, houseId: $houseId, priority: $priority) {
+    ChangePriority(
+      seasonId: $seasonId
+      houseId: $houseId
+      priority: $priority
+    ) {
       ok
       error
     }
@@ -870,8 +1075,18 @@ export const COMEPLETE_PHONE_VERIFICATION = gql`
 `;
 // 회원가입
 export const EMAIL_SIGN_UP = gql`
-  mutation emailSignUp($name: Name!, $email: EmailAddress!, $phoneNumber: PhoneNumber!, $password: Password!) {
-    EmailSignUp(name: $name, email: $email, password: $password, phoneNumber: $phoneNumber) {
+  mutation emailSignUp(
+    $name: Name!
+    $email: EmailAddress!
+    $phoneNumber: PhoneNumber!
+    $password: Password!
+  ) {
+    EmailSignUp(
+      name: $name
+      email: $email
+      password: $password
+      phoneNumber: $phoneNumber
+    ) {
       ok
       error
       token
@@ -905,7 +1120,11 @@ export const UPDATE_HOUSE = gql`
 
 // 숙소생성
 export const CREATE_HOUSE = gql`
-  mutation createHouse($name: String!, $houseType: HouseType!, $location: LocationInput!) {
+  mutation createHouse(
+    $name: String!
+    $houseType: HouseType!
+    $location: LocationInput!
+  ) {
     CreateHouse(name: $name, houseType: $houseType, location: $location) {
       ok
       error

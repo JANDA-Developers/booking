@@ -29,6 +29,7 @@ interface IProps extends IUseDayPicker {
   canSelectBeforeDays?: boolean;
   inputComponent?: JSX.Element[] | JSX.Element;
   onChangeDate?(foo?: string | Date | null, foo2?: string | Date | null): void;
+  className?: string;
 }
 
 const JDdayPicker: React.SFC<IProps> = ({
@@ -51,6 +52,7 @@ const JDdayPicker: React.SFC<IProps> = ({
   inputComponent,
   setEntered,
   maxLimit,
+  className,
 }) => {
   const dayPickerFullWrap: any = useRef();
   const isInitialMount = useRef(true);
@@ -126,7 +128,7 @@ const JDdayPicker: React.SFC<IProps> = ({
     onChangeDate && onChangeDate(from, to);
   }, [from, to]);
 
-  const wrapClasses = classNames({
+  const wrapClasses = classNames('DayPicker-box', className, {
     'DayPicker-box--inputComponent': inputComponent,
   });
   const classes = classNames({
@@ -173,7 +175,7 @@ const JDdayPicker: React.SFC<IProps> = ({
   };
 
   return (
-    <div className={`DayPicker-box ${wrapClasses}`} ref={dayPickerFullWrap}>
+    <div className={`${wrapClasses}`} ref={dayPickerFullWrap}>
       {input ? (
         <JDdayPickerInput
           inputComponent={inputComponent}

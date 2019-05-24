@@ -1,0 +1,26 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+.myProduct {
+  font-size: 0.8rem;
+  height: 130px;
+}
+
+.myProduct__purchaseProduct {
+  font-size: 1rem;
+  display: block;
+}
+
+.myProduct__infoList {
+  line-height: 150%;
+}
+
+.myProduct__infoList > li {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.myProduct .JDicon__svg {
+  margin-right: 0.5rem;
+}
+/*# sourceMappingURL=myProduct.css.map */

@@ -6,6 +6,14 @@
 
     &--labeled {
         padding-top:$standard-label-margin;    
+        .JDsearchInput__input {
+            // 1px 은 보더용
+            height: calc(#{$searchInput-input-height-labeled} + 1px);
+            line-height: $searchInput-input-height-labeled;
+        }
+        .JDsearchInput__icon {
+            top: $searchInput-input-height-labeled/2;
+        }
     }
 
     &__label {
@@ -19,8 +27,8 @@
     &__icon {
         position: absolute;
         font-size: 1.2rem;
-        right: 0.25em;
-        top:1.5em;
+        right: $standard-side-padding - 0.25rem;
+        top: calc(#{$standard-line-height/2} - 1.1rem);
     }
     // 오픈된 리스트
     &--staticList {
@@ -38,8 +46,6 @@
 
     &__input {
         // 1px은 보더값을 위한것
-        height: calc(#{$searchInput-input-height} + 1px ); 
-        line-height: $searchInput-input-height;
         border:none;
         border-bottom: $searchInput-input-border;
         outline:none;
@@ -47,6 +53,7 @@
         box-sizing: border-box;
         padding: $input-padding;
         padding-right: 1.75rem;
+        height: $standard-line-height;
         margin-bottom: $searchInput-message-space;
 
         &:focus {

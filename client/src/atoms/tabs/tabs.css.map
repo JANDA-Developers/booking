@@ -1,0 +1,14 @@
+{
+    "version": 3,
+    "mappings": "AEIA,gFAAgF;AGuBhF,kEAAkE;ALzBlE,AAEI,WAFO,CAEP,QAAQ,CAAC;EACL,OAAO,EAAC,CAAC;EACT,MAAM,EAAE,IAAI;EACZ,WAAW,EAAE,IAAI;CACpB;;AAEA,AAAD,qBAAW,CAAC;EACR,MAAM,EEwGS,OAAO;EFvGtB,WAAW,EEuGI,OAAO;EFtGtB,aAAa,EAAE,GAAG,CAAC,KAAK,CEYnB,OAAO;EFXZ,OAAO,EAAC,IAAI;EACZ,aAAa,EEkGI,IAAM;CFjG1B;;AAEA,AAAD,gBAAM,CAAC;EACH,OAAO,EAAE,GAAG,CEmGI,MAAK;EFlGrB,OAAO,EAAC,CAAC;CAcZ;;AAZI,AAAD,0BAAW,CAAC;EACR,QAAQ,EAAE,QAAQ;EAClB,MAAM,EAAE,IAAI;EACZ,gBAAgB,EAAE,IAAI;EACtB,MAAM,EAAE,GAAG,CAAC,KAAK,CEDhB,OAAO;EFER,aAAa,EAAE,qBAAqB;EACpC,aAAa,EEsFA,GAAG,CAAH,GAAG,CFtFiD,GAAG,CAAC,GAAG;EACxE,WAAW,EAAG,mBAA2B;CAC5C;;AAZJ,AAaG,gBAbE,AAaD,MAAM,CAAC;EACJ,MAAM,EAAE,OAAO;CAClB",
+    "sources": [
+        "tabs.scss",
+        "../../style_config/style_config.scss",
+        "../../style_config/abstracts/_variables.scss",
+        "../../style_config/abstracts/_functions.scss",
+        "../../style_config/abstracts/_extends.scss",
+        "../../style_config/abstracts/_mixins.scss"
+    ],
+    "names": [],
+    "file": "tabs.css"
+}

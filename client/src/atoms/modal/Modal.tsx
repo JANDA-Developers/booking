@@ -1,9 +1,9 @@
-import React, { Fragment } from 'react';
-import ReactModal from 'react-modal';
-import './Modal.scss';
-import classNames from 'classnames';
-import Button from '../button/Button';
-import { IUseModal } from '../../actions/hook';
+import React, {Fragment} from "react";
+import ReactModal from "react-modal";
+import "./Modal.scss";
+import classNames from "classnames";
+import Button from "../button/Button";
+import {IUseModal} from "../../actions/hook";
 
 interface IProps extends ReactModal.Props, IUseModal {
   center?: boolean;
@@ -24,24 +24,30 @@ const JDmodal: React.SFC<IProps> = ({
   children,
   confirm,
   confirmCallBackFn,
-  appElement = document.getElementById('root') || undefined,
+  appElement = document.getElementById("root") || undefined,
   ...props
 }) => {
-  const classes = classNames('Modal JDmodal', className, {
-    'JDmodal--center': center,
-    'JDmodal--alert': isAlert || confirm,
-    'JDmodal--alertWaring': info && info.thema === 'warn',
+  const classes = classNames("Modal JDmodal", className, {
+    "JDmodal--center": center,
+    "JDmodal--alert": isAlert || confirm,
+    "JDmodal--alertWaring": info && info.thema === "warn"
   });
   const defualtJDmodalProps = {
     className: `Modal ${classes}`,
-    overlayClassName: 'Overlay',
+    overlayClassName: "Overlay"
   };
 
   return (
-    <ReactModal isOpen={isOpen} onRequestClose={closeModal} appElement={appElement} {...props} {...defualtJDmodalProps}>
+    <ReactModal
+      isOpen={isOpen}
+      onRequestClose={closeModal}
+      appElement={appElement}
+      {...props}
+      {...defualtJDmodalProps}
+    >
       {children}
-      {typeof info === 'string' && info}
-      {info && typeof info.txt === 'string' && info.txt}
+      {typeof info === "string" && info}
+      {info && typeof info.txt === "string" && info.txt}
 
       {confirm && (
         <Fragment>
@@ -52,6 +58,7 @@ const JDmodal: React.SFC<IProps> = ({
               label="확인"
               onClick={() => {
                 confirmCallBackFn && confirmCallBackFn(true);
+                info.callBack && info.callBack(true);
                 closeModal();
               }}
             />
@@ -61,6 +68,7 @@ const JDmodal: React.SFC<IProps> = ({
               label="취소"
               onClick={() => {
                 confirmCallBackFn && confirmCallBackFn(false);
+                info.callBack && info.callBack(true);
                 closeModal();
               }}
             />
@@ -72,10 +80,10 @@ const JDmodal: React.SFC<IProps> = ({
 };
 
 JDmodal.defaultProps = {
-  center: false,
+  center: false
 };
 
 export default JDmodal;
 
 const JDtoastModal = JDmodal;
-export { JDtoastModal };
+export {JDtoastModal};

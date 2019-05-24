@@ -44,7 +44,7 @@
         }
 
         @include response($phablet) {
-            padding: $modal-content-padding;
+            padding: $modal-content-padding /2;
             max-height: 80%;
             margin-bottom: 10%;
         }

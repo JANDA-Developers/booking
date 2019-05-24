@@ -1,21 +1,23 @@
 /* eslint-disable react/prop-types */
-import { MutationFn } from 'react-apollo';
-import React, { useState, Fragment, useEffect } from 'react';
-import { toast } from 'react-toastify';
-import Modal from '../../../../atoms/modal/Modal';
-import SelectBox, { IselectedOption } from '../../../../atoms/forms/selectBox/SelectBox';
-import InputText from '../../../../atoms/forms/inputText/InputText';
-import Button from '../../../../atoms/button/Button';
-import JDLabel from '../../../../atoms/label/JDLabel';
-import ImageUploader from '../../../../atoms/imageUploader/ImageUploader';
+import {MutationFn} from "react-apollo";
+import React, {useState, Fragment, useEffect} from "react";
+import {toast} from "react-toastify";
+import Modal from "../../../../atoms/modal/Modal";
+import SelectBox, {
+  IselectedOption
+} from "../../../../atoms/forms/selectBox/SelectBox";
+import InputText from "../../../../atoms/forms/inputText/InputText";
+import Button from "../../../../atoms/button/Button";
+import JDLabel from "../../../../atoms/label/JDLabel";
+import ImageUploader from "../../../../atoms/imageUploader/ImageUploader";
 import {
   PricingTypeKr,
   RoomGenderKr,
   MAX_PEOPLE_COUNT_OP_FN,
   ROOM_GENDER_OP,
-  PRICING_TYPE_OP,
-} from '../../../../types/enum';
-import { IUseModal, useImageUploader } from '../../../../actions/hook';
+  PRICING_TYPE_OP
+} from "../../../../types/enum";
+import {IUseModal, useImageUploader} from "../../../../actions/hook";
 import {
   createRoomType,
   createRoomTypeVariables,
@@ -23,10 +25,10 @@ import {
   deleteRoomTypeVariables,
   updateRoomType,
   updateRoomTypeVariables,
-  getRoomTypeById_GetRoomTypeById_roomType as IRoomType,
-} from '../../../../types/api';
-import { IDefaultRoomType } from './RoomTypeModalWrap';
-import Preloader from '../../../../atoms/preloader/Preloader';
+  getRoomTypeById_GetRoomTypeById_roomType as IRoomType
+} from "../../../../types/api";
+import {IDefaultRoomType} from "./RoomTypeModalWrap";
+import Preloader from "../../../../atoms/preloader/Preloader";
 
 interface IProps {
   houseId: string;
@@ -45,17 +47,29 @@ const RoomTypeModal: React.SFC<IProps> = ({
   createRoomTypeMutation,
   deleteRoomTypeMutation,
   updateRoomTypeMutation,
-  roomTypeData,
+  roomTypeData
 }) => {
   const roomImageHook = useImageUploader();
   const [value, setValue] = useState({
     name: roomTypeData.name,
     description: roomTypeData.description,
-    pricingType: { label: PricingTypeKr[roomTypeData.pricingType], value: roomTypeData.pricingType },
-    peopleCount: { label: `${roomTypeData.peopleCount}개`, value: roomTypeData.peopleCount },
-    roomGender: { label: RoomGenderKr[roomTypeData.roomGender], value: roomTypeData.roomGender },
-    peopleCountMax: { label: '', value: 0 },
-    defaultPrice: roomTypeData.defaultPrice || 0,
+    pricingType: {
+      label: PricingTypeKr[roomTypeData.pricingType],
+      value: roomTypeData.pricingType
+    },
+    peopleCount: {
+      label: `${roomTypeData.peopleCount}개`,
+      value: roomTypeData.peopleCount
+    },
+    roomGender: {
+      label: RoomGenderKr[roomTypeData.roomGender],
+      value: roomTypeData.roomGender
+    },
+    peopleCountMax: {
+      label: `${roomTypeData.peopleCountMax}개`,
+      value: roomTypeData.peopleCountMax
+    },
+    defaultPrice: roomTypeData.defaultPrice || 0
   });
 
   const updateRoomTypeValue = {
@@ -67,14 +81,14 @@ const RoomTypeModal: React.SFC<IProps> = ({
     peopleCount: value.peopleCountMax.value,
     peopleCountMax: value.peopleCountMax.value,
     description: value.description,
-    defaultPrice: value.defaultPrice,
+    defaultPrice: value.defaultPrice
   };
 
   // const [peopleCountOption, setPeopleCountOption] = useState<IselectedOption[]>([]);
 
   const validater = () => {
-    if (value.name === '') {
-      toast.error('방타입명을 입력해주세요.');
+    if (value.name === "") {
+      toast.error("방타입명을 입력해주세요.");
       return false;
     }
     return true;
@@ -83,7 +97,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
   const onCreateRoomType = async () => {
     if (validater()) {
       createRoomTypeMutation({
-        variables: updateRoomTypeValue,
+        variables: updateRoomTypeValue
       });
       modalHook.closeModal();
     }
@@ -97,14 +111,17 @@ const RoomTypeModal: React.SFC<IProps> = ({
   const onUpdateRoomType = async () => {
     if (validater()) {
       updateRoomTypeMutation({
-        variables: { ...updateRoomTypeValue, roomTypeId: modalHook.info.roomTypeId },
+        variables: {
+          ...updateRoomTypeValue,
+          roomTypeId: modalHook.info.roomTypeId
+        }
       });
       modalHook.closeModal();
     }
   };
 
-  const onChangeMaxPeople = (inValue: any) => {
-    setValue({ ...value, peopleCountMax: inValue });
+  const onChangePeople = (inValue: any) => {
+    setValue({...value, peopleCountMax: inValue});
 
     // // 🔶 Deprecated
     // const inPeopleCountOption = [];
@@ -130,8 +147,8 @@ const RoomTypeModal: React.SFC<IProps> = ({
       {...modalHook}
       style={{
         content: {
-          maxWidth: '600px',
-        },
+          maxWidth: "600px"
+        }
       }}
     >
       {loading ? (
@@ -144,7 +161,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
                 label="방타입이름"
                 value={value.name}
                 onChange={(inValue: any) => {
-                  setValue({ ...value, name: inValue });
+                  setValue({...value, name: inValue});
                 }}
               />
             </div>
@@ -163,9 +180,9 @@ const RoomTypeModal: React.SFC<IProps> = ({
               <SelectBox
                 label="수용인원"
                 disabled={false}
-                onChange={onChangeMaxPeople}
+                onChange={onChangePeople}
                 options={maxPeopleCountOption}
-                defaultValue={value.peopleCount}
+                selectedOption={value.peopleCountMax}
               />
             </div>
             <div className="flex-grid__col  col--full-6 col--lg-6 col--md-12">
@@ -173,10 +190,10 @@ const RoomTypeModal: React.SFC<IProps> = ({
                 label="방타입선택"
                 disabled={false}
                 onChange={(inValue: any) => {
-                  setValue({ ...value, pricingType: inValue });
+                  setValue({...value, pricingType: inValue});
                 }}
                 options={pricingTypeOptions}
-                defaultValue={value.pricingType}
+                selectedOption={value.pricingType}
               />
             </div>
             <div className="flex-grid__col  col--full-6 col--lg-6 col--md-12">
@@ -184,10 +201,10 @@ const RoomTypeModal: React.SFC<IProps> = ({
                 label="방성별선택"
                 disabled={false}
                 onChange={(inValue: IselectedOption) => {
-                  setValue({ ...value, roomGender: inValue.value });
+                  setValue({...value, roomGender: inValue.value});
                 }}
                 options={genderOptions}
-                defaultValue={value.roomGender}
+                selectedOption={value.roomGender}
               />
             </div>
             <div className="flex-grid__col flex-grid__col--vertical col--full-12 col--lg-12 col--md-12">
@@ -197,7 +214,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
             <div className="flex-grid__col col--full-6 col--lg-6 col--md-6">
               <InputText
                 onChange={(inValue: any) => {
-                  setValue({ ...value, description: inValue });
+                  setValue({...value, description: inValue});
                 }}
                 value={value.description}
                 textarea
@@ -207,19 +224,36 @@ const RoomTypeModal: React.SFC<IProps> = ({
             <div className="flex-grid__col col--full-6 col--lg-6 col--md-6">
               <InputText
                 onChange={(inValue: any) => {
-                  setValue({ ...value, defaultPrice: inValue });
+                  setValue({...value, defaultPrice: inValue});
                 }}
                 comma
                 value={value.defaultPrice}
                 label="방 기본가격"
               />
-              <p className="JDsmall-text">* 가격이 설정되어 있지않은기간 에서 기본으로 적용됨</p>
+              <p className="JDsmall-text">
+                * 가격이 설정되어 있지않은기간 에서 기본으로 적용됨
+              </p>
             </div>
           </div>
           <div className="JDmodal__endSection">
-            <Button thema="primary" label="생성하기" mode="flat" onClick={onCreateRoomType} />
-            <Button thema="primary" label="수정하기" mode="flat" onClick={onUpdateRoomType} />
-            <Button thema="warn" label="삭제하기" mode="flat" onClick={onDeleteRoomType} />
+            <Button
+              thema="primary"
+              label="생성하기"
+              mode="flat"
+              onClick={onCreateRoomType}
+            />
+            <Button
+              thema="primary"
+              label="수정하기"
+              mode="flat"
+              onClick={onUpdateRoomType}
+            />
+            <Button
+              thema="warn"
+              label="삭제하기"
+              mode="flat"
+              onClick={onDeleteRoomType}
+            />
             {/* <Button label="닫기" mode="flat" onClick={modalHook.closeModal} /> */}
           </div>
         </Fragment>
