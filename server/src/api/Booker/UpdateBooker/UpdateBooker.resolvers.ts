@@ -1,6 +1,7 @@
 import { Types } from "mongoose";
 import { InstanceType } from "typegoose";
 import { BookerModel, BookerSchema } from "../../../models/Booker";
+import { GuestModel } from "../../../models/Guest";
 import { extractBooker } from "../../../models/merge/merge";
 import {
     UpdateBookerMutationArgs,
@@ -33,6 +34,16 @@ const resolvers: Resolvers = {
                             bookerInstance = doc;
                         }
                     );
+                    if (params.name) {
+                        await GuestModel.findOneAndUpdate(
+                            {
+                                booker: new Types.ObjectId(bookerId)
+                            },
+                            {
+                                name: params.name
+                            }
+                        );
+                    }
                     return {
                         ok: true,
                         error: null,
