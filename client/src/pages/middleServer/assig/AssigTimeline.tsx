@@ -604,17 +604,6 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
       }
     });
 
-    console.log("-----q");
-    console.log({
-      variables: {
-        bookerId: target.bookerId,
-        params: {
-          isCheckIn: {
-            isIn: !guestValue[target.guestIndex].isCheckin
-          }
-        }
-      }
-    });
     // 아폴로 통신 성공
     if (result && result.data) {
       onCompletedMessage(result.data.UpdateBooker, "체크인", "실패");
