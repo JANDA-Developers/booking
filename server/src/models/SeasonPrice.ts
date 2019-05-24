@@ -1,6 +1,5 @@
 import { instanceMethod, InstanceType, prop, Ref, Typegoose } from "typegoose";
 import { DayOfWeekPrice } from "../types/graph";
-import { applyDaysToArr, DayOfWeekEnum } from "../utils/applyDays";
 import { RoomTypeSchema } from "./RoomType";
 import { SeasonSchema } from "./Season";
 
@@ -16,30 +15,27 @@ export class SeasonPriceSchema extends Typegoose {
 
     @prop({
         required: true,
-        validate(
-            this: InstanceType<SeasonPriceSchema>,
-            dayOfWeekPrices: DayOfWeekPrice[]
-        ) {
-            if (dayOfWeekPrices.length === 0) {
-                return true;
-            }
-            let inspectArr: DayOfWeekEnum[] = [];
-            let flag = true;
-            dayOfWeekPrices
-                .map(dayOfWeekPrice => dayOfWeekPrice.applyDays)
-                .forEach(applyDays => {
-                    const temp: DayOfWeekEnum[] = applyDaysToArr(applyDays);
-                    inspectArr.forEach(elem => {
-                        temp.forEach(elem2 => {
-                            if (elem === elem2) {
-                                flag = false;
-                            }
-                        });
-                    });
-                    inspectArr = inspectArr.concat(temp);
-                });
-            return flag;
-        },
+        // validate(dayOfWeekPrices: DayOfWeekPrice[]) {
+        //     if (dayOfWeekPrices.length === 0) {
+        //         return true;
+        //     }
+        //     let inspectArr: DayOfWeekEnum[] = [];
+        //     let flag = true;
+        //     dayOfWeekPrices
+        //         .map(dayOfWeekPrice => dayOfWeekPrice.applyDays)
+        //         .forEach(applyDays => {
+        //             const temp: DayOfWeekEnum[] = applyDaysToArr(applyDays);
+        //             inspectArr.forEach(elem => {
+        //                 temp.forEach(elem2 => {
+        //                     if (elem === elem2) {
+        //                         flag = false;
+        //                     }
+        //                 });
+        //             });
+        //             inspectArr = inspectArr.concat(temp);
+        //         });
+        //     return flag;
+        // },
         default: []
     })
     dayOfWeekPrices: DayOfWeekPrice[];

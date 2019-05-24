@@ -87,7 +87,6 @@ const resolvers: Resolvers = {
                                     ),
                                     defaultPrice: seasonPriceInput.defaultPrice,
                                     dayOfWeekPrices: {
-                                        _id: new Types.ObjectId(),
                                         ...seasonPriceInput.dayOfWeekPrices
                                     }
                                 })
