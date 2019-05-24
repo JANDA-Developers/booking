@@ -10219,8 +10219,8 @@
             "name": "isCheckIn",
             "description": "",
             "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
+              "kind": "INPUT_OBJECT",
+              "name": "CheckInInput",
               "ofType": null
             },
             "defaultValue": null
@@ -10271,6 +10271,41 @@
             "type": {
               "kind": "SCALAR",
               "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "CheckInInput",
+        "description": "",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "isIn",
+            "description": "",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "checkInDateTime",
+            "description": "",
+            "type": {
+              "kind": "SCALAR",
+              "name": "DateTime",
               "ofType": null
             },
             "defaultValue": null

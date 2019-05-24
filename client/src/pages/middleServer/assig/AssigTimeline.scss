@@ -3,8 +3,8 @@
 $AT-assigGroup-roomType-width: 100px;
 $AT-assigGroup-room-width: 100px;
 
-$AT-mobile-assigGroup-roomType-width: 30px;
-$AT-mobile-assigGroup-room-width: 30px;
+$AT-mobile-assigGroup-roomType-width: 36px;
+$AT-mobile-assigGroup-room-width: 36px;
 
 
 $assigItem-normal-background-color: rgba(33,83,219,.8);
@@ -123,7 +123,6 @@ $assigItem-padding: 6px;
 
             @include response($mobile) {
                 width: $AT-mobile-assigGroup-roomType-width;
-                display:initial;
                 font-size: $typho-small;
                 white-space: pre-wrap;
                 line-height: 100%;
@@ -150,7 +149,6 @@ $assigItem-padding: 6px;
             @include response($mobile) {
                 left: $AT-mobile-assigGroup-roomType-width;
                 width: $AT-mobile-assigGroup-room-width;
-                display:initial;
                 font-size: $typho-small;
                 white-space: pre-wrap;
                 line-height: 100%;
@@ -168,6 +166,20 @@ $assigItem-padding: 6px;
             padding-left: $AT-assigGroup-roomType-width + $AT-assigGroup-room-width - 4px;
             text-align: center;
             width: calc(100% + 4px);
+            
+            @include response($mobile) {
+                font-size: $typho-small;
+                padding-left: $AT-mobile-assigGroup-roomType-width + $AT-mobile-assigGroup-room-width - 4px;
+            }
+        }
+
+        // roomType이름과 room 이름들 
+        &__names {
+            width: 80%;
+            display:inline-block;
+            word-wrap: break-word;
+            text-align:center;
+            max-height: 100%;
         }
     }
       

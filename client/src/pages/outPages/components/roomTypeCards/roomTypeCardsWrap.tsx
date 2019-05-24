@@ -96,6 +96,7 @@ const RoomTypeCardsWrap: React.SFC<IProps> = ({
         return (
           <RoomTypeCard
             resvRooms={resvRooms}
+            countLoading={countLoading}
             setResvRooms={setResvRooms}
             roomTypeData={roomTypeData}
             roomInfoHook={roomInfoHook}

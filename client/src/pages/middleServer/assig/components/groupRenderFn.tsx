@@ -78,7 +78,7 @@ const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({group}) => {
             }`}
             style={roomTypeStyle}
           >
-            {group.roomType.name}
+            <span className="assigGroups__names">{group.roomType.name}</span>
           </div>
         )}
         {renderRoom && (
@@ -91,7 +91,7 @@ const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({group}) => {
             } ${group.isLastOfRoomType && " assigGroups__room--last"}`}
             style={roomStyle}
           >
-            {group.title}
+            <span className="assigGroups__names">{group.title}</span>
           </div>
         )}
         {isDomitory && (

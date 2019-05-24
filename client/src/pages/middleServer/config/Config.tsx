@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import {ErrProtecter} from "../../../utils/utils";
-import {IUser} from "../../../types/interface";
-import AddtionModule, {IAddition} from "./components/AddtionModule";
+import AddtionModule from "./components/AddtionModule";
 import {additiones} from "./components/additiones";
 import Card from "../../../atoms/cards/Card";
 import "./Config.scss";
@@ -10,6 +9,7 @@ import Sticky from "react-sticky-el";
 interface IProps {}
 
 const Config: React.FC<IProps> = () => {
+  // AdditionMoudle 클릭시 변경
   const [additionIndex, setAdditionIndex] = useState<null | number>(null);
   return (
     <div id="Config" className="container config">

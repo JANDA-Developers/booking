@@ -5,7 +5,6 @@ import selectTableHOC, {
   SelectAllInputComponentProps
 } from "react-table/lib/hoc/selectTable";
 import JDtable, {ReactTableDefault} from "../../../atoms/table/Table";
-import JDselect from "../../../atoms/forms/selectBox/SelectBox";
 import CheckBox from "../../../atoms/forms/checkBox/CheckBox";
 import Button from "../../../atoms/button/Button";
 import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
@@ -33,6 +32,7 @@ import {
 import {bookingGuestsMerge} from "../../../utils/booking";
 import moment from "moment";
 import JDbadge, {BADGE_THEMA} from "../../../atoms/badge/Badge";
+import "./ResvList.scss";
 
 interface IProps {
   pageInfo: IPageInfo | undefined;
@@ -126,10 +126,22 @@ const ResvList: React.SFC<IProps> = ({
       accessor: "createdAt",
       Cell: ({value, original}: CellInfo) => {
         const isCancled = original.bookingStatus === BookingStatus.CANCEL;
-        <div>
-          {moment(value.createdAt).format("MM-DD-YYYY hh:mm")}
-          {isCancled && <JDbadge thema={BADGE_THEMA.ERROR}>cancle</JDbadge>}
-        </div>;
+        return (
+          <div>
+            {moment(value.createdAt).format("MM-DD-YYYY hh:mm")}
+            {isCancled && (
+              <Fragment>
+                <br />
+                <JDbadge
+                  className="resvList__bookerStatus"
+                  thema={BADGE_THEMA.ERROR}
+                >
+                  cancle
+                </JDbadge>
+              </Fragment>
+            )}
+          </div>
+        );
       }
     },
     {
@@ -267,7 +279,7 @@ const ResvList: React.SFC<IProps> = ({
 
   const SelectableJDtable = selectTableHOC(JDtable);
   return (
-    <div id="seasonTable" className="seasonT container container--lg">
+    <div id="resvList" className="resvList container container--lg">
       <div className="docs-section">
         <h3>예약목록</h3>
         <div>

@@ -7,23 +7,13 @@ import {Redirect} from "react-router";
 import Reservation from "./Reservation";
 import {
   ErrProtecter,
-  queryDataFormater,
   showError,
   onCompletedMessage
 } from "../../../utils/utils";
-import {
-  createBooker,
-  createBookerVariables,
-  getAllRoomType,
-  getAllRoomTypeVariables
-} from "../../../types/api";
-import {CREATE_BOOKING, GET_ALL_ROOMTYPES} from "../../../queries";
+import {createBooker, createBookerVariables} from "../../../types/api";
+import {CREATE_BOOKING} from "../../../queries";
 
 class CreatBookingMu extends Mutation<createBooker, createBookerVariables> {}
-class GetAllAvailRoomQu extends Query<
-  getAllRoomType,
-  getAllRoomTypeVariables
-> {}
 
 interface IProps {
   houseId: string;

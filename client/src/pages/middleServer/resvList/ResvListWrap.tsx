@@ -63,6 +63,7 @@ const ResvListWrap: React.SFC<IProps> = ({houseId}) => (
             <UpdateBookerMu
               mutation={UPDATE_BOOKER}
               onError={showError}
+              refetchQueries={[getOperationName(GET_BOOKERS) || ""]}
               onCompleted={({UpdateBooker}) => {
                 onCompletedMessage(
                   UpdateBooker,

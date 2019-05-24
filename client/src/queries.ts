@@ -765,8 +765,12 @@ export const UPDATE_BOOKER = gql`
     UpdateBooker(bookerId: $bookerId, params: $params) {
       ok
       error
+      booker {
+        ...Fbooker
+      }
     }
   }
+  ${F_BOOKER}
 `;
 
 export const DELETE_GUEST = gql`
@@ -898,7 +902,7 @@ export const DELETE_ROOM = gql`
     }
   }
 `;
-// 방 업데이트
+// 방 업데이트yar
 export const UPDATE_ROOM = gql`
   mutation updateRoom($roomId: ID!, $name: String) {
     UpdateRoom(roomId: $roomId, name: $name) {

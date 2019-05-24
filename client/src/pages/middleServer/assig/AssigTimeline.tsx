@@ -32,7 +32,13 @@ import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
 import TooltipList, {
   ReactTooltip
 } from "../../../atoms/tooltipList/TooltipList";
-import {TimePerMs, PricingType, RoomGender, Gender} from "../../../types/enum";
+import {
+  TimePerMs,
+  PricingType,
+  RoomGender,
+  Gender,
+  WindowSize as EWindowSize
+} from "../../../types/enum";
 import {
   allocateGuestToRoom,
   allocateGuestToRoomVariables,
@@ -43,14 +49,11 @@ import {
 } from "../../../types/api";
 import itemRendererFn, {
   CLASS_LINKED,
-  CLASS_MOVING,
-  CLASS_DISABLE
+  CLASS_MOVING
 } from "./components/itemRenderFn";
-import {number} from "prop-types";
 import {isEmpty, setMidNight, onCompletedMessage} from "../../../utils/utils";
 import ItemMenu from "./components/itemMenu";
 import CanvasMenu, {ICanvasMenuProps} from "./components/canvasMenu";
-import {AssigTimeline} from "../../pages";
 import MakeItemMenu from "./components/makeItemMenu";
 import {DEFAULT_ASSIGITEM} from "../../../types/defaults";
 import {JDtoastModal} from "../../../atoms/modal/Modal";
@@ -95,8 +98,8 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   deleteGuestsMu
 }) => {
   // 임시 마킹 제거
-
-  const isMobile = windowWidth <= 400;
+  const isMobile = windowWidth <= EWindowSize.MOBILE;
+  const isTabletDown = windowWidth <= EWindowSize.TABLET;
   const [guestValue, setGuestValue] = useState(deafultGuestsData);
   const confirmDelteGuestHook = useModal(false);
   const [canvasMenuProps, setCanvasMenuProps] = useState<ICanvasMenuProps>({
@@ -134,7 +137,8 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   // 예약자 팝업 모달
   const bookerModal = useModal(false);
 
-  // 유틸 from 과 to 사이에 있는 예약들을 찾아줌 옵션으로 roomId 까지 필터가능
+  // 유틸 from 과 to 사이에 있는 게스트들을 찾습니다.
+  // 옵션으로 roomId 까지 필터가능
   const filterTimeZone = (
     from: number,
     to: number,
@@ -156,7 +160,9 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     );
   };
 
-  // 충돌시간 인터페이스 게스트1이 이동하는 주체
+  // 충돌시간 인터페이스
+  // 단순히 안됨 보다 ~부터 ~가 안됨을 표시하기 위함
+  // 게스트1이 이동하는 주체
   interface ICrushTime {
     crushGuest: string;
     crushGuest2: string;
@@ -164,6 +170,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     start: number;
     end: number;
   }
+
   // 유틸 두게스트의 충돌시간 구해줌 없다면 false를 반환함
   const crushTime = (
     guest: IAssigItem,
@@ -203,6 +210,8 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   };
 
   // 유틸 성별이 맞는지 검사하고 결과가 맞지않다면 CrushTime을 반환합니다.
+  // targetGroup과 start end에 이동하고자하는 위치 또는 자신의 위치를 넣어서 해당 구간및 장소에
+  // 성별이 안전한지 판별합니다.
   const isGenderSafe = (
     targetGroup: IAssigGroup,
     item: IAssigItem,
@@ -261,8 +270,8 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     if (!target) return;
     if (target.type === "block") return;
     if (target.type === "normal")
-      bookerModal.openModal({bookerId: target.bookerId});
-    if (target.type === "make")
+      // if (target.type === "make")
+      // bookerModal.openModal({bookerId: target.bookerId});
       $("#makeTooltip")
         .css("left", e.clientX)
         .css("top", e.clientY)
@@ -373,7 +382,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     $(".assigItem").removeClass(CLASS_LINKED);
   };
 
-  // 리사이즈 되었을때 벨리데이션 해줍니다.
+  // 유틸 리사이즈 되었을때 벨리데이션 해줍니다.
   const resizeValidater = (item: IAssigItem, time: number) => {
     const linkedGuests = guestValue.filter(
       guest => guest.bookerId === item.bookerId
@@ -385,7 +394,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     });
   };
 
-  // 아이템이 그룹에 그시간대에 포함될수 있는지 검사해줍니다.
+  // 핸들아이템이 그룹에 그시간대에 포함될수 있는지 검사해줍니다.
   // const moveValidater = (item: IAssigItem, targetGroup: IAssigGroup, time: number): IValidationResult[] => {
   //   const linkedGuests = guestValue.filter(guest => guest.bookerId === item.bookerId);
   //   // 좌우MOVE 일경우
@@ -402,7 +411,8 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   // };
   // Handle -- item : TripleClick
 
-  // 캔버스 더블클릭시
+  // 핸들 캔버스 더블클릭시
+
   const handleCanvasDoubleClick = (
     groupId: string,
     time: number,
@@ -466,7 +476,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     setGuestValue([...guestValue.filter(guest => guest.id !== id)]);
   };
 
-  // 🐭 마우스 움직이면 호출됨
+  // 핸들 움직일때 벨리데이션 (마우스 움직이면 호출됨)
   // 새로운 시간을 리턴하거나 time을 리턴하세요.
   const handleMoveResizeValidator = (
     action: "move" | "resize",
@@ -498,7 +508,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     return time;
   };
 
-  // 🐭마우스 놓아야 호출됨.
+  // 핸들 아이템 움직일시 (마우스 놓아야 호출됨)
   const handleItemMove = async (
     itemId: string,
     dragTime: number,
@@ -532,14 +542,14 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     }
   };
 
-  // 🐭 마우스 놓아야 호출됨
+  // 핸들 아이템 리사이즈시 (마우스 놓아야 호출됨)
   const handleItemResize = (
     itemId: string,
     time: number,
     edge: "left" | "right"
   ) => {};
 
-  // 🐭 아이템 클릭
+  // 핸들 아이템 클릭
   const hanldeItemClick = async (
     itemId: string,
     e: React.MouseEvent<HTMLElement>,
@@ -587,7 +597,21 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
       variables: {
         bookerId: target.bookerId,
         params: {
-          isCheckIn: !guestValue[target.guestIndex].isCheckin
+          isCheckIn: {
+            isIn: !guestValue[target.guestIndex].isCheckin
+          }
+        }
+      }
+    });
+
+    console.log("-----q");
+    console.log({
+      variables: {
+        bookerId: target.bookerId,
+        params: {
+          isCheckIn: {
+            isIn: !guestValue[target.guestIndex].isCheckin
+          }
         }
       }
     });
@@ -596,9 +620,15 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
       onCompletedMessage(result.data.UpdateBooker, "체크인", "실패");
       if (result.data.UpdateBooker.ok) {
         // 뮤테이션 성공시
-        guestValue[target.guestIndex].isCheckin = !guestValue[target.guestIndex]
-          .isCheckin;
-        setGuestValue([...guestValue]);
+
+        const updateGuests = guestValue.map(guest => {
+          if (guest.bookerId === target.bookerId) {
+            guest.isCheckin = !guest.isCheckin;
+          }
+          return guest;
+        });
+
+        setGuestValue([...updateGuests]);
       } else {
         // 뮤테이션 실패시
       }
@@ -667,6 +697,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
           deleteGuest={deleteGuest}
           toogleCheckInOut={toogleCheckInOut}
           bookerModalHook={bookerModal}
+          guestValue={guestValue}
         />
         <Timeline
           onItemMove={handleItemMove}
@@ -684,7 +715,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
           }
           groupRenderer={assigGroupRendererFn}
           defaultTimeEnd={
-            isMobile ? defaultTimeEnd - TimePerMs.DAY * 3.8 : defaultTimeEnd
+            isTabletDown ? defaultTimeEnd - TimePerMs.DAY * 3.8 : defaultTimeEnd
           }
           defaultTimeStart={defaultTimeStart}
           moveResizeValidator={handleMoveResizeValidator}

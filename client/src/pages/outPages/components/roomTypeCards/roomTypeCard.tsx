@@ -39,6 +39,7 @@ interface IProps {
   toastModalHook: IUseModal;
   setGuestCount: React.Dispatch<React.SetStateAction<IGuestCount>>;
   guestCountValue: IGuestCount;
+  countLoading: boolean;
   availableCount: {
     maleCount: getAvailableGuestCount_GetMale_roomCapacity | null | undefined;
     femaleCount:
@@ -58,6 +59,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
   toastModalHook,
   setGuestCount,
   guestCountValue,
+  countLoading,
   availableCount
 }) => {
   const roomImgModalHook = useModal(false);
@@ -185,21 +187,24 @@ const RoomTypeCard: React.SFC<IProps> = ({
 
             {roomTypeData.pricingType === PricingType.DOMITORY ? (
               <Fragment>
-                {roomTypeData.roomGender === RoomGender.FEMALE || (
-                  <JDselect
-                    options={maleSeleteOption}
-                    size={SelectBoxSize.TWO}
-                    rightLabel="남"
-                    mode="small"
-                    onChange={selectedOp =>
-                      guestCountSelect(selectedOp.value, Gender.MALE)
-                    }
-                    disabled={disabled.male}
-                    textOverflow="visible"
-                    isOpen
-                    selectedOption={maleSeleteOption[guestCountValue.male]}
-                  />
-                )}
+                {roomTypeData.roomGender === RoomGender.FEMALE ||
+                  (countLoading ? (
+                    <Preloader />
+                  ) : (
+                    <JDselect
+                      options={maleSeleteOption}
+                      size={SelectBoxSize.TWO}
+                      rightLabel="남"
+                      mode="small"
+                      onChange={selectedOp =>
+                        guestCountSelect(selectedOp.value, Gender.MALE)
+                      }
+                      disabled={disabled.male}
+                      textOverflow="visible"
+                      isOpen
+                      selectedOption={maleSeleteOption[guestCountValue.male]}
+                    />
+                  ))}
                 {roomTypeData.roomGender === RoomGender.MALE || (
                   <JDselect
                     options={femaleSeleteOption}
