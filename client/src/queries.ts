@@ -496,7 +496,7 @@ export const FIND_BOOKER = gql`
     ) {
       ok
       error
-      booker {
+      bookers {
         ...Fbooker
         guests {
           ...Fguest
@@ -902,6 +902,7 @@ export const DELETE_ROOM = gql`
     }
   }
 `;
+
 // 방 업데이트yar
 export const UPDATE_ROOM = gql`
   mutation updateRoom($roomId: ID!, $name: String) {
