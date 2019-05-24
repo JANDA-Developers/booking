@@ -32,6 +32,7 @@ import {
 } from "./pages";
 import {UserRole} from "../types/enum";
 import {IHouse} from "../types/interface";
+import ConfigWrap from "./middleServer/config/ConfigWrap";
 
 //👿 [https://reactjs-kr.firebaseapp.com/docs/context.html] 사용 비권장
 // const JDcontext = React.createContext({houseId: "", ()=>{}});
@@ -126,6 +127,12 @@ const JDmiddleServer: React.FC<IProps> = ({
           exact
           path="/middleServer/makeHouse"
           component={isLoggedIn ? MakeHouse : Login}
+        />
+        {/* 숙소설정 */}
+        <Route
+          exact
+          path="/middleServer/config"
+          component={isLoggedIn ? ConfigWrap : Login}
         />
         {/* 대쉬보드 */}
         <Route

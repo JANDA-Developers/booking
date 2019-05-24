@@ -1,9 +1,9 @@
 import React, {Fragment} from "react";
 import PropTypes from "prop-types";
 import "./Ready.scss";
-import Button from "../../atoms/button/Button";
+import JDbox from "../../atoms/box/JDbox";
 
-const Ready = ({hostApp, currentProduct, selectedHouse}) => (
+const Ready = () => (
   <div id="Ready" className="container container--sm">
     <JDbox mode="table">
       <table>

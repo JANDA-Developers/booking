@@ -134,7 +134,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   // 예약자 팝업 모달
   const bookerModal = useModal(false);
 
-  // 🦄 유틸 from 과 to 사이에 있는 예약들을 찾아줌 옵션으로 roomId 까지 필터가능
+  // 유틸 from 과 to 사이에 있는 예약들을 찾아줌 옵션으로 roomId 까지 필터가능
   const filterTimeZone = (
     from: number,
     to: number,
@@ -164,7 +164,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     start: number;
     end: number;
   }
-  // 🦄 유틸 두게스트의 충돌시간 구해줌 없다면 false를 반환함
+  // 유틸 두게스트의 충돌시간 구해줌 없다면 false를 반환함
   const crushTime = (
     guest: IAssigItem,
     guest2: IAssigItem
@@ -181,7 +181,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     };
   };
 
-  // 🦄 유틸 사람이 그장소에 그시간대에 있다면 충돌시간을 주고 아니면 false를 줌
+  // 유틸 사람이 그장소에 그시간대에 있다면 충돌시간을 주고 아니면 false를 줌
   const isTherePerson = (
     startTime: number,
     endTime: number,
@@ -202,7 +202,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     return false;
   };
 
-  // 🦄 유틸 성별이 맞는지 검사하고 결과가 맞지않다면 CrushTime을 반환합니다.
+  // 유틸 성별이 맞는지 검사하고 결과가 맞지않다면 CrushTime을 반환합니다.
   const isGenderSafe = (
     targetGroup: IAssigGroup,
     item: IAssigItem,
@@ -461,7 +461,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     setGuestValue([...guestValue]);
   };
 
-  // 🦄 유틸 게스트를 화면에서 삭제
+  // 유틸 게스트를 화면에서 삭제
   const clearItem = (id: string) => {
     setGuestValue([...guestValue.filter(guest => guest.id !== id)]);
   };
@@ -497,6 +497,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
 
     return time;
   };
+
   // 🐭마우스 놓아야 호출됨.
   const handleItemMove = async (
     itemId: string,

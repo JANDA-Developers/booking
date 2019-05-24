@@ -42,6 +42,14 @@ export const SetPrice = props => (
   </DynamicImport>
 );
 
+export const ConfigWrap = props => (
+  <DynamicImport load={() => import("./middleServer/config/ConfigWrap")}>
+    {DNcompoent =>
+      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
+    }
+  </DynamicImport>
+);
+
 export const Products = props => (
   <DynamicImport load={() => import("./middleServer/product/ProductsWrap")}>
     {DNcompoent =>
