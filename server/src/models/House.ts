@@ -17,7 +17,7 @@ export class HouseSchema extends Typegoose {
     hostApplication?: Types.ObjectId;
 
     @prop({ default: houseAccessKeyGen() })
-    accessKey: string;
+    publicKey: string;
 
     @prop({ default: false })
     hostAppCreated: boolean;

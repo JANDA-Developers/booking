@@ -4,7 +4,7 @@ import {
     CreateIntergrationResponse
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
-import createHostApplicationJWT from "../../../utils/createHostApplicationJWT";
+import createHostApplicationJWT from "../../../utils/createJWTHostApplication";
 
 const resolvers: Resolvers = {
     Mutation: {

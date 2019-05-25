@@ -1,0 +1,9 @@
+type GetAllRoomTypeForBookerResponse {
+    ok: Boolean
+    error: String
+    roomTypes: [RoomType!]
+}
+type Query {
+    # HA-Key 에서 accessKey 받아옴.
+    GetAllRoomTypeForBooker: GetAllRoomTypeForBookerResponse!
+}
