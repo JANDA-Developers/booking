@@ -1,5 +1,6 @@
 import { prop, Ref, Typegoose } from "typegoose";
 import { ApplicationType } from "../types/graph";
+import { appilcationKeyGen } from "../utils/uuidgen";
 import { HouseSchema } from "./House";
 import { UserSchema } from "./User";
 export enum ApplicationTypeEnum {
@@ -14,6 +15,9 @@ export class HostApplicationSchema extends Typegoose {
 
     @prop({ required: true })
     url: string;
+
+    @prop({ default: appilcationKeyGen() })
+    applicationKey: string; // uuidGen으로 생성
 
     @prop({
         required: true,

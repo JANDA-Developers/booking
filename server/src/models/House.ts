@@ -1,6 +1,7 @@
 import { Types } from "mongoose";
 import { arrayProp, prop, Ref, Typegoose } from "typegoose";
 import { HouseType, Location, TermsOfBooking } from "../types/graph";
+import { houseAccessKeyGen } from "../utils/uuidgen";
 import { ProductSchema } from "./Product";
 
 export enum Type {
@@ -15,8 +16,8 @@ export class HouseSchema extends Typegoose {
     @prop()
     hostApplication?: Types.ObjectId;
 
-    @prop()
-    houseApiKey?: string | null;
+    @prop({ default: houseAccessKeyGen() })
+    accessKey: string;
 
     @prop({ default: false })
     hostAppCreated: boolean;
