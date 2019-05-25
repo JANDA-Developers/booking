@@ -1,29 +1,33 @@
-import React from 'react';
-import 'moment/locale/ko';
-import moment from 'moment';
-import { MutationFn } from 'react-apollo';
+import React from "react";
+import "moment/locale/ko";
+import moment from "moment";
+import {MutationFn} from "react-apollo";
 import Timeline, {
-  TimelineHeaders, SidebarHeader, DateHeader, CustomHeader,
-} from '../../../atoms/timeline/Timeline';
-import ErrProtecter from '../../../utils/errProtect';
-import './PriceTimeline.scss';
+  TimelineHeaders,
+  SidebarHeader,
+  DateHeader,
+  CustomHeader
+} from "../../../atoms/timeline/Timeline";
+import ErrProtecter from "../../../utils/errProtect";
+import "./PriceTimeline.scss";
 import {
   getAllRoomTypePrice_GetAllRoomType_roomTypes as IRoomType,
   createRoomPrice,
   createRoomPriceVariables,
   deleteRoomPrice,
-  deleteRoomPriceVariables,
-} from '../../../types/api';
-import Preloader from '../../../atoms/preloader/Preloader';
-import { IItem } from './PriceTimelineWrap';
-import InputText from '../../../atoms/forms/inputText/InputText';
-import { IUseDayPicker } from '../../../actions/hook';
-import JDdayPicker from '../../../atoms/dayPicker/DayPicker';
-import { setMidNight } from '../../../utils/utils';
-import { TimePerMs } from '../../../types/enum';
-import Icon, { IconSize } from '../../../atoms/icons/Icons';
+  deleteRoomPriceVariables
+} from "../../../types/api";
+import Preloader from "../../../atoms/preloader/Preloader";
+import {IItem} from "./PriceTimelineWrap";
+import InputText from "../../../atoms/forms/inputText/InputText";
+import {IUseDayPicker} from "../../../actions/hook";
+import JDdayPicker from "../../../atoms/dayPicker/DayPicker";
+import {setMidNight} from "../../../utils/utils";
+import {TimePerMs, GlobalCSS} from "../../../types/enum";
+import Icon, {IconSize} from "../../../atoms/icons/Icons";
+import JDIcon from "../../../atoms/icons/Icons";
 
-const LAST_ROOMTYPE: any = 'unRendered'; // 방들중에 방타입이 다른 마지막을 체크할것
+const LAST_ROOMTYPE: any = "unRendered"; // 방들중에 방타입이 다른 마지막을 체크할것
 
 interface IProps {
   items: IItem[] | undefined;
@@ -32,7 +36,7 @@ interface IProps {
   defaultProps: any;
   timelineProps?: any;
   loading: boolean;
-  dateInputHook: IUseDayPicker;
+  dayPickerHook: IUseDayPicker;
   roomTypesData: IRoomType[] | undefined;
   createRoomPriceMu: MutationFn<createRoomPrice, createRoomPriceVariables>;
   delteRoomPriceMu: MutationFn<deleteRoomPrice, deleteRoomPriceVariables>;
@@ -42,8 +46,8 @@ interface IProps {
       end: number;
     }>
   >;
-  dataTime: { start: number; end: number };
-  defaultTime: { start: number; end: number };
+  dataTime: {start: number; end: number};
+  defaultTime: {start: number; end: number};
 }
 
 const ModifyTimeline: React.FC<IProps> = ({
@@ -58,12 +62,13 @@ const ModifyTimeline: React.FC<IProps> = ({
   dataTime,
   setDataTime,
   defaultTime,
-  dateInputHook,
+  dayPickerHook,
   ...timelineProps
 }) => {
   // 그룹 렌더
-  const ModifyGroupRendererFn = ({ group }: any) => {
-    const roomType: IRoomType | undefined = roomTypesData && roomTypesData[group.roomTypeIndex];
+  const ModifyGroupRendererFn = ({group}: any) => {
+    const roomType: IRoomType | undefined =
+      roomTypesData && roomTypesData[group.roomTypeIndex];
 
     //  룹타입 부분 렌더할지 체크
     return (
@@ -77,11 +82,11 @@ const ModifyTimeline: React.FC<IProps> = ({
   const handleInputDateChange = (start: string, end: string) => {
     setDataTime({
       start: moment(end)
-        .subtract(7, 'day')
+        .subtract(7, "day")
         .valueOf(),
       end: moment(end)
-        .add(20, 'day')
-        .valueOf(),
+        .add(20, "day")
+        .valueOf()
     });
   };
 
@@ -100,8 +105,8 @@ const ModifyTimeline: React.FC<IProps> = ({
         delteRoomPriceMu({
           variables: {
             date: item.end,
-            roomTypeId: item.group,
-          },
+            roomTypeId: item.group
+          }
         });
         // ❔ 컬백으로 옴겨야할까?
         priceMap.delete(item.id);
@@ -115,8 +120,8 @@ const ModifyTimeline: React.FC<IProps> = ({
           houseId,
           date: item.end,
           roomTypeId: item.group,
-          price: inValue,
-        },
+          price: inValue
+        }
       });
       // ❔ 컬백으로 옴겨야할까? 아마 그러는게 낳을듯 ㅠㅠ
       //  이게 실패가 생기니까 Ui 오류가 발생함. 콜백에서하면
@@ -127,13 +132,18 @@ const ModifyTimeline: React.FC<IProps> = ({
 
   // 아이템 렌더
   const itemRendererFn = ({
-    item, itemContext, getItemProps, getResizeProps,
+    item,
+    itemContext,
+    getItemProps,
+    getResizeProps
   }: any) => {
     // props 안에 필수 좌표값 존재
     const props = getItemProps(item.itemProps);
 
     return (
-      <div style={{ ...props.style, backgroundColor: 'transparent', border: 'none' }}>
+      <div
+        style={{...props.style, backgroundColor: "transparent", border: "none"}}
+      >
         <InputText
           defaultValue={priceMap.get(item.id)}
           onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
@@ -145,7 +155,11 @@ const ModifyTimeline: React.FC<IProps> = ({
   };
 
   // 타임라인 이동시
-  const handleTimeChnage = (visibleTimeStart: number, visibleTimeEnd: number, updateScrollCanvas: any) => {
+  const handleTimeChnage = (
+    visibleTimeStart: number,
+    visibleTimeEnd: number,
+    updateScrollCanvas: any
+  ) => {
     const dataLimitEnd = dataTime.end - TimePerMs.DAY * 20;
     const dataLimitstart = dataTime.start + TimePerMs.DAY * 10;
 
@@ -156,7 +170,7 @@ const ModifyTimeline: React.FC<IProps> = ({
 
       setDataTime({
         start: setMidNight(queryStart),
-        end: setMidNight(queryEnd),
+        end: setMidNight(queryEnd)
       });
     }
 
@@ -167,7 +181,7 @@ const ModifyTimeline: React.FC<IProps> = ({
 
       setDataTime({
         start: setMidNight(queryStart),
-        end: setMidNight(queryEnd),
+        end: setMidNight(queryEnd)
       });
     }
     updateScrollCanvas(visibleTimeStart, visibleTimeEnd);
@@ -179,7 +193,9 @@ const ModifyTimeline: React.FC<IProps> = ({
     <div id="specificPrice" className="specificPrice container container--full">
       <div className="docs-section">
         <h3>상세가격 수정</h3>
-        <p className="JDtextColor--secondary">* 해당 가격 수정은 모든 가격설정중 최우선 적용 됩니다.</p>
+        <p className="JDtextColor--secondary">
+          * 해당 가격 수정은 모든 가격설정중 최우선 적용 됩니다.
+        </p>
         <div className="flex-grid flex-grid--end">
           <div className="flex-grid__col col--full-4 col--lg-4 col--md-6" />
         </div>
@@ -199,29 +215,35 @@ const ModifyTimeline: React.FC<IProps> = ({
             >
               <TimelineHeaders>
                 <SidebarHeader>
-                  {({ getRootProps }: any) => (
-                    <div {...getRootProps()}>
+                  {({getRootProps}: any) => (
+                    <div
+                      className="rct-header-root__topLeft"
+                      {...getRootProps()}
+                    >
                       <JDdayPicker
-                        onChangeDate={handleInputDateChange}
                         isRange={false}
                         input
                         canSelectBeforeDays={false}
                         label="달력날자"
-                        {...dateInputHook}
-                        inputComponent={(
+                        {...dayPickerHook}
+                        className="JDwaves-effect JDoverflow-visible"
+                        inputComponent={
                           <span>
-                            <Icon
+                            <JDIcon
                               className="specificPrice__topLeftIcon"
                               size={IconSize.MEDEIUM_SMALL}
                               icon="calendar"
                             />
                           </span>
-)}
+                        }
                       />
                     </div>
                   )}
                 </SidebarHeader>
-                <DateHeader unit="primaryHeader" />
+                <DateHeader
+                  height={GlobalCSS.TIMELINE_HEADER_HEIGHT}
+                  unit="day"
+                />
                 <DateHeader />
               </TimelineHeaders>
             </Timeline>

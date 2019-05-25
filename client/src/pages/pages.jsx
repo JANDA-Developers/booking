@@ -132,7 +132,7 @@ export const AssigTimeline = props => (
 
 export const ModifyTimeline = props => (
   <DynamicImport
-    load={() => import("./middleServer/roomConfig/RoomConifgWrap")}
+    load={() => import("./middleServer/roomConfig/RoomConfigWrap")}
   >
     {DNcompoent =>
       DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />

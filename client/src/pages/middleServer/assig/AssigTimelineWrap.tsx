@@ -35,6 +35,7 @@ import {
 } from "../../../queries";
 import AssigTimeline from "./AssigTimeline";
 import {setYYYYMMDD, parallax} from "../../../utils/setMidNight";
+import {roomDataManufacture} from "./components/groupDataMenufacture";
 
 moment.tz.setDefault("UTC");
 
@@ -52,6 +53,7 @@ export interface IAssigGroup {
   isLastOfRoom: boolean;
   isLastOfRoomType: boolean;
   bedIndex: number;
+  type: "add" | "normal" | "addRoomType";
 }
 
 export interface IAssigItem {
@@ -112,8 +114,8 @@ class DeleteGuestMu extends Mutation<deleteGuests, deleteGuestsVariables> {}
 const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
   const dayPickerHook = useDayPicker(null, null);
   const defaultStartDate = dayPickerHook.from
-    ? setMidNight(moment(dayPickerHook.from).valueOf())
-    : setMidNight(moment().valueOf());
+    ? moment(dayPickerHook.from).valueOf()
+    : moment().valueOf();
   const defaultEndDate = setMidNight(
     dayPickerHook.from
       ? setMidNight(
@@ -194,74 +196,14 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
     return alloCateItems;
   };
 
-  // 🛌 베드타입일경우에 ID는 + 0~(인덱스);
-  //  TODO: 메모를 사용해서 데이터를 아끼자
-  // 룸 데이타를 달력에서 사용할수있는 Group 데이터로 변경
-  const roomDataManufacture = (
-    roomTypeDatas: IRoomType[] | null | undefined = []
-  ) => {
-    const roomGroups: IAssigGroup[] = [];
-
-    if (!roomTypeDatas) return roomGroups;
-
-    roomTypeDatas.map(roomTypeData => {
-      // 우선 방들을 원하는 폼으로 변환
-
-      const {rooms} = roomTypeData;
-
-      // 빈방타입 제외
-      if (!isEmpty(rooms)) {
-        // 🏠 방타입일 경우
-        if (roomTypeData.pricingType === "ROOM") {
-          rooms.map((room, index) => {
-            roomGroups.push({
-              id: room._id + 0,
-              title: room.name,
-              roomTypeId: roomTypeData._id,
-              roomTypeIndex: roomTypeData.index,
-              roomIndex: room.index,
-              roomType: roomTypeData,
-              roomId: room._id,
-              bedIndex: index,
-              placeIndex: -1,
-              isLastOfRoom: true,
-              isLastOfRoomType: roomTypeData.roomCount === index
-            });
-          });
-        }
-        // 🛌 베드타입일경우
-        if (roomTypeData.pricingType === "DOMITORY") {
-          rooms.map((room, index) => {
-            for (let i = 0; roomTypeData.peopleCount > i; i += 1) {
-              roomGroups.push({
-                id: room._id + i,
-                title: room.name,
-                roomTypeId: roomTypeData._id,
-                roomTypeIndex: roomTypeData.index,
-                roomIndex: room.index,
-                roomType: roomTypeData,
-                roomId: room._id,
-                bedIndex: i,
-                placeIndex: i + 1,
-                isLastOfRoom: roomTypeData.peopleCount === i + 1,
-                isLastOfRoomType:
-                  roomTypeData.roomCount === index + 1 &&
-                  roomTypeData.peopleCount === i + 1
-              });
-            }
-          });
-        }
-      }
-    });
-
-    return roomGroups;
-  };
-
   const updateVariables = {
     houseId,
     start: setYYYYMMDD(moment(dataTime.start)),
     end: setYYYYMMDD(moment(dataTime.end))
   };
+
+  moment.tz.setDefault("UTC");
+
   return (
     <GetAllRoomTypeWithGuestQuery
       fetchPolicy="cache-and-network"

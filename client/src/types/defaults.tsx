@@ -8,7 +8,10 @@ import {
   Gender
 } from "./enum";
 import {getBooker_GetBooker_booker_roomTypes} from "./api";
-import {IAssigItem} from "../pages/middleServer/assig/AssigTimelineWrap";
+import {
+  IAssigItem,
+  IAssigGroup
+} from "../pages/middleServer/assig/AssigTimelineWrap";
 
 export const DEFAULT_ROOMTYPE: getBooker_GetBooker_booker_roomTypes = {
   __typename: "RoomType",
@@ -71,4 +74,19 @@ export const DEFAULT_ASSIGITEM: IAssigItem = {
   start: 0,
   type: "block",
   validate: []
+};
+
+export const DEFAULT_ASSIG_GROUP: IAssigGroup = {
+  id: "-1",
+  title: "",
+  roomTypeId: "-1",
+  roomTypeIndex: -1,
+  roomIndex: -1,
+  roomType: {...DEFAULT_ROOMTYPE, rooms: []},
+  roomId: "-1",
+  bedIndex: -1,
+  placeIndex: -1,
+  isLastOfRoom: false,
+  isLastOfRoomType: false,
+  type: "normal"
 };

@@ -1,4 +1,3 @@
-import moment from "moment";
 import React, {useState, useEffect} from "react";
 import $ from "jquery";
 import {Link} from "react-router-dom";
@@ -37,7 +36,8 @@ import {
   PricingType,
   RoomGender,
   Gender,
-  WindowSize as EWindowSize
+  WindowSize as EWindowSize,
+  GlobalCSS
 } from "../../../types/enum";
 import {
   allocateGuestToRoom,
@@ -736,7 +736,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
                 </div>
               )}
             </SidebarHeader>
-            <DateHeader height={34} unit="day" />
+            <DateHeader height={GlobalCSS.TIMELINE_HEADER_HEIGHT} unit="day" />
             <DateHeader />
           </TimelineHeaders>
         </Timeline>

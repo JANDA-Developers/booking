@@ -115,6 +115,10 @@ export enum WindowSize {
   DESKTOPHD = 1200
 }
 
+export enum GlobalCSS {
+  TIMELINE_HEADER_HEIGHT = 36
+}
+
 export enum Gender {
   FEMALE = "FEMALE",
   MALE = "MALE"

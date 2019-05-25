@@ -32,8 +32,6 @@ import {
 import {TimePerMs} from "../../../types/enum";
 import {useDayPicker} from "../../../actions/hook";
 
-moment.tz.setDefault("Asia/Seoul");
-
 class GetAllRoomTypePriceQuery extends Query<
   getAllRoomTypePrice,
   getAllRoomTypePriceVariables
@@ -108,14 +106,14 @@ interface IProps {
 // 👼 앞으로 무조건 milisecond를 사용하는 편이 편할듯하다.
 const PriceTimelineWrap: React.SFC<IProps> = ({houseId}) => {
   //  Default 값
-  const dateInputHook = useDayPicker(null, null);
+  const dayPickerHook = useDayPicker(null, null);
   const defaultTime = {
-    start: dateInputHook.from
-      ? setMidNight(moment(dateInputHook.from).valueOf())
+    start: dayPickerHook.from
+      ? setMidNight(moment(dayPickerHook.from).valueOf())
       : setMidNight(moment().valueOf()),
-    end: dateInputHook.to
+    end: dayPickerHook.to
       ? setMidNight(
-          moment(dateInputHook.to)
+          moment(dayPickerHook.to)
             .add(7, "days")
             .valueOf()
         )
@@ -159,6 +157,9 @@ const PriceTimelineWrap: React.SFC<IProps> = ({houseId}) => {
       .toISOString()
       .split("T")[0]
   };
+
+  // 👿 도대체왜!!!!!!
+  moment.tz.setDefault("Asia/Seoul");
 
   return (
     <GetAllRoomTypePriceQuery
@@ -237,7 +238,7 @@ const PriceTimelineWrap: React.SFC<IProps> = ({houseId}) => {
                     defaultTime={defaultTime}
                     key={`defaultTime${defaultTime.start}${defaultTime.end}`}
                     delteRoomPriceMu={deleteRoomPriceMu}
-                    dateInputHook={dateInputHook}
+                    dayPickerHook={dayPickerHook}
                   />
                 )}
               </DeleteRoomPriceMu>
