@@ -36,14 +36,14 @@ export interface ISetBookerInfo
   extends React.Dispatch<React.SetStateAction<BookerInput>> {}
 
 interface IProps {
-  createBookingMu: MutationFn<createBooker, createBookerVariables>;
+  createBookerMu: MutationFn<createBooker, createBookerVariables>;
   houseId: string;
 }
 
 const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
   windowWidth,
   windowHeight,
-  createBookingMu,
+  createBookerMu,
   houseId
 }) => {
   const defaultBookerInfo = {
@@ -113,9 +113,11 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
     guestInputs: resvRooms
   };
 
+  console.log("bookingParams");
+  console.log(bookingParams);
   const bookingCompleteFn = () => {
     if (bookerInfoValidation()) {
-      createBookingMu({
+      createBookerMu({
         variables: {bookingParams}
       });
     }
@@ -169,6 +171,8 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
                       toastModalHook={toastModalHook}
                       dayPickerHook={dayPickerHook}
                       roomTypeData={roomType}
+                      bookerInfo={bookerInfo}
+                      setBookerInfo={setBookerInfo}
                       key={`roomCard${roomType._id}`}
                     />
                   ))
@@ -190,6 +194,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
               from={dayPickerHook.from}
               to={dayPickerHook.to}
               resvRooms={resvRooms}
+              totalPrice={bookerInfo.price}
             />
           </Card>
           <Button onClick={handleResvBtnClick} label="예약하기" mode="long" />

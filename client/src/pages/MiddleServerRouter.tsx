@@ -184,7 +184,7 @@ const JDmiddleServer: React.FC<IProps> = ({
         <Route
           exact
           path="/middleServer/qna"
-          component={isLoggedIn ? Qna : NoMatch}
+          component={isLoggedIn ? Qna : Login}
         />
         {/* 대기 */}
         {/* 여기이후로 상품이 있어야 나타날수있게 바뀜 */}

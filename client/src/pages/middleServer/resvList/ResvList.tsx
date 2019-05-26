@@ -33,12 +33,15 @@ import {bookingGuestsMerge} from "../../../utils/booking";
 import moment from "moment";
 import JDbadge, {BADGE_THEMA} from "../../../atoms/badge/Badge";
 import "./ResvList.scss";
+import JDPagination from "../../../atoms/pagination/Pagination";
+import {autoComma} from "../../../utils/utils";
 
 interface IProps {
   pageInfo: IPageInfo | undefined;
   bookersData: IBooker[];
   loading: boolean;
   houseId: string;
+  setPage(page: number): void;
   deleteBookerMu: MutationFn<deleteBooker, deleteBookerVariables>;
   updateBookerMu: MutationFn<updateBooker, updateBookerVariables>;
 }
@@ -49,6 +52,7 @@ const ResvList: React.SFC<IProps> = ({
   loading,
   updateBookerMu,
   deleteBookerMu,
+  setPage,
   houseId
 }) => {
   //   ❔ 두개 합치는게 좋을까?
@@ -127,13 +131,13 @@ const ResvList: React.SFC<IProps> = ({
       Cell: ({value, original}: CellInfo) => {
         const isCancled = original.bookingStatus === BookingStatus.CANCEL;
         return (
-          <div>
-            {moment(value.createdAt).format("MM-DD-YYYY hh:mm")}
+          <div className="resvList__createdAt">
+            {value.slice(0, 16).replace("T", " ")}
             {isCancled && (
               <Fragment>
                 <br />
                 <JDbadge
-                  className="resvList__bookerStatus"
+                  className="resvList__bookerStatusBadge"
                   thema={BADGE_THEMA.ERROR}
                 >
                   cancle
@@ -223,9 +227,14 @@ const ResvList: React.SFC<IProps> = ({
       accessor: "price",
       Cell: ({value, original}: CellInfo) => (
         <div>
-          <span>{value}원</span>
+          <span>{autoComma(value)}원</span>
           <br />
-          <span>{PaymentStatusKr[original.paymentStatus]}</span>
+          <span
+            className={`resvList__paymentStatus ${original.paymentStatus ===
+              PaymentStatus.NOT_YET && "resvList__paymentStatus--notYet"}`}
+          >
+            {PaymentStatusKr[original.paymentStatus]}
+          </span>
         </div>
       )
     },
@@ -233,7 +242,14 @@ const ResvList: React.SFC<IProps> = ({
       Header: "메모",
       accessor: "memo",
       minWidth: 200,
-      Cell: ({value}: CellInfo) => <div>{value}</div>
+      Cell: ({value}: CellInfo) => (
+        <div
+          className={`JDscrool resvList__memo ${value.length > 20 &&
+            "resvList__memo--full"}`}
+        >
+          {value}
+        </div>
+      )
     },
     {
       Header: "상세",
@@ -317,6 +333,14 @@ const ResvList: React.SFC<IProps> = ({
           isSelected={(key: string) => checkedIds.includes(key)}
           columns={TableColumns}
           keyField="_id"
+        />
+        <JDPagination
+          onPageChange={({selected}: {selected: number}) => {
+            setPage(selected + 1);
+          }}
+          pageCount={pageInfo ? pageInfo.totalPage : 1}
+          pageRangeDisplayed={1}
+          marginPagesDisplayed={4}
         />
         <BookerModalWrap
           key={`${bookerModalHook.info.bookerId || "BookerModaldefaultId"}`}

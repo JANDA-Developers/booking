@@ -26,7 +26,7 @@ import {
   onCompletedMessage
 } from "../../../utils/utils";
 import EerrorProtect from "../../../utils/errProtect";
-import {Gender} from "../../../types/enum";
+import {Gender, BookingStatus} from "../../../types/enum";
 import {
   GET_ALL_ROOMTYPES_WITH_GUESTS,
   ALLOCATE_GUEST_TO_ROOM,
@@ -159,11 +159,14 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
   //  TODO: 메모를 사용해서 데이터를 아끼자
   // 게스트 데이터를 달력에서 쓸수있는 Item 데이터로 변경 절차
   const guestsDataManufacture = (
-    guestsData: IGuests[] | null | undefined = []
+    allGuestsData: IGuests[] | null | undefined = []
   ) => {
     const alloCateItems: IAssigItem[] = [];
-    if (!guestsData) return alloCateItems;
+    if (!allGuestsData) return alloCateItems;
 
+    const guestsData = allGuestsData.filter(
+      guest => guest.booker.bookingStatus !== BookingStatus.CANCEL
+    );
     guestsData.forEach((guestData, index) => {
       const isDomitory = guestData.pricingType === "DOMITORY";
 

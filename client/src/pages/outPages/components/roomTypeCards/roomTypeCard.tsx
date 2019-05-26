@@ -7,17 +7,19 @@ import JDselect, {
 import {
   GuestPartInput,
   getAvailableGuestCount_GetMale_roomCapacity,
-  getAvailableGuestCount_GetFemale_roomCapacity
+  getAvailableGuestCount_GetFemale_roomCapacity,
+  BookerInput
 } from "../../../../types/api";
 import Button from "../../../../atoms/button/Button";
 import {IRoomType} from "../../../../types/interface";
 import Preloader from "../../../../atoms/preloader/Preloader";
-import {isEmpty} from "../../../../utils/utils";
+import {isEmpty, autoComma} from "../../../../utils/utils";
 import {
   useSelect,
   IUseModal,
   IUseSelect,
-  useModal
+  useModal,
+  IUseDayPicker
 } from "../../../../actions/hook";
 import {
   SELECT_COUNT_DUMMY_OP,
@@ -28,6 +30,8 @@ import {
 } from "../../../../types/enum";
 import {IGuestCount} from "./roomTypeCardsWrap";
 import JDmodal from "../../../../atoms/modal/Modal";
+import {arraySum} from "../../../../utils/elses";
+import moment from "moment";
 
 interface IProps {
   className?: string;
@@ -39,6 +43,10 @@ interface IProps {
   toastModalHook: IUseModal;
   setGuestCount: React.Dispatch<React.SetStateAction<IGuestCount>>;
   guestCountValue: IGuestCount;
+  setBookerInfo: React.Dispatch<React.SetStateAction<BookerInput>>;
+  bookerInfo: BookerInput;
+  dayPickerHook: IUseDayPicker;
+  truePrice: number;
   countLoading: boolean;
   availableCount: {
     maleCount: getAvailableGuestCount_GetMale_roomCapacity | null | undefined;
@@ -60,7 +68,11 @@ const RoomTypeCard: React.SFC<IProps> = ({
   setGuestCount,
   guestCountValue,
   countLoading,
-  availableCount
+  dayPickerHook,
+  truePrice,
+  availableCount,
+  bookerInfo,
+  setBookerInfo
 }) => {
   const roomImgModalHook = useModal(false);
   const [disabled, setDisabled] = useState({
@@ -137,26 +149,33 @@ const RoomTypeCard: React.SFC<IProps> = ({
   const handleRoomSelectClick = () => {
     const resvRoomsCopy = resvRooms.slice();
 
+    const totalRoomTypeCount =
+      guestCountValue.female + guestCountValue.male + guestCountValue.room;
+    const dayDiff = moment(dayPickerHook.to!).diff(dayPickerHook.from!, "days");
+    const totalRoomTypePrice = totalRoomTypeCount * truePrice * dayDiff;
     // 이미 선택된방 제거
     if (isSelectedRoom) {
       resvRoomsCopy.splice(roomTypeIndex, 1);
       setResvRooms(resvRoomsCopy);
       setDisabled({female: false, male: false, count: false});
+      setBookerInfo({
+        ...bookerInfo,
+        price: bookerInfo.price - totalRoomTypePrice
+      });
       return;
     }
 
-    const totalCount =
-      guestCountValue.female + guestCountValue.male + guestCountValue.room;
-
     // 선택된인원이 없는경우에
-    if (totalCount === 0) {
+    if (totalRoomTypeCount === 0) {
       toastModalHook.openModal("인원수를 선택해주세요.");
       return;
     }
 
+    // 선택된방이 아닐경우에
     resvRoomsCopy.push({
       roomTypeId: roomTypeData._id,
       pricingType: roomTypeData.pricingType,
+      discountedPrice: truePrice,
       countFemaleGuest: guestCountValue.female,
       countMaleGuest: guestCountValue.male,
       countRoom: guestCountValue.room
@@ -164,6 +183,10 @@ const RoomTypeCard: React.SFC<IProps> = ({
 
     setResvRooms(resvRoomsCopy);
     setDisabled({female: true, male: true, count: true});
+    setBookerInfo({
+      ...bookerInfo,
+      price: bookerInfo.price + totalRoomTypePrice
+    });
 
     roomInfoHook[1]([...roomInfoHook[0], roomTypeData]);
   };
@@ -239,7 +262,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
         <div className="flex-grid__col col--grow-1 roomTypeCard__lastSection">
           <div className="roomTypeCard__lastTopSection">
             {" "}
-            <span className="roomTypeCard__price">30,000 </span>
+            <span className="roomTypeCard__price">{autoComma(truePrice)}</span>
           </div>
           <Button
             toggle={isSelectedRoom}

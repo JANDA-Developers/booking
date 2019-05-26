@@ -20,15 +20,6 @@
         box-sizing: border-box;
     }
 
-
-    .rct-header-root {
-        // left-top 부분
-        &> div:first-child {
-            border-right:1px solid $grey-opacity1;
-            background-color: $grey-level3;
-        }
-    }
-
     .rct-dateHeader {
         line-height: 30px;
         height: 100%;

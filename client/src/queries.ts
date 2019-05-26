@@ -162,6 +162,9 @@ const F_USER_INFO = gql`
     checkPrivacyPolicy
     userRole
     houses {
+      roomTypes {
+        _id
+      }
       hostApplication {
         url
       }
@@ -404,6 +407,7 @@ export const GetGuests = gql`
         }
         booker {
           _id
+          bookingStatus
           checkIn {
             isIn
           }
@@ -466,6 +470,7 @@ export const GET_ALL_ROOMTYPES = gql`
         roomGender
         roomCount
         createdAt
+        defaultPrice
         updatedAt
         img
         rooms {
@@ -532,6 +537,7 @@ export const GET_ALL_ROOMTYPES_WITH_GUESTS = gql`
         roomCount
         createdAt
         updatedAt
+        defaultPrice
         img
         rooms {
           _id
@@ -555,6 +561,7 @@ export const GET_ALL_ROOMTYPES_WITH_GUESTS = gql`
           ...Froom
         }
         booker {
+          bookingStatus
           _id
           checkIn {
             isIn
@@ -604,6 +611,41 @@ export const GET_USER_FOR_SU = gql`
     }
   }
   ${F_USER_INFO}
+`;
+
+export const GET_APPLIED_PRICE_WITH_DATE = gql`
+  query getAppliedPriceWithDateRange(
+    $roomTypeId: ID!
+    $start: DateTime!
+    $end: DateTime!
+  ) {
+    GetAppliedPriceWithDateRange(
+      roomTypeId: $roomTypeId
+      start: $start
+      end: $end
+    ) {
+      ok
+      error
+      seasonPrices {
+        season {
+          start
+          end
+        }
+        defaultPrice
+        dayOfWeekPrices {
+          price
+          applyDays
+        }
+      }
+      roomPrices {
+        _id
+        price
+        date
+        createdAt
+        updatedAt
+      }
+    }
+  }
 `;
 
 // 모든 방타입 가져오기

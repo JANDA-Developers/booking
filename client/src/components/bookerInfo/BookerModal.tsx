@@ -73,12 +73,11 @@ const POPbookerInfo: React.FC<IProps> = ({
   type = BookerModalType.LOOKUP,
   houseId
 }) => {
-  // ❓ State들을 합치는게 좋을까?
   const sendSMSmodalHook = useModal(false);
   const confirmModalHook = useModal(false);
   const bookerNameHook = useInput(bookerData.name);
   const bookerPhoneHook = useInput(bookerData.phoneNumber);
-  const priceHook = useInput(0);
+  const priceHook = useInput(bookerData.price);
   const memoHook = useInput(bookerData.memo || "");
   const payMethodHook = useSelect({
     value: bookerData.payMethod,
@@ -106,6 +105,7 @@ const POPbookerInfo: React.FC<IProps> = ({
   // 예약삭제
   const handleDeletBtnClick = () => {
     confirmModalHook.openModal("정말 예약을 삭제하시겠습니까?");
+    modalHook.closeModal();
   };
 
   const deleteModalCallBackFn = (confirm: boolean) => {
@@ -127,7 +127,7 @@ const POPbookerInfo: React.FC<IProps> = ({
           start: resvDateHook.from,
           bookerParams: {
             house: houseId,
-            price: priceHook.value,
+            price: priceHook.value || 0,
             name: bookerNameHook.value,
             password: "admin",
             phoneNumber: bookerPhoneHook.value,
@@ -172,6 +172,7 @@ const POPbookerInfo: React.FC<IProps> = ({
         }
       }
     });
+    modalHook.closeModal();
   };
 
   return (

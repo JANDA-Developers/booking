@@ -6,7 +6,7 @@ import Timeline, {
   TimelineHeaders,
   SidebarHeader,
   DateHeader,
-  CustomHeader
+  SharedSideBarHeader
 } from "../../../atoms/timeline/Timeline";
 import ErrProtecter from "../../../utils/errProtect";
 import "./PriceTimeline.scss";
@@ -216,28 +216,10 @@ const ModifyTimeline: React.FC<IProps> = ({
               <TimelineHeaders>
                 <SidebarHeader>
                   {({getRootProps}: any) => (
-                    <div
-                      className="rct-header-root__topLeft"
-                      {...getRootProps()}
-                    >
-                      <JDdayPicker
-                        isRange={false}
-                        input
-                        canSelectBeforeDays={false}
-                        label="달력날자"
-                        {...dayPickerHook}
-                        className="JDwaves-effect JDoverflow-visible"
-                        inputComponent={
-                          <span>
-                            <JDIcon
-                              className="specificPrice__topLeftIcon"
-                              size={IconSize.MEDEIUM_SMALL}
-                              icon="calendar"
-                            />
-                          </span>
-                        }
-                      />
-                    </div>
+                    <SharedSideBarHeader
+                      getRootProps={getRootProps}
+                      dayPickerHook={dayPickerHook}
+                    />
                   )}
                 </SidebarHeader>
                 <DateHeader

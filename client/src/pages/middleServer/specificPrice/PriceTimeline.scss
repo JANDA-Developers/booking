@@ -18,18 +18,8 @@
             padding-bottom: $standard-margin-bottom;
         }
 
-        .rct-header-root {
-            position: relative;
-            z-index: 90;
-            text-align:center;
-            & > div {
-                display:flex;
-                align-items: center;
-                justify-content: center;
-            }
-            .specificPrice__topLeftIcon {
-                color:white;
-            }
+        .rct-sidebar {
+            text-align: center;
         }
     }
 

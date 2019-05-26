@@ -21,7 +21,7 @@ function SignUp({ history }) {
   const [infoAgreement, setInfoAgreement] = useRadio();
 
   return (
-    <div id="signUpPage" className="container container--sm">
+    <div id="signUpPage" className="signUp container container--sm">
       <div className="docs-section">
         {/* 인증모달 */}
         <Mutation
@@ -116,6 +116,7 @@ function SignUp({ history }) {
                       </div>
                       <div className="flex-grid__col col--full-12 col--md-12">
                         <InputText
+                          className="signUp__privacyPolicy"
                           value={privacyPolicy}
                           label="개인정보 이용동의"
                           readOnly

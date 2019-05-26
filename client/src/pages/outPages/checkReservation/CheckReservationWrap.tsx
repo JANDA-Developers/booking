@@ -4,7 +4,11 @@ import React from "react";
 import {Mutation, ApolloConsumer} from "react-apollo";
 import {withRouter, RouteComponentProps} from "react-router";
 import CheckReservation from "./CheckReservation";
-import {ErrProtecter, queryDataFormater} from "../../../utils/utils";
+import {
+  ErrProtecter,
+  queryDataFormater,
+  onCompletedMessage
+} from "../../../utils/utils";
 import {FIND_BOOKER} from "../../../queries";
 import {findBookerVariables} from "../../../types/api";
 
@@ -32,17 +36,22 @@ const CheckReservationWrap: React.FC<IProps> = ({match}) => {
             query: FIND_BOOKER,
             variables: {
               name: bookerInfo.name,
-              houseId: match.params.houseId,
+              // :TODO 다음수정
+              houseId: "5cb1a8abcc8ef91ca45ab02b",
               password: bookerInfo.password,
               phoneNumber: bookerInfo.phoneNumber
             }
           });
+
+          onCompletedMessage(bookerData.FindBooker, "조회성공", "조회실패");
           const booker = queryDataFormater(
             bookerData,
-            "findBooker",
-            "booker",
+            "FindBooker",
+            "bookers",
             undefined
           );
+
+          console.log("booker");
           return booker;
         };
         return (

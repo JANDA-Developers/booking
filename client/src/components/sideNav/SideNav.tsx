@@ -41,8 +41,10 @@ const SideNav: React.FC<IProps> = ({
 
   const isHouseMaked = !isEmpty(selectedHouse);
   const isHaveProduct = selectedHouse && selectedHouse.product ? true : false;
-  const isRoomTypeMaked = isHouseMaked && !isEmpty(houses[0].roomTypes);
+  const isRoomTypeMaked = isHouseMaked && !isEmpty(selectedHouse!.roomTypes);
 
+  console.log("selectedHouse");
+  console.log(selectedHouse);
   interface IMenuesItem {
     to: string;
     label: string;

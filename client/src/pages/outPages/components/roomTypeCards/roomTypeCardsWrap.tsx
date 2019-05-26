@@ -11,16 +11,27 @@ import {
 import {
   GuestPartInput,
   getAvailableGuestCount,
-  getAvailableGuestCountVariables
+  getAvailableGuestCountVariables,
+  getAppliedPriceWithDateRange,
+  getAppliedPriceWithDateRangeVariables,
+  BookerInput
 } from "../../../../types/api";
-import {GET_AVAILABLE_GUEST_COUNT} from "../../../../queries";
+import {
+  GET_AVAILABLE_GUEST_COUNT,
+  GET_APPLIED_PRICE_WITH_DATE
+} from "../../../../queries";
 import {IUseModal, IUseDayPicker} from "../../../../actions/hook";
 import {setYYYYMMDD} from "../../../../utils/setMidNight";
 import {IRoomType} from "../../../../types/interface";
+import {truePriceFinder} from "../../../../utils/booking";
 
 class GetAvailGuestCountQu extends Query<
   getAvailableGuestCount,
   getAvailableGuestCountVariables
+> {}
+class GetAppliedPriceWithDate extends Query<
+  getAppliedPriceWithDateRange,
+  getAppliedPriceWithDateRangeVariables
 > {}
 
 export interface IGuestCount {
@@ -38,6 +49,8 @@ interface IProps {
   toastModalHook: IUseModal;
   dayPickerHook: IUseDayPicker;
   roomTypeData: IRoomType;
+  setBookerInfo: React.Dispatch<React.SetStateAction<BookerInput>>;
+  bookerInfo: BookerInput;
 }
 
 // 하우스 아이디를 우선 Props를 통해서 받아야함
@@ -49,7 +62,9 @@ const RoomTypeCardsWrap: React.SFC<IProps> = ({
   windowWidth,
   toastModalHook,
   dayPickerHook,
-  roomTypeData
+  roomTypeData,
+  setBookerInfo,
+  bookerInfo
 }) => {
   // 이건 독립 state용이다. 실제 선택된것은 resvRooms에 있으며 이건 선택완료 누르기 전까지의 상태이다.
   const [guestCountValue, setGuestCount] = useState<IGuestCount>({
@@ -94,18 +109,58 @@ const RoomTypeCardsWrap: React.SFC<IProps> = ({
         };
 
         return (
-          <RoomTypeCard
-            resvRooms={resvRooms}
-            countLoading={countLoading}
-            setResvRooms={setResvRooms}
-            roomTypeData={roomTypeData}
-            roomInfoHook={roomInfoHook}
-            windowWidth={windowWidth}
-            toastModalHook={toastModalHook}
-            availableCount={availableCount}
-            setGuestCount={setGuestCount}
-            guestCountValue={guestCountValue}
-          />
+          <GetAppliedPriceWithDate
+            variables={{
+              end: dayPickerHook.to,
+              start: dayPickerHook.from,
+              roomTypeId: roomTypeData._id
+            }}
+            query={GET_APPLIED_PRICE_WITH_DATE}
+          >
+            {({data: priceData, loading, error}) => {
+              const seasonPrices = queryDataFormater(
+                priceData,
+                "GetAppliedPriceWithDateRange",
+                "seasonPrices",
+                undefined
+              );
+              const specificPrices = queryDataFormater(
+                priceData,
+                "GetAppliedPriceWithDateRange",
+                "roomPrices",
+                undefined
+              );
+              const truePrice = truePriceFinder(
+                roomTypeData.defaultPrice,
+                seasonPrices,
+                specificPrices,
+                dayPickerHook.from,
+                dayPickerHook.to
+              );
+
+              console.log("💖 truePrice");
+              console.log(truePrice);
+
+              return (
+                <RoomTypeCard
+                  resvRooms={resvRooms}
+                  countLoading={countLoading}
+                  setResvRooms={setResvRooms}
+                  roomTypeData={roomTypeData}
+                  roomInfoHook={roomInfoHook}
+                  windowWidth={windowWidth}
+                  toastModalHook={toastModalHook}
+                  availableCount={availableCount}
+                  setGuestCount={setGuestCount}
+                  guestCountValue={guestCountValue}
+                  dayPickerHook={dayPickerHook}
+                  truePrice={truePrice}
+                  setBookerInfo={setBookerInfo}
+                  bookerInfo={bookerInfo}
+                />
+              );
+            }}
+          </GetAppliedPriceWithDate>
         );
       }}
     </GetAvailGuestCountQu>

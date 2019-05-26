@@ -60,8 +60,8 @@ export enum BookingStatusKr {
 }
 
 export enum PaymentStatusKr {
-  NOT_YET = "결제안됨",
-  COMPLETE = "결제됨"
+  NOT_YET = "미결제",
+  COMPLETE = "결제완료"
 }
 
 export enum PayMethodKr {

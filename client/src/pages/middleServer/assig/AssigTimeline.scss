@@ -147,11 +147,15 @@ $assigItem-padding: 6px;
 
         // roomType이름과 room 이름들 
         &__names {
-            width: 80%;
             display:inline-block;
             word-wrap: break-word;
             text-align:center;
             max-height: 100%;
+            white-space: normal;
+            width: 100%;
+            @include response($mobile) {
+                width: 80%;
+            }
         }
     }
       

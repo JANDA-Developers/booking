@@ -144,6 +144,9 @@ const BookerModalWrap: React.FC<IProps> = ({modalHook, houseId}) => (
                       "예약 생성 완료",
                       "예약자 생성 실패"
                     );
+                    if (CreateBooker.ok) {
+                      modalHook.closeModal();
+                    }
                     // TODO 여기에 컬백으로 배정
                     // allocateGuestToRoomMu({
                     //   variables: {

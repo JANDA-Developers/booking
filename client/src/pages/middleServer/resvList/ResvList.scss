@@ -1,5 +1,38 @@
+@import '../../../style_config/style_config.scss';
+
+
 .resvList {
-    &__bookerStatus {
+    &__bookerStatusBadge {
         margin-left: 0;
+        margin-top: $standard-margin-bottom /3;
+    }
+
+    &__paymentStatus {
+        &--notYet {
+            color: $warn-color;
+        }
+    }
+
+    &__createdAt {
+        max-width: 100%;
+        @include response($phablet) {
+            font-size: $typho-small;
+        }
+    }
+
+    &__memo {
+        height: 100%;
+        display:flex;
+        align-items:center;
+        max-width:  100%;
+        max-height: 10rem;
+        overflow: auto;
+        white-space: normal;
+
+        &--full {
+            align-items: baseline;
+        }
+
+        @extend %JDscrollbar;
     }
 }

@@ -36,10 +36,10 @@ const ReservationWrap: React.SFC<IProps> = ({houseId}) => {
       }}
       mutation={CREATE_BOOKING}
     >
-      {createBookingMu => (
+      {createBookerMu => (
         <Reservation
           houseId="5cb1a8abcc8ef91ca45ab02b"
-          createBookingMu={createBookingMu}
+          createBookerMu={createBookerMu}
         />
       )}
     </CreatBookingMu>

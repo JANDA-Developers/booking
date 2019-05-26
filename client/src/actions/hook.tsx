@@ -299,6 +299,17 @@ function useToggle(defaultValue: boolean): [boolean, any] {
   return [toggle, onClick];
 }
 
+// 투글 훅
+function usePagiNation(defaultValue: number): [number, (page: number) => void] {
+  const [page, inSetPage] = useState(defaultValue);
+
+  const setPage = (foo: number) => {
+    inSetPage(foo);
+  };
+
+  return [page, setPage];
+}
+
 export interface IUseModal<T = any> {
   isOpen: boolean;
   openModal: (inInfo?: T) => void;
@@ -343,5 +354,6 @@ export {
   useDebounce,
   useImageUploader,
   useColorPicker,
-  useDayPicker
+  useDayPicker,
+  usePagiNation
 };

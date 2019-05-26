@@ -62,6 +62,10 @@
     &--center {
         text-align:center;
     }
+
+    &--visibleOverflow {
+        overflow:visible;
+    }
     
     // 엔드섹션
     &__endSection {
