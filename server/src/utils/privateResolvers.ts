@@ -51,7 +51,7 @@ export const privateResolverForHostApp = resolverFunction => async (
     }
     return await resolverFunction(parent, args, context, info);
 };
-export const privateResolverForHouseAccess = resolverFunction => async (
+export const privateResolverForPublicAccess = resolverFunction => async (
     parent,
     args,
     context,

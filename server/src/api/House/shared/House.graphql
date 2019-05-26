@@ -5,7 +5,7 @@ type House {
     product: Product
     hostApplication: HostApplication
     hostAppCreated: Boolean!
-    accessKey: String
+    publicKey: String
     user: User!
     location: Location!
     refundPolicy: [TermsOfRefund!]!

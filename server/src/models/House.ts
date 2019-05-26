@@ -16,6 +16,7 @@ export class HouseSchema extends Typegoose {
     @prop()
     hostApplication?: Types.ObjectId;
 
+    // TODO: Validation 필요함... 
     @prop({ default: houseAccessKeyGen() })
     publicKey: string;
 
