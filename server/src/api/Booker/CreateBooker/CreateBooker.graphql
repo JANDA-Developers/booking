@@ -5,6 +5,9 @@ type CreateBookerResponse {
 }
 type Mutation {
     CreateBooker(bookingParams: CreateBookerParams!): CreateBookerResponse!
+    CreateBookerForBooker(
+        bookingParams: CreateBookerParams!
+    ): CreateBookerResponse!
 }
 
 input CreateBookerParams {

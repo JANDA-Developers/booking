@@ -11,4 +11,11 @@ type Query {
         gender: Gender!
         paddingOtherGenderCount: Int!
     ): GetAvailableGuestCountResponse!
+    GetAvailableGuestCountForBooker(
+        roomTypeId: ID!
+        start: DateTime!
+        end: DateTime!
+        gender: Gender!
+        paddingOtherGenderCount: Int!
+    ): GetAvailableGuestCountResponse!
 }
