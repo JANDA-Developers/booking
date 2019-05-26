@@ -17,178 +17,201 @@ import {
 import { Resolvers } from "../../../types/resolvers";
 import { asyncForEach } from "../../../utils/etc";
 
+import { Context } from "graphql-yoga/dist/types";
 import * as _ from "lodash";
+import { HouseSchema } from "../../../models/House";
 import { DailyPrice } from "../../../types/dailyPrice";
+import { privateResolverForPublicAccess } from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Mutation: {
         CreateBooker: async (
             __,
-            { bookingParams }: CreateBookerMutationArgs
+            params: CreateBookerMutationArgs
         ): Promise<CreateBookerResponse> => {
-            const { start, end } = {
-                start: new Date(bookingParams.start),
-                end: new Date(bookingParams.end)
-            };
-            const { bookerParams, guestInputs } = bookingParams;
-
-            try {
-                // 1. booker prototype 생성
-                // 2. guestInputs 돌면서... roomType 별로 게스트 생성.
-                const bookerInstance = new BookerModel({
-                    ...bookerParams,
-                    start,
-                    end,
-                    house: new Types.ObjectId(bookerParams.house)
-                });
-                await bookerInstance.hashPassword();
-                bookerInstance.guests = [];
-                let flag = true;
-                const guests: Array<InstanceType<GuestSchema>> = [];
-                await asyncForEach(
-                    guestInputs,
-                    async ({
-                        countFemaleGuest,
-                        countMaleGuest,
-                        countRoom,
-                        ...guestInput
-                    }) => {
-                        const roomTypeInstance = await RoomTypeModel.findById(
-                            guestInput.roomTypeId
-                        );
-                        if (!roomTypeInstance) {
-                            throw new Error("방타입이 없을리가 없다.");
-                        }
-                        const roomTypeCapacity = await roomTypeInstance.getCapacity(
-                            start,
-                            end
-                        );
-                        const roomCapacityList =
-                            roomTypeCapacity.roomCapacityList;
-                        console.log(roomTypeCapacity);
-
-                        const {
-                            countAny,
-                            countFemale,
-                            countMale
-                        } = roomTypeCapacity.availablePeopleCount;
-                        if (
-                            countFemaleGuest > countFemale ||
-                            countMaleGuest > countMale ||
-                            countRoom > countAny
-                        ) {
-                            flag = false;
-                            return;
-                        }
-
-                        const sortedCapacity = _.sortBy(roomCapacityList, [
-                            o => {
-                                const gender = convertGenderArrToGuestGender(
-                                    o.availableGenders
-                                );
-                                return gender === "FEMALE"
-                                    ? -1
-                                    : gender === "MALE"
-                                    ? 0
-                                    : 1;
-                            },
-                            "availableCount"
-                        ]);
-
-                        const female: { gender: Gender; count: number } = {
-                            gender: "FEMALE",
-                            count: countFemaleGuest
-                        };
-                        const male: { gender: Gender; count: number } = {
-                            gender: "MALE",
-                            count: countMaleGuest
-                        };
-                        const room: { gender: Gender | null; count: number } = {
-                            gender: null,
-                            count: countRoom
-                        };
-                        const femaleGuest = _.flatMap(
-                            sortedCapacity.map(capacity => {
-                                return createGuestWithBookerAndAllocateHere(
-                                    bookerInstance,
-                                    female,
-                                    roomTypeInstance,
-                                    capacity
-                                );
-                            })
-                        );
-
-                        const maleGuest = _.flatMap(
-                            sortedCapacity.map(capacity => {
-                                return createGuestWithBookerAndAllocateHere(
-                                    bookerInstance,
-                                    male,
-                                    roomTypeInstance,
-                                    capacity
-                                );
-                            })
-                        );
-                        const roomGuest = _.flatMap(
-                            sortedCapacity.map(capacity => {
-                                return createGuestWithBookerAndAllocateHere(
-                                    bookerInstance,
-                                    room,
-                                    roomTypeInstance,
-                                    capacity
-                                );
-                            })
-                        );
-                        const tempGuests = [
-                            ...femaleGuest,
-                            ...maleGuest,
-                            ...roomGuest
-                        ];
-                        guests.push(...tempGuests);
-                        const dailyPrices: DailyPrice[] = [];
-                        await asyncForEach(tempGuests, async g => {
-                            // 여기서 가격을 불러오는걸로
-                        });
-                        console.log({
-                            dailyPrices
-                        });
-
-                        countFemaleGuest--;
-                    }
-                );
-                bookerInstance.guests = guests.map(
-                    guest => new Types.ObjectId(guest._id)
-                );
-                bookerInstance.roomTypes = [
-                    ..._.uniq(guests.map(guest => guest.roomType))
-                ];
-                console.log(guests);
-
-                await GuestModel.insertMany(guests);
-                if (!flag) {
-                    return {
-                        ok: false,
-                        error: "인원 에러",
-                        booker: null
-                    };
-                }
-                await bookerInstance.save();
-                return {
-                    ok: true,
-                    error: null,
-                    booker: await extractBooker(bookerInstance)
-                };
-            } catch (error) {
-                return {
-                    ok: false,
-                    error: error.message,
-                    booker: null
-                };
+            return await createBooker(params);
+        },
+        CreateBookerForBooker: privateResolverForPublicAccess(
+            async (
+                __,
+                params: CreateBookerMutationArgs,
+                ctx: Context
+            ): Promise<CreateBookerResponse> => {
+                return await createBooker(params, ctx);
             }
-        }
+        )
     }
 };
 
 export default resolvers;
+
+const createBooker = async (
+    { bookingParams }: CreateBookerMutationArgs,
+    ctx?
+): Promise<CreateBookerResponse> => {
+    const { start, end } = {
+        start: new Date(bookingParams.start),
+        end: new Date(bookingParams.end)
+    };
+    const { bookerParams, guestInputs } = bookingParams;
+    if (ctx) {
+        const { house }: { house: InstanceType<HouseSchema> } = ctx.req;
+        if (!new Types.ObjectId(house._id).equals(bookerParams.house)) {
+            return {
+                ok: false,
+                error: "House 정보 에러",
+                booker: null
+            };
+        }
+    }
+    try {
+        // 1. booker prototype 생성
+        // 2. guestInputs 돌면서... roomType 별로 게스트 생성.
+        const bookerInstance = new BookerModel({
+            ...bookerParams,
+            start,
+            end,
+            house: new Types.ObjectId(bookerParams.house)
+        });
+        await bookerInstance.hashPassword();
+        bookerInstance.guests = [];
+        let flag = true;
+        const guests: Array<InstanceType<GuestSchema>> = [];
+        await asyncForEach(
+            guestInputs,
+            async ({
+                countFemaleGuest,
+                countMaleGuest,
+                countRoom,
+                ...guestInput
+            }) => {
+                const roomTypeInstance = await RoomTypeModel.findById(
+                    guestInput.roomTypeId
+                );
+                if (!roomTypeInstance) {
+                    throw new Error("방타입이 없을리가 없다.");
+                }
+                const roomTypeCapacity = await roomTypeInstance.getCapacity(
+                    start,
+                    end
+                );
+                const roomCapacityList = roomTypeCapacity.roomCapacityList;
+                console.log(roomTypeCapacity);
+
+                const {
+                    countAny,
+                    countFemale,
+                    countMale
+                } = roomTypeCapacity.availablePeopleCount;
+                if (
+                    countFemaleGuest > countFemale ||
+                    countMaleGuest > countMale ||
+                    countRoom > countAny
+                ) {
+                    flag = false;
+                    return;
+                }
+
+                const sortedCapacity = _.sortBy(roomCapacityList, [
+                    o => {
+                        const gender = convertGenderArrToGuestGender(
+                            o.availableGenders
+                        );
+                        return gender === "FEMALE"
+                            ? -1
+                            : gender === "MALE"
+                            ? 0
+                            : 1;
+                    },
+                    "availableCount"
+                ]);
+
+                const female: { gender: Gender; count: number } = {
+                    gender: "FEMALE",
+                    count: countFemaleGuest
+                };
+                const male: { gender: Gender; count: number } = {
+                    gender: "MALE",
+                    count: countMaleGuest
+                };
+                const room: { gender: Gender | null; count: number } = {
+                    gender: null,
+                    count: countRoom
+                };
+                const femaleGuest = _.flatMap(
+                    sortedCapacity.map(capacity => {
+                        return createGuestWithBookerAndAllocateHere(
+                            bookerInstance,
+                            female,
+                            roomTypeInstance,
+                            capacity
+                        );
+                    })
+                );
+
+                const maleGuest = _.flatMap(
+                    sortedCapacity.map(capacity => {
+                        return createGuestWithBookerAndAllocateHere(
+                            bookerInstance,
+                            male,
+                            roomTypeInstance,
+                            capacity
+                        );
+                    })
+                );
+                const roomGuest = _.flatMap(
+                    sortedCapacity.map(capacity => {
+                        return createGuestWithBookerAndAllocateHere(
+                            bookerInstance,
+                            room,
+                            roomTypeInstance,
+                            capacity
+                        );
+                    })
+                );
+                const tempGuests = [...femaleGuest, ...maleGuest, ...roomGuest];
+                guests.push(...tempGuests);
+                const dailyPrices: DailyPrice[] = [];
+                await asyncForEach(tempGuests, async g => {
+                    // 여기서 가격을 불러오는걸로
+                });
+                console.log({
+                    dailyPrices
+                });
+
+                countFemaleGuest--;
+            }
+        );
+        bookerInstance.guests = guests.map(
+            guest => new Types.ObjectId(guest._id)
+        );
+        bookerInstance.roomTypes = [
+            ..._.uniq(guests.map(guest => guest.roomType))
+        ];
+        console.log(guests);
+
+        await GuestModel.insertMany(guests);
+        if (!flag) {
+            return {
+                ok: false,
+                error: "인원 에러",
+                booker: null
+            };
+        }
+        await bookerInstance.save();
+        return {
+            ok: true,
+            error: null,
+            booker: await extractBooker(bookerInstance)
+        };
+    } catch (error) {
+        return {
+            ok: false,
+            error: error.message,
+            booker: null
+        };
+    }
+};
 
 // --------------------------------------------------------------------------------------------------------------------------------------
 
