@@ -1,8 +1,14 @@
 import * as _ from "lodash";
 import { Types } from "mongoose";
 import { instanceMethod, InstanceType, pre, prop, Typegoose } from "typegoose";
-import { PricingTypeEnum } from "../types/enums";
-import { Gender, PricingType, RoomCapacity, RoomGender } from "../types/graph";
+import { BookingStatusEnum, PricingTypeEnum } from "../types/enums";
+import {
+    BookingStatus,
+    Gender,
+    PricingType,
+    RoomCapacity,
+    RoomGender
+} from "../types/graph";
 import { GuestModel, GuestSchema } from "./Guest";
 import { RoomGenderEnum, RoomTypeModel, RoomTypeSchema } from "./RoomType";
 
@@ -47,6 +53,9 @@ export class RoomSchema extends Typegoose {
 
     @prop({ min: 0, default: 0 })
     index: number;
+
+    @prop({ default: BookingStatusEnum.COMPLETE, enum: BookingStatusEnum })
+    bookingStatus: BookingStatus;
 
     @prop()
     createdAt: Date;
@@ -137,7 +146,8 @@ export class RoomSchema extends Typegoose {
             },
             end: {
                 $gte: new Date(dateRange.start)
-            }
+            },
+            bookingStatus: BookingStatusEnum.COMPLETE
         };
         if (exceptBookerIds.length !== 0) {
             query.booker = {

@@ -8,6 +8,7 @@ import {
     UpdateBookerResponse
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
+import { removeUndefined } from "../../../utils/objFuncs";
 import { privateResolver } from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
@@ -34,17 +35,19 @@ const resolvers: Resolvers = {
                             bookerInstance = doc;
                         }
                     );
-                    if (params.name) {
+                    if (params.name || params.bookingStatus) {
                         await GuestModel.updateMany(
                             {
                                 booker: new Types.ObjectId(bookerId)
                             },
                             {
-                                name: params.name
+                                $set: removeUndefined({
+                                    name: params.name,
+                                    bookingStatus: params.bookingStatus
+                                })
                             }
                         );
                     }
-                    // 고쳤음
 
                     return {
                         ok: true,

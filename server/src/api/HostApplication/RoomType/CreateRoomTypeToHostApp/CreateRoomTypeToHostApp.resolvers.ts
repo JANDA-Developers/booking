@@ -8,7 +8,7 @@ import {
     CreateRoomTypeToHostAppResponse
 } from "../../../../types/graph";
 import { Resolvers } from "../../../../types/resolvers";
-import privateResolverForHostApp from "../../../../utils/privateResolverForHostApplication";
+import { privateResolverForHostApp } from "../../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Mutation: {
