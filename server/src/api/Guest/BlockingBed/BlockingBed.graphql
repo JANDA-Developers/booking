@@ -1,0 +1,15 @@
+type BlockingBedResponse {
+    ok: Boolean!
+    error: String
+    guest: Guest
+}
+type Mutation {
+    BlockingBed(
+        start: DateTime!
+        end: DateTime!
+        houseId: ID!
+        roomId: ID!
+        bedIndex: Int!
+        blocking: Boolean
+    ): BlockingBedResponse!
+}

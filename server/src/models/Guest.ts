@@ -13,7 +13,7 @@ export class GuestSchema extends Typegoose {
     @prop({ required: true })
     house: Types.ObjectId;
 
-    @prop({ required: true })
+    @prop()
     booker: Types.ObjectId;
 
     @prop()
@@ -30,10 +30,7 @@ export class GuestSchema extends Typegoose {
 
     @prop({
         enum: GenderEnum,
-        default: GenderEnum.MALE,
-        required(this: GuestSchema) {
-            return this.pricingType === "DOMITORY";
-        }
+        default: null
     })
     gender: Gender | null;
 
