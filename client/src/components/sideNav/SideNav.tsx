@@ -43,8 +43,6 @@ const SideNav: React.FC<IProps> = ({
   const isHaveProduct = selectedHouse && selectedHouse.product ? true : false;
   const isRoomTypeMaked = isHouseMaked && !isEmpty(selectedHouse!.roomTypes);
 
-  console.log("selectedHouse");
-  console.log(selectedHouse);
   interface IMenuesItem {
     to: string;
     label: string;
@@ -54,7 +52,7 @@ const SideNav: React.FC<IProps> = ({
   const menues: IMenuesItem[] = [
     {
       to: "/middleServer/assigTimeline",
-      disabled: isRoomTypeMaked,
+      disabled: !isRoomTypeMaked,
       icon: "calendar",
       label: "배정달력"
     },

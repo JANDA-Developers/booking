@@ -75,6 +75,16 @@ interface IProps {
   allocateMu: MutationFn<allocateGuestToRoom, allocateGuestToRoomVariables>;
   updateBookerMu: MutationFn<updateBooker, updateBookerVariables>;
   deleteGuestsMu: MutationFn<deleteGuests, deleteGuestsVariables>;
+  dataTime: {
+    start: number;
+    end: number;
+  };
+  setDataTime: React.Dispatch<
+    React.SetStateAction<{
+      start: number;
+      end: number;
+    }>
+  >;
 }
 export type TToogleCheckIn = (
   guestId?: string | undefined,
@@ -95,7 +105,9 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   windowWidth,
   windowHeight,
   updateBookerMu,
-  deleteGuestsMu
+  deleteGuestsMu,
+  setDataTime,
+  dataTime
 }) => {
   // 임시 마킹 제거
   const isMobile = windowWidth <= EWindowSize.MOBILE;
@@ -580,6 +592,39 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     }
   };
 
+  // 타임라인 이동시
+  const handleTimeChnage = (
+    visibleTimeStart: number,
+    visibleTimeEnd: number,
+    updateScrollCanvas: any
+  ) => {
+    const dataLimitEnd = dataTime.end - TimePerMs.DAY * 20;
+    const dataLimitstart = dataTime.start + TimePerMs.DAY * 10;
+
+    //  뒤로 요청
+    if (visibleTimeStart < dataLimitstart) {
+      const queryStart = visibleTimeStart - TimePerMs.DAY * 60;
+      const queryEnd = visibleTimeEnd + TimePerMs.DAY * 30;
+
+      setDataTime({
+        start: setMidNight(queryStart),
+        end: setMidNight(queryEnd)
+      });
+    }
+
+    //  앞으로 요청
+    if (dataLimitEnd < visibleTimeEnd) {
+      const queryStart = visibleTimeStart - TimePerMs.DAY * 30;
+      const queryEnd = visibleTimeEnd + TimePerMs.DAY * 60;
+
+      setDataTime({
+        start: setMidNight(queryStart),
+        end: setMidNight(queryEnd)
+      });
+    }
+    updateScrollCanvas(visibleTimeStart, visibleTimeEnd);
+  };
+
   // 체크인 투글함수
   const toogleCheckInOut: TToogleCheckIn = async (
     guestId?: string,
@@ -643,14 +688,6 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
       $(`.assigItem--booker${target.bookerId}`).addClass(CLASS_LINKED);
     }
   };
-  // 시간이 변경되었을떄
-  const handleTimeChange = (
-    visibleTimeStart: number,
-    visibleTimeEnd: number,
-    updateScrollCanvas: any
-  ) => {
-    updateScrollCanvas(visibleTimeStart, visibleTimeEnd);
-  };
 
   const timelineClassNames = classnames("assigTimeline", undefined, {
     "assiTimeline--mobile": windowWidth <= 400
@@ -698,7 +735,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
           onItemClick={hanldeItemClick}
           onCanvasDoubleClick={handleCanvasDoubleClick}
           onCanvasClick={handleCanvasClick}
-          onTimeChange={handleTimeChange}
+          onTimeChange={handleTimeChnage}
           itemRenderer={(props: any) =>
             itemRendererFn({...props, clearItem, genderToggle})
           }

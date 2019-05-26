@@ -78,18 +78,6 @@ const ModifyTimeline: React.FC<IProps> = ({
     );
   };
 
-  // date Input 변화시
-  const handleInputDateChange = (start: string, end: string) => {
-    setDataTime({
-      start: moment(end)
-        .subtract(7, "day")
-        .valueOf(),
-      end: moment(end)
-        .add(20, "day")
-        .valueOf()
-    });
-  };
-
   // 가격 인풋 블러시
   const handlePriceBlur = (value: string | null, item: IItem) => {
     const inValue = value ? parseInt(value, 10) : null;

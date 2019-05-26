@@ -294,6 +294,8 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
                         updateBookerMu={updateBookerMu}
                         deleteGuestsMu={deleteGuestMu}
                         defaultTimeEnd={defaultEndDate}
+                        setDataTime={setDataTime}
+                        dataTime={dataTime}
                         key={`timeline${defaultStartDate}${defaultEndDate}${loading &&
                           "loading"}`}
                       />

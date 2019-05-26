@@ -24,9 +24,6 @@ const ReservationWrap: React.SFC<IProps> = ({houseId}) => {
   const addSeasonHook = "";
   // TODO
 
-  /* 아직 가져오는 api가없음 여기다가 해당날자에 가능한 방타입들을 가져오는 쿼리를 날리는거임
- 쿼리 ⛔️아직 없음 */
-
   return (
     <CreatBookingMu
       onError={showError}
