@@ -10,10 +10,18 @@ import {
   showError,
   onCompletedMessage
 } from "../../../utils/utils";
-import {createBooker, createBookerVariables} from "../../../types/api";
-import {CREATE_BOOKING} from "../../../queries";
+import {
+  createBooker,
+  createBookerVariables,
+  createBookerForBooker,
+  createBookerForBookerVariables
+} from "../../../types/api";
+import {CREATE_BOOKING, CREATE_BOOKING_FOR_BOOKER} from "../../../queries";
 
-class CreatBookingMu extends Mutation<createBooker, createBookerVariables> {}
+class CreatBookingMu extends Mutation<
+  createBookerForBooker,
+  createBookerForBookerVariables
+> {}
 
 interface IProps {
   houseId: string;
@@ -27,11 +35,11 @@ const ReservationWrap: React.SFC<IProps> = ({houseId}) => {
   return (
     <CreatBookingMu
       onError={showError}
-      onCompleted={({CreateBooker}) => {
-        onCompletedMessage(CreateBooker, "예약완료", "예약실패");
+      onCompleted={({CreateBookerForBooker}) => {
+        onCompletedMessage(CreateBookerForBooker, "예약완료", "예약실패");
         // Redirect 는 IFram 이 밖에 있어야가능하므로 일단생략
       }}
-      mutation={CREATE_BOOKING}
+      mutation={CREATE_BOOKING_FOR_BOOKER}
     >
       {createBookerMu => (
         <Reservation

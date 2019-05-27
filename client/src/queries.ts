@@ -419,6 +419,43 @@ export const GET_GUESTS = gql`
   ${F_GUEST}
 `;
 
+export const GET_AVAILABLE_GUEST_COUNT_FOR_BOOKER = gql`
+  query getAvailableGuestCountForBooker(
+    $roomTypeId: ID!
+    $start: DateTime!
+    $end: DateTime!
+    $femalePadding: Int!
+    $malePadding: Int!
+  ) {
+    GetMale: GetAvailableGuestCountForBooker(
+      roomTypeId: $roomTypeId
+      start: $start
+      end: $end
+      gender: MALE
+      paddingOtherGenderCount: $femalePadding
+    ) {
+      ok
+      error
+      roomCapacity {
+        ...FroomTypeCapacity
+      }
+    }
+    GetFemale: GetAvailableGuestCountForBooker(
+      roomTypeId: $roomTypeId
+      start: $start
+      end: $end
+      gender: FEMALE
+      paddingOtherGenderCount: $malePadding
+    ) {
+      ok
+      error
+      roomCapacity {
+        ...FroomTypeCapacity
+      }
+    }
+  }
+`;
+
 export const GET_AVAILABLE_GUEST_COUNT = gql`
   query getAvailableGuestCount(
     $roomTypeId: ID!
@@ -457,33 +494,76 @@ export const GET_AVAILABLE_GUEST_COUNT = gql`
   ${F_ROOM_CAPACITY}
 `;
 
-export const GET_ALL_ROOMTYPES = gql`
-  query getAllRoomType($houseId: ID!) {
-    GetAllRoomType(houseId: $houseId) {
-      ok
-      error
-      roomTypes {
-        ...FminiRoomType
-        pricingType
-        peopleCount
-        peopleCountMax
-        roomGender
-        roomCount
+const sharedGetAllRoomType = gql`
+  fragment FsharedGetAllRoomType on GetAllRoomTypeResponse {
+    ok
+    error
+    roomTypes {
+      ...FminiRoomType
+      pricingType
+      peopleCount
+      peopleCountMax
+      roomGender
+      roomCount
+      createdAt
+      defaultPrice
+      updatedAt
+      img
+      rooms {
+        _id
+        name
+        index
         createdAt
-        defaultPrice
         updatedAt
-        img
-        rooms {
-          _id
-          name
-          index
-          createdAt
-          updatedAt
-        }
       }
     }
   }
   ${F_MINI_ROOM_TYPE}
+`;
+
+export const GET_ALL_ROOM_TYPE_FOR_BOOKER = gql`
+  query getAllRoomTypeForBooker {
+    GetAllRoomTypeForBooker {
+      ...FsharedGetAllRoomType
+    }
+  }
+  ${sharedGetAllRoomType}
+`;
+
+export const GET_ALL_ROOMTYPES = gql`
+  query getAllRoomType($houseId: ID!) {
+    GetAllRoomType(houseId: $houseId) {
+      ...FsharedGetAllRoomType
+    }
+  }
+  ${sharedGetAllRoomType}
+`;
+
+export const BLOCKING_BED = gql`
+  mutation blockingBed(
+    $start: DateTime!
+    $end: DateTime!
+    $houseId: ID!
+    $roomId: ID!
+    $bedIndex: Int!
+    $blocking: Boolean
+  ) {
+    BlockingBed(
+      start: $start
+      end: $end
+      houseId: $houseId
+      roomId: $roomId
+      bedIndex: $bedIndex
+      blocking: $blocking
+    ) {
+      ok
+      error
+      guest {
+        ...Fguest
+      }
+    }
+  }
+  ${F_GUEST}
 `;
 
 export const FIND_BOOKER = gql`
@@ -613,6 +693,48 @@ export const GET_USER_FOR_SU = gql`
   ${F_USER_INFO}
 `;
 
+const sharedGetAppliedPriceWithDateRange = gql`
+  fragment FsharedGetAppliedPriceWithDateRange on GetAppliedPriceWithDateRangeResponse {
+    ok
+    error
+    seasonPrices {
+      season {
+        start
+        end
+      }
+      defaultPrice
+      dayOfWeekPrices {
+        price
+        applyDays
+      }
+    }
+    roomPrices {
+      _id
+      price
+      date
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const GET_APPLIED_PRICE_WITH_DATE_RANGE_FOR_BOOKER = gql`
+  query getAppliedPriceWithDateRangeForBooker(
+    $roomTypeId: ID!
+    $start: DateTime!
+    $end: DateTime!
+  ) {
+    GetAppliedPriceWithDateRangeForBooker(
+      roomTypeId: $roomTypeId
+      start: $start
+      end: $end
+    ) {
+      ...FsharedGetAppliedPriceWithDateRange
+    }
+  }
+  ${sharedGetAppliedPriceWithDateRange}
+`;
+
 export const GET_APPLIED_PRICE_WITH_DATE = gql`
   query getAppliedPriceWithDateRange(
     $roomTypeId: ID!
@@ -624,28 +746,10 @@ export const GET_APPLIED_PRICE_WITH_DATE = gql`
       start: $start
       end: $end
     ) {
-      ok
-      error
-      seasonPrices {
-        season {
-          start
-          end
-        }
-        defaultPrice
-        dayOfWeekPrices {
-          price
-          applyDays
-        }
-      }
-      roomPrices {
-        _id
-        price
-        date
-        createdAt
-        updatedAt
-      }
+      ...FsharedGetAppliedPriceWithDateRange
     }
   }
+  ${sharedGetAppliedPriceWithDateRange}
 `;
 
 // 모든 방타입 가져오기
@@ -814,6 +918,15 @@ export const UPDATE_BOOKER = gql`
 export const DELETE_GUEST = gql`
   mutation deleteGuests($guestIds: [ID!]) {
     DeleteGuests(guestIds: $guestIds) {
+      ok
+      error
+    }
+  }
+`;
+
+export const CREATE_BOOKING_FOR_BOOKER = gql`
+  mutation createBookerForBooker($bookingParams: CreateBookerParams!) {
+    CreateBookerForBooker(bookingParams: $bookingParams) {
       ok
       error
     }

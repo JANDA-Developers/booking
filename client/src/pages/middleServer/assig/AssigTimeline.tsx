@@ -45,7 +45,9 @@ import {
   updateBooker,
   updateBookerVariables,
   deleteGuests,
-  deleteGuestsVariables
+  deleteGuestsVariables,
+  blockingBed,
+  blockingBedVariables
 } from "../../../types/api";
 import itemRendererFn, {
   CLASS_LINKED,
@@ -58,6 +60,7 @@ import MakeItemMenu from "./components/makeItemMenu";
 import {DEFAULT_ASSIGITEM} from "../../../types/defaults";
 import {JDtoastModal} from "../../../atoms/modal/Modal";
 import moment from "moment-timezone";
+import {setYYYYMMDD} from "../../../utils/setMidNight";
 
 // Temp 마킹용이 있는지
 let MARKED = false;
@@ -76,6 +79,7 @@ interface IProps {
   allocateMu: MutationFn<allocateGuestToRoom, allocateGuestToRoomVariables>;
   updateBookerMu: MutationFn<updateBooker, updateBookerVariables>;
   deleteGuestsMu: MutationFn<deleteGuests, deleteGuestsVariables>;
+  blockingBedMu: MutationFn<blockingBed, blockingBedVariables>;
   dataTime: {
     start: number;
     end: number;
@@ -108,7 +112,8 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   updateBookerMu,
   deleteGuestsMu,
   setDataTime,
-  dataTime
+  dataTime,
+  blockingBedMu
 }) => {
   // 임시 마킹 제거
   const isMobile = windowWidth <= EWindowSize.MOBILE;
@@ -121,12 +126,13 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     groupId: ""
   });
 
-  console.log(loading);
-  console.log(loading);
-  console.log(loading);
-  console.log(loading);
-  console.log(loading);
-  console.log(loading);
+  const findItemById = (guestId: string) => {
+    const targetGuest = guestValue.find(guest => guest.id === guestId);
+    if (!targetGuest)
+      throw new Error("해당하는 게스트를 찾을수 없습니다. findItemById");
+    return targetGuest;
+  };
+
   // 툴팁들을 제거하고
   const handleWindowClickEvent = () => {
     if (MARKED) {
@@ -285,8 +291,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   };
 
   const handleItemDoubleClick = (itemId: any, e: any, time: any) => {
-    const target = guestValue.find(guest => guest.id === itemId);
-    if (!target) return;
+    const target = findItemById(itemId);
     if (target.type === "block") return;
     // if (target.type === "normal")
     // bookerModal.openModal({bookerId: target.bookerId});
@@ -365,22 +370,42 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     setGuestValue([...guestValue]);
   };
 
-  //  캔버스에 블럭 추가
-  const addBlock = (time: number, groupId: string) => {
-    guestValue.push({
-      ...defaultItemProps,
-      type: "block",
-      id: `block${time}${groupId}`,
-      start: time,
-      end: time + TimePerMs.DAY,
-      group: groupId
+  //  방막기
+  const addBlock = async (time: number, groupId: string) => {
+    const targetGroup = groupData.find(group => group.id === groupId);
+    if (!targetGroup) throw Error("그룹 아이디가 그룹데이터안에 없습니다.");
+    const result = await blockingBedMu({
+      variables: {
+        start: moment(time).toDate(),
+        end: moment(time + TimePerMs.DAY).toDate(),
+        houseId: houseId,
+        roomId: targetGroup.roomId,
+        bedIndex: targetGroup.bedIndex
+      }
     });
+
+    if (
+      result &&
+      result.data &&
+      result.data.BlockingBed.ok &&
+      result.data.BlockingBed.guest
+    ) {
+      guestValue.push({
+        ...defaultItemProps,
+        bedIndex: targetGroup.bedIndex,
+        type: "block",
+        id: result.data.BlockingBed.guest._id,
+        start: time,
+        end: time + TimePerMs.DAY,
+        group: groupId
+      });
+    }
     setGuestValue([...guestValue]);
   };
 
   // Id 로 게스트 찾아서 투글해주는 함수
   const genderToggle = (guestId: string) => {
-    const targetGuest = guestValue.find(guest => guest.id === guestId);
+    const targetGuest = findItemById(guestId);
     if (targetGuest)
       targetGuest.gender =
         targetGuest.gender === Gender.FEMALE ? Gender.MALE : Gender.FEMALE;
@@ -567,11 +592,35 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   };
 
   // 핸들 아이템 리사이즈시 (마우스 놓아야 호출됨)
-  const handleItemResize = (
+  const handleItemResize = async (
     itemId: string,
     time: number,
     edge: "left" | "right"
-  ) => {};
+  ) => {
+    const targetGuest = findItemById(itemId);
+    if (targetGuest.type === "block") {
+      const result = await blockingBedMu({
+        variables: {
+          bedIndex: targetGuest.bedIndex,
+          end: targetGuest.end,
+          houseId: houseId,
+          roomId: targetGuest.roomId,
+          start: time
+        }
+      });
+      if (
+        result &&
+        result.data &&
+        result.data.BlockingBed.ok &&
+        result.data.BlockingBed.guest
+      ) {
+        targetGuest.end = result.data.BlockingBed.guest.end;
+        setGuestValue([...guestValue, targetGuest]);
+      } else {
+        throw new Error("result값이 정확하지않음");
+      }
+    }
+  };
 
   // 핸들 아이템 클릭
   const hanldeItemClick = async (
@@ -579,9 +628,8 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     e: React.MouseEvent<HTMLElement>,
     time: number
   ) => {
-    const target = guestValue.find(guest => guest.id === itemId);
+    const target = findItemById(itemId);
 
-    if (!target) return;
     if (target.bookerId === "block") return;
 
     if (isMobile) {

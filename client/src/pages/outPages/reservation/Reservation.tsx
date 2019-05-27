@@ -14,7 +14,10 @@ import {
   getAllRoomTypeVariables,
   createBooker,
   BookerInput,
-  createBookerVariables
+  createBookerVariables,
+  createBookerForBooker,
+  createBookerForBookerVariables,
+  getAllRoomTypeForBooker
 } from "../../../types/api";
 import ResvRoomSelectInfo from "../components/resvRoomSelectInfo";
 import PayMentModal from "../components/paymentModal";
@@ -25,18 +28,21 @@ import {JDtoastModal} from "../../../atoms/modal/Modal";
 import {IRoomType} from "../../../types/interface";
 import {WindowSize} from "../../../types/enum";
 import {setYYYYMMDD} from "../../../utils/setMidNight";
-import {GET_ALL_ROOMTYPES} from "../../../queries";
+import {
+  GET_ALL_ROOMTYPES,
+  GET_ALL_ROOM_TYPE_FOR_BOOKER
+} from "../../../queries";
 import Preloader from "../../../atoms/preloader/Preloader";
 
-class GetAllAvailRoomQu extends Query<
-  getAllRoomType,
-  getAllRoomTypeVariables
-> {}
+class GetAllAvailRoomQu extends Query<getAllRoomTypeForBooker> {}
 export interface ISetBookerInfo
   extends React.Dispatch<React.SetStateAction<BookerInput>> {}
 
 interface IProps {
-  createBookerMu: MutationFn<createBooker, createBookerVariables>;
+  createBookerMu: MutationFn<
+    createBookerForBooker,
+    createBookerForBookerVariables
+  >;
   houseId: string;
 }
 
@@ -115,6 +121,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
 
   console.log("bookingParams");
   console.log(bookingParams);
+
   const bookingCompleteFn = () => {
     if (bookerInfoValidation()) {
       createBookerMu({
@@ -149,14 +156,13 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
 
             <GetAllAvailRoomQu
               skip={!dayPickerHook.from || !dayPickerHook.to}
-              variables={{houseId}}
-              query={GET_ALL_ROOMTYPES}
+              query={GET_ALL_ROOM_TYPE_FOR_BOOKER}
             >
               {({data: roomTypeData, loading: roomLoading, error}) => {
                 showError(error);
                 const roomTypes = queryDataFormater(
                   roomTypeData,
-                  "GetAllRoomType",
+                  "GetAllRoomTypeForBooker",
                   "roomTypes",
                   undefined
                 );

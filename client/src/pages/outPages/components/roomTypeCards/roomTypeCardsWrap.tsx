@@ -14,11 +14,16 @@ import {
   getAvailableGuestCountVariables,
   getAppliedPriceWithDateRange,
   getAppliedPriceWithDateRangeVariables,
-  BookerInput
+  BookerInput,
+  getAvailableGuestCountForBooker,
+  getAvailableGuestCountForBookerVariables,
+  getAppliedPriceWithDateRangeForBooker,
+  getAppliedPriceWithDateRangeForBookerVariables
 } from "../../../../types/api";
 import {
   GET_AVAILABLE_GUEST_COUNT,
-  GET_APPLIED_PRICE_WITH_DATE
+  GET_APPLIED_PRICE_WITH_DATE,
+  GET_APPLIED_PRICE_WITH_DATE_RANGE_FOR_BOOKER
 } from "../../../../queries";
 import {IUseModal, IUseDayPicker} from "../../../../actions/hook";
 import {setYYYYMMDD} from "../../../../utils/setMidNight";
@@ -26,12 +31,12 @@ import {IRoomType} from "../../../../types/interface";
 import {truePriceFinder} from "../../../../utils/booking";
 
 class GetAvailGuestCountQu extends Query<
-  getAvailableGuestCount,
-  getAvailableGuestCountVariables
+  getAvailableGuestCountForBooker,
+  getAvailableGuestCountForBookerVariables
 > {}
 class GetAppliedPriceWithDate extends Query<
-  getAppliedPriceWithDateRange,
-  getAppliedPriceWithDateRangeVariables
+  getAppliedPriceWithDateRangeForBooker,
+  getAppliedPriceWithDateRangeForBookerVariables
 > {}
 
 export interface IGuestCount {
@@ -115,18 +120,18 @@ const RoomTypeCardsWrap: React.SFC<IProps> = ({
               start: dayPickerHook.from,
               roomTypeId: roomTypeData._id
             }}
-            query={GET_APPLIED_PRICE_WITH_DATE}
+            query={GET_APPLIED_PRICE_WITH_DATE_RANGE_FOR_BOOKER}
           >
             {({data: priceData, loading, error}) => {
               const seasonPrices = queryDataFormater(
                 priceData,
-                "GetAppliedPriceWithDateRange",
+                "GetAppliedPriceWithDateRangeForBooker",
                 "seasonPrices",
                 undefined
               );
               const specificPrices = queryDataFormater(
                 priceData,
-                "GetAppliedPriceWithDateRange",
+                "GetAppliedPriceWithDateRangeForBooker",
                 "roomPrices",
                 undefined
               );

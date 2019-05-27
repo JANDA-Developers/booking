@@ -14,7 +14,9 @@ import {
   deleteBooker,
   deleteBookerVariables,
   deleteGuests,
-  deleteGuestsVariables
+  deleteGuestsVariables,
+  blockingBed,
+  blockingBedVariables
 } from "../../../types/api";
 import {useToggle, useDayPicker} from "../../../actions/hook";
 import {IRoomType, IGuests} from "../../../types/interface";
@@ -31,7 +33,8 @@ import {
   GET_ALL_ROOMTYPES_WITH_GUESTS,
   ALLOCATE_GUEST_TO_ROOM,
   UPDATE_BOOKER,
-  DELETE_GUEST
+  DELETE_GUEST,
+  BLOCKING_BED
 } from "../../../queries";
 import AssigTimeline from "./AssigTimeline";
 import {setYYYYMMDD, parallax} from "../../../utils/setMidNight";
@@ -40,6 +43,7 @@ import {roomDataManufacture} from "./components/groupDataMenufacture";
 moment.tz.setDefault("UTC");
 
 class UpdateBookerMu extends Mutation<updateBooker, updateBookerVariables> {}
+class BlockingBedMu extends Mutation<blockingBed, blockingBedVariables> {}
 
 export interface IAssigGroup {
   id: string;
@@ -215,13 +219,6 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
       variables={updateVariables}
     >
       {({data, loading, error}) => {
-        console.log(loading);
-        console.log(loading);
-        console.log(loading);
-        console.log(loading);
-        console.log(loading);
-        console.log(loading);
-        console.log(loading);
         showError(error);
         const roomTypesData = queryDataFormater(
           data,
@@ -236,9 +233,6 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
           "guests",
           undefined
         ); // 원본데이터
-
-        console.log("guestsData");
-        console.log(guestsData);
 
         const formatedRoomData = roomDataManufacture(roomTypesData); // 타임라인을 위해 가공된 데이터
         const formatedGuestsData = guestsDataManufacture(guestsData); // 타임라인을 위해 가공된 데이터
@@ -294,24 +288,38 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
                     onError={showError}
                   >
                     {deleteGuestMu => (
-                      <AssigTimeline
-                        houseId={houseId}
-                        loading={loading}
-                        groupData={formatedRoomData}
-                        deafultGuestsData={formatedGuestsData || []}
-                        dayPickerHook={dayPickerHook}
-                        defaultProps={assigDefaultProps}
-                        allocateMu={allocateMu}
-                        roomTypesData={roomTypesData || []}
-                        defaultTimeStart={defaultStartDate}
-                        updateBookerMu={updateBookerMu}
-                        deleteGuestsMu={deleteGuestMu}
-                        defaultTimeEnd={defaultEndDate}
-                        setDataTime={setDataTime}
-                        dataTime={dataTime}
-                        key={`timeline${defaultStartDate}${defaultEndDate}${guestsData &&
-                          guestsData.length}`}
-                      />
+                      <BlockingBedMu
+                        onCompleted={({BlockingBed}) => {
+                          onCompletedMessage(
+                            BlockingBed,
+                            "방막기 완료",
+                            "방막기 실패"
+                          );
+                        }}
+                        mutation={BLOCKING_BED}
+                      >
+                        {blockingBedMu => (
+                          <AssigTimeline
+                            houseId={houseId}
+                            loading={loading}
+                            groupData={formatedRoomData}
+                            deafultGuestsData={formatedGuestsData || []}
+                            dayPickerHook={dayPickerHook}
+                            defaultProps={assigDefaultProps}
+                            allocateMu={allocateMu}
+                            roomTypesData={roomTypesData || []}
+                            defaultTimeStart={defaultStartDate}
+                            updateBookerMu={updateBookerMu}
+                            deleteGuestsMu={deleteGuestMu}
+                            blockingBedMu={blockingBedMu}
+                            defaultTimeEnd={defaultEndDate}
+                            setDataTime={setDataTime}
+                            dataTime={dataTime}
+                            key={`timeline${defaultStartDate}${defaultEndDate}${guestsData &&
+                              guestsData.length}`}
+                          />
+                        )}
+                      </BlockingBedMu>
                     )}
                   </DeleteGuestMu>
                 )}
