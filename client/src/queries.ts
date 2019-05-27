@@ -396,7 +396,7 @@ export const GET_HOUSE = gql`
   }
 `;
 
-export const GetGuests = gql`
+export const GET_GUESTS = gql`
   query getGuests($start: DateTime!, $end: DateTime!, $houseId: ID!) {
     GetGuests(start: $start, end: $end, houseId: $houseId) {
       ok
@@ -807,12 +807,8 @@ export const UPDATE_BOOKER = gql`
     UpdateBooker(bookerId: $bookerId, params: $params) {
       ok
       error
-      booker {
-        ...Fbooker
-      }
     }
   }
-  ${F_BOOKER}
 `;
 
 export const DELETE_GUEST = gql`
@@ -829,8 +825,16 @@ export const CREATE_BOOKING = gql`
     CreateBooker(bookingParams: $bookingParams) {
       ok
       error
+      booker {
+        ...Fbooker
+        guests {
+          ...Fguest
+        }
+      }
     }
   }
+  ${F_BOOKER}
+  ${F_GUEST}
 `;
 
 export const ALLOCATE_GUEST_TO_ROOM = gql`

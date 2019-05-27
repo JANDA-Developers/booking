@@ -38,7 +38,9 @@ import {
   deleteBooker,
   deleteBookerVariables,
   createBooker,
-  createBookerVariables
+  createBookerVariables,
+  allocateGuestToRoom,
+  allocateGuestToRoomVariables
 } from "../../types/api";
 import {GET_ALL_ROOMTYPES_WITH_GUESTS} from "../../queries";
 import {IAssigInfo} from "../../pages/middleServer/assig/components/makeItemMenu";
@@ -58,7 +60,11 @@ interface IProps {
   createBookerMu: MutationFn<createBooker, createBookerVariables>;
   updateBookerMu: MutationFn<updateBooker, updateBookerVariables>;
   deleteBookerMu: MutationFn<deleteBooker, deleteBookerVariables>;
-  assigInfo: IAssigInfo;
+  allocateGuestToRoomMu: MutationFn<
+    allocateGuestToRoom,
+    allocateGuestToRoomVariables
+  >;
+  assigInfo: IAssigInfo[];
   houseId: string;
   type?: BookerModalType;
 }
@@ -69,6 +75,7 @@ const POPbookerInfo: React.FC<IProps> = ({
   updateBookerMu,
   createBookerMu,
   deleteBookerMu,
+  allocateGuestToRoomMu,
   assigInfo,
   type = BookerModalType.LOOKUP,
   houseId
@@ -97,7 +104,6 @@ const POPbookerInfo: React.FC<IProps> = ({
     moment(bookerData.start).toDate(),
     moment(bookerData.end).toDate()
   );
-
   const defaultFormat: IroomSelectInfoTable[] = getRoomTypePerGuests(
     bookerData
   );
@@ -105,11 +111,14 @@ const POPbookerInfo: React.FC<IProps> = ({
   // 예약삭제
   const handleDeletBtnClick = () => {
     confirmModalHook.openModal("정말 예약을 삭제하시겠습니까?");
-    modalHook.closeModal();
   };
 
   const deleteModalCallBackFn = (confirm: boolean) => {
     if (confirm) {
+      console.log("뀨? 딜리뀨?");
+      console.log("뀨? 딜리뀨?");
+      console.log("뀨? 딜리뀨?");
+      console.log("뀨? 딜리뀨?");
       deleteBookerMu({
         variables: {
           bookerId: modalHook.info.bookerId
@@ -118,10 +127,10 @@ const POPbookerInfo: React.FC<IProps> = ({
     }
   };
   // 예약생성
-  const handleCreateBtnClick = () => {
+  const handleCreateBtnClick = async () => {
     if (!bookerData.roomTypes) return;
 
-    createBookerMu({
+    const result = await createBookerMu({
       variables: {
         bookingParams: {
           start: resvDateHook.from,
@@ -147,8 +156,27 @@ const POPbookerInfo: React.FC<IProps> = ({
         }
       }
     });
-  };
+    if (result && result.data && result.data.CreateBooker.ok) {
+      const newGuests = result.data.CreateBooker.booker;
+      if (newGuests && newGuests.guests) {
+        newGuests.guests.forEach((guest, index) => {
+          const assigIndex = assigInfo.findIndex(
+            assig => assig.gender === guest.gender
+          );
 
+          allocateGuestToRoomMu({
+            variables: {
+              bedIndex: assigInfo[assigIndex].bedIndex,
+              guestId: guest._id,
+              roomId: assigInfo[assigIndex].roomId
+            }
+          });
+
+          assigInfo.splice(assigIndex, 1);
+        });
+      }
+    }
+  };
   // 예약수정
   // 👿 modify 를 전부 update로 변경하자.
   const handleUpdateBtnClick = () => {

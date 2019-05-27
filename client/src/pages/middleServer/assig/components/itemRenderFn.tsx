@@ -57,9 +57,11 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
     "assigItem--mark": item.type === "mark",
     "assigItem--make": item.type === "make"
   });
+
   const props = getItemProps({
     className: classNames
   });
+
   /* getItemProps에 다양한 스타일 속성을 오버라이드 하기를 권장합니다. */
   props.style = {
     ...props.style,
@@ -116,6 +118,7 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
                   data-place="top"
                   data-for="itemTooltip"
                   data-event="click"
+                  id={`assigItem__configIconWrapId${item.id}`}
                   className="assigItem__configIconWrap"
                 >
                   <JDIcon icon="config" size={IconSize.MEDEIUM_SMALL} />
@@ -128,7 +131,8 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
                 {"자리막음"}
                 <CircleIcon wave thema="white">
                   <JDIcon
-                    onClick={() => {
+                    onClick={e => {
+                      e.preventDefault();
                       clearItem(item.id);
                     }}
                     icon="clear"

@@ -154,7 +154,7 @@ const ResvList: React.SFC<IProps> = ({
       Cell: ({value, original}: CellInfo) => {
         const roomTypes: IRoomType[] = value;
         return roomTypes.map(roomType => (
-          <JDbox>
+          <JDbox key={`${original._id}${roomType._id}`}>
             {roomType.name}
             <br />
             <span>

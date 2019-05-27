@@ -30,7 +30,9 @@ import {
   CREATE_BOOKING,
   DELETE_BOOKER,
   GET_BOOKERS,
-  ALLOCATE_GUEST_TO_ROOM
+  ALLOCATE_GUEST_TO_ROOM,
+  GET_GUESTS,
+  GET_ALL_ROOMTYPES_WITH_GUESTS
 } from "../../queries";
 import {
   PayMethod,
@@ -121,7 +123,13 @@ const BookerModalWrap: React.FC<IProps> = ({modalHook, houseId}) => (
       return loading ? (
         <Preloader size="large" />
       ) : (
-        <AllocateGuestToRoomMu mutation={ALLOCATE_GUEST_TO_ROOM}>
+        <AllocateGuestToRoomMu
+          refetchQueries={[
+            getOperationName(GET_BOOKERS) || "",
+            getOperationName(GET_ALL_ROOMTYPES_WITH_GUESTS) || ""
+          ]}
+          mutation={ALLOCATE_GUEST_TO_ROOM}
+        >
           {allocateGuestToRoomMu => (
             <UpdateBookerMu
               mutation={UPDATE_BOOKER}
@@ -159,7 +167,10 @@ const BookerModalWrap: React.FC<IProps> = ({modalHook, houseId}) => (
                     <DeleteBookerMu
                       mutation={DELETE_BOOKER}
                       onError={showError}
-                      refetchQueries={[getOperationName(GET_BOOKERS) || ""]}
+                      refetchQueries={[
+                        getOperationName(GET_BOOKERS) || "",
+                        getOperationName(GET_ALL_ROOMTYPES_WITH_GUESTS) || ""
+                      ]}
                       onCompleted={({DeleteBooker}) => {
                         onCompletedMessage(
                           DeleteBooker,
@@ -172,16 +183,14 @@ const BookerModalWrap: React.FC<IProps> = ({modalHook, houseId}) => (
                       {deleteBookerMu => (
                         <BookerModal
                           bookerData={booker || makeInfo || DEFAULT_BOOKER}
-                          assigInfo={
-                            modalHook.info.makeInfo &&
-                            modalHook.info.makeInfo.assigInfo
-                          }
+                          assigInfo={modalHook.info.assigInfo}
                           type={modalHook.info.type}
                           houseId={houseId}
                           modalHook={modalHook}
                           createBookerMu={createBookerMu}
                           updateBookerMu={updateBookerMu}
                           deleteBookerMu={deleteBookerMu}
+                          allocateGuestToRoomMu={allocateGuestToRoomMu}
                           key={`bookerModal${modalHook.info.bookerId}${
                             modalHook.info.type
                           }`}

@@ -1,5 +1,7 @@
 import React from "react";
-import TooltipList from "../../../../atoms/tooltipList/TooltipList";
+import TooltipList, {
+  ReactTooltip
+} from "../../../../atoms/tooltipList/TooltipList";
 import Button from "../../../../atoms/button/Button";
 import {TToogleCheckIn} from "../AssigTimeline";
 import {IUseModal} from "../../../../actions/hook";
@@ -28,7 +30,10 @@ const ItemMenu: React.FC<IProps> = ({
           <ul>
             <li>
               <Button
-                onClick={() => toogleCheckInOut(guestId)}
+                onClick={() => {
+                  ReactTooltip.hide();
+                  toogleCheckInOut(guestId);
+                }}
                 label={targetGuest.isCheckin ? "체크아웃" : "체크인"}
                 mode="flat"
                 color="white"
@@ -39,7 +44,10 @@ const ItemMenu: React.FC<IProps> = ({
         </li> */}
             <li>
               <Button
-                onClick={() => deleteGuest(guestId)}
+                onClick={() => {
+                  ReactTooltip.hide();
+                  deleteGuest(guestId);
+                }}
                 label="삭제"
                 mode="flat"
                 color="white"
@@ -47,9 +55,10 @@ const ItemMenu: React.FC<IProps> = ({
             </li>
             <li>
               <Button
-                onClick={() =>
-                  bookerModalHook.openModal({bookerId: targetGuest.bookerId})
-                }
+                onClick={() => {
+                  ReactTooltip.hide();
+                  bookerModalHook.openModal({bookerId: targetGuest.bookerId});
+                }}
                 label="정보보기"
                 mode="flat"
                 color="white"

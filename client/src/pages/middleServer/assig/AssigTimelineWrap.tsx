@@ -120,12 +120,12 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
     dayPickerHook.from
       ? setMidNight(
           moment(dayPickerHook.from)
-            .add(7, "days")
+            .add(10, "days")
             .valueOf()
         )
       : setMidNight(
           moment()
-            .add(7, "days")
+            .add(10, "days")
             .valueOf()
         )
   );
@@ -209,11 +209,19 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
 
   return (
     <GetAllRoomTypeWithGuestQuery
-      fetchPolicy="cache-and-network"
+      fetchPolicy="network-only"
+      notifyOnNetworkStatusChange={true}
       query={GET_ALL_ROOMTYPES_WITH_GUESTS}
       variables={updateVariables}
     >
       {({data, loading, error}) => {
+        console.log(loading);
+        console.log(loading);
+        console.log(loading);
+        console.log(loading);
+        console.log(loading);
+        console.log(loading);
+        console.log(loading);
         showError(error);
         const roomTypesData = queryDataFormater(
           data,
@@ -221,12 +229,17 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
           "roomTypes",
           undefined
         ); // 원본데이터
+
         const guestsData = queryDataFormater(
           data,
           "GetGuests",
           "guests",
           undefined
         ); // 원본데이터
+
+        console.log("guestsData");
+        console.log(guestsData);
+
         const formatedRoomData = roomDataManufacture(roomTypesData); // 타임라인을 위해 가공된 데이터
         const formatedGuestsData = guestsDataManufacture(guestsData); // 타임라인을 위해 가공된 데이터
 
@@ -296,8 +309,8 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
                         defaultTimeEnd={defaultEndDate}
                         setDataTime={setDataTime}
                         dataTime={dataTime}
-                        key={`timeline${defaultStartDate}${defaultEndDate}${loading &&
-                          "loading"}`}
+                        key={`timeline${defaultStartDate}${defaultEndDate}${guestsData &&
+                          guestsData.length}`}
                       />
                     )}
                   </DeleteGuestMu>

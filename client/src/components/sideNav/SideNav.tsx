@@ -134,8 +134,10 @@ const SideNav: React.FC<IProps> = ({
         </div>
         {/* 리스트 컨테이너 */}
         <div className="JDsideNav__listContainer">
-          {sortedMenues.map(menu => (
+          {sortedMenues.map((menu, index) => (
             <NavLink
+              // 👿 Id로 쓸만한거없나
+              key={menu.to + index}
               to={menu.to}
               onClick={e => {
                 handleClickNavLInk(e, menu.disabled);

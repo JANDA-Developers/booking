@@ -36,7 +36,7 @@ const MakeItemMenu: React.FC<IProps> = ({
   guestValue,
   groupData
 }) => (
-  <div className="makeTooltip tooltipList" id="makeTooltip">
+  <div className="assig__tooltips makeTooltip tooltipList" id="makeTooltip">
     <ul>
       <li>
         <Button

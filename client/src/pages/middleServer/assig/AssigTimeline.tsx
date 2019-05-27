@@ -57,6 +57,7 @@ import CanvasMenu, {ICanvasMenuProps} from "./components/canvasMenu";
 import MakeItemMenu from "./components/makeItemMenu";
 import {DEFAULT_ASSIGITEM} from "../../../types/defaults";
 import {JDtoastModal} from "../../../atoms/modal/Modal";
+import moment from "moment-timezone";
 
 // Temp 마킹용이 있는지
 let MARKED = false;
@@ -120,6 +121,12 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     groupId: ""
   });
 
+  console.log(loading);
+  console.log(loading);
+  console.log(loading);
+  console.log(loading);
+  console.log(loading);
+  console.log(loading);
   // 툴팁들을 제거하고
   const handleWindowClickEvent = () => {
     if (MARKED) {
@@ -281,13 +288,14 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     const target = guestValue.find(guest => guest.id === itemId);
     if (!target) return;
     if (target.type === "block") return;
-    if (target.type === "normal")
-      // if (target.type === "make")
-      // bookerModal.openModal({bookerId: target.bookerId});
+    // if (target.type === "normal")
+    // bookerModal.openModal({bookerId: target.bookerId});
+    if (target.type === "make") {
       $("#makeTooltip")
         .css("left", e.clientX)
         .css("top", e.clientY)
         .addClass("makeTooltip--show");
+    }
   };
 
   // 시간을 받아서 게스트들중 그시간대에 있는 게스트들을 반환함
@@ -496,16 +504,20 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     time: number,
     resizeEdge: "left" | "right" | undefined
   ): number => {
+    ReactTooltip.hide();
     if (action === "resize") {
       // 최소 아이템줌 설정
       if (item.start >= time) return item.end;
-      if (setMidNight(new Date().getTime()) >= time) return item.end;
+      if (setMidNight(Date.now()) >= time) return item.end;
 
       resizeValidater(item, time);
       resizeLinkedItems(item.bookerId, time);
     }
 
     if (action === "move") {
+      if (item.start < setMidNight(moment().valueOf())) {
+        return setMidNight(moment().valueOf());
+      }
       $(`.assigItem--booker${item.bookerId}`).addClass(CLASS_MOVING);
       $(`#assigItem--guest${item.id}`).removeClass(CLASS_MOVING);
 
@@ -592,12 +604,18 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     }
   };
 
+  const allTooltipsHide = () => {
+    ReactTooltip.hide();
+    $(".canvasTooltip").removeClass("canvasTooltip--show");
+    $(".makeTooltip").removeClass("makeTooltip--show");
+  };
   // 타임라인 이동시
   const handleTimeChnage = (
     visibleTimeStart: number,
     visibleTimeEnd: number,
     updateScrollCanvas: any
   ) => {
+    allTooltipsHide();
     const dataLimitEnd = dataTime.end - TimePerMs.DAY * 20;
     const dataLimitstart = dataTime.start + TimePerMs.DAY * 10;
 
@@ -741,7 +759,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
           }
           groupRenderer={assigGroupRendererFn}
           defaultTimeEnd={
-            isTabletDown ? defaultTimeEnd - TimePerMs.DAY * 3.8 : defaultTimeEnd
+            isTabletDown ? defaultTimeEnd - TimePerMs.DAY * 5 : defaultTimeEnd
           }
           defaultTimeStart={defaultTimeStart}
           moveResizeValidator={handleMoveResizeValidator}

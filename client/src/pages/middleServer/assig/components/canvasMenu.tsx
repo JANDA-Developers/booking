@@ -24,7 +24,7 @@ const CanvasMenu: React.FC<IProps> = ({
   setGuestValue,
   addBlock
 }) => (
-  <div className="canvasTooltip tooltipList" id="canvasTooltip">
+  <div className="assig__tooltips canvasTooltip tooltipList" id="canvasTooltip">
     <ul>
       <li>
         <Button
