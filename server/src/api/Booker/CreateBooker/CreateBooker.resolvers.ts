@@ -20,16 +20,21 @@ import { asyncForEach } from "../../../utils/etc";
 import { Context } from "graphql-yoga/dist/types";
 import * as _ from "lodash";
 import { HouseSchema } from "../../../models/House";
-import { privateResolverForPublicAccess } from "../../../utils/privateResolvers";
+import {
+    privateResolver,
+    privateResolverForPublicAccess
+} from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Mutation: {
-        CreateBooker: async (
-            __,
-            params: CreateBookerMutationArgs
-        ): Promise<CreateBookerResponse> => {
-            return await createBooker(params);
-        },
+        CreateBooker: privateResolver(
+            async (
+                __,
+                params: CreateBookerMutationArgs
+            ): Promise<CreateBookerResponse> => {
+                return await createBooker(params);
+            }
+        ),
         CreateBookerForBooker: privateResolverForPublicAccess(
             async (
                 __,
