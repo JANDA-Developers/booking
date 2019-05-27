@@ -1,7 +1,11 @@
 import * as _ from "lodash";
 import { Types } from "mongoose";
 import { instanceMethod, InstanceType, pre, prop, Typegoose } from "typegoose";
-import { BookingStatusEnum, PricingTypeEnum } from "../types/enums";
+import {
+    BookingStatusEnum,
+    GuestTypeEnum,
+    PricingTypeEnum
+} from "../types/enums";
 import {
     BookingStatus,
     Gender,
@@ -108,7 +112,7 @@ export class RoomSchema extends Typegoose {
     ): Promise<number[]> {
         const blocked = await GuestModel.find({
             allocatedRoom: new Types.ObjectId(this._id),
-            blockRoom: true,
+            guestType: GuestTypeEnum.BLOCK,
             start: {
                 $lte: end
             },
@@ -170,8 +174,8 @@ export class RoomSchema extends Typegoose {
                 $gte: new Date(dateRange.start)
             },
             bookingStatus: BookingStatusEnum.COMPLETE,
-            blockRoom: {
-                $ne: true
+            guestType: {
+                $ne: GuestTypeEnum.BLOCK
             }
         };
         if (exceptBookerIds.length !== 0) {

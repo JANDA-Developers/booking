@@ -46,3 +46,8 @@ type PageInfoOffsetBase {
     totalPage: Int!
     rowCount: Int!
 }
+
+type Response {
+    ok: Boolean!
+    error: String
+}

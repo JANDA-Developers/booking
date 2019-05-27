@@ -30,3 +30,8 @@ export enum PricingTypeEnum {
     ROOM = "ROOM",
     DOMITORY = "DOMITORY"
 }
+
+export enum GuestTypeEnum {
+    GUEST = "GUEST",
+    BLOCK = "BLOCK"
+}

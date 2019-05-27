@@ -10,6 +10,6 @@ type Mutation {
         houseId: ID!
         roomId: ID!
         bedIndex: Int!
-        blocking: Boolean
     ): BlockingBedResponse!
+    RemoveBlocking(blockId: ID!): Response!
 }
