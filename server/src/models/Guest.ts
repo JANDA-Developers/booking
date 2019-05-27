@@ -1,7 +1,13 @@
 import { Types } from "mongoose";
 import { instanceMethod, InstanceType, prop, Typegoose } from "typegoose";
-import { PricingTypeEnum } from "../types/enums";
-import { DateRange, Gender, IsSettleable, PricingType } from "../types/graph";
+import { BookingStatusEnum, PricingTypeEnum } from "../types/enums";
+import {
+    BookingStatus,
+    DateRange,
+    Gender,
+    IsSettleable,
+    PricingType
+} from "../types/graph";
 import { BookerModel } from "./Booker";
 
 enum GenderEnum {
@@ -54,6 +60,9 @@ export class GuestSchema extends Typegoose {
 
     @prop()
     end: Date;
+
+    @prop({ enum: BookingStatusEnum, default: BookingStatusEnum.COMPLETE })
+    bookingStatus: BookingStatus;
 
     @prop()
     createdAt: Date;
