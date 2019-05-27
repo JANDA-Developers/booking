@@ -1,7 +1,7 @@
 import { instanceMethod, InstanceType, prop, Typegoose } from "typegoose";
 import { SmsSendCase } from "../types/graph";
 
-export class SmsFormatSchema extends Typegoose {
+export class SmsTemplateSchema extends Typegoose {
     @prop({ required: true })
     apiKey: string;
 
@@ -22,22 +22,22 @@ export class SmsFormatSchema extends Typegoose {
 
     @instanceMethod
     async createSmsFormat(
-        this: InstanceType<SmsFormatSchema>,
+        this: InstanceType<SmsTemplateSchema>,
         params: {
             formatName: string;
             smsFormat: string;
         }
-    ): Promise<InstanceType<SmsFormatSchema>> {
-        return await new SmsFormatModel({});
+    ): Promise<InstanceType<SmsTemplateSchema>> {
+        return await new SmsTemplateModel({});
     }
 }
 
-export const SmsFormatModel = new SmsFormatSchema().getModelForClass(
-    SmsFormatSchema,
+export const SmsTemplateModel = new SmsTemplateSchema().getModelForClass(
+    SmsTemplateSchema,
     {
         schemaOptions: {
             timestamps: true,
-            collection: "SmsFormats"
+            collection: "SmsTemplates"
         }
     }
 );

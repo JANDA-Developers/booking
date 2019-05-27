@@ -10,4 +10,9 @@ type Query {
         password: String!
         houseId: ID
     ): FindBookerResponse!
+    FindBookerForBooker(
+        name: Name!
+        phoneNumber: PhoneNumber!
+        password: String!
+    ): FindBookerResponse!
 }

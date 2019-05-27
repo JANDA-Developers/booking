@@ -35,3 +35,7 @@ export enum GuestTypeEnum {
     GUEST = "GUEST",
     BLOCK = "BLOCK"
 }
+
+export enum SmsReplaceKeyEnum {
+    DATE_OF_STAY
+}
