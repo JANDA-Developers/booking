@@ -1,10 +1,15 @@
 import { Types } from "mongoose";
 import { instanceMethod, InstanceType, prop, Typegoose } from "typegoose";
-import { BookingStatusEnum, PricingTypeEnum } from "../types/enums";
+import {
+    BookingStatusEnum,
+    GuestTypeEnum,
+    PricingTypeEnum
+} from "../types/enums";
 import {
     BookingStatus,
     DateRange,
     Gender,
+    GuestType,
     IsSettleable,
     PricingType
 } from "../types/graph";
@@ -19,35 +24,48 @@ export class GuestSchema extends Typegoose {
     @prop({ required: true })
     house: Types.ObjectId;
 
-    @prop()
+    @prop({
+        required(this: InstanceType<GuestSchema>) {
+            return this.guestType === "GUEST";
+        }
+    })
     booker: Types.ObjectId;
 
-    @prop()
+    @prop({
+        required(this: InstanceType<GuestSchema>) {
+            return this.guestType === "GUEST";
+        }
+    })
     name: string;
 
-    @prop({ required: true })
+    @prop({
+        required(this: InstanceType<GuestSchema>) {
+            return this.guestType === "GUEST";
+        }
+    })
     roomType: Types.ObjectId;
 
     @prop({
         enum: PricingTypeEnum,
-        default: PricingTypeEnum.DOMITORY
+        required(this: InstanceType<GuestSchema>) {
+            return this.guestType === "GUEST";
+        }
     })
     pricingType: PricingType;
 
     @prop({
         enum: GenderEnum,
-        default: null
+        required(this: InstanceType<GuestSchema>) {
+            return this.guestType === "GUEST";
+        }
     })
     gender: Gender | null;
 
-    @prop()
+    @prop({ required: true })
     allocatedRoom: Types.ObjectId;
 
     @prop({ default: 0 })
     bedIndex: number; // PricingType === "ROOM" 인 경우 0으로 함...
-
-    @prop({ required: true, default: false })
-    blockRoom: boolean;
 
     @prop({ default: true })
     isUnsettled: boolean;
@@ -61,8 +79,14 @@ export class GuestSchema extends Typegoose {
     @prop()
     end: Date;
 
-    @prop({ enum: BookingStatusEnum, default: BookingStatusEnum.COMPLETE })
+    @prop({
+        enum: BookingStatusEnum,
+        default: BookingStatusEnum.COMPLETE
+    })
     bookingStatus: BookingStatus;
+
+    @prop({ enum: GuestTypeEnum, default: GuestTypeEnum.GUEST })
+    guestType: GuestType;
 
     @prop()
     createdAt: Date;

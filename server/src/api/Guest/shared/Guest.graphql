@@ -16,8 +16,14 @@ type Guest {
     pricingType: PricingType!
     bedIndex: Int!
     gender: Gender
+    guestType: GuestType!
     createdAt: DateTime!
     updatedAt: DateTime
+}
+
+enum GuestType {
+    GUEST
+    BLOCK
 }
 
 # 도미토리 방식으로 예약한 게스트만 적용됨
