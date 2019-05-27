@@ -1,5 +1,6 @@
 import { Types } from "mongoose";
-import { GuestModel } from "../../../models/Guest";
+import { InstanceType } from "typegoose";
+import { GuestModel, GuestSchema } from "../../../models/Guest";
 import { extractGuest } from "../../../models/merge/merge";
 import { GuestTypeEnum } from "../../../types/enums";
 import {
@@ -47,7 +48,13 @@ const resolvers: Resolvers = {
                                 )
                             };
                         } else {
-                            await existingGuest.update(
+                            let result: InstanceType<
+                                GuestSchema
+                            > = existingGuest;
+                            await GuestModel.findOneAndUpdate(
+                                {
+                                    _id: new Types.ObjectId(existingGuest._id)
+                                },
                                 {
                                     $set: {
                                         start,
@@ -56,6 +63,11 @@ const resolvers: Resolvers = {
                                 },
                                 {
                                     new: true
+                                },
+                                (err, doc) => {
+                                    if (doc !== null) {
+                                        result = doc;
+                                    }
                                 }
                             );
                             return {
@@ -63,7 +75,7 @@ const resolvers: Resolvers = {
                                 error: null,
                                 guest: await extractGuest.bind(
                                     extractGuest,
-                                    existingGuest
+                                    result
                                 )
                             };
                         }
