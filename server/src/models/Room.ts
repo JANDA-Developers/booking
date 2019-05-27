@@ -101,6 +101,25 @@ export class RoomSchema extends Typegoose {
     }
 
     @instanceMethod
+    async getBlockedBeds(
+        this: InstanceType<RoomSchema>,
+        start: Date,
+        end: Date
+    ): Promise<number[]> {
+        const blocked = await GuestModel.find({
+            allocatedRoom: new Types.ObjectId(this._id),
+            blockRoom: true,
+            start: {
+                $lte: end
+            },
+            end: {
+                $gte: start
+            }
+        });
+        return blocked.map(guest => guest.bedIndex);
+    }
+
+    @instanceMethod
     async getCapacity(
         this: InstanceType<RoomSchema>,
         dateRange: { start: Date; end: Date },
@@ -111,11 +130,14 @@ export class RoomSchema extends Typegoose {
             dateRange,
             exceptBookerIds
         );
+        const block = await this.getBlockedBeds(dateRange.start, dateRange.end);
         const availableGenders = this.allocatableGenderPrivate(allocatedGuests);
         const emptyBeds = this.getEmptyBeds(allocatedGuests);
+        _.pullAll(emptyBeds, block);
         const availableCount =
             (this.pricingType === "DOMITORY" ? this.peopleCount : 1) -
-            allocatedGuests.length;
+            allocatedGuests.length -
+            block.length;
         return {
             availableCount,
             emptyBeds,
@@ -147,7 +169,10 @@ export class RoomSchema extends Typegoose {
             end: {
                 $gte: new Date(dateRange.start)
             },
-            bookingStatus: BookingStatusEnum.COMPLETE
+            bookingStatus: BookingStatusEnum.COMPLETE,
+            blockRoom: {
+                $ne: true
+            }
         };
         if (exceptBookerIds.length !== 0) {
             query.booker = {

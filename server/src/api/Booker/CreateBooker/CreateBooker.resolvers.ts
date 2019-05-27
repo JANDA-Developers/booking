@@ -20,7 +20,6 @@ import { asyncForEach } from "../../../utils/etc";
 import { Context } from "graphql-yoga/dist/types";
 import * as _ from "lodash";
 import { HouseSchema } from "../../../models/House";
-import { DailyPrice } from "../../../types/dailyPrice";
 import { privateResolverForPublicAccess } from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
@@ -96,7 +95,6 @@ const createBooker = async (
                     end
                 );
                 const roomCapacityList = roomTypeCapacity.roomCapacityList;
-                console.log(roomTypeCapacity);
 
                 const {
                     countAny,
@@ -112,6 +110,7 @@ const createBooker = async (
                     return;
                 }
 
+                // Female, Male, Female&Male 순으로 정렬함.
                 const sortedCapacity = _.sortBy(roomCapacityList, [
                     o => {
                         const gender = convertGenderArrToGuestGender(
@@ -125,7 +124,6 @@ const createBooker = async (
                     },
                     "availableCount"
                 ]);
-
                 const female: { gender: Gender; count: number } = {
                     gender: "FEMALE",
                     count: countFemaleGuest
@@ -148,7 +146,6 @@ const createBooker = async (
                         );
                     })
                 );
-
                 const maleGuest = _.flatMap(
                     sortedCapacity.map(capacity => {
                         return createGuestWithBookerAndAllocateHere(
@@ -159,6 +156,7 @@ const createBooker = async (
                         );
                     })
                 );
+
                 const roomGuest = _.flatMap(
                     sortedCapacity.map(capacity => {
                         return createGuestWithBookerAndAllocateHere(
@@ -171,15 +169,10 @@ const createBooker = async (
                 );
                 const tempGuests = [...femaleGuest, ...maleGuest, ...roomGuest];
                 guests.push(...tempGuests);
-                const dailyPrices: DailyPrice[] = [];
-                await asyncForEach(tempGuests, async g => {
-                    // 여기서 가격을 불러오는걸로
-                });
-                console.log({
-                    dailyPrices
-                });
-
-                countFemaleGuest--;
+                // const dailyPrices: DailyPrice[] = [];
+                // await asyncForEach(tempGuests, async g => {
+                //     // 여기서 가격을 불러오는걸로
+                // });
             }
         );
         bookerInstance.guests = guests.map(
@@ -188,7 +181,6 @@ const createBooker = async (
         bookerInstance.roomTypes = [
             ..._.uniq(guests.map(guest => guest.roomType))
         ];
-        console.log(guests);
 
         await GuestModel.insertMany(guests);
         if (!flag) {
@@ -257,7 +249,6 @@ const createGuestWithBookerAndAllocateHere = (
         return [];
     }
     const guestInstances: Array<InstanceType<GuestSchema>> = [];
-    let index = 0;
     while (roomCapacity.availableCount > 0 && genderData.count > 0) {
         const guest = new GuestModel({
             house: new Types.ObjectId(bookerInstance.house),
@@ -267,14 +258,13 @@ const createGuestWithBookerAndAllocateHere = (
             pricingType: roomTypeInstance.pricingType,
             gender: genderData.gender || null,
             allocatedRoom: new Types.ObjectId(roomCapacity.roomId),
-            bedIndex: roomCapacity.emptyBeds[index],
+            bedIndex: roomCapacity.emptyBeds.shift(),
             isUnsettled,
             start: dateRange.start,
             end: dateRange.end
         });
         guestInstances.push(guest);
         roomCapacity.availableCount--;
-        _.pull(roomCapacity.emptyBeds, index++);
         genderData.count--;
     }
 
