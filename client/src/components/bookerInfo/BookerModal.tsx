@@ -26,11 +26,7 @@ import {
 } from "../../types/enum";
 import "./BookerModal.scss";
 import {GB_booker, IResvCount} from "../../types/interface";
-import {
-  bookingStatuMerge,
-  bookingGuestsMerge,
-  getRoomTypePerGuests
-} from "../../utils/booking";
+import {getRoomTypePerGuests} from "../../utils/booking";
 import {MutationFn} from "react-apollo";
 import {
   updateBooker,
@@ -115,10 +111,6 @@ const POPbookerInfo: React.FC<IProps> = ({
 
   const deleteModalCallBackFn = (confirm: boolean) => {
     if (confirm) {
-      console.log("뀨? 딜리뀨?");
-      console.log("뀨? 딜리뀨?");
-      console.log("뀨? 딜리뀨?");
-      console.log("뀨? 딜리뀨?");
       deleteBookerMu({
         variables: {
           bookerId: modalHook.info.bookerId

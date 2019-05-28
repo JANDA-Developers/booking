@@ -91,5 +91,6 @@ export const DEFAULT_ASSIG_GROUP: IAssigGroup = {
   isLastOfRoom: false,
   isLastOfRoomType: false,
   type: "normal",
-  roomGender: null
+  roomGender: null,
+  pricingType: PricingType.ROOM
 };

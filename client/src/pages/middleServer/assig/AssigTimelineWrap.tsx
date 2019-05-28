@@ -35,7 +35,8 @@ import {
   BookingStatus,
   GuestTypeAdd,
   GuestType,
-  RoomGender
+  RoomGender,
+  PricingType
 } from "../../../types/enum";
 import {
   ALLOCATE_GUEST_TO_ROOM,
@@ -70,6 +71,7 @@ export interface IAssigGroup {
   bedIndex: number;
   type: "add" | "normal" | "addRoomType";
   roomGender: RoomGender | null;
+  pricingType: PricingType;
 }
 export interface IAssigItemCrush {
   guestIndex: number;
@@ -274,6 +276,10 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
         const formatedRoomData = roomDataManufacture(roomTypesData); // 타임라인을 위해 가공된 데이터
         const formatedGuestsData = guestsDataManufacture(guestsData); // 타임라인을 위해 가공된 데이터
         const formatedBlockData = blockDataManufacture(blocks); // 타임라인을 위해 가공된 데이터
+
+        console.log("formatedRoomData");
+        console.log(formatedRoomData);
+        console.log(formatedRoomData);
 
         const formatedItemData = formatedGuestsData.concat(formatedBlockData);
 

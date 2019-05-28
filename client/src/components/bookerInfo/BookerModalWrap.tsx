@@ -93,22 +93,23 @@ const BookerModalWrap: React.FC<IProps> = ({modalHook, houseId}) => (
       ) {
         // 👿 make 단어를 create로
         // 👿 __typename 없앨방법을 알아보자.
-        const createMpdalInfoes: ICreateBookerInfo = modalHook.info;
+        const createModaInfoes: ICreateBookerInfo = modalHook.info;
         makeInfo = {
           ...DEFAULT_BOOKER,
           agreePrivacyPolicy: true,
           bookingStatus: BookingStatus.COMPLETE,
-          start: createMpdalInfoes.start,
-          end: createMpdalInfoes.end,
+          start: createModaInfoes.start,
+          end: createModaInfoes.end,
           roomTypes: _.uniqBy(
-            createMpdalInfoes.resvInfoes.map(resvInfo => ({
+            createModaInfoes.resvInfoes.map(resvInfo => ({
               ...DEFAULT_ROOMTYPE,
               _id: resvInfo.roomTypeId,
-              name: resvInfo.roomTypeName
+              name: resvInfo.roomTypeName,
+              pricingType: resvInfo.group.pricingType
             })),
             "_id"
           ),
-          guests: createMpdalInfoes.resvInfoes.map(resv => ({
+          guests: createModaInfoes.resvInfoes.map(resv => ({
             __typename: "Guest",
             _id: "",
             gender: resv.gender,

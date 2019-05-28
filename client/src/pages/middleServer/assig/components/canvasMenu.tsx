@@ -42,7 +42,10 @@ const CanvasMenu: React.FC<IProps> = ({
               id: `make${canvasMenuProps.groupId}${
                 canvasMenuProps.start
               }${stack}`,
-              gender: roomGenderToGedner(canvasMenuProps.group.roomGender),
+              gender: roomGenderToGedner(
+                canvasMenuProps.group.roomGender,
+                canvasMenuProps.group.pricingType
+              ),
               type: GuestTypeAdd.MAKE,
               start: canvasMenuProps.start,
               end: canvasMenuProps.end,

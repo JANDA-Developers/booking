@@ -111,27 +111,29 @@ export const getRoomTypePerGuests = (
   bookerData: IGetRoomTypePerGuestsParams
 ): IroomSelectInfoTable[] => {
   const roomTypes = bookerData.roomTypes || [];
-  return roomTypes.map(roomType => ({
-    roomTypeId: roomType._id,
-    roomTypeName: roomType.name,
-    count: {
-      male: bookingGuestsMerge(
-        bookerData.guests,
-        roomType ? roomType._id : undefined
-      ).male,
-      female: bookingGuestsMerge(
-        bookerData.guests,
-        roomType ? roomType._id : undefined
-      ).female,
-      roomCount:
-        roomType.pricingType === PricingType.DOMITORY
-          ? 0
-          : bookerData.guests
-          ? bookerData.guests.length
-          : 0
-    },
-    pricingType: roomType.pricingType
-  }));
+  return roomTypes.map(roomType => {
+    return {
+      roomTypeId: roomType._id,
+      roomTypeName: roomType.name,
+      count: {
+        male: bookingGuestsMerge(
+          bookerData.guests,
+          roomType ? roomType._id : undefined
+        ).male,
+        female: bookingGuestsMerge(
+          bookerData.guests,
+          roomType ? roomType._id : undefined
+        ).female,
+        roomCount:
+          roomType.pricingType === PricingType.DOMITORY
+            ? 0
+            : bookerData.guests
+            ? bookerData.guests.filter(guest => !guest.gender).length
+            : 0
+      },
+      pricingType: roomType.pricingType
+    };
+  });
 };
 
 function getRangeOfDates(
@@ -197,18 +199,11 @@ export const truePriceFinder = (
     seasonData: ISeasonPrices,
     day: moment.Moment
   ): number => {
-    console.log("day");
-    console.log(day);
     const findDayOfWeek = day.day();
     // 요일별 가격에 일치하는것이 있다면 요일별가격을 반환
 
     if (seasonData.dayOfWeekPrices) {
       const dayOfWeekPrice = seasonData.dayOfWeekPrices.find(dayOfWeek => {
-        console.log("dayOfWeekPrice");
-        console.log(applyDaysToArr(dayOfWeek.applyDays));
-        console.log("findDayOfWeek");
-        console.log(findDayOfWeek);
-        console.log(Math.pow(2, findDayOfWeek));
         return applyDaysToArr(dayOfWeek.applyDays).includes(
           Math.pow(2, findDayOfWeek)
         );
@@ -255,7 +250,5 @@ export const truePriceFinder = (
     });
   }
 
-  console.log("dateArray");
-  console.log(dateArray);
   return arraySum(dateArray) / dateArray.length;
 };

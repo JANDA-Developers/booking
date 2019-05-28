@@ -24,6 +24,7 @@ export interface ICreateBookerInfo {
   start: number;
   end: number;
   resvInfoes: {
+    group: IAssigGroup;
     roomTypeName: string;
     roomTypeId: string;
     gender: Gender | null;
@@ -51,7 +52,10 @@ const MakeItemMenu: React.FC<IProps> = ({
                 group => group.id === item.group
               );
 
+              if (!targetGroup) throw new Error("뀨");
+
               return {
+                group: targetGroup,
                 roomTypeName: targetGroup ? targetGroup.roomType.name : "",
                 roomTypeId: targetGroup ? targetGroup.roomTypeId : "",
                 gender: item.gender
@@ -68,20 +72,11 @@ const MakeItemMenu: React.FC<IProps> = ({
                   const group = groupData.find(
                     group => group.id === item.group
                   );
-                  if (group) {
-                    return {
-                      bedIndex: group.bedIndex,
-                      roomId: group.roomId,
-                      gender: item.gender
-                    };
-                  } else {
-                    // 아래코드는 타입스크립트 때문
-                    return {
-                      bedIndex: -1,
-                      roomId: "",
-                      gender: Gender.FEMALE
-                    };
-                  }
+                  return {
+                    bedIndex: group!.bedIndex!,
+                    roomId: group!.roomId,
+                    gender: item.gender
+                  };
                 })
                 .filter(group => group.bedIndex !== -1)
             };

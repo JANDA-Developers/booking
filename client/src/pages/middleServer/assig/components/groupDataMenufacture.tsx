@@ -2,23 +2,32 @@ import {IRoomType} from "../../../../types/interface";
 import {IAssigGroup} from "../AssigTimelineWrap";
 import {isEmpty} from "../../../../utils/utils";
 import {DEFAULT_ASSIG_GROUP} from "../../../../types/defaults";
-import {RoomGender, Gender} from "../../../../types/enum";
+import {RoomGender, Gender, PricingType} from "../../../../types/enum";
 
 // 룸젠더에 값을넣어 게스트성별을 받음
 // separately 나 Any 의 경우에는 남자 반환
-export const roomGenderToGedner = (roomGender: RoomGender | null | Gender) => {
-  if (roomGender === RoomGender.ANY) return Gender.MALE;
-  if (roomGender === RoomGender.SEPARATELY) return Gender.MALE;
+export const roomGenderToGedner = (
+  roomGender: RoomGender | null | Gender,
+  pricingType: PricingType
+) => {
   if (roomGender === RoomGender.MALE) return Gender.MALE;
   if (roomGender === RoomGender.FEMALE) return Gender.FEMALE;
+
+  if (pricingType === PricingType.DOMITORY) {
+    if (roomGender === RoomGender.ANY) return Gender.MALE;
+    if (roomGender === RoomGender.SEPARATELY) return Gender.MALE;
+  } else if (pricingType === PricingType.ROOM) {
+    if (roomGender === RoomGender.ANY) return null;
+    if (roomGender === RoomGender.SEPARATELY) return null;
+  }
   return null;
 };
 // 🛌 베드타입일경우에 ID는 + 0~(인덱스);
 //  TODO: 메모를 사용해서 데이터를 아끼자
-// 룸 데이타를 달력에서 사용할수있는 Group 데이터로 변경
+//  isAdd 는 방타입 생성에서 추가 버튼을 위한것
 export const roomDataManufacture = (
   roomTypeDatas: IRoomType[] | null | undefined = [],
-  option?: any
+  isAdd?: boolean
 ) => {
   const roomGroups: IAssigGroup[] = [];
 
@@ -42,6 +51,7 @@ export const roomDataManufacture = (
             roomIndex: room.index,
             roomType: roomTypeData,
             roomId: room._id,
+            pricingType: roomTypeData.pricingType,
             bedIndex: index,
             placeIndex: -1,
             isLastOfRoom: true,
@@ -68,6 +78,7 @@ export const roomDataManufacture = (
               isLastOfRoom: roomTypeData.peopleCount === i + 1,
               type: "normal",
               roomGender: roomTypeData.roomGender,
+              pricingType: roomTypeData.pricingType,
               isLastOfRoomType:
                 roomTypeData.roomCount === index + 1 &&
                 roomTypeData.peopleCount === i + 1
@@ -75,7 +86,7 @@ export const roomDataManufacture = (
           }
         });
       }
-      if (option) {
+      if (isAdd) {
         roomGroups.push({
           ...DEFAULT_ASSIG_GROUP,
           id: `add${roomTypeData._id}${roomTypeIndex}`,
@@ -87,7 +98,7 @@ export const roomDataManufacture = (
     }
   });
 
-  if (option) {
+  if (isAdd) {
     roomGroups.push({
       ...DEFAULT_ASSIG_GROUP,
       id: `addRoomType`,
