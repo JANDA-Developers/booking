@@ -1,8 +1,10 @@
 import { Types } from "mongoose";
+import { BlockModel } from "../../../models/Block";
 import { GuestModel } from "../../../models/Guest";
 import { extractGuest } from "../../../models/merge/merge";
 import { RoomModel } from "../../../models/Room";
 import { RoomTypeModel } from "../../../models/RoomType";
+import { GuestTypeEnum } from "../../../types/enums";
 import {
     AllocateGuestToRoomMutationArgs,
     AllocateGuestToRoomResponse
@@ -35,6 +37,18 @@ const resolvers: Resolvers = {
                                 extractGuest,
                                 existingGuest
                             )
+                        };
+                    }
+                    const block = await BlockModel.findOne({
+                        allocatedRoom: new Types.ObjectId(roomId),
+                        bedIndex,
+                        guestType: GuestTypeEnum.BLOCK
+                    });
+                    if (block) {
+                        return {
+                            ok: false,
+                            error: "블로킹!",
+                            guest: null
                         };
                     }
                     const roomType = await RoomTypeModel.findById(
