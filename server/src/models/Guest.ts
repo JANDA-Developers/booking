@@ -56,10 +56,12 @@ export class GuestSchema extends Typegoose {
     @prop({
         enum: GenderEnum,
         required(this: InstanceType<GuestSchema>) {
-            return this.guestType === "GUEST";
+            return (
+                this.guestType === "GUEST" && this.pricingType === "DOMITORY"
+            );
         }
     })
-    gender: Gender | null;
+    gender: Gender;
 
     @prop({ required: true })
     allocatedRoom: Types.ObjectId;
