@@ -57,7 +57,7 @@ import {isEmpty, setMidNight, onCompletedMessage} from "../../../utils/utils";
 import ItemMenu from "./components/itemMenu";
 import CanvasMenu, {ICanvasMenuProps} from "./components/canvasMenu";
 import MakeItemMenu from "./components/makeItemMenu";
-import {DEFAULT_ASSIGITEM} from "../../../types/defaults";
+import {DEFAULT_ASSIGITEM, DEFAULT_ASSIG_GROUP} from "../../../types/defaults";
 import {JDtoastModal} from "../../../atoms/modal/Modal";
 import moment, {Moment} from "moment-timezone";
 import {setYYYYMMDD} from "../../../utils/setMidNight";
@@ -126,15 +126,26 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   const [canvasMenuProps, setCanvasMenuProps] = useState<ICanvasMenuProps>({
     start: 0,
     end: 0,
-    groupId: ""
+    groupId: "",
+    group: {
+      ...DEFAULT_ASSIG_GROUP
+    }
   });
 
   const findItemById = (guestId: string) => {
     const targetGuest = guestValue.find(guest => guest.id === guestId);
     if (!targetGuest)
-      throw new Error("해당하는 게스트를 찾을수 없습니다. findItemById");
+      throw new Error("해당하는 게스트를 찾을수 없습니다. <<findItemById>>");
     return targetGuest;
   };
+
+  const findGroupById = (groupId: string) => {
+    const targetGroup = groupData.find(group => group.id === groupId);
+    if (!targetGroup)
+      throw new Error("해당하는 그룹을 찾을수 없습니다. <<findGroupById>>");
+    return targetGroup;
+  };
+
   // 마크제거 MARK REMOVE 마커 제거
   const removeMark = () => {
     setGuestValue([
@@ -346,8 +357,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
       validater = [...validater, ...validate];
     }
 
-    const targetGroup = groupData.find(group => group.id === groupId);
-    if (!targetGroup) return;
+    const targetGroup = findGroupById(groupId);
     const isGenderSafeResult = isGenderSafe(targetGroup, tempGuest, start, end);
 
     // 성별충돌 발생
@@ -486,10 +496,13 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
       .css("top", e.clientY)
       .addClass("canvasTooltip--show");
 
+    const targetGroup = findGroupById(groupId);
+
     setCanvasMenuProps({
       start: time,
       end: time + TimePerMs.DAY,
-      groupId: groupId
+      groupId: groupId,
+      group: targetGroup
     });
 
     const filteredGuestValue = guestValue.filter(

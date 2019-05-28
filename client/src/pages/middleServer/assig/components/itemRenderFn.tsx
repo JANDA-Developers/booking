@@ -156,11 +156,13 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
                         wave
                         thema="white"
                       >
-                        <span
-                          className={`assigItem__gender ${`assigItem__gender--${item.gender.toLowerCase()}`}`}
-                        >
-                          {` (${GenderKr[item.gender]})`}
-                        </span>
+                        {item.gender && (
+                          <span
+                            className={`assigItem__gender ${`assigItem__gender--${item.gender.toLowerCase()}`}`}
+                          >
+                            {` (${GenderKr[item.gender]})`}
+                          </span>
+                        )}
                       </CircleIcon>
                     </span>
                   )}

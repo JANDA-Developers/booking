@@ -90,5 +90,6 @@ export const DEFAULT_ASSIG_GROUP: IAssigGroup = {
   placeIndex: -1,
   isLastOfRoom: false,
   isLastOfRoomType: false,
-  type: "normal"
+  type: "normal",
+  roomGender: null
 };

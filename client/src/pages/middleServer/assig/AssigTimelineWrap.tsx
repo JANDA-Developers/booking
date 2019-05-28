@@ -69,7 +69,7 @@ export interface IAssigGroup {
   isLastOfRoomType: boolean;
   bedIndex: number;
   type: "add" | "normal" | "addRoomType";
-  roomGender: Gender | null;
+  roomGender: RoomGender | null;
 }
 export interface IAssigItemCrush {
   guestIndex: number;

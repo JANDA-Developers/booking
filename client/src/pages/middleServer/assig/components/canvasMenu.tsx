@@ -1,15 +1,17 @@
 import React from "react";
 import TooltipList from "../../../../atoms/tooltipList/TooltipList";
 import Button from "../../../../atoms/button/Button";
-import {IAssigItem} from "../AssigTimelineWrap";
+import {IAssigItem, IAssigGroup} from "../AssigTimelineWrap";
 import $ from "jquery";
 import {Gender, GuestTypeAdd} from "../../../../types/enum";
 import {DEFAULT_ASSIGITEM} from "../../../../types/defaults";
+import {roomGenderToGedner} from "./groupDataMenufacture";
 
 export interface ICanvasMenuProps {
   start: number;
   end: number;
   groupId: string;
+  group: IAssigGroup;
 }
 
 interface IProps {
@@ -40,7 +42,7 @@ const CanvasMenu: React.FC<IProps> = ({
               id: `make${canvasMenuProps.groupId}${
                 canvasMenuProps.start
               }${stack}`,
-              gender: Gender.MALE,
+              gender: roomGenderToGedner(canvasMenuProps.group.roomGender),
               type: GuestTypeAdd.MAKE,
               start: canvasMenuProps.start,
               end: canvasMenuProps.end,

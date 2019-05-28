@@ -2,7 +2,17 @@ import {IRoomType} from "../../../../types/interface";
 import {IAssigGroup} from "../AssigTimelineWrap";
 import {isEmpty} from "../../../../utils/utils";
 import {DEFAULT_ASSIG_GROUP} from "../../../../types/defaults";
+import {RoomGender, Gender} from "../../../../types/enum";
 
+// 룸젠더에 값을넣어 게스트성별을 받음
+// separately 나 Any 의 경우에는 남자 반환
+export const roomGenderToGedner = (roomGender: RoomGender | null | Gender) => {
+  if (roomGender === RoomGender.ANY) return Gender.MALE;
+  if (roomGender === RoomGender.SEPARATELY) return Gender.MALE;
+  if (roomGender === RoomGender.MALE) return Gender.MALE;
+  if (roomGender === RoomGender.FEMALE) return Gender.FEMALE;
+  return null;
+};
 // 🛌 베드타입일경우에 ID는 + 0~(인덱스);
 //  TODO: 메모를 사용해서 데이터를 아끼자
 // 룸 데이타를 달력에서 사용할수있는 Group 데이터로 변경
@@ -36,7 +46,8 @@ export const roomDataManufacture = (
             placeIndex: -1,
             isLastOfRoom: true,
             isLastOfRoomType: roomTypeData.roomCount === index,
-            type: "normal"
+            type: "normal",
+            roomGender: roomTypeData.roomGender
           });
         });
       }
@@ -56,6 +67,7 @@ export const roomDataManufacture = (
               placeIndex: i + 1,
               isLastOfRoom: roomTypeData.peopleCount === i + 1,
               type: "normal",
+              roomGender: roomTypeData.roomGender,
               isLastOfRoomType:
                 roomTypeData.roomCount === index + 1 &&
                 roomTypeData.peopleCount === i + 1
