@@ -1,12 +1,12 @@
 import rq, { Options } from "request-promise";
-import { SMSResult } from "../types/types";
+import { SendSmsResponse, SendSmsResult } from "../types/graph";
 
 export const sendSMS = async (
     receivers: string,
     msg: string,
     sender?: string,
     testmodeYn: "Y" | "N" | string = process.env.SMS_TESTMODE || "N"
-): Promise<SMSResult> => {
+): Promise<SendSmsResponse> => {
     const key = process.env.SMS_KEY;
     const user = process.env.SMS_USER;
     const host = process.env.SMS_HOST;
@@ -21,7 +21,14 @@ export const sendSMS = async (
                 .SMS_SENDER}&receiver=${receivers}&msg=${msg}&testmode_yn=${testmodeYn}`,
         json: false
     };
-    const { result_code, msg_id: msgId, msg_type: msgType } = JSON.parse(
+    const {
+        result_code,
+        message,
+        msg_id,
+        success_cnt,
+        error_cnt,
+        msg_type
+    } = JSON.parse(
         await rq
             .post(requestOptions)
             .then(something => something)
@@ -29,18 +36,28 @@ export const sendSMS = async (
                 throw err;
             })
     );
-    console.log({
-        result_code,
-        msg_id: msgId,
-        msg_type: msgType,
-        msg
-    });
+    const result: SendSmsResult = {
+        errorCnt: error_cnt,
+        msgType: msg_type,
+        message,
+        msgId: msg_id,
+        resultCode: result_code,
+        successCnt: success_cnt
+    };
+    /*
+    ** API 결과값
+        - result_code
+        - message
+        - msg_id
+        - success_cnt
+        - error_cnt
+        - msg_type
+ */
 
     return {
         ok: result_code === "1",
         error: result_code,
-        msgId,
-        msgType
+        result
     };
 };
 

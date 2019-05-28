@@ -11,14 +11,13 @@ const resolvers: Resolvers = {
             try {
                 const result = await sendSMS(receivers.join("|"), msg, sender);
                 // TODO: 여기서부터 하면됨 ㅎㅎ
-                return {
-                    ok: result.ok,
-                    error: result.error
-                };
+                // 결과값을 확인하고 result에 넣을것...
+                return result;
             } catch (error) {
                 return {
                     ok: false,
-                    error: error.message
+                    error: error.message,
+                    result: null
                 };
             }
         }
