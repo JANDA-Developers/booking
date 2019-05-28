@@ -1,12 +1,12 @@
 import { Types } from "mongoose";
 import { InstanceType } from "typegoose";
-import { GuestModel, GuestSchema } from "../../../models/Guest";
-import { extractGuest } from "../../../models/merge/merge";
-import { GuestTypeEnum } from "../../../types/enums";
+import { BlockModel, BlockSchema } from "../../../models/Block";
+import { GuestModel } from "../../../models/Guest";
+import { extractBlock, extractGuest } from "../../../models/merge/merge";
 import {
-    BlockingBedMutationArgs,
-    BlockingBedResponse,
-    RemoveBlockingMutationArgs,
+    CreateBlockMutationArgs,
+    CreateBlockResponse,
+    DeleteBlockMutationArgs,
     Response
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
@@ -14,7 +14,7 @@ import { privateResolver } from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Mutation: {
-        BlockingBed: privateResolver(
+        CreateBlock: privateResolver(
             async (
                 _,
                 {
@@ -23,8 +23,8 @@ const resolvers: Resolvers = {
                     roomId,
                     bedIndex,
                     houseId
-                }: BlockingBedMutationArgs
-            ): Promise<BlockingBedResponse> => {
+                }: CreateBlockMutationArgs
+            ): Promise<CreateBlockResponse> => {
                 try {
                     const roomObjId = new Types.ObjectId(roomId);
                     const existingGuest = await GuestModel.findOne({
@@ -41,7 +41,7 @@ const resolvers: Resolvers = {
                         if (existingGuest.guestType === "GUEST") {
                             return {
                                 ok: false,
-                                error: "이미 배정된 인원이 존재합니다",
+                                error: "배정된 인원이 존재합니다",
                                 guest: await extractGuest.bind(
                                     extractGuest,
                                     existingGuest
@@ -49,9 +49,9 @@ const resolvers: Resolvers = {
                             };
                         } else {
                             let result: InstanceType<
-                                GuestSchema
+                                BlockSchema
                             > = existingGuest;
-                            await GuestModel.findOneAndUpdate(
+                            await BlockModel.findOneAndUpdate(
                                 {
                                     _id: new Types.ObjectId(existingGuest._id)
                                 },
@@ -73,19 +73,18 @@ const resolvers: Resolvers = {
                             return {
                                 ok: true,
                                 error: null,
-                                guest: await extractGuest.bind(
-                                    extractGuest,
+                                guest: await extractBlock.bind(
+                                    extractBlock,
                                     result
                                 )
                             };
                         }
                     }
-                    const block = new GuestModel({
+                    const block = new BlockModel({
                         start,
                         end,
                         house: new Types.ObjectId(houseId),
                         allocatedRoom: roomObjId,
-                        guestType: GuestTypeEnum.BLOCK,
                         bedIndex
                     });
                     await block.save();
@@ -103,12 +102,12 @@ const resolvers: Resolvers = {
                 }
             }
         ),
-        RemoveBlocking: privateResolver(
+        DeleteBlock: privateResolver(
             async (
                 _,
-                { blockId }: RemoveBlockingMutationArgs
+                { blockId }: DeleteBlockMutationArgs
             ): Promise<Response> => {
-                const blocker = await GuestModel.findById(blockId);
+                const blocker = await BlockModel.findById(blockId);
                 if (!blocker) {
                     return {
                         ok: false,

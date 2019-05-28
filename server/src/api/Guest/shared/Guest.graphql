@@ -21,6 +21,18 @@ type Guest {
     updatedAt: DateTime
 }
 
+type Block {
+    _id: ID!
+    house: House!
+    allocatedRoom: Room!
+    bedIndex: Int!
+    start: DateTime!
+    end: DateTime!
+    guestType: GuestType!
+    createdAt: DateTime!
+    updatedAt: DateTime
+}
+
 enum GuestType {
     GUEST
     BLOCK

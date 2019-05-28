@@ -1,15 +1,15 @@
-type BlockingBedResponse {
+type CreateBlockResponse {
     ok: Boolean!
     error: String
     guest: Guest
 }
 type Mutation {
-    BlockingBed(
+    CreateBlock(
         start: DateTime!
         end: DateTime!
         houseId: ID!
         roomId: ID!
         bedIndex: Int!
-    ): BlockingBedResponse!
-    RemoveBlocking(blockId: ID!): Response!
+    ): CreateBlockResponse!
+    DeleteBlock(blockId: ID!): Response!
 }
