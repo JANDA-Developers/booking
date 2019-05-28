@@ -9,7 +9,8 @@ import {
   getAllSeasonTable_GetAllRoomType_roomTypes,
   getBooker_GetBooker_booker,
   getAppliedPriceWithDateRange_GetAppliedPriceWithDateRange_roomPrices,
-  getAppliedPriceWithDateRange_GetAppliedPriceWithDateRange_seasonPrices
+  getAppliedPriceWithDateRange_GetAppliedPriceWithDateRange_seasonPrices,
+  getAllRoomTypeWithGuest_GetBlocks_blocks
 } from "./api";
 import {IselectedOption} from "../atoms/forms/selectBox/SelectBox";
 
@@ -30,6 +31,7 @@ export interface IRoomType extends getAllRoomType_GetAllRoomType_roomType {}
 export interface IBooker extends getBookers_GetBookers_bookers {}
 export interface IGuests extends getAllRoomTypeWithGuest_GetGuests_guests {}
 export interface ISeason extends getAllSeason_GetAllSeason_seasons {}
+export interface IBlock extends getAllRoomTypeWithGuest_GetBlocks_blocks {}
 export interface IPageInfo {
   currentPage: number;
   totalPage: number;

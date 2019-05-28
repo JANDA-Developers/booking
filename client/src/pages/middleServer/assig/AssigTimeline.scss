@@ -10,8 +10,8 @@ $AT-mobile-assigGroup-room-width: 36px;
 $assigItem-normal-background-color: rgba(33,83,219,.8);
 $assigItem-linked-background-color: rgba(255,255,255,.5);
 $assigItem-checkIn-background-color: rgba(255,255,0,.7);
-$assigItem-unSelected-linked-border-thick: 3px;
-$assigItem-unSelected-linked-border: $assigItem-unSelected-linked-border-thick solid #387BDB;
+$assigItem-selected-linked-border-thick: 3px;
+$assigItem-selected-linked-border: $assigItem-selected-linked-border-thick solid #387BDB;
 $assigItem-padding: 6px;
 
 #AssigTimeline {
@@ -195,13 +195,18 @@ $assigItem-padding: 6px;
             border-color: $primary-color;
             border-right-width: $assigItem-padding!important;
             border-right-style: ridge!important;
-            border: $assigItem-unSelected-linked-border;
+            border: $assigItem-selected-linked-border;
+
+            #{$B}__rightHandler {
+                cursor: e-resize!important;
+                right: -$assigItem-selected-linked-border-thick;
+            }
         }
         // 😲 선택된것과 관련된
         &--linkedSelected {
             color: $html-color;
             background-color: $assigItem-linked-background-color;
-            border: $assigItem-unSelected-linked-border;
+            border: $assigItem-selected-linked-border;
 
             #{$B}__configIconWrap {
                 &:hover {
@@ -273,6 +278,9 @@ $assigItem-padding: 6px;
         // 😲 방막기 선택된
         &--block.assigItem--selected {
             background-color: $html-color;
+            border-top:0;
+            border-left:0;
+            border-bottom:0;
             color:white;
         }
         // 😲 마킹

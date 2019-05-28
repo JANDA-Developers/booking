@@ -32,7 +32,7 @@ import {
   GET_BOOKERS,
   ALLOCATE_GUEST_TO_ROOM,
   GET_GUESTS,
-  GET_ALL_ROOMTYPES_WITH_GUESTS
+  GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM
 } from "../../queries";
 import {
   PayMethod,
@@ -126,7 +126,7 @@ const BookerModalWrap: React.FC<IProps> = ({modalHook, houseId}) => (
         <AllocateGuestToRoomMu
           refetchQueries={[
             getOperationName(GET_BOOKERS) || "",
-            getOperationName(GET_ALL_ROOMTYPES_WITH_GUESTS) || ""
+            getOperationName(GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM) || ""
           ]}
           mutation={ALLOCATE_GUEST_TO_ROOM}
         >
@@ -169,7 +169,9 @@ const BookerModalWrap: React.FC<IProps> = ({modalHook, houseId}) => (
                       onError={showError}
                       refetchQueries={[
                         getOperationName(GET_BOOKERS) || "",
-                        getOperationName(GET_ALL_ROOMTYPES_WITH_GUESTS) || ""
+                        getOperationName(
+                          GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM
+                        ) || ""
                       ]}
                       onCompleted={({DeleteBooker}) => {
                         onCompletedMessage(

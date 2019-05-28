@@ -15,13 +15,13 @@ import {
   deleteBookerVariables,
   deleteGuests,
   deleteGuestsVariables,
-  blockingBed,
-  blockingBedVariables,
-  removeBlocking,
-  removeBlockingVariables
+  deleteBlock,
+  deleteBlockVariables,
+  createBlock,
+  createBlockVariables
 } from "../../../types/api";
 import {useToggle, useDayPicker} from "../../../actions/hook";
-import {IRoomType, IGuests} from "../../../types/interface";
+import {IRoomType, IGuests, IBlock} from "../../../types/interface";
 import {
   isEmpty,
   setMidNight,
@@ -34,25 +34,27 @@ import {
   Gender,
   BookingStatus,
   GuestTypeAdd,
-  GuestType
+  GuestType,
+  RoomGender
 } from "../../../types/enum";
 import {
-  GET_ALL_ROOMTYPES_WITH_GUESTS,
   ALLOCATE_GUEST_TO_ROOM,
   UPDATE_BOOKER,
   DELETE_GUEST,
-  BLOCKING_BED,
-  DELETE_BLOCK
+  DELETE_BLOCK,
+  GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM,
+  CREATE_BLOCK
 } from "../../../queries";
 import AssigTimeline from "./AssigTimeline";
 import {setYYYYMMDD, parallax} from "../../../utils/setMidNight";
 import {roomDataManufacture} from "./components/groupDataMenufacture";
 import reactWindowSize, {WindowSizeProps} from "react-window-size";
+import {DEFAULT_ASSIGITEM} from "../../../types/defaults";
 
 moment.tz.setDefault("UTC");
 
 class UpdateBookerMu extends Mutation<updateBooker, updateBookerVariables> {}
-class BlockingBedMu extends Mutation<blockingBed, blockingBedVariables> {}
+class CreateBlockMu extends Mutation<createBlock, createBlockVariables> {}
 
 export interface IAssigGroup {
   id: string;
@@ -67,6 +69,7 @@ export interface IAssigGroup {
   isLastOfRoomType: boolean;
   bedIndex: number;
   type: "add" | "normal" | "addRoomType";
+  roomGender: Gender | null;
 }
 export interface IAssigItemCrush {
   guestIndex: number;
@@ -107,7 +110,7 @@ class AllocateGuestToRoomMu extends Mutation<
   allocateGuestToRoomVariables
 > {}
 class DeleteGuestMu extends Mutation<deleteGuests, deleteGuestsVariables> {}
-class DeleteBlockMu extends Mutation<removeBlocking, removeBlockingVariables> {}
+class DeleteBlockMu extends Mutation<deleteBlock, deleteBlockVariables> {}
 
 const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
   houseId,
@@ -158,6 +161,32 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
     }
     return [];
   };
+
+  const blockDataManufacture = (blocksData: IBlock[] | null | undefined) => {
+    const alloCateItems: IAssigItem[] = [];
+
+    if (!blocksData) return alloCateItems;
+    blocksData.forEach((blockData, index) => {
+      if (blockData) {
+        alloCateItems.push({
+          ...DEFAULT_ASSIGITEM,
+          id: blockData._id,
+          bookerId: blockData._id,
+          roomId: blockData.allocatedRoom._id,
+          group: blockData.allocatedRoom._id + blockData.bedIndex,
+          start: moment(blockData.start).valueOf(),
+          end: moment(blockData.end).valueOf(),
+          canMove: false,
+          // @ts-ignore
+          type: blockData.guestType,
+          bedIndex: blockData.bedIndex
+        });
+      }
+    });
+
+    return alloCateItems;
+  };
+
   //  TODO: 메모를 사용해서 데이터를 아끼자
   // 게스트 데이터를 달력에서 쓸수있는 Item 데이터로 변경 절차
   const guestsDataManufacture = (
@@ -170,8 +199,6 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
       guest => guest.booker.bookingStatus !== BookingStatus.CANCEL
     );
 
-    console.log("guestsData");
-    console.log(guestsData);
     guestsData.forEach((guestData, index) => {
       const isDomitory = guestData.pricingType === "DOMITORY";
 
@@ -218,7 +245,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
     <GetAllRoomTypeWithGuestQuery
       fetchPolicy="network-only"
       notifyOnNetworkStatusChange={true}
-      query={GET_ALL_ROOMTYPES_WITH_GUESTS}
+      query={GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM}
       variables={updateVariables}
     >
       {({data, loading, error}) => {
@@ -237,8 +264,18 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
           undefined
         ); // 원본데이터
 
+        const blocks = queryDataFormater(
+          data,
+          "GetBlocks",
+          "blocks",
+          undefined
+        );
+
         const formatedRoomData = roomDataManufacture(roomTypesData); // 타임라인을 위해 가공된 데이터
         const formatedGuestsData = guestsDataManufacture(guestsData); // 타임라인을 위해 가공된 데이터
+        const formatedBlockData = blockDataManufacture(blocks); // 타임라인을 위해 가공된 데이터
+
+        const formatedItemData = formatedGuestsData.concat(formatedBlockData);
 
         return (
           <AllocateGuestToRoomMu
@@ -248,7 +285,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
             update={(cache, {data: inData}) => {
               const cacheData: getAllRoomTypeWithGuest | null = cache.readQuery(
                 {
-                  query: GET_ALL_ROOMTYPES_WITH_GUESTS,
+                  query: GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM,
                   variables: updateVariables
                 }
               );
@@ -260,7 +297,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                 );
 
                 cache.writeQuery({
-                  query: GET_ALL_ROOMTYPES_WITH_GUESTS,
+                  query: GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM,
                   data: {
                     GetAllRoomType: cacheData.GetAllRoomType,
                     GetGuests: {
@@ -272,7 +309,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
               }
             }}
             // refetchQueries={[{
-            //   query: GET_ALL_ROOMTYPES_WITH_GUESTS ,
+            //   query: GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM ,
             //   variables: {
             //     houseId,
             //     start: setYYYYMMDD(moment(dataTime.start)),
@@ -291,23 +328,23 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                     onError={showError}
                   >
                     {deleteGuestMu => (
-                      <BlockingBedMu
+                      <CreateBlockMu
                         onError={showError}
-                        onCompleted={({BlockingBed}) => {
+                        onCompleted={({CreateBlock}) => {
                           onCompletedMessage(
-                            BlockingBed,
+                            CreateBlock,
                             "방막기 완료",
                             "방막기 실패"
                           );
                         }}
-                        mutation={BLOCKING_BED}
+                        mutation={CREATE_BLOCK}
                       >
-                        {blockingBedMu => (
+                        {createBlockMu => (
                           <DeleteBlockMu
                             onError={showError}
-                            onCompleted={({RemoveBlocking}) => {
+                            onCompleted={({DeleteBlock}) => {
                               onCompletedMessage(
-                                RemoveBlocking,
+                                DeleteBlock,
                                 "방막기 해제",
                                 "방막기 해제 실패"
                               );
@@ -319,7 +356,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                                 houseId={houseId}
                                 loading={loading}
                                 groupData={formatedRoomData}
-                                deafultGuestsData={formatedGuestsData || []}
+                                deafultGuestsData={formatedItemData || []}
                                 dayPickerHook={dayPickerHook}
                                 defaultProps={assigDefaultProps}
                                 allocateMu={allocateMu}
@@ -327,7 +364,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                                 defaultTimeStart={defaultStartDate}
                                 updateBookerMu={updateBookerMu}
                                 deleteGuestsMu={deleteGuestMu}
-                                blockingBedMu={blockingBedMu}
+                                createBlockMu={createBlockMu}
                                 deleteBlockMu={deleteBlockMu}
                                 defaultTimeEnd={defaultEndDate}
                                 setDataTime={setDataTime}
@@ -340,7 +377,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                             )}
                           </DeleteBlockMu>
                         )}
-                      </BlockingBedMu>
+                      </CreateBlockMu>
                     )}
                   </DeleteGuestMu>
                 )}

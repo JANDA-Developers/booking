@@ -44,10 +44,10 @@ import {
   updateBookerVariables,
   deleteGuests,
   deleteGuestsVariables,
-  blockingBed,
-  blockingBedVariables,
-  removeBlocking,
-  removeBlockingVariables
+  createBlock,
+  createBlockVariables,
+  deleteBlock,
+  deleteBlockVariables
 } from "../../../types/api";
 import itemRendererFn, {
   CLASS_LINKED,
@@ -78,10 +78,10 @@ interface IProps {
   defaultTimeStart: number;
   defaultTimeEnd: number;
   allocateMu: MutationFn<allocateGuestToRoom, allocateGuestToRoomVariables>;
-  deleteBlockMu: MutationFn<removeBlocking, removeBlockingVariables>;
+  deleteBlockMu: MutationFn<deleteBlock, deleteBlockVariables>;
   updateBookerMu: MutationFn<updateBooker, updateBookerVariables>;
   deleteGuestsMu: MutationFn<deleteGuests, deleteGuestsVariables>;
-  blockingBedMu: MutationFn<blockingBed, blockingBedVariables>;
+  createBlockMu: MutationFn<createBlock, createBlockVariables>;
   dataTime: {
     start: number;
     end: number;
@@ -115,7 +115,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   deleteGuestsMu,
   setDataTime,
   dataTime,
-  blockingBedMu,
+  createBlockMu,
   deleteBlockMu
 }) => {
   // 임시 마킹 제거
@@ -383,7 +383,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   const addBlock = async (time: number, groupId: string) => {
     const targetGroup = groupData.find(group => group.id === groupId);
     if (!targetGroup) throw Error("그룹 아이디가 그룹데이터안에 없습니다.");
-    const result = await blockingBedMu({
+    const result = await createBlockMu({
       variables: {
         start: moment(time).toDate(),
         end: moment(time + TimePerMs.DAY).toDate(),
@@ -396,15 +396,15 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     if (
       result &&
       result.data &&
-      result.data.BlockingBed.ok &&
-      result.data.BlockingBed.guest
+      result.data.CreateBlock.ok &&
+      result.data.CreateBlock.block
     ) {
       guestValue.push({
         ...DEFAULT_ASSIGITEM,
         roomId: targetGroup.roomId,
         bedIndex: targetGroup.bedIndex,
         type: GuestTypeAdd.BLOCK,
-        id: result.data.BlockingBed.guest._id,
+        id: result.data.CreateBlock.block._id,
         start: time,
         end: time + TimePerMs.DAY,
         group: groupId,
@@ -542,8 +542,8 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
       if (
         result &&
         result.data &&
-        result.data.RemoveBlocking &&
-        result.data.RemoveBlocking.ok
+        result.data.DeleteBlock &&
+        result.data.DeleteBlock.ok
       ) {
         setGuestValue([...guestValue.filter(guest => guest.id !== id)]);
       }
@@ -566,8 +566,11 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
       if (item.start >= time) return item.end;
       if (setMidNight(Date.now()) >= time) return item.end;
 
-      resizeValidater(item, time);
-      resizeLinkedItems(item.bookerId, time);
+      // resizeValidater(item, time);
+
+      if (item.type !== GuestTypeAdd.BLOCK) {
+        resizeLinkedItems(item.bookerId, time);
+      }
     }
 
     if (action === "move") {
@@ -614,10 +617,14 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
           bedIndex: groupData[newGroupOrder].bedIndex
         }
       });
-
       // 실패하면 전부 되돌림
-      if (result && result.data && !result.data.AllocateGuestToRoom.ok) {
-        setGuestValue([...guestValueOriginCopy]);
+
+      if (result) {
+        if (result.data) {
+          if (!result.data.AllocateGuestToRoom.ok) {
+            setGuestValue([...guestValueOriginCopy]);
+          }
+        }
       }
     }
   };
@@ -630,32 +637,22 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   ) => {
     const targetGuest = findItemById(itemId);
     if (targetGuest.type === GuestTypeAdd.BLOCK) {
-      console.log({
+      const guestValueOriginCopy = $.extend(true, [], guestValue);
+      await resizeLinkedItems(targetGuest.bookerId, time);
+
+      const result = await createBlockMu({
         variables: {
           bedIndex: targetGuest.bedIndex,
-          end: targetGuest.end,
+          end: time,
           houseId: houseId,
           roomId: targetGuest.roomId,
-          start: time
+          start: targetGuest.start
         }
       });
-      const result = await blockingBedMu({
-        variables: {
-          bedIndex: targetGuest.bedIndex,
-          end: targetGuest.end,
-          houseId: houseId,
-          roomId: targetGuest.roomId,
-          start: time
-        }
-      });
-      if (
-        result &&
-        result.data &&
-        result.data.BlockingBed.ok &&
-        result.data.BlockingBed.guest
-      ) {
-        targetGuest.end = result.data.BlockingBed.guest.end;
-        setGuestValue([...guestValue, targetGuest]);
+
+      // 에러처리
+      if (result && result.data && !result.data.CreateBlock.ok) {
+        setGuestValue([...guestValueOriginCopy]);
       } else {
         console.error("block 변경 실패");
       }
@@ -885,7 +882,6 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
                   new Date(),
                   "day"
                 );
-                console.log(isToday);
                 return (
                   <div
                     className={`rct-dateHeader ${isToday &&

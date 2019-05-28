@@ -53,6 +53,7 @@ const F_ROOMTYPE = gql`
     createdAt
     updatedAt
     roomTemplateSrl
+    roomGender
   }
 `;
 
@@ -573,7 +574,7 @@ export const FIND_BOOKER = gql`
 
 // ⭐️방배정!!
 // 모든 방타입 + 모든 게스트 가져오기!!
-export const GET_ALL_ROOMTYPES_WITH_GUESTS = gql`
+export const GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM = gql`
   query getAllRoomTypeWithGuest(
     $houseId: ID!
     $start: DateTime!
@@ -620,6 +621,23 @@ export const GET_ALL_ROOMTYPES_WITH_GUESTS = gql`
           checkIn {
             isIn
           }
+        }
+      }
+    }
+
+    GetBlocks(start: $start, end: $end, houseId: $houseId) {
+      ok
+      error
+      blocks {
+        _id
+        bedIndex
+        guestType
+        createdAt
+        start
+        end
+        updatedAt
+        allocatedRoom {
+          ...Froom
         }
       }
     }
@@ -982,23 +1000,23 @@ export const CREATE_ROOM = gql`
 `;
 
 export const DELETE_BLOCK = gql`
-  mutation removeBlocking($blockId: ID!) {
-    RemoveBlocking(blockId: $blockId) {
+  mutation deleteBlock($blockId: ID!) {
+    DeleteBlock(blockId: $blockId) {
       ok
       error
     }
   }
 `;
 
-export const BLOCKING_BED = gql`
-  mutation blockingBed(
+export const CREATE_BLOCK = gql`
+  mutation createBlock(
     $start: DateTime!
     $end: DateTime!
     $houseId: ID!
     $roomId: ID!
     $bedIndex: Int!
   ) {
-    BlockingBed(
+    CreateBlock(
       start: $start
       end: $end
       houseId: $houseId
@@ -1007,7 +1025,7 @@ export const BLOCKING_BED = gql`
     ) {
       ok
       error
-      guest {
+      block {
         _id
         start
         end

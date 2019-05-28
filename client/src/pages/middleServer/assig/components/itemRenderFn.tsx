@@ -180,7 +180,11 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
             return <div />;
         }
       })()}
-      {itemContext.useResizeHandle ? <div {...rightResizeProps} /> : ""}
+      {itemContext.useResizeHandle || item.type === GuestTypeAdd.BLOCK ? (
+        <div {...rightResizeProps} className="assigItem__rightHandler" />
+      ) : (
+        ""
+      )}
     </div>
   );
 };

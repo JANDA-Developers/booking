@@ -42,7 +42,7 @@ import {
   allocateGuestToRoom,
   allocateGuestToRoomVariables
 } from "../../types/api";
-import {GET_ALL_ROOMTYPES_WITH_GUESTS} from "../../queries";
+import {GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM} from "../../queries";
 import {IAssigInfo} from "../../pages/middleServer/assig/components/makeItemMenu";
 import SendSMSmodalWrap from "../sendSMSmodal/sendSMSmodalWrap";
 
@@ -156,6 +156,7 @@ const POPbookerInfo: React.FC<IProps> = ({
         }
       }
     });
+
     if (result && result.data && result.data.CreateBooker.ok) {
       const newGuests = result.data.CreateBooker.booker;
       if (newGuests && newGuests.guests) {
