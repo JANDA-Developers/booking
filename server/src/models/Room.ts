@@ -174,9 +174,7 @@ export class RoomSchema extends Typegoose {
                 $gte: new Date(dateRange.start)
             },
             bookingStatus: BookingStatusEnum.COMPLETE,
-            guestType: {
-                $ne: GuestTypeEnum.BLOCK
-            }
+            guestType: GuestTypeEnum.GUEST
         };
         if (exceptBookerIds.length !== 0) {
             query.booker = {

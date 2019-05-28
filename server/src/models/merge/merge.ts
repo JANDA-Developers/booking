@@ -1,6 +1,7 @@
 import { Types } from "mongoose";
 import { InstanceType } from "typegoose";
 import {
+    Block,
     Booker,
     Guest,
     HostApplication,
@@ -16,6 +17,7 @@ import {
     User
 } from "../../types/graph";
 import { applyDaysToBinaryString } from "../../utils/applyDays";
+import { BlockSchema } from "../Block";
 import { BookerModel, BookerSchema } from "../Booker";
 import { GuestModel, GuestSchema } from "../Guest";
 import {
@@ -567,6 +569,30 @@ export const extractGuests = async (
         guestInstances.map(async guestInstance => {
             return await extractGuest(guestInstance);
         })
+    );
+};
+
+export const extractBlock = async (
+    blockInstance: InstanceType<BlockSchema>
+): Promise<Block> => {
+    return {
+        ...(blockInstance as any)._doc,
+        _id: blockInstance._id,
+        house: await transformHouse.bind(transformHouse, blockInstance.house),
+        allocatedRoom: await transformRoom.bind(
+            transformRoom,
+            blockInstance.allocatedRoom
+        )
+    };
+};
+
+export const extractBlocks = async (
+    blockInstances: Array<InstanceType<BlockSchema>>
+): Promise<Block[]> => {
+    return await Promise.all(
+        blockInstances.map(
+            async blockInstance => await extractBlock(blockInstance)
+        )
     );
 };
 

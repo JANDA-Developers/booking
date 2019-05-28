@@ -36,6 +36,18 @@ export enum GuestTypeEnum {
     BLOCK = "BLOCK"
 }
 
+export enum SmsReplacer {
+    STAY_DATE = "%STAYDATE%",
+    STAY_DATE_YMD = "$STAYDATEYMD%",
+    ROOMTYPE_N_PEOPLECOUNT = "%ROOMTYPENPEOPLECOUNT",
+    BOOKERNAME = "%BOOKER%",
+    TOTAL_PRICE = "%TOTALPRICE%"
+}
+
 export enum SmsReplaceKeyEnum {
-    DATE_OF_STAY
+    STAY_DATE = "", // "[숙박일자(월/일)]",
+    STAY_DATE_YMD = "", // "[숙박일자(년/월/일)]",
+    ROOMTYPE_N_PEOPLECOUNT = "", // "[방타입(인원수)]",
+    BOOKERNAME = "", // "[예약자명]",
+    TOTAL_PRICE = "" // "[금액]"
 }
