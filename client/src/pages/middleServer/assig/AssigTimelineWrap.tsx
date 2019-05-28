@@ -16,7 +16,9 @@ import {
   deleteGuests,
   deleteGuestsVariables,
   blockingBed,
-  blockingBedVariables
+  blockingBedVariables,
+  removeBlocking,
+  removeBlockingVariables
 } from "../../../types/api";
 import {useToggle, useDayPicker} from "../../../actions/hook";
 import {IRoomType, IGuests} from "../../../types/interface";
@@ -28,17 +30,24 @@ import {
   onCompletedMessage
 } from "../../../utils/utils";
 import EerrorProtect from "../../../utils/errProtect";
-import {Gender, BookingStatus} from "../../../types/enum";
+import {
+  Gender,
+  BookingStatus,
+  GuestTypeAdd,
+  GuestType
+} from "../../../types/enum";
 import {
   GET_ALL_ROOMTYPES_WITH_GUESTS,
   ALLOCATE_GUEST_TO_ROOM,
   UPDATE_BOOKER,
   DELETE_GUEST,
-  BLOCKING_BED
+  BLOCKING_BED,
+  DELETE_BLOCK
 } from "../../../queries";
 import AssigTimeline from "./AssigTimeline";
 import {setYYYYMMDD, parallax} from "../../../utils/setMidNight";
 import {roomDataManufacture} from "./components/groupDataMenufacture";
+import reactWindowSize, {WindowSizeProps} from "react-window-size";
 
 moment.tz.setDefault("UTC");
 
@@ -59,6 +68,12 @@ export interface IAssigGroup {
   bedIndex: number;
   type: "add" | "normal" | "addRoomType";
 }
+export interface IAssigItemCrush {
+  guestIndex: number;
+  reason: string;
+  start: number | null;
+  end: number | null;
+}
 
 export interface IAssigItem {
   id: string;
@@ -74,31 +89,9 @@ export interface IAssigItem {
   end: number;
   gender: Gender | null;
   isUnsettled: boolean;
+  canMove: boolean;
   validate: IAssigItemCrush[];
-  type: "normal" | "mark" | "make" | "block";
-}
-
-export const defaultItemProps = {
-  guestIndex: -1,
-  name: "",
-  group: "",
-  bookerId: "",
-  isCheckin: false,
-  roomTypeId: "",
-  roomId: "",
-  start: 0,
-  end: 0,
-  gender: null,
-  bedIndex: -1,
-  isUnsettled: false,
-  validate: []
-};
-
-export interface IAssigItemCrush {
-  guestIndex: number;
-  reason: string;
-  start: number | null;
-  end: number | null;
+  type: GuestTypeAdd;
 }
 
 interface IProps {
@@ -114,8 +107,13 @@ class AllocateGuestToRoomMu extends Mutation<
   allocateGuestToRoomVariables
 > {}
 class DeleteGuestMu extends Mutation<deleteGuests, deleteGuestsVariables> {}
+class DeleteBlockMu extends Mutation<removeBlocking, removeBlockingVariables> {}
 
-const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
+const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
+  houseId,
+  windowHeight,
+  windowWidth
+}) => {
   const dayPickerHook = useDayPicker(null, null);
   const defaultStartDate = dayPickerHook.from
     ? moment(dayPickerHook.from).valueOf()
@@ -171,6 +169,9 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
     const guestsData = allGuestsData.filter(
       guest => guest.booker.bookingStatus !== BookingStatus.CANCEL
     );
+
+    console.log("guestsData");
+    console.log(guestsData);
     guestsData.forEach((guestData, index) => {
       const isDomitory = guestData.pricingType === "DOMITORY";
 
@@ -194,7 +195,9 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
           start: moment(guestData.start).valueOf(),
           end: moment(guestData.end).valueOf(),
           validate: crushTimeMake(guestData, index),
-          type: "normal",
+          canMove: true,
+          // @ts-ignore
+          type: guestData.guestType || "GUEST",
           bedIndex: guestData.bedIndex
         });
       }
@@ -289,6 +292,7 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
                   >
                     {deleteGuestMu => (
                       <BlockingBedMu
+                        onError={showError}
                         onCompleted={({BlockingBed}) => {
                           onCompletedMessage(
                             BlockingBed,
@@ -299,25 +303,42 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
                         mutation={BLOCKING_BED}
                       >
                         {blockingBedMu => (
-                          <AssigTimeline
-                            houseId={houseId}
-                            loading={loading}
-                            groupData={formatedRoomData}
-                            deafultGuestsData={formatedGuestsData || []}
-                            dayPickerHook={dayPickerHook}
-                            defaultProps={assigDefaultProps}
-                            allocateMu={allocateMu}
-                            roomTypesData={roomTypesData || []}
-                            defaultTimeStart={defaultStartDate}
-                            updateBookerMu={updateBookerMu}
-                            deleteGuestsMu={deleteGuestMu}
-                            blockingBedMu={blockingBedMu}
-                            defaultTimeEnd={defaultEndDate}
-                            setDataTime={setDataTime}
-                            dataTime={dataTime}
-                            key={`timeline${defaultStartDate}${defaultEndDate}${guestsData &&
-                              guestsData.length}`}
-                          />
+                          <DeleteBlockMu
+                            onError={showError}
+                            onCompleted={({RemoveBlocking}) => {
+                              onCompletedMessage(
+                                RemoveBlocking,
+                                "방막기 해제",
+                                "방막기 해제 실패"
+                              );
+                            }}
+                            mutation={DELETE_BLOCK}
+                          >
+                            {deleteBlockMu => (
+                              <AssigTimeline
+                                houseId={houseId}
+                                loading={loading}
+                                groupData={formatedRoomData}
+                                deafultGuestsData={formatedGuestsData || []}
+                                dayPickerHook={dayPickerHook}
+                                defaultProps={assigDefaultProps}
+                                allocateMu={allocateMu}
+                                roomTypesData={roomTypesData || []}
+                                defaultTimeStart={defaultStartDate}
+                                updateBookerMu={updateBookerMu}
+                                deleteGuestsMu={deleteGuestMu}
+                                blockingBedMu={blockingBedMu}
+                                deleteBlockMu={deleteBlockMu}
+                                defaultTimeEnd={defaultEndDate}
+                                setDataTime={setDataTime}
+                                windowHeight={windowHeight}
+                                windowWidth={windowWidth}
+                                dataTime={dataTime}
+                                key={`timeline${defaultStartDate}${defaultEndDate}${guestsData &&
+                                  guestsData.length}`}
+                              />
+                            )}
+                          </DeleteBlockMu>
                         )}
                       </BlockingBedMu>
                     )}
@@ -332,4 +353,4 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
   );
 };
 
-export default EerrorProtect(AssigTimelineWrap);
+export default reactWindowSize<IProps>(EerrorProtect(AssigTimelineWrap));

@@ -1,9 +1,10 @@
 import React from "react";
 import TooltipList from "../../../../atoms/tooltipList/TooltipList";
 import Button from "../../../../atoms/button/Button";
-import {IAssigItem, defaultItemProps} from "../AssigTimelineWrap";
+import {IAssigItem} from "../AssigTimelineWrap";
 import $ from "jquery";
-import {Gender} from "../../../../types/enum";
+import {Gender, GuestTypeAdd} from "../../../../types/enum";
+import {DEFAULT_ASSIGITEM} from "../../../../types/defaults";
 
 export interface ICanvasMenuProps {
   start: number;
@@ -34,13 +35,13 @@ const CanvasMenu: React.FC<IProps> = ({
             const stack = guestValue.filter(group => group.bookerId === "make")
               .length;
             guestValue.push({
-              ...defaultItemProps,
+              ...DEFAULT_ASSIGITEM,
               bookerId: "make",
               id: `make${canvasMenuProps.groupId}${
                 canvasMenuProps.start
               }${stack}`,
               gender: Gender.MALE,
-              type: "make",
+              type: GuestTypeAdd.MAKE,
               start: canvasMenuProps.start,
               end: canvasMenuProps.end,
               group: canvasMenuProps.groupId
@@ -50,8 +51,9 @@ const CanvasMenu: React.FC<IProps> = ({
             setGuestValue([
               ...guestValue.filter(
                 item =>
-                  item.type !== "mark" &&
-                  (item.type !== "make" || item.start === canvasMenuProps.start)
+                  item.type !== GuestTypeAdd.MARK &&
+                  (item.type !== GuestTypeAdd.MAKE ||
+                    item.start === canvasMenuProps.start)
               )
             ]);
           }}

@@ -10,19 +10,15 @@ import Timeline, {
   TimelineHeaders,
   SidebarHeader,
   DateHeader,
-  ASSIGT_IMELINE_HEIGHT
+  ASSIGT_IMELINE_HEIGHT,
+  CustomHeader
 } from "../../../atoms/timeline/Timeline";
 import ErrProtecter from "../../../utils/errProtect";
 import Button from "../../../atoms/button/Button";
 import BookerModalWrap from "../../../components/bookerInfo/BookerModalWrap";
 import {IUseDayPicker, useModal} from "../../../actions/hook";
 import classnames from "classnames";
-import {
-  IAssigGroup,
-  IAssigItem,
-  IAssigItemCrush,
-  defaultItemProps
-} from "./AssigTimelineWrap";
+import {IAssigGroup, IAssigItem, IAssigItemCrush} from "./AssigTimelineWrap";
 import assigGroupRendererFn from "./components/groupRenderFn";
 import {IRoomType} from "../../../types/interface";
 import Preloader from "../../../atoms/preloader/Preloader";
@@ -37,7 +33,9 @@ import {
   RoomGender,
   Gender,
   WindowSize as EWindowSize,
-  GlobalCSS
+  GlobalCSS,
+  GuestTypeAdd,
+  GuestType
 } from "../../../types/enum";
 import {
   allocateGuestToRoom,
@@ -47,7 +45,9 @@ import {
   deleteGuests,
   deleteGuestsVariables,
   blockingBed,
-  blockingBedVariables
+  blockingBedVariables,
+  removeBlocking,
+  removeBlockingVariables
 } from "../../../types/api";
 import itemRendererFn, {
   CLASS_LINKED,
@@ -59,8 +59,9 @@ import CanvasMenu, {ICanvasMenuProps} from "./components/canvasMenu";
 import MakeItemMenu from "./components/makeItemMenu";
 import {DEFAULT_ASSIGITEM} from "../../../types/defaults";
 import {JDtoastModal} from "../../../atoms/modal/Modal";
-import moment from "moment-timezone";
+import moment, {Moment} from "moment-timezone";
 import {setYYYYMMDD} from "../../../utils/setMidNight";
+import JDbadge, {BADGE_THEMA} from "../../../atoms/badge/Badge";
 
 // Temp 마킹용이 있는지
 let MARKED = false;
@@ -77,6 +78,7 @@ interface IProps {
   defaultTimeStart: number;
   defaultTimeEnd: number;
   allocateMu: MutationFn<allocateGuestToRoom, allocateGuestToRoomVariables>;
+  deleteBlockMu: MutationFn<removeBlocking, removeBlockingVariables>;
   updateBookerMu: MutationFn<updateBooker, updateBookerVariables>;
   deleteGuestsMu: MutationFn<deleteGuests, deleteGuestsVariables>;
   blockingBedMu: MutationFn<blockingBed, blockingBedVariables>;
@@ -113,7 +115,8 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   deleteGuestsMu,
   setDataTime,
   dataTime,
-  blockingBedMu
+  blockingBedMu,
+  deleteBlockMu
 }) => {
   // 임시 마킹 제거
   const isMobile = windowWidth <= EWindowSize.MOBILE;
@@ -132,11 +135,17 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
       throw new Error("해당하는 게스트를 찾을수 없습니다. findItemById");
     return targetGuest;
   };
+  // 마크제거 MARK REMOVE 마커 제거
+  const removeMark = () => {
+    setGuestValue([
+      ...guestValue.filter(item => item.type !== GuestTypeAdd.MARK)
+    ]);
+  };
 
   // 툴팁들을 제거하고
   const handleWindowClickEvent = () => {
     if (MARKED) {
-      setGuestValue([...guestValue.filter(item => item.type !== "mark")]);
+      removeMark();
       MARKED = false;
     }
 
@@ -292,10 +301,10 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
 
   const handleItemDoubleClick = (itemId: any, e: any, time: any) => {
     const target = findItemById(itemId);
-    if (target.type === "block") return;
+    if (target.type === GuestTypeAdd.BLOCK) return;
     // if (target.type === "normal")
     // bookerModal.openModal({bookerId: target.bookerId});
-    if (target.type === "make") {
+    if (target.type === GuestTypeAdd.MAKE) {
       $("#makeTooltip")
         .css("left", e.clientX)
         .css("top", e.clientY)
@@ -370,7 +379,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     setGuestValue([...guestValue]);
   };
 
-  //  방막기
+  // 방막기
   const addBlock = async (time: number, groupId: string) => {
     const targetGroup = groupData.find(group => group.id === groupId);
     if (!targetGroup) throw Error("그룹 아이디가 그룹데이터안에 없습니다.");
@@ -391,16 +400,20 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
       result.data.BlockingBed.guest
     ) {
       guestValue.push({
-        ...defaultItemProps,
+        ...DEFAULT_ASSIGITEM,
+        roomId: targetGroup.roomId,
         bedIndex: targetGroup.bedIndex,
-        type: "block",
+        type: GuestTypeAdd.BLOCK,
         id: result.data.BlockingBed.guest._id,
         start: time,
         end: time + TimePerMs.DAY,
-        group: groupId
+        group: groupId,
+        canMove: false
       });
     }
-    setGuestValue([...guestValue]);
+    setGuestValue([
+      ...guestValue.filter(item => item.type != GuestTypeAdd.MARK)
+    ]);
   };
 
   // Id 로 게스트 찾아서 투글해주는 함수
@@ -480,12 +493,13 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     });
 
     const filteredGuestValue = guestValue.filter(
-      guest => guest.type !== "mark"
+      guest => guest.type !== GuestTypeAdd.MARK
     );
+
     filteredGuestValue.push({
-      ...defaultItemProps,
+      ...DEFAULT_ASSIGITEM,
       id: `mark${groupId}${time}`,
-      type: "mark",
+      type: GuestTypeAdd.MARK,
       start: time,
       end: time + TimePerMs.DAY,
       group: groupId
@@ -516,9 +530,26 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     setGuestValue([...guestValue]);
   };
 
-  // 유틸 게스트를 화면에서 삭제
-  const clearItem = (id: string) => {
-    setGuestValue([...guestValue.filter(guest => guest.id !== id)]);
+  // 유틸 아이템을 화면에서 삭제
+  const clearItem = async (id: string) => {
+    const targetItem = findItemById(id);
+    if (targetItem.type === GuestTypeAdd.BLOCK) {
+      const result = await deleteBlockMu({
+        variables: {
+          blockId: id
+        }
+      });
+      if (
+        result &&
+        result.data &&
+        result.data.RemoveBlocking &&
+        result.data.RemoveBlocking.ok
+      ) {
+        setGuestValue([...guestValue.filter(guest => guest.id !== id)]);
+      }
+    } else {
+      setGuestValue([...guestValue.filter(guest => guest.id !== id)]);
+    }
   };
 
   // 핸들 움직일때 벨리데이션 (마우스 움직이면 호출됨)
@@ -575,7 +606,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     $(`.${CLASS_MOVING}`).removeClass(CLASS_MOVING);
 
     // 배정 뮤테이션을 발생
-    if (targetGuest.type === ("normal" || "block")) {
+    if (targetGuest.type === GuestTypeAdd.GUEST) {
       const result = await allocateMu({
         variables: {
           guestId: itemId,
@@ -598,7 +629,16 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     edge: "left" | "right"
   ) => {
     const targetGuest = findItemById(itemId);
-    if (targetGuest.type === "block") {
+    if (targetGuest.type === GuestTypeAdd.BLOCK) {
+      console.log({
+        variables: {
+          bedIndex: targetGuest.bedIndex,
+          end: targetGuest.end,
+          houseId: houseId,
+          roomId: targetGuest.roomId,
+          start: time
+        }
+      });
       const result = await blockingBedMu({
         variables: {
           bedIndex: targetGuest.bedIndex,
@@ -617,7 +657,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
         targetGuest.end = result.data.BlockingBed.guest.end;
         setGuestValue([...guestValue, targetGuest]);
       } else {
-        throw new Error("result값이 정확하지않음");
+        console.error("block 변경 실패");
       }
     }
   };
@@ -839,7 +879,26 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
                 </div>
               )}
             </SidebarHeader>
-            <DateHeader height={GlobalCSS.TIMELINE_HEADER_HEIGHT} unit="day" />
+            <DateHeader
+              intervalRenderer={({getIntervalProps, intervalContext}: any) => {
+                const isToday = intervalContext.interval.startTime.isSame(
+                  new Date(),
+                  "day"
+                );
+                console.log(isToday);
+                return (
+                  <div
+                    className={`rct-dateHeader ${isToday &&
+                      "rct-dateHeader--today"}`}
+                    {...getIntervalProps()}
+                  >
+                    {intervalContext.intervalText.replace("요일", "")}
+                  </div>
+                );
+              }}
+              height={GlobalCSS.TIMELINE_HEADER_HEIGHT}
+              unit="day"
+            />
             <DateHeader />
           </TimelineHeaders>
         </Timeline>
@@ -861,4 +920,4 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   );
 };
 
-export default windowSize<IProps>(ErrProtecter(ShowTimeline));
+export default ErrProtecter(ShowTimeline);

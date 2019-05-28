@@ -1,4 +1,4 @@
-import { toast } from 'react-toastify';
+import {toast} from "react-toastify";
 
 interface result {
   error: string | null;
@@ -6,12 +6,16 @@ interface result {
   [data: string]: any;
 }
 
-const onCompletedMessage = (result: result, resultOK: string, resultFale: string) => {
+const onCompletedMessage = (
+  result: result,
+  resultOK: string,
+  resultFale: string | undefined
+) => {
   if (result.ok) {
     toast.success(resultOK);
   } else {
     console.error(`BackEnd::${result.error}`);
-    toast.warn(resultFale);
+    resultFale && toast.warn(resultFale);
   }
 };
 

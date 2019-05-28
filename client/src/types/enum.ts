@@ -1,5 +1,4 @@
-import {setMidNight} from "../utils/utils";
-import moment from "moment-timezone";
+import {assertValidSDL} from "graphql/validation/validate";
 
 //= =============================================================
 // START Enums from BackEnd
@@ -10,6 +9,18 @@ export enum UserRole {
   GHOST = "GHOST",
   GUEST = "GUEST",
   HOST = "HOST"
+}
+
+export enum GuestType {
+  BLOCK = "BLOCK",
+  GUEST = "GUEST"
+}
+
+export enum GuestTypeAdd {
+  BLOCK = "BLOCK",
+  GUEST = "GUEST",
+  MARK = "MARK",
+  MAKE = "MAKE"
 }
 
 export enum HouseType {

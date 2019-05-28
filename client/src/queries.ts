@@ -126,6 +126,7 @@ const F_GUEST = gql`
     pricingType
     bedIndex
     gender
+    guestType
     createdAt
     updatedAt
   }
@@ -537,33 +538,6 @@ export const GET_ALL_ROOMTYPES = gql`
     }
   }
   ${sharedGetAllRoomType}
-`;
-
-export const BLOCKING_BED = gql`
-  mutation blockingBed(
-    $start: DateTime!
-    $end: DateTime!
-    $houseId: ID!
-    $roomId: ID!
-    $bedIndex: Int!
-    $blocking: Boolean
-  ) {
-    BlockingBed(
-      start: $start
-      end: $end
-      houseId: $houseId
-      roomId: $roomId
-      bedIndex: $bedIndex
-      blocking: $blocking
-    ) {
-      ok
-      error
-      guest {
-        ...Fguest
-      }
-    }
-  }
-  ${F_GUEST}
 `;
 
 export const FIND_BOOKER = gql`
@@ -998,7 +972,6 @@ export const CREATE_ROOMTYPE = gql`
   }
 `;
 
-// 방 생성
 export const CREATE_ROOM = gql`
   mutation createRoom($name: String!, $roomType: ID!) {
     CreateRoom(name: $name, roomType: $roomType) {
@@ -1007,6 +980,43 @@ export const CREATE_ROOM = gql`
     }
   }
 `;
+
+export const DELETE_BLOCK = gql`
+  mutation removeBlocking($blockId: ID!) {
+    RemoveBlocking(blockId: $blockId) {
+      ok
+      error
+    }
+  }
+`;
+
+export const BLOCKING_BED = gql`
+  mutation blockingBed(
+    $start: DateTime!
+    $end: DateTime!
+    $houseId: ID!
+    $roomId: ID!
+    $bedIndex: Int!
+  ) {
+    BlockingBed(
+      start: $start
+      end: $end
+      houseId: $houseId
+      roomId: $roomId
+      bedIndex: $bedIndex
+    ) {
+      ok
+      error
+      guest {
+        _id
+        start
+        end
+        guestType
+      }
+    }
+  }
+`;
+
 export const CREATE_ROOM_PRICE = gql`
   mutation createRoomPrice(
     $price: Float!

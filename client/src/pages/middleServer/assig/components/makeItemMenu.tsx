@@ -1,11 +1,11 @@
 import React from "react";
 import TooltipList from "../../../../atoms/tooltipList/TooltipList";
 import Button from "../../../../atoms/button/Button";
-import {IAssigItem, defaultItemProps, IAssigGroup} from "../AssigTimelineWrap";
+import {IAssigItem, IAssigGroup} from "../AssigTimelineWrap";
 import $ from "jquery";
 import {ICanvasMenuProps} from "./canvasMenu";
 import {IUseModal} from "../../../../actions/hook";
-import {Gender, BookerModalType} from "../../../../types/enum";
+import {Gender, BookerModalType, GuestTypeAdd} from "../../../../types/enum";
 
 interface IProps {
   bookerModalHook: IUseModal;
@@ -43,7 +43,9 @@ const MakeItemMenu: React.FC<IProps> = ({
           label="생성"
           onClick={e => {
             e.stopPropagation();
-            const makeItems = guestValue.filter(guest => guest.type === "make");
+            const makeItems = guestValue.filter(
+              guest => guest.type === GuestTypeAdd.MAKE
+            );
             const resvInfoes = makeItems.map(item => {
               const targetGroup = groupData.find(
                 group => group.id === item.group

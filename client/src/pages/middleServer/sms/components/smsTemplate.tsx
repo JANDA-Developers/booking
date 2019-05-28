@@ -24,8 +24,7 @@ const HouseCard: React.SFC<IProps> = () => {
     "숙박날자(년/월/일)",
     "방타입(인원수)",
     "예약자명",
-    "객실명",
-    "총금액"
+    "금액"
   ];
 
   return (

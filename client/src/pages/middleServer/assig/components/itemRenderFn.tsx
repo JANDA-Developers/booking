@@ -7,7 +7,7 @@ import {ASSIGT_IMELINE_HEIGHT} from "../../../../atoms/timeline/Timeline";
 import {ITimelineContext, IItemContext} from "../../../../types/interface";
 import JDIcon, {IconSize} from "../../../../atoms/icons/Icons";
 import TooltipList from "../../../../atoms/tooltipList/TooltipList";
-import {GenderKr, TimePerMs} from "../../../../types/enum";
+import {GenderKr, TimePerMs, GuestTypeAdd} from "../../../../types/enum";
 import CircleIcon from "../../../../atoms/circleIcon/CircleIcon";
 
 const CLASS_LINKED = "assigItem--linkedSelected";
@@ -53,9 +53,9 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
     "assigItem--unAllocated": item.isUnsettled,
     "assigItem--selected": itemContext.selected,
     "assigItem--checkIn": item.isCheckin,
-    "assigItem--block": item.type === "block",
-    "assigItem--mark": item.type === "mark",
-    "assigItem--make": item.type === "make"
+    "assigItem--block": item.type === GuestTypeAdd.BLOCK,
+    "assigItem--mark": item.type === GuestTypeAdd.MARK,
+    "assigItem--make": item.type === GuestTypeAdd.MAKE
   });
 
   const props = getItemProps({
@@ -77,7 +77,7 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
       {itemContext.useResizeHandle ? <div {...leftResizeProps} /> : ""}
       {(() => {
         switch (item.type) {
-          case "normal":
+          case GuestTypeAdd.GUEST:
             return (
               <div
                 className="rct-item-content assigItem__content myClasses"
@@ -125,7 +125,7 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
                 </span>
               </div>
             );
-          case "block":
+          case GuestTypeAdd.BLOCK:
             return (
               <div className="assigItem__content assigItem__content--block">
                 {"자리막음"}
@@ -140,9 +140,9 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
                 </CircleIcon>
               </div>
             );
-          case "mark":
+          case GuestTypeAdd.MARK:
             return <div />;
-          case "make":
+          case GuestTypeAdd.MAKE:
             return (
               <div className="assigItem__content assigItem__content--make">
                 <div>

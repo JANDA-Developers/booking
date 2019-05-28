@@ -5,7 +5,8 @@ import {
   PayMethod,
   PaymentStatus,
   BookingStatus,
-  Gender
+  Gender,
+  GuestTypeAdd
 } from "./enum";
 import {getBooker_GetBooker_booker_roomTypes} from "./api";
 import {
@@ -72,8 +73,9 @@ export const DEFAULT_ASSIGITEM: IAssigItem = {
   roomId: "",
   roomTypeId: "",
   start: 0,
-  type: "block",
-  validate: []
+  type: GuestTypeAdd.BLOCK,
+  validate: [],
+  canMove: true
 };
 
 export const DEFAULT_ASSIG_GROUP: IAssigGroup = {

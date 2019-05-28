@@ -26,8 +26,8 @@ const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({group}) => {
     minHeight: ASSIGT_IMELINE_HEIGHT - 1
   };
   const roomStyle = {
-    height: Math.floor(ASSIGT_IMELINE_HEIGHT * placeCount),
-    minHeight: ASSIGT_IMELINE_HEIGHT - 1
+    height: Math.floor(ASSIGT_IMELINE_HEIGHT * placeCount) - 1,
+    minHeight: ASSIGT_IMELINE_HEIGHT - 2
   };
 
   let renderRoomType: boolean = true;
@@ -51,7 +51,7 @@ const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({group}) => {
         return $(this).height();
       });
       $(`#assigGroups__room${group.roomId}`).height(
-        arraySum(arrayHeights.get()) + target.length
+        arraySum(arrayHeights.get()) + target.length - 1
       );
     }
     if (renderRoomType) {
