@@ -17,7 +17,7 @@ import {
     User
 } from "../../types/graph";
 import { applyDaysToBinaryString } from "../../utils/applyDays";
-import { BlockModel, BlockSchema } from "../Block";
+import { BlockSchema } from "../Block";
 import { BookerModel, BookerSchema } from "../Booker";
 import { GuestModel, GuestSchema } from "../Guest";
 import {
@@ -576,7 +576,7 @@ export const extractBlock = async (
     blockInstance: InstanceType<BlockSchema>
 ): Promise<Block> => {
     return {
-        ...blockInstance,
+        ...(blockInstance as any)._doc,
         _id: blockInstance._id,
         house: await transformHouse.bind(transformHouse, blockInstance.house),
         allocatedRoom: await transformRoom.bind(

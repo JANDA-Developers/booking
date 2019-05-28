@@ -3,6 +3,7 @@ import { InstanceType } from "typegoose";
 import { BlockModel, BlockSchema } from "../../../models/Block";
 import { GuestModel } from "../../../models/Guest";
 import { extractBlock, extractGuest } from "../../../models/merge/merge";
+import { GuestTypeEnum } from "../../../types/enums";
 import {
     CreateBlockMutationArgs,
     CreateBlockResponse,
@@ -18,14 +19,17 @@ const resolvers: Resolvers = {
             async (
                 _,
                 {
-                    start,
-                    end,
                     roomId,
                     bedIndex,
-                    houseId
+                    houseId,
+                    ...dateRange
                 }: CreateBlockMutationArgs
             ): Promise<CreateBlockResponse> => {
                 try {
+                    const { start, end } = {
+                        start: new Date(dateRange.start),
+                        end: new Date(dateRange.end)
+                    };
                     const roomObjId = new Types.ObjectId(roomId);
                     const existingGuest = await GuestModel.findOne({
                         start: {
@@ -35,50 +39,57 @@ const resolvers: Resolvers = {
                             $gte: start
                         },
                         allocatedRoom: roomObjId,
-                        bedIndex
+                        bedIndex,
+                        guestType: GuestTypeEnum.GUEST
                     });
                     if (existingGuest) {
-                        if (existingGuest.guestType === "GUEST") {
-                            return {
-                                ok: false,
-                                error: "배정된 인원이 존재합니다",
-                                guest: await extractGuest.bind(
-                                    extractGuest,
-                                    existingGuest
-                                )
-                            };
-                        } else {
-                            let result: InstanceType<
-                                BlockSchema
-                            > = existingGuest;
-                            await BlockModel.findOneAndUpdate(
-                                {
-                                    _id: new Types.ObjectId(existingGuest._id)
-                                },
-                                {
-                                    $set: {
-                                        start,
-                                        end
-                                    }
-                                },
-                                {
-                                    new: true
-                                },
-                                (err, doc) => {
-                                    if (doc !== null) {
-                                        result = doc;
-                                    }
+                        return {
+                            ok: false,
+                            error: "배정된 인원이 존재합니다",
+                            block: await extractGuest.bind(
+                                extractGuest,
+                                existingGuest
+                            )
+                        };
+                    }
+                    const existingBlock = await BlockModel.findOne({
+                        start: {
+                            $lte: end
+                        },
+                        end: {
+                            $gte: start
+                        },
+                        house: new Types.ObjectId(houseId),
+                        allocatedRoom: roomObjId,
+                        bedIndex,
+                        guestType: GuestTypeEnum.BLOCK
+                    });
+                    if (existingBlock) {
+                        let result: InstanceType<BlockSchema> = existingBlock;
+                        await BlockModel.findOneAndUpdate(
+                            {
+                                _id: new Types.ObjectId(existingBlock._id)
+                            },
+                            {
+                                $set: {
+                                    start,
+                                    end
                                 }
-                            );
-                            return {
-                                ok: true,
-                                error: null,
-                                guest: await extractBlock.bind(
-                                    extractBlock,
-                                    result
-                                )
-                            };
-                        }
+                            },
+                            {
+                                new: true
+                            },
+                            (err, doc) => {
+                                if (doc !== null) {
+                                    result = doc;
+                                }
+                            }
+                        );
+                        return {
+                            ok: true,
+                            error: null,
+                            block: await extractBlock.bind(extractBlock, result)
+                        };
                     }
                     const block = new BlockModel({
                         start,
@@ -91,13 +102,13 @@ const resolvers: Resolvers = {
                     return {
                         ok: true,
                         error: null,
-                        guest: await extractGuest.bind(extractGuest, block)
+                        block: await extractBlock.bind(extractBlock, block)
                     };
                 } catch (error) {
                     return {
                         ok: false,
                         error: error.message,
-                        guest: null
+                        block: null
                     };
                 }
             }

@@ -1,6 +1,7 @@
 import { Types } from "mongoose";
 import { GuestModel } from "../../../models/Guest";
 import { extractBlock, extractBlocks } from "../../../models/merge/merge";
+import { GuestTypeEnum } from "../../../types/enums";
 import { GetBlocksQueryArgs, GetBlocksResponse } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
 import { privateResolver } from "../../../utils/privateResolvers";
@@ -20,7 +21,8 @@ const resolvers: Resolvers = {
                         end: {
                             $gte: start
                         },
-                        house: new Types.ObjectId(houseId)
+                        house: new Types.ObjectId(houseId),
+                        guestType: GuestTypeEnum.BLOCK
                     });
                     return {
                         ok: true,

@@ -1,7 +1,7 @@
 type CreateBlockResponse {
     ok: Boolean!
     error: String
-    guest: Guest
+    block: Block
 }
 type Mutation {
     CreateBlock(
