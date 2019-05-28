@@ -154,7 +154,7 @@ export class BookerSchema extends Typegoose {
     createGuest(
         this: InstanceType<BookerSchema>,
         dateRange: { start: Date; end: Date },
-        gender: GenderEnum | null,
+        gender: GenderEnum,
         roomTypeInstance: InstanceType<RoomTypeSchema>,
         allocatedRoom: Types.ObjectId,
         bedIndex: number,

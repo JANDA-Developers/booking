@@ -20,6 +20,7 @@ import { asyncForEach } from "../../../utils/etc";
 import { Context } from "graphql-yoga/dist/types";
 import * as _ from "lodash";
 import { HouseSchema } from "../../../models/House";
+import { removeUndefined } from "../../../utils/objFuncs";
 import {
     privateResolver,
     privateResolverForPublicAccess
@@ -212,22 +213,6 @@ const createBooker = async (
 
 // --------------------------------------------------------------------------------------------------------------------------------------
 
-export const createGuest = (
-    bookerInstance: InstanceType<BookerSchema>,
-    gender: Gender,
-    roomTypeInstance: InstanceType<RoomTypeSchema>
-): InstanceType<GuestSchema> =>
-    new GuestModel({
-        house: new Types.ObjectId(bookerInstance.house),
-        booker: new Types.ObjectId(bookerInstance._id),
-        name: bookerInstance.name,
-        roomType: new Types.ObjectId(roomTypeInstance._id),
-        pricingType: roomTypeInstance.pricingType,
-        gender,
-        start: bookerInstance.start,
-        end: bookerInstance.end
-    });
-
 const createGuestWithBookerAndAllocateHere = (
     bookerInstance: InstanceType<BookerSchema>,
     genderData: { gender: Gender | null; count: number },
@@ -255,19 +240,21 @@ const createGuestWithBookerAndAllocateHere = (
     }
     const guestInstances: Array<InstanceType<GuestSchema>> = [];
     while (roomCapacity.availableCount > 0 && genderData.count > 0) {
-        const guest = new GuestModel({
-            house: new Types.ObjectId(bookerInstance.house),
-            booker: new Types.ObjectId(bookerInstance._id),
-            name: bookerInstance.name,
-            roomType: new Types.ObjectId(roomTypeInstance._id),
-            pricingType: roomTypeInstance.pricingType,
-            gender: genderData.gender || null,
-            allocatedRoom: new Types.ObjectId(roomCapacity.roomId),
-            bedIndex: roomCapacity.emptyBeds.shift(),
-            isUnsettled,
-            start: dateRange.start,
-            end: dateRange.end
-        });
+        const guest = new GuestModel(
+            removeUndefined({
+                house: new Types.ObjectId(bookerInstance.house),
+                booker: new Types.ObjectId(bookerInstance._id),
+                name: bookerInstance.name,
+                roomType: new Types.ObjectId(roomTypeInstance._id),
+                pricingType: roomTypeInstance.pricingType,
+                gender: genderData.gender,
+                allocatedRoom: new Types.ObjectId(roomCapacity.roomId),
+                bedIndex: roomCapacity.emptyBeds.shift(),
+                isUnsettled,
+                start: dateRange.start,
+                end: dateRange.end
+            })
+        );
         guestInstances.push(guest);
         roomCapacity.availableCount--;
         genderData.count--;
