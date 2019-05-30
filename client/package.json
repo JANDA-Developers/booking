@@ -10,6 +10,7 @@
     "@babel/core": "7.1.0",
     "@babel/plugin-syntax-json-strings": "^7.2.0",
     "@svgr/webpack": "2.4.1",
+    "@types/dotenv": "^6.1.1",
     "@types/lodash": "^4.14.123",
     "@types/moment-timezone": "^0.5.12",
     "@types/react-addons-css-transition-group": "^15.0.5",

@@ -16,6 +16,12 @@ const Qna = () => (
             title="JDqna"
             src="https://stayjanda.com/QnA"
           />
+          <iframe
+            width="100%"
+            height="500px"
+            title="JDqna"
+            src="http://localhost:3000/#/outpage/reservation?publicky=05dfe136-1f1e-beed-b96d-ea3d68d8b847"
+          />
           <Preloader className="qna__preloader" size="large" />
         </div>
       </div>

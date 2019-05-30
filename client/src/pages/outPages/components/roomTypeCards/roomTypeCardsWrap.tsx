@@ -146,6 +146,8 @@ const RoomTypeCardsWrap: React.SFC<IProps> = ({
               console.log("💖 truePrice");
               console.log(truePrice);
 
+              Math.floor(truePrice / 10) * 10;
+
               return (
                 <RoomTypeCard
                   resvRooms={resvRooms}

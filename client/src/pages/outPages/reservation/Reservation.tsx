@@ -119,9 +119,6 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
     guestInputs: resvRooms
   };
 
-  console.log("bookingParams");
-  console.log(bookingParams);
-
   const bookingCompleteFn = () => {
     if (bookerInfoValidation()) {
       createBookerMu({

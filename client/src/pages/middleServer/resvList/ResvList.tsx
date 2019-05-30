@@ -21,6 +21,7 @@ import {
   updateBookerVariables,
   updateBooker
 } from "../../../types/api";
+import autoHyphen from "../../../utils/autoFormat";
 import {JDtoastModal} from "../../../atoms/modal/Modal";
 import {
   PaymentStatus,
@@ -211,7 +212,7 @@ const ResvList: React.SFC<IProps> = ({
           <div>
             {Booker.name}
             <br />
-            {Booker.phoneNumber}
+            {autoHyphen(Booker.phoneNumber)}
           </div>
         );
       }

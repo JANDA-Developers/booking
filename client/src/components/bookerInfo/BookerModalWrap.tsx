@@ -187,22 +187,25 @@ const BookerModalWrap: React.FC<IProps> = ({modalHook, houseId}) => (
                         modalHook.closeModal();
                       }}
                     >
-                      {deleteBookerMu => (
-                        <BookerModal
-                          bookerData={booker || makeInfo || DEFAULT_BOOKER}
-                          assigInfo={modalHook.info.assigInfo}
-                          type={modalHook.info.type}
-                          houseId={houseId}
-                          modalHook={modalHook}
-                          createBookerMu={createBookerMu}
-                          updateBookerMu={updateBookerMu}
-                          deleteBookerMu={deleteBookerMu}
-                          allocateGuestToRoomMu={allocateGuestToRoomMu}
-                          key={`bookerModal${modalHook.info.bookerId}${
-                            modalHook.info.type
-                          }`}
-                        />
-                      )}
+                      {deleteBookerMu => {
+                        const bookerData = booker || makeInfo || DEFAULT_BOOKER;
+                        return (
+                          <BookerModal
+                            bookerData={bookerData}
+                            assigInfo={modalHook.info.assigInfo}
+                            type={modalHook.info.type}
+                            houseId={houseId}
+                            modalHook={modalHook}
+                            createBookerMu={createBookerMu}
+                            updateBookerMu={updateBookerMu}
+                            deleteBookerMu={deleteBookerMu}
+                            allocateGuestToRoomMu={allocateGuestToRoomMu}
+                            key={`bookerModal${modalHook.info.bookerId}${
+                              modalHook.info.type
+                            }${bookerData.start}${bookerData.end}`}
+                          />
+                        );
+                      }}
                     </DeleteBookerMu>
                   )}
                 </CreatBookingMu>

@@ -399,8 +399,18 @@ export const GET_HOUSE = gql`
 `;
 
 export const GET_GUESTS = gql`
-  query getGuests($start: DateTime!, $end: DateTime!, $houseId: ID!) {
-    GetGuests(start: $start, end: $end, houseId: $houseId) {
+  query getGuests(
+    $start: DateTime!
+    $end: DateTime!
+    $houseId: ID!
+    $bookingStatus: BookingStatus
+  ) {
+    GetGuests(
+      start: $start
+      end: $end
+      houseId: $houseId
+      bookingStatus: $bookingStatus
+    ) {
       ok
       error
       guests {
@@ -579,6 +589,7 @@ export const GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM = gql`
     $houseId: ID!
     $start: DateTime!
     $end: DateTime!
+    $bookingStatus: BookingStatus!
   ) {
     GetAllRoomType(houseId: $houseId) {
       ok
@@ -603,7 +614,12 @@ export const GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM = gql`
         }
       }
     }
-    GetGuests(start: $start, end: $end, houseId: $houseId) {
+    GetGuests(
+      start: $start
+      end: $end
+      houseId: $houseId
+      bookingStatus: $bookingStatus
+    ) {
       ok
       error
       guests {

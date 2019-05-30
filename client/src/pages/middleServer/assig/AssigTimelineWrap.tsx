@@ -50,7 +50,11 @@ import {setYYYYMMDD, parallax} from "../../../utils/setMidNight";
 import {roomDataManufacture} from "./components/groupDataMenufacture";
 import reactWindowSize, {WindowSizeProps} from "react-window-size";
 import {DEFAULT_ASSIG_ITEM} from "../../../types/defaults";
-import {IAssigMutationes, IAssigItem, IAssigItemCrush} from "./components/assigIntrerface";
+import {
+  IAssigMutationes,
+  IAssigItem,
+  IAssigItemCrush
+} from "./components/assigIntrerface";
 
 moment.tz.setDefault("UTC");
 
@@ -206,7 +210,10 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
       fetchPolicy="network-only"
       notifyOnNetworkStatusChange={true}
       query={GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM}
-      variables={updateVariables}
+      variables={{
+        ...updateVariables,
+        bookingStatus: BookingStatus.COMPLETE
+      }}
     >
       {({data, loading, error}) => {
         showError(error);
