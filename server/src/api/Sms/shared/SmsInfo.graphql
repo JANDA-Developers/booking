@@ -14,13 +14,14 @@ type SmsSender {
 }
 
 input SmsSenderInput {
-    phoneNumber: PhoneNumber
+    phoneNumber: PhoneNumber!
     registered: Boolean
 }
 
 type SmsTemplate {
+    _id: ID!
     formatName: String!
-    smsFormat: String!
+    smsFormat: String
     smsSendCase: SmsAutoSendCase
 }
 
@@ -32,7 +33,7 @@ type SmsAutoSendCase {
 
 input SmsTemplateInput {
     formatName: String!
-    smsFormat: String!
+    smsFormat: String
     smsSendCase: SmsAutoSendCaseInput
 }
 

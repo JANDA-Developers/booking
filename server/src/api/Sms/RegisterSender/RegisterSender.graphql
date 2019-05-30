@@ -1,0 +1,13 @@
+type RegisterSenderResponse {
+    ok: Boolean!
+    error: String
+    sender: SmsSender
+    isVerified: Boolean
+}
+
+type Mutation {
+    RegisterSender(
+        houseId: ID!
+        sender: SmsSenderInput!
+    ): RegisterSenderResponse!
+}
