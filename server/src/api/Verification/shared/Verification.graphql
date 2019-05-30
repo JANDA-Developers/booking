@@ -5,7 +5,6 @@ type Verification {
     verified: Boolean!
     key: String!
     user: User!
-    house: House
     createdAt: String!
     updatedAt: String
 }
