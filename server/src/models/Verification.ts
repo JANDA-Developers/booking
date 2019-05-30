@@ -35,7 +35,10 @@ class VerificationSchema extends Typegoose {
     key: string;
 
     @prop()
-    user: Types.ObjectId
+    user: Types.ObjectId;
+
+    @prop()
+    house: Types.ObjectId;
 
     @prop()
     createdAt: Date;
