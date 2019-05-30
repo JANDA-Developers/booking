@@ -33,7 +33,6 @@ import EerrorProtect from "../../../utils/errProtect";
 import {
   Gender,
   BookingStatus,
-  GuestTypeAdd,
   GuestType,
   RoomGender,
   PricingType
@@ -50,54 +49,13 @@ import AssigTimeline from "./AssigTimeline";
 import {setYYYYMMDD, parallax} from "../../../utils/setMidNight";
 import {roomDataManufacture} from "./components/groupDataMenufacture";
 import reactWindowSize, {WindowSizeProps} from "react-window-size";
-import {DEFAULT_ASSIGITEM} from "../../../types/defaults";
+import {DEFAULT_ASSIG_ITEM} from "../../../types/defaults";
+import {IAssigMutationes, IAssigItem, IAssigItemCrush} from "./components/assigIntrerface";
 
 moment.tz.setDefault("UTC");
 
 class UpdateBookerMu extends Mutation<updateBooker, updateBookerVariables> {}
 class CreateBlockMu extends Mutation<createBlock, createBlockVariables> {}
-
-export interface IAssigGroup {
-  id: string;
-  title: string;
-  roomTypeId: string;
-  roomTypeIndex: number;
-  roomIndex: number;
-  roomType: IRoomType;
-  roomId: string;
-  placeIndex: number;
-  isLastOfRoom: boolean;
-  isLastOfRoomType: boolean;
-  bedIndex: number;
-  type: "add" | "normal" | "addRoomType";
-  roomGender: RoomGender | null;
-  pricingType: PricingType;
-}
-export interface IAssigItemCrush {
-  guestIndex: number;
-  reason: string;
-  start: number | null;
-  end: number | null;
-}
-
-export interface IAssigItem {
-  id: string;
-  guestIndex: number;
-  name: string;
-  group: string;
-  bookerId: string;
-  isCheckin: boolean;
-  roomTypeId: string;
-  roomId: string;
-  bedIndex: number;
-  start: number;
-  end: number;
-  gender: Gender | null;
-  isUnsettled: boolean;
-  canMove: boolean;
-  validate: IAssigItemCrush[];
-  type: GuestTypeAdd;
-}
 
 interface IProps {
   houseId: string;
@@ -171,7 +129,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
     blocksData.forEach((blockData, index) => {
       if (blockData) {
         alloCateItems.push({
-          ...DEFAULT_ASSIGITEM,
+          ...DEFAULT_ASSIG_ITEM,
           id: blockData._id,
           bookerId: blockData._id,
           roomId: blockData.allocatedRoom._id,
@@ -277,10 +235,6 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
         const formatedGuestsData = guestsDataManufacture(guestsData); // 타임라인을 위해 가공된 데이터
         const formatedBlockData = blockDataManufacture(blocks); // 타임라인을 위해 가공된 데이터
 
-        console.log("formatedRoomData");
-        console.log(formatedRoomData);
-        console.log(formatedRoomData);
-
         const formatedItemData = formatedGuestsData.concat(formatedBlockData);
 
         return (
@@ -357,30 +311,36 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                             }}
                             mutation={DELETE_BLOCK}
                           >
-                            {deleteBlockMu => (
-                              <AssigTimeline
-                                houseId={houseId}
-                                loading={loading}
-                                groupData={formatedRoomData}
-                                deafultGuestsData={formatedItemData || []}
-                                dayPickerHook={dayPickerHook}
-                                defaultProps={assigDefaultProps}
-                                allocateMu={allocateMu}
-                                roomTypesData={roomTypesData || []}
-                                defaultTimeStart={defaultStartDate}
-                                updateBookerMu={updateBookerMu}
-                                deleteGuestsMu={deleteGuestMu}
-                                createBlockMu={createBlockMu}
-                                deleteBlockMu={deleteBlockMu}
-                                defaultTimeEnd={defaultEndDate}
-                                setDataTime={setDataTime}
-                                windowHeight={windowHeight}
-                                windowWidth={windowWidth}
-                                dataTime={dataTime}
-                                key={`timeline${defaultStartDate}${defaultEndDate}${guestsData &&
-                                  guestsData.length}`}
-                              />
-                            )}
+                            {deleteBlockMu => {
+                              const assigMutationes: IAssigMutationes = {
+                                updateBookerMu,
+                                deleteGuestsMu: deleteGuestMu,
+                                createBlockMu,
+                                deleteBlockMu,
+                                allocateMu
+                              };
+
+                              return (
+                                <AssigTimeline
+                                  houseId={houseId}
+                                  loading={loading}
+                                  groupData={formatedRoomData}
+                                  deafultGuestsData={formatedItemData || []}
+                                  dayPickerHook={dayPickerHook}
+                                  defaultProps={assigDefaultProps}
+                                  roomTypesData={roomTypesData || []}
+                                  defaultTimeStart={defaultStartDate}
+                                  assigMutationes={assigMutationes}
+                                  defaultTimeEnd={defaultEndDate}
+                                  setDataTime={setDataTime}
+                                  windowHeight={windowHeight}
+                                  windowWidth={windowWidth}
+                                  dataTime={dataTime}
+                                  key={`timeline${defaultStartDate}${defaultEndDate}${guestsData &&
+                                    guestsData.length}`}
+                                />
+                              );
+                            }}
                           </DeleteBlockMu>
                         )}
                       </CreateBlockMu>

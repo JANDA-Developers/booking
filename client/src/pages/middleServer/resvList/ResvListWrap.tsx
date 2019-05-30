@@ -52,8 +52,6 @@ const ResvListWrap: React.SFC<IProps> = ({houseId}) => {
           undefined
         );
 
-        if (bookers) bookers.reverse();
-
         return (
           <DeleteBookerMu
             mutation={DELETE_BOOKER}

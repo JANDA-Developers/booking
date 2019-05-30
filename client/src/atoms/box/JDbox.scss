@@ -7,7 +7,7 @@
             font-size: $typho-tiny;
             margin-bottom: $standard-margin-bottom /3;
         }
-        
+
         &--normal {
             font-size: $typho-small;
             padding: $standard-small-padding;
@@ -27,6 +27,10 @@
                 margin-bottom: 0;
                 padding: 0;
             }
+        }
+
+        &--center {
+            text-align:center;
         }
 
         &--table {

@@ -39,8 +39,8 @@ import {
   allocateGuestToRoomVariables
 } from "../../types/api";
 import {GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM} from "../../queries";
-import {IAssigInfo} from "../../pages/middleServer/assig/components/makeItemMenu";
 import SendSMSmodalWrap from "../sendSMSmodal/sendSMSmodalWrap";
+import {IAssigInfo} from "../../pages/middleServer/assig/components/assigIntrerface";
 
 export interface IroomSelectInfoTable {
   roomTypeId: string;

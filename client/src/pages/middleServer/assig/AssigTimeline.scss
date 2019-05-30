@@ -1,21 +1,44 @@
 @import '../../../style_config/style_config.scss';
+// 👿 에니메이션 css 순수하게 가진 파일이필요
+@import '../../../atoms/animation/ComponentAnimations.scss';
 
-$AT-assigGroup-roomType-width: 100px;
-$AT-assigGroup-room-width: 100px;
+  @keyframes fadeInUp {
+    from {
+        opacity: 0;
+        -webkit-transform: translate3d(0, 100%, 0);
+        transform: translate3d(0, 100%, 0);
+      }
+    
+      to {
+        opacity: 1;
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+      }
+  }
 
-$AT-mobile-assigGroup-roomType-width: 36px;
-$AT-mobile-assigGroup-room-width: 36px;
-
-
-$assigItem-normal-background-color: rgba(33,83,219,.8);
-$assigItem-linked-background-color: rgba(255,255,255,.5);
-$assigItem-checkIn-background-color: rgba(255,255,0,.7);
-$assigItem-selected-linked-border-thick: 3px;
-$assigItem-selected-linked-border: $assigItem-selected-linked-border-thick solid #387BDB;
-$assigItem-padding: 6px;
+@-webkit-keyframes fadeInUp {
+    from {
+      opacity: 0;
+      -webkit-transform: translate3d(0, 100%, 0);
+      transform: translate3d(0, 100%, 0);
+    }
+  
+    to {
+      opacity: 1;
+      -webkit-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
+    }
+  }
 
 #AssigTimeline {
 
+    .assigTimeline__titleSection {
+        position:relative;   
+        .assigTimeline__mainPreloder {
+            position:absolute;
+            bottom:0;
+        }
+    }
 
     .assigTimeline__placeHolderWrap {
         position: relative;
@@ -55,9 +78,10 @@ $assigItem-padding: 6px;
             border-bottom: 1px dotted $grey-opacity3;
 
             &-odd{
+                // odd
             }
             &-even{
-
+                // even
             }
         }
         
@@ -164,7 +188,7 @@ $assigItem-padding: 6px;
         $B: '.assigItem';
         cursor: pointer;
         z-index: $z-index-8;
-        background-color: $assigItem-normal-background-color;
+        background-color: $assigItem-noramlStatus-color;
         color:white;
         @extend %z-depth-half;
         box-sizing: border-box;
@@ -173,13 +197,9 @@ $assigItem-padding: 6px;
         @include response($mobile) {
             font-size: $typho-tiny;
         }
-        // 😲 배정안된
-        &--unAllocated {
-            opacity: 0.5;
-        }
         // 😲 체크인된
         &--checkIn {
-            background-color: $assigItem-checkIn-background-color;
+            background-color: $assigItem-checkIn-color;
             color: $html-color;
             #{$B}__gender {
                 &--female {
@@ -205,7 +225,7 @@ $assigItem-padding: 6px;
         // 😲 선택된것과 관련된
         &--linkedSelected {
             color: $html-color;
-            background-color: $assigItem-linked-background-color;
+            background-color: $assigItem-linked-bgColor;
             border: $assigItem-selected-linked-border;
 
             #{$B}__configIconWrap {
@@ -224,7 +244,7 @@ $assigItem-padding: 6px;
         }
         // 😲 링크선택 && 체크인된
         &--linkedSelected.assigItem--checkIn {
-            background-color: $assigItem-checkIn-background-color;
+            background-color: $assigItem-checkIn-color;
         }
         // 😲 
         &--linkedSelected#{&}--unAllocated {
@@ -233,6 +253,16 @@ $assigItem-padding: 6px;
         &--moving {
             opacity: 0.3;
             box-shadow:none;
+        }
+
+        &__titleWrap {
+            width: calc(100% - 17px);
+            white-space: pre-line;
+            line-height: 1;
+
+            @include response($mobile) {
+                width: 100%;
+            }
         }
 
         &__gender {
@@ -246,11 +276,15 @@ $assigItem-padding: 6px;
             padding: 0px $assigItem-padding;
             height: 100%;
             white-space: nowrap;
-
+            
             .circleIcon {
                 margin: 0;
                 max-height: 100%;
                 vertical-align: baseline;
+            }
+            
+            @include response($mobile) {
+                padding: 0px $assigItem-padding /2;
             }
         }
         
@@ -258,6 +292,12 @@ $assigItem-padding: 6px;
             display: flex;
             align-items: end;
             font-size:0;
+            cursor: pointer;
+
+            @include response($mobile) {
+                opacity: 0;
+                width: 0px;
+            }
         }
         &__validateMarker {
             position: absolute;
@@ -285,14 +325,15 @@ $assigItem-padding: 6px;
         }
         // 😲 마킹
         &--mark {
-            box-shadow: none;
-            border:none;
-            background-color: $grey-level1;
-            pointer-events: none;
+            background-color: $assigItem-mark-bgColor;
+            pointer-events: none; 
+            // 👿 
+            height: 36px!important;
+            border: $assigItem-selected-linked-border;
+            @extend %z-depth-2;
         }
         // 😲 생성
         &--make {
-            box-shadow: none;
             background-color: $secondary-color;
             border-color: $secondary-color-dark;
             color:white;
@@ -305,19 +346,80 @@ $assigItem-padding: 6px;
                     color: white;
                 }
             }
+
+            &.assigItem--linkedSelected {
+                background-color: $assigItem-linked-bgColor;
+                color: $html-color;
+
+                #{$B}__gender {
+                    &--female {
+                        color: $female-color;
+                    }
+                    &--male {
+                        color: $male-color;
+                    }
+                }
+
+                .circleIcon {
+                    color: $html-color;
+                }
+            }
         }
     }
 }
 
 
+/* tooltip 과 menues -------------------------------------------------------------------------- */
+
+#root {
 // 👿 여기 말풍선모양좀 달아줘
-.canvasTooltip,.makeTooltip {
-    display: none;
-    position: fixed;
-    background-color: white;
-    z-index: $z-index-3;
-    &--show {
-        display:inline-block;
+    .canvasMenu,.makeMenu,.blockMenu {
+        display: none;
+        position: fixed;
+        background-color: white;
+        z-index: $z-index-3;
+        &--show {
+            display:inline-block;
+        }
+
+        @include response($mobile) {
+            position: fixed;
+            //  jquery 로 적용해놓은 것을 해제합니다.
+            bottom: 0!important;
+            left: 0!important;
+            top: unset!important;
+            right: 0!important;
+            padding:0;
+            // 👿 mediaQuery 안에서 @extend 를 사용할수 없음
+            // stackOverflow[https://stackoverflow.com/questions/14840918/extending-selectors-from-within-media-queries-with-sass]
+
+            // %z-depth-3
+            -webkit-box-shadow: 0 8px 17px 2px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 17px 2px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
+
+            -webkit-animation-name: fadeInUp;
+            animation-name: fadeInUp;
+            -webkit-animation-duration: 1s;
+                    animation-duration: 1s;
+            -webkit-animation-fill-mode: after;
+                    animation-fill-mode: after;
+        }
+    }
+    @include response($mobile) {
+        .itemTooltip {
+            top:auto!important;
+            bottom: 0!important;
+            left: 0!important;
+            right: 0!important;
+            font-size: $typho-normal;
+            &--show {
+                -webkit-animation-name: fadeInUp;
+                animation-name: fadeInUp;
+                -webkit-animation-duration: 1s;
+                animation-duration: 1s;
+                -webkit-animation-fill-mode: after;
+                animation-fill-mode: after;
+            }
+        }
     }
 }
-

@@ -1,43 +1,40 @@
 import React from "react";
 import TooltipList from "../../../../atoms/tooltipList/TooltipList";
 import Button from "../../../../atoms/button/Button";
-import {IAssigItem, IAssigGroup} from "../AssigTimelineWrap";
 import $ from "jquery";
-import {Gender, GuestTypeAdd} from "../../../../types/enum";
-import {DEFAULT_ASSIGITEM} from "../../../../types/defaults";
+import {DEFAULT_ASSIG_ITEM} from "../../../../types/defaults";
 import {roomGenderToGedner} from "./groupDataMenufacture";
-
-export interface ICanvasMenuProps {
-  start: number;
-  end: number;
-  groupId: string;
-  group: IAssigGroup;
-}
+import {
+  GuestTypeAdd,
+  IAssigTimelineUtils,
+  IAssigTimelineContext,
+  IAssigTimelineHooks
+} from "./assigIntrerface";
 
 interface IProps {
-  guestValue: IAssigItem[];
-  setGuestValue: React.Dispatch<React.SetStateAction<IAssigItem[]>>;
-  canvasMenuProps: ICanvasMenuProps;
-  addBlock(time: number, groupId: string): void;
+  assigHooks: IAssigTimelineHooks;
+  assigUtils: IAssigTimelineUtils;
+  assigContext: IAssigTimelineContext;
 }
 
 const CanvasMenu: React.FC<IProps> = ({
-  canvasMenuProps,
-  guestValue,
-  setGuestValue,
-  addBlock
+  assigHooks: {guestValue, setMakeMenuProps, canvasMenuProps, setGuestValue},
+  assigUtils: {addBlock, resizeLinkedItems, findItemById}
 }) => (
-  <div className="assig__tooltips canvasTooltip tooltipList" id="canvasTooltip">
+  <div className="assig__tooltips canvasMenu tooltipList" id="canvasMenu">
     <ul>
       <li>
         <Button
           label="예약생성"
           onClick={e => {
             e.stopPropagation();
-            const stack = guestValue.filter(group => group.bookerId === "make")
-              .length;
-            guestValue.push({
-              ...DEFAULT_ASSIGITEM,
+            const linkedItems = guestValue.filter(
+              group => group.bookerId === "make"
+            );
+            const stack = linkedItems.length;
+
+            const newItem = {
+              ...DEFAULT_ASSIG_ITEM,
               bookerId: "make",
               id: `make${canvasMenuProps.groupId}${
                 canvasMenuProps.start
@@ -48,10 +45,13 @@ const CanvasMenu: React.FC<IProps> = ({
               ),
               type: GuestTypeAdd.MAKE,
               start: canvasMenuProps.start,
-              end: canvasMenuProps.end,
+              end: linkedItems[0] ? linkedItems[0].end : canvasMenuProps.end,
               group: canvasMenuProps.groupId
-            });
-            $("#canvasTooltip").removeClass("canvasTooltip--show");
+            };
+
+            guestValue.push(newItem);
+
+            $("#canvasMenu").removeClass("canvasMenu--show");
             // make중에 시작위치가 안맞는거를 제외시킨다.
             setGuestValue([
               ...guestValue.filter(
@@ -61,6 +61,7 @@ const CanvasMenu: React.FC<IProps> = ({
                     item.start === canvasMenuProps.start)
               )
             ]);
+            setMakeMenuProps({item: newItem});
           }}
           mode="flat"
           color="white"

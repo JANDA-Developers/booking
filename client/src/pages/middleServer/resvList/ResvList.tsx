@@ -154,7 +154,7 @@ const ResvList: React.SFC<IProps> = ({
       Cell: ({value, original}: CellInfo) => {
         const roomTypes: IRoomType[] = value;
         return roomTypes.map(roomType => (
-          <JDbox key={`${original._id}${roomType._id}`}>
+          <JDbox align="center" key={`${original._id}${roomType._id}`}>
             {roomType.name}
             <br />
             <span>
@@ -244,7 +244,8 @@ const ResvList: React.SFC<IProps> = ({
       minWidth: 200,
       Cell: ({value}: CellInfo) => (
         <div
-          className={`JDscrool resvList__memo ${value.length > 20 &&
+          className={`JDscrool resvList__memo ${value &&
+            value.length > 20 &&
             "resvList__memo--full"}`}
         >
           {value}
@@ -328,6 +329,7 @@ const ResvList: React.SFC<IProps> = ({
           SelectAllInputComponent={selectAllInputComponentProps}
           SelectInputComponent={selectInputCompoent}
           isCheckable
+          align="center"
           data={bookersData}
           selectAll={selectAll}
           isSelected={(key: string) => checkedIds.includes(key)}

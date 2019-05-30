@@ -43,13 +43,13 @@ const SideNav: React.FC<IProps> = ({
   const isHaveProduct = selectedHouse && selectedHouse.product ? true : false;
   const isRoomTypeMaked = isHouseMaked && !isEmpty(selectedHouse!.roomTypes);
 
-  interface IMenuesItem {
+  interface IMenusItem {
     to: string;
     label: string;
     icon: IIcons;
     disabled: boolean;
   }
-  const menues: IMenuesItem[] = [
+  const menues: IMenusItem[] = [
     {
       to: "/middleServer/assigTimeline",
       disabled: !isRoomTypeMaked,
@@ -113,7 +113,7 @@ const SideNav: React.FC<IProps> = ({
     if (disabled) e.preventDefault();
   };
 
-  const sortedMenues = menues.sort((menu, menu2) => {
+  const sortedMenus = menues.sort((menu, menu2) => {
     return menu.disabled === menu2.disabled ? 0 : menu.disabled ? 1 : -1;
   });
 
@@ -134,7 +134,7 @@ const SideNav: React.FC<IProps> = ({
         </div>
         {/* 리스트 컨테이너 */}
         <div className="JDsideNav__listContainer">
-          {sortedMenues.map((menu, index) => (
+          {sortedMenus.map((menu, index) => (
             <NavLink
               // 👿 Id로 쓸만한거없나
               key={menu.to + index}

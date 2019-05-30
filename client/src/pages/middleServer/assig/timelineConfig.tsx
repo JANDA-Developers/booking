@@ -3,8 +3,8 @@ import {
   sharedProps
 } from "../../../atoms/timeline/Timeline";
 import assigGroupRendererFn from "./components/groupRenderFn";
-import {IAssigGroup} from "./AssigTimelineWrap";
 import itemRendererFn from "./components/itemRenderFn";
+import {IAssigGroup} from "./components/assigIntrerface";
 
 // Assig Timeline 으로 전달될 객체
 const assigDefaultProps = {

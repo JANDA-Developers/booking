@@ -392,3 +392,21 @@ $colorPicker-height: $standard-line-height  - ($colorPicker-padding * 2);
 $colorPicker-width: 3rem;
 $colorPicker-radius: $standard-border-radius;
 $colorPicker-outborder-color: $standard-outborder-color;
+
+// 21 assigTimeline 배정 타임라인 방배정 
+// ANCHOR assig Assig=========================================================================
+$assigItem-noramlStatus-color: rgba(33,83,219,.8);
+$assigItem-checkIn-color: rgba(255,238,0,.7);
+$assigItem-selected-border-color: #387BDB;
+$assigItem-linked-bgColor: rgba(255,255,255,.5);
+$assigItem-mark-bgColor: $assigItem-linked-bgColor;
+// 반하얀색임
+
+$AT-assigGroup-roomType-width: 100px;
+$AT-assigGroup-room-width: 100px;
+$AT-mobile-assigGroup-roomType-width: 36px;
+$AT-mobile-assigGroup-room-width: 36px;
+
+$assigItem-selected-linked-border-thick: 1px;
+$assigItem-selected-linked-border: $assigItem-selected-linked-border-thick solid $assigItem-selected-border-color;
+$assigItem-padding: 6px;

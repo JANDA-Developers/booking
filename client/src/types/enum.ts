@@ -16,13 +16,6 @@ export enum GuestType {
   GUEST = "GUEST"
 }
 
-export enum GuestTypeAdd {
-  BLOCK = "BLOCK",
-  GUEST = "GUEST",
-  MARK = "MARK",
-  MAKE = "MAKE"
-}
-
 export enum HouseType {
   GUEST_HOUSE = "GUEST_HOUSE",
   HOSTEL = "HOSTEL",

@@ -22,6 +22,9 @@
   transition: background-color 0.2s ease-out;
   cursor: pointer;
 
+  &.JDwaves-effect {
+    overflow:hidden;
+  }
   // Flot
   &--left {
     float: left

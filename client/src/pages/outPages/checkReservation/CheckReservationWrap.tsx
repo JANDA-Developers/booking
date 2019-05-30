@@ -51,7 +51,6 @@ const CheckReservationWrap: React.FC<IProps> = ({match}) => {
             undefined
           );
 
-          console.log("booker");
           return booker;
         };
         return (

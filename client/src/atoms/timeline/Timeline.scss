@@ -25,6 +25,10 @@
         height: 100%;
         font-size: $typho-small;
         text-align:center;
+
+        &--today {
+            font-weight: bold;
+        }
     }
 
     .rct-calendar-header {

@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from "react";
 import $ from "jquery";
-import {IAssigGroup} from "../AssigTimelineWrap";
 import {PricingType} from "../../../../types/enum";
 import {ASSIGT_IMELINE_HEIGHT} from "../../../../atoms/timeline/Timeline";
 import {arraySum} from "../../../../utils/elses";
+import {IAssigGroup} from "./assigIntrerface";
 
 let LAST_ROOMTYPE = "unRendered";
 let LAST_ROOM = "unRendered";

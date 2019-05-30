@@ -1,32 +1,32 @@
-import React, { CSSTransitionGroupProps } from 'react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import './ComponentAnimations.scss';
+import React, {CSSTransitionGroupProps} from "react";
+import ReactCSSTransitionGroup from "react-addons-css-transition-group";
+import "./ComponentAnimations.scss";
 
 export enum Animation {
-  fadeOutRight = 'fadeOutRight',
-  fadeInDown = 'fadeInDown',
+  fadeOutRight = "fadeOutRight",
+  fadeInDown = "fadeInDown"
 }
 
 interface IProps {
   animation: Array<Animation>;
 }
 
-const JDanimation: React.FC<IProps> = ({ children, animation, ...props }) => {
+const JDanimation: React.FC<IProps> = ({children, animation, ...props}) => {
   const animationProp = {
     transitionName: {
-      enter: '',
-      enterActive: '',
-      leave: '',
-      leaveActive: '',
-      appear: '',
-      appearActive: '',
+      enter: "",
+      enterActive: "",
+      leave: "",
+      leaveActive: "",
+      appear: "",
+      appearActive: ""
     },
     transitionAppear: false,
     transitionAppearTimeout: 1000,
     transitionEnter: false,
     transitionEnterTimeout: 1000,
     transitionLeave: true,
-    transitionLeaveTimeout: 1000,
+    transitionLeaveTimeout: 1000
   };
 
   // fadeInDown

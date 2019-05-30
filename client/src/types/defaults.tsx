@@ -5,15 +5,14 @@ import {
   PayMethod,
   PaymentStatus,
   BookingStatus,
-  Gender,
-  GuestTypeAdd
+  Gender
 } from "./enum";
 import {getBooker_GetBooker_booker_roomTypes} from "./api";
 import {
   IAssigItem,
-  IAssigGroup
-} from "../pages/middleServer/assig/AssigTimelineWrap";
-
+  IAssigGroup,
+  GuestTypeAdd
+} from "../pages/middleServer/assig/components/assigIntrerface";
 export const DEFAULT_ROOMTYPE: getBooker_GetBooker_booker_roomTypes = {
   __typename: "RoomType",
   name: "_",
@@ -59,7 +58,7 @@ export const DEFAULT_BOOKER: GB_booker = {
   guests: null
 };
 
-export const DEFAULT_ASSIGITEM: IAssigItem = {
+export const DEFAULT_ASSIG_ITEM: IAssigItem = {
   bedIndex: -1,
   bookerId: "",
   end: 0,

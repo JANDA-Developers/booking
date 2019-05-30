@@ -1,8 +1,8 @@
 import {IRoomType} from "../../../../types/interface";
-import {IAssigGroup} from "../AssigTimelineWrap";
 import {isEmpty} from "../../../../utils/utils";
 import {DEFAULT_ASSIG_GROUP} from "../../../../types/defaults";
 import {RoomGender, Gender, PricingType} from "../../../../types/enum";
+import {IAssigGroup} from "./assigIntrerface";
 
 // 룸젠더에 값을넣어 게스트성별을 받음
 // separately 나 Any 의 경우에는 남자 반환
@@ -52,7 +52,7 @@ export const roomDataManufacture = (
             roomType: roomTypeData,
             roomId: room._id,
             pricingType: roomTypeData.pricingType,
-            bedIndex: index,
+            bedIndex: 0,
             placeIndex: -1,
             isLastOfRoom: true,
             isLastOfRoomType: roomTypeData.roomCount === index,

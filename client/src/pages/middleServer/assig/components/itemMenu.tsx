@@ -3,20 +3,19 @@ import TooltipList, {
   ReactTooltip
 } from "../../../../atoms/tooltipList/TooltipList";
 import Button from "../../../../atoms/button/Button";
-import {TToogleCheckIn} from "../AssigTimeline";
 import {IUseModal} from "../../../../actions/hook";
-import {IAssigItem} from "../AssigTimelineWrap";
+import {TToogleCheckIn, IAssigItem} from "./assigIntrerface";
 
 interface IProps {
   toogleCheckInOut: TToogleCheckIn;
-  deleteGuest(guestId: string): void;
+  deleteGuestById(guestId: string): void;
   bookerModalHook: IUseModal;
   guestValue: IAssigItem[];
 }
 
 const ItemMenu: React.FC<IProps> = ({
   toogleCheckInOut,
-  deleteGuest,
+  deleteGuestById,
   bookerModalHook,
   guestValue
 }) => {
@@ -46,7 +45,7 @@ const ItemMenu: React.FC<IProps> = ({
               <Button
                 onClick={() => {
                   ReactTooltip.hide();
-                  deleteGuest(guestId);
+                  deleteGuestById(guestId);
                 }}
                 label="삭제"
                 mode="flat"
@@ -68,6 +67,7 @@ const ItemMenu: React.FC<IProps> = ({
         );
       }}
       id="itemTooltip"
+      className="itemTooltip"
     />
   );
 };

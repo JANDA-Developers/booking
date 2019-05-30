@@ -41,8 +41,8 @@ import {
   BookerModalType
 } from "../../types/enum";
 import {getOperationName} from "apollo-utilities";
-import {ICreateBookerInfo} from "../../pages/middleServer/assig/components/makeItemMenu";
 import {DEFAULT_BOOKER, DEFAULT_ROOMTYPE} from "../../types/defaults";
+import {ICreateBookerInfo} from "../../pages/middleServer/assig/components/assigIntrerface";
 
 interface IProps {
   modalHook: IUseModal;
@@ -133,6 +133,10 @@ const BookerModalWrap: React.FC<IProps> = ({modalHook, houseId}) => (
         >
           {allocateGuestToRoomMu => (
             <UpdateBookerMu
+              refetchQueries={[
+                getOperationName(GET_BOOKERS) || "",
+                getOperationName(GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM) || ""
+              ]}
               mutation={UPDATE_BOOKER}
               onError={showError}
               onCompleted={({UpdateBooker}) => {

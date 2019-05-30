@@ -17,7 +17,7 @@ import JDdayPicker from "../../../atoms/dayPicker/DayPicker";
 import {GlobalCSS, PricingType} from "../../../types/enum";
 import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
 import {IUseDayPicker} from "../../../actions/hook";
-import {IAssigGroup} from "../assig/AssigTimelineWrap";
+import {IAssigGroup} from "../assig/components/assigIntrerface";
 
 let LAST_ROOMTYPE = "unRendered";
 let LAST_ROOM = "unRendered";

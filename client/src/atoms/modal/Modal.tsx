@@ -71,7 +71,7 @@ const JDmodal: React.SFC<IProps> = ({
               label="취소"
               onClick={() => {
                 confirmCallBackFn && confirmCallBackFn(false);
-                info.callBack && info.callBack(true);
+                info.callBack && info.callBack(false);
                 closeModal();
               }}
             />
