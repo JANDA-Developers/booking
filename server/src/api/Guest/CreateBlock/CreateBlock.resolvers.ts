@@ -3,7 +3,7 @@ import { InstanceType } from "typegoose";
 import { BlockModel, BlockSchema } from "../../../models/Block";
 import { GuestModel } from "../../../models/Guest";
 import { extractBlock, extractGuest } from "../../../models/merge/merge";
-import { GuestTypeEnum } from "../../../types/enums";
+import { BookingStatusEnum, GuestTypeEnum } from "../../../types/enums";
 import {
     CreateBlockMutationArgs,
     CreateBlockResponse,
@@ -40,7 +40,8 @@ const resolvers: Resolvers = {
                         },
                         allocatedRoom: roomObjId,
                         bedIndex,
-                        guestType: GuestTypeEnum.GUEST
+                        guestType: GuestTypeEnum.GUEST,
+                        bookingStatus: BookingStatusEnum.COMPLETE
                     });
                     if (existingGuest) {
                         return {

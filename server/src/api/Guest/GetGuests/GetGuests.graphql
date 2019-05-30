@@ -8,5 +8,6 @@ type Query {
         start: DateTime!
         end: DateTime!
         houseId: ID!
+        bookingStatus: BookingStatus
     ): GetGuestsResponse!
 }

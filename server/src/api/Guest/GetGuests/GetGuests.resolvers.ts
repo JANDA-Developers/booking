@@ -4,6 +4,7 @@ import { HouseModel } from "../../../models/House";
 import { transformGuests } from "../../../models/merge/merge";
 import { GetGuestsQueryArgs, GetGuestsResponse } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
+import { removeUndefined } from "../../../utils/objFuncs";
 import { privateResolver } from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
@@ -11,7 +12,7 @@ const resolvers: Resolvers = {
         GetGuests: privateResolver(
             async (
                 _,
-                { houseId, start, end }: GetGuestsQueryArgs
+                { houseId, start, end, bookingStatus }: GetGuestsQueryArgs
             ): Promise<GetGuestsResponse> => {
                 try {
                     const house = await HouseModel.findById(houseId);
@@ -22,22 +23,18 @@ const resolvers: Resolvers = {
                             guests: []
                         };
                     }
-                    const bookers = await BookerModel.find({
-                        house: new Types.ObjectId(houseId),
-                        start: {
-                            $lte: new Date(end)
-                        },
-                        end: {
-                            $gte: new Date(start)
-                        }
-                    });
-                    if (bookers.length === 0) {
-                        return {
-                            ok: true,
-                            error: null,
-                            guests: []
-                        };
-                    }
+                    const bookers = await BookerModel.find(
+                        removeUndefined({
+                            house: new Types.ObjectId(houseId),
+                            start: {
+                                $lte: new Date(end)
+                            },
+                            end: {
+                                $gte: new Date(start)
+                            },
+                            bookingStatus: bookingStatus || undefined
+                        })
+                    );
                     if (bookers.length === 0) {
                         return {
                             ok: true,
