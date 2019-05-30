@@ -1,0 +1,57 @@
+type SmsInfo {
+    _id: ID!
+    sender: SmsSender
+    receivers: [PhoneNumber!]
+    smsTemplates: [SmsTemplate!]
+    createdAt: DateTime
+    updatedAt: DateTime
+}
+
+type SmsSender {
+    phoneNumber: PhoneNumber!
+    isVerified: Boolean!
+    registered: Boolean!
+}
+
+input SmsSenderInput {
+    phoneNumber: PhoneNumber
+    registered: Boolean
+}
+
+type SmsTemplate {
+    formatName: String!
+    smsFormat: String!
+    smsSendCase: SmsAutoSendCase
+}
+
+type SmsAutoSendCase {
+    enable: Boolean!
+    when: SendSmsWhen!
+    who: SendTarget!
+}
+
+input SmsTemplateInput {
+    formatName: String!
+    smsFormat: String!
+    smsSendCase: SmsAutoSendCaseInput
+}
+
+input SmsAutoSendCaseInput {
+    enable: Boolean!
+    when: SendSmsWhen!
+    who: SendTarget!
+}
+
+enum SendTarget {
+    GUEST
+    HOST
+}
+
+enum SendSmsWhen {
+    # 결제 대기
+    WHEN_BOOKING_WAIT_DEPOSIT
+    # 예약 완료
+    WHEN_BOOKING_COMPLETE
+    # 예약 취소
+    WEHN_BOOKING_CANCEL
+}
