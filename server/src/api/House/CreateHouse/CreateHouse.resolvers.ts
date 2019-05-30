@@ -1,6 +1,7 @@
 import { InstanceType } from "typegoose";
 import { HouseModel } from "../../../models/House";
 import { extractHouse } from "../../../models/merge/merge";
+import { SmsInfoModel } from "../../../models/SmsInfo";
 import { UserSchema } from "../../../models/User";
 import {
     CreateHouseMutationArgs,
@@ -19,11 +20,29 @@ const resolvers: Resolvers = {
             ): Promise<CreateHouseResponse> => {
                 try {
                     const user: InstanceType<UserSchema> = req.user;
+                    // TODO: phoneNumber Verification 확인하기
+                    if (!user.isPhoneVerified) {
+                        return {
+                            ok: false,
+                            error: "전화번호 미인증",
+                            house: null
+                        };
+                    }
+
                     const house = new HouseModel({
                         ...args,
                         user: user._id
                     });
 
+                    // TODO: SmsInfo 추가하기 ㄱㄱ
+                    const smsInfo = new SmsInfoModel({
+                        sender: {
+                            phoneNumber: user.phoneNumber,
+                            registered: false
+                        },
+                        receivers: [user.phoneNumber]
+                    });
+                    await smsInfo.save();
                     await house.save();
                     await user.update({
                         $push: {
