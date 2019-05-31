@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import moment from "moment";
 import React from "react";
-import {Cellnfo} from "react-table";
+import {CellInfo} from "react-table";
 import JDtable, {ReactTableDefault} from "../../../atoms/table/Table";
 import JDbox from "../../../atoms/box/JDbox";
 import {GuestPartInput} from "../../../types/api";
@@ -47,7 +47,7 @@ const ResvRoomSelectInfo: React.FC<IProps> = ({
     {
       Header: "객실정보",
       accessor: "roomTypeId",
-      Cell: ({value}: Cellnfo<any>) => {
+      Cell: ({value}: CellInfo<any>) => {
         const roomType = roomTypeInfo.find(
           inRoomType => inRoomType._id === value
         );
@@ -58,7 +58,7 @@ const ResvRoomSelectInfo: React.FC<IProps> = ({
     {
       Header: "인원",
       accessor: "roomTypeId",
-      Cell: ({original}: Cellnfo<any>) =>
+      Cell: ({original}: CellInfo<any>) =>
         original.pricingType === PricingType.DOMITORY ? (
           <div>
             <span>{`${original.countMaleGuest}남 `}</span>
@@ -73,7 +73,7 @@ const ResvRoomSelectInfo: React.FC<IProps> = ({
     {
       Header: "이용금액",
       accessor: "discountedPrice",
-      Cell: ({value}: Cellnfo<any>) => autoComma(value)
+      Cell: ({value}: CellInfo<any>) => autoComma(value)
     }
   ];
 

@@ -27,7 +27,7 @@ class UpdateBookerMu extends Mutation<updateBooker, updateBookerVariables> {}
 class DeleteBookerMu extends Mutation<deleteBooker, deleteBookerVariables> {}
 class GetBookersQuery extends Query<getBookers, getBookersVariables> {}
 
-const ResvListWrap: React.SFC<IProps> = ({houseId}) => {
+const ResvListWrap: React.FC<IProps> = ({houseId}) => {
   const [page, setPage] = usePagiNation(1);
 
   return (

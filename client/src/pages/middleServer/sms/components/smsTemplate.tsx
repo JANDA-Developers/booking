@@ -9,11 +9,16 @@ import InputText from "../../../../atoms/forms/inputText/InputText";
 import Switch from "../../../../atoms/forms/switch/Switch";
 import Button from "../../../../atoms/button/Button";
 import {ErrProtecter} from "../../../../utils/utils";
+import {getSmsInfo_GetSmsInfo_smsInfo_smsTemplates} from "../../../../types/api";
 
-interface IProps {}
+interface IProps {
+  templateData: getSmsInfo_GetSmsInfo_smsInfo_smsTemplates;
+}
 
-const HouseCard: React.SFC<IProps> = () => {
-  const [messageValue, setMessage] = useState("");
+const HouseCard: React.SFC<IProps> = ({templateData}) => {
+  const [messageValue, setMessage] = useState(templateData.smsFormat);
+  const autoSendHook = useSelect({value: templateData.smsFormat, label: ""});
+  const sendTargetHook = useSelect({value: templateData.smsFormat, label: ""});
 
   const onTemplateBtnClick = (label: string) => {
     setMessage(`${messageValue} [${label}]`);
@@ -55,11 +60,13 @@ const HouseCard: React.SFC<IProps> = () => {
           isMulti
           size={SelectBoxSize.FIVE}
           options={AUTO_SEND_OP}
+          {...autoSendHook}
           label="자동발신"
         />
         <JDselect
           size={SelectBoxSize.FOUR}
           options={SMS_TARGET_OP}
+          {...sendTargetHook}
           label="발신대상"
         />
         <Switch label="활성화" />

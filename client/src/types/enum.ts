@@ -91,7 +91,8 @@ export enum PricingTypeKr {
 }
 
 export enum TimePerMs {
-  DAY = 24 * 60 * 60 * 1000
+  DAY = 24 * 60 * 60 * 1000,
+  M = 60 * 1000
 }
 
 export enum PaymentStatus {
@@ -135,6 +136,11 @@ export enum BookerModalType {
   CREATE = "create",
   CREATE_WITH_ASSIG = "createWithAssig",
   LOOKUP = "lookup"
+}
+
+export enum SendTarget {
+  GUEST = "GUEST",
+  HOST = "HOST"
 }
 
 //= =============================================================

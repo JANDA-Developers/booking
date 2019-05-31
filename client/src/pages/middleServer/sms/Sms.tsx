@@ -1,5 +1,5 @@
 import React, {useRef} from "react";
-import {RowInfo, Cellnfo} from "react-table";
+import {RowInfo, CellInfo} from "react-table";
 import {Tab, Tabs, TabList, TabPanel} from "../../../atoms/tabs/tabs";
 import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
 import Icon from "../../../atoms/icons/Icons";
@@ -11,12 +11,44 @@ import {useInput} from "../../../actions/hook";
 import Switch from "../../../atoms/forms/switch/Switch";
 import JDtable, {ReactTableDefault} from "../../../atoms/table/Table";
 import SmsTemplate from "./components/smsTemplate";
+import {MutationFn} from "react-apollo";
+import {
+  updateSmsTemplate,
+  updateSmsTemplateVariables,
+  deleteSmsTemplate,
+  deleteSmsTemplateVariables,
+  createSmsTemplate,
+  createSmsTemplateVariables,
+  getSmsInfo_GetSmsInfo_smsInfo
+} from "../../../types/api";
+import Preloader from "../../../atoms/preloader/Preloader";
 
 // TODO 쿼리랑 뮤테이션 받아서 연결하면됨
 
-interface IProps {}
+interface IProps {
+  updateSmsTemplateMu: MutationFn<
+    updateSmsTemplate,
+    updateSmsTemplateVariables
+  >;
+  deleteSmsTemplateMu: MutationFn<
+    deleteSmsTemplate,
+    deleteSmsTemplateVariables
+  >;
+  createSmsTemplateMu: MutationFn<
+    createSmsTemplate,
+    createSmsTemplateVariables
+  >;
+  loading: boolean;
+  smsInfo: getSmsInfo_GetSmsInfo_smsInfo | null | undefined;
+}
 
-const Qna: React.FC<IProps> = () => {
+const Qna: React.FC<IProps> = ({
+  updateSmsTemplateMu,
+  deleteSmsTemplateMu,
+  createSmsTemplateMu,
+  loading,
+  smsInfo
+}) => {
   const hostNumber = useInput("");
 
   //  마지막에 추가해줘라
@@ -32,22 +64,22 @@ const Qna: React.FC<IProps> = () => {
     {
       Header: "관리자 성함",
       accessor: "name",
-      Cell: ({original}: Cellnfo<any>) => <InputText hyphen />
+      Cell: ({original}: CellInfo<any>) => <InputText hyphen />
     },
     {
       Header: "번호",
       accessor: "phoneNumber",
-      Cell: ({original}: Cellnfo<any>) => <InputText hyphen /> // Custom cell components!
+      Cell: ({original}: CellInfo<any>) => <InputText hyphen /> // Custom cell components!
     },
     {
       Header: "활성화",
       accessor: "active",
-      Cell: ({value}: Cellnfo<any>) => <Switch checked={value} />
+      Cell: ({value}: CellInfo<any>) => <Switch checked={value} />
     },
     {
       Header: "삭제",
       accessor: "clear",
-      Cell: ({original, index}: Cellnfo<any>) =>
+      Cell: ({original, index}: CellInfo<any>) =>
         index + 1 !== data.length ? (
           <Button mode="flat" thema="warn" label="삭제" />
         ) : (
@@ -60,7 +92,10 @@ const Qna: React.FC<IProps> = () => {
     <div id="seasonTable" className="seasonT container">
       <div className="docs-section">
         <div className="docs-section__box">
-          <h3>SMS 설정</h3>
+          <h3>
+            SMS 설정
+            {loading && <Preloader size="medium" />}
+          </h3>
           <div className="flex-grid">
             <div className="flex-grid__col col--full-6 col--md-12">
               <Card>
@@ -87,17 +122,28 @@ const Qna: React.FC<IProps> = () => {
           <h6>문자 템플릿 설정</h6>
           <Tabs>
             <TabList>
-              <Tab>
-                <InputText placeholder="템플릿 명칭" />
-              </Tab>
+              {smsInfo &&
+                smsInfo.smsTemplates &&
+                smsInfo.smsTemplates.map(smsTemplate => (
+                  <Tab>
+                    <InputText
+                      value={smsTemplate.formatName}
+                      placeholder="템플릿 명칭"
+                    />
+                  </Tab>
+                ))}
               <Tab>
                 <CircleIcon>
                   <Icon icon="add" />
                 </CircleIcon>
               </Tab>
             </TabList>
-            {/* map this */}
-            <SmsTemplate />
+            <SmsTemplate templateData={smsTemplate} />
+            {smsInfo &&
+              smsInfo.smsTemplates &&
+              smsInfo.smsTemplates.map(smsTemplate => (
+                <SmsTemplate templateData={smsTemplate} />
+              ))}
             <TabPanel />
           </Tabs>
         </div>

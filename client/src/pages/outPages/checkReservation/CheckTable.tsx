@@ -11,7 +11,7 @@ import {
   findBooker_FindBooker_bookers
 } from "../../../types/api";
 import JDtable from "../../../atoms/table/Table";
-import {ReactTableDefaults, Cellnfo} from "react-table";
+import {ReactTableDefaults, CellInfo} from "react-table";
 import {getRoomTypePerGuests, bookingGuestsMerge} from "../../../utils/booking";
 import {IRoomType} from "../../../types/interface";
 import JDbox from "../../../atoms/box/JDbox";
@@ -31,7 +31,7 @@ const CheckTable: React.FC<IProps> = ({tableData}) => {
     {
       Header: "숙박일",
       accessor: "_id",
-      Cell: ({original}: Cellnfo<any>) => (
+      Cell: ({original}: CellInfo<any>) => (
         <div>
           <span>{original.start.split("T")[0]} 체크인</span>
           <br />
@@ -42,7 +42,7 @@ const CheckTable: React.FC<IProps> = ({tableData}) => {
     {
       Header: "객실/인원",
       accessor: "roomTypes",
-      Cell: ({value, original}: Cellnfo<any>) => {
+      Cell: ({value, original}: CellInfo<any>) => {
         const roomTypes: IRoomType[] = value;
         return roomTypes.map(roomType => (
           <JDbox>
@@ -79,7 +79,7 @@ const CheckTable: React.FC<IProps> = ({tableData}) => {
     {
       Header: "이용금액",
       accessor: "price",
-      Cell: ({value, original}: Cellnfo<any>) => (
+      Cell: ({value, original}: CellInfo<any>) => (
         <div>
           {value} <br />
           {PaymentStatusKr[original.paymentStatus]}
@@ -89,7 +89,7 @@ const CheckTable: React.FC<IProps> = ({tableData}) => {
     {
       Header: "상태",
       accessor: "bookingStatus",
-      Cell: ({value, original}: Cellnfo<any>) => (
+      Cell: ({value, original}: CellInfo<any>) => (
         <span>{BookingStatusKr[value]}</span>
       )
     }

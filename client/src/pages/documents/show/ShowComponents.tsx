@@ -43,7 +43,7 @@ import JDcolorPicker from "../../../atoms/colorPicker/ColorPicker";
 import DrragList from "../../../atoms/animation/DrragList";
 import Card from "../../../atoms/cards/Card";
 import JDbox from "../../../atoms/box/JDbox";
-import {Cellnfo} from "react-table";
+import {CellInfo} from "react-table";
 import {UserRole} from "../../../types/enum";
 
 function ShowComponents() {
@@ -109,7 +109,7 @@ function ShowComponents() {
     {
       Header: "번호",
       accessor: "index",
-      Cell: ({index}: Cellnfo<any>) => <span>{index}</span>
+      Cell: ({index}: CellInfo<any>) => <span>{index}</span>
     },
     {
       Header: "우선순위",
@@ -130,7 +130,7 @@ function ShowComponents() {
     {
       Header: "삭제/생성",
       accessor: "controll",
-      Cell: (props: Cellnfo<any>) => (
+      Cell: (props: CellInfo<any>) => (
         <Button mode="flat" thema="warn" label="삭제" />
       )
     }

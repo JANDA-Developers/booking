@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState, Fragment } from 'react';
-import { Cellnfo } from 'react-table';
+import { CellInfo } from 'react-table';
 import { MutationFn } from 'react-apollo';
 import _ from 'lodash';
 import moment from 'moment';
@@ -197,7 +197,7 @@ const SeasonModal: React.SFC<IProps> = ({
     {
       Header: '가격',
       accessor: 'defaultPrice',
-      Cell: ({ value, original }: Cellnfo<any>) => (
+      Cell: ({ value, original }: CellInfo<any>) => (
         <InputText
           defaultValue={value}
           comma
@@ -210,7 +210,7 @@ const SeasonModal: React.SFC<IProps> = ({
     {
       Header: '요일별 가격',
       accessor: 'dayOfWeekPrices',
-      Cell: ({ original, value }: Cellnfo<any>) => {
+      Cell: ({ original, value }: CellInfo<any>) => {
         const seasonPriceInput: SeasonPriceInput = original;
         const dayOfWeekPrices: DayOfWeekPriceInput[] = value;
 

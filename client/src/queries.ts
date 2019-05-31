@@ -49,6 +49,13 @@ const F_PAGE_INFO = gql`
     rowCount
   }
 `;
+const F_SMS_SENDER = gql`
+  fragment FsmsSender on SmsSender {
+    phoneNumber
+    verified
+    registered
+  }
+`;
 const F_ROOMTYPE = gql`
   fragment FroomType on RoomType {
     _id
@@ -1381,6 +1388,7 @@ export const REFUND_PRODUCT = gql`
 `;
 
 /*  sms-------------------------------------------------------------------------- */
+// sms 템플릿 생성
 export const CREATE_SMS_TEMPLATE = gql`
   mutation createSmsTemplate($houseId: ID!, $params: SmsTemplateInput!) {
     CreateSmsTemplate(houseId: $houseId, params: $params) {
@@ -1393,7 +1401,39 @@ export const CREATE_SMS_TEMPLATE = gql`
   }
   ${F_SMS_TEMPLATE}
 `;
+// sms 템플릿 삭제
+export const DELETE_SMS_TEMPLATE = gql`
+  mutation deleteSmsTemplate($smsInfoId: ID!, $smsTemplateId: ID!) {
+    DeleteSmsTemplate(smsInfoId: $smsInfoId, smsTemplateId: $smsTemplateId) {
+      ok
+      error
+    }
+  }
+`;
 
+// sms INFO 가져오기
+export const GET_SMS_INFO = gql`
+  query getSmsInfo($houseId: ID!) {
+    GetSmsInfo(houseId: $houseId) {
+      ok
+      error
+      smsInfo {
+        _id
+        sender {
+          ...FsmsSender
+        }
+        receivers
+        smsTemplates {
+          ...FsmsTemplate
+        }
+      }
+    }
+  }
+  ${F_SMS_SENDER}
+  ${F_SMS_TEMPLATE}
+`;
+
+// update SMS template
 export const UPDATE_SMS_TEMPLATE = gql`
   mutation updateSmsTemplate(
     $smsTemplateId: ID!
@@ -1415,34 +1455,35 @@ export const UPDATE_SMS_TEMPLATE = gql`
   ${F_SMS_TEMPLATE}
 `;
 
+// 발신자 등록
 export const REGISTER_SENDER = gql`
-  mutation refister (
+  mutation registerSender(
     $houseId: ID!
-    sender: SmsSenderInput!
+    $sender: SmsSenderInput!
   ) {
-  Register(
-    houseId: $houseId,
-    sender: $sender
-  ){
-    ok
-    error
-    sender {
-      phoneNumber
+    RegisterSender(
+      houseId: $houseId,
+      sender: $sender
+    ){
+      ok
+      error
       verified
-      registered
+      sender {
+        ...FsmsSender
+      }
     }
-    verified
+  ${F_SMS_SENDER}
   }
-}
 `;
 
+// 문자전송
 export const SEND_SMS = gql`
-  mutation sendSms (
-    sender: PhoneNumber!
-    receivers: [PhoneNumber!]
-    msg: String!
+  mutation sendSms(
+    $sender: PhoneNumber!
+    $receivers: [PhoneNumber!]
+    $msg: String!
   ) {
-    SendSms(
+    SendSms(sender: $sender, receivers: $receivers, msg: $msg) {
       ok
       error
       result {
@@ -1453,6 +1494,6 @@ export const SEND_SMS = gql`
         successCnt
         errorCnt
       }
-    )
+    }
   }
 `;

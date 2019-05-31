@@ -30,7 +30,7 @@ interface Iprops {
 const PhoneVerificationModalWrap: React.FC<Iprops> = ({
   modalHook,
   phoneNumber
-}) => {
+}) => (
   <StartPhoneVerificationMu
     mutation={PHONE_VERIFICATION}
     onCompleted={({StartPhoneVerification}) => {
@@ -41,8 +41,8 @@ const PhoneVerificationModalWrap: React.FC<Iprops> = ({
       );
     }}
   >
-    {StartPhoneVerificationMu => {
-      StartPhoneVerificationMu();
+    {startPhoneVerificationMu => {
+      /* 👿 ??? 이걸 바로실행하면 무한반복됨 이유가뭘까? */
       return (
         <CompletePhoneVerification
           mutation={COMEPLETE_PHONE_VERIFICATION}
@@ -58,7 +58,10 @@ const PhoneVerificationModalWrap: React.FC<Iprops> = ({
           refetchQueries={[{query: GET_USER_INFO}]}
         >
           {completePhoneVerificationMu => (
+            // performance.now() ::[https://stackoverflow.com/questions/51524293/new-date-as-react-key-prop]
             <PhoneVerificationModal
+              key={`phoneVerification${performance.now()}`}
+              startPhoneVerificationMu={startPhoneVerificationMu}
               completePhoneVerificationMu={completePhoneVerificationMu}
               modalHook={modalHook}
             />
@@ -66,7 +69,7 @@ const PhoneVerificationModalWrap: React.FC<Iprops> = ({
         </CompletePhoneVerification>
       );
     }}
-  </StartPhoneVerificationMu>;
-};
+  </StartPhoneVerificationMu>
+);
 
 export default EerrorProtect(PhoneVerificationModalWrap);
