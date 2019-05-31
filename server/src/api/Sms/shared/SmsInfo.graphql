@@ -48,11 +48,12 @@ input SmsAutoSendCaseInput {
 enum SendTarget {
     GUEST
     HOST
+    BOTH
 }
 
 enum AutoSendCase {
     # 결제 대기
-    WHEN_BOOKING_WAIT_DEPOSIT
+    WHEN_WAIT_DEPOSIT
     # 예약 완료
     WHEN_BOOKING_COMPLETE
     # 예약 취소
