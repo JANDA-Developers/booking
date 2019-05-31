@@ -59,15 +59,17 @@ const createBooker = async (
         end: new Date(bookingParams.end)
     };
     const { bookerParams, guestInputs } = bookingParams;
+    let houseId = bookerParams.house;
     if (ctx) {
         const { house }: { house: InstanceType<HouseSchema> } = ctx.req;
-        if (!new Types.ObjectId(house._id).equals(bookerParams.house)) {
-            return {
-                ok: false,
-                error: "House 정보 에러",
-                booker: null
-            };
-        }
+        houseId = house._id;
+    }
+    if (!houseId) {
+        return {
+            ok: false,
+            error: "House 정보 에러",
+            booker: null
+        };
     }
     try {
         // 1. booker prototype 생성
@@ -76,7 +78,7 @@ const createBooker = async (
             ...bookerParams,
             start,
             end,
-            house: new Types.ObjectId(bookerParams.house)
+            house: new Types.ObjectId(houseId)
         });
         await bookerInstance.hashPassword();
         bookerInstance.guests = [];
