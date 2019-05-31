@@ -51,7 +51,7 @@ enum PaymentStatus {
 }
 
 input BookerInput {
-    house: ID!
+    house: ID
     name: Name!
     password: String!
     phoneNumber: PhoneNumber!
