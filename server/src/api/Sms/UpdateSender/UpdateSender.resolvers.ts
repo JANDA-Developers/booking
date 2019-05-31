@@ -4,21 +4,21 @@ import { SmsInfoModel } from "../../../models/SmsInfo";
 import { SmsSenderStatusModel } from "../../../models/SmsSenderStatus";
 import { VerificationModel } from "../../../models/Verification";
 import {
-    RegisterSenderMutationArgs,
-    RegisterSenderResponse,
-    SmsSender
+    SmsSender,
+    UpdateSenderMutationArgs,
+    UpdateSenderResponse
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
 import { privateResolver } from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Mutation: {
-        RegisterSender: privateResolver(
+        UpdateSender: privateResolver(
             async (
                 _,
-                { houseId, sender }: RegisterSenderMutationArgs,
+                { houseId, sender }: UpdateSenderMutationArgs,
                 ctx
-            ): Promise<RegisterSenderResponse> => {
+            ): Promise<UpdateSenderResponse> => {
                 try {
                     const { user } = ctx.req;
                     // 1. sender.phoneNumber Verification 존재하는지 확인
