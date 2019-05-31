@@ -23,25 +23,25 @@ input SmsSenderInput {
 type SmsTemplate {
     _id: ID!
     formatName: String!
-    smsFormat: String
+    smsFormat: String!
     smsSendCase: SmsAutoSendCase
 }
 
 type SmsAutoSendCase {
     enable: Boolean!
-    when: SendSmsWhen!
+    when: AutoSendCase!
     who: SendTarget!
 }
 
 input SmsTemplateInput {
     formatName: String!
-    smsFormat: String
+    smsFormat: String!
     smsSendCase: SmsAutoSendCaseInput
 }
 
 input SmsAutoSendCaseInput {
     enable: Boolean!
-    when: SendSmsWhen!
+    when: AutoSendCase!
     who: SendTarget!
 }
 
@@ -50,7 +50,7 @@ enum SendTarget {
     HOST
 }
 
-enum SendSmsWhen {
+enum AutoSendCase {
     # 결제 대기
     WHEN_BOOKING_WAIT_DEPOSIT
     # 예약 완료
