@@ -35,9 +35,6 @@ const SetPrice: React.SFC<IProps> = ({defaultBookerInfo, findBookerQr}) => {
     findBooker_FindBooker_bookers[] | undefined
   >();
 
-  console.log("queryResult");
-  console.log(queryResult);
-  console.log(queryResult);
   const validater = () => {
     if (!searchInfo.name) {
       toast.warn("이름을 입력해주세요.");

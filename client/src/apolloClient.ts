@@ -8,16 +8,6 @@ dotenv.config({
   path: "../.env"
 });
 
-// const link = onError(({graphQLErrors, networkError}) => {
-//   if (graphQLErrors)
-//     graphQLErrors.map(({message, locations, path}) =>
-//       console.log(
-//         `[GraphQL error규]: Message: ${message}, Location: ${locations}, Path: ${path}`
-//       )
-//     );
-//   if (networkError) console.log(`[Network error규]: ${networkError}`);
-// });
-
 const client = new ApolloClient({
   clientState: {
     defaults: {
@@ -36,7 +26,8 @@ const client = new ApolloClient({
   request: async operation => {
     operation.setContext({
       headers: {
-        "X-JWT": localStorage.getItem("jwt") || ""
+        "X-JWT": localStorage.getItem("jwt") || "",
+        "HP-Key": localStorage.getItem("hpk") || ""
       }
     });
   },

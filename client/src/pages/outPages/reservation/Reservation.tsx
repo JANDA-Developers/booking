@@ -3,7 +3,12 @@ import windowSize, {WindowSizeProps} from "react-window-size";
 import {MutationFn, Query} from "react-apollo";
 import ErrProtecter from "../../../utils/errProtect";
 import JDdayPicker from "../../../atoms/dayPicker/DayPicker";
-import {useDayPicker, useModal} from "../../../actions/hook";
+import {
+  useDayPicker,
+  useModal,
+  IUseModal,
+  useRedirect
+} from "../../../actions/hook";
 import "./Reservation.scss";
 import Button from "../../../atoms/button/Button";
 import Card from "../../../atoms/cards/Card";
@@ -33,27 +38,28 @@ import {
   GET_ALL_ROOM_TYPE_FOR_BOOKER
 } from "../../../queries";
 import Preloader from "../../../atoms/preloader/Preloader";
+import {Redirect, withRouter, RouteComponentProps} from "react-router";
 
 class GetAllAvailRoomQu extends Query<getAllRoomTypeForBooker> {}
 export interface ISetBookerInfo
   extends React.Dispatch<React.SetStateAction<BookerInput>> {}
 
-interface IProps {
+interface IProps extends RouteComponentProps<any> {
   createBookerMu: MutationFn<
     createBookerForBooker,
     createBookerForBookerVariables
   >;
-  houseId: string;
+  confirmModalHook: IUseModal<any>;
 }
 
 const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
   windowWidth,
   windowHeight,
   createBookerMu,
-  houseId
+  history,
+  confirmModalHook
 }) => {
   const defaultBookerInfo = {
-    house: houseId,
     name: "",
     password: "",
     price: 0,
@@ -67,8 +73,26 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
   const [bookerInfo, setBookerInfo] = useState<BookerInput>(defaultBookerInfo);
   const rsevModalHook = useModal(false);
   const toastModalHook = useModal(false);
+  const [redirect, redirectUrl, setRedirect] = useRedirect(false, "");
   // 👿 이건 오직 resvRooms에 룸 네임이 없어서다.
   const roomInfoHook = useState<IRoomType[]>([]);
+
+  console.log("history");
+  console.log(history);
+  console.log(history);
+  console.log(history);
+  console.log(history);
+  const resvConfirmCallBackFunc = (flag: boolean) => {
+    if (flag) {
+      const publicKey = "05dfe136-1f1e-beed-b96d-ea3d68d8b847";
+      const {name, password, phoneNumber} = bookerInfo;
+      setRedirect(
+        `http://localhost:3000/#/outpage/checkReservation/${name}/${phoneNumber}/${password}/${publicKey}`
+      );
+    } else {
+      location.reload();
+    }
+  };
 
   // 날자를 선택하면 예약선택 상태 초기화
   useEffect(() => {
@@ -135,6 +159,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
 
   return (
     <div id="JDreservation" className="JDreservation">
+      {/* {redirect ? houseId() */}
       <div className="flex-grid">
         <div className="flex-grid__col col--full-4 col--lg-5 col--wmd-12">
           <Card className="JDreservation__card JDreservation__dayPickerCard">
@@ -167,7 +192,6 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
                   roomTypes.map(roomType => (
                     <RoomTypeCardsWrap
                       roomInfoHook={roomInfoHook}
-                      houseId={houseId}
                       setResvRooms={setResvRooms}
                       resvRooms={resvRooms}
                       windowWidth={windowWidth}
@@ -209,6 +233,11 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
         bookerInfo={bookerInfo}
         setBookerInfo={setBookerInfo}
         modalHook={rsevModalHook}
+      />
+      <JDtoastModal
+        confirm
+        confirmCallBackFn={resvConfirmCallBackFunc}
+        {...confirmModalHook}
       />
       <JDtoastModal {...toastModalHook} isAlert />
     </div>

@@ -143,6 +143,23 @@ export interface TUseInput<T = string> {
   isValid: any;
 }
 
+export type TUseRedirect = [boolean, string, (url: string) => void];
+
+function useRedirect(
+  inFlag: boolean = false,
+  inUrl: string = ""
+): TUseRedirect {
+  const [flag, setFlag] = useState(inFlag);
+  const [url, inSetRedirect] = useState(inUrl);
+
+  const setRedirect = (redirectUrl: string) => {
+    inSetRedirect(redirectUrl);
+    setFlag(true);
+  };
+
+  return [flag, url, setRedirect];
+}
+
 // 밸리데이션을 포함한 훅 리턴
 function useInput<T = string>(
   defaultValue: T,
@@ -355,5 +372,6 @@ export {
   useImageUploader,
   useColorPicker,
   useDayPicker,
-  usePagiNation
+  usePagiNation,
+  useRedirect
 };

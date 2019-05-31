@@ -1,5 +1,5 @@
 import React, {useState, Fragment} from "react";
-import {CellInfo} from "react-table";
+import {Cellnfo, RowInfo} from "react-table";
 import selectTableHOC, {
   SelectInputComponentProps,
   SelectAllInputComponentProps
@@ -129,7 +129,7 @@ const ResvList: React.SFC<IProps> = ({
     {
       Header: "예약일자",
       accessor: "createdAt",
-      Cell: ({value, original}: CellInfo) => {
+      Cell: ({value, original}: Cellnfo<any>) => {
         const isCancled = original.bookingStatus === BookingStatus.CANCEL;
         return (
           <div className="resvList__createdAt">
@@ -152,7 +152,7 @@ const ResvList: React.SFC<IProps> = ({
     {
       Header: "숙박정보",
       accessor: "roomTypes",
-      Cell: ({value, original}: CellInfo) => {
+      Cell: ({value, original}: Cellnfo<any>) => {
         const roomTypes: IRoomType[] = value;
         return roomTypes.map(roomType => (
           <JDbox align="center" key={`${original._id}${roomType._id}`}>
@@ -189,7 +189,7 @@ const ResvList: React.SFC<IProps> = ({
     {
       Header: "숙박일자",
       accessor: "booker",
-      Cell: ({original}: CellInfo) => (
+      Cell: ({original}: Cellnfo<any>) => (
         <div>
           {setYYYYMMDD(original.start)}
           <br />
@@ -206,7 +206,7 @@ const ResvList: React.SFC<IProps> = ({
         </div>
       ),
       accessor: "name",
-      Cell: ({original}: CellInfo) => {
+      Cell: ({original}: Cellnfo<any>) => {
         const Booker: IBooker = original;
         return (
           <div>
@@ -226,7 +226,7 @@ const ResvList: React.SFC<IProps> = ({
         </div>
       ),
       accessor: "price",
-      Cell: ({value, original}: CellInfo) => (
+      Cell: ({value, original}: Cellnfo<any>) => (
         <div>
           <span>{autoComma(value)}원</span>
           <br />
@@ -243,7 +243,7 @@ const ResvList: React.SFC<IProps> = ({
       Header: "메모",
       accessor: "memo",
       minWidth: 200,
-      Cell: ({value}: CellInfo) => (
+      Cell: ({value}: Cellnfo<any>) => (
         <div
           className={`JDscrool resvList__memo ${value &&
             value.length > 20 &&
@@ -257,7 +257,7 @@ const ResvList: React.SFC<IProps> = ({
       Header: "상세",
       accessor: "_id",
       minWidth: 50,
-      Cell: ({value}: CellInfo) => (
+      Cell: ({value}: Cellnfo<any>) => (
         <JDIcon
           onClick={() => {
             bookerModalHook.openModal({

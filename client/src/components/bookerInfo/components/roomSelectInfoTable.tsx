@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import React from "react";
-import {CellInfo} from "react-table";
+import {Cellnfo} from "react-table";
 import JDtable, {ReactTableDefault} from "../../../atoms/table/Table";
 import JDselect from "../../../atoms/forms/selectBox/SelectBox";
 import InputText from "../../../atoms/forms/inputText/InputText";
@@ -28,12 +28,12 @@ const RoomSelectInfoTable: React.FC<IProps> = ({className, resvInfo}) => {
       Header: "객실정보",
       accessor: "roomTypeName",
       // 여기다 모든 roomType 을 넣어주어야함.
-      Cell: ({value}: CellInfo) => <div>{value}</div>
+      Cell: ({value}: Cellnfo<any>) => <div>{value}</div>
     },
     {
       Header: "인원",
       accessor: "count",
-      Cell: ({value, original}: CellInfo) =>
+      Cell: ({value, original}: Cellnfo<any>) =>
         original.pricingType === PricingType.DOMITORY ? (
           <div>
             <span>{`${value.male}남 `}</span>

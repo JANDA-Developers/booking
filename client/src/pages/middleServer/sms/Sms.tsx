@@ -1,60 +1,59 @@
-import React, { useRef } from 'react';
-import { RowInfo, CellInfo } from 'react-table';
-import {
-  Tab, Tabs, TabList, TabPanel,
-} from '../../../atoms/tabs/tabs';
-import CircleIcon from '../../../atoms/circleIcon/CircleIcon';
-import Icon from '../../../atoms/icons/Icons';
-import InputText from '../../../atoms/forms/inputText/InputText';
+import React, {useRef} from "react";
+import {RowInfo, Cellnfo} from "react-table";
+import {Tab, Tabs, TabList, TabPanel} from "../../../atoms/tabs/tabs";
+import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
+import Icon from "../../../atoms/icons/Icons";
+import InputText from "../../../atoms/forms/inputText/InputText";
 
-import Button from '../../../atoms/button/Button';
-import Card from '../../../atoms/cards/Card';
-import { useInput } from '../../../actions/hook';
-import Switch from '../../../atoms/forms/switch/Switch';
-import JDtable, { ReactTableDefault } from '../../../atoms/table/Table';
-import SmsTemplate from './components/smsTemplate';
+import Button from "../../../atoms/button/Button";
+import Card from "../../../atoms/cards/Card";
+import {useInput} from "../../../actions/hook";
+import Switch from "../../../atoms/forms/switch/Switch";
+import JDtable, {ReactTableDefault} from "../../../atoms/table/Table";
+import SmsTemplate from "./components/smsTemplate";
 
 // TODO 쿼리랑 뮤테이션 받아서 연결하면됨
 
 interface IProps {}
 
 const Qna: React.FC<IProps> = () => {
-  const hostNumber = useInput('');
+  const hostNumber = useInput("");
 
   //  마지막에 추가해줘라
   const data = [
     {
-      name: '',
-      phoneNumber: '',
-      active: true,
-    },
+      name: "",
+      phoneNumber: "",
+      active: true
+    }
   ];
 
   const TableColumns = [
     {
-      Header: '관리자 성함',
-      accessor: 'name',
-      Cell: ({ original }: CellInfo) => <InputText hyphen />,
+      Header: "관리자 성함",
+      accessor: "name",
+      Cell: ({original}: Cellnfo<any>) => <InputText hyphen />
     },
     {
-      Header: '번호',
-      accessor: 'phoneNumber',
-      Cell: ({ original }: CellInfo) => <InputText hyphen />, // Custom cell components!
+      Header: "번호",
+      accessor: "phoneNumber",
+      Cell: ({original}: Cellnfo<any>) => <InputText hyphen /> // Custom cell components!
     },
     {
-      Header: '활성화',
-      accessor: 'active',
-      Cell: ({ value }: CellInfo) => <Switch checked={value} />,
+      Header: "활성화",
+      accessor: "active",
+      Cell: ({value}: Cellnfo<any>) => <Switch checked={value} />
     },
     {
-      Header: '삭제',
-      accessor: 'clear',
-      Cell: ({ original, index }: CellInfo) => (index + 1 !== data.length ? (
-        <Button mode="flat" thema="warn" label="삭제" />
-      ) : (
-        <Button mode="flat" thema="primary" label="추가" />
-      )),
-    },
+      Header: "삭제",
+      accessor: "clear",
+      Cell: ({original, index}: Cellnfo<any>) =>
+        index + 1 !== data.length ? (
+          <Button mode="flat" thema="warn" label="삭제" />
+        ) : (
+          <Button mode="flat" thema="primary" label="추가" />
+        )
+    }
   ];
 
   return (
@@ -75,7 +74,11 @@ const Qna: React.FC<IProps> = () => {
             <div className="flex-grid__col col--full-6 col--md-12">
               <Card>
                 <h6>관라자 수신 등록</h6>
-                <JDtable {...ReactTableDefault} data={data} columns={TableColumns} />
+                <JDtable
+                  {...ReactTableDefault}
+                  data={data}
+                  columns={TableColumns}
+                />
               </Card>
             </div>
           </div>

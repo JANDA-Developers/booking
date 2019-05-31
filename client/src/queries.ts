@@ -589,7 +589,7 @@ export const GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM = gql`
     $houseId: ID!
     $start: DateTime!
     $end: DateTime!
-    $bookingStatus: BookingStatus!
+    $bookingStatus: BookingStatus
   ) {
     GetAllRoomType(houseId: $houseId) {
       ok

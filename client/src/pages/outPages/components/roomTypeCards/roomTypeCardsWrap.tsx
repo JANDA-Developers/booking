@@ -46,7 +46,6 @@ export interface IGuestCount {
 }
 
 interface IProps {
-  houseId: string;
   resvRooms: GuestPartInput[];
   setResvRooms: React.Dispatch<React.SetStateAction<GuestPartInput[]>>;
   roomInfoHook: any;
@@ -60,7 +59,6 @@ interface IProps {
 
 // 하우스 아이디를 우선 Props를 통해서 받아야함
 const RoomTypeCardsWrap: React.SFC<IProps> = ({
-  houseId,
   resvRooms,
   roomInfoHook,
   setResvRooms,
@@ -143,10 +141,7 @@ const RoomTypeCardsWrap: React.SFC<IProps> = ({
                 dayPickerHook.to
               );
 
-              console.log("💖 truePrice");
-              console.log(truePrice);
-
-              Math.floor(truePrice / 10) * 10;
+              const formattedTruePrice = Math.floor(truePrice / 10) * 10;
 
               return (
                 <RoomTypeCard
@@ -161,7 +156,7 @@ const RoomTypeCardsWrap: React.SFC<IProps> = ({
                   setGuestCount={setGuestCount}
                   guestCountValue={guestCountValue}
                   dayPickerHook={dayPickerHook}
-                  truePrice={truePrice}
+                  truePrice={formattedTruePrice}
                   setBookerInfo={setBookerInfo}
                   bookerInfo={bookerInfo}
                 />
