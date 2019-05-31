@@ -11,11 +11,12 @@ import SelectBox from "../../atoms/forms/selectBox/SelectBox";
 import Icon from "../../atoms/icons/Icons";
 import {ErrProtecter} from "../../utils/utils";
 import logo from "../../img/logo/logo--white.png"; // with import
-import {useSelect} from "../../actions/hook";
+import {useSelect, useModal} from "../../actions/hook";
 import SelectHouseWrap from "../selectHouse/SelectHouseWrap";
 import {IHouse, IDiv} from "../../types/interface";
 import JDsearchInput from "../../atoms/searchInput/SearchInput";
 import GuestSearchInputWrap from "./components/guestSearchInputWrap";
+import PhoneVerificationModalWrap from "../phoneVerificationModal/PhoneVerificationModalWrap";
 
 type ITempProps = IDiv & {
   isPhoneVerified?: boolean;
@@ -26,6 +27,7 @@ type ITempProps = IDiv & {
   houses: IHouse[];
   logOutMutation: any;
   profileImg: string;
+  user: any;
 };
 
 type IProps = RouteComponentProps<any> & ITempProps;
@@ -36,6 +38,7 @@ const Header: React.FC<IProps> = ({
   sideNavOpener,
   selectedHouse,
   houses,
+  user,
   logOutMutation,
   profileImg
 }) => {
@@ -43,6 +46,8 @@ const Header: React.FC<IProps> = ({
   useEffect(() => {
     ReactTooltip.rebuild();
   });
+
+  const phoneVerificationModalHook = useModal(false);
   return (
     <div className="header">
       {/* 로고 */}
@@ -77,12 +82,17 @@ const Header: React.FC<IProps> = ({
           </span>
           <SelectHouseWrap selectedHouse={selectedHouse} houses={houses} />
           {isPhoneVerified || (
-            <NavLink
-              className="header__btns header__btns--mobileX"
-              to="/middleServer/phoneVerification"
-            >
-              <Button label="인증하기" blink mode="flat" color="white" />
-            </NavLink>
+            <span className="header__btns header__btns--mobileX">
+              <Button
+                onClick={() => {
+                  phoneVerificationModalHook.openModal();
+                }}
+                label="인증하기"
+                blink
+                mode="flat"
+                color="white"
+              />
+            </span>
           )}
         </Fragment>
       ) : (
@@ -115,6 +125,11 @@ const Header: React.FC<IProps> = ({
           <Icon icon="apps" />
         </CircleIcon>
       </span>
+
+      <PhoneVerificationModalWrap
+        phoneNumber={user ? user.phoneNumber : ""}
+        modalHook={phoneVerificationModalHook}
+      />
       {/* 🌜 모바일 메뉴 */}
       <TooltipList id="listAboutUser">
         <ul>

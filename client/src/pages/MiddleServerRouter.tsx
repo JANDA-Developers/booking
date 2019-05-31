@@ -15,7 +15,6 @@ import {
   Products,
   Home,
   MakeHouse,
-  PhoneVerification,
   DashBoard,
   MyPage,
   SignUp,
@@ -80,7 +79,7 @@ const JDmiddleServer: React.FC<IProps> = ({
         render={() => (
           // @ts-ignore
           <Header
-            userInformation={user}
+            user={user}
             isPhoneVerified={isPhoneVerified}
             selectedHouse={selectedHouse}
             isLoggedIn={isLoggedIn}
@@ -155,12 +154,6 @@ const JDmiddleServer: React.FC<IProps> = ({
               <Login />
             )
           }
-        />
-        {/* 인증 */}
-        <Route
-          exact
-          path="/middleServer/phoneVerification"
-          component={isLoggedIn ? PhoneVerification : undefined}
         />
         {/* 회원가입 */}
         <Route
