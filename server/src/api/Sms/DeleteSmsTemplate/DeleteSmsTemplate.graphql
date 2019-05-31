@@ -1,0 +1,10 @@
+type DeleteSmsTemplateResponse {
+    ok: Boolean!
+    error: String
+}
+type Mutation {
+    DeleteSmsTemplate(
+        smsInfoId: ID!
+        smsTemplateId: ID!
+    ): DeleteSmsTemplateResponse!
+}
