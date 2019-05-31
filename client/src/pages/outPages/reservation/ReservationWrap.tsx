@@ -3,7 +3,7 @@
 import React, {Fragment, useState} from "react";
 import url from "url";
 import {Mutation, Query} from "react-apollo";
-import {Redirect, RouteComponentProps} from "react-router";
+import {Redirect, RouteComponentProps, withRouter} from "react-router";
 import Reservation from "./Reservation";
 import {
   ErrProtecter,
@@ -52,13 +52,17 @@ const ReservationWrap: React.FC<IProps> = ({match, houseId}) => {
       }}
       mutation={CREATE_BOOKING_FOR_BOOKER}
     >
-      {createBookerMu => (
-        <Reservation
-          confirmModalHook={confirmModalHook}
-          houseId="5cb1a8abcc8ef91ca45ab02b"
-          createBookerMu={createBookerMu}
-        />
-      )}
+      {createBookerMu =>
+        withRouter(({match, location, history}) => (
+          <Reservation
+            confirmModalHook={confirmModalHook}
+            createBookerMu={createBookerMu}
+            history={history}
+            match={match}
+            location={location}
+          />
+        ))
+      }
     </CreatBookingMu>
   );
 };

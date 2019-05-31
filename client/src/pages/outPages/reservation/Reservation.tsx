@@ -60,6 +60,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
   confirmModalHook
 }) => {
   const defaultBookerInfo = {
+    houseId: "",
     name: "",
     password: "",
     price: 0,
@@ -70,7 +71,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
   };
   const dayPickerHook = useDayPicker(null, null);
   const [resvRooms, setResvRooms] = useState<GuestPartInput[]>([]);
-  const [bookerInfo, setBookerInfo] = useState<BookerInput>(defaultBookerInfo);
+  const [bookerInfo, setBookerInfo] = useState<any>(defaultBookerInfo);
   const rsevModalHook = useModal(false);
   const toastModalHook = useModal(false);
   const [redirect, redirectUrl, setRedirect] = useRedirect(false, "");

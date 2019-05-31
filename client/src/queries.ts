@@ -17,6 +17,18 @@ const F_MINI_ROOM_TYPE = gql`
     description
   }
 `;
+const F_SMS_TEMPLATE = gql`
+  fragment FsmsTemplate on SmsTemplate {
+    _id
+    formatName
+    smsFormat
+    smsSendCase {
+      enable
+      when
+      who
+    }
+  }
+`;
 const F_ALL_SEASON = gql`
   fragment FallSeason on Season {
     _id
@@ -1365,5 +1377,82 @@ export const REFUND_PRODUCT = gql`
       ok
       error
     }
+  }
+`;
+
+/*  sms-------------------------------------------------------------------------- */
+export const CREATE_SMS_TEMPLATE = gql`
+  mutation createSmsTemplate($houseId: ID!, $params: SmsTemplateInput!) {
+    CreateSmsTemplate(houseId: $houseId, params: $params) {
+      ok
+      error
+      smsTemplate {
+        ...FsmsTemplate
+      }
+    }
+  }
+  ${F_SMS_TEMPLATE}
+`;
+
+export const UPDATE_SMS_TEMPLATE = gql`
+  mutation updateSmsTemplate(
+    $smsTemplateId: ID!
+    $houseId: ID!
+    $params: SmsTemplateInput!
+  ) {
+    UpdateSmsTemplate(
+      smsTemplateId: $smsTemplateId
+      houseId: $houseId
+      params: $params
+    ) {
+      ok
+      error
+      smsTemplate {
+        ...FsmsTemplate
+      }
+    }
+  }
+  ${F_SMS_TEMPLATE}
+`;
+
+export const REGISTER_SENDER = gql`
+  mutation refister (
+    $houseId: ID!
+    sender: SmsSenderInput!
+  ) {
+  Register(
+    houseId: $houseId,
+    sender: $sender
+  ){
+    ok
+    error
+    sender {
+      phoneNumber
+      verified
+      registered
+    }
+    verified
+  }
+}
+`;
+
+export const SEND_SMS = gql`
+  mutation sendSms (
+    sender: PhoneNumber!
+    receivers: [PhoneNumber!]
+    msg: String!
+  ) {
+    SendSms(
+      ok
+      error
+      result {
+        resultCode
+        message
+        msgType
+        msgId
+        successCnt
+        errorCnt
+      }
+    )
   }
 `;
