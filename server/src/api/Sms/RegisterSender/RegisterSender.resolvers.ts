@@ -1,6 +1,7 @@
 import { Types } from "mongoose";
 import { HouseModel } from "../../../models/House";
 import { SmsInfoModel } from "../../../models/SmsInfo";
+import { SmsSenderStatusModel } from "../../../models/SmsSenderStatus";
 import { VerificationModel } from "../../../models/Verification";
 import {
     RegisterSenderMutationArgs,
@@ -50,11 +51,25 @@ const resolvers: Resolvers = {
                             verified: null
                         };
                     }
+                    const smsSenderStatus = await SmsSenderStatusModel.findOne({
+                        user: new Types.ObjectId(user._id),
+                        phoneNumber: sender.phoneNumber
+                    });
+                    const registered: boolean | null =
+                        smsSenderStatus && smsSenderStatus.registered;
+                    if (registered === null) {
+                        // TODO: SmsSenderStatus 등록 안되어있다면 등록하긔 ㅎㅎ
+                        new SmsSenderStatusModel({
+                            phoneNumber: sender.phoneNumber,
+                            user: new Types.ObjectId(user._id)
+                        }).save();
+                    }
                     const smsSender: SmsSender = {
                         phoneNumber: sender.phoneNumber,
-                        registered: false,
+                        registered: registered || false,
                         verified: true
                     };
+
                     await SmsInfoModel.findOneAndUpdate(
                         {
                             house: new Types.ObjectId(houseId),
