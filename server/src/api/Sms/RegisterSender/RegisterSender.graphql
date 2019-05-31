@@ -2,7 +2,7 @@ type RegisterSenderResponse {
     ok: Boolean!
     error: String
     sender: SmsSender
-    isVerified: Boolean
+    verified: Boolean
 }
 
 type Mutation {

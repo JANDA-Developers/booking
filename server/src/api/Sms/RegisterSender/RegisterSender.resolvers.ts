@@ -30,7 +30,7 @@ const resolvers: Resolvers = {
                             ok: false,
                             error: "전화번호 미인증",
                             sender: null,
-                            isVerified: null
+                            verified: null
                         };
                     }
                     if (!verification.verified) {
@@ -38,7 +38,7 @@ const resolvers: Resolvers = {
                             ok: false,
                             error: "전화번호 미인증",
                             sender: null,
-                            isVerified: verification.verified
+                            verified: verification.verified
                         };
                     }
                     const house = await HouseModel.findById(houseId);
@@ -47,13 +47,13 @@ const resolvers: Resolvers = {
                             ok: false,
                             error: "존재하지 않는 HouseId",
                             sender: null,
-                            isVerified: null
+                            verified: null
                         };
                     }
                     const smsSender: SmsSender = {
                         phoneNumber: sender.phoneNumber,
                         registered: false,
-                        isVerified: true
+                        verified: true
                     };
                     await SmsInfoModel.findOneAndUpdate(
                         {
@@ -73,13 +73,13 @@ const resolvers: Resolvers = {
                         ok: true,
                         error: null,
                         sender: smsSender,
-                        isVerified: verification.verified
+                        verified: verification.verified
                     };
                 } catch (error) {
                     return {
                         ok: false,
                         error: error.message,
-                        isVerified: null,
+                        verified: null,
                         sender: null
                     };
                 }

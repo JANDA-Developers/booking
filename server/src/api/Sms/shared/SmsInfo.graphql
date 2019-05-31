@@ -1,5 +1,7 @@
 type SmsInfo {
     _id: ID!
+    user: User!
+    house: House!
     sender: SmsSender
     receivers: [PhoneNumber!]
     smsTemplates: [SmsTemplate!]
@@ -9,7 +11,7 @@ type SmsInfo {
 
 type SmsSender {
     phoneNumber: PhoneNumber!
-    isVerified: Boolean!
+    verified: Boolean!
     registered: Boolean!
 }
 
