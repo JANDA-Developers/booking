@@ -241,7 +241,7 @@ const JDmiddleServer: React.FC<IProps> = ({
             isEmpty(selectedHouse) ? (
               <NoMatch />
             ) : (
-              <Sms selectedHouse={selectedHouse} />
+              <Sms houseId={selectedHouse && selectedHouse._id} />
             )
           }
         />

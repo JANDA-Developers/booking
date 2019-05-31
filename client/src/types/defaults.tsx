@@ -5,9 +5,13 @@ import {
   PayMethod,
   PaymentStatus,
   BookingStatus,
-  Gender
+  Gender,
+  SendTarget
 } from "./enum";
-import {getBooker_GetBooker_booker_roomTypes} from "./api";
+import {
+  getBooker_GetBooker_booker_roomTypes,
+  getSmsInfo_GetSmsInfo_smsInfo_smsTemplates
+} from "./api";
 import {
   IAssigItem,
   IAssigGroup,
@@ -92,4 +96,12 @@ export const DEFAULT_ASSIG_GROUP: IAssigGroup = {
   type: "normal",
   roomGender: null,
   pricingType: PricingType.ROOM
+};
+
+export const DEFAULT_SMS_TEMPLATE: getSmsInfo_GetSmsInfo_smsInfo_smsTemplates = {
+  _id: "-1",
+  __typename: "SmsTemplate",
+  formatName: "",
+  smsFormat: "",
+  smsSendCase: SendTarget.GUEST
 };
