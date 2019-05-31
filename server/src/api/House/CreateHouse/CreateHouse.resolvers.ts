@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import { InstanceType } from "typegoose";
 import { HouseModel } from "../../../models/House";
 import { extractHouse } from "../../../models/merge/merge";
@@ -42,6 +43,7 @@ const resolvers: Resolvers = {
                         },
                         receivers: [user.phoneNumber]
                     });
+                    house.smsInfo = new Types.ObjectId(smsInfo._id);
                     await smsInfo.save();
                     await house.save();
                     await user.update({
@@ -52,7 +54,7 @@ const resolvers: Resolvers = {
                     return {
                         ok: true,
                         error: null,
-                        house: await extractHouse(house)
+                        house: await extractHouse.bind(extractHouse, house)
                     };
                 } catch (error) {
                     return {

@@ -7,6 +7,7 @@ type House {
     hostAppCreated: Boolean!
     publicKey: String
     user: User!
+    smsInfo: SmsInfo!
     location: Location!
     refundPolicy: [TermsOfRefund!]!
     termsOfBooking: TermsOfBooking!

@@ -14,6 +14,7 @@ import {
     RoomTypeWithCapacity,
     Season,
     SeasonPrice,
+    SmsInfo,
     User
 } from "../../types/graph";
 import { applyDaysToBinaryString } from "../../utils/applyDays";
@@ -32,6 +33,7 @@ import { RoomPriceSchema } from "../RoomPrice";
 import { RoomTypeModel, RoomTypeSchema } from "../RoomType";
 import { SeasonModel, SeasonSchema } from "../Season";
 import { SeasonPriceModel, SeasonPriceSchema } from "../SeasonPrice";
+import { SmsInfoModel, SmsInfoSchema } from "../SmsInfo";
 import { UserModel, UserSchema } from "../User";
 
 /*
@@ -86,11 +88,30 @@ export const extractHouse = async (
             hostApplication: await transformHostApp.bind(
                 transformHostApp,
                 house.hostApplication
-            )
+            ),
+            smsInfo: transformSmsInfo.bind(transformSmsInfo, house.smsInfo)
         };
     } catch (error) {
         throw error;
     }
+};
+
+export const transformSmsInfo = async (
+    smsInfoId: Types.ObjectId | string
+): Promise<SmsInfo | null> => {
+    const smsInfoInstance = await SmsInfoModel.findById(smsInfoId);
+    return smsInfoInstance && (await extractSmsInfo(smsInfoInstance));
+};
+
+export const extractSmsInfo = async (
+    smsInfo: InstanceType<SmsInfoSchema>
+): Promise<SmsInfo> => {
+    return {
+        ...smsInfo,
+        _id: smsInfo._id,
+        house: await transformHouse.bind(transformHouse, smsInfo.house),
+        user: await transformUser.bind(transformUser, smsInfo.user)
+    };
 };
 
 export const transformHouse = async (

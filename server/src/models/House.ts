@@ -16,7 +16,7 @@ export class HouseSchema extends Typegoose {
     @prop()
     hostApplication?: Types.ObjectId;
 
-    // TODO: Validation 필요함... 
+    // TODO: Validation 필요함...
     @prop({ default: houseAccessKeyGen() })
     publicKey: string;
 
@@ -47,6 +47,9 @@ export class HouseSchema extends Typegoose {
 
     @prop({ required: true })
     user: Types.ObjectId;
+
+    @prop({ required: true })
+    smsInfo: Types.ObjectId;
 
     @arrayProp({ items: Types.ObjectId, default: [] })
     roomTypes: Types.ObjectId[];
