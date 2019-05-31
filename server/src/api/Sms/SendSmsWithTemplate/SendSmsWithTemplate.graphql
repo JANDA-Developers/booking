@@ -1,0 +1,20 @@
+type SendSmsWithTemplateResponse {
+    ok: Boolean!
+    error: String
+}
+type Mutation {
+    SendSmsWithTemplate(
+        receiver: PhoneNumber!
+        smsInfoId: ID!
+        smsTemplateId: ID!
+        params: SendSmsWithTemplateParams!
+    ): SendSmsWithTemplateResponse!
+}
+
+input SendSmsWithTemplateParams {
+    stayDate: String
+    stayDateYMD: String
+    RoomTypeNCount: String
+    bookerName: String
+    totalPrice: Float
+}
