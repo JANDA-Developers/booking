@@ -41,6 +41,8 @@ const resolvers: Resolvers = {
                             phoneNumber: user.phoneNumber,
                             registered: false
                         },
+                        house: new Types.ObjectId(house._id),
+                        user: new Types.ObjectId(user._id),
                         receivers: [user.phoneNumber]
                     });
                     house.smsInfo = new Types.ObjectId(smsInfo._id);
