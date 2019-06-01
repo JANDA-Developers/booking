@@ -10,7 +10,8 @@ import {
 } from "./enum";
 import {
   getBooker_GetBooker_booker_roomTypes,
-  getSmsInfo_GetSmsInfo_smsInfo_smsTemplates
+  getSmsInfo_GetSmsInfo_smsInfo_smsTemplates,
+  getSmsInfo_GetSmsInfo_smsInfo
 } from "./api";
 import {
   IAssigItem,
@@ -104,4 +105,12 @@ export const DEFAULT_SMS_TEMPLATE: getSmsInfo_GetSmsInfo_smsInfo_smsTemplates = 
   formatName: "",
   smsFormat: "",
   smsSendCase: null
+};
+
+export const DEFAULT_SMS_INFO: getSmsInfo_GetSmsInfo_smsInfo = {
+  __typename: "SmsInfo",
+  _id: "-1",
+  receivers: null,
+  sender: null,
+  smsTemplates: null
 };

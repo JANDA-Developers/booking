@@ -125,24 +125,26 @@ export enum BookerModalType {
   LOOKUP = "lookup"
 }
 
-export enum SendSmsWhen {
+export enum AutoSendCase {
   WEHN_BOOKING_CANCEL = "WEHN_BOOKING_CANCEL",
   WHEN_BOOKING_COMPLETE = "WHEN_BOOKING_COMPLETE",
-  WHEN_BOOKING_WAIT_DEPOSIT = "WHEN_BOOKING_WAIT_DEPOSIT"
+  WHEN_WAIT_DEPOSIT = "WHEN_WAIT_DEPOSIT"
 }
 
-export enum SmsSendCaseKr {
+export enum AutoSendCaseKr {
   WEHN_BOOKING_CANCEL = "예약취소시",
   WHEN_BOOKING_COMPLETE = "예약완료시",
-  WHEN_BOOKING_WAIT_DEPOSIT = "미결제예약시"
+  WHEN_WAIT_DEPOSIT = "미결제예약시"
 }
 
 export enum SendTarget {
+  BOTH = "BOTH",
   GUEST = "GUEST",
   HOST = "HOST"
 }
 
 export enum SendTargetKr {
+  BOTH = "게스트,호스트",
   GUEST = "게스트",
   HOST = "호스트"
 }
@@ -231,16 +233,16 @@ export const PRICING_TYPE_OP = [
 
 export const AUTO_SEND_OP = [
   {
-    value: SmsSendCase.WEHN_BOOKING_CANCEL,
-    label: SmsSendCaseKr.WEHN_BOOKING_CANCEL
+    value: AutoSendCase.WEHN_BOOKING_CANCEL,
+    label: AutoSendCaseKr.WEHN_BOOKING_CANCEL
   },
   {
-    value: SmsSendCase.WHEN_BOOKING_COMPLETE,
-    label: SmsSendCaseKr.WHEN_BOOKING_COMPLETE
+    value: AutoSendCase.WHEN_BOOKING_COMPLETE,
+    label: AutoSendCaseKr.WHEN_BOOKING_COMPLETE
   },
   {
-    value: SmsSendCase.WHEN_BOOKING_WAIT_DEPOSIT,
-    label: SmsSendCaseKr.WHEN_BOOKING_WAIT_DEPOSIT
+    value: AutoSendCase.WHEN_WAIT_DEPOSIT,
+    label: AutoSendCaseKr.WHEN_WAIT_DEPOSIT
   },
   {value: null, label: "선택안함"}
 ];

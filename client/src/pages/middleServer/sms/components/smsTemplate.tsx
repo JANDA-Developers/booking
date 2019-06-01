@@ -9,10 +9,9 @@ import {
   SmsReplaceKeyEnumKeys,
   SmsReplaceKeyEnumKr,
   SendTarget,
-  SmsSendCase,
-  SendTargetKr,
-  SmsSendCaseKr,
-  SendSmsWhen
+  AutoSendCase,
+  AutoSendCaseKr,
+  SendTargetKr
 } from "../../../../types/enum";
 import {useSelect, useInput, useSwitch} from "../../../../actions/hook";
 import InputText from "../../../../atoms/forms/inputText/InputText";
@@ -25,9 +24,9 @@ import {
   updateSmsTemplateVariables,
   deleteSmsTemplate,
   deleteSmsTemplateVariables,
-  templateTitle,
   createSmsTemplate,
-  createSmsTemplateVariables
+  createSmsTemplateVariables,
+  getSmsInfo_GetSmsInfo_smsInfo
 } from "../../../../types/api";
 import {MutationFn} from "react-apollo";
 
@@ -49,20 +48,22 @@ interface IProps {
   };
   houseId: string;
   templateTitle: string;
+  smsInfo: getSmsInfo_GetSmsInfo_smsInfo;
 }
 
 const HouseCard: React.SFC<IProps> = ({
   templateData,
   smsTemplateMutationes,
   templateTitle,
-  houseId
+  houseId,
+  smsInfo
 }) => {
   const [messageValue, setMessage] = useState(templateData.smsFormat);
   const enableHook = useSwitch(false);
-  const autoSendHook = useSelect<SendSmsWhen | null>({
+  const autoSendHook = useSelect<AutoSendCase | null>({
     value: templateData.smsSendCase ? templateData.smsSendCase.when : null,
     label: templateData.smsSendCase
-      ? SmsSendCaseKr[templateData.smsSendCase.when]
+      ? AutoSendCaseKr[templateData.smsSendCase.when]
       : "발송안함"
   });
   const sendTargetHook = useSelect<SendTarget | null>({
@@ -73,11 +74,14 @@ const HouseCard: React.SFC<IProps> = ({
   });
 
   const onTemplateBtnClick = (label: string) => {
-    setMessage(`${messageValue} [${label}]`);
+    setMessage(`${messageValue} ${label}`);
   };
 
-  const smsSendCaseTemp =
-    sendTargetHook.selectedOption && autoSendHook.selectedOption
+  const AutoSendCaseTemp =
+    sendTargetHook.selectedOption &&
+    sendTargetHook.selectedOption.value &&
+    autoSendHook.selectedOption &&
+    autoSendHook.selectedOption.value
       ? {
           enable: enableHook.checked,
           when: autoSendHook.selectedOption.value!,
@@ -85,23 +89,37 @@ const HouseCard: React.SFC<IProps> = ({
         }
       : null;
 
+  const tempTemplateVariables = {
+    houseId: houseId,
+    params: {
+      formatName: templateTitle,
+      smsFormat: smsMessageFormatter(messageValue),
+      smsSendCase: AutoSendCaseTemp
+    }
+  };
+
+  console.log(tempTemplateVariables);
+
   const handleCreateBtnClick = () => {
     smsTemplateMutationes.createSmsTemplateMu({
-      variables: {
-        houseId: houseId,
-        params: {
-          formatName: templateTitle,
-          smsFormat: smsMessageFormatter(messageValue),
-          smsSendCase: smsSendCaseTemp
-        }
-      }
+      variables: tempTemplateVariables
     });
   };
   const handleDeleteBtnClick = () => {
-    smsTemplateMutationes.deleteSmsTemplateMu();
+    smsTemplateMutationes.deleteSmsTemplateMu({
+      variables: {
+        smsInfoId: smsInfo._id,
+        smsTemplateId: templateData._id
+      }
+    });
   };
-  const updateDeleteBtnClick = () => {
-    smsTemplateMutationes.updateSmsTemplateMu();
+  const handleUpdateBtnClick = () => {
+    smsTemplateMutationes.updateSmsTemplateMu({
+      variables: {
+        ...tempTemplateVariables,
+        smsTemplateId: templateData._id
+      }
+    });
   };
 
   const tempArr = SmsReplaceKeyEnumKeys;
@@ -122,16 +140,15 @@ const HouseCard: React.SFC<IProps> = ({
         {tempArr.map((value: any) => (
           <Button
             onClick={() => {
-              onTemplateBtnClick(value);
+              onTemplateBtnClick(SmsReplaceKeyEnumKr[value]);
             }}
-            label={SmsReplaceKeyEnumKr[value]}
+            label={SmsReplaceKeyEnumKr[value].replace("[", "").replace("]", "")}
           />
         ))}
       </div>
       <div className="JDz-index-1 flex-grid flex-grid--start">
         {/* props 로부터 받아서 쓸거임. onChange시에는 뮤테이션을 날리겠지. */}
         <JDselect
-          isMulti
           size={SelectBoxSize.FIVE}
           options={AUTO_SEND_OP}
           {...autoSendHook}

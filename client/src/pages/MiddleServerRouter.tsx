@@ -56,12 +56,16 @@ const JDmiddleServer: React.FC<IProps> = ({
   const [sideNavIsOpen, setSideNavIsOpen] = useToggle(false);
   const isloading: boolean = loading || loading2 || loading3;
   const houses: IHouse[] = user.houses || [];
+
+  console.log("lastSelectedHouse");
+  console.log(lastSelectedHouse);
+  console.log(lastSelectedHouse);
   let selectedHouse = houses.find(
     house => house._id === lastSelectedHouse.value
   );
 
   // 최근에 선택된 숙소가 없다면 선택된 숙소는 첫번째 숙소입니다.
-  if (selectedHouse && !isEmpty(houses)) [selectedHouse] = houses;
+  if (!selectedHouse && !isEmpty(houses)) [selectedHouse] = houses;
 
   const applyedProduct = (selectedHouse && selectedHouse.product) || undefined;
   const {isPhoneVerified, userRole, profileImg} = user;

@@ -10,7 +10,9 @@ import {MutationFn} from "react-apollo";
 import {
   completePhoneVerification,
   completePhoneVerificationVariables,
-  startPhoneVerification
+  startPhoneVerification,
+  startPhoneVerificationWithPhoneNumber,
+  startPhoneVerificationWithPhoneNumberVariables
 } from "../../types/api";
 import JDTimer, {TimerStateType} from "../../atoms/timer/Timer";
 import {TimePerMs} from "../../types/enum";
@@ -19,7 +21,10 @@ import {toast} from "react-toastify";
 
 interface IProps {
   modalHook: IUseModal<any>;
-  startPhoneVerificationMu: MutationFn<startPhoneVerification>;
+  startPhoneVerificationMu: MutationFn<
+    startPhoneVerificationWithPhoneNumber,
+    startPhoneVerificationWithPhoneNumberVariables
+  >;
   completePhoneVerificationMu: MutationFn<
     completePhoneVerification,
     completePhoneVerificationVariables

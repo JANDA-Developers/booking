@@ -4,7 +4,7 @@ import {
   SmsReplaceKeyEnumKr
 } from "../types/enum";
 
-export const smsMessageFormatter = (msg: string): string => {
+const smsMessageFormatter = (msg: string): string => {
   let formatMsg = msg;
   SmsReplaceKeyEnumKeys.forEach((key: any) => {
     formatMsg = formatMsg.replace(
@@ -15,3 +15,6 @@ export const smsMessageFormatter = (msg: string): string => {
 
   return formatMsg;
 };
+
+
+export default smsMessageFormatter

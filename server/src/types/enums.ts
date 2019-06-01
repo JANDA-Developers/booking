@@ -20,7 +20,7 @@ export enum GenderEnum {
     FEMALE = "FEMALE"
 }
 
-export enum SendSmsWhenEnum {
+export enum AutoSendCaseEnum {
     WHEN_BOOKING,
     WEHN_BOOKING_CANCEL,
     WHEN_BOOKING_REFUND

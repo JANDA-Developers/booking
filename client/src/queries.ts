@@ -1278,7 +1278,7 @@ export const UPDATE_MYPROFILE = gql`
     }
   }
 `;
-// 핸드폰인증
+// 핸드폰인증 (유저용)
 export const PHONE_VERIFICATION = gql`
   mutation startPhoneVerification {
     StartPhoneVerification {
@@ -1287,6 +1287,17 @@ export const PHONE_VERIFICATION = gql`
     }
   }
 `;
+
+//  핸드폰인증 (센더용)(유저도 가능)
+export const START_PHONE_VERIFICATION_WITH_PHONE_NUMBER = gql`
+  mutation startPhoneVerificationWithPhoneNumber($phoneNumber: PhoneNumber!) {
+    StartSenderVerification(phoneNumber: $phoneNumber) {
+      ok
+      error
+    }
+  }
+`;
+
 // 핸드폰인증 완료
 export const COMEPLETE_PHONE_VERIFICATION = gql`
   mutation completePhoneVerification($key: String!) {
@@ -1455,27 +1466,6 @@ export const UPDATE_SMS_TEMPLATE = gql`
   ${F_SMS_TEMPLATE}
 `;
 
-// 발신자 등록
-export const REGISTER_SENDER = gql`
-  mutation registerSender(
-    $houseId: ID!
-    $sender: SmsSenderInput!
-  ) {
-    RegisterSender(
-      houseId: $houseId,
-      sender: $sender
-    ){
-      ok
-      error
-      verified
-      sender {
-        ...FsmsSender
-      }
-    }
-  ${F_SMS_SENDER}
-  }
-`;
-
 // 문자전송
 export const SEND_SMS = gql`
   mutation sendSms(
@@ -1496,4 +1486,19 @@ export const SEND_SMS = gql`
       }
     }
   }
+`;
+
+// 문자전송자 등록
+export const UPDATE_SENDER = gql`
+  mutation updateSender($houseId: ID!, $sender: SmsSenderInput!) {
+    UpdateSender(houseId: $houseId, sender: $sender) {
+      ok
+      error
+      sender {
+        ...FsmsSender
+      }
+      verified
+    }
+  }
+  ${F_SMS_SENDER}
 `;

@@ -10,13 +10,16 @@ import {
   updateSmsTemplateVariables,
   getSmsInfo,
   getSmsInfoVariables,
-  getMyProfile_GetMyProfile_user
+  getMyProfile_GetMyProfile_user,
+  updateSender,
+  updateSenderVariables
 } from "../../../types/api";
 import {
   GET_SMS_INFO,
   CREATE_SMS_TEMPLATE,
   DELETE_SMS_TEMPLATE,
-  UPDATE_SMS_TEMPLATE
+  UPDATE_SMS_TEMPLATE,
+  UPDATE_SENDER
 } from "../../../queries";
 import {
   queryDataFormater,
@@ -36,6 +39,7 @@ class UpdateSmsTemplate extends Mutation<
   updateSmsTemplate,
   updateSmsTemplateVariables
 > {}
+class UpdateSmsSender extends Mutation<updateSender, updateSenderVariables> {}
 class GetSmsInfo extends Query<getSmsInfo, getSmsInfoVariables> {}
 
 interface IProps {
@@ -80,33 +84,38 @@ const SmsWrap: React.FC<IProps> = ({houseId}) => (
               }
             >
               {deleteSmsTemplateMu => (
-                <UpdateSmsTemplate
-                  mutation={UPDATE_SMS_TEMPLATE}
-                  onCompleted={({UpdateSmsTemplate}) =>
-                    onCompletedMessage(
-                      UpdateSmsTemplate,
-                      "템플릿 생성완료",
-                      "템플릿 생성실패"
-                    )
-                  }
-                >
-                  {updateSmsTemplateMu => {
-                    const smsTemplateMutationes = {
-                      updateSmsTemplateMu,
-                      deleteSmsTemplateMu,
-                      createSmsTemplateMu
-                    };
+                <UpdateSmsSender mutation={UPDATE_SENDER}>
+                  {updateSenderMu => (
+                    <UpdateSmsTemplate
+                      mutation={UPDATE_SMS_TEMPLATE}
+                      onCompleted={({UpdateSmsTemplate}) =>
+                        onCompletedMessage(
+                          UpdateSmsTemplate,
+                          "템플릿 생성완료",
+                          "템플릿 생성실패"
+                        )
+                      }
+                    >
+                      {updateSmsTemplateMu => {
+                        const smsTemplateMutationes = {
+                          updateSmsTemplateMu,
+                          deleteSmsTemplateMu,
+                          createSmsTemplateMu,
+                          updateSenderMu
+                        };
 
-                    return (
-                      <Sms
-                        smsTemplateMutationes={smsTemplateMutationes}
-                        loading={loading}
-                        houseId={houseId}
-                        smsInfo={smsInfo}
-                      />
-                    );
-                  }}
-                </UpdateSmsTemplate>
+                        return (
+                          <Sms
+                            smsTemplateMutationes={smsTemplateMutationes}
+                            loading={loading}
+                            houseId={houseId}
+                            smsInfo={smsInfo}
+                          />
+                        );
+                      }}
+                    </UpdateSmsTemplate>
+                  )}
+                </UpdateSmsSender>
               )}
             </DeleteSmsTemplate>
           )}

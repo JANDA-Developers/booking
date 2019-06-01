@@ -5,37 +5,52 @@ import PhoneVerificationModal from "./PhoneVerificationModal";
 import {
   completePhoneVerification,
   startPhoneVerification,
-  completePhoneVerificationVariables
+  completePhoneVerificationVariables,
+  startPhoneVerificationWithPhoneNumber,
+  startPhoneVerificationWithPhoneNumberVariables
 } from "../../types/api";
 import {
   PHONE_VERIFICATION,
   COMEPLETE_PHONE_VERIFICATION,
-  GET_USER_INFO
+  GET_USER_INFO,
+  START_PHONE_VERIFICATION_WITH_PHONE_NUMBER
 } from "../../queries";
 import EerrorProtect from "../../utils/errProtect";
 import {IUseModal} from "../../actions/hook";
 import {RouteComponentProps} from "react-router";
 
-class StartPhoneVerificationMu extends Mutation<startPhoneVerification> {}
+class StartPhoneVerificationMu extends Mutation<
+  startPhoneVerificationWithPhoneNumber,
+  startPhoneVerificationWithPhoneNumberVariables
+> {}
 class CompletePhoneVerification extends Mutation<
   completePhoneVerification,
   completePhoneVerificationVariables
 > {}
 
-interface Iprops {
-  modalHook: IUseModal;
-  phoneNumber: string;
+interface IPhoneVerifModalInfo {
+  phoneNumber?: string;
+  onPhoneVerified?(): void;
+  [foo: string]: any;
 }
 
-const PhoneVerificationModalWrap: React.FC<Iprops> = ({
+interface IProps {
+  modalHook: IUseModal<IPhoneVerifModalInfo>;
+  phoneNumber?: string;
+  onPhoneVerified?(): void;
+}
+
+const PhoneVerificationModalWrap: React.FC<IProps> = ({
   modalHook,
-  phoneNumber
+  onPhoneVerified = modalHook.info.onPhoneVerified,
+  phoneNumber = modalHook.info.phoneNumber
 }) => (
   <StartPhoneVerificationMu
-    mutation={PHONE_VERIFICATION}
-    onCompleted={({StartPhoneVerification}) => {
+    variables={{phoneNumber}}
+    mutation={START_PHONE_VERIFICATION_WITH_PHONE_NUMBER}
+    onCompleted={({StartSenderVerification}) => {
       onCompletedMessage(
-        StartPhoneVerification,
+        StartSenderVerification,
         "인증번호 발송완료",
         "인증번호 발송실패"
       );
@@ -52,6 +67,9 @@ const PhoneVerificationModalWrap: React.FC<Iprops> = ({
               "핸드폰 인증완료",
               "핸드폰 인증실패"
             );
+            if (CompletePhoneVerification.ok) {
+              onPhoneVerified && onPhoneVerified();
+            }
           }}
           onError={showError}
           awaitRefetchQueries
