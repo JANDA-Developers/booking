@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import { extractSmsInfo } from "../../../models/merge/merge";
 import { SmsInfoModel } from "../../../models/SmsInfo";
 import { GetSmsInfoQueryArgs, GetSmsInfoResponse } from "../../../types/graph";
@@ -11,7 +12,9 @@ const resolvers: Resolvers = {
                 _,
                 { houseId }: GetSmsInfoQueryArgs
             ): Promise<GetSmsInfoResponse> => {
-                const smsInfo = await SmsInfoModel.findById(houseId);
+                const smsInfo = await SmsInfoModel.findOne({
+                    house: new Types.ObjectId(houseId)
+                });
                 if (!smsInfo) {
                     return {
                         ok: false,
