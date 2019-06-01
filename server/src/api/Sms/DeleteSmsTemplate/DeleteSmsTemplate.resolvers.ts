@@ -21,11 +21,16 @@ const resolvers: Resolvers = {
                         error: "존재하지 않는 smsInfoID"
                     };
                 }
-                await SmsInfoModel.findByIdAndUpdate(smsInfoId, {
-                    $pull: {
-                        smsTemplates: { _id: new Types.ObjectId(smsTemplateId) }
+                await SmsInfoModel.findOneAndUpdate(
+                    { _id: new Types.ObjectId(smsInfoId) },
+                    {
+                        $pull: {
+                            smsTemplates: {
+                                _id: new Types.ObjectId(smsTemplateId)
+                            }
+                        }
                     }
-                });
+                );
                 return {
                     ok: true,
                     error: null
