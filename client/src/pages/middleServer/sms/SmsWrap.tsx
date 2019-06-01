@@ -90,15 +90,22 @@ const SmsWrap: React.FC<IProps> = ({houseId}) => (
                     )
                   }
                 >
-                  {updateSmsTemplateMu => (
-                    <Sms
-                      updateSmsTemplateMu={updateSmsTemplateMu}
-                      deleteSmsTemplateMu={deleteSmsTemplateMu}
-                      createSmsTemplateMu={createSmsTemplateMu}
-                      loading={loading}
-                      smsInfo={smsInfo}
-                    />
-                  )}
+                  {updateSmsTemplateMu => {
+                    const smsTemplateMutationes = {
+                      updateSmsTemplateMu,
+                      deleteSmsTemplateMu,
+                      createSmsTemplateMu
+                    };
+
+                    return (
+                      <Sms
+                        smsTemplateMutationes={smsTemplateMutationes}
+                        loading={loading}
+                        houseId={houseId}
+                        smsInfo={smsInfo}
+                      />
+                    );
+                  }}
                 </UpdateSmsTemplate>
               )}
             </DeleteSmsTemplate>

@@ -3,34 +3,108 @@ import JDLabel from "../../../../atoms/label/JDLabel";
 import JDselect, {
   SelectBoxSize
 } from "../../../../atoms/forms/selectBox/SelectBox";
-import {AUTO_SEND_OP, SMS_TARGET_OP} from "../../../../types/enum";
-import {useSelect, useInput} from "../../../../actions/hook";
+import {
+  AUTO_SEND_OP,
+  SMS_TARGET_OP,
+  SmsReplaceKeyEnumKeys,
+  SmsReplaceKeyEnumKr,
+  SendTarget,
+  SmsSendCase,
+  SendTargetKr,
+  SmsSendCaseKr,
+  SendSmsWhen
+} from "../../../../types/enum";
+import {useSelect, useInput, useSwitch} from "../../../../actions/hook";
 import InputText from "../../../../atoms/forms/inputText/InputText";
 import Switch from "../../../../atoms/forms/switch/Switch";
 import Button from "../../../../atoms/button/Button";
-import {ErrProtecter} from "../../../../utils/utils";
-import {getSmsInfo_GetSmsInfo_smsInfo_smsTemplates} from "../../../../types/api";
+import {ErrProtecter, smsMessageFormatter} from "../../../../utils/utils";
+import {
+  getSmsInfo_GetSmsInfo_smsInfo_smsTemplates,
+  updateSmsTemplate,
+  updateSmsTemplateVariables,
+  deleteSmsTemplate,
+  deleteSmsTemplateVariables,
+  templateTitle,
+  createSmsTemplate,
+  createSmsTemplateVariables
+} from "../../../../types/api";
+import {MutationFn} from "react-apollo";
 
 interface IProps {
   templateData: getSmsInfo_GetSmsInfo_smsInfo_smsTemplates;
+  smsTemplateMutationes: {
+    updateSmsTemplateMu: MutationFn<
+      updateSmsTemplate,
+      updateSmsTemplateVariables
+    >;
+    deleteSmsTemplateMu: MutationFn<
+      deleteSmsTemplate,
+      deleteSmsTemplateVariables
+    >;
+    createSmsTemplateMu: MutationFn<
+      createSmsTemplate,
+      createSmsTemplateVariables
+    >;
+  };
+  houseId: string;
+  templateTitle: string;
 }
 
-const HouseCard: React.SFC<IProps> = ({templateData}) => {
+const HouseCard: React.SFC<IProps> = ({
+  templateData,
+  smsTemplateMutationes,
+  templateTitle,
+  houseId
+}) => {
   const [messageValue, setMessage] = useState(templateData.smsFormat);
-  const autoSendHook = useSelect({value: templateData.smsFormat, label: ""});
-  const sendTargetHook = useSelect({value: templateData.smsFormat, label: ""});
+  const enableHook = useSwitch(false);
+  const autoSendHook = useSelect<SendSmsWhen | null>({
+    value: templateData.smsSendCase ? templateData.smsSendCase.when : null,
+    label: templateData.smsSendCase
+      ? SmsSendCaseKr[templateData.smsSendCase.when]
+      : "발송안함"
+  });
+  const sendTargetHook = useSelect<SendTarget | null>({
+    value: templateData.smsSendCase ? templateData.smsSendCase.who : null,
+    label: templateData.smsSendCase
+      ? SendTargetKr[templateData.smsSendCase.who]
+      : "발송안함"
+  });
 
   const onTemplateBtnClick = (label: string) => {
     setMessage(`${messageValue} [${label}]`);
   };
 
-  const tempArr = [
-    "숙박날자(월/일)",
-    "숙박날자(년/월/일)",
-    "방타입(인원수)",
-    "예약자명",
-    "금액"
-  ];
+  const smsSendCaseTemp =
+    sendTargetHook.selectedOption && autoSendHook.selectedOption
+      ? {
+          enable: enableHook.checked,
+          when: autoSendHook.selectedOption.value!,
+          who: sendTargetHook.selectedOption.value!
+        }
+      : null;
+
+  const handleCreateBtnClick = () => {
+    smsTemplateMutationes.createSmsTemplateMu({
+      variables: {
+        houseId: houseId,
+        params: {
+          formatName: templateTitle,
+          smsFormat: smsMessageFormatter(messageValue),
+          smsSendCase: smsSendCaseTemp
+        }
+      }
+    });
+  };
+  const handleDeleteBtnClick = () => {
+    smsTemplateMutationes.deleteSmsTemplateMu();
+  };
+  const updateDeleteBtnClick = () => {
+    smsTemplateMutationes.updateSmsTemplateMu();
+  };
+
+  const tempArr = SmsReplaceKeyEnumKeys;
 
   return (
     <Fragment>
@@ -45,12 +119,12 @@ const HouseCard: React.SFC<IProps> = ({templateData}) => {
         <div>
           <JDLabel txt="템플릿 메세지" />
         </div>
-        {tempArr.map(value => (
+        {tempArr.map((value: any) => (
           <Button
             onClick={() => {
               onTemplateBtnClick(value);
             }}
-            label={value}
+            label={SmsReplaceKeyEnumKr[value]}
           />
         ))}
       </div>
@@ -72,9 +146,9 @@ const HouseCard: React.SFC<IProps> = ({templateData}) => {
         <Switch label="활성화" />
       </div>
       <div>
-        <Button thema="primary" label="추가" />
-        <Button thema="primary" label="수정" />
-        <Button thema="warn" label="삭제" />
+        <Button onClick={handleCreateBtnClick} thema="primary" label="추가" />
+        <Button onClick={handleUpdateBtnClick} thema="primary" label="수정" />
+        <Button onClick={handleDeleteBtnClick} thema="warn" label="삭제" />
       </div>
     </Fragment>
   );

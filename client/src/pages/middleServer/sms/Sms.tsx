@@ -1,4 +1,4 @@
-import React, {useRef} from "react";
+import React, {useRef, useState} from "react";
 import {RowInfo, CellInfo} from "react-table";
 import {Tab, Tabs, TabList, TabPanel} from "../../../atoms/tabs/tabs";
 import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
@@ -22,43 +22,52 @@ import {
   getSmsInfo_GetSmsInfo_smsInfo
 } from "../../../types/api";
 import Preloader from "../../../atoms/preloader/Preloader";
+import {DEFAULT_SMS_TEMPLATE} from "../../../types/defaults";
 
 // TODO 쿼리랑 뮤테이션 받아서 연결하면됨
 
 interface IProps {
-  updateSmsTemplateMu: MutationFn<
-    updateSmsTemplate,
-    updateSmsTemplateVariables
-  >;
-  deleteSmsTemplateMu: MutationFn<
-    deleteSmsTemplate,
-    deleteSmsTemplateVariables
-  >;
-  createSmsTemplateMu: MutationFn<
-    createSmsTemplate,
-    createSmsTemplateVariables
-  >;
+  smsTemplateMutationes: {
+    updateSmsTemplateMu: MutationFn<
+      updateSmsTemplate,
+      updateSmsTemplateVariables
+    >;
+    deleteSmsTemplateMu: MutationFn<
+      deleteSmsTemplate,
+      deleteSmsTemplateVariables
+    >;
+    createSmsTemplateMu: MutationFn<
+      createSmsTemplate,
+      createSmsTemplateVariables
+    >;
+  };
   loading: boolean;
   smsInfo: getSmsInfo_GetSmsInfo_smsInfo | null | undefined;
+  houseId: string;
 }
 
 const Qna: React.FC<IProps> = ({
-  updateSmsTemplateMu,
-  deleteSmsTemplateMu,
-  createSmsTemplateMu,
+  smsTemplateMutationes,
   loading,
-  smsInfo
+  smsInfo,
+  houseId
 }) => {
   const hostNumber = useInput("");
 
-  //  마지막에 추가해줘라
-  const data = [
-    {
-      name: "",
-      phoneNumber: "",
-      active: true
+  // 추가용
+  if (smsInfo) {
+    if (smsInfo.smsTemplates === null) {
+      smsInfo.smsTemplates = [DEFAULT_SMS_TEMPLATE];
+    } else {
+      smsInfo.smsTemplates.push(DEFAULT_SMS_TEMPLATE);
     }
-  ];
+  }
+
+  const templateNames =
+    smsInfo && smsInfo.smsTemplates!.map(smsTemplate => smsTemplate.formatName);
+  const [templateTitles, setTemplateTitles] = useState<string[]>(
+    templateNames || []
+  );
 
   const TableColumns = [
     {
@@ -111,7 +120,7 @@ const Qna: React.FC<IProps> = ({
                 <h6>관라자 수신 등록</h6>
                 <JDtable
                   {...ReactTableDefault}
-                  data={data}
+                  // data={data}
                   columns={TableColumns}
                 />
               </Card>
@@ -122,29 +131,29 @@ const Qna: React.FC<IProps> = ({
           <h6>문자 템플릿 설정</h6>
           <Tabs>
             <TabList>
-              {smsInfo &&
-                smsInfo.smsTemplates &&
-                smsInfo.smsTemplates.map(smsTemplate => (
-                  <Tab>
-                    <InputText
-                      value={smsTemplate.formatName}
-                      placeholder="템플릿 명칭"
-                    />
-                  </Tab>
-                ))}
-              <Tab>
-                <CircleIcon>
-                  <Icon icon="add" />
-                </CircleIcon>
-              </Tab>
+              {templateTitles.map((title: string, index: number) => (
+                <Tab>
+                  <InputText
+                    onChange={() => {
+                      templateTitles[index] = title;
+                      setTemplateTitles([...templateTitles]);
+                    }}
+                    value={title}
+                    placeholder="템플릿 명칭"
+                  />
+                </Tab>
+              ))}
             </TabList>
-            <SmsTemplate templateData={smsTemplate} />
             {smsInfo &&
               smsInfo.smsTemplates &&
-              smsInfo.smsTemplates.map(smsTemplate => (
-                <SmsTemplate templateData={smsTemplate} />
+              smsInfo.smsTemplates.map((smsTemplate, index) => (
+                <SmsTemplate
+                  templateTitle={templateTitles[index]}
+                  smsTemplateMutationes={smsTemplateMutationes}
+                  templateData={smsTemplate}
+                  houseId={houseId}
+                />
               ))}
-            <TabPanel />
           </Tabs>
         </div>
       </div>

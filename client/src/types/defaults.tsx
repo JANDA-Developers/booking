@@ -103,5 +103,5 @@ export const DEFAULT_SMS_TEMPLATE: getSmsInfo_GetSmsInfo_smsInfo_smsTemplates = 
   __typename: "SmsTemplate",
   formatName: "",
   smsFormat: "",
-  smsSendCase: SendTarget.GUEST
+  smsSendCase: null
 };

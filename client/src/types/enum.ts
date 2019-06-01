@@ -25,19 +25,6 @@ export enum HouseType {
   YOUTH_HOSTEL = "YOUTH_HOSTEL"
 }
 
-export enum AutoSms {
-  READY_TO_PAY = "READY_TO_PAY",
-  COMPELETE = "COMPELETE",
-  CANCEL = "CANCEL",
-  NO_SEND = "NO_SEND"
-}
-
-export enum SmsTarget {
-  HOST = "HOST",
-  GUEST = "GUEST",
-  BOTH = "BOTH"
-}
-
 export enum PricingType {
   DOMITORY = "DOMITORY",
   ROOM = "ROOM"
@@ -138,10 +125,49 @@ export enum BookerModalType {
   LOOKUP = "lookup"
 }
 
+export enum SendSmsWhen {
+  WEHN_BOOKING_CANCEL = "WEHN_BOOKING_CANCEL",
+  WHEN_BOOKING_COMPLETE = "WHEN_BOOKING_COMPLETE",
+  WHEN_BOOKING_WAIT_DEPOSIT = "WHEN_BOOKING_WAIT_DEPOSIT"
+}
+
+export enum SmsSendCaseKr {
+  WEHN_BOOKING_CANCEL = "예약취소시",
+  WHEN_BOOKING_COMPLETE = "예약완료시",
+  WHEN_BOOKING_WAIT_DEPOSIT = "미결제예약시"
+}
+
 export enum SendTarget {
   GUEST = "GUEST",
   HOST = "HOST"
 }
+
+export enum SendTargetKr {
+  GUEST = "게스트",
+  HOST = "호스트"
+}
+
+export enum SmsReplaceKeyEnum {
+  STAY_DATE = "%STAYDATE%",
+  STAY_DATE_YMD = "$STAYDATEYMD%",
+  ROOMTYPE_N_COUNT = "%ROOMTYPENCOUNT%",
+  BOOKERNAME = "%BOOKER%",
+  TOTAL_PRICE = "%TOTALPRICE%"
+}
+export enum SmsReplaceKeyEnumKr {
+  STAY_DATE = "[숙박일자(월/일)]",
+  STAY_DATE_YMD = "[숙박일자(년/월/일)]",
+  ROOMTYPE_N_COUNT = "[숙박정보(방/인원)]",
+  BOOKERNAME = "[예약자명]",
+  TOTAL_PRICE = "[가격]"
+}
+export const SmsReplaceKeyEnumKeys = [
+  "STAY_DATE",
+  "STAY_DATE_YMD",
+  "ROOMTYPE_N_COUNT",
+  "BOOKERNAME",
+  "TOTAL_PRICE"
+];
 
 //= =============================================================
 // START global options
@@ -167,13 +193,6 @@ export const SELECT_COUNT_DUMMY_OP = [
   {value: 10, label: "10"}
 ];
 
-export const AUTO_SEND_OP = [
-  {value: AutoSms.NO_SEND, label: "발신안함"},
-  {value: AutoSms.COMPELETE, label: "예약완료시"},
-  {value: AutoSms.READY_TO_PAY, label: "예약대기시"},
-  {value: AutoSms.CANCEL, label: "예약취소시"}
-];
-
 export const BOOKING_STATUS_OP = [
   {value: BookingStatus.COMPLETE, label: "예약완료"},
   {value: BookingStatus.CANCEL, label: "예약취소"}
@@ -185,9 +204,8 @@ export const PAYMENT_STATUS_OP = [
 ];
 
 export const SMS_TARGET_OP = [
-  {value: SmsTarget.BOTH, label: "관리자,게스트"},
-  {value: SmsTarget.GUEST, label: "게스트"},
-  {value: SmsTarget.HOST, label: "관리자"}
+  {value: SendTarget.GUEST, label: SendTargetKr.GUEST},
+  {value: SendTarget.HOST, label: SendTargetKr.HOST}
 ];
 
 export const PAYMETHOD_OP = [
@@ -209,6 +227,22 @@ export const ROOM_GENDER_OP = [
 export const PRICING_TYPE_OP = [
   {value: PricingType.DOMITORY, label: PricingTypeKr.DOMITORY},
   {value: PricingType.ROOM, label: PricingTypeKr.ROOM}
+];
+
+export const AUTO_SEND_OP = [
+  {
+    value: SmsSendCase.WEHN_BOOKING_CANCEL,
+    label: SmsSendCaseKr.WEHN_BOOKING_CANCEL
+  },
+  {
+    value: SmsSendCase.WHEN_BOOKING_COMPLETE,
+    label: SmsSendCaseKr.WHEN_BOOKING_COMPLETE
+  },
+  {
+    value: SmsSendCase.WHEN_BOOKING_WAIT_DEPOSIT,
+    label: SmsSendCaseKr.WHEN_BOOKING_WAIT_DEPOSIT
+  },
+  {value: null, label: "선택안함"}
 ];
 
 export const MAX_PEOPLE_COUNT_OP_FN = () => {
