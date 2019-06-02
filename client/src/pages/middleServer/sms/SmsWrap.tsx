@@ -26,6 +26,7 @@ import {
   showError,
   onCompletedMessage
 } from "../../../utils/utils";
+import {DEFAULT_SMS_TEMPLATE} from "../../../types/defaults";
 
 class CreateSmsTemplate extends Mutation<
   createSmsTemplate,
@@ -61,6 +62,22 @@ const SmsWrap: React.FC<IProps> = ({houseId}) => (
         "smsInfo",
         undefined
       );
+
+      // SMS INFO formatter 추가용
+      if (smsInfo) {
+        if (smsInfo.smsTemplates === null) {
+          smsInfo.smsTemplates = [DEFAULT_SMS_TEMPLATE];
+        } else {
+          if (
+            !smsInfo.smsTemplates.find(
+              template => template._id === DEFAULT_SMS_TEMPLATE._id
+            )
+          ) {
+            smsInfo.smsTemplates.push(DEFAULT_SMS_TEMPLATE);
+          }
+        }
+      }
+
       return (
         <CreateSmsTemplate
           mutation={CREATE_SMS_TEMPLATE}
@@ -106,6 +123,7 @@ const SmsWrap: React.FC<IProps> = ({houseId}) => (
 
                         return (
                           <Sms
+                            key={`sms${loading && "--loading"}`}
                             smsTemplateMutationes={smsTemplateMutationes}
                             loading={loading}
                             houseId={houseId}

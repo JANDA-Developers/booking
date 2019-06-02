@@ -51,7 +51,7 @@ interface IProps {
   smsInfo: getSmsInfo_GetSmsInfo_smsInfo;
 }
 
-const HouseCard: React.SFC<IProps> = ({
+const SmsTemplate: React.SFC<IProps> = ({
   templateData,
   smsTemplateMutationes,
   templateTitle,
@@ -72,10 +72,6 @@ const HouseCard: React.SFC<IProps> = ({
       ? SendTargetKr[templateData.smsSendCase.who]
       : "발송안함"
   });
-
-  const onTemplateBtnClick = (label: string) => {
-    setMessage(`${messageValue} ${label}`);
-  };
 
   const AutoSendCaseTemp =
     sendTargetHook.selectedOption &&
@@ -98,8 +94,12 @@ const HouseCard: React.SFC<IProps> = ({
     }
   };
 
+  console.log("tempTemplateVariables");
   console.log(tempTemplateVariables);
 
+  const hanldeTemplateBtnClick = (label: string) => {
+    setMessage(`${messageValue} ${label}`);
+  };
   const handleCreateBtnClick = () => {
     smsTemplateMutationes.createSmsTemplateMu({
       variables: tempTemplateVariables
@@ -140,8 +140,9 @@ const HouseCard: React.SFC<IProps> = ({
         {tempArr.map((value: any) => (
           <Button
             onClick={() => {
-              onTemplateBtnClick(SmsReplaceKeyEnumKr[value]);
+              hanldeTemplateBtnClick(SmsReplaceKeyEnumKr[value]);
             }}
+            key={`templateBtn${templateData._id}${value}`}
             label={SmsReplaceKeyEnumKr[value].replace("[", "").replace("]", "")}
           />
         ))}
@@ -171,4 +172,4 @@ const HouseCard: React.SFC<IProps> = ({
   );
 };
 
-export default ErrProtecter(HouseCard);
+export default ErrProtecter(SmsTemplate);

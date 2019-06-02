@@ -57,21 +57,18 @@ const Sms: React.FC<IProps> = ({
   smsInfo,
   houseId
 }) => {
+  const senderNumber = smsInfo && smsInfo.sender && smsInfo.sender.phoneNumber;
+  const reciverNumber = smsInfo && smsInfo.receivers && smsInfo.receivers[0];
   const phoneVerificationModalHook = useModal(false);
-  const hostSenderHook = useInput("");
-  const hostReciverHook = useInput("");
-
-  // 추가용
-  if (smsInfo) {
-    if (smsInfo.smsTemplates === null) {
-      smsInfo.smsTemplates = [DEFAULT_SMS_TEMPLATE];
-    } else {
-      smsInfo.smsTemplates.push(DEFAULT_SMS_TEMPLATE);
-    }
-  }
+  const hostSenderHook = useInput(senderNumber || "");
+  const hostReciverHook = useInput(reciverNumber || "");
 
   const templateNames =
-    smsInfo && smsInfo.smsTemplates!.map(smsTemplate => smsTemplate.formatName);
+    (smsInfo &&
+      smsInfo.smsTemplates &&
+      smsInfo.smsTemplates.map(smsTemplate => smsTemplate.formatName)) ||
+    [];
+
   const [templateTitles, setTemplateTitles] = useState<string[]>(
     templateNames || []
   );
@@ -174,7 +171,10 @@ const Sms: React.FC<IProps> = ({
             <Tabs>
               <TabList>
                 {templateTitles.map((title: string, index: number) => (
-                  <Tab>
+                  <Tab
+                    key={`smsTemplateTitle${index}${smsInfo &&
+                      smsInfo.smsTemplates![index]._id}`}
+                  >
                     <InputText
                       onBlur={e => {
                         templateTitles[index] = e.currentTarget.value;
@@ -189,13 +189,15 @@ const Sms: React.FC<IProps> = ({
               {smsInfo &&
                 smsInfo.smsTemplates &&
                 smsInfo.smsTemplates.map((smsTemplate, index) => (
-                  <SmsTemplate
-                    smsInfo={smsInfo}
-                    templateTitle={templateTitles[index]}
-                    smsTemplateMutationes={smsTemplateMutationes}
-                    templateData={smsTemplate}
-                    houseId={houseId}
-                  />
+                  <TabPanel key={`smsTemplate${smsTemplate._id}`}>
+                    <SmsTemplate
+                      smsInfo={smsInfo}
+                      templateTitle={templateTitles[index]}
+                      smsTemplateMutationes={smsTemplateMutationes}
+                      templateData={smsTemplate}
+                      houseId={houseId}
+                    />
+                  </TabPanel>
                 ))}
             </Tabs>
           ) : (

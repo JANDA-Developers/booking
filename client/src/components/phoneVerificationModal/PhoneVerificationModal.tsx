@@ -29,21 +29,27 @@ interface IProps {
     completePhoneVerification,
     completePhoneVerificationVariables
   >;
+  phoneNumber: string | undefined;
 }
 
 const PhoneVerification: React.FC<IProps> = ({
   modalHook,
   completePhoneVerificationMu,
-  startPhoneVerificationMu
+  startPhoneVerificationMu,
+  phoneNumber
 }) => {
   const keyHook = useInput("");
   const [isTimeOver, setTimeOver] = useState(false);
 
   useEffect(() => {
-    if (modalHook.isOpen) {
-      startPhoneVerificationMu();
+    if (phoneNumber && modalHook.isOpen) {
+      startPhoneVerificationMu({
+        variables: {
+          phoneNumber: phoneNumber
+        }
+      });
     }
-  }, [modalHook.isOpen]);
+  }, [phoneNumber]);
 
   return (
     <JDmodal
@@ -59,10 +65,14 @@ const PhoneVerification: React.FC<IProps> = ({
             setTimeOver(true);
           }
           return (
-            <React.Fragment>
-              <Timer.Minutes />분
-              <Timer.Seconds />초
-            </React.Fragment>
+            <span className="JDtimer">
+              <span className="JDtimer__minute">
+                <Timer.Minutes />분
+              </span>
+              <span className="JDtimer__second">
+                <Timer.Seconds />초
+              </span>
+            </span>
           );
         }}
       </JDTimer>

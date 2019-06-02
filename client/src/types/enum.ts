@@ -170,6 +170,13 @@ export const SmsReplaceKeyEnumKeys = [
   "BOOKERNAME",
   "TOTAL_PRICE"
 ];
+export const SmsReplaceKeyEnumValues = [
+  "%STAYDATE%",
+  "$STAYDATEYMD%",
+  "%ROOMTYPENCOUNT%",
+  "%BOOKER%",
+  "%TOTALPRICE%"
+];
 
 //= =============================================================
 // START global options

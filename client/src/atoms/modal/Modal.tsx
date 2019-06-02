@@ -12,6 +12,7 @@ interface IProps extends ReactModal.Props, IUseModal {
   confirm?: boolean;
   children?: any;
   visibleOverflow?: boolean;
+  flaseMessage?: string;
   confirmCallBackFn?(foo: boolean): any;
 }
 
@@ -26,6 +27,7 @@ const JDmodal: React.SFC<IProps> = ({
   confirm,
   confirmCallBackFn,
   visibleOverflow,
+  flaseMessage,
   appElement = document.getElementById("root") || undefined,
   ...props
 }) => {
@@ -68,7 +70,7 @@ const JDmodal: React.SFC<IProps> = ({
             <Button
               mode="flat"
               thema="warn"
-              label="취소"
+              label={`${flaseMessage || "취소"}`}
               onClick={() => {
                 confirmCallBackFn && confirmCallBackFn(false);
                 info.callBack && info.callBack(false);

@@ -68,19 +68,20 @@ const PhoneVerificationModalWrap: React.FC<IProps> = ({
               "핸드폰 인증실패"
             );
             if (CompletePhoneVerification.ok) {
-              onPhoneVerified && onPhoneVerified();
+              // onPhoneVerified && onPhoneVerified();
             }
           }}
           onError={showError}
-          awaitRefetchQueries
-          refetchQueries={[{query: GET_USER_INFO}]}
+          // awaitRefetchQueries
+          // refetchQueries={[{query: GET_USER_INFO}]}
         >
           {completePhoneVerificationMu => (
             // performance.now() ::[https://stackoverflow.com/questions/51524293/new-date-as-react-key-prop]
             <PhoneVerificationModal
-              key={`phoneVerification${performance.now()}`}
+              key={`phoneVerification${modalHook.isOpen && "--open"}`}
               startPhoneVerificationMu={startPhoneVerificationMu}
               completePhoneVerificationMu={completePhoneVerificationMu}
+              phoneNumber={phoneNumber}
               modalHook={modalHook}
             />
           )}

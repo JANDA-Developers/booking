@@ -1,12 +1,12 @@
-import React, { Fragment } from 'react';
-import { getHousesForSU_GetHousesForSU_houses as Ihouse } from '../../../types/api';
-import { IUseModal } from '../../../actions/hook';
-import Preloader from '../../../atoms/preloader/Preloader';
-import './SuperMain.scss';
-import JDPagination from '../../../atoms/pagination/Pagination';
-import HouseCard from './components/houseCard';
-import { IPageInfo } from '../../../types/interface';
-import UserModal from './components/userModalWrap';
+import React, {Fragment} from "react";
+import {getHousesForSU_GetHousesForSU_houses as Ihouse} from "../../../types/api";
+import {IUseModal} from "../../../actions/hook";
+import Preloader from "../../../atoms/preloader/Preloader";
+import "./SuperMain.scss";
+import JDPagination from "../../../atoms/pagination/Pagination";
+import HouseCard from "./components/houseCard";
+import {IPageInfo} from "../../../types/interface";
+import UserModal from "./components/userModalWrap";
 
 interface Iprops {
   page: number;
@@ -18,7 +18,12 @@ interface Iprops {
 }
 
 const SuperMain: React.SFC<Iprops> = ({
-  userModal, houseData, loading, pageData, page, setPage,
+  userModal,
+  houseData,
+  loading,
+  pageData,
+  page,
+  setPage
 }) => (
   <div id="superMain" className="container container--sm">
     <div className="docs-section">
@@ -26,12 +31,16 @@ const SuperMain: React.SFC<Iprops> = ({
         {loading && <Preloader />}
         <div className="docs-section__box">
           {houseData.map((house: Ihouse) => (
-            <HouseCard houseData={house} userModal={userModal} />
+            <HouseCard
+              key={`houseCard${house._id}`}
+              houseData={house}
+              userModal={userModal}
+            />
           ))}
         </div>
 
         <JDPagination
-          onPageChange={(selectedItem) => {
+          onPageChange={selectedItem => {
             setPage(selectedItem.selected + 1);
           }}
           pageCount={pageData ? pageData.totalPage : 1}

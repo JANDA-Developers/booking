@@ -22,7 +22,8 @@ import {
   PayMethodKr,
   BookingStatus,
   BookingStatusKr,
-  BookerModalType
+  BookerModalType,
+  AutoSendCase
 } from "../../types/enum";
 import "./BookerModal.scss";
 import {GB_booker, IResvCount} from "../../types/interface";
@@ -39,7 +40,9 @@ import {
   allocateGuestToRoomVariables
 } from "../../types/api";
 import {GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM} from "../../queries";
-import SendSMSmodalWrap from "../sendSMSmodal/sendSMSmodalWrap";
+import SendSMSmodalWrap, {
+  IModalSMSinfo
+} from "../sendSMSmodal/sendSMSmodalWrap";
 import {IAssigInfo} from "../../pages/middleServer/assig/components/assigIntrerface";
 
 export interface IroomSelectInfoTable {
@@ -76,7 +79,7 @@ const POPbookerInfo: React.FC<IProps> = ({
   type = BookerModalType.LOOKUP,
   houseId
 }) => {
-  const sendSMSmodalHook = useModal(false);
+  const sendSMSmodalHook = useModal<IModalSMSinfo>(false);
   const confirmModalHook = useModal(false);
   const bookerNameHook = useInput(bookerData.name);
   const bookerPhoneHook = useInput(bookerData.phoneNumber);
@@ -104,6 +107,8 @@ const POPbookerInfo: React.FC<IProps> = ({
     bookerData
   );
 
+  const smsModalInfoTemp = {};
+
   // 예약삭제
   const handleDeletBtnClick = () => {
     confirmModalHook.openModal("정말 예약을 삭제하시겠습니까?");
@@ -122,57 +127,73 @@ const POPbookerInfo: React.FC<IProps> = ({
   const handleCreateBtnClick = async () => {
     if (!bookerData.roomTypes) return;
 
-    const result = await createBookerMu({
-      variables: {
-        bookingParams: {
-          start: resvDateHook.from,
-          bookerParams: {
-            house: houseId,
-            price: priceHook.value || 0,
-            name: bookerNameHook.value,
-            password: "admin",
-            phoneNumber: bookerPhoneHook.value,
-            email: "demo@naver.com",
-            agreePrivacyPolicy: true,
-            memo: memoHook.value
-          },
-          end: resvDateHook.to,
-          guestInputs: defaultFormat.map(data => ({
-            roomTypeId: data.roomTypeId,
-            pricingType: data.pricingType,
-            countFemaleGuest: data.count.female,
-            countMaleGuest: data.count.male,
-            countRoom:
-              data.pricingType === PricingType.ROOM ? data.count.roomCount : 0
-          }))
+    const smsCallBackFn = async (foo: boolean) => {
+      const result = await createBookerMu({
+        variables: {
+          bookingParams: {
+            start: resvDateHook.from,
+            bookerParams: {
+              house: houseId,
+              price: priceHook.value || 0,
+              name: bookerNameHook.value,
+              password: "admin",
+              phoneNumber: bookerPhoneHook.value,
+              email: "demo@naver.com",
+              agreePrivacyPolicy: true,
+              memo: memoHook.value
+            },
+            end: resvDateHook.to,
+            guestInputs: defaultFormat.map(data => ({
+              roomTypeId: data.roomTypeId,
+              pricingType: data.pricingType,
+              countFemaleGuest: data.count.female,
+              countMaleGuest: data.count.male,
+              countRoom:
+                data.pricingType === PricingType.ROOM ? data.count.roomCount : 0
+            }))
+          }
+        }
+      });
+
+      if (result && result.data && result.data.CreateBooker.ok) {
+        const newGuests = result.data.CreateBooker.booker;
+        if (newGuests && newGuests.guests) {
+          newGuests.guests.forEach((guest, index) => {
+            const assigIndex = assigInfo.findIndex(
+              assig => assig.gender === guest.gender
+            );
+
+            allocateGuestToRoomMu({
+              variables: {
+                bedIndex: assigInfo[assigIndex].bedIndex,
+                guestId: guest._id,
+                roomId: assigInfo[assigIndex].roomId
+              }
+            });
+
+            assigInfo.splice(assigIndex, 1);
+          });
         }
       }
+    };
+
+    sendSMSmodalHook.openModal({
+      receivers: [bookerPhoneHook.value],
+      booker: {
+        end: resvDateHook.to!,
+        name: bookerNameHook.value,
+        phoneNumber: bookerPhoneHook.value,
+        start: resvDateHook.from!
+      },
+      callBackFn: smsCallBackFn,
+      sendCase: AutoSendCase.WHEN_BOOKING_COMPLETE,
+      createMode: false
     });
-
-    if (result && result.data && result.data.CreateBooker.ok) {
-      const newGuests = result.data.CreateBooker.booker;
-      if (newGuests && newGuests.guests) {
-        newGuests.guests.forEach((guest, index) => {
-          const assigIndex = assigInfo.findIndex(
-            assig => assig.gender === guest.gender
-          );
-
-          allocateGuestToRoomMu({
-            variables: {
-              bedIndex: assigInfo[assigIndex].bedIndex,
-              guestId: guest._id,
-              roomId: assigInfo[assigIndex].roomId
-            }
-          });
-
-          assigInfo.splice(assigIndex, 1);
-        });
-      }
-    }
   };
   // 예약수정
   // 👿 modify 를 전부 update로 변경하자.
   const handleUpdateBtnClick = () => {
+    // SMS 인포를 꺼내서 발송할 SMS 문자가 있는지 확인해야할것 같다.
     updateBookerMu({
       variables: {
         bookerId: modalHook.info.bookerId,
@@ -222,7 +243,14 @@ const POPbookerInfo: React.FC<IProps> = ({
               iconHover
               iconOnClick={() => {
                 sendSMSmodalHook.openModal({
-                  phoneNumber: bookerPhoneHook.value
+                  receivers: [bookerPhoneHook.value],
+                  booker: {
+                    end: resvDateHook.to!,
+                    name: bookerNameHook.value,
+                    phoneNumber: bookerPhoneHook.value,
+                    start: resvDateHook.from!
+                  },
+                  createMode: true
                 });
               }}
             />
@@ -313,7 +341,7 @@ const POPbookerInfo: React.FC<IProps> = ({
           onClick={modalHook.closeModal}
         /> */}
       </div>
-      <SendSMSmodalWrap modalHook={sendSMSmodalHook} />
+      <SendSMSmodalWrap houseId={houseId} modalHook={sendSMSmodalHook} />
       <JDtoastModal
         confirm
         confirmCallBackFn={deleteModalCallBackFn}
