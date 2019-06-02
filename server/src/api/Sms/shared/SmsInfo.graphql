@@ -20,28 +20,33 @@ input SmsSenderInput {
     registered: Boolean
 }
 
+# 보낼 문자 템플릿.
 type SmsTemplate {
     _id: ID!
+    # 문자 포멧 이름.
     formatName: String!
+    # 문자 포멧: 변수를 포함하며 자동발송 시 변수가 치환되어 전송됨.
     smsFormat: String!
-    smsSendCase: SmsAutoSendCase
+    # 자동발송 설정
+    autoSend: SmsAutoSend
 }
 
-type SmsAutoSendCase {
+# SmsTemplate의 자동발송 옵션
+type SmsAutoSend {
     enable: Boolean!
-    when: AutoSendCase!
+    when: AutoSendWhen!
     who: SendTarget!
 }
 
 input SmsTemplateInput {
     formatName: String!
     smsFormat: String!
-    smsSendCase: SmsAutoSendCaseInput
+    autoSend: SmsAutoSendInput
 }
 
-input SmsAutoSendCaseInput {
+input SmsAutoSendInput {
     enable: Boolean!
-    when: AutoSendCase!
+    when: AutoSendWhen!
     who: SendTarget!
 }
 
@@ -52,15 +57,11 @@ enum SendTarget {
 }
 
 # 보내야 할 상황을 먼저 정해야 할듯 하다.. ㅎㅎ
-enum AutoSendCase {
+enum AutoSendWhen {
     # 예약 완료
     WHEN_BOOKING_COMPLETE
     # 예약 취소
     WEHN_BOOKING_CANCEL
-}
-
-enum AutoSendSmsOptions {
-    PAYMENT_NOT_YET
-    PAYMENT_COMPLETE
-    PAYMENT_LATTER
+    # 결제 안내
+    WHEN_PAYMENT
 }

@@ -3,28 +3,28 @@ export interface SmsDecoratorInterface {
 }
 
 export interface SmsReplaceKey {
-    StayDate: string;
-    StayDateYMD: string;
-    RoomTypeNCount: string;
-    BookerName: string;
-    TotalPrice: string;
-    PayMethod: string;
-    PaymentStatus: string;
+    STAYDATE: string;
+    STAYDATE_YMD: string;
+    ROOMTYPE_N_COUNT: string;
+    BOOKERNAME: string;
+    TOTALPRICE: string;
+    PAYMETHOD: string;
+    PAYMENTSTATUS: string;
 }
-
-export interface AutoSendWhenBooking extends SmsReplaceKey {}
 
 export enum SmsReplaceKeyEnum {
-    StayDate = "%StayDate%",
-    StayDateYMD = "$StayDateYMD%",
-    RoomTypeNCount = "%RoomTypeNCount%",
-    BookerName = "%BookerName%",
-    TotalPrice = "%TotalPrice%",
-    PayMethod = "%PayMethod%",
-    PaymentStatus = "%PaymentStatus%"
+    STAYDATE = "%STAYDATE%",
+    STAYDATE_YMD = "$STAYDATE_YMD%",
+    ROOMTYPE_N_COUNT = "%ROOMTYPE_N_COUNT%",
+    BOOKERNAME = "%BOOKERNAME%",
+    TOTALPRICE = "%TOTALPRICE%",
+    PAYMETHOD = "%PAYMETHOD%",
+    PAYMENTSTATUS = "%PAYMENTSTATUS%"
 }
 
-export type SmsReplacementValues = { [K in keyof SmsReplaceKey]: string };
+export type SmsReplacementValues = {
+    [K in keyof typeof SmsReplaceKeyEnum]: string
+};
 
 export class SmsTemplateDecorator implements SmsDecoratorInterface {
     private msg: string;
@@ -49,10 +49,10 @@ export const getFormattedAutoSendMessage = (
     values: SmsReplacementValues
 ): string => {
     return new SmsTemplateDecorator(msg)
-        .replace(SmsReplaceKeyEnum.BookerName, values.BookerName)
-        .replace(SmsReplaceKeyEnum.RoomTypeNCount, values.RoomTypeNCount)
-        .replace(SmsReplaceKeyEnum.StayDate, values.StayDate)
-        .replace(SmsReplaceKeyEnum.StayDateYMD, values.StayDateYMD)
-        .replace(SmsReplaceKeyEnum.TotalPrice, values.TotalPrice)
+        .replace(SmsReplaceKeyEnum.BOOKERNAME, values.BOOKERNAME)
+        .replace(SmsReplaceKeyEnum.ROOMTYPE_N_COUNT, values.ROOMTYPE_N_COUNT)
+        .replace(SmsReplaceKeyEnum.STAYDATE, values.STAYDATE)
+        .replace(SmsReplaceKeyEnum.STAYDATE_YMD, values.STAYDATE_YMD)
+        .replace(SmsReplaceKeyEnum.TOTALPRICE, values.TOTALPRICE)
         .getMessage();
 };

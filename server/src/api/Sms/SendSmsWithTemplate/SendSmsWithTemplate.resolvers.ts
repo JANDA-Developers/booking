@@ -52,13 +52,13 @@ const resolvers: Resolvers = {
                     const msg = getFormattedAutoSendMessage(
                         smsTemplate.smsFormat,
                         {
-                            BookerName: params.bookerName || "",
-                            RoomTypeNCount: params.RoomTypeNCount || "",
-                            StayDate: params.stayDate || "",
-                            StayDateYMD: params.stayDateYMD || "",
-                            TotalPrice: digitsComma(params.totalPrice || 0),
-                            PayMethod: "", // TODO
-                            PaymentStatus: ""
+                            BOOKERNAME: params.bookerName || "",
+                            ROOMTYPE_N_COUNT: params.RoomTypeNCount || "",
+                            STAYDATE: params.stayDate || "",
+                            STAYDATE_YMD: params.stayDateYMD || "",
+                            TOTALPRICE: digitsComma(params.totalPrice || 0),
+                            PAYMETHOD: "", // TODO
+                            PAYMENTSTATUS: ""
                         }
                     );
                     const sendResult = await sendSMS(
