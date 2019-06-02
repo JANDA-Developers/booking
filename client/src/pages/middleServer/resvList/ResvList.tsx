@@ -1,5 +1,5 @@
 import React, {useState, Fragment} from "react";
-import {CellInfo} from "react-table";
+import {CellInfo, RowInfo} from "react-table";
 import selectTableHOC, {
   SelectInputComponentProps,
   SelectAllInputComponentProps
@@ -21,6 +21,7 @@ import {
   updateBookerVariables,
   updateBooker
 } from "../../../types/api";
+import autoHyphen from "../../../utils/autoFormat";
 import {JDtoastModal} from "../../../atoms/modal/Modal";
 import {
   PaymentStatus,
@@ -33,12 +34,15 @@ import {bookingGuestsMerge} from "../../../utils/booking";
 import moment from "moment";
 import JDbadge, {BADGE_THEMA} from "../../../atoms/badge/Badge";
 import "./ResvList.scss";
+import JDPagination from "../../../atoms/pagination/Pagination";
+import {autoComma} from "../../../utils/utils";
 
 interface IProps {
   pageInfo: IPageInfo | undefined;
   bookersData: IBooker[];
   loading: boolean;
   houseId: string;
+  setPage(page: number): void;
   deleteBookerMu: MutationFn<deleteBooker, deleteBookerVariables>;
   updateBookerMu: MutationFn<updateBooker, updateBookerVariables>;
 }
@@ -49,6 +53,7 @@ const ResvList: React.SFC<IProps> = ({
   loading,
   updateBookerMu,
   deleteBookerMu,
+  setPage,
   houseId
 }) => {
   //   ❔ 두개 합치는게 좋을까?
@@ -124,16 +129,16 @@ const ResvList: React.SFC<IProps> = ({
     {
       Header: "예약일자",
       accessor: "createdAt",
-      Cell: ({value, original}: CellInfo) => {
+      Cell: ({value, original}: CellInfo<any>) => {
         const isCancled = original.bookingStatus === BookingStatus.CANCEL;
         return (
-          <div>
-            {moment(value.createdAt).format("MM-DD-YYYY hh:mm")}
+          <div className="resvList__createdAt">
+            {value.slice(0, 16).replace("T", " ")}
             {isCancled && (
               <Fragment>
                 <br />
                 <JDbadge
-                  className="resvList__bookerStatus"
+                  className="resvList__bookerStatusBadge"
                   thema={BADGE_THEMA.ERROR}
                 >
                   cancle
@@ -147,10 +152,10 @@ const ResvList: React.SFC<IProps> = ({
     {
       Header: "숙박정보",
       accessor: "roomTypes",
-      Cell: ({value, original}: CellInfo) => {
+      Cell: ({value, original}: CellInfo<any>) => {
         const roomTypes: IRoomType[] = value;
         return roomTypes.map(roomType => (
-          <JDbox>
+          <JDbox align="center" key={`${original._id}${roomType._id}`}>
             {roomType.name}
             <br />
             <span>
@@ -184,7 +189,7 @@ const ResvList: React.SFC<IProps> = ({
     {
       Header: "숙박일자",
       accessor: "booker",
-      Cell: ({original}: CellInfo) => (
+      Cell: ({original}: CellInfo<any>) => (
         <div>
           {setYYYYMMDD(original.start)}
           <br />
@@ -201,13 +206,13 @@ const ResvList: React.SFC<IProps> = ({
         </div>
       ),
       accessor: "name",
-      Cell: ({original}: CellInfo) => {
+      Cell: ({original}: CellInfo<any>) => {
         const Booker: IBooker = original;
         return (
           <div>
             {Booker.name}
             <br />
-            {Booker.phoneNumber}
+            {autoHyphen(Booker.phoneNumber)}
           </div>
         );
       }
@@ -221,11 +226,16 @@ const ResvList: React.SFC<IProps> = ({
         </div>
       ),
       accessor: "price",
-      Cell: ({value, original}: CellInfo) => (
+      Cell: ({value, original}: CellInfo<any>) => (
         <div>
-          <span>{value}원</span>
+          <span>{autoComma(value)}원</span>
           <br />
-          <span>{PaymentStatusKr[original.paymentStatus]}</span>
+          <span
+            className={`resvList__paymentStatus ${original.paymentStatus ===
+              PaymentStatus.NOT_YET && "resvList__paymentStatus--notYet"}`}
+          >
+            {PaymentStatusKr[original.paymentStatus]}
+          </span>
         </div>
       )
     },
@@ -233,13 +243,21 @@ const ResvList: React.SFC<IProps> = ({
       Header: "메모",
       accessor: "memo",
       minWidth: 200,
-      Cell: ({value}: CellInfo) => <div>{value}</div>
+      Cell: ({value}: CellInfo<any>) => (
+        <div
+          className={`JDscrool resvList__memo ${value &&
+            value.length > 20 &&
+            "resvList__memo--full"}`}
+        >
+          {value}
+        </div>
+      )
     },
     {
       Header: "상세",
       accessor: "_id",
       minWidth: 50,
-      Cell: ({value}: CellInfo) => (
+      Cell: ({value}: CellInfo<any>) => (
         <JDIcon
           onClick={() => {
             bookerModalHook.openModal({
@@ -312,11 +330,20 @@ const ResvList: React.SFC<IProps> = ({
           SelectAllInputComponent={selectAllInputComponentProps}
           SelectInputComponent={selectInputCompoent}
           isCheckable
+          align="center"
           data={bookersData}
           selectAll={selectAll}
           isSelected={(key: string) => checkedIds.includes(key)}
           columns={TableColumns}
           keyField="_id"
+        />
+        <JDPagination
+          onPageChange={({selected}: {selected: number}) => {
+            setPage(selected + 1);
+          }}
+          pageCount={pageInfo ? pageInfo.totalPage : 1}
+          pageRangeDisplayed={1}
+          marginPagesDisplayed={4}
         />
         <BookerModalWrap
           key={`${bookerModalHook.info.bookerId || "BookerModaldefaultId"}`}

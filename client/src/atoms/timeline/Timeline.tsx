@@ -17,7 +17,10 @@ import moment from "moment";
 
 // import 'react-calendar-timeline/lib/Timeline.css';
 import ErrProtecter from "../../utils/errProtect";
-import {TimePerMs} from "../../types/enum";
+import {TimePerMs, GlobalCSS} from "../../types/enum";
+import JDdayPicker from "../dayPicker/DayPicker";
+import JDIcon, {IconSize} from "../icons/Icons";
+import {IUseDayPicker} from "../../actions/hook";
 
 // 변수설정
 const ASSIGT_IMELINE_HEIGHT = 36;
@@ -94,5 +97,35 @@ export {
   CustomHeader,
   sharedProps
 };
+
+interface IProps {
+  dayPickerHook: IUseDayPicker;
+  getRootProps: any;
+}
+
+export const SharedSideBarHeader: React.FC<IProps> = ({
+  dayPickerHook,
+  getRootProps
+}) => (
+  <div className="rct-header-root__topLeft" {...getRootProps()}>
+    <JDdayPicker
+      isRange={false}
+      input
+      canSelectBeforeDays={false}
+      label="달력날자"
+      {...dayPickerHook}
+      className="JDwaves-effect JDoverflow-visible"
+      inputComponent={
+        <span>
+          <JDIcon
+            className="specificPrice__topLeftIcon"
+            size={IconSize.MEDEIUM_SMALL}
+            icon="calendar"
+          />
+        </span>
+      }
+    />
+  </div>
+);
 
 export default ErrProtecter(JDtimeline);

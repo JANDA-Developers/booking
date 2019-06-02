@@ -15,7 +15,6 @@ import {
   Products,
   Home,
   MakeHouse,
-  PhoneVerification,
   DashBoard,
   MyPage,
   SignUp,
@@ -57,12 +56,16 @@ const JDmiddleServer: React.FC<IProps> = ({
   const [sideNavIsOpen, setSideNavIsOpen] = useToggle(false);
   const isloading: boolean = loading || loading2 || loading3;
   const houses: IHouse[] = user.houses || [];
+
+  console.log("lastSelectedHouse");
+  console.log(lastSelectedHouse);
+  console.log(lastSelectedHouse);
   let selectedHouse = houses.find(
     house => house._id === lastSelectedHouse.value
   );
 
   // 최근에 선택된 숙소가 없다면 선택된 숙소는 첫번째 숙소입니다.
-  if (selectedHouse && !isEmpty(houses)) [selectedHouse] = houses;
+  if (!selectedHouse && !isEmpty(houses)) [selectedHouse] = houses;
 
   const applyedProduct = (selectedHouse && selectedHouse.product) || undefined;
   const {isPhoneVerified, userRole, profileImg} = user;
@@ -80,7 +83,7 @@ const JDmiddleServer: React.FC<IProps> = ({
         render={() => (
           // @ts-ignore
           <Header
-            userInformation={user}
+            user={user}
             isPhoneVerified={isPhoneVerified}
             selectedHouse={selectedHouse}
             isLoggedIn={isLoggedIn}
@@ -156,12 +159,6 @@ const JDmiddleServer: React.FC<IProps> = ({
             )
           }
         />
-        {/* 인증 */}
-        <Route
-          exact
-          path="/middleServer/phoneVerification"
-          component={isLoggedIn ? PhoneVerification : undefined}
-        />
         {/* 회원가입 */}
         <Route
           exact
@@ -184,7 +181,7 @@ const JDmiddleServer: React.FC<IProps> = ({
         <Route
           exact
           path="/middleServer/qna"
-          component={isLoggedIn ? Qna : NoMatch}
+          component={isLoggedIn ? Qna : Login}
         />
         {/* 대기 */}
         {/* 여기이후로 상품이 있어야 나타날수있게 바뀜 */}
@@ -248,7 +245,7 @@ const JDmiddleServer: React.FC<IProps> = ({
             isEmpty(selectedHouse) ? (
               <NoMatch />
             ) : (
-              <Sms selectedHouse={selectedHouse} />
+              <Sms houseId={selectedHouse && selectedHouse._id} />
             )
           }
         />

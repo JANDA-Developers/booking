@@ -10,11 +10,10 @@ import {
   createBooker,
   createBookerVariables,
   findBookerVariables,
-  findBooker_FindBooker_booker
+  findBooker_FindBooker_bookers
 } from "../../../types/api";
 import InputText from "../../../atoms/forms/inputText/InputText";
 import Button from "../../../atoms/button/Button";
-import JDtable from "../../../atoms/table/Table";
 import {onCompletedMessage} from "../../../utils/utils";
 import CheckTable from "./CheckTable";
 import {toast} from "react-toastify";
@@ -33,7 +32,7 @@ interface IProps {
 const SetPrice: React.SFC<IProps> = ({defaultBookerInfo, findBookerQr}) => {
   const [searchInfo, setSearchInfo] = useState(defaultBookerInfo);
   const [queryResult, setQueryResult] = useState<
-    findBooker_FindBooker_booker | undefined
+    findBooker_FindBooker_bookers[] | undefined
   >();
 
   const validater = () => {
@@ -75,16 +74,15 @@ const SetPrice: React.SFC<IProps> = ({defaultBookerInfo, findBookerQr}) => {
         <Button
           onClick={async () => {
             if (searchInfo.password && validater()) {
-              const result = await findBookerQr({
+              const bookers = await findBookerQr({
                 name: searchInfo.name,
                 password: searchInfo.password,
-                phoneNumber: searchInfo.phoneNumber
+                phoneNumber: searchInfo.phoneNumber,
+                houseId: "5cb1a8abcc8ef91ca45ab02b"
               });
-              onCompletedMessage(result, "조회성공", "조회실패");
-              if (result) {
-                if (result.ok) {
-                  setQueryResult(result);
-                }
+
+              if (bookers) {
+                setQueryResult(bookers);
               }
             }
           }}
@@ -92,7 +90,7 @@ const SetPrice: React.SFC<IProps> = ({defaultBookerInfo, findBookerQr}) => {
         />
       </div>
       <h6>예약확인</h6>
-      <CheckTable tableData={queryResult} />
+      <CheckTable tableData={queryResult || []} />
     </div>
   );
 };

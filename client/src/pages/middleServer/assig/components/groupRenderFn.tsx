@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from "react";
 import $ from "jquery";
-import {IAssigGroup} from "../AssigTimelineWrap";
 import {PricingType} from "../../../../types/enum";
 import {ASSIGT_IMELINE_HEIGHT} from "../../../../atoms/timeline/Timeline";
 import {arraySum} from "../../../../utils/elses";
+import {IAssigGroup} from "./assigIntrerface";
 
 let LAST_ROOMTYPE = "unRendered";
 let LAST_ROOM = "unRendered";
@@ -23,11 +23,11 @@ const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({group}) => {
 
   const roomTypeStyle = {
     height: ASSIGT_IMELINE_HEIGHT * placeCount * group.roomType.roomCount,
-    minHeight: ASSIGT_IMELINE_HEIGHT
+    minHeight: ASSIGT_IMELINE_HEIGHT - 1
   };
   const roomStyle = {
-    height: ASSIGT_IMELINE_HEIGHT * placeCount,
-    minHeight: ASSIGT_IMELINE_HEIGHT
+    height: Math.floor(ASSIGT_IMELINE_HEIGHT * placeCount) - 1,
+    minHeight: ASSIGT_IMELINE_HEIGHT - 2
   };
 
   let renderRoomType: boolean = true;
@@ -51,7 +51,7 @@ const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({group}) => {
         return $(this).height();
       });
       $(`#assigGroups__room${group.roomId}`).height(
-        arraySum(arrayHeights.get()) + target.length
+        arraySum(arrayHeights.get()) + target.length - 1
       );
     }
     if (renderRoomType) {
@@ -61,7 +61,7 @@ const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({group}) => {
       });
 
       $(`#assigGroups__roomType${group.roomTypeId}`).height(
-        arraySum(arrayHeights.get()) + target.length
+        arraySum(arrayHeights.get()) + target.length - 1
       );
     }
   });
@@ -94,16 +94,14 @@ const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({group}) => {
             <span className="assigGroups__names">{group.title}</span>
           </div>
         )}
-        {isDomitory && (
-          <div
-            className={`assigGroups__place assigGroups__place${
-              group.roomTypeId
-            } assigGroups__place${group.roomId} title ${group.isLastOfRoom &&
-              "assigGroups__place--last"}`}
-          >
-            <span className="assigGroups__placeIn">{group.placeIndex}</span>
-          </div>
-        )}
+        <div
+          className={`assigGroups__place assigGroups__place${
+            group.roomTypeId
+          } assigGroups__place${group.roomId} title ${group.isLastOfRoom &&
+            "assigGroups__place--last"}`}
+        >
+          <span className="assigGroups__placeIn">{group.placeIndex}</span>
+        </div>
       </div>
     </div>
   );

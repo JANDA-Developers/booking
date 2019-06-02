@@ -17,7 +17,7 @@ interface IProps {
 
 const SendSMSmodal: React.FC<IProps> = ({modalHook}) => {
   return (
-    <JDmodal className="sendSMSmodal" {...modalHook}>
+    <JDmodal visibleOverflow className="sendSMSmodal" {...modalHook}>
       <div>
         <JDbox mode="border" icon="mobile" topLabel="발신대상">
           {modalHook.info.phoneNumber}

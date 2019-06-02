@@ -26,11 +26,7 @@ import {
 } from "../../types/enum";
 import "./BookerModal.scss";
 import {GB_booker, IResvCount} from "../../types/interface";
-import {
-  bookingStatuMerge,
-  bookingGuestsMerge,
-  getRoomTypePerGuests
-} from "../../utils/booking";
+import {getRoomTypePerGuests} from "../../utils/booking";
 import {MutationFn} from "react-apollo";
 import {
   updateBooker,
@@ -38,11 +34,13 @@ import {
   deleteBooker,
   deleteBookerVariables,
   createBooker,
-  createBookerVariables
+  createBookerVariables,
+  allocateGuestToRoom,
+  allocateGuestToRoomVariables
 } from "../../types/api";
-import {GET_ALL_ROOMTYPES_WITH_GUESTS} from "../../queries";
-import {IAssigInfo} from "../../pages/middleServer/assig/components/makeItemMenu";
+import {GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM} from "../../queries";
 import SendSMSmodalWrap from "../sendSMSmodal/sendSMSmodalWrap";
+import {IAssigInfo} from "../../pages/middleServer/assig/components/assigIntrerface";
 
 export interface IroomSelectInfoTable {
   roomTypeId: string;
@@ -58,7 +56,11 @@ interface IProps {
   createBookerMu: MutationFn<createBooker, createBookerVariables>;
   updateBookerMu: MutationFn<updateBooker, updateBookerVariables>;
   deleteBookerMu: MutationFn<deleteBooker, deleteBookerVariables>;
-  assigInfo: IAssigInfo;
+  allocateGuestToRoomMu: MutationFn<
+    allocateGuestToRoom,
+    allocateGuestToRoomVariables
+  >;
+  assigInfo: IAssigInfo[];
   houseId: string;
   type?: BookerModalType;
 }
@@ -69,16 +71,16 @@ const POPbookerInfo: React.FC<IProps> = ({
   updateBookerMu,
   createBookerMu,
   deleteBookerMu,
+  allocateGuestToRoomMu,
   assigInfo,
   type = BookerModalType.LOOKUP,
   houseId
 }) => {
-  // ❓ State들을 합치는게 좋을까?
   const sendSMSmodalHook = useModal(false);
   const confirmModalHook = useModal(false);
   const bookerNameHook = useInput(bookerData.name);
   const bookerPhoneHook = useInput(bookerData.phoneNumber);
-  const priceHook = useInput(0);
+  const priceHook = useInput(bookerData.price);
   const memoHook = useInput(bookerData.memo || "");
   const payMethodHook = useSelect({
     value: bookerData.payMethod,
@@ -98,7 +100,6 @@ const POPbookerInfo: React.FC<IProps> = ({
     moment(bookerData.start).toDate(),
     moment(bookerData.end).toDate()
   );
-
   const defaultFormat: IroomSelectInfoTable[] = getRoomTypePerGuests(
     bookerData
   );
@@ -118,16 +119,16 @@ const POPbookerInfo: React.FC<IProps> = ({
     }
   };
   // 예약생성
-  const handleCreateBtnClick = () => {
+  const handleCreateBtnClick = async () => {
     if (!bookerData.roomTypes) return;
 
-    createBookerMu({
+    const result = await createBookerMu({
       variables: {
         bookingParams: {
           start: resvDateHook.from,
           bookerParams: {
             house: houseId,
-            price: priceHook.value,
+            price: priceHook.value || 0,
             name: bookerNameHook.value,
             password: "admin",
             phoneNumber: bookerPhoneHook.value,
@@ -147,8 +148,28 @@ const POPbookerInfo: React.FC<IProps> = ({
         }
       }
     });
-  };
 
+    if (result && result.data && result.data.CreateBooker.ok) {
+      const newGuests = result.data.CreateBooker.booker;
+      if (newGuests && newGuests.guests) {
+        newGuests.guests.forEach((guest, index) => {
+          const assigIndex = assigInfo.findIndex(
+            assig => assig.gender === guest.gender
+          );
+
+          allocateGuestToRoomMu({
+            variables: {
+              bedIndex: assigInfo[assigIndex].bedIndex,
+              guestId: guest._id,
+              roomId: assigInfo[assigIndex].roomId
+            }
+          });
+
+          assigInfo.splice(assigIndex, 1);
+        });
+      }
+    }
+  };
   // 예약수정
   // 👿 modify 를 전부 update로 변경하자.
   const handleUpdateBtnClick = () => {
@@ -172,6 +193,7 @@ const POPbookerInfo: React.FC<IProps> = ({
         }
       }
     });
+    modalHook.closeModal();
   };
 
   return (

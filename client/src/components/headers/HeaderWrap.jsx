@@ -1,18 +1,16 @@
-import { Mutation } from 'react-apollo';
-import React from 'react';
-import { toast } from 'react-toastify';
-import { withRouter } from 'react-router-dom';
-import Header from './Header';
-import { LOG_USER_OUT } from '../../clientQueries';
-
-const HeaderWrap = ({
-  selectedHouse, houses, history, profileImg, ...props
-}) => (
+import {Mutation} from "react-apollo";
+import React from "react";
+import {toast} from "react-toastify";
+import {withRouter} from "react-router-dom";
+import Header from "./Header";
+import {LOG_USER_OUT, SELECTED_HOUSE} from "../../clientQueries";
+import {getOperationName} from "apollo-utilities";
+const HeaderWrap = ({selectedHouse, houses, history, profileImg, ...props}) => (
   <Mutation
     mutation={LOG_USER_OUT}
     onCompleted={() => {
-      toast.success('로그아웃 완료');
-      history.replace('./');
+      toast.success("로그아웃 완료");
+      history.replace("./");
     }}
   >
     {logOutMutation => (

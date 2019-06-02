@@ -82,14 +82,6 @@ export const MakeHouse = props => (
   </DynamicImport>
 );
 
-export const PhoneVerification = props => (
-  <DynamicImport load={() => import("./middleServer/PhoneVerification")}>
-    {DNcompoent =>
-      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
-    }
-  </DynamicImport>
-);
-
 export const MyPage = props => (
   <DynamicImport load={() => import("./middleServer/myPage/MyPageWrap")}>
     {DNcompoent =>
@@ -132,7 +124,7 @@ export const AssigTimeline = props => (
 
 export const ModifyTimeline = props => (
   <DynamicImport
-    load={() => import("./middleServer/roomConfig/RoomConifgWrap")}
+    load={() => import("./middleServer/roomConfig/RoomConfigWrap")}
   >
     {DNcompoent =>
       DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />

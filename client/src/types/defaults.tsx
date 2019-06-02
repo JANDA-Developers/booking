@@ -5,11 +5,19 @@ import {
   PayMethod,
   PaymentStatus,
   BookingStatus,
-  Gender
+  Gender,
+  SendTarget
 } from "./enum";
-import {getBooker_GetBooker_booker_roomTypes} from "./api";
-import {IAssigItem} from "../pages/middleServer/assig/AssigTimelineWrap";
-
+import {
+  getBooker_GetBooker_booker_roomTypes,
+  getSmsInfo_GetSmsInfo_smsInfo_smsTemplates,
+  getSmsInfo_GetSmsInfo_smsInfo
+} from "./api";
+import {
+  IAssigItem,
+  IAssigGroup,
+  GuestTypeAdd
+} from "../pages/middleServer/assig/components/assigIntrerface";
 export const DEFAULT_ROOMTYPE: getBooker_GetBooker_booker_roomTypes = {
   __typename: "RoomType",
   name: "_",
@@ -55,7 +63,7 @@ export const DEFAULT_BOOKER: GB_booker = {
   guests: null
 };
 
-export const DEFAULT_ASSIGITEM: IAssigItem = {
+export const DEFAULT_ASSIG_ITEM: IAssigItem = {
   bedIndex: -1,
   bookerId: "",
   end: 0,
@@ -69,6 +77,40 @@ export const DEFAULT_ASSIGITEM: IAssigItem = {
   roomId: "",
   roomTypeId: "",
   start: 0,
-  type: "block",
-  validate: []
+  type: GuestTypeAdd.BLOCK,
+  validate: [],
+  canMove: true
+};
+
+export const DEFAULT_ASSIG_GROUP: IAssigGroup = {
+  id: "-1",
+  title: "",
+  roomTypeId: "-1",
+  roomTypeIndex: -1,
+  roomIndex: -1,
+  roomType: {...DEFAULT_ROOMTYPE, rooms: []},
+  roomId: "-1",
+  bedIndex: -1,
+  placeIndex: -1,
+  isLastOfRoom: false,
+  isLastOfRoomType: false,
+  type: "normal",
+  roomGender: null,
+  pricingType: PricingType.ROOM
+};
+
+export const DEFAULT_SMS_TEMPLATE: getSmsInfo_GetSmsInfo_smsInfo_smsTemplates = {
+  _id: "-1",
+  __typename: "SmsTemplate",
+  formatName: "",
+  smsFormat: "",
+  smsSendCase: null
+};
+
+export const DEFAULT_SMS_INFO: getSmsInfo_GetSmsInfo_smsInfo = {
+  __typename: "SmsInfo",
+  _id: "-1",
+  receivers: null,
+  sender: null,
+  smsTemplates: null
 };

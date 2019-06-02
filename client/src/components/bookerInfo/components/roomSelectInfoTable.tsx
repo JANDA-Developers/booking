@@ -17,10 +17,6 @@ interface IProps {
 }
 
 const RoomSelectInfoTable: React.FC<IProps> = ({className, resvInfo}) => {
-  console.log("resvInfo");
-  console.log(resvInfo);
-  console.log(resvInfo);
-  console.log(resvInfo);
   const classes = classNames("roomSelectInfoTable", className, {});
 
   const TableColumns = [
@@ -28,12 +24,12 @@ const RoomSelectInfoTable: React.FC<IProps> = ({className, resvInfo}) => {
       Header: "객실정보",
       accessor: "roomTypeName",
       // 여기다 모든 roomType 을 넣어주어야함.
-      Cell: ({value}: CellInfo) => <div>{value}</div>
+      Cell: ({value}: CellInfo<any>) => <div>{value}</div>
     },
     {
       Header: "인원",
       accessor: "count",
-      Cell: ({value, original}: CellInfo) =>
+      Cell: ({value, original}: CellInfo<any>) =>
         original.pricingType === PricingType.DOMITORY ? (
           <div>
             <span>{`${value.male}남 `}</span>

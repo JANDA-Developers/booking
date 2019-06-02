@@ -9,7 +9,7 @@ interface IProps {
   selectHouseMu: MutationFn<any, any>;
 }
 
-const JDPagination: React.SFC<IProps> = ({
+const JDSeleteHouse: React.SFC<IProps> = ({
   selectHouseMu,
   selectedHouseOption,
   options
@@ -28,4 +28,4 @@ const JDPagination: React.SFC<IProps> = ({
   );
 };
 //
-export default JDPagination;
+export default JDSeleteHouse;

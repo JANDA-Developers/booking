@@ -1,33 +1,31 @@
-import React, { useRef, useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import faker from 'faker';
-import Tooltip from '../../../atoms/tooltip/Tooltip';
-import CheckBox from '../../../atoms/forms/checkBox/CheckBox';
-import Switch from '../../../atoms/forms/switch/Switch';
-import InputText from '../../../atoms/forms/inputText/InputText';
-import Radio from '../../../atoms/forms/radio/Radio';
-import SearchInput from '../../../atoms/searchInput/SearchInput';
-import SideNav from '../../../components/sideNav/SideNav';
-import SelectBox from '../../../atoms/forms/selectBox/SelectBox';
-import JDbadge, { BADGE_THEMA } from '../../../atoms/badge/Badge';
-import DayPicker from '../../../atoms/dayPicker/DayPicker';
-import Pagination from '../../../atoms/pagination/Pagination';
-import ImageUploader from '../../../atoms/imageUploader/ImageUploader';
-import CircleIcon from '../../../atoms/circleIcon/CircleIcon';
-import Button from '../../../atoms/button/Button';
-import Preloader from '../../../atoms/preloader/Preloader';
-import SliderExample from './examples/example_slider';
-import SliderExample2 from './examples/example_slider2';
-import JDlabel from '../../../atoms/label/JDLabel';
-import JDmodal from '../../../atoms/modal/Modal';
-import JDtable, { ReactTableDefault } from '../../../atoms/table/Table';
-import ProfileCircle from '../../../atoms/profileCircle/ProfileCircle';
-import {
-  Tab, Tabs, TabList, TabPanel,
-} from '../../../atoms/tabs/tabs';
-import utils from '../../../utils/utils';
-import Icon, { icons } from '../../../atoms/icons/Icons';
+import React, {useRef, useState} from "react";
+import {NavLink} from "react-router-dom";
+import {toast} from "react-toastify";
+import faker from "faker";
+import Tooltip from "../../../atoms/tooltip/Tooltip";
+import CheckBox from "../../../atoms/forms/checkBox/CheckBox";
+import Switch from "../../../atoms/forms/switch/Switch";
+import InputText from "../../../atoms/forms/inputText/InputText";
+import Radio from "../../../atoms/forms/radio/Radio";
+import SearchInput from "../../../atoms/searchInput/SearchInput";
+import SideNav from "../../../components/sideNav/SideNav";
+import SelectBox from "../../../atoms/forms/selectBox/SelectBox";
+import JDbadge, {BADGE_THEMA} from "../../../atoms/badge/Badge";
+import DayPicker from "../../../atoms/dayPicker/DayPicker";
+import Pagination from "../../../atoms/pagination/Pagination";
+import ImageUploader from "../../../atoms/imageUploader/ImageUploader";
+import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
+import Button from "../../../atoms/button/Button";
+import Preloader from "../../../atoms/preloader/Preloader";
+import SliderExample from "./examples/example_slider";
+import SliderExample2 from "./examples/example_slider2";
+import JDlabel from "../../../atoms/label/JDLabel";
+import JDmodal from "../../../atoms/modal/Modal";
+import JDtable, {ReactTableDefault} from "../../../atoms/table/Table";
+import ProfileCircle from "../../../atoms/profileCircle/ProfileCircle";
+import {Tab, Tabs, TabList, TabPanel} from "../../../atoms/tabs/tabs";
+import utils from "../../../utils/utils";
+import Icon, {icons} from "../../../atoms/icons/Icons";
 import {
   useInput,
   useCheckBox,
@@ -38,28 +36,28 @@ import {
   useImageUploader,
   useColorPicker,
   useDayPicker,
-  useModal,
-} from '../../../actions/hook';
-import './ShowComponent.scss';
-import JDcolorPicker from '../../../atoms/colorPicker/ColorPicker';
-import DrragList from '../../../atoms/animation/DrragList';
-import Card from '../../../atoms/cards/Card';
-import JDbox from '../../../atoms/box/JDbox';
-import { CellInfo } from 'react-table';
-import { UserRole } from '../../../types/enum';
+  useModal
+} from "../../../actions/hook";
+import "./ShowComponent.scss";
+import JDcolorPicker from "../../../atoms/colorPicker/ColorPicker";
+import DrragList from "../../../atoms/animation/DrragList";
+import Card from "../../../atoms/cards/Card";
+import JDbox from "../../../atoms/box/JDbox";
+import {CellInfo} from "react-table";
+import {UserRole} from "../../../types/enum";
 
 function ShowComponents() {
   const defaultColor = faker.commerce.color();
   const defaultColor2 = faker.commerce.color();
   const defaultColor3 = faker.commerce.color();
   const useModalHook = useModal(false);
-  const inputVali = useInput('1232');
+  const inputVali = useInput("1232");
   const checkHook = useCheckBox(false);
-  const [value, setValue] = useRadio('');
+  const [value, setValue] = useRadio("");
   const useSelect1 = useSelect(null);
   const useSelect2 = useSelect(null);
   const useSelect3 = useSelect(null);
-  const [onTypeValue, onTypeChange] = useState<any>('');
+  const [onTypeValue, onTypeChange] = useState<any>("");
   const colorPickerHook = useColorPicker(defaultColor);
   const colorPickerHook2 = useColorPicker(defaultColor2);
   const colorPickerHook3 = useColorPicker(defaultColor3);
@@ -70,70 +68,72 @@ function ShowComponents() {
   const imageUploaderHook = useImageUploader();
 
   const searchDummyData = [
-    { name: 'Manpreet Singh', pic: '' },
-    { name: 'Abhimanyu Kapoor', pic: '' },
-    { name: 'Richard B. Gomes', pic: '' },
-    { name: 'Utkarsh Jain', pic: '' },
+    {name: "Manpreet Singh", pic: ""},
+    {name: "Abhimanyu Kapoor", pic: ""},
+    {name: "Richard B. Gomes", pic: ""},
+    {name: "Utkarsh Jain", pic: ""}
   ];
 
   const selectDummyOptions = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' },
+    {value: "chocolate", label: "Chocolate"},
+    {value: "strawberry", label: "Strawberry"},
+    {value: "vanilla", label: "Vanilla"}
   ];
 
   const TableData = [
-    { color: 'blue', food: 'food', actor: 'i' },
-    { color: 'blue', food: 'food', actor: 'i' },
-    { color: 'blue', food: 'food', actor: 'i' },
+    {color: "blue", food: "food", actor: "i"},
+    {color: "blue", food: "food", actor: "i"},
+    {color: "blue", food: "food", actor: "i"}
   ];
 
   const dummyDrragData = [
     {
-      color: '#FF5500',
-      title: 'Senior Product Designer',
-      text: 'Senior Product Designer',
+      color: "#FF5500",
+      title: "Senior Product Designer",
+      text: "Senior Product Designer"
     },
     {
-      color: '#5FC296',
-      title: 'Senior Animator',
-      text: 'Senior Animator',
+      color: "#5FC296",
+      title: "Senior Animator",
+      text: "Senior Animator"
     },
     {
-      color: '#2DB7F5',
-      title: 'Visual Designer',
-      text: 'Visual Designer',
-    },
+      color: "#2DB7F5",
+      title: "Visual Designer",
+      text: "Visual Designer"
+    }
   ];
 
   const anyProp: any = {};
   const TableColumns = [
     {
-      Header: '번호',
-      accessor: 'index',
-      Cell: ({ index }: CellInfo) => <span>{index}</span>,
+      Header: "번호",
+      accessor: "index",
+      Cell: ({index}: CellInfo<any>) => <span>{index}</span>
     },
     {
-      Header: '우선순위',
-      accessor: 'priority',
+      Header: "우선순위",
+      accessor: "priority"
     },
     {
-      Header: '시즌명',
-      accessor: 'name',
+      Header: "시즌명",
+      accessor: "name"
     },
     {
-      Header: '시즌기간',
-      accessor: 'term',
+      Header: "시즌기간",
+      accessor: "term"
     },
     {
-      Header: '대표색',
-      accessor: 'color',
+      Header: "대표색",
+      accessor: "color"
     },
     {
-      Header: '삭제/생성',
-      accessor: 'controll',
-      Cell: (props: CellInfo) => <Button mode="flat" thema="warn" label="삭제" />,
-    },
+      Header: "삭제/생성",
+      accessor: "controll",
+      Cell: (props: CellInfo<any>) => (
+        <Button mode="flat" thema="warn" label="삭제" />
+      )
+    }
   ];
 
   return (
@@ -142,8 +142,11 @@ function ShowComponents() {
         {/* 더 많은 컴포넌트 보기 */}
         <div>
           <h6>
-            <NavLink className="JDanchor showComponent__float-link" to="./showComponents/timeline">
-              {'NEXT :: Timeline'}
+            <NavLink
+              className="JDanchor showComponent__float-link"
+              to="./showComponents/timeline"
+            >
+              {"NEXT :: Timeline"}
             </NavLink>
           </h6>
         </div>
@@ -173,7 +176,13 @@ function ShowComponents() {
         {/* 라디오 */}
         <div className="docs-section__box">
           <h6>Radio</h6>
-          <Radio onChange={setValue} value="rd1" checked id="RD1--1" groupName="RD1" />
+          <Radio
+            onChange={setValue}
+            value="rd1"
+            checked
+            id="RD1--1"
+            groupName="RD1"
+          />
           <Radio onChange={setValue} value="rd2" id="RD1--2" groupName="RD1" />
           <Radio onChange={setValue} value="rd3" id="RD1--3" groupName="RD1" />
           <Radio onChange={setValue} value="rd4" id="RD1--4" groupName="RD1" />
@@ -186,13 +195,24 @@ function ShowComponents() {
           <h6>InputText</h6>
           <div className="flex-grid">
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
-              <InputText {...inputVali} refContainer={refContainer} label="noraml" />
+              <InputText
+                {...inputVali}
+                refContainer={refContainer}
+                label="noraml"
+              />
             </div>
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
-              <InputText label="validation MaxOver 10 ?" validation={utils.isMaxOver} max={10} />
+              <InputText
+                label="validation MaxOver 10 ?"
+                validation={utils.isMaxOver}
+                max={10}
+              />
             </div>
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
-              <InputText label="validation isName ?" validation={utils.isName} />
+              <InputText
+                label="validation isName ?"
+                validation={utils.isName}
+              />
             </div>
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
               <InputText value="you can't fix this" readOnly label="readOnly" />
@@ -276,9 +296,21 @@ function ShowComponents() {
         <h6>Toast</h6>
         <div className="flex-grid-grow flex-grid--md docs-section__box">
           <div className="flex-grid__col">
-            <Button label="noraml" icon="notify" onClick={() => toast('noraml')} />
-            <Button label="warning" icon="notify" onClick={() => toast.warn('warning')} />
-            <Button label="success" icon="notify" onClick={() => toast.success('success')} />
+            <Button
+              label="noraml"
+              icon="notify"
+              onClick={() => toast("noraml")}
+            />
+            <Button
+              label="warning"
+              icon="notify"
+              onClick={() => toast.warn("warning")}
+            />
+            <Button
+              label="success"
+              icon="notify"
+              onClick={() => toast.success("success")}
+            />
           </div>
         </div>
 
@@ -286,13 +318,28 @@ function ShowComponents() {
         <h6>SelectBox</h6>
         <div className="flex-grid-grow docs-section__box">
           <div className="flex-grid__col">
-            <SelectBox {...useSelect1} options={selectDummyOptions} isOpen label="normal" />
+            <SelectBox
+              {...useSelect1}
+              options={selectDummyOptions}
+              isOpen
+              label="normal"
+            />
           </div>
           <div className="flex-grid__col">
-            <SelectBox {...useSelect2} options={selectDummyOptions} disabled label="disalbed" />
+            <SelectBox
+              {...useSelect2}
+              options={selectDummyOptions}
+              disabled
+              label="disalbed"
+            />
           </div>
           <div className="flex-grid__col">
-            <SelectBox {...useSelect3} options={selectDummyOptions} isMulti label="multi" />
+            <SelectBox
+              {...useSelect3}
+              options={selectDummyOptions}
+              isMulti
+              label="multi"
+            />
           </div>
         </div>
 
@@ -395,7 +442,11 @@ function ShowComponents() {
         <div className="docs-section__box">
           <h6>Modal & SideNav</h6>
           <Button label="Open Modal" onClick={useModalHook.openModal} />
-          <Button icon="menue" label="Open SideNav" onClick={setSideNavIsOpen} />
+          <Button
+            icon="menue"
+            label="Open SideNav"
+            onClick={setSideNavIsOpen}
+          />
           <JDmodal {...useModalHook}>
             <p>Modal text!</p>
             <div className="JDmodal__endSection">
@@ -408,11 +459,26 @@ function ShowComponents() {
         <div className="docs-section__box">
           <h6>Tooltip</h6>
 
-          <Button dataTip dataFor="tooltip__C" label="Some Btn" className="JDbtn--small" />
+          <Button
+            dataTip
+            dataFor="tooltip__C"
+            label="Some Btn"
+            className="JDbtn--small"
+          />
 
-          <Button dataTip dataFor="tooltip__D" label="Some Btn" className="JDbtn--small" />
+          <Button
+            dataTip
+            dataFor="tooltip__D"
+            label="Some Btn"
+            className="JDbtn--small"
+          />
 
-          <Button dataTip dataFor="tooltip__E" label="Some Btn" className="JDbtn--small" />
+          <Button
+            dataTip
+            dataFor="tooltip__E"
+            label="Some Btn"
+            className="JDbtn--small"
+          />
 
           <Tooltip id="tooltip__C" type="success" effect="solid">
             <span>some txt</span>
@@ -431,7 +497,10 @@ function ShowComponents() {
         <h6>Icons</h6>
         <div className=" docs-section__box">
           {Object.keys(icons).map((key: any) => (
-            <div key={`showComponent__${key}`} className="showComponent__icon_box">
+            <div
+              key={`showComponent__${key}`}
+              className="showComponent__icon_box"
+            >
               <Icon label={key} icon={key} />
             </div>
           ))}
@@ -455,7 +524,12 @@ function ShowComponents() {
         {/* 페이지네이션 */}
         <h6>Pagination</h6>
         <div className="docs-section__box clear-fix">
-          <Pagination pageCount={13} initialPage={0} marginPagesDisplayed={1} pageRangeDisplayed={5} />
+          <Pagination
+            pageCount={13}
+            initialPage={0}
+            marginPagesDisplayed={1}
+            pageRangeDisplayed={5}
+          />
         </div>
 
         {/* 드래그리스트 */}
@@ -464,9 +538,7 @@ function ShowComponents() {
           <DrragList data={dummyDrragData} rowKey="tittle">
             {(recode: any, index: any) => (
               <Card key={index}>
-                <h6>this can Drragable</h6>
-                {' '}
-                {recode.title}
+                <h6>this can Drragable</h6> {recode.title}
               </Card>
             )}
           </DrragList>
@@ -494,8 +566,13 @@ function ShowComponents() {
               </tbody>
             </table>
           </JDbox>
-          <JDbox mode="border" icon="apps" topLabel="Top Box Label" label="Box Label">
-            {'boxContent'}
+          <JDbox
+            mode="border"
+            icon="apps"
+            topLabel="Top Box Label"
+            label="Box Label"
+          >
+            {"boxContent"}
           </JDbox>
         </div>
 
@@ -504,7 +581,7 @@ function ShowComponents() {
         <div className="docs-section__box clear-fix">
           <Preloader />
           <span className="showComponent__elseThings JDtext-blink showComponent__blink JDtext-blink--infinity">
-            {'Blink'}
+            {"Blink"}
           </span>
           <span className="showComponent__elseThings showComponent__pulse">
             <Button label="pulse" pulse thema="primary" />
@@ -518,19 +595,19 @@ function ShowComponents() {
         <SideNav
           {...anyProp}
           userInformation={{
-            __typename: 'User',
-            _id: 'dummy',
-            name: '홍길동',
-            phoneNumber: '01052374492',
+            __typename: "User",
+            _id: "dummy",
+            name: "홍길동",
+            phoneNumber: "01052374492",
             password: null,
-            email: '',
+            email: "",
             isPhoneVerified: false,
             profileImg: null,
             checkPrivacyPolicy: false,
             userRole: UserRole.GHOST,
             houses: [],
-            createdAt: '',
-            updatedAt: null,
+            createdAt: "",
+            updatedAt: null
           }}
           isOpen={SideNavIsOpen}
           setIsOpen={setSideNavIsOpen}

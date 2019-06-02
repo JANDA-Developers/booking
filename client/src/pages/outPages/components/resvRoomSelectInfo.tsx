@@ -7,6 +7,7 @@ import JDbox from "../../../atoms/box/JDbox";
 import {GuestPartInput} from "../../../types/api";
 import {IRoomType} from "../../../types/interface";
 import {PricingType} from "../../../types/enum";
+import {autoComma} from "../../../utils/utils";
 
 interface IProps {
   className?: string;
@@ -14,6 +15,7 @@ interface IProps {
   from: Date | null;
   to: Date | null;
   roomTypeInfo: IRoomType[];
+  totalPrice: number;
 }
 
 const ResvRoomSelectInfo: React.FC<IProps> = ({
@@ -21,7 +23,8 @@ const ResvRoomSelectInfo: React.FC<IProps> = ({
   resvRooms,
   from,
   to,
-  roomTypeInfo
+  roomTypeInfo,
+  totalPrice
 }) => {
   const classes = classNames("JDselectInfo", className, {});
 
@@ -44,7 +47,7 @@ const ResvRoomSelectInfo: React.FC<IProps> = ({
     {
       Header: "객실정보",
       accessor: "roomTypeId",
-      Cell: ({value}: CellInfo) => {
+      Cell: ({value}: CellInfo<any>) => {
         const roomType = roomTypeInfo.find(
           inRoomType => inRoomType._id === value
         );
@@ -55,7 +58,7 @@ const ResvRoomSelectInfo: React.FC<IProps> = ({
     {
       Header: "인원",
       accessor: "roomTypeId",
-      Cell: ({original}: CellInfo) =>
+      Cell: ({original}: CellInfo<any>) =>
         original.pricingType === PricingType.DOMITORY ? (
           <div>
             <span>{`${original.countMaleGuest}남 `}</span>
@@ -69,7 +72,8 @@ const ResvRoomSelectInfo: React.FC<IProps> = ({
     },
     {
       Header: "이용금액",
-      accessor: "price"
+      accessor: "discountedPrice",
+      Cell: ({value}: CellInfo<any>) => autoComma(value)
     }
   ];
 
@@ -83,7 +87,7 @@ const ResvRoomSelectInfo: React.FC<IProps> = ({
         noDataText="선택사항이 없습니다."
       />
       <JDbox mode="border">
-        <span>총가격 :</span>
+        <span>총가격 : {autoComma(totalPrice)}</span>
         <span> /원</span>
       </JDbox>
     </div>

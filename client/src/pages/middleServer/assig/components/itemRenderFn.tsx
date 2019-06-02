@@ -2,13 +2,19 @@ import React, {useState, useEffect, Fragment} from "react";
 import $ from "jquery";
 import {TimelineContext} from "react-calendar-timeline";
 import classnames from "classnames";
-import {IAssigItem} from "../AssigTimelineWrap";
 import {ASSIGT_IMELINE_HEIGHT} from "../../../../atoms/timeline/Timeline";
 import {ITimelineContext, IItemContext} from "../../../../types/interface";
 import JDIcon, {IconSize} from "../../../../atoms/icons/Icons";
 import TooltipList from "../../../../atoms/tooltipList/TooltipList";
-import {GenderKr, TimePerMs} from "../../../../types/enum";
+import {GenderKr} from "../../../../types/enum";
 import CircleIcon from "../../../../atoms/circleIcon/CircleIcon";
+import {
+  IAssigTimelineUtils,
+  IAssigTimelineContext,
+  IAssigTimelineHooks,
+  GuestTypeAdd,
+  IAssigItem
+} from "./assigIntrerface";
 
 const CLASS_LINKED = "assigItem--linkedSelected";
 const CLASS_MOVING = "assigItem--moving";
@@ -21,8 +27,10 @@ interface IRenderItemProps {
   itemContext: IItemContext;
   getItemProps(props?: any): any;
   getResizeProps(props?: any): any;
-  clearItem(itemId: string): void;
-  genderToggle(itemId: string): void;
+  genderToggleById(itemId: string): void;
+  assigUtils: IAssigTimelineUtils;
+  assigContext: IAssigTimelineContext;
+  assigHooks: IAssigTimelineHooks;
 }
 // getItemProps 는 다음을 반환합니다.
 // className: "rct-item "
@@ -43,8 +51,9 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
   timelineContext,
   getItemProps,
   getResizeProps,
-  clearItem,
-  genderToggle
+  assigUtils: {genderToggleById, deleteItemById},
+  assigContext: {isMobile},
+  assigHooks
 }) => {
   const {left: leftResizeProps, right: rightResizeProps} = getResizeProps();
 
@@ -53,13 +62,15 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
     "assigItem--unAllocated": item.isUnsettled,
     "assigItem--selected": itemContext.selected,
     "assigItem--checkIn": item.isCheckin,
-    "assigItem--block": item.type === "block",
-    "assigItem--mark": item.type === "mark",
-    "assigItem--make": item.type === "make"
+    "assigItem--block": item.type === GuestTypeAdd.BLOCK,
+    "assigItem--mark": item.type === GuestTypeAdd.MARK,
+    "assigItem--make": item.type === GuestTypeAdd.MAKE
   });
+
   const props = getItemProps({
     className: classNames
   });
+
   /* getItemProps에 다양한 스타일 속성을 오버라이드 하기를 권장합니다. */
   props.style = {
     ...props.style,
@@ -67,29 +78,37 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
     background: "",
     border: "",
     color: "",
-    height: `${ASSIGT_IMELINE_HEIGHT - 2}px`
+    height: `${ASSIGT_IMELINE_HEIGHT}px`
   };
+
+  interface IGenderProp {
+    item: IAssigItem;
+  }
+  const Gender: React.FC<IGenderProp> = ({item}) =>
+    item.gender && (
+      <span
+        className={`assigItem__gender ${`assigItem__gender--${item.gender.toLowerCase()}`}`}
+      >
+        {`(${GenderKr[item.gender]}) `}
+      </span>
+    );
 
   return (
     <div {...props} id={`assigItem--guest${item.id}`}>
       {itemContext.useResizeHandle ? <div {...leftResizeProps} /> : ""}
       {(() => {
         switch (item.type) {
-          case "normal":
+          case GuestTypeAdd.GUEST:
             return (
               <div
                 className="rct-item-content assigItem__content myClasses"
                 style={{maxHeight: `${itemContext.dimensions.height}`}}
               >
-                <span>
-                  {item.name}
-                  {item.gender && (
-                    <span
-                      className={`assigItem__gender ${`assigItem__gender--${item.gender.toLowerCase()}`}`}
-                    >
-                      {` (${GenderKr[item.gender]})`}
-                    </span>
-                  )}
+                <span className="assigItem__titleWrap">
+                  <Gender item={item} />
+                  <span className="assigItem__title assigItem__title--guest">
+                    {item.name}
+                  </span>
                 </span>
 
                 {/* {item.validate.map(validate => {
@@ -116,67 +135,77 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
                   data-place="top"
                   data-for="itemTooltip"
                   data-event="click"
+                  id={`assigItem__configIconWrapId${item.id}`}
                   className="assigItem__configIconWrap"
                 >
                   <JDIcon icon="config" size={IconSize.MEDEIUM_SMALL} />
                 </span>
               </div>
             );
-          case "block":
+          case GuestTypeAdd.BLOCK:
             return (
               <div className="assigItem__content assigItem__content--block">
-                {"자리막음"}
-                <CircleIcon wave thema="white">
-                  <JDIcon
-                    onClick={() => {
-                      clearItem(item.id);
-                    }}
-                    icon="clear"
-                  />
-                </CircleIcon>
+                <span className="assigItem__title">{"자리막음"}</span>
+                {/* {isMobile || (
+                  <CircleIcon wave thema="white">
+                    <JDIcon
+                      onClick={e => {
+                        e.preventDefault();
+                        deleteItemById(item.id);
+                      }}
+                      icon="clear"
+                    />
+                  </CircleIcon>
+                )} */}
               </div>
             );
-          case "mark":
+          case GuestTypeAdd.MARK:
             return <div />;
-          case "make":
+          case GuestTypeAdd.MAKE:
             return (
               <div className="assigItem__content assigItem__content--make">
                 <div>
-                  <span>새로운예약</span>
-                  {item.gender && (
-                    <span className="assigItem__gender">
-                      <CircleIcon
-                        onClick={() => {
-                          genderToggle(item.id);
-                        }}
-                        wave
-                        thema="white"
-                      >
-                        <span
-                          className={`assigItem__gender ${`assigItem__gender--${item.gender.toLowerCase()}`}`}
+                  {isMobile ? (
+                    <Gender item={item} />
+                  ) : (
+                    item.gender && (
+                      <span className="assigItem__gender">
+                        <CircleIcon
+                          onClick={() => {
+                            genderToggleById(item.id);
+                          }}
+                          wave
+                          thema="white"
                         >
-                          {` (${GenderKr[item.gender]})`}
-                        </span>
-                      </CircleIcon>
-                    </span>
+                          <Gender item={item} />
+                        </CircleIcon>
+                      </span>
+                    )
                   )}
+                  <span className="assigItem__title">새로운예약</span>
                 </div>
-                <CircleIcon
-                  onClick={() => {
-                    clearItem(item.id);
-                  }}
-                  wave
-                  thema="white"
-                >
-                  <JDIcon icon="clear" />
-                </CircleIcon>
+                {isMobile || (
+                  <CircleIcon
+                    onClick={() => {
+                      deleteItemById(item.id);
+                    }}
+                    wave
+                    thema="white"
+                  >
+                    <JDIcon icon="clear" />
+                  </CircleIcon>
+                )}
               </div>
             );
           default:
             return <div />;
         }
       })()}
-      {itemContext.useResizeHandle ? <div {...rightResizeProps} /> : ""}
+      {itemContext.useResizeHandle || item.type === GuestTypeAdd.BLOCK ? (
+        <div {...rightResizeProps} className="assigItem__rightHandler" />
+      ) : (
+        ""
+      )}
     </div>
   );
 };

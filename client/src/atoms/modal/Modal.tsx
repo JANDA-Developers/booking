@@ -11,6 +11,7 @@ interface IProps extends ReactModal.Props, IUseModal {
   isAlert?: boolean;
   confirm?: boolean;
   children?: any;
+  visibleOverflow?: boolean;
   confirmCallBackFn?(foo: boolean): any;
 }
 
@@ -24,11 +25,13 @@ const JDmodal: React.SFC<IProps> = ({
   children,
   confirm,
   confirmCallBackFn,
+  visibleOverflow,
   appElement = document.getElementById("root") || undefined,
   ...props
 }) => {
   const classes = classNames("Modal JDmodal", className, {
     "JDmodal--center": center,
+    "JDmodal--visibleOverflow": visibleOverflow,
     "JDmodal--alert": isAlert || confirm,
     "JDmodal--alertWaring": info && info.thema === "warn"
   });
@@ -68,7 +71,7 @@ const JDmodal: React.SFC<IProps> = ({
               label="취소"
               onClick={() => {
                 confirmCallBackFn && confirmCallBackFn(false);
-                info.callBack && info.callBack(true);
+                info.callBack && info.callBack(false);
                 closeModal();
               }}
             />

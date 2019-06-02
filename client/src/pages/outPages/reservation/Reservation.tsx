@@ -3,7 +3,12 @@ import windowSize, {WindowSizeProps} from "react-window-size";
 import {MutationFn, Query} from "react-apollo";
 import ErrProtecter from "../../../utils/errProtect";
 import JDdayPicker from "../../../atoms/dayPicker/DayPicker";
-import {useDayPicker, useModal} from "../../../actions/hook";
+import {
+  useDayPicker,
+  useModal,
+  IUseModal,
+  useRedirect
+} from "../../../actions/hook";
 import "./Reservation.scss";
 import Button from "../../../atoms/button/Button";
 import Card from "../../../atoms/cards/Card";
@@ -14,7 +19,10 @@ import {
   getAllRoomTypeVariables,
   createBooker,
   BookerInput,
-  createBookerVariables
+  createBookerVariables,
+  createBookerForBooker,
+  createBookerForBookerVariables,
+  getAllRoomTypeForBooker
 } from "../../../types/api";
 import ResvRoomSelectInfo from "../components/resvRoomSelectInfo";
 import PayMentModal from "../components/paymentModal";
@@ -25,29 +33,34 @@ import {JDtoastModal} from "../../../atoms/modal/Modal";
 import {IRoomType} from "../../../types/interface";
 import {WindowSize} from "../../../types/enum";
 import {setYYYYMMDD} from "../../../utils/setMidNight";
-import {GET_ALL_ROOMTYPES} from "../../../queries";
+import {
+  GET_ALL_ROOMTYPES,
+  GET_ALL_ROOM_TYPE_FOR_BOOKER
+} from "../../../queries";
 import Preloader from "../../../atoms/preloader/Preloader";
+import {Redirect, withRouter, RouteComponentProps} from "react-router";
 
-class GetAllAvailRoomQu extends Query<
-  getAllRoomType,
-  getAllRoomTypeVariables
-> {}
+class GetAllAvailRoomQu extends Query<getAllRoomTypeForBooker> {}
 export interface ISetBookerInfo
   extends React.Dispatch<React.SetStateAction<BookerInput>> {}
 
-interface IProps {
-  createBookingMu: MutationFn<createBooker, createBookerVariables>;
-  houseId: string;
+interface IProps extends RouteComponentProps<any> {
+  createBookerMu: MutationFn<
+    createBookerForBooker,
+    createBookerForBookerVariables
+  >;
+  confirmModalHook: IUseModal<any>;
 }
 
 const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
   windowWidth,
   windowHeight,
-  createBookingMu,
-  houseId
+  createBookerMu,
+  history,
+  confirmModalHook
 }) => {
   const defaultBookerInfo = {
-    house: houseId,
+    houseId: "",
     name: "",
     password: "",
     price: 0,
@@ -58,11 +71,29 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
   };
   const dayPickerHook = useDayPicker(null, null);
   const [resvRooms, setResvRooms] = useState<GuestPartInput[]>([]);
-  const [bookerInfo, setBookerInfo] = useState<BookerInput>(defaultBookerInfo);
+  const [bookerInfo, setBookerInfo] = useState<any>(defaultBookerInfo);
   const rsevModalHook = useModal(false);
   const toastModalHook = useModal(false);
+  const [redirect, redirectUrl, setRedirect] = useRedirect(false, "");
   // 👿 이건 오직 resvRooms에 룸 네임이 없어서다.
   const roomInfoHook = useState<IRoomType[]>([]);
+
+  console.log("history");
+  console.log(history);
+  console.log(history);
+  console.log(history);
+  console.log(history);
+  const resvConfirmCallBackFunc = (flag: boolean) => {
+    if (flag) {
+      const publicKey = "05dfe136-1f1e-beed-b96d-ea3d68d8b847";
+      const {name, password, phoneNumber} = bookerInfo;
+      setRedirect(
+        `http://localhost:3000/#/outpage/checkReservation/${name}/${phoneNumber}/${password}/${publicKey}`
+      );
+    } else {
+      location.reload();
+    }
+  };
 
   // 날자를 선택하면 예약선택 상태 초기화
   useEffect(() => {
@@ -115,7 +146,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
 
   const bookingCompleteFn = () => {
     if (bookerInfoValidation()) {
-      createBookingMu({
+      createBookerMu({
         variables: {bookingParams}
       });
     }
@@ -129,6 +160,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
 
   return (
     <div id="JDreservation" className="JDreservation">
+      {/* {redirect ? houseId() */}
       <div className="flex-grid">
         <div className="flex-grid__col col--full-4 col--lg-5 col--wmd-12">
           <Card className="JDreservation__card JDreservation__dayPickerCard">
@@ -147,14 +179,13 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
 
             <GetAllAvailRoomQu
               skip={!dayPickerHook.from || !dayPickerHook.to}
-              variables={{houseId}}
-              query={GET_ALL_ROOMTYPES}
+              query={GET_ALL_ROOM_TYPE_FOR_BOOKER}
             >
               {({data: roomTypeData, loading: roomLoading, error}) => {
                 showError(error);
                 const roomTypes = queryDataFormater(
                   roomTypeData,
-                  "GetAllRoomType",
+                  "GetAllRoomTypeForBooker",
                   "roomTypes",
                   undefined
                 );
@@ -162,13 +193,14 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
                   roomTypes.map(roomType => (
                     <RoomTypeCardsWrap
                       roomInfoHook={roomInfoHook}
-                      houseId={houseId}
                       setResvRooms={setResvRooms}
                       resvRooms={resvRooms}
                       windowWidth={windowWidth}
                       toastModalHook={toastModalHook}
                       dayPickerHook={dayPickerHook}
                       roomTypeData={roomType}
+                      bookerInfo={bookerInfo}
+                      setBookerInfo={setBookerInfo}
                       key={`roomCard${roomType._id}`}
                     />
                   ))
@@ -190,6 +222,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
               from={dayPickerHook.from}
               to={dayPickerHook.to}
               resvRooms={resvRooms}
+              totalPrice={bookerInfo.price}
             />
           </Card>
           <Button onClick={handleResvBtnClick} label="예약하기" mode="long" />
@@ -201,6 +234,11 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
         bookerInfo={bookerInfo}
         setBookerInfo={setBookerInfo}
         modalHook={rsevModalHook}
+      />
+      <JDtoastModal
+        confirm
+        confirmCallBackFn={resvConfirmCallBackFunc}
+        {...confirmModalHook}
       />
       <JDtoastModal {...toastModalHook} isAlert />
     </div>

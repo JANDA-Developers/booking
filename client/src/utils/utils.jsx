@@ -2,6 +2,7 @@
 import ErrProtecter from "./errProtect";
 import isEmpty from "./isEmptyData";
 import download from "./download";
+import smsMessageFormatter from "./smsUtils";
 import autoHypen, {autoComma, numberStr, stringToNumber} from "./autoFormat";
 import {
   JDMonthTextChanger,
@@ -47,7 +48,8 @@ const JDutils = {
   stringToPrice,
   autoComma,
   numberStr,
-  stringToNumber
+  stringToNumber,
+  smsMessageFormatter
 };
 
 export default JDutils;
@@ -56,6 +58,7 @@ export {
   JDMonthTextChanger,
   JDWeekChanger,
   isEmpty,
+  smsMessageFormatter,
   download,
   ErrProtecter,
   autoHypen,

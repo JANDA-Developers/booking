@@ -51,14 +51,14 @@ const SetPrice: React.SFC<IProps> = ({
   return (
     <div id="seasonTable" className="seasonT container container--sm">
       <div className="docs-section">
+        <h3>가격설정</h3>
         <div className={seasonCount !== 0 ? "docs-section__box" : undefined}>
-          <h3>가격설정</h3>
-          <p className="setPrice__topBanner">
-            <span>상위에 있을수록 우선 적용됩니다.</span>
+          <div className="flex-grid flex-grid--end">
             <Link to="/middleServer/specificPrice">
-              <Button label="정밀 가격설정" icon="money" />
+              <Button float="right" icon="roomChange" label="방구조 변경" />
             </Link>
-          </p>
+          </div>
+          <span>상위에 있을수록 우선 적용됩니다.</span>
           <JDanimation
             animation={[Animation.fadeInDown, Animation.fadeOutRight]}
           >

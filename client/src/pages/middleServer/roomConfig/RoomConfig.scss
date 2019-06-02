@@ -1,14 +1,24 @@
 @import '../../../style_config/style_config.scss';
 
-$roomTypeWidth :10rem;
+$roomTypeWidth: 10rem;
+$roomWidth: 10rem;
 
-#ModifyTimeline {
+#RoomConfigTimeline {
     .modifyGroups {
         padding-left: $roomTypeWidth;
-        &__roomGroup {
+        
+        &__place {
+            text-align: center;
+        }
+        
+        &__placeIn {
+            padding-left: calc(#{$roomTypeWidth} + #{$roomWidth} + 4px);
+        }
+        
+        &__roomGroupBtn {
+            position:absolute;
             border-radius: 0px;
             width: calc(#{$roomTypeWidth} + 4px); // 4px padding
-            position:absolute;
             text-overflow: ellipsis;
             left: 0;
             & + *{
@@ -16,12 +26,21 @@ $roomTypeWidth :10rem;
             }
         }
 
+        &__roomType {
+
+        }
+
         &__button {
             border-radius: 0px;
-            width: calc(100% + 4px);
+            width: $roomWidth;
+            border-bottom: 1px solid $grey-opacity2;
+        }
+
+        &__room {
+            position: absolute
         }
     } 
-    .ModifyTimeline {
+    .RoomConfigTimeline {
         &__timelineWrap {
             min-width: 720px;
         }
@@ -31,4 +50,7 @@ $roomTypeWidth :10rem;
             overflow-y: hidden;
         }
     }
+
+    @extend %timelineTopLeftIconBox;
+    
 }

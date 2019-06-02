@@ -1,3 +1,5 @@
+import {assertValidSDL} from "graphql/validation/validate";
+
 //= =============================================================
 // START Enums from BackEnd
 //= =============================================================
@@ -9,6 +11,11 @@ export enum UserRole {
   HOST = "HOST"
 }
 
+export enum GuestType {
+  BLOCK = "BLOCK",
+  GUEST = "GUEST"
+}
+
 export enum HouseType {
   GUEST_HOUSE = "GUEST_HOUSE",
   HOSTEL = "HOSTEL",
@@ -16,19 +23,6 @@ export enum HouseType {
   MOTEL = "MOTEL",
   PENSION = "PENSION",
   YOUTH_HOSTEL = "YOUTH_HOSTEL"
-}
-
-export enum AutoSms {
-  READY_TO_PAY = "READY_TO_PAY",
-  COMPELETE = "COMPELETE",
-  CANCEL = "CANCEL",
-  NO_SEND = "NO_SEND"
-}
-
-export enum SmsTarget {
-  HOST = "HOST",
-  GUEST = "GUEST",
-  BOTH = "BOTH"
 }
 
 export enum PricingType {
@@ -60,8 +54,8 @@ export enum BookingStatusKr {
 }
 
 export enum PaymentStatusKr {
-  NOT_YET = "결제안됨",
-  COMPLETE = "결제됨"
+  NOT_YET = "미결제",
+  COMPLETE = "결제완료"
 }
 
 export enum PayMethodKr {
@@ -84,7 +78,8 @@ export enum PricingTypeKr {
 }
 
 export enum TimePerMs {
-  DAY = 24 * 60 * 60 * 1000
+  DAY = 24 * 60 * 60 * 1000,
+  M = 60 * 1000
 }
 
 export enum PaymentStatus {
@@ -115,6 +110,10 @@ export enum WindowSize {
   DESKTOPHD = 1200
 }
 
+export enum GlobalCSS {
+  TIMELINE_HEADER_HEIGHT = 36
+}
+
 export enum Gender {
   FEMALE = "FEMALE",
   MALE = "MALE"
@@ -125,6 +124,52 @@ export enum BookerModalType {
   CREATE_WITH_ASSIG = "createWithAssig",
   LOOKUP = "lookup"
 }
+
+export enum AutoSendCase {
+  WEHN_BOOKING_CANCEL = "WEHN_BOOKING_CANCEL",
+  WHEN_BOOKING_COMPLETE = "WHEN_BOOKING_COMPLETE",
+  WHEN_WAIT_DEPOSIT = "WHEN_WAIT_DEPOSIT"
+}
+
+export enum AutoSendCaseKr {
+  WEHN_BOOKING_CANCEL = "예약취소시",
+  WHEN_BOOKING_COMPLETE = "예약완료시",
+  WHEN_WAIT_DEPOSIT = "미결제예약시"
+}
+
+export enum SendTarget {
+  BOTH = "BOTH",
+  GUEST = "GUEST",
+  HOST = "HOST"
+}
+
+export enum SendTargetKr {
+  BOTH = "게스트,호스트",
+  GUEST = "게스트",
+  HOST = "호스트"
+}
+
+export enum SmsReplaceKeyEnum {
+  STAY_DATE = "%STAYDATE%",
+  STAY_DATE_YMD = "$STAYDATEYMD%",
+  ROOMTYPE_N_COUNT = "%ROOMTYPENCOUNT%",
+  BOOKERNAME = "%BOOKER%",
+  TOTAL_PRICE = "%TOTALPRICE%"
+}
+export enum SmsReplaceKeyEnumKr {
+  STAY_DATE = "[숙박일자(월/일)]",
+  STAY_DATE_YMD = "[숙박일자(년/월/일)]",
+  ROOMTYPE_N_COUNT = "[숙박정보(방/인원)]",
+  BOOKERNAME = "[예약자명]",
+  TOTAL_PRICE = "[가격]"
+}
+export const SmsReplaceKeyEnumKeys = [
+  "STAY_DATE",
+  "STAY_DATE_YMD",
+  "ROOMTYPE_N_COUNT",
+  "BOOKERNAME",
+  "TOTAL_PRICE"
+];
 
 //= =============================================================
 // START global options
@@ -150,13 +195,6 @@ export const SELECT_COUNT_DUMMY_OP = [
   {value: 10, label: "10"}
 ];
 
-export const AUTO_SEND_OP = [
-  {value: AutoSms.NO_SEND, label: "발신안함"},
-  {value: AutoSms.COMPELETE, label: "예약완료시"},
-  {value: AutoSms.READY_TO_PAY, label: "예약대기시"},
-  {value: AutoSms.CANCEL, label: "예약취소시"}
-];
-
 export const BOOKING_STATUS_OP = [
   {value: BookingStatus.COMPLETE, label: "예약완료"},
   {value: BookingStatus.CANCEL, label: "예약취소"}
@@ -168,9 +206,8 @@ export const PAYMENT_STATUS_OP = [
 ];
 
 export const SMS_TARGET_OP = [
-  {value: SmsTarget.BOTH, label: "관리자,게스트"},
-  {value: SmsTarget.GUEST, label: "게스트"},
-  {value: SmsTarget.HOST, label: "관리자"}
+  {value: SendTarget.GUEST, label: SendTargetKr.GUEST},
+  {value: SendTarget.HOST, label: SendTargetKr.HOST}
 ];
 
 export const PAYMETHOD_OP = [
@@ -192,6 +229,22 @@ export const ROOM_GENDER_OP = [
 export const PRICING_TYPE_OP = [
   {value: PricingType.DOMITORY, label: PricingTypeKr.DOMITORY},
   {value: PricingType.ROOM, label: PricingTypeKr.ROOM}
+];
+
+export const AUTO_SEND_OP = [
+  {
+    value: AutoSendCase.WEHN_BOOKING_CANCEL,
+    label: AutoSendCaseKr.WEHN_BOOKING_CANCEL
+  },
+  {
+    value: AutoSendCase.WHEN_BOOKING_COMPLETE,
+    label: AutoSendCaseKr.WHEN_BOOKING_COMPLETE
+  },
+  {
+    value: AutoSendCase.WHEN_WAIT_DEPOSIT,
+    label: AutoSendCaseKr.WHEN_WAIT_DEPOSIT
+  },
+  {value: null, label: "선택안함"}
 ];
 
 export const MAX_PEOPLE_COUNT_OP_FN = () => {

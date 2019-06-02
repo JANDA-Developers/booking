@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 /* -------------------------------- client ------------------------------- */
 // 로그인이 되었는지?
@@ -23,7 +23,7 @@ export const LOG_USER_OUT = gql`
 `;
 // 선택된 집 가져옴
 export const SELECTED_HOUSE = gql`
-  query {
+  query lastSelectedHouse {
     auth {
       lastSelectedHouse @client {
         label

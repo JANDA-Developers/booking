@@ -15,6 +15,10 @@
 }
 
 // 버튼 사이의 간격
+
+.JDanchor + .JDanchor{
+    margin-left: $standard-space; 
+}
 .JDbtn, .JDbtn + a {
     margin-right: $buttons-space;
 }

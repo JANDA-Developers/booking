@@ -1,57 +1,171 @@
-import React, { useState, Fragment } from 'react';
-import JDLabel from '../../../../atoms/label/JDLabel';
-import JDselect, { SelectBoxSize } from '../../../../atoms/forms/selectBox/SelectBox';
-import { AUTO_SEND_OP, SMS_TARGET_OP } from '../../../../types/enum';
-import { useSelect, useInput } from '../../../../actions/hook';
-import InputText from '../../../../atoms/forms/inputText/InputText';
-import Switch from '../../../../atoms/forms/switch/Switch';
-import Button from '../../../../atoms/button/Button';
-import { ErrProtecter } from '../../../../utils/utils';
+import React, {useState, Fragment} from "react";
+import JDLabel from "../../../../atoms/label/JDLabel";
+import JDselect, {
+  SelectBoxSize
+} from "../../../../atoms/forms/selectBox/SelectBox";
+import {
+  AUTO_SEND_OP,
+  SMS_TARGET_OP,
+  SmsReplaceKeyEnumKeys,
+  SmsReplaceKeyEnumKr,
+  SendTarget,
+  AutoSendCase,
+  AutoSendCaseKr,
+  SendTargetKr
+} from "../../../../types/enum";
+import {useSelect, useInput, useSwitch} from "../../../../actions/hook";
+import InputText from "../../../../atoms/forms/inputText/InputText";
+import Switch from "../../../../atoms/forms/switch/Switch";
+import Button from "../../../../atoms/button/Button";
+import {ErrProtecter, smsMessageFormatter} from "../../../../utils/utils";
+import {
+  getSmsInfo_GetSmsInfo_smsInfo_smsTemplates,
+  updateSmsTemplate,
+  updateSmsTemplateVariables,
+  deleteSmsTemplate,
+  deleteSmsTemplateVariables,
+  createSmsTemplate,
+  createSmsTemplateVariables,
+  getSmsInfo_GetSmsInfo_smsInfo
+} from "../../../../types/api";
+import {MutationFn} from "react-apollo";
 
-interface IProps {}
+interface IProps {
+  templateData: getSmsInfo_GetSmsInfo_smsInfo_smsTemplates;
+  smsTemplateMutationes: {
+    updateSmsTemplateMu: MutationFn<
+      updateSmsTemplate,
+      updateSmsTemplateVariables
+    >;
+    deleteSmsTemplateMu: MutationFn<
+      deleteSmsTemplate,
+      deleteSmsTemplateVariables
+    >;
+    createSmsTemplateMu: MutationFn<
+      createSmsTemplate,
+      createSmsTemplateVariables
+    >;
+  };
+  houseId: string;
+  templateTitle: string;
+  smsInfo: getSmsInfo_GetSmsInfo_smsInfo;
+}
 
-const HouseCard: React.SFC<IProps> = () => {
-  const [messageValue, setMessage] = useState('');
+const HouseCard: React.SFC<IProps> = ({
+  templateData,
+  smsTemplateMutationes,
+  templateTitle,
+  houseId,
+  smsInfo
+}) => {
+  const [messageValue, setMessage] = useState(templateData.smsFormat);
+  const enableHook = useSwitch(false);
+  const autoSendHook = useSelect<AutoSendCase | null>({
+    value: templateData.smsSendCase ? templateData.smsSendCase.when : null,
+    label: templateData.smsSendCase
+      ? AutoSendCaseKr[templateData.smsSendCase.when]
+      : "발송안함"
+  });
+  const sendTargetHook = useSelect<SendTarget | null>({
+    value: templateData.smsSendCase ? templateData.smsSendCase.who : null,
+    label: templateData.smsSendCase
+      ? SendTargetKr[templateData.smsSendCase.who]
+      : "발송안함"
+  });
 
   const onTemplateBtnClick = (label: string) => {
-    setMessage(`${messageValue} [${label}]`);
+    setMessage(`${messageValue} ${label}`);
   };
 
-  const tempArr = [
-    '숙박날자(월/일)',
-    '숙박날자(년/월/일)',
-    '예약자명',
-    '객실명',
-    '인원수/방갯수',
-    '총금액',
-    '입금계좌',
-  ];
+  const AutoSendCaseTemp =
+    sendTargetHook.selectedOption &&
+    sendTargetHook.selectedOption.value &&
+    autoSendHook.selectedOption &&
+    autoSendHook.selectedOption.value
+      ? {
+          enable: enableHook.checked,
+          when: autoSendHook.selectedOption.value!,
+          who: sendTargetHook.selectedOption.value!
+        }
+      : null;
+
+  const tempTemplateVariables = {
+    houseId: houseId,
+    params: {
+      formatName: templateTitle,
+      smsFormat: smsMessageFormatter(messageValue),
+      smsSendCase: AutoSendCaseTemp
+    }
+  };
+
+  console.log(tempTemplateVariables);
+
+  const handleCreateBtnClick = () => {
+    smsTemplateMutationes.createSmsTemplateMu({
+      variables: tempTemplateVariables
+    });
+  };
+  const handleDeleteBtnClick = () => {
+    smsTemplateMutationes.deleteSmsTemplateMu({
+      variables: {
+        smsInfoId: smsInfo._id,
+        smsTemplateId: templateData._id
+      }
+    });
+  };
+  const handleUpdateBtnClick = () => {
+    smsTemplateMutationes.updateSmsTemplateMu({
+      variables: {
+        ...tempTemplateVariables,
+        smsTemplateId: templateData._id
+      }
+    });
+  };
+
+  const tempArr = SmsReplaceKeyEnumKeys;
+
   return (
     <Fragment>
-      <InputText value={messageValue} onChange={setMessage} label="발신 메세지" textarea doubleHeight />
+      <InputText
+        value={messageValue}
+        onChange={setMessage}
+        label="발신 메세지"
+        textarea
+        doubleHeight
+      />
       <div>
         <div>
           <JDLabel txt="템플릿 메세지" />
         </div>
-        {tempArr.map(value => (
+        {tempArr.map((value: any) => (
           <Button
             onClick={() => {
-              onTemplateBtnClick(value);
+              onTemplateBtnClick(SmsReplaceKeyEnumKr[value]);
             }}
-            label={value}
+            label={SmsReplaceKeyEnumKr[value].replace("[", "").replace("]", "")}
           />
         ))}
       </div>
       <div className="JDz-index-1 flex-grid flex-grid--start">
         {/* props 로부터 받아서 쓸거임. onChange시에는 뮤테이션을 날리겠지. */}
-        <JDselect isMulti size={SelectBoxSize.FIVE} options={AUTO_SEND_OP} label="자동발신" />
-        <JDselect size={SelectBoxSize.FOUR} options={SMS_TARGET_OP} label="발신대상" />
+        <JDselect
+          size={SelectBoxSize.FIVE}
+          options={AUTO_SEND_OP}
+          {...autoSendHook}
+          label="자동발신"
+        />
+        <JDselect
+          size={SelectBoxSize.FOUR}
+          options={SMS_TARGET_OP}
+          {...sendTargetHook}
+          label="발신대상"
+        />
         <Switch label="활성화" />
       </div>
       <div>
-        <Button size="large" thema="primary" label="추가" />
-        <Button size="large" thema="primary" label="저장" />
-        <Button size="large" thema="warn" label="삭제" />
+        <Button onClick={handleCreateBtnClick} thema="primary" label="추가" />
+        <Button onClick={handleUpdateBtnClick} thema="primary" label="수정" />
+        <Button onClick={handleDeleteBtnClick} thema="warn" label="삭제" />
       </div>
     </Fragment>
   );

@@ -143,6 +143,23 @@ export interface TUseInput<T = string> {
   isValid: any;
 }
 
+export type TUseRedirect = [boolean, string, (url: string) => void];
+
+function useRedirect(
+  inFlag: boolean = false,
+  inUrl: string = ""
+): TUseRedirect {
+  const [flag, setFlag] = useState(inFlag);
+  const [url, inSetRedirect] = useState(inUrl);
+
+  const setRedirect = (redirectUrl: string) => {
+    inSetRedirect(redirectUrl);
+    setFlag(true);
+  };
+
+  return [flag, url, setRedirect];
+}
+
 // 밸리데이션을 포함한 훅 리턴
 function useInput<T = string>(
   defaultValue: T,
@@ -299,6 +316,17 @@ function useToggle(defaultValue: boolean): [boolean, any] {
   return [toggle, onClick];
 }
 
+// 투글 훅
+function usePagiNation(defaultValue: number): [number, (page: number) => void] {
+  const [page, inSetPage] = useState(defaultValue);
+
+  const setPage = (foo: number) => {
+    inSetPage(foo);
+  };
+
+  return [page, setPage];
+}
+
 export interface IUseModal<T = any> {
   isOpen: boolean;
   openModal: (inInfo?: T) => void;
@@ -343,5 +371,7 @@ export {
   useDebounce,
   useImageUploader,
   useColorPicker,
-  useDayPicker
+  useDayPicker,
+  usePagiNation,
+  useRedirect
 };

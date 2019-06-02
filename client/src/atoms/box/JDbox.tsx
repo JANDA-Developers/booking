@@ -1,20 +1,21 @@
-import classNames from 'classnames';
-import React, { Fragment } from 'react';
-import ErrProtecter from '../../utils/errProtect';
-import './JDbox.scss';
-import JDIcon, { IIcons } from '../icons/Icons';
-import { IDiv } from '../../types/interface';
-import JDLabel from '../label/JDLabel';
+import classNames from "classnames";
+import React, {Fragment} from "react";
+import ErrProtecter from "../../utils/errProtect";
+import "./JDbox.scss";
+import JDIcon, {IIcons} from "../icons/Icons";
+import {IDiv} from "../../types/interface";
+import JDLabel from "../label/JDLabel";
 
 interface IProps extends IDiv {
   className?: string;
-  mode?: 'table' | 'border';
+  mode?: "table" | "border";
   label?: JSX.Element | string;
   icon?: IIcons;
   topLabel?: string;
   iconHover?: boolean;
   standard?: boolean;
   iconOnClick?: any;
+  align?: "center";
 }
 
 const JDbox: React.FC<IProps> = ({
@@ -27,14 +28,16 @@ const JDbox: React.FC<IProps> = ({
   mode,
   topLabel,
   standard,
+  align,
   ...props
 }) => {
-  const classes = classNames('JDbox', className, {
-    'JDbox--normal': mode === undefined,
-    'JDbox--table': mode === 'table',
-    'JDbox--border': mode === 'border',
-    'JDbox--standard': standard,
-    'JDbox--withIcon': typeof icon === 'string',
+  const classes = classNames("JDbox", className, {
+    "JDbox--normal": mode === undefined,
+    "JDbox--table": mode === "table",
+    "JDbox--border": mode === "border",
+    "JDbox--center": align === "center",
+    "JDbox--standard": standard,
+    "JDbox--withIcon": typeof icon === "string"
   });
 
   return (
@@ -44,7 +47,16 @@ const JDbox: React.FC<IProps> = ({
         {label && <div className="JDbox__label">{label}</div>}
         <div className="JDbox__content">
           {children}
-          <span>{icon && <JDIcon className="JDbox__icon" onClick={iconOnClick} icon={icon} hover={iconHover} />}</span>
+          <span>
+            {icon && (
+              <JDIcon
+                className="JDbox__icon"
+                onClick={iconOnClick}
+                icon={icon}
+                hover={iconHover}
+              />
+            )}
+          </span>
         </div>
       </div>
     </Fragment>

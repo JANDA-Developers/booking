@@ -14,10 +14,14 @@ import {
   deleteBooker,
   deleteBookerVariables,
   deleteGuests,
-  deleteGuestsVariables
+  deleteGuestsVariables,
+  deleteBlock,
+  deleteBlockVariables,
+  createBlock,
+  createBlockVariables
 } from "../../../types/api";
 import {useToggle, useDayPicker} from "../../../actions/hook";
-import {IRoomType, IGuests} from "../../../types/interface";
+import {IRoomType, IGuests, IBlock} from "../../../types/interface";
 import {
   isEmpty,
   setMidNight,
@@ -26,74 +30,36 @@ import {
   onCompletedMessage
 } from "../../../utils/utils";
 import EerrorProtect from "../../../utils/errProtect";
-import {Gender} from "../../../types/enum";
 import {
-  GET_ALL_ROOMTYPES_WITH_GUESTS,
+  Gender,
+  BookingStatus,
+  GuestType,
+  RoomGender,
+  PricingType
+} from "../../../types/enum";
+import {
   ALLOCATE_GUEST_TO_ROOM,
   UPDATE_BOOKER,
-  DELETE_GUEST
+  DELETE_GUEST,
+  DELETE_BLOCK,
+  GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM,
+  CREATE_BLOCK
 } from "../../../queries";
 import AssigTimeline from "./AssigTimeline";
 import {setYYYYMMDD, parallax} from "../../../utils/setMidNight";
+import {roomDataManufacture} from "./components/groupDataMenufacture";
+import reactWindowSize, {WindowSizeProps} from "react-window-size";
+import {DEFAULT_ASSIG_ITEM} from "../../../types/defaults";
+import {
+  IAssigMutationes,
+  IAssigItem,
+  IAssigItemCrush
+} from "./components/assigIntrerface";
 
 moment.tz.setDefault("UTC");
 
 class UpdateBookerMu extends Mutation<updateBooker, updateBookerVariables> {}
-
-export interface IAssigGroup {
-  id: string;
-  title: string;
-  roomTypeId: string;
-  roomTypeIndex: number;
-  roomIndex: number;
-  roomType: IRoomType;
-  roomId: string;
-  placeIndex: number;
-  isLastOfRoom: boolean;
-  isLastOfRoomType: boolean;
-  bedIndex: number;
-}
-
-export interface IAssigItem {
-  id: string;
-  guestIndex: number;
-  name: string;
-  group: string;
-  bookerId: string;
-  isCheckin: boolean;
-  roomTypeId: string;
-  roomId: string;
-  bedIndex: number;
-  start: number;
-  end: number;
-  gender: Gender | null;
-  isUnsettled: boolean;
-  validate: IAssigItemCrush[];
-  type: "normal" | "mark" | "make" | "block";
-}
-
-export const defaultItemProps = {
-  guestIndex: -1,
-  name: "",
-  group: "",
-  bookerId: "",
-  isCheckin: false,
-  roomTypeId: "",
-  roomId: "",
-  start: 0,
-  end: 0,
-  gender: null,
-  bedIndex: -1,
-  isUnsettled: false,
-  validate: []
-};
-
-export interface IAssigItemCrush {
-  guestIndex: number;
-  reason: string;
-  start: number | null;
-  end: number | null;
-}
+class CreateBlockMu extends Mutation<createBlock, createBlockVariables> {}
 
 interface IProps {
   houseId: string;
@@ -108,22 +74,27 @@ class AllocateGuestToRoomMu extends Mutation<
   allocateGuestToRoomVariables
 > {}
 class DeleteGuestMu extends Mutation<deleteGuests, deleteGuestsVariables> {}
+class DeleteBlockMu extends Mutation<deleteBlock, deleteBlockVariables> {}
 
-const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
+const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
+  houseId,
+  windowHeight,
+  windowWidth
+}) => {
   const dayPickerHook = useDayPicker(null, null);
   const defaultStartDate = dayPickerHook.from
-    ? setMidNight(moment(dayPickerHook.from).valueOf())
-    : setMidNight(moment().valueOf());
+    ? moment(dayPickerHook.from).valueOf()
+    : moment().valueOf();
   const defaultEndDate = setMidNight(
     dayPickerHook.from
       ? setMidNight(
           moment(dayPickerHook.from)
-            .add(7, "days")
+            .add(10, "days")
             .valueOf()
         )
       : setMidNight(
           moment()
-            .add(7, "days")
+            .add(10, "days")
             .valueOf()
         )
   );
@@ -154,13 +125,43 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
     }
     return [];
   };
+
+  const blockDataManufacture = (blocksData: IBlock[] | null | undefined) => {
+    const alloCateItems: IAssigItem[] = [];
+
+    if (!blocksData) return alloCateItems;
+    blocksData.forEach((blockData, index) => {
+      if (blockData) {
+        alloCateItems.push({
+          ...DEFAULT_ASSIG_ITEM,
+          id: blockData._id,
+          bookerId: blockData._id,
+          roomId: blockData.allocatedRoom._id,
+          group: blockData.allocatedRoom._id + blockData.bedIndex,
+          start: moment(blockData.start).valueOf(),
+          end: moment(blockData.end).valueOf(),
+          canMove: false,
+          // @ts-ignore
+          type: blockData.guestType,
+          bedIndex: blockData.bedIndex
+        });
+      }
+    });
+
+    return alloCateItems;
+  };
+
   //  TODO: 메모를 사용해서 데이터를 아끼자
   // 게스트 데이터를 달력에서 쓸수있는 Item 데이터로 변경 절차
   const guestsDataManufacture = (
-    guestsData: IGuests[] | null | undefined = []
+    allGuestsData: IGuests[] | null | undefined = []
   ) => {
     const alloCateItems: IAssigItem[] = [];
-    if (!guestsData) return alloCateItems;
+    if (!allGuestsData) return alloCateItems;
+
+    const guestsData = allGuestsData.filter(
+      guest => guest.booker.bookingStatus !== BookingStatus.CANCEL
+    );
 
     guestsData.forEach((guestData, index) => {
       const isDomitory = guestData.pricingType === "DOMITORY";
@@ -185,7 +186,9 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
           start: moment(guestData.start).valueOf(),
           end: moment(guestData.end).valueOf(),
           validate: crushTimeMake(guestData, index),
-          type: "normal",
+          canMove: true,
+          // @ts-ignore
+          type: guestData.guestType || "GUEST",
           bedIndex: guestData.bedIndex
         });
       }
@@ -194,79 +197,23 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
     return alloCateItems;
   };
 
-  // 🛌 베드타입일경우에 ID는 + 0~(인덱스);
-  //  TODO: 메모를 사용해서 데이터를 아끼자
-  // 룸 데이타를 달력에서 사용할수있는 Group 데이터로 변경
-  const roomDataManufacture = (
-    roomTypeDatas: IRoomType[] | null | undefined = []
-  ) => {
-    const roomGroups: IAssigGroup[] = [];
-
-    if (!roomTypeDatas) return roomGroups;
-
-    roomTypeDatas.map(roomTypeData => {
-      // 우선 방들을 원하는 폼으로 변환
-
-      const {rooms} = roomTypeData;
-
-      // 빈방타입 제외
-      if (!isEmpty(rooms)) {
-        // 🏠 방타입일 경우
-        if (roomTypeData.pricingType === "ROOM") {
-          rooms.map((room, index) => {
-            roomGroups.push({
-              id: room._id + 0,
-              title: room.name,
-              roomTypeId: roomTypeData._id,
-              roomTypeIndex: roomTypeData.index,
-              roomIndex: room.index,
-              roomType: roomTypeData,
-              roomId: room._id,
-              bedIndex: index,
-              placeIndex: -1,
-              isLastOfRoom: true,
-              isLastOfRoomType: roomTypeData.roomCount === index
-            });
-          });
-        }
-        // 🛌 베드타입일경우
-        if (roomTypeData.pricingType === "DOMITORY") {
-          rooms.map((room, index) => {
-            for (let i = 0; roomTypeData.peopleCount > i; i += 1) {
-              roomGroups.push({
-                id: room._id + i,
-                title: room.name,
-                roomTypeId: roomTypeData._id,
-                roomTypeIndex: roomTypeData.index,
-                roomIndex: room.index,
-                roomType: roomTypeData,
-                roomId: room._id,
-                bedIndex: i,
-                placeIndex: i + 1,
-                isLastOfRoom: roomTypeData.peopleCount === i + 1,
-                isLastOfRoomType:
-                  roomTypeData.roomCount === index + 1 &&
-                  roomTypeData.peopleCount === i + 1
-              });
-            }
-          });
-        }
-      }
-    });
-
-    return roomGroups;
-  };
-
   const updateVariables = {
     houseId,
     start: setYYYYMMDD(moment(dataTime.start)),
     end: setYYYYMMDD(moment(dataTime.end))
   };
+
+  moment.tz.setDefault("UTC");
+
   return (
     <GetAllRoomTypeWithGuestQuery
-      fetchPolicy="cache-and-network"
-      query={GET_ALL_ROOMTYPES_WITH_GUESTS}
-      variables={updateVariables}
+      fetchPolicy="network-only"
+      notifyOnNetworkStatusChange={true}
+      query={GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM}
+      variables={{
+        ...updateVariables,
+        bookingStatus: BookingStatus.COMPLETE
+      }}
     >
       {({data, loading, error}) => {
         showError(error);
@@ -276,14 +223,26 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
           "roomTypes",
           undefined
         ); // 원본데이터
+
         const guestsData = queryDataFormater(
           data,
           "GetGuests",
           "guests",
           undefined
         ); // 원본데이터
+
+        const blocks = queryDataFormater(
+          data,
+          "GetBlocks",
+          "blocks",
+          undefined
+        );
+
         const formatedRoomData = roomDataManufacture(roomTypesData); // 타임라인을 위해 가공된 데이터
         const formatedGuestsData = guestsDataManufacture(guestsData); // 타임라인을 위해 가공된 데이터
+        const formatedBlockData = blockDataManufacture(blocks); // 타임라인을 위해 가공된 데이터
+
+        const formatedItemData = formatedGuestsData.concat(formatedBlockData);
 
         return (
           <AllocateGuestToRoomMu
@@ -293,7 +252,7 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
             update={(cache, {data: inData}) => {
               const cacheData: getAllRoomTypeWithGuest | null = cache.readQuery(
                 {
-                  query: GET_ALL_ROOMTYPES_WITH_GUESTS,
+                  query: GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM,
                   variables: updateVariables
                 }
               );
@@ -305,7 +264,7 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
                 );
 
                 cache.writeQuery({
-                  query: GET_ALL_ROOMTYPES_WITH_GUESTS,
+                  query: GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM,
                   data: {
                     GetAllRoomType: cacheData.GetAllRoomType,
                     GetGuests: {
@@ -317,7 +276,7 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
               }
             }}
             // refetchQueries={[{
-            //   query: GET_ALL_ROOMTYPES_WITH_GUESTS ,
+            //   query: GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM ,
             //   variables: {
             //     houseId,
             //     start: setYYYYMMDD(moment(dataTime.start)),
@@ -336,22 +295,62 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
                     onError={showError}
                   >
                     {deleteGuestMu => (
-                      <AssigTimeline
-                        houseId={houseId}
-                        loading={loading}
-                        groupData={formatedRoomData}
-                        deafultGuestsData={formatedGuestsData || []}
-                        dayPickerHook={dayPickerHook}
-                        defaultProps={assigDefaultProps}
-                        allocateMu={allocateMu}
-                        roomTypesData={roomTypesData || []}
-                        defaultTimeStart={defaultStartDate}
-                        updateBookerMu={updateBookerMu}
-                        deleteGuestsMu={deleteGuestMu}
-                        defaultTimeEnd={defaultEndDate}
-                        key={`timeline${defaultStartDate}${defaultEndDate}${loading &&
-                          "loading"}`}
-                      />
+                      <CreateBlockMu
+                        onError={showError}
+                        onCompleted={({CreateBlock}) => {
+                          onCompletedMessage(
+                            CreateBlock,
+                            "방막기 완료",
+                            "방막기 실패"
+                          );
+                        }}
+                        mutation={CREATE_BLOCK}
+                      >
+                        {createBlockMu => (
+                          <DeleteBlockMu
+                            onError={showError}
+                            onCompleted={({DeleteBlock}) => {
+                              onCompletedMessage(
+                                DeleteBlock,
+                                "방막기 해제",
+                                "방막기 해제 실패"
+                              );
+                            }}
+                            mutation={DELETE_BLOCK}
+                          >
+                            {deleteBlockMu => {
+                              const assigMutationes: IAssigMutationes = {
+                                updateBookerMu,
+                                deleteGuestsMu: deleteGuestMu,
+                                createBlockMu,
+                                deleteBlockMu,
+                                allocateMu
+                              };
+
+                              return (
+                                <AssigTimeline
+                                  houseId={houseId}
+                                  loading={loading}
+                                  groupData={formatedRoomData}
+                                  deafultGuestsData={formatedItemData || []}
+                                  dayPickerHook={dayPickerHook}
+                                  defaultProps={assigDefaultProps}
+                                  roomTypesData={roomTypesData || []}
+                                  defaultTimeStart={defaultStartDate}
+                                  assigMutationes={assigMutationes}
+                                  defaultTimeEnd={defaultEndDate}
+                                  setDataTime={setDataTime}
+                                  windowHeight={windowHeight}
+                                  windowWidth={windowWidth}
+                                  dataTime={dataTime}
+                                  key={`timeline${defaultStartDate}${defaultEndDate}${guestsData &&
+                                    guestsData.length}`}
+                                />
+                              );
+                            }}
+                          </DeleteBlockMu>
+                        )}
+                      </CreateBlockMu>
                     )}
                   </DeleteGuestMu>
                 )}
@@ -364,4 +363,4 @@ const AssigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
   );
 };
 
-export default EerrorProtect(AssigTimelineWrap);
+export default reactWindowSize<IProps>(EerrorProtect(AssigTimelineWrap));

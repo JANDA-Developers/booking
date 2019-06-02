@@ -7,7 +7,10 @@ import {
   getAllRoomTypeWithGuest_GetGuests_guests,
   getAllSeason_GetAllSeason_seasons,
   getAllSeasonTable_GetAllRoomType_roomTypes,
-  getBooker_GetBooker_booker
+  getBooker_GetBooker_booker,
+  getAppliedPriceWithDateRange_GetAppliedPriceWithDateRange_roomPrices,
+  getAppliedPriceWithDateRange_GetAppliedPriceWithDateRange_seasonPrices,
+  getAllRoomTypeWithGuest_GetBlocks_blocks
 } from "./api";
 import {IselectedOption} from "../atoms/forms/selectBox/SelectBox";
 
@@ -15,6 +18,10 @@ import {IselectedOption} from "../atoms/forms/selectBox/SelectBox";
 //  moudle 과 naeme space를 사용하려 해보았으나 실패 ㅠ
 export interface GAST_RoomType
   extends getAllSeasonTable_GetAllRoomType_roomTypes {}
+export interface ISpecificPrices
+  extends getAppliedPriceWithDateRange_GetAppliedPriceWithDateRange_roomPrices {}
+export interface ISeasonPrices
+  extends getAppliedPriceWithDateRange_GetAppliedPriceWithDateRange_seasonPrices {}
 export interface GB_booker extends getBooker_GetBooker_booker {}
 export interface IProduct extends getHouse_GetHouse_house_product {}
 export interface IUser extends getMyProfile_GetMyProfile_user {}
@@ -24,6 +31,7 @@ export interface IRoomType extends getAllRoomType_GetAllRoomType_roomType {}
 export interface IBooker extends getBookers_GetBookers_bookers {}
 export interface IGuests extends getAllRoomTypeWithGuest_GetGuests_guests {}
 export interface ISeason extends getAllSeason_GetAllSeason_seasons {}
+export interface IBlock extends getAllRoomTypeWithGuest_GetBlocks_blocks {}
 export interface IPageInfo {
   currentPage: number;
   totalPage: number;
