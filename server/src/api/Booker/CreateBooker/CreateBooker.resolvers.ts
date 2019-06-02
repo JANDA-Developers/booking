@@ -51,7 +51,7 @@ const resolvers: Resolvers = {
 export default resolvers;
 
 const createBooker = async (
-    { bookingParams }: CreateBookerMutationArgs,
+    { bookingParams, sendSmsFlag }: CreateBookerMutationArgs,
     ctx?
 ): Promise<CreateBookerResponse> => {
     const { start, end } = {
@@ -199,6 +199,9 @@ const createBooker = async (
             };
         }
         await bookerInstance.save();
+
+        // TODO: 여기서 SMS 보내긔!!
+
         return {
             ok: true,
             error: null,

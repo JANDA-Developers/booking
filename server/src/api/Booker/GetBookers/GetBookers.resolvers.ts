@@ -28,6 +28,7 @@ const resolvers: Resolvers = {
                     const totalPage = Math.ceil(
                         (await BookerModel.countDocuments()) / c
                     );
+                    // 필터 추가 ㄱㄱ
                     return {
                         ok: true,
                         error: null,

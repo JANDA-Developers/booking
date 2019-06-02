@@ -3,19 +3,25 @@ export interface SmsDecoratorInterface {
 }
 
 export interface SmsReplaceKey {
-    STAY_DATE: string;
-    STAY_DATE_YMD: string;
-    ROOMTYPE_N_COUNT: string;
-    BOOKERNAME: string;
-    TOTAL_PRICE: string;
+    StayDate: string;
+    StayDateYMD: string;
+    RoomTypeNCount: string;
+    BookerName: string;
+    TotalPrice: string;
+    PayMethod: string;
+    PaymentStatus: string;
 }
 
+export interface AutoSendWhenBooking extends SmsReplaceKey {}
+
 export enum SmsReplaceKeyEnum {
-    STAY_DATE = "%STAYDATE%",
-    STAY_DATE_YMD = "$STAYDATEYMD%",
-    ROOMTYPE_N_COUNT = "%ROOMTYPENCOUNT%",
-    BOOKERNAME = "%BOOKER%",
-    TOTAL_PRICE = "%TOTALPRICE%"
+    StayDate = "%StayDate%",
+    StayDateYMD = "$StayDateYMD%",
+    RoomTypeNCount = "%RoomTypeNCount%",
+    BookerName = "%BookerName%",
+    TotalPrice = "%TotalPrice%",
+    PayMethod = "%PayMethod%",
+    PaymentStatus = "%PaymentStatus%"
 }
 
 export type SmsReplacementValues = { [K in keyof SmsReplaceKey]: string };
@@ -43,10 +49,10 @@ export const getFormattedAutoSendMessage = (
     values: SmsReplacementValues
 ): string => {
     return new SmsTemplateDecorator(msg)
-        .replace(SmsReplaceKeyEnum.BOOKERNAME, values.BOOKERNAME)
-        .replace(SmsReplaceKeyEnum.ROOMTYPE_N_COUNT, values.ROOMTYPE_N_COUNT)
-        .replace(SmsReplaceKeyEnum.STAY_DATE, values.STAY_DATE)
-        .replace(SmsReplaceKeyEnum.STAY_DATE_YMD, values.STAY_DATE_YMD)
-        .replace(SmsReplaceKeyEnum.TOTAL_PRICE, values.TOTAL_PRICE)
+        .replace(SmsReplaceKeyEnum.BookerName, values.BookerName)
+        .replace(SmsReplaceKeyEnum.RoomTypeNCount, values.RoomTypeNCount)
+        .replace(SmsReplaceKeyEnum.StayDate, values.StayDate)
+        .replace(SmsReplaceKeyEnum.StayDateYMD, values.StayDateYMD)
+        .replace(SmsReplaceKeyEnum.TotalPrice, values.TotalPrice)
         .getMessage();
 };

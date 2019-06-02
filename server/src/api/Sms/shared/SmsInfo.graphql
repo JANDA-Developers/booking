@@ -51,11 +51,16 @@ enum SendTarget {
     BOTH
 }
 
+# 보내야 할 상황을 먼저 정해야 할듯 하다.. ㅎㅎ
 enum AutoSendCase {
-    # 결제 대기
-    WHEN_WAIT_DEPOSIT
     # 예약 완료
     WHEN_BOOKING_COMPLETE
     # 예약 취소
     WEHN_BOOKING_CANCEL
+}
+
+enum AutoSendSmsOptions {
+    PAYMENT_NOT_YET
+    PAYMENT_COMPLETE
+    PAYMENT_LATTER
 }

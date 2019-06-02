@@ -107,7 +107,7 @@ export const extractSmsInfo = async (
     smsInfo: InstanceType<SmsInfoSchema>
 ): Promise<SmsInfo> => {
     return {
-        ...smsInfo,
+        ...(smsInfo as any)._doc,
         _id: smsInfo._id,
         house: await transformHouse.bind(transformHouse, smsInfo.house),
         user: await transformUser.bind(transformUser, smsInfo.user)

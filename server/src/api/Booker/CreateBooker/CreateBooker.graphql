@@ -4,9 +4,13 @@ type CreateBookerResponse {
     booker: Booker
 }
 type Mutation {
-    CreateBooker(bookingParams: CreateBookerParams!): CreateBookerResponse!
+    CreateBooker(
+        bookingParams: CreateBookerParams!
+        sendSmsFlag: Boolean!
+    ): CreateBookerResponse!
     CreateBookerForBooker(
         bookingParams: CreateBookerParams!
+        sendSmsFlag: Boolean!
     ): CreateBookerResponse!
 }
 
