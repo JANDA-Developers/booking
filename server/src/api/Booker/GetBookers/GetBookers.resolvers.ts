@@ -27,19 +27,23 @@ const resolvers: Resolvers = {
                     if (filter) {
                         filterQuery.start =
                             (filter.stayDate && {
-                                $gte: new Date(filter.stayDate)
+                                $lte: new Date(filter.stayDate)
                             }) ||
                             undefined;
                         filterQuery.end =
                             (filter.stayDate && {
-                                $lte: new Date(filter.stayDate)
+                                $gte: new Date(filter.stayDate)
                             }) ||
                             undefined;
-                        filterQuery.name = /filter.name/ || undefined;
+                        filterQuery.name =
+                            (filter.name && new RegExp(filter.name, "i")) ||
+                            undefined;
                         filterQuery.createdAt =
                             (filter.createdAt && new Date(filter.createdAt)) ||
                             undefined;
                     }
+
+                    console.log(filterQuery);
 
                     const bookers = await BookerModel.find(
                         removeUndefined(filterQuery)
