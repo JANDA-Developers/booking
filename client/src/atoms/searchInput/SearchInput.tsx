@@ -153,6 +153,12 @@ const JDsearchInput: React.FC<IProps> = ({
 
   // Handler - 리스트 : onClick
   const handleOnListClick = (e: React.MouseEvent<HTMLElement>) => {
+    console.log("anaajskdaksdkaslncz🅰️");
+    console.log("anaajskdaksdkaslncz🅰️");
+    console.log("anaajskdaksdkaslncz🅰️");
+    console.log("anaajskdaksdkaslncz🅰️");
+    console.log("anaajskdaksdkaslncz🅰️");
+    console.log("anaajskdaksdkaslncz🅰️");
     e.preventDefault();
     const value = $(e.currentTarget).attr("value");
     const id = $(e.currentTarget).attr("id");
@@ -218,6 +224,7 @@ const JDsearchInput: React.FC<IProps> = ({
         refContainer={ulRef}
         dataList={filteredDataList}
         setIsMatched={setIsMatched}
+        alwaysListShow={alwaysListShow}
       />
     </div>
   );

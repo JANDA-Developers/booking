@@ -36,6 +36,10 @@ import JDbadge, {BADGE_THEMA} from "../../../atoms/badge/Badge";
 import "./ResvList.scss";
 import JDPagination from "../../../atoms/pagination/Pagination";
 import {autoComma} from "../../../utils/utils";
+import SendSmsModal from "../../../components/sendSMSmodal/sendSmsModal";
+import SendSMSmodalWrap, {
+  IModalSMSinfo
+} from "../../../components/sendSMSmodal/sendSMSmodalWrap";
 
 interface IProps {
   pageInfo: IPageInfo | undefined;
@@ -61,6 +65,7 @@ const ResvList: React.SFC<IProps> = ({
   const [selectAll, setSelectAll]: any = useState(false);
   const bookerModalHook = useModal(false);
   const alertModalHook = useModal(false);
+  const sendSMSmodalHook = useModal<IModalSMSinfo>(false);
 
   //   여기에 key가 들어오면 id배열에서 찾아서 넣거나 제거해줌
   const onToogleRow = (key: string) => {
@@ -101,11 +106,21 @@ const ResvList: React.SFC<IProps> = ({
   };
 
   const handleSendSmsBtnClick = () => {
-    const recivers = checkedIds.map(id => {
-      const targert = bookersData.find(booker => booker._id === id);
-      if (!targert)
-        throw Error("handleSendSmsBtnClick :: can not find booker BY ID");
-      return targert.phoneNumber;
+    const receivers = checkedIds.map(id => {
+      const target = bookersData.find(booker => booker._id === id);
+      if (target) {
+        return target.phoneNumber;
+      } else {
+        console.log(checkedIds);
+        console.log(checkedIds);
+        console.log(checkedIds);
+        return 0;
+      }
+    });
+
+    sendSMSmodalHook.openModal({
+      receivers,
+      createMode: true
     });
   };
 
@@ -370,6 +385,7 @@ const ResvList: React.SFC<IProps> = ({
           confirmCallBackFn={deleteModalCallBackFn}
           {...alertModalHook}
         />
+        <SendSMSmodalWrap modalHook={sendSMSmodalHook} houseId={houseId} />
       </div>
     </div>
   );

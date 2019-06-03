@@ -235,6 +235,16 @@ export const PAYMETHOD_OP = [
   // {value: PayMethod.ELSE, label: "기타"}
 ];
 
+export const KR_SMS_PARSER = {
+  BOOKERNAME: SmsReplaceKeyEnumKr.BOOKERNAME,
+  ROOMTYPE_N_COUNT: SmsReplaceKeyEnumKr.ROOMTYPE_N_COUNT,
+  TOTALPRICE: SmsReplaceKeyEnumKr.TOTALPRICE,
+  STAYDATE: SmsReplaceKeyEnumKr.STAYDATE,
+  STAYDATE_YMD: SmsReplaceKeyEnumKr.STAYDATE_YMD,
+  PAYMENTSTATUS: SmsReplaceKeyEnumKr.PAYMENTSTATUS,
+  PAYMETHOD: SmsReplaceKeyEnumKr.PAYMETHOD
+};
+
 export const ROOM_GENDER_OP = [
   {value: RoomGender.ANY, label: RoomGenderKr.ANY},
   {value: RoomGender.SEPARATELY, label: RoomGenderKr.SEPARATELY},

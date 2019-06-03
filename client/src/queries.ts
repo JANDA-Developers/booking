@@ -811,8 +811,13 @@ export const GET_ALL_ROOM_TYPE_CAPACITY = gql`
 
 // 모든 예약자 가져오기
 export const GET_BOOKERS = gql`
-  query getBookers($houseId: ID!, $page: Int!, $count: Int!) {
-    GetBookers(houseId: $houseId, page: $page, count: $count) {
+  query getBookers(
+    $houseId: ID!
+    $page: Int!
+    $count: Int!
+    $filter: GetBookersFilter
+  ) {
+    GetBookers(houseId: $houseId, page: $page, count: $count, filter: $filter) {
       ok
       error
       bookers {

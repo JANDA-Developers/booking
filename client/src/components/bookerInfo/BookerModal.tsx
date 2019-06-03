@@ -23,7 +23,8 @@ import {
   BookingStatus,
   BookingStatusKr,
   BookerModalType,
-  PaymentStatus
+  PaymentStatus,
+  AutoSendWhen
 } from "../../types/enum";
 import "./BookerModal.scss";
 import {GB_booker, IResvCount} from "../../types/interface";
@@ -44,6 +45,7 @@ import SendSMSmodalWrap, {
   IModalSMSinfo
 } from "../sendSMSmodal/sendSMSmodalWrap";
 import {IAssigInfo} from "../../pages/middleServer/assig/components/assigIntrerface";
+import Preloader from "../../atoms/preloader/Preloader";
 
 export interface IroomSelectInfoTable {
   roomTypeId: string;
@@ -65,6 +67,7 @@ interface IProps {
   >;
   assigInfo: IAssigInfo[];
   houseId: string;
+  loading: boolean;
   type?: BookerModalType;
 }
 
@@ -76,6 +79,7 @@ const POPbookerInfo: React.FC<IProps> = ({
   deleteBookerMu,
   allocateGuestToRoomMu,
   assigInfo,
+  loading,
   type = BookerModalType.LOOKUP,
   houseId
 }) => {
@@ -189,7 +193,12 @@ const POPbookerInfo: React.FC<IProps> = ({
       }
     };
 
-    sendSMSmodalHook.openModal({...smsModalInfoTemp, createMode: false});
+    sendSMSmodalHook.openModal({
+      ...smsModalInfoTemp,
+      autoSendWhen: AutoSendWhen.WHEN_BOOKING_COMPLETE,
+      createMode: false,
+      callBackFn: smsCallBackFn
+    });
   };
   // 예약수정
   // 👿 modify 를 전부 update로 변경하자.
@@ -229,6 +238,7 @@ const POPbookerInfo: React.FC<IProps> = ({
       className="Modal bookerModal"
       overlayClassName="Overlay"
     >
+      {loading && <Preloader />}
       <div className="modal__section">
         <h6>예약자정보</h6>
         <div className="flex-grid">

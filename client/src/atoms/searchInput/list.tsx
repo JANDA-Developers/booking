@@ -11,6 +11,7 @@ interface IProps {
   onListClick(e: React.MouseEvent<HTMLElement>): any;
   setIsMatched?(foo?: boolean): any;
   currentValue?: string;
+  alwaysListShow?: boolean;
 }
 
 const List: React.FC<IProps> = ({
@@ -19,10 +20,15 @@ const List: React.FC<IProps> = ({
   onListClick,
   onListKeyPress,
   currentValue,
-  setIsMatched
+  setIsMatched,
+  alwaysListShow
 }) =>
   !isEmpty(dataList) ? (
-    <ul ref={refContainer} className="JDsearchInput__ul">
+    <ul
+      ref={refContainer}
+      className={`JDsearchInput__ul ${alwaysListShow &&
+        "JDsearchInput__ul--show"}`}
+    >
       {setIsMatched && setIsMatched(false)}
       {dataList.map((data, index) => {
         // 현재값이 데이터 와 일치되는것이 있다면

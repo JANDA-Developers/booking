@@ -16,6 +16,7 @@ import {
   isName,
   isUrl,
   isMaxOver,
+  isYYYYMMDD,
   isPassword
 } from "./inputValidations";
 import searchListFormat from "./searchListFormater";
@@ -49,6 +50,7 @@ const JDutils = {
   templateOpMaker,
   smsMsgParser,
   autoComma,
+  isYYYYMMDD,
   numberStr,
   stringToNumber,
   smsMessageFormatter
@@ -75,5 +77,6 @@ export {
   stringToPrice,
   autoComma,
   numberStr,
-  stringToNumber
+  stringToNumber,
+  isYYYYMMDD
 };
