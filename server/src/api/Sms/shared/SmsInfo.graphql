@@ -28,7 +28,7 @@ type SmsTemplate {
     # 문자 포멧: 변수를 포함하며 자동발송 시 변수가 치환되어 전송됨.
     smsFormat: String!
     # 자동발송 설정
-    autoSend: SmsAutoSend
+    smsSendCase: SmsAutoSend
 }
 
 # SmsTemplate의 자동발송 옵션
@@ -41,7 +41,7 @@ type SmsAutoSend {
 input SmsTemplateInput {
     formatName: String!
     smsFormat: String!
-    autoSend: SmsAutoSendInput
+    smsSendCase: SmsAutoSendInput
 }
 
 input SmsAutoSendInput {
