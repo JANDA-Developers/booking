@@ -50,7 +50,7 @@ const CreateSmsModal: React.FC<IProps> = ({
 
   const smsTemplateOp = templateOpMaker(smsTemplates);
 
-  // 이걸가지고 textArea 를 채워주자고
+  // 이걸가지고 textArea 를S 채워주자고
   const handleSelectTemplate = (selectedOp: IselectedOption) => {
     if (smsInfo && smsInfo.smsTemplates) {
       const targetTemplate = smsInfo.smsTemplates.find(
