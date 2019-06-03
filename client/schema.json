@@ -217,6 +217,16 @@
                   }
                 },
                 "defaultValue": null
+              },
+              {
+                "name": "filter",
+                "description": "",
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "GetBookersFilter",
+                  "ofType": null
+                },
+                "defaultValue": null
               }
             ],
             "type": {
@@ -3300,7 +3310,7 @@
       {
         "kind": "OBJECT",
         "name": "SmsTemplate",
-        "description": "",
+        "description": "보낼 문자 템플릿.",
         "fields": [
           {
             "name": "_id",
@@ -3320,7 +3330,7 @@
           },
           {
             "name": "formatName",
-            "description": "",
+            "description": "문자 포멧 이름.",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -3336,7 +3346,7 @@
           },
           {
             "name": "smsFormat",
-            "description": "",
+            "description": "문자 포멧: 변수를 포함하며 자동발송 시 변수가 치환되어 전송됨.",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -3352,11 +3362,11 @@
           },
           {
             "name": "smsSendCase",
-            "description": "",
+            "description": "자동발송 설정",
             "args": [],
             "type": {
               "kind": "OBJECT",
-              "name": "SmsAutoSendCase",
+              "name": "SmsAutoSend",
               "ofType": null
             },
             "isDeprecated": false,
@@ -3370,8 +3380,8 @@
       },
       {
         "kind": "OBJECT",
-        "name": "SmsAutoSendCase",
-        "description": "",
+        "name": "SmsAutoSend",
+        "description": "SmsTemplate의 자동발송 옵션",
         "fields": [
           {
             "name": "enable",
@@ -3398,7 +3408,7 @@
               "name": null,
               "ofType": {
                 "kind": "ENUM",
-                "name": "AutoSendCase",
+                "name": "AutoSendWhen",
                 "ofType": null
               }
             },
@@ -3429,18 +3439,12 @@
       },
       {
         "kind": "ENUM",
-        "name": "AutoSendCase",
-        "description": "",
+        "name": "AutoSendWhen",
+        "description": "보내야 할 상황을 먼저 정해야 할듯 하다.. ㅎㅎ",
         "fields": null,
         "inputFields": null,
         "interfaces": null,
         "enumValues": [
-          {
-            "name": "WHEN_WAIT_DEPOSIT",
-            "description": "결제 대기",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
           {
             "name": "WHEN_BOOKING_COMPLETE",
             "description": "예약 완료",
@@ -3450,6 +3454,12 @@
           {
             "name": "WEHN_BOOKING_CANCEL",
             "description": "예약 취소",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "WHEN_PAYMENT",
+            "description": "결제 안내",
             "isDeprecated": false,
             "deprecationReason": null
           }
@@ -4790,6 +4800,27 @@
         ],
         "inputFields": null,
         "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "GetBookersFilter",
+        "description": "",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "name",
+            "description": "",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null
+          }
+        ],
+        "interfaces": null,
         "enumValues": null,
         "possibleTypes": null
       },
@@ -7298,6 +7329,20 @@
                   }
                 },
                 "defaultValue": null
+              },
+              {
+                "name": "sendSmsFlag",
+                "description": "",
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null
               }
             ],
             "type": {
@@ -7325,6 +7370,20 @@
                   "ofType": {
                     "kind": "INPUT_OBJECT",
                     "name": "CreateBookerParams",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "sendSmsFlag",
+                "description": "",
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
                     "ofType": null
                   }
                 },
@@ -14224,7 +14283,7 @@
             "description": "",
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "SmsAutoSendCaseInput",
+              "name": "SmsAutoSendInput",
               "ofType": null
             },
             "defaultValue": null
@@ -14236,7 +14295,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "SmsAutoSendCaseInput",
+        "name": "SmsAutoSendInput",
         "description": "",
         "fields": null,
         "inputFields": [
@@ -14262,7 +14321,7 @@
               "name": null,
               "ofType": {
                 "kind": "ENUM",
-                "name": "AutoSendCase",
+                "name": "AutoSendWhen",
                 "ofType": null
               }
             },
@@ -16131,6 +16190,81 @@
               "ofType": {
                 "kind": "SCALAR",
                 "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "Error",
+        "description": "",
+        "fields": [
+          {
+            "name": "_id",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "code",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "message",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "devMsg",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               }
             },

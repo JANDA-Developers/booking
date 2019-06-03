@@ -27,12 +27,12 @@ import Preloader from "../../atoms/preloader/Preloader";
 import {
   GET_BOOKER,
   UPDATE_BOOKER,
-  CREATE_BOOKING,
   DELETE_BOOKER,
   GET_BOOKERS,
   ALLOCATE_GUEST_TO_ROOM,
   GET_GUESTS,
-  GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM
+  GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM,
+  CREATE_BOOKER
 } from "../../queries";
 import {
   PayMethod,
@@ -149,7 +149,7 @@ const BookerModalWrap: React.FC<IProps> = ({modalHook, houseId}) => (
             >
               {updateBookerMu => (
                 <CreatBookingMu
-                  mutation={CREATE_BOOKING}
+                  mutation={CREATE_BOOKER}
                   onError={showError}
                   onCompleted={({CreateBooker}) => {
                     onCompletedMessage(

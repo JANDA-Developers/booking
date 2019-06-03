@@ -2,7 +2,7 @@
 import ErrProtecter from "./errProtect";
 import isEmpty from "./isEmptyData";
 import download from "./download";
-import smsMessageFormatter from "./smsUtils";
+import {smsMessageFormatter, smsMsgParser, templateOpMaker} from "./smsUtils";
 import autoHypen, {autoComma, numberStr, stringToNumber} from "./autoFormat";
 import {
   JDMonthTextChanger,
@@ -46,6 +46,8 @@ const JDutils = {
   applyDaysToArr,
   arrToApplyDays,
   stringToPrice,
+  templateOpMaker,
+  smsMsgParser,
   autoComma,
   numberStr,
   stringToNumber,
@@ -64,8 +66,10 @@ export {
   autoHypen,
   pageNationFormater,
   showError,
+  smsMsgParser,
   queryDataFormater,
   setMidNight,
+  templateOpMaker,
   applyDaysToArr,
   arrToApplyDays,
   stringToPrice,

@@ -952,17 +952,26 @@ export const DELETE_GUEST = gql`
 `;
 
 export const CREATE_BOOKING_FOR_BOOKER = gql`
-  mutation createBookerForBooker($bookingParams: CreateBookerParams!) {
-    CreateBookerForBooker(bookingParams: $bookingParams) {
+  mutation createBookerForBooker(
+    $bookingParams: CreateBookerParams!
+    $sendSmsFlag: Boolean!
+  ) {
+    CreateBookerForBooker(
+      bookingParams: $bookingParams
+      sendSmsFlag: $sendSmsFlag
+    ) {
       ok
       error
     }
   }
 `;
 
-export const CREATE_BOOKING = gql`
-  mutation createBooker($bookingParams: CreateBookerParams!) {
-    CreateBooker(bookingParams: $bookingParams) {
+export const CREATE_BOOKER = gql`
+  mutation createBooker(
+    $bookingParams: CreateBookerParams!
+    $sendSmsFlag: Boolean!
+  ) {
+    CreateBooker(bookingParams: $bookingParams, sendSmsFlag: $sendSmsFlag) {
       ok
       error
       booker {

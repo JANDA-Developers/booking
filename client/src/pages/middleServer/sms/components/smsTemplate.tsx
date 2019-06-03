@@ -9,8 +9,8 @@ import {
   SmsReplaceKeyEnumKeys,
   SmsReplaceKeyEnumKr,
   SendTarget,
-  AutoSendCase,
-  AutoSendCaseKr,
+  AutoSendWhen,
+  AutoSendWhenKr,
   SendTargetKr
 } from "../../../../types/enum";
 import {useSelect, useInput, useSwitch} from "../../../../actions/hook";
@@ -29,6 +29,7 @@ import {
   getSmsInfo_GetSmsInfo_smsInfo
 } from "../../../../types/api";
 import {MutationFn} from "react-apollo";
+import {smsMsgParser} from "../../../../utils/smsUtils";
 
 interface IProps {
   templateData: getSmsInfo_GetSmsInfo_smsInfo_smsTemplates;
@@ -58,12 +59,22 @@ const SmsTemplate: React.SFC<IProps> = ({
   houseId,
   smsInfo
 }) => {
-  const [messageValue, setMessage] = useState(templateData.smsFormat);
+  const [messageValue, setMessage] = useState(
+    smsMsgParser(templateData.smsFormat, {
+      BOOKERNAME: SmsReplaceKeyEnumKr.BOOKERNAME,
+      ROOMTYPE_N_COUNT: SmsReplaceKeyEnumKr.ROOMTYPE_N_COUNT,
+      TOTALPRICE: SmsReplaceKeyEnumKr.TOTALPRICE,
+      STAYDATE: SmsReplaceKeyEnumKr.STAYDATE,
+      STAYDATE_YMD: SmsReplaceKeyEnumKr.STAYDATE_YMD,
+      PAYMENTSTATUS: SmsReplaceKeyEnumKr.PAYMENTSTATUS,
+      PAYMETHOD: SmsReplaceKeyEnumKr.PAYMETHOD
+    })
+  );
   const enableHook = useSwitch(false);
-  const autoSendHook = useSelect<AutoSendCase | null>({
+  const autoSendHook = useSelect<AutoSendWhen | null>({
     value: templateData.smsSendCase ? templateData.smsSendCase.when : null,
     label: templateData.smsSendCase
-      ? AutoSendCaseKr[templateData.smsSendCase.when]
+      ? AutoSendWhenKr[templateData.smsSendCase.when]
       : "발송안함"
   });
   const sendTargetHook = useSelect<SendTarget | null>({
@@ -73,7 +84,7 @@ const SmsTemplate: React.SFC<IProps> = ({
       : "발송안함"
   });
 
-  const AutoSendCaseTemp =
+  const AutoSendWhenTemp =
     sendTargetHook.selectedOption &&
     sendTargetHook.selectedOption.value &&
     autoSendHook.selectedOption &&
@@ -90,12 +101,9 @@ const SmsTemplate: React.SFC<IProps> = ({
     params: {
       formatName: templateTitle,
       smsFormat: smsMessageFormatter(messageValue),
-      smsSendCase: AutoSendCaseTemp
+      smsSendCase: AutoSendWhenTemp
     }
   };
-
-  console.log("tempTemplateVariables");
-  console.log(tempTemplateVariables);
 
   const hanldeTemplateBtnClick = (label: string) => {
     setMessage(`${messageValue} ${label}`);
@@ -161,7 +169,7 @@ const SmsTemplate: React.SFC<IProps> = ({
           {...sendTargetHook}
           label="발신대상"
         />
-        <Switch label="활성화" />
+        <Switch {...enableHook} label="활성화" />
       </div>
       <div>
         <Button onClick={handleCreateBtnClick} thema="primary" label="추가" />

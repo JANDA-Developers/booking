@@ -13,7 +13,7 @@ import {
   getSmsInfo_GetSmsInfo_smsInfo
 } from "../../types/api";
 import InputText from "../../atoms/forms/inputText/InputText";
-import {smsMsgParser} from "../../utils/smsUtils";
+import {smsMsgParser, templateOpMaker} from "../../utils/smsUtils";
 import {IBooker} from "../../types/interface";
 import BookerInfoBox from "../../pages/outPages/components/bookerInfoBox";
 import moment from "moment";
@@ -45,6 +45,10 @@ const CreateSmsModal: React.FC<IProps> = ({
     });
   };
 
+  const smsTemplates = (smsInfo && smsInfo.smsTemplates) || [];
+
+  const smsTemplateOp = templateOpMaker(smsTemplates);
+
   // 이걸가지고 textArea 를 채워주자고
   const handleSelectTemplate = (selectedOp: IselectedOption) => {
     if (smsInfo && smsInfo.smsTemplates) {
@@ -52,20 +56,26 @@ const CreateSmsModal: React.FC<IProps> = ({
         template => template._id === selectedOp.value
       );
 
+      console.log("targetTemplate");
+      console.log(targetTemplate);
       if (targetTemplate) {
-        const msg = targetTemplate.smsFormat;
+        const msg = smsMsgParser(targetTemplate.smsFormat, {
+          BOOKERNAME: modalHook.info.booker.name,
+          ROOMTYPE_N_COUNT: "",
+          STAYDATE: `${modalHook.info.booker.start}~${
+            modalHook.info.booker.end
+          }`,
+          STAYDATE_YMD: `${moment(modalHook.info.booker.start).format(
+            "MMDD"
+          )}~${modalHook.info.booker.end}`,
+          TOTALPRICE: `${modalHook.info.booker.price}`,
+          PAYMENTSTATUS: `${modalHook.info.booker.paymentStatus}`,
+          PAYMETHOD: `${modalHook.info.booker.payMethod}`
+        });
+
+        setMsg(msg);
       }
     }
-
-    smsMsgParser(msg, {
-      BOOKERNAME: modalHook.info.booker.name,
-      ROOMTYPE_N_COUNT: "",
-      STAY_DATE: `${modalHook.info.booker.start}~${modalHook.info.booker.end}`,
-      STAY_DATE_YMD: `${moment(modalHook.info.booker.start).format("MMDD")}~${
-        modalHook.info.booker.end
-      }`,
-      TOTAL_PRICE: `${modalHook.info.booker.price}`
-    });
   };
 
   return (
@@ -81,13 +91,13 @@ const CreateSmsModal: React.FC<IProps> = ({
       </div>
       <div className="JDz-index-1">
         <JDselect
-          onChange={handleSelectTemplate}
           label="문자템플릿"
-          options={SELECT_DUMMY_OP}
+          onChange={handleSelectTemplate}
+          options={smsTemplateOp}
         />
       </div>
       <div>
-        <InputText label="전송문자" textarea />
+        <InputText value={msg} label="전송문자" textarea />
       </div>
       <div className="JDmodal__endSection">
         <Button thema="primary" onClick={handleSendSmsBtnClick} label="전송" />

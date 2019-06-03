@@ -147,7 +147,10 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
   const bookingCompleteFn = () => {
     if (bookerInfoValidation()) {
       createBookerMu({
-        variables: {bookingParams}
+        variables: {
+          bookingParams,
+          sendSmsFlag: true
+        }
       });
     }
   };

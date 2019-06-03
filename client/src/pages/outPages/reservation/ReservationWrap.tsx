@@ -16,7 +16,7 @@ import {
   createBookerForBooker,
   createBookerForBookerVariables
 } from "../../../types/api";
-import {CREATE_BOOKING, CREATE_BOOKING_FOR_BOOKER} from "../../../queries";
+import {CREATE_BOOKER, CREATE_BOOKING_FOR_BOOKER} from "../../../queries";
 import {toast} from "react-toastify";
 import {useModal, useRedirect} from "../../../actions/hook";
 

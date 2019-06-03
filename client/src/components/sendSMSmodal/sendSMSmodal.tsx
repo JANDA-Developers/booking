@@ -3,7 +3,7 @@ import JDmodal from "../../atoms/modal/Modal";
 import {IUseModal, useInput} from "../../actions/hook";
 import JDbox from "../../atoms/box/JDbox";
 import JDselect, {IselectedOption} from "../../atoms/forms/selectBox/SelectBox";
-import {SELECT_DUMMY_OP, AutoSendCase} from "../../types/enum";
+import {SELECT_DUMMY_OP, AutoSendWhen} from "../../types/enum";
 import Button from "../../atoms/button/Button";
 import "./sendSMSmodal.scss";
 import {MutationFn} from "react-apollo";
@@ -25,7 +25,7 @@ interface IProps {
   loading: boolean;
   smsInfo: getSmsInfo_GetSmsInfo_smsInfo | null | undefined;
   receivers: string[];
-  sendCase?: AutoSendCase;
+  sendCase?: AutoSendWhen;
   callBackFn?(flag: boolean): any;
 }
 

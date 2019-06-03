@@ -55,11 +55,12 @@ export enum BookingStatusKr {
 
 export enum PaymentStatusKr {
   NOT_YET = "미결제",
-  COMPLETE = "결제완료"
+  COMPLETE = "결제완료",
+  CANCLE = "취소된"
 }
 
 export enum PayMethodKr {
-  ACCOUNT_SEND = "무통장입금",
+  BANK_TRANSFER = "무통장입금",
   CARD = "카드",
   CASH = "현금",
   KAKAOPAY = "카카오페이",
@@ -83,6 +84,7 @@ export enum TimePerMs {
 }
 
 export enum PaymentStatus {
+  CANCEL = "CANCEL",
   NOT_YET = "NOT_YET",
   COMPLETE = "COMPLETE"
 }
@@ -94,7 +96,8 @@ export enum BookingStatus {
 
 export enum PayMethod {
   CASH = "CASH",
-  CREDIT_CARD = "CREDIT_CARD"
+  CREDIT_CARD = "CREDIT_CARD",
+  BANK_TRANSFER = "BANK_TRANSFER"
 }
 
 export enum Product {
@@ -125,16 +128,16 @@ export enum BookerModalType {
   LOOKUP = "lookup"
 }
 
-export enum AutoSendCase {
+export enum AutoSendWhen {
   WEHN_BOOKING_CANCEL = "WEHN_BOOKING_CANCEL",
   WHEN_BOOKING_COMPLETE = "WHEN_BOOKING_COMPLETE",
-  WHEN_WAIT_DEPOSIT = "WHEN_WAIT_DEPOSIT"
+  WHEN_PAYMENT = "WHEN_PAYMENT"
 }
 
-export enum AutoSendCaseKr {
+export enum AutoSendWhenKr {
   WEHN_BOOKING_CANCEL = "예약취소시",
   WHEN_BOOKING_COMPLETE = "예약완료시",
-  WHEN_WAIT_DEPOSIT = "미결제예약시"
+  WHEN_PAYMENT = "미결제예약시"
 }
 
 export enum SendTarget {
@@ -148,34 +151,42 @@ export enum SendTargetKr {
   GUEST = "게스트",
   HOST = "호스트"
 }
-
 export enum SmsReplaceKeyEnum {
-  STAY_DATE = "%STAYDATE%",
-  STAY_DATE_YMD = "$STAYDATEYMD%",
+  STAYDATE = "%STAYDATE%",
+  STAYDATE_YMD = "$STAYDATEYMD%",
   ROOMTYPE_N_COUNT = "%ROOMTYPENCOUNT%",
   BOOKERNAME = "%BOOKER%",
-  TOTAL_PRICE = "%TOTALPRICE%"
+  TOTALPRICE = "%TOTALPRICE%",
+  PAYMETHOD = "%PAYMETHOD%",
+  PAYMENTSTATUS = "%PAYMENTSTATUS%"
 }
+
 export enum SmsReplaceKeyEnumKr {
-  STAY_DATE = "[숙박일자(월/일)]",
-  STAY_DATE_YMD = "[숙박일자(년/월/일)]",
+  STAYDATE = "[숙박일자(월/일)]",
+  STAYDATE_YMD = "[숙박일자(년/월/일)]",
   ROOMTYPE_N_COUNT = "[숙박정보(방/인원)]",
   BOOKERNAME = "[예약자명]",
-  TOTAL_PRICE = "[가격]"
+  TOTALPRICE = "[가격]",
+  PAYMETHOD = "[결제방법]",
+  PAYMENTSTATUS = "[결제상태]"
 }
 export const SmsReplaceKeyEnumKeys = [
-  "STAY_DATE",
-  "STAY_DATE_YMD",
+  "STAYDATE",
+  "STAYDATE_YMD",
   "ROOMTYPE_N_COUNT",
   "BOOKERNAME",
-  "TOTAL_PRICE"
+  "TOTALPRICE",
+  "PAYMETHOD",
+  "PAYMENTSTATUS"
 ];
 export const SmsReplaceKeyEnumValues = [
   "%STAYDATE%",
   "$STAYDATEYMD%",
   "%ROOMTYPENCOUNT%",
   "%BOOKER%",
-  "%TOTALPRICE%"
+  "%TOTALPRICE%",
+  "%PAYMETHOD%",
+  "%PAYMENTSTATUS%"
 ];
 
 //= =============================================================
@@ -208,6 +219,7 @@ export const BOOKING_STATUS_OP = [
 ];
 
 export const PAYMENT_STATUS_OP = [
+  {value: PaymentStatus.CANCEL, label: "취소된"},
   {value: PaymentStatus.COMPLETE, label: "결제완료"},
   {value: PaymentStatus.NOT_YET, label: "미결제"}
 ];
@@ -240,16 +252,16 @@ export const PRICING_TYPE_OP = [
 
 export const AUTO_SEND_OP = [
   {
-    value: AutoSendCase.WEHN_BOOKING_CANCEL,
-    label: AutoSendCaseKr.WEHN_BOOKING_CANCEL
+    value: AutoSendWhen.WEHN_BOOKING_CANCEL,
+    label: AutoSendWhenKr.WEHN_BOOKING_CANCEL
   },
   {
-    value: AutoSendCase.WHEN_BOOKING_COMPLETE,
-    label: AutoSendCaseKr.WHEN_BOOKING_COMPLETE
+    value: AutoSendWhen.WHEN_BOOKING_COMPLETE,
+    label: AutoSendWhenKr.WHEN_BOOKING_COMPLETE
   },
   {
-    value: AutoSendCase.WHEN_WAIT_DEPOSIT,
-    label: AutoSendCaseKr.WHEN_WAIT_DEPOSIT
+    value: AutoSendWhen.WHEN_PAYMENT,
+    label: AutoSendWhenKr.WHEN_PAYMENT
   },
   {value: null, label: "선택안함"}
 ];

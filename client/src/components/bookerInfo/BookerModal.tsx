@@ -23,7 +23,7 @@ import {
   BookingStatus,
   BookingStatusKr,
   BookerModalType,
-  AutoSendCase
+  PaymentStatus
 } from "../../types/enum";
 import "./BookerModal.scss";
 import {GB_booker, IResvCount} from "../../types/interface";
@@ -90,7 +90,7 @@ const POPbookerInfo: React.FC<IProps> = ({
     // @ts-ignore
     label: PayMethodKr[bookerData.payMethod]
   });
-  const paymentStatusHook = useSelect({
+  const paymentStatusHook = useSelect<PaymentStatus>({
     value: bookerData.paymentStatus,
     // @ts-ignore
     label: PaymentStatusKr[bookerData.paymentStatus]
@@ -107,7 +107,18 @@ const POPbookerInfo: React.FC<IProps> = ({
     bookerData
   );
 
-  const smsModalInfoTemp = {};
+  const smsModalInfoTemp: IModalSMSinfo = {
+    receivers: [bookerPhoneHook.value],
+    booker: {
+      end: resvDateHook.to!,
+      name: bookerNameHook.value,
+      payMethod: payMethodHook.selectedOption!.value,
+      phoneNumber: bookerPhoneHook.value,
+      start: resvDateHook.from!,
+      paymentStatus: paymentStatusHook.selectedOption!.value,
+      price: priceHook.value || 0
+    }
+  };
 
   // 예약삭제
   const handleDeletBtnClick = () => {
@@ -127,7 +138,7 @@ const POPbookerInfo: React.FC<IProps> = ({
   const handleCreateBtnClick = async () => {
     if (!bookerData.roomTypes) return;
 
-    const smsCallBackFn = async (foo: boolean) => {
+    const smsCallBackFn = async (flag: boolean) => {
       const result = await createBookerMu({
         variables: {
           bookingParams: {
@@ -151,7 +162,8 @@ const POPbookerInfo: React.FC<IProps> = ({
               countRoom:
                 data.pricingType === PricingType.ROOM ? data.count.roomCount : 0
             }))
-          }
+          },
+          sendSmsFlag: flag
         }
       });
 
@@ -177,18 +189,7 @@ const POPbookerInfo: React.FC<IProps> = ({
       }
     };
 
-    sendSMSmodalHook.openModal({
-      receivers: [bookerPhoneHook.value],
-      booker: {
-        end: resvDateHook.to!,
-        name: bookerNameHook.value,
-        phoneNumber: bookerPhoneHook.value,
-        start: resvDateHook.from!
-      },
-      callBackFn: smsCallBackFn,
-      sendCase: AutoSendCase.WHEN_BOOKING_COMPLETE,
-      createMode: false
-    });
+    sendSMSmodalHook.openModal({...smsModalInfoTemp, createMode: false});
   };
   // 예약수정
   // 👿 modify 를 전부 update로 변경하자.
@@ -243,13 +244,7 @@ const POPbookerInfo: React.FC<IProps> = ({
               iconHover
               iconOnClick={() => {
                 sendSMSmodalHook.openModal({
-                  receivers: [bookerPhoneHook.value],
-                  booker: {
-                    end: resvDateHook.to!,
-                    name: bookerNameHook.value,
-                    phoneNumber: bookerPhoneHook.value,
-                    start: resvDateHook.from!
-                  },
+                  ...smsModalInfoTemp,
                   createMode: true
                 });
               }}

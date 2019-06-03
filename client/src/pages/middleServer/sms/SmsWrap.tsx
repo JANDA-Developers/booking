@@ -19,13 +19,15 @@ import {
   CREATE_SMS_TEMPLATE,
   DELETE_SMS_TEMPLATE,
   UPDATE_SMS_TEMPLATE,
-  UPDATE_SENDER
+  UPDATE_SENDER,
+  GET_BOOKERS
 } from "../../../queries";
 import {
   queryDataFormater,
   showError,
   onCompletedMessage
 } from "../../../utils/utils";
+import {getOperationName} from "apollo-utilities";
 import {DEFAULT_SMS_TEMPLATE} from "../../../types/defaults";
 
 class CreateSmsTemplate extends Mutation<
@@ -66,14 +68,19 @@ const SmsWrap: React.FC<IProps> = ({houseId}) => (
       // SMS INFO formatter 추가용
       if (smsInfo) {
         if (smsInfo.smsTemplates === null) {
-          smsInfo.smsTemplates = [DEFAULT_SMS_TEMPLATE];
+          smsInfo.smsTemplates = [
+            {...DEFAULT_SMS_TEMPLATE, formatName: "새로운 템플릿"}
+          ];
         } else {
           if (
             !smsInfo.smsTemplates.find(
               template => template._id === DEFAULT_SMS_TEMPLATE._id
             )
           ) {
-            smsInfo.smsTemplates.push(DEFAULT_SMS_TEMPLATE);
+            smsInfo.smsTemplates.push({
+              ...DEFAULT_SMS_TEMPLATE,
+              formatName: "새로운 템플릿"
+            });
           }
         }
       }
@@ -81,6 +88,7 @@ const SmsWrap: React.FC<IProps> = ({houseId}) => (
       return (
         <CreateSmsTemplate
           mutation={CREATE_SMS_TEMPLATE}
+          refetchQueries={[getOperationName(GET_SMS_INFO)!]}
           onCompleted={({CreateSmsTemplate}) =>
             onCompletedMessage(
               CreateSmsTemplate,
@@ -92,11 +100,12 @@ const SmsWrap: React.FC<IProps> = ({houseId}) => (
           {createSmsTemplateMu => (
             <DeleteSmsTemplate
               mutation={DELETE_SMS_TEMPLATE}
+              refetchQueries={[getOperationName(GET_SMS_INFO)!]}
               onCompleted={({DeleteSmsTemplate}) =>
                 onCompletedMessage(
                   DeleteSmsTemplate,
-                  "템플릿 생성완료",
-                  "템플릿 생성실패"
+                  "템플릿 삭제완료",
+                  "템플릿 삭제실패"
                 )
               }
             >
@@ -108,8 +117,8 @@ const SmsWrap: React.FC<IProps> = ({houseId}) => (
                       onCompleted={({UpdateSmsTemplate}) =>
                         onCompletedMessage(
                           UpdateSmsTemplate,
-                          "템플릿 생성완료",
-                          "템플릿 생성실패"
+                          "템플릿 업데이트 완료",
+                          "템플릿 업데이트 실패"
                         )
                       }
                     >
@@ -123,7 +132,10 @@ const SmsWrap: React.FC<IProps> = ({houseId}) => (
 
                         return (
                           <Sms
-                            key={`sms${loading && "--loading"}`}
+                            key={`sms${smsInfo &&
+                              smsInfo.smsTemplates &&
+                              smsInfo.smsTemplates.length}${loading &&
+                              "--loading"}`}
                             smsTemplateMutationes={smsTemplateMutationes}
                             loading={loading}
                             houseId={houseId}

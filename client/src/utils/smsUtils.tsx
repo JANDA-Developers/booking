@@ -4,8 +4,10 @@ import {
   SmsReplaceKeyEnumKr
 } from "../types/enum";
 import {string} from "prop-types";
+import {getSmsInfo_GetSmsInfo_smsInfo_smsTemplates} from "../types/api";
+import {IselectedOption} from "../atoms/forms/selectBox/SelectBox";
 
-const smsMessageFormatter = (msg: string): string => {
+export const smsMessageFormatter = (msg: string): string => {
   let formatMsg = msg;
   SmsReplaceKeyEnumKeys.forEach((key: any) => {
     formatMsg = formatMsg.replace(
@@ -19,6 +21,7 @@ const smsMessageFormatter = (msg: string): string => {
 
 type TParser = {[K in keyof typeof SmsReplaceKeyEnum]: string};
 
+// 템플릿 해석
 export const smsMsgParser = (msg: string, parser: TParser): string => {
   let formatMsg = msg;
   SmsReplaceKeyEnumKeys.forEach((key: any) => {
@@ -28,4 +31,11 @@ export const smsMsgParser = (msg: string, parser: TParser): string => {
   return formatMsg;
 };
 
-export default smsMessageFormatter;
+// 템플릿 셀렉트 옵션 만들어주는 함수
+export const templateOpMaker = (
+  templates: getSmsInfo_GetSmsInfo_smsInfo_smsTemplates[]
+): IselectedOption[] =>
+  templates.map(template => ({
+    value: template._id,
+    label: template.formatName
+  }));

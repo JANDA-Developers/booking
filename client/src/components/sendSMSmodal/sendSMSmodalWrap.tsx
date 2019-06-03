@@ -3,14 +3,18 @@ import JDmodal from "../../atoms/modal/Modal";
 import {IUseModal} from "../../actions/hook";
 import JDbox from "../../atoms/box/JDbox";
 import JDselect from "../../atoms/forms/selectBox/SelectBox";
-import {SELECT_DUMMY_OP} from "../../types/enum";
+import {
+  SELECT_DUMMY_OP,
+  PaymentStatus,
+  PayMethod,
+  AutoSendWhen
+} from "../../types/enum";
 import Button from "../../atoms/button/Button";
 import {
   sendSms,
   sendSmsVariables,
   getSmsInfo,
-  getSmsInfoVariables,
-  AutoSendCase
+  getSmsInfoVariables
 } from "../../types/api";
 import {Mutation, Query} from "react-apollo";
 import {SEND_SMS, GET_SMS_INFO} from "../../queries";
@@ -27,11 +31,13 @@ export interface IModalSMSinfo {
     phoneNumber: string;
     start: string | Date;
     end: string | Date;
-    [key: string]: any;
+    paymentStatus: PaymentStatus;
+    payMethod: PayMethod;
+    price: number;
   };
   receivers: string[];
   createMode?: boolean;
-  sendCase?: AutoSendCase;
+  sendCase?: AutoSendWhen;
   callBackFn?(flag: boolean): any;
 }
 

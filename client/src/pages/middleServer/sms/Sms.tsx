@@ -181,7 +181,7 @@ const Sms: React.FC<IProps> = ({
                         setTemplateTitles([...templateTitles]);
                       }}
                       defaultValue={title}
-                      placeholder="템플릿 명칭"
+                      placeholder="NAME"
                     />
                   </Tab>
                 ))}
