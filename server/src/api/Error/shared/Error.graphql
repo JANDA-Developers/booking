@@ -1,0 +1,8 @@
+type Error {
+    _id: ID!
+    code: String!
+    message: String!
+    devMsg: String!
+}
+
+# code 형식 ex) H1001, U1001

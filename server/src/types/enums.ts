@@ -20,12 +20,6 @@ export enum GenderEnum {
     FEMALE = "FEMALE"
 }
 
-export enum AutoSendCaseEnum {
-    WHEN_BOOKING,
-    WEHN_BOOKING_CANCEL,
-    WHEN_BOOKING_REFUND
-}
-
 export enum PricingTypeEnum {
     ROOM = "ROOM",
     DOMITORY = "DOMITORY"

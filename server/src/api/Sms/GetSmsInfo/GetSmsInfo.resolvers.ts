@@ -22,6 +22,8 @@ const resolvers: Resolvers = {
                         smsInfo: null
                     };
                 }
+                console.log(smsInfo);
+
                 return {
                     ok: true,
                     error: null,

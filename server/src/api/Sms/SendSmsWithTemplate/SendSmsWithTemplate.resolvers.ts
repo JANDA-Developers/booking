@@ -54,9 +54,11 @@ const resolvers: Resolvers = {
                         {
                             BOOKERNAME: params.bookerName || "",
                             ROOMTYPE_N_COUNT: params.RoomTypeNCount || "",
-                            STAY_DATE: params.stayDate || "",
-                            STAY_DATE_YMD: params.stayDateYMD || "",
-                            TOTAL_PRICE: digitsComma(params.totalPrice || 0)
+                            STAYDATE: params.stayDate || "",
+                            STAYDATE_YMD: params.stayDateYMD || "",
+                            TOTALPRICE: digitsComma(params.totalPrice || 0),
+                            PAYMETHOD: "", // TODO
+                            PAYMENTSTATUS: ""
                         }
                     );
                     const sendResult = await sendSMS(
