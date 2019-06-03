@@ -2,16 +2,6 @@ export interface SmsDecoratorInterface {
     replace(key: string, val: string): SmsTemplateDecorator;
 }
 
-export interface SmsReplaceKey {
-    STAYDATE: string;
-    STAYDATE_YMD: string;
-    ROOMTYPE_N_COUNT: string;
-    BOOKERNAME: string;
-    TOTALPRICE: string;
-    PAYMETHOD: string;
-    PAYMENTSTATUS: string;
-}
-
 export enum SmsReplaceKeyEnum {
     STAYDATE = "%STAYDATE%",
     STAYDATE_YMD = "$STAYDATE_YMD%",

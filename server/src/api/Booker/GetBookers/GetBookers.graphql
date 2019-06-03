@@ -4,6 +4,7 @@ type GetBookersResponse {
     bookers: [Booker!]
     pageInfo: PageInfoOffsetBase
 }
+
 type Query {
     GetBookers(
         houseId: ID!
@@ -15,4 +16,7 @@ type Query {
 
 input GetBookersFilter {
     name: String
+    phoneNumnber: PhoneNumber
+    stayDate: DateTime
+    createdAt: DateTime
 }
