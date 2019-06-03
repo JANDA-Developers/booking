@@ -47,7 +47,6 @@ enum PayMethod {
 enum PaymentStatus {
     NOT_YET
     COMPLETE
-    CANCEL
 }
 
 input BookerInput {
