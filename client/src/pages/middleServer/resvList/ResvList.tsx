@@ -100,6 +100,15 @@ const ResvList: React.SFC<IProps> = ({
     });
   };
 
+  const handleSendSmsBtnClick = () => {
+    const recivers = checkedIds.map(id => {
+      const targert = bookersData.find(booker => booker._id === id);
+      if (!targert)
+        throw Error("handleSendSmsBtnClick :: can not find booker BY ID");
+      return targert.phoneNumber;
+    });
+  };
+
   const handleCompleteBookingBtnClick = () => {
     checkedIds.forEach(id => {
       updateBookerMu({
@@ -315,6 +324,12 @@ const ResvList: React.SFC<IProps> = ({
             onClick={handleCancleBookerBtnClick}
             thema="primary"
             label="예약취소"
+          />
+          <Button
+            onClick={handleSendSmsBtnClick}
+            size="small"
+            thema="primary"
+            label="문자전송"
           />
           <Button
             onClick={handleDeleteBookerBtnClick}

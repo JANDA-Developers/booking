@@ -24,7 +24,6 @@ import {
   updateSenderVariables
 } from "../../../types/api";
 import Preloader from "../../../atoms/preloader/Preloader";
-import {DEFAULT_SMS_TEMPLATE, DEFAULT_SMS_INFO} from "../../../types/defaults";
 import {onCompletedMessage} from "../../../utils/utils";
 import {isPhone} from "../../../utils/inputValidations";
 import {toast} from "react-toastify";
@@ -111,17 +110,17 @@ const Sms: React.FC<IProps> = ({
   return (
     <div id="seasonTable" className="seasonT container">
       <div className="docs-section">
-        <div className="docs-section__box">
-          <h3>
-            SMS 설정
-            {loading && <Preloader size="medium" />}
-          </h3>
-          <div className="flex-grid">
-            <div className="flex-grid__col col--full-6 col--md-12">
+        {/* <div className="docs-section__box"> */}
+        <h3>
+          SMS 설정
+          {loading && <Preloader size="medium" />}
+        </h3>
+        {/* <div className="flex-grid"> */}
+        {/* <div className="flex-grid__col col--full-6 col--md-12">
               <Card>
                 <h6>SMS 신청하기</h6>
                 {/* direct Mu */}
-                <InputText
+        {/* <InputText
                   {...hostSenderHook}
                   validation={isPhone}
                   hyphen
@@ -140,8 +139,8 @@ const Sms: React.FC<IProps> = ({
                 />
                 <Button thema="warn" label="신청취소" />
               </Card>
-            </div>
-            <div className="flex-grid__col col--full-6 col--md-12">
+            </div> */}
+        {/* <div className="flex-grid__col col--full-6 col--md-12">
               <Card>
                 <h6>SMS 등록안내</h6>
                 <p>
@@ -163,10 +162,10 @@ const Sms: React.FC<IProps> = ({
                 </a>
               </Card>
             </div>
-          </div>
-        </div>
+          </div>*/}
+        {/* </div> */}
         <div className="docs-section__box">
-          <h6>문자 템플릿 설정</h6>
+          {/* <h6>문자 템플릿 설정</h6> */}
           {smsInfo ? (
             <Tabs>
               <TabList>

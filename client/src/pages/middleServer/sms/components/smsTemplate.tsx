@@ -169,7 +169,7 @@ const SmsTemplate: React.SFC<IProps> = ({
           {...sendTargetHook}
           label="발신대상"
         />
-        <Switch {...enableHook} label="활성화" />
+        <Switch {...enableHook} label="자동발신 활성화" />
       </div>
       <div>
         <Button onClick={handleCreateBtnClick} thema="primary" label="추가" />
