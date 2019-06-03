@@ -19,6 +19,7 @@ import BookerInfoBox from "../../pages/outPages/components/bookerInfoBox";
 import moment from "moment";
 import {IModalSMSinfo} from "./sendSMSmodalWrap";
 import Preloader from "../../atoms/preloader/Preloader";
+import {autoComma, autoHypen} from "../../utils/utils";
 
 interface IProps {
   modalHook: IUseModal<IModalSMSinfo>;
@@ -56,22 +57,22 @@ const CreateSmsModal: React.FC<IProps> = ({
         template => template._id === selectedOp.value
       );
 
-      console.log("targetTemplate");
-      console.log(targetTemplate);
       if (targetTemplate) {
-        const msg = smsMsgParser(targetTemplate.smsFormat, {
-          BOOKERNAME: modalHook.info.booker.name,
-          ROOMTYPE_N_COUNT: "",
-          STAYDATE: `${modalHook.info.booker.start}~${
-            modalHook.info.booker.end
-          }`,
-          STAYDATE_YMD: `${moment(modalHook.info.booker.start).format(
-            "MMDD"
-          )}~${modalHook.info.booker.end}`,
-          TOTALPRICE: `${modalHook.info.booker.price}`,
-          PAYMENTSTATUS: `${modalHook.info.booker.paymentStatus}`,
-          PAYMETHOD: `${modalHook.info.booker.payMethod}`
-        });
+        const msg = modalHook.info.booker
+          ? smsMsgParser(targetTemplate.smsFormat, {
+              BOOKERNAME: modalHook.info.booker.name,
+              ROOMTYPE_N_COUNT: "",
+              STAYDATE: `${moment(modalHook.info.booker.start).format(
+                "MM-DD"
+              )}~${moment(modalHook.info.booker.end).format("MM-DD")}`,
+              STAYDATE_YMD: `${moment(modalHook.info.booker.start).format(
+                "YY-MM-DD"
+              )}~${moment(modalHook.info.booker.end).format("YY-MM-DD")}`,
+              TOTALPRICE: `${autoComma(modalHook.info.booker.price)}`,
+              PAYMENTSTATUS: `${modalHook.info.booker.paymentStatus}`,
+              PAYMETHOD: `${modalHook.info.booker.payMethod}`
+            })
+          : targetTemplate.smsFormat;
 
         setMsg(msg);
       }
@@ -85,7 +86,7 @@ const CreateSmsModal: React.FC<IProps> = ({
         {modalHook.info.receivers &&
           modalHook.info.receivers.map(receiver => (
             <JDbox mode="border" icon="mobile" topLabel="발신대상">
-              <span>{receiver}</span>
+              <span>{autoHypen(receiver)}</span>
             </JDbox>
           ))}
       </div>
@@ -97,7 +98,13 @@ const CreateSmsModal: React.FC<IProps> = ({
         />
       </div>
       <div>
-        <InputText value={msg} label="전송문자" textarea />
+        <InputText
+          doubleHeight
+          onChange={setMsg}
+          value={msg}
+          label="전송문자"
+          textarea
+        />
       </div>
       <div className="JDmodal__endSection">
         <Button thema="primary" onClick={handleSendSmsBtnClick} label="전송" />

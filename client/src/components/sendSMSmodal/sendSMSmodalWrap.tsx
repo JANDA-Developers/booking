@@ -26,7 +26,7 @@ class SendSmsMu extends Mutation<sendSms, sendSmsVariables> {}
 class SmsInfoQu extends Query<getSmsInfo, getSmsInfoVariables> {}
 
 export interface IModalSMSinfo {
-  booker: {
+  booker?: {
     name: string;
     phoneNumber: string;
     start: string | Date;
