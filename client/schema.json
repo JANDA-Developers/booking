@@ -4719,12 +4719,6 @@
             "description": "",
             "isDeprecated": false,
             "deprecationReason": null
-          },
-          {
-            "name": "CANCEL",
-            "description": "",
-            "isDeprecated": false,
-            "deprecationReason": null
           }
         ],
         "possibleTypes": null

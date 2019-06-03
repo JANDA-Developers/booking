@@ -55,8 +55,7 @@ export enum BookingStatusKr {
 
 export enum PaymentStatusKr {
   NOT_YET = "미결제",
-  COMPLETE = "결제완료",
-  CANCLE = "취소된"
+  COMPLETE = "결제완료"
 }
 
 export enum PayMethodKr {
@@ -84,7 +83,6 @@ export enum TimePerMs {
 }
 
 export enum PaymentStatus {
-  CANCEL = "CANCEL",
   NOT_YET = "NOT_YET",
   COMPLETE = "COMPLETE"
 }
@@ -219,7 +217,6 @@ export const BOOKING_STATUS_OP = [
 ];
 
 export const PAYMENT_STATUS_OP = [
-  {value: PaymentStatus.CANCEL, label: "취소된"},
   {value: PaymentStatus.COMPLETE, label: "결제완료"},
   {value: PaymentStatus.NOT_YET, label: "미결제"}
 ];
