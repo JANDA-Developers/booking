@@ -3,33 +3,11 @@ Host-Side:
         ☐ Figure out How to use AWS S3 to Up/Download File
     User Flow Visualize:
         ☐ Make Document with FrontEnd Developer
-    Sign In & Sign Up:
-        ☐ Gmail
-        ☐ Facebook
     Create House:
-        Create/Update/Remove Season:
-            ☐ Update Season 
-        Make ProductType & Product:
-            ☐ DeleteProductType
-            ☐ UpdateProductType
-            ☐ DeleteProduct @low 
-            ☐ UpdateProduct @low 
-        Booking API:
-            ☐ UpdateBooking
-                # BookingStatus 변경 포함 x
-            ☐ CancelBooking
-            ☐ DeleteBooking
-        Allocation:@high @today 
-            ✔ `DOMITORY` RoomType 객체에서 배정 가능한 방 수 및 인원 수 알려주기. @done(19-05-08 09:08)
-            ✔ `ROOM` RoomType 객체에서 배정 가능한 방 수 알려주기. @done(19-05-08 09:08)
-            ✔ GetAllAvailableRooms      => Get All Available Rooms @done(19-05-21 13:39)
-            ✔ GetAllAvailableRoomTypes  => Get All Available RoomTypes @done(19-05-21 13:39)
-            ✘ CheckRoomTypeIsAvailable  => Check RoomType is Available @cancelled(19-05-21 13:39)
         Auto Allocation: 
             ☐ 배정 할 방들 우선순위 선정 인터페이스 작성 @high
         Price History:
             ☐ 왜 PriceHistory DB가 필요한가? 뭐하는 스키마임?
-            ☐ 스키마 설계
             ☐ CreatePriceHistory 
         Search Bar:
             ☐ Search Booker Info
@@ -44,19 +22,9 @@ Host-Side:
             ☐ Delete Room Price For Season (Default Room Price)
                 => 시즌 삭제시에 실행되는 이벤트...
         BookerList:
-            ✔ Present BookingList @done(19-05-21 13:40)
-            ✔ Pagination @done(19-05-21 13:40)
             ☐ Filter & Sort
-            ✔ Confirm Booking @done(19-05-21 13:40)
-            ✔ Cancel Booking @done(19-05-21 13:40)
-            ✔ Delete Booking @done(19-05-21 13:40)
-        Allocating Guest to Rooms:
-            ✔ Show the List of the Ready to Allocate Guest @done(19-05-21 13:39)
-            ☐ Show the Season in Calendar
-            ☐ Show the RoomTypes and Rooms
-            ☐ Move Guest to Room Calendar
         SMS Config:
-            ☐ Make SMS Form
+            ☐ Make SMS Form @today
             ☐ Send SMS
             ☐ Make SMS Setting Options
             ☐ Create Default Auto Send
@@ -65,13 +33,6 @@ Host-Side:
         House Manual:
             ☐ Contents Setting
     Make Booking:
-        Calendar:
-            ✔ Throw Season Data to Calendar @done(19-05-21 13:40)
-            ✔ Get Selected DateRange from Calendar @done(19-05-21 13:41)
-        RoomTypeList / Selector:
-            ☐ Throw RoomType Data to Client(RoomTypeList)
-            ☐ 혼숙 방지 인원 계산 get
-            ☐ 방 선택하기 Event - 장바구니에 들어갈 데이터 보내기
         Payment API:
             ☐ Booking Data Server-Side Validation.
             ☐ Define Response Data for client
@@ -86,6 +47,37 @@ Host-Side:
         ☐ Check API Document @low
         ☐ PG Intergration @low
 Archive:
+  ✘ DeleteProductType @cancelled(19-06-03 11:22) @project(Host-Side.Create House.Make ProductType & Product)
+  ✘ UpdateProductType @cancelled(19-06-03 11:22) @project(Host-Side.Create House.Make ProductType & Product)
+  ✘ DeleteProduct @low @cancelled(19-06-03 11:22) @project(Host-Side.Create House.Make ProductType & Product)
+  ✘ UpdateProduct @low @cancelled(19-06-03 11:22) @project(Host-Side.Create House.Make ProductType & Product)
+  ✘ Gmail @cancelled(19-06-03 11:21) @project(Host-Side.Sign In & Sign Up)
+  ✘ Facebook @cancelled(19-06-03 11:21) @project(Host-Side.Sign In & Sign Up)
+  ✔ Update Season @done(19-06-03 11:21) @project(Host-Side.Create House.Create/Update/Remove Season)
+  ✔ UpdateBooking @done(19-06-03 11:20) @project(Host-Side.Create House.Booking API)
+    # BookingStatus 변경 포함 x
+  ✔ CancelBooking @done(19-06-03 11:20) @project(Host-Side.Create House.Booking API)
+  ✔ DeleteBooking @done(19-06-03 11:20) @project(Host-Side.Create House.Booking API)
+  ✔ `DOMITORY` RoomType 객체에서 배정 가능한 방 수 및 인원 수 알려주기. @done(19-05-08 09:08) @project(Host-Side.Create House.Allocation)
+  ✔ `ROOM` RoomType 객체에서 배정 가능한 방 수 알려주기. @done(19-05-08 09:08) @project(Host-Side.Create House.Allocation)
+  ✔ GetAllAvailableRooms      => Get All Available Rooms @done(19-05-21 13:39) @project(Host-Side.Create House.Allocation)
+  ✔ GetAllAvailableRoomTypes  => Get All Available RoomTypes @done(19-05-21 13:39) @project(Host-Side.Create House.Allocation)
+  ✘ CheckRoomTypeIsAvailable  => Check RoomType is Available @cancelled(19-05-21 13:39) @project(Host-Side.Create House.Allocation)
+  ✔ 스키마 설계 @done(19-06-03 11:21) @project(Host-Side.Create House.Price History)
+  ✔ Present BookingList @done(19-05-21 13:40) @project(Host-Side.Create House.BookerList)
+  ✔ Pagination @done(19-05-21 13:40) @project(Host-Side.Create House.BookerList)
+  ✔ Confirm Booking @done(19-05-21 13:40) @project(Host-Side.Create House.BookerList)
+  ✔ Cancel Booking @done(19-05-21 13:40) @project(Host-Side.Create House.BookerList)
+  ✔ Delete Booking @done(19-05-21 13:40) @project(Host-Side.Create House.BookerList)
+  ✔ Show the List of the Ready to Allocate Guest @done(19-05-21 13:39) @project(Host-Side.Create House.Allocating Guest to Rooms)
+  ✔ Show the Season in Calendar @done(19-06-03 11:20) @project(Host-Side.Create House.Allocating Guest to Rooms)
+  ✔ Show the RoomTypes and Rooms @done(19-06-03 11:20) @project(Host-Side.Create House.Allocating Guest to Rooms)
+  ✔ Move Guest to Room Calendar @done(19-06-03 11:20) @project(Host-Side.Create House.Allocating Guest to Rooms)
+  ✔ Throw Season Data to Calendar @done(19-05-21 13:40) @project(Host-Side.Make Booking.Calendar)
+  ✔ Get Selected DateRange from Calendar @done(19-05-21 13:41) @project(Host-Side.Make Booking.Calendar)
+  ✔ Throw RoomType Data to Client(RoomTypeList) @done(19-06-03 11:20) @project(Host-Side.Make Booking.RoomTypeList / Selector)
+  ✔ 혼숙 방지 인원 계산 get @done(19-06-03 11:20) @project(Host-Side.Make Booking.RoomTypeList / Selector)
+  ✔ 방 선택하기 Event - 장바구니에 들어갈 데이터 보내기 @done(19-06-03 11:20) @project(Host-Side.Make Booking.RoomTypeList / Selector)
   ✔ Migrate 'typeORM' to 'typegoose' @done(19-02-16 11:03) @project(Host-Side.Development Env)
   ✔ Make Custom Scalars @done(19-02-16 12:15) @project(Host-Side.Development Env)
   ✔ Figure out How to apply 'order by' condition in MongoDB and Mongoose @high @today @done(19-03-20 14:27) @project(Host-Side.Development Env)
