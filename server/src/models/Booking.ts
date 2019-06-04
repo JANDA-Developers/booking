@@ -135,7 +135,9 @@ export class BookingSchema extends Typegoose {
     }
 
     @instanceMethod
-    public async hashPassword(this: InstanceType<BookingSchema>): Promise<void> {
+    public async hashPassword(
+        this: InstanceType<BookingSchema>
+    ): Promise<void> {
         if (this.password) {
             this.password = await bcrypt.hash(this.password, BCRYPT_ROUNDS);
         }
@@ -204,9 +206,12 @@ export class BookingSchema extends Typegoose {
     }
 }
 
-export const bookingModel = new BookingSchema().getModelForClass(BookingSchema, {
-    schemaOptions: {
-        timestamps: true,
-        collection: "bookings"
+export const bookingModel = new BookingSchema().getModelForClass(
+    BookingSchema,
+    {
+        schemaOptions: {
+            timestamps: true,
+            collection: "Bookings"
+        }
     }
-});
+);

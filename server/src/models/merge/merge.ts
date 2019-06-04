@@ -2,7 +2,7 @@ import { Types } from "mongoose";
 import { InstanceType } from "typegoose";
 import {
     Block,
-    booking,
+    Booking,
     Guest,
     HostApplication,
     House,
@@ -19,7 +19,7 @@ import {
 } from "../../types/graph";
 import { applyDaysToBinaryString } from "../../utils/applyDays";
 import { BlockSchema } from "../Block";
-import { bookingModel, BookingSchema } from "../bookingss";
+import { bookingModel, BookingSchema } from "../Booking";
 import { GuestModel, GuestSchema } from "../Guest";
 import {
     HostApplicationModel,
@@ -504,7 +504,7 @@ export const extractRoomPrices = async (
 
 export const extractbooking = async (
     bookingInstance: InstanceType<BookingSchema>
-): Promise<booking> => {
+): Promise<Booking> => {
     const result: any = {
         ...bookingInstance
     };
@@ -529,7 +529,7 @@ export const extractbooking = async (
 
 export const transformbooking = async (
     bookingId: string | Types.ObjectId
-): Promise<booking | null> => {
+): Promise<Booking | null> => {
     const bookingInstance = await bookingModel.findById(bookingId);
     if (bookingInstance) {
         return await extractbooking(bookingInstance);
@@ -625,10 +625,10 @@ export const extractBlocks = async (
 
 export const extractbookings = async (
     bookings: Array<InstanceType<BookingSchema>>
-): Promise<booking[]> => {
+): Promise<Booking[]> => {
     return await Promise.all(
         bookings.map(
-            async (bookingInstance): Promise<booking> => {
+            async (bookingInstance): Promise<Booking> => {
                 return await extractbooking(bookingInstance);
             }
         )

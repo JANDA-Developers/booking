@@ -127,7 +127,7 @@ const resolvers: Resolvers = {
                 }
             }
         ),
-        GetAppliedPriceWithDateRangeForbooking: privateResolverForPublicAccess(
+        GetAppliedPriceWithDateRangeForBooker: privateResolverForPublicAccess(
             async (
                 _,
                 params: GetAppliedPriceWithDateRangeQueryArgs,

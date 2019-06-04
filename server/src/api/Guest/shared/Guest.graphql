@@ -8,7 +8,7 @@ type Guest {
     isUnsettled: Boolean!
     # 배드 단위로 계산한다. 배정 확정인 경우에는 이 필드값의 IsSettleable.flag === true
     isSettleable: IsSettleable!
-    booking: booking!
+    booking: Booking!
     name: Name
     start: DateTime!
     end: DateTime!

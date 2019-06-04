@@ -34,7 +34,7 @@ const resolvers: Resolvers = {
                 }
             }
         ),
-        GetAllRoomTypeForbooking: privateResolverForPublicAccess(
+        GetAllRoomTypeForBooker: privateResolverForPublicAccess(
             async (_, __, ctx: Context): Promise<GetAllRoomTypeResponse> => {
                 try {
                     const { house } = ctx.req;

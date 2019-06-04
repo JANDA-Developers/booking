@@ -1,18 +1,18 @@
-import { bookingModel } from "../../../models/bookingss";
+import { bookingModel } from "../../../models/Booking";
 import {
-    DeletebookingMutationArgs,
-    DeletebookingResponse
+    DeleteBookingMutationArgs,
+    DeleteBookingResponse
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
 import { privateResolver } from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Mutation: {
-        Deletebooking: privateResolver(
+        DeleteBooking: privateResolver(
             async (
                 _,
-                { bookingId }: DeletebookingMutationArgs
-            ): Promise<DeletebookingResponse> => {
+                { bookingId }: DeleteBookingMutationArgs
+            ): Promise<DeleteBookingResponse> => {
                 const bookingInstance = await bookingModel.findById(bookingId);
                 if (!bookingInstance) {
                     return {

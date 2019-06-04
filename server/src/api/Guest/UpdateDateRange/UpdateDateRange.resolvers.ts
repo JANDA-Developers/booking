@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { bookingModel } from "../../../models/bookingss";
+import { bookingModel } from "../../../models/Booking";
 import {
     UpdateDateRangeMutationArgs,
     UpdateDateRangeResponse

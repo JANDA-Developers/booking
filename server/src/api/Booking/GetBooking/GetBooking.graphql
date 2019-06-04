@@ -1,8 +1,8 @@
-type GetbookingResponse {
+type GetBookingResponse {
     ok: Boolean!
     error: String
-    booking: booking
+    booking: Booking
 }
 type Query {
-    Getbooking(bookingId: ID!): GetbookingResponse!
+    GetBooking(bookingId: ID!): GetBookingResponse!
 }

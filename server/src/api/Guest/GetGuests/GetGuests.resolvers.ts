@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { bookingModel } from "../../../models/bookingss";
+import { bookingModel } from "../../../models/Booking";
 import { HouseModel } from "../../../models/House";
 import { transformGuests } from "../../../models/merge/merge";
 import { GetGuestsQueryArgs, GetGuestsResponse } from "../../../types/graph";

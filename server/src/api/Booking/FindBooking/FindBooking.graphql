@@ -1,18 +1,18 @@
-type FindbookingResponse {
+type FindBookingResponse {
     ok: Boolean!
     error: String
-    bookings: [booking!]
+    bookings: [Booking!]
 }
 type Query {
-    Findbooking(
+    FindBooking(
         name: Name!
         phoneNumber: PhoneNumber!
         password: String!
         houseId: ID
-    ): FindbookingResponse!
-    FindbookingForbooking(
+    ): FindBookingResponse!
+    FindBookingForBooker(
         name: Name!
         phoneNumber: PhoneNumber!
         password: String!
-    ): FindbookingResponse!
+    ): FindBookingResponse!
 }

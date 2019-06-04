@@ -2,13 +2,13 @@ import { Context } from "graphql-yoga/dist/types";
 import * as _ from "lodash";
 import { Types } from "mongoose";
 import { InstanceType } from "typegoose";
-import { bookingModel, BookingSchema } from "../../../models/bookingss";
+import { bookingModel, BookingSchema } from "../../../models/Booking";
 import { HouseSchema } from "../../../models/House";
 import { extractbookings } from "../../../models/merge/merge";
 import {
-    FindbookingForbookingQueryArgs,
-    FindbookingQueryArgs,
-    FindbookingResponse
+    FindBookingForBookerQueryArgs,
+    FindBookingQueryArgs,
+    FindBookingResponse
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
 import { asyncForEach } from "../../../utils/etc";
@@ -19,20 +19,20 @@ import {
 
 const resolvers: Resolvers = {
     Query: {
-        Findbooking: privateResolver(
+        FindBooking: privateResolver(
             async (
                 __,
-                params: FindbookingQueryArgs
-            ): Promise<FindbookingResponse> => {
+                params: FindBookingQueryArgs
+            ): Promise<FindBookingResponse> => {
                 return findbooking(params);
             }
         ),
-        FindbookingForbooking: privateResolverForPublicAccess(
+        FindBookingForBooker: privateResolverForPublicAccess(
             async (
                 __,
-                params: FindbookingForbookingQueryArgs,
+                params: FindBookingForBookerQueryArgs,
                 ctx: Context
-            ): Promise<FindbookingResponse> => {
+            ): Promise<FindBookingResponse> => {
                 const { house }: { house: InstanceType<HouseSchema> } = ctx.req;
                 return findbooking({ ...params, houseId: house._id });
             }
@@ -47,7 +47,7 @@ const findbooking = async ({
     name,
     password,
     phoneNumber
-}: FindbookingQueryArgs) => {
+}: FindBookingQueryArgs) => {
     try {
         const bookings = await bookingModel.find({
             name,

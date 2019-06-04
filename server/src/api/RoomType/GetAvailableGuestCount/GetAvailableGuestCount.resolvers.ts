@@ -19,7 +19,7 @@ const resolvers: Resolvers = {
         ): Promise<GetAvailableGuestCountResponse> => {
             return await getAvailableGuestCount(params);
         },
-        GetAvailableGuestCountForbooking: privateResolverForPublicAccess(
+        GetAvailableGuestCountForBooker: privateResolverForPublicAccess(
             async (
                 _,
                 params: GetAvailableGuestCountQueryArgs,

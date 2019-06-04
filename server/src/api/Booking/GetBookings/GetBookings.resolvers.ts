@@ -1,9 +1,9 @@
 import { Types } from "mongoose";
-import { bookingModel } from "../../../models/bookingss";
+import { bookingModel } from "../../../models/Booking";
 import { extractbookings } from "../../../models/merge/merge";
 import {
-    GetbookingsQueryArgs,
-    GetbookingsResponse
+    GetBookingsQueryArgs,
+    GetBookingsResponse
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
 import { removeUndefined } from "../../../utils/objFuncs";
@@ -11,11 +11,11 @@ import { privateResolver } from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Query: {
-        Getbookings: privateResolver(
+        GetBookings: privateResolver(
             async (
                 _,
-                { houseId, count, page, filter }: GetbookingsQueryArgs
-            ): Promise<GetbookingsResponse> => {
+                { houseId, count, page, filter }: GetBookingsQueryArgs
+            ): Promise<GetBookingsResponse> => {
                 try {
                     const p = page || 1;
                     const c = count || 1;

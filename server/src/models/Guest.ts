@@ -13,7 +13,7 @@ import {
     IsSettleable,
     PricingType
 } from "../types/graph";
-import { bookingModel } from "./bookingss";
+import { bookingModel } from "./Booking";
 
 enum GenderEnum {
     MALE = "MALE",

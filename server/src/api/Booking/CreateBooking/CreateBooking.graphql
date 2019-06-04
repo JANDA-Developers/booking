@@ -1,17 +1,17 @@
-type CreatebookingResponse {
+type CreateBookingResponse {
     ok: Boolean!
     error: String
-    booking: booking
+    booking: Booking
 }
 type Mutation {
-    Createbooking(
+    CreateBooking(
         bookingParams: CreateBookingParams!
         sendSmsFlag: Boolean!
-    ): CreatebookingResponse!
-    CreatebookingForbooking(
+    ): CreateBookingResponse!
+    CreateBookingForBooker(
         bookingParams: CreateBookingParams!
         sendSmsFlag: Boolean!
-    ): CreatebookingResponse!
+    ): CreateBookingResponse!
 }
 
 input CreateBookingParams {

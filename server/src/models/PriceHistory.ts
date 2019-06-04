@@ -7,7 +7,7 @@ import {
     staticMethod,
     Typegoose
 } from "typegoose";
-import { BookingSchema } from "./bookingss";
+import { BookingSchema } from "./Booking";
 import { GuestSchema } from "./Guest";
 
 export class PriceHistorySchema extends Typegoose {

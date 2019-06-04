@@ -1,11 +1,11 @@
 import { Types } from "mongoose";
 import { InstanceType } from "typegoose";
-import { bookingModel, BookingSchema } from "../../../models/bookingss";
+import { bookingModel, BookingSchema } from "../../../models/Booking";
 import { GuestModel } from "../../../models/Guest";
 import { extractbooking } from "../../../models/merge/merge";
 import {
-    UpdatebookingMutationArgs,
-    UpdatebookingResponse
+    UpdateBookingMutationArgs,
+    UpdateBookingResponse
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
 import { removeUndefined } from "../../../utils/objFuncs";
@@ -13,11 +13,11 @@ import { privateResolver } from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Mutation: {
-        Updatebooking: privateResolver(
+        UpdateBooking: privateResolver(
             async (
                 __,
-                { bookingId, params }: UpdatebookingMutationArgs
-            ): Promise<UpdatebookingResponse> => {
+                { bookingId, params }: UpdateBookingMutationArgs
+            ): Promise<UpdateBookingResponse> => {
                 try {
                     let bookingInstance: InstanceType<
                         BookingSchema

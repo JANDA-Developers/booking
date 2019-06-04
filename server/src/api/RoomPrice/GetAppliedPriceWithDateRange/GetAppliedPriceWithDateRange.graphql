@@ -10,7 +10,7 @@ type Query {
         start: DateTime!
         end: DateTime!
     ): GetAppliedPriceWithDateRangeResponse!
-    GetAppliedPriceWithDateRangeForbooking(
+    GetAppliedPriceWithDateRangeForBooker(
         roomTypeId: ID!
         start: DateTime!
         end: DateTime!

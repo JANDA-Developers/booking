@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
 import { InstanceType } from "typegoose";
-import { bookingModel, BookingSchema } from "../../../models/bookingss";
+import { bookingModel, BookingSchema } from "../../../models/Booking";
 import { GuestModel, GuestSchema } from "../../../models/Guest";
 import { extractbooking } from "../../../models/merge/merge";
 import {
@@ -9,8 +9,8 @@ import {
     RoomTypeSchema
 } from "../../../models/RoomType";
 import {
-    CreatebookingMutationArgs,
-    CreatebookingResponse,
+    CreateBookingMutationArgs,
+    CreateBookingResponse,
     Gender,
     RoomCapacity
 } from "../../../types/graph";
@@ -28,20 +28,20 @@ import {
 
 const resolvers: Resolvers = {
     Mutation: {
-        Createbooking: privateResolver(
+        CreateBooking: privateResolver(
             async (
                 __,
-                params: CreatebookingMutationArgs
-            ): Promise<CreatebookingResponse> => {
+                params: CreateBookingMutationArgs
+            ): Promise<CreateBookingResponse> => {
                 return await createbooking(params);
             }
         ),
-        CreatebookingForbooking: privateResolverForPublicAccess(
+        CreateBookingForBooker: privateResolverForPublicAccess(
             async (
                 __,
-                params: CreatebookingMutationArgs,
+                params: CreateBookingMutationArgs,
                 ctx: Context
-            ): Promise<CreatebookingResponse> => {
+            ): Promise<CreateBookingResponse> => {
                 return await createbooking(params, ctx);
             }
         )
@@ -51,9 +51,9 @@ const resolvers: Resolvers = {
 export default resolvers;
 
 const createbooking = async (
-    { bookingParams, sendSmsFlag }: CreatebookingMutationArgs,
+    { bookingParams, sendSmsFlag }: CreateBookingMutationArgs,
     ctx?
-): Promise<CreatebookingResponse> => {
+): Promise<CreateBookingResponse> => {
     const { start, end } = {
         start: new Date(bookingParams.start),
         end: new Date(bookingParams.end)

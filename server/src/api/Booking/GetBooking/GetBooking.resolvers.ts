@@ -1,16 +1,16 @@
-import { bookingModel } from "../../../models/bookingss";
+import { bookingModel } from "../../../models/Booking";
 import { extractbooking } from "../../../models/merge/merge";
-import { GetbookingQueryArgs, GetbookingResponse } from "../../../types/graph";
+import { GetBookingQueryArgs, GetBookingResponse } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
 import { privateResolver } from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Query: {
-        Getbooking: privateResolver(
+        GetBooking: privateResolver(
             async (
                 _,
-                { bookingId }: GetbookingQueryArgs
-            ): Promise<GetbookingResponse> => {
+                { bookingId }: GetBookingQueryArgs
+            ): Promise<GetBookingResponse> => {
                 try {
                     const existingbooking = await bookingModel.findById(
                         bookingId

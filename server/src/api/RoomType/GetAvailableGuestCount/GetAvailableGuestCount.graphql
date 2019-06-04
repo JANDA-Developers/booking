@@ -11,7 +11,7 @@ type Query {
         gender: Gender!
         paddingOtherGenderCount: Int!
     ): GetAvailableGuestCountResponse!
-    GetAvailableGuestCountForbooking(
+    GetAvailableGuestCountForBooker(
         roomTypeId: ID!
         start: DateTime!
         end: DateTime!

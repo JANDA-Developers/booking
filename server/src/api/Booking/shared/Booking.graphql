@@ -1,4 +1,4 @@
-type booking {
+type Booking {
     _id: ID!
     house: House!
     roomTypes: [RoomType!]
