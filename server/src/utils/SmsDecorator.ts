@@ -6,7 +6,7 @@ export enum SmsReplaceKeyEnum {
     STAYDATE = "%STAYDATE%",
     STAYDATE_YMD = "$STAYDATE_YMD%",
     ROOMTYPE_N_COUNT = "%ROOMTYPE_N_COUNT%",
-    bookingNAME = "%bookingNAME%",
+    BOOKERNAME = "%BOOKERNAME%",
     TOTALPRICE = "%TOTALPRICE%",
     PAYMETHOD = "%PAYMETHOD%",
     PAYMENTSTATUS = "%PAYMENTSTATUS%"
@@ -39,7 +39,7 @@ export const getFormattedAutoSendMessage = (
     values: SmsReplacementValues
 ): string => {
     return new SmsTemplateDecorator(msg)
-        .replace(SmsReplaceKeyEnum.bookingNAME, values.bookingNAME)
+        .replace(SmsReplaceKeyEnum.BOOKERNAME, values.BOOKERNAME)
         .replace(SmsReplaceKeyEnum.ROOMTYPE_N_COUNT, values.ROOMTYPE_N_COUNT)
         .replace(SmsReplaceKeyEnum.STAYDATE, values.STAYDATE)
         .replace(SmsReplaceKeyEnum.STAYDATE_YMD, values.STAYDATE_YMD)
