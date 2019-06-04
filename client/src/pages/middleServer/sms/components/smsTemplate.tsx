@@ -63,7 +63,9 @@ const SmsTemplate: React.SFC<IProps> = ({
   const [messageValue, setMessage] = useState(
     smsMsgParser(templateData.smsFormat, KR_SMS_PARSER)
   );
-  const enableHook = useSwitch(false);
+  const enableHook = useSwitch(
+    templateData.smsSendCase ? templateData.smsSendCase.enable : false
+  );
   const autoSendHook = useSelect<AutoSendWhen | null>({
     value: templateData.smsSendCase ? templateData.smsSendCase.when : null,
     label: templateData.smsSendCase
