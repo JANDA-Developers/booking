@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { BookerModel } from "../../../models/Booker";
+import { bookingModel } from "../../../models/bookingss";
 import {
     UpdateDateRangeMutationArgs,
     UpdateDateRangeResponse
@@ -15,28 +15,30 @@ const resolvers: Resolvers = {
                 { bookingId, dateRange }: UpdateDateRangeMutationArgs
             ): Promise<UpdateDateRangeResponse> => {
                 try {
-                    const bookerInstance = await BookerModel.findById(
+                    const bookingInstance = await bookingModel.findById(
                         bookingId
                     );
-                    if (!bookerInstance) {
+                    if (!bookingInstance) {
                         return {
                             ok: false,
-                            error: "존재하지 않는 BookerId",
-                            booker: null
+                            error: "존재하지 않는 bookingId",
+                            booking: null
                         };
                     }
-                    const bookerObjId = new Types.ObjectId(bookerInstance._id);
+                    const bookingObjId = new Types.ObjectId(
+                        bookingInstance._id
+                    );
                     const { start, end } = dateRange;
                     console.log({
                         start,
                         end,
-                        bookerObjId
+                        bookingObjId
                     });
 
                     // const updateTargetGuest =
 
                     return {
-                        booker: null,
+                        booking: null,
                         error: "",
                         ok: false
                     };
@@ -44,7 +46,7 @@ const resolvers: Resolvers = {
                     return {
                         ok: false,
                         error: error.message,
-                        booker: null
+                        booking: null
                     };
                 }
             }

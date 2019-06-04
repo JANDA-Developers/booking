@@ -21,7 +21,7 @@ export type ResReturnType = {
 };
 
 export type GuestInputType = {
-    booker: Types.ObjectId;
+    booking: Types.ObjectId;
     booking: Types.ObjectId;
     house: Types.ObjectId;
     roomType: Types.ObjectId;

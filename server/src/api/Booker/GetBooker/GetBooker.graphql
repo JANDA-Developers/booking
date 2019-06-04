@@ -1,8 +1,0 @@
-type GetBookerResponse {
-    ok: Boolean!
-    error: String
-    booker: Booker
-}
-type Query {
-    GetBooker(bookerId: ID!): GetBookerResponse!
-}

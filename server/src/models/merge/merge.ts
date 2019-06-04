@@ -2,7 +2,7 @@ import { Types } from "mongoose";
 import { InstanceType } from "typegoose";
 import {
     Block,
-    Booker,
+    booking,
     Guest,
     HostApplication,
     House,
@@ -19,7 +19,7 @@ import {
 } from "../../types/graph";
 import { applyDaysToBinaryString } from "../../utils/applyDays";
 import { BlockSchema } from "../Block";
-import { BookerModel, BookerSchema } from "../Booker";
+import { bookingModel, BookingSchema } from "../bookingss";
 import { GuestModel, GuestSchema } from "../Guest";
 import {
     HostApplicationModel,
@@ -186,7 +186,7 @@ export const extractRoomTypeWithCapacity = async (
     start: Date,
     end: Date,
     includeSettled?: boolean | undefined,
-    exceptBookerIds?: Types.ObjectId[]
+    exceptbookingIds?: Types.ObjectId[]
 ): Promise<RoomTypeWithCapacity> => {
     return {
         roomType: extractRoomType.bind(extractRoomType, roomType),
@@ -196,7 +196,7 @@ export const extractRoomTypeWithCapacity = async (
             start,
             end,
             includeSettled,
-            exceptBookerIds
+            exceptbookingIds
         )
     };
 };
@@ -206,13 +206,13 @@ export const extractRoomTypeCapacity = async (
     start: Date,
     end: Date,
     includeSettled?: boolean | undefined,
-    exceptBookerIds?: Types.ObjectId[]
+    exceptbookingIds?: Types.ObjectId[]
 ) => {
     return await roomType.getCapacity(
         start,
         end,
         includeSettled,
-        exceptBookerIds
+        exceptbookingIds
     );
 };
 
@@ -502,11 +502,11 @@ export const extractRoomPrices = async (
     );
 };
 
-export const extractBooker = async (
-    booker: InstanceType<BookerSchema>
-): Promise<Booker> => {
+export const extractbooking = async (
+    bookingInstance: InstanceType<BookingSchema>
+): Promise<booking> => {
     const result: any = {
-        ...booker
+        ...bookingInstance
     };
     console.log({
         result
@@ -514,22 +514,25 @@ export const extractBooker = async (
 
     return {
         ...result._doc,
-        _id: booker._id,
+        _id: bookingInstance._id,
         roomTypes: await transformRoomTypes.bind(
             transformRoomTypes,
-            booker.roomTypes
+            bookingInstance.roomTypes
         ),
-        house: await transformHouse.bind(transformHouse, booker.house),
-        guests: await transformGuests.bind(transformGuests, booker.guests)
+        house: await transformHouse.bind(transformHouse, bookingInstance.house),
+        guests: await transformGuests.bind(
+            transformGuests,
+            bookingInstance.guests
+        )
     };
 };
 
-export const transformBooker = async (
-    bookerId: string | Types.ObjectId
-): Promise<Booker | null> => {
-    const booker = await BookerModel.findById(bookerId);
-    if (booker) {
-        return await extractBooker(booker);
+export const transformbooking = async (
+    bookingId: string | Types.ObjectId
+): Promise<booking | null> => {
+    const bookingInstance = await bookingModel.findById(bookingId);
+    if (bookingInstance) {
+        return await extractbooking(bookingInstance);
     } else {
         return null;
     }
@@ -544,7 +547,10 @@ export const extractGuest = async (
     return {
         ...temp._doc,
         _id: guest._id,
-        booker: await transformBooker.bind(transformBooker, temp._doc.booker),
+        booking: await transformbooking.bind(
+            transformbooking,
+            temp._doc.booking
+        ),
         house: await transformHouse.bind(transformHouse, temp._doc.house),
         roomType: await transformRoomType.bind(
             transformRoomType,
@@ -617,13 +623,13 @@ export const extractBlocks = async (
     );
 };
 
-export const extractBookers = async (
-    bookers: Array<InstanceType<BookerSchema>>
-): Promise<Booker[]> => {
+export const extractbookings = async (
+    bookings: Array<InstanceType<BookingSchema>>
+): Promise<booking[]> => {
     return await Promise.all(
-        bookers.map(
-            async (booker): Promise<Booker> => {
-                return await extractBooker(booker);
+        bookings.map(
+            async (bookingInstance): Promise<booking> => {
+                return await extractbooking(bookingInstance);
             }
         )
     );

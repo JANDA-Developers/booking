@@ -9,7 +9,7 @@ const resolvers: Resolvers = {
         CreateGuests: async (
             _,
             {
-                bookerId,
+                bookingId,
                 end,
                 houseId,
                 roomTypeId,

@@ -1,0 +1,22 @@
+type CreatebookingResponse {
+    ok: Boolean!
+    error: String
+    booking: booking
+}
+type Mutation {
+    Createbooking(
+        bookingParams: CreateBookingParams!
+        sendSmsFlag: Boolean!
+    ): CreatebookingResponse!
+    CreatebookingForbooking(
+        bookingParams: CreateBookingParams!
+        sendSmsFlag: Boolean!
+    ): CreatebookingResponse!
+}
+
+input CreateBookingParams {
+    bookerParams: BookerInput!
+    start: DateTime!
+    end: DateTime!
+    guestInputs: [GuestPartInput!]!
+}

@@ -1,0 +1,8 @@
+type GetbookingResponse {
+    ok: Boolean!
+    error: String
+    booking: booking
+}
+type Query {
+    Getbooking(bookingId: ID!): GetbookingResponse!
+}

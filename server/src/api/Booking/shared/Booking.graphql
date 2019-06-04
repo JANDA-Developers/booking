@@ -1,4 +1,4 @@
-type Booker {
+type booking {
     _id: ID!
     house: House!
     roomTypes: [RoomType!]
@@ -76,7 +76,7 @@ input BookingSortInput {
 
 input BookingFilter {
     roomTypeId: ID!
-    booker: ID!
+    booking: ID!
 }
 
 enum BookingSortKeyEnum {

@@ -1,16 +1,16 @@
 import { Types } from "mongoose";
 import { InstanceType } from "typegoose";
-import { BookerModel, BookerSchema } from "../../../models/Booker";
+import { bookingModel, BookingSchema } from "../../../models/bookingss";
 import { GuestModel, GuestSchema } from "../../../models/Guest";
-import { extractBooker } from "../../../models/merge/merge";
+import { extractbooking } from "../../../models/merge/merge";
 import {
     convertGenderArrToGuestGender,
     RoomTypeModel,
     RoomTypeSchema
 } from "../../../models/RoomType";
 import {
-    CreateBookerMutationArgs,
-    CreateBookerResponse,
+    CreatebookingMutationArgs,
+    CreatebookingResponse,
     Gender,
     RoomCapacity
 } from "../../../types/graph";
@@ -28,21 +28,21 @@ import {
 
 const resolvers: Resolvers = {
     Mutation: {
-        CreateBooker: privateResolver(
+        Createbooking: privateResolver(
             async (
                 __,
-                params: CreateBookerMutationArgs
-            ): Promise<CreateBookerResponse> => {
-                return await createBooker(params);
+                params: CreatebookingMutationArgs
+            ): Promise<CreatebookingResponse> => {
+                return await createbooking(params);
             }
         ),
-        CreateBookerForBooker: privateResolverForPublicAccess(
+        CreatebookingForbooking: privateResolverForPublicAccess(
             async (
                 __,
-                params: CreateBookerMutationArgs,
+                params: CreatebookingMutationArgs,
                 ctx: Context
-            ): Promise<CreateBookerResponse> => {
-                return await createBooker(params, ctx);
+            ): Promise<CreatebookingResponse> => {
+                return await createbooking(params, ctx);
             }
         )
     }
@@ -50,10 +50,10 @@ const resolvers: Resolvers = {
 
 export default resolvers;
 
-const createBooker = async (
-    { bookingParams, sendSmsFlag }: CreateBookerMutationArgs,
+const createbooking = async (
+    { bookingParams, sendSmsFlag }: CreatebookingMutationArgs,
     ctx?
-): Promise<CreateBookerResponse> => {
+): Promise<CreatebookingResponse> => {
     const { start, end } = {
         start: new Date(bookingParams.start),
         end: new Date(bookingParams.end)
@@ -68,20 +68,20 @@ const createBooker = async (
         return {
             ok: false,
             error: "House 정보 에러",
-            booker: null
+            booking: null
         };
     }
     try {
-        // 1. booker prototype 생성
+        // 1. booking prototype 생성
         // 2. guestInputs 돌면서... roomType 별로 게스트 생성.
-        const bookerInstance = new BookerModel({
-            ...bookerParams,
+        const bookingInstance = new bookingModel({
+            ...bookingParams,
             start,
             end,
             house: new Types.ObjectId(houseId)
         });
-        await bookerInstance.hashPassword();
-        bookerInstance.guests = [];
+        await bookingInstance.hashPassword();
+        bookingInstance.guests = [];
         let flag = true;
         const guests: Array<InstanceType<GuestSchema>> = [];
         await asyncForEach(
@@ -146,8 +146,8 @@ const createBooker = async (
                 };
                 const femaleGuest = _.flatMap(
                     sortedCapacity.map(capacity => {
-                        return createGuestWithBookerAndAllocateHere(
-                            bookerInstance,
+                        return createGuestWithbookingAndAllocateHere(
+                            bookingInstance,
                             female,
                             roomTypeInstance,
                             capacity
@@ -156,8 +156,8 @@ const createBooker = async (
                 );
                 const maleGuest = _.flatMap(
                     sortedCapacity.map(capacity => {
-                        return createGuestWithBookerAndAllocateHere(
-                            bookerInstance,
+                        return createGuestWithbookingAndAllocateHere(
+                            bookingInstance,
                             male,
                             roomTypeInstance,
                             capacity
@@ -167,8 +167,8 @@ const createBooker = async (
 
                 const roomGuest = _.flatMap(
                     sortedCapacity.map(capacity => {
-                        return createGuestWithBookerAndAllocateHere(
-                            bookerInstance,
+                        return createGuestWithbookingAndAllocateHere(
+                            bookingInstance,
                             room,
                             roomTypeInstance,
                             capacity
@@ -183,10 +183,10 @@ const createBooker = async (
                 // });
             }
         );
-        bookerInstance.guests = guests.map(
+        bookingInstance.guests = guests.map(
             guest => new Types.ObjectId(guest._id)
         );
-        bookerInstance.roomTypes = [
+        bookingInstance.roomTypes = [
             ..._.uniq(guests.map(guest => guest.roomType))
         ];
 
@@ -195,37 +195,37 @@ const createBooker = async (
             return {
                 ok: false,
                 error: "인원 에러",
-                booker: null
+                booking: null
             };
         }
-        await bookerInstance.save();
+        await bookingInstance.save();
 
         // TODO: 여기서 SMS 보내긔!!
 
         return {
             ok: true,
             error: null,
-            booker: await extractBooker(bookerInstance)
+            booking: await extractbooking(bookingInstance)
         };
     } catch (error) {
         return {
             ok: false,
             error: error.message,
-            booker: null
+            booking: null
         };
     }
 };
 
 // --------------------------------------------------------------------------------------------------------------------------------------
 
-const createGuestWithBookerAndAllocateHere = (
-    bookerInstance: InstanceType<BookerSchema>,
+const createGuestWithbookingAndAllocateHere = (
+    bookingInstance: InstanceType<BookingSchema>,
     genderData: { gender: Gender | null; count: number },
     roomTypeInstance: InstanceType<RoomTypeSchema>,
     roomCapacity: RoomCapacity,
     isUnsettled: boolean = false
 ): Array<InstanceType<GuestSchema>> => {
-    const dateRange: { start: Date; end: Date } = bookerInstance;
+    const dateRange: { start: Date; end: Date } = bookingInstance;
     // 1. 현재 이방 예약 가능한지 확인...
     const bedCount = roomCapacity.emptyBeds.length;
     if (bedCount === 0 || roomCapacity.availableCount <= 0) {
@@ -247,9 +247,9 @@ const createGuestWithBookerAndAllocateHere = (
     while (roomCapacity.availableCount > 0 && genderData.count > 0) {
         const guest = new GuestModel(
             removeUndefined({
-                house: new Types.ObjectId(bookerInstance.house),
-                booker: new Types.ObjectId(bookerInstance._id),
-                name: bookerInstance.name,
+                house: new Types.ObjectId(bookingInstance.house),
+                booking: new Types.ObjectId(bookingInstance._id),
+                name: bookingInstance.name,
                 roomType: new Types.ObjectId(roomTypeInstance._id),
                 pricingType: roomTypeInstance.pricingType,
                 gender: genderData.gender,

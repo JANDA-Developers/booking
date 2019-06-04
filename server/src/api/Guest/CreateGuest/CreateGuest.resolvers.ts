@@ -12,7 +12,7 @@ const resolvers: Resolvers = {
         CreateGuest: async (
             _,
             {
-                bookerId,
+                bookingId,
                 houseId,
                 roomId,
                 roomTypeId,
@@ -21,7 +21,7 @@ const resolvers: Resolvers = {
         ): Promise<CreateGuestResponse> => {
             try {
                 const guest = new GuestModel({
-                    booker: new ObjectId(bookerId),
+                    booking: new ObjectId(bookingId),
                     house: new ObjectId(houseId),
                     roomType: new ObjectId(roomTypeId),
                     ...args

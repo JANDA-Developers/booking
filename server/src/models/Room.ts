@@ -128,11 +128,11 @@ export class RoomSchema extends Typegoose {
         this: InstanceType<RoomSchema>,
         dateRange: { start: Date; end: Date },
         includeSettled?: boolean,
-        exceptBookerIds?: Types.ObjectId[]
+        exceptbookingIds?: Types.ObjectId[]
     ): Promise<RoomCapacity> {
         const allocatedGuests = await this.getAllocatedGuests(
             dateRange,
-            exceptBookerIds
+            exceptbookingIds
         );
         const block = await this.getBlockedBeds(dateRange.start, dateRange.end);
         const availableGenders = this.allocatableGenderPrivate(allocatedGuests);
@@ -156,13 +156,13 @@ export class RoomSchema extends Typegoose {
      * 배정되어있는 게스트 구하기.
      * @param start
      * @param end
-     * @param exceptBookerId 입력되면 해당 booker의 예약으로 들어있는 Guest는 제외하고 계산함.
+     * @param exceptbookingId 입력되면 해당 booking의 예약으로 들어있는 Guest는 제외하고 계산함.
      */
     @instanceMethod
     async getAllocatedGuests(
         this: InstanceType<RoomSchema>,
         dateRange: { start: Date; end: Date },
-        exceptBookerIds: Types.ObjectId[] = []
+        exceptbookingIds: Types.ObjectId[] = []
     ): Promise<Array<InstanceType<GuestSchema>>> {
         // 1. 게스트 컬렉션에서 배정된 게스트 목록 가져오기
         const query: any = {
@@ -176,9 +176,9 @@ export class RoomSchema extends Typegoose {
             bookingStatus: BookingStatusEnum.COMPLETE,
             guestType: GuestTypeEnum.GUEST
         };
-        if (exceptBookerIds.length !== 0) {
-            query.booker = {
-                $nin: exceptBookerIds
+        if (exceptbookingIds.length !== 0) {
+            query.booking = {
+                $nin: exceptbookingIds
             };
         }
         return await GuestModel.find(query);
@@ -189,11 +189,11 @@ export class RoomSchema extends Typegoose {
         this: InstanceType<RoomSchema>,
         start: Date,
         end: Date,
-        ignoreBookers: Types.ObjectId[]
+        ignorebookings: Types.ObjectId[]
     ): Promise<Gender[]> {
         // TODO
         return this.allocatableGenderPrivate(
-            await this.getAllocatedGuests({ start, end }, ignoreBookers)
+            await this.getAllocatedGuests({ start, end }, ignorebookings)
         );
     }
 
@@ -202,7 +202,7 @@ export class RoomSchema extends Typegoose {
      * @param guests 게스트 목록
      * @param dateRange
      * @param validateRoomGuestCount
-     * @param exceptBookers
+     * @param exceptbookings
      */
     @instanceMethod
     async isAbleToAllocate(
@@ -213,11 +213,11 @@ export class RoomSchema extends Typegoose {
         }>,
         dateRange: { start: Date; end: Date },
         validateRoomGuestCount: boolean = false,
-        exceptBookers: Types.ObjectId[] = []
+        exceptbookings: Types.ObjectId[] = []
     ): Promise<boolean> {
         const allocatedGuests = await this.getAllocatedGuests(
             dateRange,
-            exceptBookers
+            exceptbookings
         );
         if (allocatedGuests.length === 0) {
             return true;

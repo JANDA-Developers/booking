@@ -24,7 +24,7 @@ const resolvers: Resolvers = {
                         _id: { $in: guestObjectIds }
                     });
                     asyncForEach(guestInstances, async guestInstance => {
-                        await guestInstance.unlinkWithBooker();
+                        await guestInstance.unlinkWithbooking();
                     });
                     await GuestModel.remove({
                         _id: {

@@ -19,11 +19,11 @@ import { RoomTypeSchema } from "./RoomType";
 const BCRYPT_ROUNDS = 10;
 /**
  * User와 다른 스키마임.
- * Booker는 숙소 웹사이트로부터 들어오는 '비회원'예약을 위한 스키마.
+ * booking는 숙소 웹사이트로부터 들어오는 '비회원'예약을 위한 스키마.
  * 회원이 아님. 그냥 예약자들 목록임
  */
-@pre<BookerSchema>("save", function(
-    this: InstanceType<BookerSchema>,
+@pre<BookingSchema>("save", function(
+    this: InstanceType<BookingSchema>,
     next: HookNextFunction
 ) {
     if (this.guests) {
@@ -31,8 +31,8 @@ const BCRYPT_ROUNDS = 10;
     }
     next();
 })
-@pre<BookerSchema>("update", function(
-    this: InstanceType<BookerSchema>,
+@pre<BookingSchema>("update", function(
+    this: InstanceType<BookingSchema>,
     next: HookNextFunction
 ) {
     if (this.guests) {
@@ -40,7 +40,7 @@ const BCRYPT_ROUNDS = 10;
     }
     next();
 })
-export class BookerSchema extends Typegoose {
+export class BookingSchema extends Typegoose {
     @prop({ required: true })
     house: Types.ObjectId;
 
@@ -73,7 +73,7 @@ export class BookerSchema extends Typegoose {
     memo?: string;
 
     @prop({
-        validate(this: BookerSchema) {
+        validate(this: BookingSchema) {
             return this.agreePrivacyPolicy;
         },
         default: false
@@ -84,7 +84,7 @@ export class BookerSchema extends Typegoose {
     guests: Types.ObjectId[];
 
     @prop({
-        default(this: InstanceType<BookerSchema>) {
+        default(this: InstanceType<BookingSchema>) {
             return this.guests.length;
         }
     })
@@ -124,7 +124,7 @@ export class BookerSchema extends Typegoose {
 
     @instanceMethod
     public async comparePassword(
-        this: InstanceType<BookerSchema>,
+        this: InstanceType<BookingSchema>,
         password: string
     ): Promise<boolean> {
         if (this.password) {
@@ -135,14 +135,14 @@ export class BookerSchema extends Typegoose {
     }
 
     @instanceMethod
-    public async hashPassword(this: InstanceType<BookerSchema>): Promise<void> {
+    public async hashPassword(this: InstanceType<BookingSchema>): Promise<void> {
         if (this.password) {
             this.password = await bcrypt.hash(this.password, BCRYPT_ROUNDS);
         }
     }
 
     /**
-     * booker와 연동할 게스트 생성
+     * booking와 연동할 게스트 생성
      * @param dateRange
      * @param gender
      * @param roomTypeInstance
@@ -152,7 +152,7 @@ export class BookerSchema extends Typegoose {
      */
     @instanceMethod
     createGuest(
-        this: InstanceType<BookerSchema>,
+        this: InstanceType<BookingSchema>,
         dateRange: { start: Date; end: Date },
         gender: GenderEnum,
         roomTypeInstance: InstanceType<RoomTypeSchema>,
@@ -163,7 +163,7 @@ export class BookerSchema extends Typegoose {
         const { start, end } = dateRange;
         const guestInstance = new GuestModel({
             house: new Types.ObjectId(this.house),
-            booker: new Types.ObjectId(this._id),
+            booking: new Types.ObjectId(this._id),
             name: this.name,
             roomType: new Types.ObjectId(roomTypeInstance._id),
             pricingType: roomTypeInstance.pricingType,
@@ -178,12 +178,12 @@ export class BookerSchema extends Typegoose {
     }
 
     /**
-     * Booker.guests 배열에 게스트들을 push함
+     * booking.guests 배열에 게스트들을 push함
      * @param guestInstances 연결할 게스트 인스턴스 목록
      */
     @instanceMethod
     async pushGuests(
-        this: InstanceType<BookerSchema>,
+        this: InstanceType<BookingSchema>,
         guestInstances: Array<InstanceType<GuestSchema>>
     ) {
         this.guests = [
@@ -196,7 +196,7 @@ export class BookerSchema extends Typegoose {
     }
 
     @instanceMethod
-    async deleteThis(this: InstanceType<BookerSchema>) {
+    async deleteThis(this: InstanceType<BookingSchema>) {
         await GuestModel.remove({
             _id: { $in: this.guests }
         });
@@ -204,9 +204,9 @@ export class BookerSchema extends Typegoose {
     }
 }
 
-export const BookerModel = new BookerSchema().getModelForClass(BookerSchema, {
+export const bookingModel = new BookingSchema().getModelForClass(BookingSchema, {
     schemaOptions: {
         timestamps: true,
-        collection: "Bookers"
+        collection: "bookings"
     }
 });

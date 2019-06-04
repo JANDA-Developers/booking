@@ -1,18 +1,21 @@
 import { Types } from "mongoose";
-import { BookerModel } from "../../../models/Booker";
-import { extractBookers } from "../../../models/merge/merge";
-import { GetBookersQueryArgs, GetBookersResponse } from "../../../types/graph";
+import { bookingModel } from "../../../models/bookingss";
+import { extractbookings } from "../../../models/merge/merge";
+import {
+    GetbookingsQueryArgs,
+    GetbookingsResponse
+} from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
 import { removeUndefined } from "../../../utils/objFuncs";
 import { privateResolver } from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Query: {
-        GetBookers: privateResolver(
+        Getbookings: privateResolver(
             async (
                 _,
-                { houseId, count, page, filter }: GetBookersQueryArgs
-            ): Promise<GetBookersResponse> => {
+                { houseId, count, page, filter }: GetbookingsQueryArgs
+            ): Promise<GetbookingsResponse> => {
                 try {
                     const p = page || 1;
                     const c = count || 1;
@@ -45,22 +48,21 @@ const resolvers: Resolvers = {
 
                     console.log(filterQuery);
 
-                    const bookers = await BookerModel.find(
-                        removeUndefined(filterQuery)
-                    )
+                    const bookings = await bookingModel
+                        .find(removeUndefined(filterQuery))
                         .skip((p - 1) * c)
                         .limit(c);
 
                     const totalPage = Math.ceil(
-                        (await BookerModel.countDocuments()) / c
+                        (await bookingModel.countDocuments()) / c
                     );
                     // 필터 추가 ㄱㄱ
                     return {
                         ok: true,
                         error: null,
-                        bookers: await extractBookers.bind(
-                            extractBookers,
-                            bookers
+                        bookings: await extractbookings.bind(
+                            extractbookings,
+                            bookings
                         ),
                         pageInfo: {
                             currentPage: p,
@@ -72,7 +74,7 @@ const resolvers: Resolvers = {
                     return {
                         ok: false,
                         error: error.message,
-                        bookers: [],
+                        bookings: [],
                         pageInfo: null
                     };
                 }

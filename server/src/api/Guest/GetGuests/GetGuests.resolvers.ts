@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { BookerModel } from "../../../models/Booker";
+import { bookingModel } from "../../../models/bookingss";
 import { HouseModel } from "../../../models/House";
 import { transformGuests } from "../../../models/merge/merge";
 import { GetGuestsQueryArgs, GetGuestsResponse } from "../../../types/graph";
@@ -23,7 +23,7 @@ const resolvers: Resolvers = {
                             guests: []
                         };
                     }
-                    const bookers = await BookerModel.find(
+                    const bookings = await bookingModel.find(
                         removeUndefined({
                             house: new Types.ObjectId(houseId),
                             start: {
@@ -35,16 +35,16 @@ const resolvers: Resolvers = {
                             bookingStatus: bookingStatus || undefined
                         })
                     );
-                    if (bookers.length === 0) {
+                    if (bookings.length === 0) {
                         return {
                             ok: true,
                             error: null,
                             guests: []
                         };
                     }
-                    const guestIds = bookers
-                        .map(booker => {
-                            return booker.guests;
+                    const guestIds = bookings
+                        .map(booking => {
+                            return booking.guests;
                         })
                         .reduce((guestIds1, guestIds2) =>
                             guestIds1.concat(guestIds2)

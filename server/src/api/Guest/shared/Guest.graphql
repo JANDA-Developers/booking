@@ -8,7 +8,7 @@ type Guest {
     isUnsettled: Boolean!
     # 배드 단위로 계산한다. 배정 확정인 경우에는 이 필드값의 IsSettleable.flag === true
     isSettleable: IsSettleable!
-    booker: Booker!
+    booking: booking!
     name: Name
     start: DateTime!
     end: DateTime!
@@ -56,7 +56,7 @@ type IsSettleable {
 
 input GuestInput {
     houseId: ID!
-    bookerId: ID!
+    bookingId: ID!
     roomTypeId: ID!
     roomId: ID
     start: DateTime!
@@ -67,7 +67,7 @@ input GuestInput {
 
 input GuestsInput {
     houseId: ID!
-    bookerId: ID!
+    bookingId: ID!
     roomTypeId: ID!
     start: DateTime!
     end: DateTime!

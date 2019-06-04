@@ -2,13 +2,13 @@ import { Context } from "graphql-yoga/dist/types";
 import * as _ from "lodash";
 import { Types } from "mongoose";
 import { InstanceType } from "typegoose";
-import { BookerModel, BookerSchema } from "../../../models/Booker";
+import { bookingModel, BookingSchema } from "../../../models/bookingss";
 import { HouseSchema } from "../../../models/House";
-import { extractBookers } from "../../../models/merge/merge";
+import { extractbookings } from "../../../models/merge/merge";
 import {
-    FindBookerForBookerQueryArgs,
-    FindBookerQueryArgs,
-    FindBookerResponse
+    FindbookingForbookingQueryArgs,
+    FindbookingQueryArgs,
+    FindbookingResponse
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
 import { asyncForEach } from "../../../utils/etc";
@@ -19,22 +19,22 @@ import {
 
 const resolvers: Resolvers = {
     Query: {
-        FindBooker: privateResolver(
+        Findbooking: privateResolver(
             async (
                 __,
-                params: FindBookerQueryArgs
-            ): Promise<FindBookerResponse> => {
-                return findBooker(params);
+                params: FindbookingQueryArgs
+            ): Promise<FindbookingResponse> => {
+                return findbooking(params);
             }
         ),
-        FindBookerForBooker: privateResolverForPublicAccess(
+        FindbookingForbooking: privateResolverForPublicAccess(
             async (
                 __,
-                params: FindBookerForBookerQueryArgs,
+                params: FindbookingForbookingQueryArgs,
                 ctx: Context
-            ): Promise<FindBookerResponse> => {
+            ): Promise<FindbookingResponse> => {
                 const { house }: { house: InstanceType<HouseSchema> } = ctx.req;
-                return findBooker({ ...params, houseId: house._id });
+                return findbooking({ ...params, houseId: house._id });
             }
         )
     }
@@ -42,41 +42,41 @@ const resolvers: Resolvers = {
 
 export default resolvers;
 
-const findBooker = async ({
+const findbooking = async ({
     houseId,
     name,
     password,
     phoneNumber
-}: FindBookerQueryArgs) => {
+}: FindbookingQueryArgs) => {
     try {
-        const bookers = await BookerModel.find({
+        const bookings = await bookingModel.find({
             name,
             phoneNumber,
             house: houseId && new Types.ObjectId(houseId)
         });
-        if (!bookers.length) {
+        if (!bookings.length) {
             return {
                 ok: false,
-                error: "존재하지 않는 BookerId 입니다",
-                bookers: []
+                error: "존재하지 않는 bookingId 입니다",
+                bookings: []
             };
         }
-        const realBooker: Array<InstanceType<BookerSchema>> = [];
-        await asyncForEach(bookers, async booker => {
-            if (await booker.comparePassword(password)) {
-                realBooker.push(booker);
+        const realbooking: Array<InstanceType<BookingSchema>> = [];
+        await asyncForEach(bookings, async booking => {
+            if (await booking.comparePassword(password)) {
+                realbooking.push(booking);
             }
         });
         return {
             ok: true,
             error: null,
-            bookers: await extractBookers.bind(extractBookers, realBooker)
+            bookings: await extractbookings.bind(extractbookings, realbooking)
         };
     } catch (error) {
         return {
             ok: false,
             error: error.message,
-            bookers: []
+            bookings: []
         };
     }
 };

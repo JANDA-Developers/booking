@@ -1,16 +1,16 @@
-type UpdateBookerResponse {
+type UpdatebookingResponse {
     ok: Boolean!
     error: String
-    booker: Booker
+    booking: booking
 }
 type Mutation {
-    UpdateBooker(
-        bookerId: ID!
-        params: UpdateBookerMutationParamsInput!
-    ): UpdateBookerResponse!
+    Updatebooking(
+        bookingId: ID!
+        params: UpdatebookingMutationParamsInput!
+    ): UpdatebookingResponse!
 }
 
-input UpdateBookerMutationParamsInput {
+input UpdatebookingMutationParamsInput {
     name: Name
     phoneNumber: PhoneNumber
     email: EmailAddress
