@@ -226,6 +226,7 @@ export function getAssigUtils(
             guestIds: [guestId]
           }
         });
+        deleteItemById(guestId);
       }
     };
     confirmDelteGuestHook.openModal({

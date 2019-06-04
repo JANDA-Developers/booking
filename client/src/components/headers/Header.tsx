@@ -63,7 +63,7 @@ const Header: React.FC<IProps> = ({
         </CircleIcon>
       </span>
       {/* 게스트 서치용 */}
-      <GuestSearchInputWrap />
+      <GuestSearchInputWrap houseId={selectedHouse._id} />
       {isLoggedIn ? (
         <Fragment>
           <span

@@ -4812,6 +4812,36 @@
               "ofType": null
             },
             "defaultValue": null
+          },
+          {
+            "name": "phoneNumnber",
+            "description": "",
+            "type": {
+              "kind": "SCALAR",
+              "name": "PhoneNumber",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "stayDate",
+            "description": "",
+            "type": {
+              "kind": "SCALAR",
+              "name": "DateTime",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "createdAt",
+            "description": "",
+            "type": {
+              "kind": "SCALAR",
+              "name": "DateTime",
+              "ofType": null
+            },
+            "defaultValue": null
           }
         ],
         "interfaces": null,

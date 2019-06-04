@@ -3,7 +3,7 @@ import JDmodal from "../../atoms/modal/Modal";
 import {IUseModal, useInput} from "../../actions/hook";
 import JDbox from "../../atoms/box/JDbox";
 import JDselect, {IselectedOption} from "../../atoms/forms/selectBox/SelectBox";
-import {SELECT_DUMMY_OP} from "../../types/enum";
+import {SELECT_DUMMY_OP, KR_SMS_PARSER} from "../../types/enum";
 import Button from "../../atoms/button/Button";
 import "./sendSMSmodal.scss";
 import {MutationFn} from "react-apollo";
@@ -13,13 +13,18 @@ import {
   getSmsInfo_GetSmsInfo_smsInfo
 } from "../../types/api";
 import InputText from "../../atoms/forms/inputText/InputText";
-import {smsMsgParser, templateOpMaker} from "../../utils/smsUtils";
+import {
+  smsMsgParser,
+  templateOpMaker,
+  smsMessageFormatter
+} from "../../utils/smsUtils";
 import {IBooker} from "../../types/interface";
 import BookerInfoBox from "../../pages/outPages/components/bookerInfoBox";
 import moment from "moment";
 import {IModalSMSinfo} from "./sendSMSmodalWrap";
 import Preloader from "../../atoms/preloader/Preloader";
 import {autoComma, autoHypen} from "../../utils/utils";
+import JDLabel from "../../atoms/label/JDLabel";
 
 interface IProps {
   modalHook: IUseModal<IModalSMSinfo>;
@@ -39,7 +44,7 @@ const CreateSmsModal: React.FC<IProps> = ({
   const handleSendSmsBtnClick = () => {
     sendSmsMu({
       variables: {
-        msg: msg,
+        msg: smsMessageFormatter(msg),
         receivers: smsInfo && smsInfo.receivers,
         sender: smsInfo && smsInfo.sender
       }
@@ -72,7 +77,7 @@ const CreateSmsModal: React.FC<IProps> = ({
               PAYMENTSTATUS: `${modalHook.info.booker.paymentStatus}`,
               PAYMETHOD: `${modalHook.info.booker.payMethod}`
             })
-          : targetTemplate.smsFormat;
+          : smsMsgParser(targetTemplate.smsFormat, KR_SMS_PARSER);
 
         setMsg(msg);
       }
@@ -80,12 +85,13 @@ const CreateSmsModal: React.FC<IProps> = ({
   };
 
   return (
-    <JDmodal visibleOverflow className="sendSMSmodal" {...modalHook}>
+    <JDmodal className="sendSMSmodal" {...modalHook}>
       <h5>문자발신 {loading && <Preloader />} </h5>
       <div>
+        <JDLabel txt="발신대상" />
         {modalHook.info.receivers &&
           modalHook.info.receivers.map(receiver => (
-            <JDbox mode="border" icon="mobile" topLabel="발신대상">
+            <JDbox mode="border" icon="mobile">
               <span>{autoHypen(receiver)}</span>
             </JDbox>
           ))}

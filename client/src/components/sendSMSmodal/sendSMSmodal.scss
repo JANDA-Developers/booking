@@ -1,4 +1,10 @@
-.sendSMSmodal {
-    
+@import "../../style_config/style_config";
+
+
+.sendSMSmodal {    
     min-width: 300px;
+
+    .JDbox + .JDbox {
+        margin-top:  -$standard-margin-bottom /2;
+    }
 }

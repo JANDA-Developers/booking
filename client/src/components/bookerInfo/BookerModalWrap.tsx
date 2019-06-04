@@ -121,9 +121,7 @@ const BookerModalWrap: React.FC<IProps> = ({modalHook, houseId}) => (
         };
       }
 
-      return loading ? (
-        <Preloader size="large" />
-      ) : (
+      return (
         <AllocateGuestToRoomMu
           refetchQueries={[
             getOperationName(GET_BOOKERS) || "",
@@ -195,14 +193,17 @@ const BookerModalWrap: React.FC<IProps> = ({modalHook, houseId}) => (
                             assigInfo={modalHook.info.assigInfo}
                             type={modalHook.info.type}
                             houseId={houseId}
+                            loading={loading}
                             modalHook={modalHook}
                             createBookerMu={createBookerMu}
                             updateBookerMu={updateBookerMu}
                             deleteBookerMu={deleteBookerMu}
                             allocateGuestToRoomMu={allocateGuestToRoomMu}
-                            key={`bookerModal${modalHook.info.bookerId}${
-                              modalHook.info.type
-                            }${bookerData.start}${bookerData.end}`}
+                            key={`bookerModal${loading && "--loading"}${
+                              modalHook.info.bookerId
+                            }${modalHook.info.type}${bookerData.start}${
+                              bookerData.end
+                            }`}
                           />
                         );
                       }}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import JDmodal from "../../atoms/modal/Modal";
 import {IUseModal} from "../../actions/hook";
 import JDbox from "../../atoms/box/JDbox";
@@ -25,6 +25,7 @@ import SendSmsModal from "./sendSmsModal";
 class SendSmsMu extends Mutation<sendSms, sendSmsVariables> {}
 class SmsInfoQu extends Query<getSmsInfo, getSmsInfoVariables> {}
 
+// BOOKER
 export interface IModalSMSinfo {
   booker?: {
     name: string;
@@ -37,7 +38,7 @@ export interface IModalSMSinfo {
   };
   receivers: string[];
   createMode?: boolean;
-  sendCase?: AutoSendWhen;
+  autoSendWhen?: AutoSendWhen;
   callBackFn?(flag: boolean): any;
 }
 
@@ -62,6 +63,30 @@ const SendSMSmodalWrap: React.FC<IProps> = ({modalHook, houseId}) => {
           undefined
         );
 
+        const sendTemplateFinder = (): string => {
+          if (!smsInfo) return "";
+          if (!smsInfo.smsTemplates) return "";
+          if (!modalHook.info.autoSendWhen) return "";
+          let message = "";
+          smsInfo.smsTemplates
+            .filter(template => {
+              if (template.smsSendCase === null) return false;
+              else if (
+                template.smsSendCase.when === modalHook.info.autoSendWhen
+              )
+                return true;
+            })
+            .map(template => template.formatName)
+            .forEach(name => {
+              message += name + " ";
+            });
+          if (!message) return "";
+          if (message === " ") return "";
+          return message;
+        };
+
+        const templateMessage = sendTemplateFinder();
+
         return (
           <SendSmsMu mutation={SEND_SMS}>
             {sendSmsMu =>
@@ -80,8 +105,9 @@ const SendSMSmodalWrap: React.FC<IProps> = ({modalHook, houseId}) => {
                   loading={loading}
                   modalHook={modalHook}
                   receivers={modalHook.info.receivers}
-                  sendCase={modalHook.info.sendCase}
+                  autoSendWhen={modalHook.info.autoSendWhen}
                   callBackFn={modalHook.info.callBackFn}
+                  templateMessage={templateMessage}
                 />
               )
             }

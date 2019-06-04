@@ -97,7 +97,7 @@
         top: calc( 100% - #{$standard-margin-bottom});
 
         &--show {
-            display: block;
+            display: block!important;
         }
     }
 

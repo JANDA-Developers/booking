@@ -11,7 +11,8 @@ import {
   SendTarget,
   AutoSendWhen,
   AutoSendWhenKr,
-  SendTargetKr
+  SendTargetKr,
+  KR_SMS_PARSER
 } from "../../../../types/enum";
 import {useSelect, useInput, useSwitch} from "../../../../actions/hook";
 import InputText from "../../../../atoms/forms/inputText/InputText";
@@ -60,15 +61,7 @@ const SmsTemplate: React.SFC<IProps> = ({
   smsInfo
 }) => {
   const [messageValue, setMessage] = useState(
-    smsMsgParser(templateData.smsFormat, {
-      BOOKERNAME: SmsReplaceKeyEnumKr.BOOKERNAME,
-      ROOMTYPE_N_COUNT: SmsReplaceKeyEnumKr.ROOMTYPE_N_COUNT,
-      TOTALPRICE: SmsReplaceKeyEnumKr.TOTALPRICE,
-      STAYDATE: SmsReplaceKeyEnumKr.STAYDATE,
-      STAYDATE_YMD: SmsReplaceKeyEnumKr.STAYDATE_YMD,
-      PAYMENTSTATUS: SmsReplaceKeyEnumKr.PAYMENTSTATUS,
-      PAYMETHOD: SmsReplaceKeyEnumKr.PAYMETHOD
-    })
+    smsMsgParser(templateData.smsFormat, KR_SMS_PARSER)
   );
   const enableHook = useSwitch(false);
   const autoSendHook = useSelect<AutoSendWhen | null>({
@@ -169,7 +162,7 @@ const SmsTemplate: React.SFC<IProps> = ({
           {...sendTargetHook}
           label="발신대상"
         />
-        <Switch {...enableHook} label="활성화" />
+        <Switch {...enableHook} label="자동발신 활성화" />
       </div>
       <div>
         <Button onClick={handleCreateBtnClick} thema="primary" label="추가" />
