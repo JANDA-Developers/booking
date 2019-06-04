@@ -1,7 +1,7 @@
 type UpdateDateRangeResponse {
     ok: Boolean!
     error: String
-    booker: Booker
+    booking: Booking
 }
 type Mutation {
     UpdateDateRange(

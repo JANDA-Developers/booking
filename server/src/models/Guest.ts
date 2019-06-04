@@ -13,7 +13,7 @@ import {
     IsSettleable,
     PricingType
 } from "../types/graph";
-import { BookerModel } from "./Booker";
+import { bookingModel } from "./Booking";
 
 enum GenderEnum {
     MALE = "MALE",
@@ -29,7 +29,7 @@ export class GuestSchema extends Typegoose {
             return this.guestType === "GUEST";
         }
     })
-    booker: Types.ObjectId;
+    booking: Types.ObjectId;
 
     @prop({
         required(this: InstanceType<GuestSchema>) {
@@ -146,10 +146,10 @@ export class GuestSchema extends Typegoose {
     }
 
     @instanceMethod
-    async unlinkWithBooker(this: InstanceType<GuestSchema>) {
-        const bookerInstance = await BookerModel.updateOne(
+    async unlinkWithbooking(this: InstanceType<GuestSchema>) {
+        const bookingInstance = await bookingModel.updateOne(
             {
-                _id: this.booker
+                _id: this.booking
             },
             {
                 $pull: {
@@ -157,7 +157,7 @@ export class GuestSchema extends Typegoose {
                 }
             }
         );
-        console.log(bookerInstance);
+        console.log(bookingInstance);
     }
 
     @instanceMethod

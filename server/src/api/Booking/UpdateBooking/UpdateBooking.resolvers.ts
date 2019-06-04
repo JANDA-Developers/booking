@@ -1,11 +1,11 @@
 import { Types } from "mongoose";
 import { InstanceType } from "typegoose";
-import { BookerModel, BookerSchema } from "../../../models/Booker";
+import { bookingModel, BookingSchema } from "../../../models/Booking";
 import { GuestModel } from "../../../models/Guest";
-import { extractBooker } from "../../../models/merge/merge";
+import { extractbooking } from "../../../models/merge/merge";
 import {
-    UpdateBookerMutationArgs,
-    UpdateBookerResponse
+    UpdateBookingMutationArgs,
+    UpdateBookingResponse
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
 import { removeUndefined } from "../../../utils/objFuncs";
@@ -13,17 +13,17 @@ import { privateResolver } from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Mutation: {
-        UpdateBooker: privateResolver(
+        UpdateBooking: privateResolver(
             async (
                 __,
-                { bookerId, params }: UpdateBookerMutationArgs
-            ): Promise<UpdateBookerResponse> => {
+                { bookingId, params }: UpdateBookingMutationArgs
+            ): Promise<UpdateBookingResponse> => {
                 try {
-                    let bookerInstance: InstanceType<
-                        BookerSchema
+                    let bookingInstance: InstanceType<
+                        BookingSchema
                     > | null = null;
-                    await BookerModel.findOneAndUpdate(
-                        { _id: new Types.ObjectId(bookerId) },
+                    await bookingModel.findOneAndUpdate(
+                        { _id: new Types.ObjectId(bookingId) },
                         {
                             $set: { ...params }
                         },
@@ -32,13 +32,13 @@ const resolvers: Resolvers = {
                             console.log({
                                 ...doc
                             });
-                            bookerInstance = doc;
+                            bookingInstance = doc;
                         }
                     );
                     if (params.name || params.bookingStatus) {
                         await GuestModel.updateMany(
                             {
-                                booker: new Types.ObjectId(bookerId)
+                                booking: new Types.ObjectId(bookingId)
                             },
                             {
                                 $set: removeUndefined({
@@ -52,18 +52,18 @@ const resolvers: Resolvers = {
                     return {
                         ok: true,
                         error: null,
-                        booker:
-                            bookerInstance &&
-                            (await extractBooker.bind(
-                                extractBooker,
-                                bookerInstance
+                        booking:
+                            bookingInstance &&
+                            (await extractbooking.bind(
+                                extractbooking,
+                                bookingInstance
                             ))
                     };
                 } catch (error) {
                     return {
                         ok: false,
                         error: error.message,
-                        booker: null
+                        booking: null
                     };
                 }
             }

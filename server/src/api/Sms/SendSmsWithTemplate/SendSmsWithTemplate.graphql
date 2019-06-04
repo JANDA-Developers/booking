@@ -15,6 +15,6 @@ input SendSmsWithTemplateParams {
     stayDate: String
     stayDateYMD: String
     RoomTypeNCount: String
-    bookerName: String
+    bookingName: String
     totalPrice: Float
 }

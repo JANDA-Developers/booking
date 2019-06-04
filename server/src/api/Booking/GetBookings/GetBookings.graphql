@@ -1,20 +1,20 @@
-type GetBookersResponse {
+type GetBookingsResponse {
     ok: Boolean!
     error: String
-    bookers: [Booker!]
+    bookings: [Booking!]
     pageInfo: PageInfoOffsetBase
 }
 
 type Query {
-    GetBookers(
+    GetBookings(
         houseId: ID!
         page: Int!
         count: Int!
-        filter: GetBookersFilter
-    ): GetBookersResponse!
+        filter: GetBookingsFilter
+    ): GetBookingsResponse!
 }
 
-input GetBookersFilter {
+input GetBookingsFilter {
     name: String
     phoneNumnber: PhoneNumber
     stayDate: DateTime

@@ -12,7 +12,7 @@ import { UserRole } from "../types/graph";
 export enum UserRoleEnum {
     ADMIN = "ADMIN",
     HOST = "HOST",
-    BOOKER = "BOOKER",
+    booking = "booking",
     GHOST = "GHOST"
 }
 const BCRYPT_ROUNDS = 10;

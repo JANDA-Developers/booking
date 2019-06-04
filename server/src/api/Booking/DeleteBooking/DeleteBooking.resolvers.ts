@@ -1,26 +1,26 @@
-import { BookerModel } from "../../../models/Booker";
+import { bookingModel } from "../../../models/Booking";
 import {
-    DeleteBookerMutationArgs,
-    DeleteBookerResponse
+    DeleteBookingMutationArgs,
+    DeleteBookingResponse
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
 import { privateResolver } from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Mutation: {
-        DeleteBooker: privateResolver(
+        DeleteBooking: privateResolver(
             async (
                 _,
-                { bookerId }: DeleteBookerMutationArgs
-            ): Promise<DeleteBookerResponse> => {
-                const bookerInstance = await BookerModel.findById(bookerId);
-                if (!bookerInstance) {
+                { bookingId }: DeleteBookingMutationArgs
+            ): Promise<DeleteBookingResponse> => {
+                const bookingInstance = await bookingModel.findById(bookingId);
+                if (!bookingInstance) {
                     return {
                         ok: false,
-                        error: "존재하지 않는 BookerId"
+                        error: "존재하지 않는 bookingId"
                     };
                 }
-                bookerInstance.deleteThis();
+                bookingInstance.deleteThis();
                 return {
                     ok: true,
                     error: null

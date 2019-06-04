@@ -310,7 +310,7 @@ export class RoomTypeSchema extends Typegoose {
         start: Date,
         end: Date,
         includeSettled?: boolean,
-        exceptBookerIds?: Types.ObjectId[]
+        exceptbookingIds?: Types.ObjectId[]
         // 임의로 다른 성별로 인원을 채움. this.roomGender === "SEPARATELY" 인 경우만 사용
     ): Promise<RoomTypeCapacity> {
         const roomInstances = await RoomModel.find({
@@ -326,7 +326,7 @@ export class RoomTypeSchema extends Typegoose {
                         end
                     },
                     includeSettled,
-                    exceptBookerIds
+                    exceptbookingIds
                 );
             })
         )).sort((c1, c2) => {

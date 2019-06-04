@@ -7,7 +7,7 @@ import {
     staticMethod,
     Typegoose
 } from "typegoose";
-import { BookerSchema } from "./Booker";
+import { BookingSchema } from "./Booking";
 import { GuestSchema } from "./Guest";
 
 export class PriceHistorySchema extends Typegoose {
@@ -15,23 +15,23 @@ export class PriceHistorySchema extends Typegoose {
     static createPriceHistory(
         date: Date,
         guestInstance: InstanceType<GuestSchema>,
-        bookerInstance: InstanceType<BookerSchema>,
+        bookingInstance: InstanceType<BookingSchema>,
         price: number,
         suggestedPrice: number
     ): InstanceType<PriceHistorySchema> {
         if (
-            !bookerInstance.guests.includes(
+            !bookingInstance.guests.includes(
                 new Types.ObjectId(guestInstance._id)
             )
         ) {
             // TODO
         }
         return new PriceHistoryModel({
-            start: bookerInstance.start,
-            end: bookerInstance.end,
+            start: bookingInstance.start,
+            end: bookingInstance.end,
             date,
             guest: new Types.ObjectId(guestInstance._id),
-            booker: new Types.ObjectId(bookerInstance._id),
+            booking: new Types.ObjectId(bookingInstance._id),
             price,
             suggestedPrice
         });
@@ -41,7 +41,7 @@ export class PriceHistorySchema extends Typegoose {
     static createPriceHistories(params: {
         start: Date;
         end: Date;
-        bookerInstance: InstanceType<BookerSchema>;
+        bookingInstance: InstanceType<BookingSchema>;
         guestInstance: InstanceType<GuestSchema>;
         price: number;
         suggestedPrice: number;
@@ -57,7 +57,7 @@ export class PriceHistorySchema extends Typegoose {
     guest: Types.ObjectId;
 
     @prop()
-    booker: Types.ObjectId;
+    booking: Types.ObjectId;
 
     @prop()
     price: number;
