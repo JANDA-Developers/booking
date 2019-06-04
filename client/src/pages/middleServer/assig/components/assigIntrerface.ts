@@ -2,7 +2,7 @@ import {
   RoomGender,
   PricingType,
   Gender,
-  BookerModalType
+  BookingModalType
 } from "../../../../types/enum";
 import {IRoomType} from "../../../../types/interface";
 import {MutationFn} from "react-apollo";
@@ -11,8 +11,8 @@ import {
   allocateGuestToRoomVariables,
   deleteBlock,
   deleteBlockVariables,
-  updateBooker,
-  updateBookerVariables,
+  updateBooking,
+  updateBookingVariables,
   deleteGuests,
   deleteGuestsVariables,
   createBlock,
@@ -107,9 +107,9 @@ export type TGenderToggleById = (guestId: string) => void;
 
 export type TResizeValidater = (item: IAssigItem, time: number) => void;
 
-export type TResizeLinkedItems = (bookerId: string, newTime: number) => void;
+export type TResizeLinkedItems = (bookingId: string, newTime: number) => void;
 
-export type TMoveLinkedItems = (bookerId: string, newTime: number) => void;
+export type TMoveLinkedItems = (bookingId: string, newTime: number) => void;
 
 export type TToogleCheckIn = (
   guestId?: string | undefined,
@@ -144,7 +144,7 @@ export interface IAssigItem {
   guestIndex: number;
   name: string;
   group: string;
-  bookerId: string;
+  bookingId: string;
   isCheckin: boolean;
   roomTypeId: string;
   roomId: string;
@@ -161,7 +161,7 @@ export interface IAssigItem {
 export interface IAssigMutationes {
   allocateMu: MutationFn<allocateGuestToRoom, allocateGuestToRoomVariables>;
   deleteBlockMu: MutationFn<deleteBlock, deleteBlockVariables>;
-  updateBookerMu: MutationFn<updateBooker, updateBookerVariables>;
+  updateBookingMu: MutationFn<updateBooking, updateBookingVariables>;
   deleteGuestsMu: MutationFn<deleteGuests, deleteGuestsVariables>;
   createBlockMu: MutationFn<createBlock, createBlockVariables>;
 }
@@ -193,7 +193,7 @@ export interface IDeleteMenuProps {
 }
 
 export interface IAssigTimelineHooks {
-  bookerModal: IUseModal<any>;
+  bookingModal: IUseModal<any>;
   guestValue: any[];
   canvasMenuProps: ICanvasMenuProps;
   makeMenuProps: IMakeMenuProps;
@@ -234,8 +234,8 @@ export interface IAssigInfo {
   gender: Gender | null;
 }
 // ⭐️ 배정달력에서 예약 생성시사용
-export interface ICreateBookerInfo {
-  type: BookerModalType.CREATE | BookerModalType.CREATE_WITH_ASSIG;
+export interface ICreateBookingInfo {
+  type: BookingModalType.CREATE | BookingModalType.CREATE_WITH_ASSIG;
   start: number;
   end: number;
   resvInfoes: {

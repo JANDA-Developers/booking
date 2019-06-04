@@ -23,7 +23,7 @@ import {
 import {
   GET_AVAILABLE_GUEST_COUNT,
   GET_APPLIED_PRICE_WITH_DATE,
-  GET_APPLIED_PRICE_WITH_DATE_RANGE_FOR_BOOKER
+  GET_APPLIED_PRICE_WITH_DATE_RANGE_FOR_BOOKING
 } from "../../../../queries";
 import {IUseModal, IUseDayPicker} from "../../../../actions/hook";
 import {setYYYYMMDD} from "../../../../utils/setMidNight";
@@ -53,8 +53,8 @@ interface IProps {
   toastModalHook: IUseModal;
   dayPickerHook: IUseDayPicker;
   roomTypeData: IRoomType;
-  setBookerInfo: React.Dispatch<React.SetStateAction<BookerInput>>;
-  bookerInfo: BookerInput;
+  setBookingInfo: React.Dispatch<React.SetStateAction<BookerInput>>;
+  bookingInfo: BookerInput;
 }
 
 // 하우스 아이디를 우선 Props를 통해서 받아야함
@@ -66,8 +66,8 @@ const RoomTypeCardsWrap: React.SFC<IProps> = ({
   toastModalHook,
   dayPickerHook,
   roomTypeData,
-  setBookerInfo,
-  bookerInfo
+  setBookingInfo,
+  bookingInfo
 }) => {
   // 이건 독립 state용이다. 실제 선택된것은 resvRooms에 있으며 이건 선택완료 누르기 전까지의 상태이다.
   const [guestCountValue, setGuestCount] = useState<IGuestCount>({
@@ -118,7 +118,7 @@ const RoomTypeCardsWrap: React.SFC<IProps> = ({
               start: dayPickerHook.from,
               roomTypeId: roomTypeData._id
             }}
-            query={GET_APPLIED_PRICE_WITH_DATE_RANGE_FOR_BOOKER}
+            query={GET_APPLIED_PRICE_WITH_DATE_RANGE_FOR_BOOKING}
           >
             {({data: priceData, loading, error}) => {
               const seasonPrices = queryDataFormater(
@@ -157,8 +157,8 @@ const RoomTypeCardsWrap: React.SFC<IProps> = ({
                   guestCountValue={guestCountValue}
                   dayPickerHook={dayPickerHook}
                   truePrice={formattedTruePrice}
-                  setBookerInfo={setBookerInfo}
-                  bookerInfo={bookerInfo}
+                  setBookingInfo={setBookingInfo}
+                  bookingInfo={bookingInfo}
                 />
               );
             }}

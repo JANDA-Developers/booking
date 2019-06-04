@@ -2,13 +2,13 @@ import React from "react";
 import TooltipList from "../../../../atoms/tooltipList/TooltipList";
 import Button from "../../../../atoms/button/Button";
 import {IUseModal} from "../../../../actions/hook";
-import {Gender, BookerModalType, PricingType} from "../../../../types/enum";
+import {Gender, BookingModalType, PricingType} from "../../../../types/enum";
 import {
   GuestTypeAdd,
   IAssigTimelineUtils,
   IAssigTimelineContext,
   IAssigTimelineHooks,
-  ICreateBookerInfo
+  ICreateBookingInfo
 } from "./assigIntrerface";
 import {DEFAULT_ASSIG_GROUP} from "../../../../types/defaults";
 import {isEmpty} from "../../../../utils/utils";
@@ -21,7 +21,7 @@ interface IProps {
 
 const MakeItemMenu: React.FC<IProps> = ({
   assigUtils: {genderToggleById, findGroupById, deleteItemById},
-  assigHooks: {guestValue, bookerModal, makeMenuProps},
+  assigHooks: {guestValue, bookingModal, makeMenuProps},
   assigContext: {groupData, isMobile}
 }) => {
   const target = makeMenuProps.item;
@@ -55,8 +55,8 @@ const MakeItemMenu: React.FC<IProps> = ({
                 };
               });
 
-              const modalParam: ICreateBookerInfo = {
-                type: BookerModalType.CREATE_WITH_ASSIG,
+              const modalParam: ICreateBookingInfo = {
+                type: BookingModalType.CREATE_WITH_ASSIG,
                 start: makeItems[0].start,
                 end: makeItems[0].end,
                 resvInfoes,
@@ -73,7 +73,7 @@ const MakeItemMenu: React.FC<IProps> = ({
                   })
                   .filter(group => group.bedIndex !== -1)
               };
-              bookerModal.openModal(modalParam);
+              bookingModal.openModal(modalParam);
             }}
             mode="flat"
             color="white"

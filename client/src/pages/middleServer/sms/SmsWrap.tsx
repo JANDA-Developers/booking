@@ -20,7 +20,7 @@ import {
   DELETE_SMS_TEMPLATE,
   UPDATE_SMS_TEMPLATE,
   UPDATE_SENDER,
-  GET_BOOKERS
+  GET_BOOKINGS
 } from "../../../queries";
 import {
   queryDataFormater,
@@ -79,7 +79,7 @@ const SmsWrap: React.FC<IProps> = ({houseId}) => (
           ) {
             smsInfo.smsTemplates.push({
               ...DEFAULT_SMS_TEMPLATE,
-              formatName: "새로운 템플릿"
+              formatName: "새로운 템플릿 +"
             });
           }
         }

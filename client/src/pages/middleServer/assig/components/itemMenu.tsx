@@ -9,14 +9,14 @@ import {TToogleCheckIn, IAssigItem} from "./assigIntrerface";
 interface IProps {
   toogleCheckInOut: TToogleCheckIn;
   deleteGuestById(guestId: string): void;
-  bookerModalHook: IUseModal;
+  bookingModalHook: IUseModal;
   guestValue: IAssigItem[];
 }
 
 const ItemMenu: React.FC<IProps> = ({
   toogleCheckInOut,
   deleteGuestById,
-  bookerModalHook,
+  bookingModalHook,
   guestValue
 }) => {
   return (
@@ -56,7 +56,7 @@ const ItemMenu: React.FC<IProps> = ({
               <Button
                 onClick={() => {
                   ReactTooltip.hide();
-                  bookerModalHook.openModal({bookerId: targetGuest.bookerId});
+                  bookingModalHook.openModal({bookingId: targetGuest.bookingId});
                 }}
                 label="정보보기"
                 mode="flat"

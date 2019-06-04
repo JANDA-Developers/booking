@@ -9,17 +9,17 @@ import CheckBox from "../../../atoms/forms/checkBox/CheckBox";
 import Button from "../../../atoms/button/Button";
 import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
 import {useModal} from "../../../actions/hook";
-import BookerModalWrap from "../../../components/bookerInfo/BookerModalWrap";
-import {IPageInfo, IBooker, IRoomType} from "../../../types/interface";
+import BookingModalWrap from "../../../components/bookingModal/BookingModalWrap";
+import {IPageInfo, IBooking, IRoomType} from "../../../types/interface";
 import JDbox from "../../../atoms/box/JDbox";
 import {arraySum} from "../../../utils/elses";
 import {setYYYYMMDD} from "../../../utils/setMidNight";
 import {MutationFn} from "react-apollo";
 import {
-  deleteBooker,
-  deleteBookerVariables,
-  updateBookerVariables,
-  updateBooker
+  deleteBooking,
+  deleteBookingVariables,
+  updateBookingVariables,
+  updateBooking
 } from "../../../types/api";
 import autoHyphen from "../../../utils/autoFormat";
 import {JDtoastModal} from "../../../atoms/modal/Modal";
@@ -36,36 +36,35 @@ import JDbadge, {BADGE_THEMA} from "../../../atoms/badge/Badge";
 import "./ResvList.scss";
 import JDPagination from "../../../atoms/pagination/Pagination";
 import {autoComma} from "../../../utils/utils";
-import SendSmsModal from "../../../components/sendSMSmodal/sendSmsModal";
 import SendSMSmodalWrap, {
   IModalSMSinfo
-} from "../../../components/sendSMSmodal/sendSmsModalWrap";
+} from "../../../components/smsModal/SendSmsModalWrap";
 
 interface IProps {
   pageInfo: IPageInfo | undefined;
-  bookersData: IBooker[];
+  bookingsData: IBooking[];
   loading: boolean;
   houseId: string;
   setPage(page: number): void;
-  deleteBookerMu: MutationFn<deleteBooker, deleteBookerVariables>;
-  updateBookerMu: MutationFn<updateBooker, updateBookerVariables>;
+  deleteBookingMu: MutationFn<deleteBooking, deleteBookingVariables>;
+  updateBookingMu: MutationFn<updateBooking, updateBookingVariables>;
 }
 
 const ResvList: React.SFC<IProps> = ({
   pageInfo,
-  bookersData,
+  bookingsData,
   loading,
-  updateBookerMu,
-  deleteBookerMu,
+  updateBookingMu,
+  deleteBookingMu,
   setPage,
   houseId
 }) => {
   //   ❔ 두개 합치는게 좋을까?
   const [checkedIds, setCheckedIds] = useState<string[]>([]);
   const [selectAll, setSelectAll]: any = useState(false);
-  const bookerModalHook = useModal(false);
+  const bookingModalHook = useModal(false);
   const alertModalHook = useModal(false);
-  const sendSMSmodalHook = useModal<IModalSMSinfo>(false);
+  const sendSmsModalHook = useModal<IModalSMSinfo>(false);
 
   //   여기에 key가 들어오면 id배열에서 찾아서 넣거나 제거해줌
   const onToogleRow = (key: string) => {
@@ -78,25 +77,25 @@ const ResvList: React.SFC<IProps> = ({
 
   //    모든 라인들에대한 아이디를 투글함
   const onToogleAllRow = (flag: boolean) => {
-    const bookerIds = bookersData.map(booker => booker._id);
-    const updateSelecetedes = bookerIds.map(id =>
+    const bookingIds = bookingsData.map(booking => booking._id);
+    const updateSelecetedes = bookingIds.map(id =>
       checkedIds.includes(id) ? "" : id
     );
     setCheckedIds(updateSelecetedes);
     setSelectAll(flag);
   };
 
-  const handleDeleteBookerBtnClick = () => {
+  const handleDeleteBookingBtnClick = () => {
     alertModalHook.openModal(
       `다음 예약 ${checkedIds.length}개를  삭제하시겠습니까?`
     );
   };
 
-  const handleCancleBookerBtnClick = () => {
+  const handleCancleBookingBtnClick = () => {
     checkedIds.forEach(id => {
-      updateBookerMu({
+      updateBookingMu({
         variables: {
-          bookerId: id,
+          bookingId: id,
           params: {
             bookingStatus: BookingStatus.CANCEL
           }
@@ -107,18 +106,15 @@ const ResvList: React.SFC<IProps> = ({
 
   const handleSendSmsBtnClick = () => {
     const receivers = checkedIds.map(id => {
-      const target = bookersData.find(booker => booker._id === id);
+      const target = bookingsData.find(booking => booking._id === id);
       if (target) {
         return target.phoneNumber;
       } else {
-        console.log(checkedIds);
-        console.log(checkedIds);
-        console.log(checkedIds);
         return 0;
       }
     });
 
-    sendSMSmodalHook.openModal({
+    sendSmsModalHook.openModal({
       receivers,
       createMode: true
     });
@@ -126,9 +122,9 @@ const ResvList: React.SFC<IProps> = ({
 
   const handleCompleteBookingBtnClick = () => {
     checkedIds.forEach(id => {
-      updateBookerMu({
+      updateBookingMu({
         variables: {
-          bookerId: id,
+          bookingId: id,
           params: {
             bookingStatus: BookingStatus.COMPLETE
           }
@@ -139,10 +135,10 @@ const ResvList: React.SFC<IProps> = ({
 
   const deleteModalCallBackFn = (flag: boolean) => {
     if (flag) {
-      checkedIds.forEach(bookerId => {
-        deleteBookerMu({
+      checkedIds.forEach(bookingId => {
+        deleteBookingMu({
           variables: {
-            bookerId: bookerId
+            bookingId: bookingId
           }
         });
       });
@@ -162,7 +158,7 @@ const ResvList: React.SFC<IProps> = ({
               <Fragment>
                 <br />
                 <JDbadge
-                  className="resvList__bookerStatusBadge"
+                  className="resvList__bookingStatusBadge"
                   thema={BADGE_THEMA.ERROR}
                 >
                   cancle
@@ -212,7 +208,7 @@ const ResvList: React.SFC<IProps> = ({
     },
     {
       Header: "숙박일자",
-      accessor: "booker",
+      accessor: "booking",
       Cell: ({original}: CellInfo<any>) => (
         <div>
           {setYYYYMMDD(original.start)}
@@ -231,12 +227,12 @@ const ResvList: React.SFC<IProps> = ({
       ),
       accessor: "name",
       Cell: ({original}: CellInfo<any>) => {
-        const Booker: IBooker = original;
+        const Booking: IBooking = original;
         return (
           <div>
-            {Booker.name}
+            {Booking.name}
             <br />
-            {autoHyphen(Booker.phoneNumber)}
+            {autoHyphen(Booking.phoneNumber)}
           </div>
         );
       }
@@ -284,8 +280,8 @@ const ResvList: React.SFC<IProps> = ({
       Cell: ({value}: CellInfo<any>) => (
         <JDIcon
           onClick={() => {
-            bookerModalHook.openModal({
-              bookerId: value
+            bookingModalHook.openModal({
+              bookingId: value
             });
           }}
           size={IconSize.MEDIUM}
@@ -325,18 +321,18 @@ const ResvList: React.SFC<IProps> = ({
       <div className="docs-section">
         <h3>예약목록</h3>
         <div>
-          <Button
+          {/* <Button
             onClick={handleCompleteBookingBtnClick}
             size="small"
             thema="primary"
             label="예약확정"
-          />
+          /> */}
           {/* ⛔️ 아래 두버튼은 하지마시요. 충분히 팝업에서 할수있는 일임 */}
           {/* <Button size="small" thema="primary" label="결제완료" /> */}
           {/* <Button size="small" thema="primary" label="미결제" /> */}
           <Button
             size="small"
-            onClick={handleCancleBookerBtnClick}
+            onClick={handleCancleBookingBtnClick}
             thema="primary"
             label="예약취소"
           />
@@ -347,7 +343,7 @@ const ResvList: React.SFC<IProps> = ({
             label="문자전송"
           />
           <Button
-            onClick={handleDeleteBookerBtnClick}
+            onClick={handleDeleteBookingBtnClick}
             size="small"
             thema="warn"
             label="예약삭제"
@@ -361,7 +357,7 @@ const ResvList: React.SFC<IProps> = ({
           SelectInputComponent={selectInputCompoent}
           isCheckable
           align="center"
-          data={bookersData}
+          data={bookingsData}
           selectAll={selectAll}
           isSelected={(key: string) => checkedIds.includes(key)}
           columns={TableColumns}
@@ -375,9 +371,9 @@ const ResvList: React.SFC<IProps> = ({
           pageRangeDisplayed={1}
           marginPagesDisplayed={4}
         />
-        <BookerModalWrap
-          key={`${bookerModalHook.info.bookerId || "BookerModaldefaultId"}`}
-          modalHook={bookerModalHook}
+        <BookingModalWrap
+          key={`${bookingModalHook.info.bookingId || "BookingModaldefaultId"}`}
+          modalHook={bookingModalHook}
           houseId={houseId}
         />
         <JDtoastModal
@@ -385,7 +381,7 @@ const ResvList: React.SFC<IProps> = ({
           confirmCallBackFn={deleteModalCallBackFn}
           {...alertModalHook}
         />
-        <SendSMSmodalWrap modalHook={sendSMSmodalHook} houseId={houseId} />
+        <SendSMSmodalWrap modalHook={sendSmsModalHook} houseId={houseId} />
       </div>
     </div>
   );

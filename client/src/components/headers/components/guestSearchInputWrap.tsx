@@ -1,12 +1,12 @@
 import React, {useState} from "react";
 import GuestSearchInput from "./guestSearchInput";
 import {queryDataFormater, showError, isEmpty} from "../../../utils/utils";
-import {GET_BOOKER, GET_BOOKERS} from "../../../queries";
+import {GET_BOOKING, GET_BOOKINGS} from "../../../queries";
 import {Query} from "react-apollo";
-import {getBookers, getBookersVariables} from "../../../types/api";
+import {getBookings, getBookingsVariables} from "../../../types/api";
 import {isName, isPhone, isYYYYMMDD} from "../../../utils/inputValidations";
 
-class GetBookersQuery extends Query<getBookers, getBookersVariables> {}
+class GetBookingsQuery extends Query<getBookings, getBookingsVariables> {}
 
 interface IProps {
   houseId: string;
@@ -27,8 +27,8 @@ const GuestSearchInputWrap: React.FC<IProps> = ({houseId}) => {
   const filter = searchFilterMaker(onTypeValue);
 
   return (
-    <GetBookersQuery
-      query={GET_BOOKERS}
+    <GetBookingsQuery
+      query={GET_BOOKINGS}
       skip={!filter.name && !filter.phoneNumnber && !filter.stayDate}
       variables={{
         houseId,
@@ -37,13 +37,13 @@ const GuestSearchInputWrap: React.FC<IProps> = ({houseId}) => {
         filter: filter
       }}
     >
-      {({data: bookersData, loading, error}) => {
+      {({data: bookingsData, loading, error}) => {
         showError(error);
 
-        const bookers = queryDataFormater(
-          bookersData,
-          "GetBookers",
-          "bookers",
+        const bookings = queryDataFormater(
+          bookingsData,
+          "GetBookings",
+          "bookings",
           undefined
         );
         console.log({
@@ -52,18 +52,18 @@ const GuestSearchInputWrap: React.FC<IProps> = ({houseId}) => {
           page: 1,
           filter: filter
         });
-        console.log(bookers);
+        console.log(bookings);
 
         return (
           <GuestSearchInput
             houseId={houseId}
-            bookers={bookers || []}
+            bookings={bookings || []}
             onTypeValue={onTypeValue}
             onTypeChange={onTypeChange}
           />
         );
       }}
-    </GetBookersQuery>
+    </GetBookingsQuery>
   );
 };
 

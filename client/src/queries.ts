@@ -84,8 +84,8 @@ const F_AVAILABLE_PEOPLE_COUNT = gql`
   }
 `;
 
-const F_BOOKER = gql`
-  fragment Fbooker on Booker {
+const F_BOOKING = gql`
+  fragment Fbooking on Booking {
     _id
     roomTypes {
       ...FroomType
@@ -436,7 +436,7 @@ export const GET_GUESTS = gql`
         roomType {
           _id
         }
-        booker {
+        booking {
           _id
           bookingStatus
           checkIn {
@@ -450,7 +450,7 @@ export const GET_GUESTS = gql`
   ${F_GUEST}
 `;
 
-export const GET_AVAILABLE_GUEST_COUNT_FOR_BOOKER = gql`
+export const GET_AVAILABLE_GUEST_COUNT_FOR_BOOKING = gql`
   query getAvailableGuestCountForBooker(
     $roomTypeId: ID!
     $start: DateTime!
@@ -552,7 +552,7 @@ const sharedGetAllRoomType = gql`
   ${F_MINI_ROOM_TYPE}
 `;
 
-export const GET_ALL_ROOM_TYPE_FOR_BOOKER = gql`
+export const GET_ALL_ROOM_TYPE_FOR_BOOKING = gql`
   query getAllRoomTypeForBooker {
     GetAllRoomTypeForBooker {
       ...FsharedGetAllRoomType
@@ -570,14 +570,14 @@ export const GET_ALL_ROOMTYPES = gql`
   ${sharedGetAllRoomType}
 `;
 
-export const FIND_BOOKER = gql`
-  query findBooker(
+export const FIND_BOOKING = gql`
+  query findBooking(
     $name: Name!
     $phoneNumber: PhoneNumber!
     $password: String!
     $houseId: ID
   ) {
-    FindBooker(
+    FindBooking(
       name: $name
       phoneNumber: $phoneNumber
       password: $password
@@ -585,8 +585,8 @@ export const FIND_BOOKER = gql`
     ) {
       ok
       error
-      bookers {
-        ...Fbooker
+      bookings {
+        ...Fbooking
         guests {
           ...Fguest
           roomType {
@@ -597,7 +597,7 @@ export const FIND_BOOKER = gql`
     }
   }
   ${F_GUEST}
-  ${F_BOOKER}
+  ${F_BOOKING}
   ${F_MINI_ROOM_TYPE}
 `;
 
@@ -650,7 +650,7 @@ export const GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM = gql`
         allocatedRoom {
           ...Froom
         }
-        booker {
+        booking {
           bookingStatus
           _id
           checkIn {
@@ -745,7 +745,7 @@ const sharedGetAppliedPriceWithDateRange = gql`
   }
 `;
 
-export const GET_APPLIED_PRICE_WITH_DATE_RANGE_FOR_BOOKER = gql`
+export const GET_APPLIED_PRICE_WITH_DATE_RANGE_FOR_BOOKING = gql`
   query getAppliedPriceWithDateRangeForBooker(
     $roomTypeId: ID!
     $start: DateTime!
@@ -810,18 +810,23 @@ export const GET_ALL_ROOM_TYPE_CAPACITY = gql`
 `;
 
 // 모든 예약자 가져오기
-export const GET_BOOKERS = gql`
-  query getBookers(
+export const GET_BOOKINGS = gql`
+  query getBookings(
     $houseId: ID!
     $page: Int!
     $count: Int!
-    $filter: GetBookersFilter
+    $filter: GetBookingsFilter
   ) {
-    GetBookers(houseId: $houseId, page: $page, count: $count, filter: $filter) {
+    GetBookings(
+      houseId: $houseId
+      page: $page
+      count: $count
+      filter: $filter
+    ) {
       ok
       error
-      bookers {
-        ...Fbooker
+      bookings {
+        ...Fbooking
         guests {
           ...Fguest
           roomType {
@@ -836,17 +841,17 @@ export const GET_BOOKERS = gql`
   }
   ${F_GUEST}
   ${F_MINI_ROOM_TYPE}
-  ${F_BOOKER}
+  ${F_BOOKING}
   ${F_PAGE_INFO}
 `;
 
-export const GET_BOOKER = gql`
-  query getBooker($bookerId: ID!) {
-    GetBooker(bookerId: $bookerId) {
+export const GET_BOOKING = gql`
+  query getBooking($bookingId: ID!) {
+    GetBooking(bookingId: $bookingId) {
       ok
       error
-      booker {
-        ...Fbooker
+      booking {
+        ...Fbooking
         guests {
           _id
           gender
@@ -865,7 +870,7 @@ export const GET_BOOKER = gql`
       }
     }
   }
-  ${F_BOOKER}
+  ${F_BOOKING}
 `;
 // START 시즌관련 ────────────────────────────────────────────────────────────────────────────────
 // 가격 테이블 만들기
@@ -935,12 +940,12 @@ export const GET_ALL_SEASON_TABLE = gql`
 // START 예약관련 ────────────────────────────────────────────────────────────────────────────────
 // 예약 생성
 
-export const UPDATE_BOOKER = gql`
-  mutation updateBooker(
-    $bookerId: ID!
-    $params: UpdateBookerMutationParamsInput!
+export const UPDATE_BOOKING = gql`
+  mutation updateBooking(
+    $bookingId: ID!
+    $params: UpdateBookingMutationParamsInput!
   ) {
-    UpdateBooker(bookerId: $bookerId, params: $params) {
+    UpdateBooking(bookingId: $bookingId, params: $params) {
       ok
       error
     }
@@ -956,12 +961,12 @@ export const DELETE_GUEST = gql`
   }
 `;
 
-export const CREATE_BOOKING_FOR_BOOKER = gql`
-  mutation createBookerForBooker(
-    $bookingParams: CreateBookerParams!
+export const CREATE_BOOKING_FOR_BOOKING = gql`
+  mutation createBookingForBooker(
+    $bookingParams: CreateBookingParams!
     $sendSmsFlag: Boolean!
   ) {
-    CreateBookerForBooker(
+    CreateBookingForBooker(
       bookingParams: $bookingParams
       sendSmsFlag: $sendSmsFlag
     ) {
@@ -971,23 +976,23 @@ export const CREATE_BOOKING_FOR_BOOKER = gql`
   }
 `;
 
-export const CREATE_BOOKER = gql`
-  mutation createBooker(
-    $bookingParams: CreateBookerParams!
+export const CREATE_BOOKING = gql`
+  mutation createBooking(
+    $bookingParams: CreateBookingParams!
     $sendSmsFlag: Boolean!
   ) {
-    CreateBooker(bookingParams: $bookingParams, sendSmsFlag: $sendSmsFlag) {
+    CreateBooking(bookingParams: $bookingParams, sendSmsFlag: $sendSmsFlag) {
       ok
       error
-      booker {
-        ...Fbooker
+      booking {
+        ...Fbooking
         guests {
           ...Fguest
         }
       }
     }
   }
-  ${F_BOOKER}
+  ${F_BOOKING}
   ${F_GUEST}
 `;
 
@@ -1103,9 +1108,9 @@ export const CREATE_ROOM_PRICE = gql`
   }
 `;
 
-export const DELETE_BOOKER = gql`
-  mutation deleteBooker($bookerId: ID!) {
-    DeleteBooker(bookerId: $bookerId) {
+export const DELETE_BOOKING = gql`
+  mutation deleteBooking($bookingId: ID!) {
+    DeleteBooking(bookingId: $bookingId) {
       ok
       error
     }

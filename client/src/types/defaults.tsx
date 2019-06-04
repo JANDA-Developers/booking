@@ -1,4 +1,4 @@
-import {GB_booker} from "./interface";
+import {GB_booking} from "./interface";
 import {
   RoomGender,
   PricingType,
@@ -9,7 +9,7 @@ import {
   SendTarget
 } from "./enum";
 import {
-  getBooker_GetBooker_booker_roomTypes,
+  getBooking_GetBooking_booking_roomTypes,
   getSmsInfo_GetSmsInfo_smsInfo_smsTemplates,
   getSmsInfo_GetSmsInfo_smsInfo
 } from "./api";
@@ -18,7 +18,7 @@ import {
   IAssigGroup,
   GuestTypeAdd
 } from "../pages/middleServer/assig/components/assigIntrerface";
-export const DEFAULT_ROOMTYPE: getBooker_GetBooker_booker_roomTypes = {
+export const DEFAULT_ROOMTYPE: getBooking_GetBooking_booking_roomTypes = {
   __typename: "RoomType",
   name: "_",
   pricingType: PricingType.DOMITORY,
@@ -36,9 +36,9 @@ export const DEFAULT_ROOMTYPE: getBooker_GetBooker_booker_roomTypes = {
   roomTemplateSrl: -1
 };
 
-// 유틸성을 위해 만들어둔 기본 booker
-export const DEFAULT_BOOKER: GB_booker = {
-  __typename: "Booker",
+// 유틸성을 위해 만들어둔 기본 booking
+export const DEFAULT_BOOKING: GB_booking = {
+  __typename: "Booking",
   _id: "default",
   memo: "",
   createdAt: "",
@@ -65,7 +65,7 @@ export const DEFAULT_BOOKER: GB_booker = {
 
 export const DEFAULT_ASSIG_ITEM: IAssigItem = {
   bedIndex: -1,
-  bookerId: "",
+  bookingId: "",
   end: 0,
   gender: null,
   group: "",

@@ -7,32 +7,32 @@ import "./CheckReservation.scss";
 import {
   GuestPartInput,
   BookerInput,
-  createBooker,
-  createBookerVariables,
-  findBookerVariables,
-  findBooker_FindBooker_bookers
+  createBooking,
+  createBookingVariables,
+  findBookingVariables,
+  findBooking_FindBooking_bookings
 } from "../../../types/api";
 import InputText from "../../../atoms/forms/inputText/InputText";
 import Button from "../../../atoms/button/Button";
 import {onCompletedMessage} from "../../../utils/utils";
 import CheckTable from "./CheckTable";
 import {toast} from "react-toastify";
-export interface ISetBookerInfo
+export interface ISetBookingInfo
   extends React.Dispatch<React.SetStateAction<BookerInput>> {}
 
 interface IProps {
-  defaultBookerInfo: {
+  defaultBookingInfo: {
     name: string | undefined;
     password: string | undefined;
     phoneNumber: string | undefined;
   };
-  findBookerQr(bookerInfo: findBookerVariables): Promise<any>;
+  findBookingQr(bookingInfo: findBookingVariables): Promise<any>;
 }
 
-const SetPrice: React.SFC<IProps> = ({defaultBookerInfo, findBookerQr}) => {
-  const [searchInfo, setSearchInfo] = useState(defaultBookerInfo);
+const SetPrice: React.SFC<IProps> = ({defaultBookingInfo, findBookingQr}) => {
+  const [searchInfo, setSearchInfo] = useState(defaultBookingInfo);
   const [queryResult, setQueryResult] = useState<
-    findBooker_FindBooker_bookers[] | undefined
+    findBooking_FindBooking_bookings[] | undefined
   >();
 
   const validater = () => {
@@ -74,15 +74,15 @@ const SetPrice: React.SFC<IProps> = ({defaultBookerInfo, findBookerQr}) => {
         <Button
           onClick={async () => {
             if (searchInfo.password && validater()) {
-              const bookers = await findBookerQr({
+              const bookings = await findBookingQr({
                 name: searchInfo.name,
                 password: searchInfo.password,
                 phoneNumber: searchInfo.phoneNumber,
                 houseId: "5cb1a8abcc8ef91ca45ab02b"
               });
 
-              if (bookers) {
-                setQueryResult(bookers);
+              if (bookings) {
+                setQueryResult(bookings);
               }
             }
           }}

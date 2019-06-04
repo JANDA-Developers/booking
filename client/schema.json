@@ -14,7 +14,7 @@
         "description": "",
         "fields": [
           {
-            "name": "FindBooker",
+            "name": "FindBooking",
             "description": "",
             "args": [
               {
@@ -75,7 +75,7 @@
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "FindBookerResponse",
+                "name": "FindBookingResponse",
                 "ofType": null
               }
             },
@@ -83,7 +83,7 @@
             "deprecationReason": null
           },
           {
-            "name": "FindBookerForBooker",
+            "name": "FindBookingForBooker",
             "description": "",
             "args": [
               {
@@ -134,7 +134,7 @@
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "FindBookerResponse",
+                "name": "FindBookingResponse",
                 "ofType": null
               }
             },
@@ -142,11 +142,11 @@
             "deprecationReason": null
           },
           {
-            "name": "GetBooker",
+            "name": "GetBooking",
             "description": "",
             "args": [
               {
-                "name": "bookerId",
+                "name": "bookingId",
                 "description": "",
                 "type": {
                   "kind": "NON_NULL",
@@ -165,7 +165,7 @@
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "GetBookerResponse",
+                "name": "GetBookingResponse",
                 "ofType": null
               }
             },
@@ -173,7 +173,7 @@
             "deprecationReason": null
           },
           {
-            "name": "GetBookers",
+            "name": "GetBookings",
             "description": "",
             "args": [
               {
@@ -223,7 +223,7 @@
                 "description": "",
                 "type": {
                   "kind": "INPUT_OBJECT",
-                  "name": "GetBookersFilter",
+                  "name": "GetBookingsFilter",
                   "ofType": null
                 },
                 "defaultValue": null
@@ -234,7 +234,7 @@
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "GetBookersResponse",
+                "name": "GetBookingsResponse",
                 "ofType": null
               }
             },
@@ -1579,7 +1579,7 @@
       },
       {
         "kind": "OBJECT",
-        "name": "FindBookerResponse",
+        "name": "FindBookingResponse",
         "description": "",
         "fields": [
           {
@@ -1611,7 +1611,7 @@
             "deprecationReason": null
           },
           {
-            "name": "bookers",
+            "name": "bookings",
             "description": "",
             "args": [],
             "type": {
@@ -1622,7 +1622,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "Booker",
+                  "name": "Booking",
                   "ofType": null
                 }
               }
@@ -1648,7 +1648,7 @@
       },
       {
         "kind": "OBJECT",
-        "name": "Booker",
+        "name": "Booking",
         "description": "",
         "fields": [
           {
@@ -3446,8 +3446,14 @@
         "interfaces": null,
         "enumValues": [
           {
-            "name": "WHEN_BOOKING_COMPLETE",
+            "name": "WHEN_BOOKING_CREATED",
             "description": "예약 완료",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "WHEN_BOOKING_CREATED_PAYMENT_NOT_YET",
+            "description": "예약 완료 - 미결제 고객",
             "isDeprecated": false,
             "deprecationReason": null
           },
@@ -3458,8 +3464,8 @@
             "deprecationReason": null
           },
           {
-            "name": "WHEN_PAYMENT",
-            "description": "결제 안내",
+            "name": "WHEN_BOOKING_UPDATE",
+            "description": "예약 수정",
             "isDeprecated": false,
             "deprecationReason": null
           }
@@ -4382,7 +4388,7 @@
             "deprecationReason": null
           },
           {
-            "name": "booker",
+            "name": "booking",
             "description": "",
             "args": [],
             "type": {
@@ -4390,7 +4396,7 @@
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "Booker",
+                "name": "Booking",
                 "ofType": null
               }
             },
@@ -4748,7 +4754,7 @@
       },
       {
         "kind": "OBJECT",
-        "name": "GetBookerResponse",
+        "name": "GetBookingResponse",
         "description": "",
         "fields": [
           {
@@ -4780,12 +4786,12 @@
             "deprecationReason": null
           },
           {
-            "name": "booker",
+            "name": "booking",
             "description": "",
             "args": [],
             "type": {
               "kind": "OBJECT",
-              "name": "Booker",
+              "name": "Booking",
               "ofType": null
             },
             "isDeprecated": false,
@@ -4799,7 +4805,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "GetBookersFilter",
+        "name": "GetBookingsFilter",
         "description": "",
         "fields": null,
         "inputFields": [
@@ -4850,7 +4856,7 @@
       },
       {
         "kind": "OBJECT",
-        "name": "GetBookersResponse",
+        "name": "GetBookingsResponse",
         "description": "",
         "fields": [
           {
@@ -4882,7 +4888,7 @@
             "deprecationReason": null
           },
           {
-            "name": "bookers",
+            "name": "bookings",
             "description": "",
             "args": [],
             "type": {
@@ -4893,7 +4899,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "Booker",
+                  "name": "Booking",
                   "ofType": null
                 }
               }
@@ -7337,7 +7343,7 @@
         "description": "",
         "fields": [
           {
-            "name": "CreateBooker",
+            "name": "CreateBooking",
             "description": "",
             "args": [
               {
@@ -7348,7 +7354,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "INPUT_OBJECT",
-                    "name": "CreateBookerParams",
+                    "name": "CreateBookingParams",
                     "ofType": null
                   }
                 },
@@ -7374,7 +7380,7 @@
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "CreateBookerResponse",
+                "name": "CreateBookingResponse",
                 "ofType": null
               }
             },
@@ -7382,7 +7388,7 @@
             "deprecationReason": null
           },
           {
-            "name": "CreateBookerForBooker",
+            "name": "CreateBookingForBooker",
             "description": "",
             "args": [
               {
@@ -7393,7 +7399,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "INPUT_OBJECT",
-                    "name": "CreateBookerParams",
+                    "name": "CreateBookingParams",
                     "ofType": null
                   }
                 },
@@ -7419,7 +7425,7 @@
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "CreateBookerResponse",
+                "name": "CreateBookingResponse",
                 "ofType": null
               }
             },
@@ -7427,11 +7433,11 @@
             "deprecationReason": null
           },
           {
-            "name": "DeleteBooker",
+            "name": "DeleteBooking",
             "description": "",
             "args": [
               {
-                "name": "bookerId",
+                "name": "bookingId",
                 "description": "",
                 "type": {
                   "kind": "NON_NULL",
@@ -7450,7 +7456,7 @@
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "DeleteBookerResponse",
+                "name": "DeleteBookingResponse",
                 "ofType": null
               }
             },
@@ -7458,11 +7464,11 @@
             "deprecationReason": null
           },
           {
-            "name": "UpdateBooker",
+            "name": "UpdateBooking",
             "description": "",
             "args": [
               {
-                "name": "bookerId",
+                "name": "bookingId",
                 "description": "",
                 "type": {
                   "kind": "NON_NULL",
@@ -7483,7 +7489,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "INPUT_OBJECT",
-                    "name": "UpdateBookerMutationParamsInput",
+                    "name": "UpdateBookingMutationParamsInput",
                     "ofType": null
                   }
                 },
@@ -7495,7 +7501,7 @@
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "UpdateBookerResponse",
+                "name": "UpdateBookingResponse",
                 "ofType": null
               }
             },
@@ -7698,7 +7704,7 @@
                 "defaultValue": null
               },
               {
-                "name": "bookerId",
+                "name": "bookingId",
                 "description": "",
                 "type": {
                   "kind": "NON_NULL",
@@ -7823,7 +7829,7 @@
                 "defaultValue": null
               },
               {
-                "name": "bookerId",
+                "name": "bookingId",
                 "description": "",
                 "type": {
                   "kind": "NON_NULL",
@@ -11168,7 +11174,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "CreateBookerParams",
+        "name": "CreateBookingParams",
         "description": "",
         "fields": null,
         "inputFields": [
@@ -11445,7 +11451,7 @@
       },
       {
         "kind": "OBJECT",
-        "name": "CreateBookerResponse",
+        "name": "CreateBookingResponse",
         "description": "",
         "fields": [
           {
@@ -11477,12 +11483,12 @@
             "deprecationReason": null
           },
           {
-            "name": "booker",
+            "name": "booking",
             "description": "",
             "args": [],
             "type": {
               "kind": "OBJECT",
-              "name": "Booker",
+              "name": "Booking",
               "ofType": null
             },
             "isDeprecated": false,
@@ -11496,7 +11502,7 @@
       },
       {
         "kind": "OBJECT",
-        "name": "DeleteBookerResponse",
+        "name": "DeleteBookingResponse",
         "description": "",
         "fields": [
           {
@@ -11535,7 +11541,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "UpdateBookerMutationParamsInput",
+        "name": "UpdateBookingMutationParamsInput",
         "description": "",
         "fields": null,
         "inputFields": [
@@ -11671,7 +11677,7 @@
       },
       {
         "kind": "OBJECT",
-        "name": "UpdateBookerResponse",
+        "name": "UpdateBookingResponse",
         "description": "",
         "fields": [
           {
@@ -11703,12 +11709,12 @@
             "deprecationReason": null
           },
           {
-            "name": "booker",
+            "name": "booking",
             "description": "",
             "args": [],
             "type": {
               "kind": "OBJECT",
-              "name": "Booker",
+              "name": "Booking",
               "ofType": null
             },
             "isDeprecated": false,
@@ -12134,12 +12140,12 @@
             "deprecationReason": null
           },
           {
-            "name": "booker",
+            "name": "booking",
             "description": "",
             "args": [],
             "type": {
               "kind": "OBJECT",
-              "name": "Booker",
+              "name": "Booking",
               "ofType": null
             },
             "isDeprecated": false,
@@ -14633,7 +14639,7 @@
             "defaultValue": null
           },
           {
-            "name": "RoomTypeNCount",
+            "name": "roomTypeNCount",
             "description": "",
             "type": {
               "kind": "SCALAR",
@@ -16049,7 +16055,7 @@
             "defaultValue": null
           },
           {
-            "name": "booker",
+            "name": "booking",
             "description": "",
             "type": {
               "kind": "NON_NULL",
@@ -16322,7 +16328,7 @@
             "defaultValue": null
           },
           {
-            "name": "bookerId",
+            "name": "bookingId",
             "description": "",
             "type": {
               "kind": "NON_NULL",
@@ -16437,7 +16443,7 @@
             "defaultValue": null
           },
           {
-            "name": "bookerId",
+            "name": "bookingId",
             "description": "",
             "type": {
               "kind": "NON_NULL",

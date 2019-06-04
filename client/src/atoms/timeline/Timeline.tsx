@@ -56,7 +56,7 @@ const keys = {
   groupTitleKey: "title",
   groupRightTitleKey: "rightTitle",
   itemIdKey: "id",
-  itemTitleKey: "bookerId",
+  itemTitleKey: "bookingId",
   itemDivTitleKey: "id",
   itemGroupKey: "group",
   itemTimeStartKey: "start",

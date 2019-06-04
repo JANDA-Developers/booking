@@ -1,8 +1,8 @@
 import React, {Fragment} from "react";
 import JDsearchInput from "../../../atoms/searchInput/SearchInput";
 import {SELECT_DUMMY_OP} from "../../../types/enum";
-import {getBookers_GetBookers_bookers} from "../../../types/api";
-import BookerModalWrap from "../../bookerInfo/BookerModalWrap";
+import {getBookings_GetBookings_bookings} from "../../../types/api";
+import BookingModalWrap from "../../bookingModal/BookingModalWrap";
 import UserModal from "../../../pages/middleServer/super/components/userModal";
 import {useModal} from "../../../actions/hook";
 
@@ -10,23 +10,23 @@ interface IProps {
   houseId: string;
   onTypeValue: string;
   onTypeChange: any;
-  bookers: getBookers_GetBookers_bookers[];
+  bookings: getBookings_GetBookings_bookings[];
 }
 
 const GuestSearchInput: React.FC<IProps> = ({
   onTypeValue,
   onTypeChange,
-  bookers,
+  bookings,
   houseId
 }) => {
-  const bookerModalHook = useModal(false);
+  const bookingModalHook = useModal(false);
   const handleSearchList = (label?: string | null, id?: string) => {
     console.log("id");
     console.log(id);
     console.log(id);
     console.log(id);
-    bookerModalHook.openModal({
-      bookerId: id
+    bookingModalHook.openModal({
+      bookingId: id
     });
   };
 
@@ -43,9 +43,9 @@ const GuestSearchInput: React.FC<IProps> = ({
         asDetail="phoneNumber"
         asId="_id"
         asName="name"
-        dataList={bookers}
+        dataList={bookings}
       />
-      <BookerModalWrap houseId={houseId} modalHook={bookerModalHook} />
+      <BookingModalWrap houseId={houseId} modalHook={bookingModalHook} />
     </Fragment>
   );
 };

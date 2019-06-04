@@ -19,15 +19,15 @@ import {
 import {Mutation, Query} from "react-apollo";
 import {SEND_SMS, GET_SMS_INFO} from "../../queries";
 import {queryDataFormater} from "../../utils/utils";
-import CreateSmsModal from "./createSMSmodal";
-import SendSmsModal from "./sendSmsModal";
+import CreateSmsModal from "./components/createSmsModal";
+import SendSmsModal from "./SendSmsModal";
 
 class SendSmsMu extends Mutation<sendSms, sendSmsVariables> {}
 class SmsInfoQu extends Query<getSmsInfo, getSmsInfoVariables> {}
 
-// BOOKER
+// BOOKING
 export interface IModalSMSinfo {
-  booker?: {
+  booking?: {
     name: string;
     phoneNumber: string;
     start: string | Date;

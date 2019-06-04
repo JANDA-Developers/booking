@@ -8,7 +8,7 @@ import EerrorProtect from "../../../utils/errProtect";
 import JDbox from "../../../atoms/box/JDbox";
 import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
 import JDIcon from "../../../atoms/icons/Icons";
-import {IroomSelectInfoTable} from "../BookerModal";
+import {IroomSelectInfoTable} from "../BookingModal";
 import {PricingType} from "../../../types/enum";
 
 interface IProps {

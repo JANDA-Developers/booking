@@ -29,13 +29,13 @@ const CanvasMenu: React.FC<IProps> = ({
           onClick={e => {
             e.stopPropagation();
             const linkedItems = guestValue.filter(
-              group => group.bookerId === "make"
+              group => group.bookingId === "make"
             );
             const stack = linkedItems.length;
 
             const newItem = {
               ...DEFAULT_ASSIG_ITEM,
-              bookerId: "make",
+              bookingId: "make",
               id: `make${canvasMenuProps.groupId}${
                 canvasMenuProps.start
               }${stack}`,

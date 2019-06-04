@@ -5,10 +5,10 @@ import {Mutation, ApolloConsumer} from "react-apollo";
 import {withRouter, RouteComponentProps} from "react-router";
 import CheckReservation from "./CheckReservation";
 import {ErrProtecter, queryDataFormater} from "../../../utils/utils";
-import {FIND_BOOKER} from "../../../queries";
+import {FIND_BOOKING} from "../../../queries";
 import {
-  findBookerVariables,
-  findBooker_FindBooker_bookers
+  findBookingVariables,
+  findBooking_FindBooking_bookings
 } from "../../../types/api";
 import JDtable from "../../../atoms/table/Table";
 import {ReactTableDefaults, CellInfo} from "react-table";
@@ -22,7 +22,7 @@ import {
 } from "../../../types/enum";
 
 export interface IProps {
-  tableData: findBooker_FindBooker_bookers[] | undefined;
+  tableData: findBooking_FindBooking_bookings[] | undefined;
 }
 
 // 하우스 아이디를 우선 Props를 통해서 받아야함

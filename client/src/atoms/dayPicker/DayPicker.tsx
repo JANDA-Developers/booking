@@ -22,6 +22,7 @@ interface IProps extends IUseDayPicker {
   placeholder?: string;
   input?: boolean;
   label?: string;
+  readOnly?: boolean;
   isRange?: boolean;
   displayYear?: boolean;
   canSelectSameDate?: boolean;
@@ -54,6 +55,7 @@ const JDdayPicker: React.SFC<IProps> = ({
   inputComponent,
   setEntered,
   maxLimit,
+  readOnly,
   className
 }) => {
   const dayPickerFullWrap: any = useRef();
@@ -83,6 +85,7 @@ const JDdayPicker: React.SFC<IProps> = ({
 
   // handle --day : Click
   const handleDayClick = (day: Date, modifiers: DayModifiers) => {
+    if (readOnly) return;
     // 불가능한 날자를 눌럿을경우에
     if (modifiers.disabled) return;
 

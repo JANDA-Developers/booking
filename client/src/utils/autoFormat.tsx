@@ -44,6 +44,7 @@ const autoComma = (str: string | number = ""): string => {
   while (rgx.test(x1)) {
     x1 = x1.replace(rgx, "$1" + "," + "$2");
   }
+
   return x1 + x2;
 };
 

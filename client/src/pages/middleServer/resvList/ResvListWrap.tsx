@@ -3,19 +3,19 @@ import {Query, Mutation} from "react-apollo";
 import ResvList from "./ResvList";
 import {IHouse} from "../../../types/interface";
 import {
-  getBookers,
-  getBookersVariables,
-  updateBooker,
-  updateBookerVariables,
-  deleteBooker,
-  deleteBookerVariables
+  getBookings,
+  getBookingsVariables,
+  updateBooking,
+  updateBookingVariables,
+  deleteBooking,
+  deleteBookingVariables
 } from "../../../types/api";
 import {
   showError,
   queryDataFormater,
   onCompletedMessage
 } from "../../../utils/utils";
-import {GET_BOOKERS, DELETE_BOOKER, UPDATE_BOOKER} from "../../../queries";
+import {GET_BOOKINGS, DELETE_BOOKING, UPDATE_BOOKING} from "../../../queries";
 import {getOperationName} from "apollo-link";
 import {usePagiNation} from "../../../actions/hook";
 
@@ -23,78 +23,78 @@ interface IProps {
   houseId: string;
 }
 
-class UpdateBookerMu extends Mutation<updateBooker, updateBookerVariables> {}
-class DeleteBookerMu extends Mutation<deleteBooker, deleteBookerVariables> {}
-class GetBookersQuery extends Query<getBookers, getBookersVariables> {}
+class UpdateBookingMu extends Mutation<updateBooking, updateBookingVariables> {}
+class DeleteBookingMu extends Mutation<deleteBooking, deleteBookingVariables> {}
+class GetBookingsQuery extends Query<getBookings, getBookingsVariables> {}
 
 const ResvListWrap: React.FC<IProps> = ({houseId}) => {
   const [page, setPage] = usePagiNation(1);
 
   return (
-    <GetBookersQuery
+    <GetBookingsQuery
       fetchPolicy="network-only"
-      query={GET_BOOKERS}
+      query={GET_BOOKINGS}
       variables={{houseId, page, count: 20}}
     >
       {({data: boookerData, loading, error}) => {
         showError(error);
 
-        const bookers = queryDataFormater(
+        const bookings = queryDataFormater(
           boookerData,
-          "GetBookers",
-          "bookers",
+          "GetBookings",
+          "bookings",
           undefined
         );
         const pageInfo = queryDataFormater(
           boookerData,
-          "GetBookers",
+          "GetBookings",
           "pageInfo",
           undefined
         );
 
         return (
-          <DeleteBookerMu
-            mutation={DELETE_BOOKER}
+          <DeleteBookingMu
+            mutation={DELETE_BOOKING}
             onError={showError}
-            refetchQueries={[getOperationName(GET_BOOKERS) || ""]}
-            onCompleted={({DeleteBooker}) => {
+            refetchQueries={[getOperationName(GET_BOOKINGS) || ""]}
+            onCompleted={({DeleteBooking}) => {
               onCompletedMessage(
-                DeleteBooker,
+                DeleteBooking,
                 "예약 삭제 완료",
                 "예약 삭제 실패"
               );
             }}
           >
-            {deleteBookerMu => (
-              <UpdateBookerMu
-                mutation={UPDATE_BOOKER}
+            {deleteBookingMu => (
+              <UpdateBookingMu
+                mutation={UPDATE_BOOKING}
                 onError={showError}
-                refetchQueries={[getOperationName(GET_BOOKERS) || ""]}
-                onCompleted={({UpdateBooker}) => {
+                refetchQueries={[getOperationName(GET_BOOKINGS) || ""]}
+                onCompleted={({UpdateBooking}) => {
                   onCompletedMessage(
-                    UpdateBooker,
+                    UpdateBooking,
                     "예약자 업데이트",
                     "예약자 업데이트 실패"
                   );
                 }}
               >
-                {updateBookerMu => (
+                {updateBookingMu => (
                   <ResvList
                     houseId={houseId}
                     pageInfo={pageInfo || undefined}
-                    bookersData={bookers || []}
-                    deleteBookerMu={deleteBookerMu}
-                    updateBookerMu={updateBookerMu}
+                    bookingsData={bookings || []}
+                    deleteBookingMu={deleteBookingMu}
+                    updateBookingMu={updateBookingMu}
                     setPage={setPage}
                     loading={loading}
                   />
                 )}
-              </UpdateBookerMu>
+              </UpdateBookingMu>
             )}
-          </DeleteBookerMu>
+          </DeleteBookingMu>
         );
       }}
-    </GetBookersQuery>
+    </GetBookingsQuery>
   );
 };
 

@@ -57,7 +57,7 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
 }) => {
   const {left: leftResizeProps, right: rightResizeProps} = getResizeProps();
 
-  const baseItemCalsses = `assigItem--booker${item.bookerId}`;
+  const baseItemCalsses = `assigItem--booking${item.bookingId}`;
   const classNames = classnames("assigItem", baseItemCalsses, {
     "assigItem--unAllocated": item.isUnsettled,
     "assigItem--selected": itemContext.selected,

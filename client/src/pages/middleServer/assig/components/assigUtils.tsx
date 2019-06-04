@@ -48,7 +48,7 @@ export function getAssigUtils(
     deleteGuestsMu,
     createBlockMu,
     deleteBlockMu,
-    updateBookerMu
+    updateBookingMu
   }: IAssigMutationes,
   {houseId, groupData}: IAssigTimelineContext
 ): IAssigTimelineUtils {
@@ -126,9 +126,9 @@ export function getAssigUtils(
       if (temp) target = temp;
     }
 
-    const result = await updateBookerMu({
+    const result = await updateBookingMu({
       variables: {
-        bookerId: target.bookerId,
+        bookingId: target.bookingId,
         params: {
           isCheckIn: {
             isIn: !guestValue[target.guestIndex].isCheckin
@@ -142,12 +142,12 @@ export function getAssigUtils(
       const message = !guestValue[target.guestIndex].isCheckin
         ? "체크아웃"
         : "체크인";
-      onCompletedMessage(result.data.UpdateBooker, message, "실패");
-      if (result.data.UpdateBooker.ok) {
+      onCompletedMessage(result.data.UpdateBooking, message, "실패");
+      if (result.data.UpdateBooking.ok) {
         // 뮤테이션 성공시
 
         const updateGuests = guestValue.map(guest => {
-          if (guest.bookerId === target.bookerId) {
+          if (guest.bookingId === target.bookingId) {
             guest.isCheckin = !guest.isCheckin;
           }
           return guest;
@@ -349,30 +349,30 @@ export function getAssigUtils(
   // 유틸 리사이즈 되었을때 벨리데이션 해줍니다.
   const resizeValidater: TResizeValidater = (item, time) => {
     const linkedGuests = guestValue.filter(
-      guest => guest.bookerId === item.bookerId
+      guest => guest.bookingId === item.bookingId
     );
 
     linkedGuests.forEach(guest => {
-      if (guest.bookerId === item.bookerId)
+      if (guest.bookingId === item.bookingId)
         oneGuestValidation(guest, guest.start, time, guest.group);
     });
   };
 
   // 같은 예약자가 예약한 게스트들을 한번에 변경
-  const resizeLinkedItems: TResizeLinkedItems = (bookerId, newTime) => {
+  const resizeLinkedItems: TResizeLinkedItems = (bookingId, newTime) => {
     // TODO 여기서 State를통하여 조작할수 있도록하자
     guestValue.forEach(guest => {
       const inGuest = guest;
-      if (guest.bookerId === bookerId) inGuest.end = newTime;
+      if (guest.bookingId === bookingId) inGuest.end = newTime;
     });
     setGuestValue([...guestValue]);
   };
 
   // 같은 예약자가 예약한 게스트들을 한번에 이동
-  const moveLinkedItems: TMoveLinkedItems = (bookerId, newTime) => {
+  const moveLinkedItems: TMoveLinkedItems = (bookingId, newTime) => {
     guestValue.forEach(guest => {
       const inGuest = guest;
-      if (guest.bookerId === bookerId) {
+      if (guest.bookingId === bookingId) {
         inGuest.end += newTime - guest.start;
         inGuest.start = newTime;
       }

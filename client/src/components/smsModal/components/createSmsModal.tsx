@@ -1,30 +1,30 @@
 import React, {useState} from "react";
-import JDmodal from "../../atoms/modal/Modal";
-import {IUseModal, useInput} from "../../actions/hook";
-import JDbox from "../../atoms/box/JDbox";
-import JDselect, {IselectedOption} from "../../atoms/forms/selectBox/SelectBox";
-import {SELECT_DUMMY_OP, KR_SMS_PARSER} from "../../types/enum";
-import Button from "../../atoms/button/Button";
-import "./sendSMSmodal.scss";
+import JDmodal from "../../../atoms/modal/Modal";
+import {IUseModal, useInput} from "../../../actions/hook";
+import JDbox from "../../../atoms/box/JDbox";
+import JDselect, {
+  IselectedOption
+} from "../../../atoms/forms/selectBox/SelectBox";
+import {SELECT_DUMMY_OP, KR_SMS_PARSER} from "../../../types/enum";
+import Button from "../../../atoms/button/Button";
+import "../SendSmsModal.scss";
 import {MutationFn} from "react-apollo";
 import {
   sendSms,
   sendSmsVariables,
   getSmsInfo_GetSmsInfo_smsInfo
-} from "../../types/api";
-import InputText from "../../atoms/forms/inputText/InputText";
+} from "../../../types/api";
+import InputText from "../../../atoms/forms/inputText/InputText";
 import {
   smsMsgParser,
   templateOpMaker,
   smsMessageFormatter
-} from "../../utils/smsUtils";
-import {IBooker} from "../../types/interface";
-import BookerInfoBox from "../../pages/outPages/components/bookerInfoBox";
+} from "../../../utils/smsUtils";
 import moment from "moment";
-import {IModalSMSinfo} from "./sendSmsModalWrap";
-import Preloader from "../../atoms/preloader/Preloader";
-import {autoComma, autoHypen} from "../../utils/utils";
-import JDLabel from "../../atoms/label/JDLabel";
+import {IModalSMSinfo} from "./../SendSmsModalWrap";
+import Preloader from "../../../atoms/preloader/Preloader";
+import {autoComma, autoHypen} from "../../../utils/utils";
+import JDLabel from "../../../atoms/label/JDLabel";
 
 interface IProps {
   modalHook: IUseModal<IModalSMSinfo>;
@@ -63,19 +63,19 @@ const CreateSmsModal: React.FC<IProps> = ({
       );
 
       if (targetTemplate) {
-        const msg = modalHook.info.booker
+        const msg = modalHook.info.booking
           ? smsMsgParser(targetTemplate.smsFormat, {
-              BOOKERNAME: modalHook.info.booker.name,
+              BOOKERNAME: modalHook.info.booking.name,
               ROOMTYPE_N_COUNT: "",
-              STAYDATE: `${moment(modalHook.info.booker.start).format(
+              STAYDATE: `${moment(modalHook.info.booking.start).format(
                 "MM-DD"
-              )}~${moment(modalHook.info.booker.end).format("MM-DD")}`,
-              STAYDATE_YMD: `${moment(modalHook.info.booker.start).format(
+              )}~${moment(modalHook.info.booking.end).format("MM-DD")}`,
+              STAYDATE_YMD: `${moment(modalHook.info.booking.start).format(
                 "YY-MM-DD"
-              )}~${moment(modalHook.info.booker.end).format("YY-MM-DD")}`,
-              TOTALPRICE: `${autoComma(modalHook.info.booker.price)}`,
-              PAYMENTSTATUS: `${modalHook.info.booker.paymentStatus}`,
-              PAYMETHOD: `${modalHook.info.booker.payMethod}`
+              )}~${moment(modalHook.info.booking.end).format("YY-MM-DD")}`,
+              TOTALPRICE: `${autoComma(modalHook.info.booking.price)}`,
+              PAYMENTSTATUS: `${modalHook.info.booking.paymentStatus}`,
+              PAYMETHOD: `${modalHook.info.booking.payMethod}`
             })
           : smsMsgParser(targetTemplate.smsFormat, KR_SMS_PARSER);
 
@@ -85,7 +85,7 @@ const CreateSmsModal: React.FC<IProps> = ({
   };
 
   return (
-    <JDmodal className="sendSMSmodal" {...modalHook}>
+    <JDmodal className="sendSmsModal" {...modalHook}>
       <h5>문자발신 {loading && <Preloader />} </h5>
       <div>
         <JDLabel txt="발신대상" />

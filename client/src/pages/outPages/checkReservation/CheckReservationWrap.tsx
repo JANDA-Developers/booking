@@ -9,8 +9,8 @@ import {
   queryDataFormater,
   onCompletedMessage
 } from "../../../utils/utils";
-import {FIND_BOOKER} from "../../../queries";
-import {findBookerVariables} from "../../../types/api";
+import {FIND_BOOKING} from "../../../queries";
+import {findBookingVariables} from "../../../types/api";
 
 export interface ICheckParams {
   name?: string;
@@ -23,7 +23,7 @@ interface IProps extends RouteComponentProps<ICheckParams> {}
 
 // 하우스 아이디를 우선 Props를 통해서 받아야함
 const CheckReservationWrap: React.FC<IProps> = ({match}) => {
-  const defaultBookerInfo = {
+  const defaultBookingInfo = {
     name: match.params.name,
     password: match.params.password,
     phoneNumber: match.params.phoneNumber
@@ -31,32 +31,32 @@ const CheckReservationWrap: React.FC<IProps> = ({match}) => {
   return (
     <ApolloConsumer>
       {client => {
-        const findBookerQr = async (bookerInfo: findBookerVariables) => {
-          const {data: bookerData} = await client.query({
-            query: FIND_BOOKER,
+        const findBookingQr = async (bookingInfo: findBookingVariables) => {
+          const {data: bookingData} = await client.query({
+            query: FIND_BOOKING,
             variables: {
-              name: bookerInfo.name,
+              name: bookingInfo.name,
               // :TODO 다음수정
               houseId: "5cb1a8abcc8ef91ca45ab02b",
-              password: bookerInfo.password,
-              phoneNumber: bookerInfo.phoneNumber
+              password: bookingInfo.password,
+              phoneNumber: bookingInfo.phoneNumber
             }
           });
 
-          onCompletedMessage(bookerData.FindBooker, "조회성공", "조회실패");
-          const booker = queryDataFormater(
-            bookerData,
-            "FindBooker",
-            "bookers",
+          onCompletedMessage(bookingData.FindBooking, "조회성공", "조회실패");
+          const booking = queryDataFormater(
+            bookingData,
+            "FindBooking",
+            "bookings",
             undefined
           );
 
-          return booker;
+          return booking;
         };
         return (
           <CheckReservation
-            defaultBookerInfo={defaultBookerInfo}
-            findBookerQr={findBookerQr}
+            defaultBookingInfo={defaultBookingInfo}
+            findBookingQr={findBookingQr}
           />
         );
       }}

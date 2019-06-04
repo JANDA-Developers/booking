@@ -43,8 +43,8 @@ interface IProps {
   toastModalHook: IUseModal;
   setGuestCount: React.Dispatch<React.SetStateAction<IGuestCount>>;
   guestCountValue: IGuestCount;
-  setBookerInfo: React.Dispatch<React.SetStateAction<BookerInput>>;
-  bookerInfo: BookerInput;
+  setBookingInfo: React.Dispatch<React.SetStateAction<BookerInput>>;
+  bookingInfo: BookerInput;
   dayPickerHook: IUseDayPicker;
   truePrice: number;
   countLoading: boolean;
@@ -71,8 +71,8 @@ const RoomTypeCard: React.SFC<IProps> = ({
   dayPickerHook,
   truePrice,
   availableCount,
-  bookerInfo,
-  setBookerInfo
+  bookingInfo,
+  setBookingInfo
 }) => {
   const roomImgModalHook = useModal(false);
   const [disabled, setDisabled] = useState({
@@ -158,9 +158,9 @@ const RoomTypeCard: React.SFC<IProps> = ({
       resvRoomsCopy.splice(roomTypeIndex, 1);
       setResvRooms(resvRoomsCopy);
       setDisabled({female: false, male: false, count: false});
-      setBookerInfo({
-        ...bookerInfo,
-        price: bookerInfo.price - totalRoomTypePrice
+      setBookingInfo({
+        ...bookingInfo,
+        price: bookingInfo.price - totalRoomTypePrice
       });
       return;
     }
@@ -183,9 +183,9 @@ const RoomTypeCard: React.SFC<IProps> = ({
 
     setResvRooms(resvRoomsCopy);
     setDisabled({female: true, male: true, count: true});
-    setBookerInfo({
-      ...bookerInfo,
-      price: bookerInfo.price + totalRoomTypePrice
+    setBookingInfo({
+      ...bookingInfo,
+      price: bookingInfo.price + totalRoomTypePrice
     });
 
     roomInfoHook[1]([...roomInfoHook[0], roomTypeData]);

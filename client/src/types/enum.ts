@@ -120,7 +120,7 @@ export enum Gender {
   MALE = "MALE"
 }
 
-export enum BookerModalType {
+export enum BookingModalType {
   CREATE = "create",
   CREATE_WITH_ASSIG = "createWithAssig",
   LOOKUP = "lookup"
@@ -128,14 +128,16 @@ export enum BookerModalType {
 
 export enum AutoSendWhen {
   WEHN_BOOKING_CANCEL = "WEHN_BOOKING_CANCEL",
-  WHEN_BOOKING_COMPLETE = "WHEN_BOOKING_COMPLETE",
-  WHEN_PAYMENT = "WHEN_PAYMENT"
+  WHEN_BOOKING_CREATED = "WHEN_BOOKING_CREATED",
+  WHEN_BOOKING_CREATED_PAYMENT_NOT_YET = "WHEN_BOOKING_CREATED_PAYMENT_NOT_YET",
+  WHEN_BOOKING_UPDATE = "WHEN_BOOKING_UPDATE"
 }
 
 export enum AutoSendWhenKr {
   WEHN_BOOKING_CANCEL = "예약취소시",
-  WHEN_BOOKING_COMPLETE = "예약완료시",
-  WHEN_PAYMENT = "미결제예약시"
+  WHEN_BOOKING_CREATED = "예약생성시",
+  WHEN_BOOKING_CREATED_PAYMENT_NOT_YET = "예약생성시(미결제)",
+  WHEN_BOOKING_UPDATE = "예약업데이트시"
 }
 
 export enum SendTarget {
@@ -149,11 +151,12 @@ export enum SendTargetKr {
   GUEST = "게스트",
   HOST = "호스트"
 }
+
 export enum SmsReplaceKeyEnum {
   STAYDATE = "%STAYDATE%",
-  STAYDATE_YMD = "$STAYDATEYMD%",
-  ROOMTYPE_N_COUNT = "%ROOMTYPENCOUNT%",
-  BOOKERNAME = "%BOOKER%",
+  STAYDATE_YMD = "$STAYDATE_YMD%",
+  ROOMTYPE_N_COUNT = "%ROOMTYPE_N_COUNT%",
+  BOOKERNAME = "%BOOKERNAME%",
   TOTALPRICE = "%TOTALPRICE%",
   PAYMETHOD = "%PAYMETHOD%",
   PAYMENTSTATUS = "%PAYMENTSTATUS%"
@@ -181,11 +184,21 @@ export const SmsReplaceKeyEnumValues = [
   "%STAYDATE%",
   "$STAYDATEYMD%",
   "%ROOMTYPENCOUNT%",
-  "%BOOKER%",
+  "%BOOKERNAME%",
   "%TOTALPRICE%",
   "%PAYMETHOD%",
   "%PAYMENTSTATUS%"
 ];
+
+export const KR_SMS_PARSER = {
+  BOOKERNAME: SmsReplaceKeyEnumKr.BOOKERNAME,
+  ROOMTYPE_N_COUNT: SmsReplaceKeyEnumKr.ROOMTYPE_N_COUNT,
+  TOTALPRICE: SmsReplaceKeyEnumKr.TOTALPRICE,
+  STAYDATE: SmsReplaceKeyEnumKr.STAYDATE,
+  STAYDATE_YMD: SmsReplaceKeyEnumKr.STAYDATE_YMD,
+  PAYMENTSTATUS: SmsReplaceKeyEnumKr.PAYMENTSTATUS,
+  PAYMETHOD: SmsReplaceKeyEnumKr.PAYMETHOD
+};
 
 //= =============================================================
 // START global options
@@ -235,16 +248,6 @@ export const PAYMETHOD_OP = [
   // {value: PayMethod.ELSE, label: "기타"}
 ];
 
-export const KR_SMS_PARSER = {
-  BOOKERNAME: SmsReplaceKeyEnumKr.BOOKERNAME,
-  ROOMTYPE_N_COUNT: SmsReplaceKeyEnumKr.ROOMTYPE_N_COUNT,
-  TOTALPRICE: SmsReplaceKeyEnumKr.TOTALPRICE,
-  STAYDATE: SmsReplaceKeyEnumKr.STAYDATE,
-  STAYDATE_YMD: SmsReplaceKeyEnumKr.STAYDATE_YMD,
-  PAYMENTSTATUS: SmsReplaceKeyEnumKr.PAYMENTSTATUS,
-  PAYMETHOD: SmsReplaceKeyEnumKr.PAYMETHOD
-};
-
 export const ROOM_GENDER_OP = [
   {value: RoomGender.ANY, label: RoomGenderKr.ANY},
   {value: RoomGender.SEPARATELY, label: RoomGenderKr.SEPARATELY},
@@ -263,12 +266,16 @@ export const AUTO_SEND_OP = [
     label: AutoSendWhenKr.WEHN_BOOKING_CANCEL
   },
   {
-    value: AutoSendWhen.WHEN_BOOKING_COMPLETE,
-    label: AutoSendWhenKr.WHEN_BOOKING_COMPLETE
+    value: AutoSendWhen.WHEN_BOOKING_CREATED,
+    label: AutoSendWhenKr.WHEN_BOOKING_CREATED
   },
   {
-    value: AutoSendWhen.WHEN_PAYMENT,
-    label: AutoSendWhenKr.WHEN_PAYMENT
+    value: AutoSendWhen.WHEN_BOOKING_CREATED_PAYMENT_NOT_YET,
+    label: AutoSendWhenKr.WHEN_BOOKING_CREATED_PAYMENT_NOT_YET
+  },
+  {
+    value: AutoSendWhen.WHEN_BOOKING_UPDATE,
+    label: AutoSendWhenKr.WHEN_BOOKING_UPDATE
   },
   {value: null, label: "선택안함"}
 ];

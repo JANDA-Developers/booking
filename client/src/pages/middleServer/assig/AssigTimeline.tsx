@@ -16,7 +16,7 @@ import Timeline, {
 } from "../../../atoms/timeline/Timeline";
 import ErrProtecter from "../../../utils/errProtect";
 import Button from "../../../atoms/button/Button";
-import BookerModalWrap from "../../../components/bookerInfo/BookerModalWrap";
+import BookingModalWrap from "../../../components/bookingModal/BookingModalWrap";
 import {IUseDayPicker, useModal} from "../../../actions/hook";
 import classnames from "classnames";
 import assigGroupRendererFn from "./components/groupRenderFn";
@@ -119,7 +119,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
       ...DEFAULT_ASSIG_GROUP
     }
   });
-  const bookerModal = useModal(false);
+  const bookingModal = useModal(false);
   const [blockMenuProps, setBlockMenuProps] = useState<IDeleteMenuProps>({
     item: DEFAULT_ASSIG_ITEM
   });
@@ -137,7 +137,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     setMakeMenuProps,
     setBlockMenuProps,
     confirmDelteGuestHook,
-    bookerModal
+    bookingModal
   };
 
   const assigContext: IAssigTimelineContext = {
@@ -206,7 +206,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
       openBlockMenu(location, {item: target});
     }
     // if (target.type === "normal")
-    // bookerModal.openModal({bookerId: target.bookerId});
+    // bookingModal.openModal({bookingId: target.bookingId});
     if (target.type === GuestTypeAdd.MAKE) {
       openMakeMenu(location);
     }
@@ -229,7 +229,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
 
   // 핸들아이템이 그룹에 그시간대에 포함될수 있는지 검사해줍니다.
   // const moveValidater = (item: IAssigItem, targetGroup: IAssigGroup, time: number): IValidationResult[] => {
-  //   const linkedGuests = guestValue.filter(guest => guest.bookerId === item.bookerId);
+  //   const linkedGuests = guestValue.filter(guest => guest.bookingId === item.bookingId);
   //   // 좌우MOVE 일경우
   //   if (Math.abs(time - item.start) >= TimePerMs.DAY) {
   //     const validaterResults = linkedGuests.map((guest) => {
@@ -299,15 +299,19 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
       // resizeValidater(item, time);
 
       if (item.type !== GuestTypeAdd.BLOCK) {
-        resizeLinkedItems(item.bookerId, time);
+        resizeLinkedItems(item.bookingId, time);
       }
     }
 
     if (action === "move") {
-      if (item.start < setMidNight(moment().valueOf())) {
-        return setMidNight(moment().valueOf());
+      // 🦄 예약날자 수정이 안료되면 적용
+      return item.start;
+
+      if (time < setMidNight(moment().valueOf())) {
+        return item.start;
       }
-      $(`.assigItem--booker${item.bookerId}`).addClass(CLASS_MOVING);
+
+      $(`.assigItem--booking${item.bookingId}`).addClass(CLASS_MOVING);
       $(`#assigItem--guest${item.id}`).removeClass(CLASS_MOVING);
 
       const targetGroup = groupData.find(group => group.id === item.group);
@@ -315,7 +319,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
       if (targetGroup) {
         // 💔💔💔💔 아이템이 기존 아이템과 동일한 상태라서 group이 New 그룹이 아닙니다 ㅠㅠㅠ
       }
-      moveLinkedItems(item.bookerId, time);
+      moveLinkedItems(item.bookingId, time);
     }
 
     return time;
@@ -368,7 +372,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     const targetGuest = findItemById(itemId);
     if (targetGuest.type === GuestTypeAdd.BLOCK) {
       const guestValueOriginCopy = $.extend(true, [], guestValue);
-      await resizeLinkedItems(targetGuest.bookerId, time);
+      await resizeLinkedItems(targetGuest.bookingId, time);
 
       const result = await createBlockMu({
         variables: {
@@ -401,11 +405,13 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
       clientY: clientY
     };
     const target = findItemById(itemId);
-    if (target.bookerId === "block") return;
+    if (target.bookingId === "block") return;
 
     if (isMobile) {
-      if (target.type === GuestTypeAdd.BLOCK) openBlockMenu(location,{item: target});
-      if (target.type === GuestTypeAdd.MAKE) openMakeMenu(location,{item: target});
+      if (target.type === GuestTypeAdd.BLOCK)
+        openBlockMenu(location, {item: target});
+      if (target.type === GuestTypeAdd.MAKE)
+        openMakeMenu(location, {item: target});
     }
 
     // 컨트롤: 체크인
@@ -413,8 +419,8 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
       toogleCheckInOut(itemId);
     }
     // 쉬프트 팝업
-  if (e.shiftKey) {
-      bookerModal.openModal({bookerId: target.bookerId});
+    if (e.shiftKey) {
+      bookingModal.openModal({bookingId: target.bookingId});
     }
     // 알트: 배정확정
     if (e.altKey) {
@@ -474,7 +480,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     const target = findItemById(itemId);
     if (target) {
       await $(".assigItem").removeClass(CLASS_LINKED);
-      $(`.assigItem--booker${target.bookerId}`).addClass(CLASS_LINKED);
+      $(`.assigItem--booking${target.bookingId}`).addClass(CLASS_LINKED);
     }
 
     if (target.type === GuestTypeAdd.GUEST) {
@@ -498,7 +504,9 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
       <div className="docs-section">
         <h3 className="assigTimeline__titleSection">
           {"방배정"}
-          {loading && <Preloader className="assigTimeline__mainPreloder" size="medium" />}
+          {loading && (
+            <Preloader className="assigTimeline__mainPreloder" size="medium" />
+          )}
         </h3>
         <div className="flex-grid flex-grid--end">
           <Link to="/middleServer/timelineConfig">
@@ -523,7 +531,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
         <ItemMenu
           deleteGuestById={deleteGuestById}
           toogleCheckInOut={toogleCheckInOut}
-          bookerModalHook={bookerModal}
+          bookingModalHook={bookingModal}
           guestValue={guestValue}
         />
         <Timeline
@@ -598,7 +606,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
           </div>
         )}
       </div>
-      <BookerModalWrap houseId={houseId} modalHook={bookerModal} />
+      <BookingModalWrap houseId={houseId} modalHook={bookingModal} />
       <JDtoastModal confirm {...confirmDelteGuestHook} />
     </div>
   );

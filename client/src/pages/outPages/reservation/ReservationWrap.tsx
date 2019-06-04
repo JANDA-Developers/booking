@@ -11,18 +11,18 @@ import {
   onCompletedMessage
 } from "../../../utils/utils";
 import {
-  createBooker,
-  createBookerVariables,
-  createBookerForBooker,
-  createBookerForBookerVariables
+  createBooking,
+  createBookingVariables,
+  createBookingForBooker,
+  createBookingForBookerVariables
 } from "../../../types/api";
-import {CREATE_BOOKER, CREATE_BOOKING_FOR_BOOKER} from "../../../queries";
+import {CREATE_BOOKING, CREATE_BOOKING_FOR_BOOKING} from "../../../queries";
 import {toast} from "react-toastify";
 import {useModal, useRedirect} from "../../../actions/hook";
 
 class CreatBookingMu extends Mutation<
-  createBookerForBooker,
-  createBookerForBookerVariables
+  createBookingForBooker,
+  createBookingForBookerVariables
 > {}
 
 interface IProps extends RouteComponentProps<any> {
@@ -40,23 +40,23 @@ const ReservationWrap: React.FC<IProps> = ({match, houseId}) => {
   return (
     <CreatBookingMu
       onError={showError}
-      onCompleted={({CreateBookerForBooker}) => {
-        if (CreateBookerForBooker.ok) {
+      onCompleted={({CreateBookingForBooker}) => {
+        if (CreateBookingForBooker.ok) {
           confirmModalHook.openModal(
             "예약이 완료되었습니다. 예약페이지로 이동합니다."
           );
         } else {
           toast.warn("예약실패");
-          showError(CreateBookerForBooker.error);
+          showError(CreateBookingForBooker.error);
         }
       }}
-      mutation={CREATE_BOOKING_FOR_BOOKER}
+      mutation={CREATE_BOOKING_FOR_BOOKING}
     >
-      {createBookerMu =>
+      {createBookingMu =>
         withRouter(({match, location, history}) => (
           <Reservation
             confirmModalHook={confirmModalHook}
-            createBookerMu={createBookerMu}
+            createBookingMu={createBookingMu}
             history={history}
             match={match}
             location={location}

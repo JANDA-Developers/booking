@@ -5,7 +5,7 @@ import JDbox from "../../atoms/box/JDbox";
 import JDselect, {IselectedOption} from "../../atoms/forms/selectBox/SelectBox";
 import {SELECT_DUMMY_OP, AutoSendWhen} from "../../types/enum";
 import Button from "../../atoms/button/Button";
-import "./sendSMSmodal.scss";
+import "./SendSmsModal.scss";
 import {MutationFn} from "react-apollo";
 import {
   sendSms,
@@ -14,10 +14,10 @@ import {
 } from "../../types/api";
 import InputText from "../../atoms/forms/inputText/InputText";
 import {smsMsgParser} from "../../utils/smsUtils";
-import {IBooker} from "../../types/interface";
-import BookerInfoBox from "../../pages/outPages/components/bookerInfoBox";
+import {IBooking} from "../../types/interface";
+import BookingInfoBox from "../../pages/outPages/components/bookerInfoBox";
 import moment from "moment";
-import {IModalSMSinfo} from "./sendSmsModalWrap";
+import {IModalSMSinfo} from "./SendSmsModalWrap";
 import Preloader from "../../atoms/preloader/Preloader";
 import JDLabel from "../../atoms/label/JDLabel";
 import {isEmpty} from "../../utils/utils";
@@ -41,13 +41,22 @@ const SendSmsModal: React.FC<IProps> = ({
   smsInfo,
   templateMessage
 }) => {
+  useEffect(() => {
+    if (templateMessage === "") {
+      modalHook.info.callBackFn && modalHook.info.callBackFn(false);
+    }
+  }, [modalHook.info.callBackFn]);
+  if (templateMessage === "") {
+    modalHook.closeModal();
+  }
+
   return (
     <JDmodal
       tureMessage={`${templateMessage !== "" ? "SMS 전송합니다." : "확인"}`}
       flaseMessage={`${templateMessage !== "" ? "전송하지 않습니다." : "취소"}`}
       confirm
       confirmCallBackFn={callBackFn}
-      className="sendSMSmodal"
+      className="sendSmsModal"
       {...modalHook}
     >
       {/* 👿 */}

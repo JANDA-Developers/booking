@@ -5,63 +5,63 @@ import CheckBox from '../../../atoms/forms/checkBox/CheckBox';
 import Button from '../../../atoms/button/Button';
 import utils from '../../../utils/utils';
 import { BookerInput as IBookerInput } from '../../../types/api';
-import { ISetBookerInfo } from '../reservation/Reservation';
+import { ISetBookingInfo } from '../reservation/Reservation';
 import TooltipList from '../../../atoms/tooltipList/TooltipList';
 import JDbox from '../../../atoms/box/JDbox';
 
 interface IProps {
   className?: string;
-  bookerInfo: IBookerInput;
-  setBookerInfo: ISetBookerInfo;
+  bookingInfo: IBookerInput;
+  setBookingInfo: ISetBookingInfo;
 }
 
-const BookerInfoBox: React.SFC<IProps> = ({ className, bookerInfo, setBookerInfo }) => {
-  const classes = classNames('JDbookerInfoBox', className, {});
+const BookingInfoBox: React.SFC<IProps> = ({ className, bookingInfo, setBookingInfo }) => {
+  const classes = classNames('JDbookingInfoBox', className, {});
   const tooltipRef = useRef<any>();
 
   return (
     <div className={classes}>
       <InputText
-        value={bookerInfo.name}
+        value={bookingInfo.name}
         onChange={(value: string) => {
-          setBookerInfo({ ...bookerInfo, name: value });
+          setBookingInfo({ ...bookingInfo, name: value });
         }}
-        id="JDbookerInfo__name"
+        id="JDbookingInfo__name"
         label="성함"
       />
       <InputText
-        value={bookerInfo.phoneNumber}
+        value={bookingInfo.phoneNumber}
         onChange={(value: string) => {
-          setBookerInfo({ ...bookerInfo, phoneNumber: value });
+          setBookingInfo({ ...bookingInfo, phoneNumber: value });
         }}
         hyphen
-        id="JDbookerInfo__phoneNumber"
+        id="JDbookingInfo__phoneNumber"
         label="연락처"
       />
       <InputText
-        value={bookerInfo.password}
+        value={bookingInfo.password}
         onChange={(value: string) => {
-          setBookerInfo({ ...bookerInfo, password: value });
+          setBookingInfo({ ...bookingInfo, password: value });
         }}
         type="password"
-        id="JDbookerInfo__password"
+        id="JDbookingInfo__password"
         label="비밀번호"
       />
       <InputText
-        value={bookerInfo.memo}
+        value={bookingInfo.memo}
         onChange={(value: string) => {
-          setBookerInfo({ ...bookerInfo, memo: value });
+          setBookingInfo({ ...bookingInfo, memo: value });
         }}
-        id="JDbookerInfo__memo"
+        id="JDbookingInfo__memo"
         textarea
         label="메모"
       />
       <CheckBox
-        checked={bookerInfo.agreePrivacyPolicy}
+        checked={bookingInfo.agreePrivacyPolicy}
         onChange={(value: boolean) => {
-          setBookerInfo({ ...bookerInfo, agreePrivacyPolicy: value });
+          setBookingInfo({ ...bookingInfo, agreePrivacyPolicy: value });
         }}
-        id="JDbookerInfo__agreeMent"
+        id="JDbookingInfo__agreeMent"
         label="개인정보 수집 동의"
       />
       <span
@@ -106,4 +106,4 @@ const BookerInfoBox: React.SFC<IProps> = ({ className, bookerInfo, setBookerInfo
   );
 };
 
-export default BookerInfoBox;
+export default BookingInfoBox;

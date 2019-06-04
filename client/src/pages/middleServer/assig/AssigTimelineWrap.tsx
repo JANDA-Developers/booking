@@ -9,10 +9,10 @@ import {
   getAllRoomTypeWithGuestVariables,
   allocateGuestToRoom,
   allocateGuestToRoomVariables,
-  updateBooker,
-  updateBookerVariables,
-  deleteBooker,
-  deleteBookerVariables,
+  updateBooking,
+  updateBookingVariables,
+  deleteBooking,
+  deleteBookingVariables,
   deleteGuests,
   deleteGuestsVariables,
   deleteBlock,
@@ -39,7 +39,7 @@ import {
 } from "../../../types/enum";
 import {
   ALLOCATE_GUEST_TO_ROOM,
-  UPDATE_BOOKER,
+  UPDATE_BOOKING,
   DELETE_GUEST,
   DELETE_BLOCK,
   GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM,
@@ -58,7 +58,7 @@ import {
 
 moment.tz.setDefault("UTC");
 
-class UpdateBookerMu extends Mutation<updateBooker, updateBookerVariables> {}
+class UpdateBookingMu extends Mutation<updateBooking, updateBookingVariables> {}
 class CreateBlockMu extends Mutation<createBlock, createBlockVariables> {}
 
 interface IProps {
@@ -135,7 +135,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
         alloCateItems.push({
           ...DEFAULT_ASSIG_ITEM,
           id: blockData._id,
-          bookerId: blockData._id,
+          bookingId: blockData._id,
           roomId: blockData.allocatedRoom._id,
           group: blockData.allocatedRoom._id + blockData.bedIndex,
           start: moment(blockData.start).valueOf(),
@@ -160,7 +160,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
     if (!allGuestsData) return alloCateItems;
 
     const guestsData = allGuestsData.filter(
-      guest => guest.booker.bookingStatus !== BookingStatus.CANCEL
+      guest => guest.booking.bookingStatus !== BookingStatus.CANCEL
     );
 
     guestsData.forEach((guestData, index) => {
@@ -168,7 +168,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
 
       if (
         guestData &&
-        guestData.booker &&
+        guestData.booking &&
         guestData.roomType &&
         guestData.allocatedRoom
       ) {
@@ -176,8 +176,8 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
           id: guestData._id,
           guestIndex: index,
           name: guestData.name,
-          bookerId: guestData.booker._id,
-          isCheckin: guestData.booker.checkIn.isIn,
+          bookingId: guestData.booking._id,
+          isCheckin: guestData.booking.checkIn.isIn,
           gender: guestData.gender,
           roomTypeId: guestData.roomType._id,
           roomId: guestData.allocatedRoom._id,
@@ -285,8 +285,8 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
             mutation={ALLOCATE_GUEST_TO_ROOM}
           >
             {allocateMu => (
-              <UpdateBookerMu mutation={UPDATE_BOOKER} onError={showError}>
-                {updateBookerMu => (
+              <UpdateBookingMu mutation={UPDATE_BOOKING} onError={showError}>
+                {updateBookingMu => (
                   <DeleteGuestMu
                     onCompleted={({DeleteGuests}) => {
                       onCompletedMessage(DeleteGuests, "삭제완료", "삭제실패");
@@ -320,7 +320,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                           >
                             {deleteBlockMu => {
                               const assigMutationes: IAssigMutationes = {
-                                updateBookerMu,
+                                updateBookingMu,
                                 deleteGuestsMu: deleteGuestMu,
                                 createBlockMu,
                                 deleteBlockMu,
@@ -354,7 +354,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                     )}
                   </DeleteGuestMu>
                 )}
-              </UpdateBookerMu>
+              </UpdateBookingMu>
             )}
           </AllocateGuestToRoomMu>
         );

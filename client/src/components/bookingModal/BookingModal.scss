@@ -1,6 +1,6 @@
 @import "../../style_config/style_config";
 
-.bookerModal {
+.bookingModal {
     @include response($mobile) {
         .JDinput-iconWrap {
            display:none;

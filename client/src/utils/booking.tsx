@@ -2,7 +2,7 @@ import {BookingStatus, Gender, PricingType} from "../types/enum";
 import {arraySum} from "./elses";
 import isEmpty from "./isEmptyData";
 import {any, string, number} from "prop-types";
-import {IroomSelectInfoTable} from "../components/bookerInfo/BookerModal";
+import {IroomSelectInfoTable} from "../components/bookingModal/BookingModal";
 import {getAppliedPriceWithDateRange_GetAppliedPriceWithDateRange_roomPrices} from "../types/api";
 import {ISeasonPrices, ISpecificPrices} from "../types/interface";
 import {applyDaysToArr} from "./utils";
@@ -108,27 +108,27 @@ interface IGetRoomTypePerGuestsParams {
 
 // 소위 중간계 만들어주는 함수 RoomType 별로 적용된 인원을 나타남
 export const getRoomTypePerGuests = (
-  bookerData: IGetRoomTypePerGuestsParams
+  bookingData: IGetRoomTypePerGuestsParams
 ): IroomSelectInfoTable[] => {
-  const roomTypes = bookerData.roomTypes || [];
+  const roomTypes = bookingData.roomTypes || [];
   return roomTypes.map(roomType => {
     return {
       roomTypeId: roomType._id,
       roomTypeName: roomType.name,
       count: {
         male: bookingGuestsMerge(
-          bookerData.guests,
+          bookingData.guests,
           roomType ? roomType._id : undefined
         ).male,
         female: bookingGuestsMerge(
-          bookerData.guests,
+          bookingData.guests,
           roomType ? roomType._id : undefined
         ).female,
         roomCount:
           roomType.pricingType === PricingType.DOMITORY
             ? 0
-            : bookerData.guests
-            ? bookerData.guests.filter(guest => !guest.gender).length
+            : bookingData.guests
+            ? bookingData.guests.filter(guest => !guest.gender).length
             : 0
       },
       pricingType: roomType.pricingType
