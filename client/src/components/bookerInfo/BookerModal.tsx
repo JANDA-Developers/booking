@@ -43,7 +43,7 @@ import {
 import {GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM} from "../../queries";
 import SendSMSmodalWrap, {
   IModalSMSinfo
-} from "../sendSMSmodal/sendSMSmodalWrap";
+} from "../sendSMSmodal/sendSmsModalWrap";
 import {IAssigInfo} from "../../pages/middleServer/assig/components/assigIntrerface";
 import Preloader from "../../atoms/preloader/Preloader";
 

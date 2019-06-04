@@ -39,7 +39,7 @@ import {autoComma} from "../../../utils/utils";
 import SendSmsModal from "../../../components/sendSMSmodal/sendSmsModal";
 import SendSMSmodalWrap, {
   IModalSMSinfo
-} from "../../../components/sendSMSmodal/sendSMSmodalWrap";
+} from "../../../components/sendSMSmodal/sendSmsModalWrap";
 
 interface IProps {
   pageInfo: IPageInfo | undefined;

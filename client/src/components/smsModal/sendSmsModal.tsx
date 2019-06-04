@@ -17,7 +17,7 @@ import {smsMsgParser} from "../../utils/smsUtils";
 import {IBooker} from "../../types/interface";
 import BookerInfoBox from "../../pages/outPages/components/bookerInfoBox";
 import moment from "moment";
-import {IModalSMSinfo} from "./sendSMSmodalWrap";
+import {IModalSMSinfo} from "./sendSmsModalWrap";
 import Preloader from "../../atoms/preloader/Preloader";
 import JDLabel from "../../atoms/label/JDLabel";
 import {isEmpty} from "../../utils/utils";
