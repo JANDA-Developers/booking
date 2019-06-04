@@ -31,7 +31,7 @@ const CheckTable: React.FC<IProps> = ({tableData}) => {
     {
       Header: "숙박일",
       accessor: "_id",
-      Cell: ({original}: CellInfo<any>) => (
+      Cell: ({original}: CellInfo) => (
         <div>
           <span>{original.start.split("T")[0]} 체크인</span>
           <br />
@@ -42,7 +42,7 @@ const CheckTable: React.FC<IProps> = ({tableData}) => {
     {
       Header: "객실/인원",
       accessor: "roomTypes",
-      Cell: ({value, original}: CellInfo<any>) => {
+      Cell: ({value, original}: CellInfo) => {
         const roomTypes: IRoomType[] = value;
         return roomTypes.map(roomType => (
           <JDbox>
@@ -79,7 +79,7 @@ const CheckTable: React.FC<IProps> = ({tableData}) => {
     {
       Header: "이용금액",
       accessor: "price",
-      Cell: ({value, original}: CellInfo<any>) => (
+      Cell: ({value, original}: CellInfo) => (
         <div>
           {value} <br />
           {PaymentStatusKr[original.paymentStatus]}
@@ -89,7 +89,7 @@ const CheckTable: React.FC<IProps> = ({tableData}) => {
     {
       Header: "상태",
       accessor: "bookingStatus",
-      Cell: ({value, original}: CellInfo<any>) => (
+      Cell: ({value, original}: CellInfo) => (
         <span>{BookingStatusKr[value]}</span>
       )
     }

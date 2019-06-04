@@ -24,12 +24,12 @@ const RoomSelectInfoTable: React.FC<IProps> = ({className, resvInfo}) => {
       Header: "객실정보",
       accessor: "roomTypeName",
       // 여기다 모든 roomType 을 넣어주어야함.
-      Cell: ({value}: CellInfo<any>) => <div>{value}</div>
+      Cell: ({value}: CellInfo) => <div>{value}</div>
     },
     {
       Header: "인원",
       accessor: "count",
-      Cell: ({value, original}: CellInfo<any>) =>
+      Cell: ({value, original}: CellInfo) =>
         original.pricingType === PricingType.DOMITORY ? (
           <div>
             <span>{`${value.male}남 `}</span>

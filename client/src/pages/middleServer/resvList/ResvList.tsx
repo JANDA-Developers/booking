@@ -149,7 +149,7 @@ const ResvList: React.SFC<IProps> = ({
     {
       Header: "예약일자",
       accessor: "createdAt",
-      Cell: ({value, original}: CellInfo<any>) => {
+      Cell: ({value, original}: CellInfo) => {
         const isCancled = original.bookingStatus === BookingStatus.CANCEL;
         return (
           <div className="resvList__createdAt">
@@ -172,7 +172,7 @@ const ResvList: React.SFC<IProps> = ({
     {
       Header: "숙박정보",
       accessor: "roomTypes",
-      Cell: ({value, original}: CellInfo<any>) => {
+      Cell: ({value, original}: CellInfo) => {
         const roomTypes: IRoomType[] = value;
         return roomTypes.map(roomType => (
           <JDbox align="center" key={`${original._id}${roomType._id}`}>
@@ -209,7 +209,7 @@ const ResvList: React.SFC<IProps> = ({
     {
       Header: "숙박일자",
       accessor: "booking",
-      Cell: ({original}: CellInfo<any>) => (
+      Cell: ({original}: CellInfo) => (
         <div>
           {setYYYYMMDD(original.start)}
           <br />
@@ -226,7 +226,7 @@ const ResvList: React.SFC<IProps> = ({
         </div>
       ),
       accessor: "name",
-      Cell: ({original}: CellInfo<any>) => {
+      Cell: ({original}: CellInfo) => {
         const Booking: IBooking = original;
         return (
           <div>
@@ -246,7 +246,7 @@ const ResvList: React.SFC<IProps> = ({
         </div>
       ),
       accessor: "price",
-      Cell: ({value, original}: CellInfo<any>) => (
+      Cell: ({value, original}: CellInfo) => (
         <div>
           <span>{autoComma(value)}원</span>
           <br />
@@ -263,7 +263,7 @@ const ResvList: React.SFC<IProps> = ({
       Header: "메모",
       accessor: "memo",
       minWidth: 200,
-      Cell: ({value}: CellInfo<any>) => (
+      Cell: ({value}: CellInfo) => (
         <div
           className={`JDscrool resvList__memo ${value &&
             value.length > 20 &&
@@ -277,7 +277,7 @@ const ResvList: React.SFC<IProps> = ({
       Header: "상세",
       accessor: "_id",
       minWidth: 50,
-      Cell: ({value}: CellInfo<any>) => (
+      Cell: ({value}: CellInfo) => (
         <JDIcon
           onClick={() => {
             bookingModalHook.openModal({

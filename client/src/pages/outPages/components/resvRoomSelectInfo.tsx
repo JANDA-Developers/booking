@@ -47,7 +47,7 @@ const ResvRoomSelectInfo: React.FC<IProps> = ({
     {
       Header: "객실정보",
       accessor: "roomTypeId",
-      Cell: ({value}: CellInfo<any>) => {
+      Cell: ({value}: CellInfo) => {
         const roomType = roomTypeInfo.find(
           inRoomType => inRoomType._id === value
         );
@@ -58,7 +58,7 @@ const ResvRoomSelectInfo: React.FC<IProps> = ({
     {
       Header: "인원",
       accessor: "roomTypeId",
-      Cell: ({original}: CellInfo<any>) =>
+      Cell: ({original}: CellInfo) =>
         original.pricingType === PricingType.DOMITORY ? (
           <div>
             <span>{`${original.countMaleGuest}남 `}</span>
@@ -73,7 +73,7 @@ const ResvRoomSelectInfo: React.FC<IProps> = ({
     {
       Header: "이용금액",
       accessor: "discountedPrice",
-      Cell: ({value}: CellInfo<any>) => autoComma(value)
+      Cell: ({value}: CellInfo) => autoComma(value)
     }
   ];
 

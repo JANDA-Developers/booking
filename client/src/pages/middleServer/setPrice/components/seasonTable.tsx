@@ -197,7 +197,7 @@ const SeasonModal: React.SFC<IProps> = ({
     {
       Header: '가격',
       accessor: 'defaultPrice',
-      Cell: ({ value, original }: CellInfo<any>) => (
+      Cell: ({ value, original }: CellInfo) => (
         <InputText
           defaultValue={value}
           comma
@@ -210,7 +210,7 @@ const SeasonModal: React.SFC<IProps> = ({
     {
       Header: '요일별 가격',
       accessor: 'dayOfWeekPrices',
-      Cell: ({ original, value }: CellInfo<any>) => {
+      Cell: ({ original, value }: CellInfo) => {
         const seasonPriceInput: SeasonPriceInput = original;
         const dayOfWeekPrices: DayOfWeekPriceInput[] = value;
 

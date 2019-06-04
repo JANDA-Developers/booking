@@ -109,7 +109,7 @@ function ShowComponents() {
     {
       Header: "번호",
       accessor: "index",
-      Cell: ({index}: CellInfo<any>) => <span>{index}</span>
+      Cell: ({index}: CellInfo) => <span>{index}</span>
     },
     {
       Header: "우선순위",
@@ -130,7 +130,7 @@ function ShowComponents() {
     {
       Header: "삭제/생성",
       accessor: "controll",
-      Cell: (props: CellInfo<any>) => (
+      Cell: (props: CellInfo) => (
         <Button mode="flat" thema="warn" label="삭제" />
       )
     }
