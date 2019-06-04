@@ -53,7 +53,7 @@ export class BookingSchema extends Typegoose {
     @prop()
     password: string | null;
 
-    @prop({ required: [true, "PhoneNumber is Missing"] })
+    @prop({ required: false })
     phoneNumber: string;
 
     @prop({ required: true, index: true })

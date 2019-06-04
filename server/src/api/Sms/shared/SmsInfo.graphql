@@ -59,9 +59,11 @@ enum SendTarget {
 # 보내야 할 상황을 먼저 정해야 할듯 하다.. ㅎㅎ
 enum AutoSendWhen {
     # 예약 완료
-    WHEN_BOOKING_COMPLETE
+    WHEN_BOOKING_CREATED
+    # 예약 완료 - 미결제 고객
+    WHEN_BOOKING_CREATED_PAYMENT_NOT_YET
     # 예약 취소
     WEHN_BOOKING_CANCEL
-    # 결제 안내
-    WHEN_PAYMENT
+    # 예약 수정
+    WHEN_BOOKING_UPDATE
 }
