@@ -20,7 +20,7 @@ const resolvers: Resolvers = {
                         error: "존재하지 않는 bookingId"
                     };
                 }
-                bookingInstance.deleteThis();
+                await bookingInstance.deleteThis();
                 return {
                     ok: true,
                     error: null

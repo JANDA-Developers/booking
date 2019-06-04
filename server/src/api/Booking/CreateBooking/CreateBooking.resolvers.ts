@@ -75,7 +75,7 @@ const createbooking = async (
         // 1. booking prototype 생성
         // 2. guestInputs 돌면서... roomType 별로 게스트 생성.
         const bookingInstance = new bookingModel({
-            ...bookingParams,
+            ...bookerParams,
             start,
             end,
             house: new Types.ObjectId(houseId)
@@ -201,6 +201,12 @@ const createbooking = async (
         await bookingInstance.save();
 
         // TODO: 여기서 SMS 보내긔!!
+        // 1. 보낼 메시지 템플릿 가져오기
+        // 2. 메시지 변수 치환.
+        // 3. 메시지 전송
+
+        const smsTemplate = "";
+        console.log(smsTemplate);
 
         return {
             ok: true,

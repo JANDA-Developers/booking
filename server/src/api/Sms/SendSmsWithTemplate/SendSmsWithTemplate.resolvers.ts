@@ -52,8 +52,8 @@ const resolvers: Resolvers = {
                     const msg = getFormattedAutoSendMessage(
                         smsTemplate.smsFormat,
                         {
-                            bookingNAME: params.bookingName || "",
-                            ROOMTYPE_N_COUNT: params.RoomTypeNCount || "",
+                            BOOKERNAME: params.bookerName || "",
+                            ROOMTYPE_N_COUNT: params.roomTypeNCount || "",
                             STAYDATE: params.stayDate || "",
                             STAYDATE_YMD: params.stayDateYMD || "",
                             TOTALPRICE: digitsComma(params.totalPrice || 0),

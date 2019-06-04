@@ -14,7 +14,7 @@ type Mutation {
 input SendSmsWithTemplateParams {
     stayDate: String
     stayDateYMD: String
-    RoomTypeNCount: String
-    bookingName: String
+    roomTypeNCount: String
+    bookerName: String
     totalPrice: Float
 }
