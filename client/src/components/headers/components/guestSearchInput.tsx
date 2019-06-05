@@ -21,10 +21,7 @@ const GuestSearchInput: React.FC<IProps> = ({
 }) => {
   const bookingModalHook = useModal(false);
   const handleSearchList = (label?: string | null, id?: string) => {
-    console.log("id");
-    console.log(id);
-    console.log(id);
-    console.log(id);
+    if (!id) return;
     bookingModalHook.openModal({
       bookingId: id
     });

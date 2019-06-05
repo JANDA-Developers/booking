@@ -2,6 +2,13 @@
 
 .DayPicker {
 
+    &--readOnly {
+        pointer-events: none;
+        .JDinput {
+            pointer-events: none;
+        }
+    }
+    
     &--unYear {
         .DayPicker-Caption__year {
             display: none;

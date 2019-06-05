@@ -1,10 +1,10 @@
-import { DayPickerProps } from 'react-day-picker';
-import React, { useRef, useEffect, Fragment } from 'react';
-import DayPickerInput from 'react-day-picker/DayPickerInput';
-import moment from 'moment';
-import InputText from '../../forms/inputText/InputText';
-import 'moment/locale/ko';
-import { isEmpty } from '../../../utils/utils';
+import {DayPickerProps} from "react-day-picker";
+import React, {useRef, useEffect, Fragment} from "react";
+import DayPickerInput from "react-day-picker/DayPickerInput";
+import moment from "moment";
+import InputText from "../../forms/inputText/InputText";
+import "moment/locale/ko";
+import {isEmpty} from "../../../utils/utils";
 // 데이픽커 인풋은 어레인이지를 지원하지 않을려는것만 같다.
 // 무리하게 바꾸었는데 잘 동작할지 모르겠다.
 
@@ -12,6 +12,7 @@ interface IProps {
   from?: Date | null;
   to?: Date | null;
   isRange?: boolean;
+  readOnly?: boolean;
   canSelectSameDate?: boolean;
   format?: string;
   label?: string;
@@ -26,21 +27,26 @@ const JDdayPickerInput: React.FC<IProps> = ({
   to,
   isRange,
   label,
+  readOnly,
   dayPickerProps,
-  placeholder = '날자를 선택해주세요',
-  format = 'YYYY-MM-DD',
+  placeholder = "날자를 선택해주세요",
+  format = "YYYY-MM-DD",
   inputComponent: InputComponent,
   ...props
 }) => {
   let DayPickerInputRef: DayPickerInput | null = null;
   const isInitialMount = useRef(true);
 
-  const dateForMatter = (date: Date | null | undefined, inFormat: string, locale: string): string => {
+  const dateForMatter = (
+    date: Date | null | undefined,
+    inFormat: string,
+    locale: string
+  ): string => {
     moment.locale(locale);
     if (date) {
       return moment(date).format(inFormat);
     }
-    return '';
+    return "";
   };
 
   useEffect(() => {
@@ -87,15 +93,15 @@ const JDdayPickerInput: React.FC<IProps> = ({
     inFrom: Date | null | undefined,
     inTo: Date | null | undefined,
     informat: string,
-    locale: string,
+    locale: string
   ): string => {
     if (isRange) {
       const formatFrom = dateForMatter(inFrom, informat, locale);
       const formatTo = dateForMatter(inTo, informat, locale);
 
       // 이상하게 return ''는 오류를 일으킨다.
-      if (formatFrom === '') return ' ';
-      if (formatTo === '') return formatFrom;
+      if (formatFrom === "") return " ";
+      if (formatTo === "") return formatFrom;
       return `${formatFrom} ~ ${formatTo}`;
     }
     const formatFrom = dateForMatter(inFrom, informat, locale);
@@ -108,15 +114,23 @@ const JDdayPickerInput: React.FC<IProps> = ({
       그냥 맨껍데기에 적용되서 그렇다는데 아무래도 해결방법은 깃허브에 문의해봐야겠다. */}
       {InputComponent}
       <DayPickerInput
-        ref={(ref) => {
+        ref={ref => {
           DayPickerInputRef = ref;
         }}
         placeholder={placeholder}
-        dayPickerProps={{ ...dayPickerProps }}
+        dayPickerProps={{...dayPickerProps}}
         format={format}
-        component={(inProps: any) => <InputText label={label} icon="calendar" {...props} {...inProps} />}
+        component={(inProps: any) => (
+          <InputText
+            readOnly={readOnly}
+            label={label}
+            icon="calendar"
+            {...props}
+            {...inProps}
+          />
+        )}
         hideOnDayClick={!isRange}
-        value={valueFormatter(from, to, format, 'kr')}
+        value={valueFormatter(from, to, format, "kr")}
       />
     </Fragment>
   );

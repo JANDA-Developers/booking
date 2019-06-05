@@ -9,16 +9,21 @@ interface IProps {
   groupName: string;
   label?: string;
   disabled?: boolean;
+  selectedValue?: any;
   onChange?(foo?: string | number): void;
   value?: string | number;
   checked?: boolean;
 }
 
 const JDradio: React.FC<IProps> = ({
-  id, disabled, groupName, label, onChange, value, checked = false,
+  id, disabled, groupName, label, onChange, value, selectedValue, checked = false,
 }) => {
+    console.log(onChange);
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const radioVlaue = e.target.value;
+
+    console.log(onChange);
+    console.log(onChange);
     if (!disabled) {
       onChange && onChange(radioVlaue);
     }
@@ -39,7 +44,7 @@ const JDradio: React.FC<IProps> = ({
           type="radio"
           value={value}
           disabled={disabled}
-          checked={checked}
+          checked={checked || selectedValue === value}
           onChange={handleRadioChange}
         />
         <span className="JDradio__label" />

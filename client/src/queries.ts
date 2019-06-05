@@ -152,6 +152,43 @@ const F_GUEST = gql`
   }
   ${F_ROOM}
 `;
+
+export const GET_HOUSE_SPECIFICATION = gql`
+  query getSpecification($houseId: ID!) {
+    GetHouse(houseId: $houseId) {
+      ok
+      error
+      house {
+        _id
+        name
+        houseType
+        hostApplication {
+          url
+        }
+        product {
+          _id
+          name
+          price
+          canHaveHostApp
+          description
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+        user {
+          _id
+          name
+          phoneNumber
+          email
+          isPhoneVerified
+          userRole
+        }
+      }
+    }
+  }
+`;
+
 const F_ROOM_CAPACITY = gql`
   fragment FroomTypeCapacity on RoomTypeCapacity {
     roomTypeId
@@ -944,8 +981,9 @@ export const UPDATE_BOOKING = gql`
   mutation updateBooking(
     $bookingId: ID!
     $params: UpdateBookingMutationParamsInput!
+    $sendSmsFlag: Boolean
   ) {
-    UpdateBooking(bookingId: $bookingId, params: $params) {
+    UpdateBooking(bookingId: $bookingId, params: $params, sendSmsFlag: $sendSmsFlag) {
       ok
       error
     }

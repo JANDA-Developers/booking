@@ -45,6 +45,9 @@
                 margin-bottom: $standard-margin-bottom;
             }
             tr {
+                &:not(:last-child)  {
+                    border-bottom: 1px solid $grey-opacity1;
+                }
                 & > td:last-child,
                 & > th:last-child {
                     border-right:none;

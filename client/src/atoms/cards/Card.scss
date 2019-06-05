@@ -11,6 +11,10 @@
         margin-bottom: 0;
     }
 
+    &--selected {
+        border: 1px solid $primary-color;    
+    }
+
     &--hoverDark:hover  {
         background-color: $grey-level1;
         cursor:pointer;

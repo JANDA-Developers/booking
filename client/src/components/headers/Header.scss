@@ -107,6 +107,7 @@
     // 에약자 검색바
     .JDsearchInput {
         margin-bottom: 0;
+        min-width: 300px;
         height: $standard-small-line-height;
         margin-right: $standard-space;
         &__input {

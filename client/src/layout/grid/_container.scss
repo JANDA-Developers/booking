@@ -47,7 +47,13 @@ main {
   max-width: $container-large-width;
 }
 
+.container--center {
+  display:flex;
+  justify-content:center;
+  text-align:center;
+}
 
+// 상하 좌우 가운데로
 .container--centerlize {
     position: fixed;
     top:0;

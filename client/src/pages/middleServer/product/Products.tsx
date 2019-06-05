@@ -20,13 +20,13 @@ interface IProps {
   productMutation: any;
   productLoading: boolean;
   arrProducts: Array<any>;
-  checkMutation: any;
   selectedHouse: IHouse;
   currentProduct: IProduct;
   isPhoneVerified: boolean;
   refundModal: IUseModal;
   exModalHook: IUseModal;
   hostAppHook: any;
+  checkMutation: any;
 }
 
 // currentProduct : 현재 적용중인 상품
@@ -35,13 +35,13 @@ const Products: React.FC<IProps> = ({
   productMutation,
   productLoading,
   arrProducts,
-  checkMutation,
   selectedHouse,
   currentProduct,
   isPhoneVerified,
   refundModal,
   exModalHook,
-  hostAppHook
+  hostAppHook,
+  checkMutation
 }) => {
   const [product1, product2, product3, product4] = arrProducts;
 

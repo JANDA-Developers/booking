@@ -44,7 +44,6 @@ const Home = ({
       return;
     }
 
-    toast('현 숙소는 연락대기중 입니다.');
     setRedirectUrl('/middleServer/ready');
     setRedirect(true);
   };

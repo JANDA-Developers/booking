@@ -136,9 +136,13 @@ const JDdayPicker: React.SFC<IProps> = ({
     onChangeDate && onChangeDate(from, to);
   }, [from, to]);
 
+  // 여기다가 클래스 적립
   const wrapClasses = classNames("DayPicker-box", className, {
-    "DayPicker-box--inputComponent": inputComponent
+    "DayPicker-box--inputComponent": inputComponent,
+    "DayPicker--readOnly": readOnly
   });
+
+  // 이건 순수하게 달력부분
   const classes = classNames({
     "DayPicker--horizen": horizen,
     "DayPicker--input": input,
@@ -205,6 +209,7 @@ const JDdayPicker: React.SFC<IProps> = ({
           from={from}
           to={to}
           label={label}
+          readOnly={readOnly}
           isRange={isRange}
           dayPickerProps={dayPickerProps}
         />

@@ -29,6 +29,7 @@ const MakeItemMenu: React.FC<IProps> = ({
   if (!isEmpty(target.group)) {
     targetGroup = findGroupById(target.group);
   }
+
   return (
     <div className="assig__tooltips makeMenu tooltipList" id="makeMenu">
       <ul>

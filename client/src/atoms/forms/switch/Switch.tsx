@@ -1,9 +1,9 @@
-import React, { Fragment } from 'react';
-import './Switch.scss';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import ErrProtecter from '../../../utils/errProtect';
-import JDlabel from '../../label/JDLabel';
+import React, {Fragment} from "react";
+import "./Switch.scss";
+import PropTypes from "prop-types";
+import classNames from "classnames";
+import ErrProtecter from "../../../utils/errProtect";
+import JDlabel from "../../label/JDLabel";
 
 interface IProps {
   disabled?: boolean;
@@ -15,7 +15,12 @@ interface IProps {
 }
 
 const JDswitch: React.FC<IProps> = ({
-  disabled, checked = false, onChange, ltxt, rtxt, label,
+  disabled,
+  checked = false,
+  onChange,
+  ltxt,
+  rtxt,
+  label
 }) => {
   const handleCheckboxChange = () => {
     const flag = disabled ? checked : !checked;
@@ -23,7 +28,7 @@ const JDswitch: React.FC<IProps> = ({
   };
 
   const classes = classNames({
-    JDswitch__input: true,
+    JDswitch__input: true
   });
 
   return (
@@ -37,22 +42,20 @@ const JDswitch: React.FC<IProps> = ({
         onClick={handleCheckboxChange}
       >
         <label htmlFor="JDswitch">
-          {ltxt !== '' && <span className="JDswitch__ltxt">{ltxt}</span>}
-          <input onChange={() => {}} checked={checked} className={classes} disabled={disabled} type="checkbox" />
+          {ltxt !== "" && <span className="JDswitch__ltxt">{ltxt}</span>}
+          <input
+            onChange={() => {}}
+            checked={checked}
+            className={classes}
+            disabled={disabled}
+            type="checkbox"
+          />
           <span className="JDswitch__lever" />
-          {rtxt !== '' && <span className="JDswitch__rtxt">{rtxt}</span>}
+          {rtxt !== "" && <span className="JDswitch__rtxt">{rtxt}</span>}
         </label>
       </span>
     </span>
   );
-};
-
-JDswitch.defaultProps = {
-  disabled: false,
-  checked: false,
-  onChange: () => {},
-  ltxt: '',
-  rtxt: '',
 };
 
 export default ErrProtecter(JDswitch);

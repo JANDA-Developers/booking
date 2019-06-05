@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, Fragment} from "react";
 import {Mutation, graphql} from "react-apollo";
 import {toast} from "react-toastify";
 import {Redirect} from "react-router-dom";
@@ -21,6 +21,7 @@ import {
 } from "../../../types/api";
 import {ReactTooltip} from "../../../atoms/tooltipList/TooltipList";
 import {Product} from "../../../types/enum";
+import AdditionModal from "./components/additionModal";
 
 class BuyProductMutation extends Mutation<buyProduct, buyProductVariables> {}
 class RefundProductMutation extends Mutation<
@@ -42,6 +43,7 @@ const ProductsWrap: React.FC<any> = ({
   const [selectedProductTypeId, setSelectedProductTypeId] = useRadio(
     currentProductTypeId
   );
+  const additionModalHook = useModal(false);
   const exModalHook = useModal(false);
   const refundModal = useModal(false);
   const [redirect, setRedirect] = useState(false);
@@ -59,7 +61,9 @@ const ProductsWrap: React.FC<any> = ({
       toast.warn("상품을 재선택한후 다시 시도해주세요.");
       return false;
     }
-    mutation();
+    additionModalHook.openModal({
+      prodcutMu: mutation
+    });
     return false;
   };
 
@@ -141,19 +145,22 @@ const ProductsWrap: React.FC<any> = ({
             redirect ? (
               <Redirect push to="/middleServer/ready" />
             ) : (
-              <Products
-                refundMutation={refundMutation}
-                productMutation={productMutation}
-                productLoading={productLoading}
-                arrProducts={arrProducts}
-                checkMutation={checkMutation}
-                selectedHouse={selectedHouse}
-                currentProduct={currentProduct}
-                exModalHook={exModalHook}
-                isPhoneVerified={isPhoneVerified}
-                refundModal={refundModal}
-                hostAppHook={hostAppHook}
-              />
+              <Fragment>
+                <Products
+                  refundMutation={refundMutation}
+                  productMutation={productMutation}
+                  productLoading={productLoading}
+                  arrProducts={arrProducts}
+                  checkMutation={checkMutation}
+                  selectedHouse={selectedHouse}
+                  currentProduct={currentProduct}
+                  exModalHook={exModalHook}
+                  isPhoneVerified={isPhoneVerified}
+                  refundModal={refundModal}
+                  hostAppHook={hostAppHook}
+                />
+                <AdditionModal modalHook={additionModalHook} />
+              </Fragment>
             )
           }
         </RefundProductMutation>

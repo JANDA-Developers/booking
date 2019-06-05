@@ -208,7 +208,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     // if (target.type === "normal")
     // bookingModal.openModal({bookingId: target.bookingId});
     if (target.type === GuestTypeAdd.MAKE) {
-      openMakeMenu(location);
+      openMakeMenu(location, {item: target});
     }
   };
 
@@ -594,7 +594,8 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
             <DateHeader />
           </TimelineHeaders>
         </Timeline>
-        {groupData.length === 0 && (
+        {/* 생성된 방이 없을때 */}
+        {groupData.length === 0 && !loading && (
           <div className="assigTimeline__placeHolderWrap">
             <Link to="/middleServer/timelineConfig">
               <JDIcon

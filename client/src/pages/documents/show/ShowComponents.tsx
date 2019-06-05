@@ -178,9 +178,18 @@ function ShowComponents() {
           <h6>Radio</h6>
           <Radio
             onChange={setValue}
-            value="rd1"
+            value="Y"
+            label="홈페이지 사용을 희망합니다."
             checked
             id="RD1--1"
+            groupName="RD1"
+          />
+          <Radio
+            onChange={setValue}
+            value="N"
+            label="홈페이지 사용을 희망하지 않습니다."
+            checked
+            id="RD1--2"
             groupName="RD1"
           />
           <Radio onChange={setValue} value="rd2" id="RD1--2" groupName="RD1" />

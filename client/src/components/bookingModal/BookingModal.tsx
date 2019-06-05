@@ -45,6 +45,8 @@ import SendSMSmodalWrap, {IModalSMSinfo} from "../smsModal/SendSmsModalWrap";
 import {IAssigInfo} from "../../pages/middleServer/assig/components/assigIntrerface";
 import Preloader from "../../atoms/preloader/Preloader";
 import {validate} from "graphql";
+import {toast} from "react-toastify";
+import {isPhone} from "../../utils/inputValidations";
 
 export interface IroomSelectInfoTable {
   roomTypeId: string;
@@ -107,6 +109,18 @@ const POPbookingInfo: React.FC<IProps> = ({
     moment(bookingData.start).toDate(),
     moment(bookingData.end).toDate()
   );
+
+  const handleIconClick = () => {
+    if (!bookingPhoneHook.isValid) {
+      toast.warn("올바른 핸드폰 번호가 아닙니다.");
+      return;
+    }
+    sendSmsModalHook.openModal({
+      ...smsModalInfoTemp,
+      createMode: true
+    });
+  };
+  1;
 
   const defaultFormat: IroomSelectInfoTable[] = getRoomTypePerGuests(
     bookingData
@@ -250,15 +264,13 @@ const POPbookingInfo: React.FC<IProps> = ({
           <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
             <InputText
               {...bookingPhoneHook}
+              validation={isPhone}
               hyphen
               label="전화번호"
               icon="sms"
               iconHover
               iconOnClick={() => {
-                sendSmsModalHook.openModal({
-                  ...smsModalInfoTemp,
-                  createMode: true
-                });
+                handleIconClick();
               }}
             />
           </div>
