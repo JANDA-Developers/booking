@@ -59,7 +59,7 @@ const PhoneVerification: React.FC<IProps> = ({
       ariaHideApp={false}
     >
       <h5>핸드폰 인증번호</h5>
-      <JDTimer initialTime={TimePerMs.M * 0.1} direction="backward">
+      <JDTimer initialTime={TimePerMs.M * 3} direction="backward">
         {({timerState}: any) => {
           if (timerState === "STOPPED") {
             setTimeOver(true);

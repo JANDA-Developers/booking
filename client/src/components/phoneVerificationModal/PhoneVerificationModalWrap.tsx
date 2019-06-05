@@ -42,8 +42,8 @@ interface IProps {
 
 const PhoneVerificationModalWrap: React.FC<IProps> = ({
   modalHook,
-  onPhoneVerified = modalHook.info && modalHook.info.onPhoneVerified,
-  phoneNumber = modalHook.info.phoneNumber
+  onPhoneVerified = modalHook.info ? modalHook.info.onPhoneVerified : undefined,
+  phoneNumber = modalHook.info ? modalHook.info.phoneNumber : undefined
 }) => (
   <StartPhoneVerificationMu
     variables={{phoneNumber}}
