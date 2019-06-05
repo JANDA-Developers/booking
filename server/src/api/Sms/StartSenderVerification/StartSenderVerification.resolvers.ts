@@ -18,34 +18,31 @@ const resolvers: Resolvers = {
                 const { user } = req;
 
                 try {
-                    const existingVerification = await VerificationModel.findOne(
-                        {
-                            target: Target.PHONE,
-                            payload: phoneNumber
-                        }
-                    );
-                    console.log({
-                        user,
-                        existingVerification
-                    });
-                    if (
-                        !(existingVerification && existingVerification.verified)
-                    ) {
-                        return {
-                            ok: false,
-                            error: "이미 인증된 번호입니다."
-                        };
-                    }
-                    if (existingVerification.user.equals(user._id)) {
-                        await existingVerification.remove();
-                    }
-                    const verification = new VerificationModel({
+                    let verification = await VerificationModel.findOne({
                         target: Target.PHONE,
-                        payload: phoneNumber,
-                        user: user._id
+                        payload: phoneNumber
                     });
+                    if (verification && !verification.verified) {
+                        await verification.remove();
+                        verification = new VerificationModel({
+                            target: Target.PHONE,
+                            payload: phoneNumber,
+                            user: user._id
+                        });
+                    }
+                    if (!verification) {
+                        verification = new VerificationModel({
+                            target: Target.PHONE,
+                            payload: phoneNumber,
+                            user: user._id
+                        });
+                    }
                     await verification.save();
                     sendVerificationSMS(phoneNumber, verification.key);
+                    console.log({
+                        user,
+                        verification
+                    });
                     return {
                         ok: true,
                         error: null
