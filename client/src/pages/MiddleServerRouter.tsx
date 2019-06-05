@@ -197,6 +197,7 @@ const JDmiddleServer: React.FC<IProps> = ({
                   hostApp={selectedHouse && selectedHouse.hostApplication}
                   currentProduct={applyedProduct}
                   selectedHouse={selectedHouse}
+                  user={user}
                 />
               ) : (
                 <Login />

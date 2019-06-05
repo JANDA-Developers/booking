@@ -42,7 +42,7 @@ interface IProps {
 
 const PhoneVerificationModalWrap: React.FC<IProps> = ({
   modalHook,
-  onPhoneVerified = modalHook.info.onPhoneVerified,
+  onPhoneVerified = modalHook.info && modalHook.info.onPhoneVerified,
   phoneNumber = modalHook.info.phoneNumber
 }) => (
   <StartPhoneVerificationMu
