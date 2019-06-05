@@ -48,7 +48,7 @@ export const extractUser = async (
     };
     return {
         ...extractResult._doc,
-        _id: user._id.toString(),
+        _id: extractResult._doc._id,
         password: null,
         houses: await transformHouses.bind(transformHouses, user.houses)
     };
