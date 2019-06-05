@@ -57,9 +57,6 @@ const JDmiddleServer: React.FC<IProps> = ({
   const isloading: boolean = loading || loading2 || loading3;
   const houses: IHouse[] = user.houses || [];
 
-  console.log("lastSelectedHouse");
-  console.log(lastSelectedHouse);
-  console.log(lastSelectedHouse);
   let selectedHouse = houses.find(
     house => house._id === lastSelectedHouse.value
   );

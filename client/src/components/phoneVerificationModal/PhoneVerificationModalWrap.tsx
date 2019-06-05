@@ -72,8 +72,8 @@ const PhoneVerificationModalWrap: React.FC<IProps> = ({
             }
           }}
           onError={showError}
-          // awaitRefetchQueries
-          // refetchQueries={[{query: GET_USER_INFO}]}
+          awaitRefetchQueries
+          refetchQueries={[{query: GET_USER_INFO}]}
         >
           {completePhoneVerificationMu => (
             // performance.now() ::[https://stackoverflow.com/questions/51524293/new-date-as-react-key-prop]

@@ -75,7 +75,7 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({houseId, modalHook}) => {
     <GetRoomTypeById
       fetchPolicy="network-only"
       query={GET_ROOMTYPE_BY_ID}
-      skip={isEmpty(roomTypeId)}
+      skip={isEmpty(roomTypeId) || roomTypeId === -1}
       variables={{roomTypeId}}
     >
       {({data: queryRoomTypeData, loading, error}) => {

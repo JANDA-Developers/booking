@@ -81,11 +81,13 @@ const Header: React.FC<IProps> = ({
             />
           </span>
           <SelectHouseWrap selectedHouse={selectedHouse} houses={houses} />
-          {isPhoneVerified || (
+          {user && isPhoneVerified || (
             <span className="header__btns header__btns--mobileX">
               <Button
                 onClick={() => {
-                  phoneVerificationModalHook.openModal();
+                  phoneVerificationModalHook.openModal({
+                    phoneNumber: user.phoneNumber
+                  });
                 }}
                 label="인증하기"
                 blink

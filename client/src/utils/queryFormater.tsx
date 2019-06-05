@@ -38,7 +38,8 @@ function queryDataFormater<T, K extends keyof T, C extends keyof T[K], D>(
       }
       if (inData.error) {
         console.error("queryDataFormater: Error From BackEnd");
-        toast.error(inData.error);
+        console.error(inData.error);
+        toast.error('오류발생');
         return falsyReturn as any;
       }
       return inData;
