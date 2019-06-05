@@ -95,6 +95,38 @@ export const roomDataManufacture = (
           type: "add"
         });
       }
+    }else{
+      if (roomTypeData.pricingType === "ROOM") {
+        roomGroups.push({
+          ...DEFAULT_ASSIG_GROUP,
+          id: `add${roomTypeData._id}${roomTypeIndex}`,
+          roomTypeId: roomTypeData._id,
+          roomTypeIndex: roomTypeData.index,
+          roomType: roomTypeData,
+          roomGender: roomTypeData.roomGender,
+          roomId: `${roomTypeData._id}add`,
+          type: "add"
+        });
+      }else{
+
+        console.log('roomTypeData.peopleCount');
+        console.log(roomTypeData.peopleCount);
+        for (let i = 0; roomTypeData.peopleCount > i; i += 1) {
+          roomGroups.push({
+            ...DEFAULT_ASSIG_GROUP,
+            id: `add${roomTypeData._id}${roomTypeIndex}` + i,
+            roomTypeId: roomTypeData._id,
+            roomTypeIndex: roomTypeData.index,
+            roomType: roomTypeData,
+            roomGender: roomTypeData.roomGender,
+            roomId: `${roomTypeData._id}add`,
+            type: "add",
+            placeIndex: i + 1,
+              isLastOfRoom: roomTypeData.peopleCount === i + 1,
+              isLastOfRoomType: true
+          });
+        }
+      }
     }
   });
 
