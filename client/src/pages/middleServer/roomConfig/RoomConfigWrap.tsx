@@ -52,8 +52,6 @@ const RoomConfigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
         ); // 원본데이터
         const formatedRoomData = roomDataManufacture(roomTypesData, true); // 타임라인을 위해 가공된 데이터
 
-        console.log("formatedRoomData");
-        console.log(formatedRoomData);
 
         return (
           // 방생성 뮤테이션

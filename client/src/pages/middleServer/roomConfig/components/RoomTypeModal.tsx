@@ -84,6 +84,9 @@ const RoomTypeModal: React.SFC<IProps> = ({
     defaultPrice: value.defaultPrice
   };
 
+
+  console.log('updateRoomTypeValue');
+  console.log(updateRoomTypeValue);
   // const [peopleCountOption, setPeopleCountOption] = useState<IselectedOption[]>([]);
 
   const validater = () => {
@@ -96,6 +99,10 @@ const RoomTypeModal: React.SFC<IProps> = ({
 
   const onCreateRoomType = async () => {
     if (validater()) {
+
+      console.log('updateRoomTypeValue');
+      console.log('updateRoomTypeValue');
+      console.log(updateRoomTypeValue);
       createRoomTypeMutation({
         variables: updateRoomTypeValue
       });
@@ -200,8 +207,8 @@ const RoomTypeModal: React.SFC<IProps> = ({
               <SelectBox
                 label="방성별선택"
                 disabled={false}
-                onChange={(inValue: IselectedOption) => {
-                  setValue({...value, roomGender: inValue.value});
+                onChange={(inValue: any) => {
+                  setValue({...value, roomGender: inValue});
                 }}
                 options={genderOptions}
                 selectedOption={value.roomGender}

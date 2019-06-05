@@ -66,12 +66,6 @@ const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({group}) => {
     }
   });
 
-
-  console.log(group);
-  console.log(group);
-  console.log(group);
-  console.log(group);
-
   return (
     <div>
       <div className="assigGroups custom-group">
