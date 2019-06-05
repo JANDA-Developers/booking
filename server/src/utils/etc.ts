@@ -23,3 +23,14 @@ export const digitsComma = (str: string | number = ""): string => {
     }
     return x1 + x2;
 };
+
+export const transDateToString = (date: Date, type: "YMD" | "MD"): string => {
+    const { m, d } = {
+        m: (date.getMonth() + 1).toString().padStart(2, "0"),
+        d: date
+            .getDate()
+            .toString()
+            .padStart(2, "0")
+    };
+    return `${type === "YMD" ? date.getFullYear() + ". " : ""}${m}.${d}`;
+};

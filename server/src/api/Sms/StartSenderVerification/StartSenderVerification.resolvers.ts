@@ -29,12 +29,16 @@ const resolvers: Resolvers = {
                         existingVerification
                     });
                     if (
-                        existingVerification &&
-                        existingVerification.user.equals(user._id)
+                        !(existingVerification && existingVerification.verified)
                     ) {
+                        return {
+                            ok: false,
+                            error: "이미 인증된 번호입니다."
+                        };
+                    }
+                    if (existingVerification.user.equals(user._id)) {
                         await existingVerification.remove();
                     }
-
                     const verification = new VerificationModel({
                         target: Target.PHONE,
                         payload: phoneNumber,

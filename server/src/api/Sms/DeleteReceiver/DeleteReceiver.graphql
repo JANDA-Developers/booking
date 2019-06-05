@@ -1,0 +1,10 @@
+type DeleteReceiverResponse {
+    ok: Boolean!
+    error: String
+}
+type Mutation {
+    DeleteReceiver(
+        smsInfoId: ID!
+        receiver: PhoneNumber!
+    ): DeleteReceiverResponse!
+}
