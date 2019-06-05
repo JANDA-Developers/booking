@@ -60,7 +60,7 @@ const resolvers: Resolvers = {
                         );
 
                         // TODO: SMS 날릴 예정
-                        if (sendSmsFlag) {
+                        if (sendSmsFlag === null || sendSmsFlag === true) {
                             const smsInfo = await SmsInfoModel.findOne({
                                 house: new Types.ObjectId()
                             });

@@ -7,7 +7,7 @@ type Mutation {
     UpdateBooking(
         bookingId: ID!
         params: UpdateBookingMutationParamsInput!
-        sendSmsFlag: Boolean!
+        sendSmsFlag: Boolean
     ): UpdateBookingResponse!
 }
 
