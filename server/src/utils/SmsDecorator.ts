@@ -13,10 +13,10 @@ export enum SmsReplaceKeyEnum {
 }
 
 export type SmsReplacementValues = {
-    [K in keyof typeof SmsReplaceKeyEnum]: string
+    [K in keyof typeof SmsReplaceKeyEnum]?: string
 };
 
-export class SmsTemplateDecorator implements SmsDecoratorInterface {
+class SmsTemplateDecorator implements SmsDecoratorInterface {
     private msg: string;
 
     constructor(msg: string) {
@@ -39,10 +39,13 @@ export const getFormattedAutoSendMessage = (
     values: SmsReplacementValues
 ): string => {
     return new SmsTemplateDecorator(msg)
-        .replace(SmsReplaceKeyEnum.BOOKERNAME, values.BOOKERNAME)
-        .replace(SmsReplaceKeyEnum.ROOMTYPE_N_COUNT, values.ROOMTYPE_N_COUNT)
-        .replace(SmsReplaceKeyEnum.STAYDATE, values.STAYDATE)
-        .replace(SmsReplaceKeyEnum.STAYDATE_YMD, values.STAYDATE_YMD)
-        .replace(SmsReplaceKeyEnum.TOTALPRICE, values.TOTALPRICE)
+        .replace(SmsReplaceKeyEnum.BOOKERNAME, values.BOOKERNAME || "")
+        .replace(
+            SmsReplaceKeyEnum.ROOMTYPE_N_COUNT,
+            values.ROOMTYPE_N_COUNT || ""
+        )
+        .replace(SmsReplaceKeyEnum.STAYDATE, values.STAYDATE || "")
+        .replace(SmsReplaceKeyEnum.STAYDATE_YMD, values.STAYDATE_YMD || "")
+        .replace(SmsReplaceKeyEnum.TOTALPRICE, values.TOTALPRICE || "")
         .getMessage();
 };

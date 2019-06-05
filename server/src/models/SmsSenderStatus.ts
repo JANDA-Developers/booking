@@ -1,6 +1,9 @@
 import { Types } from "mongoose";
 import { instanceMethod, InstanceType, prop, Typegoose } from "typegoose";
 
+/**
+ * SmsSender 등록 현황. => 잔다에서만 보는거임...
+ */
 export class SmsSenderStatusSchema extends Typegoose {
     @prop({ required: true })
     phoneNumber: string;

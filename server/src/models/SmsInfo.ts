@@ -1,6 +1,19 @@
 import { Types } from "mongoose";
 import { instanceMethod, InstanceType, prop, Typegoose } from "typegoose";
-import { SmsInfo, SmsSender, SmsTemplate } from "../types/graph";
+import {
+    AutoSendWhen,
+    SendSmsResponse,
+    SmsInfo,
+    SmsSender,
+    SmsTemplate
+} from "../types/graph";
+import { sendSMS } from "../utils/sendSMS";
+import {
+    getFormattedAutoSendMessage,
+    SmsReplacementValues
+} from "../utils/SmsDecorator";
+
+import * as _ from "lodash";
 
 export class SmsInfoSchema extends Typegoose {
     @prop({ required: true })
@@ -62,6 +75,57 @@ export class SmsInfoSchema extends Typegoose {
                 smsTemplates: smsTemplate
             }
         });
+    }
+
+    @instanceMethod
+    async addReceiver(this: InstanceType<SmsInfoSchema>, receiver: string) {
+        // TODO: validation ㄱㄱㄱ
+        this.receivers.push(receiver.replace("-", ""));
+        await this.save();
+        return this.receivers;
+    }
+
+    @instanceMethod
+    async removeReceiver(this: InstanceType<SmsInfoSchema>, receiver: string) {
+        _.pull(this.receivers, receiver);
+        await this.save();
+        return this.receivers;
+    }
+
+    @instanceMethod
+    getSmsTemplate(
+        this: InstanceType<SmsInfoSchema>,
+        sendCase: AutoSendWhen
+    ): SmsTemplate | null {
+        // TODO:
+        const smsTemplate = this.smsTemplates.find(st => {
+            if (st.smsSendCase && st.smsSendCase.when === sendCase) {
+                return true;
+            }
+            return false;
+        });
+        return smsTemplate || null;
+    }
+
+    @instanceMethod
+    async sendSmsWithTemplate(
+        this: InstanceType<SmsInfoSchema>,
+        sendCase: AutoSendWhen,
+        receivers: string,
+        values: SmsReplacementValues
+    ): Promise<SendSmsResponse> {
+        // TODO: 데헷데헷
+        const template = this.getSmsTemplate(sendCase);
+        if (!template) {
+            return {
+                ok: false,
+                error: "template이 존재하지 않습니다.",
+                result: null
+            };
+        }
+        const msg = getFormattedAutoSendMessage(template.smsFormat, values);
+        // send 하긔!
+        return await sendSMS(receivers, msg);
     }
 }
 

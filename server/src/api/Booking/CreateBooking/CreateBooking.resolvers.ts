@@ -15,11 +15,16 @@ import {
     RoomCapacity
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
-import { asyncForEach } from "../../../utils/etc";
+import {
+    asyncForEach,
+    digitsComma,
+    transDateToString
+} from "../../../utils/etc";
 
 import { Context } from "graphql-yoga/dist/types";
 import * as _ from "lodash";
 import { HouseSchema } from "../../../models/House";
+import { SmsInfoModel } from "../../../models/SmsInfo";
 import { removeUndefined } from "../../../utils/objFuncs";
 import {
     privateResolver,
@@ -202,11 +207,34 @@ const createbooking = async (
 
         // TODO: 여기서 SMS 보내긔!!
         // 1. 보낼 메시지 템플릿 가져오기
+        //      SmsInfo.getSmsTemplate 함수 호출
         // 2. 메시지 변수 치환.
         // 3. 메시지 전송
-
-        const smsTemplate = "";
-        console.log(smsTemplate);
+        if (sendSmsFlag) {
+            const smsInfo = await SmsInfoModel.findOne({
+                house: new Types.ObjectId(houseId)
+            });
+            if (smsInfo) {
+                const smsTemplate = await smsInfo.sendSmsWithTemplate(
+                    "WHEN_BOOKING_CREATED_PAYMENT_NOT_YET",
+                    smsInfo.receivers.join("|"),
+                    {
+                        BOOKERNAME: bookerParams.name,
+                        ROOMTYPE_N_COUNT: "",
+                        TOTALPRICE: digitsComma(bookerParams.price) + "₩",
+                        STAYDATE_YMD: `${transDateToString(
+                            start,
+                            "YMD"
+                        )}~${transDateToString(end, "YMD")}`,
+                        STAYDATE: `${transDateToString(
+                            start,
+                            "MD"
+                        )}~${transDateToString(end, "MD")}`
+                    }
+                );
+                console.log(smsTemplate);
+            }
+        }
 
         return {
             ok: true,
