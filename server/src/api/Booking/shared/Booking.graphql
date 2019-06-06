@@ -45,6 +45,8 @@ enum PayMethod {
     BANK_TRANSFER
     # 카드
     CREDIT_CARD
+    # 채널 결제
+    CHANNEL_PAY
 }
 
 enum PaymentStatus {
