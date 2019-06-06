@@ -55,10 +55,12 @@ const SetPrice: React.SFC<IProps> = ({
         <div className={seasonCount !== 0 ? "docs-section__box" : undefined}>
           <div className="flex-grid flex-grid--end">
             <Link to="/middleServer/specificPrice">
-              <Button float="right" icon="roomChange" label="방구조 변경" />
+              <Button float="right" icon="money" label="일별 가격설정 하기" />
             </Link>
           </div>
-          <span>상위에 있을수록 우선 적용됩니다.</span>
+          <p className="JDtextColor--secondary">
+            * 상위에 있을수록 우선 적용됩니다.
+          </p>
           <JDanimation
             animation={[Animation.fadeInDown, Animation.fadeOutRight]}
           >

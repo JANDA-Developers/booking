@@ -76,7 +76,7 @@ const InputText: React.FC<IProps> = ({
     let inInValue = inValue;
 
     if (typeof inValue === "number") {
-      if (isNaN(inInValue)) inInValue = 0;
+      if (isNaN(inInValue)) inInValue = "";
       inInValue = inInValue.toString();
     }
     if (typeof inInValue === "string") {
