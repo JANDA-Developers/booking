@@ -41,7 +41,7 @@ enum BookingStatus {
 enum PayMethod {
     CASH
     BANK_TRANSFER
-    CREDIT_CARD
+    # CREDIT_CARD
 }
 
 enum PaymentStatus {
