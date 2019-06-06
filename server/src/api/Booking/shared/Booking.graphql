@@ -64,7 +64,6 @@ input BookerInput {
     price: Float!
     memo: String
     paymentStatus: PaymentStatus
-    bookingStatus: BookingStatus
 }
 
 input GuestPartInput {
