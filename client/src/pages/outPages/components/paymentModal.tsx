@@ -25,13 +25,7 @@ const PayMentModal: React.SFC<IProps> = ({
   bookingCompleteFn
 }) => {
   const classes = classNames("paymentModal", className, {});
-  const payMethodHook = useSelect({value: "chocolate", label: "Chocolate"});
-  // TODO :페이메소드 enum으로 대체
-  const selectDummyOptions = [
-    {value: "chocolate", label: "Chocolate"},
-    {value: "strawberry", label: "Strawberry"},
-    {value: "vanilla", label: "Vanilla"}
-  ];
+  const payMethodHook = useSelect(PAYMETHOD_FOR_BOOKER_OP[0]);
 
   // pay 한후 request 받아서 진행
   const onPayRequest = () => {
