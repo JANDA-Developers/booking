@@ -39,7 +39,8 @@ const resolvers: Resolvers = {
                     const smsInfo = new SmsInfoModel({
                         sender: {
                             phoneNumber: user.phoneNumber,
-                            registered: false
+                            registered: false,
+                            verified: user.isPhoneVerified
                         },
                         house: new Types.ObjectId(house._id),
                         user: new Types.ObjectId(user._id),
