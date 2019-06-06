@@ -95,7 +95,7 @@ export const roomDataManufacture = (
           type: "add"
         });
       }
-    }else{
+    }else if(isAdd){
       if (roomTypeData.pricingType === "ROOM") {
         roomGroups.push({
           ...DEFAULT_ASSIG_GROUP,

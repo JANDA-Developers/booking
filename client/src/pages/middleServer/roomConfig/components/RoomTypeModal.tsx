@@ -84,9 +84,6 @@ const RoomTypeModal: React.SFC<IProps> = ({
     defaultPrice: value.defaultPrice
   };
 
-
-  console.log('updateRoomTypeValue');
-  console.log(updateRoomTypeValue);
   // const [peopleCountOption, setPeopleCountOption] = useState<IselectedOption[]>([]);
 
   const validater = () => {
@@ -100,9 +97,6 @@ const RoomTypeModal: React.SFC<IProps> = ({
   const onCreateRoomType = async () => {
     if (validater()) {
 
-      console.log('updateRoomTypeValue');
-      console.log('updateRoomTypeValue');
-      console.log(updateRoomTypeValue);
       createRoomTypeMutation({
         variables: updateRoomTypeValue
       });

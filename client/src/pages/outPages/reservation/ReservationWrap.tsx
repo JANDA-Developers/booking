@@ -53,15 +53,10 @@ const ReservationWrap: React.FC<IProps> = ({match, houseId}) => {
       mutation={CREATE_BOOKING_FOR_BOOKING}
     >
       {createBookingMu =>
-        withRouter(({match, location, history}) => (
           <Reservation
             confirmModalHook={confirmModalHook}
             createBookingMu={createBookingMu}
-            history={history}
-            match={match}
-            location={location}
           />
-        ))
       }
     </CreatBookingMu>
   );

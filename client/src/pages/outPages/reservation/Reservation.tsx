@@ -44,7 +44,7 @@ class GetAllAvailRoomQu extends Query<getAllRoomTypeForBooker> {}
 export interface ISetBookingInfo
   extends React.Dispatch<React.SetStateAction<BookerInput>> {}
 
-interface IProps extends RouteComponentProps<any> {
+interface IProps {
   createBookingMu: MutationFn<
     createBookingForBooker,
     createBookingForBookerVariables
@@ -56,7 +56,6 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
   windowWidth,
   windowHeight,
   createBookingMu,
-  history,
   confirmModalHook
 }) => {
   const defaultBookingInfo = {
@@ -78,18 +77,11 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
   // 👿 이건 오직 resvRooms에 룸 네임이 없어서다.
   const roomInfoHook = useState<IRoomType[]>([]);
 
-  console.log("history");
-  console.log(history);
-  console.log(history);
-  console.log(history);
-  console.log(history);
   const resvConfirmCallBackFunc = (flag: boolean) => {
     if (flag) {
       const publicKey = "05dfe136-1f1e-beed-b96d-ea3d68d8b847";
       const {name, password, phoneNumber} = bookingInfo;
-      setRedirect(
-        `http://localhost:3000/#/outpage/checkReservation/${name}/${phoneNumber}/${password}/${publicKey}`
-      );
+      location.href = `http://localhost:3000/#/outpage/checkReservation/${name}/${phoneNumber}/${password}/${publicKey}`
     } else {
       location.reload();
     }
