@@ -58,7 +58,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
       value: roomTypeData.pricingType
     },
     peopleCount: {
-      label: `${roomTypeData.peopleCount}개`,
+      label: `${roomTypeData.peopleCount}명`,
       value: roomTypeData.peopleCount
     },
     roomGender: {
@@ -66,7 +66,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
       value: roomTypeData.roomGender
     },
     peopleCountMax: {
-      label: `${roomTypeData.peopleCountMax}개`,
+      label: `${roomTypeData.peopleCountMax}명`,
       value: roomTypeData.peopleCountMax
     },
     defaultPrice: roomTypeData.defaultPrice || 0

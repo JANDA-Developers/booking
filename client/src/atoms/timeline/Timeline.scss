@@ -31,6 +31,10 @@
         }
     }
 
+    .rct-header-root {
+        position:sticky!important;
+        top:0;
+    }
     .rct-calendar-header {
         pointer-events: none;
         background-color:$grey-level3;
