@@ -153,7 +153,9 @@ const ResvList: React.SFC<IProps> = ({
         const isCancled = original.bookingStatus === BookingStatus.CANCEL;
         return (
           <div className="resvList__createdAt">
-            {value.slice(0, 16).replace("T", " ")}
+            {moment(value)
+              .tz("Asia/Seoul")
+              .format("YY-MM-DD HH:mm")}
             {isCancled && (
               <Fragment>
                 <br />
@@ -207,15 +209,14 @@ const ResvList: React.SFC<IProps> = ({
       }
     },
     {
-      Header: "숙박일자",
+      Header: "체크인",
       accessor: "booking",
-      Cell: ({original}: CellInfo) => (
-        <div>
-          {setYYYYMMDD(original.start)}
-          <br />
-          {setYYYYMMDD(original.end)}
-        </div>
-      )
+      Cell: ({original}: CellInfo) => <div>{setYYYYMMDD(original.start)}</div>
+    },
+    {
+      Header: "체크아웃",
+      accessor: "booking",
+      Cell: ({original}: CellInfo) => <div>{setYYYYMMDD(original.end)}</div>
     },
     {
       Header: () => (

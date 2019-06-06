@@ -171,7 +171,10 @@ const POPbookingInfo: React.FC<IProps> = ({
               phoneNumber: bookingPhoneHook.value,
               email: "demo@naver.com",
               agreePrivacyPolicy: true,
-              memo: memoHook.value
+              memo: memoHook.value,
+              paymentStatus:
+                paymentStatusHook.selectedOption &&
+                paymentStatusHook.selectedOption.value
             },
             end: resvDateHook.to,
             guestInputs: defaultFormat.map(data => ({
