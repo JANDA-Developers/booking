@@ -250,7 +250,11 @@ export class RoomTypeSchema extends Typegoose {
                     roomType: new Types.ObjectId(this._id)
                 },
                 {
-                    $set: updateData
+                    $set: removeUndefined({
+                        ...updateData,
+                        name: undefined,
+                        index: undefined
+                    })
                 }
             );
         }
