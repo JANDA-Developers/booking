@@ -21,6 +21,14 @@ const resolvers: Resolvers = {
                 { bookingId, params, sendSmsFlag }: UpdateBookingMutationArgs
             ): Promise<UpdateBookingResponse> => {
                 try {
+                    if (params.bookingStatus === "COMPLETE") {
+                        return {
+                            ok: false,
+                            error:
+                                "예약완료상태로 변경할 수 없습니다. 다시 예약을 잡아주세요",
+                            booking: null
+                        };
+                    }
                     let bookingInstance:
                         | InstanceType<BookingSchema>
                         | undefined;
