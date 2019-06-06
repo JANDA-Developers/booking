@@ -95,10 +95,6 @@ const POPbookingInfo: React.FC<IProps> = ({
     // @ts-ignore
     label: PayMethodKr[bookingData.payMethod]
   });
-  console.log("bookingData");
-  console.log(bookingData);
-  console.log("bookingNameHook");
-  console.log(bookingNameHook);
   const paymentStatusHook = useSelect<PaymentStatus>({
     value: bookingData.paymentStatus,
     // @ts-ignore
@@ -242,6 +238,9 @@ const POPbookingInfo: React.FC<IProps> = ({
           paymentStatus:
             paymentStatusHook.selectedOption &&
             paymentStatusHook.selectedOption.value,
+          bookingStatus:
+            bookingStatueHook.selectedOption &&
+            bookingStatueHook.selectedOption.value,
           phoneNumber: bookingPhoneHook.value,
           price: priceHook.value
         }
