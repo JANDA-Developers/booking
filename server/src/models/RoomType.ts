@@ -219,6 +219,11 @@ export class RoomTypeSchema extends Typegoose {
             }
         );
         // 핵복잡할듯
+        await GuestModel.deleteMany({
+            allocatedRoom: {
+                $in: this.rooms
+            }
+        });
         return {
             ok: true,
             error: null
