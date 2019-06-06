@@ -343,8 +343,9 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                                   windowHeight={windowHeight}
                                   windowWidth={windowWidth}
                                   dataTime={dataTime}
-                                  key={`timeline${defaultStartDate}${defaultEndDate}${guestsData &&
-                                    guestsData.length}`}
+                                  key={`timeline${dayPickerHook.from}${
+                                    dayPickerHook.to
+                                  }${guestsData && guestsData.length}`}
                                 />
                               );
                             }}

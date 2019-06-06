@@ -93,9 +93,10 @@ export enum BookingStatus {
 }
 
 export enum PayMethod {
+  BANK_TRANSFER = "BANK_TRANSFER",
   CASH = "CASH",
-  CREDIT_CARD = "CREDIT_CARD",
-  BANK_TRANSFER = "BANK_TRANSFER"
+  CHANNEL_PAY = "CHANNEL_PAY",
+  CREDIT_CARD = "CREDIT_CARD"
 }
 
 export enum Product {
@@ -239,12 +240,14 @@ export const SMS_TARGET_OP = [
   {value: SendTarget.HOST, label: SendTargetKr.HOST}
 ];
 
-export const PAYMETHOD_OP = [
+export const PAYMETHOD_FOR_BOOKER_OP = [
+  {value: PayMethod.BANK_TRANSFER, label: "무통장입금"}
+];
+export const PAYMETHOD_FOR_HOST_OP = [
+  {value: PayMethod.BANK_TRANSFER, label: "무통장입금"},
   {value: PayMethod.CASH, label: "현금결제"},
-  {value: PayMethod.CREDIT_CARD, label: "카드결제"}
-  // {value: PayMethod.CASH, label: "현금결제"},
-  // {value: PayMethod.KAKAOPAY, label: "카카오페이"},
-  // {value: PayMethod.CHANNEL, label: "채널결제"},
+  {value: PayMethod.CREDIT_CARD, label: "카드결제"},
+  {value: PayMethod.CHANNEL_PAY, label: "채널결제"}
   // {value: PayMethod.ELSE, label: "기타"}
 ];
 

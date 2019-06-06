@@ -83,11 +83,18 @@ const JDdayPicker: React.SFC<IProps> = ({
     if (!isSelectingFromDay(from, to, day)) setEntered(day);
   };
 
+
   // handle --day : Click
   const handleDayClick = (day: Date, modifiers: DayModifiers) => {
     if (readOnly) return;
     // 불가능한 날자를 눌럿을경우에
     if (modifiers.disabled) return;
+
+    // 같은날을 선택할수 없는경우에
+    if(from && !canSelectSameDate && day <= from) {
+      handleResetClick();
+      return;
+    }
 
     // 범위선택이 아닌 경우에
     if (!isRange) {

@@ -16,7 +16,6 @@ import JDdayPicker from "../../atoms/dayPicker/DayPicker";
 import {
   BOOKING_STATUS_OP,
   PAYMENT_STATUS_OP,
-  PAYMETHOD_OP,
   PricingType,
   PaymentStatusKr,
   PayMethodKr,
@@ -24,7 +23,8 @@ import {
   BookingStatusKr,
   BookingModalType,
   PaymentStatus,
-  AutoSendWhen
+  AutoSendWhen,
+  PAYMETHOD_FOR_BOOKER_OP
 } from "../../types/enum";
 import "./BookingModal.scss";
 import {GB_booking, IResvCount} from "../../types/interface";
@@ -315,7 +315,7 @@ const POPbookingInfo: React.FC<IProps> = ({
           <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
             <SelectBox
               {...payMethodHook}
-              options={PAYMETHOD_OP}
+              options={PAYMETHOD_FOR_BOOKER_OP}
               label="결제수단"
             />
           </div>
