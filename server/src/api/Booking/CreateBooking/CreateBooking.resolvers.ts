@@ -79,12 +79,15 @@ const createbooking = async (
     try {
         // 1. booking prototype 생성
         // 2. guestInputs 돌면서... roomType 별로 게스트 생성.
-        const bookingInstance = new bookingModel({
-            ...bookerParams,
-            start,
-            end,
-            house: new Types.ObjectId(houseId)
-        });
+        const bookingInstance = new bookingModel(
+            removeUndefined({
+                ...bookerParams,
+                start,
+                end,
+                house: new Types.ObjectId(houseId),
+                bookingStatus: bookerParams.bookingStatus
+            })
+        );
         await bookingInstance.hashPassword();
         bookingInstance.guests = [];
         let flag = true;
