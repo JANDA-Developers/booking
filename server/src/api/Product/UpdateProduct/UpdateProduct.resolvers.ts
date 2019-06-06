@@ -2,10 +2,15 @@ import { extractProduct } from "../../../models/merge/merge";
 import { ProductModel } from "../../../models/Product";
 import {
     UpdateProductForSuMutationArgs,
-    UpdateProductForSUResponse
+    UpdateProductForSUResponse,
+    UpdateProductFromUserRequestMutationArgs,
+    UpdateProductFromUserRequestResponse
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
-import { privateResolverForSU } from "../../../utils/privateResolvers";
+import {
+    privateResolver,
+    privateResolverForSU
+} from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Mutation: {
@@ -33,6 +38,26 @@ const resolvers: Resolvers = {
                             extractProduct,
                             product
                         )
+                    };
+                } catch (error) {
+                    return {
+                        ok: false,
+                        error: error.message,
+                        product: null
+                    };
+                }
+            }
+        ),
+        UpdateProductFromUserRequest: privateResolver(
+            async (
+                _,
+                { houseId, params }: UpdateProductFromUserRequestMutationArgs
+            ): Promise<UpdateProductFromUserRequestResponse> => {
+                try {
+                    return {
+                        ok: false,
+                        error: "데헷데헷",
+                        product: null
                     };
                 } catch (error) {
                     return {

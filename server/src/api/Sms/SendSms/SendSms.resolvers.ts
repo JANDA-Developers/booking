@@ -9,7 +9,12 @@ const resolvers: Resolvers = {
             { msg, receivers, sender }: SendSmsMutationArgs
         ): Promise<SendSmsResponse> => {
             try {
-                const result = await sendSMS(receivers.join("|"), msg, sender);
+                const result = await sendSMS(
+                    receivers.join("|"),
+                    msg,
+                    sender,
+                    "Y"
+                );
                 // TODO: 여기서부터 하면됨 ㅎㅎ
                 // 결과값을 확인하고 result에 넣을것...
                 return result;
