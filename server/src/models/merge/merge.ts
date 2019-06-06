@@ -1,24 +1,30 @@
-import { ObjectId } from "bson";
 import { Types } from "mongoose";
 import { InstanceType } from "typegoose";
 import {
-    Booker,
+    Block,
     Booking,
     Guest,
+    HostApplication,
     House,
     Product,
     ProductType,
     Room,
     RoomPrice,
     RoomType,
+    RoomTypeWithCapacity,
     Season,
     SeasonPrice,
+    SmsInfo,
     User
 } from "../../types/graph";
-import { applyDaysToBinary } from "../../utils/applyDays";
-import { BookerModel, BookerSchema } from "../Booker";
-import { BookingModel, BookingSchema } from "../Booking";
+import { applyDaysToBinaryString } from "../../utils/applyDays";
+import { BlockSchema } from "../Block";
+import { bookingModel, BookingSchema } from "../Booking";
 import { GuestModel, GuestSchema } from "../Guest";
+import {
+    HostApplicationModel,
+    HostApplicationSchema
+} from "../HostApplication";
 import { HouseModel, HouseSchema } from "../House";
 import { ProductModel, ProductSchema } from "../Product";
 import { ProductTypeModel, ProductTypeSchema } from "../ProductType";
@@ -27,11 +33,12 @@ import { RoomPriceSchema } from "../RoomPrice";
 import { RoomTypeModel, RoomTypeSchema } from "../RoomType";
 import { SeasonModel, SeasonSchema } from "../Season";
 import { SeasonPriceModel, SeasonPriceSchema } from "../SeasonPrice";
+import { SmsInfoModel, SmsInfoSchema } from "../SmsInfo";
 import { UserModel, UserSchema } from "../User";
 
 /*
     - extract로 시작하느 함수들은 InstanceType<T> 를 변수로 받는 async 함수
-    - transform 으로 시작하는 함수들은 ObjectId 를 변수로 받아 함수 안에서 DB에 접속하여 결과값을 출력하는 async 함수
+    - transform 으로 시작하는 함수들은 Types.ObjectId 를 변수로 받아 함수 안에서 DB에 접속하여 결과값을 출력하는 async 함수
 */
 export const extractUser = async (
     user: InstanceType<UserSchema>
@@ -41,14 +48,14 @@ export const extractUser = async (
     };
     return {
         ...extractResult._doc,
-        _id: user._id.toString(),
+        _id: extractResult._doc._id,
         password: null,
         houses: await transformHouses.bind(transformHouses, user.houses)
     };
 };
 
 export const transformUser = async (
-    userId: ObjectId | string
+    userId: Types.ObjectId | string
 ): Promise<User | null> => {
     const user: InstanceType<UserSchema> | null = await UserModel.findById(
         userId
@@ -77,15 +84,38 @@ export const extractHouse = async (
             product: await transformProduct.bind(
                 transformProduct,
                 house.product
-            )
+            ),
+            hostApplication: await transformHostApp.bind(
+                transformHostApp,
+                house.hostApplication
+            ),
+            smsInfo: transformSmsInfo.bind(transformSmsInfo, house.smsInfo)
         };
     } catch (error) {
         throw error;
     }
 };
 
+export const transformSmsInfo = async (
+    smsInfoId: Types.ObjectId | string
+): Promise<SmsInfo | null> => {
+    const smsInfoInstance = await SmsInfoModel.findById(smsInfoId);
+    return smsInfoInstance && (await extractSmsInfo(smsInfoInstance));
+};
+
+export const extractSmsInfo = async (
+    smsInfo: InstanceType<SmsInfoSchema>
+): Promise<SmsInfo> => {
+    return {
+        ...(smsInfo as any)._doc,
+        _id: smsInfo._id,
+        house: await transformHouse.bind(transformHouse, smsInfo.house),
+        user: await transformUser.bind(transformUser, smsInfo.user)
+    };
+};
+
 export const transformHouse = async (
-    houseId: ObjectId | string
+    houseId: Types.ObjectId | string
 ): Promise<House | null> => {
     const house: InstanceType<HouseSchema> | null = await HouseModel.findById(
         houseId
@@ -114,7 +144,7 @@ export const transformHouses = async (
 };
 
 export const extractHouses = async (
-    houseTypes: InstanceType<HouseSchema>[]
+    houseTypes: Array<InstanceType<HouseSchema>>
 ): Promise<House[]> => {
     return await Promise.all(
         houseTypes.map(
@@ -151,8 +181,43 @@ export const extractRoomType = async (
     };
 };
 
+export const extractRoomTypeWithCapacity = async (
+    roomType: InstanceType<RoomTypeSchema>,
+    start: Date,
+    end: Date,
+    includeSettled?: boolean | undefined,
+    exceptbookingIds?: Types.ObjectId[]
+): Promise<RoomTypeWithCapacity> => {
+    return {
+        roomType: extractRoomType.bind(extractRoomType, roomType),
+        roomTypeCapacity: await extractRoomTypeCapacity.bind(
+            extractRoomTypeCapacity,
+            roomType,
+            start,
+            end,
+            includeSettled,
+            exceptbookingIds
+        )
+    };
+};
+
+export const extractRoomTypeCapacity = async (
+    roomType: InstanceType<RoomTypeSchema>,
+    start: Date,
+    end: Date,
+    includeSettled?: boolean | undefined,
+    exceptbookingIds?: Types.ObjectId[]
+) => {
+    return await roomType.getCapacity(
+        start,
+        end,
+        includeSettled,
+        exceptbookingIds
+    );
+};
+
 export const transformRoomType = async (
-    roomTypeId: string | ObjectId
+    roomTypeId: string | Types.ObjectId
 ): Promise<RoomType> => {
     const roomTypeSchema: InstanceType<
         RoomTypeSchema
@@ -164,8 +229,21 @@ export const transformRoomType = async (
     }
 };
 
+export const transformRoomTypes = async (
+    roomTypeIds: Types.ObjectId[]
+): Promise<RoomType[]> => {
+    const roomTypeInstances = await RoomTypeModel.find({
+        _id: { $in: roomTypeIds }
+    });
+    return await Promise.all(
+        roomTypeInstances.map(async roomTypeInstance => {
+            return await extractRoomType(roomTypeInstance);
+        })
+    );
+};
+
 export const extractRoomTypes = async (
-    roomTypeIds: ObjectId[]
+    roomTypeIds: Types.ObjectId[]
 ): Promise<RoomType[]> => {
     try {
         const results: RoomType[] = await Promise.all(
@@ -182,7 +260,7 @@ export const extractRoomTypes = async (
 };
 
 export const transformRoom = async (
-    roomId: ObjectId | string
+    roomId: Types.ObjectId | string
 ): Promise<Room | null> => {
     const roomSchema: InstanceType<
         RoomSchema
@@ -194,7 +272,9 @@ export const transformRoom = async (
     }
 };
 
-export const transformRooms = async (roomIds: ObjectId[]): Promise<Room[]> => {
+export const transformRooms = async (
+    roomIds: Types.ObjectId[]
+): Promise<Room[]> => {
     try {
         const result: any = (await Promise.all(
             roomIds.map(
@@ -242,7 +322,7 @@ export const extractSeason = async (
 };
 
 export const extractSeasons = async (
-    seasons: InstanceType<SeasonSchema>[]
+    seasons: Array<InstanceType<SeasonSchema>>
 ): Promise<Season[]> => {
     return await Promise.all(
         seasons.map(
@@ -254,7 +334,7 @@ export const extractSeasons = async (
 };
 
 export const transformSeason = async (
-    seasonId: ObjectId
+    seasonId: Types.ObjectId
 ): Promise<Season | null> => {
     const season: InstanceType<
         SeasonSchema
@@ -267,7 +347,7 @@ export const transformSeason = async (
 };
 
 export const transformSeasons = async (
-    seasonIds: ObjectId[]
+    seasonIds: Types.ObjectId[]
 ): Promise<Season[]> => {
     try {
         const seasons: Array<
@@ -297,7 +377,7 @@ export const extractProductType = (
 };
 
 export const transformProductType = async (
-    productTypeId: ObjectId | string
+    productTypeId: Types.ObjectId | string
 ): Promise<ProductType | null> => {
     const productType = await ProductTypeModel.findById(productTypeId);
     if (productType) {
@@ -322,7 +402,7 @@ export const extractProduct = async (
 };
 
 export const transformProduct = async (
-    productId: ObjectId | string
+    productId: Types.ObjectId | string
 ): Promise<Product | null> => {
     const product = await ProductModel.findById(productId);
     if (product) {
@@ -341,13 +421,29 @@ export const extractSeasonPrice = async (
     return {
         ...sp._doc,
         _id: sp._doc._id.toString(),
-        applyDays: applyDaysToBinary(sp._doc.applyDays),
+        // FIXME - Here... SeasonPriceSchema 변경으로 여기도 바뀌어야함.
+        dayOfWeekPrices: sp._doc.dayOfWeekPrices,
+        applyDays: applyDaysToBinaryString(sp._doc.applyDays),
         roomType: await transformRoomType.bind(
             transformRoomType,
             sp._doc.roomType
         ),
         season: await transformSeason.bind(transformSeason, sp._doc.season)
     };
+};
+
+export const extractSeasonPrices = async (
+    seasonPrices: Array<InstanceType<SeasonPriceSchema>>
+): Promise<SeasonPrice[]> => {
+    return await Promise.all(
+        seasonPrices.map(
+            async (
+                seasonPrice: InstanceType<SeasonPriceSchema>
+            ): Promise<SeasonPrice> => {
+                return await extractSeasonPrice(seasonPrice);
+            }
+        )
+    );
 };
 
 export const transformSeasonPrice = async (
@@ -362,8 +458,8 @@ export const transformSeasonPrice = async (
             );
         } else if (args) {
             existingSeasonPrice = await SeasonPriceModel.findOne({
-                season: new ObjectId(args.seasonId),
-                roomType: new ObjectId(args.roomTypeId)
+                season: new Types.ObjectId(args.seasonId),
+                roomType: new Types.ObjectId(args.roomTypeId)
             });
         }
         if (existingSeasonPrice) {
@@ -406,24 +502,37 @@ export const extractRoomPrices = async (
     );
 };
 
-export const extractBooker = async (
-    booker: InstanceType<BookerSchema>
-): Promise<Booker> => {
+export const extractbooking = async (
+    bookingInstance: InstanceType<BookingSchema>
+): Promise<Booking> => {
     const result: any = {
-        ...booker
+        ...bookingInstance
     };
+    console.log({
+        result
+    });
+
     return {
         ...result._doc,
-        _id: result._doc._id.toString()
+        _id: bookingInstance._id,
+        roomTypes: await transformRoomTypes.bind(
+            transformRoomTypes,
+            bookingInstance.roomTypes
+        ),
+        house: await transformHouse.bind(transformHouse, bookingInstance.house),
+        guests: await transformGuests.bind(
+            transformGuests,
+            bookingInstance.guests
+        )
     };
 };
 
-export const transformBooker = async (
-    bookerId: string | ObjectId
-): Promise<Booker | null> => {
-    const booker = await BookerModel.findById(bookerId);
-    if (booker) {
-        return await extractBooker(booker);
+export const transformbooking = async (
+    bookingId: string | Types.ObjectId
+): Promise<Booking | null> => {
+    const bookingInstance = await bookingModel.findById(bookingId);
+    if (bookingInstance) {
+        return await extractbooking(bookingInstance);
     } else {
         return null;
     }
@@ -437,10 +546,9 @@ export const extractGuest = async (
     };
     return {
         ...temp._doc,
-        _id: temp._doc._id.toString(),
-        booker: await transformBooker.bind(transformBooker, temp._doc.booker),
-        booking: await transformBooking.bind(
-            transformBooking,
+        _id: guest._id,
+        booking: await transformbooking.bind(
+            transformbooking,
             temp._doc.booking
         ),
         house: await transformHouse.bind(transformHouse, temp._doc.house),
@@ -448,14 +556,15 @@ export const extractGuest = async (
             transformRoomType,
             temp._doc.roomType
         ),
-        room: temp.room
-            ? await transformRoom.bind(transformRoom, temp.room)
-            : null
+        allocatedRoom: temp._doc.allocatedRoom
+            ? await transformRoom.bind(transformRoom, temp._doc.allocatedRoom)
+            : null,
+        isSettleable: await guest.verifySettleable()
     };
 };
 
 export const transformGuest = async (
-    guestId: string | ObjectId
+    guestId: string | Types.ObjectId
 ): Promise<Guest | null> => {
     const guest = await GuestModel.findById(guestId);
     if (guest) {
@@ -466,12 +575,12 @@ export const transformGuest = async (
 };
 
 export const transformGuests = async (
-    guestIds: Array<string | ObjectId>
+    guestIds: Array<string | Types.ObjectId>
 ): Promise<Guest[]> => {
-    const objectIds: ObjectId[] = guestIds.map(
-        guestId => new ObjectId(guestId)
+    const objIds: Types.ObjectId[] = guestIds.map(
+        guestId => new Types.ObjectId(guestId)
     );
-    const guests = await GuestModel.find({ _id: { $in: objectIds } });
+    const guests = await GuestModel.find({ _id: { $in: objIds } });
     const result = await Promise.all(
         guests.map(async guest => {
             return await extractGuest(guest);
@@ -480,35 +589,71 @@ export const transformGuests = async (
     return result;
 };
 
-export const extractBooking = async (
-    booking: InstanceType<BookingSchema>
-): Promise<Booking> => {
-    const result: any = {
-        ...booking
-    };
-    return {
-        ...result._doc,
-        _id: result._doc._id.toString()
-    };
-};
-
-export const extractBookings = async (
-    bookings: Array<InstanceType<BookingSchema>>
-): Promise<Booking[]> => {
+export const extractGuests = async (
+    guestInstances: Array<InstanceType<GuestSchema>>
+): Promise<Guest[]> => {
     return await Promise.all(
-        bookings.map(async booking => {
-            return await extractBooking(booking);
+        guestInstances.map(async guestInstance => {
+            return await extractGuest(guestInstance);
         })
     );
 };
 
-export const transformBooking = async (
-    bookingId: string | ObjectId
-): Promise<Booking | null> => {
-    const booking = await BookingModel.findById(bookingId);
-    if (booking) {
-        return await extractBooking(booking);
-    } else {
+export const extractBlock = async (
+    blockInstance: InstanceType<BlockSchema>
+): Promise<Block> => {
+    return {
+        ...(blockInstance as any)._doc,
+        _id: blockInstance._id,
+        house: await transformHouse.bind(transformHouse, blockInstance.house),
+        allocatedRoom: await transformRoom.bind(
+            transformRoom,
+            blockInstance.allocatedRoom
+        )
+    };
+};
+
+export const extractBlocks = async (
+    blockInstances: Array<InstanceType<BlockSchema>>
+): Promise<Block[]> => {
+    return await Promise.all(
+        blockInstances.map(
+            async blockInstance => await extractBlock(blockInstance)
+        )
+    );
+};
+
+export const extractbookings = async (
+    bookings: Array<InstanceType<BookingSchema>>
+): Promise<Booking[]> => {
+    return await Promise.all(
+        bookings.map(
+            async (bookingInstance): Promise<Booking> => {
+                return await extractbooking(bookingInstance);
+            }
+        )
+    );
+};
+
+export const extractHostApp = async (
+    hostAppInstance: InstanceType<HostApplicationSchema>
+): Promise<HostApplication> => {
+    const temp: any = {
+        ...hostAppInstance
+    };
+    return {
+        ...temp._doc,
+        house: await transformHouse.bind(transformHouse, hostAppInstance.house),
+        user: await transformUser.bind(transformUser, hostAppInstance.user)
+    };
+};
+
+export const transformHostApp = async (
+    hostAppId: Types.ObjectId | string | undefined | null
+): Promise<HostApplication | null> => {
+    const hostAppInstance = await HostApplicationModel.findById(hostAppId);
+    if (!hostAppInstance) {
         return null;
     }
+    return await extractHostApp(hostAppInstance);
 };

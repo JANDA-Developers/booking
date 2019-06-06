@@ -7,11 +7,11 @@ type Mutation {
     # 게스트 생성
     CreateGuests(
         houseId: ID!
-        bookerId: ID!
+        bookingId: ID!
         roomTypeId: ID!
         roomIds: [ID!]
         start: DateTime!
         end: DateTime!
-        geustType: GuestType!
+        pricingType: PricingType!
     ): CreateGuestsResponse!
 }

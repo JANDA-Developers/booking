@@ -21,7 +21,7 @@ export enum Target {
     }
     next();
 })
-class VerificationSchema extends Typegoose {
+export class VerificationSchema extends Typegoose {
     @prop({ enum: Target, default: Target.PHONE })
     target: VerificationTarget;
 
@@ -35,7 +35,7 @@ class VerificationSchema extends Typegoose {
     key: string;
 
     @prop()
-    user: Types.ObjectId
+    user: Types.ObjectId;
 
     @prop()
     createdAt: Date;

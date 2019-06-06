@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { extractRoomPrices } from "../../../models/merge/merge";
 import { RoomPriceModel } from "../../../models/RoomPrice";
 import {
@@ -6,7 +6,7 @@ import {
     GetRoomPriceResponse
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
-import privateResolver from "../../../utils/privateResolvers";
+import { privateResolver } from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Query: {
@@ -17,7 +17,7 @@ const resolvers: Resolvers = {
             ): Promise<GetRoomPriceResponse> => {
                 try {
                     const roomPrices = await RoomPriceModel.find({
-                        roomType: new ObjectId(roomTypeId),
+                        roomType: new Types.ObjectId(roomTypeId),
                         date: {
                             $gte: new Date(start),
                             $lte: new Date(end)

@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { HouseModel } from "../models/House";
 
 export const isUsersHouse = async (
@@ -7,7 +7,7 @@ export const isUsersHouse = async (
 ): Promise<boolean> => {
     const existingHouse = await HouseModel.findOne({
         _id: houseId,
-        user: new ObjectId(user)
+        user: new Types.ObjectId(user)
     });
     if (existingHouse) {
         return true;

@@ -7,18 +7,32 @@
     outline: none;
     width: $circle-icon-size;
     height: $circle-icon-size;
-    font-size: $circle-icon-font-size;
     align-content: center;
     justify-content:center;
     display: inline-block;
     font-size:inherit;
+    line-height: 100%;
     cursor:pointer;
-    
+
+    &:hover {
+        background-color: $hover-effect-dark;
+        transition:0.3s;
+    }
     &--white {
         color:white;
+        &:hover{
+            background-color: rgba(255,255,255,.16);
+        }
     }
     &--greybg {
         background-color: $grey-level1;
+    }
+    &--large {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+    &--noHover:hover {
+        background-color:unset;
     }
 
     .JDicon__svg {
@@ -26,8 +40,8 @@
         top:.1em;
     }
 
-    &:hover {
-        background-color: $hover-effect-dark;
-        transition:0.3s;
+
+    img {
+        width: 100%;
     }
 }

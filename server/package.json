@@ -7,9 +7,11 @@
     "license": "MIT",
     "devDependencies": {
         "@types/bcryptjs": "^2.4.2",
+        "@types/bson": "^4.0.0",
         "@types/graphql": "^14.0.5",
         "@types/helmet": "^0.0.42",
         "@types/jsonwebtoken": "^8.3.0",
+        "@types/lodash": "^4.14.123",
         "@types/mailgun-js": "^0.16.3",
         "@types/mongodb": "^3.1.19",
         "@types/mongoose": "^5.3.17",
@@ -35,7 +37,6 @@
         "dev": "cd src && nodemon --exec ts-node index.ts -e ts,graphql",
         "pretypes": "gql-merge --out-file ./src/schema.graphql ./src/api/**/*.graphql",
         "types": "graphql-to-typescript ./src/schema.graphql ./src/types/graph.d.ts",
-        "prebuild": "rm -rf dist",
         "build": "tsc",
         "postbuild": "yarn copy src/api/**/*.graphql dist/api",
         "start": "cd dist && node index.js"
@@ -48,6 +49,7 @@
         "graphql-yoga": "^1.17.1",
         "helmet": "^3.15.0",
         "jsonwebtoken": "^8.4.0",
+        "lodash": "^4.17.11",
         "mailgun-js": "^0.22.0",
         "merge-graphql-schemas": "^1.5.8",
         "mongodb": "^3.1.13",
@@ -55,6 +57,6 @@
         "morgan": "^1.9.1",
         "reflect-metadata": "^0.1.13",
         "request-promise": "^4.2.2",
-        "typegoose": "^5.5.0"
+        "typegoose": "^5.6.0"
     }
 }

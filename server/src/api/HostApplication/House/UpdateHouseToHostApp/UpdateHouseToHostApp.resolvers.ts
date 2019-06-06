@@ -1,12 +1,12 @@
-import { Resolvers } from "../../../../types/resolvers";
-import privateResolverForHostApp from "../../../../utils/privateResolverForHostApplication";
+import { InstanceType } from "typegoose";
+import { HouseSchema } from "../../../../models/House";
+import { extractHouse } from "../../../../models/merge/merge";
 import {
     UpdateHouseToHostAppMutationArgs,
     UpdateHouseToHostAppResponse
 } from "../../../../types/graph";
-import { extractHouse } from "../../../../models/merge/merge";
-import { InstanceType } from "typegoose";
-import { HouseSchema } from "../../../../models/House";
+import { Resolvers } from "../../../../types/resolvers";
+import { privateResolverForHostApp } from "../../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Mutation: {

@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import {
     arrayProp,
     instanceMethod,
@@ -12,7 +12,7 @@ import { UserRole } from "../types/graph";
 export enum UserRoleEnum {
     ADMIN = "ADMIN",
     HOST = "HOST",
-    BOOKER = "BOOKER",
+    booking = "booking",
     GHOST = "GHOST"
 }
 const BCRYPT_ROUNDS = 10;
@@ -45,8 +45,8 @@ export class UserSchema extends Typegoose {
     @prop({ default: false })
     checkPrivacyPolicy: boolean;
 
-    @arrayProp({ items: ObjectId, default: [] })
-    houses: ObjectId[];
+    @arrayProp({ items: Types.ObjectId, default: [] })
+    houses: Types.ObjectId[];
 
     @prop()
     createdAt: Date;

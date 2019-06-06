@@ -1,0 +1,32 @@
+type UpdateProductForSUResponse {
+    ok: Boolean!
+    error: String
+    product: Product
+}
+input UpdateProductParams {
+    canHaveHostApp: Boolean
+    price: Int
+    layoutPrice: Int
+    layoutPricePaid: Boolean
+}
+type UpdateProductFromUserRequestResponse {
+    ok: Boolean!
+    error: String
+    # 사실 여기는 유저의 요구사항들을 출력해줘야함...
+    product: Product
+}
+input UpdateProductFromUserRequestParams {
+    layoutType: LayoutType
+    domainUrl: URL
+    useHostApp: Boolean
+}
+type Mutation {
+    UpdateProductForSU(
+        productId: ID!
+        params: UpdateProductParams!
+    ): UpdateProductForSUResponse!
+    UpdateProductFromUserRequest(
+        houseId: ID!
+        params: UpdateProductFromUserRequestParams!
+    ): UpdateProductFromUserRequestResponse!
+}

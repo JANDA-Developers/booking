@@ -1,12 +1,13 @@
 @import "../../style_config/style_config";
 
 .JDbadge {
-    padding: 0.15em 0.4em;
+    display:inline-block;
+    padding: 0.25em 0.4em;
     border-radius: $standard-border-radius;
     line-height: 1;
     text-transform: uppercase;
     text-align: center;
-    font-size:$typho-small;
+    font-size: $typho-small;
     white-space: nowrap;
     vertical-align: baseline;
     margin-left: $standard-space / 2;
@@ -30,4 +31,8 @@
         background-color: $new-color;
         color: $new-color-on;
     }   
+    &--error {
+        background-color: $error-color;
+        color:white;
+    }
 }

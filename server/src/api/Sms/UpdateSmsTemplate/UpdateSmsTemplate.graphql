@@ -1,0 +1,12 @@
+type UpdateSmsTemplateResponse {
+    ok: Boolean!
+    error: String
+    smsTemplate: SmsTemplate
+}
+type Mutation {
+    UpdateSmsTemplate(
+        smsTemplateId: ID!
+        houseId: ID!
+        params: SmsTemplateInput!
+    ): UpdateSmsTemplateResponse!
+}

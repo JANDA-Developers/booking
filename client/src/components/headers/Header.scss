@@ -18,16 +18,20 @@
         padding-right: $container-padding;
         margin-left: auto;
         display:none;
+        .circleIcon  {
+            margin-right:0;
+        }
+
         
         @include response($phablet) {
             display:block;
         }
     }
 
-
-    // 로고 랩
+    // 로고 이미지 여백 맞춤
     &__logoPlace {
-        padding: $button-padding;
+        margin-left: -4px;
+        padding-right: $standard-padding;
     }
 
     // 로고
@@ -89,24 +93,47 @@
     .JDselect {
         width: 200px;
         margin-bottom: 0;
-        margin-left: $standard-space;
-
+        margin:0;
+        
         .react-select-container {
             .react-select__control {
                 border:none;
                 min-height:28px;
+                height: 2.25rem;
             }
         }
-
     }
+
+    // 에약자 검색바
+    .JDsearchInput {
+        margin-bottom: 0;
+        min-width: 300px;
+        height: $standard-small-line-height;
+        margin-right: $standard-space;
+
+        @include response($phablet) {
+            min-width: unset
+        }
+        
+        &__input {
+            margin:0;
+            padding:0;
+            padding-left: $standard-side-padding;
+            border-radius: $standard-border-radius;
+        }
+        &__ul {
+            @extend %z-depth-3
+        }
+    }
+    
 
     @include response($phablet) {
         padding-left: 0rem;
         padding-right: 0rem;
         
+        
         &__logoPlace {
-            padding-left: $container-padding;
-            padding-right: $container-padding;
+            padding-left: calc(#{$standard-padding} * 2);
         }
         
         &__btns--mobileX,&__profile,.JDselect {

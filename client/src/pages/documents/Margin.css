@@ -1,0 +1,79 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+#MarginDOC {
+  text-align: center;
+}
+
+#MarginDOC .flex-grid > * {
+  -webkit-box-flex: 0;
+      -ms-flex: none;
+          flex: none;
+}
+
+#MarginDOC .containers {
+  height: 100px;
+  text-align: center;
+  line-height: 100%;
+}
+
+#MarginDOC h1,
+#MarginDOC h2,
+#MarginDOC h3,
+#MarginDOC h4,
+#MarginDOC h5,
+#MarginDOC h6 {
+  display: inline;
+}
+
+#MarginDOC .container_ml {
+  width: calc((100% - 1000px)/2);
+  background-color: #F9CC9D;
+  height: 100%;
+  float: left;
+}
+
+#MarginDOC .container_mr {
+  width: calc((100% - 1000px)/2);
+  background-color: #F9CC9D;
+  height: 100%;
+  float: right;
+}
+
+#MarginDOC .container_pl {
+  width: calc(0.8rem / 2);
+  background-color: #BBD6AF;
+  float: left;
+  height: 100%;
+}
+
+#MarginDOC .container_pr {
+  width: calc(0.8rem / 2);
+  background-color: #BBD6AF;
+  float: right;
+  height: 100%;
+}
+
+#MarginDOC .container-sm_ml {
+  width: calc((100% - 550px)/2);
+  background-color: #F9CC9D;
+  float: left;
+  height: 100%;
+}
+
+#MarginDOC .container-sm_mr {
+  width: calc((100% - 550px)/2);
+  background-color: #F9CC9D;
+  float: right;
+  height: 100%;
+}
+
+#MarginDOC .docs-section_pb {
+  height: 6rem;
+  background-color: #BBD6AF;
+}
+
+#MarginDOC .docs-section__box_pb {
+  height: 2.5rem;
+  background-color: #BBD6AF;
+}
+/*# sourceMappingURL=Margin.css.map */

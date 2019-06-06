@@ -1,0 +1,33 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+#ModifyTimeline .modifyGroups {
+  padding-left: 10rem;
+}
+
+#ModifyTimeline .modifyGroups__roomGroup {
+  border-radius: 0px;
+  width: calc(10rem + 4px);
+  position: absolute;
+  text-overflow: ellipsis;
+  left: 0;
+}
+
+#ModifyTimeline .modifyGroups__roomGroup + * {
+  margin-left: 0;
+}
+
+#ModifyTimeline .modifyGroups__button {
+  border-radius: 0px;
+  width: calc(100% + 4px);
+}
+
+#ModifyTimeline .ModifyTimeline__timelineWrap {
+  min-width: 720px;
+}
+
+#ModifyTimeline .ModifyTimeline__timelineWrapScroll {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+/*# sourceMappingURL=RoomConfig.css.map */

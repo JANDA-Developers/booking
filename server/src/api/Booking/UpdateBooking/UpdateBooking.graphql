@@ -1,14 +1,24 @@
 type UpdateBookingResponse {
     ok: Boolean!
     error: String
-    booking: [Booking!]
+    booking: Booking
 }
 type Mutation {
     UpdateBooking(
         bookingId: ID!
-        bookingStatus: BookingStatus
-        start: DateTime
-        end: DateTime
-        price: Float
+        params: UpdateBookingMutationParamsInput!
+        sendSmsFlag: Boolean
     ): UpdateBookingResponse!
+}
+
+input UpdateBookingMutationParamsInput {
+    name: Name
+    phoneNumber: PhoneNumber
+    email: EmailAddress
+    isCheckIn: CheckInInput
+    price: Float
+    payMethod: PayMethod
+    paymentStatus: PaymentStatus
+    bookingStatus: BookingStatus
+    memo: String
 }

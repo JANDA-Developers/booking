@@ -1,47 +1,92 @@
 type Booking {
     _id: ID!
-    bookingId: String!
     house: House!
-    roomType: RoomType!
-    booker: Booker!
+    roomTypes: [RoomType!]
+    name: Name!
+    password: String
+    phoneNumber: PhoneNumber!
+    email: EmailAddress
+    checkIn: CheckIn!
+    memo: String
+    agreePrivacyPolicy: Boolean!
     guests: [Guest!]
-    # 가격
-    price: Float!
-    # 시작 날짜
+    guestCount: Int!
     start: DateTime!
-    # 끝 날짜
     end: DateTime!
-    discountedPrice: Float!
+    price: Float
+    payMethod: PayMethod!
+    paymentStatus: PaymentStatus!
     bookingStatus: BookingStatus!
     createdAt: DateTime!
     updatedAt: DateTime
 }
 
-enum BookingStatus {
-    # 입금 대기
-    WAIT_DEPOSIT
-    # 예약 완료
-    COMPLETE
-    # 예약 취소(입금 전에 취소를 신청하여 바로 처리되었거나 환불이 완료되어 취소된 상태를 뜻함)
-    CANCEL
-    # 환불 대기
-    REFUND_WAIT
-    # 체크인 할떄 방값 지불
-    PAY_WHEN_CHK_IN
+type CheckIn {
+    isIn: Boolean!
+    checkInDateTime: DateTime
 }
 
-input BookingInput {
-    booker: BookerInput!
-    start: DateTime!
-    end: DateTime!
-    guest: [GuestPartInput!]!
+input CheckInInput {
+    isIn: Boolean!
+    checkInDateTime: DateTime
+}
+
+enum BookingStatus {
+    # 예약 완료
+    COMPLETE
+    # 예약 취소
+    CANCEL
+}
+
+enum PayMethod {
+    # 현금
+    CASH
+    # 무통장 입금
+    BANK_TRANSFER
+    # 카드
+    CREDIT_CARD
+    # 채널 결제
+    CHANNEL_PAY
+}
+
+enum PaymentStatus {
+    NOT_YET
+    COMPLETE
+}
+
+input BookerInput {
+    house: ID
+    name: Name!
+    password: String!
+    phoneNumber: PhoneNumber!
+    email: EmailAddress
+    agreePrivacyPolicy: Boolean!
+    price: Float!
+    memo: String
+    paymentStatus: PaymentStatus
 }
 
 input GuestPartInput {
     roomTypeId: ID!
-    price: Float!
     discountedPrice: Float
-    guestType: GuestType!
-    count: Int!
-    genders: [Gender!]
+    pricingType: PricingType!
+    countFemaleGuest: Int!
+    countMaleGuest: Int!
+    countRoom: Int!
+}
+
+input BookingSortInput {
+    key: BookingSortKeyEnum!
+    order: Int!
+}
+
+input BookingFilter {
+    roomTypeId: ID!
+    booking: ID!
+}
+
+enum BookingSortKeyEnum {
+    _id
+    updatedAt
+    createdAt
 }

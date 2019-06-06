@@ -1,39 +1,43 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { Query } from 'react-apollo';
-import {
-  getAllHouseForSuperUser,
-  getAllHouseForSuperUser_GetAllHouseForSuperUser_allHouse as allHouse,
-} from '../../../types/api';
+import { getHousesForSU, getHousesForSUVariables } from '../../../types/api';
 import SuperMain from './SuperMain';
-import { GEA_All_HOUSE_SUPER_USER } from '../../../queries';
-import QueryError from '../../../utils/QueryError';
-import { isEmpty } from '../../../utils/utils';
-import { useModal2 } from '../../../actions/hook';
+import { GET_HOUSES_FOR_SU } from '../../../queries';
+import { queryDataFormater, showError } from '../../../utils/utils';
+import { useModal } from '../../../actions/hook';
 import Modal from '../../../atoms/modal/Modal';
-import { MyPage } from '../../pages';
-import QueryDataFormater from '../../../utils/QueryDataFormat';
 
-class GetAllHouse extends Query<getAllHouseForSuperUser> {}
+class GetAllHouse extends Query<getHousesForSU, getHousesForSUVariables> {}
 
 interface Iprops {}
 
 const SuperMainWrap: React.SFC<Iprops> = () => {
-  const userModal = useModal2(false);
-  return (
-    <GetAllHouse query={GEA_All_HOUSE_SUPER_USER}>
-      {({ data: houseData, loading, error }) => {
-        QueryError(error);
+  const userModal = useModal(false);
+  const [page, setPage] = useState(1);
 
-        const formatedHouseData: allHouse[] = QueryDataFormater(
-          houseData,
-          'GetAllHouseForSuperUser',
-          'allHouse',
-          []
-        );
+  return (
+    <GetAllHouse
+      query={GET_HOUSES_FOR_SU}
+      variables={{
+        page,
+        count: 20,
+      }}
+    >
+      {({ data: housePages, loading, error }) => {
+        showError(error);
+        const housePageData = queryDataFormater(housePages, 'GetHousesForSU', 'houses', undefined);
+        const pageInfo = queryDataFormater(housePages, 'GetHousesForSU', 'pageInfo', undefined);
 
         return (
           <Fragment>
-            <SuperMain userModal={userModal} houseData={formatedHouseData || []} loading={loading} />
+            <SuperMain
+              page={page}
+              setPage={setPage}
+              userModal={userModal}
+              pageData={pageInfo}
+              houseData={housePageData || []}
+              loading={loading}
+            />
             {/* <MyPageModal {...userModal} userId={userModal.info.userId} /> */}
           </Fragment>
         );

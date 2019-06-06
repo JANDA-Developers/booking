@@ -102,7 +102,7 @@ export const transformYMDToMD = (date: Date): number => {
     const dayOfMonth = d.getDate();
     const md = parseInt(month + String(dayOfMonth).padStart(2, "0"), 10);
     return md;
-}
+};
 
 /**
  * 0: 같음, -1: date가 target 보다 작음, 1: date가 target 보다 큼
@@ -110,12 +110,26 @@ export const transformYMDToMD = (date: Date): number => {
  * @param target 비교 기준 날짜
  * @param opt MD: Month & Date / YMD: Year & Month & Date
  */
-export const compareDate = (date: Date, target: Date, opt: "MD" | "YMD"): number => {
-    if(opt === "YMD"){
+export const compareDate = (
+    date: Date,
+    target: Date,
+    opt: "MD" | "YMD"
+): number => {
+    if (opt === "YMD") {
         const t1 = date.getTime();
         const t2 = target.getTime();
-        const eq = (date.getTime() === target.getTime()) && 0;
-        return eq === false ? t1 : t2
+        const eq = date.getTime() === target.getTime() && 0;
+        return eq === false ? t1 : t2;
     }
     return 0;
-}
+};
+
+export const transformDateRangeToArr = (start: Date, end: Date): Date[] => {
+    const dateArr: Date[] = [];
+    const cursor: Date = start;
+    while (cursor.getTime() <= end.getTime()) {
+        dateArr.push(new Date(cursor));
+        cursor.setDate(cursor.getDate() + 1);
+    }
+    return dateArr;
+};

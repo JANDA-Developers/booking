@@ -1,22 +1,18 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { Fragment } from 'react';
-import { Mutation, Query } from 'react-apollo';
-import { TimelineGroup } from 'react-calendar-timeline';
+import React, { useState } from 'react';
+import { Query } from 'react-apollo';
 import {
-  getAllRoomType,
-  getAllRoomType_GetAllRoomType_roomTypes as roomTypes,
   getMyProfile_GetMyProfile_user_houses as IHouse,
-  getAllSeason,
-  getAllSeasonVariables,
+  getAllSeasonTable,
+  getAllSeasonTableVariables,
+  getAllSeasonTable_GetSeasonPrice_seasonPrices as ISeasonPrices,
+  getAllSeasonTable_GetSeasonPrice_seasonPrices_dayOfWeekPrices as IDayOfWeek,
 } from '../../../types/api';
-import { useToggle, useModal2 } from '../../../actions/hook';
-import { GET_ALL_ROOMTYPES, GET_ALL_SEASON } from '../../../queries';
-import {
-  ErrProtecter, toast, isEmpty, QueryDataFormater, showError,
-} from '../../../utils/utils';
+import { GET_ALL_SEASON_TABLE } from '../../../queries';
+import { ErrProtecter, queryDataFormater, showError } from '../../../utils/utils';
 import SetPrice from './SetPrice';
-import SeasonModal from './components/seasonModalWrap';
+import Preloader from '../../../atoms/preloader/Preloader';
 
 export enum PRICE_TABLE {
   'DEFAULT_TABLE' = -2,
@@ -27,31 +23,70 @@ interface IProps {
   selectedHouse: IHouse;
 }
 
-class GetAllSeasonQuery extends Query<getAllSeason, getAllSeasonVariables> {}
+export interface IAddSeason {
+  name: string;
+  start: any;
+  end: any;
+  color: string | null;
+}
+
+export interface priceMapResult {
+  default: number;
+  dayOfWeek: IDayOfWeek[];
+}
+
+export interface IPriceMap extends Map<string, priceMapResult> {}
+
+class GetAllSeasonTQuery extends Query<getAllSeasonTable, getAllSeasonTableVariables> {}
+
+const priceMapMaker = (seasonPrices: ISeasonPrices[]) => {
+  const priceMap: IPriceMap = new Map();
+  seasonPrices.map((seasonPrice) => {
+    priceMap.set(seasonPrice.roomType._id + seasonPrice.season._id, {
+      default: seasonPrice.defaultPrice,
+      dayOfWeek: seasonPrice.dayOfWeekPrices || [],
+    });
+  });
+  return priceMap;
+};
 
 const SetPriceWrap: React.SFC<IProps> = ({ selectedHouse }) => {
-  const priceModalHook = useModal2(false);
+  const addSeasonHook = useState<IAddSeason>({
+    name: '',
+    start: '',
+    end: '',
+    color: '',
+  });
 
+  // ❕ NOTE
+  // 쿼리로부터 3가지 정보를 호출한다 가격, 시즌정보, 룸타입 정보,
+  // 나머지 "뮤테이션"들은 테이블 안쪽에있다.
   return (
     // 모든 방 가져오기
-    <GetAllSeasonQuery fetchPolicy="network-only" query={GET_ALL_SEASON} variables={{ houseId: selectedHouse._id }}>
-      {({ data: seasonData, loading, error }) => {
-        showError(error);
-        const seasones = QueryDataFormater(seasonData, 'GetAllSeason', 'seasons', []);
-        return (
-          // 방생성 뮤테이션
-          <Fragment>
-            <SetPrice />
-            <SeasonModal
-              loading={loading}
-              seasonData={seasones}
-              seasonModal={priceModalHook}
-              selectedHouseId={selectedHouse._id}
-            />
-          </Fragment>
+    <GetAllSeasonTQuery
+      fetchPolicy="network-only"
+      query={GET_ALL_SEASON_TABLE}
+      variables={{ houseId: selectedHouse._id }}
+    >
+      {({ data, loading: dataL, error: seasonE }) => {
+        showError(seasonE);
+        const seasones = queryDataFormater(data, 'GetAllSeason', 'seasons', undefined);
+        const roomTypes = queryDataFormater(data, 'GetAllRoomType', 'roomTypes', undefined);
+        const seasonPrices = queryDataFormater(data, 'GetSeasonPrice', 'seasonPrices', undefined);
+        const priceMap = seasonPrices && priceMapMaker(seasonPrices);
+
+        return !dataL ? (
+          <SetPrice
+            houseId={selectedHouse._id}
+            priceMap={priceMap || new Map()}
+            roomTypes={roomTypes || []}
+            seasonData={seasones || []}
+          />
+        ) : (
+          <Preloader page />
         );
       }}
-    </GetAllSeasonQuery>
+    </GetAllSeasonTQuery>
   );
 };
 

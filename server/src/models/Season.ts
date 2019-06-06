@@ -1,4 +1,3 @@
-import { ObjectId } from "bson";
 import { Types } from "mongoose";
 import { index, pre, prop, Typegoose } from "typegoose";
 
@@ -8,13 +7,13 @@ import { index, pre, prop, Typegoose } from "typegoose";
     try {
         if (this.priority <= 0 || !this.priority) {
             const test = await SeasonModel.findOne({
-                house: new ObjectId(this.house)
+                house: new Types.ObjectId(this.house)
             }).sort({ priority: -1 });
             if (test) {
                 this.priority = test.priority + 1;
             }
         }
-        this.house = new ObjectId(this.house);
+        this.house = new Types.ObjectId(this.house);
     } catch (error) {
         throw error;
     }

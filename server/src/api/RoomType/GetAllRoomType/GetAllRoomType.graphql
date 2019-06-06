@@ -4,5 +4,8 @@ type GetAllRoomTypeResponse {
     roomTypes: [RoomType!]
 }
 type Query {
+    # admin 에서 사용하는 함수임.
     GetAllRoomType(houseId: ID!): GetAllRoomTypeResponse!
+    # HA-Key 에서 accessKey 받아옴.
+    GetAllRoomTypeForBooker: GetAllRoomTypeResponse!
 }

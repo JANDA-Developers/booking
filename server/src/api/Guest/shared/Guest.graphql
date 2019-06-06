@@ -1,31 +1,41 @@
 type Guest {
     _id: ID!
-    # roomType,
-    guestId: String!
-    booker: Booker!
     house: House!
     # roomType 은 처음 예약하고나서 절대로 변경되지 않음.
     roomType: RoomType
     # 현재 묵는 방으로 변경될수 있음.
-    room: Room
-    booking: Booking
+    allocatedRoom: Room
+    isUnsettled: Boolean!
+    # 배드 단위로 계산한다. 배정 확정인 경우에는 이 필드값의 IsSettleable.flag === true
+    isSettleable: IsSettleable!
+    booking: Booking!
     name: Name
     start: DateTime!
     end: DateTime!
     # 도미토리, 룸, 블록 구분
-    guestType: GuestType!
+    pricingType: PricingType!
+    bedIndex: Int!
     gender: Gender
+    guestType: GuestType!
+    createdAt: DateTime!
+    updatedAt: DateTime
+}
+
+type Block {
+    _id: ID!
+    house: House!
+    allocatedRoom: Room!
+    bedIndex: Int!
+    start: DateTime!
+    end: DateTime!
+    guestType: GuestType!
     createdAt: DateTime!
     updatedAt: DateTime
 }
 
 enum GuestType {
-    # 방 막는 용도로 잡은 예약임
-    BLOCK_ROOM
-    # 도미토리
-    DOMITORY
-    # 방 타입
-    ROOM
+    GUEST
+    BLOCK
 }
 
 # 도미토리 방식으로 예약한 게스트만 적용됨
@@ -36,26 +46,32 @@ enum Gender {
     FEMALE
 }
 
+# 배정 가능여부
+type IsSettleable {
+    # 배정 가능 flag
+    flag: Boolean!
+    # 배정 불가일때 겹치는 날짜범위들 배열
+    duplicateDates: [DateRange!]
+}
+
 input GuestInput {
     houseId: ID!
-    bookerId: ID!
+    bookingId: ID!
     roomTypeId: ID!
     roomId: ID
-    bookingId: ID!
     start: DateTime!
     end: DateTime!
-    guestType: GuestType!
+    pricingType: PricingType!
     gender: Gender
 }
 
 input GuestsInput {
     houseId: ID!
-    bookerId: ID!
-    bookingId: ID
+    bookingId: ID!
     roomTypeId: ID!
     start: DateTime!
     end: DateTime!
-    guestType: [GuestType!]!
+    pricingType: [PricingType!]!
     gender: [Gender!]
     roomId: [ID!]
 }

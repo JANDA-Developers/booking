@@ -1,11 +1,11 @@
-import { Resolvers } from "../../../types/resolvers";
-import privateResolver from "../../../utils/privateResolvers";
+import { extractSeasonPrice } from "../../../models/merge/merge";
+import { SeasonPriceModel } from "../../../models/SeasonPrice";
 import {
     UpdateSeasonPriceMutationArgs,
     UpdateSeasonPriceResponse
 } from "../../../types/graph";
-import { SeasonPriceModel } from "../../../models/SeasonPrice";
-import { extractSeasonPrice } from "../../../models/merge/merge";
+import { Resolvers } from "../../../types/resolvers";
+import { privateResolver } from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Mutation: {
@@ -16,8 +16,7 @@ const resolvers: Resolvers = {
                     price,
                     applyDays,
                     seasonPriceId
-                }: UpdateSeasonPriceMutationArgs,
-                { req }
+                }: UpdateSeasonPriceMutationArgs
             ): Promise<UpdateSeasonPriceResponse> => {
                 try {
                     const existingSeasonPrice = await SeasonPriceModel.findById(
@@ -42,7 +41,8 @@ const resolvers: Resolvers = {
                     return {
                         ok: true,
                         error: null,
-                        seasonPrice: await extractSeasonPrice(
+                        seasonPrice: await extractSeasonPrice.bind(
+                            extractSeasonPrice,
                             existingSeasonPrice
                         )
                     };

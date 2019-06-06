@@ -1,8 +1,12 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { instanceMethod, InstanceType, prop, Typegoose } from "typegoose";
 import { ProductModel, ProductSchema } from "./Product";
 
 export class ProductTypeSchema extends Typegoose {
+    // TODO - HasHostApp: Boolean~ 생성하기
+    @prop({ required: true, default: true })
+    canHaveHostApp: boolean;
+
     @prop({ required: true })
     name: string;
 
@@ -45,7 +49,9 @@ export class ProductTypeSchema extends Typegoose {
         const product = new ProductModel({
             ...this,
             name: this.name,
-            house: new ObjectId(houseId)
+            house: new Types.ObjectId(houseId),
+            canHaveHostApp:
+                this.canHaveHostApp === undefined ? true : this.canHaveHostApp
         });
         delete product.createdAt;
         delete product.updatedAt;

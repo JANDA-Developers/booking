@@ -3,16 +3,7 @@ type GetSeasonPriceResponse {
     error: String
     seasonPrices: [SeasonPrice!]
 }
-type DateRangeWithSeasonPrice {
-    start: DateTime!
-    end: DateTime!
-    # 시즌 가격: null인 경우 방의 기본 가격으로 적용
-    seasonPrice: SeasonPrice
-}
 type Query {
-    GetSeasonPrice(
-        roomTypeId: ID!
-        start: DateTime!
-        end: DateTime!
-    ): GetSeasonPriceResponse!
+    # houseId에 해당하는 전체 방 타입 시즌 가격 가져오기
+    GetSeasonPrice(houseId: ID!): GetSeasonPriceResponse!
 }

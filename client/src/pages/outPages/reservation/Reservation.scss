@@ -1,0 +1,157 @@
+@import '../../../style_config/style_config';
+
+
+$flex-grid--column-margin: .8%;
+
+$roomCardHeight: 130px;
+
+
+#JDreservation {
+    
+    // 😆 어떻게 그리드 시스템을 오버라이드 하는지 보여줌
+
+    .flex-grid {
+
+        @include grid-system(full);
+        @include grid-system(wlg);
+        @include grid-system(lg);
+        @include grid-system(wmd);
+        @include grid-system(wmd);
+        @include grid-system(md);
+        @include grid-system(sm);
+    }
+
+    .JDreservation {
+        &__card {
+            margin-bottom: $standard-margin-bottom /2;
+        }
+
+        &__dayPickerCard {
+            height: 95vh;
+            position: sticky;
+            top: 0;
+            border-radius:$standard-border-radius;
+
+            @include response ($tabletUp, $null) {
+                height: auto;
+                position: static;
+            }
+        }
+        
+        &__sectionTitle {
+            text-align: center;
+        }
+
+    }
+
+    .roomTypeCard {
+        border-radius: $standard-border-radius;
+        height: $roomCardHeight;
+        border: 1px solid $standard-outborder-color;
+        position: relative;
+        margin-bottom: $standard-margin-bottom;
+
+        &__imgSection {
+            max-width: $roomCardHeight * 1.68;
+            background-image: url('../../../img/default_room.png');
+            background-size: contain;
+            background-position:center center;
+            background-repeat: no-repeat;
+            border-right: 1px solid $grey-opacity1;
+
+            @include response($mobile) {
+                max-width: 104px;
+            }
+        }
+
+        &__img {
+            background-size: cover;
+            margin-left: -1px;
+            height: 100%;
+            margin-top: -1px;
+            border:1px solid $html-color;
+            border-radius: $standard-border-radius 0px 0px $standard-border-radius;
+        }
+
+        
+        &__lastSection {
+            padding:$standard-padding;
+
+            @include response($mobile) {
+                padding:$standard-padding /2;
+            }
+        }
+
+        &__selectButton {
+            position: absolute;
+            bottom:0;
+            right:0;
+
+            border-radius: $standard-border-radius 0px $standard-border-radius 0px; 
+            
+            @include response($mobile) {
+                bottom:$standard-padding /2;
+                right:$standard-padding /2;
+                border-radius: $standard-border-radius; 
+            }
+        }
+
+        &__lastTopSection {
+            display: flex;
+            flex-direction: row-reverse;
+
+            .roomTypeCard__price {
+                font-size: $typho-large;
+            }
+        }
+        
+        &__middleSection {
+            display: flex;
+            padding:$standard-padding;
+            justify-content: space-between;
+            flex-direction: column;
+            
+            @include response($mobile) {
+                padding:$standard-padding /2;
+            }
+        }
+
+        &__middleBottomSection {
+            display: flex;
+            .JDselect {
+                margin-bottom: 0;
+
+                @include response($phablet) {
+                    margin-right: $standard-space /2;
+                }
+            }
+        }
+
+        // 여기 색을바꾸어줘
+        .JDbtn--toogleOn {
+            background-color: $primary-color;
+            color: $primary-color-on;
+        }
+    }
+
+    .JDselectInfo {
+        .JDtable {
+
+        }
+    }
+}
+
+.paymentModal {
+    &__JDbox {
+        max-width:300px;
+        text-align: center;
+        color: $html-color;
+    }
+}
+
+
+.roomImgPop {
+    &__img {
+        margin-bottom: $standard-margin-bottom;   
+    }
+}

@@ -1,7 +1,7 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { RoomTypeModel } from "../models/RoomType";
 
-const privateResolver = resolverFunction => async (
+export const privateResolver = resolverFunction => async (
     parent,
     args,
     context,
@@ -16,8 +16,8 @@ const privateResolver = resolverFunction => async (
 export const privateRoomTypeExistCheckResolver = resolverFunction =>
     privateResolver(async (parent, args, context, info) => {
         const existingRoomType = await RoomTypeModel.findOne({
-            _id: new ObjectId(args.roomTypeId),
-            house: new ObjectId(args.houseId)
+            _id: new Types.ObjectId(args.roomTypeId),
+            house: new Types.ObjectId(args.houseId)
         });
         if (!existingRoomType) {
             throw new Error("HouseId and RoomTypeId does not Matched!");
@@ -39,4 +39,26 @@ export const privateResolverForSU = resolverFunction =>
         } // SuperUser 인증
         return await resolverFunction(parent, args, context, info);
     });
-export default privateResolver;
+
+export const privateResolverForHostApp = resolverFunction => async (
+    parent,
+    args,
+    context,
+    info
+) => {
+    if (!context.req.house) {
+        throw new Error("Unauthorized House");
+    }
+    return await resolverFunction(parent, args, context, info);
+};
+export const privateResolverForPublicAccess = resolverFunction => async (
+    parent,
+    args,
+    context,
+    info
+) => {
+    if (!context.req.house) {
+        throw new Error("Unauthorized House");
+    }
+    return await resolverFunction(parent, args, context, info);
+};

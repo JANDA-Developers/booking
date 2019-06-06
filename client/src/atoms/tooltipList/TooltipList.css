@@ -1,0 +1,60 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+#root .tooltipList, .ReactModalPortal .tooltipList, #root .tooltipList:after, .ReactModalPortal .tooltipList:after {
+  -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+#root .tooltipList, .ReactModalPortal .tooltipList {
+  pointer-events: auto;
+  background-color: white;
+  opacity: 1;
+  padding: 0;
+}
+
+#root .tooltipList > *, .ReactModalPortal .tooltipList > * {
+  position: relative;
+  background-color: white;
+  z-index: 5;
+  padding: 0.5rem;
+}
+
+#root .tooltipList ul, .ReactModalPortal .tooltipList ul {
+  border-radius: 3px;
+}
+
+#root .tooltipList ul > li, .ReactModalPortal .tooltipList ul > li {
+  padding: 0px;
+  border-bottom: 1px solid #EBEBEB;
+}
+
+#root .tooltipList ul > li .JDbtn, .ReactModalPortal .tooltipList ul > li .JDbtn {
+  color: #343434;
+  margin: 0;
+  width: 100%;
+  border-radius: 0;
+}
+
+#root .tooltipList ul > li .JDbtn:hover, .ReactModalPortal .tooltipList ul > li .JDbtn:hover {
+  background-color: #EBEBEB;
+}
+
+#root .tooltipList ul > li:last-child, .ReactModalPortal .tooltipList ul > li:last-child {
+  border-bottom: 0px;
+}
+
+#root .tooltipList:after, .ReactModalPortal .tooltipList:after {
+  border-radius: 3px;
+  border: none;
+  width: 16px;
+  height: 16px;
+  z-index: 0;
+  background-color: white;
+  -webkit-transform: translateY(2px) rotate(45deg);
+          transform: translateY(2px) rotate(45deg);
+}
+
+#root .tooltipList--unPadding ul, .ReactModalPortal .tooltipList--unPadding ul {
+  padding: 0;
+}
+/*# sourceMappingURL=TooltipList.css.map */

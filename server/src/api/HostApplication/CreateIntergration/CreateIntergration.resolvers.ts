@@ -1,10 +1,10 @@
-import { Resolvers } from "../../../types/resolvers";
+import { HouseModel } from "../../../models/House";
 import {
     CreateIntergrationMutationArgs,
     CreateIntergrationResponse
 } from "../../../types/graph";
-import { HouseModel } from "../../../models/House";
-import createHostApplicationJWT from "../../../utils/createHostApplicationJWT";
+import { Resolvers } from "../../../types/resolvers";
+import createHostApplicationJWT from "../../../utils/createJWTHostApplication";
 
 const resolvers: Resolvers = {
     Mutation: {

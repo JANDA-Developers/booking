@@ -122,7 +122,7 @@ index fe16cb6..5a48e67 100644
  type Guest {
      _id: ID!
      house: House!
--    booker: User!
+-    booking: User!
 -    roomType: String!
 -    guestType: String!
 -    allocatedRoom: Room!
@@ -573,7 +573,7 @@ index 1b00301..6072fe4 100644
  enum UserRole {
      ADMIN
      HOST
--    BOOKER
+-    BOOKING
 +    GUEST
 +    # 비회원 => name, phoneNumber, password, email, createdAt, updatedAt 데이터 만을 가짐
      GHOST

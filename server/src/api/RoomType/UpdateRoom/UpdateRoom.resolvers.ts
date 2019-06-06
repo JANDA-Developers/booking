@@ -1,11 +1,11 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { RoomModel } from "../../../models/Room";
 import {
     UpdateRoomMutationArgs,
     UpdateRoomResponse
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
-import privateResolver from "../../../utils/privateResolvers";
+import { privateResolver } from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Mutation: {
@@ -19,7 +19,7 @@ const resolvers: Resolvers = {
                     if (existingRoom) {
                         await RoomModel.updateOne(
                             {
-                                _id: new ObjectId(roomId)
+                                _id: new Types.ObjectId(roomId)
                             },
                             args,
                             { new: true }

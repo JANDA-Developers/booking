@@ -1,0 +1,10 @@
+#outdated {
+    z-index:99999999999999;
+    position:fixed;
+    width: 100%;
+    top:0;
+    background-color: $error-color;
+    .vertical-center{
+    padding:1rem;
+    }
+}

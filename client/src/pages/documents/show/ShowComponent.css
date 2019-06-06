@@ -1,0 +1,65 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+.showComponent .showComponent__icon_box {
+  padding: 4px;
+  background-color: #EBEBEB;
+  text-align: center;
+  width: 51px;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+  overflow-wrap: break-word;
+  -webkit-box-flex: 0;
+      -ms-flex: none;
+          flex: none;
+  display: inline-block;
+  margin-right: 2px;
+}
+
+.showComponent .showComponent__icon_box svg {
+  display: block;
+  margin: 0 auto;
+}
+
+.showComponent .showComponent__container {
+  max-width: 400px;
+}
+
+.showComponent .showComponent__container .DayPicker-Day,
+.showComponent .showComponent__container .DayPicker-Caption__week {
+  max-width: 55px;
+}
+
+.showComponent .showComponent__large {
+  font-size: 1.2rem;
+  margin-top: 0;
+}
+
+.showComponent .showComponent__tiny {
+  font-size: 10px;
+  margin-top: 0;
+}
+
+.showComponent .showComponent__elseThings {
+  margin-left: 1rem;
+}
+
+.showComponent .showComponent__float-link {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  height: 3rem;
+  line-height: 3rem;
+  padding: 0rem 1rem;
+  background-color: #c56c47;
+  color: white;
+  z-index: 90;
+}
+
+.showComponent__pulse {
+  float: right;
+}
+
+.showComponent__pulse {
+  float: right;
+}
+/*# sourceMappingURL=ShowComponent.css.map */

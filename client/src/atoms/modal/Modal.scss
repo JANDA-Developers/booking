@@ -1,11 +1,9 @@
 @import "../../style_config/style_config";
 
+
+// ⚠️ JDmodal 로 수정할수없음 
 .ReactModal {
 
-    &--center {
-        text-align:center;
-    }
-    
     // 모달 장막
     &__Overlay {
         display: flex;
@@ -23,6 +21,7 @@
     // 모달 내용
     &__Content  {
         background-color:white;
+        position: relative;
         padding: $modal-content-padding;
         outline: none;
         border-radius: $modal-border-radius;
@@ -36,11 +35,51 @@
             margin: $container-padding;
         }
 
-        max-height: 90%;
+        max-height: 85%;
         overflow-y:auto;
+
+        .container {
+            padding: 0;
+        }
+
+        @include response($phablet) {
+            padding: $modal-content-padding /2;
+            max-height: 80%;
+            margin-bottom: 10%;
+        }
     }
 
-    &__EndSection {
+}
+
+// 커스텀 여기서부터
+.JDmodal {
+
+    &--alert {
+        font-weight:bold;
+    }
+
+    &--center {
+        text-align:center;
+    }
+
+    &--visibleOverflow {
+        overflow:visible;
+    }
+    
+    // 엔드섹션
+    &__endSection {
+
+        &--confirm {
+            padding-top: $modal-section;
+        }
+
+        &--float {
+          position:absolute;   
+        }
+        
+        bottom: 0 + $modal-content-padding;
+        left: $modal-content-padding;
+        right: $modal-content-padding;
         .JDbtn {
             margin-bottom: 0;
         }
@@ -48,7 +87,9 @@
             margin-bottom: 0;
         }
     }
-
-
+    
+    // 모달 내부 영역구분
+    .modal__section {
+        padding-bottom: $modal-section;
+    }
 }
-

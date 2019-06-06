@@ -1,0 +1,15 @@
+type CreateBlockResponse {
+    ok: Boolean!
+    error: String
+    block: Block
+}
+type Mutation {
+    CreateBlock(
+        start: DateTime!
+        end: DateTime!
+        houseId: ID!
+        roomId: ID!
+        bedIndex: Int!
+    ): CreateBlockResponse!
+    DeleteBlock(blockId: ID!): Response!
+}

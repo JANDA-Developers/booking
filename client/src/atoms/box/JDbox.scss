@@ -1,0 +1,91 @@
+@import '../../style_config/style_config';
+
+#root,.ReactModalPortal {
+    .JDbox {
+        
+        &__label {
+            font-size: $typho-tiny;
+            margin-bottom: $standard-margin-bottom /3;
+        }
+
+        &--normal {
+            font-size: $typho-small;
+            padding: $standard-small-padding;
+            background-color: $grey-level1;
+            border-radius: $standard-border-radius;
+            text-align: left;
+            width: 100%;
+            margin-bottom: $standard-margin-bottom /3;
+
+
+            &__content {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .JDinput {
+                margin-bottom: 0;
+                padding: 0;
+            }
+        }
+
+        &--center {
+            text-align:center;
+        }
+
+        &--table {
+            table {
+                width: 100%;
+                color:$html-color;
+                border-radius: $table-border-radius;
+                padding:0;
+                border-spacing:0px;
+                border-collapse:collapse;
+                border: 1px solid $table-outborder-color;
+                margin-bottom: $standard-margin-bottom;
+            }
+            tr {
+                &:not(:last-child)  {
+                    border-bottom: 1px solid $grey-opacity1;
+                }
+                & > td:last-child,
+                & > th:last-child {
+                    border-right:none;
+                }
+            }
+            th, td {
+                padding:5px;
+                border-right:1px solid $table-borders-color;
+            }
+            th {
+                border-bottom: 2px solid $html-color;
+            }  
+        }
+
+        &--border {
+            border-radius: $standard-border-radius;
+            padding: $standard-padding;
+            border: 1px solid $standard-outborder-color;
+        }
+        
+        &--standard {
+            height: $standard-line-height;
+            box-sizing: border-box;
+            line-height: 100%;
+        }
+
+        
+        &--withIcon {
+            padding-right: 1rem;
+            position: relative;
+
+            .JDbox__icon {
+                position:absolute;
+                right: $standard-small-padding;
+                top:50%;
+                transform: translateY(-50%);
+            }
+
+        }
+    }
+}

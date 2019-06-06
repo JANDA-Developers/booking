@@ -1,0 +1,13 @@
+type GetAllRoomTypeCapacityResponse {
+    ok: Boolean!
+    error: String
+    roomTypeWithCapacityList: [RoomTypeWithCapacity!]
+}
+type Query {
+    GetAllRoomTypeCapacity(
+        houseId: ID!
+        start: DateTime!
+        end: DateTime!
+        filter: String
+    ): GetAllRoomTypeCapacityResponse!
+}

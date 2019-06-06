@@ -1,0 +1,22 @@
+type GetBookingsResponse {
+    ok: Boolean!
+    error: String
+    bookings: [Booking!]
+    pageInfo: PageInfoOffsetBase
+}
+
+type Query {
+    GetBookings(
+        houseId: ID!
+        page: Int!
+        count: Int!
+        filter: GetBookingsFilter
+    ): GetBookingsResponse!
+}
+
+input GetBookingsFilter {
+    name: String
+    phoneNumnber: PhoneNumber
+    stayDate: DateTime
+    createdAt: DateTime
+}

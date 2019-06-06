@@ -1,25 +1,34 @@
 @import "../../style_config/style_config";
 
-#root {
-    div.tooltipList.__react_component_tooltip {
+#root,.ReactModalPortal {
+    .tooltipList {
         pointer-events: auto; 
         background-color: white;
         opacity:1;
+        z-index: 80!important;
         @extend %z-depth-1;
-        padding: 0;
+        padding:0;
 
-        ul {
+        & > * {
             position:relative;
             background-color: $tooltipList-background-color;
             z-index:5;
-            border-radius:$tooltipList-border-radius;
             padding: $tooltipList-ul-padding;
+        }
 
+        ul {
+            border-radius:$tooltipList-border-radius;
             & > li {
                 padding: $tooltipList-li-padding;
                 border-bottom: $tooltipList-li-border-bottom;
                 .JDbtn  {
                     color: $html-color;
+                    margin:0;
+                    width: 100%;
+                    border-radius: 0;
+                    &:hover {
+                        background-color: $grey-level1;
+                    }
                 }
             }
 
@@ -38,6 +47,12 @@
             background-color:white;
             transform: translateY(2px) rotate(45deg);
             @extend %z-depth-1;
+        }
+        
+        &--unPadding {
+            ul {
+                padding:0;
+            }
         }
     }
 }

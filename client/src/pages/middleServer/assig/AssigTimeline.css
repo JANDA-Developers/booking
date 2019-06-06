@@ -1,0 +1,360 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+#AssigTimeline .assigItem {
+  -webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.07), 0 2px 1px -1px rgba(0, 0, 0, 0.06), 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.07), 0 2px 1px -1px rgba(0, 0, 0, 0.06), 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+#AssigTimeline .assigTimeline__placeHolderWrap {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+#AssigTimeline .assigTimeline__placeHolder {
+  position: absolute;
+}
+
+#AssigTimeline .rct-horizontal-lines>div:last-child {
+  border-bottom: none;
+}
+
+#AssigTimeline .rct-dateHeader {
+  line-height: 34px;
+}
+
+#AssigTimeline .rct-sidebar {
+  overflow: hidden;
+  white-space: normal;
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  border-right: none;
+}
+
+#AssigTimeline .rct-sidebar .rct-sidebar-row {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+  margin: 0;
+  border-bottom: 1px dotted rgba(0, 0, 0, 0.16);
+}
+
+#AssigTimeline .rct-header-root {
+  position: relative;
+  z-index: 90;
+  text-align: center;
+}
+
+#AssigTimeline .rct-header-root__topLeft {
+  background-color: #4c5b73;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  overflow: visible !important;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+#AssigTimeline .rct-header-root__topLeft:hover {
+  background-color: #6d809f;
+}
+
+#AssigTimeline .rct-header-root__topLeft .DayPicker-box {
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+#AssigTimeline .rct-header-root__topLeft .DayPicker--input {
+  left: 50%;
+}
+
+#AssigTimeline .rct-header-root .specificPrice__topLeftIcon {
+  color: white;
+}
+
+#AssigTimeline .group--lastOfRoom {
+  border-bottom: 1px solid #787878;
+}
+
+#AssigTimeline .group--lastOfRoomType {
+  border-bottom: 1px solid #343434;
+}
+
+#AssigTimeline .assigGroups {
+  overflow: hidden;
+}
+
+#AssigTimeline .assigGroups__roomType {
+  position: absolute;
+  width: 100px;
+  background-color: white;
+  left: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-right: 1px solid rgba(0, 0, 0, 0.16);
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+@media only screen and (max-width: 400px) and (min-width: 0px) {
+  #AssigTimeline .assigGroups__roomType {
+    width: 30px;
+    display: initial;
+    font-size: 0.8rem;
+    white-space: pre-wrap;
+    line-height: 100%;
+  }
+}
+
+#AssigTimeline .assigGroups__room {
+  position: absolute;
+  left: 100px;
+  width: 100px;
+  background-color: white;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-right: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+#AssigTimeline .assigGroups__room--roomType {
+  width: calc(100% - 100px);
+}
+
+@media only screen and (max-width: 400px) and (min-width: 0px) {
+  #AssigTimeline .assigGroups__room--roomType {
+    width: calc(100% - 30px);
+  }
+}
+
+@media only screen and (max-width: 400px) and (min-width: 0px) {
+  #AssigTimeline .assigGroups__room {
+    left: 30px;
+    width: 30px;
+    display: initial;
+    font-size: 0.8rem;
+    white-space: pre-wrap;
+    line-height: 100%;
+  }
+
+  #AssigTimeline .assigGroups__room--roomType {
+    width: calc(100% - 100px);
+  }
+}
+
+@media only screen and (max-width: 400px) and (min-width: 0px) and (max-width: 400px) and (min-width: 0px) {
+  #AssigTimeline .assigGroups__room--roomType {
+    width: calc(100% - 30px);
+  }
+}
+
+#AssigTimeline .assigGroups__place {
+  padding-left: 196px;
+  text-align: center;
+  width: calc(100% + 4px);
+}
+
+#AssigTimeline .assigItem {
+  cursor: pointer;
+  z-index: 80;
+  background-color: rgba(33, 83, 219, 0.8);
+  color: white;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  position: relative;
+  font-size: 0.8rem;
+}
+
+@media only screen and (max-width: 400px) and (min-width: 0px) {
+  #AssigTimeline .assigItem {
+    font-size: 10px;
+  }
+}
+
+#AssigTimeline .assigItem--unAllocated {
+  opacity: 0.5;
+}
+
+#AssigTimeline .assigItem--checkIn {
+  background-color: rgba(255, 255, 0, 0.7);
+  color: #343434;
+}
+
+#AssigTimeline .assigItem--checkIn .assigItem__gender--female {
+  color: maroon;
+}
+
+#AssigTimeline .assigItem--checkIn .assigItem__gender--male {
+  color: navy;
+}
+
+#AssigTimeline .assigItem--selected {
+  border-color: #4c5b73;
+  border-right-width: 6px !important;
+  border-right-style: ridge !important;
+  border: 3px solid #387BDB;
+}
+
+#AssigTimeline .assigItem--linkedSelected {
+  color: #343434;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 3px solid #387BDB;
+}
+
+#AssigTimeline .assigItem--linkedSelected .assigItem__configIconWrap:hover {
+  color: #787878;
+}
+
+#AssigTimeline .assigItem--linkedSelected .assigItem__gender--female {
+  color: maroon;
+}
+
+#AssigTimeline .assigItem--linkedSelected .assigItem__gender--male {
+  color: navy;
+}
+
+#AssigTimeline .assigItem--linkedSelected.assigItem--checkIn {
+  background-color: rgba(255, 255, 0, 0.7);
+}
+
+#AssigTimeline .assigItem--moving {
+  opacity: 0.3;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+#AssigTimeline .assigItem__gender {
+  color: white;
+}
+
+#AssigTimeline .assigItem__content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 0px 6px;
+  height: 100%;
+  white-space: nowrap;
+}
+
+#AssigTimeline .assigItem__content .circleIcon {
+  margin: 0;
+  max-height: 100%;
+  vertical-align: baseline;
+}
+
+#AssigTimeline .assigItem__configIconWrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+  -ms-flex-align: end;
+  align-items: end;
+  font-size: 0;
+}
+
+#AssigTimeline .assigItem__validateMarker {
+  position: absolute;
+  background-color: #ff6760;
+  z-index: -1;
+  top: 0;
+  bottom: 0;
+}
+
+#AssigTimeline .assigItem--block {
+  background-color: #343434;
+  color: white;
+}
+
+#AssigTimeline .assigItem--block .circleIcon {
+  color: white;
+}
+
+#AssigTimeline .assigItem--block.assigItem--selected {
+  background-color: #343434;
+  color: white;
+}
+
+#AssigTimeline .assigItem--mark {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border: none;
+  background-color: #EBEBEB;
+  pointer-events: none;
+}
+
+#AssigTimeline .assigItem--make {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  background-color: #c56c47;
+  border-color: #924b2e;
+  color: white;
+}
+
+#AssigTimeline .assigItem--make .assigItem__gender--female {
+  color: white;
+}
+
+#AssigTimeline .assigItem--make .assigItem__gender--male {
+  color: white;
+}
+
+.canvasMenu,
+.makeMenu {
+  display: none;
+  position: fixed;
+  background-color: white;
+  z-index: 30;
+}
+
+.canvasMenu--show,
+.makeMenu--show {
+  display: inline-block;
+}
+
+/*# sourceMappingURL=AssigTimeline.css.map */

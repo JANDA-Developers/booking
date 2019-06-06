@@ -1,4 +1,4 @@
-type UpdateRoomTypeResponse{
+type UpdateRoomTypeResponse {
     ok: Boolean!
     error: String
     roomType: RoomType
@@ -6,11 +6,14 @@ type UpdateRoomTypeResponse{
 type Mutation {
     UpdateRoomType(
         roomTypeId: ID!
-        houseId: ID!
-        name: String
-        peopleCount: Int
-        peopleCountMax: Int
-        img: URL
-        description: String
+        params: UpdateRoomTypeParams!
     ): UpdateRoomTypeResponse!
+}
+input UpdateRoomTypeParams {
+    name: String
+    peopleCount: Int
+    peopleCountMax: Int
+    img: URL
+    defaultPrice: Float
+    description: String
 }

@@ -1,0 +1,14 @@
+{
+    "version": 3,
+    "mappings": "AEIA,gFAAgF;AGuBhF,kEAAkE;ALzBlE,AAAA,UAAU,CAAC;EAEP,SAAS,EEiBE,MAAM;EFhBjB,MAAM,EAAE,KAAK;CAuBhB;;AAjBI,AAAD,2BAAkB,CAAC;EACf,SAAS,EEQD,IAAI;EFPZ,OAAO,EAAC,KAAK;CAChB;;AAEA,AAAD,oBAAW,CAAC;EACR,WAAW,EEoGG,IAAI;CF9FrB;;AAPA,AAEG,oBAFO,GAEH,EAAE,CAAC;EACH,QAAQ,EAAC,MAAM;EACf,WAAW,EAAC,MAAM;EAClB,aAAa,EAAC,QAAQ;CACzB;;AApBT,AAuBI,UAvBM,CAuBN,YAAY,CAAC;EACT,YAAY,EEgGU,MAAK;CF/F9B",
+    "sources": [
+        "myProduct.scss",
+        "../../../../style_config/style_config.scss",
+        "../../../../style_config/abstracts/_variables.scss",
+        "../../../../style_config/abstracts/_functions.scss",
+        "../../../../style_config/abstracts/_extends.scss",
+        "../../../../style_config/abstracts/_mixins.scss"
+    ],
+    "names": [],
+    "file": "myProduct.css"
+}

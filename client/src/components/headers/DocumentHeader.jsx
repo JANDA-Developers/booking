@@ -1,7 +1,7 @@
 import React from 'react';
 import './DocumentHeader.scss';
 import { NavLink } from 'react-router-dom';
-import ErrProtecter from '../../utils/ErrProtecter';
+import ErrProtecter from '../../utils/errProtect';
 
 const Header = () => (
   <div className="doc-header">

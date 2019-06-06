@@ -1,6 +1,7 @@
 @import "../../style_config/style_config";
 
 .JDcard {
+    position: relative;
     @extend %z-depth-1;
     padding: $card-padding;
     text-align: left;
@@ -10,8 +11,22 @@
         margin-bottom: 0;
     }
 
+    &--selected {
+        border: 1px solid $primary-color;    
+    }
+
     &--hoverDark:hover  {
         background-color: $grey-level1;
         cursor:pointer;
     }
+
+    & > *:last-child {
+        margin-bottom: 0;
+    }
+
+    // drragable 을 위해서
+    & > * {
+        cursor:auto;
+    }
+
 }

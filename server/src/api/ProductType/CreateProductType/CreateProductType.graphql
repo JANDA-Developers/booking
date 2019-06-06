@@ -13,5 +13,6 @@ type Mutation {
         bookingCount: Int
         bookingCountExtraCharge: Int
         description: String
+        canHaveHostApp: Boolean
     ): CreateProductTypeResponse!
 }
