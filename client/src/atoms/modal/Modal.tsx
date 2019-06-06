@@ -53,6 +53,7 @@ const JDmodal: React.SFC<IProps> = ({
       {...defualtJDmodalProps}
     >
       {children}
+      {info && info.children}
       {typeof info === "string" && info}
       {info && typeof info.txt === "string" && info.txt}
 

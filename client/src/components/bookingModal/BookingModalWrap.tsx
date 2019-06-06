@@ -200,11 +200,10 @@ const BookingModalWrap: React.FC<IProps> = ({modalHook, houseId}) => (
                             updateBookingMu={updateBookingMu}
                             deleteBookingMu={deleteBookingMu}
                             allocateGuestToRoomMu={allocateGuestToRoomMu}
-                            key={`bookingModal${loading && "--loading"}${
-                              modalHook.info.bookingId
-                            }${modalHook.info.type}${bookingData.start}${
-                              bookingData.end
-                            }`}
+                            key={`bookingModal${bookingData._id}${loading &&
+                              "--loading"}${modalHook.info.type}${
+                              bookingData.start
+                            }${bookingData.end}`}
                           />
                         );
                       }}
