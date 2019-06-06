@@ -85,7 +85,7 @@ const createbooking = async (
                 start,
                 end,
                 house: new Types.ObjectId(houseId),
-                bookingStatus: bookerParams.bookingStatus
+                paymentStatus: bookerParams.paymentStatus
             })
         );
         await bookingInstance.hashPassword();

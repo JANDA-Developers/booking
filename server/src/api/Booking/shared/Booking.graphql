@@ -63,7 +63,7 @@ input BookerInput {
     agreePrivacyPolicy: Boolean!
     price: Float!
     memo: String
-    bookingStatus: BookingStatus
+    paymentStatus: PaymentStatus
 }
 
 input GuestPartInput {
