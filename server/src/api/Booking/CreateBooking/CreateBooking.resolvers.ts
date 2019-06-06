@@ -84,6 +84,7 @@ const createbooking = async (
                 ...bookerParams,
                 start,
                 end,
+                price: bookerParams.price || 0,
                 house: new Types.ObjectId(houseId),
                 paymentStatus: bookerParams.paymentStatus
             })
