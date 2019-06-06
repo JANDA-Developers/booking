@@ -36,7 +36,16 @@ export class ProductSchema extends Typegoose {
 
     @prop({ required: true })
     canHaveHostApp: boolean;
-    
+
+    @prop({ default: false })
+    existingHostApp: boolean;
+
+    @prop({ default: 0 })
+    layoutPrice: number;
+
+    @prop({ default: false })
+    layoutPricePaid: boolean;
+
     @prop()
     description?: string;
 

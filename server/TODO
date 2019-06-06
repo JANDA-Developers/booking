@@ -32,6 +32,19 @@ Host-Side:
             ☐ Color Setting
         House Manual:
             ☐ Contents Setting
+    Product Flow:
+        Confirm Flow:
+            ✔ Make Product Flow @done(19-06-05 18:39)
+        Purchase Product: 
+            ✔ CreateProduct @done(19-06-05 18:38)
+        Modify Product:
+            ✔ UpdateProductForSU @done(19-06-05 20:49)
+                # 30분
+            ✔ UpdateProductForUser @done(19-06-05 20:49)
+                # Request From HOST!       1시간
+        Remove Product:
+            ☐ DeleteProductForSU
+                # 
     Make Booking:
         Payment API:
             ☐ Booking Data Server-Side Validation.

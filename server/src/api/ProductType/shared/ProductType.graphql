@@ -18,3 +18,8 @@ type ProductType {
     createdAt: DateTime!
     updatedAt: DateTime
 }
+
+enum LayoutType {
+    Layout_A
+    Layout_B
+}
