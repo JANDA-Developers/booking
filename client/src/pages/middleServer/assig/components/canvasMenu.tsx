@@ -29,7 +29,8 @@ const CanvasMenu: React.FC<IProps> = ({
           onClick={e => {
             e.stopPropagation();
             const linkedItems = guestValue.filter(
-              group => group.bookingId === "make"
+              item =>
+                item.bookingId === "make" && item.end > canvasMenuProps.start
             );
             const stack = linkedItems.length;
 

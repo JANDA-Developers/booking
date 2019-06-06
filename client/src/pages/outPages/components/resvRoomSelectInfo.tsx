@@ -66,7 +66,7 @@ const ResvRoomSelectInfo: React.FC<IProps> = ({
           </div>
         ) : (
           <div>
-            <span>{`${original.countRoom}명`}</span>
+            <span>{`${original.countRoom}개`}</span>
           </div>
         )
     },

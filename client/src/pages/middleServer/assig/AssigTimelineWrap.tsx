@@ -85,6 +85,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
   const defaultStartDate = dayPickerHook.from
     ? moment(dayPickerHook.from).valueOf()
     : moment().valueOf();
+
   const defaultEndDate = setMidNight(
     dayPickerHook.from
       ? setMidNight(
@@ -345,7 +346,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                                   dataTime={dataTime}
                                   key={`timeline${dayPickerHook.from}${
                                     dayPickerHook.to
-                                  }${guestsData && guestsData.length}`}
+                                  }`}
                                 />
                               );
                             }}
