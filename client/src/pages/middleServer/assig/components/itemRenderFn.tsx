@@ -184,17 +184,6 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
                   )}
                   <span className="assigItem__title">새로운예약</span>
                 </div>
-                {isMobile || (
-                  <CircleIcon
-                    onClick={() => {
-                      deleteItemById(item.id);
-                    }}
-                    wave
-                    thema="white"
-                  >
-                    <JDIcon icon="clear" />
-                  </CircleIcon>
-                )}
               </div>
             );
           default:

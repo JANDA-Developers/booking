@@ -3,22 +3,27 @@ import React from 'react';
 import classNames from 'classnames';
 import ErrProtecter from '../../utils/errProtect';
 import './Preloader.scss';
-
+import JDanimation, {Animation} from "../animation/Animations";
 export type PreloaderSize = 'large' | 'default' | 'medium';
 
 interface IProps extends React.HTMLAttributes<HTMLOrSVGElement> {
   page?: boolean;
   size?: PreloaderSize;
+  loading?: boolean;
 }
 
 const JDpreloader: React.FC<IProps> = ({
-  page, size, className, ...props
+  page, size, className, loading, ...props
 }) => {
   const classes = classNames('preloader', className, {
     'preloader--large': size === 'large',
     'preloader--medium': size === 'medium',
   });
   return !page ? (
+          <JDanimation
+        animation={[Animation.fadeInDown, Animation.fadeOutRight]}
+      >
+      { loading && 
     <svg
       {...props}
       version="1.1"
@@ -54,8 +59,11 @@ const JDpreloader: React.FC<IProps> = ({
         />
       </path>
     </svg>
+    }
+      </JDanimation>
   ) : (
     <div className="preloader--page__wrap">
+
       <div className="preloader--page" />
     </div>
   );

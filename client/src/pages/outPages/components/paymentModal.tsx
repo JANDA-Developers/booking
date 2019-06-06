@@ -7,6 +7,7 @@ import Button from "../../../atoms/button/Button";
 import BookingInfoBox from "./bookerInfoBox";
 import {BookerInput} from "../../../types/api";
 import {ISetBookingInfo} from "../reservation/Reservation";
+import {PAYMETHOD_FOR_BOOKER_OP} from "../../../types/enum";
 
 interface IProps {
   className?: string;
@@ -44,7 +45,7 @@ const PayMentModal: React.SFC<IProps> = ({
           <div>
             <JDselect
               {...payMethodHook}
-              options={selectDummyOptions}
+              options={PAYMETHOD_FOR_BOOKER_OP}
               label="결제수단"
             />
           </div>

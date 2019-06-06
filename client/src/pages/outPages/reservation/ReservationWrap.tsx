@@ -43,7 +43,7 @@ const ReservationWrap: React.FC<IProps> = ({match, houseId}) => {
       onCompleted={({CreateBookingForBooker}) => {
         if (CreateBookingForBooker.ok) {
           confirmModalHook.openModal(
-            "예약이 완료되었습니다. 예약페이지로 이동합니다."
+            "예약이 완료되었습니다. 예약확인페이지로 이동합니다."
           );
         } else {
           toast.warn("예약실패");

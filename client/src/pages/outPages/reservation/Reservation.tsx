@@ -59,7 +59,6 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
   confirmModalHook
 }) => {
   const defaultBookingInfo = {
-    houseId: "",
     name: "",
     password: "",
     price: 0,
