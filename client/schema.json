@@ -11635,6 +11635,16 @@
               "ofType": null
             },
             "defaultValue": null
+          },
+          {
+            "name": "paymentStatus",
+            "description": "",
+            "type": {
+              "kind": "ENUM",
+              "name": "PaymentStatus",
+              "ofType": null
+            },
+            "defaultValue": null
           }
         ],
         "interfaces": null,
