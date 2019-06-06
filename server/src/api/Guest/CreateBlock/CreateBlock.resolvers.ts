@@ -33,7 +33,7 @@ const resolvers: Resolvers = {
                     const roomObjId = new Types.ObjectId(roomId);
                     const existingGuest = await GuestModel.findOne({
                         start: {
-                            $lte: end
+                            $lt: end
                         },
                         end: {
                             $gt: start
