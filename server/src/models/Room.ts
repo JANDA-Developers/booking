@@ -142,10 +142,11 @@ export class RoomSchema extends Typegoose {
         const availableGenders = this.allocatableGenderPrivate(allocatedGuests);
         const emptyBeds = this.getEmptyBeds(allocatedGuests);
         _.pullAll(emptyBeds, block);
-        const availableCount =
-            (this.pricingType === "DOMITORY" ? this.peopleCount : 1) -
-            countGuestInBed.filter(c => c !== 0).length -
-            block.length;
+        const availableCount = emptyBeds.length;
+        // (this.pricingType === "DOMITORY" ? this.peopleCount : 1) -
+        // emptyBeds.length;
+        // countGuestInBed.filter(c => c !== 0).length -
+        // block.length;
         return {
             availableCount,
             emptyBeds,
