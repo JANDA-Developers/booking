@@ -39,9 +39,12 @@ enum BookingStatus {
 }
 
 enum PayMethod {
+    # 현금
     CASH
+    # 무통장 입금
     BANK_TRANSFER
-    # CREDIT_CARD
+    # 카드
+    CREDIT_CARD
 }
 
 enum PaymentStatus {
