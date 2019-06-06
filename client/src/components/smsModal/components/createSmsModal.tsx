@@ -21,7 +21,7 @@ import {
   smsMessageFormatter
 } from "../../../utils/smsUtils";
 import moment from "moment";
-import {IModalSMSinfo} from "./../SendSmsModalWrap";
+import {IModalSMSinfo} from "../SendSmsModalWrap";
 import Preloader from "../../../atoms/preloader/Preloader";
 import {autoComma, autoHypen} from "../../../utils/utils";
 import JDLabel from "../../../atoms/label/JDLabel";
@@ -41,12 +41,18 @@ const CreateSmsModal: React.FC<IProps> = ({
 }) => {
   const [msg, setMsg] = useState("");
 
+  console.log("smsInfo");
+  console.log("smsInfo");
+  console.log("smsInfo");
+  console.log(smsInfo);
+  console.log(smsInfo);
+  console.log(smsInfo);
   const handleSendSmsBtnClick = () => {
     sendSmsMu({
       variables: {
         msg: smsMessageFormatter(msg),
         receivers: smsInfo && smsInfo.receivers,
-        sender: smsInfo && smsInfo.sender
+        sender: smsInfo && smsInfo.sender && smsInfo.sender.phoneNumber
       }
     });
   };
