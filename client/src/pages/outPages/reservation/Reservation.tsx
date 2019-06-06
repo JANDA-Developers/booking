@@ -80,7 +80,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
     if (flag) {
       const publicKey = "05dfe136-1f1e-beed-b96d-ea3d68d8b847";
       const {name, password, phoneNumber} = bookingInfo;
-      location.href = `http://localhost:3000/#/outpage/checkReservation/${name}/${phoneNumber}/${password}/${publicKey}`
+      location.href = `http://localhost:3000/#/outpage/checkReservation/${name}/${phoneNumber}/${password}/${publicKey}`;
     } else {
       location.reload();
     }
@@ -202,7 +202,9 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
                   <Fragment>
                     {roomLoading && <Preloader />}
                     {roomLoading || (
-                      <h6 className="JDtext-align-center">{roomCardMessage}</h6>
+                      <div className="JDtextcolor--placeHolder JDtext-align-center">
+                        {roomCardMessage}
+                      </div>
                     )}
                   </Fragment>
                 );

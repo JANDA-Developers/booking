@@ -110,6 +110,11 @@
         min-width: 300px;
         height: $standard-small-line-height;
         margin-right: $standard-space;
+
+        @include response($phablet) {
+            min-width: unset
+        }
+        
         &__input {
             margin:0;
             padding:0;

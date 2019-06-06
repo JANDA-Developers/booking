@@ -59,6 +59,13 @@ import {
 } from "./components/assigIntrerface";
 import {getAssigUtils} from "./components/assigUtils";
 import BlockItemMenu from "./components/blockItemMenu";
+import {
+  ASSIG_DATA_END_LIMITE,
+  ASSIG_DATA_START_LIMITE,
+  ASSIG_DATA_END,
+  ASSIG_DATA_START,
+  ASSIG_VISIBLE_CELL_MB_DIFF
+} from "./timelineConfig";
 
 // Temp 마킹용이 있는지
 let MARKED = false;
@@ -126,6 +133,10 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   const [makeMenuProps, setMakeMenuProps] = useState<IMakeMenuProps>({
     item: DEFAULT_ASSIG_ITEM
   });
+
+  useEffect(() => {
+    setGuestValue(deafultGuestsData);
+  }, [JSON.stringify(deafultGuestsData)]);
 
   const assigHooks: IAssigTimelineHooks = {
     guestValue,
@@ -437,13 +448,14 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     updateScrollCanvas: any
   ) => {
     allTooltipsHide();
-    const dataLimitEnd = dataTime.end - TimePerMs.DAY * 20;
-    const dataLimitstart = dataTime.start + TimePerMs.DAY * 10;
+    const dataLimitEnd = dataTime.end - TimePerMs.DAY * ASSIG_DATA_END_LIMITE;
+    const dataLimitStart =
+      dataTime.start + TimePerMs.DAY * ASSIG_DATA_START_LIMITE;
 
     //  뒤로 요청
-    if (visibleTimeStart < dataLimitstart) {
-      const queryStart = visibleTimeStart - TimePerMs.DAY * 60;
-      const queryEnd = visibleTimeEnd + TimePerMs.DAY * 30;
+    if (visibleTimeStart < dataLimitStart) {
+      const queryStart = visibleTimeStart - TimePerMs.DAY * ASSIG_DATA_START;
+      const queryEnd = visibleTimeEnd + TimePerMs.DAY * ASSIG_DATA_END;
 
       setDataTime({
         start: setMidNight(queryStart),
@@ -453,8 +465,8 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
 
     //  앞으로 요청
     if (dataLimitEnd < visibleTimeEnd) {
-      const queryStart = visibleTimeStart - TimePerMs.DAY * 30;
-      const queryEnd = visibleTimeEnd + TimePerMs.DAY * 60;
+      const queryStart = visibleTimeStart - TimePerMs.DAY * ASSIG_DATA_START;
+      const queryEnd = visibleTimeEnd + TimePerMs.DAY * ASSIG_DATA_END;
 
       setDataTime({
         start: setMidNight(queryStart),
@@ -555,7 +567,9 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
           }
           groupRenderer={assigGroupRendererFn}
           defaultTimeEnd={
-            isTabletDown ? defaultTimeEnd - TimePerMs.DAY * 5 : defaultTimeEnd
+            isTabletDown
+              ? defaultTimeEnd - TimePerMs.DAY * ASSIG_VISIBLE_CELL_MB_DIFF
+              : defaultTimeEnd
           }
           defaultTimeStart={defaultTimeStart}
           moveResizeValidator={handleMoveResizeValidator}
@@ -584,7 +598,9 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
                       "rct-dateHeader--today"}`}
                     {...getIntervalProps()}
                   >
-                    {intervalContext.intervalText.replace("요일", "")}
+                    {intervalContext.intervalText
+                      .replace("요일,", ", ")
+                      .replace(/[0-9]{4}년/, "")}
                   </div>
                 );
               }}

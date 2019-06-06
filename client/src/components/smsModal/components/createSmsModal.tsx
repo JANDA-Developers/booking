@@ -40,19 +40,12 @@ const CreateSmsModal: React.FC<IProps> = ({
   loading
 }) => {
   const [msg, setMsg] = useState("");
-
-  console.log("smsInfo");
-  console.log("smsInfo");
-  console.log("smsInfo");
-  console.log(smsInfo);
-  console.log(smsInfo);
-  console.log(smsInfo);
   const handleSendSmsBtnClick = () => {
     sendSmsMu({
       variables: {
         msg: smsMessageFormatter(msg),
         receivers: smsInfo && smsInfo.receivers,
-        sender: smsInfo && smsInfo.sender && smsInfo.sender.phoneNumber
+        sender: process.env.SMS_SENDER_NUMBER
       }
     });
   };

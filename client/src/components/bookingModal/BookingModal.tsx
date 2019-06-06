@@ -131,10 +131,10 @@ const POPbookingInfo: React.FC<IProps> = ({
     booking: {
       end: resvDateHook.to!,
       name: bookingNameHook.value,
-      payMethod: payMethodHook.selectedOption!.value,
+      payMethod: payMethodHook.selectedOption!.label,
       phoneNumber: bookingPhoneHook.value,
       start: resvDateHook.from!,
-      paymentStatus: paymentStatusHook.selectedOption!.value,
+      paymentStatus: paymentStatusHook.selectedOption!.label,
       price: priceHook.value || 0
     }
   };

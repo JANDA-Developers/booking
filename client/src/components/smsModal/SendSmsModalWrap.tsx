@@ -32,8 +32,8 @@ export interface IModalSMSinfo {
     phoneNumber: string;
     start: string | Date;
     end: string | Date;
-    paymentStatus: PaymentStatus;
-    payMethod: PayMethod;
+    paymentStatus: string;
+    payMethod: string;
     price: number;
   };
   receivers: string[];
