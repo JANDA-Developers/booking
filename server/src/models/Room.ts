@@ -130,17 +130,21 @@ export class RoomSchema extends Typegoose {
         includeSettled?: boolean,
         exceptbookingIds?: Types.ObjectId[]
     ): Promise<RoomCapacity> {
-        const allocatedGuests = await this.getAllocatedGuests(
+        const allocatedGuests = (await this.getAllocatedGuests(
             dateRange,
             exceptbookingIds
-        );
+        )).sort((g1, g2) => g1.bedIndex - g2.bedIndex);
+        const countGuestInBed: number[] = Array(this.peopleCount).fill(0);
+        allocatedGuests.forEach(g => {
+            countGuestInBed[g.bedIndex]++;
+        });
         const block = await this.getBlockedBeds(dateRange.start, dateRange.end);
         const availableGenders = this.allocatableGenderPrivate(allocatedGuests);
         const emptyBeds = this.getEmptyBeds(allocatedGuests);
         _.pullAll(emptyBeds, block);
         const availableCount =
             (this.pricingType === "DOMITORY" ? this.peopleCount : 1) -
-            allocatedGuests.length -
+            countGuestInBed.filter(c => c !== 0).length -
             block.length;
         return {
             availableCount,
@@ -171,7 +175,7 @@ export class RoomSchema extends Typegoose {
                 $lte: new Date(dateRange.end)
             },
             end: {
-                $gte: new Date(dateRange.start)
+                $gt: new Date(dateRange.start)
             },
             bookingStatus: BookingStatusEnum.COMPLETE,
             guestType: GuestTypeEnum.GUEST
