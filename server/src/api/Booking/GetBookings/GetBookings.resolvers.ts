@@ -50,6 +50,7 @@ const resolvers: Resolvers = {
 
                     const bookings = await bookingModel
                         .find(removeUndefined(filterQuery))
+                        .sort({ createdAt: -1 })
                         .skip((p - 1) * c)
                         .limit(c);
 
