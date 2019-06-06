@@ -15,8 +15,10 @@ type UpdateProductForUserResponse {
     # 사실 여기는 유저의 요구사항들을 출력해줘야함...
     product: Product
 }
-input UpdateProductFromUserParams {
-    requestId: String
+input UpdateProductFromUserRequestParams {
+    layoutType: LayoutType
+    domainUrl: URL
+    useHostApp: Boolean
 }
 type Mutation {
     UpdateProductForSU(
@@ -25,6 +27,6 @@ type Mutation {
     ): UpdateProductForSUResponse!
     UpdateProductForUser(
         houseId: ID!
-        prarms: UpdateProductFromUserParams!
+        prarms: UpdateProductFromUserRequestParams!
     ): UpdateProductForUserResponse!
 }
