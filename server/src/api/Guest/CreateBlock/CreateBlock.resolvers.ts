@@ -36,7 +36,7 @@ const resolvers: Resolvers = {
                             $lte: end
                         },
                         end: {
-                            $gte: start
+                            $gt: start
                         },
                         allocatedRoom: roomObjId,
                         bedIndex,

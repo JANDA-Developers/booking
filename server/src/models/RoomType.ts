@@ -369,7 +369,7 @@ export class RoomTypeSchema extends Typegoose {
                     $lte: new Date(end)
                 },
                 end: {
-                    $gte: new Date(start)
+                    $gt: new Date(start)
                 },
                 isUnsettled
             };

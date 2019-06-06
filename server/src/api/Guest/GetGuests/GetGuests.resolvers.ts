@@ -30,7 +30,7 @@ const resolvers: Resolvers = {
                                 $lte: new Date(end)
                             },
                             end: {
-                                $gte: new Date(start)
+                                $gt: new Date(start)
                             },
                             bookingStatus: bookingStatus || undefined
                         })
