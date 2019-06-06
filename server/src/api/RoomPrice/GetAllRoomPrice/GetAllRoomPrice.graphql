@@ -1,0 +1,13 @@
+type GetAllRoomPriceResponse {
+    ok: Boolean!
+    error: String
+    roomPrices: [RoomPrice!]
+}
+
+type Query {
+    GetAllRoomPrice(
+        houseId: ID!
+        start: DateTime!
+        end: DateTime!
+    ): GetAllRoomPriceResponse!
+}

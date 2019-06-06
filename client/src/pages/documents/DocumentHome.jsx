@@ -45,19 +45,19 @@ const DocumentHome = () => {
     let path = '';
 
     //  dayPicker
-    if (value === 0) path = require('../../components/dayPicker/ReadMe.md');
+    if (value === 0) path = require('../../atoms/dayPicker/ReadMe.md');
     //  headers
     if (value === 1) path = require('../../components/headers/ReadMe.md');
     //  pagination
-    if (value === 2) path = require('../../components/pagination/ReadMe.md');
+    if (value === 2) path = require('../../atoms/pagination/ReadMe.md');
     //  searchInput
-    if (value === 3) path = require('../../components/searchInput/ReadMe.md');
+    if (value === 3) path = require('../../atoms/searchInput/ReadMe.md');
     //  sidNav
     if (value === 4) path = require('../../components/sideNav/ReadMe.md');
     //  timeline
-    if (value === 5) path = require('../../components/timeline/ReadMe.md');
+    if (value === 5) path = require('../../atoms/timeline/ReadMe.md');
     //  slider
-    if (value === 6) path = require('../../components/slider/ReadMe.md');
+    if (value === 6) path = require('../../atoms/slider/ReadMe.md');
 
     getMD(path);
   };

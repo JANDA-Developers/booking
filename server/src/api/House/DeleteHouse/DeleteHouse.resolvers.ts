@@ -1,5 +1,6 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { HouseModel } from "../../../models/House";
+import { SmsInfoModel } from "../../../models/SmsInfo";
 import { UserModel } from "../../../models/User";
 import {
     DeleteHouseMutationArgs,
@@ -18,14 +19,17 @@ const resolvers: Resolvers = {
             try {
                 await HouseModel.findOneAndDelete({
                     _id,
-                    user: new ObjectId(user._id)
+                    user: new Types.ObjectId(user._id)
                 });
                 await UserModel.updateOne(
                     {
                         _id: user._id
                     },
-                    { $pull: { houses: new ObjectId(_id) } }
+                    { $pull: { houses: new Types.ObjectId(_id) } }
                 );
+                await SmsInfoModel.deleteOne({
+                    house: new Types.ObjectId(_id)
+                });
                 return {
                     ok: true,
                     error: null

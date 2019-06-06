@@ -1,7 +1,7 @@
 import React from 'react';
 import './ColorBox.scss';
 import PropTypes from 'prop-types';
-import ErrProtecter from '../../../../utils/ErrProtecter';
+import ErrProtecter from '../../../../utils/errProtect';
 
 const colorBox = ({
   color, txt, dataFor, dataTip,

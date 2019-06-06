@@ -11,15 +11,12 @@ export enum BADGE_THEMA {
   BLACK = 'black',
 }
 
-interface IProps {
+interface IProps extends React.HTMLAttributes<HTMLSpanElement> {
   thema: BADGE_THEMA;
   className?: string;
-  children: string | Node;
 }
 
-const JDbadge: React.SFC<IProps> = ({
-  className, thema, children, ...props
-}) => {
+const JDbadge: React.SFC<IProps> = ({ className, thema, ...props }) => {
   const classNames = classnames('JDbadge', className, {
     'JDbadge--black': thema === BADGE_THEMA.BLACK,
     'JDbadge--white': thema === BADGE_THEMA.WHITE,
@@ -29,7 +26,7 @@ const JDbadge: React.SFC<IProps> = ({
     'JDbadge--new': thema === BADGE_THEMA.NEW,
   });
 
-  return <span className={classNames}>{children}</span>;
+  return <span className={classNames} {...props} />;
 };
 
 export default JDbadge;

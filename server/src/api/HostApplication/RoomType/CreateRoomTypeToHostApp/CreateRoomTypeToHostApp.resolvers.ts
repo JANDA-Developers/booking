@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { InstanceType } from "typegoose";
 import { HouseModel, HouseSchema } from "../../../../models/House";
 import { extractRoomType } from "../../../../models/merge/merge";
@@ -8,7 +8,7 @@ import {
     CreateRoomTypeToHostAppResponse
 } from "../../../../types/graph";
 import { Resolvers } from "../../../../types/resolvers";
-import privateResolverForHostApp from "../../../../utils/privateResolverForHostApplication";
+import { privateResolverForHostApp } from "../../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Mutation: {
@@ -23,8 +23,8 @@ const resolvers: Resolvers = {
                     // 중복되는 방타입 이름인지 검사함.
                     if (
                         !(await RoomTypeModel.find({
-                            name: name,
-                            house: new ObjectId(house._id)
+                            name,
+                            house: new Types.ObjectId(house._id)
                         }))
                     ) {
                         return {
@@ -36,25 +36,25 @@ const resolvers: Resolvers = {
                     const roomType = await new RoomTypeModel({
                         name,
                         ...args,
-                        house: new ObjectId(house._id)
+                        house: new Types.ObjectId(house._id)
                     });
                     // 방 타입을 생성해야함... 방 타입에 들어갈 정보들부터 확인해보자...
                     await roomType.save();
 
                     await HouseModel.updateOne(
                         {
-                            _id: new ObjectId(house._id)
+                            _id: new Types.ObjectId(house._id)
                         },
                         {
                             $push: {
-                                roomTypes: new ObjectId(roomType._id)
+                                roomTypes: new Types.ObjectId(roomType._id)
                             }
                         }
                     );
                     const result = await extractRoomType(roomType);
                     return {
                         ok: true,
-                        error: null, 
+                        error: null,
                         roomType: result
                     };
                 } catch (error) {

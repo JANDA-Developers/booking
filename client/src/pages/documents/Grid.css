@@ -1,0 +1,18 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+.PageGrid .flex-grid__col, .PageGrid .block {
+  height: 2rem;
+  line-height: 2rem;
+  text-align: center;
+  background-color: #b8b8b8;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  margin-bottom: 1px;
+}
+
+.PageGrid .flex-grid,
+.PageGrid .flex-grid-grow,
+.PageGrid .row {
+  margin-bottom: .5rem;
+}
+/*# sourceMappingURL=Grid.css.map */

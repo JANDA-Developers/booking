@@ -1,3 +1,5 @@
+import { InstanceType } from "typegoose";
+import { HouseSchema } from "../../../../models/House";
 import { extractSeason } from "../../../../models/merge/merge";
 import { SeasonModel } from "../../../../models/Season";
 import {
@@ -5,9 +7,7 @@ import {
     UpdateSeasonToHostAppResponse
 } from "../../../../types/graph";
 import { Resolvers } from "../../../../types/resolvers";
-import { InstanceType } from "typegoose";
-import { HouseSchema } from "../../../../models/House";
-import privateResolverForHostApp from "../../../../utils/privateResolverForHostApplication";
+import { privateResolverForHostApp } from "../../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Mutation: {

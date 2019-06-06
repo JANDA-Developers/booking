@@ -1,0 +1,588 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+@media only screen and (max-width: 9999px) and (min-width: 0px) {
+  #JDreservation .flex-grid .flex-grid__col.col--full-0, #JDreservation .flex-grid .col.col--full-0 {
+    display: none;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--full-1, #JDreservation .flex-grid .col.col--full-1 {
+    display: block;
+    width: 7.6%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--full-2, #JDreservation .flex-grid .col.col--full-2 {
+    display: block;
+    width: 16%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--full-3, #JDreservation .flex-grid .col.col--full-3 {
+    display: block;
+    width: 24.4%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--full-4, #JDreservation .flex-grid .col.col--full-4 {
+    display: block;
+    width: 32.8%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--full-5, #JDreservation .flex-grid .col.col--full-5 {
+    display: block;
+    width: 41.2%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--full-6, #JDreservation .flex-grid .col.col--full-6 {
+    display: block;
+    width: 49.6%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--full-7, #JDreservation .flex-grid .col.col--full-7 {
+    display: block;
+    width: 58%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--full-8, #JDreservation .flex-grid .col.col--full-8 {
+    display: block;
+    width: 66.4%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--full-9, #JDreservation .flex-grid .col.col--full-9 {
+    display: block;
+    width: 74.8%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--full-10, #JDreservation .flex-grid .col.col--full-10 {
+    display: block;
+    width: 83.2%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--full-11, #JDreservation .flex-grid .col.col--full-11 {
+    display: block;
+    width: 91.6%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--full-12, #JDreservation .flex-grid .col.col--full-12 {
+    display: block;
+    width: 100%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.flex-grid__col--vertical, #JDreservation .flex-grid .col.flex-grid__col--vertical {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 1200px) and (min-width: 0px) {
+  #JDreservation .flex-grid .flex-grid__col.col--wlg-0, #JDreservation .flex-grid .col.col--wlg-0 {
+    display: none;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wlg-1, #JDreservation .flex-grid .col.col--wlg-1 {
+    display: block;
+    width: 7.6%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wlg-2, #JDreservation .flex-grid .col.col--wlg-2 {
+    display: block;
+    width: 16%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wlg-3, #JDreservation .flex-grid .col.col--wlg-3 {
+    display: block;
+    width: 24.4%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wlg-4, #JDreservation .flex-grid .col.col--wlg-4 {
+    display: block;
+    width: 32.8%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wlg-5, #JDreservation .flex-grid .col.col--wlg-5 {
+    display: block;
+    width: 41.2%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wlg-6, #JDreservation .flex-grid .col.col--wlg-6 {
+    display: block;
+    width: 49.6%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wlg-7, #JDreservation .flex-grid .col.col--wlg-7 {
+    display: block;
+    width: 58%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wlg-8, #JDreservation .flex-grid .col.col--wlg-8 {
+    display: block;
+    width: 66.4%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wlg-9, #JDreservation .flex-grid .col.col--wlg-9 {
+    display: block;
+    width: 74.8%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wlg-10, #JDreservation .flex-grid .col.col--wlg-10 {
+    display: block;
+    width: 83.2%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wlg-11, #JDreservation .flex-grid .col.col--wlg-11 {
+    display: block;
+    width: 91.6%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wlg-12, #JDreservation .flex-grid .col.col--wlg-12 {
+    display: block;
+    width: 100%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.flex-grid__col--vertical, #JDreservation .flex-grid .col.flex-grid__col--vertical {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 1000px) and (min-width: 0px) {
+  #JDreservation .flex-grid .flex-grid__col.col--lg-0, #JDreservation .flex-grid .col.col--lg-0 {
+    display: none;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--lg-1, #JDreservation .flex-grid .col.col--lg-1 {
+    display: block;
+    width: 7.6%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--lg-2, #JDreservation .flex-grid .col.col--lg-2 {
+    display: block;
+    width: 16%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--lg-3, #JDreservation .flex-grid .col.col--lg-3 {
+    display: block;
+    width: 24.4%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--lg-4, #JDreservation .flex-grid .col.col--lg-4 {
+    display: block;
+    width: 32.8%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--lg-5, #JDreservation .flex-grid .col.col--lg-5 {
+    display: block;
+    width: 41.2%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--lg-6, #JDreservation .flex-grid .col.col--lg-6 {
+    display: block;
+    width: 49.6%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--lg-7, #JDreservation .flex-grid .col.col--lg-7 {
+    display: block;
+    width: 58%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--lg-8, #JDreservation .flex-grid .col.col--lg-8 {
+    display: block;
+    width: 66.4%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--lg-9, #JDreservation .flex-grid .col.col--lg-9 {
+    display: block;
+    width: 74.8%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--lg-10, #JDreservation .flex-grid .col.col--lg-10 {
+    display: block;
+    width: 83.2%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--lg-11, #JDreservation .flex-grid .col.col--lg-11 {
+    display: block;
+    width: 91.6%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--lg-12, #JDreservation .flex-grid .col.col--lg-12 {
+    display: block;
+    width: 100%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.flex-grid__col--vertical, #JDreservation .flex-grid .col.flex-grid__col--vertical {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 750px) and (min-width: 0px) {
+  #JDreservation .flex-grid .flex-grid__col.col--wmd-0, #JDreservation .flex-grid .col.col--wmd-0 {
+    display: none;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wmd-1, #JDreservation .flex-grid .col.col--wmd-1 {
+    display: block;
+    width: 7.6%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wmd-2, #JDreservation .flex-grid .col.col--wmd-2 {
+    display: block;
+    width: 16%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wmd-3, #JDreservation .flex-grid .col.col--wmd-3 {
+    display: block;
+    width: 24.4%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wmd-4, #JDreservation .flex-grid .col.col--wmd-4 {
+    display: block;
+    width: 32.8%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wmd-5, #JDreservation .flex-grid .col.col--wmd-5 {
+    display: block;
+    width: 41.2%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wmd-6, #JDreservation .flex-grid .col.col--wmd-6 {
+    display: block;
+    width: 49.6%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wmd-7, #JDreservation .flex-grid .col.col--wmd-7 {
+    display: block;
+    width: 58%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wmd-8, #JDreservation .flex-grid .col.col--wmd-8 {
+    display: block;
+    width: 66.4%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wmd-9, #JDreservation .flex-grid .col.col--wmd-9 {
+    display: block;
+    width: 74.8%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wmd-10, #JDreservation .flex-grid .col.col--wmd-10 {
+    display: block;
+    width: 83.2%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wmd-11, #JDreservation .flex-grid .col.col--wmd-11 {
+    display: block;
+    width: 91.6%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wmd-12, #JDreservation .flex-grid .col.col--wmd-12 {
+    display: block;
+    width: 100%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.flex-grid__col--vertical, #JDreservation .flex-grid .col.flex-grid__col--vertical {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 750px) and (min-width: 0px) {
+  #JDreservation .flex-grid .flex-grid__col.col--wmd-0, #JDreservation .flex-grid .col.col--wmd-0 {
+    display: none;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wmd-1, #JDreservation .flex-grid .col.col--wmd-1 {
+    display: block;
+    width: 7.6%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wmd-2, #JDreservation .flex-grid .col.col--wmd-2 {
+    display: block;
+    width: 16%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wmd-3, #JDreservation .flex-grid .col.col--wmd-3 {
+    display: block;
+    width: 24.4%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wmd-4, #JDreservation .flex-grid .col.col--wmd-4 {
+    display: block;
+    width: 32.8%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wmd-5, #JDreservation .flex-grid .col.col--wmd-5 {
+    display: block;
+    width: 41.2%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wmd-6, #JDreservation .flex-grid .col.col--wmd-6 {
+    display: block;
+    width: 49.6%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wmd-7, #JDreservation .flex-grid .col.col--wmd-7 {
+    display: block;
+    width: 58%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wmd-8, #JDreservation .flex-grid .col.col--wmd-8 {
+    display: block;
+    width: 66.4%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wmd-9, #JDreservation .flex-grid .col.col--wmd-9 {
+    display: block;
+    width: 74.8%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wmd-10, #JDreservation .flex-grid .col.col--wmd-10 {
+    display: block;
+    width: 83.2%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wmd-11, #JDreservation .flex-grid .col.col--wmd-11 {
+    display: block;
+    width: 91.6%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--wmd-12, #JDreservation .flex-grid .col.col--wmd-12 {
+    display: block;
+    width: 100%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.flex-grid__col--vertical, #JDreservation .flex-grid .col.flex-grid__col--vertical {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 550px) and (min-width: 0px) {
+  #JDreservation .flex-grid .flex-grid__col.col--md-0, #JDreservation .flex-grid .col.col--md-0 {
+    display: none;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--md-1, #JDreservation .flex-grid .col.col--md-1 {
+    display: block;
+    width: 7.6%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--md-2, #JDreservation .flex-grid .col.col--md-2 {
+    display: block;
+    width: 16%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--md-3, #JDreservation .flex-grid .col.col--md-3 {
+    display: block;
+    width: 24.4%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--md-4, #JDreservation .flex-grid .col.col--md-4 {
+    display: block;
+    width: 32.8%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--md-5, #JDreservation .flex-grid .col.col--md-5 {
+    display: block;
+    width: 41.2%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--md-6, #JDreservation .flex-grid .col.col--md-6 {
+    display: block;
+    width: 49.6%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--md-7, #JDreservation .flex-grid .col.col--md-7 {
+    display: block;
+    width: 58%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--md-8, #JDreservation .flex-grid .col.col--md-8 {
+    display: block;
+    width: 66.4%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--md-9, #JDreservation .flex-grid .col.col--md-9 {
+    display: block;
+    width: 74.8%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--md-10, #JDreservation .flex-grid .col.col--md-10 {
+    display: block;
+    width: 83.2%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--md-11, #JDreservation .flex-grid .col.col--md-11 {
+    display: block;
+    width: 91.6%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--md-12, #JDreservation .flex-grid .col.col--md-12 {
+    display: block;
+    width: 100%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.flex-grid__col--vertical, #JDreservation .flex-grid .col.flex-grid__col--vertical {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 400px) and (min-width: 0px) {
+  #JDreservation .flex-grid .flex-grid__col.col--sm-0, #JDreservation .flex-grid .col.col--sm-0 {
+    display: none;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--sm-1, #JDreservation .flex-grid .col.col--sm-1 {
+    display: block;
+    width: 7.6%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--sm-2, #JDreservation .flex-grid .col.col--sm-2 {
+    display: block;
+    width: 16%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--sm-3, #JDreservation .flex-grid .col.col--sm-3 {
+    display: block;
+    width: 24.4%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--sm-4, #JDreservation .flex-grid .col.col--sm-4 {
+    display: block;
+    width: 32.8%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--sm-5, #JDreservation .flex-grid .col.col--sm-5 {
+    display: block;
+    width: 41.2%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--sm-6, #JDreservation .flex-grid .col.col--sm-6 {
+    display: block;
+    width: 49.6%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--sm-7, #JDreservation .flex-grid .col.col--sm-7 {
+    display: block;
+    width: 58%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--sm-8, #JDreservation .flex-grid .col.col--sm-8 {
+    display: block;
+    width: 66.4%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--sm-9, #JDreservation .flex-grid .col.col--sm-9 {
+    display: block;
+    width: 74.8%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--sm-10, #JDreservation .flex-grid .col.col--sm-10 {
+    display: block;
+    width: 83.2%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--sm-11, #JDreservation .flex-grid .col.col--sm-11 {
+    display: block;
+    width: 91.6%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.col--sm-12, #JDreservation .flex-grid .col.col--sm-12 {
+    display: block;
+    width: 100%;
+  }
+  #JDreservation .flex-grid .flex-grid__col.flex-grid__col--vertical, #JDreservation .flex-grid .col.flex-grid__col--vertical {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+}
+
+#JDreservation .JDreservation__card {
+  margin-bottom: 0.5rem;
+}
+
+#JDreservation .JDreservation__dayPickerCard {
+  height: 95vh;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  border-radius: 3px;
+}
+
+@media only screen and (max-width: 751px) and (min-width: 0px) {
+  #JDreservation .JDreservation__dayPickerCard {
+    height: auto;
+    position: static;
+  }
+}
+
+#JDreservation .JDreservation__sectionTitle {
+  text-align: center;
+}
+
+#JDreservation .roomTypeCard {
+  border-radius: 3px;
+  height: 130px;
+  border: 1px solid #343434;
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+#JDreservation .roomTypeCard__imgSection {
+  max-width: 218.4px;
+  background-image: url("../../../img/default_room.png");
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+  border-right: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+@media only screen and (max-width: 400px) and (min-width: 0px) {
+  #JDreservation .roomTypeCard__imgSection {
+    max-width: 104px;
+  }
+}
+
+#JDreservation .roomTypeCard__img {
+  background-size: cover;
+  margin-left: -1px;
+  height: 100%;
+  margin-top: -1px;
+  border: 1px solid #343434;
+  border-radius: 3px 0px 0px 3px;
+}
+
+#JDreservation .roomTypeCard__lastSection {
+  padding: 0.5rem;
+}
+
+@media only screen and (max-width: 400px) and (min-width: 0px) {
+  #JDreservation .roomTypeCard__lastSection {
+    padding: 0.25rem;
+  }
+}
+
+#JDreservation .roomTypeCard__selectButton {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border-radius: 3px 0px 3px 0px;
+}
+
+@media only screen and (max-width: 400px) and (min-width: 0px) {
+  #JDreservation .roomTypeCard__selectButton {
+    bottom: 0.25rem;
+    right: 0.25rem;
+    border-radius: 3px;
+  }
+}
+
+#JDreservation .roomTypeCard__lastTopSection {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
+}
+
+#JDreservation .roomTypeCard__lastTopSection .roomTypeCard__price {
+  font-size: 1.2rem;
+}
+
+#JDreservation .roomTypeCard__middleSection {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 0.5rem;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+@media only screen and (max-width: 400px) and (min-width: 0px) {
+  #JDreservation .roomTypeCard__middleSection {
+    padding: 0.25rem;
+  }
+}
+
+#JDreservation .roomTypeCard__middleBottomSection {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+#JDreservation .roomTypeCard__middleBottomSection .JDselect {
+  margin-bottom: 0;
+}
+
+@media only screen and (max-width: 550px) and (min-width: 0px) {
+  #JDreservation .roomTypeCard__middleBottomSection .JDselect {
+    margin-right: 0.5rem;
+  }
+}
+
+#JDreservation .roomTypeCard .JDbtn--toogleOn {
+  background-color: #4c5b73;
+  color: #fff;
+}
+
+.paymentModal__JDbox {
+  max-width: 300px;
+  text-align: center;
+  color: #343434;
+}
+
+.roomImgPop__img {
+  margin-bottom: 1rem;
+}
+/*# sourceMappingURL=Reservation.css.map */

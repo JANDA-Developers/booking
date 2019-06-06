@@ -1,5 +1,5 @@
 import React from 'react';
-import DynamicImport from '../utils/DynamicImport';
+import DynamicImport from '../utils/dynamicComponent';
 import Preloader from '../atoms/preloader/Preloader';
 
 export const Margin = props => (

@@ -22,6 +22,9 @@
   transition: background-color 0.2s ease-out;
   cursor: pointer;
 
+  &.JDwaves-effect {
+    overflow:hidden;
+  }
   // Flot
   &--left {
     float: left
@@ -43,14 +46,11 @@
   }
 
   // MODE
-  &.JDbtn--primary {
+  &.JDbtn--primary:not(:disabled) {
     background-color: $primary-color;
     color: $primary-color-light-on;
     &:hover {
       background-color: $primary-color-light
-    }
-    &:disabled:hover {
-      background-color: $primary-color;
     }
   }
   
@@ -123,11 +123,14 @@
       font-size: $button-large-icon-font-size;
     }
   }
-  
+
+  //long button
+  &--long {
+    width: 100%;
+  }
+
   // Small button
   &--small {
-    height: $button-small-height;
-    line-height: $button-small-height;
     padding: $button-small-padding;
     font-size: $button-small-font-size;
     
@@ -154,7 +157,7 @@
       color:white;
     }
     
-    &.JDbtn--primary {
+    &.JDbtn--primary:not(:disabled) {
       background-color: $primary-color;
     }
     

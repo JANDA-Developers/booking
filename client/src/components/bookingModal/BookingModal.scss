@@ -1,0 +1,35 @@
+@import "../../style_config/style_config";
+
+.bookingModal {
+    @include response($mobile) {
+        .JDinput-iconWrap {
+           display:none;
+       }
+   }
+    
+    .roomSelectInfoTable {
+
+        &__roomSelect {
+            width: 100%;
+        }
+
+        &__personSelects {
+            width: 100%;
+            display: flex;
+
+            & > .JDselect {
+                flex-grow: 1;
+                &:first-child {
+                    margin-right: $standard-space /2;
+                }
+            }
+        }
+
+        .JDtable { 
+            .rt-td,.rt-tbody,.rt-table {
+                overflow:visible;
+            }
+        }
+
+    }
+}

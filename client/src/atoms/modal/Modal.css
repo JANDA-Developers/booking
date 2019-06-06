@@ -1,0 +1,94 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+.ReactModal__Content {
+  -webkit-box-shadow: 0 8px 17px 2px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 17px 2px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
+}
+
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+.ReactModal__Overlay {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  z-index: 90;
+  background-color: rgba(0, 0, 0, 0.78);
+}
+
+.ReactModal__Content {
+  background-color: white;
+  position: relative;
+  padding: 1.6rem;
+  outline: none;
+  border-radius: 3px;
+  max-height: 85%;
+  overflow-y: auto;
+}
+
+@media only screen and (max-width: 9999px) and (min-width: 550px) {
+  .ReactModal__Content {
+    max-width: 80%;
+  }
+}
+
+@media only screen and (max-width: 550px) and (min-width: 0px) {
+  .ReactModal__Content {
+    margin: 0.8rem;
+  }
+}
+
+.ReactModal__Content .container {
+  padding: 0;
+}
+
+@media only screen and (max-width: 550px) and (min-width: 0px) {
+  .ReactModal__Content {
+    padding: 0.8rem;
+    max-height: 80%;
+    margin-bottom: 10%;
+  }
+}
+
+.JDmodal--alert {
+  font-weight: bold;
+}
+
+.JDmodal--center {
+  text-align: center;
+}
+
+.JDmodal__endSection {
+  bottom: 1.6rem;
+  left: 1.6rem;
+  right: 1.6rem;
+}
+
+.JDmodal__endSection--confirm {
+  padding-top: 1.5rem;
+}
+
+.JDmodal__endSection--float {
+  position: absolute;
+}
+
+.JDmodal__endSection .JDbtn {
+  margin-bottom: 0;
+}
+
+.JDmodal__endSection h6 {
+  margin-bottom: 0;
+}
+
+.JDmodal .modal__section {
+  padding-bottom: 1.5rem;
+}
+/*# sourceMappingURL=Modal.css.map */

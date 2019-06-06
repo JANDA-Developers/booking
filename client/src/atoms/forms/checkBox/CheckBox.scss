@@ -1,0 +1,120 @@
+
+@import '../../../style_config/style_config';
+
+/* 브라우저 기본 css 제거 */
+.JDcheck_box:not(:checked),
+.JDcheck_box:checked {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.JDcheck_box_wrap {
+    display: inline-block;
+    outline: 0;
+
+    max-height: 25px;
+
+    * {
+        outline: 0;
+    }
+}
+
+.JDinput-wrap {
+    position: relative;
+}
+
+// Filled in Style ***
+.JDcheck_box {
+
+    /* ---------------------------------- 라벨스타일 --------------------------------- */
+    +.JDcheck_box_label {
+        position: relative;
+        padding-left: 35px; // space with label
+        cursor: pointer;
+        display: inline-block;
+        height: 25px;
+        line-height: 25px;
+        font-size: $checkBox-label-fontSize;
+        color: $checkBox-label-color;
+        user-select: none;
+    }
+    // General
+    +.JDcheck_box_label:after {
+        border-radius: 2px;
+    }
+    +.JDcheck_box_label:before,
+    +.JDcheck_box_label:after {
+        content: '';
+        left: 0;
+        position: absolute;
+        /* .1s delay is for check animation */
+        transition: border .25s, background-color .25s, width .20s .1s, height .20s .1s, top .20s .1s, left .20s .1s;
+        z-index: 1;
+    }
+
+    /* ----------------------------- Unchecked style ---------------------------- */
+    &:not(:checked)+.JDcheck_box_label:before {
+        width: 0;
+        height: 0;
+        border: 3px solid transparent;
+        left: 6px;
+        top: 10px;
+        transform: rotateZ(37deg);
+        transform-origin: 100% 100%;
+    }
+    &:not(:checked)+.JDcheck_box_label:after {
+        height: 20px;
+        width: 20px;
+        background-color: transparent;
+        border: 2px solid $checkBox-border-color;
+        top: 0px;
+        z-index: 0;
+    }
+
+    /* ---------------------------------- 체크스타일 --------------------------------- */
+    &:checked {
+        // 체크후 안헤 화살표 색상
+        +.JDcheck_box_label:before {
+            top: 1px;
+            left: 0px;
+            width: 8px;
+            height: 13px;
+            border-top: 2px solid transparent;
+            border-left: 2px solid transparent;
+            border-right: 2px solid $checkbox-sign-color;
+            border-bottom: 2px solid $checkbox-sign-color;
+            transform: rotateZ(37deg);
+            transform-origin: 100% 100%;
+        }
+        +.JDcheck_box_label:after {
+            top: 0;
+            width: 20px;
+            height: 20px;
+            border: 2px solid $checkbox-checked-color;
+            background-color: $checkbox-checked-color;
+            z-index: 0;
+        }
+    }
+
+    /* ----------------------------- Disabled style ----------------------------- */
+    &:disabled:not(:checked)+.JDcheck_box_label:before {
+        background-color: transparent;
+        border: 2px solid transparent;
+    }
+    &:disabled:not(:checked)+.JDcheck_box_label:after {
+        border-color: transparent;
+        background-color: $checkbox-disabled-border-color;
+    }
+    &:disabled:checked+.JDcheck_box_label:before {
+        background-color: transparent;
+    }
+    &:disabled:checked+.JDcheck_box_label:after {
+        background-color: $checkbox-disabled-border-color;
+        border-color: $checkbox-disabled-border-color;
+    }
+    &:disabled+.JDcheck_box_label {
+        color: $standard-disabled-color;
+        cursor:default;
+    }
+}

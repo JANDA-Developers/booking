@@ -1,12 +1,11 @@
-import { InstanceType } from "typegoose";
 import { extractRoomType } from "../../../models/merge/merge";
-import { RoomTypeSchema } from "../../../models/RoomType";
+import { RoomTypeModel } from "../../../models/RoomType";
 import {
     UpdateRoomTypeMutationArgs,
     UpdateRoomTypeResponse
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
-import { privateRoomTypeExistCheckResolver } from "../../../utils/privateResolvers";
+import { privateResolver } from "../../../utils/privateResolvers";
 
 /**
  * UpdateRoomType: 방 타입 업데이트
@@ -14,39 +13,30 @@ import { privateRoomTypeExistCheckResolver } from "../../../utils/privateResolve
  */
 const resolver: Resolvers = {
     Mutation: {
-        UpdateRoomType: privateRoomTypeExistCheckResolver(
+        UpdateRoomType: privateResolver(
             async (
                 _,
-                args: UpdateRoomTypeMutationArgs,
-                context
+                { roomTypeId, params }: UpdateRoomTypeMutationArgs
             ): Promise<UpdateRoomTypeResponse> => {
                 try {
-                    const existingRoomType: InstanceType<RoomTypeSchema> =
-                        context.existingRoomType;
-                    if (existingRoomType) {
-                        await existingRoomType.update(
-                            { ...args },
-                            {
-                                new: true
-                            }
-                        );
-                        const roomType = await extractRoomType(
-                            existingRoomType
-                        );
-                        return {
-                            ok: true,
-                            error: null,
-                            roomType: {
-                                ...roomType
-                            }
-                        };
-                    } else {
+                    const existingRoomType = await RoomTypeModel.findById(
+                        roomTypeId
+                    );
+                    if (!existingRoomType) {
                         return {
                             ok: false,
                             error: "Invalid RoomTypeId",
                             roomType: null
                         };
                     }
+                    const returns = await existingRoomType.updateThis(params);
+                    return {
+                        ...returns,
+                        roomType: await extractRoomType.bind(
+                            extractRoomType,
+                            existingRoomType
+                        )
+                    };
                 } catch (error) {
                     return {
                         ok: false,

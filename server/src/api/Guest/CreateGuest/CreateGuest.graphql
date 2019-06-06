@@ -6,13 +6,13 @@ type CreateGuestResponse {
 type Mutation {
     CreateGuest(
         houseId: ID!
-        bookerId: ID!
+        bookingId: ID!
         roomTypeId: ID!
         # 있어도 되고 없어도 되고... 없으면 배정 대기
         roomId: ID
         start: DateTime!
         end: DateTime!
         gender: Gender!
-        guestType: GuestType!
+        pricingType: PricingType!
     ): CreateGuestResponse!
 }

@@ -1,11 +1,11 @@
-import { Resolvers } from "../../../../types/resolvers";
-import privateResolver from "../../../../utils/privateResolvers";
+import { extractSeasonPrice } from "../../../../models/merge/merge";
+import { SeasonPriceModel } from "../../../../models/SeasonPrice";
 import {
     UpdateSeasonPriceToHostAppMutationArgs,
     UpdateSeasonPriceToHostAppResponse
 } from "../../../../types/graph";
-import { SeasonPriceModel } from "../../../../models/SeasonPrice";
-import { extractSeasonPrice } from "../../../../models/merge/merge";
+import { Resolvers } from "../../../../types/resolvers";
+import { privateResolver } from "../../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Mutation: {

@@ -1,0 +1,110 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+ul, menu, dir {
+  display: block;
+  list-style-type: none;
+  -webkit-margin-before: 0em;
+          margin-block-start: 0em;
+  -webkit-margin-after: 0em;
+          margin-block-end: 0em;
+  -webkit-margin-start: 0px;
+          margin-inline-start: 0px;
+  -webkit-margin-end: 0px;
+          margin-inline-end: 0px;
+  -webkit-padding-start: 0em;
+          padding-inline-start: 0em;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.clear-fix:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+a.JDanchor {
+  outline: 0;
+  text-decoration: none;
+  color: #423ec7;
+  cursor: pointer;
+}
+
+a.JDanchor:hover {
+  text-decoration: underline;
+}
+
+a.JDanchor:focus {
+  color: #302d83;
+}
+
+.JDoverflow-visible {
+  overflow: visible !important;
+}
+
+.JDstandard-margin-bottom {
+  margin-bottom: 1rem;
+}
+
+.JDtext-align-center {
+  text-align: center;
+}
+
+.JDlarge-text {
+  font-size: 1.2rem;
+}
+
+.JDsmall-text {
+  font-size: 0.8rem;
+}
+
+.JDtiny-text {
+  font-size: 10px;
+}
+
+.JDtextColor--primary {
+  color: #4c5b73;
+}
+
+.JDtextColor--secondary {
+  color: #c56c47;
+}
+
+.JDlarge-warring-text {
+  color: #ff6760;
+}
+
+.JDz-index-1 {
+  position: relative;
+  z-index: 10;
+}
+
+.JDz-index-2 {
+  position: relative;
+  z-index: 20;
+}
+
+body {
+  letter-spacing: -1px;
+}
+
+body *::-moz-selection {
+  background: #c56c47;
+  color: #fff;
+}
+
+body *::selection {
+  background: #c56c47;
+  color: #fff;
+}
+
+html {
+  overflow-y: scroll;
+}
+/*# sourceMappingURL=customAll.css.map */

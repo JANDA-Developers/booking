@@ -1,0 +1,38 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+.JDcolorPicker {
+  display: inline-block;
+}
+
+.JDcolorPicker__swatch {
+  padding: 0.3125rem;
+  background-color: #fff;
+  border-radius: 3px;
+  border: 1px solid #343434;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.JDcolorPicker__color {
+  width: 3rem;
+  height: 1.625rem;
+  border-radius: 3px;
+}
+
+.JDcolorPicker__modalWrap {
+  position: absolute;
+  z-index: 2;
+}
+
+.JDcolorPicker__cover {
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+}
+
+.JDcolorPicker .JDLabel {
+  margin-bottom: 0;
+}
+/*# sourceMappingURL=ColorPicker.css.map */

@@ -1,35 +1,26 @@
-import { Mutation } from 'react-apollo';
-import React from 'react';
-import { toast } from 'react-toastify';
-import { withRouter } from 'react-router-dom';
-import Header from './Header';
-import { LOG_USER_OUT, SELECT_HOUSE } from '../../clientQueries';
-
-const HeaderWrap = ({ history, ...props }) => (
+import {Mutation} from "react-apollo";
+import React from "react";
+import {toast} from "react-toastify";
+import {withRouter} from "react-router-dom";
+import Header from "./Header";
+import {LOG_USER_OUT, SELECTED_HOUSE} from "../../clientQueries";
+import {getOperationName} from "apollo-utilities";
+const HeaderWrap = ({selectedHouse, houses, history, profileImg, ...props}) => (
   <Mutation
     mutation={LOG_USER_OUT}
     onCompleted={() => {
-      toast.success('로그아웃 완료');
-      history.replace('./');
+      toast.success("로그아웃 완료");
+      history.replace("./");
     }}
   >
     {logOutMutation => (
-      <Mutation
-        mutation={SELECT_HOUSE}
-        nError={(error) => {
-          console.error('error');
-          console.warn(error);
-        }}
-        onCompleted={({ selectHouse }) => {
-          if (selectHouse && selectHouse.ok) {
-            toast.success('숙소변경');
-          }
-        }}
-      >
-        {selectHouseMutation => (
-          <Header {...props} logOutMutation={logOutMutation} selectHouseMutation={selectHouseMutation} />
-        )}
-      </Mutation>
+      <Header
+        {...props}
+        profileImg={profileImg}
+        selectedHouse={selectedHouse}
+        houses={houses}
+        logOutMutation={logOutMutation}
+      />
     )}
   </Mutation>
 );

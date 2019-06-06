@@ -24,22 +24,20 @@ default 로 주어진 값을 계속 반전시키며 STATE를 유지합니다.
 
 모달의 오픈 여부와 OPEN 메소드 CLOSE 메소드를 반환합니다.
 
+- useOpen(info) 를 사용하여 반환될 Open 시에 info 를 저장할수있습니다.
+
+## useModal
+
 ####return [<code>isOpen</code>, <code>openModal</code>, <code>closeModal</code>];
+
+아래는 전부 단순 이름 적용용
 
 ## useRadio
 
-네임스페이스
-
 ## useCheckBox
-
-네임스페이스
 
 ## useSwitch
 
-네임스페이스
-
 ## useSelect
-
-네임스페이스
 
 ## useToggle

@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { extractRoomPrice } from "../../../models/merge/merge";
 import { RoomPriceModel } from "../../../models/RoomPrice";
 import {
@@ -6,18 +6,19 @@ import {
     CreateRoomPriceResponse
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
-import privateResolver from "../../../utils/privateResolvers";
+import { privateResolver } from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Mutation: {
         CreateRoomPrice: privateResolver(
             async (
                 _,
-                { roomTypeId, ...args }: CreateRoomPriceMutationArgs
+                { roomTypeId, houseId, ...args }: CreateRoomPriceMutationArgs
             ): Promise<CreateRoomPriceResponse> => {
                 try {
                     let existRoomPrice = await RoomPriceModel.findOne({
-                        roomType: new ObjectId(roomTypeId),
+                        roomType: new Types.ObjectId(roomTypeId),
+                        house: new Types.ObjectId(houseId),
                         date: new Date(args.date)
                     });
 
@@ -26,7 +27,8 @@ const resolvers: Resolvers = {
                         await existRoomPrice.save();
                     } else {
                         existRoomPrice = await new RoomPriceModel({
-                            roomType: new ObjectId(roomTypeId),
+                            roomType: new Types.ObjectId(roomTypeId),
+                            house: new Types.ObjectId(houseId),
                             ...args
                         }).save();
                     }

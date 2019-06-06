@@ -1,0 +1,192 @@
+@charset "UTF-8";
+/* ------------------------------ // STUB UNITY ----------------------------- */
+.JDtextarea--valid.JDtextarea, .JDtextarea--valid.JDtextarea:focus {
+  border-bottom: 1px solid "-";
+  -webkit-box-shadow: 0 1px 0 0 "-";
+          box-shadow: 0 1px 0 0 "-";
+}
+
+.JDtextarea--invalid.JDtextarea, .JDtextarea--invalid.JDtextarea:focus {
+  border-bottom: 1px solid #ff6760;
+  -webkit-box-shadow: 0 1px 0 0 #ff6760;
+          box-shadow: 0 1px 0 0 #ff6760;
+}
+
+.JDtextarea--valid.JDtextarea + .JDtextarea_label:after,
+.JDtextarea--valid.JDtextarea:focus + .JDtextarea_label:after {
+  content: attr(data-success);
+  display: block;
+  color: "-";
+  opacity: 1;
+  -webkit-transform: translateY(3rem);
+          transform: translateY(3rem);
+}
+
+.JDtextarea--invalid.JDtextarea + .JDtextarea_label:after,
+.JDtextarea--invalid.JDtextarea:focus + .JDtextarea_label:after {
+  content: attr(data-error);
+  display: block;
+  color: #ff6760;
+  opacity: 1;
+  -webkit-transform: translateY(3rem);
+          transform: translateY(3rem);
+}
+
+.JDtextarea + .JDtextarea_label:after {
+  display: block;
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  opacity: 0;
+  -webkit-transition: .2s opacity ease-out, .2s color ease-out;
+  transition: .2s opacity ease-out, .2s color ease-out;
+}
+
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+/* ----------------------------- 코드 최적화가 필요합니다. ----------------------------- */
+/* Text Inputs + Textarea
+/* Text inputs */
+.JDtextarea {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #343434;
+  border-radius: 0;
+  outline: none;
+  height: 2.25rem;
+  width: 100%;
+  font-size: 1rem;
+  margin-top: 1.6rem;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  -webkit-box-sizing: content-box;
+          box-sizing: content-box;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  padding: .8rem 0 1.6rem 0;
+  resize: none;
+  min-height: 2.25rem;
+}
+
+.JDtextarea + .JDtextarea_label {
+  font-size: 0.8rem;
+  color: #343434;
+  position: absolute;
+  top: 0.1rem;
+  left: 0;
+}
+
+.JDtextarea::-webkit-input-placeholder {
+  color: #787878;
+}
+
+.JDtextarea:-ms-input-placeholder {
+  color: #787878;
+}
+
+.JDtextarea::-ms-input-placeholder {
+  color: #787878;
+}
+
+.JDtextarea::placeholder {
+  color: #787878;
+}
+
+.JDtextarea--doubleHeight {
+  height: 4.5rem;
+}
+
+.JDtextarea--halfHeight {
+  min-height: 1.125rem;
+  height: 1.125rem;
+}
+
+.JDtextarea:disabled, .JDtextarea[readonly="readonly"] {
+  color: #EBEBEB;
+  border-bottom: 1px dotted #EBEBEB;
+}
+
+.JDtextarea:disabled + .JDtextarea_label,
+.JDtextarea[readonly="readonly"] + .JDtextarea_label {
+  color: #EBEBEB;
+}
+
+.JDtextarea:focus:not([readonly]) {
+  border-bottom: 1px solid #6d809f;
+  -webkit-box-shadow: 0 1px 0 0 #6d809f;
+          box-shadow: 0 1px 0 0 #6d809f;
+}
+
+.JDtextarea:focus:not([readonly]) + .JDtextarea_label {
+  color: #6d809f;
+}
+
+.JDtextarea--validate.JDtextarea + .JDtextarea_label {
+  width: 100%;
+}
+
+.JDtextarea--invalid.JDtextarea + .JDtextarea_label:after,
+.JDtextarea--valid.JDtextarea + .JDtextarea_label:after {
+  display: none;
+}
+
+.JDtextarea--invalid.JDtextarea + .JDtextarea_label--active:after,
+.JDtextarea--valid.JDtextarea + .JDtextarea_label--active:after {
+  display: block;
+}
+
+.JDtextarea.JDtextarea--scroll {
+  overflow-y: scroll;
+}
+
+/* Textarea */
+.JDtextarea {
+  width: 100%;
+  background-color: transparent;
+  /* optional: show position indicator in red */
+}
+
+.JDtextarea:not(.JDtextarea--scroll)::-webkit-scrollbar {
+  width: 0px;
+  /* remove scrollbar space */
+  background: transparent;
+  /* optional: just make scrollbar invisible */
+}
+
+.JDtextarea::-webkit-scrollbar-thumb {
+  background: #FF0000;
+}
+
+.JDtextarea--validate + .JDinput_label {
+  height: 100%;
+}
+
+.JDtextarea--validate + .JDinput_label::after {
+  top: calc(100% - 12px);
+}
+
+.JDtextarea--validate + .JDinput_label:not(.JDinput_label-icon).active {
+  -webkit-transform: translateY(-25px);
+          transform: translateY(-25px);
+}
+
+.JDtextarea__byte {
+  position: absolute;
+  font-size: 10px;
+  color: #b8b8b8;
+  right: 0;
+  bottom: calc(1rem + 8px);
+}
+
+.hiddendiv {
+  display: none;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  /* future version of deprecated 'word-wrap' */
+  padding-top: 1.2rem;
+  /* prevents text jump on Enter keypress */
+  position: absolute;
+  top: 0;
+}
+/*# sourceMappingURL=Textarea.css.map */

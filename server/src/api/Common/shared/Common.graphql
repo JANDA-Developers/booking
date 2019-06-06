@@ -40,3 +40,14 @@ type PageInfo {
     hasPreviousPage: Boolean!
     hasNextPage: Boolean!
 }
+
+type PageInfoOffsetBase {
+    currentPage: Int!
+    totalPage: Int!
+    rowCount: Int!
+}
+
+type Response {
+    ok: Boolean!
+    error: String
+}

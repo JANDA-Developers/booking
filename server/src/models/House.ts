@@ -1,9 +1,8 @@
-import { prop, Ref, Typegoose, arrayProp } from "typegoose";
+import { Types } from "mongoose";
+import { arrayProp, prop, Ref, Typegoose } from "typegoose";
 import { HouseType, Location, TermsOfBooking } from "../types/graph";
-import { HostApplicationSchema } from "./HostApplication";
+import { houseAccessKeyGen } from "../utils/uuidgen";
 import { ProductSchema } from "./Product";
-import { UserSchema } from "./User";
-import { ObjectId } from "bson";
 
 export enum Type {
     GUEST_HOUSE = "GUEST_HOUSE",
@@ -14,8 +13,15 @@ export enum Type {
     YOUTH_HOSTEL = "YOUTH_HOSTEL"
 }
 export class HouseSchema extends Typegoose {
-    @prop({ ref: HostApplicationSchema })
-    hostApplication?: Ref<HostApplicationSchema>;
+    @prop()
+    hostApplication?: Types.ObjectId;
+
+    // TODO: Validation 필요함...
+    @prop({ default: houseAccessKeyGen() })
+    publicKey: string;
+
+    @prop({ default: false })
+    hostAppCreated: boolean;
 
     @prop({ ref: ProductSchema, required: true })
     product?: Ref<ProductSchema>;
@@ -23,7 +29,11 @@ export class HouseSchema extends Typegoose {
     @prop({ required: true })
     name: string;
 
-    @prop({ required: true, enum: Type, default: Type.GUEST_HOUSE })
+    @prop({
+        required: true,
+        enum: Type,
+        default: Type.GUEST_HOUSE
+    })
     houseType: HouseType;
 
     @prop({ required: true })
@@ -32,14 +42,17 @@ export class HouseSchema extends Typegoose {
     @prop()
     termsOfBooking: TermsOfBooking | undefined;
 
-    @arrayProp({ items: ObjectId, default: [] })
-    refundPolicy: ObjectId[];
+    @arrayProp({ items: Types.ObjectId, default: [] })
+    refundPolicy: Types.ObjectId[];
 
-    @prop({ ref: UserSchema, required: true })
-    user: Ref<UserSchema>;
+    @prop({ required: true })
+    user: Types.ObjectId;
 
-    @arrayProp({ items: ObjectId, default: [] })
-    roomTypes: ObjectId[];
+    @prop({ required: true })
+    smsInfo: Types.ObjectId;
+
+    @arrayProp({ items: Types.ObjectId, default: [] })
+    roomTypes: Types.ObjectId[];
 
     @prop()
     createdAt: Date;

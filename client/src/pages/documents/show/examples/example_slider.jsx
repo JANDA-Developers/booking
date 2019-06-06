@@ -1,5 +1,5 @@
 import React from 'react';
-import Slider from '../../../../components/slider/Slider';
+import Slider from '../../../../atoms/slider/Slider';
 import './example_slider.scss';
 
 const SliderExample = () => {

@@ -1,0 +1,24 @@
+type SendSmsResponse {
+    ok: Boolean!
+    error: String
+    result: SendSmsResult
+}
+type SendSmsResult {
+    # 알리고 메시지 전송 결과 코드
+    resultCode: String!
+    # 보낸 메시지. 실패시 에러메시지 나옴
+    message: String!
+    # 1.SMS, 2.LMS, 3.MMS
+    msgType: String!
+    # 알리고 메시지 id
+    msgId: Int
+    successCnt: Int
+    errorCnt: Int
+}
+type Mutation {
+    SendSms(
+        sender: PhoneNumber!
+        receivers: [PhoneNumber!]
+        msg: String!
+    ): SendSmsResponse!
+}

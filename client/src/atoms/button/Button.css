@@ -1,0 +1,174 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+.JDbtn:hover {
+  -webkit-box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
+}
+
+.JDbtn {
+  -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+.JDbtn {
+  border: none;
+  border-radius: 3px;
+  display: inline-block;
+  height: 2.25rem;
+  line-height: 2.25rem;
+  outline: 0;
+  padding: 0 1rem;
+  text-transform: uppercase;
+  vertical-align: middle;
+  -webkit-tap-highlight-color: transparent;
+  text-decoration: none;
+  color: #343434;
+  background-color: #fff;
+  text-align: center;
+  letter-spacing: 0.5px;
+  -webkit-transition: background-color 0.2s ease-out;
+  transition: background-color 0.2s ease-out;
+  cursor: pointer;
+}
+
+.JDbtn--left {
+  float: left;
+}
+
+.JDbtn--right {
+  float: right;
+}
+
+.JDbtn.JDbtn--white {
+  color: white;
+}
+
+.JDbtn.JDbtn--grey {
+  background-color: #EBEBEB;
+}
+
+.JDbtn.JDbtn--grey:hover {
+  background-color: #b8b8b8;
+}
+
+.JDbtn.JDbtn--primary:not(:disabled) {
+  background-color: #4c5b73;
+  color: #fff;
+}
+
+.JDbtn.JDbtn--primary:not(:disabled):hover {
+  background-color: #6d809f;
+}
+
+.JDbtn.JDbtn--secondary {
+  background-color: #c56c47;
+  color: #fff;
+}
+
+.JDbtn.JDbtn--secondary:hover {
+  background-color: #d79a81;
+}
+
+.JDbtn.JDbtn--warn {
+  background-color: #ff6760;
+  color: #fff;
+}
+
+.JDbtn.JDbtn--warn:hover {
+  background-color: #ff9892;
+}
+
+.JDbtn--white {
+  color: white;
+}
+
+.JDbtn__icon {
+  line-height: inherit;
+  margin-left: 1rem;
+  float: right;
+}
+
+.JDbtn__icon--left {
+  float: left;
+  margin-left: 0;
+  margin-right: 1rem;
+}
+
+.JDbtn:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.JDbtn:disabled {
+  background-color: #EBEBEB;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  color: #787878;
+  cursor: default;
+}
+
+.JDbtn:disabled * {
+  pointer-events: none;
+}
+
+.JDbtn:disabled:hover {
+  background-color: #EBEBEB;
+  color: #787878;
+}
+
+.JDbtn--large {
+  height: 3.375rem;
+  line-height: 3.375rem;
+  padding: 0 2rem;
+  font-size: 1.2rem;
+}
+
+.JDbtn--large .JDbtn__icon {
+  font-size: 1.2rem;
+}
+
+.JDbtn--long {
+  width: 100%;
+}
+
+.JDbtn--small {
+  padding: 0 0.6rem;
+  font-size: 1rem;
+}
+
+.JDbtn--small .JDbtn__icon {
+  margin-left: 0.45em;
+}
+
+.JDbtn--small .JDbtn__icon--left {
+  float: left;
+  margin-left: 0;
+  margin-right: 0.45em;
+}
+
+.JDbtn--flat {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  background-color: transparent;
+  color: #343434;
+  cursor: pointer;
+}
+
+.JDbtn--flat.JDbtn--white {
+  color: white;
+}
+
+.JDbtn--flat.JDbtn--primary:not(:disabled) {
+  background-color: #4c5b73;
+}
+
+.JDbtn--flat:disabled {
+  color: #787878;
+  cursor: default;
+}
+
+.JDbtn--flat:hover {
+  background-color: transparent;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+/*# sourceMappingURL=Button.css.map */

@@ -1,0 +1,16 @@
+type CreateSeasonPricesResponse {
+    ok: Boolean!
+    error: String
+    seasonPrices: [SeasonPrice!]
+}
+type Mutation {
+    CreateSeasonPrices(
+        seasonId: ID!
+        seasonPrices: [SeasonPriceInput!]
+    ): CreateSeasonPricesResponse!
+}
+input SeasonPriceInput {
+    roomTypeId: ID!
+    defaultPrice: Float!
+    dayOfWeekPrices: [DayOfWeekPriceInput!]
+}

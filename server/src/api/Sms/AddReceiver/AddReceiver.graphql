@@ -1,0 +1,8 @@
+type AddReceiverResponse {
+    ok: Boolean!
+    error: String
+    receiver: [PhoneNumber!]
+}
+type Mutation {
+    AddReceiver(smsInfoId: ID!, receiver: PhoneNumber!): AddReceiverResponse!
+}

@@ -15,8 +15,12 @@ type Product {
     # 예약 초과시 부과되는 금액 => defualt: 0
     bookingCountExtraCharge: Int
     # 상세 설명
+    layoutPrice: Int!
+    layoutPricePaid: Boolean!
     house: House!
     productType: ProductType!
+    canHaveHostApp: Boolean!
+    existingHostApp: Boolean!
     description: String
     createdAt: DateTime!
     updatedAt: DateTime

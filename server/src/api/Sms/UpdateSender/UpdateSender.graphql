@@ -1,0 +1,10 @@
+type UpdateSenderResponse {
+    ok: Boolean!
+    error: String
+    sender: SmsSender
+    verified: Boolean
+}
+
+type Mutation {
+    UpdateSender(houseId: ID!, sender: SmsSenderInput!): UpdateSenderResponse!
+}

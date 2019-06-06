@@ -3,7 +3,11 @@ type House {
     name: String!
     houseType: HouseType!
     product: Product
+    hostApplication: HostApplication
+    hostAppCreated: Boolean!
+    publicKey: String
     user: User!
+    smsInfo: SmsInfo!
     location: Location!
     refundPolicy: [TermsOfRefund!]!
     termsOfBooking: TermsOfBooking!

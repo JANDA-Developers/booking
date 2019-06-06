@@ -1,0 +1,56 @@
+@import '../../../style_config/style_config.scss';
+
+$roomTypeWidth: 10rem;
+$roomWidth: 10rem;
+
+#RoomConfigTimeline {
+    .modifyGroups {
+        padding-left: $roomTypeWidth;
+        
+        &__place {
+            text-align: center;
+        }
+        
+        &__placeIn {
+            padding-left: calc(#{$roomTypeWidth} + #{$roomWidth} + 4px);
+        }
+        
+        &__roomGroupBtn {
+            position:absolute;
+            border-radius: 0px;
+            width: calc(#{$roomTypeWidth} + 4px); // 4px padding
+            text-overflow: ellipsis;
+            left: 0;
+            & + *{
+                margin-left: 0;
+            }
+        }
+
+        &__roomType {
+
+        }
+
+        &__button {
+            border-radius: 0px;
+            width: $roomWidth;
+            border-bottom: 1px solid $grey-opacity2;
+        }
+
+        &__room {
+            position: absolute
+        }
+    } 
+    .RoomConfigTimeline {
+        &__timelineWrap {
+            min-width: 720px;
+        }
+        &__timelineWrapScroll {
+            max-width:100%;
+            overflow-x:auto;
+            overflow-y: hidden;
+        }
+    }
+
+    @extend %timelineTopLeftIconBox;
+    
+}

@@ -1,0 +1,14 @@
+{
+    "version": 3,
+    "mappings": "AEIA,gFAAgF;AGuBhF,kEAAkE;ALxBlE,AAAA,UAAU,CAAC;EACP,OAAO,EAAC,IAAI;EACZ,WAAW,EAAE,MAAM;EACnB,aAAa,EAAE,MAA2B;CAO7C;;AANI,AAAD,gBAAO,CAAC;EACJ,SAAS,EAAE,CAAC;CACf",
+    "sources": [
+        "SuperMain.scss",
+        "../../../style_config/style_config.scss",
+        "../../../style_config/abstracts/_variables.scss",
+        "../../../style_config/abstracts/_functions.scss",
+        "../../../style_config/abstracts/_extends.scss",
+        "../../../style_config/abstracts/_mixins.scss"
+    ],
+    "names": [],
+    "file": "SuperMain.css"
+}

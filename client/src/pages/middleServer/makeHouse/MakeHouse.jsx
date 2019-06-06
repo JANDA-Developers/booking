@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 /* eslint-disable max-len */
 import React, { useState, useEffect, useRef } from 'react';
 import { Mutation } from 'react-apollo';
@@ -10,12 +11,12 @@ import {
 import { SELECT_HOUSE } from '../../../clientQueries';
 import { CREATE_HOUSE, GET_USER_INFO } from '../../../queries';
 import { ADDRESS_API_KEY } from '../../../keys';
-import utils, { ErrProtecter, toast } from '../../../utils/utils';
+import utils, { ErrProtecter } from '../../../utils/utils';
 import GoogleMap from './components/googleMap';
-import InputText from '../../../atoms/forms/InputText';
-import SelectBox from '../../../atoms/forms/SelectBox';
+import InputText from '../../../atoms/forms/inputText/InputText';
+import SelectBox from '../../../atoms/forms/selectBox/SelectBox';
 import Button from '../../../atoms/button/Button';
-import SearchInput from '../../../components/searchInput/SearchInput';
+import SearchInput from '../../../atoms/searchInput/SearchInput';
 import './MakeHouse.scss';
 
 let map = null;

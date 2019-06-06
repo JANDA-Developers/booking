@@ -3,7 +3,7 @@ export interface SelectNumberRangeReturn {
     increment: number;
 }
 
-export const selectNumberRange = (
+export const selectNumberRangeQuery = (
     origin: number,
     target: number
 ): SelectNumberRangeReturn => {

@@ -6,6 +6,13 @@
   display: -webkit-flex;
   display: flex;
 
+  // 수정자 마진0
+  &--margin0 {
+    & > .flex-grid__col {
+      margin: 0;
+    }
+  }
+
   & > * {
   
     flex: 1;

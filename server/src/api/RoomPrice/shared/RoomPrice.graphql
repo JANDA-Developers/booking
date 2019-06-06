@@ -1,6 +1,7 @@
 type RoomPrice {
     _id: ID!
     roomType: RoomType!
+    house: House!
     price: Float!
     date: DateTime!
     createdAt: DateTime!

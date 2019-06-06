@@ -29,6 +29,16 @@
     &__outerline {
         fill: $preloader-background-color;
     }
+
+    &--large {
+        width: 8rem;
+        height: 8rem;
+    }
+
+    &--medium {
+        width: 4rem;
+        height: 4rem;
+    }
 }
 
 .preloader--page__wrap {

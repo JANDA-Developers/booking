@@ -11,5 +11,6 @@ type Mutation {
         end: DateTime
         color: String
         description: String
+        seasonPrices: [SeasonPriceInput!]
     ): UpdateSeasonResponse!
 }

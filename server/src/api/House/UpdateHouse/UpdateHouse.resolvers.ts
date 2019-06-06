@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { HouseModel } from "../../../models/House";
 import { extractHouse } from "../../../models/merge/merge";
 import {
@@ -6,7 +6,7 @@ import {
     UpdateHouseResponse
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
-import privateResolver from "../../../utils/privateResolvers";
+import { privateResolver } from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Mutation: {
@@ -24,7 +24,7 @@ const resolvers: Resolvers = {
                     const existingHouse = await HouseModel.findByIdAndUpdate(
                         {
                             _id: args.houseId,
-                            user: new ObjectId(user._id)
+                            user: new Types.ObjectId(user._id)
                         },
                         {
                             ...args

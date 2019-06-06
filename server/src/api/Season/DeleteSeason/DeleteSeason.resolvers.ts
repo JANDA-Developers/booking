@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 import { RoomPriceModel } from "../../../models/RoomPrice";
 import { SeasonModel } from "../../../models/Season";
 import { SeasonPriceModel } from "../../../models/SeasonPrice";
@@ -7,7 +7,7 @@ import {
     DeleteSeasonResponse
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
-import privateResolver from "../../../utils/privateResolvers";
+import { privateResolver } from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Mutation: {
@@ -18,15 +18,15 @@ const resolvers: Resolvers = {
             ): Promise<DeleteSeasonResponse> => {
                 try {
                     const existingSeason = await SeasonModel.findOne({
-                        _id: new ObjectId(seasonId),
-                        house: new ObjectId(houseId)
+                        _id: new Types.ObjectId(seasonId),
+                        house: new Types.ObjectId(houseId)
                     });
                     if (existingSeason) {
                         await RoomPriceModel.deleteMany({
-                            season: new ObjectId(seasonId)
+                            season: new Types.ObjectId(seasonId)
                         });
                         await SeasonPriceModel.deleteMany({
-                            season: new ObjectId(seasonId)
+                            season: new Types.ObjectId(seasonId)
                         });
                         const priority = existingSeason.priority;
                         await SeasonModel.updateMany(

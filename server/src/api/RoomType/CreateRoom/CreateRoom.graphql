@@ -4,9 +4,5 @@ type CreateRoomResponse {
     room: Room
 }
 type Mutation {
-    CreateRoom(
-        name: String!
-        roomType: ID!
-        disableRange: [DisableRangeInput!]
-    ): CreateRoomResponse!
+    CreateRoom(name: String!, roomType: ID!): CreateRoomResponse!
 }

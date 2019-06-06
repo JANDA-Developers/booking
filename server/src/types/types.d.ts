@@ -1,5 +1,5 @@
-import { GuestType } from "./graph";
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
+import { Guest, PricingType, Room, RoomCapacity, RoomType } from "./graph";
 
 export type SMSResult = {
     ok: boolean;
@@ -15,13 +15,18 @@ export type Period = {
 
 export type compareScope = "ymd" | "md" | "ymdhi" | "mdhi";
 
+export type ResReturnType = {
+    ok: boolean;
+    error: string | null;
+};
+
 export type GuestInputType = {
-    booker: ObjectId;
-    booking: ObjectId;
-    house: ObjectId;
-    roomType: ObjectId;
-    room?: ObjectId;
+    booking: Types.ObjectId;
+    booking: Types.ObjectId;
+    house: Types.ObjectId;
+    roomType: Types.ObjectId;
+    allocatedRoom?: Types.ObjectId;
     start: Date;
     end: Date;
-    guestType: GuestType;
+    pricingType: PricingType;
 };

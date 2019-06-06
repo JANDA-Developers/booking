@@ -1,41 +1,40 @@
-import { ObjectId } from "bson";
 import { extractRoom } from "../../../models/merge/merge";
-import { RoomModel } from "../../../models/Room";
 import { RoomTypeModel } from "../../../models/RoomType";
 import {
     CreateRoomMutationArgs,
     CreateRoomResponse
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
-import privateResolver from "../../../utils/privateResolvers";
+import { privateResolver } from "../../../utils/privateResolvers";
 
 const resolver: Resolvers = {
     Mutation: {
         CreateRoom: privateResolver(
             async (
                 _,
-                args: CreateRoomMutationArgs,
-                context
+                args: CreateRoomMutationArgs
             ): Promise<CreateRoomResponse> => {
                 try {
-                    const room = new RoomModel({
-                        ...args
-                    });
-                    await room.save();
-                    await RoomTypeModel.updateOne(
-                        {
-                            _id: new ObjectId(args.roomType)
-                        },
-                        {
-                            $push: {
-                                rooms: new ObjectId(room._id)
-                            }
-                        }
+                    const roomType = await RoomTypeModel.findById(
+                        args.roomType
                     );
+                    if (!roomType) {
+                        return {
+                            ok: false,
+                            error: "존재하지 않는 RoomTypeId",
+                            room: null
+                        };
+                    }
+                    // git 오류인가? 왜 코드가 다르지 ㅜㅜ
+                    const room = await roomType.createRoomInstance({
+                        withSave: true,
+                        name: args.name,
+                        roomGender: roomType.roomGender
+                    });
                     return {
                         ok: true,
                         error: null,
-                        room: await extractRoom(room)
+                        room: await extractRoom.bind(extractRoom, room)
                     };
                 } catch (error) {
                     return {

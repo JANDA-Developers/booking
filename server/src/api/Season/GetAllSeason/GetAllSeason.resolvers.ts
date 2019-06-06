@@ -1,12 +1,12 @@
-import { Resolvers } from "../../../types/resolvers";
-import privateResolver from "../../../utils/privateResolvers";
+import { Types } from "mongoose";
+import { extractSeasons } from "../../../models/merge/merge";
+import { SeasonModel } from "../../../models/Season";
 import {
     GetAllSeasonQueryArgs,
     GetAllSeasonResponse
 } from "../../../types/graph";
-import { SeasonModel } from "../../../models/Season";
-import { ObjectId } from "bson";
-import { extractSeasons } from "../../../models/merge/merge";
+import { Resolvers } from "../../../types/resolvers";
+import { privateResolver } from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Query: {
@@ -17,8 +17,8 @@ const resolvers: Resolvers = {
             ): Promise<GetAllSeasonResponse> => {
                 try {
                     const seasons = await SeasonModel.find({
-                        house: new ObjectId(houseId)
-                    });
+                        house: new Types.ObjectId(houseId)
+                    }).sort({ priority: -1 });
                     return {
                         ok: true,
                         error: null,

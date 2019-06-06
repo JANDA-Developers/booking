@@ -4,6 +4,7 @@ type HostApplication {
     house: House!
     user: User!
     url: URL!
+    layoutType: LayoutType!
     description: String
     createdAt: DateTime!
     updatedAt: DateTime

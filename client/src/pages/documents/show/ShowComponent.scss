@@ -8,11 +8,9 @@
         width: 51px;
         flex-wrap: nowrap;
         overflow-wrap: break-word;
-        display: block;
         flex: none;
-        &+.showComponent__icon_box {
-            margin-left: 2px;
-        }
+        display:inline-block;
+        margin-right: 2px;
 
         svg {
             display: block;

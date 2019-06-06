@@ -1,7 +1,11 @@
 import { prop, Ref, Typegoose } from "typegoose";
+import { ApplicationType } from "../types/graph";
+import { appilcationKeyGen } from "../utils/uuidgen";
 import { HouseSchema } from "./House";
 import { UserSchema } from "./User";
-
+export enum ApplicationTypeEnum {
+    BOOKING_WEB = "BOOKING_WEB"
+}
 export class HostApplicationSchema extends Typegoose {
     @prop({ ref: HouseSchema, required: true })
     house: Ref<HouseSchema>;
@@ -11,6 +15,16 @@ export class HostApplicationSchema extends Typegoose {
 
     @prop({ required: true })
     url: string;
+
+    @prop({ default: appilcationKeyGen() })
+    applicationKey: string; // uuidGen으로 생성
+
+    @prop({
+        required: true,
+        enum: ApplicationTypeEnum,
+        default: ApplicationTypeEnum.BOOKING_WEB
+    })
+    applicationType: ApplicationType;
 
     @prop()
     description: string;
@@ -27,7 +41,7 @@ export const HostApplicationModel = new HostApplicationSchema().getModelForClass
     {
         schemaOptions: {
             timestamps: true,
-            collection: "HostWebs"
+            collection: "HostApplications"
         }
     }
 );

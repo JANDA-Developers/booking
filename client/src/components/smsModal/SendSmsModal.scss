@@ -1,0 +1,10 @@
+@import "../../style_config/style_config";
+
+
+.sendSmsModal {    
+    min-width: 300px;
+
+    .JDbox + .JDbox {
+        margin-top:  -$standard-margin-bottom /2;
+    }
+}

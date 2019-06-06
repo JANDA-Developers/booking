@@ -1,14 +1,14 @@
-import { Resolvers } from "../../../../types/resolvers";
-import privateResolverForHostApp from "../../../../utils/privateResolverForHostApplication";
+import { Types } from "mongoose";
+import { InstanceType } from "typegoose";
+import { HouseSchema } from "../../../../models/House";
+import { extractRoomType } from "../../../../models/merge/merge";
+import { RoomTypeModel } from "../../../../models/RoomType";
 import {
     UpdateRoomTypeToHostAppMutationArgs,
     UpdateRoomTypeToHostAppResponse
 } from "../../../../types/graph";
-import { RoomTypeModel } from "../../../../models/RoomType";
-import { ObjectId } from "bson";
-import { InstanceType } from "typegoose";
-import { HouseSchema } from "../../../../models/House";
-import { extractRoomType } from "../../../../models/merge/merge";
+import { Resolvers } from "../../../../types/resolvers";
+import { privateResolverForHostApp } from "../../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Mutation: {
@@ -24,7 +24,7 @@ const resolvers: Resolvers = {
                 try {
                     const house: InstanceType<HouseSchema> = req.house;
                     const existingRoomType = await RoomTypeModel.findOne({
-                        house: new ObjectId(house._id),
+                        house: new Types.ObjectId(house._id),
                         roomTemplateSrl
                     });
                     if (!existingRoomType) {
@@ -57,11 +57,6 @@ const resolvers: Resolvers = {
                         roomType: null
                     };
                 }
-                return {
-                    ok: false,
-                    error: null,
-                    roomType: null
-                };
             }
         )
     }

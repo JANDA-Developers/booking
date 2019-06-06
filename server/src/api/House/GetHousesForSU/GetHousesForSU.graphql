@@ -1,22 +1,15 @@
-type GetHousesForSUResponseCursor {
-    edges: [HouseEdge!]
-    pageInfo: PageInfo!
-    totalCount: Int!
-}
 type GetHousesForSUResponse {
     ok: Boolean!
     error: String
-    result: GetHousesForSUResponseCursor
-}
-type HouseEdge {
-    cursor: String
-    node: House
+    houses: [House!]
+    pageInfo: PageInfoOffsetBase
 }
 type Query {
+    # 슈퍼계정으로 모든 집들을 가져옴.
     GetHousesForSU(
-        first: Int!
-        cursor: String
-        sort: HouseSortInput
-        filter: HouseFilter
+        # 오프셋...
+        page: Int!
+        # 출력 개수
+        count: Int!
     ): GetHousesForSUResponse!
 }
