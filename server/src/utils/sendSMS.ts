@@ -44,6 +44,14 @@ export const sendSMS = async (
         resultCode: result_code,
         successCnt: success_cnt
     };
+    console.log({
+        body: `key=${key}&user_id=${user}&sender=${sender ||
+            process.env
+                .SMS_SENDER}&receiver=${receivers}&msg=${msg}&testmode_yn=${testmodeYn}`
+    });
+
+    console.log(result);
+
     /*
     ** API 결과값
         - result_code

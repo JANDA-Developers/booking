@@ -9,7 +9,7 @@ input UpdateProductParams {
     layoutPrice: Int
     layoutPricePaid: Boolean
 }
-type UpdateProductForUserResponse {
+type UpdateProductFromUserRequestResponse {
     ok: Boolean!
     error: String
     # 사실 여기는 유저의 요구사항들을 출력해줘야함...
@@ -25,8 +25,8 @@ type Mutation {
         productId: ID!
         params: UpdateProductParams!
     ): UpdateProductForSUResponse!
-    UpdateProductForUser(
+    UpdateProductFromUserRequest(
         houseId: ID!
-        prarms: UpdateProductFromUserRequestParams!
-    ): UpdateProductForUserResponse!
+        params: UpdateProductFromUserRequestParams!
+    ): UpdateProductFromUserRequestResponse!
 }
