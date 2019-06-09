@@ -24,11 +24,9 @@ export const LOG_USER_OUT = gql`
 // 선택된 집 가져옴
 export const SELECTED_HOUSE = gql`
   query lastSelectedHouse {
-    auth {
-      lastSelectedHouse @client {
-        label
-        value
-      }
+    lastSelectedHouse @client {
+      label
+      value
     }
   }
 `;

@@ -46,7 +46,7 @@ const client = new ApolloClient({
       );
     if (networkError) {
       console.log(`[Network error]: ${networkError}`);
-      // toast.warn("네트워크 문제발생");
+      toast.warn("네트워크 문제발생");
     }
   }
 });

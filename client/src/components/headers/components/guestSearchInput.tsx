@@ -34,7 +34,6 @@ const GuestSearchInput: React.FC<IProps> = ({
         onTypeChange={onTypeChange}
         onSearch={handleSearchList}
         onListClick={handleSearchList}
-        alwaysListShow
         staticList
         filter={false}
         asDetail="phoneNumber"

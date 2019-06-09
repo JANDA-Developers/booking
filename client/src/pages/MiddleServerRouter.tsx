@@ -48,18 +48,17 @@ const JDmiddleServer: React.FC<IProps> = ({
     loading
   },
   GetUserInfo: {GetMyProfile: {user = {}} = {}, loading: loading2} = {},
-  selectedHouse: {
-    auth: {lastSelectedHouse = {}} = {},
-    loading: loading3 = false
-  } = {}
+  selectedHouse: tempSelectedHouse
 }) => {
   const [sideNavIsOpen, setSideNavIsOpen] = useToggle(false);
-  const isloading: boolean = loading || loading2 || loading3;
+  const isloading: boolean = loading || loading2;
   const houses: IHouse[] = user.houses || [];
 
-  let selectedHouse = houses.find(
-    house => house._id === lastSelectedHouse.value
-  );
+  console.log("tempSelectedHouse");
+  console.log(tempSelectedHouse);
+  console.log(tempSelectedHouse);
+
+  let selectedHouse = houses[0];
 
   // 최근에 선택된 숙소가 없다면 선택된 숙소는 첫번째 숙소입니다.
   if (!selectedHouse && !isEmpty(houses)) [selectedHouse] = houses;
@@ -290,5 +289,13 @@ export default compose(
       return true;
     }
   }),
-  graphql(SELECTED_HOUSE, {name: "selectedHouse"})
+  graphql(SELECTED_HOUSE, {
+    name: "selectedHouse",
+    skip: ({GetUserInfo}: any) => {
+      if (GetUserInfo && isEmpty(GetUserInfo.houses)) {
+        return true;
+      }
+      return false;
+    }
+  })
 )(JDmiddleServer);
