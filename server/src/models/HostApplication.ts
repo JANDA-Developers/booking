@@ -16,7 +16,7 @@ export class HostApplicationSchema extends Typegoose {
     @prop({ required: true })
     url: string;
 
-    @prop({ default: appilcationKeyGen() })
+    @prop({ default: appilcationKeyGen })
     applicationKey: string; // uuidGen으로 생성
 
     @prop({

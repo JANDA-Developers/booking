@@ -4,7 +4,7 @@ import { SendSmsResponse, SendSmsResult } from "../types/graph";
 export const sendSMS = async (
     receivers: string,
     msg: string,
-    sender?: string,
+    sender: string | undefined = process.env.SMS_SENDER,
     testmodeYn: "Y" | "N" | string = process.env.SMS_TESTMODE || "N"
 ): Promise<SendSmsResponse> => {
     const key = process.env.SMS_KEY;
@@ -49,19 +49,7 @@ export const sendSMS = async (
             process.env
                 .SMS_SENDER}&receiver=${receivers}&msg=${msg}&testmode_yn=${testmodeYn}`
     });
-
     console.log(result);
-
-    /*
-    ** API 결과값
-        - result_code
-        - message
-        - msg_id
-        - success_cnt
-        - error_cnt
-        - msg_type
- */
-
     return {
         ok: result_code === "1",
         error: result_code,
@@ -70,4 +58,4 @@ export const sendSMS = async (
 };
 
 export const sendVerificationSMS = (receiver: string, key: string) =>
-    sendSMS(receiver, `Your Verificaion Key is: ${key}`, "N");
+    sendSMS(receiver, `Your Verificaion Key is: ${key}`);
