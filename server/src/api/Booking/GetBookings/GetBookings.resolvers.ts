@@ -25,6 +25,7 @@ const resolvers: Resolvers = {
                         name?: RegExp;
                         createdAt?: Date;
                         house: Types.ObjectId;
+                        phoneNumber?: RegExp;
                     } = { house: new Types.ObjectId(houseId) };
 
                     if (filter) {
@@ -43,6 +44,10 @@ const resolvers: Resolvers = {
                             undefined;
                         filterQuery.createdAt =
                             (filter.createdAt && new Date(filter.createdAt)) ||
+                            undefined;
+                        filterQuery.phoneNumber =
+                            (filter.phoneNumnber &&
+                                new RegExp(filter.phoneNumnber, "i")) ||
                             undefined;
                     }
 
