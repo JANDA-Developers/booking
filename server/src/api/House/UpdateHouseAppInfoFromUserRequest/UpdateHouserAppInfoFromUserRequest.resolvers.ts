@@ -30,7 +30,8 @@ const resolvers: Resolvers = {
                         $push: {
                             appInfoRequred: {
                                 ...params,
-                                userRequestedDate: new Date().toISOString()
+                                requestedDate: new Date().toISOString(),
+                                isDone: false
                             }
                         }
                     });

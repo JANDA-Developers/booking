@@ -11,7 +11,7 @@ type House {
     roomTypes: [RoomType!]
     publicKey: String
     appInfo: AppInfo
-    appInfoRequested: [AppInfo!]
+    appInfoRequested: [AppInfoRequest!]
     createdAt: DateTime!
     updatedAt: DateTime
 }
@@ -19,7 +19,13 @@ type House {
 type AppInfo {
     url: URL!
     layoutType: LayoutType!
+}
+
+type AppInfoRequest {
+    url: URL!
+    layoutType: LayoutType!
     requestedDate: DateTime!
+    isDone: Boolean!
 }
 
 enum HouseType {
