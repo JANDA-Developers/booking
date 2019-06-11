@@ -3,22 +3,21 @@ type House {
     name: String!
     houseType: HouseType!
     product: Product
-    hostApplication: HostApplication
-    hostAppCreated: Boolean!
-    publicKey: String
     user: User!
     smsInfo: SmsInfo!
     location: Location!
     refundPolicy: [TermsOfRefund!]!
     termsOfBooking: TermsOfBooking!
     roomTypes: [RoomType!]
-    # Legarcy 연동을 위한 module_srl...
-    module_srl: Int
+    publicKey: String
+    appInfo: AppInfo
     createdAt: DateTime!
     updatedAt: DateTime
+}
 
-    # Legarcy
-    moduleSrl: Int
+type AppInfo {
+    url: URL!
+    layoutType: LayoutType!
 }
 
 enum HouseType {
