@@ -1,25 +1,3 @@
-type UpdateProductForSUResponse {
-    ok: Boolean!
-    error: String
-    product: Product
-}
-input UpdateProductParams {
-    canHaveHostApp: Boolean
-    price: Int
-    layoutPrice: Int
-    layoutPricePaid: Boolean
-}
-type UpdateProductFromUserRequestResponse {
-    ok: Boolean!
-    error: String
-    # 사실 여기는 유저의 요구사항들을 출력해줘야함...
-    product: Product
-}
-input UpdateProductFromUserRequestParams {
-    layoutType: LayoutType
-    domainUrl: URL
-    useHostApp: Boolean
-}
 type Mutation {
     UpdateProductForSU(
         productId: ID!
@@ -29,4 +7,30 @@ type Mutation {
         houseId: ID!
         params: UpdateProductFromUserRequestParams!
     ): UpdateProductFromUserRequestResponse!
+}
+
+type UpdateProductForSUResponse {
+    ok: Boolean!
+    error: String
+    product: Product
+}
+
+# Deprecated: 패턴에 맞지 않는 함수.
+type UpdateProductFromUserRequestResponse {
+    ok: Boolean!
+    error: String
+    # 사실 여기는 유저의 요구사항들을 출력해줘야함...
+    product: Product
+}
+
+input UpdateProductParams {
+    canHaveHostApp: Boolean
+    price: Int
+    layoutPrice: Int
+    layoutPricePaid: Boolean
+}
+
+input UpdateProductFromUserRequestParams {
+    layoutType: LayoutType
+    url: URL
 }
