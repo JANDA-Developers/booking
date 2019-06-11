@@ -15,9 +15,10 @@ interface IProps {
   onListClick?(value: string | undefined, id: string | undefined): void;
   placeholder?: string;
   label?: string;
-  onSearch(label?: string | null, id?: string): any;
+  onFindOne?(label?: string | null, id?: string): any;
   setIsMatched?(foo?: boolean): any;
-  onTypeChange(foo?: string): any;
+  onTypeChange?(foo?: string): any;
+  onSearch?(value?: string): any;
   staticList?: boolean;
   filter?: boolean;
   isMatched?: boolean;
@@ -36,7 +37,7 @@ const JDsearchInput: React.FC<IProps> = ({
   staticList,
   placeholder,
   label,
-  onSearch,
+  onFindOne,
   filter,
   onListClick,
   onTypeChange,
@@ -49,6 +50,7 @@ const JDsearchInput: React.FC<IProps> = ({
   isLoading,
   feedBackMessage,
   maxCount,
+  onSearch,
   asId
 }) => {
   // Naming Format
@@ -83,18 +85,19 @@ const JDsearchInput: React.FC<IProps> = ({
     // CASE: 엔터를 쳤을경우에
     if (e.key === "Enter") {
       e.preventDefault();
-      const selectedNode = $(ulRef.current)
-        .find(".JDsearchInput__li--active")
-        .get(0);
+      // 키보드에 의해서 선택된것 또는 그런게없다면 완벽하게 일치하는것을 찾음
+      const selectedNode =
+        $(ulRef.current)
+          .find(".JDsearchInput__li--selected")
+          .get(0) ||
+        $(ulRef.current)
+          .find(".JDsearchInput__li--correspond")
+          .get(0);
+      onSearch && onSearch(e.currentTarget.value);
       // CASE: 키보드상 선택된 노드가 있을경우에
       if (selectedNode) {
-        // 노드의 값을 방출
-        onSearch($(selectedNode).attr("value"), $(selectedNode).attr("id"));
-        onListClick &&
-          onListClick(
-            $(selectedNode).attr("value"),
-            $(selectedNode).attr("id")
-          );
+        onFindOne &&
+          onFindOne($(selectedNode).attr("value"), $(selectedNode).attr("id"));
         $(inputRef.current).blur();
       }
     }
@@ -105,7 +108,9 @@ const JDsearchInput: React.FC<IProps> = ({
       // CASE: ul has no children
       if (!ulRef.current.children.length) return;
 
-      const selectedNode = $(ulRef.current).find(".JDsearchInput__li--active");
+      const selectedNode = $(ulRef.current).find(
+        ".JDsearchInput__li--selected"
+      );
 
       // CASE: li is selected
       if (selectedNode.length) {
@@ -113,18 +118,18 @@ const JDsearchInput: React.FC<IProps> = ({
         if (e.key === "ArrowUp") {
           $(selectedNode)
             .prev()
-            .addClass("JDsearchInput__li--active");
+            .addClass("JDsearchInput__li--selected");
         } else {
           $(selectedNode)
             .next()
-            .addClass("JDsearchInput__li--active");
+            .addClass("JDsearchInput__li--selected");
         }
         // remove select
-        $(selectedNode).removeClass("JDsearchInput__li--active");
+        $(selectedNode).removeClass("JDsearchInput__li--selected");
 
         // first select
       } else if (e.key === "ArrowDown")
-        ulRef.current.children[0].classList.add("JDsearchInput__li--active");
+        ulRef.current.children[0].classList.add("JDsearchInput__li--selected");
     }
   };
 
@@ -132,33 +137,35 @@ const JDsearchInput: React.FC<IProps> = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     if (filter) setList(e.target.value);
-    onTypeChange(e.target.value);
+    onTypeChange && onTypeChange(e.target.value);
   };
 
   // Handler - 인풋 : onFocus
   const handleOnFocus = (e: React.FocusEvent<HTMLInputElement>) => {
     e.preventDefault();
     setTimeout(() => {
-      $(ulRef.current).show();
+      $(ulRef.current).removeClass("JDsearchInput__ul--hide");
     }, 100);
   };
 
   // Handler - 인풋 : onBlur
   const handleOnBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     e.preventDefault();
+
+    // 여기 setTimeOut 이 있는이유는 이벤트 파서가 도착하기전에 css 가 먼저 반응하기 떄문이다.
     setTimeout(() => {
-      $(ulRef.current).hide();
-    }, 100);
+      $(ulRef.current).addClass("JDsearchInput__ul--hide");
+    }, 500);
   };
 
   // Handler - 리스트 : onClick
-  const handleOnListClick = (e: React.MouseEvent<HTMLElement>) => {
+  const handleOnListClick = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     const value = $(e.currentTarget).attr("value");
     const id = $(e.currentTarget).attr("id");
-    $(inputRef.current).val(value || "");
-    onSearch(value, id);
-    onListClick && onListClick(value, id);
+    onListClick && (await onListClick(value, id));
+    // $(inputRef.current).val(value || "");
+    // onFindOne && onFindOne(value, id);
   };
 
   // Handler - 리스트 : onKeyPress - 🚫 useless
@@ -168,7 +175,7 @@ const JDsearchInput: React.FC<IProps> = ({
 
   // Handler - 아이콘 : onClick
   const handleOnSearchClick = () => {
-    onSearch(inputRef.current.value);
+    onSearch && onSearch(inputRef.current.value);
   };
 
   const classes = classNames({
@@ -235,7 +242,7 @@ JDsearchInput.defaultProps = {
   placeholder: "search",
   asName: "name",
   asDetail: "detail",
-  onSearch: () => {},
+  onFindOne: () => {},
   setIsMatched: () => {},
   onTypeChange: () => {},
   maxCount: 999

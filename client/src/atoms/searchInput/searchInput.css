@@ -55,7 +55,7 @@
   outline: none;
   width: 100%;
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   padding: 0.875rem 0 0 0;
   padding-right: 1.75rem;
   height: 2.25rem;
@@ -65,24 +65,24 @@
 .JDsearchInput__input:focus {
   border-color: #6d809f;
   -webkit-box-shadow: 0 1px 0 0 #6d809f;
-          box-shadow: 0 1px 0 0 #6d809f;
+  box-shadow: 0 1px 0 0 #6d809f;
 }
 
-.JDsearchInput__input:focus + .JDsearchInput__icon {
+.JDsearchInput__input:focus+.JDsearchInput__icon {
   color: #4c5b73;
 }
 
-.JDsearchInput__input:focus + .JDsearchInput__icon:hover {
+.JDsearchInput__input:focus+.JDsearchInput__icon:hover {
   color: #6d809f;
 }
 
 .JDsearchInput__input--valid {
   border-color: "-";
   -webkit-box-shadow: 0px 1px 0px 0px "-";
-          box-shadow: 0px 1px 0px 0px "-";
+  box-shadow: 0px 1px 0px 0px "-";
 }
 
-.JDsearchInput__input--valid + .JDsearchInput__icon {
+.JDsearchInput__input--valid+.JDsearchInput__icon {
   color: "-";
 }
 
@@ -97,7 +97,7 @@
   z-index: 20;
   max-width: 100%;
   overflow-x: auto;
-  top: calc( 100% - 1rem);
+  top: calc(100% - 1rem);
 }
 
 .JDsearchInput__ul--show {
@@ -130,16 +130,16 @@
   border-top: none;
 }
 
-.JDsearchInput__li--active {
+.JDsearchInput__li--selected {
   background-color: #EBEBEB;
 }
 
-.JDsearchInput__li--selected {
+.JDsearchInput__li--correspond {
   background-color: #4c5b73;
   color: #fff;
 }
 
-.JDsearchInput__li--selected:hover {
+.JDsearchInput__li--correspond:hover {
   background-color: #4c5b73;
   color: #fff;
 }
@@ -151,4 +151,5 @@
 .JDsearchInput__detail {
   font-size: 0.8rem;
 }
+
 /*# sourceMappingURL=searchInput.css.map */

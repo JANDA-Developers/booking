@@ -17,7 +17,8 @@ import {
   isUrl,
   isMaxOver,
   isYYYYMMDD,
-  isPassword
+  isPassword,
+  isNumberMinMax
 } from "./inputValidations";
 import searchListFormat from "./searchListFormater";
 import {showError} from "./errorMessage";
@@ -53,7 +54,8 @@ const JDutils = {
   isYYYYMMDD,
   numberStr,
   stringToNumber,
-  smsMessageFormatter
+  smsMessageFormatter,
+  isNumberMinMax
 };
 
 export default JDutils;

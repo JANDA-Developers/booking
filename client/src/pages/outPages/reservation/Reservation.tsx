@@ -80,7 +80,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
     if (flag) {
       const publicKey = "05dfe136-1f1e-beed-b96d-ea3d68d8b847";
       const {name, password, phoneNumber} = bookingInfo;
-      location.href = `http://localhost:3000/#/outpage/checkReservation/${name}/${phoneNumber}/${password}/${publicKey}`;
+      location.href = `http://${process.env.NODE_ENV === 'development' ? process.env.REACT_APP_API_HOST : process.env.REACT_APP_API_HOST_PRODUCT}/#/outpage/checkReservation/${name}/${phoneNumber}/${password}/${publicKey}`;
     } else {
       location.reload();
     }
@@ -242,3 +242,12 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
 };
 
 export default windowSize<IProps>(ErrProtecter(SetPrice));
+
+// ifram for ~~
+{/* <iframe
+    style="border:none; overflow:hidden;"
+    width="100%"
+    height="800px"
+    title="JDresv"
+    src="http://localhost:3000/#/outpage/reservation/🙀HP-KEY"
+/> */}

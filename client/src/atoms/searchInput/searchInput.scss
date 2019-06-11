@@ -93,6 +93,12 @@
         max-width: 100%;
         overflow-x:auto;
 
+        &--hide {
+            opacity: 0;
+            z-index: -1;
+            height: 0;
+        }
+        
         // base Space에 정의된만큼 뛰워준 겁니다.
         top: calc( 100% - #{$standard-margin-bottom});
 
@@ -114,7 +120,7 @@
         }
 
         &--hide {
-            display:none;
+            // display:none;
         }
 
         &:hover{

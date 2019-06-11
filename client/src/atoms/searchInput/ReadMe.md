@@ -11,7 +11,8 @@ Controll Input 만 지원함
 | isTypeChange    | bool   |                                                                  |         |         | false   |
 | isLoading       | bool   | 로딩중인지 => 아이콘표시                                         |         |         | false   |
 | onTypeChange    | func   | 텍스트를 칠때마다 값을 전송                                      |         | Y       | false   |
-| onSearch        | func   | 사용자가 엔터키를 칠떄 && 아이콘 검색                            |         |         |         |
+| onFindOne       | func   | 원하는 데이터 하나를 찾았을경우                                  |         |         |         |
+| onSearch        | func   | 무언가 검색하는 행위를 하는경우                                  |         |         |         |
 | onTypeValue     | string | input 값                                                         |         |         | Y       |
 | placeHolder     | string |                                                                  |         |         |         |
 | label           | string | 라벨텍스트                                                       |         |         |         |
