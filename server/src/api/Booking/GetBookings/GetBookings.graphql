@@ -16,7 +16,7 @@ type Query {
 
 input GetBookingsFilter {
     name: String
-    phoneNumnber: PhoneNumber
+    phoneNumnber: String
     stayDate: DateTime
     createdAt: DateTime
 }
