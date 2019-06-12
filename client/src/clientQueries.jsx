@@ -3,9 +3,9 @@ import gql from "graphql-tag";
 /* -------------------------------- client ------------------------------- */
 // 로그인이 되었는지?
 export const IS_LOGGED_IN = gql`
-  query auth {
-    auth {
-      isLoggedIn @client
+  {
+    auth @client {
+      isLoggedIn
     }
   }
 `;

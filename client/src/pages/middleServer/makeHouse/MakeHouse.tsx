@@ -2,8 +2,8 @@ import {toast} from "react-toastify";
 /* eslint-disable max-len */
 import React, {useState, useEffect, useRef} from "react";
 import {Mutation} from "react-apollo";
-import {GoogleApiWrapper} from "google-maps-react";
-import {withRouter} from "react-router-dom";
+import {GoogleApiWrapper, ProvidedProps} from "google-maps-react";
+import {withRouter, RouteComponentProps} from "react-router-dom";
 import {reverseGeoCode, geoCode} from "./mapHelper";
 import {
   useInput,
@@ -14,18 +14,29 @@ import {
 import {SELECT_HOUSE} from "../../../clientQueries";
 import {CREATE_HOUSE, GET_USER_INFO} from "../../../queries";
 import {ADDRESS_API_KEY} from "../../../keys";
-import utils, {ErrProtecter} from "../../../utils/utils";
+import utils, {ErrProtecter, showError} from "../../../utils/utils";
 import GoogleMap from "./components/googleMap";
 import InputText from "../../../atoms/forms/inputText/InputText";
 import SelectBox from "../../../atoms/forms/selectBox/SelectBox";
 import Button from "../../../atoms/button/Button";
 import SearchInput from "../../../atoms/searchInput/SearchInput";
 import "./MakeHouse.scss";
+import {show} from "react-tooltip";
+import {createHouse, createHouseVariables} from "../../../types/api";
 
-let map = null;
+let map: google.maps.Map | null = null;
+
+interface IProps extends ProvidedProps {}
+
+class SelectHouseMu extends Mutation<any, any> {}
+
+class CreateHouse extends Mutation<createHouse, createHouseVariables> {}
 
 // eslint-disable-next-line react/prop-types
-const MakeHouse = ({history, google}) => {
+const MakeHouse: React.FC<IProps & RouteComponentProps> = ({
+  history,
+  google
+}) => {
   const houseNameHoook = useInput("");
   const deatailaddressHook = useInput("");
   const typeSelectHook = useSelect(null);
@@ -37,6 +48,7 @@ const MakeHouse = ({history, google}) => {
   );
   const mapRef = useRef(null);
 
+  console.log(adressData);
   if (getAdressError) console.error(getAdressError);
 
   // 제출전 입력값이 정확한지 검사
@@ -80,6 +92,7 @@ const MakeHouse = ({history, google}) => {
 
   // 지도 드래그가 끝날때 좌표값을 받아서 저장함
   const handleDragEnd = async () => {
+    if (!map) return;
     const newCenter = map.getCenter();
     const lat = newCenter.lat();
     const lng = newCenter.lng();
@@ -89,7 +102,7 @@ const MakeHouse = ({history, google}) => {
   };
 
   // Map Config 그리고 생성
-  const loadMap = (lat, lng) => {
+  const loadMap = (lat: number, lng: number) => {
     const {maps} = google;
     const mapNode = mapRef.current;
     const mapConfig = {
@@ -107,7 +120,7 @@ const MakeHouse = ({history, google}) => {
   };
 
   // 구글맵 네비 현재위치 조회 성공시
-  const handleGeoSucces = positon => {
+  const handleGeoSucces = (positon: Position) => {
     const {
       coords: {latitude, longitude}
     } = positon;
@@ -115,8 +128,9 @@ const MakeHouse = ({history, google}) => {
   };
 
   // 인풋서치 이후에 구글맵 위치를 변환
-  const changeMapBySearch = async value => {
+  const changeMapBySearch = async (value: string | null) => {
     const result = await geoCode(value);
+    if (!map || !value) return;
     if (result !== false) {
       const {lat, lng} = result;
       setlocation({
@@ -129,20 +143,22 @@ const MakeHouse = ({history, google}) => {
   };
 
   // 서치인풋에 값이 제출될때마다.
-  const handleOnSearch = value => {
+  const handleOnFind = (value: string | null) => {
     changeMapBySearch(value);
   };
 
   // 서치인풋에 값을 입력할때마다.
-  const onTypeChange = value => {
+  const onTypeChange = (value?: string) => {
+    console.log("value");
+    console.log(value);
     setlocation({
       ...location,
-      address: value
+      address: value || ""
     });
   };
 
   // 도로명주소 가져오기
-  const handleGeoError = error => {
+  const handleGeoError = (error: PositionError) => {
     console.error(error);
   };
 
@@ -160,23 +176,20 @@ const MakeHouse = ({history, google}) => {
     <div id="makeHomePage" className="container container--sm">
       <div className="docs-section">
         {/* 하우스 선택 */}
-        <Mutation
+        <SelectHouseMu
           mutation={SELECT_HOUSE}
-          nError={error => {
-            console.error(error);
-          }}
+          onError={showError}
           onCompleted={({selectHouse}) => {
             if (selectHouse.ok) {
               history.replace("/middleServer/products");
             } else {
-              console.error(selectHouse.error);
-              toast.warn("네트워크 오류발생 별도 문의주십시요.");
+              showError(selectHouse.error);
             }
           }}
         >
           {selectHouseMutation => (
             // Mutation : 숙소생성
-            <Mutation
+            <CreateHouse
               mutation={CREATE_HOUSE}
               variables={{
                 name: houseNameHoook.value,
@@ -192,11 +205,9 @@ const MakeHouse = ({history, google}) => {
               }}
               refetchQueries={[{query: GET_USER_INFO}]}
               awaitRefetchQueries
-              onError={error => {
-                console.error(error);
-              }}
+              onError={showError}
               onCompleted={({CreateHouse}) => {
-                if (CreateHouse.ok) {
+                if (CreateHouse.ok && CreateHouse.house) {
                   toast.success("숙소생성완료");
                   const variables = {
                     value: CreateHouse.house._id,
@@ -204,11 +215,13 @@ const MakeHouse = ({history, google}) => {
                   };
                   selectHouseMutation({variables: {selectedHouse: variables}});
                 }
-                if (CreateHouse.error) console.error(CreateHouse.error);
+                if (CreateHouse.error) showError(CreateHouse.error);
               }}
             >
               {makeHouseMutation => {
-                const makeHouseSubmit = e => {
+                const makeHouseSubmit = (
+                  e: React.FormEvent<HTMLFormElement>
+                ) => {
                   e.preventDefault();
                   if (submitValidation()) makeHouseMutation();
                 };
@@ -247,11 +260,11 @@ const MakeHouse = ({history, google}) => {
                             adressData.results && adressData.results.juso
                           }
                           label="숙소주소"
+                          asId="bdMgtSn"
                           asName="roadAddr"
                           asDetail="jibunAddr"
                           isLoading={adressLoading}
-                          isTypeChange
-                          onFindOne={handleOnSearch}
+                          onFindOne={handleOnFind}
                           onTypeChange={onTypeChange}
                           onTypeValue={location.address}
                         />
@@ -271,21 +284,22 @@ const MakeHouse = ({history, google}) => {
                         type="submit"
                         thema="primary"
                         label="숙소 생성 완료"
-                        mode="large"
+                        mode="normal"
                       />
                     </div>
                   </form>
                 );
               }}
-            </Mutation>
+            </CreateHouse>
           )}
-        </Mutation>
+        </SelectHouseMu>
       </div>
     </div>
   );
 };
 
 export default ErrProtecter(
+  // @ts-ignore
   GoogleApiWrapper({apiKey: "AIzaSyCLG8qPORYv6HJIDSgXpLqYDDzIKgSs6FY"})(
     withRouter(MakeHouse)
   )

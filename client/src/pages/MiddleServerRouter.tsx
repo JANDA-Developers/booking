@@ -290,12 +290,6 @@ export default compose(
     }
   }),
   graphql(SELECTED_HOUSE, {
-    name: "selectedHouse",
-    skip: ({GetUserInfo}: any) => {
-      if (GetUserInfo && isEmpty(GetUserInfo.houses)) {
-        return true;
-      }
-      return false;
-    }
+    name: "selectedHouse"
   })
 )(JDmiddleServer);

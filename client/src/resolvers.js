@@ -1,13 +1,18 @@
 const resolvers = {
   Query: {
-    LastSelectedHouse: () => {
+    lastSelectedHouse: () => {
       const result = {
         __typename: "House",
         value: localStorage.getItem("selectId"),
-        label: localStorage.getItem("selectHouseLabel")
+        label: localStorage.getItem("selectHouseLabel"),
       };
 
       return result;
+    },
+    auth: () => {
+      return {
+        isLoggedIn: localStorage.getItem("jwt")
+      };
     }
   },
   Mutation: {
@@ -51,24 +56,23 @@ const resolvers = {
       try {
         cache.writeData({
           data: {
-            auth: {
-              __typename: "Auth",
-              lastSelectedHouse: {
-                __typename: "House",
-                value: args.selectedHouse.value,
-                label: args.selectedHouse.label
-              }
+            lastSelectedHouse: {
+              __typename: "House",
+              value: args.selectedHouse.value,
+              label: args.selectedHouse.label
             }
           }
         });
         localStorage.setItem("selectId", args.selectedHouse.value);
         localStorage.setItem("selectHouseLabel", args.selectedHouse.label);
         return {
+          __typename: "House",
           ok: true,
           erorr: null
         };
       } catch (error) {
         return {
+          __typename: "House",
           ok: false,
           error: error.message
         };

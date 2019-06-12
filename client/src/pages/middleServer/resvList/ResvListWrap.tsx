@@ -34,6 +34,7 @@ const ResvListWrap: React.FC<IProps> = ({houseId}) => {
     <GetBookingsQuery
       fetchPolicy="network-only"
       query={GET_BOOKINGS}
+      pollInterval={5000}
       variables={{houseId, page, count: 20}}
     >
       {({data: boookerData, loading, error}) => {

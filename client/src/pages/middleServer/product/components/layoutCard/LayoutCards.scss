@@ -1,0 +1,12 @@
+.layoutCard {
+    &__imgBox {
+        height: 9rem;
+        background-size: cover;
+    }
+
+    &__bottomWrap {
+        display: flex;
+        justify-content: end;
+        flex-direction: column;
+    }
+}

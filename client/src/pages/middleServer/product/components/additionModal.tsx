@@ -12,6 +12,8 @@ import CircleIcon from "../../../../atoms/circleIcon/CircleIcon";
 import Radio from "../../../../atoms/forms/radio/Radio";
 import Card from "../../../../atoms/cards/Card";
 import InputText from "../../../../atoms/forms/inputText/InputText";
+import LayoutCards from "./layoutCard/LayoutCards";
+import JDLabel from "../../../../atoms/label/JDLabel";
 
 interface IProps {
   modalHook: IUseModal;
@@ -22,14 +24,7 @@ const AdditionModal: React.FC<IProps> = ({modalHook}) => {
   const requestUrlHook = useInput("");
   const [homepage, setHompage] = useRadio("N");
 
-  console.log('homepage');
-  console.log(homepage);
   const [layout, setLayout] = useState<string | null>(null);
-
-  const handleClickCard = (id: string, url: string) => {
-    setLayout(id);
-    window.open(url, "_blank");
-  };
 
   return (
     <Modal className="products__addtionModal" {...modalHook}>
@@ -52,34 +47,20 @@ const AdditionModal: React.FC<IProps> = ({modalHook}) => {
           groupName="HompageRadio"
         />
         {homepage === "Y" && (
-            <Fragment> 
-                <Card
-                selected={layout === "A"}
-                hoverDark
-                onClick={() => {
-                    handleClickCard("A", "http://janda-install.kr/");
-                }}
-                >
-                <span>A타입 레이아웃</span>
-                </Card>
-                <Card
-                selected={layout === "B"}
-                hoverDark
-                onClick={() => {
-                    handleClickCard("A", "http://janda-install.kr/");
-                }}
-                >
-                <span>B타입 레이아웃</span>
-                </Card>
-                <InputText label="신청URL" {...requestUrlHook} />
-            </Fragment> 
-            )
-        }
+          <div>
+            <JDLabel txt="레이아웃 선택" />
+            <LayoutCards />
+            <InputText label="신청URL" {...requestUrlHook} />
+          </div>
+        )}
         <div className="JDmodal__endSection">
-        <Button label="제출" onClick={()=>{
-            modalHook.info.prodcutMu();
-            modalHook.closeModal();
-        }} />
+          <Button
+            label="제출"
+            onClick={() => {
+              modalHook.info.prodcutMu();
+              modalHook.closeModal();
+            }}
+          />
         </div>
       </div>
     </Modal>
@@ -87,4 +68,3 @@ const AdditionModal: React.FC<IProps> = ({modalHook}) => {
 };
 
 export default AdditionModal;
-
