@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
 import { arrayProp, prop, Ref, Typegoose } from "typegoose";
-import { HouseType, Location, TermsOfBooking } from "../types/graph";
+import { AppInfo, HouseType, Location, TermsOfBooking } from "../types/graph";
 import { houseAccessKeyGen } from "../utils/uuidgen";
 import { ProductSchema } from "./Product";
 
@@ -13,18 +13,14 @@ export enum Type {
     YOUTH_HOSTEL = "YOUTH_HOSTEL"
 }
 export class HouseSchema extends Typegoose {
-    @prop()
-    hostApplication?: Types.ObjectId;
-
-    // TODO: Validation 필요함...
-    @prop({ default: houseAccessKeyGen() })
+    @prop({ default: houseAccessKeyGen })
     publicKey: string;
-
-    @prop({ default: false })
-    hostAppCreated: boolean;
 
     @prop({ ref: ProductSchema, required: true })
     product?: Ref<ProductSchema>;
+
+    @prop()
+    appInfo: AppInfo;
 
     @prop({ required: true })
     name: string;
@@ -61,7 +57,7 @@ export class HouseSchema extends Typegoose {
     updatedAt: Date;
 
     @prop()
-    moduleSrl?: number;
+    userRequestedAt: Date;
 }
 
 export const HouseModel = new HouseSchema().getModelForClass(HouseSchema, {

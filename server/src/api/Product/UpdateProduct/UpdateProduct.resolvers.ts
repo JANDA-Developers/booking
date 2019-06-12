@@ -1,3 +1,4 @@
+import { HouseModel } from "../../../models/House";
 import { extractProduct } from "../../../models/merge/merge";
 import { ProductModel } from "../../../models/Product";
 import {
@@ -54,9 +55,25 @@ const resolvers: Resolvers = {
                 { houseId, params }: UpdateProductFromUserRequestMutationArgs
             ): Promise<UpdateProductFromUserRequestResponse> => {
                 try {
+                    const house = await HouseModel.findById(houseId);
+                    if (!house) {
+                        return {
+                            ok: false,
+                            error: "존재하지 않는 HouseId",
+                            product: null
+                        };
+                    }
+                    await house.update({
+                        $push: {
+                            appInfoRequred: {
+                                ...params,
+                                userRequestedDate: new Date().toISOString()
+                            }
+                        }
+                    });
                     return {
-                        ok: false,
-                        error: "데헷데헷",
+                        ok: true,
+                        error: null,
                         product: null
                     };
                 } catch (error) {
