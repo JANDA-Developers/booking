@@ -70,4 +70,4 @@ export const sendSMS = async (
 };
 
 export const sendVerificationSMS = (receiver: string, key: string) =>
-    sendSMS(receiver, `Your Verificaion Key is: ${key}`, "N");
+    sendSMS(receiver, `Your Verificaion Key is: ${key}`);
