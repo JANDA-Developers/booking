@@ -27,7 +27,7 @@ const AdditionModal: React.FC<IProps> = ({modalHook}) => {
   const [layout, setLayout] = useState<string | null>(null);
 
   return (
-    <Modal className="products__addtionModal" {...modalHook}>
+    <Modal className="JDproduct__addtionModal" {...modalHook}>
       <div>
         <h5>홈페이지를 신청하시겠습니까?</h5>
         <Radio
@@ -49,7 +49,9 @@ const AdditionModal: React.FC<IProps> = ({modalHook}) => {
         {homepage === "Y" && (
           <div>
             <JDLabel txt="레이아웃 선택" />
-            <LayoutCards />
+            <div className="flex-grid">
+              <LayoutCards />
+            </div>
             <InputText label="신청URL" {...requestUrlHook} />
           </div>
         )}

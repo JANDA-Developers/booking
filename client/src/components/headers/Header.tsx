@@ -81,7 +81,7 @@ const Header: React.FC<IProps> = ({
             />
           </span>
           <SelectHouseWrap selectedHouse={selectedHouse} houses={houses} />
-          {user && isPhoneVerified || (
+          {(user && isPhoneVerified) || (
             <span className="header__btns header__btns--mobileX">
               <Button
                 onClick={() => {
@@ -145,6 +145,21 @@ const Header: React.FC<IProps> = ({
                   color="white"
                 />
               </li>
+              {isPhoneVerified || (
+                <li>
+                  <Button
+                    onClick={() => {
+                      phoneVerificationModalHook.openModal({
+                        phoneNumber: user.phoneNumber
+                      });
+                    }}
+                    blink
+                    label="인증하기"
+                    mode="flat"
+                    color="white"
+                  />
+                </li>
+              )}
               <li>
                 <NavLink to="/middleServer/myPage">
                   <Button label="MYpage" mode="flat" color="white" />

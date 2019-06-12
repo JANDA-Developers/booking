@@ -54,10 +54,6 @@ const JDmiddleServer: React.FC<IProps> = ({
   const isloading: boolean = loading || loading2;
   const houses: IHouse[] = user.houses || [];
 
-  console.log("tempSelectedHouse");
-  console.log(tempSelectedHouse);
-  console.log(tempSelectedHouse);
-
   let selectedHouse = houses[0];
 
   // 최근에 선택된 숙소가 없다면 선택된 숙소는 첫번째 숙소입니다.
@@ -190,7 +186,7 @@ const JDmiddleServer: React.FC<IProps> = ({
             render={() =>
               isLoggedIn ? (
                 <Ready
-                  hostApp={selectedHouse && selectedHouse.hostApplication}
+                  hostApp={selectedHouse && selectedHouse.appInfo}
                   currentProduct={applyedProduct}
                   selectedHouse={selectedHouse}
                   user={user}

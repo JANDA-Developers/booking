@@ -3,6 +3,7 @@ import "./LayoutCards.scss";
 import Card, {CardProps} from "../../../../../atoms/cards/Card";
 import Button from "../../../../../atoms/button/Button";
 import {Fragment} from "react";
+import Radio from "../../../../../atoms/forms/radio/Radio";
 
 interface IProps extends CardProps {
   selectedLayout?: any;
@@ -50,24 +51,28 @@ const LayoutCards: React.FC<IProps> = ({
           backgroundImage: `url("${layout.img}")`
         };
         return (
-          <Card
-            selected={selectedLayout && selectedLayout === layout.id}
-            className="layoutCard"
-            {...props}
-          >
-            <div style={layoutImg} className="layoutCard__imgBox" />
-            <div className="layoutCard__bottomWrap">
-              <span>{layout.name}</span>
-              <Button
-                onClick={() => {
-                  handleClickCard(layout.id, layout.link);
-                }}
-                thema="grey"
-                mode="flat"
-                label="살펴보기"
-              />
-            </div>
-          </Card>
+          <div className="col--wmd-12 col--full-6 flex-grid__col">
+            <span>
+              <Radio label={layout.name} groupName="layout" id={layout.id} />
+            </span>
+            <Card
+              selected={selectedLayout && selectedLayout === layout.id}
+              className="layoutCard"
+              {...props}
+            >
+              <div style={layoutImg} className="layoutCard__imgBox" />
+              <div className="layoutCard__bottomWrap">
+                <Button
+                  onClick={() => {
+                    handleClickCard(layout.id, layout.link);
+                  }}
+                  thema="grey"
+                  mode="flat"
+                  label="살펴보기"
+                />
+              </div>
+            </Card>
+          </div>
         );
       })}
     </Fragment>

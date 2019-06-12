@@ -30,14 +30,7 @@ export const SpecificAtion: React.SFC<IProps> = ({
     },
     {title: "숙소명", value: specification.name},
     {title: "숙소타입", value: specification.houseType},
-    {
-      title: "홈페이지 신청",
-      value: specification.hostApplication ? "YES" : "NO"
-    },
-    {
-      title: "홈페이지 URL",
-      value: specification.hostApplication && specification.hostApplication.url
-    },
+
     {title: "신청자", value: specification.user && specification.user.name},
     {
       title: "신청일시",
