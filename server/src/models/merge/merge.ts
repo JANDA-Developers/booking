@@ -4,8 +4,8 @@ import {
     Block,
     Booking,
     Guest,
-    HostApplication,
     House,
+    HouseConfig,
     Product,
     ProductType,
     Room,
@@ -21,11 +21,8 @@ import { applyDaysToBinaryString } from "../../utils/applyDays";
 import { BlockSchema } from "../Block";
 import { bookingModel, BookingSchema } from "../Booking";
 import { GuestModel, GuestSchema } from "../Guest";
-import {
-    HostApplicationModel,
-    HostApplicationSchema
-} from "../HostApplication";
 import { HouseModel, HouseSchema } from "../House";
+import { HouseConfigSchema } from "../HouseConfig";
 import { ProductModel, ProductSchema } from "../Product";
 import { ProductTypeModel, ProductTypeSchema } from "../ProductType";
 import { RoomModel, RoomSchema } from "../Room";
@@ -84,10 +81,6 @@ export const extractHouse = async (
             product: await transformProduct.bind(
                 transformProduct,
                 house.product
-            ),
-            hostApplication: await transformHostApp.bind(
-                transformHostApp,
-                house.hostApplication
             ),
             smsInfo: transformSmsInfo.bind(transformSmsInfo, house.smsInfo)
         };
@@ -635,25 +628,12 @@ export const extractbookings = async (
     );
 };
 
-export const extractHostApp = async (
-    hostAppInstance: InstanceType<HostApplicationSchema>
-): Promise<HostApplication> => {
-    const temp: any = {
-        ...hostAppInstance
-    };
+export const extractHouseConfig = async (
+    houseConfigInstance: InstanceType<HouseConfigSchema>
+): Promise<HouseConfig> => {
+    const houseConfig = (houseConfigInstance as any)._doc;
     return {
-        ...temp._doc,
-        house: await transformHouse.bind(transformHouse, hostAppInstance.house),
-        user: await transformUser.bind(transformUser, hostAppInstance.user)
+        ...houseConfig,
+        house: transformHouse.bind(transformHouse, houseConfig.house)
     };
-};
-
-export const transformHostApp = async (
-    hostAppId: Types.ObjectId | string | undefined | null
-): Promise<HostApplication | null> => {
-    const hostAppInstance = await HostApplicationModel.findById(hostAppId);
-    if (!hostAppInstance) {
-        return null;
-    }
-    return await extractHostApp(hostAppInstance);
 };

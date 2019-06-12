@@ -12,6 +12,7 @@ type House {
     publicKey: String
     appInfo: AppInfo
     appInfoRequested: [AppInfoRequest!]
+    houseConfig: HouseConfig!
     createdAt: DateTime!
     updatedAt: DateTime
 }
