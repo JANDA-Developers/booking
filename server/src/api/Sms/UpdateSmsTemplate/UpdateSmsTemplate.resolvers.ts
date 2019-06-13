@@ -46,7 +46,7 @@ const resolvers: Resolvers = {
                     const smsTemplate: SmsTemplate = {
                         ...smsInfo.smsTemplates[idx]
                     };
-                    const updateArgs: SmsTemplate = {
+                    const updateArgs: any = {
                         ...smsTemplate,
                         ...params,
                         smsSendCase: params.smsSendCase && {

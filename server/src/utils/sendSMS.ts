@@ -49,7 +49,17 @@ export const sendSMS = async (
             process.env
                 .SMS_SENDER}&receiver=${receivers}&msg=${msg}&testmode_yn=${testmodeYn}`
     });
-    console.log(result);
+
+    /*
+    ** API 결과값
+        - result_code
+        - message
+        - msg_id
+        - success_cnt
+        - error_cnt
+        - msg_type
+ */
+
     return {
         ok: result_code === "1",
         error: result_code,

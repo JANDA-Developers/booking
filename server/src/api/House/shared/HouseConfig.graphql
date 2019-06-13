@@ -1,0 +1,17 @@
+type PollingPeriod {
+    enable: Boolean!
+    period: Int!
+}
+
+type HouseConfig {
+    _id: ID!
+    house: House!
+    pollingPeriod: PollingPeriod
+    createdAt: DateTime!
+    updatedAt: DateTime
+}
+
+input PollingPeriodInput {
+    enable: Boolean!
+    period: Int!
+}

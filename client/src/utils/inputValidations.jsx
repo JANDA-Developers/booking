@@ -50,4 +50,11 @@ const isPassword = string => {
   return regExp.test(string);
 };
 
-export {isEmail, isYYYYMMDD, isPhone, isName, isUrl, isMaxOver, isPassword};
+const isNumberMinMax = (string, min, max) => {
+  if (string === "") return NEUTRAL;
+  // 특수문자 1개이상 숫자 0 에서  9  7~15 자리의 숫자
+  const regExp = new RegExp(`[0-9_-]{${min},${max}}`);
+  return regExp.test(string);
+};
+
+export {isEmail, isYYYYMMDD, isPhone, isName, isUrl, isMaxOver, isPassword, isNumberMinMax};

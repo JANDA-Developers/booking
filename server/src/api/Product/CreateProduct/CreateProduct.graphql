@@ -6,6 +6,7 @@ type CreateProductResponse {
 
 type Mutation {
     CreateProduct(
+        houseId: ID!
         name: String!
         price: Int
         discountedPrice: Int
@@ -15,5 +16,7 @@ type Mutation {
         bookingCountExtraCharge: Int
         description: String
         canHaveHostApp: Boolean
+        layoutType: LayoutType
+        url: URL
     ): CreateProductResponse!
 }

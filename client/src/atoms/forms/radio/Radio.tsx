@@ -1,8 +1,8 @@
-import React from 'react';
-import './Radio.scss';
-import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import ErrProtecter from '../../../utils/errProtect';
+import React from "react";
+import "./Radio.scss";
+import classNames from "classnames";
+import PropTypes from "prop-types";
+import ErrProtecter from "../../../utils/errProtect";
 
 interface IProps {
   id: string;
@@ -16,22 +16,26 @@ interface IProps {
 }
 
 const JDradio: React.FC<IProps> = ({
-  id, disabled, groupName, label, onChange, value, selectedValue, checked = false,
+  id,
+  disabled,
+  groupName,
+  label,
+  onChange,
+  value,
+  selectedValue,
+  checked = false
 }) => {
-    console.log(onChange);
-  const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const radioVlaue = e.target.value;
-
-    console.log(onChange);
-    console.log(onChange);
+  const handleRadioChange = () => {
+    console.log("radioChange");
     if (!disabled) {
-      onChange && onChange(radioVlaue);
+      console.log(value);
+      onChange && onChange(value);
     }
   };
 
   const classes = classNames({
     JDradio__input: true,
-    'JDradio__input--gap': true,
+    "JDradio__input--gap": true
   });
 
   return (
@@ -45,7 +49,7 @@ const JDradio: React.FC<IProps> = ({
           value={value}
           disabled={disabled}
           checked={checked || selectedValue === value}
-          onChange={handleRadioChange}
+          onClick={handleRadioChange}
         />
         <span className="JDradio__label" />
         {label && <span className="JDradio__label-text">{label}</span>}

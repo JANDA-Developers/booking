@@ -12,6 +12,8 @@
     position: relative;
     width: 100%;
     box-sizing: border-box;
+    position: sticky;
+    top:0;
 
     // 모바일 앱버튼 
     &__apps {
@@ -150,6 +152,5 @@
             left: auto;
             right: 4px;
         }
-
     }
 }

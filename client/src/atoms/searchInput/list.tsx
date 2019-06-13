@@ -37,7 +37,7 @@ const List: React.FC<IProps> = ({
         }
         const classes = classNames({
           JDsearchInput__li: true,
-          "JDsearchInput__li--selected": currentValue === data.name,
+          "JDsearchInput__li--correspond": currentValue === data.name,
           "JDsearchInput__li--unDetail": !data.detail
         });
 
@@ -48,9 +48,9 @@ const List: React.FC<IProps> = ({
             onKeyPress={onListKeyPress}
             onClick={onListClick}
             className={classes}
-            key={`list${data}${index}`}
+            key={`list${data.id}`}
             value={data.name}
-            id={data.id}
+            id={`${data.id}`}
           >
             <span>
               {data.name}

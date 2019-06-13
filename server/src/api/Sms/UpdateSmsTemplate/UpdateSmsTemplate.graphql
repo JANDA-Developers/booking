@@ -7,6 +7,18 @@ type Mutation {
     UpdateSmsTemplate(
         smsTemplateId: ID!
         houseId: ID!
-        params: SmsTemplateInput!
+        params: UpdateSmsTemplateInput!
     ): UpdateSmsTemplateResponse!
+}
+
+input UpdateSmsTemplateInput {
+    formatName: String
+    smsFormat: String
+    smsSendCase: UpdateSmsAutoSendInput
+}
+
+input UpdateSmsAutoSendInput {
+    enable: Boolean!
+    when: AutoSendWhen!
+    who: SendTarget!
 }

@@ -38,7 +38,6 @@ const SuperMain: React.SFC<Iprops> = ({
             />
           ))}
         </div>
-
         <JDPagination
           onPageChange={selectedItem => {
             setPage(selectedItem.selected + 1);

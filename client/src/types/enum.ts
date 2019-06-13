@@ -243,6 +243,7 @@ export const SMS_TARGET_OP = [
 export const PAYMETHOD_FOR_BOOKER_OP = [
   {value: PayMethod.BANK_TRANSFER, label: "무통장입금"}
 ];
+
 export const PAYMETHOD_FOR_HOST_OP = [
   {value: PayMethod.BANK_TRANSFER, label: "무통장입금"},
   {value: PayMethod.CASH, label: "현금결제"},

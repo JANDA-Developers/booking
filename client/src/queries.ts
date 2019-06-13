@@ -162,7 +162,7 @@ export const GET_HOUSE_SPECIFICATION = gql`
         _id
         name
         houseType
-        hostApplication {
+        appInfo {
           url
         }
         product {
@@ -223,7 +223,7 @@ const F_USER_INFO = gql`
       roomTypes {
         _id
       }
-      hostApplication {
+      appInfo {
         url
       }
       product {
@@ -431,9 +431,12 @@ export const GET_HOUSE = gql`
         name
         houseType
         roomTypes {
-          _id
+          ...FroomType
+          rooms {
+            ...Froom
+          }
         }
-        hostApplication {
+        appInfo {
           url
         }
         product {
@@ -452,6 +455,8 @@ export const GET_HOUSE = gql`
       }
     }
   }
+  ${F_ROOMTYPE}
+  ${F_ROOM}
 `;
 
 export const GET_GUESTS = gql`
@@ -983,7 +988,11 @@ export const UPDATE_BOOKING = gql`
     $params: UpdateBookingMutationParamsInput!
     $sendSmsFlag: Boolean
   ) {
-    UpdateBooking(bookingId: $bookingId, params: $params, sendSmsFlag: $sendSmsFlag) {
+    UpdateBooking(
+      bookingId: $bookingId
+      params: $params
+      sendSmsFlag: $sendSmsFlag
+    ) {
       ok
       error
     }
@@ -1506,7 +1515,7 @@ export const UPDATE_SMS_TEMPLATE = gql`
   mutation updateSmsTemplate(
     $smsTemplateId: ID!
     $houseId: ID!
-    $params: SmsTemplateInput!
+    $params: UpdateSmsTemplateInput!
   ) {
     UpdateSmsTemplate(
       smsTemplateId: $smsTemplateId

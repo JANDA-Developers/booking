@@ -7,7 +7,7 @@ import Favicon from "react-favicon";
 import client from "./apolloClient";
 import DocumentRouter from "./pages/DocumentRouter";
 import OutPageRouter from "./pages/OutPageRouter";
-import NoMatch from "./pages/NoMatch";
+import NoMatch from "./pages/noMatch/NoMatch";
 import MiddleServerRouter from "./pages/MiddleServerRouter";
 import JDtoast from "./atoms/toast/Toast";
 import "./lib/wave/wave"; // 웨이브 이펙트

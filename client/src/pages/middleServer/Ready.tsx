@@ -2,7 +2,7 @@ import React, {Fragment} from "react";
 import PropTypes from "prop-types";
 import "./Ready.scss";
 import {
-  getHouse_GetHouse_house_hostApplication,
+  getHouse_GetHouse_house_appInfo,
   getHouse_GetHouse_house_product
 } from "../../types/api";
 import {IHouse} from "../../types/interface";
@@ -24,6 +24,10 @@ const Ready: React.SFC<IProps> = ({selectedHouse}) => {
               <h4>서비스 신청이 완료되었습니다.</h4>
               <SpecificationWrap houseId={selectedHouse!._id} />
               <div>
+                <span className="JDlarge-text">
+                  ☎️ 담당자 전화번호 010-6562-4125
+                </span>
+                <br />
                 <span className="JDlarge-text">⏲ 문의시간 11:00 ~ 17: 30</span>
               </div>
             </div>

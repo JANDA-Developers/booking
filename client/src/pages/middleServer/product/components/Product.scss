@@ -61,4 +61,11 @@
         position:relative;
         top:0.2rem;
     }
+
+    &__addtionModal {
+        min-width: 500px;
+        @include response($phablet) {
+            min-width: unset;
+        }
+    }
 }

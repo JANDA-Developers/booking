@@ -3,7 +3,7 @@ import React, {Fragment, Component} from "react";
 import {Route, Switch, withRouter, RouteComponentProps} from "react-router-dom";
 import Helmet from "react-helmet";
 import Header from "../components/headers/DocumentHeader";
-import NoMatch from "./NoMatch";
+import NoMatch from "./noMatch/NoMatch";
 import {Reservation, ReservationInfo, ReservationCheck} from "./outPages";
 
 interface IProps extends RouteComponentProps {}
