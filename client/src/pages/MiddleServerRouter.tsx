@@ -45,13 +45,19 @@ const JDmiddleServer: React.FC<IProps> = ({
     loading
   },
   GetUserInfo: {GetMyProfile: {user = {}} = {}, loading: loading2} = {},
-  selectedHouse: tempSelectedHouse
+  selectedHouse: {lastSelectedHouse: tempLastSelectedHouse}
 }) => {
   const [sideNavIsOpen, setSideNavIsOpen] = useToggle(false);
   const isloading: boolean = loading || loading2;
   const houses: IHouse[] = user.houses || [];
 
-  let selectedHouse = houses[0];
+  // 마지막으로 선택한 하우스
+  const lastSelectedHouse = houses.find(
+    house => house._id === tempLastSelectedHouse.value
+  );
+
+  // 마지막으로 선택한 하우스 또는 첫번째 하우스
+  let selectedHouse = lastSelectedHouse || houses[0];
 
   // 최근에 선택된 숙소가 없다면 선택된 숙소는 첫번째 숙소입니다.
   if (!selectedHouse && !isEmpty(houses)) [selectedHouse] = houses;
@@ -59,7 +65,6 @@ const JDmiddleServer: React.FC<IProps> = ({
   const applyedProduct = (selectedHouse && selectedHouse.product) || undefined;
   const {isPhoneVerified, userRole, profileImg} = user;
 
-  //❓ houseId 같은건 Context로 전달하는게 옳을것인가? https://reactjs.org/docs/context.html
   return isloading ? (
     <Preloader page />
   ) : (
