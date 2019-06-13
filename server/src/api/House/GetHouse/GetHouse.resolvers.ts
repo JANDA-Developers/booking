@@ -1,8 +1,13 @@
 import { Types } from "mongoose";
 import { HouseModel } from "../../../models/House";
 import { extractHouse } from "../../../models/merge/merge";
-import { GetHouseQueryArgs, GetHouseResponse } from "../../../types/graph";
+import {
+    GetHouseQueryArgs,
+    GetHouseResponse,
+    UserRole
+} from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
+import { removeUndefined } from "../../../utils/objFuncs";
 import { privateResolver } from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
@@ -15,10 +20,16 @@ const resolvers: Resolvers = {
             ): Promise<GetHouseResponse> => {
                 try {
                     const { user } = req;
-                    const house = await HouseModel.findOne({
-                        _id: new Types.ObjectId(houseId),
-                        user: new Types.ObjectId(user._id)
-                    });
+                    const { userRole }: { userRole: UserRole } = user;
+                    const house = await HouseModel.findOne(
+                        removeUndefined({
+                            _id: new Types.ObjectId(houseId),
+                            user:
+                                userRole === "ADMIN"
+                                    ? undefined
+                                    : new Types.ObjectId(user._id)
+                        })
+                    );
                     if (house) {
                         return {
                             ok: true,
