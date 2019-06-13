@@ -4,7 +4,7 @@ import { SendSmsResponse, SendSmsResult } from "../types/graph";
 export const sendSMS = async (
     receivers: string,
     msg: string,
-    sender?: string,
+    sender: string | undefined = process.env.SMS_SENDER,
     testmodeYn: "Y" | "N" | string = process.env.SMS_TESTMODE || "N"
 ): Promise<SendSmsResponse> => {
     const key = process.env.SMS_KEY;
