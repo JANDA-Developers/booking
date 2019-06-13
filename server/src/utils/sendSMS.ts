@@ -50,8 +50,6 @@ export const sendSMS = async (
                 .SMS_SENDER}&receiver=${receivers}&msg=${msg}&testmode_yn=${testmodeYn}`
     });
 
-    console.log(result);
-
     /*
     ** API 결과값
         - result_code
