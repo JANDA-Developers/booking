@@ -5,7 +5,7 @@ import {graphql, compose} from "react-apollo";
 import {Helmet} from "react-helmet";
 import Header from "../components/headers/HeaderWrap";
 import SideNav from "../components/sideNav/SideNav";
-import NoMatch from "./NoMatch";
+import NoMatch from "./noMatch/NoMatch";
 import {IS_LOGGED_IN, SELECTED_HOUSE} from "../clientQueries";
 import {GET_USER_INFO} from "../queries";
 import {useToggle} from "../actions/hook";
@@ -32,9 +32,6 @@ import {
 import {UserRole} from "../types/enum";
 import {IHouse} from "../types/interface";
 import ConfigWrap from "./middleServer/config/ConfigWrap";
-
-//👿 [https://reactjs-kr.firebaseapp.com/docs/context.html] 사용 비권장
-// const JDcontext = React.createContext({houseId: "", ()=>{}});
 
 interface IProps {
   GetUserInfo: any;
@@ -272,8 +269,6 @@ const JDmiddleServer: React.FC<IProps> = ({
   );
 };
 
-//  how to branch query
-// https://stackoverflow.com/questions/48880071/use-result-for-first-query-in-second-query-with-apollo-client
 export default compose(
   graphql(IS_LOGGED_IN, {name: "IsLoggedIn"}),
   graphql(GET_USER_INFO, {

@@ -431,7 +431,10 @@ export const GET_HOUSE = gql`
         name
         houseType
         roomTypes {
-          _id
+          ...FroomType
+          rooms {
+            ...Froom
+          }
         }
         appInfo {
           url
@@ -452,6 +455,8 @@ export const GET_HOUSE = gql`
       }
     }
   }
+  ${F_ROOMTYPE}
+  ${F_ROOM}
 `;
 
 export const GET_GUESTS = gql`

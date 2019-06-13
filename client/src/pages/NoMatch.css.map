@@ -1,9 +1,0 @@
-{
-    "version": 3,
-    "mappings": "AAAA,AAAA,SAAS,CAAC;EACN,UAAU,EAAE,MAAM;CAErB",
-    "sources": [
-        "NoMatch.scss"
-    ],
-    "names": [],
-    "file": "NoMatch.css"
-}

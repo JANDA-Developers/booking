@@ -15,6 +15,7 @@ interface layout {
   name: string;
   link: string;
   img: string;
+  desc: string;
 }
 
 const layouts: layout[] = [
@@ -22,12 +23,14 @@ const layouts: layout[] = [
     id: "A",
     name: "A타입 레이아웃",
     link: "http://janda-install.kr/",
+    desc: "기본제공 레이아웃",
     img:
       "https://res.cloudinary.com/stayjanda-com/image/upload/v1560234616/layout_type_A.jpg"
   },
   {
     id: "B",
     name: "B타입 레이아웃",
+    desc: "추가비용 50,000 (첫구매시만 발생)",
     link: "http://code-slave-2018.com/",
     img:
       "https://res.cloudinary.com/stayjanda-com/image/upload/v1560234623/type_B_layout.jpg"
@@ -72,6 +75,9 @@ const LayoutCards: React.FC<IProps> = ({
                 />
               </div>
             </Card>
+            <div>
+              <span>{layout.desc}</span>
+            </div>
           </div>
         );
       })}

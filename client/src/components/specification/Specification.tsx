@@ -3,6 +3,7 @@ import {getSpecification_GetHouse_house} from "../../types/api";
 import {Fragment} from "react";
 import moment from "moment";
 import React from "react";
+import {autoHypen} from "../../utils/utils";
 
 interface IProps {
   specification: getSpecification_GetHouse_house | undefined;
@@ -30,7 +31,6 @@ export const SpecificAtion: React.SFC<IProps> = ({
     },
     {title: "숙소명", value: specification.name},
     {title: "숙소타입", value: specification.houseType},
-
     {title: "신청자", value: specification.user && specification.user.name},
     {
       title: "신청일시",
@@ -48,7 +48,7 @@ export const SpecificAtion: React.SFC<IProps> = ({
     },
     {title: "홈페이지 생성 일시", value: ""},
     {title: "홈페이지 작업 현황", value: ""},
-    {title: "신청레이아웃", value: ""},
+    {title: "신청레이아웃", value: "-"},
     {
       title: "결제금액",
       value: specification.product && specification.product.price
@@ -59,7 +59,7 @@ export const SpecificAtion: React.SFC<IProps> = ({
     },
     {
       title: "연락처",
-      value: specification.user && specification.user.phoneNumber
+      value: specification.user && autoHypen(specification.user.phoneNumber)
     }
   ];
 

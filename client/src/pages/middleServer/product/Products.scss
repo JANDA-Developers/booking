@@ -83,3 +83,10 @@
 .products__productWrap {
     margin-bottom: $standard-margin-bottom;
 }
+
+
+.layoutCard {
+    &__imgBox {
+        height: 9rem;   
+    }
+}

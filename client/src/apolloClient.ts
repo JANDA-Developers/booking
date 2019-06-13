@@ -14,7 +14,7 @@ const client = new ApolloClient({
       auth: {
         __typename: "Auth",
         isLoggedIn: Boolean(localStorage.getItem("jwt"))
-      },
+    },
       lastSelectedHouse: {
         __typename: "House",
         value: localStorage.getItem("selectId"),
