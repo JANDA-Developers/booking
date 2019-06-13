@@ -21,7 +21,21 @@ const resolvers: Resolvers = {
                 { bookingId, params, sendSmsFlag }: UpdateBookingMutationArgs
             ): Promise<UpdateBookingResponse> => {
                 try {
-                    if (params.bookingStatus === "COMPLETE") {
+                    let bookingInstance:
+                        | InstanceType<BookingSchema>
+                        | undefined =
+                        (await bookingModel.findById(bookingId)) || undefined;
+                    if (!bookingInstance) {
+                        return {
+                            ok: false,
+                            error: "존재하지 않는 BookingId",
+                            booking: null
+                        };
+                    }
+                    if (
+                        params.bookingStatus === "COMPLETE" &&
+                        bookingInstance.bookingStatus === "CANCEL"
+                    ) {
                         return {
                             ok: false,
                             error:
@@ -29,9 +43,6 @@ const resolvers: Resolvers = {
                             booking: null
                         };
                     }
-                    let bookingInstance:
-                        | InstanceType<BookingSchema>
-                        | undefined;
                     await bookingModel.findOneAndUpdate(
                         { _id: new Types.ObjectId(bookingId) },
                         {
