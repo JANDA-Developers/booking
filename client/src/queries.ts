@@ -1515,7 +1515,7 @@ export const UPDATE_SMS_TEMPLATE = gql`
   mutation updateSmsTemplate(
     $smsTemplateId: ID!
     $houseId: ID!
-    $params: SmsTemplateInput!
+    $params: UpdateSmsTemplateInput!
   ) {
     UpdateSmsTemplate(
       smsTemplateId: $smsTemplateId
