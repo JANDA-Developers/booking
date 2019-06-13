@@ -193,198 +193,92 @@ const JDmiddleServer: React.FC<IProps> = ({
                       selectedHouse={selectedHouse}
                       user={user}
                     />
-                {/* 사이드 네비 */}
-                <SideNav
-                isOpen={sideNavIsOpen}
-                selectedHouse={selectedHouse}
-                applyedProduct={applyedProduct}
-                userInformation={user}
-                setIsOpen={setSideNavIsOpen}
-                houses={houses}
-                profileImg={profileImg}
+                  ) : (
+                      <Login />
+                    )
+                }
               />
-                {/* 라우팅 시작 */}
-                <Switch>
-            {/* 인덱스 */}
-            {["/", "/middleServer"].map(path => (
-              <Route key={path} exact path={path}>
-                <Home
-                  selectedHouse={selectedHouse}
-                  houses={houses}
-                  applyedProduct={applyedProduct}
-                  isLoggedIn={isLoggedIn}
-                  isPhoneVerified={isPhoneVerified}
-                />
-              </Route>
-            ))}
-            {/* 마이 페이지 */}
-            <Route
-              exact
-              path="/middleServer/myPage"
-              render={() =>
-                isLoggedIn ? <MyPage userData={user} houses={houses} /> : <Login />
-              }
-            />
-            {/* 숙소생성 */}
-            <Route
-              exact
-              path="/middleServer/makeHouse"
-              component={isLoggedIn ? MakeHouse : Login}
-            />
-            {/* 숙소설정 */}
-            <Route
-              exact
-              path="/middleServer/config"
-              component={isLoggedIn ? ConfigWrap : Login}
-            />
-            {/* 대쉬보드 */}
-            <Route
-              exact
-              path="/middleServer/dashBoard"
-              component={() => <DashBoard userData={user} />}
-            />
-            {/* 상품선택 */}
-            <Route
-              exact
-              path="/middleServer/products"
-              render={() =>
-                isLoggedIn ? (
-                  <Products
-                    isPhoneVerified={isPhoneVerified}
-                    selectedHouse={selectedHouse}
-                    currentProduct={applyedProduct}
-                  />
-                ) : (
-                    <Login />
-                  )
-              }
-            />
-            {/* 회원가입 */}
-            <Route
-              exact
-              path="/middleServer/signUp"
-              component={isLoggedIn ? undefined : SignUp}
-            />
-            {/* 회원가입 */}
-            <Route
-              exact
-              path="/middleServer/login"
-              component={isLoggedIn ? undefined : Login}
-            />
-            {/* 슈퍼관리자 */}
-            <Route
-              exact
-              path="/middleServer/superAdmin"
-              component={userRole === UserRole.ADMIN ? SuperMain : NoMatch}
-            />
-            {/* 고객문의 */}
-            <Route
-              exact
-              path="/middleServer/qna"
-              component={isLoggedIn ? Qna : Login}
-            />
-            {/* 대기 */}
-            {/* 여기이후로 상품이 있어야 나타날수있게 바뀜 */}
-            {isEmpty(applyedProduct) ? (
-              <Route component={NoMatch} />
-            ) : (
-                <Route
-                  exact
-                  path="/middleServer/ready"
-                  render={() =>
-                    isLoggedIn ? (
-                      <Ready
-                        hostApp={selectedHouse && selectedHouse.hostApplication}
-                        currentProduct={applyedProduct}
-                        selectedHouse={selectedHouse}
-                        user={user}
-                      />
-                    ) : (
-                        <Login />
-                      )
-                  }
-                />
-              )}
-            {/* /* ------------------------------ JANDA BOOKING ----------------------------- */}{" "}
-            {/* 방배정 */}
-            <Route
-              exact
-              path="/middleServer/assigTimeline"
-              render={() => (
-                <AssigTimeline houseId={selectedHouse && selectedHouse._id} />
-              )}
-            />
-            {/* 자세한 가격설정 */}
-            <Route
-              exact
-              path="/middleServer/specificPrice"
-              render={() =>
-                isEmpty(selectedHouse) ? (
-                  <NoMatch />
-                ) : (
-                    <PriceTimeline houseId={selectedHouse && selectedHouse._id} />
-                  )
-              }
-            />
-            {/* 방생성 */}
-            <Route
-              exact
-              path="/middleServer/timelineConfig"
-              render={() =>
-                isEmpty(selectedHouse) ? (
-                  <NoMatch />
-                ) : (
-                    <ModifyTimeline houseId={selectedHouse && selectedHouse._id} />
-                  )
-              }
-            />
-            {/* SMS */}
-            <Route
-              exact
-              path="/middleServer/sms"
-              render={() =>
-                isEmpty(selectedHouse) ? (
-                  <NoMatch />
-                ) : (
-                    <Sms houseId={selectedHouse && selectedHouse._id} />
-                  )
-              }
-            />
-            {/* 가격설정 */}
-            <Route
-              exact
-              path="/middleServer/setPrice"
-              render={() =>
-                isEmpty(selectedHouse) ? (
-                  <NoMatch />
-                ) : (
-                    <SetPrice selectedHouse={selectedHouse} />
-                  )
-              }
-            />
-            {/* 예약목록 */}
-            <Route
-              exact
-              path="/middleServer/resvList"
-              render={() =>
-                isEmpty(selectedHouse) ? (
-                  <NoMatch />
-                ) : (
-                    <ResvList houseId={selectedHouse._id} />
-                  )
-              }
-            />
-            <Route component={NoMatch} />
-          </Switch>
-            </Fragment>
-        );
+            )}
+          {/* /* ------------------------------ JANDA BOOKING ----------------------------- */}{" "}
+          {/* 방배정 */}
+          <Route
+            exact
+            path="/middleServer/assigTimeline"
+            render={() => (
+              <AssigTimeline houseId={selectedHouse && selectedHouse._id} />
+            )}
+          />
+          {/* 자세한 가격설정 */}
+          <Route
+            exact
+            path="/middleServer/specificPrice"
+            render={() =>
+              isEmpty(selectedHouse) ? (
+                <NoMatch />
+              ) : (
+                  <PriceTimeline houseId={selectedHouse && selectedHouse._id} />
+                )
+            }
+          />
+          {/* 방생성 */}
+          <Route
+            exact
+            path="/middleServer/timelineConfig"
+            render={() =>
+              isEmpty(selectedHouse) ? (
+                <NoMatch />
+              ) : (
+                  <ModifyTimeline houseId={selectedHouse && selectedHouse._id} />
+                )
+            }
+          />
+          {/* SMS */}
+          <Route
+            exact
+            path="/middleServer/sms"
+            render={() =>
+              isEmpty(selectedHouse) ? (
+                <NoMatch />
+              ) : (
+                  <Sms houseId={selectedHouse && selectedHouse._id} />
+                )
+            }
+          />
+          {/* 가격설정 */}
+          <Route
+            exact
+            path="/middleServer/setPrice"
+            render={() =>
+              isEmpty(selectedHouse) ? (
+                <NoMatch />
+              ) : (
+                  <SetPrice selectedHouse={selectedHouse} />
+                )
+            }
+          />
+          {/* 예약목록 */}
+          <Route
+            exact
+            path="/middleServer/resvList"
+            render={() =>
+              isEmpty(selectedHouse) ? (
+                <NoMatch />
+              ) : (
+                  <ResvList houseId={selectedHouse._id} />
+                )
+            }
+          />
+          <Route component={NoMatch} />
+        </Switch>
+      </Fragment>
+    );
 };
 
 export default compose(
-  graphql(IS_LOGGED_IN, {name: "IsLoggedIn"}),
+  graphql(IS_LOGGED_IN, { name: "IsLoggedIn" }),
   graphql(GET_USER_INFO, {
-          name: "GetUserInfo",
-    skip: ({IsLoggedIn}: any) => {
+    name: "GetUserInfo",
+    skip: ({ IsLoggedIn }: any) => {
       if (IsLoggedIn && IsLoggedIn.auth) {
         return !IsLoggedIn.auth.isLoggedIn;
       }
@@ -392,6 +286,6 @@ export default compose(
     }
   }),
   graphql(SELECTED_HOUSE, {
-          name: "selectedHouse"
-      })
-    )(JDmiddleServer);
+    name: "selectedHouse"
+  })
+)(JDmiddleServer);
