@@ -5,19 +5,21 @@ p {
   margin-bottom: 1rem;
 }
 
-ul, menu, dir {
+ul,
+menu,
+dir {
   display: block;
   list-style-type: none;
   -webkit-margin-before: 0em;
-          margin-block-start: 0em;
+  margin-block-start: 0em;
   -webkit-margin-after: 0em;
-          margin-block-end: 0em;
+  margin-block-end: 0em;
   -webkit-margin-start: 0px;
-          margin-inline-start: 0px;
+  margin-inline-start: 0px;
   -webkit-margin-end: 0px;
-          margin-inline-end: 0px;
+  margin-inline-end: 0px;
   -webkit-padding-start: 0em;
-          padding-inline-start: 0em;
+  padding-inline-start: 0em;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -107,4 +109,5 @@ body *::selection {
 html {
   overflow-y: scroll;
 }
+
 /*# sourceMappingURL=customAll.css.map */

@@ -198,6 +198,11 @@
         @include response($mobile) {
             font-size: $typho-tiny;
         }
+        
+        &--searched {
+            background-color: #FF9632;
+        }
+
         // 😲 체크인된
         &--checkIn {
             background-color: $assigItem-checkIn-color;

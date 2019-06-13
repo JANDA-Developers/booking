@@ -1,0 +1,15 @@
+@import '../../../../../style_config/style_config.scss';
+
+.layoutCard {
+    &__imgBox {
+        height: 9rem;
+        background-size: cover;
+        margin-bottom: $standard-margin-bottom;
+    }
+
+    &__bottomWrap {
+        display: flex;
+        justify-content: end;
+        flex-direction: column;
+    }
+}

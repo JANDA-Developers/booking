@@ -18,7 +18,7 @@ function SignUp({history}) {
   const phoneNumberHook = useInput("");
   const passwordHook = useInput("");
   const checkPasswordHook = useInput("");
-  const [infoAgreement, setInfoAgreement] = useRadio();
+  const [infoAgreement, setInfoAgreement] = useRadio("N");
 
   return (
     <div id="signUpPage" className="signUp container container--sm">
@@ -88,7 +88,7 @@ function SignUp({history}) {
                     toast.warn("패스워드 확인이 일치하지 않습니다.");
                     return false;
                   }
-                  if (infoAgreement) {
+                  if (infoAgreement === "N") {
                     toast.warn("정보제공 동의를 해주세요.");
                     return false;
                   }
@@ -151,6 +151,8 @@ function SignUp({history}) {
                       </div>
                       <div className="flex-grid__col col--full-12 col--md-12">
                         <Radio
+                          value="Y"
+                          selectedValue={infoAgreement}
                           onChange={setInfoAgreement}
                           label="동의"
                           checked
@@ -158,6 +160,8 @@ function SignUp({history}) {
                           groupName="Agree"
                         />
                         <Radio
+                          value="N"
+                          selectedValue={infoAgreement}
                           onChange={setInfoAgreement}
                           label="동의안함"
                           id="RD1--2"

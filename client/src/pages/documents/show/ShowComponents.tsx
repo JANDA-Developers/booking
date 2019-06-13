@@ -271,7 +271,7 @@ function ShowComponents() {
             <SearchInput
               onTypeValue={onTypeValue}
               onTypeChange={onTypeChange}
-              onSearch={onTypeChange}
+              onFindOne={onTypeChange}
               feedBackMessage="feedBackMessage"
               staticList
               dataList={searchDummyData}

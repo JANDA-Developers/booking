@@ -7,12 +7,14 @@ import "./Card.scss";
 import {IDiv} from "../../types/interface";
 
 interface IProps extends IDiv {
-  children: JSX.Element[] | JSX.Element;
+  children?: JSX.Element[] | JSX.Element;
   hoverDark?: boolean;
   className?: string;
   selected?: boolean;
   onClickCard?(): void;
 }
+
+export interface CardProps extends IProps {}
 
 const JDcard: React.FC<IProps> = ({
   children,

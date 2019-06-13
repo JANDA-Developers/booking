@@ -115,11 +115,13 @@ export function getAssigUtils(
   };
 
   // 체크인 투글함수
+  // 게스트인덱스는 쓰지않는게 좋음
   const toogleCheckInOut: TToogleCheckIn = async (
     guestId?: string,
     guestIndex?: number
   ) => {
     let target: IAssigItem = DEFAULT_ASSIG_ITEM;
+
     if (guestIndex !== undefined) {
       target = guestValue[guestIndex];
     } else if (guestId) {
@@ -140,7 +142,7 @@ export function getAssigUtils(
 
     // 아폴로 통신 성공
     if (result && result.data) {
-      const message = !guestValue[target.guestIndex].isCheckin
+      const message = guestValue[target.guestIndex].isCheckin
         ? "체크아웃"
         : "체크인";
       onCompletedMessage(result.data.UpdateBooking, message, "실패");
@@ -168,6 +170,7 @@ export function getAssigUtils(
     $("#canvasMenu").removeClass("canvasMenu--show");
     $("#makeMenu").removeClass("makeMenu--show");
     $("#itemTooltip").removeClass("itemTooltip--show");
+    $(".assigItem--searched").removeClass("assigItem--searched");
   };
 
   // 유틸 두게스트의 충돌시간 구해줌 없다면 false를 반환함

@@ -81,7 +81,7 @@ const SideNav: React.FC<IProps> = ({
       disabled: !isHaveProduct
     },
     {
-      to: "/middleServer/makeHouse",
+      to: "/middleServer/config",
       icon: "config",
       label: "환경설정",
       disabled: !isHaveProduct

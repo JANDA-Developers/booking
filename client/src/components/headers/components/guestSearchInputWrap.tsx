@@ -4,7 +4,12 @@ import {queryDataFormater, showError, isEmpty} from "../../../utils/utils";
 import {GET_BOOKING, GET_BOOKINGS} from "../../../queries";
 import {Query} from "react-apollo";
 import {getBookings, getBookingsVariables} from "../../../types/api";
-import {isName, isPhone, isYYYYMMDD} from "../../../utils/inputValidations";
+import {
+  isName,
+  isPhone,
+  isYYYYMMDD,
+  isNumberMinMax
+} from "../../../utils/inputValidations";
 
 class GetBookingsQuery extends Query<getBookings, getBookingsVariables> {}
 
@@ -16,9 +21,10 @@ const GuestSearchInputWrap: React.FC<IProps> = ({houseId}) => {
   const [onTypeValue, onTypeChange] = useState<string>("");
 
   const searchFilterMaker = (value: string) => {
+    const isPhoneNumber = isNumberMinMax(value, 4, 11);
     return {
-      phoneNumnber: isPhone(value) ? value : undefined,
-      name: !isPhone(value) && !isYYYYMMDD(value) ? value : undefined,
+      phoneNumnber: isPhoneNumber ? value : undefined,
+      name: !isPhoneNumber && !isYYYYMMDD(value) ? value : undefined,
       stayDate: isYYYYMMDD(value) ? value : undefined,
       createdAt: undefined
     };
@@ -46,13 +52,6 @@ const GuestSearchInputWrap: React.FC<IProps> = ({houseId}) => {
           "bookings",
           undefined
         );
-        console.log({
-          houseId,
-          count: 10,
-          page: 1,
-          filter: filter
-        });
-        console.log(bookings);
 
         return (
           <GuestSearchInput

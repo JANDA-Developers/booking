@@ -2,7 +2,7 @@ import React, {Fragment} from "react";
 import PropTypes from "prop-types";
 import "./Ready.scss";
 import {
-  getHouse_GetHouse_house_hostApplication,
+  getHouse_GetHouse_house_appInfo,
   getHouse_GetHouse_house_product
 } from "../../types/api";
 import {IHouse} from "../../types/interface";

@@ -6,18 +6,18 @@ import outdatedBrowserRework from 'outdated-browser-rework';
 
 const OLD_BROWSER_CONFIG = {
   browserSupport: {
-    Chrome: 57, // Includes Chrome for mobile devices
-    Edge: 39,
-    Safari: 10,
-    'Mobile Safari': 10,
-    Firefox: 50,
-    Opera: 50,
-    Vivaldi: 1,
-    // You could specify minor version too for those browsers that need it.
-    Yandex: { major: 17, minor: 10 },
-    // You could specify a version here if you still support IE in 2017.
-    // You could also instead seriously consider what you're doing with your time and budget
-    IE: false,
+    'Chrome': 57, // Includes Chrome for mobile devices
+		'Edge': 39,
+		'Safari': 10,
+		'Mobile Safari': 10,
+		'Firefox': 50,
+		'Opera': 50,
+		'Vivaldi': 1,
+		// You could specify minor version too for those browsers that need it.
+		'Yandex': { major: 17, minor: 10 },
+		// You could specify a version here if you still support IE in 2017.
+		// You could also instead seriously consider what you're doing with your time and budget
+		'IE': false
   },
   requireChromeOnAndroid: false,
   isUnknownBrowserOK: false,
