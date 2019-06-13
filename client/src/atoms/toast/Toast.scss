@@ -1,6 +1,16 @@
 @import '../../style_config/style_config.scss';
 
 @keyframes Toastify__trackProgress {
+  0% {
+    transform: scaleX(1);
+  }
+  100% {
+    transform: scaleX(0);
+  }
+}
+
+.Toastify__progress-bar {
+  animation: Toastify__trackProgress linear 1;
 }
 
 @keyframes zoomIn {
