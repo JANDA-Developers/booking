@@ -82,7 +82,11 @@ export const extractHouse = async (
                 transformProduct,
                 house.product
             ),
-            smsInfo: transformSmsInfo.bind(transformSmsInfo, house.smsInfo)
+            smsInfo: transformSmsInfo.bind(transformSmsInfo, house.smsInfo),
+            roomTypes: transformRoomTypes.bind(
+                transformRoomTypes,
+                house.roomTypes
+            )
         };
     } catch (error) {
         throw error;
