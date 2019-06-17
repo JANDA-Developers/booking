@@ -74,9 +74,9 @@ export const extractHouse = async (
         return {
             ...extracted._doc,
             _id: extracted._doc._id.toString(),
-            user: await extractUser.bind(
-                extractUser,
-                await UserModel.findById(house.user)
+            user: await transformUser.bind(
+                transformUser,
+                house.user
             ),
             product: await transformProduct.bind(
                 transformProduct,
