@@ -450,6 +450,7 @@ export const GET_HOUSE = gql`
           address
           addressDetail
         }
+        publicKey
         createdAt
         updatedAt
       }

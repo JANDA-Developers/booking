@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, {useState} from "react";
-import {Query, Mutation} from "react-apollo";
+import React, { useState } from "react";
+import { Query, Mutation } from "react-apollo";
 import moment from "moment-timezone";
 import _ from "lodash";
 import assigDefaultProps from "./timelineConfig";
@@ -20,8 +20,8 @@ import {
   createBlock,
   createBlockVariables
 } from "../../../types/api";
-import {useToggle, useDayPicker} from "../../../actions/hook";
-import {IRoomType, IGuests, IBlock} from "../../../types/interface";
+import { useToggle, useDayPicker } from "../../../actions/hook";
+import { IRoomType, IGuests, IBlock } from "../../../types/interface";
 import {
   isEmpty,
   setMidNight,
@@ -46,10 +46,10 @@ import {
   CREATE_BLOCK
 } from "../../../queries";
 import AssigTimeline from "./AssigTimeline";
-import {setYYYYMMDD, parallax} from "../../../utils/setMidNight";
-import {roomDataManufacture} from "./components/groupDataMenufacture";
-import reactWindowSize, {WindowSizeProps} from "react-window-size";
-import {DEFAULT_ASSIG_ITEM} from "../../../types/defaults";
+import { setYYYYMMDD, parallax } from "../../../utils/setMidNight";
+import { roomDataManufacture } from "./components/groupDataMenufacture";
+import reactWindowSize, { WindowSizeProps } from "react-window-size";
+import { DEFAULT_ASSIG_ITEM } from "../../../types/defaults";
 import {
   IAssigMutationes,
   IAssigItem,
@@ -217,7 +217,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
         bookingStatus: BookingStatus.COMPLETE
       }}
     >
-      {({data, loading, error}) => {
+      {({ data, loading, error }) => {
         showError(error);
         const roomTypesData = queryDataFormater(
           data,
@@ -248,10 +248,10 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
 
         return (
           <AllocateGuestToRoomMu
-            onCompleted={({AllocateGuestToRoom}) => {
+            onCompleted={({ AllocateGuestToRoom }) => {
               onCompletedMessage(AllocateGuestToRoom, "배정완료", "배정실패");
             }}
-            update={(cache, {data: inData}) => {
+            update={(cache, { data: inData }) => {
               const cacheData: getAllRoomTypeWithGuest | null = cache.readQuery(
                 {
                   query: GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM,
@@ -290,7 +290,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
               <UpdateBookingMu mutation={UPDATE_BOOKING} onError={showError}>
                 {updateBookingMu => (
                   <DeleteGuestMu
-                    onCompleted={({DeleteGuests}) => {
+                    onCompleted={({ DeleteGuests }) => {
                       onCompletedMessage(DeleteGuests, "삭제완료", "삭제실패");
                     }}
                     mutation={DELETE_GUEST}
@@ -299,7 +299,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                     {deleteGuestMu => (
                       <CreateBlockMu
                         onError={showError}
-                        onCompleted={({CreateBlock}) => {
+                        onCompleted={({ CreateBlock }) => {
                           onCompletedMessage(
                             CreateBlock,
                             "방막기 완료",
@@ -311,7 +311,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                         {createBlockMu => (
                           <DeleteBlockMu
                             onError={showError}
-                            onCompleted={({DeleteBlock}) => {
+                            onCompleted={({ DeleteBlock }) => {
                               onCompletedMessage(
                                 DeleteBlock,
                                 "방막기 해제",
@@ -345,9 +345,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                                   windowHeight={windowHeight}
                                   windowWidth={windowWidth}
                                   dataTime={dataTime}
-                                  key={`timeline${dayPickerHook.from}${
-                                    dayPickerHook.to
-                                  }`}
+                                  key={`timeline${dayPickerHook.from}${dayPickerHook.to}`}
                                 />
                               );
                             }}

@@ -1,15 +1,15 @@
-import React, {Fragment} from "react";
-import {NavLink, Link} from "react-router-dom";
-import PropTypes, {string} from "prop-types";
+import React, { Fragment } from "react";
+import { NavLink, Link } from "react-router-dom";
+import PropTypes, { string } from "prop-types";
 import "./SideNav.scss";
 import classNames from "classnames";
 import ErrProtecter from "../../utils/errProtect";
-import Icon, {IIcons} from "../../atoms/icons/Icons";
+import Icon, { IIcons } from "../../atoms/icons/Icons";
 import Button from "../../atoms/button/Button";
 import ProfileCircle from "../../atoms/profileCircle/ProfileCircle";
 import SelectHouseWrap from "../selectHouse/SelectHouseWrap";
-import {IUser, IProduct, IHouse} from "../../types/interface";
-import {isEmpty} from "../../utils/utils";
+import { IUser, IProduct, IHouse } from "../../types/interface";
+import { isEmpty } from "../../utils/utils";
 
 interface IProps {
   isOpen: boolean;
@@ -77,7 +77,7 @@ const SideNav: React.FC<IProps> = ({
     {
       to: "/middleServer/timelineConfig",
       icon: "roomChange",
-      label: "방구조변경",
+      label: "방 설정",
       disabled: !isHaveProduct
     },
     // {
@@ -111,6 +111,9 @@ const SideNav: React.FC<IProps> = ({
     disabled: boolean
   ) => {
     if (disabled) e.preventDefault();
+    else {
+      handleCurtainClick();
+    }
   };
 
   const sortedMenus = menues.sort((menu, menu2) => {

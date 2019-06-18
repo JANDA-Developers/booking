@@ -1,16 +1,16 @@
-import React, {Fragment} from "react";
-import {toast} from "react-toastify";
-import {MutationFn} from "react-apollo";
+import React, { Fragment } from "react";
+import { toast } from "react-toastify";
+import { MutationFn } from "react-apollo";
 import Modal from "../../../../atoms/modal/Modal";
 import Button from "../../../../atoms/button/Button";
-import {IUseModal} from "../../../../actions/hook";
-import {IHouse} from "../../../../types/interface";
+import { IUseModal } from "../../../../actions/hook";
+import { IHouse } from "../../../../types/interface";
 import Preloader from "../../../../atoms/preloader/Preloader";
-import {getHouse_GetHouse_house} from "../../../../types/api";
-import {PricingType} from "../../../../types/enum";
+import { getHouse_GetHouse_house } from "../../../../types/api";
+import { PricingType } from "../../../../types/enum";
 import JDIcon from "../../../../atoms/icons/Icons";
 import moment from "moment";
-import {isEmpty} from "../../../../utils/utils";
+import { isEmpty } from "../../../../utils/utils";
 
 interface IProps {
   modalHook: IUseModal;
@@ -63,6 +63,12 @@ const MyHouseModal: React.SFC<IProps> = ({
             </p>
             <p>도미토리: {roomCountDomitory}</p>
             <p>방: {roomCountRoom}</p>
+            <p>
+              Key:{" "}
+              {house.product !== null && house.product.name !== "상품1"
+                ? `https://app.stayjanda.com/outpage/reservation/${house.publicKey}`
+                : "상품을 구매해주세요"}
+            </p>
           </Fragment>
         )}
       </Fragment>
