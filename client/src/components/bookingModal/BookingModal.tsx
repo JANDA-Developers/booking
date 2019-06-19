@@ -112,7 +112,7 @@ const POPbookingInfo: React.FC<IProps> = ({
 
   const handleIconClick = () => {
     if (!bookingPhoneHook.isValid) {
-      toast.warn("올바른 핸드폰 번호가 아닙니다.");
+      toast.warn("올바른 휴대폰 번호가 아닙니다.");
       return;
     }
     sendSmsModalHook.openModal({

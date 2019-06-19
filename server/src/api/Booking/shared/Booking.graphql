@@ -58,7 +58,7 @@ input BookerInput {
     house: ID
     name: Name!
     password: String!
-    phoneNumber: PhoneNumber!
+    phoneNumber: String!
     email: EmailAddress
     agreePrivacyPolicy: Boolean!
     price: Float!

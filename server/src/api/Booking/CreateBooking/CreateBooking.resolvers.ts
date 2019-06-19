@@ -22,7 +22,7 @@ import {
 } from "../../../utils/etc";
 
 import { Context } from "graphql-yoga/dist/types";
-import * as _ from "lodash";
+import _ from "lodash";
 import { HouseSchema } from "../../../models/House";
 import { SmsInfoModel } from "../../../models/SmsInfo";
 import { removeUndefined } from "../../../utils/objFuncs";
@@ -93,6 +93,7 @@ const createbooking = async (
         bookingInstance.guests = [];
         let flag = true;
         const guests: Array<InstanceType<GuestSchema>> = [];
+        const roomTypeNames: string[] = [];
         await asyncForEach(
             guestInputs,
             async ({
@@ -107,6 +108,7 @@ const createbooking = async (
                 if (!roomTypeInstance) {
                     throw new Error("방타입이 없을리가 없다.");
                 }
+                roomTypeNames.push(roomTypeInstance.name);
                 const roomTypeCapacity = await roomTypeInstance.getCapacity(
                     start,
                     end
@@ -214,6 +216,11 @@ const createbooking = async (
         //      SmsInfo.getSmsTemplate 함수 호출
         // 2. 메시지 변수 치환.
         // 3. 메시지 전송
+        const roomTypeNCountFormat = `${roomTypeNames[0]}${
+            roomTypeNames.length !== 1
+                ? " 외 " + (roomTypeNames.length - 1) + "개"
+                : ""
+        }/${bookingInstance.guestCount}명`;
         if (sendSmsFlag) {
             const smsInfo = await SmsInfoModel.findOne({
                 house: new Types.ObjectId(houseId)
@@ -224,8 +231,8 @@ const createbooking = async (
                     smsInfo.receivers.join("|"),
                     {
                         BOOKERNAME: bookerParams.name,
-                        ROOMTYPE_N_COUNT: "",
-                        TOTALPRICE: digitsComma(bookerParams.price) + "₩",
+                        ROOMTYPE_N_COUNT: roomTypeNCountFormat,
+                        TOTALPRICE: digitsComma(bookerParams.price) + "원",
                         STAYDATE_YMD: `${transDateToString(
                             start,
                             "YMD"
