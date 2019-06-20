@@ -9,20 +9,22 @@ import {
     queryDataFormater,
     onCompletedMessage
 } from "../../../utils/utils";
-import { FIND_BOOKING } from "../../../queries";
+import { FIND_BOOKING_FOR_BOOKER } from "../../../queries";
 import { findBookingVariables } from "../../../types/api";
 
 export interface ICheckParams {
+    publickey: string;
     name?: string;
     password?: string;
     phoneNumber?: string;
-    houseId: string;
 }
 
 interface IProps extends RouteComponentProps<ICheckParams> {}
 
 // 하우스 아이디를 우선 Props를 통해서 받아야함
 const CheckReservationWrap: React.FC<IProps> = ({ match }) => {
+    localStorage.setItem("hpk", match.params.publickey);
+
     const defaultBookingInfo = {
         name: match.params.name,
         password: match.params.password,
@@ -35,7 +37,7 @@ const CheckReservationWrap: React.FC<IProps> = ({ match }) => {
                     bookingInfo: findBookingVariables
                 ) => {
                     const { data: bookingData } = await client.query({
-                        query: FIND_BOOKING,
+                        query: FIND_BOOKING_FOR_BOOKER,
                         variables: {
                             name: bookingInfo.name,
                             // :TODO 다음수정
@@ -43,9 +45,8 @@ const CheckReservationWrap: React.FC<IProps> = ({ match }) => {
                             phoneNumber: bookingInfo.phoneNumber
                         }
                     });
-
                     onCompletedMessage(
-                        bookingData.FindBooking,
+                        bookingData.FindBookingForBooker,
                         "조회성공",
                         "조회실패"
                     );
