@@ -1,4 +1,4 @@
-import * as _ from "lodash";
+import _ from "lodash";
 export const removeUndefined = (obj: object) => {
     return _.pickBy(obj, _.identity);
 };

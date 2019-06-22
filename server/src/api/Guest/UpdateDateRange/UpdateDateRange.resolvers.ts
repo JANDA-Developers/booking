@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { bookingModel } from "../../../models/Booking";
+import { BookingModel } from "../../../models/Booking";
 import {
     UpdateDateRangeMutationArgs,
     UpdateDateRangeResponse
@@ -15,7 +15,7 @@ const resolvers: Resolvers = {
                 { bookingId, dateRange }: UpdateDateRangeMutationArgs
             ): Promise<UpdateDateRangeResponse> => {
                 try {
-                    const bookingInstance = await bookingModel.findById(
+                    const bookingInstance = await BookingModel.findById(
                         bookingId
                     );
                     if (!bookingInstance) {

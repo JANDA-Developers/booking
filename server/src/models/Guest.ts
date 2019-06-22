@@ -13,7 +13,7 @@ import {
     IsSettleable,
     PricingType
 } from "../types/graph";
-import { bookingModel } from "./Booking";
+import { BookingModel } from "./Booking";
 
 enum GenderEnum {
     MALE = "MALE",
@@ -147,7 +147,7 @@ export class GuestSchema extends Typegoose {
 
     @instanceMethod
     async unlinkWithbooking(this: InstanceType<GuestSchema>) {
-        const bookingInstance = await bookingModel.updateOne(
+        const bookingInstance = await BookingModel.updateOne(
             {
                 _id: this.booking
             },

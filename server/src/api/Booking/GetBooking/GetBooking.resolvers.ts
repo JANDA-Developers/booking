@@ -1,4 +1,4 @@
-import { bookingModel } from "../../../models/Booking";
+import { BookingModel } from "../../../models/Booking";
 import { extractbooking } from "../../../models/merge/merge";
 import { GetBookingQueryArgs, GetBookingResponse } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
@@ -12,7 +12,7 @@ const resolvers: Resolvers = {
                 { bookingId }: GetBookingQueryArgs
             ): Promise<GetBookingResponse> => {
                 try {
-                    const existingbooking = await bookingModel.findById(
+                    const existingbooking = await BookingModel.findById(
                         bookingId
                     );
                     if (!existingbooking) {

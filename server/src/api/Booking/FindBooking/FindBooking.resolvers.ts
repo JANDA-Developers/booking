@@ -2,7 +2,7 @@ import { Context } from "graphql-yoga/dist/types";
 import * as _ from "lodash";
 import { Types } from "mongoose";
 import { InstanceType } from "typegoose";
-import { bookingModel, BookingSchema } from "../../../models/Booking";
+import { BookingModel, BookingSchema } from "../../../models/Booking";
 import { HouseSchema } from "../../../models/House";
 import { extractbookings } from "../../../models/merge/merge";
 import {
@@ -49,7 +49,7 @@ const findbooking = async ({
     phoneNumber
 }: FindBookingQueryArgs) => {
     try {
-        const bookings = await bookingModel.find({
+        const bookings = await BookingModel.find({
             name,
             phoneNumber,
             house: houseId && new Types.ObjectId(houseId)

@@ -44,6 +44,9 @@ export class HouseSchema extends Typegoose {
     @prop({ required: true })
     user: Types.ObjectId;
 
+    @prop({ default: [] })
+    agencies: Types.ObjectId[];
+
     @prop({ required: true })
     smsInfo: Types.ObjectId;
 

@@ -11,6 +11,7 @@ import { UserRole } from "../types/graph";
 
 export enum UserRoleEnum {
     ADMIN = "ADMIN",
+    AGENCY = "AGENCY",
     HOST = "HOST",
     booking = "booking",
     GHOST = "GHOST"
@@ -36,8 +37,11 @@ export class UserSchema extends Typegoose {
     @prop({ default: false })
     isEmailVerified: boolean;
 
-    @prop({ enum: UserRoleEnum, default: UserRoleEnum.GHOST })
+    @prop({ enum: UserRoleEnum, default: UserRoleEnum.HOST })
     userRole: UserRole;
+
+    @prop({ default: [UserRoleEnum.HOST] })
+    userRoles: UserRole[];
 
     @prop()
     profileImg: string;
@@ -47,6 +51,9 @@ export class UserSchema extends Typegoose {
 
     @arrayProp({ items: Types.ObjectId, default: [] })
     houses: Types.ObjectId[];
+
+    @arrayProp({ items: Types.ObjectId, default: [] })
+    consignedHouses: Types.ObjectId[];
 
     @prop()
     createdAt: Date;

@@ -19,7 +19,7 @@ import {
 } from "../../types/graph";
 import { applyDaysToBinaryString } from "../../utils/applyDays";
 import { BlockSchema } from "../Block";
-import { bookingModel, BookingSchema } from "../Booking";
+import { BookingModel, BookingSchema } from "../Booking";
 import { GuestModel, GuestSchema } from "../Guest";
 import { HouseModel, HouseSchema } from "../House";
 import { HouseConfigSchema } from "../HouseConfig";
@@ -527,7 +527,7 @@ export const extractbooking = async (
 export const transformbooking = async (
     bookingId: string | Types.ObjectId
 ): Promise<Booking | null> => {
-    const bookingInstance = await bookingModel.findById(bookingId);
+    const bookingInstance = await BookingModel.findById(bookingId);
     if (bookingInstance) {
         return await extractbooking(bookingInstance);
     } else {

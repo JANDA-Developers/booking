@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
 import { InstanceType } from "typegoose";
-import { bookingModel, BookingSchema } from "../../../models/Booking";
+import { BookingModel, BookingSchema } from "../../../models/Booking";
 import { GuestModel, GuestSchema } from "../../../models/Guest";
 import { extractbooking } from "../../../models/merge/merge";
 import {
@@ -79,7 +79,7 @@ const createbooking = async (
     try {
         // 1. booking prototype 생성
         // 2. guestInputs 돌면서... roomType 별로 게스트 생성.
-        const bookingInstance = new bookingModel(
+        const bookingInstance = new BookingModel(
             removeUndefined({
                 ...bookerParams,
                 start,

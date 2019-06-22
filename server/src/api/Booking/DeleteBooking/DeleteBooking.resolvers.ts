@@ -1,4 +1,4 @@
-import { bookingModel } from "../../../models/Booking";
+import { BookingModel } from "../../../models/Booking";
 import {
     DeleteBookingMutationArgs,
     DeleteBookingResponse
@@ -13,7 +13,7 @@ const resolvers: Resolvers = {
                 _,
                 { bookingId }: DeleteBookingMutationArgs
             ): Promise<DeleteBookingResponse> => {
-                const bookingInstance = await bookingModel.findById(bookingId);
+                const bookingInstance = await BookingModel.findById(bookingId);
                 if (!bookingInstance) {
                     return {
                         ok: false,

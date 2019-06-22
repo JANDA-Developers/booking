@@ -13,6 +13,7 @@ import {
     PaymentStatus,
     PayMethod
 } from "../types/graph";
+import { bookingIdGen } from "../utils/uuidgen";
 import { GuestModel, GuestSchema } from "./Guest";
 import { RoomTypeSchema } from "./RoomType";
 
@@ -58,6 +59,11 @@ export class BookingSchema extends Typegoose {
 
     @prop({ required: true, index: true })
     email: string;
+
+    @prop({
+        default: bookingIdGen
+    })
+    bookingId: string;
 
     @prop({
         default(): CheckIn {
@@ -206,7 +212,7 @@ export class BookingSchema extends Typegoose {
     }
 }
 
-export const bookingModel = new BookingSchema().getModelForClass(
+export const BookingModel = new BookingSchema().getModelForClass(
     BookingSchema,
     {
         schemaOptions: {

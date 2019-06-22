@@ -20,12 +20,16 @@ const resolvers: Resolvers = {
             ): Promise<GetHouseResponse> => {
                 try {
                     const { user } = req;
-                    const { userRole }: { userRole: UserRole } = user;
+                    const {
+                        userRole,
+                        userRoles
+                    }: { userRole: UserRole; userRoles: UserRole[] } = user;
                     const house = await HouseModel.findOne(
                         removeUndefined({
                             _id: new Types.ObjectId(houseId),
                             user:
-                                userRole === "ADMIN"
+                                userRole === "ADMIN" ||
+                                userRoles.includes("ADMIN")
                                     ? undefined
                                     : new Types.ObjectId(user._id)
                         })

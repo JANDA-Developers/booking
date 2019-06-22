@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { bookingModel } from "../../../models/Booking";
+import { BookingModel } from "../../../models/Booking";
 import { HouseModel } from "../../../models/House";
 import { transformGuests } from "../../../models/merge/merge";
 import { GetGuestsQueryArgs, GetGuestsResponse } from "../../../types/graph";
@@ -23,7 +23,7 @@ const resolvers: Resolvers = {
                             guests: []
                         };
                     }
-                    const bookings = await bookingModel.find(
+                    const bookings = await BookingModel.find(
                         removeUndefined({
                             house: new Types.ObjectId(houseId),
                             start: {

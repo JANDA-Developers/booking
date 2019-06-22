@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { bookingModel } from "../../../models/Booking";
+import { BookingModel } from "../../../models/Booking";
 import { extractbookings } from "../../../models/merge/merge";
 import {
     GetBookingsQueryArgs,
@@ -53,14 +53,14 @@ const resolvers: Resolvers = {
 
                     console.log(filterQuery);
 
-                    const bookings = await bookingModel
+                    const bookings = await BookingModel
                         .find(removeUndefined(filterQuery))
                         .sort({ createdAt: -1 })
                         .skip((p - 1) * c)
                         .limit(c);
 
                     const totalPage = Math.ceil(
-                        (await bookingModel.countDocuments()) / c
+                        (await BookingModel.countDocuments()) / c
                     );
                     // 필터 추가 ㄱㄱ
                     return {

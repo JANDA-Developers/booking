@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
 import { InstanceType } from "typegoose";
-import { bookingModel, BookingSchema } from "../../../models/Booking";
+import { BookingModel, BookingSchema } from "../../../models/Booking";
 import { GuestModel } from "../../../models/Guest";
 import { extractbooking } from "../../../models/merge/merge";
 import { SmsInfoModel } from "../../../models/SmsInfo";
@@ -24,7 +24,7 @@ const resolvers: Resolvers = {
                     let bookingInstance:
                         | InstanceType<BookingSchema>
                         | undefined =
-                        (await bookingModel.findById(bookingId)) || undefined;
+                        (await BookingModel.findById(bookingId)) || undefined;
                     if (!bookingInstance) {
                         return {
                             ok: false,
@@ -43,7 +43,7 @@ const resolvers: Resolvers = {
                             booking: null
                         };
                     }
-                    await bookingModel.findOneAndUpdate(
+                    await BookingModel.findOneAndUpdate(
                         { _id: new Types.ObjectId(bookingId) },
                         {
                             $set: { ...params }
