@@ -60,7 +60,6 @@ const getAvailableGuestCount = async (
             };
         }
         const roomCapacity = await roomType.getCapacity(start, end);
-        console.log(roomCapacity);
         const temp = addPadding(
             roomCapacity,
             gender === "FEMALE" ? "MALE" : "FEMALE",

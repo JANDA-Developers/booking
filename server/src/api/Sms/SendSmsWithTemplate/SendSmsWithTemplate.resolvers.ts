@@ -1,4 +1,5 @@
 import { Types } from "mongoose";
+import { SmsHistorySchema } from "../../../models/SmsHistory";
 import { SmsInfoModel } from "../../../models/SmsInfo";
 import {
     SendSmsWithTemplateMutationArgs,
@@ -57,8 +58,8 @@ const resolvers: Resolvers = {
                             STAYDATE: params.stayDate || "",
                             STAYDATE_YMD: params.stayDateYMD || "",
                             TOTALPRICE: digitsComma(params.totalPrice || 0),
-                            PAYMETHOD: "", // TODO
-                            PAYMENTSTATUS: ""
+                            PAYMETHOD: params.paymethod || undefined, // TODO
+                            PAYMENTSTATUS: params.paymentStatus || undefined
                         }
                     );
                     const sendResult = await sendSMS(
@@ -66,6 +67,18 @@ const resolvers: Resolvers = {
                         msg,
                         smsInfo.sender.phoneNumber
                     );
+                    if (sendResult.ok) {
+                        const history = SmsHistorySchema.createHistory(
+                            new Types.ObjectId(smsInfo.id),
+                            {
+                                msg,
+                                receivers: receiver,
+                                sendResult: true,
+                                sender: smsInfo.sender.phoneNumber
+                            }
+                        );
+                        await history.save();
+                    }
                     return {
                         ...sendResult
                     };

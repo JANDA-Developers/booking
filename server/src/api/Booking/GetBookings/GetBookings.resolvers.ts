@@ -50,19 +50,25 @@ const resolvers: Resolvers = {
                                 new RegExp(filter.phoneNumnber, "i")) ||
                             undefined;
                     }
-
-                    console.log(filterQuery);
-
-                    const bookings = await BookingModel
-                        .find(removeUndefined(filterQuery))
+                    const bookings = await BookingModel.find(
+                        removeUndefined(filterQuery)
+                    )
                         .sort({ createdAt: -1 })
                         .skip((p - 1) * c)
                         .limit(c);
 
-                    const totalPage = Math.ceil(
-                        (await BookingModel.countDocuments()) / c
+                    const tt = await BookingModel.countDocuments(
+                        removeUndefined(filterQuery)
                     );
+                    const totalPage = Math.ceil(tt / c);
                     // 필터 추가 ㄱㄱ
+
+                    console.log({
+                        totalPage,
+                        tt,
+                        c
+                    });
+
                     return {
                         ok: true,
                         error: null,

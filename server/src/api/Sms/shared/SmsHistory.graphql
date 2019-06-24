@@ -1,0 +1,10 @@
+type SmsHistory {
+    _id: ID!
+    smsInfo: SmsInfo!
+    msg: String!
+    sender: String!
+    receivers: [String!]
+    sendResult: Boolean!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}

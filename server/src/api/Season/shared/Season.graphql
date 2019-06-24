@@ -6,6 +6,8 @@ type Season {
     end: DateTime!
     priority: Int!
     color: String
+    # 해당 시즌에 "Agency" 및 "Host"가 설정할 수 있는 가격의 최소값
+    minPrice: Float!
     description: String
     createdAt: DateTime!
     updatedAt: DateTime

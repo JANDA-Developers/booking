@@ -34,3 +34,7 @@ export const transDateToString = (date: Date, type: "YMD" | "MD"): string => {
     };
     return `${type === "YMD" ? date.getFullYear() + ". " : ""}${m}.${d}`;
 };
+
+export const padStr = (target: string, pad: number, str: string): string => {
+    return target.padStart(pad, str);
+};

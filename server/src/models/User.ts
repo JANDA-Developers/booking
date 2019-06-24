@@ -8,6 +8,7 @@ import {
     Typegoose
 } from "typegoose";
 import { UserRole } from "../types/graph";
+import { agencyIdGen } from "../utils/uuidgen";
 
 export enum UserRoleEnum {
     ADMIN = "ADMIN",
@@ -19,6 +20,9 @@ export enum UserRoleEnum {
 const BCRYPT_ROUNDS = 10;
 
 export class UserSchema extends Typegoose {
+    @prop({ default: null })
+    agencyId: string;
+
     @prop({ required: [true, `Name is missing`] })
     name: string;
 
@@ -78,6 +82,13 @@ export class UserSchema extends Typegoose {
         if (this.password) {
             this.password = await bcrypt.hash(this.password, BCRYPT_ROUNDS);
         }
+    }
+
+    @instanceMethod
+    public async makeAgencyId(this: InstanceType<UserSchema>): Promise<string> {
+        this.agencyId = agencyIdGen();
+        await this.save();
+        return this.agencyId;
     }
 }
 

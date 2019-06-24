@@ -17,4 +17,6 @@ input SendSmsWithTemplateParams {
     roomTypeNCount: String
     bookerName: String
     totalPrice: Float
+    paymethod: PayMethod
+    paymentStatus: PaymentStatus
 }

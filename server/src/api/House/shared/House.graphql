@@ -4,6 +4,7 @@ type House {
     houseType: HouseType!
     product: Product
     user: User!
+    agencies: [User!]
     smsInfo: SmsInfo!
     location: Location!
     refundPolicy: [TermsOfRefund!]!

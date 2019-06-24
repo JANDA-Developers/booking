@@ -1,5 +1,6 @@
 type Booking {
     _id: ID!
+    bookingId: String!
     house: House!
     roomTypes: [RoomType!]
     name: Name!

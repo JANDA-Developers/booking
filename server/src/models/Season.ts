@@ -41,6 +41,9 @@ export class SeasonSchema extends Typegoose {
     @prop({ required: true })
     house: Types.ObjectId;
 
+    @prop({ default: 0 })
+    minPrice: number;
+
     @prop()
     createdAt: Date;
 

@@ -1,5 +1,6 @@
 import { Types } from "mongoose";
 import { RoomTypeModel } from "../models/RoomType";
+import { UserRoleEnum } from "../models/User";
 
 export const privateResolver = resolverFunction => async (
     parent,
@@ -30,7 +31,10 @@ export const privateRoomTypeExistCheckResolver = resolverFunction =>
 export const privateResolverForSU = resolverFunction =>
     privateResolver(async (parent, args, context, info) => {
         const user = context.req.user;
-        if (user.userRole !== "ADMIN") {
+        if (
+            user.userRole !== UserRoleEnum.ADMIN &&
+            !user.userRoles.includes(UserRoleEnum.ADMIN)
+        ) {
             return {
                 ok: false,
                 error: "You are not SuperUser",
@@ -40,17 +44,6 @@ export const privateResolverForSU = resolverFunction =>
         return await resolverFunction(parent, args, context, info);
     });
 
-export const privateResolverForHostApp = resolverFunction => async (
-    parent,
-    args,
-    context,
-    info
-) => {
-    if (!context.req.house) {
-        throw new Error("Unauthorized House");
-    }
-    return await resolverFunction(parent, args, context, info);
-};
 export const privateResolverForPublicAccess = resolverFunction => async (
     parent,
     args,
@@ -62,3 +55,20 @@ export const privateResolverForPublicAccess = resolverFunction => async (
     }
     return await resolverFunction(parent, args, context, info);
 };
+
+// TODO 여기부터 ㄱㄱ
+export const privateResolverForHost = resolverFunction =>
+    privateResolver(async (parent, args, context, info) => {
+        const user = context.req.user;
+        if (
+            user.userRole !== UserRoleEnum.HOST &&
+            !user.userRoles.includes(UserRoleEnum.HOST)
+        ) {
+            return {
+                ok: false,
+                error: "You are not SuperUser",
+                result: null
+            };
+        } // SuperUser 인증
+        return await resolverFunction(parent, args, context, info);
+    });

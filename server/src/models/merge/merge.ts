@@ -14,6 +14,7 @@ import {
     RoomTypeWithCapacity,
     Season,
     SeasonPrice,
+    SmsHistory,
     SmsInfo,
     User
 } from "../../types/graph";
@@ -30,6 +31,7 @@ import { RoomPriceSchema } from "../RoomPrice";
 import { RoomTypeModel, RoomTypeSchema } from "../RoomType";
 import { SeasonModel, SeasonSchema } from "../Season";
 import { SeasonPriceModel, SeasonPriceSchema } from "../SeasonPrice";
+import { SmsHistorySchema } from "../SmsHistory";
 import { SmsInfoModel, SmsInfoSchema } from "../SmsInfo";
 import { UserModel, UserSchema } from "../User";
 
@@ -74,10 +76,7 @@ export const extractHouse = async (
         return {
             ...extracted._doc,
             _id: extracted._doc._id.toString(),
-            user: await transformUser.bind(
-                transformUser,
-                house.user
-            ),
+            user: await transformUser.bind(transformUser, house.user),
             product: await transformProduct.bind(
                 transformProduct,
                 house.product
@@ -505,10 +504,6 @@ export const extractbooking = async (
     const result: any = {
         ...bookingInstance
     };
-    console.log({
-        result
-    });
-
     return {
         ...result._doc,
         _id: bookingInstance._id,
@@ -640,4 +635,27 @@ export const extractHouseConfig = async (
         ...houseConfig,
         house: transformHouse.bind(transformHouse, houseConfig.house)
     };
+};
+
+export const extractSmsHistory = async (
+    smsHistoryInstance: InstanceType<SmsHistorySchema>
+): Promise<SmsHistory> => {
+    return {
+        ...(smsHistoryInstance as any)._doc,
+        smsInfo: await transformSmsInfo.bind(
+            transformSmsInfo,
+            smsHistoryInstance.smsInfo
+        )
+    };
+};
+
+export const extractSmsHistories = async (
+    smsHistoryInstances: Array<InstanceType<SmsHistorySchema>>
+): Promise<SmsHistory[]> => {
+    const result: SmsHistory[] = await Promise.all(
+        await smsHistoryInstances.map(async smsHistoryInstance => {
+            return extractSmsHistory(smsHistoryInstance);
+        })
+    );
+    return result;
 };
