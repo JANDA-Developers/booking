@@ -19,7 +19,8 @@ import {
   UPDATE_ROOM,
   UPDATE_ROOMTYPE,
   GET_ROOMTYPE_BY_ID,
-  GET_ALL_ROOMTYPES
+  GET_ALL_ROOMTYPES,
+  GET_USER_INFO
 } from "../../../../queries";
 import {IUseModal} from "../../../../actions/hook";
 import {
@@ -66,7 +67,10 @@ interface IProps {
 
 const ModifyTimelineWrap: React.SFC<IProps> = ({houseId, modalHook}) => {
   const {roomTypeId} = modalHook.info;
-  const refetchQueries = [{query: GET_ALL_ROOMTYPES, variables: {houseId}}];
+  const refetchQueries = [
+    {query: GET_ALL_ROOMTYPES, variables: {houseId}},
+    {query: GET_USER_INFO}
+  ];
   const updateRefetchQueries = [
     {query: GET_ALL_ROOMTYPES, variables: {houseId}},
     {query: GET_ROOMTYPE_BY_ID, variables: {roomTypeId}}
