@@ -93,6 +93,7 @@ const InputText: React.FC<IProps> = ({
     if (onChange) {
       if (hyphen || comma) {
         if (typeof value === "number") {
+          console.log("stringToNumber(target.value)");
           onChange(stringToNumber(target.value));
         } else {
           onChange(numberStr(target.value));

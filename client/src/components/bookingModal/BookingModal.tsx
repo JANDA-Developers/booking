@@ -88,7 +88,7 @@ const POPbookingInfo: React.FC<IProps> = ({
   const confirmModalHook = useModal(false);
   const bookingNameHook = useInput(bookingData.name);
   const bookingPhoneHook = useInput(bookingData.phoneNumber);
-  const priceHook = useInput(bookingData.price);
+  const priceHook = useInput(bookingData.price || 0);
   const memoHook = useInput(bookingData.memo || "");
   const payMethodHook = useSelect({
     value: bookingData.payMethod,
