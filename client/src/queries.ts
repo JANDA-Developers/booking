@@ -183,6 +183,7 @@ export const GET_HOUSE_SPECIFICATION = gql`
                     email
                     isPhoneVerified
                     userRole
+                    userRoles
                 }
             }
         }
@@ -219,6 +220,7 @@ const F_USER_INFO = gql`
         profileImg
         checkPrivacyPolicy
         userRole
+        userRoles
         houses {
             roomTypes {
                 _id

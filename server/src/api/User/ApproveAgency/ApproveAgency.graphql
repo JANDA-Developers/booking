@@ -1,0 +1,9 @@
+type ApproveAgencyResponse {
+    ok: Boolean!
+    error: String
+    agencyId: String
+}
+type Mutation {
+    # 슈퍼계정 전용... AgencyId 발급 시 사용하는...
+    ApproveAgency(userId: ID!): ApproveAgencyResponse!
+}

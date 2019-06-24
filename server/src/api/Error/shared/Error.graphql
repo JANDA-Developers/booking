@@ -1,8 +1,6 @@
 type Error {
-    _id: ID!
+    # 에러코드
     code: String!
     message: String!
     devMsg: String!
 }
-
-# code 형식 ex) H1001, U1001

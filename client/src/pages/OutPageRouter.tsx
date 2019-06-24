@@ -21,7 +21,7 @@ const DocumentRouter: React.SFC<IProps> = ({ match, location }) => {
             {/* http://localhost:3000/#/outpage/reservation?publickey=05dfe136-1f1e-beed-b96d-ea3d68d8b847 */}
             <Switch>
                 <Route
-                    path="/outpage/reservation/:publickey"
+                    path="/outpage/reservation/:publickey/:agencyId?"
                     component={Reservation}
                 />
                 <Route
