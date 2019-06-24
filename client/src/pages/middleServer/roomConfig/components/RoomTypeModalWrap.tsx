@@ -19,7 +19,8 @@ import {
   UPDATE_ROOM,
   UPDATE_ROOMTYPE,
   GET_ROOMTYPE_BY_ID,
-  GET_ALL_ROOMTYPES
+  GET_ALL_ROOMTYPES,
+  GET_USER_INFO
 } from "../../../../queries";
 import { IUseModal } from "../../../../actions/hook";
 import {

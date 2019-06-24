@@ -16,7 +16,9 @@ import {
   deleteGuests,
   deleteGuestsVariables,
   createBlock,
-  createBlockVariables
+  createBlockVariables,
+  deleteBooking,
+  deleteBookingVariables
 } from "../../../../types/api";
 import {IUseModal} from "../../../../actions/hook";
 import {string} from "prop-types";
@@ -159,6 +161,7 @@ export interface IAssigItem {
 }
 
 export interface IAssigMutationes {
+  deleteBookingMu: MutationFn<deleteBooking, deleteBookingVariables>;
   allocateMu: MutationFn<allocateGuestToRoom, allocateGuestToRoomVariables>;
   deleteBlockMu: MutationFn<deleteBlock, deleteBlockVariables>;
   updateBookingMu: MutationFn<updateBooking, updateBookingVariables>;

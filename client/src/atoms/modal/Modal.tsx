@@ -4,6 +4,7 @@ import "./Modal.scss";
 import classNames from "classnames";
 import Button from "../button/Button";
 import {IUseModal} from "../../actions/hook";
+import {s4} from "../../utils/utils";
 
 interface IProps extends ReactModal.Props, IUseModal {
   center?: boolean;
@@ -12,9 +13,9 @@ interface IProps extends ReactModal.Props, IUseModal {
   confirm?: boolean;
   children?: any;
   visibleOverflow?: boolean;
-  flaseMessage?: string;
-  tureMessage?: string;
-  confirmCallBackFn?(foo: boolean): any;
+  falseMessage?: string | any[];
+  trueMessage?: string | any[];
+  confirmCallBackFn?(flag: boolean, key?: string): any;
 }
 
 const JDmodal: React.SFC<IProps> = ({
@@ -28,11 +29,19 @@ const JDmodal: React.SFC<IProps> = ({
   confirm,
   confirmCallBackFn,
   visibleOverflow,
-  tureMessage,
-  flaseMessage,
+  trueMessage,
+  falseMessage,
   appElement = document.getElementById("root") || undefined,
   ...props
 }) => {
+  // 여기에서 info로 들어온것과 openModal 명렁으로 들어온것들 조합함
+  if (info && info.trueBtns) {
+    trueMessage = info.trueBtns;
+  }
+  if (info && info.falseBtns) {
+    falseMessage = info.falseBtns;
+  }
+
   const classes = classNames("Modal JDmodal", className, {
     "JDmodal--center": center,
     "JDmodal--visibleOverflow": visibleOverflow,
@@ -44,6 +53,39 @@ const JDmodal: React.SFC<IProps> = ({
     overlayClassName: "Overlay"
   };
 
+  const getChildren = () => (
+    <div>
+      {children}
+      {info && info.children}
+      {typeof info === "string" && info}
+      {info && typeof info.txt === "string" && info.txt}
+    </div>
+  );
+
+  const hanldeClickBtn = (flag: boolean, key?: string) => {
+    confirmCallBackFn && confirmCallBackFn(flag, key);
+    info.callBack && info.callBack(flag, key);
+    closeModal();
+  };
+
+  const sharedTrueBtnProp: any = {
+    thema: "primary",
+    mode: "flat",
+    onClick: () => {
+      hanldeClickBtn(true);
+    },
+    label: trueMessage || "확인"
+  };
+
+  const sharedFalseBtnProp: any = {
+    mode: "flat",
+    thema: "warn",
+    onClick: () => {
+      hanldeClickBtn(false);
+    },
+    label: falseMessage || "확인"
+  };
+
   return (
     <ReactModal
       isOpen={isOpen}
@@ -52,34 +94,38 @@ const JDmodal: React.SFC<IProps> = ({
       {...props}
       {...defualtJDmodalProps}
     >
-      {children}
-      {info && info.children}
-      {typeof info === "string" && info}
-      {info && typeof info.txt === "string" && info.txt}
-
+      {getChildren()}
       {confirm && (
         <Fragment>
           <div className="JDmodal__endSection JDmodal__endSection--confirm">
-            <Button
-              thema="primary"
-              mode="flat"
-              label={`${tureMessage || "확인"}`}
-              onClick={() => {
-                confirmCallBackFn && confirmCallBackFn(true);
-                info.callBack && info.callBack(true);
-                closeModal();
-              }}
-            />
-            <Button
-              mode="flat"
-              thema="warn"
-              label={`${flaseMessage || "취소"}`}
-              onClick={() => {
-                confirmCallBackFn && confirmCallBackFn(false);
-                info.callBack && info.callBack(false);
-                closeModal();
-              }}
-            />
+            {trueMessage instanceof Array ? (
+              trueMessage.map(message => (
+                <Button
+                  key={s4()}
+                  {...sharedTrueBtnProp}
+                  label={`${message.msg}`}
+                  onClick={() => {
+                    hanldeClickBtn(true, message.callBackKey);
+                  }}
+                />
+              ))
+            ) : (
+              <Button {...sharedTrueBtnProp} />
+            )}
+            {falseMessage instanceof Array ? (
+              falseMessage.map(message => (
+                <Button
+                  key={s4()}
+                  {...sharedFalseBtnProp}
+                  label={`${message}`}
+                  onClick={() => {
+                    hanldeClickBtn(false, message.callBackKey);
+                  }}
+                />
+              ))
+            ) : (
+              <Button {...sharedFalseBtnProp} />
+            )}
           </div>
         </Fragment>
       )}
