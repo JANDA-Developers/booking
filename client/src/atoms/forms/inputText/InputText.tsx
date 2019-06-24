@@ -38,6 +38,7 @@ interface IProps extends React.HTMLAttributes<HTMLInputElement> {
   hyphen?: boolean;
   byte?: boolean;
   comma?: boolean;
+  returnNumber?: boolean;
   allWaysShowValidMessage?: boolean;
 }
 
@@ -46,6 +47,7 @@ const InputText: React.FC<IProps> = ({
   label,
   disabled,
   type,
+  returnNumber,
   validation,
   onChange,
   onBlur,
@@ -92,8 +94,7 @@ const InputText: React.FC<IProps> = ({
     const result = validation(target.value, max);
     if (onChange) {
       if (hyphen || comma) {
-        if (typeof value === "number") {
-          console.log("stringToNumber(target.value)");
+        if (typeof value === "number" || returnNumber) {
           onChange(stringToNumber(target.value));
         } else {
           onChange(numberStr(target.value));
