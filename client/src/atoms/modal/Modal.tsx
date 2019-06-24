@@ -35,12 +35,18 @@ const JDmodal: React.SFC<IProps> = ({
   ...props
 }) => {
   // 여기에서 info로 들어온것과 openModal 명렁으로 들어온것들 조합함
-  if (info && info.trueBtns) {
-    trueMessage = info.trueBtns;
-  }
-  if (info && info.falseBtns) {
-    falseMessage = info.falseBtns;
-  }
+  const inInfo = (() => {
+    let inInInfo: any = {};
+
+    if (info && info.trueBtns) {
+      inInInfo.trueMessage = info.trueBtns || trueMessage;
+    }
+    if (info && info.falseBtns) {
+      inInInfo.falseMessage = info.falseBtns || falseMessage;
+    }
+
+    return inInInfo;
+  })();
 
   const classes = classNames("Modal JDmodal", className, {
     "JDmodal--center": center,
@@ -98,8 +104,8 @@ const JDmodal: React.SFC<IProps> = ({
       {confirm && (
         <Fragment>
           <div className="JDmodal__endSection JDmodal__endSection--confirm">
-            {trueMessage instanceof Array ? (
-              trueMessage.map(message => (
+            {inInfo.trueMessage instanceof Array ? (
+              inInfo.trueMessage.map((message: any) => (
                 <Button
                   key={s4()}
                   {...sharedTrueBtnProp}
@@ -112,8 +118,8 @@ const JDmodal: React.SFC<IProps> = ({
             ) : (
               <Button {...sharedTrueBtnProp} />
             )}
-            {falseMessage instanceof Array ? (
-              falseMessage.map(message => (
+            {inInfo.falseMessage instanceof Array ? (
+              inInfo.falseMessage.map((message: any) => (
                 <Button
                   key={s4()}
                   {...sharedFalseBtnProp}

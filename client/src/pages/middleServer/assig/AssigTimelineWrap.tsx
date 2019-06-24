@@ -212,7 +212,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
     <GetAllRoomTypeWithGuestQuery
       fetchPolicy="network-only"
       notifyOnNetworkStatusChange={true}
-      pollInterval={5000}
+      // pollInterval={5000}
       query={GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM}
       variables={{
         ...updateVariables,

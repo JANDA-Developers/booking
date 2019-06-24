@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import $ from "jquery";
-import { PricingType } from "../../../../types/enum";
-import { ASSIGT_IMELINE_HEIGHT } from "../../../../atoms/timeline/Timeline";
-import { arraySum } from "../../../../utils/elses";
-import { IAssigGroup } from "./assigIntrerface";
+import {PricingType} from "../../../../types/enum";
+import {ASSIGT_IMELINE_HEIGHT} from "../../../../atoms/timeline/Timeline";
+import {arraySum} from "../../../../utils/elses";
+import {IAssigGroup} from "./assigIntrerface";
 
 let LAST_ROOMTYPE = "unRendered";
 let LAST_ROOM = "unRendered";
@@ -13,7 +13,7 @@ interface IRenderGroupProps {
 }
 
 // 아이템 위치가 바뀔때마다 groupRender 되더라
-const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({ group }) => {
+const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({group}) => {
   if (!group || !group.roomType) {
     return <div />;
   }
@@ -42,7 +42,7 @@ const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({ group }) => {
   useEffect(() => {
     LAST_ROOMTYPE = "unRendered";
     LAST_ROOM = "unRendered";
-  }, []);
+  });
 
   useEffect(() => {
     if (renderRoom) {
@@ -73,7 +73,9 @@ const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({ group }) => {
         {renderRoomType && (
           <div
             id={`assigGroups__roomType${group.roomTypeId}`}
-            className={`assigGroups__roomType assigGroups__roomType${group.roomTypeId}`}
+            className={`assigGroups__roomType assigGroups__roomType${
+              group.roomTypeId
+            }`}
             style={roomTypeStyle}
           >
             <span className="assigGroups__names">{group.roomType.name}</span>

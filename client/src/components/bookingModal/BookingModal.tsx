@@ -140,7 +140,7 @@ const POPbookingInfo: React.FC<IProps> = ({
 
   // 예약삭제
   const handleDeletBtnClick = () => {
-    confirmModalHook.openModal("정말 예약을 삭제하시겠습니까?");
+    confirmModalHook.openModal({txt: "정말 예약을 삭제하시겠습니까?"});
   };
 
   const deleteModalCallBackFn = (confirm: boolean) => {
@@ -358,13 +358,6 @@ const POPbookingInfo: React.FC<IProps> = ({
           mode="flat"
           onClick={handleDeletBtnClick}
         />
-        {/* <Button
-          size="small"
-          label="닫기"
-          mode="flat"
-          thema="grey"
-          onClick={modalHook.closeModal}
-        /> */}
       </div>
       <SendSMSmodalWrap houseId={houseId} modalHook={sendSmsModalHook} />
       <JDtoastModal

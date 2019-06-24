@@ -333,9 +333,22 @@ export interface IUseModal<T = any> {
   closeModal: () => void;
   info: T;
 }
+interface IModalBtn {
+  msg: string;
+  callBackKey: string;
+}
+
+interface IOpenModalInfo {
+  [key: string]: any;
+  trueBtns?: IModalBtn;
+  falseBtns?: IModalBtn;
+  txt?: string;
+  children?: any;
+  callBack?(flag: boolean, callBackKey?: string): void;
+}
 
 // 모달훅
-function useModal<T = any>(
+function useModal<T = IOpenModalInfo>(
   defaultValue: boolean = false,
   defaultInfo: any = {}
 ): IUseModal<T> {

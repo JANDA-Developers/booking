@@ -86,9 +86,9 @@ const ResvList: React.SFC<IProps> = ({
   };
 
   const handleDeleteBookingBtnClick = () => {
-    alertModalHook.openModal(
-      `다음 예약 ${checkedIds.length}개를  삭제하시겠습니까?`
-    );
+    alertModalHook.openModal({
+      txt: `다음 예약 ${checkedIds.length}개를  삭제하시겠습니까?`
+    });
   };
 
   const handleCancleBookingBtnClick = () => {

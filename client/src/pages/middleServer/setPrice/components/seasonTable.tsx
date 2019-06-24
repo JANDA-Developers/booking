@@ -89,11 +89,11 @@ const SeasonModal: React.SFC<IProps> = ({
 
   const validater = (): boolean => {
     if (isEmpty(dayPickerHook.to)) {
-      alertModalHook.openModal("날자를 선택해주세요.");
+      alertModalHook.openModal({txt: "날자를 선택해주세요."});
       return false;
     }
     if (isEmpty(tableValue.name)) {
-      alertModalHook.openModal("시즌명을 입력해주세요.");
+      alertModalHook.openModal({txt: "시즌명을 입력해주세요."});
       return false;
     }
     return true;
