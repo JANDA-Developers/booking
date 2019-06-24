@@ -352,6 +352,8 @@ const ResvList: React.SFC<IProps> = ({
         </div>
         <SelectableJDtable
           {...ReactTableDefault}
+          // 아래 숫자는 요청하는 쿼리와 같아야합니다.
+          defaultPageSize={20}
           toggleAll={() => {}}
           toggleSelection={onToogleRow}
           SelectAllInputComponent={selectAllInputComponentProps}

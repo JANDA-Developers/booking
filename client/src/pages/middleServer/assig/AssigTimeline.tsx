@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import $ from "jquery";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import "moment/locale/ko";
-import { MutationFn } from "react-apollo";
+import {MutationFn} from "react-apollo";
 import _ from "lodash";
 import JDdayPicker from "../../../atoms/dayPicker/DayPicker";
-import windowSize, { WindowSizeProps } from "react-window-size";
+import windowSize, {WindowSizeProps} from "react-window-size";
 import Timeline, {
   TimelineHeaders,
   SidebarHeader,
@@ -17,13 +17,13 @@ import Timeline, {
 import ErrProtecter from "../../../utils/errProtect";
 import Button from "../../../atoms/button/Button";
 import BookingModalWrap from "../../../components/bookingModal/BookingModalWrap";
-import { IUseDayPicker, useModal } from "../../../actions/hook";
+import {IUseDayPicker, useModal} from "../../../actions/hook";
 import classnames from "classnames";
 import assigGroupRendererFn from "./components/groupRenderFn";
-import { IRoomType } from "../../../types/interface";
+import {IRoomType} from "../../../types/interface";
 import Preloader from "../../../atoms/preloader/Preloader";
 import "./AssigTimeline.scss";
-import JDIcon, { IconSize } from "../../../atoms/icons/Icons";
+import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
 import TooltipList, {
   ReactTooltip
 } from "../../../atoms/tooltipList/TooltipList";
@@ -36,15 +36,12 @@ import itemRendererFn, {
   CLASS_LINKED,
   CLASS_MOVING
 } from "./components/itemRenderFn";
-import { setMidNight, onCompletedMessage } from "../../../utils/utils";
+import {setMidNight, onCompletedMessage} from "../../../utils/utils";
 import ItemMenu from "./components/itemMenu";
 import CanvasMenu from "./components/canvasMenu";
 import MakeItemMenu from "./components/makeItemMenu";
-import {
-  DEFAULT_ASSIG_ITEM,
-  DEFAULT_ASSIG_GROUP
-} from "../../../types/defaults";
-import { JDtoastModal } from "../../../atoms/modal/Modal";
+import {DEFAULT_ASSIG_ITEM, DEFAULT_ASSIG_GROUP} from "../../../types/defaults";
+import {JDtoastModal} from "../../../atoms/modal/Modal";
 import moment from "moment-timezone";
 import {
   IAssigMutationes,
@@ -60,7 +57,7 @@ import {
   TOpenBlockMenu,
   TOpenCanvasMenu
 } from "./components/assigIntrerface";
-import { getAssigUtils } from "./components/assigUtils";
+import {getAssigUtils} from "./components/assigUtils";
 import BlockItemMenu from "./components/blockItemMenu";
 import {
   ASSIG_DATA_END_LIMITE,
@@ -162,10 +159,6 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     houseId
   };
 
-  console.log({
-    groupData
-  });
-
   const assigUtils = getAssigUtils(assigHooks, assigMutationes, assigContext);
 
   const {
@@ -183,7 +176,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     openCanvasMenu
   } = assigUtils;
 
-  const { allocateMu, createBlockMu } = assigMutationes;
+  const {allocateMu, createBlockMu} = assigMutationes;
 
   // 툴팁들을 제거하고
   const handleWindowClickEvent = () => {
@@ -221,12 +214,12 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     await allTooltipsHide();
     const target = findItemById(itemId);
     if (target.type === GuestTypeAdd.BLOCK) {
-      openBlockMenu(location, { item: target });
+      openBlockMenu(location, {item: target});
     }
     // if (target.type === "normal")
     // bookingModal.openModal({bookingId: target.bookingId});
     if (target.type === GuestTypeAdd.MAKE) {
-      openMakeMenu(location, { item: target });
+      openMakeMenu(location, {item: target});
     }
   };
 
@@ -417,7 +410,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     time: number
   ) => {
     if (e.persist) e.persist();
-    const { clientX, clientY } = e;
+    const {clientX, clientY} = e;
     const location = {
       clientX: clientX,
       clientY: clientY
@@ -427,9 +420,9 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
 
     if (isMobile) {
       if (target.type === GuestTypeAdd.BLOCK)
-        openBlockMenu(location, { item: target });
+        openBlockMenu(location, {item: target});
       if (target.type === GuestTypeAdd.MAKE)
-        openMakeMenu(location, { item: target });
+        openMakeMenu(location, {item: target});
     }
 
     // 컨트롤: 체크인
@@ -438,7 +431,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     }
     // 쉬프트 팝업
     if (e.shiftKey) {
-      bookingModal.openModal({ bookingId: target.bookingId });
+      bookingModal.openModal({bookingId: target.bookingId});
     }
     // 알트: 배정확정
     if (e.altKey) {
@@ -586,7 +579,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
         >
           <TimelineHeaders>
             <SidebarHeader>
-              {({ getRootProps }: any) => (
+              {({getRootProps}: any) => (
                 <SharedSideBarHeader
                   getRootProps={getRootProps}
                   dayPickerHook={dayPickerHook}
@@ -594,10 +587,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
               )}
             </SidebarHeader>
             <DateHeader
-              intervalRenderer={({
-                getIntervalProps,
-                intervalContext
-              }: any) => {
+              intervalRenderer={({getIntervalProps, intervalContext}: any) => {
                 const isToday = intervalContext.interval.startTime.isSame(
                   new Date(),
                   "day"

@@ -49,6 +49,7 @@ export function getAssigUtils(
     deleteGuestsMu,
     createBlockMu,
     deleteBlockMu,
+    deleteBookingMu,
     updateBookingMu
   }: IAssigMutationes,
   {houseId, groupData}: IAssigTimelineContext
@@ -221,9 +222,35 @@ export function getAssigUtils(
     return true;
   };
 
+  // 예약을 예약 아이디로 삭제
+  const deleteBookingById = async (bookingId: string) => {
+    const result = await deleteBookingMu({
+      variables: {
+        bookingId
+      }
+    });
+
+    if (result && result.data && result.data.DeleteBooking.ok) {
+      setGuestValue(guestValue.filter(guest => guest.bookingId !== bookingId));
+    }
+  };
+
+  //  예약아이디를 게스트아이디로 찾음
+  const findBookingIdByGuestId = (guestId: string): string => {
+    const target = guestValue.find(guest => guest.id === guestId);
+    if (!target) {
+      throw Error("guestId not exist :: findBookingByGuestId");
+    }
+    return target.bookingId;
+  };
+
   // 해당 게스트를 찾아서 제거함
   const deleteGuestById: TDeleteGuestById = guestId => {
-    const deleteGuestCallBackFn = (flag: boolean) => {
+    const deleteGuestCallBackFn = (flag: boolean, key: string) => {
+      if (key === "deleteAll") {
+        deleteBookingById(findBookingIdByGuestId(guestId));
+      }
+
       if (flag) {
         deleteGuestsMu({
           variables: {
@@ -233,6 +260,7 @@ export function getAssigUtils(
         deleteItemById(guestId);
       }
     };
+
     confirmDelteGuestHook.openModal({
       callBack: deleteGuestCallBackFn,
       children: (
@@ -240,7 +268,11 @@ export function getAssigUtils(
           해당 게스트를 삭제하시겠습니까? <br />
           (해당 예약자가 예약한 다른 인원들은 지워지지 않습니다.)
         </span>
-      )
+      ),
+      trueBtns: [
+        {msg: "알겠습니다.", callBackKey: "deleteOne"},
+        {msg: "관련된 모든 인원을 제거하세요.", callBackKey: "deleteAll"}
+      ]
     });
   };
 
@@ -463,7 +495,9 @@ export function getAssigUtils(
     moveLinkedItems,
     toogleCheckInOut,
     openBlockMenu,
-    openCanvasMenu
+    openCanvasMenu,
+    deleteBookingById,
+    findBookingIdByGuestId
   };
 
   return assigUtils;

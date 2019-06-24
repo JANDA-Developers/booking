@@ -120,7 +120,6 @@ const POPbookingInfo: React.FC<IProps> = ({
       createMode: true
     });
   };
-  1;
 
   const defaultFormat: IroomSelectInfoTable[] = getRoomTypePerGuests(
     bookingData
@@ -155,7 +154,7 @@ const POPbookingInfo: React.FC<IProps> = ({
   };
 
   // 예약생성
-  const handleCreateBtnClick = async () => {
+  const handleCreateBtnClick = () => {
     if (!bookingData.roomTypes) return;
 
     const smsCallBackFn = async (flag: boolean) => {

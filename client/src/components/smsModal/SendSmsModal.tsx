@@ -41,19 +41,10 @@ const SendSmsModal: React.FC<IProps> = ({
   smsInfo,
   templateMessage
 }) => {
-  useEffect(() => {
-    if (templateMessage === "") {
-      modalHook.info.callBackFn && modalHook.info.callBackFn(false);
-    }
-  }, [modalHook.info.callBackFn]);
-  if (templateMessage === "") {
-    modalHook.closeModal();
-  }
-
   return (
     <JDmodal
-      tureMessage={`${templateMessage !== "" ? "SMS 전송합니다." : "확인"}`}
-      flaseMessage={`${templateMessage !== "" ? "전송하지 않습니다." : "취소"}`}
+      trueMessage={"SMS 전송합니다."}
+      falseMessage={"SMS를 전송하지 않습니다."}
       confirm
       confirmCallBackFn={callBackFn}
       className="sendSmsModal"
@@ -61,19 +52,7 @@ const SendSmsModal: React.FC<IProps> = ({
     >
       {/* 👿 */}
       <div>
-        {templateMessage !== "" ? (
-          <Fragment>
-            <JDLabel txt="발신대상" />
-            {receivers &&
-              receivers.map(receiver => (
-                <JDbox mode="border" icon="mobile">
-                  <span>{receiver}</span>
-                </JDbox>
-              ))}{" "}
-          </Fragment>
-        ) : (
-          ""
-        )}
+        <Fragment>예약생성을 완료합니다.</Fragment>
       </div>
     </JDmodal>
   );

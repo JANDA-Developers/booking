@@ -27,6 +27,7 @@ import queryDataFormater, {copyFindReplace} from "./queryFormater";
 import pageNationFormater from "./paginationFormat";
 import setMidNight from "./setMidNight";
 import stringToPrice from "./stringToPrice";
+import s4 from "./keyGen";
 
 const JDutils = {
   ErrProtecter,
@@ -55,7 +56,8 @@ const JDutils = {
   numberStr,
   stringToNumber,
   smsMessageFormatter,
-  isNumberMinMax
+  isNumberMinMax,
+  s4
 };
 
 export default JDutils;
@@ -80,5 +82,6 @@ export {
   autoComma,
   numberStr,
   stringToNumber,
-  isYYYYMMDD
+  isYYYYMMDD,
+  s4
 };
