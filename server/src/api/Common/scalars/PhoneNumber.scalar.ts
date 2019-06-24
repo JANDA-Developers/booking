@@ -3,10 +3,7 @@ import { Kind } from "graphql/language";
 
 function serialize(val: string) {
     const result = val.replace(/[\s-]+/g, "");
-    const validation =
-        10 <= result.length &&
-        result.length < 14 &&
-        /^[0-9+]+\w$/g.test(result);
+    const validation = /^[0-9+]+\w$/g.test(result);
     if (!validation) {
         throw new Error("Invalid PhoneNumber");
     }

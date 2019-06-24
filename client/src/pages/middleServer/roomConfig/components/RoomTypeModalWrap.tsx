@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from "react";
-import {Mutation, Query} from "react-apollo";
-import {any} from "prop-types";
+import React, { useState, useEffect } from "react";
+import { Mutation, Query } from "react-apollo";
+import { any } from "prop-types";
 import {
   createRoomType,
   createRoomTypeVariables,
@@ -22,7 +22,7 @@ import {
   GET_ALL_ROOMTYPES,
   GET_USER_INFO
 } from "../../../../queries";
-import {IUseModal} from "../../../../actions/hook";
+import { IUseModal } from "../../../../actions/hook";
 import {
   ErrProtecter,
   showError,
@@ -30,7 +30,7 @@ import {
   onCompletedMessage,
   queryDataFormater
 } from "../../../../utils/utils";
-import {PricingType, RoomGender} from "../../../../types/enum";
+import { PricingType, RoomGender } from "../../../../types/enum";
 
 class GetRoomTypeById extends Query<
   getRoomTypeById,
@@ -65,24 +65,21 @@ interface IProps {
   modalHook: IUseModal;
 }
 
-const ModifyTimelineWrap: React.SFC<IProps> = ({houseId, modalHook}) => {
-  const {roomTypeId} = modalHook.info;
-  const refetchQueries = [
-    {query: GET_ALL_ROOMTYPES, variables: {houseId}},
-    {query: GET_USER_INFO}
-  ];
+const ModifyTimelineWrap: React.SFC<IProps> = ({ houseId, modalHook }) => {
+  const { roomTypeId } = modalHook.info;
+  const refetchQueries = [{ query: GET_ALL_ROOMTYPES, variables: { houseId } }];
   const updateRefetchQueries = [
-    {query: GET_ALL_ROOMTYPES, variables: {houseId}},
-    {query: GET_ROOMTYPE_BY_ID, variables: {roomTypeId}}
+    { query: GET_ALL_ROOMTYPES, variables: { houseId } },
+    { query: GET_ROOMTYPE_BY_ID, variables: { roomTypeId } }
   ];
   return (
     <GetRoomTypeById
       fetchPolicy="network-only"
       query={GET_ROOMTYPE_BY_ID}
       skip={isEmpty(roomTypeId) || roomTypeId === "-1"}
-      variables={{roomTypeId}}
+      variables={{ roomTypeId }}
     >
-      {({data: queryRoomTypeData, loading, error}) => {
+      {({ data: queryRoomTypeData, loading, error }) => {
         const roomType = queryDataFormater(
           queryRoomTypeData,
           "GetRoomTypeById",
@@ -94,7 +91,7 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({houseId, modalHook}) => {
           pricingType: PricingType.DOMITORY,
           peopleCount: 0,
           peopleCountMax: 0,
-          roomGender: RoomGender.ANY,
+          roomGender: RoomGender.SEPARATELY,
           img: undefined,
           description: "",
           defaultPrice: 0
@@ -104,7 +101,7 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({houseId, modalHook}) => {
           <CreateRoomTypeMutation
             mutation={CREATE_ROOMTYPE}
             refetchQueries={refetchQueries}
-            onCompleted={({CreateRoomType}: any) => {
+            onCompleted={({ CreateRoomType }: any) => {
               onCompletedMessage(
                 CreateRoomType,
                 "방타입 생성완료",
@@ -121,7 +118,7 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({houseId, modalHook}) => {
                   roomTypeId
                 }}
                 mutation={DELETE_ROOMTYPE}
-                onCompleted={({DeleteRoomType}: any) => {
+                onCompleted={({ DeleteRoomType }: any) => {
                   onCompletedMessage(
                     DeleteRoomType,
                     "방타입 제거완료",
@@ -132,7 +129,7 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({houseId, modalHook}) => {
               >
                 {deleteRoomTypeMutation => (
                   <UpdateRoomTypeMutation
-                    onCompleted={({UpdateRoomType}: any) => {
+                    onCompleted={({ UpdateRoomType }: any) => {
                       onCompletedMessage(
                         UpdateRoomType,
                         "방타입 업데이트 완료",
