@@ -14,7 +14,7 @@ const resolvers: Resolvers = {
         BuyProduct: privateResolver(
             async (
                 _,
-                { houseId, productTypeId }: BuyProductMutationArgs
+                { houseId, productTypeId, layoutType }: BuyProductMutationArgs
             ): Promise<BuyProductResponse> => {
                 try {
                     const existingProductType = await ProductTypeModel.findById(
@@ -35,18 +35,11 @@ const resolvers: Resolvers = {
                             product: null
                         };
                     }
-                    console.log({
-                        existingProductType
-                    });
 
                     const product = await existingProductType.makeProduct(
                         houseId
                     );
                     product.productType = new Types.ObjectId(productTypeId);
-
-                    console.log({
-                        product
-                    });
 
                     await product.save();
                     const updatedHouse = await HouseModel.findOneAndUpdate(

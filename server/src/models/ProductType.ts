@@ -1,5 +1,6 @@
 import { Types } from "mongoose";
 import { instanceMethod, InstanceType, prop, Typegoose } from "typegoose";
+import { LayoutType } from "../types/graph";
 import { ProductModel, ProductSchema } from "./Product";
 
 export class ProductTypeSchema extends Typegoose {
@@ -44,7 +45,10 @@ export class ProductTypeSchema extends Typegoose {
     @instanceMethod
     public makeProduct(
         this: ProductTypeSchema,
-        houseId: string
+        houseId: string,
+        options?: {
+            layoutType: LayoutType;
+        }
     ): InstanceType<ProductSchema> {
         const product = new ProductModel({
             ...this,
@@ -53,6 +57,9 @@ export class ProductTypeSchema extends Typegoose {
             canHaveHostApp:
                 this.canHaveHostApp === undefined ? true : this.canHaveHostApp
         });
+        if (options) {
+            product.setOptions(options);
+        }
         delete product.createdAt;
         delete product.updatedAt;
         return product;

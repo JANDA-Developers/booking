@@ -1,4 +1,5 @@
-import { prop, Ref, Typegoose } from "typegoose";
+import { instanceMethod, InstanceType, prop, Ref, Typegoose } from "typegoose";
+import { LayoutType } from "../types/graph";
 import { HouseSchema } from "./House";
 import { ProductTypeSchema } from "./ProductType";
 
@@ -40,6 +41,9 @@ export class ProductSchema extends Typegoose {
     @prop({ default: false })
     existingHostApp: boolean;
 
+    @prop({ enum: ["Layout_A", "Layout_B"], default: "Layout_A" })
+    layoutType: LayoutType;
+
     @prop({ default: 0 })
     layoutPrice: number;
 
@@ -54,6 +58,26 @@ export class ProductSchema extends Typegoose {
 
     @prop()
     updatedAt: Date;
+
+    @instanceMethod
+    setOptions(
+        this: InstanceType<ProductSchema>,
+        options: {
+            layoutType?: LayoutType;
+            layoutPrice?: number;
+            layoutPricePaid?: boolean;
+        }
+    ) {
+        if (options.layoutType) {
+            this.layoutType = options.layoutType;
+        }
+        if (options.layoutPricePaid) {
+            this.layoutPricePaid = options.layoutPricePaid;
+        }
+        if (options.layoutPrice) {
+            this.layoutPrice = options.layoutPrice;
+        }
+    }
 }
 
 export const ProductModel = new ProductSchema().getModelForClass(
