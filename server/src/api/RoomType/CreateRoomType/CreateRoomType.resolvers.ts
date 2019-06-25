@@ -2,7 +2,7 @@ import { Types } from "mongoose";
 import { InstanceType } from "typegoose";
 import { HouseModel } from "../../../models/House";
 import { extractRoomType } from "../../../models/merge/merge";
-import { RoomTypeModel } from "../../../models/RoomType";
+import { RoomGenderEnum, RoomTypeModel } from "../../../models/RoomType";
 import { SeasonModel, SeasonSchema } from "../../../models/Season";
 import {
     SeasonPriceModel,
@@ -49,7 +49,11 @@ const resolvers: Resolvers = {
                     }
                     const roomType = await new RoomTypeModel({
                         ...args,
-                        house: args.houseId
+                        house: args.houseId,
+                        roomGender:
+                            args.pricingType === "ROOM"
+                                ? RoomGenderEnum.ANY
+                                : args.roomGender
                     }).save();
 
                     await HouseModel.updateOne(
@@ -79,12 +83,7 @@ const resolvers: Resolvers = {
                             });
                         }
                     );
-                    const loggg = await SeasonPriceModel.insertMany(
-                        seasonPrices
-                    );
-                    console.log({
-                        loggg
-                    });
+                    await SeasonPriceModel.insertMany(seasonPrices);
 
                     const result = await extractRoomType(roomType);
                     return {

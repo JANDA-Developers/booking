@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { Types } from "mongoose";
 import { instanceMethod, InstanceType, prop, Typegoose } from "typegoose";
 import {
@@ -12,8 +13,6 @@ import {
     getFormattedAutoSendMessage,
     SmsReplacementValues
 } from "../utils/SmsDecorator";
-
-import * as _ from "lodash";
 
 export class SmsInfoSchema extends Typegoose {
     @prop({ required: true })
@@ -112,7 +111,8 @@ export class SmsInfoSchema extends Typegoose {
         this: InstanceType<SmsInfoSchema>,
         sendCase: AutoSendWhen,
         receivers: string,
-        values: SmsReplacementValues
+        values: SmsReplacementValues,
+        autoSend: boolean = false
     ): Promise<SendSmsResponse> {
         // TODO: 데헷데헷
         const template = this.getSmsTemplate(sendCase);
@@ -125,7 +125,11 @@ export class SmsInfoSchema extends Typegoose {
         }
         const msg = getFormattedAutoSendMessage(template.smsFormat, values);
         // send 하긔!
-        return await sendSMS(receivers, msg);
+        return await sendSMS(
+            { receivers, msg },
+            new Types.ObjectId(this._id),
+            autoSend
+        );
     }
 }
 

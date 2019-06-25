@@ -140,6 +140,10 @@ export class RoomSchema extends Typegoose {
         });
         const block = await this.getBlockedBeds(dateRange.start, dateRange.end);
         const availableGenders = this.allocatableGenderPrivate(allocatedGuests);
+        console.log({
+            availableGenders
+        });
+
         const emptyBeds = this.getEmptyBeds(allocatedGuests);
         _.pullAll(emptyBeds, block);
         const availableCount = emptyBeds.length;

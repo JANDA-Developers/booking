@@ -241,7 +241,8 @@ const createbooking = async (
                             start,
                             "MD"
                         )}~${transDateToString(end, "MD")}`
-                    }
+                    },
+                    true
                 );
                 console.log(smsTemplate);
             }

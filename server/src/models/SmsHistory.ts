@@ -9,12 +9,14 @@ export class SmsHistorySchema extends Typegoose {
             msg,
             sender,
             receivers,
-            sendResult
+            sendResult,
+            autoSend
         }: {
             msg: string;
             sender: string;
             receivers: string | string[];
             sendResult: boolean;
+            autoSend: boolean;
         }
     ): InstanceType<SmsHistorySchema> {
         try {
@@ -26,7 +28,8 @@ export class SmsHistorySchema extends Typegoose {
                     typeof receivers === "string"
                         ? receivers.split("|")
                         : receivers,
-                sendResult
+                sendResult,
+                autoSend
             });
         } catch (error) {
             throw error;
@@ -38,6 +41,9 @@ export class SmsHistorySchema extends Typegoose {
 
     @prop()
     msg: string;
+
+    @prop()
+    autoSend: boolean;
 
     @prop()
     sender: string;

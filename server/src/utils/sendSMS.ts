@@ -1,10 +1,16 @@
+import { Types } from "mongoose";
 import rq, { Options } from "request-promise";
+import { SmsHistorySchema } from "../models/SmsHistory";
 import { SendSmsResponse, SendSmsResult } from "../types/graph";
 
 export const sendSMS = async (
-    receivers: string,
-    msg: string,
-    sender: string | undefined = process.env.SMS_SENDER,
+    {
+        receivers,
+        msg,
+        sender = process.env.SMS_SENDER
+    }: { receivers: string; msg: string; sender?: string },
+    smsInfoId?: Types.ObjectId,
+    autoSend: boolean = false,
     testmodeYn: "Y" | "N" | string = process.env.SMS_TESTMODE || "N"
 ): Promise<SendSmsResponse> => {
     const key = process.env.SMS_KEY;
@@ -49,7 +55,17 @@ export const sendSMS = async (
             process.env
                 .SMS_SENDER}&receiver=${receivers}&msg=${msg}&testmode_yn=${testmodeYn}`
     });
-
+    const ok = result_code === "1";
+    if (ok && smsInfoId && sender) {
+        const history = SmsHistorySchema.createHistory(smsInfoId, {
+            msg,
+            receivers: receivers.split("|"),
+            sendResult: true,
+            sender,
+            autoSend
+        });
+        await history.save();
+    }
     /*
     ** API 결과값
         - result_code
@@ -58,14 +74,17 @@ export const sendSMS = async (
         - success_cnt
         - error_cnt
         - msg_type
- */
+    */
 
     return {
-        ok: result_code === "1",
+        ok,
         error: result_code,
         result
     };
 };
 
 export const sendVerificationSMS = (receiver: string, key: string) =>
-    sendSMS(receiver, `Your Verificaion Key is: ${key}`);
+    sendSMS({
+        receivers: receiver,
+        msg: `Your Verificaion Key is: ${key}`
+    });

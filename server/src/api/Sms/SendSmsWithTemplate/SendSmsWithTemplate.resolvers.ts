@@ -1,5 +1,4 @@
 import { Types } from "mongoose";
-import { SmsHistorySchema } from "../../../models/SmsHistory";
 import { SmsInfoModel } from "../../../models/SmsInfo";
 import {
     SendSmsWithTemplateMutationArgs,
@@ -63,22 +62,14 @@ const resolvers: Resolvers = {
                         }
                     );
                     const sendResult = await sendSMS(
-                        receiver,
-                        msg,
-                        smsInfo.sender.phoneNumber
+                        {
+                            receivers: receiver,
+                            msg,
+                            sender: smsInfo.sender.phoneNumber
+                        },
+                        new Types.ObjectId(smsInfoId),
+                        false
                     );
-                    if (sendResult.ok) {
-                        const history = SmsHistorySchema.createHistory(
-                            new Types.ObjectId(smsInfo.id),
-                            {
-                                msg,
-                                receivers: receiver,
-                                sendResult: true,
-                                sender: smsInfo.sender.phoneNumber
-                            }
-                        );
-                        await history.save();
-                    }
                     return {
                         ...sendResult
                     };
