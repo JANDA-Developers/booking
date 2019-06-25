@@ -5,6 +5,7 @@ type SmsHistory {
     sender: String!
     receivers: [String!]
     sendResult: Boolean!
+    autoSend: Boolean!
     createdAt: DateTime!
     updatedAt: DateTime!
 }

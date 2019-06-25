@@ -42,7 +42,7 @@ export class SmsHistorySchema extends Typegoose {
     @prop()
     msg: string;
 
-    @prop()
+    @prop({ default: false })
     autoSend: boolean;
 
     @prop()
