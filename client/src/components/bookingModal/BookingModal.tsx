@@ -88,7 +88,7 @@ const POPbookingInfo: React.FC<IProps> = ({
   const confirmModalHook = useModal(false);
   const bookingNameHook = useInput(bookingData.name);
   const bookingPhoneHook = useInput(bookingData.phoneNumber);
-  const priceHook = useInput(bookingData.price);
+  const priceHook = useInput(bookingData.price || 0);
   const memoHook = useInput(bookingData.memo || "");
   const payMethodHook = useSelect({
     value: bookingData.payMethod,
@@ -315,7 +315,7 @@ const POPbookingInfo: React.FC<IProps> = ({
         <h6>결제정보</h6>
         <div className="flex-grid">
           <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
-            <InputText {...priceHook} comma label="총금액" />
+            <InputText {...priceHook} returnNumber comma label="총금액" />
           </div>
           <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
             <SelectBox

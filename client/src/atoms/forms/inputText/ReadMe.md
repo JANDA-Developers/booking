@@ -20,8 +20,9 @@
 | doubleHeight   | bool   | 텍스트어리어 일때 높이 2배                              |                        |         | false   |
 | allWaysShow... | bool   | 텍스트 벨리드 메세지가 있을때 포커스 안해도 메세지 보임 |                        |         | false   |
 | max            | number | validation이 MaxOver 일떄 최대값                        |                        |         | 10000   |
+| returnNumber   | bool   | 해당 인풋은 항상 넘버 타입을 리턴합니다.                |                        |         | false   |
 
 - comma : 콤마 된것은 리턴할때 콤마를 때서 줍니다.
 - hyphen : 하이픈된 것은 리턴할때 하이픈 때서 줍니다
-- cooma hyphen 상태에서 type number가 들어온다면 리턴할떄 너버로 바꾸어 onChange로 전송합니다.
+- cooma hyphen 상태에서 type number가 들어온다면 리턴할떄 number타입으로 바꾸어 onChange로 전송합니다. ((하지만 null 일때 조심))
 - onChangeValid 를 주지않고 validation 만 주게되면 스스로 유효성 검사를 합니다 이것은 unControlled 상태이지만 상황에따라서 UI 만 변동하는 역할 로 사용가능합니다.

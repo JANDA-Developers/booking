@@ -89,7 +89,7 @@ const JDmodal: React.SFC<IProps> = ({
     onClick: () => {
       hanldeClickBtn(false);
     },
-    label: falseMessage || "확인"
+    label: falseMessage || "취소"
   };
 
   return (
