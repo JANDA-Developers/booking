@@ -15,10 +15,13 @@ const resolvers: Resolvers = {
                     sender
                 });
                 const result = await sendSMS(
-                    receivers.join("|"),
-                    msg,
-                    sender,
-                    "Y"
+                    {
+                        receivers: receivers.join("|"),
+                        msg,
+                        sender
+                    },
+                    undefined,
+                    false
                 );
 
                 // TODO: 여기서부터 하면됨 ㅎㅎ
