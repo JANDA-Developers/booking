@@ -1,3 +1,5 @@
+import { Types } from "mongoose";
+import { SmsInfoModel } from "../../../models/SmsInfo";
 import { SendSmsMutationArgs, SendSmsResponse } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
 import { sendSMS } from "../../../utils/sendSMS";
@@ -6,7 +8,7 @@ const resolvers: Resolvers = {
     Mutation: {
         SendSms: async (
             _,
-            { msg, receivers, sender }: SendSmsMutationArgs
+            { msg, receivers, sender, smsInfoId }: SendSmsMutationArgs
         ): Promise<SendSmsResponse> => {
             try {
                 console.log({
@@ -14,13 +16,21 @@ const resolvers: Resolvers = {
                     msg,
                     sender
                 });
+                const smsInfo = await SmsInfoModel.findById(smsInfoId);
+                if (!smsInfo) {
+                    return {
+                        ok: false,
+                        error: "존재하지 않는 SmsInfoId",
+                        result: null
+                    };
+                }
                 const result = await sendSMS(
                     {
                         receivers: receivers.join("|"),
                         msg,
                         sender
                     },
-                    undefined,
+                    new Types.ObjectId(smsInfoId),
                     false
                 );
 

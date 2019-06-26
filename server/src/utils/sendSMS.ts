@@ -80,7 +80,7 @@ export const sendSMS = async (
 
     return {
         ok,
-        error: result_code,
+        error: result_code === 1 ? null : result_code,
         result
     };
 };

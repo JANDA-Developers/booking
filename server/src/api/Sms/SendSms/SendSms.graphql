@@ -17,6 +17,7 @@ type SendSmsResult {
 }
 type Mutation {
     SendSms(
+        smsInfoId: ID!
         sender: PhoneNumber!
         receivers: [PhoneNumber!]
         msg: String!
