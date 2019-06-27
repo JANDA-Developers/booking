@@ -5,7 +5,7 @@ import { ProductModel, ProductSchema } from "./Product";
 
 export interface IMakeProductOptions {
     layoutType: LayoutType | null;
-    requestedUrl: string | null;
+    url: string | null;
 }
 
 export class ProductTypeSchema extends Typegoose {
@@ -62,7 +62,7 @@ export class ProductTypeSchema extends Typegoose {
         });
         if (options) {
             product.setOptions({
-                requestedUrl: options.requestedUrl || undefined,
+                url: options.url || undefined,
                 layoutType: options.layoutType || undefined
             });
         }

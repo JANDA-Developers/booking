@@ -23,6 +23,19 @@ type Product {
     canHaveHostApp: Boolean!
     existingHostApp: Boolean!
     description: String
+    appInfoRequested: [AppInfoRequest!]
     createdAt: DateTime!
     updatedAt: DateTime
+}
+
+type AppInfoRequest {
+    url: URL!
+    layoutType: LayoutType!
+    requestedDate: DateTime!
+    isDone: Boolean!
+}
+
+input AppInfoRequestInput {
+    url: URL!
+    layoutType: LayoutType!
 }

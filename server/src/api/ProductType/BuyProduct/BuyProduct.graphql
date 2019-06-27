@@ -8,11 +8,6 @@ type Mutation {
     BuyProduct(
         houseId: ID!
         productTypeId: ID!
-        params: BuyProductParams!
+        appInfoRequest: AppInfoRequestInput!
     ): BuyProductResponse!
-}
-
-input BuyProductParams {
-    layoutType: LayoutType
-    requestedUrl: String
 }

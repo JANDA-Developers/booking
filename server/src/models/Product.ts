@@ -1,5 +1,9 @@
 import { instanceMethod, InstanceType, prop, Ref, Typegoose } from "typegoose";
-import { LayoutType } from "../types/graph";
+import {
+    AppInfoRequest,
+    AppInfoRequestInput,
+    LayoutType
+} from "../types/graph";
 import { HouseSchema } from "./House";
 import { ProductTypeSchema } from "./ProductType";
 
@@ -56,6 +60,9 @@ export class ProductSchema extends Typegoose {
     @prop()
     description?: string;
 
+    @prop({ default: [] })
+    appInfoRequested: AppInfoRequest[];
+
     @prop()
     createdAt: Date;
 
@@ -69,7 +76,7 @@ export class ProductSchema extends Typegoose {
             layoutType?: LayoutType;
             layoutPrice?: number;
             layoutPricePaid?: boolean;
-            requestedUrl?: string;
+            url?: string;
         }
     ) {
         if (options.layoutType) {
@@ -81,9 +88,26 @@ export class ProductSchema extends Typegoose {
         if (options.layoutPrice) {
             this.layoutPrice = options.layoutPrice;
         }
-        if (options.requestedUrl) {
-            this.appliedUrl = options.requestedUrl;
+        if (options.url) {
+            this.appliedUrl = options.url;
         }
+    }
+
+    @instanceMethod
+    async requestUpdateAppInfo(
+        this: InstanceType<ProductSchema>,
+        appInfoRequest: AppInfoRequestInput
+    ): Promise<AppInfoRequest> {
+        const appInfoReq: AppInfoRequest = {
+            ...appInfoRequest,
+            isDone: false,
+            requestedDate: new Date()
+        };
+        await this.updateOne({
+            $push: appInfoReq
+        });
+        this.appInfoRequested.push(appInfoReq);
+        return appInfoReq;
     }
 }
 
