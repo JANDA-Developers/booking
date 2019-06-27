@@ -72,23 +72,23 @@ const createbooking = async (
     if (!houseId) {
         return {
             ok: false,
-            error: "House 정보 에러",
+            error: "존재하지 않는 HouseId",
             booking: null
         };
     }
     try {
         // 1. booking prototype 생성
         // 2. guestInputs 돌면서... roomType 별로 게스트 생성.
-        const bookingInstance = new BookingModel(
-            removeUndefined({
+        const bookingInstance = new BookingModel({
+            ...removeUndefined({
                 ...bookerParams,
                 start,
                 end,
-                price: bookerParams.price || 0,
                 house: new Types.ObjectId(houseId),
                 paymentStatus: bookerParams.paymentStatus
-            })
-        );
+            }),
+            price: bookerParams.price || 0
+        });
         await bookingInstance.hashPassword();
         bookingInstance.guests = [];
         let flag = true;
@@ -254,6 +254,7 @@ const createbooking = async (
             booking: await extractbooking(bookingInstance)
         };
     } catch (error) {
+        console.log(error);
         return {
             ok: false,
             error: error.message,
