@@ -10,13 +10,15 @@ export class SmsHistorySchema extends Typegoose {
             sender,
             receivers,
             sendResult,
-            autoSend
+            autoSend,
+            msgType
         }: {
             msg: string;
             sender: string;
             receivers: string | string[];
             sendResult: boolean;
             autoSend: boolean;
+            msgType: string;
         }
     ): InstanceType<SmsHistorySchema> {
         try {
@@ -50,6 +52,9 @@ export class SmsHistorySchema extends Typegoose {
 
     @prop()
     receivers: string[];
+
+    @prop({ enum: ["SMS", "LMS", "MMS"], default: "SMS" })
+    msgType: string;
 
     @prop({})
     createdAt: Date;

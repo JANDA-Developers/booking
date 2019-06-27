@@ -64,7 +64,8 @@ export const sendSMS = async (
             receivers: receivers.split("|"),
             sendResult: true,
             sender,
-            autoSend
+            autoSend,
+            msgType: msg_type
         });
         await history.save();
     }

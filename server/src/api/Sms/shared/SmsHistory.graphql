@@ -6,6 +6,13 @@ type SmsHistory {
     receivers: [String!]
     sendResult: Boolean!
     autoSend: Boolean!
+    msgType: MsgType!
     createdAt: DateTime!
     updatedAt: DateTime!
+}
+
+enum MsgType {
+    SMS
+    LMS
+    MMS
 }

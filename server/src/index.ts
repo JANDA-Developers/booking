@@ -27,16 +27,16 @@ if (!isDev) {
 
 const handleAppStart = () => {
     console.log(
-        `Listening on http://${process.env.DB_ENDPOINT}:${PORT}${
-            process.env.PLAYGROUND_ENDPOINT
-        }`
+        `Listening on http://${process.env.DB_ENDPOINT}:${PORT}${process.env.PLAYGROUND_ENDPOINT}`
     );
 };
 
+const dbUri = isDev
+    ? `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0-gk4ly.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`
+    : `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_ENDPOINT}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
+
 connect(
-    `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${
-        process.env.DB_ENDPOINT
-    }:${process.env.DB_PORT}/${process.env.DB_NAME}`,
+    dbUri,
     {
         useNewUrlParser: true,
         useCreateIndex: true
