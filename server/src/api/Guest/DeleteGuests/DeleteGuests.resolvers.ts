@@ -1,4 +1,4 @@
-import * as _ from "lodash";
+import _ from "lodash";
 import { Types } from "mongoose";
 import { GuestModel } from "../../../models/Guest";
 import {
@@ -13,7 +13,7 @@ const resolvers: Resolvers = {
     Mutation: {
         DeleteGuests: privateResolver(
             async (
-                __,
+                __: any,
                 { guestIds }: DeleteGuestsMutationArgs
             ): Promise<DeleteGuestsResponse> => {
                 try {
@@ -31,6 +31,30 @@ const resolvers: Resolvers = {
                             $in: guestObjectIds
                         }
                     });
+                    // 우선은 보류
+                    // const bookingInstances = await Promise.all(
+                    //     await guestInstances.map(async guestInstance => {
+                    //         return await transformbooking(
+                    //             guestInstance.booking
+                    //         );
+                    //     })
+                    // );
+                    // const trashBooking: Types.ObjectId[] = [];
+                    // asyncForEach(bookingInstances, async bookingInstance => {
+                    //     if (
+                    //         bookingInstance &&
+                    //         bookingInstance.guests.length === 0
+                    //     ) {
+                    //         trashBooking.push(
+                    //             new Types.ObjectId(bookingInstance._id)
+                    //         );
+                    //     }
+                    // });
+                    // await BookingModel.remove({
+                    //     _id: {
+                    //         $in: trashBooking
+                    //     }
+                    // });
                     return {
                         ok: true,
                         error: null

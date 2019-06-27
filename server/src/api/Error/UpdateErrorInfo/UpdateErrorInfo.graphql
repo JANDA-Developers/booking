@@ -1,0 +1,21 @@
+type UpdateErrorInfoResponse {
+    ok: Boolean!
+    error: String
+    updatedErrorInfo: Error
+}
+
+type Mutation {
+    UpdateErrorInfo(
+        errorCode: Int!
+        params: UpdateErrorInfoInput!
+    ): UpdateErrorInfoResponse!
+}
+
+input UpdateErrorInfoInput {
+    # User에게 보여줄 메시지
+    message: String
+    # 에러에 대한 상세 내용 & 해결 방법
+    description: String
+    # 개발용 메시지
+    devMsg: String
+}

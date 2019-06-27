@@ -1,6 +1,14 @@
 type Error {
-    # 에러코드
-    code: String!
-    message: String!
-    devMsg: String!
+    causedPointCode: Int!
+    occurCaseCode: Int!
+    descCode: Int!
+    errorCode: Int!
+    # User에게 보여줄 메시지
+    message: String
+    # 에러에 대한 상세 내용 & 해결 방법
+    description: String
+    # 개발용 메시지
+    devMsg: String
+    createdAt: DateTime
+    updtedAt: DateTime
 }

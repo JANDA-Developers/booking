@@ -1,5 +1,8 @@
 import dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+
+dotenv.config({
+    path: "../.env"
+});
 
 import fs from "fs";
 import { Options } from "graphql-yoga";
@@ -43,6 +46,9 @@ connect(
     }
 )
     .then(connection => {
+        if (isDev) {
+            console.log(`DB Uri: ${dbUri}`);
+        }
         app.start(appOptions, handleAppStart);
     })
     .catch(err => {
