@@ -3,6 +3,11 @@ import { instanceMethod, InstanceType, prop, Typegoose } from "typegoose";
 import { LayoutType } from "../types/graph";
 import { ProductModel, ProductSchema } from "./Product";
 
+export interface IMakeProductOptions {
+    layoutType: LayoutType;
+    appliedUrl: string;
+}
+
 export class ProductTypeSchema extends Typegoose {
     // TODO - HasHostApp: Boolean~ 생성하기
     @prop({ required: true, default: true })
@@ -46,9 +51,7 @@ export class ProductTypeSchema extends Typegoose {
     public makeProduct(
         this: ProductTypeSchema,
         houseId: string,
-        options?: {
-            layoutType: LayoutType;
-        }
+        options?: IMakeProductOptions
     ): InstanceType<ProductSchema> {
         const product = new ProductModel({
             ...this,

@@ -4,6 +4,9 @@ import { HouseSchema } from "./House";
 import { ProductTypeSchema } from "./ProductType";
 
 export class ProductSchema extends Typegoose {
+    @prop()
+    appliedUrl: string;
+
     @prop({ required: true })
     name: string;
 
@@ -66,6 +69,7 @@ export class ProductSchema extends Typegoose {
             layoutType?: LayoutType;
             layoutPrice?: number;
             layoutPricePaid?: boolean;
+            appliedUrl?: string;
         }
     ) {
         if (options.layoutType) {
@@ -76,6 +80,9 @@ export class ProductSchema extends Typegoose {
         }
         if (options.layoutPrice) {
             this.layoutPrice = options.layoutPrice;
+        }
+        if (options.appliedUrl) {
+            this.appliedUrl = options.appliedUrl;
         }
     }
 }

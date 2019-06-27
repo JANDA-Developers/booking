@@ -14,7 +14,7 @@ const resolvers: Resolvers = {
         BuyProduct: privateResolver(
             async (
                 _,
-                { houseId, productTypeId, layoutType }: BuyProductMutationArgs
+                { houseId, productTypeId, params }: BuyProductMutationArgs
             ): Promise<BuyProductResponse> => {
                 try {
                     const existingProductType = await ProductTypeModel.findById(
@@ -38,6 +38,7 @@ const resolvers: Resolvers = {
 
                     const product = await existingProductType.makeProduct(
                         houseId
+                        // TODO 여기서 어쩔...?
                     );
                     product.productType = new Types.ObjectId(productTypeId);
 
@@ -70,6 +71,13 @@ const resolvers: Resolvers = {
                         };
                     }
                 } catch (error) {
+                    console.log(
+                        {
+                            error
+                        },
+                        error
+                    );
+
                     return {
                         ok: false,
                         error: error.message,
