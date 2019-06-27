@@ -69,7 +69,7 @@ export class ProductSchema extends Typegoose {
             layoutType?: LayoutType;
             layoutPrice?: number;
             layoutPricePaid?: boolean;
-            appliedUrl?: string;
+            requestedUrl?: string;
         }
     ) {
         if (options.layoutType) {
@@ -81,8 +81,8 @@ export class ProductSchema extends Typegoose {
         if (options.layoutPrice) {
             this.layoutPrice = options.layoutPrice;
         }
-        if (options.appliedUrl) {
-            this.appliedUrl = options.appliedUrl;
+        if (options.requestedUrl) {
+            this.appliedUrl = options.requestedUrl;
         }
     }
 }

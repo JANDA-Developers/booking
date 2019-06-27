@@ -37,8 +37,12 @@ const resolvers: Resolvers = {
                     }
 
                     const product = await existingProductType.makeProduct(
-                        houseId
+                        houseId,
                         // TODO 여기서 어쩔...?
+                        {
+                            layoutType: params.layoutType,
+                            requestedUrl: params.requestedUrl
+                        }
                     );
                     product.productType = new Types.ObjectId(productTypeId);
 

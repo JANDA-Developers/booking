@@ -14,5 +14,5 @@ type Mutation {
 
 input BuyProductParams {
     layoutType: LayoutType
-    appliedUrl: String
+    requestedUrl: String
 }

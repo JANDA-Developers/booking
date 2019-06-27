@@ -4,8 +4,8 @@ import { LayoutType } from "../types/graph";
 import { ProductModel, ProductSchema } from "./Product";
 
 export interface IMakeProductOptions {
-    layoutType: LayoutType;
-    appliedUrl: string;
+    layoutType: LayoutType | null;
+    requestedUrl: string | null;
 }
 
 export class ProductTypeSchema extends Typegoose {
@@ -61,7 +61,10 @@ export class ProductTypeSchema extends Typegoose {
                 this.canHaveHostApp === undefined ? true : this.canHaveHostApp
         });
         if (options) {
-            product.setOptions(options);
+            product.setOptions({
+                requestedUrl: options.requestedUrl || undefined,
+                layoutType: options.layoutType || undefined
+            });
         }
         delete product.createdAt;
         delete product.updatedAt;
