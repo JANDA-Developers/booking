@@ -1,4 +1,4 @@
-import * as _ from "lodash";
+import _ from "lodash";
 import { Types } from "mongoose";
 import {
     instanceMethod,
@@ -34,7 +34,7 @@ export class PriceHistorySchema extends Typegoose {
             booking: new Types.ObjectId(bookingInstance._id),
             price,
             suggestedPrice
-        });
+        }); 
     }
 
     @staticMethod

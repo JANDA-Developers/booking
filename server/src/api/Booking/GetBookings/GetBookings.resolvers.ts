@@ -60,7 +60,7 @@ const resolvers: Resolvers = {
                     const tt = await BookingModel.countDocuments(
                         removeUndefined(filterQuery)
                     );
-                    const totalPage = Math.ceil(tt / c);
+                    const totalPage = Math.ceil(tt / c) || 0;
                     // 필터 추가 ㄱㄱ
 
                     console.log({

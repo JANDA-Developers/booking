@@ -42,11 +42,12 @@ const resolvers: Resolvers = {
                         .skip((p - 1) * c)
                         .limit(c);
 
-                    const totalPage = Math.ceil(
-                        (await SmsHistoryModel.countDocuments({
-                            smsInfo: new Types.ObjectId(smsInfoId)
-                        })) / c
-                    );
+                    const totalPage =
+                        Math.ceil(
+                            (await SmsHistoryModel.countDocuments({
+                                smsInfo: new Types.ObjectId(smsInfoId)
+                            })) / c
+                        ) || 1;
                     return {
                         ok: true,
                         error: null,

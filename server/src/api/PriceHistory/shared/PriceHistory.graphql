@@ -1,0 +1,10 @@
+type PriceHistory {
+    _id: ID!
+    user: User!
+    house: House!
+    bookingId: String
+    guest: Guest!
+    price: Float!
+    createdAt: DateTime!
+    updatedAt: DateTime
+}

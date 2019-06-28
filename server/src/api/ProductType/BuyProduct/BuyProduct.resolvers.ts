@@ -42,7 +42,6 @@ const resolvers: Resolvers = {
 
                     const product = await existingProductType.makeProduct(
                         houseId,
-                        // TODO 여기서 어쩔...?
                         appInfoRequest
                     );
                     product.productType = new Types.ObjectId(productTypeId);
