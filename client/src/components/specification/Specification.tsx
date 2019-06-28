@@ -4,9 +4,12 @@ import {Fragment} from "react";
 import moment from "moment";
 import React from "react";
 import {autoHypen} from "../../utils/utils";
+import {DEFAULT_PRODUCT} from "../../types/defaults";
+import Preloader from "../../atoms/preloader/Preloader";
 
 interface IProps {
   specification: getSpecification_GetHouse_house | undefined;
+  loading: boolean;
 }
 
 const defaultSpecification = {
@@ -22,44 +25,81 @@ const defaultSpecification = {
 };
 
 export const SpecificAtion: React.SFC<IProps> = ({
-  specification = defaultSpecification
+  specification = defaultSpecification,
+  loading
 }) => {
+  const {
+    _id,
+    product,
+    createdAt,
+    houseType,
+    name: houseName,
+    updatedAt,
+    user
+  } = specification;
+
+  const {
+    appliedUrl,
+    _id: productId,
+    name: productName,
+    createdAt: productCreateAt,
+    price,
+    layoutType,
+    existingHostApp,
+    description,
+    layoutPrice,
+    layoutPricePaid,
+    productType,
+    canHaveHostApp,
+    discountedPrice,
+    bookingCountExtraCharge
+  } = product || DEFAULT_PRODUCT;
+
+  const {name: userName, email, isPhoneVerified, phoneNumber} = user!;
+
   const columns: {title: string; value: string}[] = [
     {
       title: "적용상품",
-      value: specification.product && specification.product.name
+      value: productName
     },
-    {title: "숙소명", value: specification.name},
-    {title: "숙소타입", value: specification.houseType},
-    {title: "신청자", value: specification.user && specification.user.name},
+    {title: "숙소명", value: houseName},
+    {title: "숙소타입", value: houseType},
+    {title: "신청자", value: userName},
     {
-      title: "신청일시",
-      value:
-        specification.product &&
-        moment(specification.product.createdAt).format("YY년 MM월 DD일 HH:mm")
+      title: "홈페이지 신청여부",
+      value: ""
     },
     {
-      title: "예상완료일시",
-      value:
-        specification.product &&
-        moment(specification.product.createdAt)
-          .add(3, "days")
-          .format("YYMMDD")
+      title: "홈페이지 신청일시",
+      value: moment(productCreateAt).format("YY년 MM월 DD일 HH:mm")
     },
-    {title: "홈페이지 생성 일시", value: ""},
+    {
+      title: "홈페이지 예상완료일시",
+      value: moment(productCreateAt)
+        .add(3, "days")
+        .format("YYMMDD")
+    },
     {title: "홈페이지 작업 현황", value: ""},
-    {title: "신청레이아웃", value: "-"},
+    {title: "신청레이아웃", value: product ? layoutType : ""},
+    {
+      title: "레이아웃 비용",
+      value: layoutPrice
+    },
     {
       title: "결제금액",
-      value: specification.product && specification.product.price
+      value: price
+    },
+    {
+      title: "결제상태",
+      value: ""
     },
     {
       title: "현재상태",
       value: ""
     },
     {
-      title: "연락처",
-      value: specification.user && autoHypen(specification.user.phoneNumber)
+      title: "연락처 핸드폰",
+      value: autoHypen(phoneNumber)
     }
   ];
 

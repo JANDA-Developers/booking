@@ -4,6 +4,7 @@ import Card, {CardProps} from "../../../../../atoms/cards/Card";
 import Button from "../../../../../atoms/button/Button";
 import {Fragment} from "react";
 import Radio from "../../../../../atoms/forms/radio/Radio";
+import {LayoutType} from "../../../../../types/enum";
 
 interface IProps extends CardProps {
   selectedLayout?: any;
@@ -20,7 +21,7 @@ interface layout {
 
 const layouts: layout[] = [
   {
-    id: "A",
+    id: LayoutType.Layout_A,
     name: "A타입 레이아웃",
     link: "http://janda-install.kr/",
     desc: "기본제공 레이아웃",
@@ -28,7 +29,7 @@ const layouts: layout[] = [
       "https://res.cloudinary.com/stayjanda-com/image/upload/v1560234616/layout_type_A.jpg"
   },
   {
-    id: "B",
+    id: LayoutType.Layout_B,
     name: "B타입 레이아웃",
     desc: "추가비용 50,000 (첫구매시만 발생)",
     link: "http://code-slave-2018.com/",
@@ -54,9 +55,19 @@ const LayoutCards: React.FC<IProps> = ({
           backgroundImage: `url("${layout.img}")`
         };
         return (
-          <div className="col--wmd-12 col--full-6 flex-grid__col">
+          <div
+            key={layout.id}
+            className="col--wmd-12 col--full-6 flex-grid__col"
+          >
             <span>
-              <Radio label={layout.name} groupName="layout" id={layout.id} />
+              <Radio
+                selectedValue={selectedLayout}
+                onChange={setLayout}
+                value={layout.id}
+                label={layout.name}
+                groupName="layout"
+                id={layout.id}
+              />
             </span>
             <Card
               selected={selectedLayout && selectedLayout === layout.id}

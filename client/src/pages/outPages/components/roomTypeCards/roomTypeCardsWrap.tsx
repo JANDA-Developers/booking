@@ -15,15 +15,13 @@ import {
   getAppliedPriceWithDateRange,
   getAppliedPriceWithDateRangeVariables,
   BookerInput,
-  getAvailableGuestCountForBooker,
-  getAvailableGuestCountForBookerVariables,
   getAppliedPriceWithDateRangeForBooker,
   getAppliedPriceWithDateRangeForBookerVariables
 } from "../../../../types/api";
 import {
   GET_AVAILABLE_GUEST_COUNT,
   GET_APPLIED_PRICE_WITH_DATE,
-  GET_APPLIED_PRICE_WITH_DATE_RANGE_FOR_BOOKING
+  GET_APPLIED_PRICE_WITH_DATE_RANGE_FOR_BOOKER
 } from "../../../../queries";
 import {IUseModal, IUseDayPicker} from "../../../../actions/hook";
 import {setYYYYMMDD} from "../../../../utils/setMidNight";
@@ -31,8 +29,8 @@ import {IRoomType} from "../../../../types/interface";
 import {truePriceFinder} from "../../../../utils/booking";
 
 class GetAvailGuestCountQu extends Query<
-  getAvailableGuestCountForBooker,
-  getAvailableGuestCountForBookerVariables
+  getAvailableGuestCount,
+  getAvailableGuestCountVariables
 > {}
 class GetAppliedPriceWithDate extends Query<
   getAppliedPriceWithDateRangeForBooker,
@@ -118,7 +116,7 @@ const RoomTypeCardsWrap: React.SFC<IProps> = ({
               start: dayPickerHook.from,
               roomTypeId: roomTypeData._id
             }}
-            query={GET_APPLIED_PRICE_WITH_DATE_RANGE_FOR_BOOKING}
+            query={GET_APPLIED_PRICE_WITH_DATE_RANGE_FOR_BOOKER}
           >
             {({data: priceData, loading, error}) => {
               const seasonPrices = queryDataFormater(

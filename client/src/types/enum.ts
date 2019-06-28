@@ -1,4 +1,4 @@
-import { assertValidSDL } from "graphql/validation/validate";
+import {assertValidSDL} from "graphql/validation/validate";
 
 //= =============================================================
 // START Enums from BackEnd
@@ -153,6 +153,11 @@ export enum SendTargetKr {
   HOST = "호스트"
 }
 
+export enum LayoutType {
+  Layout_A = "Layout_A",
+  Layout_B = "Layout_B"
+}
+
 export enum SmsReplaceKeyEnum {
   STAYDATE = "%STAYDATE%",
   STAYDATE_YMD = "$STAYDATE_YMD%",
@@ -206,62 +211,62 @@ export const KR_SMS_PARSER = {
 //= =============================================================
 
 export const SELECT_DUMMY_OP = [
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" }
+  {value: "chocolate", label: "Chocolate"},
+  {value: "strawberry", label: "Strawberry"},
+  {value: "vanilla", label: "Vanilla"}
 ];
 
 export const SELECT_COUNT_DUMMY_OP = [
-  { value: 0, label: "0" },
-  { value: 1, label: "1" },
-  { value: 2, label: "2" },
-  { value: 3, label: "3" },
-  { value: 4, label: "4" },
-  { value: 5, label: "5" },
-  { value: 6, label: "6" },
-  { value: 7, label: "7" },
-  { value: 8, label: "8" },
-  { value: 9, label: "9" },
-  { value: 10, label: "10" }
+  {value: 0, label: "0"},
+  {value: 1, label: "1"},
+  {value: 2, label: "2"},
+  {value: 3, label: "3"},
+  {value: 4, label: "4"},
+  {value: 5, label: "5"},
+  {value: 6, label: "6"},
+  {value: 7, label: "7"},
+  {value: 8, label: "8"},
+  {value: 9, label: "9"},
+  {value: 10, label: "10"}
 ];
 
 export const BOOKING_STATUS_OP = [
-  { value: BookingStatus.COMPLETE, label: "예약완료" },
-  { value: BookingStatus.CANCEL, label: "예약취소" }
+  {value: BookingStatus.COMPLETE, label: "예약완료"},
+  {value: BookingStatus.CANCEL, label: "예약취소"}
 ];
 
 export const PAYMENT_STATUS_OP = [
-  { value: PaymentStatus.COMPLETE, label: "결제완료" },
-  { value: PaymentStatus.NOT_YET, label: "미결제" }
+  {value: PaymentStatus.COMPLETE, label: "결제완료"},
+  {value: PaymentStatus.NOT_YET, label: "미결제"}
 ];
 
 export const SMS_TARGET_OP = [
-  { value: SendTarget.GUEST, label: SendTargetKr.GUEST },
-  { value: SendTarget.HOST, label: SendTargetKr.HOST }
+  {value: SendTarget.GUEST, label: SendTargetKr.GUEST},
+  {value: SendTarget.HOST, label: SendTargetKr.HOST}
 ];
 
 export const PAYMETHOD_FOR_BOOKER_OP = [
-  { value: PayMethod.BANK_TRANSFER, label: "무통장입금" }
+  {value: PayMethod.BANK_TRANSFER, label: "무통장입금"}
 ];
 
 export const PAYMETHOD_FOR_HOST_OP = [
-  { value: PayMethod.BANK_TRANSFER, label: "무통장입금" },
-  { value: PayMethod.CASH, label: "현금결제" },
-  { value: PayMethod.CREDIT_CARD, label: "카드결제" },
-  { value: PayMethod.CHANNEL_PAY, label: "채널결제" }
+  {value: PayMethod.BANK_TRANSFER, label: "무통장입금"},
+  {value: PayMethod.CASH, label: "현금결제"},
+  {value: PayMethod.CREDIT_CARD, label: "카드결제"},
+  {value: PayMethod.CHANNEL_PAY, label: "채널결제"}
   // {value: PayMethod.ELSE, label: "기타"}
 ];
 
 export const ROOM_GENDER_OP = [
-  { value: RoomGender.SEPARATELY, label: RoomGenderKr.SEPARATELY },
-  { value: RoomGender.ANY, label: RoomGenderKr.ANY },
-  { value: RoomGender.MALE, label: RoomGenderKr.MALE },
-  { value: RoomGender.FEMALE, label: RoomGenderKr.FEMALE }
+  {value: RoomGender.SEPARATELY, label: RoomGenderKr.SEPARATELY},
+  {value: RoomGender.ANY, label: RoomGenderKr.ANY},
+  {value: RoomGender.MALE, label: RoomGenderKr.MALE},
+  {value: RoomGender.FEMALE, label: RoomGenderKr.FEMALE}
 ];
 
 export const PRICING_TYPE_OP = [
-  { value: PricingType.DOMITORY, label: PricingTypeKr.DOMITORY },
-  { value: PricingType.ROOM, label: PricingTypeKr.ROOM }
+  {value: PricingType.DOMITORY, label: PricingTypeKr.DOMITORY},
+  {value: PricingType.ROOM, label: PricingTypeKr.ROOM}
 ];
 
 export const AUTO_SEND_OP = [
@@ -281,13 +286,13 @@ export const AUTO_SEND_OP = [
     value: AutoSendWhen.WHEN_BOOKING_UPDATE,
     label: AutoSendWhenKr.WHEN_BOOKING_UPDATE
   },
-  { value: null, label: "선택안함" }
+  {value: null, label: "선택안함"}
 ];
 
 export const MAX_PEOPLE_COUNT_OP_FN = () => {
   const maxPeopleCountOption = [];
   for (let i = 0; i < 100; i += 1) {
-    maxPeopleCountOption.push({ value: i, label: `${i}명` });
+    maxPeopleCountOption.push({value: i, label: `${i}명`});
   }
   return maxPeopleCountOption;
 };

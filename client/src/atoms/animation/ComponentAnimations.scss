@@ -2,6 +2,33 @@
 //  animation From [https://raw.githubusercontent.com/daneden/animate.css/master/animate.css]
 
 
+
+  
+@-webkit-keyframes JDzoomOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    -webkit-transform: translateZ(0);
+    transform: scale(0);
+  }
+}
+
+@keyframes JDzoomOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    -webkit-transform: translateZ(0);
+    transform: scale(0);
+  }
+}  
+
+
 @-webkit-keyframes fadeOutRight {
     from {
       opacity: 1;
@@ -40,7 +67,6 @@
       transform: translate3d(0, 0, 0);
     }
   }
-  
 
   @keyframes fadeInUp {
     from {
@@ -83,3 +109,12 @@
     animation-duration: 1s;
     animation-fill-mode: after;
   }
+  
+  .zoomOut {
+    -webkit-animation-name: JDzoomOut!important;
+    transform-origin: center center;
+    animation-name: JDzoomOut!important;
+    animation-duration: .5s;
+    animation-fill-mode: after;
+  }
+  

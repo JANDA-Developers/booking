@@ -3,6 +3,7 @@ import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 import "./ComponentAnimations.scss";
 
 export enum Animation {
+  zoomOut = "zoomOut",
   fadeOutRight = "fadeOutRight",
   fadeInDown = "fadeInDown"
 }
@@ -25,7 +26,7 @@ const JDanimation: React.FC<IProps> = ({children, animation, ...props}) => {
     transitionAppearTimeout: 1000,
     transitionEnter: false,
     transitionEnterTimeout: 1000,
-    transitionLeave: true,
+    transitionLeave: false,
     transitionLeaveTimeout: 1000
   };
 
@@ -41,6 +42,13 @@ const JDanimation: React.FC<IProps> = ({children, animation, ...props}) => {
     animationProp.transitionLeave = true;
   }
 
+  // zoomOut
+  if (animation.includes(Animation.zoomOut)) {
+    animationProp.transitionName.leave = Animation.zoomOut;
+    animationProp.transitionLeave = true;
+    animationProp.transitionLeaveTimeout = 500;
+  }
+
   return (
     <ReactCSSTransitionGroup {...animationProp} {...props}>
       {children}
@@ -50,4 +58,4 @@ const JDanimation: React.FC<IProps> = ({children, animation, ...props}) => {
 
 export default JDanimation;
 
-//  animation From [https://raw.githubusercontent.com/daneden/animate.css/master/animate.css]
+// ⭐️ animation From [https://raw.githubusercontent.com/daneden/animate.css/master/animate.css]

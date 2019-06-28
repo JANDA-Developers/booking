@@ -28,6 +28,7 @@ import {onCompletedMessage} from "../../../utils/utils";
 import {isPhone} from "../../../utils/inputValidations";
 import {toast} from "react-toastify";
 import PhoneVerificationModalWrap from "../../../components/phoneVerificationModal/PhoneVerificationModalWrap";
+import {Link} from "react-router-dom";
 
 interface IProps {
   smsTemplateMutationes: {
@@ -115,6 +116,9 @@ const Sms: React.FC<IProps> = ({
           SMS 설정
           {loading && <Preloader size="medium" />}
         </h3>
+        <Link to="/middleServer/smsHistory">
+          <Button label="SMS 내역보기" />
+        </Link>
         {/* <div className="flex-grid"> */}
         {/* <div className="flex-grid__col col--full-6 col--md-12">
               <Card>

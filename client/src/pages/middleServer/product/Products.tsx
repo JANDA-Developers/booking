@@ -122,7 +122,7 @@ const Products: React.FC<IProps> = ({
           {/* <JDcheckbox disabled={} onChange={hostAppHook.onChange} checked={hostAppHook.checked} label="홈페이지 신청" /> */}
           <p title="하단 메세지">
             {isEmpty(selectedHouse) ? (
-              <span className="JDlarge-warring-text">
+              <span className="JDtextColor-warring-text">
                 현재 생성된 숙소가 없습니다.
               </span>
             ) : (

@@ -9,7 +9,7 @@ import {
   createBookingForBooker,
   createBookingForBookerVariables
 } from "../../../types/api";
-import {CREATE_BOOKING_FOR_BOOKING} from "../../../queries";
+import {CREATE_BOOKING_FOR_BOOKER} from "../../../queries";
 import {toast} from "react-toastify";
 import {useModal} from "../../../actions/hook";
 
@@ -43,7 +43,7 @@ const ReservationWrap: React.FC<IProps> = ({match, houseId}) => {
           showError(CreateBookingForBooker.error);
         }
       }}
-      mutation={CREATE_BOOKING_FOR_BOOKING}
+      mutation={CREATE_BOOKING_FOR_BOOKER}
     >
       {createBookingMu => (
         <Reservation

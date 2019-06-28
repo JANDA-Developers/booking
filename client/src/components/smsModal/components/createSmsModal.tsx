@@ -25,6 +25,7 @@ import {IModalSMSinfo} from "../SendSmsModalWrap";
 import Preloader from "../../../atoms/preloader/Preloader";
 import {autoComma, autoHypen} from "../../../utils/utils";
 import JDLabel from "../../../atoms/label/JDLabel";
+import {throwServerError} from "apollo-link-http-common";
 
 interface IProps {
   modalHook: IUseModal<IModalSMSinfo>;
@@ -41,8 +42,12 @@ const CreateSmsModal: React.FC<IProps> = ({
 }) => {
   const [msg, setMsg] = useState("");
   const handleSendSmsBtnClick = () => {
+    if (!smsInfo) {
+      throw Error("smsInfo is not exist");
+    }
     sendSmsMu({
       variables: {
+        smsInfoId: smsInfo._id,
         msg: smsMessageFormatter(msg),
         receivers: smsInfo && smsInfo.receivers,
         sender: process.env.REACT_APP_API_SMS_SENDER_NUMBER

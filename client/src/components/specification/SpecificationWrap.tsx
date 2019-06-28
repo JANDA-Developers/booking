@@ -1,9 +1,10 @@
-import React, {useState} from "react";
+import React, {useState, Fragment} from "react";
 import {Query, Mutation} from "react-apollo";
 import {getSpecification, getSpecificationVariables} from "../../types/api";
 import {GET_HOUSE_SPECIFICATION} from "../../queries";
 import {queryDataFormater, showError} from "../../utils/utils";
 import SpecificAtion from "./Specification";
+import Preloader from "../../atoms/preloader/Preloader";
 
 interface IProps {
   houseId: string;
@@ -30,7 +31,17 @@ const SpecificAtionWrap: React.FC<IProps> = ({houseId}) => {
           undefined
         );
 
-        return <SpecificAtion specification={specification || undefined} />;
+        return (
+          <Fragment>
+            <Preloader noAnimation size="large" loading={loading} />
+            {loading || (
+              <SpecificAtion
+                loading={loading}
+                specification={specification || undefined}
+              />
+            )}
+          </Fragment>
+        );
       }}
     </GetSpecification>
   );

@@ -48,7 +48,6 @@ const MakeHouse: React.FC<IProps & RouteComponentProps> = ({
   );
   const mapRef = useRef(null);
 
-  console.log(adressData);
   if (getAdressError) console.error(getAdressError);
 
   // 제출전 입력값이 정확한지 검사

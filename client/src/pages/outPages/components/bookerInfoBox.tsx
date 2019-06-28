@@ -1,13 +1,13 @@
-import classNames from 'classnames';
-import React, { useRef } from 'react';
-import InputText from '../../../atoms/forms/inputText/InputText';
-import CheckBox from '../../../atoms/forms/checkBox/CheckBox';
-import Button from '../../../atoms/button/Button';
-import utils from '../../../utils/utils';
-import { BookerInput as IBookerInput } from '../../../types/api';
-import { ISetBookingInfo } from '../reservation/Reservation';
-import TooltipList from '../../../atoms/tooltipList/TooltipList';
-import JDbox from '../../../atoms/box/JDbox';
+import classNames from "classnames";
+import React, {useRef} from "react";
+import InputText from "../../../atoms/forms/inputText/InputText";
+import CheckBox from "../../../atoms/forms/checkBox/CheckBox";
+import Button from "../../../atoms/button/Button";
+import utils from "../../../utils/utils";
+import {BookerInput as IBookerInput} from "../../../types/api";
+import {ISetBookingInfo} from "../reservation/Reservation";
+import TooltipList from "../../../atoms/tooltipList/TooltipList";
+import JDbox from "../../../atoms/box/JDbox";
 
 interface IProps {
   className?: string;
@@ -15,8 +15,12 @@ interface IProps {
   setBookingInfo: ISetBookingInfo;
 }
 
-const BookingInfoBox: React.SFC<IProps> = ({ className, bookingInfo, setBookingInfo }) => {
-  const classes = classNames('JDbookingInfoBox', className, {});
+const BookingInfoBox: React.SFC<IProps> = ({
+  className,
+  bookingInfo,
+  setBookingInfo
+}) => {
+  const classes = classNames("JDbookingInfoBox", className, {});
   const tooltipRef = useRef<any>();
 
   return (
@@ -24,7 +28,7 @@ const BookingInfoBox: React.SFC<IProps> = ({ className, bookingInfo, setBookingI
       <InputText
         value={bookingInfo.name}
         onChange={(value: string) => {
-          setBookingInfo({ ...bookingInfo, name: value });
+          setBookingInfo({...bookingInfo, name: value});
         }}
         id="JDbookingInfo__name"
         label="성함"
@@ -32,7 +36,7 @@ const BookingInfoBox: React.SFC<IProps> = ({ className, bookingInfo, setBookingI
       <InputText
         value={bookingInfo.phoneNumber}
         onChange={(value: string) => {
-          setBookingInfo({ ...bookingInfo, phoneNumber: value });
+          setBookingInfo({...bookingInfo, phoneNumber: value});
         }}
         hyphen
         id="JDbookingInfo__phoneNumber"
@@ -41,7 +45,7 @@ const BookingInfoBox: React.SFC<IProps> = ({ className, bookingInfo, setBookingI
       <InputText
         value={bookingInfo.password}
         onChange={(value: string) => {
-          setBookingInfo({ ...bookingInfo, password: value });
+          setBookingInfo({...bookingInfo, password: value});
         }}
         type="password"
         id="JDbookingInfo__password"
@@ -50,7 +54,7 @@ const BookingInfoBox: React.SFC<IProps> = ({ className, bookingInfo, setBookingI
       <InputText
         value={bookingInfo.memo}
         onChange={(value: string) => {
-          setBookingInfo({ ...bookingInfo, memo: value });
+          setBookingInfo({...bookingInfo, memo: value});
         }}
         id="JDbookingInfo__memo"
         textarea
@@ -59,7 +63,7 @@ const BookingInfoBox: React.SFC<IProps> = ({ className, bookingInfo, setBookingI
       <CheckBox
         checked={bookingInfo.agreePrivacyPolicy}
         onChange={(value: boolean) => {
-          setBookingInfo({ ...bookingInfo, agreePrivacyPolicy: value });
+          setBookingInfo({...bookingInfo, agreePrivacyPolicy: value});
         }}
         id="JDbookingInfo__agreeMent"
         label="개인정보 수집 동의"
@@ -76,9 +80,15 @@ const BookingInfoBox: React.SFC<IProps> = ({ className, bookingInfo, setBookingI
         <Button label="약관보기" mode="flat" thema="grey" />
       </span>
 
-      <TooltipList scrollNodeClass="paymentModal" tooltipRef={tooltipRef} id="agreePrivacyPolicy">
+      <TooltipList
+        scrollNodeClass="paymentModal"
+        tooltipRef={tooltipRef}
+        id="agreePrivacyPolicy"
+      >
         <JDbox className="paymentModal__JDbox" mode="table">
-          <div className="JDlarge-text JDstandard-margin-bottom">서비스 제공을 위해 귀하의 개인정보를 수집합니다.</div>
+          <div className="JDlarge-text JDstandard-margin-bottom">
+            서비스 제공을 위해 귀하의 개인정보를 수집합니다.
+          </div>
           <table>
             <thead>
               <tr>
@@ -95,10 +105,14 @@ const BookingInfoBox: React.SFC<IProps> = ({ className, bookingInfo, setBookingI
               </tr>
             </tbody>
           </table>
-          <p className="JDtiny-text JDlarge-warring-text">
-            {'※ 서비스 제공을 위해 필요한 최소한의 개인정보이므로 동의를 해주셔야 서비스를 이용하실수 있습니다.'}
+          <p className="JDtiny-text JDtextColor-warring-text">
+            {
+              "※ 서비스 제공을 위해 필요한 최소한의 개인정보이므로 동의를 해주셔야 서비스를 이용하실수 있습니다."
+            }
             <br />
-            {'※ 게스트하우스 규정을 위반할 시 위반내용과 함께 개인정보가 저장됩니다. '}
+            {
+              "※ 게스트하우스 규정을 위반할 시 위반내용과 함께 개인정보가 저장됩니다. "
+            }
           </p>
         </JDbox>
       </TooltipList>

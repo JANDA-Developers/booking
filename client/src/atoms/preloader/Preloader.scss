@@ -26,6 +26,7 @@
     height: inherit;
     position: relative;
     fill:inherit;
+
     &__outerline {
         fill: $preloader-background-color;
     }
@@ -38,6 +39,13 @@
     &--medium {
         width: 4rem;
         height: 4rem;
+    }
+
+    &--floating {
+        position:fixed!important;
+        bottom: 5%!important;
+        left: 5%!important;
+        transform-origin: left bottom;
     }
 }
 

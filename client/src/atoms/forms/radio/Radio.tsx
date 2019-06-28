@@ -10,8 +10,8 @@ interface IProps {
   label?: string;
   disabled?: boolean;
   selectedValue?: any;
-  onChange?(foo?: string | number): void;
-  value?: string | number;
+  onChange?(foo?: any): void;
+  value?: any;
   checked?: boolean;
 }
 

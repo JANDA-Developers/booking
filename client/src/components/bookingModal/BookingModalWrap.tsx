@@ -20,7 +20,8 @@ import {
 import {
   queryDataFormater,
   showError,
-  onCompletedMessage
+  onCompletedMessage,
+  s4
 } from "../../utils/utils";
 import {GB_booking} from "../../types/interface";
 import Preloader from "../../atoms/preloader/Preloader";
@@ -200,10 +201,7 @@ const BookingModalWrap: React.FC<IProps> = ({modalHook, houseId}) => (
                             updateBookingMu={updateBookingMu}
                             deleteBookingMu={deleteBookingMu}
                             allocateGuestToRoomMu={allocateGuestToRoomMu}
-                            key={`bookingModal${bookingData._id}${loading &&
-                              "--loading"}${modalHook.info.type}${
-                              bookingData.start
-                            }${bookingData.end}`}
+                            key={`bookingModal${s4()}`}
                           />
                         );
                       }}

@@ -1,0 +1,45 @@
+@import "../../style_config/style_config";
+
+.JDlist {
+    &--left {
+        text-align: left;
+    }
+    
+    &--center {
+        text-align: center;
+    }
+
+    &--right {
+        text-align: right;
+    }
+
+    &--bordered {
+        li {
+            margin-bottom: 1px solid $grey-level1;
+        }
+    }
+    
+    &--stripe {
+        li:nth-child(even){
+            background-color: $grey-level1;
+        }
+    }
+
+    &--mbShort {
+        li {
+            margin-bottom: $standard-margin-bottom /2;
+        }
+    }
+
+    &--mbNormal {
+        li {
+            margin-bottom: $standard-margin-bottom;
+        }
+    }
+
+    &--mbLong {
+        li {
+            margin-bottom: $standard-margin-bottom * 1.5;
+        }
+    }
+}

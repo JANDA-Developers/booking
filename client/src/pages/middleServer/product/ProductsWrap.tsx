@@ -20,7 +20,7 @@ import {
   refundProductVariables
 } from "../../../types/api";
 import {ReactTooltip} from "../../../atoms/tooltipList/TooltipList";
-import {Product} from "../../../types/enum";
+import {Product, LayoutType} from "../../../types/enum";
 import AdditionModal from "./components/additionModal";
 
 class BuyProductMutation extends Mutation<buyProduct, buyProductVariables> {}
@@ -28,6 +28,12 @@ class RefundProductMutation extends Mutation<
   refundProduct,
   refundProductVariables
 > {}
+
+export interface IAdditionHook {
+  useLayout: boolean;
+  layoutType: LayoutType;
+  url: string;
+}
 
 //👿 타입스크립트좀 해놔라
 // currentProduct : 현재 적용중인 상품
@@ -48,6 +54,11 @@ const ProductsWrap: React.FC<any> = ({
   const refundModal = useModal(false);
   const [redirect, setRedirect] = useState(false);
   const hostAppHook = useCheckBox(false);
+  const additionHook = useState<IAdditionHook>({
+    useLayout: false,
+    layoutType: LayoutType.Layout_A,
+    url: ""
+  });
 
   const handleSelectProductType = (value: any) =>
     setSelectedProductTypeId(value.replace("--slider", ""));
@@ -97,13 +108,20 @@ const ProductsWrap: React.FC<any> = ({
     ReactTooltip.rebuild();
   });
 
+  const [addtionValue] = additionHook;
+
   return (
     <BuyProductMutation
       mutation={BUY_PRODUCTS}
       variables={{
         houseId: selectedHouse ? selectedHouse._id : "",
         productTypeId:
-          selectedProductTypeId && selectedProductTypeId.replace("--slider", "")
+          selectedProductTypeId &&
+          selectedProductTypeId.replace("--slider", ""),
+        buyProductParams: {
+          layoutType: addtionValue.layoutType,
+          appliedUrl: addtionValue.url
+        }
       }}
       refetchQueries={[{query: GET_USER_INFO}]}
       // 👼 success return function을 uitl 에 추가하자
@@ -159,7 +177,10 @@ const ProductsWrap: React.FC<any> = ({
                   refundModal={refundModal}
                   hostAppHook={hostAppHook}
                 />
-                <AdditionModal modalHook={additionModalHook} />
+                <AdditionModal
+                  additionHook={additionHook}
+                  modalHook={additionModalHook}
+                />
               </Fragment>
             )
           }

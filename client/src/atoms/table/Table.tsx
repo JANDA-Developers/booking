@@ -31,8 +31,14 @@ export const ReactTableDefault = Object.assign(ReactTableDefaults, {
   minRows: 3,
   showPagination: false,
   sortable: false,
-  resizable: false
-  // etc...
+  resizable: false,
+  previousText: "이전",
+  nextText: "다음",
+  loadingText: "Loading...",
+  noDataText: "정보가 존재하지 않습니다..",
+  pageText: "페이지",
+  ofText: "/",
+  rowsText: "열"
 });
 
 export default JDtable;

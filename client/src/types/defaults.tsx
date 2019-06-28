@@ -6,12 +6,15 @@ import {
   PaymentStatus,
   BookingStatus,
   Gender,
-  SendTarget
+  SendTarget,
+  LayoutType
 } from "./enum";
 import {
   getBooking_GetBooking_booking_roomTypes,
   getSmsInfo_GetSmsInfo_smsInfo_smsTemplates,
-  getSmsInfo_GetSmsInfo_smsInfo
+  getSmsInfo_GetSmsInfo_smsInfo,
+  getSpecification_GetHouse_house_product_productType,
+  getSpecification_GetHouse_house_product
 } from "./api";
 import {
   IAssigItem,
@@ -113,4 +116,28 @@ export const DEFAULT_SMS_INFO: getSmsInfo_GetSmsInfo_smsInfo = {
   receivers: null,
   sender: null,
   smsTemplates: null
+};
+
+export const DEFAULT_PRODUCT: getSpecification_GetHouse_house_product = {
+  __typename: "Product",
+  _id: "-1",
+  appliedUrl: "",
+  bookingCount: 0,
+  bookingCountExtraCharge: 0,
+  canHaveHostApp: false,
+  createdAt: "",
+  description: "",
+  discountedPrice: 0,
+  existingHostApp: false,
+  layoutPrice: null,
+  layoutPricePaid: false,
+  layoutType: LayoutType.Layout_A,
+  name: "상품없음",
+  price: 0,
+  productType: {
+    __typename: "ProductType",
+    _id: "",
+    name: ""
+  },
+  updatedAt: ""
 };
