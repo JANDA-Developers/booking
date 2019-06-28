@@ -22,24 +22,52 @@ const F_MINI_ROOM_TYPE = gql`
 `;
 
 // 상품 관련 프레임
+const F_FULL_PRODUCT_TYPE = gql`
+    fragment FfullProdcutType on ProductType {
+        _id
+        name
+        price
+        roomCount
+        roomCountExtraCharge
+        bookingCount
+        bookingCountExtraCharge
+        description
+        canHaveHostApp
+        createdAt
+        updatedAt
+    }
+`
+
+// 상품 관련 프레임
+const F_APP_INFO_REQUEST = gql`
+    fragment FappInfoRequest on AppInfoRequest {
+        url
+        layoutType
+        requestedDate
+        isDone
+    }
+`
+
+// 상품 관련 프레임
 const F_FULL_PRODUCT = gql`
     fragment FfullProdcut on Product {
         _id
         name
         price
-        canHaveHostApp
-        description
+        discountedPrice
+        roomCount
+        roomCountExtraCharge
+        bookingCount
+        bookingCountExtraCharge
         layoutType
         layoutPrice
         layoutPricePaid
         appliedUrl
         canHaveHostApp
         existingHostApp
-        discountedPrice
+        description
         createdAt
         updatedAt
-        bookingCount
-        bookingCountExtraCharge
     }
 `;
 
@@ -304,6 +332,9 @@ export const GET_HOUSE_SPECIFICATION = gql`
                 }
                 product {
                     ...FfullProdcut
+                    appInfoRequested {
+                        ...FappInfoRequest
+                    }
                     productType {
                         _id
                         name
@@ -324,6 +355,7 @@ export const GET_HOUSE_SPECIFICATION = gql`
         }
     }
     ${F_FULL_PRODUCT}
+    ${F_APP_INFO_REQUEST}
 `;
 
 // SMS :: 히스토리 가져오기

@@ -122,6 +122,9 @@ export const DEFAULT_PRODUCT: getSpecification_GetHouse_house_product = {
   __typename: "Product",
   _id: "-1",
   appliedUrl: "",
+  appInfoRequested: [],
+  roomCount: 0,
+  roomCountExtraCharge: 0,
   bookingCount: 0,
   bookingCountExtraCharge: 0,
   canHaveHostApp: false,
@@ -137,7 +140,7 @@ export const DEFAULT_PRODUCT: getSpecification_GetHouse_house_product = {
   productType: {
     __typename: "ProductType",
     _id: "",
-    name: ""
+    name: "상품없음"
   },
   updatedAt: ""
 };

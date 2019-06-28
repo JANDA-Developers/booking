@@ -516,9 +516,11 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
       <div className="docs-section">
         <h3 className="assigTimeline__titleSection">
           {"방배정"}
-          {loading && (
-            <Preloader className="assigTimeline__mainPreloder" size="medium" />
-          )}
+          <Preloader
+            loading={loading}
+            className="assigTimeline__mainPreloder"
+            size="medium"
+          />
         </h3>
         <div className="flex-grid flex-grid--end">
           <Link to="/middleServer/timelineConfig">

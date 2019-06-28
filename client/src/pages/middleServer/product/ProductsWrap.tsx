@@ -118,9 +118,9 @@ const ProductsWrap: React.FC<any> = ({
         productTypeId:
           selectedProductTypeId &&
           selectedProductTypeId.replace("--slider", ""),
-        buyProductParams: {
+        appInfoRequest: {
           layoutType: addtionValue.layoutType,
-          appliedUrl: addtionValue.url
+          url: addtionValue.url
         }
       }}
       refetchQueries={[{query: GET_USER_INFO}]}
