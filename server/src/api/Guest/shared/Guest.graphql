@@ -16,7 +16,9 @@ type Guest {
     pricingType: PricingType!
     bedIndex: Int!
     gender: Gender
+    guestId: String!
     guestType: GuestType!
+    blockOptions: BlockOptions
     createdAt: DateTime!
     updatedAt: DateTime
 }
@@ -31,6 +33,10 @@ type Block {
     guestType: GuestType!
     createdAt: DateTime!
     updatedAt: DateTime
+}
+
+type BlockOptions {
+    color: String
 }
 
 enum GuestType {

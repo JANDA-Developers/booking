@@ -6,6 +6,7 @@ import {
     PricingTypeEnum
 } from "../types/enums";
 import {
+    BlockOptions,
     BookingStatus,
     DateRange,
     Gender,
@@ -13,6 +14,7 @@ import {
     IsSettleable,
     PricingType
 } from "../types/graph";
+import { guestIdGen } from "../utils/uuidgen";
 import { BookingModel } from "./Booking";
 
 enum GenderEnum {
@@ -63,6 +65,12 @@ export class GuestSchema extends Typegoose {
     })
     gender: Gender;
 
+    // guestId => 맨 앞 G로 시작 & "G"4-4-4-4 형식...
+    @prop({
+        default: guestIdGen
+    })
+    guestId: string;
+
     @prop({ required: true })
     allocatedRoom: Types.ObjectId;
 
@@ -90,6 +98,8 @@ export class GuestSchema extends Typegoose {
     @prop({ enum: GuestTypeEnum, default: GuestTypeEnum.GUEST })
     guestType: GuestType;
 
+    @prop()
+    blockOptions: BlockOptions;
     @prop()
     createdAt: Date;
 

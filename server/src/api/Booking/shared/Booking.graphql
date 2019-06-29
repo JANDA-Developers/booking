@@ -16,6 +16,7 @@ type Booking {
     end: DateTime!
     price: Float
     payMethod: PayMethod!
+    blockOptions: BlockOptions
     paymentStatus: PaymentStatus!
     bookingStatus: BookingStatus!
     createdAt: DateTime!
