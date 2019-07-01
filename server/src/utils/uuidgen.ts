@@ -33,6 +33,8 @@ export const bookingIdGen = () => {
     )}-${s4Dec()}-${s4Dec()}${s4Dec()}`;
 };
 
+export const guestIdGen = () => `G${s4()}-${s4()}-${s4()}-${s4()}`;
+
 export const agencyIdGen = () => {
     return `${s4()}${s4()}-${s4()}${s4()}-${s4()}${s4()}`;
 };
