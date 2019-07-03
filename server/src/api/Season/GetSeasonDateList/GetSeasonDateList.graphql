@@ -1,0 +1,19 @@
+type GetSeasonDateListResponse {
+    ok: Boolean!
+    error: String
+    seasonDateList: [SeasonWithDate!]
+}
+
+type Query {
+    GetSeasonDateList(
+        houseId: ID!
+        start: DateTime!
+        end: DateTime!
+    ): GetSeasonDateListResponse!
+}
+
+# GetSeasonToDateListResponse.seasonToDateList 배열에서 출력하는 객체
+type SeasonWithDate {
+    _id: DateTime!
+    season: Season!
+}

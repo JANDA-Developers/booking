@@ -14,6 +14,9 @@ class App {
     constructor() {
         this.app = new GraphQLServer({
             schema,
+            resolverValidationOptions: {
+                requireResolversForResolveType: false
+            },
             context: req => {
                 return {
                     req: req.request

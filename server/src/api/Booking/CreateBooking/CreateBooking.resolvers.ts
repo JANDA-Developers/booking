@@ -215,18 +215,18 @@ const createbooking = async (
         // 1. 보낼 메시지 템플릿 가져오기
         //      SmsInfo.getSmsTemplate 함수 호출
         // 2. 메시지 변수 치환.
-        // 3. 메시지 전송
-        const roomTypeNCountFormat = `${roomTypeNames[0]}${
-            roomTypeNames.length !== 1
-                ? " 외 " + (roomTypeNames.length - 1) + "개"
-                : ""
-        }/${bookingInstance.guestCount}명`;
         if (sendSmsFlag) {
+            // 3. 메시지 전송
+            const roomTypeNCountFormat = `${roomTypeNames[0]}${
+                roomTypeNames.length !== 1
+                    ? " 외 " + (roomTypeNames.length - 1) + "개"
+                    : ""
+            }/${bookingInstance.guestCount}명`;
             const smsInfo = await SmsInfoModel.findOne({
                 house: new Types.ObjectId(houseId)
             });
             if (smsInfo) {
-                const smsTemplate = await smsInfo.sendSmsWithTemplate(
+                await smsInfo.sendSmsWithTemplate(
                     "WHEN_BOOKING_CREATED_PAYMENT_NOT_YET",
                     smsInfo.receivers.join("|"),
                     {
@@ -244,7 +244,6 @@ const createbooking = async (
                     },
                     true
                 );
-                console.log(smsTemplate);
             }
         }
 

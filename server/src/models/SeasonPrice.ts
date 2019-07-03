@@ -1,9 +1,32 @@
-import { instanceMethod, InstanceType, prop, Ref, Typegoose } from "typegoose";
+import { Types } from "mongoose";
+import {
+    instanceMethod,
+    InstanceType,
+    prop,
+    Ref,
+    staticMethod,
+    Typegoose
+} from "typegoose";
 import { DayOfWeekPrice } from "../types/graph";
 import { RoomTypeSchema } from "./RoomType";
 import { SeasonSchema } from "./Season";
 
 export class SeasonPriceSchema extends Typegoose {
+    @staticMethod
+    public static async getPrice(
+        dateRange: { start: Date; end: Date },
+        roomTypeId: Types.ObjectId
+    ): Promise<Array<InstanceType<SeasonPriceSchema>>> {
+        const aggregationResult = await SeasonPriceModel.aggregate([
+            {
+                $match: {}
+            }
+        ]);
+        console.log(aggregationResult);
+
+        return [];
+    }
+
     @prop({ required: true, ref: RoomTypeSchema })
     roomType: Ref<RoomTypeSchema>;
 

@@ -53,7 +53,7 @@ export class UserSchema extends Typegoose {
     @prop({ default: false })
     checkPrivacyPolicy: boolean;
 
-    @arrayProp({ items: Types.ObjectId, default: [] })
+    @arrayProp({ items: Types.ObjectId, default: [], itemsRef: "Houses" })
     houses: Types.ObjectId[];
 
     @arrayProp({ items: Types.ObjectId, default: [] })

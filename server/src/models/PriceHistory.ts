@@ -1,69 +1,18 @@
-import _ from "lodash";
-import { Types } from "mongoose";
-import {
-    instanceMethod,
-    InstanceType,
-    prop,
-    staticMethod,
-    Typegoose
-} from "typegoose";
-import { BookingSchema } from "./Booking";
-import { GuestSchema } from "./Guest";
+import { InstanceType, prop, Typegoose } from "typegoose";
+import { PriceHistoryType, PriceInfo } from "../types/graph";
 
-export class PriceHistorySchema extends Typegoose {
-    @staticMethod
-    static createPriceHistory(
-        date: Date,
-        guestInstance: InstanceType<GuestSchema>,
-        bookingInstance: InstanceType<BookingSchema>,
-        price: number,
-        suggestedPrice: number
-    ): InstanceType<PriceHistorySchema> {
-        if (
-            !bookingInstance.guests.includes(
-                new Types.ObjectId(guestInstance._id)
-            )
-        ) {
-            // TODO
-        }
-        return new PriceHistoryModel({
-            start: bookingInstance.start,
-            end: bookingInstance.end,
-            date,
-            guest: new Types.ObjectId(guestInstance._id),
-            booking: new Types.ObjectId(bookingInstance._id),
-            price,
-            suggestedPrice
-        }); 
-    }
+export enum PriceHistoryTypeEnum {
+    BOOKING = "BOOKING"
+}
 
-    @staticMethod
-    static createPriceHistories(params: {
-        start: Date;
-        end: Date;
-        bookingInstance: InstanceType<BookingSchema>;
-        guestInstance: InstanceType<GuestSchema>;
-        price: number;
-        suggestedPrice: number;
-    }): Array<InstanceType<PriceHistorySchema>> {
-        // TODO
-        return [];
-    }
+export abstract class BasePriceHistorySchema extends Typegoose {
+    @prop({
+        enum: PriceHistoryTypeEnum
+    })
+    priceHistoryType: PriceHistoryType;
 
-    @prop()
-    date: Date;
-
-    @prop()
-    guest: Types.ObjectId;
-
-    @prop()
-    booking: Types.ObjectId;
-
-    @prop()
-    price: number;
-
-    @prop()
-    suggestedPrice: number;
+    @prop({ default: [] })
+    priceInfos: PriceInfo[];
 
     @prop()
     createdAt: Date;
@@ -71,18 +20,7 @@ export class PriceHistorySchema extends Typegoose {
     @prop()
     updatedAt: Date;
 
-    @instanceMethod
-    async deleteThis(this: InstanceType<PriceHistorySchema>) {
-        await this.remove();
-    }
+    abstract async make(
+        ...args: any
+    ): Promise<InstanceType<BasePriceHistorySchema>>;
 }
-
-export const PriceHistoryModel = new PriceHistorySchema().getModelForClass(
-    PriceHistorySchema,
-    {
-        schemaOptions: {
-            timestamps: true,
-            collection: "PriceHistories"
-        }
-    }
-);
