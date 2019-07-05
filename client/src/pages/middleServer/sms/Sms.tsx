@@ -1,6 +1,6 @@
 import React, {useRef, useState} from "react";
 import {RowInfo, CellInfo} from "react-table";
-import {Tab, Tabs, TabList, TabPanel} from "../../../atoms/tabs/tabs";
+import {Tab, TabList, TabPanel, JDtabs} from "../../../atoms/tabs/tabs";
 import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
 import Icon from "../../../atoms/icons/Icons";
 import InputText from "../../../atoms/forms/inputText/InputText";
@@ -171,7 +171,7 @@ const Sms: React.FC<IProps> = ({
         <div className="docs-section__box">
           {/* <h6>문자 템플릿 설정</h6> */}
           {smsInfo ? (
-            <Tabs>
+            <JDtabs>
               <TabList>
                 {templateTitles.map((title: string, index: number) => (
                   <Tab
@@ -202,7 +202,7 @@ const Sms: React.FC<IProps> = ({
                     />
                   </TabPanel>
                 ))}
-            </Tabs>
+            </JDtabs>
           ) : (
             <h3>SMS 신청을 먼저 완료해주세요.</h3>
           )}

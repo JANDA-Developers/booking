@@ -1,12 +1,17 @@
 type UpdateHouseConfigResponse {
-    ok: Boolean!
-    error: String
-    houseConfig: HouseConfig
+  ok: Boolean!
+  error: String
+  houseConfig: HouseConfig
+}
+
+input UpdateHouseConfigParams {
+  pollingPeriod: PollingPeriodInput
+  assigTimeline: AssigTimelineInput
 }
 
 type Mutation {
-    UpdateHouseConfig(
-        houseId: ID!
-        pollingPeriod: PollingPeriodInput
-    ): UpdateHouseConfigResponse!
+  UpdateHouseConfig(
+    houseId: ID!
+    params: UpdateHouseConfigParams
+  ): UpdateHouseConfigResponse!
 }

@@ -23,7 +23,7 @@ import JDlabel from "../../../atoms/label/JDLabel";
 import JDmodal from "../../../atoms/modal/Modal";
 import JDtable, {ReactTableDefault} from "../../../atoms/table/Table";
 import ProfileCircle from "../../../atoms/profileCircle/ProfileCircle";
-import {Tab, Tabs, TabList, TabPanel} from "../../../atoms/tabs/tabs";
+import {Tab, TabList, TabPanel, JDtabs} from "../../../atoms/tabs/tabs";
 import utils from "../../../utils/utils";
 import Icon, {icons} from "../../../atoms/icons/Icons";
 import {
@@ -45,6 +45,7 @@ import Card from "../../../atoms/cards/Card";
 import JDbox from "../../../atoms/box/JDbox";
 import {CellInfo} from "react-table";
 import {UserRole} from "../../../types/enum";
+import JDrange from "../../../atoms/forms/range/range";
 
 function ShowComponents() {
   const defaultColor = faker.commerce.color();
@@ -57,6 +58,7 @@ function ShowComponents() {
   const useSelect1 = useSelect(null);
   const useSelect2 = useSelect(null);
   const useSelect3 = useSelect(null);
+  const [range, setRange] = useState<any>(0);
   const [onTypeValue, onTypeChange] = useState<any>("");
   const colorPickerHook = useColorPicker(defaultColor);
   const colorPickerHook2 = useColorPicker(defaultColor2);
@@ -150,7 +152,6 @@ function ShowComponents() {
             </NavLink>
           </h6>
         </div>
-
         {/* 체크박스 */}
         <div className="docs-section__box">
           <h6>Check Box</h6>
@@ -159,7 +160,6 @@ function ShowComponents() {
 
           <CheckBox {...checkHook} label="disabled" disabled />
         </div>
-
         {/* 스위치 */}
         <div className="docs-section__box">
           <h6>Switch</h6>
@@ -172,7 +172,6 @@ function ShowComponents() {
 
           <Switch ltxt="disabled" disabled />
         </div>
-
         {/* 라디오 */}
         <div className="docs-section__box">
           <h6>Radio</h6>
@@ -198,7 +197,6 @@ function ShowComponents() {
           <Radio id="RD2--1" label="라벨" groupName="RD2" />
           <Radio id="RD2--2" label="라벨2" groupName="RD2" />
         </div>
-
         {/* 인풋 텍스트 */}
         <div className="docs-section__box">
           <h6>InputText</h6>
@@ -241,7 +239,6 @@ function ShowComponents() {
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6" />
           </div>
         </div>
-
         {/* 텍스트 어리어 */}
         <div className="docs-section__box">
           <h6>TextArea</h6>
@@ -263,7 +260,6 @@ function ShowComponents() {
             </div>
           </div>
         </div>
-
         {/* 서치바 */}
         <h6>SearchInput</h6>
         <div className="flex-grid-grow flex-grid--md docs-section__box">
@@ -280,12 +276,24 @@ function ShowComponents() {
             />
           </div>
         </div>
-
+        {/* 레인지 */}
+        <h6>Range</h6>
+        <div className="flex-grid-grow flex-grid--md docs-section__box">
+          <div className="flex-grid__col">
+            <JDrange
+              maxValue={20}
+              minValue={0}
+              value={range}
+              onChange={setRange}
+            />
+          </div>
+        </div>
         {/* 탭바 */}
         <h6>Tabs</h6>
         <div className="flex-grid-grow flex-grid--md docs-section__box">
           <div className="flex-grid__col">
-            <Tabs>
+            <JDlabel txt="Normal" />
+            <JDtabs>
               <TabList>
                 <Tab>Title 1</Tab>
                 <Tab>Title 2</Tab>
@@ -297,10 +305,25 @@ function ShowComponents() {
               <TabPanel>
                 <h2>Any content 2</h2>
               </TabPanel>
-            </Tabs>
+            </JDtabs>
+          </div>
+          <div className="flex-grid__col">
+            <JDlabel txt="styleMode Button" />
+            <JDtabs styleMode="button">
+              <TabList>
+                <Tab>Title 1</Tab>
+                <Tab>Title 2</Tab>
+              </TabList>
+
+              <TabPanel>
+                <h2>Any content 1</h2>
+              </TabPanel>
+              <TabPanel>
+                <h2>Any content 2</h2>
+              </TabPanel>
+            </JDtabs>
           </div>
         </div>
-
         {/* 토스트 알림 */}
         <h6>Toast</h6>
         <div className="flex-grid-grow flex-grid--md docs-section__box">
@@ -322,7 +345,6 @@ function ShowComponents() {
             />
           </div>
         </div>
-
         {/* 셀렉트박스 */}
         <h6>SelectBox</h6>
         <div className="flex-grid-grow docs-section__box">
@@ -351,9 +373,7 @@ function ShowComponents() {
             />
           </div>
         </div>
-
-
-flex-grid = row   flex-gird__col = row
+        flex-grid = row flex-gird__col = row
         {/* 달력 */}
         <h6>DatePicker</h6>
         <div className="flex-grid docs-section__box">
@@ -374,7 +394,6 @@ flex-grid = row   flex-gird__col = row
             <DayPicker {...dayPickerHook} input label="input" isRange={false} />
           </div>
         </div>
-
         {/* Slider 슬라이더 */}
         <h6>Slider</h6>
         <div className="docs-section__box flex-grid">
@@ -385,7 +404,6 @@ flex-grid = row   flex-gird__col = row
             <SliderExample2 />
           </div>
         </div>
-
         {/* 이미지 업로더 */}
         <h6>Image Uploader</h6>
         <div className="docs-section__box flex-grid">
@@ -393,7 +411,6 @@ flex-grid = row   flex-gird__col = row
             <ImageUploader minHeight="200px" {...imageUploaderHook} />
           </div>
         </div>
-
         {/* 뱃지 */}
         <h6>Badge</h6>
         <div className="docs-section__box">
@@ -403,7 +420,6 @@ flex-grid = row   flex-gird__col = row
           <JDbadge thema={BADGE_THEMA.SECONDARY}>secondary</JDbadge>
           <JDbadge thema={BADGE_THEMA.NEW}>new</JDbadge>
         </div>
-
         {/* 테이블 */}
         <h6>Table</h6>
         <div className="docs-section__box flex-grid">
@@ -417,7 +433,6 @@ flex-grid = row   flex-gird__col = row
             minRows={0}
           />
         </div>
-
         {/* 컬러픽커 */}
         <h6>ColorPikcer</h6>
         <div className="docs-section__box">
@@ -425,7 +440,6 @@ flex-grid = row   flex-gird__col = row
           <JDcolorPicker colorHook={colorPickerHook2} />
           <JDcolorPicker colorHook={colorPickerHook3} />
         </div>
-
         {/* 버튼 */}
         <h6>Buttons</h6>
         <div className="docs-section__box">
@@ -448,7 +462,6 @@ flex-grid = row   flex-gird__col = row
             </CircleIcon>
           </div>
         </div>
-
         {/* 모달 */}
         <div className="docs-section__box">
           <h6>Modal & SideNav</h6>
@@ -465,7 +478,6 @@ flex-grid = row   flex-gird__col = row
             </div>
           </JDmodal>
         </div>
-
         {/* 툴팁 */}
         <div className="docs-section__box">
           <h6>Tooltip</h6>
@@ -503,7 +515,6 @@ flex-grid = row   flex-gird__col = row
             <span>some txt</span>
           </Tooltip>
         </div>
-
         {/* 아이콘들 */}
         <h6>Icons</h6>
         <div className=" docs-section__box">
@@ -516,7 +527,6 @@ flex-grid = row   flex-gird__col = row
             </div>
           ))}
         </div>
-
         {/* 타이포그래피  */}
         <h6>TyphoGraphy</h6>
         <div className="docs-section__box">
@@ -531,7 +541,6 @@ flex-grid = row   flex-gird__col = row
           <JDlabel txt="small: Lorem Text" />
           <p className="showComponent__tiny"> tiny: Lorem Text </p>
         </div>
-
         {/* 페이지네이션 */}
         <h6>Pagination</h6>
         <div className="docs-section__box clear-fix">
@@ -542,7 +551,6 @@ flex-grid = row   flex-gird__col = row
             pageRangeDisplayed={5}
           />
         </div>
-
         {/* 드래그리스트 */}
         <h6>DragList</h6>
         <div className="docs-section__box clear-fix">
@@ -554,7 +562,6 @@ flex-grid = row   flex-gird__col = row
             )}
           </DrragList>
         </div>
-
         {/* JDbox */}
         <h6>JDbox</h6>
         <div className="docs-section__box clear-fix">
@@ -586,7 +593,6 @@ flex-grid = row   flex-gird__col = row
             {"boxContent"}
           </JDbox>
         </div>
-
         {/* 그외 것들 */}
         <h6>ElseThings</h6>
         <div className="docs-section__box clear-fix">
@@ -601,7 +607,6 @@ flex-grid = row   flex-gird__col = row
             <ProfileCircle isBordered />
           </span>
         </div>
-
         {/* 사이드네비 sideNav */}
         <SideNav
           {...anyProp}

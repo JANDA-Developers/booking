@@ -18,7 +18,7 @@ import {
 } from "../../types/api";
 import {Mutation, Query} from "react-apollo";
 import {SEND_SMS, GET_SMS_INFO} from "../../queries";
-import {queryDataFormater} from "../../utils/utils";
+import {queryDataFormater, onCompletedMessage} from "../../utils/utils";
 import CreateSmsModal from "./components/createSmsModal";
 import SendSmsModal from "./SendSmsModal";
 
@@ -88,7 +88,13 @@ const SendSMSmodalWrap: React.FC<IProps> = ({modalHook, houseId}) => {
         const templateMessage = sendTemplateFinder();
 
         return (
-          <SendSmsMu mutation={SEND_SMS}>
+          <SendSmsMu
+            onCompleted={({SendSms}) => {
+              onCompletedMessage(SendSms, "예약 생성 완료", "예약자 생성 실패");
+              modalHook.closeModal();
+            }}
+            mutation={SEND_SMS}
+          >
             {sendSmsMu =>
               modalHook.info.createMode ? (
                 // SMS 만들기 모달

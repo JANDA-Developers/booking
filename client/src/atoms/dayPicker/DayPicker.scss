@@ -28,6 +28,11 @@
         position: relative;
         &--inputComponent {
             display: inline-block;
+
+            &__arrow {
+                position: relative;
+                z-index: $z-index-8;
+            }
             .JDinput-wrap {
                 position:static;
                 opacity: 0;

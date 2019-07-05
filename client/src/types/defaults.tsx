@@ -14,7 +14,8 @@ import {
   getSmsInfo_GetSmsInfo_smsInfo_smsTemplates,
   getSmsInfo_GetSmsInfo_smsInfo,
   getSpecification_GetHouse_house_product_productType,
-  getSpecification_GetHouse_house_product
+  getSpecification_GetHouse_house_product,
+  getSpecification_GetHouse_house_product_appInfoRequested
 } from "./api";
 import {
   IAssigItem,
@@ -116,6 +117,14 @@ export const DEFAULT_SMS_INFO: getSmsInfo_GetSmsInfo_smsInfo = {
   receivers: null,
   sender: null,
   smsTemplates: null
+};
+
+export const DEFAULT_APP_INFO_REQUEST: getSpecification_GetHouse_house_product_appInfoRequested = {
+  __typename: "AppInfoRequest",
+  isDone: false,
+  layoutType: LayoutType.Layout_A,
+  requestedDate: "",
+  url: ""
 };
 
 export const DEFAULT_PRODUCT: getSpecification_GetHouse_house_product = {

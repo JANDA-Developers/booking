@@ -4,7 +4,7 @@ import {Fragment} from "react";
 import moment from "moment";
 import React from "react";
 import {autoHypen} from "../../utils/utils";
-import {DEFAULT_PRODUCT} from "../../types/defaults";
+import {DEFAULT_PRODUCT, DEFAULT_APP_INFO_REQUEST} from "../../types/defaults";
 import Preloader from "../../atoms/preloader/Preloader";
 
 interface IProps {
@@ -43,17 +43,32 @@ export const SpecificAtion: React.SFC<IProps> = ({
     _id: productId,
     name: productName,
     createdAt: productCreateAt,
-    price,
-    layoutType,
+    price: productPrice,
     existingHostApp,
     description,
     layoutPrice,
+    roomCount,
+    roomCountExtraCharge,
+    appInfoRequested,
     layoutPricePaid,
     productType,
     canHaveHostApp,
     discountedPrice,
     bookingCountExtraCharge
   } = product || DEFAULT_PRODUCT;
+
+  const lastRequestIndex = appInfoRequested ? appInfoRequested.length : 0;
+  const inAppInfoRequested = appInfoRequested
+    ? appInfoRequested[lastRequestIndex]
+    : DEFAULT_APP_INFO_REQUEST;
+
+  const {
+    __typename,
+    isDone: isHomePageDone,
+    layoutType,
+    requestedDate,
+    url: requestUrl
+  } = inAppInfoRequested;
 
   const {name: userName, email, isPhoneVerified, phoneNumber} = user!;
 
@@ -82,12 +97,16 @@ export const SpecificAtion: React.SFC<IProps> = ({
     {title: "홈페이지 작업 현황", value: ""},
     {title: "신청레이아웃", value: product ? layoutType : ""},
     {
+      title: "요청URL",
+      value: requestUrl
+    },
+    {
       title: "레이아웃 비용",
       value: layoutPrice
     },
     {
-      title: "결제금액",
-      value: price
+      title: "상품금액",
+      value: productPrice
     },
     {
       title: "결제상태",

@@ -9,8 +9,9 @@
 .JDradio,
 .JDselect,
 .circleIcon,
+.input-range,
 .profileCircle,
-.JDcolorPicker, {
+.JDcolorPicker {
     margin-right: $standard-space;
 }
 
@@ -40,6 +41,7 @@ div {
     & > .JDtable,
     & > .JDcolorPicker,
     & > .JDinput,
+    & > .input-range,
     & > .JDtextarea,
     & > .JDsearchInput {
         &:last-child {
@@ -72,6 +74,7 @@ div {
 .JDinput,
 .JDtextarea,
 .JDsearchInput,
+.input-range,
 .JDbox--border {
     margin-bottom: $standard-margin-bottom;
 }
@@ -92,6 +95,7 @@ div {
     .JDtable,
     .JDcolorPicker,
     .JDinput,
+    .input-range,
     .JDtextarea,
     .JDsearchInput,
     .JDbox--border,  {
@@ -113,6 +117,7 @@ div {
     &.JDslider,
     &.JDpagination,
     &.JDcard,
+    &.input-range,
     &.JDtable,
     &.JDcolorPicker,
     &.JDinput,
@@ -124,6 +129,7 @@ div {
     .JDradio,
     .JDselect,
     .JDbtn,
+    .input-range,
     .JDdatePcikerInformation,
     .circleIcon,
     .imageUploader,
@@ -162,7 +168,8 @@ div {
     &.JDinput,
     &.JDtextarea,
     &.JDinput-wrap,
-    &.JDsearchInput{
+    &.input-range,
+    &.JDsearchInput {
         margin-bottom: 0;
     }
 }

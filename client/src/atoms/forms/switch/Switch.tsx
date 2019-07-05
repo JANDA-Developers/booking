@@ -58,4 +58,4 @@ const JDswitch: React.FC<IProps> = ({
   );
 };
 
-export default ErrProtecter(JDswitch);
+export default JDswitch;

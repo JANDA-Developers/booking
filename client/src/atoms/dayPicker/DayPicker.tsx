@@ -41,7 +41,7 @@ const JDdayPicker: React.SFC<IProps> = ({
   isRange = true,
   label,
   onChangeDate,
-  canSelectSameDate,
+  canSelectSameDate = true,
   format,
   placeholder,
   lang = "ko",
@@ -61,6 +61,9 @@ const JDdayPicker: React.SFC<IProps> = ({
   const dayPickerFullWrap: any = useRef();
   const isInitialMount = useRef(true);
 
+  console.log("from");
+  console.log(from);
+  console.log(to);
   // 리셋버튼 클릭 이벤트
   const handleResetClick = () => {
     setFrom(null);
@@ -83,7 +86,6 @@ const JDdayPicker: React.SFC<IProps> = ({
     if (!isSelectingFromDay(from, to, day)) setEntered(day);
   };
 
-
   // handle --day : Click
   const handleDayClick = (day: Date, modifiers: DayModifiers) => {
     if (readOnly) return;
@@ -91,7 +93,7 @@ const JDdayPicker: React.SFC<IProps> = ({
     if (modifiers.disabled) return;
 
     // 같은날을 선택할수 없는경우에
-    if(from && !canSelectSameDate && day <= from) {
+    if (from && !canSelectSameDate && day <= from) {
       handleResetClick();
       return;
     }

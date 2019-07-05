@@ -20,7 +20,7 @@ import BookingModalWrap from "../../../components/bookingModal/BookingModalWrap"
 import {IUseDayPicker, useModal} from "../../../actions/hook";
 import classnames from "classnames";
 import assigGroupRendererFn from "./components/groupRenderFn";
-import {IRoomType} from "../../../types/interface";
+import {IRoomType, IHouseConfig} from "../../../types/interface";
 import Preloader from "../../../atoms/preloader/Preloader";
 import "./AssigTimeline.scss";
 import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
@@ -36,7 +36,7 @@ import itemRendererFn, {
   CLASS_LINKED,
   CLASS_MOVING
 } from "./components/itemRenderFn";
-import {setMidNight, onCompletedMessage} from "../../../utils/utils";
+import {setMidNight, onCompletedMessage, isEmpty} from "../../../utils/utils";
 import ItemMenu from "./components/itemMenu";
 import CanvasMenu from "./components/canvasMenu";
 import MakeItemMenu from "./components/makeItemMenu";
@@ -66,6 +66,7 @@ import {
   ASSIG_DATA_START,
   ASSIG_VISIBLE_CELL_MB_DIFF
 } from "./timelineConfig";
+import JDmultiBox from "../../../atoms/multiBox/MultiBox";
 
 // Temp 마킹용이 있는지
 let MARKED = false;
@@ -85,6 +86,7 @@ interface IProps {
   deafultGuestsData: IAssigItem[];
   defaultTimeStart: number;
   defaultTimeEnd: number;
+  houseConfig: IHouseConfig;
   assigMutationes: IAssigMutationes;
   dataTime: {
     start: number;
@@ -105,11 +107,13 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   groupData,
   loading,
   houseId,
+  houseConfig,
   deafultGuestsData,
   defaultTimeStart,
   defaultTimeEnd,
   windowWidth,
   windowHeight,
+  roomTypesData,
   setDataTime,
   dataTime,
   assigMutationes
@@ -118,6 +122,9 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   const isTabletDown = windowWidth <= EWindowSize.TABLET;
   const [guestValue, setGuestValue] = useState<IAssigItem[]>(deafultGuestsData);
   const confirmDelteGuestHook = useModal(false);
+  const [viewRoomType, setViewRoomType] = useState(
+    roomTypesData.map(roomType => roomType._id)
+  );
   const [canvasMenuProps, setCanvasMenuProps] = useState<ICanvasMenuProps>({
     start: 0,
     end: 0,
@@ -160,6 +167,13 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   };
 
   const assigUtils = getAssigUtils(assigHooks, assigMutationes, assigContext);
+
+  const {assigTimeline} = houseConfig;
+  if (!assigTimeline) {
+    throw Error("empty houseConfig__assigTimeline");
+  }
+
+  const {roomTypeTabEnable} = assigTimeline;
 
   const {
     addBlock,
@@ -517,15 +531,27 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
         <h3 className="assigTimeline__titleSection">
           {"방배정"}
           <Preloader
+            floating
             loading={loading}
             className="assigTimeline__mainPreloder"
             size="medium"
           />
         </h3>
         <div className="flex-grid flex-grid--end">
-          <Link to="/middleServer/timelineConfig">
-            <Button float="right" icon="roomChange" label="방구조 변경" />
+          <Link to="/middleServer/resvList">
+            <Button float="right" icon="list" label="예약목록 보기" />
           </Link>
+          {roomTypeTabEnable && (
+            <JDmultiBox
+              defaultAllToogle={true}
+              withAllTooglerLabel="전부보기"
+              withAllToogler
+              onChange={setViewRoomType}
+              value={roomTypesData.map(roomType => roomType._id)}
+              selectedValue={viewRoomType}
+              labels={roomTypesData.map(roomType => roomType.name)}
+            />
+          )}
         </div>
         <CanvasMenu
           assigHooks={assigHooks}
@@ -552,7 +578,9 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
           onItemMove={handleItemMove}
           onItemResize={handleItemResize}
           items={guestValue}
-          groups={groupData}
+          groups={groupData.filter(group =>
+            viewRoomType.includes(group.roomTypeId)
+          )}
           {...defaultProps}
           onItemDoubleClick={handleItemDoubleClick}
           onItemClick={handleItemClick}

@@ -22,6 +22,6 @@
   },
   "include": [
     "src/**/*.ts",
-    "src/**/*.tsx", "src/pages/documents/show/ShowComponents.tsx", "src/pages/outPages/infoReservation/InfoReservation.jsx", "src/atoms/timeline/Timeline.jsx", "src/components/sendSmsModal"
+    "src/**/*.tsx", "src/pages/documents/show/ShowComponents.tsx", "src/pages/outPages/infoReservation/InfoReservation.jsx", "src/atoms/timeline/Timeline.jsx", "src/components/sendSmsModal", "src/pages/pages.jsx"
   ]
 }

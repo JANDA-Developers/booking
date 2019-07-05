@@ -85,14 +85,14 @@
   display: -ms-flexbox;
   display: flex;
   -webkit-box-flex: 1;
-      -ms-flex: auto;
-          flex: auto;
+  -ms-flex: auto;
+  flex: auto;
 }
 
 .DayPicker .DayPicker-Months .DayPicker-WeekdaysRow .DayPicker-Weekday {
   -webkit-box-flex: 1;
-      -ms-flex: 1 1;
-          flex: 1 1;
+  -ms-flex: 1 1;
+  flex: 1 1;
   text-align: center;
 }
 
@@ -122,15 +122,15 @@
   display: -ms-flexbox;
   display: flex;
   -webkit-box-flex: 1;
-      -ms-flex: auto;
-          flex: auto;
+  -ms-flex: auto;
+  flex: auto;
 }
 
 .DayPicker .DayPicker-Months .DayPicker-Month .DayPicker-Body .DayPicker-Week .DayPicker-Day {
   cursor: pointer;
   -webkit-box-flex: 1;
-      -ms-flex: 1 1;
-          flex: 1 1;
+  -ms-flex: 1 1;
+  flex: 1 1;
   text-align: center;
   height: 3rem;
   line-height: 2.6rem;
@@ -138,11 +138,11 @@
   border-top: 0.2rem solid white;
   border-bottom: 0.2rem solid white;
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   -webkit-transition: border-radius 0.2s;
   transition: border-radius 0.2s;
   -webkit-transition-timing-function: ease-out;
-          transition-timing-function: ease-out;
+  transition-timing-function: ease-out;
   border-radius: 50%;
   cursor: pointer;
 }
@@ -279,4 +279,5 @@
   background-color: white;
   z-index: 30;
 }
+
 /*# sourceMappingURL=DayPicker.css.map */

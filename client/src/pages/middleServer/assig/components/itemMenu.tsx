@@ -56,7 +56,9 @@ const ItemMenu: React.FC<IProps> = ({
               <Button
                 onClick={() => {
                   ReactTooltip.hide();
-                  bookingModalHook.openModal({bookingId: targetGuest.bookingId});
+                  bookingModalHook.openModal({
+                    bookingId: targetGuest.bookingId
+                  });
                 }}
                 label="정보보기"
                 mode="flat"

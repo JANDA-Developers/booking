@@ -23,7 +23,7 @@ import {
 import moment from "moment";
 import {IModalSMSinfo} from "../SendSmsModalWrap";
 import Preloader from "../../../atoms/preloader/Preloader";
-import {autoComma, autoHypen} from "../../../utils/utils";
+import {autoComma, autoHypen, s4} from "../../../utils/utils";
 import JDLabel from "../../../atoms/label/JDLabel";
 import {throwServerError} from "apollo-link-http-common";
 
@@ -95,7 +95,7 @@ const CreateSmsModal: React.FC<IProps> = ({
         <JDLabel txt="발신대상" />
         {modalHook.info.receivers &&
           modalHook.info.receivers.map(receiver => (
-            <JDbox mode="border" icon="mobile">
+            <JDbox key={s4()} mode="border" icon="mobile">
               <span>{autoHypen(receiver)}</span>
             </JDbox>
           ))}

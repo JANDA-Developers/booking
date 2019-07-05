@@ -49,15 +49,19 @@ const JDdayPickerInput: React.FC<IProps> = ({
     return "";
   };
 
+  const handleWindowClickEvent = () => {
+    if (!isEmpty(DayPickerInputRef)) DayPickerInputRef.hideDayPicker();
+  };
+
   useEffect(() => {
     // 상황에따라 DatePicker 투글
-
     // 마운트 전인지 검사
     if (isInitialMount.current) {
       isInitialMount.current = false;
       return;
     }
 
+    // 화면을 클릭하면 나갈수 달력을 닫도록 해줌
     if (!isEmpty(DayPickerInputRef)) {
       if (from && to) {
         DayPickerInputRef.hideDayPicker();

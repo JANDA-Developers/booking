@@ -238,6 +238,8 @@ export interface IAssigInfo {
 }
 // ⭐️ 배정달력에서 예약 생성시사용
 export interface ICreateBookingInfo {
+  bookingId: string;
+  createMode: boolean;
   type: BookingModalType.CREATE | BookingModalType.CREATE_WITH_ASSIG;
   start: number;
   end: number;

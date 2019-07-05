@@ -21,7 +21,8 @@ import {
   queryDataFormater,
   showError,
   onCompletedMessage,
-  s4
+  s4,
+  isEmpty
 } from "../../utils/utils";
 import {GB_booking} from "../../types/interface";
 import Preloader from "../../atoms/preloader/Preloader";
@@ -44,6 +45,7 @@ import {
 import {getOperationName} from "apollo-utilities";
 import {DEFAULT_BOOKING, DEFAULT_ROOMTYPE} from "../../types/defaults";
 import {ICreateBookingInfo} from "../../pages/middleServer/assig/components/assigIntrerface";
+import JDmodal from "../../atoms/modal/Modal";
 
 interface IProps {
   modalHook: IUseModal;
@@ -69,7 +71,7 @@ class GetBookingQuery extends Query<getBooking, getBookingVariables> {}
 const BookingModalWrap: React.FC<IProps> = ({modalHook, houseId}) => (
   <GetBookingQuery
     query={GET_BOOKING}
-    skip={!modalHook.info.bookingId}
+    skip={isEmpty(modalHook.info) || modalHook.info.createMode}
     variables={{
       bookingId: modalHook.info.bookingId
     }}
@@ -189,7 +191,7 @@ const BookingModalWrap: React.FC<IProps> = ({modalHook, houseId}) => (
                       {deleteBookingMu => {
                         const bookingData =
                           booking || makeInfo || DEFAULT_BOOKING;
-                        return (
+                        return !loading ? (
                           <BookingModal
                             bookingData={bookingData}
                             assigInfo={modalHook.info.assigInfo}
@@ -201,8 +203,16 @@ const BookingModalWrap: React.FC<IProps> = ({modalHook, houseId}) => (
                             updateBookingMu={updateBookingMu}
                             deleteBookingMu={deleteBookingMu}
                             allocateGuestToRoomMu={allocateGuestToRoomMu}
-                            key={`bookingModal${s4()}`}
+                            key={`bookingModal${modalHook.info.bookingId}`}
                           />
+                        ) : (
+                          <JDmodal {...modalHook}>
+                            <Preloader
+                              size="large"
+                              noAnimation={true}
+                              loading={loading}
+                            />
+                          </JDmodal>
                         );
                       }}
                     </DeleteBookingMu>

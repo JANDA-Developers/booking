@@ -7,6 +7,9 @@ $roomWidth: 10rem;
     .modifyGroups {
         padding-left: $roomTypeWidth;
         
+        &__mainPreloade {
+            z-index: $z-index-9;
+        }
         &__place {
             text-align: center;
         }

@@ -60,10 +60,9 @@ const RoomConfigTimeline: React.SFC<IProps> = ({
     const isDomitory = group.roomType.pricingType === PricingType.DOMITORY;
     const placeCount = isDomitory ? group.roomType.peopleCount : 1;
 
-
     const roomTypeStyle = {
       height:
-        ASSIGT_IMELINE_HEIGHT * placeCount * (group.roomType.roomCount || 1 ) +
+        ASSIGT_IMELINE_HEIGHT * placeCount * (group.roomType.roomCount || 1) +
         (group.roomType.roomCount && ASSIGT_IMELINE_HEIGHT),
       minHeight: ASSIGT_IMELINE_HEIGHT
     };
@@ -274,7 +273,12 @@ const RoomConfigTimeline: React.SFC<IProps> = ({
                 <DateHeader />
               </TimelineHeaders>
             </Timeline>
-            {loading && <Preloader />}
+            <Preloader
+              className="RoomConfigTimeline__mainPreloader"
+              size="medium"
+              floating
+              loading={loading}
+            />
           </div>
         </div>
       </div>

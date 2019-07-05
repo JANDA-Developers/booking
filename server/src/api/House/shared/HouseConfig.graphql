@@ -1,17 +1,26 @@
+type AssigTimeline {
+  roomTypeTabEnable: Boolean!
+}
+
 type PollingPeriod {
-    enable: Boolean!
-    period: Int!
+  enable: Boolean!
+  period: Int!
 }
 
 type HouseConfig {
-    _id: ID!
-    house: House!
-    pollingPeriod: PollingPeriod
-    createdAt: DateTime!
-    updatedAt: DateTime
+  _id: ID!
+  house: House!
+  pollingPeriod: PollingPeriod
+  assigTimeline: AssigTimeline
+  createdAt: DateTime!
+  updatedAt: DateTime
 }
 
 input PollingPeriodInput {
-    enable: Boolean!
-    period: Int!
+  enable: Boolean!
+  period: Int!
+}
+
+input AssigTimelineInput {
+  roomTypeTabEnable: Boolean!
 }

@@ -68,7 +68,8 @@ const Button: React.FC<IProps> = ({
     "JDbtn--warn": thema === "warn",
     "JDwaves-effect-dark": mode === "flat" && thema === "normal",
     "JDbtn--pulse": pulse,
-    "JDbtn--toogleOn": toggle,
+    "JDbtn--toogleOn": toggle === true,
+    "JDbtn--toogleOff": toggle === false,
     "JDtext-blink": blink
   });
 

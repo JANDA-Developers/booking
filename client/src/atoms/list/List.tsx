@@ -53,4 +53,4 @@ const JDlist: React.FC<IProps> = ({
   );
 };
 
-export default ErrProtecter<IProps>(JDlist);
+export default JDlist;
