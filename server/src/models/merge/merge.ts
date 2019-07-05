@@ -5,7 +5,6 @@ import {
     Booking,
     Guest,
     House,
-    HouseConfig,
     Product,
     ProductType,
     Room,
@@ -23,7 +22,6 @@ import { BlockSchema } from "../Block";
 import { BookingModel, BookingSchema } from "../Booking";
 import { GuestModel, GuestSchema } from "../Guest";
 import { HouseModel, HouseSchema } from "../House";
-import { HouseConfigSchema } from "../HouseConfig";
 import { ProductModel, ProductSchema } from "../Product";
 import { ProductTypeModel, ProductTypeSchema } from "../ProductType";
 import { RoomModel, RoomSchema } from "../Room";
@@ -625,16 +623,6 @@ export const extractbookings = async (
             }
         )
     );
-};
-
-export const extractHouseConfig = async (
-    houseConfigInstance: InstanceType<HouseConfigSchema>
-): Promise<HouseConfig> => {
-    const houseConfig = (houseConfigInstance as any)._doc;
-    return {
-        ...houseConfig,
-        house: transformHouse.bind(transformHouse, houseConfig.house)
-    };
 };
 
 export const extractSmsHistory = async (
