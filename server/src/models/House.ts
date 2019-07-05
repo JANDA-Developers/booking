@@ -73,6 +73,9 @@ export class HouseSchema extends Typegoose {
     houseConfig: HouseConfig;
 
     @prop()
+    hostMemo: string;
+
+    @prop()
     createdAt: Date;
 
     @prop()

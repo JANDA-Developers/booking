@@ -5,7 +5,8 @@ import "./ComponentAnimations.scss";
 export enum Animation {
   zoomOut = "zoomOut",
   fadeOutRight = "fadeOutRight",
-  fadeInDown = "fadeInDown"
+  fadeInDown = "fadeInDown",
+  fadeInRightShow = "fadeInRightShow"
 }
 
 interface IProps {
@@ -29,6 +30,12 @@ const JDanimation: React.FC<IProps> = ({children, animation, ...props}) => {
     transitionLeave: false,
     transitionLeaveTimeout: 1000
   };
+
+  // fadeInRightShow
+  if (animation.includes(Animation.fadeInRightShow)) {
+    animationProp.transitionName.appear = Animation.fadeInRightShow;
+    animationProp.transitionAppear = true;
+  }
 
   // fadeInDown
   if (animation.includes(Animation.fadeInDown)) {

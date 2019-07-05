@@ -23,11 +23,12 @@ import {
 import searchListFormat from "./searchListFormater";
 import {showError} from "./errorMessage";
 import onCompletedMessage from "./apolloCompleteM";
-import queryDataFormater, {copyFindReplace} from "./queryFormater";
+import queryDataFormater from "./queryFormater";
 import pageNationFormater from "./paginationFormat";
 import setMidNight from "./setMidNight";
 import stringToPrice from "./stringToPrice";
 import s4 from "./keyGen";
+import randomIntFromInterval from "./randomNumber";
 
 const JDutils = {
   ErrProtecter,
@@ -38,6 +39,7 @@ const JDutils = {
   isName,
   isMaxOver,
   isPassword,
+  randomIntFromInterval,
   JDMonthTextChanger,
   searchListFormat,
   download,
@@ -77,6 +79,7 @@ export {
   setMidNight,
   templateOpMaker,
   applyDaysToArr,
+  randomIntFromInterval,
   arrToApplyDays,
   stringToPrice,
   autoComma,

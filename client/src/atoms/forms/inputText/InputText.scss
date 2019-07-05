@@ -7,6 +7,10 @@
 
 .JDinput-wrap {
   position: relative;
+
+  &--fullHeight {
+    height: 100%;
+  }
 }
 
 //  😄 인풋라인에 아이콘 맞춰줌 

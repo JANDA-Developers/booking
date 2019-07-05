@@ -12,4 +12,8 @@
             vertical-align: top;
         }
     }
+    
+    &--narrowTop {
+        padding: $docs-section-padding--narrowTop;
+    }
 }

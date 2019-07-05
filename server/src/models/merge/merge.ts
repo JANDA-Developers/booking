@@ -346,7 +346,9 @@ export const transformSeasons = async (
     try {
         const seasons: Array<
             InstanceType<SeasonSchema>
-        > = await SeasonModel.find({ _id: { $in: seasonIds } });
+        > = await SeasonModel.find({
+            _id: { $in: seasonIds }
+        });
         const results: Season[] = await Promise.all(
             seasons.map(
                 async (season): Promise<Season> => {

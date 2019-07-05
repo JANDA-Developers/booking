@@ -181,8 +181,15 @@
   &--start {
     justify-content: flex-start;
   }
-  
 
+  &--vertical {
+    flex-direction: column;
+    height: 100%;
+  }
+
+  &--unGrow.flex-grid {
+    flex: 0 0!important;
+  }
 
   @include grid-system(full);
   @include grid-system(wlg);
