@@ -7,7 +7,7 @@ const DashBoardHeader = () => {
     slidesToScroll: 1
   };
   return (
-    <JDSlider {...sliderExampleSetting}>
+    <JDSlider {...sliderExampleSetting} className="dashBoardHeader">
       <div className="JDslider__slide-wrap">
         <div className="JDslider__slide">
           <h3>실시간 예약솔루션잔다.</h3>

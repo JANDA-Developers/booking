@@ -117,9 +117,8 @@
   }
 
   &.JDtextarea--scroll {
-    overflow-y: scroll
-
-
+    overflow-y: auto;
+    @extend %JDscrollbar;
   }
 }
 
@@ -177,4 +176,15 @@
   // Reduces repaints
   position: absolute;
   top: 0;
+}
+
+.JDinput-wrap {
+  &--fullHeight {
+    height: 100%;
+  }
+  .JDtextarea {
+    box-sizing:border-box;
+    margin-top: $textarea-margin-top;
+    height: calc(100% - #{$textarea-margin-top});
+  }
 }

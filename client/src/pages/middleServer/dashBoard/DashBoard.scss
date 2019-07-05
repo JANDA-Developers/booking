@@ -1,0 +1,16 @@
+@import '../../../style_config/style_config';
+
+.dashBoard {
+    &__section1 {
+        min-height: $standard-section-height;
+
+        .flex-grid {
+            flex: 1 1
+        }
+    }
+}
+
+.dashBoardHeader {
+    padding-top: $standard-padding * 3;
+    padding-bottom: $standard-padding * 3;
+}

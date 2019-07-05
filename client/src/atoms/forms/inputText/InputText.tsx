@@ -38,6 +38,7 @@ interface IProps extends React.HTMLAttributes<HTMLInputElement> {
   hyphen?: boolean;
   byte?: boolean;
   comma?: boolean;
+  fullHeight?: boolean;
   returnNumber?: boolean;
   allWaysShowValidMessage?: boolean;
 }
@@ -65,6 +66,7 @@ const InputText: React.FC<IProps> = ({
   dataSuccess,
   allWaysShowValidMessage,
   icon,
+  fullHeight,
   iconOnClick,
   iconHover,
   hyphen,
@@ -144,7 +146,7 @@ const InputText: React.FC<IProps> = ({
 
   // 인풋 과 텍스트어리어 경계
   return !textarea ? (
-    <div className="JDinput-wrap">
+    <div className={`JDinput-wrap`}>
       {icon ? (
         <span className="JDinput-iconWrap">
           {icon && (
@@ -179,7 +181,7 @@ const InputText: React.FC<IProps> = ({
       </label>
     </div>
   ) : (
-    <div className="JDinput-wrap">
+    <div className={`JDinput-wrap ${fullHeight && "JDinput-wrap--fullHeight"}`}>
       <textarea
         disabled={disabled}
         value={formatedValue || undefined}

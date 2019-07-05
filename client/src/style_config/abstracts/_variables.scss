@@ -101,6 +101,7 @@ $flex-grid--column-margin: 2% !default;
 $docs-section-padding-top: 6rem !default;
 $docs-section-padding-bottom: 6rem !default;
 $docs-section-padding: $docs-section-padding-top 0 $docs-section-padding-bottom 0 !default;
+$docs-section-padding--narrowTop: 2.5rem 0 $docs-section-padding-bottom 0 !default;
 $docs-section__box-bottom: 2.5rem !default;
 $modal-section: 1.5rem !default;
 
@@ -111,6 +112,7 @@ $label-font-size: $typho-small !default;
 $label-font-color: $html-color !default;
 
 // -- 표준규격 
+$standard-section-height: 23.4rem;
 $standard-disabled-color: $grey-level2 !default;
 $standard-space: 1rem !default; // except textInput 구조가 다름
 $standard-margin-bottom: 1.0rem !default; // except textInput 구조가 다름

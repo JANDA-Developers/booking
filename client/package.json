@@ -17,6 +17,7 @@
     "@types/moment-timezone": "^0.5.12",
     "@types/react-addons-css-transition-group": "^15.0.5",
     "@types/react-calendar-timeline": "^0.16.1",
+    "@types/react-slick": "^0.23.4",
     "@types/react-sticky": "^6.0.3",
     "@types/react-sticky-el": "^1.0.2",
     "@types/react-table": "^6.8.3",

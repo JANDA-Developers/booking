@@ -1,16 +1,17 @@
 type UpdateHouseResponse {
-    ok: Boolean!
-    error: String
-    house: House
+  ok: Boolean!
+  error: String
+  house: House
 }
 
 type Mutation {
-    UpdateHouse(
-        houseId: ID!
-        name: String
-        houseType: HouseType
-        location: LocationInput
-        refundPolicy: [TermsOfRefundInput!]
-        termsOfBooking: TermsOfBookingInput
-    ): UpdateHouseResponse!
+  UpdateHouse(
+    houseId: ID!
+    name: String
+    houseType: HouseType
+    location: LocationInput
+    refundPolicy: [TermsOfRefundInput!]
+    termsOfBooking: TermsOfBookingInput
+    hostMemo: String
+  ): UpdateHouseResponse!
 }
