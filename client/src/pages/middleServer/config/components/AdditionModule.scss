@@ -1,0 +1,11 @@
+@import '../../../../style_config/style_config.scss';
+
+.addtionModule {
+    position: relative;
+    &__updateAt {
+        position: absolute;
+        font-size: $typho-tiny;
+        right: 0px;
+        bottom: -8px;
+    }
+}

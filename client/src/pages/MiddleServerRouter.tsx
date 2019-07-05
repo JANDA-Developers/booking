@@ -130,13 +130,15 @@ const JDmiddleServer: React.FC<IProps> = ({
         <Route
           exact
           path="/middleServer/config"
-          component={isLoggedIn ? ConfigWrap : Login}
+          render={() =>
+            isLoggedIn ? <ConfigWrap house={selectedHouse} /> : <Login />
+          }
         />
         {/* 대쉬보드 */}
         <Route
           exact
           path="/middleServer/dashBoard"
-          component={() => <DashBoard userData={user} />}
+          component={() => <DashBoard house={selectedHouse} userData={user} />}
         />
         {/* 상품선택 */}
         <Route
@@ -216,7 +218,10 @@ const JDmiddleServer: React.FC<IProps> = ({
           exact
           path="/middleServer/assigTimeline"
           render={() => (
-            <AssigTimeline houseId={selectedHouse && selectedHouse._id} />
+            <AssigTimeline
+              house={selectedHouse}
+              houseId={selectedHouse && selectedHouse._id}
+            />
           )}
         />
         {/* 자세한 가격설정 */}

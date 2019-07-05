@@ -206,6 +206,7 @@ export interface IUseDayPicker {
   setTo: React.Dispatch<React.SetStateAction<Date | null>>;
   entered: Date | null;
   setEntered: React.Dispatch<React.SetStateAction<Date | null>>;
+  setDate: (date: Date) => void;
 }
 
 function useDayPicker(
@@ -216,13 +217,20 @@ function useDayPicker(
   const [entered, setEntered] = useState<Date | null>(defaultTo);
   const [to, setTo]: any = useState<Date | null>(defaultTo);
 
+  const setDate = (date: Date) => {
+    setFrom(date);
+    setEntered(date);
+    setTo(date);
+  };
+
   return {
     from,
     to,
     entered,
     setFrom,
     setTo,
-    setEntered
+    setEntered,
+    setDate
   };
 }
 

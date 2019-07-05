@@ -1,11 +1,25 @@
-import React from "react";
+import React, {FunctionComponent} from "react";
 import EerrorProtect from "../../../../utils/errProtect";
+import {MutationFn} from "react-apollo";
+import {
+  updateHouseConfig,
+  updateHouseConfigVariables
+} from "../../../../types/api";
+import {IHouse} from "../../../../types/interface";
+
+export interface IAddtionProp {
+  updateHouseConfigMu: MutationFn<
+    updateHouseConfig,
+    updateHouseConfigVariables
+  >;
+  house: IHouse;
+}
 
 export interface IAddition {
   name: string;
   updateAt: string;
   description: string;
-  detailDescription(): JSX.Element | JSX.Element[];
+  detailDescription: (prop: IAddtionProp) => any;
 }
 
 interface IProps {
@@ -25,7 +39,7 @@ const AddtionModule: React.FC<IProps> = ({
     }}
     className="addtionModule"
   >
-    <h6 className="addtionModule__title">{addtionInfo.name}</h6>
+    <div className="addtionModule__title JDlarge-text">{addtionInfo.name}</div>
     <span className="addtionModule__descrition">{addtionInfo.description}</span>
     <span className="addtionModule__updateAt">{addtionInfo.updateAt}</span>
   </div>

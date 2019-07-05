@@ -10,7 +10,9 @@ import {
   getAppliedPriceWithDateRange_GetAppliedPriceWithDateRange_roomPrices,
   getAppliedPriceWithDateRange_GetAppliedPriceWithDateRange_seasonPrices,
   getAllRoomTypeWithGuest_GetBlocks_blocks,
-  getAllSeasonTable_GetAllSeason_seasons
+  getAllSeasonTable_GetAllSeason_seasons,
+  getMyProfile_GetMyProfile_user_houses,
+  getMyProfile_GetMyProfile_user_houses_houseConfig
 } from "./api";
 import {IselectedOption} from "../atoms/forms/selectBox/SelectBox";
 
@@ -25,7 +27,9 @@ export interface ISeasonPrices
 export interface GB_booking extends getBooking_GetBooking_booking {}
 export interface IProduct extends getHouse_GetHouse_house_product {}
 export interface IUser extends getMyProfile_GetMyProfile_user {}
-export interface IHouse extends getHouse_GetHouse_house {}
+export interface IHouse extends getMyProfile_GetMyProfile_user_houses {}
+export interface IHouseConfig
+  extends getMyProfile_GetMyProfile_user_houses_houseConfig {}
 export interface IDiv extends React.HTMLAttributes<HTMLDivElement> {}
 export interface IUl extends React.HTMLAttributes<HTMLUListElement> {}
 export interface IRoomType extends getAllRoomType_GetAllRoomType_roomType {}

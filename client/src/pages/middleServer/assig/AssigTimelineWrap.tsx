@@ -21,7 +21,7 @@ import {
   createBlockVariables
 } from "../../../types/api";
 import {useToggle, useDayPicker} from "../../../actions/hook";
-import {IRoomType, IGuests, IBlock} from "../../../types/interface";
+import {IRoomType, IGuests, IBlock, IHouse} from "../../../types/interface";
 import {
   isEmpty,
   setMidNight,
@@ -65,6 +65,7 @@ class DeleteBookingMu extends Mutation<deleteBooking, deleteBookingVariables> {}
 
 interface IProps {
   houseId: string;
+  house: IHouse;
 }
 
 class GetAllRoomTypeWithGuestQuery extends Query<
@@ -80,9 +81,11 @@ class DeleteBlockMu extends Mutation<deleteBlock, deleteBlockVariables> {}
 
 const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
   houseId,
+  house,
   windowHeight,
   windowWidth
 }) => {
+  const {houseConfig} = house;
   const dayPickerHook = useDayPicker(null, null);
   const defaultStartDate = dayPickerHook.from
     ? moment(dayPickerHook.from).valueOf()
@@ -212,7 +215,9 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
     <GetAllRoomTypeWithGuestQuery
       fetchPolicy="network-only"
       notifyOnNetworkStatusChange={true}
-      // pollInterval={5000}
+      pollInterval={
+        houseConfig.pollingPeriod ? houseConfig.pollingPeriod.period : undefined
+      }
       query={GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM}
       variables={{
         ...updateVariables,
@@ -347,6 +352,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                                   return (
                                     <AssigTimeline
                                       houseId={houseId}
+                                      houseConfig={houseConfig}
                                       loading={loading}
                                       groupData={formatedRoomData}
                                       deafultGuestsData={formatedItemData || []}
@@ -362,7 +368,8 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                                       dataTime={dataTime}
                                       key={`timeline${dayPickerHook.from}${
                                         dayPickerHook.to
-                                      }`}
+                                      }${roomTypesData &&
+                                        roomTypesData.length}`}
                                     />
                                   );
                                 }}

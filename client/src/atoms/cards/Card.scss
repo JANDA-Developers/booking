@@ -18,6 +18,10 @@
     &--hoverDark:hover  {
         background-color: $grey-level1;
         cursor:pointer;
+
+        * {
+            cursor: inherit;
+        }
     }
 
     & > *:last-child {

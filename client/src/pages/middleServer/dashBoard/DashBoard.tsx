@@ -3,63 +3,34 @@ import {ErrProtecter} from "../../../utils/utils";
 import JDSlider from "../../../atoms/slider/Slider";
 import Card from "../../../atoms/cards/Card";
 import JDbox from "../../../atoms/box/JDbox";
-import {IUser} from "../../../types/interface";
+import {IUser, IHouse} from "../../../types/interface";
+import DashBoardHeader from "./components/dashboardHeader";
+import DailyAssigWrap from "../../../components/dailyAssjg/DailyAssigWrap";
 
 interface Iprops {
   userData: IUser;
+  house: IHouse;
 }
 
 // eslint-disable-next-line react/prop-types
-const DashBoard: React.SFC<Iprops> = ({userData}) => {
-  const sliderExampleSetting = {
-    slidesToShow: 1,
-    slidesToScroll: 1
-  };
-
+const DashBoard: React.SFC<Iprops> = ({userData, house}) => {
   return (
     <div id="DashBoard">
-      <JDSlider {...sliderExampleSetting}>
-        <div className="JDslider__slide-wrap">
-          <div className="JDslider__slide">
-            <h3>실시간 예약솔루션잔다.</h3>
-          </div>
-        </div>
-        <div className="JDslider__slide-wrap">
-          <div className="JDslider__slide">
-            <h3>하우스메뉴얼 소개</h3>
-          </div>
-        </div>
-        <div className="JDslider__slide-wrap">
-          <div className="JDslider__slide">
-            <h3>3</h3>
-          </div>
-        </div>
-        <div className="JDslider__slide-wrap">
-          <div className="JDslider__slide">
-            <h3>4</h3>
-          </div>
-        </div>
-        <div className="JDslider__slide-wrap">
-          <div className="JDslider__slide">
-            <h3>5</h3>
-          </div>
-        </div>
-        <div className="JDslider__slide-wrap">
-          <div className="JDslider__slide">
-            <h3>6</h3>
-          </div>
-        </div>
-      </JDSlider>
       <div className="container">
-        <div className="flex-grid-grow">
-          <div className="flex-grid__col">
+        <DashBoardHeader />
+        <div className="flex-grid">
+          <div className="flex-grid__col col--full-9">
             <Card>
-              <JDbox mode="border">{userData.name}님 안녕하세요!</JDbox>
+              <h6>방배정현황</h6>
+              <DailyAssigWrap house={house} date={new Date()} />
             </Card>
           </div>
-          <div className="flex-grid__col">
+          <div className="flex-grid__col col--full-3">
             <Card>
-              <span>....</span>
+              <JDbox mode="border">
+                {userData.name}님 안녕하세요! <br />
+                오늘도 밝은 하루 되십시요.
+              </JDbox>
             </Card>
           </div>
         </div>

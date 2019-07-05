@@ -1,0 +1,55 @@
+@import '../../../style_config/style_config';
+
+$range-value-height: 2.2rem;
+$range-bottom-labels-height: $range-value-height - 0.7rem;
+
+html {
+    .input-range {
+
+        margin-bottom: $standard-margin-bottom + $range-bottom-labels-height;
+
+        margin-top: $range-value-height;
+
+        // 바 트랙
+        &__track {
+            background-color: $grey-level1;
+            &--active {
+                background-color: $primary-color;
+            }
+        }
+
+        // 트랙 손잡이
+        &__slider {
+            background-color: $primary-color;
+        }
+
+        // 최소 + 최대 라벨
+        &__label {
+            &-container {
+                font-size: $typho-normal;
+                color: $html-color;
+            }
+        }
+        
+        // 값라벨
+        &__label--value {
+            top:  -$range-value-height;
+        }
+        // 최소라벨
+        &__label--min {
+            bottom: -$range-bottom-labels-height;
+            .input-range__label-container {
+                left: 0;
+            }
+        }
+        // 최대라벨
+        &__label--max {
+            right: 0;
+            bottom: -$range-bottom-labels-height;
+            .input-range__label-container {
+                left: 0;
+            }
+        }
+        
+    }
+}

@@ -170,7 +170,15 @@
       background-color: transparent;
       box-shadow: none;
     }
-    
+  }
 
+  &--toogleOn.JDbtn {
+    background-color: $primary-color;
+    color: white;
+  }
+
+  &--toogleOff.JDbtn {
+    background-color: white;
+    color: $html-color;
   }
 }

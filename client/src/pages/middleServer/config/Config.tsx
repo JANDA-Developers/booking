@@ -1,14 +1,26 @@
 import React, {useState} from "react";
-import {ErrProtecter} from "../../../utils/utils";
+import {ErrProtecter, s4} from "../../../utils/utils";
 import AddtionModule from "./components/AddtionModule";
-import {additiones} from "./components/additiones";
+import {additiones} from "./addtiones/additiones";
 import Card from "../../../atoms/cards/Card";
 import "./Config.scss";
 import Sticky from "react-sticky-el";
+import {MutationFn} from "react-apollo";
+import {
+  updateHouseConfig,
+  updateHouseConfigVariables
+} from "../../../types/api";
+import {IHouse} from "../../../types/interface";
 
-interface IProps {}
+interface IProps {
+  updateHouseConfigMu: MutationFn<
+    updateHouseConfig,
+    updateHouseConfigVariables
+  >;
+  house: IHouse;
+}
 
-const Config: React.FC<IProps> = () => {
+const Config: React.FC<IProps> = ({updateHouseConfigMu, house}) => {
   // AdditionMoudle 클릭시 변경
   const [additionIndex, setAdditionIndex] = useState<null | number>(null);
   return (
@@ -16,7 +28,7 @@ const Config: React.FC<IProps> = () => {
       <div className="flex-grid docs-section">
         <div className="flex-grid__col col--full-4">
           {additiones.map((addtion, index) => (
-            <Card>
+            <Card key={s4()} selected={index === additionIndex} hoverDark>
               <AddtionModule
                 setAdditionIndex={setAdditionIndex}
                 addtionInfo={addtion}
@@ -29,11 +41,16 @@ const Config: React.FC<IProps> = () => {
           <Sticky>
             <Card className="config__detailSection">
               {additionIndex === null ? (
-                <div />
+                <div>
+                  <h5>좌측에서 설정 항목을 선택하세요.</h5>
+                </div>
               ) : (
                 <div>
-                  <h1>{additiones[additionIndex].name}</h1>
-                  {additiones[additionIndex].detailDescription()}
+                  <h5>{additiones[additionIndex].name}</h5>
+                  {additiones[additionIndex].detailDescription({
+                    updateHouseConfigMu,
+                    house
+                  })}
                 </div>
               )}
             </Card>

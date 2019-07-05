@@ -1,4 +1,4 @@
-import React, {useState, useEffect, Fragment} from "react";
+import React from "react";
 import $ from "jquery";
 import {TimelineContext} from "react-calendar-timeline";
 import classnames from "classnames";

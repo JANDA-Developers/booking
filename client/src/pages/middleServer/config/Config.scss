@@ -1,5 +1,23 @@
+@import '../../../style_config/style_config.scss';
+// 👿 scss 파일을 나누어 보았는데 괸히 작업만 많은수준 파일이 길어지면 분화하는게 이득
+@import './components/AdditionModule.scss';
+
 .config {
     &__detailSection {
-        height: 98vh;
+        right: 0px;
     }
+
+    .additionDetail {
+
+        &__titleTopRight {
+            position:absolute;
+            top: $card-padding;
+            right: $card-padding;
+
+            .JDswitch-wrap {
+                margin:0;
+            }
+        }
+    }
+    
 }

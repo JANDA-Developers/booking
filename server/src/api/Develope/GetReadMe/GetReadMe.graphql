@@ -1,0 +1,19 @@
+type GetFileTxtResponse {
+  ok: Boolean!
+  error: String
+  fileTxt: String
+}
+
+type GetAllReadMeResponse {
+  ok: Boolean!
+  error: String
+  paths: [String!]!
+}
+
+type Query {
+  GetAllReadMe: GetAllReadMeResponse!
+}
+
+type Query {
+  GetFileTxt(path: String!): GetFileTxtResponse!
+}

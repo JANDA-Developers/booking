@@ -21,6 +21,19 @@ const F_MINI_ROOM_TYPE = gql`
     }
 `;
 
+// 룸타입 관련된 최소 프레임
+const F_HOUSE_CONFIG = gql`
+    fragment FhouseConfig on HouseConfig {
+        assigTimeline {
+            roomTypeTabEnable
+        }
+        pollingPeriod {
+            enable
+            period
+        }
+    }
+`;
+
 // 상품 관련 프레임
 const F_FULL_PRODUCT_TYPE = gql`
     fragment FfullProdcutType on ProductType {
@@ -253,6 +266,9 @@ const F_USER_INFO = gql`
         userRole
         userRoles
         houses {
+            houseConfig {
+                ...FhouseConfig
+            }
             smsInfo {
                 _id
             }
@@ -282,6 +298,7 @@ const F_USER_INFO = gql`
         createdAt
         updatedAt
     }
+    ${F_HOUSE_CONFIG}
 `;
 
 
@@ -812,6 +829,28 @@ export const GET_USER_FOR_SU = gql`
         }
     }
     ${F_USER_INFO}
+`;
+
+// 다큐먼트 ::  모든 README 패스 가져오기
+export const GET_ALL_README = gql`
+    query getAllReadMe {
+        GetAllReadMe {
+            ok
+            error
+            paths
+        }
+    }
+`;
+
+// 다큐먼트 ::  모든 README 패스 가져오기
+export const GET_FILE_TXT = gql`
+    query getFileTxt($path:String!) {
+        GetFileTxt(path: $path) {
+            ok
+            error
+            fileTxt
+        }
+    }
 `;
 
 // 공유된 프레그먼트 (큰단위)
@@ -1455,6 +1494,22 @@ export const UPDATE_HOUSE = gql`
             location: $location
             refundPolicy: $refundPolicy
             termsOfBooking: $termsOfBooking
+        ) {
+            ok
+            error
+        }
+    }
+`;
+
+// 숙소설정 업데이트
+export const UPDATE_HOUSE_CONFIG = gql`
+    mutation updateHouseConfig(
+        $houseId: ID!
+        $params: UpdateHouseConfigParams
+    ) {
+        UpdateHouseConfig(
+            houseId: $houseId
+            params: $params
         ) {
             ok
             error

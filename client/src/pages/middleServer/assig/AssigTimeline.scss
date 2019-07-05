@@ -37,6 +37,7 @@
         .assigTimeline__mainPreloder {
             position:absolute;
             bottom:0;
+            z-index: $z-index-9;
         }
     }
 
@@ -189,7 +190,7 @@
         $B: '.assigItem';
         cursor: pointer;
         z-index: $z-index-8;
-        background-color: $assigItem-noramlStatus-color;
+        background-color: $assigItem-normalStatus-color;
         color:white;
         @extend %z-depth-half;
         box-sizing: border-box;

@@ -1,0 +1,71 @@
+@import '../../style_config/style_config';
+
+.DailyAssig {
+    border-top: 1px solid $grey-level1;
+    border-left: 1px solid $grey-level1;
+    &__row {
+        display:flex;
+        * {
+            flex: 1 1;
+            line-height:100%;
+        }
+    }
+
+    &__dayPicker {
+        margin-bottom: $standard-margin-bottom;
+    }
+
+    &__roomTypeTittle {
+        align-items: center;
+        border-right: 1px solid $grey-level1;
+        padding: $standard-small-padding;
+        max-width: 120px;
+        display: flex;
+        border-bottom: 1px solid $grey-level1;
+    }
+    &__roomsWrap {
+        display:flex;
+        flex-wrap: wrap;
+    }
+    
+    &__roomTitle {
+        border-bottom: 1px solid $grey-level1;
+        border-right: 1px solid $grey-level1;
+        padding: $standard-small-padding;
+        min-height: 0;
+    }
+    
+    &__room {
+        min-width: 100px;
+        border-bottom: 1px solid $grey-level1;
+    }
+    
+    &__empty {
+        color: $grey-level1;
+    }
+    
+    &__guestBlock {
+        padding: $assigItem-padding;
+        border-right: 1px solid $grey-level1;
+    }
+    
+    &__guest {
+        justify-content: space-between;
+        background-color: $assigItem-normalStatus-color;
+        display: flex;
+        color: white;
+        align-items: center;
+        flex: unset;
+        * {
+            flex: unset;
+        }
+    }
+
+    &__guestConfigIcon {
+        top: 0;
+        &:hover {
+            color: $grey-level1;
+            cursor: pointer;
+        }
+    }
+}

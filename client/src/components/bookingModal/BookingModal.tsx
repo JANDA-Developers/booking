@@ -304,7 +304,11 @@ const POPbookingInfo: React.FC<IProps> = ({
             />
           </div>
           <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
-            <InputText readOnly value="2018-03-24" label="예약일시" />
+            <InputText
+              readOnly
+              value={moment().format("YYYY-MM-DD")}
+              label="예약일시"
+            />
           </div>
           <div className="flex-grid__col col--full-12 col--lg-12 col--md-12">
             <RoomSelectInfoTable resvInfo={defaultFormat} />

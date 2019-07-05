@@ -11,7 +11,7 @@ import {
   ICreateBookingInfo
 } from "./assigIntrerface";
 import {DEFAULT_ASSIG_GROUP} from "../../../../types/defaults";
-import {isEmpty} from "../../../../utils/utils";
+import {isEmpty, s4} from "../../../../utils/utils";
 
 interface IProps {
   assigHooks: IAssigTimelineHooks;
@@ -57,6 +57,8 @@ const MakeItemMenu: React.FC<IProps> = ({
               });
 
               const modalParam: ICreateBookingInfo = {
+                bookingId: s4(),
+                createMode: true,
                 type: BookingModalType.CREATE_WITH_ASSIG,
                 start: makeItems[0].start,
                 end: makeItems[0].end,
