@@ -37,6 +37,13 @@ const resolvers: Resolvers = {
                             (roomTypeId && new Types.ObjectId(roomTypeId)) ||
                             undefined
                     });
+                    console.log(seasonPriceDateList);
+
+                    return {
+                        ok: false,
+                        error: "개발중",
+                        seasonPriceDateList: []
+                    };
                 } catch (error) {
                     return {
                         ok: false,

@@ -1,32 +1,10 @@
-import { Types } from "mongoose";
-import {
-    instanceMethod,
-    InstanceType,
-    prop,
-    Ref,
-    staticMethod,
-    Typegoose
-} from "typegoose";
-import { DayOfWeekPrice } from "../types/graph";
+import _ from "lodash";
+import { instanceMethod, InstanceType, prop, Ref, Typegoose } from "typegoose";
+import { DailyPrice, Day, DayOfWeekPrice } from "../types/graph";
 import { RoomTypeSchema } from "./RoomType";
 import { SeasonSchema } from "./Season";
 
 export class SeasonPriceSchema extends Typegoose {
-    @staticMethod
-    public static async getPrice(
-        dateRange: { start: Date; end: Date },
-        roomTypeId: Types.ObjectId
-    ): Promise<Array<InstanceType<SeasonPriceSchema>>> {
-        const aggregationResult = await SeasonPriceModel.aggregate([
-            {
-                $match: {}
-            }
-        ]);
-        console.log(aggregationResult);
-
-        return [];
-    }
-
     @prop({ required: true, ref: RoomTypeSchema })
     roomType: Ref<RoomTypeSchema>;
 
@@ -36,32 +14,31 @@ export class SeasonPriceSchema extends Typegoose {
     @prop({ required: true })
     defaultPrice: number;
 
+    // Deprecated: 더이상 사용하지 말것.
     @prop({
         required: true,
-        // validate(dayOfWeekPrices: DayOfWeekPrice[]) {
-        //     if (dayOfWeekPrices.length === 0) {
-        //         return true;
-        //     }
-        //     let inspectArr: DayOfWeekEnum[] = [];
-        //     let flag = true;
-        //     dayOfWeekPrices
-        //         .map(dayOfWeekPrice => dayOfWeekPrice.applyDays)
-        //         .forEach(applyDays => {
-        //             const temp: DayOfWeekEnum[] = applyDaysToArr(applyDays);
-        //             inspectArr.forEach(elem => {
-        //                 temp.forEach(elem2 => {
-        //                     if (elem === elem2) {
-        //                         flag = false;
-        //                     }
-        //                 });
-        //             });
-        //             inspectArr = inspectArr.concat(temp);
-        //         });
-        //     return flag;
-        // },
         default: []
     })
     dayOfWeekPrices: DayOfWeekPrice[];
+
+    @prop({
+        default: [],
+        validate(dailyPriceList: DailyPrice[]) {
+            // TODO: 중복검사 ㄱㄱ
+            const temp: Day[] = [];
+            let validateResult = true;
+            dailyPriceList.forEach(dailyPrice => {
+                const duplicated = temp.includes(dailyPrice.day);
+                if (duplicated) {
+                    validateResult = false;
+                    return;
+                }
+                temp.push(dailyPrice.day);
+            });
+            return validateResult;
+        }
+    })
+    dailyPriceList: DailyPrice[];
 
     @instanceMethod
     pushDayOfWeekPrice(
@@ -78,6 +55,46 @@ export class SeasonPriceSchema extends Typegoose {
     ): DayOfWeekPrice[] {
         const indexOf = this.dayOfWeekPrices.indexOf(dayOfWeekPrice);
         return this.dayOfWeekPrices.splice(indexOf);
+    }
+
+    /**
+     * dailyPrice 추가...
+     * 배열로 파라미터를 받음... this.save() 하지 않음
+     * @param dailyPriceList
+     */
+    @instanceMethod
+    addDailyPrices(
+        this: InstanceType<SeasonPriceSchema>,
+        dailyPriceList: DailyPrice[]
+    ): DailyPrice[] {
+        this.dailyPriceList = _.unionBy(
+            dailyPriceList,
+            this.dailyPriceList,
+            "day"
+        );
+        return this.dailyPriceList;
+    }
+
+    /**
+     * dailyPrice 삭제...
+     * 배열로 파라미터를 받음... this.save() 하지 않음
+     * @param days Day 배열...
+     */
+    @instanceMethod
+    deleteDailyPrices(
+        this: InstanceType<SeasonPriceSchema>,
+        days: Day[]
+    ): DailyPrice[] {
+        _.pullAllBy(
+            this.dailyPriceList,
+            days.map(day => {
+                return {
+                    day
+                };
+            }),
+            "day"
+        );
+        return this.dailyPriceList;
     }
 }
 

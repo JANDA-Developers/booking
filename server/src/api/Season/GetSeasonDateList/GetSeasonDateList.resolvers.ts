@@ -10,7 +10,7 @@ import { privateResolver } from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
     Query: {
-        GetSeasonToDateList: privateResolver(
+        GetSeasonDateList: privateResolver(
             async (
                 _,
                 { houseId, start, end }: GetSeasonDateListQueryArgs

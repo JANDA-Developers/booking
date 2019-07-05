@@ -3,10 +3,27 @@ type UpdateSeasonPriceResponse {
     error: String
     seasonPrice: SeasonPrice
 }
+
+type DailyPricesResponse {
+    ok: Boolean!
+    error: String
+    dailyPriceList: [DailyPrice!]
+}
+
 type Mutation {
     UpdateSeasonPrice(
         seasonPriceId: ID!
         price: Float
+        # deprecated
         applyDays: Int!
     ): UpdateSeasonPriceResponse!
+
+    # new! 시즌 가격 dailyPrice 추가
+    AddDailyPrices(
+        seasonPriceId: ID!
+        dailyPriceList: [DailyPriceInput!]
+    ): DailyPricesResponse!
+
+    # new! 시즌 가격 dailyPrice 제거
+    DeleteDailyPrices(seasonPriceId: ID!, days: [Day!]): DailyPricesResponse!
 }

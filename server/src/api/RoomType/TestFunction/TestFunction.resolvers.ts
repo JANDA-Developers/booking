@@ -6,7 +6,6 @@ import {
     TestFunctionResponse
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
-import { getPriceFromSeasonPrices } from "../../../utils/priceFuncs";
 
 const resolvers: Resolvers = {
     Mutation: {
@@ -30,7 +29,6 @@ const resolvers: Resolvers = {
                         error: "게스트 null"
                     };
                 }
-                getPriceFromSeasonPrices(guest);
                 return {
                     ok: true,
                     error: null

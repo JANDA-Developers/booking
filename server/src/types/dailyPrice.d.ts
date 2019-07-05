@@ -1,5 +1,6 @@
-export interface DailyPrice {
-    date: Date;
+import { Day } from "./graph";
+
+export type DailyPrice = {
+    day: Day;
     price: number;
-    suggestedPrice: number;
-}
+};

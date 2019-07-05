@@ -19,7 +19,8 @@ const resolvers: Resolvers = {
                     seasonId,
                     roomTypeId,
                     defaultPrice,
-                    dayOfWeekPrices
+                    dayOfWeekPrices,
+                    dailyPriceList
                 }: CreateSeasonPriceMutationArgs
             ): Promise<CreateSeasonPriceResponse> => {
                 try {
@@ -49,7 +50,8 @@ const resolvers: Resolvers = {
                         roomType: new Types.ObjectId(roomTypeId),
                         season: new Types.ObjectId(seasonId),
                         defaultPrice,
-                        dayOfWeekPrices
+                        dayOfWeekPrices,
+                        dailyPriceList
                     });
                     await seasonPrice.save();
                     return {

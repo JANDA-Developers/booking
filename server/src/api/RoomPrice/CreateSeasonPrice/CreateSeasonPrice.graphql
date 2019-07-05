@@ -8,6 +8,14 @@ type Mutation {
         roomTypeId: ID!
         seasonId: ID!
         defaultPrice: Float!
+        # deprecated
         dayOfWeekPrices: [DayOfWeekPriceInput!]
+        # 이제는 이걸로 씁시다.
+        dailyPriceList: [DailyPriceInput!]
     ): CreateSeasonPriceResponse!
+}
+
+input DailyPriceInput {
+    day: Day!
+    price: Float!
 }

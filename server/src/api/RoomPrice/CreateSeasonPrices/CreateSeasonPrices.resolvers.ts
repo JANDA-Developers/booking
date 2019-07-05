@@ -1,8 +1,12 @@
 import { Types } from "mongoose";
+import { extractSeasonPrices } from "../../../models/merge/merge";
 import { SeasonModel } from "../../../models/Season";
+import { SeasonPriceModel } from "../../../models/SeasonPrice";
 import {
     CreateSeasonPricesMutationArgs,
-    CreateSeasonPricesResponse
+    CreateSeasonPricesResponse,
+    DailyPrice,
+    DayOfWeekPrice
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
 import { privateResolver } from "../../../utils/privateResolvers";
@@ -23,17 +27,40 @@ const resolvers: Resolvers = {
                             seasonPrices: []
                         };
                     }
+                    const seasonObjId = new Types.ObjectId(seasonId);
                     const roomTypes = seasonPrices.map(seasonPriceInput => {
                         return new Types.ObjectId(seasonPriceInput.roomTypeId);
                     });
                     console.log({
                         roomTypes
                     });
+                    const temp = seasonPrices.map((seasonPriceInput): {
+                        season: Types.ObjectId;
+                        roomType: Types.ObjectId;
+                        defaultPrice: number;
+                        dayOfWeekPrices: DayOfWeekPrice[];
+                        dailyPriceList: DailyPrice[];
+                    } => {
+                        return {
+                            season: seasonObjId,
+                            roomType: new Types.ObjectId(
+                                seasonPriceInput.roomTypeId
+                            ),
+                            defaultPrice: seasonPriceInput.defaultPrice,
+                            dayOfWeekPrices: seasonPriceInput.dayOfWeekPrices,
+                            dailyPriceList: seasonPriceInput.dailyPriceList
+                        };
+                    });
+                    const result = await SeasonPriceModel.insertMany(temp);
 
+                    // TODO: 여기 테스트하기!
                     return {
-                        ok: false,
-                        error: "개발 중",
-                        seasonPrices: []
+                        ok: true,
+                        error: null,
+                        seasonPrices: await extractSeasonPrices.bind(
+                            extractSeasonPrices,
+                            result
+                        )
                     };
                 } catch (error) {
                     return {

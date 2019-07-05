@@ -3,11 +3,17 @@ type SeasonPrice {
     roomType: RoomType!
     season: Season!
     defaultPrice: Float!
+    # deprecated
     dayOfWeekPrices: [DayOfWeekPrice!]
+    dailyPriceList: [DailyPrice!]
 }
 type DayOfWeekPrice {
     price: Float!
     applyDays: Int!
+}
+type DailyPrice {
+    day: Day!
+    price: Float!
 }
 input DayOfWeekPriceInput {
     price: Float!
