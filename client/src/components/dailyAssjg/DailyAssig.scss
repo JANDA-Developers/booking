@@ -22,6 +22,9 @@
         max-width: 120px;
         display: flex;
         border-bottom: 1px solid $grey-level1;
+        @include response($tablet) {
+            max-width: 90px;
+        }
     }
     &__roomsWrap {
         display:flex;

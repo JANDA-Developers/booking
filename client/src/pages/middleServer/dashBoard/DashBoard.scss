@@ -3,10 +3,7 @@
 .dashBoard {
     &__section1 {
         min-height: $standard-section-height;
-
-        .flex-grid {
-            flex: 1 1
-        }
+        padding-bottom: 1rem;
     }
 }
 

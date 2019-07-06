@@ -12,6 +12,7 @@
     }
 
     &--fullWidth {
+        box-sizing:border-box;
         width: 100%;
     }
 
@@ -21,7 +22,7 @@
 
     &--fullHeight {
         box-sizing: border-box;
-        height: 100%;
+        height: calc(100% - $standard-margin-bottom);
     }
 
     &--selected {

@@ -11,7 +11,7 @@ export const Sms = props => (
 );
 
 export const DashBoard = props => (
-  <DynamicImport load={() => import("./middleServer/dashBoard/DashBoard")}>
+  <DynamicImport load={() => import("./middleServer/dashBoard/DashBoardWrap")}>
     {DNcompoent =>
       DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
     }

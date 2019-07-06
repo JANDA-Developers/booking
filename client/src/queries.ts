@@ -287,6 +287,7 @@ const F_USER_INFO = gql`
             }
             _id
             name
+            hostMemo
             houseType
             location {
                 address
@@ -1482,10 +1483,11 @@ export const UPDATE_HOUSE = gql`
     mutation updateHouse(
         $houseId: ID!
         $name: String
-        $houseType: HouseType!
-        $location: LocationInput!
+        $houseType: HouseType
+        $location: LocationInput
         $refundPolicy: [TermsOfRefundInput!]
         $termsOfBooking: TermsOfBookingInput
+        $hostMemo: String
     ) {
         UpdateHouse(
             houseId: $houseId
@@ -1494,6 +1496,7 @@ export const UPDATE_HOUSE = gql`
             location: $location
             refundPolicy: $refundPolicy
             termsOfBooking: $termsOfBooking
+            hostMemo:$hostMemo
         ) {
             ok
             error

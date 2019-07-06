@@ -27,14 +27,21 @@ import {
   TToogleCheckIn,
   TOpenCanvasMenu,
   TOpenBlockMenu,
-  TOpenMakeMenu
+  TOpenMakeMenu,
+  TMakeMark,
+  TDeleteBookingById,
+  TFindBookingIdByGuestId,
+  TResizeBlock,
+  TAllocateItem,
+  TAllocateGuest
 } from "./assigIntrerface";
-import {isEmpty, onCompletedMessage} from "../../../../utils/utils";
+import {isEmpty, onCompletedMessage, muResult} from "../../../../utils/utils";
 import {ReactTooltip} from "../../../../atoms/tooltipList/TooltipList";
 import {RoomGender, TimePerMs, Gender} from "../../../../types/enum";
 import moment from "moment";
 import {DEFAULT_ASSIG_ITEM} from "../../../../types/defaults";
 import $ from "jquery";
+import {createBlock_CreateBlock_block} from "../../../../types/api";
 
 export function getAssigUtils(
   {
@@ -46,6 +53,7 @@ export function getAssigUtils(
     setMakeMenuProps
   }: IAssigTimelineHooks,
   {
+    allocateMu,
     deleteGuestsMu,
     createBlockMu,
     deleteBlockMu,
@@ -165,12 +173,14 @@ export function getAssigUtils(
   };
 
   // 모든 툴팁을 팝업에서 제거
-  const allTooltipsHide: TAllTooltipsHide = () => {
+  const allTooltipsHide: TAllTooltipsHide = except => {
     ReactTooltip.hide();
-    $("#blockMenu").removeClass("blockMenu--show");
-    $("#canvasMenu").removeClass("canvasMenu--show");
-    $("#makeMenu").removeClass("makeMenu--show");
-    $("#itemTooltip").removeClass("itemTooltip--show");
+    if (except !== "blockMenu") $("#blockMenu").removeClass("blockMenu--show");
+    if (except !== "canvasMenu")
+      $("#canvasMenu").removeClass("canvasMenu--show");
+    if (except !== "makeMenu") $("#makeMenu").removeClass("makeMenu--show");
+    if (except !== "itemTooltip")
+      $("#itemTooltip").removeClass("itemTooltip--show");
     $(".assigItem--searched").removeClass("assigItem--searched");
   };
 
@@ -222,8 +232,26 @@ export function getAssigUtils(
     return true;
   };
 
+  // 유틸 그자리에 마크를 생성
+  const makeMark: TMakeMark = (time: number, groupId: string) => {
+    const filteredGuestValue = guestValue.filter(
+      guest => guest.type !== GuestTypeAdd.MARK
+    );
+
+    filteredGuestValue.push({
+      ...DEFAULT_ASSIG_ITEM,
+      id: `mark${groupId}${time}`,
+      type: GuestTypeAdd.MARK,
+      start: time,
+      end: time + TimePerMs.DAY,
+      group: groupId
+    });
+
+    setGuestValue([...filteredGuestValue]);
+  };
+
   // 예약을 예약 아이디로 삭제
-  const deleteBookingById = async (bookingId: string) => {
+  const deleteBookingById: TDeleteBookingById = async (bookingId: string) => {
     const result = await deleteBookingMu({
       variables: {
         bookingId
@@ -236,7 +264,9 @@ export function getAssigUtils(
   };
 
   //  예약아이디를 게스트아이디로 찾음
-  const findBookingIdByGuestId = (guestId: string): string => {
+  const findBookingIdByGuestId: TFindBookingIdByGuestId = (
+    guestId: string
+  ): string => {
     const target = guestValue.find(guest => guest.id === guestId);
     if (!target) {
       throw Error("guestId not exist :: findBookingByGuestId");
@@ -340,8 +370,67 @@ export function getAssigUtils(
     setGuestValue([...guestValue]);
   };
 
+  const resizeBlock: TResizeBlock = async (
+    targetGuest: IAssigItem,
+    time: number
+  ) => {
+    const guestValueOriginCopy = $.extend(true, [], guestValue);
+    await resizeLinkedItems(targetGuest.bookingId, time);
+
+    const result = await createBlockMu({
+      variables: {
+        bedIndex: targetGuest.bedIndex,
+        end: time,
+        houseId: houseId,
+        roomId: targetGuest.roomId,
+        start: targetGuest.start
+      }
+    });
+
+    // 에러처리
+    if (result && result.data && !result.data.CreateBlock.ok) {
+      setGuestValue([...guestValueOriginCopy]);
+    } else {
+    }
+  };
+
+  const allocateItem: TAllocateItem = async (
+    targetGuest: IAssigItem,
+    newGroupOrder: number
+  ) => {
+    const guestValueOriginCopy = $.extend(true, [], guestValue);
+
+    targetGuest.group = groupData[newGroupOrder].id;
+    setGuestValue([...guestValue]);
+
+    // 배정 뮤테이션을 발생
+    if (targetGuest.type === GuestTypeAdd.GUEST) {
+      allocateGuest(targetGuest.id, newGroupOrder, guestValueOriginCopy);
+    }
+  };
+
+  const allocateGuest: TAllocateGuest = async (
+    itemId: string,
+    newGroupOrder: number,
+    guestValueOriginCopy: any[]
+  ) => {
+    const newGroupId = groupData[newGroupOrder].roomId;
+    const result = await allocateMu({
+      variables: {
+        guestId: itemId,
+        roomId: newGroupId,
+        bedIndex: groupData[newGroupOrder].bedIndex
+      }
+    });
+    // 실패하면 전부 되돌림
+
+    // 👿 이반복을 함수 if 로 만들면 어떨까?
+    if (!muResult(result, "AllocateGuestToRoom"))
+      setGuestValue([...guestValueOriginCopy]);
+  };
   // 방막기
   const addBlock: TAddBlock = async (time, groupId) => {
+    allTooltipsHide();
     const targetGroup = groupData.find(group => group.id === groupId);
     if (!targetGroup) throw Error("그룹 아이디가 그룹데이터안에 없습니다.");
     const result = await createBlockMu({
@@ -354,27 +443,29 @@ export function getAssigUtils(
       }
     });
 
-    if (
-      result &&
-      result.data &&
-      result.data.CreateBlock.ok &&
-      result.data.CreateBlock.block
-    ) {
+    const block = muResult<createBlock_CreateBlock_block>(
+      result,
+      "CreateBlock",
+      "block"
+    );
+
+    if (typeof block !== "boolean") {
       guestValue.push({
         ...DEFAULT_ASSIG_ITEM,
         roomId: targetGroup.roomId,
         bedIndex: targetGroup.bedIndex,
         type: GuestTypeAdd.BLOCK,
-        id: result.data.CreateBlock.block._id,
+        id: block._id,
         start: time,
         end: time + TimePerMs.DAY,
         group: groupId,
         canMove: false
       });
+
+      setGuestValue([
+        ...guestValue.filter(item => item.type != GuestTypeAdd.MARK)
+      ]);
     }
-    setGuestValue([
-      ...guestValue.filter(item => item.type != GuestTypeAdd.MARK)
-    ]);
   };
 
   // Id 로 게스트 찾아서 투글해주는 함수
@@ -445,6 +536,7 @@ export function getAssigUtils(
 
   // 유틸 아이템을 화면에서 삭제
   const deleteItemById: TDeleteItemById = async id => {
+    allTooltipsHide();
     const targetItem = findItemById(id);
     if (targetItem.type === GuestTypeAdd.BLOCK) {
       const result = await deleteBlockMu({
@@ -452,12 +544,7 @@ export function getAssigUtils(
           blockId: id
         }
       });
-      if (
-        result &&
-        result.data &&
-        result.data.DeleteBlock &&
-        result.data.DeleteBlock.ok
-      ) {
+      if (!muResult(result, "DeleteBlock ")) {
         setGuestValue([...guestValue.filter(guest => guest.id !== id)]);
       }
     } else {
@@ -475,7 +562,7 @@ export function getAssigUtils(
   };
 
   // 👼 컴포넌트들 내부에 prop를 전달하기 힘드니까 이렇게 전달하자.
-  const assigUtils = {
+  const assigUtils: IAssigTimelineUtils = {
     findItemById,
     findGroupById,
     removeMark,
@@ -489,6 +576,9 @@ export function getAssigUtils(
     isGenderSafe,
     oneGuestValidation,
     addBlock,
+    allocateGuest,
+    allocateItem,
+    resizeBlock,
     genderToggleById,
     resizeValidater,
     resizeLinkedItems,
@@ -496,6 +586,7 @@ export function getAssigUtils(
     toogleCheckInOut,
     openBlockMenu,
     openCanvasMenu,
+    makeMark,
     deleteBookingById,
     findBookingIdByGuestId
   };

@@ -51,7 +51,7 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
   timelineContext,
   getItemProps,
   getResizeProps,
-  assigUtils: {genderToggleById, deleteItemById},
+  assigUtils: {genderToggleById, deleteItemById, findItemById},
   assigContext: {isMobile},
   assigHooks
 }) => {
@@ -93,8 +93,19 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
       </span>
     );
 
+  const handleMouseOver = (id: string) => {
+    console.log(handleMouseOver);
+    itemContext.selected = true;
+  };
+
   return (
-    <div {...props} id={`assigItem--guest${item.id}`}>
+    <div
+      {...props}
+      onMouseEnter={() => {
+        handleMouseOver(item.id);
+      }}
+      id={`assigItem--guest${item.id}`}
+    >
       {itemContext.useResizeHandle ? <div {...leftResizeProps} /> : ""}
       {(() => {
         switch (item.type) {

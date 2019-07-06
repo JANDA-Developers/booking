@@ -48,6 +48,7 @@ const JDmultiBox: React.FC<IProps> = ({
     <div className="multiBox">
       {withAllToogler && (
         <Button
+          size="small"
           toggle={onAllToggle}
           label={withAllTooglerLabel}
           onClick={handleMultiBoxAllChange}
@@ -55,6 +56,7 @@ const JDmultiBox: React.FC<IProps> = ({
       )}
       {labels.map((label, index) => (
         <Button
+          size="small"
           key={s4()}
           toggle={selectedValue.includes(value[index])}
           label={label}
@@ -66,3 +68,4 @@ const JDmultiBox: React.FC<IProps> = ({
 };
 
 export default JDmultiBox;
+

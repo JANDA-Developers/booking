@@ -40,9 +40,12 @@ const GuestSearchInput: React.FC<IProps> = ({
     if (!id) return;
 
     const target = $(`.assigItem--booking${id}`);
-    if ($(target).get(0)) {
+    const targetDom = $(target).get(0);
+    if (targetDom) {
+      const scrollTarget = $(`.rct-scroll`).get(0);
       $(target).addClass("assigItem--searched");
-      window.scrollTo({top: $(target).get(0).offsetTop});
+      window.scrollTo({top: targetDom.offsetTop});
+      scrollTarget.scrollTo({left: targetDom.offsetLeft});
     } else {
       openBookingModal(id);
     }

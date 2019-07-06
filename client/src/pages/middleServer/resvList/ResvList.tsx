@@ -305,7 +305,13 @@ const ResvList: React.SFC<IProps> = ({
       onToogleRow(inId);
     };
 
-    return <CheckBox onChange={onChange} checked={checked} />;
+    return (
+      <CheckBox
+        size="small"
+        onChange={onChange}
+        checked={checked}
+      />
+    );
   };
 
   const selectAllInputComponentProps = ({

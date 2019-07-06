@@ -141,6 +141,16 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     item: DEFAULT_ASSIG_ITEM
   });
 
+  const handleWindowScrollEvent = () => {
+    allTooltipsHide();
+  };
+  useEffect(() => {
+    window.addEventListener("scroll", handleWindowScrollEvent);
+    return () => {
+      window.removeEventListener("scroll", handleWindowScrollEvent);
+    };
+  });
+
   useEffect(() => {
     setGuestValue(deafultGuestsData);
   }, [JSON.stringify(deafultGuestsData)]);
@@ -178,6 +188,8 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   const {
     addBlock,
     allTooltipsHide,
+    allocateGuest,
+    allocateItem,
     deleteGuestById,
     findGroupById,
     findItemById,
@@ -187,10 +199,29 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     resizeLinkedItems,
     toogleCheckInOut,
     openBlockMenu,
-    openCanvasMenu
+    openCanvasMenu,
+    makeMark,
+    resizeBlock
   } = assigUtils;
 
-  const {allocateMu, createBlockMu} = assigMutationes;
+  const shortKey = async (
+    flag: "canvas" | "guestItem",
+    e: React.MouseEvent<HTMLElement>,
+    time?: number,
+    groupId?: string,
+    itemId?: string
+  ) => {
+    if (flag === "canvas") {
+      if (e.ctrlKey) {
+        addBlock(time!, groupId!);
+      }
+    }
+    if (flag === "guestItem") {
+      if (e.ctrlKey) {
+        toogleCheckInOut(itemId!);
+      }
+    }
+  };
 
   // 툴팁들을 제거하고
   const handleWindowClickEvent = () => {
@@ -198,22 +229,32 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
       removeMark();
       MARKED = false;
     }
-
     allTooltipsHide();
   };
 
   // 툴팁 제거 이벤트들을 window에 달아줌 그리고 나갈때 제거
-  useEffect(() => {
-    window.addEventListener("click", handleWindowClickEvent);
-    return () => {
-      window.removeEventListener("click", handleWindowClickEvent);
-    };
-  });
 
   // 툴팁 리빌드
   useEffect(() => {
     ReactTooltip.rebuild();
   });
+
+  const popUpItemMenu = async (
+    location: {clientX: number; clientY: number},
+    target: IAssigItem
+  ) => {
+    await allTooltipsHide();
+    await removeMark();
+
+    if (target.type === GuestTypeAdd.BLOCK) {
+      await openBlockMenu(location, {item: target});
+    }
+    // if (target.type === "normal")
+    // bookingModal.openModal({bookingId: target.bookingId});
+    if (target.type === GuestTypeAdd.MAKE) {
+      openMakeMenu(location, {item: target});
+    }
+  };
 
   const handleItemDoubleClick = async (
     itemId: string,
@@ -225,16 +266,8 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
       clientX: e.clientX,
       clientY: e.clientY
     };
-    await allTooltipsHide();
     const target = findItemById(itemId);
-    if (target.type === GuestTypeAdd.BLOCK) {
-      openBlockMenu(location, {item: target});
-    }
-    // if (target.type === "normal")
-    // bookingModal.openModal({bookingId: target.bookingId});
-    if (target.type === GuestTypeAdd.MAKE) {
-      openMakeMenu(location, {item: target});
-    }
+    popUpItemMenu(location, target);
   };
 
   //  캔버스 클릭시 호출됨
@@ -243,12 +276,11 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     time: number,
     e: React.MouseEvent<HTMLElement>
   ) => {
-    if (isMobile) {
-      handleCanvasDoubleClick(groupId, time, e);
-    }
-    if (e.ctrlKey) {
-      addBlock(time, groupId);
-    }
+    // if (isMobile) {
+    handleCanvasDoubleClick(groupId, time, e);
+    // }
+
+    await shortKey("canvas", e, time, groupId);
     $(".assigItem").removeClass(CLASS_LINKED);
   };
 
@@ -275,9 +307,9 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     time: number,
     e: React.MouseEvent<HTMLElement>
   ) => {
-    e.persist();
-    e.preventDefault();
     e.stopPropagation();
+    e.preventDefault();
+    e.persist();
     MARKED = true;
 
     await allTooltipsHide();
@@ -291,20 +323,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
       group: targetGroup
     });
 
-    const filteredGuestValue = guestValue.filter(
-      guest => guest.type !== GuestTypeAdd.MARK
-    );
-
-    filteredGuestValue.push({
-      ...DEFAULT_ASSIG_ITEM,
-      id: `mark${groupId}${time}`,
-      type: GuestTypeAdd.MARK,
-      start: time,
-      end: time + TimePerMs.DAY,
-      group: groupId
-    });
-
-    setGuestValue([...filteredGuestValue]);
+    makeMark(time, groupId);
   };
 
   // 핸들 움직일때 벨리데이션 (마우스 움직이면 호출됨)
@@ -356,36 +375,11 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     dragTime: number,
     newGroupOrder: number
   ) => {
-    const guestValueOriginCopy = $.extend(true, [], guestValue);
     const targetGuest = findItemById(itemId);
     if (!targetGuest) return;
-    targetGuest.group = groupData[newGroupOrder].id;
-    setGuestValue([...guestValue]);
 
-    const newGroupId = groupData[newGroupOrder].roomId;
-
-    $(`.${CLASS_MOVING}`).removeClass(CLASS_MOVING);
-
-    // 배정 뮤테이션을 발생
-    if (targetGuest.type === GuestTypeAdd.GUEST) {
-      const result = await allocateMu({
-        variables: {
-          guestId: itemId,
-          roomId: newGroupId,
-          bedIndex: groupData[newGroupOrder].bedIndex
-        }
-      });
-      // 실패하면 전부 되돌림
-
-      // 👿 이반복을 함수 if 로 만들면 어떨까?
-      if (result) {
-        if (result.data) {
-          if (!result.data.AllocateGuestToRoom.ok) {
-            setGuestValue([...guestValueOriginCopy]);
-          }
-        }
-      }
-    }
+    allocateItem(targetGuest, newGroupOrder);
+    // $(`.${CLASS_MOVING}`).removeClass(CLASS_MOVING);
   };
 
   // 핸들 아이템 리사이즈시 (마우스 놓아야 호출됨)
@@ -396,24 +390,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   ) => {
     const targetGuest = findItemById(itemId);
     if (targetGuest.type === GuestTypeAdd.BLOCK) {
-      const guestValueOriginCopy = $.extend(true, [], guestValue);
-      await resizeLinkedItems(targetGuest.bookingId, time);
-
-      const result = await createBlockMu({
-        variables: {
-          bedIndex: targetGuest.bedIndex,
-          end: time,
-          houseId: houseId,
-          roomId: targetGuest.roomId,
-          start: targetGuest.start
-        }
-      });
-
-      // 에러처리
-      if (result && result.data && !result.data.CreateBlock.ok) {
-        setGuestValue([...guestValueOriginCopy]);
-      } else {
-      }
+      resizeBlock(targetGuest, time);
     }
   };
 
@@ -423,12 +400,12 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     e: React.MouseEvent<HTMLElement>,
     time: number
   ) => {
-    if (e.persist) e.persist();
     const {clientX, clientY} = e;
     const location = {
       clientX: clientX,
       clientY: clientY
     };
+
     const target = findItemById(itemId);
     if (target.bookingId === "block") return;
 
@@ -437,22 +414,11 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
         openBlockMenu(location, {item: target});
       if (target.type === GuestTypeAdd.MAKE)
         openMakeMenu(location, {item: target});
+    } else {
+      await popUpItemMenu(location, target);
     }
 
-    // 컨트롤: 체크인
-    if (e.ctrlKey) {
-      toogleCheckInOut(itemId);
-    }
-    // 쉬프트 팝업
-    if (e.shiftKey) {
-      bookingModal.openModal({bookingId: target.bookingId});
-    }
-    // 알트: 배정확정
-    if (e.altKey) {
-      guestValue[target.guestIndex].isUnsettled = !guestValue[target.guestIndex]
-        .isUnsettled;
-      setGuestValue([...guestValue]);
-    }
+    await shortKey("guestItem", e, undefined, undefined, itemId);
   };
 
   // 타임라인 이동시
@@ -503,6 +469,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     e: React.MouseEvent<HTMLElement>,
     time: number
   ) => {
+    handleItemClick(itemId, e, time);
     const target = findItemById(itemId);
     if (target) {
       await $(".assigItem").removeClass(CLASS_LINKED);
@@ -526,6 +493,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     <div
       id="AssigTimeline"
       className={`${timelineClassNames} container container--full`}
+      onDoubleClick={handleWindowClickEvent}
     >
       <div className="docs-section">
         <h3 className="assigTimeline__titleSection">
@@ -582,9 +550,9 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
             viewRoomType.includes(group.roomTypeId)
           )}
           {...defaultProps}
-          onItemDoubleClick={handleItemDoubleClick}
+          // onItemDoubleClick={handleItemDoubleClick}
           onItemClick={handleItemClick}
-          onCanvasDoubleClick={handleCanvasDoubleClick}
+          // onCanvasDoubleClick={handleCanvasDoubleClick}
           onCanvasClick={handleCanvasClick}
           onTimeChange={handleTimeChnage}
           itemRenderer={(props: any) =>

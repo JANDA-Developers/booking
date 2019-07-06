@@ -2,6 +2,11 @@
 
 
 .resvList {
+
+    @include response($phablet) {
+        font-size: $typho-small;
+    }
+    
     &__bookingStatusBadge {
         margin-left: 0;
         margin-top: $standard-margin-bottom /3;
@@ -15,9 +20,7 @@
 
     &__createdAt {
         max-width: 100%;
-        @include response($phablet) {
-            font-size: $typho-small;
-        }
+        
     }
 
     &__memo {

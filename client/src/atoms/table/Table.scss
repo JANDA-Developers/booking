@@ -15,6 +15,7 @@
         &--center {
             text-align: center;
         }
+
         // 데이터가 없을때 플레이스 홀더
         .rt-noData{
             color: $standard-placeholder-color;
@@ -59,6 +60,15 @@
                 max-width: 35px!important;
                 justify-content: end;
             }
+        }
+    }
+}
+
+
+.JDtable {
+    .rt-tr > div:first-child {
+        .JDcheck_box_wrap {
+            width: 100%;
         }
     }
 }

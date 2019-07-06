@@ -3,7 +3,7 @@ import {getSpecification_GetHouse_house} from "../../types/api";
 import {Fragment} from "react";
 import moment from "moment";
 import React from "react";
-import {autoHypen} from "../../utils/utils";
+import {autoHypen, isEmpty} from "../../utils/utils";
 import {DEFAULT_PRODUCT, DEFAULT_APP_INFO_REQUEST} from "../../types/defaults";
 import Preloader from "../../atoms/preloader/Preloader";
 
@@ -57,10 +57,15 @@ export const SpecificAtion: React.SFC<IProps> = ({
     bookingCountExtraCharge
   } = product || DEFAULT_PRODUCT;
 
-  const lastRequestIndex = appInfoRequested ? appInfoRequested.length : 0;
-  const inAppInfoRequested = appInfoRequested
+  const lastRequestIndex = !isEmpty(appInfoRequested)
+    ? appInfoRequested.length - 1
+    : 0;
+  const inAppInfoRequested = !isEmpty(appInfoRequested)
     ? appInfoRequested[lastRequestIndex]
     : DEFAULT_APP_INFO_REQUEST;
+
+  console.log("inAppInfoRequested");
+  console.log(inAppInfoRequested);
 
   const {
     __typename,

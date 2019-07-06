@@ -29,6 +29,7 @@ import setMidNight from "./setMidNight";
 import stringToPrice from "./stringToPrice";
 import s4 from "./keyGen";
 import randomIntFromInterval from "./randomNumber";
+import muResult from "./mutationResultSafty";
 
 const JDutils = {
   ErrProtecter,
@@ -59,6 +60,7 @@ const JDutils = {
   stringToNumber,
   smsMessageFormatter,
   isNumberMinMax,
+  muResult,
   s4
 };
 
@@ -84,6 +86,7 @@ export {
   stringToPrice,
   autoComma,
   numberStr,
+  muResult,
   stringToNumber,
   isYYYYMMDD,
   s4

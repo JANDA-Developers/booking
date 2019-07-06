@@ -108,6 +108,45 @@
 }
 
 // 그리드 생성기
+
+@mixin grid-system-vertical($mode) {
+
+    $max:9999px !default;
+    
+    @if $mode == sm {
+        $max: $mobile;
+    } @else if $mode == md {
+        $max: $phablet;
+    } @else if $mode == wmd {
+        $max: $tablet;
+    } @else if $mode == lg {
+        $max: $desktop;
+    } @else if $mode == wlg {
+        $max: $desktophd;
+    } @else if $mode == full {
+        $max: $full;
+    }
+    
+    .flex-grid--vertical {
+        &-#{$mode} {
+            flex-direction: column;
+            height: 100%;
+            @include response($full, $max){
+                .flex-grid__col {
+                    margin: 0;
+                }
+            }
+        }
+    }
+    @include response($max){
+        .flex-grid--vertical {
+            &-#{$mode} {
+                flex-direction: row;
+            }
+        }
+    }
+}
+
 @mixin grid-system($mode) {
 
     $max:9999px !default;

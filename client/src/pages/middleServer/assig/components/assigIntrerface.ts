@@ -63,9 +63,13 @@ export type TFindGroupById = (groupId: string) => IAssigGroup;
 
 export type TRemoveMark = () => void;
 
-export type TAllTooltipsHide = () => void;
+export type TAllTooltipsHide = (
+  except?: "blockMenu" | "canvasMenu" | "makeMenu" | "itemTooltip"
+) => void;
 
 export type TDeleteGuestById = (guestId: string) => void;
+
+export type TMakeMark = (time: number, groupId: string) => void;
 
 export type TDeleteItemById = (id: string) => void;
 
@@ -103,6 +107,19 @@ export type TOneGuestValidation = (
   groupId: string
 ) => void;
 
+export type TResizeBlock = (targetGuest: IAssigItem, time: number) => void;
+
+export type TAllocateGuest = (
+  itemId: string,
+  newGroupOrder: number,
+  originalCopy: any[]
+) => void;
+
+export type TAllocateItem = (
+  targetGuest: IAssigItem,
+  newGroupOrder: number
+) => void;
+
 export type TAddBlock = (time: number, groupId: string) => Promise<void>;
 
 export type TGenderToggleById = (guestId: string) => void;
@@ -112,6 +129,10 @@ export type TResizeValidater = (item: IAssigItem, time: number) => void;
 export type TResizeLinkedItems = (bookingId: string, newTime: number) => void;
 
 export type TMoveLinkedItems = (bookingId: string, newTime: number) => void;
+
+export type TDeleteBookingById = (bookingId: string) => void;
+
+export type TFindBookingIdByGuestId = (guestId: string) => string;
 
 export type TToogleCheckIn = (
   guestId?: string | undefined,
@@ -134,6 +155,7 @@ export interface IAssigGroup {
   roomGender: RoomGender | null;
   pricingType: PricingType;
 }
+
 export interface IAssigItemCrush {
   guestIndex: number;
   reason: string;
@@ -222,6 +244,9 @@ export interface IAssigTimelineUtils {
   isGenderSafe: TIsGenderSafe;
   oneGuestValidation: TOneGuestValidation;
   addBlock: TAddBlock;
+  allocateGuest: TAllocateGuest;
+  allocateItem: TAllocateItem;
+  deleteBookingById: TDeleteBookingById;
   genderToggleById: TGenderToggleById;
   resizeValidater: TResizeValidater;
   resizeLinkedItems: TResizeLinkedItems;
@@ -229,6 +254,9 @@ export interface IAssigTimelineUtils {
   toogleCheckInOut: TToogleCheckIn;
   openBlockMenu: TOpenBlockMenu;
   openCanvasMenu: TOpenCanvasMenu;
+  makeMark: TMakeMark;
+  resizeBlock: TResizeBlock;
+  findBookingIdByGuestId: TFindBookingIdByGuestId;
 }
 
 export interface IAssigInfo {

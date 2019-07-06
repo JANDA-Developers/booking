@@ -12,8 +12,11 @@
 .JDcheck_box_wrap {
     display: inline-block;
     outline: 0;
-
     max-height: 25px;
+    
+    &--small {
+        max-height: 19px;
+    }
 
     * {
         outline: 0;
@@ -39,6 +42,12 @@
         color: $checkBox-label-color;
         user-select: none;
     }
+
+    &--small +.JDcheck_box_label {
+        padding-left: 0; // space with label
+        height: 20px;
+    }
+
     // General
     +.JDcheck_box_label:after {
         border-radius: 2px;
@@ -72,6 +81,16 @@
         z-index: 0;
     }
 
+    &--small {
+        +.JDcheck_box_label {
+            width: 21px;
+        }
+        +.JDcheck_box_label:after {
+            width: 16px!important;
+            height: 16px!important;
+        }
+    }
+
     /* ---------------------------------- 체크스타일 --------------------------------- */
     &:checked {
         // 체크후 안헤 화살표 색상
@@ -94,6 +113,13 @@
             border: 2px solid $checkbox-checked-color;
             background-color: $checkbox-checked-color;
             z-index: 0;
+        }
+    }
+
+    &--small:checked  {
+        +.JDcheck_box_label:before {
+            width: 5px;
+            height: 11px;
         }
     }
 

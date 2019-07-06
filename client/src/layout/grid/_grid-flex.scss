@@ -185,7 +185,18 @@
   &--vertical {
     flex-direction: column;
     height: 100%;
+
+    .flex-grid__col {
+      margin: 0;
+    }
   }
+
+  @include grid-system-vertical(full);
+  @include grid-system-vertical(wlg);
+  @include grid-system-vertical(lg);
+  @include grid-system-vertical(wmd);
+  @include grid-system-vertical(md);
+  @include grid-system-vertical(sm);
 
   &--unGrow.flex-grid {
     flex: 0 0!important;
@@ -194,7 +205,6 @@
   @include grid-system(full);
   @include grid-system(wlg);
   @include grid-system(lg);
-  @include grid-system(wmd);
   @include grid-system(wmd);
   @include grid-system(md);
   @include grid-system(sm);

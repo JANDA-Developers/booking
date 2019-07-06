@@ -14,7 +14,7 @@ interface IProps {
 }
 
 const BlockItemMenu: React.FC<IProps> = ({
-  assigUtils: {deleteItemById},
+  assigUtils: {deleteItemById, allTooltipsHide},
   assigHooks: {blockMenuProps}
 }) => (
   <div className="assig__tooltips blockMenu tooltipList" id="blockMenu">
@@ -30,7 +30,14 @@ const BlockItemMenu: React.FC<IProps> = ({
         />
       </li>
       <li>
-        <Button label="취소" mode="flat" color="white" />
+        <Button
+          onClick={() => {
+            allTooltipsHide();
+          }}
+          label="취소"
+          mode="flat"
+          color="white"
+        />
       </li>
     </ul>
   </div>

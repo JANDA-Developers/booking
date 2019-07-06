@@ -20,6 +20,23 @@ interface IProps {
 const SystemDescription: React.FC<IProps> = ({updateHouseConfigMu, house}) => {
   const [range, setRange] = useState<any>(0);
 
+  const handleRangeChange = (value: any) => {
+    if (typeof value !== "number") return;
+    setRange(value);
+
+    updateHouseConfigMu({
+      variables: {
+        houseId: house._id,
+        params: {
+          pollingPeriod: {
+            enable: true,
+            period: value
+          }
+        }
+      }
+    });
+  };
+
   return (
     <div>
       <div className="docs-section__box">
@@ -29,10 +46,10 @@ const SystemDescription: React.FC<IProps> = ({updateHouseConfigMu, house}) => {
         <h6>풀링주기</h6>
         <JDLabel txt="풀링주기설정" />
         <JDrange
-          onChange={setRange}
+          onChange={handleRangeChange}
           value={range}
-          minValue={5000}
-          maxValue={30000}
+          minValue={10000}
+          maxValue={180000}
         />
         <p>
           설정한 숫자/ms 마다 한번씩 서버로 부터 새로운 예약이 있는지 서버로부터

@@ -18,12 +18,14 @@ const GreetingBox: React.FC<IProps> = ({userData}) => {
     `${userData.name}님 오늘도 힘찬 하루 되세요.`,
     `${userData.name}님 좋은일 가득하길 기원합니다.`
   ];
+
+  const gretting = useState(
+    greetingTexts[randomIntFromInterval(0, greetingTexts.length - 1)]
+  );
   return (
     <JDbox className="greetingBox" mode="border">
       <JDanimation animation={[Animation.fadeInRightShow]}>
-        <div>
-          {greetingTexts[randomIntFromInterval(0, greetingTexts.length - 1)]}
-        </div>
+        <div>{gretting[0]}</div>
       </JDanimation>
     </JDbox>
   );
