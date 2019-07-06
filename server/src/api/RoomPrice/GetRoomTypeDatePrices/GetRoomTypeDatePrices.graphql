@@ -1,0 +1,23 @@
+type GetRoomTypeDatePricesResponse {
+    ok: Boolean!
+    error: String
+    roomTypeDatePrices: [RoomTypeDatePrice!]
+}
+type Query {
+    GetRoomTypeDatePrices(
+        houseId: ID!
+        start: DateTime
+        end: DateTime
+        roomTypeId: ID
+    ): GetRoomTypeDatePricesResponse!
+}
+
+type RoomTypeDatePrice {
+    roomType: RoomType!
+    datePrices: [DatePrice!]
+}
+
+type DatePrice {
+    date: DateTime!
+    price: Float!
+}

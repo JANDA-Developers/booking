@@ -1,6 +1,5 @@
 import { Types } from "mongoose";
 import { Stage } from "../../types/aggregationStage";
-import { removeUndefined } from "../../utils/objFuncs";
 import { ONE_DAY } from "../../utils/variables";
 
 export type GetSeasonPipelineParams = {
@@ -13,7 +12,7 @@ const getSeasonPipeline = ({
     houseId,
     start,
     end
-}: GetSeasonPipelineParams): Stage[] => [
+}: GetSeasonPipelineParams & { roomTypeId?: Types.ObjectId }): Stage[] => [
     {
         $match: {
             house: {
@@ -202,42 +201,217 @@ const getSeasonPipeline = ({
     }
 ];
 
-const getSesaonPricePipeLine = ({
+export const getPricePipeline = ({
     houseId,
     start,
     end,
     roomTypeId
 }: GetSeasonPipelineParams & { roomTypeId?: Types.ObjectId }): Stage[] => {
     const seasonPipeline = getSeasonPipeline({ houseId, start, end });
-    seasonPipeline.push({
-        $lookup: {
-            from: "SeasonPrices",
-            let: removeUndefined({
-                seasonId: "$seasonId",
-                roomTypeId
-            }),
-            pipeline: [
-                {
-                    $match: {
-                        $expr: {
-                            $and: [
-                                roomTypeId
-                                    ? {
-                                          $eq: ["$$roomTypeId", "$roomType"]
-                                      }
-                                    : {},
+    seasonPipeline.push(
+        {
+            $lookup: {
+                from: "SeasonPrices",
+                let: { seasonId: "$seasonId" },
+                pipeline: [
+                    {
+                        $match: {
+                            $expr: {
+                                $and: [
+                                    {
+                                        $eq: ["$season", "$$seasonId"]
+                                    },
+                                    roomTypeId
+                                        ? {
+                                              $eq: ["$roomType", roomTypeId]
+                                          }
+                                        : {}
+                                ]
+                            }
+                        }
+                    }
+                ],
+                as: "seasonPrices"
+            }
+        },
+        {
+            $addFields: {
+                seasonPrices: {
+                    $map: {
+                        input: "$seasonPrices",
+                        as: "sp",
+                        in: {
+                            roomTypeId: "$$sp.roomType",
+                            defaultPrice: "$$sp.defaultPrice",
+                            price: {
+                                $arrayElemAt: [
+                                    {
+                                        $filter: {
+                                            input: "$$sp.dailyPriceList",
+                                            as: "list",
+                                            cond: {
+                                                $eq: [
+                                                    "$$list.day",
+                                                    {
+                                                        $arrayElemAt: [
+                                                            [
+                                                                "SUN",
+                                                                "MON",
+                                                                "TUE",
+                                                                "WED",
+                                                                "THU",
+                                                                "FRI",
+                                                                "SAT"
+                                                            ],
+                                                            {
+                                                                $subtract: [
+                                                                    {
+                                                                        $dayOfWeek:
+                                                                            "$_id"
+                                                                    },
+                                                                    1
+                                                                ]
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    0
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            $project: {
+                season: "$seasonId",
+                prices: {
+                    $map: {
+                        input: "$seasonPrices",
+                        as: "list",
+                        in: {
+                            roomType: "$$list.roomTypeId",
+                            price: {
+                                $cond: {
+                                    if: {
+                                        $ifNull: ["$$list.price", false]
+                                    },
+                                    then: "$$list.price.price",
+                                    else: "$$list.defaultPrice"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            $lookup: {
+                from: "RoomPrices",
+                let: {
+                    date: "$_id",
+                    prices: "$prices",
+                    roomTypes: "$prices.roomType"
+                },
+                pipeline: [
+                    {
+                        $match: {
+                            $expr: {
+                                $and: [
+                                    {
+                                        $in: ["$roomType", "$$roomTypes"]
+                                    },
+                                    {
+                                        $eq: ["$date", "$$date"]
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        $project: {
+                            _id: 0,
+                            roomType: "$roomType",
+                            price: "$price"
+                        }
+                    }
+                ],
+                as: "roomPrice"
+            }
+        },
+        {
+            $project: {
+                prices: {
+                    $let: {
+                        vars: {
+                            ist: {
+                                $setIntersection: [
+                                    "$prices.roomType",
+                                    "$roomPrice.roomType"
+                                ]
+                            },
+                            onlyPrices: {
+                                $setDifference: [
+                                    "$prices.roomType",
+                                    "$roomPrice.roomType"
+                                ]
+                            }
+                        },
+                        in: {
+                            $concatArrays: [
                                 {
-                                    $eq: ["$$seasonId", "$season"]
+                                    $filter: {
+                                        input: "$prices",
+                                        as: "price",
+                                        cond: {
+                                            $in: [
+                                                "$$price.roomType",
+                                                "$$onlyPrices"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    $filter: {
+                                        input: "$roomPrice",
+                                        as: "roomPrice",
+                                        cond: {
+                                            $in: [
+                                                "$$roomPrice.roomType",
+                                                "$$ist"
+                                            ]
+                                        }
+                                    }
                                 }
                             ]
                         }
                     }
                 }
-            ],
-            as: "seasonPrices"
+            }
+        },
+        {
+            $unwind: {
+                path: "$prices",
+                preserveNullAndEmptyArrays: false
+            }
+        },
+        {
+            $group: {
+                _id: "$prices.roomType",
+                datePrices: {
+                    $push: {
+                        date: "$_id",
+                        price: "$prices.price"
+                    }
+                }
+            }
         }
-    });
+    );
     return seasonPipeline;
 };
 
-export { getSeasonPipeline, getSesaonPricePipeLine };
+export { getSeasonPipeline, getPricePipeline as getSesaonPricePipeLine };
