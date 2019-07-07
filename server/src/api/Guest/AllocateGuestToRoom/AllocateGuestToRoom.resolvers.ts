@@ -42,7 +42,7 @@ const resolvers: Resolvers = {
                     const block = await BlockModel.findOne({
                         allocatedRoom: new Types.ObjectId(roomId),
                         start: {
-                            $lte: new Date(existingGuest.end)
+                            $lt: new Date(existingGuest.end)
                         },
                         end: {
                             $gt: new Date(existingGuest.start)
