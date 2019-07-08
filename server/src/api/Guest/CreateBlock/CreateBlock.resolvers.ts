@@ -55,10 +55,10 @@ const resolvers: Resolvers = {
                     }
                     const existingBlock = await BlockModel.findOne({
                         start: {
-                            $lte: end
+                            $lt: end
                         },
                         end: {
-                            $gte: start
+                            $gt: start
                         },
                         house: new Types.ObjectId(houseId),
                         allocatedRoom: roomObjId,

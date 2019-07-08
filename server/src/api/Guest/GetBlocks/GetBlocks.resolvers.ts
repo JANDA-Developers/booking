@@ -16,10 +16,10 @@ const resolvers: Resolvers = {
                 try {
                     const existingBlocks = await GuestModel.find({
                         start: {
-                            $lte: end
+                            $lt: end
                         },
                         end: {
-                            $gte: start
+                            $gt: start
                         },
                         house: new Types.ObjectId(houseId),
                         guestType: GuestTypeEnum.BLOCK
