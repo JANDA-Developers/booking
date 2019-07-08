@@ -5,7 +5,6 @@ type GetRoomTypeDatePricesResponse {
 }
 type Query {
     GetRoomTypeDatePrices(
-        houseId: ID!
         start: DateTime
         end: DateTime
         roomTypeId: ID
