@@ -47,11 +47,29 @@
         color: $grey-level1;
     }
     
-    &__guestBlock {
-        padding: $assigItem-padding;
+    &__itemBlockWrap {
         border-right: 1px solid $grey-level1;
+        &:last-child {
+            border-bottom: none;
+        }
     }
     
+    &__itemBlock {
+        padding: $assigItem-padding;
+    }
+
+    &__block {
+        padding: $assigItem-padding;
+        background-color: $assigItem-block-color;
+        display: flex;
+        color: white;
+        align-items: center;
+        flex: unset;
+        * {
+            flex: unset;
+        }
+    }
+
     &__guest {
         justify-content: space-between;
         background-color: $assigItem-normalStatus-color;

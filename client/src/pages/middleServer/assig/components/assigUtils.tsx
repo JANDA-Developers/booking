@@ -33,7 +33,8 @@ import {
   TFindBookingIdByGuestId,
   TResizeBlock,
   TAllocateItem,
-  TAllocateGuest
+  TAllocateGuest,
+  TPopUpItemMenu
 } from "./assigIntrerface";
 import {isEmpty, onCompletedMessage, muResult} from "../../../../utils/utils";
 import {ReactTooltip} from "../../../../atoms/tooltipList/TooltipList";
@@ -81,6 +82,23 @@ export function getAssigUtils(
     if (!targetGroup)
       throw new Error("해당하는 그룹을 찾을수 없습니다. <<findGroupById>>");
     return targetGroup;
+  };
+
+  const popUpItemMenu: TPopUpItemMenu = async (
+    location: {clientX: number; clientY: number},
+    target: IAssigItem
+  ) => {
+    await allTooltipsHide();
+    await removeMark();
+
+    if (target.type === GuestTypeAdd.BLOCK) {
+      await openBlockMenu(location, {item: target});
+    }
+    // if (target.type === "normal")
+    // bookingModal.openModal({bookingId: target.bookingId});
+    if (target.type === GuestTypeAdd.MAKE) {
+      openMakeMenu(location, {item: target});
+    }
   };
 
   // 유틸 사람이 그장소에 그시간대에 있다면 충돌시간을 주고 아니면 false를 줌
@@ -181,7 +199,6 @@ export function getAssigUtils(
     if (except !== "makeMenu") $("#makeMenu").removeClass("makeMenu--show");
     if (except !== "itemTooltip")
       $("#itemTooltip").removeClass("itemTooltip--show");
-    $(".assigItem--searched").removeClass("assigItem--searched");
   };
 
   // 유틸 두게스트의 충돌시간 구해줌 없다면 false를 반환함
@@ -588,6 +605,7 @@ export function getAssigUtils(
     openCanvasMenu,
     makeMark,
     deleteBookingById,
+    popUpItemMenu,
     findBookingIdByGuestId
   };
 

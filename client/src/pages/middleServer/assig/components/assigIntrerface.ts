@@ -22,6 +22,7 @@ import {
 } from "../../../../types/api";
 import {IUseModal} from "../../../../actions/hook";
 import {string} from "prop-types";
+import {MouseEvent} from "react";
 
 export interface IAssigTimelineContext {
   isMobile: boolean;
@@ -29,6 +30,7 @@ export interface IAssigTimelineContext {
   windowHeight: number;
   groupData: IAssigGroup[];
   houseId: string;
+  shortKey?: TShortKey;
 }
 
 export interface ICrushTime {
@@ -58,6 +60,14 @@ export type TGetCrushTimeByTwoGuest = (
 ) => false | ICrushTime;
 
 export type TFindItemById = (guestId: string) => IAssigItem;
+
+export type TPopUpItemMenu = (
+  location: {
+    clientX: number;
+    clientY: number;
+  },
+  target: IAssigItem
+) => Promise<void>;
 
 export type TFindGroupById = (groupId: string) => IAssigGroup;
 
@@ -120,6 +130,14 @@ export type TAllocateItem = (
   newGroupOrder: number
 ) => void;
 
+export type TShortKey = (
+  flag: "canvas" | "guestItem",
+  e: React.MouseEvent<HTMLElement>,
+  time?: number | undefined,
+  groupId?: string | undefined,
+  itemId?: string | undefined
+) => Promise<void>;
+
 export type TAddBlock = (time: number, groupId: string) => Promise<void>;
 
 export type TGenderToggleById = (guestId: string) => void;
@@ -151,7 +169,7 @@ export interface IAssigGroup {
   isLastOfRoom: boolean;
   isLastOfRoomType: boolean;
   bedIndex: number;
-  type: "add" | "normal" | "addRoomType";
+  type: "add" | "normal" | "addRoomType" | "noneGroup";
   roomGender: RoomGender | null;
   pricingType: PricingType;
 }
@@ -219,7 +237,7 @@ export interface IDeleteMenuProps {
 
 export interface IAssigTimelineHooks {
   bookingModal: IUseModal<any>;
-  guestValue: any[];
+  guestValue: IAssigItem[];
   canvasMenuProps: ICanvasMenuProps;
   makeMenuProps: IMakeMenuProps;
   blockMenuProps: IDeleteMenuProps;
@@ -228,9 +246,94 @@ export interface IAssigTimelineHooks {
   setCanvasMenuProps: React.Dispatch<React.SetStateAction<ICanvasMenuProps>>;
   setMakeMenuProps: React.Dispatch<React.SetStateAction<IMakeMenuProps>>;
   confirmDelteGuestHook: IUseModal<any>;
+  dataTime: {
+    start: number;
+    end: number;
+  };
+  setDataTime: React.Dispatch<
+    React.SetStateAction<{
+      start: number;
+      end: number;
+    }>
+  >;
+}
+
+export type THandleCanvasContextMenu = (
+  groupId: string,
+  time: number,
+  e: React.MouseEvent<HTMLElement>
+) => void;
+
+export type THandleTimeChange = (
+  visibleTimeStart: number,
+  visibleTimeEnd: number,
+  updateScrollCanvas: any
+) => void;
+
+export type THandleItemClick = (
+  itemId: string,
+  e: React.MouseEvent<HTMLElement>,
+  time: number
+) => Promise<void>;
+
+export type THandleItemMove = (
+  itemId: string,
+  dragTime: number,
+  newGroupOrder: number
+) => Promise<void>;
+
+export type THandleCanvasClick = (
+  groupId: string,
+  time: number,
+  e: React.MouseEvent<HTMLElement>
+) => Promise<void>;
+
+export type THandleItemDoubleClick = (
+  itemId: string,
+  e: React.MouseEvent<HTMLElement>,
+  time: number
+) => Promise<void>;
+
+export type THandleCanvasDoubleClick = (
+  groupId: string,
+  time: number,
+  e: React.MouseEvent<HTMLElement>
+) => Promise<void>;
+
+export type THandleMoveResizeValidator = (
+  action: "move" | "resize",
+  item: any,
+  time: number,
+  resizeEdge: "left" | "right" | undefined
+) => number;
+
+export type THandleItemResize = (
+  itemId: string,
+  time: number,
+  edge: "left" | "right"
+) => Promise<void>;
+
+export type THandleItemSelect = (
+  itemId: string,
+  e: React.MouseEvent<HTMLElement>,
+  time: number
+) => Promise<void>;
+
+export interface IAssigHandlers {
+  handleItemResize: THandleItemResize;
+  handleItemMove: THandleItemMove;
+  handleItemClick: THandleItemClick;
+  handleItemDoubleClick: THandleItemDoubleClick;
+  handleCanvasClick: THandleCanvasClick;
+  handleCanvasDoubleClick: THandleCanvasDoubleClick;
+  handleMoveResizeValidator: THandleMoveResizeValidator;
+  handleTimeChange: THandleTimeChange;
+  handleCanvasContextMenu: THandleCanvasContextMenu;
+  handleItemSelect: THandleItemSelect;
 }
 
 export interface IAssigTimelineUtils {
+  popUpItemMenu: TPopUpItemMenu;
   findItemById: TFindItemById;
   findGroupById: TFindGroupById;
   removeMark: TRemoveMark;

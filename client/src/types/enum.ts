@@ -79,6 +79,7 @@ export enum PricingTypeKr {
 
 export enum TimePerMs {
   DAY = 24 * 60 * 60 * 1000,
+  H = 60 * 60 * 1000,
   M = 60 * 1000
 }
 

@@ -477,7 +477,7 @@ function ShowComponents() {
               <Button label="Close Modal" onClick={useModalHook.closeModal} />
             </div>
           </JDmodal>
-        </div>
+        </div>s
         {/* 툴팁 */}
         <div className="docs-section__box">
           <h6>Tooltip</h6>

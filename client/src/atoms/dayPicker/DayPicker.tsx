@@ -61,9 +61,6 @@ const JDdayPicker: React.SFC<IProps> = ({
   const dayPickerFullWrap: any = useRef();
   const isInitialMount = useRef(true);
 
-  console.log("from");
-  console.log(from);
-  console.log(to);
   // 리셋버튼 클릭 이벤트
   const handleResetClick = () => {
     setFrom(null);

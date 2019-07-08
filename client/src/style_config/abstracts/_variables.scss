@@ -53,6 +53,7 @@ $link-color-active: rgb(48, 45, 131) !default;
 $grey-level1: #EBEBEB !default; // 흰색 effect-dark 받을때 컬러 오버랩을 원치 않을때 사용
 $grey-level2: #b8b8b8 !default; 
 $grey-level3: #787878 !default;
+$grey-level4: #585858 !default;
 $grey-opacity1: rgba(0,0,0,.04);
 $grey-opacity2: rgba(0,0,0,.08);
 $grey-opacity3: rgba(0,0,0,.16);
@@ -398,6 +399,7 @@ $colorPicker-outborder-color: $standard-outborder-color;
 
 // 21 assigTimeline 배정 타임라인 방배정 
 // ANCHOR assig Assig=========================================================================
+$assigItem-block-color: $html-color;
 $assigItem-normalStatus-color: rgba(33,83,219,.8);
 $assigItem-checkIn-color: rgba(255,238,0,.7);
 $assigItem-selected-border-color: #387BDB;

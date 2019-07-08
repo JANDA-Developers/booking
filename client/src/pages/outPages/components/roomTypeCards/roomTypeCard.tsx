@@ -191,10 +191,6 @@ const RoomTypeCard: React.SFC<IProps> = ({
     roomInfoHook[1]([...roomInfoHook[0], roomTypeData]);
   };
 
-
-  console.log('countLoading');
-  console.log(countLoading);
-
   return (
     <Fragment>
       <div className={`flex-grid-grow flex-grid-grow--margin0 ${classes}`}>
@@ -214,22 +210,21 @@ const RoomTypeCard: React.SFC<IProps> = ({
 
             {roomTypeData.pricingType === PricingType.DOMITORY ? (
               <Fragment>
-                {roomTypeData.roomGender === RoomGender.FEMALE ||
-                  (
-                    <JDselect
-                      options={maleSeleteOption}
-                      size={SelectBoxSize.TWO}
-                      rightLabel="남"
-                      mode="small"
-                      onChange={selectedOp =>
-                        guestCountSelect(selectedOp.value, Gender.MALE)
-                      }
-                      disabled={disabled.male}
-                      textOverflow="visible"
-                      isOpen
-                      selectedOption={maleSeleteOption[guestCountValue.male]}
-                    />
-                  )}
+                {roomTypeData.roomGender === RoomGender.FEMALE || (
+                  <JDselect
+                    options={maleSeleteOption}
+                    size={SelectBoxSize.TWO}
+                    rightLabel="남"
+                    mode="small"
+                    onChange={selectedOp =>
+                      guestCountSelect(selectedOp.value, Gender.MALE)
+                    }
+                    disabled={disabled.male}
+                    textOverflow="visible"
+                    isOpen
+                    selectedOption={maleSeleteOption[guestCountValue.male]}
+                  />
+                )}
                 {roomTypeData.roomGender === RoomGender.MALE || (
                   <JDselect
                     options={femaleSeleteOption}
@@ -244,7 +239,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
                     selectedOption={femaleSeleteOption[guestCountValue.female]}
                   />
                 )}
-                <Preloader loading={countLoading}/>
+                <Preloader loading={countLoading} />
               </Fragment>
             ) : (
               <JDselect

@@ -29,7 +29,6 @@ const MyHouseModal: React.SFC<IProps> = ({
   loading
 }) => {
   const onDelete = () => {
-    console.log(house);
     if (house && house.product) {
       toast("상품을 먼저 해지 해주세요.");
       return false;

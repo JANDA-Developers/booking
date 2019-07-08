@@ -66,6 +66,16 @@ const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({group}) => {
     }
   });
 
+  if (group.type === "noneGroup") {
+    return (
+      <div>
+        <div className="assigGroups custom-group">
+          <div />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
       <div className="assigGroups custom-group">

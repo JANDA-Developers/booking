@@ -82,7 +82,7 @@ const MakeItemMenu: React.FC<IProps> = ({
             color="white"
           />
         </li>
-        {isMobile && targetGroup.pricingType === PricingType.DOMITORY && (
+        {targetGroup.pricingType === PricingType.DOMITORY && (
           <li>
             <Button
               onClick={() => genderToggleById(target.id)}

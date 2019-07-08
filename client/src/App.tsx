@@ -16,7 +16,7 @@ import JDoutdatedBrowserRework from "./utils/oldBrowser";
 
 function App() {
   // const browser = browserDetect();
-  // console.log(browser);
+  // console.info(browser);
 
   JDoutdatedBrowserRework();
 

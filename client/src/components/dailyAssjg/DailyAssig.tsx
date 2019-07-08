@@ -2,7 +2,8 @@ import React, {Fragment} from "react";
 import "./DailyAssig.scss";
 import {
   getAllRoomTypeWithGuest_GetGuests_guests,
-  getAllRoomTypeWithGuest_GetAllRoomType_roomTypes
+  getAllRoomTypeWithGuest_GetAllRoomType_roomTypes,
+  getAllRoomTypeWithGuest_GetBlocks_blocks
 } from "../../types/api";
 import JDIcon, {IconSize} from "../../atoms/icons/Icons";
 import {useModal, IUseDayPicker} from "../../actions/hook";
@@ -13,6 +14,7 @@ import BookingModalWrap from "../bookingModal/BookingModalWrap";
 import HouseCard from "../../pages/middleServer/super/components/houseCard";
 import {IHouse} from "../../types/interface";
 import Preloader from "../../atoms/preloader/Preloader";
+import {GuestType} from "../../types/enum";
 
 interface IProps {
   house: IHouse;
@@ -21,6 +23,7 @@ interface IProps {
   dayPickerHook: IUseDayPicker;
   guestsData: getAllRoomTypeWithGuest_GetGuests_guests[];
   roomTypesData: getAllRoomTypeWithGuest_GetAllRoomType_roomTypes[];
+  blocksData: getAllRoomTypeWithGuest_GetBlocks_blocks[];
 }
 
 const DailyAssig: React.SFC<IProps> = ({
@@ -29,6 +32,7 @@ const DailyAssig: React.SFC<IProps> = ({
   loading,
   dayPickerHook,
   guestsData,
+  blocksData,
   roomTypesData
 }) => {
   const bookingModalHook = useModal(false);
@@ -42,33 +46,58 @@ const DailyAssig: React.SFC<IProps> = ({
     );
   };
 
+  const blockRender = (
+    item:
+      | getAllRoomTypeWithGuest_GetGuests_guests
+      | getAllRoomTypeWithGuest_GetBlocks_blocks
+  ) => {
+    switch (item.guestType) {
+      case GuestType.GUEST:
+        return (
+          <div className="DailyAssig__guest DailyAssig__itemBlock">
+            {
+              // @ts-ignore
+              item.name
+            }
+            <JDIcon
+              className="DailyAssig__guestConfigIcon"
+              onClick={() => {
+                if ((item.guestType = GuestType.BLOCK)) return;
+                bookingModalHook.openModal({
+                  // @ts-ignore
+                  bookingId: item.booking._id
+                });
+              }}
+              icon="config"
+              size={IconSize.MEDEIUM_SMALL}
+            />
+          </div>
+        );
+
+      case GuestType.BLOCK:
+        return (
+          <div className="DailyAssig__block DailyAssig__itemBlock">
+            {"자리막음"}
+          </div>
+        );
+    }
+  };
+
   const getGuestInRoom = (roomId: string) => {
-    const guestInRoom = guestsData.filter(guest => {
-      if (!guest.allocatedRoom) return false;
-      return guest.allocatedRoom._id === roomId;
+    const items = [...guestsData, ...blocksData];
+    const itemsInRoom = items.filter(item => {
+      if (!item.allocatedRoom) return false;
+      return item.allocatedRoom._id === roomId;
     });
 
-    if (isEmpty(guestInRoom))
+    if (isEmpty(itemsInRoom))
       return (
         <div className="DailyAssig__empty DailyAssig__guestBlock">빈방</div>
       );
 
-    return guestInRoom.map(guest => (
-      <div
-        key={`guestBlock${guest._id}`}
-        className="DailyAssig__guest DailyAssig__guestBlock"
-      >
-        {guest.name}
-        <JDIcon
-          className="DailyAssig__guestConfigIcon"
-          onClick={() => {
-            bookingModalHook.openModal({
-              bookingId: guest.booking._id
-            });
-          }}
-          icon="config"
-          size={IconSize.MEDEIUM_SMALL}
-        />
+    return itemsInRoom.map(item => (
+      <div className="DailyAssig__itemBlockWrap" key={`guestBlock${item._id}`}>
+        {blockRender(item)}
       </div>
     ));
   };

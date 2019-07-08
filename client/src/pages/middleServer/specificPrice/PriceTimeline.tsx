@@ -143,7 +143,7 @@ const ModifyTimeline: React.FC<IProps> = ({
   };
 
   // 타임라인 이동시
-  const handleTimeChnage = (
+  const handleTimeChange = (
     visibleTimeStart: number,
     visibleTimeEnd: number,
     updateScrollCanvas: any
@@ -194,7 +194,7 @@ const ModifyTimeline: React.FC<IProps> = ({
               {...timelineProps}
               items={items || []}
               groups={roomTypesData || []}
-              onTimeChange={handleTimeChnage}
+              onTimeChange={handleTimeChange}
               defaultTimeStart={defaultTime.start}
               defaultTimeEnd={defaultTime.end}
               itemRenderer={itemRendererFn}

@@ -14,7 +14,7 @@ const client = new ApolloClient({
       auth: {
         __typename: "Auth",
         isLoggedIn: Boolean(localStorage.getItem("jwt"))
-    },
+      },
       lastSelectedHouse: {
         __typename: "House",
         value: localStorage.getItem("selectId"),
@@ -40,12 +40,12 @@ const client = new ApolloClient({
     if (graphQLErrors)
       graphQLErrors.map(({message, locations, path}) =>
         // 이건 DEV 용 메세지임 showError가 기타 에러 처리할것임
-        console.log(
+        console.warn(
           `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
         )
       );
     if (networkError) {
-      console.log(`[Network error]: ${networkError}`);
+      console.warn(`[Network error]: ${networkError}`);
       toast.warn("네트워크 문제발생");
     }
   }
