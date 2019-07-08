@@ -34,7 +34,6 @@ const RoomConfigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
   const roomTypeModalHook = useModal(false);
   const roomModalHook = useModal(false);
   const [_, setConfigMode] = useToggle(false);
-  console.log(_);
   return (
     // 모든 방 가져오기
     <GetAllRoomTypeQuery
@@ -51,7 +50,6 @@ const RoomConfigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
           undefined
         ); // 원본데이터
         const formatedRoomData = roomDataManufacture(roomTypesData, true); // 타임라인을 위해 가공된 데이터
-
 
         return (
           // 방생성 뮤테이션

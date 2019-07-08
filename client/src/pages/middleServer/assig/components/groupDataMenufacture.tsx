@@ -1,8 +1,8 @@
-import { IRoomType } from "../../../../types/interface";
-import { isEmpty } from "../../../../utils/utils";
-import { DEFAULT_ASSIG_GROUP } from "../../../../types/defaults";
-import { RoomGender, Gender, PricingType } from "../../../../types/enum";
-import { IAssigGroup } from "./assigIntrerface";
+import {IRoomType} from "../../../../types/interface";
+import {isEmpty} from "../../../../utils/utils";
+import {DEFAULT_ASSIG_GROUP} from "../../../../types/defaults";
+import {RoomGender, Gender, PricingType} from "../../../../types/enum";
+import {IAssigGroup} from "./assigIntrerface";
 
 // 룸젠더에 값을넣어 게스트성별을 받음
 // separately 나 Any 의 경우에는 남자 반환
@@ -36,7 +36,7 @@ export const roomDataManufacture = (
   roomTypeDatas.map((roomTypeData, roomTypeIndex) => {
     // 우선 방들을 원하는 폼으로 변환
 
-    const { rooms } = roomTypeData;
+    const {rooms} = roomTypeData;
 
     // 빈방타입 제외
     if (!isEmpty(rooms)) {
@@ -86,6 +86,7 @@ export const roomDataManufacture = (
           }
         });
       }
+      // 방생성중일떄만 will be deprecate ⛔️
       if (isAdd) {
         roomGroups.push({
           ...DEFAULT_ASSIG_GROUP,
@@ -95,6 +96,7 @@ export const roomDataManufacture = (
           type: "add"
         });
       }
+      // 방생성중일떄만 will be deprecate ⛔️
     } else if (isAdd) {
       if (roomTypeData.pricingType === "ROOM") {
         roomGroups.push({
@@ -127,6 +129,7 @@ export const roomDataManufacture = (
     }
   });
 
+  // 방생성중일떄만
   if (isAdd) {
     roomGroups.push({
       ...DEFAULT_ASSIG_GROUP,

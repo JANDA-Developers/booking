@@ -26,9 +26,7 @@ const JDradio: React.FC<IProps> = ({
   checked = false
 }) => {
   const handleRadioChange = () => {
-    console.log("radioChange");
     if (!disabled) {
-      console.log(value);
       onChange && onChange(value);
     }
   };

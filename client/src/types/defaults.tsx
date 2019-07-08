@@ -153,3 +153,9 @@ export const DEFAULT_PRODUCT: getSpecification_GetHouse_house_product = {
   },
   updatedAt: ""
 };
+
+export const DEFAULT_NONE_GOUP: IAssigGroup = {
+  ...DEFAULT_ASSIG_GROUP,
+  id: "noneGroup",
+  type: "noneGroup"
+};

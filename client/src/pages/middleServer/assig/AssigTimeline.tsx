@@ -1,17 +1,12 @@
 import React, {useState, useEffect} from "react";
-import $ from "jquery";
 import {Link} from "react-router-dom";
 import "moment/locale/ko";
-import {MutationFn} from "react-apollo";
 import _ from "lodash";
-import JDdayPicker from "../../../atoms/dayPicker/DayPicker";
-import windowSize, {WindowSizeProps} from "react-window-size";
+import {WindowSizeProps} from "react-window-size";
 import Timeline, {
   TimelineHeaders,
   SidebarHeader,
   DateHeader,
-  ASSIGT_IMELINE_HEIGHT,
-  CustomHeader,
   SharedSideBarHeader
 } from "../../../atoms/timeline/Timeline";
 import ErrProtecter from "../../../utils/errProtect";
@@ -20,62 +15,56 @@ import BookingModalWrap from "../../../components/bookingModal/BookingModalWrap"
 import {IUseDayPicker, useModal} from "../../../actions/hook";
 import classnames from "classnames";
 import assigGroupRendererFn from "./components/groupRenderFn";
-import {IRoomType, IHouseConfig} from "../../../types/interface";
+import {IRoomType, IHouseConfig, IHouse} from "../../../types/interface";
 import Preloader from "../../../atoms/preloader/Preloader";
 import "./AssigTimeline.scss";
 import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
-import TooltipList, {
-  ReactTooltip
-} from "../../../atoms/tooltipList/TooltipList";
+import {ReactTooltip} from "../../../atoms/tooltipList/TooltipList";
 import {
   TimePerMs,
   WindowSize as EWindowSize,
-  GlobalCSS
+  GlobalCSS,
+  WindowSize
 } from "../../../types/enum";
-import itemRendererFn, {
-  CLASS_LINKED,
-  CLASS_MOVING
-} from "./components/itemRenderFn";
-import {setMidNight, onCompletedMessage, isEmpty} from "../../../utils/utils";
+import itemRendererFn from "./components/itemRenderFn";
 import ItemMenu from "./components/itemMenu";
 import CanvasMenu from "./components/canvasMenu";
 import MakeItemMenu from "./components/makeItemMenu";
-import {DEFAULT_ASSIG_ITEM, DEFAULT_ASSIG_GROUP} from "../../../types/defaults";
-import {JDtoastModal} from "../../../atoms/modal/Modal";
-import moment from "moment-timezone";
+import {
+  DEFAULT_ASSIG_ITEM,
+  DEFAULT_ASSIG_GROUP,
+  DEFAULT_NONE_GOUP
+} from "../../../types/defaults";
+import JDmodal, {JDtoastModal} from "../../../atoms/modal/Modal";
 import {
   IAssigMutationes,
   IAssigItem,
   GuestTypeAdd,
-  TToogleCheckIn,
   ICanvasMenuProps,
   IAssigGroup,
   IAssigTimelineHooks,
   IAssigTimelineContext,
   IMakeMenuProps,
   IDeleteMenuProps,
-  TOpenBlockMenu,
-  TOpenCanvasMenu
+  TShortKey
 } from "./components/assigIntrerface";
 import {getAssigUtils} from "./components/assigUtils";
 import BlockItemMenu from "./components/blockItemMenu";
-import {
-  ASSIG_DATA_END_LIMITE,
-  ASSIG_DATA_START_LIMITE,
-  ASSIG_DATA_END,
-  ASSIG_DATA_START,
-  ASSIG_VISIBLE_CELL_MB_DIFF
-} from "./timelineConfig";
+import {ASSIG_VISIBLE_CELL_MB_DIFF} from "./timelineConfig";
 import JDmultiBox from "../../../atoms/multiBox/MultiBox";
+import {getAssigHandlers} from "./components/assigHandlers";
+import DailyAssigWrap from "../../../components/dailyAssjg/DailyAssigWrap";
+import moment from "moment";
+import {isEmpty} from "../../../utils/utils";
 
 // Temp 마킹용이 있는지
-let MARKED = false;
 
 // 충돌시간 인터페이스
 // 단순히 안됨 보다 ~부터 ~가 안됨을 표시하기 위함
 // 게스트1이 이동하는 주체
 
 interface IProps {
+  house: IHouse;
   houseId: string;
   defaultProps: any;
   dayPickerHook: IUseDayPicker;
@@ -106,6 +95,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   defaultProps,
   groupData,
   loading,
+  house,
   houseId,
   houseConfig,
   deafultGuestsData,
@@ -140,10 +130,13 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   const [makeMenuProps, setMakeMenuProps] = useState<IMakeMenuProps>({
     item: DEFAULT_ASSIG_ITEM
   });
-
+  const dailyAssigHook = useModal(false);
+  // 스크롤시 툴팁제거
   const handleWindowScrollEvent = () => {
     allTooltipsHide();
   };
+
+  //  스크롤 할때
   useEffect(() => {
     window.addEventListener("scroll", handleWindowScrollEvent);
     return () => {
@@ -151,6 +144,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     };
   });
 
+  // 풀링으로 새로받은 게스트데이터를 적용시켜준다.
   useEffect(() => {
     setGuestValue(deafultGuestsData);
   }, [JSON.stringify(deafultGuestsData)]);
@@ -165,7 +159,9 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     setMakeMenuProps,
     setBlockMenuProps,
     confirmDelteGuestHook,
-    bookingModal
+    bookingModal,
+    setDataTime,
+    dataTime
   };
 
   const assigContext: IAssigTimelineContext = {
@@ -186,48 +182,29 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   const {roomTypeTabEnable} = assigTimeline;
 
   const {
-    addBlock,
     allTooltipsHide,
-    allocateGuest,
-    allocateItem,
     deleteGuestById,
-    findGroupById,
-    findItemById,
-    moveLinkedItems,
-    openMakeMenu,
     removeMark,
-    resizeLinkedItems,
-    toogleCheckInOut,
-    openBlockMenu,
-    openCanvasMenu,
-    makeMark,
-    resizeBlock
+    toogleCheckInOut
   } = assigUtils;
 
-  const shortKey = async (
-    flag: "canvas" | "guestItem",
-    e: React.MouseEvent<HTMLElement>,
-    time?: number,
-    groupId?: string,
-    itemId?: string
-  ) => {
-    if (flag === "canvas") {
-      if (e.ctrlKey) {
-        addBlock(time!, groupId!);
-      }
-    }
-    if (flag === "guestItem") {
-      if (e.ctrlKey) {
-        toogleCheckInOut(itemId!);
-      }
-    }
-  };
+  const assigHandler = getAssigHandlers(assigUtils, assigContext, assigHooks);
+
+  const {
+    handleCanvasClick,
+    handleCanvasContextMenu,
+    handleItemClick,
+    handleItemMove,
+    handleItemResize,
+    handleItemSelect,
+    handleMoveResizeValidator,
+    handleTimeChange
+  } = assigHandler;
 
   // 툴팁들을 제거하고
   const handleWindowClickEvent = () => {
-    if (MARKED) {
+    if (guestValue.find(guest => guest.type === GuestTypeAdd.MARK)) {
       removeMark();
-      MARKED = false;
     }
     allTooltipsHide();
   };
@@ -239,255 +216,15 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     ReactTooltip.rebuild();
   });
 
-  const popUpItemMenu = async (
-    location: {clientX: number; clientY: number},
-    target: IAssigItem
-  ) => {
-    await allTooltipsHide();
-    await removeMark();
-
-    if (target.type === GuestTypeAdd.BLOCK) {
-      await openBlockMenu(location, {item: target});
-    }
-    // if (target.type === "normal")
-    // bookingModal.openModal({bookingId: target.bookingId});
-    if (target.type === GuestTypeAdd.MAKE) {
-      openMakeMenu(location, {item: target});
-    }
-  };
-
-  const handleItemDoubleClick = async (
-    itemId: string,
-    e: React.MouseEvent<HTMLElement>,
-    time: number
-  ) => {
-    e.persist();
-    const location = {
-      clientX: e.clientX,
-      clientY: e.clientY
-    };
-    const target = findItemById(itemId);
-    popUpItemMenu(location, target);
-  };
-
-  //  캔버스 클릭시 호출됨
-  const handleCanvasClick = async (
-    groupId: string,
-    time: number,
-    e: React.MouseEvent<HTMLElement>
-  ) => {
-    // if (isMobile) {
-    handleCanvasDoubleClick(groupId, time, e);
-    // }
-
-    await shortKey("canvas", e, time, groupId);
-    $(".assigItem").removeClass(CLASS_LINKED);
-  };
-
-  // 핸들아이템이 그룹에 그시간대에 포함될수 있는지 검사해줍니다.
-  // const moveValidater = (item: IAssigItem, targetGroup: IAssigGroup, time: number): IValidationResult[] => {
-  //   const linkedGuests = guestValue.filter(guest => guest.bookingId === item.bookingId);
-  //   // 좌우MOVE 일경우
-  //   if (Math.abs(time - item.start) >= TimePerMs.DAY) {
-  //     const validaterResults = linkedGuests.map((guest) => {
-  //       const result = validater(guest);
-  //       return result;
-  //     });
-  //     return validaterResults;
-  //   }
-  //   // 위아래 MOVE
-  //   const validaterResult = validater(item);
-  //   return [validaterResult];
-  // };
-  // Handle -- item : TripleClick
-
-  // 핸들 캔버스 더블클릭시
-  const handleCanvasDoubleClick = async (
-    groupId: string,
-    time: number,
-    e: React.MouseEvent<HTMLElement>
-  ) => {
-    e.stopPropagation();
-    e.preventDefault();
-    e.persist();
-    MARKED = true;
-
-    await allTooltipsHide();
-
-    const targetGroup = findGroupById(groupId);
-
-    openCanvasMenu(e, {
-      start: time,
-      end: time + TimePerMs.DAY,
-      groupId: groupId,
-      group: targetGroup
-    });
-
-    makeMark(time, groupId);
-  };
-
-  // 핸들 움직일때 벨리데이션 (마우스 움직이면 호출됨)
-  // 새로운 시간을 리턴하거나 time을 리턴하세요.
-  const handleMoveResizeValidator = (
-    action: "move" | "resize",
-    item: IAssigItem,
-    time: number,
-    resizeEdge: "left" | "right" | undefined
-  ): number => {
-    allTooltipsHide();
-    if (action === "resize") {
-      // 최소 아이템줌 설정
-      if (item.start >= time) return item.end;
-      if (setMidNight(Date.now()) >= time) return item.end;
-
-      // resizeValidater(item, time);
-
-      if (item.type !== GuestTypeAdd.BLOCK) {
-        resizeLinkedItems(item.bookingId, time);
-      }
-    }
-
-    if (action === "move") {
-      // 🦄 예약날자 수정이 안료되면 적용
-      return item.start;
-
-      if (time < setMidNight(moment().valueOf())) {
-        return item.start;
-      }
-
-      $(`.assigItem--booking${item.bookingId}`).addClass(CLASS_MOVING);
-      $(`#assigItem--guest${item.id}`).removeClass(CLASS_MOVING);
-
-      const targetGroup = groupData.find(group => group.id === item.group);
-      // 이동하는곳 성별 제한 확인
-      if (targetGroup) {
-        // 💔💔💔💔 아이템이 기존 아이템과 동일한 상태라서 group이 New 그룹이 아닙니다 ㅠㅠㅠ
-      }
-      moveLinkedItems(item.bookingId, time);
-    }
-
-    return time;
-  };
-
-  // 핸들 아이템 움직일시 (마우스 놓아야 호출됨)
-  const handleItemMove = async (
-    itemId: string,
-    dragTime: number,
-    newGroupOrder: number
-  ) => {
-    const targetGuest = findItemById(itemId);
-    if (!targetGuest) return;
-
-    allocateItem(targetGuest, newGroupOrder);
-    // $(`.${CLASS_MOVING}`).removeClass(CLASS_MOVING);
-  };
-
-  // 핸들 아이템 리사이즈시 (마우스 놓아야 호출됨)
-  const handleItemResize = async (
-    itemId: string,
-    time: number,
-    edge: "left" | "right"
-  ) => {
-    const targetGuest = findItemById(itemId);
-    if (targetGuest.type === GuestTypeAdd.BLOCK) {
-      resizeBlock(targetGuest, time);
-    }
-  };
-
-  // 핸들 아이템 클릭
-  const handleItemClick = async (
-    itemId: string,
-    e: React.MouseEvent<HTMLElement>,
-    time: number
-  ) => {
-    const {clientX, clientY} = e;
-    const location = {
-      clientX: clientX,
-      clientY: clientY
-    };
-
-    const target = findItemById(itemId);
-    if (target.bookingId === "block") return;
-
-    if (isMobile) {
-      if (target.type === GuestTypeAdd.BLOCK)
-        openBlockMenu(location, {item: target});
-      if (target.type === GuestTypeAdd.MAKE)
-        openMakeMenu(location, {item: target});
-    } else {
-      await popUpItemMenu(location, target);
-    }
-
-    await shortKey("guestItem", e, undefined, undefined, itemId);
-  };
-
-  // 타임라인 이동시
-  const handleTimeChnage = (
-    visibleTimeStart: number,
-    visibleTimeEnd: number,
-    updateScrollCanvas: any
-  ) => {
-    allTooltipsHide();
-    const dataLimitEnd = dataTime.end - TimePerMs.DAY * ASSIG_DATA_END_LIMITE;
-    const dataLimitStart =
-      dataTime.start + TimePerMs.DAY * ASSIG_DATA_START_LIMITE;
-
-    //  뒤로 요청
-    if (visibleTimeStart < dataLimitStart) {
-      const queryStart = visibleTimeStart - TimePerMs.DAY * ASSIG_DATA_START;
-      const queryEnd = visibleTimeEnd + TimePerMs.DAY * ASSIG_DATA_END;
-
-      setDataTime({
-        start: setMidNight(queryStart),
-        end: setMidNight(queryEnd)
-      });
-    }
-
-    //  앞으로 요청
-    if (dataLimitEnd < visibleTimeEnd) {
-      const queryStart = visibleTimeStart - TimePerMs.DAY * ASSIG_DATA_START;
-      const queryEnd = visibleTimeEnd + TimePerMs.DAY * ASSIG_DATA_END;
-
-      setDataTime({
-        start: setMidNight(queryStart),
-        end: setMidNight(queryEnd)
-      });
-    }
-    updateScrollCanvas(visibleTimeStart, visibleTimeEnd);
-  };
-
-  // 🐭 캔버스 오른쪽 클릭
-  const handleCanvasContextMenu = (
-    groupId: string,
-    time: number,
-    e: React.MouseEvent<HTMLElement>
-  ) => {};
-
-  // 🐭 아이템이 선택되었을때
-  const handleItemSelect = async (
-    itemId: string,
-    e: React.MouseEvent<HTMLElement>,
-    time: number
-  ) => {
-    handleItemClick(itemId, e, time);
-    const target = findItemById(itemId);
-    if (target) {
-      await $(".assigItem").removeClass(CLASS_LINKED);
-      $(`.assigItem--booking${target.bookingId}`).addClass(CLASS_LINKED);
-    }
-
-    if (target.type === GuestTypeAdd.GUEST) {
-      await removeMark();
-      await allTooltipsHide();
-      const targetEl = $(`#assigItem__configIconWrapId${target.id}`).get(0);
-      ReactTooltip.show(targetEl);
-      $("#itemTooltip").addClass("itemTooltip--show");
-    }
-  };
-
   const timelineClassNames = classnames("assigTimeline", undefined, {
-    "assiTimeline--mobile": windowWidth <= 400
+    "assiTimeline--mobile": windowWidth <= WindowSize.MOBILE
   });
+
+  let filteredGroup = groupData.filter(group =>
+    viewRoomType.includes(group.roomTypeId)
+  );
+
+  if (isEmpty(filteredGroup)) filteredGroup = [DEFAULT_NONE_GOUP];
 
   return (
     <div
@@ -546,15 +283,13 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
           onItemMove={handleItemMove}
           onItemResize={handleItemResize}
           items={guestValue}
-          groups={groupData.filter(group =>
-            viewRoomType.includes(group.roomTypeId)
-          )}
+          groups={filteredGroup}
           {...defaultProps}
           // onItemDoubleClick={handleItemDoubleClick}
           onItemClick={handleItemClick}
           // onCanvasDoubleClick={handleCanvasDoubleClick}
           onCanvasClick={handleCanvasClick}
-          onTimeChange={handleTimeChnage}
+          onTimeChange={handleTimeChange}
           itemRenderer={(props: any) =>
             itemRendererFn({
               ...props,
@@ -596,9 +331,22 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
                       "rct-dateHeader--today"}`}
                     {...getIntervalProps()}
                   >
-                    {intervalContext.intervalText
-                      .replace("요일,", ", ")
-                      .replace(/[0-9]{4}년/, "")}
+                    <div
+                      className="rct-dateHeader__inner"
+                      onClickCapture={e => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        dailyAssigHook.openModal({
+                          date: moment(
+                            intervalContext.interval.startTime
+                          ).toDate()
+                        });
+                      }}
+                    >
+                      {intervalContext.intervalText
+                        .replace("요일,", ", ")
+                        .replace(/[0-9]{4}년/, "")}
+                    </div>
                   </div>
                 );
               }}
@@ -623,6 +371,9 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
       </div>
       <BookingModalWrap houseId={houseId} modalHook={bookingModal} />
       <JDtoastModal confirm {...confirmDelteGuestHook} />
+      <JDmodal {...dailyAssigHook}>
+        <DailyAssigWrap date={dailyAssigHook.info.date} house={house} />
+      </JDmodal>
     </div>
   );
 };

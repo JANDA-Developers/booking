@@ -93,19 +93,8 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
       </span>
     );
 
-  const handleMouseOver = (id: string) => {
-    console.log(handleMouseOver);
-    itemContext.selected = true;
-  };
-
   return (
-    <div
-      {...props}
-      onMouseEnter={() => {
-        handleMouseOver(item.id);
-      }}
-      id={`assigItem--guest${item.id}`}
-    >
+    <div {...props} id={`assigItem--guest${item.id}`}>
       {itemContext.useResizeHandle ? <div {...leftResizeProps} /> : ""}
       {(() => {
         switch (item.type) {

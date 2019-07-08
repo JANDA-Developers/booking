@@ -64,9 +64,6 @@ export const SpecificAtion: React.SFC<IProps> = ({
     ? appInfoRequested[lastRequestIndex]
     : DEFAULT_APP_INFO_REQUEST;
 
-  console.log("inAppInfoRequested");
-  console.log(inAppInfoRequested);
-
   const {
     __typename,
     isDone: isHomePageDone,

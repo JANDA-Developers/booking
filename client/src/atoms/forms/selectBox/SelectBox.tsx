@@ -60,7 +60,6 @@ const JDselect: React.SFC<Iprops> = ({
   else validSelectedOption = selectedOption;
 
   const handleChange = (selectOption: any) => {
-    console.log(selectOption);
     onChange && onChange(selectOption);
   };
 

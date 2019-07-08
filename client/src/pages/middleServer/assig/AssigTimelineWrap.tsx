@@ -35,7 +35,8 @@ import {
   BookingStatus,
   GuestType,
   RoomGender,
-  PricingType
+  PricingType,
+  TimePerMs
 } from "../../../types/enum";
 import {
   ALLOCATE_GUEST_TO_ROOM,
@@ -89,7 +90,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
   const dayPickerHook = useDayPicker(null, null);
   const defaultStartDate = dayPickerHook.from
     ? moment(dayPickerHook.from).valueOf()
-    : moment().valueOf();
+    : moment().valueOf() - TimePerMs.H * 18;
 
   const defaultEndDate = setMidNight(
     dayPickerHook.from
@@ -351,6 +352,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
 
                                   return (
                                     <AssigTimeline
+                                      house={house}
                                       houseId={houseId}
                                       houseConfig={houseConfig}
                                       loading={loading}

@@ -37,6 +37,7 @@ const List: React.FC<IProps> = ({
         }
         const classes = classNames({
           JDsearchInput__li: true,
+          "JDsearchInput__li--selected": index === 0,
           "JDsearchInput__li--correspond": currentValue === data.name,
           "JDsearchInput__li--unDetail": !data.detail
         });

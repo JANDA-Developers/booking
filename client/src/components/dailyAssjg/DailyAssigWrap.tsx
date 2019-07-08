@@ -36,6 +36,7 @@ const DailyAssigWrap: React.FC<IProps> = ({date, house}) => {
 
   return (
     <GetAllRoomTypeWithGuestQuery
+      skip={!date}
       pollInterval={
         houseConfig.pollingPeriod ? houseConfig.pollingPeriod.period : undefined
       }
@@ -59,12 +60,19 @@ const DailyAssigWrap: React.FC<IProps> = ({date, house}) => {
           "guests",
           undefined
         ); // 원본데이터
+        const blocks = queryDataFormater(
+          data,
+          "GetBlocks",
+          "blocks",
+          undefined
+        ); // 원본데이터
 
         return (
           <Fragment>
             <DailyAssig
               house={house}
               loading={loading}
+              blocksData={blocks || []}
               guestsData={guestsData || []}
               dayPickerHook={dayPickerHook}
               roomTypesData={roomTypesData || []}

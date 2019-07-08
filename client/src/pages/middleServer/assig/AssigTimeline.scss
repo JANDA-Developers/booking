@@ -58,6 +58,15 @@
       
     .rct-dateHeader {
         line-height: 34px;
+
+        &__inner {
+            height: 100%;
+            pointer-events: all;
+            &:hover {
+                cursor: pointer;
+                background-color: $grey-level4;
+            }
+        }
     }
 
     .rct-sidebar {
@@ -315,7 +324,7 @@
         }
         // 😲 방막기일떄
         &--block {
-            background-color: $html-color;
+            background-color: $assigItem-block-color;
             color:white;
             // X 버튼
             .circleIcon {

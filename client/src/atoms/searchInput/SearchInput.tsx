@@ -24,6 +24,7 @@ interface IProps {
   isMatched?: boolean;
   isLoading?: boolean;
   alwaysListShow?: boolean;
+  setTypeWhenFindOne?: boolean;
   onTypeValue?: string;
   asName?: string;
   asDetail?: string;
@@ -45,6 +46,7 @@ const JDsearchInput: React.FC<IProps> = ({
   isMatched,
   setIsMatched,
   alwaysListShow,
+  setTypeWhenFindOne,
   asName,
   asDetail,
   isLoading,
@@ -80,6 +82,7 @@ const JDsearchInput: React.FC<IProps> = ({
     if (!value && !alwaysListShow) SetFilteredDataList([]);
   };
 
+  const autoScrollList = (target: HTMLElement) => {};
   // Handler - input : onKeyPress
   const handleOnKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     // CASE: 엔터를 쳤을경우에
@@ -96,8 +99,14 @@ const JDsearchInput: React.FC<IProps> = ({
       onSearch && onSearch(e.currentTarget.value);
       // CASE: 키보드상 선택된 노드가 있을경우에
       if (selectedNode) {
-        onFindOne &&
+        !isLoading &&
+          onFindOne &&
           onFindOne($(selectedNode).attr("value"), $(selectedNode).attr("id"));
+
+        setTypeWhenFindOne &&
+          onTypeChange &&
+          onTypeChange($(selectedNode).attr("value"));
+
         $(inputRef.current).blur();
       }
     }
@@ -106,7 +115,7 @@ const JDsearchInput: React.FC<IProps> = ({
     if (e.key === "ArrowDown" || e.key === "ArrowUp") {
       e.preventDefault();
       // CASE: ul has no children
-      if (!ulRef.current.children.length) return;
+      if (!ulRef.current.children) return;
 
       const selectedNode = $(ulRef.current).find(
         ".JDsearchInput__li--selected"
@@ -116,13 +125,13 @@ const JDsearchInput: React.FC<IProps> = ({
       if (selectedNode.length) {
         // active select
         if (e.key === "ArrowUp") {
-          $(selectedNode)
-            .prev()
-            .addClass("JDsearchInput__li--selected");
+          const target = $(selectedNode).prev();
+          if (!target.get(0)) return;
+          target.addClass("JDsearchInput__li--selected");
         } else {
-          $(selectedNode)
-            .next()
-            .addClass("JDsearchInput__li--selected");
+          const target = $(selectedNode).next();
+          if (!target.get(0)) return;
+          target.addClass("JDsearchInput__li--selected");
         }
         // remove select
         $(selectedNode).removeClass("JDsearchInput__li--selected");
@@ -212,7 +221,8 @@ const JDsearchInput: React.FC<IProps> = ({
           onKeyDown={handleOnKeyPress}
           className="JDsearchInput__icon"
         >
-          {isLoading ? <Preloader /> : <Icon hover icon="magnifier" />}
+          <Preloader noAnimation loading={isLoading} />
+          {isLoading || <Icon hover icon="magnifier" />}
         </span>
         {feedBackMessage && (
           <span className="JDsearchInput__feedBack">{`${feedBackMessage}`}</span>

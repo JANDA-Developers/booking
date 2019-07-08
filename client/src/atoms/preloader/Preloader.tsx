@@ -29,7 +29,6 @@ const JDpreloader: React.FC<IProps> = ({
     "preloader--floating": floating
   });
 
-  console.log(typeof loading);
   return !page ? (
     <JDanimation animation={noAnimation ? [] : [Animation.zoomOut]}>
       {loading && (

@@ -148,8 +148,6 @@ const MakeHouse: React.FC<IProps & RouteComponentProps> = ({
 
   // 서치인풋에 값을 입력할때마다.
   const onTypeChange = (value?: string) => {
-    console.log("value");
-    console.log(value);
     setlocation({
       ...location,
       address: value || ""
@@ -174,7 +172,7 @@ const MakeHouse: React.FC<IProps & RouteComponentProps> = ({
   return (
     <div id="makeHomePage" className="container container--sm">
       <div className="docs-section">
-      {/* 하우스 선택 */}
+        {/* 하우스 선택 */}
         <SelectHouseMu
           mutation={SELECT_HOUSE}
           onError={showError}

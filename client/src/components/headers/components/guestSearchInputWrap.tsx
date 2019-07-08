@@ -18,7 +18,7 @@ interface IProps {
 }
 
 const GuestSearchInputWrap: React.FC<IProps> = ({houseId}) => {
-  const [onTypeValue, onTypeChange] = useState<string>("");
+  const [onTypeValue, setType] = useState<string>("");
 
   const searchFilterMaker = (value: string) => {
     const isPhoneNumber = isNumberMinMax(value, 4, 11);
@@ -58,7 +58,8 @@ const GuestSearchInputWrap: React.FC<IProps> = ({houseId}) => {
             houseId={houseId}
             bookings={bookings || []}
             onTypeValue={onTypeValue}
-            onTypeChange={onTypeChange}
+            setType={setType}
+            loading={loading}
           />
         );
       }}

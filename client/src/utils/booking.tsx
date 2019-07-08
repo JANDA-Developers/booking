@@ -208,7 +208,6 @@ export const truePriceFinder = (
           Math.pow(2, findDayOfWeek)
         );
       });
-      console.log(dayOfWeekPrice);
 
       if (dayOfWeekPrice) return dayOfWeekPrice.price;
     }
@@ -231,7 +230,6 @@ export const truePriceFinder = (
         const index = day.diff(mStart, "day");
         if (index < 0) throw Error("date Array Overlap is not overlaped");
 
-        console.log(getSeasonPrice(season, day));
         dateArray[index] = getSeasonPrice(season, day);
       }
     });
