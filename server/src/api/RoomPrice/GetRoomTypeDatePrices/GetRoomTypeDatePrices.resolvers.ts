@@ -28,7 +28,7 @@ const resolvers: Resolvers = {
                         };
                     }
                     return {
-                        ok: false,
+                        ok: true,
                         error: null,
                         roomTypeDatePrices: await getDailyRoomTypePriceQuery({
                             houseId: new Types.ObjectId(houseId),
