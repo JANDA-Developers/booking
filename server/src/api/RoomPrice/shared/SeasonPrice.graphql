@@ -7,14 +7,17 @@ type SeasonPrice {
     dayOfWeekPrices: [DayOfWeekPrice!]
     dailyPriceList: [DailyPrice!]
 }
-type DayOfWeekPrice {
-    price: Float!
-    applyDays: Int!
-}
 type DailyPrice {
     day: Day!
     price: Float!
 }
+
+# deprecated
+type DayOfWeekPrice {
+    price: Float!
+    applyDays: Int!
+}
+# deprecated
 input DayOfWeekPriceInput {
     price: Float!
     applyDays: Int!

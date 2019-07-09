@@ -12,8 +12,8 @@ const getDailyRoomTypePriceQuery = async ({
     houseId,
     start,
     end,
-    roomTypeId
-}: GetSeasonPipelineParams & { roomTypeId?: Types.ObjectId }): Promise<
+    roomTypeIds
+}: GetSeasonPipelineParams & { roomTypeIds?: Types.ObjectId[] }): Promise<
     RoomTypeDatePrice[]
 > => {
     const roomTypeDatePrices: Array<{
@@ -27,8 +27,7 @@ const getDailyRoomTypePriceQuery = async ({
             houseId: new Types.ObjectId(houseId),
             start: new Date(start),
             end: new Date(end),
-            roomTypeId:
-                (roomTypeId && new Types.ObjectId(roomTypeId)) || undefined
+            roomTypeIds
         })
     );
     console.log(roomTypeDatePrices);

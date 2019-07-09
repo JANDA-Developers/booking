@@ -7,7 +7,7 @@ type Query {
     GetRoomTypeDatePrices(
         start: DateTime
         end: DateTime
-        roomTypeId: ID
+        roomTypeIds: [ID!]
     ): GetRoomTypeDatePricesResponse!
 }
 

@@ -16,14 +16,24 @@ const getSeasonDateList = async ({
     try {
         const seasonWithDateList: Array<{
             _id: Date;
-            seasonId: string;
+            season: {
+                _id: Types.ObjectId;
+                priority: number;
+            } | null;
         }> = await SeasonModel.aggregate(
             getSeasonPipeline({ houseId, start, end })
         );
         const seasonIds: string[] = _.uniqWith(
-            seasonWithDateList.map(data => {
-                return data.seasonId;
-            }),
+            seasonWithDateList
+                .map(data => {
+                    return data.season;
+                })
+                .filter(data => {
+                    if (data) {
+                        return true;
+                    }
+                    return false;
+                }),
             _.isEqual
         );
         console.log({ seasonIds });
@@ -44,12 +54,14 @@ const getSeasonDateList = async ({
                 season: extractSeason.bind(
                     extractSeason,
                     seasonInstances.find(seasonInstance => {
-                        if (
-                            new Types.ObjectId(seasonWithDate.seasonId).equals(
-                                seasonInstance._id
-                            )
-                        ) {
-                            return true;
+                        if (seasonWithDate.season) {
+                            if (
+                                seasonWithDate.season._id.equals(
+                                    seasonInstance._id
+                                )
+                            ) {
+                                return true;
+                            }
                         }
                         return false;
                     })

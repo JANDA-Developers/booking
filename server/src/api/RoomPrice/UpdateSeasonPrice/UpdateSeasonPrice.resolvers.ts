@@ -16,9 +16,9 @@ const resolvers: Resolvers = {
             async (
                 _,
                 {
-                    price,
-                    applyDays,
-                    seasonPriceId
+                    defaultPrice,
+                    seasonPriceId,
+                    dailyPriceList
                 }: UpdateSeasonPriceMutationArgs
             ): Promise<UpdateSeasonPriceResponse> => {
                 try {
@@ -32,10 +32,13 @@ const resolvers: Resolvers = {
                             seasonPrice: null
                         };
                     }
+                    if (defaultPrice) {
+                        existingSeasonPrice.defaultPrice = defaultPrice;
+                    }
+
                     await existingSeasonPrice.update(
                         {
-                            price,
-                            applyDays
+                            defaultPrice
                         },
                         {
                             new: true

@@ -15,5 +15,5 @@ type Query {
 # GetSeasonToDateListResponse.seasonToDateList 배열에서 출력하는 객체
 type SeasonWithDate {
     _id: DateTime!
-    season: Season!
+    season: Season
 }

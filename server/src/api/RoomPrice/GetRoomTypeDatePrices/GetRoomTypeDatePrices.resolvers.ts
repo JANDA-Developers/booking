@@ -13,7 +13,7 @@ const resolvers: Resolvers = {
         GetRoomTypeDatePrices: privateResolverForPublicAccess(
             async (
                 _: any,
-                { start, end, roomTypeId }: GetRoomTypeDatePricesQueryArgs,
+                { start, end, roomTypeIds }: GetRoomTypeDatePricesQueryArgs,
                 ctx: any
             ): Promise<GetRoomTypeDatePricesResponse> => {
                 try {
@@ -34,9 +34,12 @@ const resolvers: Resolvers = {
                             houseId: new Types.ObjectId(houseId),
                             start: new Date(start),
                             end: new Date(end),
-                            roomTypeId:
-                                (roomTypeId &&
-                                    new Types.ObjectId(roomTypeId)) ||
+                            roomTypeIds:
+                                (roomTypeIds &&
+                                    roomTypeIds.map(
+                                        roomTypeId =>
+                                            new Types.ObjectId(roomTypeId)
+                                    )) ||
                                 undefined
                         })
                     };
