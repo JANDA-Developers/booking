@@ -5,8 +5,14 @@ type GetRoomTypeDatePricesResponse {
 }
 type Query {
     GetRoomTypeDatePrices(
-        start: DateTime
-        end: DateTime
+        houseId: ID!
+        start: DateTime!
+        end: DateTime!
+        roomTypeIds: [ID!]
+    ): GetRoomTypeDatePricesResponse!
+    GetRoomTypeDatePricesForBooker(
+        start: DateTime!
+        end: DateTime!
         roomTypeIds: [ID!]
     ): GetRoomTypeDatePricesResponse!
 }
