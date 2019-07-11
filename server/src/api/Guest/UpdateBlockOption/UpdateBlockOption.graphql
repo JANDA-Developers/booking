@@ -1,0 +1,13 @@
+type UpdateBlockOptionResponse {
+    ok: Boolean!
+    error: String
+    booking: Booking
+}
+
+type Mutation {
+    UpdateBlockOption(
+        guestId: ID!
+        blockOption: BlockOptionInput!
+        applyWithBooking: Boolean!
+    ): UpdateBlockOptionResponse!
+}

@@ -18,7 +18,7 @@ type Guest {
     gender: Gender
     guestId: String!
     guestType: GuestType!
-    blockOptions: BlockOptions
+    blockOption: BlockOption
     createdAt: DateTime!
     updatedAt: DateTime
 }
@@ -35,7 +35,7 @@ type Block {
     updatedAt: DateTime
 }
 
-type BlockOptions {
+type BlockOption {
     color: String
 }
 
@@ -80,4 +80,8 @@ input GuestsInput {
     pricingType: [PricingType!]!
     gender: [Gender!]
     roomId: [ID!]
+}
+
+input BlockOptionInput {
+    color: String
 }

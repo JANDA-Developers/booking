@@ -6,7 +6,7 @@ import {
     PricingTypeEnum
 } from "../types/enums";
 import {
-    BlockOptions,
+    BlockOption,
     BookingStatus,
     DateRange,
     Gender,
@@ -98,8 +98,9 @@ export class GuestSchema extends Typegoose {
     @prop({ enum: GuestTypeEnum, default: GuestTypeEnum.GUEST })
     guestType: GuestType;
 
-    @prop()
-    blockOptions: BlockOptions;
+    @prop({ default: null })
+    blockOption: BlockOption | null;
+
     @prop()
     createdAt: Date;
 

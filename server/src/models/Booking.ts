@@ -8,7 +8,7 @@ import {
     PayMethodEnum
 } from "../types/enums";
 import {
-    BlockOptions,
+    BlockOption,
     BookingStatus,
     CheckIn,
     PaymentStatus,
@@ -123,8 +123,8 @@ export class BookingSchema extends Typegoose {
     @prop({ enum: BookingStatusEnum, default: BookingStatusEnum.COMPLETE })
     bookingStatus: BookingStatus;
 
-    @prop()
-    blockOptions: BlockOptions;
+    @prop({ default: null })
+    blockOption: BlockOption | null;
 
     @prop()
     createdAt: Date;
