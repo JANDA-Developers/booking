@@ -6,13 +6,7 @@ import {
     GuestTypeEnum,
     PricingTypeEnum
 } from "../types/enums";
-import {
-    BookingStatus,
-    Gender,
-    PricingType,
-    RoomCapacity,
-    RoomGender
-} from "../types/graph";
+import { Gender, PricingType, RoomCapacity, RoomGender } from "../types/graph";
 import { GuestModel, GuestSchema } from "./Guest";
 import { RoomGenderEnum, RoomTypeModel, RoomTypeSchema } from "./RoomType";
 
@@ -57,9 +51,6 @@ export class RoomSchema extends Typegoose {
 
     @prop({ min: 0, default: 0 })
     index: number;
-
-    @prop({ default: BookingStatusEnum.COMPLETE, enum: BookingStatusEnum })
-    bookingStatus: BookingStatus;
 
     @prop()
     createdAt: Date;
@@ -130,19 +121,19 @@ export class RoomSchema extends Typegoose {
         includeSettled?: boolean,
         exceptbookingIds?: Types.ObjectId[]
     ): Promise<RoomCapacity> {
+        // 배정된 인원
         const allocatedGuests = (await this.getAllocatedGuests(
             dateRange,
             exceptbookingIds
         )).sort((g1, g2) => g1.bedIndex - g2.bedIndex);
+
+        // 배드마다 인원수 세어봄.
         const countGuestInBed: number[] = Array(this.peopleCount).fill(0);
         allocatedGuests.forEach(g => {
             countGuestInBed[g.bedIndex]++;
         });
         const block = await this.getBlockedBeds(dateRange.start, dateRange.end);
         const availableGenders = this.allocatableGenderPrivate(allocatedGuests);
-        console.log({
-            availableGenders
-        });
 
         const emptyBeds = this.getEmptyBeds(allocatedGuests);
         _.pullAll(emptyBeds, block);

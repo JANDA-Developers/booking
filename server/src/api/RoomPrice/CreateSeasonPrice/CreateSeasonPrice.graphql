@@ -18,4 +18,5 @@ type Mutation {
 input DailyPriceInput {
     day: Day!
     price: Float!
+    additionalPrice: Float
 }

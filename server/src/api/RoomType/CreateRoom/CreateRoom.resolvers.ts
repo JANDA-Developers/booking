@@ -31,6 +31,8 @@ const resolver: Resolvers = {
                         name: args.name,
                         roomGender: roomType.roomGender
                     });
+                    console.info({ room });
+                    room.save();
                     return {
                         ok: true,
                         error: null,

@@ -29,6 +29,7 @@ type Product {
 }
 
 type AppInfoRequest {
+    useHostApp: Boolean!
     url: URL!
     layoutType: LayoutType!
     requestedDate: DateTime!
@@ -36,6 +37,7 @@ type AppInfoRequest {
 }
 
 input AppInfoRequestInput {
-    url: URL!
-    layoutType: LayoutType!
+    useHostApp: Boolean
+    url: URL
+    layoutType: LayoutType
 }

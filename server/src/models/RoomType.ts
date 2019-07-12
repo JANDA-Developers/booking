@@ -93,6 +93,7 @@ export class RoomTypeSchema extends Typegoose {
     })
     peopleCount: number;
 
+    // deprecated
     @prop({
         required: [
             function(this: RoomTypeSchema): boolean {
@@ -106,6 +107,9 @@ export class RoomTypeSchema extends Typegoose {
     })
     peopleCountMax: number;
 
+    @prop({ default: 0 })
+    peopleCountAdditional: number;
+
     @prop({
         min: 0,
         default: 0
@@ -117,6 +121,12 @@ export class RoomTypeSchema extends Typegoose {
 
     @prop({ default: 0 })
     defaultPrice: number;
+
+    // pricingType === "ROOM" 에서만 사용함.
+    @prop({
+        default: 0
+    })
+    additionalPrice: number;
 
     @prop()
     tags: string;
@@ -240,7 +250,12 @@ export class RoomTypeSchema extends Typegoose {
             roomType: new Types.ObjectId(this._id)
         });
         const updateData = removeUndefined(params);
-        if (guestCount !== 0) {
+
+        console.log({
+            guestCount
+        });
+
+        if (guestCount !== 0 && params.peopleCount !== undefined) {
             params.peopleCount = null;
             params.peopleCountMax = null;
             return {
@@ -262,12 +277,6 @@ export class RoomTypeSchema extends Typegoose {
                     })
                 }
             );
-        }
-        if (params.peopleCount !== null) {
-            // todo
-        }
-        if (params.peopleCountMax !== null) {
-            // todo
         }
         await this.update({ $set: updateData });
         return {
@@ -473,6 +482,10 @@ export const addPadding = (
         "ANY"
     ).map(capacity => {
         // TODO: Something...........................
+        console.info({
+            capacity
+        });
+
         const avaialbleCount = capacity.availableCount;
         if (paddingCount > 0 && capacity.availableCount > 0) {
             capacity.availableGenders = [gender];

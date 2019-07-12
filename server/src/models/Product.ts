@@ -100,6 +100,8 @@ export class ProductSchema extends Typegoose {
     ): Promise<AppInfoRequest> {
         const appInfoReq: AppInfoRequest = {
             ...appInfoRequest,
+            useHostApp: appInfoRequest.useHostApp || false,
+            layoutType: appInfoRequest.layoutType || "Layout_A",
             isDone: false,
             requestedDate: new Date()
         };

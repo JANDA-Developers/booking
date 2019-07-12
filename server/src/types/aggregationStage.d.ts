@@ -10,7 +10,8 @@ type StageType =
     | "$lookup"
     | "$limit"
     | "$facet"
-    | "$skip";
+    | "$skip"
+    | "$replaceRoot";
 
 export type Stage = {
     [K in StageType]?: any;
