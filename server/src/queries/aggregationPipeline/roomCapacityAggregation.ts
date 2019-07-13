@@ -54,13 +54,14 @@ const pipelineRoomCapacity = ({
                         in: {
                             $add: [
                                 {
-                                    $multiply: ["$$idx", ONE_DAY]
+                                    $multiply: ["$$idx", 86400000]
                                 },
                                 "$checkIn"
                             ]
                         }
                     }
                 },
+                roomType: 1,
                 roomGender: 1,
                 peopleCount: 1,
                 peopleCountMax: 1,
@@ -119,6 +120,7 @@ const pipelineRoomCapacity = ({
                 guests: 1,
                 interval: 1,
                 pricingType: 1,
+                roomType: 1,
                 count: {
                     $subtract: [
                         "$peopleCount",
@@ -202,6 +204,7 @@ const pipelineRoomCapacity = ({
             $group: {
                 _id: {
                     room: "$_id",
+                    roomType: "$roomType",
                     bed: "$bed",
                     gender: "$gender",
                     roomGender: "$roomGender",
@@ -232,6 +235,7 @@ const pipelineRoomCapacity = ({
             $group: {
                 _id: {
                     room: "$_id.room",
+                    roomType: "$_id.roomType",
                     pricingType: "$_id.pricingType",
                     roomGender: "$_id.roomGender"
                 },
@@ -253,7 +257,8 @@ const pipelineRoomCapacity = ({
                         {
                             _id: "$_id.room",
                             pricingType: "$_id.pricingType",
-                            roomGender: "$_id.roomGender"
+                            roomGender: "$_id.roomGender",
+                            roomType: "$_id.roomType"
                         },
                         {
                             genders: "$genders",
@@ -318,52 +323,60 @@ const pipelineRoomCapacity = ({
                         $let: {
                             vars: {
                                 skippedOne: {
-                                    $arrayElemAt: ["$lastSkipOne._id", 0]
+                                    $arrayElemAt: ["$lastSkipOne", 0]
                                 }
                             },
                             in: {
-                                $map: {
-                                    input: "$remain",
-                                    as: "obj",
-                                    in: {
-                                        _id: "$$obj._id",
-                                        pricingType: "$$obj.pricingType",
-                                        roomGender: "$$obj.roomGender",
-                                        beds: "$$obj.beds",
-                                        genders: {
-                                            $switch: {
-                                                branches: [
-                                                    {
-                                                        case: {
-                                                            $and: [
-                                                                {
-                                                                    $eq: [
-                                                                        "$$obj.roomGender",
-                                                                        "SEPARATELY"
+                                $cond: {
+                                    if: "$$skippedOne.allocatable",
+                                    then: {
+                                        $map: {
+                                            input: "$remain",
+                                            as: "obj",
+                                            in: {
+                                                _id: "$$obj._id",
+                                                roomType: "$$obj.roomType",
+                                                pricingType:
+                                                    "$$obj.pricingType",
+                                                roomGender: "$$obj.roomGender",
+                                                beds: "$$obj.beds",
+                                                genders: {
+                                                    $switch: {
+                                                        branches: [
+                                                            {
+                                                                case: {
+                                                                    $and: [
+                                                                        {
+                                                                            $eq: [
+                                                                                "$$obj.roomGender",
+                                                                                "SEPARATELY"
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            $eq: [
+                                                                                "$$obj._id",
+                                                                                "$$skippedOne._id"
+                                                                            ]
+                                                                        }
                                                                     ]
                                                                 },
-                                                                {
-                                                                    $eq: [
-                                                                        "$$obj._id",
-                                                                        "$$skippedOne"
+                                                                then: {
+                                                                    $setIntersection: [
+                                                                        [
+                                                                            initValue.gender
+                                                                        ],
+                                                                        "$$obj.genders"
                                                                     ]
                                                                 }
-                                                            ]
-                                                        },
-                                                        then: {
-                                                            $setIntersection: [
-                                                                [
-                                                                    initValue.gender
-                                                                ],
-                                                                "$$obj.genders"
-                                                            ]
-                                                        }
+                                                            }
+                                                        ],
+                                                        default: "$$obj.genders"
                                                     }
-                                                ],
-                                                default: "$$obj.genders"
+                                                }
                                             }
                                         }
-                                    }
+                                    },
+                                    else: null
                                 }
                             }
                         }
@@ -386,6 +399,7 @@ const pipelineRoomCapacity = ({
                     _id: {
                         _id: "$_id",
                         genders: "$genders",
+                        roomType: "$roomType",
                         roomGender: "$roomGender",
                         pricingType: "$pricingType"
                     },
