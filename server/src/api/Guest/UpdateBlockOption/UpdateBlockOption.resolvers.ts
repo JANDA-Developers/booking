@@ -6,6 +6,7 @@ import {
     UpdateBlockOptionResponse
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
+import { removeUndefined } from "../../../utils/objFuncs";
 import { privateResolver } from "../../../utils/privateResolvers";
 
 const resolvers: Resolvers = {
@@ -51,7 +52,7 @@ const resolvers: Resolvers = {
                         },
                         {
                             $set: {
-                                blockOption: null
+                                blockOption: removeUndefined(blockOption)
                             }
                         }
                     );
