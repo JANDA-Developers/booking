@@ -1,11 +1,11 @@
-import React, { Fragment, useState } from 'react';
-import { Query } from 'react-apollo';
-import { getHousesForSU, getHousesForSUVariables } from '../../../types/api';
-import SuperMain from './SuperMain';
-import { GET_HOUSES_FOR_SU } from '../../../queries';
-import { queryDataFormater, showError } from '../../../utils/utils';
-import { useModal } from '../../../actions/hook';
-import Modal from '../../../atoms/modal/Modal';
+import React, {Fragment, useState} from "react";
+import {Query} from "react-apollo";
+import {getHousesForSU, getHousesForSUVariables} from "../../../types/api";
+import SuperMain from "./SuperMain";
+import {GET_HOUSES_FOR_SU} from "../../../queries";
+import {queryDataFormater, showError} from "../../../utils/utils";
+import {useModal} from "../../../actions/hook";
+import Modal from "../../../atoms/modal/Modal";
 
 class GetAllHouse extends Query<getHousesForSU, getHousesForSUVariables> {}
 
@@ -20,13 +20,23 @@ const SuperMainWrap: React.SFC<Iprops> = () => {
       query={GET_HOUSES_FOR_SU}
       variables={{
         page,
-        count: 20,
+        count: 20
       }}
     >
-      {({ data: housePages, loading, error }) => {
+      {({data: housePages, loading, error}) => {
         showError(error);
-        const housePageData = queryDataFormater(housePages, 'GetHousesForSU', 'houses', undefined);
-        const pageInfo = queryDataFormater(housePages, 'GetHousesForSU', 'pageInfo', undefined);
+        const housePageData = queryDataFormater(
+          housePages,
+          "GetHousesForSU",
+          "houses",
+          undefined
+        );
+        const pageInfo = queryDataFormater(
+          housePages,
+          "GetHousesForSU",
+          "pageInfo",
+          undefined
+        );
 
         return (
           <Fragment>

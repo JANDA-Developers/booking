@@ -63,27 +63,27 @@
   color: #fff;
 }
 
-.colorPage-circle--secondary {
+.colorPage-circle--point {
   background-color: #c56c47;
 }
 
-.colorPage-circle--secondary .colorPage-circle__txt {
+.colorPage-circle--point .colorPage-circle__txt {
   color: #fff;
 }
 
-.colorPage-circle--secondary-light {
+.colorPage-circle--point-light {
   background-color: #d79a81;
 }
 
-.colorPage-circle--secondary-light .colorPage-circle__txt {
+.colorPage-circle--point-light .colorPage-circle__txt {
   color: #fff;
 }
 
-.colorPage-circle--secondary-dark {
+.colorPage-circle--point-dark {
   background-color: #924b2e;
 }
 
-.colorPage-circle--secondary-dark .colorPage-circle__txt {
+.colorPage-circle--point-dark .colorPage-circle__txt {
   color: #fff;
 }
 

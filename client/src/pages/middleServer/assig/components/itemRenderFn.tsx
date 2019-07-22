@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Fragment, useEffect, useState} from "react";
 import $ from "jquery";
 import {TimelineContext} from "react-calendar-timeline";
 import classnames from "classnames";
@@ -15,6 +15,11 @@ import {
   GuestTypeAdd,
   IAssigItem
 } from "./assigIntrerface";
+import JDdayPicker from "../../../../atoms/dayPicker/DayPicker";
+import JDcolorPicker from "../../../../atoms/colorPicker/ColorPicker";
+import {useColorPicker} from "../../../../actions/hook";
+import Button from "../../../../atoms/button/Button";
+import InputText from "../../../../atoms/forms/inputText/InputText";
 
 const CLASS_LINKED = "assigItem--linkedSelected";
 const CLASS_MOVING = "assigItem--moving";
@@ -64,7 +69,8 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
     "assigItem--checkIn": item.isCheckin,
     "assigItem--block": item.type === GuestTypeAdd.BLOCK,
     "assigItem--mark": item.type === GuestTypeAdd.MARK,
-    "assigItem--make": item.type === GuestTypeAdd.MAKE
+    "assigItem--make": item.type === GuestTypeAdd.MAKE,
+    "JDtext-blink": item.showEffect
   });
 
   const props = getItemProps({
@@ -94,24 +100,33 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
     );
 
   return (
-    <div {...props} id={`assigItem--guest${item.id}`}>
+    <div {...props} id={`assigItem--item${item.id}`}>
       {itemContext.useResizeHandle ? <div {...leftResizeProps} /> : ""}
       {(() => {
         switch (item.type) {
           case GuestTypeAdd.GUEST:
             return (
-              <div
-                className="rct-item-content assigItem__content myClasses"
-                style={{maxHeight: `${itemContext.dimensions.height}`}}
-              >
-                <span className="assigItem__titleWrap">
-                  <Gender item={item} />
-                  <span className="assigItem__title assigItem__title--guest">
-                    {item.name}
+              <Fragment>
+                <div
+                  className="rct-item-content assigItem__content myClasses"
+                  style={{
+                    maxHeight: `${itemContext.dimensions.height}`
+                  }}
+                >
+                  <span className="assigItem__titleWrap">
+                    <Gender item={item} />
+                    <span
+                      style={{
+                        color: item.blockOption.color ? "white" : undefined,
+                        backgroundColor: item.blockOption.color || undefined
+                      }}
+                      className="assigItem__title assigItem__title--guest"
+                    >
+                      {item.name}
+                    </span>
                   </span>
-                </span>
 
-                {/* {item.validate.map(validate => {
+                  {/* {item.validate.map(validate => {
                   if (validate.start && validate.end) {
                     const CellWidth = $(".rct-dateHeader").width() || 0;
                     const cellFrom =
@@ -130,6 +145,7 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
                     );
                   }
                 })} */}
+                </div>
                 <span
                   data-tip={item.id}
                   data-place="top"
@@ -138,9 +154,12 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
                   id={`assigItem__configIconWrapId${item.id}`}
                   className="assigItem__configIconWrap"
                 >
-                  <JDIcon icon="config" size={IconSize.MEDEIUM_SMALL} />
+                  <JDIcon
+                    icon="dotMenuVertical"
+                    size={IconSize.MEDEIUM_SMALL}
+                  />
                 </span>
-              </div>
+              </Fragment>
             );
           case GuestTypeAdd.BLOCK:
             return (
@@ -163,7 +182,7 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
             return <div />;
           case GuestTypeAdd.MAKE:
             return (
-              <div className="assigItem__content assigItem__content--make">
+              <div className="assigItem__content JDtext-blink assigItem__content--make">
                 <div>
                   {isMobile ? (
                     <Gender item={item} />

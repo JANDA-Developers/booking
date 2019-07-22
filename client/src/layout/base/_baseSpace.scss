@@ -26,24 +26,7 @@
 
 // 🚩다이브 안 오른쪽에 마진제거
 div {
-    & > .JDbtn,
-    & > .JDcheck_box_wrap,
-    & > .JDswitch,
-    & > .JDradio,
-    & > .JDselect,
-    & > .JDdatePcikerInformation,
-    & > .circleIcon,
-    & > .profileCircle,
-    & > .imageUploader,
-    & > .JDslider,
-    & > .JDpagination,
-    & > .JDcard,
-    & > .JDtable,
-    & > .JDcolorPicker,
-    & > .JDinput,
-    & > .input-range,
-    & > .JDtextarea,
-    & > .JDsearchInput {
+    @include baseMargin("& > "){
         &:last-child {
             margin-right: 0;
         }
@@ -57,48 +40,14 @@ div {
     margin-right: $standard-icon-margin / 2 ;
 }
 
-// 마진 bottom
-.JDcheck_box_wrap,
-.JDswitch-wrap,
-.JDradio,
-.JDselect,
-.JDbtn,
-.JDdatePcikerInformation,
-.circleIcon,
-.imageUploader,
-.JDslider,
-.JDpagination,
-.JDcard,
-.JDtable,
-.JDcolorPicker,
-.JDinput,
-.JDtextarea,
-.JDsearchInput,
-.input-range,
-.JDbox--border {
+
+@include baseMargin {
     margin-bottom: $standard-margin-bottom;
 }
 
 // 테이블 안의 마진 제거
 .JDtable,.react-tabs__tab {
-    .JDcheck_box_wrap,
-    .JDswitch-wrap,
-    .JDradio,
-    .JDselect,
-    .JDbtn,
-    .JDdatePcikerInformation,
-    .circleIcon,
-    .imageUploader,
-    .JDslider,
-    .JDpagination,
-    .JDcard,
-    .JDtable,
-    .JDcolorPicker,
-    .JDinput,
-    .input-range,
-    .JDtextarea,
-    .JDsearchInput,
-    .JDbox--border,  {
+    @include baseMargin {
         margin: 0;
     } 
 }
@@ -106,70 +55,26 @@ div {
 
 //  카드의 마지막차일드  안에있는것 또는, 마지막의 마진을 제거
 .JDcard > *:last-child {
-    &.JDcheck_box_wrap,
-    &.JDswitch-wrap,
-    &.JDradio,
-    &.JDselect,
-    &.JDbtn,
-    &.JDdatePcikerInformation,
-    &.circleIcon,
-    &.imageUploader,
-    &.JDslider,
-    &.JDpagination,
-    &.JDcard,
-    &.input-range,
-    &.JDtable,
-    &.JDcolorPicker,
-    &.JDinput,
-    &.JDtextarea,
-    &.JDinput-wrap,
-    &.JDsearchInput
-    .JDcheck_box_wrap,
-    .JDswitch-wrap,
-    .JDradio,
-    .JDselect,
-    .JDbtn,
-    .input-range,
-    .JDdatePcikerInformation,
-    .circleIcon,
-    .imageUploader,
-    .JDslider,
-    .JDpagination,
-    .JDcard,
-    .JDtable,
-    .JDcolorPicker,
-    .JDinput,
-    .JDtextarea,
-    .JDinput-wrap,
-    .JDsearchInput {
+    @include baseMargin("&") {
         &:last-child {
-        margin-bottom:0;
-            .JDinput {
-                margin-bottom:0;
+            margin-bottom:0;
+                .JDinput {
+                    margin-bottom:0;
+                }
             }
-        }
+    }
+    @include baseMargin() {
+        &:last-child {
+            margin-bottom:0;
+                .JDinput {
+                    margin-bottom:0;
+                }
+            }
     }
 }
 
 .JDcard > *:last-child {
-    &.JDcheck_box_wrap,
-    &.JDswitch-wrap,
-    &.JDradio,
-    &.JDselect,
-    &.JDbtn,
-    &.JDdatePcikerInformation,
-    &.circleIcon,
-    &.imageUploader,
-    &.JDslider,
-    &.JDpagination,
-    &.JDcard,
-    &.JDtable,
-    &.JDcolorPicker,
-    &.JDinput,
-    &.JDtextarea,
-    &.JDinput-wrap,
-    &.input-range,
-    &.JDsearchInput {
+    @include baseMargin("&") {
         margin-bottom: 0;
     }
 }

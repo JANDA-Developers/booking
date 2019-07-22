@@ -7,7 +7,8 @@ import {
   useDayPicker,
   useModal,
   IUseModal,
-  useRedirect
+  useRedirect,
+  useCheckBox
 } from "../../../actions/hook";
 import "./Reservation.scss";
 import Button from "../../../atoms/button/Button";
@@ -49,13 +50,15 @@ interface IProps {
     createBookingForBooker,
     createBookingForBookerVariables
   >;
+  isAdmin: boolean;
   confirmModalHook: IUseModal<any>;
 }
 
-const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
+const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   windowWidth,
   windowHeight,
   createBookingMu,
+  isAdmin,
   confirmModalHook
 }) => {
   const defaultBookingInfo = {
@@ -75,6 +78,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
   const [redirect, redirectUrl, setRedirect] = useRedirect(false, "");
   // 👿 이건 오직 resvRooms에 룸 네임이 없어서다.
   const roomInfoHook = useState<IRoomType[]>([]);
+  const sendSmsHook = useCheckBox(false);
 
   const resvConfirmCallBackFunc = (flag: boolean) => {
     if (flag) {
@@ -144,7 +148,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
       createBookingMu({
         variables: {
           bookingParams,
-          sendSmsFlag: true
+          sendSmsFlag: sendSmsHook.checked
         }
       });
     }
@@ -167,6 +171,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
             <JDdayPicker
               {...dayPickerHook}
               horizen={windowWidth < WindowSize.PHABLET}
+              mode="reservation"
             />
           </Card>
         </div>
@@ -204,7 +209,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
                   ))
                 ) : (
                   <Fragment>
-                    {roomLoading && <Preloader />}
+                    {<Preloader loading={roomLoading} />}
                     {roomLoading || (
                       <div className="JDtextcolor--placeHolder JDtext-align-center">
                         {roomCardMessage}
@@ -227,13 +232,14 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
           </Card>
           <Button onClick={handleResvBtnClick} label="예약하기" mode="long" />
         </div>
-        {/* <PaymentModal /> */}
       </div>
       <PayMentModal
         bookingCompleteFn={bookingCompleteFn}
         bookingInfo={bookingInfo}
         setBookingInfo={setBookingInfo}
         modalHook={rsevModalHook}
+        sendSmsHook={sendSmsHook}
+        isAdmin={isAdmin}
       />
       <JDtoastModal
         confirm
@@ -245,7 +251,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
   );
 };
 
-export default windowSize<IProps>(ErrProtecter(SetPrice));
+export default windowSize<IProps>(ErrProtecter(Reservation));
 
 // ifram for ~~
 {

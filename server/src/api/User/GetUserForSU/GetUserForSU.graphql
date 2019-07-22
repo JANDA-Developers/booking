@@ -1,8 +1,0 @@
-type GetUserForSUResponse {
-    ok: Boolean!
-    error: String
-    user: User
-}
-type Query {
-    GetUserForSU(userId: ID!): GetUserForSUResponse!
-}

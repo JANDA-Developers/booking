@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import {ErrProtecter} from "../../../utils/utils";
+import React, {useState, Fragment} from "react";
+import {ErrProtecter, isEmpty} from "../../../utils/utils";
 import JDSlider from "../../../atoms/slider/Slider";
 import Card from "../../../atoms/cards/Card";
 import JDbox from "../../../atoms/box/JDbox";
@@ -11,18 +11,55 @@ import InputText from "../../../atoms/forms/inputText/InputText";
 import JDLabel from "../../../atoms/label/JDLabel";
 import GreetingBox from "./components/greetingBox";
 import {MutationFn} from "react-apollo";
-import {updateHouse, updateHouseVariables} from "../../../types/api";
+import {updateHouse, updateHouseVariables, HouseType} from "../../../types/api";
 import {useInput} from "../../../actions/hook";
+import Button from "../../../atoms/button/Button";
+import Steps from "./components/steps";
+import JDmultiBox from "../../../atoms/multiBox/MultiBox";
+import JDmultiStep from "../../../atoms/multiStep/MultiStep";
+import {ProductStatus, Product} from "../../../types/enum";
 
 interface Iprops {
   userData: IUser;
-  house: IHouse;
+  house?: IHouse;
   updateHouseMu: MutationFn<updateHouse, updateHouseVariables>;
 }
 
+export type IStepsStart =
+  | "phoneVerification"
+  | "houseMake"
+  | "makeProduct"
+  | "readyAssign"
+  | "makeRoom"
+  | "done";
+
 // eslint-disable-next-line react/prop-types
 const DashBoard: React.SFC<Iprops> = ({updateHouseMu, userData, house}) => {
-  const hostMemo = useInput(house.hostMemo);
+  const hostMemo = useInput(
+    house ? house.hostMemo : "숙소생성후 이용해주세요."
+  );
+
+  let step: IStepsStart = "phoneVerification";
+
+  if (userData.isPhoneVerified) {
+    step = "houseMake";
+  }
+  if (house) {
+    step = "makeProduct";
+    if (house.product) {
+      step = "readyAssign";
+      if (
+        house.product.status !== ProductStatus.WAIT ||
+        house.product.name === Product.TEST
+      ) {
+        step = "makeRoom";
+        if (!isEmpty(house.roomTypes)) {
+          step = "done";
+        }
+      }
+    }
+  }
+
   return (
     <div className="docs-section--narrowTop">
       <div id="dashBoard" className="dashBoard">
@@ -30,9 +67,44 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, userData, house}) => {
           <DashBoardHeader />
           <div className="flex-grid dashBoard__section1">
             <div className="flex-grid__col col--wmd-12 col--full-9">
-              <Card fullHeight>
-                <h6>방배정현황</h6>
-                <DailyAssigWrap house={house} date={new Date()} />
+              <Card className="JDcard--fullHeight JDcard--fullHeight-wmd">
+                {step === "done" ? (
+                  <Fragment>
+                    <h6>방배정현황</h6>
+                    <DailyAssigWrap house={house!} date={new Date()} />
+                  </Fragment>
+                ) : (
+                  <div>
+                    <JDmultiStep
+                      steps={[
+                        {
+                          current: step === "phoneVerification",
+                          name: "핸드폰인증"
+                        },
+                        {
+                          current: step === "houseMake",
+                          name: "숙소생성"
+                        },
+                        {
+                          current: step === "makeProduct",
+                          name: "상품등록"
+                        },
+                        {
+                          current: step === "readyAssign",
+                          name: "적용대기"
+                        },
+                        {
+                          current: step === "makeRoom",
+                          name: "방생성"
+                        }
+                      ]}
+                    />
+                    <Steps
+                      houseId={house ? house._id : undefined}
+                      step={step}
+                    />
+                  </div>
+                )}
               </Card>
             </div>
             <div className="flex-grid__col col--wmd-12 col--full-3">
@@ -46,12 +118,13 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, userData, house}) => {
                   <Card fullWidth>
                     <InputText
                       onBlur={e => {
-                        updateHouseMu({
-                          variables: {
-                            houseId: house._id,
-                            hostMemo: e.currentTarget.value
-                          }
-                        });
+                        house &&
+                          updateHouseMu({
+                            variables: {
+                              houseId: house._id,
+                              hostMemo: e.currentTarget.value
+                            }
+                          });
                       }}
                       {...hostMemo}
                       label="메모"

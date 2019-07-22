@@ -26,23 +26,25 @@ const Config: React.FC<IProps> = ({updateHouseConfigMu, house}) => {
   return (
     <div id="Config" className="container config">
       <div className="flex-grid docs-section">
-        <div className="flex-grid__col col--full-4">
-          {additiones.map((addtion, index) => (
-            <Card key={s4()} selected={index === additionIndex} hoverDark>
-              <AddtionModule
-                setAdditionIndex={setAdditionIndex}
-                addtionInfo={addtion}
-                index={index}
-              />
-            </Card>
-          ))}
+        <div className="flex-grid__col col--full-4 col--md-12">
+          <div className="config__cardsWrap">
+            {additiones.map((addtion, index) => (
+              <Card key={s4()} selected={index === additionIndex} hoverDark>
+                <AddtionModule
+                  setAdditionIndex={setAdditionIndex}
+                  addtionInfo={addtion}
+                  index={index}
+                />
+              </Card>
+            ))}
+          </div>
         </div>
-        <div className=" flex-grid__col col--full-8">
+        <div className=" flex-grid__col col--full-8 col--md-12">
           <Sticky>
             <Card className="config__detailSection">
               {additionIndex === null ? (
                 <div>
-                  <h5>좌측에서 설정 항목을 선택하세요.</h5>
+                  <h5>원하는 설정 항목을 선택하세요.</h5>
                 </div>
               ) : (
                 <div>

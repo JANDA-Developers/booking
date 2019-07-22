@@ -21,10 +21,13 @@
     }
 
     .rct-dateHeader {
-        line-height: 30px;
         height: 100%;
         font-size: $typho-small;
         text-align:center;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
         &--today {
             font-weight: bold;

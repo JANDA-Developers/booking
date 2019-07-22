@@ -29,6 +29,8 @@ interface IProps extends IUseDayPicker {
   format?: string;
   lang?: string;
   maxLimit?: boolean;
+  showWeekEndColor?: boolean;
+  mode?: "reservation";
   canSelectBeforeDays?: boolean;
   inputComponent?: JSX.Element[] | JSX.Element;
   onChangeDate?(foo?: string | Date | null, foo2?: string | Date | null): void;
@@ -56,6 +58,8 @@ const JDdayPicker: React.SFC<IProps> = ({
   setEntered,
   maxLimit,
   readOnly,
+  mode,
+  showWeekEndColor = true,
   className
 }) => {
   const dayPickerFullWrap: any = useRef();
@@ -145,7 +149,9 @@ const JDdayPicker: React.SFC<IProps> = ({
   // 여기다가 클래스 적립
   const wrapClasses = classNames("DayPicker-box", className, {
     "DayPicker-box--inputComponent": inputComponent,
-    "DayPicker--readOnly": readOnly
+    "DayPicker--readOnly": readOnly,
+    "DayPicker--reservation": mode === "reservation",
+    "DayPicker--showWeekEndColor": showWeekEndColor
   });
 
   // 이건 순수하게 달력부분

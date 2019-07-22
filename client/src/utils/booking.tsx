@@ -3,7 +3,12 @@ import {arraySum} from "./elses";
 import isEmpty from "./isEmptyData";
 import {any, string, number} from "prop-types";
 import {IroomSelectInfoTable} from "../components/bookingModal/BookingModal";
-import {getAppliedPriceWithDateRange_GetAppliedPriceWithDateRange_roomPrices} from "../types/api";
+import {
+  getAppliedPriceWithDateRange_GetAppliedPriceWithDateRange_roomPrices,
+  getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices,
+  getRoomTypeDatePrices_GetRoomTypeDatePrices,
+  getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices
+} from "../types/api";
 import {ISeasonPrices, ISpecificPrices} from "../types/interface";
 import {applyDaysToArr} from "./utils";
 import moment from "moment";
@@ -28,6 +33,27 @@ type TProp2 = {
   price: number;
   [foo: string]: any;
 }[];
+
+// 모든 예약중 방타입에 대해서
+export const totalPriceGetAveragePrice = (
+  priceData: getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices[]
+): number => {
+  const averagePrice = arraySum(
+    priceData.map(data => getAveragePrice(data.datePrices || []))
+  );
+  return averagePrice;
+};
+
+// 하나의 방타입에 대해서만
+export const getAveragePrice = (
+  priceData: getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices[]
+): number => {
+  const averagePrice =
+    arraySum(priceData.map(priceD => priceD.price)) / priceData.length;
+
+  return averagePrice;
+};
+
 export const bookingPriceMerge = (bookings: TProp2): number =>
   arraySum(
     bookings.map(booking =>

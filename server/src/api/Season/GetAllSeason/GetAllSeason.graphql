@@ -1,8 +1,0 @@
-type GetAllSeasonResponse{
-    ok: Boolean!
-    error: String
-    seasons: [Season!]
-}
-type Query {
-    GetAllSeason(houseId: ID!): GetAllSeasonResponse!
-}

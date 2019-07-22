@@ -60,25 +60,27 @@ const BookingInfoBox: React.SFC<IProps> = ({
         textarea
         label="메모"
       />
-      <CheckBox
-        checked={bookingInfo.agreePrivacyPolicy}
-        onChange={(value: boolean) => {
-          setBookingInfo({...bookingInfo, agreePrivacyPolicy: value});
-        }}
-        id="JDbookingInfo__agreeMent"
-        label="개인정보 수집 동의"
-      />
-      <span
-        ref={tooltipRef}
-        data-place="top"
-        data-offset="{'top': 5, 'left': 0}"
-        data-tip
-        data-delay-hide={0}
-        data-for="agreePrivacyPolicy"
-        data-event="click"
-      >
-        <Button label="약관보기" mode="flat" thema="grey" />
-      </span>
+      <div className="bookerInfoBox__agreePolicyBox">
+        <CheckBox
+          checked={bookingInfo.agreePrivacyPolicy}
+          onChange={(value: boolean) => {
+            setBookingInfo({...bookingInfo, agreePrivacyPolicy: value});
+          }}
+          id="JDbookingInfo__agreeMent"
+          label="개인정보 수집 동의"
+        />
+        <span
+          ref={tooltipRef}
+          data-place="top"
+          data-offset="{'top': 5, 'left': 0}"
+          data-tip
+          data-delay-hide={0}
+          data-for="agreePrivacyPolicy"
+          data-event="click"
+        >
+          <Button label="약관보기" mode="flat" thema="grey" />
+        </span>
+      </div>
 
       <TooltipList
         scrollNodeClass="paymentModal"

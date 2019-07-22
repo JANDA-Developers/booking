@@ -9,6 +9,7 @@ import {CellInfo} from "react-table";
 import JDbadge, {BADGE_THEMA} from "../../../atoms/badge/Badge";
 import JDbox from "../../../atoms/box/JDbox";
 import {s4} from "../../../utils/utils";
+import moment from "moment";
 
 interface Iprops {
   setPage: any;
@@ -27,11 +28,18 @@ const SmsHistory: React.SFC<Iprops> = ({
     {
       Header: "번호",
       accessor: "index",
-      Cell: ({index}: CellInfo) => <span>{index}</span>
+      Cell: ({index}: CellInfo) => <span>{index + 1}</span>
     },
     {
       Header: "전송시간",
-      accessor: "createAt"
+      accessor: "createdAt",
+      Cell: ({value}: CellInfo) => (
+        <span>
+          {moment(value)
+            .local()
+            .format("YY-MM-DD HH:mm")}
+        </span>
+      )
     },
     {
       Header: "수신자",
@@ -46,7 +54,7 @@ const SmsHistory: React.SFC<Iprops> = ({
     {
       Header: "발신내용",
       accessor: "msg",
-      minWidth: 200,
+      minWidth: 300,
       Cell: ({value}: CellInfo) => (
         <div
           className={`JDscrool resvList__memo ${value &&
@@ -58,9 +66,13 @@ const SmsHistory: React.SFC<Iprops> = ({
       )
     },
     {
+      Header: "발신타입",
+      accessor: "msgType",
+      minWidth: 200
+    },
+    {
       Header: "자동발신 여부",
       accessor: "autoSendCase",
-      minWidth: 200,
       Cell: ({value}: CellInfo) => (
         <div
           className={`JDscrool smsHistory__msg ${value &&
@@ -90,7 +102,8 @@ const SmsHistory: React.SFC<Iprops> = ({
     <div id="smsHistory" className="smsHistory container container--lg">
       <div className="docs-section">
         <Fragment>
-          {loading && <Preloader />}
+          <h3>SMS 내역</h3>
+          <Preloader size="small" floating loading={loading} />
           <JDtable
             {...ReactTableDefault}
             columns={TableColumns}

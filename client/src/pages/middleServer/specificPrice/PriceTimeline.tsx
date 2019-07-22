@@ -15,19 +15,20 @@ import {
   createRoomPrice,
   createRoomPriceVariables,
   deleteRoomPrice,
-  deleteRoomPriceVariables
+  deleteRoomPriceVariables,
+  priceTimelineGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices
 } from "../../../types/api";
 import Preloader from "../../../atoms/preloader/Preloader";
 import {IItem} from "./PriceTimelineWrap";
 import InputText from "../../../atoms/forms/inputText/InputText";
 import {IUseDayPicker} from "../../../actions/hook";
 import JDdayPicker from "../../../atoms/dayPicker/DayPicker";
-import {setMidNight} from "../../../utils/utils";
-import {TimePerMs, GlobalCSS} from "../../../types/enum";
+import {setMidNight, autoComma} from "../../../utils/utils";
+import {TimePerMs, GlobalCSS, WindowSize} from "../../../types/enum";
 import Icon, {IconSize} from "../../../atoms/icons/Icons";
 import JDIcon from "../../../atoms/icons/Icons";
-
-const LAST_ROOMTYPE: any = "unRendered"; // 방들중에 방타입이 다른 마지막을 체크할것
+import reactWindowSize, {WindowSizeProps} from "react-window-size";
+import {ASSIG_VISIBLE_CELL_MB_DIFF} from "../assig/timelineConfig";
 
 interface IProps {
   items: IItem[] | undefined;
@@ -48,9 +49,10 @@ interface IProps {
   >;
   dataTime: {start: number; end: number};
   defaultTime: {start: number; end: number};
+  placeHolderMap: Map<any, any>;
 }
 
-const ModifyTimeline: React.FC<IProps> = ({
+const ModifyTimeline: React.FC<IProps & WindowSizeProps> = ({
   items,
   defaultProps,
   roomTypesData,
@@ -63,8 +65,13 @@ const ModifyTimeline: React.FC<IProps> = ({
   setDataTime,
   defaultTime,
   dayPickerHook,
+  placeHolderMap,
+  windowWidth,
   ...timelineProps
 }) => {
+  const isMobile = windowWidth <= WindowSize.MOBILE;
+  const isTabletDown = windowWidth <= WindowSize.TABLET;
+
   // 그룹 렌더
   const ModifyGroupRendererFn = ({group}: any) => {
     const roomType: IRoomType | undefined =
@@ -134,6 +141,7 @@ const ModifyTimeline: React.FC<IProps> = ({
       >
         <InputText
           defaultValue={priceMap.get(item.id)}
+          placeholder={autoComma(placeHolderMap.get(item.id))}
           onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
             handlePriceBlur(e.currentTarget.value, item);
           }}
@@ -181,7 +189,7 @@ const ModifyTimeline: React.FC<IProps> = ({
     <div id="specificPrice" className="specificPrice container container--full">
       <div className="docs-section">
         <h3>상세가격 수정</h3>
-        <p className="JDtextColor--secondary">
+        <p className="JDtextColor--point">
           * 해당 가격 수정은 모든 가격설정중 최우선 적용 됩니다.
         </p>
         <div className="flex-grid flex-grid--end">
@@ -196,10 +204,15 @@ const ModifyTimeline: React.FC<IProps> = ({
               groups={roomTypesData || []}
               onTimeChange={handleTimeChange}
               defaultTimeStart={defaultTime.start}
-              defaultTimeEnd={defaultTime.end}
+              defaultTimeEnd={
+                isTabletDown
+                  ? defaultTime.end - TimePerMs.DAY * ASSIG_VISIBLE_CELL_MB_DIFF
+                  : defaultTime.end
+              }
               itemRenderer={itemRendererFn}
               groupRenderer={ModifyGroupRendererFn}
               sidebarContent={modifySideBarRendererFn()}
+              sidebarWidth={isMobile ? 100 : 230}
             >
               <TimelineHeaders>
                 <SidebarHeader>
@@ -211,13 +224,34 @@ const ModifyTimeline: React.FC<IProps> = ({
                   )}
                 </SidebarHeader>
                 <DateHeader
+                  intervalRenderer={({
+                    getIntervalProps,
+                    intervalContext
+                  }: any) => {
+                    const isToday = intervalContext.interval.startTime.isSame(
+                      new Date(),
+                      "day"
+                    );
+                    return (
+                      <div
+                        className={`rct-dateHeader ${isToday &&
+                          "rct-dateHeader--today"}`}
+                        {...getIntervalProps()}
+                      >
+                        <div className="rct-dateHeader__inner">
+                          {intervalContext.intervalText
+                            .replace("요일,", ", ")
+                            .replace(/[0-9]{4}년/, "")}
+                        </div>
+                      </div>
+                    );
+                  }}
                   height={GlobalCSS.TIMELINE_HEADER_HEIGHT}
                   unit="day"
                 />
-                <DateHeader />
               </TimelineHeaders>
             </Timeline>
-            {loading && <Preloader />}
+            <Preloader size="large" loading={loading} />
           </div>
         </div>
       </div>
@@ -225,4 +259,4 @@ const ModifyTimeline: React.FC<IProps> = ({
   );
 };
 
-export default ErrProtecter(ModifyTimeline);
+export default reactWindowSize<IProps>(ErrProtecter(ModifyTimeline));

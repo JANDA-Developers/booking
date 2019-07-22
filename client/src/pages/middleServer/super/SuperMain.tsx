@@ -28,7 +28,7 @@ const SuperMain: React.SFC<Iprops> = ({
   <div id="superMain" className="container container--sm">
     <div className="docs-section">
       <Fragment>
-        {loading && <Preloader />}
+        <Preloader size="large" noAnimation loading={loading} />
         <div className="docs-section__box">
           {houseData.map((house: Ihouse) => (
             <HouseCard

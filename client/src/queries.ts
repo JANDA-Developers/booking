@@ -2,7 +2,7 @@ import gql from "graphql-tag";
 
 // 👿 Read This [https://www.apollographql.com/docs/react/advanced/fragments#fragment-matcher]
 // 지역에 관한 프레임
-const F_LOCATION = gql`
+export const F_LOCATION = gql`
     fragment FieldsLocation on House {
         location {
             address
@@ -12,7 +12,7 @@ const F_LOCATION = gql`
 `;
 
 // 룸타입 관련된 최소 프레임
-const F_MINI_ROOM_TYPE = gql`
+export const F_MINI_ROOM_TYPE = gql`
     fragment FminiRoomType on RoomType {
         _id
         name
@@ -21,8 +21,20 @@ const F_MINI_ROOM_TYPE = gql`
     }
 `;
 
+export const F_HOUSE = gql`
+    fragment Fhouse on House {
+        _id
+        name
+        houseType
+        publicKey
+        hostMemo
+        createdAt
+        updatedAt
+    }
+`
+
 // 룸타입 관련된 최소 프레임
-const F_HOUSE_CONFIG = gql`
+export const F_HOUSE_CONFIG = gql`
     fragment FhouseConfig on HouseConfig {
         assigTimeline {
             roomTypeTabEnable
@@ -31,12 +43,16 @@ const F_HOUSE_CONFIG = gql`
             enable
             period
         }
+        itemBlockOp {
+            itemBlockOpEnable
+            useColor
+        }
     }
 `;
 
 // 상품 관련 프레임
-const F_FULL_PRODUCT_TYPE = gql`
-    fragment FfullProdcutType on ProductType {
+export const F_PRODUCT_TYPE = gql`
+    fragment FprodcutType on ProductType {
         _id
         name
         price
@@ -52,18 +68,19 @@ const F_FULL_PRODUCT_TYPE = gql`
 `
 
 // 상품 관련 프레임
-const F_APP_INFO_REQUEST = gql`
+export const F_APP_INFO_REQUEST = gql`
     fragment FappInfoRequest on AppInfoRequest {
         url
         layoutType
         requestedDate
         isDone
+        useHostApp
     }
 `
 
 // 상품 관련 프레임
-const F_FULL_PRODUCT = gql`
-    fragment FfullProdcut on Product {
+export const F_PRODUCT = gql`
+    fragment Fprodcut on Product {
         _id
         name
         price
@@ -79,13 +96,14 @@ const F_FULL_PRODUCT = gql`
         canHaveHostApp
         existingHostApp
         description
+        status
         createdAt
         updatedAt
     }
 `;
 
 // sms 템플릿 관련된 프레임
-const F_SMS_TEMPLATE = gql`
+export const F_SMS_TEMPLATE = gql`
     fragment FsmsTemplate on SmsTemplate {
         _id
         formatName
@@ -99,7 +117,7 @@ const F_SMS_TEMPLATE = gql`
 `;
 
 // 모든 시즌에 관한 프레임
-const F_ALL_SEASON = gql`
+export const F_ALL_SEASON = gql`
     fragment FallSeason on Season {
         _id
         name
@@ -114,7 +132,7 @@ const F_ALL_SEASON = gql`
 `;
 
 // 페이지 정보에 관한 프레임
-const F_PAGE_INFO = gql`
+export const F_PAGE_INFO = gql`
     fragment FpageInfo on PageInfoOffsetBase {
         currentPage
         totalPage
@@ -123,7 +141,7 @@ const F_PAGE_INFO = gql`
 `;
 
 // SMS sender 와 관련된 프레임
-const F_SMS_SENDER = gql`
+export const F_SMS_SENDER = gql`
     fragment FsmsSender on SmsSender {
         phoneNumber
         verified
@@ -131,8 +149,23 @@ const F_SMS_SENDER = gql`
     }
 `;
 
+// sms History
+export const F_SMS_HISTORY = gql`
+    fragment FsmsHistory on SmsHistory {
+        _id
+        msg
+        sender
+        receivers
+        sendResult
+        autoSend
+        msgType
+        createdAt
+        updatedAt
+    }
+`;
+
 // 방타입에 관한 프레임 
-const F_ROOMTYPE = gql`
+export const F_ROOMTYPE = gql`
     fragment FroomType on RoomType {
         _id
         name
@@ -153,7 +186,7 @@ const F_ROOMTYPE = gql`
 `;
 
 // 예약가능한 인원 프레임
-const F_AVAILABLE_PEOPLE_COUNT = gql`
+export const F_AVAILABLE_PEOPLE_COUNT = gql`
     fragment FavailablePeopleCount on AvailablePeopleCount {
         countAny
         countFemale
@@ -162,7 +195,7 @@ const F_AVAILABLE_PEOPLE_COUNT = gql`
 `;
 
 // 예약에 관한 정보프레임
-const F_BOOKING = gql`
+export const F_BOOKING = gql`
     fragment Fbooking on Booking {
         _id
         roomTypes {
@@ -191,7 +224,7 @@ const F_BOOKING = gql`
 `;
 
 //  방에대한 정보 프레임
-const F_ROOM = gql`
+export const F_ROOM = gql`
     fragment Froom on Room {
         _id
         name
@@ -205,8 +238,13 @@ const F_ROOM = gql`
     }
 `;
 
+export const F_BLOCK_OP = gql`
+    fragment FblockOp on BlockOption {
+        color
+    }
+    `
 // 게스트에 관한 정보 프레임(방정보 포함)
-const F_GUEST = gql`
+export const F_GUEST = gql`
     fragment Fguest on Guest {
         _id
         allocatedRoom {
@@ -234,7 +272,7 @@ const F_GUEST = gql`
 `;
 
 // 에약가능 인원 관련 프레임
-const F_ROOM_CAPACITY = gql`
+export const F_ROOM_CAPACITY = gql`
     fragment FroomTypeCapacity on RoomTypeCapacity {
         roomTypeId
         pricingType
@@ -252,8 +290,9 @@ const F_ROOM_CAPACITY = gql`
     }
     ${F_AVAILABLE_PEOPLE_COUNT}
 `;
+
 // 유저 기본적인 정보 프레임
-const F_USER_INFO = gql`
+export const F_USER_INFO = gql`
     fragment FieldsUser on User {
         _id
         name
@@ -265,41 +304,9 @@ const F_USER_INFO = gql`
         checkPrivacyPolicy
         userRole
         userRoles
-        houses {
-            houseConfig {
-                ...FhouseConfig
-            }
-            smsInfo {
-                _id
-            }
-            roomTypes {
-                _id
-            }
-            appInfo {
-                url
-            }
-            product {
-                _id
-                name
-                productType {
-                    _id
-                }
-            }
-            _id
-            name
-            hostMemo
-            houseType
-            location {
-                address
-                addressDetail
-            }
-            createdAt
-            updatedAt
-        }
         createdAt
         updatedAt
     }
-    ${F_HOUSE_CONFIG}
 `;
 
 
@@ -349,7 +356,7 @@ export const GET_HOUSE_SPECIFICATION = gql`
                     url
                 }
                 product {
-                    ...FfullProdcut
+                    ...Fprodcut
                     appInfoRequested {
                         ...FappInfoRequest
                     }
@@ -372,7 +379,7 @@ export const GET_HOUSE_SPECIFICATION = gql`
             }
         }
     }
-    ${F_FULL_PRODUCT}
+    ${F_PRODUCT}
     ${F_APP_INFO_REQUEST}
 `;
 
@@ -383,14 +390,7 @@ export const GET_SMS_HISTORY = gql`
             ok
             error
             smsHistories {
-                    _id
-                    msg
-                    sendResult
-                    sender
-                    receivers
-                    createdAt
-                    updatedAt
-                    autoSend
+                ...FsmsHistory
             }
             pageInfo {
                 ...FpageInfo
@@ -398,6 +398,7 @@ export const GET_SMS_HISTORY = gql`
         }
     }
     ${F_PAGE_INFO}
+    ${F_SMS_HISTORY}
 `
 
 // 방타입 :: 아이디로서 조회
@@ -456,10 +457,48 @@ export const GET_USER_INFO = gql`
         GetMyProfile {
             user {
                 ...FieldsUser
+                houses {
+                    houseConfig {
+                        ...FhouseConfig
+                    }
+                    smsInfo {
+                        _id
+                    }
+                    roomTypes {
+                        _id
+                    }
+                    appInfo {
+                        url
+                    }
+                    product {
+                        ...Fprodcut
+                        productType {
+                            _id
+                        }
+                        appInfoRequested { 
+                            ...FappInfoRequest
+                        }
+                    }
+                    ...Fhouse
+                    _id
+                    name
+                    hostMemo
+                    houseType
+                    location {
+                        address
+                        addressDetail
+                    }
+                    createdAt
+                    updatedAt
+                }
             }
         }
     }
+    ${F_HOUSE}
     ${F_USER_INFO}
+    ${F_PRODUCT}
+    ${F_APP_INFO_REQUEST}
+    ${F_HOUSE_CONFIG}
 `;
 
 // 슈퍼계정 :: 모든집 가져오기
@@ -587,6 +626,52 @@ export const GET_GUESTS = gql`
     ${F_GUEST}
 `;
 
+
+// 방타입 :: 모든 방타입 가격 가져오기
+export const PRICE_TIMELINE_GET_PRICE = gql`
+  query priceTimelineGetPrice(
+    $houseId: ID!
+    $start: DateTime!
+    $end: DateTime!
+  ) {
+    GetRoomTypeDatePrices(houseId:$houseId, start: $start, end: $end) {
+      ok
+      error
+      roomTypeDatePrices {
+        roomType {
+          ...FroomType
+        }
+        datePrices {
+          date
+          price
+        }
+      }
+    }
+    GetAllRoomType(houseId: $houseId) {
+      ok
+      error
+      roomTypes {
+        ...FminiRoomType
+      }
+    }
+    GetAllRoomPrice(houseId: $houseId, start: $start, end: $end) {
+      ok
+      error
+      roomPrices {
+        _id
+        price
+        date
+        roomType {
+          _id
+        }
+      }
+    }
+  }
+  ${F_ROOMTYPE}
+  ${F_MINI_ROOM_TYPE}
+`;
+
+
 // 예약 :: 예약가능한 인원 가져오기 (호스트용)
 export const GET_AVAILABLE_GUEST_COUNT = gql`
     query getAvailableGuestCount(
@@ -708,6 +793,54 @@ export const FIND_BOOKING_FOR_BOOKER = gql`
     ${F_MINI_ROOM_TYPE}
 `;
 
+export const GET_ROOM_TYPE_DATE_PRICE_FOR_BOOKER = gql`
+    query getRoomTypeDatePricesForBooker(
+        $start: DateTime!
+        $end: DateTime!
+        $roomTypeIds: [ID!]
+    ) {
+        GetRoomTypeDatePricesForBooker(start: $start, end:$end, roomTypeIds:$roomTypeIds) {
+            ok
+            error
+            roomTypeDatePrices {
+                roomType {
+                    ...FroomType
+                }
+                datePrices {
+                    date
+                    price
+                }
+            }
+        }
+    }
+    ${F_ROOMTYPE}
+`
+
+export const GET_ROOM_TYPE_DATE_PRICE = gql`
+    query getRoomTypeDatePrices(
+        $start: DateTime!
+        $end: DateTime!
+        $roomTypeIds: [ID!]
+        $houseId: ID!
+    ) {
+        GetRoomTypeDatePrices(start: $start, end:$end, roomTypeIds:$roomTypeIds, houseId: $houseId) {
+            ok
+            error
+            roomTypeDatePrices {
+                roomType {
+                    ...FroomType
+                }
+                datePrices {
+                    date
+                    price
+                }
+            }
+        }
+    }
+    ${F_ROOMTYPE}
+`
+
+
 // ⭐️방배정!!
 // 방배정 :: 모든 방막기 + 모든 방타입 + 모든 게스트 가져오기!!
 export const GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM = gql`
@@ -750,6 +883,9 @@ export const GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM = gql`
             error
             guests {
                 ...Fguest
+                blockOption {
+                    ...FblockOp
+                }
                 roomType {
                     _id
                     index
@@ -786,6 +922,7 @@ export const GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM = gql`
     }
     ${F_GUEST}
     ${F_MINI_ROOM_TYPE}
+    ${F_BLOCK_OP}
 `;
 
 // 방타입 :: 모든 방타입 가격 가져오기
@@ -826,10 +963,60 @@ export const GET_USER_FOR_SU = gql`
             error
             user {
                 ...FieldsUser
+                houses {
+                    houseConfig {
+                        ...FhouseConfig
+                    }
+                    smsInfo {
+                        _id
+                    }
+                    roomTypes {
+                        _id
+                    }
+                    appInfo {
+                        url
+                    }
+                    product {
+                        ...Fprodcut
+                        productType {
+                            _id
+                        }
+                        appInfoRequested { 
+                            ...FappInfoRequest
+                        }
+                    }
+                    _id
+                    name
+                    hostMemo
+                    houseType
+                    location {
+                        address
+                        addressDetail
+                    }
+                    createdAt
+                    updatedAt
+                }
             }
         }
     }
     ${F_USER_INFO}
+    ${F_PRODUCT}
+    ${F_APP_INFO_REQUEST}
+    ${F_HOUSE_CONFIG}
+`;
+
+// 배정 ::블록 옵션 설정
+export const UPDATE_BLOCK_OPTION = gql`
+    mutation updateBlockOption(
+        $guestId: ID!
+        $blockOption: BlockOptionInput!
+        $applyWithBooking: Boolean!
+    ) {
+        UpdateBlockOption(guestId:$guestId, blockOption: $blockOption, applyWithBooking:$applyWithBooking) {
+            ok
+            error
+        }
+    }
 `;
 
 // 다큐먼트 ::  모든 README 패스 가져오기
@@ -1093,6 +1280,9 @@ export const CREATE_BOOKING_FOR_BOOKER = gql`
         ) {
             ok
             error
+            booking {
+                _id
+            }
         }
     }
 `;
@@ -1656,6 +1846,19 @@ export const SEND_SMS = gql`
                 successCnt
                 errorCnt
             }
+        }
+    }
+`;
+
+// 발신자 등록 (현재안쓰임)
+export const UPDATE_PRODUCT_FOR_SU = gql`
+    mutation updateProductForSU(
+        $productId: ID!
+        $params: UpdateProductParams!
+    ) {
+        UpdateProductForSU(productId: $productId, params: $params) {
+            ok
+            error
         }
     }
 `;

@@ -1,8 +1,0 @@
-type DeleteHouseResponse {
-    ok: Boolean!
-    error: String
-}
-
-type Mutation {
-    DeleteHouse(_id: String!): DeleteHouseResponse!
-}

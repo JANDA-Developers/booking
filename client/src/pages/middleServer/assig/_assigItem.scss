@@ -1,0 +1,211 @@
+// 🍓 배정아이템
+.assigItem {
+    $B: '.assigItem';
+    cursor: pointer;
+    z-index: $z-index-8;
+    background-color: $assigItem-normalStatus-color;
+    color:white;
+    @extend %z-depth-half;
+    box-sizing: border-box;
+    position: relative;
+    font-size: $typho-small;
+    @include response($mobile) {
+        font-size: $typho-tiny;
+    }
+    
+    &__title {
+        padding: .1rem;
+        border-radius: $standard-border-radius;
+    }
+
+    &--searched {
+        background-color: #FF9632;
+    }
+
+    // 😲 체크인된
+    &--checkIn {
+        background-color: $assigItem-checkIn-color;
+        color: $html-color;
+        #{$B}__gender {
+            &--female {
+                color: $female-color;
+            }
+            &--male {
+                color: $male-color;
+            }
+        }   
+    }
+    // 😲 선택된
+    &--selected {
+        border-color: $primary-color;
+        border-right-width: $assigItem-padding!important;
+        border-right-style: ridge!important;
+        border: $assigItem-selected-linked-border;
+
+        #{$B}__rightHandler {
+            cursor: e-resize!important;
+            right: -$assigItem-selected-linked-border-thick;
+        }
+    }
+    // 😲 선택된것과 관련된
+    &--linkedSelected {
+        color: $html-color;
+        background-color: $assigItem-linked-bgColor;
+        border: $assigItem-selected-linked-border;
+
+        #{$B}__configIconWrap {
+            &:hover {
+                color: $grey-level3;
+            }
+        }
+        #{$B}__gender {
+            &--female {
+                color: $female-color;
+            }
+            &--male {
+                color: $male-color;
+            }
+        }
+    }
+    // 😲 링크선택 && 체크인된
+    &--linkedSelected.assigItem--checkIn {
+        background-color: $assigItem-checkIn-color;
+    }
+    // 😲 
+    &--linkedSelected#{&}--unAllocated {
+    }
+    // 😲 움직이는 중인
+    &--moving {
+        opacity: 0.3;
+        box-shadow:none;
+    }
+
+    // 스틱키는 이위에 랩에서 걸려있음
+    &__titleWrap {
+        box-sizing: border-box;
+        // 이렇게 해야 sticky가 올바르게 동작 + 20은 아이콘 계수
+        padding-right: $assigItem-padding + 16px;
+        white-space: pre-line;
+        line-height: 1;
+        border-radius: $standard-border-radius;
+        display:flex;
+        align-items: center;
+        height: 100%;
+
+        @include response($mobile) {
+            width: 100%;
+            padding-right:0;
+        }
+    }
+
+    &__gender {
+        color:white;
+        margin-right: $assigItem-padding;
+    }
+
+    &__content {
+        align-items: center;
+        padding: 0px $assigItem-padding;
+        height: 100%;
+        white-space: nowrap;
+        
+        .circleIcon {
+            margin: 0;
+            max-height: 100%;
+            vertical-align: baseline;
+        }
+        
+        @include response($mobile) {
+            padding: 0px $assigItem-padding /2;
+        }
+    }
+    
+    &__configIconWrap {
+        position:absolute;
+        z-index: $z-index-1;
+        right: $assigItem-padding;
+        top: 0;
+        height: 100%;
+        display: flex;
+        align-items: end;
+        font-size:0;
+        cursor: pointer;
+
+        &:hover {
+            color: $grey-level1;
+            border: 1px solid $grey-opacity1;
+            border-radius:$standard-border-radius;
+        }
+
+        @include response($mobile) {
+            opacity: 0;
+            width: 0px;
+        }
+    }
+    &__validateMarker {
+        position: absolute;
+        background-color: $error-color;
+        z-index: -1;
+        top: 0;
+        bottom:0;
+    }
+    // 😲 방막기일떄
+    &--block {
+        background-color: $assigItem-block-color;
+        color:white;
+        // X 버튼
+        .circleIcon {
+            color:white;
+        }
+    }
+    // 😲 방막기 선택된
+    &--block.assigItem--selected {
+        background-color: $html-color;
+        border-top:0;
+        border-left:0;
+        border-bottom:0;
+        color:white;
+    }
+    // 😲 마킹
+    &--mark {
+        background-color: $assigItem-mark-bgColor;
+        pointer-events: none; 
+        // 👿 
+        height: 36px!important;
+        border: $assigItem-selected-linked-border;
+        @extend %z-depth-2;
+    }
+    // 😲 생성
+    &--make {
+        background-color: $point-color;
+        border-color: $point-color;
+        color:white;
+
+        #{$B}__gender {
+            &--female {
+                color: white;
+            }
+            &--male {
+                color: white;
+            }
+        }
+
+        &.assigItem--linkedSelected {
+            background-color: $assigItem-linked-bgColor;
+            color: $html-color;
+
+            #{$B}__gender {
+                &--female {
+                    color: $female-color;
+                }
+                &--male {
+                    color: $male-color;
+                }
+            }
+
+            .circleIcon {
+                color: $html-color;
+            }
+        }
+    }
+}

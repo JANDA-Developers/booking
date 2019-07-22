@@ -70,4 +70,14 @@ export const numberToStrings = (number: number, merge?: string): string | string
   return applyDaysLang;
 };
 
+export const koreaToNumber = (foo:string) => {
+  if(foo === "일") return 0
+  if(foo === "월") return 1
+  if(foo === "화") return 2
+  if(foo === "수") return 3
+  if(foo === "목") return 4
+  if(foo === "금") return 5
+  if(foo === "토") return 6
+}
+
 export { JDMonthTextChanger, JDWeekChanger };

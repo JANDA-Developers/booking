@@ -1,0 +1,60 @@
+@import "../../style_config/style_config";
+
+#root {
+    .rc-menu {
+        padding: 0;
+        box-shadow: none;
+        border: none;
+        border-radius: 0px;
+    }
+
+    .rc-menu-item {
+        padding: 0;
+        padding-left:0!important;
+    }
+    .rc-menu-submenu-title {
+        padding: 0;
+        padding-left: 0!important;
+        color: $html-color;
+    }
+
+    .rc-menu-submenu {
+        .rc-menu {
+            .JDsideNav__navLink  {
+                padding-left: $sideNav-list-padding *2;
+            }
+        }
+    }
+}
+
+#root {
+    .JDmenu--sideNav {
+        .JDsideNav-curtain {
+            position: fixed;
+            top:0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            transition: background-color 0.3s;
+            z-index: $z-index-9;
+            visibility: hidden;
+            background-color: rgba(0,0,0,0);
+            &--open {
+                visibility: visible;
+                background-color: $sideNav-curtain-color;
+            }
+        }
+
+        .rc-menu-submenu-title {
+            border-bottom: 1px solid $grey-level1;
+            padding-left: $sideNav-list-padding!important;
+            height: $sideNav-list-li-height;
+            display:flex;
+            align-items: center;
+        }
+
+        .rc-menu-submenu-active .rc-menu-submenu-title {
+            background-color: $grey-level1;
+        }
+    }
+}

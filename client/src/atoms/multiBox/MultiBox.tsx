@@ -9,9 +9,9 @@ interface IProps {
   selectedValue: string[];
   value: string[];
   onChange: (value: string[]) => void;
-  withAllToogler: boolean;
-  defaultAllToogle: boolean;
-  withAllTooglerLabel: string;
+  withAllToogler?: boolean;
+  defaultAllToogle?: boolean;
+  withAllTooglerLabel?: string;
 }
 
 const JDmultiBox: React.FC<IProps> = ({
@@ -68,4 +68,3 @@ const JDmultiBox: React.FC<IProps> = ({
 };
 
 export default JDmultiBox;
-

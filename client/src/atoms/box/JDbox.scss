@@ -2,6 +2,15 @@
 
 #root,.ReactModalPortal {
     .JDbox {
+
+        &--photoFrame {
+            border: 1px solid $grey-opacity1;
+            border-radius: $standard-border-radius;
+            padding:$standard-padding;
+            img {
+                width: 100%;
+            }
+        }
         
         &__label {
             font-size: $typho-tiny;
@@ -65,7 +74,7 @@
         &--border {
             border-radius: $standard-border-radius;
             padding: $standard-padding;
-            border: 1px solid $standard-outborder-color;
+            border: 1px solid $grey-level1;
         }
         
         &--standard {

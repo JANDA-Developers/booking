@@ -1,18 +1,23 @@
 import React from "react";
 import moment from "moment";
-import {IUseModal} from "../../../../actions/hook";
+import {IUseModal, useModal} from "../../../../actions/hook";
 import Card from "../../../../atoms/cards/Card";
 import ProfileCircle from "../../../../atoms/profileCircle/ProfileCircle";
 import Button from "../../../../atoms/button/Button";
 import Badge, {BADGE_THEMA} from "../../../../atoms/badge/Badge";
 import {autoHypen} from "../../../../utils/utils";
+import SpecificAtion from "../../../../components/specification/Specification";
+import JDmodal from "../../../../atoms/modal/Modal";
+import SpecificAtionWrap from "../../../../components/specification/SpecificationWrap";
+import {getHousesForSU_GetHousesForSU_houses} from "../../../../types/api";
 
 interface IProps {
   userModal: IUseModal;
-  houseData: any;
+  houseData: getHousesForSU_GetHousesForSU_houses;
 }
 
 const HouseCard: React.SFC<IProps> = ({userModal, houseData}) => {
+  const specificationModalHook = useModal(false);
   const getBadgeInfo = () => {
     const badgeInfoes = [];
 
@@ -54,13 +59,23 @@ const HouseCard: React.SFC<IProps> = ({userModal, houseData}) => {
         <div className="flex-grid__col col--full-3">
           <div className="houseCard__product">
             {houseData.product ? (
-              <Button mode="flat" thema="grey" label={houseData.product.name} />
+              <Button
+                mode="flat"
+                thema="grey"
+                onClick={() => {
+                  specificationModalHook.openModal();
+                }}
+                label={houseData.product.name}
+              />
             ) : (
               <Button mode="flat" thema="grey" label="상품없음" />
             )}
           </div>
         </div>
       </div>
+      <JDmodal {...specificationModalHook}>
+        <SpecificAtionWrap houseId={houseData._id} isAdmin={true} />
+      </JDmodal>
     </Card>
   );
 };

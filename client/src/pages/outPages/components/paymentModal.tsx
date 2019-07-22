@@ -8,6 +8,7 @@ import BookingInfoBox from "./bookerInfoBox";
 import {BookerInput} from "../../../types/api";
 import {ISetBookingInfo} from "../reservation/Reservation";
 import {PAYMETHOD_FOR_BOOKER_OP} from "../../../types/enum";
+import CheckBox from "../../../atoms/forms/checkBox/CheckBox";
 
 interface IProps {
   className?: string;
@@ -15,6 +16,11 @@ interface IProps {
   bookingInfo: BookerInput;
   setBookingInfo: ISetBookingInfo;
   bookingCompleteFn(): void;
+  isAdmin: boolean;
+  sendSmsHook: {
+    checked: boolean;
+    onChange: (value: boolean) => void;
+  };
 }
 
 const PayMentModal: React.SFC<IProps> = ({
@@ -22,7 +28,9 @@ const PayMentModal: React.SFC<IProps> = ({
   modalHook,
   bookingInfo,
   setBookingInfo,
-  bookingCompleteFn
+  bookingCompleteFn,
+  sendSmsHook,
+  isAdmin
 }) => {
   const classes = classNames("paymentModal", className, {});
   const payMethodHook = useSelect(PAYMETHOD_FOR_BOOKER_OP[0]);
@@ -48,6 +56,7 @@ const PayMentModal: React.SFC<IProps> = ({
             setBookingInfo={setBookingInfo}
           />
         </div>
+        {isAdmin && <CheckBox {...sendSmsHook} label="SMS전송" />}
         <div className="JDmodal__endSection">
           <Button
             thema="primary"

@@ -7,6 +7,30 @@
         right: 0px;
     }
 
+    &__cardsWrap {
+        max-width: 100%;
+        overflow: auto;
+
+        margin-bottom: 2%;
+
+        @extend %JDscrollbar;
+
+        @include response($phablet) {
+            display:flex;
+
+            .JDcard {
+                max-width: 33%;
+                min-width: 33%;
+                margin-right: $standard-space;
+                margin-bottom: 0;
+            }
+
+            .addtionModule__updateAt {
+                display: none;
+            }
+        }
+    }
+
     .additionDetail {
 
         &__titleTopRight {

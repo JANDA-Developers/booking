@@ -8,9 +8,7 @@ import {
   useInput
 } from "../../../../actions/hook";
 import Button from "../../../../atoms/button/Button";
-import CircleIcon from "../../../../atoms/circleIcon/CircleIcon";
 import Radio from "../../../../atoms/forms/radio/Radio";
-import Card from "../../../../atoms/cards/Card";
 import InputText from "../../../../atoms/forms/inputText/InputText";
 import LayoutCards from "./layoutCard/LayoutCards";
 import JDLabel from "../../../../atoms/label/JDLabel";
@@ -19,6 +17,7 @@ import {LayoutType} from "../../../../types/enum";
 import {isUrl} from "../../../../utils/inputValidations";
 
 interface IProps {
+  isSelectExMode: boolean;
   modalHook: IUseModal;
   additionHook: [
     IAdditionHook,
@@ -27,18 +26,40 @@ interface IProps {
 }
 
 // ❕ 어차피 버튼 눌러서 수정할거니까 전부 STATE 에 하면됨
-const AdditionModal: React.FC<IProps> = ({modalHook, additionHook}) => {
+const AdditionModal: React.FC<IProps> = ({
+  modalHook,
+  additionHook,
+  isSelectExMode
+}) => {
   const [additionValue, setAdditionValue] = additionHook;
-  const {useLayout, url, layoutType} = additionValue;
+  let {useLayout, url, layoutType} = additionValue;
 
   const handleUseLayoutRadio = (value: boolean) => {
     setAdditionValue({...additionValue, useLayout: value});
   };
 
+  const validation = () => {
+    // if (useLayout && !isUrl(url)) {
+    // toast.warn("올바른 URL이 아닙니다.");
+    // return false;
+    // }
+    return true;
+  };
+
   return (
     <Modal className="JDproduct__addtionModal" {...modalHook}>
       <div>
-        <h5>홈페이지를 신청하시겠습니까?</h5>
+        {isSelectExMode ? (
+          <h5>
+            잔다 고객분들에게 무료 홈페이지를 제공합니다. <br />
+            잔다 홈페이지를 살펴보세요.
+          </h5>
+        ) : (
+          <h5>
+            잔다 고객분들에게 무료 홈페이지를 제공합니다. <br />
+            홈페이지를 신청하시겠습니까?
+          </h5>
+        )}
         <Radio
           selectedValue={useLayout}
           onChange={handleUseLayoutRadio}
@@ -66,14 +87,16 @@ const AdditionModal: React.FC<IProps> = ({modalHook, additionHook}) => {
                 }}
               />
             </div>
-            <InputText
-              placeholder="http://"
-              validation={isUrl}
-              label="신청URL"
-              onChange={(value: string) => {
-                setAdditionValue({...additionValue, url: value});
-              }}
-            />
+            {isSelectExMode || (
+              <InputText
+                placeholder="http://"
+                validation={isUrl}
+                label="신청URL"
+                onChange={(value: string) => {
+                  setAdditionValue({...additionValue, url: value});
+                }}
+              />
+            )}
           </div>
         )}
         <div className="JDmodal__endSection">
@@ -82,8 +105,10 @@ const AdditionModal: React.FC<IProps> = ({modalHook, additionHook}) => {
             thema="primary"
             label="신청완료"
             onClick={() => {
-              modalHook.info.prodcutMu();
-              modalHook.closeModal();
+              if (validation()) {
+                modalHook.info.prodcutMu();
+                modalHook.closeModal();
+              }
             }}
           />
         </div>

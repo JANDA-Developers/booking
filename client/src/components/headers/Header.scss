@@ -92,7 +92,7 @@
     }
     
     // 셀렉트박스 조정
-    .JDselect {
+    &__selectHouse {
         width: 200px;
         margin-bottom: 0;
         margin:0;
@@ -152,5 +152,14 @@
             left: auto;
             right: 4px;
         }
+    }
+    #root .JDselect .react-select-container .react-select__contr {
+        border: none;
+    }
+
+    .JDsearchInput__input {
+        background-color: white;
+        box-shadow: none;
+        border:none;
     }
 }

@@ -5,6 +5,7 @@
 html {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   color: $html-color;
+  font-size: 0.9rem;
 }
 
 h1,
@@ -16,72 +17,48 @@ h6 {
   margin-top: 0;
   font-weight: 400;
   word-wrap: break-word;
-  line-height: 110%;
+  line-height: 120%;
 }
 
 h1 {
-  font-size: 4.0rem;
+  font-size: 3.5rem;
   letter-spacing: -.1rem;
-  margin-bottom: 2.7rem
+  margin-bottom: 2.5rem
 }
 
 h2 {
-  font-size: 3.6rem;
+  font-size: 3rem;
   letter-spacing: -.1rem;
-  margin-bottom: 2.4rem
+  margin-bottom: 2rem
 }
 
 h3 {
-  font-size: 3.0rem;
+  font-size: 2.4rem;
   letter-spacing: -.1rem;
-  margin-bottom: 1.6rem
+  margin-bottom: 1.5rem
 }
 
 h4 {
-  font-size: 2.4rem;
+  font-size: 2rem;
   letter-spacing: -.08rem;
-  margin-bottom: 1.4rem
+  margin-bottom: 1.1rem
 }
 
 h5 {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   letter-spacing: -.05rem;
-  margin-bottom: 1.0rem
+  margin-bottom: 0.8rem
 }
 
 h6 {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   letter-spacing: 0;
-  margin-bottom: 1.0rem
+  margin-bottom: 0.5rem
 }
 
 // 타블렛 이상일때
 @mixin response ($full,$tablet) {
   html {
     font-size: 0.8rem;
-  }
-
-  h1 {
-    font-size: 5.0rem;
-  }
-
-  h2 {
-    font-size: 4.2rem;
-  }
-
-  h3 {
-    font-size: 3.6rem;
-  }
-
-  h4 {
-    font-size: 3.0rem;
-  }
-
-  h5 {
-    font-size: 2.4rem;
-  }
-
-  h6 {
-    font-size: 1.5rem;
   }
 }

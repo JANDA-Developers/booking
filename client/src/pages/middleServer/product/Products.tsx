@@ -29,7 +29,7 @@ interface IProps {
   checkMutation: any;
 }
 
-// currentProduct : 현재 적용중인 상품
+// currentProduct : 현재 적용중인 서비스
 const Products: React.FC<IProps> = ({
   refundMutation,
   productMutation,
@@ -127,10 +127,8 @@ const Products: React.FC<IProps> = ({
               </span>
             ) : (
               <Fragment>
-                {"* 선택하신 상품은 숙소 "}
-                <span className="JDtextColor--secondary">
-                  {selectedHouse.name}
-                </span>
+                {"* 선택하신 서비스는 숙소 "}
+                <span className="JDtextColor--point">{selectedHouse.name}</span>
                 {" 에 적용됩니다."}
               </Fragment>
             )}
@@ -143,31 +141,32 @@ const Products: React.FC<IProps> = ({
             thema="primary"
             label="선택완료"
           />
-          {/* 상품해지 버튼 */}
+          {/* 서비스해지 버튼 */}
           {currentProduct && currentProduct._id && (
             <Button
               onClick={refundModal.openModal}
               disabled={isEmpty(selectedHouse)}
               thema="warn"
-              label="상품해지"
+              label="서비스해지"
             />
           )}
         </div>
       </div>
-      {/* 무료상품 시작 */}
+      {/* 무료서비스 시작 */}
       <ExperienceModal modalHook={exModalHook} />
       {/* 리펀트 시작 */}
-      <Modal {...refundModal} center>
+      <Modal className="refundModal" {...refundModal}>
         <h6>서비스 해지</h6>
         <p>
           <RefundPolicyNode />
         </p>
+        <h6>서비스 해지 신청은 상담전화를 통해 요청바람니다.</h6>
         <div className="JDmodal__endSection">
           {/* <Button
             onClick={refundMutation}
             disabled={isEmpty(selectedHouse)}
             thema="warn"
-            label="상품해지"
+            label="서비스해지"
             mode="flat"
           /> */}
           <Button onClick={refundModal.closeModal} label="닫기" mode="flat" />

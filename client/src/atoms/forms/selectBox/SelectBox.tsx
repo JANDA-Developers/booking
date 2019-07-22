@@ -33,6 +33,7 @@ interface Iprops extends SelectComponentsProps {
   textOverflow?: "visible" | "hidden";
   mode?: "small";
   size?: SelectBoxSize;
+  background?: "white";
 }
 
 const JDselect: React.SFC<Iprops> = ({
@@ -49,6 +50,7 @@ const JDselect: React.SFC<Iprops> = ({
   defaultValue,
   placeholder,
   textOverflow,
+  background,
   // eslint-disable-next-line no-unused-vars
   ...props
 }) => {
@@ -66,6 +68,7 @@ const JDselect: React.SFC<Iprops> = ({
   const classes = classNames("JDselect", className, {
     "JDselect--disabled": disabled,
     "JDselect--small": mode === "small",
+    "JDselect--bg": background === "white",
     "JDselect--textOverflowVisible": textOverflow === "visible"
   });
 

@@ -1,9 +1,0 @@
-type EmailSignInResponse {
-    ok: Boolean!
-    error: String
-    token: String
-}
-
-type Query {
-    EmailSignIn(email: EmailAddress!, password: Password!): EmailSignInResponse!
-}

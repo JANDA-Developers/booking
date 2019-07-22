@@ -15,13 +15,13 @@ interface IProps extends React.HTMLAttributes<HTMLButtonElement> {
   iconClasses?: string[];
   dataTip?: any;
   dataFor?: any;
-  mode?: "flat" | "normal" | "long";
+  mode?: "flat" | "normal" | "long" | "border";
   size?: "small" | "large";
   flat?: boolean;
   float?: string;
   type?: "button" | "submit" | "reset" | undefined;
   color?: string;
-  thema?: "primary" | "grey" | "secondary" | "warn" | "normal";
+  thema?: "primary" | "grey" | "point" | "warn" | "normal";
   pulse?: boolean;
   blink?: boolean;
   toggle?: boolean;
@@ -59,12 +59,13 @@ const Button: React.FC<IProps> = ({
     "JDbtn--small": size === "small",
     "JDbtn--large": size === "large",
     "JDbtn--long": mode === "long",
+    "JDbtn--border": mode === "border",
     "JDbtn--left": float === "left",
     "JDbtn--right": float === "right",
     "JDbtn--white": color === "white",
     "JDbtn--primary": thema === "primary",
     "JDbtn--grey": thema === "grey",
-    "JDbtn--secondary": thema === "secondary",
+    "JDbtn--point": thema === "point",
     "JDbtn--warn": thema === "warn",
     "JDwaves-effect-dark": mode === "flat" && thema === "normal",
     "JDbtn--pulse": pulse,

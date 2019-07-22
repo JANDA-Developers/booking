@@ -1,8 +1,0 @@
-type GetErrorInfoResponse {
-    ok: Boolean!
-    error: String
-    errorInfo: Error
-}
-type Query {
-    GetErrorInfo(errCode: String!): GetErrorInfoResponse!
-}

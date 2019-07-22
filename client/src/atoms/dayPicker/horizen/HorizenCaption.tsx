@@ -1,13 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { JDMonthTextChanger, JDWeekChanger } from '../../../utils/utils';
+import React from "react";
+import PropTypes from "prop-types";
+import {JDMonthTextChanger, JDWeekChanger} from "../../../utils/utils";
+import {koreaToNumber} from "../../../utils/dayOfweeks";
 
 interface IProps {
   date?: any;
   [foo: string]: any;
 }
 
-const HorizeCaption: React.SFC<IProps> = ({ date }) => {
+const HorizeCaption: React.SFC<IProps> = ({date}) => {
   const firstDate = date;
   const lastMonth = new Date(date.getFullYear(), date.getMonth() + 1, 1);
   lastMonth.setDate(0);
@@ -29,7 +30,12 @@ const HorizeCaption: React.SFC<IProps> = ({ date }) => {
         <span className="DayPicker-Caption__month">{month}</span>
       </div>
       {weeks.map((value, index) => (
-        <div className="DayPicker-Caption__week" key={`week${value + index}`}>
+        <div
+          className={`DayPicker-Caption__week DayPicker-Caption__week--${koreaToNumber(
+            value
+          )}`}
+          key={`week${value + index}`}
+        >
           {value}
         </div>
       ))}
@@ -38,11 +44,11 @@ const HorizeCaption: React.SFC<IProps> = ({ date }) => {
 };
 
 HorizeCaption.propTypes = {
-  date: PropTypes.instanceOf(Date),
+  date: PropTypes.instanceOf(Date)
 };
 
 HorizeCaption.defaultProps = {
-  date: new Date(),
+  date: new Date()
 };
 
 export default HorizeCaption;

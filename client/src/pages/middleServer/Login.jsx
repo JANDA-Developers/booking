@@ -81,7 +81,7 @@ function Login({client, history}) {
                     label="Password"
                   />
                   <Button type="submit" thema="primary" label="로그인" />
-                  <Link to="/middleServer/signUp">
+                  <Link to="/signUp">
                     <Button thema="primary" label="회원가입" />
                   </Link>
                 </form>

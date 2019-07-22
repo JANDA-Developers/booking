@@ -24,7 +24,7 @@ const GreetingBox: React.FC<IProps> = ({userData}) => {
   );
   return (
     <JDbox className="greetingBox" mode="border">
-      <JDanimation animation={[Animation.fadeInRightShow]}>
+      <JDanimation animation={[Animation.zoomIn]}>
         <div>{gretting[0]}</div>
       </JDanimation>
     </JDbox>

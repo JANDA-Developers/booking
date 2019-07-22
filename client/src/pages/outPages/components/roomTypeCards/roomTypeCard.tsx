@@ -48,6 +48,7 @@ interface IProps {
   dayPickerHook: IUseDayPicker;
   truePrice: number;
   countLoading: boolean;
+  priceLoading: boolean;
   availableCount: {
     maleCount: getAvailableGuestCount_GetMale_roomCapacity | null | undefined;
     femaleCount:
@@ -60,6 +61,7 @@ interface IProps {
 const RoomTypeCard: React.SFC<IProps> = ({
   className,
   roomTypeData,
+  priceLoading,
   setResvRooms,
   resvRooms,
   roomInfoHook,
@@ -203,7 +205,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
         </div>
         <div className="flex-grid__col col--grow-2 roomTypeCard__middleSection">
           <div className="roomTypeCard__middleTopSection">
-            <div className="JDlarge-text">{roomTypeData.name}</div>
+            <h6>{roomTypeData.name}</h6>
           </div>
           <div className="roomTypeCard__middleBottomSection">
             {/* 여기서나온 값을 state 에 저장하는거임 */}
@@ -259,16 +261,20 @@ const RoomTypeCard: React.SFC<IProps> = ({
         </div>
         <div className="flex-grid__col col--grow-1 roomTypeCard__lastSection">
           <div className="roomTypeCard__lastTopSection">
-            {" "}
-            <span className="roomTypeCard__price">{autoComma(truePrice)}</span>
+            {priceLoading ? (
+              <Preloader loading />
+            ) : (
+              <span className="roomTypeCard__price">
+                {autoComma(truePrice)}
+              </span>
+            )}
           </div>
           <Button
-            toggle={isSelectedRoom}
             onClick={handleRoomSelectClick}
             className="roomTypeCard__selectButton"
             mode="flat"
-            size={windowWidth < WindowSize.MOBILE ? "small" : undefined}
-            thema="grey"
+            size={"small"}
+            thema={isSelectedRoom ? "warn" : "primary"}
             label={isSelectedRoom ? "선택취소" : "선택하기"}
           />
         </div>

@@ -62,27 +62,27 @@
             }
         }
 
-        &--secondary {
-            background-color: $secondary-color;
+        &--point {
+            background-color: $point-color;
 
             .colorPage-circle__txt {
-                color: $secondary-color-on
+                color: $point-color-on
             }
         }
 
-        &--secondary-light {
-            background-color: $secondary-color-light;
+        &--point-light {
+            background-color: $point-color-light;
 
             .colorPage-circle__txt {
-                color: $secondary-color-light-on
+                color: $point-color-light-on
             }
         }
 
-        &--secondary-dark {
-            background-color: $secondary-color-dark;
+        &--point-dark {
+            background-color: $point-color-dark;
 
             .colorPage-circle__txt {
-                color: $secondary-color-dark-on
+                color: $point-color-dark-on
             }
         }
 

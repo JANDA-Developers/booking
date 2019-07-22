@@ -7,12 +7,14 @@ interface IProps {
   options: IselectedOption[];
   selectedHouseOption: IselectedOption | null;
   selectHouseMu: MutationFn<any, any>;
+  className?: string;
 }
 
 const JDSeleteHouse: React.SFC<IProps> = ({
   selectHouseMu,
   selectedHouseOption,
-  options
+  options,
+  className
 }) => {
   const handleSelectHouse = (value: IselectedOption) => {
     selectHouseMu({variables: {selectedHouse: value}});
@@ -20,6 +22,8 @@ const JDSeleteHouse: React.SFC<IProps> = ({
 
   return (
     <JDselect
+      background="white"
+      className={className}
       placeholder="숙소를 생성해주세요."
       options={options}
       selectedOption={selectedHouseOption}

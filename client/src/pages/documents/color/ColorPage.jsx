@@ -36,13 +36,13 @@ const ColorPage = () => (
         </div>
         <div className="flex-grid flex-grid--around">
           <div className="flex-grid__col col--full-6 col--wmd-6">
-            <ColorBox color="secondary" summary="" txt="secondary" />
+            <ColorBox color="point" summary="" txt="point" />
           </div>
           <div className="flex-grid__col col--full-3 col--wmd-6">
-            <ColorBox color="secondary-light" summary="" txt="secondary-light" />
+            <ColorBox color="point-light" summary="" txt="point-light" />
           </div>
           <div className="flex-grid__col col--full-3 col--wmd-6">
-            <ColorBox color="secondary-dark" summary="" txt="secondary-dark" />
+            <ColorBox color="point-dark" summary="" txt="point-dark" />
           </div>
         </div>
         <div className="flex-grid flex-grid--around">

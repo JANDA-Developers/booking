@@ -1,8 +1,0 @@
-type GetHouseResponse {
-    ok: Boolean!
-    error: String
-    house: House
-}
-type Query {
-    GetHouse(houseId: ID!): GetHouseResponse!
-}

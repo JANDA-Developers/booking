@@ -31,7 +31,7 @@
                 &--selected {
                     position: relative;
                     bottom: -1px;
-                    background-color: #fff;
+                    background-color: $background-color;
                     border: 1px solid $html-color;
                     border-bottom: 0px solid transparent;
                     border-radius: $tabs-tab-border-radious $tabs-tab-border-radious 0px 0px ;

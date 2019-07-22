@@ -1,8 +1,0 @@
-type GetAllProductTypesResponse{
-    ok: Boolean!
-    error: String
-    productTypes: [ProductType!]
-}
-type Query {
-    GetAllProductTypes: GetAllProductTypesResponse!
-}

@@ -22,6 +22,7 @@ import {
 import {ReactTooltip} from "../../../atoms/tooltipList/TooltipList";
 import {Product, LayoutType} from "../../../types/enum";
 import AdditionModal from "./components/additionModal";
+import {isUrl} from "../../../utils/inputValidations";
 
 class BuyProductMutation extends Mutation<buyProduct, buyProductVariables> {}
 class RefundProductMutation extends Mutation<
@@ -89,6 +90,7 @@ const ProductsWrap: React.FC<any> = ({
     productTypes.filter(
       (productType: any) => productType.name === Product.TEST
     )[0]._id;
+
   const tempProp = {
     productTypes,
     selectedProductTypeId,
@@ -120,7 +122,8 @@ const ProductsWrap: React.FC<any> = ({
           selectedProductTypeId.replace("--slider", ""),
         appInfoRequest: {
           layoutType: addtionValue.layoutType,
-          url: addtionValue.url
+          url: addtionValue.url || "http://testMode.com",
+          useHostApp: additionHook[0].useLayout
         }
       }}
       refetchQueries={[{query: GET_USER_INFO}]}
@@ -161,7 +164,7 @@ const ProductsWrap: React.FC<any> = ({
         >
           {refundMutation =>
             redirect ? (
-              <Redirect push to="/middleServer/ready" />
+              <Redirect push to="/ready" />
             ) : (
               <Fragment>
                 <Products
@@ -178,6 +181,7 @@ const ProductsWrap: React.FC<any> = ({
                   hostAppHook={hostAppHook}
                 />
                 <AdditionModal
+                  isSelectExMode={selectedProductTypeId === testProductId}
                   additionHook={additionHook}
                   modalHook={additionModalHook}
                 />

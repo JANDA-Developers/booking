@@ -23,8 +23,8 @@
     animation: blink 2s linear;
     animation-iteration-count: 1;
     animation-fill-mode:forwards;
-    &--infinity{
+    &--infinity {
         animation-iteration-count: infinite;
-        animation-delay: 2000
+        animation-delay: 3000
     }
 }

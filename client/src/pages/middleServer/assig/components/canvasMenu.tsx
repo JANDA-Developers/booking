@@ -21,7 +21,13 @@ interface IProps {
 
 const CanvasMenu: React.FC<IProps> = ({
   assigHooks: {guestValue, setMakeMenuProps, canvasMenuProps, setGuestValue},
-  assigUtils: {addBlock, findGroupById, resizeLinkedItems, findItemById}
+  assigUtils: {
+    addBlock,
+    findGroupById,
+    resizeLinkedItems,
+    findItemById,
+    allTooltipsHide
+  }
 }) => {
   if (!canvasMenuProps.groupId || canvasMenuProps.groupId === "noneGroup")
     return <div />;
@@ -29,6 +35,7 @@ const CanvasMenu: React.FC<IProps> = ({
     .pricingType;
 
   const makeMakeItem = (gender?: Gender) => {
+    allTooltipsHide();
     const linkedItems = guestValue.filter(
       item =>
         item.type === GuestTypeAdd.MAKE &&

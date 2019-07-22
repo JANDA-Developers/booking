@@ -30,6 +30,18 @@ export enum PricingType {
   ROOM = "ROOM"
 }
 
+export enum ProductStatus {
+  ENABLE = "ENABLE",
+  DISALBE = "DISALBE",
+  WAIT = "WAIT"
+}
+
+export enum ProductStatusKr {
+  ENABLE = "정상",
+  DISALBE = "정지",
+  WAIT = "대기"
+}
+
 export enum RoomGender {
   FEMALE = "FEMALE",
   MALE = "MALE",
@@ -217,6 +229,13 @@ export const SELECT_DUMMY_OP = [
   {value: "vanilla", label: "Vanilla"}
 ];
 
+export const SELECT_PRODUCT_TYPE_OP = [
+  {value: "상품1", label: "상품1"},
+  {value: "상품2", label: "상품2"},
+  {value: "상품3", label: "상품3"},
+  {value: "상품4", label: "상품4"}
+];
+
 export const SELECT_COUNT_DUMMY_OP = [
   {value: 0, label: "0"},
   {value: 1, label: "1"},
@@ -236,6 +255,11 @@ export const BOOKING_STATUS_OP = [
   {value: BookingStatus.CANCEL, label: "예약취소"}
 ];
 
+export const LAYOUT_TYPE_OP = [
+  {value: LayoutType.Layout_A, label: LayoutType.Layout_A},
+  {value: LayoutType.Layout_B, label: LayoutType.Layout_B}
+];
+
 export const PAYMENT_STATUS_OP = [
   {value: PaymentStatus.COMPLETE, label: "결제완료"},
   {value: PaymentStatus.NOT_YET, label: "미결제"}
@@ -244,6 +268,12 @@ export const PAYMENT_STATUS_OP = [
 export const SMS_TARGET_OP = [
   {value: SendTarget.GUEST, label: SendTargetKr.GUEST},
   {value: SendTarget.HOST, label: SendTargetKr.HOST}
+];
+
+export const PRODUCT_STATUS_OP = [
+  {value: ProductStatus.WAIT, label: ProductStatusKr.WAIT},
+  {value: ProductStatus.ENABLE, label: ProductStatusKr.ENABLE},
+  {value: ProductStatus.DISALBE, label: ProductStatusKr.DISALBE}
 ];
 
 export const PAYMETHOD_FOR_BOOKER_OP = [

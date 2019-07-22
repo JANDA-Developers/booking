@@ -25,6 +25,32 @@
     }
 }
 
+//마우스가 위에 올라왔을때 효과
+@mixin baseMargin($condition: "") {
+    
+    // 마진 bottom
+    #{$condition}.JDcheck_box_wrap,
+    #{$condition}.JDswitch-wrap,
+    #{$condition}.JDradio,
+    #{$condition}.JDselect,
+    #{$condition}.JDbtn,
+    #{$condition}.JDdatePcikerInformation,
+    #{$condition}.circleIcon,
+    #{$condition}.imageUploader,
+    #{$condition}.JDslider,
+    #{$condition}.JDpagination,
+    #{$condition}.JDcard,
+    #{$condition}.JDtable,
+    #{$condition}.JDcolorPicker,
+    #{$condition}.JDinput,
+    #{$condition}.JDtextarea,
+    #{$condition}.JDsearchInput,
+    #{$condition}.input-range,
+    #{$condition}.JDbox--border {
+        @content;
+    }
+}
+
 /* stylelint-disable declaration-block-no-duplicate-properties  */
 
 // Components Flex-Grid

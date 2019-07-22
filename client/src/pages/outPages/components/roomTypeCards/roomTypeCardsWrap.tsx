@@ -6,7 +6,8 @@ import RoomTypeCard from "./roomTypeCard";
 import {
   ErrProtecter,
   queryDataFormater,
-  showError
+  showError,
+  isEmpty
 } from "../../../../utils/utils";
 import {
   GuestPartInput,
@@ -16,25 +17,32 @@ import {
   getAppliedPriceWithDateRangeVariables,
   BookerInput,
   getAppliedPriceWithDateRangeForBooker,
-  getAppliedPriceWithDateRangeForBookerVariables
+  getAppliedPriceWithDateRangeForBookerVariables,
+  getRoomTypeDatePrices,
+  getRoomTypeDatePricesVariables,
+  getRoomTypeDatePricesForBooker,
+  getRoomTypeDatePricesForBookerVariables
 } from "../../../../types/api";
 import {
   GET_AVAILABLE_GUEST_COUNT,
   GET_APPLIED_PRICE_WITH_DATE,
-  GET_APPLIED_PRICE_WITH_DATE_RANGE_FOR_BOOKER
+  GET_APPLIED_PRICE_WITH_DATE_RANGE_FOR_BOOKER,
+  GET_ROOM_TYPE_DATE_PRICE,
+  GET_ROOM_TYPE_DATE_PRICE_FOR_BOOKER
 } from "../../../../queries";
 import {IUseModal, IUseDayPicker} from "../../../../actions/hook";
 import {setYYYYMMDD} from "../../../../utils/setMidNight";
 import {IRoomType} from "../../../../types/interface";
-import {truePriceFinder} from "../../../../utils/booking";
+import {truePriceFinder, getAveragePrice} from "../../../../utils/booking";
+import moment from "moment";
 
 class GetAvailGuestCountQu extends Query<
   getAvailableGuestCount,
   getAvailableGuestCountVariables
 > {}
 class GetAppliedPriceWithDate extends Query<
-  getAppliedPriceWithDateRangeForBooker,
-  getAppliedPriceWithDateRangeForBookerVariables
+  getRoomTypeDatePricesForBooker,
+  getRoomTypeDatePricesForBookerVariables
 > {}
 
 export interface IGuestCount {
@@ -111,32 +119,25 @@ const RoomTypeCardsWrap: React.SFC<IProps> = ({
 
         return (
           <GetAppliedPriceWithDate
+            skip={dayPickerHook.to === null}
             variables={{
-              end: dayPickerHook.to,
-              start: dayPickerHook.from,
-              roomTypeId: roomTypeData._id
+              end: setYYYYMMDD(moment(dayPickerHook.to!)),
+              start: setYYYYMMDD(dayPickerHook.from),
+              roomTypeIds: [roomTypeData._id]
             }}
-            query={GET_APPLIED_PRICE_WITH_DATE_RANGE_FOR_BOOKER}
+            query={GET_ROOM_TYPE_DATE_PRICE_FOR_BOOKER}
           >
-            {({data: priceData, loading, error}) => {
-              const seasonPrices = queryDataFormater(
+            {({data: priceData, loading: priceLoading, error}) => {
+              showError(error);
+              const roomPrices = queryDataFormater(
                 priceData,
-                "GetAppliedPriceWithDateRangeForBooker",
-                "seasonPrices",
+                "GetRoomTypeDatePricesForBooker",
+                "roomTypeDatePrices",
                 undefined
               );
-              const specificPrices = queryDataFormater(
-                priceData,
-                "GetAppliedPriceWithDateRangeForBooker",
-                "roomPrices",
-                undefined
-              );
-              const truePrice = truePriceFinder(
-                roomTypeData.defaultPrice,
-                seasonPrices,
-                specificPrices,
-                dayPickerHook.from,
-                dayPickerHook.to
+
+              const truePrice = getAveragePrice(
+                !isEmpty(roomPrices) ? roomPrices[0].datePrices || [] : []
               );
 
               const formattedTruePrice = Math.floor(truePrice / 10) * 10;
@@ -157,6 +158,7 @@ const RoomTypeCardsWrap: React.SFC<IProps> = ({
                   truePrice={formattedTruePrice}
                   setBookingInfo={setBookingInfo}
                   bookingInfo={bookingInfo}
+                  priceLoading={priceLoading}
                 />
               );
             }}

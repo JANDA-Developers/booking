@@ -13,13 +13,11 @@ import moment from "moment";
 import BookingModalWrap from "../bookingModal/BookingModalWrap";
 import HouseCard from "../../pages/middleServer/super/components/houseCard";
 import {IHouse} from "../../types/interface";
-import Preloader from "../../atoms/preloader/Preloader";
 import {GuestType} from "../../types/enum";
 
 interface IProps {
   house: IHouse;
   date?: boolean;
-  loading?: boolean;
   dayPickerHook: IUseDayPicker;
   guestsData: getAllRoomTypeWithGuest_GetGuests_guests[];
   roomTypesData: getAllRoomTypeWithGuest_GetAllRoomType_roomTypes[];
@@ -29,7 +27,6 @@ interface IProps {
 const DailyAssig: React.SFC<IProps> = ({
   date,
   house,
-  loading,
   dayPickerHook,
   guestsData,
   blocksData,
@@ -54,15 +51,16 @@ const DailyAssig: React.SFC<IProps> = ({
     switch (item.guestType) {
       case GuestType.GUEST:
         return (
-          <div className="DailyAssig__guest DailyAssig__itemBlock">
+          <div className="dailyAssig__guest dailyAssig__itemBlock">
             {
               // @ts-ignore
               item.name
             }
             <JDIcon
-              className="DailyAssig__guestConfigIcon"
+              className="dailyAssig__guestConfigIcon"
               onClick={() => {
-                if ((item.guestType = GuestType.BLOCK)) return;
+
+                if ((item.guestType === GuestType.BLOCK)) return;
                 bookingModalHook.openModal({
                   // @ts-ignore
                   bookingId: item.booking._id
@@ -76,7 +74,7 @@ const DailyAssig: React.SFC<IProps> = ({
 
       case GuestType.BLOCK:
         return (
-          <div className="DailyAssig__block DailyAssig__itemBlock">
+          <div className="dailyAssig__block dailyAssig__itemBlock">
             {"자리막음"}
           </div>
         );
@@ -92,19 +90,23 @@ const DailyAssig: React.SFC<IProps> = ({
 
     if (isEmpty(itemsInRoom))
       return (
-        <div className="DailyAssig__empty DailyAssig__guestBlock">빈방</div>
+        <div className="dailyAssig__itemBlockWrap">
+          <div className="dailyAssig__itemBlock dailyAssig__empty dailyAssig__guestBlock">
+            빈방
+          </div>
+        </div>
       );
 
     return itemsInRoom.map(item => (
-      <div className="DailyAssig__itemBlockWrap" key={`guestBlock${item._id}`}>
+      <div className="dailyAssig__itemBlockWrap" key={`guestBlock${item._id}`}>
         {blockRender(item)}
       </div>
     ));
   };
 
   return (
-    <div className="DailyAssigWrap">
-      <div className="DailyAssig__dayPicker">
+    <div className="dailyAssigWrap">
+      <div className="dailyAssig__dayPicker">
         <JDdayPicker
           isRange={false}
           input
@@ -139,25 +141,21 @@ const DailyAssig: React.SFC<IProps> = ({
           }
         />
       </div>
-      <Preloader loading={loading} noAnimation size="large" />
-
-      {loading || (
-        <div className="DailyAssig">
-          {roomTypesData.map(roomType => (
-            <div key={`roomType${roomType._id}`} className="DailyAssig__row">
-              <div className="DailyAssig__roomTypeTittle">{roomType.name}</div>
-              <div className="DailyAssig__roomsWrap">
-                {roomType.rooms.map(room => (
-                  <div key={`room${room._id}`} className="DailyAssig__room">
-                    <div className="DailyAssig__roomTitle">{room.name}</div>
-                    {getGuestInRoom(room._id)}
-                  </div>
-                ))}
-              </div>
+      <div className="dailyAssig">
+        {roomTypesData.map(roomType => (
+          <div key={`roomType${roomType._id}`} className="dailyAssig__row">
+            <div className="dailyAssig__roomTypeTittle">{roomType.name}</div>
+            <div className="dailyAssig__roomsWrap">
+              {roomType.rooms.map(room => (
+                <div key={`room${room._id}`} className="dailyAssig__room">
+                  <div className="dailyAssig__roomTitle">{room.name}</div>
+                  {getGuestInRoom(room._id)}
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      )}
+          </div>
+        ))}
+      </div>
       <BookingModalWrap houseId={house._id} modalHook={bookingModalHook} />
     </div>
   );

@@ -27,6 +27,13 @@
     position: relative;
     fill:inherit;
 
+
+    &__wrap {
+        width: 1px;
+        height: 1px;
+        transform-origin: center cetner;
+    }
+
     &__outerline {
         fill: $preloader-background-color;
     }
@@ -41,34 +48,47 @@
         height: 4rem;
     }
 
+    &--tiny {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    &--small {
+        width: 3rem;
+        height: 3rem;
+    }
+
     &--floating {
         position:fixed!important;
-        bottom: 5%!important;
-        left: 5%!important;
+        bottom: 2%!important;
+        left: 3%!important;
         transform-origin: left bottom;
     }
 }
 
 .preloader--page__wrap {
-    opacity: 0;
-    animation: disapper 2s 1 linear;
-    animation-fill-mode: forwards;
-    .preloader--page {
-        width: 20%;
-        padding-top: 20%;
-        margin: 22vh auto;
-        border: 5vw solid $preloader-background-color;
-        border-top: 5vw solid $preloader-fill-color;
-        border-radius: 50%;
-        animation: rotate 3s infinite linear;
-    }
-    // 모바일 가운데정렬
-    @include response ($phablet) {
-        position:fixed;
+    opacity: 1;
+    position:fixed;
+    z-index: $z-index-9;
         top:0;
         left: 0;
         right: 0;
         bottom: 0;
+    background-color:white;
+    .preloader--page {
+        width: 13%;
+        padding-top: 13%;
+        margin: 29vh auto;
+        border: 4vw solid $preloader-background-color;
+        border-top: 4vw solid $preloader-fill-color;
+        border-radius: 50%;
+        animation: rotate 3s infinite linear;
+        @include response ($phablet) {
+            border: 3rem solid $preloader-background-color;
+            border-top: 3rem solid $preloader-fill-color;
+        }
+    }
+    @include response ($phablet) {
         display:flex;
         align-items: center;
         .preloader--page {

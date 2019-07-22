@@ -3,7 +3,8 @@
 @import "../../style_config/style_config";
 
 .JDbtn {
-  border: $button-border;
+  font-weight: 600;
+  // border: $button-border;
   border-radius: $button-radius;
   display: inline-block;
   height: $button-height;
@@ -18,6 +19,7 @@
   background-color: $button-bgColor;
   text-align: center;
   letter-spacing: $button-letter-sapcing;
+  border:1px solid $grey-opacity1;
   @extend %z-depth-1;
   transition: background-color 0.2s ease-out;
   cursor: pointer;
@@ -40,6 +42,7 @@
 
   &.JDbtn--grey {
     background-color: $grey-level1;
+    border: 1px solid $grey-opacity1;
     &:hover {
       background-color: $grey-level2;
     }
@@ -54,15 +57,16 @@
     }
   }
   
-  &.JDbtn--secondary {
-    background-color: $secondary-color;
-    color: $secondary-color-light-on;
+  &.JDbtn--point {
+    background-color: $point-color;
+    color: $point-color-light-on;
     &:hover {
-      background-color: $secondary-color-light
+      background-color: $point-color-light
     }
   }
 
   &.JDbtn--warn {
+    font-weight: normal;
     background-color: $warn-color;
     color: #fff;
     &:hover {
@@ -173,12 +177,29 @@
   }
 
   &--toogleOn.JDbtn {
-    background-color: $primary-color;
-    color: white;
   }
 
   &--toogleOff.JDbtn {
+  }
+
+  #root &--border {
     background-color: white;
-    color: $html-color;
+    border: 1px solid $grey-level1;
+    font-weight: 600;
+    box-shadow:none;
+
+    &:hover {
+      background-color: $grey-opacity1;
+    }
+
+    &.JDbtn--primary:not(:disabled) {
+      border-color: $primary-color;
+      color: $primary-color;
+    }
+
+    &.JDbtn--point:not(:disabled) {
+      border-color: $point-color;
+      color: $point-color;
+    }
   }
 }

@@ -34,9 +34,17 @@ import {
   TResizeBlock,
   TAllocateItem,
   TAllocateGuest,
-  TPopUpItemMenu
+  TPopUpItemMenu,
+  IFindGuestByBookingId,
+  THilightGuestBlock
 } from "./assigIntrerface";
-import {isEmpty, onCompletedMessage, muResult} from "../../../../utils/utils";
+import {
+  isEmpty,
+  onCompletedMessage,
+  muResult,
+  targetBlink,
+  JDscrollTo
+} from "../../../../utils/utils";
 import {ReactTooltip} from "../../../../atoms/tooltipList/TooltipList";
 import {RoomGender, TimePerMs, Gender} from "../../../../types/enum";
 import moment from "moment";
@@ -63,6 +71,8 @@ export function getAssigUtils(
   }: IAssigMutationes,
   {houseId, groupData}: IAssigTimelineContext
 ): IAssigTimelineUtils {
+  console.log("isnide==guestValue");
+  console.log(guestValue);
   // 마크제거 MARK REMOVE 마커 제거
   const removeMark: TRemoveMark = () => {
     setGuestValue([
@@ -99,6 +109,29 @@ export function getAssigUtils(
     if (target.type === GuestTypeAdd.MAKE) {
       openMakeMenu(location, {item: target});
     }
+  };
+
+  // 곧추가될것 까지 커버가능
+  const hilightGuestBlock: THilightGuestBlock = ({itemId, bookingId}) => {
+    let targetDom;
+    if (itemId) {
+      targetDom = $(`#assigItem--item${itemId}`);
+    } else {
+      targetDom = $(`.assigItem--booking${bookingId}`);
+    }
+
+    console.log("targetDom ♐️");
+    console.log(targetDom);
+
+    if (!targetDom || targetDom.length === 0) {
+      setTimeout(() => {
+        hilightGuestBlock({itemId, bookingId});
+      }, 1000);
+      return;
+    }
+
+    targetBlink(targetDom);
+    JDscrollTo(targetDom, $(`.rct-scroll`));
   };
 
   // 유틸 사람이 그장소에 그시간대에 있다면 충돌시간을 주고 아니면 false를 줌
@@ -193,12 +226,14 @@ export function getAssigUtils(
   // 모든 툴팁을 팝업에서 제거
   const allTooltipsHide: TAllTooltipsHide = except => {
     ReactTooltip.hide();
-    if (except !== "blockMenu") $("#blockMenu").removeClass("blockMenu--show");
+    if (except !== "blockMenu")
+      $("#blockMenu").removeClass("assig__tooltips--show");
     if (except !== "canvasMenu")
-      $("#canvasMenu").removeClass("canvasMenu--show");
-    if (except !== "makeMenu") $("#makeMenu").removeClass("makeMenu--show");
+      $("#canvasMenu").removeClass("assig__tooltips--show");
+    if (except !== "makeMenu")
+      $("#makeMenu").removeClass("assig__tooltips--show");
     if (except !== "itemTooltip")
-      $("#itemTooltip").removeClass("itemTooltip--show");
+      $("#itemTooltip").removeClass("assig__tooltips--show");
   };
 
   // 유틸 두게스트의 충돌시간 구해줌 없다면 false를 반환함
@@ -266,6 +301,9 @@ export function getAssigUtils(
 
     setGuestValue([...filteredGuestValue]);
   };
+
+  const findGuestsByBookingId: IFindGuestByBookingId = (bookingId: string) =>
+    guestValue.filter(guest => guest.bookingId === bookingId);
 
   // 예약을 예약 아이디로 삭제
   const deleteBookingById: TDeleteBookingById = async (bookingId: string) => {
@@ -548,7 +586,7 @@ export function getAssigUtils(
     $("#canvasMenu")
       .css("left", location.clientX)
       .css("top", location.clientY)
-      .addClass("canvasMenu--show");
+      .addClass("assig__tooltips--show");
   };
 
   // 유틸 아이템을 화면에서 삭제
@@ -575,7 +613,7 @@ export function getAssigUtils(
     $("#makeMenu")
       .css("left", e.clientX)
       .css("top", e.clientY)
-      .addClass("makeMenu--show");
+      .addClass("assig__tooltips--show");
   };
 
   // 👼 컴포넌트들 내부에 prop를 전달하기 힘드니까 이렇게 전달하자.
@@ -592,6 +630,7 @@ export function getAssigUtils(
     openMakeMenu,
     isGenderSafe,
     oneGuestValidation,
+    findGuestsByBookingId,
     addBlock,
     allocateGuest,
     allocateItem,
@@ -606,7 +645,8 @@ export function getAssigUtils(
     makeMark,
     deleteBookingById,
     popUpItemMenu,
-    findBookingIdByGuestId
+    findBookingIdByGuestId,
+    hilightGuestBlock
   };
 
   return assigUtils;

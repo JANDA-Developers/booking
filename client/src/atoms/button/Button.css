@@ -60,12 +60,12 @@
   background-color: #6d809f;
 }
 
-.JDbtn.JDbtn--secondary {
+.JDbtn.JDbtn--point {
   background-color: #c56c47;
   color: #fff;
 }
 
-.JDbtn.JDbtn--secondary:hover {
+.JDbtn.JDbtn--point:hover {
   background-color: #d79a81;
 }
 

@@ -82,7 +82,11 @@ const JDsearchInput: React.FC<IProps> = ({
     if (!value && !alwaysListShow) SetFilteredDataList([]);
   };
 
-  const autoScrollList = (target: HTMLElement) => {};
+  const autoScrollList = (target: HTMLElement) => {
+    $(target)
+      .parent()
+      .scrollTop(target.offsetTop);
+  };
   // Handler - input : onKeyPress
   const handleOnKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     // CASE: 엔터를 쳤을경우에
@@ -115,6 +119,7 @@ const JDsearchInput: React.FC<IProps> = ({
     if (e.key === "ArrowDown" || e.key === "ArrowUp") {
       e.preventDefault();
       // CASE: ul has no children
+      if (!ulRef.current) return;
       if (!ulRef.current.children) return;
 
       const selectedNode = $(ulRef.current).find(
@@ -128,10 +133,12 @@ const JDsearchInput: React.FC<IProps> = ({
           const target = $(selectedNode).prev();
           if (!target.get(0)) return;
           target.addClass("JDsearchInput__li--selected");
+          autoScrollList(target.get(0));
         } else {
           const target = $(selectedNode).next();
           if (!target.get(0)) return;
           target.addClass("JDsearchInput__li--selected");
+          autoScrollList(target.get(0));
         }
         // remove select
         $(selectedNode).removeClass("JDsearchInput__li--selected");

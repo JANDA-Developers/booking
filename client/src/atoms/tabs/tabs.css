@@ -24,7 +24,7 @@
 .react-tabs__tab--selected {
   position: relative;
   bottom: -1px;
-  background-color: #fff;
+  background-color: transparent;
   border: 1px solid #343434;
   border-bottom: 0px solid transparent;
   border-radius: 3px 3px 0px 0px;
@@ -34,4 +34,5 @@
 .react-tabs__tab:hover {
   cursor: pointer;
 }
+
 /*# sourceMappingURL=tabs.css.map */

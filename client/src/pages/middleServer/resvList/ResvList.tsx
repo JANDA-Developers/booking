@@ -39,6 +39,7 @@ import {autoComma} from "../../../utils/utils";
 import SendSMSmodalWrap, {
   IModalSMSinfo
 } from "../../../components/smsModal/SendSmsModalWrap";
+import Preloader from "../../../atoms/preloader/Preloader";
 
 interface IProps {
   pageInfo: IPageInfo | undefined;
@@ -154,7 +155,7 @@ const ResvList: React.SFC<IProps> = ({
         return (
           <div className="resvList__createdAt">
             {moment(value)
-              .tz("Asia/Seoul")
+              .local()
               .format("YY-MM-DD HH:mm")}
             {isCancled && (
               <Fragment>
@@ -277,7 +278,7 @@ const ResvList: React.SFC<IProps> = ({
     {
       Header: "상세",
       accessor: "_id",
-      minWidth: 50,
+      minWidth: 40,
       Cell: ({value}: CellInfo) => (
         <JDIcon
           onClick={() => {
@@ -305,13 +306,7 @@ const ResvList: React.SFC<IProps> = ({
       onToogleRow(inId);
     };
 
-    return (
-      <CheckBox
-        size="small"
-        onChange={onChange}
-        checked={checked}
-      />
-    );
+    return <CheckBox size="small" onChange={onChange} checked={checked} />;
   };
 
   const selectAllInputComponentProps = ({
@@ -340,13 +335,11 @@ const ResvList: React.SFC<IProps> = ({
           <Button
             size="small"
             onClick={handleCancleBookingBtnClick}
-            thema="primary"
             label="예약취소"
           />
           <Button
             onClick={handleSendSmsBtnClick}
             size="small"
-            thema="primary"
             label="문자전송"
           />
           <Button
@@ -372,6 +365,7 @@ const ResvList: React.SFC<IProps> = ({
           columns={TableColumns}
           keyField="_id"
         />
+        <Preloader size="small" floating loading={loading} />
         <JDPagination
           onPageChange={({selected}: {selected: number}) => {
             setPage(selected + 1);

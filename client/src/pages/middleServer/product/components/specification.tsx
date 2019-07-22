@@ -20,7 +20,7 @@ const getProducts = ({
       "숙소홈페이지 셋팅 체험",
       "실시간 예약 체험",
       "하우스메뉴얼 체험",
-      <span className="JDtextColor--secondary">
+      <span className="JDtextColor--point">
         본상품은 예약이 불가능합니다.
       </span>
     ],

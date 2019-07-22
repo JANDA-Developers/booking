@@ -7,7 +7,8 @@ import {
   BookingStatus,
   Gender,
   SendTarget,
-  LayoutType
+  LayoutType,
+  ProductStatus
 } from "./enum";
 import {
   getBooking_GetBooking_booking_roomTypes,
@@ -15,7 +16,9 @@ import {
   getSmsInfo_GetSmsInfo_smsInfo,
   getSpecification_GetHouse_house_product_productType,
   getSpecification_GetHouse_house_product,
-  getSpecification_GetHouse_house_product_appInfoRequested
+  getSpecification_GetHouse_house_product_appInfoRequested,
+  getAllRoomTypeWithGuest_GetGuests_guests_blockOption,
+  getMyProfile_GetMyProfile_user_houses_houseConfig_itemBlockOp
 } from "./api";
 import {
   IAssigItem,
@@ -67,25 +70,6 @@ export const DEFAULT_BOOKING: GB_booking = {
   guests: null
 };
 
-export const DEFAULT_ASSIG_ITEM: IAssigItem = {
-  bedIndex: -1,
-  bookingId: "",
-  end: 0,
-  gender: null,
-  group: "",
-  guestIndex: -1,
-  id: "",
-  isCheckin: false,
-  isUnsettled: false,
-  name: "",
-  roomId: "",
-  roomTypeId: "",
-  start: 0,
-  type: GuestTypeAdd.BLOCK,
-  validate: [],
-  canMove: true
-};
-
 export const DEFAULT_ASSIG_GROUP: IAssigGroup = {
   id: "-1",
   title: "",
@@ -124,7 +108,8 @@ export const DEFAULT_APP_INFO_REQUEST: getSpecification_GetHouse_house_product_a
   isDone: false,
   layoutType: LayoutType.Layout_A,
   requestedDate: "",
-  url: ""
+  url: "",
+  useHostApp: false
 };
 
 export const DEFAULT_PRODUCT: getSpecification_GetHouse_house_product = {
@@ -151,11 +136,44 @@ export const DEFAULT_PRODUCT: getSpecification_GetHouse_house_product = {
     _id: "",
     name: "상품없음"
   },
-  updatedAt: ""
+  updatedAt: "",
+  status: ProductStatus.WAIT
 };
 
 export const DEFAULT_NONE_GOUP: IAssigGroup = {
   ...DEFAULT_ASSIG_GROUP,
   id: "noneGroup",
   type: "noneGroup"
+};
+
+export const DEFAULT_BLOCK_OP: getAllRoomTypeWithGuest_GetGuests_guests_blockOption = {
+  __typename: "BlockOption",
+  color: null
+};
+
+export const DEFAULT_ASSIG_ITEM: IAssigItem = {
+  bedIndex: -1,
+  bookingId: "",
+  end: 0,
+  gender: null,
+  group: "",
+  guestIndex: -1,
+  id: "",
+  isCheckin: false,
+  isUnsettled: false,
+  name: "",
+  roomId: "",
+  roomTypeId: "",
+  start: 0,
+  type: GuestTypeAdd.BLOCK,
+  validate: [],
+  canMove: true,
+  blockOption: DEFAULT_BLOCK_OP,
+  showEffect: false
+};
+
+export const DEFAULT_ADDITION_BLOCKOP: getMyProfile_GetMyProfile_user_houses_houseConfig_itemBlockOp = {
+  __typename: "ItemBlockOp",
+  itemBlockOpEnable: false,
+  useColor: false
 };

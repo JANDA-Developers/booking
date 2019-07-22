@@ -116,8 +116,8 @@ const Sms: React.FC<IProps> = ({
           SMS 설정
           {loading && <Preloader size="medium" />}
         </h3>
-        <Link to="/middleServer/smsHistory">
-          <Button label="SMS 내역보기" />
+        <Link to="/smsHistory">
+          <Button mode="border" label="SMS 내역보기" />
         </Link>
         {/* <div className="flex-grid"> */}
         {/* <div className="flex-grid__col col--full-6 col--md-12">

@@ -2,7 +2,7 @@
 
 .JDbadge {
     display:inline-block;
-    padding: 0.25em 0.4em;
+    padding: 0.35em 0.3em;
     border-radius: $standard-border-radius;
     line-height: 1;
     text-transform: uppercase;
@@ -15,9 +15,9 @@
         background-color: $primary-color;
         color: $primary-color-on;
     }   
-    &--secondary {
-        background-color: $secondary-color;
-        color: $secondary-color-on;
+    &--point {
+        background-color: $point-color;
+        color: $point-color-on;
     }   
     &--black {
         background-color: $html-color;

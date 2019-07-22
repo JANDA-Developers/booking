@@ -1,6 +1,7 @@
 @import '../../../style_config/style_config.scss';
 
 .specificPrice {
+    min-height: 100vh;
     &__timeline {
         .JDinput {
             margin: 0;

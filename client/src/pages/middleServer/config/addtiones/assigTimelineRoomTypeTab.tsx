@@ -3,6 +3,10 @@ import JDLabel from "../../../../atoms/label/JDLabel";
 import JDrange from "../../../../atoms/forms/range/range";
 import {IAddtionProp} from "../components/AddtionModule";
 import JDswitch from "../../../../atoms/forms/switch/Switch";
+import {useSwitch} from "../../../../actions/hook";
+import {muResult} from "../../../../utils/utils";
+import JDbox from "../../../../atoms/box/JDbox";
+import TabUsePhoto from "../../../../img/describe/roomTypeTap.gif";
 
 const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
   updateHouseConfigMu,
@@ -10,7 +14,9 @@ const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
 }) => {
   const {houseConfig} = house;
   const {assigTimeline} = houseConfig;
-  const enable = assigTimeline ? assigTimeline.roomTypeTabEnable : false;
+  const [use, setUse] = useState(
+    assigTimeline ? assigTimeline.roomTypeTabEnable : false
+  );
 
   return (
     <div className="additionDetail">
@@ -20,13 +26,12 @@ const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
       <div className="additionDetail__titleTopRight">
         <JDswitch
           key={
-            enable
-              ? "AssigTimelineRoomTabs__true"
-              : "AssigTimelineRoomTabs__false"
+            use ? "AssigTimelineRoomTabs__true" : "AssigTimelineRoomTabs__false"
           }
-          checked={enable}
-          onChange={flag => {
-            updateHouseConfigMu({
+          checked={use}
+          onChange={async flag => {
+            setUse(flag);
+            const result = await updateHouseConfigMu({
               variables: {
                 houseId: house._id,
                 params: {
@@ -36,10 +41,14 @@ const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
                 }
               }
             });
+            if (!muResult(result, "UpdateHouseConfig")) {
+              setUse(!flag);
+            }
           }}
           label="사용하기"
         />
       </div>
+      <JDbox mode="photoFrame" photo={TabUsePhoto} />
       <div />
     </div>
   );

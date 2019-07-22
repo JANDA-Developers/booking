@@ -18,7 +18,10 @@ import {
   createBlock,
   createBlockVariables,
   deleteBooking,
-  deleteBookingVariables
+  deleteBookingVariables,
+  updateBlockOption,
+  updateBlockOptionVariables,
+  getAllRoomTypeWithGuest_GetGuests_guests_blockOption
 } from "../../../../types/api";
 import {IUseModal} from "../../../../actions/hook";
 import {string} from "prop-types";
@@ -150,6 +153,8 @@ export type TMoveLinkedItems = (bookingId: string, newTime: number) => void;
 
 export type TDeleteBookingById = (bookingId: string) => void;
 
+export type IFindGuestByBookingId = (bookingId: string) => IAssigItem[];
+
 export type TFindBookingIdByGuestId = (guestId: string) => string;
 
 export type TToogleCheckIn = (
@@ -192,11 +197,13 @@ export interface IAssigItem {
   roomId: string;
   bedIndex: number;
   start: number;
+  showEffect: boolean;
   end: number;
   gender: Gender | null;
   isUnsettled: boolean;
   canMove: boolean;
   validate: IAssigItemCrush[];
+  blockOption: getAllRoomTypeWithGuest_GetGuests_guests_blockOption;
   type: GuestTypeAdd;
 }
 
@@ -207,6 +214,7 @@ export interface IAssigMutationes {
   updateBookingMu: MutationFn<updateBooking, updateBookingVariables>;
   deleteGuestsMu: MutationFn<deleteGuests, deleteGuestsVariables>;
   createBlockMu: MutationFn<createBlock, createBlockVariables>;
+  updateBlockOpMu: MutationFn<updateBlockOption, updateBlockOptionVariables>;
 }
 
 export interface ICanvasMenuProps {
@@ -236,6 +244,7 @@ export interface IDeleteMenuProps {
 }
 
 export interface IAssigTimelineHooks {
+  blockOpModal: IUseModal<IAssigItem>;
   bookingModal: IUseModal<any>;
   guestValue: IAssigItem[];
   canvasMenuProps: ICanvasMenuProps;
@@ -313,6 +322,13 @@ export type THandleItemResize = (
   edge: "left" | "right"
 ) => Promise<void>;
 
+interface Ids {
+  itemId?: string;
+  bookingId?: string;
+}
+
+export type THilightGuestBlock = ({itemId, bookingId}: Ids) => void;
+
 export type THandleItemSelect = (
   itemId: string,
   e: React.MouseEvent<HTMLElement>,
@@ -333,6 +349,7 @@ export interface IAssigHandlers {
 }
 
 export interface IAssigTimelineUtils {
+  hilightGuestBlock: THilightGuestBlock;
   popUpItemMenu: TPopUpItemMenu;
   findItemById: TFindItemById;
   findGroupById: TFindGroupById;
@@ -360,6 +377,7 @@ export interface IAssigTimelineUtils {
   makeMark: TMakeMark;
   resizeBlock: TResizeBlock;
   findBookingIdByGuestId: TFindBookingIdByGuestId;
+  findGuestsByBookingId: IFindGuestByBookingId;
 }
 
 export interface IAssigInfo {

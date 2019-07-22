@@ -1,8 +1,0 @@
-type IsAbleToAllocateResponse {
-    ok: Boolean!
-    error: String
-    guest: Guest
-}
-type Query {
-    IsAbleToAllocate(guestId: ID!, roomId: ID!): IsAbleToAllocateResponse!
-}

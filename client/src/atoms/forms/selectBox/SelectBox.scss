@@ -4,6 +4,12 @@
 
 .JDselect {
 
+  &--bg {
+    .react-select__control {
+      background-color: white!important;
+    }
+  }
+
   // NO 옵션
   .react-select__menu-notice--no-options {
     color: $selcet-placeholder-color;
@@ -105,12 +111,16 @@
         border-radius: $select-radius;
       }
 
+      
+
       &__control {
         flex-wrap: inherit;
         border: $select-border;
         background-color: $select-background;
         border-radius: $select-radius;
         min-height: $select-height;
+
+
         &--is-focused {
           border-color: $select-focus-border-color;
           @extend %z-depth-1;
@@ -124,11 +134,11 @@
       //  메뉴 Wrap
       &__menu {
         border-radius: $select-menue-radius;
+        @extend %z-depth-2;
         margin: 0;
-        @extend %z-depth-1;
         width: 100%;
       }
-
+      
       //  메뉴 
       &__menu-list {
         @extend %JDscrollbar;
@@ -137,6 +147,7 @@
 
       // this is a li !!! 😆
       &__option {
+        overflow:hidden;
         height: $select-option-height;
         padding: $select-option-padding;
         line-height: $select-option-height;

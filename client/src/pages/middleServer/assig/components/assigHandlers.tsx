@@ -29,6 +29,7 @@ import {
   ASSIG_DATA_END_LIMITE
 } from "../timelineConfig";
 import {ReactTooltip} from "../../../../atoms/tooltip/Tooltip";
+import {DEFAULT_ASSIG_ITEM} from "../../../../types/defaults";
 
 export function getAssigHandlers(
   {
@@ -49,7 +50,7 @@ export function getAssigHandlers(
     toogleCheckInOut
   }: IAssigTimelineUtils,
   {groupData, isMobile}: IAssigTimelineContext,
-  {setDataTime, dataTime}: IAssigTimelineHooks
+  {setDataTime, dataTime, bookingModal}: IAssigTimelineHooks
 ): IAssigHandlers {
   const shortKey: TShortKey = async (
     flag: "canvas" | "guestItem",
@@ -83,6 +84,9 @@ export function getAssigHandlers(
     };
     const target = findItemById(itemId);
     popUpItemMenu(location, target);
+
+    if (target.type === GuestTypeAdd.GUEST)
+      bookingModal.openModal({bookingId: target.bookingId});
   };
 
   // 핸들 캔버스 더블클릭시
@@ -155,7 +159,7 @@ export function getAssigHandlers(
       }
 
       $(`.assigItem--booking${item.bookingId}`).addClass(CLASS_MOVING);
-      $(`#assigItem--guest${item.id}`).removeClass(CLASS_MOVING);
+      $(`#assigItem--item${item.id}`).removeClass(CLASS_MOVING);
 
       const targetGroup = groupData.find(group => group.id === item.group);
       // 이동하는곳 성별 제한 확인
@@ -199,8 +203,11 @@ export function getAssigHandlers(
     e: React.MouseEvent<HTMLElement>,
     time: number
   ) => {
-    if (!e.persist) return;
-    e.persist();
+    e.persist && e.persist();
+    await removeMark();
+    await allTooltipsHide();
+    if (!e.clientX) return;
+
     const {clientX, clientY} = e;
     const location = {
       clientX: clientX,

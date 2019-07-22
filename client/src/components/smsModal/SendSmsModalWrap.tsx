@@ -90,7 +90,7 @@ const SendSMSmodalWrap: React.FC<IProps> = ({modalHook, houseId}) => {
         return (
           <SendSmsMu
             onCompleted={({SendSms}) => {
-              onCompletedMessage(SendSms, "예약 생성 완료", "예약자 생성 실패");
+              onCompletedMessage(SendSms, "SMS 발송완료", "SMS 발송실패");
               modalHook.closeModal();
             }}
             mutation={SEND_SMS}

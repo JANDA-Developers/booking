@@ -6,6 +6,7 @@
     padding: $card-padding;
     text-align: left;
     border-radius: $standard-border-radius;
+    background-color: $stadnard-background-color;
 
     .JDbtn {
         margin-bottom: 0;
@@ -20,9 +21,16 @@
         margin: 0;
     }
 
+    // ⭐️ 이거 잘 키워서 좋게만들자
     &--fullHeight {
         box-sizing: border-box;
-        height: calc(100% - $standard-margin-bottom);
+        min-height: 100%;
+
+        &-wmd {
+            @include response($phablet) {
+                min-height: none;
+            }
+        }
     }
 
     &--selected {

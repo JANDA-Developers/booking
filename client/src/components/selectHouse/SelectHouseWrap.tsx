@@ -22,9 +22,14 @@ class SelectHouseMutation extends Mutation<
 interface IProps {
   houses: IHouse[];
   selectedHouse?: IHouse;
+  className?: string;
 }
 
-const SelectHouseWrap: React.SFC<IProps> = ({houses = [], selectedHouse}) => {
+const SelectHouseWrap: React.SFC<IProps> = ({
+  houses = [],
+  selectedHouse,
+  className
+}) => {
   const houseOptions = houses.map(house => ({
     value: house._id,
     label: house.name
@@ -47,6 +52,7 @@ const SelectHouseWrap: React.SFC<IProps> = ({houses = [], selectedHouse}) => {
     >
       {selectHouseMu => (
         <SelectHouse
+          className={className}
           selectHouseMu={selectHouseMu}
           options={houseOptions}
           selectedHouseOption={selectedHouseOption}

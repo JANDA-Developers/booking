@@ -20,6 +20,7 @@ import {
   isPassword,
   isNumberMinMax
 } from "./inputValidations";
+import isTestProduct from "./isTestProduct";
 import searchListFormat from "./searchListFormater";
 import {showError} from "./errorMessage";
 import onCompletedMessage from "./apolloCompleteM";
@@ -30,9 +31,14 @@ import stringToPrice from "./stringToPrice";
 import s4 from "./keyGen";
 import randomIntFromInterval from "./randomNumber";
 import muResult from "./mutationResultSafty";
+import instanceOfA from "./interfaceMatch";
+import JDscrollTo from "./scrollTo";
+import targetBlink from "./targetBlink";
 
 const JDutils = {
+  isTestProduct,
   ErrProtecter,
+  targetBlink,
   isEmpty,
   isEmail,
   isPhone,
@@ -40,6 +46,7 @@ const JDutils = {
   isName,
   isMaxOver,
   isPassword,
+  JDscrollTo,
   randomIntFromInterval,
   JDMonthTextChanger,
   searchListFormat,
@@ -61,6 +68,7 @@ const JDutils = {
   smsMessageFormatter,
   isNumberMinMax,
   muResult,
+  instanceOfA,
   s4
 };
 
@@ -68,6 +76,7 @@ export default JDutils;
 export {
   onCompletedMessage,
   JDMonthTextChanger,
+  instanceOfA,
   JDWeekChanger,
   isEmpty,
   smsMessageFormatter,
@@ -77,13 +86,16 @@ export {
   pageNationFormater,
   showError,
   smsMsgParser,
+  isTestProduct,
   queryDataFormater,
   setMidNight,
+  JDscrollTo,
   templateOpMaker,
   applyDaysToArr,
   randomIntFromInterval,
   arrToApplyDays,
   stringToPrice,
+  targetBlink,
   autoComma,
   numberStr,
   muResult,

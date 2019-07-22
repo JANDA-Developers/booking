@@ -12,7 +12,7 @@
 | mode        | string      | 형태                   | flat,small,large         |         |         |
 | float       | string      | float 여부 (클래스)    | left,right               |         |         |
 | color       | string      | 버튼위 색 (클래스)     | white                    |         |         |
-| thema       | string      | 버튼색 (클래스)        | primary, secondary, warn |         |         |
+| thema       | string      | 버튼색 (클래스)        | primary, point, warn |         |         |
 | type        | string      | 버튼 타입              | submit...                |         |         |
 | preloader   | bool        | 프리로더 출력          |                          |         | false   |
 | pulse       | bool        | 펄스모드               |                          |         | false   |

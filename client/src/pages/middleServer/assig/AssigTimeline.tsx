@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {Link} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import "moment/locale/ko";
 import _ from "lodash";
 import {WindowSizeProps} from "react-window-size";
@@ -53,9 +53,14 @@ import BlockItemMenu from "./components/blockItemMenu";
 import {ASSIG_VISIBLE_CELL_MB_DIFF} from "./timelineConfig";
 import JDmultiBox from "../../../atoms/multiBox/MultiBox";
 import {getAssigHandlers} from "./components/assigHandlers";
-import DailyAssigWrap from "../../../components/dailyAssjg/DailyAssigWrap";
+import dailyAssigWrap from "../../../components/dailyAssjg/DailyAssigWrap";
 import moment from "moment";
 import {isEmpty} from "../../../utils/utils";
+import $ from "jquery";
+import BlockOpModal from "./components/blockOpModal";
+import DailyAssigWrap from "../../../components/dailyAssjg/DailyAssigWrap";
+import ReservationWrap from "../../outPages/reservation/ReservationWrap";
+import ReservationModal from "../../../components/reservationModala/ReservationModal";
 
 // Temp 마킹용이 있는지
 
@@ -111,7 +116,9 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   const isMobile = windowWidth <= EWindowSize.MOBILE;
   const isTabletDown = windowWidth <= EWindowSize.TABLET;
   const [guestValue, setGuestValue] = useState<IAssigItem[]>(deafultGuestsData);
+
   const confirmDelteGuestHook = useModal(false);
+  const reservationModal = useModal(false);
   const [viewRoomType, setViewRoomType] = useState(
     roomTypesData.map(roomType => roomType._id)
   );
@@ -124,6 +131,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     }
   });
   const bookingModal = useModal(false);
+  const blockOpModal = useModal<IAssigItem>(false, DEFAULT_ASSIG_ITEM);
   const [blockMenuProps, setBlockMenuProps] = useState<IDeleteMenuProps>({
     item: DEFAULT_ASSIG_ITEM
   });
@@ -161,7 +169,8 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     confirmDelteGuestHook,
     bookingModal,
     setDataTime,
-    dataTime
+    dataTime,
+    blockOpModal
   };
 
   const assigContext: IAssigTimelineContext = {
@@ -198,7 +207,8 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     handleItemResize,
     handleItemSelect,
     handleMoveResizeValidator,
-    handleTimeChange
+    handleTimeChange,
+    handleItemDoubleClick
   } = assigHandler;
 
   // 툴팁들을 제거하고
@@ -217,13 +227,16 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   });
 
   const timelineClassNames = classnames("assigTimeline", undefined, {
-    "assiTimeline--mobile": windowWidth <= WindowSize.MOBILE
+    "assiTimeline--mobile": windowWidth <= WindowSize.MOBILE,
+    "assigTimeline--loading": isEmpty(groupData)
   });
 
+  // 그룹 데이터에서 필터된것만 추출
   let filteredGroup = groupData.filter(group =>
     viewRoomType.includes(group.roomTypeId)
   );
 
+  // 그룹 데이터가 비어있다면 보정용으로 하나추가
   if (isEmpty(filteredGroup)) filteredGroup = [DEFAULT_NONE_GOUP];
 
   return (
@@ -236,21 +249,30 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
         <h3 className="assigTimeline__titleSection">
           {"방배정"}
           <Preloader
+            size="small"
             floating
             loading={loading}
             className="assigTimeline__mainPreloder"
-            size="medium"
           />
         </h3>
         <div className="flex-grid flex-grid--end">
-          <Link to="/middleServer/resvList">
-            <Button float="right" icon="list" label="예약목록 보기" />
-          </Link>
+          <div>
+            <Link to="/resvList">
+              <Button mode="border" icon="list" label="예약목록 보기" />
+            </Link>
+            <Button
+              onClick={() => {
+                reservationModal.openModal();
+              }}
+              icon="edit"
+              label="예약하기"
+            />
+          </div>
           {roomTypeTabEnable && (
             <JDmultiBox
               defaultAllToogle={true}
-              withAllTooglerLabel="전부보기"
-              withAllToogler
+              // withAllTooglerLabel="전부보기"
+              // withAllToogler
               onChange={setViewRoomType}
               value={roomTypesData.map(roomType => roomType._id)}
               selectedValue={viewRoomType}
@@ -273,11 +295,17 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
           assigContext={assigContext}
           assigUtils={assigUtils}
         />
+        <BlockOpModal
+          key={blockOpModal.info.bookingId}
+          assigMutationes={assigMutationes}
+          assigHooks={assigHooks}
+          assigContext={assigContext}
+          assigUtils={assigUtils}
+        />
         <ItemMenu
-          deleteGuestById={deleteGuestById}
-          toogleCheckInOut={toogleCheckInOut}
-          bookingModalHook={bookingModal}
-          guestValue={guestValue}
+          assigHooks={assigHooks}
+          assigContext={assigContext}
+          assigUtils={assigUtils}
         />
         <Timeline
           onItemMove={handleItemMove}
@@ -285,7 +313,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
           items={guestValue}
           groups={filteredGroup}
           {...defaultProps}
-          // onItemDoubleClick={handleItemDoubleClick}
+          onItemDoubleClick={handleItemDoubleClick}
           onItemClick={handleItemClick}
           // onCanvasDoubleClick={handleCanvasDoubleClick}
           onCanvasClick={handleCanvasClick}
@@ -359,7 +387,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
         {/* 생성된 방이 없을때 */}
         {groupData.length === 0 && !loading && (
           <div className="assigTimeline__placeHolderWrap">
-            <Link to="/middleServer/timelineConfig">
+            <Link to="/timelineConfig">
               <JDIcon
                 className="assigTimeline__placeHolder"
                 size={IconSize.LARGE}
@@ -369,10 +397,20 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
           </div>
         )}
       </div>
+      <ReservationModal
+        assigUtils={assigUtils}
+        houseId={house._id}
+        modalHook={reservationModal}
+        pulbicKey={house.publicKey || undefined}
+      />
       <BookingModalWrap houseId={houseId} modalHook={bookingModal} />
       <JDtoastModal confirm {...confirmDelteGuestHook} />
       <JDmodal {...dailyAssigHook}>
-        <DailyAssigWrap date={dailyAssigHook.info.date} house={house} />
+        <DailyAssigWrap
+          isInModal
+          date={dailyAssigHook.info.date}
+          house={house}
+        />
       </JDmodal>
     </div>
   );

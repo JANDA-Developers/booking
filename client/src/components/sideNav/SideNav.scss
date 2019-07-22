@@ -22,7 +22,7 @@
         position: absolute;
         bottom: 0;
         box-sizing: border-box;
-        width: calc(100% - #{$sideNav-list-padding});
+        width: 100%;
         padding-left: $sideNav-list-padding;
         line-height: 100%;
         border-top: 1px solid $grey-level1;
@@ -45,7 +45,7 @@
             padding: $button-small-padding;
             font-size: $typho-small;
             margin-bottom: 0;
-            margin-right: $sideNav-list-padding - $button-small-padding-side;
+            margin-right: $sideNav-list-padding;
         }
     }
     
@@ -53,38 +53,51 @@
         left:0px;
         @extend %z-depth-5;
     }
+
+    &-curtain {
+        z-index: $z-index-1;
+        position:fixed;
+        top:0;
+        left: 0;
+        right:0;
+        display:none;
+        bottom:0;
+        background-color: $grey-opacity1;
+        &--open {
+            display: block;
+        }
+    }
     
     &__profill {
         display: flex;
         height: $sideNav-profile-height;
-        background-color:  $secondary-color;
         justify-content: center;
         align-content: center;
         flex-direction: column;
         text-align: center;
-
+        border-bottom: 1px solid $grey-level1;
+        
 
         .JDselect {
-            padding: $standard-padding;
+            padding: $sideNav-list-padding;
             margin-bottom:0;
             text-align:left;
-            .react-select__control {
-                border:none;
-            }
         }
     }
     
     &__name {
-        color:white;
         font-size: $typho-small;
         margin-bottom: $standard-margin-bottom / 2;
     }
 
     &__circle {
-        width: $sideNav-profile-circle-size;
-        height: $sideNav-profile-circle-size;
         margin-top: $sideNav-profile-circle-margin-top;
         margin: 0 auto;
+        margin-bottom: $standard-margin-bottom / 2;
+
+        .profileCircle {
+            margin: 0;
+        }
     }
 
     &__listContainer {
@@ -102,8 +115,17 @@
         background-color: $sideNav-list-li-bgColor;
         padding-left: $sideNav-list-padding;
         border-bottom : 1px solid $grey-level1;
+        
+        &.active {
+            background-color: $point-color;
+            color:white;
+            #root &:hover {
+                background-color: $point-color;
+            }
+        }
+        
         .JDicon__svg {
-            padding: 0rem $sideNav-icon-padding;
+            padding: 0rem $sideNav-list-padding;
             padding-left: 0;
         }
         &:not(.JDsideNav__navLink--disabled):hover {
@@ -116,20 +138,4 @@
         }
     }
 
-}
-
-.JDsideNav-curtain {
-    position: fixed;
-    top:0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    transition: background-color 0.3s;
-    z-index: $z-index-9;
-    visibility: hidden;
-    background-color: rgba(0,0,0,0);
-    &--open {
-        visibility: visible;
-        background-color: $sideNav-curtain-color;
-    }
 }

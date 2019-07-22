@@ -4,9 +4,11 @@ import "./ComponentAnimations.scss";
 
 export enum Animation {
   zoomOut = "zoomOut",
+  zoomIn = "zoomIn",
   fadeOutRight = "fadeOutRight",
   fadeInDown = "fadeInDown",
-  fadeInRightShow = "fadeInRightShow"
+  fadeInRightShow = "fadeInRightShow",
+  fadeOut = "fadeOut"
 }
 
 interface IProps {
@@ -36,6 +38,15 @@ const JDanimation: React.FC<IProps> = ({children, animation, ...props}) => {
     animationProp.transitionName.appear = Animation.fadeInRightShow;
     animationProp.transitionAppear = true;
   }
+  // zoomIn
+  if (animation.includes(Animation.zoomIn)) {
+    animationProp.transitionName.appear = Animation.zoomIn;
+    animationProp.transitionName.appearActive = Animation.zoomIn;
+    animationProp.transitionName.enter = Animation.zoomIn;
+    animationProp.transitionName.enterActive = Animation.zoomIn;
+    animationProp.transitionAppear = true;
+    animationProp.transitionEnter = true;
+  }
 
   // fadeInDown
   if (animation.includes(Animation.fadeInDown)) {
@@ -56,8 +67,15 @@ const JDanimation: React.FC<IProps> = ({children, animation, ...props}) => {
     animationProp.transitionLeaveTimeout = 500;
   }
 
+  // fadeOut
+  if (animation.includes(Animation.fadeOut)) {
+    animationProp.transitionName.leave = Animation.fadeOut;
+    animationProp.transitionLeave = true;
+    animationProp.transitionLeaveTimeout = 300;
+  }
+
   return (
-    <ReactCSSTransitionGroup {...animationProp} {...props}>
+    <ReactCSSTransitionGroup {...props} {...animationProp}>
       {children}
     </ReactCSSTransitionGroup>
   );

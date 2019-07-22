@@ -178,7 +178,7 @@ const MakeHouse: React.FC<IProps & RouteComponentProps> = ({
           onError={showError}
           onCompleted={({selectHouse}) => {
             if (selectHouse.ok) {
-              history.replace("/middleServer/products");
+              history.replace("/products");
             } else {
               showError(selectHouse.error);
             }

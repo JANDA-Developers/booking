@@ -87,7 +87,12 @@ const Mypage: React.SFC<IProps> = ({
               label="이메일"
             />
             <div>
-              <Button onClick={passWordModal.openModal} label="프로필 수정" />
+              <Button
+                onClick={passWordModal.openModal}
+                thema="primary"
+                mode="border"
+                label="프로필 수정"
+              />
             </div>
           </form>
         </div>

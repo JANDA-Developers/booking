@@ -7,7 +7,8 @@
         border-radius: $table-border-radius;
         border-color: $table-outborder-color;
         box-sizing: border-box;
-
+        background-color: white;
+        
         * {
             border-color: $table-borders-color;
         }
@@ -50,6 +51,8 @@
             display:flex;
             justify-content: center;
             align-items: center;
+            white-space: normal;
+            max-width:100%;
         }
 
         &--checkable {

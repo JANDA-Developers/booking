@@ -11,13 +11,13 @@ const Home = ({
   isLoggedIn, applyedProduct, selectedHouse, houses,
 }) => {
   const [redirect, setRedirect] = useState(false);
-  const [redirectUrl, setRedirectUrl] = useState('/middleServer/makeHouse');
+  const [redirectUrl, setRedirectUrl] = useState('/makeHouse');
 
   const startService = () => {
     // 로그인 상태인가?
     if (!isLoggedIn) {
       toast.success('로그인후 시작해주세요.');
-      setRedirectUrl('/middleServer/login');
+      setRedirectUrl('/login');
       setRedirect(true);
       return;
     }
@@ -25,7 +25,7 @@ const Home = ({
     // 만들어둔 숙소가 있는가?
     if (houses.length === 0) {
       toast('숙소 생성을 시작합니다.');
-      setRedirectUrl('/middleServer/makeHouse');
+      setRedirectUrl('/makeHouse');
       setRedirect(true);
       return;
     }
@@ -39,12 +39,12 @@ const Home = ({
     // 상품을 구매했는가?
     if (isEmpty(applyedProduct)) {
       toast('적용된 서비스가 없습니다. 상품을 선택해 주세요.');
-      setRedirectUrl('/middleServer/products');
+      setRedirectUrl('/products');
       setRedirect(true);
       return;
     }
 
-    setRedirectUrl('/middleServer/ready');
+    setRedirectUrl('/ready');
     setRedirect(true);
   };
   return (
@@ -61,7 +61,7 @@ const Home = ({
           label="시작하기"
           onClick={startService}
           mode="large"
-          thema="secondary"
+          thema="point"
           type="button"
         />
       </div>

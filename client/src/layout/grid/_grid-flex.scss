@@ -185,8 +185,15 @@
   &--vertical {
     flex-direction: column;
     height: 100%;
+    .flex-grid {
+      margin:0;
+    }
 
-
+    & > div:last-child {
+      .JDcard {
+        margin-bottom: 0;
+      }
+    }
   }
 
   @include grid-system-vertical(full);

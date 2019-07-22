@@ -1,6 +1,34 @@
 @import "../../style_config/style_config";
 
+
+// end부분 회색주석
+#root,.ReactModalPortal {
+    .DayPicker--reservation {
+        .DayPicker-Body {
+        .DayPicker-Week {
+            .DayPicker-Day--selected.DayPicker-Day.DayPicker-Day--end {
+                background-color: $grey-level3;
+            }
+        }
+    }
+    }
+}
+
 .DayPicker {
+
+    
+
+
+    &--showWeekEndColor {
+        .DayPicker-WeekdaysRow {
+            & > div:nth-child(1) {
+                color: $warn-color;
+            }
+        }
+        .DayPicker-Caption__week--0 {
+            color: $warn-color;
+        }
+    }
 
     &--readOnly {
         pointer-events: none;
@@ -79,8 +107,12 @@
         min-width: 330px;
     }    
 
+    // 달력위 오른쪽 왼쪽 버튼들
+    // 👿 클래스명 달아줘라
     .JDbtn {
+        padding-top: $daypicker-insdie-padding;
         margin-bottom: 0;
+        border:none;
     }
 
     .DayPicker-Months {
@@ -99,6 +131,7 @@
         }
 
         .DayPicker-Month {
+            padding: $daypicker-insdie-padding;
 
             .DayPicker-Caption {
                 height: $daypicker-caption-height;
@@ -151,7 +184,7 @@
                         }
 
                         &--start.DayPicker-Day--end {
-                            border-radius: 0;
+                            border-radius: 8px/12px;
                             background-color: $primary-color;
                         }
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useMemo} from "react";
 import {ErrProtecter, onCompletedMessage} from "../../../utils/utils";
 import JDSlider from "../../../atoms/slider/Slider";
 import DashBoard from "./DashBoard";
@@ -11,29 +11,34 @@ class UpdateHouse extends Mutation<updateHouse, updateHouseVariables> {}
 
 interface Iprops {
   userData: IUser;
-  house: IHouse;
+  house: IHouse | undefined;
 }
 
 // eslint-disable-next-line react/prop-types
-const DashBoardWrap: React.SFC<Iprops> = ({house, userData}) => {
-  return (
-    <div>
-      <UpdateHouse
-        mutation={UPDATE_HOUSE}
-        onCompleted={({UpdateHouse}) => {
-          onCompletedMessage(UpdateHouse, "메모 저장완료", "메모 저장실패");
-        }}
-      >
-        {updateHouseMu => (
-          <DashBoard
-            updateHouseMu={updateHouseMu}
-            house={house}
-            userData={userData}
-          />
-        )}
-      </UpdateHouse>
-    </div>
+const DashBoardWrap: React.FC<Iprops> = ({house, userData}) => {
+  const MemorizedDashBoardWrap = useMemo(
+    () => (
+      <div>
+        <UpdateHouse
+          mutation={UPDATE_HOUSE}
+          onCompleted={({UpdateHouse}) => {
+            onCompletedMessage(UpdateHouse, "메모 저장완료", "메모 저장실패");
+          }}
+        >
+          {updateHouseMu => (
+            <DashBoard
+              updateHouseMu={updateHouseMu}
+              house={house}
+              userData={userData}
+            />
+          )}
+        </UpdateHouse>
+      </div>
+    ),
+    [userData._id]
   );
+
+  return <div>{MemorizedDashBoardWrap}</div>;
 };
 
 export default ErrProtecter(DashBoardWrap);

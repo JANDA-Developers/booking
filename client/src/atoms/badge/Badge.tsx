@@ -4,7 +4,7 @@ import classnames from 'classnames';
 
 export enum BADGE_THEMA {
   PRIMARY = 'primary',
-  SECONDARY = 'secondary',
+  point = 'point',
   ERROR = 'error',
   NEW = 'new',
   WHITE = 'white',
@@ -21,7 +21,7 @@ const JDbadge: React.SFC<IProps> = ({ className, thema, ...props }) => {
     'JDbadge--black': thema === BADGE_THEMA.BLACK,
     'JDbadge--white': thema === BADGE_THEMA.WHITE,
     'JDbadge--primary': thema === BADGE_THEMA.PRIMARY,
-    'JDbadge--secondary': thema === BADGE_THEMA.SECONDARY,
+    'JDbadge--point': thema === BADGE_THEMA.point,
     'JDbadge--error': thema === BADGE_THEMA.ERROR,
     'JDbadge--new': thema === BADGE_THEMA.NEW,
   });

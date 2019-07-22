@@ -39,7 +39,7 @@ const AddtionModule: React.FC<IProps> = ({
     }}
     className="addtionModule"
   >
-    <div className="addtionModule__title JDlarge-text">{addtionInfo.name}</div>
+    <h6 className="addtionModule__title">{addtionInfo.name}</h6>
     <span className="addtionModule__descrition">{addtionInfo.description}</span>
     <span className="addtionModule__updateAt">{addtionInfo.updateAt}</span>
   </div>

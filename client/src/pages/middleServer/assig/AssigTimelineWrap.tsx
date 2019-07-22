@@ -18,7 +18,9 @@ import {
   deleteBlock,
   deleteBlockVariables,
   createBlock,
-  createBlockVariables
+  createBlockVariables,
+  updateBlockOption,
+  updateBlockOptionVariables
 } from "../../../types/api";
 import {useToggle, useDayPicker} from "../../../actions/hook";
 import {IRoomType, IGuests, IBlock, IHouse} from "../../../types/interface";
@@ -45,13 +47,14 @@ import {
   DELETE_BLOCK,
   GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM,
   CREATE_BLOCK,
-  DELETE_BOOKING
+  DELETE_BOOKING,
+  UPDATE_BLOCK_OPTION
 } from "../../../queries";
 import AssigTimeline from "./AssigTimeline";
 import {setYYYYMMDD, parallax} from "../../../utils/setMidNight";
 import {roomDataManufacture} from "./components/groupDataMenufacture";
 import reactWindowSize, {WindowSizeProps} from "react-window-size";
-import {DEFAULT_ASSIG_ITEM} from "../../../types/defaults";
+import {DEFAULT_ASSIG_ITEM, DEFAULT_BLOCK_OP} from "../../../types/defaults";
 import {
   IAssigMutationes,
   IAssigItem,
@@ -63,6 +66,10 @@ moment.tz.setDefault("UTC");
 class UpdateBookingMu extends Mutation<updateBooking, updateBookingVariables> {}
 class CreateBlockMu extends Mutation<createBlock, createBlockVariables> {}
 class DeleteBookingMu extends Mutation<deleteBooking, deleteBookingVariables> {}
+class UpdateBlockOpMu extends Mutation<
+  updateBlockOption,
+  updateBlockOptionVariables
+> {}
 
 interface IProps {
   houseId: string;
@@ -196,7 +203,9 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
           canMove: true,
           // @ts-ignore
           type: guestData.guestType || "GUEST",
-          bedIndex: guestData.bedIndex
+          bedIndex: guestData.bedIndex,
+          blockOption: guestData.blockOption || DEFAULT_BLOCK_OP,
+          showEffect: false
         });
       }
     });
@@ -285,13 +294,6 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                 });
               }
             }}
-            // refetchQueries={[{
-            //   query: GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM ,
-            //   variables: {
-            //     houseId,
-            //     start: setYYYYMMDD(moment(dataTime.start)),
-            //     end: setYYYYMMDD(moment(dataTime.end)),
-            // }}]}
             mutation={ALLOCATE_GUEST_TO_ROOM}
           >
             {allocateMu => (
@@ -340,41 +342,57 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                                   );
                                 }}
                               >
-                                {deleteBookingMu => {
-                                  const assigMutationes: IAssigMutationes = {
-                                    updateBookingMu,
-                                    deleteBookingMu,
-                                    deleteGuestsMu: deleteGuestMu,
-                                    createBlockMu,
-                                    deleteBlockMu,
-                                    allocateMu
-                                  };
-
-                                  return (
-                                    <AssigTimeline
-                                      house={house}
-                                      houseId={houseId}
-                                      houseConfig={houseConfig}
-                                      loading={loading}
-                                      groupData={formatedRoomData}
-                                      deafultGuestsData={formatedItemData || []}
-                                      dayPickerHook={dayPickerHook}
-                                      defaultProps={assigDefaultProps}
-                                      roomTypesData={roomTypesData || []}
-                                      defaultTimeStart={defaultStartDate}
-                                      assigMutationes={assigMutationes}
-                                      defaultTimeEnd={defaultEndDate}
-                                      setDataTime={setDataTime}
-                                      windowHeight={windowHeight}
-                                      windowWidth={windowWidth}
-                                      dataTime={dataTime}
-                                      key={`timeline${dayPickerHook.from}${
-                                        dayPickerHook.to
-                                      }${roomTypesData &&
-                                        roomTypesData.length}`}
-                                    />
-                                  );
-                                }}
+                                {deleteBookingMu => (
+                                  <UpdateBlockOpMu
+                                    mutation={UPDATE_BLOCK_OPTION}
+                                    onError={showError}
+                                    onCompleted={({UpdateBlockOption}) => {
+                                      onCompletedMessage(
+                                        UpdateBlockOption,
+                                        "변경완료",
+                                        "적용실패"
+                                      );
+                                    }}
+                                  >
+                                    {updateBlockOpMu => {
+                                      const assigMutationes: IAssigMutationes = {
+                                        updateBookingMu,
+                                        deleteBookingMu,
+                                        deleteGuestsMu: deleteGuestMu,
+                                        createBlockMu,
+                                        deleteBlockMu,
+                                        updateBlockOpMu,
+                                        allocateMu
+                                      };
+                                      return (
+                                        <AssigTimeline
+                                          house={house}
+                                          houseId={houseId}
+                                          houseConfig={houseConfig}
+                                          loading={loading}
+                                          groupData={formatedRoomData}
+                                          deafultGuestsData={
+                                            formatedItemData || []
+                                          }
+                                          dayPickerHook={dayPickerHook}
+                                          defaultProps={assigDefaultProps}
+                                          roomTypesData={roomTypesData || []}
+                                          defaultTimeStart={defaultStartDate}
+                                          assigMutationes={assigMutationes}
+                                          defaultTimeEnd={defaultEndDate}
+                                          setDataTime={setDataTime}
+                                          windowHeight={windowHeight}
+                                          windowWidth={windowWidth}
+                                          dataTime={dataTime}
+                                          key={`timeline${dayPickerHook.from}${
+                                            dayPickerHook.to
+                                          }${roomTypesData &&
+                                            roomTypesData.length}`}
+                                        />
+                                      );
+                                    }}
+                                  </UpdateBlockOpMu>
+                                )}
                               </DeleteBookingMu>
                             )}
                           </DeleteBlockMu>

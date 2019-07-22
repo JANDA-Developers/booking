@@ -1,15 +1,18 @@
-import React, { Fragment } from "react";
-import { NavLink, Link } from "react-router-dom";
-import PropTypes, { string } from "prop-types";
+import React, {Fragment} from "react";
+import {NavLink, Link} from "react-router-dom";
+import PropTypes, {string} from "prop-types";
 import "./SideNav.scss";
 import classNames from "classnames";
 import ErrProtecter from "../../utils/errProtect";
-import Icon, { IIcons } from "../../atoms/icons/Icons";
+import Icon, {IIcons} from "../../atoms/icons/Icons";
 import Button from "../../atoms/button/Button";
+import JDmenu, {JDmenuItem, JDsubMenu} from "../../atoms/menu/Menu";
 import ProfileCircle from "../../atoms/profileCircle/ProfileCircle";
 import SelectHouseWrap from "../selectHouse/SelectHouseWrap";
-import { IUser, IProduct, IHouse } from "../../types/interface";
-import { isEmpty } from "../../utils/utils";
+import {IUser, IProduct, IHouse} from "../../types/interface";
+import {isEmpty, s4, instanceOfA, isTestProduct} from "../../utils/utils";
+import {ProductStatus} from "../../types/enum";
+import {Product} from "../../types/enum";
 
 interface IProps {
   isOpen: boolean;
@@ -36,70 +39,101 @@ const SideNav: React.FC<IProps> = ({
   });
 
   const handleCurtainClick = () => {
-    setIsOpen();
+    setIsOpen(false);
   };
 
   const isHouseMaked = !isEmpty(selectedHouse);
   const isHaveProduct = selectedHouse && selectedHouse.product ? true : false;
   const isRoomTypeMaked = isHouseMaked && !isEmpty(selectedHouse!.roomTypes);
 
+  const product = selectedHouse && selectedHouse.product;
+  let status = ProductStatus.DISALBE;
+  if (product) {
+    status = product.status || ProductStatus.DISALBE;
+    if (status !== ProductStatus.DISALBE && isTestProduct(product.name))
+      status = ProductStatus.ENABLE;
+  }
   interface IMenusItem {
     to: string;
     label: string;
     icon: IIcons;
     disabled: boolean;
   }
-  const menues: IMenusItem[] = [
+
+  interface IMenusGroup {
+    disabled: boolean;
+    groupTitle: string;
+    contents: IMenusItem[];
+  }
+  const menues: (IMenusItem | IMenusGroup)[] = [
     {
-      to: "/middleServer/assigTimeline",
-      disabled: !isRoomTypeMaked,
-      icon: "calendar",
-      label: "배정달력"
+      to: "/middleServer",
+      icon: "apps",
+      label: "대쉬보드",
+      disabled: false
     },
     {
-      to: "/middleServer/resvList",
+      groupTitle: "예약관리",
+      disabled: status !== ProductStatus.ENABLE,
+      contents: [
+        {
+          to: "/assigTimeline",
+          disabled: status !== ProductStatus.ENABLE,
+          icon: "calendar",
+          label: "배정달력"
+        },
+        {
+          to: "/resvList",
+          disabled: status !== ProductStatus.ENABLE,
+          icon: "list",
+          label: "예약목록"
+        }
+      ]
+    },
+    {
+      groupTitle: "설정 및 셋팅",
       disabled: !isHaveProduct,
-      icon: "list",
-      label: "예약목록"
+      contents: [
+        {
+          to: "/timelineConfig",
+          icon: "roomChange",
+          label: "방 설정",
+          disabled: !isHaveProduct
+        },
+        {
+          to: "/setPrice",
+          icon: "money",
+          label: "가격설정",
+          disabled: !isHaveProduct
+        },
+        {
+          to: "/sms",
+          icon: "sms",
+          label: "SMS설정",
+          disabled: !isHaveProduct
+        },
+        {
+          to: "/config",
+          icon: "config",
+          label: "환경설정",
+          disabled: !isHaveProduct
+        }
+      ]
     },
     {
-      to: "/middleServer/setPrice",
-      icon: "money",
-      label: "가격설정",
-      disabled: !isRoomTypeMaked
-    },
-    {
-      to: "/middleServer/sms",
-      icon: "sms",
-      label: "SMS설정",
-      disabled: !isRoomTypeMaked
-    },
-    {
-      to: "/middleServer/timelineConfig",
-      icon: "roomChange",
-      label: "방 설정",
-      disabled: !isHaveProduct
-    },
-    // {
-    //   to: "/middleServer/config",
-    //   icon: "config",
-    //   label: "환경설정",
-    //   disabled: !isHaveProduct
-    // },
-    {
-      to: "/middleServer/makeHouse",
+      to: "/makeHouse",
       icon: "house",
       label: "숙소생성",
       disabled: false
     },
     {
-      to: "/middleServer/products",
+      to: "/products",
       icon: "gift",
       label: "서비스상품",
       disabled: false
     },
     {
-      to: "/middleServer/qna",
+      to: "/qna",
       icon: "question",
       label: "고객문의",
       disabled: false
@@ -116,6 +150,23 @@ const SideNav: React.FC<IProps> = ({
     }
   };
 
+  const renderLink = (menu: IMenusItem) => {
+    return (
+      <NavLink
+        to={menu.to || "a"}
+        onClick={e => {
+          handleClickNavLInk(e, menu.disabled);
+        }}
+        className={`JDsideNav__navLink ${
+          menu.disabled ? "JDsideNav__navLink--disabled" : ""
+        }`}
+      >
+        <Icon icon={menu.icon} />
+        <span className="JDsideNav__title">{menu.label}</span>
+      </NavLink>
+    );
+  };
+
   const sortedMenus = menues.sort((menu, menu2) => {
     return menu.disabled === menu2.disabled ? 0 : menu.disabled ? 1 : -1;
   });
@@ -125,9 +176,9 @@ const SideNav: React.FC<IProps> = ({
       <div className={classes}>
         {/* 프로필 */}
         <div className="JDsideNav__profill">
-          <Link to="/middleServer/myPage">
+          <Link to="/myPage">
             <div className="JDsideNav__circle">
-              <ProfileCircle profileImg={profileImg} />
+              <ProfileCircle isBordered profileImg={profileImg} />
             </div>
           </Link>
           <span className="JDsideNav__name">
@@ -137,22 +188,19 @@ const SideNav: React.FC<IProps> = ({
         </div>
         {/* 리스트 컨테이너 */}
         <div className="JDsideNav__listContainer">
-          {sortedMenus.map((menu, index) => (
-            <NavLink
-              // 👿 Id로 쓸만한거없나
-              key={menu.to + index}
-              to={menu.to}
-              onClick={e => {
-                handleClickNavLInk(e, menu.disabled);
-              }}
-              className={`JDsideNav__navLink ${
-                menu.disabled ? "JDsideNav__navLink--disabled" : ""
-              }`}
-            >
-              <Icon icon={menu.icon} />
-              <span className="JDsideNav__title">{menu.label}</span>
-            </NavLink>
-          ))}
+          <JDmenu customMode="sideNav" mode="inline">
+            {sortedMenus.map(menu =>
+              instanceOfA<IMenusGroup>(menu, "contents") ? (
+                <JDsubMenu title={menu.groupTitle}>
+                  <JDmenuItem>
+                    {menu.contents.map(content => renderLink(content))}
+                  </JDmenuItem>
+                </JDsubMenu>
+              ) : (
+                <JDmenuItem key={s4()}>{renderLink(menu)}</JDmenuItem>
+              )
+            )}
+          </JDmenu>
         </div>
         {/* 하단 상품뷰 */}
         <div className="JDsideNav__productView">
@@ -166,8 +214,8 @@ const SideNav: React.FC<IProps> = ({
             </div>
           </div>
           <div className="JDsideNav__upgradeBtn">
-            <NavLink to="/middleServer/products">
-              <Button label="업그레이드" mode="flat" />
+            <NavLink to="/products">
+              <Button label="업그레이드" mode="border" />
             </NavLink>
           </div>
         </div>

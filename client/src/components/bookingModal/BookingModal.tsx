@@ -47,6 +47,7 @@ import Preloader from "../../atoms/preloader/Preloader";
 import {validate} from "graphql";
 import {toast} from "react-toastify";
 import {isPhone} from "../../utils/inputValidations";
+import {autoComma} from "../../utils/utils";
 
 export interface IroomSelectInfoTable {
   roomTypeId: string;
@@ -59,6 +60,7 @@ interface IProps {
   modalHook: IUseModal;
   // 👿 bookingData 이렇게 광범위하게 받지말고 필요한부분만 포함 [foo:string]:any 로서 받을수있도록
   bookingData: GB_booking;
+  placeHolederPrice: number;
   createBookingMu: MutationFn<createBooking, createBookingVariables>;
   updateBookingMu: MutationFn<updateBooking, updateBookingVariables>;
   deleteBookingMu: MutationFn<deleteBooking, deleteBookingVariables>;
@@ -79,6 +81,7 @@ const POPbookingInfo: React.FC<IProps> = ({
   createBookingMu,
   deleteBookingMu,
   allocateGuestToRoomMu,
+  placeHolederPrice,
   assigInfo,
   loading,
   type = BookingModalType.LOOKUP,
@@ -319,7 +322,13 @@ const POPbookingInfo: React.FC<IProps> = ({
         <h6>결제정보</h6>
         <div className="flex-grid">
           <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
-            <InputText {...priceHook} returnNumber comma label="총금액" />
+            <InputText
+              {...priceHook}
+              placeholder={`정상가:${autoComma(placeHolederPrice)}`}
+              returnNumber
+              comma
+              label="총금액"
+            />
           </div>
           <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
             <SelectBox

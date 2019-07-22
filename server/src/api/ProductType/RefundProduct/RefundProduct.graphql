@@ -1,9 +1,0 @@
-type RefundProductResponse {
-    ok: Boolean!
-    error: String
-    house: House
-}
-type Mutation{
-    RefundProduct(houseId: ID!
-    productId: ID!): RefundProductResponse!
-}

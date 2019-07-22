@@ -1,9 +1,0 @@
-type GetSeasonPriceResponse {
-    ok: Boolean!
-    error: String
-    seasonPrices: [SeasonPrice!]
-}
-type Query {
-    # houseId에 해당하는 전체 방 타입 시즌 가격 가져오기
-    GetSeasonPrice(houseId: ID!): GetSeasonPriceResponse!
-}

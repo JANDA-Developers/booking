@@ -5,7 +5,7 @@ import Card from '../../../../atoms/cards/Card';
 import Icon from '../../../../atoms/icons/Icons';
 
 const MyProductAdd = () => (
-  <Link to="/middleServer/makeHouse">
+  <Link to="/makeHouse">
     <Card hoverDark>
       <h6 className="myProductAdd">
         <Icon icon="addCircle" />

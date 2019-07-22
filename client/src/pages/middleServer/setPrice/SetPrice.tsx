@@ -54,11 +54,11 @@ const SetPrice: React.SFC<IProps> = ({
         <h3>가격설정</h3>
         <div className={seasonCount !== 0 ? "docs-section__box" : undefined}>
           <div className="flex-grid flex-grid--end">
-            <Link to="/middleServer/specificPrice">
+            <Link to="/specificPrice">
               <Button float="right" icon="money" label="일별 가격설정 하기" />
             </Link>
           </div>
-          <p className="JDtextColor--secondary">
+          <p className="JDtextColor--point">
             * 상위에 있을수록 우선 적용됩니다.
           </p>
           <JDanimation

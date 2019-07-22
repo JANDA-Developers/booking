@@ -1,8 +1,0 @@
-type GetSmsInfoResponse {
-    ok: Boolean!
-    error: String
-    smsInfo: SmsInfo
-}
-type Query {
-    GetSmsInfo(houseId: ID!): GetSmsInfoResponse!
-}

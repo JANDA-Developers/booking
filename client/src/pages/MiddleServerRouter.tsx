@@ -1,6 +1,6 @@
 /* eslint-disable react/forbid-prop-types */
 import React, {Fragment} from "react";
-import {Route, Switch} from "react-router-dom";
+import {Route, Switch, Redirect} from "react-router-dom";
 import {graphql, compose} from "react-apollo";
 import {Helmet} from "react-helmet";
 import Header from "../components/headers/HeaderWrap";
@@ -33,6 +33,7 @@ import {
 import {UserRole} from "../types/enum";
 import {IHouse} from "../types/interface";
 import ConfigWrap from "./middleServer/config/ConfigWrap";
+import getKoreaSpecificDay from "../utils/getSpecificDay";
 
 interface IProps {
   GetUserInfo: any;
@@ -46,10 +47,9 @@ const JDmiddleServer: React.FC<IProps> = ({
     loading
   },
   GetUserInfo: {GetMyProfile: {user = {}} = {}, loading: loading2} = {},
-  selectedHouse: {lastSelectedHouse: tempLastSelectedHouse}
+  selectedHouse: {lastSelectedHouse: tempLastSelectedHouse, loading: loading3}
 }) => {
-  const [sideNavIsOpen, setSideNavIsOpen] = useToggle(false);
-  const isloading: boolean = loading || loading2;
+  const isloading: boolean = loading || loading2 || loading3;
   const houses: IHouse[] = user.houses || [];
 
   // 마지막으로 선택한 하우스
@@ -57,6 +57,7 @@ const JDmiddleServer: React.FC<IProps> = ({
     house => house._id === tempLastSelectedHouse.value
   );
 
+  getKoreaSpecificDay();
   // 마지막으로 선택한 하우스 또는 첫번째 하우스
   let selectedHouse = lastSelectedHouse || houses[0];
 
@@ -66,10 +67,9 @@ const JDmiddleServer: React.FC<IProps> = ({
   const applyedProduct = (selectedHouse && selectedHouse.product) || undefined;
   const {isPhoneVerified, userRole, profileImg} = user;
 
-  return isloading ? (
-    <Preloader page />
-  ) : (
+  return (
     <Fragment>
+      <Preloader page loading={isloading} />
       <Helmet>
         <title>JANDA | APP</title>
       </Helmet>
@@ -82,40 +82,35 @@ const JDmiddleServer: React.FC<IProps> = ({
             isPhoneVerified={isPhoneVerified}
             selectedHouse={selectedHouse}
             isLoggedIn={isLoggedIn}
-            sideNavOpener={setSideNavIsOpen}
+            applyedProduct={applyedProduct}
             houses={houses}
             profileImg={profileImg}
           />
         )}
       />
-      {/* 사이드 네비 */}
-      <SideNav
-        isOpen={sideNavIsOpen}
-        selectedHouse={selectedHouse}
-        applyedProduct={applyedProduct}
-        userInformation={user}
-        setIsOpen={setSideNavIsOpen}
-        houses={houses}
-        profileImg={profileImg}
-      />
+
       {/* 라우팅 시작 */}
       <Switch>
         {/* 인덱스 */}
-        {["/", "/middleServer"].map(path => (
+        {["/", "/middleServer", "dashBoard"].map(path => (
           <Route key={path} exact path={path}>
-            <Home
-              selectedHouse={selectedHouse}
-              houses={houses}
-              applyedProduct={applyedProduct}
-              isLoggedIn={isLoggedIn}
-              isPhoneVerified={isPhoneVerified}
-            />
+            {/* 대쉬보드 */}
+            {isLoggedIn ? (
+              <Route
+                exact
+                component={() => (
+                  <DashBoard house={selectedHouse} userData={user} />
+                )}
+              />
+            ) : (
+              <Login />
+            )}
           </Route>
         ))}
         {/* 마이 페이지 */}
         <Route
           exact
-          path="/middleServer/myPage"
+          path="/myPage"
           render={() =>
             isLoggedIn ? <MyPage userData={user} houses={houses} /> : <Login />
           }
@@ -123,27 +118,21 @@ const JDmiddleServer: React.FC<IProps> = ({
         {/* 숙소생성 */}
         <Route
           exact
-          path="/middleServer/makeHouse"
+          path="/makeHouse"
           component={isLoggedIn ? MakeHouse : Login}
         />
         {/* 숙소설정 */}
         <Route
           exact
-          path="/middleServer/config"
+          path="/config"
           render={() =>
             isLoggedIn ? <ConfigWrap house={selectedHouse} /> : <Login />
           }
         />
-        {/* 대쉬보드 */}
-        <Route
-          exact
-          path="/middleServer/dashBoard"
-          component={() => <DashBoard house={selectedHouse} userData={user} />}
-        />
         {/* 상품선택 */}
         <Route
           exact
-          path="/middleServer/products"
+          path="/products"
           render={() =>
             isLoggedIn ? (
               <Products
@@ -157,12 +146,12 @@ const JDmiddleServer: React.FC<IProps> = ({
           }
         />
         {/* 회원가입 */}
-        <Route exact path="/middleServer/signUp" component={SignUp} />
+        <Route exact path="/signUp" component={SignUp} />
         {/* SMS 히스토리 */}
         {selectedHouse && (
           <Route
             exact
-            path="/middleServer/smsHistory"
+            path="/smsHistory"
             render={() =>
               isLoggedIn ? (
                 <SmsHistory smsInfoId={selectedHouse.smsInfo._id} />
@@ -173,23 +162,15 @@ const JDmiddleServer: React.FC<IProps> = ({
           />
         )}
         {/* 로그인 */}
-        <Route
-          exact
-          path="/middleServer/login"
-          component={isLoggedIn ? undefined : Login}
-        />
+        <Route exact path="/login" component={isLoggedIn ? undefined : Login} />
         {/* 슈퍼관리자 */}
         <Route
           exact
-          path="/middleServer/superAdmin"
+          path="/superAdmin"
           component={userRole === UserRole.ADMIN ? SuperMain : NoMatch}
         />
         {/* 고객문의 */}
-        <Route
-          exact
-          path="/middleServer/qna"
-          component={isLoggedIn ? Qna : Login}
-        />
+        <Route exact path="/qna" component={isLoggedIn ? Qna : Login} />
         {/* 대기 */}
         {/* 여기이후로 상품이 있어야 나타날수있게 바뀜 */}
         {isEmpty(applyedProduct) ? (
@@ -197,7 +178,7 @@ const JDmiddleServer: React.FC<IProps> = ({
         ) : (
           <Route
             exact
-            path="/middleServer/ready"
+            path="/ready"
             render={() =>
               isLoggedIn ? (
                 <Ready
@@ -216,7 +197,7 @@ const JDmiddleServer: React.FC<IProps> = ({
         {/* 방배정 */}
         <Route
           exact
-          path="/middleServer/assigTimeline"
+          path="/assigTimeline"
           render={() => (
             <AssigTimeline
               house={selectedHouse}
@@ -227,7 +208,7 @@ const JDmiddleServer: React.FC<IProps> = ({
         {/* 자세한 가격설정 */}
         <Route
           exact
-          path="/middleServer/specificPrice"
+          path="/specificPrice"
           render={() =>
             isEmpty(selectedHouse) ? (
               <NoMatch />
@@ -239,7 +220,7 @@ const JDmiddleServer: React.FC<IProps> = ({
         {/* 방생성 */}
         <Route
           exact
-          path="/middleServer/timelineConfig"
+          path="/timelineConfig"
           render={() =>
             isEmpty(selectedHouse) ? (
               <NoMatch />
@@ -251,7 +232,7 @@ const JDmiddleServer: React.FC<IProps> = ({
         {/* SMS */}
         <Route
           exact
-          path="/middleServer/sms"
+          path="/sms"
           render={() =>
             isEmpty(selectedHouse) ? (
               <NoMatch />
@@ -263,7 +244,7 @@ const JDmiddleServer: React.FC<IProps> = ({
         {/* 가격설정 */}
         <Route
           exact
-          path="/middleServer/setPrice"
+          path="/setPrice"
           render={() =>
             isEmpty(selectedHouse) ? (
               <NoMatch />
@@ -275,7 +256,7 @@ const JDmiddleServer: React.FC<IProps> = ({
         {/* 예약목록 */}
         <Route
           exact
-          path="/middleServer/resvList"
+          path="/resvList"
           render={() =>
             isEmpty(selectedHouse) ? (
               <NoMatch />

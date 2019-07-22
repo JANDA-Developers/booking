@@ -4,20 +4,24 @@ import TooltipList, {
 } from "../../../../atoms/tooltipList/TooltipList";
 import Button from "../../../../atoms/button/Button";
 import {IUseModal} from "../../../../actions/hook";
-import {TToogleCheckIn, IAssigItem} from "./assigIntrerface";
+import {
+  TToogleCheckIn,
+  IAssigItem,
+  IAssigTimelineHooks,
+  IAssigTimelineUtils,
+  IAssigTimelineContext
+} from "./assigIntrerface";
 
 interface IProps {
-  toogleCheckInOut: TToogleCheckIn;
-  deleteGuestById(guestId: string): void;
-  bookingModalHook: IUseModal;
-  guestValue: IAssigItem[];
+  assigHooks: IAssigTimelineHooks;
+  assigUtils: IAssigTimelineUtils;
+  assigContext: IAssigTimelineContext;
 }
 
 const ItemMenu: React.FC<IProps> = ({
-  toogleCheckInOut,
-  deleteGuestById,
-  bookingModalHook,
-  guestValue
+  assigHooks: {guestValue, bookingModal, blockOpModal},
+  assigContext: {},
+  assigUtils: {deleteGuestById, toogleCheckInOut}
 }) => {
   return (
     <TooltipList
@@ -56,7 +60,18 @@ const ItemMenu: React.FC<IProps> = ({
               <Button
                 onClick={() => {
                   ReactTooltip.hide();
-                  bookingModalHook.openModal({
+                  blockOpModal.openModal(targetGuest);
+                }}
+                label="색상설정"
+                mode="flat"
+                color="white"
+              />
+            </li>
+            <li>
+              <Button
+                onClick={() => {
+                  ReactTooltip.hide();
+                  bookingModal.openModal({
                     bookingId: targetGuest.bookingId
                   });
                 }}

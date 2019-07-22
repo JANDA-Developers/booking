@@ -18,39 +18,39 @@ $z-index-10: 100; // sideNav  toast
 
 
 // -- TyphoGraphy 타이포 그래피
-$typho-large : 1.2rem;
+$typho-large : 1.3rem;
 $typho-normal : 1rem;
 $typho-small : 0.8rem;
 $typho-tiny : 10px;
 
 // -- Colors 컬러 칼라 
 $html-color: #343434 !default;
-$primary-color: #4c5b73 !default;
+$primary-color: #1D3A9A !default;
 $primary-color-on: #fff !default;
 $primary-color-light: lighten($primary-color, 15%) !default;
 $primary-color-light-on: #fff !default !default;
 $primary-color-dark: #445267 !default; // 흰색 호버 bg 에 오버랩 되었을때 컬러임
 $primary-color-dark-on: #fff !default !default;
-$secondary-color: #c56c47 !default;
-$secondary-color-on: #fff !default;
-$secondary-color-light: lighten($secondary-color, 15%) !default;
-$secondary-color-light-on: #fff !default;
-$secondary-color-dark: darken($secondary-color, 15%) !default;
-$secondary-color-dark-on: #fff !default;
+$point-color: #E3780C !default;
+$point-color-on: #fff !default;
+$point-color-light: lighten($point-color, 15%) !default;
+$point-color-light-on: #fff !default;
+$point-color-dark: darken($point-color, 15%) !default;
+$point-color-dark-on: #fff !default;
 $new-color: #ffb021 !default;
 $today-color: #2F9B5B !default;
 $new-color-on: $html-color !default;
 // 성공색은 너무 이질적인 느낌을 주어서 폐기합니다.
 // $success-color: #52a071 !default;
 $success-color: '-' !default;
-$background-color: #fff;
+$background-color: #FBFBFB;
 //TODO  여기 warn으로 이름교체
 $error-color: #ff6760 !default;
 $warn-color: #ff6760 !default;
 $warn-color-light: #ff9892 !default;
 $link-color: rgb(66, 62, 199) !default;
 $link-color-active: rgb(48, 45, 131) !default;
-$grey-level1: #EBEBEB !default; // 흰색 effect-dark 받을때 컬러 오버랩을 원치 않을때 사용
+$grey-level1: #E3E3E3 !default; // 흰색 effect-dark 받을때 컬러 오버랩을 원치 않을때 사용
 $grey-level2: #b8b8b8 !default; 
 $grey-level3: #787878 !default;
 $grey-level4: #585858 !default;
@@ -117,7 +117,8 @@ $standard-section-height: 23.4rem;
 $standard-disabled-color: $grey-level2 !default;
 $standard-space: 1rem !default; // except textInput 구조가 다름
 $standard-margin-bottom: 1.0rem !default; // except textInput 구조가 다름
-$standard-border-radius: 3px;
+$standard-text-term: .5rem !default;
+$standard-border-radius: 4px;
 $standard-line-height: 2.25rem; // ⭐️ 구성요소들이 한줄에 섰을때 세로 크기를 정의합니다.
 $standard-small-line-height: 2.25rem; // 헤더부분에서 사용중
 $standard-lists-line: 150%; // 옹기종기모인 div들 정리용
@@ -126,10 +127,13 @@ $standard-small-padding: 0.3125rem; // side
 $standard-padding: $standard-side-padding; // side
 $standard-icon-margin : 1rem;
 $standard-small-icon-margin : .5rem;
+$stadnard-background-color: white;
 $standard-outborder-color: $html-color; //화면 가장자리에 붙어있는 border들의 컬러
 // TODO: 새로추가됨 이걸로 정리해야함
 $standard-label-margin : 0.5rem;
-$standard-placeholder-color : $grey-level3;
+$standard-placeholder-color : $grey-level2;
+$standard-width: 4.5rem; // 정수를 곱해서 사용
+
 // ===========================================================================
 
 // 1. Forms 폼
@@ -172,8 +176,8 @@ $select-option-height: $standard-line-height;
 $select-padding: 2px .5rem !default;
 $select-radius: $standard-border-radius !default;
 $select-disabled-color: $standard-disabled-color !default;
-$select-menue-radius: 0px !default;
-$select-background: #fff !default;
+$select-menue-radius: $standard-border-radius !default;
+$select-background: transparent !default;
 $select-focus-border-color: $primary-color !default;
 $selcet-placeholder-color: $standard-placeholder-color;
 
@@ -227,6 +231,7 @@ $daypicker-day-transition: 0.2s !default;
 $daypicker-border: 1px solid $standard-outborder-color!default;
 $daypicker-border-radius: $standard-border-radius;
 $daypicker-today-color: $today-color;
+$daypicker-insdie-padding: $standard-small-padding;
 
 // -- horizen
 $horizen-caption-bgcolor : $grey-level1;
@@ -299,7 +304,6 @@ $searchInput-message-space: 1rem;
 $sideNav-list-padding: $standard-padding * 1.5;
 $sideNav-width : 200px;
 $sideNav-profile-height : 12rem;
-$sideNav-profile-circle-size : 72px;
 $sideNav-profile-circle-margin-top : 2rem;
 $sideNav-list-li-height : 54px;
 $sideNav-list-li-bgColor : white;
@@ -328,7 +332,7 @@ $slider-arrow-height : $circle-icon-size;
 
 // 11 Pagination 페이지네이션
 // ANCHOR paginiation Paginiation =========================================================================
-$pagination-li-radius: 0px;
+$pagination-li-radius: $standard-border-radius;
 $pagination-li-height: 2.25rem;
 $pagination-li-padding: 1rem;
 $pagination-li-margin: 0.5rem;
@@ -400,9 +404,9 @@ $colorPicker-outborder-color: $standard-outborder-color;
 // 21 assigTimeline 배정 타임라인 방배정 
 // ANCHOR assig Assig=========================================================================
 $assigItem-block-color: $html-color;
-$assigItem-normalStatus-color: rgba(33,83,219,.8);
-$assigItem-checkIn-color: rgba(255,238,0,.7);
-$assigItem-selected-border-color: #387BDB;
+$assigItem-normalStatus-color: #4079ecd1; //#2153dbcc
+$assigItem-checkIn-color:  rgba(255,238,0,.7);
+$assigItem-selected-border-color: #4e83efd1;
 $assigItem-linked-bgColor: rgba(255,255,255,.5);
 $assigItem-mark-bgColor: $assigItem-linked-bgColor;
 // 반하얀색임

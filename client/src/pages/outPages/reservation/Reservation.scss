@@ -69,8 +69,6 @@ $roomCardHeight: 130px;
             margin-left: -1px;
             height: 100%;
             margin-top: -1px;
-            border:1px solid $html-color;
-            border-radius: $standard-border-radius 0px 0px $standard-border-radius;
         }
 
         
@@ -84,14 +82,12 @@ $roomCardHeight: 130px;
 
         &__selectButton {
             position: absolute;
-            bottom:0;
-            right:0;
-
-            border-radius: $standard-border-radius 0px $standard-border-radius 0px; 
+            bottom: $standard-padding;
+            right: $standard-padding;
             
             @include response($mobile) {
-                bottom:$standard-padding /2;
-                right:$standard-padding /2;
+                // bottom:$standard-padding /2;
+                // right:$standard-padding /2;
                 border-radius: $standard-border-radius; 
             }
         }
@@ -102,6 +98,7 @@ $roomCardHeight: 130px;
 
             .roomTypeCard__price {
                 font-size: $typho-large;
+                font-weight: 600;
             }
         }
         
@@ -150,8 +147,17 @@ $roomCardHeight: 130px;
 }
 
 
+
 .roomImgPop {
     &__img {
         margin-bottom: $standard-margin-bottom;   
+    }
+}
+
+.bookerInfoBox {
+    &__agreePolicyBox {
+        display:flex;
+        justify-content: space-between;
+        align-items: center;
     }
 }

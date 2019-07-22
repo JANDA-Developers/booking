@@ -1,4 +1,17 @@
-#HomePage {
-    text-align: center;
+@import '../../style_config/style_config.scss';
 
+#NoMatch {
+    text-align: center;
+    .NoMatch__heart {
+        padding: 3rem 4.5rem;
+        margin-top: 3.5rem;
+        border-radius: 40%/45%;
+        display: inline-block;
+        background-color: $grey-level1;
+    }
+    .NoMatch__text {
+        @include response($tablet) {
+            font-size: 3.0rem; // h3
+        }       
+    }
 }

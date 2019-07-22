@@ -18,7 +18,9 @@ interface IProps {
 }
 
 const SystemDescription: React.FC<IProps> = ({updateHouseConfigMu, house}) => {
-  const [range, setRange] = useState<any>(0);
+  const [range, setRange] = useState<any>(
+    house.houseConfig.pollingPeriod ? house.houseConfig.pollingPeriod.period : 0
+  );
 
   const handleRangeChange = (value: any) => {
     if (typeof value !== "number") return;
@@ -46,18 +48,24 @@ const SystemDescription: React.FC<IProps> = ({updateHouseConfigMu, house}) => {
         <h6>풀링주기</h6>
         <JDLabel txt="풀링주기설정" />
         <JDrange
-          onChange={handleRangeChange}
+          onChange={setRange}
+          onChangeComplete={handleRangeChange}
           value={range}
           minValue={10000}
           maxValue={180000}
         />
         <p>
-          설정한 숫자/ms 마다 한번씩 서버로 부터 새로운 예약이 있는지 서버로부터
-          확인받습니다.
-          <br />
-          새로운 예약이 있다면 새로운 예약을 화면에 새로고침 없이 나타냅니다.
-          <br />* 컴퓨터 성능 및 잦은 화면 업데이트에 문제가 있을경우 풀링주기를
-          높게 설정해보세요.
+          <div className="">
+            설정한 숫자/ms 마다 한번씩 서버로 부터 새로운 예약이 있는지
+            서버로부터 확인받습니다.
+          </div>
+          <div>
+            새로운 예약이 있다면 새로운 예약을 화면에 새로고침 없이 나타냅니다.
+          </div>
+          <div>
+            * 컴퓨터 성능 및 잦은 화면 업데이트에 문제가 있을경우 풀링주기를
+            높게 설정해보세요.
+          </div>
         </p>
       </div>
     </div>

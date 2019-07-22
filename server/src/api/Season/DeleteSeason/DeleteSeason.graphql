@@ -1,7 +1,0 @@
-type DeleteSeasonResponse {
-    ok: Boolean!
-    error: String
-}
-type Mutation {
-    DeleteSeason(seasonId: ID!, houseId: ID!): DeleteSeasonResponse!
-}

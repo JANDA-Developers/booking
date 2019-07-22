@@ -101,7 +101,7 @@ const RoomConfigTimeline: React.SFC<IProps> = ({
               <Button
                 className="modifyGroups__roomGroupBtn"
                 style={roomTypeStyle}
-                thema="secondary"
+                thema="point"
                 label={
                   group.type === "addRoomType"
                     ? "방타입추가"
@@ -219,7 +219,7 @@ const RoomConfigTimeline: React.SFC<IProps> = ({
       <div className="docs-section">
         <h3>방생성 및 수정</h3>
         <div className="flex-grid flex-grid--end">
-          <Link to="/middleServer/assigTimeline">
+          <Link to="/assigTimeline">
             <Button
               float="right"
               onClick={setConfigMode}

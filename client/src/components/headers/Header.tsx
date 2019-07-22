@@ -11,18 +11,20 @@ import SelectBox from "../../atoms/forms/selectBox/SelectBox";
 import Icon from "../../atoms/icons/Icons";
 import {ErrProtecter} from "../../utils/utils";
 import logo from "../../img/logo/logo--white.png"; // with import
-import {useSelect, useModal} from "../../actions/hook";
+import {useSelect, useModal, useToggle} from "../../actions/hook";
 import SelectHouseWrap from "../selectHouse/SelectHouseWrap";
 import {IHouse, IDiv} from "../../types/interface";
 import JDsearchInput from "../../atoms/searchInput/SearchInput";
 import GuestSearchInputWrap from "./components/guestSearchInputWrap";
 import PhoneVerificationModalWrap from "../phoneVerificationModal/PhoneVerificationModalWrap";
+import SideNav from "../sideNav/SideNav";
 
 type ITempProps = IDiv & {
   isPhoneVerified?: boolean;
   isLoggedIn?: boolean;
   className?: string;
   sideNavOpener: any;
+  applyedProduct?: any;
   selectedHouse: IHouse;
   houses: IHouse[];
   logOutMutation: any;
@@ -35,13 +37,15 @@ type IProps = RouteComponentProps<any> & ITempProps;
 const Header: React.FC<IProps> = ({
   isPhoneVerified,
   isLoggedIn,
-  sideNavOpener,
+  applyedProduct,
   selectedHouse,
   houses,
   user,
   logOutMutation,
   profileImg
 }) => {
+  const [sideNavIsOpen, setSideNavIsOpen] = useToggle(false);
+
   // 셀렉트박스가 읽을수 있도록 변환
   useEffect(() => {
     ReactTooltip.rebuild();
@@ -58,7 +62,13 @@ const Header: React.FC<IProps> = ({
       </NavLink>
       {/* 메뉴버튼 */}
       <span className="header__menue">
-        <CircleIcon onClick={sideNavOpener} thema="white" darkWave>
+        <CircleIcon
+          onClick={() => {
+            setSideNavIsOpen();
+          }}
+          thema="white"
+          darkWave
+        >
           <Icon icon="menue" />
         </CircleIcon>
       </span>
@@ -80,7 +90,11 @@ const Header: React.FC<IProps> = ({
               size="tiny"
             />
           </span>
-          <SelectHouseWrap selectedHouse={selectedHouse} houses={houses} />
+          <SelectHouseWrap
+            className="header__selectHouse"
+            selectedHouse={selectedHouse}
+            houses={houses}
+          />
           {(user && isPhoneVerified) || (
             <span className="header__btns header__btns--mobileX">
               <Button
@@ -99,16 +113,10 @@ const Header: React.FC<IProps> = ({
         </Fragment>
       ) : (
         <Fragment>
-          <NavLink
-            className="header__btns header__btns--mobileX"
-            to="/middleServer/login"
-          >
+          <NavLink className="header__btns header__btns--mobileX" to="/login">
             <Button label="로그인" mode="flat" color="white" />
           </NavLink>
-          <NavLink
-            className="header__btns header__btns--mobileX"
-            to="/middleServer/signUp"
-          >
+          <NavLink className="header__btns header__btns--mobileX" to="/signUp">
             <Button label="회원가입" mode="flat" color="white" />
           </NavLink>
         </Fragment>
@@ -153,6 +161,7 @@ const Header: React.FC<IProps> = ({
                         phoneNumber: user.phoneNumber
                       });
                     }}
+                    id="HeaderPhoneVerificationBtn"
                     blink
                     label="인증하기"
                     mode="flat"
@@ -161,7 +170,7 @@ const Header: React.FC<IProps> = ({
                 </li>
               )}
               <li>
-                <NavLink to="/middleServer/myPage">
+                <NavLink to="/myPage">
                   <Button label="MYpage" mode="flat" color="white" />
                 </NavLink>
               </li>
@@ -169,12 +178,12 @@ const Header: React.FC<IProps> = ({
           ) : (
             <Fragment>
               <li>
-                <NavLink to="/middleServer/login">
+                <NavLink to="/login">
                   <Button label="로그인" mode="flat" color="white" />
                 </NavLink>
               </li>
               <li>
-                <NavLink className="header__btns" to="/middleServer/signUp">
+                <NavLink className="header__btns" to="/signUp">
                   <Button label="회원가입" mode="flat" color="white" />
                 </NavLink>
               </li>
@@ -182,6 +191,16 @@ const Header: React.FC<IProps> = ({
           )}
         </ul>
       </TooltipList>
+      {/* 사이드 네비 */}
+      <SideNav
+        isOpen={sideNavIsOpen}
+        selectedHouse={selectedHouse}
+        applyedProduct={applyedProduct}
+        userInformation={user}
+        setIsOpen={setSideNavIsOpen}
+        houses={houses}
+        profileImg={profileImg}
+      />
     </div>
   );
 };

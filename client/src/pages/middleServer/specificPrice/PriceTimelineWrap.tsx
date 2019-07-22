@@ -13,14 +13,18 @@ import {
   createRoomPrice,
   createRoomPriceVariables,
   deleteRoomPrice,
-  deleteRoomPriceVariables
+  deleteRoomPriceVariables,
+  priceTimelineGetPrice,
+  priceTimelineGetPriceVariables,
+  priceTimelineGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices
 } from "../../../types/api";
 import PriceTimeline from "./PriceTimeline";
 import {PriceTimelineDefaultProps} from "./timelineConfig";
 import {
   CREATE_ROOM_PRICE,
   GET_ALL_ROOMTYPES_PRICE,
-  DELETE_ROOM_PRICE
+  DELETE_ROOM_PRICE,
+  PRICE_TIMELINE_GET_PRICE
 } from "../../../queries";
 import {
   ErrProtecter,
@@ -33,8 +37,8 @@ import {TimePerMs} from "../../../types/enum";
 import {useDayPicker} from "../../../actions/hook";
 
 class GetAllRoomTypePriceQuery extends Query<
-  getAllRoomTypePrice,
-  getAllRoomTypePriceVariables
+  priceTimelineGetPrice,
+  priceTimelineGetPriceVariables
 > {}
 class CreateRoomPriceMu extends Mutation<
   createRoomPrice,
@@ -148,6 +152,23 @@ const PriceTimelineWrap: React.SFC<IProps> = ({houseId}) => {
     return priceMap;
   };
 
+  // 방타입과 날자 조합의 키를 가지고 value로 pirce를 가지는 Map 생성
+  const placeHolderMapMaker = (
+    priceData: priceTimelineGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices[]
+  ): Map<string, number> => {
+    const placeHolderMap = new Map();
+    priceData.map(price => {
+      if (!price.datePrices) return;
+      price.datePrices.map(datePrice => {
+        placeHolderMap.set(
+          price.roomType._id + setMidNight(moment(datePrice.date).valueOf()),
+          datePrice.price
+        );
+      });
+    });
+    return placeHolderMap;
+  };
+
   const queryVarialbes = {
     houseId,
     start: moment(dataTime.start)
@@ -164,7 +185,7 @@ const PriceTimelineWrap: React.SFC<IProps> = ({houseId}) => {
   return (
     <GetAllRoomTypePriceQuery
       fetchPolicy="network-only"
-      query={GET_ALL_ROOMTYPES_PRICE}
+      query={PRICE_TIMELINE_GET_PRICE}
       variables={queryVarialbes}
     >
       {({data, loading, error}) => {
@@ -174,16 +195,26 @@ const PriceTimelineWrap: React.SFC<IProps> = ({houseId}) => {
           "GetAllRoomType",
           "roomTypes",
           undefined
-        ); // 원본데이터
+        );
+        // 원본데이터
         const roomPriceData = queryDataFormater(
           data,
           "GetAllRoomPrice",
           "roomPrices",
-          undefined
-        ); // 원본데이터
-        const priceMap = roomPriceData
-          ? priceMapMaker(roomPriceData)
-          : new Map();
+          []
+        );
+
+        const turePriceData = queryDataFormater(
+          data,
+          "GetRoomTypeDatePrices",
+          "roomTypeDatePrices",
+          []
+        );
+
+        const priceMap = priceMapMaker(roomPriceData || []);
+
+        const placeHolderMap = placeHolderMapMaker(turePriceData || []);
+
         const items =
           roomTypesData &&
           itemMaker({
@@ -232,6 +263,7 @@ const PriceTimelineWrap: React.SFC<IProps> = ({houseId}) => {
                     defaultProps={PriceTimelineDefaultProps}
                     priceMap={priceMap}
                     roomTypesData={roomTypesData || undefined}
+                    placeHolderMap={placeHolderMap}
                     createRoomPriceMu={createRoomPriceMu}
                     dataTime={dataTime}
                     setDataTime={setDataTime}

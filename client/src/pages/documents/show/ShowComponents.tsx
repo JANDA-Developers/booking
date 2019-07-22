@@ -417,7 +417,7 @@ function ShowComponents() {
           <JDbadge thema={BADGE_THEMA.WHITE}>white</JDbadge>
           <JDbadge thema={BADGE_THEMA.BLACK}>black</JDbadge>
           <JDbadge thema={BADGE_THEMA.PRIMARY}>primary</JDbadge>
-          <JDbadge thema={BADGE_THEMA.SECONDARY}>secondary</JDbadge>
+          <JDbadge thema={BADGE_THEMA.point}>point</JDbadge>
           <JDbadge thema={BADGE_THEMA.NEW}>new</JDbadge>
         </div>
         {/* 테이블 */}
@@ -452,7 +452,7 @@ function ShowComponents() {
           </div>
           <div className="flex-grid__col">
             <Button label="primary" thema="primary" size="large" />
-            <Button label="secondary" thema="secondary" size="large" />
+            <Button label="point" thema="point" size="large" />
             <Button hrefOpen="./sss" label="" preloader icon="arrowRight" />
             <CircleIcon darkWave>
               <Icon icon="arrowLeft" />

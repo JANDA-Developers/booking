@@ -8,9 +8,10 @@ import JDLabel from "../label/JDLabel";
 
 interface IProps extends IDiv {
   className?: string;
-  mode?: "table" | "border";
+  mode?: "table" | "border" | "photoFrame";
   label?: JSX.Element | string;
   icon?: IIcons;
+  photo?: string;
   topLabel?: string;
   iconHover?: boolean;
   standard?: boolean;
@@ -28,12 +29,14 @@ const JDbox: React.FC<IProps> = ({
   mode,
   topLabel,
   standard,
+  photo,
   align,
   ...props
 }) => {
   const classes = classNames("JDbox", className, {
     "JDbox--normal": mode === undefined,
     "JDbox--table": mode === "table",
+    "JDbox--photoFrame": mode === "photoFrame",
     "JDbox--border": mode === "border",
     "JDbox--center": align === "center",
     "JDbox--standard": standard,
@@ -46,6 +49,7 @@ const JDbox: React.FC<IProps> = ({
       <div className={classes} {...props}>
         {label && <div className="JDbox__label">{label}</div>}
         <div className="JDbox__content">
+          {photo && <img src={photo} />}
           {children}
           <span>
             {icon && (
