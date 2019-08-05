@@ -13,34 +13,32 @@ import {
   GuestPartInput,
   getAvailableGuestCount,
   getAvailableGuestCountVariables,
-  getAppliedPriceWithDateRange,
-  getAppliedPriceWithDateRangeVariables,
   BookerInput,
-  getAppliedPriceWithDateRangeForBooker,
-  getAppliedPriceWithDateRangeForBookerVariables,
   getRoomTypeDatePrices,
   getRoomTypeDatePricesVariables,
   getRoomTypeDatePricesForBooker,
-  getRoomTypeDatePricesForBookerVariables
+  getRoomTypeDatePricesForBookerVariables,
+  getCapacityToRoomType,
+  getCapacityToRoomTypeVariables
 } from "../../../../types/api";
 import {
   GET_AVAILABLE_GUEST_COUNT,
-  GET_APPLIED_PRICE_WITH_DATE,
-  GET_APPLIED_PRICE_WITH_DATE_RANGE_FOR_BOOKER,
   GET_ROOM_TYPE_DATE_PRICE,
-  GET_ROOM_TYPE_DATE_PRICE_FOR_BOOKER
+  GET_ROOM_TYPE_DATE_PRICE_FOR_BOOKER,
+  GET_CAPACITY_TO_ROOM_TYPE
 } from "../../../../queries";
 import {IUseModal, IUseDayPicker} from "../../../../actions/hook";
 import {setYYYYMMDD} from "../../../../utils/setMidNight";
 import {IRoomType} from "../../../../types/interface";
-import {truePriceFinder, getAveragePrice} from "../../../../utils/booking";
+import {getAveragePrice} from "../../../../utils/booking";
 import moment from "moment";
+import {Gender} from "../../../../types/enum";
 
 class GetAvailGuestCountQu extends Query<
-  getAvailableGuestCount,
-  getAvailableGuestCountVariables
+  getCapacityToRoomType,
+  getCapacityToRoomTypeVariables
 > {}
-class GetAppliedPriceWithDate extends Query<
+class GetRoomTypeDatePricesForBooker extends Query<
   getRoomTypeDatePricesForBooker,
   getRoomTypeDatePricesForBookerVariables
 > {}
@@ -49,6 +47,7 @@ export interface IGuestCount {
   male: number;
   female: number;
   room: number;
+  get: Gender;
 }
 
 interface IProps {
@@ -79,46 +78,71 @@ const RoomTypeCardsWrap: React.SFC<IProps> = ({
   const [guestCountValue, setGuestCount] = useState<IGuestCount>({
     male: 0,
     female: 0,
-    room: 0
+    room: 0,
+    get: Gender.MALE
   });
 
   return (
     // 하나의 방타입에 하나의 카드
     <GetAvailGuestCountQu
-      query={GET_AVAILABLE_GUEST_COUNT}
-      fetchPolicy="network-only"
+      query={GET_CAPACITY_TO_ROOM_TYPE}
       variables={{
         start: setYYYYMMDD(dayPickerHook.from),
-        end: setYYYYMMDD(dayPickerHook.to),
-        femalePadding: guestCountValue.female,
-        malePadding: guestCountValue.male,
+        end: setYYYYMMDD(
+          moment(dayPickerHook.to!)
+            .add(-1, "day")
+            .toDate()
+        ),
+        initValue: {
+          count:
+            guestCountValue.get === Gender.FEMALE
+              ? guestCountValue.female
+              : guestCountValue.male,
+          gender: guestCountValue.get
+        },
         roomTypeId: roomTypeData._id
       }}
     >
-      {({data: roomCapacity, loading: countLoading, error}) => {
-        showError(error);
+      {({data, loading: countLoading, error}) => {
+        console.log(data);
+        console.log(data);
+        console.log(data);
+        console.log(data);
+        console.log(data);
 
         // 상대편 최대값은 알수있어도 스스로의 최대값이 변해버리기 때문에 두개가됨
         // 🏠 방타입의 경우에는 둘중 아무거나 조회해도 상관없음
-        const maleCount = queryDataFormater(
-          roomCapacity,
-          "GetMale",
-          "roomCapacity",
+        const count = queryDataFormater(
+          data,
+          "GetCapacityToRoomType",
+          "capacityRoomType",
           undefined
         );
-        const femaleCount = queryDataFormater(
-          roomCapacity,
-          "GetFemale",
-          "roomCapacity",
-          undefined
-        );
-        const availableCount = {
-          maleCount,
-          femaleCount
+
+        let availableCount = {
+          maleCount: 0,
+          femaleCount: 0,
+          roomCount: 0
         };
 
+        if (count) {
+          if (count.__typename === "CapacityRoomTypeDomitory") {
+            availableCount = {
+              maleCount: count.availableCount.male,
+              femaleCount: count.availableCount.female,
+              roomCount: 0
+            };
+          } else {
+            availableCount = {
+              maleCount: 0,
+              femaleCount: 0,
+              roomCount: count.count
+            };
+          }
+        }
+
         return (
-          <GetAppliedPriceWithDate
+          <GetRoomTypeDatePricesForBooker
             skip={dayPickerHook.to === null}
             variables={{
               end: setYYYYMMDD(moment(dayPickerHook.to!)),
@@ -128,7 +152,6 @@ const RoomTypeCardsWrap: React.SFC<IProps> = ({
             query={GET_ROOM_TYPE_DATE_PRICE_FOR_BOOKER}
           >
             {({data: priceData, loading: priceLoading, error}) => {
-              showError(error);
               const roomPrices = queryDataFormater(
                 priceData,
                 "GetRoomTypeDatePricesForBooker",
@@ -162,7 +185,7 @@ const RoomTypeCardsWrap: React.SFC<IProps> = ({
                 />
               );
             }}
-          </GetAppliedPriceWithDate>
+          </GetRoomTypeDatePricesForBooker>
         );
       }}
     </GetAvailGuestCountQu>

@@ -39,6 +39,7 @@
 
     .rct-header-root {
         top: $header-height;
+        z-index: 999999;
     }
 
     .assigTimeline__titleSection {
@@ -231,10 +232,11 @@
             .rct-outer {
                 background-image: linear-gradient(to right, #{$grey-level2} 0%, #fff 50%, #{$grey-level2} 100%);	
                 animation: grdAnime 2s infinite linear;
-                height: 13rem!important;
+                height: $standard-height * 10!important;
                 background-size: 200% auto;
             }
             .group,.rct-scroll{
+                z-index: 1;
                 opacity: 0;
             }
 

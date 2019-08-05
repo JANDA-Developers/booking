@@ -8,7 +8,7 @@ import TooltipList, {ReactTooltip} from "../../atoms/tooltipList/TooltipList";
 import ProfileCircle from "../../atoms/profileCircle/ProfileCircle";
 import CircleIcon from "../../atoms/circleIcon/CircleIcon";
 import SelectBox from "../../atoms/forms/selectBox/SelectBox";
-import Icon from "../../atoms/icons/Icons";
+import Icon, {IconSize} from "../../atoms/icons/Icons";
 import {ErrProtecter} from "../../utils/utils";
 import logo from "../../img/logo/logo--white.png"; // with import
 import {useSelect, useModal, useToggle} from "../../actions/hook";
@@ -22,6 +22,7 @@ import SideNav from "../sideNav/SideNav";
 type ITempProps = IDiv & {
   isPhoneVerified?: boolean;
   isLoggedIn?: boolean;
+  isLoading: boolean;
   className?: string;
   sideNavOpener: any;
   applyedProduct?: any;
@@ -42,12 +43,13 @@ const Header: React.FC<IProps> = ({
   houses,
   user,
   logOutMutation,
-  profileImg
+  profileImg,
+  isLoading
 }) => {
   const [sideNavIsOpen, setSideNavIsOpen] = useToggle(false);
 
-  // 셀렉트박스가 읽을수 있도록 변환
   useEffect(() => {
+    ReactTooltip.hide();
     ReactTooltip.rebuild();
   });
 
@@ -55,27 +57,31 @@ const Header: React.FC<IProps> = ({
   return (
     <div className="header">
       {/* 로고 */}
-      <NavLink to="/">
-        <span className="header__logoPlace">
-          <img className="header__logo" src={logo} alt="" />
+      <div className="header__left">
+        <NavLink to="/">
+          <span className="header__logoPlace">
+            <img className="header__logo" src={logo} alt="" />
+          </span>
+        </NavLink>
+        {/* 메뉴버튼 */}
+        <span className="header__menueWrap">
+          <span className="header__menue">
+            <Icon
+              onClick={() => {
+                setSideNavIsOpen();
+              }}
+              size={IconSize.LARGE}
+              icon="menue"
+            />
+          </span>
         </span>
-      </NavLink>
-      {/* 메뉴버튼 */}
-      <span className="header__menue">
-        <CircleIcon
-          onClick={() => {
-            setSideNavIsOpen();
-          }}
-          thema="white"
-          darkWave
-        >
-          <Icon icon="menue" />
-        </CircleIcon>
-      </span>
+      </div>
       {/* 게스트 서치용 */}
-      {selectedHouse && <GuestSearchInputWrap houseId={selectedHouse._id} />}
+      {selectedHouse && (<div className="header__center">
+        <GuestSearchInputWrap houseId={selectedHouse._id} />
+        </div>)}
       {isLoggedIn ? (
-        <Fragment>
+        <div className="header__right">
           <span
             data-tip
             data-delay-hide={0}
@@ -95,31 +101,32 @@ const Header: React.FC<IProps> = ({
             selectedHouse={selectedHouse}
             houses={houses}
           />
-          {(user && isPhoneVerified) || (
-            <span className="header__btns header__btns--mobileX">
-              <Button
-                onClick={() => {
-                  phoneVerificationModalHook.openModal({
-                    phoneNumber: user.phoneNumber
-                  });
-                }}
-                label="인증하기"
-                blink
-                mode="flat"
-                color="white"
-              />
-            </span>
-          )}
-        </Fragment>
+          {(user && isPhoneVerified) ||
+            (!isLoading && (
+              <span className="header__btns header__btns--mobileX">
+                <Button
+                  onClick={() => {
+                    phoneVerificationModalHook.openModal({
+                      phoneNumber: user.phoneNumber
+                    });
+                  }}
+                  label="인증하기"
+                  blink
+                  mode="flat"
+                  color="white"
+                />
+              </span>
+            ))}
+        </div>
       ) : (
-        <Fragment>
-          <NavLink className="header__btns header__btns--mobileX" to="/login">
-            <Button label="로그인" mode="flat" color="white" />
-          </NavLink>
-          <NavLink className="header__btns header__btns--mobileX" to="/signUp">
-            <Button label="회원가입" mode="flat" color="white" />
-          </NavLink>
-        </Fragment>
+          <div className="header__right_pc_btns">
+            <NavLink className="header__btns header__btns--mobileX" to="/login">
+              <Button className="hader__btn" label="로그인" mode="flat" color="white" />
+            </NavLink>
+            <NavLink className="header__btns header__btns--mobileX" to="/signUp">
+              <Button className="hader__btn" label="회원가입" mode="flat" color="white"/>
+            </NavLink>
+          </div>
       )}
       {/* 앱 서클 */}
       <span
@@ -129,11 +136,13 @@ const Header: React.FC<IProps> = ({
         data-event="click"
         className="header__apps"
         data-place="bottom"
-        data-offset="{'top': 10, 'left': 40}"
+        data-offset="{'top': -5, 'left': 25}"
       >
-        <CircleIcon thema="white" darkWave>
-          <Icon icon="apps" />
-        </CircleIcon>
+        <Icon
+          className="header__mobileMenu"
+          size={IconSize.MEDIUM}
+          icon="apps"
+        />
       </span>
 
       <PhoneVerificationModalWrap
@@ -147,19 +156,23 @@ const Header: React.FC<IProps> = ({
             <Fragment>
               <li>
                 <Button
-                  onClick={logOutMutation}
+                  onClick={()=>{
+                    logOutMutation();
+                    ReactTooltip.hide();
+                  }}
                   label="로그아웃"
                   mode="flat"
                   color="white"
                 />
               </li>
-              {isPhoneVerified || (
+              {isLoading !== true && !isPhoneVerified && (
                 <li>
                   <Button
                     onClick={() => {
                       phoneVerificationModalHook.openModal({
                         phoneNumber: user.phoneNumber
                       });
+                      ReactTooltip.hide();
                     }}
                     id="HeaderPhoneVerificationBtn"
                     blink
@@ -179,12 +192,12 @@ const Header: React.FC<IProps> = ({
             <Fragment>
               <li>
                 <NavLink to="/login">
-                  <Button label="로그인" mode="flat" color="white" />
+                  <Button onClick={()=>{ReactTooltip.hide();}} label="로그인" mode="flat" color="white" />
                 </NavLink>
               </li>
               <li>
                 <NavLink className="header__btns" to="/signUp">
-                  <Button label="회원가입" mode="flat" color="white" />
+                  <Button onClick={()=>{ReactTooltip.hide()}} label="회원가입" mode="flat" color="white" />
                 </NavLink>
               </li>
             </Fragment>

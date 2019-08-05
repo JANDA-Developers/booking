@@ -3,6 +3,7 @@ import {IAddition, IAddtionProp} from "../components/AddtionModule";
 import SystemDescription from "./systemConfig";
 import AssigTimelineRoomTypeTab from "./assigTimelineRoomTypeTab";
 import AssigBlockOP from "./assigBlockOP";
+import NewBookingMark from "./newBookingMark";
 
 export const additiones: IAddition[] = [
   {
@@ -24,5 +25,11 @@ export const additiones: IAddition[] = [
     name: "게스트 상세설정",
     updateAt: "2019-07-14",
     detailDescription: (prop: IAddtionProp) => <AssigBlockOP {...prop} />
+  },
+  {
+    description: "새로운 예약을 화면에서 표시합니다.",
+    name: "새로운 예약 알림",
+    updateAt: "2019-07-14",
+    detailDescription: (prop: IAddtionProp) => <NewBookingMark {...prop} />
   }
 ];

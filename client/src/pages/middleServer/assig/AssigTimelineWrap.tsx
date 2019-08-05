@@ -56,9 +56,10 @@ import {roomDataManufacture} from "./components/groupDataMenufacture";
 import reactWindowSize, {WindowSizeProps} from "react-window-size";
 import {DEFAULT_ASSIG_ITEM, DEFAULT_BLOCK_OP} from "../../../types/defaults";
 import {
-  IAssigMutationes,
+  IAssigDataControl,
   IAssigItem,
-  IAssigItemCrush
+  IAssigItemCrush,
+  IAssigMutationLoading
 } from "./components/assigIntrerface";
 
 moment.tz.setDefault("UTC");
@@ -112,6 +113,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
             .valueOf()
         )
   );
+
   const [dataTime, setDataTime] = useState({
     start: setMidNight(
       moment()
@@ -133,7 +135,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
       return guestData.isSettleable.duplicateDates.map(date => ({
         start: moment(date.start).valueOf(),
         end: moment(date.end).valueOf(),
-        guestIndex: index,
+        itemIndex: index,
         reason: ""
       }));
     }
@@ -186,25 +188,44 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
         guestData.roomType &&
         guestData.allocatedRoom
       ) {
+        const {
+          _id,
+          name,
+          roomType,
+          booking,
+          gender,
+          isUnsettled,
+          bedIndex,
+          start,
+          allocatedRoom,
+          end
+        } = guestData;
+        const {checkIn, _id: bookingId, isNew, isConfirm} = booking;
         alloCateItems.push({
-          id: guestData._id,
-          guestIndex: index,
-          name: guestData.name,
-          bookingId: guestData.booking._id,
-          isCheckin: guestData.booking.checkIn.isIn,
-          gender: guestData.gender,
-          roomTypeId: guestData.roomType._id,
-          roomId: guestData.allocatedRoom._id,
-          isUnsettled: guestData.isUnsettled,
-          group: guestData.allocatedRoom._id + guestData.bedIndex,
-          start: moment(guestData.start).valueOf(),
-          end: moment(guestData.end).valueOf(),
+          id: _id,
+          itemIndex: index,
+          name: name,
+          loading: false,
+          bookingId: bookingId,
+          isCheckin: checkIn.isIn,
+          gender: gender,
+          roomTypeId: roomType._id,
+          showNewBadge: isNew && !isConfirm,
+          roomId: allocatedRoom._id,
+          isUnsettled: isUnsettled,
+          group: allocatedRoom._id + bedIndex,
+          start: moment(start).valueOf(),
+          end: moment(end).valueOf(),
           validate: crushTimeMake(guestData, index),
+          canResize: false,
           canMove: true,
           // @ts-ignore
           type: guestData.guestType || "GUEST",
           bedIndex: guestData.bedIndex,
-          blockOption: guestData.blockOption || DEFAULT_BLOCK_OP,
+          blockOption: Object.assign(
+            {},
+            guestData.blockOption || DEFAULT_BLOCK_OP
+          ),
           showEffect: false
         });
       }
@@ -234,7 +255,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
         bookingStatus: BookingStatus.COMPLETE
       }}
     >
-      {({data, loading, error}) => {
+      {({data, loading, error, stopPolling, startPolling, networkStatus}) => {
         showError(error);
         const roomTypesData = queryDataFormater(
           data,
@@ -297,18 +318,16 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
             mutation={ALLOCATE_GUEST_TO_ROOM}
           >
             {allocateMu => (
-              <UpdateBookingMu mutation={UPDATE_BOOKING} onError={showError}>
-                {updateBookingMu => (
+              <UpdateBookingMu mutation={UPDATE_BOOKING}>
+                {(updateBookingMu, {loading: updateBookingLoading}) => (
                   <DeleteGuestMu
                     onCompleted={({DeleteGuests}) => {
                       onCompletedMessage(DeleteGuests, "삭제완료", "삭제실패");
                     }}
                     mutation={DELETE_GUEST}
-                    onError={showError}
                   >
-                    {deleteGuestMu => (
+                    {(deleteGuestMu, {loading: deleteGuestLoading}) => (
                       <CreateBlockMu
-                        onError={showError}
                         onCompleted={({CreateBlock}) => {
                           onCompletedMessage(
                             CreateBlock,
@@ -318,9 +337,8 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                         }}
                         mutation={CREATE_BLOCK}
                       >
-                        {createBlockMu => (
+                        {(createBlockMu, {loading: createBlockLoading}) => (
                           <DeleteBlockMu
-                            onError={showError}
                             onCompleted={({DeleteBlock}) => {
                               onCompletedMessage(
                                 DeleteBlock,
@@ -330,10 +348,9 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                             }}
                             mutation={DELETE_BLOCK}
                           >
-                            {deleteBlockMu => (
+                            {(deleteBlockMu, {loading: deleteBlockLoading}) => (
                               <DeleteBookingMu
                                 mutation={DELETE_BOOKING}
-                                onError={showError}
                                 onCompleted={({DeleteBooking}) => {
                                   onCompletedMessage(
                                     DeleteBooking,
@@ -342,10 +359,12 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                                   );
                                 }}
                               >
-                                {deleteBookingMu => (
+                                {(
+                                  deleteBookingMu,
+                                  {loading: deleteBookingLoading}
+                                ) => (
                                   <UpdateBlockOpMu
                                     mutation={UPDATE_BLOCK_OPTION}
-                                    onError={showError}
                                     onCompleted={({UpdateBlockOption}) => {
                                       onCompletedMessage(
                                         UpdateBlockOption,
@@ -354,16 +373,47 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                                       );
                                     }}
                                   >
-                                    {updateBlockOpMu => {
-                                      const assigMutationes: IAssigMutationes = {
+                                    {(
+                                      updateBlockOpMu,
+                                      {loading: updateBlockLoading}
+                                    ) => {
+                                      const totalMuLoading =
+                                        updateBlockLoading ||
+                                        createBlockLoading ||
+                                        deleteBlockLoading ||
+                                        deleteGuestLoading ||
+                                        deleteBookingLoading ||
+                                        updateBookingLoading;
+
+                                      const mutationLoadings: IAssigMutationLoading = {
+                                        updateBlockLoading,
+                                        createBlockLoading,
+                                        deleteBlockLoading,
+                                        deleteGuestLoading,
+                                        deleteBookingLoading,
+                                        updateBookingLoading
+                                      };
+
+                                      const assigDataControl: IAssigDataControl = {
                                         updateBookingMu,
                                         deleteBookingMu,
                                         deleteGuestsMu: deleteGuestMu,
                                         createBlockMu,
                                         deleteBlockMu,
                                         updateBlockOpMu,
-                                        allocateMu
+                                        allocateMu,
+                                        stopPolling,
+                                        startPolling: startPolling.bind(
+                                          startPolling,
+                                          houseConfig.pollingPeriod
+                                            ? houseConfig.pollingPeriod.period
+                                            : 100000
+                                        ),
+                                        totalMuLoading,
+                                        mutationLoadings,
+                                        networkStatus
                                       };
+
                                       return (
                                         <AssigTimeline
                                           house={house}
@@ -378,7 +428,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                                           defaultProps={assigDefaultProps}
                                           roomTypesData={roomTypesData || []}
                                           defaultTimeStart={defaultStartDate}
-                                          assigMutationes={assigMutationes}
+                                          assigDataControl={assigDataControl}
                                           defaultTimeEnd={defaultEndDate}
                                           setDataTime={setDataTime}
                                           windowHeight={windowHeight}

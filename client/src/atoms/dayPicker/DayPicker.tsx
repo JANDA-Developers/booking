@@ -16,8 +16,10 @@ import HorizenDay from "./horizen/HorizenDays";
 import HorizenCaption from "./horizen/HorizenCaption";
 import "./DayPicker.scss";
 import {IUseDayPicker} from "../../actions/hook";
+import Reservation from "../../pages/outPages/reservation/Reservation";
+import moment from "moment";
 
-interface IProps extends IUseDayPicker {
+export interface IJDdayPickerProps extends IUseDayPicker {
   horizen?: boolean;
   placeholder?: string;
   input?: boolean;
@@ -28,6 +30,7 @@ interface IProps extends IUseDayPicker {
   canSelectSameDate?: boolean;
   format?: string;
   lang?: string;
+  showInputIcon?: boolean;
   maxLimit?: boolean;
   showWeekEndColor?: boolean;
   mode?: "reservation";
@@ -35,15 +38,19 @@ interface IProps extends IUseDayPicker {
   inputComponent?: JSX.Element[] | JSX.Element;
   onChangeDate?(foo?: string | Date | null, foo2?: string | Date | null): void;
   className?: string;
+  inputClassName?: string;
+  calenaderPosition?: "left" | "right" | "center";
 }
 
-const JDdayPicker: React.SFC<IProps> = ({
+const JDdayPicker: React.SFC<IJDdayPickerProps> = ({
   horizen,
+  calenaderPosition = "right",
   input,
   isRange = true,
   label,
   onChangeDate,
   canSelectSameDate = true,
+  showInputIcon = true,
   format,
   placeholder,
   lang = "ko",
@@ -54,6 +61,7 @@ const JDdayPicker: React.SFC<IProps> = ({
   entered,
   displayYear = true,
   canSelectBeforeDays,
+  inputClassName,
   inputComponent,
   setEntered,
   maxLimit,
@@ -121,7 +129,15 @@ const JDdayPicker: React.SFC<IProps> = ({
       setTo(null);
     } else {
       // 마지막 날에 값 기입
-      setTo(day);
+      if (from && mode === "reservation" && moment(from).isSame(day, "day")) {
+        setTo(
+          moment(from)
+            .add(1, "day")
+            .toDate()
+        );
+      } else {
+        setTo(day);
+      }
       setEntered(day);
     }
   };
@@ -160,7 +176,10 @@ const JDdayPicker: React.SFC<IProps> = ({
     "DayPicker--input": input,
     "DayPicker--maxLimit": maxLimit,
     "DayPicker--unYear": !displayYear,
-    "DayPicker--unRange": !isRange
+    "DayPicker--unRange": !isRange,
+    "DayPicker--right": calenaderPosition === "right",
+    "DayPicker--left": calenaderPosition === "left",
+    "DayPicker--center": calenaderPosition === "left"
   });
 
   const modifiers = {start: from, end: entered};
@@ -215,6 +234,7 @@ const JDdayPicker: React.SFC<IProps> = ({
     <div className={`${wrapClasses}`} ref={dayPickerFullWrap}>
       {input ? (
         <JDdayPickerInput
+          showInputIcon={showInputIcon}
           inputComponent={inputComponent}
           placeholder={placeholder}
           format={format}
@@ -224,6 +244,7 @@ const JDdayPicker: React.SFC<IProps> = ({
           readOnly={readOnly}
           isRange={isRange}
           dayPickerProps={dayPickerProps}
+          inputClassName={inputClassName}
         />
       ) : (
         <Fragment>

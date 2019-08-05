@@ -4,7 +4,7 @@ import {
   Gender,
   BookingModalType
 } from "../../../../types/enum";
-import {IRoomType} from "../../../../types/interface";
+import {IRoomType, IHouseConfig} from "../../../../types/interface";
 import {MutationFn} from "react-apollo";
 import {
   allocateGuestToRoom,
@@ -31,6 +31,7 @@ export interface IAssigTimelineContext {
   isMobile: boolean;
   windowWidth: number;
   windowHeight: number;
+  houseConfig: IHouseConfig;
   groupData: IAssigGroup[];
   houseId: string;
   shortKey?: TShortKey;
@@ -39,7 +40,7 @@ export interface IAssigTimelineContext {
 export interface ICrushTime {
   crushGuest: string;
   crushGuest2: string;
-  guestIndex: number;
+  itemIndex: number;
   start: number;
   end: number;
 }
@@ -101,6 +102,8 @@ export type TOpenBlockMenu = (
   props?: IBlcokMenuProps
 ) => void;
 
+export type TChangeMakeBlock = () => void;
+
 export type TOpenCanvasMenu = (
   Eorlocation: React.MouseEvent<HTMLElement> | ILocation,
   props?: ICanvasMenuProps
@@ -157,9 +160,18 @@ export type IFindGuestByBookingId = (bookingId: string) => IAssigItem[];
 
 export type TFindBookingIdByGuestId = (guestId: string) => string;
 
+export type IAssigMutationLoading = {
+  updateBlockLoading: boolean;
+  createBlockLoading: boolean;
+  deleteBlockLoading: boolean;
+  deleteGuestLoading: boolean;
+  deleteBookingLoading: boolean;
+  updateBookingLoading: boolean;
+};
+
 export type TToogleCheckIn = (
   guestId?: string | undefined,
-  guestIndex?: number | undefined
+  itemIndex?: number | undefined
 ) => void;
 
 export interface IAssigGroup {
@@ -180,7 +192,7 @@ export interface IAssigGroup {
 }
 
 export interface IAssigItemCrush {
-  guestIndex: number;
+  itemIndex: number;
   reason: string;
   start: number | null;
   end: number | null;
@@ -188,11 +200,13 @@ export interface IAssigItemCrush {
 
 export interface IAssigItem {
   id: string;
-  guestIndex: number;
+  itemIndex: number;
   name: string;
   group: string;
+  loading: boolean;
   bookingId: string;
   isCheckin: boolean;
+  showNewBadge: boolean;
   roomTypeId: string;
   roomId: string;
   bedIndex: number;
@@ -207,7 +221,7 @@ export interface IAssigItem {
   type: GuestTypeAdd;
 }
 
-export interface IAssigMutationes {
+export interface IAssigDataControl {
   deleteBookingMu: MutationFn<deleteBooking, deleteBookingVariables>;
   allocateMu: MutationFn<allocateGuestToRoom, allocateGuestToRoomVariables>;
   deleteBlockMu: MutationFn<deleteBlock, deleteBlockVariables>;
@@ -215,6 +229,11 @@ export interface IAssigMutationes {
   deleteGuestsMu: MutationFn<deleteGuests, deleteGuestsVariables>;
   createBlockMu: MutationFn<createBlock, createBlockVariables>;
   updateBlockOpMu: MutationFn<updateBlockOption, updateBlockOptionVariables>;
+  stopPolling: () => void;
+  startPolling: () => void;
+  totalMuLoading: boolean;
+  mutationLoadings: IAssigMutationLoading;
+  networkStatus: number;
 }
 
 export interface ICanvasMenuProps {
@@ -232,7 +251,8 @@ export enum GuestTypeAdd {
   BLOCK = "BLOCK",
   GUEST = "GUEST",
   MARK = "MARK",
-  MAKE = "MAKE"
+  MAKE = "MAKE",
+  GHOST = "GHOST"
 }
 
 export interface IMakeMenuProps {
@@ -251,7 +271,7 @@ export interface IAssigTimelineHooks {
   makeMenuProps: IMakeMenuProps;
   blockMenuProps: IDeleteMenuProps;
   setBlockMenuProps: React.Dispatch<React.SetStateAction<IDeleteMenuProps>>;
-  setGuestValue: React.Dispatch<React.SetStateAction<any[]>>;
+  setGuestValue: (value: IAssigItem[]) => void;
   setCanvasMenuProps: React.Dispatch<React.SetStateAction<ICanvasMenuProps>>;
   setMakeMenuProps: React.Dispatch<React.SetStateAction<IMakeMenuProps>>;
   confirmDelteGuestHook: IUseModal<any>;
@@ -329,6 +349,8 @@ interface Ids {
 
 export type THilightGuestBlock = ({itemId, bookingId}: Ids) => void;
 
+export type TBookingCheckedNew = (bookingId: string) => void;
+
 export type THandleItemSelect = (
   itemId: string,
   e: React.MouseEvent<HTMLElement>,
@@ -349,6 +371,7 @@ export interface IAssigHandlers {
 }
 
 export interface IAssigTimelineUtils {
+  bookingCheckedNew: TBookingCheckedNew;
   hilightGuestBlock: THilightGuestBlock;
   popUpItemMenu: TPopUpItemMenu;
   findItemById: TFindItemById;
@@ -374,6 +397,7 @@ export interface IAssigTimelineUtils {
   toogleCheckInOut: TToogleCheckIn;
   openBlockMenu: TOpenBlockMenu;
   openCanvasMenu: TOpenCanvasMenu;
+  changeMakeBlock: TChangeMakeBlock;
   makeMark: TMakeMark;
   resizeBlock: TResizeBlock;
   findBookingIdByGuestId: TFindBookingIdByGuestId;

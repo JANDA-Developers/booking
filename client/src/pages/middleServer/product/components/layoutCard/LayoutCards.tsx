@@ -16,7 +16,7 @@ interface layout {
   name: string;
   link: string;
   img: string;
-  desc: string;
+  desc: string | JSX.Element;
 }
 
 const layouts: layout[] = [
@@ -24,14 +24,19 @@ const layouts: layout[] = [
     id: LayoutType.Layout_A,
     name: "A타입 레이아웃",
     link: "http://janda-install.kr/",
-    desc: "기본제공 레이아웃",
+    desc: "기본제공",
     img:
       "https://res.cloudinary.com/stayjanda-com/image/upload/v1560234616/layout_type_A.jpg"
   },
   {
     id: LayoutType.Layout_B,
     name: "B타입 레이아웃",
-    desc: "추가비용 50,000 (첫구매시만 발생)",
+    desc: (
+      <span>
+        추가비용 50,000 <br />
+        <span className="JDsmall-text">(첫구매시만 발생)</span>
+      </span>
+    ),
     link: "http://code-slave-2018.com/",
     img:
       "https://res.cloudinary.com/stayjanda-com/image/upload/v1560234623/type_B_layout.jpg"
@@ -55,10 +60,7 @@ const LayoutCards: React.FC<IProps> = ({
           backgroundImage: `url("${layout.img}")`
         };
         return (
-          <div
-            key={layout.id}
-            className="col--wmd-12 col--full-6 flex-grid__col"
-          >
+          <div key={layout.id}>
             <span>
               <Radio
                 selectedValue={selectedLayout}

@@ -48,7 +48,6 @@
     }
     
     &__itemBlockWrap {
-        border-right: 1px solid $grey-level1;
         &:last-child {
             border-bottom: none;
         }
@@ -56,6 +55,8 @@
     
     &__itemBlock {
         padding: $assigItem-padding;
+        border-right: 1px solid $grey-opacity1;
+        border-bottom: 1px solid $grey-opacity1;
     }
 
     &__block {
@@ -80,6 +81,11 @@
         * {
             flex: unset;
         }
+    }
+
+    &__itemName {
+        white-space: nowrap;
+        text-overflow: hidden;
     }
 
     &__guestConfigIcon {

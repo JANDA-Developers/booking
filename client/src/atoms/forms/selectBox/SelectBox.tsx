@@ -13,7 +13,8 @@ export interface IselectedOption<T = any> {
 
 export enum SelectBoxSize {
   TWO = "3.4rem",
-  FOUR = "9rem",
+  FOUR = "6rem",
+  SIX = "9rem",
   FIVE = "11rem"
 }
 
@@ -30,10 +31,12 @@ interface Iprops extends SelectComponentsProps {
   props?: any;
   defaultValue?: IselectedOption | null;
   isOpen?: boolean;
+  menuCanOverflow?: boolean;
   textOverflow?: "visible" | "hidden";
   mode?: "small";
   size?: SelectBoxSize;
   background?: "white";
+  borderColor?: "primary";
 }
 
 const JDselect: React.SFC<Iprops> = ({
@@ -51,6 +54,8 @@ const JDselect: React.SFC<Iprops> = ({
   placeholder,
   textOverflow,
   background,
+  menuCanOverflow,
+  borderColor,
   // eslint-disable-next-line no-unused-vars
   ...props
 }) => {
@@ -69,7 +74,9 @@ const JDselect: React.SFC<Iprops> = ({
     "JDselect--disabled": disabled,
     "JDselect--small": mode === "small",
     "JDselect--bg": background === "white",
-    "JDselect--textOverflowVisible": textOverflow === "visible"
+    "JDselect--border-primary": borderColor === "primary",
+    "JDselect--textOverflowVisible": textOverflow === "visible",
+    "JDselect--menuCanOverflow": menuCanOverflow
   });
 
   const selectStyle: any = {

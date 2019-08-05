@@ -1,4 +1,4 @@
-import React, {Fragment} from "react";
+import React, {useMemo, Fragment} from "react";
 import {showError} from "../../utils/utils";
 import DailyAssig from "./DailyAssig";
 import {Query} from "react-apollo";
@@ -36,58 +36,65 @@ const DailyAssigWrap: React.FC<IProps> = ({date, house, isInModal}) => {
     end: moment(dayPickerHook.from || new Date()).add(1, "day")
   };
 
-  return (
-    <GetAllRoomTypeWithGuestQuery
-      skip={!date}
-      pollInterval={
-        houseConfig.pollingPeriod ? houseConfig.pollingPeriod.period : undefined
-      }
-      query={GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM}
-      variables={{
-        ...updateVariables,
-        bookingStatus: BookingStatus.COMPLETE
-      }}
-    >
-      {({data, loading, error}) => {
-        showError(error);
-        const roomTypesData = queryDataFormater(
-          data,
-          "GetAllRoomType",
-          "roomTypes",
-          undefined
-        ); // 원본데이터
-        const guestsData = queryDataFormater(
-          data,
-          "GetGuests",
-          "guests",
-          undefined
-        ); // 원본데이터
-        const blocks = queryDataFormater(
-          data,
-          "GetBlocks",
-          "blocks",
-          undefined
-        ); // 원본데이터
+  const Result = useMemo(() => {
+    return (
+      <GetAllRoomTypeWithGuestQuery
+        skip={!date}
+        pollInterval={
+          houseConfig.pollingPeriod
+            ? houseConfig.pollingPeriod.period
+            : undefined
+        }
+        query={GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM}
+        variables={{
+          ...updateVariables,
+          bookingStatus: BookingStatus.COMPLETE
+        }}
+      >
+        {({data, loading, error}) => {
+          const roomTypesData = queryDataFormater(
+            data,
+            "GetAllRoomType",
+            "roomTypes",
+            undefined
+          ); // 원본데이터
+          const guestsData = queryDataFormater(
+            data,
+            "GetGuests",
+            "guests",
+            undefined
+          ); // 원본데이터
+          const blocks = queryDataFormater(
+            data,
+            "GetBlocks",
+            "blocks",
+            undefined
+          ); // 원본데이터
 
-        return (
-          <Fragment>
-            <DailyAssig
-              house={house}
-              blocksData={blocks || []}
-              guestsData={guestsData || []}
-              dayPickerHook={dayPickerHook}
-              roomTypesData={roomTypesData || []}
-            />
-            <Preloader
-              floating={!isInModal}
-              loading={loading}
-              size={!isInModal ? "small" : "large"}
-            />
-          </Fragment>
-        );
-      }}
-    </GetAllRoomTypeWithGuestQuery>
-  );
+          return (
+            <Fragment>
+              {!loading ? (
+                <DailyAssig
+                  house={house}
+                  blocksData={blocks || []}
+                  guestsData={guestsData || []}
+                  dayPickerHook={dayPickerHook}
+                  roomTypesData={roomTypesData || []}
+                />
+              ) : (
+                <Preloader
+                  loading={loading}
+                  size={!isInModal ? "small" : "large"}
+                />
+              )}
+            </Fragment>
+          );
+        }}
+      </GetAllRoomTypeWithGuestQuery>
+    );
+  }, [dayPickerHook.from]);
+
+  return Result;
 };
 
 export default DailyAssigWrap;

@@ -4,6 +4,10 @@
 .sendSmsModal {    
     min-width: 300px;
 
+    &--loading {
+        min-width: 0px;
+    }
+
     .JDbox + .JDbox {
         margin-top:  -$standard-margin-bottom /2;
     }

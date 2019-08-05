@@ -19,7 +19,7 @@ import {
 } from "./assigIntrerface";
 import {TimePerMs} from "../../../../types/enum";
 import {setMidNight} from "../../../../utils/utils";
-import {CLASS_MOVING, CLASS_LINKED} from "./itemRenderFn";
+import {CLASS_MOVING, CLASS_LINKED} from "./item/itemRenderFn";
 import moment from "moment";
 import $ from "jquery";
 import {
@@ -215,6 +215,9 @@ export function getAssigHandlers(
     };
 
     const target = findItemById(itemId);
+
+    console.log("허???");
+
     if (target.bookingId === "block") return;
 
     if (isMobile) {

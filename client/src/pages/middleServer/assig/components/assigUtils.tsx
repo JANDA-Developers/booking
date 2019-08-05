@@ -20,7 +20,7 @@ import {
   TDeleteItemById,
   GuestTypeAdd,
   IAssigTimelineUtils,
-  IAssigMutationes,
+  IAssigDataControl,
   IAssigTimelineContext,
   IAssigTimelineHooks,
   IAssigItem,
@@ -36,14 +36,18 @@ import {
   TAllocateGuest,
   TPopUpItemMenu,
   IFindGuestByBookingId,
-  THilightGuestBlock
+  THilightGuestBlock,
+  TChangeMakeBlock,
+  TBookingCheckedNew,
+  IAssigGroup
 } from "./assigIntrerface";
 import {
   isEmpty,
   onCompletedMessage,
   muResult,
   targetBlink,
-  JDscrollTo
+  JDscrollTo,
+  s4
 } from "../../../../utils/utils";
 import {ReactTooltip} from "../../../../atoms/tooltipList/TooltipList";
 import {RoomGender, TimePerMs, Gender} from "../../../../types/enum";
@@ -51,6 +55,7 @@ import moment from "moment";
 import {DEFAULT_ASSIG_ITEM} from "../../../../types/defaults";
 import $ from "jquery";
 import {createBlock_CreateBlock_block} from "../../../../types/api";
+import JDisNetworkRequestInFlight from "../../../../utils/netWorkStatusToast";
 
 export function getAssigUtils(
   {
@@ -67,12 +72,14 @@ export function getAssigUtils(
     createBlockMu,
     deleteBlockMu,
     deleteBookingMu,
-    updateBookingMu
-  }: IAssigMutationes,
+    updateBookingMu,
+    startPolling,
+    stopPolling,
+    networkStatus,
+    totalMuLoading
+  }: IAssigDataControl,
   {houseId, groupData}: IAssigTimelineContext
 ): IAssigTimelineUtils {
-  console.log("isnide==guestValue");
-  console.log(guestValue);
   // 마크제거 MARK REMOVE 마커 제거
   const removeMark: TRemoveMark = () => {
     setGuestValue([
@@ -92,6 +99,12 @@ export function getAssigUtils(
     if (!targetGroup)
       throw new Error("해당하는 그룹을 찾을수 없습니다. <<findGroupById>>");
     return targetGroup;
+  };
+
+  const bookingCheckedNew: TBookingCheckedNew = bookingId => {
+    const targets = findGuestsByBookingId(bookingId);
+    targets.forEach(target => (target.showNewBadge = false));
+    setGuestValue([...guestValue]);
   };
 
   const popUpItemMenu: TPopUpItemMenu = async (
@@ -119,9 +132,6 @@ export function getAssigUtils(
     } else {
       targetDom = $(`.assigItem--booking${bookingId}`);
     }
-
-    console.log("targetDom ♐️");
-    console.log(targetDom);
 
     if (!targetDom || targetDom.length === 0) {
       setTimeout(() => {
@@ -178,12 +188,13 @@ export function getAssigUtils(
   // 게스트인덱스는 쓰지않는게 좋음
   const toogleCheckInOut: TToogleCheckIn = async (
     guestId?: string,
-    guestIndex?: number
+    itemIndex?: number
   ) => {
+    if (JDisNetworkRequestInFlight(networkStatus)) return;
     let target: IAssigItem = DEFAULT_ASSIG_ITEM;
 
-    if (guestIndex !== undefined) {
-      target = guestValue[guestIndex];
+    if (itemIndex !== undefined) {
+      target = guestValue[itemIndex];
     } else if (guestId) {
       const temp = guestValue.find(guest => guest.id === guestId);
       if (temp) target = temp;
@@ -194,7 +205,7 @@ export function getAssigUtils(
         bookingId: target.bookingId,
         params: {
           isCheckIn: {
-            isIn: !guestValue[target.guestIndex].isCheckin
+            isIn: !guestValue[target.itemIndex].isCheckin
           }
         }
       }
@@ -202,7 +213,7 @@ export function getAssigUtils(
 
     // 아폴로 통신 성공
     if (result && result.data) {
-      const message = guestValue[target.guestIndex].isCheckin
+      const message = guestValue[target.itemIndex].isCheckin
         ? "체크아웃"
         : "체크인";
       onCompletedMessage(result.data.UpdateBooking, message, "실패");
@@ -244,7 +255,7 @@ export function getAssigUtils(
     return {
       crushGuest: guest.id,
       crushGuest2: guest2.id,
-      guestIndex: guest.guestIndex,
+      itemIndex: guest.itemIndex,
       start: minStart,
       end: minEnd
     };
@@ -331,6 +342,7 @@ export function getAssigUtils(
 
   // 해당 게스트를 찾아서 제거함
   const deleteGuestById: TDeleteGuestById = guestId => {
+    if (JDisNetworkRequestInFlight(networkStatus)) return;
     const deleteGuestCallBackFn = (flag: boolean, key: string) => {
       if (key === "deleteAll") {
         deleteBookingById(findBookingIdByGuestId(guestId));
@@ -384,7 +396,7 @@ export function getAssigUtils(
       const crushTimes: ICrushTime[] = temp;
 
       const validate = crushTimes.map(inCrushTime => ({
-        guestIndex: inCrushTime.guestIndex,
+        itemIndex: inCrushTime.itemIndex,
         reason: "자리충돌",
         start: inCrushTime.start,
         end: inCrushTime.end
@@ -400,7 +412,7 @@ export function getAssigUtils(
     if (isGenderSafeResult !== true) {
       if (isGenderSafeResult === false) {
         const validate = {
-          guestIndex: guest.guestIndex,
+          itemIndex: guest.itemIndex,
           reason: "성별문제",
           start,
           end
@@ -410,7 +422,7 @@ export function getAssigUtils(
         const temp: any = isGenderSafeResult.filter(inCrushTime => inCrushTime);
         const crushTimes: ICrushTime[] = temp;
         const validate = crushTimes.map(inCrushTime => ({
-          guestIndex: guest.guestIndex,
+          itemIndex: guest.itemIndex,
           reason: "자리충돌",
           start: inCrushTime.start,
           end: inCrushTime.end
@@ -419,8 +431,8 @@ export function getAssigUtils(
       }
     }
 
-    if (guestValue[guest.guestIndex]) {
-      guestValue[guest.guestIndex].validate = validater;
+    if (guestValue[guest.itemIndex]) {
+      guestValue[guest.itemIndex].validate = validater;
     }
     setGuestValue([...guestValue]);
   };
@@ -469,6 +481,7 @@ export function getAssigUtils(
     newGroupOrder: number,
     guestValueOriginCopy: any[]
   ) => {
+    if (JDisNetworkRequestInFlight(networkStatus)) return;
     const newGroupId = groupData[newGroupOrder].roomId;
     const result = await allocateMu({
       variables: {
@@ -485,13 +498,41 @@ export function getAssigUtils(
   };
   // 방막기
   const addBlock: TAddBlock = async (time, groupId) => {
+    if (JDisNetworkRequestInFlight(networkStatus)) return;
     allTooltipsHide();
+    const guestValueOriginCopy = $.extend(true, [], guestValue);
+
     const targetGroup = groupData.find(group => group.id === groupId);
     if (!targetGroup) throw Error("그룹 아이디가 그룹데이터안에 없습니다.");
+
+    const start = moment(time).toDate();
+    const end = moment(time + TimePerMs.DAY).toDate();
+
+    const tempId = s4();
+    const tempItem = {
+      ...DEFAULT_ASSIG_ITEM,
+      roomId: targetGroup.roomId,
+      bedIndex: targetGroup.bedIndex,
+      type: GuestTypeAdd.GHOST,
+      id: tempId,
+      start: time,
+      end: time + TimePerMs.DAY,
+      group: groupId,
+      canMove: false,
+      loading: true
+    };
+
+    const nextGuestValue = guestValue.filter(
+      item => item.type != GuestTypeAdd.MARK
+    );
+
+    nextGuestValue.push(tempItem);
+    setGuestValue([...nextGuestValue]);
+
     const result = await createBlockMu({
       variables: {
-        start: moment(time).toDate(),
-        end: moment(time + TimePerMs.DAY).toDate(),
+        start,
+        end,
         houseId: houseId,
         roomId: targetGroup.roomId,
         bedIndex: targetGroup.bedIndex
@@ -504,22 +545,12 @@ export function getAssigUtils(
       "block"
     );
 
-    if (typeof block !== "boolean") {
-      guestValue.push({
-        ...DEFAULT_ASSIG_ITEM,
-        roomId: targetGroup.roomId,
-        bedIndex: targetGroup.bedIndex,
-        type: GuestTypeAdd.BLOCK,
-        id: block._id,
-        start: time,
-        end: time + TimePerMs.DAY,
-        group: groupId,
-        canMove: false
-      });
-
-      setGuestValue([
-        ...guestValue.filter(item => item.type != GuestTypeAdd.MARK)
-      ]);
+    if (typeof block === "boolean") {
+      setGuestValue(guestValueOriginCopy);
+    } else {
+      tempItem.id = block._id;
+      tempItem.type = GuestTypeAdd.BLOCK;
+      setGuestValue([...nextGuestValue]);
     }
   };
 
@@ -575,7 +606,19 @@ export function getAssigUtils(
     $("#blockMenu")
       .css("left", location.clientX)
       .css("top", location.clientY)
-      .addClass("blockMenu--show");
+      .addClass("assig__tooltips--show");
+  };
+
+  // make블러들을 ghost로 변환
+  const changeMakeBlock: TChangeMakeBlock = () => {
+    const makeBlock = guestValue.filter(
+      guest => guest.type === GuestTypeAdd.MAKE
+    );
+    makeBlock.forEach(makeBlock => {
+      makeBlock.loading = true;
+      makeBlock.type = GuestTypeAdd.GHOST;
+    });
+    setGuestValue([...guestValue]);
   };
 
   // canvas 용 메뉴오픈
@@ -584,8 +627,8 @@ export function getAssigUtils(
       setCanvasMenuProps(canvasMenuProps);
     }
     $("#canvasMenu")
-      .css("left", location.clientX)
-      .css("top", location.clientY)
+      .css("left", location.clientX + 5)
+      .css("top", location.clientY + 3)
       .addClass("assig__tooltips--show");
   };
 
@@ -618,6 +661,7 @@ export function getAssigUtils(
 
   // 👼 컴포넌트들 내부에 prop를 전달하기 힘드니까 이렇게 전달하자.
   const assigUtils: IAssigTimelineUtils = {
+    changeMakeBlock,
     findItemById,
     findGroupById,
     removeMark,
@@ -637,6 +681,7 @@ export function getAssigUtils(
     resizeBlock,
     genderToggleById,
     resizeValidater,
+    bookingCheckedNew,
     resizeLinkedItems,
     moveLinkedItems,
     toogleCheckInOut,

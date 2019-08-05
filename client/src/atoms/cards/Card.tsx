@@ -8,7 +8,7 @@ import {IDiv} from "../../types/interface";
 
 interface IProps extends IDiv {
   children?: JSX.Element[] | JSX.Element | string;
-  hoverDark?: boolean;
+  hover?: boolean;
   fullHeight?: boolean;
   className?: string;
   selected?: boolean;
@@ -21,7 +21,7 @@ export interface CardProps extends IProps {}
 
 const JDcard: React.FC<IProps> = ({
   children,
-  hoverDark,
+  hover,
   className,
   onClickCard,
   fullHeight,
@@ -32,7 +32,7 @@ const JDcard: React.FC<IProps> = ({
 }) => {
   const classes = classNames("JDcard", className, {
     JDcard: true,
-    "JDcard--hoverDark": hoverDark,
+    "JDcard--hover": hover,
     "JDcard--selected": selected,
     "JDcard--fullHeight": fullHeight,
     "JDcard--fullWidth": fullWidth,
@@ -51,7 +51,7 @@ const JDcard: React.FC<IProps> = ({
 };
 
 JDcard.defaultProps = {
-  hoverDark: false
+  hover: false
 };
 
 export default ErrProtecter<IProps>(JDcard);

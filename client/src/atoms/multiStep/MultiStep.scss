@@ -8,7 +8,7 @@ $screen-xs-max: 786px;
 
 $text-color: #263238;
 $text-color-inverted: #fff;
-$clickable-hover: #d8f1ff;
+$hover-hover: #d8f1ff;
 
 $brand-primary: $point-color;
 $brand-success: #54b948;
@@ -129,7 +129,7 @@ $animation-time: 0.5s;
 
 .active:hover .item-wrap:before,
 .active:hover .item-wrap:after {
-	background-color: $clickable-hover;
+	background-color: $hover-hover;
 }
 
 .multi-step-item.error {
@@ -152,7 +152,7 @@ $animation-time: 0.5s;
 	&:before, &:after { left: 50%; }
 }
 .active.multi-step-item:first-child:hover .item-wrap {
-	background: linear-gradient(to right, $clickable-hover 95%, transparent 5%);
+	background: linear-gradient(to right, $hover-hover 95%, transparent 5%);
 }
 .current.multi-step-item:first-child .item-wrap {
 	background: linear-gradient(to right, $brand-primary 95%, transparent 5%);
@@ -164,7 +164,7 @@ $animation-time: 0.5s;
 	&:before, &:after { right: 50%; }
 }
 .active.multi-step-item:last-child:hover .item-wrap {
-	background: linear-gradient(to left, $clickable-hover 95%, transparent 5%);
+	background: linear-gradient(to left, $hover-hover 95%, transparent 5%);
 }
 .current.multi-step-item:last-child .item-wrap {
 	background: linear-gradient(to left, $brand-primary 95%, transparent 5%);

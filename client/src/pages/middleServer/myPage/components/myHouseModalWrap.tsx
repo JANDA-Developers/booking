@@ -19,7 +19,7 @@ class DeleteHouseMutation extends Mutation<deleteHouse, deleteHouseVariables> {}
 
 const MyHouseModalWrap: React.SFC<IProps> = ({ MyHouseModalHook: modalHook }) => (
   <DeleteHouseMutation
-    onError={showError}
+    
     mutation={DELETE_HOUSE}
     refetchQueries={[{ query: GET_USER_INFO }, { query: SELECTED_HOUSE }]}
     variables={{
@@ -32,7 +32,7 @@ const MyHouseModalWrap: React.SFC<IProps> = ({ MyHouseModalHook: modalHook }) =>
   >
     {deleteMutation => (
       <Mutation
-        onError={showError}
+        
         mutation={SELECT_HOUSE}
         onCompleted={({ selectHouse }: any) => {
           onCompletedMessage(selectHouse, '현재숙소변경', '');

@@ -11,7 +11,7 @@ import {
   updateHouseConfig,
   updateHouseConfigVariables
 } from "../../../types/api";
-import {IHouse} from "../../../types/interface";
+import {IHouse, IHouseConfigFull} from "../../../types/interface";
 
 class UpdateHouseConfig extends Mutation<
   updateHouseConfig,
@@ -27,7 +27,7 @@ const ConfigWrap: React.FC<IProps> = ({house}) => (
     onCompleted={({UpdateHouseConfig}) => {
       onCompletedMessage(UpdateHouseConfig, "숙소설정 완료", "숙소설정 실패");
     }}
-    onError={showError}
+    
     mutation={UPDATE_HOUSE_CONFIG}
     refetchQueries={[{query: GET_USER_INFO}]}
   >

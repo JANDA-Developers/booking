@@ -51,8 +51,10 @@ const autoComma = (str: string | number = ""): string => {
 // 숫자로된 string 타입을 반환
 const numberStr = (str: string = ""): string => str.replace(/[^0-9.]/g, "");
 // 스트링을 숫자로 만듬
-const stringToNumber = (str: string = ""): number =>
-  parseInt(str.replace(/[^0-9.]/g, ""), 10);
+const toNumber = (value: string | number = ""): number => {
+  if (typeof value === "number") return value;
+  return parseInt(value.replace(/[^0-9.]/g, ""), 10);
+};
 
 export default autoHypenPhone;
-export {autoComma, numberStr, stringToNumber};
+export {autoComma, numberStr, toNumber};

@@ -9,13 +9,14 @@
 
     &__cardsWrap {
         max-width: 100%;
-        overflow: auto;
-
+        overflow:visible;
+        
         margin-bottom: 2%;
-
+        
         @extend %JDscrollbar;
-
+        
         @include response($phablet) {
+            overflow: auto;
             display:flex;
 
             .JDcard {

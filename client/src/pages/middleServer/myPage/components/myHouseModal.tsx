@@ -50,43 +50,43 @@ const MyHouseModal: React.SFC<IProps> = ({
       }
     });
 
-  return loading ? (
-    <Preloader />
-  ) : (
+  return (
     <Modal {...modalHook}>
-      <Fragment>
-        {house && (
-          <Fragment>
-            <p>숙소명: {house.name}</p>
-            <p>
-              생성일시: {moment(house!.createdAt).format("YYYY-MM-DD HH:mm")}
-            </p>
-            <p>도미토리: {roomCountDomitory}</p>
-            <p>방: {roomCountRoom}</p>
-            <p
-              onClick={e =>
-                copytoClipboard(
-                  `https://app.stayjanda.com/#/outpage/reservation/${
-                    house.publicKey
-                  }`
-                )
-              }
-            >
-              {house.product !== null && house.product.name !== "상품1"
-                ? "예약페이지 URL 복사 "
-                : "예약페이지를 불러올수 없습니다. 상품을 구매해주세요"}
-              <JDIcon
-                size={IconSize.MEDEIUM_SMALL}
-                icon={"copyFile"}
-                hover={true}
-              />
-            </p>
-          </Fragment>
-        )}
-      </Fragment>
-      <div className="JDmodal__endSection">
-        <Button onClick={onDelete} thema="warn" mode="flat" label="삭제" />
-      </div>
+      {loading ? (
+        <Preloader size="large" loading={loading} />
+      ) : (
+        <Fragment>
+          {house && (
+            <Fragment>
+              <p>숙소명: {house.name}</p>
+              <p>
+                생성일시: {moment(house!.createdAt).format("YYYY-MM-DD HH:mm")}
+              </p>
+              <p>도미토리: {roomCountDomitory}</p>
+              <p>방: {roomCountRoom}</p>
+              <p
+                onClick={e =>
+                  copytoClipboard(
+                    `https://app.stayjanda.com/#/outpage/reservation/${house.publicKey}`
+                  )
+                }
+              >
+                {house.product !== null && house.product.name !== "상품1"
+                  ? "예약페이지 URL 복사 "
+                  : "예약페이지를 불러올수 없습니다. 상품을 구매해주세요"}
+                <JDIcon
+                  size={IconSize.MEDEIUM_SMALL}
+                  icon={"copyFile"}
+                  hover={true}
+                />
+              </p>
+            </Fragment>
+          )}
+          <div className="JDmodal__endSection">
+            <Button onClick={onDelete} thema="warn" mode="flat" label="삭제" />
+          </div>
+        </Fragment>
+      )}
     </Modal>
   );
 };

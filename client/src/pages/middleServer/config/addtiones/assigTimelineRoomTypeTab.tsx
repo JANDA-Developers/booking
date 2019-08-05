@@ -34,7 +34,7 @@ const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
             const result = await updateHouseConfigMu({
               variables: {
                 houseId: house._id,
-                params: {
+                UpdateHouseConfigParams: {
                   assigTimeline: {
                     roomTypeTabEnable: flag
                   }

@@ -42,4 +42,15 @@
             margin-bottom: $standard-margin-bottom * 1.5;
         }
     }
+
+    &__li {
+        display: flex;
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+    &__index {
+        display: block;
+        margin-right: $standard-space /2;
+    }    
 }

@@ -71,7 +71,7 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({
       onCompleted={({CreateRoom}: createRoom) => {
         onCompletedMessage(CreateRoom, "방 생성완료", "방 생성 실패");
       }}
-      onError={showError}
+      
     >
       {createRoomMutation => (
         <DeleteRoomMutation
@@ -83,7 +83,7 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({
           onCompleted={({DeleteRoom}: deleteRoom) => {
             onCompletedMessage(DeleteRoom, "방 삭제완료", "방 삭제 실패");
           }}
-          onError={showError}
+          
         >
           {deleteRoomMutation => (
             <UpdateRoomMutation
@@ -100,7 +100,7 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({
                   "방 업데이트 실패"
                 );
               }}
-              onError={showError}
+              
             >
               {updateRoomMutation => (
                 <RoomModal

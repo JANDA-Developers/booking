@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, Fragment} from "react";
 import {Query, Mutation} from "react-apollo";
 import ResvList from "./ResvList";
 import {IHouse} from "../../../types/interface";
@@ -18,6 +18,8 @@ import {
 import {GET_BOOKINGS, DELETE_BOOKING, UPDATE_BOOKING} from "../../../queries";
 import {getOperationName} from "apollo-link";
 import {usePagiNation} from "../../../actions/hook";
+import Preloader from "../../../atoms/preloader/Preloader";
+import {isNetworkRequestInFlight} from "apollo-client/core/networkStatus";
 
 interface IProps {
   houseId: string;
@@ -32,14 +34,15 @@ const ResvListWrap: React.FC<IProps> = ({houseId}) => {
 
   return (
     <GetBookingsQuery
-      fetchPolicy="network-only"
       query={GET_BOOKINGS}
-      pollInterval={5000}
+      pollInterval={4000}
+      notifyOnNetworkStatusChange
       variables={{houseId, page, count: 20}}
     >
-      {({data: boookerData, loading, error}) => {
+      {({data: boookerData, loading, error, networkStatus}) => {
         showError(error);
 
+        console.log(networkStatus);
         const bookings = queryDataFormater(
           boookerData,
           "GetBookings",
@@ -56,7 +59,6 @@ const ResvListWrap: React.FC<IProps> = ({houseId}) => {
         return (
           <DeleteBookingMu
             mutation={DELETE_BOOKING}
-            onError={showError}
             refetchQueries={[getOperationName(GET_BOOKINGS) || ""]}
             onCompleted={({DeleteBooking}) => {
               onCompletedMessage(
@@ -66,29 +68,33 @@ const ResvListWrap: React.FC<IProps> = ({houseId}) => {
               );
             }}
           >
-            {deleteBookingMu => (
+            {(deleteBookingMu, {loading: deleteBookingLoading}) => (
               <UpdateBookingMu
                 mutation={UPDATE_BOOKING}
-                onError={showError}
                 refetchQueries={[getOperationName(GET_BOOKINGS) || ""]}
                 onCompleted={({UpdateBooking}) => {
                   onCompletedMessage(
                     UpdateBooking,
-                    "예약자 업데이트",
-                    "예약자 업데이트 실패"
+                    "예약 업데이트",
+                    "예약 업데이트 실패"
                   );
                 }}
               >
-                {updateBookingMu => (
-                  <ResvList
-                    houseId={houseId}
-                    pageInfo={pageInfo || undefined}
-                    bookingsData={bookings || []}
-                    deleteBookingMu={deleteBookingMu}
-                    updateBookingMu={updateBookingMu}
-                    setPage={setPage}
-                    loading={loading}
-                  />
+                {(updateBookingMu, {loading: updateBookingLoading}) => (
+                  <Fragment>
+                    <ResvList
+                      houseId={houseId}
+                      pageInfo={pageInfo || undefined}
+                      bookingsData={bookings || []}
+                      deleteBookingMu={deleteBookingMu}
+                      updateBookingMu={updateBookingMu}
+                      updateBookingLoading={updateBookingLoading}
+                      deleteBookingLoading={deleteBookingLoading}
+                      setPage={setPage}
+                      loading={isNetworkRequestInFlight(networkStatus)}
+                    />
+                    <Preloader page loading={networkStatus === 1} />
+                  </Fragment>
                 )}
               </UpdateBookingMu>
             )}

@@ -2,11 +2,14 @@
 /* eslint-disable no-shadow */
 /* ts-ignore */
 import randomColor from "randomcolor";
-import {useState, useEffect} from "react";
+import {useState, useEffect, useMemo} from "react";
 import Axios from "axios";
 import {toast} from "react-toastify";
 import {CLOUDINARY_KEY} from "../keys";
 import {IselectedOption} from "../atoms/forms/selectBox/SelectBox";
+import {IHolidaysByApi} from "../types/interface";
+import moment from "moment";
+import {jsonString} from "../utils/utils";
 
 // 한방에 패치
 // A X I O S  : (http://codeheaven.io/how-to-use-axios-as-your-http-client/)
@@ -100,7 +103,6 @@ const useImageUploader = (foo?: any): IuseImageUploader => {
           }
         } catch (error) {
           setIsError(true);
-          console.error(error);
           toast.error(error);
         } finally {
           setUploading(false);
@@ -210,12 +212,18 @@ export interface IUseDayPicker {
 }
 
 function useDayPicker(
-  defaultFrom: Date | null,
-  defaultTo: Date | null
+  defaultFrom: Date | null | string,
+  defaultTo: Date | null | string
 ): IUseDayPicker {
-  const [from, setFrom] = useState<Date | null>(defaultFrom);
-  const [entered, setEntered] = useState<Date | null>(defaultTo);
-  const [to, setTo]: any = useState<Date | null>(defaultTo);
+  let fromTemp: Date | null | string = defaultFrom;
+  let toTemp: Date | null | string = defaultTo;
+  if (typeof defaultFrom === "string") fromTemp = moment(defaultFrom).toDate();
+  if (typeof defaultTo === "string") toTemp = moment(defaultTo).toDate();
+  if (typeof fromTemp === "string") throw Error;
+  if (typeof toTemp === "string") throw Error;
+  const [from, setFrom] = useState<Date | null>(fromTemp);
+  const [entered, setEntered] = useState<Date | null>(toTemp);
+  const [to, setTo]: any = useState<Date | null>(toTemp);
 
   const setDate = (date: Date) => {
     setFrom(date);
@@ -295,6 +303,17 @@ function useSwitch(defaultValue: boolean) {
   return {checked, onChange};
 }
 
+// useRange
+function useRange(defaultValue: number) {
+  const [value, setValue] = useState(defaultValue);
+
+  const onChange = (value: any) => {
+    setValue(value);
+  };
+
+  return {value, onChange};
+}
+
 export interface IUseSelect<V = any> {
   selectedOption: IselectedOption<V> | null;
   onChange(foo: IselectedOption<V>): void;
@@ -356,7 +375,7 @@ interface IOpenModalInfo {
 }
 
 // 모달훅
-function useModal<T = IOpenModalInfo>(
+function useModal<T = any>(
   defaultValue: boolean = false,
   defaultInfo: any = {}
 ): IUseModal<T> {
@@ -380,6 +399,53 @@ function useModal<T = IOpenModalInfo>(
   };
 }
 
+const getKoreaSpecificDayHook = (
+  year: string
+): {
+  datas: IHolidaysByApi[];
+  loading: boolean;
+} => {
+  const [loading, setLoading] = useState(true);
+  const [datas, setDatas] = useState<IHolidaysByApi[]>([]);
+
+  let temp: IHolidaysByApi[] = [];
+  const get = async () => {
+    for (let i = 1; i < 13; i++) {
+      const url =
+        "http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo";
+      const queryParams = `?${encodeURIComponent("ServiceKey")}=${
+        process.env.REACT_APP_API_SPECIFIC_DAY_KEY
+      }&${encodeURIComponent("solYear")}=${encodeURIComponent(
+        "2019"
+      )}&${encodeURIComponent("solMonth")}=${encodeURIComponent(`0${i}`)}`;
+
+      try {
+        const {data} = await Axios(url + queryParams);
+        const item = data.response.body.items;
+        if (Array.isArray(item.item)) {
+          item.item.forEach((inItem: any) => {
+            if (inItem) temp.push(inItem);
+          });
+        } else {
+          if (item.item) {
+            temp.push(item.item);
+          }
+        }
+      } catch {
+      } finally {
+        setDatas(temp);
+        setLoading(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    get();
+  }, [year]);
+
+  return {datas, loading};
+};
+
 export {
   useInput,
   useCheckBox,
@@ -389,10 +455,12 @@ export {
   useToggle,
   useFetch,
   useModal,
+  useRange,
   useDebounce,
   useImageUploader,
   useColorPicker,
   useDayPicker,
+  getKoreaSpecificDayHook,
   usePagiNation,
   useRedirect
 };

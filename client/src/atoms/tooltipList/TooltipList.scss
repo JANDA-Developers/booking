@@ -8,12 +8,13 @@
         z-index: 80!important;
         @extend %z-depth-2;
         padding:0;
+        margin-top:0;
 
         & > * {
             position:relative;
             background-color: $tooltipList-background-color;
             z-index:5;
-            padding: $tooltipList-ul-padding;
+            padding: none;
         }
 
         ul {
@@ -21,11 +22,13 @@
             margin: -1px;
             & > li {
                 padding: $tooltipList-li-padding;
+                border-bottom:1px solid $grey-level1;
                 .JDbtn  {
                     color: $html-color;
                     margin:0;
                     width: 100%;
                     border-radius: 0;
+                    border:none;
                     &:hover {
                         background-color: $grey-level1;
                     }
@@ -39,6 +42,7 @@
 
         // 상단 화살표
         &:after{
+            position: absolute;
             border-radius:3px;
             border:none;
             width:16px;

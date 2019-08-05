@@ -1,8 +1,8 @@
-import React, { Fragment } from 'react';
-import './myHouse.scss';
-import Card from '../../../../atoms/cards/Card';
-import Icon from '../../../../atoms/icons/Icons';
-import { IUseModal } from '../../../../actions/hook';
+import React, {Fragment} from "react";
+import "./myHouse.scss";
+import Card from "../../../../atoms/cards/Card";
+import Icon from "../../../../atoms/icons/Icons";
+import {IUseModal} from "../../../../actions/hook";
 
 interface IProps {
   houseModal: IUseModal;
@@ -10,10 +10,21 @@ interface IProps {
 }
 
 const MyHouse: React.SFC<IProps> = ({
-  title, purchaseProduct, dateCreated, location, productName, houseModal, id,
+  title,
+  purchaseProduct,
+  dateCreated,
+  location,
+  productName,
+  houseModal,
+  id
 }) => (
   <Fragment>
-    <Card hoverDark role="button" tabIndex={0} onClick={() => houseModal.openModal({ houseId: id, productId: id })}>
+    <Card
+      hover
+      role="button"
+      tabIndex={0}
+      onClick={() => houseModal.openModal({houseId: id, productId: id})}
+    >
       <div className="myHouse">
         <span className="myHouse__title">
           <h6>
@@ -24,7 +35,7 @@ const MyHouse: React.SFC<IProps> = ({
         <ul className="myHouse__infoList">
           <li className="myHouse__productName">
             <Icon icon="product" />
-            {productName || '없음'}
+            {productName || "없음"}
           </li>
           <li className="myHouse__dateCreated">
             <Icon icon="calendar" />
@@ -41,12 +52,12 @@ const MyHouse: React.SFC<IProps> = ({
 );
 
 MyHouse.defaultProps = {
-  title: '',
-  purchaseProduct: '',
-  dateCreated: '',
-  location: '',
-  productName: '',
-  openMyHouse: () => {},
+  title: "",
+  purchaseProduct: "",
+  dateCreated: "",
+  location: "",
+  productName: "",
+  openMyHouse: () => {}
 };
 
 export default MyHouse;

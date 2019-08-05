@@ -1,0 +1,10 @@
+.JDbox {
+    &--photoFrame {
+        border: 1px solid $grey-opacity1;
+        border-radius: $standard-border-radius;
+        padding:$standard-padding;
+        img {
+            width: 100%;
+        }
+    }
+}

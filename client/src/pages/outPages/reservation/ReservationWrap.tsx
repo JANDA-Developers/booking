@@ -4,24 +4,34 @@ import React from "react";
 import {Mutation} from "react-apollo";
 import {RouteComponentProps} from "react-router";
 import Reservation from "./Reservation";
-import {ErrProtecter, showError} from "../../../utils/utils";
+import {
+  ErrProtecter,
+  showError,
+  onCompletedMessage
+} from "../../../utils/utils";
 import {
   createBookingForBooker,
-  createBookingForBookerVariables
+  createBookingForBookerVariables,
+  createBooking,
+  createBookingVariables
 } from "../../../types/api";
 import {
   CREATE_BOOKING_FOR_BOOKER,
-  GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM
+  GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM,
+  CREATE_BOOKING
 } from "../../../queries";
 import {toast} from "react-toastify";
 import {useModal, IUseModal} from "../../../actions/hook";
 import {getOperationName} from "apollo-link";
 import {IAssigTimelineUtils} from "../../middleServer/assig/components/assigIntrerface";
+import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
+import JDanimation, {Animation} from "../../../atoms/animation/Animations";
 
-class CreatBookingMu extends Mutation<
+class CreatBookingMuForBooker extends Mutation<
   createBookingForBooker,
   createBookingForBookerVariables
 > {}
+class CreatBookingMu extends Mutation<createBooking, createBookingVariables> {}
 
 interface IProps extends RouteComponentProps<any> {
   houseId: string;
@@ -46,27 +56,31 @@ const ReservationWrap: React.FC<IProps> = ({
   const confirmModalHook = useModal(false);
 
   return (
-    <CreatBookingMu
+    <CreatBookingMuForBooker
       refetchQueries={[
         getOperationName(GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM) || ""
       ]}
-      onError={showError}
       awaitRefetchQueries
       onCompleted={({CreateBookingForBooker}) => {
         if (CreateBookingForBooker.ok) {
-          if (isAdmin) {
-            modalHook && modalHook.closeModal();
-            toast.success("예약생성완료");
-            assigUtils &&
-              CreateBookingForBooker.booking &&
-              assigUtils.hilightGuestBlock({
-                bookingId: CreateBookingForBooker.booking._id
-              });
-          } else {
-            confirmModalHook.openModal({
-              txt: "예약이 완료되었습니다. 예약확인페이지로 이동합니다."
-            });
-          }
+          confirmModalHook.openModal({
+            txt: (
+              <div>
+                <div className="JDstandard-margin-bottom">
+                  예약이 완료되었습니다.
+                  <br />
+                  예약확인페이지로 이동합니다.
+                </div>
+                <JDanimation animation={[Animation.tada]}>
+                  <JDIcon
+                    color="positive"
+                    size={IconSize.SUPER_LARGE}
+                    icon="circleCheckIn"
+                  ></JDIcon>
+                </JDanimation>
+              </div>
+            )
+          });
         } else {
           toast.warn("예약실패");
           showError(CreateBookingForBooker.error);
@@ -74,14 +88,42 @@ const ReservationWrap: React.FC<IProps> = ({
       }}
       mutation={CREATE_BOOKING_FOR_BOOKER}
     >
-      {createBookingMu => (
-        <Reservation
-          isAdmin={isAdmin || false}
-          confirmModalHook={confirmModalHook}
-          createBookingMu={createBookingMu}
-        />
+      {(createBookingForBookerMu, {loading: createLoading}) => (
+        <CreatBookingMu
+          mutation={CREATE_BOOKING}
+          onCompleted={({CreateBooking}) => {
+            onCompletedMessage(
+              CreateBooking,
+              "예약 생성 완료",
+              "예약 생성 실패"
+            );
+
+            modalHook && modalHook.closeModal();
+            toast.success("예약생성완료");
+            assigUtils &&
+              CreateBooking.booking &&
+              assigUtils.hilightGuestBlock({
+                bookingId: CreateBooking.booking._id
+              });
+          }}
+          refetchQueries={[
+            getOperationName(GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM) || ""
+          ]}
+        >
+          {(createBookingMu, {loading: createBookingLoading}) => (
+            <Reservation
+              houseId={houseId}
+              isAdmin={isAdmin || false}
+              confirmModalHook={confirmModalHook}
+              createBookingMu={
+                isAdmin ? createBookingMu : createBookingForBookerMu
+              }
+              createLoading={createLoading}
+            />
+          )}
+        </CreatBookingMu>
       )}
-    </CreatBookingMu>
+    </CreatBookingMuForBooker>
   );
 };
 

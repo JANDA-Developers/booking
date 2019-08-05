@@ -20,9 +20,18 @@
     text-align: center;
 
 
-    .preloader {
+    .preloader__wrap {
         position: absolute;
-        z-index: $z-index-3;
+        z-idnex: $z-index-0;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display:flex;
+        align-items:center;
+        justify-content: center;
+        width: auto;
+        height: auto;
     }
 
     &__image {

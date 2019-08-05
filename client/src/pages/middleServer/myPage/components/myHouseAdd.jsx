@@ -6,7 +6,7 @@ import Icon from '../../../../atoms/icons/Icons';
 
 const MyProductAdd = () => (
   <Link to="/makeHouse">
-    <Card hoverDark>
+    <Card hover>
       <h6 className="myProductAdd">
         <Icon icon="addCircle" />
       </h6>

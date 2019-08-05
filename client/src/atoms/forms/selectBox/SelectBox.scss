@@ -3,10 +3,26 @@
 
 
 .JDselect {
+  text-align:left;
+
+  html &--border-primary {
+    .react-select-container {
+      .react-select__control {
+        border-color: $primary-color;
+      }
+    }
+  }
 
   &--bg {
     .react-select__control {
       background-color: white!important;
+    }
+  }
+
+
+  &--menuCanOverflow {
+    .react-select__menu {
+      width: auto!important;
     }
   }
 
@@ -60,6 +76,7 @@
 
       &__single-value {
         width: 100%;
+        margin: 0;
       }
 
       &__label {

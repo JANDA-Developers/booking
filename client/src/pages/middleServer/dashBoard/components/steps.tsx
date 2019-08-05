@@ -76,7 +76,9 @@ const Steps: React.FC<IProps> = ({step, houseId}) => {
             아직 생성된 방이 없군요.
             <br /> 방을 생성해보세요.
           </h5>
-          <Button mode="border" thema="primary" label="방생성하기" />
+          <NavLink to="./timelineConfig">
+            <Button mode="border" thema="primary" label="방생성하기" />
+          </NavLink>
         </Fragment>
       );
     default:

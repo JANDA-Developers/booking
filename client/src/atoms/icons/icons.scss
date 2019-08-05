@@ -9,6 +9,13 @@
     top: .125em;
     position: relative;
     text-decoration: inherit;
+    
+    &--primary {
+        color: $primary-color;
+    }
+    &--positive {
+        color: $positive-color;
+    }
 
     &--hover:hover {
         cursor: pointer;;

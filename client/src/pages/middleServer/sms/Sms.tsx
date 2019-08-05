@@ -112,10 +112,7 @@ const Sms: React.FC<IProps> = ({
     <div id="seasonTable" className="seasonT container">
       <div className="docs-section">
         {/* <div className="docs-section__box"> */}
-        <h3>
-          SMS 설정
-          {loading && <Preloader size="medium" />}
-        </h3>
+        <h3>SMS 설정</h3>
         <Link to="/smsHistory">
           <Button mode="border" label="SMS 내역보기" />
         </Link>

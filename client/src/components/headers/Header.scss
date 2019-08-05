@@ -1,6 +1,10 @@
 @import '../../style_config/style_config';
 
-.header {
+.middlerServerLoading {
+    z-index: $z-index-8 + 1;
+}
+
+html .header {
     background-color: $nav-color;
     display:flex;
     align-items: center;
@@ -8,12 +12,40 @@
     padding-right: $header-padding;
     height: $header-height;
     z-index: $z-index-9;
+        justify-content: space-between;
     @extend %z-depth-1;
     position: relative;
     width: 100%;
     box-sizing: border-box;
     position: sticky;
     top:0;
+
+    &__btns {
+        display:inline-block;
+        height: 100%;
+        .JDbtn {
+            height: 100%;
+        }
+    }
+
+
+    &__left {
+        display: flex;
+        height: 100%;
+        align-items: center;
+    }
+
+    &__right {
+        display: flex;
+        height: 100%;
+        align-items: center;
+    }
+
+    &__right_pc_btns {
+        margin-left: 0;
+        height:100%;
+        line-height: 100%;
+    }
 
     // 모바일 앱버튼 
     &__apps {
@@ -33,7 +65,9 @@
     // 로고 이미지 여백 맞춤
     &__logoPlace {
         margin-left: -4px;
-        padding-right: $standard-padding;
+        & + * {
+            margin-right: -2px;
+        }
     }
 
     // 로고
@@ -42,13 +76,30 @@
         margin-top: -2px; // 보정
     }
 
-    // 메뉴버튼 (써클버튼)
-    &__menue {
-        color:white;
-        // 메뉴버튼 후로 우측배치
-        & + * {
-            margin-left: auto;
+    // 메뉴버튼 (사이드네비)
+
+    &__menueWrap {
+        margin-left:-4px;
+        margin-right:$standard-space;
+        .header__menue {
+            cursor: pointer;
+            color:white;
+            border-radius: 100%;
+            margin-left:$standard-space;
+            height: 100%;
+            &:hover {
+                background-color: $grey-opacity1;
+            }
+            // 메뉴버튼 후로 우측배치
+            & + * {
+                margin-left: auto;
+            }
         }
+    }
+
+
+    &__mobileMenu {
+        color:white;
     }
 
     // 프로필 써클
@@ -82,13 +133,6 @@
     }
     .circleIcon {
         margin-bottom: 0;
-    }
-
-    // 버튼들 마진 폰트 조정
-    .JDbtn {
-        margin-bottom: 0;
-        height: 100%;
-        font-size: $typho-normal;
     }
     
     // 셀렉트박스 조정
@@ -136,6 +180,11 @@
         
         &__logoPlace {
             padding-left: calc(#{$standard-padding} * 2);
+
+            .header__logo {
+                width: 75px;
+                margin-top:0;
+            }
         }
         
         &__btns--mobileX,&__profile,.JDselect {

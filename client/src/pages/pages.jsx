@@ -61,7 +61,7 @@ export const ConfigWrap = props => (
 );
 
 export const Products = props => (
-  <DynamicImport load={() => import("./middleServer/product/ProductsWrap")}>
+  <DynamicImport load={() => import("./middleServer/product/SelectProductWrap")}>
     {DNcompoent =>
       DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
     }

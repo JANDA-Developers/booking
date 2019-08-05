@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Fragment} from "react";
 import moment from "moment";
 import Modal, {JDtoastModal} from "../../atoms/modal/Modal";
 import {
@@ -42,7 +42,10 @@ import {
 } from "../../types/api";
 import {GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM} from "../../queries";
 import SendSMSmodalWrap, {IModalSMSinfo} from "../smsModal/SendSmsModalWrap";
-import {IAssigInfo} from "../../pages/middleServer/assig/components/assigIntrerface";
+import {
+  IAssigInfo,
+  IAssigTimelineUtils
+} from "../../pages/middleServer/assig/components/assigIntrerface";
 import Preloader from "../../atoms/preloader/Preloader";
 import {validate} from "graphql";
 import {toast} from "react-toastify";
@@ -64,10 +67,12 @@ interface IProps {
   createBookingMu: MutationFn<createBooking, createBookingVariables>;
   updateBookingMu: MutationFn<updateBooking, updateBookingVariables>;
   deleteBookingMu: MutationFn<deleteBooking, deleteBookingVariables>;
+  createBookingLoading: boolean;
   allocateGuestToRoomMu: MutationFn<
     allocateGuestToRoom,
     allocateGuestToRoomVariables
   >;
+  assigUtils?: IAssigTimelineUtils;
   assigInfo: IAssigInfo[];
   houseId: string;
   loading: boolean;
@@ -78,8 +83,10 @@ const POPbookingInfo: React.FC<IProps> = ({
   modalHook,
   bookingData,
   updateBookingMu,
+  assigUtils,
   createBookingMu,
   deleteBookingMu,
+  createBookingLoading,
   allocateGuestToRoomMu,
   placeHolederPrice,
   assigInfo,
@@ -161,6 +168,7 @@ const POPbookingInfo: React.FC<IProps> = ({
     if (!bookingData.roomTypes) return;
 
     const smsCallBackFn = async (flag: boolean) => {
+      assigUtils && assigUtils.changeMakeBlock();
       const result = await createBookingMu({
         variables: {
           bookingParams: {
@@ -262,116 +270,120 @@ const POPbookingInfo: React.FC<IProps> = ({
       className="Modal bookingModal"
       overlayClassName="Overlay"
     >
-      {loading && <Preloader />}
-      <div className="modal__section">
-        <h6>예약자정보</h6>
-        <div className="flex-grid">
-          <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
-            <InputText {...bookingNameHook} label="예약자" />
+      <Preloader size={"large"} loading={loading || createBookingLoading} />
+      {loading || createBookingLoading || (
+        <Fragment>
+          <div className="modal__section">
+            <h6>예약자정보</h6>
+            <div className="flex-grid">
+              <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
+                <InputText {...bookingNameHook} label="예약자" />
+              </div>
+              <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
+                <InputText
+                  {...bookingPhoneHook}
+                  validation={isPhone}
+                  hyphen
+                  label="전화번호"
+                  icon="sms"
+                  iconHover
+                  iconOnClick={() => {
+                    handleIconClick();
+                  }}
+                />
+              </div>
+              <div className="JD-z-index-1 flex-grid__col col--full-4 col--lg-4 col--md-4">
+                <SelectBox
+                  {...bookingStatueHook}
+                  options={BOOKING_STATUS_OP}
+                  label="예약상태"
+                />
+              </div>
+              <div className="flex-grid__col col--full-12 col--lg-12 col--md-12">
+                <InputText {...memoHook} halfHeight textarea label="예약메모" />
+              </div>
+            </div>
           </div>
-          <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
-            <InputText
-              {...bookingPhoneHook}
-              validation={isPhone}
-              hyphen
-              label="전화번호"
-              icon="sms"
-              iconHover
-              iconOnClick={() => {
-                handleIconClick();
-              }}
+          <div className="modal__section">
+            <h6>예약정보</h6>
+            <div className="flex-grid">
+              <div className="flex-grid__col col--full-8 col--lg-8 col--md-8">
+                <JDdayPicker
+                  canSelectBeforeDays={false}
+                  {...resvDateHook}
+                  input
+                  readOnly
+                  label="숙박일자"
+                />
+              </div>
+              <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
+                <InputText
+                  readOnly
+                  value={moment().format("YYYY-MM-DD")}
+                  label="예약일시"
+                />
+              </div>
+              <div className="flex-grid__col col--full-12 col--lg-12 col--md-12">
+                <RoomSelectInfoTable resvInfo={defaultFormat} />
+              </div>
+            </div>
+          </div>
+          <div className="JDz-index-1 modal__section">
+            <h6>결제정보</h6>
+            <div className="flex-grid">
+              <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
+                <InputText
+                  {...priceHook}
+                  placeholder={`정상가:${autoComma(placeHolederPrice)}`}
+                  returnNumber
+                  comma
+                  label="총금액"
+                />
+              </div>
+              <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
+                <SelectBox
+                  {...payMethodHook}
+                  options={PAYMETHOD_FOR_BOOKER_OP}
+                  label="결제수단"
+                />
+              </div>
+              <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
+                <SelectBox
+                  {...paymentStatusHook}
+                  options={PAYMENT_STATUS_OP}
+                  label="결제상태"
+                />
+              </div>
+            </div>
+          </div>
+          <div className="JDmodal__endSection">
+            <Button
+              size="small"
+              label="생성하기"
+              disabled={type === BookingModalType.LOOKUP}
+              thema="primary"
+              mode="flat"
+              onClick={handleCreateBtnClick}
+            />
+            <Button
+              size="small"
+              disabled={type !== BookingModalType.LOOKUP}
+              label="수정하기"
+              thema="primary"
+              mode="flat"
+              onClick={handleUpdateBtnClick}
+            />
+            <Button
+              size="small"
+              label="예약삭제"
+              disabled={type !== BookingModalType.LOOKUP}
+              thema="warn"
+              mode="flat"
+              onClick={handleDeletBtnClick}
             />
           </div>
-          <div className="JD-z-index-1 flex-grid__col col--full-4 col--lg-4 col--md-4">
-            <SelectBox
-              {...bookingStatueHook}
-              options={BOOKING_STATUS_OP}
-              label="예약상태"
-            />
-          </div>
-          <div className="flex-grid__col col--full-12 col--lg-12 col--md-12">
-            <InputText {...memoHook} halfHeight textarea label="예약메모" />
-          </div>
-        </div>
-      </div>
-      <div className="modal__section">
-        <h6>예약정보</h6>
-        <div className="flex-grid">
-          <div className="flex-grid__col col--full-8 col--lg-8 col--md-8">
-            <JDdayPicker
-              canSelectBeforeDays={false}
-              {...resvDateHook}
-              input
-              readOnly
-              label="숙박일자"
-            />
-          </div>
-          <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
-            <InputText
-              readOnly
-              value={moment().format("YYYY-MM-DD")}
-              label="예약일시"
-            />
-          </div>
-          <div className="flex-grid__col col--full-12 col--lg-12 col--md-12">
-            <RoomSelectInfoTable resvInfo={defaultFormat} />
-          </div>
-        </div>
-      </div>
-      <div className="JDz-index-1 modal__section">
-        <h6>결제정보</h6>
-        <div className="flex-grid">
-          <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
-            <InputText
-              {...priceHook}
-              placeholder={`정상가:${autoComma(placeHolederPrice)}`}
-              returnNumber
-              comma
-              label="총금액"
-            />
-          </div>
-          <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
-            <SelectBox
-              {...payMethodHook}
-              options={PAYMETHOD_FOR_BOOKER_OP}
-              label="결제수단"
-            />
-          </div>
-          <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
-            <SelectBox
-              {...paymentStatusHook}
-              options={PAYMENT_STATUS_OP}
-              label="결제상태"
-            />
-          </div>
-        </div>
-      </div>
-      <div className="JDmodal__endSection">
-        <Button
-          size="small"
-          label="생성하기"
-          disabled={type === BookingModalType.LOOKUP}
-          thema="primary"
-          mode="flat"
-          onClick={handleCreateBtnClick}
-        />
-        <Button
-          size="small"
-          disabled={type !== BookingModalType.LOOKUP}
-          label="수정하기"
-          thema="primary"
-          mode="flat"
-          onClick={handleUpdateBtnClick}
-        />
-        <Button
-          size="small"
-          label="예약삭제"
-          disabled={type !== BookingModalType.LOOKUP}
-          thema="warn"
-          mode="flat"
-          onClick={handleDeletBtnClick}
-        />
-      </div>
+        </Fragment>
+      )}
       <SendSMSmodalWrap houseId={houseId} modalHook={sendSmsModalHook} />
       <JDtoastModal
         confirm

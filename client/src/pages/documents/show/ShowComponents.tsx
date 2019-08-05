@@ -596,7 +596,7 @@ function ShowComponents() {
         {/* 그외 것들 */}
         <h6>ElseThings</h6>
         <div className="docs-section__box clear-fix">
-          <Preloader />
+          <Preloader loading={true} />
           <span className="showComponent__elseThings JDtext-blink showComponent__blink JDtext-blink--infinity">
             {"Blink"}
           </span>

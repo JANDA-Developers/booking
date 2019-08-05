@@ -32,6 +32,8 @@ import {IGuestCount} from "./roomTypeCardsWrap";
 import JDmodal from "../../../../atoms/modal/Modal";
 import {arraySum} from "../../../../utils/elses";
 import moment from "moment";
+import selectOpMaker from "../../../../utils/selectOptionMaker";
+import JDbadge, {BADGE_THEMA} from "../../../../atoms/badge/Badge";
 
 interface IProps {
   className?: string;
@@ -50,11 +52,9 @@ interface IProps {
   countLoading: boolean;
   priceLoading: boolean;
   availableCount: {
-    maleCount: getAvailableGuestCount_GetMale_roomCapacity | null | undefined;
-    femaleCount:
-      | getAvailableGuestCount_GetFemale_roomCapacity
-      | null
-      | undefined;
+    maleCount: number;
+    femaleCount: number;
+    roomCount: number;
   };
 }
 
@@ -91,32 +91,37 @@ const RoomTypeCard: React.SFC<IProps> = ({
   ): IselectedOption<number>[] => {
     // 남성 SelectOp 리턴
 
-    const opFn = (count: number): IselectedOption<number>[] => {
-      return Array(count + 1)
-        .fill(0)
-        .map((value, index) => ({
-          label: `${index}`,
-          value: index
-        }));
-    };
-
     if (key === "maleCount" && availableCount.maleCount) {
-      return opFn(availableCount.maleCount.availablePeopleCount.countMale);
+      return selectOpMaker({
+        count: availableCount.maleCount + 1,
+        labelAdd: "명"
+      });
     }
     // 여성 SelectOp 리턴
     if (key === "femaleCount" && availableCount.femaleCount) {
-      return opFn(availableCount.femaleCount.availablePeopleCount.countFemale);
+      return selectOpMaker({
+        count: availableCount.femaleCount + 1,
+        labelAdd: "명"
+      });
     }
     // 방타입 SelectOp 리턴
     if (key === "roomCount" && availableCount.maleCount) {
-      return opFn(availableCount.maleCount.availablePeopleCount.countAny);
+      return selectOpMaker({
+        count: availableCount.roomCount + 1
+      });
     }
     return [];
   };
 
+  const maleCan = availableCount.maleCount;
+  const femaleCan = availableCount.femaleCount;
+  const contRoom = availableCount.roomCount;
+
   const maleSeleteOption = countSelectOpFn("maleCount");
   const femaleSeleteOption = countSelectOpFn("femaleCount");
   const roomSeleteOption = countSelectOpFn("roomCount");
+
+  const totalCan = (maleCan || 0) + (femaleCan || 0) + (contRoom || 0);
 
   // 이미 선택한 방인지 체크1
   const isSelectedRoom = ((): boolean => {
@@ -132,12 +137,16 @@ const RoomTypeCard: React.SFC<IProps> = ({
     resvRoom => resvRoom.roomTypeId === roomTypeData._id
   );
 
+  const totalRoomTypeCount =
+    guestCountValue.female + guestCountValue.male + guestCountValue.room;
+
   // 방 인원 선택시 선택가능 인원을 다시가져오게함
   const guestCountSelect = (selectedValue: number, flag: Gender | "room") => {
     setGuestCount({
       male: flag === Gender.MALE ? selectedValue : guestCountValue.male,
       female: flag === Gender.FEMALE ? selectedValue : guestCountValue.female,
-      room: flag === "room" ? selectedValue : guestCountValue.room
+      room: flag === "room" ? selectedValue : guestCountValue.room,
+      get: flag !== "room" ? flag : Gender.FEMALE
     });
   };
 
@@ -151,15 +160,16 @@ const RoomTypeCard: React.SFC<IProps> = ({
   const handleRoomSelectClick = () => {
     const resvRoomsCopy = resvRooms.slice();
 
-    const totalRoomTypeCount =
-      guestCountValue.female + guestCountValue.male + guestCountValue.room;
-    const dayDiff = moment(dayPickerHook.to!).diff(dayPickerHook.from!, "days");
+    const dayDiff =
+      moment(dayPickerHook.to!).diff(dayPickerHook.from!, "days") || 1;
     const totalRoomTypePrice = totalRoomTypeCount * truePrice * dayDiff;
+
     // 이미 선택된방 제거
     if (isSelectedRoom) {
       resvRoomsCopy.splice(roomTypeIndex, 1);
       setResvRooms(resvRoomsCopy);
       setDisabled({female: false, male: false, count: false});
+
       setBookingInfo({
         ...bookingInfo,
         price: bookingInfo.price - totalRoomTypePrice
@@ -205,7 +215,12 @@ const RoomTypeCard: React.SFC<IProps> = ({
         </div>
         <div className="flex-grid__col col--grow-2 roomTypeCard__middleSection">
           <div className="roomTypeCard__middleTopSection">
-            <h6>{roomTypeData.name}</h6>
+            <h6>
+              {roomTypeData.name}{" "}
+              {totalCan === 0 && !countLoading && (
+                <JDbadge thema={BADGE_THEMA.ERROR}>만실</JDbadge>
+              )}
+            </h6>
           </div>
           <div className="roomTypeCard__middleBottomSection">
             {/* 여기서나온 값을 state 에 저장하는거임 */}
@@ -214,6 +229,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
               <Fragment>
                 {roomTypeData.roomGender === RoomGender.FEMALE || (
                   <JDselect
+                    borderColor="primary"
                     options={maleSeleteOption}
                     size={SelectBoxSize.TWO}
                     rightLabel="남"
@@ -224,11 +240,14 @@ const RoomTypeCard: React.SFC<IProps> = ({
                     disabled={disabled.male}
                     textOverflow="visible"
                     isOpen
+                    menuCanOverflow
                     selectedOption={maleSeleteOption[guestCountValue.male]}
                   />
                 )}
                 {roomTypeData.roomGender === RoomGender.MALE || (
                   <JDselect
+                    menuCanOverflow
+                    borderColor="primary"
                     options={femaleSeleteOption}
                     size={SelectBoxSize.TWO}
                     rightLabel="여"
@@ -245,11 +264,13 @@ const RoomTypeCard: React.SFC<IProps> = ({
               </Fragment>
             ) : (
               <JDselect
+                borderColor="primary"
                 options={roomSeleteOption}
                 size={SelectBoxSize.TWO}
                 disabled={disabled.count}
                 rightLabel="개"
                 textOverflow="visible"
+                menuCanOverflow
                 onChange={selectedOp =>
                   guestCountSelect(selectedOp.value, "room")
                 }

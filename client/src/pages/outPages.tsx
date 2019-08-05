@@ -5,7 +5,11 @@ import Preloader from "../atoms/preloader/Preloader";
 export const Reservation = (props: any) => (
   <DynamicImport load={() => import("./outPages/reservation/ReservationWrap")}>
     {(DNcompoent: any) =>
-      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
+      DNcompoent === null ? (
+        <Preloader loading={true} page />
+      ) : (
+        <DNcompoent {...props} />
+      )
     }
   </DynamicImport>
 );
@@ -15,7 +19,11 @@ export const ReservationCheck = (props: any) => (
     load={() => import("./outPages/checkReservation/CheckReservationWrap")}
   >
     {(DNcompoent: any) =>
-      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
+      DNcompoent === null ? (
+        <Preloader loading={true} page />
+      ) : (
+        <DNcompoent {...props} />
+      )
     }
   </DynamicImport>
 );
@@ -25,7 +33,11 @@ export const ReservationInfo = (props: any) => (
     load={() => import("./outPages/infoReservation/InfoReservation")}
   >
     {(DNcompoent: any) =>
-      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
+      DNcompoent === null ? (
+        <Preloader loading={true} page />
+      ) : (
+        <DNcompoent {...props} />
+      )
     }
   </DynamicImport>
 );

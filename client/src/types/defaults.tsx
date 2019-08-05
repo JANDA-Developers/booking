@@ -1,4 +1,4 @@
-import {GB_booking} from "./interface";
+import {GB_booking, IHouseConfigFull} from "./interface";
 import {
   RoomGender,
   PricingType,
@@ -8,7 +8,8 @@ import {
   Gender,
   SendTarget,
   LayoutType,
-  ProductStatus
+  ProductStatus,
+  TimePerMs
 } from "./enum";
 import {
   getBooking_GetBooking_booking_roomTypes,
@@ -18,7 +19,7 @@ import {
   getSpecification_GetHouse_house_product,
   getSpecification_GetHouse_house_product_appInfoRequested,
   getAllRoomTypeWithGuest_GetGuests_guests_blockOption,
-  getMyProfile_GetMyProfile_user_houses_houseConfig_itemBlockOp
+  getMyProfile_GetMyProfile_user_houses_houseConfig_assigTimeline_itemBlockOp
 } from "./api";
 import {
   IAssigItem,
@@ -50,6 +51,8 @@ export const DEFAULT_BOOKING: GB_booking = {
   memo: "",
   createdAt: "",
   updatedAt: "",
+  isConfirm: false,
+  isNew: false,
   roomTypes: null,
   name: "",
   phoneNumber: "",
@@ -157,23 +160,53 @@ export const DEFAULT_ASSIG_ITEM: IAssigItem = {
   end: 0,
   gender: null,
   group: "",
-  guestIndex: -1,
+  itemIndex: -1,
   id: "",
   isCheckin: false,
   isUnsettled: false,
   name: "",
   roomId: "",
   roomTypeId: "",
+  loading: false,
   start: 0,
   type: GuestTypeAdd.BLOCK,
   validate: [],
   canMove: true,
   blockOption: DEFAULT_BLOCK_OP,
-  showEffect: false
+  showEffect: false,
+  showNewBadge: false
 };
 
-export const DEFAULT_ADDITION_BLOCKOP: getMyProfile_GetMyProfile_user_houses_houseConfig_itemBlockOp = {
+export const DEFAULT_ADDITION_BLOCKOP: getMyProfile_GetMyProfile_user_houses_houseConfig_assigTimeline_itemBlockOp = {
   __typename: "ItemBlockOp",
   itemBlockOpEnable: false,
   useColor: false
+};
+
+// 서버 모델에서 가져옴
+// @ts-ignore
+export const DEFAULT_HOUSE_CONFIG: IHouseConfigFull = {
+  __typename: "HouseConfig",
+  pollingPeriod: {
+    __typename: "PollingPeriod",
+    enable: false,
+    period: 5000
+  },
+  assigTimeline: {
+    __typename: "AssigTimeline",
+    roomTypeTabEnable: false,
+    itemBlockOp: {
+      __typename: "ItemBlockOp",
+      itemBlockOpEnable: false,
+      useColor: false
+    }
+  },
+  bookingConfig: {
+    __typename: "BookingConfig",
+    newBookingMark: {
+      __typename: "NewBookingMark",
+      enable: false,
+      newGuestTime: TimePerMs.DAY
+    }
+  }
 };

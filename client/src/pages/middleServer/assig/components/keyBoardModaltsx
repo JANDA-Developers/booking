@@ -1,0 +1,117 @@
+
+import React from "react";
+import {
+  IAssigTimelineUtils,
+  IAssigTimelineContext,
+  IAssigTimelineHooks,
+  IAssigDataControl
+} from "./assigIntrerface";
+import JDcolorPicker from "../../../../atoms/colorPicker/ColorPicker";
+import {useColorPicker, useCheckBox} from "../../../../actions/hook";
+import Button from "../../../../atoms/button/Button";
+import JDmodal from "../../../../atoms/modal/Modal";
+import CheckBox from "../../../../atoms/forms/checkBox/CheckBox";
+import {muResult} from "../../../../utils/utils";
+import {changeEnd} from "codemirror";
+import JDLabel from "../../../../atoms/label/JDLabel";
+import InputText from "../../../../atoms/forms/inputText/InputText";
+
+interface IProps {
+  assigHooks: IAssigTimelineHooks;
+}
+
+const BlockOpModal: React.FC<IProps> = ({
+}) => {
+  // const target = blockOpModal.info;
+  // const shortKeyKr = [
+  //     "관련예약 모두 삭제",
+  //     "예약 생성 (남)",
+  //     "예약 생성 (여)",
+  //     "예약 정보",
+  //     "방막기", 
+  //     "관련예약 이동선택",
+  //     "체크인 처리"];
+
+  // const arr = [
+  //   "deleteBooking",
+  //   "makeGuestMan",
+  //   "makeGuestWoman",
+  //   "infoModalOpen",
+  //   "blockPlace",
+  //   "selectMoveLink",
+  //   "checkInToggle",
+  // ]
+  // const [shotKets, setShortKeys] = useState({
+  //   deleteBooking,
+  //   makeGuestMan,
+  //   makeGuestWoman,
+  //   infoModalOpen,
+  //   blockPlace,
+  //   selectMoveLink,
+  //   checkInToggle,
+  // })
+
+  // const tableColumns = arr.map((key,index) => <tr>
+  //   <td>
+  //   {shortKeyKr[index]}
+  // </td>
+  // <td>
+  //   <InputText onChange={(value)=>{
+
+  //     setShortKeys
+  //   }}>
+  // </td>
+  // <td>
+  // </td>
+  // </tr>
+  // )
+
+
+  return (
+    <JDmodal visibleOverflow className="assig__blockOpModal" {...blockOpModal}>
+        <h5>단축키 설정</h5>
+        <JDbox mode="table">
+          <table>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>단축키</th>
+                  <th>행위</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>TD</td>
+                  <td>TD</td>
+                  <td>TD</td>
+                </tr>
+              </tbody>
+            </table>
+        </JDbox>
+        
+
+        <div className="JDmodal__endSection">
+          <Button
+            onClick={() => {
+              handleClickAdmit();
+            }}
+            thema="primary"
+            size="small"
+            mode="flat"
+            label="적용"
+          />
+          <Button
+            onClick={() => {
+              handleClickAdmit("cancle");
+            }}
+            size="small"
+            thema="warn"
+            mode="flat"
+            label="적용해제"
+          />
+        </div>
+    </JDmodal>
+  );
+};
+
+export default BlockOpModal;

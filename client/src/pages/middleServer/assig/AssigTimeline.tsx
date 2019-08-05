@@ -26,7 +26,7 @@ import {
   GlobalCSS,
   WindowSize
 } from "../../../types/enum";
-import itemRendererFn from "./components/itemRenderFn";
+import itemRendererFn from "./components/item/itemRenderFn";
 import ItemMenu from "./components/itemMenu";
 import CanvasMenu from "./components/canvasMenu";
 import MakeItemMenu from "./components/makeItemMenu";
@@ -37,7 +37,7 @@ import {
 } from "../../../types/defaults";
 import JDmodal, {JDtoastModal} from "../../../atoms/modal/Modal";
 import {
-  IAssigMutationes,
+  IAssigDataControl,
   IAssigItem,
   GuestTypeAdd,
   ICanvasMenuProps,
@@ -61,6 +61,7 @@ import BlockOpModal from "./components/blockOpModal";
 import DailyAssigWrap from "../../../components/dailyAssjg/DailyAssigWrap";
 import ReservationWrap from "../../outPages/reservation/ReservationWrap";
 import ReservationModal from "../../../components/reservationModala/ReservationModal";
+import JDisNetworkRequestInFlight from "../../../utils/netWorkStatusToast";
 
 // Temp 마킹용이 있는지
 
@@ -81,7 +82,7 @@ interface IProps {
   defaultTimeStart: number;
   defaultTimeEnd: number;
   houseConfig: IHouseConfig;
-  assigMutationes: IAssigMutationes;
+  assigDataControl: IAssigDataControl;
   dataTime: {
     start: number;
     end: number;
@@ -111,12 +112,12 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   roomTypesData,
   setDataTime,
   dataTime,
-  assigMutationes
+  assigDataControl
 }) => {
   const isMobile = windowWidth <= EWindowSize.MOBILE;
   const isTabletDown = windowWidth <= EWindowSize.TABLET;
   const [guestValue, setGuestValue] = useState<IAssigItem[]>(deafultGuestsData);
-
+  const keyBoardModal = useModal(false);
   const confirmDelteGuestHook = useModal(false);
   const reservationModal = useModal(false);
   const [viewRoomType, setViewRoomType] = useState(
@@ -154,7 +155,19 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
 
   // 풀링으로 새로받은 게스트데이터를 적용시켜준다.
   useEffect(() => {
-    setGuestValue(deafultGuestsData);
+    const newIndexStart = deafultGuestsData.length;
+
+    // 업데이트전 휘발성 블럭들을 찾아서 합쳐줍니다.
+    const volatilityBlocks = guestValue.filter(
+      guest =>
+        guest.type === GuestTypeAdd.MARK || guest.type === GuestTypeAdd.MAKE
+    );
+
+    volatilityBlocks.forEach(
+      (block, index) => (block.itemIndex = newIndexStart + index)
+    );
+
+    setGuestValue(deafultGuestsData.concat(volatilityBlocks));
   }, [JSON.stringify(deafultGuestsData)]);
 
   const assigHooks: IAssigTimelineHooks = {
@@ -175,13 +188,14 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
 
   const assigContext: IAssigTimelineContext = {
     isMobile,
+    houseConfig,
     windowWidth,
     windowHeight,
     groupData,
     houseId
   };
 
-  const assigUtils = getAssigUtils(assigHooks, assigMutationes, assigContext);
+  const assigUtils = getAssigUtils(assigHooks, assigDataControl, assigContext);
 
   const {assigTimeline} = houseConfig;
   if (!assigTimeline) {
@@ -267,6 +281,14 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
               icon="edit"
               label="예약하기"
             />
+            {/* 개발중 */}
+            {/* <Button
+              label="단축키"
+              onClick={() => {
+                keyBoardModal.openModal();
+              }}
+              icon="keyBoard"
+            /> */}
           </div>
           {roomTypeTabEnable && (
             <JDmultiBox
@@ -297,7 +319,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
         />
         <BlockOpModal
           key={blockOpModal.info.bookingId}
-          assigMutationes={assigMutationes}
+          assigDataControl={assigDataControl}
           assigHooks={assigHooks}
           assigContext={assigContext}
           assigUtils={assigUtils}
@@ -403,8 +425,13 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
         modalHook={reservationModal}
         pulbicKey={house.publicKey || undefined}
       />
-      <BookingModalWrap houseId={houseId} modalHook={bookingModal} />
+      <BookingModalWrap
+        assigUtils={assigUtils}
+        houseId={houseId}
+        modalHook={bookingModal}
+      />
       <JDtoastModal confirm {...confirmDelteGuestHook} />
+      {/* <KeyBoardModal modalHook={keyBoardModal}> */}
       <JDmodal {...dailyAssigHook}>
         <DailyAssigWrap
           isInModal

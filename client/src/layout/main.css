@@ -278,7 +278,7 @@ select {
 /**
  * 1. Prevent a WebKit bug where (2) destroys native `audio` and `video`
  *    controls in Android 4.
- * 2. Correct the inability to style clickable types in iOS and Safari.
+ * 2. Correct the inability to style hover types in iOS and Safari.
  */
 button,
 html [type="button"],
@@ -399,7 +399,7 @@ textarea {
  * Remove the inner padding and cancel buttons in Chrome and Safari on OS X.
  */
 /**
- * 1. Correct the inability to style clickable types in iOS and Safari.
+ * 1. Correct the inability to style hover types in iOS and Safari.
  * 2. Change font properties to `inherit` in Safari.
  */
 ::-webkit-file-upload-button {
@@ -2064,6 +2064,7 @@ Markup:
   .flex-grid .col.col--md-7 {
     display: block;
     width: 57.5%;
+    @import url(http://fonts.googleapis.com/eayprlyaccess/notosanskr.css);
   }
 
   .flex-grid .flex-grid__col.col--md-8,
@@ -2284,8 +2285,10 @@ main {
 /* https://github.com/necolas/normalize.css/issues/665 */
 html {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-family: 'Noto Sans KR', sans-serif; 
   color: #343434;
 }
+
 
 h1,
 h2,

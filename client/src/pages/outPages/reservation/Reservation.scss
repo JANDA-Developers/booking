@@ -7,7 +7,6 @@ $roomCardHeight: 130px;
 
 
 #JDreservation {
-    
     // 😆 어떻게 그리드 시스템을 오버라이드 하는지 보여줌
 
     .flex-grid {
@@ -21,7 +20,18 @@ $roomCardHeight: 130px;
         @include grid-system(sm);
     }
 
+
     .JDreservation {
+
+        &__cardMessage {
+            height: $standard-height * 4;
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px dashed $grey-level1;
+            color: $grey-level1;
+        }
+
         &__card {
             margin-bottom: $standard-margin-bottom /2;
         }
@@ -67,8 +77,10 @@ $roomCardHeight: 130px;
         &__img {
             background-size: cover;
             margin-left: -1px;
-            height: 100%;
             margin-top: -1px;
+            border-radius: 3px 0px 0px 3px;
+            height: 101%;
+            background-position: center center;
         }
 
         
@@ -160,4 +172,11 @@ $roomCardHeight: 130px;
         justify-content: space-between;
         align-items: center;
     }
+}
+
+html .ReactModalPortal {
+.agreePrivacyPolicy {
+    padding: $standard-side-padding;
+}
+
 }

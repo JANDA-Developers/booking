@@ -2,7 +2,7 @@
 
 .JDbadge {
     display:inline-block;
-    padding: 0.35em 0.3em;
+    padding: $badge-padding;
     border-radius: $standard-border-radius;
     line-height: 1;
     text-transform: uppercase;
@@ -11,28 +11,68 @@
     white-space: nowrap;
     vertical-align: baseline;
     margin-left: $standard-space / 2;
+    
+    &--tiny {
+        font-size: $typho-superTiny;
+        padding: $badge-padding-tiny;
+        border-radius: $badge-radius-tiny;
+    }
+
+    &--hover {
+        cursor: pointer;
+    }
+
     &--primary {
         background-color: $primary-color;
         color: $primary-color-on;
-    }   
+
+        &:hover.JDbadge--hover {
+            background-color: $primary-color-light
+        } 
+    }
+
     &--point {
         background-color: $point-color;
         color: $point-color-on;
-    }   
+        &:hover.JDbadge--hover {
+            background-color: $point-color-light;
+        } 
+    }
+
     &--black {
         background-color: $html-color;
         color:white;
-    }   
+
+        &:hover.JDbadge--hover {
+            background-color: $grey-level4;
+        } 
+    }
+
     &--white {
         background-color: white;
         color: $html-color;
-    }   
+    }
+       
     &--new {
         background-color: $new-color;
         color: $new-color-on;
-    }   
+
+        &:hover.JDbadge--hover {
+            background-color: $new-color-light;
+        } 
+    }
+
+    &--positive {
+        background-color: $positive-color;
+        color:white;
+    }
+
     &--error {
         background-color: $error-color;
-        color:white;
+        color:$error-color-on;
+
+        &:hover.JDbadge--hover {
+            background-color: $error-color-light;
+        } 
     }
 }

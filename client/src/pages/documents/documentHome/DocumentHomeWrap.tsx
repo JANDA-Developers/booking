@@ -48,7 +48,6 @@ const DocumentHomeWrap: React.FC<IProps> = () => {
             query={GET_FILE_TXT}
           >
             {({data: markDownTxtData, loading, error}) => {
-              showError(error);
               const markDownTxt = queryDataFormater(
                 markDownTxtData,
                 "GetFileTxt",

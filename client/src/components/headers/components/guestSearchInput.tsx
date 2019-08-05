@@ -6,6 +6,7 @@ import BookingModalWrap from "../../bookingModal/BookingModalWrap";
 import UserModal from "../../../pages/middleServer/super/components/userModal";
 import {useModal} from "../../../actions/hook";
 import $ from "jquery";
+import {autoHypen} from "../../../utils/utils";
 
 interface IProps {
   loading: boolean;
@@ -42,6 +43,7 @@ const GuestSearchInput: React.FC<IProps> = ({
     $(".assigItem--searched").removeClass("assigItem--searched");
   };
 
+  // 방배정에서 사용가능
   const hilightTarget = (target: JQuery<HTMLElement>) => {
     $(".assigItem--searched").removeClass("assigItem--searched");
     const scrollTarget = $(`.rct-scroll`).get(0);
@@ -64,6 +66,16 @@ const GuestSearchInput: React.FC<IProps> = ({
     }
   };
 
+  const BookingsDataManufacter = (
+    bookings: getBookings_GetBookings_bookings[]
+  ) => {
+    const bookingData = bookings.map(booking => {
+      booking.phoneNumber = autoHypen(booking.phoneNumber);
+      return booking;
+    });
+    return bookingData;
+  };
+
   const handleTypeChange = (value?: string) => {
     if (!value) unHilightTarget();
     setType(value);
@@ -83,7 +95,7 @@ const GuestSearchInput: React.FC<IProps> = ({
         asDetail="phoneNumber"
         asId="_id"
         asName="name"
-        dataList={bookings}
+        dataList={BookingsDataManufacter(bookings)}
       />
       <BookingModalWrap houseId={houseId} modalHook={bookingModalHook} />
     </Fragment>

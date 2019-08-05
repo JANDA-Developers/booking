@@ -125,8 +125,9 @@ export enum WindowSize {
   DESKTOPHD = 1200
 }
 
+// 👿 deprecate
 export enum GlobalCSS {
-  TIMELINE_HEADER_HEIGHT = 36
+  TIMELINE_HEADER_HEIGHT = 38
 }
 
 export enum Gender {
@@ -180,6 +181,34 @@ export enum SmsReplaceKeyEnum {
   PAYMETHOD = "%PAYMETHOD%",
   PAYMENTSTATUS = "%PAYMENTSTATUS%"
 }
+
+export enum Day {
+  FRI = "FRI",
+  MON = "MON",
+  SAT = "SAT",
+  SUN = "SUN",
+  THU = "THU",
+  TUE = "TUE",
+  WED = "WED"
+}
+
+export enum ProductTypeKey {
+  DEMO = "DEMO",
+  NEGOTIATION = "NEGOTIATION",
+  PREMIUM = "PREMIUM",
+  STANDARD = "STANDARD"
+}
+
+export const WeekArrKr = ["일", "월", "화", "수", "목", "금", "토"];
+export const WeekArrEn = [
+  Day.SUN,
+  Day.MON,
+  Day.TUE,
+  Day.WED,
+  Day.THU,
+  Day.FRI,
+  Day.SAT
+];
 
 export enum SmsReplaceKeyEnumKr {
   STAYDATE = "[숙박일자(월/일)]",

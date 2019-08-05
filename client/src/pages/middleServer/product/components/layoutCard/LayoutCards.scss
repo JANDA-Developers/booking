@@ -1,10 +1,12 @@
 @import '../../../../../style_config/style_config.scss';
 
 .layoutCard {
+    min-width: 12rem;
     &__imgBox {
         height: 9rem;
         background-size: cover;
         margin-bottom: $standard-margin-bottom;
+        background-position: center center;
     }
 
     &__bottomWrap {

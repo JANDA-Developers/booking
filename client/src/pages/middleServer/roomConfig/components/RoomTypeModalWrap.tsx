@@ -108,7 +108,7 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({ houseId, modalHook }) => {
                 "방타입 생성실패"
               );
             }}
-            onError={showError}
+            
           >
             {createRoomTypeMutation => (
               <DeleteRoomTypeMutation
@@ -125,7 +125,7 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({ houseId, modalHook }) => {
                     "방타입 제거실패"
                   );
                 }}
-                onError={showError}
+                
               >
                 {deleteRoomTypeMutation => (
                   <UpdateRoomTypeMutation
@@ -136,7 +136,7 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({ houseId, modalHook }) => {
                         "방타입 업데이트 실패"
                       );
                     }}
-                    onError={showError}
+                    
                     mutation={UPDATE_ROOMTYPE}
                     refetchQueries={updateRefetchQueries}
                   >

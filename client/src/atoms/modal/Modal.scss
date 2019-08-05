@@ -70,7 +70,7 @@
     &__endSection {
 
         &--confirm {
-            padding-top: $modal-section;
+            padding-top: $modal-section-padding;
         }
 
         &--float {
@@ -90,6 +90,6 @@
     
     // 모달 내부 영역구분
     .modal__section {
-        padding-bottom: $modal-section;
+        padding-bottom: $modal-section-padding;
     }
 }

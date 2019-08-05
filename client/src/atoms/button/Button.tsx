@@ -1,11 +1,14 @@
 /* eslint-disable react/button-has-type */
-import React from "react";
+import React, {Fragment, useState} from "react";
 import "./Button.scss";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import ErrProtecter from "../../utils/errProtect";
 import Icon, {IIcons} from "../icons/Icons";
 import Preloader from "../preloader/Preloader";
+import {s4} from "../../utils/utils";
+import Tooltip from "../tooltip/Tooltip";
+import {Redirect, Router, withRouter} from "react-router";
 
 interface IProps extends React.HTMLAttributes<HTMLButtonElement> {
   disabled?: boolean;
@@ -15,8 +18,8 @@ interface IProps extends React.HTMLAttributes<HTMLButtonElement> {
   iconClasses?: string[];
   dataTip?: any;
   dataFor?: any;
-  mode?: "flat" | "normal" | "long" | "border";
-  size?: "small" | "large";
+  mode?: "flat" | "normal" | "border";
+  size?: "small" | "large" | "long";
   flat?: boolean;
   float?: string;
   type?: "button" | "submit" | "reset" | undefined;
@@ -28,12 +31,15 @@ interface IProps extends React.HTMLAttributes<HTMLButtonElement> {
   preloader?: boolean;
   className?: string;
   hrefOpen?: string;
+  tooltip?: string;
+  redirect?: string;
 }
 
 const Button: React.FC<IProps> = ({
   disabled,
   label,
   icon,
+  tooltip,
   onClick,
   iconClasses,
   dataTip,
@@ -44,11 +50,13 @@ const Button: React.FC<IProps> = ({
   type,
   color,
   thema,
+  redirect,
   pulse,
   blink,
   preloader,
   className,
   size,
+  // 내부적인 링크는 LINK 태그를 사용하세요.
   hrefOpen,
   // 투글은 클래스만 바꾸어 줍니다.
   toggle,
@@ -58,7 +66,7 @@ const Button: React.FC<IProps> = ({
     "JDbtn--flat": mode === "flat" || flat,
     "JDbtn--small": size === "small",
     "JDbtn--large": size === "large",
-    "JDbtn--long": mode === "long",
+    "JDbtn--long": size === "long",
     "JDbtn--border": mode === "border",
     "JDbtn--left": float === "left",
     "JDbtn--right": float === "right",
@@ -66,38 +74,51 @@ const Button: React.FC<IProps> = ({
     "JDbtn--primary": thema === "primary",
     "JDbtn--grey": thema === "grey",
     "JDbtn--point": thema === "point",
-    "JDbtn--warn": thema === "warn",
+    "JDbtn--error": thema === "warn",
     "JDwaves-effect-dark": mode === "flat" && thema === "normal",
     "JDbtn--pulse": pulse,
     "JDbtn--toogleOn": toggle === true,
-    "JDbtn--toogleOff": toggle === false,
+    "JDbtn--toogle111Off": toggle === false,
     "JDtext-blink": blink
   });
 
-  const handleRedirect = () => {
-    window.open(hrefOpen);
+  const handleClickButton = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    hrefOpen && window.open(hrefOpen);
+    if (redirect) window.location.href = redirect;
+    onClick && onClick(event);
   };
 
   const handleKeyPress = () => {};
 
+  const newId = s4();
+
   return (
-    <button
-      {...props}
-      type={type}
-      disabled={disabled}
-      className={`JDbtn JDwaves-effect ${classes}`}
-      onClick={hrefOpen ? handleRedirect : onClick}
-      onKeyPress={handleKeyPress}
-      data-tip={dataTip}
-      data-for={dataFor}
-    >
-      {preloader ? <Preloader /> : label}
-      {!preloader && icon && (
-        <i className={`JDbtn__icon ${iconClasses && iconClasses.join(" ")}`}>
-          {icon && <Icon icon={icon} />}
-        </i>
+    <Fragment>
+      <button
+        {...props}
+        type={type}
+        disabled={disabled}
+        className={`JDbtn JDwaves-effect ${classes}`}
+        onClick={handleClickButton}
+        onKeyPress={handleKeyPress}
+        data-tip={tooltip ? true : dataTip}
+        data-for={tooltip ? `btnTooltip${newId}` : dataFor}
+      >
+        {preloader ? <Preloader loading={true} /> : label}
+        {!preloader && icon && (
+          <i className={`JDbtn__icon ${iconClasses && iconClasses.join(" ")}`}>
+            {icon && <Icon icon={icon} />}
+          </i>
+        )}
+      </button>
+      {tooltip && (
+        <Tooltip type="dark" effect="solid" id={`btnTooltip${newId}`}>
+          <span>{tooltip}</span>
+        </Tooltip>
       )}
-    </button>
+    </Fragment>
   );
 };
 

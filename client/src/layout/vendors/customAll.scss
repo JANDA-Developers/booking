@@ -1,5 +1,6 @@
 @import '../../style_config/style_config.scss';
 
+// 강제 변경이 필요한 경우들 이니 !important 사용 허용
 // ⛔️ 진짜 필요한 기능이 아니면 글로벌 속성을 쓰지 않습니다. ⛔️
 p {
     margin-top: 0;
@@ -79,6 +80,30 @@ a.JDanchor {
     margin-bottom: $standard-margin-bottom;
 }
 
+.JDstandard-space {
+    margin-right: $standard-space;
+}
+
+.JDflex {
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#root {
+    .JDmargin-bottom0 {
+        margin-bottom: 0!important;
+        @include responseUpClass() {
+            margin-bottom: 0!important;
+        }
+    }
+    .JDstandard-margin-bottom {
+        @include responseClass() {
+            margin-bottom: $standard-margin-bottom;
+        }
+    }
+}
+
 .JDtext-align-center {
     text-align: center;
 }
@@ -124,7 +149,7 @@ ul.JDlist {
 }
 
 body {
-    letter-spacing: -1px;
+    letter-spacing: 0px;
 }
 
 body *::-moz-selection {
@@ -139,6 +164,7 @@ body *::selection {
  html{
     overflow-y: scroll;
     background-color: $background-color;
+    line-height: 1.3!important;
 }
 
 

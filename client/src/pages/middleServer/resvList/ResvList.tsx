@@ -40,11 +40,14 @@ import SendSMSmodalWrap, {
   IModalSMSinfo
 } from "../../../components/smsModal/SendSmsModalWrap";
 import Preloader from "../../../atoms/preloader/Preloader";
+import ConfirmBadgeWrap from "../../../components/confirmBadge/ConfirmBadgeWrap";
 
 interface IProps {
   pageInfo: IPageInfo | undefined;
   bookingsData: IBooking[];
   loading: boolean;
+  updateBookingLoading: boolean;
+  deleteBookingLoading: boolean;
   houseId: string;
   setPage(page: number): void;
   deleteBookingMu: MutationFn<deleteBooking, deleteBookingVariables>;
@@ -60,6 +63,7 @@ const ResvList: React.SFC<IProps> = ({
   setPage,
   houseId
 }) => {
+  console.log(loading);
   //   ❔ 두개 합치는게 좋을까?
   const [checkedIds, setCheckedIds] = useState<string[]>([]);
   const [selectAll, setSelectAll]: any = useState(false);
@@ -152,11 +156,14 @@ const ResvList: React.SFC<IProps> = ({
       accessor: "createdAt",
       Cell: ({value, original}: CellInfo) => {
         const isCancled = original.bookingStatus === BookingStatus.CANCEL;
+        const {isNew, isConfirm, _id} = original;
+
         return (
           <div className="resvList__createdAt">
             {moment(value)
               .local()
               .format("YY-MM-DD HH:mm")}
+            {isNew && !isConfirm && <ConfirmBadgeWrap bookingId={_id} />}
             {isCancled && (
               <Fragment>
                 <br />
@@ -178,7 +185,11 @@ const ResvList: React.SFC<IProps> = ({
       Cell: ({value, original}: CellInfo) => {
         const roomTypes: IRoomType[] = value;
         return roomTypes.map(roomType => (
-          <JDbox align="center" key={`${original._id}${roomType._id}`}>
+          <JDbox
+            size="small"
+            align="center"
+            key={`${original._id}${roomType._id}`}
+          >
             {roomType.name}
             <br />
             <span>

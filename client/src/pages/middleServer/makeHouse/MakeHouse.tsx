@@ -175,12 +175,10 @@ const MakeHouse: React.FC<IProps & RouteComponentProps> = ({
         {/* 하우스 선택 */}
         <SelectHouseMu
           mutation={SELECT_HOUSE}
-          onError={showError}
           onCompleted={({selectHouse}) => {
             if (selectHouse.ok) {
               history.replace("/products");
             } else {
-              showError(selectHouse.error);
             }
           }}
         >
@@ -202,7 +200,6 @@ const MakeHouse: React.FC<IProps & RouteComponentProps> = ({
               }}
               refetchQueries={[{query: GET_USER_INFO}]}
               awaitRefetchQueries
-              onError={showError}
               onCompleted={({CreateHouse}) => {
                 if (CreateHouse.ok && CreateHouse.house) {
                   toast.success("숙소생성완료");
@@ -212,7 +209,6 @@ const MakeHouse: React.FC<IProps & RouteComponentProps> = ({
                   };
                   selectHouseMutation({variables: {selectedHouse: variables}});
                 }
-                if (CreateHouse.error) showError(CreateHouse.error);
               }}
             >
               {makeHouseMutation => {

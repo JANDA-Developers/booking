@@ -51,7 +51,7 @@ const SpecificAtionWrap: React.FC<IProps> = ({houseId, isAdmin}) => {
             onCompleted={({UpdateProductForSU}) => {
               onCompletedMessage(UpdateProductForSU, "변경 완료", "변경 실패");
             }}
-            onError={showError}
+            
             mutation={UPDATE_PRODUCT_FOR_SU}
           >
             {updateProductForSU => (

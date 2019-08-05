@@ -3,12 +3,11 @@
 @import "../../style_config/style_config";
 
 .JDbtn {
-  font-weight: 600;
   // border: $button-border;
   border-radius: $button-radius;
   display: inline-block;
   height: $button-height;
-  line-height: $button-height;
+  line-height: 100%;
   outline: 0;
   padding: $button-padding;
   text-transform: uppercase;
@@ -65,12 +64,11 @@
     }
   }
 
-  &.JDbtn--warn {
-    font-weight: normal;
-    background-color: $warn-color;
+  &.JDbtn--error {
+    background-color: $error-color;
     color: #fff;
     &:hover {
-      background-color: $warn-color-light
+      background-color: $error-color-light
     }
   }
 
@@ -177,19 +175,19 @@
   }
 
   &--toogleOn.JDbtn {
+    background-color: $primary-color;
+    color: $primary-color-on;
   }
 
   &--toogleOff.JDbtn {
   }
-
   #root &--border {
     background-color: white;
     border: 1px solid $grey-level1;
-    font-weight: 600;
     box-shadow:none;
 
     &:hover {
-      background-color: $grey-opacity1;
+      background-color: $grey-level1;
     }
 
     &.JDbtn--primary:not(:disabled) {

@@ -66,7 +66,7 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, userData, house}) => {
         <div className="container">
           <DashBoardHeader />
           <div className="flex-grid dashBoard__section1">
-            <div className="flex-grid__col col--wmd-12 col--full-9">
+            <div className="flex-grid__col col--wmd-12 col--full-9 JDstandard-margin-bottom--wmd">
               <Card className="JDcard--fullHeight JDcard--fullHeight-wmd">
                 {step === "done" ? (
                   <Fragment>
@@ -117,6 +117,7 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, userData, house}) => {
                 <div className="flex-grid__col flex-grid col--wmd-12">
                   <Card fullWidth>
                     <InputText
+                      readOnly={!house}
                       onBlur={e => {
                         house &&
                           updateHouseMu({

@@ -18,10 +18,12 @@ $z-index-10: 100; // sideNav  toast
 
 
 // -- TyphoGraphy 타이포 그래피
+$typho-h6 : 1.3rem;
 $typho-large : 1.3rem;
 $typho-normal : 1rem;
 $typho-small : 0.8rem;
 $typho-tiny : 10px;
+$typho-superTiny : 9px;
 
 // -- Colors 컬러 칼라 
 $html-color: #343434 !default;
@@ -38,7 +40,8 @@ $point-color-light-on: #fff !default;
 $point-color-dark: darken($point-color, 15%) !default;
 $point-color-dark-on: #fff !default;
 $new-color: #ffb021 !default;
-$today-color: #2F9B5B !default;
+$new-color-light: lighten(#ffb021, 15%) !default;
+$today-color: #00937F !default;
 $new-color-on: $html-color !default;
 // 성공색은 너무 이질적인 느낌을 주어서 폐기합니다.
 // $success-color: #52a071 !default;
@@ -46,8 +49,11 @@ $success-color: '-' !default;
 $background-color: #FBFBFB;
 //TODO  여기 warn으로 이름교체
 $error-color: #ff6760 !default;
-$warn-color: #ff6760 !default;
-$warn-color-light: #ff9892 !default;
+$positive-color: $today-color !default;
+$error-color-on: white !default;
+$error-color-light: lighten(#ff6760,5%) !default;
+$warn-color: #F58F2C !default;
+$warn-color-light: lighten(#F58F2C,15%) !default;
 $link-color: rgb(66, 62, 199) !default;
 $link-color-active: rgb(48, 45, 131) !default;
 $grey-level1: #E3E3E3 !default; // 흰색 effect-dark 받을때 컬러 오버랩을 원치 않을때 사용
@@ -104,8 +110,6 @@ $docs-section-padding-bottom: 6rem !default;
 $docs-section-padding: $docs-section-padding-top 0 $docs-section-padding-bottom 0 !default;
 $docs-section-padding--narrowTop: 2.5rem 0 $docs-section-padding-bottom 0 !default;
 $docs-section__box-bottom: 2.5rem !default;
-$modal-section: 1.5rem !default;
-
 
 // -- labeles 라벨
 //  Exception  : Check Box, Switch
@@ -116,7 +120,7 @@ $label-font-color: $html-color !default;
 $standard-section-height: 23.4rem;
 $standard-disabled-color: $grey-level2 !default;
 $standard-space: 1rem !default; // except textInput 구조가 다름
-$standard-margin-bottom: 1.0rem !default; // except textInput 구조가 다름
+$standard-margin-bottom: .8rem !default; // except textInput 구조가 다름
 $standard-text-term: .5rem !default;
 $standard-border-radius: 4px;
 $standard-line-height: 2.25rem; // ⭐️ 구성요소들이 한줄에 섰을때 세로 크기를 정의합니다.
@@ -133,14 +137,16 @@ $standard-outborder-color: $html-color; //화면 가장자리에 붙어있는 bo
 $standard-label-margin : 0.5rem;
 $standard-placeholder-color : $grey-level2;
 $standard-width: 4.5rem; // 정수를 곱해서 사용
+$standard-height: $standard-line-height; // 정수를 곱해서 사용
 
 // ===========================================================================
 
 // 1. Forms 폼
 // ANCHOR Forms ==========================================================================
 // -- Text Inputs + Textarea 인풋
-$input-padding-top: 0.875rem;
-$input-height: $standard-line-height !default;
+$input-padding-top: 1rem;
+$input-height: $standard-line-height + 0.275rem!default;
+$input-noLabel-height: $standard-line-height !default;
 $input-border: 1px solid $standard-outborder-color !default;
 $input-background: #fff !default;
 $input-error-color: $error-color !default;
@@ -278,13 +284,14 @@ $button-small-padding: 0 $button-small-padding-side !default;
 $button-small-font-size: $typho-normal !default;
 $button-large-font-size: $typho-large !default;
 
+$button-height: 36px !default;
 // 5 Modals
 // ANCHOR Modals =========================================================================
 
 $modal-background-color: $curtain-color !default;
 $modal-content-padding: $container-padding * 2 !default;
 $modal-border-radius: $standard-border-radius !default;
-$button-height: 36px !default;
+$modal-section-padding: $standard-margin-bottom * 1.5;
 
 // 6 SearchInput
 // ANCHOR Search Input =========================================================================
@@ -422,4 +429,6 @@ $assigItem-padding: 6px;
 
 // 22 badge 뱃지
 // ANCHOR badge Badge=========================================================================
-$badge-padding: 0.25em 0.4em;
+$badge-padding:  0.30em 0.35em 0.35em 0.3em;
+$badge-padding-tiny:  0.15em 0.3em;
+$badge-radius-tiny:  2px;

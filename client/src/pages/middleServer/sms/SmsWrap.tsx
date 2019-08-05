@@ -1,4 +1,4 @@
-import React, {useRef} from "react";
+import React, {useRef, Fragment} from "react";
 import Sms from "./Sms";
 import {Mutation, Query} from "react-apollo";
 import {
@@ -29,6 +29,7 @@ import {
 } from "../../../utils/utils";
 import {getOperationName} from "apollo-utilities";
 import {DEFAULT_SMS_TEMPLATE} from "../../../types/defaults";
+import Preloader from "../../../atoms/preloader/Preloader";
 
 class CreateSmsTemplate extends Mutation<
   createSmsTemplate,
@@ -131,16 +132,19 @@ const SmsWrap: React.FC<IProps> = ({houseId}) => (
                         };
 
                         return (
-                          <Sms
-                            key={`sms${smsInfo &&
-                              smsInfo.smsTemplates &&
-                              smsInfo.smsTemplates.length}${loading &&
-                              "--loading"}`}
-                            smsTemplateMutationes={smsTemplateMutationes}
-                            loading={loading}
-                            houseId={houseId}
-                            smsInfo={smsInfo}
-                          />
+                          <Fragment>
+                            <Sms
+                              key={`sms${smsInfo &&
+                                smsInfo.smsTemplates &&
+                                smsInfo.smsTemplates.length}${loading &&
+                                "--loading"}`}
+                              smsTemplateMutationes={smsTemplateMutationes}
+                              loading={loading}
+                              houseId={houseId}
+                              smsInfo={smsInfo}
+                            />
+                            <Preloader loading={loading} page />
+                          </Fragment>
                         );
                       }}
                     </UpdateSmsTemplate>

@@ -47,7 +47,7 @@ const SelectHouseWrap: React.SFC<IProps> = ({
       onCompleted={({selectHouse}: any) =>
         onCompletedMessage(selectHouse, "숙소변경", "변경실패")
       }
-      onError={showError}
+      
       mutation={SELECT_HOUSE}
     >
       {selectHouseMu => (

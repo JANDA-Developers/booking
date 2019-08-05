@@ -15,6 +15,7 @@ const onCompletedMessage = (
     toast.success(resultOK);
   } else {
     console.error(`BackEnd::${result.error}`);
+    toast.warn(result.error);
     resultFale && toast.warn(resultFale);
   }
 };

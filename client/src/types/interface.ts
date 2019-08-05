@@ -7,12 +7,11 @@ import {
   getAllRoomTypeWithGuest_GetGuests_guests,
   getAllSeasonTable_GetAllRoomType_roomTypes,
   getBooking_GetBooking_booking,
-  getAppliedPriceWithDateRange_GetAppliedPriceWithDateRange_roomPrices,
-  getAppliedPriceWithDateRange_GetAppliedPriceWithDateRange_seasonPrices,
   getAllRoomTypeWithGuest_GetBlocks_blocks,
   getAllSeasonTable_GetAllSeason_seasons,
   getMyProfile_GetMyProfile_user_houses,
-  getMyProfile_GetMyProfile_user_houses_houseConfig
+  getMyProfile_GetMyProfile_user_houses_houseConfig,
+  ProductTypeKey
 } from "./api";
 import {IselectedOption} from "../atoms/forms/selectBox/SelectBox";
 
@@ -20,10 +19,6 @@ import {IselectedOption} from "../atoms/forms/selectBox/SelectBox";
 //  moudle 과 naeme space를 사용하려 해보았으나 실패 ㅠ
 export interface GAST_RoomType
   extends getAllSeasonTable_GetAllRoomType_roomTypes {}
-export interface ISpecificPrices
-  extends getAppliedPriceWithDateRange_GetAppliedPriceWithDateRange_roomPrices {}
-export interface ISeasonPrices
-  extends getAppliedPriceWithDateRange_GetAppliedPriceWithDateRange_seasonPrices {}
 export interface GB_booking extends getBooking_GetBooking_booking {}
 export interface IProduct extends getHouse_GetHouse_house_product {}
 export interface IUser extends getMyProfile_GetMyProfile_user {}
@@ -120,6 +115,60 @@ export interface IResvCount {
   male: number;
   female: number;
   roomCount: number;
+}
+
+export interface IHouseConfigFull extends IHouseConfig {
+  __typename: "HouseConfig";
+  pollingPeriod: {
+    __typename: "PollingPeriod";
+    enable: false;
+    period: number;
+  };
+  assigTimeline: {
+    __typename: "AssigTimeline";
+    roomTypeTabEnable: false;
+    itemBlockOp: {
+      __typename: "ItemBlockOp";
+      itemBlockOpEnable: boolean;
+      useColor: boolean;
+    };
+  };
+  bookingConfig: {
+    __typename: "BookingConfig";
+    newBookingMark: {
+      __typename: "NewBookingMark";
+      enable: false;
+      newGuestTime: number;
+    };
+  };
+}
+
+export interface IHolidaysByApi {
+  dateKind: string;
+  dateName: string;
+  isHoliday: string;
+  locdate: number;
+  seq: number;
+}
+
+export interface IProductTypeDesc {
+  _id: string;
+  name: string;
+  price: number;
+  roomCount: number;
+  key: ProductTypeKey;
+  roomCountExtraCharge: number;
+  bookingCount: number;
+  bookingCountExtraCharge: number;
+  description: string | null;
+  canHaveHostApp: boolean;
+  shortDesc: string | JSX.Element | JSX.Element[];
+  detailDesc: string | JSX.Element | JSX.Element[];
+  createdAt: Date;
+  updatedAt: Date;
+  icon: any;
+  priceText: string;
+  disable?: boolean | undefined;
 }
 
 /*  -------------------------------------------------------------------------- */

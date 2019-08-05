@@ -83,6 +83,7 @@ const BookingInfoBox: React.SFC<IProps> = ({
       </div>
 
       <TooltipList
+        className="agreePrivacyPolicy"
         scrollNodeClass="paymentModal"
         tooltipRef={tooltipRef}
         id="agreePrivacyPolicy"

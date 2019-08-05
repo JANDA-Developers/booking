@@ -13,6 +13,7 @@ interface IProps extends IUl {
   contents: any[];
   align?: "center" | "left" | "right";
   marginBottom?: "short" | "normal" | "long";
+  linePoint?: string;
 }
 
 const JDlist: React.FC<IProps> = ({
@@ -24,6 +25,7 @@ const JDlist: React.FC<IProps> = ({
   marginBottom = "normal",
   align = "left",
   contents,
+  linePoint,
   ...props
 }) => {
   const classes = classNames("JDlist", className, {
@@ -43,7 +45,10 @@ const JDlist: React.FC<IProps> = ({
         {contents.map((content, index) => (
           <li className="JDlist__li" key={s4()}>
             <Fragment>
-              {withIndex && <span className="JDlist__index">{index}</span>}{" "}
+              <span className="JDlist__index">
+                {linePoint && `${linePoint}`}
+                {withIndex && index}
+              </span>
               {content}
             </Fragment>
           </li>

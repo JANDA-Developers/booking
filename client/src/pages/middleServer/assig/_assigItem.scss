@@ -9,6 +9,13 @@
     box-sizing: border-box;
     position: relative;
     font-size: $typho-small;
+
+    &__badgeWrap {
+        position:absolute;
+        left: 0;
+        top:-50%;
+    }
+
     @include response($mobile) {
         font-size: $typho-tiny;
     }
@@ -107,6 +114,7 @@
         align-items: center;
         padding: 0px $assigItem-padding;
         height: 100%;
+        overflow:visible!important;
         white-space: nowrap;
         
         .circleIcon {
@@ -174,6 +182,27 @@
         height: 36px!important;
         border: $assigItem-selected-linked-border;
         @extend %z-depth-2;
+    }
+    // 👻 임시
+    &--ghost {
+        opacity: 0.3;
+        background-color: $assigItem-normalStatus-color;
+        border: 1px soli $grey-level1;
+
+        .assigItem__content {
+            display:flex;
+            height: 100%;
+            align-items: center;
+            align-content: center;
+             .animationWrap {
+                 display: flex;
+
+                 .preloader__wrap {
+                    height: 100%;
+                    line-height: 100%;
+                 }
+             }
+        }
     }
     // 😲 생성
     &--make {

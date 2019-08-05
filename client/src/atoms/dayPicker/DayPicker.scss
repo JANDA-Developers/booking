@@ -5,28 +5,45 @@
 #root,.ReactModalPortal {
     .DayPicker--reservation {
         .DayPicker-Body {
+            background-color:white;
+            border-color: transparent;
         .DayPicker-Week {
             .DayPicker-Day--selected.DayPicker-Day.DayPicker-Day--end {
-                background-color: $grey-level3;
+                background-color: $warn-color!important;
             }
         }
     }
     }
 }
 
+#root,.ReactModalPortal {
 .DayPicker {
 
-    
+    // 오른쪽으로
+    &.DayPicker--right {
+        left:0;
+        right:auto;
+    }
+    // 오른쪽으로
+    &.DayPicker--center {
+        left:0;
+        right:0;
+    }
+    // 왼쪽으로
+    &.DayPicker--left {
+        left:auto;
+        right:0;
+    }
 
 
     &--showWeekEndColor {
         .DayPicker-WeekdaysRow {
             & > div:nth-child(1) {
-                color: $warn-color;
+                color: $error-color;
             }
         }
         .DayPicker-Caption__week--0 {
-            color: $warn-color;
+            color: $error-color;
         }
     }
 
@@ -101,6 +118,7 @@
         max-width: $daypicker-block-height * 7;
     }
 
+    // 📆 이게 달력부분
     &--input {
         border:none;
         border-radius: 0px 0px $daypicker-border-radius $daypicker-border-radius;
@@ -156,6 +174,7 @@
                     .DayPicker-Day {
                         cursor: pointer;
                         flex: 1 1;
+                        border-color: white;
                         text-align: center;
                         height: $daypicker-block-height;
                         line-height: $daypicker-block-height - ($daypicker-border-tick * 2);
@@ -232,4 +251,5 @@
 
     @import "./horizen/Horizen.scss";
     @import "./input/JDdayPickerInput.scss";
+}
 }

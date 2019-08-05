@@ -25,7 +25,6 @@
     }
 }
 
-//마우스가 위에 올라왔을때 효과
 @mixin baseMargin($condition: "") {
     
     // 마진 bottom
@@ -34,6 +33,7 @@
     #{$condition}.JDradio,
     #{$condition}.JDselect,
     #{$condition}.JDbtn,
+    #{$condition}.JDlist,
     #{$condition}.JDdatePcikerInformation,
     #{$condition}.circleIcon,
     #{$condition}.imageUploader,
@@ -131,6 +131,67 @@
     @media only screen and (max-width: $max) and (min-width: $min) {
       @content; 
   }
+}
+
+// 클래스 생산
+// ~ 이상일때
+@mixin responseClass() {
+    @include response($mobile) {
+        &--sm {
+            @content; 
+        }
+    }
+    @include response($phablet) {
+        &--md {
+            @content; 
+        }
+    }
+    @include response($tablet) {
+        &--wmd {   
+            @content; 
+        }
+    }
+    @include response($desktop) {
+        &--lg { 
+            @content; 
+        }
+    }  
+    @include response($desktophd) {
+        &--wlg { 
+            @content; 
+        }
+    }  
+}
+
+
+// 클래스 생산
+// ~이하일 때 
+@mixin responseUpClass() {
+    @include response($full,$mobile) {
+        &--smUp {
+            @content; 
+        }
+    }
+    @include response($full,$phablet) {
+        &--mdUp {
+            @content; 
+        }
+    }
+    @include response($full,$tablet) {
+        &--wmdUp {   
+            @content; 
+        }
+    }
+    @include response($full,$desktop) {
+        &--lgUp { 
+            @content; 
+        }
+    }  
+    @include response($full,$desktophd) {
+        &--wlgUp { 
+            @content; 
+        }
+    }  
 }
 
 // 그리드 생성기

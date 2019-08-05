@@ -8,7 +8,8 @@ export enum Animation {
   fadeOutRight = "fadeOutRight",
   fadeInDown = "fadeInDown",
   fadeInRightShow = "fadeInRightShow",
-  fadeOut = "fadeOut"
+  fadeOut = "fadeOut",
+  tada = "tada"
 }
 
 interface IProps {
@@ -54,6 +55,12 @@ const JDanimation: React.FC<IProps> = ({children, animation, ...props}) => {
     animationProp.transitionEnter = true;
   }
 
+  // fadeInDown
+  if (animation.includes(Animation.fadeInDown)) {
+    animationProp.transitionName.enter = Animation.fadeInDown;
+    animationProp.transitionEnter = true;
+  }
+
   // fadeOutRight
   if (animation.includes(Animation.fadeOutRight)) {
     animationProp.transitionName.leave = Animation.fadeOutRight;
@@ -74,13 +81,22 @@ const JDanimation: React.FC<IProps> = ({children, animation, ...props}) => {
     animationProp.transitionLeaveTimeout = 300;
   }
 
+  // fadeOut
+  if (animation.includes(Animation.tada)) {
+    animationProp.transitionName.appear = Animation.tada;
+    animationProp.transitionAppear = true;
+    animationProp.transitionAppearTimeout = 2300;
+  }
+
   return (
-    <ReactCSSTransitionGroup {...props} {...animationProp}>
+    <ReactCSSTransitionGroup
+      className={"animationWrap"}
+      {...props}
+      {...animationProp}
+    >
       {children}
     </ReactCSSTransitionGroup>
   );
 };
 
 export default JDanimation;
-
-// ⭐️ animation From [https://raw.githubusercontent.com/daneden/animate.css/master/animate.css]

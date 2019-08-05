@@ -8,11 +8,13 @@
     display: block;
 
     &--labeled {
-        padding-top:$standard-label-margin;    
+
+        .JDsearchInput__input_wrapper {
+            padding-top: $input-padding-top;
+        }
+        // border-box
         .JDsearchInput__input {
-            // 1px 은 보더용
-            height: calc(#{$searchInput-input-height-labeled} + 1px);
-            line-height: $searchInput-input-height-labeled;
+            height: calc(#{$input-height} + 1px);
         }
         .JDsearchInput__icon {
         }
@@ -37,7 +39,7 @@
             top: 0;
         }
         .preloader {
-            height: $standard-line-height;
+            height: 100%;
         }
     }
     // 오픈된 리스트
@@ -61,11 +63,10 @@
         outline:none;
         width: 100%;
         box-sizing: border-box;
-        padding: $input-padding;
         padding-right: 1.75rem;
-        height: $standard-line-height;
+        height: $input-noLabel-height;
         margin-bottom: $searchInput-message-space;
-
+        
         &:focus {
             border-color: $primary-color-light;
             box-shadow: 0 1px 0 0 $primary-color-light;

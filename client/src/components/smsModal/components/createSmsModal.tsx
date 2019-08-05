@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, Fragment} from "react";
 import JDmodal from "../../../atoms/modal/Modal";
 import {IUseModal, useInput} from "../../../actions/hook";
 import JDbox from "../../../atoms/box/JDbox";
@@ -49,7 +49,7 @@ const CreateSmsModal: React.FC<IProps> = ({
       variables: {
         smsInfoId: smsInfo._id,
         msg: smsMessageFormatter(msg),
-        receivers: smsInfo && smsInfo.receivers,
+        receivers: modalHook.info.receivers,
         sender: process.env.REACT_APP_API_SMS_SENDER_NUMBER
       }
     });
@@ -89,36 +89,57 @@ const CreateSmsModal: React.FC<IProps> = ({
   };
 
   return (
-    <JDmodal className="sendSmsModal" {...modalHook}>
-      <h5>문자발신 {loading && <Preloader />} </h5>
-      <div>
-        <JDLabel txt="발신대상" />
-        {modalHook.info.receivers &&
-          modalHook.info.receivers.map(receiver => (
-            <JDbox key={s4()} mode="border" icon="mobile">
-              <span>{autoHypen(receiver)}</span>
+    <JDmodal
+      className={`sendSmsModal ${loading && "sendSmsModal--loading"}`}
+      {...modalHook}
+    >
+      <Preloader size="large" loading={loading} />
+      {loading || (
+        <Fragment>
+          <h5>문자발신</h5>
+          <div>
+            <JDLabel txt="발신대상" />
+            <JDbox className="clear-fix" mode="border">
+              {modalHook.info.receivers &&
+                modalHook.info.receivers.map(receiver => (
+                  <JDbox
+                    size={
+                      modalHook.info.receivers.length > 4 ? "small" : undefined
+                    }
+                    float
+                    key={s4()}
+                  >
+                    <span>{autoHypen(receiver)}</span>
+                  </JDbox>
+                ))}
             </JDbox>
-          ))}
-      </div>
-      <div className="JDz-index-1">
-        <JDselect
-          label="문자템플릿"
-          onChange={handleSelectTemplate}
-          options={smsTemplateOp}
-        />
-      </div>
-      <div>
-        <InputText
-          doubleHeight
-          onChange={setMsg}
-          value={msg}
-          label="전송문자"
-          textarea
-        />
-      </div>
-      <div className="JDmodal__endSection">
-        <Button thema="primary" onClick={handleSendSmsBtnClick} label="전송" />
-      </div>
+          </div>
+          <div className="JDz-index-1">
+            <JDselect
+              label="문자템플릿"
+              onChange={handleSelectTemplate}
+              options={smsTemplateOp}
+            />
+          </div>
+          <div>
+            <InputText
+              doubleHeight
+              onChange={setMsg}
+              value={msg}
+              label="전송문자"
+              textarea
+            />
+          </div>
+          <div className="JDmodal__endSection">
+            <Button
+              size={"small"}
+              thema="primary"
+              onClick={handleSendSmsBtnClick}
+              label="전송"
+            />
+          </div>
+        </Fragment>
+      )}
     </JDmodal>
   );
 };

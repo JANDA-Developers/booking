@@ -15,8 +15,10 @@ interface IProps extends IDiv {
   topLabel?: string;
   iconHover?: boolean;
   standard?: boolean;
+  size?: "small";
   iconOnClick?: any;
   align?: "center";
+  float?: boolean;
 }
 
 const JDbox: React.FC<IProps> = ({
@@ -27,9 +29,11 @@ const JDbox: React.FC<IProps> = ({
   icon,
   iconHover,
   mode,
+  float,
   topLabel,
   standard,
   photo,
+  size,
   align,
   ...props
 }) => {
@@ -40,7 +44,9 @@ const JDbox: React.FC<IProps> = ({
     "JDbox--border": mode === "border",
     "JDbox--center": align === "center",
     "JDbox--standard": standard,
-    "JDbox--withIcon": typeof icon === "string"
+    "JDbox--withIcon": typeof icon === "string",
+    "JDbox--small": size === "small",
+    "JDbox--float": float
   });
 
   return (

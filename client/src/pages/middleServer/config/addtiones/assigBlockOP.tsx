@@ -7,14 +7,19 @@ import {useSwitch} from "../../../../actions/hook";
 import {muResult} from "../../../../utils/utils";
 import JDbox from "../../../../atoms/box/JDbox";
 import HilightPhoto from "../../../../img/describe/guestHilight.gif";
-import {DEFAULT_ADDITION_BLOCKOP} from "../../../../types/defaults";
+import {
+  DEFAULT_ADDITION_BLOCKOP,
+  DEFAULT_HOUSE_CONFIG
+} from "../../../../types/defaults";
 
 const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
   updateHouseConfigMu,
   house
 }) => {
   const {houseConfig} = house;
-  const {itemBlockOp} = houseConfig;
+  const {assigTimeline} = houseConfig;
+  const {itemBlockOp, roomTypeTabEnable} =
+    assigTimeline || DEFAULT_HOUSE_CONFIG.assigTimeline;
   const {useColor, itemBlockOpEnable} = itemBlockOp || DEFAULT_ADDITION_BLOCKOP;
   const [use, setUse] = useState(itemBlockOpEnable);
   const [colorEnable, setEnableColor] = useState(useColor);
@@ -23,10 +28,13 @@ const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
     const result = await updateHouseConfigMu({
       variables: {
         houseId: house._id,
-        params: {
-          itemBlockOp: {
-            itemBlockOpEnable: !use,
-            useColor: !colorEnable
+        UpdateHouseConfigParams: {
+          assigTimeline: {
+            roomTypeTabEnable,
+            itemBlockOp: {
+              itemBlockOpEnable: !use,
+              useColor: !colorEnable
+            }
           }
         }
       }

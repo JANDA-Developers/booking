@@ -94,9 +94,7 @@ const RoomConfigTimeline: React.SFC<IProps> = ({
           {renderRoomType && (
             <div
               id={`assigGroups__roomType${group.roomTypeId}`}
-              className={`modifyGroups__roomGroup modifyGroups__roomType${
-                group.roomTypeId
-              }`}
+              className={`modifyGroups__roomGroup modifyGroups__roomType${group.roomTypeId}`}
             >
               <Button
                 className="modifyGroups__roomGroupBtn"
@@ -277,7 +275,7 @@ const RoomConfigTimeline: React.SFC<IProps> = ({
               className="RoomConfigTimeline__mainPreloader"
               size="medium"
               floating
-              loading={loading}
+              loading={loading || false}
             />
           </div>
         </div>

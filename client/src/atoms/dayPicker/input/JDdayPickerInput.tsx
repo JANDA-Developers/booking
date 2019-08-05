@@ -16,7 +16,9 @@ interface IProps {
   canSelectSameDate?: boolean;
   format?: string;
   label?: string;
+  showInputIcon: boolean;
   placeholder?: string;
+  inputClassName?: string;
   dayPickerProps: DayPickerProps;
   inputComponent?: JSX.Element[] | JSX.Element;
 }
@@ -28,7 +30,9 @@ const JDdayPickerInput: React.FC<IProps> = ({
   isRange,
   label,
   readOnly,
+  showInputIcon,
   dayPickerProps,
+  inputClassName,
   placeholder = "날자를 선택해주세요",
   format = "YYYY-MM-DD",
   inputComponent: InputComponent,
@@ -126,9 +130,10 @@ const JDdayPickerInput: React.FC<IProps> = ({
         format={format}
         component={(inProps: any) => (
           <InputText
+            className={inputClassName}
             readOnly={readOnly}
             label={label}
-            icon="calendar"
+            icon={label && showInputIcon ? "calendar" : undefined}
             {...props}
             {...inProps}
           />

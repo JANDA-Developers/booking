@@ -6,7 +6,7 @@ import "./CircleIcon.scss";
 
 interface IProps extends React.HTMLAttributes<HTMLButtonElement> {
   children: JSX.Element[] | JSX.Element;
-  thema?: string;
+  thema?: "white" | "greybg";
   onClick?: any;
   darkWave?: boolean;
   wave?: boolean;
@@ -46,7 +46,6 @@ const CircleIcon: React.FunctionComponent<IProps> = ({
 };
 
 CircleIcon.defaultProps = {
-  thema: "",
   darkWave: false,
   hover: true,
   wave: false,

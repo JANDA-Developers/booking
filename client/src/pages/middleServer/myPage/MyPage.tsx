@@ -98,7 +98,7 @@ const Mypage: React.SFC<IProps> = ({
         </div>
         <h4>생성한 숙소</h4>
         {/* 숙소 목록들 */}
-        {loading && <Preloader />}
+        {<Preloader loading={loading} />}
         <div className="row myPage__myHouses">
           {houses
             ? houses.map(house => (

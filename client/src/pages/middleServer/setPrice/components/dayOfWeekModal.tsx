@@ -1,79 +1,108 @@
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import React, { useState, useEffect } from 'react';
-import { Node } from 'unist';
-import { IUseModal, useInput } from '../../../../actions/hook';
-import JDmodal from '../../../../atoms/modal/Modal';
-import CheckBox from '../../../../atoms/forms/checkBox/CheckBox';
-import { JDWeekChanger, ErrProtecter, stringToPrice } from '../../../../utils/utils';
-import Button from '../../../../atoms/button/Button';
-import InputText from '../../../../atoms/forms/inputText/InputText';
-import { DayOfWeekPriceInput } from '../../../../types/api';
-import { arrToApplyDays, applyDaysToArr } from '../../../../utils/dayOfweeks';
+import PropTypes from "prop-types";
+import classNames from "classnames";
+import React, {useState, useEffect} from "react";
+import {Node} from "unist";
+import {IUseModal, useInput} from "../../../../actions/hook";
+import JDmodal from "../../../../atoms/modal/Modal";
+import CheckBox from "../../../../atoms/forms/checkBox/CheckBox";
+import {
+  JDWeekChanger,
+  ErrProtecter,
+  stringToPrice,
+  dayarrEnToBooleanArr,
+  s4,
+  autoComma,
+  toNumber
+} from "../../../../utils/utils";
+import Button from "../../../../atoms/button/Button";
+import InputText from "../../../../atoms/forms/inputText/InputText";
+import {
+  DayOfWeekPriceInput,
+  getAllSeasonTable_GetSeasonPrice_seasonPrices_dayOfWeekPriceList
+} from "../../../../types/api";
+import {
+  arrToApplyDays,
+  applyDaysToArr,
+  dayarrEnToValueArr,
+  DayOfWeekEnum
+} from "../../../../utils/dayOfweeks";
+import JDbox from "../../../../atoms/box/JDbox";
+import {priceMapResult} from "../SetPriceWrap";
+import {WeekArrKr, WeekArrEn} from "../../../../types/enum";
 
-interface IProps {
-  modalHook: IUseModal;
-  onSubmit?(foo: DayOfWeekPriceInput): void;
+export interface IDayOfWeekModalInfo {
+  priceInput: priceMapResult;
+  roomTypeId: string;
+  seasonId: string;
 }
 
-const DayOfWeekModal: React.SFC<IProps> = ({ modalHook, onSubmit }) => {
-  const [checking, setChecking] = useState([false, false, false, false, false, false, false]);
-  const valueHook = useInput('');
-  const classes = classNames('dayOfWeekModal', '', {});
-  const tempWeek = [0, 1, 2, 3, 4, 5, 6];
-  const applyedDays = applyDaysToArr(modalHook.info.applyedDays);
+interface IProps {
+  modalHook: IUseModal<IDayOfWeekModalInfo>;
+  setPriceMap: React.Dispatch<
+    React.SetStateAction<Map<string, priceMapResult>>
+  >;
+  priceMap: Map<string, priceMapResult>;
+}
 
-  // 🐘 이미 선택된 요일들 체크해줌
-  useEffect(() => {
-    const updateChecking = checking.map((_, index) => !applyedDays.includes(2 ** index));
-    setChecking(updateChecking);
-  }, [modalHook.info.applyedDays]);
+const DayOfWeekModal: React.SFC<IProps> = ({
+  modalHook,
+  priceMap,
+  setPriceMap
+}) => {
+  if (!modalHook.isOpen) return <div />;
+  const classes = classNames("dayOfWeekModal", "", {});
+  const dayOfWeekPriceList = modalHook.info.priceInput.dayOfWeekPriceList;
 
-  const submitValidate = (): boolean => {
-    //  전부 체크상태가 false인지 검사
-    if (!arrToApplyDays(checking)) return false;
-    return true;
+  const {priceInput, seasonId, roomTypeId} = modalHook.info;
+  const defaultPrice = priceInput.default;
+
+  const [priceArr, setPriceArr] = useState<(number | null)[]>(
+    dayarrEnToValueArr(dayOfWeekPriceList)
+  );
+
+  const handleClickCompleteBtn = () => {
+    const dayOfWeekPriceList = priceArr
+      .map((price, index) => {
+        if (!price) return undefined;
+        return {
+          day: WeekArrEn[index],
+          price: price
+        };
+      })
+      .filter(price => price !== undefined);
+
+    // @ts-ignore
+    priceInput.dayOfWeekPriceList = dayOfWeekPriceList;
+    priceMap.set(roomTypeId + seasonId, priceInput);
+    modalHook.closeModal();
   };
 
   return (
     <JDmodal {...modalHook} className={classes}>
-      <h6>적용요일</h6>
-      <div>
-        {tempWeek.map((day, index) => (
-          <CheckBox
-            key={`weekBox${day}`}
-            label={JDWeekChanger(day)}
-            onChange={(value: boolean) => {
-              const tempCehcking = checking;
-              tempCehcking[day] = value;
-              setChecking([...tempCehcking]);
-            }}
-            checked={checking[day]}
-            disabled={applyedDays.includes(2 ** index)}
-          />
-        ))}
-      </div>
-      <div>
-        <InputText {...valueHook} comma label="적용가격" />
-      </div>
+      {priceArr.map((price, index) => (
+        <InputText
+          placeholder={autoComma(defaultPrice)}
+          onChange={value => {
+            priceArr[index] = toNumber(value);
+            setPriceArr([...priceArr]);
+          }}
+          comma
+          value={price}
+          label={WeekArrKr[index]}
+        />
+      ))}
       <div className="JDmodal__endSection">
         <Button
-          onClick={() => {
-            if (submitValidate() && onSubmit) {
-              onSubmit({
-                applyDays: arrToApplyDays(checking),
-                price: stringToPrice(valueHook.value),
-              });
-              modalHook.closeModal();
-            }
-          }}
           label="적용"
+          size="small"
+          onClick={() => {
+            handleClickCompleteBtn();
+          }}
           thema="primary"
-          mode="flat"
         />
       </div>
     </JDmodal>
   );
 };
 
-export default ErrProtecter<IProps>(DayOfWeekModal);
+export default DayOfWeekModal;

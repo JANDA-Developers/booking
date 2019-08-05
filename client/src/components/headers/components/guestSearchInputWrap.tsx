@@ -14,7 +14,7 @@ import {
 class GetBookingsQuery extends Query<getBookings, getBookingsVariables> {}
 
 interface IProps {
-  houseId: string;
+  houseId?: string;
 }
 
 const GuestSearchInputWrap: React.FC<IProps> = ({houseId}) => {
@@ -34,10 +34,12 @@ const GuestSearchInputWrap: React.FC<IProps> = ({houseId}) => {
 
   return (
     <GetBookingsQuery
+      skip={
+        !houseId || (!filter.name && !filter.phoneNumnber && !filter.stayDate)
+      }
       query={GET_BOOKINGS}
-      skip={!filter.name && !filter.phoneNumnber && !filter.stayDate}
       variables={{
-        houseId,
+        houseId: houseId || "",
         count: 10,
         page: 1,
         filter: filter
@@ -55,7 +57,7 @@ const GuestSearchInputWrap: React.FC<IProps> = ({houseId}) => {
 
         return (
           <GuestSearchInput
-            houseId={houseId}
+            houseId={houseId || ""}
             bookings={bookings || []}
             onTypeValue={onTypeValue}
             setType={setType}

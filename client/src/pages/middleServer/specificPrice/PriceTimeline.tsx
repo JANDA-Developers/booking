@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useMemo, Fragment} from "react";
 import "moment/locale/ko";
 import moment from "moment";
 import {MutationFn} from "react-apollo";
@@ -12,23 +12,25 @@ import ErrProtecter from "../../../utils/errProtect";
 import "./PriceTimeline.scss";
 import {
   getAllRoomTypePrice_GetAllRoomType_roomTypes as IRoomType,
-  createRoomPrice,
-  createRoomPriceVariables,
-  deleteRoomPrice,
-  deleteRoomPriceVariables,
+  createDailyPrice,
+  createDailyPriceVariables,
+  deleteDailyPrice,
+  deleteDailyPriceVariables,
   priceTimelineGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices
 } from "../../../types/api";
 import Preloader from "../../../atoms/preloader/Preloader";
 import {IItem} from "./PriceTimelineWrap";
 import InputText from "../../../atoms/forms/inputText/InputText";
-import {IUseDayPicker} from "../../../actions/hook";
+import {IUseDayPicker, getKoreaSpecificDayHook} from "../../../actions/hook";
 import JDdayPicker from "../../../atoms/dayPicker/DayPicker";
-import {setMidNight, autoComma} from "../../../utils/utils";
+import {setMidNight, autoComma, isEmpty} from "../../../utils/utils";
 import {TimePerMs, GlobalCSS, WindowSize} from "../../../types/enum";
 import Icon, {IconSize} from "../../../atoms/icons/Icons";
 import JDIcon from "../../../atoms/icons/Icons";
 import reactWindowSize, {WindowSizeProps} from "react-window-size";
 import {ASSIG_VISIBLE_CELL_MB_DIFF} from "../assig/timelineConfig";
+import JDbadge, {BADGE_THEMA} from "../../../atoms/badge/Badge";
+import Tooltip from "../../../atoms/tooltip/Tooltip";
 
 interface IProps {
   items: IItem[] | undefined;
@@ -39,8 +41,8 @@ interface IProps {
   loading: boolean;
   dayPickerHook: IUseDayPicker;
   roomTypesData: IRoomType[] | undefined;
-  createRoomPriceMu: MutationFn<createRoomPrice, createRoomPriceVariables>;
-  delteRoomPriceMu: MutationFn<deleteRoomPrice, deleteRoomPriceVariables>;
+  createDailyPriceMu: MutationFn<createDailyPrice, createDailyPriceVariables>;
+  delteDailyPriceMu: MutationFn<deleteDailyPrice, deleteDailyPriceVariables>;
   setDataTime: React.Dispatch<
     React.SetStateAction<{
       start: number;
@@ -57,8 +59,8 @@ const ModifyTimeline: React.FC<IProps & WindowSizeProps> = ({
   defaultProps,
   roomTypesData,
   loading,
-  createRoomPriceMu,
-  delteRoomPriceMu,
+  createDailyPriceMu,
+  delteDailyPriceMu,
   houseId,
   priceMap,
   dataTime,
@@ -71,6 +73,10 @@ const ModifyTimeline: React.FC<IProps & WindowSizeProps> = ({
 }) => {
   const isMobile = windowWidth <= WindowSize.MOBILE;
   const isTabletDown = windowWidth <= WindowSize.TABLET;
+
+  const {datas: holidays, loading: holidayLoading} = getKoreaSpecificDayHook(
+    "2019"
+  );
 
   // 그룹 렌더
   const ModifyGroupRendererFn = ({group}: any) => {
@@ -87,7 +93,7 @@ const ModifyTimeline: React.FC<IProps & WindowSizeProps> = ({
 
   // 가격 인풋 블러시
   const handlePriceBlur = (value: string | null, item: IItem) => {
-    const inValue = value ? parseInt(value, 10) : null;
+    const inValue = value ? parseInt(value.replace(/,/g, ""), 10) : null;
     //  ❗️ 남은 부분이 PLcae Holder로 매워져 있을수 있도록 해야함
 
     const beforePrice = priceMap.get(item.id);
@@ -97,7 +103,7 @@ const ModifyTimeline: React.FC<IProps & WindowSizeProps> = ({
       if (beforePrice === inValue) return;
 
       if (inValue === null) {
-        delteRoomPriceMu({
+        delteDailyPriceMu({
           variables: {
             date: item.end,
             roomTypeId: item.group
@@ -110,7 +116,7 @@ const ModifyTimeline: React.FC<IProps & WindowSizeProps> = ({
     }
 
     if (inValue !== null) {
-      createRoomPriceMu({
+      createDailyPriceMu({
         variables: {
           houseId,
           date: item.end,
@@ -140,6 +146,7 @@ const ModifyTimeline: React.FC<IProps & WindowSizeProps> = ({
         style={{...props.style, backgroundColor: "transparent", border: "none"}}
       >
         <InputText
+          comma
           defaultValue={priceMap.get(item.id)}
           placeholder={autoComma(placeHolderMap.get(item.id))}
           onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
@@ -228,21 +235,48 @@ const ModifyTimeline: React.FC<IProps & WindowSizeProps> = ({
                     getIntervalProps,
                     intervalContext
                   }: any) => {
-                    const isToday = intervalContext.interval.startTime.isSame(
-                      new Date(),
-                      "day"
-                    );
+                    const {startTime} = intervalContext.interval;
+                    const isToday = startTime.isSame(new Date(), "day");
+
+                    const holiday = holidays.find(holiday => {
+                      const result = moment(
+                        holiday.locdate.toString(),
+                        "YYYYMMDD"
+                      ).isSame(startTime, "day");
+
+                      return result;
+                    });
+
                     return (
                       <div
                         className={`rct-dateHeader ${isToday &&
                           "rct-dateHeader--today"}`}
                         {...getIntervalProps()}
+                        onClick={() => {}}
                       >
                         <div className="rct-dateHeader__inner">
                           {intervalContext.intervalText
                             .replace("요일,", ", ")
                             .replace(/[0-9]{4}년/, "")}
                         </div>
+
+                        {holiday && (
+                          <Fragment>
+                            <JDbadge
+                              data-tip
+                              data-for={`holidayTooltip--${holiday.locdate}`}
+                              thema={BADGE_THEMA.ERROR}
+                            >
+                              공휴일
+                            </JDbadge>
+                            <Tooltip
+                              id={`holidayTooltip--${holiday.locdate}`}
+                              class="JDtooltip"
+                            >
+                              {holiday.dateName}
+                            </Tooltip>
+                          </Fragment>
+                        )}
                       </div>
                     );
                   }}

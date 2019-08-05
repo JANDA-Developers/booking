@@ -9,11 +9,11 @@ import {
   getAllRoomType_GetAllRoomType_roomTypes_rooms as IRoom,
   getAllRoomTypePrice,
   getAllRoomTypePriceVariables,
-  getAllRoomTypePrice_GetAllRoomPrice_roomPrices as roomPrices,
-  createRoomPrice,
-  createRoomPriceVariables,
-  deleteRoomPrice,
-  deleteRoomPriceVariables,
+  getAllRoomTypePrice_GetAllDailyPrice_dailyPrices as dailyPrices,
+  createDailyPrice,
+  createDailyPriceVariables,
+  deleteDailyPrice,
+  deleteDailyPriceVariables,
   priceTimelineGetPrice,
   priceTimelineGetPriceVariables,
   priceTimelineGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices
@@ -21,10 +21,10 @@ import {
 import PriceTimeline from "./PriceTimeline";
 import {PriceTimelineDefaultProps} from "./timelineConfig";
 import {
-  CREATE_ROOM_PRICE,
   GET_ALL_ROOMTYPES_PRICE,
-  DELETE_ROOM_PRICE,
-  PRICE_TIMELINE_GET_PRICE
+  PRICE_TIMELINE_GET_PRICE,
+  CREATE_DAILY_PRICE,
+  DELETE_DAILY_PRICE
 } from "../../../queries";
 import {
   ErrProtecter,
@@ -40,13 +40,13 @@ class GetAllRoomTypePriceQuery extends Query<
   priceTimelineGetPrice,
   priceTimelineGetPriceVariables
 > {}
-class CreateRoomPriceMu extends Mutation<
-  createRoomPrice,
-  createRoomPriceVariables
+class CreateDailyPriceMu extends Mutation<
+  createDailyPrice,
+  createDailyPriceVariables
 > {}
-class DeleteRoomPriceMu extends Mutation<
-  deleteRoomPrice,
-  deleteRoomPriceVariables
+class DeleteDailyPriceMu extends Mutation<
+  deleteDailyPrice,
+  deleteDailyPriceVariables
 > {}
 
 export interface IItem {
@@ -141,7 +141,7 @@ const PriceTimelineWrap: React.SFC<IProps> = ({houseId}) => {
   });
 
   // 방타입과 날자 조합의 키를 가지고 value로 pirce를 가지는 Map 생성
-  const priceMapMaker = (priceData: roomPrices[]): Map<string, number> => {
+  const priceMapMaker = (priceData: dailyPrices[]): Map<string, number> => {
     const priceMap = new Map();
     priceData.map(price => {
       priceMap.set(
@@ -197,10 +197,10 @@ const PriceTimelineWrap: React.SFC<IProps> = ({houseId}) => {
           undefined
         );
         // 원본데이터
-        const roomPriceData = queryDataFormater(
+        const dailyPriceData = queryDataFormater(
           data,
-          "GetAllRoomPrice",
-          "roomPrices",
+          "GetAllDailyPrice",
+          "dailyPrices",
           []
         );
 
@@ -211,7 +211,7 @@ const PriceTimelineWrap: React.SFC<IProps> = ({houseId}) => {
           []
         );
 
-        const priceMap = priceMapMaker(roomPriceData || []);
+        const priceMap = priceMapMaker(dailyPriceData || []);
 
         const placeHolderMap = placeHolderMapMaker(turePriceData || []);
 
@@ -225,10 +225,10 @@ const PriceTimelineWrap: React.SFC<IProps> = ({houseId}) => {
           });
         return (
           // 방생성 뮤테이션
-          <CreateRoomPriceMu
-            onCompleted={({CreateRoomPrice}) => {
+          <CreateDailyPriceMu
+            onCompleted={({CreateDailyPrice}) => {
               onCompletedMessage(
-                CreateRoomPrice,
+                CreateDailyPrice,
                 "가격설정완료",
                 "가격설정 실패"
               );
@@ -236,15 +236,15 @@ const PriceTimelineWrap: React.SFC<IProps> = ({houseId}) => {
             refetchQueries={[
               {query: GET_ALL_ROOMTYPES_PRICE, variables: queryVarialbes}
             ]}
-            onError={showError}
-            mutation={CREATE_ROOM_PRICE}
+            
+            mutation={CREATE_DAILY_PRICE}
           >
-            {createRoomPriceMu => (
+            {createDailyPriceMu => (
               // 방생성 뮤테이션
-              <DeleteRoomPriceMu
-                onCompleted={({DeleteRoomPrice}) => {
+              <DeleteDailyPriceMu
+                onCompleted={({DeleteDailyPrice}) => {
                   onCompletedMessage(
-                    DeleteRoomPrice,
+                    DeleteDailyPrice,
                     "가격설정삭제",
                     "가격설정삭제 실패"
                   );
@@ -252,10 +252,10 @@ const PriceTimelineWrap: React.SFC<IProps> = ({houseId}) => {
                 refetchQueries={[
                   {query: GET_ALL_ROOMTYPES_PRICE, variables: queryVarialbes}
                 ]}
-                onError={showError}
-                mutation={DELETE_ROOM_PRICE}
+                
+                mutation={DELETE_DAILY_PRICE}
               >
-                {deleteRoomPriceMu => (
+                {deleteDailyPriceMu => (
                   <PriceTimeline
                     houseId={houseId}
                     items={items || undefined}
@@ -264,18 +264,18 @@ const PriceTimelineWrap: React.SFC<IProps> = ({houseId}) => {
                     priceMap={priceMap}
                     roomTypesData={roomTypesData || undefined}
                     placeHolderMap={placeHolderMap}
-                    createRoomPriceMu={createRoomPriceMu}
+                    createDailyPriceMu={createDailyPriceMu}
                     dataTime={dataTime}
                     setDataTime={setDataTime}
                     defaultTime={defaultTime}
                     key={`defaultTime${defaultTime.start}${defaultTime.end}`}
-                    delteRoomPriceMu={deleteRoomPriceMu}
+                    delteDailyPriceMu={deleteDailyPriceMu}
                     dayPickerHook={dayPickerHook}
                   />
                 )}
-              </DeleteRoomPriceMu>
+              </DeleteDailyPriceMu>
             )}
-          </CreateRoomPriceMu>
+          </CreateDailyPriceMu>
         );
       }}
     </GetAllRoomTypePriceQuery>

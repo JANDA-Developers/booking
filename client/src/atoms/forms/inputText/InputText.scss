@@ -31,7 +31,7 @@
   border-bottom: $input-border;
   border-radius: 0;
   outline: none;
-  height: $input-height;
+  height: $input-noLabel-height;
   line-height: $input-height;
   width: 100%;
   font-size: $input-font-size;
@@ -40,6 +40,22 @@
   box-shadow: none;
   box-sizing: content-box;
   transition: $input-transition;
+
+  &--h6 {
+    font-size: $typho-h6;
+  }
+
+  &--h5 {
+    font-size: $typho-h6;
+  }
+
+  &--h4 {
+    font-size: $typho-h6;
+  }
+
+  &--h3 {
+    font-size: $typho-h6;
+  }
 
   //아래에있는 라벨을 위로 끌어올립니다
   &+.JDinput_label,
@@ -78,7 +94,8 @@
   }
 
   &--labeled {
-    padding-top: $input-padding-top + $standard-label-margin;
+    padding-top: $input-padding-top;
+    height: $input-height;
   }
 
   // Valid Input Style

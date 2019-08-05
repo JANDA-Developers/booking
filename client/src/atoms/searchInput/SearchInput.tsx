@@ -87,6 +87,7 @@ const JDsearchInput: React.FC<IProps> = ({
       .parent()
       .scrollTop(target.offsetTop);
   };
+
   // Handler - input : onKeyPress
   const handleOnKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     // CASE: 엔터를 쳤을경우에
@@ -228,7 +229,7 @@ const JDsearchInput: React.FC<IProps> = ({
           onKeyDown={handleOnKeyPress}
           className="JDsearchInput__icon"
         >
-          <Preloader noAnimation loading={isLoading} />
+          <Preloader noAnimation loading={isLoading || false} />
           {isLoading || <Icon hover icon="magnifier" />}
         </span>
         {feedBackMessage && (

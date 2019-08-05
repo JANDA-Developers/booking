@@ -22,7 +22,7 @@ const ToolTipList: React.SFC<IProps> = ({
   ...props
 }) => {
   const defualtProps = {
-    clickable: true,
+    hover: true,
     globalEventOff: "click",
     border: true
   };

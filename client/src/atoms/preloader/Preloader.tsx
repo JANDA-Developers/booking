@@ -9,16 +9,18 @@ export type PreloaderSize = "large" | "tiny" | "medium" | "small";
 interface IProps extends React.HTMLAttributes<HTMLOrSVGElement> {
   page?: boolean;
   size?: PreloaderSize;
-  loading?: boolean;
+  loading: boolean;
   floating?: boolean;
   animation?: Animation[];
   noAnimation?: boolean;
+  wrapClassName?: string;
 }
 
 const JDpreloader: React.FC<IProps> = ({
   page,
   size = "tiny",
   className,
+  wrapClassName,
   loading,
   floating,
   noAnimation,
@@ -36,7 +38,7 @@ const JDpreloader: React.FC<IProps> = ({
   return !page ? (
     <JDanimation animation={noAnimation ? [] : animation}>
       {loading && (
-        <span className="preloader__wrap">
+        <span className={`preloader__wrap ${wrapClassName}`}>
           <svg
             {...props}
             version="1.1"
@@ -57,7 +59,7 @@ const JDpreloader: React.FC<IProps> = ({
               c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z"
             />
             <path
-              fill="#000"
+              className="preloader__fill"
               d="M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0
               C22.32,8.481,24.301,9.057,26.013,10.047z"
             >
@@ -78,7 +80,7 @@ const JDpreloader: React.FC<IProps> = ({
   ) : (
     <JDanimation animation={[Animation.fadeOut]}>
       {loading && (
-        <div className="preloader--page__wrap">
+        <div className={`preloader--page__wrap ${wrapClassName}`}>
           <div className="preloader--page" />
         </div>
       )}

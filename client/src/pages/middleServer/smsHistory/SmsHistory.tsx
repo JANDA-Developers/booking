@@ -8,7 +8,7 @@ import JDtable, {ReactTableDefault} from "../../../atoms/table/Table";
 import {CellInfo} from "react-table";
 import JDbadge, {BADGE_THEMA} from "../../../atoms/badge/Badge";
 import JDbox from "../../../atoms/box/JDbox";
-import {s4} from "../../../utils/utils";
+import {s4, autoHypen} from "../../../utils/utils";
 import moment from "moment";
 
 interface Iprops {
@@ -46,8 +46,8 @@ const SmsHistory: React.SFC<Iprops> = ({
       accessor: "receivers",
       Cell: ({value}: CellInfo) =>
         value.map((receiver: string) => (
-          <JDbox align="center" key={s4()}>
-            {receiver}
+          <JDbox size="small" align="center" key={s4()}>
+            {autoHypen(receiver)}
           </JDbox>
         ))
     },

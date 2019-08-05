@@ -1,80 +1,64 @@
 @import '../../../../style_config/style_config.scss';
 
+
+.applyProductModal {
+}
+
 .JDproduct {
+    position: relative;
     display:flex;
     height:300px;
+    &--slider {
+        height: 330px;
+    }
     flex-direction: column;
     padding:1rem;
+    transition:.3s;
+    transition-timing-function: ease-in-out;
     background-color: $grey-level1;
-    
-    &__index-use {
-        color: $primary-color;
-        font-size: $typho-small;
-        margin-left: $standard-space;
-    }
-
-    &--selected {
-        background-color: $grey-level2;
-    }
-
-    &__roomCondition {
-        margin-bottom: $standard-margin-bottom * 2;
-    }
-    &__specifications-ul {
-        line-height:150%;
-        font-size: $typho-small;
-        margin-bottom: auto;
-
-        li:before { 
-            content:'\2219';
-            margin-right:0.5em; 
-         }
-    }
-    &__priceBox {
-        font-size: $typho-large;
-        .JDradio {
-            margin-bottom:0;
-        }
-    }
-
-    &__name {
-        font-size: $typho-large;
-        font-weight: bold;
-    }
-
-    &__index-inner {
-        background-color: $html-color;
-        color:white;
-        padding:0.2rem;
-    }
-
-    &__index {
+    transform: scale(1);
+    text-align:center;
+    &__icon {
+        margin-top: $standard-margin-bottom;
         margin-bottom: $standard-margin-bottom + 0.2rem;
     }
 
-    &__inner {
-        font-weight:600;
+    
+    &__price {
+        position: absolute;
+        bottom: 1rem; 
+        left: 0;
+        width: 100%;
     }
 
-    &__select {
-        margin-left: 1rem;
-        position:relative;
-        top:0.2rem;
-    }
-
-    &__addtionModal {
-        min-width: 500px;
-        @include response($phablet) {
-            min-width: unset;
+    &:hover:not(.JDproduct--slider) {
+        cursor:pointer;
+        background-color: $primary-color;
+        color: white;
+        transform: scale(1.05);
+        @extend %z-depth-3;
+        .JDproduct__icon {
+            position:realtive;
+            // -webkit-filter: drop-shadow( 6px 4px 3px rgba(0, 0, 0, 0.16));
+            // filter: drop-shadow( 6px 4px 3px rgba(0, 0, 0, 0.16));
+            /* Similar syntax to box-shadow */
         }
     }
+    .JDproduct--slider:hover {
+        transform: sacle(1);
+        box-shadow: none;
+    }
 }
-
 
 .refundModal {
     max-width: $standard-width * 10;
     font-size: $typho-small;
     div {
         margin-bottom: $standard-margin-bottom;
+    }
+
+    & > div,
+    .JDmodal__endSection {
+        margin-bottom: 0;
     }
 }

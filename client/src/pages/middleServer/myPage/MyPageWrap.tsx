@@ -24,7 +24,7 @@ const MypageWrap: React.SFC<IProps> = ({ houses, userData, ...props }) => {
   return (
     // Mutation : 프로필 업데이트
     <Mutation
-      onError={showError}
+      
       mutation={UPDATE_MYPROFILE}
       refetchQueries={[{ query: GET_USER_INFO }]}
       variables={{

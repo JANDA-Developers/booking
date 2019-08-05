@@ -106,6 +106,9 @@ export const SpecificAtion: React.SFC<IProps> = ({
     label: ProductStatusKr[status || ProductStatus.WAIT],
     value: status || ProductStatus.WAIT
   });
+
+  console.log("description");
+  console.log(description);
   const ProductPriceHook = useState(productPrice || 0);
   const layOutPricePaidHook = useCheckBox(layoutPricePaid || false);
   const applideUrlHook = useInput(appliedUrl || "");
@@ -179,7 +182,7 @@ export const SpecificAtion: React.SFC<IProps> = ({
     },
     {
       title: "적용URL",
-      value: "-",
+      value: `${applideUrlHook.value}`,
       adminUi: <InputText {...applideUrlHook} />
     },
     {

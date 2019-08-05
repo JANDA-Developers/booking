@@ -4,7 +4,7 @@ import "./Textarea.scss";
 import classNames from "classnames";
 import JDicon, {IconSize, IIcons} from "../../icons/Icons";
 import ErrProtecter from "../../../utils/errProtect";
-import autoHyphen, {numberStr, stringToNumber} from "../../../utils/autoFormat";
+import autoHyphen, {numberStr, toNumber} from "../../../utils/autoFormat";
 import {NEUTRAL} from "../../../types/enum";
 import {getByteLength} from "../../../utils/elses";
 import {autoComma} from "../../../utils/utils";
@@ -17,6 +17,7 @@ interface IProps extends React.HTMLAttributes<HTMLInputElement> {
   doubleHeight?: boolean;
   halfHeight?: boolean;
   label?: string;
+  size?: "h6";
   type?: string;
   dataError?: string;
   icon?: IIcons;
@@ -26,7 +27,7 @@ interface IProps extends React.HTMLAttributes<HTMLInputElement> {
   validation?: any;
   // 음... 곤란하군 만약에 이벤트 객체를 핸들링할 경우가 생긴다면
   // onChnage=> onChangeValue로 바꾸어야겠다.
-  onChange?(foo?: any): void;
+  onChange?(value?: any): void;
   onChangeValid?: any;
   onBlur?(e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>): any;
   refContainer?: any;
@@ -41,6 +42,7 @@ interface IProps extends React.HTMLAttributes<HTMLInputElement> {
   fullHeight?: boolean;
   returnNumber?: boolean;
   allWaysShowValidMessage?: boolean;
+  className?: string;
 }
 
 const InputText: React.FC<IProps> = ({
@@ -51,6 +53,7 @@ const InputText: React.FC<IProps> = ({
   returnNumber,
   validation,
   onChange,
+  className,
   onBlur,
   max,
   isValid,
@@ -71,6 +74,7 @@ const InputText: React.FC<IProps> = ({
   iconHover,
   hyphen,
   byte,
+  size,
   comma,
   ...props
 }) => {
@@ -97,7 +101,7 @@ const InputText: React.FC<IProps> = ({
     if (onChange) {
       if (hyphen || comma) {
         if (typeof value === "number" || returnNumber) {
-          onChange(stringToNumber(target.value));
+          onChange(toNumber(target.value));
         } else {
           onChange(numberStr(target.value));
         }
@@ -111,9 +115,9 @@ const InputText: React.FC<IProps> = ({
     }
   };
 
-  const {className} = props;
   const classes = classNames(textarea ? "JDtextarea" : "JDinput", className, {
     "JDinput--labeled": label && !textarea,
+    "JDinput--h6": size === "h6",
     "JDinput--valid": (isValid === true || selfValid === true) && !textarea,
     "JDinput--invalid": (isValid === false || selfValid === false) && !textarea,
     "JDinput--allWaysShowValidMessage":

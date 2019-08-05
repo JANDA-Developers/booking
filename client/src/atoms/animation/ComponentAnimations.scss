@@ -1,7 +1,6 @@
 //  animation Show [https://daneden.github.io/animate.css/]
 //  animation From [https://raw.githubusercontent.com/daneden/animate.css/master/animate.css]
 
-
 @-webkit-keyframes JDzoomIn {
   from {
     opacity: 0;
@@ -27,6 +26,76 @@
     transform: scale(1);
   }
 }
+
+
+@-webkit-keyframes tada {
+  from {
+    opacity: 0;
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+
+  10%,
+  20% {
+    opacity: 1;
+    -webkit-transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg);
+    transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg);
+  }
+
+  30%,
+  50%,
+  70%,
+  90% {
+    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+  }
+
+  40%,
+  60%,
+  80% {
+    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+  }
+
+  to {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes tada {
+  from {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+
+  10%,
+  20% {
+    -webkit-transform: scale3d(0.8, 0.8, 0.8) rotate3d(0, 0, 1, -6deg);
+    transform: scale3d(0.8, 0.8, 0.8) rotate3d(0, 0, 1, -6deg);
+  }
+
+  30%,
+  50%,
+  70%,
+  90% {
+    -webkit-transform: scale3d(1.2, 1.2, 1.2) rotate3d(0, 0, 1, 6deg);
+    transform: scale3d(1.2, 1.2, 1.2) rotate3d(0, 0, 1, 6deg);
+  }
+
+  40%,
+  60%,
+  80% {
+    -webkit-transform: scale3d(1.2, 1.2, 1.2) rotate3d(0, 0, 1, -6deg);
+    transform: scale3d(1.2, 1.2, 1.2) rotate3d(0, 0, 1, -6deg);
+  }
+
+  to {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+
 
 
 @-webkit-keyframes JDfadeOut {
@@ -211,3 +280,9 @@
     animation-fill-mode: after;
   }
   
+  .tada {
+    -webkit-animation-name: tada;
+    animation-name: tada;
+    animation-duration: 2s;
+    animation-delay: .3s;
+  }

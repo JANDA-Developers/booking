@@ -1,95 +1,93 @@
-import React from 'react';
-import Radio from '../../../../atoms/forms/radio/Radio';
-import './Product.scss';
-import { Product } from '../../../../types/enum';
+import React, {Fragment} from "react";
+import Radio from "../../../../atoms/forms/radio/Radio";
+import "./Product.scss";
+import {Product, ProductTypeKey} from "../../../../types/enum";
+import JDIcon, {IIcons, IconSize} from "../../../../atoms/icons/Icons";
+import JDbadge, {BADGE_THEMA} from "../../../../atoms/badge/Badge";
+import {getAllProductTypes_GetAllProductTypes_productTypes} from "../../../../types/api";
+import {autoComma} from "../../../../utils/utils";
+import Button from "../../../../atoms/button/Button";
+import {IUseModal} from "../../../../actions/hook";
+import {IProductTypeDesc} from "../../../../types/interface";
+import {applyProductModalInfo} from "./applyProductModal";
+import classNames from "classnames";
+import {toast} from "react-toastify";
 
 //  👿 방관련된 정보들을 정리해서 interfcae로 만드는편이 낳음
 interface IProps {
-  productIndex: string | JSX.Element | JSX.Element[];
-  productName: string | JSX.Element | JSX.Element[];
-  value: string;
-  roomLimit: string | JSX.Element | JSX.Element[];
-  roomCondition: string | JSX.Element | JSX.Element[];
-  price: string | JSX.Element | JSX.Element[];
-  specifications: Array<any>;
-  setRadio: any;
-  slider: boolean;
-  isPhoneVerified: boolean;
+  productType: IProductTypeDesc;
+  slider?: boolean;
   isSelected: boolean;
   isCurrent: boolean;
-  disabled: boolean;
+  applyModal: IUseModal<applyProductModalInfo>;
+  setSelectedProductTypeId: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const JDproduct: React.FC<IProps> = ({
-  productIndex,
-  productName,
-  value,
-  roomLimit,
-  roomCondition,
-  price,
-  specifications,
-  setRadio,
-  isPhoneVerified,
-  slider = false,
-  isSelected = false,
-  isCurrent = false,
-  disabled = false,
+  productType,
+  slider,
+  isSelected,
+  applyModal,
+  setSelectedProductTypeId,
+  isCurrent
 }) => {
-  let modifer = '';
-  if (slider) modifer = '--slider';
+  console.log(isCurrent);
+  console.log(isCurrent);
+  console.log(isCurrent);
+  console.log(isCurrent);
+  const {disable, priceText, name, shortDesc} = productType;
 
-  const tooltipTargetFind = () => {
-    if (isCurrent) return 'tooltip__currentProduct';
-    if (productIndex === Product.TEST) return undefined;
-    if (!isPhoneVerified) return 'tooltip__productDisable';
-    return undefined;
+  const handleProductSelect = () => {
+    if (disable) {
+      toast.success("본 상품은 별도 문의 바랍니다.");
+      return;
+    }
+    setSelectedProductTypeId(productType._id);
+    applyModal.openModal({productType});
   };
 
-  const tooltipTarget = tooltipTargetFind();
+  const classes = classNames("JDproduct", undefined, {
+    "JDproduct--slider": slider,
+    "JDproduct--selected": isSelected,
+    "JDproduct--disable": disable
+  });
 
   return (
-    <div
-      data-tip="foo"
-      data-tip-disable={!disabled && !isSelected}
-      data-for={tooltipTarget}
-      data-type={isCurrent ? 'success' : 'dark'}
-      className={`JDproduct ${isSelected ? 'JDproduct--selected' : null}`}
-      key={`product--${value}${modifer}`}
-    >
-      {/* 인덱스 */}
-      <span className="JDproduct__index">
-        <span className="JDproduct__index-inner">{productIndex}</span>
-        {isCurrent ? <span className="JDproduct__index-use">(사용중)</span> : null}
-      </span>
-      {/* 기타특성 */}
-      <h6 className="JDproduct__name">{productName}</h6>
-      <span className="JDproduct__roomLimit">{roomLimit}</span>
-      <span className="JDproduct__roomCondition">{roomCondition}</span>
-      {/* 상품명세 */}
-      <ul className="JDproduct__specifications-ul">
-        {specifications.map(specification => (
-          <li key={`${modifer}${specification}`} className="JDproduct__specifications-li">
-            {specification}
-          </li>
-        ))}
-      </ul>
-      {/* 가격선택 */}
-      <div className="JDproduct__priceBox">
-        <span className="JDproduct__inner">
-          {price}
-          <span className="JDproduct__select">
-            <Radio
-              onChange={setRadio}
-              value={value}
-              checked={isSelected}
-              id={`RD--${value}${modifer}`}
-              groupName={`RD-product${modifer}`}
-              disabled={disabled}
+    <Fragment>
+      <div
+        className={classes}
+        onClick={slider ? undefined : handleProductSelect}
+      >
+        <div>
+          <div className="JDproduct__iconWrap">
+            <JDIcon
+              size={IconSize.SUPER_LARGE}
+              className="JDproduct__icon"
+              icon={productType.icon || "rocket"}
             />
-          </span>
-        </span>
+          </div>
+          <h4 className="JDproduct__limit">
+            {productType.name}{" "}
+            {isCurrent && (
+              <JDbadge thema={BADGE_THEMA.POSITIVE}>사용중</JDbadge>
+            )}
+          </h4>
+        </div>
+        <div className="JDproduct__decs">{productType.shortDesc}</div>
+        <h5 className="JDproduct__price">{productType.priceText}</h5>
+
+        <div>
+          {slider && (
+            <Button
+              mode="border"
+              thema="point"
+              onClick={handleProductSelect}
+              label="상품선택"
+            />
+          )}
+        </div>
       </div>
-    </div>
+    </Fragment>
   );
 };
 

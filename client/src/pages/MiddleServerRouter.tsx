@@ -9,7 +9,7 @@ import NoMatch from "./noMatch/NoMatch";
 import {IS_LOGGED_IN, SELECTED_HOUSE} from "../clientQueries";
 import {GET_USER_INFO} from "../queries";
 import {useToggle} from "../actions/hook";
-import {isEmpty} from "../utils/utils";
+import {isEmpty, mergeObject, removeNullOfObject} from "../utils/utils";
 import Preloader from "../atoms/preloader/Preloader";
 import {
   Products,
@@ -31,9 +31,10 @@ import {
   SmsHistory
 } from "./pages";
 import {UserRole} from "../types/enum";
-import {IHouse} from "../types/interface";
+import {IHouse, IHouseConfigFull} from "../types/interface";
 import ConfigWrap from "./middleServer/config/ConfigWrap";
-import getKoreaSpecificDay from "../utils/getSpecificDay";
+import $ from "jquery";
+import {DEFAULT_HOUSE_CONFIG, DEFAULT_SMS_TEMPLATE} from "../types/defaults";
 
 interface IProps {
   GetUserInfo: any;
@@ -49,7 +50,7 @@ const JDmiddleServer: React.FC<IProps> = ({
   GetUserInfo: {GetMyProfile: {user = {}} = {}, loading: loading2} = {},
   selectedHouse: {lastSelectedHouse: tempLastSelectedHouse, loading: loading3}
 }) => {
-  const isloading: boolean = loading || loading2 || loading3;
+  const isLoading: boolean = loading || loading2 || loading3;
   const houses: IHouse[] = user.houses || [];
 
   // 마지막으로 선택한 하우스
@@ -57,7 +58,6 @@ const JDmiddleServer: React.FC<IProps> = ({
     house => house._id === tempLastSelectedHouse.value
   );
 
-  getKoreaSpecificDay();
   // 마지막으로 선택한 하우스 또는 첫번째 하우스
   let selectedHouse = lastSelectedHouse || houses[0];
 
@@ -67,9 +67,26 @@ const JDmiddleServer: React.FC<IProps> = ({
   const applyedProduct = (selectedHouse && selectedHouse.product) || undefined;
   const {isPhoneVerified, userRole, profileImg} = user;
 
+  // houseConfig Null 제거
+  // default를 관리해주어라
+  let houseConfig = DEFAULT_HOUSE_CONFIG;
+  if (selectedHouse) {
+    removeNullOfObject(selectedHouse.houseConfig);
+    houseConfig = mergeObject<IHouseConfigFull>(
+      DEFAULT_HOUSE_CONFIG,
+      selectedHouse.houseConfig
+    );
+
+    selectedHouse.houseConfig = houseConfig;
+  }
+
   return (
     <Fragment>
-      <Preloader page loading={isloading} />
+      <Preloader
+        wrapClassName="middlerServerLoading"
+        page
+        loading={isLoading}
+      />
       <Helmet>
         <title>JANDA | APP</title>
       </Helmet>
@@ -85,6 +102,7 @@ const JDmiddleServer: React.FC<IProps> = ({
             applyedProduct={applyedProduct}
             houses={houses}
             profileImg={profileImg}
+            isLoading={isLoading}
           />
         )}
       />

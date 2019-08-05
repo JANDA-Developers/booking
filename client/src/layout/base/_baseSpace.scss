@@ -1,5 +1,9 @@
-// todo: 내생각엔 여기는 디펄트 간격으로 레이아웃에 넣고 
-// 각페이지마다 간격 수정 적용 하는건 어떨까?
+
+
+// 기본적으로 오른쪽 마진과 아래쪽 마진을 가집니다.
+// div 안의 마지막 요소는 오른쪽 마진이 없습니다.
+// 버튼과 버튼 사이 마진은 작습니다.
+// 버튼과 버튼 사이 마진은 작습니다.
 
 @import '../../style_config/style_config';
 
@@ -10,6 +14,7 @@
 .JDselect,
 .circleIcon,
 .input-range,
+.JDinput-wrap,
 .profileCircle,
 .JDcolorPicker {
     margin-right: $standard-space;
@@ -31,6 +36,12 @@ div {
             margin-right: 0;
         }
     }
+    // 이거 JDinput 구조때문임
+    .JDinput-wrap {
+        &:last-child {
+            margin-right: 0;
+        }
+    }
 }
 
 // 🚩카드의 마지막과 테이블안, 기타 안에서 마진 제거 
@@ -46,14 +57,21 @@ div {
 }
 
 // 테이블 안의 마진 제거
-.JDtable,.react-tabs__tab {
+.JDtable--marginAtuo,.react-tabs__tab {
     @include baseMargin {
         margin: 0;
     } 
+    .JDinput {
+        height: 2rem;
+        padding: 0;
+        box-sizing: content-box;
+        
+    }
 }
 
 
-//  카드의 마지막차일드  안에있는것 또는, 마지막의 마진을 제거
+//  카드 안 마지막 요소의 마진 제거 (시도)
+
 .JDcard > *:last-child {
     @include baseMargin("&") {
         &:last-child {
@@ -62,19 +80,19 @@ div {
                     margin-bottom:0;
                 }
             }
-    }
+        }
     @include baseMargin() {
         &:last-child {
             margin-bottom:0;
-                .JDinput {
+            .JDinput {
                     margin-bottom:0;
                 }
             }
+        }
     }
-}
 
-.JDcard > *:last-child {
-    @include baseMargin("&") {
+    .JDcard > *:last-child {
+        @include baseMargin("&") {
         margin-bottom: 0;
     }
 }

@@ -52,21 +52,22 @@ const DailyAssig: React.SFC<IProps> = ({
       case GuestType.GUEST:
         return (
           <div className="dailyAssig__guest dailyAssig__itemBlock">
-            {
-              // @ts-ignore
-              item.name
-            }
+            <span className="dailyAssig__itemName">
+              {
+                // @ts-ignore
+                item.name
+              }
+            </span>
             <JDIcon
               className="dailyAssig__guestConfigIcon"
               onClick={() => {
-
-                if ((item.guestType === GuestType.BLOCK)) return;
+                if (item.guestType === GuestType.BLOCK) return;
                 bookingModalHook.openModal({
                   // @ts-ignore
                   bookingId: item.booking._id
                 });
               }}
-              icon="config"
+              icon="dotMenuVertical"
               size={IconSize.MEDEIUM_SMALL}
             />
           </div>

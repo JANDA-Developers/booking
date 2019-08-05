@@ -3,7 +3,7 @@ import {
   IAssigTimelineUtils,
   IAssigTimelineContext,
   IAssigTimelineHooks,
-  IAssigMutationes
+  IAssigDataControl
 } from "./assigIntrerface";
 import JDcolorPicker from "../../../../atoms/colorPicker/ColorPicker";
 import {useColorPicker, useCheckBox} from "../../../../actions/hook";
@@ -18,7 +18,7 @@ interface IProps {
   assigHooks: IAssigTimelineHooks;
   assigUtils: IAssigTimelineUtils;
   assigContext: IAssigTimelineContext;
-  assigMutationes: IAssigMutationes;
+  assigDataControl: IAssigDataControl;
 }
 
 const BlockOpModal: React.FC<IProps> = ({
@@ -31,7 +31,7 @@ const BlockOpModal: React.FC<IProps> = ({
     setGuestValue
   },
   assigContext: {groupData},
-  assigMutationes: {updateBlockOpMu}
+  assigDataControl: {updateBlockOpMu}
 }) => {
   const target = blockOpModal.info;
   const colorPickerHook = useColorPicker(
@@ -49,12 +49,17 @@ const BlockOpModal: React.FC<IProps> = ({
         guestId: blockOpModal.info.id
       }
     });
+
     if (!muResult(result, "updateBlockOption")) {
       let inTarget = [target];
       if (addmitToAll.checked)
         inTarget = findGuestsByBookingId(target.bookingId);
 
+      console.log("target.bookingId");
+      console.log(target.bookingId);
+      console.log("inTarget");
       console.log(inTarget);
+
       if (!flag) {
         inTarget.forEach(
           ininTarget => (ininTarget.blockOption.color = colorPickerHook.color)

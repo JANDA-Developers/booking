@@ -73,7 +73,6 @@ const PhoneVerificationModalWrap: React.FC<IProps> = ({
               // onPhoneVerified && onPhoneVerified();
             }
           }}
-          onError={showError}
           awaitRefetchQueries
           refetchQueries={[{query: GET_USER_INFO}]}
         >

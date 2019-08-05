@@ -10,7 +10,7 @@ import {
   updateHouseConfig,
   updateHouseConfigVariables
 } from "../../../types/api";
-import {IHouse} from "../../../types/interface";
+import {IHouse, IHouseConfigFull} from "../../../types/interface";
 
 interface IProps {
   updateHouseConfigMu: MutationFn<
@@ -22,6 +22,7 @@ interface IProps {
 
 const Config: React.FC<IProps> = ({updateHouseConfigMu, house}) => {
   // AdditionMoudle 클릭시 변경
+
   const [additionIndex, setAdditionIndex] = useState<null | number>(null);
   return (
     <div id="Config" className="container config">
@@ -29,7 +30,7 @@ const Config: React.FC<IProps> = ({updateHouseConfigMu, house}) => {
         <div className="flex-grid__col col--full-4 col--md-12">
           <div className="config__cardsWrap">
             {additiones.map((addtion, index) => (
-              <Card key={s4()} selected={index === additionIndex} hoverDark>
+              <Card key={s4()} selected={index === additionIndex} hover>
                 <AddtionModule
                   setAdditionIndex={setAdditionIndex}
                   addtionInfo={addtion}

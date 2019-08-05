@@ -18,7 +18,11 @@ import {
 } from "../../types/api";
 import {Mutation, Query} from "react-apollo";
 import {SEND_SMS, GET_SMS_INFO} from "../../queries";
-import {queryDataFormater, onCompletedMessage} from "../../utils/utils";
+import {
+  queryDataFormater,
+  onCompletedMessage,
+  showError
+} from "../../utils/utils";
 import CreateSmsModal from "./components/createSmsModal";
 import SendSmsModal from "./SendSmsModal";
 
@@ -94,12 +98,13 @@ const SendSMSmodalWrap: React.FC<IProps> = ({modalHook, houseId}) => {
               modalHook.closeModal();
             }}
             mutation={SEND_SMS}
+            
           >
-            {sendSmsMu =>
+            {(sendSmsMu, {loading: sendSMSloading}) =>
               modalHook.info.createMode ? (
                 // SMS 만들기 모달
                 <CreateSmsModal
-                  loading={loading}
+                  loading={loading || sendSMSloading}
                   smsInfo={smsInfo}
                   sendSmsMu={sendSmsMu}
                   modalHook={modalHook}

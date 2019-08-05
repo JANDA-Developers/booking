@@ -29,7 +29,7 @@ const SystemDescription: React.FC<IProps> = ({updateHouseConfigMu, house}) => {
     updateHouseConfigMu({
       variables: {
         houseId: house._id,
-        params: {
+        UpdateHouseConfigParams: {
           pollingPeriod: {
             enable: true,
             period: value

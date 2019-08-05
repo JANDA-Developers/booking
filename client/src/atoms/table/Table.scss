@@ -8,9 +8,13 @@
         border-color: $table-outborder-color;
         box-sizing: border-box;
         background-color: white;
-        
+    
         * {
             border-color: $table-borders-color;
+        }
+
+        .JDinput {
+            box-sizing: content-box;
         }
 
         &--center {
@@ -29,10 +33,6 @@
             overflow:hidden;
         }
 
-        .JDinput {
-            height: 2rem;
-            padding: 0;
-        }
 //      👼 REACT TABLE
         .rt {
             &-thead {
@@ -53,6 +53,7 @@
             align-items: center;
             white-space: normal;
             max-width:100%;
+            padding: 7px 5px;
         }
 
         &--checkable {

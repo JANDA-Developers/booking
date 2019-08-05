@@ -25,7 +25,7 @@ function Login({client, history}) {
           {/* 로그인 뮤테이션 (로컬 ) */}
           <Mutation
             mutation={LOG_USER_IN}
-            onError={showError}
+            
             refetchQueries={[{query: GET_USER_INFO}]}
           >
             {logUserIn => {
@@ -69,17 +69,21 @@ function Login({client, history}) {
               };
               return (
                 <form onSubmit={emailSignIn}>
-                  <InputText
-                    {...emailHook}
-                    validation={utils.isEmail}
-                    label="Email"
-                  />
-                  <InputText
-                    {...passwordHook}
-                    validation={utils.isPassword}
-                    type="password"
-                    label="Password"
-                  />
+                  <div>
+                    <InputText
+                      {...emailHook}
+                      validation={utils.isEmail}
+                      label="Email"
+                    />
+                  </div>
+                  <div>
+                    <InputText
+                      {...passwordHook}
+                      validation={utils.isPassword}
+                      type="password"
+                      label="Password"
+                    />
+                  </div>
                   <Button type="submit" thema="primary" label="로그인" />
                   <Link to="/signUp">
                     <Button thema="primary" label="회원가입" />
