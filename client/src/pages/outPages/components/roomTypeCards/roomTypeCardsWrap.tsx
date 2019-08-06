@@ -136,11 +136,6 @@ const RoomTypeCardsWrap: React.SFC<IProps> = ({
           }
         }
 
-        console.log(availableCount);
-        console.log(availableCount);
-        console.log(availableCount);
-        console.log(availableCount);
-
         return (
           <GetRoomTypeDatePricesForBooker
             skip={dayPickerHook.to === null}
