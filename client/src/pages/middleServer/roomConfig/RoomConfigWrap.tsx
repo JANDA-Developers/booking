@@ -42,7 +42,6 @@ const RoomConfigTimelineWrap: React.SFC<IProps> = ({houseId}) => {
       variables={{houseId}}
     >
       {({data: roomData, loading, error}) => {
-        showError(error);
         const roomTypesData = queryDataFormater(
           roomData,
           "GetAllRoomType",

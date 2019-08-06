@@ -107,7 +107,7 @@ const JDdayPicker: React.SFC<IJDdayPickerProps> = ({
       return;
     }
 
-    // 범위선택이 아닌 경우에
+    // 범위선택이 닌 경우에
     if (!isRange) {
       setFrom(day);
       setEntered(day);

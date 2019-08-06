@@ -83,7 +83,6 @@ const ReservationWrap: React.FC<IProps> = ({
           });
         } else {
           toast.warn("예약실패");
-          showError(CreateBookingForBooker.error);
         }
       }}
       mutation={CREATE_BOOKING_FOR_BOOKER}

@@ -58,7 +58,6 @@ const SmsWrap: React.FC<IProps> = ({houseId}) => (
     }}
   >
     {({data: smsData, loading, error}) => {
-      showError(error);
       const smsInfo = queryDataFormater(
         smsData,
         "GetSmsInfo",

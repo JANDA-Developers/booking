@@ -34,7 +34,6 @@ const DocumentHomeWrap: React.FC<IProps> = () => {
   return (
     <GetAllReadMe query={GET_ALL_README}>
       {({data: readMeData, loading, error}) => {
-        showError(error);
         const allReadMe = queryDataFormater(
           readMeData,
           "GetAllReadMe",

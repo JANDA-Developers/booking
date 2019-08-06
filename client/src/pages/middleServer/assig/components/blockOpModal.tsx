@@ -55,11 +55,6 @@ const BlockOpModal: React.FC<IProps> = ({
       if (addmitToAll.checked)
         inTarget = findGuestsByBookingId(target.bookingId);
 
-      console.log("target.bookingId");
-      console.log(target.bookingId);
-      console.log("inTarget");
-      console.log(inTarget);
-
       if (!flag) {
         inTarget.forEach(
           ininTarget => (ininTarget.blockOption.color = colorPickerHook.color)

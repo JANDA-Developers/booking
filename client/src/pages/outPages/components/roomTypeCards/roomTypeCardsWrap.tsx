@@ -104,11 +104,6 @@ const RoomTypeCardsWrap: React.SFC<IProps> = ({
       }}
     >
       {({data, loading: countLoading, error}) => {
-        console.log(data);
-        console.log(data);
-        console.log(data);
-        console.log(data);
-        console.log(data);
 
         // 상대편 최대값은 알수있어도 스스로의 최대값이 변해버리기 때문에 두개가됨
         // 🏠 방타입의 경우에는 둘중 아무거나 조회해도 상관없음
@@ -140,6 +135,11 @@ const RoomTypeCardsWrap: React.SFC<IProps> = ({
             };
           }
         }
+
+        console.log(availableCount);
+        console.log(availableCount);
+        console.log(availableCount);
+        console.log(availableCount);
 
         return (
           <GetRoomTypeDatePricesForBooker

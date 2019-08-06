@@ -105,7 +105,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
       });
     }
     // 방타입 SelectOp 리턴
-    if (key === "roomCount" && availableCount.maleCount) {
+    if (key === "roomCount" && availableCount.roomCount) {
       return selectOpMaker({
         count: availableCount.roomCount + 1
       });

@@ -46,7 +46,6 @@ const MyHouseModalWrap: React.SFC<IProps> = ({ MyHouseModalHook: modalHook }) =>
             variables={{ houseId: modalHook.info.houseId }}
           >
             {({ data: houseData, loading, error }) => {
-              showError(error);
               const house = queryDataFormater(houseData, 'GetHouse', 'house', undefined);
               return (
                 <MyHouseModal

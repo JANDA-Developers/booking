@@ -38,7 +38,6 @@ const SpecificAtionWrap: React.FC<IProps> = ({houseId, isAdmin}) => {
       variables={{houseId}}
     >
       {({data: specificData, loading, error}) => {
-        showError(error);
         const specification = queryDataFormater(
           specificData,
           "GetHouse",

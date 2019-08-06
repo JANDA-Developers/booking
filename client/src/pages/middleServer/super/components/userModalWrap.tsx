@@ -20,7 +20,6 @@ const UserModalWrap: React.SFC<IProps> = ({modalHook}) => (
     variables={{userId: modalHook.info.userId}}
   >
     {({loading, error, data: userData}) => {
-      showError(error);
       const user = queryDataFormater(
         userData,
         "GetUserForSU",

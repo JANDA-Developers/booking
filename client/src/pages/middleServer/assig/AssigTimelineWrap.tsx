@@ -256,7 +256,6 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
       }}
     >
       {({data, loading, error, stopPolling, startPolling, networkStatus}) => {
-        showError(error);
         const roomTypesData = queryDataFormater(
           data,
           "GetAllRoomType",

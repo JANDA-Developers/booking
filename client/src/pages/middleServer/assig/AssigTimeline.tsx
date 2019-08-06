@@ -120,6 +120,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   const keyBoardModal = useModal(false);
   const confirmDelteGuestHook = useModal(false);
   const reservationModal = useModal(false);
+  const [inIsEmpty, setEmpty] = useState(false);
   const [viewRoomType, setViewRoomType] = useState(
     roomTypesData.map(roomType => roomType._id)
   );
@@ -240,9 +241,15 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     ReactTooltip.rebuild();
   });
 
+
+  useEffect(() => {
+  if(!isEmpty(groupData) && !loading) setEmpty(true);
+  }, [inIsEmpty])
+
   const timelineClassNames = classnames("assigTimeline", undefined, {
     "assiTimeline--mobile": windowWidth <= WindowSize.MOBILE,
-    "assigTimeline--loading": isEmpty(groupData)
+    "assigTimeline--loading": isEmpty(groupData) && loading,
+    "assigTimeline--empty": inIsEmpty
   });
 
   // 그룹 데이터에서 필터된것만 추출
@@ -407,13 +414,15 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
           </TimelineHeaders>
         </Timeline>
         {/* 생성된 방이 없을때 */}
-        {groupData.length === 0 && !loading && (
+        {inIsEmpty && (
           <div className="assigTimeline__placeHolderWrap">
+            <h3>아직 생성된 방이 없군요. 방타입을 생성하보세요</h3>
             <Link to="/timelineConfig">
-              <JDIcon
-                className="assigTimeline__placeHolder"
-                size={IconSize.LARGE}
-                icon="addCircle"
+              <Button
+                mode="border"
+                thema="point"
+                pulse
+                label="방타입 생성하러가기"
               />
             </Link>
           </div>

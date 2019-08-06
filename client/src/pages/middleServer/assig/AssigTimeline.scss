@@ -228,6 +228,14 @@
 #root {
 // 로딩 (첫로딩)
     .assigTimeline {
+
+
+        &--empty {
+            .react-calendar-timeline {
+                display:none!important;
+            }
+        }
+
         &--loading {
             .rct-outer {
                 background-image: linear-gradient(to right, #{$grey-level2} 0%, #fff 50%, #{$grey-level2} 100%);	

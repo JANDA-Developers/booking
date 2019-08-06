@@ -175,8 +175,7 @@ $roomCardHeight: 130px;
 }
 
 html .ReactModalPortal {
-.agreePrivacyPolicy {
-    padding: $standard-side-padding;
-}
-
+    .agreePrivacyPolicy {
+        padding: $standard-side-padding;
+    }
 }

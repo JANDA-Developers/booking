@@ -189,7 +189,6 @@ const PriceTimelineWrap: React.SFC<IProps> = ({houseId}) => {
       variables={queryVarialbes}
     >
       {({data, loading, error}) => {
-        showError(error);
         const roomTypesData = queryDataFormater(
           data,
           "GetAllRoomType",

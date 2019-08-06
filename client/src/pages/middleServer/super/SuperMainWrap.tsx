@@ -24,7 +24,6 @@ const SuperMainWrap: React.SFC<Iprops> = () => {
       }}
     >
       {({data: housePages, loading, error}) => {
-        showError(error);
         const housePageData = queryDataFormater(
           housePages,
           "GetHousesForSU",

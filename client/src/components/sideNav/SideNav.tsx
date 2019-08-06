@@ -69,7 +69,7 @@ const SideNav: React.FC<IProps> = ({
     {
       to: "/middleServer",
       icon: "apps",
-      label: "대쉬보드",
+      label: "대시보드",
       disabled: false
     },
     {
@@ -91,7 +91,7 @@ const SideNav: React.FC<IProps> = ({
       ]
     },
     {
-      groupTitle: "설정 및 셋팅",
+      groupTitle: "설정",
       disabled: !isHaveProduct,
       contents: [
         {

@@ -40,7 +40,6 @@ const ResvListWrap: React.FC<IProps> = ({houseId}) => {
       variables={{houseId, page, count: 20}}
     >
       {({data: boookerData, loading, error, networkStatus}) => {
-        showError(error);
 
         console.log(networkStatus);
         const bookings = queryDataFormater(

@@ -181,7 +181,6 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
                   );
                 }}
               />
-
               <CircleIcon>
                 <JDIcon
                   tooltip="요일별가격"
@@ -219,7 +218,10 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
           <InputText
             className="JDmargin-bottom0"
             comma
-            defaultValue={(roomTypePrices[index].defaultPrice || 0).toString()}
+            defaultValue={(roomTypePrices[index]
+              ? roomTypePrices[index].defaultPrice || 0
+              : 0
+            ).toString()}
             onBlur={e => {
               handleRoomTypeDefaultPrice(
                 original._id,
@@ -257,6 +259,12 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
           label="변경사항 저장하기"
           thema="point"
         />
+        <Link to="/specificPrice">
+          <Button
+            label="일별가격설정 하기"
+            mode="border"
+          />
+        </Link>
         <JDtable
           className="setPrice__table"
           marginAtuo={false}

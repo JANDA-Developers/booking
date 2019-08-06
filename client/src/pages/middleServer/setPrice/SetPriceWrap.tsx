@@ -103,7 +103,6 @@ const SetPriceWrap: React.SFC<IProps> = ({selectedHouse}) => {
       variables={{houseId: selectedHouse._id}}
     >
       {({data, loading: dataL, error: seasonE}) => {
-        showError(seasonE);
         const seasones = queryDataFormater(
           data,
           "GetAllSeason",

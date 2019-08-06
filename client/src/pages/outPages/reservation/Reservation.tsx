@@ -170,7 +170,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
             sendSmsFlag: sendSmsHook.checked
           }
         });
-        if (muResult(result, "createBookingForBooker")) {
+        if (result) {
           rsevModalHook.closeModal();
         }
       } else {
@@ -216,7 +216,6 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
               query={GET_ALL_ROOM_TYPE_FOR_BOOKING}
             >
               {({data: roomTypeData, loading: roomLoading, error}) => {
-                showError(error);
                 const roomTypes = queryDataFormater(
                   roomTypeData,
                   "GetAllRoomTypeForBooker",

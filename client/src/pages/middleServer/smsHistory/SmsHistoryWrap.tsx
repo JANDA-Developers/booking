@@ -24,7 +24,6 @@ const SuperMainWrap: React.SFC<Iprops> = ({smsInfoId}) => {
       }}
     >
       {({data: smsHistory, loading, error}) => {
-        showError(error);
         const smsHistoryData = queryDataFormater(
           smsHistory,
           "GetSmsHistory",

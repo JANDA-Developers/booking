@@ -728,7 +728,7 @@ export const GET_AVAILABLE_GUEST_COUNT = gql`
     ${F_ROOM_CAPACITY}
 `;
 
-// 🆕
+
 export const GET_CAPACITY_TO_ROOM_TYPE = gql`
     query getCapacityToRoomType(
         $roomTypeId: ID!

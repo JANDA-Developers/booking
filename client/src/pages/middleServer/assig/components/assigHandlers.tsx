@@ -216,8 +216,6 @@ export function getAssigHandlers(
 
     const target = findItemById(itemId);
 
-    console.log("허???");
-
     if (target.bookingId === "block") return;
 
     if (isMobile) {

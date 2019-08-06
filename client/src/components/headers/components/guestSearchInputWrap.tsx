@@ -46,7 +46,6 @@ const GuestSearchInputWrap: React.FC<IProps> = ({houseId}) => {
       }}
     >
       {({data: bookingsData, loading, error}) => {
-        showError(error);
 
         const bookings = queryDataFormater(
           bookingsData,
