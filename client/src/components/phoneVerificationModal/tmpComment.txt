@@ -23,7 +23,7 @@ function PhoneVerification({history}) {
     <div id="PhoneVerification" className="container container--centerlize">
       <div className="docs-section">
         <div className="flex-grid__col col--full-12 col--md-12">
-          <h1>핸드폰 인증하기</h1>
+          <h1>휴대폰 인증하기</h1>
           <Mutation
             mutation={PHONE_VERIFICATION}
             onCompleted={({StartPhoneVerification: {ok, error}}) => {
@@ -55,7 +55,7 @@ function PhoneVerification({history}) {
           overlayClassName="Overlay"
           ariaHideApp={false}
         >
-          <h5>핸드폰 인증번호</h5>
+          <h5>휴대폰 인증번호</h5>
           <InputText {...keyHook} label="인증번호" />
           <div className="JDmodal__endSection">
             <Query fetchPolicy="no-cache" query={GET_MY_PHON_NUMBER}>
@@ -80,7 +80,7 @@ function PhoneVerification({history}) {
                     }}
                     onCompleted={({CompletePhoneVerification}) => {
                       if (CompletePhoneVerification.ok) {
-                        toast.success("핸드폰 인증완료");
+                        toast.success("휴대폰 인증완료");
                         history.replace("./");
                       } else {
                         console.error(CompletePhoneVerification.error);

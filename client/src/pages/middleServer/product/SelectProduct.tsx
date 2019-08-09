@@ -157,7 +157,7 @@ const SelectProducts: React.FC<IProps> = ({
       />
       {/* 툴팁  : disabled */}
       <Tooltip
-        getContent={() => <span>핸드폰 인증후 사용가능</span>}
+        getContent={() => <span>휴대폰 인증후 사용가능</span>}
         class="JDtooltip"
         clickable
         id="tooltip__productDisable"

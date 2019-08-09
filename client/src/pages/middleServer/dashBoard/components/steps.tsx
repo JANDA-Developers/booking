@@ -16,7 +16,7 @@ interface IProps {
   houseId?: string;
 }
 
-// 스탭 1 : 핸드폰인증
+// 스탭 1 : 휴대폰인증
 // 스탭 2 : 숙소생성
 // 스탭 3 : 상품등록
 // 스탭 3.5 : 승인대기
@@ -28,7 +28,7 @@ const Steps: React.FC<IProps> = ({step, houseId}) => {
       return (
         <Fragment>
           <h5>
-            핸드폰이 인증되지 않았습니다.
+            휴대폰이 인증되지 않았습니다.
             <br /> 인증절차를 진행해주세요.
           </h5>
           <Button
@@ -37,7 +37,7 @@ const Steps: React.FC<IProps> = ({step, houseId}) => {
             }}
             mode="border"
             thema="primary"
-            label="핸드폰 인증하기"
+            label="휴대폰 인증하기"
           />
         </Fragment>
       );

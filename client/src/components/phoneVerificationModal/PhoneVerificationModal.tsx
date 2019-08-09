@@ -58,7 +58,7 @@ const PhoneVerification: React.FC<IProps> = ({
       overlayClassName="Overlay"
       ariaHideApp={false}
     >
-      <h5>핸드폰 인증번호</h5>
+      <h5>휴대폰 인증번호</h5>
       <JDTimer initialTime={TimePerMs.M * 3} direction="backward">
         {({timerState}: any) => {
           if (timerState === "STOPPED") {

@@ -79,7 +79,7 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, userData, house}) => {
                       steps={[
                         {
                           current: step === "phoneVerification",
-                          name: "핸드폰인증"
+                          name: "휴대폰인증"
                         },
                         {
                           current: step === "houseMake",

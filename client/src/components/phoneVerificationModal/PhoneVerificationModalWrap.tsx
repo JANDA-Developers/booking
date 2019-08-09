@@ -64,8 +64,8 @@ const PhoneVerificationModalWrap: React.FC<IProps> = ({
           onCompleted={({CompletePhoneVerification}) => {
             onCompletedMessage(
               CompletePhoneVerification,
-              "핸드폰 인증완료",
-              "핸드폰 인증실패"
+              "휴대폰 인증완료",
+              "휴대폰 인증실패"
             );
             modalHook.closeModal();
             if (CompletePhoneVerification.ok) {

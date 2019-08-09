@@ -48,7 +48,7 @@ const Mypage: React.SFC<IProps> = ({
       return false;
     }
     if (!phoneNumberHook.isValid) {
-      toast.warn("올바른 핸드폰 번호가 아닙니다.");
+      toast.warn("올바른 휴대폰 번호가 아닙니다.");
       return false;
     }
     if (!passwordHook.isValid) {
@@ -79,7 +79,7 @@ const Mypage: React.SFC<IProps> = ({
               hyphen
               {...phoneNumberHook}
               validation={utils.isPhone}
-              label="핸드폰번호"
+              label="휴대폰번호"
             />
             <InputText
               {...emailHook}

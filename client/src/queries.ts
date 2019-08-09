@@ -455,7 +455,7 @@ export const GET_PRODUCTS_TYPES = gql`
 `;
 
 
-// 유저 :: 핸드폰번호 가져오기
+// 유저 :: 휴대폰번호 가져오기
 export const GET_MY_PHON_NUMBER = gql`
     query getMyProfile {
         GetMyProfile {
@@ -1623,7 +1623,7 @@ export const UPDATE_MYPROFILE = gql`
         }
     }
 `;
-// 유저 :: 핸드폰인증 (유저용)
+// 유저 :: 휴대폰인증 (유저용)
 export const PHONE_VERIFICATION = gql`
     mutation startPhoneVerification {
         StartPhoneVerification {
@@ -1633,7 +1633,7 @@ export const PHONE_VERIFICATION = gql`
     }
 `;
 
-//  유저 :: 핸드폰인증(발신자용)
+//  유저 :: 휴대폰인증(발신자용)
 export const START_PHONE_VERIFICATION_WITH_PHONE_NUMBER = gql`
     mutation startPhoneVerificationWithPhoneNumber($phoneNumber: PhoneNumber!) {
         StartSenderVerification(phoneNumber: $phoneNumber) {
@@ -1643,7 +1643,7 @@ export const START_PHONE_VERIFICATION_WITH_PHONE_NUMBER = gql`
     }
 `;
 
-// 유저 :: 핸드폰 인증 완료 키를 보냄
+// 유저 :: 휴대폰 인증 완료 키를 보냄
 export const COMEPLETE_PHONE_VERIFICATION = gql`
     mutation completePhoneVerification($key: String!) {
         CompletePhoneVerification(key: $key) {

@@ -73,7 +73,7 @@ function SignUp({history}) {
                     return false;
                   }
                   if (!phoneNumberHook.isValid) {
-                    toast.warn("올바른 핸드폰 번호가 아닙니다.");
+                    toast.warn("올바른 휴대폰 번호가 아닙니다.");
                     return false;
                   }
                   if (!passwordHook.isValid) {

@@ -123,7 +123,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
       return false;
     }
     if (isPhone(bookingInfo.phoneNumber) !== true) {
-      toastModalHook.openModal({txt: "올바른 핸드폰번호가 아닙니다."});
+      toastModalHook.openModal({txt: "올바른 휴대폰번호가 아닙니다."});
       return false;
     }
     if (bookingInfo.password === "") {
