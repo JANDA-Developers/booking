@@ -243,7 +243,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
 
 
   useEffect(() => {
-  if(!isEmpty(groupData) && !loading) setEmpty(true);
+  if(isEmpty(groupData) && !loading) setEmpty(true);
   }, [inIsEmpty])
 
   const timelineClassNames = classnames("assigTimeline", undefined, {
