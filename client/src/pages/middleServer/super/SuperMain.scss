@@ -1,6 +1,22 @@
 
 @import '../../../style_config/style_config.scss';
 
+
+@keyframes color {
+	from {
+        background-color: $background-color;
+	}
+	to {
+        background-color: $admin-color;
+	}
+}
+
+#superMain {
+    background-color: $admin-color;
+    min-height: 100vh;
+    animation: color .2s linear;
+}
+
 .houseCard {
     display:flex;
     align-items: center;

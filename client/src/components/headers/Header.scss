@@ -20,6 +20,10 @@ html .header {
     position: sticky;
     top:0;
 
+    .animationWrap {
+        display:none;
+    }
+
     &__btns {
         display:inline-block;
         height: 100%;
@@ -115,6 +119,18 @@ html .header {
         &:hover{
             background-color:rgba(0,0,0,.1);
         }
+
+        &--transparent {
+            .JDbtn {
+                background-color: transparent;
+                border-radius: 0;
+                color: white;
+                &:hover {
+                    background-color: $grey-opacity1;
+                }
+            }
+        }
+
         &--verify {
             background-color: $primary-color-light;
         }

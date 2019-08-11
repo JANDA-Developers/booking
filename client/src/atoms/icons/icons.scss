@@ -10,16 +10,25 @@
     position: relative;
     text-decoration: inherit;
     
+    &--hover:hover {
+        cursor: pointer;;
+        color: $grey-level3;
+    }
+
     &--primary {
         color: $primary-color;
+        color: $primary-color-dark;
     }
+    
     &--positive {
         color: $positive-color;
     }
 
-    &--hover:hover {
-        cursor: pointer;;
-        color: $grey-level3;
+    &--selected {
+        color: $primary-color;
+        &:hover {
+            color: $primary-color-dark;
+        }
     }
 }
 

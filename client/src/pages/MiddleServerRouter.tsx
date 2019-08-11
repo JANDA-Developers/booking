@@ -81,6 +81,7 @@ const JDmiddleServer: React.FC<IProps> = ({
     selectedHouse.houseConfig = houseConfig;
   }
 
+  // 🍰 메인리턴
   return (
     <Fragment>
       <Preloader
@@ -240,7 +241,13 @@ const JDmiddleServer: React.FC<IProps> = ({
         <Route
           exact
           path="/statistic"
-          render={() => (isEmpty(selectedHouse) ? <NoMatch /> : <Statistic houseId={selectedHouse._id!} />)}
+          render={() =>
+            isEmpty(selectedHouse) ? (
+              <NoMatch />
+            ) : (
+              <Statistic houseId={selectedHouse._id!} />
+            )
+          }
         />
         {/* 방생성 */}
         <Route

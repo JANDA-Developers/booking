@@ -5,6 +5,7 @@ import classNames from "classnames";
 import Button from "../button/Button";
 import {IUseModal} from "../../actions/hook";
 import {s4} from "../../utils/utils";
+import JDanimation, {Animation} from "../animation/Animations";
 
 interface IProps extends ReactModal.Props, IUseModal {
   center?: boolean;
@@ -93,49 +94,51 @@ const JDmodal: React.SFC<IProps> = ({
   };
 
   return (
-    <ReactModal
-      isOpen={isOpen}
-      onRequestClose={closeModal}
-      appElement={appElement}
-      {...props}
-      {...defualtJDmodalProps}
-    >
-      {getChildren()}
-      {confirm && (
-        <Fragment>
-          <div className="JDmodal__endSection JDmodal__endSection--confirm">
-            {inInfo.trueMessage instanceof Array ? (
-              inInfo.trueMessage.map((message: any) => (
-                <Button
-                  key={s4()}
-                  {...sharedTrueBtnProp}
-                  label={`${message.msg}`}
-                  onClick={() => {
-                    hanldeClickBtn(true, message.callBackKey);
-                  }}
-                />
-              ))
-            ) : (
-              <Button {...sharedTrueBtnProp} />
-            )}
-            {inInfo.falseMessage instanceof Array ? (
-              inInfo.falseMessage.map((message: any) => (
-                <Button
-                  key={s4()}
-                  {...sharedFalseBtnProp}
-                  label={`${message}`}
-                  onClick={() => {
-                    hanldeClickBtn(false, message.callBackKey);
-                  }}
-                />
-              ))
-            ) : (
-              <Button {...sharedFalseBtnProp} />
-            )}
-          </div>
-        </Fragment>
-      )}
-    </ReactModal>
+    <JDanimation animation={[Animation.zoomIn, Animation.zoomOut]}>
+      <ReactModal
+        isOpen={isOpen}
+        onRequestClose={closeModal}
+        appElement={appElement}
+        {...props}
+        {...defualtJDmodalProps}
+      >
+        {getChildren()}
+        {confirm && (
+          <Fragment>
+            <div className="JDmodal__endSection JDmodal__endSection--confirm">
+              {inInfo.trueMessage instanceof Array ? (
+                inInfo.trueMessage.map((message: any) => (
+                  <Button
+                    key={s4()}
+                    {...sharedTrueBtnProp}
+                    label={`${message.msg}`}
+                    onClick={() => {
+                      hanldeClickBtn(true, message.callBackKey);
+                    }}
+                  />
+                ))
+              ) : (
+                <Button {...sharedTrueBtnProp} />
+              )}
+              {inInfo.falseMessage instanceof Array ? (
+                inInfo.falseMessage.map((message: any) => (
+                  <Button
+                    key={s4()}
+                    {...sharedFalseBtnProp}
+                    label={`${message}`}
+                    onClick={() => {
+                      hanldeClickBtn(false, message.callBackKey);
+                    }}
+                  />
+                ))
+              ) : (
+                <Button {...sharedFalseBtnProp} />
+              )}
+            </div>
+          </Fragment>
+        )}
+      </ReactModal>
+    </JDanimation>
   );
 };
 

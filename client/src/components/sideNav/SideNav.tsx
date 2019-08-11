@@ -13,11 +13,12 @@ import {IUser, IProduct, IHouse} from "../../types/interface";
 import {isEmpty, s4, instanceOfA, isTestProduct} from "../../utils/utils";
 import {ProductStatus} from "../../types/enum";
 import {Product} from "../../types/enum";
+import {getMyProfile_GetMyProfile_user} from "../../types/api";
 
 interface IProps {
   isOpen: boolean;
   setIsOpen: any;
-  userInformation: IUser;
+  userInformation: getMyProfile_GetMyProfile_user;
   applyedProduct?: IProduct;
   selectedHouse?: IHouse;
   profileImg: string;
