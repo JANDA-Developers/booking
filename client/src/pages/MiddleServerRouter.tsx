@@ -28,7 +28,8 @@ import {
   PriceTimeline,
   Sms,
   ResvList,
-  SmsHistory
+  SmsHistory,
+  Statistic
 } from "./pages";
 import {UserRole} from "../types/enum";
 import {IHouse, IHouseConfigFull} from "../types/interface";
@@ -80,6 +81,7 @@ const JDmiddleServer: React.FC<IProps> = ({
     selectedHouse.houseConfig = houseConfig;
   }
 
+  // 🍰 메인리턴
   return (
     <Fragment>
       <Preloader
@@ -232,6 +234,18 @@ const JDmiddleServer: React.FC<IProps> = ({
               <NoMatch />
             ) : (
               <PriceTimeline houseId={selectedHouse && selectedHouse._id} />
+            )
+          }
+        />
+        {/* 통계 */}
+        <Route
+          exact
+          path="/statistic"
+          render={() =>
+            isEmpty(selectedHouse) ? (
+              <NoMatch />
+            ) : (
+              <Statistic houseId={selectedHouse._id!} />
             )
           }
         />

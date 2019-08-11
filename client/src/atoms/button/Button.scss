@@ -151,7 +151,7 @@
   // Flat button
   &--flat {
     box-shadow: none;
-    background-color: transparent;
+    background-color: white;
     color: $button-flat-color;
     cursor: pointer;
     
@@ -169,7 +169,7 @@
     }
     
     &:hover {
-      background-color: transparent;
+      background-color: $grey-level1;
       box-shadow: none;
     }
   }

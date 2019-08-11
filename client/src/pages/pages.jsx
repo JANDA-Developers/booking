@@ -34,6 +34,14 @@ export const Qna = props => (
   </DynamicImport>
 );
 
+export const Statistic = props => (
+  <DynamicImport load={() => import("./middleServer/statistic/StatisticWrap")}>
+    {DNcompoent =>
+      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
+    }
+  </DynamicImport>
+);
+
 export const SmsHistory = props => (
   <DynamicImport
     load={() => import("./middleServer/smsHistory/SmsHistoryWrap")}
@@ -61,7 +69,9 @@ export const ConfigWrap = props => (
 );
 
 export const Products = props => (
-  <DynamicImport load={() => import("./middleServer/product/SelectProductWrap")}>
+  <DynamicImport
+    load={() => import("./middleServer/product/SelectProductWrap")}
+  >
     {DNcompoent =>
       DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
     }

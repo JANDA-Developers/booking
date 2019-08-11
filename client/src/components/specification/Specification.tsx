@@ -237,11 +237,13 @@ export const SpecificAtion: React.SFC<IProps> = ({
 
       {isAdmin && (
         <Button
+          className="JDstandard-margin0"
           onClick={() => {
             handleUpdateClick();
           }}
           label="변경"
           thema="primary"
+          mode="flat"
         />
       )}
     </JDbox>

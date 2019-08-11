@@ -25,29 +25,31 @@ const SuperMain: React.SFC<Iprops> = ({
   page,
   setPage
 }) => (
-  <div id="superMain" className="container container--sm">
-    <div className="docs-section">
-      <Fragment>
-        <Preloader size="large" noAnimation loading={loading} />
-        <div className="docs-section__box">
-          {houseData.map((house: Ihouse) => (
-            <HouseCard
-              key={`houseCard${house._id}`}
-              houseData={house}
-              userModal={userModal}
-            />
-          ))}
-        </div>
-        <JDPagination
-          onPageChange={selectedItem => {
-            setPage(selectedItem.selected + 1);
-          }}
-          pageCount={pageData ? pageData.totalPage : 1}
-          pageRangeDisplayed={1}
-          marginPagesDisplayed={4}
-        />
-        {userModal.isOpen && <UserModal modalHook={userModal} />}
-      </Fragment>
+  <div id="superMain">
+    <div className="container container--sm">
+      <div className="docs-section">
+        <Fragment>
+          <Preloader size="large" noAnimation loading={loading} />
+          <div className="docs-section__box">
+            {houseData.map((house: Ihouse) => (
+              <HouseCard
+                key={`houseCard${house._id}`}
+                houseData={house}
+                userModal={userModal}
+              />
+            ))}
+          </div>
+          <JDPagination
+            onPageChange={selectedItem => {
+              setPage(selectedItem.selected + 1);
+            }}
+            pageCount={pageData ? pageData.totalPage : 1}
+            pageRangeDisplayed={1}
+            marginPagesDisplayed={4}
+          />
+          {userModal.isOpen && <UserModal modalHook={userModal} />}
+        </Fragment>
+      </div>
     </div>
   </div>
 );

@@ -56,6 +56,7 @@ $warn-color: #F58F2C !default;
 $warn-color-light: lighten(#F58F2C,15%) !default;
 $link-color: rgb(66, 62, 199) !default;
 $link-color-active: rgb(48, 45, 131) !default;
+$admin-color: #172B3A;
 $grey-level1: #E3E3E3 !default; // 흰색 effect-dark 받을때 컬러 오버랩을 원치 않을때 사용
 $grey-level2: #b8b8b8 !default; 
 $grey-level3: #787878 !default;
@@ -132,7 +133,7 @@ $standard-padding: $standard-side-padding; // side
 $standard-icon-margin : 1rem;
 $standard-small-icon-margin : .5rem;
 $stadnard-background-color: white;
-$standard-outborder-color: $html-color; //화면 가장자리에 붙어있는 border들의 컬러
+$standard-outborder-color: $grey-opacity2; //화면 가장자리에 붙어있는 border들의 컬러
 // TODO: 새로추가됨 이걸로 정리해야함
 $standard-label-margin : 0.5rem;
 $standard-placeholder-color : $grey-level2;
@@ -343,8 +344,8 @@ $pagination-li-radius: $standard-border-radius;
 $pagination-li-height: 2.25rem;
 $pagination-li-padding: 1rem;
 $pagination-li-margin: 0.5rem;
-$pagination-li-hover: $grey-level1;
-$pagination-li-active: $grey-level1;
+$pagination-li-hover: $primary-color-light;
+$pagination-li-active: $primary-color;
 
 // 12 Toast 토스트
 // ANCHOR toast Toast=========================================================================
@@ -385,11 +386,12 @@ $tooltipList-ul-padding: .5rem;
 
 // 17 Preloader 프리로더
 // ANCHOR preloader loading=========================================================================
-$preloader-background-color: $grey-level1;
+$preloader-background-color: $grey-opacity2;
 $preloader-fill-color: $primary-color;
 
 // 18 Table 테이블
 // ANCHOR table Table=========================================================================
+$table-padding: $standard-padding;
 $table-border-radius: $standard-border-radius;
 $table-borders-color: $grey-opacity1;
 $table-header-border-bottom: 2px solid $standard-outborder-color;
