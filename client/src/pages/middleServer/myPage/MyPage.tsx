@@ -74,20 +74,6 @@ const Mypage: React.SFC<IProps> = ({
               />
               <p>{`숙소 ${houses.length}개 보유중`}</p>
             </div>
-<<<<<<< HEAD
-            <InputText {...nameHook} validation={utils.isName} label="성함" />
-            <InputText
-              hyphen
-              {...phoneNumberHook}
-              validation={utils.isPhone}
-              label="휴대폰번호"
-            />
-            <InputText
-              {...emailHook}
-              validation={utils.isEmail}
-              label="이메일"
-            />
-=======
             <div>
               <InputText {...nameHook} validation={utils.isName} label="성함" />
             </div>
@@ -106,7 +92,6 @@ const Mypage: React.SFC<IProps> = ({
                 label="이메일"
               />
             </div>
->>>>>>> 통계
             <div>
               <Button
                 onClick={passWordModal.openModal}

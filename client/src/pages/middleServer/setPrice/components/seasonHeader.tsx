@@ -158,10 +158,12 @@ const SeasonHeader: React.FC<IProps> = ({
       </div>
       <div>
         <JDdayPicker
+          canSelectBeforeDays
           calenaderPosition="left"
           className="seasonHeader__dayPicker"
           inputClassName="JDmargin-bottom0--wmdUp"
           showInputIcon={false}
+          displayYear={false}
           format={"MM/DD"}
           input
           isRange
