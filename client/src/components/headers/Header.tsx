@@ -132,7 +132,7 @@ const Header: React.FC<IProps> = ({
         </NavLink>
       </li>
       <li>
-        <NavLink className="header__btns" to="/signUp">
+        <NavLink to="/signUp">
           <Button
             onClick={() => {
               ReactTooltip.hide();
@@ -162,7 +162,7 @@ const Header: React.FC<IProps> = ({
         <li>
           <Button
             className="hader__btn"
-            label="관리자 화면"
+            label="관리자화면"
             redirect={insideRedirect(`superAdmin`)}
             mode="flat"
             thema="point"
