@@ -24,7 +24,8 @@ import {
   BookingModalType,
   PaymentStatus,
   AutoSendWhen,
-  PAYMETHOD_FOR_BOOKER_OP
+  PAYMETHOD_FOR_BOOKER_OP,
+  PAYMETHOD_FOR_HOST_OP
 } from "../../types/enum";
 import "./BookingModal.scss";
 import {GB_booking, IResvCount} from "../../types/interface";
@@ -100,20 +101,32 @@ const POPbookingInfo: React.FC<IProps> = ({
   const bookingPhoneHook = useInput(bookingData.phoneNumber);
   const priceHook = useInput(bookingData.price || 0);
   const memoHook = useInput(bookingData.memo || "");
-  const payMethodHook = useSelect({
-    value: bookingData.payMethod,
-    // @ts-ignore
-    label: PayMethodKr[bookingData.payMethod]
-  });
-  const paymentStatusHook = useSelect<PaymentStatus>({
-    value: bookingData.paymentStatus,
-    // @ts-ignore
-    label: PaymentStatusKr[bookingData.paymentStatus]
-  });
-  const bookingStatueHook = useSelect({
-    value: bookingData.bookingStatus,
-    label: BookingStatusKr[bookingData.bookingStatus]
-  });
+  const payMethodHook = useSelect(
+    bookingData._id !== "default"
+      ? {
+          value: bookingData.payMethod,
+          // @ts-ignore
+          label: PayMethodKr[bookingData.payMethod]
+        }
+      : null
+  );
+  const paymentStatusHook = useSelect<PaymentStatus>(
+    bookingData._id !== "default"
+      ? {
+          value: bookingData.paymentStatus,
+          // @ts-ignore
+          label: PaymentStatusKr[bookingData.paymentStatus]
+        }
+      : null
+  );
+  const bookingStatueHook = useSelect(
+    bookingData._id !== "default"
+      ? {
+          value: bookingData.bookingStatus,
+          label: BookingStatusKr[bookingData.bookingStatus]
+        }
+      : null
+  );
 
   const resvDateHook = useDayPicker(
     moment(bookingData.start).toDate(),
@@ -140,10 +153,14 @@ const POPbookingInfo: React.FC<IProps> = ({
     booking: {
       end: resvDateHook.to!,
       name: bookingNameHook.value,
-      payMethod: payMethodHook.selectedOption!.label,
+      payMethod: payMethodHook.selectedOption
+        ? payMethodHook.selectedOption.label
+        : "",
       phoneNumber: bookingPhoneHook.value,
       start: resvDateHook.from!,
-      paymentStatus: paymentStatusHook.selectedOption!.label,
+      paymentStatus: paymentStatusHook.selectedOption
+        ? paymentStatusHook.selectedOption.label
+        : "",
       price: priceHook.value || 0
     }
   };
@@ -299,8 +316,33 @@ const POPbookingInfo: React.FC<IProps> = ({
                   label="예약상태"
                 />
               </div>
-              <div className="flex-grid__col col--full-12 col--lg-12 col--md-12">
-                <InputText {...memoHook} halfHeight textarea label="예약메모" />
+            </div>
+          </div>
+          <div className="modal__section">
+            <h6>결제정보</h6>
+            <div className="flex-grid">
+              <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
+                <InputText
+                  {...priceHook}
+                  placeholder={`정상가:${autoComma(placeHolederPrice)}`}
+                  returnNumber
+                  comma
+                  label="총금액"
+                />
+              </div>
+              <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
+                <SelectBox
+                  {...payMethodHook}
+                  options={PAYMETHOD_FOR_HOST_OP}
+                  label="결제수단"
+                />
+              </div>
+              <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
+                <SelectBox
+                  {...paymentStatusHook}
+                  options={PAYMENT_STATUS_OP}
+                  label="결제상태"
+                />
               </div>
             </div>
           </div>
@@ -329,30 +371,9 @@ const POPbookingInfo: React.FC<IProps> = ({
             </div>
           </div>
           <div className="JDz-index-1 modal__section">
-            <h6>결제정보</h6>
             <div className="flex-grid">
-              <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
-                <InputText
-                  {...priceHook}
-                  placeholder={`정상가:${autoComma(placeHolederPrice)}`}
-                  returnNumber
-                  comma
-                  label="총금액"
-                />
-              </div>
-              <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
-                <SelectBox
-                  {...payMethodHook}
-                  options={PAYMETHOD_FOR_BOOKER_OP}
-                  label="결제수단"
-                />
-              </div>
-              <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
-                <SelectBox
-                  {...paymentStatusHook}
-                  options={PAYMENT_STATUS_OP}
-                  label="결제상태"
-                />
+              <div className="flex-grid__col col--full-12 col--lg-12 col--md-12">
+                <InputText {...memoHook} halfHeight textarea label="예약메모" />
               </div>
             </div>
           </div>

@@ -72,16 +72,6 @@ const SmsWrap: React.FC<IProps> = ({houseId}) => (
             {...DEFAULT_SMS_TEMPLATE, formatName: "새로운 템플릿"}
           ];
         } else {
-          if (
-            !smsInfo.smsTemplates.find(
-              template => template._id === DEFAULT_SMS_TEMPLATE._id
-            )
-          ) {
-            smsInfo.smsTemplates.push({
-              ...DEFAULT_SMS_TEMPLATE,
-              formatName: "새로운 템플릿 +"
-            });
-          }
         }
       }
 

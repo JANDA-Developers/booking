@@ -27,13 +27,13 @@ $typho-superTiny : 9px;
 
 // -- Colors 컬러 칼라 
 $html-color: #343434 !default;
-$primary-color: #1D3A9A !default;
+$primary-color: #4c5b73 !default;
 $primary-color-on: #fff !default;
 $primary-color-light: lighten($primary-color, 15%) !default;
 $primary-color-light-on: #fff !default !default;
 $primary-color-dark: #445267 !default; // 흰색 호버 bg 에 오버랩 되었을때 컬러임
 $primary-color-dark-on: #fff !default !default;
-$point-color: #E3780C !default;
+$point-color: #c56c47 !default;
 $point-color-on: #fff !default;
 $point-color-light: lighten($point-color, 15%) !default;
 $point-color-light-on: #fff !default;
@@ -133,7 +133,8 @@ $standard-padding: $standard-side-padding; // side
 $standard-icon-margin : 1rem;
 $standard-small-icon-margin : .5rem;
 $stadnard-background-color: white;
-$standard-outborder-color: $grey-opacity2; //화면 가장자리에 붙어있는 border들의 컬러
+$standard-outborder-color: $html-color; //화면 가장자리에 붙어있는 border들의 컬러
+$standard-input-outborder-color: $html-color;
 // TODO: 새로추가됨 이걸로 정리해야함
 $standard-label-margin : 0.5rem;
 $standard-placeholder-color : $grey-level2;
@@ -148,7 +149,7 @@ $standard-height: $standard-line-height; // 정수를 곱해서 사용
 $input-padding-top: 1rem;
 $input-height: $standard-line-height + 0.275rem!default;
 $input-noLabel-height: $standard-line-height !default;
-$input-border: 1px solid $standard-outborder-color !default;
+$input-border: 1px solid $standard-input-outborder-color !default;
 $input-background: #fff !default;
 $input-error-color: $error-color !default;
 $input-success-color: $success-color !default;
@@ -167,13 +168,13 @@ $textarea-margin-top: 1.6rem !default; //라벨 덮힘 방지
 
 // -- Radio Buttons 라디오
 $radio-fill-color: $primary-color !default;
-$radio-empty-color: $standard-outborder-color !default;
+$radio-empty-color: $standard-input-outborder-color !default;
 $radio-border: 2px solid $radio-fill-color !default;
 $radio-disabled-color: $standard-disabled-color;
 
 // -- Select 셀렉트  option is a li 😸
 $select-height: $standard-line-height;
-$select-border: 1px solid $standard-outborder-color !default;
+$select-border: 1px solid $standard-input-outborder-color !default;
 $select-option-active-bgcolor: $hover-effect-dark !default;
 $select-option-selected-bgcolor: $primary-color !default;
 $select-option-selected-color: #fff !default;
@@ -209,7 +210,7 @@ $switch-disabled-solid-color: $standard-disabled-color;
 $checkBox-label-fontSize:1rem !default;
 $checkBox-label-color:$html-color !default;
 $checkbox-border-radius: $standard-border-radius !default;
-$checkBox-border-color: $standard-outborder-color;
+$checkBox-border-color: $standard-input-outborder-color;
 $checkbox-disabled-border-color: $standard-disabled-color !default;
 $checkbox-checked-color: $primary-color;
 $checkbox-sign-color : #fff;
@@ -394,9 +395,9 @@ $preloader-fill-color: $primary-color;
 $table-padding: $standard-padding;
 $table-border-radius: $standard-border-radius;
 $table-borders-color: $grey-opacity1;
-$table-header-border-bottom: 2px solid $standard-outborder-color;
-$table-outborder-color: $standard-outborder-color;
-
+$table-outborder-color: $standard-input-outborder-color;
+$table-header-border-bottom: 2px solid $table-outborder-color;
+$table-outborder: 1px solid $table-outborder-color;
 // 19 imageUploader 이미지업로더
 // ANCHOR image Uploader=========================================================================
 $IUploader-border-radius: $standard-border-radius;

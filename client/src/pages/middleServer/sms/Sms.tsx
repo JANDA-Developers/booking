@@ -108,11 +108,30 @@ const Sms: React.FC<IProps> = ({
     }
   };
 
+  const handleCreateBtnClick = () => {
+    smsTemplateMutationes.createSmsTemplateMu({
+      variables: {
+        houseId: houseId,
+        params: {
+          formatName: "",
+          smsFormat: ""
+        }
+      }
+    });
+  };
+
   return (
     <div id="seasonTable" className="seasonT container">
       <div className="docs-section">
         {/* <div className="docs-section__box"> */}
         <h3>SMS 설정</h3>
+        <Button
+          onClick={() => {
+            handleCreateBtnClick();
+          }}
+          label="추가하기"
+          thema="primary"
+        />
         <Link to="/smsHistory">
           <Button mode="border" label="SMS 내역보기" />
         </Link>

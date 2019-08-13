@@ -63,8 +63,6 @@ const ResvList: React.SFC<IProps> = ({
   setPage,
   houseId
 }) => {
-  console.log(loading);
-  //   ❔ 두개 합치는게 좋을까?
   const [checkedIds, setCheckedIds] = useState<string[]>([]);
   const [selectAll, setSelectAll]: any = useState(false);
   const bookingModalHook = useModal(false);

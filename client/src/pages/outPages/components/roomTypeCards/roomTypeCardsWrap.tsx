@@ -82,9 +82,12 @@ const RoomTypeCardsWrap: React.SFC<IProps> = ({
     get: Gender.MALE
   });
 
+  if (roomTypeData.roomCount === 0) return <div />;
+
   return (
     // 하나의 방타입에 하나의 카드
     <GetAvailGuestCountQu
+      skip={roomTypeData.roomCount === 0}
       query={GET_CAPACITY_TO_ROOM_TYPE}
       variables={{
         start: setYYYYMMDD(dayPickerHook.from),
@@ -104,7 +107,6 @@ const RoomTypeCardsWrap: React.SFC<IProps> = ({
       }}
     >
       {({data, loading: countLoading, error}) => {
-
         // 상대편 최대값은 알수있어도 스스로의 최대값이 변해버리기 때문에 두개가됨
         // 🏠 방타입의 경우에는 둘중 아무거나 조회해도 상관없음
         const count = queryDataFormater(

@@ -1,6 +1,7 @@
 @import '../../style_config/style_config';
 
 .JDicon__svg {
+
     display: inline-flex;
     align-self: center;
     // width: 1em;
@@ -17,7 +18,6 @@
 
     &--primary {
         color: $primary-color;
-        color: $primary-color-dark;
     }
     
     &--positive {
@@ -34,7 +34,11 @@
 
 // 🍡 그냥 도큐먼트를 위한겁니다.
 .Icon__label {
-    font-size: 8px;
+    font-size: $typho-superTiny;
     width: 100%;
     color: black;
+
+    &--large {
+        font-size: $typho-normal;
+    }
 }

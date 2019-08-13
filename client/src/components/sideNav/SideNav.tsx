@@ -51,9 +51,10 @@ const SideNav: React.FC<IProps> = ({
   let status = ProductStatus.DISALBE;
   if (product) {
     status = product.status || ProductStatus.DISALBE;
-    if (status !== ProductStatus.DISALBE && isTestProduct(product.name))
-      status = ProductStatus.ENABLE;
   }
+
+  const disabledFlag = status !== ProductStatus.ENABLE;
+
   interface IMenusItem {
     to: string;
     label: string;
@@ -70,68 +71,56 @@ const SideNav: React.FC<IProps> = ({
     {
       to: "/middleServer",
       icon: "apps",
-      label: "대시보드",
+      label: "홈",
       disabled: false
     },
     {
-      groupTitle: "예약관리",
-      disabled: status !== ProductStatus.ENABLE,
-      contents: [
-        {
-          to: "/assigTimeline",
-          disabled: status !== ProductStatus.ENABLE,
-          icon: "calendar",
-          label: "배정달력"
-        },
-        {
-          to: "/resvList",
-          disabled: status !== ProductStatus.ENABLE,
-          icon: "list",
-          label: "예약목록"
-        }
-      ]
+      to: "/assigTimeline",
+      disabled: disabledFlag,
+      icon: "calendar",
+      label: "배정달력"
+    },
+    {
+      to: "/statistic",
+      icon: "graphPie",
+      label: "통계",
+      disabled: disabledFlag
+    },
+    {
+      to: "/resvList",
+      disabled: disabledFlag,
+      icon: "list",
+      label: "예약목록"
     },
     {
       groupTitle: "설정",
-      disabled: !isHaveProduct,
+      disabled: disabledFlag,
       contents: [
         {
-          to: "/timelineConfig",
+          to: "/roomConfig",
           icon: "roomChange",
           label: "방 설정",
-          disabled: !isHaveProduct
+          disabled: disabledFlag
         },
         {
           to: "/setPrice",
           icon: "money",
           label: "가격설정",
-          disabled: !isHaveProduct
+          disabled: disabledFlag
         },
         {
           to: "/sms",
           icon: "sms",
           label: "SMS설정",
-          disabled: !isHaveProduct
+          disabled: disabledFlag
         },
         {
           to: "/config",
           icon: "config",
           label: "환경설정",
-          disabled: !isHaveProduct
+          disabled: disabledFlag
         }
       ]
-    },
-    {
-      to: "/makeHouse",
-      icon: "house",
-      label: "숙소생성",
-      disabled: false
-    },
-    {
-      to: "/products",
-      icon: "gift",
-      label: "서비스상품",
-      disabled: false
     },
     {
       to: "/qna",

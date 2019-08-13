@@ -32,11 +32,7 @@ class GetSpecification extends Query<
 
 const SpecificAtionWrap: React.FC<IProps> = ({houseId, isAdmin}) => {
   return (
-    <GetSpecification
-      fetchPolicy="network-only"
-      query={GET_HOUSE_SPECIFICATION}
-      variables={{houseId}}
-    >
+    <GetSpecification query={GET_HOUSE_SPECIFICATION} variables={{houseId}}>
       {({data: specificData, loading, error}) => {
         const specification = queryDataFormater(
           specificData,
@@ -50,7 +46,6 @@ const SpecificAtionWrap: React.FC<IProps> = ({houseId, isAdmin}) => {
             onCompleted={({UpdateProductForSU}) => {
               onCompletedMessage(UpdateProductForSU, "변경 완료", "변경 실패");
             }}
-            
             mutation={UPDATE_PRODUCT_FOR_SU}
           >
             {updateProductForSU => (

@@ -61,8 +61,8 @@ export enum RoomGenderKr {
 }
 
 export enum BookingStatusKr {
-  COMPLETE = "완료",
-  CANCEL = "취소"
+  COMPLETE = "예약완료",
+  CANCEL = "예약취소"
 }
 
 export enum PaymentStatusKr {
@@ -72,10 +72,10 @@ export enum PaymentStatusKr {
 
 export enum PayMethodKr {
   BANK_TRANSFER = "무통장입금",
-  CARD = "카드",
-  CASH = "현금",
+  CARD = "카드결제",
+  CASH = "현금결제",
   KAKAOPAY = "카카오페이",
-  CHANNEL = "채널",
+  CHANNEL = "채널결제",
   ELSE = "기타"
 }
 
@@ -86,7 +86,7 @@ export enum GenderKr {
 
 export enum PricingTypeKr {
   DOMITORY = "도미토리",
-  ROOM = "방 타입"
+  ROOM = "방형태"
 }
 
 export enum TimePerMs {
@@ -139,6 +139,24 @@ export enum BookingModalType {
   CREATE = "create",
   CREATE_WITH_ASSIG = "createWithAssig",
   LOOKUP = "lookup"
+}
+
+// export enum
+
+export enum SalesStatisticsUnit {
+  BY_DATE = "BY_DATE",
+  BY_DAY_OF_WEEK = "BY_DAY_OF_WEEK",
+  MONTHLY = "MONTHLY",
+  WEEKLY = "WEEKLY",
+  YEARLY = "YEARLY"
+}
+
+export enum SalesStatisticsUnitKr {
+  BY_DAY_OF_WEEK = "요일별",
+  BY_DATE = "날자별",
+  MONTHLY = "월별",
+  WEEKLY = "주별",
+  YEARLY = "년별"
 }
 
 export enum AutoSendWhen {
@@ -210,6 +228,11 @@ export const WeekArrEn = [
   Day.SAT
 ];
 
+export enum SERVICE_CONTECT {
+  SERVICE_MANGER_PHONE = "070-4128-8244",
+  SERVICE_MANGER_MAIL = "support@stayjanda.com"
+}
+
 export enum SmsReplaceKeyEnumKr {
   STAYDATE = "[숙박일자(월/일)]",
   STAYDATE_YMD = "[숙박일자(년/월/일)]",
@@ -280,8 +303,11 @@ export const SELECT_COUNT_DUMMY_OP = [
 ];
 
 export const BOOKING_STATUS_OP = [
-  {value: BookingStatus.COMPLETE, label: "예약완료"},
-  {value: BookingStatus.CANCEL, label: "예약취소"}
+  {
+    value: BookingStatus.COMPLETE,
+    label: BookingStatusKr[BookingStatus.COMPLETE]
+  },
+  {value: BookingStatus.CANCEL, label: BookingStatusKr[BookingStatus.CANCEL]}
 ];
 
 export const LAYOUT_TYPE_OP = [
@@ -292,6 +318,31 @@ export const LAYOUT_TYPE_OP = [
 export const PAYMENT_STATUS_OP = [
   {value: PaymentStatus.COMPLETE, label: "결제완료"},
   {value: PaymentStatus.NOT_YET, label: "미결제"}
+];
+
+export const STATISTICS_OP = [{value: "매출통계", label: "매출통계"}];
+
+export const STATISTICS_TYPE_OP = [
+  {
+    value: SalesStatisticsUnit.BY_DATE,
+    label: SalesStatisticsUnitKr[SalesStatisticsUnit.BY_DATE]
+  },
+  {
+    value: SalesStatisticsUnit.BY_DAY_OF_WEEK,
+    label: SalesStatisticsUnitKr[SalesStatisticsUnit.BY_DAY_OF_WEEK]
+  },
+  {
+    value: SalesStatisticsUnit.MONTHLY,
+    label: SalesStatisticsUnitKr[SalesStatisticsUnit.MONTHLY]
+  },
+  {
+    value: SalesStatisticsUnit.WEEKLY,
+    label: SalesStatisticsUnitKr[SalesStatisticsUnit.WEEKLY]
+  },
+  {
+    value: SalesStatisticsUnit.YEARLY,
+    label: SalesStatisticsUnitKr[SalesStatisticsUnit.YEARLY]
+  }
 ];
 
 export const SMS_TARGET_OP = [
@@ -311,7 +362,7 @@ export const PAYMETHOD_FOR_BOOKER_OP = [
 
 export const PAYMETHOD_FOR_HOST_OP = [
   {value: PayMethod.BANK_TRANSFER, label: "무통장입금"},
-  {value: PayMethod.CASH, label: "현금결제"},
+  {value: PayMethod.CASH, label: PayMethodKr[PayMethod.CASH]},
   {value: PayMethod.CREDIT_CARD, label: "카드결제"},
   {value: PayMethod.CHANNEL_PAY, label: "채널결제"}
   // {value: PayMethod.ELSE, label: "기타"}

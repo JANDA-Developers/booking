@@ -36,7 +36,7 @@ import {
   muResult
 } from "../../../utils/utils";
 import {isName, isPhone} from "../../../utils/inputValidations";
-import {JDtoastModal} from "../../../atoms/modal/Modal";
+import JDmodal, {JDtoastModal} from "../../../atoms/modal/Modal";
 import {IRoomType} from "../../../types/interface";
 import {WindowSize} from "../../../types/enum";
 import {setYYYYMMDD} from "../../../utils/setMidNight";
@@ -72,6 +72,8 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   confirmModalHook,
   createLoading
 }) => {
+  const loadingModalHook = useModal(false);
+
   const defaultBookingInfo = {
     name: "",
     password: "",
@@ -222,6 +224,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
                   "roomTypes",
                   undefined
                 );
+
                 return !isEmpty(roomTypes) ? (
                   roomTypes.map(roomType => (
                     <RoomTypeCardsWrap

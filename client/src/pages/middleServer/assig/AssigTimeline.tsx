@@ -241,10 +241,9 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     ReactTooltip.rebuild();
   });
 
-
   useEffect(() => {
-  if(isEmpty(groupData) && !loading) setEmpty(true);
-  }, [inIsEmpty])
+    if (isEmpty(groupData) && !loading) setEmpty(true);
+  }, [inIsEmpty]);
 
   const timelineClassNames = classnames("assigTimeline", undefined, {
     "assiTimeline--mobile": windowWidth <= WindowSize.MOBILE,
@@ -417,7 +416,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
         {inIsEmpty && (
           <div className="assigTimeline__placeHolderWrap">
             <h3>아직 생성된 방이 없군요. 방타입을 생성하보세요</h3>
-            <Link to="/timelineConfig">
+            <Link to="/roomConfig">
               <Button
                 mode="border"
                 thema="point"

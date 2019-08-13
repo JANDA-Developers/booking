@@ -51,6 +51,13 @@ div {
     margin-right: $standard-icon-margin / 2 ;
 }
 
+.JDicon ~ .JDicon {
+    margin-left: $standard-icon-margin / 2;
+}
+.JDicon ~ .Icon__label {
+
+    margin-left: $standard-label-margin /2;
+}
 
 @include baseMargin {
     margin-bottom: $standard-margin-bottom;

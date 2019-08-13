@@ -71,6 +71,13 @@
       background-color: $error-color-light
     }
   }
+  
+  &.JDbtn--transparent {
+    background-color: transparent;
+    &:hover {
+      background-color: $grey-opacity1;
+    }
+  }
 
   // Colors
   &--white {

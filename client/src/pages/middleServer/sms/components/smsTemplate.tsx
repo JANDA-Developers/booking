@@ -167,7 +167,7 @@ const SmsTemplate: React.SFC<IProps> = ({
         <Switch {...enableHook} label="자동발신 활성화" />
       </div>
       <div>
-        <Button onClick={handleCreateBtnClick} thema="primary" label="추가" />
+        {/* <Button onClick={handleCreateBtnClick} thema="primary" label="추가" /> */}
         <Button onClick={handleUpdateBtnClick} thema="primary" label="수정" />
         <Button onClick={handleDeleteBtnClick} thema="warn" label="삭제" />
       </div>

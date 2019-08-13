@@ -25,13 +25,14 @@ const DashBoardHeader = () => {
     <JDSlider whiteIcon {...sliderExampleSetting} className="dashBoardHeader">
       <div className="JDslider__slide-wrap">
         <div style={slider1Style} className="JDslider__slide">
-          <h5>실시간 예약솔루션잔다.</h5>
+          <h5>온·오프라인 숙소 운영 솔루션, 잔다</h5>
           <span className="JDstandard-margin-bottom">
             {" "}
             서비스시작 : 2019/07/24{" "}
           </span>
           <span className="dashBoardHeader__bottom">
             <Button
+              hrefOpen="https://stayjanda.com"
               size="small"
               mode="border"
               thema="primary"
@@ -40,7 +41,7 @@ const DashBoardHeader = () => {
           </span>
         </div>
       </div>
-      <div className="JDslider__slide-wrap">
+      {/* <div className="JDslider__slide-wrap">
         <div style={slider1Style2} className="JDslider__slide">
           <h5>
             <span>하우스메뉴얼로</span>
@@ -61,7 +62,7 @@ const DashBoardHeader = () => {
             />
           </span>
         </div>
-      </div>
+      </div> */}
       <div className="JDslider__slide-wrap">
         <div style={slider1Style3} className="JDslider__slide">
           <h5>잔다 호스트 닷컴</h5>

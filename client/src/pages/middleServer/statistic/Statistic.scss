@@ -1,8 +1,11 @@
-.statistic {
-    &__iconsWrap {
-        position:absolute;
-        top:0;
-        right:0;
+@import '../../../style_config/style_config.scss';
 
+.statistic {
+
+    &__table {
+        margin-top: $standard-margin-bottom;
+    }
+    
+    &__iconsWrap {
     }
 }

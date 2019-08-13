@@ -26,7 +26,6 @@ const BlockItemMenu: React.FC<IProps> = ({
           }}
           label="삭제"
           mode="flat"
-          color="white"
         />
       </li>
       <li>
@@ -36,7 +35,6 @@ const BlockItemMenu: React.FC<IProps> = ({
           }}
           label="취소"
           mode="flat"
-          color="white"
         />
       </li>
     </ul>

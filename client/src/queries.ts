@@ -1191,6 +1191,47 @@ export const GET_BOOKING = gql`
     }
     ${F_BOOKING}
 `;
+
+
+
+export const GET_SALES_STATISTIC = gql`
+    query getSalesStatistic(
+        $houseId: ID!
+        $start: DateTime!
+        $end: DateTime!
+        $unit: SalesStatisticsUnit!
+    ){ 
+        GetSalesStatistic(houseId:$houseId, start:$start, end:$end, unit:$unit) {
+            ok
+            error
+            data {
+                dateInfo {
+                    year
+                    month
+                    week
+                    date
+                    dayOfWeek
+                }
+                price   
+            }
+        }
+}`;
+
+
+export const CHANGE_INDEX_FOR_ROOMTYPE = gql`
+    mutation changeIndexForRoomType($roomTypeId: ID!, $houseId: ID!, $index: Int!) {
+        ChangeIndexForRoomType(
+            roomTypeId:$roomTypeId
+            houseId: $houseId
+            index: $index
+        ) {
+            ok
+            error
+        }
+    }
+`
+
+
 // START 시즌관련 ────────────────────────────────────────────────────────────────────────────────
 // 시즌 :: 시즌 + 방타입 + 시즌가격
 export const GET_ALL_SEASON_TABLE = gql`

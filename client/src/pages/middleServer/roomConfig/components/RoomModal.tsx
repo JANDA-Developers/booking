@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect } from 'react';
-import { toast } from 'react-toastify';
-import Modal from '../../../../atoms/modal/Modal';
-import InputText from '../../../../atoms/forms/inputText/InputText';
-import Button from '../../../../atoms/button/Button';
-import utils from '../../../../utils/utils';
+import React, {useEffect} from "react";
+import {toast} from "react-toastify";
+import Modal from "../../../../atoms/modal/Modal";
+import InputText from "../../../../atoms/forms/inputText/InputText";
+import Button from "../../../../atoms/button/Button";
+import utils from "../../../../utils/utils";
 
 interface IProps {
   modalHook: any;
@@ -12,6 +12,7 @@ interface IProps {
   createRoomMutation: any;
   updateRoomMutation: any;
   deleteRoomMutation: any;
+  isAddMode?: boolean;
 }
 
 const RoomTypeModal: React.FC<IProps> = ({
@@ -20,10 +21,11 @@ const RoomTypeModal: React.FC<IProps> = ({
   createRoomMutation,
   updateRoomMutation,
   deleteRoomMutation,
+  isAddMode
 }) => {
   const validater = (): boolean => {
     if (!roomNameHook.isValid) {
-      toast.warn('방이름은 10자 이하여야합니다.');
+      toast.warn("방이름은 10자 이하여야합니다.");
       return false;
     }
     return true;
@@ -56,19 +58,44 @@ const RoomTypeModal: React.FC<IProps> = ({
       className="Modal"
       style={{
         content: {
-          maxWidth: '800px',
-        },
+          maxWidth: "800px"
+        }
       }}
     >
       <div className="flex-grid">
         <div className="flex-grid__col col--full-12 col--lg-12 col--md-12">
-          <InputText label="방이름" {...roomNameHook} validation={utils.isMaxOver} max={10} />
+          <InputText
+            label="방이름"
+            {...roomNameHook}
+            validation={utils.isMaxOver}
+            max={10}
+          />
         </div>
       </div>
       <div className="JDmodal__endSection">
-        <Button label="생성하기" thema="primary" mode="flat" onClick={onCreateRoom} />
-        <Button label="수정하기" thema="primary" mode="flat" onClick={onUpdateRoom} />
-        <Button label="삭제하기" thema="warn" mode="flat" onClick={onDeleteRoom} />
+        <Button
+          label="생성하기"
+          thema="primary"
+          mode="flat"
+          size="small"
+          onClick={onCreateRoom}
+        />
+        <Button
+          label="수정하기"
+          thema="primary"
+          mode="flat"
+          size="small"
+          disabled={isAddMode}
+          onClick={onUpdateRoom}
+        />
+        <Button
+          label="삭제하기"
+          size="small"
+          thema="warn"
+          mode="flat"
+          disabled={isAddMode}
+          onClick={onDeleteRoom}
+        />
       </div>
     </Modal>
   );

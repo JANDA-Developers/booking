@@ -96,7 +96,6 @@ const CanvasMenu: React.FC<IProps> = ({
                 makeMakeItem();
               }}
               mode="flat"
-              color="white"
             />
           </li>
         )}
@@ -110,7 +109,6 @@ const CanvasMenu: React.FC<IProps> = ({
                   makeMakeItem(Gender.MALE);
                 }}
                 mode="flat"
-                color="white"
               />
             </li>
             <li>
@@ -121,7 +119,6 @@ const CanvasMenu: React.FC<IProps> = ({
                   makeMakeItem(Gender.FEMALE);
                 }}
                 mode="flat"
-                color="white"
               />
             </li>
           </Fragment>
@@ -133,7 +130,6 @@ const CanvasMenu: React.FC<IProps> = ({
             }}
             label="방막기"
             mode="flat"
-            color="white"
           />
         </li>
       </ul>

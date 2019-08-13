@@ -79,7 +79,6 @@ const MakeItemMenu: React.FC<IProps> = ({
               bookingModal.openModal(modalParam);
             }}
             mode="flat"
-            color="white"
           />
         </li>
         {targetGroup.pricingType === PricingType.DOMITORY && (
@@ -88,7 +87,6 @@ const MakeItemMenu: React.FC<IProps> = ({
               onClick={() => genderToggleById(target.id)}
               label="성별 반전"
               mode="flat"
-              color="white"
             />
           </li>
         )}
@@ -97,7 +95,6 @@ const MakeItemMenu: React.FC<IProps> = ({
             label="삭제"
             onClick={() => deleteItemById(target.id)}
             mode="flat"
-            color="white"
           />
         </li>
       </ul>

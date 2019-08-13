@@ -24,40 +24,41 @@ import {
   UPDATE_ROOM,
   GET_ALL_ROOMTYPES
 } from "../../../../queries";
+import {DEFAULT_ROOMTYPE_ROOM} from "../../../../types/defaults";
 
 class CreateRoomMutation extends Mutation<createRoom, createRoomVariables> {}
 class DeleteRoomMutation extends Mutation<deleteRoom, deleteRoomVariables> {}
 class UpdateRoomMutation extends Mutation<updateRoom, updateRoomVariables> {}
 
+export interface IRoomModalInfo {
+  roomId?: string;
+  isAddMode?: boolean;
+  roomTypeId: string;
+}
+
 interface IProps {
-  modalHook: IUseModal;
-  roomData: getAllRoomType_GetAllRoomType_roomTypes[] | null | undefined;
+  modalHook: IUseModal<IRoomModalInfo>;
+  roomTypeData: getAllRoomType_GetAllRoomType_roomTypes[];
   houseId: string;
 }
 
 const ModifyTimelineWrap: React.SFC<IProps> = ({
   modalHook,
-  roomData,
+  roomTypeData,
   houseId
 }) => {
   const refetchQueries = [{query: GET_ALL_ROOMTYPES, variables: {houseId}}];
-  const roomNameHook = useInput("");
-
-  // 👿 팝업시 올바른 데이터를 전달
-  useEffect(() => {
-    if (roomData) {
-      const roomTypeInfo = roomData[modalHook.info.roomTypeIndex];
-      if (roomTypeInfo) {
-        const roomInfo:
-          | getAllRoomType_GetAllRoomType_roomTypes_rooms
-          | undefined = roomTypeInfo.rooms[modalHook.info.roomIndex];
-        if (roomInfo) roomNameHook.onChange(roomInfo.name);
-        else {
-          roomNameHook.onChange("");
-        }
-      }
-    }
-  }, [modalHook.info]);
+  const {info} = modalHook;
+  const isAddMode = info.isAddMode;
+  const targetRoomType = roomTypeData.find(
+    roomType => roomType._id === info.roomTypeId
+  );
+  if (!targetRoomType && !isAddMode) return <div />;
+  const targetRoom = targetRoomType
+    ? targetRoomType.rooms.find(room => room._id === info.roomId)
+    : DEFAULT_ROOMTYPE_ROOM;
+  if (!targetRoom && !isAddMode) return <div />;
+  const roomNameHook = useInput(targetRoom ? targetRoom.name : "", true);
 
   return (
     // 방타입 생성 뮤테이션
@@ -71,26 +72,24 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({
       onCompleted={({CreateRoom}: createRoom) => {
         onCompletedMessage(CreateRoom, "방 생성완료", "방 생성 실패");
       }}
-      
     >
       {createRoomMutation => (
         <DeleteRoomMutation
           mutation={DELETE_ROOM}
           refetchQueries={refetchQueries}
           variables={{
-            roomId: modalHook.info.roomId
+            roomId: modalHook.info.roomId || ""
           }}
           onCompleted={({DeleteRoom}: deleteRoom) => {
             onCompletedMessage(DeleteRoom, "방 삭제완료", "방 삭제 실패");
           }}
-          
         >
           {deleteRoomMutation => (
             <UpdateRoomMutation
               mutation={UPDATE_ROOM}
               refetchQueries={refetchQueries}
               variables={{
-                roomId: modalHook.info.roomId,
+                roomId: modalHook.info.roomId || "",
                 name: roomNameHook.value
               }}
               onCompleted={({UpdateRoom}: updateRoom) => {
@@ -100,7 +99,6 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({
                   "방 업데이트 실패"
                 );
               }}
-              
             >
               {updateRoomMutation => (
                 <RoomModal
@@ -109,6 +107,7 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({
                   deleteRoomMutation={deleteRoomMutation}
                   createRoomMutation={createRoomMutation}
                   updateRoomMutation={updateRoomMutation}
+                  isAddMode={isAddMode}
                 />
               )}
             </UpdateRoomMutation>

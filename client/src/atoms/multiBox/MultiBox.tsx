@@ -21,7 +21,6 @@ const JDmultiBox: React.FC<IProps> = ({
   labels,
   onChange,
   withAllToogler,
-
   withAllTooglerLabel
 }) => {
   const [onAllToggle, setAllToggle] = useState(defaultAllToogle);

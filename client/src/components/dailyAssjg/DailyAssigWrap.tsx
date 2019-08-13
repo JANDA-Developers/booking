@@ -33,7 +33,7 @@ const DailyAssigWrap: React.FC<IProps> = ({date, house, isInModal}) => {
   const updateVariables = {
     houseId: houseId,
     start: dayPickerHook.from || new Date(),
-    end: moment(dayPickerHook.from || new Date()).add(1, "day")
+    end: dayPickerHook.from || new Date()
   };
 
   const Result = useMemo(() => {

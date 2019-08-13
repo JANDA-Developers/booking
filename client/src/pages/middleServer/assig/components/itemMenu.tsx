@@ -39,7 +39,6 @@ const ItemMenu: React.FC<IProps> = ({
                 }}
                 label={targetGuest.isCheckin ? "체크아웃" : "체크인"}
                 mode="flat"
-                color="white"
               />
             </li>
             {/* <li>
@@ -53,7 +52,6 @@ const ItemMenu: React.FC<IProps> = ({
                 }}
                 label="삭제"
                 mode="flat"
-                color="white"
               />
             </li>
             <li>
@@ -64,7 +62,6 @@ const ItemMenu: React.FC<IProps> = ({
                 }}
                 label="색상설정"
                 mode="flat"
-                color="white"
               />
             </li>
             <li>
@@ -77,7 +74,6 @@ const ItemMenu: React.FC<IProps> = ({
                 }}
                 label="정보보기"
                 mode="flat"
-                color="white"
               />
             </li>
           </ul>

@@ -26,6 +26,7 @@ import {getOperationName} from "apollo-link";
 import {IAssigTimelineUtils} from "../../middleServer/assig/components/assigIntrerface";
 import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
 import JDanimation, {Animation} from "../../../atoms/animation/Animations";
+import JDmodal from "../../../atoms/modal/Modal";
 
 class CreatBookingMuForBooker extends Mutation<
   createBookingForBooker,
@@ -110,15 +111,17 @@ const ReservationWrap: React.FC<IProps> = ({
           ]}
         >
           {(createBookingMu, {loading: createBookingLoading}) => (
-            <Reservation
-              houseId={houseId}
-              isAdmin={isAdmin || false}
-              confirmModalHook={confirmModalHook}
-              createBookingMu={
-                isAdmin ? createBookingMu : createBookingForBookerMu
-              }
-              createLoading={createLoading}
-            />
+            <div>
+              <Reservation
+                houseId={houseId}
+                isAdmin={isAdmin || false}
+                confirmModalHook={confirmModalHook}
+                createBookingMu={
+                  isAdmin ? createBookingMu : createBookingForBookerMu
+                }
+                createLoading={createLoading || createBookingLoading}
+              />
+            </div>
           )}
         </CreatBookingMu>
       )}

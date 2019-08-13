@@ -3,57 +3,60 @@
 $roomTypeWidth: 10rem;
 $roomWidth: 10rem;
 
-#RoomConfigTimeline {
-    .modifyGroups {
-        padding-left: $roomTypeWidth;
-        
-        &__mainPreloade {
-            z-index: $z-index-9;
-        }
-        &__place {
-            text-align: center;
-        }
-        
-        &__placeIn {
-            padding-left: calc(#{$roomTypeWidth} + #{$roomWidth} + 4px);
-        }
-        
-        &__roomGroupBtn {
-            position:absolute;
-            border-radius: 0px;
-            width: calc(#{$roomTypeWidth} + 4px); // 4px padding
-            text-overflow: ellipsis;
-            left: 0;
-            & + *{
-                margin-left: 0;
+.roomConfig {
+
+    &__roomTitle {
+        margin: 0;
+    }
+    
+    .JDdrragable--chosen {
+        .roomConfig__roomType {
+            .roomConfig__iconsWrap {
+                display:none;
             }
         }
-
-        &__roomType {
-
+    }
+    .roomConfig__roomType {
+        .JDdrragable--ghost {
+            .roomConfig__iconsWrap {
+                display:none;
+            }
         }
-
-        &__button {
-            border-radius: 0px;
-            width: $roomWidth;
-            border-bottom: 1px solid $grey-opacity2;
-        }
-
-        &__room {
-            position: absolute
-        }
-    } 
-    .RoomConfigTimeline {
-        &__timelineWrap {
-            min-width: 720px;
-        }
-        &__timelineWrapScroll {
-            max-width:100%;
-            overflow-x:auto;
-            overflow-y: hidden;
+    }
+    .roomConfig__roomType {
+        .JDdrragable--drag {
+            .roomConfig__iconsWrap {
+                display:none;
+            }
         }
     }
 
-    @extend %timelineTopLeftIconBox;
-    
+    &__addRoomBox {
+        min-width: 100px;
+        cursor: pointer!important;
+    }
+    &__roomType_titleAndIcons {
+        display:flex;
+    }
+    &__roomType_titleSection {
+        display:flex;
+        justify-content: space-between;
+    }
+    &__roomsWrap > div {
+        display:flex;
+
+        .rc-draggable-list-draggableRow {
+            min-width: 100px;
+            margin-right: $standard-space;
+            .JDbox {
+                margin-bottom: 0!important;
+                .circleIcon {
+                    margin:0;
+                }
+            }
+        }
+    }
+    &__roomsWrapWrap {
+        display:flex;
+    }
 }

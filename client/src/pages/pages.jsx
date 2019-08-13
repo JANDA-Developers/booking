@@ -13,7 +13,7 @@ export const Sms = props => (
 export const DashBoard = props => (
   <DynamicImport load={() => import("./middleServer/dashBoard/DashBoardWrap")}>
     {DNcompoent =>
-      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
+      DNcompoent === null ? <Preloader page loading={true} /> : <DNcompoent {...props} />
     }
   </DynamicImport>
 );
@@ -142,7 +142,7 @@ export const AssigTimeline = props => (
   </DynamicImport>
 );
 
-export const ModifyTimeline = props => (
+export const RoomConfig = props => (
   <DynamicImport
     load={() => import("./middleServer/roomConfig/RoomConfigWrap")}
   >

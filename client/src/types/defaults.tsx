@@ -19,13 +19,22 @@ import {
   getSpecification_GetHouse_house_product,
   getSpecification_GetHouse_house_product_appInfoRequested,
   getAllRoomTypeWithGuest_GetGuests_guests_blockOption,
-  getMyProfile_GetMyProfile_user_houses_houseConfig_assigTimeline_itemBlockOp
+  getMyProfile_GetMyProfile_user_houses_houseConfig_assigTimeline_itemBlockOp,
+  getAllRoomType_GetAllRoomType_roomTypes_rooms
 } from "./api";
 import {
   IAssigItem,
   IAssigGroup,
   GuestTypeAdd
 } from "../pages/middleServer/assig/components/assigIntrerface";
+export const DEFAULT_ROOMTYPE_ROOM: getAllRoomType_GetAllRoomType_roomTypes_rooms = {
+  __typename: "Room",
+  _id: "",
+  createdAt: "",
+  index: -1,
+  name: "222",
+  updatedAt: ""
+};
 export const DEFAULT_ROOMTYPE: getBooking_GetBooking_booking_roomTypes = {
   __typename: "RoomType",
   name: "_",

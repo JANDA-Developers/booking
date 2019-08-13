@@ -17,8 +17,13 @@ const JDSeleteHouse: React.SFC<IProps> = ({
   className
 }) => {
   const handleSelectHouse = (value: IselectedOption) => {
+    if (value.value === "add") {
+      window.location.href = "http://localhost:3000/#/makeHouse";
+    }
     selectHouseMu({variables: {selectedHouse: value}});
   };
+
+  options.push({value: "add", label: "숙소생성+"});
 
   return (
     <JDselect

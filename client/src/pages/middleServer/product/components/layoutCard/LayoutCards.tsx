@@ -37,7 +37,7 @@ const layouts: layout[] = [
         <span className="JDsmall-text">(첫구매시만 발생)</span>
       </span>
     ),
-    link: "http://code-slave-2018.com/",
+    link: "http://colton123.net/",
     img:
       "https://res.cloudinary.com/stayjanda-com/image/upload/v1560234623/type_B_layout.jpg"
   }

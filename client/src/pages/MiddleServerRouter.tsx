@@ -21,7 +21,6 @@ import {
   Login,
   Ready,
   AssigTimeline,
-  ModifyTimeline,
   SuperMain,
   SetPrice,
   Qna,
@@ -29,7 +28,8 @@ import {
   Sms,
   ResvList,
   SmsHistory,
-  Statistic
+  Statistic,
+  RoomConfig
 } from "./pages";
 import {UserRole} from "../types/enum";
 import {IHouse, IHouseConfigFull} from "../types/interface";
@@ -90,7 +90,9 @@ const JDmiddleServer: React.FC<IProps> = ({
         loading={isLoading}
       />
       <Helmet>
-        <title>JANDA | APP</title>
+        <title>
+          JANDA | {selectedHouse ? `${selectedHouse.name}🏠` : "App"}{" "}
+        </title>
       </Helmet>
       {/* 헤더 */}
       <Route
@@ -252,12 +254,15 @@ const JDmiddleServer: React.FC<IProps> = ({
         {/* 방생성 */}
         <Route
           exact
-          path="/timelineConfig"
-          render={() =>
+          path="/roomConfig/:withGuid?"
+          render={prop =>
             isEmpty(selectedHouse) ? (
               <NoMatch />
             ) : (
-              <ModifyTimeline houseId={selectedHouse && selectedHouse._id} />
+              <RoomConfig
+                {...prop}
+                houseId={selectedHouse && selectedHouse._id}
+              />
             )
           }
         />

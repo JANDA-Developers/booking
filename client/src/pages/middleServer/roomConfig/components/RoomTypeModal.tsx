@@ -27,7 +27,7 @@ import {
   updateRoomTypeVariables,
   getRoomTypeById_GetRoomTypeById_roomType as IRoomType
 } from "../../../../types/api";
-import {IDefaultRoomType} from "./RoomTypeModalWrap";
+import {IDefaultRoomType, IRoomTypeModalInfo} from "./RoomTypeModalWrap";
 import Preloader from "../../../../atoms/preloader/Preloader";
 
 interface IProps {
@@ -35,8 +35,13 @@ interface IProps {
   createRoomTypeMutation: MutationFn<createRoomType, createRoomTypeVariables>;
   deleteRoomTypeMutation: MutationFn<deleteRoomType, deleteRoomTypeVariables>;
   updateRoomTypeMutation: MutationFn<updateRoomType, updateRoomTypeVariables>;
+  onCreateFn?: any;
+  onUpdateFn?: any;
+  onDelteFn?: any;
   loading: boolean;
-  modalHook: IUseModal;
+  isAddMode?: boolean;
+  mutationLoading: boolean;
+  modalHook: IUseModal<IRoomTypeModalInfo>;
   roomTypeData: IRoomType | IDefaultRoomType;
 }
 
@@ -44,6 +49,11 @@ const RoomTypeModal: React.SFC<IProps> = ({
   modalHook,
   houseId,
   loading,
+  isAddMode,
+  mutationLoading,
+  onCreateFn,
+  onUpdateFn,
+  onDelteFn,
   createRoomTypeMutation,
   deleteRoomTypeMutation,
   updateRoomTypeMutation,
@@ -96,6 +106,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
 
   const onCreateRoomType = async () => {
     if (validater()) {
+      onCreateFn && onCreateFn();
       createRoomTypeMutation({
         variables: updateRoomTypeValue
       });
@@ -113,7 +124,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
       updateRoomTypeMutation({
         variables: {
           ...updateRoomTypeValue,
-          roomTypeId: modalHook.info.roomTypeId
+          roomTypeId: modalHook.info.roomTypeId || ""
         }
       });
       modalHook.closeModal();
@@ -151,21 +162,21 @@ const RoomTypeModal: React.SFC<IProps> = ({
         }
       }}
     >
-      {loading ? 
-      <Preloader loading={loading} size="large" />
-      : (
-      <Fragment>
-        <div className="flex-grid">
-          <div className="flex-grid__col col--full-6 col--lg-6 col--md-12">
-            <InputText
-              label="방타입이름"
-              value={value.name}
-              onChange={(inValue: any) => {
-                setValue({...value, name: inValue});
-              }}
-            />
-          </div>
-          {/* <div className="flex-grid__col  col--full-3 col--lg-6 col--md-12">
+      {loading || mutationLoading ? (
+        <Preloader loading={loading || mutationLoading} size="large" />
+      ) : (
+        <Fragment>
+          <div className="flex-grid">
+            <div className="flex-grid__col col--full-6 col--lg-6 col--md-12">
+              <InputText
+                label="방타입이름"
+                value={value.name}
+                onChange={(inValue: any) => {
+                  setValue({...value, name: inValue});
+                }}
+              />
+            </div>
+            {/* <div className="flex-grid__col  col--full-3 col--lg-6 col--md-12">
           <SelectBox
             label="수용인원"
             disabled={false}
@@ -176,88 +187,93 @@ const RoomTypeModal: React.SFC<IProps> = ({
             selectedOption={value.peopleCount}
           />
         </div> */}
-          <div className="flex-grid__col  col--full-6 col--lg-6 col--md-12">
-            <SelectBox
-              label="수용인원"
-              disabled={false}
-              onChange={onChangePeople}
-              options={maxPeopleCountOption}
-              selectedOption={value.peopleCountMax}
+            <div className="flex-grid__col  col--full-6 col--lg-6 col--md-12">
+              <SelectBox
+                label="수용인원"
+                disabled={false}
+                onChange={onChangePeople}
+                options={maxPeopleCountOption}
+                selectedOption={value.peopleCountMax}
+              />
+            </div>
+            <div className="flex-grid__col  col--full-6 col--lg-6 col--md-12">
+              <SelectBox
+                label="방타입선택"
+                disabled={false}
+                onChange={(inValue: any) => {
+                  setValue({...value, pricingType: inValue});
+                }}
+                options={pricingTypeOptions}
+                selectedOption={value.pricingType}
+              />
+            </div>
+            <div className="flex-grid__col  col--full-6 col--lg-6 col--md-12">
+              <SelectBox
+                label="방성별선택"
+                disabled={false}
+                onChange={(inValue: any) => {
+                  setValue({...value, roomGender: inValue});
+                }}
+                options={genderOptions}
+                selectedOption={value.roomGender}
+              />
+            </div>
+            <div className="flex-grid__col flex-grid__col--vertical col--full-12 col--lg-12 col--md-12">
+              <JDLabel txt="방사진" />
+              <ImageUploader {...roomImageHook} minHeight="200px" />
+            </div>
+            <div className="flex-grid__col col--full-6 col--lg-6 col--md-6">
+              <InputText
+                onChange={(inValue: any) => {
+                  setValue({...value, description: inValue});
+                }}
+                value={value.description}
+                textarea
+                label="방타입 추가설명"
+              />
+            </div>
+            <div className="flex-grid__col col--full-6 col--lg-6 col--md-6">
+              <InputText
+                onChange={(inValue: any) => {
+                  setValue({...value, defaultPrice: inValue});
+                }}
+                comma
+                value={value.defaultPrice}
+                label="방 기본가격"
+              />
+              <p className="JDsmall-text">
+                * 가격이 설정되어 있지 않은 기간 에서 기본으로 적용됨
+              </p>
+            </div>
+          </div>
+          <div className="JDmodal__endSection">
+            <Button
+              thema="primary"
+              label="생성하기"
+              size="small"
+              mode="flat"
+              onClick={onCreateRoomType}
             />
-          </div>
-          <div className="flex-grid__col  col--full-6 col--lg-6 col--md-12">
-            <SelectBox
-              label="방타입선택"
-              disabled={false}
-              onChange={(inValue: any) => {
-                setValue({...value, pricingType: inValue});
-              }}
-              options={pricingTypeOptions}
-              selectedOption={value.pricingType}
+            <Button
+              thema="primary"
+              label="수정하기"
+              mode="flat"
+              size="small"
+              disabled={isAddMode}
+              onClick={onUpdateRoomType}
             />
-          </div>
-          <div className="flex-grid__col  col--full-6 col--lg-6 col--md-12">
-            <SelectBox
-              label="방성별선택"
-              disabled={false}
-              onChange={(inValue: any) => {
-                setValue({...value, roomGender: inValue});
-              }}
-              options={genderOptions}
-              selectedOption={value.roomGender}
+            <Button
+              thema="warn"
+              label="삭제하기"
+              mode="flat"
+              size="small"
+              disabled={isAddMode}
+              onClick={onDeleteRoomType}
             />
+            {/* <Button label="닫기" mode="flat" onClick={modalHook.closeModal} /> */}
           </div>
-          <div className="flex-grid__col flex-grid__col--vertical col--full-12 col--lg-12 col--md-12">
-            <JDLabel txt="방사진" />
-            <ImageUploader {...roomImageHook} minHeight="200px" />
-          </div>
-          <div className="flex-grid__col col--full-6 col--lg-6 col--md-6">
-            <InputText
-              onChange={(inValue: any) => {
-                setValue({...value, description: inValue});
-              }}
-              value={value.description}
-              textarea
-              label="방타입 추가설명"
-            />
-          </div>
-          <div className="flex-grid__col col--full-6 col--lg-6 col--md-6">
-            <InputText
-              onChange={(inValue: any) => {
-                setValue({...value, defaultPrice: inValue});
-              }}
-              comma
-              value={value.defaultPrice}
-              label="방 기본가격"
-            />
-            <p className="JDsmall-text">
-              * 가격이 설정되어 있지 않은 기간 에서 기본으로 적용됨
-            </p>
-          </div>
-        </div>
-        <div className="JDmodal__endSection">
-          <Button
-            thema="primary"
-            label="생성하기"
-            mode="flat"
-            onClick={onCreateRoomType}
-          />
-          <Button
-            thema="primary"
-            label="수정하기"
-            mode="flat"
-            onClick={onUpdateRoomType}
-          />
-          <Button
-            thema="warn"
-            label="삭제하기"
-            mode="flat"
-            onClick={onDeleteRoomType}
-          />
-          {/* <Button label="닫기" mode="flat" onClick={modalHook.closeModal} /> */}
-        </div>
-      </Fragment>)
-      }
+        </Fragment>
+      )}
     </Modal>
   );
 };

@@ -29,6 +29,7 @@ interface IProps extends React.HTMLAttributes<HTMLButtonElement> {
   blink?: boolean;
   toggle?: boolean;
   preloader?: boolean;
+  transparent?: boolean;
   className?: string;
   hrefOpen?: string;
   tooltip?: string;
@@ -55,6 +56,7 @@ const Button: React.FC<IProps> = ({
   blink,
   preloader,
   className,
+  transparent,
   size,
   // 내부적인 링크는 LINK 태그를 사용하세요.
   hrefOpen,
@@ -72,6 +74,7 @@ const Button: React.FC<IProps> = ({
     "JDbtn--right": float === "right",
     "JDbtn--white": color === "white",
     "JDbtn--primary": thema === "primary",
+    "JDbtn--transparent": transparent,
     "JDbtn--grey": thema === "grey",
     "JDbtn--point": thema === "point",
     "JDbtn--error": thema === "warn",

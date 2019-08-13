@@ -9,6 +9,7 @@ import {IHouse} from "../../types/interface";
 import {SpecificAtion} from "../../components/specification/Specification";
 import SpecificationWrap from "../../components/specification/SpecificationWrap";
 import JDlist from "../../atoms/list/List";
+import {SERVICE_CONTECT} from "../../types/enum";
 
 interface IProps {
   selectedHouse: IHouse | undefined;
@@ -23,15 +24,25 @@ const Ready: React.SFC<IProps> = ({selectedHouse}) => {
           <div className="docs-section">
             <div>
               <h4>서비스 신청이 완료되었습니다.</h4>
+              <h6>
+                서비스 신청이 완료되었습니다. 3일 내로 담당자가 연락드릴
+                예정입니다. 감사합니다.
+              </h6>
               <SpecificationWrap houseId={selectedHouse!._id} />
               <div>
                 <JDlist
                   contents={[
-                    <span className="JDlarge-text">
-                      ☎️ 담당자 전화번호 010-6562-4125
+                    <span>
+                      문의 사항이 있으시면 아래연락처로 편하게 연락주세요.
                     </span>,
                     <span className="JDlarge-text">
-                      ⏲ 문의시간 11:00 ~ 17: 30
+                      ☎️ 문의 전화번호 {SERVICE_CONTECT.SERVICE_MANGER_PHONE}
+                    </span>,
+                    <span className="JDlarge-text">
+                      📧 문의 이메일 {SERVICE_CONTECT.SERVICE_MANGER_MAIL}
+                    </span>,
+                    <span className="JDlarge-text">
+                      ⏲ 문의 시간 11:00 ~ 17:30
                     </span>
                   ]}
                 />

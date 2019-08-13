@@ -1,4 +1,4 @@
-import React, {Fragment} from "react";
+import React, {Fragment, useEffect} from "react";
 import ReactModal from "react-modal";
 import "./Modal.scss";
 import classNames from "classnames";
@@ -18,6 +18,8 @@ interface IProps extends ReactModal.Props, IUseModal {
   trueMessage?: string | any[];
   confirmCallBackFn?(flag: boolean, key?: string): any;
 }
+
+// let CAN_CLOSE_MODAL = false;
 
 const JDmodal: React.SFC<IProps> = ({
   info,
@@ -93,11 +95,17 @@ const JDmodal: React.SFC<IProps> = ({
     label: falseMessage || "취소"
   };
 
+  const misClickPreventCloseModal = () => {
+    // if (CAN_CLOSE_MODAL) {
+    closeModal();
+    // }
+  };
+
   return (
     <JDanimation animation={[Animation.zoomIn, Animation.zoomOut]}>
       <ReactModal
         isOpen={isOpen}
-        onRequestClose={closeModal}
+        onRequestClose={misClickPreventCloseModal}
         appElement={appElement}
         {...props}
         {...defualtJDmodalProps}

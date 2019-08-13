@@ -5,6 +5,14 @@
 #root,.ReactModalPortal {
     .JDbox {
 
+        &--clickable {
+            cursor: pointer;
+            &:hover {
+                background-color: $grey-level2;
+            }
+        }
+        
+
         &__label {
             font-size: $typho-tiny;
             margin-bottom: $standard-margin-bottom /3;
@@ -52,6 +60,24 @@
             border-radius: $standard-border-radius;
             padding: $standard-padding;
             border: 1px solid $grey-level1;
+        }
+        
+        &--dashBorder {
+            border-radius: $standard-border-radius;
+            border: 2px dashed $grey-level1;
+            padding: calc(#{$standard-padding} - 2px);
+            color: $grey-level1;
+
+            background-color: rgba(255,255,255,0);
+            
+            &.JDbox--clickable {
+                cursor: pointer;
+                &:hover {
+                    color: $grey-level2;
+                    border-color: $grey-level2;
+                    background-color: rgba(255,255,255,0);
+                }
+            }
         }
         
         &--standard {

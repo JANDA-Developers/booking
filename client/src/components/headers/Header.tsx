@@ -107,8 +107,10 @@ const Header: React.FC<IProps> = ({
                 phoneNumber: user.phoneNumber
               });
             }}
+            transparent
             label="인증하기"
             blink
+            color="white"
             mode="flat"
           />
         </span>
@@ -176,10 +178,10 @@ const Header: React.FC<IProps> = ({
               });
               ReactTooltip.hide();
             }}
-            id="HeaderPhoneVerificationBtn"
             blink
             label="인증하기"
             mode="flat"
+            id="HeaderPhoneVerificationBtn"
           />
         </li>
       )}
