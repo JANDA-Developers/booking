@@ -5,6 +5,10 @@ $flex-grid--column-margin: .8%;
 
 $roomCardHeight: 130px;
 
+#outdated {
+    display:none!important;
+}
+
 
 #JDreservation {
     // 😆 어떻게 그리드 시스템을 오버라이드 하는지 보여줌

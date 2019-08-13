@@ -13,18 +13,16 @@ const OLD_BROWSER_CONFIG = {
     Firefox: 50,
     Opera: 50,
     Vivaldi: 1,
-    // You could specify minor version too for those browsers that need it.
     Yandex: {major: 17, minor: 10},
-    // You could specify a version here if you still support IE in 2017.
-    // You could also instead seriously consider what you're doing with your time and budget
-    IE: false
+    IE: false,
+    Kakao: false
   },
   requireChromeOnAndroid: false,
-  isUnknownBrowserOK: false,
+  isUnknownBrowserOK: true,
   messages: {
     en: {
-      outOfDate: "지원하지 않는 브라우저입니다.",
-      unsupported: "지원하지 않는 브라우저입니다.",
+      outOfDate: "앱사용 이전에 크롬 브라우저 사용을 권장합니다.",
+      unsupported: "앱사용 이전에 크롬 브라우저 사용을 권장합니다.",
       update: {
         web:
           "오래된 브라우저 입니다. 서비스 이용중 문제가 발생할수 있습니다. </br> 브라우저를 업데이트 해주세요.",
