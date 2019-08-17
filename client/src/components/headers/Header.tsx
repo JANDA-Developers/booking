@@ -88,6 +88,7 @@ const Header: React.FC<IProps> = ({
         className="header__profile"
       >
         <ProfileCircle
+          className="JDmargin-bottom0"
           profileImg={profileImg}
           isBordered
           whiteBorder

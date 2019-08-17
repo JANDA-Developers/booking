@@ -48,7 +48,7 @@
 
     &--right {
       line-height: $select-height;
-      padding-left: $standard-side-padding;
+      padding-left: $standard-small-space;
     }
   }
   // disabled style 디스에이블 스타일 1
@@ -104,8 +104,8 @@
         overflow:hidden;
         text-overflow:ellipsis;
         color: $selcet-placeholder-color;
-        padding-right: $standard-side-padding;
-        width: calc(100% - #{$standard-side-padding});
+        padding-right: $standard-small-space;
+        width: calc(100% - #{$standard-small-space});
         margin: 0;
       }
       
@@ -200,7 +200,7 @@
     .react-select-container {
       width:100%;
       .react-select__control{
-        padding: 0rem $standard-side-padding/2;
+        padding: 0rem $standard-small-space/2;
       }
       .react-select__value-container {
         padding: 0;
@@ -218,7 +218,7 @@
         &__indicators {
           display:none;
           // .react-select__indicator  {
-          //   margin-left: $standard-side-padding;
+          //   margin-left: $standard-small-space;
           // }
           // width: 0;
         }

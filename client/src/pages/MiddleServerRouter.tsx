@@ -29,7 +29,8 @@ import {
   ResvList,
   SmsHistory,
   Statistic,
-  RoomConfig
+  RoomConfig,
+  HouseMenualConfig
 } from "./pages";
 import {UserRole} from "../types/enum";
 import {IHouse, IHouseConfigFull} from "../types/interface";
@@ -222,6 +223,17 @@ const JDmiddleServer: React.FC<IProps> = ({
           path="/assigTimeline"
           render={() => (
             <AssigTimeline
+              house={selectedHouse}
+              houseId={selectedHouse && selectedHouse._id}
+            />
+          )}
+        />
+        {/* 하우스 메뉴얼 */}
+        <Route
+          exact
+          path="/houseMenualConfig"
+          render={() => (
+            <HouseMenualConfig
               house={selectedHouse}
               houseId={selectedHouse && selectedHouse._id}
             />

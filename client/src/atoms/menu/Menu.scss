@@ -46,7 +46,7 @@
         }
 
         .rc-menu-submenu-title {
-            border-bottom: 1px solid $grey-level1;
+            border-bottom: $menu-border-bottom;
             padding-left: $sideNav-list-padding!important;
             height: $sideNav-list-li-height;
             display:flex;
@@ -57,4 +57,29 @@
             background-color: $grey-level1;
         }
     }
+
+    .JDmenu--dropDown {
+
+        .rc-menu-submenu-arrow {
+            right: calc(#{$menu-dropDown-side-padding} + 5px);
+        }
+
+        .rc-menu-sub {
+            border-bottom: $menu-border-bottom;
+            padding: 0px $menu-dropDown-side-padding;
+        }
+
+        .rc-menu-submenu-title {
+            border-bottom: $menu-border-bottom;
+            padding-left: $menu-dropDown-side-padding!important;
+            height: $sideNav-list-li-height;
+            display:flex;
+            align-items: center;
+        }
+
+        .rc-menu-submenu-active .rc-menu-submenu-title {
+            background-color: $grey-level1;
+        }
+    }
+
 }

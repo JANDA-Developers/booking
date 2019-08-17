@@ -31,10 +31,6 @@ const JDproduct: React.FC<IProps> = ({
   setSelectedProductTypeId,
   isCurrent
 }) => {
-  console.log(isCurrent);
-  console.log(isCurrent);
-  console.log(isCurrent);
-  console.log(isCurrent);
   const {disable, priceText, name, shortDesc} = productType;
 
   const handleProductSelect = () => {

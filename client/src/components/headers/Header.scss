@@ -170,7 +170,7 @@ html .header {
     .JDsearchInput {
         margin-bottom: 0;
         min-width: 300px;
-        height: $standard-small-line-height;
+        height: $standard-line-height;
         margin-right: $standard-space;
 
         @include response($phablet) {
@@ -180,7 +180,7 @@ html .header {
         &__input {
             margin:0;
             padding:0;
-            padding-left: $standard-side-padding;
+            padding-left: $standard-small-space;
             border-radius: $standard-border-radius;
         }
         &__ul {
@@ -195,7 +195,7 @@ html .header {
         
         
         &__logoPlace {
-            padding-left: calc(#{$standard-padding} * 2);
+            padding-left: calc(#{$standard-small-space} * 2);
 
             .header__logo {
                 width: 75px;

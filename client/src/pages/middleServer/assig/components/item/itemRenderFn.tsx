@@ -107,16 +107,18 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
           case GuestTypeAdd.BLOCK:
             return (
               <div className="assigItem__content assigItem__content--block">
-                <span className="assigItem__title">{"자리막음"}</span>
+                <span className="assigItem__titleWrap">
+                  <span className="assigItem__title">{"자리막음"}</span>
+                </span>
                 {/* {isMobile || (
                   <CircleIcon wave thema="white">
-                    <JDIcon
-                      onClick={e => {
-                        e.preventDefault();
-                        deleteItemById(item.id);
-                      }}
-                      icon="clear"
-                    />
+                  <JDIcon
+                  onClick={e => {
+                    e.preventDefault();
+                    deleteItemById(item.id);
+                  }}
+                  icon="clear"
+                  />
                   </CircleIcon>
                 )} */}
               </div>
@@ -126,7 +128,7 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
           case GuestTypeAdd.MAKE:
             return (
               <div className="assigItem__content JDtext-blink assigItem__content--make">
-                <div>
+                <span className="assigItem__titleWrap">
                   {isMobile ? (
                     <Gender item={item} />
                   ) : (
@@ -145,14 +147,16 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
                     )
                   )}
                   <span className="assigItem__title">새로운예약</span>
-                </div>
+                </span>
               </div>
             );
           case GuestTypeAdd.GHOST:
             return (
               <div className="assigItem__content JDtext-blink assigItem__content--ghost">
-                <span className="assigItem__title">{item.name}</span>
-                <Preloader loading={item.loading} />
+                <span className="assigItem__titleWrap">
+                  <span className="assigItem__title">{item.name}</span>
+                  <Preloader loading={item.loading} />
+                </span>
               </div>
             );
           default:

@@ -18,7 +18,7 @@
     &__roomTypeTittle {
         align-items: center;
         border-right: 1px solid $grey-level1;
-        padding: $standard-small-padding;
+        padding: $standard-tiny-space;
         max-width: 120px;
         display: flex;
         border-bottom: 1px solid $grey-level1;
@@ -34,7 +34,7 @@
     &__roomTitle {
         border-bottom: 1px solid $grey-level1;
         border-right: 1px solid $grey-level1;
-        padding: $standard-small-padding;
+        padding: $standard-tiny-space;
         min-height: 0;
     }
     

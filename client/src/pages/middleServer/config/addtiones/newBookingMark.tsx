@@ -17,7 +17,6 @@ const NewBookingMark: React.FC<IAddtionProp> = ({
 }) => {
   const {houseConfig} = house;
   const {bookingConfig} = houseConfig;
-  console.log(bookingConfig);
   const {newBookingMark} = bookingConfig || DEFAULT_HOUSE_CONFIG.bookingConfig;
   const {enable, newGuestTime} =
     newBookingMark || DEFAULT_HOUSE_CONFIG.bookingConfig.newBookingMark;

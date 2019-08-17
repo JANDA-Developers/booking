@@ -3,7 +3,7 @@
 .imageUploader {
     position:relative;
     width:100%;
-    border: 1px solid $IUploader-border-color; 
+    border: $IUploader-border; 
     border-radius: $IUploader-border-radius;
     background-size: contain;
     background-repeat: no-repeat;
@@ -19,6 +19,39 @@
     font-size: 2rem;  // prettier
     text-align: center;
 
+
+
+    &--noEffect {
+        position: relative;
+        border:none;
+        border-radius: 0px;
+        background-image:none;
+
+        &:hover {
+            filter: brightness(.9);
+        }
+        
+        .imageUploader__image {
+            background-size: cover;
+            position:absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+    }
+    
+
+    &--coverImg {
+        .imageUploader__image {
+            background-size: cover;
+            position:absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+    }
 
     .preloader__wrap {
         position: absolute;
@@ -50,6 +83,7 @@
 
     &__input {
         position:absolute;
+        z-index: $z-index-1;
         top:0;
         left: 0;
         right: 0;

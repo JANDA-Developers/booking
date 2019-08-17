@@ -25,6 +25,7 @@ import {
   createBookingForBookerVariables,
   getAllRoomTypeForBooker
 } from "../../../types/api";
+import $ from "jquery";
 import ResvRoomSelectInfo from "../components/resvRoomSelectInfo";
 import PayMentModal from "../components/paymentModal";
 import RoomTypeCardsWrap from "../components/roomTypeCards/roomTypeCardsWrap";
@@ -48,6 +49,7 @@ import Preloader from "../../../atoms/preloader/Preloader";
 import {Redirect, withRouter, RouteComponentProps} from "react-router";
 import {get} from "http";
 import moment from "moment";
+import {toast} from "react-toastify";
 
 class GetAllAvailRoomQu extends Query<getAllRoomTypeForBooker> {}
 export interface ISetBookingInfo
@@ -110,6 +112,15 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
     setResvRooms([]);
     setBookingInfo(defaultBookingInfo);
   }, [dayPickerHook.to, dayPickerHook.from]);
+
+  // Iframe 높이조절
+  useEffect(() => {
+    const Iframe = parent.document.getElementById("JD_RESV_APP");
+    if (Iframe) {
+      const theHeight = $("#JDreservation").height() || 1000;
+      $(Iframe).height(theHeight);
+    }
+  });
 
   const resvInfoValidation = () => {
     if (isEmpty(resvRooms)) {
@@ -217,7 +228,11 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
               skip={!dayPickerHook.from || !dayPickerHook.to}
               query={GET_ALL_ROOM_TYPE_FOR_BOOKING}
             >
-              {({data: roomTypeData, loading: roomLoading, error}) => {
+              {({
+                data: roomTypeData,
+                loading: roomAvailCountLoading,
+                error
+              }) => {
                 const roomTypes = queryDataFormater(
                   roomTypeData,
                   "GetAllRoomTypeForBooker",
@@ -246,9 +261,9 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
                       <Preloader
                         className="JDstandard-margin0"
                         size="large"
-                        loading={roomLoading}
+                        loading={roomAvailCountLoading}
                       />
-                      {roomLoading || roomCardMessage()}
+                      {roomAvailCountLoading || roomCardMessage()}
                     </h4>
                   </Fragment>
                 );

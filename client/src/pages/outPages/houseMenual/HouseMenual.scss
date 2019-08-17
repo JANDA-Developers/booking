@@ -1,0 +1,58 @@
+@import '../../../style_config/style_config.scss';
+
+#root {
+    .houseMenual {
+        max-width: 500px;
+        margin: 0 auto;
+        
+
+        &__bg {
+            background-position: center center;
+            background-size: cover;
+            height: 180px;
+            margin-bottom: 0;
+        }
+        
+        &__menuTitle {
+            
+            width: calc(100% + #{$menu-dropDown-side-padding * 2}); 
+            margin-left: -$menu-dropDown-side-padding;
+            background-color: $primary-color;
+            color: $primary-color-on;
+            margin-bottom : $standard-margin-bottom;
+            height: $standard-line-height;
+            line-height: $standard-line-height;
+            box-sizing:border-box;
+            padding: 0px  $menu-dropDown-side-padding;
+        }
+        
+        &__bgSection {
+            position:relative;
+            margin-bottom: calc(#{$profileCircle-large-size} /2 - 10px);
+            .houseMenual__profilceCricle {
+                position: absolute;
+                margin:0 auto;
+                left: calc(50% - #{$profileCircle-large-size} / 2);
+                bottom: -1 * $profileCircle-large-size / 2;
+            }
+        }
+        
+        &__titleWrap {
+            display:flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: $standard-margin-bottom;
+        }
+
+        &__contectMenu {
+            background-color: $grey-opacity1;
+            padding: $standard-space;
+            display:flex;
+            justify-content: space-around;
+        }
+
+        img {
+            width: 100%;
+        }
+    }
+}

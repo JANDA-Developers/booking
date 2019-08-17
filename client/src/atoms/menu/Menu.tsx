@@ -50,13 +50,14 @@ const animation = {
 };
 
 interface IProps {
-  customMode?: "sideNav";
+  customMode?: "sideNav" | "dropDown";
   [key: string]: any;
 }
 
 const JDmenu: React.FC<IProps> = ({customMode, className, ...prop}) => {
   const classes = classNames("JDmenu", className, {
-    "JDmenu--sideNav": customMode === "sideNav"
+    "JDmenu--sideNav": customMode === "sideNav",
+    "JDmenu--dropDown": customMode === "dropDown"
   });
   return <Menu className={classes} openAnimation={animation} {...prop} />;
 };

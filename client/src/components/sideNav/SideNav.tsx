@@ -181,7 +181,7 @@ const SideNav: React.FC<IProps> = ({
           <JDmenu customMode="sideNav" mode="inline">
             {sortedMenus.map(menu =>
               instanceOfA<IMenusGroup>(menu, "contents") ? (
-                <JDsubMenu title={menu.groupTitle}>
+                <JDsubMenu key={s4()} title={menu.groupTitle}>
                   <JDmenuItem>
                     {menu.contents.map(content => renderLink(content))}
                   </JDmenuItem>

@@ -89,21 +89,21 @@ $roomCardHeight: 130px;
 
         
         &__lastSection {
-            padding:$standard-padding;
+            padding:$standard-small-space;
 
             @include response($mobile) {
-                padding:$standard-padding /2;
+                padding:$standard-small-space /2;
             }
         }
 
         &__selectButton {
             position: absolute;
-            bottom: $standard-padding;
-            right: $standard-padding;
+            bottom: $standard-small-space;
+            right: $standard-small-space;
             
             @include response($mobile) {
-                // bottom:$standard-padding /2;
-                // right:$standard-padding /2;
+                // bottom:$standard-small-space /2;
+                // right:$standard-small-space /2;
                 border-radius: $standard-border-radius; 
             }
         }
@@ -120,12 +120,12 @@ $roomCardHeight: 130px;
         
         &__middleSection {
             display: flex;
-            padding:$standard-padding;
+            padding:$standard-small-space;
             justify-content: space-between;
             flex-direction: column;
             
             @include response($mobile) {
-                padding:$standard-padding /2;
+                padding:$standard-small-space /2;
             }
         }
 
@@ -180,6 +180,6 @@ $roomCardHeight: 130px;
 
 html .ReactModalPortal {
     .agreePrivacyPolicy {
-        padding: $standard-side-padding;
+        padding: $standard-small-space;
     }
 }

@@ -1,12 +1,12 @@
-import classNames from 'classnames';
-import React from 'react';
-import ErrProtecter from '../../utils/errProtect';
-import './ProfileCircle.scss';
-import defaultImg from '../../img/profile/default_profile.jpg';
-import { IuseProfileUploader } from '../../actions/hook';
-import { IDiv } from '../../types/interface';
+import classNames from "classnames";
+import React from "react";
+import ErrProtecter from "../../utils/errProtect";
+import "./ProfileCircle.scss";
+import defaultImg from "../../img/profile/default_profile.jpg";
+import {IuseProfileUploader} from "../../actions/hook";
+import {IDiv} from "../../types/interface";
 
-type ProfileCircleSize = 'small' | 'tiny';
+type ProfileCircleSize = "small" | "tiny" | "normal" | "large";
 
 interface Iprops extends IDiv, IuseProfileUploader {
   profileImg?: string;
@@ -33,15 +33,16 @@ const ProfileCircle: React.SFC<Iprops> = ({
   size,
   ...props
 }) => {
-  const classes = classNames('profileCircle JDwaves-effect', className, {
-    'profileCircle--bordered': isBordered,
-    'profileCircle--small': size === 'small',
-    'profileCircle--tiny': size === 'tiny',
-    'profileCircle--whiteBorder': whiteBorder,
+  const classes = classNames("profileCircle JDwaves-effect", className, {
+    "profileCircle--bordered": isBordered,
+    "profileCircle--large": size === "large",
+    "profileCircle--small": size === "small",
+    "profileCircle--tiny": size === "tiny",
+    "profileCircle--whiteBorder": whiteBorder
   });
 
   const profileStyle = {
-    backgroundImage: `url("${fileUrl || profileImg || defaultImg}")`,
+    backgroundImage: `url("${fileUrl || profileImg || defaultImg}")`
   };
 
   return (
@@ -55,7 +56,13 @@ const ProfileCircle: React.SFC<Iprops> = ({
       style={profileStyle}
     >
       {config && (
-        <input className="profileCircle__input" onChange={onChangeFile} id="photo" type="file" accept="image/*" />
+        <input
+          className="profileCircle__input"
+          onChange={onChangeFile}
+          id="photo"
+          type="file"
+          accept="image/*"
+        />
       )}
     </div>
   );
@@ -65,7 +72,7 @@ ProfileCircle.defaultProps = {
   profileImg: defaultImg,
   isBordered: false,
   whiteBorder: false,
-  onClick: () => {},
+  onClick: () => {}
 };
 
 export default ErrProtecter(ProfileCircle);

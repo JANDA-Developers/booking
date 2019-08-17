@@ -47,9 +47,6 @@ class ChangeIndexForRoomTypeMu extends Mutation<
 const RoomConfigTimelineWrap: React.FC<IProps> = ({houseId, ...prop}) => {
   const [_, setConfigMode] = useToggle(false);
 
-  console.log(prop);
-  console.log(prop);
-  console.log(prop);
   return (
     // 모든 방 가져오기
     <GetAllRoomTypeQuery

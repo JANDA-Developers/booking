@@ -13,6 +13,7 @@ interface IProps extends IDiv {
   className?: string;
   selected?: boolean;
   fullWidth?: boolean;
+  align?: "center";
   noMargin?: boolean;
   onClickCard?(): void;
 }
@@ -22,6 +23,7 @@ export interface CardProps extends IProps {}
 const JDcard: React.FC<IProps> = ({
   children,
   hover,
+  align,
   className,
   onClickCard,
   fullHeight,
@@ -36,7 +38,8 @@ const JDcard: React.FC<IProps> = ({
     "JDcard--selected": selected,
     "JDcard--fullHeight": fullHeight,
     "JDcard--fullWidth": fullWidth,
-    "JDcard--noMargin": noMargin
+    "JDcard--noMargin": noMargin,
+    "JDcard--center": align === "center"
   });
 
   const handleClickCard = () => {

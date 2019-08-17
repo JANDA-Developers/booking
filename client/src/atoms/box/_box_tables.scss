@@ -21,7 +21,7 @@
         }
         th, td {
             border-right:1px solid $table-borders-color;
-            padding: $standard-padding;
+            padding: $standard-small-space;
             
             @include baseMargin {
                 margin-right: 0;

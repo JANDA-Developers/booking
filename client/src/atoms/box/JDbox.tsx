@@ -9,6 +9,7 @@ import JDLabel from "../label/JDLabel";
 interface IProps extends IDiv {
   className?: string;
   mode?: "table" | "border" | "photoFrame" | "dashBorder";
+  thema?: "primary";
   label?: JSX.Element | string;
   icon?: IIcons;
   photo?: string;
@@ -39,6 +40,7 @@ const JDbox: React.FC<IProps> = ({
   size,
   align,
   onClick,
+  thema,
   ...props
 }) => {
   const classes = classNames("JDbox", className, {
@@ -49,6 +51,7 @@ const JDbox: React.FC<IProps> = ({
     "JDbox--border": mode === "border",
     "JDbox--center": align === "center",
     "JDbox--clickable": clickable,
+    "JDbox--primary": thema === "primary",
     "JDbox--standard": standard,
     "JDbox--withIcon": typeof icon === "string",
     "JDbox--small": size === "small",
@@ -63,16 +66,16 @@ const JDbox: React.FC<IProps> = ({
         <div className="JDbox__content">
           {photo && <img src={photo} />}
           {children}
-          <span>
-            {icon && (
+          {icon && (
+            <span>
               <JDIcon
                 className="JDbox__icon"
                 onClick={iconOnClick}
                 icon={icon}
                 hover={iconHover}
               />
-            )}
-          </span>
+            </span>
+          )}
         </div>
       </div>
     </Fragment>

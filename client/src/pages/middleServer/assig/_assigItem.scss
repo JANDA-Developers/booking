@@ -206,8 +206,8 @@
     }
     // 😲 생성
     &--make {
-        background-color: $point-color;
-        border-color: $point-color;
+        background-color: $assigItem-make-block-color;
+        border-color: $assigItem-make-block-color;
         color:white;
 
         #{$B}__gender {

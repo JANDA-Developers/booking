@@ -9,7 +9,7 @@ p {
 }
 
 p div {
-    margin-bottom: $standard-text-term;
+    margin-bottom: $standard-text-line-term;
 }
 
 input {
@@ -84,13 +84,36 @@ a.JDanchor {
     margin-right: $standard-space;
 }
 
-.JDflex {
+.JDstandard-small-space {
+    margin-right: $standard-small-space;
+}
+
+.JDletterSpace0 {
+    letter-spacing: 0;
+}
+
+.JDflex--center {
     display:flex;
     align-items: center;
+    justify-content: center;
+}
+
+.JDflex--between {
+    display:flex;
     justify-content: space-between;
 }
 
-#root {
+.JDflex--vCenter {
+    display:flex;
+    line-height: 0;
+    align-items: center;
+}
+
+.JDflex {
+    align-items: center;
+}
+
+#root,.ReactModalPortal {
     .JDmargin-bottom0 {
         margin-bottom: 0!important;
         @include responseUpClass() {
@@ -102,7 +125,14 @@ a.JDanchor {
             margin-bottom: $standard-margin-bottom;
         }
     }
+    
+.JDbox__content {
+    *:last-child {
+        margin-bottom: 0;
+    }
 }
+}
+
 
 .JDtext-align-center {
     text-align: center;
@@ -143,6 +173,46 @@ a.JDanchor {
 .JDz-index-2 {
     position: relative;
     z-index: $z-index-2
+}
+
+.JDz-index-3 {
+    position: relative;
+    z-index: $z-index-3
+}
+
+.JDz-index-4 {
+    position: relative;
+    z-index: $z-index-4
+}
+
+.JDz-index-5 {
+    position: relative;
+    z-index: $z-index-5
+}
+
+.JDz-index-6 {
+    position: relative;
+    z-index: $z-index-6
+}
+
+.JDz-index-7 {
+    position: relative;
+    z-index: $z-index-7
+}
+
+.JDz-index-8 {
+    position: relative;
+    z-index: $z-index-8
+}
+
+.JDz-index-9 {
+    position: relative;
+    z-index: $z-index-9
+}
+
+.JDz-index-10 {
+    position: relative;
+    z-index: $z-index-10
 }
 
 ul.JDlist {

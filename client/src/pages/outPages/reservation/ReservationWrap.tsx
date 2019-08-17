@@ -32,7 +32,10 @@ class CreatBookingMuForBooker extends Mutation<
   createBookingForBooker,
   createBookingForBookerVariables
 > {}
-class CreatBookingMu extends Mutation<createBooking, createBookingVariables> {}
+class CreatBookingMuForHost extends Mutation<
+  createBooking,
+  createBookingVariables
+> {}
 
 interface IProps extends RouteComponentProps<any> {
   houseId: string;
@@ -89,7 +92,8 @@ const ReservationWrap: React.FC<IProps> = ({
       mutation={CREATE_BOOKING_FOR_BOOKER}
     >
       {(createBookingForBookerMu, {loading: createLoading}) => (
-        <CreatBookingMu
+        // 호스트용
+        <CreatBookingMuForHost
           mutation={CREATE_BOOKING}
           onCompleted={({CreateBooking}) => {
             onCompletedMessage(
@@ -100,11 +104,15 @@ const ReservationWrap: React.FC<IProps> = ({
 
             modalHook && modalHook.closeModal();
             toast.success("예약생성완료");
+
+            // 방배정 화면일때 함수 👿 이부분을 나중에 컬백 함수 받는곳 파서 안에넣자.
             assigUtils &&
               CreateBooking.booking &&
               assigUtils.hilightGuestBlock({
                 bookingId: CreateBooking.booking._id
               });
+
+            // next resvConfirmCallBackFunc
           }}
           refetchQueries={[
             getOperationName(GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM) || ""
@@ -123,7 +131,7 @@ const ReservationWrap: React.FC<IProps> = ({
               />
             </div>
           )}
-        </CreatBookingMu>
+        </CreatBookingMuForHost>
       )}
     </CreatBookingMuForBooker>
   );
@@ -132,3 +140,8 @@ const ReservationWrap: React.FC<IProps> = ({
 export default ErrProtecter(ReservationWrap);
 
 // 🚁 iFrame 에서 상위페이지를 Redirect 하는 방법 [https://help.surveygizmo.com/help/break-out-of-iframe];
+
+// ⭐️⭐️ ⭐️⭐️ ⭐️⭐️ ⭐️⭐️ ⭐️⭐️  IFRAME 코드 IFRAME 코드 IFRAME 코드
+{
+  /* <iframe id="JD_RESV_APP" style="border:none;" width="100%" height="1500px" scrolling="no" title="JDqna" src="https://app.stayjanda.com/#/outpage/reservation/하우스키"></iframe> */
+}

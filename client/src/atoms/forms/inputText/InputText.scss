@@ -41,6 +41,10 @@
   box-sizing: content-box;
   transition: $input-transition;
 
+  &--center {
+    text-align: center;
+  }
+
   &--h6 {
     font-size: $typho-h6;
   }

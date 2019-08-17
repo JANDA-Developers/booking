@@ -5,16 +5,22 @@ import classnames from "classnames";
 import Preloader from "../preloader/Preloader";
 import {IuseImageUploader} from "../../actions/hook";
 
-interface IProps extends IuseImageUploader {
+export interface ImageUploaderIProps extends IuseImageUploader {
   minHeight: string;
   height?: string;
+  mode?: "noEffect";
   className?: any;
+  coverImg?: boolean;
+  canUploadImg?: boolean;
 }
 
-const ImageUploader: React.SFC<IProps> = ({
+const ImageUploader: React.SFC<ImageUploaderIProps> = ({
   uploading,
   fileUrl,
   isError,
+  mode,
+  coverImg,
+  canUploadImg = true,
   onChangeFile,
   minHeight,
   height = "200px",
@@ -22,11 +28,18 @@ const ImageUploader: React.SFC<IProps> = ({
 }) => {
   const classes = classnames("imageUploader", props && props.className, {
     "imageUploader--error": isError,
-    "imageUploader--loading": uploading
+    "imageUploader--loading": uploading,
+    "imageUploader--coverImg": coverImg,
+    "imageUploader--noEffect": mode === "noEffect"
   });
 
   const imageUploaderStyle = {
-    backgroundImage: "none"
+    minHeight
+  };
+
+  const imageUploader_loading_style = {
+    backgroundImage: "none",
+    minHeight
   };
 
   const imageStyle = {
@@ -37,16 +50,22 @@ const ImageUploader: React.SFC<IProps> = ({
 
   return (
     <div
-      className="imageUploader"
-      style={!uploading && !fileUrl ? undefined : imageUploaderStyle}
+      className={`imageUploader ${classes}`}
+      style={
+        !uploading && !fileUrl
+          ? imageUploaderStyle
+          : imageUploader_loading_style
+      }
     >
-      <input
-        className="imageUploader__input"
-        onChange={onChangeFile}
-        id="photo"
-        type="file"
-        accept="image/*"
-      />
+      {canUploadImg && (
+        <input
+          className="imageUploader__input"
+          onChange={onChangeFile}
+          id="photo"
+          type="file"
+          accept="image/*"
+        />
+      )}
       <div className="imageUploader__image" style={imageStyle} />
       <Preloader size="large" noAnimation loading={uploading} />
     </div>

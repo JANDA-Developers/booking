@@ -13,7 +13,25 @@ export const Sms = props => (
 export const DashBoard = props => (
   <DynamicImport load={() => import("./middleServer/dashBoard/DashBoardWrap")}>
     {DNcompoent =>
-      DNcompoent === null ? <Preloader page loading={true} /> : <DNcompoent {...props} />
+      DNcompoent === null ? (
+        <Preloader page loading={true} />
+      ) : (
+        <DNcompoent {...props} />
+      )
+    }
+  </DynamicImport>
+);
+
+export const HouseMenualConfig = props => (
+  <DynamicImport
+    load={() => import("./middleServer/houseMenual/HouseMenualConfigWrap.tsx")}
+  >
+    {DNcompoent =>
+      DNcompoent === null ? (
+        <Preloader page loading={true} />
+      ) : (
+        <DNcompoent {...props} />
+      )
     }
   </DynamicImport>
 );

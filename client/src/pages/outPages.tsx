@@ -1,6 +1,7 @@
 import React, {Fragment} from "react";
 import DynamicImport from "../utils/dynamicComponent";
 import Preloader from "../atoms/preloader/Preloader";
+import "./outPages.scss";
 
 export const Reservation = (props: any) => (
   <DynamicImport load={() => import("./outPages/reservation/ReservationWrap")}>
@@ -18,6 +19,18 @@ export const ReservationCheck = (props: any) => (
   <DynamicImport
     load={() => import("./outPages/checkReservation/CheckReservationWrap")}
   >
+    {(DNcompoent: any) =>
+      DNcompoent === null ? (
+        <Preloader loading={true} page />
+      ) : (
+        <DNcompoent {...props} />
+      )
+    }
+  </DynamicImport>
+);
+
+export const HouseMenual = (props: any) => (
+  <DynamicImport load={() => import("./outPages/houseMenual/HouseMenual")}>
     {(DNcompoent: any) =>
       DNcompoent === null ? (
         <Preloader loading={true} page />

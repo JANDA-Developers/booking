@@ -41,7 +41,6 @@ const ResvListWrap: React.FC<IProps> = ({houseId}) => {
     >
       {({data: boookerData, loading, error, networkStatus}) => {
 
-        console.log(networkStatus);
         const bookings = queryDataFormater(
           boookerData,
           "GetBookings",

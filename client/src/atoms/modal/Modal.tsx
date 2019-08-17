@@ -13,6 +13,8 @@ interface IProps extends ReactModal.Props, IUseModal {
   isAlert?: boolean;
   confirm?: boolean;
   children?: any;
+  noAnimation?: boolean;
+  minWidth?: string;
   visibleOverflow?: boolean;
   falseMessage?: string | any[];
   trueMessage?: string | any[];
@@ -26,6 +28,7 @@ const JDmodal: React.SFC<IProps> = ({
   center,
   className,
   isOpen,
+  minWidth,
   closeModal,
   isAlert,
   children,
@@ -33,6 +36,7 @@ const JDmodal: React.SFC<IProps> = ({
   confirmCallBackFn,
   visibleOverflow,
   trueMessage,
+  noAnimation,
   falseMessage,
   appElement = document.getElementById("root") || undefined,
   ...props
@@ -51,25 +55,23 @@ const JDmodal: React.SFC<IProps> = ({
     return inInInfo;
   })();
 
+  // 👿 curtton => overlay
+
+  const overlayClassNames = classNames("JDmodal-overlay", undefined, {
+    "JDmodal-overlay--noAnimation": noAnimation
+  });
+
   const classes = classNames("Modal JDmodal", className, {
     "JDmodal--center": center,
     "JDmodal--visibleOverflow": visibleOverflow,
     "JDmodal--alert": isAlert || confirm,
-    "JDmodal--alertWaring": info && info.thema === "warn"
+    "JDmodal--alertWaring": info && info.thema === "warn",
+    "JDmodal--noAnimation": noAnimation
   });
   const defualtJDmodalProps = {
     className: `Modal ${classes}`,
     overlayClassName: "Overlay"
   };
-
-  const getChildren = () => (
-    <div>
-      {children}
-      {info && info.children}
-      {typeof info === "string" && info}
-      {info && info.txt}
-    </div>
-  );
 
   const hanldeClickBtn = (flag: boolean, key?: string) => {
     confirmCallBackFn && confirmCallBackFn(flag, key);
@@ -101,6 +103,19 @@ const JDmodal: React.SFC<IProps> = ({
     // }
   };
 
+  const modalStyle = {
+    minWidth
+  };
+
+  const getChildren = () => (
+    <div style={modalStyle}>
+      {children}
+      {info && info.children}
+      {typeof info === "string" && info}
+      {info && info.txt}
+    </div>
+  );
+
   return (
     <JDanimation animation={[Animation.zoomIn, Animation.zoomOut]}>
       <ReactModal
@@ -109,6 +124,7 @@ const JDmodal: React.SFC<IProps> = ({
         appElement={appElement}
         {...props}
         {...defualtJDmodalProps}
+        overlayClassName={overlayClassNames}
       >
         {getChildren()}
         {confirm && (

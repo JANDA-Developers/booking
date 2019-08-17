@@ -7,16 +7,7 @@
 
 @import '../../style_config/style_config';
 
-// 인풋과 다음 물체의 간격
-.JDcheck_box_wrap,
-.JDswitch-wrap,
-.JDradio,
-.JDselect,
-.circleIcon,
-.input-range,
-.JDinput-wrap,
-.profileCircle,
-.JDcolorPicker {
+@include baseMargin(){
     margin-right: $standard-space;
 }
 
@@ -48,11 +39,11 @@ div {
 
 // 링크와 아이콘 간격1
 .JDanchor .JDicon__svg {
-    margin-right: $standard-icon-margin / 2 ;
+    margin-right: $standard-small-space;
 }
 
 .JDicon ~ .JDicon {
-    margin-left: $standard-icon-margin / 2;
+    margin-left: $standard-small-space;
 }
 .JDicon ~ .Icon__label {
 
@@ -77,29 +68,3 @@ div {
 }
 
 
-//  카드 안 마지막 요소의 마진 제거 (시도)
-
-.JDcard > *:last-child {
-    @include baseMargin("&") {
-        &:last-child {
-            margin-bottom:0;
-                .JDinput {
-                    margin-bottom:0;
-                }
-            }
-        }
-    @include baseMargin() {
-        &:last-child {
-            margin-bottom:0;
-            .JDinput {
-                    margin-bottom:0;
-                }
-            }
-        }
-    }
-
-    .JDcard > *:last-child {
-        @include baseMargin("&") {
-        margin-bottom: 0;
-    }
-}

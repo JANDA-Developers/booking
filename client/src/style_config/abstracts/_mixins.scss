@@ -4,6 +4,49 @@
 
 
 //마우스가 위에 올라왔을때 효과
+
+@mixin color--prefixer() {
+    &--primary {
+        background-color: $primary-color;
+        color: $primary-color-on;
+
+        &:hover {
+            background-color: $primary-color-light
+        } 
+    }
+
+    &--point {
+        background-color: $point-color;
+        color: $point-color-on;
+        &:hover {
+            background-color: $point-color-light;
+        } 
+    }
+
+    &--black {
+        background-color: $html-color;
+        color:white;
+
+        &:hover {
+            background-color: $grey-level4;
+        } 
+    }
+
+    &--white {
+        background-color: white;
+        color: $html-color;
+    }
+       
+    &--new {
+        background-color: $new-color;
+        color: $new-color-on;
+
+        &:hover {
+            background-color: $new-color-light;
+        } 
+    }
+}
+
 @mixin on-event($self: false) {
     @if $self {
 
@@ -31,18 +74,20 @@
     #{$condition}.JDcheck_box_wrap,
     #{$condition}.JDswitch-wrap,
     #{$condition}.JDradio,
+    #{$condition}.JDhelp,
     #{$condition}.JDselect,
     #{$condition}.JDbtn,
     #{$condition}.JDlist,
     #{$condition}.JDdatePcikerInformation,
-    #{$condition}.circleIcon,
+    #{$condition}.circleIcon-wrap,
     #{$condition}.imageUploader,
     #{$condition}.JDslider,
     #{$condition}.JDpagination,
+    #{$condition}.profileCircle,
     #{$condition}.JDcard,
     #{$condition}.JDtable,
     #{$condition}.JDcolorPicker,
-    #{$condition}.JDinput,
+    #{$condition}.JDinput-wrap,
     #{$condition}.JDtextarea,
     #{$condition}.JDsearchInput,
     #{$condition}.input-range,

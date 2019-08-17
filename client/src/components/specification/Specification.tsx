@@ -107,8 +107,6 @@ export const SpecificAtion: React.SFC<IProps> = ({
     value: status || ProductStatus.WAIT
   });
 
-  console.log("description");
-  console.log(description);
   const ProductPriceHook = useState(productPrice || 0);
   const layOutPricePaidHook = useCheckBox(layoutPricePaid || false);
   const applideUrlHook = useInput(appliedUrl || "");

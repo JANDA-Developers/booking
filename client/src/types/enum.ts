@@ -30,6 +30,41 @@ export enum PricingType {
   ROOM = "ROOM"
 }
 
+export enum Language {
+  KOREAN = "KOREAN",
+  ENGLISH = "ENGLISH",
+  JAPANESE = "JAPANESE",
+  CHINESE = "CHINESE"
+}
+
+export enum LanguageShort {
+  KOREAN = "kr",
+  ENGLISH = "gb",
+  JAPANESE = "jp",
+  CHINESE = "cn"
+}
+
+export enum LanguageItSelf {
+  KOREAN = "한국어",
+  ENGLISH = "English",
+  JAPANESE = "日本語",
+  CHINESE = "中國語"
+}
+
+export const LANGUAGE_LIST: Language[] = [
+  Language.CHINESE,
+  Language.ENGLISH,
+  Language.JAPANESE,
+  Language.KOREAN
+];
+
+export enum LanguageKr {
+  KOREAN = "한국어",
+  ENGLISH = "영어",
+  JAPANESE = "일본어",
+  CHINESE = "중국어"
+}
+
 export enum ProductStatus {
   ENABLE = "ENABLE",
   DISALBE = "DISALBE",

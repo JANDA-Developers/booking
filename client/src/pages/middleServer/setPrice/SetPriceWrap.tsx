@@ -127,7 +127,6 @@ const SetPriceWrap: React.SFC<IProps> = ({selectedHouse}) => {
           {query: GET_ALL_SEASON_TABLE, variables: {houseId: selectedHouse._id}}
         ];
 
-        console.log(jsonString(seasones || []));
 
         return (
           <div>

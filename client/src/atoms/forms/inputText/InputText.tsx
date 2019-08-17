@@ -19,6 +19,7 @@ interface IProps extends React.HTMLAttributes<HTMLInputElement> {
   label?: string;
   size?: "h6";
   type?: string;
+  textAlign?: "center";
   dataError?: string;
   icon?: IIcons;
   iconHover?: boolean;
@@ -71,6 +72,7 @@ const InputText: React.FC<IProps> = ({
   icon,
   fullHeight,
   iconOnClick,
+  textAlign,
   iconHover,
   hyphen,
   byte,
@@ -118,6 +120,7 @@ const InputText: React.FC<IProps> = ({
   const classes = classNames(textarea ? "JDtextarea" : "JDinput", className, {
     "JDinput--labeled": label && !textarea,
     "JDinput--h6": size === "h6",
+    "JDinput--center": textAlign === "center",
     "JDinput--valid": (isValid === true || selfValid === true) && !textarea,
     "JDinput--invalid": (isValid === false || selfValid === false) && !textarea,
     "JDinput--allWaysShowValidMessage":

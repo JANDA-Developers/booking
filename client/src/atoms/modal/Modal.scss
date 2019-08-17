@@ -4,6 +4,7 @@
 // ⚠️ JDmodal 로 수정할수없음 
 .ReactModal {
 
+
     // 모달 장막
     &__Overlay {
         display: flex;
@@ -19,6 +20,7 @@
         opacity: 0;
         transition: 0.2s;
         transition-timing-function: ease-in-out;
+        
 
         &--after-open {
             opacity: 1;
@@ -68,7 +70,18 @@
 }
 
 // 커스텀 여기서부터
+.JDmodal-overlay {
+    
+    &--noAnimation {
+        transition: 0s!important;
+        .ReactModal__Content {
+            transition: 0s!important;
+        }
+    }
+}
 .JDmodal {
+
+
 
     &--alert {
         font-weight:bold;

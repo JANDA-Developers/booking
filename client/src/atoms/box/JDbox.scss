@@ -27,7 +27,7 @@
 
         &--normal {
             box-sizing: border-box;
-            padding: $standard-padding;
+            padding: $standard-small-space;
             margin-bottom: $standard-margin-bottom;
             background-color: $grey-level1;
             border-radius: $standard-border-radius;
@@ -48,7 +48,7 @@
         
         &--small {
             font-size: $typho-small;
-            padding: $standard-small-padding;
+            padding: $standard-tiny-space;
             margin-bottom: $standard-margin-bottom /3;
         }
 
@@ -58,14 +58,14 @@
 
         &--border {
             border-radius: $standard-border-radius;
-            padding: $standard-padding;
+            padding: $standard-small-space;
             border: 1px solid $grey-level1;
         }
         
         &--dashBorder {
             border-radius: $standard-border-radius;
             border: 2px dashed $grey-level1;
-            padding: calc(#{$standard-padding} - 2px);
+            padding: calc(#{$standard-small-space} - 2px);
             color: $grey-level1;
 
             background-color: rgba(255,255,255,0);
@@ -88,14 +88,22 @@
 
         
         &--withIcon {
-            padding-right: 1rem;
+            padding-right: 2rem;
             position: relative;
 
             .JDbox__icon {
                 position:absolute;
-                right: $standard-small-padding;
+                right: $standard-small-space;
                 top:50%;
                 transform: translateY(-50%);
+            }
+        }
+
+        @include color--prefixer()
+
+        &--primary {
+            .JDicon:hover {
+                color: $grey-level2!important;
             }
         }
     }
