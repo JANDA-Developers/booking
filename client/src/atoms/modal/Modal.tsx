@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect} from "react";
+import React, {Fragment, useEffect, useState} from "react";
 import ReactModal from "react-modal";
 import "./Modal.scss";
 import classNames from "classnames";
@@ -36,11 +36,13 @@ const JDmodal: React.SFC<IProps> = ({
   confirmCallBackFn,
   visibleOverflow,
   trueMessage,
-  noAnimation,
+  noAnimation = true,
   falseMessage,
   appElement = document.getElementById("root") || undefined,
   ...props
 }) => {
+  const [shouldAnimation, setShouldAnimation] = useState(!noAnimation);
+
   // 여기에서 info로 들어온것과 openModal 명렁으로 들어온것들 조합함
   const inInfo = (() => {
     let inInInfo: any = {};
@@ -58,7 +60,7 @@ const JDmodal: React.SFC<IProps> = ({
   // 👿 curtton => overlay
 
   const overlayClassNames = classNames("JDmodal-overlay", undefined, {
-    "JDmodal-overlay--noAnimation": noAnimation
+    "JDmodal-overlay--noAnimation": !shouldAnimation
   });
 
   const classes = classNames("Modal JDmodal", className, {
@@ -66,7 +68,7 @@ const JDmodal: React.SFC<IProps> = ({
     "JDmodal--visibleOverflow": visibleOverflow,
     "JDmodal--alert": isAlert || confirm,
     "JDmodal--alertWaring": info && info.thema === "warn",
-    "JDmodal--noAnimation": noAnimation
+    "JDmodal--noAnimation": !shouldAnimation
   });
   const defualtJDmodalProps = {
     className: `Modal ${classes}`,

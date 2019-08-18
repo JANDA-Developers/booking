@@ -40,7 +40,8 @@ const client = new ApolloClient({
     operation.setContext({
       headers: {
         "X-JWT": localStorage.getItem("jwt") || "",
-        "HP-Key": localStorage.getItem("hpk") || ""
+        "HP-Key": localStorage.getItem("hpk") || "",
+        "HM-Key": localStorage.getItem("hmk") || ""
       }
     });
   },
@@ -54,25 +55,27 @@ const client = new ApolloClient({
         console.warn(
           `[GraphQL error]: Me2ssage: ${message}, Location: ${locations}, Path: ${path}`
         );
-        toast.warn(
-          <span className="JDflex">
-            <div className="JDstandard-space">
-              이런! 문제가 발생했습니다. 금방 고쳐질 거에요.
-            </div>
-            <Button
-              size="small"
-              className="JDmargin-bottom0"
-              redirect={insideRedirect("qna")}
-              label="문의하기"
-              thema="grey"
-              mode="border"
-            />
-          </span>
-        );
       });
     if (networkError) {
+      console.log(networkError);
       console.warn(`[Network error]: ${networkError}`);
       toast.warn("네트워크 연결상태를 확인해주세요!");
+    } else {
+      toast.warn(
+        <span className="JDflex">
+          <div className="JDstandard-space">
+            이런! 문제가 발생했습니다. 금방 고쳐질 거에요.
+          </div>
+          <Button
+            size="small"
+            className="JDmargin-bottom0"
+            redirect={insideRedirect("qna")}
+            label="문의하기"
+            thema="grey"
+            mode="border"
+          />
+        </span>
+      );
     }
   }
 });

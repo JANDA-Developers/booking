@@ -145,9 +145,9 @@ const SelectProducts: React.FC<IProps> = ({
             disabled={isEmpty(selectedHouse)}
             thema="warn"
             label="서비스해지"
-            mode="flat"
+            
           /> */}
-          <Button onClick={refundModal.closeModal} label="닫기" mode="flat" />
+          <Button onClick={refundModal.closeModal} label="닫기"  />
         </div>
       </Modal>
       <ApplyProductModal

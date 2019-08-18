@@ -18,15 +18,19 @@ import {
   deleteSeason,
   changePriority,
   deleteSeasonVariables,
-  changePriorityVariables
+  changePriorityVariables,
+  updateSeason,
+  updateSeasonVariables
 } from "../../../../types/api";
 import {MutationFn} from "react-apollo";
 import {targetBlinkFuture} from "../../../../utils/targetBlink";
 import {setYYYYMMDD} from "../../../../utils/setMidNight";
+import UpdateSeasonModal from "./updateSeasnModal";
 
 interface IProps {
   season: ISeason;
   seasons: ISeason[];
+  updateSeasonMu: MutationFn<updateSeason, updateSeasonVariables>;
   setSeasons: React.Dispatch<React.SetStateAction<ISeason[]>>;
   priorityOption: IselectedOption[];
   changePriorityMu: MutationFn<changePriority, changePriorityVariables>;
@@ -42,6 +46,7 @@ const SeasonHeader: React.FC<IProps> = ({
   setSeasons,
   changePriorityMu,
   deleteSeasonMu,
+  updateSeasonMu,
   ...props
 }) => {
   const dayPickerHook = useDayPicker(
@@ -52,6 +57,7 @@ const SeasonHeader: React.FC<IProps> = ({
           .toDate()
       : null
   );
+  const updateSeasonModal = useModal(false);
   const periorityModalHook = useModal(false);
   const periorityHook = useSelect({
     value: season.priority,
@@ -97,11 +103,15 @@ const SeasonHeader: React.FC<IProps> = ({
         <ul>
           <li>
             <Button
-              onClick={handleDeleteSeason}
-              label="삭제하기"
-              mode="flat"
-              color="white"
+              onClick={() => {
+                updateSeasonModal.openModal();
+              }}
+              label="수정하기"
+              
             />
+          </li>
+          <li>
+            <Button onClick={handleDeleteSeason} label="삭제하기"  />
           </li>
           <li>
             <Button
@@ -109,8 +119,7 @@ const SeasonHeader: React.FC<IProps> = ({
                 periorityModalHook.openModal();
               }}
               label="순위변경"
-              mode="flat"
-              color="white"
+              
             />
           </li>
         </ul>
@@ -134,7 +143,7 @@ const SeasonHeader: React.FC<IProps> = ({
             handleChangePriority();
           }}
           label="적용"
-          mode="flat"
+          
           size="small"
           thema="primary"
         />
@@ -148,36 +157,28 @@ const SeasonHeader: React.FC<IProps> = ({
       <div className="seasonHeader__wrap">
         <InputText
           defaultValue={season.name}
-          onBlur={e => {
-            season.name = e.currentTarget.value;
-            setSeasons([...seasons]);
-          }}
+          readOnly
           className="JDmargin-bottom0--wmdUp"
         />
         <Menue />
       </div>
       <div>
-        <JDdayPicker
-          canSelectBeforeDays
-          calenaderPosition="left"
-          className="seasonHeader__dayPicker"
-          inputClassName="JDmargin-bottom0--wmdUp"
-          showInputIcon={false}
-          displayYear={false}
-          format={"MM/DD"}
-          input
-          isRange
-          onChangeDate={(from, to) => {
-            if (from && to) {
-              season.end = setYYYYMMDD(to);
-              season.start = setYYYYMMDD(from);
-              setSeasons([...seasons]);
-            }
-          }}
-          {...dayPickerHook}
+        <InputText
+          readOnly
+          value={`${moment(dayPickerHook.from || "").format(
+            "MM/DD"
+          )} ~ ${moment(dayPickerHook.to || "").format("MM/DD")}`}
         />
       </div>
       <PeriorityModal />
+      <UpdateSeasonModal
+        updateSeasonMu={updateSeasonMu}
+        setSeasons={setSeasons}
+        modalHook={updateSeasonModal}
+        seasons={seasons}
+        season={season}
+        dayPickerHook={dayPickerHook}
+      />
     </div>
   );
 };

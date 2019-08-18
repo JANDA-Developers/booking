@@ -383,7 +383,7 @@ const POPbookingInfo: React.FC<IProps> = ({
               label="생성하기"
               disabled={type === BookingModalType.LOOKUP}
               thema="primary"
-              mode="flat"
+              
               onClick={handleCreateBtnClick}
             />
             <Button
@@ -391,7 +391,7 @@ const POPbookingInfo: React.FC<IProps> = ({
               disabled={type !== BookingModalType.LOOKUP}
               label="수정하기"
               thema="primary"
-              mode="flat"
+              
               onClick={handleUpdateBtnClick}
             />
             <Button
@@ -399,7 +399,7 @@ const POPbookingInfo: React.FC<IProps> = ({
               label="예약삭제"
               disabled={type !== BookingModalType.LOOKUP}
               thema="warn"
-              mode="flat"
+              
               onClick={handleDeletBtnClick}
             />
           </div>

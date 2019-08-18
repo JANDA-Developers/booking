@@ -65,9 +65,13 @@ class DeleteSeasonMutation extends Mutation<
   deleteSeason,
   deleteSeasonVariables
 > {}
-class UpdateSeasonMutation extends Mutation<
+class UpdateSeasonPriceMutation extends Mutation<
   updateSeasonPrices,
   updateSeasonPricesVariables
+> {}
+class UpdateSeasonMutation extends Mutation<
+  updateSeason,
+  updateSeasonVariables
 > {}
 class ChangePriorityMutation extends Mutation<
   changePriority,
@@ -127,104 +131,118 @@ const SetPriceWrap: React.SFC<IProps> = ({selectedHouse}) => {
           {query: GET_ALL_SEASON_TABLE, variables: {houseId: selectedHouse._id}}
         ];
 
-
         return (
           <div>
-            <CreateSeasonMutation
-              mutation={CREATE_SEASON}
-              onCompleted={({CreateSeason}) => {
-                onCompletedMessage(
-                  CreateSeason,
-                  "시즌 생성완료",
-                  "시즌 생성실패"
-                );
-                if (CreateSeason.season) {
-                  targetBlinkFuture(`#seasonHeader${CreateSeason.season._id}`);
-                }
-              }}
+            <UpdateSeasonMutation
               refetchQueries={refetchQueries}
-              
+              onCompleted={({UpdateSeason}) => {
+                onCompletedMessage(
+                  UpdateSeason,
+                  "업데이트완료",
+                  "업데이트실패"
+                );
+              }}
+              mutation={UPDATE_SEASON}
             >
-              {(createSeasonMu, {loading: createLoaindg}) => (
-                <UpdateSeasonMutation
-                  mutation={UPDATE_SEASON_PRICES}
-                  onCompleted={({UpdateSeasonPrices}) => {
+              {(updateSeasonMu, {loading: updateSeasonLoading}) => (
+                <CreateSeasonMutation
+                  mutation={CREATE_SEASON}
+                  onCompleted={({CreateSeason}) => {
                     onCompletedMessage(
-                      UpdateSeasonPrices,
-                      "업데이트완료",
-                      "업데이트실패"
+                      CreateSeason,
+                      "시즌 생성완료",
+                      "시즌 생성실패"
                     );
+                    if (CreateSeason.season) {
+                      targetBlinkFuture(
+                        `#seasonHeader${CreateSeason.season._id}`
+                      );
+                    }
                   }}
                   refetchQueries={refetchQueries}
-                  
                 >
-                  {(updateSeasonMu, {loading: updateLoading}) => (
-                    <DeleteSeasonMutation
-                      mutation={DELETE_SEASON}
-                      onCompleted={({DeleteSeason}) => {
+                  {(createSeasonMu, {loading: createLoaindg}) => (
+                    <UpdateSeasonPriceMutation
+                      mutation={UPDATE_SEASON_PRICES}
+                      onCompleted={({UpdateSeasonPrices}) => {
                         onCompletedMessage(
-                          DeleteSeason,
-                          "시즌삭제 완료",
-                          "시즌삭제 실패"
+                          UpdateSeasonPrices,
+                          "업데이트완료",
+                          "업데이트실패"
                         );
                       }}
                       refetchQueries={refetchQueries}
-                      
                     >
-                      {(deleteSeasonMu, {loading: deleteLoading}) => (
-                        <ChangePriorityMutation
-                          mutation={CHANGE_PRIORITY}
-                          onCompleted={({ChangePriority}) => {
+                      {(updateSeasonPriceMu, {loading: updatePriceLoading}) => (
+                        <DeleteSeasonMutation
+                          mutation={DELETE_SEASON}
+                          onCompleted={({DeleteSeason}) => {
                             onCompletedMessage(
-                              ChangePriority,
-                              "순위변경 완료",
-                              "순위변경 실패"
+                              DeleteSeason,
+                              "시즌삭제 완료",
+                              "시즌삭제 실패"
                             );
-                            if (ChangePriority.season) {
-                              targetBlinkFuture(
-                                `#seasonHeader${ChangePriority.season._id}`,
-                                true
-                              );
-                            }
                           }}
                           refetchQueries={refetchQueries}
-                          
                         >
-                          {(
-                            changePriorityMu,
-                            {loading: changePriorityLoading}
-                          ) => (
-                            <Fragment>
-                              <SetPrice
-                                key={jsonString(seasones || [])}
-                                houseId={selectedHouse._id}
-                                priceMap={priceMap || new Map()}
-                                roomTypes={roomTypes || []}
-                                seasonData={seasones ? seasones : []}
-                                changePriorityMu={changePriorityMu}
-                                deleteSeasonMu={deleteSeasonMu}
-                                createSeasonMu={createSeasonMu}
-                                updateSeasonMu={updateSeasonMu}
-                                createLoaindg={createLoaindg}
-                              />
-                              <Preloader
-                                floating
-                                loading={
-                                  createLoaindg ||
-                                  deleteLoading ||
-                                  changePriorityLoading
+                          {(deleteSeasonMu, {loading: deleteLoading}) => (
+                            <ChangePriorityMutation
+                              mutation={CHANGE_PRIORITY}
+                              onCompleted={({ChangePriority}) => {
+                                onCompletedMessage(
+                                  ChangePriority,
+                                  "순위변경 완료",
+                                  "순위변경 실패"
+                                );
+                                if (ChangePriority.season) {
+                                  targetBlinkFuture(
+                                    `#seasonHeader${ChangePriority.season._id}`,
+                                    true
+                                  );
                                 }
-                                size="medium"
-                              />
-                            </Fragment>
+                              }}
+                              refetchQueries={refetchQueries}
+                            >
+                              {(
+                                changePriorityMu,
+                                {loading: changePriorityLoading}
+                              ) => (
+                                <Fragment>
+                                  <SetPrice
+                                    key={jsonString(seasones || [])}
+                                    houseId={selectedHouse._id}
+                                    priceMap={priceMap || new Map()}
+                                    roomTypes={roomTypes || []}
+                                    seasonData={seasones ? seasones : []}
+                                    changePriorityMu={changePriorityMu}
+                                    deleteSeasonMu={deleteSeasonMu}
+                                    createSeasonMu={createSeasonMu}
+                                    updateSeasonPriceMu={updateSeasonPriceMu}
+                                    updateSeasonMu={updateSeasonMu}
+                                    createLoaindg={createLoaindg}
+                                  />
+                                  <Preloader
+                                    floating
+                                    loading={
+                                      createLoaindg ||
+                                      deleteLoading ||
+                                      changePriorityLoading ||
+                                      updateSeasonLoading ||
+                                      updatePriceLoading
+                                    }
+                                    size="medium"
+                                  />
+                                </Fragment>
+                              )}
+                            </ChangePriorityMutation>
                           )}
-                        </ChangePriorityMutation>
+                        </DeleteSeasonMutation>
                       )}
-                    </DeleteSeasonMutation>
+                    </UpdateSeasonPriceMutation>
                   )}
-                </UpdateSeasonMutation>
+                </CreateSeasonMutation>
               )}
-            </CreateSeasonMutation>
+            </UpdateSeasonMutation>
             <Preloader page loading={dataL} />
           </div>
         );

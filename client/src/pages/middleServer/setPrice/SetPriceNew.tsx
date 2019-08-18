@@ -6,18 +6,17 @@ import {
   getAllSeasonTable_GetAllSeason_seasons as ISeason,
   createSeason,
   createSeasonVariables,
-  updateSeason,
-  updateSeasonVariables,
   changePriority,
   changePriorityVariables,
   deleteSeason,
   deleteSeasonVariables,
   updateSeasonPrices,
   updateSeasonPricesVariables,
+  updateSeason,
+  updateSeasonVariables,
   UpdateSeasonPriceInput
 } from "../../../types/api";
 import classNames from "classnames";
-import JDanimation, {Animation} from "../../../atoms/animation/Animations";
 import Button from "../../../atoms/button/Button";
 import {Link} from "react-router-dom";
 import {priceMapResult} from "./SetPriceWrap";
@@ -25,13 +24,18 @@ import JDtable, {ReactTableDefault} from "../../../atoms/table/Table";
 import {CellInfo} from "react-table";
 import JDIcon from "../../../atoms/icons/Icons";
 import InputText from "../../../atoms/forms/inputText/InputText";
-import {autoComma, s4, toNumber, jsonString} from "../../../utils/utils";
+import {toNumber, muResult} from "../../../utils/utils";
 import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
 import JDbox from "../../../atoms/box/JDbox";
 import {numberToStrings} from "../../../utils/dayOfweeks";
 import selectOpMaker from "../../../utils/selectOptionMaker";
 import SeasonHeader from "./components/seasonHeader";
-import {useModal, useCheckBox} from "../../../actions/hook";
+import {
+  useModal,
+  useCheckBox,
+  useShouldSave,
+  useDayPicker
+} from "../../../actions/hook";
 import DayOfWeekModal, {IDayOfWeekModalInfo} from "./components/dayOfWeekModal";
 import JDdayPicker from "../../../atoms/dayPicker/DayPicker";
 import JDmodal from "../../../atoms/modal/Modal";
@@ -48,7 +52,11 @@ interface IProps {
   houseId: string;
   createSeasonMu: MutationFn<createSeason, createSeasonVariables>;
   createLoaindg: boolean;
-  updateSeasonMu: MutationFn<updateSeasonPrices, updateSeasonPricesVariables>;
+  updateSeasonPriceMu: MutationFn<
+    updateSeasonPrices,
+    updateSeasonPricesVariables
+  >;
+  updateSeasonMu: MutationFn<updateSeason, updateSeasonVariables>;
   changePriorityMu: MutationFn<changePriority, changePriorityVariables>;
   deleteSeasonMu: MutationFn<deleteSeason, deleteSeasonVariables>;
 }
@@ -67,6 +75,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
   priceMap: defaultPriceMap,
   roomTypes,
   seasonData: defaultSeasonData,
+  updateSeasonPriceMu,
   updateSeasonMu,
   createSeasonMu,
   createLoaindg,
@@ -79,6 +88,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
   const isPhablet = windowWidth <= WindowSize.PHABLET;
   const dayOfWeekModal = useModal<IDayOfWeekModalInfo>(false);
   const createSeasonModal = useModal(false);
+  const dayPickerHook = useDayPicker(null, null);
   const [seasonData, setSeasons] = useState(defaultSeasonData);
   const [isChange, setIsChange] = useState(false);
   const [roomTypePrices, setRoomTypePrices] = useState(
@@ -88,6 +98,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
     }))
   );
   const [priceMap, setPriceMap] = useState(defaultPriceMap);
+  const {shouldSave, setShouldSave} = useShouldSave([priceMap, roomTypePrices]);
 
   const priorityOption = selectOpMaker({
     count: seasonData.length,
@@ -120,7 +131,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
     setPriceMap(copyMap);
   };
 
-  const handleUpdateBtnClick = () => {
+  const handleUpdateBtnClick = async () => {
     const updatePrices: UpdateSeasonPriceInput[] = (() => {
       let returnTemp: UpdateSeasonPriceInput[] = [];
       roomTypes.forEach(roomType => {
@@ -138,21 +149,26 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
       return returnTemp;
     })();
 
-    updateSeasonMu({
+    const result = await updateSeasonPriceMu({
       variables: {
         defaultRoomTypePriceInputs: roomTypePrices,
         seasonPricesInputs: updatePrices
       }
     });
+
+    if (muResult(result, "UpdateSeasonPrices")) {
+      setShouldSave(false);
+    }
   };
 
   const seasonTableColumns = seasonData.map(season => ({
     Header: (
       <SeasonHeader
-        key={season._id}
+        // key={season._id}
         seasons={seasonData}
         setSeasons={setSeasons}
         season={season}
+        updateSeasonMu={updateSeasonMu}
         priorityOption={priorityOption}
         deleteSeasonMu={deleteSeasonMu}
         changePriorityMu={changePriorityMu}
@@ -256,14 +272,13 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
           onClick={() => {
             handleUpdateBtnClick();
           }}
+          className="JDz-index-6"
+          pulse={shouldSave}
           label="변경사항 저장하기"
           thema="point"
         />
         <Link to="/specificPrice">
-          <Button
-            label="일별가격설정 하기"
-            mode="border"
-          />
+          <Button label="일별가격설정 하기" mode="border" />
         </Link>
         <JDtable
           className="setPrice__table"
@@ -281,6 +296,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
         />
         <DayOfWeekModal
           priceMap={priceMap}
+          setShouldSave={setShouldSave}
           setPriceMap={setPriceMap}
           modalHook={dayOfWeekModal}
         />

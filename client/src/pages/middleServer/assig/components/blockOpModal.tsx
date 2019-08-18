@@ -81,7 +81,7 @@ const BlockOpModal: React.FC<IProps> = ({
             }}
             thema="primary"
             size="small"
-            mode="flat"
+            
             label="적용"
           />
           <Button
@@ -90,7 +90,7 @@ const BlockOpModal: React.FC<IProps> = ({
             }}
             size="small"
             thema="warn"
-            mode="flat"
+            
             label="적용해제"
           />
         </div>

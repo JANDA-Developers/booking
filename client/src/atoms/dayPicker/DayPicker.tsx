@@ -227,7 +227,7 @@ const JDdayPicker: React.SFC<IJDdayPickerProps> = ({
     weekdaysShort: WEEKDAYS_SHORT,
     locale: lang,
     showOutsideDays: false,
-    disabledDays: canSelectBeforeDays ? undefined : [{before: new Date()}]
+    disabledDays: canSelectBeforeDays ? [] : [{before: new Date()}]
   };
 
   return (

@@ -126,11 +126,11 @@ a.JDanchor {
         }
     }
     
-.JDbox__content {
-    *:last-child {
-        margin-bottom: 0;
+    .JDbox__content {
+        *:last-child {
+            margin-bottom: 0;
+        }
     }
-}
 }
 
 
@@ -165,39 +165,40 @@ a.JDanchor {
     color: $error-color
 }
 
+
 .JDz-index-1 {
     position: relative;
-    z-index: $z-index-1
+    z-index: $z-index-1!important
 }
 
 .JDz-index-2 {
     position: relative;
-    z-index: $z-index-2
+    z-index: $z-index-2!important
 }
 
 .JDz-index-3 {
     position: relative;
-    z-index: $z-index-3
+    z-index: $z-index-3!important
 }
 
 .JDz-index-4 {
     position: relative;
-    z-index: $z-index-4
+    z-index: $z-index-4!important
 }
 
 .JDz-index-5 {
     position: relative;
-    z-index: $z-index-5
+    z-index: $z-index-5!important
 }
 
 .JDz-index-6 {
     position: relative;
-    z-index: $z-index-6
+    z-index: $z-index-6!important
 }
 
 .JDz-index-7 {
     position: relative;
-    z-index: $z-index-7
+    z-index: $z-index-7!important
 }
 
 .JDz-index-8 {

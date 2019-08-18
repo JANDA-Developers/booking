@@ -95,7 +95,7 @@ const CanvasMenu: React.FC<IProps> = ({
                 e.stopPropagation();
                 makeMakeItem();
               }}
-              mode="flat"
+              
             />
           </li>
         )}
@@ -108,7 +108,7 @@ const CanvasMenu: React.FC<IProps> = ({
                   e.stopPropagation();
                   makeMakeItem(Gender.MALE);
                 }}
-                mode="flat"
+                
               />
             </li>
             <li>
@@ -118,7 +118,7 @@ const CanvasMenu: React.FC<IProps> = ({
                   e.stopPropagation();
                   makeMakeItem(Gender.FEMALE);
                 }}
-                mode="flat"
+                
               />
             </li>
           </Fragment>
@@ -129,7 +129,7 @@ const CanvasMenu: React.FC<IProps> = ({
               addBlock(canvasMenuProps.start, canvasMenuProps.groupId);
             }}
             label="방막기"
-            mode="flat"
+            
           />
         </li>
       </ul>

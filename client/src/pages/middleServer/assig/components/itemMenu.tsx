@@ -38,11 +38,11 @@ const ItemMenu: React.FC<IProps> = ({
                   toogleCheckInOut(guestId);
                 }}
                 label={targetGuest.isCheckin ? "체크아웃" : "체크인"}
-                mode="flat"
+                
               />
             </li>
             {/* <li>
-          <Button label="배정확정" mode="flat" color="white" />
+          <Button label="배정확정"  color="white" />
         </li> */}
             <li>
               <Button
@@ -51,7 +51,7 @@ const ItemMenu: React.FC<IProps> = ({
                   deleteGuestById(guestId);
                 }}
                 label="삭제"
-                mode="flat"
+                
               />
             </li>
             <li>
@@ -61,7 +61,7 @@ const ItemMenu: React.FC<IProps> = ({
                   blockOpModal.openModal(targetGuest);
                 }}
                 label="색상설정"
-                mode="flat"
+                
               />
             </li>
             <li>
@@ -73,7 +73,7 @@ const ItemMenu: React.FC<IProps> = ({
                   });
                 }}
                 label="정보보기"
-                mode="flat"
+                
               />
             </li>
           </ul>

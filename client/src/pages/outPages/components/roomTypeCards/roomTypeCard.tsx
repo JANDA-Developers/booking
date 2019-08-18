@@ -293,7 +293,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
           <Button
             onClick={handleRoomSelectClick}
             className="roomTypeCard__selectButton"
-            mode="flat"
+            
             size={"small"}
             thema={isSelectedRoom ? "warn" : "primary"}
             label={isSelectedRoom ? "선택취소" : "선택하기"}

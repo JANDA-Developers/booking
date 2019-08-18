@@ -68,11 +68,4 @@ const ProfileCircle: React.SFC<Iprops> = ({
   );
 };
 
-ProfileCircle.defaultProps = {
-  profileImg: defaultImg,
-  isBordered: false,
-  whiteBorder: false,
-  onClick: () => {}
-};
-
 export default ErrProtecter(ProfileCircle);

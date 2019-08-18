@@ -1,6 +1,6 @@
 @import '../../../style_config/style_config.scss';
 
-#root {
+#root,.ReactModalPortal {
     .houseMenual {
         max-width: 500px;
         margin: 0 auto;
@@ -9,7 +9,7 @@
         &__bg {
             background-position: center center;
             background-size: cover;
-            height: 180px;
+            height: 150px;
             margin-bottom: 0;
         }
         

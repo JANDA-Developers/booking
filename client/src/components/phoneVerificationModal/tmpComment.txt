@@ -98,7 +98,7 @@ function PhoneVerification({history}) {
                   >
                     {mutation => (
                       <Button
-                        mode="flat"
+                        
                         preloader={loading}
                         label="인증하기"
                         onClick={mutation}
@@ -109,7 +109,7 @@ function PhoneVerification({history}) {
               }}
             </Query>
             <Button
-              mode="flat"
+              
               label="닫기"
               onClick={() => setPopPhone(false)}
             />

@@ -2,7 +2,7 @@
 /* eslint-disable no-shadow */
 /* ts-ignore */
 import randomColor from "randomcolor";
-import {useState, useEffect, useMemo} from "react";
+import {useState, useEffect, useMemo, useRef} from "react";
 import Axios from "axios";
 import {toast} from "react-toastify";
 import {CLOUDINARY_KEY} from "../keys";
@@ -20,6 +20,22 @@ export type IUseFetch = [
   boolean,
   (url: string | undefined) => void
 ];
+
+const useShouldSave = (updateValue: any[]) => {
+  const isInitialMount = useRef(true);
+  const [shouldSave, setShouldSave] = useState(false);
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    } else {
+      setShouldSave(true);
+      // Your useEffect code here to be run on update
+    }
+  }, updateValue);
+
+  return {shouldSave, setShouldSave};
+};
 
 const useFetch = (url: string | undefined = ""): IUseFetch => {
   const [data, setData] = useState([]);
@@ -458,6 +474,7 @@ export {
   useRange,
   useDebounce,
   useImageUploader,
+  useShouldSave,
   useColorPicker,
   useDayPicker,
   getKoreaSpecificDayHook,

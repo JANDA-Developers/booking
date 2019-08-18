@@ -51,7 +51,7 @@ const JDHomePageManual: React.FC<IProps> = () => {
             onClick={onDownloadHwp}
             label="다운로드"
             thema="grey"
-            mode="flat"
+            
             icon="download"
           />
         </div>
@@ -65,7 +65,7 @@ const JDHomePageManual: React.FC<IProps> = () => {
               onClick={onDownloadPdf}
               label="다운로드"
               thema="grey"
-              mode="flat"
+              
               icon="download"
             />
           </JDbox>

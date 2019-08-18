@@ -169,7 +169,7 @@ const CreateSeasonModal: React.FC<IProps> = ({
           size="small"
           label="시즌생성"
           thema="primary"
-          mode="flat"
+          
         />
       </div>
       <PriceWarnModal modalHook={priceWarnModal} />

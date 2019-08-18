@@ -83,7 +83,7 @@ const LayoutCards: React.FC<IProps> = ({
                     handleClickCard(layout.id, layout.link);
                   }}
                   thema="grey"
-                  mode="flat"
+                  
                   label="살펴보기"
                 />
               </div>

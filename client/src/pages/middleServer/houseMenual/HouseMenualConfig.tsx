@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import Card from "../../../atoms/cards/Card";
 import InputText from "../../../atoms/forms/inputText/InputText";
 import {
@@ -6,11 +6,19 @@ import {
   useImageUploader,
   useModal,
   useInput,
-  IuseImageUploader
+  IuseImageUploader,
+  useShouldSave
 } from "../../../actions/hook";
 import Button from "../../../atoms/button/Button";
 import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
-import {getSalesStatistic_GetSalesStatistic_data} from "../../../types/api";
+import {
+  getSalesStatistic_GetSalesStatistic_data,
+  getHManual_GetHManual_houseManual,
+  getHManual,
+  updateHManual,
+  updateHManualVariables,
+  HMMenuInput
+} from "../../../types/api";
 import "./HouseMenualConfig.scss";
 import ProfileCircle from "../../../atoms/profileCircle/ProfileCircle";
 import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
@@ -19,7 +27,7 @@ import JDmenu, {JDsubMenu} from "../../../atoms/menu/Menu";
 import JDswitch from "../../../atoms/forms/switch/Switch";
 import JDmodal from "../../../atoms/modal/Modal";
 import JDbox from "../../../atoms/box/JDbox";
-import {s4} from "../../../utils/utils";
+import {s4, muResult} from "../../../utils/utils";
 import {
   Language,
   LanguageKr,
@@ -29,13 +37,21 @@ import {
 import Help from "../../../atoms/Help/Help";
 import {IHouse} from "../../../types/interface";
 import HouseMenual from "../../outPages/houseMenual/HouseMenual";
-
-const JDLangModal = JDmodal;
+import {validate} from "graphql";
+import LangViewModal from "./component/LangViewModal";
+import LangList from "../../../components/langList/LangList";
+import LangConfigModal from "./component/LangConfigModal";
+import {MutationFn} from "react-apollo";
+import {toast} from "react-toastify";
+import Preloader from "../../../atoms/preloader/Preloader";
 
 interface IProps {
   house: IHouse;
   setCurrentLanguage: React.Dispatch<React.SetStateAction<Language>>;
   currentLanguage: Language;
+  loading: boolean;
+  houseMenual?: getHManual_GetHManual_houseManual;
+  updateManualMu: MutationFn<updateHManual, updateHManualVariables>;
 }
 
 export interface IHouseMenualConfig {
@@ -45,100 +61,60 @@ export interface IHouseMenualConfig {
 
 const HouseMenualConfig: React.FC<IProps> = ({
   house,
+  houseMenual,
   currentLanguage,
-  setCurrentLanguage
+  loading,
+  setCurrentLanguage,
+  updateManualMu
 }) => {
   const tempSrc =
     "https://i.pinimg.com/originals/54/88/35/5488351dfdde55dc9f088eb88a7fef34.png";
   const [enableLngList, setEnableLngList] = useState([Language.KOREAN]);
-  const [menuData, setMenuData] = useState([
-    {
-      _id: s4(),
-      index: 0,
-      title: "ex",
-      content: "",
-      icon: "book",
-      img: "",
-      isEnable: true
-    },
-    {
-      _id: s4(),
-      index: 1,
-      title: "ex",
-      content: "",
-      icon: "book",
-      img: "",
-      isEnable: true
-    }
-  ]);
-  const [shouldSave, setShouldSave] = useState(false);
+  const [menuData, setMenuData] = useState(
+    houseMenual ? houseMenual.menus : []
+  );
+  const previewModalHook = useModal();
   const languageConfigModalHook = useModal();
-
   const menusConfigModalHook = useModal();
-  const mainBgModalHook = useModal();
   const [isGuestView, setGuestView] = useState(false);
-  const [configData, setConfigData] = useState<IHouseMenualConfig>({
-    mainTitle: "",
-    bgImageHook: useImageUploader(tempSrc)
-  });
+  const [mainTitle, setMainTitle] = useState("");
+  const bgImageHook = useImageUploader(
+    houseMenual ? houseMenual.backgroundImg : tempSrc
+  );
+  const {shouldSave, setShouldSave} = useShouldSave([
+    mainTitle,
+    bgImageHook.fileUrl,
+    enableLngList,
+    menuData
+  ]);
 
-  const handleSaveBtnClick = () => {};
+  const validate = (): boolean => {
+    if (!mainTitle) return false;
 
-  const LangConfigModal = (prop: any) => {
-    const shared = (enable: boolean) => {
-      const list = LANGUAGE_LIST.filter(lang =>
-        enable ? enableLngList.includes(lang) : !enableLngList.includes(lang)
-      );
+    if (menuData.find(menu => !menu.content)) {
+      return false;
+    }
 
-      return (
-        <JDbox
-          topLabel={enable ? "지원함" : "지원안함"}
-          className="clear-fix"
-          mode="border"
-        >
-          {list.map((lang, index) => {
-            const fileName = LanguageShort[lang];
-            const flag = require(`../../../img/flags/${fileName}.png`);
-            return (
-              <JDbox size={undefined} float key={s4()}>
-                <div className="JDflex--between JDflex--vCenter">
-                  <img className="JDstandard-space" src={flag} />
-                  <span className="JDstandard-space">{LanguageKr[lang]}</span>
-                  <CircleIcon
-                    darkWave
-                    thema="greybg"
-                    onClick={() => {
-                      if (enable) {
-                        setEnableLngList([
-                          ...list.filter((lang, inIndex) => inIndex !== index)
-                        ]);
-                      } else {
-                        setEnableLngList([...enableLngList, lang]);
-                      }
-                    }}
-                  >
-                    <JDIcon icon={enable ? "arrowRight" : "arrowLeft"} />
-                  </CircleIcon>
-                </div>
-              </JDbox>
-            );
-          })}
-        </JDbox>
-      );
-    };
+    return true;
+  };
 
-    return (
-      <JDmodal {...prop} {...languageConfigModalHook}>
-        <h6>지원 언어 선택</h6>
-        <div className="flex-grid">
-          <div className="flex-grid__col col--full-6">{shared(true)}</div>
-          <div className="flex-grid__col col--full-6">{shared(false)}</div>
-        </div>
-        <p className="JDtextColor--point">
-          * 언어선택을 바꾸신후 직접 수정하셔야합니다.
-        </p>
-      </JDmodal>
-    );
+  const handleSaveBtnClick = async () => {
+    if (validate()) {
+      // const result = await updateManualMu({
+      //   variables: {
+      //     houseId: house._id,
+      //     lang: currentLanguage,
+      //     updateParams: {
+      //       backgroundImg: bgImageHook.fileUrl,
+      //       menus: menuData,
+      //       name: mainTitle
+      //     }
+      //   }
+      // });
+      // muResult(result, "UpdateManual") {
+      // setShouldSave(false);
+      // };
+    }
   };
 
   const MenusConfigModal = () => {
@@ -200,8 +176,30 @@ const HouseMenualConfig: React.FC<IProps> = ({
     );
   };
 
+  let userProp = undefined;
+
+  if (houseMenual) {
+    userProp = {
+      profileImg: houseMenual.profileImg,
+      phoneNumber: houseMenual.phoneNumber,
+      location: houseMenual.house.location
+    };
+  }
+
+  const sharedProps = {
+    enableLngList,
+    house,
+    mainTitle,
+    menuData,
+    bgData: bgImageHook.fileUrl,
+    setCurrentLanguage,
+    currentLanguage,
+    userProp
+  };
+
   return (
     <div className="houseMenualConfig">
+      <Preloader floating size="medium" loading={loading} />
       <div className="container container--sm">
         <div className="docs-section">
           <h3>
@@ -222,59 +220,79 @@ const HouseMenualConfig: React.FC<IProps> = ({
           <div className="JDflex--between JDflex--vCenter">
             <div>
               <Button
+                className="JDz-index-1"
                 thema="point"
+                pulse={shouldSave}
                 onClick={() => {
-                  setShouldSave(false);
                   handleSaveBtnClick();
                 }}
-                pulse={shouldSave}
                 label="저장하기"
               />
               <Button
                 onClick={() => {
                   menusConfigModalHook.openModal();
                 }}
-                label="상세설정"
+                label="메뉴설정"
+              />
+              <Button
+                onClick={() => {
+                  languageConfigModalHook.openModal();
+                }}
+                label="언어설정"
               />
             </div>
             <div>
-              <JDswitch
-                checked={isGuestView}
-                onChange={setGuestView}
-                tooltip="게스트가 보는 화면으로 전환하기"
-                ltxt="호스트"
-                rtxt="게스트"
+              <Button
+                onClick={() => {
+                  previewModalHook.openModal();
+                }}
+                label="미리보기"
               />
             </div>
           </div>
-          <Card fullHeight align="center">
-            <HouseMenual
-              host={
-                !isGuestView
-                  ? {
-                      configData,
-                      setConfigData,
-                      setEnableLngList,
-                      setMenuData,
-                      languageConfigModalHook
-                    }
-                  : undefined
-              }
-              enableLngList={enableLngList}
-              house={house}
-              mainTitle={configData.mainTitle}
-              menuData={menuData}
-              bgData={configData.bgImageHook.fileUrl}
-              setCurrentLanguage={setCurrentLanguage}
-              currentLanguage={currentLanguage}
-            />
-          </Card>
+          <div>
+            <Card fullHeight align="center">
+              <div className="JDstandard-margin-bottom">
+                <LangList
+                  onClickLng={lang => {
+                    if (shouldSave)
+                      toast.warn("언어를 변경하기전에 먼저 저장해주세요");
+                    setCurrentLanguage(lang);
+                  }}
+                  hilightLangs={[currentLanguage]}
+                  hideList={LANGUAGE_LIST.filter(
+                    lang => !enableLngList.includes(lang)
+                  )}
+                />
+              </div>
+              <HouseMenual
+                host={
+                  !isGuestView
+                    ? {
+                        setMainTitle,
+                        setEnableLngList,
+                        setMenuData,
+                        bgImageHook
+                      }
+                    : undefined
+                }
+                {...sharedProps}
+              />
+            </Card>
+          </div>
           {/* 메뉴 설정 모달 */}
           <MenusConfigModal />
-          {/* 언어 모달 */}
-          <LangConfigModal noAnimation />
+          {/* 언어 설정 모달 */}
+          <LangConfigModal
+            setEnableLngList={setEnableLngList}
+            modalHook={languageConfigModalHook}
+            enableLngList={enableLngList}
+          />
         </div>
       </div>
+      <JDmodal minWidth="360px" {...previewModalHook}>
+        <HouseMenual {...sharedProps} />
+      </JDmodal>
     </div>
   );
 };

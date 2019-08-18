@@ -78,7 +78,7 @@ const BookingInfoBox: React.SFC<IProps> = ({
           data-for="agreePrivacyPolicy"
           data-event="click"
         >
-          <Button label="약관보기" mode="flat" thema="grey" />
+          <Button label="약관보기"  thema="grey" />
         </span>
       </div>
 

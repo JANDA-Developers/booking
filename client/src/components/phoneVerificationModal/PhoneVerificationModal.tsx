@@ -79,7 +79,7 @@ const PhoneVerification: React.FC<IProps> = ({
       <InputText {...keyHook} label="인증번호" />
       <div className="JDmodal__endSection">
         <Button
-          mode="flat"
+          
           thema={"primary"}
           label="인증하기"
           onClick={() => {

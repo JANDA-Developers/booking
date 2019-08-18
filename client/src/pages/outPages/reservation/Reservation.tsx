@@ -50,6 +50,9 @@ import {Redirect, withRouter, RouteComponentProps} from "react-router";
 import {get} from "http";
 import moment from "moment";
 import {toast} from "react-toastify";
+// @ts-ignore
+import makeAsyncScriptLoader from "react-async-script";
+import Helmet from "react-helmet";
 
 class GetAllAvailRoomQu extends Query<getAllRoomTypeForBooker> {}
 export interface ISetBookingInfo
@@ -188,7 +191,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
         }
       } else {
         bookingParams.bookerParams.house = houseId;
-        const result = createBookingMu({
+        const result = await createBookingMu({
           variables: {
             bookingParams,
             sendSmsFlag: sendSmsHook.checked
@@ -206,7 +209,9 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
 
   return (
     <div id="JDreservation" className="JDreservation">
-      {/* {redirect ? houseId() */}
+      <Helmet>
+        <script src="https://web.nicepay.co.kr/v3/webstd/js/nicepay-2.0.js" />
+      </Helmet>
       <div className="flex-grid">
         <div className="flex-grid__col col--full-4 col--lg-5 col--wmd-12">
           <Card className="JDreservation__card JDreservation__dayPickerCard">

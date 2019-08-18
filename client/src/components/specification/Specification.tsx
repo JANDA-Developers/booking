@@ -241,7 +241,7 @@ export const SpecificAtion: React.SFC<IProps> = ({
           }}
           label="변경"
           thema="primary"
-          mode="flat"
+          
         />
       )}
     </JDbox>

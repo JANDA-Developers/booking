@@ -1,0 +1,77 @@
+import React from "react";
+import {useDayPicker} from "../../actions/hook";
+import moment from "moment";
+import {
+  getAllRoomTypeWithGuest,
+  getAllRoomTypeWithGuestVariables
+} from "../../types/api";
+import {Query} from "react-apollo";
+import {GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM} from "../../queries";
+import {queryDataFormater} from "../../utils/utils";
+import { PricingType } from "../../types/enum";
+
+class GetAllRoomTypeWithGuestQuery extends Query<
+  getAllRoomTypeWithGuest,
+  getAllRoomTypeWithGuestVariables
+> {}
+
+interface IProps {}
+
+const HouseMenualWrap: React.FC<IProps> = ({house}) => {
+  const queryDateHook = useDayPicker(
+    moment(new Date())
+      .add(-1, "day")
+      .toDate(),
+    new Date()
+  );
+
+  return (
+    <GetAllRoomTypeWithGuestQuery
+      query={GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM}
+      variables={{
+        start: queryDateHook.from,
+        end: queryDateHook.to,
+        houseId: house.houseId
+      }}
+    >
+      {({data, loading, error}) => {
+        const roomTypesData = queryDataFormater(
+          data,
+          "GetAllRoomType",
+          "roomTypes",
+          undefined
+        ); // 원본데이터
+
+        const guestsData = queryDataFormater(
+          data,
+          "GetGuests",
+          "guests",
+          undefined
+        ); // 원본데이터
+
+        const blocks = queryDataFormater(
+          data,
+          "GetBlocks",
+          "blocks",
+          undefined
+        );
+
+        let domitoryCount = 0;
+        let roomCount = 0;
+
+        if (roomTypesData)
+          roomTypesData.forEach(
+            roomType => {
+                const roomCount = roomType.roomCount;
+                if(roomType.pricingType === PricingType.DOMITORY){
+                    domitoryCount
+                };
+          );
+
+        return <DayVacancy />;
+      }}
+    </GetAllRoomTypeWithGuestQuery>
+  );
+};
+
+export default HouseMenualWrap;

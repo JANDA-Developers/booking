@@ -80,9 +80,9 @@
     .preloader--page {
         width: 13%;
         padding-top: 13%;
-        margin: 29vh auto;
-        border: 4vw solid $preloader-background-color;
-        border-top: 4vw solid $preloader-fill-color;
+        margin: 29vmin auto;
+        border: 6vmin solid $preloader-background-color;
+        border-top: 6vmin solid $preloader-fill-color;
         border-radius: 50%;
         animation: rotate 3s infinite linear;
         @include response ($phablet) {

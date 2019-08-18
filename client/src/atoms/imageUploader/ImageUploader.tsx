@@ -72,11 +72,4 @@ const ImageUploader: React.SFC<ImageUploaderIProps> = ({
   );
 };
 
-ImageUploader.defaultProps = {
-  uploading: false,
-  isError: false,
-  fileUrl: "",
-  onChangeFile: () => {}
-};
-
 export default ImageUploader;

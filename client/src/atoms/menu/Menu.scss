@@ -1,10 +1,11 @@
 @import "../../style_config/style_config";
 
-#root {
+#root,.ReactModalPortal {
     .rc-menu {
         padding: 0;
         box-shadow: none;
         border: none;
+        box-sizing: border-box;
         border-radius: 0px;
     }
 
@@ -27,7 +28,7 @@
     }
 }
 
-#root {
+#root,.ReactModalPortal {
     .JDmenu--sideNav {
         .JDsideNav-curtain {
             position: fixed;
@@ -46,6 +47,7 @@
         }
 
         .rc-menu-submenu-title {
+            box-sizing: border-box;
             border-bottom: $menu-border-bottom;
             padding-left: $sideNav-list-padding!important;
             height: $sideNav-list-li-height;
@@ -70,6 +72,7 @@
         }
 
         .rc-menu-submenu-title {
+            box-sizing:border-box;
             border-bottom: $menu-border-bottom;
             padding-left: $menu-dropDown-side-padding!important;
             height: $sideNav-list-li-height;

@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 import React, {useState, useEffect} from "react";
 import {Node} from "unist";
-import {IUseModal, useInput} from "../../../../actions/hook";
+import {IUseModal, useInput, useShouldSave} from "../../../../actions/hook";
 import JDmodal from "../../../../atoms/modal/Modal";
 import CheckBox from "../../../../atoms/forms/checkBox/CheckBox";
 import {
@@ -29,6 +29,7 @@ import {
 import JDbox from "../../../../atoms/box/JDbox";
 import {priceMapResult} from "../SetPriceWrap";
 import {WeekArrKr, WeekArrEn} from "../../../../types/enum";
+import {shouldInclude} from "apollo-utilities";
 
 export interface IDayOfWeekModalInfo {
   priceInput: priceMapResult;
@@ -38,6 +39,7 @@ export interface IDayOfWeekModalInfo {
 
 interface IProps {
   modalHook: IUseModal<IDayOfWeekModalInfo>;
+  setShouldSave: React.Dispatch<React.SetStateAction<boolean>>;
   setPriceMap: React.Dispatch<
     React.SetStateAction<Map<string, priceMapResult>>
   >;
@@ -47,6 +49,7 @@ interface IProps {
 const DayOfWeekModal: React.SFC<IProps> = ({
   modalHook,
   priceMap,
+  setShouldSave,
   setPriceMap
 }) => {
   if (!modalHook.isOpen) return <div />;
@@ -74,6 +77,7 @@ const DayOfWeekModal: React.SFC<IProps> = ({
     // @ts-ignore
     priceInput.dayOfWeekPriceList = dayOfWeekPriceList;
     priceMap.set(roomTypeId + seasonId, priceInput);
+    setShouldSave(true);
     modalHook.closeModal();
   };
 

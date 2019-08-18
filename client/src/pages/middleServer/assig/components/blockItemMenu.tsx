@@ -25,7 +25,7 @@ const BlockItemMenu: React.FC<IProps> = ({
             deleteItemById(blockMenuProps.item.id);
           }}
           label="삭제"
-          mode="flat"
+          
         />
       </li>
       <li>
@@ -34,7 +34,7 @@ const BlockItemMenu: React.FC<IProps> = ({
             allTooltipsHide();
           }}
           label="취소"
-          mode="flat"
+          
         />
       </li>
     </ul>

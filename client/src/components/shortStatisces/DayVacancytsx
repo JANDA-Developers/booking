@@ -1,0 +1,25 @@
+import React from "react";
+import {useDayPicker} from "../../actions/hook";
+import Card from "../../atoms/cards/Card";
+import moment from "moment";
+import { IHouse } from "../../types/interface";
+
+class GetSalesStatistic extends Query<
+  getSalesStatistic,
+  getSalesStatisticVariables
+> {}
+
+interface IProps {
+    vacancy:,
+    house: IHouse;
+}
+
+const DayVacancy: React.FC<IProps> = ({house, vacancy}) => {
+  return (
+    <div>
+
+    </div>
+  );
+};
+
+export default DayVacancy;

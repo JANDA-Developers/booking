@@ -74,13 +74,13 @@ const RoomConfigTimelineWrap: React.FC<IProps> = ({houseId, ...prop}) => {
             }}
             mutation={CHANGE_INDEX_FOR_ROOMTYPE}
           >
-            {(changeIndexMu, {loading: chnageIndexMuLoading}) => (
+            {(changeIndexForRoomTypeMu, {loading: chnageIndexMuLoading}) => (
               <Fragment>
                 {!loading ? (
                   <RoomConfigNew
                     loading={loading}
                     setConfigMode={setConfigMode}
-                    changeIndexMu={changeIndexMu}
+                    changeIndexForRoomTypeMu={changeIndexForRoomTypeMu}
                     defaultProps={roomTimelineDefaultProps}
                     roomTypesData={roomTypesData || []}
                     houseId={houseId}

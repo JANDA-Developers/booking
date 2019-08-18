@@ -7,7 +7,8 @@ import ErrProtecter from "../../../utils/errProtect";
 import autoHyphen, {numberStr, toNumber} from "../../../utils/autoFormat";
 import {NEUTRAL} from "../../../types/enum";
 import {getByteLength} from "../../../utils/elses";
-import {autoComma} from "../../../utils/utils";
+import {autoComma, s4} from "../../../utils/utils";
+import $ from "jquery";
 
 interface IProps extends React.HTMLAttributes<HTMLInputElement> {
   readOnly?: boolean;
@@ -23,6 +24,7 @@ interface IProps extends React.HTMLAttributes<HTMLInputElement> {
   dataError?: string;
   icon?: IIcons;
   iconHover?: boolean;
+  autoHeight?: boolean;
   iconOnClick?: any;
   dataSuccess?: string;
   validation?: any;
@@ -66,6 +68,7 @@ const InputText: React.FC<IProps> = ({
   defaultValue, // UNcontrolled
   doubleHeight,
   halfHeight,
+  autoHeight,
   dataError,
   dataSuccess,
   allWaysShowValidMessage,
@@ -126,6 +129,7 @@ const InputText: React.FC<IProps> = ({
     "JDinput--allWaysShowValidMessage":
       allWaysShowValidMessage === true && !textarea,
     /* --------------------------------- 텍스트어리어 --------------------------------- */
+    "JDtextarea--autoHeight": autoHeight,
     "JDtextarea--labeled": label && textarea,
     "JDtextarea--scroll": scroll && textarea,
     "JDtextarea--doubleHeight": doubleHeight && textarea,
@@ -148,6 +152,15 @@ const InputText: React.FC<IProps> = ({
       onChangeValid && onChangeValid(validation(defaultValue));
     }
   }, []);
+
+  useEffect(() => {
+    if (autoHeight) {
+      const target = $(`#JDtextarea${newId}`);
+      target.height("auto").height(target.prop("scrollHeight") + 12);
+    }
+  });
+
+  const newId = s4();
 
   const formatedValue = valueFormat(value);
 
@@ -192,9 +205,17 @@ const InputText: React.FC<IProps> = ({
       <textarea
         disabled={disabled}
         value={formatedValue || undefined}
+        onKeyDown={e => {
+          e.nativeEvent.stopImmediatePropagation();
+          e.stopPropagation();
+        }}
+        onKeyPress={e => {
+          e.nativeEvent.stopImmediatePropagation();
+          e.stopPropagation();
+        }}
         onChange={inHandleChange}
         onBlur={onBlur}
-        id="JDtextarea"
+        id={`JDtextarea${newId}`}
         className={classes}
         readOnly={readOnly}
         ref={refContainer || inRefContainer}

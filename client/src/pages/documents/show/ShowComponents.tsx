@@ -133,7 +133,7 @@ function ShowComponents() {
       Header: "삭제/생성",
       accessor: "controll",
       Cell: (props: CellInfo) => (
-        <Button mode="flat" thema="warn" label="삭제" />
+        <Button  thema="warn" label="삭제" />
       )
     }
   ];
@@ -448,7 +448,7 @@ function ShowComponents() {
             <Button label="disabled" disabled />
             <Button label="large" size="large" />
             <Button label="small" size="small" />
-            <Button label="flat" mode="flat" />
+            <Button label="flat"  />
           </div>
           <div className="flex-grid__col">
             <Button label="primary" thema="primary" size="large" />

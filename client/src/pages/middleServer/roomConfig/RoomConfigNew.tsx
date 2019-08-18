@@ -47,7 +47,7 @@ interface IProps {
   setConfigMode: any;
   houseId: string;
   loading?: boolean;
-  changeIndexMu?: MutationFn<
+  changeIndexForRoomTypeMu: MutationFn<
     changeIndexForRoomType,
     changeIndexForRoomTypeVariables
   >;
@@ -62,7 +62,7 @@ const RoomConfigNew: React.FC<IProps> = ({
   items,
   setConfigMode,
   defaultProps,
-  changeIndexMu,
+  changeIndexForRoomTypeMu,
   roomTypesData,
   loading,
   houseId
@@ -124,7 +124,21 @@ const RoomConfigNew: React.FC<IProps> = ({
           thema="primary"
           label="방타입 추가"
         />
-        <DrragList data={roomTypesData} rowKey="_id">
+        <DrragList
+          onUpdate={(info: any, data) => {
+            console.log(info);
+            const {newIndex, oldIndex} = info;
+            changeIndexForRoomTypeMu({
+              variables: {
+                houseId,
+                index: newIndex,
+                roomTypeId: roomTypesData[oldIndex]._id
+              }
+            });
+          }}
+          data={roomTypesData}
+          rowKey="_id"
+        >
           {(recode: getAllRoomType_GetAllRoomType_roomTypes, index: any) => (
             <Card
               key={recode._id}

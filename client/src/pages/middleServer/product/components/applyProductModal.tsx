@@ -68,7 +68,7 @@ const ApplyProductModal: React.FC<IProps> = ({
           <div className="modal__section">{productType.detailDesc}</div>
           <Button
             thema="point"
-            mode="flat"
+            
             label="이 상품을 숙소에 적용하기"
             onClick={() => {
               setStep(2);
@@ -142,7 +142,7 @@ const ApplyProductModal: React.FC<IProps> = ({
       {step > 1 && (
         <div className="JDmodal__endSection">
           <Button
-            mode="flat"
+            
             thema="primary"
             label="신청하기"
             onClick={() => {

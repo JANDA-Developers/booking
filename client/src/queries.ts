@@ -23,6 +23,33 @@ export const F_HOUSE = gql`
     }
 `
 
+
+export const F_HM = gql`
+    fragment FHM on HouseManual {
+        _id
+        name
+        lang
+        backgroundImg
+        profileImg
+        phoneNumber
+        createdAt
+        updatedAt
+    }
+`
+
+// 하우스메뉴얼 메뉴
+export const F_HMM = gql`
+    fragment FHMM on HMMenu {
+        id
+        name
+        type
+        icon
+        img
+        content
+        isEnable
+    }
+`
+
 // 룸타입 관련된 최소 프레임
 export const F_HOUSE_CONFIG = gql`
     fragment FhouseConfig on HouseConfig {
@@ -1937,3 +1964,62 @@ export const UPDATE_SENDER = gql`
     }
     ${F_SMS_SENDER}
 `;
+
+export const GET_HOUSE_MENUAL = gql`
+    query getHManual($houseId: ID!, $lang: Language!) {
+            GetHManual(houseId:$houseId, lang: $lang) {
+                ok
+                error
+                houseManual {
+                    ...FHM
+                    menus {
+                        ...FHMM
+                    }
+                    house {
+                        location {
+                            address
+                            addressDetail
+                            lat
+                            lng
+                        }
+                    }
+                }
+            }
+        } 
+    ${F_HMM}
+    ${F_HM}
+`
+
+export const GET_HOUSE_MENUAL_FOR_PUBLIC = gql`
+    query getHManualForPublic( $lang: Language!) {
+            GetHManualForPublic(lang: $lang) {
+                ok
+                error
+                houseManual {
+                    ...FHM
+                    menus {
+                        ...FHMM
+                    }
+                    house {
+                        location {
+                            address
+                            addressDetail
+                            lat
+                            lng
+                        }
+                    }
+                }
+            }
+        } 
+    ${F_HMM}
+    ${F_HM}
+`
+
+export const UPDATE_HMANUAL = gql`
+    mutation updateHManual($houseId: ID!, $lang: Language!, $updateParams: UpdateHManualParams!) {
+        UpdateHManual(houseId: $houseId, lang: $lang, updateParams: $updateParams) {
+            ok
+            error
+        }
+    } 
+`

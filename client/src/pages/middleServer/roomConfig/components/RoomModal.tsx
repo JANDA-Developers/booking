@@ -76,14 +76,14 @@ const RoomTypeModal: React.FC<IProps> = ({
         <Button
           label="생성하기"
           thema="primary"
-          mode="flat"
+          
           size="small"
           onClick={onCreateRoom}
         />
         <Button
           label="수정하기"
           thema="primary"
-          mode="flat"
+          
           size="small"
           disabled={isAddMode}
           onClick={onUpdateRoom}
@@ -92,7 +92,7 @@ const RoomTypeModal: React.FC<IProps> = ({
           label="삭제하기"
           size="small"
           thema="warn"
-          mode="flat"
+          
           disabled={isAddMode}
           onClick={onDeleteRoom}
         />

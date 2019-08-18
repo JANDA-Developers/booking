@@ -60,7 +60,7 @@ const HouseCard: React.SFC<IProps> = ({userModal, houseData}) => {
           <div className="houseCard__product">
             {houseData.product ? (
               <Button
-                mode="flat"
+                
                 thema="grey"
                 onClick={() => {
                   specificationModalHook.openModal();
@@ -68,7 +68,7 @@ const HouseCard: React.SFC<IProps> = ({userModal, houseData}) => {
                 label={houseData.product.name}
               />
             ) : (
-              <Button mode="flat" thema="grey" label="상품없음" />
+              <Button  thema="grey" label="상품없음" />
             )}
           </div>
         </div>

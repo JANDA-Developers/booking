@@ -251,13 +251,13 @@ const RoomTypeModal: React.SFC<IProps> = ({
               thema="primary"
               label="생성하기"
               size="small"
-              mode="flat"
+              
               onClick={onCreateRoomType}
             />
             <Button
               thema="primary"
               label="수정하기"
-              mode="flat"
+              
               size="small"
               disabled={isAddMode}
               onClick={onUpdateRoomType}
@@ -265,12 +265,12 @@ const RoomTypeModal: React.SFC<IProps> = ({
             <Button
               thema="warn"
               label="삭제하기"
-              mode="flat"
+              
               size="small"
               disabled={isAddMode}
               onClick={onDeleteRoomType}
             />
-            {/* <Button label="닫기" mode="flat" onClick={modalHook.closeModal} /> */}
+            {/* <Button label="닫기"  onClick={modalHook.closeModal} /> */}
           </div>
         </Fragment>
       )}

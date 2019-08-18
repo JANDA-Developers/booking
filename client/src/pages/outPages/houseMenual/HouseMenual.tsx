@@ -17,29 +17,39 @@ import {Fragment} from "react";
 import "./HouseMenual.scss";
 import {isEmpty} from "../../../utils/utils";
 import {IHouseMenualConfig} from "../../middleServer/houseMenual/HouseMenualConfig";
+import LangViewModal from "../../middleServer/houseMenual/component/LangViewModal";
+import {
+  getHManual_GetHManual_houseManual_house_location,
+  getHManual_GetHManual_houseManual_menus
+} from "../../../types/api";
 
 interface IProps {
-  house: IHouse;
   host?: {
-    configData: IHouseMenualConfig;
-    setConfigData: React.Dispatch<React.SetStateAction<IHouseMenualConfig>>;
     setEnableLngList: any;
-    setMenuData: any;
-    languageConfigModalHook: IUseModal;
+    setMenuData: React.Dispatch<
+      React.SetStateAction<getHManual_GetHManual_houseManual_menus[]>
+    >;
+    bgImageHook: IuseImageUploader;
+    setMainTitle: React.Dispatch<string>;
   };
-  menuData: any;
+  menuData: getHManual_GetHManual_houseManual_menus[];
   bgData: string;
   mainTitle: string;
   enableLngList: Language[];
   setCurrentLanguage: React.Dispatch<React.SetStateAction<Language>>;
   currentLanguage: Language;
+  userInfo?: {
+    profileImg: string | null;
+    phoneNumber: string | null;
+    location: getHManual_GetHManual_houseManual_house_location;
+  };
 }
 
 const HouseMenual: React.FC<IProps> = ({
-  house,
   setCurrentLanguage,
   currentLanguage,
   bgData,
+  userInfo,
   menuData,
   mainTitle,
   enableLngList,
@@ -50,18 +60,6 @@ const HouseMenual: React.FC<IProps> = ({
   const visibleMenuData = host
     ? menuData.filter((menu: any) => menu.isEnable)
     : menuData;
-
-  const LangListModal = () => {
-    return (
-      <JDmodal noAnimation {...languageListModalHook}>
-        <LangList
-          onClickLng={lang => setCurrentLanguage(lang)}
-          hilightLangs={[currentLanguage]}
-          hideList={LANGUAGE_LIST.filter(lang => !enableLngList.includes(lang))}
-        />
-      </JDmodal>
-    );
-  };
 
   return (
     <div className="houseMenual">
@@ -80,11 +78,12 @@ const HouseMenual: React.FC<IProps> = ({
                   <ImageUploader
                     className="houseMenual__bg"
                     mode="noEffect"
-                    {...host.configData.bgImageHook}
-                    minHeight="180px"
+                    {...host.bgImageHook}
+                    minHeight="150px"
                   />
                 )}
                 <ProfileCircle
+                  profileImg={userInfo ? userInfo.profileImg || undefined : ""}
                   isBordered
                   whiteBorder
                   size="large"
@@ -93,56 +92,49 @@ const HouseMenual: React.FC<IProps> = ({
               </Fragment>
             </div>
           </div>
-          <div className="docs-section__box">
-            <div className="houseMenual__titleWrap">
-              {!host ? (
-                <h6>{mainTitle}</h6>
-              ) : (
-                <div>
-                  <InputText
-                    textAlign="center"
-                    value={host.configData.mainTitle}
-                    onChange={value => {
-                      const {configData, setConfigData} = host;
-                      configData.mainTitle = value;
-                      setConfigData(Object.assign({}, configData));
+          {(!host && !mainTitle) || (
+            <div className="docs-section__box">
+              <div className="houseMenual__titleWrap">
+                {!host ? (
+                  <h6>{mainTitle}</h6>
+                ) : (
+                  <div>
+                    <InputText
+                      textAlign="center"
+                      value={mainTitle}
+                      onChange={value => {
+                        const {setMainTitle} = host;
+                        setMainTitle(value);
+                      }}
+                      placeholder="간략한 하우스 소개"
+                    />
+                  </div>
+                )}
+              </div>
+              {host && (
+                <div className="houseMenual__languageBtnWrap JDflex--center">
+                  <Button
+                    className="JDmargin-bottom0"
+                    onClick={() => {
+                      languageListModalHook.openModal();
                     }}
-                    placeholder="간략한 하우스 소개"
+                    tooltip={`현재:${currentLanguage}`}
+                    thema="primary"
+                    label="language"
                   />
                 </div>
               )}
             </div>
-            <div className="houseMenual__languageBtnWrap JDflex--center">
-              <Button
-                className="JDmargin-bottom0"
-                onClick={() => {
-                  languageListModalHook.openModal();
-                }}
-                tooltip={`현재:${currentLanguage}`}
-                thema="primary"
-                mode="flat"
-                label="language"
-              />
-              {host && (
-                <CircleIcon
-                  thema="greybg"
-                  className="JDmargin-bottom0"
-                  onClick={() => {
-                    host.languageConfigModalHook.openModal();
-                  }}
-                >
-                  <JDIcon icon="edit" />
-                </CircleIcon>
-              )}
-            </div>
-          </div>
+          )}
           <div className="houseMenual__contectMenu">
             {/* 👿 자식에게 넘길수있도록 하자 */}
             <CircleIcon
               darkWave
               thema="greybg"
               onClick={() => {
-                document.location.href = "tel:010-5237-4492";
+                document.location.href = `tel:${
+                  userInfo ? userInfo.phoneNumber : ""
+                }`;
               }}
               size={IconSize.BIG_LARGE}
             >
@@ -156,7 +148,9 @@ const HouseMenual: React.FC<IProps> = ({
               darkWave
               onClick={() => {
                 window.open(
-                  `http://google.co.kr/map/${house.location.address}`
+                  `http://google.co.kr/map/${
+                    userInfo ? userInfo.location.address : ""
+                  }`
                 );
               }}
               thema="greybg"
@@ -171,7 +165,9 @@ const HouseMenual: React.FC<IProps> = ({
             <CircleIcon
               darkWave
               onClick={() => {
-                document.location.href = "sms:010-5237-4492";
+                document.location.href = `sms:${
+                  userInfo ? userInfo.phoneNumber : ""
+                }`;
               }}
               thema="greybg"
               size={IconSize.BIG_LARGE}
@@ -188,7 +184,7 @@ const HouseMenual: React.FC<IProps> = ({
           <ul className="houseMenual__menus">
             <li className="houseMenual__menu">
               <JDmenu customMode="dropDown" mode="inline">
-                {visibleMenuData.map((menu: any) => {
+                {visibleMenuData.map(menu => {
                   return (
                     <JDsubMenu
                       title={
@@ -196,9 +192,9 @@ const HouseMenual: React.FC<IProps> = ({
                           <JDIcon
                             className="JDstandard-space"
                             size={IconSize.MEDEIUM_SMALL}
-                            icon={menu.icon}
+                            icon={(menu.icon as any) || undefined}
                           />
-                          <span>{menu.title}</span>
+                          <span>{menu.name}</span>
                           <span></span>
                         </div>
                       }
@@ -219,9 +215,13 @@ const HouseMenual: React.FC<IProps> = ({
             </li>
           </ul>
         </section>
-        {/* 언어 리스트모달 */}
-        <LangListModal />
       </div>
+      <LangViewModal
+        modalHook={languageListModalHook}
+        setCurrentLanguage={setCurrentLanguage}
+        enableLngList={enableLngList}
+        currentLanguage={currentLanguage}
+      />
     </div>
   );
 };

@@ -161,6 +161,14 @@
     right:0;
     bottom: calc(#{$standard-margin-bottom} + 8px) ;
   }
+
+  
+  #root  &--autoHeight {
+        padding:0px;
+        overflow-y:scroll;
+        height: 1px;
+      }
+  
 }
 
 // For textarea autoresize
@@ -186,5 +194,9 @@
     box-sizing:border-box;
     margin-top: $textarea-margin-top;
     height: calc(100% - #{$textarea-margin-top});
+  }
+
+  #root &:not(.JDtextarea--labeled) {
+    margin-top:0px;
   }
 }

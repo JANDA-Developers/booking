@@ -141,14 +141,14 @@ const Mypage: React.SFC<IProps> = ({
         />
         <div className="JDmodal__endSection">
           <Button
-            mode="flat"
+            
             label="확인"
             onClick={(e: any) => {
               passWordModal.closeModal();
               checkUpdateMutation(e);
             }}
           />
-          <Button mode="flat" label="닫기" onClick={passWordModal.closeModal} />
+          <Button  label="닫기" onClick={passWordModal.closeModal} />
         </div>
       </Modal>
       <MyHouseModalWrap MyHouseModalHook={houseModal} />

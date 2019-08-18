@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React from "react";
+import React, {useRef, useEffect} from "react";
 // @ts-ignore
 import Menu, {SubMenu as JDsubMenu, MenuItem as JDmenuItem} from "rc-menu";
 import "rc-menu/assets/index.css";
@@ -55,11 +55,22 @@ interface IProps {
 }
 
 const JDmenu: React.FC<IProps> = ({customMode, className, ...prop}) => {
+  const menu = useRef();
+
   const classes = classNames("JDmenu", className, {
     "JDmenu--sideNav": customMode === "sideNav",
     "JDmenu--dropDown": customMode === "dropDown"
   });
-  return <Menu className={classes} openAnimation={animation} {...prop} />;
+
+  return (
+    <Menu
+      ref={menu}
+      selectable={false}
+      className={classes}
+      openAnimation={animation}
+      {...prop}
+    />
+  );
 };
 
 export default JDmenu;
