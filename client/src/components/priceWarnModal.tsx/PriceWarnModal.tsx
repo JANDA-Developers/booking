@@ -2,8 +2,12 @@ import React, {Fragment} from "react";
 import {JDtoastModal} from "../../atoms/modal/Modal";
 import {IUseModal} from "../../actions/hook";
 
+interface IPriceWarnModalParam {
+  confirmCallBackFn: (flag: boolean) => void;
+}
+
 interface IProps {
-  modalHook: IUseModal;
+  modalHook: IUseModal<IPriceWarnModalParam>;
 }
 
 const PriceWarnModal: React.FC<IProps> = ({modalHook}) => (

@@ -4,20 +4,17 @@ import Card from "../../atoms/cards/Card";
 import moment from "moment";
 import { IHouse } from "../../types/interface";
 
-class GetSalesStatistic extends Query<
-  getSalesStatistic,
-  getSalesStatisticVariables
-> {}
-
 interface IProps {
     vacancy:,
     house: IHouse;
+    domitoryCount: number;
+    roomCount: number;
 }
 
-const DayVacancy: React.FC<IProps> = ({house, vacancy}) => {
+const DayVacancy: React.FC<IProps> = ({house, vacancy, roomCount, domitoryCount}) => {
   return (
     <div>
-
+      
     </div>
   );
 };

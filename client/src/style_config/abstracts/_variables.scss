@@ -39,9 +39,10 @@ $point-color-light: lighten($point-color, 15%) !default;
 $point-color-light-on: #fff !default;
 $point-color-dark: darken($point-color, 15%) !default;
 $point-color-dark-on: #fff !default;
-$new-color: #ffb021 !default;
-$new-color-light: lighten(#ffb021, 15%) !default;
-$today-color: #00937F !default;
+$new-color: #FFD821 !default;
+$new-color-light: lighten($new-color, 15%) !default;
+$new-color-dark: darken($new-color, 15%) !default;
+$today-color: rgb(0, 147, 100) !default;
 $new-color-on: $html-color !default;
 // 성공색은 너무 이질적인 느낌을 주어서 폐기합니다.
 // $success-color: #52a071 !default;
@@ -50,10 +51,14 @@ $background-color: #FBFBFB;
 //TODO  여기 warn으로 이름교체
 $error-color: #ff6760 !default;
 $positive-color: $today-color !default;
+$positive-color-dark: darken($positive-color, 5%) !default;
+$positive-color-on: white;
 $error-color-on: white !default;
 $error-color-light: lighten(#ff6760,5%) !default;
-$warn-color: #F58F2C !default;
-$warn-color-light: lighten(#F58F2C,15%) !default;
+$error-color-dark: darken(#ff6760,5%) !default;
+$warn-color: #FF6E16 !default;
+$warn-color-light: lighten($warn-color,15%) !default;
+$warn-color-dark: darken(#F58F2C,15%) !default;
 $link-color: rgb(66, 62, 199) !default;
 $link-color-active: rgb(48, 45, 131) !default;
 $admin-color: #172B3A;
@@ -72,6 +77,29 @@ $curtain-color: rgba(0,0,0,.78) !default;
 $html-color-hover: $grey-level3!default;
 $male-color: navy!default;
 $female-color: maroon!default;
+
+
+// -- 표준규격 
+$standard-section-height: 23.4rem; // 어떤 높이를 강제 구격할떄사용
+$standard-disabled-color: $grey-level2 !default;
+$standard-space: 1rem !default; // except textInput 구조가 다름
+$standard-small-space: .5rem !default; // except textInput 구조가 다름
+$standard-tiny-space: .3125rem !default; // except textInput 구조가 다름
+$standard-margin-bottom: .8rem !default; // except textInput 구조가 다름
+$standard-text-line-term: .5rem !default;
+$standard-border-radius: 4px;
+$standard-line-height: 2.25rem; // ⭐️ 구성요소들이 한줄에 섰을때 세로 크기를 정의합니다.
+$standard-lists-line: 150%; // 옹기종기모인 div들 정리용
+$standard-small-icon-margin : .5rem;
+$stadnard-background-color: white;
+$standard-outborder-color: $html-color; //화면 가장자리에 붙어있는 border들의 컬러
+$standard-input-outborder-color: $html-color;
+// TODO: 새로추가됨 이걸로 정리해야함
+$standard-label-margin : 0.5rem;
+$standard-placeholder-color : $grey-level2;
+$standard-width: 4.5rem; // 정수를 곱해서 사용
+$standard-height: $standard-line-height; // 정수를 곱해서 사용
+
 
 // 💔 -- BreackPoints 브레이크 포인트
 // 각각은 최대크기
@@ -97,7 +125,7 @@ $container-full-width: 96% !default;
 $container-small-width: 550px !default;
 $container-middle-width: 800px !default;
 $container-large-width: 1200px !default;
-$container-padding: 0.8rem; // ⭐️
+$container-padding: $standard-space; // ⭐️
 $container-content-full: calc(100% - #{$container-padding * 2}); // ⭐️
 $total-columns: 12 !default;
 $column-width: 100 / $total-columns !default; // calculates individual column width based off of # of columns
@@ -118,27 +146,6 @@ $docs-section__box-bottom: 2.5rem !default;
 //  Exception  : Check Box, Switch
 $label-font-size: $typho-small !default;
 $label-font-color: $html-color !default;
-
-// -- 표준규격 
-$standard-section-height: 23.4rem; // 어떤 높이를 강제 구격할떄사용
-$standard-disabled-color: $grey-level2 !default;
-$standard-space: 1rem !default; // except textInput 구조가 다름
-$standard-small-space: .5rem !default; // except textInput 구조가 다름
-$standard-tiny-space: .3125rem !default; // except textInput 구조가 다름
-$standard-margin-bottom: .8rem !default; // except textInput 구조가 다름
-$standard-text-line-term: .5rem !default;
-$standard-border-radius: 4px;
-$standard-line-height: 2.25rem; // ⭐️ 구성요소들이 한줄에 섰을때 세로 크기를 정의합니다.
-$standard-lists-line: 150%; // 옹기종기모인 div들 정리용
-$standard-small-icon-margin : .5rem;
-$stadnard-background-color: white;
-$standard-outborder-color: $html-color; //화면 가장자리에 붙어있는 border들의 컬러
-$standard-input-outborder-color: $html-color;
-// TODO: 새로추가됨 이걸로 정리해야함
-$standard-label-margin : 0.5rem;
-$standard-placeholder-color : $grey-level2;
-$standard-width: 4.5rem; // 정수를 곱해서 사용
-$standard-height: $standard-line-height; // 정수를 곱해서 사용
 
 // ===========================================================================
 
@@ -370,7 +377,7 @@ $profileCircle-border-color: $standard-outborder-color;
 
 // 14 Card 카드
 // ANCHOR card Card=========================================================================
-$card-padding: $container-padding;
+$card-padding: $standard-space;
 
 // 15 Tabs 탭
 // ANCHOR tabs Tabs=========================================================================

@@ -5,6 +5,14 @@
         min-height: $standard-section-height;
         padding-bottom: 1rem;
     }
+    &__stepsWrap {
+        text-align: center;
+    }
+    &__memoCard {
+        max-height: $standard-height * 7;
+        overflow-y: auto;
+        @extend %JDscrollbar;
+    }
 }
 
 .dashBoardHeader {
@@ -19,6 +27,11 @@
     h5 {
         font-weight: 600;
         text-shadow: 0px 0px 5px rgba(0,0,0,.7);
+
+        @include response($phablet) {
+            font-size: $typho-h6;
+            margin-bottom: $standard-margin-bottom;
+        }
     }
     .JDslider__slide-wrap {
         @extend %z-depth-1;

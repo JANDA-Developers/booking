@@ -10,6 +10,7 @@ import {
 } from "../../types/enum";
 import JDbox from "../../atoms/box/JDbox";
 import Card from "../../atoms/cards/Card";
+import {s4} from "../../utils/utils";
 
 interface IProps extends IDiv {
   children?: JSX.Element[] | JSX.Element | string | Element[];
@@ -37,6 +38,7 @@ const LangList: React.FC<IProps> = ({
           const flag = require(`../../img/flags/${fileName}.png`);
           return (
             <JDbox
+              key={s4()}
               thema={
                 hilightLangs && hilightLangs.includes(lang)
                   ? "primary"

@@ -55,13 +55,19 @@ import JDmultiBox from "../../../atoms/multiBox/MultiBox";
 import {getAssigHandlers} from "./components/assigHandlers";
 import dailyAssigWrap from "../../../components/dailyAssjg/DailyAssigWrap";
 import moment from "moment";
-import {isEmpty} from "../../../utils/utils";
+import {isEmpty, muResult} from "../../../utils/utils";
 import $ from "jquery";
 import BlockOpModal from "./components/blockOpModal";
 import DailyAssigWrap from "../../../components/dailyAssjg/DailyAssigWrap";
 import ReservationWrap from "../../outPages/reservation/ReservationWrap";
 import ReservationModal from "../../../components/reservationModala/ReservationModal";
 import JDisNetworkRequestInFlight from "../../../utils/netWorkStatusToast";
+import {IContext} from "../../MiddleServerRouter";
+import {FetchResult} from "react-apollo";
+import {
+  createBooking,
+  createBooking_CreateBooking_booking
+} from "../../../types/api";
 
 // Temp 마킹용이 있는지
 
@@ -70,8 +76,7 @@ import JDisNetworkRequestInFlight from "../../../utils/netWorkStatusToast";
 // 게스트1이 이동하는 주체
 
 interface IProps {
-  house: IHouse;
-  houseId: string;
+  context: IContext;
   defaultProps: any;
   dayPickerHook: IUseDayPicker;
   groupData: IAssigGroup[];
@@ -81,7 +86,6 @@ interface IProps {
   deafultGuestsData: IAssigItem[];
   defaultTimeStart: number;
   defaultTimeEnd: number;
-  houseConfig: IHouseConfig;
   assigDataControl: IAssigDataControl;
   dataTime: {
     start: number;
@@ -101,9 +105,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   defaultProps,
   groupData,
   loading,
-  house,
-  houseId,
-  houseConfig,
+  context,
   deafultGuestsData,
   defaultTimeStart,
   defaultTimeEnd,
@@ -114,6 +116,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   dataTime,
   assigDataControl
 }) => {
+  const {house, houseConfig} = context;
   const isMobile = windowWidth <= EWindowSize.MOBILE;
   const isTabletDown = windowWidth <= EWindowSize.TABLET;
   const [guestValue, setGuestValue] = useState<IAssigItem[]>(deafultGuestsData);
@@ -193,7 +196,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     windowWidth,
     windowHeight,
     groupData,
-    houseId
+    houseId: house._id
   };
 
   const assigUtils = getAssigUtils(assigHooks, assigDataControl, assigContext);
@@ -209,6 +212,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     allTooltipsHide,
     deleteGuestById,
     removeMark,
+    allocateGuest,
     toogleCheckInOut
   } = assigUtils;
 
@@ -415,7 +419,6 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
         {/* 생성된 방이 없을때 */}
         {inIsEmpty && (
           <div className="assigTimeline__placeHolderWrap">
-            <h3>아직 생성된 방이 없군요. 방타입을 생성하보세요</h3>
             <Link to="/roomConfig">
               <Button
                 mode="border"
@@ -435,7 +438,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
       />
       <BookingModalWrap
         assigUtils={assigUtils}
-        houseId={houseId}
+        context={context}
         modalHook={bookingModal}
       />
       <JDtoastModal confirm {...confirmDelteGuestHook} />
@@ -444,7 +447,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
         <DailyAssigWrap
           isInModal
           date={dailyAssigHook.info.date}
-          house={house}
+          context={context}
         />
       </JDmodal>
     </div>

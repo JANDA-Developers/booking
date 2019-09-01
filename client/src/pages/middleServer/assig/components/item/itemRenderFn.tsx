@@ -110,17 +110,6 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
                 <span className="assigItem__titleWrap">
                   <span className="assigItem__title">{"자리막음"}</span>
                 </span>
-                {/* {isMobile || (
-                  <CircleIcon wave thema="white">
-                  <JDIcon
-                  onClick={e => {
-                    e.preventDefault();
-                    deleteItemById(item.id);
-                  }}
-                  icon="clear"
-                  />
-                  </CircleIcon>
-                )} */}
               </div>
             );
           case GuestTypeAdd.MARK:
@@ -135,6 +124,7 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
                     item.gender && (
                       <span className="assigItem__gender">
                         <CircleIcon
+                          className="assigItem__genderCircle"
                           onClick={() => {
                             assigUtils.genderToggleById(item.id);
                           }}

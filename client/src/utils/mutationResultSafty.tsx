@@ -4,6 +4,7 @@ import isEmpty from "./isEmptyData";
 // 결과값중 특별히 반활될것이 있다면 T를 반환
 function muResult<T>(
   data: any,
+  // 캐피탈 API 실제명
   queryName: string,
   returnKey?: string
 ): boolean | T {

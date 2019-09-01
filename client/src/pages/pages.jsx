@@ -22,9 +22,11 @@ export const DashBoard = props => (
   </DynamicImport>
 );
 
-export const HouseMenualConfig = props => (
+export const HouseManualConfig = props => (
   <DynamicImport
-    load={() => import("./middleServer/houseMenual/HouseMenualConfigWrap.tsx")}
+    load={() =>
+      import("./middleServer/houseManualConfig/HouseManualConfigWrap.tsx")
+    }
   >
     {DNcompoent =>
       DNcompoent === null ? (
@@ -104,14 +106,6 @@ export const SuperMain = props => (
   </DynamicImport>
 );
 
-export const Home = props => (
-  <DynamicImport load={() => import("./middleServer/Home")}>
-    {DNcompoent =>
-      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
-    }
-  </DynamicImport>
-);
-
 export const MakeHouse = props => (
   <DynamicImport load={() => import("./middleServer/makeHouse/MakeHouse")}>
     {DNcompoent =>
@@ -137,7 +131,7 @@ export const SignUp = props => (
 );
 
 export const Login = props => (
-  <DynamicImport load={() => import("./middleServer/Login")}>
+  <DynamicImport load={() => import("./middleServer/Login/Login")}>
     {DNcompoent =>
       DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
     }
@@ -145,7 +139,7 @@ export const Login = props => (
 );
 
 export const Ready = props => (
-  <DynamicImport load={() => import("./middleServer/Ready")}>
+  <DynamicImport load={() => import("./middleServer/ready/Ready")}>
     {DNcompoent =>
       DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
     }

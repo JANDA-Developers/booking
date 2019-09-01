@@ -39,7 +39,10 @@ import {
   THilightGuestBlock,
   TChangeMakeBlock,
   TBookingCheckedNew,
-  IAssigGroup
+  IAssigGroup,
+  TDleteGhost,
+  TGetAssigInfoFromItems,
+  IAssigInfo
 } from "./assigIntrerface";
 import {
   isEmpty,
@@ -87,11 +90,35 @@ export function getAssigUtils(
     ]);
   };
 
+  const deleteGhost: TDleteGhost = () => {
+    console.log("deleteGhost");
+    setGuestValue([
+      ...guestValue.filter(item => item.type !== GuestTypeAdd.GHOST)
+    ]);
+  };
+
   const findItemById: TFindItemById = guestId => {
     const targetGuest = guestValue.find(guest => guest.id === guestId);
     if (!targetGuest)
       throw new Error("해당하는 게스트를 찾을수 없습니다. <<findItemById>>");
     return targetGuest;
+  };
+
+  const getAssigInfoFromItems: TGetAssigInfoFromItems = items => {
+    const temp = items
+      .map(
+        (item): IAssigInfo => {
+          const group = findGroupById(item.group);
+          return {
+            bedIndex: group.bedIndex!,
+            roomId: group.roomId,
+            gender: item.gender
+          };
+        }
+      )
+      .filter(group => group.bedIndex !== -1);
+
+    return temp;
   };
 
   const findGroupById: TFindGroupById = groupId => {
@@ -479,7 +506,7 @@ export function getAssigUtils(
   const allocateGuest: TAllocateGuest = async (
     itemId: string,
     newGroupOrder: number,
-    guestValueOriginCopy: any[]
+    guestValueOriginCopy?: IAssigItem[]
   ) => {
     if (JDisNetworkRequestInFlight(networkStatus)) return;
     const newGroupId = groupData[newGroupOrder].roomId;
@@ -494,7 +521,11 @@ export function getAssigUtils(
 
     // 👿 이반복을 함수 if 로 만들면 어떨까?
     if (!muResult(result, "AllocateGuestToRoom"))
-      setGuestValue([...guestValueOriginCopy]);
+      if (guestValueOriginCopy) {
+        setGuestValue([...guestValueOriginCopy]);
+      } else {
+        location.reload();
+      }
   };
   // 방막기
   const addBlock: TAddBlock = async (time, groupId) => {
@@ -688,10 +719,12 @@ export function getAssigUtils(
     openBlockMenu,
     openCanvasMenu,
     makeMark,
+    getAssigInfoFromItems,
     deleteBookingById,
     popUpItemMenu,
     findBookingIdByGuestId,
-    hilightGuestBlock
+    hilightGuestBlock,
+    deleteGhost
   };
 
   return assigUtils;

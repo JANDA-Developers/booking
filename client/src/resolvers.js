@@ -11,7 +11,7 @@ const resolvers = {
     },
     auth: () => {
       return {
-        isLoggedIn: localStorage.getItem("jwt")
+        isLogIn: localStorage.getItem("jwt")
       };
     }
   },
@@ -27,7 +27,7 @@ const resolvers = {
         data: {
           auth: {
             __typename: "Auth",
-            isLoggedIn: true
+            isLogIn: true
           }
         }
       });
@@ -43,7 +43,7 @@ const resolvers = {
           auth: {
             ...cache.data.auth,
             __typename: "Auth",
-            isLoggedIn: false
+            isLogIn: false
           }
         }
       });

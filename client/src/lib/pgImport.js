@@ -4264,7 +4264,7 @@ window.IMP || function (l) {
                                     kakaopayDlp.setTxnId(p.txnId);
                                     kakaopayDlp.setChannelType(p.channel.key, p.channel.value);
                                     kakaopayDlp.addRequestParams(p.param);
-                                    p.returnUrl && kakaopayDlp.setReturnUrl(p.returnUrl);
+                                    p.returnUrl && kakaopayDlp.seTGuestCountUrl(p.returnUrl);
                                     p.cancelUrl && kakaopayDlp.setCancelUrl(p.cancelUrl);
                                     kakaopayDlp.callDlp("kakaopay_layer", b.forms.kakaoPayFormProxy, function (a) {
                                         t.communicate({

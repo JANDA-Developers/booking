@@ -16,13 +16,6 @@
         color: $grey-level3;
     }
 
-    &--primary {
-        color: $primary-color;
-    }
-    
-    &--positive {
-        color: $positive-color;
-    }
 
     &--selected {
         color: $primary-color;
@@ -41,4 +34,8 @@
     &--large {
         font-size: $typho-normal;
     }
+}
+
+.JDicon {
+    @include colorText--prefixer();
 }

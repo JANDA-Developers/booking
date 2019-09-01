@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, {Fragment} from "react";
+import ReactDOM from "react-dom";
 import {Query, Mutation} from "react-apollo";
 import {
   getAllRoomType,
@@ -21,9 +22,11 @@ import RoomTypeModal from "./components/RoomTypeModalWrap";
 import RoomModal from "./components/RoomModalWrap";
 import {IRoomType} from "../../../types/interface";
 import {roomDataManufacture} from "../assig/components/groupDataMenufacture";
-import RoomConfigNew from "./RoomConfigNew";
 import Preloader from "../../../atoms/preloader/Preloader";
 import {RouteComponentProps} from "react-router";
+import {IContext} from "../../MiddleServerRouter";
+import RoomConfig from "./RoomConfig";
+import $ from "jquery";
 
 export enum ADD_ROOM {
   "ADDROOM" = -1,
@@ -34,8 +37,8 @@ interface IRoomConfigParam {
   withGuide?: string;
 }
 
-interface IProps extends RouteComponentProps<IRoomConfigParam> {
-  houseId: string;
+interface IProps {
+  context: IContext;
 }
 
 class GetAllRoomTypeQuery extends Query<getAllRoomType> {}
@@ -44,7 +47,8 @@ class ChangeIndexForRoomTypeMu extends Mutation<
   changeIndexForRoomTypeVariables
 > {}
 
-const RoomConfigTimelineWrap: React.FC<IProps> = ({houseId, ...prop}) => {
+const RoomConfigTimelineWrap: React.FC<IProps> = ({context, ...prop}) => {
+  const {house} = context;
   const [_, setConfigMode] = useToggle(false);
 
   return (
@@ -52,7 +56,7 @@ const RoomConfigTimelineWrap: React.FC<IProps> = ({houseId, ...prop}) => {
     <GetAllRoomTypeQuery
       fetchPolicy="network-only"
       query={GET_ALL_ROOMTYPES}
-      variables={{houseId}}
+      variables={{houseId: house._id}}
     >
       {({data: roomData, loading, error}) => {
         const roomTypesData = queryDataFormater(
@@ -76,18 +80,14 @@ const RoomConfigTimelineWrap: React.FC<IProps> = ({houseId, ...prop}) => {
           >
             {(changeIndexForRoomTypeMu, {loading: chnageIndexMuLoading}) => (
               <Fragment>
-                {!loading ? (
-                  <RoomConfigNew
-                    loading={loading}
-                    setConfigMode={setConfigMode}
-                    changeIndexForRoomTypeMu={changeIndexForRoomTypeMu}
-                    defaultProps={roomTimelineDefaultProps}
-                    roomTypesData={roomTypesData || []}
-                    houseId={houseId}
-                  />
-                ) : (
-                  <Preloader page loading={loading} />
-                )}
+                <RoomConfig
+                  context={context}
+                  loading={loading}
+                  setConfigMode={setConfigMode}
+                  changeIndexForRoomTypeMu={changeIndexForRoomTypeMu}
+                  defaultProps={roomTimelineDefaultProps}
+                  roomTypesData={roomTypesData || []}
+                />
               </Fragment>
             )}
           </ChangeIndexForRoomTypeMu>

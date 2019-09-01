@@ -5,7 +5,7 @@ import {
   BookingModalType
 } from "../../../../types/enum";
 import {IRoomType, IHouseConfig} from "../../../../types/interface";
-import {MutationFn} from "react-apollo";
+import {MutationFn, FetchResult} from "react-apollo";
 import {
   allocateGuestToRoom,
   allocateGuestToRoomVariables,
@@ -21,7 +21,8 @@ import {
   deleteBookingVariables,
   updateBlockOption,
   updateBlockOptionVariables,
-  getAllRoomTypeWithGuest_GetGuests_guests_blockOption
+  getAllRoomTypeWithGuest_GetGuests_guests_blockOption,
+  createBooking
 } from "../../../../types/api";
 import {IUseModal} from "../../../../actions/hook";
 import {string} from "prop-types";
@@ -77,6 +78,8 @@ export type TFindGroupById = (groupId: string) => IAssigGroup;
 
 export type TRemoveMark = () => void;
 
+export type TDleteGhost = () => void;
+
 export type TAllTooltipsHide = (
   except?: "blockMenu" | "canvasMenu" | "makeMenu" | "itemTooltip"
 ) => void;
@@ -128,7 +131,7 @@ export type TResizeBlock = (targetGuest: IAssigItem, time: number) => void;
 export type TAllocateGuest = (
   itemId: string,
   newGroupOrder: number,
-  originalCopy: any[]
+  originalCopy?: IAssigItem[]
 ) => void;
 
 export type TAllocateItem = (
@@ -311,6 +314,8 @@ export type THandleItemMove = (
   newGroupOrder: number
 ) => Promise<void>;
 
+export type TGetAssigInfoFromItems = (items: IAssigItem[]) => IAssigInfo[];
+
 export type THandleCanvasClick = (
   groupId: string,
   time: number,
@@ -371,12 +376,14 @@ export interface IAssigHandlers {
 }
 
 export interface IAssigTimelineUtils {
+  getAssigInfoFromItems: TGetAssigInfoFromItems;
   bookingCheckedNew: TBookingCheckedNew;
   hilightGuestBlock: THilightGuestBlock;
   popUpItemMenu: TPopUpItemMenu;
   findItemById: TFindItemById;
   findGroupById: TFindGroupById;
   removeMark: TRemoveMark;
+  deleteGhost: TDleteGhost;
   isTherePerson: TIsTherePerson;
   filterTimeZone: TFilterTimeZone;
   allTooltipsHide: TAllTooltipsHide;
@@ -414,8 +421,8 @@ export interface ICreateBookingInfo {
   bookingId: string;
   createMode: boolean;
   type: BookingModalType.CREATE | BookingModalType.CREATE_WITH_ASSIG;
-  start: number;
-  end: number;
+  checkIn: number;
+  checkOut: number;
   resvInfoes: {
     group: IAssigGroup;
     roomTypeName: string;

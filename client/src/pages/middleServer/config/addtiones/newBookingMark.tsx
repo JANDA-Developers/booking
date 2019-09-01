@@ -9,7 +9,7 @@ import JDbox from "../../../../atoms/box/JDbox";
 import TabUsePhoto from "../../../../img/describe/roomTypeTap.gif";
 import {DEFAULT_HOUSE_CONFIG} from "../../../../types/defaults";
 import {TimePerMs} from "../../../../types/enum";
-import JDbadge, {BADGE_THEMA} from "../../../../atoms/badge/Badge";
+import JDbadge from "../../../../atoms/badge/Badge";
 
 const NewBookingMark: React.FC<IAddtionProp> = ({
   updateHouseConfigMu,
@@ -96,8 +96,8 @@ const NewBookingMark: React.FC<IAddtionProp> = ({
           <div>관리자가 직접 예약한 예약은 표시되지 않습니다.</div>
           <div>
             예약표시
-            <JDbadge thema={BADGE_THEMA.NEW}>new</JDbadge>를 클릭하여 해당
-            표시를 지울수 있습니다.
+            <JDbadge thema="new">new</JDbadge>를 클릭하여 해당 표시를 지울수
+            있습니다.
           </div>
         </p>
       </div>

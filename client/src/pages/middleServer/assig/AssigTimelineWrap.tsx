@@ -61,6 +61,7 @@ import {
   IAssigItemCrush,
   IAssigMutationLoading
 } from "./components/assigIntrerface";
+import {IContext} from "../../MiddleServerRouter";
 
 moment.tz.setDefault("UTC");
 
@@ -73,8 +74,7 @@ class UpdateBlockOpMu extends Mutation<
 > {}
 
 interface IProps {
-  houseId: string;
-  house: IHouse;
+  context: IContext;
 }
 
 class GetAllRoomTypeWithGuestQuery extends Query<
@@ -89,12 +89,11 @@ class DeleteGuestMu extends Mutation<deleteGuests, deleteGuestsVariables> {}
 class DeleteBlockMu extends Mutation<deleteBlock, deleteBlockVariables> {}
 
 const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
-  houseId,
-  house,
+  context,
   windowHeight,
   windowWidth
 }) => {
-  const {houseConfig} = house;
+  const {houseConfig, house} = context;
   const dayPickerHook = useDayPicker(null, null);
   const defaultStartDate = dayPickerHook.from
     ? moment(dayPickerHook.from).valueOf()
@@ -126,21 +125,6 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
         .valueOf()
     )
   });
-
-  const crushTimeMake = (
-    guestData: IGuests,
-    index: number
-  ): IAssigItemCrush[] => {
-    if (guestData.isSettleable && guestData.isSettleable.duplicateDates) {
-      return guestData.isSettleable.duplicateDates.map(date => ({
-        start: moment(date.start).valueOf(),
-        end: moment(date.end).valueOf(),
-        itemIndex: index,
-        reason: ""
-      }));
-    }
-    return [];
-  };
 
   const blockDataManufacture = (blocksData: IBlock[] | null | undefined) => {
     const alloCateItems: IAssigItem[] = [];
@@ -196,11 +180,11 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
           gender,
           isUnsettled,
           bedIndex,
-          start,
+          checkIn,
           allocatedRoom,
-          end
+          checkOut
         } = guestData;
-        const {checkIn, _id: bookingId, isNew, isConfirm} = booking;
+        const {_id: bookingId, isNew, isConfirm} = booking;
         alloCateItems.push({
           id: _id,
           itemIndex: index,
@@ -214,9 +198,8 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
           roomId: allocatedRoom._id,
           isUnsettled: isUnsettled,
           group: allocatedRoom._id + bedIndex,
-          start: moment(start).valueOf(),
-          end: moment(end).valueOf(),
-          validate: crushTimeMake(guestData, index),
+          start: moment(checkIn).valueOf(),
+          end: moment(checkOut).valueOf(),
           canResize: false,
           canMove: true,
           // @ts-ignore
@@ -235,7 +218,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
   };
 
   const updateVariables = {
-    houseId,
+    houseId: house._id,
     start: setYYYYMMDD(moment(dataTime.start)),
     end: setYYYYMMDD(moment(dataTime.end))
   };
@@ -415,9 +398,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
 
                                       return (
                                         <AssigTimeline
-                                          house={house}
-                                          houseId={houseId}
-                                          houseConfig={houseConfig}
+                                          context={context}
                                           loading={loading}
                                           groupData={formatedRoomData}
                                           deafultGuestsData={
@@ -427,8 +408,8 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                                           defaultProps={assigDefaultProps}
                                           roomTypesData={roomTypesData || []}
                                           defaultTimeStart={defaultStartDate}
-                                          assigDataControl={assigDataControl}
                                           defaultTimeEnd={defaultEndDate}
+                                          assigDataControl={assigDataControl}
                                           setDataTime={setDataTime}
                                           windowHeight={windowHeight}
                                           windowWidth={windowWidth}

@@ -1,0 +1,33 @@
+
+$notificationLi-padding : $standard-space;
+.notiLi {
+    position: relative;
+    padding: $notificationLi-padding;
+    width: $standard-width * 5;
+
+    &__msg {
+        white-space: nowrap;
+    }
+
+    &__symbolWrap {
+        margin-right: $notificationLi-padding;
+    }
+
+    &__title {
+        color: $html-color;
+    }
+
+    &__contents {
+        display:flex;
+        align-items: center;
+    }
+
+    &__symbol {
+    }
+
+    &__badgeWrap {
+        position:absolute;
+        top: $notificationLi-padding;
+        right: $notificationLi-padding;
+    }
+}

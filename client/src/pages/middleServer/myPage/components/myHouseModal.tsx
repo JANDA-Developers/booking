@@ -83,7 +83,7 @@ const MyHouseModal: React.SFC<IProps> = ({
             </Fragment>
           )}
           <div className="JDmodal__endSection">
-            <Button onClick={onDelete} thema="warn"  label="삭제" />
+            <Button onClick={onDelete} thema="error" label="삭제" />
           </div>
         </Fragment>
       )}

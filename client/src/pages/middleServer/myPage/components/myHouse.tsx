@@ -21,6 +21,7 @@ const MyHouse: React.SFC<IProps> = ({
   <Fragment>
     <Card
       hover
+      className="myHouseCard"
       role="button"
       tabIndex={0}
       onClick={() => houseModal.openModal({houseId: id, productId: id})}

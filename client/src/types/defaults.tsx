@@ -8,8 +8,10 @@ import {
   Gender,
   SendTarget,
   LayoutType,
-  ProductStatus,
-  TimePerMs
+  HouseStatus,
+  TimePerMs,
+  MemoType,
+  UserRole
 } from "./enum";
 import {
   getBooking_GetBooking_booking_roomTypes,
@@ -20,13 +22,17 @@ import {
   getSpecification_GetHouse_house_product_appInfoRequested,
   getAllRoomTypeWithGuest_GetGuests_guests_blockOption,
   getMyProfile_GetMyProfile_user_houses_houseConfig_assigTimeline_itemBlockOp,
-  getAllRoomType_GetAllRoomType_roomTypes_rooms
+  getAllRoomType_GetAllRoomType_roomTypes_rooms,
+  getMemos_GetMemos_memos,
+  getMyProfile_GetMyProfile_user,
+  getHManual_GetHManual_houseManual
 } from "./api";
 import {
   IAssigItem,
   IAssigGroup,
   GuestTypeAdd
 } from "../pages/middleServer/assig/components/assigIntrerface";
+import {s4} from "../utils/utils";
 export const DEFAULT_ROOMTYPE_ROOM: getAllRoomType_GetAllRoomType_roomTypes_rooms = {
   __typename: "Room",
   _id: "",
@@ -65,18 +71,18 @@ export const DEFAULT_BOOKING: GB_booking = {
   roomTypes: null,
   name: "",
   phoneNumber: "",
-  checkIn: {
-    __typename: "CheckIn",
+  checkInInfo: {
+    __typename: "CheckInInfo",
     isIn: false,
     checkInDateTime: new Date()
   },
   payMethod: PayMethod.CASH,
   paymentStatus: PaymentStatus.NOT_YET,
   email: "",
-  end: null,
-  start: null,
+  checkOut: null,
+  checkIn: null,
   agreePrivacyPolicy: true,
-  price: 0,
+  price: null,
   password: null,
   bookingStatus: BookingStatus.COMPLETE,
   guests: null
@@ -124,9 +130,10 @@ export const DEFAULT_APP_INFO_REQUEST: getSpecification_GetHouse_house_product_a
   useHostApp: false
 };
 
+// specification에서 사용
 export const DEFAULT_PRODUCT: getSpecification_GetHouse_house_product = {
   __typename: "Product",
-  _id: "-1",
+  _id: "0",
   appliedUrl: "",
   appInfoRequested: [],
   roomCount: 0,
@@ -148,8 +155,7 @@ export const DEFAULT_PRODUCT: getSpecification_GetHouse_house_product = {
     _id: "",
     name: "상품없음"
   },
-  updatedAt: "",
-  status: ProductStatus.WAIT
+  updatedAt: ""
 };
 
 export const DEFAULT_NONE_GOUP: IAssigGroup = {
@@ -192,6 +198,38 @@ export const DEFAULT_ADDITION_BLOCKOP: getMyProfile_GetMyProfile_user_houses_hou
   useColor: false
 };
 
+export const DEFAULT_HM: getHManual_GetHManual_houseManual = {
+  __typename: "HouseManual",
+  _id: "",
+  backgroundImg: "",
+  createdAt: "",
+  house: {
+    __typename: "House",
+    location: {
+      __typename: "Location",
+      address: "",
+      addressDetail: "",
+      lat: 0,
+      lng: 0
+    }
+  },
+  langList: [],
+  menus: [],
+  phoneNumber: "",
+  profileImg: "",
+  updatedAt: ""
+};
+
+export const DEFAULT_MEMO: getMemos_GetMemos_memos = {
+  __typename: "Memo",
+  _id: s4(),
+  createdAt: "",
+  memoType: MemoType.HOST,
+  text: "",
+  title: "",
+  updatedAt: ""
+};
+
 // 서버 모델에서 가져옴
 // @ts-ignore
 export const DEFAULT_HOUSE_CONFIG: IHouseConfigFull = {
@@ -218,4 +256,21 @@ export const DEFAULT_HOUSE_CONFIG: IHouseConfigFull = {
       newGuestTime: TimePerMs.DAY
     }
   }
+};
+
+export const DEFAULT_USER: getMyProfile_GetMyProfile_user = {
+  __typename: "User",
+  _id: "",
+  createdAt: "",
+  checkPrivacyPolicy: false,
+  updatedAt: "",
+  name: "",
+  phoneNumber: "",
+  userRoles: [],
+  email: "",
+  password: "",
+  userRole: UserRole.GHOST,
+  isPhoneVerified: false,
+  profileImg: undefined,
+  houses: []
 };

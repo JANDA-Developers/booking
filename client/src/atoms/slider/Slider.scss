@@ -15,7 +15,7 @@
         margin: 0;
     }
     // arrow
-    .circleIcon {
+    .circleIcon-Wrap {
         position: absolute; 
         top: calc( 50% - (#{$slider-arrow-height} + #{$slider-dot-size} + #{$slider-dots-padding}) / 2);
         z-index: 9;
@@ -23,7 +23,7 @@
         &:first-child{
             left: 0;
             // last arrow ▶️
-            & ~ .circleIcon {
+            & ~ .circleIcon-Wrap {
                 right: 0;
             }
         }

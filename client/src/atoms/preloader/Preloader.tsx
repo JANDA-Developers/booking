@@ -9,7 +9,7 @@ export type PreloaderSize = "large" | "tiny" | "medium" | "small";
 interface IProps extends React.HTMLAttributes<HTMLOrSVGElement> {
   page?: boolean;
   size?: PreloaderSize;
-  loading: boolean;
+  loading?: boolean;
   floating?: boolean;
   animation?: Animation[];
   noAnimation?: boolean;
@@ -21,7 +21,7 @@ const JDpreloader: React.FC<IProps> = ({
   size = "tiny",
   className,
   wrapClassName,
-  loading,
+  loading = false,
   floating,
   noAnimation,
   animation = [Animation.zoomIn, Animation.zoomOut],

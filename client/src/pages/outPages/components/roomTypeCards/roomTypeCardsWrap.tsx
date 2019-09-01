@@ -11,8 +11,6 @@ import {
 } from "../../../../utils/utils";
 import {
   GuestPartInput,
-  getAvailableGuestCount,
-  getAvailableGuestCountVariables,
   BookerInput,
   getRoomTypeDatePrices,
   getRoomTypeDatePricesVariables,
@@ -22,8 +20,6 @@ import {
   getCapacityToRoomTypeVariables
 } from "../../../../types/api";
 import {
-  GET_AVAILABLE_GUEST_COUNT,
-  GET_ROOM_TYPE_DATE_PRICE,
   GET_ROOM_TYPE_DATE_PRICE_FOR_BOOKER,
   GET_CAPACITY_TO_ROOM_TYPE
 } from "../../../../queries";

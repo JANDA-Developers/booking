@@ -8,12 +8,12 @@ import EerrorProtect from "../../../utils/errProtect";
 import JDbox from "../../../atoms/box/JDbox";
 import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
 import JDIcon from "../../../atoms/icons/Icons";
-import {IroomSelectInfoTable} from "../BookingModal";
+import {IRoomSelectInfoTable} from "../BookingModal";
 import {PricingType} from "../../../types/enum";
 
 interface IProps {
   className?: string;
-  resvInfo: IroomSelectInfoTable[];
+  resvInfo: IRoomSelectInfoTable[];
 }
 
 const RoomSelectInfoTable: React.FC<IProps> = ({className, resvInfo}) => {

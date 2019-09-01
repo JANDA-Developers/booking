@@ -100,18 +100,17 @@ const SeasonHeader: React.FC<IProps> = ({
         </CircleIcon>
       </div>
       <TooltipList id={`seasonMenu${season._id}`}>
-        <ul>
+        <ul className="tooltipList__ul">
           <li>
             <Button
               onClick={() => {
                 updateSeasonModal.openModal();
               }}
               label="수정하기"
-              
             />
           </li>
           <li>
-            <Button onClick={handleDeleteSeason} label="삭제하기"  />
+            <Button onClick={handleDeleteSeason} label="삭제하기" />
           </li>
           <li>
             <Button
@@ -119,7 +118,6 @@ const SeasonHeader: React.FC<IProps> = ({
                 periorityModalHook.openModal();
               }}
               label="순위변경"
-              
             />
           </li>
         </ul>
@@ -143,7 +141,6 @@ const SeasonHeader: React.FC<IProps> = ({
             handleChangePriority();
           }}
           label="적용"
-          
           size="small"
           thema="primary"
         />
@@ -165,6 +162,7 @@ const SeasonHeader: React.FC<IProps> = ({
       <div>
         <InputText
           readOnly
+          wrapClassName="JDmargin-bottom0"
           value={`${moment(dayPickerHook.from || "").format(
             "MM/DD"
           )} ~ ${moment(dayPickerHook.to || "").format("MM/DD")}`}

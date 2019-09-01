@@ -26,14 +26,15 @@ import Color from "color";
 import randomColor from "randomcolor";
 import {CellInfo} from "react-table";
 import "./Statistic.scss";
+import {IContext} from "../../MiddleServerRouter";
 
 interface IProps {
   outData: getSalesStatistic_GetSalesStatistic_data[];
-  houseId: string;
   loading: boolean;
   setQueryOp: React.Dispatch<React.SetStateAction<IQueryOp>>;
   queryOp: IQueryOp;
   queryDateHook: IUseDayPicker;
+  context: IContext;
 }
 // refetch 가 Query 컴포넌트 리턴 프로프임
 
@@ -45,12 +46,13 @@ export enum IGraphViewMode {
 
 const Statistic: React.FC<IProps> = ({
   outData,
-  houseId,
+  context,
   loading,
   queryOp,
   queryDateHook,
   setQueryOp
 }) => {
+  const {house} = context;
   const [viewMode, setViewMode] = useState<IGraphViewMode>(IGraphViewMode.pie);
 
   // 각 그래프 형태에따라 데이터셋 변화

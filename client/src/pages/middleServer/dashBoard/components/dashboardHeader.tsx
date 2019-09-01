@@ -1,6 +1,6 @@
 import React from "react";
 import JDSlider from "../../../../atoms/slider/Slider";
-import houseMenualImg from "../../../../img/houseManual.png";
+import houseManualImg from "../../../../img/houseManual.png";
 import Button from "../../../../atoms/button/Button";
 
 const DashBoardHeader = () => {

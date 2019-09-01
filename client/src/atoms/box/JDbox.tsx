@@ -5,11 +5,15 @@ import "./JDbox.scss";
 import JDIcon, {IIcons} from "../icons/Icons";
 import {IDiv} from "../../types/interface";
 import JDLabel from "../label/JDLabel";
+import Tooltip from "../tooltip/Tooltip";
+import {s4} from "../../utils/utils";
+import {TextAlign, JDColor} from "../../types/enum";
+import {textAlignClass, colorClass} from "../../utils/autoClasses";
 
 interface IProps extends IDiv {
   className?: string;
   mode?: "table" | "border" | "photoFrame" | "dashBorder";
-  thema?: "primary";
+  thema?: JDColor | null;
   label?: JSX.Element | string;
   icon?: IIcons;
   photo?: string;
@@ -17,10 +21,13 @@ interface IProps extends IDiv {
   iconHover?: boolean;
   standard?: boolean;
   size?: "small";
+  tooltip?: string;
+  tooltipDirection?: "top" | "left" | "bottom" | "right";
   clickable?: boolean;
   onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
   iconOnClick?: any;
-  align?: "center";
+  align?: "flex" | "flexVcenter";
+  textAlign?: TextAlign;
   float?: boolean;
 }
 
@@ -28,6 +35,8 @@ const JDbox: React.FC<IProps> = ({
   children,
   className,
   label,
+  tooltip,
+  tooltipDirection,
   clickable,
   iconOnClick,
   icon,
@@ -39,6 +48,7 @@ const JDbox: React.FC<IProps> = ({
   photo,
   size,
   align,
+  textAlign,
   onClick,
   thema,
   ...props
@@ -49,19 +59,29 @@ const JDbox: React.FC<IProps> = ({
     "JDbox--dashBorder": mode === "dashBorder",
     "JDbox--photoFrame": mode === "photoFrame",
     "JDbox--border": mode === "border",
-    "JDbox--center": align === "center",
+    ...textAlignClass("JDbox", textAlign),
+    "JDbox--flexVcenter": align === "flexVcenter",
+    "JDbox--center": textAlign === "center",
     "JDbox--clickable": clickable,
-    "JDbox--primary": thema === "primary",
+    ...colorClass("JDbox", thema),
     "JDbox--standard": standard,
     "JDbox--withIcon": typeof icon === "string",
     "JDbox--small": size === "small",
     "JDbox--float": float
   });
 
+  const newId = s4();
+
   return (
     <Fragment>
       {topLabel && <JDLabel txt={topLabel} />}
-      <div onClick={onClick} className={classes} {...props}>
+      <div
+        data-tip={tooltip ? true : false}
+        data-for={tooltip && `boxTooltip${newId}`}
+        onClick={onClick}
+        className={classes}
+        {...props}
+      >
         {label && <div className="JDbox__label">{label}</div>}
         <div className="JDbox__content">
           {photo && <img src={photo} />}
@@ -75,6 +95,16 @@ const JDbox: React.FC<IProps> = ({
                 hover={iconHover}
               />
             </span>
+          )}
+          {tooltip && (
+            <Tooltip
+              place={tooltipDirection}
+              type="dark"
+              effect="solid"
+              id={`boxTooltip${newId}`}
+            >
+              <span>{tooltip}</span>
+            </Tooltip>
           )}
         </div>
       </div>

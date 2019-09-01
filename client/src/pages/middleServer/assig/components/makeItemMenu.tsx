@@ -11,7 +11,15 @@ import {
   ICreateBookingInfo
 } from "./assigIntrerface";
 import {DEFAULT_ASSIG_GROUP} from "../../../../types/defaults";
-import {isEmpty, s4} from "../../../../utils/utils";
+import {isEmpty, s4, muResult} from "../../../../utils/utils";
+import {FetchResult} from "apollo-link";
+import {
+  createBooking,
+  createBooking_CreateBooking_booking,
+  createBooking_CreateBooking_booking_guests,
+  createBooking_CreateBooking
+} from "../../../../types/api";
+import {IBookingModalProp} from "../../../../components/bookingModal/BookingModalWrap";
 
 interface IProps {
   assigHooks: IAssigTimelineHooks;
@@ -20,7 +28,14 @@ interface IProps {
 }
 
 const MakeItemMenu: React.FC<IProps> = ({
-  assigUtils: {genderToggleById, findGroupById, deleteItemById},
+  assigUtils: {
+    genderToggleById,
+    findGroupById,
+    deleteItemById,
+    allocateGuest,
+    getAssigInfoFromItems,
+    changeMakeBlock
+  },
   assigHooks: {guestValue, bookingModal, makeMenuProps},
   assigContext: {groupData, isMobile}
 }) => {
@@ -38,47 +53,85 @@ const MakeItemMenu: React.FC<IProps> = ({
             label="생성"
             onClick={e => {
               e.stopPropagation();
+
               const makeItems = guestValue.filter(
                 guest => guest.type === GuestTypeAdd.MAKE
               );
+
+              // 예약에 필요한
               const resvInfoes = makeItems.map(item => {
                 const targetGroup = groupData.find(
                   group => group.id === item.group
                 );
 
-                if (!targetGroup) throw new Error("뀨");
+                if (!targetGroup)
+                  throw new Error("makeItemMenu__resvInfoes__noneGroupError");
 
                 return {
                   group: targetGroup,
-                  roomTypeName: targetGroup ? targetGroup.roomType.name : "",
-                  roomTypeId: targetGroup ? targetGroup.roomTypeId : "",
+                  roomTypeName: targetGroup.roomType.name,
+                  roomTypeId: targetGroup.roomTypeId,
                   gender: item.gender
                 };
               });
 
-              const modalParam: ICreateBookingInfo = {
+              const assigInfo = getAssigInfoFromItems(makeItems);
+
+              const doAssig = (
+                newGuests: createBooking_CreateBooking_booking_guests[]
+              ) => {
+                const alreadyAssigedInfo: any[] = [];
+
+                newGuests.forEach(guest => {
+                  assigInfo.forEach((info, index) => {
+                    if (
+                      info.gender === guest.gender &&
+                      !alreadyAssigedInfo.includes(index)
+                    ) {
+                      alreadyAssigedInfo.push(index);
+                      allocateGuest(guest._id, info.bedIndex);
+                    }
+                  });
+                });
+              };
+
+              const createBookingCallBack = async (
+                result: createBooking_CreateBooking | "error"
+              ) => {
+                await changeMakeBlock();
+
+                const failDo = () => {};
+
+                if (result === "error") {
+                  failDo();
+                  return;
+                }
+
+                const newBooking = result.booking;
+
+                if (!newBooking) {
+                  failDo();
+                  return;
+                }
+
+                if (!newBooking.guests) throw Error("createBookingCallBack");
+
+                doAssig(newBooking.guests);
+              };
+
+              const modalParam: ICreateBookingInfo & IBookingModalProp = {
                 bookingId: s4(),
                 createMode: true,
+                createBookingCallBack,
                 type: BookingModalType.CREATE_WITH_ASSIG,
-                start: makeItems[0].start,
-                end: makeItems[0].end,
+                checkIn: makeItems[0].start,
+                checkOut: makeItems[0].end,
                 resvInfoes,
-                assigInfo: makeItems
-                  .map(item => {
-                    const group = groupData.find(
-                      group => group.id === item.group
-                    );
-                    return {
-                      bedIndex: group!.bedIndex!,
-                      roomId: group!.roomId,
-                      gender: item.gender
-                    };
-                  })
-                  .filter(group => group.bedIndex !== -1)
+                assigInfo
               };
+
               bookingModal.openModal(modalParam);
             }}
-            
           />
         </li>
         {targetGroup.pricingType === PricingType.DOMITORY && (
@@ -86,16 +139,11 @@ const MakeItemMenu: React.FC<IProps> = ({
             <Button
               onClick={() => genderToggleById(target.id)}
               label="성별 반전"
-              
             />
           </li>
         )}
         <li>
-          <Button
-            label="삭제"
-            onClick={() => deleteItemById(target.id)}
-            
-          />
+          <Button label="삭제" onClick={() => deleteItemById(target.id)} />
         </li>
       </ul>
     </div>

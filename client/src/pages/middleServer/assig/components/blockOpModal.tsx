@@ -81,7 +81,6 @@ const BlockOpModal: React.FC<IProps> = ({
             }}
             thema="primary"
             size="small"
-            
             label="적용"
           />
           <Button
@@ -89,8 +88,7 @@ const BlockOpModal: React.FC<IProps> = ({
               handleClickAdmit("cancle");
             }}
             size="small"
-            thema="warn"
-            
+            thema="error"
             label="적용해제"
           />
         </div>

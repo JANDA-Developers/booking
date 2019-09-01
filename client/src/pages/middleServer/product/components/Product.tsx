@@ -3,7 +3,7 @@ import Radio from "../../../../atoms/forms/radio/Radio";
 import "./Product.scss";
 import {Product, ProductTypeKey} from "../../../../types/enum";
 import JDIcon, {IIcons, IconSize} from "../../../../atoms/icons/Icons";
-import JDbadge, {BADGE_THEMA} from "../../../../atoms/badge/Badge";
+import JDbadge from "../../../../atoms/badge/Badge";
 import {getAllProductTypes_GetAllProductTypes_productTypes} from "../../../../types/api";
 import {autoComma} from "../../../../utils/utils";
 import Button from "../../../../atoms/button/Button";
@@ -64,9 +64,7 @@ const JDproduct: React.FC<IProps> = ({
           </div>
           <h4 className="JDproduct__limit">
             {productType.name}{" "}
-            {isCurrent && (
-              <JDbadge thema={BADGE_THEMA.POSITIVE}>사용중</JDbadge>
-            )}
+            {isCurrent && <JDbadge thema={"positive"}>사용중</JDbadge>}
           </h4>
         </div>
         <div className="JDproduct__decs">{productType.shortDesc}</div>

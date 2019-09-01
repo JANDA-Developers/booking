@@ -2,11 +2,11 @@
 import React, {Fragment, Component} from "react";
 import {Route, Switch, withRouter, RouteComponentProps} from "react-router-dom";
 import Helmet from "react-helmet";
-import Header from "../components/headers/DocumentHeader";
+import Header from "../components/documentHeader/DocumentHeader";
 import NoMatch from "./noMatch/NoMatch";
 import {Reservation, ReservationInfo, ReservationCheck} from "./outPages";
-import HouseMenual from "./outPages/houseMenual/HouseMenual";
-import HouseMenualWrap from "./outPages/houseMenual/HouseMenualWrap";
+import HouseManual from "./outPages/houseManual/HouseManual";
+import HouseManualWrap from "./outPages/houseManual/HouseManualWrap";
 
 interface IProps extends RouteComponentProps {}
 
@@ -34,7 +34,7 @@ const DocumentRouter: React.SFC<IProps> = ({match, location}) => {
         <Route
           exact
           path="/outpage/houseManual/:publickey"
-          component={HouseMenualWrap}
+          component={HouseManualWrap}
         />
         <Route component={NoMatch} />
       </Switch>

@@ -11,13 +11,39 @@ export const F_LOCATION = gql`
     }
 `;
 
+
+export const F_MEMO = gql`
+    fragment Fmemo on Memo {
+        _id
+        title
+        text
+        memoType
+        createdAt
+        updatedAt
+    }
+`;
+
+export const F_NOTI = gql`
+    fragment Fnoti on Notification {
+        _id
+        msg
+        validPeriod
+        title
+        notiType
+        notiLevel
+        createdAt
+        isConfirm
+        updatedAt
+    }
+`;
+
 export const F_HOUSE = gql`
     fragment Fhouse on House {
         _id
         name
         houseType
+        status
         publicKey
-        hostMemo
         createdAt
         updatedAt
     }
@@ -27,8 +53,7 @@ export const F_HOUSE = gql`
 export const F_HM = gql`
     fragment FHM on HouseManual {
         _id
-        name
-        lang
+        langList
         backgroundImg
         profileImg
         phoneNumber
@@ -120,7 +145,6 @@ export const F_PRODUCT = gql`
         canHaveHostApp
         existingHostApp
         description
-        status
         createdAt
         updatedAt
     }
@@ -230,14 +254,14 @@ export const F_BOOKING = gql`
         password
         phoneNumber
         email
-        checkIn {
+        checkInInfo {
             isIn
             checkInDateTime
         }
         memo
         agreePrivacyPolicy
-        start
-        end
+        checkIn
+        checkOut
         price
         payMethod
         paymentStatus
@@ -278,16 +302,9 @@ export const F_GUEST = gql`
             ...Froom
         }
         isUnsettled
-        isSettleable {
-            flag
-            duplicateDates {
-                start
-                end
-            }
-        }
         name
-        start
-        end
+        checkIn
+        checkOut
         pricingType
         bedIndex
         gender
@@ -381,6 +398,7 @@ export const GET_HOUSE_SPECIFICATION = gql`
                 _id
                 name
                 houseType
+                status
                 appInfo {
                     url
                 }
@@ -508,6 +526,7 @@ export const GET_USER_INFO = gql`
                     }
                     roomTypes {
                         _id
+                        roomCount
                     }
                     appInfo {
                         url
@@ -524,8 +543,11 @@ export const GET_USER_INFO = gql`
                     ...Fhouse
                     _id
                     name
-                    hostMemo
+                    completeDefaultSetting
                     houseType
+                    houseManualConfig {
+                        publicKey
+                    }
                     location {
                         address
                         addressDetail
@@ -657,7 +679,7 @@ export const GET_GUESTS = gql`
                 booking {
                     _id
                     bookingStatus
-                    checkIn {
+                    checkInInfo {
                         isIn
                     }
                 }
@@ -713,46 +735,6 @@ export const PRICE_TIMELINE_GET_PRICE = gql`
     }
   }
   ${F_ROOMTYPE}
-`;
-
-// 👿 Depreacated
-// 예약 :: 예약가능한 인원 가져오기 (호스트용)
-export const GET_AVAILABLE_GUEST_COUNT = gql`
-    query getAvailableGuestCount(
-        $roomTypeId: ID!
-        $start: DateTime!
-        $end: DateTime!
-        $femalePadding: Int!
-        $malePadding: Int!
-    ) {
-        GetMale: GetAvailableGuestCount(
-            roomTypeId: $roomTypeId
-            start: $start
-            end: $end
-            gender: MALE
-            paddingOtherGenderCount: $femalePadding
-        ) {
-            ok
-            error
-            roomCapacity {
-                ...FroomTypeCapacity
-            }
-        }
-        GetFemale: GetAvailableGuestCount(
-            roomTypeId: $roomTypeId
-            start: $start
-            end: $end
-            gender: FEMALE
-            paddingOtherGenderCount: $malePadding
-        ) {
-            ok
-            error
-            roomCapacity {
-                ...FroomTypeCapacity
-            }
-        }
-    }
-    ${F_ROOM_CAPACITY}
 `;
 
 
@@ -977,7 +959,7 @@ export const GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM = gql`
                     _id
                     isNew
                     isConfirm
-                    checkIn {
+                    checkInInfo {
                         isIn
                     }
                 }
@@ -1069,7 +1051,6 @@ export const GET_USER_FOR_SU = gql`
                     }
                     _id
                     name
-                    hostMemo
                     houseType
                     location {
                         address
@@ -1122,37 +1103,6 @@ export const GET_FILE_TXT = gql`
         }
     }
 `;
-
-// 방타입 :: 모든 방타입 인원을 가져오는것 (사용중인곳 없음)
-export const GET_ALL_ROOM_TYPE_CAPACITY = gql`
-    query getAllRoomTypeCapacity(
-        $houseId: ID!
-        $start: DateTime!
-        $end: DateTime!
-        $filter: String
-    ) {
-        GetAllRoomTypeCapacity(
-            houseId: $houseId
-            start: $start
-            end: $end
-            filter: $filter
-        ) {
-            ok
-            error
-            roomTypeWithCapacityList {
-                roomType {
-                    ...FroomType
-                }
-                roomTypeCapacity {
-                    ...FroomTypeCapacity
-                }
-            }
-        }
-    }
-    ${F_ROOMTYPE}
-    ${F_ROOM_CAPACITY}
-`;
-
 // 예약 ::모든 예약을 가져옴
 export const GET_BOOKINGS = gql`
     query getBookings(
@@ -1748,9 +1698,9 @@ export const UPDATE_HOUSE = gql`
         $name: String
         $houseType: HouseType
         $location: LocationInput
+        $completeDefaultSetting: Boolean
         $refundPolicy: [TermsOfRefundInput!]
         $termsOfBooking: TermsOfBookingInput
-        $hostMemo: String
     ) {
         UpdateHouse(
             houseId: $houseId
@@ -1759,7 +1709,7 @@ export const UPDATE_HOUSE = gql`
             location: $location
             refundPolicy: $refundPolicy
             termsOfBooking: $termsOfBooking
-            hostMemo:$hostMemo
+            completeDefaultSetting: $completeDefaultSetting
         ) {
             ok
             error
@@ -1923,13 +1873,18 @@ export const SEND_SMS = gql`
     }
 `;
 
-// 발신자 등록 (현재안쓰임)
-export const UPDATE_PRODUCT_FOR_SU = gql`
-    mutation updateProductForSU(
+export const UPDATE_USER_FOR_SU = gql`
+    mutation updateUserForSU(
         $productId: ID!
-        $params: UpdateProductParams!
+        $productParams: UpdateProductParams!
+        $houseId: ID!
+        $status: HouseStatus!
     ) {
-        UpdateProductForSU(productId: $productId, params: $params) {
+        UpdateProductForSU(productId: $productId, params: $productParams) {
+            ok
+            error
+        }
+        UpdateHouse(houseId: $houseId, status: $status) {
             ok
             error
         }
@@ -1991,8 +1946,8 @@ export const GET_HOUSE_MENUAL = gql`
 `
 
 export const GET_HOUSE_MENUAL_FOR_PUBLIC = gql`
-    query getHManualForPublic( $lang: Language!) {
-            GetHManualForPublic(lang: $lang) {
+    query getHManualForPublic( $lang: Language! $publicKey: String!) {
+            GetHManualForPublic(lang: $lang publicKey:$publicKey) {
                 ok
                 error
                 houseManual {
@@ -2023,3 +1978,75 @@ export const UPDATE_HMANUAL = gql`
         }
     } 
 `
+// MEMO 가져오기
+export const GET_MEMO = gql`
+    query getMemos($houseId: ID!, $memoType: MemoType) {
+        GetMemos(houseId: $houseId, memoType: $memoType) {
+            ok
+            error
+            memos {
+                ...Fmemo
+            }
+        }
+    }
+${F_MEMO}
+`
+
+export const UPDATE_MEMO = gql`
+    mutation updateMemo($memoId: ID!, $updateMemoParams: UpdateMemoParams!) {
+        UpdateMemo(memoId: $memoId, updateMemoParams: $updateMemoParams) {
+            ok
+            error
+        }
+    } 
+`
+
+export const CREATE_MEMO = gql`
+    mutation createMemo($houseId: ID!, $createMemoParams: CreateMemoParams!) {
+        CreateMemo(houseId: $houseId, createMemoParams: $createMemoParams) {
+            ok
+            error
+        }
+    } 
+`
+
+export const DELETE_MEMO = gql`
+    mutation deleteMemo($memoId: ID!) {
+        DeleteMemo(memoId: $memoId) {
+            ok
+            error
+        }
+    } 
+`
+// MEMO 가져오기
+export const GET_NOTI = gql`
+    query getNotifications($houseId: ID!, $count: Int!) {
+        GetNotifications(houseId: $houseId count: $count) {
+            ok
+            error
+            notifications {
+                ...Fnoti
+            }
+        }
+    }
+${F_NOTI}
+`
+
+export const CONFIRM_NOTI = gql`
+    mutation confirmNotification($houseId: ID!, $notiIds: [ID!]!) {
+        ConfirmNotification(houseId: $houseId, notiIds:$notiIds) {
+            ok
+            error
+        }
+    } 
+`
+
+export const CREATE_NOTI = gql`
+    mutation createNotification($houseId: ID!, $createNotificationParams: CreateNotificationParams!) {
+        CreateNotification(houseId: $houseId, createNotificationParams: $createNotificationParams) {
+            ok
+            error
+        }
+    } 
+`
+

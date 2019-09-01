@@ -1,5 +1,5 @@
 import React from "react";
-import JDbadge, {BADGE_THEMA} from "../../atoms/badge/Badge";
+import JDbadge from "../../atoms/badge/Badge";
 import JDanimation, {Animation} from "../../atoms/animation/Animations";
 import {MutationFn} from "react-apollo";
 import {confirmBooking, confirmBookingVariables} from "../../types/api";
@@ -29,7 +29,7 @@ const ConfirmBadge: React.FC<IProps> = ({
           whenClickBadge && whenClickBadge(bookingId);
           confirmBookingMu();
         }}
-        thema={BADGE_THEMA.NEW}
+        thema={"new"}
         {...props}
       >
         new

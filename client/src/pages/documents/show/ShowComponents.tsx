@@ -10,7 +10,7 @@ import Radio from "../../../atoms/forms/radio/Radio";
 import SearchInput from "../../../atoms/searchInput/SearchInput";
 import SideNav from "../../../components/sideNav/SideNav";
 import SelectBox from "../../../atoms/forms/selectBox/SelectBox";
-import JDbadge, {BADGE_THEMA} from "../../../atoms/badge/Badge";
+import JDbadge from "../../../atoms/badge/Badge";
 import DayPicker from "../../../atoms/dayPicker/DayPicker";
 import Pagination from "../../../atoms/pagination/Pagination";
 import ImageUploader from "../../../atoms/imageUploader/ImageUploader";
@@ -132,9 +132,7 @@ function ShowComponents() {
     {
       Header: "삭제/생성",
       accessor: "controll",
-      Cell: (props: CellInfo) => (
-        <Button  thema="warn" label="삭제" />
-      )
+      Cell: (props: CellInfo) => <Button thema="error" label="삭제" />
     }
   ];
 
@@ -414,11 +412,11 @@ function ShowComponents() {
         {/* 뱃지 */}
         <h6>Badge</h6>
         <div className="docs-section__box">
-          <JDbadge thema={BADGE_THEMA.WHITE}>white</JDbadge>
-          <JDbadge thema={BADGE_THEMA.BLACK}>black</JDbadge>
-          <JDbadge thema={BADGE_THEMA.PRIMARY}>primary</JDbadge>
-          <JDbadge thema={BADGE_THEMA.point}>point</JDbadge>
-          <JDbadge thema={BADGE_THEMA.NEW}>new</JDbadge>
+          <JDbadge thema={"white"}>white</JDbadge>
+          <JDbadge thema={"black"}>black</JDbadge>
+          <JDbadge thema={"primary"}>primary</JDbadge>
+          <JDbadge thema={"point"}>point</JDbadge>
+          <JDbadge thema={"new"}>new</JDbadge>
         </div>
         {/* 테이블 */}
         <h6>Table</h6>
@@ -447,8 +445,14 @@ function ShowComponents() {
             <Button label="noraml" icon="arrowRight" />
             <Button label="disabled" disabled />
             <Button label="large" size="large" />
-            <Button label="small" size="small" />
-            <Button label="flat"  />
+            <Button thema="normal" label="small" size="small" />
+            <Button thema="error" label="small" size="small" />
+            <Button thema="positive" label="small" size="small" />
+            <Button thema="warn" label="small" size="small" />
+            <Button thema="new" label="small" size="small" />
+            <Button thema="error" label="small" size="small" />
+            <Button thema="black" label="small" size="small" />
+            <Button label="flat" />
           </div>
           <div className="flex-grid__col">
             <Button label="primary" thema="primary" size="large" />
@@ -477,8 +481,8 @@ function ShowComponents() {
               <Button label="Close Modal" onClick={useModalHook.closeModal} />
             </div>
           </JDmodal>
-        </div>s
-        {/* 툴팁 */}
+        </div>
+        s{/* 툴팁 */}
         <div className="docs-section__box">
           <h6>Tooltip</h6>
 
@@ -607,27 +611,6 @@ function ShowComponents() {
             <ProfileCircle isBordered />
           </span>
         </div>
-        {/* 사이드네비 sideNav */}
-        <SideNav
-          {...anyProp}
-          userInformation={{
-            __typename: "User",
-            _id: "dummy",
-            name: "홍길동",
-            phoneNumber: "01052374492",
-            password: null,
-            email: "",
-            isPhoneVerified: false,
-            profileImg: null,
-            checkPrivacyPolicy: false,
-            userRole: UserRole.GHOST,
-            houses: [],
-            createdAt: "",
-            updatedAt: null
-          }}
-          isOpen={SideNavIsOpen}
-          setIsOpen={setSideNavIsOpen}
-        />
       </div>
     </div>
   );

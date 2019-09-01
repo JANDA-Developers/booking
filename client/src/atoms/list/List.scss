@@ -1,16 +1,12 @@
 @import "../../style_config/style_config";
 
 .JDlist {
-    &--left {
-        text-align: left;
-    }
-    
-    &--center {
-        text-align: center;
-    }
+    @include textAlign--prefixer();
 
-    &--right {
-        text-align: right;
+    &--whiteSpace {
+        li {
+            white-space: nowrap;
+        }
     }
 
     &--bordered {
@@ -44,7 +40,6 @@
     }
 
     &__li {
-        display: flex;
         &:last-child {
             margin-bottom: 0;
         }

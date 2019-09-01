@@ -26,21 +26,41 @@ interface IProps {
   modalHook: IUseModal<IModalSMSinfo>;
   loading: boolean;
   smsInfo: getSmsInfo_GetSmsInfo_smsInfo | null | undefined;
-  receivers: string[];
-  autoSendWhen?: AutoSendWhen;
   callBackFn?(flag: boolean): any;
-  templateMessage: string;
 }
+
+let SENDED_CALLBACK = false;
 
 const SendSmsModal: React.FC<IProps> = ({
   modalHook,
   loading,
-  receivers,
-  autoSendWhen,
   callBackFn,
-  smsInfo,
-  templateMessage
+  smsInfo
 }) => {
+  // 완성때 자동발신이 있는지 체크
+  const autoSendCheck = (): boolean => {
+    if (smsInfo && smsInfo.smsTemplates) {
+      const result = smsInfo.smsTemplates.find(smsT => {
+        if (!smsT.smsSendCase) return false;
+        return (
+          smsT.smsSendCase.when === AutoSendWhen.WHEN_BOOKING_CREATED ||
+          AutoSendWhen.WHEN_BOOKING_CREATED_PAYMENT_NOT_YET
+        );
+      });
+      if (result) return true;
+    }
+    return false;
+  };
+
+  const checkResult = !autoSendCheck() && !loading;
+
+  useEffect(() => {
+    if (checkResult && callBackFn) {
+      modalHook.closeModal();
+      callBackFn && callBackFn(false);
+    }
+  }, [callBackFn]);
+
   return (
     <JDmodal
       trueMessage={"SMS 전송합니다."}
@@ -50,10 +70,13 @@ const SendSmsModal: React.FC<IProps> = ({
       className="sendSmsModal"
       {...modalHook}
     >
-      {/* 👿 */}
-      <div>
-        <Fragment>예약생성을 완료합니다.</Fragment>
-      </div>
+      {loading ? (
+        <Preloader loading={loading} />
+      ) : (
+        <div>
+          <Fragment>예약생성을 완료합니다.</Fragment>
+        </div>
+      )}
     </JDmodal>
   );
 };

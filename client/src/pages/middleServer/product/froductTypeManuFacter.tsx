@@ -22,11 +22,15 @@ const froductTypeManuFacter = (
       return {
         icon: "rocket",
         shortDesc: (
-          <p>
-            <div>이주일간 테스트 하기.</div>
-            <div>사용해보고 결정하세요.</div>
-            <div>지금 바로 시작할수 있습니다.</div>
-          </p>
+          <JDlist
+            noWrap
+            align="center"
+            contents={[
+              "이주일간 테스트 하기.",
+              "사용해보고 결정하세요.",
+              "지금 바로 시작할수 있습니다."
+            ]}
+          />
         ),
         detailDesc: (
           <JDlist
@@ -46,11 +50,15 @@ const froductTypeManuFacter = (
       return {
         icon: "heartHouse",
         shortDesc: (
-          <p>
-            <div>중소숙박 최적화 서비스</div>
-            <div>필요한 서비스만 쉽고 </div>
-            <div>간단하게 사용하세요.</div>
-          </p>
+          <JDlist
+            noWrap
+            align="center"
+            contents={[
+              "중소숙박 최적화 서비스",
+              "필요한 서비스만 쉽고",
+              "간단하게 사용하세요."
+            ]}
+          />
         ),
         detailDesc: (
           <JDlist
@@ -69,11 +77,15 @@ const froductTypeManuFacter = (
       return {
         icon: "hotel",
         shortDesc: (
-          <p>
-            <div>호텔 대규모 솔루션 최적화</div>
-            <div>호텔관리자가 관여하여</div>
-            <div>다양한 서비스를 제공합니다.</div>
-          </p>
+          <JDlist
+            noWrap
+            align="center"
+            contents={[
+              "호텔 대규모 솔루션 최적화",
+              "호텔관리자가 관여하여",
+              "다양한 서비스를 제공합니다."
+            ]}
+          />
         ),
         detailDesc: (
           <JDlist
@@ -94,11 +106,15 @@ const froductTypeManuFacter = (
         icon: "peopleWithStarts",
         detailDesc: <div></div>,
         shortDesc: (
-          <p>
-            <div>숙박외 서비스 예약 및</div>
-            <div>다른 예약관리가 필요하신가요?</div>
-            <div>이상품을 선택하세요</div>
-          </p>
+          <JDlist
+            noWrap
+            align="center"
+            contents={[
+              "숙박외 서비스 예약 및",
+              "다른 예약관리가 필요하신가요?",
+              "이상품을 선택하세요."
+            ]}
+          />
         ),
         priceText: "별도문의",
         disable: true

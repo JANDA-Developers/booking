@@ -2,4 +2,11 @@
 
 .JDhelp {
     color: $grey-level1;
+
+    &__content {
+        color: white;
+        .Icon__label {
+            color: white;
+        }
+    }
 }

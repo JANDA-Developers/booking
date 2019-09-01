@@ -14,16 +14,28 @@ html .header {
     z-index: $z-index-9;
         justify-content: space-between;
     @extend %z-depth-1;
-    position: relative;
     width: 100%;
     box-sizing: border-box;
     position: sticky;
     top:0;
 
-    .animationWrap {
-        display:none;
+
+
+    &__notifyIcon {
+        color:white;
     }
 
+    &__right {
+        align-items: center;
+        display: flex;
+        height: 100%;
+        padding-right: $container-padding;
+
+        & + .animationWrap {
+            display: none;
+        }
+    }
+    
     &__btns {
         display:inline-block;
         height: 100%;
@@ -39,30 +51,22 @@ html .header {
         align-items: center;
     }
 
-    &__right {
+    &__pcRight {
         display: flex;
         height: 100%;
         align-items: center;
+
+        &--unlogin {
+            margin-left: 0;
+            height:100%;
+            line-height: 100%;
+        }
     }
 
-    &__right_pc_btns {
-        margin-left: 0;
-        height:100%;
-        line-height: 100%;
-    }
-
-    // 모바일 앱버튼 
     &__apps {
-        padding-right: $container-padding;
         margin-left: auto;
-        display:none;
         .circleIcon  {
             margin-right:0;
-        }
-
-        
-        @include response($phablet) {
-            display:block;
         }
     }
 
@@ -109,6 +113,7 @@ html .header {
     // 프로필 써클
     &__profile {
         margin-left: auto;
+        margin-right: 12px;  // 왼쪽 아이콘에의한 상수 
     }
 
     // 버튼들 로그인 로그아웃...
@@ -142,7 +147,7 @@ html .header {
     }
 
     // 툴팁리스트
-    #listAboutUser {
+    #tooltip_user {
         li {
             text-align: center;
         }
@@ -201,10 +206,6 @@ html .header {
                 width: 75px;
                 margin-top:0;
             }
-        }
-        
-        &__btns--mobileX,&__profile,.JDselect {
-            display:none;
         }
         
         .JDbtn  {

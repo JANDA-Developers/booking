@@ -3,10 +3,10 @@ import {Query, Mutation} from "react-apollo";
 import {
   getSpecification,
   getSpecificationVariables,
-  updateProductForSU,
-  updateProductForSUVariables
+  updateUserForSU,
+  updateUserForSUVariables
 } from "../../types/api";
-import {GET_HOUSE_SPECIFICATION, UPDATE_PRODUCT_FOR_SU} from "../../queries";
+import {GET_HOUSE_SPECIFICATION, UPDATE_USER_FOR_SU} from "../../queries";
 import {
   queryDataFormater,
   showError,
@@ -14,15 +14,16 @@ import {
 } from "../../utils/utils";
 import SpecificAtion from "./Specification";
 import Preloader from "../../atoms/preloader/Preloader";
+import {getOperationName} from "apollo-link";
 
 interface IProps {
   houseId: string;
   isAdmin?: boolean;
 }
 
-class UpdateProductForSU extends Mutation<
-  updateProductForSU,
-  updateProductForSUVariables
+class UpdateUserForSU extends Mutation<
+  updateUserForSU,
+  updateUserForSUVariables
 > {}
 
 class GetSpecification extends Query<
@@ -42,26 +43,28 @@ const SpecificAtionWrap: React.FC<IProps> = ({houseId, isAdmin}) => {
         );
 
         return (
-          <UpdateProductForSU
-            onCompleted={({UpdateProductForSU}) => {
+          <UpdateUserForSU
+            refetchQueries={[getOperationName(GET_HOUSE_SPECIFICATION)!]}
+            onCompleted={({UpdateProductForSU, UpdateHouse}) => {
               onCompletedMessage(UpdateProductForSU, "변경 완료", "변경 실패");
             }}
-            mutation={UPDATE_PRODUCT_FOR_SU}
+            mutation={UPDATE_USER_FOR_SU}
           >
-            {updateProductForSU => (
+            {updateUserForSu => (
               <Fragment>
-                <Preloader noAnimation size="large" loading={loading} />
-                {loading || (
+                {loading ? (
+                  <Preloader size="large" loading={loading} />
+                ) : (
                   <SpecificAtion
                     isAdmin={isAdmin}
                     loading={loading}
-                    specification={specification || undefined}
-                    updateProductForSU={updateProductForSU}
+                    specification={specification!}
+                    updateUserForSu={updateUserForSu}
                   />
                 )}
               </Fragment>
             )}
-          </UpdateProductForSU>
+          </UpdateUserForSU>
         );
       }}
     </GetSpecification>

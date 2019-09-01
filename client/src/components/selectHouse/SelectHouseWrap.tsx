@@ -13,6 +13,7 @@ import {showError, onCompletedMessage} from "../../utils/utils";
 import {IselectedOption} from "../../atoms/forms/selectBox/SelectBox";
 import {GET_USER_INFO} from "../../queries";
 import {getOperationName} from "apollo-utilities";
+import {IContext} from "../../pages/MiddleServerRouter";
 
 class SelectHouseMutation extends Mutation<
   ISelectHouse,
@@ -20,25 +21,21 @@ class SelectHouseMutation extends Mutation<
 > {}
 
 interface IProps {
-  houses: IHouse[];
-  selectedHouse?: IHouse;
+  context: IContext;
   className?: string;
 }
 
-const SelectHouseWrap: React.SFC<IProps> = ({
-  houses = [],
-  selectedHouse,
-  className
-}) => {
+const SelectHouseWrap: React.SFC<IProps> = ({className, context}) => {
+  const {houses, house} = context;
   const houseOptions = houses.map(house => ({
     value: house._id,
     label: house.name
   }));
 
-  const selectedHouseOption = selectedHouse
+  const selectedHouseOption = house
     ? {
-        value: selectedHouse._id,
-        label: selectedHouse.name
+        value: house._id,
+        label: house.name
       }
     : null;
 
@@ -47,7 +44,6 @@ const SelectHouseWrap: React.SFC<IProps> = ({
       onCompleted={({selectHouse}: any) =>
         onCompletedMessage(selectHouse, "숙소변경", "변경실패")
       }
-      
       mutation={SELECT_HOUSE}
     >
       {selectHouseMu => (

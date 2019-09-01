@@ -1,26 +1,7 @@
+import React from "react";
 import {toast} from "react-toastify";
 import isEmpty from "./isEmptyData";
-
-// ⛔️ [https://github.com/Microsoft/TypeScript/issues/24929]
-
-// 객체 배열에서 값을 복사하고 찾아서 일부 변경해주는 함수
-// function copyFindReplace<T, K extends keyof T>(copy: Array<T>, findKey: K, findValue: any, replace?: undefined): number;
-// function copyFindReplace<T, K extends keyof T>(
-//   copy: Array<T>,
-//   findKey: K,
-//   findValue: any,
-//   replace?: { [foo: string]: any } | undefined,
-// ) {
-//   const value = Object.assign(copy, {});
-//   const index = value.findIndex(cv => cv[findKey] === findValue);
-//   if (index === -1) return -1;
-//   if (!replace) return index;
-//   value[index] = {
-//     ...value[index],
-//     ...replace,
-//   };
-//   return { value, index };
-// }
+import ToastError from "../components/toasts/errorToast";
 
 function queryDataFormater<T, K extends keyof T, C extends keyof T[K], D>(
   data: T | undefined,
@@ -39,7 +20,7 @@ function queryDataFormater<T, K extends keyof T, C extends keyof T[K], D>(
       if (inData.error) {
         console.error("queryDataFormater: Error From BackEnd");
         console.error(inData.error);
-        toast.error('오류발생');
+        toast.warn(<ToastError />);
         return falsyReturn as any;
       }
       return inData;

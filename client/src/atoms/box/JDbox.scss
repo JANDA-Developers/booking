@@ -5,12 +5,31 @@
 #root,.ReactModalPortal {
     .JDbox {
 
+        @include textAlign--prefixer();
+
+        @include colorBg--prefixer();
+
         &--clickable {
             cursor: pointer;
             &:hover {
                 background-color: $grey-level2;
             }
         }
+
+        &--flex {
+            .JDbox__content {
+                display:flex;
+                justify-content: space-between;
+            }
+        }
+        &--flexVcenter {
+            .JDbox__content {
+                display:flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+        
         
 
         &__label {
@@ -28,7 +47,6 @@
         &--normal {
             box-sizing: border-box;
             padding: $standard-small-space;
-            margin-bottom: $standard-margin-bottom;
             background-color: $grey-level1;
             border-radius: $standard-border-radius;
             text-align: left;
@@ -56,10 +74,17 @@
             text-align:center;
         }
 
+        
         &--border {
+            background-color: transparent!important;
             border-radius: $standard-border-radius;
             padding: $standard-small-space;
             border: 1px solid $grey-level1;
+
+            &.JDbox {
+                @include colorText--prefixer();
+                @include colorBorder--prefixer();
+            }
         }
         
         &--dashBorder {
@@ -99,7 +124,7 @@
             }
         }
 
-        @include color--prefixer()
+        @include colorBg--prefixer();
 
         &--primary {
             .JDicon:hover {

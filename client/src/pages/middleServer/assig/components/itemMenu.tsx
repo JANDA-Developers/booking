@@ -30,7 +30,7 @@ const ItemMenu: React.FC<IProps> = ({
         const targetGuest = guestValue.find(guest => guest.id === guestId);
         if (!targetGuest) return;
         return (
-          <ul>
+          <ul className="tooltipList__ul">
             <li>
               <Button
                 onClick={() => {
@@ -38,12 +38,8 @@ const ItemMenu: React.FC<IProps> = ({
                   toogleCheckInOut(guestId);
                 }}
                 label={targetGuest.isCheckin ? "체크아웃" : "체크인"}
-                
               />
             </li>
-            {/* <li>
-          <Button label="배정확정"  color="white" />
-        </li> */}
             <li>
               <Button
                 onClick={() => {
@@ -51,7 +47,6 @@ const ItemMenu: React.FC<IProps> = ({
                   deleteGuestById(guestId);
                 }}
                 label="삭제"
-                
               />
             </li>
             <li>
@@ -61,7 +56,6 @@ const ItemMenu: React.FC<IProps> = ({
                   blockOpModal.openModal(targetGuest);
                 }}
                 label="색상설정"
-                
               />
             </li>
             <li>
@@ -73,7 +67,6 @@ const ItemMenu: React.FC<IProps> = ({
                   });
                 }}
                 label="정보보기"
-                
               />
             </li>
           </ul>

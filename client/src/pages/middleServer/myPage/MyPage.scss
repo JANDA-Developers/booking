@@ -13,7 +13,11 @@
         }
     }
     
-    &__myHouse {
+    &__myHouses {
+        min-width: 460px;
+        @include response ($phablet) {
+            min-width: 290px;
+        }
     }
     
     @include response ($full,$phabletUp) {

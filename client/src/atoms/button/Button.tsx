@@ -6,9 +6,10 @@ import classNames from "classnames";
 import ErrProtecter from "../../utils/errProtect";
 import Icon, {IIcons} from "../icons/Icons";
 import Preloader from "../preloader/Preloader";
-import {s4} from "../../utils/utils";
+import {s4, colorClass} from "../../utils/utils";
 import Tooltip from "../tooltip/Tooltip";
 import {Redirect, Router, withRouter} from "react-router";
+import {JDColor} from "../../types/enum";
 
 interface IProps extends React.HTMLAttributes<HTMLButtonElement> {
   disabled?: boolean;
@@ -24,7 +25,7 @@ interface IProps extends React.HTMLAttributes<HTMLButtonElement> {
   float?: string;
   type?: "button" | "submit" | "reset" | undefined;
   color?: string;
-  thema?: "primary" | "grey" | "point" | "warn" | "normal";
+  thema?: JDColor | null;
   pulse?: boolean;
   blink?: boolean;
   toggle?: boolean;
@@ -72,12 +73,9 @@ const Button: React.FC<IProps> = ({
     "JDbtn--border": mode === "border",
     "JDbtn--left": float === "left",
     "JDbtn--right": float === "right",
-    "JDbtn--white": color === "white",
-    "JDbtn--primary": thema === "primary",
+    "JDbtn--text-white": color === "white",
     "JDbtn--transparent": transparent,
-    "JDbtn--grey": thema === "grey",
-    "JDbtn--point": thema === "point",
-    "JDbtn--error": thema === "warn",
+    ...colorClass("JDbtn", thema),
     "JDwaves-effect-dark": mode === "flat" && thema === "normal",
     "JDbtn--pulse": pulse,
     "JDbtn--toogleOn": toggle === true,

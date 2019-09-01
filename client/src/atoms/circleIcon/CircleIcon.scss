@@ -32,6 +32,11 @@
     &--greybg {
         background-color: $grey-level1;
     }
+
+    &--border {
+        border: 1px solid $grey-level1;
+    }
+    
     &--large {
         width: 2.5rem;
         height: 2.5rem;

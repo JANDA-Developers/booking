@@ -4,12 +4,14 @@ import JDanimation, {Animation} from "../../../../atoms/animation/Animations";
 import {IUser} from "../../../../types/interface";
 import {randomIntFromInterval} from "../../../../utils/utils";
 import JDbox from "../../../../atoms/box/JDbox";
+import {IContext} from "../../../MiddleServerRouter";
 
 interface IProps {
-  userData: IUser;
+  context: IContext;
 }
 
-const GreetingBox: React.FC<IProps> = ({userData}) => {
+const GreetingBox: React.FC<IProps> = ({context}) => {
+  const {user: userData} = context;
   const greetingTexts = [
     <span>
       {`${userData.name}님 안녕하세요.`} <br />

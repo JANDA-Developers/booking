@@ -27,8 +27,7 @@ $animation-time: 0.5s;
 // Multi-step code
 
 .multi-step {
-    margin: ($base-margin / 2) 0;
-    margin-bottom: $standard-margin-bottom + 1rem;
+    margin-bottom: $standard-margin-bottom;
 }
 
 // Setting up flexbox for list
@@ -96,7 +95,7 @@ $animation-time: 0.5s;
 .item-wrap {
 	padding: $standard-small-space;
 	position: relative;
-	height: 100%;
+	height: $standard-height;
 	&:before, &:after {
 		position: absolute;
 		left: 0;

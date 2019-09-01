@@ -1,12 +1,12 @@
-import React from 'react';
-import './myHouseAdd.scss';
-import { Link } from 'react-router-dom';
-import Card from '../../../../atoms/cards/Card';
-import Icon from '../../../../atoms/icons/Icons';
+import React from "react";
+import "./myHouseAdd.scss";
+import {Link} from "react-router-dom";
+import Card from "../../../../atoms/cards/Card";
+import Icon from "../../../../atoms/icons/Icons";
 
 const MyProductAdd = () => (
   <Link to="/makeHouse">
-    <Card hover>
+    <Card className="myHouseCard" hover>
       <h6 className="myProductAdd">
         <Icon icon="addCircle" />
       </h6>

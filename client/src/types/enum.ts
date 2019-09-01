@@ -16,6 +16,18 @@ export enum GuestType {
   GUEST = "GUEST"
 }
 
+export enum MemoType {
+  HOST = "HOST"
+}
+
+export enum SalesStatisticsUnit {
+  BY_DATE = "BY_DATE",
+  BY_DAY_OF_WEEK = "BY_DAY_OF_WEEK",
+  MONTHLY = "MONTHLY",
+  WEEKLY = "WEEKLY",
+  YEARLY = "YEARLY"
+}
+
 export enum HouseType {
   GUEST_HOUSE = "GUEST_HOUSE",
   HOSTEL = "HOSTEL",
@@ -65,13 +77,15 @@ export enum LanguageKr {
   CHINESE = "중국어"
 }
 
-export enum ProductStatus {
+export enum HouseStatus {
   ENABLE = "ENABLE",
   DISALBE = "DISALBE",
   WAIT = "WAIT"
 }
 
-export enum ProductStatusKr {
+export type TextAlign = "left" | "right" | "center";
+
+export enum HouseStatusKr {
   ENABLE = "정상",
   DISALBE = "정지",
   WAIT = "대기"
@@ -177,15 +191,6 @@ export enum BookingModalType {
 }
 
 // export enum
-
-export enum SalesStatisticsUnit {
-  BY_DATE = "BY_DATE",
-  BY_DAY_OF_WEEK = "BY_DAY_OF_WEEK",
-  MONTHLY = "MONTHLY",
-  WEEKLY = "WEEKLY",
-  YEARLY = "YEARLY"
-}
-
 export enum SalesStatisticsUnitKr {
   BY_DAY_OF_WEEK = "요일별",
   BY_DATE = "날자별",
@@ -193,6 +198,24 @@ export enum SalesStatisticsUnitKr {
   WEEKLY = "주별",
   YEARLY = "년별"
 }
+
+export enum NotificationType {
+  ELSE = "ELSE",
+  NEW_BOOKING = "NEW_BOOKING",
+  TO_ALL = "TO_ALL"
+}
+
+export type JDColor =
+  | "primary"
+  | "point"
+  | "new"
+  | "warn"
+  | "error"
+  | "black"
+  | "white"
+  | "grey"
+  | "normal"
+  | "positive";
 
 export enum AutoSendWhen {
   WEHN_BOOKING_CANCEL = "WEHN_BOOKING_CANCEL",
@@ -296,6 +319,11 @@ export const SmsReplaceKeyEnumValues = [
   "%PAYMENTSTATUS%"
 ];
 
+export enum NotificationLevel {
+  NORMAL = "NORMAL",
+  WARN = "WARN"
+}
+
 export const KR_SMS_PARSER = {
   BOOKERNAME: SmsReplaceKeyEnumKr.BOOKERNAME,
   ROOMTYPE_N_COUNT: SmsReplaceKeyEnumKr.ROOMTYPE_N_COUNT,
@@ -385,10 +413,15 @@ export const SMS_TARGET_OP = [
   {value: SendTarget.HOST, label: SendTargetKr.HOST}
 ];
 
+export const NOTI_LEVEL_OP = [
+  {value: NotificationLevel.NORMAL, label: NotificationLevel.NORMAL},
+  {value: NotificationLevel.WARN, label: NotificationLevel.WARN}
+];
+
 export const PRODUCT_STATUS_OP = [
-  {value: ProductStatus.WAIT, label: ProductStatusKr.WAIT},
-  {value: ProductStatus.ENABLE, label: ProductStatusKr.ENABLE},
-  {value: ProductStatus.DISALBE, label: ProductStatusKr.DISALBE}
+  {value: HouseStatus.WAIT, label: HouseStatusKr.WAIT},
+  {value: HouseStatus.ENABLE, label: HouseStatusKr.ENABLE},
+  {value: HouseStatus.DISALBE, label: HouseStatusKr.DISALBE}
 ];
 
 export const PAYMETHOD_FOR_BOOKER_OP = [

@@ -4,6 +4,7 @@ import isEmpty from "./isEmptyData";
 import download from "./download";
 import {smsMessageFormatter, smsMsgParser, templateOpMaker} from "./smsUtils";
 import autoHypen, {autoComma, numberStr, toNumber} from "./autoFormat";
+import stepFinder from "./stepFinder";
 import {
   JDMonthTextChanger,
   JDWeekChanger,
@@ -24,6 +25,7 @@ import {
 import insideRedirect from "./insideRedirect";
 import isDiff from "./isDiff";
 import isTestProduct from "./isTestProduct";
+import {textAlignClass, colorClass} from "./autoClasses";
 import searchListFormat from "./searchListFormater";
 import {showError} from "./errorMessage";
 import onCompletedMessage from "./apolloCompleteM";
@@ -40,6 +42,8 @@ import JDscrollTo from "./scrollTo";
 import targetBlink from "./targetBlink";
 import mergeObject from "./mergeObject";
 import jsonString from "./jsonString";
+import getGenderIcon from "./getGenderIcon";
+import getRoomCountFromHouse from "./getRoomCountFromHouse";
 
 const JDutils = {
   isTestProduct,
@@ -52,6 +56,9 @@ const JDutils = {
   isName,
   isMaxOver,
   isPassword,
+  textAlignClass,
+  stepFinder,
+  colorClass,
   JDscrollTo,
   randomIntFromInterval,
   JDMonthTextChanger,
@@ -62,6 +69,7 @@ const JDutils = {
   queryDataFormater,
   pageNationFormater,
   setMidNight,
+  getRoomCountFromHouse,
   applyDaysToArr,
   arrToApplyDays,
   stringToPrice,
@@ -70,6 +78,7 @@ const JDutils = {
   autoComma,
   dayarrEnToBooleanArr,
   isYYYYMMDD,
+  getGenderIcon,
   numberStr,
   toNumber,
   smsMessageFormatter,
@@ -94,11 +103,16 @@ export {
   isEmpty,
   smsMessageFormatter,
   download,
+  stepFinder,
+  textAlignClass,
+  colorClass,
   ErrProtecter,
   removeNullOfObject,
   autoHypen,
+  getRoomCountFromHouse,
   dayarrEnToBooleanArr,
   pageNationFormater,
+  getGenderIcon,
   showError,
   smsMsgParser,
   isTestProduct,

@@ -39,7 +39,9 @@ import {
   createBooking,
   createBookingVariables,
   allocateGuestToRoom,
-  allocateGuestToRoomVariables
+  allocateGuestToRoomVariables,
+  createBooking_CreateBooking_booking,
+  createBooking_CreateBooking
 } from "../../types/api";
 import {GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM} from "../../queries";
 import SendSMSmodalWrap, {IModalSMSinfo} from "../smsModal/SendSmsModalWrap";
@@ -51,9 +53,12 @@ import Preloader from "../../atoms/preloader/Preloader";
 import {validate} from "graphql";
 import {toast} from "react-toastify";
 import {isPhone} from "../../utils/inputValidations";
-import {autoComma} from "../../utils/utils";
+import {autoComma, muResult} from "../../utils/utils";
+import {async} from "q";
+import {IContext} from "../../pages/MiddleServerRouter";
+import {FetchResult} from "apollo-link";
 
-export interface IroomSelectInfoTable {
+export interface IRoomSelectInfoTable {
   roomTypeId: string;
   roomTypeName: string;
   count: IResvCount;
@@ -73,9 +78,8 @@ interface IProps {
     allocateGuestToRoom,
     allocateGuestToRoomVariables
   >;
-  assigUtils?: IAssigTimelineUtils;
   assigInfo: IAssigInfo[];
-  houseId: string;
+  context: IContext;
   loading: boolean;
   type?: BookingModalType;
 }
@@ -84,22 +88,22 @@ const POPbookingInfo: React.FC<IProps> = ({
   modalHook,
   bookingData,
   updateBookingMu,
-  assigUtils,
   createBookingMu,
   deleteBookingMu,
   createBookingLoading,
   allocateGuestToRoomMu,
   placeHolederPrice,
-  assigInfo,
   loading,
   type = BookingModalType.LOOKUP,
-  houseId
+  context
 }) => {
+  const {house} = context;
+  const {_id: houseId} = house;
   const sendSmsModalHook = useModal<IModalSMSinfo>(false);
   const confirmModalHook = useModal(false);
   const bookingNameHook = useInput(bookingData.name);
   const bookingPhoneHook = useInput(bookingData.phoneNumber);
-  const priceHook = useInput(bookingData.price || 0);
+  const priceHook = useInput(bookingData.price);
   const memoHook = useInput(bookingData.memo || "");
   const payMethodHook = useSelect(
     bookingData._id !== "default"
@@ -129,11 +133,39 @@ const POPbookingInfo: React.FC<IProps> = ({
   );
 
   const resvDateHook = useDayPicker(
-    moment(bookingData.start).toDate(),
-    moment(bookingData.end).toDate()
+    moment(bookingData.checkIn).toDate(),
+    moment(bookingData.checkOut).toDate()
   );
 
-  const handleIconClick = () => {
+  const validate = () => {
+    if (!paymentStatusHook.selectedOption) {
+      toast.warn("결제방법을 선택해주세요.");
+      return false;
+    }
+
+    if (!paymentStatusHook.selectedOption) {
+      toast.warn("결제상태를 선택해주세요.");
+      return false;
+    }
+
+    if (!bookingStatueHook.selectedOption) {
+      toast.warn("예약상태를 선택해주세요.");
+      return false;
+    }
+
+    if (!bookingNameHook.value) {
+      toast.warn("부킹이름을 입력해주세요.");
+      return false;
+    }
+
+    if (!bookingPhoneHook.value) {
+      toast.warn("예약자번호를 입력해주세요.");
+      return false;
+    }
+    return true;
+  };
+
+  const handleSmsIconClick = () => {
     if (!bookingPhoneHook.isValid) {
       toast.warn("올바른 휴대폰 번호가 아닙니다.");
       return;
@@ -144,7 +176,7 @@ const POPbookingInfo: React.FC<IProps> = ({
     });
   };
 
-  const defaultFormat: IroomSelectInfoTable[] = getRoomTypePerGuests(
+  const roomTypePerGuests: IRoomSelectInfoTable[] = getRoomTypePerGuests(
     bookingData
   );
 
@@ -165,7 +197,7 @@ const POPbookingInfo: React.FC<IProps> = ({
     }
   };
 
-  // 예약삭제
+  // 예약삭제 버튼 클릭
   const handleDeletBtnClick = () => {
     confirmModalHook.openModal({txt: "정말 예약을 삭제하시겠습니까?"});
   };
@@ -180,16 +212,18 @@ const POPbookingInfo: React.FC<IProps> = ({
     }
   };
 
-  // 예약생성
-  const handleCreateBtnClick = () => {
-    if (!bookingData.roomTypes) return;
+  const whenCreateBookingFail = () => {
+    modalHook.closeModal();
+  };
 
-    const smsCallBackFn = async (flag: boolean) => {
-      assigUtils && assigUtils.changeMakeBlock();
-      const result = await createBookingMu({
+  const createBooking = async (sendSmsFlag: boolean = false) => {
+    if (!validate()) return;
+
+    try {
+      await createBookingMu({
         variables: {
           bookingParams: {
-            start: resvDateHook.from,
+            checkIn: resvDateHook.from,
             bookerParams: {
               house: houseId,
               price: priceHook.value || 0,
@@ -203,8 +237,8 @@ const POPbookingInfo: React.FC<IProps> = ({
                 paymentStatusHook.selectedOption &&
                 paymentStatusHook.selectedOption.value
             },
-            end: resvDateHook.to,
-            guestInputs: defaultFormat.map(data => ({
+            checkOut: resvDateHook.to,
+            guestInputs: roomTypePerGuests.map(data => ({
               roomTypeId: data.roomTypeId,
               pricingType: data.pricingType,
               countFemaleGuest: data.count.female,
@@ -213,30 +247,20 @@ const POPbookingInfo: React.FC<IProps> = ({
                 data.pricingType === PricingType.ROOM ? data.count.roomCount : 0
             }))
           },
-          sendSmsFlag: flag
+          sendSmsFlag
         }
       });
+    } catch (error) {
+      whenCreateBookingFail();
+    }
+  };
 
-      if (result && result.data && result.data.CreateBooking.ok) {
-        const newGuests = result.data.CreateBooking.booking;
-        if (newGuests && newGuests.guests) {
-          newGuests.guests.forEach((guest, index) => {
-            const assigIndex = assigInfo.findIndex(
-              assig => assig.gender === guest.gender
-            );
+  // 예약생성
+  const handleCreateBtnClick = () => {
+    if (!bookingData.roomTypes) return;
 
-            allocateGuestToRoomMu({
-              variables: {
-                bedIndex: assigInfo[assigIndex].bedIndex,
-                guestId: guest._id,
-                roomId: assigInfo[assigIndex].roomId
-              }
-            });
-
-            assigInfo.splice(assigIndex, 1);
-          });
-        }
-      }
+    const smsCallBackFn = async (flag: boolean) => {
+      createBooking(flag);
     };
 
     sendSmsModalHook.openModal({
@@ -246,9 +270,10 @@ const POPbookingInfo: React.FC<IProps> = ({
       callBackFn: smsCallBackFn
     });
   };
+
   // 예약수정
-  // 👿 modify 를 전부 update로 변경하자.
   const handleUpdateBtnClick = () => {
+    if (!validate()) return;
     // SMS 인포를 꺼내서 발송할 SMS 문자가 있는지 확인해야할것 같다.
     updateBookingMu({
       variables: {
@@ -257,17 +282,12 @@ const POPbookingInfo: React.FC<IProps> = ({
           email: "demo@naver.com",
           memo: memoHook.value,
           isCheckIn: {
-            isIn: bookingData.checkIn.isIn
+            isIn: bookingData.checkIn.isIn || false
           },
           name: bookingNameHook.value,
-          payMethod:
-            payMethodHook.selectedOption && payMethodHook.selectedOption.value,
-          paymentStatus:
-            paymentStatusHook.selectedOption &&
-            paymentStatusHook.selectedOption.value,
-          bookingStatus:
-            bookingStatueHook.selectedOption &&
-            bookingStatueHook.selectedOption.value,
+          payMethod: payMethodHook.selectedOption!.value,
+          paymentStatus: paymentStatusHook.selectedOption!.value,
+          bookingStatus: bookingStatueHook.selectedOption!.value,
           phoneNumber: bookingPhoneHook.value,
           price: priceHook.value
         }
@@ -304,9 +324,7 @@ const POPbookingInfo: React.FC<IProps> = ({
                   label="전화번호"
                   icon="sms"
                   iconHover
-                  iconOnClick={() => {
-                    handleIconClick();
-                  }}
+                  iconOnClick={handleSmsIconClick}
                 />
               </div>
               <div className="JD-z-index-1 flex-grid__col col--full-4 col--lg-4 col--md-4">
@@ -366,7 +384,7 @@ const POPbookingInfo: React.FC<IProps> = ({
                 />
               </div>
               <div className="flex-grid__col col--full-12 col--lg-12 col--md-12">
-                <RoomSelectInfoTable resvInfo={defaultFormat} />
+                <RoomSelectInfoTable resvInfo={roomTypePerGuests} />
               </div>
             </div>
           </div>
@@ -383,7 +401,6 @@ const POPbookingInfo: React.FC<IProps> = ({
               label="생성하기"
               disabled={type === BookingModalType.LOOKUP}
               thema="primary"
-              
               onClick={handleCreateBtnClick}
             />
             <Button
@@ -391,21 +408,19 @@ const POPbookingInfo: React.FC<IProps> = ({
               disabled={type !== BookingModalType.LOOKUP}
               label="수정하기"
               thema="primary"
-              
               onClick={handleUpdateBtnClick}
             />
             <Button
               size="small"
               label="예약삭제"
               disabled={type !== BookingModalType.LOOKUP}
-              thema="warn"
-              
+              thema="error"
               onClick={handleDeletBtnClick}
             />
           </div>
         </Fragment>
       )}
-      <SendSMSmodalWrap houseId={houseId} modalHook={sendSmsModalHook} />
+      <SendSMSmodalWrap context={context} modalHook={sendSmsModalHook} />
       <JDtoastModal
         confirm
         confirmCallBackFn={deleteModalCallBackFn}

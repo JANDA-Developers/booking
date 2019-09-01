@@ -6,7 +6,7 @@ import JDPagination from "../../../atoms/pagination/Pagination";
 import {IPageInfo} from "../../../types/interface";
 import JDtable, {ReactTableDefault} from "../../../atoms/table/Table";
 import {CellInfo} from "react-table";
-import JDbadge, {BADGE_THEMA} from "../../../atoms/badge/Badge";
+import JDbadge from "../../../atoms/badge/Badge";
 import JDbox from "../../../atoms/box/JDbox";
 import {s4, autoHypen} from "../../../utils/utils";
 import moment from "moment";
@@ -46,7 +46,7 @@ const SmsHistory: React.SFC<Iprops> = ({
       accessor: "receivers",
       Cell: ({value}: CellInfo) =>
         value.map((receiver: string) => (
-          <JDbox size="small" align="center" key={s4()}>
+          <JDbox size="small" textAlign="center" key={s4()}>
             {autoHypen(receiver)}
           </JDbox>
         ))
@@ -89,9 +89,9 @@ const SmsHistory: React.SFC<Iprops> = ({
       Cell: ({value}: CellInfo) => (
         <span>
           {value ? (
-            <JDbadge thema={BADGE_THEMA.PRIMARY}>송신완료</JDbadge>
+            <JDbadge thema={"primary"}>송신완료</JDbadge>
           ) : (
-            <JDbadge thema={BADGE_THEMA.ERROR}>송신실패</JDbadge>
+            <JDbadge thema={"error"}>송신실패</JDbadge>
           )}
         </span>
       )

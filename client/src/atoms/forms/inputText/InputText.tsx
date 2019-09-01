@@ -18,7 +18,8 @@ interface IProps extends React.HTMLAttributes<HTMLInputElement> {
   doubleHeight?: boolean;
   halfHeight?: boolean;
   label?: string;
-  size?: "h6";
+  size?: "fullWidth" | "fullHeight";
+  textSize?: "h6";
   type?: string;
   textAlign?: "center";
   dataError?: string;
@@ -42,10 +43,10 @@ interface IProps extends React.HTMLAttributes<HTMLInputElement> {
   hyphen?: boolean;
   byte?: boolean;
   comma?: boolean;
-  fullHeight?: boolean;
   returnNumber?: boolean;
   allWaysShowValidMessage?: boolean;
   className?: string;
+  wrapClassName?: string;
 }
 
 const InputText: React.FC<IProps> = ({
@@ -73,13 +74,14 @@ const InputText: React.FC<IProps> = ({
   dataSuccess,
   allWaysShowValidMessage,
   icon,
-  fullHeight,
   iconOnClick,
   textAlign,
   iconHover,
   hyphen,
   byte,
   size,
+  textSize,
+  wrapClassName,
   comma,
   ...props
 }) => {
@@ -103,6 +105,7 @@ const InputText: React.FC<IProps> = ({
   const inHandleChange = (event: any) => {
     const {target} = event;
     const result = validation(target.value, max);
+    autoChangeHeight();
     if (onChange) {
       if (hyphen || comma) {
         if (typeof value === "number" || returnNumber) {
@@ -120,9 +123,14 @@ const InputText: React.FC<IProps> = ({
     }
   };
 
+  const wrapClasses = classNames("JDinput-wrap", wrapClassName, {
+    "JDinput-wrap--fullWidth": size === "fullWidth",
+    "JDinput-wrap--fullHeight": size === "fullHeight"
+  });
+
   const classes = classNames(textarea ? "JDtextarea" : "JDinput", className, {
     "JDinput--labeled": label && !textarea,
-    "JDinput--h6": size === "h6",
+    "JDinput--h6": textSize === "h6",
     "JDinput--center": textAlign === "center",
     "JDinput--valid": (isValid === true || selfValid === true) && !textarea,
     "JDinput--invalid": (isValid === false || selfValid === false) && !textarea,
@@ -153,11 +161,15 @@ const InputText: React.FC<IProps> = ({
     }
   }, []);
 
-  useEffect(() => {
+  const autoChangeHeight = () => {
     if (autoHeight) {
       const target = $(`#JDtextarea${newId}`);
       target.height("auto").height(target.prop("scrollHeight") + 12);
     }
+  };
+
+  useEffect(() => {
+    autoChangeHeight();
   });
 
   const newId = s4();
@@ -166,7 +178,7 @@ const InputText: React.FC<IProps> = ({
 
   // 인풋 과 텍스트어리어 경계
   return !textarea ? (
-    <div className={`JDinput-wrap`}>
+    <div className={wrapClasses}>
       {icon ? (
         <span className="JDinput-iconWrap">
           {icon && (
@@ -201,7 +213,7 @@ const InputText: React.FC<IProps> = ({
       </label>
     </div>
   ) : (
-    <div className={`JDinput-wrap ${fullHeight && "JDinput-wrap--fullHeight"}`}>
+    <div className={wrapClasses}>
       <textarea
         disabled={disabled}
         value={formatedValue || undefined}

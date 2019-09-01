@@ -17,7 +17,10 @@ import {
   allocateGuestToRoomVariables,
   RoomGender,
   getRoomTypeDatePrices,
-  getRoomTypeDatePricesVariables
+  getRoomTypeDatePricesVariables,
+  createBooking_CreateBooking,
+  updateBooking_UpdateBooking,
+  deleteBooking_DeleteBooking
 } from "../../types/api";
 import {
   queryDataFormater,
@@ -47,10 +50,24 @@ import {
 } from "../../pages/middleServer/assig/components/assigIntrerface";
 import JDmodal from "../../atoms/modal/Modal";
 import {totalPriceGetAveragePrice} from "../../utils/booking";
+import {IContext} from "../../pages/MiddleServerRouter";
+
+export interface IBookingModalProp {
+  createBookingCallBack?: (
+    result: "error" | createBooking_CreateBooking
+  ) => any;
+  updateBookingCallBack?: (
+    result: "error" | updateBooking_UpdateBooking
+  ) => any;
+  deleteBookingCallBack?: (
+    result: "error" | deleteBooking_DeleteBooking
+  ) => any;
+  [key: string]: any;
+}
 
 interface IProps {
-  modalHook: IUseModal;
-  houseId: string;
+  context: IContext;
+  modalHook: IUseModal<IBookingModalProp>;
   assigUtils?: IAssigTimelineUtils;
 }
 
@@ -67,17 +84,14 @@ class GetPriceWithDate extends Query<
   getRoomTypeDatePrices,
   getRoomTypeDatePricesVariables
 > {}
-// 🆔 음 여기서 예약 변동 가능 범위를 받아야할것 같은뎅?
-// 🆔 여기서 쿼리로 북커 인포를 받아야함
-// 🆔 예약삭제 뮤테이션
-// 🆔 예약변경 뮤테이션
-// 🆔 예약생성 뮤테이션
 
 const BookingModalWrap: React.FC<IProps> = ({
   modalHook,
-  houseId,
+  context,
   assigUtils
 }) => {
+  const {house} = context;
+
   const Result = useMemo(
     () => (
       <GetBookingQuery
@@ -98,19 +112,21 @@ const BookingModalWrap: React.FC<IProps> = ({
 
           // ⭐️ 생성일경우
           // 생성일경우 만들어질 임시 booking
-          let makeInfo: GB_booking | undefined = undefined;
-          if (
-            modalHook.info.type &&
-            modalHook.info.type === BookingModalType.CREATE_WITH_ASSIG
-          ) {
-            const createModaInfoes: ICreateBookingInfo = modalHook.info;
+          const createInfoToBookingInfo = (
+            createModaInfoes: ICreateBookingInfo
+          ): GB_booking | undefined => {
+            if (
+              !createModaInfoes.type ||
+              createModaInfoes.type !== BookingModalType.CREATE_WITH_ASSIG
+            )
+              return undefined;
 
-            makeInfo = {
+            return {
               ...DEFAULT_BOOKING,
               agreePrivacyPolicy: true,
               bookingStatus: BookingStatus.COMPLETE,
-              start: createModaInfoes.start,
-              end: createModaInfoes.end,
+              checkIn: createModaInfoes.checkIn,
+              checkOut: createModaInfoes.checkOut,
               roomTypes: _.uniqBy(
                 createModaInfoes.resvInfoes.map(resvInfo => ({
                   ...DEFAULT_ROOMTYPE,
@@ -130,35 +146,41 @@ const BookingModalWrap: React.FC<IProps> = ({
                 }
               }))
             };
-          }
+          };
 
-          const priceVariables = (() => {
-            const valueFinedr = (
-              obj?: getBooking_GetBooking_booking,
-              obj2?: getBooking_GetBooking_booking
+          const makeInfo = createInfoToBookingInfo(modalHook.info as any);
+
+          //  makeInfo와 Booking 중에 맞는 값을 찾아서 query Variable 에 맞는 형태로 반환
+          const priceQueryVariables:
+            | getRoomTypeDatePricesVariables
+            | undefined = (() => {
+            const findExistObj = () =>
+              isEmpty(makeInfo) ? makeInfo : booking || undefined;
+
+            const variableMaker = (
+              bookingObj?: getBooking_GetBooking_booking
             ) => {
-              const exsistObj = isEmpty(obj) ? obj : obj2;
+              if (!bookingObj) return undefined;
 
               return {
-                end: exsistObj ? exsistObj.end : new Date(),
-                start: exsistObj ? exsistObj.end : new Date(),
-                houseId: houseId,
-                romTypeIds:
-                  exsistObj && exsistObj.guests
-                    ? exsistObj.guests.map(guest => guest.roomType!._id)
-                    : []
+                end: bookingObj.checkIn,
+                start: bookingObj.checkOut,
+                houseId: house._id,
+                romTypeIds: bookingObj.guests
+                  ? bookingObj.guests.map(guest => guest.roomType!._id)
+                  : []
               };
             };
 
-            return valueFinedr(makeInfo, booking || undefined);
+            return variableMaker(findExistObj());
           })();
 
           return (
             <GetPriceWithDate
-              skip={getBooking_loading}
+              skip={getBooking_loading || isEmpty(priceQueryVariables)}
               query={GET_ROOM_TYPE_DATE_PRICE}
               notifyOnNetworkStatusChange
-              variables={priceVariables}
+              variables={priceQueryVariables}
             >
               {({data: priceResult, loading: getPrice_loading, error}) => {
                 const priceData = queryDataFormater(
@@ -201,6 +223,10 @@ const BookingModalWrap: React.FC<IProps> = ({
                           <CreatBookingMu
                             mutation={CREATE_BOOKING}
                             onCompleted={({CreateBooking}) => {
+                              if (modalHook.info.createBookingCallBack)
+                                modalHook.info.createBookingCallBack(
+                                  CreateBooking
+                                );
                               onCompletedMessage(
                                 CreateBooking,
                                 "예약 생성 완료",
@@ -209,12 +235,6 @@ const BookingModalWrap: React.FC<IProps> = ({
                               if (CreateBooking.ok) {
                                 modalHook.closeModal();
                               }
-                              // TODO 여기에 컬백으로 배정
-                              // allocateGuestToRoomMu({
-                              //   variables: {
-                              //     bedIndex:
-                              //   }
-                              // })
                             }}
                             refetchQueries={[
                               getOperationName(
@@ -254,7 +274,7 @@ const BookingModalWrap: React.FC<IProps> = ({
                                       bookingData={bookingData}
                                       assigInfo={modalHook.info.assigInfo}
                                       type={modalHook.info.type}
-                                      houseId={houseId}
+                                      context={context}
                                       loading={totalLoading}
                                       modalHook={modalHook}
                                       createBookingMu={createBookingMu}
@@ -263,7 +283,6 @@ const BookingModalWrap: React.FC<IProps> = ({
                                       createBookingLoading={
                                         createBookingLoading
                                       }
-                                      assigUtils={assigUtils}
                                       placeHolederPrice={placeHolederPrice}
                                       allocateGuestToRoomMu={
                                         allocateGuestToRoomMu

@@ -8,12 +8,12 @@ import DayPicker, {
 } from "react-day-picker";
 import PropTypes from "prop-types";
 import classNames from "classnames";
-import Caption from "./Caption";
-import Information from "./Information";
-import Navbar from "./Navbar";
-import JDdayPickerInput from "./input/JDdayPickerInput";
-import HorizenDay from "./horizen/HorizenDays";
-import HorizenCaption from "./horizen/HorizenCaption";
+import Caption from "./component/Caption";
+import Information from "./component/Information";
+import Navbar from "./component/Navbar";
+import JDdayPickerInput from "./components/input/JDdayPickerInput";
+import HorizenDay from "./component/horizen/HorizenDays";
+import HorizenCaption from "./component/horizen/HorizenCaption";
 import "./DayPicker.scss";
 import {IUseDayPicker} from "../../actions/hook";
 import Reservation from "../../pages/outPages/reservation/Reservation";

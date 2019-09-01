@@ -18,10 +18,10 @@
   background-color: $button-bgColor;
   text-align: center;
   letter-spacing: $button-letter-sapcing;
-  border:1px solid $grey-opacity1;
   @extend %z-depth-1;
   transition: background-color 0.2s ease-out;
   cursor: pointer;
+  border:none;
 
   &.JDwaves-effect {
     overflow:hidden;
@@ -48,30 +48,10 @@
   }
 
   // MODE
-  &.JDbtn--primary:not(:disabled) {
-    background-color: $primary-color;
-    color: $primary-color-light-on;
-    &:hover {
-      background-color: $primary-color-light
-    }
-  }
-  
-  &.JDbtn--point {
-    background-color: $point-color;
-    color: $point-color-light-on;
-    &:hover {
-      background-color: $point-color-light
-    }
-  }
 
-  &.JDbtn--error {
-    background-color: $error-color;
-    color: #fff;
-    &:hover {
-      background-color: $error-color-light
-    }
-  }
-  
+
+  @include colorBg--prefixer(":not(:disabled)");
+
   &.JDbtn--transparent {
     background-color: transparent;
     &:hover {
@@ -80,8 +60,8 @@
   }
 
   // Colors
-  &--white {
-    color:white;
+  &--text-white {
+    color:white!important;
   }
   
   // TODO: 왼쪽 아이콘은 아직 없음
@@ -188,7 +168,8 @@
 
   &--toogleOff.JDbtn {
   }
-  #root &--border {
+
+  #root,.ReactModalPortal &--border {
     background-color: white;
     border: 1px solid $grey-level1;
     box-shadow:none;
@@ -197,14 +178,10 @@
       background-color: $grey-level1;
     }
 
-    &.JDbtn--primary:not(:disabled) {
-      border-color: $primary-color;
-      color: $primary-color;
+    &.JDbtn {
+      @include colorBorder--prefixer(":not(:disabled)");
+      @include colorText--prefixer(":not(:disabled)");
     }
 
-    &.JDbtn--point:not(:disabled) {
-      border-color: $point-color;
-      color: $point-color;
-    }
   }
 }

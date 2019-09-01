@@ -11,9 +11,10 @@ import {
 import {GET_SALES_STATISTIC} from "../../../queries";
 import {SalesStatisticsUnit} from "../../../types/enum";
 import {queryDataFormater} from "../../../utils/utils";
+import {IContext} from "../../MiddleServerRouter";
 
 interface IProps {
-  houseId: string;
+  context: IContext;
 }
 // refetch 가 Query 컴포넌트 리턴 프로프임
 
@@ -27,7 +28,8 @@ class GetSalesStatistic extends Query<
   getSalesStatisticVariables
 > {}
 
-const StatisticWrap: React.FC<IProps> = ({houseId}) => {
+const StatisticWrap: React.FC<IProps> = ({context}) => {
+  const {house} = context;
   const [queryOp, setQueryOp] = useState<IQueryOp>({
     selectStatic: "매출통계",
     unit: SalesStatisticsUnit.BY_DAY_OF_WEEK
@@ -49,7 +51,7 @@ const StatisticWrap: React.FC<IProps> = ({houseId}) => {
           unit: queryOp.unit,
           end: queryDateHook.to,
           start: queryDateHook.from,
-          houseId
+          houseId: house._id
         }}
         query={GET_SALES_STATISTIC}
       >
@@ -65,9 +67,9 @@ const StatisticWrap: React.FC<IProps> = ({houseId}) => {
             <Statistic
               setQueryOp={setQueryOp}
               queryOp={queryOp}
+              context={context}
               loading={loading}
               outData={statistic || []}
-              houseId={"as"}
               queryDateHook={queryDateHook}
             />
           );

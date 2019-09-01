@@ -11,29 +11,20 @@ import ProfileCircle from "../../atoms/profileCircle/ProfileCircle";
 import SelectHouseWrap from "../selectHouse/SelectHouseWrap";
 import {IUser, IProduct, IHouse} from "../../types/interface";
 import {isEmpty, s4, instanceOfA, isTestProduct} from "../../utils/utils";
-import {ProductStatus} from "../../types/enum";
+import {HouseStatus} from "../../types/enum";
 import {Product} from "../../types/enum";
 import {getMyProfile_GetMyProfile_user} from "../../types/api";
+import {IContext} from "../../pages/MiddleServerRouter";
 
 interface IProps {
   isOpen: boolean;
   setIsOpen: any;
-  userInformation: getMyProfile_GetMyProfile_user;
-  applyedProduct?: IProduct;
-  selectedHouse?: IHouse;
-  profileImg: string;
-  houses: IHouse[];
+  context: IContext;
 }
 
-const SideNav: React.FC<IProps> = ({
-  isOpen,
-  setIsOpen,
-  profileImg,
-  userInformation,
-  applyedProduct,
-  selectedHouse,
-  houses
-}) => {
+const SideNav: React.FC<IProps> = ({isOpen, setIsOpen, context}) => {
+  const {applyedProduct, houses, house, user} = context;
+
   const classes = classNames({
     JDsideNav: true,
     "JDsideNav--open": isOpen
@@ -43,17 +34,12 @@ const SideNav: React.FC<IProps> = ({
     setIsOpen(false);
   };
 
-  const isHouseMaked = !isEmpty(selectedHouse);
-  const isHaveProduct = selectedHouse && selectedHouse.product ? true : false;
-  const isRoomTypeMaked = isHouseMaked && !isEmpty(selectedHouse!.roomTypes);
+  const isHouseMaked = !isEmpty(house);
+  const isHaveProduct = house && house.product ? true : false;
+  const isRoomTypeMaked = isHouseMaked && !isEmpty(house!.roomTypes);
+  const status = house && house.status;
 
-  const product = selectedHouse && selectedHouse.product;
-  let status = ProductStatus.DISALBE;
-  if (product) {
-    status = product.status || ProductStatus.DISALBE;
-  }
-
-  const disabledFlag = status !== ProductStatus.ENABLE;
+  const disabledFlag = status !== HouseStatus.ENABLE;
 
   interface IMenusItem {
     to: string;
@@ -143,6 +129,7 @@ const SideNav: React.FC<IProps> = ({
   const renderLink = (menu: IMenusItem) => {
     return (
       <NavLink
+        key={`JDsideMenu${menu.label}`}
         to={menu.to || "a"}
         onClick={e => {
           handleClickNavLInk(e, menu.disabled);
@@ -168,13 +155,11 @@ const SideNav: React.FC<IProps> = ({
         <div className="JDsideNav__profill">
           <Link to="/myPage">
             <div className="JDsideNav__circle">
-              <ProfileCircle isBordered profileImg={profileImg} />
+              <ProfileCircle isBordered profileImg={user.profileImg} />
             </div>
           </Link>
-          <span className="JDsideNav__name">
-            {userInformation.name || "비회원"}
-          </span>
-          <SelectHouseWrap selectedHouse={selectedHouse} houses={houses} />
+          <span className="JDsideNav__name">{user.name || "비회원"}</span>
+          <SelectHouseWrap context={context} />
         </div>
         {/* 리스트 컨테이너 */}
         <div className="JDsideNav__listContainer">

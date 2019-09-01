@@ -13,16 +13,17 @@ import MyHouseModalWrap from "./components/myHouseModalWrap";
 import {IHouse} from "../../../types/interface";
 import Preloader from "../../../atoms/preloader/Preloader";
 import {IuseImageUploader} from "../../../actions/hook";
+import {IContext} from "../../MiddleServerRouter";
 
 interface IProps {
-  houses: IHouse[];
+  context: IContext;
   profileCircleHook: IuseImageUploader;
   [foo: string]: any;
 }
 
 const Mypage: React.SFC<IProps> = ({
-  houses,
   nameHook,
+  context,
   phoneNumberHook,
   passwordHook,
   emailHook,
@@ -32,6 +33,7 @@ const Mypage: React.SFC<IProps> = ({
   loading,
   profileCircleHook
 }) => {
+  const {houses} = context;
   const profileStyle = {
     backgroundImage: `url(${profileImg})`
   };
@@ -134,21 +136,22 @@ const Mypage: React.SFC<IProps> = ({
       {/* Modal : 프로필 변경 */}
       <Modal center {...passWordModal}>
         <h6>프로필 변경</h6>
-        <InputText
-          {...passwordHook}
-          validation={utils.isPassword}
-          label="비밀번호"
-        />
+        <div>
+          <InputText
+            {...passwordHook}
+            validation={utils.isPassword}
+            label="비밀번호"
+          />
+        </div>
         <div className="JDmodal__endSection">
           <Button
-            
             label="확인"
             onClick={(e: any) => {
               passWordModal.closeModal();
               checkUpdateMutation(e);
             }}
           />
-          <Button  label="닫기" onClick={passWordModal.closeModal} />
+          <Button label="닫기" onClick={passWordModal.closeModal} />
         </div>
       </Modal>
       <MyHouseModalWrap MyHouseModalHook={houseModal} />

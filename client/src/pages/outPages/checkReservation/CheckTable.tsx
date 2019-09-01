@@ -12,7 +12,10 @@ import {
 } from "../../../types/api";
 import JDtable from "../../../atoms/table/Table";
 import {ReactTableDefaults, CellInfo} from "react-table";
-import {getRoomTypePerGuests, bookingGuestsMerge} from "../../../utils/booking";
+import {
+  getRoomTypePerGuests,
+  getCountsFromBooking
+} from "../../../utils/booking";
 import {IRoomType} from "../../../types/interface";
 import JDbox from "../../../atoms/box/JDbox";
 import {
@@ -50,7 +53,7 @@ const CheckTable: React.FC<IProps> = ({tableData}) => {
             <br />
             <span>
               {(() => {
-                const guestsCount = bookingGuestsMerge(
+                const guestsCount = getCountsFromBooking(
                   original.guests,
                   roomType._id
                 );
@@ -66,7 +69,7 @@ const CheckTable: React.FC<IProps> = ({tableData}) => {
                         ) : null}
                       </Fragment>
                     ) : (
-                      <span>{guestsCount.count}개</span>
+                      <span>{guestsCount.roomCount}개</span>
                     )}
                   </span>
                 );

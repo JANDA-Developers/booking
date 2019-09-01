@@ -25,6 +25,7 @@ import {
   GET_ALL_ROOMTYPES
 } from "../../../../queries";
 import {DEFAULT_ROOMTYPE_ROOM} from "../../../../types/defaults";
+import {IContext} from "../../../MiddleServerRouter";
 
 class CreateRoomMutation extends Mutation<createRoom, createRoomVariables> {}
 class DeleteRoomMutation extends Mutation<deleteRoom, deleteRoomVariables> {}
@@ -39,15 +40,18 @@ export interface IRoomModalInfo {
 interface IProps {
   modalHook: IUseModal<IRoomModalInfo>;
   roomTypeData: getAllRoomType_GetAllRoomType_roomTypes[];
-  houseId: string;
+  context: IContext;
 }
 
 const ModifyTimelineWrap: React.SFC<IProps> = ({
   modalHook,
   roomTypeData,
-  houseId
+  context
 }) => {
-  const refetchQueries = [{query: GET_ALL_ROOMTYPES, variables: {houseId}}];
+  const {house} = context;
+  const refetchQueries = [
+    {query: GET_ALL_ROOMTYPES, variables: {houseId: house._id}}
+  ];
   const {info} = modalHook;
   const isAddMode = info.isAddMode;
   const targetRoomType = roomTypeData.find(

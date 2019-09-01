@@ -19,6 +19,7 @@
 
 .houseCard {
     display:flex;
+    margin-right:0;
     align-items: center;
     margin-bottom: $standard-margin-bottom / 2;
     &__gird {
@@ -27,4 +28,13 @@
     &__profile {
     }
 
+    &__contentsWrap {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    &__houseName {
+        margin-right: $standard-small-space;
+    }
 }

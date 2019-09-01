@@ -8,7 +8,7 @@ import JDLabel from "../label/JDLabel";
 
 interface IProps extends React.HTMLAttributes<HTMLButtonElement> {
   children: JSX.Element[] | JSX.Element;
-  thema?: "white" | "greybg";
+  thema?: "white" | "greybg" | "border";
   onClick?: any;
   darkWave?: boolean;
   wave?: boolean;
@@ -42,6 +42,7 @@ const CircleIcon: React.FunctionComponent<IProps> = ({
     "circleIcon--noHover": !hover,
     "circleIcon--white": thema === "white",
     "circleIcon--greybg": thema === "greybg",
+    "circleIcon--border": thema === "border",
     "JDwaves-effect": wave || darkWave,
     "JDwaves-effect-dark": darkWave
   });

@@ -10,6 +10,11 @@
     position: relative;
     font-size: $typho-small;
 
+
+    &__genderCircle {
+        overflow: visible;
+    }
+
     &__badgeWrap {
         position:absolute;
         left: 0;
@@ -23,6 +28,8 @@
     &__title {
         padding: .1rem;
         border-radius: $standard-border-radius;
+        min-width: 30px;
+        overflow: hidden;
     }
 
     &--searched {
@@ -108,6 +115,9 @@
     &__gender {
         color:white;
         margin-right: $assigItem-padding;
+        @include response($phablet) {
+            margin-right: 0;
+        }
     }
 
     &__content {
@@ -188,6 +198,10 @@
         opacity: 0.3;
         background-color: $assigItem-normalStatus-color;
         border: 1px soli $grey-level1;
+
+        .assigItem__title {
+            display: none;
+        }
 
         .assigItem__content {
             display:flex;

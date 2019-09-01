@@ -60,7 +60,7 @@ h5 {
 }
 
 h6 {
-  font-size: 1.3rem;
+  font-size: $typho-h6;
   letter-spacing: 0;
   margin-bottom: $standard-margin-bottom
 }
@@ -68,6 +68,6 @@ h6 {
 // 타블렛 이상일때
 @mixin response ($full,$tablet) {
   html {
-    font-size: 0.8rem;
+    font-size: 0.6rem;
   }
 }

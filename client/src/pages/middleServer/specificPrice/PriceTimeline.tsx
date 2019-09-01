@@ -15,26 +15,28 @@ import {
   createDailyPrice,
   createDailyPriceVariables,
   deleteDailyPrice,
-  deleteDailyPriceVariables,
-  priceTimelineGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices
+  deleteDailyPriceVariables
 } from "../../../types/api";
 import Preloader from "../../../atoms/preloader/Preloader";
 import {IItem} from "./PriceTimelineWrap";
 import InputText from "../../../atoms/forms/inputText/InputText";
-import {IUseDayPicker, getKoreaSpecificDayHook} from "../../../actions/hook";
-import JDdayPicker from "../../../atoms/dayPicker/DayPicker";
-import {setMidNight, autoComma, isEmpty} from "../../../utils/utils";
+import {
+  IUseDayPicker,
+  getKoreaSpecificDayHook,
+  useModal
+} from "../../../actions/hook";
+import {setMidNight, autoComma, isEmpty, muResult} from "../../../utils/utils";
 import {TimePerMs, GlobalCSS, WindowSize} from "../../../types/enum";
-import Icon, {IconSize} from "../../../atoms/icons/Icons";
-import JDIcon from "../../../atoms/icons/Icons";
 import reactWindowSize, {WindowSizeProps} from "react-window-size";
 import {ASSIG_VISIBLE_CELL_MB_DIFF} from "../assig/timelineConfig";
-import JDbadge, {BADGE_THEMA} from "../../../atoms/badge/Badge";
+import JDbadge from "../../../atoms/badge/Badge";
 import Tooltip from "../../../atoms/tooltip/Tooltip";
+import {IContext} from "../../MiddleServerRouter";
+import PriceWarnModal from "../../../components/priceWarnModal.tsx/PriceWarnModal";
 
 interface IProps {
   items: IItem[] | undefined;
-  houseId: string;
+  context: IContext;
   priceMap: Map<any, any>;
   defaultProps: any;
   timelineProps?: any;
@@ -61,7 +63,7 @@ const ModifyTimeline: React.FC<IProps & WindowSizeProps> = ({
   loading,
   createDailyPriceMu,
   delteDailyPriceMu,
-  houseId,
+  context,
   priceMap,
   dataTime,
   setDataTime,
@@ -71,8 +73,10 @@ const ModifyTimeline: React.FC<IProps & WindowSizeProps> = ({
   windowWidth,
   ...timelineProps
 }) => {
+  const {house} = context;
   const isMobile = windowWidth <= WindowSize.MOBILE;
   const isTabletDown = windowWidth <= WindowSize.TABLET;
+  const priceWarnModalHook = useModal(false);
 
   const {datas: holidays, loading: holidayLoading} = getKoreaSpecificDayHook(
     "2019"
@@ -91,44 +95,86 @@ const ModifyTimeline: React.FC<IProps & WindowSizeProps> = ({
     );
   };
 
-  // 가격 인풋 블러시
+  // 딜리트 뮤테이션 발송
+  const deleteDailyPrice = async (item: IItem) => {
+    const result = await delteDailyPriceMu({
+      variables: {
+        date: item.end,
+        roomTypeId: item.group
+      }
+    });
+    if (muResult(result, "DeleteDailyPrice")) priceMap.delete(item.id);
+    else {
+      // 에러처리
+    }
+  };
+
+  // 크리에이트 뮤테이션 발송
+  const createDailyPrice = async (value: number, item: IItem) => {
+    const result = await createDailyPriceMu({
+      variables: {
+        houseId: house._id,
+        date: item.end,
+        roomTypeId: item.group,
+        price: value
+      }
+    });
+    if (muResult(result, "CreateDailyPrice")) priceMap.set(item.id, value);
+    else {
+      // 에러처리
+      location.reload();
+    }
+  };
+
+  // 크리에이트와 뮤테이션중 뭘할지 판단
+  const switchMutation = (
+    value: number | null,
+    item: IItem,
+    beforePrice: any
+  ) => {
+    if (value === null && beforePrice !== undefined) {
+      deleteDailyPrice(item);
+      return;
+    }
+    if (value !== null) {
+      createDailyPrice(value, item);
+    }
+  };
+
+  // 뮤테이션 발송전 벨리데이션
+  const validationBeforeMu = (
+    value: number | null,
+    item: IItem,
+    beforePrice: any
+  ) => {
+    // 같은 가격이면 아무것도 안함
+    if (beforePrice === value) return false;
+
+    // priceWarn  컬백용
+    const callBackPriceWarn = (flag: boolean) => {
+      if (flag) {
+        switchMutation(value, item, beforePrice);
+      } else {
+        location.reload();
+      }
+    };
+    // 가격이 천원이하면
+    if (value !== null && 0 < value && value < 1000) {
+      priceWarnModalHook.openModal({
+        confirmCallBackFn: callBackPriceWarn
+      });
+      return false;
+    }
+    switchMutation(value, item, beforePrice);
+  };
+
+  // 가격 인풋 블러 핸들러
   const handlePriceBlur = (value: string | null, item: IItem) => {
     const inValue = value ? parseInt(value.replace(/,/g, ""), 10) : null;
     //  ❗️ 남은 부분이 PLcae Holder로 매워져 있을수 있도록 해야함
-
     const beforePrice = priceMap.get(item.id);
 
-    if (beforePrice !== undefined) {
-      // 이전가격과 같다면 리턴.
-      if (beforePrice === inValue) return;
-
-      if (inValue === null) {
-        delteDailyPriceMu({
-          variables: {
-            date: item.end,
-            roomTypeId: item.group
-          }
-        });
-        // ❔ 컬백으로 옴겨야할까?
-        priceMap.delete(item.id);
-        return;
-      }
-    }
-
-    if (inValue !== null) {
-      createDailyPriceMu({
-        variables: {
-          houseId,
-          date: item.end,
-          roomTypeId: item.group,
-          price: inValue
-        }
-      });
-      // ❔ 컬백으로 옴겨야할까? 아마 그러는게 낳을듯 ㅠㅠ
-      //  이게 실패가 생기니까 Ui 오류가 발생함. 콜백에서하면
-      //  실패시 다시 map에서 default가 나올수도 있으니...
-      priceMap.set(item.id, inValue);
-    }
+    validationBeforeMu(inValue, item, beforePrice);
   };
 
   // 아이템 렌더
@@ -265,7 +311,7 @@ const ModifyTimeline: React.FC<IProps & WindowSizeProps> = ({
                             <JDbadge
                               data-tip
                               data-for={`holidayTooltip--${holiday.locdate}`}
-                              thema={BADGE_THEMA.ERROR}
+                              thema={"error"}
                             >
                               공휴일
                             </JDbadge>
@@ -285,6 +331,7 @@ const ModifyTimeline: React.FC<IProps & WindowSizeProps> = ({
                 />
               </TimelineHeaders>
             </Timeline>
+            <PriceWarnModal modalHook={priceWarnModalHook} />
             <Preloader size="large" loading={loading} />
           </div>
         </div>

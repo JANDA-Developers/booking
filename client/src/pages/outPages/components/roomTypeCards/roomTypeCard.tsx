@@ -4,12 +4,7 @@ import JDselect, {
   IselectedOption,
   SelectBoxSize
 } from "../../../../atoms/forms/selectBox/SelectBox";
-import {
-  GuestPartInput,
-  getAvailableGuestCount_GetMale_roomCapacity,
-  getAvailableGuestCount_GetFemale_roomCapacity,
-  BookerInput
-} from "../../../../types/api";
+import {GuestPartInput, BookerInput} from "../../../../types/api";
 import Button from "../../../../atoms/button/Button";
 import {IRoomType} from "../../../../types/interface";
 import Preloader from "../../../../atoms/preloader/Preloader";
@@ -33,7 +28,7 @@ import JDmodal from "../../../../atoms/modal/Modal";
 import {arraySum} from "../../../../utils/elses";
 import moment from "moment";
 import selectOpMaker from "../../../../utils/selectOptionMaker";
-import JDbadge, {BADGE_THEMA} from "../../../../atoms/badge/Badge";
+import JDbadge from "../../../../atoms/badge/Badge";
 
 interface IProps {
   className?: string;
@@ -218,7 +213,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
             <h6>
               {roomTypeData.name}{" "}
               {totalCan === 0 && !countLoading && (
-                <JDbadge thema={BADGE_THEMA.ERROR}>만실</JDbadge>
+                <JDbadge thema="error">만실</JDbadge>
               )}
             </h6>
           </div>
@@ -293,7 +288,6 @@ const RoomTypeCard: React.SFC<IProps> = ({
           <Button
             onClick={handleRoomSelectClick}
             className="roomTypeCard__selectButton"
-            
             size={"small"}
             thema={isSelectedRoom ? "warn" : "primary"}
             label={isSelectedRoom ? "선택취소" : "선택하기"}

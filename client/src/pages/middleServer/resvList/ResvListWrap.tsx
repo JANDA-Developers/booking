@@ -20,16 +20,18 @@ import {getOperationName} from "apollo-link";
 import {usePagiNation} from "../../../actions/hook";
 import Preloader from "../../../atoms/preloader/Preloader";
 import {isNetworkRequestInFlight} from "apollo-client/core/networkStatus";
+import {IContext} from "../../MiddleServerRouter";
 
 interface IProps {
-  houseId: string;
+  context: IContext;
 }
 
 class UpdateBookingMu extends Mutation<updateBooking, updateBookingVariables> {}
 class DeleteBookingMu extends Mutation<deleteBooking, deleteBookingVariables> {}
 class GetBookingsQuery extends Query<getBookings, getBookingsVariables> {}
 
-const ResvListWrap: React.FC<IProps> = ({houseId}) => {
+const ResvListWrap: React.FC<IProps> = ({context}) => {
+  const {house} = context;
   const [page, setPage] = usePagiNation(1);
 
   return (
@@ -37,10 +39,9 @@ const ResvListWrap: React.FC<IProps> = ({houseId}) => {
       query={GET_BOOKINGS}
       pollInterval={4000}
       notifyOnNetworkStatusChange
-      variables={{houseId, page, count: 20}}
+      variables={{houseId: house._id, page, count: 20}}
     >
       {({data: boookerData, loading, error, networkStatus}) => {
-
         const bookings = queryDataFormater(
           boookerData,
           "GetBookings",
@@ -81,7 +82,7 @@ const ResvListWrap: React.FC<IProps> = ({houseId}) => {
                 {(updateBookingMu, {loading: updateBookingLoading}) => (
                   <Fragment>
                     <ResvList
-                      houseId={houseId}
+                      context={context}
                       pageInfo={pageInfo || undefined}
                       bookingsData={bookings || []}
                       deleteBookingMu={deleteBookingMu}
@@ -89,9 +90,9 @@ const ResvListWrap: React.FC<IProps> = ({houseId}) => {
                       updateBookingLoading={updateBookingLoading}
                       deleteBookingLoading={deleteBookingLoading}
                       setPage={setPage}
+                      networkStatus={networkStatus}
                       loading={isNetworkRequestInFlight(networkStatus)}
                     />
-                    <Preloader page loading={networkStatus === 1} />
                   </Fragment>
                 )}
               </UpdateBookingMu>

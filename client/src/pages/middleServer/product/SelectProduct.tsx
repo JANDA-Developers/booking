@@ -81,6 +81,7 @@ const SelectProducts: React.FC<IProps> = ({
             className="flex-grid flex-grid-grow selectProducts__productWrapWrap"
           >
             <div className="flex-grid__col selectProducts__productWrap col--wmd-0">
+              <Preloader noAnimation size="large" loading={loading} />
               {productTypes.map(productType => (
                 <Product
                   key={productType._id}
@@ -126,7 +127,7 @@ const SelectProducts: React.FC<IProps> = ({
             <Button
               onClick={refundModal.openModal}
               disabled={isEmpty(selectedHouse)}
-              thema="warn"
+              thema="error"
               label="서비스해지"
             />
           )}
@@ -140,14 +141,7 @@ const SelectProducts: React.FC<IProps> = ({
         </p>
         <h6>서비스 해지 신청은 상담전화를 통해 요청바람니다.</h6>
         <div className="JDmodal__endSection">
-          {/* <Button
-            onClick={refundMutation}
-            disabled={isEmpty(selectedHouse)}
-            thema="warn"
-            label="서비스해지"
-            
-          /> */}
-          <Button onClick={refundModal.closeModal} label="닫기"  />
+          <Button onClick={refundModal.closeModal} label="닫기" />
         </div>
       </Modal>
       <ApplyProductModal

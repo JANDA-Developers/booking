@@ -6,12 +6,15 @@ import {GET_HOUSES_FOR_SU} from "../../../queries";
 import {queryDataFormater, showError} from "../../../utils/utils";
 import {useModal} from "../../../actions/hook";
 import Modal from "../../../atoms/modal/Modal";
+import {IContext} from "../../MiddleServerRouter";
 
 class GetAllHouse extends Query<getHousesForSU, getHousesForSUVariables> {}
 
-interface Iprops {}
+interface Iprops {
+  context: IContext;
+}
 
-const SuperMainWrap: React.SFC<Iprops> = () => {
+const SuperMainWrap: React.FC<Iprops> = ({context}) => {
   const userModal = useModal(false);
   const [page, setPage] = useState(1);
 
@@ -46,6 +49,7 @@ const SuperMainWrap: React.SFC<Iprops> = () => {
               pageData={pageInfo}
               houseData={housePageData || []}
               loading={loading}
+              context={context}
             />
             {/* <MyPageModal {...userModal} userId={userModal.info.userId} /> */}
           </Fragment>

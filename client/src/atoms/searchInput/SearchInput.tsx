@@ -180,6 +180,12 @@ const JDsearchInput: React.FC<IProps> = ({
     e.preventDefault();
     const value = $(e.currentTarget).attr("value");
     const id = $(e.currentTarget).attr("id");
+    if (!onListClick && onFindOne) {
+      onFindOne(value, id);
+    }
+    if (!onListClick && onTypeChange) {
+      onTypeChange(value);
+    }
     onListClick && (await onListClick(value, id));
     // $(inputRef.current).val(value || "");
     // onFindOne && onFindOne(value, id);

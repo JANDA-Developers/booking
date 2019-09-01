@@ -5,8 +5,153 @@
 
 //마우스가 위에 올라왔을때 효과
 
-@mixin color--prefixer() {
-    &--primary {
+@mixin textAlign--prefixer() {
+    &--left {
+        text-align: left
+    }
+    &--center {
+        text-align: center
+    }
+    &--right {
+        text-align: right
+    }
+}
+
+@mixin colorText--prefixer($After: "") {
+    &--primary#{$After} {
+        color: $primary-color;
+        &:hover {
+            color: $primary-color-dark;
+        } 
+    }
+
+    &--point#{$After} {
+        color: $point-color;
+        &:hover {
+            color: $point-color-dark;
+        } 
+    }
+
+    &--black#{$After} {
+        color: $html-color;
+
+        &:hover {
+            color: $grey-level4;
+        } 
+    }
+
+    &--white#{$After} {
+        color: white;
+
+        &:hover {
+            color: $grey-level1;
+        }
+    }
+       
+    &--new#{$After} {
+        color: $new-color;
+        &:hover {
+            color: $new-color-dark;
+        } 
+    }
+       
+    &--error#{$After} {
+        color: $error-color;
+        &:hover {
+            color: $error-color-dark;
+        } 
+    }
+       
+    &--positive#{$After} {
+        color: $positive-color;
+        &:hover {
+            color: $positive-color-dark;
+        } 
+    }
+       
+    &--warn#{$After} {
+        color: $warn-color;
+        &:hover {
+            color: $warn-color-dark;
+        } 
+    }
+}
+
+@mixin colorBorder--prefixer($After:"") { 
+    &--primary#{$After} {
+        border-color: $primary-color;
+
+        &:hover {
+            border-color: $primary-color-light
+        } 
+    }
+
+    &--point#{$After} {
+        border-color: $point-color;
+        &:hover {
+            border-color: $point-color-light;
+        } 
+    }
+
+    &--grey#{$After} {
+        border-color: $grey-level1;
+        &:hover {
+            border-color: $grey-level2;
+        } 
+    }
+
+    &--black#{$After} {
+        border-color: $html-color;
+        &:hover {
+            border-color: $grey-level4;
+        } 
+    }
+
+    &--white#{$After} {
+        border-color: white;
+    }
+
+    &--error#{$After} {
+        border-color: $error-color;
+
+        &:hover {
+            border-color: $error-color-dark;
+        } 
+    }
+    
+    &--warn#{$After} {
+        border-color: $warn-color;
+        &:hover {
+            border-color: $warn-color-dark;
+        } 
+    }
+       
+    &--new#{$After} {
+        border-color: $new-color;
+        &:hover {
+            border-color: $new-color-light;
+        } 
+    }
+
+    &--positive#{$After} {
+        border-color: $positive-color;
+        &:hover {
+            border-color: $positive-color-dark;
+        } 
+    }
+
+}
+@mixin colorBg--prefixer($After:"") {
+
+    &--positive#{$After} {
+        background-color: $positive-color;
+        color: $positive-color-on;
+        &:hover {
+            background-color: $positive-color-dark;
+        } 
+    }
+
+    &--primary#{$After} {
         background-color: $primary-color;
         color: $primary-color-on;
 
@@ -15,7 +160,7 @@
         } 
     }
 
-    &--point {
+    &--point#{$After} {
         background-color: $point-color;
         color: $point-color-on;
         &:hover {
@@ -23,7 +168,15 @@
         } 
     }
 
-    &--black {
+    &--grey#{$After} {
+        color: $html-color;
+        background-color: $grey-level1;
+        &:hover {
+            color: $grey-level2;
+        } 
+    }
+
+    &--black#{$After} {
         background-color: $html-color;
         color:white;
 
@@ -32,12 +185,34 @@
         } 
     }
 
-    &--white {
+    &--white#{$After} {
         background-color: white;
         color: $html-color;
+
+        &:hover {
+            background-color: $grey-level1;
+        } 
+    }
+
+    &--error#{$After} {
+        background-color: $error-color;
+        color: white;
+
+        &:hover {
+            background-color: $error-color-dark;
+        } 
+    }
+
+    &--warn#{$After} {
+        background-color: $warn-color;
+        color: white;
+
+        &:hover {
+            background-color: $warn-color-dark;
+        } 
     }
        
-    &--new {
+    &--new#{$After} {
         background-color: $new-color;
         color: $new-color-on;
 
@@ -85,10 +260,10 @@
     #{$condition}.JDpagination,
     #{$condition}.profileCircle,
     #{$condition}.JDcard,
+    #{$condition}.JDbox,
     #{$condition}.JDtable,
     #{$condition}.JDcolorPicker,
     #{$condition}.JDinput-wrap,
-    #{$condition}.JDtextarea,
     #{$condition}.JDsearchInput,
     #{$condition}.input-range,
     #{$condition}.JDbox--border {
@@ -210,7 +385,7 @@
 
 
 // 클래스 생산
-// ~이하일 때 
+// ~이하일 때 @content 하겠다. 
 @mixin responseUpClass() {
     @include response($full,$mobile) {
         &--smUp {

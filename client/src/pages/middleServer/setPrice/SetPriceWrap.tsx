@@ -32,15 +32,13 @@ import {
   queryDataFormater,
   showError,
   onCompletedMessage,
-  jsonString
+  jsonString,
+  s4
 } from "../../../utils/utils";
-import SetPrice from "./SetPriceNew";
+import SetPrice from "./SetPrice";
 import Preloader from "../../../atoms/preloader/Preloader";
 import {targetBlinkFuture} from "../../../utils/targetBlink";
-
-interface IProps {
-  selectedHouse: IHouse;
-}
+import {IContext} from "../../MiddleServerRouter";
 
 export interface IAddSeason {
   name: string;
@@ -98,13 +96,18 @@ const priceMapMaker = (seasonPrices: ISeasonPrices[]) => {
   return priceMap;
 };
 
-const SetPriceWrap: React.SFC<IProps> = ({selectedHouse}) => {
+interface IProps {
+  context: IContext;
+}
+
+const SetPriceWrap: React.SFC<IProps> = ({context}) => {
+  const {house} = context;
   return (
     // 모든 방 가져오기
     <GetAllSeasonTQuery
       fetchPolicy="network-only"
       query={GET_ALL_SEASON_TABLE}
-      variables={{houseId: selectedHouse._id}}
+      variables={{houseId: house._id}}
     >
       {({data, loading: dataL, error: seasonE}) => {
         const seasones = queryDataFormater(
@@ -128,7 +131,7 @@ const SetPriceWrap: React.SFC<IProps> = ({selectedHouse}) => {
         // 룸타입 아이디 + 시즌아이디  = {기본가격, 요일별가격}
         const priceMap = seasonPrices && priceMapMaker(seasonPrices);
         const refetchQueries = [
-          {query: GET_ALL_SEASON_TABLE, variables: {houseId: selectedHouse._id}}
+          {query: GET_ALL_SEASON_TABLE, variables: {houseId: house._id}}
         ];
 
         return (
@@ -209,8 +212,8 @@ const SetPriceWrap: React.SFC<IProps> = ({selectedHouse}) => {
                               ) => (
                                 <Fragment>
                                   <SetPrice
-                                    key={jsonString(seasones || [])}
-                                    houseId={selectedHouse._id}
+                                    key={s4()}
+                                    context={context}
                                     priceMap={priceMap || new Map()}
                                     roomTypes={roomTypes || []}
                                     seasonData={seasones ? seasones : []}
@@ -243,7 +246,6 @@ const SetPriceWrap: React.SFC<IProps> = ({selectedHouse}) => {
                 </CreateSeasonMutation>
               )}
             </UpdateSeasonMutation>
-            <Preloader page loading={dataL} />
           </div>
         );
       }}

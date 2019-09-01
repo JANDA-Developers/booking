@@ -1,15 +1,6 @@
-import React, {useEffect} from "react";
-import JDmodal from "../../atoms/modal/Modal";
+import React, {useEffect, useState} from "react";
 import {IUseModal} from "../../actions/hook";
-import JDbox from "../../atoms/box/JDbox";
-import JDselect from "../../atoms/forms/selectBox/SelectBox";
-import {
-  SELECT_DUMMY_OP,
-  PaymentStatus,
-  PayMethod,
-  AutoSendWhen
-} from "../../types/enum";
-import Button from "../../atoms/button/Button";
+import {AutoSendWhen} from "../../types/enum";
 import {
   sendSms,
   sendSmsVariables,
@@ -18,13 +9,10 @@ import {
 } from "../../types/api";
 import {Mutation, Query} from "react-apollo";
 import {SEND_SMS, GET_SMS_INFO} from "../../queries";
-import {
-  queryDataFormater,
-  onCompletedMessage,
-  showError
-} from "../../utils/utils";
+import {queryDataFormater, onCompletedMessage} from "../../utils/utils";
 import CreateSmsModal from "./components/createSmsModal";
 import SendSmsModal from "./SendSmsModal";
+import {IContext} from "../../pages/MiddleServerRouter";
 
 class SendSmsMu extends Mutation<sendSms, sendSmsVariables> {}
 class SmsInfoQu extends Query<getSmsInfo, getSmsInfoVariables> {}
@@ -48,10 +36,13 @@ export interface IModalSMSinfo {
 
 interface IProps {
   modalHook: IUseModal<IModalSMSinfo>;
-  houseId: string;
+  context: IContext;
 }
 
-const SendSMSmodalWrap: React.FC<IProps> = ({modalHook, houseId}) => {
+const SendSMSmodalWrap: React.FC<IProps> = ({modalHook, context}) => {
+  const {house} = context;
+  const {_id: houseId} = house;
+
   return (
     <SmsInfoQu
       query={GET_SMS_INFO}
@@ -67,30 +58,6 @@ const SendSMSmodalWrap: React.FC<IProps> = ({modalHook, houseId}) => {
           undefined
         );
 
-        const sendTemplateFinder = (): string => {
-          if (!smsInfo) return "";
-          if (!smsInfo.smsTemplates) return "";
-          if (!modalHook.info.autoSendWhen) return "";
-          let message = "";
-          smsInfo.smsTemplates
-            .filter(template => {
-              if (template.smsSendCase === null) return false;
-              else if (
-                template.smsSendCase.when === modalHook.info.autoSendWhen
-              )
-                return true;
-            })
-            .map(template => template.formatName)
-            .forEach(name => {
-              message += name + " ";
-            });
-          if (!message) return "";
-          if (message === " ") return "";
-          return message;
-        };
-
-        const templateMessage = sendTemplateFinder();
-
         return (
           <SendSmsMu
             onCompleted={({SendSms}) => {
@@ -98,7 +65,6 @@ const SendSMSmodalWrap: React.FC<IProps> = ({modalHook, houseId}) => {
               modalHook.closeModal();
             }}
             mutation={SEND_SMS}
-            
           >
             {(sendSmsMu, {loading: sendSMSloading}) =>
               modalHook.info.createMode ? (
@@ -115,10 +81,7 @@ const SendSMSmodalWrap: React.FC<IProps> = ({modalHook, houseId}) => {
                   smsInfo={smsInfo}
                   loading={loading}
                   modalHook={modalHook}
-                  receivers={modalHook.info.receivers}
-                  autoSendWhen={modalHook.info.autoSendWhen}
                   callBackFn={modalHook.info.callBackFn}
-                  templateMessage={templateMessage}
                 />
               )
             }

@@ -1,0 +1,13 @@
+
+@import '../../style_config/style_config';
+
+.JDdot {
+    font-size: $typho-superTiny;
+    display:inline-block;
+    width: .925rem;
+    height: .925rem;
+    text-align:center;
+    line-height: 1rem;
+    border-radius: $standard-border-radius;
+    @include colorBg--prefixer();
+}

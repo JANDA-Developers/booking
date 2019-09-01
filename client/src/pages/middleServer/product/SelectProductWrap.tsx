@@ -33,6 +33,7 @@ import Preloader from "../../../atoms/preloader/Preloader";
 import {IHouse} from "../../../types/interface";
 import SelectProducts from "./SelectProduct";
 import froductTypeManuFacter from "./froductTypeManuFacter";
+import {IContext} from "../../MiddleServerRouter";
 
 class GetProductTypes extends Query<getAllProductTypes> {}
 class BuyProductMutation extends Mutation<buyProduct, buyProductVariables> {}
@@ -47,17 +48,16 @@ export interface IAdditionHook {
   url: string;
 }
 interface IProps {
-  selectedHouse: IHouse;
-  currentProduct: getMyProfile_GetMyProfile_user_houses_product | undefined;
-  isPhoneVerified: boolean;
+  context: IContext;
 }
 
 // currentProduct : 현재 적용중인 상품
-const SelectProductWrap: React.FC<IProps> = ({
-  currentProduct,
-  selectedHouse,
-  isPhoneVerified
-}) => {
+const SelectProductWrap: React.FC<IProps> = ({context}) => {
+  const {
+    house: selectedHouse,
+    applyedProduct: currentProduct,
+    user: {isPhoneVerified}
+  } = context;
   const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
@@ -108,7 +108,6 @@ const SelectProductWrap: React.FC<IProps> = ({
                         currentProduct={currentProduct}
                         isPhoneVerified={isPhoneVerified}
                       />
-                      <Preloader page loading={loading} />
                     </Fragment>
                   )
                 }

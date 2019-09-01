@@ -15,6 +15,7 @@ import JDdayPicker from "../../atoms/dayPicker/DayPicker";
 import {useDayPicker} from "../../actions/hook";
 import JDIcon from "../../atoms/icons/Icons";
 import Preloader from "../../atoms/preloader/Preloader";
+import {IContext} from "../../pages/MiddleServerRouter";
 
 class GetAllRoomTypeWithGuestQuery extends Query<
   getAllRoomTypeWithGuest,
@@ -22,12 +23,13 @@ class GetAllRoomTypeWithGuestQuery extends Query<
 > {}
 
 interface IProps {
-  house: IHouse;
+  context: IContext;
   date: Date;
   isInModal?: boolean;
 }
 
-const DailyAssigWrap: React.FC<IProps> = ({date, house, isInModal}) => {
+const DailyAssigWrap: React.FC<IProps> = ({date, context, isInModal}) => {
+  const {house} = context;
   const dayPickerHook = useDayPicker(date, date);
   const {houseConfig, _id: houseId} = house;
   const updateVariables = {
@@ -73,20 +75,14 @@ const DailyAssigWrap: React.FC<IProps> = ({date, house, isInModal}) => {
 
           return (
             <Fragment>
-              {!loading ? (
-                <DailyAssig
-                  house={house}
-                  blocksData={blocks || []}
-                  guestsData={guestsData || []}
-                  dayPickerHook={dayPickerHook}
-                  roomTypesData={roomTypesData || []}
-                />
-              ) : (
-                <Preloader
-                  loading={loading}
-                  size={!isInModal ? "small" : "large"}
-                />
-              )}
+              <DailyAssig
+                loading={loading}
+                context={context}
+                blocksData={blocks || []}
+                guestsData={guestsData || []}
+                dayPickerHook={dayPickerHook}
+                roomTypesData={roomTypesData || []}
+              />
             </Fragment>
           );
         }}

@@ -14,34 +14,31 @@ import BookingModalWrap from "../bookingModal/BookingModalWrap";
 import HouseCard from "../../pages/middleServer/super/components/houseCard";
 import {IHouse} from "../../types/interface";
 import {GuestType} from "../../types/enum";
+import ArrowDayByDay from "../../atoms/dayPicker/component/inputComponent/arrowDayByDay";
+import Preloader from "../../atoms/preloader/Preloader";
+import {Context} from "tern";
+import {IContext} from "../../pages/MiddleServerRouter";
 
 interface IProps {
-  house: IHouse;
+  context: IContext;
   date?: boolean;
   dayPickerHook: IUseDayPicker;
   guestsData: getAllRoomTypeWithGuest_GetGuests_guests[];
   roomTypesData: getAllRoomTypeWithGuest_GetAllRoomType_roomTypes[];
   blocksData: getAllRoomTypeWithGuest_GetBlocks_blocks[];
+  loading?: boolean;
 }
 
 const DailyAssig: React.SFC<IProps> = ({
   date,
-  house,
+  context,
   dayPickerHook,
   guestsData,
   blocksData,
-  roomTypesData
+  roomTypesData,
+  loading
 }) => {
   const bookingModalHook = useModal(false);
-
-  const handleDayPickerArrow = (direction: "prev" | "next") => {
-    const directionNum = direction === "prev" ? -1 : 1;
-    dayPickerHook.setDate(
-      moment(dayPickerHook.from || undefined)
-        .add(directionNum, "days")
-        .toDate()
-    );
-  };
 
   const blockRender = (
     item:
@@ -115,33 +112,10 @@ const DailyAssig: React.SFC<IProps> = ({
           label="달력날자"
           {...dayPickerHook}
           className="JDwaves-effect JDoverflow-visible"
-          inputComponent={
-            <Fragment>
-              <JDIcon
-                hover
-                className="DayPicker-box--inputComponent__arrow DayPicker-box--inputComponent__arrow--left"
-                onClick={e => {
-                  e.preventDefault();
-                  handleDayPickerArrow("prev");
-                }}
-                icon="arrowLeft"
-              />
-              <span>
-                {moment(dayPickerHook.from || new Date()).format("YYYY-MM-DD")}
-              </span>
-              <JDIcon
-                hover
-                className="DayPicker-box--inputComponent__arrow DayPicker-box--inputComponent__arrow--right"
-                onClick={e => {
-                  e.stopPropagation();
-                  handleDayPickerArrow("next");
-                }}
-                icon="arrowRight"
-              />
-            </Fragment>
-          }
+          inputComponent={<ArrowDayByDay dayPickerHook={dayPickerHook} />}
         />
       </div>
+      <Preloader noAnimation size="medium" loading={loading || false} />
       <div className="dailyAssig">
         {roomTypesData.map(roomType => (
           <div key={`roomType${roomType._id}`} className="dailyAssig__row">
@@ -157,7 +131,7 @@ const DailyAssig: React.SFC<IProps> = ({
           </div>
         ))}
       </div>
-      <BookingModalWrap houseId={house._id} modalHook={bookingModalHook} />
+      <BookingModalWrap context={context} modalHook={bookingModalHook} />
     </div>
   );
 };

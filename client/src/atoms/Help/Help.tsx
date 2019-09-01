@@ -6,12 +6,13 @@ import Tooltip from "../tooltip/Tooltip";
 import "./Help.scss";
 
 interface IProps {
+  icon?: "info" | "help";
   tooltip?: string | JSX.Element | JSX.Element[] | Element;
   className?: string;
   size?: IconSize;
 }
 
-const Help: React.FC<IProps> = ({tooltip, className, size}) => {
+const Help: React.FC<IProps> = ({tooltip, className, size, icon = "help"}) => {
   const newId = s4();
 
   return (
@@ -20,10 +21,10 @@ const Help: React.FC<IProps> = ({tooltip, className, size}) => {
       data-tip={tooltip}
       data-for={tooltip ? `btnTooltip${newId}` : undefined}
     >
-      <JDIcon size={size} icon="help" />
+      <JDIcon size={size} icon={icon} />
       {tooltip && (
         <Tooltip type="dark" effect="solid" id={`btnTooltip${newId}`}>
-          <span>{tooltip}</span>
+          <span className="JDhelp__content">{tooltip}</span>
         </Tooltip>
       )}
     </span>

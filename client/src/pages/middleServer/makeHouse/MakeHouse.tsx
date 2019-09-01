@@ -23,6 +23,8 @@ import SearchInput from "../../../atoms/searchInput/SearchInput";
 import "./MakeHouse.scss";
 import {show} from "react-tooltip";
 import {createHouse, createHouseVariables} from "../../../types/api";
+import Preloader from "../../../atoms/preloader/Preloader";
+import {getOperationName} from "apollo-link";
 
 let map: google.maps.Map | null = null;
 
@@ -175,12 +177,7 @@ const MakeHouse: React.FC<IProps & RouteComponentProps> = ({
         {/* 하우스 선택 */}
         <SelectHouseMu
           mutation={SELECT_HOUSE}
-          onCompleted={({selectHouse}) => {
-            if (selectHouse.ok) {
-              history.replace("/products");
-            } else {
-            }
-          }}
+          refetchQueries={[getOperationName(GET_USER_INFO)!]}
         >
           {selectHouseMutation => (
             // Mutation : 숙소생성
@@ -293,7 +290,12 @@ const MakeHouse: React.FC<IProps & RouteComponentProps> = ({
 
 export default ErrProtecter(
   // @ts-ignore
-  GoogleApiWrapper({apiKey: "AIzaSyCLG8qPORYv6HJIDSgXpLqYDDzIKgSs6FY"})(
-    withRouter(MakeHouse)
-  )
+  GoogleApiWrapper({
+    apiKey: "AIzaSyCLG8qPORYv6HJIDSgXpLqYDDzIKgSs6FY",
+    LoadingContainer: () => (
+      <div style={{height: "85vh"}}>
+        <Preloader floating loading={true} />
+      </div>
+    )
+  })(withRouter(MakeHouse))
 );

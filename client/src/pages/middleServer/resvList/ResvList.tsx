@@ -30,9 +30,9 @@ import {
   PaymentStatusKr,
   BookingStatus
 } from "../../../types/enum";
-import {bookingGuestsMerge} from "../../../utils/booking";
+import {getCountsFromBooking} from "../../../utils/booking";
 import moment from "moment";
-import JDbadge, {BADGE_THEMA} from "../../../atoms/badge/Badge";
+import JDbadge from "../../../atoms/badge/Badge";
 import "./ResvList.scss";
 import JDPagination from "../../../atoms/pagination/Pagination";
 import {autoComma} from "../../../utils/utils";
@@ -41,6 +41,9 @@ import SendSMSmodalWrap, {
 } from "../../../components/smsModal/SendSmsModalWrap";
 import Preloader from "../../../atoms/preloader/Preloader";
 import ConfirmBadgeWrap from "../../../components/confirmBadge/ConfirmBadgeWrap";
+import textReader from "../../../utils/textReader";
+import {NetworkStatus} from "apollo-boost";
+import {IContext} from "../../MiddleServerRouter";
 
 interface IProps {
   pageInfo: IPageInfo | undefined;
@@ -48,7 +51,8 @@ interface IProps {
   loading: boolean;
   updateBookingLoading: boolean;
   deleteBookingLoading: boolean;
-  houseId: string;
+  context: IContext;
+  networkStatus: NetworkStatus;
   setPage(page: number): void;
   deleteBookingMu: MutationFn<deleteBooking, deleteBookingVariables>;
   updateBookingMu: MutationFn<updateBooking, updateBookingVariables>;
@@ -61,7 +65,8 @@ const ResvList: React.SFC<IProps> = ({
   updateBookingMu,
   deleteBookingMu,
   setPage,
-  houseId
+  networkStatus,
+  context
 }) => {
   const [checkedIds, setCheckedIds] = useState<string[]>([]);
   const [selectAll, setSelectAll]: any = useState(false);
@@ -167,7 +172,7 @@ const ResvList: React.SFC<IProps> = ({
                 <br />
                 <JDbadge
                   className="resvList__bookingStatusBadge"
-                  thema={BADGE_THEMA.ERROR}
+                  thema={"error"}
                 >
                   cancle
                 </JDbadge>
@@ -185,14 +190,14 @@ const ResvList: React.SFC<IProps> = ({
         return roomTypes.map(roomType => (
           <JDbox
             size="small"
-            align="center"
+            textAlign="center"
             key={`${original._id}${roomType._id}`}
           >
             {roomType.name}
             <br />
             <span>
               {(() => {
-                const guestsCount = bookingGuestsMerge(
+                const guestsCount = getCountsFromBooking(
                   original.guests,
                   roomType._id
                 );
@@ -208,7 +213,7 @@ const ResvList: React.SFC<IProps> = ({
                         ) : null}
                       </Fragment>
                     ) : (
-                      <span>{guestsCount.count}개</span>
+                      <span>{guestsCount.roomCount}개</span>
                     )}
                   </span>
                 );
@@ -221,12 +226,14 @@ const ResvList: React.SFC<IProps> = ({
     {
       Header: "체크인",
       accessor: "booking",
-      Cell: ({original}: CellInfo) => <div>{setYYYYMMDD(original.start)}</div>
+      Cell: ({original}: CellInfo) => <div>{setYYYYMMDD(original.checkIn)}</div>
     },
     {
       Header: "체크아웃",
       accessor: "booking",
-      Cell: ({original}: CellInfo) => <div>{setYYYYMMDD(original.end)}</div>
+      Cell: ({original}: CellInfo) => (
+        <div>{setYYYYMMDD(original.checkOut)}</div>
+      )
     },
     {
       Header: () => (
@@ -280,7 +287,7 @@ const ResvList: React.SFC<IProps> = ({
             value.length > 20 &&
             "resvList__memo--full"}`}
         >
-          {value}
+          {textReader(value)}
         </div>
       )
     },
@@ -354,26 +361,30 @@ const ResvList: React.SFC<IProps> = ({
           <Button
             onClick={handleDeleteBookingBtnClick}
             size="small"
-            thema="warn"
+            thema="error"
             label="예약삭제"
           />
         </div>
-        <SelectableJDtable
-          {...ReactTableDefault}
-          // 아래 숫자는 요청하는 쿼리와 같아야합니다.
-          defaultPageSize={20}
-          toggleAll={() => {}}
-          toggleSelection={onToogleRow}
-          SelectAllInputComponent={selectAllInputComponentProps}
-          SelectInputComponent={selectInputCompoent}
-          isCheckable
-          align="center"
-          data={bookingsData}
-          selectAll={selectAll}
-          isSelected={(key: string) => checkedIds.includes(key)}
-          columns={TableColumns}
-          keyField="_id"
-        />
+        {networkStatus === 1 && loading ? (
+          <Preloader size="large" loading={true} />
+        ) : (
+          <SelectableJDtable
+            {...ReactTableDefault}
+            // 아래 숫자는 요청하는 쿼리와 같아야합니다.
+            defaultPageSize={20}
+            toggleAll={() => {}}
+            toggleSelection={onToogleRow}
+            SelectAllInputComponent={selectAllInputComponentProps}
+            SelectInputComponent={selectInputCompoent}
+            isCheckable
+            align="center"
+            data={bookingsData}
+            selectAll={selectAll}
+            isSelected={(key: string) => checkedIds.includes(key)}
+            columns={TableColumns}
+            keyField="_id"
+          />
+        )}
         <Preloader size="small" floating loading={loading} />
         <JDPagination
           onPageChange={({selected}: {selected: number}) => {
@@ -386,14 +397,14 @@ const ResvList: React.SFC<IProps> = ({
         <BookingModalWrap
           key={`${bookingModalHook.info.bookingId || "BookingModaldefaultId"}`}
           modalHook={bookingModalHook}
-          houseId={houseId}
+          context={context}
         />
         <JDtoastModal
           confirm
           confirmCallBackFn={deleteModalCallBackFn}
           {...alertModalHook}
         />
-        <SendSMSmodalWrap modalHook={sendSmsModalHook} houseId={houseId} />
+        <SendSMSmodalWrap modalHook={sendSmsModalHook} context={context} />
       </div>
     </div>
   );

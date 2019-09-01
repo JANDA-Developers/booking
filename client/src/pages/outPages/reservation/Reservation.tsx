@@ -172,8 +172,8 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
 
   const bookingParams: CreateBookingParams = {
     bookerParams: bookingInfo,
-    start: setYYYYMMDD(dayPickerHook.from),
-    end: getEndDate(),
+    checkIn: setYYYYMMDD(dayPickerHook.from),
+    checkOut: getEndDate(),
     guestInputs: resvRooms
   };
 

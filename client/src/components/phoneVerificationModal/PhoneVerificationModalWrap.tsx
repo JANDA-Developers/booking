@@ -69,7 +69,7 @@ const PhoneVerificationModalWrap: React.FC<IProps> = ({
             );
             modalHook.closeModal();
             if (CompletePhoneVerification.ok) {
-              window.location.reload();
+              // window.location.reload();
               // onPhoneVerified && onPhoneVerified();
             }
           }}

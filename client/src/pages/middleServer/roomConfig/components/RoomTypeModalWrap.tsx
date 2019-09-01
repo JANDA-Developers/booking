@@ -31,6 +31,7 @@ import {
   queryDataFormater
 } from "../../../../utils/utils";
 import {PricingType, RoomGender} from "../../../../types/enum";
+import {IContext} from "../../../MiddleServerRouter";
 
 class GetRoomTypeById extends Query<
   getRoomTypeById,
@@ -66,15 +67,18 @@ export interface IDefaultRoomType {
 }
 
 interface IProps {
-  houseId: string;
+  context: IContext;
   modalHook: IUseModal<IRoomTypeModalInfo>;
 }
 
-const ModifyTimelineWrap: React.SFC<IProps> = ({houseId, modalHook}) => {
+const ModifyTimelineWrap: React.SFC<IProps> = ({context, modalHook}) => {
+  const {house} = context;
   const {roomTypeId, isAddMode} = modalHook.info;
-  const refetchQueries = [{query: GET_ALL_ROOMTYPES, variables: {houseId}}];
+  const refetchQueries = [
+    {query: GET_ALL_ROOMTYPES, variables: {houseId: house._id}}
+  ];
   const updateRefetchQueries = [
-    {query: GET_ALL_ROOMTYPES, variables: {houseId}},
+    {query: GET_ALL_ROOMTYPES, variables: {houseID: house._id}},
     {query: GET_ROOMTYPE_BY_ID, variables: {roomTypeId}}
   ];
 
@@ -122,7 +126,7 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({houseId, modalHook}) => {
               <DeleteRoomTypeMutation
                 refetchQueries={refetchQueries}
                 variables={{
-                  houseId,
+                  houseId: house._id,
                   roomTypeId: roomTypeId || ""
                 }}
                 mutation={DELETE_ROOMTYPE}
@@ -152,7 +156,7 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({houseId, modalHook}) => {
                       {loading: updateRoomTypeLoading}
                     ) => (
                       <RoomTypeModal
-                        houseId={houseId}
+                        context={context}
                         roomTypeData={roomType || defaultRoomType}
                         modalHook={modalHook}
                         loading={loading}

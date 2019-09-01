@@ -14,126 +14,82 @@ import {MutationFn} from "react-apollo";
 import {updateHouse, updateHouseVariables, HouseType} from "../../../types/api";
 import {useInput} from "../../../actions/hook";
 import Button from "../../../atoms/button/Button";
-import Steps from "./components/steps";
+import Steps from "../starterModal/comonent/steps";
 import JDmultiBox from "../../../atoms/multiBox/MultiBox";
 import JDmultiStep from "../../../atoms/multiStep/MultiStep";
-import {ProductStatus, Product} from "../../../types/enum";
+import {HouseStatus, Product, MemoType} from "../../../types/enum";
+import MemoWrap from "../../../components/Memo/MemoWrap";
+import starterModal from "../starterModal/StarterModal";
+import {IContext} from "../../MiddleServerRouter";
+import StarterModal from "../starterModal/StarterModal";
+import StarterModalWrap from "../starterModal/StarterModalWrap";
+import DaySalesWrap from "../../../components/shortStatisces/DaySalesWrap";
+import DayCheckIn from "../../../components/shortStatisces/DayCheckIn";
+import DayCheckInWrap from "../../../components/shortStatisces/DayCheckInWrap";
 
 interface Iprops {
-  userData: IUser;
-  house?: IHouse;
+  context: IContext;
   updateHouseMu: MutationFn<updateHouse, updateHouseVariables>;
 }
 
-export type IStepsStart =
-  | "phoneVerification"
-  | "houseMake"
-  | "makeProduct"
-  | "readyAssign"
-  | "makeRoom"
-  | "done";
-
 // eslint-disable-next-line react/prop-types
-const DashBoard: React.SFC<Iprops> = ({updateHouseMu, userData, house}) => {
-  const hostMemo = useInput(
-    house ? house.hostMemo : "숙소생성후 이용해주세요."
-  );
-
-  let step: IStepsStart = "phoneVerification";
-
-  if (userData.isPhoneVerified) {
-    step = "houseMake";
-  }
-  if (house) {
-    step = "makeProduct";
-    if (house.product) {
-      step = "readyAssign";
-      if (
-        house.product.status !== ProductStatus.WAIT ||
-        house.product.name === Product.TEST
-      ) {
-        step = "makeRoom";
-        if (!isEmpty(house.roomTypes)) {
-          step = "done";
-        }
-      }
-    }
-  }
-
+const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
+  const {house, user} = context;
   return (
     <div className="docs-section--narrowTop">
       <div id="dashBoard" className="dashBoard">
         <div className="container">
-          <DashBoardHeader />
-          <div className="flex-grid dashBoard__section1">
-            <div className="flex-grid__col col--wmd-12 col--full-9 JDstandard-margin-bottom--wmd">
-              <Card className="JDcard--fullHeight JDcard--fullHeight-wmd">
-                {step === "done" ? (
+          <div>
+            <DashBoardHeader />
+          </div>
+          <div className="dashBoard__section1">
+            <div className="flex-grid JDstandard-margin-bottom">
+              <div
+                className={`flex-grid__col col--wmd-12
+                col--full-${house ? "9" : "12"}`}
+              >
+                <Card className="JDcard--fullHeight JDcard--fullHeight-wmd">
                   <Fragment>
                     <h6>방배정현황</h6>
-                    <DailyAssigWrap house={house!} date={new Date()} />
+                    <DailyAssigWrap context={context} date={new Date()} />
                   </Fragment>
-                ) : (
-                  <div>
-                    <JDmultiStep
-                      steps={[
-                        {
-                          current: step === "phoneVerification",
-                          name: "휴대폰인증"
-                        },
-                        {
-                          current: step === "houseMake",
-                          name: "숙소생성"
-                        },
-                        {
-                          current: step === "makeProduct",
-                          name: "상품등록"
-                        },
-                        {
-                          current: step === "readyAssign",
-                          name: "적용대기"
-                        },
-                        {
-                          current: step === "makeRoom",
-                          name: "방생성"
-                        }
-                      ]}
-                    />
-                    <Steps
-                      houseId={house ? house._id : undefined}
-                      step={step}
-                    />
+                </Card>
+              </div>
+              {house && (
+                <div className="flex-grid__col col--wmd-12 col--full-3">
+                  <div className="flex-grid__col flex-grid-grow flex-grid flex-grid--vertical">
+                    <div className="flex-grid__col flex-grid col--wmd-12 flex-grid--unGrow">
+                      <Card fullWidth>
+                        <GreetingBox context={context} />
+                      </Card>
+                    </div>
+                    <div className="flex-grid__col flex-grid col--wmd-12">
+                      <Card className="dashBoard__memoCard" fullWidth>
+                        <MemoWrap
+                          houseId={house ? house._id : ""}
+                          memoType={MemoType.HOST}
+                        />
+                      </Card>
+                    </div>
                   </div>
-                )}
-              </Card>
-            </div>
-            <div className="flex-grid__col col--wmd-12 col--full-3">
-              <div className="flex-grid__col flex-grid-grow flex-grid flex-grid--vertical">
-                <div className="flex-grid__col flex-grid col--wmd-12 flex-grid--unGrow">
-                  <Card fullWidth>
-                    <GreetingBox userData={userData} />
-                  </Card>
                 </div>
-                <div className="flex-grid__col flex-grid col--wmd-12">
-                  <Card fullWidth>
-                    <InputText
-                      readOnly={!house}
-                      onBlur={e => {
-                        house &&
-                          updateHouseMu({
-                            variables: {
-                              houseId: house._id,
-                              hostMemo: e.currentTarget.value
-                            }
-                          });
-                      }}
-                      {...hostMemo}
-                      label="메모"
-                      scroll
-                      fullHeight
-                      textarea
-                    />
-                  </Card>
+              )}
+            </div>
+            <div className="flex-grid">
+              <div className="flex-grid__col col--wmd-12 col--full-9">
+                <div className="flex-grid-grow">
+                  <div className="flex-grid__col">
+                    <Card>
+                      <h6>금일 매출</h6>
+                      <DaySalesWrap context={context} />
+                    </Card>
+                  </div>
+                  <div className="flex-grid__col">
+                    <Card className="flex-grid__col">
+                      <h6>체크인 현황</h6>
+                      <DayCheckInWrap context={context} />
+                    </Card>
+                  </div>
                 </div>
               </div>
             </div>

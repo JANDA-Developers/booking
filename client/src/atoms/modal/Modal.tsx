@@ -11,8 +11,10 @@ interface IProps extends ReactModal.Props, IUseModal {
   center?: boolean;
   className?: string;
   isAlert?: boolean;
+  isUnderHeader?: boolean;
   confirm?: boolean;
   children?: any;
+  minContentsWidth?: string;
   noAnimation?: boolean;
   minWidth?: string;
   visibleOverflow?: boolean;
@@ -27,7 +29,9 @@ const JDmodal: React.SFC<IProps> = ({
   info,
   center,
   className,
+  isUnderHeader,
   isOpen,
+  minContentsWidth,
   minWidth,
   closeModal,
   isAlert,
@@ -60,7 +64,8 @@ const JDmodal: React.SFC<IProps> = ({
   // 👿 curtton => overlay
 
   const overlayClassNames = classNames("JDmodal-overlay", undefined, {
-    "JDmodal-overlay--noAnimation": !shouldAnimation
+    "JDmodal-overlay--noAnimation": !shouldAnimation,
+    "JDmodal-overlay--underHeader": isUnderHeader
   });
 
   const classes = classNames("Modal JDmodal", className, {
@@ -109,8 +114,12 @@ const JDmodal: React.SFC<IProps> = ({
     minWidth
   };
 
+  const modalContentsStyle = {
+    minWidth: minContentsWidth
+  };
+
   const getChildren = () => (
-    <div style={modalStyle}>
+    <div style={modalContentsStyle}>
       {children}
       {info && info.children}
       {typeof info === "string" && info}
@@ -126,6 +135,7 @@ const JDmodal: React.SFC<IProps> = ({
         appElement={appElement}
         {...props}
         {...defualtJDmodalProps}
+        style={{content: {...modalStyle}}}
         overlayClassName={overlayClassNames}
       >
         {getChildren()}

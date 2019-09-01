@@ -13,7 +13,6 @@ import {isEmpty, mergeObject, removeNullOfObject} from "../utils/utils";
 import Preloader from "../atoms/preloader/Preloader";
 import {
   Products,
-  Home,
   MakeHouse,
   DashBoard,
   MyPage,
@@ -30,13 +29,30 @@ import {
   SmsHistory,
   Statistic,
   RoomConfig,
-  HouseMenualConfig
+  ConfigWrap,
+  HouseManualConfig
 } from "./pages";
 import {UserRole} from "../types/enum";
 import {IHouse, IHouseConfigFull} from "../types/interface";
-import ConfigWrap from "./middleServer/config/ConfigWrap";
 import $ from "jquery";
-import {DEFAULT_HOUSE_CONFIG, DEFAULT_SMS_TEMPLATE} from "../types/defaults";
+import {
+  DEFAULT_HOUSE_CONFIG,
+  DEFAULT_SMS_TEMPLATE,
+  DEFAULT_USER
+} from "../types/defaults";
+import {
+  getMyProfile_GetMyProfile_user,
+  getMyProfile_GetMyProfile_user_houses_product
+} from "../types/api";
+
+export interface IContext {
+  user: getMyProfile_GetMyProfile_user;
+  isLogIn: boolean;
+  house: IHouse;
+  houseConfig: IHouseConfigFull;
+  applyedProduct: getMyProfile_GetMyProfile_user_houses_product | undefined;
+  houses: IHouse[];
+}
 
 interface IProps {
   GetUserInfo: any;
@@ -46,10 +62,13 @@ interface IProps {
 
 const JDmiddleServer: React.FC<IProps> = ({
   IsLoggedIn: {
-    auth: {isLoggedIn},
+    auth: {isLogIn},
     loading
   },
-  GetUserInfo: {GetMyProfile: {user = {}} = {}, loading: loading2} = {},
+  GetUserInfo: {
+    GetMyProfile: {user = DEFAULT_USER} = {},
+    loading: loading2
+  } = {},
   selectedHouse: {lastSelectedHouse: tempLastSelectedHouse, loading: loading3}
 }) => {
   const isLoading: boolean = loading || loading2 || loading3;
@@ -78,18 +97,34 @@ const JDmiddleServer: React.FC<IProps> = ({
       DEFAULT_HOUSE_CONFIG,
       selectedHouse.houseConfig
     );
-
     selectedHouse.houseConfig = houseConfig;
   }
 
-  // 🍰 메인리턴
-  return (
-    <Fragment>
+  // TODO  전부 context로 벼환
+  const context: IContext = {
+    user,
+    isLogIn,
+    house: selectedHouse,
+    houseConfig,
+    applyedProduct,
+    houses
+  };
+  const sharedComponentProps = {
+    context
+  };
+
+  if (isLoading)
+    return (
       <Preloader
         wrapClassName="middlerServerLoading"
         page
         loading={isLoading}
       />
+    );
+
+  // 🍰 메인리턴
+  return (
+    <Fragment>
       <Helmet>
         <title>
           JANDA | {selectedHouse ? `${selectedHouse.name}🏠` : "App"}{" "}
@@ -99,16 +134,7 @@ const JDmiddleServer: React.FC<IProps> = ({
       <Route
         render={() => (
           // @ts-ignore
-          <Header
-            user={user}
-            isPhoneVerified={isPhoneVerified}
-            selectedHouse={selectedHouse}
-            isLoggedIn={isLoggedIn}
-            applyedProduct={applyedProduct}
-            houses={houses}
-            profileImg={profileImg}
-            isLoading={isLoading}
-          />
+          <Header context={context} />
         )}
       />
 
@@ -118,12 +144,10 @@ const JDmiddleServer: React.FC<IProps> = ({
         {["/", "/middleServer", "dashBoard"].map(path => (
           <Route key={path} exact path={path}>
             {/* 대쉬보드 */}
-            {isLoggedIn ? (
+            {isLogIn ? (
               <Route
                 exact
-                component={() => (
-                  <DashBoard house={selectedHouse} userData={user} />
-                )}
+                component={() => <DashBoard {...sharedComponentProps} />}
               />
             ) : (
               <Login />
@@ -135,21 +159,21 @@ const JDmiddleServer: React.FC<IProps> = ({
           exact
           path="/myPage"
           render={() =>
-            isLoggedIn ? <MyPage userData={user} houses={houses} /> : <Login />
+            isLogIn ? <MyPage {...sharedComponentProps} /> : <Login />
           }
         />
         {/* 숙소생성 */}
         <Route
           exact
           path="/makeHouse"
-          component={isLoggedIn ? MakeHouse : Login}
+          component={isLogIn ? MakeHouse : Login}
         />
         {/* 숙소설정 */}
         <Route
           exact
           path="/config"
           render={() =>
-            isLoggedIn ? <ConfigWrap house={selectedHouse} /> : <Login />
+            isLogIn ? <ConfigWrap {...sharedComponentProps} /> : <Login />
           }
         />
         {/* 상품선택 */}
@@ -157,15 +181,7 @@ const JDmiddleServer: React.FC<IProps> = ({
           exact
           path="/products"
           render={() =>
-            isLoggedIn ? (
-              <Products
-                isPhoneVerified={isPhoneVerified}
-                selectedHouse={selectedHouse}
-                currentProduct={applyedProduct}
-              />
-            ) : (
-              <Login />
-            )
+            isLogIn ? <Products {...sharedComponentProps} /> : <Login />
           }
         />
         {/* 회원가입 */}
@@ -176,7 +192,7 @@ const JDmiddleServer: React.FC<IProps> = ({
             exact
             path="/smsHistory"
             render={() =>
-              isLoggedIn ? (
+              isLogIn ? (
                 <SmsHistory smsInfoId={selectedHouse.smsInfo._id} />
               ) : (
                 <Login />
@@ -185,15 +201,21 @@ const JDmiddleServer: React.FC<IProps> = ({
           />
         )}
         {/* 로그인 */}
-        <Route exact path="/login" component={isLoggedIn ? undefined : Login} />
+        <Route exact path="/login" component={isLogIn ? undefined : Login} />
         {/* 슈퍼관리자 */}
         <Route
           exact
           path="/superAdmin"
-          component={userRole === UserRole.ADMIN ? SuperMain : NoMatch}
+          render={() =>
+            userRole === UserRole.ADMIN ? (
+              <SuperMain context={context} />
+            ) : (
+              <NoMatch />
+            )
+          }
         />
         {/* 고객문의 */}
-        <Route exact path="/qna" component={isLoggedIn ? Qna : Login} />
+        <Route exact path="/qna" component={isLogIn ? Qna : Login} />
         {/* 대기 */}
         {/* 여기이후로 상품이 있어야 나타날수있게 바뀜 */}
         {isEmpty(applyedProduct) ? (
@@ -203,7 +225,7 @@ const JDmiddleServer: React.FC<IProps> = ({
             exact
             path="/ready"
             render={() =>
-              isLoggedIn ? (
+              isLogIn ? (
                 <Ready
                   hostApp={selectedHouse && selectedHouse.appInfo}
                   currentProduct={applyedProduct}
@@ -221,23 +243,13 @@ const JDmiddleServer: React.FC<IProps> = ({
         <Route
           exact
           path="/assigTimeline"
-          render={() => (
-            <AssigTimeline
-              house={selectedHouse}
-              houseId={selectedHouse && selectedHouse._id}
-            />
-          )}
+          render={() => <AssigTimeline {...sharedComponentProps} />}
         />
         {/* 하우스 메뉴얼 */}
         <Route
           exact
-          path="/houseMenualConfig"
-          render={() => (
-            <HouseMenualConfig
-              house={selectedHouse}
-              houseId={selectedHouse && selectedHouse._id}
-            />
-          )}
+          path="/houseManualConfig"
+          render={() => <HouseManualConfig {...sharedComponentProps} />}
         />
         {/* 자세한 가격설정 */}
         <Route
@@ -247,7 +259,7 @@ const JDmiddleServer: React.FC<IProps> = ({
             isEmpty(selectedHouse) ? (
               <NoMatch />
             ) : (
-              <PriceTimeline houseId={selectedHouse && selectedHouse._id} />
+              <PriceTimeline {...sharedComponentProps} />
             )
           }
         />
@@ -259,7 +271,7 @@ const JDmiddleServer: React.FC<IProps> = ({
             isEmpty(selectedHouse) ? (
               <NoMatch />
             ) : (
-              <Statistic houseId={selectedHouse._id!} />
+              <Statistic {...sharedComponentProps} />
             )
           }
         />
@@ -271,10 +283,7 @@ const JDmiddleServer: React.FC<IProps> = ({
             isEmpty(selectedHouse) ? (
               <NoMatch />
             ) : (
-              <RoomConfig
-                {...prop}
-                houseId={selectedHouse && selectedHouse._id}
-              />
+              <RoomConfig {...prop} {...sharedComponentProps} />
             )
           }
         />
@@ -286,7 +295,7 @@ const JDmiddleServer: React.FC<IProps> = ({
             isEmpty(selectedHouse) ? (
               <NoMatch />
             ) : (
-              <Sms houseId={selectedHouse && selectedHouse._id} />
+              <Sms {...sharedComponentProps} />
             )
           }
         />
@@ -298,7 +307,7 @@ const JDmiddleServer: React.FC<IProps> = ({
             isEmpty(selectedHouse) ? (
               <NoMatch />
             ) : (
-              <SetPrice selectedHouse={selectedHouse} />
+              <SetPrice {...sharedComponentProps} />
             )
           }
         />
@@ -310,7 +319,7 @@ const JDmiddleServer: React.FC<IProps> = ({
             isEmpty(selectedHouse) ? (
               <NoMatch />
             ) : (
-              <ResvList houseId={selectedHouse._id} />
+              <ResvList {...sharedComponentProps} />
             )
           }
         />
@@ -326,7 +335,7 @@ export default compose(
     name: "GetUserInfo",
     skip: ({IsLoggedIn}: any) => {
       if (IsLoggedIn && IsLoggedIn.auth) {
-        return !IsLoggedIn.auth.isLoggedIn;
+        return !IsLoggedIn.auth.isLogIn;
       }
       return true;
     }

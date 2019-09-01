@@ -1,21 +1,34 @@
 import React, {useMemo} from "react";
-import {ErrProtecter, onCompletedMessage} from "../../../utils/utils";
+import {
+  ErrProtecter,
+  onCompletedMessage,
+  getRoomCountFromHouse
+} from "../../../utils/utils";
 import JDSlider from "../../../atoms/slider/Slider";
 import DashBoard from "./DashBoard";
 import {updateHouse, updateHouseVariables} from "../../../types/api";
 import {Mutation} from "react-apollo";
 import {IUser, IHouse} from "../../../types/interface";
 import {UPDATE_HOUSE} from "../../../queries";
+import {IContext} from "../../MiddleServerRouter";
+import StarterModalWrap from "../starterModal/StarterModalWrap";
+import {IUseModal} from "../../../actions/hook";
+import {arraySum} from "../../../utils/elses";
 
 class UpdateHouse extends Mutation<updateHouse, updateHouseVariables> {}
 
 interface Iprops {
-  userData: IUser;
-  house: IHouse | undefined;
+  context: IContext;
+  modalHook: IUseModal;
 }
 
 // eslint-disable-next-line react/prop-types
-const DashBoardWrap: React.FC<Iprops> = ({house, userData}) => {
+const DashBoardWrap: React.FC<Iprops> = ({context}) => {
+  const {house, user} = context;
+
+  if (!house || !house.completeDefaultSetting)
+    return <StarterModalWrap context={context} />;
+
   const MemorizedDashBoardWrap = useMemo(
     () => (
       <div>
@@ -26,16 +39,12 @@ const DashBoardWrap: React.FC<Iprops> = ({house, userData}) => {
           }}
         >
           {updateHouseMu => (
-            <DashBoard
-              updateHouseMu={updateHouseMu}
-              house={house}
-              userData={userData}
-            />
+            <DashBoard updateHouseMu={updateHouseMu} context={context} />
           )}
         </UpdateHouse>
       </div>
     ),
-    [userData._id]
+    [house._id, user._id]
   );
 
   return <div>{MemorizedDashBoardWrap}</div>;

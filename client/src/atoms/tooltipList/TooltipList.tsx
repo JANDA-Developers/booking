@@ -11,6 +11,7 @@ interface IProps extends OutReactTooltip.Props {
   scrollNodeClass?: string;
   tooltipRef?: React.MutableRefObject<any>;
   unPadding?: boolean;
+  mode?: "custom";
 }
 
 const ToolTipList: React.SFC<IProps> = ({
@@ -19,6 +20,7 @@ const ToolTipList: React.SFC<IProps> = ({
   children,
   unPadding,
   className,
+  mode,
   ...props
 }) => {
   const defualtProps = {
@@ -28,7 +30,8 @@ const ToolTipList: React.SFC<IProps> = ({
   };
 
   const classes = classNames("tooltipList", className, {
-    "tooltipList--unPadding": unPadding
+    "tooltipList--unPadding": unPadding,
+    "tooltipList--noraml": !mode
   });
 
   // 스크롤시 닫치게해줌

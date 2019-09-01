@@ -13,7 +13,7 @@
         .JDproduct {
             width: 25%;
             margin-right: $standard-space;
-
+            min-width: 190px;
             &:last-child {
                 margin-right: 0;
             }

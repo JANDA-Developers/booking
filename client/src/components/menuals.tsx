@@ -18,7 +18,7 @@ interface IProps {}
 // ❕ 어차피 버튼 눌러서 수정할거니까 전부 STATE 에 하면됨
 const JDHomePageManual: React.FC<IProps> = () => {
   // 설명서 다운로드
-  const downloadMenual = (form: string) => {
+  const downloadManual = (form: string) => {
     let manual = "";
     if (form === "hwp") manual = manualHwp;
     if (form === "pdf") manual = manualPdf;
@@ -29,11 +29,11 @@ const JDHomePageManual: React.FC<IProps> = () => {
   };
 
   const onDownloadHwp = () => {
-    downloadMenual("hwp");
+    downloadManual("hwp");
   };
 
   const onDownloadPdf = () => {
-    downloadMenual("pdf");
+    downloadManual("pdf");
   };
 
   return (
@@ -44,7 +44,7 @@ const JDHomePageManual: React.FC<IProps> = () => {
           <p className="downloadBox__header">
             <span>HWP파일</span>
             <CircleIcon onClick={onDownloadHwp} hover={false}>
-              <img src={hwpIcon} alt="hwp Menual" />
+              <img src={hwpIcon} alt="hwp Manual" />
             </CircleIcon>
           </p>
           <Button
@@ -59,7 +59,7 @@ const JDHomePageManual: React.FC<IProps> = () => {
           <JDbox size="small" className="downloadBox__header">
             <span>PDF파일</span>
             <CircleIcon onClick={onDownloadPdf} hover={false}>
-              <img src={pdfIcon} alt="pdf Menual" />
+              <img src={pdfIcon} alt="pdf Manual" />
             </CircleIcon>
             <Button
               onClick={onDownloadPdf}

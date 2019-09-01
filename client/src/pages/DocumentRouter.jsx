@@ -1,9 +1,8 @@
-
 /* eslint-disable react/forbid-prop-types */
 import React, {Fragment, Component} from "react";
 import {Route, Switch} from "react-router-dom";
 import Helmet from "react-helmet";
-import Header from "../components/headers/DocumentHeader";
+import Header from "../components/documentHeader/DocumentHeader";
 import NoMatch from "./noMatch/NoMatch";
 import {
   DocumentHome,

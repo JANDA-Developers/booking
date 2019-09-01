@@ -17,7 +17,7 @@ import {
   ROOM_GENDER_OP,
   PRICING_TYPE_OP
 } from "../../../../types/enum";
-import {IUseModal, useImageUploader} from "../../../../actions/hook";
+import {IUseModal, useImageUploader, useModal} from "../../../../actions/hook";
 import {
   createRoomType,
   createRoomTypeVariables,
@@ -29,9 +29,11 @@ import {
 } from "../../../../types/api";
 import {IDefaultRoomType, IRoomTypeModalInfo} from "./RoomTypeModalWrap";
 import Preloader from "../../../../atoms/preloader/Preloader";
+import {IContext} from "../../../MiddleServerRouter";
+import PriceWarnModal from "../../../../components/priceWarnModal.tsx/PriceWarnModal";
 
 interface IProps {
-  houseId: string;
+  context: IContext;
   createRoomTypeMutation: MutationFn<createRoomType, createRoomTypeVariables>;
   deleteRoomTypeMutation: MutationFn<deleteRoomType, deleteRoomTypeVariables>;
   updateRoomTypeMutation: MutationFn<updateRoomType, updateRoomTypeVariables>;
@@ -47,7 +49,7 @@ interface IProps {
 
 const RoomTypeModal: React.SFC<IProps> = ({
   modalHook,
-  houseId,
+  context,
   loading,
   isAddMode,
   mutationLoading,
@@ -59,6 +61,8 @@ const RoomTypeModal: React.SFC<IProps> = ({
   updateRoomTypeMutation,
   roomTypeData
 }) => {
+  const {house} = context;
+  const priceWarnModal = useModal(false);
   const roomImageHook = useImageUploader();
   const [value, setValue] = useState({
     name: roomTypeData.name,
@@ -83,7 +87,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
   });
 
   const updateRoomTypeValue = {
-    houseId,
+    houseId: house._id,
     name: value.name,
     img: roomImageHook.fileUrl || undefined,
     pricingType: value.pricingType.value,
@@ -97,8 +101,19 @@ const RoomTypeModal: React.SFC<IProps> = ({
   // const [peopleCountOption, setPeopleCountOption] = useState<IselectedOption[]>([]);
 
   const validater = () => {
-    if (value.name === "") {
-      toast.error("방타입명을 입력해주세요.");
+    if (value)
+      if (value.name === "") {
+        toast.warn("방타입명을 입력해주세요.");
+        return false;
+      }
+    if (value.peopleCountMax.value < 1) {
+      toast.warn("수용인원은 1명 이상이여야 합니다.");
+      return false;
+    }
+    if (value.defaultPrice < 1000) {
+      priceWarnModal.openModal({
+        confirmCallBackFn: createRoomType
+      });
       return false;
     }
     return true;
@@ -106,12 +121,16 @@ const RoomTypeModal: React.SFC<IProps> = ({
 
   const onCreateRoomType = async () => {
     if (validater()) {
-      onCreateFn && onCreateFn();
-      createRoomTypeMutation({
-        variables: updateRoomTypeValue
-      });
-      modalHook.closeModal();
+      createRoomType();
     }
+  };
+
+  const createRoomType = () => {
+    onCreateFn && onCreateFn();
+    createRoomTypeMutation({
+      variables: updateRoomTypeValue
+    });
+    modalHook.closeModal();
   };
 
   const onDeleteRoomType = async () => {
@@ -133,15 +152,6 @@ const RoomTypeModal: React.SFC<IProps> = ({
 
   const onChangePeople = (inValue: any) => {
     setValue({...value, peopleCountMax: inValue});
-
-    // // 🔶 Deprecated
-    // const inPeopleCountOption = [];
-    // for (let i = 1; i <= inValue.value; i += 1) {
-    //   const tmp = { value: i, label: `${i}명` };
-    //   inPeopleCountOption.push(tmp);
-    // }
-
-    // setValue({ ...value, peopleCount: inValue });
   };
 
   const maxPeopleCountOption = MAX_PEOPLE_COUNT_OP_FN();
@@ -187,7 +197,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
             selectedOption={value.peopleCount}
           />
         </div> */}
-            <div className="flex-grid__col  col--full-6 col--lg-6 col--md-12">
+            <div className="JDz-index-2 flex-grid__col JDz-index-3 col--full-6 col--lg-6 col--md-12">
               <SelectBox
                 label="수용인원"
                 disabled={false}
@@ -196,7 +206,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
                 selectedOption={value.peopleCountMax}
               />
             </div>
-            <div className="flex-grid__col  col--full-6 col--lg-6 col--md-12">
+            <div className="flex-grid__col JDz-index-2 col--full-6 col--lg-6 col--md-12">
               <SelectBox
                 label="방타입선택"
                 disabled={false}
@@ -207,7 +217,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
                 selectedOption={value.pricingType}
               />
             </div>
-            <div className="flex-grid__col  col--full-6 col--lg-6 col--md-12">
+            <div className="flex-grid__col JDz-index-2 col--full-6 col--lg-6 col--md-12">
               <SelectBox
                 label="방성별선택"
                 disabled={false}
@@ -251,27 +261,25 @@ const RoomTypeModal: React.SFC<IProps> = ({
               thema="primary"
               label="생성하기"
               size="small"
-              
               onClick={onCreateRoomType}
             />
             <Button
               thema="primary"
               label="수정하기"
-              
               size="small"
               disabled={isAddMode}
               onClick={onUpdateRoomType}
             />
             <Button
-              thema="warn"
+              thema="error"
               label="삭제하기"
-              
               size="small"
               disabled={isAddMode}
               onClick={onDeleteRoomType}
             />
             {/* <Button label="닫기"  onClick={modalHook.closeModal} /> */}
           </div>
+          <PriceWarnModal modalHook={priceWarnModal} />
         </Fragment>
       )}
     </Modal>

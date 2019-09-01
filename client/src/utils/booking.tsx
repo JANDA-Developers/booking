@@ -2,7 +2,7 @@ import {BookingStatus, Gender, PricingType} from "../types/enum";
 import {arraySum} from "./elses";
 import isEmpty from "./isEmptyData";
 import {any, string, number} from "prop-types";
-import {IroomSelectInfoTable} from "../components/bookingModal/BookingModal";
+import {IRoomSelectInfoTable} from "../components/bookingModal/BookingModal";
 import {
   getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices,
   getRoomTypeDatePrices_GetRoomTypeDatePrices,
@@ -10,6 +10,7 @@ import {
 } from "../types/api";
 import {applyDaysToArr} from "./utils";
 import moment from "moment";
+import {IResvCount} from "../types/interface";
 
 // booking들을 받아서 종합 BookingStatu를 반환합니다.
 
@@ -59,20 +60,17 @@ export const bookingPriceMerge = (bookings: TProp2): number =>
     )
   );
 
-type TReturn = {
-  male: number;
-  female: number;
-  count: number;
-};
 interface IGuest {
   gender: Gender | null;
   roomType: any;
   [foo: string]: any;
 }
-export const bookingGuestsMerge = (
+
+// 예약으로부터 게스트 카운트 찾아주는 함수
+export const getCountsFromBooking = (
   guests: IGuest[] | null,
   roomTypeId?: string
-): TReturn => {
+): IResvCount => {
   if (!roomTypeId) {
     return {
       female: guests
@@ -83,7 +81,7 @@ export const bookingGuestsMerge = (
       male: guests
         ? arraySum(guests.map(guest => (guest.gender === Gender.MALE ? 1 : 0)))
         : 0,
-      count: guests ? guests.length : 0
+      roomCount: guests ? guests.length : 0
     };
   } else {
     if (guests) {
@@ -106,13 +104,13 @@ export const bookingGuestsMerge = (
               )
             )
           : 0,
-        count: roomTypeGuests.length
+        roomCount: roomTypeGuests.length
       };
     } else {
       return {
         female: 0,
         male: 0,
-        count: 0
+        roomCount: 0
       };
     }
   }
@@ -133,18 +131,18 @@ interface IGetRoomTypePerGuestsParams {
 // 소위 중간계 만들어주는 함수 RoomType 별로 적용된 인원을 나타남
 export const getRoomTypePerGuests = (
   bookingData: IGetRoomTypePerGuestsParams
-): IroomSelectInfoTable[] => {
+): IRoomSelectInfoTable[] => {
   const roomTypes = bookingData.roomTypes || [];
   return roomTypes.map(roomType => {
     return {
       roomTypeId: roomType._id,
       roomTypeName: roomType.name,
       count: {
-        male: bookingGuestsMerge(
+        male: getCountsFromBooking(
           bookingData.guests,
           roomType ? roomType._id : undefined
         ).male,
-        female: bookingGuestsMerge(
+        female: getCountsFromBooking(
           bookingData.guests,
           roomType ? roomType._id : undefined
         ).female,

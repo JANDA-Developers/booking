@@ -21,7 +21,6 @@
             border-radius:$tooltipList-border-radius;
             margin: -1px;
             & > li {
-                padding: $tooltipList-li-padding;
                 border-bottom:1px solid $grey-level1;
                 .JDbtn  {
                     // color: $html-color;

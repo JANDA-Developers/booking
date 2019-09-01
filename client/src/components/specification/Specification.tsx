@@ -1,13 +1,14 @@
 import JDbox from "../../atoms/box/JDbox";
 import {
   getSpecification_GetHouse_house,
-  updateProductForSU,
-  updateProductForSUVariables
+  UserRole,
+  updateUserForSU,
+  updateUserForSUVariables
 } from "../../types/api";
 import {Fragment, useState} from "react";
 import moment from "moment";
 import React from "react";
-import {autoHypen, isEmpty, autoComma} from "../../utils/utils";
+import {autoHypen, isEmpty, autoComma, stringToPrice} from "../../utils/utils";
 import {DEFAULT_PRODUCT, DEFAULT_APP_INFO_REQUEST} from "../../types/defaults";
 import Preloader from "../../atoms/preloader/Preloader";
 import JDselect from "../../atoms/forms/selectBox/SelectBox";
@@ -15,9 +16,10 @@ import InputText from "../../atoms/forms/inputText/InputText";
 import {
   LAYOUT_TYPE_OP,
   SELECT_PRODUCT_TYPE_OP,
-  ProductStatusKr,
-  ProductStatus,
-  PRODUCT_STATUS_OP
+  HouseStatusKr,
+  HouseStatus,
+  PRODUCT_STATUS_OP,
+  HouseType
 } from "../../types/enum";
 import Button from "../../atoms/button/Button";
 import CheckBox from "../../atoms/forms/checkBox/CheckBox";
@@ -25,32 +27,17 @@ import {useSelect, useCheckBox, useInput} from "../../actions/hook";
 import {MutationFn} from "react-apollo";
 
 interface IProps {
-  specification: getSpecification_GetHouse_house | undefined;
-  updateProductForSU: MutationFn<
-    updateProductForSU,
-    updateProductForSUVariables
-  >;
+  specification: getSpecification_GetHouse_house;
+  updateUserForSu: MutationFn<updateUserForSU, updateUserForSUVariables>;
   loading: boolean;
   isAdmin?: boolean;
 }
 
-const defaultSpecification = {
-  name: "",
-  __typename: "House",
-  _id: "",
-  createdAt: "",
-  hostApplication: null,
-  houseType: "",
-  product: null,
-  updatedAt: "",
-  user: null
-};
-
-export const SpecificAtion: React.SFC<IProps> = ({
-  specification = defaultSpecification,
+export const SpecificAtion: React.FC<IProps> = ({
+  specification,
   loading,
   isAdmin,
-  updateProductForSU
+  updateUserForSu
 }) => {
   const {
     _id,
@@ -59,6 +46,7 @@ export const SpecificAtion: React.SFC<IProps> = ({
     houseType,
     name: houseName,
     updatedAt,
+    status,
     user
   } = specification;
 
@@ -78,8 +66,7 @@ export const SpecificAtion: React.SFC<IProps> = ({
     productType,
     canHaveHostApp,
     discountedPrice,
-    bookingCountExtraCharge,
-    status
+    bookingCountExtraCharge
   } = product || DEFAULT_PRODUCT;
 
   const lastRequestIndex = !isEmpty(appInfoRequested)
@@ -102,31 +89,32 @@ export const SpecificAtion: React.SFC<IProps> = ({
   const {name: userName, email, isPhoneVerified, phoneNumber} = user;
 
   // HOOK
-  const productStatusHook = useSelect({
-    label: ProductStatusKr[status || ProductStatus.WAIT],
-    value: status || ProductStatus.WAIT
+  const HouseStatusHook = useSelect({
+    label: HouseStatusKr[status || HouseStatus.WAIT],
+    value: status || HouseStatus.WAIT
   });
 
-  const ProductPriceHook = useState(productPrice || 0);
+  const [price, setPrice] = useState(productPrice || 0);
   const layOutPricePaidHook = useCheckBox(layoutPricePaid || false);
   const applideUrlHook = useInput(appliedUrl || "");
   const haveHostAppHook = useCheckBox(existingHostApp);
-  const descHook = useState(description || "");
+  const descHook = useInput(description || "");
 
   const handleUpdateClick = () => {
-    updateProductForSU({
+    updateUserForSu({
       variables: {
-        params: {
+        productParams: {
           appliedUrl: applideUrlHook.value,
-          description: descHook[0],
+          description: descHook.value,
           existingHostApp: haveHostAppHook.checked,
-          price: ProductPriceHook[0],
-          layoutPricePaid: layOutPricePaidHook.checked,
-          status: productStatusHook.selectedOption
-            ? productStatusHook.selectedOption.value
-            : ProductStatus.WAIT
+          price,
+          layoutPricePaid: layOutPricePaidHook.checked
         },
-        productId: productId
+        productId: productId,
+        houseId: specification._id,
+        status: HouseStatusHook.selectedOption
+          ? HouseStatusHook.selectedOption.value
+          : HouseStatus.WAIT
       }
     });
   };
@@ -196,15 +184,15 @@ export const SpecificAtion: React.SFC<IProps> = ({
     {
       title: "상품금액",
       value: productPrice + " / 월",
-      adminUi: <InputText value={productPrice} />
+      adminUi: <InputText comma onChange={setPrice} value={price} />
     },
     {
       title: "현재상태",
       value: status || "",
-      adminUi: <JDselect {...productStatusHook} options={PRODUCT_STATUS_OP} />
+      adminUi: <JDselect {...HouseStatusHook} options={PRODUCT_STATUS_OP} />
     },
     {
-      title: "관리자 메모",
+      title: "상품 메모",
       value: description || "",
       adminUi: <InputText {...descHook} textarea />
     },
@@ -241,7 +229,6 @@ export const SpecificAtion: React.SFC<IProps> = ({
           }}
           label="변경"
           thema="primary"
-          
         />
       )}
     </JDbox>

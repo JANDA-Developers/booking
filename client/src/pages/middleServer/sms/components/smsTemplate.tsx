@@ -169,7 +169,7 @@ const SmsTemplate: React.SFC<IProps> = ({
       <div>
         {/* <Button onClick={handleCreateBtnClick} thema="primary" label="추가" /> */}
         <Button onClick={handleUpdateBtnClick} thema="primary" label="수정" />
-        <Button onClick={handleDeleteBtnClick} thema="warn" label="삭제" />
+        <Button onClick={handleDeleteBtnClick} thema="error" label="삭제" />
       </div>
     </Fragment>
   );

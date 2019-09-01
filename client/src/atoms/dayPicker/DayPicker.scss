@@ -185,7 +185,6 @@
                         transition: border-radius $daypicker-day-transition;
                         transition-timing-function: ease-out;
                         border-radius: 50%;
-                        cursor: pointer;
 
                         &--outside {
                             cursor: default;
@@ -249,7 +248,7 @@
         }
     }
 
-    @import "./horizen/Horizen.scss";
-    @import "./input/JDdayPickerInput.scss";
+    @import "./component/horizen/Horizen.scss";
+    @import "./component/input/JDdayPickerInput.scss";
 }
 }

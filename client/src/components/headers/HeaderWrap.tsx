@@ -7,27 +7,15 @@ import {LOG_USER_OUT, SELECTED_HOUSE} from "../../clientQueries";
 import {getOperationName} from "apollo-utilities";
 import {IHouse, IDiv} from "../../types/interface";
 import {getMyProfile_GetMyProfile_user} from "../../types/api";
+import {IContext} from "../../pages/MiddleServerRouter";
 
 type IProps = IDiv & {
-  isPhoneVerified?: boolean;
-  isLoggedIn?: boolean;
-  isLoading: boolean;
-  className?: string;
-  sideNavOpener: any;
-  applyedProduct?: any;
-  selectedHouse: IHouse;
-  houses: IHouse[];
-  logOutMutation: any;
-  profileImg: string;
-  user: getMyProfile_GetMyProfile_user;
+  context: IContext;
 };
 
 const HeaderWrap: React.FC<IProps & RouteComponentProps> = ({
-  selectedHouse,
-  houses,
-  history,
-  profileImg,
-  ...props
+  context,
+  history
 }) => (
   <Mutation
     mutation={LOG_USER_OUT}
@@ -37,13 +25,7 @@ const HeaderWrap: React.FC<IProps & RouteComponentProps> = ({
     }}
   >
     {(logOutMutation: any) => (
-      <Header
-        {...props}
-        profileImg={profileImg}
-        selectedHouse={selectedHouse}
-        houses={houses}
-        logOutMutation={logOutMutation}
-      />
+      <Header context={context} logOutMutation={logOutMutation} />
     )}
   </Mutation>
 );

@@ -8,16 +8,19 @@ import {
 import {Query} from "react-apollo";
 import {GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM} from "../../queries";
 import {queryDataFormater} from "../../utils/utils";
-import { PricingType } from "../../types/enum";
+import {PricingType} from "../../types/enum";
+import {IHouse} from "../../types/interface";
 
 class GetAllRoomTypeWithGuestQuery extends Query<
   getAllRoomTypeWithGuest,
   getAllRoomTypeWithGuestVariables
 > {}
 
-interface IProps {}
+interface IProps {
+  house: IHouse;
+}
 
-const HouseMenualWrap: React.FC<IProps> = ({house}) => {
+const HouseManualWrap: React.FC<IProps> = ({house}) => {
   const queryDateHook = useDayPicker(
     moment(new Date())
       .add(-1, "day")
@@ -56,22 +59,29 @@ const HouseMenualWrap: React.FC<IProps> = ({house}) => {
           undefined
         );
 
-        let domitoryCount = 0;
-        let roomCount = 0;
+        const getPricingTypesMaxCount = () => {
+          let domitoryCount = 0;
+          let roomCount = 0;
+          if (roomTypesData) {
+            roomTypesData.forEach(roomType => {
+              if (roomType.pricingType === PricingType.DOMITORY) {
+                domitoryCount += roomType.peopleCount;
+              } else if (roomType.pricingType === PricingType.ROOM) {
+                domitoryCount += roomType.roomCount;
+              }
+            });
+          }
+          return {domitoryCount, roomCount};
+        };
 
-        if (roomTypesData)
-          roomTypesData.forEach(
-            roomType => {
-                const roomCount = roomType.roomCount;
-                if(roomType.pricingType === PricingType.DOMITORY){
-                    domitoryCount
-                };
-          );
+        const {domitoryCount, roomCount} = getPricingTypesMaxCount();
 
-        return <DayVacancy />;
+        return (
+          <DayVacancy domitoryCount={domitoryCount} roomCount={roomCount} />
+        );
       }}
     </GetAllRoomTypeWithGuestQuery>
   );
 };
 
-export default HouseMenualWrap;
+export default HouseManualWrap;

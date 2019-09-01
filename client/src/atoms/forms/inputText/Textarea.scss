@@ -194,9 +194,9 @@
     box-sizing:border-box;
     margin-top: $textarea-margin-top;
     height: calc(100% - #{$textarea-margin-top});
-  }
+    &:not(.JDtextarea--labeled) {
+      margin-top:0px;
+    }
 
-  #root &:not(.JDtextarea--labeled) {
-    margin-top:0px;
   }
 }

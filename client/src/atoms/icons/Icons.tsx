@@ -3,8 +3,9 @@ import React, {Fragment} from "react";
 import classNames from "classnames";
 import "./icons.scss";
 import {string} from "prop-types";
-import {s4} from "../../utils/utils";
+import {s4, colorClass} from "../../utils/utils";
 import Tooltip from "../tooltip/Tooltip";
+import {JDColor} from "../../types/enum";
 
 export type IIcons =
   | "arrowRight"
@@ -60,6 +61,7 @@ export type IIcons =
   | "gift"
   | "dotMenuVertical"
   | "question"
+  | "info"
   | "roomType"
   | "mobile"
   | "call"
@@ -184,7 +186,9 @@ const icons: {[s: string]: string} = {
   mark:
     "M13.927 23.84c-.638.105-1.292.16-1.959.16-6.606 0-11.968-5.377-11.968-12s5.362-12 11.968-12c6.605 0 11.967 5.377 11.967 12 0 .671-.055 1.329-.161 1.971l-1.917-.675c.055-.424.084-.857.084-1.296 0-5.519-4.469-10-9.973-10-5.505 0-9.973 4.481-9.973 10s4.468 10 9.973 10c.45 0 .894-.03 1.328-.088l.631 1.928zm-1.173-10.001c-.242.103-.507.161-.786.161-1.101 0-1.995-.896-1.995-2s.894-2 1.995-2c1.1 0 1.994.896 1.994 2 0 .211-.032.414-.093.604l9.733 3.426-3.662 1.926 4.06 4.173-1.874 1.827-4.089-4.215-2.167 3.621-3.116-9.523zm-.093 6.131c-.229.02-.46.03-.693.03-4.404 0-7.979-3.585-7.979-8s3.575-8 7.979-8c4.403 0 7.978 3.585 7.978 8 0 .207-.008.412-.023.615l-.979-.344.005-.271c0-3.863-3.128-7-6.981-7-3.853 0-6.982 3.137-6.982 7s3.129 7 6.982 7l.372-.01.321.98zm-.975-2.978c-2.621-.146-4.705-2.327-4.705-4.992 0-2.76 2.234-5 4.987-5 2.605 0 4.747 2.008 4.967 4.564l-1.06-.373c-.374-1.821-1.982-3.191-3.907-3.191-2.202 0-3.99 1.792-3.99 4 0 1.996 1.461 3.652 3.368 3.952l.34 1.04z",
   call:
-    "M20 22.621l-3.521-6.795c-.008.004-1.974.97-2.064 1.011-2.24 1.086-6.799-7.82-4.609-8.994l2.083-1.026-3.493-6.817-2.106 1.039c-7.202 3.755 4.233 25.982 11.6 22.615.121-.055 2.102-1.029 2.11-1.033z"
+    "M20 22.621l-3.521-6.795c-.008.004-1.974.97-2.064 1.011-2.24 1.086-6.799-7.82-4.609-8.994l2.083-1.026-3.493-6.817-2.106 1.039c-7.202 3.755 4.233 25.982 11.6 22.615.121-.055 2.102-1.029 2.11-1.033z",
+  info:
+    "M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-.001 5.75c.69 0 1.251.56 1.251 1.25s-.561 1.25-1.251 1.25-1.249-.56-1.249-1.25.559-1.25 1.249-1.25zm2.001 12.25h-4v-1c.484-.179 1-.201 1-.735v-4.467c0-.534-.516-.618-1-.797v-1h3v6.265c0 .535.517.558 1 .735v.999z"
 };
 
 export enum IconSize {
@@ -193,7 +197,9 @@ export enum IconSize {
   MEDEIUM_SMALL = "1.25rem",
   MEDIUM = "1.45rem",
   LARGE = "1.7rem",
+  MEDIUM_LARGE = "2rem",
   BIG_LARGE = "2.25rem", //standard-line-height
+  LARGE_LARGE = "2.75rem", //standard-line-height
   SUPER_LARGE = "4rem"
 }
 
@@ -203,7 +209,7 @@ interface IProps extends React.HTMLAttributes<HTMLOrSVGElement> {
   icon: IIcons;
   size?: IconSize;
   hover?: boolean;
-  color?: "primary" | "positive";
+  color?: JDColor;
   tooltip?: string;
   selected?: boolean;
 }
@@ -224,7 +230,7 @@ const JDIcon: React.SFC<IProps> = ({
   const classes = classNames("JDicon", className, {
     JDicon__svg: true,
     "JDicon__svg--hover": hover,
-    "JDicon__svg--positive": color === "positive",
+    ...colorClass("JDicon", color),
     "JDicon__svg--selected": selected
   });
 

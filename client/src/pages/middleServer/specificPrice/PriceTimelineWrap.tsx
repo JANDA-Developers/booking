@@ -4,11 +4,8 @@ import React, {useState} from "react";
 import {Mutation, Query} from "react-apollo";
 import moment from "moment-timezone";
 import {
-  getAllRoomType,
   getAllRoomTypePrice_GetAllRoomType_roomTypes as IRoomType,
   getAllRoomType_GetAllRoomType_roomTypes_rooms as IRoom,
-  getAllRoomTypePrice,
-  getAllRoomTypePriceVariables,
   getAllRoomTypePrice_GetAllDailyPrice_dailyPrices as dailyPrices,
   createDailyPrice,
   createDailyPriceVariables,
@@ -35,6 +32,7 @@ import {
 } from "../../../utils/utils";
 import {TimePerMs} from "../../../types/enum";
 import {useDayPicker} from "../../../actions/hook";
+import {IContext} from "../../MiddleServerRouter";
 
 class GetAllRoomTypePriceQuery extends Query<
   priceTimelineGetPrice,
@@ -104,11 +102,11 @@ const itemMaker = ({
 };
 
 interface IProps {
-  houseId: string;
+  context: IContext;
 }
 
-// 👼 앞으로 무조건 milisecond를 사용하는 편이 편할듯하다.
-const PriceTimelineWrap: React.SFC<IProps> = ({houseId}) => {
+const PriceTimelineWrap: React.FC<IProps> = ({context}) => {
+  const {house} = context;
   //  Default 값
   const dayPickerHook = useDayPicker(null, null);
   const defaultTime = {
@@ -170,7 +168,7 @@ const PriceTimelineWrap: React.SFC<IProps> = ({houseId}) => {
   };
 
   const queryVarialbes = {
-    houseId,
+    houseId: house._id,
     start: moment(dataTime.start)
       .toISOString()
       .split("T")[0],
@@ -178,8 +176,6 @@ const PriceTimelineWrap: React.SFC<IProps> = ({houseId}) => {
       .toISOString()
       .split("T")[0]
   };
-
-  // 👿 도대체왜!!!!!!
   moment.tz.setDefault("Asia/Seoul");
 
   return (
@@ -235,7 +231,6 @@ const PriceTimelineWrap: React.SFC<IProps> = ({houseId}) => {
             refetchQueries={[
               {query: GET_ALL_ROOMTYPES_PRICE, variables: queryVarialbes}
             ]}
-            
             mutation={CREATE_DAILY_PRICE}
           >
             {createDailyPriceMu => (
@@ -251,12 +246,11 @@ const PriceTimelineWrap: React.SFC<IProps> = ({houseId}) => {
                 refetchQueries={[
                   {query: GET_ALL_ROOMTYPES_PRICE, variables: queryVarialbes}
                 ]}
-                
                 mutation={DELETE_DAILY_PRICE}
               >
                 {deleteDailyPriceMu => (
                   <PriceTimeline
-                    houseId={houseId}
+                    context={context}
                     items={items || undefined}
                     loading={loading}
                     defaultProps={PriceTimelineDefaultProps}
