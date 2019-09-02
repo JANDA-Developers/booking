@@ -17,11 +17,10 @@ const ConfirmBadge: React.FC<IProps> = ({
   whenClickBadge,
   confirmBookingMu,
   bookingId,
-  show = true,
   ...props
 }) => (
   <JDanimation animation={[Animation.zoomOut]}>
-    {show && appearHook[0] && (
+    {appearHook[0] && (
       <JDbadge
         hover
         onClick={() => {

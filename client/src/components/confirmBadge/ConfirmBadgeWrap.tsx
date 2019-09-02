@@ -23,7 +23,7 @@ const ConfirmBadgeWrap: React.FC<IProps> = ({
   show,
   ...prop
 }) => {
-  const appearHook = useState(true);
+  const appearHook = useState(show || false);
 
   return (
     <ConfirmBooking

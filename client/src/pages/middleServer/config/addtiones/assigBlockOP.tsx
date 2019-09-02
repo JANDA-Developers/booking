@@ -14,9 +14,9 @@ import {
 
 const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
   updateHouseConfigMu,
-  house
+  context
 }) => {
-  const {houseConfig} = house;
+  const {houseConfig, house} = context;
   const {assigTimeline} = houseConfig;
   const {itemBlockOp, roomTypeTabEnable} =
     assigTimeline || DEFAULT_HOUSE_CONFIG.assigTimeline;

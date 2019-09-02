@@ -10,9 +10,9 @@ import TabUsePhoto from "../../../../img/describe/roomTypeTap.gif";
 
 const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
   updateHouseConfigMu,
-  house
+  context
 }) => {
-  const {houseConfig} = house;
+  const {houseConfig, house} = context;
   const {assigTimeline} = houseConfig;
   const [use, setUse] = useState(
     assigTimeline ? assigTimeline.roomTypeTabEnable : false

@@ -518,7 +518,7 @@ export function getAssigUtils(
       variables: {
         guestId: itemId,
         roomId: newGroupId,
-        bedIndex: groupData[newGroupOrder].bedIndex
+        bedIndex: groupData[newGroupOrder].bedIndex - 1
       }
     });
     // 실패하면 전부 되돌림

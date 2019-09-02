@@ -51,8 +51,8 @@ const DayCheckInWrap: React.FC<IProps> = ({context}) => {
 
           console.log(bookings);
           const bookingsCount = bookingsCheckInToday.length;
-          const bookingsCheckInCount = bookingsCheckInToday.map(
-            booking => booking.checkIn
+          const bookingsCheckInCount = bookingsCheckInToday.filter(
+            booking => booking.checkInInfo.isIn
           ).length;
 
           const info = {

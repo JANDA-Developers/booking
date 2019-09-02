@@ -166,7 +166,7 @@ const ResvList: React.SFC<IProps> = ({
             {moment(value)
               .local()
               .format("YY-MM-DD HH:mm")}
-            {isNew && !isConfirm && <ConfirmBadgeWrap bookingId={_id} />}
+            {<ConfirmBadgeWrap show={isNew && !isConfirm} bookingId={_id} />}
             {isCancled && (
               <Fragment>
                 <br />

@@ -13,9 +13,9 @@ import JDbadge from "../../../../atoms/badge/Badge";
 
 const NewBookingMark: React.FC<IAddtionProp> = ({
   updateHouseConfigMu,
-  house
+  context
 }) => {
-  const {houseConfig} = house;
+  const {houseConfig, house} = context;
   const {bookingConfig} = houseConfig;
   const {newBookingMark} = bookingConfig || DEFAULT_HOUSE_CONFIG.bookingConfig;
   const {enable, newGuestTime} =
