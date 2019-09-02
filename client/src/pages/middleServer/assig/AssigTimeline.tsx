@@ -358,7 +358,9 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
               assigHooks
             })
           }
-          groupRenderer={assigGroupRendererFn}
+          groupRenderer={({group}: any) =>
+            assigGroupRendererFn({group, assigUtils, assigContext, assigHooks})
+          }
           defaultTimeEnd={
             isTabletDown
               ? defaultTimeEnd - TimePerMs.DAY * ASSIG_VISIBLE_CELL_MB_DIFF

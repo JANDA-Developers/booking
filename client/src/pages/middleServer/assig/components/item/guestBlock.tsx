@@ -25,7 +25,7 @@ interface IProps {
 
 const guestBlock: React.FC<IProps> = ({
   assigContext,
-  assigUtils: {bookingCheckedNew, findGuestsByBookingId},
+  assigUtils: {bookingCheckedNew, getGuestsByBookingId},
   item,
   itemContext,
   assigHooks: {setGuestValue}

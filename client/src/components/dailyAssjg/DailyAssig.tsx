@@ -1,4 +1,4 @@
-import React, {Fragment} from "react";
+import React from "react";
 import "./DailyAssig.scss";
 import {
   getAllRoomTypeWithGuest_GetGuests_guests,
@@ -9,14 +9,10 @@ import JDIcon, {IconSize} from "../../atoms/icons/Icons";
 import {useModal, IUseDayPicker} from "../../actions/hook";
 import {isEmpty} from "../../utils/utils";
 import JDdayPicker from "../../atoms/dayPicker/DayPicker";
-import moment from "moment";
 import BookingModalWrap from "../bookingModal/BookingModalWrap";
-import HouseCard from "../../pages/middleServer/super/components/houseCard";
-import {IHouse} from "../../types/interface";
 import {GuestType} from "../../types/enum";
 import ArrowDayByDay from "../../atoms/dayPicker/component/inputComponent/arrowDayByDay";
 import Preloader from "../../atoms/preloader/Preloader";
-import {Context} from "tern";
 import {IContext} from "../../pages/MiddleServerRouter";
 
 interface IProps {

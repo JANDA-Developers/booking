@@ -22,7 +22,7 @@ interface IProps {
 }
 
 const BlockOpModal: React.FC<IProps> = ({
-  assigUtils: {findGroupById, findItemById, findGuestsByBookingId},
+  assigUtils: {getGroupById, getItemById, getGuestsByBookingId},
   assigHooks: {
     bookingModal,
     makeMenuProps,
@@ -53,7 +53,7 @@ const BlockOpModal: React.FC<IProps> = ({
     if (!muResult(result, "updateBlockOption")) {
       let inTarget = [target];
       if (addmitToAll.checked)
-        inTarget = findGuestsByBookingId(target.bookingId);
+        inTarget = getGuestsByBookingId(target.bookingId);
 
       if (!flag) {
         inTarget.forEach(

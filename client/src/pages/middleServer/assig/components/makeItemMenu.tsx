@@ -30,7 +30,7 @@ interface IProps {
 const MakeItemMenu: React.FC<IProps> = ({
   assigUtils: {
     genderToggleById,
-    findGroupById,
+    getGroupById,
     deleteItemById,
     allocateGuest,
     getAssigInfoFromItems,
@@ -42,7 +42,7 @@ const MakeItemMenu: React.FC<IProps> = ({
   const target = makeMenuProps.item;
   let targetGroup = DEFAULT_ASSIG_GROUP;
   if (!isEmpty(target.group)) {
-    targetGroup = findGroupById(target.group);
+    targetGroup = getGroupById(target.group);
   }
 
   return (

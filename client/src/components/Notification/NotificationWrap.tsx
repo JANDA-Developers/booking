@@ -49,12 +49,13 @@ const NotificationWrap: React.FC<IProps> = ({context, icon}) => {
       variables={{houseId: house._id, count: 20}}
     >
       {({data, loading}) => {
-        const notifications = queryDataFormater(
-          data,
-          "GetNotifications",
-          "notifications",
-          []
+        const notifications =
+          queryDataFormater(data, "GetNotifications", "notifications", []) ||
+          [];
+        const filterdNotifications = notifications.filter(
+          noti => noti.validPeriod < new Date()
         );
+
         return (
           <ConfirmMutation
             onCompleted={({ConfirmNotification}) => {}}
@@ -67,7 +68,7 @@ const NotificationWrap: React.FC<IProps> = ({context, icon}) => {
                 loading={loading}
                 context={context}
                 confirmMutationMu={confirmMutationMu}
-                notifications={notifications || []}
+                notifications={filterdNotifications}
               />
             )}
           </ConfirmMutation>

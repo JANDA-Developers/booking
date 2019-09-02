@@ -1,8 +1,8 @@
 @import '../../style_config/style_config';
 
 .dailyAssig {
-    border-top: 1px solid $grey-level1;
-    border-left: 1px solid $grey-level1;
+    border-top: 1px solid $grey-opacity1;
+    border-left: 1px solid $grey-opacity1;
     &__row {
         display:flex;
         * {
@@ -17,11 +17,11 @@
 
     &__roomTypeTittle {
         align-items: center;
-        border-right: 1px solid $grey-level1;
+        border-right: 1px solid $grey-opacity1;
         padding: $standard-tiny-space;
         max-width: 120px;
         display: flex;
-        border-bottom: 1px solid $grey-level1;
+        border-bottom: 1px solid $grey-opacity1;
         @include response($tablet) {
             max-width: 90px;
         }
@@ -32,8 +32,7 @@
     }
     
     &__roomTitle {
-        border-bottom: 1px solid $grey-level1;
-        border-right: 1px solid $grey-level1;
+        border-bottom: 1px solid $grey-opacity1;
         padding: $standard-tiny-space;
         min-height: 0;
     }
@@ -41,6 +40,25 @@
     &__room {
         min-width: 100px;
         border-bottom: 1px solid $grey-level1;
+        border-right: 1px solid $grey-level1;
+
+        &--canDrop {
+            background-color: $positive-opacity1;
+            
+            .dailyAssig__itemBlock {
+                color: $html-color;
+            }
+        }
+
+        &--canAssigAndOver {
+            background-color: $positive-opacity2;
+        }
+
+        &--Full {
+            background-color: $warn-opacity1;
+        }
+
+        
     }
     
     &__empty {
@@ -49,13 +67,14 @@
     
     &__itemBlockWrap {
         &:last-child {
-            border-bottom: none;
+            .dailyAssig__itemBlock {
+                border-bottom: none;
+            }
         }
     }
     
     &__itemBlock {
         padding: $assigItem-padding;
-        border-right: 1px solid $grey-opacity1;
         border-bottom: 1px solid $grey-opacity1;
     }
 

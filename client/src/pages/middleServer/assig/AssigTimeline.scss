@@ -120,6 +120,7 @@
         &--lastOfRoomType {
             border-bottom:1px solid $html-color;
         }
+        
     }
     
     // 좌측 방 그룹 조정
@@ -202,6 +203,12 @@
             @include response($mobile) {
                 width: 80%;
             }
+        }
+
+        &__badgesWrap {
+            position:absolute;
+            top: 0;
+            
         }
     }
 }

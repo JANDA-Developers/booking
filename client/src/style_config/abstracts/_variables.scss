@@ -51,12 +51,15 @@ $background-color: #FBFBFB;
 //TODO  여기 warn으로 이름교체
 $error-color: #ff6760 !default;
 $positive-color: $today-color !default;
+$positive-opacity1: rgba($positive-color, 0.1) !default;
+$positive-opacity2: rgba($positive-color, 0.2) !default;
 $positive-color-dark: darken($positive-color, 5%) !default;
 $positive-color-on: white;
 $error-color-on: white !default;
 $error-color-light: lighten(#ff6760,5%) !default;
 $error-color-dark: darken(#ff6760,5%) !default;
 $warn-color: #FF6E16 !default;
+$warn-opacity1: rgba(#FF6E16, 10%) !default;
 $warn-color-light: lighten($warn-color,15%) !default;
 $warn-color-dark: darken(#F58F2C,15%) !default;
 $link-color: rgb(66, 62, 199) !default;

@@ -23,15 +23,15 @@ const CanvasMenu: React.FC<IProps> = ({
   assigHooks: {guestValue, setMakeMenuProps, canvasMenuProps, setGuestValue},
   assigUtils: {
     addBlock,
-    findGroupById,
+    getGroupById,
     resizeLinkedItems,
-    findItemById,
+    getItemById,
     allTooltipsHide
   }
 }) => {
   if (!canvasMenuProps.groupId || canvasMenuProps.groupId === "noneGroup")
     return <div />;
-  const targetPricingType = findGroupById(canvasMenuProps.groupId).roomType
+  const targetPricingType = getGroupById(canvasMenuProps.groupId).roomType
     .pricingType;
 
   const makeMakeItem = (gender?: Gender) => {
@@ -43,7 +43,7 @@ const CanvasMenu: React.FC<IProps> = ({
         item.end >= canvasMenuProps.end
     );
 
-    const findTime = (flag: "start" | "end") => {
+    const getTime = (flag: "start" | "end") => {
       if (!linkedItems[0]) return canvasMenuProps[flag];
       if (
         linkedItems[0].start <= canvasMenuProps.start &&
@@ -64,8 +64,8 @@ const CanvasMenu: React.FC<IProps> = ({
           canvasMenuProps.group.pricingType
         ),
       type: GuestTypeAdd.MAKE,
-      start: findTime("start"),
-      end: findTime("end"),
+      start: getTime("start"),
+      end: getTime("end"),
       group: canvasMenuProps.groupId
     };
 

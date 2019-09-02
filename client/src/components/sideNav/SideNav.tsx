@@ -11,8 +11,7 @@ import ProfileCircle from "../../atoms/profileCircle/ProfileCircle";
 import SelectHouseWrap from "../selectHouse/SelectHouseWrap";
 import {IUser, IProduct, IHouse} from "../../types/interface";
 import {isEmpty, s4, instanceOfA, isTestProduct} from "../../utils/utils";
-import {HouseStatus} from "../../types/enum";
-import {Product} from "../../types/enum";
+import {Product, HouseStatus} from "../../types/enum";
 import {getMyProfile_GetMyProfile_user} from "../../types/api";
 import {IContext} from "../../pages/MiddleServerRouter";
 

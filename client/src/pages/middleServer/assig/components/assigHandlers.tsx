@@ -33,7 +33,7 @@ import {DEFAULT_ASSIG_ITEM} from "../../../../types/defaults";
 
 export function getAssigHandlers(
   {
-    findItemById,
+    getItemById,
     allTooltipsHide,
     makeMark,
     openCanvasMenu,
@@ -43,7 +43,7 @@ export function getAssigHandlers(
     openBlockMenu,
     popUpItemMenu,
     openMakeMenu,
-    findGroupById,
+    getGroupById,
     moveLinkedItems,
     removeMark,
     addBlock,
@@ -82,7 +82,7 @@ export function getAssigHandlers(
       clientX: e.clientX,
       clientY: e.clientY
     };
-    const target = findItemById(itemId);
+    const target = getItemById(itemId);
     popUpItemMenu(location, target);
 
     if (target.type === GuestTypeAdd.GUEST)
@@ -102,7 +102,7 @@ export function getAssigHandlers(
 
     await allTooltipsHide();
 
-    const targetGroup = findGroupById(groupId);
+    const targetGroup = getGroupById(groupId);
 
     openCanvasMenu(e, {
       start: time,
@@ -178,7 +178,7 @@ export function getAssigHandlers(
     dragTime: number,
     newGroupOrder: number
   ) => {
-    const targetGuest = findItemById(itemId);
+    const targetGuest = getItemById(itemId);
     if (!targetGuest) return;
 
     allocateItem(targetGuest, newGroupOrder);
@@ -191,7 +191,7 @@ export function getAssigHandlers(
     time: number,
     edge: "left" | "right"
   ) => {
-    const targetGuest = findItemById(itemId);
+    const targetGuest = getItemById(itemId);
     if (targetGuest.type === GuestTypeAdd.BLOCK) {
       resizeBlock(targetGuest, time);
     }
@@ -214,7 +214,7 @@ export function getAssigHandlers(
       clientY: clientY
     };
 
-    const target = findItemById(itemId);
+    const target = getItemById(itemId);
 
     if (target.bookingId === "block") return;
 
@@ -279,7 +279,7 @@ export function getAssigHandlers(
     time: number
   ) => {
     handleItemClick(itemId, e, time);
-    const target = findItemById(itemId);
+    const target = getItemById(itemId);
     if (target) {
       await $(".assigItem").removeClass(CLASS_LINKED);
       $(`.assigItem--booking${target.bookingId}`).addClass(CLASS_LINKED);

@@ -75,7 +75,7 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
 
   const {isMobile} = assigContext;
 
-  const targetGroup = assigUtils.findGroupById(item.group);
+  const targetGroup = assigUtils.getGroupById(item.group);
 
   props.style = {
     ...props.style,

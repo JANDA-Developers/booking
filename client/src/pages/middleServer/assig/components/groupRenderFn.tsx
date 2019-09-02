@@ -3,23 +3,41 @@ import $ from "jquery";
 import {PricingType} from "../../../../types/enum";
 import {ASSIGT_IMELINE_HEIGHT} from "../../../../atoms/timeline/Timeline";
 import {arraySum} from "../../../../utils/elses";
-import {IAssigGroup} from "./assigIntrerface";
+import {
+  IAssigGroup,
+  IAssigTimelineUtils,
+  IAssigTimelineContext,
+  IAssigTimelineHooks
+} from "./assigIntrerface";
+import JDbadge from "../../../../atoms/badge/Badge";
 
 let LAST_ROOMTYPE = "unRendered";
 let LAST_ROOM = "unRendered";
 
 interface IRenderGroupProps {
   group: IAssigGroup;
+  assigUtils: IAssigTimelineUtils;
+  assigContext: IAssigTimelineContext;
+  assigHooks: IAssigTimelineHooks;
 }
 
 // 아이템 위치가 바뀔때마다 groupRender 되더라
-const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({group}) => {
+const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({
+  group,
+  assigUtils: {getGuestsInGroup},
+  assigContext,
+  assigHooks
+}) => {
   if (!group || !group.roomType) {
     return <div />;
   }
 
+  const itemsCount = getGuestsInGroup(group).length;
+  const isOverFlow = itemsCount > 1;
   const isDomitory = group.roomType.pricingType === PricingType.DOMITORY;
   const placeCount = isDomitory ? group.roomType.peopleCount : 1;
+
+  console.log(isOverFlow);
 
   const roomTypeStyle = {
     height: ASSIGT_IMELINE_HEIGHT * placeCount * group.roomType.roomCount,
@@ -83,9 +101,7 @@ const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({group}) => {
         {renderRoomType && (
           <div
             id={`assigGroups__roomType${group.roomTypeId}`}
-            className={`assigGroups__roomType assigGroups__roomType${
-              group.roomTypeId
-            }`}
+            className={`assigGroups__roomType assigGroups__roomType${group.roomTypeId}`}
             style={roomTypeStyle}
           >
             <span className="assigGroups__names">{group.roomType.name}</span>
@@ -110,6 +126,11 @@ const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({group}) => {
           } assigGroups__place${group.roomId} title ${group.isLastOfRoom &&
             "assigGroups__place--last"}`}
         >
+          {isOverFlow && (
+            <span className="assigGroups__badgesWrap">
+              <JDbadge thema="warn">Over</JDbadge>
+            </span>
+          )}
           <span className="assigGroups__placeIn">{group.placeIndex}</span>
         </div>
       </div>

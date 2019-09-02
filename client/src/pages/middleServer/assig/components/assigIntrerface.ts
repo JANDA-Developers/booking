@@ -64,7 +64,7 @@ export type TGetCrushTimeByTwoGuest = (
   guest2: IAssigItem
 ) => false | ICrushTime;
 
-export type TFindItemById = (guestId: string) => IAssigItem;
+export type TGetItemById = (guestId: string) => IAssigItem;
 
 export type TPopUpItemMenu = (
   location: {
@@ -74,7 +74,7 @@ export type TPopUpItemMenu = (
   target: IAssigItem
 ) => Promise<void>;
 
-export type TFindGroupById = (groupId: string) => IAssigGroup;
+export type TGetGroupById = (groupId: string) => IAssigGroup;
 
 export type TRemoveMark = () => void;
 
@@ -159,9 +159,9 @@ export type TMoveLinkedItems = (bookingId: string, newTime: number) => void;
 
 export type TDeleteBookingById = (bookingId: string) => void;
 
-export type IFindGuestByBookingId = (bookingId: string) => IAssigItem[];
+export type IGetGuestByBookingId = (bookingId: string) => IAssigItem[];
 
-export type TFindBookingIdByGuestId = (guestId: string) => string;
+export type TGetBookingIdByGuestId = (guestId: string) => string;
 
 export type IAssigMutationLoading = {
   updateBlockLoading: boolean;
@@ -314,6 +314,8 @@ export type THandleItemMove = (
   newGroupOrder: number
 ) => Promise<void>;
 
+export type TGetGuestsInGroup = (group: IAssigGroup) => IAssigItem[];
+
 export type TGetAssigInfoFromItems = (items: IAssigItem[]) => IAssigInfo[];
 
 export type THandleCanvasClick = (
@@ -380,8 +382,8 @@ export interface IAssigTimelineUtils {
   bookingCheckedNew: TBookingCheckedNew;
   hilightGuestBlock: THilightGuestBlock;
   popUpItemMenu: TPopUpItemMenu;
-  findItemById: TFindItemById;
-  findGroupById: TFindGroupById;
+  getItemById: TGetItemById;
+  getGroupById: TGetGroupById;
   removeMark: TRemoveMark;
   deleteGhost: TDleteGhost;
   isTherePerson: TIsTherePerson;
@@ -389,6 +391,7 @@ export interface IAssigTimelineUtils {
   allTooltipsHide: TAllTooltipsHide;
   getCrushTimeByTwoGuest: TGetCrushTimeByTwoGuest;
   deleteGuestById: TDeleteGuestById;
+  getGuestsInGroup: TGetGuestsInGroup;
   deleteItemById: TDeleteItemById;
   openMakeMenu: TOpenMakeMenu;
   isGenderSafe: TIsGenderSafe;
@@ -407,8 +410,8 @@ export interface IAssigTimelineUtils {
   changeMakeBlock: TChangeMakeBlock;
   makeMark: TMakeMark;
   resizeBlock: TResizeBlock;
-  findBookingIdByGuestId: TFindBookingIdByGuestId;
-  findGuestsByBookingId: IFindGuestByBookingId;
+  getBookingIdByGuestId: TGetBookingIdByGuestId;
+  getGuestsByBookingId: IGetGuestByBookingId;
 }
 
 export interface IAssigInfo {

@@ -131,6 +131,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
 
     if (!blocksData) return alloCateItems;
     blocksData.forEach((blockData, index) => {
+      console.log(blockData);
       if (blockData) {
         alloCateItems.push({
           ...DEFAULT_ASSIG_ITEM,
@@ -138,8 +139,8 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
           bookingId: blockData._id,
           roomId: blockData.allocatedRoom._id,
           group: blockData.allocatedRoom._id + blockData.bedIndex,
-          start: moment(blockData.start).valueOf(),
-          end: moment(blockData.end).valueOf(),
+          start: moment(blockData.checkIn).valueOf(),
+          end: moment(blockData.checkOut).valueOf(),
           canMove: false,
           // @ts-ignore
           type: blockData.guestType,

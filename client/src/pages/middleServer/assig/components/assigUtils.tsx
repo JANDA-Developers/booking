@@ -1,8 +1,8 @@
 import React from "react";
 import {
   TRemoveMark,
-  TFindItemById,
-  TFindGroupById,
+  TGetItemById,
+  TGetGroupById,
   TIsTherePerson,
   TFilterTimeZone,
   TAllTooltipsHide,
@@ -30,19 +30,20 @@ import {
   TOpenMakeMenu,
   TMakeMark,
   TDeleteBookingById,
-  TFindBookingIdByGuestId,
+  TGetBookingIdByGuestId,
   TResizeBlock,
   TAllocateItem,
   TAllocateGuest,
   TPopUpItemMenu,
-  IFindGuestByBookingId,
+  IGetGuestByBookingId,
   THilightGuestBlock,
   TChangeMakeBlock,
   TBookingCheckedNew,
   IAssigGroup,
   TDleteGhost,
   TGetAssigInfoFromItems,
-  IAssigInfo
+  IAssigInfo,
+  TGetGuestsInGroup
 } from "./assigIntrerface";
 import {
   isEmpty,
@@ -97,10 +98,10 @@ export function getAssigUtils(
     ]);
   };
 
-  const findItemById: TFindItemById = guestId => {
+  const getItemById: TGetItemById = guestId => {
     const targetGuest = guestValue.find(guest => guest.id === guestId);
     if (!targetGuest)
-      throw new Error("해당하는 게스트를 찾을수 없습니다. <<findItemById>>");
+      throw new Error("해당하는 게스트를 찾을수 없습니다. <<getItemById>>");
     return targetGuest;
   };
 
@@ -108,7 +109,7 @@ export function getAssigUtils(
     const temp = items
       .map(
         (item): IAssigInfo => {
-          const group = findGroupById(item.group);
+          const group = getGroupById(item.group);
           return {
             bedIndex: group.bedIndex!,
             roomId: group.roomId,
@@ -121,15 +122,15 @@ export function getAssigUtils(
     return temp;
   };
 
-  const findGroupById: TFindGroupById = groupId => {
+  const getGroupById: TGetGroupById = groupId => {
     const targetGroup = groupData.find(group => group.id === groupId);
     if (!targetGroup)
-      throw new Error("해당하는 그룹을 찾을수 없습니다. <<findGroupById>>");
+      throw new Error("해당하는 그룹을 찾을수 없습니다. <<getGroupById>>");
     return targetGroup;
   };
 
   const bookingCheckedNew: TBookingCheckedNew = bookingId => {
-    const targets = findGuestsByBookingId(bookingId);
+    const targets = getGuestsByBookingId(bookingId);
     targets.forEach(target => (target.showNewBadge = false));
     setGuestValue([...guestValue]);
   };
@@ -340,7 +341,7 @@ export function getAssigUtils(
     setGuestValue([...filteredGuestValue]);
   };
 
-  const findGuestsByBookingId: IFindGuestByBookingId = (bookingId: string) =>
+  const getGuestsByBookingId: IGetGuestByBookingId = (bookingId: string) =>
     guestValue.filter(guest => guest.bookingId === bookingId);
 
   // 예약을 예약 아이디로 삭제
@@ -357,12 +358,12 @@ export function getAssigUtils(
   };
 
   //  예약아이디를 게스트아이디로 찾음
-  const findBookingIdByGuestId: TFindBookingIdByGuestId = (
+  const getBookingIdByGuestId: TGetBookingIdByGuestId = (
     guestId: string
   ): string => {
     const target = guestValue.find(guest => guest.id === guestId);
     if (!target) {
-      throw Error("guestId not exist :: findBookingByGuestId");
+      throw Error("guestId not exist :: getBookingByGuestId");
     }
     return target.bookingId;
   };
@@ -372,7 +373,7 @@ export function getAssigUtils(
     if (JDisNetworkRequestInFlight(networkStatus)) return;
     const deleteGuestCallBackFn = (flag: boolean, key: string) => {
       if (key === "deleteAll") {
-        deleteBookingById(findBookingIdByGuestId(guestId));
+        deleteBookingById(getBookingIdByGuestId(guestId));
       }
 
       if (flag) {
@@ -399,6 +400,9 @@ export function getAssigUtils(
       ]
     });
   };
+
+  const getGuestsInGroup: TGetGuestsInGroup = (group: IAssigGroup) =>
+    guestValue.filter(guest => guest.group === group.id);
 
   // 게스트가 그 시간대에 그 그룹에 괺찮은지 검사함
   // 검사한 결과를 Validation에 기입.
@@ -432,7 +436,7 @@ export function getAssigUtils(
       validater = [...validater, ...validate];
     }
 
-    const targetGroup = findGroupById(groupId);
+    const targetGroup = getGroupById(groupId);
     const isGenderSafeResult = isGenderSafe(targetGroup, tempGuest, start, end);
 
     // 성별충돌 발생
@@ -474,10 +478,10 @@ export function getAssigUtils(
     const result = await createBlockMu({
       variables: {
         bedIndex: targetGuest.bedIndex,
-        end: time,
+        checkOut: time,
         houseId: houseId,
         roomId: targetGuest.roomId,
-        start: targetGuest.start
+        checkIn: targetGuest.start
       }
     });
 
@@ -562,8 +566,8 @@ export function getAssigUtils(
 
     const result = await createBlockMu({
       variables: {
-        start,
-        end,
+        checkIn: start,
+        checkOut: end,
         houseId: houseId,
         roomId: targetGroup.roomId,
         bedIndex: targetGroup.bedIndex
@@ -587,7 +591,7 @@ export function getAssigUtils(
 
   // Id 로 게스트 찾아서 투글해주는 함수
   const genderToggleById: TGenderToggleById = guestId => {
-    const targetGuest = findItemById(guestId);
+    const targetGuest = getItemById(guestId);
     if (targetGuest)
       targetGuest.gender =
         targetGuest.gender === Gender.FEMALE ? Gender.MALE : Gender.FEMALE;
@@ -666,7 +670,7 @@ export function getAssigUtils(
   // 유틸 아이템을 화면에서 삭제
   const deleteItemById: TDeleteItemById = async id => {
     allTooltipsHide();
-    const targetItem = findItemById(id);
+    const targetItem = getItemById(id);
     if (targetItem.type === GuestTypeAdd.BLOCK) {
       const result = await deleteBlockMu({
         variables: {
@@ -693,8 +697,8 @@ export function getAssigUtils(
   // 👼 컴포넌트들 내부에 prop를 전달하기 힘드니까 이렇게 전달하자.
   const assigUtils: IAssigTimelineUtils = {
     changeMakeBlock,
-    findItemById,
-    findGroupById,
+    getItemById,
+    getGroupById,
     removeMark,
     isTherePerson,
     filterTimeZone,
@@ -705,7 +709,7 @@ export function getAssigUtils(
     openMakeMenu,
     isGenderSafe,
     oneGuestValidation,
-    findGuestsByBookingId,
+    getGuestsByBookingId,
     addBlock,
     allocateGuest,
     allocateItem,
@@ -721,8 +725,9 @@ export function getAssigUtils(
     makeMark,
     getAssigInfoFromItems,
     deleteBookingById,
+    getGuestsInGroup,
     popUpItemMenu,
-    findBookingIdByGuestId,
+    getBookingIdByGuestId,
     hilightGuestBlock,
     deleteGhost
   };
