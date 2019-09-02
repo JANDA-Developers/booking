@@ -14,6 +14,7 @@ import {GuestType} from "../../types/enum";
 import ArrowDayByDay from "../../atoms/dayPicker/component/inputComponent/arrowDayByDay";
 import Preloader from "../../atoms/preloader/Preloader";
 import {IContext} from "../../pages/MiddleServerRouter";
+import EmptyRoomItem from "./components/EmptyRoomItem";
 
 interface IProps {
   context: IContext;
@@ -82,14 +83,7 @@ const DailyAssig: React.SFC<IProps> = ({
       return item.allocatedRoom._id === roomId;
     });
 
-    if (isEmpty(itemsInRoom))
-      return (
-        <div className="dailyAssig__itemBlockWrap">
-          <div className="dailyAssig__itemBlock dailyAssig__empty dailyAssig__guestBlock">
-            빈방
-          </div>
-        </div>
-      );
+    if (isEmpty(itemsInRoom)) return <EmptyRoomItem />;
 
     return itemsInRoom.map(item => (
       <div className="dailyAssig__itemBlockWrap" key={`guestBlock${item._id}`}>

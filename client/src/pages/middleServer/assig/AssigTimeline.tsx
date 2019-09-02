@@ -263,6 +263,8 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   // 그룹 데이터가 비어있다면 보정용으로 하나추가
   if (isEmpty(filteredGroup)) filteredGroup = [DEFAULT_NONE_GOUP];
 
+  const assigGroupRendererFn2 = assigGroupRendererFn.bind(assigGroupRendererFn,{getGuestsInGroup: assigUtils.getGuestsInGroup})
+
   return (
     <div
       id="AssigTimeline"
@@ -358,9 +360,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
               assigHooks
             })
           }
-          groupRenderer={({group}: any) =>
-            assigGroupRendererFn({group, assigUtils, assigContext, assigHooks})
-          }
+          groupRenderer={assigGroupRendererFn2}
           defaultTimeEnd={
             isTabletDown
               ? defaultTimeEnd - TimePerMs.DAY * ASSIG_VISIBLE_CELL_MB_DIFF

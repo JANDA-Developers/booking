@@ -16,7 +16,7 @@ import {useDayPicker} from "../../actions/hook";
 import JDIcon from "../../atoms/icons/Icons";
 import Preloader from "../../atoms/preloader/Preloader";
 import {IContext} from "../../pages/MiddleServerRouter";
-import DailyAssigNew from "./DailyAssigNew";
+// import DailyAssigNew from "./DailyAssigNew";
 
 class GetAllRoomTypeWithGuestQuery extends Query<
   getAllRoomTypeWithGuest,
@@ -84,14 +84,14 @@ const DailyAssigWrap: React.FC<IProps> = ({date, context, isInModal}) => {
                 dayPickerHook={dayPickerHook}
                 roomTypesData={roomTypesData || []}
               />
-              <DailyAssigNew
+              {/* <DailyAssigNew
                 loading={loading}
                 context={context}
                 blocksData={blocks || []}
                 guestsData={guestsData || []}
                 dayPickerHook={dayPickerHook}
                 roomTypesData={roomTypesData || []}
-              />
+              /> */}
             </Fragment>
           );
         }}

@@ -7,37 +7,32 @@ import {
   IAssigGroup,
   IAssigTimelineUtils,
   IAssigTimelineContext,
-  IAssigTimelineHooks
+  IAssigTimelineHooks,
+  TGetGuestsInGroup
 } from "./assigIntrerface";
 import JDbadge from "../../../../atoms/badge/Badge";
+import Dot from "../../../../atoms/dot/dot";
 
 let LAST_ROOMTYPE = "unRendered";
 let LAST_ROOM = "unRendered";
 
 interface IRenderGroupProps {
-  group: IAssigGroup;
-  assigUtils: IAssigTimelineUtils;
-  assigContext: IAssigTimelineContext;
-  assigHooks: IAssigTimelineHooks;
+  group?: IAssigGroup;
+  getGuestsInGroup: TGetGuestsInGroup;
 }
 
 // 아이템 위치가 바뀔때마다 groupRender 되더라
-const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({
-  group,
-  assigUtils: {getGuestsInGroup},
-  assigContext,
-  assigHooks
-}) => {
+const assigGroupRendererFn: React.FC<IRenderGroupProps> = (
+  prop,
+  {group, ...props}
+) => {
+  console.log(prop);
+  console.log(props);
   if (!group || !group.roomType) {
     return <div />;
   }
-
-  const itemsCount = getGuestsInGroup(group).length;
-  const isOverFlow = itemsCount > 1;
   const isDomitory = group.roomType.pricingType === PricingType.DOMITORY;
   const placeCount = isDomitory ? group.roomType.peopleCount : 1;
-
-  console.log(isOverFlow);
 
   const roomTypeStyle = {
     height: ASSIGT_IMELINE_HEIGHT * placeCount * group.roomType.roomCount,
@@ -126,11 +121,6 @@ const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({
           } assigGroups__place${group.roomId} title ${group.isLastOfRoom &&
             "assigGroups__place--last"}`}
         >
-          {isOverFlow && (
-            <span className="assigGroups__badgesWrap">
-              <JDbadge thema="warn">Over</JDbadge>
-            </span>
-          )}
           <span className="assigGroups__placeIn">{group.placeIndex}</span>
         </div>
       </div>
