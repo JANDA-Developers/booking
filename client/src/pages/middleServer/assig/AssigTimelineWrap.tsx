@@ -138,8 +138,8 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
           bookingId: blockData._id,
           roomId: blockData.allocatedRoom._id,
           group: blockData.allocatedRoom._id + blockData.bedIndex,
-          start: moment(blockData.start).valueOf(),
-          end: moment(blockData.end).valueOf(),
+          start: moment(blockData.checkIn).valueOf(),
+          end: moment(blockData.checkOut).valueOf(),
           canMove: false,
           // @ts-ignore
           type: blockData.guestType,

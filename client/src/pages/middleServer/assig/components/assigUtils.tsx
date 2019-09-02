@@ -474,10 +474,10 @@ export function getAssigUtils(
     const result = await createBlockMu({
       variables: {
         bedIndex: targetGuest.bedIndex,
-        end: time,
+        checkOut: time,
         houseId: houseId,
         roomId: targetGuest.roomId,
-        start: targetGuest.start
+        checkIn: targetGuest.start
       }
     });
 
@@ -562,8 +562,8 @@ export function getAssigUtils(
 
     const result = await createBlockMu({
       variables: {
-        start,
-        end,
+        checkIn: start,
+        checkOut: end,
         houseId: houseId,
         roomId: targetGroup.roomId,
         bedIndex: targetGroup.bedIndex

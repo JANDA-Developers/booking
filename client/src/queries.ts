@@ -966,7 +966,7 @@ export const GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM = gql`
             }
         }
 
-        GetBlocks(start: $start, end: $end, houseId: $houseId) {
+        GetBlocks(checkIn: $start, checkOut: $end, houseId: $houseId) {
             ok
             error
             blocks {
@@ -974,8 +974,8 @@ export const GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM = gql`
                 bedIndex
                 guestType
                 createdAt
-                start
-                end
+                checkIn
+                checkOut
                 updatedAt
                 allocatedRoom {
                     ...Froom
@@ -1400,15 +1400,15 @@ export const DELETE_BLOCK = gql`
 // 방배정 :: 방막기
 export const CREATE_BLOCK = gql`
     mutation createBlock(
-        $start: DateTime!
-        $end: DateTime!
+        $checkIn: DateTime!
+        $checkOut: DateTime!
         $houseId: ID!
         $roomId: ID!
         $bedIndex: Int!
     ) {
         CreateBlock(
-            start: $start
-            end: $end
+            checkIn: $checkIn
+            checkOut: $checkOut
             houseId: $houseId
             roomId: $roomId
             bedIndex: $bedIndex
@@ -1417,8 +1417,8 @@ export const CREATE_BLOCK = gql`
             error
             block {
                 _id
-                start
-                end
+                checkIn
+                checkOut
                 guestType
             }
         }
