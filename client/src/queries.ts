@@ -301,7 +301,6 @@ export const F_GUEST = gql`
         allocatedRoom {
             ...Froom
         }
-        isUnsettled
         name
         checkIn
         checkOut

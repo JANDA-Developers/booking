@@ -2,6 +2,7 @@ import React from "react";
 import {IUseDayPicker} from "../../actions/hook";
 import JDdayPicker from "../../atoms/dayPicker/DayPicker";
 import ArrowDayByDay from "../../atoms/dayPicker/component/inputComponent/arrowDayByDay";
+import {autoComma} from "../../utils/utils";
 
 export interface IViewConfigProp {
   showDayPicker?: boolean;
@@ -26,7 +27,7 @@ const DaySales: React.FC<Iprops> = ({price, dayPickerHook, showDayPicker}) => {
           inputComponent={<ArrowDayByDay dayPickerHook={dayPickerHook} />}
         />
       )}
-      {price}원
+      {autoComma(price)}원
     </div>
   );
 };

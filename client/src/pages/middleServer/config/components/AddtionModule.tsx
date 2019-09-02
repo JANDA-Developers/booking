@@ -6,13 +6,14 @@ import {
   updateHouseConfigVariables
 } from "../../../../types/api";
 import {IHouse} from "../../../../types/interface";
+import {IContext} from "../../../MiddleServerRouter";
 
 export interface IAddtionProp {
   updateHouseConfigMu: MutationFn<
     updateHouseConfig,
     updateHouseConfigVariables
   >;
-  house: IHouse;
+  context: IContext;
 }
 
 export interface IAddition {

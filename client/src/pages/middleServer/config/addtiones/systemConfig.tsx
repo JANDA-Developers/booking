@@ -8,16 +8,21 @@ import {
   updateHouseConfigVariables
 } from "../../../../types/api";
 import {IHouse} from "../../../../types/interface";
+import {IContext} from "../../../MiddleServerRouter";
 
 interface IProps {
   updateHouseConfigMu: MutationFn<
     updateHouseConfig,
     updateHouseConfigVariables
   >;
-  house: IHouse;
+  context: IContext;
 }
 
-const SystemDescription: React.FC<IProps> = ({updateHouseConfigMu, house}) => {
+const SystemDescription: React.FC<IProps> = ({
+  updateHouseConfigMu,
+  context
+}) => {
+  const {house} = context;
   const [range, setRange] = useState<any>(
     house.houseConfig.pollingPeriod ? house.houseConfig.pollingPeriod.period : 0
   );

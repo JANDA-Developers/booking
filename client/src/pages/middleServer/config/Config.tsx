@@ -11,16 +11,17 @@ import {
   updateHouseConfigVariables
 } from "../../../types/api";
 import {IHouse, IHouseConfigFull} from "../../../types/interface";
+import {IContext} from "../../MiddleServerRouter";
 
 interface IProps {
   updateHouseConfigMu: MutationFn<
     updateHouseConfig,
     updateHouseConfigVariables
   >;
-  house: IHouse;
+  context: IContext;
 }
 
-const Config: React.FC<IProps> = ({updateHouseConfigMu, house}) => {
+const Config: React.FC<IProps> = ({updateHouseConfigMu, context}) => {
   // AdditionMoudle 클릭시 변경
 
   const [additionIndex, setAdditionIndex] = useState<null | number>(null);
@@ -52,7 +53,7 @@ const Config: React.FC<IProps> = ({updateHouseConfigMu, house}) => {
                   <h5>{additiones[additionIndex].name}</h5>
                   {additiones[additionIndex].detailDescription({
                     updateHouseConfigMu,
-                    house
+                    context
                   })}
                 </div>
               )}

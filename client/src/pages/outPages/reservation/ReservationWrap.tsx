@@ -273,12 +273,12 @@ const ReservationWrap: React.FC<IProps> = ({
         >
           {(createBookingMu, {loading: createBookingLoading}) => (
             <div>
-              <Button
+              {/* <Button
                 label="결제테스트"
                 onClick={() => {
                   openNiceModal();
                 }}
-              />
+              /> */}
               <Reservation
                 houseId={houseId}
                 isAdmin={isAdmin || false}

@@ -12,6 +12,7 @@ import {
   updateHouseConfigVariables
 } from "../../../types/api";
 import {IHouse, IHouseConfigFull} from "../../../types/interface";
+import {IContext} from "../../MiddleServerRouter";
 
 class UpdateHouseConfig extends Mutation<
   updateHouseConfig,
@@ -19,22 +20,23 @@ class UpdateHouseConfig extends Mutation<
 > {}
 
 interface IProps {
-  house: IHouse;
+  context: IContext;
 }
 
-const ConfigWrap: React.FC<IProps> = ({house}) => (
-  <UpdateHouseConfig
-    onCompleted={({UpdateHouseConfig}) => {
-      onCompletedMessage(UpdateHouseConfig, "숙소설정 완료", "숙소설정 실패");
-    }}
-    
-    mutation={UPDATE_HOUSE_CONFIG}
-    refetchQueries={[{query: GET_USER_INFO}]}
-  >
-    {updateHouseConfigMu => (
-      <Config house={house} updateHouseConfigMu={updateHouseConfigMu} />
-    )}
-  </UpdateHouseConfig>
-);
+const ConfigWrap: React.FC<IProps> = ({context}) => {
+  return (
+    <UpdateHouseConfig
+      onCompleted={({UpdateHouseConfig}) => {
+        onCompletedMessage(UpdateHouseConfig, "숙소설정 완료", "숙소설정 실패");
+      }}
+      mutation={UPDATE_HOUSE_CONFIG}
+      refetchQueries={[{query: GET_USER_INFO}]}
+    >
+      {updateHouseConfigMu => (
+        <Config context={context} updateHouseConfigMu={updateHouseConfigMu} />
+      )}
+    </UpdateHouseConfig>
+  );
+};
 
 export default ErrProtecter(ConfigWrap);
