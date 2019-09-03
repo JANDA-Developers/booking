@@ -178,7 +178,6 @@ export const DEFAULT_ASSIG_ITEM: IAssigItem = {
   itemIndex: -1,
   id: "",
   isCheckin: false,
-  isUnsettled: false,
   name: "",
   roomId: "",
   roomTypeId: "",

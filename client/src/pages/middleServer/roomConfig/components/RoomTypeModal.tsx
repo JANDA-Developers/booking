@@ -128,7 +128,9 @@ const RoomTypeModal: React.SFC<IProps> = ({
   const createRoomType = () => {
     onCreateFn && onCreateFn();
     createRoomTypeMutation({
-      variables: updateRoomTypeValue
+      variables: {
+        ...updateRoomTypeValue
+      }
     });
     modalHook.closeModal();
   };
@@ -142,7 +144,14 @@ const RoomTypeModal: React.SFC<IProps> = ({
     if (validater()) {
       updateRoomTypeMutation({
         variables: {
-          ...updateRoomTypeValue,
+          params: {
+            defaultPrice: updateRoomTypeValue.defaultPrice,
+            description: updateRoomTypeValue.description,
+            img: updateRoomTypeValue.img,
+            name: updateRoomTypeValue.name,
+            peopleCount: updateRoomTypeValue.peopleCountMax,
+            peopleCountMax: updateRoomTypeValue.peopleCountMax
+          },
           roomTypeId: modalHook.info.roomTypeId || ""
         }
       });
@@ -186,17 +195,6 @@ const RoomTypeModal: React.SFC<IProps> = ({
                 }}
               />
             </div>
-            {/* <div className="flex-grid__col  col--full-3 col--lg-6 col--md-12">
-          <SelectBox
-            label="수용인원"
-            disabled={false}
-            onChange={(inValue: any) => {
-              setValue({ ...value, peopleCount: inValue });
-            }}
-            options={peopleCountOption}
-            selectedOption={value.peopleCount}
-          />
-        </div> */}
             <div className="JDz-index-2 flex-grid__col JDz-index-3 col--full-6 col--lg-6 col--md-12">
               <SelectBox
                 label="수용인원"
@@ -209,7 +207,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
             <div className="flex-grid__col JDz-index-2 col--full-6 col--lg-6 col--md-12">
               <SelectBox
                 label="방타입선택"
-                disabled={false}
+                disabled={!isAddMode}
                 onChange={(inValue: any) => {
                   setValue({...value, pricingType: inValue});
                 }}
@@ -220,7 +218,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
             <div className="flex-grid__col JDz-index-2 col--full-6 col--lg-6 col--md-12">
               <SelectBox
                 label="방성별선택"
-                disabled={false}
+                disabled={!isAddMode}
                 onChange={(inValue: any) => {
                   setValue({...value, roomGender: inValue});
                 }}
@@ -259,7 +257,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
           <div className="JDmodal__endSection">
             <Button
               thema="primary"
-              label="생성하기"
+              label={isAddMode ? "생성하기" : "복제하기"}
               size="small"
               onClick={onCreateRoomType}
             />

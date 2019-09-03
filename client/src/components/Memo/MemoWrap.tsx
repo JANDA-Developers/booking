@@ -62,7 +62,8 @@ const MemoWrap: React.FC<IProps> = ({houseId, memoType}) => {
                     )
                   }
                 >
-                  {(deleteMemoMu, {loading: deleteMemoLoading}) => (
+                  {(deleteMemoMu, {loading
+                  : deleteMemoLoading}) => (
                     <UpdateMemoMu
                       mutation={UPDATE_MEMO}
                       awaitRefetchQueries
