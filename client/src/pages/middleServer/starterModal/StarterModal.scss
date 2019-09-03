@@ -5,4 +5,8 @@
         border-bottom: 1px solid $grey-level1;
         margin-bottom: $standard-margin-bottom;
     }
+
+    &__makeRoom_finish_Btn {
+        padding-top: $docs-section__box-bottom;
+    }
 }

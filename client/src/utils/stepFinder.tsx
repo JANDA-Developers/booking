@@ -25,10 +25,6 @@ const stepFinder = (context: IContext): IStepsStart => {
       step = "readyAssign";
       if (house.status === HouseStatus.ENABLE) {
         step = "makeRoom";
-
-        if (!isEmpty(house.roomTypes)) {
-          step = "done";
-        }
       }
     }
   }

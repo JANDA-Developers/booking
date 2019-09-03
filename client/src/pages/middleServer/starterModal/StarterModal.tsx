@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import JDmultiStep from "../../../atoms/multiStep/MultiStep";
 import Steps from "./comonent/steps";
 import {IContext} from "../../MiddleServerRouter";
@@ -18,7 +18,9 @@ interface IProps {
 const StarterModal: React.FC<IProps> = ({context, updateHouseMu}) => {
   const modalHook = useModal(true);
 
-  const step = stepFinder(context);
+  const defaultStep = stepFinder(context);
+
+  const [step, setStep] = useState(defaultStep);
 
   return (
     <JDmodal
@@ -64,6 +66,7 @@ const StarterModal: React.FC<IProps> = ({context, updateHouseMu}) => {
           }}
           updateHouseMu={updateHouseMu}
           context={context}
+          setStep={setStep}
           step={step}
         />
       </div>

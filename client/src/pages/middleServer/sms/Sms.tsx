@@ -24,11 +24,12 @@ import {
   updateSenderVariables
 } from "../../../types/api";
 import Preloader from "../../../atoms/preloader/Preloader";
-import {onCompletedMessage} from "../../../utils/utils";
+import {onCompletedMessage, isEmpty} from "../../../utils/utils";
 import {isPhone} from "../../../utils/inputValidations";
 import {toast} from "react-toastify";
 import PhoneVerificationModalWrap from "../../../components/phoneVerificationModal/PhoneVerificationModalWrap";
 import {Link} from "react-router-dom";
+import {IContext} from "../../MiddleServerRouter";
 
 interface IProps {
   smsTemplateMutationes: {
@@ -48,54 +49,30 @@ interface IProps {
   };
   loading: boolean;
   smsInfo: getSmsInfo_GetSmsInfo_smsInfo | null | undefined;
-  houseId: string;
+  context: IContext;
 }
 
 const Sms: React.FC<IProps> = ({
   smsTemplateMutationes,
   loading,
   smsInfo,
-  houseId
+  context
 }) => {
-  const senderNumber = smsInfo && smsInfo.sender && smsInfo.sender.phoneNumber;
-  const reciverNumber = smsInfo && smsInfo.receivers && smsInfo.receivers[0];
-  const phoneVerificationModalHook = useModal(false);
-  const hostSenderHook = useInput(senderNumber || "");
-  const hostReciverHook = useInput(reciverNumber || "");
+  if (!smsInfo) return <h3>SMS 신청을 먼저 완료해주세요.</h3>;
 
-  const templateNames =
-    (smsInfo &&
-      smsInfo.smsTemplates &&
-      smsInfo.smsTemplates.map(smsTemplate => smsTemplate.formatName)) ||
-    [];
-
-  const [templateTitles, setTemplateTitles] = useState<string[]>(
-    templateNames || []
-  );
+  const {house} = context;
+  const senderNumber = smsInfo.sender && smsInfo.sender.phoneNumber;
 
   const updateSenderFn = async () => {
     const result = await smsTemplateMutationes.updateSenderMu({
       variables: {
-        houseId: houseId,
+        houseId: house._id,
         sender: {
-          phoneNumber: hostSenderHook.value,
+          phoneNumber: senderNumber,
           registered: true
         }
       }
     });
-
-    // 인증이 안된경우 인증 모달 팝
-    // updateSenderFn을 다시 인증완료 컬백으로 호출함
-    if (result && result.data) {
-      if (!result.data.UpdateSender.verified) {
-        phoneVerificationModalHook.openModal({
-          phoneNumber: hostSenderHook.value,
-          onPhoneVerified: updateSenderFn
-        });
-      } else {
-        onCompletedMessage(result.data.UpdateSender, "신청완료", "신청실패");
-      }
-    }
   };
 
   const updateSenderValidater = (): boolean => hostSenderHook.isValid;
@@ -111,7 +88,7 @@ const Sms: React.FC<IProps> = ({
   const handleCreateBtnClick = () => {
     smsTemplateMutationes.createSmsTemplateMu({
       variables: {
-        houseId: houseId,
+        houseId: house._id,
         params: {
           formatName: "",
           smsFormat: ""
@@ -129,102 +106,39 @@ const Sms: React.FC<IProps> = ({
           onClick={() => {
             handleCreateBtnClick();
           }}
-          label="추가하기"
+          label="템플릿 추가하기"
           thema="primary"
         />
         <Link to="/smsHistory">
           <Button mode="border" label="SMS 내역보기" />
         </Link>
-        {/* <div className="flex-grid"> */}
-        {/* <div className="flex-grid__col col--full-6 col--md-12">
-              <Card>
-                <h6>SMS 신청하기</h6>
-                {/* direct Mu */}
-        {/* <InputText
-                  {...hostSenderHook}
-                  validation={isPhone}
-                  hyphen
-                  label="관리자 발신번호"
-                />
-                <InputText
-                  {...hostReciverHook}
-                  validation={isPhone}
-                  hyphen
-                  label="관리자 수신번호"
-                />
-                <Button
-                  onClick={handleRegistBtnClick}
-                  thema="primary"
-                  label="등록신청"
-                />
-                <Button thema="warn" label="신청취소" />
-              </Card>
-            </div> */}
-        {/* <div className="flex-grid__col col--full-6 col--md-12">
-              <Card>
-                <h6>SMS 등록안내</h6>
-                <p>
-                  본 서비스는 알리고 API 를 활용한 서비스로 가격정책은
-                  알리고정책을 따릅니다. 서비스 신청후 SMS 등록까지 평균 1일
-                  소요됨을 안내드립니다. (공휴일 제외)
-                </p>
-                <a
-                  className="JDanchor"
-                  href="https://smartsms.aligo.in/index.html"
-                >
-                  알리고이동
-                </a>
-                <a
-                  className="JDanchor"
-                  href="https://smartsms.aligo.in/index.html"
-                >
-                  비용정책 확인
-                </a>
-              </Card>
-            </div>
-          </div>*/}
-        {/* </div> */}
         <div className="docs-section__box">
           {/* <h6>문자 템플릿 설정</h6> */}
-          {smsInfo ? (
+          {isEmpty(smsInfo.smsTemplates) || (
             <JDtabs>
-              <TabList>
-                {templateTitles.map((title: string, index: number) => (
-                  <Tab
-                    key={`smsTemplateTitle${index}${smsInfo &&
-                      smsInfo.smsTemplates![index]._id}`}
-                  >
-                    <InputText
-                      onBlur={e => {
-                        templateTitles[index] = e.currentTarget.value;
-                        setTemplateTitles([...templateTitles]);
-                      }}
-                      defaultValue={title}
-                      placeholder="NAME"
-                    />
-                  </Tab>
-                ))}
-              </TabList>
-              {smsInfo &&
-                smsInfo.smsTemplates &&
-                smsInfo.smsTemplates.map((smsTemplate, index) => (
-                  <TabPanel key={`smsTemplate${smsTemplate._id}`}>
-                    <SmsTemplate
-                      smsInfo={smsInfo}
-                      templateTitle={templateTitles[index]}
-                      smsTemplateMutationes={smsTemplateMutationes}
-                      templateData={smsTemplate}
-                      houseId={houseId}
-                    />
-                  </TabPanel>
-                ))}
+              {templateTitles.map((title: string, index: number) => (
+                <Button onClick={() => {}} />
+              ))}
+              {smsInfo.smsTemplates.map((smsTemplate, index) => (
+                <TabPanel key={`smsTemplate${smsTemplate._id}`}>
+                  <SmsTemplate
+                    smsInfo={smsInfo}
+                    templateTitle={templateTitles[index]}
+                    smsTemplateMutationes={smsTemplateMutationes}
+                    templateData={smsTemplate}
+                    houseId={house._id}
+                  />
+                </TabPanel>
+              ))}
+              {isEmpty(smsInfo.smsTemplates) && (
+                <h4 className="JDtextColor--placeHolder">
+                  새로운 템플릿을 생성하세요.
+                </h4>
+              )}
             </JDtabs>
-          ) : (
-            <h3>SMS 신청을 먼저 완료해주세요.</h3>
           )}
         </div>
       </div>
-      <PhoneVerificationModalWrap modalHook={phoneVerificationModalHook} />
     </div>
   );
 };

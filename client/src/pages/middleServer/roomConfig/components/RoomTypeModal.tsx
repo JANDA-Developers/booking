@@ -125,7 +125,8 @@ const RoomTypeModal: React.SFC<IProps> = ({
     }
   };
 
-  const createRoomType = () => {
+  const createRoomType = (flag?: boolean) => {
+    if (flag === false) return;
     onCreateFn && onCreateFn();
     createRoomTypeMutation({
       variables: updateRoomTypeValue

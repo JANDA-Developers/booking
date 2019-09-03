@@ -2,7 +2,11 @@ import React, {useState, Fragment} from "react";
 import classNames from "classnames";
 import JDanimation, {Animation} from "../../../../atoms/animation/Animations";
 import {IUser, IHouse} from "../../../../types/interface";
-import {randomIntFromInterval, insideRedirect} from "../../../../utils/utils";
+import {
+  randomIntFromInterval,
+  insideRedirect,
+  getRoomCountFromHouse
+} from "../../../../utils/utils";
 import JDbox from "../../../../atoms/box/JDbox";
 import Button from "../../../../atoms/button/Button";
 import {NavLink} from "react-router-dom";
@@ -20,9 +24,12 @@ import {IStepsStart} from "../../../../utils/stepFinder";
 import {MutationFn} from "react-apollo";
 import {updateHouse, updateHouseVariables} from "../../../../types/api";
 import HouseCard from "../../super/components/houseCard";
+import {getOperationName} from "apollo-link";
+import {GET_USER_INFO} from "../../../../queries";
 
 interface IProps {
   step: IStepsStart;
+  setStep: React.Dispatch<React.SetStateAction<IStepsStart>>;
   stepFinishCallBack: () => void;
   houseId?: string;
   context: IContext;
@@ -39,7 +46,8 @@ const Steps: React.FC<IProps> = ({
   step,
   context,
   stepFinishCallBack,
-  updateHouseMu
+  updateHouseMu,
+  setStep
 }) => {
   const {house} = context;
   switch (step) {
@@ -88,8 +96,22 @@ const Steps: React.FC<IProps> = ({
     case "makeRoom":
       return (
         <Fragment>
-          <div className="JDsectionDistroy">
-            <RoomConfigWrap context={context} />
+          <div className="staterModal__makeRoom JDsectionDistroy">
+            <RoomConfigWrap
+              refetchQueries={[getOperationName(GET_USER_INFO)!]}
+              context={context}
+            />
+            <div className="staterModal__makeRoom_finish_Btn JDmodal__endSection">
+              <Button
+                thema="primary"
+                onClick={() => {
+                  setStep("done");
+                }}
+                disabled={getRoomCountFromHouse(house) < 1}
+                size="long"
+                label="방설정 끝내기"
+              />
+            </div>
           </div>
         </Fragment>
       );
