@@ -4,7 +4,9 @@ import {
   getAllRoomTypeWithGuest_GetGuests_guests,
   getAllRoomTypeWithGuest_GetAllRoomType_roomTypes,
   getAllRoomTypeWithGuest_GetBlocks_blocks,
-  getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms
+  getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms,
+  allocateGuestToRoom,
+  allocateGuestToRoomVariables
 } from "../../types/api";
 import JDIcon, {IconSize} from "../../atoms/icons/Icons";
 import {useModal, IUseDayPicker} from "../../actions/hook";
@@ -18,6 +20,8 @@ import {IContext} from "../../pages/MiddleServerRouter";
 import {DragBoxRoom} from "./components/DragBoxRoom";
 import {DndProvider} from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
+import {MutationFn} from "react-apollo";
+import {IDragItemProp} from "./components/DragItem";
 
 interface IProps {
   context: IContext;
@@ -27,6 +31,7 @@ interface IProps {
   roomTypesData: getAllRoomTypeWithGuest_GetAllRoomType_roomTypes[];
   blocksData: getAllRoomTypeWithGuest_GetBlocks_blocks[];
   loading?: boolean;
+  allocateMu: MutationFn<allocateGuestToRoom, allocateGuestToRoomVariables>;
 }
 
 const DailyAssigNew: React.SFC<IProps> = ({
@@ -36,16 +41,22 @@ const DailyAssigNew: React.SFC<IProps> = ({
   guestsData,
   blocksData,
   roomTypesData,
-  loading
+  loading,
+  allocateMu
 }) => {
   const bookingModalHook = useModal(false);
 
   const handleDrop = (
     room: getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms,
-    item: any
+    item: getAllRoomTypeWithGuest_GetGuests_guests & IDragItemProp
   ) => {
-    console.log("item");
-    console.log(item);
+    allocateMu({
+      variables: {
+        roomId: room._id,
+        guestId: item._id,
+        bedIndex: 3
+      }
+    });
   };
 
   return (

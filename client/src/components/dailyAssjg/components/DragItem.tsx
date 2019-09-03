@@ -2,12 +2,12 @@ import {useDrag} from "react-dnd";
 import React from "react";
 import {getAllRoomTypeWithGuest_GetGuests_guests} from "../../../types/api";
 
-interface dragItemProp {
+export interface IDragItemProp {
   type: string;
 }
 
 interface Iprops {
-  item: getAllRoomTypeWithGuest_GetGuests_guests & dragItemProp;
+  item: getAllRoomTypeWithGuest_GetGuests_guests & IDragItemProp;
 }
 
 const DragItem: React.FC<Iprops> = ({item}) => {

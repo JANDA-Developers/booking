@@ -6,14 +6,16 @@ import {
   getAllRoomTypeWithGuest_GetGuests_guests,
   getAllRoomTypeWithGuest_GetAllRoomType_roomTypes
 } from "../../../types/api";
-import DragItem from "./DragItem";
+import DragItem, {IDragItemProp} from "./DragItem";
 import EmptyRoomItem from "./EmptyRoomItem";
 import classNames from "classnames";
 import {PricingType} from "../../../types/enum";
 
 interface DragBoxRoom {
   room: getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms;
-  onDrop: (item: any) => void;
+  onDrop: (
+    item: getAllRoomTypeWithGuest_GetGuests_guests & IDragItemProp
+  ) => void;
   itemsInRoom: getAllRoomTypeWithGuest_GetGuests_guests[];
   roomType: getAllRoomTypeWithGuest_GetAllRoomType_roomTypes;
 }
@@ -40,12 +42,9 @@ export const DragBoxRoom: React.FC<DragBoxRoom> = ({
     }
   });
 
-  console.log(roomType.peopleCountMax);
-  console.log(itemsInRoom.length);
-
   const dragItemManufacter = (
     item: getAllRoomTypeWithGuest_GetGuests_guests
-  ) => {
+  ): getAllRoomTypeWithGuest_GetGuests_guests & IDragItemProp => {
     return Object.assign({type: item.roomType!._id}, item);
   };
 
