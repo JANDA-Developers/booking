@@ -1,4 +1,5 @@
-import React from "react";
+
+import React, { Fragment } from "react";
 import JDmodal from "../../../../atoms/modal/Modal";
 import {IUseModal} from "../../../../actions/hook";
 import SmsTemplate from "./smsTemplate";

@@ -1492,23 +1492,11 @@ export const UPDATE_ROOM = gql`
 export const UPDATE_ROOMTYPE = gql`
     mutation updateRoomType(
         $roomTypeId: ID!
-        $name: String
-        $peopleCount: Int
-        $peopleCountMax: Int
-        $defaultPrice: Float
-        $description: String
-        $img: URL
+        $params: UpdateRoomTypeInput!
     ) {
         UpdateRoomType(
             roomTypeId: $roomTypeId
-            params: {
-                name: $name
-                peopleCount: $peopleCount
-                peopleCountMax: $peopleCountMax
-                description: $description
-                defaultPrice: $defaultPrice
-                img: $img
-            }
+            params: $params
         ) {
             ok
             error
