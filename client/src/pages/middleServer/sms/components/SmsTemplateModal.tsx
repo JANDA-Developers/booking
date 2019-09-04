@@ -1,12 +1,54 @@
-
-import React, { Fragment } from "react";
+import React, {Fragment, useState} from "react";
 import JDmodal from "../../../../atoms/modal/Modal";
-import {IUseModal} from "../../../../actions/hook";
+import {
+  IUseModal,
+  useSwitch,
+  useSelect,
+  useInput
+} from "../../../../actions/hook";
 import SmsTemplate from "./smsTemplate";
 import Button from "../../../../atoms/button/Button";
+import {smsMsgParser, smsMessageFormatter} from "../../../../utils/utils";
+import {
+  getSmsInfo_GetSmsInfo_smsInfo,
+  SendTarget,
+  AutoSendWhen,
+  updateSmsTemplate,
+  updateSmsTemplateVariables,
+  deleteSmsTemplate,
+  deleteSmsTemplateVariables,
+  createSmsTemplate,
+  createSmsTemplateVariables
+} from "../../../../types/api";
+import {IContext} from "../../../MiddleServerRouter";
+import {DEFAULT_SMS_TEMPLATE} from "../../../../types/defaults";
+import {
+  AutoSendWhenKr,
+  SmsReplaceKeyEnumKr,
+  SmsReplaceKeyEnumKeys,
+  SendTargetKr,
+  KR_SMS_PARSER,
+  AUTO_SEND_OP,
+  SMS_TARGET_OP
+} from "../../../../types/enum";
+import InputText from "../../../../atoms/forms/inputText/InputText";
+import {MutationFn} from "react-apollo";
+import JDLabel from "../../../../atoms/label/JDLabel";
+import JDselect, {
+  SelectBoxSize
+} from "../../../../atoms/forms/selectBox/SelectBox";
+import JDswitch from "../../../../atoms/forms/switch/Switch";
+import Help from "../../../../atoms/Help/Help";
+import {IconSize} from "../../../../atoms/icons/Icons";
+
+export interface ISmsTemplateModalProps {
+  templateId: string;
+  isAdd: boolean;
+}
+
 interface Iprops {
   context: IContext;
-  modalHook: IUseModal;
+  modalHook: IUseModal<ISmsTemplateModalProps>;
   smsInfo: getSmsInfo_GetSmsInfo_smsInfo;
   smsTemplateMutationes: {
     updateSmsTemplateMu: MutationFn<
@@ -24,42 +66,66 @@ interface Iprops {
   };
 }
 
-const SmsTemplateModal: React.FC<Iprops> = ({context, modalHook}) => {
+const SmsTemplateModal: React.FC<Iprops> = ({
+  smsInfo,
+  smsTemplateMutationes,
+  context,
+  modalHook
+}) => {
+  const {house} = context;
+  const {_id: houseId} = house;
+  const {templateId, isAdd} = modalHook.info;
+  const {smsTemplates = []} = smsInfo;
+  const {
+    createSmsTemplateMu,
+    deleteSmsTemplateMu,
+    updateSmsTemplateMu
+  } = smsTemplateMutationes;
+  const templateData =
+    smsTemplates!.find(smsTemplate => smsTemplate._id === templateId) ||
+    DEFAULT_SMS_TEMPLATE;
+  const {
+    formatName: defaultFormatName,
+    smsFormat: defaultSmsFormat,
+    smsSendCase: defulatSmsSendCase
+  } = templateData;
+
+  // HOOKS
   const [messageValue, setMessage] = useState(
-    smsMsgParser(templateData.smsFormat, KR_SMS_PARSER)
+    smsMsgParser(defaultSmsFormat, KR_SMS_PARSER)
   );
   const enableHook = useSwitch(
-    templateData.smsSendCase ? templateData.smsSendCase.enable : false
+    defulatSmsSendCase ? defulatSmsSendCase.enable : false
   );
   const autoSendHook = useSelect<AutoSendWhen | null>({
-    value: templateData.smsSendCase ? templateData.smsSendCase.when : null,
-    label: templateData.smsSendCase
-      ? AutoSendWhenKr[templateData.smsSendCase.when]
+    value: defulatSmsSendCase ? defulatSmsSendCase.when : null,
+    label: defulatSmsSendCase
+      ? AutoSendWhenKr[defulatSmsSendCase.when]
       : "발송안함"
   });
   const sendTargetHook = useSelect<SendTarget | null>({
-    value: templateData.smsSendCase ? templateData.smsSendCase.who : null,
-    label: templateData.smsSendCase
-      ? SendTargetKr[templateData.smsSendCase.who]
+    value: defulatSmsSendCase ? defulatSmsSendCase.who : null,
+    label: defulatSmsSendCase
+      ? SendTargetKr[defulatSmsSendCase.who]
       : "발송안함"
   });
+  const templateTitleHook = useInput(defaultFormatName);
 
+  const {selectedOption: sendTSO} = sendTargetHook;
+  const {selectedOption: sendASO} = autoSendHook;
   const AutoSendWhenTemp =
-    sendTargetHook.selectedOption &&
-    sendTargetHook.selectedOption.value &&
-    autoSendHook.selectedOption &&
-    autoSendHook.selectedOption.value
+    sendTSO && sendTSO.value && sendASO && sendASO.value
       ? {
           enable: enableHook.checked,
-          when: autoSendHook.selectedOption.value!,
-          who: sendTargetHook.selectedOption.value!
+          when: sendASO.value!,
+          who: sendTSO.value!
         }
       : null;
 
   const tempTemplateVariables = {
     houseId: houseId,
     params: {
-      formatName: templateTitle,
+      formatName: templateTitleHook.value,
       smsFormat: smsMessageFormatter(messageValue),
       smsSendCase: AutoSendWhenTemp
     }
@@ -69,12 +135,12 @@ const SmsTemplateModal: React.FC<Iprops> = ({context, modalHook}) => {
     setMessage(`${messageValue} ${label}`);
   };
   const handleCreateBtnClick = () => {
-    smsTemplateMutationes.createSmsTemplateMu({
+    createSmsTemplateMu({
       variables: tempTemplateVariables
     });
   };
   const handleDeleteBtnClick = () => {
-    smsTemplateMutationes.deleteSmsTemplateMu({
+    deleteSmsTemplateMu({
       variables: {
         smsInfoId: smsInfo._id,
         smsTemplateId: templateData._id
@@ -82,7 +148,7 @@ const SmsTemplateModal: React.FC<Iprops> = ({context, modalHook}) => {
     });
   };
   const handleUpdateBtnClick = () => {
-    smsTemplateMutationes.updateSmsTemplateMu({
+    updateSmsTemplateMu({
       variables: {
         ...tempTemplateVariables,
         smsTemplateId: templateData._id
@@ -90,23 +156,26 @@ const SmsTemplateModal: React.FC<Iprops> = ({context, modalHook}) => {
     });
   };
 
-  const tempArr = SmsReplaceKeyEnumKeys;
-
   return (
-    <JDmodal {...modalHook}>
+    <JDmodal visibleOverflow {...modalHook}>
       <Fragment>
-        <InputText
-          value={messageValue}
-          onChange={setMessage}
-          label="발신 메세지"
-          textarea
-          doubleHeight
-        />
+        <div>
+          <InputText {...templateTitleHook} label="템플릿 타이틀" />
+        </div>
+        <div>
+          <InputText
+            value={messageValue}
+            onChange={setMessage}
+            label="발신 메세지"
+            textarea
+            doubleHeight
+          />
+        </div>
         <div>
           <div>
             <JDLabel txt="템플릿 메세지" />
           </div>
-          {tempArr.map((value: any) => (
+          {SmsReplaceKeyEnumKeys.map((value: any) => (
             <Button
               onClick={() => {
                 hanldeTemplateBtnClick(SmsReplaceKeyEnumKr[value]);
@@ -132,18 +201,28 @@ const SmsTemplateModal: React.FC<Iprops> = ({context, modalHook}) => {
             {...sendTargetHook}
             label="발신대상"
           />
-          <Switch {...enableHook} label="자동발신 활성화" />
+          <JDswitch
+            {...enableHook}
+            label={
+              <span>
+                <span className="JDstandard-small-space">
+                  자동발신 활성화 여부
+                </span>
+                <Help
+                  tooltip="자동 발신을 해두시면해당 메세지는 설정된 상황에 맞게 자동으로 발송됨니다."
+                  icon={"help"}
+                  size={IconSize.DEFAULT}
+                />
+              </span>
+            }
+          />
         </div>
-        <div>
-          {/* <Button onClick={handleCreateBtnClick} thema="primary" label="추가" /> */}
-          <Button onClick={handleUpdateBtnClick} thema="primary" label="수정" />
-          <Button onClick={handleDeleteBtnClick} thema="error" label="삭제" />
-        </div>
+        <div></div>
       </Fragment>
       <div className="JDmodal__endSection">
         <Button
           size="small"
-          label="생성하기"
+          label={isAdd ? "생성하기" : "복제하기"}
           thema="primary"
           onClick={handleCreateBtnClick}
         />
@@ -151,13 +230,15 @@ const SmsTemplateModal: React.FC<Iprops> = ({context, modalHook}) => {
           size="small"
           label="수정하기"
           thema="primary"
+          disabled={isAdd}
           onClick={handleUpdateBtnClick}
         />
         <Button
           size="small"
           label="예약삭제"
           thema="error"
-          onClick={handleDeletBtnClick}
+          disabled={isAdd}
+          onClick={handleDeleteBtnClick}
         />
       </div>
     </JDmodal>

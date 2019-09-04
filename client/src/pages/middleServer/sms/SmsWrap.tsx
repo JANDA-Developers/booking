@@ -69,16 +69,6 @@ const SmsWrap: React.FC<IProps> = ({context}) => {
           undefined
         );
 
-        // SMS INFO formatter 추가용
-        if (smsInfo) {
-          if (smsInfo.smsTemplates === null) {
-            smsInfo.smsTemplates = [
-              {...DEFAULT_SMS_TEMPLATE, formatName: "새로운 템플릿"}
-            ];
-          } else {
-          }
-        }
-
         return (
           <CreateSmsTemplate
             mutation={CREATE_SMS_TEMPLATE}

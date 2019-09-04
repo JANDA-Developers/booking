@@ -25,7 +25,8 @@ import {
   getAllRoomType_GetAllRoomType_roomTypes_rooms,
   getMemos_GetMemos_memos,
   getMyProfile_GetMyProfile_user,
-  getHManual_GetHManual_houseManual
+  getHManual_GetHManual_houseManual,
+  getSmsInfo_GetSmsInfo_smsInfo_smsTemplates_smsSendCase
 } from "./api";
 import {
   IAssigItem,

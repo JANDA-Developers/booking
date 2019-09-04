@@ -11,7 +11,7 @@ interface IProps {
   disabled?: boolean;
   checked?: boolean;
   onChange?(foo: boolean): void;
-  label?: string;
+  label?: string | JSX.Element;
   ltxt?: string;
   rtxt?: string;
   tooltip?: string;

@@ -1,16 +1,9 @@
-import React, {useRef, useState} from "react";
-import {RowInfo, CellInfo} from "react-table";
-import {Tab, TabList, TabPanel, JDtabs} from "../../../atoms/tabs/tabs";
-import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
-import Icon from "../../../atoms/icons/Icons";
-import InputText from "../../../atoms/forms/inputText/InputText";
+import React from "react";
+import {IconSize} from "../../../atoms/icons/Icons";
 
 import Button from "../../../atoms/button/Button";
 import Card from "../../../atoms/cards/Card";
-import {useInput, useModal} from "../../../actions/hook";
-import Switch from "../../../atoms/forms/switch/Switch";
-import JDtable, {ReactTableDefault} from "../../../atoms/table/Table";
-import SmsTemplate from "./components/smsTemplate";
+import {useModal} from "../../../actions/hook";
 import {MutationFn} from "react-apollo";
 import {
   updateSmsTemplate,
@@ -21,15 +14,20 @@ import {
   createSmsTemplateVariables,
   getSmsInfo_GetSmsInfo_smsInfo,
   updateSender,
-  updateSenderVariables
+  updateSenderVariables,
+  getSmsInfo_GetSmsInfo_smsInfo_smsTemplates
 } from "../../../types/api";
-import Preloader from "../../../atoms/preloader/Preloader";
-import {onCompletedMessage, isEmpty} from "../../../utils/utils";
-import {isPhone} from "../../../utils/inputValidations";
-import {toast} from "react-toastify";
-import PhoneVerificationModalWrap from "../../../components/phoneVerificationModal/PhoneVerificationModalWrap";
+import {isEmpty, smsMsgParser} from "../../../utils/utils";
 import {Link} from "react-router-dom";
 import {IContext} from "../../MiddleServerRouter";
+import SmsTemplateModal, {
+  ISmsTemplateModalProps
+} from "./components/SmsTemplateModal";
+import {DEFAULT_SMS_INFO} from "../../../types/defaults";
+import Help from "../../../atoms/Help/Help";
+import {KR_SMS_PARSER} from "../../../types/enum";
+import "./Sms.scss";
+import JDlist from "../../../atoms/list/List";
 
 interface IProps {
   smsTemplateMutationes: {
@@ -58,50 +56,73 @@ const Sms: React.FC<IProps> = ({
   smsInfo,
   context
 }) => {
+  const {smsTemplates} = smsInfo || DEFAULT_SMS_INFO;
+  const smsTemplateModal = useModal<ISmsTemplateModalProps>(false);
   if (!smsInfo) return <h3>SMS 신청을 먼저 완료해주세요.</h3>;
 
   const {house} = context;
-  const senderNumber = smsInfo.sender && smsInfo.sender.phoneNumber;
-
-  const updateSenderFn = async () => {
-    const result = await smsTemplateMutationes.updateSenderMu({
-      variables: {
-        houseId: house._id,
-        sender: {
-          phoneNumber: senderNumber,
-          registered: true
-        }
-      }
-    });
-  };
-
-  const updateSenderValidater = (): boolean => hostSenderHook.isValid;
-
-  const handleRegistBtnClick = () => {
-    if (updateSenderValidater()) {
-      updateSenderFn();
-    } else {
-      toast.warn("올바른 휴대폰 번호가 아닙니다.");
-    }
-  };
 
   const handleCreateBtnClick = () => {
-    smsTemplateMutationes.createSmsTemplateMu({
-      variables: {
-        houseId: house._id,
-        params: {
-          formatName: "",
-          smsFormat: ""
-        }
-      }
+    smsTemplateModal.openModal({
+      isAdd: true,
+      templateId: ""
     });
+  };
+
+  const handleSmsViewCardClick = (id: string) => {
+    smsTemplateModal.openModal({
+      isAdd: false,
+      templateId: id
+    });
+  };
+
+  interface IPP {
+    template: getSmsInfo_GetSmsInfo_smsInfo_smsTemplates;
+    [key: string]: any;
+  }
+  const SmsTemplateViewCard: React.FC<IPP> = ({template, ...prop}) => {
+    const {smsSendCase} = template;
+    const {enable, when, who} = smsSendCase || {
+      enable: false,
+      when: "",
+      who: ""
+    };
+    return (
+      <Card className="sms__templateViewCard" hover {...prop}>
+        <h6>
+          <span className="JDstandard-small-space">{template.formatName} </span>
+          <Help
+            size={IconSize.NORMAL}
+            icon="info"
+            tooltip={
+              <JDlist
+                contents={[
+                  <span>자동발신 여부 : {enable ? "Y" : "N"}</span>,
+                  <span>자동발신 대상 : {who} </span>,
+                  <span>자동발신 상황 : {when}</span>
+                ]}
+              />
+            }
+          />
+        </h6>
+        <p className="sms__templateViewCard_smsFormat">
+          {smsMsgParser(template.smsFormat, KR_SMS_PARSER)}
+        </p>
+      </Card>
+    );
   };
 
   return (
-    <div id="seasonTable" className="seasonT container">
+    <div id="sms" className="sms container">
       <div className="docs-section">
-        {/* <div className="docs-section__box"> */}
-        <h3>SMS 설정</h3>
+        <h3>
+          <span className="JDstandard-space">SMS 설정</span>
+          <Help
+            tooltip="SMS 템플릿을 설정해두시면 메세지를 보낼떄 해당 템플릿을 편리하게 보낼수 있습니다."
+            icon={"help"}
+            size={IconSize.MEDIUM}
+          />
+        </h3>
         <Button
           onClick={() => {
             handleCreateBtnClick();
@@ -114,37 +135,35 @@ const Sms: React.FC<IProps> = ({
         </Link>
         <div className="docs-section__box">
           {/* <h6>문자 템플릿 설정</h6> */}
-          {isEmpty(smsInfo.smsTemplates) || (
-            <JDtabs>
-              {templateTitles.map((title: string, index: number) => (
-                <Button onClick={() => {}} />
-              ))}
-              {smsInfo.smsTemplates.map((smsTemplate, index) => (
-                <TabPanel key={`smsTemplate${smsTemplate._id}`}>
-                  <SmsTemplate
-                    smsInfo={smsInfo}
-                    templateTitle={templateTitles[index]}
-                    smsTemplateMutationes={smsTemplateMutationes}
-                    templateData={smsTemplate}
-                    houseId={house._id}
+          <div className="row sms__templateCardWrap">
+            {isEmpty(smsTemplates) ||
+              smsTemplates.map(template => (
+                <div className="col col--float col--full-3 col--lg-4 col--md-6">
+                  <SmsTemplateViewCard
+                    onClick={() => {
+                      handleSmsViewCardClick(template._id);
+                    }}
+                    template={template}
                   />
-                </TabPanel>
+                </div>
               ))}
-              {isEmpty(smsInfo.smsTemplates) && (
-                <h4 className="JDtextColor--placeHolder">
-                  새로운 템플릿을 생성하세요.
-                </h4>
-              )}
-            </JDtabs>
+          </div>
+          {isEmpty(smsTemplates) && (
+            <h4 className="JDtextColor--placeHolder">
+              새로운 템플릿을 생성하세요.
+            </h4>
           )}
         </div>
+        <SmsTemplateModal
+          key={smsTemplateModal.info.templateId}
+          context={context}
+          smsInfo={smsInfo}
+          smsTemplateMutationes={smsTemplateMutationes}
+          modalHook={smsTemplateModal}
+        />
       </div>
     </div>
   );
 };
 
 export default Sms;
-
-
-
-

@@ -495,11 +495,23 @@
             &.col--#{$mode}-3 {
                 display:block;
                 width: flex-grid-column-width(3);
+                &.col--float {
+                    &:not(.aaaa) {margin-left: 2%;}
+                    &:nth-child(4n + 1) {
+                        margin-left: 0;
+                    }
+                }
             }
             
             &.col--#{$mode}-4 {
                 display:block;
                 width: flex-grid-column-width(4);
+                &.col--float {
+                    &:not(.aaaa) {margin-left: 2%;}
+                    &:nth-child(3n + 1) {
+                        margin-left: 0;
+                    }
+                }
             }
             
             &.col--#{$mode}-5 {
@@ -510,6 +522,12 @@
             &.col--#{$mode}-6 {
                 display:block;
                 width: flex-grid-column-width(6);
+                &.col--float {
+                    &:not(.aaaa) {margin-left: 2%;}
+                    &:nth-child(2n + 1) {
+                        margin-left: 0;
+                    }
+                }
             }
             
             &.col--#{$mode}-7 {
