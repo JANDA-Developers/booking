@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, {Fragment} from "react";
 import ReactDOM from "react-dom";
-import {Query, Mutation} from "react-apollo";
+import {Query, Mutation, RefetchQueriesProviderFn} from "react-apollo";
 import {
   getAllRoomType,
   changeIndexForRoomType,
@@ -27,6 +27,7 @@ import {RouteComponentProps} from "react-router";
 import {IContext} from "../../MiddleServerRouter";
 import RoomConfig from "./RoomConfig";
 import $ from "jquery";
+import {PureQueryOptions} from "apollo-boost";
 
 export enum ADD_ROOM {
   "ADDROOM" = -1,
@@ -39,6 +40,7 @@ interface IRoomConfigParam {
 
 interface IProps {
   context: IContext;
+  refetchQueries?: (PureQueryOptions | string)[];
 }
 
 class GetAllRoomTypeQuery extends Query<getAllRoomType> {}
@@ -47,7 +49,11 @@ class ChangeIndexForRoomTypeMu extends Mutation<
   changeIndexForRoomTypeVariables
 > {}
 
-const RoomConfigTimelineWrap: React.FC<IProps> = ({context, ...prop}) => {
+const RoomConfigWrap: React.FC<IProps> = ({
+  context,
+  refetchQueries = [],
+  ...prop
+}) => {
   const {house} = context;
   const [_, setConfigMode] = useToggle(false);
 
@@ -83,6 +89,7 @@ const RoomConfigTimelineWrap: React.FC<IProps> = ({context, ...prop}) => {
                 <RoomConfig
                   context={context}
                   loading={loading}
+                  refetchQueries={refetchQueries}
                   setConfigMode={setConfigMode}
                   changeIndexForRoomTypeMu={changeIndexForRoomTypeMu}
                   defaultProps={roomTimelineDefaultProps}
@@ -97,4 +104,4 @@ const RoomConfigTimelineWrap: React.FC<IProps> = ({context, ...prop}) => {
   );
 };
 
-export default ErrProtecter(RoomConfigTimelineWrap);
+export default ErrProtecter(RoomConfigWrap);

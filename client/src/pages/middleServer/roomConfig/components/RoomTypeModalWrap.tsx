@@ -32,6 +32,7 @@ import {
 } from "../../../../utils/utils";
 import {PricingType, RoomGender} from "../../../../types/enum";
 import {IContext} from "../../../MiddleServerRouter";
+import {getOperationName} from "apollo-link";
 
 class GetRoomTypeById extends Query<
   getRoomTypeById,
@@ -78,8 +79,8 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({context, modalHook}) => {
     {query: GET_ALL_ROOMTYPES, variables: {houseId: house._id}}
   ];
   const updateRefetchQueries = [
-    {query: GET_ALL_ROOMTYPES, variables: {houseID: house._id}},
-    {query: GET_ROOMTYPE_BY_ID, variables: {roomTypeId}}
+    getOperationName(GET_ALL_ROOMTYPES)!,
+    getOperationName(GET_ROOMTYPE_BY_ID)!
   ];
 
   if (!roomTypeId && !isAddMode) return <div />;

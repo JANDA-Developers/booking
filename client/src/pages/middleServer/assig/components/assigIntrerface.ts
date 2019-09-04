@@ -217,7 +217,6 @@ export interface IAssigItem {
   showEffect: boolean;
   end: number;
   gender: Gender | null;
-  isUnsettled: boolean;
   canMove: boolean;
   validate: IAssigItemCrush[];
   blockOption: getAllRoomTypeWithGuest_GetGuests_guests_blockOption;

@@ -40,6 +40,7 @@ import EventListener from "react-event-listener";
 import {IContext} from "../../MiddleServerRouter";
 import Help from "../../../atoms/Help/Help";
 import RoomTypeInfo from "../../../components/roomTypeInfo/roomTypeInfo";
+import {PureQueryOptions} from "apollo-boost";
 
 let LAST_MOVED_ROOMTPYE = "";
 let LAST_MOVED_INDEX = 0;
@@ -54,6 +55,7 @@ interface IProps {
     changeIndexForRoomType,
     changeIndexForRoomTypeVariables
   >;
+  refetchQueries: (PureQueryOptions | string)[];
   roomTypesData: getAllRoomType_GetAllRoomType_roomTypes[];
 }
 
@@ -64,6 +66,7 @@ const RoomConfigNew: React.FC<IProps> = ({
   defaultProps,
   changeIndexForRoomTypeMu,
   roomTypesData,
+  refetchQueries,
   loading
 }) => {
   const {house} = context;
@@ -116,7 +119,14 @@ const RoomConfigNew: React.FC<IProps> = ({
           thema="primary"
           label="방타입 추가"
         />
-        <Preloader size="large" loading={loading} />
+        <div>
+          <Preloader size="large" loading={loading} />
+        </div>
+        {roomTypesData.length === 0 && (
+          <h4 className="JDtextColor--placeHolder JDmargin-bottom0">
+            방타입이 존재하지 않습니다.
+          </h4>
+        )}
         <DrragList
           onUpdate={(info: any, data) => {
             const {newIndex, oldIndex} = info;
@@ -156,6 +166,7 @@ const RoomConfigNew: React.FC<IProps> = ({
                   size="small"
                 />
               </div>
+
               <div className="roomConfig__roomsWrapWrap">
                 <DrragList
                   className="roomConfig__roomsWrap"
@@ -200,6 +211,7 @@ const RoomConfigNew: React.FC<IProps> = ({
         key={roomTypeModalHook.info.roomTypeId}
       />
       <RoomModalWrap
+        refetchQueries={refetchQueries}
         context={context}
         key={roomModalHook.info.roomId}
         roomTypeData={roomTypesData}

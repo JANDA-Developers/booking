@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {ApolloError} from "apollo-boost";
+import {ApolloError, PureQueryOptions} from "apollo-boost";
 import {Mutation} from "react-apollo";
 import {useInput, IUseModal} from "../../../../actions/hook";
 import {
@@ -41,16 +41,19 @@ interface IProps {
   modalHook: IUseModal<IRoomModalInfo>;
   roomTypeData: getAllRoomType_GetAllRoomType_roomTypes[];
   context: IContext;
+  refetchQueries: (PureQueryOptions | string)[];
 }
 
 const ModifyTimelineWrap: React.SFC<IProps> = ({
   modalHook,
   roomTypeData,
-  context
+  context,
+  refetchQueries: outRefetchQueries
 }) => {
   const {house} = context;
   const refetchQueries = [
-    {query: GET_ALL_ROOMTYPES, variables: {houseId: house._id}}
+    {query: GET_ALL_ROOMTYPES, variables: {houseId: house._id}},
+    ...outRefetchQueries
   ];
   const {info} = modalHook;
   const isAddMode = info.isAddMode;

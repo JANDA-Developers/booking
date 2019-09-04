@@ -21,7 +21,7 @@ export enum SelectBoxSize {
 // Value === selectedOption
 // defaultValue 는 그 값이 바뀌어도 업데이트 되지않을것임
 interface Iprops extends SelectComponentsProps {
-  label?: string;
+  label?: string | JSX.Element;
   disabled?: boolean;
   selectedOption?: IselectedOption | null;
   options?: IselectedOption[];
