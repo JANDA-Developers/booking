@@ -37,45 +37,6 @@ const DailyAssig: React.SFC<IProps> = ({
 }) => {
   const bookingModalHook = useModal(false);
 
-  const blockRender = (
-    item:
-      | getAllRoomTypeWithGuest_GetGuests_guests
-      | getAllRoomTypeWithGuest_GetBlocks_blocks
-  ) => {
-    switch (item.guestType) {
-      case GuestType.GUEST:
-        return (
-          <div className="dailyAssig__guest dailyAssig__itemBlock">
-            <span className="dailyAssig__itemName">
-              {
-                // @ts-ignore
-                item.name
-              }
-            </span>
-            <JDIcon
-              className="dailyAssig__guestConfigIcon"
-              onClick={() => {
-                if (item.guestType === GuestType.BLOCK) return;
-                bookingModalHook.openModal({
-                  // @ts-ignore
-                  bookingId: item.booking._id
-                });
-              }}
-              icon="dotMenuVertical"
-              size={IconSize.MEDEIUM_SMALL}
-            />
-          </div>
-        );
-
-      case GuestType.BLOCK:
-        return (
-          <div className="dailyAssig__block dailyAssig__itemBlock">
-            {"자리막음"}
-          </div>
-        );
-    }
-  };
-
   const getGuestInRoom = (roomId: string) => {
     const items = [...guestsData, ...blocksData];
     const itemsInRoom = items.filter(item => {

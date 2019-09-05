@@ -13,6 +13,9 @@ import {
 import Preloader from "../../../../../atoms/preloader/Preloader";
 import Gender from "./gender";
 import GuestBlock from "./guestBlock";
+import BlockBlock from "./blockBlock";
+import MakeBlock from "./makeBlock";
+import GhostBlock from "./ghostBlock";
 
 const CLASS_LINKED = "assigItem--linkedSelected";
 const CLASS_MOVING = "assigItem--moving";
@@ -30,18 +33,6 @@ interface IRenderItemProps {
   assigContext: IAssigTimelineContext;
   assigHooks: IAssigTimelineHooks;
 }
-// getItemProps 는 다음을 반환합니다.
-// className: "rct-item "
-// key: "5cd62c1267dbc8075054b43a"
-// onContextMenu: ƒ (event)
-// onDoubleClick: ƒ (event)
-// onMouseDown: ƒ (event)
-// onMouseUp: ƒ (event)
-// onTouchEnd: ƒ (event)
-// onTouchStart: ƒ (event)
-// ref: ƒ (el)
-// style: {fontSize: 12, color: "white", cursor: "pointer", background: "#2196f3", border: "1px solid #1a6fb3", …}
-// title: "5cd62c1267dbc8075054b43a"
 
 const itemRendererFn: React.FC<IRenderItemProps> = ({
   item,
@@ -104,50 +95,13 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
               />
             );
           case GuestTypeAdd.BLOCK:
-            return (
-              <div className="assigItem__content assigItem__content--block">
-                <span className="assigItem__titleWrap">
-                  <span className="assigItem__title">{"자리막음"}</span>
-                </span>
-              </div>
-            );
+            return <BlockBlock />;
           case GuestTypeAdd.MARK:
             return <div />;
           case GuestTypeAdd.MAKE:
-            return (
-              <div className="assigItem__content JDtext-blink assigItem__content--make">
-                <span className="assigItem__titleWrap">
-                  {isMobile ? (
-                    <Gender item={item} />
-                  ) : (
-                    item.gender && (
-                      <span className="assigItem__gender">
-                        <CircleIcon
-                          className="assigItem__genderCircle"
-                          onClick={() => {
-                            assigUtils.genderToggleById(item.id);
-                          }}
-                          wave
-                          thema="white"
-                        >
-                          <Gender item={item} />
-                        </CircleIcon>
-                      </span>
-                    )
-                  )}
-                  <span className="assigItem__title">새로운예약</span>
-                </span>
-              </div>
-            );
+            return <MakeBlock isMobile={isMobile} gender={item.gender} />;
           case GuestTypeAdd.GHOST:
-            return (
-              <div className="assigItem__content JDtext-blink assigItem__content--ghost">
-                <span className="assigItem__titleWrap">
-                  <span className="assigItem__title">{item.name}</span>
-                  <Preloader loading={item.loading} />
-                </span>
-              </div>
-            );
+            return <GhostBlock loading={item.loading} name={item.name} />;
           default:
             return <div />;
         }

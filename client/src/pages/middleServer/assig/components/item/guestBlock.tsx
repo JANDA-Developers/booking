@@ -55,7 +55,7 @@ const guestBlock: React.FC<IProps> = ({
           </span>
         )}
         <span className="assigItem__titleWrap">
-          <Gender item={item} />
+          <Gender gender={item.gender} />
           <span
             style={{
               color: item.blockOption.color ? "white" : undefined,

@@ -2,48 +2,35 @@ import React from "react";
 import "./DailyAssig.scss";
 import {
   getAllRoomTypeWithGuest_GetGuests_guests,
-  getAllRoomTypeWithGuest_GetAllRoomType_roomTypes,
-  getAllRoomTypeWithGuest_GetBlocks_blocks,
   getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms,
-  allocateGuestToRoom,
-  allocateGuestToRoomVariables
 } from "../../types/api";
-import JDIcon, {IconSize} from "../../atoms/icons/Icons";
-import {useModal, IUseDayPicker} from "../../actions/hook";
-import {isEmpty} from "../../utils/utils";
+import {useModal, IUseModal} from "../../actions/hook";
 import JDdayPicker from "../../atoms/dayPicker/DayPicker";
 import BookingModalWrap from "../bookingModal/BookingModalWrap";
-import {GuestType} from "../../types/enum";
 import ArrowDayByDay from "../../atoms/dayPicker/component/inputComponent/arrowDayByDay";
 import Preloader from "../../atoms/preloader/Preloader";
 import {IContext} from "../../pages/MiddleServerRouter";
 import {DragBoxRoom} from "./components/DragBoxRoom";
 import {DndProvider} from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
-import {MutationFn} from "react-apollo";
 import {IDragItemProp} from "./components/DragItem";
+import GuestTooltip from "./components/GuestTooltip";
+import {, IDailyAssigProp, IDailyAssigDataControl} from "./DailyAssigWrap";
+import getDailyAssigUtils from "../../pages/middleServer/assig/components/dailyAssigUtils";
+
+export interface IDailyAssigContext extends IDailyAssigProp {
+    bookingModalHook: IUseModal<any>;
+    handleDrop: (room: getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms, item: getAllRoomTypeWithGuest_GetGuests_guests & IDragItemProp) => void;
+}
 
 interface IProps {
   context: IContext;
-  date?: boolean;
-  dayPickerHook: IUseDayPicker;
-  guestsData: getAllRoomTypeWithGuest_GetGuests_guests[];
-  roomTypesData: getAllRoomTypeWithGuest_GetAllRoomType_roomTypes[];
-  blocksData: getAllRoomTypeWithGuest_GetBlocks_blocks[];
-  loading?: boolean;
-  allocateMu: MutationFn<allocateGuestToRoom, allocateGuestToRoomVariables>;
+  dailyAssigDataControl:  IDailyAssigDataControl;
+  outDailyAssigContext: IDailyAssigProp;
 }
 
-const DailyAssigNew: React.SFC<IProps> = ({
-  date,
-  context,
-  dayPickerHook,
-  guestsData,
-  blocksData,
-  roomTypesData,
-  loading,
-  allocateMu
-}) => {
+const DailyAssigNew: React.SFC<IProps> = ({context, dailyAssigContext, dailyAssigDataControl}) => {
+  const {allocateMu, loading, dayPickerHook} = dailyAssigContext;
   const bookingModalHook = useModal(false);
 
   const handleDrop = (
@@ -58,6 +45,14 @@ const DailyAssigNew: React.SFC<IProps> = ({
       }
     });
   };
+
+  // 2차 Context
+  const dailayAssigContext:IDailyAssigContext = Object.assign(dailyAssigContext,{
+    bookingModalHook,
+    handleDrop,
+  });
+
+  const dailyAssigUtils = getDailyAssigUtils()
 
   return (
     <div className="dailyAssigWrap">
@@ -80,7 +75,7 @@ const DailyAssigNew: React.SFC<IProps> = ({
             <DndProvider backend={HTML5Backend}>
               <div className="dailyAssig__roomsWrap">
                 {roomType.rooms.map(room => {
-                  const itemsInRoom = guestsData.filter(
+                  const itemsInRoom = itemDatas.filter(
                     guest =>
                       guest.allocatedRoom &&
                       guest.allocatedRoom._id === room._id
@@ -100,6 +95,7 @@ const DailyAssigNew: React.SFC<IProps> = ({
           </div>
         ))}
       </div>
+      <GuestTooltip dailyAssigDataControl={dailyAssigDataControl} dailayAssigContext={dailayAssigContext} context={context} />
       <BookingModalWrap context={context} modalHook={bookingModalHook} />
     </div>
   );

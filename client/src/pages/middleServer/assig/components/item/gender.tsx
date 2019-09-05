@@ -1,17 +1,19 @@
 import React from "react";
-import {GenderKr} from "../../../../../types/enum";
+import {GenderKr, Gender as TGender} from "../../../../../types/enum";
 import {IAssigItem} from "../assigIntrerface";
 
 interface IGenderProp {
-  item: IAssigItem;
+  gender?: TGender | null;
 }
-const Gender: React.FC<IGenderProp> = ({item}) =>
-  item.gender && (
+const Gender: React.FC<IGenderProp> = ({gender}) =>
+  gender ? (
     <span
-      className={`assigItem__gender ${`assigItem__gender--${item.gender.toLowerCase()}`}`}
+      className={`assigItem__gender ${`assigItem__gender--${gender.toLowerCase()}`}`}
     >
-      {`(${GenderKr[item.gender]}) `}
+      {`(${GenderKr[gender]}) `}
     </span>
+  ) : (
+    <span />
   );
 
 export default Gender;

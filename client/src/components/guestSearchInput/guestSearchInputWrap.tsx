@@ -27,8 +27,13 @@ const GuestSearchInputWrap: React.FC<IProps> = ({context}) => {
 
   const searchFilterMaker = (value: string) => {
     const isPhoneNumber = isNumberMinMax(value, 4, 11);
+
+    console.log(isYYYYMMDD(value));
+    console.log(isYYYYMMDD(value));
+    console.log(isYYYYMMDD(value));
+
     return {
-      phoneNumnber: isPhoneNumber ? value : undefined,
+      phoneNumnber: isPhoneNumber && !isYYYYMMDD(value) ? value : undefined,
       name: !isPhoneNumber && !isYYYYMMDD(value) ? value : undefined,
       stayDate: isYYYYMMDD(value) ? value : undefined,
       createdAt: undefined

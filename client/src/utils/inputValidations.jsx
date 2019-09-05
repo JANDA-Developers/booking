@@ -27,7 +27,9 @@ const isName = string => {
 const isYYYYMMDD = string => {
   if (string === "") return NEUTRAL;
   const regExp = /^(19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/;
-  const validation = regExp.test(string);
+  // const regExp2 = /^(19|20)\d{2}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[0-1])$/;
+  let validation = regExp.test(string);
+  // if (!validation) validation = regExp2.test(string);
   return validation;
 };
 
@@ -57,4 +59,13 @@ const isNumberMinMax = (string, min, max) => {
   return regExp.test(string);
 };
 
-export {isEmail, isYYYYMMDD, isPhone, isName, isUrl, isMaxOver, isPassword, isNumberMinMax};
+export {
+  isEmail,
+  isYYYYMMDD,
+  isPhone,
+  isName,
+  isUrl,
+  isMaxOver,
+  isPassword,
+  isNumberMinMax
+};

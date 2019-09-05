@@ -4,7 +4,8 @@ import {DropTarget} from "react-dnd";
 import {
   getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms,
   getAllRoomTypeWithGuest_GetGuests_guests,
-  getAllRoomTypeWithGuest_GetAllRoomType_roomTypes
+  getAllRoomTypeWithGuest_GetAllRoomType_roomTypes,
+  getAllRoomTypeWithGuest_GetBlocks_blocks
 } from "../../../types/api";
 import DragItem, {IDragItemProp} from "./DragItem";
 import EmptyRoomItem from "./EmptyRoomItem";
@@ -16,7 +17,9 @@ interface DragBoxRoom {
   onDrop: (
     item: getAllRoomTypeWithGuest_GetGuests_guests & IDragItemProp
   ) => void;
-  itemsInRoom: getAllRoomTypeWithGuest_GetGuests_guests[];
+  itemsInRoom: (
+    | getAllRoomTypeWithGuest_GetGuests_guests
+    | getAllRoomTypeWithGuest_GetBlocks_blocks)[];
   roomType: getAllRoomTypeWithGuest_GetAllRoomType_roomTypes;
 }
 
@@ -43,8 +46,12 @@ export const DragBoxRoom: React.FC<DragBoxRoom> = ({
   });
 
   const dragItemManufacter = (
-    item: getAllRoomTypeWithGuest_GetGuests_guests
-  ): getAllRoomTypeWithGuest_GetGuests_guests & IDragItemProp => {
+    item:
+      | getAllRoomTypeWithGuest_GetGuests_guests
+      | getAllRoomTypeWithGuest_GetBlocks_blocks
+  ):
+    | getAllRoomTypeWithGuest_GetGuests_guests & IDragItemProp
+    | getAllRoomTypeWithGuest_GetBlocks_blocks & IDragItemProp => {
     return Object.assign({type: item.roomType!._id}, item);
   };
 
