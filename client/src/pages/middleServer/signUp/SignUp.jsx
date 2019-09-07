@@ -40,9 +40,6 @@ function SignUp({history}) {
                 phoneNumber: phoneNumberHook.value,
                 password: passwordHook.value
               }}
-              onError={error => {
-                toast.warn("통신에러 발생 잠시후 다시 시도해주세요.");
-              }}
               onCompleted={({EmailSignUp: {ok, error, token}}) => {
                 // 자동로그인
                 if (ok) {
@@ -112,10 +109,10 @@ function SignUp({history}) {
                           type="password"
                           label="비밀번호"
                         />
-                        <p className="JDsmall-text">
-                          * 특수문자 1개이상, 7~15자리 영문 숫자 조합
-                        </p>
                       </div>
+                      <p className="JDsmall-text">
+                        * 특수문자 1개이상, 7~15자리 영문 숫자 조합
+                      </p>
                       <div className="flex-grid__col col--full-12 col--md-12">
                         <InputText
                           {...checkPasswordHook}

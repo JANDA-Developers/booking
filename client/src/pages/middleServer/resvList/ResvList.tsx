@@ -270,7 +270,7 @@ const ResvList: React.SFC<IProps> = ({
           <br />
           <span
             className={`resvList__paymentStatus ${original.paymentStatus ===
-              PaymentStatus.NOT_YET && "resvList__paymentStatus--notYet"}`}
+              PaymentStatus.READY && "resvList__paymentStatus--notYet"}`}
           >
             {PaymentStatusKr[original.paymentStatus]}
           </span>

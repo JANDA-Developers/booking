@@ -4,45 +4,26 @@ import JDselect, {
   IselectedOption,
   SelectBoxSize
 } from "../../../../atoms/forms/selectBox/SelectBox";
-import {GuestPartInput, BookerInput} from "../../../../types/api";
 import Button from "../../../../atoms/button/Button";
 import {IRoomType} from "../../../../types/interface";
 import Preloader from "../../../../atoms/preloader/Preloader";
 import {isEmpty, autoComma} from "../../../../utils/utils";
-import {
-  useSelect,
-  IUseModal,
-  IUseSelect,
-  useModal,
-  IUseDayPicker
-} from "../../../../actions/hook";
-import {
-  SELECT_COUNT_DUMMY_OP,
-  WindowSize,
-  Gender,
-  PricingType,
-  RoomGender
-} from "../../../../types/enum";
+import {useModal} from "../../../../actions/hook";
+import {Gender, PricingType, RoomGender} from "../../../../types/enum";
 import {IGuestCount} from "./roomTypeCardsWrap";
 import JDmodal from "../../../../atoms/modal/Modal";
-import {arraySum} from "../../../../utils/elses";
 import moment from "moment";
 import selectOpMaker from "../../../../utils/selectOptionMaker";
 import JDbadge from "../../../../atoms/badge/Badge";
+import {IReservationHooks} from "../../reservation/Reservation";
 
 interface IProps {
   className?: string;
   roomTypeData: IRoomType;
-  resvRooms: GuestPartInput[];
-  setResvRooms: React.Dispatch<React.SetStateAction<GuestPartInput[]>>;
-  roomInfoHook: any;
   windowWidth: any;
-  toastModalHook: IUseModal;
+  reservationHooks: IReservationHooks;
   setGuestCount: React.Dispatch<React.SetStateAction<IGuestCount>>;
   guestCountValue: IGuestCount;
-  setBookingInfo: React.Dispatch<React.SetStateAction<BookerInput>>;
-  bookingInfo: BookerInput;
-  dayPickerHook: IUseDayPicker;
   truePrice: number;
   countLoading: boolean;
   priceLoading: boolean;
@@ -57,20 +38,22 @@ const RoomTypeCard: React.SFC<IProps> = ({
   className,
   roomTypeData,
   priceLoading,
-  setResvRooms,
-  resvRooms,
-  roomInfoHook,
   windowWidth,
-  toastModalHook,
   setGuestCount,
   guestCountValue,
+  reservationHooks,
   countLoading,
-  dayPickerHook,
   truePrice,
-  availableCount,
-  bookingInfo,
-  setBookingInfo
+  availableCount
 }) => {
+  const {
+    dayPickerHook,
+    priceHook,
+    resvRooms,
+    roomInfoHook,
+    setResvRooms,
+    toastModalHook
+  } = reservationHooks;
   const roomImgModalHook = useModal(false);
   const [disabled, setDisabled] = useState({
     female: false,
@@ -168,10 +151,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
       setResvRooms(resvRoomsCopy);
       setDisabled({female: false, male: false, count: false});
 
-      setBookingInfo({
-        ...bookingInfo,
-        price: bookingInfo.price - totalRoomTypePrice
-      });
+      priceHook[1](priceHook[0] - totalRoomTypePrice);
       return;
     }
 
@@ -193,10 +173,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
 
     setResvRooms(resvRoomsCopy);
     setDisabled({female: true, male: true, count: true});
-    setBookingInfo({
-      ...bookingInfo,
-      price: bookingInfo.price + totalRoomTypePrice
-    });
+    priceHook[1](priceHook[0] + totalRoomTypePrice);
 
     roomInfoHook[1]([...roomInfoHook[0], roomTypeData]);
   };

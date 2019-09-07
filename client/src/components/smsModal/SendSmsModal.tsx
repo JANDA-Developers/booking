@@ -44,7 +44,7 @@ const SendSmsModal: React.FC<IProps> = ({
         if (!smsT.smsSendCase) return false;
         return (
           smsT.smsSendCase.when === AutoSendWhen.WHEN_BOOKING_CREATED ||
-          AutoSendWhen.WHEN_BOOKING_CREATED_PAYMENT_NOT_YET
+          AutoSendWhen.WHEN_BOOKING_CREATED_PAYMENT_READY
         );
       });
       if (result) return true;

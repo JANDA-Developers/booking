@@ -6,7 +6,7 @@ import JDselect from "../../../atoms/forms/selectBox/SelectBox";
 import Button from "../../../atoms/button/Button";
 import BookingInfoBox from "./bookerInfoBox";
 import {BookerInput} from "../../../types/api";
-import {ISetBookingInfo} from "../reservation/Reservation";
+import {ISetBookingInfo, IReservationHooks} from "../reservation/Reservation";
 import {
   PAYMETHOD_FOR_BOOKER_OP,
   PAYMETHOD_FOR_HOST_OP
@@ -17,31 +17,27 @@ import Preloader from "../../../atoms/preloader/Preloader";
 interface IProps {
   className?: string;
   modalHook: IUseModal;
-  bookingInfo: BookerInput;
-  setBookingInfo: ISetBookingInfo;
   createLoading: boolean;
   bookingCompleteFn(): void;
   isAdmin: boolean;
-  sendSmsHook: {
-    checked: boolean;
-    onChange: (value: boolean) => void;
-  };
+  reservationHooks: IReservationHooks;
 }
 
 const PayMentModal: React.SFC<IProps> = ({
   className,
   modalHook,
-  bookingInfo,
-  setBookingInfo,
+  reservationHooks,
   bookingCompleteFn,
   createLoading,
-  sendSmsHook,
   isAdmin
 }) => {
+  const {
+    payMethodHook,
+    sendSmsHook,
+    bookerInfo,
+    setBookerInfo
+  } = reservationHooks;
   const classes = classNames("paymentModal", className, {});
-  const payMethodHook = useSelect(
-    isAdmin ? PAYMETHOD_FOR_BOOKER_OP[0] : PAYMETHOD_FOR_HOST_OP[0]
-  );
 
   // pay 한후 request 받아서 진행
   const onPayRequest = () => {
@@ -64,8 +60,8 @@ const PayMentModal: React.SFC<IProps> = ({
               />
             </div>
             <BookingInfoBox
-              bookingInfo={bookingInfo}
-              setBookingInfo={setBookingInfo}
+              bookerInfo={bookerInfo}
+              setBookerInfo={setBookerInfo}
             />
           </div>
           {isAdmin && <CheckBox {...sendSmsHook} label="SMS전송" />}

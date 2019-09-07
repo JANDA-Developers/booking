@@ -1285,19 +1285,25 @@ export const DELETE_GUEST = gql`
 `;
 
 // 예약 ::예약생성 (게스트용)
-export const CREATE_BOOKING_FOR_BOOKER = gql`
-    mutation createBookingForBooker(
-        $bookingParams: CreateBookingParams!
-        $sendSmsFlag: Boolean!
+export const START_BOOKING_FOR_FOR_PUBLIC = gql`
+    mutation startBookingForPublic(
+        $bookerParams: StartBookingBookerInput!
+        $checkInOut: CheckInOutInput!
+        $guestDomitoryParams: [StartBookingDomitoryGuestInput!]
+        $guestRoomParams: [StartBookingRoomGuestInput!]
+        $paymentParams: StartBookingPaymentInput!
     ) {
-        CreateBookingForBooker(
-            bookingParams: $bookingParams
-            sendSmsFlag: $sendSmsFlag
+        StartBookingForPublic(
+            bookerParams: $bookerParams
+            checkInOut: $checkInOut
+            guestDomitoryParams: $guestDomitoryParams
+            guestRoomParams: $guestRoomParams
+            paymentParams: $paymentParams
         ) {
             ok
             error
-            booking {
-                _id
+            bookingTransaction {
+              transactionId
             }
         }
     }

@@ -7,8 +7,10 @@ import {
   useDayPicker,
   useModal,
   IUseModal,
-  useRedirect,
-  useCheckBox
+  useCheckBox,
+  useSelect,
+  IUseDayPicker,
+  IUseSelect
 } from "../../../actions/hook";
 import "./Reservation.scss";
 import Button from "../../../atoms/button/Button";
@@ -16,14 +18,11 @@ import Card from "../../../atoms/cards/Card";
 import {
   GuestPartInput,
   CreateBookingParams,
-  getAllRoomType,
-  getAllRoomTypeVariables,
   createBooking,
-  BookerInput,
   createBookingVariables,
-  createBookingForBooker,
-  createBookingForBookerVariables,
-  getAllRoomTypeForBooker
+  getAllRoomTypeForBooker,
+  startBookingForPublic,
+  startBookingForPublicVariables
 } from "../../../types/api";
 import $ from "jquery";
 import ResvRoomSelectInfo from "../components/resvRoomSelectInfo";
@@ -31,37 +30,69 @@ import PayMentModal from "../components/paymentModal";
 import RoomTypeCardsWrap from "../components/roomTypeCards/roomTypeCardsWrap";
 import {
   isEmpty,
-  showError,
   queryDataFormater,
   insideRedirect,
   muResult
 } from "../../../utils/utils";
 import {isName, isPhone} from "../../../utils/inputValidations";
-import JDmodal, {JDtoastModal} from "../../../atoms/modal/Modal";
+import {JDtoastModal} from "../../../atoms/modal/Modal";
 import {IRoomType} from "../../../types/interface";
-import {WindowSize} from "../../../types/enum";
-import {setYYYYMMDD} from "../../../utils/setMidNight";
 import {
-  GET_ALL_ROOMTYPES,
-  GET_ALL_ROOM_TYPE_FOR_BOOKING
-} from "../../../queries";
+  WindowSize,
+  PricingType,
+  PAYMETHOD_FOR_BOOKER_OP,
+  PAYMETHOD_FOR_HOST_OP,
+  PayMethod,
+  PaymentStatus
+} from "../../../types/enum";
+import {setYYYYMMDD} from "../../../utils/setMidNight";
+import {GET_ALL_ROOM_TYPE_FOR_BOOKING} from "../../../queries";
 import Preloader from "../../../atoms/preloader/Preloader";
-import {Redirect, withRouter, RouteComponentProps} from "react-router";
-import {get} from "http";
 import moment from "moment";
-import {toast} from "react-toastify";
-// @ts-ignore
-import makeAsyncScriptLoader from "react-async-script";
 import Helmet from "react-helmet";
+import {openNiceModal} from "../components/doPay";
+import {isMobile} from "is-mobile";
+import JDanimation, {Animation} from "../../../atoms/animation/Animations";
+import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
+
+export interface IBookerInfo {
+  name: string;
+  password: string;
+  memo: string;
+  email: string;
+  phoneNumber: string;
+  agreePrivacyPolicy: boolean;
+}
+
+export interface IReservationHooks {
+  priceHook: [number, React.Dispatch<React.SetStateAction<number>>];
+  roomInfoHook: [
+    IRoomType[],
+    React.Dispatch<React.SetStateAction<IRoomType[]>>
+  ];
+  toastModalHook: IUseModal<any>;
+  bookerInfo: IBookerInfo;
+  setBookerInfo: React.Dispatch<React.SetStateAction<IBookerInfo>>;
+  dayPickerHook: IUseDayPicker;
+  resvRooms: GuestPartInput[];
+  setResvRooms: React.Dispatch<React.SetStateAction<GuestPartInput[]>>;
+  payMethodHook: IUseSelect<PayMethod>;
+  sendSmsHook: {
+    checked: boolean;
+    onChange: (value: boolean) => void;
+  };
+}
 
 class GetAllAvailRoomQu extends Query<getAllRoomTypeForBooker> {}
 export interface ISetBookingInfo
-  extends React.Dispatch<React.SetStateAction<BookerInput>> {}
+  extends React.Dispatch<React.SetStateAction<IBookerInfo>> {}
 
 interface IProps {
-  createBookingMu:
-    | MutationFn<createBookingForBooker, createBookingForBookerVariables>
-    | MutationFn<createBooking, createBookingVariables>;
+  createBookingMu?: MutationFn<createBooking, createBookingVariables>;
+  startBookingForPublicMu?: MutationFn<
+    startBookingForPublic,
+    startBookingForPublicVariables
+  >;
   isAdmin: boolean;
   confirmModalHook: IUseModal<any>;
   createLoading: boolean;
@@ -72,36 +103,50 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   windowWidth,
   windowHeight,
   createBookingMu,
+  startBookingForPublicMu,
   isAdmin,
   houseId,
   confirmModalHook,
   createLoading
 }) => {
-  const loadingModalHook = useModal(false);
-
-  const defaultBookingInfo = {
+  const defaultBookingInfo: IBookerInfo = {
     name: "",
     password: "",
-    price: 0,
     memo: "",
     email: "colton950901@naver.com",
     phoneNumber: "",
     agreePrivacyPolicy: isAdmin ? true : false
   };
+
   const dayPickerHook = useDayPicker(null, null);
   const [resvRooms, setResvRooms] = useState<GuestPartInput[]>([]);
-  const [bookingInfo, setBookingInfo] = useState<any>(defaultBookingInfo);
+  const [bookerInfo, setBookerInfo] = useState<IBookerInfo>(defaultBookingInfo);
   const rsevModalHook = useModal(false);
   const toastModalHook = useModal(false);
-  const [redirect, redirectUrl, setRedirect] = useRedirect(false, "");
-  // 👿 이건 오직 resvRooms에 룸 네임이 없어서다.
   const roomInfoHook = useState<IRoomType[]>([]);
   const sendSmsHook = useCheckBox(isAdmin ? false : true);
+  const priceHook = useState(0);
+  const payMethodHook = useSelect(
+    isAdmin ? PAYMETHOD_FOR_BOOKER_OP[0] : PAYMETHOD_FOR_HOST_OP[0]
+  );
+
+  const reservationHooks: IReservationHooks = {
+    priceHook,
+    roomInfoHook,
+    toastModalHook,
+    dayPickerHook,
+    bookerInfo,
+    setBookerInfo,
+    resvRooms,
+    setResvRooms,
+    sendSmsHook,
+    payMethodHook
+  };
 
   const resvConfirmCallBackFunc = (flag: boolean) => {
     if (flag) {
       const publicKey = localStorage.getItem("hpk");
-      const {name, password, phoneNumber} = bookingInfo;
+      const {name, password, phoneNumber} = bookerInfo;
       location.href = insideRedirect(
         `outpage/checkReservation/${publicKey}/${name}/${phoneNumber}/${password}`
       );
@@ -113,7 +158,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   // 날자를 선택하면 예약선택 상태 초기화
   useEffect(() => {
     setResvRooms([]);
-    setBookingInfo(defaultBookingInfo);
+    setBookerInfo(defaultBookingInfo);
   }, [dayPickerHook.to, dayPickerHook.from]);
 
   // Iframe 높이조절
@@ -125,6 +170,28 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
     }
   });
 
+  // 일단 여기서 대기
+  const openCompleteMessageModal = () => {
+    confirmModalHook.openModal({
+      txt: (
+        <div>
+          <div className="JDstandard-margin-bottom">
+            예약이 완료되었습니다.
+            <br />
+            예약확인페이지로 이동합니다.
+          </div>
+          <JDanimation animation={[Animation.tada]}>
+            <JDIcon
+              color="positive"
+              size={IconSize.SUPER_LARGE}
+              icon="circleCheckIn"
+            ></JDIcon>
+          </JDanimation>
+        </div>
+      )
+    });
+  };
+
   const resvInfoValidation = () => {
     if (isEmpty(resvRooms)) {
       toastModalHook.openModal({txt: "선택된방이 없습니다."});
@@ -133,20 +200,20 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
     return true;
   };
 
-  const bookingInfoValidation = (): boolean => {
-    if (isName(bookingInfo.name) !== true) {
+  const bookerInfoValidation = (): boolean => {
+    if (isName(bookerInfo.name) !== true) {
       toastModalHook.openModal({txt: "올바른 이름이 아닙니다."});
       return false;
     }
-    if (isPhone(bookingInfo.phoneNumber) !== true) {
+    if (isPhone(bookerInfo.phoneNumber) !== true) {
       toastModalHook.openModal({txt: "올바른 휴대폰번호가 아닙니다."});
       return false;
     }
-    if (bookingInfo.password === "") {
+    if (bookerInfo.password === "") {
       toastModalHook.openModal({txt: "비밀번호를 입력해주세요."});
       return false;
     }
-    if (bookingInfo.agreePrivacyPolicy === false) {
+    if (bookerInfo.agreePrivacyPolicy === false) {
       toastModalHook.openModal({txt: "개인정보 수집에 동의해주세요."});
       return false;
     }
@@ -171,29 +238,87 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   };
 
   const bookingParams: CreateBookingParams = {
-    bookerParams: bookingInfo,
+    bookerParams: {...bookerInfo, price: priceHook[0]},
     checkIn: setYYYYMMDD(dayPickerHook.from),
     checkOut: getEndDate(),
     guestInputs: resvRooms
   };
 
   const bookingCompleteFn = async () => {
-    if (bookingInfoValidation()) {
+    if (bookerInfoValidation()) {
       if (!isAdmin) {
-        const result = await createBookingMu({
-          variables: {
-            bookingParams,
-            sendSmsFlag: sendSmsHook.checked
+        const {
+          agreePrivacyPolicy,
+          email,
+          memo,
+          name,
+          password,
+          phoneNumber
+        } = bookerInfo;
+        if (!startBookingForPublicMu) throw Error("startBookingMu 가 없음");
+
+        const startBookingVariables = {
+          bookerParams: {
+            agreePrivacyPolicy,
+            email,
+            memo,
+            name,
+            password,
+            phoneNumber
+          },
+          checkInOut: {
+            checkIn: dayPickerHook.from,
+            checkOut: dayPickerHook.to
+          },
+          guestDomitoryParams: resvRooms
+            .filter(room => room.pricingType === PricingType.DOMITORY)
+            .map(room => ({
+              roomTypeId: room.roomTypeId,
+              countFemale: room.countFemaleGuest,
+              countMale: room.countMaleGuest
+            })),
+          guestRoomParams: resvRooms
+            .filter(room => room.pricingType === PricingType.ROOM)
+            .map(room => ({
+              roomTypeId: room.roomTypeId,
+              countRoom: room.countRoom
+            })),
+          paymentParams: {
+            payMethod: payMethodHook.selectedOption!.value,
+            price: priceHook[0],
+            status: PaymentStatus.READY
           }
+        };
+        const result = await startBookingForPublicMu({
+          variables: startBookingVariables
         });
         if (result) {
           rsevModalHook.closeModal();
         }
+        const {transactionId}: any = muResult(
+          result,
+          "StartBookingForPublic",
+          "bookingTransaction"
+        );
+
+        console.log(transactionId);
+        console.log(transactionId);
+        console.log(transactionId);
+
+        if (transactionId) {
+          openNiceModal({resvInfo: startBookingVariables, transactionId});
+        }
       } else {
         bookingParams.bookerParams.house = houseId;
+        if (!createBookingMu) throw Error("Not Exist createBookingMu");
         const result = await createBookingMu({
           variables: {
-            bookingParams,
+            bookingParams: {
+              bookerParams: {...bookerInfo, price: priceHook[0]},
+              checkIn: dayPickerHook.from,
+              checkOut: dayPickerHook.to,
+              guestInputs: resvRooms
+            },
             sendSmsFlag: sendSmsHook.checked
           }
         });
@@ -248,15 +373,9 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
                 return !isEmpty(roomTypes) ? (
                   roomTypes.map(roomType => (
                     <RoomTypeCardsWrap
-                      roomInfoHook={roomInfoHook}
-                      setResvRooms={setResvRooms}
-                      resvRooms={resvRooms}
+                      reservationHooks={reservationHooks}
                       windowWidth={windowWidth}
-                      toastModalHook={toastModalHook}
-                      dayPickerHook={dayPickerHook}
                       roomTypeData={roomType}
-                      bookingInfo={bookingInfo}
-                      setBookingInfo={setBookingInfo}
                       key={`roomCard${roomType._id}`}
                     />
                   ))
@@ -282,7 +401,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
               from={dayPickerHook.from}
               to={dayPickerHook.to}
               resvRooms={resvRooms}
-              totalPrice={bookingInfo.price}
+              totalPrice={priceHook[0]}
             />
           </Card>
           <Button
@@ -295,11 +414,9 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
       </div>
       <PayMentModal
         bookingCompleteFn={bookingCompleteFn}
-        bookingInfo={bookingInfo}
         createLoading={createLoading}
-        setBookingInfo={setBookingInfo}
+        reservationHooks={reservationHooks}
         modalHook={rsevModalHook}
-        sendSmsHook={sendSmsHook}
         isAdmin={isAdmin}
       />
       <JDtoastModal
