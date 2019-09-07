@@ -78,7 +78,7 @@ export const DEFAULT_BOOKING: GB_booking = {
     checkInDateTime: new Date()
   },
   payMethod: PayMethod.CASH,
-  paymentStatus: PaymentStatus.NOT_YET,
+  paymentStatus: PaymentStatus.READY,
   email: "",
   checkOut: null,
   checkIn: null,

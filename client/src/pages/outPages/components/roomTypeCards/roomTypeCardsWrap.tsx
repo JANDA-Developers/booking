@@ -12,8 +12,6 @@ import {
 import {
   GuestPartInput,
   BookerInput,
-  getRoomTypeDatePrices,
-  getRoomTypeDatePricesVariables,
   getRoomTypeDatePricesForBooker,
   getRoomTypeDatePricesForBookerVariables,
   getCapacityToRoomType,
@@ -29,6 +27,7 @@ import {IRoomType} from "../../../../types/interface";
 import {getAveragePrice} from "../../../../utils/booking";
 import moment from "moment";
 import {Gender} from "../../../../types/enum";
+import {IBookerInfo, IReservationHooks} from "../../reservation/Reservation";
 
 class GetAvailGuestCountQu extends Query<
   getCapacityToRoomType,
@@ -47,29 +46,25 @@ export interface IGuestCount {
 }
 
 interface IProps {
-  resvRooms: GuestPartInput[];
-  setResvRooms: React.Dispatch<React.SetStateAction<GuestPartInput[]>>;
-  roomInfoHook: any;
   windowWidth: any;
-  toastModalHook: IUseModal;
-  dayPickerHook: IUseDayPicker;
   roomTypeData: IRoomType;
-  setBookingInfo: React.Dispatch<React.SetStateAction<BookerInput>>;
-  bookingInfo: BookerInput;
+  reservationHooks: IReservationHooks;
 }
 
 // 하우스 아이디를 우선 Props를 통해서 받아야함
 const RoomTypeCardsWrap: React.SFC<IProps> = ({
-  resvRooms,
-  roomInfoHook,
-  setResvRooms,
+  reservationHooks,
   windowWidth,
-  toastModalHook,
-  dayPickerHook,
-  roomTypeData,
-  setBookingInfo,
-  bookingInfo
+  roomTypeData
 }) => {
+  const {
+    toastModalHook,
+    setResvRooms,
+    roomInfoHook,
+    resvRooms,
+    priceHook,
+    dayPickerHook
+  } = reservationHooks;
   // 이건 독립 state용이다. 실제 선택된것은 resvRooms에 있으며 이건 선택완료 누르기 전까지의 상태이다.
   const [guestCountValue, setGuestCount] = useState<IGuestCount>({
     male: 0,
@@ -160,21 +155,15 @@ const RoomTypeCardsWrap: React.SFC<IProps> = ({
 
               return (
                 <RoomTypeCard
-                  resvRooms={resvRooms}
                   countLoading={countLoading}
-                  setResvRooms={setResvRooms}
                   roomTypeData={roomTypeData}
-                  roomInfoHook={roomInfoHook}
                   windowWidth={windowWidth}
-                  toastModalHook={toastModalHook}
                   availableCount={availableCount}
                   setGuestCount={setGuestCount}
                   guestCountValue={guestCountValue}
-                  dayPickerHook={dayPickerHook}
                   truePrice={formattedTruePrice}
-                  setBookingInfo={setBookingInfo}
-                  bookingInfo={bookingInfo}
                   priceLoading={priceLoading}
+                  reservationHooks={reservationHooks}
                 />
               );
             }}

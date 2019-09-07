@@ -1,8 +1,7 @@
 import React from "react";
 import {Mutation, withApollo} from "react-apollo";
-import PropTypes from "prop-types";
 import {toast} from "react-toastify";
-import {withRouter, Link} from "react-router-dom";
+import {withRouter, Link, RouteComponentProps} from "react-router-dom";
 import Card from "../../../atoms/cards/Card";
 import InputText from "../../../atoms/forms/inputText/InputText";
 import Button from "../../../atoms/button/Button";
@@ -11,9 +10,15 @@ import {LOG_USER_IN} from "../../../clientQueries";
 import {EMAIL_SIGN_IN, GET_USER_INFO} from "../../../queries";
 import {useInput} from "../../../actions/hook";
 import utils, {showError} from "../../../utils/utils";
+import {ApolloClient} from "apollo-boost";
 
-function Login({client, history}) {
-  const emailHook = useInput("");
+interface Iprops extends RouteComponentProps {
+  client: ApolloClient<any>;
+}
+
+const Login: React.FC<Iprops> = ({client, history}) => {
+  const lastLoginEmail = localStorage.getItem("lastLogin") || "";
+  const emailHook = useInput(lastLoginEmail);
   const passwordHook = useInput("");
 
   return (
@@ -25,11 +30,10 @@ function Login({client, history}) {
           {/* 로그인 뮤테이션 (로컬 ) */}
           <Mutation
             mutation={LOG_USER_IN}
-            
             refetchQueries={[{query: GET_USER_INFO}]}
           >
-            {logUserIn => {
-              const emailSignIn = e => {
+            {(logUserIn: any) => {
+              const emailSignIn = (e: any) => {
                 e.preventDefault();
                 if (!emailHook.isValid) {
                   toast.warn("아이디는 이메일 이여야합니다.");
@@ -55,6 +59,7 @@ function Login({client, history}) {
                             token
                           }
                         });
+                        localStorage.setItem("lastLogin", emailHook.value);
                         toast.success("로그인 완료");
                         history.replace("/");
                       }
@@ -96,9 +101,6 @@ function Login({client, history}) {
       </div>
     </div>
   );
-}
-
-Login.propTypes = {
-  client: PropTypes.object.isRequired
 };
+
 export default withRouter(withApollo(Login));

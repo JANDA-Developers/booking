@@ -109,18 +109,8 @@ export enum RoomGenderKr {
   SEPARATELY = "제한없음(혼숙X)"
 }
 
-export enum BookingStatusKr {
-  COMPLETE = "예약완료",
-  CANCEL = "예약취소"
-}
-
-export enum PaymentStatusKr {
-  NOT_YET = "미결제",
-  COMPLETE = "결제완료"
-}
-
 export enum PayMethodKr {
-  BANK_TRANSFER = "무통장입금",
+  VBANK = "무통장입금",
   CARD = "카드결제",
   CASH = "현금결제",
   KAKAOPAY = "카카오페이",
@@ -145,20 +135,34 @@ export enum TimePerMs {
 }
 
 export enum PaymentStatus {
-  NOT_YET = "NOT_YET",
+  READY = "READY",
   COMPLETE = "COMPLETE"
 }
 
+export enum PaymentStatusKr {
+  READY = "미결제",
+  COMPLETE = "결제완료"
+}
+
 export enum BookingStatus {
+  CANCEL = "CANCEL",
   COMPLETE = "COMPLETE",
-  CANCEL = "CANCEL"
+  FAIL = "FAIL",
+  READY = "READY"
+}
+
+export enum BookingStatusKr {
+  COMPLETE = "예약완료",
+  CANCEL = "예약취소",
+  FAIL = "예약실패",
+  READY = "예약대기"
 }
 
 export enum PayMethod {
-  BANK_TRANSFER = "BANK_TRANSFER",
+  VBANK = "VBANK",
   CASH = "CASH",
-  CHANNEL_PAY = "CHANNEL_PAY",
-  CREDIT_CARD = "CREDIT_CARD"
+  CARD = "CARD",
+  CHANNEL_PAY = "CHANNEL_PAY"
 }
 
 export enum Product {
@@ -220,14 +224,14 @@ export type JDColor =
 export enum AutoSendWhen {
   WEHN_BOOKING_CANCEL = "WEHN_BOOKING_CANCEL",
   WHEN_BOOKING_CREATED = "WHEN_BOOKING_CREATED",
-  WHEN_BOOKING_CREATED_PAYMENT_NOT_YET = "WHEN_BOOKING_CREATED_PAYMENT_NOT_YET",
+  WHEN_BOOKING_CREATED_PAYMENT_READY = "WHEN_BOOKING_CREATED_PAYMENT_READY",
   WHEN_BOOKING_UPDATE = "WHEN_BOOKING_UPDATE"
 }
 
 export enum AutoSendWhenKr {
   WEHN_BOOKING_CANCEL = "예약취소시",
   WHEN_BOOKING_CREATED = "예약생성시",
-  WHEN_BOOKING_CREATED_PAYMENT_NOT_YET = "예약생성시(미결제)",
+  WHEN_BOOKING_CREATED_PAYMENT_READY = "예약생성시(미결제)",
   WHEN_BOOKING_UPDATE = "예약업데이트시"
 }
 
@@ -380,7 +384,7 @@ export const LAYOUT_TYPE_OP = [
 
 export const PAYMENT_STATUS_OP = [
   {value: PaymentStatus.COMPLETE, label: "결제완료"},
-  {value: PaymentStatus.NOT_YET, label: "미결제"}
+  {value: PaymentStatus.READY, label: "미결제"}
 ];
 
 export const STATISTICS_OP = [{value: "매출통계", label: "매출통계"}];
@@ -425,13 +429,13 @@ export const PRODUCT_STATUS_OP = [
 ];
 
 export const PAYMETHOD_FOR_BOOKER_OP = [
-  {value: PayMethod.BANK_TRANSFER, label: "무통장입금"}
+  {value: PayMethod.VBANK, label: "무통장입금"}
 ];
 
 export const PAYMETHOD_FOR_HOST_OP = [
-  {value: PayMethod.BANK_TRANSFER, label: "무통장입금"},
+  {value: PayMethod.VBANK, label: "무통장입금"},
   {value: PayMethod.CASH, label: PayMethodKr[PayMethod.CASH]},
-  {value: PayMethod.CREDIT_CARD, label: "카드결제"},
+  {value: PayMethod.CARD, label: "카드결제"},
   {value: PayMethod.CHANNEL_PAY, label: "채널결제"}
   // {value: PayMethod.ELSE, label: "기타"}
 ];
@@ -458,8 +462,8 @@ export const AUTO_SEND_OP = [
     label: AutoSendWhenKr.WHEN_BOOKING_CREATED
   },
   {
-    value: AutoSendWhen.WHEN_BOOKING_CREATED_PAYMENT_NOT_YET,
-    label: AutoSendWhenKr.WHEN_BOOKING_CREATED_PAYMENT_NOT_YET
+    value: AutoSendWhen.WHEN_BOOKING_CREATED_PAYMENT_READY,
+    label: AutoSendWhenKr.WHEN_BOOKING_CREATED_PAYMENT_READY
   },
   {
     value: AutoSendWhen.WHEN_BOOKING_UPDATE,
