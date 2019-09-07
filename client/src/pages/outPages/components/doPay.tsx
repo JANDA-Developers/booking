@@ -114,7 +114,7 @@ export const openNiceModal = async ({resvInfo, transactionId}: IProp) => {
     form.setAttribute("method", "Post"); //Post 방식
     form.setAttribute(
       "action",
-      process.env.REACT_APP_API_PAY_MENT_RETURN_URL_DEV || ""
+      process.env.REACT_APP_API_PAY_MENT_RETURN_URL_DEV_PC || ""
     ); //요청 보낼 주소
     form.setAttribute("id", "nicePay"); //요청 보낼 주소
     form.setAttribute("name", "payForm"); //요청 보낼 주소
