@@ -1,6 +1,5 @@
 import React, {useMemo, Fragment} from "react";
 import {showError, onCompletedMessage} from "../../utils/utils";
-import DailyAssig from "./DailyAssig";
 import {Query, Mutation, MutationFn} from "react-apollo";
 import {
   getAllRoomTypeWithGuestVariables,
@@ -24,7 +23,11 @@ import {
 import {
   GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM,
   ALLOCATE_GUEST_TO_ROOM,
-  UPDATE_BLOCK_OPTION
+  UPDATE_BLOCK_OPTION,
+  DELETE_GUEST,
+  CREATE_BLOCK,
+  DELETE_BLOCK,
+  DELETE_BOOKING
 } from "../../queries";
 import {IHouse} from "../../types/interface";
 import {BookingStatus} from "../../types/enum";
@@ -221,14 +224,6 @@ const DailyAssigWrap: React.FC<IProps> = ({date, context, isInModal}) => {
 
                                       return (
                                         <Fragment>
-                                          <DailyAssig
-                                            loading={loading}
-                                            context={context}
-                                            blocksData={blocks || []}
-                                            guestsData={guestsData || []}
-                                            dayPickerHook={dayPickerHook}
-                                            roomTypesData={roomTypesData || []}
-                                          />
                                           <DailyAssigNew
                                             context={context}
                                             outDailyAssigContext={

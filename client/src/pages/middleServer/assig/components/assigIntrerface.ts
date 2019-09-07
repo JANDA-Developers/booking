@@ -261,11 +261,11 @@ export interface IMakeMenuProps {
   item: IAssigItem;
 }
 
-export interface IDeleteMenuProps {
+export interface IDeletepgetDailyAssigUtilsMenuProps {
   item: IAssigItem;
 }
 
-export interface IDailyAssigTimelineUtils {
+export interface IDailyAssigUtils {
   allTooltipsHide: (except: string) => void;
   deleteGuestById: TDeleteGuestById;
   deleteBookingById: TDeleteBookingById;

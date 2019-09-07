@@ -5,19 +5,30 @@ import {ReactTooltip} from "../../../atoms/tooltip/Tooltip";
 import {IContext} from "../../../pages/MiddleServerRouter";
 import {IDailyAssigProp, IDailyAssigDataControl} from "../DailyAssigWrap";
 import {IDailyAssigContext} from "../DailyAssigNew";
+import {IDailyAssigUtils} from "../../../pages/middleServer/assig/components/assigIntrerface";
+import {getAllRoomTypeWithGuest_GetGuests_guests as IG} from "../../../types/api";
 
 interface Iprops {
   context: IContext;
+  dailyAssigUtils: IDailyAssigUtils;
   dailayAssigContext: IDailyAssigContext;
   dailyAssigDataControl: IDailyAssigDataControl;
+  infoBtnCallBack: (guest: IG) => void;
+  checkInBtnCallBack: (guest: IG) => void;
+  deleteBtnCallBack: (guest: IG) => void;
 }
 
 const GuestTooltip: React.FC<Iprops> = ({
   context,
+  dailyAssigUtils,
   dailyAssigDataControl,
-  dailayAssigContext
+  infoBtnCallBack,
+  deleteBtnCallBack,
+  dailayAssigContext,
+  checkInBtnCallBack
 }) => {
-  const {guestsData, bookingModalHook} = dailayAssigContext;
+  const {guestsData} = dailayAssigContext;
+
   return (
     <TooltipList
       unPadding
@@ -29,8 +40,7 @@ const GuestTooltip: React.FC<Iprops> = ({
             <li>
               <Button
                 onClick={() => {
-                  ReactTooltip.hide();
-                  //   TODO  do check IN/Out toogle
+                  checkInBtnCallBack(targetGuest);
                 }}
                 label={
                   targetGuest.booking.checkInInfo.isIn ? "체크아웃" : "체크인"
@@ -40,8 +50,7 @@ const GuestTooltip: React.FC<Iprops> = ({
             <li>
               <Button
                 onClick={() => {
-                  ReactTooltip.hide();
-                  //  TODO  do Delete Here
+                  deleteBtnCallBack(targetGuest);
                 }}
                 label="삭제"
               />
@@ -50,10 +59,7 @@ const GuestTooltip: React.FC<Iprops> = ({
             <li>
               <Button
                 onClick={() => {
-                  ReactTooltip.hide();
-                  bookingModalHook.openModal({
-                    bookingId: targetGuest.booking._id
-                  });
+                  infoBtnCallBack(targetGuest);
                 }}
                 label="정보보기"
               />

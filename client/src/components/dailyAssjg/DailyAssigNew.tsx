@@ -1,8 +1,8 @@
 import React from "react";
 import "./DailyAssig.scss";
 import {
-  getAllRoomTypeWithGuest_GetGuests_guests,
-  getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms
+  getAllRoomTypeWithGuest_GetGuests_guests as IG,
+  getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms as IR
 } from "../../types/api";
 import {useModal, IUseModal} from "../../actions/hook";
 import JDdayPicker from "../../atoms/dayPicker/DayPicker";
@@ -18,14 +18,12 @@ import GuestTooltip from "./components/GuestTooltip";
 import {IDailyAssigProp, IDailyAssigDataControl} from "./DailyAssigWrap";
 import getDailyAssigUtils from "../../pages/middleServer/assig/components/dailyAssigUtils";
 import {JDtoastModal} from "../../atoms/modal/Modal";
+import {ReactTooltip} from "../../atoms/tooltipList/TooltipList";
 
 export interface IDailyAssigContext extends IDailyAssigProp {
   confirmModalHook: IUseModal<any>;
   bookingModalHook: IUseModal<any>;
-  handleDrop: (
-    room: getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms,
-    item: getAllRoomTypeWithGuest_GetGuests_guests & IDragItemProp
-  ) => void;
+  handleDrop: (room: IR, item: IG & IDragItemProp) => void;
 }
 
 interface IProps {
@@ -34,7 +32,7 @@ interface IProps {
   outDailyAssigContext: IDailyAssigProp;
 }
 
-const DailyAssigNew: React.SFC<IProps> = ({
+const DailyAssigNew: React.FC<IProps> = ({
   context,
   outDailyAssigContext,
   dailyAssigDataControl
@@ -43,15 +41,13 @@ const DailyAssigNew: React.SFC<IProps> = ({
     allocateMu,
     loading,
     dayPickerHook,
-    roomTypesData
+    roomTypesData,
+    itemDatas
   } = outDailyAssigContext;
   const bookingModalHook = useModal(false);
   const confirmModalHook = useModal(false);
 
-  const handleDrop = (
-    room: getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms,
-    item: getAllRoomTypeWithGuest_GetGuests_guests & IDragItemProp
-  ) => {
+  const handleDrop = (room: IR, item: IG & IDragItemProp) => {
     allocateMu({
       variables: {
         roomId: room._id,
@@ -75,6 +71,27 @@ const DailyAssigNew: React.SFC<IProps> = ({
     dailyAssigDataControl,
     dailayAssigContext
   );
+
+  const guestTooltipInfoBtnCallBack = (targetGuest: IG) => {
+    ReactTooltip.hide();
+    bookingModalHook.openModal({
+      bookingId: targetGuest.booking._id
+    });
+  };
+
+  const guestTooltipCheckInCallBack = (targetGuest: IG) => {
+    ReactTooltip.hide();
+    bookingModalHook.openModal({
+      bookingId: targetGuest.booking._id
+    });
+  };
+
+  const guestTooltipDeleteCallBack = (targetGuest: IG) => {
+    ReactTooltip.hide();
+    bookingModalHook.openModal({
+      bookingId: targetGuest.booking._id
+    });
+  };
 
   return (
     <div className="dailyAssigWrap">
@@ -122,6 +139,9 @@ const DailyAssigNew: React.SFC<IProps> = ({
         dailyAssigDataControl={dailyAssigDataControl}
         dailayAssigContext={dailayAssigContext}
         context={context}
+        checkInBtnCallBack={guestTooltipCheckInCallBack}
+        deleteBtnCallBack={guestTooltipDeleteCallBack}
+        infoBtnCallBack={guestTooltipInfoBtnCallBack}
       />
       <JDtoastModal confirm {...confirmModalHook} />
       <BookingModalWrap context={context} modalHook={bookingModalHook} />
