@@ -58,6 +58,14 @@
             right: $toast-position-x;
             bottom: $toast-position-y;
         }
+        @include response($tablet) {
+            &--bottom-right {
+                left: 0;
+                right: 0;
+                display:flex;
+                justify-content: center;
+            }   
+        }
     }
     
     &__toast {

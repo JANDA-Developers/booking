@@ -224,18 +224,7 @@ const JDmiddleServer: React.FC<IProps> = ({
           <Route
             exact
             path="/ready"
-            render={() =>
-              isLogIn ? (
-                <Ready
-                  hostApp={selectedHouse && selectedHouse.appInfo}
-                  currentProduct={applyedProduct}
-                  selectedHouse={selectedHouse}
-                  user={user}
-                />
-              ) : (
-                <Login />
-              )
-            }
+            render={() => (isLogIn ? <Ready context={context} /> : <Login />)}
           />
         )}
         {/* /* ------------------------------ JANDA BOOKING ----------------------------- */}{" "}

@@ -31,7 +31,7 @@ const assigDefaultProps = {
 
 // 불러올 데이터양
 export const ASSIG_VISIBLE_CELL_PC = 10;
-export const ASSIG_VISIBLE_CELL_MB_DIFF = 5;
+export const ASSIG_VISIBLE_CELL_MB_DIFF = 6.5;
 // 불러올 데이터양
 export const ASSIG_DATA_END = 14;
 export const ASSIG_DATA_START = 18;
