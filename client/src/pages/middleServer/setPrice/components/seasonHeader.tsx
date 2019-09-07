@@ -1,7 +1,6 @@
 import React, {Fragment} from "react";
 import {ISeason} from "../../../../types/interface";
 import {useDayPicker, useSelect, useModal} from "../../../../actions/hook";
-import JDdayPicker from "../../../../atoms/dayPicker/DayPicker";
 import JDIcon from "../../../../atoms/icons/Icons";
 import JDselect, {
   IselectedOption,

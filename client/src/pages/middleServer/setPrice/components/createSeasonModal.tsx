@@ -123,6 +123,7 @@ const CreateSeasonModal: React.FC<IProps> = ({
       </div>
       <div>
         <JDdayPicker
+          selectBeforeDay={true}
           calenaderPosition="center"
           label="시즌기간"
           input
@@ -169,7 +170,6 @@ const CreateSeasonModal: React.FC<IProps> = ({
           size="small"
           label="시즌생성"
           thema="primary"
-          
         />
       </div>
       <PriceWarnModal modalHook={priceWarnModal} />

@@ -108,7 +108,7 @@ const DailyAssig: React.SFC<IProps> = ({
         <JDdayPicker
           isRange={false}
           input
-          canSelectBeforeDays={false}
+          selectBeforeDay={false}
           label="달력날자"
           {...dayPickerHook}
           className="JDwaves-effect JDoverflow-visible"
