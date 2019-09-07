@@ -272,6 +272,10 @@ export interface IDailyAssigUtils {
   getBookingIdByGuestId: TGetBookingIdByGuestId;
 }
 
+export interface IDeleteMenuProps {
+  item: IAssigItem;
+}
+
 export interface IAssigTimelineHooks {
   blockOpModal: IUseModal<IAssigItem>;
   bookingModal: IUseModal<any>;

@@ -3,7 +3,8 @@ import {
   TDeleteGuestById,
   IAssigTimelineUtils,
   TDeleteBookingById,
-  TGetBookingIdByGuestId
+  TGetBookingIdByGuestId,
+  IDailyAssigUtils
 } from "./assigIntrerface";
 import {ReactTooltip} from "../../../../atoms/tooltipList/TooltipList";
 import JDisNetworkRequestInFlight from "../../../../utils/netWorkStatusToast";
@@ -22,7 +23,7 @@ export function getDailyAssigUtils(
     updateBlockOpMu
   }: IDailyAssigDataControl,
   {blocksData, guestsData, confirmModalHook, networkStatus}: IDailyAssigContext
-): IDailyAssigTimelineUtils {
+): IDailyAssigUtils {
   const allTooltipsHide = (except: string) => {
     ReactTooltip.hide();
   };
