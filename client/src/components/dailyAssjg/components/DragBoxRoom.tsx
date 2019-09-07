@@ -2,25 +2,22 @@ import React from "react";
 import {ConnectDropTarget, DropTargetMonitor, useDrop} from "react-dnd";
 import {DropTarget} from "react-dnd";
 import {
-  getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms,
-  getAllRoomTypeWithGuest_GetGuests_guests,
-  getAllRoomTypeWithGuest_GetAllRoomType_roomTypes,
-  getAllRoomTypeWithGuest_GetBlocks_blocks
+  getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms as IR,
+  getAllRoomTypeWithGuest_GetGuests_guests as IG,
+  getAllRoomTypeWithGuest_GetAllRoomType_roomTypes as IRT,
+  getAllRoomTypeWithGuest_GetBlocks_blocks as IB
 } from "../../../types/api";
 import DragItem, {IDragItemProp} from "./DragItem";
 import EmptyRoomItem from "./EmptyRoomItem";
 import classNames from "classnames";
 import {PricingType} from "../../../types/enum";
+import {instanceOfA} from "../../../utils/utils";
 
 interface DragBoxRoom {
-  room: getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms;
-  onDrop: (
-    item: getAllRoomTypeWithGuest_GetGuests_guests & IDragItemProp
-  ) => void;
-  itemsInRoom: (
-    | getAllRoomTypeWithGuest_GetGuests_guests
-    | getAllRoomTypeWithGuest_GetBlocks_blocks)[];
-  roomType: getAllRoomTypeWithGuest_GetAllRoomType_roomTypes;
+  room: IR;
+  onDrop: (item: IG & IDragItemProp) => void;
+  itemsInRoom: (IG | IB)[];
+  roomType: IRT;
 }
 
 export const DragBoxRoom: React.FC<DragBoxRoom> = ({
@@ -46,13 +43,13 @@ export const DragBoxRoom: React.FC<DragBoxRoom> = ({
   });
 
   const dragItemManufacter = (
-    item:
-      | getAllRoomTypeWithGuest_GetGuests_guests
-      | getAllRoomTypeWithGuest_GetBlocks_blocks
-  ):
-    | getAllRoomTypeWithGuest_GetGuests_guests & IDragItemProp
-    | getAllRoomTypeWithGuest_GetBlocks_blocks & IDragItemProp => {
-    return Object.assign({type: item.roomType!._id}, item);
+    item: IG | IB
+  ): (IG & IDragItemProp) | (IB & IDragItemProp) => {
+    if (instanceOfA<IG>(item, "roomType")) {
+      return Object.assign({type: item.roomType!._id}, item);
+    } else {
+      return Object.assign({type: "block"}, item);
+    }
   };
 
   const classes = classNames("dailyAssig__room", undefined, {

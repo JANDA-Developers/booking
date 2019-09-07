@@ -265,6 +265,13 @@ export interface IDeleteMenuProps {
   item: IAssigItem;
 }
 
+export interface IDailyAssigTimelineUtils {
+  allTooltipsHide: (except: string) => void;
+  deleteGuestById: TDeleteGuestById;
+  deleteBookingById: TDeleteBookingById;
+  getBookingIdByGuestId: TGetBookingIdByGuestId;
+}
+
 export interface IAssigTimelineHooks {
   blockOpModal: IUseModal<IAssigItem>;
   bookingModal: IUseModal<any>;

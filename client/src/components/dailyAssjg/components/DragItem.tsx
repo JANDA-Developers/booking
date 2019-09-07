@@ -53,24 +53,4 @@ const DragItem: React.FC<IProps> = ({item}) => {
   );
 };
 
-// const blockRender = (
-//   item:
-//     | getAllRoomTypeWithGuest_GetGuests_guests
-//     | getAllRoomTypeWithGuest_GetBlocks_blocks
-// ) => {
-//   switch (item.guestType) {
-//     case GuestType.GUEST:
-//       return (
-
-//       );
-
-//     case GuestType.BLOCK:
-//       return (
-//         <div className="dailyAssig__block dailyAssig__itemBlock">
-//           {"자리막음"}
-//         </div>
-//       );
-//   }
-// };
-
-// export default DragItem;
+export default DragItem;

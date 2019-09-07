@@ -37,6 +37,7 @@ import Preloader from "../../atoms/preloader/Preloader";
 import {IContext} from "../../pages/MiddleServerRouter";
 import DailyAssigNew from "./DailyAssigNew";
 import {getOperationName} from "apollo-link";
+import {NetworkStatus} from "apollo-boost";
 // import DailyAssigNew from "./DailyAssigNew";
 
 class GetAllRoomTypeWithGuestQuery extends Query<
@@ -60,6 +61,7 @@ class DeleteGuestMu extends Mutation<deleteGuests, deleteGuestsVariables> {}
 class DeleteBlockMu extends Mutation<deleteBlock, deleteBlockVariables> {}
 
 export interface IDailyAssigProp {
+  networkStatus: NetworkStatus;
   allocateMu: MutationFn<allocateGuestToRoom, allocateGuestToRoomVariables>;
   loading: boolean;
   blocksData: getAllRoomTypeWithGuest_GetBlocks_blocks[];
@@ -112,7 +114,7 @@ const DailyAssigWrap: React.FC<IProps> = ({date, context, isInModal}) => {
           bookingStatus: BookingStatus.COMPLETE
         }}
       >
-        {({data, loading, error}) => {
+        {({data, loading, error, networkStatus}) => {
           const roomTypesData =
             queryDataFormater(data, "GetAllRoomType", "roomTypes", undefined) ||
             []; // 원본데이터
@@ -139,7 +141,8 @@ const DailyAssigWrap: React.FC<IProps> = ({date, context, isInModal}) => {
                   guestsData: guestsData,
                   dayPickerHook: dayPickerHook,
                   roomTypesData: roomTypesData,
-                  itemDatas: [...guestsData, ...blocks]
+                  itemDatas: [...guestsData, ...blocks],
+                  networkStatus
                 };
                 return (
                   <DeleteGuestMu
