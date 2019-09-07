@@ -111,7 +111,7 @@ export const SharedSideBarHeader: React.FC<IProps> = ({
     <JDdayPicker
       isRange={false}
       input
-      canSelectBeforeDays={false}
+      selectBeforeDay={false}
       label="달력날자"
       {...dayPickerHook}
       className="JDwaves-effect JDoverflow-visible"

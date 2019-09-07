@@ -40,9 +40,9 @@ const UpdateSeasonModal: React.FC<IProps> = ({
     </div>
     <div>
       <JDdayPicker
-        canSelectBeforeDays
         calenaderPosition="center"
         inputClassName="JDmargin-bottom0--wmdUp"
+        selectBeforeDay={true}
         showInputIcon={false}
         displayYear={false}
         format={"MM/DD"}

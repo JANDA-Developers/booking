@@ -16,7 +16,7 @@ interface IProps {
   context: IContext;
 }
 
-const Ready: React.SFC<IProps> = ({context}) => {
+const Ready: React.FC<IProps> = ({context}) => {
   const {house} = context;
   return (
     <div id="Ready" className="ready">

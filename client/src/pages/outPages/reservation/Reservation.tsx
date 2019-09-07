@@ -344,6 +344,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
             {/* TODO: change 될때마다 resvRooms를 초기화 해주어야함 */}
             <JDdayPicker
               {...dayPickerHook}
+              selectBeforeDay={false}
               horizen={windowWidth < WindowSize.PHABLET}
               mode="reservation"
             />

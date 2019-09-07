@@ -20,6 +20,7 @@ import Reservation from "../../pages/outPages/reservation/Reservation";
 import moment from "moment";
 
 export interface IJDdayPickerProps extends IUseDayPicker {
+  selectBeforeDay: boolean;
   horizen?: boolean;
   placeholder?: string;
   input?: boolean;
@@ -34,7 +35,6 @@ export interface IJDdayPickerProps extends IUseDayPicker {
   maxLimit?: boolean;
   showWeekEndColor?: boolean;
   mode?: "reservation";
-  canSelectBeforeDays?: boolean;
   inputComponent?: JSX.Element[] | JSX.Element;
   onChangeDate?(foo?: string | Date | null, foo2?: string | Date | null): void;
   className?: string;
@@ -42,7 +42,7 @@ export interface IJDdayPickerProps extends IUseDayPicker {
   calenaderPosition?: "left" | "right" | "center";
 }
 
-const JDdayPicker: React.SFC<IJDdayPickerProps> = ({
+const JDdayPicker: React.FC<IJDdayPickerProps> = ({
   horizen,
   calenaderPosition = "right",
   input,
@@ -60,7 +60,7 @@ const JDdayPicker: React.SFC<IJDdayPickerProps> = ({
   setTo,
   entered,
   displayYear = true,
-  canSelectBeforeDays,
+  selectBeforeDay,
   inputClassName,
   inputComponent,
   setEntered,
@@ -227,8 +227,14 @@ const JDdayPicker: React.SFC<IJDdayPickerProps> = ({
     weekdaysShort: WEEKDAYS_SHORT,
     locale: lang,
     showOutsideDays: false,
-    disabledDays: canSelectBeforeDays ? [] : [{before: new Date()}]
+    disabledDays: selectBeforeDay ? undefined : [{before: new Date()}]
   };
+
+  console.log("dayPickerProps");
+  console.log(selectBeforeDay);
+  console.log(selectBeforeDay);
+  console.log(selectBeforeDay);
+  console.log(dayPickerProps);
 
   return (
     <div className={`${wrapClasses}`} ref={dayPickerFullWrap}>
@@ -243,6 +249,7 @@ const JDdayPicker: React.SFC<IJDdayPickerProps> = ({
           label={label}
           readOnly={readOnly}
           isRange={isRange}
+          displayYear={displayYear}
           dayPickerProps={dayPickerProps}
           inputClassName={inputClassName}
         />

@@ -271,7 +271,12 @@ const Statistic: React.FC<IProps> = ({
                 />
               </div>
               <div>
-                <JDdayPicker {...queryDateHook} label="통계날자" input />
+                <JDdayPicker
+                  selectBeforeDay={false}
+                  {...queryDateHook}
+                  label="통계날자"
+                  input
+                />
               </div>
               <div>
                 <JDselect

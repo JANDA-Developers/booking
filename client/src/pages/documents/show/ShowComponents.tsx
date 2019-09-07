@@ -378,18 +378,30 @@ function ShowComponents() {
           <div className="flex-grid__col col--full-4 col--wmd-12">
             <div className="showComponent__container">
               <JDlabel txt="horizen" />
-              <DayPicker {...dayPickerHook} horizen />
+              <DayPicker selectBeforeDay={false} {...dayPickerHook} horizen />
             </div>
           </div>
           <div className="flex-grid__col col--full-4 col--wmd-12">
             <JDlabel txt="normal" />
-            <DayPicker {...dayPickerHook} />
+            <DayPicker {...dayPickerHook} selectBeforeDay={false} />
           </div>
           <div className="flex-grid__col col--full-4 col--wmd-12">
-            <DayPicker {...dayPickerHook} input label="input" isRange />
+            <DayPicker
+              {...dayPickerHook}
+              selectBeforeDay={false}
+              input
+              label="input"
+              isRange
+            />
           </div>
           <div className="flex-grid__col col--full-4 col--wmd-12">
-            <DayPicker {...dayPickerHook} input label="input" isRange={false} />
+            <DayPicker
+              {...dayPickerHook}
+              input
+              label="input"
+              selectBeforeDay={false}
+              isRange={false}
+            />
           </div>
         </div>
         {/* Slider 슬라이더 */}

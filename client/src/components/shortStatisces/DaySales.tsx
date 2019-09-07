@@ -20,7 +20,7 @@ const DaySales: React.FC<Iprops> = ({price, dayPickerHook, showDayPicker}) => {
         <JDdayPicker
           isRange={false}
           input
-          canSelectBeforeDays={false}
+          selectBeforeDay={false}
           label="달력날자"
           {...dayPickerHook}
           className="JDwaves-effect JDoverflow-visible"

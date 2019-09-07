@@ -19,6 +19,7 @@ interface IProps {
   showInputIcon: boolean;
   placeholder?: string;
   inputClassName?: string;
+  displayYear?: boolean;
   dayPickerProps: DayPickerProps;
   inputComponent?: JSX.Element[] | JSX.Element;
 }
@@ -32,9 +33,10 @@ const JDdayPickerInput: React.FC<IProps> = ({
   readOnly,
   showInputIcon,
   dayPickerProps,
+  displayYear,
   inputClassName,
   placeholder = "날자를 선택해주세요",
-  format = "YYYY-MM-DD",
+  format = displayYear ? "YYYY-MM-DD" : "MM-DD",
   inputComponent: InputComponent,
   ...props
 }) => {
@@ -74,28 +76,6 @@ const JDdayPickerInput: React.FC<IProps> = ({
       }
     }
   }, [from, to]);
-
-  // // input에 들어갈 값을 여기서 조작
-  // const valueFormatter = (date: Date, informat: string, locale: string): string => {
-  //   // 방금 누른 늘자가 들어오지만 from으로 대체된다.
-  //   let inDate = from;
-  //   // 만약에 from이 없다면 방금들어온 날자를 사용한다.
-  //   if (!from) inDate = date;
-  //   // 만약에 date또한 없다면 엠티 스트링이 리턴된다 :: 이상한 선택을 한경우.
-  //   if (!inDate) return '';
-  //   // 만약에 from과 to가 모두존재하면서
-  //   if (from && to) {
-  //     // 방금 누른것이 지금까지 누른것들 사이에 있다면 엠티스트링을 리턴한다 :: 중복을 누른경우 초기화.
-  //     if (date >= from && date <= to) return '';
-  //   }
-
-  //   const inFrom = dateForMatter(inDate, informat, locale);
-  //   const inTo = dateForMatter(date, informat, locale);
-
-  //   // 만약에 방금누른날자가 유효하면서 아직 프롬이 존재안한다면:: from을 선택한경우
-  //   if (!date || !from) return inFrom;
-  //   return `${inFrom} ~ ${inTo}`;
-  // };
 
   const valueFormatter = (
     inFrom: Date | null | undefined,

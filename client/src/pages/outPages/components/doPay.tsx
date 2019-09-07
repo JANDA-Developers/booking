@@ -1,6 +1,5 @@
 import ip from "ip";
 import crypto from "crypto";
-import {IReservationHooks} from "../reservation/Reservation";
 import {startBookingForPublicVariables} from "../../../types/api";
 import moment from "moment";
 import {isMobile} from "is-mobile";
@@ -12,7 +11,8 @@ const nicepayClose = () => {
 
 const pcCallBackFromNicePay = () => {
   const target = document.getElementById("nicePay");
-  console.log(target);
+  // @ts-ignore;
+  target.submit();
 };
 
 type inputParams = {
@@ -112,7 +112,10 @@ export const openNiceModal = async ({resvInfo, transactionId}: IProp) => {
     const form = document.createElement("form");
     form.setAttribute("charset", "utf-8");
     form.setAttribute("method", "Post"); //Post 방식
-    form.setAttribute("action", process.env.REACT_APP_API_NICE_PAY || ""); //요청 보낼 주소
+    form.setAttribute(
+      "action",
+      process.env.REACT_APP_API_PAY_MENT_RETURN_URL_DEV_PC || ""
+    ); //요청 보낼 주소
     form.setAttribute("id", "nicePay"); //요청 보낼 주소
     form.setAttribute("name", "payForm"); //요청 보낼 주소
 
@@ -171,6 +174,10 @@ export const openNiceModal = async ({resvInfo, transactionId}: IProp) => {
       {
         name: "Charset",
         value: "utf-8"
+      },
+      {
+        name: "ReturnURL",
+        value: process.env.REACT_APP_API_PAY_MENT_RETURN_URL_DEV || ""
       }
     ];
 

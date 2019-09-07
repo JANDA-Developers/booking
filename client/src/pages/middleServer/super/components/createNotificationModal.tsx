@@ -74,6 +74,7 @@ const CreateNotificationModal: React.FC<Iprops> = ({
       </div>
       <div>
         <JDdayPicker
+          selectBeforeDay={false}
           isRange={false}
           input
           {...validPeriodHook}

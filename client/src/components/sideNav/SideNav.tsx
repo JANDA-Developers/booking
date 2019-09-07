@@ -4,7 +4,7 @@ import PropTypes, {string} from "prop-types";
 import "./SideNav.scss";
 import classNames from "classnames";
 import ErrProtecter from "../../utils/errProtect";
-import Icon, {IIcons} from "../../atoms/icons/Icons";
+import Icon, {IIcons, IconSize} from "../../atoms/icons/Icons";
 import Button from "../../atoms/button/Button";
 import JDmenu, {JDmenuItem, JDsubMenu} from "../../atoms/menu/Menu";
 import ProfileCircle from "../../atoms/profileCircle/ProfileCircle";
@@ -100,6 +100,12 @@ const SideNav: React.FC<IProps> = ({isOpen, setIsOpen, context}) => {
           disabled: disabledFlag
         },
         {
+          to: "/houseManualConfig",
+          disabled: disabledFlag,
+          icon: "list",
+          label: "하우스 메뉴얼"
+        },
+        {
           to: "/config",
           icon: "config",
           label: "환경설정",
@@ -109,7 +115,7 @@ const SideNav: React.FC<IProps> = ({isOpen, setIsOpen, context}) => {
     },
     {
       to: "/qna",
-      icon: "question",
+      icon: "book",
       label: "고객문의",
       disabled: false
     }
@@ -154,7 +160,11 @@ const SideNav: React.FC<IProps> = ({isOpen, setIsOpen, context}) => {
         <div className="JDsideNav__profill">
           <Link to="/myPage">
             <div className="JDsideNav__circle">
-              <ProfileCircle isBordered profileImg={user.profileImg} />
+              <ProfileCircle
+                size={IconSize.MEDIUM}
+                isBordered
+                profileImg={user.profileImg}
+              />
             </div>
           </Link>
           <span className="JDsideNav__name">{user.name || "비회원"}</span>
