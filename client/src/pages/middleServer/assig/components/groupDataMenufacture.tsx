@@ -137,6 +137,5 @@ export const roomDataManufacture = (
       type: "addRoomType"
     });
   }
-
   return roomGroups;
 };

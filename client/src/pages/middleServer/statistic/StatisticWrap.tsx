@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import Statistic from "./Statistic";
+import Statistic, {IStaticsWrapProps} from "./Statistic";
 import moment from "moment";
 import {useDayPicker} from "../../../actions/hook";
 import {Query} from "react-apollo";
@@ -63,14 +63,18 @@ const StatisticWrap: React.FC<IProps> = ({context}) => {
             []
           );
 
+          const staticsWrapProps: IStaticsWrapProps = {
+            queryOp,
+            setQueryOp,
+            staticData: statistic || [],
+            queryDateHook
+          };
+
           return (
             <Statistic
-              setQueryOp={setQueryOp}
-              queryOp={queryOp}
+              staticsWrapProps={staticsWrapProps}
               context={context}
               loading={loading}
-              outData={statistic || []}
-              queryDateHook={queryDateHook}
             />
           );
         }}

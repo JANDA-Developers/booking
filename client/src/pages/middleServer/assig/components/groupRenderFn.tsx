@@ -22,12 +22,10 @@ interface IRenderGroupProps {
 }
 
 // 아이템 위치가 바뀔때마다 groupRender 되더라
-const assigGroupRendererFn: React.FC<IRenderGroupProps> = (
-  prop,
-  {group, ...props}
-) => {
-  console.log(prop);
-  console.log(props);
+const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({
+  group,
+  ...props
+}) => {
   if (!group || !group.roomType) {
     return <div />;
   }
@@ -35,8 +33,8 @@ const assigGroupRendererFn: React.FC<IRenderGroupProps> = (
   const placeCount = isDomitory ? group.roomType.peopleCount : 1;
 
   const roomTypeStyle = {
-    height: ASSIGT_IMELINE_HEIGHT * placeCount * group.roomType.roomCount,
-    minHeight: ASSIGT_IMELINE_HEIGHT - 1
+    minHeight: ASSIGT_IMELINE_HEIGHT - 1,
+    zIndex: group.roomTypeIndex
   };
   const roomStyle = {
     height: Math.floor(ASSIGT_IMELINE_HEIGHT * placeCount) - 1,
@@ -70,7 +68,8 @@ const assigGroupRendererFn: React.FC<IRenderGroupProps> = (
     if (renderRoomType) {
       const target = $(`.assigGroups__place${group.roomTypeId}`);
       const arrayHeights = target.map(function() {
-        return $(this).height();
+        const height = ($(this).height() || 0) + 1;
+        return height;
       });
 
       $(`#assigGroups__roomType${group.roomTypeId}`).height(

@@ -52,7 +52,7 @@ $background-color: #FBFBFB;
 $error-color: #ff6760 !default;
 $positive-color: $today-color !default;
 $positive-opacity1: rgba($positive-color, 0.1) !default;
-$positive-opacity2: rgba($positive-color, 0.2) !default;
+$positive-opacity2: rgba($positive-color, 0.3) !default;
 $positive-color-dark: darken($positive-color, 5%) !default;
 $positive-color-on: white;
 $error-color-on: white !default;
@@ -431,6 +431,7 @@ $colorPicker-outborder-color: $standard-outborder-color;
 $assigItem-block-color: $html-color;
 $assigItem-normalStatus-color: #4079ecd1; //#2153dbcc
 $assigItem-checkIn-color:  rgba(255,238,0,.7);
+$assigItem-checkIn-color-on:  $html-color;
 $assigItem-selected-border-color: #4e83efd1;
 $assigItem-linked-bgColor: rgba(255,255,255,.5);
 $assigItem-mark-bgColor: $assigItem-linked-bgColor;

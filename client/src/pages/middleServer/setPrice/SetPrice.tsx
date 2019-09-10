@@ -37,7 +37,6 @@ import {
   useDayPicker
 } from "../../../actions/hook";
 import DayOfWeekModal, {IDayOfWeekModalInfo} from "./components/dayOfWeekModal";
-import JDdayPicker from "../../../atoms/dayPicker/DayPicker";
 import JDmodal from "../../../atoms/modal/Modal";
 import CreateSeasonModal from "./components/createSeasonModal";
 import {MutationFn} from "react-apollo";
@@ -282,11 +281,11 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
           }}
           className="JDz-index-6"
           pulse={shouldSave}
-          label="변경사항 저장하기"
+          label="저장하기"
           thema="point"
         />
         <Link to="/specificPrice">
-          <Button label="일별가격설정 하기" mode="border" />
+          <Button icon="arrowTo" label="일별가격 설정" mode="border" />
         </Link>
         <JDtable
           className="setPrice__table"

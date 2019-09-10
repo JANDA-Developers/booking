@@ -22,7 +22,8 @@ import {
   updateBlockOption,
   updateBlockOptionVariables,
   getAllRoomTypeWithGuest_GetGuests_guests_blockOption,
-  createBooking
+  createBooking,
+  getAllRoomTypeWithGuest_GetGuests_guests
 } from "../../../../types/api";
 import {IUseModal} from "../../../../actions/hook";
 import {string} from "prop-types";
@@ -208,7 +209,7 @@ export interface IAssigItem {
   group: string;
   loading: boolean;
   bookingId: string;
-  isCheckin: boolean;
+  checkInInfo: boolean;
   showNewBadge: boolean;
   roomTypeId: string;
   roomId: string;
@@ -270,10 +271,24 @@ export interface IDailyAssigUtils {
   deleteGuestById: TDeleteGuestById;
   deleteBookingById: TDeleteBookingById;
   getBookingIdByGuestId: TGetBookingIdByGuestId;
+  toogleCheckInOut: (
+    targetGuest: getAllRoomTypeWithGuest_GetGuests_guests
+  ) => Promise<void>;
 }
 
 export interface IDeleteMenuProps {
   item: IAssigItem;
+}
+
+export interface IDailyAssigDataControl {
+  deleteBookingMu: MutationFn<deleteBooking, deleteBookingVariables>;
+  deleteGuestsMu: MutationFn<deleteGuests, deleteGuestsVariables>;
+  updateCheckInMu: MutationFn<updateBooking, updateBookingVariables>;
+  createBlockMu: MutationFn<createBlock, createBlockVariables>;
+  deleteBlockMu: MutationFn<deleteBlock, deleteBlockVariables>;
+  updateBlockOpMu: MutationFn<updateBlockOption, updateBlockOptionVariables>;
+  allocateMu: MutationFn<allocateGuestToRoom, allocateGuestToRoomVariables>;
+  totalMuLoading: boolean;
 }
 
 export interface IAssigTimelineHooks {

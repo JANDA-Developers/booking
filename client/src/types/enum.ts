@@ -155,7 +155,7 @@ export enum BookingStatusKr {
   COMPLETE = "예약완료",
   CANCEL = "예약취소",
   FAIL = "예약실패",
-  READY = "예약대기"
+  READY = "예약진행중"
 }
 
 export enum PayMethod {
@@ -374,7 +374,15 @@ export const BOOKING_STATUS_OP = [
     value: BookingStatus.COMPLETE,
     label: BookingStatusKr[BookingStatus.COMPLETE]
   },
-  {value: BookingStatus.CANCEL, label: BookingStatusKr[BookingStatus.CANCEL]}
+  {value: BookingStatus.CANCEL, label: BookingStatusKr[BookingStatus.CANCEL]},
+  {
+    value: BookingStatus.READY,
+    label: BookingStatusKr[BookingStatus.READY]
+  },
+  {
+    value: BookingStatus.FAIL,
+    label: BookingStatusKr[BookingStatus.FAIL]
+  }
 ];
 
 export const LAYOUT_TYPE_OP = [
@@ -429,7 +437,8 @@ export const PRODUCT_STATUS_OP = [
 ];
 
 export const PAYMETHOD_FOR_BOOKER_OP = [
-  {value: PayMethod.VBANK, label: "무통장입금"}
+  {value: PayMethod.VBANK, label: "무통장입금"},
+  {value: PayMethod.CARD, label: "카드결제"}
 ];
 
 export const PAYMETHOD_FOR_HOST_OP = [
@@ -488,3 +497,13 @@ export const MAX_PEOPLE_COUNT_OP_FN = () => {
 export const NEUTRAL = "";
 
 export const EMPTY = "";
+
+export const ModalMinWidth = `${document.documentElement.clientWidth - 64}px`;
+
+export const StaticColors = [
+  "#E8554E",
+  "#F19C65",
+  "#FFD265",
+  "#2AA876",
+  "#0A7B83"
+];

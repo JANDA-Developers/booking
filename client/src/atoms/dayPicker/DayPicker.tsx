@@ -230,12 +230,6 @@ const JDdayPicker: React.FC<IJDdayPickerProps> = ({
     disabledDays: selectBeforeDay ? undefined : [{before: new Date()}]
   };
 
-  console.log("dayPickerProps");
-  console.log(selectBeforeDay);
-  console.log(selectBeforeDay);
-  console.log(selectBeforeDay);
-  console.log(dayPickerProps);
-
   return (
     <div className={`${wrapClasses}`} ref={dayPickerFullWrap}>
       {input ? (
@@ -249,9 +243,9 @@ const JDdayPicker: React.FC<IJDdayPickerProps> = ({
           label={label}
           readOnly={readOnly}
           isRange={isRange}
-          displayYear={displayYear}
           dayPickerProps={dayPickerProps}
           inputClassName={inputClassName}
+          displayYear={displayYear}
         />
       ) : (
         <Fragment>

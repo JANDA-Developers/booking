@@ -60,7 +60,7 @@ import {DEFAULT_ASSIG_ITEM} from "../../../../types/defaults";
 import $ from "jquery";
 import {createBlock_CreateBlock_block} from "../../../../types/api";
 import JDisNetworkRequestInFlight from "../../../../utils/netWorkStatusToast";
-import { assigSharedDleteGuestConfirmMessage } from "./item/shared";
+import {assigSharedDleteGuestConfirmMessage} from "./item/shared";
 
 export function getAssigUtils(
   {
@@ -85,6 +85,7 @@ export function getAssigUtils(
   }: IAssigDataControl,
   {houseId, groupData}: IAssigTimelineContext
 ): IAssigTimelineUtils {
+  console.time("--");
   // 마크제거 MARK REMOVE 마커 제거
   const removeMark: TRemoveMark = () => {
     setGuestValue([
@@ -233,8 +234,8 @@ export function getAssigUtils(
       variables: {
         bookingId: target.bookingId,
         params: {
-          isCheckIn: {
-            isIn: !guestValue[target.itemIndex].isCheckin
+          checkInInfo: {
+            isIn: !guestValue[target.itemIndex].checkInInfo
           }
         }
       }
@@ -242,7 +243,7 @@ export function getAssigUtils(
 
     // 아폴로 통신 성공
     if (result && result.data) {
-      const message = guestValue[target.itemIndex].isCheckin
+      const message = guestValue[target.itemIndex].checkInInfo
         ? "체크아웃"
         : "체크인";
       onCompletedMessage(result.data.UpdateBooking, message, "실패");
@@ -251,7 +252,7 @@ export function getAssigUtils(
 
         const updateGuests = guestValue.map(guest => {
           if (guest.bookingId === target.bookingId) {
-            guest.isCheckin = !guest.isCheckin;
+            guest.checkInInfo = !guest.checkInInfo;
           }
           return guest;
         });
@@ -724,5 +725,6 @@ export function getAssigUtils(
     deleteGhost
   };
 
+  console.timeEnd("--");
   return assigUtils;
 }

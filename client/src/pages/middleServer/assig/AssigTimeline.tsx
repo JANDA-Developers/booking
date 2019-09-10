@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useMemo} from "react";
 import {Link, withRouter} from "react-router-dom";
 import "moment/locale/ko";
 import _ from "lodash";
@@ -66,7 +66,8 @@ import {IContext} from "../../MiddleServerRouter";
 import {FetchResult} from "react-apollo";
 import {
   createBooking,
-  createBooking_CreateBooking_booking
+  createBooking_CreateBooking_booking,
+  createBooking_CreateBooking
 } from "../../../types/api";
 
 // Temp 마킹용이 있는지
@@ -199,7 +200,10 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     houseId: house._id
   };
 
-  const assigUtils = getAssigUtils(assigHooks, assigDataControl, assigContext);
+  const assigUtils = useMemo(
+    () => getAssigUtils(assigHooks, assigDataControl, assigContext),
+    [assigContext.houseId, assigContext.isMobile]
+  );
 
   const {assigTimeline} = houseConfig;
   if (!assigTimeline) {
@@ -216,7 +220,10 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     toogleCheckInOut
   } = assigUtils;
 
-  const assigHandler = getAssigHandlers(assigUtils, assigContext, assigHooks);
+  const assigHandler = useMemo(
+    () => getAssigHandlers(assigUtils, assigContext, assigHooks),
+    []
+  );
 
   const {
     handleCanvasClick,
@@ -231,7 +238,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   } = assigHandler;
 
   // 툴팁들을 제거하고
-  const handleWindowClickEvent = () => {
+  const handleTimelineWrapClickEvent = () => {
     if (guestValue.find(guest => guest.type === GuestTypeAdd.MARK)) {
       removeMark();
     }
@@ -249,11 +256,15 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     if (isEmpty(groupData) && !loading) setEmpty(true);
   }, [inIsEmpty]);
 
-  const timelineClassNames = classnames("assigTimeline", undefined, {
-    "assiTimeline--mobile": windowWidth <= WindowSize.MOBILE,
-    "assigTimeline--loading": isEmpty(groupData) && loading,
-    "assigTimeline--empty": inIsEmpty
-  });
+  const timelineClassNames = useMemo(
+    () =>
+      classnames("assigTimeline", undefined, {
+        "assiTimeline--mobile": windowWidth <= WindowSize.MOBILE,
+        "assigTimeline--loading": isEmpty(groupData) && loading,
+        "assigTimeline--empty": inIsEmpty
+      }),
+    [windowWidth]
+  );
 
   // 그룹 데이터에서 필터된것만 추출
   let filteredGroup = groupData.filter(group =>
@@ -267,7 +278,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     <div
       id="AssigTimeline"
       className={`${timelineClassNames} container container--full`}
-      onDoubleClick={handleWindowClickEvent}
+      onDoubleClick={handleTimelineWrapClickEvent}
     >
       <div className="docs-section">
         <h3 className="assigTimeline__titleSection">
@@ -431,10 +442,16 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
         )}
       </div>
       <ReservationModal
-        assigUtils={assigUtils}
         houseId={house._id}
         modalHook={reservationModal}
-        pulbicKey={house.publicKey || undefined}
+        callBackCreateBookingMu={CreateBooking => {
+          CreateBooking.booking &&
+            assigUtils.hilightGuestBlock({
+              bookingId: CreateBooking.booking._id
+            });
+        }}
+        context={context}
+        publicKey={house.publicKey || undefined}
       />
       <BookingModalWrap
         assigUtils={assigUtils}

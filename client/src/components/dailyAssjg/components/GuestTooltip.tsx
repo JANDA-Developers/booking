@@ -3,9 +3,12 @@ import TooltipList from "../../../atoms/tooltipList/TooltipList";
 import Button from "../../../atoms/button/Button";
 import {ReactTooltip} from "../../../atoms/tooltip/Tooltip";
 import {IContext} from "../../../pages/MiddleServerRouter";
-import {IDailyAssigProp, IDailyAssigDataControl} from "../DailyAssigWrap";
+import {IDailyAssigProp} from "../DailyAssigWrap";
 import {IDailyAssigContext} from "../DailyAssigNew";
-import {IDailyAssigUtils} from "../../../pages/middleServer/assig/components/assigIntrerface";
+import {
+  IDailyAssigUtils,
+  IDailyAssigDataControl
+} from "../../../pages/middleServer/assig/components/assigIntrerface";
 import {getAllRoomTypeWithGuest_GetGuests_guests as IG} from "../../../types/api";
 
 interface Iprops {

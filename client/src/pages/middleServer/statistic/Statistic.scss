@@ -1,11 +1,25 @@
 @import '../../../style_config/style_config.scss';
 
 .statistic {
-
     &__table {
         margin-top: $standard-margin-bottom;
     }
     
+    &__shortBtnsWrap {
+        white-space: noWrap;
+        display: flex;
+        @include response($tablet) {
+            overflow:auto;
+            .JDbtn {
+                min-width: 90px;
+            }
+        }
+    }
+
     &__iconsWrap {
+        display: flex;
+        @include response($tablet) {
+            justify-content: space-around;
+        }
     }
 }

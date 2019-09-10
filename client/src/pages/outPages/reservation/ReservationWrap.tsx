@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React from "react";
 import {Mutation} from "react-apollo";
-import {RouteComponentProps} from "react-router";
+import {RouteComponentProps, withRouter} from "react-router";
 import Reservation from "./Reservation";
 import {
   ErrProtecter,
@@ -13,7 +13,8 @@ import {
   createBooking,
   createBookingVariables,
   startBookingForPublic,
-  startBookingForPublicVariables
+  startBookingForPublicVariables,
+  createBooking_CreateBooking
 } from "../../../types/api";
 import {
   GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM,
@@ -26,6 +27,7 @@ import {getOperationName} from "apollo-link";
 import {IAssigTimelineUtils} from "../../middleServer/assig/components/assigIntrerface";
 import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
 import JDanimation, {Animation} from "../../../atoms/animation/Animations";
+import {IReservationModalProps} from "../../../components/reservationModala/ReservationModal";
 
 class StartBookingMuForPublic extends Mutation<
   startBookingForPublic,
@@ -36,24 +38,30 @@ class CreatBookingMuForHost extends Mutation<
   createBookingVariables
 > {}
 
-interface IProps extends RouteComponentProps<any> {
+export interface IReservationWrapProps {
   houseId: string;
   publicKey?: string;
   isAdmin?: boolean;
   modalHook?: IUseModal;
-  assigUtils?: IAssigTimelineUtils;
+  callBackCreateBookingMu?: (
+    CreateBooking: createBooking_CreateBooking
+  ) => void;
 }
 
 // 하우스 아이디를 우선 Props를 통해서 받아야함
-const ReservationWrap: React.FC<IProps> = ({
+const ReservationWrap: React.FC<
+  IReservationWrapProps & RouteComponentProps<any>
+> = ({
   match,
   publicKey,
   isAdmin,
   houseId,
   modalHook,
-  assigUtils
+  callBackCreateBookingMu
 }) => {
-  localStorage.setItem("hpk", publicKey || match.params.publickey);
+  console.log("?????!!@#!@#!@#");
+  sessionStorage.setItem("hpk", publicKey || match.params.publickey);
+  sessionStorage.setItem("hpk33", "33");
 
   const addSeasonHook = "";
   const confirmModalHook = useModal(false);
@@ -71,6 +79,7 @@ const ReservationWrap: React.FC<IProps> = ({
         <CreatBookingMuForHost
           mutation={CREATE_BOOKING}
           onCompleted={({CreateBooking}) => {
+            console.log("aretTwice?");
             onCompletedMessage(
               CreateBooking,
               "예약 생성 완료",
@@ -78,16 +87,8 @@ const ReservationWrap: React.FC<IProps> = ({
             );
 
             modalHook && modalHook.closeModal();
-            toast.success("예약생성완료");
 
-            // 방배정 화면일때 함수 👿 이부분을 나중에 컬백 함수 받는곳 파서 안에넣자.
-            assigUtils &&
-              CreateBooking.booking &&
-              assigUtils.hilightGuestBlock({
-                bookingId: CreateBooking.booking._id
-              });
-
-            // next resvConfirmCallBackFunc
+            callBackCreateBookingMu && callBackCreateBookingMu(CreateBooking);
           }}
           refetchQueries={[
             getOperationName(GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM) || ""
@@ -111,7 +112,7 @@ const ReservationWrap: React.FC<IProps> = ({
   );
 };
 
-export default ErrProtecter(ReservationWrap);
+export default ReservationWrap;
 
 // 🚁 iFrame 에서 상위페이지를 Redirect 하는 방법 [https://help.surveygizmo.com/help/break-out-of-iframe];
 

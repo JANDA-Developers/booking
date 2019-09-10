@@ -13,7 +13,7 @@ const ToastError: React.FC<Iprops> = ({}) => {
         redirect={insideRedirect("qna")}
         label="문의하기"
         thema="white"
-        mode="border"
+        mode="flat"
         transparent
       />
     </span>

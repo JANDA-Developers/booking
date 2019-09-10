@@ -178,7 +178,7 @@ export const DEFAULT_ASSIG_ITEM: IAssigItem = {
   group: "",
   itemIndex: -1,
   id: "",
-  isCheckin: false,
+  checkInInfo: false,
   name: "",
   roomId: "",
   roomTypeId: "",

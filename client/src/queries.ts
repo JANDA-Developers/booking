@@ -661,13 +661,13 @@ export const GET_GUESTS = gql`
         $start: DateTime!
         $end: DateTime!
         $houseId: ID!
-        $bookingStatus: BookingStatus
+        $bookingStatuses: [BookingStatus]
     ) {
         GetGuests(
             start: $start
             end: $end
             houseId: $houseId
-            bookingStatus: $bookingStatus
+            bookingStatuses: $bookingStatuses
         ) {
             ok
             error
@@ -905,7 +905,7 @@ export const GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM = gql`
         $houseId: ID!
         $start: DateTime!
         $end: DateTime!
-        $bookingStatus: BookingStatus
+        $bookingStatuses: [BookingStatus]
     ) {
         GetAllRoomType(houseId: $houseId) {
             ok
@@ -937,7 +937,7 @@ export const GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM = gql`
             start: $start
             end: $end
             houseId: $houseId
-            bookingStatus: $bookingStatus
+            bookingStatuses: $bookingStatuses
         ) {
             ok
             error

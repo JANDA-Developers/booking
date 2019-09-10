@@ -9,13 +9,15 @@ import {
   STATISTICS_TYPE_OP,
   SalesStatisticsUnitKr,
   STATISTICS_OP,
-  SalesStatisticsUnit
+  SalesStatisticsUnit,
+  WindowSize,
+  StaticColors
 } from "../../../types/enum";
 import {IQueryOp} from "./StatisticWrap";
 import InputText from "../../../atoms/forms/inputText/InputText";
 import DayPicker from "react-day-picker";
 import JDdayPicker from "../../../atoms/dayPicker/DayPicker";
-import {IUseDayPicker} from "../../../actions/hook";
+import {IUseDayPicker, useModal} from "../../../actions/hook";
 import Button from "../../../atoms/button/Button";
 import moment from "moment";
 import JDIcon from "../../../atoms/icons/Icons";
@@ -27,13 +29,27 @@ import randomColor from "randomcolor";
 import {CellInfo} from "react-table";
 import "./Statistic.scss";
 import {IContext} from "../../MiddleServerRouter";
+import StaticController from "./component/StaticController";
+import JDmodal from "../../../atoms/modal/Modal";
+import reactWindowSize, {WindowSizeProps} from "react-window-size";
+import StaticIcons from "./component/StaticIcons";
+import StaticsControllerModal from "./component/StaticsControllerModal";
 
-interface IProps {
-  outData: getSalesStatistic_GetSalesStatistic_data[];
-  loading: boolean;
-  setQueryOp: React.Dispatch<React.SetStateAction<IQueryOp>>;
+export interface IStaticsWrapProps {
   queryOp: IQueryOp;
   queryDateHook: IUseDayPicker;
+  staticData: getSalesStatistic_GetSalesStatistic_data[];
+  setQueryOp: React.Dispatch<React.SetStateAction<IQueryOp>>;
+}
+
+export interface IStaticsProps extends IStaticsWrapProps {
+  setViewMode: React.Dispatch<React.SetStateAction<IGraphViewMode>>;
+  viewMode: IGraphViewMode;
+}
+
+interface IProps {
+  staticsWrapProps: IStaticsWrapProps;
+  loading: boolean;
   context: IContext;
 }
 // refetch 가 Query 컴포넌트 리턴 프로프임
@@ -44,16 +60,16 @@ export enum IGraphViewMode {
   pie = "pie"
 }
 
-const Statistic: React.FC<IProps> = ({
-  outData,
+const Statistic: React.FC<IProps & WindowSizeProps> = ({
   context,
   loading,
-  queryOp,
-  queryDateHook,
-  setQueryOp
+  staticsWrapProps,
+  windowWidth
 }) => {
   const {house} = context;
+  const {setQueryOp, queryOp, staticData, queryDateHook} = staticsWrapProps;
   const [viewMode, setViewMode] = useState<IGraphViewMode>(IGraphViewMode.pie);
+  const staticControllerModalHook = useModal(false);
 
   // 각 그래프 형태에따라 데이터셋 변화
   const addtionGraphDataset =
@@ -65,35 +81,43 @@ const Statistic: React.FC<IProps> = ({
 
   // 오바른 라벨구하기
   const labels = ((): string[] => {
+    if (loading) return new Array(staticData.length).fill("loading");
+
     if (queryOp.unit === SalesStatisticsUnit.BY_DAY_OF_WEEK)
-      return outData.map(data => `${data.dateInfo.dayOfWeek}`);
+      return staticData.map(data => `${data.dateInfo.dayOfWeek}`);
     if (queryOp.unit === SalesStatisticsUnit.BY_DATE)
-      return outData.map(
+      return staticData.map(
         data =>
           `${data.dateInfo.year}-${data.dateInfo.month}-${data.dateInfo.date}`
       );
     if (queryOp.unit === SalesStatisticsUnit.MONTHLY)
-      return outData.map(
+      return staticData.map(
         data => `${data.dateInfo.year}-${data.dateInfo.month}`
       );
     if (queryOp.unit === SalesStatisticsUnit.WEEKLY)
-      return outData.map(
+      return staticData.map(
         data => `${data.dateInfo.year}-${data.dateInfo.month}`
       );
     if (queryOp.unit === SalesStatisticsUnit.YEARLY)
-      return outData.map(data => `${data.dateInfo.year}`);
+      return staticData.map(data => `${data.dateInfo.year}`);
     return [""];
   })();
 
   // 랜점컬러
+
   let randomColors = randomColor({
-    count: outData.length
+    count: staticData.length - StaticColors.length
   });
 
   // For 타입스크립트
   if (typeof randomColors === "string") {
-    randomColors = [randomColors];
+    randomColors = [...StaticColors, randomColors];
+  } else {
+    randomColors = [...StaticColors, ...randomColors];
   }
+
+  console.log("randomColors");
+  console.log(randomColors);
 
   // 그래프 데이터
   const graphData: ChartData<Chart.ChartData> = {
@@ -101,7 +125,7 @@ const Statistic: React.FC<IProps> = ({
     datasets: [
       {
         label: queryOp.selectStatic,
-        data: outData.map(data => data.price),
+        data: staticData.map(data => data.price),
         fill: false,
         backgroundColor: randomColors,
         hoverBackgroundColor: randomColors.map(color =>
@@ -161,7 +185,7 @@ const Statistic: React.FC<IProps> = ({
   const handleSetDaySalesStatic = () => {
     setQueryOp({
       selectStatic: "매출통계",
-      unit: SalesStatisticsUnit.BY_DAY_OF_WEEK
+      unit: SalesStatisticsUnit.BY_DATE
     });
     queryDateHook.setFrom(
       moment(new Date())
@@ -197,109 +221,89 @@ const Statistic: React.FC<IProps> = ({
     queryDateHook.setTo(new Date());
   };
 
+  const staticsProps: IStaticsProps = {
+    ...staticsWrapProps,
+    viewMode,
+    setViewMode
+  };
+
   return (
-    <div className="container">
+    <div className="container statics">
       <div className="docs-section">
         <h3>통계</h3>
-        <Button onClick={handleTodaySalesStatic} label="오늘매출" />
-        <Button onClick={handleThisMonthSalesStatic} label="이번달매출" />
-        <Button onClick={handleSetDaySalesStatic} label="일매출" />
-        <Button onClick={handleSetMonthSalesStatic} label="월매출" />
-        <Button onClick={handleSetYearSalesStatic} label="년매출" />
+        <div className="statistic__shortBtnsWrap">
+          <Button onClick={handleTodaySalesStatic} label="오늘매출" />
+          <Button onClick={handleThisMonthSalesStatic} label="이번달매출" />
+          <Button onClick={handleSetDaySalesStatic} label="일매출" />
+          <Button onClick={handleSetMonthSalesStatic} label="월매출" />
+          <Button onClick={handleSetYearSalesStatic} label="년매출" />
+        </div>
         <div className="flex-grid">
-          <div className="flex-grid__col col--full-6">
+          <div className="flex-grid__col col--full-6 col--wmd-12">
             <Card fullHeight>
-              <div className="statistic__iconsWrap">
-                <JDIcon
-                  onClick={() => {
-                    setViewMode(IGraphViewMode.list);
-                  }}
-                  selected={viewMode === "list"}
-                  hover
-                  icon="checkList"
-                />
-                <JDIcon
-                  onClick={() => {
-                    setViewMode(IGraphViewMode.line);
-                  }}
-                  selected={viewMode === IGraphViewMode.line}
-                  hover
-                  icon="graphLine"
-                />
-                <JDIcon
-                  onClick={() => {
-                    setViewMode(IGraphViewMode.pie);
-                  }}
-                  selected={viewMode === IGraphViewMode.pie}
-                  hover
-                  icon="graphPie"
-                />
-              </div>
-              <Preloader floating size="large" loading={loading} />
               <div>
-                {viewMode === IGraphViewMode.pie && (
-                  <Doughnut data={graphData} />
+                {windowWidth > WindowSize.TABLET && (
+                  <StaticIcons
+                    context={context}
+                    viewMode={viewMode}
+                    setViewMode={setViewMode}
+                  />
                 )}
-                {viewMode === IGraphViewMode.line && <Line data={graphData} />}
-                {viewMode === IGraphViewMode.list && (
-                  <JDtable
-                    inClassNames="statistic__table"
-                    {...ReactTableDefault}
-                    data={
-                      graphData.datasets ? graphData.datasets[0].data || [] : []
-                    }
-                    columns={columns}
+                <Preloader floating size="large" loading={loading} />
+                <div>
+                  {viewMode === IGraphViewMode.pie && (
+                    <Doughnut data={graphData} />
+                  )}
+                  {viewMode === IGraphViewMode.line && (
+                    <Line data={graphData} />
+                  )}
+                  {viewMode === IGraphViewMode.list && (
+                    <JDtable
+                      inClassNames="statistic__table"
+                      {...ReactTableDefault}
+                      data={
+                        graphData.datasets
+                          ? graphData.datasets[0].data || []
+                          : []
+                      }
+                      columns={columns}
+                    />
+                  )}
+                </div>
+                {windowWidth > WindowSize.TABLET || (
+                  <Button
+                    mode="flat"
+                    onClick={() => {
+                      staticControllerModalHook.openModal();
+                    }}
+                    thema="primary"
+                    label="통계변경"
+                    icon="controller"
                   />
                 )}
               </div>
             </Card>
           </div>
-          <div className="flex-grid__col col--full-6">
-            <Card fullHeight>
-              <h6>통계 변환</h6>
-              <div>
-                <JDselect
-                  selectedOption={{value: "매출통계", label: "매출통계"}}
-                  onChange={value => {
-                    setQueryOp({
-                      ...queryOp,
-                      selectStatic: value.value
-                    });
-                  }}
-                  options={STATISTICS_OP}
-                  label="통계 보기"
+          {windowWidth > WindowSize.TABLET ? (
+            <div className="flex-grid__col col--full-6 col--wmd-12">
+              <Card fullHeight>
+                <StaticController
+                  staticsProps={staticsProps}
+                  context={context}
                 />
-              </div>
-              <div>
-                <JDdayPicker
-                  selectBeforeDay={false}
-                  {...queryDateHook}
-                  label="통계날자"
-                  input
-                />
-              </div>
-              <div>
-                <JDselect
-                  onChange={value => {
-                    setQueryOp({
-                      ...queryOp,
-                      unit: value.value
-                    });
-                  }}
-                  selectedOption={{
-                    value: queryOp.unit,
-                    label: SalesStatisticsUnitKr[queryOp.unit]
-                  }}
-                  options={STATISTICS_TYPE_OP}
-                  label="보기 단위"
-                />
-              </div>
-            </Card>
-          </div>
+              </Card>
+            </div>
+          ) : (
+            <StaticsControllerModal
+              context={context}
+              staticsProps={staticsProps}
+              modalHook={staticControllerModalHook}
+            />
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-export default Statistic;
+export default reactWindowSize(Statistic);

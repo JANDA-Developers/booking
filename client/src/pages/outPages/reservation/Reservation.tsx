@@ -145,7 +145,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
 
   const resvConfirmCallBackFunc = (flag: boolean) => {
     if (flag) {
-      const publicKey = localStorage.getItem("hpk");
+      const publicKey = sessionStorage.getItem("hpk");
       const {name, password, phoneNumber} = bookerInfo;
       location.href = insideRedirect(
         `outpage/checkReservation/${publicKey}/${name}/${phoneNumber}/${password}`
@@ -301,10 +301,6 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
           "bookingTransaction"
         );
 
-        console.log(transactionId);
-        console.log(transactionId);
-        console.log(transactionId);
-
         if (transactionId) {
           openNiceModal({resvInfo: startBookingVariables, transactionId});
         }
@@ -314,7 +310,11 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
         const result = await createBookingMu({
           variables: {
             bookingParams: {
-              bookerParams: {...bookerInfo, price: priceHook[0]},
+              bookerParams: {
+                ...bookerInfo,
+                house: houseId,
+                price: priceHook[0]
+              },
               checkIn: dayPickerHook.from,
               checkOut: dayPickerHook.to,
               guestInputs: resvRooms

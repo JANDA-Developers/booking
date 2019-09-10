@@ -41,7 +41,7 @@ const client = new ApolloClient({
     operation.setContext({
       headers: {
         "X-JWT": localStorage.getItem("jwt") || "",
-        "HP-Key": localStorage.getItem("hpk") || "",
+        "HP-Key": sessionStorage.getItem("hpk") || "",
         "HM-Key": localStorage.getItem("hmk") || ""
       }
     });

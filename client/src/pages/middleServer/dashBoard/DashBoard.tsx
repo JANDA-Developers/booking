@@ -12,7 +12,7 @@ import JDLabel from "../../../atoms/label/JDLabel";
 import GreetingBox from "./components/greetingBox";
 import {MutationFn} from "react-apollo";
 import {updateHouse, updateHouseVariables, HouseType} from "../../../types/api";
-import {useInput} from "../../../actions/hook";
+import {useInput, useModal} from "../../../actions/hook";
 import Button from "../../../atoms/button/Button";
 import Steps from "../starterModal/comonent/steps";
 import JDmultiBox from "../../../atoms/multiBox/MultiBox";
@@ -26,6 +26,7 @@ import StarterModalWrap from "../starterModal/StarterModalWrap";
 import DaySalesWrap from "../../../components/shortStatisces/DaySalesWrap";
 import DayCheckIn from "../../../components/shortStatisces/DayCheckIn";
 import DayCheckInWrap from "../../../components/shortStatisces/DayCheckInWrap";
+import ReservationModal from "../../../components/reservationModala/ReservationModal";
 
 interface Iprops {
   context: IContext;
@@ -34,6 +35,7 @@ interface Iprops {
 
 // eslint-disable-next-line react/prop-types
 const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
+  const reservationModal = useModal();
   const {house, user} = context;
   return (
     <div className="docs-section--narrowTop">
@@ -51,6 +53,23 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
                 <Card className="JDcard--fullHeight JDcard--fullHeight-wmd">
                   <Fragment>
                     <h6>방배정현황</h6>
+                    <Button
+                      label="예약하기"
+                      size="small"
+                      float="right"
+                      mode="border"
+                      onClick={() => {
+                        reservationModal.openModal();
+                      }}
+                    />
+                    <ReservationModal
+                      context={context}
+                      houseId={house._id}
+                      modalHook={reservationModal}
+                      callBackCreateBookingMu={(foo: any) => {}}
+                      publicKey={house.publicKey || undefined}
+                      isAdmin
+                    />
                     <DailyAssigWrap context={context} date={new Date()} />
                   </Fragment>
                 </Card>

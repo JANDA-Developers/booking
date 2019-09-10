@@ -206,7 +206,7 @@
                     // 과거의
                     &--past {
                         background-color: $blue-opacity1;
-                        z-index:9999999999999999999999999999;
+                        z-index: 80;
                         box-sizing: initial;
                         border-color: $grey-opacity2;
                         pointer-events: all!important;

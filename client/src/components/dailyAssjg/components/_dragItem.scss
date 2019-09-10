@@ -1,0 +1,64 @@
+.dailyAssigItem  {
+    &__place {
+        &:last-child {
+            .dailyAssigItem__itemBlock {
+                border-bottom: none;
+            }
+        }
+    }
+
+    &__itemBlockWrap {
+    }
+    
+    &__itemBlock {
+        height: $standard-height / 2;
+        padding: $assigItem-padding;
+        border-bottom: 1px solid $grey-opacity1;
+    }
+
+    &__block {
+        padding: $assigItem-padding;
+        background-color: $assigItem-block-color;
+        display: flex;
+        color: white;
+        align-items: center;
+        flex: unset;
+        * {
+            flex: unset;
+        }
+    }
+
+    &__guest {
+        justify-content: space-between;
+        background-color: $assigItem-normalStatus-color;
+        display: flex;
+        color: white;
+        align-items: center;
+        flex: unset;
+        * {
+            flex: unset;
+        }
+
+        &--checkIn {
+            background-color: $assigItem-checkIn-color;
+            color: $assigItem-checkIn-color-on;
+        }
+    }
+
+    &__itemName {
+        white-space: nowrap;
+        text-overflow: hidden;
+    }
+    &__empty {
+        color: $grey-level1;
+    }
+
+    #root &__configIconWrap {
+        top: 0;
+        flex: 0 0;
+        &:hover {
+            color: $grey-level1;
+            cursor: pointer;
+        }
+    }    
+}

@@ -38,9 +38,6 @@ const JDdayPickerInput: React.FC<IProps> = ({
   inputComponent: InputComponent,
   ...props
 }) => {
-  console.log(dayPickerProps);
-  console.log(dayPickerProps);
-  console.log(dayPickerProps);
   let DayPickerInputRef: DayPickerInput | null = null;
   const isInitialMount = useRef(true);
 

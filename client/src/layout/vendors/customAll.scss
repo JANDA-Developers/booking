@@ -116,6 +116,11 @@ a.JDanchor {
     justify-content: space-between;
 }
 
+.JDflex--spaceAround {
+    display:flex;
+    justify-content: space-around;
+}
+
 .JDflex--vCenter {
     display:flex;
     line-height: 0;

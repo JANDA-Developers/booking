@@ -49,7 +49,7 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
   const baseItemCalsses = `assigItem--booking${item.bookingId}`;
   const classNames = classnames("assigItem", baseItemCalsses, {
     "assigItem--selected": itemContext.selected,
-    "assigItem--checkIn": item.isCheckin,
+    "assigItem--checkIn": item.checkInInfo,
     "assigItem--block": item.type === GuestTypeAdd.BLOCK,
     "assigItem--mark": item.type === GuestTypeAdd.MARK,
     "assigItem--make": item.type === GuestTypeAdd.MAKE,

@@ -1,6 +1,6 @@
 /* eslint-disable react/forbid-prop-types */
 import React, {Fragment} from "react";
-import {Route, Switch, Redirect} from "react-router-dom";
+import {Route, Switch, Redirect, RouteComponentProps} from "react-router-dom";
 import {graphql, compose} from "react-apollo";
 import {Helmet} from "react-helmet";
 import Header from "../components/headers/HeaderWrap";
@@ -45,7 +45,7 @@ import {
   getMyProfile_GetMyProfile_user_houses_product
 } from "../types/api";
 
-export interface IContext {
+export interface IContext extends RouteComponentProps<any> {
   user: getMyProfile_GetMyProfile_user;
   isLogIn: boolean;
   house: IHouse;
@@ -101,7 +101,7 @@ const JDmiddleServer: React.FC<IProps> = ({
   }
 
   // TODO  전부 context로 벼환
-  const context: IContext = {
+  const context = {
     user,
     isLogIn,
     house: selectedHouse,
@@ -132,27 +132,33 @@ const JDmiddleServer: React.FC<IProps> = ({
       </Helmet>
       {/* 헤더 */}
       <Route
-        render={() => (
+        render={props => {
+          const propContext = Object.assign(context, props);
           // @ts-ignore
-          <Header context={context} />
-        )}
+          return <Header context={propContext} />;
+        }}
       />
 
       {/* 라우팅 시작 */}
       <Switch>
         {/* 인덱스 */}
         {["/", "/middleServer", "dashBoard"].map(path => (
-          <Route key={path} exact path={path}>
-            {/* 대쉬보드 */}
-            {isLogIn ? (
-              <Route
-                exact
-                component={() => <DashBoard {...sharedComponentProps} />}
-              />
-            ) : (
-              <Login />
-            )}
-          </Route>
+          <Route
+            key={path}
+            exact
+            path={path}
+            render={props => {
+              const contextWithRotuer = Object.assign(context, props);
+              return isLogIn ? (
+                <Route
+                  exact
+                  component={() => <DashBoard context={contextWithRotuer} />}
+                />
+              ) : (
+                <Login />
+              );
+            }}
+          />
         ))}
         {/* 마이 페이지 */}
         <Route
@@ -172,7 +178,7 @@ const JDmiddleServer: React.FC<IProps> = ({
         <Route
           exact
           path="/config"
-          render={() =>
+          render={props =>
             isLogIn ? <ConfigWrap {...sharedComponentProps} /> : <Login />
           }
         />
@@ -224,7 +230,9 @@ const JDmiddleServer: React.FC<IProps> = ({
           <Route
             exact
             path="/ready"
-            render={() => (isLogIn ? <Ready context={context} /> : <Login />)}
+            render={() => {
+              return isLogIn ? <Ready context={context} /> : <Login />;
+            }}
           />
         )}
         {/* /* ------------------------------ JANDA BOOKING ----------------------------- */}{" "}
@@ -232,7 +240,10 @@ const JDmiddleServer: React.FC<IProps> = ({
         <Route
           exact
           path="/assigTimeline"
-          render={() => <AssigTimeline {...sharedComponentProps} />}
+          render={props => {
+            const propContext = Object.assign(context, props);
+            return <AssigTimeline context={propContext} />;
+          }}
         />
         {/* 하우스 메뉴얼 */}
         <Route

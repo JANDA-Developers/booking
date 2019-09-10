@@ -281,7 +281,7 @@ const POPbookingInfo: React.FC<IProps> = ({
         params: {
           email: "demo@naver.com",
           memo: memoHook.value,
-          isCheckIn: {
+          checkInInfo: {
             isIn: bookingData.checkIn.isIn || false
           },
           name: bookingNameHook.value,

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, {useState} from "react";
+import React, {useState, useCallback, useMemo} from "react";
 import {Query, Mutation} from "react-apollo";
 import moment from "moment-timezone";
 import _ from "lodash";
@@ -126,12 +126,10 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
     )
   });
 
-  const blockDataManufacture = (blocksData: IBlock[] | null | undefined) => {
+  const blockDataManufacture = (blocksData: IBlock[]) => {
     const alloCateItems: IAssigItem[] = [];
 
-    if (!blocksData) return alloCateItems;
     blocksData.forEach((blockData, index) => {
-      console.log(blockData);
       if (blockData) {
         alloCateItems.push({
           ...DEFAULT_ASSIG_ITEM,
@@ -154,9 +152,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
 
   //  TODO: 메모를 사용해서 데이터를 아끼자
   // 게스트 데이터를 달력에서 쓸수있는 Item 데이터로 변경 절차
-  const guestsDataManufacture = (
-    allGuestsData: IGuests[] | null | undefined = []
-  ) => {
+  const guestsDataManufacture = (allGuestsData: IGuests[]) => {
     const alloCateItems: IAssigItem[] = [];
     if (!allGuestsData) return alloCateItems;
 
@@ -191,7 +187,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
           name: name,
           loading: false,
           bookingId: bookingId,
-          isCheckin: checkIn.isIn,
+          checkInInfo: checkIn.isIn,
           gender: gender,
           roomTypeId: roomType._id,
           showNewBadge: isNew && !isConfirm,
@@ -234,7 +230,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
       query={GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM}
       variables={{
         ...updateVariables,
-        bookingStatus: BookingStatus.COMPLETE
+        bookingStatuses: [BookingStatus.COMPLETE, BookingStatus.READY]
       }}
     >
       {({data, loading, error, stopPolling, startPolling, networkStatus}) => {
@@ -245,24 +241,14 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
           undefined
         ); // 원본데이터
 
-        const guestsData = queryDataFormater(
-          data,
-          "GetGuests",
-          "guests",
-          undefined
-        ); // 원본데이터
+        const guestsData =
+          queryDataFormater(data, "GetGuests", "guests", []) || [];
 
-        const blocks = queryDataFormater(
-          data,
-          "GetBlocks",
-          "blocks",
-          undefined
-        );
+        const blocks = queryDataFormater(data, "GetBlocks", "blocks", []) || [];
 
         const formatedRoomData = roomDataManufacture(roomTypesData); // 타임라인을 위해 가공된 데이터
         const formatedGuestsData = guestsDataManufacture(guestsData); // 타임라인을 위해 가공된 데이터
         const formatedBlockData = blockDataManufacture(blocks); // 타임라인을 위해 가공된 데이터
-
         const formatedItemData = formatedGuestsData.concat(formatedBlockData);
 
         return (
