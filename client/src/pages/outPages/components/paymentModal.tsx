@@ -13,6 +13,7 @@ import {
 } from "../../../types/enum";
 import CheckBox from "../../../atoms/forms/checkBox/CheckBox";
 import Preloader from "../../../atoms/preloader/Preloader";
+import {developEvent, reservationDevelop} from "../../../utils/developMaster";
 
 interface IProps {
   className?: string;
@@ -43,6 +44,7 @@ const PayMentModal: React.SFC<IProps> = ({
   const onPayRequest = () => {
     bookingCompleteFn();
   };
+
   return (
     <JDmodal className={classes} {...modalHook}>
       <Preloader size={"large"} loading={createLoading} />

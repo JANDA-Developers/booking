@@ -54,6 +54,7 @@ import {openNiceModal} from "../components/doPay";
 import {isMobile} from "is-mobile";
 import JDanimation, {Animation} from "../../../atoms/animation/Animations";
 import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
+import {reservationDevelop, developEvent} from "../../../utils/developMaster";
 
 export interface IBookerInfo {
   name: string;
@@ -154,6 +155,10 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
       location.reload();
     }
   };
+
+  developEvent(() => {
+    reservationDevelop(reservationHooks);
+  });
 
   // 날자를 선택하면 예약선택 상태 초기화
   useEffect(() => {
@@ -406,6 +411,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
             />
           </Card>
           <Button
+            id="ResvBtn"
             thema="primary"
             onClick={handleResvBtnClick}
             label="예약하기"

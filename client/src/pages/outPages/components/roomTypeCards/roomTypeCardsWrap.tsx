@@ -28,6 +28,7 @@ import {getAveragePrice} from "../../../../utils/booking";
 import moment from "moment";
 import {Gender} from "../../../../types/enum";
 import {IBookerInfo, IReservationHooks} from "../../reservation/Reservation";
+import {isDeveloper} from "../../../../utils/developMaster";
 
 class GetAvailGuestCountQu extends Query<
   getCapacityToRoomType,
@@ -67,7 +68,7 @@ const RoomTypeCardsWrap: React.SFC<IProps> = ({
   } = reservationHooks;
   // 이건 독립 state용이다. 실제 선택된것은 resvRooms에 있으며 이건 선택완료 누르기 전까지의 상태이다.
   const [guestCountValue, setGuestCount] = useState<IGuestCount>({
-    male: 0,
+    male: isDeveloper() ? 1 : 0,
     female: 0,
     room: 0,
     get: Gender.MALE

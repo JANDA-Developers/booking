@@ -44,6 +44,7 @@ import {
   getMyProfile_GetMyProfile_user,
   getMyProfile_GetMyProfile_user_houses_product
 } from "../types/api";
+import {setCookie} from "../utils/cookies";
 
 export interface IContext extends RouteComponentProps<any> {
   user: getMyProfile_GetMyProfile_user;
@@ -87,6 +88,9 @@ const JDmiddleServer: React.FC<IProps> = ({
 
   const applyedProduct = (selectedHouse && selectedHouse.product) || undefined;
   const {isPhoneVerified, userRole, profileImg} = user;
+
+  // 디벨롭을 도와줌
+  if (userRole === "DEVELOPER") setCookie("isDeveloper", "Y", 1);
 
   // houseConfig Null 제거
   // default를 관리해주어라
