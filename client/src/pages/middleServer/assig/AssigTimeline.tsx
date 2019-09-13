@@ -172,6 +172,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
       (block, index) => (block.itemIndex = newIndexStart + index)
     );
 
+    console.log("??🎅");
     setGuestValue(deafultGuestsData.concat(volatilityBlocks));
   }, [JSON.stringify(deafultGuestsData)]);
 
@@ -200,10 +201,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     houseId: house._id
   };
 
-  const assigUtils = useMemo(
-    () => getAssigUtils(assigHooks, assigDataControl, assigContext),
-    [assigContext.houseId, assigContext.isMobile]
-  );
+  const assigUtils = getAssigUtils(assigHooks, assigDataControl, assigContext);
 
   const {assigTimeline} = houseConfig;
   if (!assigTimeline) {
@@ -220,10 +218,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     toogleCheckInOut
   } = assigUtils;
 
-  const assigHandler = useMemo(
-    () => getAssigHandlers(assigUtils, assigContext, assigHooks),
-    []
-  );
+  const assigHandler = getAssigHandlers(assigUtils, assigContext, assigHooks);
 
   const {
     handleCanvasClick,

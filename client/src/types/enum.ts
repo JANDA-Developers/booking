@@ -8,6 +8,7 @@ export enum UserRole {
   ADMIN = "ADMIN",
   GHOST = "GHOST",
   GUEST = "GUEST",
+  DEVELOPER = "DEVELOPER",
   HOST = "HOST"
 }
 
@@ -507,3 +508,5 @@ export const StaticColors = [
   "#2AA876",
   "#0A7B83"
 ];
+
+export const Standard_PreloaderFloatingSize = "small";

@@ -16,8 +16,30 @@
     }
 }
 
+
 #root,.ReactModalPortal {
+    
+.DayPicker--unDisplayInfo {
+    .DayPicker--horizen {
+        margin-bottom: 0;
+    }
+}
 .DayPicker {
+    &--unDisplayInfo {
+        .JDdatePcikerInformation {
+            display: none;
+        }
+    }
+    &--unDisplayCaption {
+        .DayPicker-Caption {
+            display: none;
+        }
+    }
+    &--unDisplayNavbar {
+        .DayPicker-NavBar {
+            display: none;
+        }
+    }
 
     // 오른쪽으로
     &.DayPicker--right {
@@ -77,32 +99,11 @@
             &__arrow {
                 position: relative;
                 z-index: $z-index-8;
+                &--left {
+                    margin-right: $standard-small-space;
+                }
             }
-            .JDinput-wrap {
-                position:static;
-                opacity: 0;
-                padding:0;
-            }
-            .JDinput {
-                position:absolute;
-                top:0;
-                bottom: 0;
-                left:0;
-                right:0;
-                cursor: pointer;
-                height: 100%;
-                margin:0;
-                padding: 0;
-            }
-            .JDinput_label {
-                display:none;
-            }
-            .JDinput-iconWrap {
-                display:none;
-            }
-            .DayPicker--input {
-                top:auto;
-            }
+            
         }
     }
 
@@ -112,7 +113,6 @@
 
     border: $daypicker-border;
     border-radius: $daypicker-border-radius;
-    margin-bottom: $daypicker-margin-bottom;
 
     &--maxLimit {
         max-width: $daypicker-block-height * 7;

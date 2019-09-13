@@ -25,7 +25,8 @@ const DragItem: React.FC<IProps> = ({item}) => {
     return (
       <div className="dailyAssigItem__itemBlockWrap">
         <div className="dailyAssigItem__itemBlock dailyAssigItem__empty dailyAssigItem__guestBlock">
-          빈자리
+          {" "}
+          -{" "}
         </div>
       </div>
     );

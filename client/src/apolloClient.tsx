@@ -52,7 +52,6 @@ const client = new ApolloClient({
   onError: ({graphQLErrors, networkError}) => {
     if (graphQLErrors) {
       graphQLErrors.map(({message, locations, path}) => {
-        // 이건 DEV 용 메세지임 showError가 기타 에러 처리할것임
         console.warn(
           `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
         );

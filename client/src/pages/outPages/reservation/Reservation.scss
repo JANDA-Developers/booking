@@ -12,7 +12,6 @@ $roomCardHeight: 130px;
 
 #JDreservation {
     // 😆 어떻게 그리드 시스템을 오버라이드 하는지 보여줌
-
     .flex-grid {
 
         @include grid-system(full);
@@ -24,8 +23,25 @@ $roomCardHeight: 130px;
         @include grid-system(sm);
     }
 
+    @include response($tablet) {
+        .JDreservation__topDayPicker {
+            .DayPicker {
+                border:none;
+            }
+        }
+    }
 
     .JDreservation {
+        
+        &__mobileRoomSearcherWrap {
+            background-image:url("https://res.cloudinary.com/stayjanda-com/image/upload/v1554029858/qweqweqwe.jpg");
+            background-size: cover;
+            background-position: center center;
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 85vh;
+        }
 
         &__cardMessage {
             height: $standard-height * 4;
@@ -54,6 +70,10 @@ $roomCardHeight: 130px;
         
         &__sectionTitle {
             text-align: center;
+
+            @include response($mobile) {
+                display: none;
+            }
         }
 
     }
@@ -61,7 +81,7 @@ $roomCardHeight: 130px;
     .roomTypeCard {
         border-radius: $standard-border-radius;
         height: $roomCardHeight;
-        border: 1px solid $standard-outborder-color;
+        border: 1px solid $grey-level1;
         position: relative;
         margin-bottom: $standard-margin-bottom;
 
@@ -152,6 +172,7 @@ $roomCardHeight: 130px;
 
         }
     }
+    
 }
 
 .paymentModal {

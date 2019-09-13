@@ -9,7 +9,7 @@ import Timeline, {
   SharedSideBarHeader
 } from "../../../atoms/timeline/Timeline";
 import ErrProtecter from "../../../utils/errProtect";
-import "./PriceTimeline.scss";
+import "./DailyPrice.scss";
 import {
   getAllRoomTypePrice_GetAllRoomType_roomTypes as IRoomType,
   createDailyPrice,
@@ -18,7 +18,7 @@ import {
   deleteDailyPriceVariables
 } from "../../../types/api";
 import Preloader from "../../../atoms/preloader/Preloader";
-import {IItem} from "./PriceTimelineWrap";
+import {IItem} from "./DailyPriceWrap";
 import InputText from "../../../atoms/forms/inputText/InputText";
 import {
   IUseDayPicker,
@@ -189,6 +189,7 @@ const ModifyTimeline: React.FC<IProps & WindowSizeProps> = ({
 
     return (
       <div
+        className="dailyPrice__cellWrap"
         style={{...props.style, backgroundColor: "transparent", border: "none"}}
       >
         <InputText
@@ -239,100 +240,102 @@ const ModifyTimeline: React.FC<IProps & WindowSizeProps> = ({
   const modifySideBarRendererFn = () => <div className="modify__sideTop" />;
 
   return (
-    <div id="specificPrice" className="specificPrice container container--full">
-      <div className="docs-section">
-        <h3>상세가격 수정</h3>
-        <p className="JDtextColor--point">
-          * 해당 가격 수정은 모든 가격설정중 최우선 적용 됩니다.
-        </p>
-        <div className="flex-grid flex-grid--end">
-          <div className="flex-grid__col col--full-4 col--lg-4 col--md-6" />
-        </div>
-        <div className="ModifyTimeline__timelineWrapScroll">
-          <div className="ModifyTimeline__timelineWrap specificPrice__timeline">
-            <Timeline
-              {...defaultProps}
-              {...timelineProps}
-              items={items || []}
-              groups={roomTypesData || []}
-              onTimeChange={handleTimeChange}
-              defaultTimeStart={defaultTime.start}
-              defaultTimeEnd={
-                isTabletDown
-                  ? defaultTime.end - TimePerMs.DAY * ASSIG_VISIBLE_CELL_MB_DIFF
-                  : defaultTime.end
-              }
-              itemRenderer={itemRendererFn}
-              groupRenderer={ModifyGroupRendererFn}
-              sidebarContent={modifySideBarRendererFn()}
-              sidebarWidth={isMobile ? 100 : 230}
-            >
-              <TimelineHeaders>
-                <SidebarHeader>
-                  {({getRootProps}: any) => (
-                    <SharedSideBarHeader
-                      getRootProps={getRootProps}
-                      dayPickerHook={dayPickerHook}
-                    />
-                  )}
-                </SidebarHeader>
-                <DateHeader
-                  intervalRenderer={({
-                    getIntervalProps,
-                    intervalContext
-                  }: any) => {
-                    const {startTime} = intervalContext.interval;
-                    const isToday = startTime.isSame(new Date(), "day");
+    <div id="dailyPrice">
+      <div className="dailyPrice container container--full">
+        <div className="docs-section">
+          <h3>상세가격 수정</h3>
+          <p className="JDtextColor--point">
+            * 해당 가격 수정은 모든 가격설정 중 최우선 적용 됩니다.
+          </p>
+          <div className="flex-grid flex-grid--end">
+            <div className="flex-grid__col col--full-4 col--lg-4 col--md-6" />
+          </div>
+          <div className="ModifyTimeline__timelineWrapScroll">
+            <div className="ModifyTimeline__timelineWrap dailyPrice__timeline">
+              <Timeline
+                {...defaultProps}
+                {...timelineProps}
+                items={items || []}
+                groups={roomTypesData || []}
+                onTimeChange={handleTimeChange}
+                defaultTimeStart={defaultTime.start}
+                defaultTimeEnd={
+                  isTabletDown
+                    ? defaultTime.end - TimePerMs.DAY * 5
+                    : defaultTime.end
+                }
+                itemRenderer={itemRendererFn}
+                groupRenderer={ModifyGroupRendererFn}
+                sidebarContent={modifySideBarRendererFn()}
+                sidebarWidth={isMobile ? 100 : 230}
+              >
+                <TimelineHeaders>
+                  <SidebarHeader>
+                    {({getRootProps}: any) => (
+                      <SharedSideBarHeader
+                        getRootProps={getRootProps}
+                        dayPickerHook={dayPickerHook}
+                      />
+                    )}
+                  </SidebarHeader>
+                  <DateHeader
+                    intervalRenderer={({
+                      getIntervalProps,
+                      intervalContext
+                    }: any) => {
+                      const {startTime} = intervalContext.interval;
+                      const isToday = startTime.isSame(new Date(), "day");
 
-                    const holiday = holidays.find(holiday => {
-                      const result = moment(
-                        holiday.locdate.toString(),
-                        "YYYYMMDD"
-                      ).isSame(startTime, "day");
+                      const holiday = holidays.find(holiday => {
+                        const result = moment(
+                          holiday.locdate.toString(),
+                          "YYYYMMDD"
+                        ).isSame(startTime, "day");
 
-                      return result;
-                    });
+                        return result;
+                      });
 
-                    return (
-                      <div
-                        className={`rct-dateHeader ${isToday &&
-                          "rct-dateHeader--today"}`}
-                        {...getIntervalProps()}
-                        onClick={() => {}}
-                      >
-                        <div className="rct-dateHeader__inner">
-                          {intervalContext.intervalText
-                            .replace("요일,", ", ")
-                            .replace(/[0-9]{4}년/, "")}
+                      return (
+                        <div
+                          className={`rct-dateHeader ${isToday &&
+                            "rct-dateHeader--today"}`}
+                          {...getIntervalProps()}
+                          onClick={() => {}}
+                        >
+                          <div className="rct-dateHeader__inner">
+                            {intervalContext.intervalText
+                              .replace("요일,", ", ")
+                              .replace(/[0-9]{4}년/, "")}
+                          </div>
+
+                          {holiday && (
+                            <Fragment>
+                              <JDbadge
+                                data-tip
+                                data-for={`holidayTooltip--${holiday.locdate}`}
+                                thema={"error"}
+                              >
+                                공휴일
+                              </JDbadge>
+                              <Tooltip
+                                id={`holidayTooltip--${holiday.locdate}`}
+                                class="JDtooltip"
+                              >
+                                {holiday.dateName}
+                              </Tooltip>
+                            </Fragment>
+                          )}
                         </div>
-
-                        {holiday && (
-                          <Fragment>
-                            <JDbadge
-                              data-tip
-                              data-for={`holidayTooltip--${holiday.locdate}`}
-                              thema={"error"}
-                            >
-                              공휴일
-                            </JDbadge>
-                            <Tooltip
-                              id={`holidayTooltip--${holiday.locdate}`}
-                              class="JDtooltip"
-                            >
-                              {holiday.dateName}
-                            </Tooltip>
-                          </Fragment>
-                        )}
-                      </div>
-                    );
-                  }}
-                  height={GlobalCSS.TIMELINE_HEADER_HEIGHT}
-                  unit="day"
-                />
-              </TimelineHeaders>
-            </Timeline>
-            <PriceWarnModal modalHook={priceWarnModalHook} />
-            <Preloader size="large" loading={loading} />
+                      );
+                    }}
+                    height={GlobalCSS.TIMELINE_HEADER_HEIGHT}
+                    unit="day"
+                  />
+                </TimelineHeaders>
+              </Timeline>
+              <PriceWarnModal modalHook={priceWarnModalHook} />
+              <Preloader size="large" loading={loading} />
+            </div>
           </div>
         </div>
       </div>

@@ -7,11 +7,13 @@ import TooltipList, {
 } from "../../../atoms/tooltipList/TooltipList";
 import {NavLink} from "react-router-dom";
 import Button from "../../../atoms/button/Button";
-import {IUseModal} from "../../../actions/hook";
+import {IUseModal, useModal} from "../../../actions/hook";
 import {insideRedirect, isEmpty} from "../../../utils/utils";
-import {UserRole} from "../../../types/enum";
+import {UserRole, MemoType} from "../../../types/enum";
 import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
 import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
+import MemoModal from "../../Memo/MemoModal";
+import HouseCard from "../../../pages/middleServer/super/components/houseCard";
 interface Iprops {
   context: IContext;
   logOutMutation: any;
@@ -25,6 +27,7 @@ const SharedHeaderComponent: React.FC<Iprops> = ({
 }) => {
   const {user} = context;
   const {isPhoneVerified} = user;
+  const memoModalHook = useModal();
   // 툴팁내용
   // 모바일
   // 로그인후 헤더우측 상단 메뉴
@@ -108,7 +111,7 @@ const SharedHeaderComponent: React.FC<Iprops> = ({
   const {isLogIn} = context;
   return (
     <Fragment>
-      <span className="JDstandard-space">
+      <span>
         {isEmpty(context.house) || (
           <NotificationWrap
             icon={
@@ -120,9 +123,26 @@ const SharedHeaderComponent: React.FC<Iprops> = ({
           />
         )}
       </span>
+      <span className="JDstandard-space">
+        {isEmpty(context.house) || (
+          <CircleIcon
+            onClick={() => {
+              memoModalHook.openModal();
+            }}
+            size={IconSize.MEDIUM}
+          >
+            <JDIcon color="white" size={IconSize.MEDIUM} icon="memo" />
+          </CircleIcon>
+        )}
+      </span>
       <TooltipList id="tooltip_user">
         <ul>{isLogIn ? <LoginIconMenu /> : <UnLoginIconMenu />}</ul>
       </TooltipList>
+      <MemoModal
+        memoType={MemoType.HOST}
+        context={context}
+        modalHook={memoModalHook}
+      />
     </Fragment>
   );
 };

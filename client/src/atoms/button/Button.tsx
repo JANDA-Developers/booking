@@ -20,7 +20,7 @@ interface IProps extends React.HTMLAttributes<HTMLButtonElement> {
   dataTip?: any;
   dataFor?: any;
   mode?: "flat" | "normal" | "border";
-  size?: "small" | "large" | "long";
+  size?: "small" | "large" | "long" | "longLarge";
   flat?: boolean;
   float?: string;
   type?: "button" | "submit" | "reset" | undefined;
@@ -68,8 +68,8 @@ const Button: React.FC<IProps> = ({
   const classes = classNames("JDbtn", className, {
     "JDbtn--flat": mode === "flat" || flat,
     "JDbtn--small": size === "small",
-    "JDbtn--large": size === "large",
-    "JDbtn--long": size === "long",
+    "JDbtn--large": size === "large" || size === "longLarge",
+    "JDbtn--long": size === "long" || size === "longLarge",
     "JDbtn--border": mode === "border",
     "JDbtn--left": float === "left",
     "JDbtn--right": float === "right",

@@ -48,7 +48,8 @@ const DailyAssigNew: React.FC<IProps> = ({
     loading,
     dayPickerHook,
     roomTypesData,
-    itemDatas
+    itemDatas,
+    calendarPosition
   } = outDailyAssigContext;
   const bookingModalHook = useModal(false);
   const confirmModalHook = useModal(false);
@@ -103,24 +104,37 @@ const DailyAssigNew: React.FC<IProps> = ({
     });
   };
 
+  const DailyAssigDayPicker = () => (
+    <JDdayPicker
+      isRange={false}
+      input
+      canSelectBeforeDay={false}
+      label="달력날자"
+      {...dayPickerHook}
+      className="JDwaves-effect JDoverflow-visible"
+      inputComponent={
+        <ArrowDayByDay format={"MM월 DD일"} dayPickerHook={dayPickerHook} />
+      }
+    />
+  );
+
   return (
     <div className="dailyAssigWrap">
-      <div className="dailyAssig__dayPicker">
-        <JDdayPicker
-          isRange={false}
-          input
-          selectBeforeDay={false}
-          label="달력날자"
-          {...dayPickerHook}
-          className="JDwaves-effect JDoverflow-visible"
-          inputComponent={<ArrowDayByDay dayPickerHook={dayPickerHook} />}
-        />
+      <div className="dailyAssig__dayPicker--center">
+        {calendarPosition === "center" && <DailyAssigDayPicker />}
       </div>
       <Preloader noAnimation size="medium" loading={loading || false} />
       <div className="dailyAssig">
-        {roomTypesData.map(roomType => (
+        {roomTypesData.map((roomType, index) => (
           <div key={`roomType${roomType._id}`} className="dailyAssig__row">
-            <div className="dailyAssig__roomTypeTittle">{roomType.name}</div>
+            <div className="dailyAssig__roomTypeTittle">
+              {index === 0 && calendarPosition === "inside" && !isMobile() && (
+                <span className="dailyAssig__dayPicker--inside">
+                  <DailyAssigDayPicker />
+                </span>
+              )}
+              {roomType.name}
+            </div>
             <DndProvider backend={isMobile() ? TouchBackend : HTML5Backend}>
               <div className="dailyAssig__roomsWrap">
                 {roomType.rooms.map(room => {

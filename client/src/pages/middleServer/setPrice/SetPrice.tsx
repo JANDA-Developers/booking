@@ -284,7 +284,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
           label="저장하기"
           thema="point"
         />
-        <Link to="/specificPrice">
+        <Link to="/dailyPrice">
           <Button icon="arrowTo" label="일별가격 설정" mode="border" />
         </Link>
         <JDtable

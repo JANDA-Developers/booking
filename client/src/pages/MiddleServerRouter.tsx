@@ -23,7 +23,7 @@ import {
   SuperMain,
   SetPrice,
   Qna,
-  PriceTimeline,
+  DailyPrice,
   Sms,
   ResvList,
   SmsHistory,
@@ -217,7 +217,7 @@ const JDmiddleServer: React.FC<IProps> = ({
           exact
           path="/superAdmin"
           render={() =>
-            userRole === UserRole.ADMIN ? (
+            userRole === UserRole.ADMIN || userRole === UserRole.DEVELOPER ? (
               <SuperMain context={context} />
             ) : (
               <NoMatch />
@@ -258,12 +258,12 @@ const JDmiddleServer: React.FC<IProps> = ({
         {/* 자세한 가격설정 */}
         <Route
           exact
-          path="/specificPrice"
+          path="/dailyPrice"
           render={() =>
             isEmpty(selectedHouse) ? (
               <NoMatch />
             ) : (
-              <PriceTimeline {...sharedComponentProps} />
+              <DailyPrice {...sharedComponentProps} />
             )
           }
         />

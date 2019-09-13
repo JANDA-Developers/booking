@@ -12,7 +12,7 @@ import JDLabel from "../../../atoms/label/JDLabel";
 import GreetingBox from "./components/greetingBox";
 import {MutationFn} from "react-apollo";
 import {updateHouse, updateHouseVariables, HouseType} from "../../../types/api";
-import {useInput, useModal} from "../../../actions/hook";
+import {useInput, useModal, useDayPicker} from "../../../actions/hook";
 import Button from "../../../atoms/button/Button";
 import Steps from "../starterModal/comonent/steps";
 import JDmultiBox from "../../../atoms/multiBox/MultiBox";
@@ -27,6 +27,11 @@ import DaySalesWrap from "../../../components/shortStatisces/DaySalesWrap";
 import DayCheckIn from "../../../components/shortStatisces/DayCheckIn";
 import DayCheckInWrap from "../../../components/shortStatisces/DayCheckInWrap";
 import ReservationModal from "../../../components/reservationModala/ReservationModal";
+import JDIcon from "../../../atoms/icons/Icons";
+import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
+import {isMobile as getIsMobile} from "is-mobile";
+import TooltipList from "../../../atoms/tooltipList/TooltipList";
+import DayPickerModal from "../../../components/dayPickerModal/dayPickerModal";
 
 interface Iprops {
   context: IContext;
@@ -36,7 +41,11 @@ interface Iprops {
 // eslint-disable-next-line react/prop-types
 const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
   const reservationModal = useModal();
+  const dayPickerModalHook = useModal();
+  const dailyAssigDateHook = useDayPicker(new Date(), new Date());
   const {house, user} = context;
+  const isMobile = getIsMobile();
+
   return (
     <div className="docs-section--narrowTop">
       <div id="dashBoard" className="dashBoard">
@@ -48,20 +57,20 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
             <div className="flex-grid JDstandard-margin-bottom">
               <div
                 className={`flex-grid__col col--wmd-12
-                col--full-${house ? "9" : "12"}`}
+                col--full-12`}
               >
                 <Card className="JDcard--fullHeight JDcard--fullHeight-wmd">
                   <Fragment>
                     <h6>방배정현황</h6>
-                    <Button
-                      label="예약하기"
-                      size="small"
-                      float="right"
-                      mode="border"
-                      onClick={() => {
-                        reservationModal.openModal();
-                      }}
-                    />
+                    <div className="dashBoard__tooltipsWrap">
+                      <span
+                        data-event="click"
+                        data-tip={true}
+                        data-for="DailyAssigTooltip"
+                      >
+                        <JDIcon hover icon="dotMenuVertical" />
+                      </span>
+                    </div>
                     <ReservationModal
                       context={context}
                       houseId={house._id}
@@ -70,29 +79,15 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
                       publicKey={house.publicKey || undefined}
                       isAdmin
                     />
-                    <DailyAssigWrap context={context} date={new Date()} />
+                    <DailyAssigWrap
+                      calendarPosition="inside"
+                      context={context}
+                      date={dailyAssigDateHook.from || new Date()}
+                      key={"" + dailyAssigDateHook.from}
+                    />
                   </Fragment>
                 </Card>
               </div>
-              {house && (
-                <div className="flex-grid__col col--wmd-12 col--full-3">
-                  <div className="flex-grid__col flex-grid-grow flex-grid flex-grid--vertical">
-                    <div className="flex-grid__col flex-grid col--wmd-12 flex-grid--unGrow">
-                      <Card fullWidth>
-                        <GreetingBox context={context} />
-                      </Card>
-                    </div>
-                    <div className="flex-grid__col flex-grid col--wmd-12">
-                      <Card className="dashBoard__memoCard" fullWidth>
-                        <MemoWrap
-                          houseId={house ? house._id : ""}
-                          memoType={MemoType.HOST}
-                        />
-                      </Card>
-                    </div>
-                  </div>
-                </div>
-              )}
             </div>
             <div className="flex-grid">
               <div className="flex-grid__col col--wmd-12 col--full-9">
@@ -115,6 +110,37 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
           </div>
         </div>
       </div>
+      <TooltipList id="DailyAssigTooltip">
+        <ul className="tooltipList__ul">
+          <li>
+            <Button
+              label="예약하기"
+              size="small"
+              float="right"
+              mode="border"
+              onClick={() => {
+                reservationModal.openModal();
+              }}
+            />
+          </li>
+          <li>
+            <Button
+              label="날자변경"
+              size="small"
+              float="right"
+              mode="border"
+              onClick={() => {
+                dayPickerModalHook.openModal();
+              }}
+            />
+          </li>
+        </ul>
+        <DayPickerModal
+          modalHook={dayPickerModalHook}
+          isRange={false}
+          {...dailyAssigDateHook}
+        />
+      </TooltipList>
     </div>
   );
 };

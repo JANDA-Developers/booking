@@ -378,17 +378,17 @@ function ShowComponents() {
           <div className="flex-grid__col col--full-4 col--wmd-12">
             <div className="showComponent__container">
               <JDlabel txt="horizen" />
-              <DayPicker selectBeforeDay={false} {...dayPickerHook} horizen />
+              <DayPicker canSelectBeforeDay={false} {...dayPickerHook} horizen />
             </div>
           </div>
           <div className="flex-grid__col col--full-4 col--wmd-12">
             <JDlabel txt="normal" />
-            <DayPicker {...dayPickerHook} selectBeforeDay={false} />
+            <DayPicker {...dayPickerHook} canSelectBeforeDay={false} />
           </div>
           <div className="flex-grid__col col--full-4 col--wmd-12">
             <DayPicker
               {...dayPickerHook}
-              selectBeforeDay={false}
+              canSelectBeforeDay={false}
               input
               label="input"
               isRange
@@ -399,7 +399,7 @@ function ShowComponents() {
               {...dayPickerHook}
               input
               label="input"
-              selectBeforeDay={false}
+              canSelectBeforeDay={false}
               isRange={false}
             />
           </div>

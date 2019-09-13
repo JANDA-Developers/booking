@@ -14,6 +14,7 @@ import HouseManualConfig from "./HouseManualConfig";
 import {GET_HOUSE_MENUAL, UPDATE_HMANUAL} from "../../../queries";
 import {queryDataFormater, s4} from "../../../utils/utils";
 import {IContext} from "../../MiddleServerRouter";
+import Preloader from "../../../atoms/preloader/Preloader";
 
 interface IProps {
   context: IContext;
@@ -53,7 +54,6 @@ const HouseManualWrap: React.FC<IProps> = ({context}) => {
             <UpdateHManualMu mutation={UPDATE_HMANUAL}>
               {(updateManualMu, {loading: updateHMloading}) => (
                 <HouseManualConfig
-                  key={s4()}
                   houseManual={houseManual || undefined}
                   updateManualMu={updateManualMu}
                   loading={loading || updateHMloading}

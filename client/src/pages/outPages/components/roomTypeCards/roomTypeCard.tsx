@@ -75,20 +75,21 @@ const RoomTypeCard: React.SFC<IProps> = ({
         console.log(availableCount.maleCount + 1 + guestCountValue.male);
         return selectOpMaker({
           count: availableCount.maleCount + 1 + guestCountValue.male,
-          labelAdd: "명"
+          labelAdd: " 남"
         });
       }
       // 여성 SelectOp 리턴
       if (key === "femaleCount" && availableCount.femaleCount) {
         return selectOpMaker({
           count: availableCount.femaleCount + 1 + guestCountValue.female,
-          labelAdd: "명"
+          labelAdd: " 여"
         });
       }
       // 방타입 SelectOp 리턴
       if (key === "roomCount" && availableCount.roomCount) {
         return selectOpMaker({
-          count: availableCount.roomCount + 1 + guestCountValue.room
+          count: availableCount.roomCount + 1 + guestCountValue.room,
+          labelAdd: " 개"
         });
       }
       return [];
@@ -212,32 +213,27 @@ const RoomTypeCard: React.SFC<IProps> = ({
                   <JDselect
                     borderColor="primary"
                     options={maleSeleteOption}
-                    size={SelectBoxSize.TWO}
-                    rightLabel="남"
-                    mode="small"
+                    autoSize
                     onChange={selectedOp =>
                       guestCountSelect(selectedOp.value, Gender.MALE)
                     }
+                    displayArrow={false}
                     disabled={disabled.male}
                     textOverflow="visible"
-                    isOpen
-                    menuCanOverflow
                     selectedOption={maleSeleteOption[guestCountValue.male]}
                   />
                 )}
                 {roomTypeData.roomGender === RoomGender.MALE || (
                   <JDselect
-                    menuCanOverflow
                     borderColor="primary"
                     options={femaleSeleteOption}
-                    size={SelectBoxSize.TWO}
-                    rightLabel="여"
+                    autoSize
                     textOverflow="visible"
+                    displayArrow={false}
                     disabled={disabled.female}
                     onChange={selectedOp =>
                       guestCountSelect(selectedOp.value, Gender.FEMALE)
                     }
-                    mode="small"
                     selectedOption={femaleSeleteOption[guestCountValue.female]}
                   />
                 )}
@@ -247,15 +243,13 @@ const RoomTypeCard: React.SFC<IProps> = ({
               <JDselect
                 borderColor="primary"
                 options={roomSeleteOption}
-                size={SelectBoxSize.TWO}
+                autoSize
+                displayArrow={false}
                 disabled={disabled.count}
-                rightLabel="개"
                 textOverflow="visible"
-                menuCanOverflow
                 onChange={selectedOp =>
                   guestCountSelect(selectedOp.value, "room")
                 }
-                mode="small"
                 selectedOption={roomSeleteOption[guestCountValue.room]}
               />
             )}

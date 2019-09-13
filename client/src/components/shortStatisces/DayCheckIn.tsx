@@ -31,11 +31,13 @@ const DayCheckIn: React.FC<Iprops> = ({
         <JDdayPicker
           isRange={false}
           input
-          selectBeforeDay={false}
+          canSelectBeforeDay={false}
           label="달력날자"
           {...dayPickerHook}
           className="JDwaves-effect JDoverflow-visible"
-          inputComponent={<ArrowDayByDay dayPickerHook={dayPickerHook} />}
+          inputComponent={
+            <ArrowDayByDay format="MM월 DD일" dayPickerHook={dayPickerHook} />
+          }
         />
       )}
       {info.bookingsCheckInCount}/{info.bookingsCount}

@@ -75,6 +75,7 @@ const JDmodal: React.SFC<IProps> = ({
     "JDmodal--alertWaring": info && info.thema === "warn",
     "JDmodal--noAnimation": !shouldAnimation
   });
+
   const defualtJDmodalProps = {
     className: `Modal ${classes}`,
     overlayClassName: "Overlay"

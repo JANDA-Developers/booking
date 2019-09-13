@@ -1,6 +1,6 @@
 import {sharedProps} from "../../../atoms/timeline/Timeline";
 
-const priceTimelineKeys = {
+const dailyPriceKeys = {
   groupIdKey: "_id",
   groupTitleKey: "name",
   groupRightTitleKey: "rightTitle",
@@ -13,9 +13,9 @@ const priceTimelineKeys = {
   groupLabelKey: "name"
 };
 
-const PriceTimelineDefaultProps = {
+const DailyPriceDefaultProps = {
   ...sharedProps,
-  keys: priceTimelineKeys,
+  keys: dailyPriceKeys,
   fixedHeader: "fixed",
   canMove: false,
   canResize: false,
@@ -29,5 +29,5 @@ const PriceTimelineDefaultProps = {
   showCursorLine: false,
   lineHeight: 54
 };
-export default PriceTimelineDefaultProps;
-export {PriceTimelineDefaultProps};
+export default DailyPriceDefaultProps;
+export {DailyPriceDefaultProps};

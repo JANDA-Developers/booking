@@ -88,6 +88,7 @@ export function getAssigUtils(
   console.time("--");
   // 마크제거 MARK REMOVE 마커 제거
   const removeMark: TRemoveMark = () => {
+    console.log("removeMark");
     setGuestValue([
       ...guestValue.filter(item => item.type !== GuestTypeAdd.MARK)
     ]);
@@ -101,6 +102,10 @@ export function getAssigUtils(
   };
 
   const getItemById: TGetItemById = guestId => {
+    console.log("guestId 🎷");
+    console.log(guestId);
+    console.log("guestValue");
+    console.log(guestValue);
     const targetGuest = guestValue.find(guest => guest.id === guestId);
     if (!targetGuest)
       throw new Error("해당하는 게스트를 찾을수 없습니다. <<getItemById>>");
@@ -134,6 +139,7 @@ export function getAssigUtils(
   const bookingCheckedNew: TBookingCheckedNew = bookingId => {
     const targets = getGuestsByBookingId(bookingId);
     targets.forEach(target => (target.showNewBadge = false));
+    console.log("bookingCheckedNew");
     setGuestValue([...guestValue]);
   };
 
@@ -257,6 +263,7 @@ export function getAssigUtils(
           return guest;
         });
 
+        console.log("?ce");
         setGuestValue([...updateGuests]);
       } else {
         // 뮤테이션 실패시
@@ -340,6 +347,7 @@ export function getAssigUtils(
       group: groupId
     });
 
+    console.log("makeMark");
     setGuestValue([...filteredGuestValue]);
   };
 

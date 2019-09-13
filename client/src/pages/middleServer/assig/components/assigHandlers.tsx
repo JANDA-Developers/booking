@@ -111,7 +111,7 @@ export function getAssigHandlers(
       group: targetGroup
     });
 
-    makeMark(time, groupId);
+    // makeMark(time, groupId);
   };
 
   //  캔버스 클릭시 호출됨

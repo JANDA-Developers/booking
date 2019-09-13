@@ -14,6 +14,10 @@
         height: $standard-height / 2;
         padding: $assigItem-padding;
         border-bottom: 1px solid $grey-opacity1;
+
+        @include response($phablet) {
+            font-size: $typho-small;
+        }
     }
 
     &__block {

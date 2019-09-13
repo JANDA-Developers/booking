@@ -5,9 +5,13 @@ import moment from "moment";
 
 interface Iprops {
   dayPickerHook: IUseDayPicker;
+  format?: string;
 }
 
-const ArrowDayByDay: React.FC<Iprops> = ({dayPickerHook}) => {
+const ArrowDayByDay: React.FC<Iprops> = ({
+  dayPickerHook,
+  format = "MM월 DD일"
+}) => {
   const handleDayPickerArrow = (direction: "prev" | "next") => {
     const directionNum = direction === "prev" ? -1 : 1;
     dayPickerHook.setDate(
@@ -28,9 +32,7 @@ const ArrowDayByDay: React.FC<Iprops> = ({dayPickerHook}) => {
         }}
         icon="arrowLeft"
       />
-      <span>
-        {moment(dayPickerHook.from || new Date()).format("YYYY-MM-DD")}
-      </span>
+      <span>{moment(dayPickerHook.from || new Date()).format(format)}</span>
       <JDIcon
         hover
         className="DayPicker-box--inputComponent__arrow DayPicker-box--inputComponent__arrow--right"

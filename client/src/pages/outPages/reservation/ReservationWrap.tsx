@@ -59,7 +59,6 @@ const ReservationWrap: React.FC<
   modalHook,
   callBackCreateBookingMu
 }) => {
-  console.log("?????!!@#!@#!@#");
   sessionStorage.setItem("hpk", publicKey || match.params.publickey);
   sessionStorage.setItem("hpk33", "33");
 

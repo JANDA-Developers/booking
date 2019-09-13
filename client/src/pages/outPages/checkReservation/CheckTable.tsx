@@ -32,13 +32,20 @@ export interface IProps {
 const CheckTable: React.FC<IProps> = ({tableData}) => {
   const TableColumns = [
     {
-      Header: "숙박일",
+      Header: "체크인",
       accessor: "_id",
       Cell: ({original}: CellInfo) => (
         <div>
-          <span>{original.start.split("T")[0]} 체크인</span>
-          <br />
-          <span>{original.end.split("T")[0]} 체크아웃</span>
+          <span>{original.start.split("T")[0]}</span>
+        </div>
+      )
+    },
+    {
+      Header: "체크아웃",
+      accessor: "_id",
+      Cell: ({original}: CellInfo) => (
+        <div>
+          <span>{original.start.split("T")[0]}</span>
         </div>
       )
     },

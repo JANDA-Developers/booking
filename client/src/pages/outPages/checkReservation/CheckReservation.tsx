@@ -21,16 +21,15 @@ export interface ISetBookingInfo
   extends React.Dispatch<React.SetStateAction<BookerInput>> {}
 
 interface IProps {
-  defaultBookingInfo: {
-    name: string | undefined;
-    password: string | undefined;
-    phoneNumber: string | undefined;
-  };
   findBookingQr(bookingInfo: findBookingVariables): Promise<any>;
 }
 
-const SetPrice: React.SFC<IProps> = ({defaultBookingInfo, findBookingQr}) => {
-  const [searchInfo, setSearchInfo] = useState(defaultBookingInfo);
+const SetPrice: React.SFC<IProps> = ({findBookingQr}) => {
+  const [searchInfo, setSearchInfo] = useState({
+    name: "",
+    password: "",
+    phoneNumber: ""
+  });
   const [queryResult, setQueryResult] = useState<
     findBooking_FindBooking_bookings[] | undefined
   >();
@@ -65,9 +64,7 @@ const SetPrice: React.SFC<IProps> = ({defaultBookingInfo, findBookingQr}) => {
   };
 
   useEffect(() => {
-    if (!isEmpty(defaultBookingInfo)) {
-      findBookingQuery();
-    }
+    findBookingQuery();
   }, []);
 
   return (
@@ -76,19 +73,19 @@ const SetPrice: React.SFC<IProps> = ({defaultBookingInfo, findBookingQr}) => {
       <div className="flex-grid-grow">
         <InputText
           onChange={value => setSearchInfo({...searchInfo, name: value})}
-          defaultValue={defaultBookingInfo.name || ""}
+          value={searchInfo.name}
           label="이름"
         />
         <InputText
           onChange={value => setSearchInfo({...searchInfo, phoneNumber: value})}
-          defaultValue={defaultBookingInfo.phoneNumber || ""}
           hyphen
+          value={searchInfo.phoneNumber}
           label="연락처"
         />
         <InputText
           onChange={value => setSearchInfo({...searchInfo, password: value})}
-          defaultValue={defaultBookingInfo.password || ""}
           label="비밀번호"
+          value={searchInfo.phoneNumber}
           type="password"
         />
       </div>

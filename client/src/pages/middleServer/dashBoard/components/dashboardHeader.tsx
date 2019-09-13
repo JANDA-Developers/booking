@@ -22,7 +22,12 @@ const DashBoardHeader = () => {
   };
 
   return (
-    <JDSlider whiteIcon {...sliderExampleSetting} className="dashBoardHeader">
+    <JDSlider
+      displayArrow={false}
+      whiteIcon
+      {...sliderExampleSetting}
+      className="dashBoardHeader"
+    >
       <div className="JDslider__slide-wrap">
         <div style={slider1Style} className="JDslider__slide">
           <h5>온·오프라인 숙소 운영 솔루션, 잔다</h5>

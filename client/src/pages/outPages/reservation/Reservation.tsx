@@ -25,7 +25,7 @@ import {
   startBookingForPublicVariables
 } from "../../../types/api";
 import $ from "jquery";
-import ResvRoomSelectInfo from "../components/resvRoomSelectInfo";
+import BookingInfoBox from "../components/bookingInfoBox";
 import PayMentModal from "../components/paymentModal";
 import RoomTypeCardsWrap from "../components/roomTypeCards/roomTypeCardsWrap";
 import {
@@ -55,6 +55,9 @@ import {isMobile} from "is-mobile";
 import JDanimation, {Animation} from "../../../atoms/animation/Animations";
 import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
 import {reservationDevelop, developEvent} from "../../../utils/developMaster";
+import RoomSearcher from "../../../components/roomSearcher.tsx/RoomSearcher";
+import {Context} from "tern";
+import BookingInfoModal from "../components/roomTypeCards/bookingInfoModal";
 
 export interface IBookerInfo {
   name: string;
@@ -119,11 +122,15 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
     agreePrivacyPolicy: isAdmin ? true : false
   };
 
+  const isMobile = windowWidth < WindowSize.PHABLET;
   const dayPickerHook = useDayPicker(null, null);
+  // 모바일에서만 사용
+  const [step, setStep] = useState<"search" | "select">("search");
   const [resvRooms, setResvRooms] = useState<GuestPartInput[]>([]);
   const [bookerInfo, setBookerInfo] = useState<IBookerInfo>(defaultBookingInfo);
   const rsevModalHook = useModal(false);
   const toastModalHook = useModal(false);
+  const bookingInfoModal = useModal(false);
   const roomInfoHook = useState<IRoomType[]>([]);
   const sendSmsHook = useCheckBox(isAdmin ? false : true);
   const priceHook = useState(0);
@@ -333,9 +340,30 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
 
   const handleResvBtnClick = () => {
     if (resvInfoValidation()) {
-      rsevModalHook.openModal();
+      if (isMobile) {
+        bookingInfoModal.openModal();
+      } else {
+        rsevModalHook.openModal();
+      }
     }
   };
+
+  if (step === "search" && isMobile) {
+    return (
+      <div id="JDreservation" className="JDreservation">
+        <div className="JDreservation__mobileRoomSearcherWrap">
+          <RoomSearcher
+            callBackOnSearch={result => {
+              dayPickerHook.setFrom(result.checkIn);
+              dayPickerHook.setTo(result.checkOut);
+              dayPickerHook.setEntered(result.checkOut);
+              setStep("select");
+            }}
+          />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div id="JDreservation" className="JDreservation">
@@ -349,14 +377,21 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
             {/* TODO: change 될때마다 resvRooms를 초기화 해주어야함 */}
             <JDdayPicker
               {...dayPickerHook}
-              selectBeforeDay={false}
-              horizen={windowWidth < WindowSize.PHABLET}
+              displayHeader={!isMobile}
+              displayCaption={!isMobile}
+              displayInfo={!isMobile}
+              canSelectBeforeDay={false}
+              horizen={isMobile}
               mode="reservation"
+              className="JDreservation__topDayPicker JDmargin-bottom0"
             />
           </Card>
         </div>
         <div className="flex-grid__col col--full-8 col--lg-7 col--wmd-12">
-          <Card className="JDz-index-1 JDreservation__card">
+          <Card
+            fullWidth={isMobile}
+            className="JDz-index-1 JDreservation__card"
+          >
             <h6 className="JDreservation__sectionTitle">② 방 선택</h6>
             {/* TODO: roomTypes들의 반복문을 통해서 만들고 해당 정보는 resvRooms 에서 filter를 통해서 가져와야함 */}
 
@@ -400,23 +435,39 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
               }}
             </GetAllAvailRoomQu>
           </Card>
-          <Card className="JDreservation__card">
-            <h6 className="JDreservation__sectionTitle"> 선택 확인</h6>
-            <ResvRoomSelectInfo
-              roomTypeInfo={roomInfoHook[0]}
-              from={dayPickerHook.from}
-              to={dayPickerHook.to}
-              resvRooms={resvRooms}
-              totalPrice={priceHook[0]}
+          {!isMobile && (
+            <Card fullWidth={isMobile} className="JDreservation__card">
+              <h6 className="JDreservation__sectionTitle"> 선택 확인</h6>
+              <BookingInfoBox
+                roomTypeInfo={roomInfoHook[0]}
+                from={dayPickerHook.from}
+                to={dayPickerHook.to}
+                resvRooms={resvRooms}
+                totalPrice={priceHook[0]}
+              />
+            </Card>
+          )}
+          {isEmpty(resvRooms) && isMobile && (
+            <Button
+              id="ResvBtn"
+              thema="primary"
+              icon="return"
+              onClick={() => {
+                setStep("search");
+              }}
+              label="날자 선택화면으로 돌아가기"
+              size="longLarge"
             />
-          </Card>
-          <Button
-            id="ResvBtn"
-            thema="primary"
-            onClick={handleResvBtnClick}
-            label="예약하기"
-            size="long"
-          />
+          )}
+          {!isEmpty(resvRooms) && (
+            <Button
+              id="ResvBtn"
+              thema="primary"
+              onClick={handleResvBtnClick}
+              label="예약하기"
+              size="longLarge"
+            />
+          )}
         </div>
       </div>
       <PayMentModal
@@ -426,6 +477,17 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
         modalHook={rsevModalHook}
         isAdmin={isAdmin}
       />
+      {isMobile && (
+        <BookingInfoModal
+          paymentModalHook={rsevModalHook}
+          modalHook={bookingInfoModal}
+          roomTypeInfo={roomInfoHook[0]}
+          from={dayPickerHook.from}
+          to={dayPickerHook.to}
+          resvRooms={resvRooms}
+          totalPrice={priceHook[0]}
+        />
+      )}
       <JDtoastModal
         confirm
         center

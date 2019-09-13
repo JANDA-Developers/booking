@@ -6,14 +6,18 @@ import {showError, onCompletedMessage} from "../../../utils/utils";
 import MyPage from "./MyPage";
 import {IUser, IHouse, IDiv} from "../../../types/interface";
 import {IContext} from "../../MiddleServerRouter";
+import {getUserForSU_GetUserForSU_user} from "../../../types/api";
 
 interface IProps {
   context: IContext;
-  props: IDiv;
+  props?: IDiv;
+  propUserData?: getUserForSU_GetUserForSU_user;
 }
 
-const MypageWrap: React.SFC<IProps> = ({context, ...props}) => {
-  const {user: userData, houses} = context;
+const MypageWrap: React.FC<IProps> = ({context, propUserData, ...props}) => {
+  let userData = propUserData;
+  if (!userData) userData = context.user;
+  if (!userData) return <div />;
   const nameHook = useInput(userData.name, true);
   const phoneNumberHook = useInput(userData.phoneNumber, true);
   const emailHook = useInput(userData.email, true);

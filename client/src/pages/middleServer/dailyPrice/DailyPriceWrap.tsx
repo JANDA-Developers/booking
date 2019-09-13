@@ -11,12 +11,12 @@ import {
   createDailyPriceVariables,
   deleteDailyPrice,
   deleteDailyPriceVariables,
-  priceTimelineGetPrice,
-  priceTimelineGetPriceVariables,
-  priceTimelineGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices
+  dailyPriceGetPriceVariables,
+  dailyPriceGetPrice,
+  dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices
 } from "../../../types/api";
-import PriceTimeline from "./PriceTimeline";
-import {PriceTimelineDefaultProps} from "./timelineConfig";
+import DailyPrice from "./DailyPrice";
+import {DailyPriceDefaultProps} from "./timelineConfig";
 import {
   GET_ALL_ROOMTYPES_PRICE,
   PRICE_TIMELINE_GET_PRICE,
@@ -35,8 +35,8 @@ import {useDayPicker} from "../../../actions/hook";
 import {IContext} from "../../MiddleServerRouter";
 
 class GetAllRoomTypePriceQuery extends Query<
-  priceTimelineGetPrice,
-  priceTimelineGetPriceVariables
+  dailyPriceGetPrice,
+  dailyPriceGetPriceVariables
 > {}
 class CreateDailyPriceMu extends Mutation<
   createDailyPrice,
@@ -105,7 +105,7 @@ interface IProps {
   context: IContext;
 }
 
-const PriceTimelineWrap: React.FC<IProps> = ({context}) => {
+const DailyPriceWrap: React.FC<IProps> = ({context}) => {
   const {house} = context;
   //  Default 값
   const dayPickerHook = useDayPicker(null, null);
@@ -152,7 +152,7 @@ const PriceTimelineWrap: React.FC<IProps> = ({context}) => {
 
   // 방타입과 날자 조합의 키를 가지고 value로 pirce를 가지는 Map 생성
   const placeHolderMapMaker = (
-    priceData: priceTimelineGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices[]
+    priceData: dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices[]
   ): Map<string, number> => {
     const placeHolderMap = new Map();
     priceData.map(price => {
@@ -249,11 +249,11 @@ const PriceTimelineWrap: React.FC<IProps> = ({context}) => {
                 mutation={DELETE_DAILY_PRICE}
               >
                 {deleteDailyPriceMu => (
-                  <PriceTimeline
+                  <DailyPrice
                     context={context}
                     items={items || undefined}
                     loading={loading}
-                    defaultProps={PriceTimelineDefaultProps}
+                    defaultProps={DailyPriceDefaultProps}
                     priceMap={priceMap}
                     roomTypesData={roomTypesData || undefined}
                     placeHolderMap={placeHolderMap}
@@ -275,7 +275,7 @@ const PriceTimelineWrap: React.FC<IProps> = ({context}) => {
   );
 };
 
-export default ErrProtecter(PriceTimelineWrap);
+export default ErrProtecter(DailyPriceWrap);
 
 // 왜 item 이 안나올까?
 // 1.ID 문제다?

@@ -16,9 +16,10 @@ import {GET_MEMO, CREATE_MEMO, DELETE_MEMO, UPDATE_MEMO} from "../../queries";
 import {getOperationName} from "apollo-link";
 import {MemoType} from "../../types/enum";
 import Preloader from "../../atoms/preloader/Preloader";
+import {IContext} from "../../pages/MiddleServerRouter";
 
-interface IProps {
-  houseId: string;
+export interface IMemoWrapProps {
+  context: IContext;
   memoType: MemoType;
 }
 
@@ -27,7 +28,10 @@ class CreateMemoMu extends Mutation<createMemo, createMemoVariables> {}
 class UpdateMemoMu extends Mutation<updateMemo, updateMemoVariables> {}
 class DeleteMemoMu extends Mutation<deleteMemo, deleteMemoVariables> {}
 
-const MemoWrap: React.FC<IProps> = ({houseId, memoType}) => {
+const MemoWrap: React.FC<IMemoWrapProps> = ({context, memoType}) => {
+  const {
+    house: {_id: houseId}
+  } = context;
   return (
     <div>
       <GetMemoQu
@@ -62,8 +66,7 @@ const MemoWrap: React.FC<IProps> = ({houseId, memoType}) => {
                     )
                   }
                 >
-                  {(deleteMemoMu, {loading
-                  : deleteMemoLoading}) => (
+                  {(deleteMemoMu, {loading: deleteMemoLoading}) => (
                     <UpdateMemoMu
                       mutation={UPDATE_MEMO}
                       awaitRefetchQueries
@@ -92,7 +95,7 @@ const MemoWrap: React.FC<IProps> = ({houseId, memoType}) => {
                             memos={getMemosData || []}
                           />
                         ) : (
-                          <Preloader loading={true} />
+                          <Preloader size="medium" loading={true} />
                         )
                       }
                     </UpdateMemoMu>

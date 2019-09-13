@@ -1,12 +1,9 @@
 import React, {Fragment, useRef, useState, useEffect} from "react";
 import DayPicker, {
-  Modifiers,
   CaptionElementProps,
   DayModifiers,
-  DayPickerProps,
-  Modifier
+  DayPickerProps
 } from "react-day-picker";
-import PropTypes from "prop-types";
 import classNames from "classnames";
 import Caption from "./component/Caption";
 import Information from "./component/Information";
@@ -16,11 +13,10 @@ import HorizenDay from "./component/horizen/HorizenDays";
 import HorizenCaption from "./component/horizen/HorizenCaption";
 import "./DayPicker.scss";
 import {IUseDayPicker} from "../../actions/hook";
-import Reservation from "../../pages/outPages/reservation/Reservation";
 import moment from "moment";
 
 export interface IJDdayPickerProps extends IUseDayPicker {
-  selectBeforeDay: boolean;
+  canSelectBeforeDay?: boolean;
   horizen?: boolean;
   placeholder?: string;
   input?: boolean;
@@ -40,6 +36,9 @@ export interface IJDdayPickerProps extends IUseDayPicker {
   className?: string;
   inputClassName?: string;
   calenaderPosition?: "left" | "right" | "center";
+  displayCaption?: boolean;
+  displayHeader?: boolean;
+  displayInfo?: boolean;
 }
 
 const JDdayPicker: React.FC<IJDdayPickerProps> = ({
@@ -51,6 +50,9 @@ const JDdayPicker: React.FC<IJDdayPickerProps> = ({
   onChangeDate,
   canSelectSameDate = true,
   showInputIcon = true,
+  displayCaption = true,
+  displayHeader = true,
+  displayInfo = true,
   format,
   placeholder,
   lang = "ko",
@@ -60,7 +62,7 @@ const JDdayPicker: React.FC<IJDdayPickerProps> = ({
   setTo,
   entered,
   displayYear = true,
-  selectBeforeDay,
+  canSelectBeforeDay,
   inputClassName,
   inputComponent,
   setEntered,
@@ -167,7 +169,10 @@ const JDdayPicker: React.FC<IJDdayPickerProps> = ({
     "DayPicker-box--inputComponent": inputComponent,
     "DayPicker--readOnly": readOnly,
     "DayPicker--reservation": mode === "reservation",
-    "DayPicker--showWeekEndColor": showWeekEndColor
+    "DayPicker--showWeekEndColor": showWeekEndColor,
+    "DayPicker--unDisplayCaption": displayCaption === false,
+    "DayPicker--unDisplayNavbar": displayHeader === false,
+    "DayPicker--unDisplayInfo": displayInfo === false
   });
 
   // 이건 순수하게 달력부분
@@ -227,7 +232,7 @@ const JDdayPicker: React.FC<IJDdayPickerProps> = ({
     weekdaysShort: WEEKDAYS_SHORT,
     locale: lang,
     showOutsideDays: false,
-    disabledDays: selectBeforeDay ? undefined : [{before: new Date()}]
+    disabledDays: canSelectBeforeDay ? undefined : [{before: new Date()}]
   };
 
   return (

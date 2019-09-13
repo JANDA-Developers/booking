@@ -131,7 +131,7 @@ const Sms: React.FC<IProps> = ({
           thema="primary"
         />
         <Link to="/smsHistory">
-          <Button mode="border" label="SMS 내역보기" />
+          <Button mode="border" icon="arrowTo" label="SMS 내역보기" />
         </Link>
         <div className="docs-section__box">
           {/* <h6>문자 템플릿 설정</h6> */}

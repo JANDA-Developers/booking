@@ -37,7 +37,7 @@ const StaticController: React.FC<Iprops> = ({context, staticsProps}) => {
       </div>
       <div>
         <JDdayPicker
-          selectBeforeDay={true}
+          canSelectBeforeDay={true}
           {...queryDateHook}
           label="통계날자"
           input

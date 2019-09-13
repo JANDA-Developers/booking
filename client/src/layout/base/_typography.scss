@@ -67,7 +67,7 @@ h6 {
 
 // 타블렛 이상일때
 @mixin response ($full,$tablet) {
-  html {
-    font-size: 0.6rem;
-  }
+  // html {
+  //   font-size: 0.6rem;
+  // }
 }

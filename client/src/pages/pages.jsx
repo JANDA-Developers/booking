@@ -164,9 +164,9 @@ export const RoomConfig = props => (
   </DynamicImport>
 );
 
-export const PriceTimeline = props => (
+export const DailyPrice = props => (
   <DynamicImport
-    load={() => import("./middleServer/specificPrice/PriceTimelineWrap")}
+    load={() => import("./middleServer/dailyPrice/DailyPriceWrap")}
   >
     {DNcompoent =>
       DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />

@@ -692,7 +692,7 @@ export const GET_GUESTS = gql`
 
 // 방타입 :: 모든 방타입 가격 가져오기
 export const PRICE_TIMELINE_GET_PRICE = gql`
-  query priceTimelineGetPrice(
+  query dailyPriceGetPrice(
     $houseId: ID!
     $start: DateTime!
     $end: DateTime!

@@ -1,4 +1,7 @@
 import {toast} from "react-toastify";
+import languagedetect from "languagedetect";
+
+const langDetecter = new languagedetect();
 
 interface result {
   error: string | null;
@@ -14,9 +17,9 @@ const onCompletedMessage = (
   if (result.ok) {
     toast.success(resultOK);
   } else {
-    console.error(`BackEnd::${result.error}`);
-    toast.warn(result.error);
+    console.error(`Error From BackEnd Message  : ${result.error}`);
     resultFale && toast.warn(resultFale);
+    resultFale || toast.warn(result.error);
   }
 };
 

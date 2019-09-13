@@ -41,6 +41,7 @@ import {IContext} from "../../MiddleServerRouter";
 import Help from "../../../atoms/Help/Help";
 import RoomTypeInfo from "../../../components/roomTypeInfo/roomTypeInfo";
 import {PureQueryOptions} from "apollo-boost";
+import Mbr from "../../../atoms/mbr/Mbr";
 
 let LAST_MOVED_ROOMTPYE = "";
 let LAST_MOVED_INDEX = 0;
@@ -120,16 +121,17 @@ const RoomConfigNew: React.FC<IProps> = ({
           label="방타입 추가"
         />
         <div>
-          <Preloader size="large" loading={loading} />
+          <Preloader size="large" noAnimation loading={loading} />
         </div>
-        {roomTypesData.length === 0 && (
+        {roomTypesData.length === 0 && !loading && (
           <h4 className="JDtextColor--placeHolder JDmargin-bottom0">
-            방타입이 존재하지 않습니다.
+            방타입이 <Mbr /> 존재하지 않습니다.
           </h4>
         )}
         <DrragList
           onUpdate={(info: any, data) => {
             const {newIndex, oldIndex} = info;
+            if (!roomTypesData[oldIndex]) return;
             changeIndexForRoomTypeMu({
               variables: {
                 houseId: house._id,
@@ -138,6 +140,7 @@ const RoomConfigNew: React.FC<IProps> = ({
               }
             });
           }}
+          key={`roomTypeDrag${roomTypesData.length}`}
           data={roomTypesData}
           rowKey="_id"
         >
@@ -168,19 +171,10 @@ const RoomConfigNew: React.FC<IProps> = ({
               </div>
 
               <div className="roomConfig__roomsWrapWrap">
-                <DrragList
-                  className="roomConfig__roomsWrap"
-                  data={recode.rooms}
-                  rowKey="_id"
-                >
-                  {(
-                    room: getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms,
-                    index: number
-                  ) => {
-                    const RoomBox = getRoomBox(recode, room, index);
-                    return <Fragment>{RoomBox}</Fragment>;
-                  }}
-                </DrragList>
+                {recode.rooms.map(room => {
+                  const RoomBox = getRoomBox(recode, room, index);
+                  return <Fragment key={room._id}>{RoomBox}</Fragment>;
+                })}
                 {/* add */}
                 <JDbox
                   clickable

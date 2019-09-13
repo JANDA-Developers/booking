@@ -66,6 +66,7 @@ class UpdateCheckInMu extends Mutation<updateBooking, updateBookingVariables> {}
 
 export interface IDailyAssigProp {
   networkStatus: NetworkStatus;
+  calendarPosition?: "center" | "inside" | "topLeft";
   allocateMu: MutationFn<allocateGuestToRoom, allocateGuestToRoomVariables>;
   loading: boolean;
   blocksData: getAllRoomTypeWithGuest_GetBlocks_blocks[];
@@ -81,9 +82,15 @@ interface IProps {
   context: IContext;
   date: Date;
   isInModal?: boolean;
+  calendarPosition?: "center" | "inside" | "topLeft";
 }
 
-const DailyAssigWrap: React.FC<IProps> = ({date, context, isInModal}) => {
+const DailyAssigWrap: React.FC<IProps> = ({
+  date,
+  context,
+  isInModal,
+  calendarPosition = "topLeft"
+}) => {
   const {house} = context;
   const dayPickerHook = useDayPicker(date, date);
   const {houseConfig, _id: houseId} = house;
@@ -151,7 +158,8 @@ const DailyAssigWrap: React.FC<IProps> = ({date, context, isInModal}) => {
                       dayPickerHook: dayPickerHook,
                       roomTypesData: roomTypesData,
                       itemDatas: [...guestsData, ...blocks],
-                      networkStatus
+                      networkStatus,
+                      calendarPosition
                     };
                     return (
                       <DeleteGuestMu

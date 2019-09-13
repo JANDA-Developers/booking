@@ -5,7 +5,7 @@ import InputText from "../../../atoms/forms/inputText/InputText";
 import TooltipList from "../../../atoms/tooltipList/TooltipList";
 import Button from "../../../atoms/button/Button";
 import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
-import moment from "moment";
+import moment from "moment-timezone";
 import {findFieldsThatChangedTypeOnInputObjectTypes} from "graphql/utilities/findBreakingChanges";
 import textReader from "../../../utils/textReader";
 moment.tz.setDefault("Asia/Seoul");

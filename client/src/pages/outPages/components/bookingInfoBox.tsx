@@ -9,7 +9,7 @@ import {IRoomType} from "../../../types/interface";
 import {PricingType} from "../../../types/enum";
 import {autoComma} from "../../../utils/utils";
 
-interface IProps {
+export interface IBookingInfoBoxProps {
   className?: string;
   resvRooms: GuestPartInput[];
   from: Date | null;
@@ -18,7 +18,7 @@ interface IProps {
   totalPrice: number;
 }
 
-const ResvRoomSelectInfo: React.FC<IProps> = ({
+const BookingInfoBox: React.FC<IBookingInfoBoxProps> = ({
   className,
   resvRooms,
   from,
@@ -30,19 +30,16 @@ const ResvRoomSelectInfo: React.FC<IProps> = ({
 
   const TableColumns = [
     {
-      Header: "숙박일",
+      Header: "체크인",
       accessor: "roomTypeId",
       Cell: () =>
-        from && to ? (
-          <div>
-            {moment(from).format("YYYY-MM-DD")}
-            {"~"}
-            <br />
-            {moment(to).format("YYYY-MM-DD")}
-          </div>
-        ) : (
-          <div />
-        )
+        from && to ? <div>{moment(from).format("YYYY-MM-DD")}</div> : <div />
+    },
+    {
+      Header: "체크아웃",
+      accessor: "roomTypeId",
+      Cell: () =>
+        from && to ? <div>{moment(to).format("YYYY-MM-DD")}</div> : <div />
     },
     {
       Header: "객실정보",
@@ -94,4 +91,4 @@ const ResvRoomSelectInfo: React.FC<IProps> = ({
   );
 };
 
-export default ResvRoomSelectInfo;
+export default BookingInfoBox;

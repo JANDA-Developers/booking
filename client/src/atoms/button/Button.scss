@@ -116,6 +116,9 @@
   //long button
   &--long {
     width: 100%;
+    .JDbtn__icon {
+      float: none;
+    }
   }
 
   // Small button
@@ -168,8 +171,12 @@
 
   &--toogleOff.JDbtn {
   }
+}
 
-  #root,.ReactModalPortal &--border {
+
+// border
+#root,.ReactModalPortal {
+  .JDbtn--border {
     background-color: white;
     border: 1px solid $grey-level1;
     box-shadow:none;
@@ -182,6 +189,5 @@
       @include colorBorder--prefixer(":not(:disabled)");
       @include colorText--prefixer(":not(:disabled)");
     }
-
   }
 }

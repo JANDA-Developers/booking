@@ -123,7 +123,7 @@ const CreateSeasonModal: React.FC<IProps> = ({
       </div>
       <div>
         <JDdayPicker
-          selectBeforeDay={true}
+          canSelectBeforeDay={true}
           calenaderPosition="center"
           label="시즌기간"
           input

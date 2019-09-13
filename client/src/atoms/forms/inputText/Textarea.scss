@@ -40,7 +40,7 @@
 
 
   &--doubleHeight {
-    height: $input-height *2;
+    height: $input-height *2!important;
   }
 
   &--halfHeight {

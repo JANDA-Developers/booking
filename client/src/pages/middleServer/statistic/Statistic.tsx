@@ -11,7 +11,8 @@ import {
   STATISTICS_OP,
   SalesStatisticsUnit,
   WindowSize,
-  StaticColors
+  StaticColors,
+  Standard_PreloaderFloatingSize
 } from "../../../types/enum";
 import {IQueryOp} from "./StatisticWrap";
 import InputText from "../../../atoms/forms/inputText/InputText";
@@ -249,7 +250,11 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
                     setViewMode={setViewMode}
                   />
                 )}
-                <Preloader floating size="large" loading={loading} />
+                <Preloader
+                  floating
+                  size={Standard_PreloaderFloatingSize}
+                  loading={loading}
+                />
                 <div>
                   {viewMode === IGraphViewMode.pie && (
                     <Doughnut data={graphData} />

@@ -178,7 +178,7 @@ function getRangeOfDates(
 // export const truePriceFinder = (
 //   defaultPrice: number | null,
 //   seasonData: ISeasonPrices[] | null | undefined,
-//   specificPrices: ISpecificPrices[] | null | undefined,
+//   dailyPrices: IDailyPrices[] | null | undefined,
 //   start: Date | string | null,
 //   end: Date | string | null
 // ): number => {
@@ -263,10 +263,10 @@ function getRangeOfDates(
 // //   });
 
 // //   // 특정날자 가격이 있다면 바꾸어줍니다.
-// //   if (specificPrices) {
-// //     specificPrices.forEach(specificPrice => {
-// //       const index = mStart.diff(specificPrice.date, "day");
-// //       dateArray[index] = specificPrice.price;
+// //   if (dailyPrices) {
+// //     dailyPrices.forEach(dailyPrice => {
+// //       const index = mStart.diff(dailyPrice.date, "day");
+// //       dateArray[index] = dailyPrice.price;
 // //     });
 // //   }
 

@@ -8,13 +8,13 @@ import {ISetBookingInfo, IBookerInfo} from "../reservation/Reservation";
 import TooltipList from "../../../atoms/tooltipList/TooltipList";
 import JDbox from "../../../atoms/box/JDbox";
 
-interface IProps {
+export interface IBookerInfoBoxProps {
   className?: string;
   bookerInfo: IBookerInfo;
   setBookerInfo: React.Dispatch<React.SetStateAction<IBookerInfo>>;
 }
 
-const BookingInfoBox: React.SFC<IProps> = ({
+const BookerInfoBox: React.FC<IBookerInfoBoxProps> = ({
   className,
   bookerInfo,
   setBookerInfo
@@ -122,4 +122,4 @@ const BookingInfoBox: React.SFC<IProps> = ({
   );
 };
 
-export default BookingInfoBox;
+export default BookerInfoBox;

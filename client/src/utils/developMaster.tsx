@@ -24,9 +24,6 @@ export const reservationDevelop = (reservationHooks: IReservationHooks) => {
     target[1].click();
   }
 
-  console.log("reservationHooks");
-  console.log(reservationHooks);
-
   const {setBookerInfo, setResvRooms} = reservationHooks;
   setTimeout(() => {
     $(".roomTypeCard__selectButton")[0].click();

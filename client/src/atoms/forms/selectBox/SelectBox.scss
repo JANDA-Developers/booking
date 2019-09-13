@@ -2,14 +2,32 @@
 
 
 
+
+
 .JDselect {
   text-align:left;
+
+  &--autoSize {
+    .react-select__value-container {
+      & > div:first-child {
+        position: relative!important;
+        top: 0!important;
+        transform: none!important;
+      }
+    }
+  }
 
   html &--border-primary {
     .react-select-container {
       .react-select__control {
         border-color: $primary-color;
       }
+    }
+  }
+
+  &--unDisplayArrow {
+    .react-select__indicator {
+      display: none;
     }
   }
 

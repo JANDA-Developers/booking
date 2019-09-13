@@ -3,14 +3,17 @@ import Slider, {Settings} from "react-slick";
 import CircleIcon from "../circleIcon/CircleIcon";
 import Icon from "../icons/Icons";
 import "./Slider.scss";
+import classnames from "classnames";
 
 interface IProps extends Settings {
   whiteIcon?: boolean;
+  displayArrow?: boolean;
 }
 
 const JDSlider: React.FC<IProps> = ({
   children,
   whiteIcon,
+  displayArrow = true,
   className,
   ...props
 }) => {
@@ -23,7 +26,7 @@ const JDSlider: React.FC<IProps> = ({
     slidesToShow: 1,
     slidesToScroll: 1,
     slideCount: 1,
-    nextArrow: (
+    nextArrow: displayArrow ? (
       <CircleIcon
         thema={whiteIcon ? "white" : undefined}
         className="JDslider__arrow"
@@ -31,8 +34,10 @@ const JDSlider: React.FC<IProps> = ({
       >
         <Icon icon="arrowRight" />
       </CircleIcon>
+    ) : (
+      undefined
     ),
-    prevArrow: (
+    prevArrow: displayArrow ? (
       <CircleIcon
         thema={whiteIcon ? "white" : undefined}
         className="JDslider__arrow"
@@ -40,11 +45,17 @@ const JDSlider: React.FC<IProps> = ({
       >
         <Icon icon="arrowLeft" />
       </CircleIcon>
+    ) : (
+      undefined
     )
   };
 
+  const classes = classnames(JDslideDefaultSettings.className, className, {
+    "JDslider--unDisplayArrow": displayArrow === false
+  });
+
   const settings = Object.assign(JDslideDefaultSettings, {
-    className: className + " " + JDslideDefaultSettings.className
+    className: classes
   });
 
   return (

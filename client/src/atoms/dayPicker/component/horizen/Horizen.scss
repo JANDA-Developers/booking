@@ -1,10 +1,13 @@
 $horizen-calendarCell-width : calc(14.28vw - 2.8px);
 
 /*  Horizen-------------------------------------------------------------------------- */
+
 &--horizen {
     min-width: 100%;
     overflow: hidden;
     margin-bottom: 10px;
+    
+    
 
     .DayPicker-NavBar {
         &:after {

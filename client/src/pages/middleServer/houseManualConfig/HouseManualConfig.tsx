@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, {useState, useEffect, useRef, Fragment} from "react";
 import Card from "../../../atoms/cards/Card";
 import {
   useImageUploader,
@@ -19,7 +19,11 @@ import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
 import JDmodal from "../../../atoms/modal/Modal";
 import JDbox from "../../../atoms/box/JDbox";
 import {muResult} from "../../../utils/utils";
-import {Language, LANGUAGE_LIST} from "../../../types/enum";
+import {
+  Language,
+  LANGUAGE_LIST,
+  Standard_PreloaderFloatingSize
+} from "../../../types/enum";
 import Help from "../../../atoms/Help/Help";
 import {IHouse} from "../../../types/interface";
 import HouseManual from "../../outPages/houseManual/HouseManual";
@@ -65,7 +69,7 @@ const HouseManualConfig: React.FC<IProps> = ({
   const [isGuestView, setGuestView] = useState(false);
   const [mainTitle, setMainTitle] = useState("");
   const bgImageHook = useImageUploader(
-    houseManual ? houseManual.backgroundImg : tempSrc
+    houseManual ? houseManual.backgroundImg || tempSrc : tempSrc
   );
   const {shouldSave, setShouldSave} = useShouldSave([
     mainTitle,
@@ -75,9 +79,18 @@ const HouseManualConfig: React.FC<IProps> = ({
   ]);
 
   const validate = (): boolean => {
-    if (!mainTitle) return false;
+    if (!mainTitle) {
+      toast.warn("하우스메뉴얼 타이틀을 입력해주세요");
+      return false;
+    }
 
-    if (menuData.find(menu => !menu.content)) {
+    if (
+      menuData.find(menu => {
+        menu.isEnable && !menu.content;
+      })
+    ) {
+      toast.warn("내용을 입력하지 않은 메뉴가 존재합니다.");
+      toast("사용하지 않을 메뉴라면 사용목록에서 해재해 주세요.");
       return false;
     }
 
@@ -86,13 +99,25 @@ const HouseManualConfig: React.FC<IProps> = ({
 
   const handleSaveBtnClick = async () => {
     if (validate()) {
+      console.log("#####");
+      console.log({
+        variables: {
+          houseId: house._id,
+          lang: currentLanguage,
+          updateParams: {
+            backgroundImg: bgImageHook.fileUrl,
+            menus: menuData.map(menu => ({...menu, __typename: undefined})),
+            name: mainTitle
+          }
+        }
+      });
       const result = await updateManualMu({
         variables: {
           houseId: house._id,
           lang: currentLanguage,
           updateParams: {
             backgroundImg: bgImageHook.fileUrl,
-            menus: menuData,
+            menus: menuData.map(menu => ({...menu, __typename: undefined})),
             name: mainTitle
           }
         }
@@ -108,14 +133,16 @@ const HouseManualConfig: React.FC<IProps> = ({
       isEnable: boolean,
       menu: getHManual_GetHManual_houseManual_menus
     ) => (
-      <JDbox>
+      <JDbox className="houseManualMenuConfigMenu">
         <div className="JDflex--between JDflex--vCenter">
           <JDIcon
             className="JDstandard-space"
             size={IconSize.NORMAL}
             icon={menu.icon as any}
           />
-          <span className="JDstandard-space">{menu.name}</span>
+          <span className="houseManualMenuConfigMenu__menuTitle JDstandard-small-space">
+            {menu.name}
+          </span>
           <CircleIcon
             darkWave
             thema="greybg"
@@ -188,7 +215,11 @@ const HouseManualConfig: React.FC<IProps> = ({
 
   return (
     <div className="houseManualConfig">
-      <Preloader floating size="medium" loading={loading} />
+      <Preloader
+        floating
+        size={Standard_PreloaderFloatingSize}
+        loading={loading}
+      />
       <div className="container container--sm">
         <div className="docs-section">
           <h3>
@@ -241,34 +272,40 @@ const HouseManualConfig: React.FC<IProps> = ({
           </div>
           <div>
             <Card fullHeight align="center">
-              <div className="JDstandard-margin-bottom">
-                <LangList
-                  onClickLng={lang => {
-                    if (shouldSave) {
-                      toast.warn("언어를 변경하시기전에 먼저 저장해주세요");
-                    } else {
-                      setCurrentLanguage(lang);
+              {loading ? (
+                <Preloader size="large" loading={loading} />
+              ) : (
+                <Fragment>
+                  <div className="JDstandard-margin-bottom">
+                    <LangList
+                      onClickLng={lang => {
+                        if (shouldSave) {
+                          toast.warn("언어를 변경하시기전에 먼저 저장해주세요");
+                        } else {
+                          setCurrentLanguage(lang);
+                        }
+                      }}
+                      hilightLangs={[currentLanguage]}
+                      hideList={LANGUAGE_LIST.filter(
+                        lang => !enableLngList.includes(lang)
+                      )}
+                    />
+                  </div>
+                  <HouseManual
+                    host={
+                      !isGuestView
+                        ? {
+                            setMainTitle,
+                            setEnableLngList,
+                            setMenuData,
+                            bgImageHook
+                          }
+                        : undefined
                     }
-                  }}
-                  hilightLangs={[currentLanguage]}
-                  hideList={LANGUAGE_LIST.filter(
-                    lang => !enableLngList.includes(lang)
-                  )}
-                />
-              </div>
-              <HouseManual
-                host={
-                  !isGuestView
-                    ? {
-                        setMainTitle,
-                        setEnableLngList,
-                        setMenuData,
-                        bgImageHook
-                      }
-                    : undefined
-                }
-                {...sharedProps}
-              />
+                    {...sharedProps}
+                  />
+                </Fragment>
+              )}
             </Card>
           </div>
           {/* 메뉴 설정 모달 */}

@@ -79,7 +79,6 @@ const Memo: React.FC<Iprops> = ({
   return (
     <div className="memo">
       <div>
-        <Preloader size="small" loading={mutationLoading} />
         <MemoBox
           handleCreate={handleCreate}
           handleDelete={handleDelete}
@@ -88,6 +87,7 @@ const Memo: React.FC<Iprops> = ({
           memo={DEFAULT_MEMO}
         />
       </div>
+      <Preloader size="small" loading={mutationLoading} />
       {memos.map(memo => (
         <MemoBox
           key={memo._id}

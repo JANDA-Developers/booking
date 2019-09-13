@@ -31,6 +31,7 @@
             justify-content: center;
             align-items: center;
             border-right: 1px solid $grey-opacity2;
+            margin-right: -1px;
 
             // 방중에 도미토리가 아닌경우
             &--roomType {

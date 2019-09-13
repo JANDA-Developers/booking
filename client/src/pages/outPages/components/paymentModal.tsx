@@ -4,7 +4,7 @@ import JDmodal from "../../../atoms/modal/Modal";
 import {IUseModal, useSelect} from "../../../actions/hook";
 import JDselect from "../../../atoms/forms/selectBox/SelectBox";
 import Button from "../../../atoms/button/Button";
-import BookingInfoBox from "./bookerInfoBox";
+import BookerInfoBox from "./bookerInfoBox";
 import {BookerInput} from "../../../types/api";
 import {ISetBookingInfo, IReservationHooks} from "../reservation/Reservation";
 import {
@@ -61,7 +61,7 @@ const PayMentModal: React.SFC<IProps> = ({
                 label="결제수단"
               />
             </div>
-            <BookingInfoBox
+            <BookerInfoBox
               bookerInfo={bookerInfo}
               setBookerInfo={setBookerInfo}
             />

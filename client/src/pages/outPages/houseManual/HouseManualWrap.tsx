@@ -1,20 +1,13 @@
 import React, {useState} from "react";
 import {Query} from "react-apollo";
 import {
-  getSalesStatistic,
-  getSalesStatisticVariables,
-  getHManual,
-  getHManualVariables,
   getHManualForPublic,
   getHManualForPublicVariables
 } from "../../../types/api";
 import {SalesStatisticsUnit, Language} from "../../../types/enum";
 import HouseManual from "./HouseManual";
-import {IHouse} from "../../../types/interface";
-import {useDayPicker} from "../../../actions/hook";
-import {GET_HOUSE_MENUAL, GET_HOUSE_MENUAL_FOR_PUBLIC} from "../../../queries";
+import {GET_HOUSE_MENUAL_FOR_PUBLIC} from "../../../queries";
 import {queryDataFormater} from "../../../utils/utils";
-import Preloader from "../../../atoms/preloader/Preloader";
 import {RouteComponentProps} from "react-router";
 import {DEFAULT_HM} from "../../../types/defaults";
 

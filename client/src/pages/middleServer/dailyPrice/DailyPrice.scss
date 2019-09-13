@@ -1,7 +1,13 @@
 @import '../../../style_config/style_config.scss';
 
-.specificPrice {
+#dailyPrice {
+.dailyPrice {
     min-height: 100vh;
+
+    &__cellWrap {
+        padding: $standard-tiny-space;
+    }
+
     &__timeline {
         .JDinput {
             margin: 0;
@@ -25,4 +31,5 @@
     }
 
     @extend %timelineTopLeftIconBox;
+}
 }

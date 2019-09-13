@@ -1,15 +1,22 @@
 import React from "react";
-import {MyPage} from "../../../pages";
 import JDmodal from "../../../../atoms/modal/Modal";
 import {IUseModal} from "../../../../actions/hook";
+import MypageWrap from "../../myPage/MyPageWrap";
+import {Context} from "tern";
+import {IContext} from "../../../MiddleServerRouter";
+import {getUserForSU_GetUserForSU_user} from "../../../../types/api";
 
-interface IProps {
-  modalHook: IUseModal;
+export interface IUserModalProps {
+  userId: string;
 }
 
-const UserModal: React.SFC<IProps> = ({modalHook}) => (
-  <JDmodal minContentsWidth="360px" {...modalHook}>
-    <MyPage />
-  </JDmodal>
-);
+interface IProps {
+  modalHook: IUseModal<IUserModalProps>;
+  context: IContext;
+  propUserData: getUserForSU_GetUserForSU_user;
+}
+
+const UserModal: React.FC<IProps> = ({modalHook, context, propUserData}) => {
+  return <MypageWrap propUserData={propUserData} context={context} />;
+};
 export default UserModal;

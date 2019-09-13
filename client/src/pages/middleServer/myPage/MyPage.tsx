@@ -136,24 +136,25 @@ const Mypage: React.SFC<IProps> = ({
         </div>
       </div>
       {/* Modal : 프로필 변경 */}
-      <Modal center {...passWordModal}>
+      <Modal {...passWordModal}>
         <h6>프로필 변경</h6>
         <div>
           <InputText
             {...passwordHook}
+            type="password"
             validation={utils.isPassword}
             label="비밀번호"
           />
         </div>
         <div className="JDmodal__endSection">
           <Button
+            thema="primary"
             label="확인"
             onClick={(e: any) => {
               passWordModal.closeModal();
               checkUpdateMutation(e);
             }}
           />
-          <Button label="닫기" onClick={passWordModal.closeModal} />
         </div>
       </Modal>
       <MyHouseModalWrap MyHouseModalHook={houseModal} />

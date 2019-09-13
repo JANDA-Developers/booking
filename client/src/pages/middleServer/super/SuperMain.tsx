@@ -42,18 +42,20 @@ const SuperMain: React.SFC<Iprops> = ({
       <div className="container container--sm">
         <div className="docs-section">
           <Fragment>
-            <Preloader size="large" noAnimation loading={loading} />
             <div className="docs-section__box">
-              <Button
-                onClick={() => {
-                  notificationModalHook.openModal({
-                    target: NotificationType.TO_ALL
-                  });
-                }}
-                thema="white"
-                label="단체알림"
-                icon="notify"
-              />
+              <div>
+                <Button
+                  onClick={() => {
+                    notificationModalHook.openModal({
+                      target: NotificationType.TO_ALL
+                    });
+                  }}
+                  thema="white"
+                  label="단체알림"
+                  icon="notify"
+                />
+              </div>
+              <Preloader size="large" noAnimation loading={loading} />
               {houseData.map((house: Ihouse) => (
                 <HouseCard
                   key={`houseCard${house._id}`}
@@ -71,7 +73,9 @@ const SuperMain: React.SFC<Iprops> = ({
               pageRangeDisplayed={1}
               marginPagesDisplayed={4}
             />
-            {userModal.isOpen && <UserModal modalHook={userModal} />}
+            {userModal.isOpen && (
+              <UserModal context={context} modalHook={userModal} />
+            )}
           </Fragment>
           {!isEmpty(context.house) && (
             <CreateNotificationModalWrap

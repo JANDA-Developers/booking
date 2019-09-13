@@ -369,7 +369,7 @@ const POPbookingInfo: React.FC<IProps> = ({
             <div className="flex-grid">
               <div className="flex-grid__col col--full-8 col--lg-8 col--md-8">
                 <JDdayPicker
-                  selectBeforeDay={false}
+                  canSelectBeforeDay={false}
                   {...resvDateHook}
                   input
                   readOnly

@@ -23,7 +23,7 @@ const DocumentRouter: React.SFC<IProps> = ({match, location}) => {
         />
         <Route
           exact
-          path="/outpage/checkReservation/:publickey/:name?/:phoneNumber?/:password?"
+          path="/outpage/checkReservation/:publickey/:transId?"
           component={ReservationCheck}
         />
         <Route

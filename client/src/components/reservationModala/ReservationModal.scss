@@ -1,3 +1,18 @@
+@import '../../style_config/style_config';
+
+
 .reservationModal {
     width: 90%;
+
+    @include response($tablet) {
+        #JDreservation .JDreservation__mobileRoomSearcherWrap {
+            background-image: none;
+            min-height: 0!important;;
+            
+        }
+        .JDcard {
+            box-shadow: none!important;
+            padding: 0!important;
+        }
+    }
 }

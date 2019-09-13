@@ -3,6 +3,14 @@
 .JDslider {
     position: relative;
     overflow:hidden;
+
+
+    &--unDisplayArrow {
+        .slick-arrow {
+            display: none!important;
+        }
+    }
+
     &__slide {
         &-wrap{
             text-align: center;
