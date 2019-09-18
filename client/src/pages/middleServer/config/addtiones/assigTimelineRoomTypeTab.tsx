@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import JDLabel from "../../../../atoms/label/JDLabel";
 import JDrange from "../../../../atoms/forms/range/range";
-import {IAddtionProp} from "../components/AddtionModule";
+import {IAddtionProp} from "../components/ConfigBlock";
 import JDswitch from "../../../../atoms/forms/switch/Switch";
 import {useSwitch} from "../../../../actions/hook";
 import {muResult} from "../../../../utils/utils";

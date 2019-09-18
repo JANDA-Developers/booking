@@ -3,6 +3,7 @@ import {IUseDayPicker} from "../../actions/hook";
 import JDdayPicker from "../../atoms/dayPicker/DayPicker";
 import ArrowDayByDay from "../../atoms/dayPicker/component/inputComponent/arrowDayByDay";
 import {autoComma} from "../../utils/utils";
+import Preloader from "../../atoms/preloader/Preloader";
 
 export interface IViewConfigProp {
   showDayPicker?: boolean;
@@ -11,9 +12,16 @@ export interface IViewConfigProp {
 
 interface Iprops extends IViewConfigProp {
   price: number;
+  loading: boolean;
 }
 
-const DaySales: React.FC<Iprops> = ({price, dayPickerHook, showDayPicker}) => {
+const DaySales: React.FC<Iprops> = ({
+  loading,
+  price,
+  dayPickerHook,
+  showDayPicker
+}) => {
+  if (loading) return <Preloader size="medium" loading={loading} />;
   return (
     <div>
       {showDayPicker && dayPickerHook && (

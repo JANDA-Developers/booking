@@ -36,7 +36,8 @@ import {
   useImageUploader,
   useColorPicker,
   useDayPicker,
-  useModal
+  useModal,
+  useDrawer
 } from "../../../actions/hook";
 import "./ShowComponent.scss";
 import JDcolorPicker from "../../../atoms/colorPicker/ColorPicker";
@@ -44,8 +45,12 @@ import DrragList from "../../../atoms/animation/DrragList";
 import Card from "../../../atoms/cards/Card";
 import JDbox from "../../../atoms/box/JDbox";
 import {CellInfo} from "react-table";
-import {UserRole} from "../../../types/enum";
+import {UserRole, TimePerMs} from "../../../types/enum";
 import JDrange from "../../../atoms/forms/range/range";
+import Drawer from "../../../atoms/drawer/Drawer";
+import JDTimer from "../../../atoms/timer/Timer";
+import Timer from "react-compound-timer/build";
+import JDmultiStep from "../../../atoms/multiStep/MultiStep";
 
 function ShowComponents() {
   const defaultColor = faker.commerce.color();
@@ -68,6 +73,7 @@ function ShowComponents() {
   const refContainer = useRef();
   const [SideNavIsOpen, setSideNavIsOpen] = useToggle(false);
   const imageUploaderHook = useImageUploader();
+  const drawerHook = useDrawer(false);
 
   const searchDummyData = [
     {name: "Manpreet Singh", pic: ""},
@@ -136,6 +142,16 @@ function ShowComponents() {
     }
   ];
 
+  interface ICWProp {
+    title: string;
+  }
+  const ComponentWrap: React.FC<ICWProp> = ({children, title}) => (
+    <div className="docs-section__box">
+      <h6>{title}</h6>
+      {children}
+    </div>
+  );
+
   return (
     <div className="container">
       <div className="docs-section showComponent">
@@ -151,17 +167,12 @@ function ShowComponents() {
           </h6>
         </div>
         {/* 체크박스 */}
-        <div className="docs-section__box">
-          <h6>Check Box</h6>
-
+        <ComponentWrap title="CheckBox">
           <CheckBox {...checkHook} label="normal" />
-
           <CheckBox {...checkHook} label="disabled" disabled />
-        </div>
+        </ComponentWrap>
         {/* 스위치 */}
-        <div className="docs-section__box">
-          <h6>Switch</h6>
-
+        <ComponentWrap title="Switch">
           <Switch {...switchHook} label="normal" />
 
           <Switch {...switchHook} ltxt="normal" />
@@ -169,10 +180,9 @@ function ShowComponents() {
           <Switch {...switchHook} rtxt="normal" />
 
           <Switch ltxt="disabled" disabled />
-        </div>
+        </ComponentWrap>
         {/* 라디오 */}
-        <div className="docs-section__box">
-          <h6>Radio</h6>
+        <ComponentWrap title="Radio">
           <Radio
             onChange={setValue}
             value="Y"
@@ -194,10 +204,9 @@ function ShowComponents() {
           <Radio onChange={setValue} value="rd4" id="RD1--4" groupName="RD1" />
           <Radio id="RD2--1" label="라벨" groupName="RD2" />
           <Radio id="RD2--2" label="라벨2" groupName="RD2" />
-        </div>
+        </ComponentWrap>
         {/* 인풋 텍스트 */}
-        <div className="docs-section__box">
-          <h6>InputText</h6>
+        <ComponentWrap title="InputText">
           <div className="flex-grid">
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
               <InputText
@@ -236,10 +245,9 @@ function ShowComponents() {
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6" />
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6" />
           </div>
-        </div>
+        </ComponentWrap>
         {/* 텍스트 어리어 */}
-        <div className="docs-section__box">
-          <h6>TextArea</h6>
+        <ComponentWrap title="Textarea">
           <div className="flex-grid">
             <div className="flex-grid__col col--full-3 col--lg-3 col--md-6">
               <InputText label="noraml" textarea />
@@ -257,71 +265,74 @@ function ShowComponents() {
               <InputText halfHeight label="halfHeight" textarea />
             </div>
           </div>
-        </div>
+        </ComponentWrap>
         {/* 서치바 */}
-        <h6>SearchInput</h6>
-        <div className="flex-grid-grow flex-grid--md docs-section__box">
-          <div className="flex-grid__col">
-            <SearchInput
-              onTypeValue={onTypeValue}
-              onTypeChange={onTypeChange}
-              onFindOne={onTypeChange}
-              feedBackMessage="feedBackMessage"
-              staticList
-              dataList={searchDummyData}
-              filter
-              label="normal"
-            />
+        <ComponentWrap title="SearchInput">
+          <div className="flex-grid-grow flex-grid--md ">
+            <div className="flex-grid__col">
+              <SearchInput
+                onTypeValue={onTypeValue}
+                onTypeChange={onTypeChange}
+                onFindOne={onTypeChange}
+                feedBackMessage="feedBackMessage"
+                staticList
+                dataList={searchDummyData}
+                filter
+                label="normal"
+              />
+            </div>
           </div>
-        </div>
+        </ComponentWrap>
         {/* 레인지 */}
-        <h6>Range</h6>
-        <div className="flex-grid-grow flex-grid--md docs-section__box">
-          <div className="flex-grid__col">
-            <JDrange
-              maxValue={20}
-              minValue={0}
-              value={range}
-              onChange={setRange}
-            />
+        <ComponentWrap title="Range">
+          <div className="flex-grid-grow flex-grid--md">
+            <div className="flex-grid__col">
+              <JDrange
+                maxValue={20}
+                minValue={0}
+                value={range}
+                onChange={setRange}
+              />
+            </div>
           </div>
-        </div>
+        </ComponentWrap>
         {/* 탭바 */}
-        <h6>Tabs</h6>
-        <div className="flex-grid-grow flex-grid--md docs-section__box">
-          <div className="flex-grid__col">
-            <JDlabel txt="Normal" />
-            <JDtabs>
-              <TabList>
-                <Tab>Title 1</Tab>
-                <Tab>Title 2</Tab>
-              </TabList>
+        <ComponentWrap title="Tabs">
+          <div className="flex-grid-grow flex-grid--md">
+            <div className="flex-grid__col">
+              <JDlabel txt="Normal" />
+              <JDtabs>
+                <TabList>
+                  <Tab>Title 1</Tab>
+                  <Tab>Title 2</Tab>
+                </TabList>
 
-              <TabPanel>
-                <h2>Any content 1</h2>
-              </TabPanel>
-              <TabPanel>
-                <h2>Any content 2</h2>
-              </TabPanel>
-            </JDtabs>
-          </div>
-          <div className="flex-grid__col">
-            <JDlabel txt="styleMode Button" />
-            <JDtabs styleMode="button">
-              <TabList>
-                <Tab>Title 1</Tab>
-                <Tab>Title 2</Tab>
-              </TabList>
+                <TabPanel>
+                  <h2>Any content 1</h2>
+                </TabPanel>
+                <TabPanel>
+                  <h2>Any content 2</h2>
+                </TabPanel>
+              </JDtabs>
+            </div>
+            <div className="flex-grid__col">
+              <JDlabel txt="styleMode Button" />
+              <JDtabs styleMode="button">
+                <TabList>
+                  <Tab>Title 1</Tab>
+                  <Tab>Title 2</Tab>
+                </TabList>
 
-              <TabPanel>
-                <h2>Any content 1</h2>
-              </TabPanel>
-              <TabPanel>
-                <h2>Any content 2</h2>
-              </TabPanel>
-            </JDtabs>
+                <TabPanel>
+                  <h2>Any content 1</h2>
+                </TabPanel>
+                <TabPanel>
+                  <h2>Any content 2</h2>
+                </TabPanel>
+              </JDtabs>
+            </div>
           </div>
-        </div>
+        </ComponentWrap>
         {/* 토스트 알림 */}
         <h6>Toast</h6>
         <div className="flex-grid-grow flex-grid--md docs-section__box">
@@ -378,7 +389,11 @@ function ShowComponents() {
           <div className="flex-grid__col col--full-4 col--wmd-12">
             <div className="showComponent__container">
               <JDlabel txt="horizen" />
-              <DayPicker canSelectBeforeDay={false} {...dayPickerHook} horizen />
+              <DayPicker
+                canSelectBeforeDay={false}
+                {...dayPickerHook}
+                horizen
+              />
             </div>
           </div>
           <div className="flex-grid__col col--full-4 col--wmd-12">
@@ -494,7 +509,7 @@ function ShowComponents() {
             </div>
           </JDmodal>
         </div>
-        s{/* 툴팁 */}
+        {/* 툴팁 */}
         <div className="docs-section__box">
           <h6>Tooltip</h6>
 
@@ -543,6 +558,9 @@ function ShowComponents() {
             </div>
           ))}
         </div>
+        <ComponentWrap title="Drawer">
+          <Drawer {...drawerHook} />
+        </ComponentWrap>
         {/* 타이포그래피  */}
         <h6>TyphoGraphy</h6>
         <div className="docs-section__box">
@@ -567,6 +585,33 @@ function ShowComponents() {
             pageRangeDisplayed={5}
           />
         </div>
+        {/* 타이머 */}
+        <ComponentWrap title="Timer">
+          <JDTimer initialTime={TimePerMs.M * 3} direction="backward">
+            {({timerState}: any) => {
+              return (
+                <span className="JDtimer">
+                  <span className="JDtimer__minute">
+                    <Timer.Minutes />분
+                  </span>
+                  <span className="JDtimer__second">
+                    <Timer.Seconds />초
+                  </span>
+                </span>
+              );
+            }}
+          </JDTimer>
+        </ComponentWrap>
+        {/* 멀티스탭*/}
+        <ComponentWrap title="Multi Step">
+          <JDmultiStep
+            steps={[
+              {current: false, name: "ex1"},
+              {current: false, name: "ex2"},
+              {current: true, name: "ex3"}
+            ]}
+          />
+        </ComponentWrap>
         {/* 드래그리스트 */}
         <h6>DragList</h6>
         <div className="docs-section__box clear-fix">
@@ -581,8 +626,12 @@ function ShowComponents() {
         {/* JDbox */}
         <h6>JDbox</h6>
         <div className="docs-section__box clear-fix">
+          <JDbox
+            label="Photo Frame"
+            photo="https://i.pinimg.com/564x/5b/14/a4/5b14a4c5bd301fb27c7360de8bea6227.jpg"
+          />
           <JDbox label="Box Label">boxContent</JDbox>
-          <JDbox mode="table">
+          <JDbox label="Table Mode" mode="table">
             <table>
               <thead>
                 <tr>

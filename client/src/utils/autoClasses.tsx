@@ -6,6 +6,7 @@ const colorClass = (boxName: string, color?: JDColor | null) => {
   obj[`${boxName}--point`] = color === "point";
   obj[`${boxName}--positive`] = color === "positive";
   obj[`${boxName}--warn`] = color === "warn";
+  obj[`${boxName}--grey`] = color === "grey";
   obj[`${boxName}--error`] = color === "error";
   obj[`${boxName}--new`] = color === "new";
   obj[`${boxName}--black`] = color === "black";

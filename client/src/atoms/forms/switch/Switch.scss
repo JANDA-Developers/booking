@@ -21,6 +21,10 @@
     &-wrap {
         display: flex;
         flex-direction: column;
+
+        .JDlabel {
+            text-align: center;
+        }
     }
 
     display: inline-block;

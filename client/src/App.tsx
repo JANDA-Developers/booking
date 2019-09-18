@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-import React from "react";
+import React, {useMemo} from "react";
 import {ApolloProvider} from "react-apollo";
 import {HashRouter as Router, Route, Switch} from "react-router-dom";
 // @ts-ignore
@@ -18,7 +18,7 @@ function App() {
   // const browser = browserDetect();
   // console.info(browser);
 
-  JDoutdatedBrowserRework();
+  // JDoutdatedBrowserRework();
 
   return (
     <ApolloProvider client={client}>
@@ -26,13 +26,19 @@ function App() {
       <Router>
         <Switch>
           {/* 상위 컴포넌트 영향에벋어날수 없다. */}
-          <Route path="/documents" component={DocumentRouter} />
-          <Route path="/outpage/:token" component={OutPageRouter} />
-          {["/", "/middleServer"].map(path => (
+          <Route
+            path="/documents"
+            render={prop => <DocumentRouter {...prop} />}
+          />
+          <Route
+            path="/outpage/:token"
+            render={prop => <OutPageRouter {...prop} />}
+          />
+          {["/"].map(path => (
             <Route
               key={`router${path}`}
               path={path}
-              component={MiddleServerRouter}
+              render={() => <MiddleServerRouter />}
             />
           ))}
           <Route component={NoMatch} />

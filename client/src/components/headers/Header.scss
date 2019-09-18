@@ -121,8 +121,12 @@ html .header {
         height: 100%;
         line-height: 100%;
         justify-content: flex-end;
-        &:hover{
-            background-color:rgba(0,0,0,.1);
+
+        .JDbtn {
+            border-radius: 0!important;
+            &:hover{
+                background-color:rgba(0,0,0,.1);
+            }
         }
 
         &--transparent {

@@ -8,6 +8,7 @@
             background-color: white;
             left: 0;
             display:flex;
+            border-top: 1px dotted $grey-level2;
             justify-content: center;
             align-items: center;
             border-right: 1px solid $grey-opacity3;
@@ -59,13 +60,13 @@
 
         &__place {
             position: relative;
-            padding-left: $AT-assigGroup-roomType-width + $AT-assigGroup-room-width - 4px;
+            padding-left: $AT-assigGroup-roomType-width + $AT-assigGroup-room-width - 0.25rem;
             text-align: center;
-            width: calc(100% + 4px);
+            width: calc(100% + 0.25rem);
             
             @include response($mobile) {
                 font-size: $typho-small;
-                padding-left: $AT-mobile-assigGroup-roomType-width + $AT-mobile-assigGroup-room-width - 4px;
+                padding-left: $AT-mobile-assigGroup-roomType-width + $AT-mobile-assigGroup-room-width - 0.25rem;
             }
         }
 

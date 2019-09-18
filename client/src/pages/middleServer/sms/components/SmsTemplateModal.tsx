@@ -29,7 +29,8 @@ import {
   SendTargetKr,
   KR_SMS_PARSER,
   AUTO_SEND_OP,
-  SMS_TARGET_OP
+  SMS_TARGET_OP,
+  SmsReplaceKeyEnum
 } from "../../../../types/enum";
 import InputText from "../../../../atoms/forms/inputText/InputText";
 import {MutationFn} from "react-apollo";
@@ -178,12 +179,16 @@ const SmsTemplateModal: React.FC<Iprops> = ({
           {SmsReplaceKeyEnumKeys.map((value: any) => (
             <Button
               onClick={() => {
-                hanldeTemplateBtnClick(SmsReplaceKeyEnumKr[value]);
+                hanldeTemplateBtnClick(
+                  // @ts-ignore
+                  SmsReplaceKeyEnumKr[value]
+                );
               }}
               key={`templateBtn${templateData._id}${value}`}
-              label={SmsReplaceKeyEnumKr[value]
-                .replace("[", "")
-                .replace("]", "")}
+              label={
+                // @ts-ignore
+                SmsReplaceKeyEnumKr[value].replace("[", "").replace("]", "")
+              }
             />
           ))}
         </div>

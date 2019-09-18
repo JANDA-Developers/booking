@@ -32,7 +32,7 @@ const StaticController: React.FC<Iprops> = ({context, staticsProps}) => {
             });
           }}
           options={STATISTICS_OP}
-          label="통계 보기"
+          label="어떤 통계를 원하시나요?"
         />
       </div>
       <div>
@@ -56,7 +56,7 @@ const StaticController: React.FC<Iprops> = ({context, staticsProps}) => {
             label: SalesStatisticsUnitKr[queryOp.unit]
           }}
           options={STATISTICS_TYPE_OP}
-          label="보기 단위"
+          label="어떤 단위로 보여 드릴까요?"
         />
       </div>
     </div>

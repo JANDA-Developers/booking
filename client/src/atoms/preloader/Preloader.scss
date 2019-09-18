@@ -31,9 +31,14 @@
     }
 
     &__wrap {
-        width: 1px;
-        height: 1px;
+        height: 0px;
         transform-origin: center cetner;
+
+        &--center {
+            width: 100%;
+            display:flex;
+            justify-content: center;
+        }
     }
 
     &__outerline {

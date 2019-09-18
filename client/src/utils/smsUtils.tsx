@@ -11,7 +11,9 @@ export const smsMessageFormatter = (msg: string): string => {
   let formatMsg = msg;
   SmsReplaceKeyEnumKeys.forEach((key: any) => {
     formatMsg = formatMsg.replace(
+      // @ts-ignore
       SmsReplaceKeyEnumKr[key],
+      // @ts-ignore
       SmsReplaceKeyEnum[key]
     );
   });
@@ -25,6 +27,7 @@ type TParser = {[K in keyof typeof SmsReplaceKeyEnum]: string};
 export const smsMsgParser = (msg: string, parser: TParser): string => {
   let formatMsg = msg;
   SmsReplaceKeyEnumKeys.forEach((key: any) => {
+    // @ts-ignore
     formatMsg = formatMsg.replace(SmsReplaceKeyEnum[key], parser[key]);
   });
 

@@ -1,15 +1,8 @@
-import React, * as react from "react";
+import React from "react";
 import {Query} from "react-apollo";
 import DayCheckIn from "./DayCheckIn";
-import {
-  getGuests,
-  getGuestsVariables,
-  getBooking,
-  getBookingVariables,
-  getBookings,
-  getBookingsVariables
-} from "../../types/api";
-import {GET_GUESTS, GET_BOOKING, GET_BOOKINGS} from "../../queries";
+import {getBookings, getBookingsVariables} from "../../types/api";
+import {GET_BOOKINGS} from "../../queries";
 import {IContext} from "../../pages/MiddleServerRouter";
 import {queryDataFormater} from "../../utils/utils";
 import moment from "moment";
@@ -28,6 +21,7 @@ const DayCheckInWrap: React.FC<IProps> = ({context}) => {
   return (
     <div>
       <GetBookingsQu
+        skip={!house._id}
         variables={{
           houseId: house._id,
           filter: {
@@ -49,7 +43,6 @@ const DayCheckInWrap: React.FC<IProps> = ({context}) => {
             )
           );
 
-          console.log(bookings);
           const bookingsCount = bookingsCheckInToday.length;
           const bookingsCheckInCount = bookingsCheckInToday.filter(
             booking => booking.checkInInfo.isIn
@@ -63,6 +56,7 @@ const DayCheckInWrap: React.FC<IProps> = ({context}) => {
 
           return (
             <DayCheckIn
+              loading={getGuestsLoading}
               context={context}
               dayPickerHook={dayPickerHook}
               info={info}

@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {ErrProtecter, s4} from "../../../utils/utils";
-import AddtionModule from "./components/AddtionModule";
-import {additiones} from "./addtiones/additiones";
+import ConfigBlock from "./components/ConfigBlock";
+import {configBlocks} from "./addtiones/configs";
 import Card from "../../../atoms/cards/Card";
 import "./Config.scss";
 import Sticky from "react-sticky-el";
@@ -21,18 +21,22 @@ interface IProps {
   context: IContext;
 }
 
+// AdditionMoudle 클릭시 변경
 const Config: React.FC<IProps> = ({updateHouseConfigMu, context}) => {
-  // AdditionMoudle 클릭시 변경
-
   const [additionIndex, setAdditionIndex] = useState<null | number>(null);
   return (
     <div id="Config" className="container config">
       <div className="flex-grid docs-section">
         <div className="flex-grid__col col--full-4 col--md-12">
           <div className="config__cardsWrap">
-            {additiones.map((addtion, index) => (
-              <Card key={s4()} selected={index === additionIndex} hover>
-                <AddtionModule
+            {configBlocks.map((addtion, index) => (
+              <Card
+                className="JDstandard-space0"
+                key={s4()}
+                selected={index === additionIndex}
+                hover
+              >
+                <ConfigBlock
                   setAdditionIndex={setAdditionIndex}
                   addtionInfo={addtion}
                   index={index}
@@ -50,8 +54,8 @@ const Config: React.FC<IProps> = ({updateHouseConfigMu, context}) => {
                 </div>
               ) : (
                 <div>
-                  <h5>{additiones[additionIndex].name}</h5>
-                  {additiones[additionIndex].detailDescription({
+                  <h5>{configBlocks[additionIndex].name}</h5>
+                  {configBlocks[additionIndex].detailDescription({
                     updateHouseConfigMu,
                     context
                   })}

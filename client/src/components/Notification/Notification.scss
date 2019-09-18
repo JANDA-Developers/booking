@@ -14,7 +14,7 @@
     &__tooltip {
         &_ul {
             @extend %JDscrollbar;
-            max-height: $standard-height *9;
+            max-height: $standard-height *9 * 9;
             overflow-y: auto;
             overflow-x: hidden;
 

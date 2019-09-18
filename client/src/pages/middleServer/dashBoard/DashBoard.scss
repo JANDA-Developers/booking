@@ -16,7 +16,7 @@
         text-align: center;
     }
     &__memoCard {
-        max-height: $standard-height * 7;
+        max-height: $standard-height * 7 * 9;
         overflow-y: auto;
         @extend %JDscrollbar;
     }
@@ -46,7 +46,7 @@
 
     .JDslider__slide {
         flex-direction: column;
-        height: $standard-height * 5;
+        height: $standard-height * 5 * 9;
         background-size: cover;
         background-position: 50% 50%;
         display: flex;

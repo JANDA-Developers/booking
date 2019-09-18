@@ -18,6 +18,7 @@ export const F_MEMO = gql`
         title
         text
         memoType
+        important
         createdAt
         updatedAt
     }
@@ -93,7 +94,14 @@ export const F_HOUSE_CONFIG = gql`
             newBookingMark {
                 enable
                 newGuestTime
+            },
+            collectingInfoFromGuest {
+                email
+                country
             }
+        },
+        baseConfig {
+                pricingTypes
         }
     }
 `;
@@ -1102,6 +1110,32 @@ export const GET_FILE_TXT = gql`
         }
     }
 `;
+
+// BOOKING_FOR_PUBLIC 가져오기
+export const GET_BOOKING_FOR_PUBLIC = gql`
+    query getBookingForPublic(
+        $transactionId: String
+        $getBookingParam: GetBookingParams
+    ) {
+        GetBookingForPublic(transactionId: $transactionId, getBookingParam:$getBookingParam) {
+            ok
+            error
+            booking {
+                ...Fbooking
+                guests {
+                    ...Fguest
+                    roomType {
+                        _id
+                    }
+                }
+            }
+        }
+    }
+${F_GUEST}
+${F_BOOKING}
+`
+
+
 // 예약 ::모든 예약을 가져옴
 export const GET_BOOKINGS = gql`
     query getBookings(

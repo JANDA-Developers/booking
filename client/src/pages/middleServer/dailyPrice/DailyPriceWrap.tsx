@@ -276,8 +276,3 @@ const DailyPriceWrap: React.FC<IProps> = ({context}) => {
 };
 
 export default ErrProtecter(DailyPriceWrap);
-
-// 왜 item 이 안나올까?
-// 1.ID 문제다?
-// 2.TimeStamp 문제다?
-// 3. 필요한 인자가 빠졌다?

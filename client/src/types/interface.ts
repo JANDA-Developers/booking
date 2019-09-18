@@ -14,6 +14,7 @@ import {
   ProductTypeKey
 } from "./api";
 import {IselectedOption} from "../atoms/forms/selectBox/SelectBox";
+import {PricingType} from "./enum";
 
 // 🥈 중복이 생기면 이렇게 감싸서 처리하자.
 //  moudle 과 naeme space를 사용하려 해보았으나 실패 ㅠ
@@ -140,6 +141,15 @@ export interface IHouseConfigFull extends IHouseConfig {
       enable: false;
       newGuestTime: number;
     };
+    collectingInfoFromGuest: {
+      __typename: "CollectingInfoFromGuest";
+      email: false;
+      country: false;
+    };
+  };
+  baseConfig: {
+    __typename: "BaseConfig";
+    pricingTypes: PricingType[];
   };
 }
 

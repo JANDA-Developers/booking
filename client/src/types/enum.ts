@@ -1,4 +1,5 @@
 import {assertValidSDL} from "graphql/validation/validate";
+import {isMobile} from "is-mobile";
 
 //= =============================================================
 // START Enums from BackEnd
@@ -462,6 +463,12 @@ export const PRICING_TYPE_OP = [
   {value: PricingType.ROOM, label: PricingTypeKr.ROOM}
 ];
 
+export const PRICING_TYPE_OP_EXPEND = [
+  {value: [PricingType.DOMITORY], label: PricingTypeKr.DOMITORY},
+  {value: [PricingType.ROOM], label: PricingTypeKr.ROOM},
+  {value: [PricingType.ROOM, PricingType.DOMITORY], label: "도미토리 & 방타입"}
+];
+
 export const AUTO_SEND_OP = [
   {
     value: AutoSendWhen.WEHN_BOOKING_CANCEL,
@@ -499,7 +506,9 @@ export const NEUTRAL = "";
 
 export const EMPTY = "";
 
-export const ModalMinWidth = `${document.documentElement.clientWidth - 64}px`;
+export const ModalMinWidth = isMobile()
+  ? `${document.documentElement.clientWidth - 64}px`
+  : "360px";
 
 export const StaticColors = [
   "#E8554E",

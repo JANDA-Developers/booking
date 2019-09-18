@@ -270,7 +270,7 @@ export interface IUseColor {
 function useColorPicker(defaultValue: string | null): IUseColor {
   let defaultColor: string = "";
   if (!defaultValue) {
-    const temp = randomColor();
+    const temp: any = randomColor();
     if (temp instanceof Array) {
       defaultColor = temp[0];
     }
@@ -319,6 +319,16 @@ function useSwitch(defaultValue: boolean) {
   return {checked, onChange};
 }
 
+function useDrawer(defaultValue: boolean) {
+  const [open, setOpen] = useState(defaultValue);
+
+  const onClick = (e: any) => {
+    setOpen(!open);
+  };
+
+  return {open, onClick};
+}
+
 // useRange
 function useRange(defaultValue: number) {
   const [value, setValue] = useState(defaultValue);
@@ -333,6 +343,11 @@ function useRange(defaultValue: number) {
 export interface IUseSelect<V = any> {
   selectedOption: IselectedOption<V> | null;
   onChange(foo: IselectedOption<V>): void;
+}
+
+export interface IUseDrawer {
+  onClick: (e: any) => void;
+  open: boolean;
 }
 
 // 셀렉트박스 훅
@@ -473,6 +488,7 @@ export {
   useModal,
   useRange,
   useDebounce,
+  useDrawer,
   useImageUploader,
   useShouldSave,
   useColorPicker,

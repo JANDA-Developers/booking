@@ -226,6 +226,7 @@ export const DEFAULT_MEMO: getMemos_GetMemos_memos = {
   createdAt: "",
   memoType: MemoType.HOST,
   text: "",
+  important: false,
   title: "",
   updatedAt: ""
 };
@@ -254,7 +255,16 @@ export const DEFAULT_HOUSE_CONFIG: IHouseConfigFull = {
       __typename: "NewBookingMark",
       enable: false,
       newGuestTime: TimePerMs.DAY
+    },
+    collectingInfoFromGuest: {
+      __typename: "CollectingInfoFromGuest",
+      email: false,
+      country: false
     }
+  },
+  baseConfig: {
+    __typename: "BaseConfig",
+    pricingTypes: []
   }
 };
 

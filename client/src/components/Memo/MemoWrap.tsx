@@ -95,7 +95,7 @@ const MemoWrap: React.FC<IMemoWrapProps> = ({context, memoType}) => {
                             memos={getMemosData || []}
                           />
                         ) : (
-                          <Preloader size="medium" loading={true} />
+                          <Preloader size="large" loading={true} />
                         )
                       }
                     </UpdateMemoMu>

@@ -1,8 +1,8 @@
 @import "../../style_config/style_config";
 
 .JDcolorPicker {
-     
     display:inline-block;
+    
    &__swatch {
         padding: $colorPicker-padding;
         background-color: #fff;

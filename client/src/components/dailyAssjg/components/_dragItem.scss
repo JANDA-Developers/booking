@@ -7,28 +7,15 @@
         }
     }
 
-    &__itemBlockWrap {
-    }
     
     &__itemBlock {
-        height: $standard-height / 2;
+        box-sizing: border-box;
+        height: $dailyAssig-block-height;
         padding: $assigItem-padding;
         border-bottom: 1px solid $grey-opacity1;
 
         @include response($phablet) {
             font-size: $typho-small;
-        }
-    }
-
-    &__block {
-        padding: $assigItem-padding;
-        background-color: $assigItem-block-color;
-        display: flex;
-        color: white;
-        align-items: center;
-        flex: unset;
-        * {
-            flex: unset;
         }
     }
 
@@ -51,10 +38,32 @@
 
     &__itemName {
         white-space: nowrap;
-        text-overflow: hidden;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
+    
+    &__blockBlock {
+        background-color: $assigItem-block-color;
+      padding: $assigItem-padding;
+        background-color: $assigItem-block-color;
+        display: flex;
+        color: white;
+        align-items: center;
+        flex: unset;
+        * {
+            flex: unset;
+        }
+    }
+
     &__empty {
         color: $grey-level1;
+
+        &:hover {
+            cursor: pointer;
+            border: 1px solid $assigItem-selected-border-color;
+            box-sizing:border-box;
+        }
     }
 
     #root &__configIconWrap {

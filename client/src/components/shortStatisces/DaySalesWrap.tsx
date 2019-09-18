@@ -1,4 +1,4 @@
-import React, * as react from "react";
+import React, {useEffect} from "react";
 import {Query} from "react-apollo";
 import DaySales, {IViewConfigProp} from "./DaySales";
 import {GET_SALES_STATISTIC} from "../../queries";
@@ -25,9 +25,14 @@ const DaySalesWrap: React.FC<IProps> = ({context, showDayPicker}) => {
 
   const dayPickerHook = useDayPicker(new Date(), new Date());
 
+  useEffect(() => {
+    console.log("howMany2");
+  }, []);
+
   return (
     <div>
       <GetSalesQu
+        notifyOnNetworkStatusChange
         variables={{
           houseId: house._id,
           end: dayPickerHook.to,
@@ -52,7 +57,13 @@ const DaySalesWrap: React.FC<IProps> = ({context, showDayPicker}) => {
             }
           }
 
-          return <DaySales dayPickerHook={dayPickerHook} price={price} />;
+          return (
+            <DaySales
+              loading={getSalesLoading}
+              dayPickerHook={dayPickerHook}
+              price={price}
+            />
+          );
         }}
       </GetSalesQu>
     </div>

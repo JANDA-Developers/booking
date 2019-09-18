@@ -1,5 +1,6 @@
 @import '../../../style_config/style_config.scss';
 @import './assigItem';
+@import './assigGroup';
 @import './assigTooltips';
 // 👿 에니메이션 css 순수하게 가진 파일이필요
 @import '../../../atoms/animation/ComponentAnimations.scss';
@@ -122,96 +123,8 @@
         }
         
     }
+
     
-    // 좌측 방 그룹 조정
-    .assigGroups {
-        overflow: hidden;
-        &__roomType {
-            position:absolute;
-            width: $AT-assigGroup-roomType-width;
-            background-color: white;
-            border-top: 1px dotted $grey-level2;
-            left: 0;
-            display:flex;
-            justify-content: center;
-            align-items: center;
-            border-right: 1px solid $grey-opacity3;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            
-
-            @include response($mobile) {
-                width: $AT-mobile-assigGroup-roomType-width;
-                font-size: $typho-small;
-                white-space: pre-wrap;
-                line-height: 100%;
-            }
-        }
-        &__room {
-            position:absolute;
-            left: $AT-assigGroup-roomType-width;
-            width: $AT-assigGroup-room-width;
-            background-color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-right: 1px solid $grey-opacity2;
-
-            // 방중에 도미토리가 아닌경우
-            &--roomType {
-                width: calc(100% - #{$AT-assigGroup-roomType-width});
-                @include response($mobile) {
-                    width: calc(100% - #{$AT-mobile-assigGroup-roomType-width});
-                }
-            }
-
-            @include response($mobile) {
-                left: $AT-mobile-assigGroup-roomType-width;
-                width: $AT-mobile-assigGroup-room-width;
-                font-size: $typho-small;
-                white-space: pre-wrap;
-                line-height: 100%;
-
-                &--roomType {
-                    width: calc(100% - #{$AT-assigGroup-roomType-width});
-                    @include response($mobile) {
-                        width: calc(100% - #{$AT-mobile-assigGroup-roomType-width});
-                    }
-                }
-            }
-        }
-
-        &__place {
-            padding-left: $AT-assigGroup-roomType-width + $AT-assigGroup-room-width - 4px;
-            text-align: center;
-            width: calc(100% + 4px);
-            
-            @include response($mobile) {
-                font-size: $typho-small;
-                padding-left: $AT-mobile-assigGroup-roomType-width + $AT-mobile-assigGroup-room-width - 4px;
-            }
-        }
-
-        // roomType이름과 room 이름들 
-        &__names {
-            display:inline-block;
-            word-wrap: break-word;
-            text-align:center;
-            max-height: 100%;
-            white-space: normal;
-            width: 100%;
-            line-height: 1.3;
-            @include response($mobile) {
-                width: 80%;
-            }
-        }
-
-        &__badgesWrap {
-            position:absolute;
-            top: 0;
-            
-        }
-    }
 }
 
 
@@ -248,7 +161,7 @@
             .rct-outer {
                 background-image: linear-gradient(to right, #{$grey-level2} 0%, #fff 50%, #{$grey-level2} 100%);	
                 animation: grdAnime 2s infinite linear;
-                height: $standard-height * 10!important;
+                height: $standard-height * 90!important;
                 background-size: 200% auto;
             }
             .group,.rct-scroll{
@@ -262,3 +175,4 @@
         }
     }
 }
+

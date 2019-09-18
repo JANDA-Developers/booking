@@ -14,17 +14,17 @@ import {DragBoxPlace} from "./components/DragBoxPlace";
 import {DndProvider, DragObjectWithType} from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
 import TouchBackend from "react-dnd-touch-backend";
-import {IDragItemProp} from "./components/DragItem";
 import GuestTooltip from "./components/GuestTooltip";
 import {IDailyAssigProp} from "./DailyAssigWrap";
 import getDailyAssigUtils from "../../pages/middleServer/assig/components/dailyAssigUtils";
 import {JDtoastModal} from "../../atoms/modal/Modal";
 import {ReactTooltip} from "../../atoms/tooltipList/TooltipList";
-import {isEmpty} from "../../utils/utils";
 import {PricingType} from "../../types/enum";
 import Tooltip from "../../atoms/tooltip/Tooltip";
 import {isMobile} from "is-mobile";
 import {IDailyAssigDataControl} from "../../pages/middleServer/assig/components/assigIntrerface";
+import PlaceTooltip from "./components/PlaceTooltip";
+import moment from "moment";
 
 export interface IDailyAssigContext extends IDailyAssigProp {
   confirmModalHook: IUseModal<any>;
@@ -43,6 +43,7 @@ const DailyAssigNew: React.FC<IProps> = ({
   outDailyAssigContext,
   dailyAssigDataControl
 }) => {
+  const {house} = context;
   const {
     allocateMu,
     loading,
@@ -53,6 +54,7 @@ const DailyAssigNew: React.FC<IProps> = ({
   } = outDailyAssigContext;
   const bookingModalHook = useModal(false);
   const confirmModalHook = useModal(false);
+  const {createBlockMu} = dailyAssigDataControl;
 
   const handleDrop = (
     item: IG & DragObjectWithType,
@@ -124,18 +126,18 @@ const DailyAssigNew: React.FC<IProps> = ({
         {calendarPosition === "center" && <DailyAssigDayPicker />}
       </div>
       <Preloader noAnimation size="medium" loading={loading || false} />
-      <div className="dailyAssig">
-        {roomTypesData.map((roomType, index) => (
-          <div key={`roomType${roomType._id}`} className="dailyAssig__row">
-            <div className="dailyAssig__roomTypeTittle">
-              {index === 0 && calendarPosition === "inside" && !isMobile() && (
-                <span className="dailyAssig__dayPicker--inside">
-                  <DailyAssigDayPicker />
-                </span>
-              )}
-              {roomType.name}
-            </div>
-            <DndProvider backend={isMobile() ? TouchBackend : HTML5Backend}>
+      <DndProvider backend={isMobile() ? TouchBackend : HTML5Backend}>
+        <div className="dailyAssig">
+          {roomTypesData.map((roomType, index) => (
+            <div key={`roomType${roomType._id}`} className="dailyAssig__row">
+              <div className="dailyAssig__roomTypeTittle">
+                {index === 0 && calendarPosition === "inside" && !isMobile() && (
+                  <span className="dailyAssig__dayPicker--inside">
+                    <DailyAssigDayPicker />
+                  </span>
+                )}
+                {roomType.name}
+              </div>
               <div className="dailyAssig__roomsWrap">
                 {roomType.rooms.map(room => {
                   // 방안에있는 게스트들
@@ -186,10 +188,28 @@ const DailyAssigNew: React.FC<IProps> = ({
                   );
                 })}
               </div>
-            </DndProvider>
-          </div>
-        ))}
-      </div>
+            </div>
+          ))}
+        </div>
+      </DndProvider>
+      <PlaceTooltip
+        blockRoomBtnCallBack={info => {
+          const infoJson = JSON.parse(info);
+          console.log("infoJson 💃");
+          console.log(infoJson);
+          createBlockMu({
+            variables: {
+              bedIndex: infoJson.place,
+              checkIn: dayPickerHook.from,
+              checkOut: moment(dayPickerHook.to!)
+                .add(1, "day")
+                .toDate(),
+              houseId: house._id,
+              roomId: infoJson.roomId
+            }
+          });
+        }}
+      />
       <GuestTooltip
         dailyAssigUtils={dailyAssigUtils}
         dailyAssigDataControl={dailyAssigDataControl}

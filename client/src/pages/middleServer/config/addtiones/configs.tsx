@@ -1,13 +1,26 @@
 import React from "react";
-import {IAddition, IAddtionProp} from "../components/AddtionModule";
+import {IAddition, IAddtionProp} from "../components/ConfigBlock";
 import SystemDescription from "./systemConfig";
 import AssigTimelineRoomTypeTab from "./assigTimelineRoomTypeTab";
 import AssigBlockOP from "./assigBlockOP";
 import NewBookingMark from "./newBookingMark";
+import BaseConfig from "./BaseConfig";
 
-export const additiones: IAddition[] = [
+export const configBlocks: IAddition[] = [
   {
-    description: "기본적인 시스템 설정",
+    description: "서비스에 관한 기본적인 설정",
+    name: "기본설정",
+    updateAt: "2019-09-23",
+    detailDescription: (prop: IAddtionProp) => <BaseConfig {...prop} />
+  },
+  {
+    description: "예약 관련 설정",
+    name: "예약 설정",
+    updateAt: "2019-09-23",
+    detailDescription: (prop: IAddtionProp) => <BaseConfig {...prop} />
+  },
+  {
+    description: "시스템 관련 설정",
     name: "시스템설정",
     updateAt: "2019-05-23",
     detailDescription: (prop: IAddtionProp) => <SystemDescription {...prop} />

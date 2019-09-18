@@ -18,7 +18,6 @@ import {
 import {GET_BOOKINGS, DELETE_BOOKING, UPDATE_BOOKING} from "../../../queries";
 import {getOperationName} from "apollo-link";
 import {usePagiNation} from "../../../actions/hook";
-import Preloader from "../../../atoms/preloader/Preloader";
 import {isNetworkRequestInFlight} from "apollo-client/core/networkStatus";
 import {IContext} from "../../MiddleServerRouter";
 

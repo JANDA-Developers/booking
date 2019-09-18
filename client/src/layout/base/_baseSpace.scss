@@ -71,3 +71,8 @@ div {
     margin-right: 0;
 }
 
+
+
+div > .animationWrap:first-child > .JDbadge {
+    margin-left:0;
+}

@@ -26,6 +26,7 @@ import {updateHouse, updateHouseVariables} from "../../../../types/api";
 import HouseCard from "../../super/components/houseCard";
 import {getOperationName} from "apollo-link";
 import {GET_USER_INFO} from "../../../../queries";
+import "./steps.scss";
 
 interface IProps {
   step: IStepsStart;
@@ -72,7 +73,7 @@ const Steps: React.FC<IProps> = ({
     case "houseMake":
       return (
         <Fragment>
-          <div className="JDsectionDistroy">
+          <div className="JDsectionDistroy steps__makeHouseWrap">
             <MakeHouse />
           </div>
         </Fragment>

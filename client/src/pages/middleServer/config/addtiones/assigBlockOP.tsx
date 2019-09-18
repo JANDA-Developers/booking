@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import JDLabel from "../../../../atoms/label/JDLabel";
 import JDrange from "../../../../atoms/forms/range/range";
-import {IAddtionProp} from "../components/AddtionModule";
+import {IAddtionProp} from "../components/ConfigBlock";
 import JDswitch from "../../../../atoms/forms/switch/Switch";
 import {useSwitch} from "../../../../actions/hook";
 import {muResult} from "../../../../utils/utils";
@@ -48,7 +48,7 @@ const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
         <span>게스트에대한 상세설정이 가능합니다.</span>
       </div>
       <div className="additionDetail__titleTopRight">
-        <JDswitch
+        {/* <JDswitch
           checked={use}
           onChange={async flag => {
             await setUse(flag);
@@ -58,7 +58,7 @@ const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
             }
           }}
           label="사용하기"
-        />
+        /> */}
       </div>
       <h6>색상설정기능사용</h6>
       <JDswitch

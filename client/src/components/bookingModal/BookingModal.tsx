@@ -1,4 +1,4 @@
-import React, {Fragment} from "react";
+import React, {Fragment, useState} from "react";
 import moment from "moment";
 import Modal, {JDtoastModal} from "../../atoms/modal/Modal";
 import {
@@ -57,6 +57,7 @@ import {autoComma, muResult} from "../../utils/utils";
 import {async} from "q";
 import {IContext} from "../../pages/MiddleServerRouter";
 import {FetchResult} from "apollo-link";
+import Drawer from "../../atoms/drawer/Drawer";
 
 export interface IRoomSelectInfoTable {
   roomTypeId: string;
@@ -97,44 +98,62 @@ const POPbookingInfo: React.FC<IProps> = ({
   type = BookingModalType.LOOKUP,
   context
 }) => {
+  const {
+    email,
+    memo,
+    price,
+    phoneNumber,
+    checkIn,
+    checkOut,
+    name,
+    __typename,
+    payMethod,
+    bookingStatus,
+    paymentStatus,
+    _id
+  } = bookingData;
   const {house} = context;
   const {_id: houseId} = house;
   const sendSmsModalHook = useModal<IModalSMSinfo>(false);
   const confirmModalHook = useModal(false);
-  const bookingNameHook = useInput(bookingData.name);
-  const bookingPhoneHook = useInput(bookingData.phoneNumber);
-  const priceHook = useInput(bookingData.price);
-  const memoHook = useInput(bookingData.memo || "");
+  const bookingNameHook = useInput(name);
+  const bookingPhoneHook = useInput(phoneNumber);
+  const priceHook = useInput(price);
+  const memoHook = useInput(memo || "");
+  const emailHook = useInput(email || "");
+  const [drawers, setDrawers] = useState({
+    bookerInfo: false
+  });
   const payMethodHook = useSelect(
     bookingData._id !== "default"
       ? {
-          value: bookingData.payMethod,
+          value: payMethod,
           // @ts-ignore
-          label: PayMethodKr[bookingData.payMethod]
+          label: PayMethodKr[payMethod]
         }
       : null
   );
   const paymentStatusHook = useSelect<PaymentStatus>(
     bookingData._id !== "default"
       ? {
-          value: bookingData.paymentStatus,
+          value: paymentStatus,
           // @ts-ignore
-          label: PaymentStatusKr[bookingData.paymentStatus]
+          label: PaymentStatusKr[paymentStatus]
         }
       : null
   );
   const bookingStatueHook = useSelect(
     bookingData._id !== "default"
       ? {
-          value: bookingData.bookingStatus,
-          label: BookingStatusKr[bookingData.bookingStatus]
+          value: bookingStatus,
+          label: BookingStatusKr[bookingStatus]
         }
       : null
   );
 
   const resvDateHook = useDayPicker(
-    moment(bookingData.checkIn).toDate(),
-    moment(bookingData.checkOut).toDate()
+    moment(checkIn).toDate(),
+    moment(checkOut).toDate()
   );
 
   const validate = () => {
@@ -188,6 +207,7 @@ const POPbookingInfo: React.FC<IProps> = ({
       payMethod: payMethodHook.selectedOption
         ? payMethodHook.selectedOption.label
         : "",
+      email: emailHook.value,
       phoneNumber: bookingPhoneHook.value,
       start: resvDateHook.from!,
       paymentStatus: paymentStatusHook.selectedOption
@@ -311,7 +331,15 @@ const POPbookingInfo: React.FC<IProps> = ({
       {loading || createBookingLoading || (
         <Fragment>
           <div className="modal__section">
-            <h6>예약자정보</h6>
+            <h6>
+              예약자정보{" "}
+              <Drawer
+                onClick={e => {
+                  setDrawers({bookerInfo: !drawers.bookerInfo});
+                }}
+                open={drawers.bookerInfo}
+              />
+            </h6>
             <div className="flex-grid">
               <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
                 <InputText {...bookingNameHook} label="예약자" />

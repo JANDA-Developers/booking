@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  ErrProtecter,
-  showError,
-  onCompletedMessage
-} from "../../../utils/utils";
+import {ErrProtecter, onCompletedMessage} from "../../../utils/utils";
 import Config from "./Config";
 import {UPDATE_HOUSE_CONFIG, GET_USER_INFO} from "../../../queries";
 import {Mutation} from "react-apollo";
@@ -11,7 +7,6 @@ import {
   updateHouseConfig,
   updateHouseConfigVariables
 } from "../../../types/api";
-import {IHouse, IHouseConfigFull} from "../../../types/interface";
 import {IContext} from "../../MiddleServerRouter";
 
 class UpdateHouseConfig extends Mutation<

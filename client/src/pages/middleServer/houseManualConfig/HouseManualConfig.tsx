@@ -33,6 +33,11 @@ import {MutationFn} from "react-apollo";
 import {toast} from "react-toastify";
 import Preloader from "../../../atoms/preloader/Preloader";
 import {IContext} from "../../MiddleServerRouter";
+import {isMobile} from "is-mobile";
+import TooltipList, {
+  ReactTooltip
+} from "../../../atoms/tooltipList/TooltipList";
+import {Tooltip} from "chart.js";
 
 interface IProps {
   context: IContext;
@@ -128,6 +133,8 @@ const HouseManualConfig: React.FC<IProps> = ({
     }
   };
 
+  ReactTooltip.rebuild();
+
   const MenusConfigModal = () => {
     const renderContent = (
       isEnable: boolean,
@@ -192,6 +199,23 @@ const HouseManualConfig: React.FC<IProps> = ({
     );
   };
 
+  const MenuConfigBtn = (
+    <Button
+      onClick={() => {
+        menusConfigModalHook.openModal();
+      }}
+      label="메뉴설정"
+    />
+  );
+  const LangConfigBtn = (
+    <Button
+      onClick={() => {
+        languageConfigModalHook.openModal();
+      }}
+      label="언어설정"
+    />
+  );
+
   let userProp = undefined;
 
   if (houseManual) {
@@ -229,10 +253,10 @@ const HouseManualConfig: React.FC<IProps> = ({
               className="JDmargin-bottom0"
               tooltip={
                 <span className="JDletterSpace0">
-                  하우스 메뉴얼은 게스트가 쉽고 편하게 숙소를 이용할수 있도록
+                  하우스 메뉴얼은 게스트가 쉽고 편하게 숙소를 이용할 수 있도록
                   안내 페이지를 송신합니다. <br />
-                  하우스메뉴얼이 게스트의 숙소이용법을 설명하는 수고를
-                  덜어줄겁니다.
+                  하우스 메뉴얼이 게스트의 숙소 이용법을 설명하는 수고를 덜어
+                  줄겁니다.
                 </span>
               }
             />
@@ -248,18 +272,21 @@ const HouseManualConfig: React.FC<IProps> = ({
                 }}
                 label="저장하기"
               />
-              <Button
-                onClick={() => {
-                  menusConfigModalHook.openModal();
-                }}
-                label="메뉴설정"
-              />
-              <Button
-                onClick={() => {
-                  languageConfigModalHook.openModal();
-                }}
-                label="언어설정"
-              />
+              {isMobile() ? (
+                <span
+                  data-tip={true}
+                  data-event="click"
+                  data-offset="{'top': 10, 'left': 0}"
+                  data-for="houseManualConfigTolltip"
+                >
+                  <Button tooltip="" icon="config" label="설정" />
+                </span>
+              ) : (
+                <Fragment>
+                  {LangConfigBtn}
+                  {MenuConfigBtn}
+                </Fragment>
+              )}
             </div>
             <div>
               <Button
@@ -321,6 +348,17 @@ const HouseManualConfig: React.FC<IProps> = ({
       <JDmodal minWidth="360px" {...previewModalHook}>
         <HouseManual {...sharedProps} />
       </JDmodal>
+
+      <TooltipList
+        unPadding
+        id="houseManualConfigTolltip"
+        className="guestTooltip"
+      >
+        <ul className="tooltipList__ul">
+          <li>{LangConfigBtn}</li>
+          <li>{MenuConfigBtn}</li>
+        </ul>
+      </TooltipList>
     </div>
   );
 };

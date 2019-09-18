@@ -14,7 +14,7 @@ import {
   getMemos_GetMemos_memos
 } from "../../types/api";
 import {MutationFn} from "react-apollo";
-import {MemoType} from "../../types/enum";
+import {MemoType, Standard_PreloaderFloatingSize} from "../../types/enum";
 import MemoBox from "./component/memoBox";
 import {s4} from "../../utils/utils";
 import {DEFAULT_MEMO} from "../../types/defaults";
@@ -48,7 +48,8 @@ const Memo: React.FC<Iprops> = ({
         createMemoParams: {
           memoType,
           text: memo.text,
-          title: memo.title
+          title: memo.title,
+          important: memo.important
         }
       }
     });
@@ -70,30 +71,43 @@ const Memo: React.FC<Iprops> = ({
         updateMemoParams: {
           memoType,
           text: memo.text,
-          title: memo.title
+          title: memo.title,
+          important: !memo.important
         }
       }
     });
   };
 
+  const handleImportToogle = (memo: getMemos_GetMemos_memos) => {
+    updateMemoMu({
+      variables: {
+        memoId: memo._id,
+        updateMemoParams: {
+          memoType,
+          text: memo.text,
+          important: !memo.important
+        }
+      }
+    });
+  };
+
+  const sharedMemoBoxProps = {
+    handleImportToogle,
+    handleCreate,
+    handleDelete,
+    handleUpdate
+  };
+
   return (
     <div className="memo">
       <div>
-        <MemoBox
-          handleCreate={handleCreate}
-          handleDelete={handleDelete}
-          handleUpdate={handleUpdate}
-          add={true}
-          memo={DEFAULT_MEMO}
-        />
+        <MemoBox {...sharedMemoBoxProps} memo={DEFAULT_MEMO} add={true} />
       </div>
-      <Preloader size="small" loading={mutationLoading} />
+      <Preloader floating size={"tiny"} loading={mutationLoading} />
       {memos.map(memo => (
         <MemoBox
-          key={memo._id}
-          handleCreate={handleCreate}
-          handleDelete={handleDelete}
-          handleUpdate={handleUpdate}
+          {...sharedMemoBoxProps}
+          key={memo._id + memo.important ? "--impor" : ""}
           memo={memo}
         />
       ))}

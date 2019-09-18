@@ -18,6 +18,7 @@ export type IIcons =
   | "wifi"
   | "iconmonstr"
   | "slack"
+  | "star"
   | "github"
   | "list"
   | "calendar"
@@ -72,6 +73,8 @@ export type IIcons =
   | "reCycle"
   | "return"
   | "controller"
+  | "vUp"
+  | "vDown"
   | "copyFile";
 
 const icons: {[s: string]: string} = {
@@ -198,7 +201,13 @@ const icons: {[s: string]: string} = {
   controller:
     "M12 9c.552 0 1 .449 1 1s-.448 1-1 1-1-.449-1-1 .448-1 1-1zm0-2c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3zm-9 4c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3zm18 0c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3zm-9-6c.343 0 .677.035 1 .101v-3.101c0-.552-.447-1-1-1s-1 .448-1 1v3.101c.323-.066.657-.101 1-.101zm9 4c.343 0 .677.035 1 .101v-7.101c0-.552-.447-1-1-1s-1 .448-1 1v7.101c.323-.066.657-.101 1-.101zm0 10c-.343 0-.677-.035-1-.101v3.101c0 .552.447 1 1 1s1-.448 1-1v-3.101c-.323.066-.657.101-1 .101zm-18-10c.343 0 .677.035 1 .101v-7.101c0-.552-.447-1-1-1s-1 .448-1 1v7.101c.323-.066.657-.101 1-.101zm9 6c-.343 0-.677-.035-1-.101v7.101c0 .552.447 1 1 1s1-.448 1-1v-7.101c-.323.066-.657.101-1 .101zm-9 4c-.343 0-.677-.035-1-.101v3.101c0 .552.447 1 1 1s1-.448 1-1v-3.101c-.323.066-.657.101-1 .101z",
   return:
-    "M17.026 22.957c10.957-11.421-2.326-20.865-10.384-13.309l2.464 2.352h-9.106v-8.947l2.232 2.229c14.794-13.203 31.51 7.051 14.794 17.675z"
+    "M17.026 22.957c10.957-11.421-2.326-20.865-10.384-13.309l2.464 2.352h-9.106v-8.947l2.232 2.229c14.794-13.203 31.51 7.051 14.794 17.675z",
+  star:
+    "M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z",
+  vUp:
+    "M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm0 7.58l5.995 5.988-1.416 1.414-4.579-4.574-4.59 4.574-1.416-1.414 6.006-5.988z",
+  vDown:
+    "M24 12c0-6.627-5.373-12-12-12s-12 5.373-12 12 5.373 12 12 12 12-5.373 12-12zm-18.005-1.568l1.415-1.414 4.59 4.574 4.579-4.574 1.416 1.414-5.995 5.988-6.005-5.988z"
 };
 
 export enum IconSize {
@@ -213,10 +222,9 @@ export enum IconSize {
   SUPER_LARGE = "4rem"
 }
 
-interface IProps extends React.HTMLAttributes<HTMLOrSVGElement> {
+export interface IconConifgProps {
   label?: string;
   labelSize?: "large" | "small";
-  icon: IIcons;
   size?: IconSize;
   hover?: boolean;
   color?: JDColor;
@@ -224,7 +232,11 @@ interface IProps extends React.HTMLAttributes<HTMLOrSVGElement> {
   selected?: boolean;
 }
 
-const JDIcon: React.SFC<IProps> = ({
+interface IConProps extends React.HTMLAttributes<HTMLOrSVGElement> {
+  icon: IIcons;
+}
+
+const JDIcon: React.FC<IConProps & IconConifgProps> = ({
   label,
   icon,
   hover,

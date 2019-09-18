@@ -9,6 +9,7 @@ import {useModal} from "../../../actions/hook";
 import "./StarterModal.scss";
 import {MutationFn} from "react-apollo";
 import {updateHouse, updateHouseVariables} from "../../../types/api";
+import Mbr from "../../../atoms/mbr/Mbr";
 
 interface IProps {
   context: IContext;
@@ -36,23 +37,41 @@ const StarterModal: React.FC<IProps> = ({context, updateHouseMu}) => {
             steps={[
               {
                 current: step === "phoneVerification",
-                name: "휴대폰인증"
+                name: <span>휴대폰인증</span>
               },
               {
                 current: step === "houseMake",
-                name: "숙소생성"
+                name: (
+                  <span>
+                    숙소
+                    <Mbr />
+                    생성
+                  </span>
+                )
               },
               {
                 current: step === "makeProduct",
-                name: "상품등록"
+                name: (
+                  <span>
+                    상품
+                    <Mbr />
+                    등록
+                  </span>
+                )
               },
               {
                 current: step === "readyAssign",
-                name: "적용대기"
+                name: (
+                  <span>
+                    적용
+                    <Mbr />
+                    대기
+                  </span>
+                )
               },
               {
                 current: step === "makeRoom",
-                name: "방생성"
+                name: <span>방생성</span>
               }
             ]}
           />

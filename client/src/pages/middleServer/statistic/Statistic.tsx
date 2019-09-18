@@ -1,27 +1,16 @@
 import React, {useState} from "react";
 import {Doughnut, Line, ChartData} from "react-chartjs-2";
-import {randomIntFromInterval} from "../../../utils/utils";
 import Card from "../../../atoms/cards/Card";
-import JDselect from "../../../atoms/forms/selectBox/SelectBox";
-
 import {
-  SELECT_DUMMY_OP,
-  STATISTICS_TYPE_OP,
-  SalesStatisticsUnitKr,
-  STATISTICS_OP,
   SalesStatisticsUnit,
   WindowSize,
   StaticColors,
   Standard_PreloaderFloatingSize
 } from "../../../types/enum";
 import {IQueryOp} from "./StatisticWrap";
-import InputText from "../../../atoms/forms/inputText/InputText";
-import DayPicker from "react-day-picker";
-import JDdayPicker from "../../../atoms/dayPicker/DayPicker";
 import {IUseDayPicker, useModal} from "../../../actions/hook";
 import Button from "../../../atoms/button/Button";
 import moment from "moment";
-import JDIcon from "../../../atoms/icons/Icons";
 import Preloader from "../../../atoms/preloader/Preloader";
 import JDtable, {ReactTableDefault} from "../../../atoms/table/Table";
 import {getSalesStatistic_GetSalesStatistic_data} from "../../../types/api";
@@ -31,7 +20,6 @@ import {CellInfo} from "react-table";
 import "./Statistic.scss";
 import {IContext} from "../../MiddleServerRouter";
 import StaticController from "./component/StaticController";
-import JDmodal from "../../../atoms/modal/Modal";
 import reactWindowSize, {WindowSizeProps} from "react-window-size";
 import StaticIcons from "./component/StaticIcons";
 import StaticsControllerModal from "./component/StaticsControllerModal";
@@ -116,9 +104,6 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
   } else {
     randomColors = [...StaticColors, ...randomColors];
   }
-
-  console.log("randomColors");
-  console.log(randomColors);
 
   // 그래프 데이터
   const graphData: ChartData<Chart.ChartData> = {
@@ -229,7 +214,7 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
   };
 
   return (
-    <div className="container statics">
+    <div className="container statistic">
       <div className="docs-section">
         <h3>통계</h3>
         <div className="statistic__shortBtnsWrap">
@@ -241,7 +226,7 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
         </div>
         <div className="flex-grid">
           <div className="flex-grid__col col--full-6 col--wmd-12">
-            <Card fullHeight>
+            <Card className="statistic__graphCard" fullHeight>
               <div>
                 {windowWidth > WindowSize.TABLET && (
                   <StaticIcons
@@ -250,6 +235,13 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
                     setViewMode={setViewMode}
                   />
                 )}
+                <Preloader
+                  wrapClassName="statistic__graphPreloader"
+                  position="center"
+                  noAnimation
+                  size={"large"}
+                  loading={loading}
+                />
                 <Preloader
                   floating
                   size={Standard_PreloaderFloatingSize}

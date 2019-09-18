@@ -5,7 +5,7 @@
     &__templateViewCard {
         &_smsFormat {
             overflow:auto;
-            height: $standard-height * 5;
+            height: $standard-height * 5 * 9;
             @extend %JDscrollbar;
             white-space: pre-line;
         }

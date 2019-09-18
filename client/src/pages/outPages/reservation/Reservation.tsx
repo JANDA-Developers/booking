@@ -182,28 +182,6 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
     }
   });
 
-  // 일단 여기서 대기
-  const openCompleteMessageModal = () => {
-    confirmModalHook.openModal({
-      txt: (
-        <div>
-          <div className="JDstandard-margin-bottom">
-            예약이 완료되었습니다.
-            <br />
-            예약확인페이지로 이동합니다.
-          </div>
-          <JDanimation animation={[Animation.tada]}>
-            <JDIcon
-              color="positive"
-              size={IconSize.SUPER_LARGE}
-              icon="circleCheckIn"
-            ></JDIcon>
-          </JDanimation>
-        </div>
-      )
-    });
-  };
-
   const resvInfoValidation = () => {
     if (isEmpty(resvRooms)) {
       toastModalHook.openModal({txt: "선택된방이 없습니다."});

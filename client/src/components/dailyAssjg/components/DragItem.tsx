@@ -1,7 +1,9 @@
 import {useDrag} from "react-dnd";
 import React, {useEffect} from "react";
 import {
+  getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms as IR,
   getAllRoomTypeWithGuest_GetGuests_guests as IG,
+  getAllRoomTypeWithGuest_GetAllRoomType_roomTypes as IRT,
   getAllRoomTypeWithGuest_GetBlocks_blocks as IB
 } from "../../../types/api";
 import {GuestType} from "../../../types/enum";
@@ -11,6 +13,7 @@ import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
 import Tooltip, {ReactTooltip} from "../../../atoms/tooltip/Tooltip";
 import moment from "moment";
 import classNames from "classnames";
+import Gender from "../../../pages/middleServer/assig/components/item/gender";
 
 export interface IDragItemProp {
   type: string;
@@ -18,15 +21,29 @@ export interface IDragItemProp {
 
 interface IProps {
   item: IG & IDragItemProp | IB & IDragItemProp | null;
+  roomType: IRT;
+  room: IR;
+  place: number;
 }
 
-const DragItem: React.FC<IProps> = ({item}) => {
+const DragItem: React.FC<IProps> = ({item, place, room, roomType}) => {
+  const palceInfo = JSON.stringify({
+    roomTypeId: roomType._id,
+    roomId: room._id,
+    place: place
+  });
+
   if (!item) {
     return (
       <div className="dailyAssigItem__itemBlockWrap">
-        <div className="dailyAssigItem__itemBlock dailyAssigItem__empty dailyAssigItem__guestBlock">
-          {" "}
-          -{" "}
+        <div
+          data-tip={palceInfo}
+          data-place="top"
+          data-for="placeTooltip"
+          data-event="click"
+          className="dailyAssigItem__itemBlock dailyAssigItem__empty dailyAssigItem__guestBlock"
+        >
+          {" - "}
         </div>
       </div>
     );
@@ -39,10 +56,6 @@ const DragItem: React.FC<IProps> = ({item}) => {
   useEffect(() => {
     ReactTooltip.rebuild();
   });
-  if (instanceOfA<IG & IDragItemProp>(item, "name")) {
-    console.log("item.booking.checkInInfo.isIn");
-    console.log(item.booking.checkInInfo.isIn);
-  }
 
   return (
     <div ref={drag} className="dailyAssigItem__itemBlockWrap">
@@ -64,7 +77,9 @@ const DragItem: React.FC<IProps> = ({item}) => {
               data-for="guestCheckInOutToolTip"
               className={`dailyAssigItem__itemBlock ${guestBlockClasses}`}
             >
-              <span className="dailyAssigItem__itemName">{item.name}</span>
+              <span className="dailyAssigItem__itemName">
+                <Gender gender={item.gender} /> {item.name}
+              </span>
               <span
                 data-tip={item._id}
                 data-place="top"
@@ -77,9 +92,9 @@ const DragItem: React.FC<IProps> = ({item}) => {
               </span>
             </div>
           );
-        } else if (instanceOfA<IB & IDragItemProp>(item, "_id")) {
+        } else if (true) {
           return (
-            <div className="dailyAssigItem__itemBlock dailyAssigItem__guestBlock">
+            <div className="dailyAssigItem__itemBlock dailyAssigItem__blockBlock">
               자리막기
             </div>
           );

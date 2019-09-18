@@ -143,9 +143,11 @@ const SmsTemplate: React.SFC<IProps> = ({
         {tempArr.map((value: any) => (
           <Button
             onClick={() => {
+              // @ts-ignore
               hanldeTemplateBtnClick(SmsReplaceKeyEnumKr[value]);
             }}
             key={`templateBtn${templateData._id}${value}`}
+            // @ts-ignore
             label={SmsReplaceKeyEnumKr[value].replace("[", "").replace("]", "")}
           />
         ))}

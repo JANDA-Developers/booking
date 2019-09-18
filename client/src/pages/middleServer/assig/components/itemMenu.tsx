@@ -20,7 +20,7 @@ interface IProps {
 
 const ItemMenu: React.FC<IProps> = ({
   assigHooks: {guestValue, bookingModal, blockOpModal},
-  assigContext: {},
+  assigContext: {houseConfig},
   assigUtils: {deleteGuestById, toogleCheckInOut}
 }) => {
   return (
@@ -49,15 +49,17 @@ const ItemMenu: React.FC<IProps> = ({
                 label="삭제"
               />
             </li>
-            <li>
-              <Button
-                onClick={() => {
-                  ReactTooltip.hide();
-                  blockOpModal.openModal(targetGuest);
-                }}
-                label="색상설정"
-              />
-            </li>
+            {houseConfig.assigTimeline!.itemBlockOp!.useColor && (
+              <li>
+                <Button
+                  onClick={() => {
+                    ReactTooltip.hide();
+                    blockOpModal.openModal(targetGuest);
+                  }}
+                  label="색상설정"
+                />
+              </li>
+            )}
             <li>
               <Button
                 onClick={() => {

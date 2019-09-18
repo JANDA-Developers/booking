@@ -44,7 +44,7 @@ $roomCardHeight: 130px;
         }
 
         &__cardMessage {
-            height: $standard-height * 4;
+            height: $standard-height * 4 * 9;
             display:flex;
             justify-content: center;
             align-items: center;
@@ -120,6 +120,11 @@ $roomCardHeight: 130px;
             position: absolute;
             bottom: $standard-small-space;
             right: $standard-small-space;
+
+            @include response($mobile) {
+                bottom:$standard-small-space /2;
+                right:$standard-small-space /2;
+            }
             
             @include response($mobile) {
                 // bottom:$standard-small-space /2;

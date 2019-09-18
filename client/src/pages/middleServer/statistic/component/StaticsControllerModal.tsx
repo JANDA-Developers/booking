@@ -20,8 +20,8 @@ const StaticsControllerModal: React.FC<Iprops> = ({
   modalHook
 }) => {
   const {viewMode, setViewMode} = staticsProps;
-  return (
-    <JDmodal visibleOverflow minWidth={ModalMinWidth} {...modalHook}>
+return (
+  <JDmodal visibleOverflow minWidth={ModalMinWidth} {...modalHook}>
       <div>
         <div className="modal__section">
           <StaticController staticsProps={staticsProps} context={context} />

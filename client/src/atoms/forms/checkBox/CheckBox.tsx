@@ -5,7 +5,7 @@ import ErrProtecter from "../../../utils/errProtect";
 
 interface IProps {
   disabled?: boolean;
-  checked?: boolean;
+  checked?: boolean | null;
   label?: string;
   className?: string;
   size?: "small";
@@ -15,7 +15,7 @@ interface IProps {
 
 const JDcheckbox: React.FC<IProps> = ({
   disabled,
-  checked,
+  checked = false,
   onChange,
   size,
   label,
@@ -32,7 +32,7 @@ const JDcheckbox: React.FC<IProps> = ({
   const onHandleClick = () => {
     if (checked !== undefined && onChange) {
       const flag = disabled ? checked : !checked;
-      onChange(flag);
+      onChange(flag || false);
     }
   };
 
@@ -47,7 +47,7 @@ const JDcheckbox: React.FC<IProps> = ({
       <input
         {...props}
         onChange={() => {}}
-        checked={checked}
+        checked={checked || false}
         disabled={disabled}
         className={classes}
         type="checkbox"

@@ -119,6 +119,7 @@
 }
 
 
+
 @-webkit-keyframes fadeInRight {
   from {
     opacity: 0;
@@ -285,4 +286,9 @@
     animation-name: tada;
     animation-duration: 2s;
     animation-delay: .3s;
+  }
+
+  .animationWrap {
+    transform-origin: center center;
+    margin-bottom: -3px;
   }

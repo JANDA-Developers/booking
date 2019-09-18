@@ -28,7 +28,8 @@ import {
   PricingType,
   PricingTypeKr,
   PaymentStatusKr,
-  BookingStatus
+  BookingStatus,
+  Standard_PreloaderFloatingSize
 } from "../../../types/enum";
 import {getCountsFromBooking} from "../../../utils/booking";
 import moment from "moment";
@@ -68,6 +69,14 @@ const ResvList: React.SFC<IProps> = ({
   networkStatus,
   context
 }) => {
+  const {
+    houseConfig: {
+      bookingConfig: {
+        newBookingMark: {enable: newBookingMarkEnable}
+      }
+    }
+  } = context;
+
   const [checkedIds, setCheckedIds] = useState<string[]>([]);
   const [selectAll, setSelectAll]: any = useState(false);
   const bookingModalHook = useModal(false);
@@ -163,10 +172,18 @@ const ResvList: React.SFC<IProps> = ({
 
         return (
           <div className="resvList__createdAt">
+            <div>
+              {newBookingMarkEnable && (
+                <ConfirmBadgeWrap
+                  className="JDstandard-space0"
+                  show={isNew && !isConfirm}
+                  bookingId={_id}
+                />
+              )}
+            </div>
             {moment(value)
               .local()
               .format("YY-MM-DD HH:mm")}
-            {<ConfirmBadgeWrap show={isNew && !isConfirm} bookingId={_id} />}
             {isCancled && (
               <Fragment>
                 <br />
@@ -272,7 +289,10 @@ const ResvList: React.SFC<IProps> = ({
             className={`resvList__paymentStatus ${original.paymentStatus ===
               PaymentStatus.READY && "resvList__paymentStatus--notYet"}`}
           >
-            {PaymentStatusKr[original.paymentStatus]}
+            {
+              // @ts-ignore
+              PaymentStatusKr[original.paymentStatus]
+            }
           </span>
         </div>
       )
@@ -385,7 +405,11 @@ const ResvList: React.SFC<IProps> = ({
             keyField="_id"
           />
         )}
-        <Preloader size="small" floating loading={loading} />
+        <Preloader
+          size={Standard_PreloaderFloatingSize}
+          floating
+          loading={networkStatus !== 1 && loading}
+        />
         <JDPagination
           onPageChange={({selected}: {selected: number}) => {
             setPage(selected + 1);

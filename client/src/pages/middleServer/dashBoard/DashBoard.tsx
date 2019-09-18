@@ -1,34 +1,18 @@
-import React, {useState, Fragment} from "react";
-import {ErrProtecter, isEmpty} from "../../../utils/utils";
-import JDSlider from "../../../atoms/slider/Slider";
+import React, { Fragment, useMemo} from "react";
+import {ErrProtecter} from "../../../utils/utils";
 import Card from "../../../atoms/cards/Card";
-import JDbox from "../../../atoms/box/JDbox";
-import {IUser, IHouse} from "../../../types/interface";
 import DashBoardHeader from "./components/dashboardHeader";
 import DailyAssigWrap from "../../../components/dailyAssjg/DailyAssigWrap";
 import "./DashBoard.scss";
-import InputText from "../../../atoms/forms/inputText/InputText";
-import JDLabel from "../../../atoms/label/JDLabel";
-import GreetingBox from "./components/greetingBox";
 import {MutationFn} from "react-apollo";
-import {updateHouse, updateHouseVariables, HouseType} from "../../../types/api";
-import {useInput, useModal, useDayPicker} from "../../../actions/hook";
+import {updateHouse, updateHouseVariables} from "../../../types/api";
+import { useModal, useDayPicker} from "../../../actions/hook";
 import Button from "../../../atoms/button/Button";
-import Steps from "../starterModal/comonent/steps";
-import JDmultiBox from "../../../atoms/multiBox/MultiBox";
-import JDmultiStep from "../../../atoms/multiStep/MultiStep";
-import {HouseStatus, Product, MemoType} from "../../../types/enum";
-import MemoWrap from "../../../components/Memo/MemoWrap";
-import starterModal from "../starterModal/StarterModal";
 import {IContext} from "../../MiddleServerRouter";
-import StarterModal from "../starterModal/StarterModal";
-import StarterModalWrap from "../starterModal/StarterModalWrap";
 import DaySalesWrap from "../../../components/shortStatisces/DaySalesWrap";
-import DayCheckIn from "../../../components/shortStatisces/DayCheckIn";
 import DayCheckInWrap from "../../../components/shortStatisces/DayCheckInWrap";
 import ReservationModal from "../../../components/reservationModala/ReservationModal";
 import JDIcon from "../../../atoms/icons/Icons";
-import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
 import {isMobile as getIsMobile} from "is-mobile";
 import TooltipList from "../../../atoms/tooltipList/TooltipList";
 import DayPickerModal from "../../../components/dayPickerModal/dayPickerModal";
@@ -44,7 +28,25 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
   const dayPickerModalHook = useModal();
   const dailyAssigDateHook = useDayPicker(new Date(), new Date());
   const {house, user} = context;
-  const isMobile = getIsMobile();
+
+  const MemoDaySalesWrap = useMemo(
+    () => <DaySalesWrap context={context} />,
+    []
+  );
+  const MemoDayCheckInWrap = useMemo(
+    () => <DayCheckInWrap context={context} />,
+    []
+  );
+  const MemoDailyAssigWrap = useMemo(() => {
+    return (
+      <DailyAssigWrap
+        calendarPosition="inside"
+        context={context}
+        date={dailyAssigDateHook.from || new Date()}
+        key={"" + dailyAssigDateHook.from}
+      />
+    );
+  }, [dailyAssigDateHook.from]);
 
   return (
     <div className="docs-section--narrowTop">
@@ -71,6 +73,7 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
                         <JDIcon hover icon="dotMenuVertical" />
                       </span>
                     </div>
+                    {MemoDailyAssigWrap}
                     <ReservationModal
                       context={context}
                       houseId={house._id}
@@ -78,12 +81,6 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
                       callBackCreateBookingMu={(foo: any) => {}}
                       publicKey={house.publicKey || undefined}
                       isAdmin
-                    />
-                    <DailyAssigWrap
-                      calendarPosition="inside"
-                      context={context}
-                      date={dailyAssigDateHook.from || new Date()}
-                      key={"" + dailyAssigDateHook.from}
                     />
                   </Fragment>
                 </Card>
@@ -95,13 +92,13 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
                   <div className="flex-grid__col">
                     <Card>
                       <h6>금일 매출</h6>
-                      <DaySalesWrap context={context} />
+                      {MemoDaySalesWrap}
                     </Card>
                   </div>
                   <div className="flex-grid__col">
                     <Card className="flex-grid__col">
                       <h6>체크인 현황</h6>
-                      <DayCheckInWrap context={context} />
+                      {MemoDayCheckInWrap}
                     </Card>
                   </div>
                 </div>
@@ -136,6 +133,7 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
           </li>
         </ul>
         <DayPickerModal
+          displayInfo={false}
           modalHook={dayPickerModalHook}
           isRange={false}
           {...dailyAssigDateHook}

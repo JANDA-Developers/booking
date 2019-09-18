@@ -1,6 +1,5 @@
 import React, {Fragment} from "react";
 import {NavLink, Link} from "react-router-dom";
-import PropTypes, {string} from "prop-types";
 import "./SideNav.scss";
 import classNames from "classnames";
 import ErrProtecter from "../../utils/errProtect";
@@ -9,11 +8,9 @@ import Button from "../../atoms/button/Button";
 import JDmenu, {JDmenuItem, JDsubMenu} from "../../atoms/menu/Menu";
 import ProfileCircle from "../../atoms/profileCircle/ProfileCircle";
 import SelectHouseWrap from "../selectHouse/SelectHouseWrap";
-import {IUser, IProduct, IHouse} from "../../types/interface";
-import {isEmpty, s4, instanceOfA, isTestProduct} from "../../utils/utils";
-import {Product, HouseStatus} from "../../types/enum";
-import {getMyProfile_GetMyProfile_user} from "../../types/api";
+import {isEmpty, s4, instanceOfA} from "../../utils/utils";
 import {IContext} from "../../pages/MiddleServerRouter";
+import {HouseStatus} from "../../types/enum";
 
 interface IProps {
   isOpen: boolean;
@@ -54,7 +51,7 @@ const SideNav: React.FC<IProps> = ({isOpen, setIsOpen, context}) => {
   }
   const menues: (IMenusItem | IMenusGroup)[] = [
     {
-      to: "/middleServer",
+      to: "/dashboard",
       icon: "apps",
       label: "홈",
       disabled: false
@@ -161,7 +158,7 @@ const SideNav: React.FC<IProps> = ({isOpen, setIsOpen, context}) => {
           <Link to="/myPage">
             <div className="JDsideNav__circle">
               <ProfileCircle
-                size={IconSize.MEDIUM}
+                size={IconSize.MEDIUM_LARGE}
                 isBordered
                 profileImg={user.profileImg}
               />

@@ -1,5 +1,5 @@
 /* eslint-disable react/forbid-prop-types */
-import React, {Fragment} from "react";
+import React, {Fragment, useEffect} from "react";
 import {Route, Switch, Redirect, RouteComponentProps} from "react-router-dom";
 import {graphql, compose} from "react-apollo";
 import {Helmet} from "react-helmet";
@@ -32,7 +32,7 @@ import {
   ConfigWrap,
   HouseManualConfig
 } from "./pages";
-import {UserRole} from "../types/enum";
+import {UserRole, TimePerMs} from "../types/enum";
 import {IHouse, IHouseConfigFull} from "../types/interface";
 import $ from "jquery";
 import {
@@ -44,7 +44,10 @@ import {
   getMyProfile_GetMyProfile_user,
   getMyProfile_GetMyProfile_user_houses_product
 } from "../types/api";
-import {setCookie} from "../utils/cookies";
+import {setCookie, getCookie} from "../utils/cookies";
+import {toast} from "react-toastify";
+import GreetingBox from "./middleServer/dashBoard/components/greetingBox";
+import moment from "moment";
 
 export interface IContext extends RouteComponentProps<any> {
   user: getMyProfile_GetMyProfile_user;
@@ -126,6 +129,24 @@ const JDmiddleServer: React.FC<IProps> = ({
       />
     );
 
+  const greet = async () => {
+    const lastConnectTime = getCookie("lastConnect");
+    if (
+      lastConnectTime === undefined ||
+      parseInt(lastConnectTime) < new Date().valueOf() - TimePerMs.H * 3
+    ) {
+      toast(<GreetingBox userData={context.user} />);
+    }
+    setCookie("lastConnect", `${new Date().valueOf()}`, 999);
+    return "";
+  };
+
+  useEffect(() => {
+    if (context.user && context.user.name) {
+      greet();
+    }
+  }, []);
+
   // 🍰 메인리턴
   return (
     <Fragment>
@@ -146,18 +167,15 @@ const JDmiddleServer: React.FC<IProps> = ({
       {/* 라우팅 시작 */}
       <Switch>
         {/* 인덱스 */}
-        {["/", "/middleServer", "dashBoard"].map(path => (
+        {["/", "/dashboard"].map(path => (
           <Route
-            key={path}
             exact
+            key={path}
             path={path}
             render={props => {
               const contextWithRotuer = Object.assign(context, props);
               return isLogIn ? (
-                <Route
-                  exact
-                  component={() => <DashBoard context={contextWithRotuer} />}
-                />
+                <DashBoard context={contextWithRotuer} />
               ) : (
                 <Login />
               );

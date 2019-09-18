@@ -1,12 +1,12 @@
 import React, {useState} from "react";
 import JDLabel from "../../../../atoms/label/JDLabel";
 import JDrange from "../../../../atoms/forms/range/range";
-import {IAddtionProp} from "../components/AddtionModule";
+import {IAddtionProp} from "../components/ConfigBlock";
 import JDswitch from "../../../../atoms/forms/switch/Switch";
 import {useSwitch, useRange} from "../../../../actions/hook";
 import {muResult} from "../../../../utils/utils";
 import JDbox from "../../../../atoms/box/JDbox";
-import TabUsePhoto from "../../../../img/describe/roomTypeTap.gif";
+import NewBookingBadge from "../../../../img/describe/newBookingBadge.png";
 import {DEFAULT_HOUSE_CONFIG} from "../../../../types/defaults";
 import {TimePerMs} from "../../../../types/enum";
 import JDbadge from "../../../../atoms/badge/Badge";
@@ -89,7 +89,7 @@ const NewBookingMark: React.FC<IAddtionProp> = ({
         onChangeComplete={handleRangeChange}
         onChange={timeHook.onChange}
       />
-      <JDbox mode="photoFrame" photo={TabUsePhoto} />
+      <JDbox mode="photoFrame" photo={NewBookingBadge} />
       <div>
         <p>
           <div className="">설정된 시간 내의 새로운 예약을 표시합니다.</div>

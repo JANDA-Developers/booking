@@ -4,6 +4,7 @@ import {getBookings_GetBookings_bookings} from "../../types/api";
 import {IUseDayPicker} from "../../actions/hook";
 import ArrowDayByDay from "../../atoms/dayPicker/component/inputComponent/arrowDayByDay";
 import JDdayPicker from "../../atoms/dayPicker/DayPicker";
+import Preloader from "../../atoms/preloader/Preloader";
 
 interface IViewConfig {
   dayPickerHook?: IUseDayPicker;
@@ -12,6 +13,7 @@ interface IViewConfig {
 
 interface Iprops extends IViewConfig {
   context: IContext;
+  loading: boolean;
   info: {
     bookingsCheckInToday: getBookings_GetBookings_bookings[];
     bookingsCount: number;
@@ -23,8 +25,10 @@ const DayCheckIn: React.FC<Iprops> = ({
   context,
   info,
   dayPickerHook,
-  viewDayPicker
+  viewDayPicker,
+  loading
 }) => {
+  if (loading) return <Preloader loading={loading} size="medium" />;
   return (
     <div>
       {dayPickerHook && viewDayPicker && (

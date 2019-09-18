@@ -10,6 +10,7 @@ interface IProps extends React.HTMLAttributes<HTMLOrSVGElement> {
   page?: boolean;
   size?: PreloaderSize;
   loading?: boolean;
+  position?: "center";
   floating?: boolean;
   animation?: Animation[];
   noAnimation?: boolean;
@@ -19,6 +20,7 @@ interface IProps extends React.HTMLAttributes<HTMLOrSVGElement> {
 const JDpreloader: React.FC<IProps> = ({
   page,
   size = "tiny",
+  position,
   className,
   wrapClassName,
   loading = false,
@@ -27,6 +29,10 @@ const JDpreloader: React.FC<IProps> = ({
   animation = [Animation.zoomIn, Animation.zoomOut],
   ...props
 }) => {
+  const wrapClasses = classNames("preloader__wrap", wrapClassName, {
+    "preloader__wrap--center": position === "center"
+  });
+
   const classes = classNames("preloader", className, {
     "preloader--tiny": size === "tiny",
     "preloader--large": size === "large",
@@ -38,7 +44,7 @@ const JDpreloader: React.FC<IProps> = ({
   return !page ? (
     <JDanimation animation={noAnimation ? [] : animation}>
       {loading && (
-        <span className={`preloader__wrap ${wrapClassName}`}>
+        <span className={`preloader__wrap ${wrapClasses}`}>
           <svg
             {...props}
             version="1.1"

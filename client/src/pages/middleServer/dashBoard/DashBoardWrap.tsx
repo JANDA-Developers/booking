@@ -1,8 +1,9 @@
-import React, {useMemo} from "react";
+import React, {useMemo, useEffect} from "react";
 import {
   ErrProtecter,
   onCompletedMessage,
-  getRoomCountFromHouse
+  getRoomCountFromHouse,
+  s4
 } from "../../../utils/utils";
 import JDSlider from "../../../atoms/slider/Slider";
 import DashBoard from "./DashBoard";
@@ -27,7 +28,7 @@ const DashBoardWrap: React.FC<Iprops> = ({context}) => {
   const {house, user} = context;
 
   if (!house || !house.completeDefaultSetting)
-    return <StarterModalWrap context={context} />;
+    return <StarterModalWrap key={s4()} context={context} />;
 
   const MemorizedDashBoardWrap = useMemo(
     () => (
@@ -44,10 +45,10 @@ const DashBoardWrap: React.FC<Iprops> = ({context}) => {
         </UpdateHouse>
       </div>
     ),
-    [house._id, user._id]
+    [house._id]
   );
 
   return <div>{MemorizedDashBoardWrap}</div>;
 };
 
-export default ErrProtecter(DashBoardWrap);
+export default DashBoardWrap;

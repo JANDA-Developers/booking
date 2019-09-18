@@ -27,6 +27,7 @@ export interface IModalSMSinfo {
     paymentStatus: string;
     payMethod: string;
     price: number;
+    email: any;
   };
   receivers: string[];
   createMode?: boolean;

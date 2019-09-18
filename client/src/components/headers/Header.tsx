@@ -25,7 +25,7 @@ type ITempProps = IDiv & {
   [key: string]: any;
 };
 
-type IProps = RouteComponentProps<any> & ITempProps & WindowSizeProps;
+type IProps = ITempProps;
 
 const Header: React.FC<IProps> = ({
   context,
@@ -44,6 +44,10 @@ const Header: React.FC<IProps> = ({
   });
 
   const phoneVerificationModalHook = useModal(false);
+
+  useEffect(() => {
+    console.log("hm9");
+  }, []);
 
   // 🍰 메인리턴
   return (
@@ -111,5 +115,4 @@ const Header: React.FC<IProps> = ({
   );
 };
 
-//  👿 withRouter로 받는 prop가 없는데 왜...
-export default withRouter(windowSize<IProps>(ErrProtecter(Header)));
+export default windowSize<IProps>(ErrProtecter<any>(Header));

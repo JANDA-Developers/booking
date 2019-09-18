@@ -6,8 +6,8 @@ import TooltipList from "../../../atoms/tooltipList/TooltipList";
 import Button from "../../../atoms/button/Button";
 import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
 import moment from "moment-timezone";
-import {findFieldsThatChangedTypeOnInputObjectTypes} from "graphql/utilities/findBreakingChanges";
 import textReader from "../../../utils/textReader";
+import CheckBox from "../../../atoms/forms/checkBox/CheckBox";
 moment.tz.setDefault("Asia/Seoul");
 
 interface Iprops {
@@ -15,6 +15,7 @@ interface Iprops {
   handleDelete: (memo: getMemos_GetMemos_memos) => void;
   handleUpdate: (memo: getMemos_GetMemos_memos) => void;
   handleCreate: (memo: getMemos_GetMemos_memos) => void;
+  handleImportToogle: (memo: getMemos_GetMemos_memos) => void;
   add?: boolean;
 }
 
@@ -23,9 +24,13 @@ const MemoBox: React.FC<Iprops> = ({
   handleDelete,
   handleCreate,
   handleUpdate,
+  handleImportToogle,
   add
 }) => {
+  const [important, setImportant] = useState(memo.important);
   const [editMode, setEditMode] = useState(false);
+  const [memoText, SetMemoText] = useState(memo.text);
+
   const message = add ? (
     <span className="JDstandard-space">
       <span className="JDstandard-small-space">새로운 메모</span>
@@ -34,26 +39,6 @@ const MemoBox: React.FC<Iprops> = ({
   ) : (
     <span className="JDstandard-small-space">{textReader(memo.text)}</span>
   );
-
-  const EditInput = () => (
-    <InputText
-      size="fullWidth"
-      textarea
-      autoHeight
-      defaultValue={add ? "" : memo.text}
-      onBlur={e => {
-        setEditMode(false);
-        const vlaue = e.currentTarget.value;
-        memo.text = vlaue;
-        if (add) {
-          handleCreate(memo);
-        } else {
-          handleUpdate(memo);
-        }
-      }}
-    />
-  );
-
   const ToolTipIcon = () => (
     <span
       data-tip={memo._id}
@@ -84,6 +69,14 @@ const MemoBox: React.FC<Iprops> = ({
             label="삭제"
           />
         </li>
+        <li>
+          <Button
+            onClick={() => {
+              handleImportToogle(memo);
+            }}
+            label={!memo.important ? "중요메모" : "중요해제"}
+          />
+        </li>
       </ul>
     </TooltipList>
   );
@@ -97,6 +90,7 @@ const MemoBox: React.FC<Iprops> = ({
             ? moment(memo.createdAt).format("MM:DD HH:MM")
             : undefined
         }
+        thema={!add && memo.important ? "point" : undefined}
         tooltipDirection="left"
         className="memoBox"
         clickable={add && !editMode}
@@ -107,7 +101,47 @@ const MemoBox: React.FC<Iprops> = ({
         }}
         mode={add && !editMode ? "dashBorder" : undefined}
       >
-        {editMode ? <EditInput /> : message}
+        {editMode ? (
+          <div style={{flex: 1}}>
+            <InputText
+              size="fullWidth"
+              textarea
+              autoHeight
+              value={memoText}
+              onChange={SetMemoText}
+            />
+            <div className="JDflex--vCenter JDflex--between">
+              <span className="JDflex--vCenter">
+                <span className="JDstandard-space">중요한 메모 인가요?</span>
+                <CheckBox
+                  className="JDstandard-margin0"
+                  onChange={setImportant}
+                  checked={important}
+                />
+              </span>
+              <Button
+                thema="primary"
+                size="small"
+                label="작성완료"
+                onClick={e => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setEditMode(false);
+                  // 👿 assing or 새로운 모듈을 써보자
+                  memo.text = memoText;
+                  memo.important = important;
+                  if (add) {
+                    handleCreate(memo);
+                  } else {
+                    handleUpdate(memo);
+                  }
+                }}
+              />
+            </div>
+          </div>
+        ) : (
+          message
+        )}
         {!add && !editMode && <ToolTipIcon />}
       </JDbox>
       {/* 툴팁 */}

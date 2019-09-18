@@ -2,8 +2,15 @@
 
 .layoutCard {
     min-width: 12rem;
+    height: 10rem;
+    
+    @include response($tablet) {
+        min-width: 8rem;
+        height: 7rem;
+    }
+
     &__imgBox {
-        height: 9rem;
+        height: calc(100% - 3rem);
         background-size: cover;
         margin-bottom: $standard-margin-bottom;
         background-position: center center;

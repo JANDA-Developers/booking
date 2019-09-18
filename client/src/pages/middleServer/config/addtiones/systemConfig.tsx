@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {IAddition} from "../components/AddtionModule";
+import {IAddition} from "../components/ConfigBlock";
 import JDLabel from "../../../../atoms/label/JDLabel";
 import JDrange from "../../../../atoms/forms/range/range";
 import {MutationFn} from "react-apollo";
@@ -61,8 +61,8 @@ const SystemDescription: React.FC<IProps> = ({
         />
         <p>
           <div className="">
-            설정한 숫자/ms 마다 한번씩 서버로 부터 새로운 예약이 있는지
-            서버로부터 확인받습니다.
+            설정한 숫자/ms 마다 한번씩 새로운 예약이 있는지 서버로부터
+            확인받습니다.
           </div>
           <div>
             새로운 예약이 있다면 새로운 예약을 화면에 새로고침 없이 나타냅니다.

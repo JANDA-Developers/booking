@@ -3,7 +3,7 @@ $notificationLi-padding : $standard-space;
 .notiLi {
     position: relative;
     padding: $notificationLi-padding;
-    width: $standard-width * 5;
+    width: $standard-width * 85;
 
     &__msg {
         white-space: nowrap;

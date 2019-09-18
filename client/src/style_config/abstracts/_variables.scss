@@ -83,25 +83,25 @@ $female-color: maroon!default;
 
 
 // -- 표준규격 
+$standard-height: 0.25rem; // 정수를 곱해서 사용
 $standard-section-height: 23.4rem; // 어떤 높이를 강제 구격할떄사용
 $standard-disabled-color: $grey-level2 !default;
 $standard-space: 1rem !default; // except textInput 구조가 다름
 $standard-small-space: .5rem !default; // except textInput 구조가 다름
-$standard-tiny-space: .3125rem !default; // except textInput 구조가 다름
-$standard-margin-bottom: .8rem !default; // except textInput 구조가 다름
-$standard-text-line-term: .5rem !default;
+$standard-tiny-space: .25rem !default; // except textInput 구조가 다름
+$standard-margin-bottom: $standard-height * 3 !default; // except textInput 구조가 다름
+$standard-text-line-term: $standard-height * 2 !default;
 $standard-border-radius: 4px;
-$standard-line-height: 2.25rem; // ⭐️ 구성요소들이 한줄에 섰을때 세로 크기를 정의합니다.
+$standard-line-height: $standard-height * 9; // ⭐️ 구성요소들이 한줄에 섰을때 세로 크기를 정의합니다.
 $standard-lists-line: 150%; // 옹기종기모인 div들 정리용
-$standard-small-icon-margin : .5rem;
+$standard-small-icon-margin : $standard-small-space;
 $stadnard-background-color: white;
 $standard-outborder-color: $html-color; //화면 가장자리에 붙어있는 border들의 컬러
 $standard-input-outborder-color: $html-color;
 // TODO: 새로추가됨 이걸로 정리해야함
-$standard-label-margin : 0.5rem;
+$standard-label-margin : $standard-small-space;
 $standard-placeholder-color : $grey-level2;
-$standard-width: 4.5rem; // 정수를 곱해서 사용
-$standard-height: $standard-line-height; // 정수를 곱해서 사용
+$standard-width: 0.25rem; // 정수를 곱해서 사용
 
 
 // 💔 -- BreackPoints 브레이크 포인트
@@ -156,7 +156,7 @@ $label-font-color: $html-color !default;
 // ANCHOR Forms ==========================================================================
 // -- Text Inputs + Textarea 인풋
 $input-padding-top: 1rem;
-$input-height: $standard-line-height + 0.275rem!default;
+$input-height: $standard-line-height + $standard-height!default;
 $input-noLabel-height: $standard-line-height !default;
 $input-border: 1px solid $standard-input-outborder-color !default;
 $input-background: #fff !default;
@@ -268,12 +268,12 @@ $dayPicker-input-height : $input-height + 1rem;
 $button-border: none !default;
 $button-font-size: $typho-large !default;
 $button-height: $standard-line-height !default;
-$button-padding-side: 1rem !default;
+$button-padding-side: $standard-space !default;
 $button-padding: 0 $button-padding-side !default;
 $button-radius: $standard-border-radius !default;
-$buttons-space: .4rem !default;
+$buttons-space: $standard-small-space !default;
 $buttons-icon-margin: $icon-space !default;
-$buttons-small-icon-margin: 0.45em !default;
+$buttons-small-icon-margin: $standard-small-space !default;
 $button-letter-sapcing: .5px !default;
 $button-color: $html-color !default;
 $button-bgColor: #fff !default;
@@ -316,7 +316,7 @@ $searchInput-input-border: $input-border !default;
 $searchInput-border-color:$grey-level1 !default;
 $searchInput-border-radius: $standard-border-radius;
 $searchInput-li-border-top: 1px dotted $searchInput-border-color !default;
-$searchInput-li-padding: .3rem $standard-small-space !default;
+$searchInput-li-padding: $standard-height $standard-small-space !default;
 $searchInput-li-height: $standard-line-height !default;
 $searchInput-message-space: 1rem;
 
@@ -324,18 +324,18 @@ $searchInput-message-space: 1rem;
 // ANCHOR Side NAV =========================================================================
 
 $sideNav-list-padding: $standard-small-space * 1.5;
-$sideNav-width : 200px;
+$sideNav-width : 12.5rem;
 $sideNav-profile-height : 12rem;
 $sideNav-profile-circle-margin-top : 2rem;
-$sideNav-list-li-height : 54px;
+$sideNav-list-li-height : 3.25rem;
 $sideNav-list-li-bgColor : white;
 $sideNav-curtain-color: $curtain-color;
 $sideNav-icon-padding: $icon-space;
-$sideNav-productView-height: 4.3125rem;
+$sideNav-productView-height: 4.25rem;
 
 // 8 Header 헤더
 // ANCHOR Header NAV =========================================================================
-$header-height: 3.225rem;
+$header-height: $standard-height * 14;
 $header-padding: 1rem;
 
 // 9 CircleIcon 둥근 아이콘
@@ -343,7 +343,7 @@ $header-padding: 1rem;
 $circle-icon-size: 2em;
 
 // 10 Slider 슬라이더
-// ANCHOR slider Slider =========================================================================
+// ANCHOR slider Slider ========fe=================================================================
 $slider-dots-padding: 15px;
 $slider-dot-size: 10px;
 $slider-dot-margin: 12px;
@@ -397,7 +397,7 @@ $tooltipList-border-radius: $standard-border-radius;
 $tooltipList-background-color: white;
 $tooltipList-li-border-bottom: 1px solid $grey-level1;
 $tooltipList-li-padding: 0px;
-$tooltipList-ul-padding: .5rem;
+$tooltipList-ul-padding: $standard-small-space;
 
 // 17 Preloader 프리로더
 // ANCHOR preloader loading=========================================================================
@@ -438,14 +438,14 @@ $assigItem-mark-bgColor: $assigItem-linked-bgColor;
 $assigItem-make-block-color: #E77002;
 // 반하얀색임
 
-$AT-assigGroup-roomType-width: 100px;
-$AT-assigGroup-room-width: 100px;
-$AT-mobile-assigGroup-roomType-width: 36px;
-$AT-mobile-assigGroup-room-width: 36px;
+$AT-assigGroup-roomType-width: 6.25rem;
+$AT-assigGroup-room-width: 6.25rem;
+$AT-mobile-assigGroup-roomType-width: 2.25rem;
+$AT-mobile-assigGroup-room-width: 2.25rem;
 
 $assigItem-selected-linked-border-thick: 1px;
 $assigItem-selected-linked-border: $assigItem-selected-linked-border-thick solid $assigItem-selected-border-color;
-$assigItem-padding: 6px;
+$assigItem-padding: $standard-width;
 
 // 22 badge 뱃지
 // ANCHOR badge Badge=========================================================================
@@ -456,4 +456,9 @@ $badge-radius-tiny:  2px;
 // 23 menu 메뉴
 // ANCHOR menu Menu=========================================================================
 $menu-dropDown-side-padding:  $standard-space;
+$menu-border-bottom:  1px solid $grey-level1;
+
+// 24 daily Assig
+// ANCHOR menu Menu=========================================================================
+$dailyAssig-block-height:  $standard-height * 8 + 0.125rem; //.125rem === "border"
 $menu-border-bottom:  1px solid $grey-level1;

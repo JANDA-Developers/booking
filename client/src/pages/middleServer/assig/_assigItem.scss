@@ -18,7 +18,7 @@
     &__badgeWrap {
         position:absolute;
         left: 0;
-        top:-50%;
+        top:-35%;
     }
 
     @include response($mobile) {
@@ -98,7 +98,7 @@
     &__titleWrap {
         box-sizing: border-box;
         // 이렇게 해야 sticky가 올바르게 동작 + 20은 아이콘 계수
-        padding-right: $assigItem-padding + 16px;
+        padding-right: $assigItem-padding + 1rem;
         white-space: pre-line;
         line-height: 1;
         border-radius: $standard-border-radius;

@@ -1,6 +1,8 @@
 .memoBox {
     white-space: pre-wrap;
     margin-right: 0px;
+
+    min-width: 300px;
     
     .JDbox__content {
         display:flex;

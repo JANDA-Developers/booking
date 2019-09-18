@@ -1,5 +1,5 @@
 import React, {useMemo, Fragment} from "react";
-import {showError, onCompletedMessage} from "../../utils/utils";
+import {onCompletedMessage} from "../../utils/utils";
 import {Query, Mutation, MutationFn} from "react-apollo";
 import {
   getAllRoomTypeWithGuestVariables,
@@ -32,7 +32,6 @@ import {
   DELETE_BOOKING,
   UPDATE_BOOKING
 } from "../../queries";
-import {IHouse} from "../../types/interface";
 import {BookingStatus} from "../../types/enum";
 import {queryDataFormater} from "../../utils/utils";
 import {useDayPicker, IUseDayPicker} from "../../actions/hook";
@@ -41,6 +40,7 @@ import DailyAssigNew from "./DailyAssigNew";
 import {getOperationName} from "apollo-link";
 import {NetworkStatus} from "apollo-boost";
 import {IDailyAssigDataControl} from "../../pages/middleServer/assig/components/assigIntrerface";
+import moment from "moment";
 // import DailyAssigNew from "./DailyAssigNew";
 
 class GetAllRoomTypeWithGuestQuery extends Query<
@@ -97,45 +97,43 @@ const DailyAssigWrap: React.FC<IProps> = ({
   const updateVariables = {
     houseId: houseId,
     start: dayPickerHook.from || new Date(),
-    end: dayPickerHook.from || new Date()
+    end: moment(dayPickerHook.from || new Date())
+      .add(1, "day")
+      .toDate()
   };
 
   const Result = useMemo(() => {
     return (
-      <UpdateCheckInMu
-        refetchQueries={[
-          getOperationName(GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM) || ""
-        ]}
-        mutation={UPDATE_BOOKING}
+      <GetAllRoomTypeWithGuestQuery
+        skip={!date}
+        pollInterval={
+          houseConfig.pollingPeriod
+            ? houseConfig.pollingPeriod.period
+            : undefined
+        }
+        query={GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM}
+        variables={{
+          ...updateVariables,
+          bookingStatuses: [BookingStatus.COMPLETE, BookingStatus.READY]
+        }}
       >
-        {(updateCheckInMu, {loading: checkInBookingLoading}) => (
-          <GetAllRoomTypeWithGuestQuery
-            skip={!date}
-            pollInterval={
-              houseConfig.pollingPeriod
-                ? houseConfig.pollingPeriod.period
-                : undefined
-            }
-            query={GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM}
-            variables={{
-              ...updateVariables,
-              bookingStatuses: [BookingStatus.COMPLETE, BookingStatus.READY]
-            }}
-          >
-            {({data, loading, error, networkStatus}) => {
-              const roomTypesData =
-                queryDataFormater(
-                  data,
-                  "GetAllRoomType",
-                  "roomTypes",
-                  undefined
-                ) || []; // 원본데이터
-              const guestsData =
-                queryDataFormater(data, "GetGuests", "guests", undefined) || []; // 원본데이터
-              const blocks =
-                queryDataFormater(data, "GetBlocks", "blocks", undefined) || []; // 원본데이터
+        {({data, loading, error, networkStatus}) => {
+          const roomTypesData =
+            queryDataFormater(data, "GetAllRoomType", "roomTypes", undefined) ||
+            []; // 원본데이터
+          const guestsData =
+            queryDataFormater(data, "GetGuests", "guests", undefined) || []; // 원본데이터
+          const blocks =
+            queryDataFormater(data, "GetBlocks", "blocks", undefined) || []; // 원본데이터
 
-              return (
+          return (
+            <UpdateCheckInMu
+              refetchQueries={[
+                getOperationName(GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM) || ""
+              ]}
+              mutation={UPDATE_BOOKING}
+            >
+              {(updateCheckInMu, {loading: checkInBookingLoading}) => (
                 <AllocateGuestToRoomMu
                   onCompleted={({AllocateGuestToRoom}) => {
                     onCompletedMessage(
@@ -181,6 +179,11 @@ const DailyAssigWrap: React.FC<IProps> = ({
                                 "방막기 실패"
                               );
                             }}
+                            refetchQueries={[
+                              getOperationName(
+                                GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM
+                              ) || ""
+                            ]}
                             mutation={CREATE_BLOCK}
                           >
                             {(createBlockMu, {loading: createBlockLoading}) => (
@@ -271,11 +274,11 @@ const DailyAssigWrap: React.FC<IProps> = ({
                     );
                   }}
                 </AllocateGuestToRoomMu>
-              );
-            }}
-          </GetAllRoomTypeWithGuestQuery>
-        )}
-      </UpdateCheckInMu>
+              )}
+            </UpdateCheckInMu>
+          );
+        }}
+      </GetAllRoomTypeWithGuestQuery>
     );
   }, [dayPickerHook.from]);
 

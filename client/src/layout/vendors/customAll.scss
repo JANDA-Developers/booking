@@ -138,6 +138,9 @@ a.JDanchor {
             margin-bottom: 0!important;
         }
     }
+    .JDstandard-margin0 {
+        margin:0!important;
+    }
     .JDstandard-margin-bottom {
         @include responseClass() {
             margin-bottom: $standard-margin-bottom;

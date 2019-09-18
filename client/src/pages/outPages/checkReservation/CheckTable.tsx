@@ -8,7 +8,8 @@ import {ErrProtecter, queryDataFormater} from "../../../utils/utils";
 import {FIND_BOOKING_FOR_BOOKER} from "../../../queries";
 import {
   findBookingVariables,
-  findBooking_FindBooking_bookings
+  findBooking_FindBooking_bookings,
+  getBookingForPublic_GetBookingForPublic_booking
 } from "../../../types/api";
 import JDtable from "../../../atoms/table/Table";
 import {ReactTableDefaults, CellInfo} from "react-table";
@@ -23,9 +24,10 @@ import {
   BookingStatusKr,
   PaymentStatusKr
 } from "../../../types/enum";
+import moment from "moment";
 
 export interface IProps {
-  tableData: findBooking_FindBooking_bookings[] | undefined;
+  tableData: getBookingForPublic_GetBookingForPublic_booking[] | undefined;
 }
 
 // 하우스 아이디를 우선 Props를 통해서 받아야함
@@ -36,7 +38,7 @@ const CheckTable: React.FC<IProps> = ({tableData}) => {
       accessor: "_id",
       Cell: ({original}: CellInfo) => (
         <div>
-          <span>{original.start.split("T")[0]}</span>
+          <span>{moment(original.checkIn).format("YYYY-MM-DD")}</span>
         </div>
       )
     },
@@ -45,7 +47,7 @@ const CheckTable: React.FC<IProps> = ({tableData}) => {
       accessor: "_id",
       Cell: ({original}: CellInfo) => (
         <div>
-          <span>{original.start.split("T")[0]}</span>
+          <span>{moment(original.checkOut).format("YYYY-MM-DD")}</span>
         </div>
       )
     },
@@ -91,8 +93,11 @@ const CheckTable: React.FC<IProps> = ({tableData}) => {
       accessor: "price",
       Cell: ({value, original}: CellInfo) => (
         <div>
-          {value} <br />
-          {PaymentStatusKr[original.paymentStatus]}
+          {original.price} <br />
+          {
+            // @ts-ignore
+            PaymentStatusKr[original.paymentStatus]
+          }
         </div>
       )
     },
@@ -100,7 +105,12 @@ const CheckTable: React.FC<IProps> = ({tableData}) => {
       Header: "상태",
       accessor: "bookingStatus",
       Cell: ({value, original}: CellInfo) => (
-        <span>{BookingStatusKr[value]}</span>
+        <span>
+          {
+            // @ts-ignore
+            BookingStatusKr[value]
+          }
+        </span>
       )
     }
   ];

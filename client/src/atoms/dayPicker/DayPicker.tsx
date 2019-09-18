@@ -187,7 +187,7 @@ const JDdayPicker: React.FC<IJDdayPickerProps> = ({
     "DayPicker--center": calenaderPosition === "left"
   });
 
-  const modifiers = {start: from, end: entered};
+  const modifiers = {start: from || undefined, end: entered || undefined};
   const selectedDays: any = [from, {from, to: entered}];
   const MONTHS = [
     "1월",

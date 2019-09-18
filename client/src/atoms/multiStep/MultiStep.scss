@@ -95,7 +95,7 @@ $animation-time: 0.5s;
 .item-wrap {
 	padding: $standard-small-space;
 	position: relative;
-	height: $standard-height;
+	height: $standard-height * 8;
 	&:before, &:after {
 		position: absolute;
 		left: 0;
@@ -251,5 +251,11 @@ $animation-time: 0.5s;
 	}
 	to {
 		transform: rotate(360deg);
+	}
+}
+
+@include response($phablet) {
+	.item-title {
+		font-size: $typho-small!important;
 	}
 }

@@ -63,6 +63,9 @@ export const DragBoxPlace: React.FC<DragBoxPlace> = ({
     "dailyAssig__place--canAssigAndOver": (canDrop && isOver) || isFull
   });
 
+  console.log("itemsInPlace");
+  console.log(itemsInPlace);
+
   return (
     <div className={classes} ref={drop}>
       {itemsInPlace.map(item => {
@@ -70,6 +73,9 @@ export const DragBoxPlace: React.FC<DragBoxPlace> = ({
           <DragItem
             key={item === null ? s4() : item._id}
             item={dragItemManufacter(item)}
+            roomType={roomType}
+            room={room}
+            place={place}
           />
         );
       })}

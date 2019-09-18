@@ -205,7 +205,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
                 selectedOption={value.peopleCountMax}
               />
             </div>
-            <div className="flex-grid__col JDz-index-2 col--full-6 col--lg-6 col--md-12">
+            <div className="flex-grid__col JDz-index-3 col--full-6 col--lg-6 col--md-12">
               <SelectBox
                 label="방타입선택"
                 disabled={!isAddMode}

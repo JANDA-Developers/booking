@@ -29,7 +29,7 @@ interface IProps {
   index: number;
 }
 
-const AddtionModule: React.FC<IProps> = ({
+const ConfigBlock: React.FC<IProps> = ({
   addtionInfo,
   setAdditionIndex,
   index
@@ -38,12 +38,12 @@ const AddtionModule: React.FC<IProps> = ({
     onClick={() => {
       setAdditionIndex(index);
     }}
-    className="addtionModule"
+    className="configBlock"
   >
-    <h6 className="addtionModule__title">{addtionInfo.name}</h6>
-    <span className="addtionModule__descrition">{addtionInfo.description}</span>
-    <span className="addtionModule__updateAt">{addtionInfo.updateAt}</span>
+    <h6 className="configBlock__title">{addtionInfo.name}</h6>
+    <span className="configBlock__descrition">{addtionInfo.description}</span>
+    <span className="configBlock__updateAt">{addtionInfo.updateAt}</span>
   </div>
 );
 
-export default EerrorProtect(AddtionModule);
+export default EerrorProtect(ConfigBlock);

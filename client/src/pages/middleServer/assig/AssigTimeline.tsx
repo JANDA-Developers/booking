@@ -287,9 +287,6 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
         </h3>
         <div className="flex-grid flex-grid--end">
           <div>
-            <Link to="/resvList">
-              <Button mode="border" icon="list" label="예약목록 보기" />
-            </Link>
             <Button
               onClick={() => {
                 reservationModal.openModal();
@@ -297,6 +294,9 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
               icon="edit"
               label="예약하기"
             />
+            <Link to="/resvList">
+              <Button mode="border" icon="arrowTo" label="예약목록 보기" />
+            </Link>
             {/* 개발중 */}
             {/* <Button
               label="단축키"

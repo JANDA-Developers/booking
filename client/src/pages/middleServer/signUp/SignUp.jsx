@@ -28,7 +28,7 @@ function SignUp({history}) {
           mutation={LOG_USER_IN}
           refetchQueries={[{query: IS_LOGGED_IN}, {query: GET_USER_INFO}]}
           onCompleted={() => {
-            history.replace(`/middleServer`);
+            history.replace(`/`);
           }}
         >
           {logUserIn => (

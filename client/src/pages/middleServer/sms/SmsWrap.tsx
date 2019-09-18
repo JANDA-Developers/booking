@@ -1,4 +1,4 @@
-import React, {useRef, Fragment} from "react";
+import React, {useRef, Fragment, useEffect} from "react";
 import Sms from "./Sms";
 import {Mutation, Query} from "react-apollo";
 import {
@@ -53,6 +53,10 @@ interface IProps {
 
 const SmsWrap: React.FC<IProps> = ({context}) => {
   const {house} = context;
+
+  useEffect(() => {
+    console.log("hm4");
+  }, []);
 
   return (
     <GetSmsInfo

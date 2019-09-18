@@ -7,6 +7,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "@apollo/react-hooks": "^3.1.1",
     "@babel/core": "7.1.0",
     "@babel/plugin-syntax-json-strings": "^7.2.0",
     "@svgr/webpack": "2.4.1",

@@ -43,7 +43,7 @@ const MakeHouse: React.FC<IProps & RouteComponentProps> = ({
   const houseNameHoook = useInput("");
   const deatailaddressHook = useInput("");
   const typeSelectHook = useSelect(null);
-  const [location, setlocation] = useState({address: "", lat: 0, lng: 0});
+  const [location, setLocation] = useState({address: "", lat: 0, lng: 0});
   const debouncedAdress = useDebounce(location.address, 500);
   const addressGeturl = `http://www.juso.go.kr/addrlink/addrLinkApi.do?currentPage=1&resultType=json&countPerPage=100&keyword=${debouncedAdress}&confmKey=${ADDRESS_API_KEY}`;
   const [adressData, adressLoading, getAdressError, adressGet] = useFetch(
@@ -100,7 +100,7 @@ const MakeHouse: React.FC<IProps & RouteComponentProps> = ({
     const lng = newCenter.lng();
     const reversedAddress = await reverseGeoCode(lat, lng);
     if (reversedAddress !== false)
-      setlocation({address: reversedAddress, lat, lng});
+      setLocation({address: reversedAddress, lat, lng});
   };
 
   // Map Config 그리고 생성
@@ -114,7 +114,7 @@ const MakeHouse: React.FC<IProps & RouteComponentProps> = ({
       },
       disableDefaultUI: true,
       minZoom: 8,
-      zoom: 17,
+      zoom: 15,
       zoomControl: true
     };
     map = new maps.Map(mapNode, mapConfig);
@@ -135,7 +135,7 @@ const MakeHouse: React.FC<IProps & RouteComponentProps> = ({
     if (!map || !value) return;
     if (result !== false) {
       const {lat, lng} = result;
-      setlocation({
+      setLocation({
         address: value,
         lat,
         lng
@@ -146,12 +146,13 @@ const MakeHouse: React.FC<IProps & RouteComponentProps> = ({
 
   // 서치인풋에 값이 제출될때마다.
   const handleOnFind = (value: string | null) => {
+    console.log("handleOnFind");
     changeMapBySearch(value);
   };
 
   // 서치인풋에 값을 입력할때마다.
   const onTypeChange = (value?: string) => {
-    setlocation({
+    setLocation({
       ...location,
       address: value || ""
     });
@@ -169,7 +170,27 @@ const MakeHouse: React.FC<IProps & RouteComponentProps> = ({
 
   // 구글맵 첫 생성 (현재위치)
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(handleGeoSucces, handleGeoError);
+    navigator.geolocation.getCurrentPosition(
+      async location => {
+        handleGeoSucces(location);
+        const {
+          coords: {latitude: lat, longitude: lng}
+        } = location;
+        if (map) {
+          map.panTo({lat, lng});
+          console.log("mapTo");
+        }
+        const address = await reverseGeoCode(lat, lng);
+        setLocation({
+          lat,
+          lng,
+          address
+        });
+      },
+      prop => {
+        handleGeoError(prop);
+      }
+    );
   }, []);
 
   return (
@@ -209,10 +230,11 @@ const MakeHouse: React.FC<IProps & RouteComponentProps> = ({
                 }
               }}
             >
-              {makeHouseMutation => {
+              {(makeHouseMutation, {loading}) => {
                 const makeHouseSubmit = (
                   e: React.FormEvent<HTMLFormElement>
                 ) => {
+                  if (loading) return;
                   e.preventDefault();
                   if (submitValidation()) makeHouseMutation();
                 };

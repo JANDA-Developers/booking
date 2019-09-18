@@ -7,7 +7,7 @@ import {GET_USER_FOR_SU} from "../../../../queries";
 import {showError, queryDataFormater} from "../../../../utils/utils";
 import Preloader from "../../../../atoms/preloader/Preloader";
 import UserModal, {IUserModalProps} from "./userModal";
-import {IContext} from "../../../MiddleServerRouter";
+import { IContext } from "../../../MiddleServerRouter";
 
 interface IProps {
   modalHook: IUseModal<IUserModalProps>;

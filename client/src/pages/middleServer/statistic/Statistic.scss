@@ -22,4 +22,13 @@
             justify-content: space-around;
         }
     }
+
+    &__graphCard {
+        position: relative;
+        .statistic__graphPreloader {
+            .preloader--large {
+                bottom: calc(50% - 4rem);
+            }
+        }
+    }
 }

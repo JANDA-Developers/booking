@@ -1,8 +1,9 @@
 import React from "react";
 import "./MultiStep.scss";
+import {s4} from "../../utils/utils";
 
 export interface step {
-  name: string;
+  name: string | JSX.Element;
   current: boolean;
 }
 
@@ -15,7 +16,7 @@ const JDmultiStep: React.SFC<IProps> = ({steps}) => (
     <ul className="multi-step-list">
       {steps.map(step => (
         <li
-          key={step.name}
+          key={s4()}
           className={`multi-step-item ${step.current && "current"}`}
         >
           <div className="item-wrap">
