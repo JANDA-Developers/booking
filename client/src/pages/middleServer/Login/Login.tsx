@@ -103,4 +103,4 @@ const Login: React.FC<Iprops> = ({client, history}) => {
   );
 };
 
-export default withRouter(withApollo(Login));
+export default withApollo(Login);

@@ -17,10 +17,12 @@ import {getOperationName} from "apollo-link";
 import {MemoType} from "../../types/enum";
 import Preloader from "../../atoms/preloader/Preloader";
 import {IContext} from "../../pages/MiddleServerRouter";
+import {IUseModal} from "../../actions/hook";
 
 export interface IMemoWrapProps {
   context: IContext;
   memoType: MemoType;
+  modalHook?: IUseModal;
 }
 
 class GetMemoQu extends Query<getMemos, getMemosVariables> {}

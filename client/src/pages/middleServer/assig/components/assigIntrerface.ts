@@ -2,7 +2,8 @@ import {
   RoomGender,
   PricingType,
   Gender,
-  BookingModalType
+  BookingModalType,
+  BookingStatus
 } from "../../../../types/enum";
 import {IRoomType, IHouseConfig} from "../../../../types/interface";
 import {MutationFn, FetchResult} from "react-apollo";
@@ -213,6 +214,7 @@ export interface IAssigItem {
   showNewBadge: boolean;
   roomTypeId: string;
   roomId: string;
+  status: BookingStatus;
   bedIndex: number;
   start: number;
   showEffect: boolean;

@@ -30,4 +30,4 @@ const HeaderWrap: React.FC<IProps & RouteComponentProps> = ({
   </Mutation>
 );
 
-export default withRouter(HeaderWrap);
+export default HeaderWrap;

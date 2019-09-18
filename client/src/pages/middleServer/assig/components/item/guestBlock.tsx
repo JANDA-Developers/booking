@@ -14,6 +14,7 @@ import {
   DEFAULT_ADDITION_BLOCKOP,
   DEFAULT_HOUSE_CONFIG
 } from "../../../../../types/defaults";
+import {BookingStatus} from "../../../../../types/enum";
 
 interface IProps {
   item: IAssigItem;
@@ -36,9 +37,15 @@ const guestBlock: React.FC<IProps> = ({
     : DEFAULT_HOUSE_CONFIG.bookingConfig.newBookingMark;
   const bookingMarkEnable = newBookingMark && newBookingMark.enable;
 
+  const {blockOption, status, bookingId, gender, id, showNewBadge} = item;
+
+  const isReady = status === BookingStatus.READY;
+
   return (
     <Fragment>
       <div
+        data-tip={isReady && true}
+        data-for={isReady && "tooltipReadyBlock"}
         className="rct-item-content assigItem__content myClasses"
         style={{
           maxHeight: `${itemContext.dimensions.height}`
@@ -47,19 +54,19 @@ const guestBlock: React.FC<IProps> = ({
         {bookingMarkEnable && (
           <span className="assigItem__badgeWrap">
             <ConfirmBadgeWrap
-              show={item.showNewBadge}
+              show={showNewBadge}
               whenClickBadge={bookingCheckedNew}
               badgeSize="tiny"
-              bookingId={item.bookingId}
+              bookingId={bookingId}
             />
           </span>
         )}
         <span className="assigItem__titleWrap">
-          <Gender gender={item.gender} />
+          <Gender gender={gender} />
           <span
             style={{
-              color: item.blockOption.color ? "white" : undefined,
-              backgroundColor: item.blockOption.color || undefined
+              color: blockOption.color ? "white" : undefined,
+              backgroundColor: blockOption.color || undefined
             }}
             className="assigItem__title assigItem__title--guest"
           >
@@ -68,11 +75,11 @@ const guestBlock: React.FC<IProps> = ({
         </span>
       </div>
       <span
-        data-tip={item.id}
+        data-tip={id}
         data-place="top"
         data-for="itemTooltip"
         data-event="click"
-        id={`assigItem__configIconWrapId${item.id}`}
+        id={`assigItem__configIconWrapId${id}`}
         className="assigItem__configIconWrap"
       >
         <JDIcon icon="dotMenuVertical" size={IconSize.MEDEIUM_SMALL} />

@@ -36,6 +36,10 @@
         background-color: #FF9632;
     }
 
+    &--ready {
+        opacity: 0.5;
+    }
+
     // 😲 체크인된
     &--checkIn {
         background-color: $assigItem-checkIn-color;

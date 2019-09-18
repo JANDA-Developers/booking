@@ -8,15 +8,18 @@ import Tooltip from "../tooltip/Tooltip";
 interface Iprops extends React.HTMLAttributes<HTMLSpanElement> {
   color: JDColor;
   tooltip?: string;
+  show?: boolean;
 }
 
-const Dot: React.FC<Iprops> = ({
+const JDdot: React.FC<Iprops> = ({
   color,
   className,
   children,
+  show,
   tooltip,
   ...prop
 }) => {
+  if (!show) return <span />;
   const classes = classNames("JDdot", className, {
     ...colorClass("JDdot", color)
   });
@@ -40,4 +43,4 @@ const Dot: React.FC<Iprops> = ({
   );
 };
 
-export default Dot;
+export default JDdot;

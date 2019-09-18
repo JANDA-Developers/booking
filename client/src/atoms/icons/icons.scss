@@ -37,5 +37,9 @@
 }
 
 .JDicon {
-    @include colorText--prefixer();
+    @include colorText--prefixer();   
+}
+
+.JDicon__dots {
+    position: absolute;  
 }

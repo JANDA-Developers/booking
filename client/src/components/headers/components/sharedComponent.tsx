@@ -14,6 +14,7 @@ import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
 import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
 import MemoModal from "../../Memo/MemoModal";
 import HouseCard from "../../../pages/middleServer/super/components/houseCard";
+import MemoIcon from "../../Memo/MemoIcon";
 interface Iprops {
   context: IContext;
   logOutMutation: any;
@@ -131,7 +132,7 @@ const SharedHeaderComponent: React.FC<Iprops> = ({
             }}
             size={IconSize.MEDIUM}
           >
-            <JDIcon color="white" size={IconSize.MEDIUM} icon="memo" />
+            <MemoIcon context={context} color="white" size={IconSize.MEDIUM} />
           </CircleIcon>
         )}
       </span>

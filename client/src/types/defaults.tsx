@@ -180,6 +180,7 @@ export const DEFAULT_ASSIG_ITEM: IAssigItem = {
   id: "",
   checkInInfo: false,
   name: "",
+  status: BookingStatus.COMPLETE,
   roomId: "",
   roomTypeId: "",
   loading: false,

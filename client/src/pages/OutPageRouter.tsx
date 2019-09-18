@@ -7,10 +7,11 @@ import NoMatch from "./noMatch/NoMatch";
 import {Reservation, ReservationInfo, ReservationCheck} from "./outPages";
 import HouseManual from "./outPages/houseManual/HouseManual";
 import HouseManualWrap from "./outPages/houseManual/HouseManualWrap";
+import {StaticContext} from "react-router";
 
-interface IProps extends RouteComponentProps {}
+interface IProps extends RouteComponentProps<any, StaticContext, any> {}
 
-const DocumentRouter: React.SFC<IProps> = ({match, location}) => {
+const OutPageRouter: React.SFC<IProps> = ({match, location}) => {
   // TODO location.search 안에 변수 있음 거기서 token 뽑아서 서버에 요청
   return (
     <Fragment>
@@ -42,4 +43,4 @@ const DocumentRouter: React.SFC<IProps> = ({match, location}) => {
   );
 };
 
-export default withRouter(DocumentRouter);
+export default OutPageRouter;

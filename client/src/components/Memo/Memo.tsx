@@ -104,8 +104,11 @@ const Memo: React.FC<Iprops> = ({
         <MemoBox {...sharedMemoBoxProps} memo={DEFAULT_MEMO} add={true} />
       </div>
       <Preloader floating size={"tiny"} loading={mutationLoading} />
-      {memos.map(memo => (
+      {memos.map((memo, index) => (
         <MemoBox
+          className={
+            index + 1 === memos.length ? "JDmargin-bottom0" : undefined
+          }
           {...sharedMemoBoxProps}
           key={memo._id + memo.important ? "--impor" : ""}
           memo={memo}

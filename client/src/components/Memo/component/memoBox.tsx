@@ -8,6 +8,9 @@ import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
 import moment from "moment-timezone";
 import textReader from "../../../utils/textReader";
 import CheckBox from "../../../atoms/forms/checkBox/CheckBox";
+import JDbadge from "../../../atoms/badge/Badge";
+import Dot from "../../../atoms/dot/dot";
+import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
 moment.tz.setDefault("Asia/Seoul");
 
 interface Iprops {
@@ -17,6 +20,7 @@ interface Iprops {
   handleCreate: (memo: getMemos_GetMemos_memos) => void;
   handleImportToogle: (memo: getMemos_GetMemos_memos) => void;
   add?: boolean;
+  className?: string;
 }
 
 const MemoBox: React.FC<Iprops> = ({
@@ -25,7 +29,8 @@ const MemoBox: React.FC<Iprops> = ({
   handleCreate,
   handleUpdate,
   handleImportToogle,
-  add
+  add,
+  className
 }) => {
   const [important, setImportant] = useState(memo.important);
   const [editMode, setEditMode] = useState(false);
@@ -90,9 +95,8 @@ const MemoBox: React.FC<Iprops> = ({
             ? moment(memo.createdAt).format("MM:DD HH:MM")
             : undefined
         }
-        thema={!add && memo.important ? "point" : undefined}
         tooltipDirection="left"
-        className="memoBox"
+        className={`memoBox ${className}`}
         clickable={add && !editMode}
         onClick={() => {
           if (add) {
@@ -120,7 +124,6 @@ const MemoBox: React.FC<Iprops> = ({
                 />
               </span>
               <Button
-                thema="primary"
                 size="small"
                 label="작성완료"
                 onClick={e => {
@@ -142,7 +145,14 @@ const MemoBox: React.FC<Iprops> = ({
         ) : (
           message
         )}
-        {!add && !editMode && <ToolTipIcon />}
+        {!add && !editMode && (
+          <div className="JDflex JDflex--vCenter">
+            <div>{important && <JDbadge thema="point">중요</JDbadge>}</div>
+            <CircleIcon>
+              <ToolTipIcon />
+            </CircleIcon>
+          </div>
+        )}
       </JDbox>
       {/* 툴팁 */}
       <Tooltip />

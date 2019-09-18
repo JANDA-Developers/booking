@@ -180,7 +180,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
           allocatedRoom,
           checkOut
         } = guestData;
-        const {_id: bookingId, isNew, isConfirm} = booking;
+        const {_id: bookingId, isNew, isConfirm, bookingStatus} = booking;
         alloCateItems.push({
           id: _id,
           itemIndex: index,
@@ -189,6 +189,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
           bookingId: bookingId,
           checkInInfo: checkIn.isIn,
           gender: gender,
+          status: bookingStatus,
           roomTypeId: roomType._id,
           showNewBadge: isNew && !isConfirm,
           roomId: allocatedRoom._id,

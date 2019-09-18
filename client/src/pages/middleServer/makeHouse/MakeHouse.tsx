@@ -195,7 +195,7 @@ const MakeHouse: React.FC<IProps & RouteComponentProps> = ({
 
   return (
     <div id="makeHomePage" className="container container--sm">
-      <div className="docs-section">
+      <div className="docs-sectionp">
         {/* 하우스 선택 */}
         <SelectHouseMu
           mutation={SELECT_HOUSE}
@@ -324,5 +324,5 @@ export default ErrProtecter(
         />
       </div>
     )
-  })(withRouter(MakeHouse))
+  })(MakeHouse)
 );

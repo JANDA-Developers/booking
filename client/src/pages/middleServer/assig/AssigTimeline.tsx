@@ -19,7 +19,9 @@ import {IRoomType, IHouseConfig, IHouse} from "../../../types/interface";
 import Preloader from "../../../atoms/preloader/Preloader";
 import "./AssigTimeline.scss";
 import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
-import {ReactTooltip} from "../../../atoms/tooltipList/TooltipList";
+import TooltipList, {
+  ReactTooltip
+} from "../../../atoms/tooltipList/TooltipList";
 import {
   TimePerMs,
   WindowSize as EWindowSize,
@@ -340,6 +342,9 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
           assigContext={assigContext}
           assigUtils={assigUtils}
         />
+        <TooltipList type="dark" id="tooltipReadyBlock">
+          누군가 예약을 진행중 입니다.
+        </TooltipList>
         <ItemMenu
           assigHooks={assigHooks}
           assigContext={assigContext}

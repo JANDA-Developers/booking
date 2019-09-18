@@ -230,6 +230,7 @@ export interface IconConifgProps {
   color?: JDColor;
   tooltip?: string;
   selected?: boolean;
+  dots?: JSX.Element[];
 }
 
 interface IConProps extends React.HTMLAttributes<HTMLOrSVGElement> {
@@ -247,6 +248,7 @@ const JDIcon: React.FC<IConProps & IconConifgProps> = ({
   labelSize,
   className,
   selected,
+  dots,
   ...props
 }) => {
   const classes = classNames("JDicon", className, {
@@ -255,6 +257,9 @@ const JDIcon: React.FC<IConProps & IconConifgProps> = ({
     ...colorClass("JDicon", color),
     "JDicon__svg--selected": selected
   });
+
+  console.log("dots");
+  console.log(dots);
 
   const newId = s4();
 
@@ -284,6 +289,7 @@ const JDIcon: React.FC<IConProps & IconConifgProps> = ({
           <span>{tooltip}</span>
         </Tooltip>
       )}
+      {dots && <span className="JDicon__dots">{dots.map(Dot => Dot)}</span>}
       {label && (
         <span
           className={`Icon__label ${labelSize === "large" &&

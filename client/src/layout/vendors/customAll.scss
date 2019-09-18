@@ -128,8 +128,9 @@ a.JDanchor {
 }
 
 .JDflex {
-    align-items: center;
+    display:flex;
 }
+
 
 #root,.ReactModalPortal {
     .JDmargin-bottom0 {

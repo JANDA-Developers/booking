@@ -4,10 +4,9 @@
 .JDdot {
     font-size: $typho-superTiny;
     display:inline-block;
-    width: .925rem;
-    height: .925rem;
+    width: $standard-width * 4;
+    height: $standard-width * 4;
     text-align:center;
-    line-height: 1rem;
-    border-radius: $standard-border-radius;
+    border-radius: 50%;
     @include colorBg--prefixer();
 }

@@ -78,6 +78,20 @@
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.07), 0 2px 1px -1px rgba(0, 0, 0, 0.06), 0 1px 3px 0 rgba(0, 0, 0, 0.1);
 }
 
+%JDblink {
+    opacity: 1;
+    -webkit-animation: blink 2s linear;
+    -moz-animation: blink 2s linear;
+    animation: blink 2s linear;
+    animation-iteration-count: 1;
+    animation-fill-mode:forwards;
+    &--infinity {
+        animation-iteration-count: infinite;
+        animation-delay: 3000
+    }
+}
+  
+
 // 스크롤바 스크롤 scroll scrollbar Scrollbar
 %JDscrollbar {
 

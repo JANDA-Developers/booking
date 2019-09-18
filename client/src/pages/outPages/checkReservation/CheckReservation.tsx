@@ -53,12 +53,10 @@ const SetPrice: React.SFC<IProps> = ({
     undefined
   );
 
-  useEffect(() => {
-    if (booking && transId && isFirstSender[0]) {
-      comeplteModalHook.openModal();
-      isFirstSender[1](false);
-    }
-  }, [loading]);
+  if (booking && transId && isFirstSender[0]) {
+    comeplteModalHook.openModal();
+    isFirstSender[1](false);
+  }
 
   return (
     <div>

@@ -72,8 +72,8 @@ export const Notification: React.FC<IProps & WindowSizeProps> = ({
   return (
     <div className="notification">
       <span className="notification__dotsWrap">
-        {countNew !== 0 && <Dot color="new">{countNew}</Dot>}
-        {countWarn !== 0 && <Dot color="error">{countWarn}</Dot>}
+        {countNew !== 0 && <Dot color="new" />}
+        {countWarn !== 0 && <Dot color="error" />}
       </span>
       <div
         data-tip

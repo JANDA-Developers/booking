@@ -186,15 +186,17 @@ const JDmiddleServer: React.FC<IProps> = ({
         <Route
           exact
           path="/myPage"
-          render={() =>
-            isLogIn ? <MyPage {...sharedComponentProps} /> : <Login />
+          render={prop =>
+            isLogIn ? <MyPage {...sharedComponentProps} /> : <Login {...prop} />
           }
         />
         {/* 숙소생성 */}
         <Route
           exact
           path="/makeHouse"
-          component={isLogIn ? MakeHouse : Login}
+          render={prop =>
+            isLogIn ? <MakeHouse {...prop} /> : <Login {...prop} />
+          }
         />
         {/* 숙소설정 */}
         <Route
@@ -208,8 +210,12 @@ const JDmiddleServer: React.FC<IProps> = ({
         <Route
           exact
           path="/products"
-          render={() =>
-            isLogIn ? <Products {...sharedComponentProps} /> : <Login />
+          render={prop =>
+            isLogIn ? (
+              <Products {...sharedComponentProps} />
+            ) : (
+              <Login {...prop} />
+            )
           }
         />
         {/* 회원가입 */}
@@ -219,11 +225,11 @@ const JDmiddleServer: React.FC<IProps> = ({
           <Route
             exact
             path="/smsHistory"
-            render={() =>
+            render={props =>
               isLogIn ? (
                 <SmsHistory smsInfoId={selectedHouse.smsInfo._id} />
               ) : (
-                <Login />
+                <Login {...props} />
               )
             }
           />
