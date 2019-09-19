@@ -85,6 +85,10 @@ $roomCardHeight: 130px;
         position: relative;
         margin-bottom: $standard-margin-bottom;
 
+
+        .JDselect {
+            min-width: 50px;
+        }
         &__imgSection {
             max-width: $roomCardHeight * 1.68;
             background-image: url('../../../img/default_room.png');

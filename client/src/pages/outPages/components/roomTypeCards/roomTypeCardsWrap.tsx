@@ -15,11 +15,14 @@ import {
   getRoomTypeDatePricesForBooker,
   getRoomTypeDatePricesForBookerVariables,
   getCapacityToRoomType,
-  getCapacityToRoomTypeVariables
+  getCapacityToRoomTypeVariables,
+  getCapacityToRoomTypeForBooker,
+  getCapacityToRoomTypeForBookerVariables
 } from "../../../../types/api";
 import {
   GET_ROOM_TYPE_DATE_PRICE_FOR_BOOKER,
-  GET_CAPACITY_TO_ROOM_TYPE
+  GET_CAPACITY_TO_ROOM_TYPE,
+  GET_CAPACITY_TO_ROOM_TYPE_FOR_BOOKER
 } from "../../../../queries";
 import {IUseModal, IUseDayPicker} from "../../../../actions/hook";
 import {setYYYYMMDD} from "../../../../utils/setMidNight";
@@ -31,8 +34,8 @@ import {IBookerInfo, IReservationHooks} from "../../reservation/Reservation";
 import {isDeveloper} from "../../../../utils/developMaster";
 
 class GetAvailGuestCountQu extends Query<
-  getCapacityToRoomType,
-  getCapacityToRoomTypeVariables
+  getCapacityToRoomTypeForBooker,
+  getCapacityToRoomTypeForBookerVariables
 > {}
 class GetRoomTypeDatePricesForBooker extends Query<
   getRoomTypeDatePricesForBooker,
@@ -80,7 +83,7 @@ const RoomTypeCardsWrap: React.SFC<IProps> = ({
     // 하나의 방타입에 하나의 카드
     <GetAvailGuestCountQu
       skip={roomTypeData.roomCount === 0}
-      query={GET_CAPACITY_TO_ROOM_TYPE}
+      query={GET_CAPACITY_TO_ROOM_TYPE_FOR_BOOKER}
       variables={{
         start: setYYYYMMDD(dayPickerHook.from),
         end: setYYYYMMDD(
@@ -103,7 +106,7 @@ const RoomTypeCardsWrap: React.SFC<IProps> = ({
         // 🏠 방타입의 경우에는 둘중 아무거나 조회해도 상관없음
         const count = queryDataFormater(
           data,
-          "GetCapacityToRoomType",
+          "GetCapacityToRoomTypeForBooker",
           "capacityRoomType",
           undefined
         );

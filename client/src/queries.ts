@@ -771,6 +771,32 @@ export const GET_CAPACITY_TO_ROOM_TYPE = gql`
     }
 `
 
+export const GET_CAPACITY_TO_ROOM_TYPE_FOR_BOOKER = gql`
+    query getCapacityToRoomTypeForBooker(
+        $roomTypeId: ID!
+        $start: DateTime!
+        $end: DateTime!
+        $initValue: InitValueGetCapacityToRoomInput
+    ) {
+    GetCapacityToRoomTypeForBooker(roomTypeId:$roomTypeId, start:$start, end:$end, initValue: $initValue) {
+        ok
+        error
+        capacityRoomType {
+            ... on CapacityRoomType {
+                count
+            }
+            ... on CapacityRoomTypeDomitory {
+                    availableCount {
+                        male
+                        female
+                        total
+                    }
+                }
+            }
+        }
+    }
+`
+
 
 // 예약 :: 예약자를 위한 예약인원 가져오기 (인증 토큰때문)
 export const GET_ALL_ROOM_TYPE_FOR_BOOKING = gql`

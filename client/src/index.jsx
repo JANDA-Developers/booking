@@ -1,6 +1,7 @@
 import "whatwg-fetch";
 import "babel-polyfill";
 import "react-app-polyfill/ie11";
+import "isomorphic-unfetch";
 /* eslint-disable */
 // prettier-ignore
 import dotenv from 'dotenv';

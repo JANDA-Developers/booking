@@ -175,11 +175,8 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
 
   // Iframe 높이조절
   useEffect(() => {
-    const Iframe = parent.document.getElementById("JD_RESV_APP");
-    if (Iframe) {
-      const theHeight = $("#JDreservation").height() || 1000;
-      $(Iframe).height(theHeight);
-    }
+    const theHeight = $("#JDreservation").height() || 1000;
+    window.parent.postMessage({height: theHeight}, "*");
   });
 
   const resvInfoValidation = () => {
