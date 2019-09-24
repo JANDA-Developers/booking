@@ -1,4 +1,3 @@
-// 더 개발해야됨
 const jsonString = (value: any) => {
   return JSON.stringify(Array.from(value.entries()));
 };

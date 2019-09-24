@@ -16,6 +16,7 @@ import DragItem, {IDragItemProp} from "./DragItem";
 import classNames from "classnames";
 import {PricingType} from "../../../types/enum";
 import {instanceOfA, isEmpty, s4} from "../../../utils/utils";
+import {ReactTooltip} from "../../../atoms/tooltip/Tooltip";
 
 interface DragBoxPlace {
   room: IR;
@@ -62,9 +63,6 @@ export const DragBoxPlace: React.FC<DragBoxPlace> = ({
     "dailyAssig__place--canDrop": canDrop,
     "dailyAssig__place--canAssigAndOver": (canDrop && isOver) || isFull
   });
-
-  console.log("itemsInPlace");
-  console.log(itemsInPlace);
 
   return (
     <div className={classes} ref={drop}>

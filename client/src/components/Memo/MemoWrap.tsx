@@ -1,7 +1,7 @@
 import React, * as react from "react";
 import {Query, Mutation} from "react-apollo";
 import {queryDataFormater, onCompletedMessage} from "../../utils/utils";
-import Memo from "./Memo";
+import Memo, {IConfigMemo} from "./Memo";
 import {
   getMemos,
   getMemosVariables,
@@ -19,7 +19,7 @@ import Preloader from "../../atoms/preloader/Preloader";
 import {IContext} from "../../pages/MiddleServerRouter";
 import {IUseModal} from "../../actions/hook";
 
-export interface IMemoWrapProps {
+export interface IMemoWrapProps extends IConfigMemo {
   context: IContext;
   memoType: MemoType;
   modalHook?: IUseModal;
@@ -30,7 +30,7 @@ class CreateMemoMu extends Mutation<createMemo, createMemoVariables> {}
 class UpdateMemoMu extends Mutation<updateMemo, updateMemoVariables> {}
 class DeleteMemoMu extends Mutation<deleteMemo, deleteMemoVariables> {}
 
-const MemoWrap: React.FC<IMemoWrapProps> = ({context, memoType}) => {
+const MemoWrap: React.FC<IMemoWrapProps> = ({context, memoType, ...prop}) => {
   const {
     house: {_id: houseId}
   } = context;
@@ -95,6 +95,8 @@ const MemoWrap: React.FC<IMemoWrapProps> = ({context, memoType}) => {
                             deleteMemoMu={deleteMemoMu}
                             updateMemoMu={updateMemoMu}
                             memos={getMemosData || []}
+                            context={context}
+                            {...prop}
                           />
                         ) : (
                           <Preloader size="large" loading={true} />

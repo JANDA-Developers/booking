@@ -10,8 +10,8 @@ import {
 } from "./assigIntrerface";
 import {ReactTooltip} from "../../../../atoms/tooltipList/TooltipList";
 import JDisNetworkRequestInFlight from "../../../../utils/netWorkStatusToast";
-import {IDailyAssigContext} from "../../../../components/dailyAssjg/DailyAssigNew";
-import {assigSharedDleteGuestConfirmMessage} from "./item/shared";
+import {IDailyAssigContext} from "../../../../components/dailyAssjg/DailyAssig";
+import {assigSharedDleteGuestConfirmMessage} from "./items/shared";
 import {getAllRoomTypeWithGuest_GetGuests_guests as IG} from "../../../../types/api";
 import {muResult} from "../../../../utils/utils";
 import {toast} from "react-toastify";

@@ -51,7 +51,7 @@ import {
   UPDATE_BLOCK_OPTION
 } from "../../../queries";
 import AssigTimeline from "./AssigTimeline";
-import {setYYYYMMDD, parallax} from "../../../utils/setMidNight";
+import {set4YMMDD, parallax} from "../../../utils/setMidNight";
 import {roomDataManufacture} from "./components/groupDataMenufacture";
 import reactWindowSize, {WindowSizeProps} from "react-window-size";
 import {DEFAULT_ASSIG_ITEM, DEFAULT_BLOCK_OP} from "../../../types/defaults";
@@ -87,6 +87,31 @@ class AllocateGuestToRoomMu extends Mutation<
 > {}
 class DeleteGuestMu extends Mutation<deleteGuests, deleteGuestsVariables> {}
 class DeleteBlockMu extends Mutation<deleteBlock, deleteBlockVariables> {}
+
+export const blockDataManufacture = (blocksData: IBlock[]) => {
+  const alloCateItems: IAssigItem[] = [];
+
+  blocksData.forEach((blockData, index) => {
+    if (blockData) {
+      alloCateItems.push({
+        ...DEFAULT_ASSIG_ITEM,
+        id: blockData._id,
+        temp: true,
+        bookingId: blockData._id,
+        roomId: blockData.allocatedRoom._id,
+        group: blockData.allocatedRoom._id + blockData.bedIndex,
+        start: moment(blockData.checkIn).valueOf(),
+        end: moment(blockData.checkOut).valueOf(),
+        canMove: false,
+        // @ts-ignore
+        type: blockData.guestType,
+        bedIndex: blockData.bedIndex
+      });
+    }
+  });
+
+  return alloCateItems;
+};
 
 const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
   context,
@@ -126,30 +151,6 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
     )
   });
 
-  const blockDataManufacture = (blocksData: IBlock[]) => {
-    const alloCateItems: IAssigItem[] = [];
-
-    blocksData.forEach((blockData, index) => {
-      if (blockData) {
-        alloCateItems.push({
-          ...DEFAULT_ASSIG_ITEM,
-          id: blockData._id,
-          bookingId: blockData._id,
-          roomId: blockData.allocatedRoom._id,
-          group: blockData.allocatedRoom._id + blockData.bedIndex,
-          start: moment(blockData.checkIn).valueOf(),
-          end: moment(blockData.checkOut).valueOf(),
-          canMove: false,
-          // @ts-ignore
-          type: blockData.guestType,
-          bedIndex: blockData.bedIndex
-        });
-      }
-    });
-
-    return alloCateItems;
-  };
-
   //  TODO: 메모를 사용해서 데이터를 아끼자
   // 게스트 데이터를 달력에서 쓸수있는 Item 데이터로 변경 절차
   const guestsDataManufacture = (allGuestsData: IGuests[]) => {
@@ -181,7 +182,8 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
           checkOut
         } = guestData;
         const {_id: bookingId, isNew, isConfirm, bookingStatus} = booking;
-        alloCateItems.push({
+
+        const pushItem: IAssigItem = {
           id: _id,
           itemIndex: index,
           name: name,
@@ -193,11 +195,12 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
           roomTypeId: roomType._id,
           showNewBadge: isNew && !isConfirm,
           roomId: allocatedRoom._id,
+          temp: true,
           group: allocatedRoom._id + bedIndex,
           start: moment(checkIn).valueOf(),
           end: moment(checkOut).valueOf(),
           canResize: false,
-          canMove: true,
+          canMove: bookingStatus !== BookingStatus.READY,
           // @ts-ignore
           type: guestData.guestType || "GUEST",
           bedIndex: guestData.bedIndex,
@@ -206,7 +209,8 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
             guestData.blockOption || DEFAULT_BLOCK_OP
           ),
           showEffect: false
-        });
+        };
+        alloCateItems.push(pushItem);
       }
     });
 
@@ -215,8 +219,8 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
 
   const updateVariables = {
     houseId: house._id,
-    start: setYYYYMMDD(moment(dataTime.start)),
-    end: setYYYYMMDD(moment(dataTime.end))
+    start: set4YMMDD(moment(dataTime.start)),
+    end: set4YMMDD(moment(dataTime.end))
   };
 
   moment.tz.setDefault("UTC");
@@ -250,7 +254,12 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
         const formatedRoomData = roomDataManufacture(roomTypesData); // 타임라인을 위해 가공된 데이터
         const formatedGuestsData = guestsDataManufacture(guestsData); // 타임라인을 위해 가공된 데이터
         const formatedBlockData = blockDataManufacture(blocks); // 타임라인을 위해 가공된 데이터
-        const formatedItemData = formatedGuestsData.concat(formatedBlockData);
+        const formatedItemData = formatedGuestsData
+          .concat(formatedBlockData)
+          .map((block, index) => {
+            block.itemIndex = index;
+            return block;
+          });
 
         return (
           <AllocateGuestToRoomMu
@@ -373,9 +382,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                                         stopPolling,
                                         startPolling: startPolling.bind(
                                           startPolling,
-                                          houseConfig.pollingPeriod
-                                            ? houseConfig.pollingPeriod.period
-                                            : 100000
+                                          houseConfig.pollingPeriod.period
                                         ),
                                         totalMuLoading,
                                         mutationLoadings,
@@ -400,10 +407,9 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                                           windowHeight={windowHeight}
                                           windowWidth={windowWidth}
                                           dataTime={dataTime}
-                                          key={`timeline${dayPickerHook.from}${
-                                            dayPickerHook.to
-                                          }${roomTypesData &&
-                                            roomTypesData.length}`}
+                                          key={`timeline${
+                                            dayPickerHook.from
+                                          }${networkStatus !== 1}`}
                                         />
                                       );
                                     }}

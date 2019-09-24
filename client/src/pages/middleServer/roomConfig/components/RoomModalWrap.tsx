@@ -44,7 +44,7 @@ interface IProps {
   refetchQueries: (PureQueryOptions | string)[];
 }
 
-const ModifyTimelineWrap: React.SFC<IProps> = ({
+const UpdateTimelineWrap: React.SFC<IProps> = ({
   modalHook,
   roomTypeData,
   context,
@@ -125,4 +125,4 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({
   );
 };
 
-export default ErrProtecter(ModifyTimelineWrap);
+export default ErrProtecter(UpdateTimelineWrap);

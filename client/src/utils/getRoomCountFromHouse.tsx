@@ -6,9 +6,6 @@ const getRoomCountFromHouse = (house: IHouse): number => {
   const roomTypes = house.roomTypes || [];
   const roomCount = arraySum(roomTypes.map(roomType => roomType.roomCount));
 
-  console.log(roomTypes.map(roomType => roomType.roomCount));
-  console.log(roomCount);
-
   return roomCount || 0;
 };
 

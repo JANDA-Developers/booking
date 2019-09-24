@@ -25,10 +25,6 @@ const DaySalesWrap: React.FC<IProps> = ({context, showDayPicker}) => {
 
   const dayPickerHook = useDayPicker(new Date(), new Date());
 
-  useEffect(() => {
-    console.log("howMany2");
-  }, []);
-
   return (
     <div>
       <GetSalesQu

@@ -41,7 +41,7 @@ const client = new ApolloClient({
     operation.setContext({
       headers: {
         "X-JWT": localStorage.getItem("jwt") || "",
-        "HP-Key": sessionStorage.getItem("hpk") || "ERR",
+        "HP-Key": sessionStorage.getItem("hpk") || "",
         "HM-Key": localStorage.getItem("hmk") || ""
       }
     });
@@ -58,8 +58,8 @@ const client = new ApolloClient({
       });
       toast.warn(<ToastError />);
     } else if (networkError) {
-      console.log(networkError);
-      console.warn(`[Network error]: ${networkError}`);
+      console.error(networkError);
+      console.error(`[Network error]: ${networkError}`);
       toast.warn("네트워크 연결상태를 확인해주세요!");
     }
   }

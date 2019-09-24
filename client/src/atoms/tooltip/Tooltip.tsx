@@ -7,11 +7,11 @@ interface IProps extends OutReactTooltip.Props {
   children?: string | JSX.Element;
 }
 
-const ToolTip: React.FC<IProps> = ({children, ...props}) => (
+const JDToolTip: React.FC<IProps> = ({children, ...props}) => (
   <OutReactTooltip class="JDtooltip" {...props}>
     {children}
   </OutReactTooltip>
 );
 
-export default ErrProtecter(ToolTip);
+export default JDToolTip;
 export const ReactTooltip = OutReactTooltip;

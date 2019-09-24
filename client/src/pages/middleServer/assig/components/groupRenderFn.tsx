@@ -22,6 +22,7 @@ interface IRenderGroupProps {
 }
 
 // 아이템 위치가 바뀔때마다 groupRender 되더라
+// Place 단위로 렌더되는걸 유의
 const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({
   group,
   ...props
@@ -32,15 +33,18 @@ const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({
   const isDomitory = group.roomType.pricingType === PricingType.DOMITORY;
   const placeCount = isDomitory ? group.roomType.peopleCount : 1;
 
+  // height는 UseEffect 안에 있음
   const roomTypeStyle = {
     minHeight: ASSIGT_IMELINE_HEIGHT - 1,
     zIndex: group.roomTypeIndex
   };
+
   const roomStyle = {
-    height: Math.floor(ASSIGT_IMELINE_HEIGHT * placeCount) - 1,
+    height: Math.floor(ASSIGT_IMELINE_HEIGHT * placeCount) + 1,
     minHeight: ASSIGT_IMELINE_HEIGHT - 2
   };
 
+  // 방타입, 방 을 렌더해야할지 알려줌
   let renderRoomType: boolean = true;
   let renderRoom: boolean = true;
 
@@ -56,24 +60,27 @@ const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({
   });
 
   useEffect(() => {
+    // 방의 높이를 잡아줌
     if (renderRoom) {
       const target = $(`.assigGroups__place${group.roomId}`);
       const arrayHeights = target.map(function() {
         return $(this).height();
       });
       $(`#assigGroups__room${group.roomId}`).height(
-        arraySum(arrayHeights.get()) + target.length - 1
+        arraySum(arrayHeights.get()) + target.length + 1
       );
     }
+    // 방타입의 높이를 잡아줌
     if (renderRoomType) {
-      const target = $(`.assigGroups__place${group.roomTypeId}`);
+      const target = $(`.assigGroups__rooms${group.roomTypeId}`);
+
       const arrayHeights = target.map(function() {
-        const height = ($(this).height() || 0) + 1;
+        const height = ($(this).height() || 0) + 2;
         return height;
       });
 
       $(`#assigGroups__roomType${group.roomTypeId}`).height(
-        arraySum(arrayHeights.get()) + target.length - 1
+        arraySum(arrayHeights.get()) + target.length * 2
       );
     }
   });
@@ -104,7 +111,9 @@ const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({
         {renderRoom && (
           <div
             id={`assigGroups__room${group.roomId}`}
-            className={`assigGroups__room assigGroups__room${group.roomId} ${
+            className={`assigGroups__room assigGroups__rooms${
+              group.roomTypeId
+            } assigGroups__room${group.roomId} ${
               isDomitory
                 ? "assigGroups__room--domitory"
                 : "assigGroups__room--roomType"
@@ -120,7 +129,9 @@ const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({
           } assigGroups__place${group.roomId} title ${group.isLastOfRoom &&
             "assigGroups__place--last"}`}
         >
-          <span className="assigGroups__placeIn">{group.placeIndex}</span>
+          <span className="assigGroups__placeIn">
+            {group.placeIndex === -1 || group.placeIndex}
+          </span>
         </div>
       </div>
     </div>

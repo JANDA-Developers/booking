@@ -17,7 +17,6 @@ const PlaceTooltip: React.FC<Iprops> = ({blockRoomBtnCallBack}) => {
               <Button
                 onClick={() => {
                   ReactTooltip.hide();
-                  console.log(info);
                   blockRoomBtnCallBack(info);
                 }}
                 label={"방막기"}

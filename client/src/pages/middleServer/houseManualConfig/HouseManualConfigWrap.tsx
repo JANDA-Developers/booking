@@ -60,6 +60,7 @@ const HouseManualWrap: React.FC<IProps> = ({context}) => {
                   currentLanguage={currentLanguage}
                   setCurrentLanguage={setCurrentLanguage}
                   context={context}
+                  key={s4()}
                 />
               )}
             </UpdateHManualMu>

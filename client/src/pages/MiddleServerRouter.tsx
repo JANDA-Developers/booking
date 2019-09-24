@@ -1,18 +1,16 @@
 /* eslint-disable react/forbid-prop-types */
 import React, {Fragment, useEffect} from "react";
-import {Route, Switch, Redirect, RouteComponentProps} from "react-router-dom";
+import {Route, Switch, RouteComponentProps} from "react-router-dom";
 import {graphql, compose} from "react-apollo";
 import {Helmet} from "react-helmet";
 import Header from "../components/headers/HeaderWrap";
-import SideNav from "../components/sideNav/SideNav";
 import NoMatch from "./noMatch/NoMatch";
 import {IS_LOGGED_IN, SELECTED_HOUSE} from "../clientQueries";
 import {GET_USER_INFO} from "../queries";
-import {useToggle} from "../actions/hook";
-import {isEmpty, mergeObject, removeNullOfObject} from "../utils/utils";
+import {isEmpty} from "../utils/utils";
 import Preloader from "../atoms/preloader/Preloader";
 import {
-  Products,
+  SelectProducts,
   MakeHouse,
   DashBoard,
   MyPage,
@@ -32,22 +30,20 @@ import {
   ConfigWrap,
   HouseManualConfig
 } from "./pages";
-import {UserRole, TimePerMs} from "../types/enum";
+import {UserRole} from "../types/enum";
 import {IHouse, IHouseConfigFull} from "../types/interface";
-import $ from "jquery";
-import {
-  DEFAULT_HOUSE_CONFIG,
-  DEFAULT_SMS_TEMPLATE,
-  DEFAULT_USER
-} from "../types/defaults";
+import {DEFAULT_USER} from "../types/defaults";
 import {
   getMyProfile_GetMyProfile_user,
   getMyProfile_GetMyProfile_user_houses_product
 } from "../types/api";
-import {setCookie, getCookie} from "../utils/cookies";
-import {toast} from "react-toastify";
-import GreetingBox from "./middleServer/dashBoard/components/greetingBox";
-import moment from "moment";
+import {setCookie} from "../utils/cookies";
+import greet from "../utils/greet";
+import getCurrentHouse from "../utils/getLastSelectHouse";
+import houseConfigSetting from "../utils/houseConfigSetting";
+import alertMemo from "../utils/alertMemo";
+import {useModal} from "../actions/hook";
+import MemoAlertModal from "../components/Memo/component/MemoAlertModal";
 
 export interface IContext extends RouteComponentProps<any> {
   user: getMyProfile_GetMyProfile_user;
@@ -73,52 +69,34 @@ const JDmiddleServer: React.FC<IProps> = ({
     GetMyProfile: {user = DEFAULT_USER} = {},
     loading: loading2
   } = {},
-  selectedHouse: {lastSelectedHouse: tempLastSelectedHouse, loading: loading3}
+  selectedHouse: {lastSelectedHouse, loading: loading3}
 }) => {
   const isLoading: boolean = loading || loading2 || loading3;
   const houses: IHouse[] = user.houses || [];
-
-  // 마지막으로 선택한 하우스
-  const lastSelectedHouse = houses.find(
-    house => house._id === tempLastSelectedHouse.value
-  );
-
-  // 마지막으로 선택한 하우스 또는 첫번째 하우스
-  let selectedHouse = lastSelectedHouse || houses[0];
-
-  // 최근에 선택된 숙소가 없다면 선택된 숙소는 첫번째 숙소입니다.
-  if (!selectedHouse && !isEmpty(houses)) [selectedHouse] = houses;
-
-  const applyedProduct = (selectedHouse && selectedHouse.product) || undefined;
-  const {isPhoneVerified, userRole, profileImg} = user;
+  const currentHouse = getCurrentHouse(houses, lastSelectedHouse);
+  const memoAlertModal = useModal(false);
+  const applyedProduct = (currentHouse && currentHouse.product) || undefined;
+  const {userRole} = user;
+  const houseConfig = houseConfigSetting(currentHouse);
 
   // 디벨롭을 도와줌
   if (userRole === "DEVELOPER") setCookie("isDeveloper", "Y", 1);
-
-  // houseConfig Null 제거
-  // default를 관리해주어라
-  let houseConfig = DEFAULT_HOUSE_CONFIG;
-  if (selectedHouse) {
-    removeNullOfObject(selectedHouse.houseConfig);
-    houseConfig = mergeObject<IHouseConfigFull>(
-      DEFAULT_HOUSE_CONFIG,
-      selectedHouse.houseConfig
-    );
-    selectedHouse.houseConfig = houseConfig;
-  }
 
   // TODO  전부 context로 벼환
   const context = {
     user,
     isLogIn,
-    house: selectedHouse,
+    house: currentHouse,
     houseConfig,
     applyedProduct,
     houses
   };
-  const sharedComponentProps = {
-    context
-  };
+
+  useEffect(() => {
+    if (currentHouse) {
+      greet(context as any);
+    }
+  });
 
   if (isLoading)
     return (
@@ -129,230 +107,184 @@ const JDmiddleServer: React.FC<IProps> = ({
       />
     );
 
-  const greet = async () => {
-    const lastConnectTime = getCookie("lastConnect");
-    if (
-      lastConnectTime === undefined ||
-      parseInt(lastConnectTime) < new Date().valueOf() - TimePerMs.H * 3
-    ) {
-      toast(<GreetingBox userData={context.user} />);
-    }
-    setCookie("lastConnect", `${new Date().valueOf()}`, 999);
-    return "";
-  };
-
-  useEffect(() => {
-    if (context.user && context.user.name) {
-      greet();
-    }
-  }, []);
-
   // 🍰 메인리턴
   return (
     <Fragment>
       <Helmet>
-        <title>
-          JANDA | {selectedHouse ? `${selectedHouse.name}🏠` : "App"}{" "}
-        </title>
+        <title>JANDA | {currentHouse ? `${currentHouse.name}` : "App"} </title>
       </Helmet>
       {/* 헤더 */}
       <Route
         render={props => {
           const propContext = Object.assign(context, props);
-          // @ts-ignore
-          return <Header context={propContext} />;
+          return (
+            <Fragment>
+              <MemoAlertModal
+                context={context as any}
+                modalHook={memoAlertModal}
+              />
+              <Header {...(props as any)} context={propContext as any} />
+            </Fragment>
+          );
         }}
       />
 
       {/* 라우팅 시작 */}
-      <Switch>
-        {/* 인덱스 */}
-        {["/", "/dashboard"].map(path => (
-          <Route
-            exact
-            key={path}
-            path={path}
-            render={props => {
-              const contextWithRotuer = Object.assign(context, props);
-              return isLogIn ? (
-                <DashBoard context={contextWithRotuer} />
-              ) : (
-                <Login />
-              );
-            }}
-          />
-        ))}
-        {/* 마이 페이지 */}
-        <Route
-          exact
-          path="/myPage"
-          render={prop =>
-            isLogIn ? <MyPage {...sharedComponentProps} /> : <Login {...prop} />
-          }
-        />
-        {/* 숙소생성 */}
-        <Route
-          exact
-          path="/makeHouse"
-          render={prop =>
-            isLogIn ? <MakeHouse {...prop} /> : <Login {...prop} />
-          }
-        />
-        {/* 숙소설정 */}
-        <Route
-          exact
-          path="/config"
-          render={props =>
-            isLogIn ? <ConfigWrap {...sharedComponentProps} /> : <Login />
-          }
-        />
-        {/* 상품선택 */}
-        <Route
-          exact
-          path="/products"
-          render={prop =>
-            isLogIn ? (
-              <Products {...sharedComponentProps} />
-            ) : (
-              <Login {...prop} />
-            )
-          }
-        />
-        {/* 회원가입 */}
-        <Route exact path="/signUp" component={SignUp} />
-        {/* SMS 히스토리 */}
-        {selectedHouse && (
-          <Route
-            exact
-            path="/smsHistory"
-            render={props =>
-              isLogIn ? (
-                <SmsHistory smsInfoId={selectedHouse.smsInfo._id} />
-              ) : (
-                <Login {...props} />
-              )
-            }
-          />
-        )}
-        {/* 로그인 */}
-        <Route exact path="/login" component={isLogIn ? undefined : Login} />
-        {/* 슈퍼관리자 */}
-        <Route
-          exact
-          path="/superAdmin"
-          render={() =>
-            userRole === UserRole.ADMIN || userRole === UserRole.DEVELOPER ? (
-              <SuperMain context={context} />
-            ) : (
-              <NoMatch />
-            )
-          }
-        />
-        {/* 고객문의 */}
-        <Route exact path="/qna" component={isLogIn ? Qna : Login} />
-        {/* 대기 */}
-        {/* 여기이후로 상품이 있어야 나타날수있게 바뀜 */}
-        {isEmpty(applyedProduct) ? (
-          <Route component={NoMatch} />
-        ) : (
-          <Route
-            exact
-            path="/ready"
-            render={() => {
-              return isLogIn ? <Ready context={context} /> : <Login />;
-            }}
-          />
-        )}
-        {/* /* ------------------------------ JANDA BOOKING ----------------------------- */}{" "}
-        {/* 방배정 */}
-        <Route
-          exact
-          path="/assigTimeline"
-          render={props => {
-            const propContext = Object.assign(context, props);
-            return <AssigTimeline context={propContext} />;
-          }}
-        />
-        {/* 하우스 메뉴얼 */}
-        <Route
-          exact
-          path="/houseManualConfig"
-          render={() => <HouseManualConfig {...sharedComponentProps} />}
-        />
-        {/* 자세한 가격설정 */}
-        <Route
-          exact
-          path="/dailyPrice"
-          render={() =>
-            isEmpty(selectedHouse) ? (
-              <NoMatch />
-            ) : (
-              <DailyPrice {...sharedComponentProps} />
-            )
-          }
-        />
-        {/* 통계 */}
-        <Route
-          exact
-          path="/statistic"
-          render={() =>
-            isEmpty(selectedHouse) ? (
-              <NoMatch />
-            ) : (
-              <Statistic {...sharedComponentProps} />
-            )
-          }
-        />
-        {/* 방생성 */}
-        <Route
-          exact
-          path="/roomConfig/:withGuid?"
-          render={prop =>
-            isEmpty(selectedHouse) ? (
-              <NoMatch />
-            ) : (
-              <RoomConfig {...prop} {...sharedComponentProps} />
-            )
-          }
-        />
-        {/* SMS */}
-        <Route
-          exact
-          path="/sms"
-          render={() =>
-            isEmpty(selectedHouse) ? (
-              <NoMatch />
-            ) : (
-              <Sms {...sharedComponentProps} />
-            )
-          }
-        />
-        {/* 가격설정 */}
-        <Route
-          exact
-          path="/setPrice"
-          render={() =>
-            isEmpty(selectedHouse) ? (
-              <NoMatch />
-            ) : (
-              <SetPrice {...sharedComponentProps} />
-            )
-          }
-        />
-        {/* 예약목록 */}
-        <Route
-          exact
-          path="/resvList"
-          render={() =>
-            isEmpty(selectedHouse) ? (
-              <NoMatch />
-            ) : (
-              <ResvList {...sharedComponentProps} />
-            )
-          }
-        />
-        <Route component={NoMatch} />
-      </Switch>
+      {/* 인덱스 */}
+      <Route path="/">
+        {routProps => {
+          const contextWithRotuer = Object.assign(context, routProps);
+          return isLogIn ? (
+            <Fragment>
+              <Switch>
+                {["/", "/dashboard"].map(path => (
+                  <Route
+                    exact
+                    key={path}
+                    path={path}
+                    render={() => <DashBoard context={contextWithRotuer} />}
+                  />
+                ))}
+                {currentHouse && (
+                  <Fragment>
+                    {/* 마이 페이지 */}
+                    <Route
+                      exact
+                      path="/myPage"
+                      render={prop => <MyPage context={contextWithRotuer} />}
+                    />
+                    {/* 숙소생성 */}
+                    <Route
+                      exact
+                      path="/makeHouse"
+                      render={(prop: any) => (
+                        <MakeHouse context={contextWithRotuer} {...prop} />
+                      )}
+                    />
+                    {/* 숙소설정 */}
+                    <Route
+                      exact
+                      path="/config"
+                      render={props => (
+                        <ConfigWrap context={contextWithRotuer} />
+                      )}
+                    />
+                    {/* 상품선택 */}
+                    <Route
+                      exact
+                      path="/products"
+                      render={prop => (
+                        <SelectProducts context={contextWithRotuer} />
+                      )}
+                    />
+                    {/* SMS 히스토리 */}
+                    <Route
+                      exact
+                      path="/smsHistory"
+                      render={props => (
+                        <SmsHistory smsInfoId={currentHouse.smsInfo._id} />
+                      )}
+                    />
+                    {/* 로그인 */}
+                    <Route
+                      exact
+                      path="/login"
+                      render={() => <Login context={contextWithRotuer} />}
+                    />
+                    {/* 슈퍼관리자 */}
+                    <Route
+                      exact
+                      path="/superAdmin"
+                      render={() =>
+                        userRole === UserRole.ADMIN ||
+                        userRole === UserRole.DEVELOPER ? (
+                          <SuperMain context={contextWithRotuer} />
+                        ) : (
+                          <NoMatch />
+                        )
+                      }
+                    />
+                    {/* 고객문의 */}
+                    <Route exact path="/qna" component={Qna} />
+                    {/* 대기 */}
+                    {/* 여기이후로 상품이 있어야 나타날수있게 바뀜 */}
+                    {isEmpty(applyedProduct) ? (
+                      <Route component={NoMatch} />
+                    ) : (
+                      <Route
+                        exact
+                        path="/ready"
+                        render={() => <Ready context={context} />}
+                      />
+                    )}
+                    {/* /* ------------------------------ JANDA BOOKING ----------------------------- */}{" "}
+                    {/* 방배정 */}
+                    <Route
+                      exact
+                      path="/assigTimeline"
+                      render={props => (
+                        <AssigTimeline context={contextWithRotuer} />
+                      )}
+                    />
+                    {/* 하우스 메뉴얼 */}
+                    <Route
+                      exact
+                      path="/houseManualConfig"
+                      render={() => (
+                        <HouseManualConfig context={contextWithRotuer} />
+                      )}
+                    />
+                    {/* 자세한 가격설정 */}
+                    <Route
+                      exact
+                      path="/dailyPrice"
+                      render={() => <DailyPrice context={contextWithRotuer} />}
+                    />
+                    {/* 통계 */}
+                    <Route
+                      exact
+                      path="/statistic"
+                      render={() => <Statistic context={contextWithRotuer} />}
+                    />
+                    {/* 방생성 */}
+                    <Route
+                      exact
+                      path="/roomConfig/:withGuid?"
+                      render={prop => (
+                        <RoomConfig {...prop} context={contextWithRotuer} />
+                      )}
+                    />
+                    {/* SMS */}
+                    <Route
+                      exact
+                      path="/sms"
+                      render={() => <Sms context={contextWithRotuer} />}
+                    />
+                    {/* 가격설정 */}
+                    <Route
+                      exact
+                      path="/setPrice"
+                      render={() => <SetPrice context={contextWithRotuer} />}
+                    />
+                    {/* 예약목록 */}
+                    <Route
+                      exact
+                      path="/resvList"
+                      render={() => <ResvList context={contextWithRotuer} />}
+                    />
+                  </Fragment>
+                )}
+                <Route component={NoMatch} />
+              </Switch>
+            </Fragment>
+          ) : (
+            <Switch>
+              <Route exact path="/signUp" component={SignUp} />
+              <Login context={contextWithRotuer} />
+            </Switch>
+          );
+        }}
+      </Route>
     </Fragment>
   );
 };

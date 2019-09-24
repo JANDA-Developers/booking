@@ -156,8 +156,8 @@ export interface IHouseConfigFull extends IHouseConfig {
 export interface IHolidaysByApi {
   dateKind: string;
   dateName: string;
-  isHoliday: string;
-  locdate: number;
+  searchHoliday: string;
+  locdate: string;
   seq: number;
 }
 

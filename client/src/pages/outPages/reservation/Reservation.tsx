@@ -25,9 +25,9 @@ import {
   startBookingForPublicVariables
 } from "../../../types/api";
 import $ from "jquery";
-import BookingInfoBox from "../components/bookingInfoBox";
-import PayMentModal from "../components/paymentModal";
-import RoomTypeCardsWrap from "../components/roomTypeCards/roomTypeCardsWrap";
+import BookingInfoBox from "./components/bookingInfoBox";
+import PayMentModal from "./components/paymentModal";
+import RoomTypeCardWrap from "./components/roomTypeCards/roomTypeCardsWrap";
 import {
   isEmpty,
   queryDataFormater,
@@ -45,19 +45,20 @@ import {
   PayMethod,
   PaymentStatus
 } from "../../../types/enum";
-import {setYYYYMMDD} from "../../../utils/setMidNight";
+import {set4YMMDD} from "../../../utils/setMidNight";
 import {GET_ALL_ROOM_TYPE_FOR_BOOKING} from "../../../queries";
 import Preloader from "../../../atoms/preloader/Preloader";
 import moment from "moment";
 import Helmet from "react-helmet";
-import {openNiceModal} from "../components/doPay";
+import {openNiceModal} from "./components/doPay";
 import {isMobile} from "is-mobile";
 import JDanimation, {Animation} from "../../../atoms/animation/Animations";
 import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
 import {reservationDevelop, developEvent} from "../../../utils/developMaster";
 import RoomSearcher from "../../../components/roomSearcher.tsx/RoomSearcher";
 import {Context} from "tern";
-import BookingInfoModal from "../components/roomTypeCards/bookingInfoModal";
+import BookingInfoModal from "./components/roomTypeCards/bookingInfoModal";
+import isLast from "../../../utils/isLast";
 
 export interface IBookerInfo {
   name: string;
@@ -219,14 +220,14 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   const getEndDate = () => {
     if (dayPickerHook.to === null) return new Date();
     if (dayPickerHook.from == dayPickerHook.to) {
-      return setYYYYMMDD(moment(dayPickerHook.to).add(1, "day"));
+      return set4YMMDD(moment(dayPickerHook.to).add(1, "day"));
     }
-    return setYYYYMMDD(dayPickerHook.to);
+    return set4YMMDD(dayPickerHook.to);
   };
 
   const bookingParams: CreateBookingParams = {
     bookerParams: {...bookerInfo, price: priceHook[0]},
-    checkIn: setYYYYMMDD(dayPickerHook.from),
+    checkIn: set4YMMDD(dayPickerHook.from),
     checkOut: getEndDate(),
     guestInputs: resvRooms
   };
@@ -347,7 +348,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
       </Helmet>
       <div className="flex-grid">
         <div className="flex-grid__col col--full-4 col--lg-5 col--wmd-12">
-          <Card className="JDreservation__card JDreservation__dayPickerCard">
+          <Card className="JDmargin-bottom0 JDreservation__card JDreservation__dayPickerCard">
             <h6 className="JDreservation__sectionTitle">① 예약날자 선택</h6>
             {/* TODO: change 될때마다 resvRooms를 초기화 해주어야함 */}
             <JDdayPicker
@@ -365,7 +366,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
         <div className="flex-grid__col col--full-8 col--lg-7 col--wmd-12">
           <Card
             fullWidth={isMobile}
-            className="JDz-index-1 JDreservation__card"
+            className="JDz-index-1 JDstandard-space0 JDreservation__card"
           >
             <h6 className="JDreservation__sectionTitle">② 방 선택</h6>
             {/* TODO: roomTypes들의 반복문을 통해서 만들고 해당 정보는 resvRooms 에서 filter를 통해서 가져와야함 */}
@@ -387,12 +388,15 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
                 );
 
                 return !isEmpty(roomTypes) ? (
-                  roomTypes.map(roomType => (
-                    <RoomTypeCardsWrap
+                  roomTypes.map((roomType, index) => (
+                    <RoomTypeCardWrap
                       reservationHooks={reservationHooks}
                       windowWidth={windowWidth}
                       roomTypeData={roomType}
+                      isAdmin={isAdmin}
+                      houseId={houseId}
                       key={`roomCard${roomType._id}`}
+                      lastCard={isLast(index, roomTypes)}
                     />
                   ))
                 ) : (
@@ -411,7 +415,10 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
             </GetAllAvailRoomQu>
           </Card>
           {!isMobile && (
-            <Card fullWidth={isMobile} className="JDreservation__card">
+            <Card
+              fullWidth={isMobile}
+              className="JDmargin-bottom0 JDreservation__card"
+            >
               <h6 className="JDreservation__sectionTitle"> 선택 확인</h6>
               <BookingInfoBox
                 roomTypeInfo={roomInfoHook[0]}
@@ -432,6 +439,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
               }}
               label="날자 선택화면으로 돌아가기"
               size="longLarge"
+              className="JDmargin-bottom0"
             />
           )}
           {!isEmpty(resvRooms) && (
@@ -441,6 +449,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
               onClick={handleResvBtnClick}
               label="예약하기"
               size="longLarge"
+              className="JDmargin-bottom0"
             />
           )}
         </div>

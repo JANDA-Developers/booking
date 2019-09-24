@@ -68,7 +68,7 @@ export type TGetCrushTimeByTwoGuest = (
 
 export type TGetItemById = (guestId: string) => IAssigItem;
 
-export type TPopUpItemMenu = (
+export type TPopUpItemMenuTooltip = (
   location: {
     clientX: number;
     clientY: number;
@@ -109,9 +109,9 @@ export type TOpenBlockMenu = (
 
 export type TChangeMakeBlock = () => void;
 
-export type TOpenCanvasMenu = (
+export type TOpenCanvasMenuTooltip = (
   Eorlocation: React.MouseEvent<HTMLElement> | ILocation,
-  props?: ICanvasMenuProps
+  props?: ICanvasMenuTooltipProps
 ) => void;
 
 export type TIsGenderSafe = (
@@ -128,7 +128,7 @@ export type TOneGuestValidation = (
   groupId: string
 ) => void;
 
-export type TResizeBlock = (targetGuest: IAssigItem, time: number) => void;
+export type TResizeBlockBlock = (targetGuest: IAssigItem, time: number) => void;
 
 export type TAllocateGuest = (
   itemId: string,
@@ -208,6 +208,7 @@ export interface IAssigItem {
   itemIndex: number;
   name: string;
   group: string;
+  temp: boolean;
   loading: boolean;
   bookingId: string;
   checkInInfo: boolean;
@@ -241,7 +242,7 @@ export interface IAssigDataControl {
   networkStatus: number;
 }
 
-export interface ICanvasMenuProps {
+export interface ICanvasMenuTooltipProps {
   start: number;
   end: number;
   groupId: string;
@@ -297,12 +298,12 @@ export interface IAssigTimelineHooks {
   blockOpModal: IUseModal<IAssigItem>;
   bookingModal: IUseModal<any>;
   guestValue: IAssigItem[];
-  canvasMenuProps: ICanvasMenuProps;
+  canvasMenuProps: ICanvasMenuTooltipProps;
   makeMenuProps: IMakeMenuProps;
   blockMenuProps: IDeleteMenuProps;
   setBlockMenuProps: React.Dispatch<React.SetStateAction<IDeleteMenuProps>>;
   setGuestValue: (value: IAssigItem[]) => void;
-  setCanvasMenuProps: React.Dispatch<React.SetStateAction<ICanvasMenuProps>>;
+  setCanvasMenuTooltipProps: React.Dispatch<React.SetStateAction<ICanvasMenuTooltipProps>>;
   setMakeMenuProps: React.Dispatch<React.SetStateAction<IMakeMenuProps>>;
   confirmDelteGuestHook: IUseModal<any>;
   dataTime: {
@@ -408,7 +409,7 @@ export interface IAssigTimelineUtils {
   getAssigInfoFromItems: TGetAssigInfoFromItems;
   bookingCheckedNew: TBookingCheckedNew;
   hilightGuestBlock: THilightGuestBlock;
-  popUpItemMenu: TPopUpItemMenu;
+  popUpItemMenuTooltip: TPopUpItemMenuTooltip;
   getItemById: TGetItemById;
   getGroupById: TGetGroupById;
   removeMark: TRemoveMark;
@@ -433,10 +434,10 @@ export interface IAssigTimelineUtils {
   moveLinkedItems: TMoveLinkedItems;
   toogleCheckInOut: TToogleCheckIn;
   openBlockMenu: TOpenBlockMenu;
-  openCanvasMenu: TOpenCanvasMenu;
+  openCanvasMenuTooltip: TOpenCanvasMenuTooltip;
   changeMakeBlock: TChangeMakeBlock;
   makeMark: TMakeMark;
-  resizeBlock: TResizeBlock;
+  resizeBlockBlock: TResizeBlockBlock;
   getBookingIdByGuestId: TGetBookingIdByGuestId;
   getGuestsByBookingId: IGetGuestByBookingId;
 }

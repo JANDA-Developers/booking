@@ -6,10 +6,9 @@
     background-color: $assigItem-normalStatus-color;
     color:white;
     @extend %z-depth-half;
+    font-size: 0;
     box-sizing: border-box;
     position: relative;
-    font-size: $typho-small;
-
 
     &__genderCircle {
         overflow: visible;
@@ -105,6 +104,7 @@
         padding-right: $assigItem-padding + 1rem;
         white-space: pre-line;
         line-height: 1;
+        font-size: $typho-small;
         border-radius: $standard-border-radius;
         display:flex;
         align-items: center;
@@ -175,6 +175,7 @@
     &--block {
         background-color: $assigItem-block-color;
         color:white;
+        cursor: pointer;
         // X 버튼
         .circleIcon {
             color:white;

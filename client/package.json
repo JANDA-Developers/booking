@@ -109,7 +109,7 @@
     "react-chartjs-2": "^2.7.6",
     "react-color": "^2.17.0",
     "react-compound-timer": "^1.0.13",
-    "react-day-picker": "^7.2.4",
+    "react-day-picker": "7.3",
     "react-dev-utils": "^6.1.1",
     "react-dnd": "^9.3.4",
     "react-dnd-html5-backend": "^9.3.4",

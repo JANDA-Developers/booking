@@ -127,6 +127,11 @@ a.JDanchor {
     align-items: center;
 }
 
+#JDpreloaderPortal {
+    position:relative;
+    z-index: 999999!important;
+}
+
 .JDflex {
     display:flex;
 }
@@ -187,6 +192,9 @@ a.JDanchor {
     color: $error-color
 }
 
+.JDnoWrap {
+    white-space: nowrap;
+}
 
 .JDz-index-1 {
     position: relative;
@@ -247,6 +255,11 @@ a.JDanchor {
     }
 }
 
+.JDhoverBox {
+    &:not(:hover) .JDhoverBox__ {
+        display:none;
+    }
+}
 
 ul.JDlist {
 }

@@ -123,8 +123,8 @@
   }
 
   // Invalid Input Style
-  &--invalid.JDinput,
-  &--invalid.JDinput:focus {
+  &--invalid.JDinput:not([readonly]),
+  &--invalid.JDinput:focus:not([readonly]) {
     @extend %invalid-input-style;
   }
 

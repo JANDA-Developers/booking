@@ -15,6 +15,7 @@ import {useSelect, useSwitch} from "../../../../actions/hook";
 import Button from "../../../../atoms/button/Button";
 import {toast} from "react-toastify";
 import JDswitch from "../../../../atoms/forms/switch/Switch";
+import JDbox from "../../../../atoms/box/JDbox";
 
 interface IProps {
   updateHouseConfigMu: MutationFn<
@@ -56,20 +57,23 @@ const BaseConfig: React.FC<IProps> = ({updateHouseConfigMu, context}) => {
   };
 
   return (
-    <div>
+    <div className="additionDetail">
       <div className="docs-section__box">
         <span>예약 설정</span>
-        <Button
-          onClick={() => {
-            handleUpdateBtnClick();
-          }}
-          thema="point"
-          label="저장하기"
-        />
+        <div className="additionDetail__titleTopRight">
+          <Button
+            onClick={() => {
+              handleUpdateBtnClick();
+            }}
+            thema="point"
+            label="저장하기"
+          />
+        </div>
       </div>
       <div>
-        <h6>게스트에게서 입력받을 정보</h6>
+        <h6>게스트 입력 정보</h6>
         <JDswitch label="이메일 정보" {...enableEmailHook} />
+        <JDbox mode="photoFrame" />
       </div>
     </div>
   );

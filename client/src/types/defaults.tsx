@@ -182,6 +182,7 @@ export const DEFAULT_ASSIG_ITEM: IAssigItem = {
   name: "",
   status: BookingStatus.COMPLETE,
   roomId: "",
+  temp: false,
   roomTypeId: "",
   loading: false,
   start: 0,
@@ -227,7 +228,7 @@ export const DEFAULT_MEMO: getMemos_GetMemos_memos = {
   createdAt: "",
   memoType: MemoType.HOST,
   text: "",
-  important: false,
+  enableAlert: false,
   title: "",
   updatedAt: ""
 };

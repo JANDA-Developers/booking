@@ -15,7 +15,7 @@ import {
 import InputText from "../../atoms/forms/inputText/InputText";
 import {smsMsgParser} from "../../utils/smsUtils";
 import {IBooking} from "../../types/interface";
-import BookerInfoBox from "../../pages/outPages/components/bookerInfoBox";
+import BookerInfoBox from "../../pages/outPages/reservation/components/bookerInfoBox";
 import moment from "moment";
 import {IModalSMSinfo} from "./SendSmsModalWrap";
 import Preloader from "../../atoms/preloader/Preloader";

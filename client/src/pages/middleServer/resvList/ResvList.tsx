@@ -13,7 +13,7 @@ import BookingModalWrap from "../../../components/bookingModal/BookingModalWrap"
 import {IPageInfo, IBooking, IRoomType} from "../../../types/interface";
 import JDbox from "../../../atoms/box/JDbox";
 import {arraySum} from "../../../utils/elses";
-import {setYYYYMMDD} from "../../../utils/setMidNight";
+import {set4YMMDD} from "../../../utils/setMidNight";
 import {MutationFn} from "react-apollo";
 import {
   deleteBooking,
@@ -29,7 +29,7 @@ import {
   PricingTypeKr,
   PaymentStatusKr,
   BookingStatus,
-  Standard_PreloaderFloatingSize
+  FLOATING_PRElOADER_SIZE
 } from "../../../types/enum";
 import {getCountsFromBooking} from "../../../utils/booking";
 import moment from "moment";
@@ -243,13 +243,13 @@ const ResvList: React.SFC<IProps> = ({
     {
       Header: "체크인",
       accessor: "booking",
-      Cell: ({original}: CellInfo) => <div>{setYYYYMMDD(original.checkIn)}</div>
+      Cell: ({original}: CellInfo) => <div>{set4YMMDD(original.checkIn)}</div>
     },
     {
       Header: "체크아웃",
       accessor: "booking",
       Cell: ({original}: CellInfo) => (
-        <div>{setYYYYMMDD(original.checkOut)}</div>
+        <div>{set4YMMDD(original.checkOut)}</div>
       )
     },
     {
@@ -406,7 +406,7 @@ const ResvList: React.SFC<IProps> = ({
           />
         )}
         <Preloader
-          size={Standard_PreloaderFloatingSize}
+          size={FLOATING_PRElOADER_SIZE}
           floating
           loading={networkStatus !== 1 && loading}
         />

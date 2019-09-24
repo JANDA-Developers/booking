@@ -45,6 +45,7 @@ function App() {
         </Switch>
       </Router>
       <JDtoast />
+      <div id="JDpreloaderPortal" />
       {/* for old borwser */}
       <div id="outdated" />
     </ApolloProvider>

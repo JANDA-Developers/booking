@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Fragment} from "react";
 import {Mutation, Query} from "react-apollo";
 import {
   UPDATE_MYPROFILE,
@@ -23,6 +23,9 @@ import {
 import Notification from "./Notification";
 import {IContext} from "../../pages/MiddleServerRouter";
 import {getOperationName} from "apollo-link";
+import moment from "moment";
+import {FLOATING_PRElOADER_SIZE} from "../../types/enum";
+import Preloader from "../../atoms/preloader/Preloader";
 
 class GetNotificationQu extends Query<
   getNotifications,
@@ -53,23 +56,29 @@ const NotificationWrap: React.FC<IProps> = ({context, icon}) => {
           queryDataFormater(data, "GetNotifications", "notifications", []) ||
           [];
         const filterdNotifications = notifications.filter(
-          noti => noti.validPeriod < new Date()
+          noti => moment(noti.validPeriod).toDate() > new Date()
         );
 
         return (
           <ConfirmMutation
-            onCompleted={({ConfirmNotification}) => {}}
             mutation={CONFIRM_NOTI}
             refetchQueries={[getOperationName(GET_NOTI)!]}
           >
             {(confirmMutationMu, {loading: confirmMutationLoading}) => (
-              <Notification
-                icon={icon}
-                loading={loading}
-                context={context}
-                confirmMutationMu={confirmMutationMu}
-                notifications={filterdNotifications}
-              />
+              <Fragment>
+                <Preloader
+                  floating
+                  size={FLOATING_PRElOADER_SIZE}
+                  loading={confirmMutationLoading}
+                />
+                <Notification
+                  icon={icon}
+                  loading={loading}
+                  context={context}
+                  confirmMutationMu={confirmMutationMu}
+                  notifications={filterdNotifications}
+                />
+              </Fragment>
             )}
           </ConfirmMutation>
         );

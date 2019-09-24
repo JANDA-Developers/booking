@@ -5,7 +5,7 @@ import {
   SalesStatisticsUnit,
   WindowSize,
   StaticColors,
-  Standard_PreloaderFloatingSize
+  FLOATING_PRElOADER_SIZE
 } from "../../../types/enum";
 import {IQueryOp} from "./StatisticWrap";
 import {IUseDayPicker, useModal} from "../../../actions/hook";
@@ -244,7 +244,7 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
                 />
                 <Preloader
                   floating
-                  size={Standard_PreloaderFloatingSize}
+                  size={FLOATING_PRElOADER_SIZE}
                   loading={loading}
                 />
                 <div>

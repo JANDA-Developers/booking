@@ -43,13 +43,17 @@ const RoomSearcher: React.FC<Iprops> = ({callBackOnSearch}) => {
   return (
     <div className="RoomSearcher">
       <Card align="center">
-        <h3 className="JDtext-align-center">숙소 예약 검색하기</h3>
+        <h3 className="RoomSearcher__title JDnoWrap JDtext-align-center">
+          예약 검색하기
+        </h3>
         <JDdayPicker
           calenaderPosition="center"
           {...dayPickerHook}
           input
           className="RoomSearcher__dayPicker"
-          inputComponent={<DoubleInputRange dayPickerHook={dayPickerHook} />}
+          inputComponent={(prop: any) => (
+            <DoubleInputRange {...prop} dayPickerHook={dayPickerHook} />
+          )}
         />
         <Button
           onClick={() => {

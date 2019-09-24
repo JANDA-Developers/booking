@@ -3,7 +3,7 @@ import {NavLink} from "react-router-dom";
 import Button from "../../../atoms/button/Button";
 import ProfileCircle from "../../../atoms/profileCircle/ProfileCircle";
 import SelectHouseWrap from "../../selectHouse/SelectHouseWrap";
-import SharedHeaderComponent from "./sharedComponent";
+import SharedHeaderComponent from "./SharedHeaderComponent";
 import {IContext} from "../../../pages/MiddleServerRouter";
 import {IUseModal} from "../../../actions/hook";
 import {IconSize} from "../../../atoms/icons/Icons";

@@ -6,7 +6,7 @@ import {TimePerMs} from "../types/enum";
 const parallax = () => new Date().getTimezoneOffset() * 1000 * 60;
 const setMidNight = (date: number) =>
   Math.floor(date / TimePerMs.DAY) * TimePerMs.DAY - 32400 * 1000;
-const setYYYYMMDD = (date: any) => {
+const set4YMMDD = (date: any) => {
   if (!date) {
     return moment()
       .toISOString()
@@ -17,4 +17,4 @@ const setYYYYMMDD = (date: any) => {
     .split("T")[0];
 };
 export default setMidNight;
-export {parallax, setYYYYMMDD};
+export {parallax, set4YMMDD};

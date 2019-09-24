@@ -44,9 +44,9 @@
     }
     
     &__blockBlock {
+        cursor: pointer;
         background-color: $assigItem-block-color;
-      padding: $assigItem-padding;
-        background-color: $assigItem-block-color;
+        padding: $assigItem-padding;
         display: flex;
         color: white;
         align-items: center;

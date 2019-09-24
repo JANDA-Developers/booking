@@ -11,12 +11,15 @@ import {EMAIL_SIGN_IN, GET_USER_INFO} from "../../../queries";
 import {useInput} from "../../../actions/hook";
 import utils, {showError} from "../../../utils/utils";
 import {ApolloClient} from "apollo-boost";
+import {IContext} from "../../MiddleServerRouter";
+import client from "../../../apolloClient";
 
-interface Iprops extends RouteComponentProps {
-  client: ApolloClient<any>;
+interface Iprops {
+  context: IContext;
 }
 
-const Login: React.FC<Iprops> = ({client, history}) => {
+const Login: React.FC<Iprops> = ({context}) => {
+  const {history} = context;
   const lastLoginEmail = localStorage.getItem("lastLogin") || "";
   const emailHook = useInput(lastLoginEmail);
   const passwordHook = useInput("");
@@ -103,4 +106,4 @@ const Login: React.FC<Iprops> = ({client, history}) => {
   );
 };
 
-export default withApollo(Login);
+export default Login;

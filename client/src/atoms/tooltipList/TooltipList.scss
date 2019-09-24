@@ -19,6 +19,7 @@
 
         ul {
             border-radius:$tooltipList-border-radius;
+            overflow: hidden;
             margin: -1px;
             & > li {
                 border-bottom:1px solid $grey-level1;
@@ -28,9 +29,8 @@
                     width: 100%;
                     border-radius: 0;
                     border:none;
-                    &:hover {
-                        // background-color: $grey-level1;
-                    }
+                    box-shadow: none;
+
                 }
             }
 

@@ -10,15 +10,33 @@
             flex: 1 1;
             line-height:100%;
         }
+
+        &:first-child {
+            .dailyAssig__roomTypeTittle {
+                padding-top: $dailyAssig-block-height + 0.25rem;
+            }
+        }
     }
 
     &__dayPicker {
         margin-bottom: $standard-margin-bottom;
-
-        &--inside {
+        display:flex;
+        &--leftTop {
+            left: 0;
+            right: 0;
             position: absolute;
-            top: $standard-tiny-space;
+            top: 1px;
+            display:inline-block;
+            .dailyAssig__dayPicker {
+                box-sizing: content-box;
+                height: $dailyAssig-block-height;
+                border-bottom: 1px solid $grey-opacity1;
+                border-top: 1px solid $grey-opacity1;
+            }
         }
+        background-color: $primary-color;
+        color: $primary-color-on;
+        align-items: center;
     }
 
     &__roomTypeTittle {
@@ -34,7 +52,8 @@
         justify-content: center;
 
         @include response($tablet) {
-            max-width: 1rem;
+            max-width: $standard-width * 6;
+            padding-top: 0!important;
         }
     }
     &__roomsWrap {

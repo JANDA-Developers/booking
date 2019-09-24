@@ -1,11 +1,15 @@
 #root {
-    // 👿 여기 말풍선모양좀 달아줘
         .assig__tooltips {
             display: none;
             position: fixed;
             background-color: white;
             z-index: $z-index-3;
+            overflow: hidden;
             border-radius: $standard-border-radius;
+            
+            * {
+               color: $html-color 
+            }
             
             &--show {
                 display:inline-block;

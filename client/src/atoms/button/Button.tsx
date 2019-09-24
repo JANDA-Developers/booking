@@ -107,12 +107,16 @@ const Button: React.FC<IProps> = ({
         data-tip={tooltip ? true : dataTip}
         data-for={tooltip ? `btnTooltip${newId}` : dataFor}
       >
-        {preloader ? <Preloader loading={true} /> : label}
-        {!preloader && icon && (
-          <i className={`JDbtn__icon ${iconClasses && iconClasses.join(" ")}`}>
-            {icon && <Icon icon={icon} />}
-          </i>
-        )}
+        <span className="JDbtn__contents">
+          {preloader ? <Preloader loading={true} /> : label}
+          {!preloader && icon && (
+            <i
+              className={`JDbtn__icon ${iconClasses && iconClasses.join(" ")}`}
+            >
+              {icon && <Icon icon={icon} />}
+            </i>
+          )}
+        </span>
       </button>
       {tooltip && (
         <Tooltip type="dark" effect="solid" id={`btnTooltip${newId}`}>

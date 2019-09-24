@@ -78,7 +78,6 @@ const ReservationWrap: React.FC<
         <CreatBookingMuForHost
           mutation={CREATE_BOOKING}
           onCompleted={({CreateBooking}) => {
-            console.log("aretTwice?");
             onCompletedMessage(
               CreateBooking,
               "예약 생성 완료",
@@ -117,5 +116,5 @@ export default ReservationWrap;
 
 // ⭐️⭐️ ⭐️⭐️ ⭐️⭐️ ⭐️⭐️ ⭐️⭐️  IFRAME 코드 IFRAME 코드 IFRAME 코드
 {
-  /* <iframe id="JD_RESV_APP" style="border:none;" width="100%" height="1500px" scrolling="no" title="JDqna" src="https://app.stayjanda.com/#/outpage/reservation/하우스키"></iframe> */
+  /* <iframe id="JD_RESV_APP" style="border:none;" width="100%" height="1500px" scrolling="no" title="JDqna" src="https://localhost:3000/#/outpage/reservation/하우스키"></iframe> */
 }

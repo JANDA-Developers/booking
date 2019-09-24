@@ -11,6 +11,8 @@ import CheckBox from "../../../atoms/forms/checkBox/CheckBox";
 import JDbadge from "../../../atoms/badge/Badge";
 import Dot from "../../../atoms/dot/dot";
 import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
+import MemoTooltip from "./MemoTooltip";
+import MemoEditBox from "./MemoEditBox";
 moment.tz.setDefault("Asia/Seoul");
 
 interface Iprops {
@@ -32,18 +34,19 @@ const MemoBox: React.FC<Iprops> = ({
   add,
   className
 }) => {
-  const [important, setImportant] = useState(memo.important);
+  const {enableAlert} = memo;
   const [editMode, setEditMode] = useState(false);
-  const [memoText, SetMemoText] = useState(memo.text);
 
-  const message = add ? (
-    <span className="JDstandard-space">
-      <span className="JDstandard-small-space">새로운 메모</span>
-      <JDIcon icon="edit" />
-    </span>
-  ) : (
-    <span className="JDstandard-small-space">{textReader(memo.text)}</span>
-  );
+  const MessageInMemo = () =>
+    add ? (
+      <span className="JDstandard-space">
+        <span className="JDstandard-small-space">새로운 메모 쓰기</span>
+        <JDIcon icon="edit" />
+      </span>
+    ) : (
+      <span className="JDstandard-small-space">{textReader(memo.text)}</span>
+    );
+
   const ToolTipIcon = () => (
     <span
       data-tip={memo._id}
@@ -55,107 +58,67 @@ const MemoBox: React.FC<Iprops> = ({
     </span>
   );
 
-  const Tooltip = () => (
-    <TooltipList id={`memoTooltip${memo._id}`} className="memoTooltip">
-      <ul>
-        <li>
-          <Button
-            onClick={() => {
-              setEditMode(true);
-            }}
-            label="수정"
-          />
-        </li>
-        <li>
-          <Button
-            onClick={() => {
-              handleDelete(memo);
-            }}
-            label="삭제"
-          />
-        </li>
-        <li>
-          <Button
+  const MemoToolAndBadge = () => (
+    <div className="JDflex">
+      <div>
+        <div className="JDhoverBox__ JDflex--vCenter">
+          <JDIcon
+            className="JDstandard-small-space "
+            hover
             onClick={() => {
               handleImportToogle(memo);
             }}
-            label={!memo.important ? "중요메모" : "중요해제"}
+            icon={enableAlert ? "notify" : "unNotify"}
           />
-        </li>
-      </ul>
-    </TooltipList>
+          <ToolTipIcon />
+        </div>
+      </div>
+    </div>
   );
 
+  const norAddAndEditMode = !add && !editMode;
+  const addAndNotEditMode = add && !editMode;
   // ⭐️ 메인 리턴
   return (
     <Fragment>
       <JDbox
         tooltip={
-          !add && !editMode
-            ? moment(memo.createdAt).format("MM:DD HH:MM")
+          norAddAndEditMode
+            ? moment(memo.createdAt).format("MM:DD HH:mm")
             : undefined
         }
         tooltipDirection="left"
-        className={`memoBox ${className}`}
-        clickable={add && !editMode}
+        className={`memoBox JDhoverBox ${className}`}
+        clickable={addAndNotEditMode}
         onClick={() => {
           if (add) {
             setEditMode(true);
           }
         }}
-        mode={add && !editMode ? "dashBorder" : undefined}
+        mode={addAndNotEditMode ? "dashBorder" : undefined}
       >
         {editMode ? (
-          <div style={{flex: 1}}>
-            <InputText
-              size="fullWidth"
-              textarea
-              autoHeight
-              value={memoText}
-              onChange={SetMemoText}
-            />
-            <div className="JDflex--vCenter JDflex--between">
-              <span className="JDflex--vCenter">
-                <span className="JDstandard-space">중요한 메모 인가요?</span>
-                <CheckBox
-                  className="JDstandard-margin0"
-                  onChange={setImportant}
-                  checked={important}
-                />
-              </span>
-              <Button
-                size="small"
-                label="작성완료"
-                onClick={e => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setEditMode(false);
-                  // 👿 assing or 새로운 모듈을 써보자
-                  memo.text = memoText;
-                  memo.important = important;
-                  if (add) {
-                    handleCreate(memo);
-                  } else {
-                    handleUpdate(memo);
-                  }
-                }}
-              />
-            </div>
-          </div>
+          <MemoEditBox
+            setEditMode={setEditMode}
+            handleUpdate={handleUpdate}
+            handleCreate={handleCreate}
+            add={add}
+            memo={memo}
+          />
         ) : (
-          message
+          <MessageInMemo />
         )}
-        {!add && !editMode && (
-          <div className="JDflex JDflex--vCenter">
-            <div>{important && <JDbadge thema="point">중요</JDbadge>}</div>
-            <CircleIcon>
-              <ToolTipIcon />
-            </CircleIcon>
-          </div>
-        )}
+        {norAddAndEditMode && <MemoToolAndBadge />}
       </JDbox>
       {/* 툴팁 */}
-      <Tooltip />
+      <MemoTooltip
+        handleClickDelete={handleDelete}
+        handleClickUpdate={() => {
+          setEditMode(true);
+        }}
+        handleImportToogle={handleImportToogle}
+        memo={memo}
+      />
     </Fragment>
   );
 };

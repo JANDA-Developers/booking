@@ -23,11 +23,13 @@
             }
         }
         &--flexVcenter {
-            .JDbox__content {
-                display:flex;
-                justify-content: space-between;
-                align-items: center;
-            }
+            display: flex;
+            align-items: center;
+            // .JDbox__content {
+            //     display:flex;
+            //     justify-content: space-between;
+            //     align-items: center;
+            // }
         }
         
         
@@ -90,7 +92,8 @@
         &--dashBorder {
             border-radius: $standard-border-radius;
             border: 2px dashed $grey-level1;
-            padding: calc(#{$standard-small-space} - 2px);
+            box-sizing:border-box;
+            padding: $standard-small-space;
             color: $grey-level1;
 
             background-color: rgba(255,255,255,0);

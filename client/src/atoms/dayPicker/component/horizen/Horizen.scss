@@ -5,7 +5,7 @@ $horizen-calendarCell-width : calc(14.28vw - 2.8px);
 &--horizen {
     min-width: 100%;
     overflow: hidden;
-    margin-bottom: 10px;
+    margin-bottom: $standard-margin-bottom!important;
     
     
 

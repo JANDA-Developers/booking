@@ -1,6 +1,6 @@
 import { sharedProps } from '../../../atoms/timeline/Timeline';
 
-// ModifyTimeline 으로 전달될 객체
+// UpdateTimeline 으로 전달될 객체
 const RoomTimelineDefaultProps = {
   ...sharedProps,
   fixedHeader: 'fixed',

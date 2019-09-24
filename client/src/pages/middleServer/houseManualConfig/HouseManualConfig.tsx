@@ -22,7 +22,7 @@ import {muResult} from "../../../utils/utils";
 import {
   Language,
   LANGUAGE_LIST,
-  Standard_PreloaderFloatingSize
+  FLOATING_PRElOADER_SIZE
 } from "../../../types/enum";
 import Help from "../../../atoms/Help/Help";
 import {IHouse} from "../../../types/interface";
@@ -104,18 +104,6 @@ const HouseManualConfig: React.FC<IProps> = ({
 
   const handleSaveBtnClick = async () => {
     if (validate()) {
-      console.log("#####");
-      console.log({
-        variables: {
-          houseId: house._id,
-          lang: currentLanguage,
-          updateParams: {
-            backgroundImg: bgImageHook.fileUrl,
-            menus: menuData.map(menu => ({...menu, __typename: undefined})),
-            name: mainTitle
-          }
-        }
-      });
       const result = await updateManualMu({
         variables: {
           houseId: house._id,
@@ -241,7 +229,7 @@ const HouseManualConfig: React.FC<IProps> = ({
     <div className="houseManualConfig">
       <Preloader
         floating
-        size={Standard_PreloaderFloatingSize}
+        size={FLOATING_PRElOADER_SIZE}
         loading={loading}
       />
       <div className="container container--sm">

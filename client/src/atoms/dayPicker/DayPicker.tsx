@@ -31,7 +31,7 @@ export interface IJDdayPickerProps extends IUseDayPicker {
   maxLimit?: boolean;
   showWeekEndColor?: boolean;
   mode?: "reservation";
-  inputComponent?: JSX.Element[] | JSX.Element;
+  inputComponent?: any;
   onChangeDate?(foo?: string | Date | null, foo2?: string | Date | null): void;
   className?: string;
   inputClassName?: string;
@@ -208,6 +208,7 @@ const JDdayPicker: React.FC<IJDdayPickerProps> = ({
 
   // TODO : 너무 아슬아슬하게 결합되어있다 분리가 필요함
   const dayPickerProps: DayPickerProps = {
+    tabIndex: 1,
     renderDay: horizen ? HorizenDay : undefined,
     navbarElement: <Navbar />,
     weekdayElement: horizen ? undefined : undefined,

@@ -58,10 +58,10 @@ const CreateNotificationModal: React.FC<Iprops> = ({
   };
 
   return (
-    <JDmodal {...modalHook}>
+    <JDmodal visibleOverflow {...modalHook}>
       <h6>알림 보내기</h6>
       <div>
-        <JDbox label="알림 대상" mode="border">
+        <JDbox label="알림 대상2" mode="border">
           <JDbox>{target}</JDbox>
         </JDbox>
       </div>
@@ -77,6 +77,8 @@ const CreateNotificationModal: React.FC<Iprops> = ({
           canSelectBeforeDay={false}
           isRange={false}
           input
+          format={"YY년 MM월 DD일 까지"}
+          calenaderPosition="center"
           {...validPeriodHook}
           label="알람 기간"
         />

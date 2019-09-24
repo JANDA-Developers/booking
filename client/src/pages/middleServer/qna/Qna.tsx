@@ -16,7 +16,7 @@ const Qna = () => (
               width="100%"
               height="500px"
               title="JDqna"
-              src="https://stayjanda.com/QnA"
+              src="https://stayjanda.com/company/QnA"
             />
             <Preloader loading={true} className="qna__preloader" size="large" />
           </div>

@@ -36,7 +36,7 @@ import {BookingStatus} from "../../types/enum";
 import {queryDataFormater} from "../../utils/utils";
 import {useDayPicker, IUseDayPicker} from "../../actions/hook";
 import {IContext} from "../../pages/MiddleServerRouter";
-import DailyAssigNew from "./DailyAssigNew";
+import DailyAssigNew from "./DailyAssig";
 import {getOperationName} from "apollo-link";
 import {NetworkStatus} from "apollo-boost";
 import {IDailyAssigDataControl} from "../../pages/middleServer/assig/components/assigIntrerface";
@@ -106,11 +106,7 @@ const DailyAssigWrap: React.FC<IProps> = ({
     return (
       <GetAllRoomTypeWithGuestQuery
         skip={!date}
-        pollInterval={
-          houseConfig.pollingPeriod
-            ? houseConfig.pollingPeriod.period
-            : undefined
-        }
+        pollInterval={houseConfig.pollingPeriod.period}
         query={GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM}
         variables={{
           ...updateVariables,

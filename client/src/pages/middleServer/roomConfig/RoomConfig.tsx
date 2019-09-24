@@ -6,35 +6,20 @@ import "./RoomConfig.scss";
 import {
   getAllRoomType_GetAllRoomType_roomTypes as IRoomType,
   getAllRoomType_GetAllRoomType_roomTypes,
-  getAllRoomType_GetAllRoomType_roomTypes_rooms,
   getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms,
   changeIndexForRoomType,
   changeIndexForRoomTypeVariables
 } from "../../../types/api";
 import Preloader from "../../../atoms/preloader/Preloader";
-import JDdayPicker from "../../../atoms/dayPicker/DayPicker";
-import {
-  GlobalCSS,
-  PricingType,
-  RoomGender,
-  RoomGenderKr,
-  PricingTypeKr
-} from "../../../types/enum";
-import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
-import {IUseDayPicker, useModal} from "../../../actions/hook";
-import {IAssigGroup} from "../assig/components/assigIntrerface";
-import {isEmpty, s4} from "../../../utils/utils";
+import JDIcon from "../../../atoms/icons/Icons";
+import {useModal} from "../../../actions/hook";
 import DrragList from "../../../atoms/animation/DrragList";
-import RoomTypeModal from "./components/RoomModal";
 import RoomTypeModalWrap, {
   IRoomTypeModalInfo
 } from "./components/RoomTypeModalWrap";
 import RoomModalWrap, {IRoomModalInfo} from "./components/RoomModalWrap";
 import Card from "../../../atoms/cards/Card";
 import JDbox from "../../../atoms/box/JDbox";
-import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
-import {DEFAULT_ROOMTYPE, DEFAULT_ROOMTYPE_ROOM} from "../../../types/defaults";
-import Gender from "../assig/components/item/gender";
 import {MutationFn} from "react-apollo";
 import EventListener from "react-event-listener";
 import {IContext} from "../../MiddleServerRouter";
@@ -60,11 +45,10 @@ interface IProps {
   roomTypesData: getAllRoomType_GetAllRoomType_roomTypes[];
 }
 
+// 👿 여기 로딩처리를 해결할 방법이 안보인다.
+//  아마도 DragList의 자체문제인것 같다.
 const RoomConfigNew: React.FC<IProps> = ({
-  items,
   context,
-  setConfigMode,
-  defaultProps,
   changeIndexForRoomTypeMu,
   roomTypesData,
   refetchQueries,
@@ -80,6 +64,8 @@ const RoomConfigNew: React.FC<IProps> = ({
     index: number
   ) => (
     <JDbox
+      className="roomConfig__roomBox"
+      align="flexVcenter"
       clickable
       onClick={() => {
         roomModalHook.openModal({
@@ -188,10 +174,14 @@ const RoomConfigNew: React.FC<IProps> = ({
                       roomTypeId: recode._id
                     });
                   }}
+                  align="flexVcenter"
                   className="roomConfig__addRoomBox"
                   key={`add${recode._id}`}
                 >
-                  <h6 className="roomConfig__roomTitle">방추가</h6>
+                  <h6 className="roomConfig__roomTitle">
+                    <span className="JDstandard-small-space">방추가</span>
+                    <JDIcon icon="edit" />
+                  </h6>
                 </JDbox>
               </div>
             </Card>

@@ -252,7 +252,6 @@
     #{$condition}.JDselect,
     #{$condition}.JDbtn,
     #{$condition}.JDlist,
-    #{$condition}.JDdatePcikerInformation,
     #{$condition}.circleIcon-wrap,
     #{$condition}.imageUploader,
     #{$condition}.JDslider,
@@ -450,6 +449,12 @@
                 flex-direction: row;
             }
         }
+    }
+}
+
+@mixin accent() {
+    #root,.ReactModalPortal {
+        @content; 
     }
 }
 

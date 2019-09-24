@@ -18,7 +18,7 @@ export const F_MEMO = gql`
         title
         text
         memoType
-        important
+        enableAlert
         createdAt
         updatedAt
     }
@@ -507,17 +507,6 @@ export const GET_PRODUCTS_TYPES = gql`
 `;
 
 
-// 유저 :: 휴대폰번호 가져오기
-export const GET_MY_PHON_NUMBER = gql`
-    query getMyProfile {
-        GetMyProfile {
-            user {
-                phoneNumber
-            }
-        }
-    }
-`;
-
 // 유저 :: 정보 가져오기
 export const GET_USER_INFO = gql`
     query getMyProfile {
@@ -884,51 +873,37 @@ export const FIND_BOOKING_FOR_BOOKER = gql`
     ${F_BOOKING}
 `;
 
-export const GET_ROOM_TYPE_DATE_PRICE_FOR_BOOKER = gql`
-    query getRoomTypeDatePricesForBooker(
-        $start: DateTime!
-        $end: DateTime!
-        $roomTypeIds: [ID!]
-    ) {
-        GetRoomTypeDatePricesForBooker(start: $start, end:$end, roomTypeIds:$roomTypeIds) {
-            ok
-            error
-            roomTypeDatePrices {
-                roomType {
-                    ...FroomType
-                }
-                datePrices {
-                    date
-                    price
-                }
+
+
+export const F_ROOM_TYPE_DATE_PRICE_RESULT = gql`
+    fragment FroomTypePriceResult on GetRoomTypeDatePricesResponse {
+        ok
+        error
+        roomTypeDatePrices {
+            roomType {
+                ...FroomType
+            }
+            datePrices {
+                date
+                price
             }
         }
     }
     ${F_ROOMTYPE}
-`
+`;
 
 export const GET_ROOM_TYPE_DATE_PRICE = gql`
     query getRoomTypeDatePrices(
         $start: DateTime!
         $end: DateTime!
         $roomTypeIds: [ID!]
-        $houseId: ID!
+        $houseId: ID
     ) {
         GetRoomTypeDatePrices(start: $start, end:$end, roomTypeIds:$roomTypeIds, houseId: $houseId) {
-            ok
-            error
-            roomTypeDatePrices {
-                roomType {
-                    ...FroomType
-                }
-                datePrices {
-                    date
-                    price
-                }
-            }
+            ...FroomTypePriceResult
         }
     }
-    ${F_ROOMTYPE}
+    ${F_ROOM_TYPE_DATE_PRICE_RESULT}
 `
 
 

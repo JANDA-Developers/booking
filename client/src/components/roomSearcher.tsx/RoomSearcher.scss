@@ -1,4 +1,10 @@
 .RoomSearcher {
+    width: min-content;
+
+    &__title {
+        white-space: nowrap;
+    }
+
     &__dayPicker {
         width: 100%;
     }

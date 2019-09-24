@@ -12,26 +12,27 @@ import Timeline, {
 import ErrProtecter from "../../../utils/errProtect";
 import Button from "../../../atoms/button/Button";
 import BookingModalWrap from "../../../components/bookingModal/BookingModalWrap";
-import {IUseDayPicker, useModal} from "../../../actions/hook";
+import {
+  IUseDayPicker,
+  useModal,
+  getKoreaSpecificDayHook
+} from "../../../actions/hook";
 import classnames from "classnames";
 import assigGroupRendererFn from "./components/groupRenderFn";
-import {IRoomType, IHouseConfig, IHouse} from "../../../types/interface";
+import {IRoomType} from "../../../types/interface";
 import Preloader from "../../../atoms/preloader/Preloader";
 import "./AssigTimeline.scss";
-import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
-import TooltipList, {
-  ReactTooltip
-} from "../../../atoms/tooltipList/TooltipList";
+import {ReactTooltip} from "../../../atoms/tooltipList/TooltipList";
 import {
   TimePerMs,
   WindowSize as EWindowSize,
   GlobalCSS,
   WindowSize
 } from "../../../types/enum";
-import itemRendererFn from "./components/item/itemRenderFn";
-import ItemMenu from "./components/itemMenu";
-import CanvasMenu from "./components/canvasMenu";
-import MakeItemMenu from "./components/makeItemMenu";
+import itemRendererFn from "./components/items/itemRenderFn";
+import ItemMenuTooltip from "./components/tooltips/ItemMenuTooltip";
+import CanvasMenuTooltip from "./components/tooltips/CanvasMenuTooltip";
+import MakeItemTooltip from "./components/tooltips/MakeItemTooltip";
 import {
   DEFAULT_ASSIG_ITEM,
   DEFAULT_ASSIG_GROUP,
@@ -42,7 +43,7 @@ import {
   IAssigDataControl,
   IAssigItem,
   GuestTypeAdd,
-  ICanvasMenuProps,
+  ICanvasMenuTooltipProps,
   IAssigGroup,
   IAssigTimelineHooks,
   IAssigTimelineContext,
@@ -51,26 +52,23 @@ import {
   TShortKey
 } from "./components/assigIntrerface";
 import {getAssigUtils} from "./components/assigUtils";
-import BlockItemMenu from "./components/blockItemMenu";
+import BlockItemTooltip from "./components/tooltips/BlockItemTooltip";
 import {ASSIG_VISIBLE_CELL_MB_DIFF} from "./timelineConfig";
 import JDmultiBox from "../../../atoms/multiBox/MultiBox";
 import {getAssigHandlers} from "./components/assigHandlers";
-import dailyAssigWrap from "../../../components/dailyAssjg/DailyAssigWrap";
 import moment from "moment";
-import {isEmpty, muResult} from "../../../utils/utils";
+import {isEmpty} from "../../../utils/utils";
 import $ from "jquery";
 import BlockOpModal from "./components/blockOpModal";
 import DailyAssigWrap from "../../../components/dailyAssjg/DailyAssigWrap";
-import ReservationWrap from "../../outPages/reservation/ReservationWrap";
 import ReservationModal from "../../../components/reservationModala/ReservationModal";
-import JDisNetworkRequestInFlight from "../../../utils/netWorkStatusToast";
 import {IContext} from "../../MiddleServerRouter";
-import {FetchResult} from "react-apollo";
-import {
-  createBooking,
-  createBooking_CreateBooking_booking,
-  createBooking_CreateBooking
-} from "../../../types/api";
+import Tooltip from "../../../atoms/tooltip/Tooltip";
+import ReadyItemTooltip from "./components/tooltips/ReadyItemTooltip";
+import JDbadge from "../../../atoms/badge/Badge";
+import JDdot from "../../../atoms/dot/dot";
+import HeaderCellRender from "./components/HeaderCellRender";
+2;
 
 // Temp 마킹용이 있는지
 
@@ -119,6 +117,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   dataTime,
   assigDataControl
 }) => {
+  const {networkStatus} = assigDataControl;
   const {house, houseConfig} = context;
   const isMobile = windowWidth <= EWindowSize.MOBILE;
   const isTabletDown = windowWidth <= EWindowSize.TABLET;
@@ -130,7 +129,10 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   const [viewRoomType, setViewRoomType] = useState(
     roomTypesData.map(roomType => roomType._id)
   );
-  const [canvasMenuProps, setCanvasMenuProps] = useState<ICanvasMenuProps>({
+  const {datas: holidays} = getKoreaSpecificDayHook(["2019", "2018"]);
+  const [canvasMenuProps, setCanvasMenuTooltipProps] = useState<
+    ICanvasMenuTooltipProps
+  >({
     start: 0,
     end: 0,
     groupId: "",
@@ -162,21 +164,22 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
 
   // 풀링으로 새로받은 게스트데이터를 적용시켜준다.
   useEffect(() => {
-    const newIndexStart = deafultGuestsData.length;
+    if (networkStatus >= 7) {
+      const newIndexStart = deafultGuestsData.length;
 
-    // 업데이트전 휘발성 블럭들을 찾아서 합쳐줍니다.
-    const volatilityBlocks = guestValue.filter(
-      guest =>
-        guest.type === GuestTypeAdd.MARK || guest.type === GuestTypeAdd.MAKE
-    );
+      // 업데이트전 휘발성 블럭들을 찾아서 합쳐줍니다.
+      const volatilityBlocks = guestValue.filter(
+        guest =>
+          guest.type === GuestTypeAdd.MARK || guest.type === GuestTypeAdd.MAKE
+      );
+      // 휘발성 블록들의 인덱스를 다시 정의해줍니다.
+      volatilityBlocks.forEach(
+        (block, index) => (block.itemIndex = newIndexStart + index)
+      );
 
-    volatilityBlocks.forEach(
-      (block, index) => (block.itemIndex = newIndexStart + index)
-    );
-
-    console.log("??🎅");
-    setGuestValue(deafultGuestsData.concat(volatilityBlocks));
-  }, [JSON.stringify(deafultGuestsData)]);
+      setGuestValue([...deafultGuestsData, ...volatilityBlocks]);
+    }
+  }, [deafultGuestsData]);
 
   const assigHooks: IAssigTimelineHooks = {
     guestValue,
@@ -184,7 +187,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     blockMenuProps,
     makeMenuProps,
     setGuestValue,
-    setCanvasMenuProps,
+    setCanvasMenuTooltipProps,
     setMakeMenuProps,
     setBlockMenuProps,
     confirmDelteGuestHook,
@@ -320,17 +323,17 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
             />
           )}
         </div>
-        <CanvasMenu
+        <CanvasMenuTooltip
           assigHooks={assigHooks}
           assigContext={assigContext}
           assigUtils={assigUtils}
         />
-        <MakeItemMenu
+        <MakeItemTooltip
           assigHooks={assigHooks}
           assigContext={assigContext}
           assigUtils={assigUtils}
         />
-        <BlockItemMenu
+        <BlockItemTooltip
           assigHooks={assigHooks}
           assigContext={assigContext}
           assigUtils={assigUtils}
@@ -342,10 +345,8 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
           assigContext={assigContext}
           assigUtils={assigUtils}
         />
-        <TooltipList type="dark" id="tooltipReadyBlock">
-          누군가 예약을 진행중 입니다.
-        </TooltipList>
-        <ItemMenu
+        <ReadyItemTooltip />
+        <ItemMenuTooltip
           assigHooks={assigHooks}
           assigContext={assigContext}
           assigUtils={assigUtils}
@@ -391,35 +392,14 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
               )}
             </SidebarHeader>
             <DateHeader
-              intervalRenderer={({getIntervalProps, intervalContext}: any) => {
-                const isToday = intervalContext.interval.startTime.isSame(
-                  new Date(),
-                  "day"
-                );
-                return (
-                  <div
-                    className={`rct-dateHeader ${isToday &&
-                      "rct-dateHeader--today"}`}
-                    {...getIntervalProps()}
-                  >
-                    <div
-                      className="rct-dateHeader__inner"
-                      onClickCapture={e => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        dailyAssigHook.openModal({
-                          date: moment(
-                            intervalContext.interval.startTime
-                          ).toDate()
-                        });
-                      }}
-                    >
-                      {intervalContext.intervalText
-                        .replace("요일,", ", ")
-                        .replace(/[0-9]{4}년/, "")}
-                    </div>
-                  </div>
-                );
+              intervalRenderer={(prop: any) => {
+                const onClickCell = ({intervalContext}: any) => {
+                  if (!intervalContext) return;
+                  dailyAssigHook.openModal({
+                    date: moment(intervalContext.interval.startTime).toDate()
+                  });
+                };
+                return HeaderCellRender({onClickCell, holidays, ...prop});
               }}
               height={GlobalCSS.TIMELINE_HEADER_HEIGHT}
               unit="day"

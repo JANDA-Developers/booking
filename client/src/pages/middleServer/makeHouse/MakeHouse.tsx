@@ -25,21 +25,22 @@ import {show} from "react-tooltip";
 import {createHouse, createHouseVariables} from "../../../types/api";
 import Preloader from "../../../atoms/preloader/Preloader";
 import {getOperationName} from "apollo-link";
-import {Standard_PreloaderFloatingSize} from "../../../types/enum";
+import {FLOATING_PRElOADER_SIZE} from "../../../types/enum";
+import {IContext} from "../../MiddleServerRouter";
 
 let map: google.maps.Map | null = null;
 
-interface IProps extends ProvidedProps {}
+interface IProps extends ProvidedProps {
+  context: IContext;
+}
 
 class SelectHouseMu extends Mutation<any, any> {}
 
 class CreateHouse extends Mutation<createHouse, createHouseVariables> {}
 
 // eslint-disable-next-line react/prop-types
-const MakeHouse: React.FC<IProps & RouteComponentProps> = ({
-  history,
-  google
-}) => {
+const MakeHouse: React.FC<IProps> = ({context, google}) => {
+  const {history} = context;
   const houseNameHoook = useInput("");
   const deatailaddressHook = useInput("");
   const typeSelectHook = useSelect(null);
@@ -146,7 +147,6 @@ const MakeHouse: React.FC<IProps & RouteComponentProps> = ({
 
   // 서치인풋에 값이 제출될때마다.
   const handleOnFind = (value: string | null) => {
-    console.log("handleOnFind");
     changeMapBySearch(value);
   };
 
@@ -178,7 +178,6 @@ const MakeHouse: React.FC<IProps & RouteComponentProps> = ({
         } = location;
         if (map) {
           map.panTo({lat, lng});
-          console.log("mapTo");
         }
         const address = await reverseGeoCode(lat, lng);
         setLocation({
@@ -200,6 +199,10 @@ const MakeHouse: React.FC<IProps & RouteComponentProps> = ({
         <SelectHouseMu
           mutation={SELECT_HOUSE}
           refetchQueries={[getOperationName(GET_USER_INFO)!]}
+          awaitRefetchQueries
+          onCompleted={() => {
+            history.push("/");
+          }}
         >
           {selectHouseMutation => (
             // Mutation : 숙소생성
@@ -317,11 +320,7 @@ export default ErrProtecter(
     apiKey: "AIzaSyCLG8qPORYv6HJIDSgXpLqYDDzIKgSs6FY",
     LoadingContainer: () => (
       <div style={{height: "85vh"}}>
-        <Preloader
-          floating
-          size={Standard_PreloaderFloatingSize}
-          loading={true}
-        />
+        <Preloader floating size={FLOATING_PRElOADER_SIZE} loading={true} />
       </div>
     )
   })(MakeHouse)

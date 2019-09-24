@@ -25,14 +25,20 @@ import {
   getKoreaSpecificDayHook,
   useModal
 } from "../../../actions/hook";
-import {setMidNight, autoComma, isEmpty, muResult} from "../../../utils/utils";
+import {
+  setMidNight,
+  autoComma,
+  isEmpty,
+  muResult,
+  searchHoliday
+} from "../../../utils/utils";
 import {TimePerMs, GlobalCSS, WindowSize} from "../../../types/enum";
 import reactWindowSize, {WindowSizeProps} from "react-window-size";
-import {ASSIG_VISIBLE_CELL_MB_DIFF} from "../assig/timelineConfig";
 import JDbadge from "../../../atoms/badge/Badge";
 import Tooltip from "../../../atoms/tooltip/Tooltip";
 import {IContext} from "../../MiddleServerRouter";
 import PriceWarnModal from "../../../components/priceWarnModal.tsx/PriceWarnModal";
+import HeaderCellRender from "../assig/components/HeaderCellRender";
 
 interface IProps {
   items: IItem[] | undefined;
@@ -56,7 +62,7 @@ interface IProps {
   placeHolderMap: Map<any, any>;
 }
 
-const ModifyTimeline: React.FC<IProps & WindowSizeProps> = ({
+const UpdateTimeline: React.FC<IProps & WindowSizeProps> = ({
   items,
   defaultProps,
   roomTypesData,
@@ -78,12 +84,13 @@ const ModifyTimeline: React.FC<IProps & WindowSizeProps> = ({
   const isTabletDown = windowWidth <= WindowSize.TABLET;
   const priceWarnModalHook = useModal(false);
 
-  const {datas: holidays, loading: holidayLoading} = getKoreaSpecificDayHook(
-    "2019"
-  );
+  const {datas: holidays, loading: holidayLoading} = getKoreaSpecificDayHook([
+    "2019",
+    "2018"
+  ]);
 
   // 그룹 렌더
-  const ModifyGroupRendererFn = ({group}: any) => {
+  const UpdateGroupRendererFn = ({group}: any) => {
     const roomType: IRoomType | undefined =
       roomTypesData && roomTypesData[group.roomTypeIndex];
 
@@ -250,8 +257,8 @@ const ModifyTimeline: React.FC<IProps & WindowSizeProps> = ({
           <div className="flex-grid flex-grid--end">
             <div className="flex-grid__col col--full-4 col--lg-4 col--md-6" />
           </div>
-          <div className="ModifyTimeline__timelineWrapScroll">
-            <div className="ModifyTimeline__timelineWrap dailyPrice__timeline">
+          <div className="UpdateTimeline__timelineWrapScroll">
+            <div className="UpdateTimeline__timelineWrap dailyPrice__timeline">
               <Timeline
                 {...defaultProps}
                 {...timelineProps}
@@ -265,7 +272,7 @@ const ModifyTimeline: React.FC<IProps & WindowSizeProps> = ({
                     : defaultTime.end
                 }
                 itemRenderer={itemRendererFn}
-                groupRenderer={ModifyGroupRendererFn}
+                groupRenderer={UpdateGroupRendererFn}
                 sidebarContent={modifySideBarRendererFn()}
                 sidebarWidth={isMobile ? 100 : 230}
               >
@@ -279,54 +286,8 @@ const ModifyTimeline: React.FC<IProps & WindowSizeProps> = ({
                     )}
                   </SidebarHeader>
                   <DateHeader
-                    intervalRenderer={({
-                      getIntervalProps,
-                      intervalContext
-                    }: any) => {
-                      const {startTime} = intervalContext.interval;
-                      const isToday = startTime.isSame(new Date(), "day");
-
-                      const holiday = holidays.find(holiday => {
-                        const result = moment(
-                          holiday.locdate.toString(),
-                          "YYYYMMDD"
-                        ).isSame(startTime, "day");
-
-                        return result;
-                      });
-
-                      return (
-                        <div
-                          className={`rct-dateHeader ${isToday &&
-                            "rct-dateHeader--today"}`}
-                          {...getIntervalProps()}
-                          onClick={() => {}}
-                        >
-                          <div className="rct-dateHeader__inner">
-                            {intervalContext.intervalText
-                              .replace("요일,", ", ")
-                              .replace(/[0-9]{4}년/, "")}
-                          </div>
-
-                          {holiday && (
-                            <Fragment>
-                              <JDbadge
-                                data-tip
-                                data-for={`holidayTooltip--${holiday.locdate}`}
-                                thema={"error"}
-                              >
-                                공휴일
-                              </JDbadge>
-                              <Tooltip
-                                id={`holidayTooltip--${holiday.locdate}`}
-                                class="JDtooltip"
-                              >
-                                {holiday.dateName}
-                              </Tooltip>
-                            </Fragment>
-                          )}
-                        </div>
-                      );
+                    intervalRenderer={(props: any) => {
+                      return HeaderCellRender({...props, holidays});
                     }}
                     height={GlobalCSS.TIMELINE_HEADER_HEIGHT}
                     unit="day"
@@ -343,4 +304,4 @@ const ModifyTimeline: React.FC<IProps & WindowSizeProps> = ({
   );
 };
 
-export default reactWindowSize<IProps>(ErrProtecter(ModifyTimeline));
+export default reactWindowSize<IProps>(ErrProtecter(UpdateTimeline));

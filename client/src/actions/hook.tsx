@@ -431,7 +431,7 @@ function useModal<T = any>(
 }
 
 const getKoreaSpecificDayHook = (
-  year: string
+  years: string[]
 ): {
   datas: IHolidaysByApi[];
   loading: boolean;
@@ -441,38 +441,46 @@ const getKoreaSpecificDayHook = (
 
   let temp: IHolidaysByApi[] = [];
   const get = async () => {
-    for (let i = 1; i < 13; i++) {
-      const url =
-        "http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo";
-      const queryParams = `?${encodeURIComponent("ServiceKey")}=${
-        process.env.REACT_APP_API_SPECIFIC_DAY_KEY
-      }&${encodeURIComponent("solYear")}=${encodeURIComponent(
-        "2019"
-      )}&${encodeURIComponent("solMonth")}=${encodeURIComponent(`0${i}`)}`;
+    outer: for (let year of years) {
+      for (let i = 1; i < 13; i++) {
+        const url =
+          "http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo";
+        const queryParams = `?${encodeURIComponent("ServiceKey")}=${
+          process.env.REACT_APP_API_SPECIFIC_DAY_KEY
+        }&${encodeURIComponent("solYear")}=${encodeURIComponent(
+          year
+        )}&${encodeURIComponent("solMonth")}=${encodeURIComponent(`0${i}`)}`;
 
-      try {
-        const {data} = await Axios(url + queryParams);
-        const item = data.response.body.items;
-        if (Array.isArray(item.item)) {
-          item.item.forEach((inItem: any) => {
-            if (inItem) temp.push(inItem);
-          });
-        } else {
-          if (item.item) {
-            temp.push(item.item);
+        try {
+          const {data} = await Axios(url + queryParams);
+          const item = data.response.body.items;
+          if (Array.isArray(item.item)) {
+            item.item.forEach((inItem: any) => {
+              if (inItem) {
+                inItem.locdate = inItem.locdate.toString();
+                temp.push(inItem);
+              }
+            });
+          } else {
+            if (item.item) {
+              item.tiem.locdate = item.item.locdate.toString();
+              temp.push(item.item);
+            }
           }
+        } catch {
+          break outer;
+          console.error("can't fetch holidays");
         }
-      } catch {
-      } finally {
-        setDatas(temp);
-        setLoading(false);
       }
     }
   };
 
   useEffect(() => {
-    get();
-  }, [year]);
+    get().finally(() => {
+      setDatas(temp);
+      setLoading(false);
+    });
+  }, [years.join()]);
 
   return {datas, loading};
 };

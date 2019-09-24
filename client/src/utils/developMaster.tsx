@@ -8,10 +8,8 @@ export const isDeveloper = () => {
 };
 
 export const developEvent = (developEvent: any) => {
-  console.log("reservationDevelop3");
   if (isDeveloper()) {
     $(window).keypress("q", e => {
-      console.log("reservationDevelop1");
       if (e.ctrlKey) developEvent();
     });
   }

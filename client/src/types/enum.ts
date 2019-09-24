@@ -506,7 +506,7 @@ export const NEUTRAL = "";
 
 export const EMPTY = "";
 
-export const ModalMinWidth = isMobile()
+export const MODAL_MIN_WIDTH = isMobile()
   ? `${document.documentElement.clientWidth - 64}px`
   : "360px";
 
@@ -518,4 +518,4 @@ export const StaticColors = [
   "#0A7B83"
 ];
 
-export const Standard_PreloaderFloatingSize = "small";
+export const FLOATING_PRElOADER_SIZE = "small";

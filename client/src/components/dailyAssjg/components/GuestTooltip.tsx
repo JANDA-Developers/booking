@@ -4,7 +4,7 @@ import Button from "../../../atoms/button/Button";
 import {ReactTooltip} from "../../../atoms/tooltip/Tooltip";
 import {IContext} from "../../../pages/MiddleServerRouter";
 import {IDailyAssigProp} from "../DailyAssigWrap";
-import {IDailyAssigContext} from "../DailyAssigNew";
+import {IDailyAssigContext} from "../DailyAssig";
 import {
   IDailyAssigUtils,
   IDailyAssigDataControl

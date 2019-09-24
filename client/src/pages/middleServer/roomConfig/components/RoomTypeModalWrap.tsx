@@ -1,12 +1,10 @@
-import React, {useState, useEffect} from "react";
+import React, {Fragment} from "react";
 import {Mutation, Query} from "react-apollo";
-import {any} from "prop-types";
 import {
   createRoomType,
   createRoomTypeVariables,
   deleteRoomType,
   deleteRoomTypeVariables,
-  updateMyProfileVariables,
   updateRoomType,
   updateRoomTypeVariables,
   getRoomTypeById,
@@ -16,23 +14,26 @@ import RoomTypeModal from "./RoomTypeModal";
 import {
   CREATE_ROOMTYPE,
   DELETE_ROOMTYPE,
-  UPDATE_ROOM,
   UPDATE_ROOMTYPE,
   GET_ROOMTYPE_BY_ID,
-  GET_ALL_ROOMTYPES,
-  GET_USER_INFO
+  GET_ALL_ROOMTYPES
 } from "../../../../queries";
 import {IUseModal} from "../../../../actions/hook";
 import {
   ErrProtecter,
-  showError,
-  isEmpty,
   onCompletedMessage,
   queryDataFormater
 } from "../../../../utils/utils";
-import {PricingType, RoomGender} from "../../../../types/enum";
+import {
+  PricingType,
+  RoomGender,
+  FLOATING_PRElOADER_SIZE
+} from "../../../../types/enum";
 import {IContext} from "../../../MiddleServerRouter";
 import {getOperationName} from "apollo-link";
+import {createPortal} from "react-dom";
+import portalTo, {PortalPreloader} from "../../../../utils/portalTo";
+import Preloader from "../../../../atoms/preloader/Preloader";
 
 class GetRoomTypeById extends Query<
   getRoomTypeById,
@@ -72,7 +73,7 @@ interface IProps {
   modalHook: IUseModal<IRoomTypeModalInfo>;
 }
 
-const ModifyTimelineWrap: React.SFC<IProps> = ({context, modalHook}) => {
+const UpdateTimelineWrap: React.SFC<IProps> = ({context, modalHook}) => {
   const {house} = context;
   const {roomTypeId, isAddMode} = modalHook.info;
   const refetchQueries = [
@@ -155,26 +156,31 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({context, modalHook}) => {
                     {(
                       updateRoomTypeMutation,
                       {loading: updateRoomTypeLoading}
-                    ) => (
-                      <RoomTypeModal
-                        context={context}
-                        roomTypeData={roomType || defaultRoomType}
-                        modalHook={modalHook}
-                        loading={loading}
-                        mutationLoading={
-                          updateRoomTypeLoading ||
-                          createRoomTypeLoading ||
-                          deleteRoomTypeLoading
-                        }
-                        createRoomTypeMutation={createRoomTypeMutation}
-                        deleteRoomTypeMutation={deleteRoomTypeMutation}
-                        updateRoomTypeMutation={updateRoomTypeMutation}
-                        isAddMode={isAddMode}
-                        key={`roomTypeModal__modal${
-                          roomType ? roomType._id : ""
-                        }`}
-                      />
-                    )}
+                    ) => {
+                      const muLoadings =
+                        updateRoomTypeLoading ||
+                        createRoomTypeLoading ||
+                        deleteRoomTypeLoading;
+                      return (
+                        <Fragment>
+                          <PortalPreloader loading={muLoadings} />
+                          <RoomTypeModal
+                            context={context}
+                            roomTypeData={roomType || defaultRoomType}
+                            modalHook={modalHook}
+                            loading={loading}
+                            mutationLoading={muLoadings}
+                            createRoomTypeMutation={createRoomTypeMutation}
+                            deleteRoomTypeMutation={deleteRoomTypeMutation}
+                            updateRoomTypeMutation={updateRoomTypeMutation}
+                            isAddMode={isAddMode}
+                            key={`roomTypeModal__modal${
+                              roomType ? roomType._id : ""
+                            }`}
+                          />
+                        </Fragment>
+                      );
+                    }}
                   </UpdateRoomTypeMutation>
                 )}
               </DeleteRoomTypeMutation>
@@ -186,4 +192,4 @@ const ModifyTimelineWrap: React.SFC<IProps> = ({context, modalHook}) => {
   );
 };
 
-export default ErrProtecter(ModifyTimelineWrap);
+export default ErrProtecter(UpdateTimelineWrap);

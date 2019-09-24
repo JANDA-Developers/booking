@@ -10,7 +10,7 @@ import JDbadge from "../../../atoms/badge/Badge";
 import JDbox from "../../../atoms/box/JDbox";
 import {s4, autoHypen} from "../../../utils/utils";
 import moment from "moment";
-import {Standard_PreloaderFloatingSize} from "../../../types/enum";
+import {FLOATING_PRElOADER_SIZE} from "../../../types/enum";
 
 interface Iprops {
   setPage: any;
@@ -105,7 +105,7 @@ const SmsHistory: React.SFC<Iprops> = ({
         <Fragment>
           <h3>SMS 내역</h3>
           <Preloader
-            size={Standard_PreloaderFloatingSize}
+            size={FLOATING_PRElOADER_SIZE}
             floating
             loading={loading}
           />

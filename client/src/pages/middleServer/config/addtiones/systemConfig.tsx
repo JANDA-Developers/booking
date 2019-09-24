@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import {IAddition} from "../components/ConfigBlock";
 import JDLabel from "../../../../atoms/label/JDLabel";
 import JDrange from "../../../../atoms/forms/range/range";
 import {MutationFn} from "react-apollo";
@@ -7,7 +6,6 @@ import {
   updateHouseConfig,
   updateHouseConfigVariables
 } from "../../../../types/api";
-import {IHouse} from "../../../../types/interface";
 import {IContext} from "../../../MiddleServerRouter";
 
 interface IProps {

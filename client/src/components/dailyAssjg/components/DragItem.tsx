@@ -6,14 +6,12 @@ import {
   getAllRoomTypeWithGuest_GetAllRoomType_roomTypes as IRT,
   getAllRoomTypeWithGuest_GetBlocks_blocks as IB
 } from "../../../types/api";
-import {GuestType} from "../../../types/enum";
-import {GuestTypeAdd} from "../../../pages/middleServer/assig/components/assigIntrerface";
 import {instanceOfA} from "../../../utils/utils";
 import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
-import Tooltip, {ReactTooltip} from "../../../atoms/tooltip/Tooltip";
+import {ReactTooltip} from "../../../atoms/tooltip/Tooltip";
 import moment from "moment";
 import classNames from "classnames";
-import Gender from "../../../pages/middleServer/assig/components/item/gender";
+import Gender from "../../../pages/middleServer/assig/components/items/Gender";
 
 export interface IDragItemProp {
   type: string;
@@ -33,6 +31,11 @@ const DragItem: React.FC<IProps> = ({item, place, room, roomType}) => {
     place: place
   });
 
+  useEffect(() => {
+    console.log("Aaa");
+    ReactTooltip.rebuild();
+  });
+
   if (!item) {
     return (
       <div className="dailyAssigItem__itemBlockWrap">
@@ -48,13 +51,8 @@ const DragItem: React.FC<IProps> = ({item, place, room, roomType}) => {
       </div>
     );
   }
-
   const [, drag] = useDrag({
     item
-  });
-
-  useEffect(() => {
-    ReactTooltip.rebuild();
   });
 
   return (
@@ -94,7 +92,14 @@ const DragItem: React.FC<IProps> = ({item, place, room, roomType}) => {
           );
         } else if (true) {
           return (
-            <div className="dailyAssigItem__itemBlock dailyAssigItem__blockBlock">
+            <div
+              data-tip={item._id}
+              data-place="top"
+              data-for="blockTooltip"
+              data-event="click"
+              id={`dailyAssigItem__block${item._id}`}
+              className="dailyAssigItem__itemBlock dailyAssigItem__blockBlock"
+            >
               자리막기
             </div>
           );

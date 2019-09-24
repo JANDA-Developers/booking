@@ -247,7 +247,7 @@ $daypicker-otuside-bgcolor: #fff !default;
 $daypicker-dot-size: 5px !default; // calculator
 $daypicker-dot-top: 5px !default; // calculator
 $daypicker-caption-margin-bottom: 1rem !default; // it must be a pixcel
-$daypicker-caption-height: 34px !default;
+$daypicker-caption-height: $standard-height * 9 !default;
 $daypicker-day-transition: 0.2s !default;
 $daypicker-border: 1px solid $standard-outborder-color!default;
 $daypicker-border-radius: $standard-border-radius;
@@ -299,7 +299,7 @@ $button-small-padding: 0 $button-small-padding-side !default;
 $button-small-font-size: $typho-normal !default;
 $button-large-font-size: $typho-large !default;
 
-$button-height: 36px !default;
+$button-height: $stnadard-height * 9 !default;
 // 5 Modals
 // ANCHOR Modals =========================================================================
 

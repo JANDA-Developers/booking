@@ -19,7 +19,7 @@ import {
 } from "./assigIntrerface";
 import {TimePerMs} from "../../../../types/enum";
 import {setMidNight} from "../../../../utils/utils";
-import {CLASS_MOVING, CLASS_LINKED} from "./item/itemRenderFn";
+import {CLASS_MOVING, CLASS_LINKED} from "./items/itemRenderFn";
 import moment from "moment";
 import $ from "jquery";
 import {
@@ -29,19 +29,18 @@ import {
   ASSIG_DATA_END_LIMITE
 } from "../timelineConfig";
 import {ReactTooltip} from "../../../../atoms/tooltip/Tooltip";
-import {DEFAULT_ASSIG_ITEM} from "../../../../types/defaults";
 
 export function getAssigHandlers(
   {
     getItemById,
     allTooltipsHide,
     makeMark,
-    openCanvasMenu,
+    openCanvasMenuTooltip,
     resizeLinkedItems,
     allocateItem,
-    resizeBlock,
+    resizeBlockBlock,
     openBlockMenu,
-    popUpItemMenu,
+    popUpItemMenuTooltip,
     openMakeMenu,
     getGroupById,
     moveLinkedItems,
@@ -83,7 +82,7 @@ export function getAssigHandlers(
       clientY: e.clientY
     };
     const target = getItemById(itemId);
-    popUpItemMenu(location, target);
+    popUpItemMenuTooltip(location, target);
 
     if (target.type === GuestTypeAdd.GUEST)
       bookingModal.openModal({bookingId: target.bookingId});
@@ -104,7 +103,7 @@ export function getAssigHandlers(
 
     const targetGroup = getGroupById(groupId);
 
-    openCanvasMenu(e, {
+    openCanvasMenuTooltip(e, {
       start: time,
       end: time + TimePerMs.DAY,
       groupId: groupId,
@@ -193,7 +192,7 @@ export function getAssigHandlers(
   ) => {
     const targetGuest = getItemById(itemId);
     if (targetGuest.type === GuestTypeAdd.BLOCK) {
-      resizeBlock(targetGuest, time);
+      resizeBlockBlock(targetGuest, time);
     }
   };
 
@@ -210,8 +209,8 @@ export function getAssigHandlers(
 
     const {clientX, clientY} = e;
     const location = {
-      clientX: clientX,
-      clientY: clientY
+      clientX: clientX + 10,
+      clientY: clientY + 15
     };
 
     const target = getItemById(itemId);
@@ -224,7 +223,7 @@ export function getAssigHandlers(
       if (target.type === GuestTypeAdd.MAKE)
         openMakeMenu(location, {item: target});
     } else {
-      await popUpItemMenu(location, target);
+      await popUpItemMenuTooltip(location, target);
     }
 
     if (shortKey) await shortKey("guestItem", e, undefined, undefined, itemId);

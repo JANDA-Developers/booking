@@ -1,16 +1,17 @@
 @import '../../../style_config/style_config';
-
+@import './components/roomTypeCard.scss';
 
 $flex-grid--column-margin: .8%;
 
-$roomCardHeight: 130px;
 
 #outdated {
     display:none!important;
 }
 
-
 #JDreservation {
+    padding: $standard-width;
+    padding-bottom: $standard-margin-bottom;
+    
     // 😆 어떻게 그리드 시스템을 오버라이드 하는지 보여줌
     .flex-grid {
 
@@ -32,6 +33,12 @@ $roomCardHeight: 130px;
     }
 
     .JDreservation {
+
+        &__card {
+            @include response($tablet)  {
+                padding:0;
+            }
+        }
         
         &__mobileRoomSearcherWrap {
             background-image:url("https://res.cloudinary.com/stayjanda-com/image/upload/v1554029858/qweqweqwe.jpg");
@@ -52,12 +59,7 @@ $roomCardHeight: 130px;
             color: $grey-level1;
         }
 
-        &__card {
-            margin-bottom: $standard-margin-bottom /2;
-        }
-
         &__dayPickerCard {
-            height: 95vh;
             position: sticky;
             top: 0;
             border-radius:$standard-border-radius;
@@ -78,103 +80,7 @@ $roomCardHeight: 130px;
 
     }
 
-    .roomTypeCard {
-        border-radius: $standard-border-radius;
-        height: $roomCardHeight;
-        border: 1px solid $grey-level1;
-        position: relative;
-        margin-bottom: $standard-margin-bottom;
-
-
-        .JDselect {
-            min-width: 50px;
-        }
-        &__imgSection {
-            max-width: $roomCardHeight * 1.68;
-            background-image: url('../../../img/default_room.png');
-            background-size: contain;
-            background-position:center center;
-            background-repeat: no-repeat;
-            border-right: 1px solid $grey-opacity1;
-
-            @include response($mobile) {
-                max-width: 104px;
-            }
-        }
-
-        &__img {
-            background-size: cover;
-            margin-left: -1px;
-            margin-top: -1px;
-            border-radius: 3px 0px 0px 3px;
-            height: 101%;
-            background-position: center center;
-        }
-
-        
-        &__lastSection {
-            padding:$standard-small-space;
-
-            @include response($mobile) {
-                padding:$standard-small-space /2;
-            }
-        }
-
-        &__selectButton {
-            position: absolute;
-            bottom: $standard-small-space;
-            right: $standard-small-space;
-
-            @include response($mobile) {
-                bottom:$standard-small-space /2;
-                right:$standard-small-space /2;
-            }
-            
-            @include response($mobile) {
-                // bottom:$standard-small-space /2;
-                // right:$standard-small-space /2;
-                border-radius: $standard-border-radius; 
-            }
-        }
-
-        &__lastTopSection {
-            display: flex;
-            flex-direction: row-reverse;
-
-            .roomTypeCard__price {
-                font-size: $typho-large;
-                font-weight: 600;
-            }
-        }
-        
-        &__middleSection {
-            display: flex;
-            padding:$standard-small-space;
-            justify-content: space-between;
-            flex-direction: column;
-            
-            @include response($mobile) {
-                padding:$standard-small-space /2;
-            }
-        }
-
-        &__middleBottomSection {
-            display: flex;
-            .JDselect {
-                margin-bottom: 0;
-
-                @include response($phablet) {
-                    margin-right: $standard-space /2;
-                }
-            }
-        }
-
-        // 여기 색을바꾸어줘
-        .JDbtn--toogleOn {
-            background-color: $primary-color;
-            color: $primary-color-on;
-        }
-    }
+    
 
     .JDselectInfo {
         .JDtable {
@@ -197,6 +103,7 @@ $roomCardHeight: 130px;
 .roomImgPop {
     &__img {
         margin-bottom: $standard-margin-bottom;   
+        max-width: 100%;
     }
 }
 
@@ -213,3 +120,4 @@ html .ReactModalPortal {
         padding: $standard-small-space;
     }
 }
+

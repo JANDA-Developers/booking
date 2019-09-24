@@ -30,13 +30,16 @@ class DeleteBookingMu extends Mutation<deleteBooking, deleteBookingVariables> {}
 class GetBookingsQuery extends Query<getBookings, getBookingsVariables> {}
 
 const ResvListWrap: React.FC<IProps> = ({context}) => {
-  const {house} = context;
+  const {house, houseConfig} = context;
   const [page, setPage] = usePagiNation(1);
 
+  const {
+    pollingPeriod: {period}
+  } = houseConfig;
   return (
     <GetBookingsQuery
       query={GET_BOOKINGS}
-      pollInterval={4000}
+      pollInterval={period}
       notifyOnNetworkStatusChange
       variables={{houseId: house._id, page, count: 20}}
     >

@@ -11,6 +11,7 @@ interface Iprops extends React.HTMLAttributes<HTMLSpanElement> {
   show?: boolean;
 }
 
+// 🔴 will be depreacte
 const JDdot: React.FC<Iprops> = ({
   color,
   className,

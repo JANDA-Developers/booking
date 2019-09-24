@@ -23,7 +23,7 @@ import {
 } from "../../../../types/api";
 import {MutationFn} from "react-apollo";
 import {targetBlinkFuture} from "../../../../utils/targetBlink";
-import {setYYYYMMDD} from "../../../../utils/setMidNight";
+import {set4YMMDD} from "../../../../utils/setMidNight";
 import UpdateSeasonModal from "./updateSeasnModal";
 
 interface IProps {

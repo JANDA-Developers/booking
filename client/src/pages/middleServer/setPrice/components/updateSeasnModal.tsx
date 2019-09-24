@@ -7,7 +7,7 @@ import InputText from "../../../../atoms/forms/inputText/InputText";
 import {updateSeason, updateSeasonVariables} from "../../../../types/api";
 import {MutationFn} from "react-apollo";
 import Button from "../../../../atoms/button/Button";
-import {setYYYYMMDD} from "../../../../utils/setMidNight";
+import {set4YMMDD} from "../../../../utils/setMidNight";
 
 interface IProps {
   season: ISeason;
@@ -51,8 +51,8 @@ const UpdateSeasonModal: React.FC<IProps> = ({
         isRange
         onChangeDate={(from, to) => {
           if (from && to) {
-            season.end = setYYYYMMDD(to);
-            season.start = setYYYYMMDD(from);
+            season.end = set4YMMDD(to);
+            season.start = set4YMMDD(from);
             setSeasons([...seasons]);
           }
         }}

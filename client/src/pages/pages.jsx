@@ -88,7 +88,7 @@ export const ConfigWrap = props => (
   </DynamicImport>
 );
 
-export const Products = props => (
+export const SelectProducts = props => (
   <DynamicImport
     load={() => import("./middleServer/product/SelectProductWrap")}
   >

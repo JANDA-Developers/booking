@@ -6,7 +6,7 @@ import Button from "../../../atoms/button/Button";
 import {insideRedirect} from "../../../utils/utils";
 import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
 import {NavLink} from "react-router-dom";
-import SharedHeaderComponent from "./sharedComponent";
+import SharedHeaderComponent from "./SharedHeaderComponent";
 import {IContext} from "../../../pages/MiddleServerRouter";
 import {UserRole} from "../../../types/enum";
 interface Iprops {

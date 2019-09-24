@@ -5,6 +5,10 @@ $roomWidth: 10rem;
 
 .roomConfig {
 
+    &__roomBox {
+        max-width: fit-content;
+    }
+
     &__roomTitle {
         margin: 0;
     }
@@ -32,7 +36,7 @@ $roomWidth: 10rem;
     }
 
     &__addRoomBox {
-        min-width: 90px;
+        min-width: fit-content;
         box-sizing: border-box;
         cursor: pointer!important;
     }

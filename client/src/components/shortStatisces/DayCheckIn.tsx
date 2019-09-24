@@ -39,9 +39,13 @@ const DayCheckIn: React.FC<Iprops> = ({
           label="달력날자"
           {...dayPickerHook}
           className="JDwaves-effect JDoverflow-visible"
-          inputComponent={
-            <ArrowDayByDay format="MM월 DD일" dayPickerHook={dayPickerHook} />
-          }
+          inputComponent={(prop: any) => (
+            <ArrowDayByDay
+              {...prop}
+              format="MM월 DD일"
+              dayPickerHook={dayPickerHook}
+            />
+          )}
         />
       )}
       {info.bookingsCheckInCount}/{info.bookingsCount}

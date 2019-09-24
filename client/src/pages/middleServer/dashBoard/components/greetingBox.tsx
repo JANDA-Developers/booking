@@ -1,10 +1,5 @@
 import React, {useState, Fragment} from "react";
-import classNames from "classnames";
-import JDanimation, {Animation} from "../../../../atoms/animation/Animations";
-import {IUser} from "../../../../types/interface";
 import {randomIntFromInterval} from "../../../../utils/utils";
-import JDbox from "../../../../atoms/box/JDbox";
-import {IContext} from "../../../MiddleServerRouter";
 import {getMyProfile_GetMyProfile_user} from "../../../../types/api";
 
 interface IProps {
@@ -16,7 +11,7 @@ const GreetingBox: React.FC<IProps> = ({userData}) => {
 
   const greetingTexts = [
     <span>
-      {`${userData.name}님 안녕하세요.`} <br />
+      {`${userData.name}님 안녕하세요.`}
       {`오늘도 밝은 하루 보내세요`}
     </span>,
     `${userData.name}님 오늘도 힘찬 하루 되세요.`,

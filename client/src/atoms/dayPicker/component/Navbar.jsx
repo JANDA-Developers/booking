@@ -20,6 +20,7 @@ const Navbar = ({
   return (
     <div className={className}>
       <Button
+        className={"DayPicker__navbtns--left"}
         label={JDMonthTextChanger(prev)}
         icon="arrowLeft"
         mode="flat"
@@ -28,6 +29,7 @@ const Navbar = ({
         onClick={() => onPreviousClick()}
       />
       <Button
+        className="DayPicker__navbtns--right"
         label={JDMonthTextChanger(next)}
         icon="arrowRight"
         mode="flat"

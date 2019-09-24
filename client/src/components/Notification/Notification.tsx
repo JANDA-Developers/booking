@@ -1,24 +1,18 @@
 import React, {Fragment, ReactNode} from "react";
 
 import {MutationFn} from "react-apollo";
-import {IHouse} from "../../types/interface";
 import TooltipList from "../../atoms/tooltipList/TooltipList";
 import "./Notification.scss";
 import {
   getNotifications_GetNotifications_notifications,
-  confirmBooking,
-  confirmBookingVariables,
-  NotificationType,
   confirmNotification,
   confirmNotificationVariables
 } from "../../types/api";
 import NotificationLi from "./component/notificationLi";
-import JDIcon from "../../atoms/icons/Icons";
 import {IContext} from "../../pages/MiddleServerRouter";
 import Dot from "../../atoms/dot/dot";
 import {NotificationLevel, WindowSize} from "../../types/enum";
 import reactWindowSize, {WindowSizeProps} from "react-window-size";
-import {Tooltip} from "chart.js";
 import {ReactTooltip} from "../../atoms/tooltip/Tooltip";
 import Preloader from "../../atoms/preloader/Preloader";
 import JDmodal from "../../atoms/modal/Modal";
@@ -43,9 +37,6 @@ export const Notification: React.FC<IProps & WindowSizeProps> = ({
   icon,
   windowWidth
 }) => {
-  let countNew = 0;
-  let countWarn = 0;
-
   const isPhabletDown = windowWidth < WindowSize.PHABLET;
   const notiModalHook = useModal(false);
 
@@ -60,21 +51,10 @@ export const Notification: React.FC<IProps & WindowSizeProps> = ({
     });
   };
 
-  notifications.forEach(noti => {
-    if (!noti.isConfirm) {
-      countNew++;
-      if (noti.notiLevel === NotificationLevel.WARN) countWarn++;
-    }
-  });
-
   ReactTooltip.rebuild();
 
   return (
     <div className="notification">
-      <span className="notification__dotsWrap">
-        {countNew !== 0 && <Dot color="new" />}
-        {countWarn !== 0 && <Dot color="error" />}
-      </span>
       <div
         data-tip
         data-delay-hide={0}

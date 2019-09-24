@@ -98,10 +98,12 @@ const Steps: React.FC<IProps> = ({
       return (
         <Fragment>
           <div className="staterModal__makeRoom JDsectionDistroy">
-            <RoomConfigWrap
-              refetchQueries={[getOperationName(GET_USER_INFO)!]}
-              context={context}
-            />
+            <div className="modal__section">
+              <RoomConfigWrap
+                refetchQueries={[getOperationName(GET_USER_INFO)!]}
+                context={context}
+              />
+            </div>
             <div className="staterModal__makeRoom_finish_Btn JDmodal__endSection">
               <Button
                 thema="primary"

@@ -24,6 +24,7 @@ import {
 } from "./inputValidations";
 import insideRedirect from "./insideRedirect";
 import isDiff from "./isDiff";
+import searchHoliday from "./searchHoliday";
 import isTestProduct from "./isTestProduct";
 import {textAlignClass, colorClass} from "./autoClasses";
 import searchListFormat from "./searchListFormater";
@@ -43,6 +44,7 @@ import targetBlink from "./targetBlink";
 import mergeObject from "./mergeObject";
 import jsonString from "./jsonString";
 import getGenderIcon from "./getGenderIcon";
+import isLast from "./isLast";
 import getRoomCountFromHouse from "./getRoomCountFromHouse";
 
 const JDutils = {
@@ -77,6 +79,7 @@ const JDutils = {
   smsMsgParser,
   autoComma,
   dayarrEnToBooleanArr,
+  isLast,
   isYYYYMMDD,
   getGenderIcon,
   numberStr,
@@ -121,6 +124,7 @@ export {
   setMidNight,
   JDscrollTo,
   templateOpMaker,
+  searchHoliday,
   applyDaysToArr,
   randomIntFromInterval,
   arrToApplyDays,

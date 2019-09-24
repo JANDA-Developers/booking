@@ -32,7 +32,9 @@ const DaySales: React.FC<Iprops> = ({
           label="달력날자"
           {...dayPickerHook}
           className="JDwaves-effect JDoverflow-visible"
-          inputComponent={<ArrowDayByDay dayPickerHook={dayPickerHook} />}
+          inputComponent={(prop: any) => (
+            <ArrowDayByDay {...prop} dayPickerHook={dayPickerHook} />
+          )}
         />
       )}
       {autoComma(price)}원

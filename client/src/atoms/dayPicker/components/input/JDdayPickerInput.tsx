@@ -21,7 +21,7 @@ interface IProps {
   inputClassName?: string;
   displayYear?: boolean;
   dayPickerProps: DayPickerProps;
-  inputComponent?: JSX.Element[] | JSX.Element;
+  inputComponent?: any;
 }
 
 // 👿 이 파일은 전체적으로 타입스크립트 작업이 필요하다.
@@ -100,17 +100,17 @@ const JDdayPickerInput: React.FC<IProps> = ({
     <Fragment>
       {/* 😶 REF는 잘 작동하지만 브라우저상 오류를 낸다 이유는... ref가
       그냥 맨껍데기에 적용되서 그렇다는데 아무래도 해결방법은 깃허브에 문의해봐야겠다. */}
-      {InputComponent ? (
-        InputComponent
-      ) : (
-        <DayPickerInput
-          ref={ref => {
-            DayPickerInputRef = ref;
-          }}
-          placeholder={placeholder}
-          dayPickerProps={{...dayPickerProps}}
-          format={format}
-          component={(inProps: any) => (
+      <DayPickerInput
+        ref={ref => {
+          DayPickerInputRef = ref;
+        }}
+        placeholder={placeholder}
+        dayPickerProps={{...dayPickerProps}}
+        format={format}
+        component={(prop: any) =>
+          InputComponent ? (
+            InputComponent(prop)
+          ) : (
             <InputText
               wrapClassName={"DayPicker__inputWrap"}
               className={`DayPicker__input ${inputClassName}`}
@@ -118,13 +118,13 @@ const JDdayPickerInput: React.FC<IProps> = ({
               label={label}
               icon={label && showInputIcon ? "calendar" : undefined}
               {...props}
-              {...inProps}
+              {...prop}
             />
-          )}
-          hideOnDayClick={!isRange}
-          value={valueFormatter(from, to, format, "kr")}
-        />
-      )}
+          )
+        }
+        hideOnDayClick={!isRange}
+        value={valueFormatter(from, to, format, "kr")}
+      />
     </Fragment>
   );
 };

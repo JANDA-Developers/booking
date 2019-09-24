@@ -16,7 +16,7 @@ import {WindowSize} from "../../types/enum";
 import {IContext} from "../../pages/MiddleServerRouter";
 import MobileHeaderComponent from "./components/mobileHeaderComponent";
 import PcHeaderComponent from "./components/pcHeaderComponent";
-import SharedHeaderComponent from "./components/sharedComponent";
+import SharedHeaderComponent from "./components/SharedHeaderComponent";
 import JDIcon from "../../atoms/icons/Icons";
 
 type ITempProps = IDiv & {
@@ -44,10 +44,6 @@ const Header: React.FC<IProps> = ({
   });
 
   const phoneVerificationModalHook = useModal(false);
-
-  useEffect(() => {
-    console.log("hm9");
-  }, []);
 
   // 🍰 메인리턴
   return (

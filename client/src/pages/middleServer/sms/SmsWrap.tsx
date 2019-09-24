@@ -54,9 +54,7 @@ interface IProps {
 const SmsWrap: React.FC<IProps> = ({context}) => {
   const {house} = context;
 
-  useEffect(() => {
-    console.log("hm4");
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <GetSmsInfo

@@ -1,9 +1,4 @@
-import React, {useState, Fragment} from "react";
-import JDbox from "../../atoms/box/JDbox";
-import JDmodal from "../../atoms/modal/Modal";
-import InputText from "../../atoms/forms/inputText/InputText";
-import {useModal} from "../../actions/hook";
-import Button from "../../atoms/button/Button";
+import React, {useEffect} from "react";
 import {
   createMemo,
   createMemoVariables,
@@ -14,12 +9,21 @@ import {
   getMemos_GetMemos_memos
 } from "../../types/api";
 import {MutationFn} from "react-apollo";
-import {MemoType, Standard_PreloaderFloatingSize} from "../../types/enum";
-import MemoBox from "./component/memoBox";
-import {s4} from "../../utils/utils";
+import {MemoType} from "../../types/enum";
+import MemoBox from "./component/MemoBox";
+import {isEmpty} from "../../utils/utils";
 import {DEFAULT_MEMO} from "../../types/defaults";
 import "./Memo.scss";
 import Preloader from "../../atoms/preloader/Preloader";
+import isLast from "../../utils/isLast";
+import JDToolTip, {ReactTooltip} from "../../atoms/tooltip/Tooltip";
+import {useModal} from "../../actions/hook";
+import MemoAlertModal from "./component/MemoAlertModal";
+import {IContext} from "../../pages/MiddleServerRouter";
+
+export interface IConfigMemo {
+  showOnlyAlert?: boolean;
+}
 
 interface Iprops {
   createMemoMu: MutationFn<createMemo, createMemoVariables>;
@@ -29,16 +33,19 @@ interface Iprops {
   memos: getMemos_GetMemos_memos[];
   houseId: string;
   memoType: MemoType;
+  context: IContext;
 }
 
-const Memo: React.FC<Iprops> = ({
+const Memo: React.FC<Iprops & IConfigMemo> = ({
   memos,
+  context,
   createMemoMu,
   deleteMemoMu,
   updateMemoMu,
   mutationLoading,
   houseId,
-  memoType
+  memoType,
+  showOnlyAlert
 }) => {
   const handleCreate = (memo: getMemos_GetMemos_memos) => {
     if (!memo.text) return;
@@ -49,7 +56,7 @@ const Memo: React.FC<Iprops> = ({
           memoType,
           text: memo.text,
           title: memo.title,
-          important: memo.important
+          enableAlert: memo.enableAlert
         }
       }
     });
@@ -72,7 +79,7 @@ const Memo: React.FC<Iprops> = ({
           memoType,
           text: memo.text,
           title: memo.title,
-          important: !memo.important
+          enableAlert: !memo.enableAlert
         }
       }
     });
@@ -85,11 +92,15 @@ const Memo: React.FC<Iprops> = ({
         updateMemoParams: {
           memoType,
           text: memo.text,
-          important: !memo.important
+          enableAlert: !memo.enableAlert
         }
       }
     });
   };
+
+  useEffect(() => {
+    ReactTooltip.rebuild();
+  });
 
   const sharedMemoBoxProps = {
     handleImportToogle,
@@ -98,22 +109,34 @@ const Memo: React.FC<Iprops> = ({
     handleUpdate
   };
 
+  const filteredMemos = (() => {
+    if (showOnlyAlert) return memos.filter(memo => memo.enableAlert);
+    return memos;
+  })();
+
   return (
     <div className="memo">
       <div>
         <MemoBox {...sharedMemoBoxProps} memo={DEFAULT_MEMO} add={true} />
       </div>
+      <JDToolTip type="dark" effect="solid" id="siginificantExplicateTooltip">
+        해당 메모는 다음 접속시 알람을 줍니다.
+      </JDToolTip>
       <Preloader floating size={"tiny"} loading={mutationLoading} />
-      {memos.map((memo, index) => (
-        <MemoBox
-          className={
-            index + 1 === memos.length ? "JDmargin-bottom0" : undefined
-          }
-          {...sharedMemoBoxProps}
-          key={memo._id + memo.important ? "--impor" : ""}
-          memo={memo}
-        />
-      ))}
+      {!isEmpty(filteredMemos) ? (
+        filteredMemos.map((memo, index) => (
+          <MemoBox
+            className={isLast(index, memos) ? "JDmargin-bottom0" : undefined}
+            {...sharedMemoBoxProps}
+            key={memo._id + memo.enableAlert ? "--impor" : ""}
+            memo={memo}
+          />
+        ))
+      ) : (
+        <span className="JDtextColor--placeHolder">
+          현재 작성된 메모가 없습니다.
+        </span>
+      )}
     </div>
   );
 };

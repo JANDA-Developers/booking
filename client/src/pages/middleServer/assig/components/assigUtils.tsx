@@ -25,16 +25,16 @@ import {
   IAssigTimelineHooks,
   IAssigItem,
   TToogleCheckIn,
-  TOpenCanvasMenu,
+  TOpenCanvasMenuTooltip,
   TOpenBlockMenu,
   TOpenMakeMenu,
   TMakeMark,
   TDeleteBookingById,
   TGetBookingIdByGuestId,
-  TResizeBlock,
+  TResizeBlockBlock,
   TAllocateItem,
   TAllocateGuest,
-  TPopUpItemMenu,
+  TPopUpItemMenuTooltip,
   IGetGuestByBookingId,
   THilightGuestBlock,
   TChangeMakeBlock,
@@ -60,7 +60,8 @@ import {DEFAULT_ASSIG_ITEM} from "../../../../types/defaults";
 import $ from "jquery";
 import {createBlock_CreateBlock_block} from "../../../../types/api";
 import JDisNetworkRequestInFlight from "../../../../utils/netWorkStatusToast";
-import {assigSharedDleteGuestConfirmMessage} from "./item/shared";
+import {assigSharedDleteGuestConfirmMessage} from "./items/shared";
+import {blockDataManufacture} from "../AssigTimelineWrap";
 
 export function getAssigUtils(
   {
@@ -68,7 +69,7 @@ export function getAssigUtils(
     guestValue,
     confirmDelteGuestHook,
     setBlockMenuProps,
-    setCanvasMenuProps,
+    setCanvasMenuTooltipProps,
     setMakeMenuProps
   }: IAssigTimelineHooks,
   {
@@ -88,24 +89,20 @@ export function getAssigUtils(
   console.time("--");
   // 마크제거 MARK REMOVE 마커 제거
   const removeMark: TRemoveMark = () => {
-    console.log("removeMark");
+    console.info("removeMark");
     setGuestValue([
       ...guestValue.filter(item => item.type !== GuestTypeAdd.MARK)
     ]);
   };
 
   const deleteGhost: TDleteGhost = () => {
-    console.log("deleteGhost");
+    console.info("deleteGhost");
     setGuestValue([
       ...guestValue.filter(item => item.type !== GuestTypeAdd.GHOST)
     ]);
   };
 
   const getItemById: TGetItemById = guestId => {
-    console.log("guestId 🎷");
-    console.log(guestId);
-    console.log("guestValue");
-    console.log(guestValue);
     const targetGuest = guestValue.find(guest => guest.id === guestId);
     if (!targetGuest)
       throw new Error("해당하는 게스트를 찾을수 없습니다. <<getItemById>>");
@@ -139,11 +136,10 @@ export function getAssigUtils(
   const bookingCheckedNew: TBookingCheckedNew = bookingId => {
     const targets = getGuestsByBookingId(bookingId);
     targets.forEach(target => (target.showNewBadge = false));
-    console.log("bookingCheckedNew");
     setGuestValue([...guestValue]);
   };
 
-  const popUpItemMenu: TPopUpItemMenu = async (
+  const popUpItemMenuTooltip: TPopUpItemMenuTooltip = async (
     location: {clientX: number; clientY: number},
     target: IAssigItem
   ) => {
@@ -263,7 +259,6 @@ export function getAssigUtils(
           return guest;
         });
 
-        console.log("?ce");
         setGuestValue([...updateGuests]);
       } else {
         // 뮤테이션 실패시
@@ -334,6 +329,7 @@ export function getAssigUtils(
 
   // 유틸 그자리에 마크를 생성
   const makeMark: TMakeMark = (time: number, groupId: string) => {
+    console.info("makeMark");
     const filteredGuestValue = guestValue.filter(
       guest => guest.type !== GuestTypeAdd.MARK
     );
@@ -347,7 +343,6 @@ export function getAssigUtils(
       group: groupId
     });
 
-    console.log("makeMark");
     setGuestValue([...filteredGuestValue]);
   };
 
@@ -469,12 +464,14 @@ export function getAssigUtils(
     setGuestValue([...guestValue]);
   };
 
-  const resizeBlock: TResizeBlock = async (
+  const resizeBlockBlock: TResizeBlockBlock = async (
     targetGuest: IAssigItem,
     time: number
   ) => {
     const guestValueOriginCopy = $.extend(true, [], guestValue);
-    await resizeLinkedItems(targetGuest.bookingId, time);
+
+    targetGuest.end = time;
+    setGuestValue([...guestValue]);
 
     const result = await createBlockMu({
       variables: {
@@ -487,9 +484,15 @@ export function getAssigUtils(
     });
 
     // 에러처리
-    if (result && result.data && !result.data.CreateBlock.ok) {
-      setGuestValue([...guestValueOriginCopy]);
+    const newBlock: any = muResult<createBlock_CreateBlock_block>(
+      result,
+      "CreateBlock",
+      "block"
+    );
+    if (typeof newBlock !== "boolean") {
+      // setGuestValue([...guestValueOriginCopy,]);
     } else {
+      setGuestValue([...guestValueOriginCopy]);
     }
   };
 
@@ -547,8 +550,10 @@ export function getAssigUtils(
     const tempId = s4();
     const tempItem = {
       ...DEFAULT_ASSIG_ITEM,
+      bookingId: s4(),
       roomId: targetGroup.roomId,
       bedIndex: targetGroup.bedIndex,
+      itemIndex: guestValueOriginCopy.length,
       type: GuestTypeAdd.GHOST,
       id: tempId,
       start: time,
@@ -658,9 +663,12 @@ export function getAssigUtils(
   };
 
   // canvas 용 메뉴오픈
-  const openCanvasMenu: TOpenCanvasMenu = (location, canvasMenuProps) => {
+  const openCanvasMenuTooltip: TOpenCanvasMenuTooltip = (
+    location,
+    canvasMenuProps
+  ) => {
     if (canvasMenuProps) {
-      setCanvasMenuProps(canvasMenuProps);
+      setCanvasMenuTooltipProps(canvasMenuProps);
     }
     $("#canvasMenu")
       .css("left", location.clientX + 5)
@@ -714,7 +722,7 @@ export function getAssigUtils(
     addBlock,
     allocateGuest,
     allocateItem,
-    resizeBlock,
+    resizeBlockBlock,
     genderToggleById,
     resizeValidater,
     bookingCheckedNew,
@@ -722,12 +730,12 @@ export function getAssigUtils(
     moveLinkedItems,
     toogleCheckInOut,
     openBlockMenu,
-    openCanvasMenu,
+    openCanvasMenuTooltip,
     makeMark,
     getAssigInfoFromItems,
     deleteBookingById,
     getGuestsInGroup,
-    popUpItemMenu,
+    popUpItemMenuTooltip,
     getBookingIdByGuestId,
     hilightGuestBlock,
     deleteGhost

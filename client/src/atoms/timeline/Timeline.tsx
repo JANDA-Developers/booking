@@ -112,18 +112,28 @@ export const SharedSideBarHeader: React.FC<IProps> = ({
       isRange={false}
       input
       canSelectBeforeDay={false}
+      calenaderPosition="center"
       label="달력날자"
       {...dayPickerHook}
       className="JDwaves-effect JDoverflow-visible"
-      inputComponent={
-        <span>
+      inputComponent={(prop: any) => (
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center"
+          }}
+          {...prop}
+        >
           <JDIcon
             className="dailyPrice__topLeftIcon"
             size={IconSize.MEDEIUM_SMALL}
             icon="calendar"
           />
-        </span>
-      }
+        </div>
+      )}
     />
   </div>
 );

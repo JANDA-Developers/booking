@@ -10,7 +10,8 @@ interface Iprops {
 
 const ArrowDayByDay: React.FC<Iprops> = ({
   dayPickerHook,
-  format = "MM월 DD일"
+  format = "MM월 DD일",
+  ...props
 }) => {
   const handleDayPickerArrow = (direction: "prev" | "next") => {
     const directionNum = direction === "prev" ? -1 : 1;
@@ -32,7 +33,9 @@ const ArrowDayByDay: React.FC<Iprops> = ({
         }}
         icon="arrowLeft"
       />
-      <span>{moment(dayPickerHook.from || new Date()).format(format)}</span>
+      <span {...props}>
+        {moment(dayPickerHook.from || new Date()).format(format)}
+      </span>
       <JDIcon
         hover
         className="DayPicker-box--inputComponent__arrow DayPicker-box--inputComponent__arrow--right"

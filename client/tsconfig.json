@@ -18,10 +18,10 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "isolatedModules": true,
+    "isolatedModules": true
   },
   "include": [
     "src/**/*.ts",
-    "src/**/*.tsx", "src/pages/documents/show/ShowComponents.tsx", "src/pages/outPages/infoReservation/InfoReservation.jsx", "src/atoms/timeline/Timeline.jsx", "src/components/sendSmsModal", "src/pages/pages.jsx", "src/.queries.ts"
+    "src/**/*.tsx", "src/pages/documents/show/ShowComponents.tsx", "src/pages/outPages/infoReservation/InfoReservation.jsx", "src/atoms/timeline/Timeline.jsx", "src/components/sendSmsModal", "src/pages/pages.jsx", "src/.queries.ts", "src/atoms/toggleNoti"
   ]
 }

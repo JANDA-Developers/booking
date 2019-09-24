@@ -1,4 +1,4 @@
-import React, { Fragment, useMemo} from "react";
+import React, {Fragment, useMemo} from "react";
 import {ErrProtecter} from "../../../utils/utils";
 import Card from "../../../atoms/cards/Card";
 import DashBoardHeader from "./components/dashboardHeader";
@@ -6,16 +6,15 @@ import DailyAssigWrap from "../../../components/dailyAssjg/DailyAssigWrap";
 import "./DashBoard.scss";
 import {MutationFn} from "react-apollo";
 import {updateHouse, updateHouseVariables} from "../../../types/api";
-import { useModal, useDayPicker} from "../../../actions/hook";
+import {useModal, useDayPicker} from "../../../actions/hook";
 import Button from "../../../atoms/button/Button";
 import {IContext} from "../../MiddleServerRouter";
 import DaySalesWrap from "../../../components/shortStatisces/DaySalesWrap";
 import DayCheckInWrap from "../../../components/shortStatisces/DayCheckInWrap";
 import ReservationModal from "../../../components/reservationModala/ReservationModal";
 import JDIcon from "../../../atoms/icons/Icons";
-import {isMobile as getIsMobile} from "is-mobile";
 import TooltipList from "../../../atoms/tooltipList/TooltipList";
-import DayPickerModal from "../../../components/dayPickerModal/dayPickerModal";
+import DayPickerModal from "../../../components/dayPickerModal/DayPickerModal";
 
 interface Iprops {
   context: IContext;

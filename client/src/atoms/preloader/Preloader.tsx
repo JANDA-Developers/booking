@@ -6,7 +6,8 @@ import "./Preloader.scss";
 import JDanimation, {Animation} from "../animation/Animations";
 export type PreloaderSize = "large" | "tiny" | "medium" | "small";
 
-interface IProps extends React.HTMLAttributes<HTMLOrSVGElement> {
+export interface IPreloaderConfigProps
+  extends React.HTMLAttributes<HTMLOrSVGElement> {
   page?: boolean;
   size?: PreloaderSize;
   loading?: boolean;
@@ -17,7 +18,7 @@ interface IProps extends React.HTMLAttributes<HTMLOrSVGElement> {
   wrapClassName?: string;
 }
 
-const JDpreloader: React.FC<IProps> = ({
+const JDpreloader: React.FC<IPreloaderConfigProps> = ({
   page,
   size = "tiny",
   position,

@@ -23,6 +23,14 @@
   cursor: pointer;
   border:none;
 
+
+  &__contents {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+  }
+
   &.JDwaves-effect {
     overflow:hidden;
   }
@@ -72,6 +80,7 @@
   
     &--left {
       float: left;
+      order: -1;
       margin-left: 0;
       margin-right: $buttons-icon-margin;
     }

@@ -151,7 +151,6 @@ const InputText: React.FC<IProps> = ({
   // 벨리데이션과 언컨트롤일때 defaultValue를 설정하는 역할을함
   useEffect(() => {
     let domInput;
-    onChangeValid && onChangeValid(validation(formatedValue));
     if (refContainer) domInput = refContainer.current;
     else domInput = inRefContainer.current;
     if (typeof defaultValue === "undefined") return;

@@ -16,15 +16,25 @@
     }
 }
 
-
-#root,.ReactModalPortal {
+@include accent() {
     
-.DayPicker--unDisplayInfo {
-    .DayPicker--horizen {
-        margin-bottom: 0;
+    .JDdatePcikerInformation {
+        margin-top: $standard-margin-bottom;
     }
-}
+    
 .DayPicker {
+
+    color: $html-color;
+
+    &__navbtns {
+        &--left {
+            margin-left: $daypicker-insdie-padding;
+        }
+        &--right {
+            margin-right: $daypicker-insdie-padding!important;
+        }
+    }
+
     &--unDisplayInfo {
         .JDdatePcikerInformation {
             display: none;
@@ -128,7 +138,7 @@
     // 달력위 오른쪽 왼쪽 버튼들
     // 👿 클래스명 달아줘라
     .JDbtn {
-        padding-top: $daypicker-insdie-padding;
+        margin-top: $daypicker-insdie-padding;
         margin-bottom: 0;
         border:none;
     }
@@ -154,8 +164,8 @@
             .DayPicker-Caption {
                 height: $daypicker-caption-height;
                 line-height: $daypicker-caption-height;
-                text-align: center;
                 margin-bottom: $daypicker-caption-margin-bottom;
+                text-align: center;
                 font-weight: bold;
 
                 &__year {
@@ -202,7 +212,7 @@
                         }
 
                         &--start.DayPicker-Day--end {
-                            border-radius: 8px/12px;
+                            border-radius: 8px/12px!important;
                             background-color: $primary-color;
                         }
 
