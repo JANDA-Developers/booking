@@ -7,7 +7,7 @@ import {
   changeIndexForRoomType,
   changeIndexForRoomTypeVariables
 } from "../../../types/api";
-import {useToggle} from "../../../actions/hook";
+import {useToggle} from "../../../hooks/hook";
 import roomTimelineDefaultProps from "./timelineConfig";
 import {GET_ALL_ROOMTYPES, CHANGE_INDEX_FOR_ROOMTYPE} from "../../../queries";
 import {

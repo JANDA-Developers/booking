@@ -3,7 +3,7 @@ import TooltipList, {
   ReactTooltip
 } from "../../../../../atoms/tooltipList/TooltipList";
 import Button from "../../../../../atoms/button/Button";
-import {IUseModal} from "../../../../../actions/hook";
+import {IUseModal} from "../../../../../hooks/hook";
 import {
   TToogleCheckIn,
   IAssigItem,

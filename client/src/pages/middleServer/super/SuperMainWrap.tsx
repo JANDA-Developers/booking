@@ -4,7 +4,7 @@ import {getHousesForSU, getHousesForSUVariables} from "../../../types/api";
 import SuperMain from "./SuperMain";
 import {GET_HOUSES_FOR_SU} from "../../../queries";
 import {queryDataFormater, showError} from "../../../utils/utils";
-import {useModal} from "../../../actions/hook";
+import {useModal} from "../../../hooks/hook";
 import Modal from "../../../atoms/modal/Modal";
 import {IContext} from "../../MiddleServerRouter";
 

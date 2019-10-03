@@ -1,8 +1,9 @@
 
 # 새로운 개발
 [] 메모 모아서 옮기기
-[] 메모 중요도 기능 추가
-[] houseConfig에 useRooMType 추가하기
+[] 서버에 getHouseConfig 추가 <- 예약자용
+[] 설정들이 작동 하도록 기초 코딩
+
 
 # 코드정리
 [] scss 변수 정리

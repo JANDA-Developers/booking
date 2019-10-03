@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import React, {Fragment} from "react";
 import classNames from "classnames";
-import "./icons.scss";
+import "./Icons.scss";
 import {string} from "prop-types";
 import {s4, colorClass} from "../../utils/utils";
 import Tooltip from "../tooltip/Tooltip";

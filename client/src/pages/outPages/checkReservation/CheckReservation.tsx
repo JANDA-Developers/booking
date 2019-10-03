@@ -1,9 +1,8 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import ErrProtecter from "../../../utils/errProtect";
 import "./CheckReservation.scss";
 import {useQuery} from "@apollo/react-hooks";
 import {
-  BookerInput,
   getBookingForPublic,
   getBookingForPublicVariables
 } from "../../../types/api";
@@ -15,9 +14,9 @@ import CheckView from "./CheckView";
 import JDmodal from "../../../atoms/modal/Modal";
 import JDanimation, {Animation} from "../../../atoms/animation/Animations";
 import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
-import {useModal} from "../../../actions/hook";
+import {useModal} from "../../../hooks/hook";
 export interface ISetBookingInfo
-  extends React.Dispatch<React.SetStateAction<BookerInput>> {}
+  extends React.Dispatch<React.SetStateAction<any>> {}
 
 export interface ICheckParams {
   publickey: string;
@@ -35,7 +34,7 @@ const SetPrice: React.SFC<IProps> = ({
   sessionStorage.setItem("hpk", publickey);
   const comeplteModalHook = useModal(false);
   const isFirstSender = useState(true);
-  const {loading, data, variables, refetch} = useQuery<
+  const {data, refetch} = useQuery<
     getBookingForPublic,
     getBookingForPublicVariables
   >(GET_BOOKING_FOR_PUBLIC, {

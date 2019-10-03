@@ -2,7 +2,22 @@ import classNames from "classnames";
 import "react-table/react-table.css";
 import "./Table.scss";
 import React from "react";
-import ReactTable, {TableProps, ReactTableDefaults} from "react-table";
+import ReactTable, {
+  TableProps,
+  ReactTableDefaults,
+  RowInfo,
+  RowRenderProps
+} from "react-table";
+
+interface JDrowInfo<T> extends RowRenderProps {
+  original: T;
+}
+
+export interface JDcolumn<T> {
+  [key: string]: any;
+  Cell: (props: JDrowInfo<T>) => string | JSX.Element | JSX.Element[] | void;
+}
+[];
 
 interface IProps<D = any> extends TableProps<D> {
   align?: "center";

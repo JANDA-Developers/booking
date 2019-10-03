@@ -1,22 +1,17 @@
 /* eslint-disable no-underscore-dangle */
 import React, {useEffect, Fragment, useState} from "react";
-import PropTypes from "prop-types";
 import Product from "./components/Product";
 import Button from "../../../atoms/button/Button";
 import Preloader from "../../../atoms/preloader/Preloader";
 import Modal from "../../../atoms/modal/Modal";
-import JDcheckbox from "../../../atoms/forms/checkBox/CheckBox";
 import Slider from "../../../atoms/slider/Slider";
 import {isEmpty} from "../../../utils/utils";
 import Tooltip, {ReactTooltip} from "../../../atoms/tooltip/Tooltip";
 import {RefundPolicyNode} from "../../../docs/refundPolicy";
-import {IHouse, IProduct, IProductTypeDesc} from "../../../types/interface";
-import {IUseModal, useModal, useCheckBox} from "../../../actions/hook";
+import {IHouse, IProductTypeDesc} from "../../../types/interface";
+import {useModal} from "../../../hooks/hook";
 import "./SelectProduct.scss";
-import {IAdditionHook} from "./SelectProductWrap";
-import {LayoutType, ProductTypeKey} from "../../../types/enum";
 import {
-  getAllProductTypes_GetAllProductTypes_productTypes,
   refundProduct,
   refundProductVariables,
   buyProduct,
@@ -24,10 +19,10 @@ import {
   getMyProfile_GetMyProfile_user_houses_product
 } from "../../../types/api";
 import {MutationFn} from "react-apollo";
-import {toast} from "react-toastify";
 import ApplyProductModal, {
   applyProductModalInfo
 } from "./components/applyProductModal";
+import JDlist from "../../../atoms/list/List";
 
 interface IProps {
   productTypes: IProductTypeDesc[];
@@ -53,7 +48,6 @@ const SelectProducts: React.FC<IProps> = ({
     ? currentProduct.productType._id
     : "";
   const applyModal = useModal<applyProductModalInfo>(false);
-  const exModal = useModal(false);
   const refundModal = useModal(false);
 
   const [selectedProductTypeId, setSelectedProductTypeId] = useState(
@@ -115,11 +109,21 @@ const SelectProducts: React.FC<IProps> = ({
                 현재 생성된 숙소가 없습니다.
               </span>
             ) : (
-              <Fragment>
-                {"* 선택하신 서비스는 숙소 "}
-                <span className="JDtextColor--point">{selectedHouse.name}</span>
-                {" 에 적용됩니다."}
-              </Fragment>
+              <JDlist
+                contents={[
+                  <span>
+                    * 선택하신 서비스는 숙소
+                    <span className="JDtextColor--point">
+                      {selectedHouse.name}
+                    </span>
+                    에 적용됩니다.
+                  </span>,
+                  <span className="JDtextColor--error">
+                    규모에 맞지 않는 숙소를 선택하실 경우에 서비스가 중지 될수
+                    있습니다.
+                  </span>
+                ]}
+              />
             )}
           </p>
           {/* 서비스해지 버튼 */}

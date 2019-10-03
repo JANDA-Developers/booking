@@ -5,7 +5,7 @@ import {
   useSwitch,
   useSelect,
   useInput
-} from "../../../../actions/hook";
+} from "../../../../hooks/hook";
 import SmsTemplate from "./smsTemplate";
 import Button from "../../../../atoms/button/Button";
 import {smsMsgParser, smsMessageFormatter} from "../../../../utils/utils";

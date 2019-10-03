@@ -10,6 +10,7 @@ $flex-grid--column-margin: .8%;
 
 #JDreservation {
     padding: $standard-width;
+    box-sizing: border-box;
     padding-bottom: $standard-margin-bottom;
     
     // 😆 어떻게 그리드 시스템을 오버라이드 하는지 보여줌
@@ -33,7 +34,6 @@ $flex-grid--column-margin: .8%;
     }
 
     .JDreservation {
-
         &__card {
             @include response($tablet)  {
                 padding:0;
@@ -51,7 +51,7 @@ $flex-grid--column-margin: .8%;
         }
 
         &__cardMessage {
-            height: $standard-height * 4 * 9;
+            height: $standard-height * 4 * 11;
             display:flex;
             justify-content: center;
             align-items: center;
@@ -63,6 +63,7 @@ $flex-grid--column-margin: .8%;
             position: sticky;
             top: 0;
             border-radius:$standard-border-radius;
+            height: calc(100% - #{$card-padding * 2});
 
             @include response ($tabletUp, $null) {
                 height: auto;
@@ -121,3 +122,12 @@ html .ReactModalPortal {
     }
 }
 
+
+.inIframe {
+    .JDreservation__card-grid {
+        padding-bottom:0.5rem;
+    }
+    .JDreservation__roomSelect-grid {
+        padding-bottom:0.5rem;
+    }
+}

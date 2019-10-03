@@ -10,7 +10,6 @@ import {
   TGetCrushTimeByTwoGuest,
   TIsGenderSafe,
   TDeleteGuestById,
-  TOneGuestValidation,
   IAssigItemCrush,
   TAddBlock,
   TGenderToggleById,
@@ -58,10 +57,17 @@ import {RoomGender, TimePerMs, Gender} from "../../../../types/enum";
 import moment from "moment";
 import {DEFAULT_ASSIG_ITEM} from "../../../../types/defaults";
 import $ from "jquery";
-import {createBlock_CreateBlock_block} from "../../../../types/api";
+import {
+  createBlock_CreateBlock_block,
+  getBooking,
+  getBooking_GetBooking_booking_guests_GuestRoom_roomType,
+  getBooking_GetBooking_booking_guests,
+  PricingType
+} from "../../../../types/api";
 import JDisNetworkRequestInFlight from "../../../../utils/netWorkStatusToast";
 import {assigSharedDleteGuestConfirmMessage} from "./items/shared";
 import {blockDataManufacture} from "../AssigTimelineWrap";
+import {IGuest} from "../../../../types/interface";
 
 export function getAssigUtils(
   {
@@ -402,67 +408,6 @@ export function getAssigUtils(
 
   // 게스트가 그 시간대에 그 그룹에 괺찮은지 검사함
   // 검사한 결과를 Validation에 기입.
-  const oneGuestValidation: TOneGuestValidation = (
-    guest,
-    start,
-    end,
-    groupId
-  ) => {
-    const tempGuest: IAssigItem = {
-      ...guest,
-      start,
-      end,
-      group: groupId
-    };
-    let validater: IAssigItemCrush[] = [];
-
-    const isTherePersonResult = isTherePerson(start, end, groupId, tempGuest);
-    // 자리충돌 발생
-    if (isTherePersonResult) {
-      const temp: any = isTherePersonResult.filter(inCrushTime => inCrushTime);
-      const crushTimes: ICrushTime[] = temp;
-
-      const validate = crushTimes.map(inCrushTime => ({
-        itemIndex: inCrushTime.itemIndex,
-        reason: "자리충돌",
-        start: inCrushTime.start,
-        end: inCrushTime.end
-      }));
-
-      validater = [...validater, ...validate];
-    }
-
-    const targetGroup = getGroupById(groupId);
-    const isGenderSafeResult = isGenderSafe(targetGroup, tempGuest, start, end);
-
-    // 성별충돌 발생
-    if (isGenderSafeResult !== true) {
-      if (isGenderSafeResult === false) {
-        const validate = {
-          itemIndex: guest.itemIndex,
-          reason: "성별문제",
-          start,
-          end
-        };
-        validater.push(validate);
-      } else {
-        const temp: any = isGenderSafeResult.filter(inCrushTime => inCrushTime);
-        const crushTimes: ICrushTime[] = temp;
-        const validate = crushTimes.map(inCrushTime => ({
-          itemIndex: guest.itemIndex,
-          reason: "자리충돌",
-          start: inCrushTime.start,
-          end: inCrushTime.end
-        }));
-        validater = [...validater, ...validate];
-      }
-    }
-
-    if (guestValue[guest.itemIndex]) {
-      guestValue[guest.itemIndex].validate = validater;
-    }
-    setGuestValue([...guestValue]);
-  };
 
   const resizeBlockBlock: TResizeBlockBlock = async (
     targetGuest: IAssigItem,
@@ -609,11 +554,6 @@ export function getAssigUtils(
     const linkedGuests = guestValue.filter(
       guest => guest.bookingId === item.bookingId
     );
-
-    linkedGuests.forEach(guest => {
-      if (guest.bookingId === item.bookingId)
-        oneGuestValidation(guest, guest.start, time, guest.group);
-    });
   };
 
   // 같은 예약자가 예약한 게스트들을 한번에 변경
@@ -717,7 +657,6 @@ export function getAssigUtils(
     deleteItemById,
     openMakeMenu,
     isGenderSafe,
-    oneGuestValidation,
     getGuestsByBookingId,
     addBlock,
     allocateGuest,

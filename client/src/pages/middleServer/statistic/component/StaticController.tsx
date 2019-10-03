@@ -5,7 +5,7 @@ import {
   STATISTICS_OP,
   STATISTICS_TYPE_OP
 } from "../../../../types/enum";
-import {IQueryOp} from "../../../outPages/houseManual/HouseManualWrap";
+import {IQueryOp} from "../../../outPages/HM/HMwrap";
 import JDselect from "../../../../atoms/forms/selectBox/SelectBox";
 import JDdayPicker from "../../../../atoms/dayPicker/DayPicker";
 import {IStaticsWrapProps, IGraphViewMode, IStaticsProps} from "../Statistic";

@@ -29,9 +29,9 @@ const AdditionConfigPitch: React.FC<Iprops> = ({context}) => {
           <Button
             size="small"
             onClick={() => {
-              sessionStorage.setItem("isHouseManualConfigBtnClick", "Y");
+              sessionStorage.setItem("isHMconfigBtnClick", "Y");
             }}
-            redirect={insideRedirect("houseManualConfig")}
+            redirect={insideRedirect("HMconfig")}
             mode="border"
             label="설정하러가기"
           />

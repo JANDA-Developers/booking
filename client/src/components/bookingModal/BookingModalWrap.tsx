@@ -2,7 +2,7 @@ import React, {useMemo} from "react";
 import {Query, Mutation} from "react-apollo";
 import BookingModal from "./BookingModal";
 import _ from "lodash";
-import {IUseModal} from "../../actions/hook";
+import {IUseModal} from "../../hooks/hook";
 import {
   getBooking,
   getBookingVariables,
@@ -11,23 +11,24 @@ import {
   updateBookingVariables,
   deleteBooking,
   deleteBookingVariables,
-  createBooking,
-  createBookingVariables,
   allocateGuestToRoom,
   allocateGuestToRoomVariables,
   RoomGender,
   getRoomTypeDatePrices,
   getRoomTypeDatePricesVariables,
-  createBooking_CreateBooking,
+  startBooking_StartBooking,
   updateBooking_UpdateBooking,
-  deleteBooking_DeleteBooking
+  deleteBooking_DeleteBooking,
+  startBooking,
+  startBookingVariables
 } from "../../types/api";
 import {
   queryDataFormater,
   showError,
   onCompletedMessage,
   s4,
-  isEmpty
+  isEmpty,
+  mergeObject
 } from "../../utils/utils";
 import {GB_booking} from "../../types/interface";
 import Preloader from "../../atoms/preloader/Preloader";
@@ -38,8 +39,8 @@ import {
   GET_BOOKINGS,
   ALLOCATE_GUEST_TO_ROOM,
   GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM,
-  CREATE_BOOKING,
-  GET_ROOM_TYPE_DATE_PRICE
+  GET_ROOM_TYPE_DATE_PRICE,
+  START_BOOKING
 } from "../../queries";
 import {BookingStatus, BookingModalType} from "../../types/enum";
 import {getOperationName} from "apollo-utilities";
@@ -53,16 +54,16 @@ import {totalPriceGetAveragePrice} from "../../utils/booking";
 import {IContext} from "../../pages/MiddleServerRouter";
 
 export interface IBookingModalProp {
-  createBookingCallBack?: (
-    result: "error" | createBooking_CreateBooking
-  ) => any;
+  startBookingCallBack?: (result: "error" | startBooking_StartBooking) => any;
   updateBookingCallBack?: (
     result: "error" | updateBooking_UpdateBooking
   ) => any;
   deleteBookingCallBack?: (
     result: "error" | deleteBooking_DeleteBooking
   ) => any;
-  [key: string]: any;
+  bookingId?: string;
+  createParam?: GB_booking;
+  mode?: BookingModalType;
 }
 
 interface IProps {
@@ -76,9 +77,8 @@ class AllocateGuestToRoomMu extends Mutation<
   allocateGuestToRoomVariables
 > {}
 class UpdateBookingMu extends Mutation<updateBooking, updateBookingVariables> {}
-class CreatBookingMu extends Mutation<createBooking, createBookingVariables> {}
+class CreatBookingMu extends Mutation<startBooking, startBookingVariables> {}
 class DeleteBookingMu extends Mutation<deleteBooking, deleteBookingVariables> {}
-
 class GetBookingQuery extends Query<getBooking, getBookingVariables> {}
 class GetPriceWithDate extends Query<
   getRoomTypeDatePrices,
@@ -96,9 +96,11 @@ const BookingModalWrap: React.FC<IProps> = ({
     () => (
       <GetBookingQuery
         query={GET_BOOKING}
-        skip={isEmpty(modalHook.info) || modalHook.info.createMode}
+        skip={
+          isEmpty(modalHook.info) || modalHook.info.createParam !== undefined
+        }
         variables={{
-          bookingId: modalHook.info.bookingId
+          bookingId: modalHook.info.bookingId || ""
         }}
       >
         {({data: bookingData, loading: getBooking_loading, error}) => {
@@ -110,76 +112,29 @@ const BookingModalWrap: React.FC<IProps> = ({
             undefined
           );
 
-          // ⭐️ 생성일경우
-          // 생성일경우 만들어질 임시 booking
-          const createInfoToBookingInfo = (
-            createModaInfoes: ICreateBookingInfo
-          ): GB_booking | undefined => {
-            if (
-              !createModaInfoes.type ||
-              createModaInfoes.type !== BookingModalType.CREATE_WITH_ASSIG
-            )
-              return undefined;
+          // Query로 요청한 Booking 또는 생성요청 Booking
+          const mergedBooking = mergeObject(
+            booking,
+            modalHook.info.createParam
+          );
 
-            return {
-              ...DEFAULT_BOOKING,
-              agreePrivacyPolicy: true,
-              bookingStatus: BookingStatus.COMPLETE,
-              checkIn: createModaInfoes.checkIn,
-              checkOut: createModaInfoes.checkOut,
-              roomTypes: _.uniqBy(
-                createModaInfoes.resvInfoes.map(resvInfo => ({
-                  ...DEFAULT_ROOMTYPE,
-                  _id: resvInfo.roomTypeId,
-                  name: resvInfo.roomTypeName,
-                  pricingType: resvInfo.group.pricingType
-                })),
-                "_id"
-              ),
-              guests: createModaInfoes.resvInfoes.map(resv => ({
-                __typename: "Guest",
-                _id: "",
-                gender: resv.gender,
-                roomType: {
-                  __typename: "RoomType",
-                  _id: resv.roomTypeId
-                }
-              }))
-            };
-          };
-
-          const makeInfo = createInfoToBookingInfo(modalHook.info as any);
-
-          //  makeInfo와 Booking 중에 맞는 값을 찾아서 query Variable 에 맞는 형태로 반환
           const priceQueryVariables:
             | getRoomTypeDatePricesVariables
-            | undefined = (() => {
-            const findExistObj = () =>
-              isEmpty(makeInfo) ? makeInfo : booking || undefined;
-
-            const variableMaker = (
-              bookingObj?: getBooking_GetBooking_booking
-            ) => {
-              if (!bookingObj) return undefined;
-
-              return {
-                end: bookingObj.checkIn,
-                start: bookingObj.checkOut,
+            | undefined = mergedBooking
+            ? {
+                start: mergedBooking.checkIn,
+                end: mergedBooking.checkOut,
                 houseId: house._id,
-                romTypeIds: bookingObj.guests
-                  ? bookingObj.guests.map(guest => guest.roomType!._id)
-                  : []
-              };
-            };
-
-            return variableMaker(findExistObj());
-          })();
+                roomTypeIds: mergedBooking.roomTypes
+                  ? mergedBooking.roomTypes.map(roomType => roomType._id)
+                  : [""]
+              }
+            : undefined;
 
           return (
             <GetPriceWithDate
-              skip={getBooking_loading || isEmpty(priceQueryVariables)}
+              skip={!priceQueryVariables}
               query={GET_ROOM_TYPE_DATE_PRICE}
-              notifyOnNetworkStatusChange
               variables={priceQueryVariables}
             >
               {({data: priceResult, loading: getPrice_loading, error}) => {
@@ -221,18 +176,18 @@ const BookingModalWrap: React.FC<IProps> = ({
                       >
                         {updateBookingMu => (
                           <CreatBookingMu
-                            mutation={CREATE_BOOKING}
-                            onCompleted={({CreateBooking}) => {
-                              if (modalHook.info.createBookingCallBack)
-                                modalHook.info.createBookingCallBack(
-                                  CreateBooking
+                            mutation={START_BOOKING}
+                            onCompleted={({StartBooking}) => {
+                              if (modalHook.info.startBookingCallBack)
+                                modalHook.info.startBookingCallBack(
+                                  StartBooking
                                 );
                               onCompletedMessage(
-                                CreateBooking,
+                                StartBooking,
                                 "예약 생성 완료",
                                 "예약 생성 실패"
                               );
-                              if (CreateBooking.ok) {
+                              if (StartBooking.ok) {
                                 modalHook.closeModal();
                               }
                             }}
@@ -243,8 +198,8 @@ const BookingModalWrap: React.FC<IProps> = ({
                             ]}
                           >
                             {(
-                              createBookingMu,
-                              {loading: createBookingLoading}
+                              startBookingMu,
+                              {loading: startBookingLoading}
                             ) => (
                               <DeleteBookingMu
                                 mutation={DELETE_BOOKING}
@@ -264,25 +219,24 @@ const BookingModalWrap: React.FC<IProps> = ({
                                 }}
                               >
                                 {deleteBookingMu => {
-                                  const bookingData =
-                                    booking || makeInfo || DEFAULT_BOOKING;
+                                  const bookingData = isEmpty(mergedBooking)
+                                    ? DEFAULT_BOOKING
+                                    : mergedBooking;
+
                                   const totalLoading =
                                     getBooking_loading || getPrice_loading;
 
                                   return !totalLoading ? (
                                     <BookingModal
                                       bookingData={bookingData}
-                                      assigInfo={modalHook.info.assigInfo}
-                                      type={modalHook.info.type}
+                                      type={modalHook.info.mode}
                                       context={context}
                                       loading={totalLoading}
                                       modalHook={modalHook}
-                                      createBookingMu={createBookingMu}
+                                      startBookingMu={startBookingMu}
                                       updateBookingMu={updateBookingMu}
                                       deleteBookingMu={deleteBookingMu}
-                                      createBookingLoading={
-                                        createBookingLoading
-                                      }
+                                      startBookingLoading={startBookingLoading}
                                       placeHolederPrice={placeHolederPrice}
                                       allocateGuestToRoomMu={
                                         allocateGuestToRoomMu

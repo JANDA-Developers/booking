@@ -3,7 +3,7 @@ import React from "react";
 import "./ImageUploader.scss";
 import classnames from "classnames";
 import Preloader from "../preloader/Preloader";
-import {IuseImageUploader} from "../../actions/hook";
+import {IuseImageUploader} from "../../hooks/hook";
 
 export interface ImageUploaderIProps extends IuseImageUploader {
   minHeight: string;

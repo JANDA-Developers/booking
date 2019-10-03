@@ -16,7 +16,7 @@ import {
   START_PHONE_VERIFICATION_WITH_PHONE_NUMBER
 } from "../../queries";
 import EerrorProtect from "../../utils/errProtect";
-import {IUseModal} from "../../actions/hook";
+import {IUseModal} from "../../hooks/hook";
 import {RouteComponentProps} from "react-router";
 
 class StartPhoneVerificationMu extends Mutation<

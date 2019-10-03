@@ -3,12 +3,12 @@ import React from "react";
 import ErrProtecter from "../../utils/errProtect";
 import "./ProfileCircle.scss";
 import defaultImg from "../../img/profile/default_profile.jpg";
-import {IuseProfileUploader} from "../../actions/hook";
+import {IuseProfileUploader} from "../../hooks/hook";
 import {IDiv} from "../../types/interface";
 import {IconSize} from "../icons/Icons";
 
 interface Iprops extends IDiv, IuseProfileUploader {
-  profileImg?: string;
+  profileImg?: string | null;
   isBordered?: boolean;
   size?: IconSize;
   whiteBorder?: boolean;

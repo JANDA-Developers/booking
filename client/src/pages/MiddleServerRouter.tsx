@@ -28,7 +28,7 @@ import {
   Statistic,
   RoomConfig,
   ConfigWrap,
-  HouseManualConfig
+  HMconfig
 } from "./pages";
 import {UserRole} from "../types/enum";
 import {IHouse, IHouseConfigFull} from "../types/interface";
@@ -42,7 +42,7 @@ import greet from "../utils/greet";
 import getCurrentHouse from "../utils/getLastSelectHouse";
 import houseConfigSetting from "../utils/houseConfigSetting";
 import alertMemo from "../utils/alertMemo";
-import {useModal} from "../actions/hook";
+import {useModal} from "../hooks/hook";
 import MemoAlertModal from "../components/Memo/component/MemoAlertModal";
 
 export interface IContext extends RouteComponentProps<any> {
@@ -94,6 +94,9 @@ const JDmiddleServer: React.FC<IProps> = ({
 
   useEffect(() => {
     if (currentHouse) {
+      greet(context as any);
+    }
+    if (applyedProduct) {
       greet(context as any);
     }
   });
@@ -229,10 +232,8 @@ const JDmiddleServer: React.FC<IProps> = ({
                     {/* 하우스 메뉴얼 */}
                     <Route
                       exact
-                      path="/houseManualConfig"
-                      render={() => (
-                        <HouseManualConfig context={contextWithRotuer} />
-                      )}
+                      path="/HMconfig"
+                      render={() => <HMconfig context={contextWithRotuer} />}
                     />
                     {/* 자세한 가격설정 */}
                     <Route

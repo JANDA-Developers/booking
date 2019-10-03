@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment";
-import {IUseModal, useModal} from "../../../../actions/hook";
+import {IUseModal, useModal} from "../../../../hooks/hook";
 import Card from "../../../../atoms/cards/Card";
 import ProfileCircle from "../../../../atoms/profileCircle/ProfileCircle";
 import Button from "../../../../atoms/button/Button";
@@ -11,19 +11,19 @@ import JDmodal from "../../../../atoms/modal/Modal";
 import SpecificAtionWrap from "../../../../components/specification/SpecificationWrap";
 import {getHousesForSU_GetHousesForSU_houses} from "../../../../types/api";
 import JDIcon, {IconSize} from "../../../../atoms/icons/Icons";
-import {ICreateNotiModalParam} from "./createNotificationModalWrap";
+import {ICreateNotiModalParam} from "./createNotiModalWrap";
 import CircleIcon from "../../../../atoms/circleIcon/CircleIcon";
 
 interface IProps {
   userModal: IUseModal;
   houseData: getHousesForSU_GetHousesForSU_houses;
-  notificationModalHook: IUseModal<ICreateNotiModalParam>;
+  NotiModalHook: IUseModal<ICreateNotiModalParam>;
 }
 
 const HouseCard: React.SFC<IProps> = ({
   userModal,
   houseData,
-  notificationModalHook
+  NotiModalHook
 }) => {
   const specificationModalHook = useModal(false);
   const getBadgeInfo = () => {
@@ -61,7 +61,10 @@ const HouseCard: React.SFC<IProps> = ({
           </span>
           <JDIcon
             onClick={() => {
-              notificationModalHook.openModal({target: houseData.name});
+              NotiModalHook.openModal({
+                target: houseData.name,
+                targetIds: [houseData._id]
+              });
             }}
             hover
             size={IconSize.MEDEIUM_SMALL}

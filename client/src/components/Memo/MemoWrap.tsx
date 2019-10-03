@@ -17,7 +17,7 @@ import {getOperationName} from "apollo-link";
 import {MemoType} from "../../types/enum";
 import Preloader from "../../atoms/preloader/Preloader";
 import {IContext} from "../../pages/MiddleServerRouter";
-import {IUseModal} from "../../actions/hook";
+import {IUseModal} from "../../hooks/hook";
 
 export interface IMemoWrapProps extends IConfigMemo {
   context: IContext;

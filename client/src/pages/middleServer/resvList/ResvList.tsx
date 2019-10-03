@@ -8,7 +8,7 @@ import JDtable, {ReactTableDefault} from "../../../atoms/table/Table";
 import CheckBox from "../../../atoms/forms/checkBox/CheckBox";
 import Button from "../../../atoms/button/Button";
 import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
-import {useModal} from "../../../actions/hook";
+import {useModal} from "../../../hooks/hook";
 import BookingModalWrap from "../../../components/bookingModal/BookingModalWrap";
 import {IPageInfo, IBooking, IRoomType} from "../../../types/interface";
 import JDbox from "../../../atoms/box/JDbox";

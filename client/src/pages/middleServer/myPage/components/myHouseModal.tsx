@@ -3,7 +3,7 @@ import {toast} from "react-toastify";
 import {MutationFn} from "react-apollo";
 import Modal from "../../../../atoms/modal/Modal";
 import Button from "../../../../atoms/button/Button";
-import {IUseModal} from "../../../../actions/hook";
+import {IUseModal, useDrawer} from "../../../../hooks/hook";
 import {IHouse} from "../../../../types/interface";
 import Preloader from "../../../../atoms/preloader/Preloader";
 import {getHouse_GetHouse_house} from "../../../../types/api";
@@ -12,6 +12,8 @@ import JDIcon, {IIcons, IconSize} from "../../../../atoms/icons/Icons";
 import moment from "moment";
 import {isEmpty} from "../../../../utils/utils";
 import copytoClipboard from "../../../../utils/copyToClipboard";
+import Drawer from "../../../../atoms/drawer/Drawer";
+import SpecificAtionWrap from "../../../../components/specification/SpecificationWrap";
 
 interface IProps {
   modalHook: IUseModal;
@@ -28,6 +30,8 @@ const MyHouseModal: React.SFC<IProps> = ({
   house,
   loading
 }) => {
+  const drawerHook = useDrawer(false);
+
   const onDelete = () => {
     if (house && house.product) {
       toast("상품을 먼저 해지 해주세요.");
@@ -58,28 +62,38 @@ const MyHouseModal: React.SFC<IProps> = ({
         <Fragment>
           {house && (
             <Fragment>
+              <h6>
+                <span className="JDstandard-small-space">숙소정보</span>
+                <Drawer {...drawerHook} />
+              </h6>
+              {drawerHook.open && (
+                <div>
+                  <SpecificAtionWrap houseId={house._id} />
+                </div>
+              )}
               <p>숙소명: {house.name}</p>
               <p>
                 생성일시: {moment(house!.createdAt).format("YYYY-MM-DD HH:mm")}
               </p>
               <p>도미토리: {roomCountDomitory}</p>
               <p>방: {roomCountRoom}</p>
-              <p
-                onClick={e =>
-                  copytoClipboard(
-                    `https://app.stayjanda.com/#/outpage/reservation/${house.publicKey}`
-                  )
-                }
-              >
-                {house.product !== null && house.product.name !== "상품1"
-                  ? "예약페이지 URL 복사 "
-                  : "예약페이지를 불러올수 없습니다. 상품을 구매해주세요"}
-                <JDIcon
-                  size={IconSize.MEDEIUM_SMALL}
-                  icon={"copyFile"}
-                  hover={true}
-                />
-              </p>
+              {house.product !== null && (
+                <p>
+                  <span className="JDstandard-small-space">
+                    예약페이지 URL 복사
+                  </span>
+                  <JDIcon
+                    onClick={e =>
+                      copytoClipboard(
+                        `https://app.stayjanda.com/#/outpage/reservation/${house.publicKey}`
+                      )
+                    }
+                    size={IconSize.MEDEIUM_SMALL}
+                    icon={"copyFile"}
+                    hover={true}
+                  />
+                </p>
+              )}
             </Fragment>
           )}
           <div className="JDmodal__endSection">

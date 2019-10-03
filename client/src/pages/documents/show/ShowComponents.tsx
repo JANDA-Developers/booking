@@ -38,7 +38,7 @@ import {
   useDayPicker,
   useModal,
   useDrawer
-} from "../../../actions/hook";
+} from "../../../hooks/hook";
 import "./ShowComponent.scss";
 import JDcolorPicker from "../../../atoms/colorPicker/ColorPicker";
 import DrragList from "../../../atoms/animation/DrragList";
@@ -46,7 +46,7 @@ import Card from "../../../atoms/cards/Card";
 import JDbox from "../../../atoms/box/JDbox";
 import {CellInfo} from "react-table";
 import {UserRole, TimePerMs} from "../../../types/enum";
-import JDrange from "../../../atoms/forms/range/range";
+import JDrange from "../../../atoms/forms/range/range_";
 import Drawer from "../../../atoms/drawer/Drawer";
 import JDTimer from "../../../atoms/timer/Timer";
 import Timer from "react-compound-timer/build";

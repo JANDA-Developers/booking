@@ -1,6 +1,6 @@
 import React, {Fragment} from "react";
 import {ISeason} from "../../../../types/interface";
-import {useDayPicker, useSelect, useModal} from "../../../../actions/hook";
+import {useDayPicker, useSelect, useModal} from "../../../../hooks/hook";
 import JDIcon from "../../../../atoms/icons/Icons";
 import JDselect, {
   IselectedOption,

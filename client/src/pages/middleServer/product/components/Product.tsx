@@ -7,7 +7,7 @@ import JDbadge from "../../../../atoms/badge/Badge";
 import {getAllProductTypes_GetAllProductTypes_productTypes} from "../../../../types/api";
 import {autoComma} from "../../../../utils/utils";
 import Button from "../../../../atoms/button/Button";
-import {IUseModal} from "../../../../actions/hook";
+import {IUseModal} from "../../../../hooks/hook";
 import {IProductTypeDesc} from "../../../../types/interface";
 import {applyProductModalInfo} from "./applyProductModal";
 import classNames from "classnames";

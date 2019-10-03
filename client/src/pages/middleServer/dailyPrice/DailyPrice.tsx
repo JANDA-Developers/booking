@@ -24,7 +24,7 @@ import {
   IUseDayPicker,
   getKoreaSpecificDayHook,
   useModal
-} from "../../../actions/hook";
+} from "../../../hooks/hook";
 import {
   setMidNight,
   autoComma,

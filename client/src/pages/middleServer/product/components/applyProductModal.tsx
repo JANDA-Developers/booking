@@ -6,7 +6,7 @@ import {
   useSwitch,
   useRadio,
   useInput
-} from "../../../../actions/hook";
+} from "../../../../hooks/hook";
 import Button from "../../../../atoms/button/Button";
 import Radio from "../../../../atoms/forms/radio/Radio";
 import InputText from "../../../../atoms/forms/inputText/InputText";

@@ -8,11 +8,11 @@ import classNames from "classnames";
 import Caption from "./component/Caption";
 import Information from "./component/Information";
 import Navbar from "./component/Navbar";
-import JDdayPickerInput from "./components/input/JDdayPickerInput";
+import JDdayPickerInput from "./component/input/JDdayPickerInput";
 import HorizenDay from "./component/horizen/HorizenDays";
 import HorizenCaption from "./component/horizen/HorizenCaption";
 import "./DayPicker.scss";
-import {IUseDayPicker} from "../../actions/hook";
+import {IUseDayPicker} from "../../hooks/hook";
 import moment from "moment";
 
 export interface IJDdayPickerProps extends IUseDayPicker {

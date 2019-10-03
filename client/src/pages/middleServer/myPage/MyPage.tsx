@@ -12,7 +12,7 @@ import "./MyPage.scss";
 import MyHouseModalWrap from "./components/myHouseModalWrap";
 import {IHouse} from "../../../types/interface";
 import Preloader from "../../../atoms/preloader/Preloader";
-import {IuseImageUploader} from "../../../actions/hook";
+import {IuseImageUploader} from "../../../hooks/hook";
 import {IContext} from "../../MiddleServerRouter";
 import {IconSize} from "../../../atoms/icons/Icons";
 

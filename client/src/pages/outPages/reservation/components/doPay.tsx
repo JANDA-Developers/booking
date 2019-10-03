@@ -1,6 +1,6 @@
 import ip from "ip";
 import crypto from "crypto";
-import {startBookingForPublicVariables} from "../../../../types/api";
+import {startBookingVariables} from "../../../../types/api";
 import moment from "moment";
 import {isMobile} from "is-mobile";
 import $ from "jquery";
@@ -21,7 +21,7 @@ type inputParams = {
 }[];
 
 interface IProp {
-  resvInfo: startBookingForPublicVariables;
+  resvInfo: startBookingVariables;
   transactionId: string;
 }
 

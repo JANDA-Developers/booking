@@ -1,16 +1,9 @@
 import React, {useState, Fragment} from "react";
 import JDbox from "../../../atoms/box/JDbox";
 import {getMemos_GetMemos_memos} from "../../../types/api";
-import InputText from "../../../atoms/forms/inputText/InputText";
-import TooltipList from "../../../atoms/tooltipList/TooltipList";
-import Button from "../../../atoms/button/Button";
 import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
 import moment from "moment-timezone";
 import textReader from "../../../utils/textReader";
-import CheckBox from "../../../atoms/forms/checkBox/CheckBox";
-import JDbadge from "../../../atoms/badge/Badge";
-import Dot from "../../../atoms/dot/dot";
-import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
 import MemoTooltip from "./MemoTooltip";
 import MemoEditBox from "./MemoEditBox";
 moment.tz.setDefault("Asia/Seoul");

@@ -1,11 +1,9 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {Query} from "react-apollo";
 import DaySales, {IViewConfigProp} from "./DaySales";
 import {GET_SALES_STATISTIC} from "../../queries";
-import {useDayPicker} from "../../actions/hook";
-import JDdayPicker from "../../atoms/dayPicker/DayPicker";
-import ArrowDayByDay from "../../atoms/dayPicker/component/inputComponent/arrowDayByDay";
-import {queryDataFormater, isEmpty, autoComma} from "../../utils/utils";
+import {useDayPicker} from "../../hooks/hook";
+import {queryDataFormater, isEmpty} from "../../utils/utils";
 import {IContext} from "../../pages/MiddleServerRouter";
 import {
   getSalesStatisticVariables,
@@ -20,7 +18,7 @@ interface IProps extends IViewConfigProp {
 
 class GetSalesQu extends Query<getSalesStatistic, getSalesStatisticVariables> {}
 
-const DaySalesWrap: React.FC<IProps> = ({context, showDayPicker}) => {
+const DaySalesWrap: React.FC<IProps> = ({context}) => {
   const {house} = context;
 
   const dayPickerHook = useDayPicker(new Date(), new Date());
@@ -28,7 +26,6 @@ const DaySalesWrap: React.FC<IProps> = ({context, showDayPicker}) => {
   return (
     <div>
       <GetSalesQu
-        notifyOnNetworkStatusChange
         variables={{
           houseId: house._id,
           end: dayPickerHook.to,

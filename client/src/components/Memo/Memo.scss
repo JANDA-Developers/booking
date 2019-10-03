@@ -6,4 +6,6 @@
     max-height: 60vh;
     overflow: auto;
     @extend %JDscrollbar; 
+
+    overflow-x: hidden;
 }

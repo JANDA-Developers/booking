@@ -14,7 +14,7 @@ import {
   SendTargetKr,
   KR_SMS_PARSER
 } from "../../../../types/enum";
-import {useSelect, useInput, useSwitch} from "../../../../actions/hook";
+import {useSelect, useInput, useSwitch} from "../../../../hooks/hook";
 import InputText from "../../../../atoms/forms/inputText/InputText";
 import Switch from "../../../../atoms/forms/switch/Switch";
 import Button from "../../../../atoms/button/Button";

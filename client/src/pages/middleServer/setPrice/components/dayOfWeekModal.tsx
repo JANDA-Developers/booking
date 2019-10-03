@@ -1,35 +1,13 @@
-import PropTypes from "prop-types";
 import classNames from "classnames";
-import React, {useState, useEffect} from "react";
-import {Node} from "unist";
-import {IUseModal, useInput, useShouldSave} from "../../../../actions/hook";
+import React, {useState} from "react";
+import {IUseModal} from "../../../../hooks/hook";
 import JDmodal from "../../../../atoms/modal/Modal";
-import CheckBox from "../../../../atoms/forms/checkBox/CheckBox";
-import {
-  JDWeekChanger,
-  ErrProtecter,
-  stringToPrice,
-  dayarrEnToBooleanArr,
-  s4,
-  autoComma,
-  toNumber
-} from "../../../../utils/utils";
+import {autoComma, toNumber} from "../../../../utils/utils";
 import Button from "../../../../atoms/button/Button";
 import InputText from "../../../../atoms/forms/inputText/InputText";
-import {
-  DayOfWeekPriceInput,
-  getAllSeasonTable_GetSeasonPrice_seasonPrices_dayOfWeekPriceList
-} from "../../../../types/api";
-import {
-  arrToApplyDays,
-  applyDaysToArr,
-  dayarrEnToValueArr,
-  DayOfWeekEnum
-} from "../../../../utils/dayOfweeks";
-import JDbox from "../../../../atoms/box/JDbox";
+import {dayarrEnToValueArr} from "../../../../utils/dayOfweeks";
 import {priceMapResult} from "../SetPriceWrap";
 import {WeekArrKr, WeekArrEn} from "../../../../types/enum";
-import {shouldInclude} from "apollo-utilities";
 
 export interface IDayOfWeekModalInfo {
   priceInput: priceMapResult;

@@ -11,7 +11,7 @@ import client from "../../../apolloClient";
 import JDbadge from "../../../atoms/badge/Badge";
 import alertMemo from "../../../utils/alertMemo";
 import MemoAlertModal from "./MemoAlertModal";
-import {useModal} from "../../../actions/hook";
+import {useModal} from "../../../hooks/hook";
 
 interface Iprops extends IconConifgProps {
   context: IContext;

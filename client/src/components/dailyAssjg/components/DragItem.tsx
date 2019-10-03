@@ -76,7 +76,7 @@ const DragItem: React.FC<IProps> = ({item, place, room, roomType}) => {
               className={`dailyAssigItem__itemBlock ${guestBlockClasses}`}
             >
               <span className="dailyAssigItem__itemName">
-                <Gender gender={item.gender} /> {item.name}
+                <Gender item={item} /> {item.booking.name}
               </span>
               <span
                 data-tip={item._id}

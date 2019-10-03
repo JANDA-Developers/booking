@@ -8,7 +8,7 @@ import {
   FLOATING_PRElOADER_SIZE
 } from "../../../types/enum";
 import {IQueryOp} from "./StatisticWrap";
-import {IUseDayPicker, useModal} from "../../../actions/hook";
+import {IUseDayPicker, useModal} from "../../../hooks/hook";
 import Button from "../../../atoms/button/Button";
 import moment from "moment";
 import Preloader from "../../../atoms/preloader/Preloader";

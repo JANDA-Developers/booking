@@ -8,7 +8,7 @@ import {ISetBookingInfo, IBookerInfo} from "../Reservation";
 import TooltipList from "../../../../atoms/tooltipList/TooltipList";
 import JDbox from "../../../../atoms/box/JDbox";
 import AgreePolicyModal from "./AgreePolicyModal";
-import {useModal} from "../../../../actions/hook";
+import {useModal} from "../../../../hooks/hook";
 
 export interface IBookerInfoBoxProps {
   className?: string;

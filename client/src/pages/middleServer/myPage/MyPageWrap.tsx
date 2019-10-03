@@ -1,6 +1,6 @@
 import React from "react";
 import {Mutation} from "react-apollo";
-import {useInput, useModal, useImageUploader} from "../../../actions/hook";
+import {useInput, useModal, useImageUploader} from "../../../hooks/hook";
 import {UPDATE_MYPROFILE, GET_USER_INFO} from "../../../queries";
 import {showError, onCompletedMessage} from "../../../utils/utils";
 import MyPage from "./MyPage";

@@ -3,12 +3,13 @@ import "./DailyAssig.scss";
 import {
   getAllRoomTypeWithGuest_GetBlocks_blocks as IB,
   getAllRoomTypeWithGuest_GetGuests_guests as IG,
-  getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms as IR
+  getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms as IR,
+  getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory
 } from "../../types/api";
-import {useModal, IUseModal, getKoreaSpecificDayHook} from "../../actions/hook";
+import {useModal, IUseModal, getKoreaSpecificDayHook} from "../../hooks/hook";
 import JDdayPicker from "../../atoms/dayPicker/DayPicker";
 import BookingModalWrap from "../bookingModal/BookingModalWrap";
-import ArrowDayByDay from "../../atoms/dayPicker/component/inputComponent/arrowDayByDay";
+import ArrowDayByDay from "../../atoms/dayPicker/component/inputComponent/arrowDayByDay_";
 import Preloader from "../../atoms/preloader/Preloader";
 import {IContext} from "../../pages/MiddleServerRouter";
 import {DragBoxPlace} from "./components/DragBoxPlace";
@@ -17,7 +18,7 @@ import HTML5Backend from "react-dnd-html5-backend";
 import TouchBackend from "react-dnd-touch-backend";
 import GuestTooltip from "./components/GuestTooltip";
 import {IDailyAssigProp} from "./DailyAssigWrap";
-import getDailyAssigUtils from "../../pages/middleServer/assig/components/dailyAssigUtils";
+import getDailyAssigUtils from "../../pages/middleServer/assig/components/dailyAssigUtils_";
 import {JDtoastModal} from "../../atoms/modal/Modal";
 import {ReactTooltip} from "../../atoms/tooltipList/TooltipList";
 import {PricingType, FLOATING_PRElOADER_SIZE} from "../../types/enum";
@@ -27,7 +28,7 @@ import {IDailyAssigDataControl} from "../../pages/middleServer/assig/components/
 import PlaceTooltip from "./components/PlaceTooltip";
 import moment from "moment";
 import BlockTooltip from "./components/BlockTooltip";
-import {isEmpty} from "../../utils/utils";
+import {isEmpty, instanceOfA} from "../../utils/utils";
 
 export interface IDailyAssigContext extends IDailyAssigProp {
   confirmModalHook: IUseModal<any>;
@@ -174,9 +175,7 @@ const DailyAssigNew: React.FC<IProps> = ({
                   {roomType.rooms.map(room => {
                     // 방안에있는 게스트들
                     const itemsInRoom = itemDatas.filter(
-                      guest =>
-                        guest.allocatedRoom &&
-                        guest.allocatedRoom._id === room._id
+                      guest => guest.room && guest.room._id === room._id
                     );
 
                     // 방이 가득찼는지
@@ -185,16 +184,16 @@ const DailyAssigNew: React.FC<IProps> = ({
                         ? itemsInRoom.length === roomType.peopleCountMax
                         : itemsInRoom.length > 1;
 
-                    // 아이템들이 들어갈 자리
+                    // 아이템들이 들어갈 자리를 생성
                     const places = new Array(
                       roomType.pricingType === PricingType.DOMITORY
                         ? roomType.peopleCountMax
                         : 1
                     ).fill([null]);
 
-                    // 아이템들을 배열자리에 채워줌
-                    itemsInRoom.forEach(item => {
-                      let place = places[item.bedIndex];
+                    // 아이템들을 자리에 채워줍니다. (이중배열)
+                    const fillGuestInPlaces = (item: any, bedIndex: number) => {
+                      let place = places[bedIndex];
                       if (!place) return;
                       if (place === [null]) {
                         place = [item];
@@ -202,6 +201,19 @@ const DailyAssigNew: React.FC<IProps> = ({
                         place = [item, ...place].filter(item => item !== null);
                       }
                       places[item.bedIndex] = place;
+                    };
+
+                    // fillGuests분기호출
+                    itemsInRoom.forEach(item => {
+                      if (
+                        instanceOfA<
+                          getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory
+                        >(item, "gender")
+                      ) {
+                        fillGuestInPlaces(item, item.bedIndex);
+                      } else {
+                        fillGuestInPlaces(item, 0);
+                      }
                     });
 
                     return (

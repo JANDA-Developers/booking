@@ -1,22 +1,11 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, {Fragment} from "react";
-import {Mutation, ApolloConsumer} from "react-apollo";
-import {withRouter, RouteComponentProps} from "react-router";
-import CheckReservation from "./CheckReservation";
-import {ErrProtecter, queryDataFormater} from "../../../utils/utils";
-import {FIND_BOOKING_FOR_BOOKER} from "../../../queries";
-import {
-  findBookingVariables,
-  findBooking_FindBooking_bookings,
-  getBookingForPublic_GetBookingForPublic_booking
-} from "../../../types/api";
+import {ErrProtecter} from "../../../utils/utils";
+import {getBookingForPublic_GetBookingForPublic_booking} from "../../../types/api";
 import JDtable from "../../../atoms/table/Table";
 import {ReactTableDefaults, CellInfo} from "react-table";
-import {
-  getRoomTypePerGuests,
-  getCountsFromBooking
-} from "../../../utils/booking";
+import {getCountsFromBooking} from "../../../utils/booking";
 import {IRoomType} from "../../../types/interface";
 import JDbox from "../../../atoms/box/JDbox";
 import {

@@ -28,20 +28,6 @@
     &--bordered {
         border: 2px solid $standard-outborder-color;
     }
-    
-    &--small {
-        width: $profileCircle-small-size;
-        height: $profileCircle-small-size;
-    }
-    &--tiny {
-        width: $profileCircle-tiny-size;
-        height: $profileCircle-tiny-size;
-    }
-    
-    &--large {
-        width: $profileCircle-large-size;
-        height: $profileCircle-large-size;
-    }
 
     &--whiteBorder {
         border-color:white;

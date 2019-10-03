@@ -22,11 +22,9 @@ export const DashBoard = props => (
   </DynamicImport>
 );
 
-export const HouseManualConfig = props => (
+export const HMconfig = props => (
   <DynamicImport
-    load={() =>
-      import("./middleServer/houseManualConfig/HouseManualConfigWrap.tsx")
-    }
+    load={() => import("./middleServer/HMconfig/HMconfigWrap.tsx")}
   >
     {DNcompoent =>
       DNcompoent === null ? (

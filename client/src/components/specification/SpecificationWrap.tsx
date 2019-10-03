@@ -9,7 +9,6 @@ import {
 import {GET_HOUSE_SPECIFICATION, UPDATE_USER_FOR_SU} from "../../queries";
 import {
   queryDataFormater,
-  showError,
   onCompletedMessage
 } from "../../utils/utils";
 import SpecificAtion from "./Specification";

@@ -18,7 +18,7 @@ import {
   GET_FILE_TXT
 } from "../../../queries";
 import {getOperationName} from "apollo-link";
-import {usePagiNation} from "../../../actions/hook";
+import {usePagiNation} from "../../../hooks/hook";
 import DocumentHome from "./DocumentHome";
 
 interface IProps {

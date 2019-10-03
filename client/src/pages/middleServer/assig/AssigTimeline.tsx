@@ -16,7 +16,7 @@ import {
   IUseDayPicker,
   useModal,
   getKoreaSpecificDayHook
-} from "../../../actions/hook";
+} from "../../../hooks/hook";
 import classnames from "classnames";
 import assigGroupRendererFn from "./components/groupRenderFn";
 import {IRoomType} from "../../../types/interface";
@@ -59,7 +59,7 @@ import {getAssigHandlers} from "./components/assigHandlers";
 import moment from "moment";
 import {isEmpty} from "../../../utils/utils";
 import $ from "jquery";
-import BlockOpModal from "./components/blockOpModal";
+import BlockOpModal from "./components/blockOpModal_";
 import DailyAssigWrap from "../../../components/dailyAssjg/DailyAssigWrap";
 import ReservationModal from "../../../components/reservationModala/ReservationModal";
 import {IContext} from "../../MiddleServerRouter";
@@ -425,8 +425,10 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
         houseId={house._id}
         modalHook={reservationModal}
         callBackCreateBookingMu={CreateBooking => {
+          // @ts-ignore
           CreateBooking.booking &&
             assigUtils.hilightGuestBlock({
+              // @ts-ignore
               bookingId: CreateBooking.booking._id
             });
         }}

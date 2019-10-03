@@ -1,7 +1,7 @@
 import React from "react";
-import {IUseDayPicker} from "../../actions/hook";
+import {IUseDayPicker} from "../../hooks/hook";
 import JDdayPicker from "../../atoms/dayPicker/DayPicker";
-import ArrowDayByDay from "../../atoms/dayPicker/component/inputComponent/arrowDayByDay";
+import ArrowDayByDay from "../../atoms/dayPicker/component/inputComponent/arrowDayByDay_";
 import {autoComma} from "../../utils/utils";
 import Preloader from "../../atoms/preloader/Preloader";
 

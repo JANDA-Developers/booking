@@ -25,7 +25,7 @@ export const F_MEMO = gql`
 `;
 
 export const F_NOTI = gql`
-    fragment Fnoti on Notification {
+    fragment FNoti on Noti {
         _id
         msg
         validPeriod
@@ -52,20 +52,22 @@ export const F_HOUSE = gql`
 
 
 export const F_HM = gql`
-    fragment FHM on HouseManual {
+    fragment FHM on HM {
         _id
         langList
         backgroundImg
         profileImg
         phoneNumber
         createdAt
+        email
         updatedAt
+        title
     }
 `
 
 // 하우스메뉴얼 메뉴
 export const F_HMM = gql`
-    fragment FHMM on HMMenu {
+    fragment FHMmenu on HMmenu {
         id
         name
         type
@@ -108,7 +110,7 @@ export const F_HOUSE_CONFIG = gql`
 
 // 상품 관련 프레임
 export const F_PRODUCT_TYPE = gql`
-    fragment FprodcutType on ProductType {
+    fragment FproductType on ProductType {
         _id
         name
         price
@@ -137,7 +139,7 @@ export const F_APP_INFO_REQUEST = gql`
 
 // 상품 관련 프레임
 export const F_PRODUCT = gql`
-    fragment Fprodcut on Product {
+    fragment Fproduct on Product {
         _id
         name
         price
@@ -150,6 +152,9 @@ export const F_PRODUCT = gql`
         layoutPrice
         layoutPricePaid
         appliedUrl
+        expireDate
+        daysLeftToExpire
+        isExpired
         canHaveHostApp
         existingHostApp
         description
@@ -184,6 +189,17 @@ export const F_ALL_SEASON = gql`
         description
         createdAt
         updatedAt
+    }
+`;
+
+// 모든 시즌에 관한 프레임
+export const F_PAYMENT = gql`
+    fragment Fpayment on Payment {
+        type
+        payMethod
+        totalPrice
+        status
+        paymentResultParam
     }
 `;
 
@@ -270,16 +286,17 @@ export const F_BOOKING = gql`
         agreePrivacyPolicy
         checkIn
         checkOut
-        price
-        payMethod
-        paymentStatus
-        bookingStatus
+        payment {
+            ...Fpayment
+        }
+        status
         createdAt
         updatedAt
         isNew
         isConfirm
     }
     ${F_ROOMTYPE}
+    ${F_PAYMENT}
 `;
 
 //  방에대한 정보 프레임
@@ -301,25 +318,68 @@ export const F_BLOCK_OP = gql`
     fragment FblockOp on BlockOption {
         color
     }
-    `
-// 게스트에 관한 정보 프레임(방정보 포함)
-export const F_GUEST = gql`
-    fragment Fguest on Guest {
+`
+
+export const F_BOOKING_TRANSACTION = gql`
+    fragment FbookingTransaction on BookingTransaction {
         _id
-        allocatedRoom {
-            ...Froom
-        }
-        name
-        checkIn
-        checkOut
-        pricingType
-        bedIndex
-        gender
-        guestType
+        transactionId
         createdAt
         updatedAt
     }
-    ${F_ROOM}
+`
+export const F_BOOKING_TRANSACTION_PROGRESS = gql`
+    fragment FbookingTransactionProgress on BookingTransactionProgress {
+        startBooking {
+            status
+            updatedAt
+        }
+        payment {
+            status
+            updatedAt   
+        }
+        completeBooking {
+            status
+            updatedAt
+        }
+    }
+`
+
+// 게스트에 관한 정보 프레임(방정보 포함)
+export const F_BLOCK = gql`
+    fragment Fblock on Block {
+        _id
+        bedIndex
+        checkIn
+        checkOut
+        createdAt
+        updatedAt
+    }
+`;
+
+// 게스트에 관한 정보 프레임(방정보 포함)
+export const F_GUEST = gql`
+    fragment Fguest on GuestGQLInterface {
+        _id
+        pricingType
+        checkIn
+        checkOut
+    }
+`;
+export const F_GUEST_DOMITORY = gql`
+    fragment FguestDomitory on GuestDomitory {
+        _id
+        gender
+        bedIndex
+        ...Fguest
+    }
+    ${F_GUEST}
+`;
+export const F_GUEST_ROOM = gql`
+    fragment FguestRoom on GuestRoom {
+        ...Fguest
+    }
+    ${F_GUEST}
 `;
 
 // 에약가능 인원 관련 프레임
@@ -410,7 +470,7 @@ export const GET_HOUSE_SPECIFICATION = gql`
                     url
                 }
                 product {
-                    ...Fprodcut
+                    ...Fproduct
                     appInfoRequested {
                         ...FappInfoRequest
                     }
@@ -499,7 +559,7 @@ export const GET_PRODUCTS_TYPES = gql`
             ok
             error
             productTypes {
-                ...FprodcutType
+                ...FproductType
             }
         }
     }
@@ -528,7 +588,7 @@ export const GET_USER_INFO = gql`
                         url
                     }
                     product {
-                        ...Fprodcut
+                        ...Fproduct
                         productType {
                             _id
                         }
@@ -541,9 +601,7 @@ export const GET_USER_INFO = gql`
                     name
                     completeDefaultSetting
                     houseType
-                    houseManualConfig {
-                        publicKey
-                    }
+                    publicKey
                     location {
                         address
                         addressDetail
@@ -651,41 +709,6 @@ export const GET_HOUSE = gql`
     ${F_ROOMTYPE}
     ${F_ROOM}
 `;
-
-// 게스트 :: 모든 게스트 가져오기
-export const GET_GUESTS = gql`
-    query getGuests(
-        $start: DateTime!
-        $end: DateTime!
-        $houseId: ID!
-        $bookingStatuses: [BookingStatus]
-    ) {
-        GetGuests(
-            start: $start
-            end: $end
-            houseId: $houseId
-            bookingStatuses: $bookingStatuses
-        ) {
-            ok
-            error
-            guests {
-                roomType {
-                    _id
-                }
-                booking {
-                    _id
-                    bookingStatus
-                    checkInInfo {
-                        isIn
-                    }
-                }
-                ...Fguest
-            }
-        }
-    }
-    ${F_GUEST}
-`;
-
 
 // 방타입 :: 모든 방타입 가격 가져오기
 export const PRICE_TIMELINE_GET_PRICE = gql`
@@ -843,7 +866,7 @@ export const FIND_BOOKING = gql`
 
 // 예약 ::예약정보로 예약찾기 (게스트용)
 export const FIND_BOOKING_FOR_BOOKER = gql`
-    query findBookingByPublic(
+    query findBookingForBooker(
         $name: Name!
         $phoneNumber: PhoneNumber!
         $password: String!
@@ -857,6 +880,9 @@ export const FIND_BOOKING_FOR_BOOKER = gql`
             error
             bookings {
                 ...Fbooking
+                payment {
+                    ...Fpayment
+                }
                 guests {
                     ...Fguest
                     roomType {
@@ -869,6 +895,7 @@ export const FIND_BOOKING_FOR_BOOKER = gql`
             }
         }
     }
+    ${F_PAYMENT}
     ${F_GUEST}
     ${F_BOOKING}
 `;
@@ -920,25 +947,9 @@ export const GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM = gql`
             ok
             error
             roomTypes {
-                _id
-                name
-                index
-                description
-                pricingType
-                peopleCount
-                peopleCountMax
-                roomGender
-                roomCount
-                createdAt
-                updatedAt
-                defaultPrice
-                img
+                ...FroomType
                 rooms {
-                    _id
-                    name
-                    index
-                    createdAt
-                    updatedAt
+                    ...Froom
                 }
             }
         }
@@ -951,24 +962,34 @@ export const GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM = gql`
             ok
             error
             guests {
-                ...Fguest
-                blockOption {
-                    ...FblockOp
+                ...on GuestDomitory {
+                    ...FguestDomitory
+                    room {
+                        ...Froom
+                    }
+                    roomType {
+                        _id
+                    }
+                    booking {
+                        ...Fbooking
+                    }
+                    blockOption {
+                        ...FblockOp
+                    }
                 }
-                roomType {
-                    _id
-                    index
-                }
-                allocatedRoom {
-                    ...Froom
-                }
-                booking {
-                    bookingStatus
-                    _id
-                    isNew
-                    isConfirm
-                    checkInInfo {
-                        isIn
+                ...on GuestRoom {
+                    ...FguestRoom
+                    roomType {
+                        _id
+                    }
+                    room {
+                        ...Froom
+                    }
+                    booking {
+                        ...Fbooking
+                    }
+                    blockOption {
+                        ...FblockOp
                     }
                 }
             }
@@ -978,21 +999,21 @@ export const GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM = gql`
             ok
             error
             blocks {
-                _id
-                bedIndex
-                guestType
-                createdAt
-                checkIn
-                checkOut
-                updatedAt
-                allocatedRoom {
+                ...Fblock
+                room {
                     ...Froom
                 }
             }
         }
     }
+    ${F_ROOMTYPE}
+    ${F_BLOCK}
     ${F_GUEST}
+    ${F_GUEST_DOMITORY}
+    ${F_GUEST_ROOM}
+    ${F_ROOM}
     ${F_BLOCK_OP}
+    ${F_BOOKING}
 `;
 
 // 방타입 :: 모든 방타입 가격 가져오기
@@ -1049,7 +1070,7 @@ export const GET_USER_FOR_SU = gql`
                         url
                     }
                     product {
-                        ...Fprodcut
+                        ...Fproduct
                         productType {
                             _id
                         }
@@ -1156,20 +1177,37 @@ export const GET_BOOKINGS = gql`
             bookings {
                 ...Fbooking
                 guests {
-                    ...Fguest
-                    roomType {
-                        _id
-                        name
-                        index
-                        description                    }
+                    ... on GuestDomitory {
+                        ...FguestDomitory
+                        roomType {
+                            _id
+                            name
+                        }
+                    }
+                    ... on GuestRoom {
+                        ...FguestRoom
+                        roomType {
+                            _id
+                        }
+                    }
                 }
+                roomTypes {
+                    _id
+                    name
+                    pricingType
+                }
+                createdAt
+                updatedAt
             }
             pageInfo {
                 ...FpageInfo
             }
         }
     }
+    ${F_PAYMENT}
     ${F_GUEST}
+    ${F_GUEST_DOMITORY}
+    ${F_GUEST_ROOM}
     ${F_BOOKING}
     ${F_PAGE_INFO}
 `;
@@ -1183,13 +1221,20 @@ export const GET_BOOKING = gql`
             booking {
                 ...Fbooking
                 guests {
-                    _id
-                    gender
-                    roomType {
-                        _id
+                    ... on GuestDomitory {
+                        ...FguestDomitory
+                        roomType {
+                            _id
+                            name
+                        }
+                    }
+                    ... on GuestRoom {
+                        ...FguestRoom
+                        roomType {
+                            _id
+                        }
                     }
                 }
-                price
                 roomTypes {
                     _id
                     name
@@ -1200,6 +1245,9 @@ export const GET_BOOKING = gql`
             }
         }
     }
+    ${F_GUEST_ROOM}
+    ${F_GUEST_DOMITORY}
+    ${F_GUEST}
     ${F_BOOKING}
 `;
 
@@ -1223,7 +1271,7 @@ export const GET_SALES_STATISTIC = gql`
                     date
                     dayOfWeek
                 }
-                price   
+                price
             }
         }
 }`;
@@ -1320,15 +1368,17 @@ export const DELETE_GUEST = gql`
 `;
 
 // 예약 ::예약생성 (게스트용)
-export const START_BOOKING_FOR_FOR_PUBLIC = gql`
-    mutation startBookingForPublic(
+export const START_BOOKING = gql`
+    mutation startBooking(
+        $houseId: ID!
         $bookerParams: StartBookingBookerInput!
         $checkInOut: CheckInOutInput!
         $guestDomitoryParams: [StartBookingDomitoryGuestInput!]
         $guestRoomParams: [StartBookingRoomGuestInput!]
         $paymentParams: StartBookingPaymentInput!
     ) {
-        StartBookingForPublic(
+        StartBooking(
+            houseId: $houseId
             bookerParams: $bookerParams
             checkInOut: $checkInOut
             guestDomitoryParams: $guestDomitoryParams
@@ -1338,35 +1388,36 @@ export const START_BOOKING_FOR_FOR_PUBLIC = gql`
             ok
             error
             bookingTransaction {
-              transactionId
+              ...FbookingTransaction
             }
         }
     }
+    ${F_BOOKING_TRANSACTION}
 `;
 
-// 예약 :: 예약생성 (호스트용)
-export const CREATE_BOOKING = gql`
-    mutation createBooking(
-        $bookingParams: CreateBookingParams!
-        $sendSmsFlag: Boolean!
-    ) {
-        CreateBooking(
-            bookingParams: $bookingParams
-            sendSmsFlag: $sendSmsFlag
-        ) {
-            ok
-            error
-            booking {
-                ...Fbooking
-                guests {
-                    ...Fguest
-                }
-            }
-        }
-    }
-    ${F_BOOKING}
-    ${F_GUEST}
-`;
+// // 예약 :: 예약생성 (호스트용)
+// export const START_BOOKING = gql`
+//     mutation startBooking(
+//         $bookingParams: CreateBookingParams!
+//         $sendSmsFlag: Boolean!
+//     ) {
+//         CreateBooking(
+//             bookingParams: $bookingParams
+//             sendSmsFlag: $sendSmsFlag
+//         ) {
+//             ok
+//             error
+//             booking {
+//                 ...Fbooking
+//                 guests {
+//                     ...Fguest
+//                 }
+//             }
+//         }
+//     }
+//     ${F_BOOKING}
+//     ${F_GUEST}
+// `;
 
 // 방배정 :: 게스트를 방에다 배정
 export const ALLOCATE_GUEST_TO_ROOM = gql`
@@ -1456,13 +1507,11 @@ export const CREATE_BLOCK = gql`
             ok
             error
             block {
-                _id
-                checkIn
-                checkOut
-                guestType
+                ...Fblock
             }
         }
     }
+    ${F_BLOCK}
 `;
 // 디테일 가격설정 :: 방가격 생성
 export const CREATE_DAILY_PRICE = gql`
@@ -1948,23 +1997,22 @@ export const UPDATE_SENDER = gql`
     ${F_SMS_SENDER}
 `;
 
+// 게스트용
 export const GET_HOUSE_MENUAL = gql`
-    query getHManual($houseId: ID!, $lang: Language!) {
-            GetHManual(houseId:$houseId, lang: $lang) {
+    query getHM($houseId: ID!) {
+            GetHM(houseId:$houseId) {
                 ok
                 error
-                houseManual {
+                HM {
                     ...FHM
                     menus {
-                        ...FHMM
+                        ...FHMmenu
                     }
-                    house {
-                        location {
-                            address
-                            addressDetail
-                            lat
-                            lng
-                        }
+                    location {
+                        address
+                        addressDetail
+                        lat
+                        lng
                     }
                 }
             }
@@ -1972,24 +2020,46 @@ export const GET_HOUSE_MENUAL = gql`
     ${F_HMM}
     ${F_HM}
 `
+
+// // 호스트용
+// export const GET_HOUSE_MENUAL_CONFIG = gql`
+//     query getHM($houseId: ID!) {
+//             GetHM(houseId:$houseId) {
+//                 ok
+//                 error
+//                 HM {
+//                     ...FHM
+//                     menus {
+//                         ...FHMmenu
+//                     }
+//                     location {
+//                         address
+//                         addressDetail
+//                         lat
+//                         lng
+//                     }
+//                 }
+//             }
+//         } 
+//     ${F_HMM}
+//     ${F_HM}
+// `
 
 export const GET_HOUSE_MENUAL_FOR_PUBLIC = gql`
-    query getHManualForPublic( $lang: Language! $publicKey: String!) {
-            GetHManualForPublic(lang: $lang publicKey:$publicKey) {
+    query getHMforPublic($publicKey: String!) {
+            GetHMforPublic(publicKey:$publicKey) {
                 ok
                 error
-                houseManual {
+                HM {
                     ...FHM
                     menus {
-                        ...FHMM
+                        ...FHMmenu
                     }
-                    house {
-                        location {
-                            address
-                            addressDetail
-                            lat
-                            lng
-                        }
+                    location {
+                        address
+                        addressDetail
+                        lat
+                        lng
                     }
                 }
             }
@@ -1998,9 +2068,9 @@ export const GET_HOUSE_MENUAL_FOR_PUBLIC = gql`
     ${F_HM}
 `
 
-export const UPDATE_HMANUAL = gql`
-    mutation updateHManual($houseId: ID!, $lang: Language!, $updateParams: UpdateHManualParams!) {
-        UpdateHManual(houseId: $houseId, lang: $lang, updateParams: $updateParams) {
+export const UPDATE_HM = gql`
+    mutation updateHM($houseId: ID!, $updateParams: UpdateHMparams!) {
+        UpdateHM(houseId: $houseId, updateParams: $updateParams) {
             ok
             error
         }
@@ -2048,12 +2118,12 @@ export const DELETE_MEMO = gql`
 `
 // MEMO 가져오기
 export const GET_NOTI = gql`
-    query getNotifications($houseId: ID!, $count: Int!) {
-        GetNotifications(houseId: $houseId count: $count) {
+    query getNotis($houseId: ID!, $count: Int!) {
+        GetNotis(houseId: $houseId count: $count) {
             ok
             error
-            notifications {
-                ...Fnoti
+            notis {
+                ...FNoti
             }
         }
     }
@@ -2061,8 +2131,8 @@ ${F_NOTI}
 `
 
 export const CONFIRM_NOTI = gql`
-    mutation confirmNotification($houseId: ID!, $notiIds: [ID!]!) {
-        ConfirmNotification(houseId: $houseId, notiIds:$notiIds) {
+    mutation confirmNoti($houseId: ID!, $notiIds: [ID!]!) {
+        ConfirmNoti(houseId: $houseId, notiIds:$notiIds) {
             ok
             error
         }
@@ -2070,8 +2140,8 @@ export const CONFIRM_NOTI = gql`
 `
 
 export const CREATE_NOTI = gql`
-    mutation createNotification($houseId: ID!, $createNotificationParams: CreateNotificationParams!) {
-        CreateNotification(houseId: $houseId, createNotificationParams: $createNotificationParams) {
+    mutation createNoti($houseIds: [ID]!, $createNotiParams: CreateNotiParams!) {
+        CreateNoti(houseIds: $houseIds, createNotiParams: $createNotiParams) {
             ok
             error
         }

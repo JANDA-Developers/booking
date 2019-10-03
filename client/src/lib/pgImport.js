@@ -1177,7 +1177,7 @@ import 'jquery';
                 g = 1 === f ? a : n.Deferred(),
                 h = function (a, b, c) {
                     return function (d) {
-                        b[a] = this, c[a] = arguments.length > 1 ? e.call(arguments) : d, c === i ? g.notifyWith(b, c) : --f || g.resolveWith(b, c)
+                        b[a] = this, c[a] = arguments.length > 1 ? e.call(arguments) : d, c === i ? g.NotifyWith(b, c) : --f || g.resolveWith(b, c)
                     }
                 },
                 i, j, k;
@@ -2378,7 +2378,7 @@ import 'jquery';
             i = function () {
                 if (e) return !1;
                 for (var b = hb || lb(), c = Math.max(0, j.startTime + j.duration - b), d = c / j.duration || 0, f = 1 - d, g = 0, i = j.tweens.length; i > g; g++) j.tweens[g].run(f);
-                return h.notifyWith(a, [j, f, c]), 1 > f && i ? c : (h.resolveWith(a, [j]), !1)
+                return h.NotifyWith(a, [j, f, c]), 1 > f && i ? c : (h.resolveWith(a, [j]), !1)
             },
             j = h.promise({
                 elem: a,
@@ -2401,7 +2401,7 @@ import 'jquery';
                         d = b ? j.tweens.length : 0;
                     if (e) return this;
                     for (e = !0; d > c; c++) j.tweens[c].run(1);
-                    return b ? (h.notifyWith(a, [j, 1, 0]), h.resolveWith(a, [j, b])) : h.rejectWith(a, [j, b]), this
+                    return b ? (h.NotifyWith(a, [j, 1, 0]), h.resolveWith(a, [j, b])) : h.rejectWith(a, [j, b]), this
                 }
             }),
             k = j.props;

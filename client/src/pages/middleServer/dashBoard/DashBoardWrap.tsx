@@ -13,7 +13,7 @@ import {IUser, IHouse} from "../../../types/interface";
 import {UPDATE_HOUSE} from "../../../queries";
 import {IContext} from "../../MiddleServerRouter";
 import StarterModalWrap from "../starterModal/StarterModalWrap";
-import {IUseModal} from "../../../actions/hook";
+import {IUseModal} from "../../../hooks/hook";
 import {arraySum} from "../../../utils/elses";
 
 class UpdateHouse extends Mutation<updateHouse, updateHouseVariables> {}

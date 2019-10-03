@@ -7,11 +7,11 @@ import {
   IUseModal,
   useDayPicker,
   useModal
-} from "../../actions/hook";
+} from "../../hooks/hook";
 import SelectBox from "../../atoms/forms/selectBox/SelectBox";
 import InputText from "../../atoms/forms/inputText/InputText";
 import Button from "../../atoms/button/Button";
-import RoomSelectInfoTable from "./components/roomSelectInfoTable";
+import RoomSelectInfoTable from "./components/roomSelectInfoTable_";
 import JDdayPicker from "../../atoms/dayPicker/DayPicker";
 import {
   BOOKING_STATUS_OP,
@@ -29,40 +29,38 @@ import {
 } from "../../types/enum";
 import "./BookingModal.scss";
 import {GB_booking, IResvCount} from "../../types/interface";
-import {getRoomTypePerGuests} from "../../utils/booking";
 import {MutationFn} from "react-apollo";
 import {
   updateBooking,
   updateBookingVariables,
   deleteBooking,
   deleteBookingVariables,
-  createBooking,
-  createBookingVariables,
   allocateGuestToRoom,
   allocateGuestToRoomVariables,
-  createBooking_CreateBooking_booking,
-  createBooking_CreateBooking
+  startBooking,
+  startBookingVariables,
+  getBooking_GetBooking_booking_guests,
+  StartBookingRoomGuestInput,
+  StartBookingDomitoryGuestInput,
+  getBooking_GetBooking_booking_guests_GuestDomitory,
+  Gender
 } from "../../types/api";
-import {GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM} from "../../queries";
 import SendSMSmodalWrap, {IModalSMSinfo} from "../smsModal/SendSmsModalWrap";
-import {
-  IAssigInfo,
-  IAssigTimelineUtils
-} from "../../pages/middleServer/assig/components/assigIntrerface";
 import Preloader from "../../atoms/preloader/Preloader";
-import {validate} from "graphql";
 import {toast} from "react-toastify";
 import {isPhone} from "../../utils/inputValidations";
-import {autoComma, muResult} from "../../utils/utils";
-import {async} from "q";
+import {autoComma, instanceOfA} from "../../utils/utils";
 import {IContext} from "../../pages/MiddleServerRouter";
-import {FetchResult} from "apollo-link";
 import Drawer from "../../atoms/drawer/Drawer";
+import _ from "lodash";
+import guestsCountByRoomType from "../../utils/guestCountByRoomType";
+import {guestsCountByRoomTypeToTable} from "../../utils/getRoomTypeNameById";
 
-export interface IRoomSelectInfoTable {
+export interface IRoomSelectInfo {
   roomTypeId: string;
-  roomTypeName: string;
+  roomTypeName?: string;
   count: IResvCount;
+  price?: number;
   pricingType: PricingType;
 }
 
@@ -71,27 +69,26 @@ interface IProps {
   // 👿 bookingData 이렇게 광범위하게 받지말고 필요한부분만 포함 [foo:string]:any 로서 받을수있도록
   bookingData: GB_booking;
   placeHolederPrice: number;
-  createBookingMu: MutationFn<createBooking, createBookingVariables>;
+  startBookingMu: MutationFn<startBooking, startBookingVariables>;
   updateBookingMu: MutationFn<updateBooking, updateBookingVariables>;
   deleteBookingMu: MutationFn<deleteBooking, deleteBookingVariables>;
-  createBookingLoading: boolean;
+  startBookingLoading: boolean;
   allocateGuestToRoomMu: MutationFn<
     allocateGuestToRoom,
     allocateGuestToRoomVariables
   >;
-  assigInfo: IAssigInfo[];
   context: IContext;
   loading: boolean;
   type?: BookingModalType;
 }
 
-const POPbookingInfo: React.FC<IProps> = ({
+const BookingModal: React.FC<IProps> = ({
   modalHook,
   bookingData,
   updateBookingMu,
-  createBookingMu,
+  startBookingMu,
   deleteBookingMu,
-  createBookingLoading,
+  startBookingLoading,
   allocateGuestToRoomMu,
   placeHolederPrice,
   loading,
@@ -101,26 +98,26 @@ const POPbookingInfo: React.FC<IProps> = ({
   const {
     email,
     memo,
-    price,
+    payment,
     phoneNumber,
+    status: bookingStatus,
     checkIn,
     checkOut,
     name,
     __typename,
-    payMethod,
-    bookingStatus,
-    paymentStatus,
+    guests,
     _id
   } = bookingData;
+  const {payMethod, status: paymentStatus, totalPrice} = payment;
   const {house} = context;
   const {_id: houseId} = house;
   const sendSmsModalHook = useModal<IModalSMSinfo>(false);
   const confirmModalHook = useModal(false);
   const bookingNameHook = useInput(name);
   const bookingPhoneHook = useInput(phoneNumber);
-  const priceHook = useInput(price);
+  const priceHook = useInput(totalPrice);
   const memoHook = useInput(memo || "");
-  const emailHook = useInput(email || "");
+  const emailHook = useInput(email);
   const [drawers, setDrawers] = useState({
     bookerInfo: false
   });
@@ -128,7 +125,6 @@ const POPbookingInfo: React.FC<IProps> = ({
     bookingData._id !== "default"
       ? {
           value: payMethod,
-          // @ts-ignore
           label: PayMethodKr[payMethod]
         }
       : null
@@ -195,20 +191,17 @@ const POPbookingInfo: React.FC<IProps> = ({
     });
   };
 
-  const roomTypePerGuests: IRoomSelectInfoTable[] = getRoomTypePerGuests(
-    bookingData
-  );
-
+  // SMS 오토 완성을 위한 정보
   const smsModalInfoTemp: IModalSMSinfo = {
     receivers: [bookingPhoneHook.value],
     booking: {
-      end: resvDateHook.to!,
       name: bookingNameHook.value,
       payMethod: payMethodHook.selectedOption
         ? payMethodHook.selectedOption.label
         : "",
       email: emailHook.value,
       phoneNumber: bookingPhoneHook.value,
+      end: resvDateHook.to!,
       start: resvDateHook.from!,
       paymentStatus: paymentStatusHook.selectedOption
         ? paymentStatusHook.selectedOption.label
@@ -236,38 +229,35 @@ const POPbookingInfo: React.FC<IProps> = ({
     modalHook.closeModal();
   };
 
-  const createBooking = async (sendSmsFlag: boolean = false) => {
+  const countByRoomTypes = guestsCountByRoomType(bookingData.guests || []);
+
+  const startBooking = async (sendSmsFlag: boolean = false) => {
     if (!validate()) return;
 
     try {
-      await createBookingMu({
+      await startBookingMu({
         variables: {
-          bookingParams: {
-            checkIn: resvDateHook.from,
-            bookerParams: {
-              house: houseId,
-              price: priceHook.value || 0,
-              name: bookingNameHook.value,
-              password: "admin",
-              phoneNumber: bookingPhoneHook.value,
-              email: "demo@naver.com",
-              agreePrivacyPolicy: true,
-              memo: memoHook.value,
-              paymentStatus:
-                paymentStatusHook.selectedOption &&
-                paymentStatusHook.selectedOption.value
-            },
-            checkOut: resvDateHook.to,
-            guestInputs: roomTypePerGuests.map(data => ({
-              roomTypeId: data.roomTypeId,
-              pricingType: data.pricingType,
-              countFemaleGuest: data.count.female,
-              countMaleGuest: data.count.male,
-              countRoom:
-                data.pricingType === PricingType.ROOM ? data.count.roomCount : 0
-            }))
+          bookerParams: {
+            agreePrivacyPolicy: true,
+            email: "demo@naver.com",
+            memo: memoHook.value,
+            name: bookingNameHook.value,
+            password: "admin",
+            phoneNumber: bookingPhoneHook.value
           },
-          sendSmsFlag
+          checkInOut: {
+            checkIn: resvDateHook.from,
+            checkOut: resvDateHook.to
+          },
+          guestDomitoryParams: countByRoomTypes.countInDomitorys,
+          guestRoomParams: countByRoomTypes.countInRooms,
+          paymentParams: {
+            payMethod: payMethodHook.selectedOption!.value,
+            price: priceHook.value,
+            status: paymentStatusHook.selectedOption!.value
+          },
+          houseId: ""
+          // sendSmsFlag
         }
       });
     } catch (error) {
@@ -280,7 +270,7 @@ const POPbookingInfo: React.FC<IProps> = ({
     if (!bookingData.roomTypes) return;
 
     const smsCallBackFn = async (flag: boolean) => {
-      createBooking(flag);
+      startBooking(flag);
     };
 
     sendSmsModalHook.openModal({
@@ -327,8 +317,8 @@ const POPbookingInfo: React.FC<IProps> = ({
       className="Modal bookingModal"
       overlayClassName="Overlay"
     >
-      <Preloader size={"large"} loading={loading || createBookingLoading} />
-      {loading || createBookingLoading || (
+      <Preloader size={"large"} loading={loading || startBookingLoading} />
+      {loading || startBookingLoading || (
         <Fragment>
           <div className="modal__section">
             <h6>
@@ -412,7 +402,12 @@ const POPbookingInfo: React.FC<IProps> = ({
                 />
               </div>
               <div className="flex-grid__col col--full-12 col--lg-12 col--md-12">
-                <RoomSelectInfoTable resvInfo={roomTypePerGuests} />
+                <RoomSelectInfoTable
+                  resvInfo={guestsCountByRoomTypeToTable(
+                    countByRoomTypes,
+                    bookingData.roomTypes || []
+                  )}
+                />
               </div>
             </div>
           </div>
@@ -457,4 +452,4 @@ const POPbookingInfo: React.FC<IProps> = ({
     </Modal>
   );
 };
-export default POPbookingInfo;
+export default BookingModal;

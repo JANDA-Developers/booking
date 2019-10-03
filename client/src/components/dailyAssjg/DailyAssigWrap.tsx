@@ -34,7 +34,7 @@ import {
 } from "../../queries";
 import {BookingStatus} from "../../types/enum";
 import {queryDataFormater} from "../../utils/utils";
-import {useDayPicker, IUseDayPicker} from "../../actions/hook";
+import {useDayPicker, IUseDayPicker} from "../../hooks/hook";
 import {IContext} from "../../pages/MiddleServerRouter";
 import DailyAssigNew from "./DailyAssig";
 import {getOperationName} from "apollo-link";

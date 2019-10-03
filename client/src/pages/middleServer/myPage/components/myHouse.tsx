@@ -2,7 +2,7 @@ import React, {Fragment} from "react";
 import "./myHouse.scss";
 import Card from "../../../../atoms/cards/Card";
 import Icon from "../../../../atoms/icons/Icons";
-import {IUseModal} from "../../../../actions/hook";
+import {IUseModal} from "../../../../hooks/hook";
 
 interface IProps {
   houseModal: IUseModal;

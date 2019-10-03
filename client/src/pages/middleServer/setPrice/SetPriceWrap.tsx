@@ -39,6 +39,7 @@ import SetPrice from "./SetPrice";
 import Preloader from "../../../atoms/preloader/Preloader";
 import {targetBlinkFuture} from "../../../utils/targetBlink";
 import {IContext} from "../../MiddleServerRouter";
+import reactWindowSize, {WindowSizeProps} from "react-window-size";
 
 export interface IAddSeason {
   name: string;
@@ -100,12 +101,14 @@ interface IProps {
   context: IContext;
 }
 
-const SetPriceWrap: React.SFC<IProps> = ({context}) => {
+const SetPriceWrap: React.SFC<IProps & WindowSizeProps> = ({
+  context,
+  ...prop
+}) => {
   const {house} = context;
   return (
     // 모든 방 가져오기
     <GetAllSeasonTQuery
-      fetchPolicy="network-only"
       query={GET_ALL_SEASON_TABLE}
       variables={{houseId: house._id}}
     >
@@ -212,6 +215,7 @@ const SetPriceWrap: React.SFC<IProps> = ({context}) => {
                               ) => (
                                 <Fragment>
                                   <SetPrice
+                                    {...prop}
                                     key={s4()}
                                     context={context}
                                     priceMap={priceMap || new Map()}
@@ -253,4 +257,4 @@ const SetPriceWrap: React.SFC<IProps> = ({context}) => {
   );
 };
 
-export default ErrProtecter(SetPriceWrap);
+export default reactWindowSize(ErrProtecter(SetPriceWrap));

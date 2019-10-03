@@ -17,4 +17,17 @@ const greet = async (context: IContext) => {
   return "";
 };
 
+//  TODO
+// const testPeriodShow = async (context: IContext) => {
+//   const lastConnectTime = getCookie("lastConnect");
+//   if (
+//     lastConnectTime === undefined ||
+//     parseInt(lastConnectTime) < new Date().valueOf() - TimePerMs.H * 3
+//   ) {
+//     toast(<GreetingBox userData={context.user} />);
+//   }
+//   setCookie("lastConnect", `${new Date().valueOf()}`, 999);
+//   return "";
+// };
+
 export default greet;

@@ -3,7 +3,7 @@ import ReactModal from "react-modal";
 import "./Modal.scss";
 import classNames from "classnames";
 import Button from "../button/Button";
-import {IUseModal} from "../../actions/hook";
+import {IUseModal} from "../../hooks/hook";
 import {s4} from "../../utils/utils";
 import JDanimation, {Animation} from "../animation/Animations";
 

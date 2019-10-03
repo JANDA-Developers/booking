@@ -2,7 +2,7 @@ import React from "react";
 import {IContext} from "../../../MiddleServerRouter";
 import StaticController from "./StaticController";
 import JDmodal from "../../../../atoms/modal/Modal";
-import {IUseModal} from "../../../../actions/hook";
+import {IUseModal} from "../../../../hooks/hook";
 import {IStaticsProps} from "../Statistic";
 import {IconSize} from "../../../../atoms/icons/Icons";
 import StaticIcons from "./StaticIcons";

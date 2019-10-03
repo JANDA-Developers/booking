@@ -8,7 +8,7 @@ import Button from "../../../atoms/button/Button";
 import "./Login.scss";
 import {LOG_USER_IN} from "../../../clientQueries";
 import {EMAIL_SIGN_IN, GET_USER_INFO} from "../../../queries";
-import {useInput} from "../../../actions/hook";
+import {useInput} from "../../../hooks/hook";
 import utils, {showError} from "../../../utils/utils";
 import {ApolloClient} from "apollo-boost";
 import {IContext} from "../../MiddleServerRouter";

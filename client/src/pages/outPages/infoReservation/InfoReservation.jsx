@@ -8,7 +8,7 @@ import "highlight.js/styles/github.css";
 import "./InfoReservation.scss";
 
 const SetPrice = () => {
-  const [ssss, setSSSS] = useState();
+  const [, setSSSS] = useState();
   const onChange = event => {};
   useEffect(() => {
     const editor = new Editor({

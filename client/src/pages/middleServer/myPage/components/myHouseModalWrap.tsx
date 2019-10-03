@@ -2,7 +2,7 @@ import React from 'react';
 import { Mutation, Query } from 'react-apollo';
 import { DELETE_HOUSE, GET_USER_INFO, GET_HOUSE } from '../../../../queries';
 import MyHouseModal from './myHouseModal';
-import { IUseModal } from '../../../../actions/hook';
+import { IUseModal } from '../../../../hooks/hook';
 import {
   onCompletedMessage, queryDataFormater, showError, isEmpty,
 } from '../../../../utils/utils';

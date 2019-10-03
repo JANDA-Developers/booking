@@ -5,8 +5,8 @@ import Helmet from "react-helmet";
 import Header from "../components/documentHeader/DocumentHeader";
 import NoMatch from "./noMatch/NoMatch";
 import {Reservation, ReservationInfo, ReservationCheck} from "./outPages";
-import HouseManual from "./outPages/houseManual/HouseManual";
-import HouseManualWrap from "./outPages/houseManual/HouseManualWrap";
+import HM from "./outPages/HM/HM";
+import HMwrap from "./outPages/HM/HMwrap";
 import {StaticContext} from "react-router";
 
 interface IProps extends RouteComponentProps<any, StaticContext, any> {}
@@ -32,11 +32,7 @@ const OutPageRouter: React.SFC<IProps> = ({match, location}) => {
           path="/outpage/infoReservation"
           component={ReservationInfo}
         />
-        <Route
-          exact
-          path="/outpage/houseManual/:publickey"
-          component={HouseManualWrap}
-        />
+        <Route exact path="/outpage/HM/:publickey" component={HMwrap} />
         <Route component={NoMatch} />
       </Switch>
     </Fragment>

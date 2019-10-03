@@ -7,6 +7,9 @@
 .JDselect {
   text-align:left;
 
+  .css-1g6gooi {
+    width: 1px;
+  }
   &--autoSize {
     .react-select__value-container {
       & > div:first-child {
@@ -45,7 +48,7 @@
   }
 
   // NO 옵션
-  .react-select__menu-notice--no-options {
+  .react-select__menu-Notice--no-options {
     color: $selcet-placeholder-color;
   }
 

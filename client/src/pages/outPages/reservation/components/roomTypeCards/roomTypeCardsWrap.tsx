@@ -26,7 +26,6 @@ import moment from "moment";
 import {Gender} from "../../../../../types/enum";
 import {IReservationHooks} from "../../Reservation";
 import {isDeveloper} from "../../../../../utils/developMaster";
-import {any} from "prop-types";
 
 class GetAvailGuestCountQu extends Query<
   getCapacityToRoomTypeForBooker,
@@ -49,7 +48,7 @@ interface IProps {
   roomTypeData: IRoomType;
   reservationHooks: IReservationHooks;
   lastCard: boolean;
-  isAdmin?: boolean;
+  isHost?: boolean;
   houseId?: string;
 }
 
@@ -60,7 +59,7 @@ const RoomTypeCardWrap: React.SFC<IProps> = ({
   roomTypeData,
   lastCard,
   houseId,
-  isAdmin
+  isHost
 }) => {
   const {dayPickerHook} = reservationHooks;
   // 이건 독립 state용이다. 실제 선택된것은 resvRooms에 있으며 이건 선택완료 누르기 전까지의 상태이다.
@@ -78,7 +77,7 @@ const RoomTypeCardWrap: React.SFC<IProps> = ({
     <GetAvailGuestCountQu
       skip={roomTypeData.roomCount === 0}
       query={
-        isAdmin
+        isHost
           ? GET_CAPACITY_TO_ROOM_TYPE
           : GET_CAPACITY_TO_ROOM_TYPE_FOR_BOOKER
       }
@@ -105,7 +104,7 @@ const RoomTypeCardWrap: React.SFC<IProps> = ({
         const count = queryDataFormater(
           data,
           // @ts-ignore
-          isAdmin ? "GetCapacityToRoomType" : "GetCapacityToRoomTypeForBooker",
+          isHost ? "GetCapacityToRoomType" : "GetCapacityToRoomTypeForBooker",
           "capacityRoomType",
           undefined
         );

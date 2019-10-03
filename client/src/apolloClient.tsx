@@ -10,7 +10,7 @@ import insideRedirect from "./utils/insideRedirect";
 
 import {IntrospectionFragmentMatcher} from "apollo-cache-inmemory";
 import introspectionQueryResultData from "./fragmentTypes.json";
-import ToastError from "./components/toasts/errorToast";
+import ToastError from "./components/toasts/errorToast_";
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({
   introspectionQueryResultData

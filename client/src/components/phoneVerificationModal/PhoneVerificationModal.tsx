@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import InputText from "../../atoms/forms/inputText/InputText";
 import Modal from "../../atoms/modal/Modal";
 import Button from "../../atoms/button/Button";
-import {useInput, IUseModal} from "../../actions/hook";
+import {useInput, IUseModal} from "../../hooks/hook";
 import {ErrProtecter} from "../../utils/utils";
 import "./PhoneVerification.scss";
 import JDmodal from "../../atoms/modal/Modal";

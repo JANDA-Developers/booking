@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import {EerrorProtect} from "../../../utils/errProtect";
 import "./SetPrice.scss";
 import {
@@ -24,7 +24,7 @@ import JDtable, {ReactTableDefault} from "../../../atoms/table/Table";
 import {CellInfo} from "react-table";
 import JDIcon from "../../../atoms/icons/Icons";
 import InputText from "../../../atoms/forms/inputText/InputText";
-import {toNumber, muResult} from "../../../utils/utils";
+import {toNumber, muResult, s4} from "../../../utils/utils";
 import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
 import JDbox from "../../../atoms/box/JDbox";
 import {numberToStrings} from "../../../utils/dayOfweeks";
@@ -35,7 +35,7 @@ import {
   useCheckBox,
   useShouldSave,
   useDayPicker
-} from "../../../actions/hook";
+} from "../../../hooks/hook";
 import DayOfWeekModal, {IDayOfWeekModalInfo} from "./components/dayOfWeekModal";
 import JDmodal from "../../../atoms/modal/Modal";
 import CreateSeasonModal from "./components/createSeasonModal";
@@ -320,4 +320,4 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
     </div>
   );
 };
-export default reactWindowSize<IProps>(EerrorProtect(SetPrice));
+export default EerrorProtect(SetPrice);

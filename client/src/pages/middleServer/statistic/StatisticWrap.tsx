@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import Statistic, {IStaticsWrapProps} from "./Statistic";
 import moment from "moment";
-import {useDayPicker} from "../../../actions/hook";
+import {useDayPicker} from "../../../hooks/hook";
 import {Query} from "react-apollo";
 import {
   getSalesStatistic,

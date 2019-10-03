@@ -1,6 +1,6 @@
 import React, {Fragment} from "react";
 import JDmodal from "../../../../atoms/modal/Modal";
-import {IUseModal, IUseDayPicker} from "../../../../actions/hook";
+import {IUseModal, IUseDayPicker} from "../../../../hooks/hook";
 import {ISeason} from "../../../../types/interface";
 import JDdayPicker from "../../../../atoms/dayPicker/DayPicker";
 import InputText from "../../../../atoms/forms/inputText/InputText";

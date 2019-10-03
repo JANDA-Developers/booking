@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {IUseModal} from "../../actions/hook";
+import {IUseModal} from "../../hooks/hook";
 import {AutoSendWhen} from "../../types/enum";
 import {
   sendSms,
@@ -10,7 +10,7 @@ import {
 import {Mutation, Query} from "react-apollo";
 import {SEND_SMS, GET_SMS_INFO} from "../../queries";
 import {queryDataFormater, onCompletedMessage} from "../../utils/utils";
-import CreateSmsModal from "./components/createSmsModal";
+import CreateSmsModal from "./components/createSmsModal_";
 import SendSmsModal from "./SendSmsModal";
 import {IContext} from "../../pages/MiddleServerRouter";
 

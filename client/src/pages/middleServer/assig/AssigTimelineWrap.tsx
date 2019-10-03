@@ -20,26 +20,25 @@ import {
   createBlock,
   createBlockVariables,
   updateBlockOption,
-  updateBlockOptionVariables
+  updateBlockOptionVariables,
+  getAllRoomTypeWithGuest_GetGuests_guests
 } from "../../../types/api";
-import {useToggle, useDayPicker} from "../../../actions/hook";
-import {IRoomType, IGuests, IBlock, IHouse} from "../../../types/interface";
+import {useToggle, useDayPicker} from "../../../hooks/hook";
 import {
-  isEmpty,
+  IRoomType,
+  IGuest,
+  IBlock,
+  IHouse,
+  IGuestD
+} from "../../../types/interface";
+import {
   setMidNight,
-  showError,
   queryDataFormater,
-  onCompletedMessage
+  onCompletedMessage,
+  instanceOfA
 } from "../../../utils/utils";
 import EerrorProtect from "../../../utils/errProtect";
-import {
-  Gender,
-  BookingStatus,
-  GuestType,
-  RoomGender,
-  PricingType,
-  TimePerMs
-} from "../../../types/enum";
+import {Gender, BookingStatus, TimePerMs} from "../../../types/enum";
 import {
   ALLOCATE_GUEST_TO_ROOM,
   UPDATE_BOOKING,
@@ -51,14 +50,13 @@ import {
   UPDATE_BLOCK_OPTION
 } from "../../../queries";
 import AssigTimeline from "./AssigTimeline";
-import {set4YMMDD, parallax} from "../../../utils/setMidNight";
+import {set4YMMDD} from "../../../utils/setMidNight";
 import {roomDataManufacture} from "./components/groupDataMenufacture";
 import reactWindowSize, {WindowSizeProps} from "react-window-size";
 import {DEFAULT_ASSIG_ITEM, DEFAULT_BLOCK_OP} from "../../../types/defaults";
 import {
   IAssigDataControl,
   IAssigItem,
-  IAssigItemCrush,
   IAssigMutationLoading
 } from "./components/assigIntrerface";
 import {IContext} from "../../MiddleServerRouter";
@@ -98,8 +96,8 @@ export const blockDataManufacture = (blocksData: IBlock[]) => {
         id: blockData._id,
         temp: true,
         bookingId: blockData._id,
-        roomId: blockData.allocatedRoom._id,
-        group: blockData.allocatedRoom._id + blockData.bedIndex,
+        roomId: blockData.room._id,
+        group: blockData.room._id + blockData.bedIndex,
         start: moment(blockData.checkIn).valueOf(),
         end: moment(blockData.checkOut).valueOf(),
         canMove: false,
@@ -153,36 +151,30 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
 
   //  TODO: 메모를 사용해서 데이터를 아끼자
   // 게스트 데이터를 달력에서 쓸수있는 Item 데이터로 변경 절차
-  const guestsDataManufacture = (allGuestsData: IGuests[]) => {
+  const guestsDataManufacture = (allGuestsData: IGuest[]) => {
     const alloCateItems: IAssigItem[] = [];
     if (!allGuestsData) return alloCateItems;
 
     const guestsData = allGuestsData.filter(
-      guest => guest.booking.bookingStatus !== BookingStatus.CANCEL
+      guest => guest.booking.status !== BookingStatus.CANCEL
     );
 
     guestsData.forEach((guestData, index) => {
-      const isDomitory = guestData.pricingType === "DOMITORY";
-
       if (
         guestData &&
         guestData.booking &&
         guestData.roomType &&
-        guestData.allocatedRoom
+        guestData.room
       ) {
-        const {
-          _id,
-          name,
-          roomType,
-          booking,
-          gender,
-          bedIndex,
-          checkIn,
-          allocatedRoom,
-          checkOut
-        } = guestData;
-        const {_id: bookingId, isNew, isConfirm, bookingStatus} = booking;
+        let gender: Gender | null = null;
+        let bedIndex = 0;
+        const {_id, roomType, booking, checkIn, room, checkOut} = guestData;
+        const {_id: bookingId, isNew, isConfirm, status, name} = booking;
 
+        if (instanceOfA<IGuestD>(guestData, "gender")) {
+          gender = guestData.gender;
+          bedIndex = guestData.bedIndex;
+        }
         const pushItem: IAssigItem = {
           id: _id,
           itemIndex: index,
@@ -191,19 +183,18 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
           bookingId: bookingId,
           checkInInfo: checkIn.isIn,
           gender: gender,
-          status: bookingStatus,
+          status: status,
           roomTypeId: roomType._id,
           showNewBadge: isNew && !isConfirm,
-          roomId: allocatedRoom._id,
+          roomId: room._id,
           temp: true,
-          group: allocatedRoom._id + bedIndex,
+          group: room._id + bedIndex,
           start: moment(checkIn).valueOf(),
           end: moment(checkOut).valueOf(),
-          canResize: false,
-          canMove: bookingStatus !== BookingStatus.READY,
+          canMove: status !== BookingStatus.READY,
           // @ts-ignore
           type: guestData.guestType || "GUEST",
-          bedIndex: guestData.bedIndex,
+          bedIndex: bedIndex,
           blockOption: Object.assign(
             {},
             guestData.blockOption || DEFAULT_BLOCK_OP
@@ -238,7 +229,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
         bookingStatuses: [BookingStatus.COMPLETE, BookingStatus.READY]
       }}
     >
-      {({data, loading, error, stopPolling, startPolling, networkStatus}) => {
+      {({data, loading, stopPolling, startPolling, networkStatus}) => {
         const roomTypesData = queryDataFormater(
           data,
           "GetAllRoomType",

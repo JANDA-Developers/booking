@@ -1,9 +1,9 @@
 import React, {useState} from "react";
 import JDLabel from "../../../../atoms/label/JDLabel";
-import JDrange from "../../../../atoms/forms/range/range";
+import JDrange from "../../../../atoms/forms/range/range_";
 import {IAddtionProp} from "../components/ConfigBlock";
 import JDswitch from "../../../../atoms/forms/switch/Switch";
-import {useSwitch} from "../../../../actions/hook";
+import {useSwitch} from "../../../../hooks/hook";
 import {muResult} from "../../../../utils/utils";
 import JDbox from "../../../../atoms/box/JDbox";
 import TabUsePhoto from "../../../../img/describe/roomTypeTap.gif";

@@ -97,7 +97,7 @@ const SideNav: React.FC<IProps> = ({isOpen, setIsOpen, context}) => {
           disabled: disabledFlag
         },
         {
-          to: "/houseManualConfig",
+          to: "/HMconfig",
           disabled: disabledFlag,
           icon: "list",
           label: "하우스 메뉴얼"

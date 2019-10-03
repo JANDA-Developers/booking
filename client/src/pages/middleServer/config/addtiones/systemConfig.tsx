@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import JDLabel from "../../../../atoms/label/JDLabel";
-import JDrange from "../../../../atoms/forms/range/range";
+import JDrange from "../../../../atoms/forms/range/range_";
 import {MutationFn} from "react-apollo";
 import {
   updateHouseConfig,

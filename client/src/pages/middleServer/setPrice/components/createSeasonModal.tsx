@@ -7,7 +7,7 @@ import {
   useInput,
   useDayPicker,
   useModal
-} from "../../../../actions/hook";
+} from "../../../../hooks/hook";
 import JDmodal from "../../../../atoms/modal/Modal";
 import CheckBox from "../../../../atoms/forms/checkBox/CheckBox";
 import {

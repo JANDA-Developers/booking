@@ -1,7 +1,7 @@
 import React from "react";
 import {Query} from "react-apollo";
 import JDmodal from "../../../../atoms/modal/Modal";
-import {IUseModal} from "../../../../actions/hook";
+import {IUseModal} from "../../../../hooks/hook";
 import {getUserForSU, getUserForSUVariables} from "../../../../types/api";
 import {GET_USER_FOR_SU} from "../../../../queries";
 import {showError, queryDataFormater} from "../../../../utils/utils";

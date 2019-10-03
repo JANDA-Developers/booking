@@ -1,32 +1,28 @@
-import {GB_booking, IHouseConfigFull} from "./interface";
+import {GB_booking, IHouseConfigFull, IBlockOp} from "./interface";
 import {
   RoomGender,
   PricingType,
   PayMethod,
   PaymentStatus,
   BookingStatus,
-  Gender,
-  SendTarget,
   LayoutType,
-  HouseStatus,
   TimePerMs,
   MemoType,
-  UserRole
+  UserRole,
+  PaymentType
 } from "./enum";
 import {
   getBooking_GetBooking_booking_roomTypes,
   getSmsInfo_GetSmsInfo_smsInfo_smsTemplates,
   getSmsInfo_GetSmsInfo_smsInfo,
-  getSpecification_GetHouse_house_product_productType,
   getSpecification_GetHouse_house_product,
   getSpecification_GetHouse_house_product_appInfoRequested,
-  getAllRoomTypeWithGuest_GetGuests_guests_blockOption,
   getMyProfile_GetMyProfile_user_houses_houseConfig_assigTimeline_itemBlockOp,
   getAllRoomType_GetAllRoomType_roomTypes_rooms,
   getMemos_GetMemos_memos,
   getMyProfile_GetMyProfile_user,
-  getHManual_GetHManual_houseManual,
-  getSmsInfo_GetSmsInfo_smsInfo_smsTemplates_smsSendCase
+  getHM_GetHM_HM,
+  getBooking_GetBooking_booking_payment
 } from "./api";
 import {
   IAssigItem,
@@ -67,6 +63,7 @@ export const DEFAULT_BOOKING: GB_booking = {
   memo: "",
   createdAt: "",
   updatedAt: "",
+  status: BookingStatus.COMPLETE,
   isConfirm: false,
   isNew: false,
   roomTypes: null,
@@ -77,16 +74,20 @@ export const DEFAULT_BOOKING: GB_booking = {
     isIn: false,
     checkInDateTime: new Date()
   },
-  payMethod: PayMethod.CASH,
-  paymentStatus: PaymentStatus.READY,
   email: "",
   checkOut: null,
   checkIn: null,
   agreePrivacyPolicy: true,
-  price: null,
   password: null,
-  bookingStatus: BookingStatus.COMPLETE,
-  guests: null
+  guests: null,
+  payment: {
+    __typename: "Payment",
+    payMethod: PayMethod.CARD,
+    paymentResultParam: null,
+    status: PaymentStatus.COMPLETE,
+    totalPrice: 0,
+    type: PaymentType.ONE_TIME
+  }
 };
 
 export const DEFAULT_ASSIG_GROUP: IAssigGroup = {
@@ -135,6 +136,9 @@ export const DEFAULT_APP_INFO_REQUEST: getSpecification_GetHouse_house_product_a
 export const DEFAULT_PRODUCT: getSpecification_GetHouse_house_product = {
   __typename: "Product",
   _id: "0",
+  daysLeftToExpire: 0,
+  expireDate: new Date(),
+  isExpired: false,
   appliedUrl: "",
   appInfoRequested: [],
   roomCount: 0,
@@ -165,7 +169,7 @@ export const DEFAULT_NONE_GOUP: IAssigGroup = {
   type: "noneGroup"
 };
 
-export const DEFAULT_BLOCK_OP: getAllRoomTypeWithGuest_GetGuests_guests_blockOption = {
+export const DEFAULT_BLOCK_OP: IBlockOp = {
   __typename: "BlockOption",
   color: null
 };
@@ -187,7 +191,6 @@ export const DEFAULT_ASSIG_ITEM: IAssigItem = {
   loading: false,
   start: 0,
   type: GuestTypeAdd.BLOCK,
-  validate: [],
   canMove: true,
   blockOption: DEFAULT_BLOCK_OP,
   showEffect: false,
@@ -200,21 +203,20 @@ export const DEFAULT_ADDITION_BLOCKOP: getMyProfile_GetMyProfile_user_houses_hou
   useColor: false
 };
 
-export const DEFAULT_HM: getHManual_GetHManual_houseManual = {
-  __typename: "HouseManual",
+export const DEFAULT_HM: getHM_GetHM_HM = {
+  __typename: "HM",
   _id: "",
+  title: {},
   backgroundImg: "",
   createdAt: "",
-  house: {
-    __typename: "House",
-    location: {
-      __typename: "Location",
-      address: "",
-      addressDetail: "",
-      lat: 0,
-      lng: 0
-    }
+  location: {
+    __typename: "Location",
+    address: "",
+    addressDetail: "",
+    lat: 0,
+    lng: 0
   },
+  email: "",
   langList: [],
   menus: [],
   phoneNumber: "",
@@ -286,3 +288,4 @@ export const DEFAULT_USER: getMyProfile_GetMyProfile_user = {
   profileImg: undefined,
   houses: []
 };
+

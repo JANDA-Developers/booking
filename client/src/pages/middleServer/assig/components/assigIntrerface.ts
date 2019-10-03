@@ -5,7 +5,7 @@ import {
   BookingModalType,
   BookingStatus
 } from "../../../../types/enum";
-import {IRoomType, IHouseConfig} from "../../../../types/interface";
+import {IRoomType, IHouseConfig, IBlockOp} from "../../../../types/interface";
 import {MutationFn, FetchResult} from "react-apollo";
 import {
   allocateGuestToRoom,
@@ -22,11 +22,11 @@ import {
   deleteBookingVariables,
   updateBlockOption,
   updateBlockOptionVariables,
-  getAllRoomTypeWithGuest_GetGuests_guests_blockOption,
-  createBooking,
+  getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_blockOption,
+  startBooking,
   getAllRoomTypeWithGuest_GetGuests_guests
 } from "../../../../types/api";
-import {IUseModal} from "../../../../actions/hook";
+import {IUseModal} from "../../../../hooks/hook";
 import {string} from "prop-types";
 import {MouseEvent} from "react";
 
@@ -120,13 +120,6 @@ export type TIsGenderSafe = (
   start: number,
   end: number
 ) => boolean | ICrushTime[];
-
-export type TOneGuestValidation = (
-  guest: IAssigItem,
-  start: number,
-  end: number,
-  groupId: string
-) => void;
 
 export type TResizeBlockBlock = (targetGuest: IAssigItem, time: number) => void;
 
@@ -222,8 +215,7 @@ export interface IAssigItem {
   end: number;
   gender: Gender | null;
   canMove: boolean;
-  validate: IAssigItemCrush[];
-  blockOption: getAllRoomTypeWithGuest_GetGuests_guests_blockOption;
+  blockOption: IBlockOp;
   type: GuestTypeAdd;
 }
 
@@ -303,7 +295,9 @@ export interface IAssigTimelineHooks {
   blockMenuProps: IDeleteMenuProps;
   setBlockMenuProps: React.Dispatch<React.SetStateAction<IDeleteMenuProps>>;
   setGuestValue: (value: IAssigItem[]) => void;
-  setCanvasMenuTooltipProps: React.Dispatch<React.SetStateAction<ICanvasMenuTooltipProps>>;
+  setCanvasMenuTooltipProps: React.Dispatch<
+    React.SetStateAction<ICanvasMenuTooltipProps>
+  >;
   setMakeMenuProps: React.Dispatch<React.SetStateAction<IMakeMenuProps>>;
   confirmDelteGuestHook: IUseModal<any>;
   dataTime: {
@@ -423,7 +417,6 @@ export interface IAssigTimelineUtils {
   deleteItemById: TDeleteItemById;
   openMakeMenu: TOpenMakeMenu;
   isGenderSafe: TIsGenderSafe;
-  oneGuestValidation: TOneGuestValidation;
   addBlock: TAddBlock;
   allocateGuest: TAllocateGuest;
   allocateItem: TAllocateItem;

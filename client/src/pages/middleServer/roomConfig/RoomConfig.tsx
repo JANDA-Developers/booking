@@ -8,11 +8,12 @@ import {
   getAllRoomType_GetAllRoomType_roomTypes,
   getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms,
   changeIndexForRoomType,
-  changeIndexForRoomTypeVariables
+  changeIndexForRoomTypeVariables,
+  getAllRoomType_GetAllRoomType_roomTypes_rooms
 } from "../../../types/api";
 import Preloader from "../../../atoms/preloader/Preloader";
 import JDIcon from "../../../atoms/icons/Icons";
-import {useModal} from "../../../actions/hook";
+import {useModal} from "../../../hooks/hook";
 import DrragList from "../../../atoms/animation/DrragList";
 import RoomTypeModalWrap, {
   IRoomTypeModalInfo
@@ -24,7 +25,7 @@ import {MutationFn} from "react-apollo";
 import EventListener from "react-event-listener";
 import {IContext} from "../../MiddleServerRouter";
 import Help from "../../../atoms/Help/Help";
-import RoomTypeInfo from "../../../components/roomTypeInfo/roomTypeInfo";
+import RoomTypeInfo from "../../../components/roomTypeInfo/roomTypeInfo_";
 import {PureQueryOptions} from "apollo-boost";
 import Mbr from "../../../atoms/mbr/Mbr";
 
@@ -60,7 +61,7 @@ const RoomConfigNew: React.FC<IProps> = ({
 
   const getRoomBox = (
     recode: IRoomType,
-    room: getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms,
+    room: getAllRoomType_GetAllRoomType_roomTypes_rooms,
     index: number
   ) => (
     <JDbox

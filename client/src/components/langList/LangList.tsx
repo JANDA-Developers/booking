@@ -19,13 +19,7 @@ interface IProps extends IDiv {
   hilightLangs?: Language[];
 }
 
-const LangList: React.FC<IProps> = ({
-  children,
-  onClickLng,
-  className,
-  hideList,
-  hilightLangs
-}) => {
+const LangList: React.FC<IProps> = ({onClickLng, hideList, hilightLangs}) => {
   const LangList = hideList
     ? LANGUAGE_LIST.filter(lang => !hideList.includes(lang))
     : LANGUAGE_LIST;

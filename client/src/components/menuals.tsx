@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {toast} from "react-toastify";
 import Modal from "../atoms/modal/Modal";
-import {IUseModal} from "../actions/hook";
+import {IUseModal} from "../hooks/hook";
 import Button from "../atoms/button/Button";
 import CircleIcon from "../atoms/circleIcon/CircleIcon";
 // @ts-ignore

@@ -29,8 +29,8 @@ export const ReservationCheck = (props: any) => (
   </DynamicImport>
 );
 
-export const HouseManual = (props: any) => (
-  <DynamicImport load={() => import("./outPages/houseManual/HouseManual")}>
+export const HM = (props: any) => (
+  <DynamicImport load={() => import("./outPages/HM/HM")}>
     {(DNcompoent: any) =>
       DNcompoent === null ? (
         <Preloader loading={true} page />

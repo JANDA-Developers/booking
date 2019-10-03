@@ -20,7 +20,7 @@ interface IProps {
   house: IHouse;
 }
 
-const HouseManualWrap: React.FC<IProps> = ({house}) => {
+const HMwrap: React.FC<IProps> = ({house}) => {
   const queryDateHook = useDayPicker(
     moment(new Date())
       .add(-1, "day")
@@ -84,4 +84,4 @@ const HouseManualWrap: React.FC<IProps> = ({house}) => {
   );
 };
 
-export default HouseManualWrap;
+export default HMwrap;

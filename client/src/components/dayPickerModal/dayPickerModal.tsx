@@ -1,5 +1,5 @@
 import React from "react";
-import {IUseModal} from "../../actions/hook";
+import {IUseModal} from "../../hooks/hook";
 import JDmodal from "../../atoms/modal/Modal";
 import JDdayPicker, {IJDdayPickerProps} from "../../atoms/dayPicker/DayPicker";
 import "./DayPickerModal.scss";
@@ -11,7 +11,11 @@ interface Iprops extends IJDdayPickerProps {
 
 const DayPickerModal: React.FC<Iprops> = ({modalHook, ...props}) => {
   return (
-    <JDmodal className="DayPickerModal" {...modalHook}>
+    <JDmodal
+      minWidth={MODAL_MIN_WIDTH}
+      className="DayPickerModal"
+      {...modalHook}
+    >
       <JDdayPicker {...props} />
     </JDmodal>
   );

@@ -1,7 +1,7 @@
 import React from "react";
 import {MutationFn} from "react-apollo";
 import JDselect, {IselectedOption} from "../../atoms/forms/selectBox/SelectBox";
-import {IUseSelect} from "../../actions/hook";
+import {IUseSelect} from "../../hooks/hook";
 import {insideRedirect} from "../../utils/utils";
 
 interface IProps {

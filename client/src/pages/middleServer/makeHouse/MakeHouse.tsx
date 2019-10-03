@@ -10,7 +10,7 @@ import {
   useSelect,
   useFetch,
   useDebounce
-} from "../../../actions/hook";
+} from "../../../hooks/hook";
 import {SELECT_HOUSE} from "../../../clientQueries";
 import {CREATE_HOUSE, GET_USER_INFO} from "../../../queries";
 import {ADDRESS_API_KEY} from "../../../keys";
@@ -132,6 +132,7 @@ const MakeHouse: React.FC<IProps> = ({context, google}) => {
 
   // 인풋서치 이후에 구글맵 위치를 변환
   const changeMapBySearch = async (value: string | null) => {
+    if (!value) return;
     const result = await geoCode(value);
     if (!map || !value) return;
     if (result !== false) {

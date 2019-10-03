@@ -1,9 +1,4 @@
-import {assertValidSDL} from "graphql/validation/validate";
 import {isMobile} from "is-mobile";
-
-//= =============================================================
-// START Enums from BackEnd
-//= =============================================================
 
 export enum UserRole {
   ADMIN = "ADMIN",
@@ -20,6 +15,11 @@ export enum GuestType {
 
 export enum MemoType {
   HOST = "HOST"
+}
+
+export enum PaymentType {
+  ONE_TIME = "ONE_TIME",
+  SUBSCRIPTION = "SUBSCRIPTION"
 }
 
 export enum SalesStatisticsUnit {
@@ -111,15 +111,6 @@ export enum RoomGenderKr {
   SEPARATELY = "제한없음(혼숙X)"
 }
 
-export enum PayMethodKr {
-  VBANK = "무통장입금",
-  CARD = "카드결제",
-  CASH = "현금결제",
-  KAKAOPAY = "카카오페이",
-  CHANNEL = "채널결제",
-  ELSE = "기타"
-}
-
 export enum GenderKr {
   FEMALE = "여",
   MALE = "남"
@@ -167,6 +158,13 @@ export enum PayMethod {
   CHANNEL_PAY = "CHANNEL_PAY"
 }
 
+export enum PayMethodKr {
+  VBANK = "무통장입금",
+  CARD = "카드결제",
+  CASH = "현금결제",
+  CHANNEL_PAY = "채널결제"
+}
+
 export enum Product {
   TEST = "상품1"
 }
@@ -205,9 +203,10 @@ export enum SalesStatisticsUnitKr {
   YEARLY = "년별"
 }
 
-export enum NotificationType {
+export enum NotiType {
   ELSE = "ELSE",
   NEW_BOOKING = "NEW_BOOKING",
+  PRODUCT_EXPIRE = "PRODUCT_EXPIRE",
   TO_ALL = "TO_ALL"
 }
 
@@ -261,7 +260,8 @@ export enum SmsReplaceKeyEnum {
   BOOKERNAME = "%BOOKERNAME%",
   TOTALPRICE = "%TOTALPRICE%",
   PAYMETHOD = "%PAYMETHOD%",
-  PAYMENTSTATUS = "%PAYMENTSTATUS%"
+  PAYMENTSTATUS = "%PAYMENTSTATUS%",
+  HM = "%HM%"
 }
 
 export enum Day {
@@ -304,7 +304,8 @@ export enum SmsReplaceKeyEnumKr {
   BOOKERNAME = "[예약자명]",
   TOTALPRICE = "[가격]",
   PAYMETHOD = "[결제방법]",
-  PAYMENTSTATUS = "[결제상태]"
+  PAYMENTSTATUS = "[결제상태]",
+  HM = "[하우스 메뉴얼 URL]"
 }
 export const SmsReplaceKeyEnumKeys = [
   "STAYDATE",
@@ -313,7 +314,8 @@ export const SmsReplaceKeyEnumKeys = [
   "BOOKERNAME",
   "TOTALPRICE",
   "PAYMETHOD",
-  "PAYMENTSTATUS"
+  "PAYMENTSTATUS",
+  "HM"
 ];
 export const SmsReplaceKeyEnumValues = [
   "%STAYDATE%",
@@ -322,10 +324,11 @@ export const SmsReplaceKeyEnumValues = [
   "%BOOKERNAME%",
   "%TOTALPRICE%",
   "%PAYMETHOD%",
-  "%PAYMENTSTATUS%"
+  "%PAYMENTSTATUS%",
+  "%HM%"
 ];
 
-export enum NotificationLevel {
+export enum NotiLevel {
   NORMAL = "NORMAL",
   WARN = "WARN"
 }
@@ -337,7 +340,8 @@ export const KR_SMS_PARSER = {
   STAYDATE: SmsReplaceKeyEnumKr.STAYDATE,
   STAYDATE_YMD: SmsReplaceKeyEnumKr.STAYDATE_YMD,
   PAYMENTSTATUS: SmsReplaceKeyEnumKr.PAYMENTSTATUS,
-  PAYMETHOD: SmsReplaceKeyEnumKr.PAYMETHOD
+  PAYMETHOD: SmsReplaceKeyEnumKr.PAYMETHOD,
+  HM: SmsReplaceKeyEnumKr.HM
 };
 
 //= =============================================================
@@ -428,8 +432,8 @@ export const SMS_TARGET_OP = [
 ];
 
 export const NOTI_LEVEL_OP = [
-  {value: NotificationLevel.NORMAL, label: NotificationLevel.NORMAL},
-  {value: NotificationLevel.WARN, label: NotificationLevel.WARN}
+  {value: NotiLevel.NORMAL, label: NotiLevel.NORMAL},
+  {value: NotiLevel.WARN, label: NotiLevel.WARN}
 ];
 
 export const PRODUCT_STATUS_OP = [

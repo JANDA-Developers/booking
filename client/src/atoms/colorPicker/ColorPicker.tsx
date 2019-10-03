@@ -1,7 +1,7 @@
 import React from 'react';
 import { SketchPicker, ColorResult } from 'react-color';
 import classnames from 'classnames';
-import { IUseColor } from '../../actions/hook';
+import { IUseColor } from '../../hooks/hook';
 import './ColorPicker.scss';
 import JDLabel from '../label/JDLabel';
 

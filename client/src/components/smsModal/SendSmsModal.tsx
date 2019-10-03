@@ -1,6 +1,6 @@
 import React, {useState, useEffect, Fragment} from "react";
 import JDmodal from "../../atoms/modal/Modal";
-import {IUseModal, useInput} from "../../actions/hook";
+import {IUseModal, useInput} from "../../hooks/hook";
 import JDbox from "../../atoms/box/JDbox";
 import JDselect, {IselectedOption} from "../../atoms/forms/selectBox/SelectBox";
 import {SELECT_DUMMY_OP, AutoSendWhen} from "../../types/enum";

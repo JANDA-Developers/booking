@@ -17,7 +17,7 @@ import {
   ROOM_GENDER_OP,
   PRICING_TYPE_OP
 } from "../../../../types/enum";
-import {IUseModal, useImageUploader, useModal} from "../../../../actions/hook";
+import {IUseModal, useImageUploader, useModal} from "../../../../hooks/hook";
 import {
   createRoomType,
   createRoomTypeVariables,
@@ -196,7 +196,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
                 }}
               />
             </div>
-            <div className="JDz-index-2 flex-grid__col JDz-index-3 col--full-6 col--lg-6 col--md-12">
+            <div className="JDz-index-3 flex-grid__col JDz-index-3 col--full-6 col--lg-6 col--md-12">
               <SelectBox
                 label="수용인원"
                 disabled={false}
@@ -205,7 +205,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
                 selectedOption={value.peopleCountMax}
               />
             </div>
-            <div className="flex-grid__col JDz-index-3 col--full-6 col--lg-6 col--md-12">
+            <div className="flex-grid__col JDz-index-2 col--full-6 col--lg-6 col--md-12">
               <SelectBox
                 label="방타입선택"
                 disabled={!isAddMode}

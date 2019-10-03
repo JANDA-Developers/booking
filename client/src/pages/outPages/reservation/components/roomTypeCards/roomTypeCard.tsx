@@ -8,12 +8,11 @@ import Button from "../../../../../atoms/button/Button";
 import {IRoomType} from "../../../../../types/interface";
 import Preloader from "../../../../../atoms/preloader/Preloader";
 import {isEmpty, autoComma} from "../../../../../utils/utils";
-import {useModal} from "../../../../../actions/hook";
+import {useModal} from "../../../../../hooks/hook";
 import {
   Gender,
   PricingType,
   RoomGender,
-  FLOATING_PRElOADER_SIZE
 } from "../../../../../types/enum";
 import {IGuestCount} from "./roomTypeCardsWrap";
 import JDmodal from "../../../../../atoms/modal/Modal";
@@ -57,9 +56,9 @@ const RoomTypeCard: React.SFC<IProps> = ({
   const {
     dayPickerHook,
     priceHook,
-    resvRooms,
+    roomSelectInfo,
     roomInfoHook,
-    setResvRooms,
+    setRoomSelectInfo,
     toastModalHook
   } = reservationHooks;
   const roomImgModalHook = useModal(false);
@@ -122,7 +121,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
 
   // 이미 선택한 방인지 체크1
   const isSelectedRoom = ((): boolean => {
-    const temp = resvRooms.filter(
+    const temp = roomSelectInfo.filter(
       resvRoom => resvRoom.roomTypeId === roomTypeData._id
     );
     if (isEmpty(temp)) return false;
@@ -130,7 +129,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
   })();
 
   // const maxSelectCount = ((): IselectedOption[] => {})();
-  const roomTypeIndex = resvRooms.findIndex(
+  const roomTypeIndex = roomSelectInfo.findIndex(
     resvRoom => resvRoom.roomTypeId === roomTypeData._id
   );
 
@@ -149,7 +148,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
 
   // 방선택하기 클릭시
   const handleRoomSelectClick = () => {
-    const resvRoomsCopy = resvRooms.slice();
+    const roomSelectInfoCopy = roomSelectInfo.slice();
 
     const dayDiff =
       moment(dayPickerHook.to!).diff(dayPickerHook.from!, "days") || 1;
@@ -157,8 +156,8 @@ const RoomTypeCard: React.SFC<IProps> = ({
 
     // 이미 선택된방 제거
     if (isSelectedRoom) {
-      resvRoomsCopy.splice(roomTypeIndex, 1);
-      setResvRooms(resvRoomsCopy);
+      roomSelectInfoCopy.splice(roomTypeIndex, 1);
+      setRoomSelectInfo(roomSelectInfoCopy);
       setDisabled({female: false, male: false, count: false});
 
       priceHook[1](priceHook[0] - totalRoomTypePrice);
@@ -172,16 +171,18 @@ const RoomTypeCard: React.SFC<IProps> = ({
     }
 
     // 선택된방이 아닐경우에
-    resvRoomsCopy.push({
+    roomSelectInfoCopy.push({
       roomTypeId: roomTypeData._id,
       pricingType: roomTypeData.pricingType,
-      discountedPrice: truePrice,
-      countFemaleGuest: guestCountValue.female,
-      countMaleGuest: guestCountValue.male,
-      countRoom: guestCountValue.room
+      price: truePrice,
+      count: {
+        female: guestCountValue.female,
+        male: guestCountValue.male,
+        roomCount: guestCountValue.room
+      }
     });
 
-    setResvRooms(resvRoomsCopy);
+    setRoomSelectInfo(roomSelectInfoCopy);
     setDisabled({female: true, male: true, count: true});
     priceHook[1](priceHook[0] + totalRoomTypePrice);
 

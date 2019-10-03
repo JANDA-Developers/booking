@@ -30,6 +30,13 @@
             height: $pagination-li-height;
             line-height: $pagination-li-height;
             padding: 0 $pagination-li-padding;
+            background-color: $grey-level1;
+            border-radius: $standard-border-radius;
+
+            &:hover {
+                background-color: $primary-color;
+                color: white;
+            }
         }
 
         &:hover {

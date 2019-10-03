@@ -23,13 +23,11 @@
             }
         }
         &--flexVcenter {
-            display: flex;
-            align-items: center;
-            // .JDbox__content {
-            //     display:flex;
-            //     justify-content: space-between;
-            //     align-items: center;
-            // }
+            .JDbox__content {
+                display:flex;
+                justify-content: space-between;
+                align-items: center;
+            }
         }
         
         

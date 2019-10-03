@@ -20,7 +20,7 @@ import ErrProtecter from "../../utils/errProtect";
 import {TimePerMs, GlobalCSS} from "../../types/enum";
 import JDdayPicker from "../dayPicker/DayPicker";
 import JDIcon, {IconSize} from "../icons/Icons";
-import {IUseDayPicker} from "../../actions/hook";
+import {IUseDayPicker} from "../../hooks/hook";
 
 // 변수설정
 const ASSIGT_IMELINE_HEIGHT = 36;

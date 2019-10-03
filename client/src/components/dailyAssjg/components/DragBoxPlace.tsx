@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  ConnectDropTarget,
-  DropTargetMonitor,
-  useDrop,
-  DragObjectWithType
-} from "react-dnd";
-import {DropTarget} from "react-dnd";
+import {useDrop, DragObjectWithType} from "react-dnd";
 import {
   getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms as IR,
   getAllRoomTypeWithGuest_GetGuests_guests as IG,
@@ -14,11 +8,9 @@ import {
 } from "../../../types/api";
 import DragItem, {IDragItemProp} from "./DragItem";
 import classNames from "classnames";
-import {PricingType} from "../../../types/enum";
-import {instanceOfA, isEmpty, s4} from "../../../utils/utils";
-import {ReactTooltip} from "../../../atoms/tooltip/Tooltip";
+import {instanceOfA, s4} from "../../../utils/utils";
 
-interface DragBoxPlace {
+interface IDragBoxPlace {
   room: IR;
   onDrop: (item: IG & DragObjectWithType, room: IR, place: number) => void;
   itemsInPlace: (IG | IB | null)[];
@@ -27,7 +19,7 @@ interface DragBoxPlace {
   place: number;
 }
 
-export const DragBoxPlace: React.FC<DragBoxPlace> = ({
+export const DragBoxPlace: React.FC<IDragBoxPlace> = ({
   room,
   onDrop,
   itemsInPlace,
@@ -52,7 +44,7 @@ export const DragBoxPlace: React.FC<DragBoxPlace> = ({
   ): (IG & IDragItemProp) | (IB & IDragItemProp) | null => {
     if (!item) return null;
     if (instanceOfA<IG>(item, "roomType")) {
-      return Object.assign({type: item.roomType!._id}, item);
+      return Object.assign({type: item.roomType._id}, item);
     } else {
       return Object.assign({type: "block"}, item);
     }

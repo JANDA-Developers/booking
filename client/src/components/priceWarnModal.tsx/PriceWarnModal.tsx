@@ -1,6 +1,6 @@
 import React, {Fragment} from "react";
 import {JDtoastModal} from "../../atoms/modal/Modal";
-import {IUseModal} from "../../actions/hook";
+import {IUseModal} from "../../hooks/hook";
 
 interface IPriceWarnModalParam {
   confirmCallBackFn: (flag: boolean) => void;

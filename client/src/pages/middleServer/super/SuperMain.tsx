@@ -1,6 +1,6 @@
 import React, {Fragment, useState} from "react";
 import {getHousesForSU_GetHousesForSU_houses as Ihouse} from "../../../types/api";
-import {IUseModal, useModal} from "../../../actions/hook";
+import {IUseModal, useModal} from "../../../hooks/hook";
 import Preloader from "../../../atoms/preloader/Preloader";
 import "./SuperMain.scss";
 import JDPagination from "../../../atoms/pagination/Pagination";
@@ -11,12 +11,12 @@ import Button from "../../../atoms/button/Button";
 import SendSMSmodalWrap, {
   IModalSMSinfo
 } from "../../../components/smsModal/SendSmsModalWrap";
-import CreateNotificationModalWrap, {
+import CreateNotiModalWrap, {
   ICreateNotiModalParam
-} from "./components/createNotificationModalWrap";
+} from "./components/createNotiModalWrap";
 import {IContext} from "../../MiddleServerRouter";
 import {isEmpty} from "../../../utils/utils";
-import {NotificationType} from "../../../types/enum";
+import {NotiType} from "../../../types/enum";
 interface Iprops {
   context: IContext;
   page: number;
@@ -36,7 +36,7 @@ const SuperMain: React.SFC<Iprops> = ({
   page,
   setPage
 }) => {
-  const notificationModalHook = useModal<ICreateNotiModalParam>(false);
+  const NotiModalHook = useModal<ICreateNotiModalParam>(false);
   return (
     <div id="superMain">
       <div className="container container--sm">
@@ -46,8 +46,8 @@ const SuperMain: React.SFC<Iprops> = ({
               <div>
                 <Button
                   onClick={() => {
-                    notificationModalHook.openModal({
-                      target: NotificationType.TO_ALL
+                    NotiModalHook.openModal({
+                      target: NotiType.TO_ALL
                     });
                   }}
                   thema="white"
@@ -60,7 +60,7 @@ const SuperMain: React.SFC<Iprops> = ({
                 <HouseCard
                   key={`houseCard${house._id}`}
                   houseData={house}
-                  notificationModalHook={notificationModalHook}
+                  NotiModalHook={NotiModalHook}
                   userModal={userModal}
                 />
               ))}
@@ -78,10 +78,7 @@ const SuperMain: React.SFC<Iprops> = ({
             )}
           </Fragment>
           {!isEmpty(context.house) && (
-            <CreateNotificationModalWrap
-              context={context}
-              modalHook={notificationModalHook}
-            />
+            <CreateNotiModalWrap context={context} modalHook={NotiModalHook} />
           )}
         </div>
       </div>

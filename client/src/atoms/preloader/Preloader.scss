@@ -90,12 +90,12 @@
         border-top: 6vmin solid $preloader-fill-color;
         border-radius: 50%;
         animation: rotate 3s infinite linear;
-        @include response ($tablet) {
+        @include response ($desktop) {
             border: 3rem solid $preloader-background-color;
             border-top: 3rem solid $preloader-fill-color;
         }
     }
-    @include response ($tablet) {
+    @include response ($desktop) {
         display:flex;
         align-items: center;
         .preloader--page {

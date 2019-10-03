@@ -1,5 +1,5 @@
 import {IContext} from "../pages/MiddleServerRouter";
-import {IUseModal} from "../actions/hook";
+import {IUseModal} from "../hooks/hook";
 import {useQuery} from "@apollo/react-hooks";
 import {
   getMemos,

@@ -1,6 +1,5 @@
 import $ from "jquery";
 import {getCookie} from "./cookies";
-import isEmpty from "./isEmptyData";
 import {IReservationHooks} from "../pages/outPages/reservation/Reservation";
 
 export const isDeveloper = () => {
@@ -22,7 +21,7 @@ export const reservationDevelop = (reservationHooks: IReservationHooks) => {
     target[1].click();
   }
 
-  const {setBookerInfo, setResvRooms} = reservationHooks;
+  const {setBookerInfo} = reservationHooks;
   setTimeout(() => {
     $(".roomTypeCard__selectButton")[0].click();
     setBookerInfo({

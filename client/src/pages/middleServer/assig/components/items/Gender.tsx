@@ -3,9 +3,14 @@ import {GenderKr, Gender as TGender} from "../../../../../types/enum";
 
 interface IGenderProp {
   gender?: TGender | null;
+  item?: {
+    gender?: TGender;
+    [key: string]: any;
+  };
 }
-const Gender: React.FC<IGenderProp> = ({gender}) =>
-  gender ? (
+const Gender: React.FC<IGenderProp> = ({gender: propGender, item}) => {
+  const gender = propGender || (item && item.gender);
+  return gender ? (
     <span
       className={`assigItem__gender ${`assigItem__gender--${gender.toLowerCase()}`}`}
     >
@@ -14,5 +19,6 @@ const Gender: React.FC<IGenderProp> = ({gender}) =>
   ) : (
     <span />
   );
+};
 
 export default Gender;

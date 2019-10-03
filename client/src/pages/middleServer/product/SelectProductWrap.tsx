@@ -3,7 +3,7 @@ import React, {useState, useEffect, Fragment} from "react";
 import {Mutation, graphql, Query} from "react-apollo";
 import {toast} from "react-toastify";
 import {Redirect} from "react-router-dom";
-import {useRadio, useModal, useCheckBox} from "../../../actions/hook";
+import {useRadio, useModal, useCheckBox} from "../../../hooks/hook";
 import {
   GET_PRODUCTS_TYPES,
   BUY_PRODUCTS,

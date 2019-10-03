@@ -1,30 +1,24 @@
 import classNames from "classnames";
 import React from "react";
 import JDmodal from "../../../../atoms/modal/Modal";
-import {IUseModal, useSelect, useModal} from "../../../../actions/hook";
+import {IUseModal} from "../../../../hooks/hook";
 import JDselect from "../../../../atoms/forms/selectBox/SelectBox";
 import Button from "../../../../atoms/button/Button";
 import BookerInfoBox from "./bookerInfoBox";
-import {BookerInput} from "../../../../types/api";
-import {ISetBookingInfo, IReservationHooks} from "../Reservation";
+import {IReservationHooks} from "../Reservation";
 import {
   PAYMETHOD_FOR_BOOKER_OP,
   PAYMETHOD_FOR_HOST_OP
 } from "../../../../types/enum";
 import CheckBox from "../../../../atoms/forms/checkBox/CheckBox";
 import Preloader from "../../../../atoms/preloader/Preloader";
-import {
-  developEvent,
-  reservationDevelop
-} from "../../../../utils/developMaster";
-import AgreePolicyModal from "./AgreePolicyModal";
 
 interface IProps {
   className?: string;
   modalHook: IUseModal;
   createLoading: boolean;
   bookingCompleteFn(): void;
-  isAdmin: boolean;
+  isHost: boolean;
   reservationHooks: IReservationHooks;
 }
 
@@ -34,7 +28,7 @@ const PayMentModal: React.SFC<IProps> = ({
   reservationHooks,
   bookingCompleteFn,
   createLoading,
-  isAdmin
+  isHost
 }) => {
   const {
     payMethodHook,
@@ -62,7 +56,7 @@ const PayMentModal: React.SFC<IProps> = ({
               <JDselect
                 {...payMethodHook}
                 options={
-                  isAdmin ? PAYMETHOD_FOR_HOST_OP : PAYMETHOD_FOR_BOOKER_OP
+                  isHost ? PAYMETHOD_FOR_HOST_OP : PAYMETHOD_FOR_BOOKER_OP
                 }
                 label="결제수단"
               />
@@ -72,7 +66,7 @@ const PayMentModal: React.SFC<IProps> = ({
               setBookerInfo={setBookerInfo}
             />
           </div>
-          {isAdmin && <CheckBox {...sendSmsHook} label="SMS전송" />}
+          {isHost && <CheckBox {...sendSmsHook} label="SMS전송" />}
           <div className="JDmodal__endSection">
             <Button
               thema="primary"

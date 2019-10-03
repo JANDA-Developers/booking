@@ -89,6 +89,11 @@ a.JDanchor {
     margin-bottom: $standard-margin-bottom;
 }
 
+// 특수한 경우가 아니면 쓰지마시요.
+.JDmarginTop {
+    margin-top: $standard-margin-bottom;
+}
+
 .JDstandard-space {
     margin-right: $standard-space;
 }
@@ -179,6 +184,9 @@ a.JDanchor {
 
 .JDtextColor--primary {
     color: $primary-color
+}
+.JDtextColor--error {
+    color: $error-color
 }
 .JDtextColor--point {
     color: $point-color

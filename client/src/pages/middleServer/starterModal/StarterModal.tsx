@@ -1,15 +1,16 @@
 import React, {useState} from "react";
 import JDmultiStep from "../../../atoms/multiStep/MultiStep";
-import Steps from "./comonent/steps";
+import Steps from "./comonent/steps_";
 import {IContext} from "../../MiddleServerRouter";
-import {HouseStatus} from "../../../types/enum";
+import {HouseStatus, MODAL_MIN_WIDTH} from "../../../types/enum";
 import {isEmpty, stepFinder} from "../../../utils/utils";
 import JDmodal from "../../../atoms/modal/Modal";
-import {useModal} from "../../../actions/hook";
+import {useModal} from "../../../hooks/hook";
 import "./StarterModal.scss";
 import {MutationFn} from "react-apollo";
 import {updateHouse, updateHouseVariables} from "../../../types/api";
 import Mbr from "../../../atoms/mbr/Mbr";
+import {isMobile} from "is-mobile";
 
 interface IProps {
   context: IContext;
@@ -17,6 +18,7 @@ interface IProps {
 }
 
 const StarterModal: React.FC<IProps> = ({context, updateHouseMu}) => {
+  const {history} = context;
   const modalHook = useModal(true);
 
   const defaultStep = stepFinder(context);
@@ -27,7 +29,7 @@ const StarterModal: React.FC<IProps> = ({context, updateHouseMu}) => {
     <JDmodal
       className="staterModal"
       {...modalHook}
-      minWidth="40%"
+      minWidth={isMobile() ? MODAL_MIN_WIDTH : "40%"}
       isUnderHeader
       onRequestClose={() => {}}
     >
@@ -37,7 +39,7 @@ const StarterModal: React.FC<IProps> = ({context, updateHouseMu}) => {
             steps={[
               {
                 current: step === "phoneVerification",
-                name: <span>휴대폰인증</span>
+                name: <span>번호인증</span>
               },
               {
                 current: step === "houseMake",
@@ -60,16 +62,6 @@ const StarterModal: React.FC<IProps> = ({context, updateHouseMu}) => {
                 )
               },
               {
-                current: step === "readyAssign",
-                name: (
-                  <span>
-                    적용
-                    <Mbr />
-                    대기
-                  </span>
-                )
-              },
-              {
                 current: step === "makeRoom",
                 name: <span>방생성</span>
               }
@@ -81,7 +73,7 @@ const StarterModal: React.FC<IProps> = ({context, updateHouseMu}) => {
         <Steps
           stepFinishCallBack={() => {
             modalHook.closeModal();
-            location.reload();
+            history.go(0);
           }}
           updateHouseMu={updateHouseMu}
           context={context}

@@ -6,7 +6,7 @@ import {GET_BOOKINGS} from "../../queries";
 import {IContext} from "../../pages/MiddleServerRouter";
 import {queryDataFormater} from "../../utils/utils";
 import moment from "moment";
-import {useDayPicker} from "../../actions/hook";
+import {useDayPicker} from "../../hooks/hook";
 
 interface IProps {
   context: IContext;

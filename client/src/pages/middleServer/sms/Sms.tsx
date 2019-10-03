@@ -3,7 +3,7 @@ import {IconSize} from "../../../atoms/icons/Icons";
 
 import Button from "../../../atoms/button/Button";
 import Card from "../../../atoms/cards/Card";
-import {useModal} from "../../../actions/hook";
+import {useModal} from "../../../hooks/hook";
 import {MutationFn} from "react-apollo";
 import {
   updateSmsTemplate,

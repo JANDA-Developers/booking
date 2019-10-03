@@ -1,21 +1,16 @@
-import React, {useState} from "react";
-import {IAddition} from "../components/ConfigBlock";
-import JDLabel from "../../../../atoms/label/JDLabel";
-import JDrange from "../../../../atoms/forms/range/range";
+import React from "react";
 import {MutationFn} from "react-apollo";
 import {
   updateHouseConfig,
   updateHouseConfigVariables
 } from "../../../../types/api";
-import {IHouse} from "../../../../types/interface";
 import {IContext} from "../../../MiddleServerRouter";
-import JDselect from "../../../../atoms/forms/selectBox/SelectBox";
-import {PRICING_TYPE_OP_EXPEND} from "../../../../types/enum";
-import {useSelect, useSwitch} from "../../../../actions/hook";
+import {useSwitch, useSelect} from "../../../../hooks/hook";
 import Button from "../../../../atoms/button/Button";
-import {toast} from "react-toastify";
 import JDswitch from "../../../../atoms/forms/switch/Switch";
 import JDbox from "../../../../atoms/box/JDbox";
+import {PRICING_TYPE_OP_EXPEND} from "../../../../types/enum";
+import JDselect from "../../../../atoms/forms/selectBox/SelectBox";
 
 interface IProps {
   updateHouseConfigMu: MutationFn<
@@ -28,14 +23,17 @@ interface IProps {
 const BaseConfig: React.FC<IProps> = ({updateHouseConfigMu, context}) => {
   const {houseConfig, house} = context;
   const {
-    bookingConfig: {collectingInfoFromGuest}
+    baseConfig: {pricingTypes}
   } = houseConfig;
 
-  const {email} = collectingInfoFromGuest;
-
-  const enableEmailHook = useSwitch(email);
+  const useingPricingTypesHook = useSelect(
+    PRICING_TYPE_OP_EXPEND.find(
+      temp => temp.value.join() === pricingTypes.join()
+    )!
+  );
 
   const vlidate = (): boolean => {
+    if (!useingPricingTypesHook.selectedOption) return false;
     return true;
   };
 
@@ -45,10 +43,8 @@ const BaseConfig: React.FC<IProps> = ({updateHouseConfigMu, context}) => {
         variables: {
           houseId: house._id,
           UpdateHouseConfigParams: {
-            bookingConfig: {
-              collectingInfoFromGuest: {
-                email: enableEmailHook.checked
-              }
+            baseConfig: {
+              pricingTypes: useingPricingTypesHook.selectedOption!.value
             }
           }
         }
@@ -71,8 +67,13 @@ const BaseConfig: React.FC<IProps> = ({updateHouseConfigMu, context}) => {
         </div>
       </div>
       <div>
-        <h6>게스트 입력 정보</h6>
-        <JDswitch label="이메일 정보" {...enableEmailHook} />
+        <h6>상품 형태 입력</h6>
+        <div>
+          <JDselect
+            {...useingPricingTypesHook}
+            options={PRICING_TYPE_OP_EXPEND}
+          />
+        </div>
         <JDbox mode="photoFrame" />
       </div>
     </div>

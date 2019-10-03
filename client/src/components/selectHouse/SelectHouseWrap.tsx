@@ -2,7 +2,7 @@ import {ReactPaginateProps} from "react-paginate";
 import React, {useEffect} from "react";
 import {Mutation} from "react-apollo";
 import SelectHouse from "./SelectHouse";
-import {useSelect, IUseSelect} from "../../actions/hook";
+import {useSelect, IUseSelect} from "../../hooks/hook";
 import {
   IHouse,
   ISelectHouse,

@@ -23,7 +23,7 @@ import {
 } from "../../types/enum";
 import Button from "../../atoms/button/Button";
 import CheckBox from "../../atoms/forms/checkBox/CheckBox";
-import {useSelect, useCheckBox, useInput} from "../../actions/hook";
+import {useSelect, useCheckBox, useInput} from "../../hooks/hook";
 import {MutationFn} from "react-apollo";
 
 interface IProps {

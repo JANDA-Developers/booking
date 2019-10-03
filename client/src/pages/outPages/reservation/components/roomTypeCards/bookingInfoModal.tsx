@@ -1,5 +1,5 @@
 import React from "react";
-import {IUseModal} from "../../../../../actions/hook";
+import {IUseModal} from "../../../../../hooks/hook";
 import {IContext} from "../../../../MiddleServerRouter";
 import JDmodal from "../../../../../atoms/modal/Modal";
 import BookingInfoBox, {IBookingInfoBoxProps} from "../bookingInfoBox";

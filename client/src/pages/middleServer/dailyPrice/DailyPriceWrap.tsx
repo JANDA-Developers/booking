@@ -31,7 +31,7 @@ import {
   onCompletedMessage
 } from "../../../utils/utils";
 import {TimePerMs} from "../../../types/enum";
-import {useDayPicker} from "../../../actions/hook";
+import {useDayPicker} from "../../../hooks/hook";
 import {IContext} from "../../MiddleServerRouter";
 
 class GetAllRoomTypePriceQuery extends Query<

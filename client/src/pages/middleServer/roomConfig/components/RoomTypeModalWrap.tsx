@@ -18,7 +18,7 @@ import {
   GET_ROOMTYPE_BY_ID,
   GET_ALL_ROOMTYPES
 } from "../../../../queries";
-import {IUseModal} from "../../../../actions/hook";
+import {IUseModal} from "../../../../hooks/hook";
 import {
   ErrProtecter,
   onCompletedMessage,

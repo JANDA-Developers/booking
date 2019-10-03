@@ -6,16 +6,16 @@ import {ReactTooltip} from "../../atoms/tooltipList/TooltipList";
 import Icon, {IconSize} from "../../atoms/icons/Icons";
 import {ErrProtecter} from "../../utils/utils";
 import logo from "../../img/logo/logo--white.png"; // with import
-import {useModal, useToggle} from "../../actions/hook";
+import {useModal, useToggle} from "../../hooks/hook";
 import {IHouse, IDiv} from "../../types/interface";
-import GuestSearchInputWrap from "../guestSearchInput/guestSearchInputWrap";
+import GuestSearchInputWrap from "../guestSearchInput/guestSearchInputWrap_";
 import PhoneVerificationModalWrap from "../phoneVerificationModal/PhoneVerificationModalWrap";
 import SideNav from "../sideNav/SideNav";
 import windowSize, {WindowSizeProps} from "react-window-size";
 import {WindowSize} from "../../types/enum";
 import {IContext} from "../../pages/MiddleServerRouter";
-import MobileHeaderComponent from "./components/mobileHeaderComponent";
-import PcHeaderComponent from "./components/pcHeaderComponent";
+import MobileHeaderComponent from "./components/mobileHeaderComponent_";
+import PcHeaderComponent from "./components/pcHeaderComponent_";
 import SharedHeaderComponent from "./components/SharedHeaderComponent";
 import JDIcon from "../../atoms/icons/Icons";
 

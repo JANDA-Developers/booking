@@ -6,7 +6,7 @@ import DailyAssigWrap from "../../../components/dailyAssjg/DailyAssigWrap";
 import "./DashBoard.scss";
 import {MutationFn} from "react-apollo";
 import {updateHouse, updateHouseVariables} from "../../../types/api";
-import {useModal, useDayPicker} from "../../../actions/hook";
+import {useModal, useDayPicker} from "../../../hooks/hook";
 import Button from "../../../atoms/button/Button";
 import {IContext} from "../../MiddleServerRouter";
 import DaySalesWrap from "../../../components/shortStatisces/DaySalesWrap";
@@ -79,7 +79,7 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
                       modalHook={reservationModal}
                       callBackCreateBookingMu={(foo: any) => {}}
                       publicKey={house.publicKey || undefined}
-                      isAdmin
+                      isHost
                     />
                   </Fragment>
                 </Card>

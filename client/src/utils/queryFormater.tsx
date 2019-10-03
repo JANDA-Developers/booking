@@ -1,7 +1,7 @@
 import React from "react";
 import {toast} from "react-toastify";
 import isEmpty from "./isEmptyData";
-import ToastError from "../components/toasts/errorToast";
+import ToastError from "../components/toasts/errorToast_";
 
 function queryDataFormater<T, K extends keyof T, C extends keyof T[K], D>(
   data: T | undefined,

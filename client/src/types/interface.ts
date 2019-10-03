@@ -11,7 +11,11 @@ import {
   getAllSeasonTable_GetAllSeason_seasons,
   getMyProfile_GetMyProfile_user_houses,
   getMyProfile_GetMyProfile_user_houses_houseConfig,
-  ProductTypeKey
+  ProductTypeKey,
+  getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory,
+  getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom,
+  getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking,
+  getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_blockOption
 } from "./api";
 import {IselectedOption} from "../atoms/forms/selectBox/SelectBox";
 import {PricingType} from "./enum";
@@ -30,9 +34,13 @@ export interface IDiv extends React.HTMLAttributes<HTMLDivElement> {}
 export interface IUl extends React.HTMLAttributes<HTMLUListElement> {}
 export interface IRoomType extends getAllRoomType_GetAllRoomType_roomType {}
 export interface IBooking extends getBookings_GetBookings_bookings {}
-export interface IGuests extends getAllRoomTypeWithGuest_GetGuests_guests {}
+export type IGuest = getAllRoomTypeWithGuest_GetGuests_guests;
+export type IGuestD = getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory;
+export type IGuestR = getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom;
 export interface ISeason extends getAllSeasonTable_GetAllSeason_seasons {}
 export interface IBlock extends getAllRoomTypeWithGuest_GetBlocks_blocks {}
+export interface IBlockOp
+  extends getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_blockOption {}
 export interface IPageInfo {
   currentPage: number;
   totalPage: number;

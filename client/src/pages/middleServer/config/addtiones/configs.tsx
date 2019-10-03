@@ -4,6 +4,7 @@ import SystemDescription from "./systemConfig";
 import AssigTimelineRoomTypeTab from "./assigTimelineRoomTypeTab";
 import AssigBlockOP from "./assigBlockOP";
 import NewBookingMark from "./newBookingMark";
+import ReservationConfig from "./ReservationConfig";
 import BaseConfig from "./BaseConfig";
 
 export const configBlocks: IAddition[] = [
@@ -17,7 +18,7 @@ export const configBlocks: IAddition[] = [
     description: "예약 관련 설정",
     name: "예약 설정",
     updateAt: "2019-09-23",
-    detailDescription: (prop: IAddtionProp) => <BaseConfig {...prop} />
+    detailDescription: (prop: IAddtionProp) => <ReservationConfig {...prop} />
   },
   {
     description: "시스템 관련 설정",

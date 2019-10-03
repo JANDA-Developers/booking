@@ -17,7 +17,7 @@ import "./Memo.scss";
 import Preloader from "../../atoms/preloader/Preloader";
 import isLast from "../../utils/isLast";
 import JDToolTip, {ReactTooltip} from "../../atoms/tooltip/Tooltip";
-import {useModal} from "../../actions/hook";
+import {useModal} from "../../hooks/hook";
 import MemoAlertModal from "./component/MemoAlertModal";
 import {IContext} from "../../pages/MiddleServerRouter";
 

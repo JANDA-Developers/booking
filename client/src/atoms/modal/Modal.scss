@@ -51,7 +51,7 @@
             margin: $container-padding;
         }
 
-        max-height: 85%;
+        max-height: 80vh;
         overflow-y:auto;
 
         .container {
@@ -64,7 +64,15 @@
             margin-bottom: 10%;
         }
     }
+}
 
+.inIframe {
+    .ReactModal {
+        &__Content{
+            margin-bottom: 0%!important;
+            margin-top:0%!important;
+        }
+    }
 }
 
 // 커스텀 여기서부터

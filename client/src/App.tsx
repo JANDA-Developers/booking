@@ -1,4 +1,5 @@
 /* eslint-disable no-shadow */
+import {AppRegistry} from 'react-native';
 import React, {useMemo} from "react";
 import {ApolloProvider} from "react-apollo";
 import {HashRouter as Router, Route, Switch} from "react-router-dom";
