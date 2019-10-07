@@ -1,15 +1,14 @@
-import React from "react";
+import React, {Fragment} from "react";
 import TooltipList from "../../../atoms/tooltipList/TooltipList";
 import Button from "../../../atoms/button/Button";
-import {ReactTooltip} from "../../../atoms/tooltip/Tooltip";
 import {IContext} from "../../../pages/MiddleServerRouter";
-import {IDailyAssigProp} from "../DailyAssigWrap";
 import {IDailyAssigContext} from "../DailyAssig";
 import {
   IDailyAssigUtils,
   IDailyAssigDataControl
 } from "../../../pages/middleServer/assig/components/assigIntrerface";
 import {getAllRoomTypeWithGuest_GetGuests_guests as IG} from "../../../types/api";
+import {BookingStatus} from "../../../types/enum";
 
 interface Iprops {
   context: IContext;
@@ -22,9 +21,6 @@ interface Iprops {
 }
 
 const GuestTooltip: React.FC<Iprops> = ({
-  context,
-  dailyAssigUtils,
-  dailyAssigDataControl,
   infoBtnCallBack,
   deleteBtnCallBack,
   dailayAssigContext,
@@ -38,26 +34,34 @@ const GuestTooltip: React.FC<Iprops> = ({
       getContent={(guestId: string) => {
         const targetGuest = guestsData.find(guest => guest._id === guestId);
         if (!targetGuest) return;
+        const isProgressing =
+          targetGuest.booking.status === BookingStatus.PROGRESSING;
         return (
           <ul className="tooltipList__ul">
-            <li>
-              <Button
-                onClick={() => {
-                  checkInBtnCallBack(targetGuest);
-                }}
-                label={
-                  targetGuest.booking.checkInInfo.isIn ? "체크아웃" : "체크인"
-                }
-              />
-            </li>
-            <li>
-              <Button
-                onClick={() => {
-                  deleteBtnCallBack(targetGuest);
-                }}
-                label="삭제"
-              />
-            </li>
+            {!isProgressing && (
+              <Fragment>
+                <li>
+                  <Button
+                    onClick={() => {
+                      checkInBtnCallBack(targetGuest);
+                    }}
+                    label={
+                      targetGuest.booking.checkInInfo.isIn
+                        ? "체크아웃"
+                        : "체크인"
+                    }
+                  />
+                </li>
+                <li>
+                  <Button
+                    onClick={() => {
+                      deleteBtnCallBack(targetGuest);
+                    }}
+                    label="삭제"
+                  />
+                </li>
+              </Fragment>
+            )}
             {/* TODO  색상표시 여기 */}
             <li>
               <Button

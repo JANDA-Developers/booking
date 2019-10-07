@@ -2,7 +2,7 @@ import React, {Fragment} from "react";
 import TooltipList from "../../../../../atoms/tooltipList/TooltipList";
 import Button from "../../../../../atoms/button/Button";
 import $ from "jquery";
-import {DEFAULT_ASSIG_ITEM} from "../../../../../types/defaults";
+import {DEFAUT_ASSIG_ITEM} from "../../../../../types/defaults";
 import {roomGenderToGedner} from "../groupDataMenufacture";
 import {
   GuestTypeAdd,
@@ -20,13 +20,14 @@ interface IProps {
 }
 
 const CanvasMenuTooltip: React.FC<IProps> = ({
-  assigHooks: {guestValue, setMakeMenuProps, canvasMenuProps, setGuestValue},
+  assigHooks: {guestValue, setCreateMenuProps, canvasMenuProps, setGuestValue},
   assigUtils: {
     addBlock,
     getGroupById,
     resizeLinkedItems,
     getItemById,
-    allTooltipsHide
+    allTooltipsHide,
+    createCreateItem
   }
 }) => {
   if (!canvasMenuProps.groupId || canvasMenuProps.groupId === "noneGroup")
@@ -34,54 +35,8 @@ const CanvasMenuTooltip: React.FC<IProps> = ({
   const targetPricingType = getGroupById(canvasMenuProps.groupId).roomType
     .pricingType;
 
-  const makeMakeItem = (gender?: Gender) => {
-    allTooltipsHide();
-    const linkedItems = guestValue.filter(
-      item =>
-        item.type === GuestTypeAdd.MAKE &&
-        item.start <= canvasMenuProps.start &&
-        item.end >= canvasMenuProps.end
-    );
-
-    const getTime = (flag: "start" | "end") => {
-      if (!linkedItems[0]) return canvasMenuProps[flag];
-      if (
-        linkedItems[0].start <= canvasMenuProps.start &&
-        linkedItems[0].end >= canvasMenuProps.end
-      )
-        return linkedItems[0][flag];
-      return canvasMenuProps[flag];
-    };
-
-    const newItem = {
-      ...DEFAULT_ASSIG_ITEM,
-      bookingId: "make",
-      id: `make${canvasMenuProps.groupId}${canvasMenuProps.start}${s4()}`,
-      gender:
-        gender ||
-        roomGenderToGedner(
-          canvasMenuProps.group.roomGender,
-          canvasMenuProps.group.pricingType
-        ),
-      type: GuestTypeAdd.MAKE,
-      start: getTime("start"),
-      end: getTime("end"),
-      group: canvasMenuProps.groupId
-    };
-
-    linkedItems.push(newItem);
-
-    $("#canvasMenu").removeClass("canvasMenu--show");
-
-    setGuestValue([
-      ...guestValue.filter(
-        item =>
-          item.type !== GuestTypeAdd.MAKE && item.type !== GuestTypeAdd.MARK
-      ),
-      ...linkedItems
-    ]);
-
-    setMakeMenuProps({item: newItem});
+  const createBtnHandler = (gender?: Gender) => {
+    createCreateItem(canvasMenuProps, gender);
   };
 
   return (
@@ -93,7 +48,7 @@ const CanvasMenuTooltip: React.FC<IProps> = ({
               label="예약생성"
               onClick={e => {
                 e.stopPropagation();
-                makeMakeItem();
+                createBtnHandler();
               }}
             />
           </li>
@@ -105,7 +60,7 @@ const CanvasMenuTooltip: React.FC<IProps> = ({
                 label="예약생성(남)"
                 onClick={e => {
                   e.stopPropagation();
-                  makeMakeItem(Gender.MALE);
+                  createBtnHandler(Gender.MALE);
                 }}
               />
             </li>
@@ -114,7 +69,7 @@ const CanvasMenuTooltip: React.FC<IProps> = ({
                 label="예약생성(여)"
                 onClick={e => {
                   e.stopPropagation();
-                  makeMakeItem(Gender.FEMALE);
+                  createBtnHandler(Gender.FEMALE);
                 }}
               />
             </li>

@@ -174,7 +174,7 @@ export default (function (window) {
             }, delay);
         },
 
-        // Little hack to make <input> can perform waves effect
+        // Little hack to create <input> can perform waves effect
         wrapInput: function (elements) {
             for (var a = 0; a < elements.length; a++) {
                 var el = elements[a];

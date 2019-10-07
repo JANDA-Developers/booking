@@ -4,7 +4,7 @@ import selectTableHOC, {
   SelectInputComponentProps,
   SelectAllInputComponentProps
 } from "react-table/lib/hoc/selectTable";
-import JDtable, {ReactTableDefault} from "../../../atoms/table/Table";
+import JDtable, {ReactTableDefault, JDcolumn} from "../../../atoms/table/Table";
 import CheckBox from "../../../atoms/forms/checkBox/CheckBox";
 import Button from "../../../atoms/button/Button";
 import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
@@ -13,7 +13,7 @@ import BookingModalWrap from "../../../components/bookingModal/BookingModalWrap"
 import {IPageInfo, IBooking, IRoomType} from "../../../types/interface";
 import JDbox from "../../../atoms/box/JDbox";
 import {arraySum} from "../../../utils/elses";
-import {set4YMMDD} from "../../../utils/setMidNight";
+import {to4YMMDD} from "../../../utils/setMidNight";
 import {MutationFn} from "react-apollo";
 import {
   deleteBooking,
@@ -26,12 +26,11 @@ import {JDtoastModal} from "../../../atoms/modal/Modal";
 import {
   PaymentStatus,
   PricingType,
-  PricingTypeKr,
   PaymentStatusKr,
   BookingStatus,
-  FLOATING_PRElOADER_SIZE
+  FLOATING_PRElOADER_SIZE,
+  DateFormat
 } from "../../../types/enum";
-import {getCountsFromBooking} from "../../../utils/booking";
 import moment from "moment";
 import JDbadge from "../../../atoms/badge/Badge";
 import "./ResvList.scss";
@@ -45,6 +44,8 @@ import ConfirmBadgeWrap from "../../../components/confirmBadge/ConfirmBadgeWrap"
 import textReader from "../../../utils/textReader";
 import {NetworkStatus} from "apollo-boost";
 import {IContext} from "../../MiddleServerRouter";
+import {getRoomSelectInfo} from "../../../utils/guestCountByRoomType";
+import {inOr} from "../../../utils/C";
 
 interface IProps {
   pageInfo: IPageInfo | undefined;
@@ -162,39 +163,16 @@ const ResvList: React.SFC<IProps> = ({
     }
   };
 
-  const TableColumns = [
+  const TableColumns: JDcolumn<IBooking>[] = [
     {
       Header: "예약일자",
       accessor: "createdAt",
-      Cell: ({value, original}: CellInfo) => {
-        const isCancled = original.bookingStatus === BookingStatus.CANCEL;
-        const {isNew, isConfirm, _id} = original;
-
+      Cell: ({value}) => {
         return (
           <div className="resvList__createdAt">
-            <div>
-              {newBookingMarkEnable && (
-                <ConfirmBadgeWrap
-                  className="JDstandard-space0"
-                  show={isNew && !isConfirm}
-                  bookingId={_id}
-                />
-              )}
-            </div>
             {moment(value)
               .local()
-              .format("YY-MM-DD HH:mm")}
-            {isCancled && (
-              <Fragment>
-                <br />
-                <JDbadge
-                  className="resvList__bookingStatusBadge"
-                  thema={"error"}
-                >
-                  cancle
-                </JDbadge>
-              </Fragment>
-            )}
+              .format(DateFormat.WITH_TIME)}
           </div>
         );
       }
@@ -202,35 +180,30 @@ const ResvList: React.SFC<IProps> = ({
     {
       Header: "숙박정보",
       accessor: "roomTypes",
-      Cell: ({value, original}: CellInfo) => {
+      Cell: ({value, original}) => {
         const roomTypes: IRoomType[] = value;
-        return roomTypes.map(roomType => (
+        const selectInfoes = getRoomSelectInfo(original.guests, roomTypes);
+
+        return selectInfoes.map(selectInfo => (
           <JDbox
             size="small"
             textAlign="center"
-            key={`${original._id}${roomType._id}`}
+            key={`${original._id}${selectInfo.roomTypeId}`}
           >
-            {roomType.name}
+            {selectInfo.roomTypeName}
             <br />
             <span>
               {(() => {
-                const guestsCount = getCountsFromBooking(
-                  original.guests,
-                  roomType._id
-                );
+                const {female, male, roomCount} = selectInfo.count;
                 return (
                   <span>
-                    {roomType.pricingType === PricingType.DOMITORY ? (
+                    {selectInfo.pricingType === PricingType.DOMITORY ? (
                       <Fragment>
-                        {guestsCount.female ? (
-                          <span>{guestsCount.female}여 </span>
-                        ) : null}
-                        {guestsCount.male ? (
-                          <span>{guestsCount.male}남</span>
-                        ) : null}
+                        {female !== 0 && <span>{female}여 </span>}
+                        {male !== 0 && <span>{male}남</span>}
                       </Fragment>
                     ) : (
-                      <span>{guestsCount.roomCount}개</span>
+                      <span>{roomCount}개</span>
                     )}
                   </span>
                 );
@@ -242,15 +215,13 @@ const ResvList: React.SFC<IProps> = ({
     },
     {
       Header: "체크인",
-      accessor: "booking",
-      Cell: ({original}: CellInfo) => <div>{set4YMMDD(original.checkIn)}</div>
+      accessor: "_id",
+      Cell: ({original}) => <div>{to4YMMDD(original.checkIn)}</div>
     },
     {
       Header: "체크아웃",
-      accessor: "booking",
-      Cell: ({original}: CellInfo) => (
-        <div>{set4YMMDD(original.checkOut)}</div>
-      )
+      accessor: "_id",
+      Cell: ({original}) => <div>{to4YMMDD(original.checkOut)}</div>
     },
     {
       Header: () => (
@@ -261,7 +232,7 @@ const ResvList: React.SFC<IProps> = ({
         </div>
       ),
       accessor: "name",
-      Cell: ({original}: CellInfo) => {
+      Cell: ({original}) => {
         const Booking: IBooking = original;
         return (
           <div>
@@ -280,14 +251,14 @@ const ResvList: React.SFC<IProps> = ({
           {"결제상태"}
         </div>
       ),
-      accessor: "price",
-      Cell: ({value, original}: CellInfo) => (
+      accessor: "payment",
+      Cell: ({original}) => (
         <div>
-          <span>{autoComma(value)}원</span>
+          <span>{autoComma(original.payment.totalPrice)}원</span>
           <br />
           <span
-            className={`resvList__paymentStatus ${original.paymentStatus ===
-              PaymentStatus.READY && "resvList__paymentStatus--notYet"}`}
+            className={`resvList__paymentStatus ${original.payment.status ===
+              PaymentStatus.PROGRESSING && "resvList__paymentStatus--notYet"}`}
           >
             {
               // @ts-ignore
@@ -301,7 +272,7 @@ const ResvList: React.SFC<IProps> = ({
       Header: "메모",
       accessor: "memo",
       minWidth: 200,
-      Cell: ({value}: CellInfo) => (
+      Cell: ({value}) => (
         <div
           className={`JDscrool resvList__memo ${value &&
             value.length > 20 &&
@@ -312,10 +283,35 @@ const ResvList: React.SFC<IProps> = ({
       )
     },
     {
+      Header: "상태",
+      accessor: "_id",
+      Cell: ({original}) => {
+        const {isNew, isConfirm, _id, status} = original;
+        const isCancled = status === BookingStatus.CANCEL;
+        const isReady = status === BookingStatus.PROGRESSING
+        const isComplete = status === BookingStatus.COMPLETE;
+
+        return (
+          <div className="resvList__statusBadgesWrap">
+            {newBookingMarkEnable && (
+              <ConfirmBadgeWrap
+                className="JDstandard-space0"
+                show={isNew && !isConfirm}
+                bookingId={_id}
+              />
+            )}
+            {isCancled && <JDbadge thema={"error"}>취소</JDbadge>}
+            {isReady && <JDbadge thema={"grey"}>진행중</JDbadge>}
+            {isComplete && <JDbadge thema={"positive"}>정상</JDbadge>}
+          </div>
+        );
+      }
+    },
+    {
       Header: "상세",
       accessor: "_id",
       minWidth: 40,
-      Cell: ({value}: CellInfo) => (
+      Cell: ({value}) => (
         <JDIcon
           onClick={() => {
             bookingModalHook.openModal({
@@ -330,13 +326,7 @@ const ResvList: React.SFC<IProps> = ({
     }
   ];
 
-  const selectInputCompoent = ({
-    selectType,
-    onClick,
-    checked,
-    id,
-    row
-  }: SelectInputComponentProps) => {
+  const selectInputCompoent = ({checked, id}: SelectInputComponentProps) => {
     const inId = id.replace("select-", "");
     const onChange = (flag: boolean) => {
       onToogleRow(inId);
@@ -346,8 +336,6 @@ const ResvList: React.SFC<IProps> = ({
   };
 
   const selectAllInputComponentProps = ({
-    selectType,
-    onClick,
     checked
   }: SelectAllInputComponentProps) => (
     <CheckBox onChange={onToogleAllRow} checked={checked} />
@@ -359,15 +347,6 @@ const ResvList: React.SFC<IProps> = ({
       <div className="docs-section">
         <h3>예약목록</h3>
         <div>
-          {/* <Button
-            onClick={handleCompleteBookingBtnClick}
-            size="small"
-            thema="primary"
-            label="예약확정"
-          /> */}
-          {/* ⛔️ 아래 두버튼은 하지마시요. 충분히 팝업에서 할수있는 일임 */}
-          {/* <Button size="small" thema="primary" label="결제완료" /> */}
-          {/* <Button size="small" thema="primary" label="미결제" /> */}
           <Button
             size="small"
             onClick={handleCancleBookingBtnClick}
@@ -414,7 +393,7 @@ const ResvList: React.SFC<IProps> = ({
           onPageChange={({selected}: {selected: number}) => {
             setPage(selected + 1);
           }}
-          pageCount={pageInfo ? pageInfo.totalPage : 1}
+          pageCount={inOr(pageInfo, "totalPage", 1)}
           pageRangeDisplayed={1}
           marginPagesDisplayed={4}
         />

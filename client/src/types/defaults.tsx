@@ -30,7 +30,7 @@ import {
   GuestTypeAdd
 } from "../pages/middleServer/assig/components/assigIntrerface";
 import {s4} from "../utils/utils";
-export const DEFAULT_ROOMTYPE_ROOM: getAllRoomType_GetAllRoomType_roomTypes_rooms = {
+export const DEFAUT_ROOMTYPE_ROOM: getAllRoomType_GetAllRoomType_roomTypes_rooms = {
   __typename: "Room",
   _id: "",
   createdAt: "",
@@ -38,7 +38,7 @@ export const DEFAULT_ROOMTYPE_ROOM: getAllRoomType_GetAllRoomType_roomTypes_room
   name: "222",
   updatedAt: ""
 };
-export const DEFAULT_ROOMTYPE: getBooking_GetBooking_booking_roomTypes = {
+export const DEFAUT_ROOMTYPE: getBooking_GetBooking_booking_roomTypes = {
   __typename: "RoomType",
   name: "_",
   pricingType: PricingType.DOMITORY,
@@ -57,7 +57,7 @@ export const DEFAULT_ROOMTYPE: getBooking_GetBooking_booking_roomTypes = {
 };
 
 // 유틸성을 위해 만들어둔 기본 booking
-export const DEFAULT_BOOKING: GB_booking = {
+export const DEFAUT_BOOKING: GB_booking = {
   __typename: "Booking",
   _id: "default",
   memo: "",
@@ -90,13 +90,13 @@ export const DEFAULT_BOOKING: GB_booking = {
   }
 };
 
-export const DEFAULT_ASSIG_GROUP: IAssigGroup = {
+export const DEFAUT_ASSIG_GROUP: IAssigGroup = {
   id: "-1",
   title: "",
   roomTypeId: "-1",
   roomTypeIndex: -1,
   roomIndex: -1,
-  roomType: {...DEFAULT_ROOMTYPE, rooms: []},
+  roomType: {...DEFAUT_ROOMTYPE, rooms: []},
   roomId: "-1",
   bedIndex: -1,
   placeIndex: -1,
@@ -107,7 +107,7 @@ export const DEFAULT_ASSIG_GROUP: IAssigGroup = {
   pricingType: PricingType.ROOM
 };
 
-export const DEFAULT_SMS_TEMPLATE: getSmsInfo_GetSmsInfo_smsInfo_smsTemplates = {
+export const DEFAUT_SMS_TEMPLATE: getSmsInfo_GetSmsInfo_smsInfo_smsTemplates = {
   _id: "-1",
   __typename: "SmsTemplate",
   formatName: "",
@@ -115,7 +115,7 @@ export const DEFAULT_SMS_TEMPLATE: getSmsInfo_GetSmsInfo_smsInfo_smsTemplates = 
   smsSendCase: null
 };
 
-export const DEFAULT_SMS_INFO: getSmsInfo_GetSmsInfo_smsInfo = {
+export const DEFAUT_SMS_INFO: getSmsInfo_GetSmsInfo_smsInfo = {
   __typename: "SmsInfo",
   _id: "-1",
   receivers: null,
@@ -123,7 +123,7 @@ export const DEFAULT_SMS_INFO: getSmsInfo_GetSmsInfo_smsInfo = {
   smsTemplates: null
 };
 
-export const DEFAULT_APP_INFO_REQUEST: getSpecification_GetHouse_house_product_appInfoRequested = {
+export const DEFAUT_APP_INFO_REQUEST: getSpecification_GetHouse_house_product_appInfoRequested = {
   __typename: "AppInfoRequest",
   isDone: false,
   layoutType: LayoutType.Layout_A,
@@ -133,7 +133,7 @@ export const DEFAULT_APP_INFO_REQUEST: getSpecification_GetHouse_house_product_a
 };
 
 // specification에서 사용
-export const DEFAULT_PRODUCT: getSpecification_GetHouse_house_product = {
+export const DEFAUT_PRODUCT: getSpecification_GetHouse_house_product = {
   __typename: "Product",
   _id: "0",
   daysLeftToExpire: 0,
@@ -163,18 +163,18 @@ export const DEFAULT_PRODUCT: getSpecification_GetHouse_house_product = {
   updatedAt: ""
 };
 
-export const DEFAULT_NONE_GOUP: IAssigGroup = {
-  ...DEFAULT_ASSIG_GROUP,
+export const DEFAUT_NONE_GOUP: IAssigGroup = {
+  ...DEFAUT_ASSIG_GROUP,
   id: "noneGroup",
   type: "noneGroup"
 };
 
-export const DEFAULT_BLOCK_OP: IBlockOp = {
+export const DEFAUT_BLOCK_OP: IBlockOp = {
   __typename: "BlockOption",
   color: null
 };
 
-export const DEFAULT_ASSIG_ITEM: IAssigItem = {
+export const DEFAUT_ASSIG_ITEM: IAssigItem = {
   bedIndex: -1,
   bookingId: "",
   end: 0,
@@ -192,18 +192,18 @@ export const DEFAULT_ASSIG_ITEM: IAssigItem = {
   start: 0,
   type: GuestTypeAdd.BLOCK,
   canMove: true,
-  blockOption: DEFAULT_BLOCK_OP,
+  blockOption: DEFAUT_BLOCK_OP,
   showEffect: false,
   showNewBadge: false
 };
 
-export const DEFAULT_ADDITION_BLOCKOP: getMyProfile_GetMyProfile_user_houses_houseConfig_assigTimeline_itemBlockOp = {
+export const DEFAUT_ADDITION_BLOCKOP: getMyProfile_GetMyProfile_user_houses_houseConfig_assigTimeline_itemBlockOp = {
   __typename: "ItemBlockOp",
   itemBlockOpEnable: false,
   useColor: false
 };
 
-export const DEFAULT_HM: getHM_GetHM_HM = {
+export const DEFAUT_HM: getHM_GetHM_HM = {
   __typename: "HM",
   _id: "",
   title: {},
@@ -224,7 +224,7 @@ export const DEFAULT_HM: getHM_GetHM_HM = {
   updatedAt: ""
 };
 
-export const DEFAULT_MEMO: getMemos_GetMemos_memos = {
+export const DEFAUT_MEMO: getMemos_GetMemos_memos = {
   __typename: "Memo",
   _id: s4(),
   createdAt: "",
@@ -237,12 +237,12 @@ export const DEFAULT_MEMO: getMemos_GetMemos_memos = {
 
 // 서버 모델에서 가져옴
 // @ts-ignore
-export const DEFAULT_HOUSE_CONFIG: IHouseConfigFull = {
+export const DEFAUT_HOUSE_CONFIG: IHouseConfigFull = {
   __typename: "HouseConfig",
   pollingPeriod: {
     __typename: "PollingPeriod",
     enable: false,
-    period: 5000
+    period: 50000
   },
   assigTimeline: {
     __typename: "AssigTimeline",
@@ -272,7 +272,7 @@ export const DEFAULT_HOUSE_CONFIG: IHouseConfigFull = {
   }
 };
 
-export const DEFAULT_USER: getMyProfile_GetMyProfile_user = {
+export const DEFAUT_USER: getMyProfile_GetMyProfile_user = {
   __typename: "User",
   _id: "",
   createdAt: "",
@@ -288,4 +288,3 @@ export const DEFAULT_USER: getMyProfile_GetMyProfile_user = {
   profileImg: undefined,
   houses: []
 };
-

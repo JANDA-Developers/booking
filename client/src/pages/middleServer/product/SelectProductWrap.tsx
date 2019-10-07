@@ -1,9 +1,7 @@
 /* eslint-disable camelcase */
 import React, {useState, useEffect, Fragment} from "react";
-import {Mutation, graphql, Query} from "react-apollo";
-import {toast} from "react-toastify";
+import {Mutation, Query} from "react-apollo";
 import {Redirect} from "react-router-dom";
-import {useRadio, useModal, useCheckBox} from "../../../hooks/hook";
 import {
   GET_PRODUCTS_TYPES,
   BUY_PRODUCTS,
@@ -12,8 +10,6 @@ import {
 } from "../../../queries";
 import {
   ErrProtecter,
-  isEmpty,
-  showError,
   queryDataFormater,
   onCompletedMessage
 } from "../../../utils/utils";
@@ -22,15 +18,10 @@ import {
   buyProductVariables,
   refundProduct,
   refundProductVariables,
-  getMyProfile_GetMyProfile_user_houses_product,
   getAllProductTypes
 } from "../../../types/api";
 import {ReactTooltip} from "../../../atoms/tooltipList/TooltipList";
-import {Product, LayoutType} from "../../../types/enum";
-import ApplyProductModal from "./components/applyProductModal";
-import {isUrl} from "../../../utils/inputValidations";
-import Preloader from "../../../atoms/preloader/Preloader";
-import {IHouse} from "../../../types/interface";
+import {LayoutType} from "../../../types/enum";
 import SelectProducts from "./SelectProduct";
 import froductTypeManuFacter from "./froductTypeManuFacter";
 import {IContext} from "../../MiddleServerRouter";

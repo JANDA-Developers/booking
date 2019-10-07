@@ -28,7 +28,7 @@ import {toNumber, muResult, s4} from "../../../utils/utils";
 import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
 import JDbox from "../../../atoms/box/JDbox";
 import {numberToStrings} from "../../../utils/dayOfweeks";
-import selectOpMaker from "../../../utils/selectOptionMaker";
+import selectOpCreater from "../../../utils/selectOptionCreater";
 import SeasonHeader from "./components/seasonHeader";
 import {
   useModal,
@@ -103,7 +103,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
   const [priceMap, setPriceMap] = useState(defaultPriceMap);
   const {shouldSave, setShouldSave} = useShouldSave([priceMap, roomTypePrices]);
 
-  const priorityOption = selectOpMaker({
+  const priorityOption = selectOpCreater({
     count: seasonData.length,
     labelAdd: "순위"
   });

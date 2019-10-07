@@ -1,6 +1,6 @@
 import React from "react";
 import classnames from "classnames";
-import {ASSIGT_IMELINE_HEIGHT} from "../../../../../atoms/timeline/Timeline";
+import {ASSIG_IMELINE_HEIGHT} from "../../../../../atoms/timeline/Timeline";
 import {ITimelineContext, IItemContext} from "../../../../../types/interface";
 import {
   IAssigTimelineUtils,
@@ -11,7 +11,7 @@ import {
 } from "../assigIntrerface";
 import GuestBlock from "./GuestBlock";
 import BlockBlock from "./BlockBlock";
-import MakeBlock from "./MakeBlock";
+import CreateBlock from "./CreateBlock";
 import GhostBlock from "./GhostBlock";
 import {BookingStatus} from "../../../../../types/enum";
 
@@ -48,10 +48,10 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
   const classNames = classnames("assigItem", baseItemCalsses, {
     "assigItem--selected": itemContext.selected,
     "assigItem--checkIn": item.checkInInfo,
-    "assigItem--ready": item.status === BookingStatus.READY,
+    "assigItem--progressing": item.status === BookingStatus.PROGRESSING,
     "assigItem--block": item.type === GuestTypeAdd.BLOCK,
     "assigItem--mark": item.type === GuestTypeAdd.MARK,
-    "assigItem--make": item.type === GuestTypeAdd.MAKE,
+    "assigItem--create": item.type === GuestTypeAdd.MAKE,
     "assigItem--ghost": item.type === GuestTypeAdd.GHOST,
     "JDtext-blink": item.showEffect
   });
@@ -72,9 +72,9 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
     background: "",
     border: "",
     color: "",
-    height: `${ASSIGT_IMELINE_HEIGHT}px`,
+    height: `${ASSIG_IMELINE_HEIGHT}px`,
     zIndex: `80${targetGroup.roomTypeIndex}${targetGroup.roomIndex}${
-      targetGroup.placeIndex < 0 ? 0 : 0
+      targetGroup.placeIndex < 0 ? 0 : targetGroup.placeIndex
     }`
   };
 
@@ -100,7 +100,7 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
           case GuestTypeAdd.MARK:
             return <div />;
           case GuestTypeAdd.MAKE:
-            return <MakeBlock isMobile={isMobile} gender={item.gender} />;
+            return <CreateBlock isMobile={isMobile} gender={item.gender} />;
           case GuestTypeAdd.GHOST:
             return <GhostBlock loading={item.loading} name={item.name} />;
           default:

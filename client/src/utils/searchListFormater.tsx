@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-syntax */
 
-const searchListMaker = (dataList: Array<any>, asName?: string, asDetail?: string, asId?: string) => {
+const searchListCreater = (dataList: Array<any>, asName?: string, asDetail?: string, asId?: string) => {
   let formatedArray: { name: string; detail?: string }[] = [];
   if (dataList) {
     formatedArray = dataList.map((value) => {
@@ -25,4 +25,4 @@ const searchListMaker = (dataList: Array<any>, asName?: string, asDetail?: strin
   return formatedArray;
 };
 
-export default searchListMaker;
+export default searchListCreater;

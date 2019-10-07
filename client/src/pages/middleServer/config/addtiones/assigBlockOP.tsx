@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import JDLabel from "../../../../atoms/label/JDLabel";
-import JDrange from "../../../../atoms/forms/range/range_";
+import JDrange from "../../../../atoms/forms/range/Range";
 import {IAddtionProp} from "../components/ConfigBlock";
 import JDswitch from "../../../../atoms/forms/switch/Switch";
 import {useSwitch} from "../../../../hooks/hook";
@@ -8,8 +8,8 @@ import {muResult} from "../../../../utils/utils";
 import JDbox from "../../../../atoms/box/JDbox";
 import HilightPhoto from "../../../../img/describe/guestHilight.gif";
 import {
-  DEFAULT_ADDITION_BLOCKOP,
-  DEFAULT_HOUSE_CONFIG
+  DEFAUT_ADDITION_BLOCKOP,
+  DEFAUT_HOUSE_CONFIG
 } from "../../../../types/defaults";
 
 const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
@@ -19,8 +19,8 @@ const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
   const {houseConfig, house} = context;
   const {assigTimeline} = houseConfig;
   const {itemBlockOp, roomTypeTabEnable} =
-    assigTimeline || DEFAULT_HOUSE_CONFIG.assigTimeline;
-  const {useColor, itemBlockOpEnable} = itemBlockOp || DEFAULT_ADDITION_BLOCKOP;
+    assigTimeline || DEFAUT_HOUSE_CONFIG.assigTimeline;
+  const {useColor, itemBlockOpEnable} = itemBlockOp || DEFAUT_ADDITION_BLOCKOP;
   const [use, setUse] = useState(itemBlockOpEnable);
   const [colorEnable, setEnableColor] = useState(useColor);
 

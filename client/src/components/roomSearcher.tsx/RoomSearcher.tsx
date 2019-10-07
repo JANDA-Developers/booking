@@ -4,7 +4,7 @@ import Button from "../../atoms/button/Button";
 import JDdayPicker from "../../atoms/dayPicker/DayPicker";
 import {useDayPicker} from "../../hooks/hook";
 import moment from "moment";
-import DoubleInputRange from "../../atoms/dayPicker/component/inputComponent/doubleInputRange_";
+import DoubleInputRange from "../../atoms/dayPicker/component/inputComponent/DoubleInputRange";
 import {validate} from "graphql";
 import {toast} from "react-toastify";
 import "./RoomSearcher.scss";

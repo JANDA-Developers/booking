@@ -82,7 +82,7 @@ class GetAllSeasonTQuery extends Query<
 > {}
 
 // 룸타입 아이디 + 시즌아이디
-const priceMapMaker = (seasonPrices: ISeasonPrices[]) => {
+const priceMapCreater = (seasonPrices: ISeasonPrices[]) => {
   const priceMap: IPriceMap = new Map();
   seasonPrices.map(seasonPrice => {
     if (seasonPrice.dayOfWeekPriceList) {
@@ -132,7 +132,7 @@ const SetPriceWrap: React.SFC<IProps & WindowSizeProps> = ({
           undefined
         );
         // 룸타입 아이디 + 시즌아이디  = {기본가격, 요일별가격}
-        const priceMap = seasonPrices && priceMapMaker(seasonPrices);
+        const priceMap = seasonPrices && priceMapCreater(seasonPrices);
         const refetchQueries = [
           {query: GET_ALL_SEASON_TABLE, variables: {houseId: house._id}}
         ];

@@ -4,13 +4,9 @@ import dotenv from "dotenv";
 import uri from "./uri";
 import resolvers from "./resolvers";
 import {toast} from "react-toastify";
-import Button from "./atoms/button/Button";
-import {Link} from "react-router-dom";
-import insideRedirect from "./utils/insideRedirect";
-
 import {IntrospectionFragmentMatcher} from "apollo-cache-inmemory";
 import introspectionQueryResultData from "./fragmentTypes.json";
-import ToastError from "./components/toasts/errorToast_";
+import ToastError from "./components/toasts/ErrorToast";
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({
   introspectionQueryResultData
@@ -22,7 +18,7 @@ dotenv.config({
   path: "../.env"
 });
 
-const client = new ApolloClient({
+const client = new ApolloClient<object>({
   clientState: {
     defaults: {
       auth: {

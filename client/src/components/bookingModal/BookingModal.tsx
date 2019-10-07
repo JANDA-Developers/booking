@@ -11,7 +11,7 @@ import {
 import SelectBox from "../../atoms/forms/selectBox/SelectBox";
 import InputText from "../../atoms/forms/inputText/InputText";
 import Button from "../../atoms/button/Button";
-import RoomSelectInfoTable from "./components/roomSelectInfoTable_";
+import RoomSelectInfoTable from "./components/RoomSelectInfoTable";
 import JDdayPicker from "../../atoms/dayPicker/DayPicker";
 import {
   BOOKING_STATUS_OP,
@@ -19,49 +19,46 @@ import {
   PricingType,
   PaymentStatusKr,
   PayMethodKr,
-  BookingStatus,
   BookingStatusKr,
   BookingModalType,
   PaymentStatus,
   AutoSendWhen,
-  PAYMETHOD_FOR_BOOKER_OP,
-  PAYMETHOD_FOR_HOST_OP
+  PAYMETHOD_FOR_HOST_OP,
+  DateFormat,
+  BookingStatus
 } from "../../types/enum";
 import "./BookingModal.scss";
-import {GB_booking, IResvCount} from "../../types/interface";
+import {GB_booking, IGuestCount} from "../../types/interface";
 import {MutationFn} from "react-apollo";
 import {
   updateBooking,
   updateBookingVariables,
   deleteBooking,
   deleteBookingVariables,
-  allocateGuestToRoom,
-  allocateGuestToRoomVariables,
   startBooking,
   startBookingVariables,
-  getBooking_GetBooking_booking_guests,
-  StartBookingRoomGuestInput,
-  StartBookingDomitoryGuestInput,
-  getBooking_GetBooking_booking_guests_GuestDomitory,
-  Gender
+  allocateGuestToRoom,
+  allocateGuestToRoomVariables
 } from "../../types/api";
 import SendSMSmodalWrap, {IModalSMSinfo} from "../smsModal/SendSmsModalWrap";
 import Preloader from "../../atoms/preloader/Preloader";
 import {toast} from "react-toastify";
 import {isPhone} from "../../utils/inputValidations";
-import {autoComma, instanceOfA} from "../../utils/utils";
+import {autoComma} from "../../utils/utils";
 import {IContext} from "../../pages/MiddleServerRouter";
 import Drawer from "../../atoms/drawer/Drawer";
 import _ from "lodash";
-import guestsCountByRoomType from "../../utils/guestCountByRoomType";
-import {guestsCountByRoomTypeToTable} from "../../utils/getRoomTypeNameById";
+import C, {inOr} from "../../utils/C";
+import guestsToInput, {
+  getRoomSelectInfo
+} from "../../utils/guestCountByRoomType";
 
 export interface IRoomSelectInfo {
   roomTypeId: string;
   roomTypeName?: string;
-  count: IResvCount;
-  price?: number;
+  count: IGuestCount;
   pricingType: PricingType;
+  roomNames?: string[];
 }
 
 interface IProps {
@@ -89,13 +86,12 @@ const BookingModal: React.FC<IProps> = ({
   startBookingMu,
   deleteBookingMu,
   startBookingLoading,
-  allocateGuestToRoomMu,
   placeHolederPrice,
   loading,
-  type = BookingModalType.LOOKUP,
   context
 }) => {
   const {
+    _id: bookingId,
     email,
     memo,
     payment,
@@ -103,10 +99,7 @@ const BookingModal: React.FC<IProps> = ({
     status: bookingStatus,
     checkIn,
     checkOut,
-    name,
-    __typename,
-    guests,
-    _id
+    name
   } = bookingData;
   const {payMethod, status: paymentStatus, totalPrice} = payment;
   const {house} = context;
@@ -118,34 +111,40 @@ const BookingModal: React.FC<IProps> = ({
   const priceHook = useInput(totalPrice);
   const memoHook = useInput(memo || "");
   const emailHook = useInput(email);
+  const guestsToInputs = guestsToInput(bookingData.guests || []);
+  const roomSelectInfo = getRoomSelectInfo(
+    bookingData.guests,
+    bookingData.roomTypes || []
+  );
   const [drawers, setDrawers] = useState({
     bookerInfo: false
   });
   const payMethodHook = useSelect(
-    bookingData._id !== "default"
-      ? {
-          value: payMethod,
-          label: PayMethodKr[payMethod]
-        }
-      : null
+    C(
+      bookingId !== "default",
+      {value: payMethod, label: PayMethodKr[payMethod]},
+      null
+    )
   );
   const paymentStatusHook = useSelect<PaymentStatus>(
-    bookingData._id !== "default"
-      ? {
-          value: paymentStatus,
-          // @ts-ignore
-          label: PaymentStatusKr[paymentStatus]
-        }
-      : null
+    C(
+      bookingId !== "default",
+      {value: paymentStatus, label: PaymentStatusKr[paymentStatus]},
+      null
+    )
   );
   const bookingStatueHook = useSelect(
-    bookingData._id !== "default"
-      ? {
-          value: bookingStatus,
-          label: BookingStatusKr[bookingStatus]
-        }
-      : null
+    C(
+      bookingId !== "default",
+      {
+        value: bookingStatus,
+        label: BookingStatusKr[bookingStatus]
+      },
+      null
+    )
   );
+  const isProgressing = bookingStatus === BookingStatus.PROGRESSING;
+  const allReadOnly = isProgressing;
 
   const resvDateHook = useDayPicker(
     moment(checkIn).toDate(),
@@ -196,16 +195,12 @@ const BookingModal: React.FC<IProps> = ({
     receivers: [bookingPhoneHook.value],
     booking: {
       name: bookingNameHook.value,
-      payMethod: payMethodHook.selectedOption
-        ? payMethodHook.selectedOption.label
-        : "",
+      payMethod: inOr(payMethodHook.selectedOption, "label", ""),
       email: emailHook.value,
       phoneNumber: bookingPhoneHook.value,
       end: resvDateHook.to!,
       start: resvDateHook.from!,
-      paymentStatus: paymentStatusHook.selectedOption
-        ? paymentStatusHook.selectedOption.label
-        : "",
+      paymentStatus: inOr(paymentStatusHook.selectedOption, "label", ""),
       price: priceHook.value || 0
     }
   };
@@ -225,12 +220,12 @@ const BookingModal: React.FC<IProps> = ({
     }
   };
 
+  // 예약 실패시
   const whenCreateBookingFail = () => {
     modalHook.closeModal();
   };
 
-  const countByRoomTypes = guestsCountByRoomType(bookingData.guests || []);
-
+  // 현재 정보들로 예약 진행
   const startBooking = async (sendSmsFlag: boolean = false) => {
     if (!validate()) return;
 
@@ -249,14 +244,14 @@ const BookingModal: React.FC<IProps> = ({
             checkIn: resvDateHook.from,
             checkOut: resvDateHook.to
           },
-          guestDomitoryParams: countByRoomTypes.countInDomitorys,
-          guestRoomParams: countByRoomTypes.countInRooms,
+          guestDomitoryParams: guestsToInputs.countInDomitorys,
+          guestRoomParams: guestsToInputs.countInRooms,
           paymentParams: {
             payMethod: payMethodHook.selectedOption!.value,
             price: priceHook.value,
             status: paymentStatusHook.selectedOption!.value
           },
-          houseId: ""
+          houseId
           // sendSmsFlag
         }
       });
@@ -332,10 +327,15 @@ const BookingModal: React.FC<IProps> = ({
             </h6>
             <div className="flex-grid">
               <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
-                <InputText {...bookingNameHook} label="예약자" />
+                <InputText
+                  disabled={allReadOnly}
+                  {...bookingNameHook}
+                  label="예약자"
+                />
               </div>
               <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
                 <InputText
+                  disabled={allReadOnly}
                   {...bookingPhoneHook}
                   validation={isPhone}
                   hyphen
@@ -347,6 +347,7 @@ const BookingModal: React.FC<IProps> = ({
               </div>
               <div className="JD-z-index-1 flex-grid__col col--full-4 col--lg-4 col--md-4">
                 <SelectBox
+                  // disabled={allReadOnly}
                   {...bookingStatueHook}
                   options={BOOKING_STATUS_OP}
                   label="예약상태"
@@ -359,6 +360,7 @@ const BookingModal: React.FC<IProps> = ({
             <div className="flex-grid">
               <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
                 <InputText
+                  disabled={allReadOnly}
                   {...priceHook}
                   placeholder={`정상가:${autoComma(placeHolederPrice)}`}
                   returnNumber
@@ -368,6 +370,7 @@ const BookingModal: React.FC<IProps> = ({
               </div>
               <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
                 <SelectBox
+                  disabled={allReadOnly}
                   {...payMethodHook}
                   options={PAYMETHOD_FOR_HOST_OP}
                   label="결제수단"
@@ -375,6 +378,7 @@ const BookingModal: React.FC<IProps> = ({
               </div>
               <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
                 <SelectBox
+                  disabled={allReadOnly}
                   {...paymentStatusHook}
                   options={PAYMENT_STATUS_OP}
                   label="결제상태"
@@ -387,6 +391,7 @@ const BookingModal: React.FC<IProps> = ({
             <div className="flex-grid">
               <div className="flex-grid__col col--full-8 col--lg-8 col--md-8">
                 <JDdayPicker
+                  inputDisabled={allReadOnly}
                   canSelectBeforeDay={false}
                   {...resvDateHook}
                   input
@@ -396,25 +401,29 @@ const BookingModal: React.FC<IProps> = ({
               </div>
               <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
                 <InputText
+                  disabled={allReadOnly}
                   readOnly
-                  value={moment().format("YYYY-MM-DD")}
+                  value={moment()
+                    .local()
+                    .format(DateFormat.WITH_TIME)}
                   label="예약일시"
                 />
               </div>
               <div className="flex-grid__col col--full-12 col--lg-12 col--md-12">
-                <RoomSelectInfoTable
-                  resvInfo={guestsCountByRoomTypeToTable(
-                    countByRoomTypes,
-                    bookingData.roomTypes || []
-                  )}
-                />
+                <RoomSelectInfoTable roomSelectInfo={roomSelectInfo} />
               </div>
             </div>
           </div>
           <div className="JDz-index-1 modal__section">
             <div className="flex-grid">
               <div className="flex-grid__col col--full-12 col--lg-12 col--md-12">
-                <InputText {...memoHook} halfHeight textarea label="예약메모" />
+                <InputText
+                  disabled={allReadOnly}
+                  {...memoHook}
+                  halfHeight
+                  textarea
+                  label="예약메모"
+                />
               </div>
             </div>
           </div>
@@ -422,13 +431,13 @@ const BookingModal: React.FC<IProps> = ({
             <Button
               size="small"
               label="생성하기"
-              disabled={type === BookingModalType.LOOKUP}
+              disabled={allReadOnly}
               thema="primary"
               onClick={handleCreateBtnClick}
             />
             <Button
               size="small"
-              disabled={type !== BookingModalType.LOOKUP}
+              // disabled={allReadOnly}
               label="수정하기"
               thema="primary"
               onClick={handleUpdateBtnClick}
@@ -436,7 +445,7 @@ const BookingModal: React.FC<IProps> = ({
             <Button
               size="small"
               label="예약삭제"
-              disabled={type !== BookingModalType.LOOKUP}
+              disabled={allReadOnly}
               thema="error"
               onClick={handleDeletBtnClick}
             />

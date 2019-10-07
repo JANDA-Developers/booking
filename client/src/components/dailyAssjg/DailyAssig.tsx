@@ -6,10 +6,10 @@ import {
   getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms as IR,
   getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory
 } from "../../types/api";
-import {useModal, IUseModal, getKoreaSpecificDayHook} from "../../hooks/hook";
+import {useModal, IUseModal} from "../../hooks/hook";
 import JDdayPicker from "../../atoms/dayPicker/DayPicker";
 import BookingModalWrap from "../bookingModal/BookingModalWrap";
-import ArrowDayByDay from "../../atoms/dayPicker/component/inputComponent/arrowDayByDay_";
+import ArrowDayByDay from "../../atoms/dayPicker/component/inputComponent/ArrowDayByDay";
 import Preloader from "../../atoms/preloader/Preloader";
 import {IContext} from "../../pages/MiddleServerRouter";
 import {DragBoxPlace} from "./components/DragBoxPlace";
@@ -18,7 +18,7 @@ import HTML5Backend from "react-dnd-html5-backend";
 import TouchBackend from "react-dnd-touch-backend";
 import GuestTooltip from "./components/GuestTooltip";
 import {IDailyAssigProp} from "./DailyAssigWrap";
-import getDailyAssigUtils from "../../pages/middleServer/assig/components/dailyAssigUtils_";
+import getDailyAssigUtils from "../../pages/middleServer/assig/components/dailyAssigUtils";
 import {JDtoastModal} from "../../atoms/modal/Modal";
 import {ReactTooltip} from "../../atoms/tooltipList/TooltipList";
 import {PricingType, FLOATING_PRElOADER_SIZE} from "../../types/enum";
@@ -29,6 +29,7 @@ import PlaceTooltip from "./components/PlaceTooltip";
 import moment from "moment";
 import BlockTooltip from "./components/BlockTooltip";
 import {isEmpty, instanceOfA} from "../../utils/utils";
+import ReadyItemTooltip from "../../pages/middleServer/assig/components/tooltips/ReadyItemTooltip";
 
 export interface IDailyAssigContext extends IDailyAssigProp {
   confirmModalHook: IUseModal<any>;
@@ -42,7 +43,7 @@ interface IProps {
   outDailyAssigContext: IDailyAssigProp;
 }
 
-const DailyAssigNew: React.FC<IProps> = ({
+const DailyAssig: React.FC<IProps> = ({
   context,
   outDailyAssigContext,
   dailyAssigDataControl
@@ -68,9 +69,11 @@ const DailyAssigNew: React.FC<IProps> = ({
   ) => {
     allocateMu({
       variables: {
-        roomId: room._id,
         guestId: item._id,
-        bedIndex: place
+        allocateInfo: {
+          bedIndex: place,
+          roomId: room._id
+        }
       }
     });
   };
@@ -273,6 +276,7 @@ const DailyAssigNew: React.FC<IProps> = ({
         context={context}
         deleteBtnCallBack={blockTooltipDeleteCallBack}
       />
+      <ReadyItemTooltip />
       <Tooltip id="guestCheckInOutToolTip" type="dark" effect="solid" />
       <JDtoastModal confirm {...confirmModalHook} />
       <BookingModalWrap context={context} modalHook={bookingModalHook} />
@@ -280,4 +284,4 @@ const DailyAssigNew: React.FC<IProps> = ({
   );
 };
 
-export default DailyAssigNew;
+export default DailyAssig;

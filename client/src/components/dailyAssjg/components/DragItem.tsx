@@ -12,6 +12,7 @@ import {ReactTooltip} from "../../../atoms/tooltip/Tooltip";
 import moment from "moment";
 import classNames from "classnames";
 import Gender from "../../../pages/middleServer/assig/components/items/Gender";
+import {BookingStatus} from "../../../types/enum";
 
 export interface IDragItemProp {
   type: string;
@@ -32,10 +33,10 @@ const DragItem: React.FC<IProps> = ({item, place, room, roomType}) => {
   });
 
   useEffect(() => {
-    console.log("Aaa");
     ReactTooltip.rebuild();
   });
 
+  // 빈자리 리턴
   if (!item) {
     return (
       <div className="dailyAssigItem__itemBlockWrap">
@@ -46,11 +47,12 @@ const DragItem: React.FC<IProps> = ({item, place, room, roomType}) => {
           data-event="click"
           className="dailyAssigItem__itemBlock dailyAssigItem__empty dailyAssigItem__guestBlock"
         >
-          {" - "}
+          {" 빈자리 "}
         </div>
       </div>
     );
   }
+
   const [, drag] = useDrag({
     item
   });
@@ -58,38 +60,49 @@ const DragItem: React.FC<IProps> = ({item, place, room, roomType}) => {
   return (
     <div ref={drag} className="dailyAssigItem__itemBlockWrap">
       {(() => {
-        if (instanceOfA<IG & IDragItemProp>(item, "name")) {
+        // 방막기가 아닌경우
+        if (instanceOfA<IG & IDragItemProp>(item, "booking")) {
+          const {booking, checkIn, checkOut, _id} = item;
+          const {checkInInfo, status, name} = booking;
           const guestBlockClasses = classNames(
             "dailyAssigItem__guest",
             undefined,
             {
-              "dailyAssigItem__guest--checkIn": item.booking.checkInInfo.isIn
+              "dailyAssigItem__guest--checkIn": checkInInfo.isIn
+            },
+            {
+              "dailyAssigItem__guest--progressing":
+                status === BookingStatus.PROGRESSING
             }
           );
-
           return (
             <div
-              data-tip={`${moment(item.checkIn).format("MM-DD일")} ~ ${moment(
-                item.checkOut
+              data-tip={`${moment(checkIn).format("MM-DD일")} ~ ${moment(
+                checkOut
               ).format("MM-DD일")}`}
-              data-for="guestCheckInOutToolTip"
+              data-for={
+                status === BookingStatus.PROGRESSING
+                  ? "tooltipReadyBlock"
+                  : "guestCheckInOutToolTip"
+              }
               className={`dailyAssigItem__itemBlock ${guestBlockClasses}`}
             >
               <span className="dailyAssigItem__itemName">
-                <Gender item={item} /> {item.booking.name}
+                <Gender item={item} /> {name}
               </span>
               <span
-                data-tip={item._id}
+                data-tip={_id}
                 data-place="top"
                 data-for="guestTooltip"
                 data-event="click"
-                id={`dailyAssigItem__configIconWrapId${item._id}`}
+                id={`dailyAssigItem__configIconWrapId${_id}`}
                 className="dailyAssigItem__configIconWrap"
               >
                 <JDIcon icon="dotMenuVertical" size={IconSize.MEDEIUM_SMALL} />
               </span>
             </div>
           );
+          // 방막기 인 경우에
         } else if (true) {
           return (
             <div

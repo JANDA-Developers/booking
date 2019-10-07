@@ -23,8 +23,13 @@ const Help: React.FC<IProps> = ({tooltip, className, size, icon = "help"}) => {
     >
       <JDIcon size={size} icon={icon} />
       {tooltip && (
-        <Tooltip type="dark" effect="solid" id={`btnTooltip${newId}`}>
-          <span className="JDhelp__content">{tooltip}</span>
+        <Tooltip
+          eventOff="click"
+          type="dark"
+          effect="solid"
+          id={`btnTooltip${newId}`}
+        >
+          <div className="JDhelp__content">{tooltip}</div>
         </Tooltip>
       )}
     </span>

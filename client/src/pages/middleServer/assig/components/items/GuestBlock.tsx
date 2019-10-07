@@ -10,8 +10,8 @@ import {
 } from "../assigIntrerface";
 import {getAssigUtils} from "../assigUtils";
 import {
-  DEFAULT_ADDITION_BLOCKOP,
-  DEFAULT_HOUSE_CONFIG
+  DEFAUT_ADDITION_BLOCKOP,
+  DEFAUT_HOUSE_CONFIG
 } from "../../../../../types/defaults";
 import {BookingStatus} from "../../../../../types/enum";
 import Gender from "./Gender";
@@ -34,19 +34,19 @@ const guestBlock: React.FC<IProps> = ({
   const bookingConfig = assigContext.houseConfig.bookingConfig;
   const newBookingMark = bookingConfig
     ? bookingConfig.newBookingMark
-    : DEFAULT_HOUSE_CONFIG.bookingConfig.newBookingMark;
+    : DEFAUT_HOUSE_CONFIG.bookingConfig.newBookingMark;
   const bookingMarkEnable = newBookingMark && newBookingMark.enable;
 
   const {blockOption, status, bookingId, gender, id, showNewBadge} = item;
 
-  const isReady = status === BookingStatus.READY;
+  const isReady = status === BookingStatus.PROGRESSING
 
   return (
     <Fragment>
       <div
         data-tip={isReady && true}
         data-for={isReady && "tooltipReadyBlock"}
-        className="rct-item-content assigItem__content myClasses"
+        className="rct-item-content assigItem__content"
         style={{
           maxHeight: `${itemContext.dimensions.height}`
         }}

@@ -10,7 +10,7 @@ import {
 import {Mutation, Query} from "react-apollo";
 import {SEND_SMS, GET_SMS_INFO} from "../../queries";
 import {queryDataFormater, onCompletedMessage} from "../../utils/utils";
-import CreateSmsModal from "./components/createSmsModal_";
+import CreateSmsModal from "./components/CreateSmsModal";
 import SendSmsModal from "./SendSmsModal";
 import {IContext} from "../../pages/MiddleServerRouter";
 

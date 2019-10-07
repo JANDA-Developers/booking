@@ -15,7 +15,7 @@ import {
   RoomGenderKr,
   MAX_PEOPLE_COUNT_OP_FN,
   ROOM_GENDER_OP,
-  PRICING_TYPE_OP
+  PricinG_TYPE_OP
 } from "../../../../types/enum";
 import {IUseModal, useImageUploader, useModal} from "../../../../hooks/hook";
 import {
@@ -166,7 +166,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
 
   const maxPeopleCountOption = MAX_PEOPLE_COUNT_OP_FN();
 
-  const pricingTypeOptions = PRICING_TYPE_OP;
+  const pricingTypeOptions = PricinG_TYPE_OP;
 
   const genderOptions = ROOM_GENDER_OP;
 

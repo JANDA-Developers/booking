@@ -23,7 +23,7 @@ import {IContext} from "../../MiddleServerRouter";
 import SmsTemplateModal, {
   ISmsTemplateModalProps
 } from "./components/SmsTemplateModal";
-import {DEFAULT_SMS_INFO} from "../../../types/defaults";
+import {DEFAUT_SMS_INFO} from "../../../types/defaults";
 import Help from "../../../atoms/Help/Help";
 import {KR_SMS_PARSER} from "../../../types/enum";
 import "./Sms.scss";
@@ -56,7 +56,7 @@ const Sms: React.FC<IProps> = ({
   smsInfo,
   context
 }) => {
-  const {smsTemplates} = smsInfo || DEFAULT_SMS_INFO;
+  const {smsTemplates} = smsInfo || DEFAUT_SMS_INFO;
   const smsTemplateModal = useModal<ISmsTemplateModalProps>(false);
   if (!smsInfo) return <h3>SMS 신청을 먼저 완료해주세요.</h3>;
 

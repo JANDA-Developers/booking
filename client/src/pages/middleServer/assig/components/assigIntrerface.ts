@@ -40,31 +40,23 @@ export interface IAssigTimelineContext {
   shortKey?: TShortKey;
 }
 
-export interface ICrushTime {
-  crushGuest: string;
-  crushGuest2: string;
-  itemIndex: number;
-  start: number;
-  end: number;
-}
+export type ICreateCreateItem = (
+  canvasInfo: ICanvasMenuTooltipProps,
+  gender?: Gender | undefined
+) => void;
 
 export type TIsTherePerson = (
   startTime: number,
   endTime: number,
   groupId: string,
   guest: IAssigItem
-) => false | (false | ICrushTime)[];
+) => boolean;
 
 export type TFilterTimeZone = (
   from: number,
   to: number,
   roomId?: string | undefined
 ) => IAssigItem[];
-
-export type TGetCrushTimeByTwoGuest = (
-  guest: IAssigItem,
-  guest2: IAssigItem
-) => false | ICrushTime;
 
 export type TGetItemById = (guestId: string) => IAssigItem;
 
@@ -83,12 +75,12 @@ export type TRemoveMark = () => void;
 export type TDleteGhost = () => void;
 
 export type TAllTooltipsHide = (
-  except?: "blockMenu" | "canvasMenu" | "makeMenu" | "itemTooltip"
+  except?: "blockMenu" | "canvasMenu" | "createMenu" | "itemTooltip"
 ) => void;
 
 export type TDeleteGuestById = (guestId: string) => void;
 
-export type TMakeMark = (time: number, groupId: string) => void;
+export type TCreateMark = (time: number, groupId: string) => void;
 
 export type TDeleteItemById = (id: string) => void;
 
@@ -97,9 +89,9 @@ export interface ILocation {
   clientY: number;
 }
 
-export type TOpenMakeMenu = (
+export type TOpenCreateMenu = (
   Eorlocation: React.MouseEvent<HTMLElement> | ILocation,
-  props?: IMakeMenuProps
+  props?: ICreateMenuProps
 ) => void;
 
 export type TOpenBlockMenu = (
@@ -107,7 +99,7 @@ export type TOpenBlockMenu = (
   props?: IBlcokMenuProps
 ) => void;
 
-export type TChangeMakeBlock = () => void;
+export type TChangeCreateBlock = () => void;
 
 export type TOpenCanvasMenuTooltip = (
   Eorlocation: React.MouseEvent<HTMLElement> | ILocation,
@@ -119,7 +111,7 @@ export type TIsGenderSafe = (
   item: IAssigItem,
   start: number,
   end: number
-) => boolean | ICrushTime[];
+) => boolean;
 
 export type TResizeBlockBlock = (targetGuest: IAssigItem, time: number) => void;
 
@@ -253,7 +245,7 @@ export enum GuestTypeAdd {
   GHOST = "GHOST"
 }
 
-export interface IMakeMenuProps {
+export interface ICreateMenuProps {
   item: IAssigItem;
 }
 
@@ -291,14 +283,14 @@ export interface IAssigTimelineHooks {
   bookingModal: IUseModal<any>;
   guestValue: IAssigItem[];
   canvasMenuProps: ICanvasMenuTooltipProps;
-  makeMenuProps: IMakeMenuProps;
+  createMenuProps: ICreateMenuProps;
   blockMenuProps: IDeleteMenuProps;
   setBlockMenuProps: React.Dispatch<React.SetStateAction<IDeleteMenuProps>>;
   setGuestValue: (value: IAssigItem[]) => void;
   setCanvasMenuTooltipProps: React.Dispatch<
     React.SetStateAction<ICanvasMenuTooltipProps>
   >;
-  setMakeMenuProps: React.Dispatch<React.SetStateAction<IMakeMenuProps>>;
+  setCreateMenuProps: React.Dispatch<React.SetStateAction<ICreateMenuProps>>;
   confirmDelteGuestHook: IUseModal<any>;
   dataTime: {
     start: number;
@@ -411,11 +403,10 @@ export interface IAssigTimelineUtils {
   isTherePerson: TIsTherePerson;
   filterTimeZone: TFilterTimeZone;
   allTooltipsHide: TAllTooltipsHide;
-  getCrushTimeByTwoGuest: TGetCrushTimeByTwoGuest;
   deleteGuestById: TDeleteGuestById;
   getGuestsInGroup: TGetGuestsInGroup;
   deleteItemById: TDeleteItemById;
-  openMakeMenu: TOpenMakeMenu;
+  openCreateMenu: TOpenCreateMenu;
   isGenderSafe: TIsGenderSafe;
   addBlock: TAddBlock;
   allocateGuest: TAllocateGuest;
@@ -428,11 +419,12 @@ export interface IAssigTimelineUtils {
   toogleCheckInOut: TToogleCheckIn;
   openBlockMenu: TOpenBlockMenu;
   openCanvasMenuTooltip: TOpenCanvasMenuTooltip;
-  changeMakeBlock: TChangeMakeBlock;
-  makeMark: TMakeMark;
+  changeCreateBlock: TChangeCreateBlock;
+  createMark: TCreateMark;
   resizeBlockBlock: TResizeBlockBlock;
   getBookingIdByGuestId: TGetBookingIdByGuestId;
   getGuestsByBookingId: IGetGuestByBookingId;
+  createCreateItem: ICreateCreateItem;
 }
 
 export interface IAssigInfo {

@@ -9,7 +9,6 @@ import {
 } from "../../../types/api";
 import {queryDataFormater, s4} from "../../../utils/utils";
 import JDIcon, {IconConifgProps} from "../../../atoms/icons/Icons";
-import JDdot from "../../../atoms/dot/dot";
 import {IContext} from "../../../pages/MiddleServerRouter";
 import {MemoType, NotiLevel} from "../../../types/enum";
 import client from "../../../apolloClient";

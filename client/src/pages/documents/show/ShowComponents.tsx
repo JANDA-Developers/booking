@@ -23,7 +23,7 @@ import JDlabel from "../../../atoms/label/JDLabel";
 import JDmodal from "../../../atoms/modal/Modal";
 import JDtable, {ReactTableDefault} from "../../../atoms/table/Table";
 import ProfileCircle from "../../../atoms/profileCircle/ProfileCircle";
-import {Tab, TabList, TabPanel, JDtabs} from "../../../atoms/tabs/tabs";
+import {Tab, TabList, TabPanel, JDtabs} from "../../../atoms/tabs/tabs_";
 import utils from "../../../utils/utils";
 import Icon, {icons} from "../../../atoms/icons/Icons";
 import {
@@ -46,7 +46,7 @@ import Card from "../../../atoms/cards/Card";
 import JDbox from "../../../atoms/box/JDbox";
 import {CellInfo} from "react-table";
 import {UserRole, TimePerMs} from "../../../types/enum";
-import JDrange from "../../../atoms/forms/range/range_";
+import JDrange from "../../../atoms/forms/range/Range";
 import Drawer from "../../../atoms/drawer/Drawer";
 import JDTimer from "../../../atoms/timer/Timer";
 import Timer from "react-compound-timer/build";

@@ -57,7 +57,7 @@ const BookingInfoBox: React.FC<IBookingInfoBoxProps> = ({
     {
       Header: "인원",
       accessor: "roomTypeId",
-      Cell: ({original}) => {
+      Cell: ({original}) =>
         original.pricingType === PricingType.DOMITORY ? (
           <div>
             <span>{`${original.count.male}남 `}</span>
@@ -67,13 +67,7 @@ const BookingInfoBox: React.FC<IBookingInfoBoxProps> = ({
           <div>
             <span>{`${original.count.roomCount}개`}</span>
           </div>
-        );
-      }
-    },
-    {
-      Header: "이용금액",
-      accessor: "discountedPrice",
-      Cell: ({value}) => autoComma(value)
+        )
     }
   ];
 

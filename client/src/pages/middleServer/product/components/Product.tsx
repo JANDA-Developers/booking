@@ -1,11 +1,7 @@
 import React, {Fragment} from "react";
-import Radio from "../../../../atoms/forms/radio/Radio";
 import "./Product.scss";
-import {Product, ProductTypeKey} from "../../../../types/enum";
-import JDIcon, {IIcons, IconSize} from "../../../../atoms/icons/Icons";
+import JDIcon, {IconSize} from "../../../../atoms/icons/Icons";
 import JDbadge from "../../../../atoms/badge/Badge";
-import {getAllProductTypes_GetAllProductTypes_productTypes} from "../../../../types/api";
-import {autoComma} from "../../../../utils/utils";
 import Button from "../../../../atoms/button/Button";
 import {IUseModal} from "../../../../hooks/hook";
 import {IProductTypeDesc} from "../../../../types/interface";
@@ -31,7 +27,7 @@ const JDproduct: React.FC<IProps> = ({
   setSelectedProductTypeId,
   isCurrent
 }) => {
-  const {disable, priceText, name, shortDesc} = productType;
+  const {disable} = productType;
 
   const handleProductSelect = () => {
     if (disable) {

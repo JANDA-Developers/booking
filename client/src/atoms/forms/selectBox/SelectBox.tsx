@@ -45,6 +45,7 @@ const JDselect: React.SFC<Iprops> = ({
   disabled,
   selectedOption,
   onChange,
+  noOptionsMessage = "--",
   rightLabel,
   options,
   mode,
@@ -88,7 +89,7 @@ const JDselect: React.SFC<Iprops> = ({
     width: size
   };
 
-  const deafultPlaceHolder = mode === "small" ? "선택" : "선택...";
+  const deafultPlaceHolder = "선택";
 
   return (
     <div style={selectStyle} className={classes}>
@@ -104,6 +105,7 @@ const JDselect: React.SFC<Iprops> = ({
         className="react-select-container"
         classNamePrefix="react-select"
         isDisabled={disabled}
+        noOptionsMessage={() => noOptionsMessage}
         placeholder={placeholder || deafultPlaceHolder}
         // menuIsOpen={true}
       />

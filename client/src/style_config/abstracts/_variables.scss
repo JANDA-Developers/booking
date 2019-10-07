@@ -65,7 +65,7 @@ $warn-color-dark: darken(#F58F2C,15%) !default;
 $link-color: rgb(66, 62, 199) !default;
 $link-color-active: rgb(48, 45, 131) !default;
 $admin-color: #172B3A;
-$grey-level1: #E3E3E3 !default; // 흰색 effect-dark 받을때 컬러 오버랩을 원치 않을때 사용
+$grey-level1: #E1E1E1 !default; // 흰색 effect-dark 받을때 컬러 오버랩을 원치 않을때 사용
 $grey-level2: #b8b8b8 !default; 
 $grey-level3: #787878 !default;
 $grey-level4: #585858 !default;
@@ -274,7 +274,7 @@ $button-radius: $standard-border-radius !default;
 $buttons-space: $standard-small-space !default;
 $buttons-icon-margin: $icon-space !default;
 $buttons-small-icon-margin: $standard-small-space !default;
-$button-letter-sapcing: .5px !default;
+$button-letter-spacing: .5px !default;
 $button-color: $html-color !default;
 $button-bgColor: #fff !default;
 $button-bgColor-hover: $hover-effect-dark !default;
@@ -432,7 +432,8 @@ $assigItem-checkIn-color-on:  $html-color;
 $assigItem-selected-border-color: #4e83efd1;
 $assigItem-linked-bgColor: rgba(255,255,255,.5);
 $assigItem-mark-bgColor: $assigItem-linked-bgColor;
-$assigItem-make-block-color: #E77002;
+$assigItem-create-block-color: #E77002;
+$assigItem-progressing-opacity: 0.5;
 // 반하얀색임
 
 $AT-assigGroup-roomType-width: 6.25rem;

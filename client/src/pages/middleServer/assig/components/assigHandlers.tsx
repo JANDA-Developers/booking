@@ -34,14 +34,14 @@ export function getAssigHandlers(
   {
     getItemById,
     allTooltipsHide,
-    makeMark,
+    createMark,
     openCanvasMenuTooltip,
     resizeLinkedItems,
     allocateItem,
     resizeBlockBlock,
     openBlockMenu,
     popUpItemMenuTooltip,
-    openMakeMenu,
+    openCreateMenu,
     getGroupById,
     moveLinkedItems,
     removeMark,
@@ -110,7 +110,7 @@ export function getAssigHandlers(
       group: targetGroup
     });
 
-    // makeMark(time, groupId);
+    // createMark(time, groupId);
   };
 
   //  캔버스 클릭시 호출됨
@@ -221,7 +221,7 @@ export function getAssigHandlers(
       if (target.type === GuestTypeAdd.BLOCK)
         openBlockMenu(location, {item: target});
       if (target.type === GuestTypeAdd.MAKE)
-        openMakeMenu(location, {item: target});
+        openCreateMenu(location, {item: target});
     } else {
       await popUpItemMenuTooltip(location, target);
     }

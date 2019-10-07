@@ -15,22 +15,24 @@ export interface IReservationModalProps extends IReservationWrapProps {
 const ReservationModal: React.FC<IReservationModalProps> = ({
   modalHook,
   publicKey,
-  houseId,
-  context: {match, location, history},
+  context,
   ...props
-}) => (
-  <JDmodal className="reservationModal" {...modalHook}>
-    <ReservationWrap
-      match={match}
-      history={history}
-      location={location}
-      modalHook={modalHook}
-      isHost={true}
-      publicKey={publicKey}
-      houseId={houseId}
-      {...props}
-    />
-  </JDmodal>
-);
+}) => {
+  const {match, location, history} = context;
+
+  return (
+    <JDmodal className="reservationModal" {...modalHook}>
+      <ReservationWrap
+        match={match}
+        history={history}
+        location={location}
+        modalHook={modalHook}
+        publicKey={publicKey}
+        context={context}
+        {...props}
+      />
+    </JDmodal>
+  );
+};
 
 export default ReservationModal;

@@ -31,6 +31,7 @@
             line-height: $pagination-li-height;
             padding: 0 $pagination-li-padding;
             background-color: $grey-level1;
+            color:$html-color;
             border-radius: $standard-border-radius;
 
             &:hover {

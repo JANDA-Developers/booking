@@ -1,9 +1,7 @@
 import React, {Fragment} from "react";
 import JDsearchInput from "../../atoms/searchInput/SearchInput";
-import {SELECT_DUMMY_OP} from "../../types/enum";
 import {getBookings_GetBookings_bookings} from "../../types/api";
 import BookingModalWrap from "../bookingModal/BookingModalWrap";
-import UserModal from "../../pages/middleServer/super/components/userModal";
 import {useModal} from "../../hooks/hook";
 import $ from "jquery";
 import {autoHypen} from "../../utils/utils";

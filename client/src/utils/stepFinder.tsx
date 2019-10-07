@@ -1,13 +1,12 @@
 import {IContext} from "../pages/MiddleServerRouter";
 import {HouseStatus} from "../types/enum";
-import isEmpty from "./isEmptyData";
 
 export type IStepsStart =
   | "phoneVerification"
-  | "houseMake"
-  | "makeProduct"
+  | "houseCreate"
+  | "createProduct"
   | "readyAssign"
-  | "makeRoom"
+  | "createRoom"
   | "done";
 
 const stepFinder = (context: IContext): IStepsStart => {
@@ -17,14 +16,14 @@ const stepFinder = (context: IContext): IStepsStart => {
 
   // findCurrent Step
   if (user.isPhoneVerified) {
-    step = "houseMake";
+    step = "houseCreate";
   }
   if (house) {
-    step = "makeProduct";
+    step = "createProduct";
     if (applyedProduct) {
       step = "readyAssign";
       if (house.status === HouseStatus.ENABLE) {
-        step = "makeRoom";
+        step = "createRoom";
       }
     }
   }

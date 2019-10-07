@@ -3,9 +3,8 @@
 import React, {Fragment} from "react";
 import {ErrProtecter} from "../../../utils/utils";
 import {getBookingForPublic_GetBookingForPublic_booking} from "../../../types/api";
-import JDtable from "../../../atoms/table/Table";
-import {ReactTableDefaults, CellInfo} from "react-table";
-import {getCountsFromBooking} from "../../../utils/booking";
+import JDtable, {JDcolumn} from "../../../atoms/table/Table";
+import {ReactTableDefaults} from "react-table";
 import {IRoomType} from "../../../types/interface";
 import JDbox from "../../../atoms/box/JDbox";
 import {
@@ -14,6 +13,7 @@ import {
   PaymentStatusKr
 } from "../../../types/enum";
 import moment from "moment";
+import {getRoomSelectInfo} from "../../../utils/guestCountByRoomType";
 
 export interface IProps {
   tableData: getBookingForPublic_GetBookingForPublic_booking[] | undefined;
@@ -21,11 +21,13 @@ export interface IProps {
 
 // 하우스 아이디를 우선 Props를 통해서 받아야함
 const CheckTable: React.FC<IProps> = ({tableData}) => {
-  const TableColumns = [
+  const TableColumns: JDcolumn<
+    getBookingForPublic_GetBookingForPublic_booking
+  >[] = [
     {
       Header: "체크인",
       accessor: "_id",
-      Cell: ({original}: CellInfo) => (
+      Cell: ({original}) => (
         <div>
           <span>{moment(original.checkIn).format("YYYY-MM-DD")}</span>
         </div>
@@ -34,7 +36,7 @@ const CheckTable: React.FC<IProps> = ({tableData}) => {
     {
       Header: "체크아웃",
       accessor: "_id",
-      Cell: ({original}: CellInfo) => (
+      Cell: ({original}) => (
         <div>
           <span>{moment(original.checkOut).format("YYYY-MM-DD")}</span>
         </div>
@@ -43,31 +45,25 @@ const CheckTable: React.FC<IProps> = ({tableData}) => {
     {
       Header: "객실/인원",
       accessor: "roomTypes",
-      Cell: ({value, original}: CellInfo) => {
+      Cell: ({value, original}) => {
         const roomTypes: IRoomType[] = value;
-        return roomTypes.map(roomType => (
+        const roomSelectInfo = getRoomSelectInfo(original.guests, roomTypes);
+        return roomSelectInfo.map(selectInfo => (
           <JDbox size="small">
-            {roomType.name}
+            {selectInfo.roomTypeName}
             <br />
             <span>
               {(() => {
-                const guestsCount = getCountsFromBooking(
-                  original.guests,
-                  roomType._id
-                );
+                const {female, male, roomCount} = selectInfo.count;
                 return (
                   <span>
-                    {roomType.pricingType === PricingType.DOMITORY ? (
+                    {selectInfo.pricingType === PricingType.DOMITORY ? (
                       <Fragment>
-                        {guestsCount.female ? (
-                          <span>{guestsCount.female}여 </span>
-                        ) : null}
-                        {guestsCount.male ? (
-                          <span>{guestsCount.male}남</span>
-                        ) : null}
+                        {female && <span>{female}여 </span>}
+                        {male && <span>{male}남</span>}
                       </Fragment>
                     ) : (
-                      <span>{guestsCount.roomCount}개</span>
+                      <span>{roomCount}개</span>
                     )}
                   </span>
                 );
@@ -79,10 +75,10 @@ const CheckTable: React.FC<IProps> = ({tableData}) => {
     },
     {
       Header: "이용금액",
-      accessor: "price",
-      Cell: ({value, original}: CellInfo) => (
+      accessor: "payment",
+      Cell: ({value, original}) => (
         <div>
-          {original.price} <br />
+          {value.price} <br />
           {
             // @ts-ignore
             PaymentStatusKr[original.paymentStatus]
@@ -92,8 +88,8 @@ const CheckTable: React.FC<IProps> = ({tableData}) => {
     },
     {
       Header: "상태",
-      accessor: "bookingStatus",
-      Cell: ({value, original}: CellInfo) => (
+      accessor: "status",
+      Cell: ({value, original}) => (
         <span>
           {
             // @ts-ignore

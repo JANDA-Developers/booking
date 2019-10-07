@@ -1,6 +1,6 @@
 import {IRoomType} from "../../../../types/interface";
 import {isEmpty} from "../../../../utils/utils";
-import {DEFAULT_ASSIG_GROUP} from "../../../../types/defaults";
+import {DEFAUT_ASSIG_GROUP} from "../../../../types/defaults";
 import {RoomGender, Gender, PricingType} from "../../../../types/enum";
 import {IAssigGroup} from "./assigIntrerface";
 
@@ -25,7 +25,7 @@ export const roomGenderToGedner = (
 // 🛌 베드타입일경우에 ID는 + 0~(인덱스);
 //  TODO: 메모를 사용해서 데이터를 아끼자
 //  isAdd 는 방타입 생성에서 추가 버튼을 위한것
-export const roomDataManufacture = (
+export const roomDataManufacturer = (
   roomTypeDatas: IRoomType[] | null | undefined = [],
   isAdd?: boolean
 ) => {
@@ -89,7 +89,7 @@ export const roomDataManufacture = (
       // 방생성중일떄만 will be deprecate ⛔️
       if (isAdd) {
         roomGroups.push({
-          ...DEFAULT_ASSIG_GROUP,
+          ...DEFAUT_ASSIG_GROUP,
           id: `add${roomTypeData._id}${roomTypeIndex}`,
           roomTypeId: roomTypeData._id,
           roomTypeIndex: roomTypeData.index,
@@ -100,7 +100,7 @@ export const roomDataManufacture = (
     } else if (isAdd) {
       if (roomTypeData.pricingType === "ROOM") {
         roomGroups.push({
-          ...DEFAULT_ASSIG_GROUP,
+          ...DEFAUT_ASSIG_GROUP,
           id: `add${roomTypeData._id}${roomTypeIndex}`,
           roomTypeId: roomTypeData._id,
           roomTypeIndex: roomTypeData.index,
@@ -112,7 +112,7 @@ export const roomDataManufacture = (
       } else {
         for (let i = 0; roomTypeData.peopleCount > i; i += 1) {
           roomGroups.push({
-            ...DEFAULT_ASSIG_GROUP,
+            ...DEFAUT_ASSIG_GROUP,
             id: `add${roomTypeData._id}${roomTypeIndex}` + i,
             roomTypeId: roomTypeData._id,
             roomTypeIndex: roomTypeData.index,
@@ -132,7 +132,7 @@ export const roomDataManufacture = (
   // 방생성중일떄만
   if (isAdd) {
     roomGroups.push({
-      ...DEFAULT_ASSIG_GROUP,
+      ...DEFAUT_ASSIG_GROUP,
       id: `addRoomType`,
       type: "addRoomType"
     });

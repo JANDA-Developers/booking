@@ -8,6 +8,11 @@ export enum UserRole {
   HOST = "HOST"
 }
 
+export enum DateFormat {
+  WITH_TIME = "YY/MM/DD HH:mm",
+  YYMMDD = "YY/MM/DD"
+}
+
 export enum GuestType {
   BLOCK = "BLOCK",
   GUEST = "GUEST"
@@ -128,12 +133,12 @@ export enum TimePerMs {
 }
 
 export enum PaymentStatus {
-  READY = "READY",
+  PROGRESSING = "PROGRESSING",
   COMPLETE = "COMPLETE"
 }
 
 export enum PaymentStatusKr {
-  READY = "미결제",
+  PROGRESSING = "진행중",
   COMPLETE = "결제완료"
 }
 
@@ -141,14 +146,14 @@ export enum BookingStatus {
   CANCEL = "CANCEL",
   COMPLETE = "COMPLETE",
   FAIL = "FAIL",
-  READY = "READY"
+  PROGRESSING = "PROGRESSING"
 }
 
 export enum BookingStatusKr {
   COMPLETE = "예약완료",
   CANCEL = "예약취소",
   FAIL = "예약실패",
-  READY = "예약진행중"
+  PROGRESSING = "예약진행중"
 }
 
 export enum PayMethod {
@@ -163,10 +168,6 @@ export enum PayMethodKr {
   CARD = "카드결제",
   CASH = "현금결제",
   CHANNEL_PAY = "채널결제"
-}
-
-export enum Product {
-  TEST = "상품1"
 }
 
 // css variable 의 breackPoints 와 일치하도록 하세요.
@@ -225,14 +226,14 @@ export type JDColor =
 export enum AutoSendWhen {
   WEHN_BOOKING_CANCEL = "WEHN_BOOKING_CANCEL",
   WHEN_BOOKING_CREATED = "WHEN_BOOKING_CREATED",
-  WHEN_BOOKING_CREATED_PAYMENT_READY = "WHEN_BOOKING_CREATED_PAYMENT_READY",
+  WHEN_BOOKING_CREATED_PAYMENT_PROGRESSING = "WHEN_BOOKING_CREATED_PAYMENT_PROGRESSING",
   WHEN_BOOKING_UPDATE = "WHEN_BOOKING_UPDATE"
 }
 
 export enum AutoSendWhenKr {
   WEHN_BOOKING_CANCEL = "예약취소시",
   WHEN_BOOKING_CREATED = "예약생성시",
-  WHEN_BOOKING_CREATED_PAYMENT_READY = "예약생성시(미결제)",
+  WHEN_BOOKING_CREATED_PAYMENT_PROGRESSING = "예약생성시(미결제)",
   WHEN_BOOKING_UPDATE = "예약업데이트시"
 }
 
@@ -354,11 +355,18 @@ export const SELECT_DUMMY_OP = [
   {value: "vanilla", label: "Vanilla"}
 ];
 
+export enum ProductTypeName {
+  ONE = "JANDA-T",
+  TOW = "JANDA-G",
+  THREE = "JANDA-H",
+  FOUR = "JANDA-X"
+}
+
 export const SELECT_PRODUCT_TYPE_OP = [
-  {value: "상품1", label: "상품1"},
-  {value: "상품2", label: "상품2"},
-  {value: "상품3", label: "상품3"},
-  {value: "상품4", label: "상품4"}
+  {value: ProductTypeName.ONE, label: ProductTypeName.ONE},
+  {value: ProductTypeName.TOW, label: ProductTypeName.TOW},
+  {value: ProductTypeName.THREE, label: ProductTypeName.THREE},
+  {value: ProductTypeName.FOUR, label: ProductTypeName.FOUR}
 ];
 
 export const SELECT_COUNT_DUMMY_OP = [
@@ -382,10 +390,6 @@ export const BOOKING_STATUS_OP = [
   },
   {value: BookingStatus.CANCEL, label: BookingStatusKr[BookingStatus.CANCEL]},
   {
-    value: BookingStatus.READY,
-    label: BookingStatusKr[BookingStatus.READY]
-  },
-  {
     value: BookingStatus.FAIL,
     label: BookingStatusKr[BookingStatus.FAIL]
   }
@@ -396,9 +400,10 @@ export const LAYOUT_TYPE_OP = [
   {value: LayoutType.Layout_B, label: LayoutType.Layout_B}
 ];
 
+// [0]가 미결제 이도록
 export const PAYMENT_STATUS_OP = [
-  {value: PaymentStatus.COMPLETE, label: "결제완료"},
-  {value: PaymentStatus.READY, label: "미결제"}
+  {value: PaymentStatus.PROGRESSING, label: "미결제"},
+  {value: PaymentStatus.COMPLETE, label: "결제완료"}
 ];
 
 export const STATISTICS_OP = [{value: "매출통계", label: "매출통계"}];
@@ -462,12 +467,12 @@ export const ROOM_GENDER_OP = [
   {value: RoomGender.FEMALE, label: RoomGenderKr.FEMALE}
 ];
 
-export const PRICING_TYPE_OP = [
+export const PricinG_TYPE_OP = [
   {value: PricingType.DOMITORY, label: PricingTypeKr.DOMITORY},
   {value: PricingType.ROOM, label: PricingTypeKr.ROOM}
 ];
 
-export const PRICING_TYPE_OP_EXPEND = [
+export const PricinG_TYPE_OP_EXPEND = [
   {value: [PricingType.DOMITORY], label: PricingTypeKr.DOMITORY},
   {value: [PricingType.ROOM], label: PricingTypeKr.ROOM},
   {value: [PricingType.ROOM, PricingType.DOMITORY], label: "도미토리 & 방타입"}
@@ -483,8 +488,8 @@ export const AUTO_SEND_OP = [
     label: AutoSendWhenKr.WHEN_BOOKING_CREATED
   },
   {
-    value: AutoSendWhen.WHEN_BOOKING_CREATED_PAYMENT_READY,
-    label: AutoSendWhenKr.WHEN_BOOKING_CREATED_PAYMENT_READY
+    value: AutoSendWhen.WHEN_BOOKING_CREATED_PAYMENT_PROGRESSING,
+    label: AutoSendWhenKr.WHEN_BOOKING_CREATED_PAYMENT_PROGRESSING
   },
   {
     value: AutoSendWhen.WHEN_BOOKING_UPDATE,
@@ -523,3 +528,5 @@ export const StaticColors = [
 ];
 
 export const FLOATING_PRElOADER_SIZE = "small";
+
+export const TEST_PRODUCT_NAME = ProductTypeName.ONE;

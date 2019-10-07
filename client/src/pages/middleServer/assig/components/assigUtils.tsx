@@ -6,8 +6,6 @@ import {
   TIsTherePerson,
   TFilterTimeZone,
   TAllTooltipsHide,
-  ICrushTime,
-  TGetCrushTimeByTwoGuest,
   TIsGenderSafe,
   TDeleteGuestById,
   IAssigItemCrush,
@@ -26,8 +24,8 @@ import {
   TToogleCheckIn,
   TOpenCanvasMenuTooltip,
   TOpenBlockMenu,
-  TOpenMakeMenu,
-  TMakeMark,
+  TOpenCreateMenu,
+  TCreateMark,
   TDeleteBookingById,
   TGetBookingIdByGuestId,
   TResizeBlockBlock,
@@ -36,13 +34,15 @@ import {
   TPopUpItemMenuTooltip,
   IGetGuestByBookingId,
   THilightGuestBlock,
-  TChangeMakeBlock,
+  TChangeCreateBlock,
   TBookingCheckedNew,
   IAssigGroup,
   TDleteGhost,
   TGetAssigInfoFromItems,
   IAssigInfo,
-  TGetGuestsInGroup
+  TGetGuestsInGroup,
+  ICanvasMenuTooltipProps,
+  ICreateCreateItem
 } from "./assigIntrerface";
 import {
   isEmpty,
@@ -55,7 +55,7 @@ import {
 import {ReactTooltip} from "../../../../atoms/tooltipList/TooltipList";
 import {RoomGender, TimePerMs, Gender} from "../../../../types/enum";
 import moment from "moment";
-import {DEFAULT_ASSIG_ITEM} from "../../../../types/defaults";
+import {DEFAUT_ASSIG_ITEM} from "../../../../types/defaults";
 import $ from "jquery";
 import {
   createBlock_CreateBlock_block,
@@ -66,8 +66,9 @@ import {
 } from "../../../../types/api";
 import JDisNetworkRequestInFlight from "../../../../utils/netWorkStatusToast";
 import {assigSharedDleteGuestConfirmMessage} from "./items/shared";
-import {blockDataManufacture} from "../AssigTimelineWrap";
+import {blockDataManufacturer} from "../AssigTimelineWrap";
 import {IGuest} from "../../../../types/interface";
+import {roomGenderToGedner} from "./groupDataMenufacture";
 
 export function getAssigUtils(
   {
@@ -76,7 +77,7 @@ export function getAssigUtils(
     confirmDelteGuestHook,
     setBlockMenuProps,
     setCanvasMenuTooltipProps,
-    setMakeMenuProps
+    setCreateMenuProps
   }: IAssigTimelineHooks,
   {
     allocateMu,
@@ -92,7 +93,6 @@ export function getAssigUtils(
   }: IAssigDataControl,
   {houseId, groupData}: IAssigTimelineContext
 ): IAssigTimelineUtils {
-  console.time("--");
   // 마크제거 MARK REMOVE 마커 제거
   const removeMark: TRemoveMark = () => {
     console.info("removeMark");
@@ -107,6 +107,9 @@ export function getAssigUtils(
       ...guestValue.filter(item => item.type !== GuestTypeAdd.GHOST)
     ]);
   };
+
+  // TODO
+  // const getItemByTypes
 
   const getItemById: TGetItemById = guestId => {
     const targetGuest = guestValue.find(guest => guest.id === guestId);
@@ -158,7 +161,7 @@ export function getAssigUtils(
     // if (target.type === "normal")
     // bookingModal.openModal({bookingId: target.bookingId});
     if (target.type === GuestTypeAdd.MAKE) {
-      openMakeMenu(location, {item: target});
+      openCreateMenu(location, {item: target});
     }
   };
 
@@ -195,10 +198,7 @@ export function getAssigUtils(
     );
     // 자기자신이 포함됨니다..
     if (atTimePlaceGuests.length > 1) {
-      const crushTimes = atTimePlaceGuests.map(inGuest =>
-        getCrushTimeByTwoGuest(inGuest, guest)
-      );
-      if (!isEmpty(crushTimes)) return crushTimes;
+      return true;
     }
     return false;
   };
@@ -229,7 +229,7 @@ export function getAssigUtils(
     itemIndex?: number
   ) => {
     if (JDisNetworkRequestInFlight(networkStatus)) return;
-    let target: IAssigItem = DEFAULT_ASSIG_ITEM;
+    let target: IAssigItem = DEFAUT_ASSIG_ITEM;
 
     if (itemIndex !== undefined) {
       target = guestValue[itemIndex];
@@ -279,25 +279,25 @@ export function getAssigUtils(
       $("#blockMenu").removeClass("assig__tooltips--show");
     if (except !== "canvasMenu")
       $("#canvasMenu").removeClass("assig__tooltips--show");
-    if (except !== "makeMenu")
-      $("#makeMenu").removeClass("assig__tooltips--show");
+    if (except !== "createMenu")
+      $("#createMenu").removeClass("assig__tooltips--show");
     if (except !== "itemTooltip")
       $("#itemTooltip").removeClass("assig__tooltips--show");
   };
 
   // 유틸 두게스트의 충돌시간 구해줌 없다면 false를 반환함
-  const getCrushTimeByTwoGuest: TGetCrushTimeByTwoGuest = (guest, guest2) => {
-    const minEnd = guest.end < guest2.end ? guest.end : guest2.end;
-    const minStart = guest.start < guest2.start ? guest.start : guest2.start;
-    if (minStart >= minEnd) return false;
-    return {
-      crushGuest: guest.id,
-      crushGuest2: guest2.id,
-      itemIndex: guest.itemIndex,
-      start: minStart,
-      end: minEnd
-    };
-  };
+  // const getCrushTimeByTwoGuest: TGetCrushTimeByTwoGuest = (guest, guest2) => {
+  //   const minEnd = guest.end < guest2.end ? guest.end : guest2.end;
+  //   const minStart = guest.start < guest2.start ? guest.start : guest2.start;
+  //   if (minStart >= minEnd) return false;
+  //   return {
+  //     crushGuest: guest.id,
+  //     crushGuest2: guest2.id,
+  //     itemIndex: guest.itemIndex,
+  //     start: minStart,
+  //     end: minEnd
+  //   };
+  // };
 
   // 유틸 성별이 맞는지 검사하고 결과가 맞지않다면 CrushTime을 반환합니다.
   // targetGroup과 start end에 이동하고자하는 위치 또는 자신의 위치를 넣어서 해당 구간및 장소에
@@ -318,30 +318,20 @@ export function getAssigUtils(
       const crushGendersGuests = atTimeRoomGuests.filter(
         guest => guest.gender !== item.gender
       );
-      return crushGendersGuests
-        .map(guest => getCrushTimeByTwoGuest(item, guest))
-        .filter(crushTime => crushTime)
-        .map(
-          (crushTime): ICrushTime => {
-            if (!crushTime) {
-              throw new Error("뀨");
-            }
-            return crushTime;
-          }
-        );
+      return crushGendersGuests ? false : true;
     }
     return true;
   };
 
   // 유틸 그자리에 마크를 생성
-  const makeMark: TMakeMark = (time: number, groupId: string) => {
-    console.info("makeMark");
+  const createMark: TCreateMark = (time: number, groupId: string) => {
+    console.info("createMark");
     const filteredGuestValue = guestValue.filter(
       guest => guest.type !== GuestTypeAdd.MARK
     );
 
     filteredGuestValue.push({
-      ...DEFAULT_ASSIG_ITEM,
+      ...DEFAUT_ASSIG_ITEM,
       id: `mark${groupId}${time}`,
       type: GuestTypeAdd.MARK,
       start: time,
@@ -462,12 +452,15 @@ export function getAssigUtils(
     guestValueOriginCopy?: IAssigItem[]
   ) => {
     if (JDisNetworkRequestInFlight(networkStatus)) return;
-    const newGroupId = groupData[newGroupOrder].roomId;
+    const group = groupData[newGroupOrder];
+    const newGroupId = group.roomId;
     const result = await allocateMu({
       variables: {
         guestId: itemId,
-        roomId: newGroupId,
-        bedIndex: groupData[newGroupOrder].bedIndex - 1
+        allocateInfo: {
+          bedIndex: group.bedIndex,
+          roomId: newGroupId
+        }
       }
     });
     // 실패하면 전부 되돌림
@@ -494,7 +487,7 @@ export function getAssigUtils(
 
     const tempId = s4();
     const tempItem = {
-      ...DEFAULT_ASSIG_ITEM,
+      ...DEFAUT_ASSIG_ITEM,
       bookingId: s4(),
       roomId: targetGroup.roomId,
       bedIndex: targetGroup.bedIndex,
@@ -590,16 +583,66 @@ export function getAssigUtils(
       .addClass("assig__tooltips--show");
   };
 
-  // make블러들을 ghost로 변환
-  const changeMakeBlock: TChangeMakeBlock = () => {
-    const makeBlock = guestValue.filter(
+  // create블러들을 ghost로 변환
+  const changeCreateBlock: TChangeCreateBlock = () => {
+    const createBlock = guestValue.filter(
       guest => guest.type === GuestTypeAdd.MAKE
     );
-    makeBlock.forEach(makeBlock => {
-      makeBlock.loading = true;
-      makeBlock.type = GuestTypeAdd.GHOST;
+    createBlock.forEach(createBlock => {
+      createBlock.loading = true;
+      createBlock.type = GuestTypeAdd.GHOST;
     });
     setGuestValue([...guestValue]);
+  };
+
+  const createCreateItem: ICreateCreateItem = (
+    canvasInfo: ICanvasMenuTooltipProps,
+    gender?: Gender
+  ) => {
+    allTooltipsHide();
+    const {end, start, group, groupId} = canvasInfo;
+    // 시간이 같고 타입이 Create인 것들을 하나의 그룹으로 묶음
+    const linkedItems = guestValue.filter(
+      item =>
+        item.type === GuestTypeAdd.MAKE &&
+        item.start <= start &&
+        item.end >= end
+    );
+
+    // 생성된 Create들의 시간을 하나로 통일하기 위한 함수
+    const getTime = (flag: "start" | "end") => {
+      if (!linkedItems[0]) return canvasInfo[flag];
+      if (linkedItems[0].start <= start && linkedItems[0].end >= end)
+        return linkedItems[0][flag];
+      return canvasInfo[flag];
+    };
+
+    const newItem = {
+      ...DEFAUT_ASSIG_ITEM,
+      roomTypeId: group.roomTypeId,
+      room: group.roomId,
+      bookingId: "create",
+      id: `create${groupId}${start}${s4()}`,
+      gender: gender || roomGenderToGedner(group.roomGender, group.pricingType),
+      type: GuestTypeAdd.MAKE,
+      start: getTime("start"),
+      end: getTime("end"),
+      group: groupId
+    };
+
+    linkedItems.push(newItem);
+
+    $("#canvasMenu").removeClass("canvasMenu--show");
+
+    setGuestValue([
+      ...guestValue.filter(
+        item =>
+          item.type !== GuestTypeAdd.MAKE && item.type !== GuestTypeAdd.MARK
+      ),
+      ...linkedItems
+    ]);
+
+    setCreateMenuProps({item: newItem});
   };
 
   // canvas 용 메뉴오픈
@@ -634,10 +677,10 @@ export function getAssigUtils(
     }
   };
 
-  // make 툴팁 오픈
-  const openMakeMenu: TOpenMakeMenu = (e, makeMenuProp) => {
-    if (makeMenuProp) setMakeMenuProps(makeMenuProp);
-    $("#makeMenu")
+  // create 툴팁 오픈
+  const openCreateMenu: TOpenCreateMenu = (e, createMenuProp) => {
+    if (createMenuProp) setCreateMenuProps(createMenuProp);
+    $("#createMenu")
       .css("left", e.clientX)
       .css("top", e.clientY)
       .addClass("assig__tooltips--show");
@@ -645,17 +688,16 @@ export function getAssigUtils(
 
   // 👼 컴포넌트들 내부에 prop를 전달하기 힘드니까 이렇게 전달하자.
   const assigUtils: IAssigTimelineUtils = {
-    changeMakeBlock,
+    changeCreateBlock,
     getItemById,
     getGroupById,
     removeMark,
     isTherePerson,
     filterTimeZone,
     allTooltipsHide,
-    getCrushTimeByTwoGuest,
     deleteGuestById,
     deleteItemById,
-    openMakeMenu,
+    openCreateMenu,
     isGenderSafe,
     getGuestsByBookingId,
     addBlock,
@@ -670,16 +712,16 @@ export function getAssigUtils(
     toogleCheckInOut,
     openBlockMenu,
     openCanvasMenuTooltip,
-    makeMark,
+    createMark,
     getAssigInfoFromItems,
     deleteBookingById,
     getGuestsInGroup,
     popUpItemMenuTooltip,
     getBookingIdByGuestId,
     hilightGuestBlock,
-    deleteGhost
+    deleteGhost,
+    createCreateItem
   };
 
-  console.timeEnd("--");
   return assigUtils;
 }

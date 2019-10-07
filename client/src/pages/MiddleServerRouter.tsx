@@ -11,7 +11,7 @@ import {isEmpty} from "../utils/utils";
 import Preloader from "../atoms/preloader/Preloader";
 import {
   SelectProducts,
-  MakeHouse,
+  CreateHouse,
   DashBoard,
   MyPage,
   SignUp,
@@ -32,7 +32,7 @@ import {
 } from "./pages";
 import {UserRole} from "../types/enum";
 import {IHouse, IHouseConfigFull} from "../types/interface";
-import {DEFAULT_USER} from "../types/defaults";
+import {DEFAUT_USER} from "../types/defaults";
 import {
   getMyProfile_GetMyProfile_user,
   getMyProfile_GetMyProfile_user_houses_product
@@ -44,6 +44,7 @@ import houseConfigSetting from "../utils/houseConfigSetting";
 import alertMemo from "../utils/alertMemo";
 import {useModal} from "../hooks/hook";
 import MemoAlertModal from "../components/Memo/component/MemoAlertModal";
+import JDoutdatedBrowserRework from "../utils/oldBrowser";
 
 export interface IContext extends RouteComponentProps<any> {
   user: getMyProfile_GetMyProfile_user;
@@ -66,7 +67,7 @@ const JDmiddleServer: React.FC<IProps> = ({
     loading
   },
   GetUserInfo: {
-    GetMyProfile: {user = DEFAULT_USER} = {},
+    GetMyProfile: {user = DEFAUT_USER} = {},
     loading: loading2
   } = {},
   selectedHouse: {lastSelectedHouse, loading: loading3}
@@ -78,6 +79,9 @@ const JDmiddleServer: React.FC<IProps> = ({
   const applyedProduct = (currentHouse && currentHouse.product) || undefined;
   const {userRole} = user;
   const houseConfig = houseConfigSetting(currentHouse);
+
+  // 지원하지 않는 브라우저로 부터 접속했는지 확인합니다.
+  JDoutdatedBrowserRework();
 
   // 디벨롭을 도와줌
   if (userRole === "DEVELOPER") setCookie("isDeveloper", "Y", 1);
@@ -159,9 +163,9 @@ const JDmiddleServer: React.FC<IProps> = ({
                     {/* 숙소생성 */}
                     <Route
                       exact
-                      path="/makeHouse"
+                      path="/createHouse"
                       render={(prop: any) => (
-                        <MakeHouse context={contextWithRotuer} {...prop} />
+                        <CreateHouse context={contextWithRotuer} {...prop} />
                       )}
                     />
                     {/* 숙소설정 */}

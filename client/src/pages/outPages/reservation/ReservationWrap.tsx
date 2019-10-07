@@ -9,22 +9,28 @@ import {onCompletedMessage} from "../../../utils/utils";
 import {
   startBooking_StartBooking,
   startBooking,
-  startBookingVariables
+  startBookingVariables,
+  startBookingForPublic,
+  startBookingForPublicVariables
 } from "../../../types/api";
 import {
   GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM,
-  START_BOOKING
+  START_BOOKING,
+  START_BOOKING_FOR_PUBLIC
 } from "../../../queries";
 import {useModal, IUseModal} from "../../../hooks/hook";
 import {getOperationName} from "apollo-link";
 import {isInIfram} from "../../../utils/isInIfram";
+import {IContext} from "../../MiddleServerRouter";
+import {useMutation} from "@apollo/react-hooks";
+import client from "../../../apolloClient";
 
 class StartBooking extends Mutation<startBooking, startBookingVariables> {}
 
 export interface IReservationWrapProps {
-  houseId: string;
   publicKey?: string;
-  isHost?: boolean;
+  // context가 존재하면 Host가 한 예약
+  context?: IContext;
   modalHook?: IUseModal;
   callBackCreateBookingMu?: (CreateBooking: startBooking_StartBooking) => void;
 }
@@ -32,15 +38,39 @@ export interface IReservationWrapProps {
 // 하우스 아이디를 우선 Props를 통해서 받아야함
 const ReservationWrap: React.FC<
   IReservationWrapProps & RouteComponentProps<any>
-> = ({
-  match,
-  publicKey,
-  isHost,
-  houseId,
-  modalHook,
-  callBackCreateBookingMu
-}) => {
+> = ({match, publicKey, context, modalHook, callBackCreateBookingMu}) => {
   // .react-select__input
+
+  const startBookingCallBackFn = (result: any) => {
+    onCompletedMessage(result, "예약 생성 완료", "예약 생성 실패");
+    modalHook && modalHook.closeModal();
+    callBackCreateBookingMu && callBackCreateBookingMu(result);
+  };
+
+  const [startBookingForPublicMu, {loading: startBookingLoading}] = useMutation<
+    startBookingForPublic,
+    startBookingForPublicVariables
+  >(START_BOOKING_FOR_PUBLIC, {
+    client,
+    awaitRefetchQueries: true,
+    onCompleted: ({StartBookingForPublic}) => {
+      startBookingCallBackFn(StartBookingForPublic);
+    }
+  });
+
+  const [startBookingMu, {loading: startBookingL}] = useMutation<
+    startBooking,
+    startBookingVariables
+  >(START_BOOKING, {
+    client,
+    refetchQueries: [
+      getOperationName(GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM) || ""
+    ],
+    awaitRefetchQueries: true,
+    onCompleted: ({StartBooking}) => {
+      startBookingCallBackFn(StartBooking);
+    }
+  });
 
   sessionStorage.setItem("hpk", publicKey || match.params.publickey);
   sessionStorage.setItem("hpk33", "33");
@@ -52,32 +82,15 @@ const ReservationWrap: React.FC<
   }
 
   return (
-    <StartBooking
-      refetchQueries={[
-        getOperationName(GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM) || ""
-      ]}
-      onCompleted={({StartBooking}) => {
-        onCompletedMessage(StartBooking, "예약 생성 완료", "예약 생성 실패");
-
-        modalHook && modalHook.closeModal();
-
-        callBackCreateBookingMu && callBackCreateBookingMu(StartBooking);
-      }}
-      awaitRefetchQueries
-      mutation={START_BOOKING}
-    >
-      {(startBookingMu, {loading: startBookingLoading}) => (
-        <div>
-          <Reservation
-            houseId={houseId}
-            isHost={isHost || false}
-            confirmModalHook={confirmModalHook}
-            startBookingMu={startBookingMu}
-            createLoading={startBookingLoading}
-          />
-        </div>
-      )}
-    </StartBooking>
+    <div>
+      <Reservation
+        context={context}
+        confirmModalHook={confirmModalHook}
+        startBookingForPublicMu={startBookingForPublicMu}
+        startBookingMu={startBookingMu}
+        createLoading={startBookingLoading}
+      />
+    </div>
   );
 };
 

@@ -6,7 +6,7 @@ import {
   getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices
 } from "../types/api";
 import moment from "moment";
-import {IResvCount} from "../types/interface";
+import {IRoomSelectInfo} from "../components/bookingModal/BookingModal";
 
 // booking들을 받아서 종합 BookingStatu를 반환합니다.
 type TProp = {bookingStatus: BookingStatus; [foo: string]: any}[] | null;
@@ -56,62 +56,6 @@ export const bookingPriceMerge = (bookings: TProp2): number =>
       booking.bookingStatue === BookingStatus.COMPLETE ? booking.price : 0
     )
   );
-
-interface IGuest {
-  gender: Gender | null;
-  roomType: any;
-  [foo: string]: any;
-}
-
-// 예약으로부터 게스트 카운트 찾아주는 함수
-export const getCountsFromBooking = (
-  guests: IGuest[] | null,
-  roomTypeId?: string
-): IResvCount => {
-  if (!roomTypeId) {
-    return {
-      female: guests
-        ? arraySum(
-            guests.map(guest => (guest.gender === Gender.FEMALE ? 1 : 0))
-          )
-        : 0,
-      male: guests
-        ? arraySum(guests.map(guest => (guest.gender === Gender.MALE ? 1 : 0)))
-        : 0,
-      roomCount: guests ? guests.length : 0
-    };
-  } else {
-    if (guests) {
-      const roomTypeGuests = guests.filter(
-        guest => guest.roomType._id === roomTypeId
-      );
-
-      return {
-        female: roomTypeGuests
-          ? arraySum(
-              roomTypeGuests.map(guest =>
-                guest.gender === Gender.FEMALE ? 1 : 0
-              )
-            )
-          : 0,
-        male: roomTypeGuests
-          ? arraySum(
-              roomTypeGuests.map(guest =>
-                guest.gender === Gender.MALE ? 1 : 0
-              )
-            )
-          : 0,
-        roomCount: roomTypeGuests.length
-      };
-    } else {
-      return {
-        female: 0,
-        male: 0,
-        roomCount: 0
-      };
-    }
-  }
-};
 
 function getRangeOfDates(
   start: moment.Moment,

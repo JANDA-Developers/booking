@@ -1,1 +1,10 @@
 @import '../../style_config/style_config';
+
+.DayPickerModal {
+    .DayPicker-box {
+        width: 100%;
+        & > div {
+            width: 100%;
+        }
+    }
+}

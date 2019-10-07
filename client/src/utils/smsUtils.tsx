@@ -35,7 +35,7 @@ export const smsMsgParser = (msg: string, parser: TParser): string => {
 };
 
 // 템플릿 셀렉트 옵션 만들어주는 함수
-export const templateOpMaker = (
+export const templateOpCreater = (
   templates: getSmsInfo_GetSmsInfo_smsInfo_smsTemplates[]
 ): IselectedOption[] =>
   templates.map(template => ({

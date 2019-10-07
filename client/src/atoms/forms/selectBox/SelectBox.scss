@@ -1,9 +1,5 @@
 @import '../../../style_config/style_config';
 
-
-
-
-
 .JDselect {
   text-align:left;
 
@@ -83,6 +79,10 @@
 
     .react-select {
       
+      &__placeholder {
+        padding-right: 0!important;
+      }
+
       // disabled style 디스에이블 스타일 2
       &__control--is-disabled.react-select__control {
         border-color: $select-disabled-color;

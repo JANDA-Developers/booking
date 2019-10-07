@@ -6,7 +6,7 @@ interface IProps {
   labelAdd?: string;
 }
 
-const selectOpMaker = ({
+const selectOpCreater = ({
   count,
   labelAdd = "",
   start = 0
@@ -19,4 +19,4 @@ const selectOpMaker = ({
     }));
 };
 
-export default selectOpMaker;
+export default selectOpCreater;

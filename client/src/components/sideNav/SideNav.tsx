@@ -11,11 +11,30 @@ import SelectHouseWrap from "../selectHouse/SelectHouseWrap";
 import {isEmpty, s4, instanceOfA} from "../../utils/utils";
 import {IContext} from "../../pages/MiddleServerRouter";
 import {HouseStatus} from "../../types/enum";
+import {inOr} from "../../utils/C";
+import Help from "../../atoms/Help/Help";
+import JDlist from "../../atoms/list/List";
+import {to4YMMDD} from "../../utils/setMidNight";
 
 interface IProps {
   isOpen: boolean;
   setIsOpen: any;
   context: IContext;
+}
+
+// 네비 메뉴 그룹
+interface IMenusItem {
+  to: string;
+  label: string;
+  icon: IIcons;
+  disabled: boolean;
+}
+
+// 네비 메뉴 2차 그룹
+interface IMenusGroup {
+  disabled: boolean;
+  groupTitle: string;
+  contents: IMenusItem[];
 }
 
 const SideNav: React.FC<IProps> = ({isOpen, setIsOpen, context}) => {
@@ -30,25 +49,9 @@ const SideNav: React.FC<IProps> = ({isOpen, setIsOpen, context}) => {
     setIsOpen(false);
   };
 
-  const isHouseMaked = !isEmpty(house);
-  const isHaveProduct = house && house.product ? true : false;
-  const isRoomTypeMaked = isHouseMaked && !isEmpty(house!.roomTypes);
   const status = house && house.status;
-
   const disabledFlag = status !== HouseStatus.ENABLE;
 
-  interface IMenusItem {
-    to: string;
-    label: string;
-    icon: IIcons;
-    disabled: boolean;
-  }
-
-  interface IMenusGroup {
-    disabled: boolean;
-    groupTitle: string;
-    contents: IMenusItem[];
-  }
   const menues: (IMenusItem | IMenusGroup)[] = [
     {
       to: "/dashboard",
@@ -146,6 +149,7 @@ const SideNav: React.FC<IProps> = ({isOpen, setIsOpen, context}) => {
     );
   };
 
+  // disabled인 것들을 아래로 내려보냄
   const sortedMenus = menues.sort((menu, menu2) => {
     return menu.disabled === menu2.disabled ? 0 : menu.disabled ? 1 : -1;
   });
@@ -187,11 +191,29 @@ const SideNav: React.FC<IProps> = ({isOpen, setIsOpen, context}) => {
         <div className="JDsideNav__productView">
           <div className="JDsideNav__billing-info">
             <div className="JDsideNav__billing-title">
-              {applyedProduct ? applyedProduct.name : "적용안됨"}
+              <span className="JDstandard-small-space">
+                {inOr(applyedProduct, "name", "적용안됨")}
+              </span>
+              {applyedProduct && (
+                <Help
+                  icon="info"
+                  tooltip={
+                    <JDlist
+                      className="JDmargin-bottom0"
+                      contents={[
+                        `만료일: ${to4YMMDD(applyedProduct.expireDate)}`,
+                        `가격: ${applyedProduct.price || 0} /월`
+                      ]}
+                    />
+                  }
+                />
+              )}
             </div>
             <div className="JDsideNav__billing-detail">
-              <span>price</span>
-              <span>{applyedProduct ? applyedProduct.name : "/ 월"}</span>
+              <span>
+                {applyedProduct &&
+                  `${applyedProduct.daysLeftToExpire}일 사용가능`}
+              </span>
             </div>
           </div>
           <div className="JDsideNav__upgradeBtn">

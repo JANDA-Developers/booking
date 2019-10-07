@@ -17,7 +17,7 @@
   color: $button-color;
   background-color: $button-bgColor;
   text-align: center;
-  letter-spacing: $button-letter-sapcing;
+  letter-spacing: $button-letter-spacing;
   @extend %z-depth-1;
   transition: background-color 0.2s ease-out;
   cursor: pointer;

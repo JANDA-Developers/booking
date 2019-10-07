@@ -1,5 +1,5 @@
-import {Product} from "../types/enum";
+import {TEST_PRODUCT_NAME} from "../types/enum";
 
-const isTestProduct = (name: string) => name === Product.TEST;
+const isTestProduct = (name: string) => name === TEST_PRODUCT_NAME;
 
 export default isTestProduct;

@@ -1,7 +1,7 @@
 @import '../../../style_config/style_config.scss';
 
 #Ready {
-    .ready {
+    .PaymentStatus {
         &__pc {
             @include response ($mobile, $null) {
                 display:none;

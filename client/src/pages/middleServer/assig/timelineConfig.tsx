@@ -1,5 +1,5 @@
 import {
-  ASSIGT_IMELINE_HEIGHT,
+  ASSIG_IMELINE_HEIGHT,
   sharedProps
 } from "../../../atoms/timeline/Timeline";
 import assigGroupRendererFn from "./components/groupRenderFn";
@@ -13,14 +13,14 @@ const assigDefaultProps = {
   fixedHeader: "fixed",
   sidebarWidth: 230,
   canMove: true,
-  canResize: "right",
+  canResize: false,
   canSelect: true,
   itemsSorted: true,
   itemTouchSendsClick: false,
   stackItems: true,
   itemHeightRatio: 1,
   showCursorLine: true,
-  lineHeight: ASSIGT_IMELINE_HEIGHT,
+  lineHeight: ASSIG_IMELINE_HEIGHT,
   horizontalLineClassNamesForGroup: (group: IAssigGroup) => {
     const groupClasses = ["group"];
     group.isLastOfRoom && groupClasses.push("group--lastOfRoom");

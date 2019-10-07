@@ -75,11 +75,9 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
                     {MemoDailyAssigWrap}
                     <ReservationModal
                       context={context}
-                      houseId={house._id}
                       modalHook={reservationModal}
                       callBackCreateBookingMu={(foo: any) => {}}
                       publicKey={house.publicKey || undefined}
-                      isHost
                     />
                   </Fragment>
                 </Card>

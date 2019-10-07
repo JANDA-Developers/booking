@@ -786,11 +786,11 @@ index 0000000..c05bc2b
 +    private setHashCode(): void {
 +        // 16진법으로 출력하여 이어 붙이면 될듯하다
 +        // startDate, endDate 중 undefined 변수가 있다면 0으로 바꿈
-+        const startHash = this.makeDateToHex(
++        const startHash = this.createDateToHex(
 +            this.startDate,
 +            this.option.compareScope || "date"
 +        );
-+        const endHash = this.makeDateToHex(
++        const endHash = this.createDateToHex(
 +            this.endDate,
 +            this.option.compareScope || "date"
 +        );
@@ -803,7 +803,7 @@ index 0000000..c05bc2b
 +     * @param date 날짜 객체
 +     * @param scope date, time 둘중 하나
 +     */
-+    private makeDateToHex(
++    private createDateToHex(
 +        date: Date | undefined,
 +        scope: "date" | "time"
 +    ): string {
@@ -1133,7 +1133,7 @@ index f414253..4c1f269 100644
 --- a/server/src/models/User.ts
 +++ b/server/src/models/User.ts
 @@ -17,7 +17,7 @@ export enum UserRole {
- const BCRYPT_ROUNDS = 10;
+ const BCRYPt_ROUNDS = 10;
  
  export class UserSchema extends Typegoose {
 -    @prop({ required: [true, `firstName is missing`] })

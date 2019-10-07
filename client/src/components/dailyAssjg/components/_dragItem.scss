@@ -1,4 +1,5 @@
 .dailyAssigItem  {
+    
     &__place {
         &:last-child {
             .dailyAssigItem__itemBlock {
@@ -6,7 +7,6 @@
             }
         }
     }
-
     
     &__itemBlock {
         box-sizing: border-box;
@@ -28,6 +28,10 @@
         flex: unset;
         * {
             flex: unset;
+        }
+
+        &--progressing {
+            opacity: $assigItem-progressing-opacity;
         }
 
         &--checkIn {
@@ -58,7 +62,9 @@
 
     &__empty {
         color: $grey-level1;
-
+        display: flex;
+        align-items: center;
+        
         &:hover {
             cursor: pointer;
             border: 1px solid $assigItem-selected-border-color;

@@ -1,6 +1,5 @@
 import React, {Fragment} from "react";
 import NotiWrap from "../../noti/NotiWrap";
-import {IHouse} from "../../../types/interface";
 import {IContext} from "../../../pages/MiddleServerRouter";
 import TooltipList, {
   ReactTooltip
@@ -10,10 +9,9 @@ import Button from "../../../atoms/button/Button";
 import {IUseModal, useModal} from "../../../hooks/hook";
 import {insideRedirect, isEmpty} from "../../../utils/utils";
 import {UserRole, MemoType} from "../../../types/enum";
-import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
+import {IconSize} from "../../../atoms/icons/Icons";
 import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
 import MemoModal from "../../Memo/component/MemoModal";
-import HouseCard from "../../../pages/middleServer/super/components/houseCard";
 import MemoIcon from "../../Memo/component/MemoIcon";
 import NotiIcon from "../../noti/component/NotiIcon";
 interface Iprops {

@@ -9,7 +9,7 @@ import {Fragment, useState} from "react";
 import moment from "moment";
 import React from "react";
 import {autoHypen, isEmpty, autoComma, stringToPrice} from "../../utils/utils";
-import {DEFAULT_PRODUCT, DEFAULT_APP_INFO_REQUEST} from "../../types/defaults";
+import {DEFAUT_PRODUCT, DEFAUT_APP_INFO_REQUEST} from "../../types/defaults";
 import Preloader from "../../atoms/preloader/Preloader";
 import JDselect from "../../atoms/forms/selectBox/SelectBox";
 import InputText from "../../atoms/forms/inputText/InputText";
@@ -23,8 +23,18 @@ import {
 } from "../../types/enum";
 import Button from "../../atoms/button/Button";
 import CheckBox from "../../atoms/forms/checkBox/CheckBox";
-import {useSelect, useCheckBox, useInput} from "../../hooks/hook";
+import {
+  useSelect,
+  useCheckBox,
+  useInput,
+  useDayPicker,
+  useModal
+} from "../../hooks/hook";
 import {MutationFn} from "react-apollo";
+import {to4YMMDD} from "../../utils/setMidNight";
+import JDdayPicker from "../../atoms/dayPicker/DayPicker";
+import DayPickerModal from "../dayPickerModal/DayPickerModal";
+import {inOr} from "../../utils/C";
 
 interface IProps {
   specification: getSpecification_GetHouse_house;
@@ -66,27 +76,23 @@ export const SpecificAtion: React.FC<IProps> = ({
     productType,
     canHaveHostApp,
     discountedPrice,
-    bookingCountExtraCharge
-  } = product || DEFAULT_PRODUCT;
+    bookingCountExtraCharge,
+    expireDate,
+    daysLeftToExpire,
+    isExpired
+  } = product || DEFAUT_PRODUCT;
 
   const lastRequestIndex = !isEmpty(appInfoRequested)
     ? appInfoRequested.length - 1
     : 0;
   const inAppInfoRequested = !isEmpty(appInfoRequested)
     ? appInfoRequested[lastRequestIndex]
-    : DEFAULT_APP_INFO_REQUEST;
+    : DEFAUT_APP_INFO_REQUEST;
 
-  const {
-    __typename,
-    isDone: isHomePageDone,
-    layoutType,
-    requestedDate,
-    useHostApp,
-    url: requestUrl
-  } = inAppInfoRequested;
+  const {layoutType, useHostApp, url: requestUrl} = inAppInfoRequested;
 
   if (!user) return <div />;
-  const {name: userName, email, isPhoneVerified, phoneNumber} = user;
+  const {name: userName, phoneNumber} = user;
 
   // HOOK
   const HouseStatusHook = useSelect({
@@ -94,13 +100,16 @@ export const SpecificAtion: React.FC<IProps> = ({
     value: status || HouseStatus.WAIT
   });
 
+  const dayPickerModal = useModal(false);
   const [price, setPrice] = useState(productPrice || 0);
   const layOutPricePaidHook = useCheckBox(layoutPricePaid || false);
   const applideUrlHook = useInput(appliedUrl || "");
   const haveHostAppHook = useCheckBox(existingHostApp);
   const descHook = useInput(description || "");
+  const expireDateHook = useDayPicker(expireDate, expireDate);
 
   const handleUpdateClick = () => {
+    if (!expireDateHook.from) return;
     updateUserForSu({
       variables: {
         productParams: {
@@ -108,13 +117,12 @@ export const SpecificAtion: React.FC<IProps> = ({
           description: descHook.value,
           existingHostApp: haveHostAppHook.checked,
           price,
-          layoutPricePaid: layOutPricePaidHook.checked
+          layoutPricePaid: layOutPricePaidHook.checked,
+          expireDate: expireDateHook.from!
         },
         productId: productId,
         houseId: specification._id,
-        status: HouseStatusHook.selectedOption
-          ? HouseStatusHook.selectedOption.value
-          : HouseStatus.WAIT
+        status: inOr(HouseStatusHook.selectedOption, "value", HouseStatus.WAIT)
       }
     });
   };
@@ -122,7 +130,7 @@ export const SpecificAtion: React.FC<IProps> = ({
   const columns: {
     title: string;
     value: string;
-    adminUi?: JSX.Element | JSX.Element[];
+    adminUi?: JSX.Element | JSX.Element[] | string;
   }[] = [
     {
       title: "적용상품타입",
@@ -187,6 +195,23 @@ export const SpecificAtion: React.FC<IProps> = ({
       adminUi: <InputText comma onChange={setPrice} value={price} />
     },
     {
+      title: "만료일",
+      value: to4YMMDD(expireDate),
+      adminUi: (
+        <InputText
+          onClick={() => {
+            dayPickerModal.openModal();
+          }}
+          value={`${to4YMMDD(expireDate)}까지`}
+        />
+      )
+    },
+    {
+      title: "남은일수",
+      value: `${daysLeftToExpire}`,
+      adminUi: `${daysLeftToExpire}`
+    },
+    {
       title: "현재상태",
       value: status || "",
       adminUi: <JDselect {...HouseStatusHook} options={PRODUCT_STATUS_OP} />
@@ -220,6 +245,13 @@ export const SpecificAtion: React.FC<IProps> = ({
           ))}
         </tbody>
       </table>
+      <DayPickerModal
+        input
+        modalHook={dayPickerModal}
+        {...expireDateHook}
+        format={"YY년 MM월 DD일 까지"}
+        isRange={false}
+      />
 
       {isAdmin && (
         <Button

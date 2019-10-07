@@ -25,7 +25,7 @@ import {MutationFn} from "react-apollo";
 import EventListener from "react-event-listener";
 import {IContext} from "../../MiddleServerRouter";
 import Help from "../../../atoms/Help/Help";
-import RoomTypeInfo from "../../../components/roomTypeInfo/roomTypeInfo_";
+import RoomTypeInfo from "../../../components/roomTypeInfo/RoomTypeInfo";
 import {PureQueryOptions} from "apollo-boost";
 import Mbr from "../../../atoms/mbr/Mbr";
 

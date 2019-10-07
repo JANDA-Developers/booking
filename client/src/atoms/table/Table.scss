@@ -4,7 +4,8 @@
 #root,.ReactModalPortal {
     .JDtable {
         width: 100%;
-        border-radius: $table-border-radius;
+        border-collapse: inherit;
+        border-radius: $standard-border-radius;
         border-color: $table-outborder-color;
         border: $table-outborder;
         box-sizing: border-box;

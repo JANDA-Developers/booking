@@ -28,6 +28,7 @@ export interface IJDdayPickerProps extends IUseDayPicker {
   format?: string;
   lang?: string;
   showInputIcon?: boolean;
+  inputDisabled?: boolean;
   maxLimit?: boolean;
   showWeekEndColor?: boolean;
   mode?: "reservation";
@@ -47,6 +48,7 @@ const JDdayPicker: React.FC<IJDdayPickerProps> = ({
   input,
   isRange = true,
   label,
+  inputDisabled,
   onChangeDate,
   canSelectSameDate = true,
   showInputIcon = true,
@@ -244,6 +246,7 @@ const JDdayPicker: React.FC<IJDdayPickerProps> = ({
           inputComponent={inputComponent}
           placeholder={placeholder}
           format={format}
+          disabled={inputDisabled}
           from={from}
           to={to}
           label={label}

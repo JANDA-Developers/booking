@@ -44,7 +44,7 @@ import {
 } from "../../queries";
 import {BookingStatus, BookingModalType} from "../../types/enum";
 import {getOperationName} from "apollo-utilities";
-import {DEFAULT_BOOKING, DEFAULT_ROOMTYPE} from "../../types/defaults";
+import {DEFAUT_BOOKING, DEFAUT_ROOMTYPE} from "../../types/defaults";
 import {
   ICreateBookingInfo,
   IAssigTimelineUtils
@@ -220,7 +220,7 @@ const BookingModalWrap: React.FC<IProps> = ({
                               >
                                 {deleteBookingMu => {
                                   const bookingData = isEmpty(mergedBooking)
-                                    ? DEFAULT_BOOKING
+                                    ? DEFAUT_BOOKING
                                     : mergedBooking;
 
                                   const totalLoading =

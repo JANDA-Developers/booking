@@ -13,8 +13,8 @@ interface IProps {
 }
 
 const NotiLi: React.FC<IProps> = ({noti}) => {
-  const classes = classNames("NotiLi", undefined, {
-    "NotiLi--confirmed": noti.isConfirm
+  const classes = classNames("notiLi", undefined, {
+    "notiLi--confirmed": noti.isConfirm
   });
 
   const SharedNoti = () => (
@@ -31,7 +31,7 @@ const NotiLi: React.FC<IProps> = ({noti}) => {
   );
 
   const sharedSymbolProp = {
-    className: "NotiLi__symbol",
+    className: "notiLi__symbol",
     size: IconSize.MEDEIUM_SMALL
   };
 
@@ -39,7 +39,7 @@ const NotiLi: React.FC<IProps> = ({noti}) => {
     <li
       onClick={() => {}}
       data-tip={moment(noti.createdAt).format("MM월 DD일")}
-      data-for="NotiCreateDateToolTip"
+      data-for="notiCreateDateToolTip"
       className="notiLi"
     >
       {(() => {

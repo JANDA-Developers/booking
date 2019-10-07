@@ -38,7 +38,7 @@ import TooltipList, {
   ReactTooltip
 } from "../../../atoms/tooltipList/TooltipList";
 import HMcomponent from "../../outPages/HM/HM";
-import {DEFAULT_HM} from "../../../types/defaults";
+import {DEFAUT_HM} from "../../../types/defaults";
 import InputText from "../../../atoms/forms/inputText/InputText";
 import {isPhone, isEmail} from "../../../utils/inputValidations";
 import {MutationFunctionOptions} from "@apollo/react-common";
@@ -60,7 +60,7 @@ export interface IHMconfig {
 }
 
 const HMconfig: React.FC<IProps> = ({
-  HM = DEFAULT_HM,
+  HM = DEFAUT_HM,
   loading,
   context,
   mutationLoading,

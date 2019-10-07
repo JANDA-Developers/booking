@@ -34,8 +34,8 @@ const BlockOpModal: React.FC<IProps> = ({
 
   // const arr = [
   //   "deleteBooking",
-  //   "makeGuestMan",
-  //   "makeGuestWoman",
+  //   "createGuestMan",
+  //   "createGuestWoman",
   //   "infoModalOpen",
   //   "blockPlace",
   //   "selectMoveLink",
@@ -43,8 +43,8 @@ const BlockOpModal: React.FC<IProps> = ({
   // ]
   // const [shotKets, setShortKeys] = useState({
   //   deleteBooking,
-  //   makeGuestMan,
-  //   makeGuestWoman,
+  //   createGuestMan,
+  //   createGuestWoman,
   //   infoModalOpen,
   //   blockPlace,
   //   selectMoveLink,

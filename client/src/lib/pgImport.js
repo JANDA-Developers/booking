@@ -146,7 +146,7 @@ import 'jquery';
         trim: function (a) {
             return null == a ? "" : (a + "").replace(o, "")
         },
-        makeArray: function (a, b) {
+        createArray: function (a, b) {
             var c = b || [];
             return null != a && (s(Object(a)) ? n.merge(c, "string" == typeof a ? [a] : a) : g.call(c, a)), c
         },
@@ -978,7 +978,7 @@ import 'jquery';
                 }
                 return this.context = d, this.selector = a, this
             }
-            return a.nodeType ? (this.context = this[0] = a, this.length = 1, this) : n.isFunction(a) ? "undefined" != typeof c.ready ? c.ready(a) : a(n) : (void 0 !== a.selector && (this.selector = a.selector, this.context = a.context), n.makeArray(a, this))
+            return a.nodeType ? (this.context = this[0] = a, this.length = 1, this) : n.isFunction(a) ? "undefined" != typeof c.PaymentStatus ? c.PaymentStatus(a) : a(n) : (void 0 !== a.selector && (this.selector = a.selector, this.context = a.context), n.createArray(a, this))
         };
     C.prototype = n.fn, A = n(d);
     var D = /^(?:parents|prev(?:Until|All))/,
@@ -1187,16 +1187,16 @@ import 'jquery';
         }
     });
     var I;
-    n.fn.ready = function (a) {
-        return n.ready.promise().done(a), this
+    n.fn.PaymentStatus = function (a) {
+        return n.PaymentStatus.promise().done(a), this
     }, n.extend({
         isReady: !1,
         readyWait: 1,
         holdReady: function (a) {
-            a ? n.readyWait++ : n.ready(!0)
+            a ? n.PaymentStatusWait++ : n.PaymentStatus(!0)
         },
         ready: function (a) {
-            (a === !0 ? --n.readyWait : n.isReady) || (n.isReady = !0, a !== !0 && --n.readyWait > 0 || (I.resolveWith(d, [n]), n.fn.triggerHandler && (n(d).triggerHandler("ready"), n(d).off("ready"))))
+            (a === !0 ? --n.PaymentStatusWait : n.isReady) || (n.isReady = !0, a !== !0 && --n.PaymentStatusWait > 0 || (I.resolveWith(d, [n]), n.fn.triggerHandler && (n(d).triggerHandler("ready"), n(d).off("ready"))))
         }
     });
 
@@ -1205,11 +1205,11 @@ import 'jquery';
     }
 
     function K() {
-        (d.addEventListener || "load" === a.event.type || "complete" === d.readyState) && (J(), n.ready())
+        (d.addEventListener || "load" === a.event.type || "complete" === d.PaymentStatusState) && (J(), n.PaymentStatus())
     }
-    n.ready.promise = function (b) {
+    n.PaymentStatus.promise = function (b) {
         if (!I)
-            if (I = n.Deferred(), "complete" === d.readyState || "loading" !== d.readyState && !d.documentElement.doScroll) a.setTimeout(n.ready);
+            if (I = n.Deferred(), "complete" === d.PaymentStatusState || "loading" !== d.PaymentStatusState && !d.documentElement.doScroll) a.setTimeout(n.PaymentStatus);
             else if (d.addEventListener) d.addEventListener("DOMContentLoaded", K), a.addEventListener("load", K);
         else {
             d.attachEvent("onreadystatechange", K), a.attachEvent("onload", K);
@@ -1224,12 +1224,12 @@ import 'jquery';
                     } catch (b) {
                         return a.setTimeout(f, 50)
                     }
-                    J(), n.ready()
+                    J(), n.PaymentStatus()
                 }
             }()
         }
         return I.promise(b)
-    }, n.ready.promise();
+    }, n.PaymentStatus.promise();
     var L;
     for (L in n(l)) break;
     l.ownFirst = "0" === L, l.inlineBlockNeedsLayout = !1, n(function () {
@@ -1348,7 +1348,7 @@ import 'jquery';
         }), n.extend({
             queue: function (a, b, c) {
                 var d;
-                return a ? (b = (b || "fx") + "queue", d = n._data(a, b), c && (!d || n.isArray(c) ? d = n._data(a, b, n.makeArray(c)) : d.push(c)), d || []) : void 0
+                return a ? (b = (b || "fx") + "queue", d = n._data(a, b), c && (!d || n.isArray(c) ? d = n._data(a, b, n.createArray(c)) : d.push(c)), d || []) : void 0
             },
             dequeue: function (a, b) {
                 b = b || "fx";
@@ -1599,7 +1599,7 @@ import 'jquery';
             var g, h, i, j, l, m, o, p = [e || d],
                 q = k.call(b, "type") ? b.type : b,
                 r = k.call(b, "namespace") ? b.namespace.split(".") : [];
-            if (i = m = e = e || d, 3 !== e.nodeType && 8 !== e.nodeType && !na.test(q + n.event.triggered) && (q.indexOf(".") > -1 && (r = q.split("."), q = r.shift(), r.sort()), h = q.indexOf(":") < 0 && "on" + q, b = b[n.expando] ? b : new n.Event(q, "object" == typeof b && b), b.isTrigger = f ? 2 : 3, b.namespace = r.join("."), b.rnamespace = b.namespace ? new RegExp("(^|\\.)" + r.join("\\.(?:.*\\.|)") + "(\\.|$)") : null, b.result = void 0, b.target || (b.target = e), c = null == c ? [b] : n.makeArray(c, [b]), l = n.event.special[q] || {}, f || !l.trigger || l.trigger.apply(e, c) !== !1)) {
+            if (i = m = e = e || d, 3 !== e.nodeType && 8 !== e.nodeType && !na.test(q + n.event.triggered) && (q.indexOf(".") > -1 && (r = q.split("."), q = r.shift(), r.sort()), h = q.indexOf(":") < 0 && "on" + q, b = b[n.expando] ? b : new n.Event(q, "object" == typeof b && b), b.isTrigger = f ? 2 : 3, b.namespace = r.join("."), b.rnamespace = b.namespace ? new RegExp("(^|\\.)" + r.join("\\.(?:.*\\.|)") + "(\\.|$)") : null, b.result = void 0, b.target || (b.target = e), c = null == c ? [b] : n.createArray(c, [b]), l = n.event.special[q] || {}, f || !l.trigger || l.trigger.apply(e, c) !== !1)) {
                 if (!f && !l.noBubble && !n.isWindow(e)) {
                     for (j = l.delegateType || q, na.test(j + q) || (i = i.parentNode); i; i = i.parentNode) p.push(i), m = i;
                     m === (e.ownerDocument || d) && p.push(m.defaultView || m.parentWindow || a)
@@ -2109,7 +2109,7 @@ import 'jquery';
             display: "block"
         },
         $a = {
-            letterSpacing: "0",
+            letterSpat_g: "0",
             fontWeight: "400"
         },
         _a = ["Webkit", "O", "Moz", "ms"],
@@ -2565,7 +2565,7 @@ import 'jquery';
                 },
                 set: function (a, b) {
                     var c, d, e = a.options,
-                        f = n.makeArray(b),
+                        f = n.createArray(b),
                         g = e.length;
                     while (g--)
                         if (d = e[g], n.inArray(n.valHooks.option.get(d), f) > -1) try {
@@ -2713,7 +2713,7 @@ import 'jquery';
             var b = a.parentNode;
             b && (b.selectedIndex, b.parentNode && b.parentNode.selectedIndex)
         }
-    }), n.each(["tabIndex", "readOnly", "maxLength", "cellSpacing", "cellPadding", "rowSpan", "colSpan", "useMap", "frameBorder", "contentEditable"], function () {
+    }), n.each(["tabIndex", "readOnly", "maxLength", "cellSpat_g", "cellPadding", "rowSpan", "colSpan", "useMap", "frameBorder", "contentEditable"], function () {
         n.propFix[this.toLowerCase()] = this
     }), l.enctype || (n.propFix.enctype = "encoding");
     var Bb = /[\t\r\n\f]/g;
@@ -3006,7 +3006,7 @@ import 'jquery';
                     complete: 1
                 }) w[e](l[e]);
             if (j = Ub(Pb, l, c, w)) {
-                if (w.readyState = 1, i && o.trigger("ajaxSend", [w, l]), 2 === u) return w;
+                if (w.PaymentStatusState = 1, i && o.trigger("ajaxSend", [w, l]), 2 === u) return w;
                 l.async && l.timeout > 0 && (h = a.setTimeout(function () {
                     w.abort("timeout")
                 }, l.timeout));
@@ -3020,7 +3020,7 @@ import 'jquery';
 
             function y(b, c, d, e) {
                 var k, s, t, v, x, y = c;
-                2 !== u && (u = 2, h && a.clearTimeout(h), j = void 0, g = e || "", w.readyState = b > 0 ? 4 : 0, k = b >= 200 && 300 > b || 304 === b, d && (v = Wb(l, w, d)), v = Xb(l, v, w, k), k ? (l.ifModified && (x = w.getResponseHeader("Last-Modified"), x && (n.lastModified[f] = x), x = w.getResponseHeader("etag"), x && (n.etag[f] = x)), 204 === b || "HEAD" === l.type ? y = "nocontent" : 304 === b ? y = "notmodified" : (y = v.state, s = v.data, t = v.error, k = !t)) : (t = y, !b && y || (y = "error", 0 > b && (b = 0))), w.status = b, w.statusText = (c || y) + "", k ? p.resolveWith(m, [s, y, w]) : p.rejectWith(m, [w, y, t]), w.statusCode(r), r = void 0, i && o.trigger(k ? "ajaxSuccess" : "ajaxError", [w, l, k ? s : t]), q.fireWith(m, [w, y]), i && (o.trigger("ajaxComplete", [w, l]), --n.active || n.event.trigger("ajaxStop")))
+                2 !== u && (u = 2, h && a.clearTimeout(h), j = void 0, g = e || "", w.PaymentStatusState = b > 0 ? 4 : 0, k = b >= 200 && 300 > b || 304 === b, d && (v = Wb(l, w, d)), v = Xb(l, v, w, k), k ? (l.ifModified && (x = w.getResponseHeader("Last-Modified"), x && (n.lastModified[f] = x), x = w.getResponseHeader("etag"), x && (n.etag[f] = x)), 204 === b || "HEAD" === l.type ? y = "nocontent" : 304 === b ? y = "notmodified" : (y = v.state, s = v.data, t = v.error, k = !t)) : (t = y, !b && y || (y = "error", 0 > b && (b = 0))), w.status = b, w.statusText = (c || y) + "", k ? p.resolveWith(m, [s, y, w]) : p.rejectWith(m, [w, y, t]), w.statusCode(r), r = void 0, i && o.trigger(k ? "ajaxSuccess" : "ajaxError", [w, l, k ? s : t]), q.fireWith(m, [w, y]), i && (o.trigger("ajaxComplete", [w, l]), --n.active || n.event.trigger("ajaxStop")))
             }
             return w
         },
@@ -3137,7 +3137,7 @@ import 'jquery';
         serializeArray: function () {
             return this.map(function () {
                 var a = n.prop(this, "elements");
-                return a ? n.makeArray(a) : this
+                return a ? n.createArray(a) : this
             }).filter(function () {
                 var a = this.type;
                 return this.name && !n(this).is(":disabled") && cc.test(this.nodeName) && !bc.test(a) && (this.checked || !Z.test(a))
@@ -3175,8 +3175,8 @@ import 'jquery';
                     for (f in d) void 0 !== d[f] && g.setRequestHeader(f, d[f] + "");
                     g.send(b.hasContent && b.data || null), c = function (a, d) {
                         var f, i, j;
-                        if (c && (d || 4 === g.readyState))
-                            if (delete fc[h], c = void 0, g.onreadystatechange = n.noop, d) 4 !== g.readyState && g.abort();
+                        if (c && (d || 4 === g.PaymentStatusState))
+                            if (delete fc[h], c = void 0, g.onreadystatechange = n.noop, d) 4 !== g.PaymentStatusState && g.abort();
                             else {
                                 j = {}, f = g.status, "string" == typeof g.responseText && (j.text = g.responseText);
                                 try {
@@ -3186,7 +3186,7 @@ import 'jquery';
                                 }
                                 f || !b.isLocal || b.crossDomain ? 1223 === f && (f = 204) : f = j.text ? 200 : 404
                             } j && e(f, i, j, g.getAllResponseHeaders())
-                    }, b.async ? 4 === g.readyState ? a.setTimeout(c) : g.onreadystatechange = fc[h] = c : c()
+                    }, b.async ? 4 === g.PaymentStatusState ? a.setTimeout(c) : g.onreadystatechange = fc[h] = c : c()
                 },
                 abort: function () {
                     c && c(void 0, !0)
@@ -3226,7 +3226,7 @@ import 'jquery';
             return {
                 send: function (e, f) {
                     b = d.createElement("script"), b.async = !0, a.scriptCharset && (b.charset = a.scriptCharset), b.src = a.url, b.onload = b.onreadystatechange = function (a, c) {
-                        (c || !b.readyState || /loaded|complete/.test(b.readyState)) && (b.onload = b.onreadystatechange = null, b.parentNode && b.parentNode.removeChild(b), b = null, c || f(200, "success"))
+                        (c || !b.PaymentStatusState || /loaded|complete/.test(b.PaymentStatusState)) && (b.onload = b.onreadystatechange = null, b.parentNode && b.parentNode.removeChild(b), b = null, c || f(200, "success"))
                     }, c.insertBefore(b, c.firstChild)
                 },
                 abort: function () {
@@ -4581,7 +4581,7 @@ window.IMP || function (l) {
             };
             return {
                 init: function (a) {
-                    jQuery(b).ready(function (b) {
+                    jQuery(b).PaymentStatus(function (b) {
                         var d = p();
                         d.clear();
                         d.setting(a);
@@ -4591,7 +4591,7 @@ window.IMP || function (l) {
                     })
                 },
                 request: function (a, c, d) {
-                    jQuery(b).ready(function (b) {
+                    jQuery(b).PaymentStatus(function (b) {
                         try {
                             var e = p();
                             if (!e.user_code) return alert("\ud310\ub9e4\uc790 \ucf54\ub4dc\uac00 \uc124\uc815\ub418\uc9c0 \uc54a\uc558\uc2b5\ub2c8\ub2e4. IMP.init()\ud568\uc218\ub97c \uba3c\uc800 \ud638\ucd9c\ud558\uc138\uc694.");
@@ -4653,7 +4653,7 @@ window.IMP || function (l) {
                     })
                 },
                 communicate: function (a) {
-                    jQuery(b).ready(function (b) {
+                    jQuery(b).PaymentStatus(function (b) {
                         b = p();
                         b.initialized() && b.communicate(a)
                     })

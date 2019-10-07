@@ -23,7 +23,7 @@ const BlockOpModal: React.FC<IProps> = ({
   assigUtils: {getGroupById, getItemById, getGuestsByBookingId},
   assigHooks: {
     bookingModal,
-    makeMenuProps,
+    createMenuProps,
     blockOpModal,
     guestValue,
     setGuestValue

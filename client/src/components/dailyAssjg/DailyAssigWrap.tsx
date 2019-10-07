@@ -36,12 +36,18 @@ import {BookingStatus} from "../../types/enum";
 import {queryDataFormater} from "../../utils/utils";
 import {useDayPicker, IUseDayPicker} from "../../hooks/hook";
 import {IContext} from "../../pages/MiddleServerRouter";
-import DailyAssigNew from "./DailyAssig";
+import DailyAssig from "./DailyAssig";
 import {getOperationName} from "apollo-link";
 import {NetworkStatus} from "apollo-boost";
-import {IDailyAssigDataControl} from "../../pages/middleServer/assig/components/assigIntrerface";
+import {
+  IDailyAssigDataControl,
+  IAssigItem
+} from "../../pages/middleServer/assig/components/assigIntrerface";
 import moment from "moment";
-// import DailyAssigNew from "./DailyAssigNew";
+import {guestsDataManufacturer} from "../../pages/middleServer/assig/components/guestDataManufacture";
+import guestsToInput from "../../utils/guestCountByRoomType";
+import {blockDataManufacturer} from "../../pages/middleServer/assig/AssigTimelineWrap";
+// import DailyAssig from "./DailyAssig";
 
 class GetAllRoomTypeWithGuestQuery extends Query<
   getAllRoomTypeWithGuest,
@@ -66,6 +72,7 @@ class UpdateCheckInMu extends Mutation<updateBooking, updateBookingVariables> {}
 
 export interface IDailyAssigProp {
   networkStatus: NetworkStatus;
+  formatedItemData: IAssigItem[];
   calendarPosition?: "center" | "inside" | "topLeft";
   allocateMu: MutationFn<allocateGuestToRoom, allocateGuestToRoomVariables>;
   loading: boolean;
@@ -96,8 +103,8 @@ const DailyAssigWrap: React.FC<IProps> = ({
   const {houseConfig, _id: houseId} = house;
   const updateVariables = {
     houseId: houseId,
-    start: dayPickerHook.from || new Date(),
-    end: moment(dayPickerHook.from || new Date())
+    checkIn: dayPickerHook.from || new Date(),
+    checkOut: moment(dayPickerHook.from || new Date())
       .add(1, "day")
       .toDate()
   };
@@ -110,7 +117,7 @@ const DailyAssigWrap: React.FC<IProps> = ({
         query={GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM}
         variables={{
           ...updateVariables,
-          bookingStatuses: [BookingStatus.COMPLETE, BookingStatus.READY]
+          bookingStatuses: [BookingStatus.COMPLETE, BookingStatus.PROGRESSING]
         }}
       >
         {({data, loading, error, networkStatus}) => {
@@ -121,6 +128,15 @@ const DailyAssigWrap: React.FC<IProps> = ({
             queryDataFormater(data, "GetGuests", "guests", undefined) || []; // 원본데이터
           const blocks =
             queryDataFormater(data, "GetBlocks", "blocks", undefined) || []; // 원본데이터
+
+          const formatedGuestsData = guestsDataManufacturer(guestsData);
+          const formatedBlockData = blockDataManufacturer(blocks);
+          const formatedItemData = formatedGuestsData
+            .concat(formatedBlockData)
+            .map((block, index) => {
+              block.itemIndex = index;
+              return block;
+            });
 
           return (
             <UpdateCheckInMu
@@ -149,6 +165,7 @@ const DailyAssigWrap: React.FC<IProps> = ({
                       loading,
                       blocksData: blocks,
                       guestsData: guestsData,
+                      formatedItemData,
                       dayPickerHook: dayPickerHook,
                       roomTypesData: roomTypesData,
                       itemDatas: [...guestsData, ...blocks],
@@ -246,7 +263,7 @@ const DailyAssigWrap: React.FC<IProps> = ({
 
                                           return (
                                             <Fragment>
-                                              <DailyAssigNew
+                                              <DailyAssig
                                                 context={context}
                                                 outDailyAssigContext={
                                                   dailyAssigContext

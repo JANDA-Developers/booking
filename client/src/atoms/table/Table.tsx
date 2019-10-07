@@ -5,7 +5,6 @@ import React from "react";
 import ReactTable, {
   TableProps,
   ReactTableDefaults,
-  RowInfo,
   RowRenderProps
 } from "react-table";
 
@@ -15,9 +14,9 @@ interface JDrowInfo<T> extends RowRenderProps {
 
 export interface JDcolumn<T> {
   [key: string]: any;
-  Cell: (props: JDrowInfo<T>) => string | JSX.Element | JSX.Element[] | void;
+  accessor?: keyof T;
+  Cell?: (props: JDrowInfo<T>) => string | JSX.Element | JSX.Element[] | void;
 }
-[];
 
 interface IProps<D = any> extends TableProps<D> {
   align?: "center";

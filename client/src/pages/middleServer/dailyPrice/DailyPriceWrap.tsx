@@ -59,19 +59,19 @@ export interface IItem {
 // 날자와 방타입 2중 순환 시켜서 모든 블럭에 맞는 item 을 생성
 // price 부분은 Map 에서호출
 
-interface IPropItemMaker {
+interface IPropItemCreater {
   startDate: number;
   endDate: number;
   priceMap: Map<any, any>;
   roomTypes: IRoomType[];
 }
 
-const itemMaker = ({
+const itemCreater = ({
   startDate,
   endDate,
   priceMap,
   roomTypes
-}: IPropItemMaker): IItem[] => {
+}: IPropItemCreater): IItem[] => {
   let items: IItem[] = [];
   let now = startDate;
 
@@ -139,7 +139,7 @@ const DailyPriceWrap: React.FC<IProps> = ({context}) => {
   });
 
   // 방타입과 날자 조합의 키를 가지고 value로 pirce를 가지는 Map 생성
-  const priceMapMaker = (priceData: dailyPrices[]): Map<string, number> => {
+  const priceMapCreater = (priceData: dailyPrices[]): Map<string, number> => {
     const priceMap = new Map();
     priceData.map(price => {
       priceMap.set(
@@ -151,7 +151,7 @@ const DailyPriceWrap: React.FC<IProps> = ({context}) => {
   };
 
   // 방타입과 날자 조합의 키를 가지고 value로 pirce를 가지는 Map 생성
-  const placeHolderMapMaker = (
+  const placeHolderMapCreater = (
     priceData: dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices[]
   ): Map<string, number> => {
     const placeHolderMap = new Map();
@@ -206,13 +206,13 @@ const DailyPriceWrap: React.FC<IProps> = ({context}) => {
           []
         );
 
-        const priceMap = priceMapMaker(dailyPriceData || []);
+        const priceMap = priceMapCreater(dailyPriceData || []);
 
-        const placeHolderMap = placeHolderMapMaker(turePriceData || []);
+        const placeHolderMap = placeHolderMapCreater(turePriceData || []);
 
         const items =
           roomTypesData &&
-          itemMaker({
+          itemCreater({
             startDate: dataTime.start,
             endDate: dataTime.end,
             priceMap,

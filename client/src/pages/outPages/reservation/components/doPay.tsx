@@ -1,6 +1,9 @@
 import ip from "ip";
 import crypto from "crypto";
-import {startBookingVariables} from "../../../../types/api";
+import {
+  startBookingVariables,
+  startBookingForPublicVariables
+} from "../../../../types/api";
 import moment from "moment";
 import {isMobile} from "is-mobile";
 import $ from "jquery";
@@ -21,11 +24,14 @@ type inputParams = {
 }[];
 
 interface IProp {
-  resvInfo: startBookingVariables;
+  resvInfo: startBookingVariables | startBookingForPublicVariables;
   transactionId: string;
 }
 
-const inputMaker = (form: HTMLFormElement, inputParams: inputParams): void => {
+const inputCreater = (
+  form: HTMLFormElement,
+  inputParams: inputParams
+): void => {
   let hiddenField = document.createElement("input");
 
   inputParams.forEach(({name, value}) => {
@@ -147,7 +153,7 @@ export const openNiceModal = async ({resvInfo, transactionId}: IProp) => {
       }
     ];
 
-    await inputMaker(form, inputParams);
+    await inputCreater(form, inputParams);
 
     document.body.appendChild(form);
 
@@ -181,7 +187,7 @@ export const openNiceModal = async ({resvInfo, transactionId}: IProp) => {
       }
     ];
 
-    await inputMaker(form, inputParams);
+    await inputCreater(form, inputParams);
 
     document.body.appendChild(form);
 

@@ -939,8 +939,8 @@ export const GET_ROOM_TYPE_DATE_PRICE = gql`
 export const GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM = gql`
     query getAllRoomTypeWithGuest(
         $houseId: ID!
-        $start: DateTime!
-        $end: DateTime!
+        $checkIn: DateTime!
+        $checkOut: DateTime!
         $bookingStatuses: [BookingStatus]
     ) {
         GetAllRoomType(houseId: $houseId) {
@@ -954,8 +954,8 @@ export const GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM = gql`
             }
         }
         GetGuests(
-            start: $start
-            end: $end
+            checkIn: $checkIn
+            checkOut: $checkOut
             houseId: $houseId
             bookingStatuses: $bookingStatuses
         ) {
@@ -995,7 +995,7 @@ export const GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM = gql`
             }
         }
 
-        GetBlocks(checkIn: $start, checkOut: $end, houseId: $houseId) {
+        GetBlocks(checkIn: $checkIn, checkOut: $checkOut, houseId: $houseId) {
             ok
             error
             blocks {
@@ -1227,11 +1227,19 @@ export const GET_BOOKING = gql`
                             _id
                             name
                         }
+                        room {
+                            _id
+                            name
+                        }
                     }
                     ... on GuestRoom {
                         ...FguestRoom
                         roomType {
                             _id
+                        }
+                        room {
+                            _id
+                            name
                         }
                     }
                 }
@@ -1368,6 +1376,31 @@ export const DELETE_GUEST = gql`
 `;
 
 // 예약 ::예약생성 (게스트용)
+export const START_BOOKING_FOR_PUBLIC = gql`
+    mutation startBookingForPublic(
+        $bookerParams: StartBookingBookerInput!
+        $checkInOut: CheckInOutInput!
+        $guestDomitoryParams: [StartBookingDomitoryGuestInput!]
+        $guestRoomParams: [StartBookingRoomGuestInput!]
+        $paymentParams: StartBookingPaymentInput!
+    ) {
+        StartBookingForPublic(
+            bookerParams: $bookerParams
+            checkInOut: $checkInOut
+            guestDomitoryParams: $guestDomitoryParams
+            guestRoomParams: $guestRoomParams
+            paymentParams: $paymentParams
+        ) {
+            ok
+            error
+            bookingTransaction {
+              ...FbookingTransaction
+            }
+        }
+    }
+    ${F_BOOKING_TRANSACTION}
+`;
+
 export const START_BOOKING = gql`
     mutation startBooking(
         $houseId: ID!
@@ -1421,11 +1454,11 @@ export const START_BOOKING = gql`
 
 // 방배정 :: 게스트를 방에다 배정
 export const ALLOCATE_GUEST_TO_ROOM = gql`
-    mutation allocateGuestToRoom($roomId: ID!, $guestId: ID!, $bedIndex: Int!) {
+    mutation allocateGuestToRoom($guestId: ID!, $allocateInfo: AllocateInfoInput!, $options: AllocateOptions) {
         AllocateGuestToRoom(
-            roomId: $roomId
             guestId: $guestId
-            bedIndex: $bedIndex
+            allocateInfo: $allocateInfo
+            options: $options
         ) {
             ok
             error

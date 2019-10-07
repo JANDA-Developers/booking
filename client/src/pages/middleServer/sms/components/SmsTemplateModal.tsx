@@ -21,7 +21,7 @@ import {
   createSmsTemplateVariables
 } from "../../../../types/api";
 import {IContext} from "../../../MiddleServerRouter";
-import {DEFAULT_SMS_TEMPLATE} from "../../../../types/defaults";
+import {DEFAUT_SMS_TEMPLATE} from "../../../../types/defaults";
 import {
   AutoSendWhenKr,
   SmsReplaceKeyEnumKr,
@@ -84,7 +84,7 @@ const SmsTemplateModal: React.FC<Iprops> = ({
   } = smsTemplateMutationes;
   const templateData =
     smsTemplates!.find(smsTemplate => smsTemplate._id === templateId) ||
-    DEFAULT_SMS_TEMPLATE;
+    DEFAUT_SMS_TEMPLATE;
   const {
     formatName: defaultFormatName,
     smsFormat: defaultSmsFormat,

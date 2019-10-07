@@ -60,7 +60,7 @@ const CreateSeasonModal: React.FC<IProps> = ({
     roomTypes.map(roomType => roomType.defaultPrice || 0)
   );
 
-  const makeSeasonPriceInputs = (): SeasonPriceInput[] =>
+  const createSeasonPriceInputs = (): SeasonPriceInput[] =>
     prices.map((price, index) => ({
       roomTypeId: roomTypes[index]._id,
       defaultPrice: price
@@ -103,7 +103,7 @@ const CreateSeasonModal: React.FC<IProps> = ({
           .add(1, "day")
           .toDate(),
         name,
-        seasonPrices: makeSeasonPriceInputs(),
+        seasonPrices: createSeasonPriceInputs(),
         houseId
       }
     });

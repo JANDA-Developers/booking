@@ -5,7 +5,7 @@ import Card from "../../../../atoms/cards/Card";
 import Icon from "../../../../atoms/icons/Icons";
 
 const MyProductAdd = () => (
-  <Link to="/makeHouse">
+  <Link to="/createHouse">
     <Card className="myHouseCard" hover>
       <h6 className="myProductAdd">
         <Icon icon="addCircle" />

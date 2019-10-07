@@ -19,7 +19,7 @@ const JDSeleteHouse: React.SFC<IProps> = ({
 }) => {
   const handleSelectHouse = (value: IselectedOption) => {
     if (value.value === "add") {
-      window.location.href = insideRedirect("makeHouse");
+      window.location.href = insideRedirect("createHouse");
     }
     selectHouseMu({variables: {selectedHouse: value}});
   };

@@ -104,8 +104,8 @@ export const SuperMain = props => (
   </DynamicImport>
 );
 
-export const MakeHouse = props => (
-  <DynamicImport load={() => import("./middleServer/makeHouse/MakeHouse")}>
+export const CreateHouse = props => (
+  <DynamicImport load={() => import("./middleServer/createHouse/CreateHouse")}>
     {DNcompoent =>
       DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
     }

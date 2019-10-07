@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import JDmultiStep from "../../../atoms/multiStep/MultiStep";
-import Steps from "./comonent/steps_";
+import Steps from "./comonent/Steps";
 import {IContext} from "../../MiddleServerRouter";
 import {HouseStatus, MODAL_MIN_WIDTH} from "../../../types/enum";
 import {isEmpty, stepFinder} from "../../../utils/utils";
@@ -42,7 +42,7 @@ const StarterModal: React.FC<IProps> = ({context, updateHouseMu}) => {
                 name: <span>번호인증</span>
               },
               {
-                current: step === "houseMake",
+                current: step === "houseCreate",
                 name: (
                   <span>
                     숙소
@@ -52,7 +52,7 @@ const StarterModal: React.FC<IProps> = ({context, updateHouseMu}) => {
                 )
               },
               {
-                current: step === "makeProduct",
+                current: step === "createProduct",
                 name: (
                   <span>
                     상품
@@ -62,7 +62,7 @@ const StarterModal: React.FC<IProps> = ({context, updateHouseMu}) => {
                 )
               },
               {
-                current: step === "makeRoom",
+                current: step === "createRoom",
                 name: <span>방생성</span>
               }
             ]}

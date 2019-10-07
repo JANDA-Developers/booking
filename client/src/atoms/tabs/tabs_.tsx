@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 import {TabsProps, Tab, Tabs, TabList, TabPanel} from "react-tabs";
-import "./tabs.scss";
+import "./tabs_.scss";
 import {Children} from "react";
 import {IDiv} from "../../types/interface";
 

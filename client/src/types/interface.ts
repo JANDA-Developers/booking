@@ -1,6 +1,5 @@
 import {
   getMyProfile_GetMyProfile_user,
-  getHouse_GetHouse_house,
   getHouse_GetHouse_house_product,
   getAllRoomType_GetAllRoomType_roomTypes as getAllRoomType_GetAllRoomType_roomType,
   getBookings_GetBookings_bookings,
@@ -14,15 +13,14 @@ import {
   ProductTypeKey,
   getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory,
   getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom,
-  getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking,
   getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_blockOption
 } from "./api";
 import {IselectedOption} from "../atoms/forms/selectBox/SelectBox";
 import {PricingType} from "./enum";
+import {MutationFunctionOptions} from "@apollo/react-common";
+import {ExecutionResult} from "graphql";
 
-// 🥈 중복이 생기면 이렇게 감싸서 처리하자.
-//  moudle 과 naeme space를 사용하려 해보았으나 실패 ㅠ
-export interface GAST_RoomType
+export interface GASt_RoomType
   extends getAllSeasonTable_GetAllRoomType_roomTypes {}
 export interface GB_booking extends getBooking_GetBooking_booking {}
 export interface IProduct extends getHouse_GetHouse_house_product {}
@@ -82,6 +80,11 @@ export interface ITagInput {
   icon?: string | null;
 }
 
+// use Mutation MU 축약용
+export type IMu<M, MV> = (
+  options?: MutationFunctionOptions<M, MV> | undefined
+) => Promise<ExecutionResult<M>>;
+
 export interface ITermsOfBookerInput {
   farthestSelectableDate: number;
   nearestSelectableDate: number;
@@ -119,8 +122,8 @@ export interface IItemContext {
   resizeTime: number;
   width: boolean;
 }
-// NEW 카운터들 이걸로 할수있으면 이걸로
-export interface IResvCount {
+
+export interface IGuestCount {
   male: number;
   female: number;
   roomCount: number;

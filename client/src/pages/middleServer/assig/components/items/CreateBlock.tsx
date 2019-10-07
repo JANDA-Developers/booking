@@ -6,9 +6,9 @@ interface Iprops {
   gender?: TGender | null;
 }
 
-const MakeBlock: React.FC<Iprops> = ({isMobile, gender}) => {
+const CreateBlock: React.FC<Iprops> = ({isMobile, gender}) => {
   return (
-    <div className="assigItem__content JDtext-blink assigItem__content--make">
+    <div className="assigItem__content JDtext-blink assigItem__content--create">
       <span className="assigItem__titleWrap">
         <Gender gender={gender} />
         <span className="assigItem__title">새로운예약</span>
@@ -17,4 +17,4 @@ const MakeBlock: React.FC<Iprops> = ({isMobile, gender}) => {
   );
 };
 
-export default MakeBlock;
+export default CreateBlock;

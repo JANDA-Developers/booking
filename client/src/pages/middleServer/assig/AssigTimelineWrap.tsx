@@ -50,16 +50,17 @@ import {
   UPDATE_BLOCK_OPTION
 } from "../../../queries";
 import AssigTimeline from "./AssigTimeline";
-import {set4YMMDD} from "../../../utils/setMidNight";
-import {roomDataManufacture} from "./components/groupDataMenufacture";
+import {to4YMMDD} from "../../../utils/setMidNight";
+import {roomDataManufacturer} from "./components/groupDataMenufacture";
 import reactWindowSize, {WindowSizeProps} from "react-window-size";
-import {DEFAULT_ASSIG_ITEM, DEFAULT_BLOCK_OP} from "../../../types/defaults";
+import {DEFAUT_ASSIG_ITEM, DEFAUT_BLOCK_OP} from "../../../types/defaults";
 import {
   IAssigDataControl,
   IAssigItem,
   IAssigMutationLoading
 } from "./components/assigIntrerface";
 import {IContext} from "../../MiddleServerRouter";
+import {guestsDataManufacturer} from "./components/guestDataManufacture";
 
 moment.tz.setDefault("UTC");
 
@@ -86,13 +87,13 @@ class AllocateGuestToRoomMu extends Mutation<
 class DeleteGuestMu extends Mutation<deleteGuests, deleteGuestsVariables> {}
 class DeleteBlockMu extends Mutation<deleteBlock, deleteBlockVariables> {}
 
-export const blockDataManufacture = (blocksData: IBlock[]) => {
+export const blockDataManufacturer = (blocksData: IBlock[]) => {
   const alloCateItems: IAssigItem[] = [];
 
   blocksData.forEach((blockData, index) => {
     if (blockData) {
       alloCateItems.push({
-        ...DEFAULT_ASSIG_ITEM,
+        ...DEFAUT_ASSIG_ITEM,
         id: blockData._id,
         temp: true,
         bookingId: blockData._id,
@@ -119,22 +120,20 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
   const {houseConfig, house} = context;
   const dayPickerHook = useDayPicker(null, null);
   const defaultStartDate = dayPickerHook.from
-    ? moment(dayPickerHook.from).valueOf()
-    : moment().valueOf() - TimePerMs.H * 18;
+    ? dayPickerHook.from
+    : moment()
+        .local()
+        .toDate();
 
-  const defaultEndDate = setMidNight(
-    dayPickerHook.from
-      ? setMidNight(
-          moment(dayPickerHook.from)
-            .add(10, "days")
-            .valueOf()
-        )
-      : setMidNight(
-          moment()
-            .add(10, "days")
-            .valueOf()
-        )
-  );
+  const defaultEndDate = dayPickerHook.from
+    ? moment(dayPickerHook.from)
+        .local()
+        .add(10, "days")
+        .toDate()
+    : moment()
+        .local()
+        .add(10, "days")
+        .toDate();
 
   const [dataTime, setDataTime] = useState({
     start: setMidNight(
@@ -149,69 +148,10 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
     )
   });
 
-  //  TODO: 메모를 사용해서 데이터를 아끼자
-  // 게스트 데이터를 달력에서 쓸수있는 Item 데이터로 변경 절차
-  const guestsDataManufacture = (allGuestsData: IGuest[]) => {
-    const alloCateItems: IAssigItem[] = [];
-    if (!allGuestsData) return alloCateItems;
-
-    const guestsData = allGuestsData.filter(
-      guest => guest.booking.status !== BookingStatus.CANCEL
-    );
-
-    guestsData.forEach((guestData, index) => {
-      if (
-        guestData &&
-        guestData.booking &&
-        guestData.roomType &&
-        guestData.room
-      ) {
-        let gender: Gender | null = null;
-        let bedIndex = 0;
-        const {_id, roomType, booking, checkIn, room, checkOut} = guestData;
-        const {_id: bookingId, isNew, isConfirm, status, name} = booking;
-
-        if (instanceOfA<IGuestD>(guestData, "gender")) {
-          gender = guestData.gender;
-          bedIndex = guestData.bedIndex;
-        }
-        const pushItem: IAssigItem = {
-          id: _id,
-          itemIndex: index,
-          name: name,
-          loading: false,
-          bookingId: bookingId,
-          checkInInfo: checkIn.isIn,
-          gender: gender,
-          status: status,
-          roomTypeId: roomType._id,
-          showNewBadge: isNew && !isConfirm,
-          roomId: room._id,
-          temp: true,
-          group: room._id + bedIndex,
-          start: moment(checkIn).valueOf(),
-          end: moment(checkOut).valueOf(),
-          canMove: status !== BookingStatus.READY,
-          // @ts-ignore
-          type: guestData.guestType || "GUEST",
-          bedIndex: bedIndex,
-          blockOption: Object.assign(
-            {},
-            guestData.blockOption || DEFAULT_BLOCK_OP
-          ),
-          showEffect: false
-        };
-        alloCateItems.push(pushItem);
-      }
-    });
-
-    return alloCateItems;
-  };
-
   const updateVariables = {
     houseId: house._id,
-    start: set4YMMDD(moment(dataTime.start)),
-    end: set4YMMDD(moment(dataTime.end))
+    checkIn: to4YMMDD(moment(dataTime.start)),
+    checkOut: to4YMMDD(moment(dataTime.end))
   };
 
   moment.tz.setDefault("UTC");
@@ -226,7 +166,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
       query={GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM}
       variables={{
         ...updateVariables,
-        bookingStatuses: [BookingStatus.COMPLETE, BookingStatus.READY]
+        bookingStatuses: [BookingStatus.COMPLETE, BookingStatus.PROGRESSING]
       }}
     >
       {({data, loading, stopPolling, startPolling, networkStatus}) => {
@@ -239,12 +179,10 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
 
         const guestsData =
           queryDataFormater(data, "GetGuests", "guests", []) || [];
-
         const blocks = queryDataFormater(data, "GetBlocks", "blocks", []) || [];
-
-        const formatedRoomData = roomDataManufacture(roomTypesData); // 타임라인을 위해 가공된 데이터
-        const formatedGuestsData = guestsDataManufacture(guestsData); // 타임라인을 위해 가공된 데이터
-        const formatedBlockData = blockDataManufacture(blocks); // 타임라인을 위해 가공된 데이터
+        const formatedRoomData = roomDataManufacturer(roomTypesData); // 타임라인을 위해 가공된 데이터
+        const formatedGuestsData = guestsDataManufacturer(guestsData); // 타임라인을 위해 가공된 데이터
+        const formatedBlockData = blockDataManufacturer(blocks); // 타임라인을 위해 가공된 데이터
         const formatedItemData = formatedGuestsData
           .concat(formatedBlockData)
           .map((block, index) => {

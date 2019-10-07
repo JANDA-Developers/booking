@@ -2,7 +2,7 @@
 import ErrProtecter from "./errProtect";
 import isEmpty from "./isEmptyData";
 import download from "./download";
-import {smsMessageFormatter, smsMsgParser, templateOpMaker} from "./smsUtils";
+import {smsMessageFormatter, smsMsgParser, templateOpCreater} from "./smsUtils";
 import autoHypen, {autoComma, numberStr, toNumber} from "./autoFormat";
 import stepFinder from "./stepFinder";
 import {
@@ -29,7 +29,7 @@ import isTestProduct from "./isTestProduct";
 import {textAlignClass, colorClass} from "./autoClasses";
 import searchListFormat from "./searchListFormater";
 import {showError} from "./errorMessage";
-import onCompletedMessage from "./apolloCompleteM";
+import onCompletedMessage from "./onCompletedMessage";
 import queryDataFormater from "./queryFormater";
 import pageNationFormater from "./paginationFormat";
 import setMidNight from "./setMidNight";
@@ -75,7 +75,7 @@ const JDutils = {
   applyDaysToArr,
   arrToApplyDays,
   stringToPrice,
-  templateOpMaker,
+  templateOpCreater,
   smsMsgParser,
   autoComma,
   dayarrEnToBooleanArr,
@@ -123,7 +123,7 @@ export {
   mergeObject,
   setMidNight,
   JDscrollTo,
-  templateOpMaker,
+  templateOpCreater,
   searchHoliday,
   applyDaysToArr,
   randomIntFromInterval,

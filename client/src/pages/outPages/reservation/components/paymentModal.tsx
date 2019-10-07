@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React from "react";
+import React, {Fragment} from "react";
 import JDmodal from "../../../../atoms/modal/Modal";
 import {IUseModal} from "../../../../hooks/hook";
 import JDselect from "../../../../atoms/forms/selectBox/SelectBox";
@@ -8,10 +8,12 @@ import BookerInfoBox from "./bookerInfoBox";
 import {IReservationHooks} from "../Reservation";
 import {
   PAYMETHOD_FOR_BOOKER_OP,
-  PAYMETHOD_FOR_HOST_OP
+  PAYMETHOD_FOR_HOST_OP,
+  PAYMENT_STATUS_OP
 } from "../../../../types/enum";
 import CheckBox from "../../../../atoms/forms/checkBox/CheckBox";
 import Preloader from "../../../../atoms/preloader/Preloader";
+import InputText from "../../../../atoms/forms/inputText/InputText";
 
 interface IProps {
   className?: string;
@@ -34,7 +36,9 @@ const PayMentModal: React.SFC<IProps> = ({
     payMethodHook,
     sendSmsHook,
     bookerInfo,
-    setBookerInfo
+    setBookerInfo,
+    paymentStatusHook,
+    priceHook
   } = reservationHooks;
   const classes = classNames("paymentModal", className, {});
 
@@ -61,6 +65,20 @@ const PayMentModal: React.SFC<IProps> = ({
                 label="결제수단"
               />
             </div>
+            {isHost && (
+              <Fragment>
+                <div>
+                  <JDselect
+                    label="결제상태"
+                    {...paymentStatusHook}
+                    options={PAYMENT_STATUS_OP}
+                  />
+                </div>
+                <div>
+                  <InputText comma {...priceHook} label="최종금액" />
+                </div>
+              </Fragment>
+            )}
             <BookerInfoBox
               bookerInfo={bookerInfo}
               setBookerInfo={setBookerInfo}

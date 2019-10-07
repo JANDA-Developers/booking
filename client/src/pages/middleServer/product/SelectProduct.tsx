@@ -23,6 +23,7 @@ import ApplyProductModal, {
   applyProductModalInfo
 } from "./components/applyProductModal";
 import JDlist from "../../../atoms/list/List";
+import {inOr, Check} from "../../../utils/C";
 
 interface IProps {
   productTypes: IProductTypeDesc[];
@@ -44,9 +45,7 @@ const SelectProducts: React.FC<IProps> = ({
   currentProduct,
   isPhoneVerified
 }) => {
-  const currentProductTypeId = currentProduct
-    ? currentProduct.productType._id
-    : "";
+  const currentProductTypeId = inOr(currentProduct, "_id", "");
   const applyModal = useModal<applyProductModalInfo>(false);
   const refundModal = useModal(false);
 
@@ -54,13 +53,11 @@ const SelectProducts: React.FC<IProps> = ({
     currentProductTypeId
   );
 
-  const handleSelectProductType = (value: any) =>
-    setSelectedProductTypeId(value.replace("--slider", ""));
-
   useEffect(() => {
     ReactTooltip.rebuild();
   });
 
+  // 유팀 함수로 옴겨야할듯 하다.
   const closeTooltip = () => {
     ReactTooltip.hide();
   };
@@ -114,7 +111,7 @@ const SelectProducts: React.FC<IProps> = ({
                   <span>
                     * 선택하신 서비스는 숙소
                     <span className="JDtextColor--point">
-                      {selectedHouse.name}
+                      {` ${selectedHouse.name} `}
                     </span>
                     에 적용됩니다.
                   </span>,
@@ -127,7 +124,7 @@ const SelectProducts: React.FC<IProps> = ({
             )}
           </p>
           {/* 서비스해지 버튼 */}
-          {currentProduct && currentProduct._id && (
+          {Check(currentProduct, "_id") && (
             <Button
               onClick={refundModal.openModal}
               disabled={isEmpty(selectedHouse)}
@@ -149,7 +146,7 @@ const SelectProducts: React.FC<IProps> = ({
         </div>
       </Modal>
       <ApplyProductModal
-        houseId={selectedHouse && selectedHouse._id}
+        houseId={inOr(selectedHouse, "_id", "")}
         buyProductMu={buyProductMu}
         modalHook={applyModal}
       />

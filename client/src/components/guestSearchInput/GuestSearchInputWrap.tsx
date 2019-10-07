@@ -1,15 +1,10 @@
 import React, {useState} from "react";
-import GuestSearchInput from "./guestSearchInput_";
-import {queryDataFormater, showError, isEmpty} from "../../utils/utils";
-import {GET_BOOKING, GET_BOOKINGS} from "../../queries";
+import GuestSearchInput from "./GuestSearchInput";
+import {queryDataFormater} from "../../utils/utils";
+import {GET_BOOKINGS} from "../../queries";
 import {Query} from "react-apollo";
 import {getBookings, getBookingsVariables} from "../../types/api";
-import {
-  isName,
-  isPhone,
-  isYYYYMMDD,
-  isNumberMinMax
-} from "../../utils/inputValidations";
+import {isYYYYMMDD, isNumberMinMax} from "../../utils/inputValidations";
 import {IContext} from "../../pages/MiddleServerRouter";
 
 class GetBookingsQuery extends Query<getBookings, getBookingsVariables> {}
@@ -25,7 +20,7 @@ const GuestSearchInputWrap: React.FC<IProps> = ({context}) => {
 
   const [onTypeValue, setType] = useState<string>("");
 
-  const searchFilterMaker = (value: string) => {
+  const searchFilterCreater = (value: string) => {
     const isPhoneNumber = isNumberMinMax(value, 4, 11);
 
     return {
@@ -36,7 +31,7 @@ const GuestSearchInputWrap: React.FC<IProps> = ({context}) => {
     };
   };
 
-  const filter = searchFilterMaker(onTypeValue);
+  const filter = searchFilterCreater(onTypeValue);
 
   return (
     <GetBookingsQuery

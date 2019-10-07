@@ -13,20 +13,18 @@ import {NavLink} from "react-router-dom";
 import SpecificAtion from "../../../../components/specification/Specification";
 import SpecificAtionWrap from "../../../../components/specification/SpecificationWrap";
 import $ from "jquery";
-import MakeHouse from "../../makeHouse/MakeHouse";
+import CreateHouse from "../../createHouse/CreateHouse";
 import SelectProductWrap from "../../product/SelectProductWrap";
 import Ready from "../../ready/Ready";
 import RoomConfigWrap from "../../roomConfig/RoomConfigWrap";
 import {IContext} from "../../../MiddleServerRouter";
-import {ApolloCache} from "apollo-cache";
 import AdditionConfigPitch from "../../../../components/additionConfigPitch/AdditionConfigPitch";
 import {IStepsStart} from "../../../../utils/stepFinder";
 import {MutationFn} from "react-apollo";
 import {updateHouse, updateHouseVariables} from "../../../../types/api";
-import HouseCard from "../../super/components/houseCard";
 import {getOperationName} from "apollo-link";
 import {GET_USER_INFO} from "../../../../queries";
-import "./steps.scss";
+import "./Steps.scss";
 
 interface IProps {
   step: IStepsStart;
@@ -70,15 +68,15 @@ const Steps: React.FC<IProps> = ({
           </div>
         </Fragment>
       );
-    case "houseMake":
+    case "houseCreate":
       return (
         <Fragment>
-          <div className="JDsectionDistroy steps__makeHouseWrap">
-            <MakeHouse context={context} />
+          <div className="JDsectionDistroy steps__createHouseWrap">
+            <CreateHouse context={context} />
           </div>
         </Fragment>
       );
-    case "makeProduct":
+    case "createProduct":
       return (
         <Fragment>
           <div className="JDsectionDistroy">
@@ -94,17 +92,17 @@ const Steps: React.FC<IProps> = ({
           </div>
         </Fragment>
       );
-    case "makeRoom":
+    case "createRoom":
       return (
         <Fragment>
-          <div className="staterModal__makeRoom JDsectionDistroy">
+          <div className="staterModal__createRoom JDsectionDistroy">
             <div className="modal__section">
               <RoomConfigWrap
                 refetchQueries={[getOperationName(GET_USER_INFO)!]}
                 context={context}
               />
             </div>
-            <div className="staterModal__makeRoom_finish_Btn JDmodal__endSection">
+            <div className="staterModal__createRoom_finish_Btn JDmodal__endSection">
               <Button
                 thema="primary"
                 onClick={() => {

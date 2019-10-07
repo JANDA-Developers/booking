@@ -1,8 +1,8 @@
 
-$NotiLi-padding : $standard-space;
-.NotiLi {
+$notiLi-padding : $standard-space;
+.notiLi {
     position: relative;
-    padding: $NotiLi-padding;
+    padding: $notiLi-padding;
     width: $standard-width * 85;
 
     &__msg {
@@ -10,7 +10,7 @@ $NotiLi-padding : $standard-space;
     }
 
     &__symbolWrap {
-        margin-right: $NotiLi-padding;
+        margin-right: $notiLi-padding;
     }
 
     &__title {
@@ -27,7 +27,7 @@ $NotiLi-padding : $standard-space;
 
     &__badgeWrap {
         position:absolute;
-        top: $NotiLi-padding;
-        right: $NotiLi-padding;
+        top: $notiLi-padding;
+        right: $notiLi-padding;
     }
 }

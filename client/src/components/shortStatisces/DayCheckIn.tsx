@@ -2,7 +2,7 @@ import React from "react";
 import {IContext} from "../../pages/MiddleServerRouter";
 import {getBookings_GetBookings_bookings} from "../../types/api";
 import {IUseDayPicker} from "../../hooks/hook";
-import ArrowDayByDay from "../../atoms/dayPicker/component/inputComponent/arrowDayByDay_";
+import ArrowDayByDay from "../../atoms/dayPicker/component/inputComponent/ArrowDayByDay";
 import JDdayPicker from "../../atoms/dayPicker/DayPicker";
 import Preloader from "../../atoms/preloader/Preloader";
 

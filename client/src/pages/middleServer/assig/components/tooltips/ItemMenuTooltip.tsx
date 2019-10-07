@@ -1,16 +1,14 @@
-import React from "react";
+import React, {Fragment} from "react";
 import TooltipList, {
   ReactTooltip
 } from "../../../../../atoms/tooltipList/TooltipList";
 import Button from "../../../../../atoms/button/Button";
-import {IUseModal} from "../../../../../hooks/hook";
 import {
-  TToogleCheckIn,
-  IAssigItem,
   IAssigTimelineHooks,
   IAssigTimelineUtils,
   IAssigTimelineContext
 } from "../assigIntrerface";
+import {BookingStatus} from "../../../../../types/enum";
 
 interface IProps {
   assigHooks: IAssigTimelineHooks;
@@ -29,26 +27,31 @@ const ItemMenuTooltip: React.FC<IProps> = ({
       getContent={(guestId: string) => {
         const targetGuest = guestValue.find(guest => guest.id === guestId);
         if (!targetGuest) return;
+        const isProgressing = targetGuest.status === BookingStatus.PROGRESSING
         return (
           <ul className="tooltipList__ul">
-            <li>
-              <Button
-                onClick={() => {
-                  ReactTooltip.hide();
-                  toogleCheckInOut(guestId);
-                }}
-                label={targetGuest.checkInInfo ? "체크아웃" : "체크인"}
-              />
-            </li>
-            <li>
-              <Button
-                onClick={() => {
-                  ReactTooltip.hide();
-                  deleteGuestById(guestId);
-                }}
-                label="삭제"
-              />
-            </li>
+            {!isProgressing && (
+              <Fragment>
+                <li>
+                  <Button
+                    onClick={() => {
+                      ReactTooltip.hide();
+                      toogleCheckInOut(guestId);
+                    }}
+                    label={targetGuest.checkInInfo ? "체크아웃" : "체크인"}
+                  />
+                </li>
+                <li>
+                  <Button
+                    onClick={() => {
+                      ReactTooltip.hide();
+                      deleteGuestById(guestId);
+                    }}
+                    label="삭제"
+                  />
+                </li>
+              </Fragment>
+            )}
             {houseConfig.assigTimeline!.itemBlockOp!.useColor && (
               <li>
                 <Button

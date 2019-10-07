@@ -19,7 +19,7 @@ import {
   GET_CAPACITY_TO_ROOM_TYPE,
   GET_ROOM_TYPE_DATE_PRICE
 } from "../../../../../queries";
-import {set4YMMDD} from "../../../../../utils/setMidNight";
+import {to4YMMDD} from "../../../../../utils/setMidNight";
 import {IRoomType} from "../../../../../types/interface";
 import {getAveragePrice} from "../../../../../utils/booking";
 import moment from "moment";
@@ -82,8 +82,8 @@ const RoomTypeCardWrap: React.SFC<IProps> = ({
           : GET_CAPACITY_TO_ROOM_TYPE_FOR_BOOKER
       }
       variables={{
-        start: set4YMMDD(dayPickerHook.from),
-        end: set4YMMDD(
+        start: to4YMMDD(dayPickerHook.from),
+        end: to4YMMDD(
           moment(dayPickerHook.to!)
             .add(-1, "day")
             .toDate()
@@ -136,8 +136,8 @@ const RoomTypeCardWrap: React.SFC<IProps> = ({
             skip={dayPickerHook.to === null}
             variables={{
               houseId,
-              end: set4YMMDD(moment(dayPickerHook.to!)),
-              start: set4YMMDD(dayPickerHook.from),
+              end: to4YMMDD(moment(dayPickerHook.to!)),
+              start: to4YMMDD(dayPickerHook.from),
               roomTypeIds: [roomTypeData._id]
             }}
             query={GET_ROOM_TYPE_DATE_PRICE}

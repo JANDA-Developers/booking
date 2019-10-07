@@ -32,11 +32,11 @@ import {
 import itemRendererFn from "./components/items/itemRenderFn";
 import ItemMenuTooltip from "./components/tooltips/ItemMenuTooltip";
 import CanvasMenuTooltip from "./components/tooltips/CanvasMenuTooltip";
-import MakeItemTooltip from "./components/tooltips/MakeItemTooltip";
+import CreateItemTooltip from "./components/tooltips/CreateItemTooltip";
 import {
-  DEFAULT_ASSIG_ITEM,
-  DEFAULT_ASSIG_GROUP,
-  DEFAULT_NONE_GOUP
+  DEFAUT_ASSIG_ITEM,
+  DEFAUT_ASSIG_GROUP,
+  DEFAUT_NONE_GOUP
 } from "../../../types/defaults";
 import JDmodal, {JDtoastModal} from "../../../atoms/modal/Modal";
 import {
@@ -47,7 +47,7 @@ import {
   IAssigGroup,
   IAssigTimelineHooks,
   IAssigTimelineContext,
-  IMakeMenuProps,
+  ICreateMenuProps,
   IDeleteMenuProps,
   TShortKey
 } from "./components/assigIntrerface";
@@ -58,23 +58,12 @@ import JDmultiBox from "../../../atoms/multiBox/MultiBox";
 import {getAssigHandlers} from "./components/assigHandlers";
 import moment from "moment";
 import {isEmpty} from "../../../utils/utils";
-import $ from "jquery";
-import BlockOpModal from "./components/blockOpModal_";
+import BlockOpModal from "./components/BlockOpModal";
 import DailyAssigWrap from "../../../components/dailyAssjg/DailyAssigWrap";
 import ReservationModal from "../../../components/reservationModala/ReservationModal";
 import {IContext} from "../../MiddleServerRouter";
-import Tooltip from "../../../atoms/tooltip/Tooltip";
 import ReadyItemTooltip from "./components/tooltips/ReadyItemTooltip";
-import JDbadge from "../../../atoms/badge/Badge";
-import JDdot from "../../../atoms/dot/dot";
 import HeaderCellRender from "./components/HeaderCellRender";
-2;
-
-// Temp 마킹용이 있는지
-
-// 충돌시간 인터페이스
-// 단순히 안됨 보다 ~부터 ~가 안됨을 표시하기 위함
-// 게스트1이 이동하는 주체
 
 interface IProps {
   context: IContext;
@@ -82,11 +71,10 @@ interface IProps {
   dayPickerHook: IUseDayPicker;
   groupData: IAssigGroup[];
   loading: boolean;
-  //  디프리 될수도
   roomTypesData: IRoomType[];
   deafultGuestsData: IAssigItem[];
-  defaultTimeStart: number;
-  defaultTimeEnd: number;
+  defaultTimeStart: Date;
+  defaultTimeEnd: Date;
   assigDataControl: IAssigDataControl;
   dataTime: {
     start: number;
@@ -100,7 +88,6 @@ interface IProps {
   >;
 }
 
-// 👿 모든 Util들과 서브함수들은 파일분리 순수한 timeline Hadnler만 남길것
 const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   dayPickerHook,
   defaultProps,
@@ -137,18 +124,19 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     end: 0,
     groupId: "",
     group: {
-      ...DEFAULT_ASSIG_GROUP
+      ...DEFAUT_ASSIG_GROUP
     }
   });
   const bookingModal = useModal(false);
-  const blockOpModal = useModal<IAssigItem>(false, DEFAULT_ASSIG_ITEM);
+  const blockOpModal = useModal<IAssigItem>(false, DEFAUT_ASSIG_ITEM);
   const [blockMenuProps, setBlockMenuProps] = useState<IDeleteMenuProps>({
-    item: DEFAULT_ASSIG_ITEM
+    item: DEFAUT_ASSIG_ITEM
   });
-  const [makeMenuProps, setMakeMenuProps] = useState<IMakeMenuProps>({
-    item: DEFAULT_ASSIG_ITEM
+  const [createMenuProps, setCreateMenuProps] = useState<ICreateMenuProps>({
+    item: DEFAUT_ASSIG_ITEM
   });
   const dailyAssigHook = useModal(false);
+
   // 스크롤시 툴팁제거
   const handleWindowScrollEvent = () => {
     allTooltipsHide();
@@ -156,9 +144,14 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
 
   //  스크롤 할때
   useEffect(() => {
+    const handleClickWindow = () => {
+      allTooltipsHide();
+    };
     window.addEventListener("scroll", handleWindowScrollEvent);
+    window.addEventListener("click", handleClickWindow);
     return () => {
       window.removeEventListener("scroll", handleWindowScrollEvent);
+      window.removeEventListener("scroll", handleClickWindow);
     };
   });
 
@@ -167,6 +160,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     if (networkStatus >= 7) {
       const newIndexStart = deafultGuestsData.length;
 
+      // TODO 함수분리
       // 업데이트전 휘발성 블럭들을 찾아서 합쳐줍니다.
       const volatilityBlocks = guestValue.filter(
         guest =>
@@ -185,10 +179,10 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     guestValue,
     canvasMenuProps,
     blockMenuProps,
-    makeMenuProps,
+    createMenuProps,
     setGuestValue,
     setCanvasMenuTooltipProps,
-    setMakeMenuProps,
+    setCreateMenuProps,
     setBlockMenuProps,
     confirmDelteGuestHook,
     bookingModal,
@@ -215,13 +209,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
 
   const {roomTypeTabEnable} = assigTimeline;
 
-  const {
-    allTooltipsHide,
-    deleteGuestById,
-    removeMark,
-    allocateGuest,
-    toogleCheckInOut
-  } = assigUtils;
+  const {allTooltipsHide, removeMark} = assigUtils;
 
   const assigHandler = getAssigHandlers(assigUtils, assigContext, assigHooks);
 
@@ -272,13 +260,14 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   );
 
   // 그룹 데이터가 비어있다면 보정용으로 하나추가
-  if (isEmpty(filteredGroup)) filteredGroup = [DEFAULT_NONE_GOUP];
+  if (isEmpty(filteredGroup)) filteredGroup = [DEFAUT_NONE_GOUP];
 
   return (
     <div
       id="AssigTimeline"
       className={`${timelineClassNames} container container--full`}
       onDoubleClick={handleTimelineWrapClickEvent}
+      onClick={e => e.stopPropagation()}
     >
       <div className="docs-section">
         <h3 className="assigTimeline__titleSection">
@@ -328,7 +317,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
           assigContext={assigContext}
           assigUtils={assigUtils}
         />
-        <MakeItemTooltip
+        <CreateItemTooltip
           assigHooks={assigHooks}
           assigContext={assigContext}
           assigUtils={assigUtils}
@@ -359,7 +348,6 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
           {...defaultProps}
           onItemDoubleClick={handleItemDoubleClick}
           onItemClick={handleItemClick}
-          // onCanvasDoubleClick={handleCanvasDoubleClick}
           onCanvasClick={handleCanvasClick}
           onTimeChange={handleTimeChange}
           itemRenderer={(props: any) =>
@@ -373,7 +361,9 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
           groupRenderer={assigGroupRendererFn}
           defaultTimeEnd={
             isTabletDown
-              ? defaultTimeEnd - TimePerMs.DAY * ASSIG_VISIBLE_CELL_MB_DIFF
+              ? moment(defaultTimeEnd)
+                  .add(ASSIG_VISIBLE_CELL_MB_DIFF, "days")
+                  .toDate()
               : defaultTimeEnd
           }
           defaultTimeStart={defaultTimeStart}
@@ -422,7 +412,6 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
         )}
       </div>
       <ReservationModal
-        houseId={house._id}
         modalHook={reservationModal}
         callBackCreateBookingMu={CreateBooking => {
           // @ts-ignore

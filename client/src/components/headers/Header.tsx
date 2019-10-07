@@ -8,14 +8,14 @@ import {ErrProtecter} from "../../utils/utils";
 import logo from "../../img/logo/logo--white.png"; // with import
 import {useModal, useToggle} from "../../hooks/hook";
 import {IHouse, IDiv} from "../../types/interface";
-import GuestSearchInputWrap from "../guestSearchInput/guestSearchInputWrap_";
+import GuestSearchInputWrap from "../guestSearchInput/GuestSearchInputWrap";
 import PhoneVerificationModalWrap from "../phoneVerificationModal/PhoneVerificationModalWrap";
 import SideNav from "../sideNav/SideNav";
 import windowSize, {WindowSizeProps} from "react-window-size";
 import {WindowSize} from "../../types/enum";
 import {IContext} from "../../pages/MiddleServerRouter";
-import MobileHeaderComponent from "./components/mobileHeaderComponent_";
-import PcHeaderComponent from "./components/pcHeaderComponent_";
+import MobileHeaderComponent from "./components/MobileHeaderComponent";
+import PcHeaderComponent from "./components/PcHeaderComponent";
 import SharedHeaderComponent from "./components/SharedHeaderComponent";
 import JDIcon from "../../atoms/icons/Icons";
 

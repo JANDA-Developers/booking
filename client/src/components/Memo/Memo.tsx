@@ -12,7 +12,7 @@ import {MutationFn} from "react-apollo";
 import {MemoType} from "../../types/enum";
 import MemoBox from "./component/MemoBox";
 import {isEmpty} from "../../utils/utils";
-import {DEFAULT_MEMO} from "../../types/defaults";
+import {DEFAUT_MEMO} from "../../types/defaults";
 import "./Memo.scss";
 import Preloader from "../../atoms/preloader/Preloader";
 import isLast from "../../utils/isLast";
@@ -117,7 +117,7 @@ const Memo: React.FC<Iprops & IConfigMemo> = ({
   return (
     <div className="memo">
       <div>
-        <MemoBox {...sharedMemoBoxProps} memo={DEFAULT_MEMO} add={true} />
+        <MemoBox {...sharedMemoBoxProps} memo={DEFAUT_MEMO} add={true} />
       </div>
       <JDToolTip type="dark" effect="solid" id="siginificantExplicateTooltip">
         해당 메모는 다음 접속시 알람을 줍니다.

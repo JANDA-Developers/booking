@@ -17,7 +17,7 @@ import {
 import InputText from "../../../atoms/forms/inputText/InputText";
 import {
   smsMsgParser,
-  templateOpMaker,
+  templateOpCreater,
   smsMessageFormatter
 } from "../../../utils/smsUtils";
 import moment from "moment";
@@ -56,7 +56,7 @@ const CreateSmsModal: React.FC<IProps> = ({
 
   const smsTemplates = (smsInfo && smsInfo.smsTemplates) || [];
 
-  const smsTemplateOp = templateOpMaker(smsTemplates);
+  const smsTemplateOp = templateOpCreater(smsTemplates);
 
   // 현재 선택된 정보들을 SMS 포멧을 대체해 줍니다.
   // TODO HM
@@ -119,6 +119,7 @@ const CreateSmsModal: React.FC<IProps> = ({
             <JDselect
               label="문자템플릿"
               onChange={handleSelectTemplate}
+              noOptionsMessage="SMS 설정에서 생성 해보세요."
               options={smsTemplateOp}
             />
           </div>

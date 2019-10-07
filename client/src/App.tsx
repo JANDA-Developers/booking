@@ -1,6 +1,5 @@
 /* eslint-disable no-shadow */
-import {AppRegistry} from 'react-native';
-import React, {useMemo} from "react";
+import React from "react";
 import {ApolloProvider} from "react-apollo";
 import {HashRouter as Router, Route, Switch} from "react-router-dom";
 // @ts-ignore
@@ -13,14 +12,8 @@ import MiddleServerRouter from "./pages/MiddleServerRouter";
 import JDtoast from "./atoms/toast/Toast";
 import "./lib/wave/wave"; // 웨이브 이펙트
 import "./lib/wave/wave.scss";
-import JDoutdatedBrowserRework from "./utils/oldBrowser";
 
 function App() {
-  // const browser = browserDetect();
-  // console.info(browser);
-
-  // JDoutdatedBrowserRework();
-
   return (
     <ApolloProvider client={client}>
       <Favicon url="https://res.cloudinary.com/stayjanda-com/image/upload/v1554092565/favicon.ico" />

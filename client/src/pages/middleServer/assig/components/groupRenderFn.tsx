@@ -1,17 +1,9 @@
 import React, {useState, useEffect} from "react";
 import $ from "jquery";
 import {PricingType} from "../../../../types/enum";
-import {ASSIGT_IMELINE_HEIGHT} from "../../../../atoms/timeline/Timeline";
+import {ASSIG_IMELINE_HEIGHT} from "../../../../atoms/timeline/Timeline";
 import {arraySum} from "../../../../utils/elses";
-import {
-  IAssigGroup,
-  IAssigTimelineUtils,
-  IAssigTimelineContext,
-  IAssigTimelineHooks,
-  TGetGuestsInGroup
-} from "./assigIntrerface";
-import JDbadge from "../../../../atoms/badge/Badge";
-import Dot from "../../../../atoms/dot/dot";
+import {IAssigGroup, TGetGuestsInGroup} from "./assigIntrerface";
 
 let LAST_ROOMTYPE = "unRendered";
 let LAST_ROOM = "unRendered";
@@ -35,13 +27,13 @@ const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({
 
   // height는 UseEffect 안에 있음
   const roomTypeStyle = {
-    minHeight: ASSIGT_IMELINE_HEIGHT - 1,
+    minHeight: ASSIG_IMELINE_HEIGHT - 1,
     zIndex: group.roomTypeIndex
   };
 
   const roomStyle = {
-    height: Math.floor(ASSIGT_IMELINE_HEIGHT * placeCount) + 1,
-    minHeight: ASSIGT_IMELINE_HEIGHT - 2
+    height: Math.floor(ASSIG_IMELINE_HEIGHT * placeCount) + 1,
+    minHeight: ASSIG_IMELINE_HEIGHT - 2
   };
 
   // 방타입, 방 을 렌더해야할지 알려줌

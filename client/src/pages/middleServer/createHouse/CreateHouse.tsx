@@ -5,12 +5,7 @@ import {Mutation} from "react-apollo";
 import {GoogleApiWrapper, ProvidedProps} from "google-maps-react";
 import {withRouter, RouteComponentProps} from "react-router-dom";
 import {reverseGeoCode, geoCode} from "./mapHelper";
-import {
-  useInput,
-  useSelect,
-  useFetch,
-  useDebounce
-} from "../../../hooks/hook";
+import {useInput, useSelect, useFetch, useDebounce} from "../../../hooks/hook";
 import {SELECT_HOUSE} from "../../../clientQueries";
 import {CREATE_HOUSE, GET_USER_INFO} from "../../../queries";
 import {ADDRESS_API_KEY} from "../../../keys";
@@ -20,7 +15,7 @@ import InputText from "../../../atoms/forms/inputText/InputText";
 import SelectBox from "../../../atoms/forms/selectBox/SelectBox";
 import Button from "../../../atoms/button/Button";
 import SearchInput from "../../../atoms/searchInput/SearchInput";
-import "./MakeHouse.scss";
+import "./CreateHouse.scss";
 import {show} from "react-tooltip";
 import {createHouse, createHouseVariables} from "../../../types/api";
 import Preloader from "../../../atoms/preloader/Preloader";
@@ -36,10 +31,10 @@ interface IProps extends ProvidedProps {
 
 class SelectHouseMu extends Mutation<any, any> {}
 
-class CreateHouse extends Mutation<createHouse, createHouseVariables> {}
+class CreateHouseMu extends Mutation<createHouse, createHouseVariables> {}
 
 // eslint-disable-next-line react/prop-types
-const MakeHouse: React.FC<IProps> = ({context, google}) => {
+const CreateHouse: React.FC<IProps> = ({context, google}) => {
   const {history} = context;
   const houseNameHoook = useInput("");
   const deatailaddressHook = useInput("");
@@ -194,7 +189,7 @@ const MakeHouse: React.FC<IProps> = ({context, google}) => {
   }, []);
 
   return (
-    <div id="makeHomePage" className="container container--sm">
+    <div id="createHomePage" className="container container--sm">
       <div className="docs-sectionp">
         {/* 하우스 선택 */}
         <SelectHouseMu
@@ -207,7 +202,7 @@ const MakeHouse: React.FC<IProps> = ({context, google}) => {
         >
           {selectHouseMutation => (
             // Mutation : 숙소생성
-            <CreateHouse
+            <CreateHouseMu
               mutation={CREATE_HOUSE}
               variables={{
                 name: houseNameHoook.value,
@@ -234,16 +229,16 @@ const MakeHouse: React.FC<IProps> = ({context, google}) => {
                 }
               }}
             >
-              {(makeHouseMutation, {loading}) => {
-                const makeHouseSubmit = (
+              {(createHouseMutation, {loading}) => {
+                const createHouseSubmit = (
                   e: React.FormEvent<HTMLFormElement>
                 ) => {
                   if (loading) return;
                   e.preventDefault();
-                  if (submitValidation()) makeHouseMutation();
+                  if (submitValidation()) createHouseMutation();
                 };
                 return (
-                  <form onSubmit={makeHouseSubmit}>
+                  <form onSubmit={createHouseSubmit}>
                     <h3>숙소생성</h3>
                     <div className="flex-grid docs-section__box">
                       {/* 숙소명 입력 */}
@@ -294,7 +289,7 @@ const MakeHouse: React.FC<IProps> = ({context, google}) => {
                           label="상세주소"
                         />
                       </div>
-                      <div className="makeHomePage__map flex-grid__col col--full-12 col--md-12">
+                      <div className="createHomePage__map flex-grid__col col--full-12 col--md-12">
                         <GoogleMap mapRef={mapRef} />
                       </div>
                       <Button
@@ -307,7 +302,7 @@ const MakeHouse: React.FC<IProps> = ({context, google}) => {
                   </form>
                 );
               }}
-            </CreateHouse>
+            </CreateHouseMu>
           )}
         </SelectHouseMu>
       </div>
@@ -324,5 +319,5 @@ export default ErrProtecter(
         <Preloader floating size={FLOATING_PRElOADER_SIZE} loading={true} />
       </div>
     )
-  })(MakeHouse)
+  })(CreateHouse)
 );

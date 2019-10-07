@@ -5,7 +5,7 @@ import React from "react";
 import Icon from "../../../atoms/icons/Icons";
 import $ from "jquery";
 import "./DocumentHome.scss";
-import {JDtabs, Tab, TabList, TabPanel} from "../../../atoms/tabs/tabs";
+import {JDtabs, Tab, TabList, TabPanel} from "../../../atoms/tabs/tabs_";
 
 interface IProps {
   loading: boolean;

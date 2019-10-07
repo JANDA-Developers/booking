@@ -7,7 +7,7 @@ import {IUseModal, useDrawer} from "../../../../hooks/hook";
 import {IHouse} from "../../../../types/interface";
 import Preloader from "../../../../atoms/preloader/Preloader";
 import {getHouse_GetHouse_house} from "../../../../types/api";
-import {PricingType} from "../../../../types/enum";
+import {PricingType, DateFormat} from "../../../../types/enum";
 import JDIcon, {IIcons, IconSize} from "../../../../atoms/icons/Icons";
 import moment from "moment";
 import {isEmpty} from "../../../../utils/utils";
@@ -73,7 +73,8 @@ const MyHouseModal: React.SFC<IProps> = ({
               )}
               <p>숙소명: {house.name}</p>
               <p>
-                생성일시: {moment(house!.createdAt).format("YYYY-MM-DD HH:mm")}
+                생성일시:{" "}
+                {moment(house!.createdAt).format(DateFormat.WITH_TIME)}
               </p>
               <p>도미토리: {roomCountDomitory}</p>
               <p>방: {roomCountRoom}</p>

@@ -22,6 +22,7 @@ interface IProps {
   displayYear?: boolean;
   dayPickerProps: DayPickerProps;
   inputComponent?: any;
+  disabled?: boolean;
 }
 
 // 👿 이 파일은 전체적으로 타입스크립트 작업이 필요하다.
@@ -38,6 +39,7 @@ const JDdayPickerInput: React.FC<IProps> = ({
   placeholder = "날자를 선택해주세요",
   format = displayYear ? "YYYY-MM-DD" : "MM-DD",
   inputComponent: InputComponent,
+  disabled,
   ...props
 }) => {
   let DayPickerInputRef = useRef<DayPickerInput>(null);
@@ -107,6 +109,7 @@ const JDdayPickerInput: React.FC<IProps> = ({
         wrapClassName={"DayPicker__inputWrap"}
         className={`DayPicker__input ${inputClassName}`}
         readOnly={readOnly}
+        disabled={disabled}
         label={label}
         icon={label && showInputIcon ? "calendar" : undefined}
         {...props}

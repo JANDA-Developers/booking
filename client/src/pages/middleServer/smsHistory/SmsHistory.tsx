@@ -10,7 +10,7 @@ import JDbadge from "../../../atoms/badge/Badge";
 import JDbox from "../../../atoms/box/JDbox";
 import {s4, autoHypen} from "../../../utils/utils";
 import moment from "moment";
-import {FLOATING_PRElOADER_SIZE} from "../../../types/enum";
+import {FLOATING_PRElOADER_SIZE, DateFormat} from "../../../types/enum";
 
 interface Iprops {
   setPage: any;
@@ -38,7 +38,7 @@ const SmsHistory: React.SFC<Iprops> = ({
         <span>
           {moment(value)
             .local()
-            .format("YY-MM-DD HH:mm")}
+            .format(DateFormat.WITH_TIME)}
         </span>
       )
     },

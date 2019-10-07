@@ -20,11 +20,12 @@ import ErrProtecter from "../../utils/errProtect";
 import {TimePerMs, GlobalCSS} from "../../types/enum";
 import JDdayPicker from "../dayPicker/DayPicker";
 import JDIcon, {IconSize} from "../icons/Icons";
-import {IUseDayPicker} from "../../hooks/hook";
+import {IUseDayPicker, useModal} from "../../hooks/hook";
+import DayPickerModal from "../../components/dayPickerModal/DayPickerModal";
 
 // 변수설정
-const ASSIGT_IMELINE_HEIGHT = 36;
-export {ASSIGT_IMELINE_HEIGHT};
+const ASSIG_IMELINE_HEIGHT = 36;
+export {ASSIG_IMELINE_HEIGHT};
 
 const JDtimeline = ({...props}: any) => <Timeline {...props} />;
 
@@ -106,18 +107,15 @@ interface IProps {
 export const SharedSideBarHeader: React.FC<IProps> = ({
   dayPickerHook,
   getRootProps
-}) => (
-  <div className="rct-header-root__topLeft" {...getRootProps()}>
-    <JDdayPicker
-      isRange={false}
-      input
-      canSelectBeforeDay={false}
-      calenaderPosition="center"
-      label="달력날자"
-      {...dayPickerHook}
-      className="JDwaves-effect JDoverflow-visible"
-      inputComponent={(prop: any) => (
+}) => {
+  const dayPickerModalHook = useModal(false);
+  return (
+    <div>
+      <div className="rct-header-root__topLeft" {...getRootProps()}>
         <div
+          onClick={() => {
+            dayPickerModalHook.openModal();
+          }}
           style={{
             width: "100%",
             height: "100%",
@@ -125,7 +123,6 @@ export const SharedSideBarHeader: React.FC<IProps> = ({
             alignItems: "center",
             justifyContent: "center"
           }}
-          {...prop}
         >
           <JDIcon
             className="dailyPrice__topLeftIcon"
@@ -133,9 +130,18 @@ export const SharedSideBarHeader: React.FC<IProps> = ({
             icon="calendar"
           />
         </div>
-      )}
-    />
-  </div>
-);
+      </div>
+      <DayPickerModal
+        modalHook={dayPickerModalHook}
+        isRange={false}
+        canSelectBeforeDay={true}
+        calenaderPosition="center"
+        label="달력날자"
+        {...dayPickerHook}
+        className="JDwaves-effect JDoverflow-visible"
+      />
+    </div>
+  );
+};
 
 export default ErrProtecter(JDtimeline);
