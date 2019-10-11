@@ -1,0 +1,167 @@
+@import '../../style_config/style_config.scss';
+
+.JDsideNav {
+
+    &__inner {
+        min-width: $sideNav-width;
+    }
+
+    @include response($phablet) {
+        position:fixed;
+        left: 0;
+        top: 0;
+        height: 100vh;
+        -webkit-box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.2);
+    }
+
+    display: block;
+    width: 0px;
+    overflow: hidden;
+    background-color:white;
+    z-index: $z-index-10;
+    height: calc(100vh - #{$header-height});
+    box-sizing:border-box;
+    transition: 0.3s;
+    position: sticky;
+    top: $header-height;
+    @extend %z-depth-1;
+
+    &__houseName {
+        font-size: $typho-large;
+        color:white;
+    }
+
+    // 본구간이 좌우 패딩이 일치하도록 합니다.
+    &__productView {
+        position: absolute;
+        display:flex;
+        bottom: 0;
+        width: 100%;
+        box-sizing: border-box;
+        padding-left: $sideNav-list-padding;
+        line-height: 100%;
+        border-top: 1px solid $grey-level1;
+        height: $sideNav-productView-height;
+        padding-bottom:1rem;
+        padding-top:1rem;
+        justify-content: space-between;
+        background-color:white;
+
+        .JDsideNav__billing-title {
+            font-weight: 600;
+            font-size: $typho-small;
+        }
+        .JDsideNav__billing-detail {
+            font-size: $typho-tiny
+        }
+        
+        // TODO  flat 이면서  small 일수가 없다 이거 처리해야함
+        .JDbtn {
+            padding: $button-small-padding;
+            font-size: $typho-small;
+            margin-bottom: 0;
+            margin-right: $sideNav-list-padding;
+        }
+    }
+    
+    &--open {
+        width: $sideNav-width;
+        overflow: hidden;
+        left:0px;
+        @extend %z-depth-5;
+        
+    }
+
+    &-curtain {
+        position:fixed;
+        top:0;
+        left: 0;
+        right:0;
+        bottom:0;
+        background-color: $grey-opacity3;
+        transition: background-color 0.3s;
+        z-index: $z-index-9;
+        display: none;
+        &--open {
+            background-color: $sideNav-curtain-color;
+            @include response($phablet) {
+                display: block;
+            }
+        }
+    }
+    
+    &__profill {
+        display: flex;
+        height: $sideNav-profile-height;
+        justify-content: center;
+        align-content: center;
+        flex-direction: column;
+        text-align: center;
+        border-bottom: 1px solid $grey-level1;
+        
+
+        .JDselect {
+            padding: $sideNav-list-padding;
+            padding-bottom: 0;
+            margin-bottom:0;
+            text-align:left;
+        }
+    }
+    
+    &__name {
+        font-size: $typho-small;
+        margin-bottom: $standard-margin-bottom / 2;
+    }
+
+    &__circle {
+        margin-top: $sideNav-profile-circle-margin-top;
+        margin: 0 auto;
+        margin-bottom: $standard-margin-bottom / 2;
+
+        .profileCircle {
+            margin: 0;
+        }
+    }
+
+    &__listContainer {
+        overflow: auto;
+        @extend %JDscrollbar;
+        padding: 0px;
+        max-height: calc(100vh - #{$sideNav-profile-height} - #{$sideNav-productView-height});
+    }
+
+    &__navLink {
+        text-decoration: none;
+        color: $html-color;
+        display: block;
+        height: $sideNav-list-li-height;
+        line-height: $sideNav-list-li-height;
+        background-color: $sideNav-list-li-bgColor;
+        padding-left: $sideNav-list-padding;
+        border-bottom : 1px solid $grey-level1;
+        
+        &.active {
+            background-color: $point-color;
+            color:white;
+            #root &:hover {
+                background-color: $point-color;
+            }
+        }
+        
+        .JDicon__svg {
+            padding: 0rem $sideNav-list-padding;
+            padding-left: 0;
+        }
+        &:not(.JDsideNav__navLink--disabled):hover {
+            background-color:$grey-level1;
+        }
+
+        &--disabled {
+            color: $standard-disabled-color;
+            cursor: auto;
+        }
+    }
+    
+
+}

@@ -1,0 +1,62 @@
+@import '../../../style_config/style_config';
+
+.dashboard {
+
+
+    &__dailyStaticsCard {
+        max-width: 100%;
+    }
+
+    &__tooltipsWrap {
+        position: absolute;
+        top: $card-padding;
+        right: $card-padding;
+    }
+
+    &__section1 {
+        min-height: $standard-section-height;
+        padding-bottom: 1rem;
+    }
+    &__stepsWrap {
+        text-align: center;
+    }
+    &__memoCard {
+        max-height: $standard-height * 7 * 9;
+        overflow-y: auto;
+        @extend %JDscrollbar;
+    }
+}
+
+.dashboardHeader {
+    padding-bottom: $standard-margin-bottom;
+
+    &__bottom {
+        .JDbtn {
+            margin-bottom: 0;
+        }
+    }
+
+    h5 {
+        font-weight: 600;
+        text-shadow: 0px 0px 5px rgba(0,0,0,.7);
+
+        @include response($phablet) {
+            font-size: $typho-h6;
+            margin-bottom: $standard-margin-bottom;
+        }
+    }
+    .JDslider__slide-wrap {
+        @extend %z-depth-1;
+    }
+
+    .JDslider__slide {
+        flex-direction: column;
+        height: $standard-height * 5 * 9;
+        background-size: cover;
+        background-position: 50% 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+    }
+}
