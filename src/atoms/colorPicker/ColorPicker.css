@@ -5,9 +5,9 @@
 }
 
 .JDcolorPicker__swatch {
-  padding: 0.3125rem;
+  padding: 0.4rem;
   background-color: #fff;
-  border-radius: 3px;
+  border-radius: 5px;
   border: 1px solid #343434;
   display: inline-block;
   cursor: pointer;
@@ -15,8 +15,8 @@
 
 .JDcolorPicker__color {
   width: 3rem;
-  height: 1.625rem;
-  border-radius: 3px;
+  height: 1.45rem;
+  border-radius: 5px;
 }
 
 .JDcolorPicker__modalWrap {

@@ -2,7 +2,7 @@
 /* stylelint-disable declaration-block-no-duplicate-properties  */
 .showComponent .showComponent__icon_box {
   padding: 4px;
-  background-color: #EBEBEB;
+  background-color: #CDCDCD;
   text-align: center;
   width: 51px;
   -ms-flex-wrap: nowrap;
@@ -13,6 +13,10 @@
           flex: none;
   display: inline-block;
   margin-right: 2px;
+}
+
+.showComponent .showComponent__icon_box .Icon__label {
+  margin: 0;
 }
 
 .showComponent .showComponent__icon_box svg {
@@ -30,7 +34,7 @@
 }
 
 .showComponent .showComponent__large {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   margin-top: 0;
 }
 
@@ -40,7 +44,7 @@
 }
 
 .showComponent .showComponent__elseThings {
-  margin-left: 1rem;
+  margin-left: 1.2rem;
 }
 
 .showComponent .showComponent__float-link {

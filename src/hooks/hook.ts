@@ -10,8 +10,10 @@ import {IselectedOption} from "../atoms/forms/selectBox/SelectBox";
 import {IHolidaysByApi} from "../types/interface";
 import moment from "moment";
 import {jsonString} from "../utils/utils";
+import {TLanguageShort} from "../types/enum";
+import {JDlang as originJDlang} from "../langs/JDlang";
 
-// 한번에 패치
+// 한방에 패치
 // A X I O S  : (http://codeheaven.io/how-to-use-axios-as-your-http-client/)
 
 export type IUseFetch = [
@@ -377,10 +379,7 @@ function useToggle(defaultValue: boolean): [boolean, any] {
 function useSideNav(): [boolean, any] {
   let defaultValue = true;
   const navRecord = localStorage.getItem("JDsideOpen");
-  if(navRecord){
-    defaultValue = navRecord === "Y" ? true : false;
-  }
-  
+  defaultValue = navRecord === "Y";
   const [isOpen, setOpen] = useState(defaultValue);
 
   const onClick = () => {
@@ -408,7 +407,6 @@ export interface IUseModal<T = any> {
   closeModal: () => void;
   info: T;
 }
-
 interface IModalBtn {
   msg: string;
   callBackKey: string;
@@ -447,6 +445,21 @@ function useModal<T = any>(
     info
   };
 }
+
+export let CURRENT_LANG: TLanguageShort = "kr";
+
+const useLang = (defaultLang: TLanguageShort) => {
+  const [currentLang, setCurrentLang] = useState(defaultLang);
+
+  const changeLang = (lang: TLanguageShort) => {
+    CURRENT_LANG = lang;
+    setCurrentLang(lang);
+  };
+
+  const JDlang = originJDlang.bind(originJDlang, currentLang);
+
+  return {currentLang, changeLang, JDlang};
+};
 
 const getKoreaSpecificDayHook = (
   years: string[]
@@ -512,14 +525,15 @@ export {
   useToggle,
   useFetch,
   useModal,
+  useSideNav,
   useRange,
   useDebounce,
   useDrawer,
+  useLang,
   useImageUploader,
   useShouldSave,
   useColorPicker,
   useDayPicker,
-  useSideNav,
   getKoreaSpecificDayHook,
   usePagiNation,
   useRedirect

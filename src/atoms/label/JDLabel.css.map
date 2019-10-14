@@ -1,0 +1,15 @@
+{
+    "version": 3,
+    "mappings": "AEIA,gFAAgF;AI2QhF,kEAAkE;AN7QlE,AAAA,QAAQ,CAAC;EACL,OAAO,EAAE,YAAY;EACrB,SAAS,EEmBE,MAAM;EFlBjB,KAAK,EEuBI,OAAO;EFtBhB,cAAc,EAAE,GAAG;EACnB,aAAa,EEmFM,MAAmB;CFlFzC",
+    "sources": [
+        "JDLabel.scss",
+        "../../style_config/style_config.scss",
+        "../../style_config/abstracts/_variables.scss",
+        "../../style_config/abstracts/_functions.scss",
+        "../../style_config/abstracts/_extends.scss",
+        "../../style_config/abstracts/_sharedStyles.scss",
+        "../../style_config/abstracts/_mixins.scss"
+    ],
+    "names": [],
+    "file": "JDLabel.css"
+}

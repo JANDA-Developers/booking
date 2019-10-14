@@ -56,16 +56,24 @@ main {
 
 // 상하 좌우 가운데로
 .container--centerlize {
-    position: fixed;
-    top:0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    text-align: center;
-    max-width: none;
+  position: fixed;
+  top:0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align: center;
+  max-width: none;
+  padding-left: 0;
+  transition: .3s;
+}
+
+.middleServer--sideOpen {
+  .container--centerlize {
+    padding-left: $sideNav-width;
+  }
 }
 
 /* Self Clearing Goodness */

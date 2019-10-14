@@ -24,11 +24,13 @@ import {
   updateBlockOptionVariables,
   getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_blockOption,
   startBooking,
-  getAllRoomTypeWithGuest_GetGuests_guests
+  getAllRoomTypeWithGuest_GetGuests_guests,
+  getBooking_GetBooking_booking_roomTypes
 } from "../../../../types/api";
 import {IUseModal} from "../../../../hooks/hook";
 import {string} from "prop-types";
 import {MouseEvent} from "react";
+import {IMoveCount, IDotPoint} from "../../../../atoms/timeline/Timeline";
 
 export interface IAssigTimelineContext {
   isMobile: boolean;
@@ -80,7 +82,11 @@ export type TAllTooltipsHide = (
 
 export type TDeleteGuestById = (guestId: string) => void;
 
-export type TCreateMark = (time: number, groupId: string) => void;
+export type TCreateMark = (
+  start: number,
+  end: number,
+  groupIds: string[]
+) => void;
 
 export type TDeleteItemById = (id: string) => void;
 
@@ -100,6 +106,12 @@ export type TOpenBlockMenu = (
 ) => void;
 
 export type TChangeCreateBlock = () => void;
+
+export type THandleDraggingCell = (
+  e: any,
+  moveCounts: IMoveCount,
+  dotPoint: IDotPoint
+) => void;
 
 export type TOpenCanvasMenuTooltip = (
   Eorlocation: React.MouseEvent<HTMLElement> | ILocation,
@@ -134,7 +146,17 @@ export type TShortKey = (
   itemId?: string | undefined
 ) => Promise<void>;
 
-export type TAddBlock = (time: number, groupId: string) => Promise<void>;
+export type TAddBlock = (
+  start: number,
+  end: number,
+  groupIds: string[]
+) => Promise<void>;
+
+export type THandleMouseDown = (
+  e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  gorup: EventTarget,
+  start: number
+) => void;
 
 export type TGenderToggleById = (guestId: string) => void;
 
@@ -229,8 +251,7 @@ export interface IAssigDataControl {
 export interface ICanvasMenuTooltipProps {
   start: number;
   end: number;
-  groupId: string;
-  group: IAssigGroup;
+  groupIds: string[];
 }
 
 export interface IBlcokMenuProps {
@@ -381,6 +402,7 @@ export type THandleItemSelect = (
 export interface IAssigHandlers {
   handleItemResize: THandleItemResize;
   handleItemMove: THandleItemMove;
+  handleMouseDownCanvas: THandleMouseDown;
   handleItemClick: THandleItemClick;
   handleItemDoubleClick: THandleItemDoubleClick;
   handleCanvasClick: THandleCanvasClick;
@@ -389,6 +411,7 @@ export interface IAssigHandlers {
   handleTimeChange: THandleTimeChange;
   handleCanvasContextMenu: THandleCanvasContextMenu;
   handleItemSelect: THandleItemSelect;
+  handleDraggingCell: THandleDraggingCell;
 }
 
 export interface IAssigTimelineUtils {
@@ -425,6 +448,10 @@ export interface IAssigTimelineUtils {
   getBookingIdByGuestId: TGetBookingIdByGuestId;
   getGuestsByBookingId: IGetGuestByBookingId;
   createCreateItem: ICreateCreateItem;
+  itemsToGuets: (items: IAssigItem[]) => any[];
+  groupToRoomType: (
+    createItemTempGroups: IAssigGroup[]
+  ) => getBooking_GetBooking_booking_roomTypes[];
 }
 
 export interface IAssigInfo {

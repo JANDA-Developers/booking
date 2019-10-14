@@ -1,17 +1,11 @@
-import React, {Fragment} from "react";
-import TooltipList from "../../../../../atoms/tooltipList/TooltipList";
+import React from "react";
 import Button from "../../../../../atoms/button/Button";
-import $ from "jquery";
-import {DEFAUT_ASSIG_ITEM} from "../../../../../types/defaults";
-import {roomGenderToGedner} from "../groupDataMenufacture";
 import {
-  GuestTypeAdd,
   IAssigTimelineUtils,
   IAssigTimelineContext,
   IAssigTimelineHooks
 } from "../assigIntrerface";
-import {s4} from "../../../../../utils/utils";
-import {Gender, PricingType} from "../../../../../types/enum";
+import {Gender} from "../../../../../types/enum";
 
 interface IProps {
   assigHooks: IAssigTimelineHooks;
@@ -20,20 +14,11 @@ interface IProps {
 }
 
 const CanvasMenuTooltip: React.FC<IProps> = ({
-  assigHooks: {guestValue, setCreateMenuProps, canvasMenuProps, setGuestValue},
-  assigUtils: {
-    addBlock,
-    getGroupById,
-    resizeLinkedItems,
-    getItemById,
-    allTooltipsHide,
-    createCreateItem
-  }
+  assigHooks: {canvasMenuProps},
+  assigUtils: {addBlock, createCreateItem}
 }) => {
-  if (!canvasMenuProps.groupId || canvasMenuProps.groupId === "noneGroup")
-    return <div />;
-  const targetPricingType = getGroupById(canvasMenuProps.groupId).roomType
-    .pricingType;
+  if (!canvasMenuProps.groupIds) return <div />;
+  const {groupIds, end, start} = canvasMenuProps;
 
   const createBtnHandler = (gender?: Gender) => {
     createCreateItem(canvasMenuProps, gender);
@@ -42,43 +27,19 @@ const CanvasMenuTooltip: React.FC<IProps> = ({
   return (
     <div className="assig__tooltips canvasMenu tooltipList" id="canvasMenu">
       <ul>
-        {targetPricingType === PricingType.ROOM && (
-          <li>
-            <Button
-              label="예약생성"
-              onClick={e => {
-                e.stopPropagation();
-                createBtnHandler();
-              }}
-            />
-          </li>
-        )}
-        {targetPricingType === PricingType.DOMITORY && (
-          <Fragment>
-            <li>
-              <Button
-                label="예약생성(남)"
-                onClick={e => {
-                  e.stopPropagation();
-                  createBtnHandler(Gender.MALE);
-                }}
-              />
-            </li>
-            <li>
-              <Button
-                label="예약생성(여)"
-                onClick={e => {
-                  e.stopPropagation();
-                  createBtnHandler(Gender.FEMALE);
-                }}
-              />
-            </li>
-          </Fragment>
-        )}
+        <li>
+          <Button
+            label="예약생성"
+            onClick={e => {
+              e.stopPropagation();
+              createBtnHandler();
+            }}
+          />
+        </li>
         <li>
           <Button
             onClick={() => {
-              addBlock(canvasMenuProps.start, canvasMenuProps.groupId);
+              addBlock(start, end, groupIds);
             }}
             label="방막기"
           />

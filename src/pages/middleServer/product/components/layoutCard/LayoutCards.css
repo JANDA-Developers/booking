@@ -1,0 +1,34 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+.layoutCard {
+  min-width: 12rem;
+  height: 10rem;
+}
+
+@media only screen and (max-width: 750px) and (min-width: 0px) {
+  .layoutCard {
+    min-width: 8rem;
+    height: 7rem;
+  }
+}
+
+.layoutCard__imgBox {
+  height: calc(100% - 3rem);
+  background-size: cover;
+  margin-bottom: 1rem;
+  background-position: center center;
+}
+
+.layoutCard__bottomWrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+/*# sourceMappingURL=LayoutCards.css.map */

@@ -2,8 +2,13 @@ import React from "react";
 import "./NoMatch.scss";
 import Button from "../../atoms/button/Button";
 import {NavLink} from "react-router-dom";
+import {IContext} from "../MiddleServerRouter";
 
-const NoMatch = () => (
+interface Iprops {
+  context: IContext;
+}
+
+const NoMatch: React.FC<Iprops> = ({context}) => (
   <div id="NoMatch">
     <div className="container container--centerlize">
       <div>

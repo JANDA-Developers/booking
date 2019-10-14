@@ -1,0 +1,78 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+.JDproduct:hover:not(.JDproduct--slider) {
+  -webkit-box-shadow: 0 8px 17px 2px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 17px 2px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
+}
+
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+.JDproduct {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 300px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 1rem;
+  -webkit-transition: .3s;
+  transition: .3s;
+  -webkit-transition-timing-function: ease-in-out;
+          transition-timing-function: ease-in-out;
+  background-color: #CDCDCD;
+  -webkit-transform: scale(1);
+          transform: scale(1);
+  text-align: center;
+}
+
+.JDproduct--slider {
+  height: 330px;
+}
+
+.JDproduct__icon {
+  margin-top: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.JDproduct__price {
+  position: absolute;
+  bottom: 1rem;
+  left: 0;
+  width: 100%;
+}
+
+.JDproduct:hover:not(.JDproduct--slider) {
+  cursor: pointer;
+  background-color: #4c5b73;
+  color: white;
+  -webkit-transform: scale(1.05);
+          transform: scale(1.05);
+}
+
+.JDproduct:hover:not(.JDproduct--slider) .JDproduct__icon {
+  position: realtive;
+  /* Similar syntax to box-shadow */
+}
+
+.JDproduct .JDproduct--slider:hover {
+  -webkit-transform: sacle(1);
+          transform: sacle(1);
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+.refundModal {
+  max-width: 36rem;
+  font-size: 0.8rem;
+}
+
+.refundModal div {
+  margin-bottom: 1rem;
+}
+
+.refundModal > div,
+.refundModal .JDmodal__endSection {
+  margin-bottom: 0;
+}
+/*# sourceMappingURL=Product.css.map */

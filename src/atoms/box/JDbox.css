@@ -1,0 +1,514 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+.JDbox--table table {
+  width: 100%;
+  color: #343434;
+  border-radius: 5px;
+  padding: 0;
+  border-spacing: 0px;
+  border-collapse: collapse;
+  border: 1px solid #343434;
+  margin-bottom: 1rem;
+}
+
+.JDbox--table tr:not(:last-child) {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.JDbox--table tr > td:last-child,
+.JDbox--table tr > th:last-child {
+  border-right: none;
+}
+
+.JDbox--table th, .JDbox--table td {
+  border-right: 1px solid rgba(0, 0, 0, 0.06);
+  padding: 0.8rem;
+}
+
+.JDbox--table th .JDcheck_box_wrap,
+.JDbox--table th .JDswitch-wrap,
+.JDbox--table th .JDradio,
+.JDbox--table th .JDselect,
+.JDbox--table th .JDbtn,
+.JDbox--table th .JDlist,
+.JDbox--table th .circleIcon-wrap,
+.JDbox--table th .imageUploader,
+.JDbox--table th .JDslider,
+.JDbox--table th .JDpagination,
+.JDbox--table th .profileCircle,
+.JDbox--table th .JDcard,
+.JDbox--table th .JDbox,
+.JDbox--table th .JDtable,
+.JDbox--table th .JDcolorPicker,
+.JDbox--table th .JDinput-wrap,
+.JDbox--table th .JDsearchInput,
+.JDbox--table th .input-range,
+.JDbox--table th .JDbox--border, .JDbox--table td .JDcheck_box_wrap,
+.JDbox--table td .JDswitch-wrap,
+.JDbox--table td .JDradio,
+.JDbox--table td .JDselect,
+.JDbox--table td .JDbtn,
+.JDbox--table td .JDlist,
+.JDbox--table td .circleIcon-wrap,
+.JDbox--table td .imageUploader,
+.JDbox--table td .JDslider,
+.JDbox--table td .JDpagination,
+.JDbox--table td .profileCircle,
+.JDbox--table td .JDcard,
+.JDbox--table td .JDbox,
+.JDbox--table td .JDtable,
+.JDbox--table td .JDcolorPicker,
+.JDbox--table td .JDinput-wrap,
+.JDbox--table td .JDsearchInput,
+.JDbox--table td .input-range,
+.JDbox--table td .JDbox--border {
+  margin-right: 0;
+  margin-bottom: 0;
+}
+
+.JDbox--table th {
+  border-bottom: 2px solid #343434;
+}
+
+.JDbox--photoFrame {
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 5px;
+  padding: 0.8rem;
+}
+
+.JDbox--photoFrame img {
+  width: 100%;
+}
+
+#root .JDbox--left, .ReactModalPortal .JDbox--left {
+  text-align: left;
+}
+
+#root .JDbox--center, .ReactModalPortal .JDbox--center {
+  text-align: center;
+}
+
+#root .JDbox--right, .ReactModalPortal .JDbox--right {
+  text-align: right;
+}
+
+#root .JDbox--positive, .ReactModalPortal .JDbox--positive {
+  background-color: #009364;
+  color: white;
+}
+
+#root .JDbox--positive:hover, .ReactModalPortal .JDbox--positive:hover {
+  background-color: #007a53;
+}
+
+#root .JDbox--primary, .ReactModalPortal .JDbox--primary {
+  background-color: #4c5b73;
+  color: #fff;
+}
+
+#root .JDbox--primary:hover, .ReactModalPortal .JDbox--primary:hover {
+  background-color: #6d809f;
+}
+
+#root .JDbox--point, .ReactModalPortal .JDbox--point {
+  background-color: #c56c47;
+  color: #fff;
+}
+
+#root .JDbox--point:hover, .ReactModalPortal .JDbox--point:hover {
+  background-color: #d79a81;
+}
+
+#root .JDbox--grey, .ReactModalPortal .JDbox--grey {
+  color: #343434;
+  background-color: #CDCDCD;
+}
+
+#root .JDbox--grey:hover, .ReactModalPortal .JDbox--grey:hover {
+  background-color: #b8b8b8;
+}
+
+#root .JDbox--black, .ReactModalPortal .JDbox--black {
+  background-color: #343434;
+  color: white;
+}
+
+#root .JDbox--black:hover, .ReactModalPortal .JDbox--black:hover {
+  background-color: #585858;
+}
+
+#root .JDbox--white, .ReactModalPortal .JDbox--white {
+  background-color: white;
+  color: #343434;
+}
+
+#root .JDbox--white:hover, .ReactModalPortal .JDbox--white:hover {
+  background-color: #CDCDCD;
+}
+
+#root .JDbox--error, .ReactModalPortal .JDbox--error {
+  background-color: #ff6760;
+  color: white;
+}
+
+#root .JDbox--error:hover, .ReactModalPortal .JDbox--error:hover {
+  background-color: #ff4f47;
+}
+
+#root .JDbox--warn, .ReactModalPortal .JDbox--warn {
+  background-color: #FF6E16;
+  color: white;
+}
+
+#root .JDbox--warn:hover, .ReactModalPortal .JDbox--warn:hover {
+  background-color: #cb690a;
+}
+
+#root .JDbox--new, .ReactModalPortal .JDbox--new {
+  background-color: #FFD821;
+  color: #343434;
+}
+
+#root .JDbox--new:hover, .ReactModalPortal .JDbox--new:hover {
+  background-color: #ffe56e;
+}
+
+#root .JDbox--clickable, .ReactModalPortal .JDbox--clickable {
+  cursor: pointer;
+}
+
+#root .JDbox--clickable:hover, .ReactModalPortal .JDbox--clickable:hover {
+  background-color: #b8b8b8;
+}
+
+#root .JDbox--flex .JDbox__content, .ReactModalPortal .JDbox--flex .JDbox__content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+#root .JDbox--flexVcenter .JDbox__content, .ReactModalPortal .JDbox--flexVcenter .JDbox__content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#root .JDbox__label, .ReactModalPortal .JDbox__label {
+  font-size: 10px;
+  margin-bottom: 0.33333rem;
+}
+
+#root .JDbox--float, .ReactModalPortal .JDbox--float {
+  float: left;
+  width: auto !important;
+  vertical-align: top;
+  margin: 2px !important;
+}
+
+#root .JDbox--normal, .ReactModalPortal .JDbox--normal {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 0.8rem;
+  background-color: #CDCDCD;
+  border-radius: 5px;
+  text-align: left;
+  width: 100%;
+}
+
+#root .JDbox--normal__content, .ReactModalPortal .JDbox--normal__content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+#root .JDbox--normal .JDinput, .ReactModalPortal .JDbox--normal .JDinput {
+  margin-bottom: 0;
+  padding: 0;
+}
+
+#root .JDbox--small, .ReactModalPortal .JDbox--small {
+  font-size: 0.8rem;
+  padding: 0.4rem;
+  margin-bottom: 0.33333rem;
+}
+
+#root .JDbox--center, .ReactModalPortal .JDbox--center {
+  text-align: center;
+}
+
+#root .JDbox--border, .ReactModalPortal .JDbox--border {
+  background-color: transparent !important;
+  border-radius: 5px;
+  padding: 0.8rem;
+  border: 1px solid #CDCDCD;
+}
+
+#root .JDbox--border.JDbox--primary, .ReactModalPortal .JDbox--border.JDbox--primary {
+  color: #4c5b73;
+}
+
+#root .JDbox--border.JDbox--primary:hover, .ReactModalPortal .JDbox--border.JDbox--primary:hover {
+  color: #445267;
+}
+
+#root .JDbox--border.JDbox--point, .ReactModalPortal .JDbox--border.JDbox--point {
+  color: #c56c47;
+}
+
+#root .JDbox--border.JDbox--point:hover, .ReactModalPortal .JDbox--border.JDbox--point:hover {
+  color: #924b2e;
+}
+
+#root .JDbox--border.JDbox--black, .ReactModalPortal .JDbox--border.JDbox--black {
+  color: #343434;
+}
+
+#root .JDbox--border.JDbox--black:hover, .ReactModalPortal .JDbox--border.JDbox--black:hover {
+  color: #585858;
+}
+
+#root .JDbox--border.JDbox--white, .ReactModalPortal .JDbox--border.JDbox--white {
+  color: white;
+}
+
+#root .JDbox--border.JDbox--white:hover, .ReactModalPortal .JDbox--border.JDbox--white:hover {
+  color: #CDCDCD;
+}
+
+#root .JDbox--border.JDbox--new, .ReactModalPortal .JDbox--border.JDbox--new {
+  color: #FFD821;
+}
+
+#root .JDbox--border.JDbox--new:hover, .ReactModalPortal .JDbox--border.JDbox--new:hover {
+  color: #d4ae00;
+}
+
+#root .JDbox--border.JDbox--error, .ReactModalPortal .JDbox--border.JDbox--error {
+  color: #ff6760;
+}
+
+#root .JDbox--border.JDbox--error:hover, .ReactModalPortal .JDbox--border.JDbox--error:hover {
+  color: #ff4f47;
+}
+
+#root .JDbox--border.JDbox--positive, .ReactModalPortal .JDbox--border.JDbox--positive {
+  color: #009364;
+}
+
+#root .JDbox--border.JDbox--positive:hover, .ReactModalPortal .JDbox--border.JDbox--positive:hover {
+  color: #007a53;
+}
+
+#root .JDbox--border.JDbox--warn, .ReactModalPortal .JDbox--border.JDbox--warn {
+  color: #FF6E16;
+}
+
+#root .JDbox--border.JDbox--warn:hover, .ReactModalPortal .JDbox--border.JDbox--warn:hover {
+  color: #cb690a;
+}
+
+#root .JDbox--border.JDbox--primary, .ReactModalPortal .JDbox--border.JDbox--primary {
+  border-color: #4c5b73;
+}
+
+#root .JDbox--border.JDbox--primary:hover, .ReactModalPortal .JDbox--border.JDbox--primary:hover {
+  border-color: #6d809f;
+}
+
+#root .JDbox--border.JDbox--point, .ReactModalPortal .JDbox--border.JDbox--point {
+  border-color: #c56c47;
+}
+
+#root .JDbox--border.JDbox--point:hover, .ReactModalPortal .JDbox--border.JDbox--point:hover {
+  border-color: #d79a81;
+}
+
+#root .JDbox--border.JDbox--grey, .ReactModalPortal .JDbox--border.JDbox--grey {
+  border-color: #CDCDCD;
+}
+
+#root .JDbox--border.JDbox--grey:hover, .ReactModalPortal .JDbox--border.JDbox--grey:hover {
+  border-color: #b8b8b8;
+}
+
+#root .JDbox--border.JDbox--black, .ReactModalPortal .JDbox--border.JDbox--black {
+  border-color: #343434;
+}
+
+#root .JDbox--border.JDbox--black:hover, .ReactModalPortal .JDbox--border.JDbox--black:hover {
+  border-color: #585858;
+}
+
+#root .JDbox--border.JDbox--white, .ReactModalPortal .JDbox--border.JDbox--white {
+  border-color: white;
+}
+
+#root .JDbox--border.JDbox--error, .ReactModalPortal .JDbox--border.JDbox--error {
+  border-color: #ff6760;
+}
+
+#root .JDbox--border.JDbox--error:hover, .ReactModalPortal .JDbox--border.JDbox--error:hover {
+  border-color: #ff4f47;
+}
+
+#root .JDbox--border.JDbox--warn, .ReactModalPortal .JDbox--border.JDbox--warn {
+  border-color: #FF6E16;
+}
+
+#root .JDbox--border.JDbox--warn:hover, .ReactModalPortal .JDbox--border.JDbox--warn:hover {
+  border-color: #cb690a;
+}
+
+#root .JDbox--border.JDbox--new, .ReactModalPortal .JDbox--border.JDbox--new {
+  border-color: #FFD821;
+}
+
+#root .JDbox--border.JDbox--new:hover, .ReactModalPortal .JDbox--border.JDbox--new:hover {
+  border-color: #ffe56e;
+}
+
+#root .JDbox--border.JDbox--positive, .ReactModalPortal .JDbox--border.JDbox--positive {
+  border-color: #009364;
+}
+
+#root .JDbox--border.JDbox--positive:hover, .ReactModalPortal .JDbox--border.JDbox--positive:hover {
+  border-color: #007a53;
+}
+
+#root .JDbox--dashBorder, .ReactModalPortal .JDbox--dashBorder {
+  border-radius: 5px;
+  border: 2px dashed #CDCDCD;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 0.8rem;
+  color: #CDCDCD;
+  background-color: rgba(255, 255, 255, 0);
+}
+
+#root .JDbox--dashBorder.JDbox--clickable, .ReactModalPortal .JDbox--dashBorder.JDbox--clickable {
+  cursor: pointer;
+}
+
+#root .JDbox--dashBorder.JDbox--clickable:hover, .ReactModalPortal .JDbox--dashBorder.JDbox--clickable:hover {
+  color: #b8b8b8;
+  border-color: #b8b8b8;
+  background-color: rgba(255, 255, 255, 0);
+}
+
+#root .JDbox--standard, .ReactModalPortal .JDbox--standard {
+  height: 2.25rem;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  line-height: 100%;
+}
+
+#root .JDbox--withIcon, .ReactModalPortal .JDbox--withIcon {
+  padding-right: 2rem;
+  position: relative;
+}
+
+#root .JDbox--withIcon .JDbox__icon, .ReactModalPortal .JDbox--withIcon .JDbox__icon {
+  position: absolute;
+  right: 0.8rem;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
+#root .JDbox--positive, .ReactModalPortal .JDbox--positive {
+  background-color: #009364;
+  color: white;
+}
+
+#root .JDbox--positive:hover, .ReactModalPortal .JDbox--positive:hover {
+  background-color: #007a53;
+}
+
+#root .JDbox--primary, .ReactModalPortal .JDbox--primary {
+  background-color: #4c5b73;
+  color: #fff;
+}
+
+#root .JDbox--primary:hover, .ReactModalPortal .JDbox--primary:hover {
+  background-color: #6d809f;
+}
+
+#root .JDbox--point, .ReactModalPortal .JDbox--point {
+  background-color: #c56c47;
+  color: #fff;
+}
+
+#root .JDbox--point:hover, .ReactModalPortal .JDbox--point:hover {
+  background-color: #d79a81;
+}
+
+#root .JDbox--grey, .ReactModalPortal .JDbox--grey {
+  color: #343434;
+  background-color: #CDCDCD;
+}
+
+#root .JDbox--grey:hover, .ReactModalPortal .JDbox--grey:hover {
+  background-color: #b8b8b8;
+}
+
+#root .JDbox--black, .ReactModalPortal .JDbox--black {
+  background-color: #343434;
+  color: white;
+}
+
+#root .JDbox--black:hover, .ReactModalPortal .JDbox--black:hover {
+  background-color: #585858;
+}
+
+#root .JDbox--white, .ReactModalPortal .JDbox--white {
+  background-color: white;
+  color: #343434;
+}
+
+#root .JDbox--white:hover, .ReactModalPortal .JDbox--white:hover {
+  background-color: #CDCDCD;
+}
+
+#root .JDbox--error, .ReactModalPortal .JDbox--error {
+  background-color: #ff6760;
+  color: white;
+}
+
+#root .JDbox--error:hover, .ReactModalPortal .JDbox--error:hover {
+  background-color: #ff4f47;
+}
+
+#root .JDbox--warn, .ReactModalPortal .JDbox--warn {
+  background-color: #FF6E16;
+  color: white;
+}
+
+#root .JDbox--warn:hover, .ReactModalPortal .JDbox--warn:hover {
+  background-color: #cb690a;
+}
+
+#root .JDbox--new, .ReactModalPortal .JDbox--new {
+  background-color: #FFD821;
+  color: #343434;
+}
+
+#root .JDbox--new:hover, .ReactModalPortal .JDbox--new:hover {
+  background-color: #ffe56e;
+}
+
+#root .JDbox--primary .JDicon:hover, .ReactModalPortal .JDbox--primary .JDicon:hover {
+  color: #b8b8b8 !important;
+}
+/*# sourceMappingURL=JDbox.css.map */

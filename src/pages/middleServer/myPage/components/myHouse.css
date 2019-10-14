@@ -1,5 +1,11 @@
 /* ------------------------------ // STUB UNITY ----------------------------- */
 /* stylelint-disable declaration-block-no-duplicate-properties  */
+.myHouseCard {
+  width: 100%;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
 .myHouse {
   font-size: 0.8rem;
   height: 130px;
@@ -32,6 +38,6 @@
 }
 
 .myHouse .JDicon__svg {
-  margin-right: 0.5rem;
+  margin-right: 0.8rem;
 }
 /*# sourceMappingURL=myHouse.css.map */

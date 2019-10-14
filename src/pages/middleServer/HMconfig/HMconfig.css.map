@@ -1,0 +1,15 @@
+{
+    "version": 3,
+    "mappings": "AEIA,gFAAgF;AI2QhF,kEAAkE",
+    "sources": [
+        "HMconfig.scss",
+        "../../../style_config/style_config.scss",
+        "../../../style_config/abstracts/_variables.scss",
+        "../../../style_config/abstracts/_functions.scss",
+        "../../../style_config/abstracts/_extends.scss",
+        "../../../style_config/abstracts/_sharedStyles.scss",
+        "../../../style_config/abstracts/_mixins.scss"
+    ],
+    "names": [],
+    "file": "HMconfig.css"
+}

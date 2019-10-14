@@ -1,0 +1,14 @@
+.RoomSearcher {
+  width: -webkit-min-content;
+  width: -moz-min-content;
+  width: min-content;
+}
+
+.RoomSearcher__title {
+  white-space: nowrap;
+}
+
+.RoomSearcher__dayPicker {
+  width: 100%;
+}
+/*# sourceMappingURL=RoomSearcher.css.map */

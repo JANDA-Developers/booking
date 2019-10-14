@@ -1,5 +1,4 @@
 import React, {useState, Fragment} from "react";
-import {CellInfo, RowInfo} from "react-table";
 import selectTableHOC, {
   SelectInputComponentProps,
   SelectAllInputComponentProps
@@ -12,7 +11,6 @@ import {useModal} from "../../../hooks/hook";
 import BookingModalWrap from "../../../components/bookingModal/BookingModalWrap";
 import {IPageInfo, IBooking, IRoomType} from "../../../types/interface";
 import JDbox from "../../../atoms/box/JDbox";
-import {arraySum} from "../../../utils/elses";
 import {to4YMMDD} from "../../../utils/setMidNight";
 import {MutationFn} from "react-apollo";
 import {
@@ -75,7 +73,8 @@ const ResvList: React.SFC<IProps> = ({
       bookingConfig: {
         newBookingMark: {enable: newBookingMarkEnable}
       }
-    }
+    },
+    JDlang
   } = context;
 
   const [checkedIds, setCheckedIds] = useState<string[]>([]);
@@ -105,7 +104,7 @@ const ResvList: React.SFC<IProps> = ({
 
   const handleDeleteBookingBtnClick = () => {
     alertModalHook.openModal({
-      txt: `다음 예약 ${checkedIds.length}개를  삭제하시겠습니까?`
+      txt: `${JDlang("nextResv")}${checkedIds.length}${JDlang("checkDelete")}`
     });
   };
 
@@ -352,23 +351,23 @@ const ResvList: React.SFC<IProps> = ({
   return (
     <div id="resvList" className="resvList container container--full">
       <div className="docs-section">
-        <h3>예약목록</h3>
+        <h3>{JDlang("bookingList")}</h3>
         <div>
           <Button
             size="small"
             onClick={handleCancleBookingBtnClick}
-            label="예약취소"
+            label={JDlang("cancleBooking")}
           />
           <Button
             onClick={handleSendSmsBtnClick}
             size="small"
-            label="문자전송"
+            label={JDlang("sendSMS")}
           />
           <Button
             onClick={handleDeleteBookingBtnClick}
             size="small"
             thema="error"
-            label="예약삭제"
+            label={JDlang("deleteBooking")}
           />
         </div>
         {networkStatus === 1 && loading ? (

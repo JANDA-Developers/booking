@@ -74,6 +74,7 @@
         &__names {
             display:inline-block;
             word-wrap: break-word;
+            padding: $standard-small-space;
             text-align:center;
             max-height: 100%;
             white-space: normal;

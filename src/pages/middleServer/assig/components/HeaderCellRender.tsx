@@ -34,6 +34,7 @@ const HeaderCellRender: React.FC<Iprops> = ({
   return (
     <div className={headerClasses} {...getIntervalProps()}>
       <div
+        data-start={startTime}
         className="timelineHeaderCell__inner"
         onClickCapture={e => {
           e.preventDefault();

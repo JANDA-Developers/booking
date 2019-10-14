@@ -196,8 +196,6 @@
     // 😲 마킹
     &--mark {
         background-color: $assigItem-mark-bgColor;
-        pointer-events: none; 
-        // 👿 
         height: 36px!important;
         border: $assigItem-selected-linked-border;
         @extend %z-depth-2;

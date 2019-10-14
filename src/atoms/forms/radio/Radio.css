@@ -109,30 +109,30 @@
 }
 
 .JDradio__input--gap:disabled:checked + .JDradio__label:before {
-  border: 2px solid #EBEBEB;
+  border: 2px solid #b8b8b8;
 }
 
 .JDradio__input--gap:disabled:checked + .JDradio__label:after {
   border: none;
-  background-color: #EBEBEB;
+  background-color: #b8b8b8;
 }
 
 .JDradio__input:disabled:not(:checked) + .JDradio__label:before,
 .JDradio__input:disabled:checked + .JDradio__label:before {
   background-color: transparent;
-  border-color: #EBEBEB;
+  border-color: #b8b8b8;
 }
 
 .JDradio__input:disabled + .JDradio__label {
-  color: #EBEBEB;
+  color: #b8b8b8;
 }
 
 .JDradio__input:disabled:not(:checked) + .JDradio__label:before {
-  border-color: #EBEBEB;
+  border-color: #b8b8b8;
 }
 
 .JDradio__input:disabled:checked + .JDradio__label:after {
-  background-color: #EBEBEB;
-  border-color: #EBEBEB;
+  background-color: #b8b8b8;
+  border-color: #b8b8b8;
 }
 /*# sourceMappingURL=Radio.css.map */

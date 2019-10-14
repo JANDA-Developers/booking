@@ -29,7 +29,7 @@ export const DragBoxPlace: React.FC<IDragBoxPlace> = ({
 }) => {
   const [{isOver, canDrop}, drop] = useDrop({
     accept: roomType._id,
-    drop: (item: any) => onDrop(item, room, place + 1),
+    drop: (item: any) => onDrop(item, room, place),
     collect: monitor => {
       // ⭐️⭐️⭐️ (물어볼가치가 있다면 && 드래그중 && 해당아이템을 이미 물어보지 않았다면) => query
       return {

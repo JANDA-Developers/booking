@@ -1,0 +1,21 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+.middleServer__layout {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.middleServer__page {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1;
+          flex: 1 1;
+  -webkit-transition: .3s;
+  transition: .3s;
+  max-width: 100%;
+}
+
+.middleServer--sideOpen .middleServer__page {
+  max-width: calc(100% - 14rem);
+}
+/*# sourceMappingURL=MiddleServerRouter.css.map */

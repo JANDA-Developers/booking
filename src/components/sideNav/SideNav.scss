@@ -3,7 +3,9 @@
 .JDsideNav {
 
     &__inner {
+        position: relative;
         min-width: $sideNav-width;
+        height: 100%;
     }
 
     @include response($phablet) {
@@ -19,7 +21,6 @@
     width: 0px;
     overflow: hidden;
     background-color:white;
-    z-index: $z-index-10;
     height: calc(100vh - #{$header-height});
     box-sizing:border-box;
     transition: 0.3s;
@@ -142,10 +143,10 @@
         border-bottom : 1px solid $grey-level1;
         
         &.active {
-            background-color: $point-color;
+            background-color: $primary-color;
             color:white;
             #root &:hover {
-                background-color: $point-color;
+                background-color: $primary-color;
             }
         }
         

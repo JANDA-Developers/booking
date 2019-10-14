@@ -105,7 +105,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   assigDataControl
 }) => {
   const {networkStatus} = assigDataControl;
-  const {house, houseConfig} = context;
+  const {house, houseConfig, sideNavIsOpen} = context;
   const isMobile = windowWidth <= EWindowSize.MOBILE;
   const isTabletDown = windowWidth <= EWindowSize.TABLET;
   const [guestValue, setGuestValue] = useState<IAssigItem[]>(deafultGuestsData);
@@ -122,10 +122,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   >({
     start: 0,
     end: 0,
-    groupId: "",
-    group: {
-      ...DEFAUT_ASSIG_GROUP
-    }
+    groupIds: [""]
   });
   const bookingModal = useModal(false);
   const blockOpModal = useModal<IAssigItem>(false, DEFAUT_ASSIG_ITEM);
@@ -222,7 +219,9 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     handleItemSelect,
     handleMoveResizeValidator,
     handleTimeChange,
-    handleItemDoubleClick
+    handleItemDoubleClick,
+    handleDraggingCell,
+    handleMouseDownCanvas
   } = assigHandler;
 
   // 툴팁들을 제거하고
@@ -264,182 +263,185 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
 
   return (
     <div>
-    <div
-      id="AssigTimeline"
-      className={`${timelineClassNames} container container--full`}
-      onDoubleClick={handleTimelineWrapClickEvent}
-      onClick={e => e.stopPropagation()}
-    >
-      <div className="docs-section">
-        <h3 className="assigTimeline__titleSection">
-          {"배정달력"}
-          <Preloader
-            size="small"
-            floating
-            loading={loading}
-            className="assigTimeline__mainPreloder"
-          />
-        </h3>
-        <div className="flex-grid flex-grid--end">
-          <div>
-            <Button
-              onClick={() => {
-                reservationModal.openModal();
-              }}
-              icon="edit"
-              label="예약하기"
+      <div
+        id="AssigTimeline"
+        className={`${timelineClassNames} container container--full`}
+        onDoubleClick={handleTimelineWrapClickEvent}
+        onClick={e => e.stopPropagation()}
+      >
+        <div className="docs-section">
+          <h3 className="assigTimeline__titleSection">
+            {"배정달력"}
+            <Preloader
+              size="small"
+              floating
+              loading={loading}
+              className="assigTimeline__mainPreloder"
             />
-            <Link to="/resvList">
-              <Button mode="border" icon="arrowTo" label="예약목록 보기" />
-            </Link>
-            {/* 개발중 */}
-            {/* <Button
+          </h3>
+          <div className="flex-grid flex-grid--end">
+            <div>
+              <Button
+                onClick={() => {
+                  reservationModal.openModal();
+                }}
+                icon="edit"
+                label="예약하기"
+              />
+              <Link to="/resvList">
+                <Button mode="border" icon="arrowTo" label="예약목록 보기" />
+              </Link>
+              {/* 개발중 */}
+              {/* <Button
               label="단축키"
               onClick={() => {
                 keyBoardModal.openModal();
               }}
               icon="keyBoard"
             /> */}
+            </div>
+            {roomTypeTabEnable && (
+              <JDmultiBox
+                defaultAllToogle={true}
+                // withAllTooglerLabel="전부보기"
+                // withAllToogler
+                onChange={setViewRoomType}
+                value={roomTypesData.map(roomType => roomType._id)}
+                selectedValue={viewRoomType}
+                labels={roomTypesData.map(roomType => roomType.name)}
+              />
+            )}
           </div>
-          {roomTypeTabEnable && (
-            <JDmultiBox
-              defaultAllToogle={true}
-              // withAllTooglerLabel="전부보기"
-              // withAllToogler
-              onChange={setViewRoomType}
-              value={roomTypesData.map(roomType => roomType._id)}
-              selectedValue={viewRoomType}
-              labels={roomTypesData.map(roomType => roomType.name)}
-            />
+          <CanvasMenuTooltip
+            assigHooks={assigHooks}
+            assigContext={assigContext}
+            assigUtils={assigUtils}
+          />
+          <CreateItemTooltip
+            assigHooks={assigHooks}
+            assigContext={assigContext}
+            assigUtils={assigUtils}
+          />
+          <BlockItemTooltip
+            assigHooks={assigHooks}
+            assigContext={assigContext}
+            assigUtils={assigUtils}
+          />
+          <BlockOpModal
+            key={blockOpModal.info.bookingId}
+            assigDataControl={assigDataControl}
+            assigHooks={assigHooks}
+            assigContext={assigContext}
+            assigUtils={assigUtils}
+          />
+          <ReadyItemTooltip />
+          <ItemMenuTooltip
+            assigHooks={assigHooks}
+            assigContext={assigContext}
+            assigUtils={assigUtils}
+          />
+          <Timeline
+            handleMouseDownCanvas={handleMouseDownCanvas}
+            onItemMove={handleItemMove}
+            onItemResize={handleItemResize}
+            items={guestValue}
+            groups={filteredGroup}
+            {...defaultProps}
+            handleDraggingCell={handleDraggingCell}
+            onItemDoubleClick={handleItemDoubleClick}
+            onItemClick={handleItemClick}
+            onCanvasClick={handleCanvasClick}
+            onTimeChange={handleTimeChange}
+            itemRenderer={(props: any) =>
+              itemRendererFn({
+                ...props,
+                assigUtils,
+                assigContext,
+                assigHooks
+              })
+            }
+            groupRenderer={assigGroupRendererFn}
+            defaultTimeEnd={
+              isTabletDown
+                ? moment(defaultTimeEnd)
+                    .add(-1 * ASSIG_VISIBLE_CELL_MB_DIFF, "days")
+                    .toDate()
+                : defaultTimeEnd
+            }
+            defaultTimeStart={defaultTimeStart}
+            moveResizeValidator={handleMoveResizeValidator}
+            onItemSelect={handleItemSelect}
+            onCanvasContextMenu={handleCanvasContextMenu}
+            sidebarWidth={isMobile ? 100 : 230}
+            key={sideNavIsOpen ? "a" : "b"}
+          >
+            <TimelineHeaders>
+              <SidebarHeader>
+                {({getRootProps}: any) => (
+                  <SharedSideBarHeader
+                    getRootProps={getRootProps}
+                    dayPickerHook={dayPickerHook}
+                  />
+                )}
+              </SidebarHeader>
+              <DateHeader
+                intervalRenderer={(prop: any) => {
+                  const onClickCell = ({intervalContext}: any) => {
+                    if (!intervalContext) return;
+                    dailyAssigHook.openModal({
+                      date: moment(intervalContext.interval.startTime).toDate()
+                    });
+                  };
+                  return HeaderCellRender({onClickCell, holidays, ...prop});
+                }}
+                height={GlobalCSS.TIMELINE_HEADER_HEIGHT}
+                unit="day"
+              />
+              <DateHeader />
+            </TimelineHeaders>
+          </Timeline>
+          {/* 생성된 방이 없을때 */}
+          {inIsEmpty && (
+            <div className="assigTimeline__placeHolderWrap">
+              <Link to="/roomConfig">
+                <Button
+                  mode="border"
+                  thema="point"
+                  pulse
+                  label="방타입 생성하러가기"
+                />
+              </Link>
+            </div>
           )}
         </div>
-        <CanvasMenuTooltip
-          assigHooks={assigHooks}
-          assigContext={assigContext}
-          assigUtils={assigUtils}
-        />
-        <CreateItemTooltip
-          assigHooks={assigHooks}
-          assigContext={assigContext}
-          assigUtils={assigUtils}
-        />
-        <BlockItemTooltip
-          assigHooks={assigHooks}
-          assigContext={assigContext}
-          assigUtils={assigUtils}
-        />
-        <BlockOpModal
-          key={blockOpModal.info.bookingId}
-          assigDataControl={assigDataControl}
-          assigHooks={assigHooks}
-          assigContext={assigContext}
-          assigUtils={assigUtils}
-        />
-        <ReadyItemTooltip />
-        <ItemMenuTooltip
-          assigHooks={assigHooks}
-          assigContext={assigContext}
-          assigUtils={assigUtils}
-        />
-        <Timeline
-          onItemMove={handleItemMove}
-          onItemResize={handleItemResize}
-          items={guestValue}
-          groups={filteredGroup}
-          {...defaultProps}
-          onItemDoubleClick={handleItemDoubleClick}
-          onItemClick={handleItemClick}
-          onCanvasClick={handleCanvasClick}
-          onTimeChange={handleTimeChange}
-          itemRenderer={(props: any) =>
-            itemRendererFn({
-              ...props,
-              assigUtils,
-              assigContext,
-              assigHooks
-            })
-          }
-          groupRenderer={assigGroupRendererFn}
-          defaultTimeEnd={
-            isTabletDown
-              ? moment(defaultTimeEnd)
-                  .add(ASSIG_VISIBLE_CELL_MB_DIFF, "days")
-                  .toDate()
-              : defaultTimeEnd
-          }
-          defaultTimeStart={defaultTimeStart}
-          moveResizeValidator={handleMoveResizeValidator}
-          onItemSelect={handleItemSelect}
-          onCanvasContextMenu={handleCanvasContextMenu}
-          sidebarWidth={isMobile ? 100 : 230}
-        >
-          <TimelineHeaders>
-            <SidebarHeader>
-              {({getRootProps}: any) => (
-                <SharedSideBarHeader
-                  getRootProps={getRootProps}
-                  dayPickerHook={dayPickerHook}
-                />
-              )}
-            </SidebarHeader>
-            <DateHeader
-              intervalRenderer={(prop: any) => {
-                const onClickCell = ({intervalContext}: any) => {
-                  if (!intervalContext) return;
-                  dailyAssigHook.openModal({
-                    date: moment(intervalContext.interval.startTime).toDate()
-                  });
-                };
-                return HeaderCellRender({onClickCell, holidays, ...prop});
-              }}
-              height={GlobalCSS.TIMELINE_HEADER_HEIGHT}
-              unit="day"
-            />
-            <DateHeader />
-          </TimelineHeaders>
-        </Timeline>
-        {/* 생성된 방이 없을때 */}
-        {inIsEmpty && (
-          <div className="assigTimeline__placeHolderWrap">
-            <Link to="/roomConfig">
-              <Button
-                mode="border"
-                thema="point"
-                pulse
-                label="방타입 생성하러가기"
-              />
-            </Link>
-          </div>
-        )}
-      </div>
-      <ReservationModal
-        modalHook={reservationModal}
-        callBackCreateBookingMu={CreateBooking => {
-          // @ts-ignore
-          CreateBooking.booking &&
-            assigUtils.hilightGuestBlock({
-              // @ts-ignore
-              bookingId: CreateBooking.booking._id
-            });
-        }}
-        context={context}
-        publicKey={house.publicKey || undefined}
-      />
-      <BookingModalWrap
-        assigUtils={assigUtils}
-        context={context}
-        modalHook={bookingModal}
-      />
-      <JDtoastModal confirm {...confirmDelteGuestHook} />
-      {/* <KeyBoardModal modalHook={keyBoardModal}> */}
-      <JDmodal {...dailyAssigHook}>
-        <DailyAssigWrap
-          isInModal
-          date={dailyAssigHook.info.date}
+        <ReservationModal
+          modalHook={reservationModal}
+          callBackCreateBookingMu={CreateBooking => {
+            // @ts-ignore
+            CreateBooking.booking &&
+              assigUtils.hilightGuestBlock({
+                // @ts-ignore
+                bookingId: CreateBooking.booking._id
+              });
+          }}
           context={context}
+          publicKey={house.publicKey || undefined}
         />
-      </JDmodal>
-    </div>
+        <BookingModalWrap
+          assigUtils={assigUtils}
+          context={context}
+          modalHook={bookingModal}
+        />
+        <JDtoastModal confirm {...confirmDelteGuestHook} />
+        {/* <KeyBoardModal modalHook={keyBoardModal}> */}
+        <JDmodal {...dailyAssigHook}>
+          <DailyAssigWrap
+            isInModal
+            date={dailyAssigHook.info.date}
+            context={context}
+          />
+        </JDmodal>
+      </div>
     </div>
   );
 };

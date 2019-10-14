@@ -43,6 +43,37 @@
   transition: .2s opacity ease-out, .2s color ease-out;
 }
 
+.JDtextarea.JDtextarea--scroll {
+  padding-right: 4px;
+}
+
+.JDtextarea.JDtextarea--scroll::-webkit-scrollbar {
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  background-color: transparent;
+  width: 8px;
+}
+
+.JDtextarea.JDtextarea--scroll::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.JDtextarea.JDtextarea--scroll::-webkit-scrollbar-thumb {
+  background-color: #CDCDCD;
+  border-radius: 12px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border: 1px solid #CDCDCD;
+}
+
+.JDtextarea.JDtextarea--scroll::-webkit-scrollbar-thumb:hover {
+  background-color: #b8b8b8;
+}
+
+.JDtextarea.JDtextarea--scroll::-webkit-scrollbar-button {
+  display: none;
+}
+
 /* stylelint-disable declaration-block-no-duplicate-properties  */
 /* ----------------------------- 코드 최적화가 필요합니다. ----------------------------- */
 /* Text Inputs + Textarea
@@ -53,7 +84,7 @@
   border-bottom: 1px solid #343434;
   border-radius: 0;
   outline: none;
-  height: 2.25rem;
+  height: 2.5rem;
   width: 100%;
   font-size: 1rem;
   margin-top: 1.6rem;
@@ -65,7 +96,7 @@
   transition: all 0.3s;
   padding: .8rem 0 1.6rem 0;
   resize: none;
-  min-height: 2.25rem;
+  min-height: 2.5rem;
 }
 
 .JDtextarea + .JDtextarea_label {
@@ -77,38 +108,38 @@
 }
 
 .JDtextarea::-webkit-input-placeholder {
-  color: #787878;
+  color: #b8b8b8;
 }
 
 .JDtextarea:-ms-input-placeholder {
-  color: #787878;
+  color: #b8b8b8;
 }
 
 .JDtextarea::-ms-input-placeholder {
-  color: #787878;
+  color: #b8b8b8;
 }
 
 .JDtextarea::placeholder {
-  color: #787878;
+  color: #b8b8b8;
 }
 
 .JDtextarea--doubleHeight {
-  height: 4.5rem;
+  height: 5rem !important;
 }
 
 .JDtextarea--halfHeight {
-  min-height: 1.125rem;
-  height: 1.125rem;
+  min-height: 1.25rem;
+  height: 1.25rem;
 }
 
 .JDtextarea:disabled, .JDtextarea[readonly="readonly"] {
-  color: #EBEBEB;
-  border-bottom: 1px dotted #EBEBEB;
+  color: #b8b8b8;
+  border-bottom: 1px dotted #b8b8b8;
 }
 
 .JDtextarea:disabled + .JDtextarea_label,
 .JDtextarea[readonly="readonly"] + .JDtextarea_label {
-  color: #EBEBEB;
+  color: #b8b8b8;
 }
 
 .JDtextarea:focus:not([readonly]) {
@@ -136,7 +167,7 @@
 }
 
 .JDtextarea.JDtextarea--scroll {
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 /* Textarea */
@@ -178,6 +209,12 @@
   bottom: calc(1rem + 8px);
 }
 
+.JDtextarea--autoHeight {
+  padding: 0px;
+  overflow-y: scroll;
+  height: 1px;
+}
+
 .hiddendiv {
   display: none;
   white-space: pre-wrap;
@@ -188,5 +225,20 @@
   /* prevents text jump on Enter keypress */
   position: absolute;
   top: 0;
+}
+
+.JDinput-wrap--fullHeight {
+  height: 100%;
+}
+
+.JDinput-wrap .JDtextarea {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin-top: 1.6rem;
+  height: calc(100% - 1.6rem);
+}
+
+.JDinput-wrap .JDtextarea:not(.JDtextarea--labeled) {
+  margin-top: 0px;
 }
 /*# sourceMappingURL=Textarea.css.map */

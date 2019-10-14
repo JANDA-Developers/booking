@@ -15,7 +15,9 @@ import {
   THandleCanvasContextMenu,
   THandleItemSelect,
   IAssigTimelineContext,
-  TShortKey
+  TShortKey,
+  THandleDraggingCell,
+  THandleMouseDown
 } from "./assigIntrerface";
 import {TimePerMs} from "../../../../types/enum";
 import {setMidNight} from "../../../../utils/utils";
@@ -49,7 +51,13 @@ export function getAssigHandlers(
     toogleCheckInOut
   }: IAssigTimelineUtils,
   {groupData, isMobile}: IAssigTimelineContext,
-  {setDataTime, dataTime, bookingModal}: IAssigTimelineHooks
+  {
+    setDataTime,
+    dataTime,
+    bookingModal,
+    guestValue,
+    setGuestValue
+  }: IAssigTimelineHooks
 ): IAssigHandlers {
   const shortKey: TShortKey = async (
     flag: "canvas" | "guestItem",
@@ -60,7 +68,7 @@ export function getAssigHandlers(
   ) => {
     if (flag === "canvas") {
       if (e.ctrlKey) {
-        addBlock(time!, groupId!);
+        // addBlock(time!, groupId!);
       }
     }
     if (flag === "guestItem") {
@@ -103,11 +111,11 @@ export function getAssigHandlers(
 
     const targetGroup = getGroupById(groupId);
 
+    // TODO 이거를 groupId 를 배열로하고
     openCanvasMenuTooltip(e, {
       start: time,
       end: time + TimePerMs.DAY,
-      groupId: groupId,
-      group: targetGroup
+      groupIds: [groupId]
     });
 
     // createMark(time, groupId);
@@ -169,6 +177,30 @@ export function getAssigHandlers(
     }
 
     return time;
+  };
+
+  // 드래그를 토대로 마크들을 생성시킴
+  const handleDraggingCell: THandleDraggingCell = (e, moveCounts, dotPoint) => {
+    let {timeStart, placeIndex} = dotPoint;
+    const {x, y} = moveCounts;
+    let timeEnd = timeStart + TimePerMs.DAY * x + TimePerMs.DAY;
+    const ids = [];
+    for (let i = 0; i <= y; i++) {
+      ids.push(groupData[placeIndex + i].id);
+    }
+
+    if (timeEnd < timeStart) {
+      const timeTemp = timeStart;
+      timeStart = timeEnd;
+      timeEnd = timeTemp;
+    }
+
+    createMark(timeStart, timeEnd, ids);
+    openCanvasMenuTooltip(e, {
+      groupIds: ids,
+      start: timeStart,
+      end: timeEnd
+    });
   };
 
   // 핸들 아이템 움직일시 (마우스 놓아야 호출됨)
@@ -293,8 +325,15 @@ export function getAssigHandlers(
     }
   };
 
+  const handleMouseDownCanvas: THandleMouseDown = () => {
+    setGuestValue([
+      ...guestValue.filter(guest => guest.type !== GuestTypeAdd.MARK)
+    ]);
+  };
+
   const assigHandler: IAssigHandlers = {
     handleCanvasClick,
+    handleMouseDownCanvas,
     handleCanvasDoubleClick,
     handleItemClick,
     handleItemDoubleClick,
@@ -303,7 +342,8 @@ export function getAssigHandlers(
     handleMoveResizeValidator,
     handleTimeChange,
     handleCanvasContextMenu,
-    handleItemSelect
+    handleItemSelect,
+    handleDraggingCell
   };
 
   return assigHandler;

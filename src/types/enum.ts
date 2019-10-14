@@ -56,11 +56,20 @@ export enum Language {
   CHINESE = "CHINESE"
 }
 
+export type TLanguageShort = "kr" | "gb" | "jp" | "cn";
+
 export enum LanguageShort {
   KOREAN = "kr",
   ENGLISH = "gb",
   JAPANESE = "jp",
   CHINESE = "cn"
+}
+
+export enum LanguageShortResverse {
+  kr = "KOREAN",
+  gb = "ENGLISH",
+  jp = "JAPANESE",
+  cn = "CHINESE"
 }
 
 export enum LanguageItSelf {
@@ -181,7 +190,7 @@ export enum WindowSize {
 
 // 👿 deprecate
 export enum GlobalCSS {
-  TIMELINE_HEADER_HEIGHT = 38
+  TIMELINE_HEADER_HEIGHT = 36
 }
 
 export enum Gender {

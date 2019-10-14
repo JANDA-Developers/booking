@@ -5,23 +5,16 @@ import {
   GuestTypeAdd,
   IAssigTimelineUtils,
   IAssigTimelineContext,
-  IAssigTimelineHooks,
-  IAssigItem,
-  IAssigGroup
+  IAssigTimelineHooks
 } from "../assigIntrerface";
 import {
   DEFAUT_ASSIG_GROUP,
-  DEFAUT_BOOKING,
-  DEFAUT_ROOMTYPE
+  DEFAUT_BOOKING
 } from "../../../../../types/defaults";
 import {isEmpty, s4} from "../../../../../utils/utils";
 import {
-  getBooking_GetBooking_booking_guests,
-  getBooking_GetBooking_booking_roomTypes,
   startBooking_StartBooking,
-  startBooking_StartBooking_bookingTransaction,
-  getBooking_GetBooking_booking_guests_GuestDomitory,
-  getBooking_GetBooking_booking_guests_GuestRoom
+  startBooking_StartBooking_bookingTransaction
 } from "../../../../../types/api";
 import _ from "lodash";
 import {GB_booking} from "../../../../../types/interface";
@@ -40,7 +33,9 @@ const CreateItemTooltip: React.FC<IProps> = ({
     deleteItemById,
     allocateGuest,
     getAssigInfoFromItems,
-    changeCreateBlock
+    changeCreateBlock,
+    groupToRoomType,
+    itemsToGuets
   },
   assigHooks: {guestValue, bookingModal, createMenuProps},
   assigContext: {groupData, isMobile}
@@ -63,42 +58,6 @@ const CreateItemTooltip: React.FC<IProps> = ({
               const createItems = guestValue.filter(
                 guest => guest.type === GuestTypeAdd.MAKE
               );
-
-              // 배정달력에서 게스트들 정보를, GetBooking_Guest로 변환합니다.
-              // 아래작업은 createBooking을 하기위한 초석입니다.
-              const itemsToGuets = (items: IAssigItem[]): any[] =>
-                items.map(item => ({
-                  roomTypeName: "Booking",
-                  _id: item.id,
-                  room: null,
-                  gender: item.gender,
-                  pricingType: item.gender
-                    ? PricingType.DOMITORY
-                    : PricingType.ROOM,
-                  checkIn: item.start,
-                  checkOut: item.end,
-                  roomType: {
-                    __typename: "RoomType",
-                    _id: item.roomTypeId
-                  }
-                }));
-              // 게스트들 정보를, GetBooking_Guest로 변환합니다.
-              // 아래작업은 createBooking을 하기위한 초석입니다.
-              const groupToRoomType = (
-                createItemTempGroups: IAssigGroup[]
-              ): getBooking_GetBooking_booking_roomTypes[] => {
-                const uniquRoomTypes = _.uniqBy(
-                  createItemTempGroups,
-                  group => group.roomTypeId
-                );
-
-                return uniquRoomTypes.map(
-                  (group): getBooking_GetBooking_booking_roomTypes => ({
-                    ...DEFAUT_ROOMTYPE,
-                    ...group.roomType
-                  })
-                );
-              };
 
               // 아이템들의 그룹들
               const createItemTempGroups = createItems.map(item =>
@@ -130,18 +89,18 @@ const CreateItemTooltip: React.FC<IProps> = ({
               const doAssig = (
                 newGuests: startBooking_StartBooking_bookingTransaction[]
               ) => {
-                // const alreadyAssigedInfo: any[] = [];
-                // newGuests.forEach(guest => {
-                //   assigInfo.forEach((info, index) => {
-                //     if (
-                //       info.gender === guest.gender &&
-                //       !alreadyAssigedInfo.includes(index)
-                //     ) {
-                //       alreadyAssigedInfo.push(index);
-                //       allocateGuest(guest._id, info.bedIndex);
-                //     }
-                //   });
-                // });
+                const alreadyAssigedInfo: any[] = [];
+                newGuests.forEach(guest => {
+                  assigInfo.forEach((info, index) => {
+                    if (
+                      info.gender === guest.gender &&
+                      !alreadyAssigedInfo.includes(index)
+                    ) {
+                      alreadyAssigedInfo.push(index);
+                      allocateGuest(guest._id, info.bedIndex);
+                    }
+                  });
+                });
               };
 
               // 모달에서 예약생성 하고나서 컬백함수

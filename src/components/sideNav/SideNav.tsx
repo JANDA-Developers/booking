@@ -8,7 +8,7 @@ import Button from "../../atoms/button/Button";
 import JDmenu, {JDmenuItem, JDsubMenu} from "../../atoms/menu/Menu";
 import ProfileCircle from "../../atoms/profileCircle/ProfileCircle";
 import SelectHouseWrap from "../selectHouse/SelectHouseWrap";
-import {isEmpty, s4, instanceOfA} from "../../utils/utils";
+import {s4, instanceOfA} from "../../utils/utils";
 import {IContext} from "../../pages/MiddleServerRouter";
 import {HouseStatus} from "../../types/enum";
 import {inOr} from "../../utils/C";
@@ -155,81 +155,81 @@ const SideNav: React.FC<IProps> = ({isOpen, setIsOpen, context}) => {
   return (
     <Fragment>
       <div className={classes}>
-      <div className="JDsideNav__inner">
-        {/* 프로필 */}
-        <div className="JDsideNav__profill">
-          <Link to="/myPage">
-            <div className="JDsideNav__circle">
-              <ProfileCircle
-                size={IconSize.MEDIUM_LARGE}
-                isBordered
-                profileImg={user.profileImg}
-              />
-            </div>
-          </Link>
-          <span className="JDsideNav__name">{user.name || "비회원"}</span>
-          <SelectHouseWrap context={context} />
-        </div>
-        {/* 리스트 컨테이너 */}
-        <div className="JDsideNav__listContainer">
-          <JDmenu customMode="sideNav" mode="inline">
-            {sortedMenus.map(menu =>
-              instanceOfA<IMenusGroup>(menu, "contents") ? (
-                <JDsubMenu key={s4()} title={menu.groupTitle}>
-                  <JDmenuItem>
-                    {menu.contents.map(content => renderLink(content))}
-                  </JDmenuItem>
-                </JDsubMenu>
-              ) : (
-                <JDmenuItem key={s4()}>{renderLink(menu)}</JDmenuItem>
-              )
-            )}
-          </JDmenu>
-        </div>
-        {/* 하단 상품뷰 */}
-        <div className="JDsideNav__productView">
-          <div className="JDsideNav__billing-info">
-            <div className="JDsideNav__billing-title">
-              <span className="JDstandard-small-space">
-                {inOr(applyedProduct, "name", "적용안됨")}
-              </span>
-              {applyedProduct && (
-                <Help
-                  icon="info"
-                  tooltip={
-                    <JDlist
-                      className="JDmargin-bottom0"
-                      contents={[
-                        `만료일: ${to4YMMDD(applyedProduct.expireDate)}`,
-                        `가격: ${applyedProduct.price || 0} /월`
-                      ]}
-                    />
-                  }
+        <div className="JDsideNav__inner">
+          {/* 프로필 */}
+          <div className="JDsideNav__profill">
+            <Link to="/myPage">
+              <div className="JDsideNav__circle">
+                <ProfileCircle
+                  size={IconSize.MEDIUM_LARGE}
+                  isBordered
+                  profileImg={user.profileImg}
                 />
-              )}
-            </div>
-            <div className="JDsideNav__billing-detail">
-              <span>
-                {applyedProduct &&
-                  `${applyedProduct.daysLeftToExpire}일 사용가능`}
-              </span>
-            </div>
+              </div>
+            </Link>
+            <span className="JDsideNav__name">{user.name || "비회원"}</span>
+            <SelectHouseWrap context={context} />
           </div>
-          <div className="JDsideNav__upgradeBtn">
-            <NavLink to="/products">
-              <Button label="업그레이드" mode="border" />
-            </NavLink>
+          {/* 리스트 컨테이너 */}
+          <div className="JDsideNav__listContainer">
+            <JDmenu customMode="sideNav" mode="inline">
+              {sortedMenus.map(menu =>
+                instanceOfA<IMenusGroup>(menu, "contents") ? (
+                  <JDsubMenu key={s4()} title={menu.groupTitle}>
+                    <JDmenuItem>
+                      {menu.contents.map(content => renderLink(content))}
+                    </JDmenuItem>
+                  </JDsubMenu>
+                ) : (
+                  <JDmenuItem key={s4()}>{renderLink(menu)}</JDmenuItem>
+                )
+              )}
+            </JDmenu>
+          </div>
+          {/* 하단 상품뷰 */}
+          <div className="JDsideNav__productView">
+            <div className="JDsideNav__billing-info">
+              <div className="JDsideNav__billing-title">
+                <span className="JDstandard-small-space">
+                  {inOr(applyedProduct, "name", "적용안됨")}
+                </span>
+                {applyedProduct && (
+                  <Help
+                    icon="info"
+                    tooltip={
+                      <JDlist
+                        className="JDmargin-bottom0"
+                        contents={[
+                          `만료일: ${to4YMMDD(applyedProduct.expireDate)}`,
+                          `가격: ${applyedProduct.price || 0} /월`
+                        ]}
+                      />
+                    }
+                  />
+                )}
+              </div>
+              <div className="JDsideNav__billing-detail">
+                <span>
+                  {applyedProduct &&
+                    `${applyedProduct.daysLeftToExpire}일 사용가능`}
+                </span>
+              </div>
+            </div>
+            <div className="JDsideNav__upgradeBtn">
+              <NavLink to="/products">
+                <Button label="업그레이드" mode="border" />
+              </NavLink>
+            </div>
           </div>
         </div>
-      </div>
-      {/* 사이드 네비 외 가림막 */}
-      <div
-        role="presentation"
-        onClick={handleCurtainClick}
-        className={`JDsideNav-curtain ${
-          isOpen ? "JDsideNav-curtain--open" : ""
-        }`}
-      />
+        {/* 사이드 네비 외 가림막 */}
+        <div
+          role="presentation"
+          onClick={handleCurtainClick}
+          className={`JDsideNav-curtain ${
+            isOpen ? "JDsideNav-curtain--open" : ""
+          }`}
+        />
       </div>
     </Fragment>
   );

@@ -1,0 +1,43 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+.statistic__table {
+  margin-top: 1rem;
+}
+
+.statistic__shortBtnsWrap {
+  white-space: noWrap;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+@media only screen and (max-width: 750px) and (min-width: 0px) {
+  .statistic__shortBtnsWrap {
+    overflow: auto;
+  }
+  .statistic__shortBtnsWrap .JDbtn {
+    min-width: 90px;
+  }
+}
+
+.statistic__iconsWrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+@media only screen and (max-width: 750px) and (min-width: 0px) {
+  .statistic__iconsWrap {
+    -ms-flex-pack: distribute;
+        justify-content: space-around;
+  }
+}
+
+.statistic__graphCard {
+  position: relative;
+}
+
+.statistic__graphCard .statistic__graphPreloader .preloader--large {
+  bottom: calc(50% - 4rem);
+}
+/*# sourceMappingURL=Statistic.css.map */

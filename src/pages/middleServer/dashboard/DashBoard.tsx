@@ -69,7 +69,7 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
                     <div className="JDstandard-margin-bottom">
                       <Button icon="negative" label="방막기" />
                       <Button icon="sms" label="단체 메세지" />
-                      <Button icon="negative" float="right" label="예약하기" thema="primary" />
+                      <Button float="right" label="예약하기" thema="primary" />
                     </div>
 
                     <div className="dashboard__tooltipsWrap">
@@ -92,8 +92,8 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
                 </Card>
               </div>
             </div>
-            <div className="flex-grid">
-              <div className="flex-grid__col col--full-4">
+            <div className="flex-grid flex-grid--start">
+              <div className="flex-grid__col col--full-4 JDstandard-space">
                 <Card className="dashboard__dailyStaticsCard">
                   <h6>금일 매출</h6>
                   {MemoDaySalesWrap}

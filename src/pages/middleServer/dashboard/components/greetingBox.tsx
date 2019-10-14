@@ -1,4 +1,4 @@
-import React, {useState, Fragment} from "react";
+import React, {useState} from "react";
 import {randomIntFromInterval} from "../../../../utils/utils";
 import {getMyProfile_GetMyProfile_user} from "../../../../types/api";
 
@@ -24,7 +24,7 @@ const GreetingBox: React.FC<IProps> = ({userData}) => {
   return <div>{gretting[0]}</div>;
 };
 
-export const PeriodBox: React.FC<IProps> = (leftDays: number) => (
+export const PeriodBox: any = (leftDays: number) => (
   <div>서비스 종료까지 {leftDays} 일 남았습니다.</div>
 );
 

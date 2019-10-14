@@ -1,0 +1,15 @@
+{
+    "version": 3,
+    "mappings": "AEIA,gFAAgF;AI2QhF,kEAAkE;AN5Q7D,AAAD,qBAAS,CAAC;EACN,OAAO,EAAE,IAAI;CAChB;;AACA,AAAD,mBAAO,CAAC;EACJ,IAAI,EAAE,GAAG;EACT,UAAU,EAAE,GAAG;EACf,SAAS,EAAE,IAAI;CAClB;;AAEA,AACG,uBADO,CACP,mBAAmB,CAAC;EAChB,SAAS,EAAE,kBAA8B;CAC5C",
+    "sources": [
+        "MiddleServerRouter.scss",
+        "../style_config/style_config.scss",
+        "../style_config/abstracts/_variables.scss",
+        "../style_config/abstracts/_functions.scss",
+        "../style_config/abstracts/_extends.scss",
+        "../style_config/abstracts/_sharedStyles.scss",
+        "../style_config/abstracts/_mixins.scss"
+    ],
+    "names": [],
+    "file": "MiddleServerRouter.css"
+}

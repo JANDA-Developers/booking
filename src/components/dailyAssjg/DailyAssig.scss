@@ -34,8 +34,6 @@
             .dailyAssig__dayPicker {
                 box-sizing: content-box;
                 height: $dailyAssig-block-height;
-                border-bottom: 1px solid $grey-opacity1;
-                border-top: 1px solid $grey-opacity1;
             }
         }
         background-color: $primary-color;
@@ -49,7 +47,7 @@
         border-right: 1px solid $grey-opacity1;
         padding: $standard-tiny-space;
         text-align: center;
-        max-width: 7.5rem;
+        max-width: $standard-width * 22;
         display: flex;
         box-sizing: border-box;
         border-bottom: 1px solid $grey-opacity1;
@@ -70,9 +68,10 @@
         background-color: $grey-opacity1;
         border-bottom: 1px solid $grey-opacity1;
         padding: $standard-tiny-space;
-        min-height: $dailyAssig-block-height - 0.25rem;
-        line-height: $dailyAssig-block-height - 0.25rem;
-        text-align:center;
+        height: $dailyAssig-block-height;
+        display:flex;
+        align-items: center;
+        justify-content: center;
     }
 
     &__room {

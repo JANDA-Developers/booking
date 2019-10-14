@@ -5,6 +5,10 @@
   overflow: hidden;
 }
 
+.JDslider--unDisplayArrow .slick-arrow {
+  display: none !important;
+}
+
 .JDslider__slide-wrap {
   text-align: center;
   -webkit-box-sizing: border-box;
@@ -12,17 +16,21 @@
   outline: 0;
 }
 
-.JDslider .circleIcon {
+.JDslider .slick-arrow {
+  margin: 0;
+}
+
+.JDslider .circleIcon-Wrap {
   position: absolute;
-  top: calc( 50% - (2rem + 10px + 15px) / 2);
+  top: calc( 50% - (2em + 10px + 15px) / 2);
   z-index: 9;
 }
 
-.JDslider .circleIcon:first-child {
+.JDslider .circleIcon-Wrap:first-child {
   left: 0;
 }
 
-.JDslider .circleIcon:first-child ~ .circleIcon {
+.JDslider .circleIcon-Wrap:first-child ~ .circleIcon-Wrap {
   right: 0;
 }
 

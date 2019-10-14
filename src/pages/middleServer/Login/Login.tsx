@@ -21,7 +21,7 @@ interface Iprops {
 const Login: React.FC<Iprops> = ({context}) => {
   const {history} = context;
   const lastLoginEmail = localStorage.getItem("lastLogin") || "";
-  const emailHook = useInput(lastLoginEmail);
+  const emailHook = useInput(lastLoginEmail, true);
   const passwordHook = useInput("");
 
   return (

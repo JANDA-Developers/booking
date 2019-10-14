@@ -1,0 +1,162 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+.JDsearchInput__ul {
+  -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+.JDsearchInput {
+  position: relative;
+  display: block;
+}
+
+.JDsearchInput--labeled .JDsearchInput__input_wrapper {
+  padding-top: 1rem;
+}
+
+.JDsearchInput--labeled .JDsearchInput__input {
+  height: calc(2.5rem + 1px);
+}
+
+.JDsearchInput__label {
+  position: absolute;
+  top: 0.1rem;
+  left: 0;
+  font-size: 0.8rem;
+  color: #343434;
+}
+
+.JDsearchInput__icon {
+  height: 100%;
+  position: absolute;
+  font-size: 1.2rem;
+  right: 0.55rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  top: 0;
+}
+
+.JDsearchInput__icon .JDicon__svg {
+  top: 0;
+}
+
+.JDsearchInput__icon .preloader {
+  height: 100%;
+}
+
+.JDsearchInput--staticList .JDsearchInput__ul {
+  position: relative;
+}
+
+.JDsearchInput__feedBack {
+  position: absolute;
+  bottom: calc(1rem - .9rem);
+  left: 0;
+  font-size: 10px;
+}
+
+.JDsearchInput__input {
+  border: none;
+  border-bottom: 1px solid #343434;
+  outline: none;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding-right: 1.75rem;
+  height: 2.25rem;
+  margin-bottom: 1rem;
+}
+
+.JDsearchInput__input:focus {
+  border-color: #6d809f;
+  -webkit-box-shadow: 0 1px 0 0 #6d809f;
+          box-shadow: 0 1px 0 0 #6d809f;
+}
+
+.JDsearchInput__input:focus + .JDsearchInput__icon {
+  color: #4c5b73;
+}
+
+.JDsearchInput__input:focus + .JDsearchInput__icon:hover {
+  color: #6d809f;
+}
+
+.JDsearchInput__input--valid {
+  border-color: "-";
+  -webkit-box-shadow: 0px 1px 0px 0px "-";
+          box-shadow: 0px 1px 0px 0px "-";
+}
+
+.JDsearchInput__input--valid + .JDsearchInput__icon {
+  color: "-";
+}
+
+.JDsearchInput__ul {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  background-color: white;
+  border-radius: 5px;
+  max-height: 11.25rem;
+  overflow-y: auto;
+  z-index: 20;
+  max-width: 100%;
+  overflow-x: auto;
+  top: calc( 100% - 1rem);
+}
+
+.JDsearchInput__ul--hide {
+  opacity: 0;
+  z-index: -1;
+  height: 0;
+}
+
+.JDsearchInput__ul--show {
+  display: block !important;
+}
+
+.JDsearchInput__li {
+  padding: 0.25rem 0.8rem;
+  border-top: 1px dotted #CDCDCD;
+  height: 2.25rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.JDsearchInput__li--unDetail {
+  line-height: 2.25rem;
+}
+
+.JDsearchInput__li:hover {
+  cursor: pointer;
+  background-color: #CDCDCD;
+}
+
+.JDsearchInput__li:first-child {
+  border-top: none;
+}
+
+.JDsearchInput__li--active {
+  background-color: #CDCDCD;
+}
+
+.JDsearchInput__li--selected {
+  background-color: #4c5b73;
+  color: #fff;
+}
+
+.JDsearchInput__li--selected:hover {
+  background-color: #4c5b73;
+  color: #fff;
+}
+
+.JDsearchInput__input_wrapper {
+  display: block;
+}
+
+.JDsearchInput__detail {
+  font-size: 0.8rem;
+}
+/*# sourceMappingURL=searchInput.css.map */

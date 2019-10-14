@@ -1,4 +1,5 @@
 import React from "react";
+import _ from "lodash";
 import {
   TRemoveMark,
   TGetItemById,
@@ -51,11 +52,21 @@ import {
   s4
 } from "../../../../utils/utils";
 import {ReactTooltip} from "../../../../atoms/tooltipList/TooltipList";
-import {RoomGender, TimePerMs, Gender} from "../../../../types/enum";
+import {
+  RoomGender,
+  TimePerMs,
+  Gender,
+  PricingType
+} from "../../../../types/enum";
 import moment from "moment";
-import {DEFAUT_ASSIG_ITEM} from "../../../../types/defaults";
+import {DEFAUT_ASSIG_ITEM, DEFAUT_ROOMTYPE} from "../../../../types/defaults";
 import $ from "jquery";
-import {createBlock_CreateBlock_block} from "../../../../types/api";
+import {
+  createBlock_CreateBlock_block,
+  getBooking_GetBooking_booking_roomTypes,
+  getBookings_GetBookings,
+  getBookings_GetBookings_bookings_guests
+} from "../../../../types/api";
 import JDisNetworkRequestInFlight from "../../../../utils/netWorkStatusToast";
 import {assigSharedDleteGuestConfirmMessage} from "./items/shared";
 import {roomGenderToGedner} from "./groupDataMenufacture";
@@ -314,19 +325,24 @@ export function getAssigUtils(
   };
 
   // 유틸 그자리에 마크를 생성
-  const createMark: TCreateMark = (time: number, groupId: string) => {
-    console.info("createMark");
+  const createMark: TCreateMark = (
+    start: number,
+    end: number,
+    groupIds: string[]
+  ) => {
     const filteredGuestValue = guestValue.filter(
       guest => guest.type !== GuestTypeAdd.MARK
     );
 
-    filteredGuestValue.push({
-      ...DEFAUT_ASSIG_ITEM,
-      id: `mark${groupId}${time}`,
-      type: GuestTypeAdd.MARK,
-      start: time,
-      end: time + TimePerMs.DAY,
-      group: groupId
+    groupIds.forEach(id => {
+      filteredGuestValue.push({
+        ...DEFAUT_ASSIG_ITEM,
+        id: `mark${id}${start}`,
+        type: GuestTypeAdd.MARK,
+        start: start,
+        end: end,
+        group: id
+      });
     });
 
     setGuestValue([...filteredGuestValue]);
@@ -463,63 +479,73 @@ export function getAssigUtils(
         location.reload();
       }
   };
+
   // 방막기
-  const addBlock: TAddBlock = async (time, groupId) => {
+  const addBlock: TAddBlock = async (start, end, groupIds) => {
     if (JDisNetworkRequestInFlight(networkStatus)) return;
     allTooltipsHide();
     const guestValueOriginCopy = $.extend(true, [], guestValue);
 
-    const targetGroup = groupData.find(group => group.id === groupId);
-    if (!targetGroup) throw Error("그룹 아이디가 그룹데이터안에 없습니다.");
+    const tempNewBlocks: IAssigItem[] = [];
 
-    const start = moment(time).toDate();
-    const end = moment(time + TimePerMs.DAY).toDate();
+    // 새로운 방막기들을 생성함
+    groupIds.forEach(groupId => {
+      const targetGroup = groupData.find(group => group.id === groupId);
+      if (!targetGroup) throw Error("그룹 아이디가 그룹데이터안에 없습니다.");
+      const tempId = s4();
+      const tempItem = {
+        ...DEFAUT_ASSIG_ITEM,
+        bookingId: s4(),
+        roomId: targetGroup.roomId,
+        bedIndex: targetGroup.bedIndex,
+        itemIndex: guestValueOriginCopy.length,
+        type: GuestTypeAdd.GHOST,
+        id: tempId,
+        start,
+        end,
+        group: groupId,
+        canMove: false,
+        loading: true
+      };
+      tempNewBlocks.push(tempItem);
+    });
 
-    const tempId = s4();
-    const tempItem = {
-      ...DEFAUT_ASSIG_ITEM,
-      bookingId: s4(),
-      roomId: targetGroup.roomId,
-      bedIndex: targetGroup.bedIndex,
-      itemIndex: guestValueOriginCopy.length,
-      type: GuestTypeAdd.GHOST,
-      id: tempId,
-      start: time,
-      end: time + TimePerMs.DAY,
-      group: groupId,
-      canMove: false,
-      loading: true
-    };
-
-    const nextGuestValue = guestValue.filter(
+    let filteredGuestValue = guestValue.filter(
       item => item.type != GuestTypeAdd.MARK
     );
 
-    nextGuestValue.push(tempItem);
-    setGuestValue([...nextGuestValue]);
+    filteredGuestValue = [...filteredGuestValue, ...tempNewBlocks];
 
-    const result = await createBlockMu({
-      variables: {
-        checkIn: start,
-        checkOut: end,
-        houseId: houseId,
-        roomId: targetGroup.roomId,
-        bedIndex: targetGroup.bedIndex
+    setGuestValue([...filteredGuestValue]);
+
+    let i = 0;
+    for (let groupId in groupIds) {
+      i++;
+      const targetGroup = getGroupById(groupId);
+      const result = await createBlockMu({
+        variables: {
+          checkIn: start,
+          checkOut: end,
+          houseId: houseId,
+          roomId: targetGroup.roomId,
+          bedIndex: targetGroup.bedIndex
+        }
+      });
+
+      const block = muResult<createBlock_CreateBlock_block>(
+        result,
+        "CreateBlock",
+        "block"
+      );
+
+      if (typeof block === "boolean") {
+        setGuestValue(guestValueOriginCopy);
+      } else {
+        const tempItem = tempNewBlocks[i];
+        tempItem.id = block._id;
+        tempItem.type = GuestTypeAdd.BLOCK;
+        setGuestValue([...filteredGuestValue]);
       }
-    });
-
-    const block = muResult<createBlock_CreateBlock_block>(
-      result,
-      "CreateBlock",
-      "block"
-    );
-
-    if (typeof block === "boolean") {
-      setGuestValue(guestValueOriginCopy);
-    } else {
-      tempItem.id = block._id;
-      tempItem.type = GuestTypeAdd.BLOCK;
-      setGuestValue([...nextGuestValue]);
     }
   };
 
@@ -590,9 +616,10 @@ export function getAssigUtils(
     gender?: Gender
   ) => {
     allTooltipsHide();
-    const {end, start, group, groupId} = canvasInfo;
-    // 시간이 같고 타입이 Create인 것들을 하나의 그룹으로 묶음
-    const linkedItems = guestValue.filter(
+    const {end, start, groupIds} = canvasInfo;
+
+    // 시간이 같고 타입이 Create인 것들을 하나의 부킹으로 묶음
+    let linkedItems = guestValue.filter(
       item =>
         item.type === GuestTypeAdd.MAKE &&
         item.start <= start &&
@@ -607,20 +634,28 @@ export function getAssigUtils(
       return canvasInfo[flag];
     };
 
-    const newItem = {
-      ...DEFAUT_ASSIG_ITEM,
-      roomTypeId: group.roomTypeId,
-      room: group.roomId,
-      bookingId: "create",
-      id: `create${groupId}${start}${s4()}`,
-      gender: gender || roomGenderToGedner(group.roomGender, group.pricingType),
-      type: GuestTypeAdd.MAKE,
-      start: getTime("start"),
-      end: getTime("end"),
-      group: groupId
-    };
+    const tempItems: IAssigItem[] = [];
 
-    linkedItems.push(newItem);
+    // 그룹아이디를 토데로 새로운 아이템 목록 생성
+    groupIds.forEach(groupId => {
+      const group = getGroupById(groupId);
+      const newItem = {
+        ...DEFAUT_ASSIG_ITEM,
+        roomTypeId: group.roomTypeId,
+        room: group.roomId,
+        bookingId: "create",
+        id: `create${groupId}${start}${s4()}`,
+        gender:
+          gender || roomGenderToGedner(group.roomGender, group.pricingType),
+        type: GuestTypeAdd.MAKE,
+        start: getTime("start"),
+        end: getTime("end"),
+        group: groupId
+      };
+      tempItems.push(newItem);
+    });
+
+    linkedItems = [...linkedItems, ...tempItems];
 
     $("#canvasMenu").removeClass("canvasMenu--show");
 
@@ -632,7 +667,7 @@ export function getAssigUtils(
       ...linkedItems
     ]);
 
-    setCreateMenuProps({item: newItem});
+    // setCreateMenuProps({item: newItem});
   };
 
   // canvas 용 메뉴오픈
@@ -676,6 +711,44 @@ export function getAssigUtils(
       .addClass("assig__tooltips--show");
   };
 
+  // 배정달력에서 게스트들 정보를, GetBooking_Guest로 변환합니다.
+  // 아래작업은 createBooking을 하기위한 초석입니다.
+  const itemsToGuets = (
+    items: IAssigItem[]
+  ): getBookings_GetBookings_bookings_guests[] =>
+    // @ts-ignore
+    items.map(item => ({
+      roomTypeName: "Booking",
+      _id: item.id,
+      room: null,
+      gender: item.gender,
+      pricingType: item.gender ? PricingType.DOMITORY : PricingType.ROOM,
+      checkIn: item.start,
+      checkOut: item.end,
+      roomType: {
+        __typename: "RoomType",
+        _id: item.roomTypeId
+      }
+    }));
+
+  // 게스트들 정보를, GetBooking_Guest로 변환합니다.
+  // 아래작업은 createBooking을 하기위한 초석입니다.
+  const groupToRoomType = (
+    createItemTempGroups: IAssigGroup[]
+  ): getBooking_GetBooking_booking_roomTypes[] => {
+    const uniquRoomTypes = _.uniqBy(
+      createItemTempGroups,
+      group => group.roomTypeId
+    );
+
+    return uniquRoomTypes.map(
+      (group): getBooking_GetBooking_booking_roomTypes => ({
+        ...DEFAUT_ROOMTYPE,
+        ...group.roomType
+      })
+    );
+  };
+
   // 👼 컴포넌트들 내부에 prop를 전달하기 힘드니까 이렇게 전달하자.
   const assigUtils: IAssigTimelineUtils = {
     changeCreateBlock,
@@ -684,6 +757,8 @@ export function getAssigUtils(
     removeMark,
     isTherePerson,
     filterTimeZone,
+    itemsToGuets,
+    groupToRoomType,
     allTooltipsHide,
     deleteGuestById,
     deleteItemById,

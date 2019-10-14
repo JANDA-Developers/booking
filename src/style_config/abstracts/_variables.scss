@@ -65,7 +65,7 @@ $warn-color-dark: darken(#F58F2C,15%) !default;
 $link-color: rgb(66, 62, 199) !default;
 $link-color-active: rgb(48, 45, 131) !default;
 $admin-color: #172B3A;
-$grey-level1: #E0E0E0 !default; // 흰색 effect-dark 받을때 컬러 오버랩을 원치 않을때 사용
+$grey-level1: #CDCDCD !default; // 흰색 effect-dark 받을때 컬러 오버랩을 원치 않을때 사용
 $grey-level2: #b8b8b8 !default; 
 $grey-level3: #787878 !default;
 $grey-level4: #585858 !default;
@@ -83,15 +83,16 @@ $female-color: maroon!default;
 
 
 // -- 표준규격 
+$standard-width: 0.4rem; // 정수를 곱해서 사용
 $standard-height: 0.25rem; // 정수를 곱해서 사용
 $standard-section-height: 23.4rem; // 어떤 높이를 강제 구격할떄사용
 $standard-disabled-color: $grey-level2 !default;
-$standard-space: 1rem !default; // except textInput 구조가 다름
-$standard-small-space: .5rem !default; // except textInput 구조가 다름
-$standard-tiny-space: .25rem !default; // except textInput 구조가 다름
-$standard-margin-bottom: $standard-height * 3 !default; // except textInput 구조가 다름
+$standard-space: $standard-width * 3 !default; // except textInput 구조가 다름
+$standard-small-space: $standard-width * 2 !default; // except textInput 구조가 다름
+$standard-tiny-space: $standard-width !default; // except textInput 구조가 다름
+$standard-margin-bottom: $standard-height * 4 !default; // except textInput 구조가 다름
 $standard-text-line-term: $standard-height * 2 !default;
-$standard-border-radius: 4px;
+$standard-border-radius: 5px;
 $standard-line-height: $standard-height * 9; // ⭐️ 구성요소들이 한줄에 섰을때 세로 크기를 정의합니다.
 $standard-lists-line: 150%; // 옹기종기모인 div들 정리용
 $standard-small-icon-margin : $standard-small-space;
@@ -101,7 +102,6 @@ $standard-input-outborder-color: $html-color;
 // TODO: 새로추가됨 이걸로 정리해야함
 $standard-label-margin : $standard-small-space;
 $standard-placeholder-color : $grey-level2;
-$standard-width: 0.25rem; // 정수를 곱해서 사용
 
 
 // 💔 -- BreackPoints 브레이크 포인트
@@ -299,7 +299,7 @@ $button-small-padding: 0 $button-small-padding-side !default;
 $button-small-font-size: $typho-normal !default;
 $button-large-font-size: $typho-large !default;
 
-$button-height: $stnadard-height * 9 !default;
+$button-height: $standard-height * 9 !default;
 // 5 Modals
 // ANCHOR Modals =========================================================================
 
@@ -323,8 +323,8 @@ $searchInput-message-space: 1rem;
 // 7 SideNav 사이드 네비
 // ANCHOR Side NAV =========================================================================
 
-$sideNav-list-padding: $standard-small-space * 1.5;
-$sideNav-width: 12.5rem;
+$sideNav-list-padding: $standard-space;
+$sideNav-width: $standard-width * 35;
 $sideNav-profile-height : 12rem;
 $sideNav-profile-circle-margin-top : 2rem;
 $sideNav-list-li-height : 3.25rem;
@@ -355,7 +355,7 @@ $slider-arrow-height : $circle-icon-size;
 // 11 Pagination 페이지네이션
 // ANCHOR paginiation Paginiation =========================================================================
 $pagination-li-radius: $standard-border-radius;
-$pagination-li-height: 2.25rem;
+$pagination-li-height: $standard-height * 9;
 $pagination-li-padding: 1rem;
 $pagination-li-margin: 0.5rem;
 $pagination-li-hover: $primary-color-light;
@@ -458,5 +458,5 @@ $menu-border-bottom:  1px solid $grey-level1;
 
 // 24 daily Assig
 // ANCHOR menu Menu=========================================================================
-$dailyAssig-block-height:  $standard-height * 8 + 0.125rem; //.125rem === "border"
+$dailyAssig-block-height:  $standard-height * 9; //.125rem === "border"
 $menu-border-bottom:  1px solid $grey-level1;

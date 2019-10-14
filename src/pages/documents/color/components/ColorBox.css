@@ -96,7 +96,7 @@
 }
 
 .colorPage-circle--grey-level1 {
-  background-color: #EBEBEB;
+  background-color: #CDCDCD;
 }
 
 .colorPage-circle--grey-level1 .colorPage-circle__txt {
@@ -128,11 +128,11 @@
 }
 
 .colorPage-circle--button-disabled {
-  background-color: #EBEBEB;
+  background-color: #CDCDCD;
 }
 
 .colorPage-circle--new {
-  background-color: #ffb021;
+  background-color: #FFD821;
 }
 
 .colorPage-circle--new .colorPage-circle__txt {
@@ -156,7 +156,7 @@
 }
 
 .colorPage-circle--background-color {
-  background-color: #fff;
+  background-color: #FBFBFB;
 }
 
 .colorPage-circle--background-color .colorPage-circle__txt {

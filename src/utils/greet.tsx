@@ -17,11 +17,10 @@ const greet = async (context: IContext) => {
   return "";
 };
 
-const PeriodShow = async (context: IContext) => {
+const testPeriodShow = async (context: IContext) => {
   const lastConnectTime = getCookie("lastConnect");
   if (
     lastConnectTime === undefined ||
-    // 3시간에 한번씩 울림니다.
     parseInt(lastConnectTime) < new Date().valueOf() - TimePerMs.H * 3
   ) {
     toast(<GreetingBox userData={context.user} />);

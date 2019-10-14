@@ -1,0 +1,72 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+#root .rc-menu, .ReactModalPortal .rc-menu {
+  padding: 0;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  border: none;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border-radius: 0px;
+}
+
+#root .rc-menu-item, .ReactModalPortal .rc-menu-item {
+  padding: 0;
+  padding-left: 0 !important;
+}
+
+#root .rc-menu-submenu-title, .ReactModalPortal .rc-menu-submenu-title {
+  padding: 0;
+  padding-left: 0 !important;
+  color: #343434;
+}
+
+#root .rc-menu-submenu .rc-menu .JDsideNav__navLink, .ReactModalPortal .rc-menu-submenu .rc-menu .JDsideNav__navLink {
+  padding-left: 2.4rem;
+}
+
+#root .JDmenu--sideNav .rc-menu-submenu-title, .ReactModalPortal .JDmenu--sideNav .rc-menu-submenu-title {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border-bottom: 1px solid #CDCDCD;
+  padding-left: 1.2rem !important;
+  height: 3.25rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#root .JDmenu--sideNav .rc-menu-submenu-active .rc-menu-submenu-title, .ReactModalPortal .JDmenu--sideNav .rc-menu-submenu-active .rc-menu-submenu-title {
+  background-color: #CDCDCD;
+}
+
+#root .JDmenu--dropDown .rc-menu-submenu-arrow, .ReactModalPortal .JDmenu--dropDown .rc-menu-submenu-arrow {
+  right: calc(1.2rem + 5px);
+}
+
+#root .JDmenu--dropDown .rc-menu-sub, .ReactModalPortal .JDmenu--dropDown .rc-menu-sub {
+  border-bottom: 1px solid #CDCDCD;
+  padding: 0px 1.2rem;
+}
+
+#root .JDmenu--dropDown .rc-menu-submenu-title, .ReactModalPortal .JDmenu--dropDown .rc-menu-submenu-title {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border-bottom: 1px solid #CDCDCD;
+  padding-left: 1.2rem !important;
+  height: 3.25rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#root .JDmenu--dropDown .rc-menu-submenu-active .rc-menu-submenu-title, .ReactModalPortal .JDmenu--dropDown .rc-menu-submenu-active .rc-menu-submenu-title {
+  background-color: #CDCDCD;
+}
+/*# sourceMappingURL=Menu.css.map */

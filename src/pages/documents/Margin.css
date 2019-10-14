@@ -40,14 +40,14 @@
 }
 
 #MarginDOC .container_pl {
-  width: calc(0.8rem / 2);
+  width: calc(1.2rem / 2);
   background-color: #BBD6AF;
   float: left;
   height: 100%;
 }
 
 #MarginDOC .container_pr {
-  width: calc(0.8rem / 2);
+  width: calc(1.2rem / 2);
   background-color: #BBD6AF;
   float: right;
   height: 100%;
@@ -68,7 +68,7 @@
 }
 
 #MarginDOC .docs-section_pb {
-  height: 6rem;
+  height: 4rem;
   background-color: #BBD6AF;
 }
 

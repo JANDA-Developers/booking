@@ -14,6 +14,7 @@ import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
 import MemoModal from "../../Memo/component/MemoModal";
 import MemoIcon from "../../Memo/component/MemoIcon";
 import NotiIcon from "../../noti/component/NotiIcon";
+import LangSelectModal from "../../../atoms/dayPicker/component/langSelectModal";
 interface Iprops {
   context: IContext;
   logOutMutation: any;
@@ -28,6 +29,22 @@ const SharedHeaderComponent: React.FC<Iprops> = ({
   const {user} = context;
   const {isPhoneVerified} = user;
   const memoModalHook = useModal();
+  const langSelectModal = useModal();
+
+  const sharedOverLogin = (
+    <li>
+      <Button
+        icon="langugae"
+        onClick={() => {
+          langSelectModal.openModal();
+          ReactTooltip.hide();
+        }}
+        label="언어설정"
+        mode="flat"
+      />
+    </li>
+  );
+
   // 툴팁내용
   // 모바일
   // 로그인후 헤더우측 상단 메뉴
@@ -39,6 +56,7 @@ const SharedHeaderComponent: React.FC<Iprops> = ({
             logOutMutation();
             ReactTooltip.hide();
           }}
+          icon="logout"
           label="로그아웃"
           mode="flat"
         />
@@ -48,6 +66,7 @@ const SharedHeaderComponent: React.FC<Iprops> = ({
           <Button
             className="hader__btn"
             label="관리자화면"
+            icon="admin"
             redirect={insideRedirect(`superAdmin`)}
             mode="flat"
             thema="point"
@@ -64,6 +83,7 @@ const SharedHeaderComponent: React.FC<Iprops> = ({
               ReactTooltip.hide();
             }}
             blink
+            icon="call"
             label="인증하기"
             mode="flat"
             id="HeaderPhoneVerificationBtn"
@@ -72,9 +92,10 @@ const SharedHeaderComponent: React.FC<Iprops> = ({
       )}
       <li>
         <NavLink to="/myPage">
-          <Button label="MYpage" mode="flat" />
+          <Button icon="person" label="MYpage" mode="flat" />
         </NavLink>
       </li>
+      {sharedOverLogin}
     </Fragment>
   );
 
@@ -105,6 +126,7 @@ const SharedHeaderComponent: React.FC<Iprops> = ({
           />
         </NavLink>
       </li>
+      {sharedOverLogin}
     </Fragment>
   );
 
@@ -149,6 +171,7 @@ const SharedHeaderComponent: React.FC<Iprops> = ({
         context={context}
         modalHook={memoModalHook}
       />
+      <LangSelectModal modalHook={langSelectModal} context={context} />
     </Fragment>
   );
 };

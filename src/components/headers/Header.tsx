@@ -1,23 +1,20 @@
 import React, {useEffect} from "react";
 import "./Header.scss";
-import {NavLink, withRouter} from "react-router-dom";
-import {RouteComponentProps} from "react-router";
+import {NavLink} from "react-router-dom";
 import {ReactTooltip} from "../../atoms/tooltipList/TooltipList";
 import Icon, {IconSize} from "../../atoms/icons/Icons";
 import {ErrProtecter} from "../../utils/utils";
 import logo from "../../img/logo/logo--white.png"; // with import
-import {useModal, useToggle} from "../../hooks/hook";
+import {useModal} from "../../hooks/hook";
 import {IDiv} from "../../types/interface";
 import GuestSearchInputWrap from "../guestSearchInput/GuestSearchInputWrap";
 import PhoneVerificationModalWrap from "../phoneVerificationModal/PhoneVerificationModalWrap";
-import SideNav from "../sideNav/SideNav";
-import windowSize, {WindowSizeProps} from "react-window-size";
+import windowSize from "react-window-size";
 import {WindowSize} from "../../types/enum";
 import {IContext} from "../../pages/MiddleServerRouter";
 import MobileHeaderComponent from "./components/MobileHeaderComponent";
 import PcHeaderComponent from "./components/PcHeaderComponent";
 import SharedHeaderComponent from "./components/SharedHeaderComponent";
-import JDIcon from "../../atoms/icons/Icons";
 
 type ITempProps = IDiv & {
   context: IContext;
@@ -32,7 +29,6 @@ type IProps = ITempProps;
 const Header: React.FC<IProps> = ({
   context,
   logOutMutation,
-  windowHeight,
   windowWidth,
   sideNavIsOpen,
   setSideNavIsOpen
@@ -52,7 +48,6 @@ const Header: React.FC<IProps> = ({
   return (
     <div className="header">
       {/* 로고 */}
-      {/* space between 1번째 */}
       <div className="header__left">
         <NavLink to="/">
           <span className="header__logoPlace JDdisplay-none--wmd">
@@ -66,8 +61,8 @@ const Header: React.FC<IProps> = ({
               onClick={() => {
                 setSideNavIsOpen();
               }}
-              size={IconSize.LARGE}
-              icon="menue"
+              size={!sideNavIsOpen ? IconSize.LARGE : IconSize.MEDEIUM_SMALL}
+              icon={!sideNavIsOpen ? "menue" : "clear"}
             />
           </span>
         </span>

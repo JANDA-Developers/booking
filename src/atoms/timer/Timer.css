@@ -1,0 +1,14 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+.JDtimer {
+  display: inline-block;
+  padding: 0.3em 0.35em 0.35em 0.3em;
+  border-radius: 5px;
+  border: 1px solid #343434;
+  margin-bottom: 0.5rem;
+}
+
+.JDtimer__minute {
+  margin-right: 0.4rem;
+}
+/*# sourceMappingURL=Timer.css.map */
