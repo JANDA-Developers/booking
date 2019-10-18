@@ -51,6 +51,10 @@ export const roomDataManufacturer = (
             roomIndex: room.index,
             roomType: roomTypeData,
             roomId: room._id,
+            room: {
+              _id: room._id,
+              name: room.name
+            },
             pricingType: roomTypeData.pricingType,
             bedIndex: 0,
             placeIndex: -1,
@@ -68,6 +72,10 @@ export const roomDataManufacturer = (
             roomGroups.push({
               id: room._id + i,
               title: room.name,
+              room: {
+                _id: room._id,
+                name: room.name
+              },
               roomTypeId: roomTypeData._id,
               roomTypeIndex: roomTypeData.index,
               roomIndex: room.index,

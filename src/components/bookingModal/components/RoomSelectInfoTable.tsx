@@ -38,14 +38,6 @@ const RoomSelectInfoTable: React.FC<IProps> = ({className, roomSelectInfo}) => {
     }
   ];
 
-  haveRoomNames &&
-    TableColumns.push({
-      Header: "배정",
-      accessor: "roomNames",
-      Cell: ({value}) =>
-        value.map((roomName: string) => <span key={s4()}>{roomName}</span>)
-    });
-
   return (
     <div className={classes}>
       <JDtable

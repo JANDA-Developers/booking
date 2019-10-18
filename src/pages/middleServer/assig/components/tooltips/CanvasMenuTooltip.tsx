@@ -3,9 +3,11 @@ import Button from "../../../../../atoms/button/Button";
 import {
   IAssigTimelineUtils,
   IAssigTimelineContext,
-  IAssigTimelineHooks
+  IAssigTimelineHooks,
+  IStartBookingCallBack
 } from "../assigIntrerface";
 import {Gender} from "../../../../../types/enum";
+import {startBooking_StartBooking} from "../../../../../types/api";
 
 interface IProps {
   assigHooks: IAssigTimelineHooks;
@@ -14,14 +16,30 @@ interface IProps {
 }
 
 const CanvasMenuTooltip: React.FC<IProps> = ({
-  assigHooks: {canvasMenuProps},
-  assigUtils: {addBlock, createCreateItem}
+  assigHooks: {},
+  assigUtils: {
+    hilightGuestBlock,
+    changeMarkToGhost,
+    addBlock,
+    getInfoesFromMarks,
+    startBookingModalWithMark
+  }
 }) => {
-  if (!canvasMenuProps.groupIds) return <div />;
-  const {groupIds, end, start} = canvasMenuProps;
+  const {groupIds, end, start} = getInfoesFromMarks();
 
-  const createBtnHandler = (gender?: Gender) => {
-    createCreateItem(canvasMenuProps, gender);
+  const bookingCallBack = async (
+    result: "error" | startBooking_StartBooking
+  ) => {
+    if (result === "error") return;
+    if (!result.bookingTransaction) return;
+    if (!result.bookingTransaction.booking) return;
+    await changeMarkToGhost();
+
+    hilightGuestBlock({bookingId: result.bookingTransaction.booking._id});
+  };
+
+  const createBtnHandler = () => {
+    startBookingModalWithMark(bookingCallBack);
   };
 
   return (

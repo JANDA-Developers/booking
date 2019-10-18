@@ -156,7 +156,8 @@ $label-font-color: $html-color !default;
 // ANCHOR Forms ==========================================================================
 // -- Text Inputs + Textarea 인풋
 $input-padding-top: 1rem;
-$input-height: $standard-line-height + $standard-height!default;
+$input-labeled-padding-top: $input-padding-top + $standard-label-margin;
+$input-height: $standard-line-height!default;
 $input-noLabel-height: $standard-line-height !default;
 $input-border: 1px solid $standard-input-outborder-color !default;
 $input-background: #fff !default;
@@ -431,8 +432,6 @@ $assigItem-checkIn-color:  rgba(255,238,0,.7);
 $assigItem-checkIn-color-on:  $html-color;
 $assigItem-selected-border-color: #4e83efd1;
 $assigItem-linked-bgColor: rgba(255,255,255,.5);
-$assigItem-mark-bgColor: $assigItem-linked-bgColor;
-$assigItem-create-block-color: #E77002;
 $assigItem-progressing-opacity: 0.5;
 // 반하얀색임
 

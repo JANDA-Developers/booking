@@ -4,6 +4,8 @@
 
 #root,.ReactModalPortal {
     .JDbox {
+        box-sizing: border-box;
+        min-height: $standard-line-height;
 
         @include textAlign--prefixer();
 

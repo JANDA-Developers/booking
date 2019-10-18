@@ -24,11 +24,13 @@ interface IProps<D = any> extends TableProps<D> {
   // 기능은 HOC으로 구현해야하나 다음 boolean은 css 셋팅해줌
   isCheckable?: boolean;
   marginAtuo?: boolean;
+  visibleOver?: boolean;
 }
 
 const JDtable: React.SFC<IProps> = ({
   align,
   children,
+  visibleOver,
   inClassNames,
   marginAtuo = true,
   isCheckable,
@@ -37,7 +39,8 @@ const JDtable: React.SFC<IProps> = ({
   const classes = classNames("JDtable", inClassNames, {
     "JDtable--center ": align === "center",
     "JDtable--checkable": isCheckable,
-    "JDtable--marginAtuo": marginAtuo
+    "JDtable--marginAtuo": marginAtuo,
+    "JDtable--visibleOver": visibleOver
   });
 
   return <ReactTable {...props} className={classes} />;

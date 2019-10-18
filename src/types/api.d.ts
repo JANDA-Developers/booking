@@ -2071,6 +2071,37 @@ export interface getBookingForPublicVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: getPhoneNumbers
+// ====================================================
+
+export interface getPhoneNumbers_GetBookings_bookings {
+  __typename: "Booking";
+  phoneNumber: any;
+}
+
+export interface getPhoneNumbers_GetBookings {
+  __typename: "GetBookingsResponse";
+  ok: boolean;
+  error: string | null;
+  bookings: getPhoneNumbers_GetBookings_bookings[] | null;
+}
+
+export interface getPhoneNumbers {
+  GetBookings: getPhoneNumbers_GetBookings;
+}
+
+export interface getPhoneNumbersVariables {
+  houseId: string;
+  page: number;
+  count: number;
+  filter?: GetBookingsFilter | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: getBookings
 // ====================================================
 
@@ -2292,6 +2323,7 @@ export interface getBooking_GetBooking_booking_guests_GuestDomitory {
 export interface getBooking_GetBooking_booking_guests_GuestRoom_roomType {
   __typename: "RoomType";
   _id: string;
+  name: string;
 }
 
 export interface getBooking_GetBooking_booking_guests_GuestRoom_room {
@@ -2623,12 +2655,18 @@ export interface startBookingForPublicVariables {
 // GraphQL mutation operation: startBooking
 // ====================================================
 
+export interface startBooking_StartBooking_bookingTransaction_booking {
+  __typename: "Booking";
+  _id: string;
+}
+
 export interface startBooking_StartBooking_bookingTransaction {
   __typename: "BookingTransaction";
   _id: string;
   transactionId: string;
   createdAt: any;
   updatedAt: any | null;
+  booking: startBooking_StartBooking_bookingTransaction_booking;
 }
 
 export interface startBooking_StartBooking {
@@ -2652,6 +2690,8 @@ export interface startBookingVariables {
   guestDomitoryParams?: StartBookingDomitoryGuestInput[] | null;
   guestRoomParams?: StartBookingRoomGuestInput[] | null;
   paymentParams: StartBookingPaymentInput;
+  allocationParams?: AllocationInput[] | null;
+  forceToAllocate?: boolean | null;
 }
 
 /* tslint:disable */
@@ -2774,6 +2814,22 @@ export interface deleteBlockVariables {
 // GraphQL mutation operation: createBlock
 // ====================================================
 
+export interface createBlock_CreateBlock_block_room {
+  __typename: "Room";
+  _id: string;
+  name: string;
+  pricingType: PricingType;
+  peopleCount: number;
+  peopleCountMax: number;
+  index: number;
+  createdAt: any;
+  updatedAt: any | null;
+  /**
+   * Legarcy
+   */
+  roomSrl: number | null;
+}
+
 export interface createBlock_CreateBlock_block {
   __typename: "Block";
   _id: string;
@@ -2782,6 +2838,7 @@ export interface createBlock_CreateBlock_block {
   checkOut: any;
   createdAt: any;
   updatedAt: any | null;
+  room: createBlock_CreateBlock_block_room;
 }
 
 export interface createBlock_CreateBlock {
@@ -5138,6 +5195,12 @@ export interface AllocateInfoInput {
 
 export interface AllocateOptions {
   forceToAllocate: boolean;
+}
+
+export interface AllocationInput {
+  roomId: string;
+  bedIndex?: number | null;
+  gender?: Gender | null;
 }
 
 export interface AppInfoRequestInput {

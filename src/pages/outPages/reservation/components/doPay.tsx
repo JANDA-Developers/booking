@@ -48,8 +48,8 @@ export const openNiceModal = async ({resvInfo, transactionId}: IProp) => {
   const {bookerParams, paymentParams} = resvInfo;
   const {price, payMethod} = paymentParams;
   const {name, phoneNumber} = bookerParams;
-  const time = moment(new Date()).format("YYYYMMDDhhmmss");
   const merchantID = "nicepay00m";
+  const time = moment(new Date()).format("YYYYMMDDhhmmss");
   const merchantKey =
     "EYzu8jGGMfqaDEp76gSckuvnaHHu+bC4opsSN6lHv3b2lurNYkVXrZ7Z1AoqQnXI3eLuaUFyoRNC6FkrzVjceg==";
   const hashed = crypto

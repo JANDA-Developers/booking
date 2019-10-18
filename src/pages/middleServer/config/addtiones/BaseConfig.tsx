@@ -9,7 +9,7 @@ import {useSwitch, useSelect} from "../../../../hooks/hook";
 import Button from "../../../../atoms/button/Button";
 import JDswitch from "../../../../atoms/forms/switch/Switch";
 import JDbox from "../../../../atoms/box/JDbox";
-import {PricinG_TYPE_OP_EXPEND} from "../../../../types/enum";
+import {PRICING_TYPE_OP_EXPEND} from "../../../../types/enum";
 import JDselect from "../../../../atoms/forms/selectBox/SelectBox";
 
 interface IProps {
@@ -27,7 +27,7 @@ const BaseConfig: React.FC<IProps> = ({updateHouseConfigMu, context}) => {
   } = houseConfig;
 
   const useingPricingTypesHook = useSelect(
-    PricinG_TYPE_OP_EXPEND.find(
+    PRICING_TYPE_OP_EXPEND.find(
       temp => temp.value.join() === pricingTypes.join()
     )!
   );
@@ -71,7 +71,7 @@ const BaseConfig: React.FC<IProps> = ({updateHouseConfigMu, context}) => {
         <div>
           <JDselect
             {...useingPricingTypesHook}
-            options={PricinG_TYPE_OP_EXPEND}
+            options={PRICING_TYPE_OP_EXPEND}
           />
         </div>
         <JDbox mode="photoFrame" />

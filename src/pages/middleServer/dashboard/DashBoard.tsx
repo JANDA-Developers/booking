@@ -1,7 +1,6 @@
 import React, {Fragment, useMemo} from "react";
 import {ErrProtecter} from "../../../utils/utils";
 import Card from "../../../atoms/cards/Card";
-import DashBoardHeader from "./components/dashboardHeader";
 import DailyAssigWrap from "../../../components/dailyAssjg/DailyAssigWrap";
 import "./DashBoard.scss";
 import {MutationFn} from "react-apollo";
@@ -20,6 +19,9 @@ import {Doughnut} from "react-chartjs-2";
 // @ts-ignore
 import Calculater from "react-calculator";
 import TempWeel from "./components/tempWheel";
+import SendSMSmodalWrap, {
+  IModalSMSinfo
+} from "../../../components/smsModal/SendSmsModalWrap";
 
 interface Iprops {
   context: IContext;
@@ -30,6 +32,7 @@ interface Iprops {
 const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
   const reservationModal = useModal();
   const dayPickerModalHook = useModal();
+  const smsModal = useModal<IModalSMSinfo>(false);
   const dailyAssigDateHook = useDayPicker(new Date(), new Date());
   const {house, user} = context;
 
@@ -37,6 +40,7 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
     () => <DaySalesWrap context={context} />,
     []
   );
+
   const MemoDayCheckInWrap = useMemo(
     () => <DayCheckInWrap context={context} />,
     []
@@ -67,9 +71,24 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
                 <Card className="JDcard--fullHeight JDcard--fullHeight-wmd">
                   <Fragment>
                     <div className="JDstandard-margin-bottom">
-                      <Button icon="negative" label="방막기" />
-                      <Button icon="sms" label="단체 메세지" />
-                      <Button float="right" label="예약하기" thema="primary" />
+                      <Button
+                        onClick={() => {
+                          smsModal.openModal({
+                            receivers: [],
+                            createMode: true
+                          });
+                        }}
+                        icon="sms"
+                        label="단체 메시지"
+                      />
+                      <Button
+                        onClick={() => {
+                          reservationModal.openModal();
+                        }}
+                        float="right"
+                        label="예약하기"
+                        thema="primary"
+                      />
                     </div>
 
                     <div className="dashboard__tooltipsWrap">
@@ -161,6 +180,7 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
           {...dailyAssigDateHook}
         />
       </TooltipList>
+      <SendSMSmodalWrap modalHook={smsModal} context={context} />
     </div>
   );
 };

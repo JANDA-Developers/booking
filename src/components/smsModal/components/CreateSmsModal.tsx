@@ -1,18 +1,24 @@
 import React, {useState, Fragment} from "react";
 import JDmodal from "../../../atoms/modal/Modal";
-import {IUseModal, useInput} from "../../../hooks/hook";
+import {IUseModal, useSelect} from "../../../hooks/hook";
 import JDbox from "../../../atoms/box/JDbox";
 import JDselect, {
   IselectedOption
 } from "../../../atoms/forms/selectBox/SelectBox";
-import {KR_SMS_PARSER} from "../../../types/enum";
+import {
+  KR_SMS_PARSER,
+  GET_SMS_TARGET_OP,
+  GetSmsTarget
+} from "../../../types/enum";
 import Button from "../../../atoms/button/Button";
 import "../SendSmsModal.scss";
 import {MutationFn} from "react-apollo";
 import {
   sendSms,
   sendSmsVariables,
-  getSmsInfo_GetSmsInfo_smsInfo
+  getSmsInfo_GetSmsInfo_smsInfo,
+  getBookings,
+  getBookingsVariables
 } from "../../../types/api";
 import InputText from "../../../atoms/forms/inputText/InputText";
 import {
@@ -23,10 +29,22 @@ import {
 import moment from "moment";
 import {IModalSMSinfo} from "../SendSmsModalWrap";
 import Preloader from "../../../atoms/preloader/Preloader";
-import {autoComma, autoHypen, s4} from "../../../utils/utils";
+import {
+  autoComma,
+  autoHypen,
+  s4,
+  queryDataFormater,
+  setMidNight
+} from "../../../utils/utils";
 import JDLabel from "../../../atoms/label/JDLabel";
+import {GET_BOOKINGS_PHONE_NUMBERS} from "../../../queries";
+import {useQuery} from "@apollo/react-hooks";
+import {IContext} from "../../../pages/MiddleServerRouter";
+import client from "../../../apolloClient";
+import {PortalPreloader} from "../../../utils/portalTo";
 
 interface IProps {
+  context: IContext;
   modalHook: IUseModal<IModalSMSinfo>;
   sendSmsMu: MutationFn<sendSms, sendSmsVariables>;
   loading: boolean;
@@ -34,12 +52,52 @@ interface IProps {
 }
 
 const CreateSmsModal: React.FC<IProps> = ({
+  context,
   modalHook,
   sendSmsMu,
-  smsInfo,
-  loading
+  smsInfo
 }) => {
+  const {
+    house: {_id: houseId}
+  } = context;
+
+  const today = new Date();
+
+  const smsTargetOpHook = useSelect(GET_SMS_TARGET_OP[0]);
+
+  const {data, loading, refetch} = useQuery<getBookings, getBookingsVariables>(
+    GET_BOOKINGS_PHONE_NUMBERS,
+    {
+      client,
+      variables: {
+        count: 0,
+        page: 0,
+        houseId,
+        filter: {
+          stayDate: moment(today).format("YYYY-MM-DD")
+        }
+      }
+    }
+  );
+
+  const bookings = queryDataFormater(
+    data,
+    "GetBookings",
+    "bookings",
+    undefined
+  );
+
+  const phoneNumbers = bookings
+    ? bookings.map(booking => booking.phoneNumber)
+    : [];
+
+  const sendTargets =
+    smsTargetOpHook.selectedOption!.value === GetSmsTarget.EXSIST_INFO
+      ? modalHook.info.receivers
+      : phoneNumbers;
+
   const [msg, setMsg] = useState("");
+
   const handleSendSmsBtnClick = () => {
     if (!smsInfo) {
       throw Error("smsInfo is not exist");
@@ -48,7 +106,7 @@ const CreateSmsModal: React.FC<IProps> = ({
       variables: {
         smsInfoId: smsInfo._id,
         msg: smsMessageFormatter(msg),
-        receivers: modalHook.info.receivers,
+        receivers: sendTargets,
         sender: process.env.REACT_APP_API_SMS_SENDER_NUMBER
       }
     });
@@ -57,6 +115,20 @@ const CreateSmsModal: React.FC<IProps> = ({
   const smsTemplates = (smsInfo && smsInfo.smsTemplates) || [];
 
   const smsTemplateOp = templateOpCreater(smsTemplates);
+
+  const handleSmsTargetChange = (v: IselectedOption<any>) => {
+    smsTargetOpHook.onChange(v);
+    if (v.value === GetSmsTarget.TODAY_STAY) {
+      const result = refetch({
+        houseId,
+        count: 99,
+        page: 1,
+        filter: {
+          stayDate: moment(today).toDate()
+        }
+      });
+    }
+  };
 
   // 현재 선택된 정보들을 SMS 포멧을 대체해 줍니다.
   // TODO HM
@@ -94,25 +166,30 @@ const CreateSmsModal: React.FC<IProps> = ({
       className={`sendSmsModal ${loading && "sendSmsModal--loading"}`}
       {...modalHook}
     >
-      <Preloader size="large" loading={loading} />
+      <PortalPreloader size="small" loading={loading} />
       {loading || (
         <Fragment>
           <h5>문자발신</h5>
+          <div className="JDz-index-2">
+            <JDselect
+              {...smsTargetOpHook}
+              onChange={handleSmsTargetChange}
+              options={GET_SMS_TARGET_OP}
+              label="대상찾기"
+            />
+          </div>
           <div>
             <JDLabel txt="발신대상" />
             <JDbox className="clear-fix" mode="border">
-              {modalHook.info.receivers &&
-                modalHook.info.receivers.map(receiver => (
-                  <JDbox
-                    size={
-                      modalHook.info.receivers.length > 4 ? "small" : undefined
-                    }
-                    float
-                    key={s4()}
-                  >
-                    <span>{autoHypen(receiver)}</span>
-                  </JDbox>
-                ))}
+              {sendTargets.map(receiver => (
+                <JDbox
+                  size={sendTargets.length > 4 ? "small" : undefined}
+                  float
+                  key={s4()}
+                >
+                  <span>{autoHypen(receiver)}</span>
+                </JDbox>
+              ))}
             </JDbox>
           </div>
           <div className="JDz-index-1">

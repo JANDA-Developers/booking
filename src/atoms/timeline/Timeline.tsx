@@ -12,7 +12,7 @@ import Timeline, {
   defaultSubHeaderLabelFormats,
   defaultHeaderLabelFormats
 } from "react-calendar-timeline";
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import "./Timeline.scss";
 import moment from "moment";
 
@@ -26,6 +26,8 @@ import {isEmpty} from "../../utils/utils";
 import {THandleMouseDown} from "../../pages/middleServer/assig/components/assigIntrerface";
 
 export interface IDotPoint {
+  offsetX: number;
+  offsetY: number;
   clientY: number;
   clientX: number;
   placeIndex: number;
@@ -44,6 +46,7 @@ export {ASSIG_IMELINE_HEIGHT};
 interface Iprops {
   handleMouseDownCanvas?: THandleMouseDown;
   hanldeOnKeyDown?: (event: React.KeyboardEvent<HTMLDivElement>) => void;
+  handleDraggingEnd?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
   handleDraggingCell?: (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
     moveCounts: IMoveCount,
@@ -55,91 +58,129 @@ interface Iprops {
 const JDtimeline: React.FC<Iprops> = ({
   onMouseDown,
   onMouseMove,
+  handleDraggingEnd,
   handleMouseDownCanvas,
   handleDraggingCell,
   hanldeOnKeyDown,
   ...props
 }: any) => {
   const [isActive, setIsActive] = useState(false);
-  const [dotPoint, setDotPoint] = useState<IDotPoint>({
+  const defaultDotPoint = {
+    offsetX: 0,
     clientY: 0,
+    offsetY: 0,
     clientX: 0,
     placeIndex: 0,
     timeStart: 0
-  });
+  };
+  const [dotPoint, setDotPoint] = useState<IDotPoint>(defaultDotPoint);
 
   const oneDayWith = $(".timelineHeaderCell").width();
   const firstCell = $(`.timelineHeaderCell`)[0];
   const targetGroup = $(`.timelineHeaderCell div:first-child`);
+  const cellHeight = $(".rct-hl-even.group").height() || 0;
+
   let firstCellLeft = 0;
   if (firstCell) {
+    // @ts-ignore
     firstCellLeft = $(firstCell).position().left;
   }
 
   const scrollTarget = $(".rct-scroll");
 
   const toggleDraggingMode = (flag: boolean) => {
-    scrollTarget.css("pointer-events", flag ? "none" : "all");
-    $(".react-calendar-timeline").css("cursor", flag ? "crosshair" : "");
-    setIsActive(false);
+    $(
+      ".react-calendar-timeline .rct-outer .rct-scroll .rct-horizontal-lines .group"
+    ).css("cursor", flag ? "crosshair" : "");
+    setIsActive(flag);
   };
+
+  useEffect(() => {
+    const handleKeyDown = (e: any) => {
+      if (e.ctrlKey) toggleDraggingMode(true);
+    };
+    const handleKeyUp = (e: any) => {
+      toggleDraggingMode(false);
+      scrollTarget.css("pointer-events", "all");
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
+    };
+  });
 
   return (
     <div
       onMouseMove={e => {
         e.persist();
-        if (!oneDayWith || !handleDraggingCell || !isActive || !e.ctrlKey)
+        if (
+          !oneDayWith ||
+          !handleDraggingCell ||
+          !isActive ||
+          !e.ctrlKey ||
+          !dotPoint.clientX ||
+          !dotPoint.clientY
+        )
           return;
-        const {clientX, clientY} = e.nativeEvent;
+        const {clientX, clientY, offsetX} = e.nativeEvent;
         const moveDiffX = clientX - dotPoint.clientX;
         const moveDiffY = clientY - dotPoint.clientY;
+
         const diffMovePoint =
-          (dotPoint.clientX + Math.abs(firstCellLeft)) % oneDayWith;
+          (dotPoint.offsetX + Math.abs(firstCellLeft)) % oneDayWith;
         const opositDiffMovePoint = oneDayWith - diffMovePoint;
 
         let moveCountX = 0;
         let moveCountY = 0;
+
         if (moveDiffX > 0 && moveDiffX > opositDiffMovePoint) {
-          moveCountX = Math.floor((moveDiffX - diffMovePoint) / oneDayWith) + 1;
+          moveCountX =
+            Math.floor((moveDiffX - opositDiffMovePoint) / oneDayWith) + 1;
         } else if (moveDiffX < 0 && Math.abs(moveDiffX) > diffMovePoint) {
           moveCountX = Math.ceil((moveDiffX + diffMovePoint) / oneDayWith) - 1;
         }
-        const moveDiffCount = moveDiffY / 36;
 
-        moveCountY =
-          moveDiffY > 0 ? Math.floor(moveDiffCount) : Math.ceil(moveDiffCount);
+        const diffMovePointY = dotPoint.offsetY;
+        const opositDiffMovePointY = cellHeight - diffMovePointY;
+
+        if (moveDiffY > 0 && moveDiffY > opositDiffMovePointY) {
+          moveCountY =
+            Math.floor((moveDiffY - opositDiffMovePointY - 2) / cellHeight) + 1;
+        } else if (moveDiffY < 0 && Math.abs(moveDiffY) > diffMovePointY) {
+          moveCountY = Math.ceil((moveDiffY + diffMovePointY) / cellHeight) - 1;
+        }
 
         handleDraggingCell(e, {x: moveCountX, y: moveCountY}, dotPoint);
         // 마우스가 움직인 양을 토대로 위아래 좌우 그룹을 선택상태로 만듬
       }}
-      // onMouseUp={e => {}}
-      onKeyUp={e => {
-        if (e.ctrlKey) {
-          toggleDraggingMode(false);
-          setIsActive(false);
+      onMouseUp={e => {
+        if (isActive) {
+          handleDraggingEnd(e);
         }
-      }}
-      onKeyDown={e => {
-        if (e.ctrlKey) {
-          toggleDraggingMode(true);
-        }
+        toggleDraggingMode(false);
+        setDotPoint(defaultDotPoint);
       }}
       onMouseDown={e => {
         e.persist();
         const group = e.target;
-        handleMouseDownCanvas && handleMouseDownCanvas();
+        handleMouseDownCanvas && handleMouseDownCanvas(e);
+
         if (
-          $(group).hasClass("group") ||
-          !e.ctrlKey ||
+          // 그룹이 올바르지 않거나
+          !$(group).hasClass("group") ||
+          // 활성화가 되어있지 않거나
           !isActive ||
+          // 원데이 위드가 없거나
           !oneDayWith ||
           isEmpty(targetGroup)
         )
           return;
 
-        setIsActive(true);
+        scrollTarget.css("pointer-events", "none");
+
         const {offsetX, offsetY, clientY, clientX} = e.nativeEvent;
-        const firstCellLeft = $(firstCell).position().left;
 
         const cellIndex =
           Math.floor((offsetX + Math.abs(firstCellLeft)) / oneDayWith) + 1;
@@ -152,6 +193,8 @@ const JDtimeline: React.FC<Iprops> = ({
         if (!startTime) return;
 
         setDotPoint({
+          offsetX,
+          offsetY,
           clientY,
           clientX,
           placeIndex: $(group).index(),

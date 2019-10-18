@@ -10,7 +10,7 @@
         border: $table-outborder;
         box-sizing: border-box;
         background-color: white;
-    
+
         * {
             border-color: $table-borders-color;
         }
@@ -22,6 +22,23 @@
         &--center {
             text-align: center;
         }
+
+        
+        &--visibleOver:not(.JDtable--scrollOverPadding) {
+            .rt-table {
+                overflow: visible;
+            }
+            .rt-tbody {
+                overflow: visible!important;
+            }
+            .rt-tr-group {
+                overflow: visible;
+            }
+            .rt-td {
+                overflow:visible;
+            }
+        }
+
 
         // 데이터가 없을때 플레이스 홀더
         .rt-noData{
@@ -61,9 +78,9 @@
         &--checkable {
             //  ❗️ 강제 오버라이드
             .rt-tr > div:first-child {
-                width: 35px!important;
-                flex: 35 0 auto!important;
-                max-width: 35px!important;
+                width: $standard-width * 8!important;
+                flex: $standard-width * 8 0 auto!important;
+                max-width: $standard-width * 8!important;
                 justify-content: end;
             }
         }

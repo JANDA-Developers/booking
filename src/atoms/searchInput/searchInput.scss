@@ -14,7 +14,7 @@
         }
         // border-box
         .JDsearchInput__input {
-            height: calc(#{$input-height} + 1px);
+            height: calc(#{$input-height} + #{$standard-label-margin});
         }
         .JDsearchInput__icon {
         }
@@ -121,7 +121,7 @@
     &__li {
         padding: $searchInput-li-padding;
         border-top: $searchInput-li-border-top;
-        height: $searchInput-li-height;
+        min-height: $searchInput-li-height;
         overflow:hidden;
         text-overflow: ellipsis;    
         white-space: nowrap;

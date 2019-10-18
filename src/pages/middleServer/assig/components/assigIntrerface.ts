@@ -2,10 +2,15 @@ import {
   RoomGender,
   PricingType,
   Gender,
-  BookingModalType,
+  BookingModalModes,
   BookingStatus
 } from "../../../../types/enum";
-import {IRoomType, IHouseConfig, IBlockOp} from "../../../../types/interface";
+import {
+  IRoomType,
+  IHouseConfig,
+  IBlockOp,
+  TBookingModalOpenWithMark
+} from "../../../../types/interface";
 import {MutationFn, FetchResult} from "react-apollo";
 import {
   allocateGuestToRoom,
@@ -25,12 +30,17 @@ import {
   getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_blockOption,
   startBooking,
   getAllRoomTypeWithGuest_GetGuests_guests,
-  getBooking_GetBooking_booking_roomTypes
+  getBooking_GetBooking_booking_roomTypes,
+  startBooking_StartBooking,
+  getAllRoomTypeWithGuestVariables,
+  getAllRoomTypeWithGuest,
+  getBooking_GetBooking_booking_guests
 } from "../../../../types/api";
 import {IUseModal} from "../../../../hooks/hook";
 import {string} from "prop-types";
 import {MouseEvent} from "react";
 import {IMoveCount, IDotPoint} from "../../../../atoms/timeline/Timeline";
+import {ApolloQueryResult} from "apollo-boost";
 
 export interface IAssigTimelineContext {
   isMobile: boolean;
@@ -105,7 +115,7 @@ export type TOpenBlockMenu = (
   props?: IBlcokMenuProps
 ) => void;
 
-export type TChangeCreateBlock = () => void;
+export type TChangeMarkToGhost = () => void;
 
 export type THandleDraggingCell = (
   e: any,
@@ -114,8 +124,7 @@ export type THandleDraggingCell = (
 ) => void;
 
 export type TOpenCanvasMenuTooltip = (
-  Eorlocation: React.MouseEvent<HTMLElement> | ILocation,
-  props?: ICanvasMenuTooltipProps
+  Eorlocation: React.MouseEvent<HTMLElement> | ILocation
 ) => void;
 
 export type TIsGenderSafe = (
@@ -193,6 +202,10 @@ export interface IAssigGroup {
   roomTypeIndex: number;
   roomIndex: number;
   roomType: IRoomType;
+  room: {
+    _id: string;
+    name: string;
+  };
   roomId: string;
   placeIndex: number;
   isLastOfRoom: boolean;
@@ -234,6 +247,9 @@ export interface IAssigItem {
 }
 
 export interface IAssigDataControl {
+  refetch: (
+    variables?: getAllRoomTypeWithGuestVariables | undefined
+  ) => Promise<ApolloQueryResult<getAllRoomTypeWithGuest>>;
   deleteBookingMu: MutationFn<deleteBooking, deleteBookingVariables>;
   allocateMu: MutationFn<allocateGuestToRoom, allocateGuestToRoomVariables>;
   deleteBlockMu: MutationFn<deleteBlock, deleteBlockVariables>;
@@ -262,9 +278,14 @@ export enum GuestTypeAdd {
   BLOCK = "BLOCK",
   GUEST = "GUEST",
   MARK = "MARK",
-  MAKE = "MAKE",
   GHOST = "GHOST"
 }
+
+export type TGetInfoesFromMarks = () => {
+  start: number;
+  end: number;
+  groupIds: string[];
+};
 
 export interface ICreateMenuProps {
   item: IAssigItem;
@@ -303,14 +324,10 @@ export interface IAssigTimelineHooks {
   blockOpModal: IUseModal<IAssigItem>;
   bookingModal: IUseModal<any>;
   guestValue: IAssigItem[];
-  canvasMenuProps: ICanvasMenuTooltipProps;
   createMenuProps: ICreateMenuProps;
   blockMenuProps: IDeleteMenuProps;
   setBlockMenuProps: React.Dispatch<React.SetStateAction<IDeleteMenuProps>>;
   setGuestValue: (value: IAssigItem[]) => void;
-  setCanvasMenuTooltipProps: React.Dispatch<
-    React.SetStateAction<ICanvasMenuTooltipProps>
-  >;
   setCreateMenuProps: React.Dispatch<React.SetStateAction<ICreateMenuProps>>;
   confirmDelteGuestHook: IUseModal<any>;
   dataTime: {
@@ -329,6 +346,10 @@ export type THandleCanvasContextMenu = (
   groupId: string,
   time: number,
   e: React.MouseEvent<HTMLElement>
+) => void;
+
+export type THandleDraggingEnd = (
+  e: React.MouseEvent<HTMLDivElement, MouseEvent>
 ) => void;
 
 export type THandleTimeChange = (
@@ -389,7 +410,19 @@ interface Ids {
   bookingId?: string;
 }
 
-export type THilightGuestBlock = ({itemId, bookingId}: Ids) => void;
+export type TGetItmes = (type: GuestTypeAdd) => IAssigItem[];
+
+interface THlightGuestBlockProps {
+  bookingId?: string;
+  itemId?: string;
+  scrollMove?: boolean;
+}
+
+export type THilightGuestBlock = ({
+  scrollMove,
+  itemId,
+  bookingId
+}: THlightGuestBlockProps) => void;
 
 export type TBookingCheckedNew = (bookingId: string) => void;
 
@@ -412,15 +445,20 @@ export interface IAssigHandlers {
   handleCanvasContextMenu: THandleCanvasContextMenu;
   handleItemSelect: THandleItemSelect;
   handleDraggingCell: THandleDraggingCell;
+  handleDraggingEnd: THandleDraggingEnd;
 }
 
 export interface IAssigTimelineUtils {
+  changeMarkToGhost: TChangeMarkToGhost;
+  getInfoesFromMarks: TGetInfoesFromMarks;
   getAssigInfoFromItems: TGetAssigInfoFromItems;
   bookingCheckedNew: TBookingCheckedNew;
   hilightGuestBlock: THilightGuestBlock;
   popUpItemMenuTooltip: TPopUpItemMenuTooltip;
+  startBookingModalWithMark: TBookingModalOpenWithMark;
   getItemById: TGetItemById;
   getGroupById: TGetGroupById;
+  getItems: TGetItmes;
   removeMark: TRemoveMark;
   deleteGhost: TDleteGhost;
   isTherePerson: TIsTherePerson;
@@ -429,7 +467,6 @@ export interface IAssigTimelineUtils {
   deleteGuestById: TDeleteGuestById;
   getGuestsInGroup: TGetGuestsInGroup;
   deleteItemById: TDeleteItemById;
-  openCreateMenu: TOpenCreateMenu;
   isGenderSafe: TIsGenderSafe;
   addBlock: TAddBlock;
   allocateGuest: TAllocateGuest;
@@ -440,19 +477,26 @@ export interface IAssigTimelineUtils {
   resizeLinkedItems: TResizeLinkedItems;
   moveLinkedItems: TMoveLinkedItems;
   toogleCheckInOut: TToogleCheckIn;
+
   openBlockMenu: TOpenBlockMenu;
   openCanvasMenuTooltip: TOpenCanvasMenuTooltip;
-  changeCreateBlock: TChangeCreateBlock;
   createMark: TCreateMark;
   resizeBlockBlock: TResizeBlockBlock;
   getBookingIdByGuestId: TGetBookingIdByGuestId;
   getGuestsByBookingId: IGetGuestByBookingId;
   createCreateItem: ICreateCreateItem;
-  itemsToGuets: (items: IAssigItem[]) => any[];
+  itemsToGuets: (
+    items: IAssigItem[],
+    groupDatas: IAssigGroup[]
+  ) => getBooking_GetBooking_booking_guests[];
   groupToRoomType: (
     createItemTempGroups: IAssigGroup[]
   ) => getBooking_GetBooking_booking_roomTypes[];
 }
+
+export type IStartBookingCallBack = (
+  result: "error" | startBooking_StartBooking
+) => any;
 
 export interface IAssigInfo {
   bedIndex: number;
@@ -463,7 +507,7 @@ export interface IAssigInfo {
 export interface ICreateBookingInfo {
   bookingId: string;
   createMode: boolean;
-  type: BookingModalType.CREATE | BookingModalType.CREATE_WITH_ASSIG;
+  type: BookingModalModes.CREATE;
   checkIn: number;
   checkOut: number;
   resvInfoes: {

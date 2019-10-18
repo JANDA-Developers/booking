@@ -17,7 +17,8 @@ import {
   IAssigTimelineContext,
   TShortKey,
   THandleDraggingCell,
-  THandleMouseDown
+  THandleMouseDown,
+  THandleDraggingEnd
 } from "./assigIntrerface";
 import {TimePerMs} from "../../../../types/enum";
 import {setMidNight} from "../../../../utils/utils";
@@ -43,7 +44,6 @@ export function getAssigHandlers(
     resizeBlockBlock,
     openBlockMenu,
     popUpItemMenuTooltip,
-    openCreateMenu,
     getGroupById,
     moveLinkedItems,
     removeMark,
@@ -112,13 +112,9 @@ export function getAssigHandlers(
     const targetGroup = getGroupById(groupId);
 
     // TODO 이거를 groupId 를 배열로하고
-    openCanvasMenuTooltip(e, {
-      start: time,
-      end: time + TimePerMs.DAY,
-      groupIds: [groupId]
-    });
+    openCanvasMenuTooltip(e);
 
-    // createMark(time, groupId);
+    createMark(time, time + TimePerMs.DAY, [groupId]);
   };
 
   //  캔버스 클릭시 호출됨
@@ -186,6 +182,7 @@ export function getAssigHandlers(
     let timeEnd = timeStart + TimePerMs.DAY * x + TimePerMs.DAY;
     const ids = [];
     for (let i = 0; i <= y; i++) {
+      if (!groupData[placeIndex + i]) return;
       ids.push(groupData[placeIndex + i].id);
     }
 
@@ -194,13 +191,7 @@ export function getAssigHandlers(
       timeStart = timeEnd;
       timeEnd = timeTemp;
     }
-
     createMark(timeStart, timeEnd, ids);
-    openCanvasMenuTooltip(e, {
-      groupIds: ids,
-      start: timeStart,
-      end: timeEnd
-    });
   };
 
   // 핸들 아이템 움직일시 (마우스 놓아야 호출됨)
@@ -252,13 +243,17 @@ export function getAssigHandlers(
     if (isMobile) {
       if (target.type === GuestTypeAdd.BLOCK)
         openBlockMenu(location, {item: target});
-      if (target.type === GuestTypeAdd.MAKE)
-        openCreateMenu(location, {item: target});
+      // if (target.type === GuestTypeAdd.MAKE)
+      // openCreateMenu(location, {item: target});
     } else {
       await popUpItemMenuTooltip(location, target);
     }
 
     if (shortKey) await shortKey("guestItem", e, undefined, undefined, itemId);
+  };
+
+  const handleDraggingEnd: THandleDraggingEnd = e => {
+    openCanvasMenuTooltip(e);
   };
 
   // 타임라인 이동시
@@ -325,10 +320,12 @@ export function getAssigHandlers(
     }
   };
 
-  const handleMouseDownCanvas: THandleMouseDown = () => {
-    setGuestValue([
-      ...guestValue.filter(guest => guest.type !== GuestTypeAdd.MARK)
-    ]);
+  const handleMouseDownCanvas: THandleMouseDown = e => {
+    allTooltipsHide();
+    if (!e.shiftKey)
+      setGuestValue([
+        ...guestValue.filter(guest => guest.type !== GuestTypeAdd.MARK)
+      ]);
   };
 
   const assigHandler: IAssigHandlers = {
@@ -339,6 +336,7 @@ export function getAssigHandlers(
     handleItemDoubleClick,
     handleItemMove,
     handleItemResize,
+    handleDraggingEnd,
     handleMoveResizeValidator,
     handleTimeChange,
     handleCanvasContextMenu,

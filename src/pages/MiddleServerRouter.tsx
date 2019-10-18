@@ -152,11 +152,10 @@ const JDmiddleServer: React.FC<IProps> = ({
         <Route
           render={props => {
             const propContext = Object.assign(tempContext, props, JDlang);
-            const context = langBiner("header", propContext);
             return (
               <Fragment>
                 <MemoAlertModal
-                  context={context as any}
+                  context={propContext as any}
                   modalHook={memoAlertModal}
                 />
                 <Header
@@ -176,10 +175,9 @@ const JDmiddleServer: React.FC<IProps> = ({
             <Route
               render={props => {
                 const propContext = Object.assign(tempContext, props, JDlang);
-                const context = langBiner("header", propContext);
                 return (
                   <SideNav
-                    context={context as any}
+                    context={propContext as any}
                     isOpen={sideNavIsOpen}
                     setIsOpen={setSideNavIsOpen}
                   />
@@ -197,13 +195,12 @@ const JDmiddleServer: React.FC<IProps> = ({
                   <Fragment>
                     <Switch>
                       {["/", "/dashboard"].map(path => {
-                        const context = langBiner("dashboard", propContext);
                         return (
                           <Route
                             exact
                             key={path}
                             path={path}
-                            render={() => <DashBoard context={context} />}
+                            render={() => <DashBoard context={propContext} />}
                           />
                         );
                       })}
@@ -215,8 +212,7 @@ const JDmiddleServer: React.FC<IProps> = ({
                             exact
                             path="/myPage"
                             render={prop => {
-                              const context = langBiner("myPage", propContext);
-                              return <MyPage context={context} />;
+                              return <MyPage context={propContext} />;
                             }}
                           />
                           {/* 숙소생성 */}
@@ -224,9 +220,8 @@ const JDmiddleServer: React.FC<IProps> = ({
                             exact
                             path="/createHouse"
                             render={(prop: any) => {
-                              const context = langBiner("myPage", propContext);
                               return (
-                                <CreateHouse context={context} {...prop} />
+                                <CreateHouse context={propContext} {...prop} />
                               );
                             }}
                           />
@@ -235,8 +230,7 @@ const JDmiddleServer: React.FC<IProps> = ({
                             exact
                             path="/config"
                             render={props => {
-                              const context = langBiner("config", propContext);
-                              return <ConfigWrap context={context} />;
+                              return <ConfigWrap context={propContext} />;
                             }}
                           />
                           {/* 상품선택 */}
@@ -244,11 +238,7 @@ const JDmiddleServer: React.FC<IProps> = ({
                             exact
                             path="/products"
                             render={prop => {
-                              const context = langBiner(
-                                "products",
-                                propContext
-                              );
-                              return <SelectProducts context={context} />;
+                              return <SelectProducts context={propContext} />;
                             }}
                           />
                           {/* SMS 히스토리 */}
@@ -256,11 +246,7 @@ const JDmiddleServer: React.FC<IProps> = ({
                             exact
                             path="/smsHistory"
                             render={props => {
-                              const context = langBiner(
-                                "smsHistory",
-                                propContext
-                              );
-                              return <SmsHistory smsInfoId={context} />;
+                              return <SmsHistory smsInfoId={propContext} />;
                             }}
                           />
                           {/* 로그인 */}
@@ -268,8 +254,7 @@ const JDmiddleServer: React.FC<IProps> = ({
                             exact
                             path="/login"
                             render={() => {
-                              const context = langBiner("login", propContext);
-                              return <Login context={context} />;
+                              return <Login context={propContext} />;
                             }}
                           />
                           {/* 슈퍼관리자 */}
@@ -277,15 +262,11 @@ const JDmiddleServer: React.FC<IProps> = ({
                             exact
                             path="/superAdmin"
                             render={() => {
-                              const context = langBiner(
-                                "superAdmin",
-                                propContext
-                              );
                               return userRole === UserRole.ADMIN ||
                                 userRole === UserRole.DEVELOPER ? (
-                                <SuperMain context={context} />
+                                <SuperMain context={propContext} />
                               ) : (
-                                <NoMatch context={context as any} />
+                                <NoMatch context={propContext as any} />
                               );
                             }}
                           />
@@ -300,11 +281,7 @@ const JDmiddleServer: React.FC<IProps> = ({
                               exact
                               path="/ready"
                               render={() => {
-                                const context = langBiner(
-                                  "superAdmin",
-                                  propContext
-                                );
-                                return <Ready context={context} />;
+                                return <Ready context={propContext} />;
                               }}
                             />
                           )}
@@ -314,11 +291,7 @@ const JDmiddleServer: React.FC<IProps> = ({
                             exact
                             path="/assigTimeline"
                             render={props => {
-                              const context = langBiner(
-                                "assigTimeline",
-                                propContext
-                              );
-                              return <AssigTimeline context={context} />;
+                              return <AssigTimeline context={propContext} />;
                             }}
                           />
                           {/* 하우스 메뉴얼 */}
@@ -326,11 +299,7 @@ const JDmiddleServer: React.FC<IProps> = ({
                             exact
                             path="/HMconfig"
                             render={() => {
-                              const context = langBiner(
-                                "assigTimeline",
-                                propContext
-                              );
-                              return <HMconfig context={context} />;
+                              return <HMconfig context={propContext} />;
                             }}
                           />
                           {/* 자세한 가격설정 */}
@@ -338,11 +307,7 @@ const JDmiddleServer: React.FC<IProps> = ({
                             exact
                             path="/dailyPrice"
                             render={() => {
-                              const context = langBiner(
-                                "assigTimeline",
-                                propContext
-                              );
-                              return <DailyPrice context={context} />;
+                              return <DailyPrice context={propContext} />;
                             }}
                           />
                           {/* 통계 */}
@@ -350,11 +315,7 @@ const JDmiddleServer: React.FC<IProps> = ({
                             exact
                             path="/statistic"
                             render={() => {
-                              const context = langBiner(
-                                "statistic",
-                                propContext
-                              );
-                              return <Statistic context={context} />;
+                              return <Statistic context={propContext} />;
                             }}
                           />
                           {/* 방생성 */}
@@ -362,11 +323,9 @@ const JDmiddleServer: React.FC<IProps> = ({
                             exact
                             path="/roomConfig/:withGuid?"
                             render={prop => {
-                              const context = langBiner(
-                                "roomConfig",
-                                propContext
+                              return (
+                                <RoomConfig {...prop} context={propContext} />
                               );
-                              return <RoomConfig {...prop} context={context} />;
                             }}
                           />
                           {/* SMS */}
@@ -374,8 +333,7 @@ const JDmiddleServer: React.FC<IProps> = ({
                             exact
                             path="/sms"
                             render={() => {
-                              const context = langBiner("sms", propContext);
-                              return <Sms context={context} />;
+                              return <Sms context={propContext} />;
                             }}
                           />
                           {/* 가격설정 */}
@@ -383,11 +341,7 @@ const JDmiddleServer: React.FC<IProps> = ({
                             exact
                             path="/setPrice"
                             render={() => {
-                              const context = langBiner(
-                                "setPrice",
-                                propContext
-                              );
-                              return <SetPrice context={context} />;
+                              return <SetPrice context={propContext} />;
                             }}
                           />
                           {/* 예약목록 */}
@@ -395,11 +349,7 @@ const JDmiddleServer: React.FC<IProps> = ({
                             exact
                             path="/resvList"
                             render={() => {
-                              const context = langBiner(
-                                "resvList",
-                                propContext
-                              );
-                              return <ResvList context={context} />;
+                              return <ResvList context={propContext} />;
                             }}
                           />
                         </Fragment>
@@ -414,8 +364,7 @@ const JDmiddleServer: React.FC<IProps> = ({
                       exact
                       path="/signUp"
                       render={() => {
-                        const context = langBiner("setPrice", propContext);
-                        return <SignUp context={context} />;
+                        return <SignUp context={propContext} />;
                       }}
                     />
                     <Login context={propContext} />

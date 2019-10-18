@@ -6,14 +6,12 @@ import {IUseModal} from "../../hooks/hook";
 import {
   getBooking,
   getBookingVariables,
-  getBooking_GetBooking_booking,
   updateBooking,
   updateBookingVariables,
   deleteBooking,
   deleteBookingVariables,
   allocateGuestToRoom,
   allocateGuestToRoomVariables,
-  RoomGender,
   getRoomTypeDatePrices,
   getRoomTypeDatePricesVariables,
   startBooking_StartBooking,
@@ -24,9 +22,7 @@ import {
 } from "../../types/api";
 import {
   queryDataFormater,
-  showError,
   onCompletedMessage,
-  s4,
   isEmpty,
   mergeObject
 } from "../../utils/utils";
@@ -42,13 +38,10 @@ import {
   GET_ROOM_TYPE_DATE_PRICE,
   START_BOOKING
 } from "../../queries";
-import {BookingStatus, BookingModalType} from "../../types/enum";
+import {BookingModalModes} from "../../types/enum";
 import {getOperationName} from "apollo-utilities";
-import {DEFAUT_BOOKING, DEFAUT_ROOMTYPE} from "../../types/defaults";
-import {
-  ICreateBookingInfo,
-  IAssigTimelineUtils
-} from "../../pages/middleServer/assig/components/assigIntrerface";
+import {DEFAUT_BOOKING} from "../../types/defaults";
+import {IAssigTimelineUtils} from "../../pages/middleServer/assig/components/assigIntrerface";
 import JDmodal from "../../atoms/modal/Modal";
 import {totalPriceGetAveragePrice} from "../../utils/booking";
 import {IContext} from "../../pages/MiddleServerRouter";
@@ -63,7 +56,7 @@ export interface IBookingModalProp {
   ) => any;
   bookingId?: string;
   createParam?: GB_booking;
-  mode?: BookingModalType;
+  mode?: BookingModalModes;
 }
 
 interface IProps {
@@ -88,7 +81,8 @@ class GetPriceWithDate extends Query<
 const BookingModalWrap: React.FC<IProps> = ({
   modalHook,
   context,
-  assigUtils
+  assigUtils,
+  ...props
 }) => {
   const {house} = context;
 
@@ -229,7 +223,7 @@ const BookingModalWrap: React.FC<IProps> = ({
                                   return !totalLoading ? (
                                     <BookingModal
                                       bookingData={bookingData}
-                                      type={modalHook.info.mode}
+                                      mode={modalHook.info.mode}
                                       context={context}
                                       loading={totalLoading}
                                       modalHook={modalHook}
@@ -241,6 +235,7 @@ const BookingModalWrap: React.FC<IProps> = ({
                                       allocateGuestToRoomMu={
                                         allocateGuestToRoomMu
                                       }
+                                      {...props}
                                       key={`bookingModal${modalHook.info.bookingId}`}
                                     />
                                   ) : (

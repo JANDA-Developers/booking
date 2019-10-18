@@ -1159,6 +1159,28 @@ ${F_BOOKING}
 
 
 // 예약 ::모든 예약을 가져옴
+
+export const GET_BOOKINGS_PHONE_NUMBERS = gql`
+    query getPhoneNumbers(
+        $houseId: ID!
+        $page: Int!
+        $count: Int!
+        $filter: GetBookingsFilter
+    ) {
+        GetBookings(
+            houseId: $houseId
+            page: $page
+            count: $count
+            filter: $filter
+        ) {
+            ok
+            error
+            bookings {
+                phoneNumber
+            }
+        }
+    }`;
+
 export const GET_BOOKINGS = gql`
     query getBookings(
         $houseId: ID!
@@ -1236,6 +1258,7 @@ export const GET_BOOKING = gql`
                         ...FguestRoom
                         roomType {
                             _id
+                            name
                         }
                         room {
                             _id
@@ -1409,6 +1432,8 @@ export const START_BOOKING = gql`
         $guestDomitoryParams: [StartBookingDomitoryGuestInput!]
         $guestRoomParams: [StartBookingRoomGuestInput!]
         $paymentParams: StartBookingPaymentInput!
+        $allocationParams: [AllocationInput!]
+        $forceToAllocate: Boolean
     ) {
         StartBooking(
             houseId: $houseId
@@ -1417,11 +1442,16 @@ export const START_BOOKING = gql`
             guestDomitoryParams: $guestDomitoryParams
             guestRoomParams: $guestRoomParams
             paymentParams: $paymentParams
+            allocationParams: $allocationParams
+            forceToAllocate: $forceToAllocate
         ) {
             ok
             error
             bookingTransaction {
               ...FbookingTransaction
+              booking {
+                  _id
+              }
             }
         }
     }
@@ -1541,9 +1571,13 @@ export const CREATE_BLOCK = gql`
             error
             block {
                 ...Fblock
+                room {
+                    ...Froom
+                }
             }
         }
     }
+    ${F_ROOM}
     ${F_BLOCK}
 `;
 // 디테일 가격설정 :: 방가격 생성

@@ -3,8 +3,7 @@ import "./DailyAssig.scss";
 import {
   getAllRoomTypeWithGuest_GetBlocks_blocks as IB,
   getAllRoomTypeWithGuest_GetGuests_guests as IG,
-  getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms as IR,
-  getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory
+  getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms as IR
 } from "../../types/api";
 import {useModal, IUseModal} from "../../hooks/hook";
 import JDdayPicker from "../../atoms/dayPicker/DayPicker";

@@ -1,5 +1,15 @@
 import {isMobile} from "is-mobile";
 
+export enum PricingType {
+  DOMITORY = "DOMITORY",
+  ROOM = "ROOM"
+}
+
+export enum PricingTypeKr {
+  DOMITORY = "도미토리",
+  ROOM = "방형태"
+}
+
 export enum UserRole {
   ADMIN = "ADMIN",
   GHOST = "GHOST",
@@ -44,11 +54,6 @@ export enum HouseType {
   YOUTH_HOSTEL = "YOUTH_HOSTEL"
 }
 
-export enum PricingType {
-  DOMITORY = "DOMITORY",
-  ROOM = "ROOM"
-}
-
 export enum Language {
   KOREAN = "KOREAN",
   ENGLISH = "ENGLISH",
@@ -56,8 +61,9 @@ export enum Language {
   CHINESE = "CHINESE"
 }
 
-export type TLanguageShort = "kr" | "gb" | "jp" | "cn";
+export type TLanguageShort = "kr" | "en" | "gb" | "jp" | "cn";
 
+// TODO  이게국가
 export enum LanguageShort {
   KOREAN = "kr",
   ENGLISH = "gb",
@@ -65,11 +71,18 @@ export enum LanguageShort {
   CHINESE = "cn"
 }
 
+// TODO  이게언어
+export enum LanguageShort2 {
+  KOREAN = "kr",
+  ENGLISH = "en"
+}
+
 export enum LanguageShortResverse {
   kr = "KOREAN",
   gb = "ENGLISH",
   jp = "JAPANESE",
-  cn = "CHINESE"
+  cn = "CHINESE",
+  en = "ENGLISH"
 }
 
 export enum LanguageItSelf {
@@ -128,11 +141,6 @@ export enum RoomGenderKr {
 export enum GenderKr {
   FEMALE = "여",
   MALE = "남"
-}
-
-export enum PricingTypeKr {
-  DOMITORY = "도미토리",
-  ROOM = "방형태"
 }
 
 export enum TimePerMs {
@@ -198,10 +206,9 @@ export enum Gender {
   MALE = "MALE"
 }
 
-export enum BookingModalType {
-  CREATE = "create",
-  CREATE_WITH_ASSIG = "createWithAssig",
-  LOOKUP = "lookup"
+export enum BookingModalModes {
+  CREATE = "CREATE",
+  READ_ONLY = "READ_ONLY"
 }
 
 // export enum
@@ -476,15 +483,34 @@ export const ROOM_GENDER_OP = [
   {value: RoomGender.FEMALE, label: RoomGenderKr.FEMALE}
 ];
 
-export const PricinG_TYPE_OP = [
+export const PRICING_TYPE_OP = [
   {value: PricingType.DOMITORY, label: PricingTypeKr.DOMITORY},
   {value: PricingType.ROOM, label: PricingTypeKr.ROOM}
 ];
 
-export const PricinG_TYPE_OP_EXPEND = [
+export const PRICING_TYPE_OP_EXPEND = [
   {value: [PricingType.DOMITORY], label: PricingTypeKr.DOMITORY},
   {value: [PricingType.ROOM], label: PricingTypeKr.ROOM},
   {value: [PricingType.ROOM, PricingType.DOMITORY], label: "도미토리 & 방타입"}
+];
+
+export enum GetSmsTarget {
+  TODAY_STAY = "TODAY_STAY",
+  TODAY_CHECKIN = "TODAY_CHECKIN",
+  TOMORROW_CHECKIN = "TOMORROW_CHECKIN",
+  EXSIST_INFO = "EXSIST_INFO"
+}
+
+export const GET_SMS_TARGET_OP = [
+  {value: "EXSIST_INFO", label: "선택 인원"},
+  {value: "TODAY_STAY", label: "오늘 숙박 인원"},
+  {value: "TODAY_CHECKIN", label: "오늘 체크인 인원"},
+  {value: "TOMORROW_CHECKIN", label: "내일 체크인할 인원"}
+];
+
+export const GENDER_OP = [
+  {value: Gender.FEMALE, label: GenderKr.FEMALE},
+  {value: Gender.MALE, label: GenderKr.MALE}
 ];
 
 export const AUTO_SEND_OP = [

@@ -4,26 +4,30 @@ import {insideRedirect} from "../../utils/utils";
 import JDbox from "../../atoms/box/JDbox";
 import {IContext} from "../../pages/MiddleServerRouter";
 import Mbr from "../../atoms/mbr/Mbr";
+import {LANG} from "../../hooks/hook";
 
 interface Iprops {
   context: IContext;
 }
 
 const AdditionConfigPitch: React.FC<Iprops> = ({context}) => {
+  const JDLANG = LANG.bind(LANG, "components");
   return (
     <p>
       <h3>
-        기본설정이 <Mbr /> 완료 되었습니다.
+        {JDLANG("defaultSettingIs")} <Mbr /> {JDLANG("completed")}
       </h3>
       <p>
-        추가로 다음과 같은 설정을 해두시면 <Mbr /> 숙소운영에 도움이 될거에요!
+        {JDLANG("additionalySettingTo")} <Mbr />{" "}
+        {JDLANG("willGoodForManageMent")}
       </p>
       <div>
         <JDbox align="flexVcenter" textAlign="left" mode="border">
           <div>
-            <h6>하우스메뉴얼</h6>
+            <h6>{LANG("common", "HM")}</h6>
             <span>
-              게스트에게 숙소 이용 <Mbr /> 안내를 편리하게 해보세요.
+              {JDLANG("additionalySettingTo")}게스트에게 숙소 이용 <Mbr />{" "}
+              안내를 편리하게 해보세요.
             </span>
           </div>
           <Button

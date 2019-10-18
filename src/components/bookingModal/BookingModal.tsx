@@ -6,7 +6,8 @@ import {
   useSelect,
   IUseModal,
   useDayPicker,
-  useModal
+  useModal,
+  useDrawer
 } from "../../hooks/hook";
 import SelectBox from "../../atoms/forms/selectBox/SelectBox";
 import InputText from "../../atoms/forms/inputText/InputText";
@@ -20,12 +21,13 @@ import {
   PaymentStatusKr,
   PayMethodKr,
   BookingStatusKr,
-  BookingModalType,
+  BookingModalModes,
   PaymentStatus,
   AutoSendWhen,
   PAYMETHOD_FOR_HOST_OP,
   DateFormat,
-  BookingStatus
+  BookingStatus,
+  Gender
 } from "../../types/enum";
 import "./BookingModal.scss";
 import {GB_booking, IGuestCount} from "../../types/interface";
@@ -38,13 +40,15 @@ import {
   startBooking,
   startBookingVariables,
   allocateGuestToRoom,
-  allocateGuestToRoomVariables
+  allocateGuestToRoomVariables,
+  getBooking_GetBooking_booking_guests,
+  getBooking_GetBooking_booking_guests_GuestDomitory
 } from "../../types/api";
 import SendSMSmodalWrap, {IModalSMSinfo} from "../smsModal/SendSmsModalWrap";
 import Preloader from "../../atoms/preloader/Preloader";
 import {toast} from "react-toastify";
 import {isPhone} from "../../utils/inputValidations";
-import {autoComma} from "../../utils/utils";
+import {autoComma, instanceOfA} from "../../utils/utils";
 import {IContext} from "../../pages/MiddleServerRouter";
 import Drawer from "../../atoms/drawer/Drawer";
 import _ from "lodash";
@@ -52,6 +56,15 @@ import C, {inOr} from "../../utils/C";
 import guestsToInput, {
   getRoomSelectInfo
 } from "../../utils/guestCountByRoomType";
+import RoomAssigedInfoTable from "./components/RoomAssigedInfoTable";
+
+export interface IBookingModal_AssigInfo {
+  _id: string;
+  roomId: string;
+  gender: Gender | null;
+  bedIndex: number;
+  pricingType: PricingType;
+}
 
 export interface IRoomSelectInfo {
   roomTypeId: string;
@@ -76,7 +89,7 @@ interface IProps {
   >;
   context: IContext;
   loading: boolean;
-  type?: BookingModalType;
+  mode?: BookingModalModes;
 }
 
 const BookingModal: React.FC<IProps> = ({
@@ -88,7 +101,8 @@ const BookingModal: React.FC<IProps> = ({
   startBookingLoading,
   placeHolederPrice,
   loading,
-  context
+  context,
+  mode
 }) => {
   const {
     _id: bookingId,
@@ -99,7 +113,8 @@ const BookingModal: React.FC<IProps> = ({
     status: bookingStatus,
     checkIn,
     checkOut,
-    name
+    name,
+    guests
   } = bookingData;
   const {payMethod, status: paymentStatus, totalPrice} = payment;
   const {house} = context;
@@ -111,11 +126,41 @@ const BookingModal: React.FC<IProps> = ({
   const priceHook = useInput(totalPrice);
   const memoHook = useInput(memo || "");
   const emailHook = useInput(email);
-  const guestsToInputs = guestsToInput(bookingData.guests || []);
+  const assigInfoDrawHook = useDrawer(mode === BookingModalModes.CREATE);
+  const guestsToInputs = guestsToInput(guests || []);
   const roomSelectInfo = getRoomSelectInfo(
     bookingData.guests,
     bookingData.roomTypes || []
   );
+
+  const defaultAssigInfo: IBookingModal_AssigInfo[] = guests
+    ? guests.map(guest => {
+        if (
+          instanceOfA<getBooking_GetBooking_booking_guests_GuestDomitory>(
+            guest,
+            "gender"
+          )
+        ) {
+          return {
+            _id: guest._id,
+            roomId: inOr(guest.room, "_id", ""),
+            gender: guest.gender || Gender.MALE,
+            bedIndex: guest.bedIndex,
+            pricingType: guest.pricingType
+          };
+        } else {
+          return {
+            _id: guest._id,
+            roomId: inOr(guest.room, "_id", ""),
+            gender: null,
+            bedIndex: 0,
+            pricingType: guest.pricingType
+          };
+        }
+      })
+    : [];
+
+  const [assigInfo, setAssigInfo] = useState(defaultAssigInfo);
   const [drawers, setDrawers] = useState({
     bookerInfo: false
   });
@@ -152,6 +197,8 @@ const BookingModal: React.FC<IProps> = ({
   );
 
   const validate = () => {
+    // TODO 젠더 셀렉트 벨리데이션
+
     if (!paymentStatusHook.selectedOption) {
       toast.warn("결제방법을 선택해주세요.");
       return false;
@@ -251,7 +298,13 @@ const BookingModal: React.FC<IProps> = ({
             price: priceHook.value,
             status: paymentStatusHook.selectedOption!.value
           },
-          houseId
+          houseId,
+          allocationParams: assigInfo.map(info => ({
+            bedIndex: info.bedIndex,
+            gender: info.gender,
+            roomId: info.roomId
+          })),
+          forceToAllocate: true
           // sendSmsFlag
         }
       });
@@ -387,7 +440,9 @@ const BookingModal: React.FC<IProps> = ({
             </div>
           </div>
           <div className="modal__section">
-            <h6>예약정보</h6>
+            <h6>
+              예약정보 <Drawer {...assigInfoDrawHook} />
+            </h6>
             <div className="flex-grid">
               <div className="flex-grid__col col--full-8 col--lg-8 col--md-8">
                 <JDdayPicker
@@ -412,6 +467,15 @@ const BookingModal: React.FC<IProps> = ({
               <div className="flex-grid__col col--full-12 col--lg-12 col--md-12">
                 <RoomSelectInfoTable roomSelectInfo={roomSelectInfo} />
               </div>
+              {assigInfoDrawHook.open && (
+                <div className="flex-grid__col col--full-12 col--lg-12 col--md-12">
+                  <RoomAssigedInfoTable
+                    setAssigInfo={setAssigInfo}
+                    assigInfo={assigInfo}
+                    guestsData={guests || []}
+                  />
+                </div>
+              )}
             </div>
           </div>
           <div className="JDz-index-1 modal__section">
@@ -437,7 +501,7 @@ const BookingModal: React.FC<IProps> = ({
             />
             <Button
               size="small"
-              // disabled={allReadOnly}
+              disabled={mode === BookingModalModes.CREATE}
               label="수정하기"
               thema="primary"
               onClick={handleUpdateBtnClick}
@@ -445,7 +509,7 @@ const BookingModal: React.FC<IProps> = ({
             <Button
               size="small"
               label="예약삭제"
-              disabled={allReadOnly}
+              disabled={mode === BookingModalModes.CREATE}
               thema="error"
               onClick={handleDeletBtnClick}
             />

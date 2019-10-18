@@ -32,12 +32,7 @@ import {
 import itemRendererFn from "./components/items/itemRenderFn";
 import ItemMenuTooltip from "./components/tooltips/ItemMenuTooltip";
 import CanvasMenuTooltip from "./components/tooltips/CanvasMenuTooltip";
-import CreateItemTooltip from "./components/tooltips/CreateItemTooltip";
-import {
-  DEFAUT_ASSIG_ITEM,
-  DEFAUT_ASSIG_GROUP,
-  DEFAUT_NONE_GOUP
-} from "../../../types/defaults";
+import {DEFAUT_ASSIG_ITEM, DEFAUT_NONE_GOUP} from "../../../types/defaults";
 import JDmodal, {JDtoastModal} from "../../../atoms/modal/Modal";
 import {
   IAssigDataControl,
@@ -117,13 +112,6 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     roomTypesData.map(roomType => roomType._id)
   );
   const {datas: holidays} = getKoreaSpecificDayHook(["2019", "2018"]);
-  const [canvasMenuProps, setCanvasMenuTooltipProps] = useState<
-    ICanvasMenuTooltipProps
-  >({
-    start: 0,
-    end: 0,
-    groupIds: [""]
-  });
   const bookingModal = useModal(false);
   const blockOpModal = useModal<IAssigItem>(false, DEFAUT_ASSIG_ITEM);
   const [blockMenuProps, setBlockMenuProps] = useState<IDeleteMenuProps>({
@@ -160,8 +148,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
       // TODO 함수분리
       // 업데이트전 휘발성 블럭들을 찾아서 합쳐줍니다.
       const volatilityBlocks = guestValue.filter(
-        guest =>
-          guest.type === GuestTypeAdd.MARK || guest.type === GuestTypeAdd.MAKE
+        guest => guest.type === GuestTypeAdd.MARK
       );
       // 휘발성 블록들의 인덱스를 다시 정의해줍니다.
       volatilityBlocks.forEach(
@@ -174,11 +161,9 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
 
   const assigHooks: IAssigTimelineHooks = {
     guestValue,
-    canvasMenuProps,
     blockMenuProps,
     createMenuProps,
     setGuestValue,
-    setCanvasMenuTooltipProps,
     setCreateMenuProps,
     setBlockMenuProps,
     confirmDelteGuestHook,
@@ -218,6 +203,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     handleItemResize,
     handleItemSelect,
     handleMoveResizeValidator,
+    handleDraggingEnd,
     handleTimeChange,
     handleItemDoubleClick,
     handleDraggingCell,
@@ -317,11 +303,6 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
             assigContext={assigContext}
             assigUtils={assigUtils}
           />
-          <CreateItemTooltip
-            assigHooks={assigHooks}
-            assigContext={assigContext}
-            assigUtils={assigUtils}
-          />
           <BlockItemTooltip
             assigHooks={assigHooks}
             assigContext={assigContext}
@@ -369,6 +350,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
                 : defaultTimeEnd
             }
             defaultTimeStart={defaultTimeStart}
+            handleDraggingEnd={handleDraggingEnd}
             moveResizeValidator={handleMoveResizeValidator}
             onItemSelect={handleItemSelect}
             onCanvasContextMenu={handleCanvasContextMenu}
@@ -417,12 +399,15 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
         <ReservationModal
           modalHook={reservationModal}
           callBackCreateBookingMu={CreateBooking => {
-            // @ts-ignore
-            CreateBooking.booking &&
+            if (
+              CreateBooking.bookingTransaction &&
+              CreateBooking.bookingTransaction.booking
+            ) {
               assigUtils.hilightGuestBlock({
-                // @ts-ignore
-                bookingId: CreateBooking.booking._id
+                bookingId: CreateBooking.bookingTransaction.booking._id,
+                scrollMove: true
               });
+            }
           }}
           context={context}
           publicKey={house.publicKey || undefined}

@@ -134,7 +134,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
         bookingStatuses: [BookingStatus.COMPLETE, BookingStatus.PROGRESSING]
       }}
     >
-      {({data, loading, stopPolling, startPolling, networkStatus}) => {
+      {({data, loading, refetch, stopPolling, startPolling, networkStatus}) => {
         const roomTypesData = queryDataFormater(
           data,
           "GetAllRoomType",
@@ -273,6 +273,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                                         deleteBlockMu,
                                         updateBlockOpMu,
                                         allocateMu,
+                                        refetch,
                                         stopPolling,
                                         startPolling: startPolling.bind(
                                           startPolling,

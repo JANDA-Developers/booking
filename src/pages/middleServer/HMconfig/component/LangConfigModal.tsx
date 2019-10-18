@@ -6,7 +6,8 @@ import {
   LANGUAGE_LIST,
   Language,
   LanguageKr,
-  LanguageShort
+  LanguageShort,
+  LanguageShort2
 } from "../../../../types/enum";
 import JDbox from "../../../../atoms/box/JDbox";
 import CircleIcon from "../../../../atoms/circleIcon/CircleIcon";
@@ -36,8 +37,10 @@ const LangConfigModal: React.FC<IProps> = ({
         mode="border"
       >
         {list.map((lang, index) => {
-          const fileName = LanguageShort[lang];
-          const flag = require(`../../../../img/flags/${fileName}.png`);
+          // @ts-ignore
+          const fileName = LanguageShort2[lang];
+          // const flag = require(`../../../../img/flags/${fileName}.png`);
+          const flag = "";
           return (
             <JDbox size={undefined} float key={s4()}>
               <div className="JDflex--between JDflex--vCenter">

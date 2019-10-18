@@ -104,7 +104,7 @@ const ResvList: React.SFC<IProps> = ({
 
   const handleDeleteBookingBtnClick = () => {
     alertModalHook.openModal({
-      txt: `${JDlang("nextResv")}${checkedIds.length}${JDlang("checkDelete")}`
+      // txt: `${JDlang("nextResv")}${checkedIds.length}${JDlang("checkDelete")}`
     });
   };
 
@@ -351,23 +351,23 @@ const ResvList: React.SFC<IProps> = ({
   return (
     <div id="resvList" className="resvList container container--full">
       <div className="docs-section">
-        <h3>{JDlang("bookingList")}</h3>
+        {/* <h3>{JDlang("bookingList")}</h3> */}
         <div>
           <Button
             size="small"
             onClick={handleCancleBookingBtnClick}
-            label={JDlang("cancleBooking")}
+            // label={JDlang("cancleBooking")}
           />
           <Button
             onClick={handleSendSmsBtnClick}
             size="small"
-            label={JDlang("sendSMS")}
+            // label={JDlang("sendSMS")}
           />
           <Button
             onClick={handleDeleteBookingBtnClick}
             size="small"
             thema="error"
-            label={JDlang("deleteBooking")}
+            // label={JDlang("deleteBooking")}
           />
         </div>
         {networkStatus === 1 && loading ? (

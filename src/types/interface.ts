@@ -19,6 +19,7 @@ import {IselectedOption} from "../atoms/forms/selectBox/SelectBox";
 import {PricingType} from "./enum";
 import {MutationFunctionOptions} from "@apollo/react-common";
 import {ExecutionResult} from "graphql";
+import {IStartBookingCallBack} from "../pages/middleServer/assig/components/assigIntrerface";
 
 export interface GASt_RoomType
   extends getAllSeasonTable_GetAllRoomType_roomTypes {}
@@ -84,6 +85,10 @@ export interface ITagInput {
 export type IMu<M, MV> = (
   options?: MutationFunctionOptions<M, MV> | undefined
 ) => Promise<ExecutionResult<M>>;
+
+export type TBookingModalOpenWithMark = (
+  startBookingCallBack: IStartBookingCallBack
+) => void;
 
 export interface ITermsOfBookerInput {
   farthestSelectableDate: number;

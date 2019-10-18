@@ -96,6 +96,10 @@ export const DEFAUT_ASSIG_GROUP: IAssigGroup = {
   roomTypeId: "-1",
   roomTypeIndex: -1,
   roomIndex: -1,
+  room: {
+    _id: "",
+    name: ""
+  },
   roomType: {...DEFAUT_ROOMTYPE, rooms: []},
   roomId: "-1",
   bedIndex: -1,

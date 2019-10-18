@@ -32,8 +32,6 @@ const CreateItemTooltip: React.FC<IProps> = ({
     getGroupById,
     deleteItemById,
     allocateGuest,
-    getAssigInfoFromItems,
-    changeCreateBlock,
     groupToRoomType,
     itemsToGuets
   },
@@ -55,32 +53,6 @@ const CreateItemTooltip: React.FC<IProps> = ({
             onClick={e => {
               e.stopPropagation();
 
-              const createItems = guestValue.filter(
-                guest => guest.type === GuestTypeAdd.MAKE
-              );
-
-              // 아이템들의 그룹들
-              const createItemTempGroups = createItems.map(item =>
-                getGroupById(item.group)
-              );
-              // 아이템들의 룸타입들
-              const roomTypes = groupToRoomType(createItemTempGroups);
-
-              // 모달로 보낼 게스트들집합
-              const createTempGuests = itemsToGuets(createItems);
-
-              // 모달안에 넣어줄 새로만들 부킹정보
-              const createParam: GB_booking = {
-                __typename: "Booking",
-                _id: s4(),
-                ...DEFAUT_BOOKING,
-                checkIn: createItems[0].start,
-                checkOut: createItems[0].end,
-                agreePrivacyPolicy: true,
-                guests: createTempGuests,
-                roomTypes
-              };
-
               // StartBooking후 배정할떄 필요한 정보
               // const assigInfo = getAssigInfoFromItems(createItems);
 
@@ -93,7 +65,7 @@ const CreateItemTooltip: React.FC<IProps> = ({
                 newGuests.forEach(guest => {
                   assigInfo.forEach((info, index) => {
                     if (
-                      info.gender === guest.gender &&
+                      infocreateParam.gender === guest.gender &&
                       !alreadyAssigedInfo.includes(index)
                     ) {
                       alreadyAssigedInfo.push(index);
@@ -129,13 +101,6 @@ const CreateItemTooltip: React.FC<IProps> = ({
 
                 doAssig(newBooking.guests);
               };
-
-              const modalParam: IBookingModalProp = {
-                createParam,
-                startBookingCallBack
-              };
-
-              bookingModal.openModal(modalParam);
             }}
           />
         </li>

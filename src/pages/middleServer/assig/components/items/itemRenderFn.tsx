@@ -51,7 +51,6 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
     "assigItem--progressing": item.status === BookingStatus.PROGRESSING,
     "assigItem--block": item.type === GuestTypeAdd.BLOCK,
     "assigItem--mark": item.type === GuestTypeAdd.MARK,
-    "assigItem--create": item.type === GuestTypeAdd.MAKE,
     "assigItem--ghost": item.type === GuestTypeAdd.GHOST,
     "JDtext-blink": item.showEffect
   });
@@ -99,8 +98,6 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
             return <BlockBlock />;
           case GuestTypeAdd.MARK:
             return <div />;
-          case GuestTypeAdd.MAKE:
-            return <CreateBlock isMobile={isMobile} gender={item.gender} />;
           case GuestTypeAdd.GHOST:
             return <GhostBlock loading={item.loading} name={item.name} />;
           default:

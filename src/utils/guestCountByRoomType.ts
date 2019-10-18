@@ -35,20 +35,23 @@ export const getRoomSelectInfo = (
   }[]
 ): IRoomSelectInfo[] => {
   if (!guests) return [];
+
   const roomTypesBuffer: string[] = [];
   const tempArr = guests.map((guest): IRoomSelectInfo | "duplicate" => {
-    const roomType =
+    const guestRoomType =
       roomTypes.find(roomType => roomType._id === guest.roomType._id) ||
       DEFAUT_ROOMTYPE;
 
-    if (roomTypesBuffer.includes(roomType._id)) {
+    // 중복체크
+    if (roomTypesBuffer.includes(guestRoomType._id)) {
       return "duplicate";
     }
+    // 메모리에 접수
+    roomTypesBuffer.push(guestRoomType._id);
 
-    roomTypesBuffer.push(roomType._id);
-
-    const tempGuest = guests.filter(
-      guest => guest.roomType._id === roomType._id
+    // 같은 방타입의 게스트들
+    const sameRoomTypeGuests = guests.filter(
+      guest => guest.roomType._id === guestRoomType._id
     );
 
     const tempRooms = _.uniq(
@@ -60,19 +63,22 @@ export const getRoomSelectInfo = (
 
     return {
       roomTypeId: guest.roomType._id,
-      roomTypeName: roomType.name,
+      roomTypeName: guestRoomType.name,
       roomNames: tempRooms,
       count: {
-        female: tempGuest.filter(guest => guest.gender === Gender.FEMALE)
+        female: sameRoomTypeGuests.filter(
+          guest => guest.gender === Gender.FEMALE
+        ).length,
+        male: sameRoomTypeGuests.filter(guest => guest.gender === Gender.MALE)
           .length,
-        male: tempGuest.filter(guest => guest.gender === Gender.MALE).length,
-        roomCount: tempGuest.filter(guest => !guest.gender).length
+        roomCount: sameRoomTypeGuests.filter(guest => !guest.gender).length
       },
-      pricingType: tempGuest.find(guest => guest.gender)
+      pricingType: sameRoomTypeGuests.find(guest => guest.gender)
         ? PricingType.DOMITORY
         : PricingType.ROOM
     };
   });
+
   // @ts-ignore
   const roomSelectInfo: IRoomSelectInfo[] = tempArr.filter(
     v => v !== "duplicate"
@@ -113,7 +119,6 @@ const guestsToInput = (
       countMale: 0
     };
     guestsInRoom.forEach(guest => {
-      console.log("guest");
       if (
         instanceOfA<getBooking_GetBooking_booking_guests_GuestDomitory>(
           guest,

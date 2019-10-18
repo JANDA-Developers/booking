@@ -11,7 +11,7 @@ import {IHolidaysByApi} from "../types/interface";
 import moment from "moment";
 import {jsonString} from "../utils/utils";
 import {TLanguageShort} from "../types/enum";
-import {JDlang as originJDlang} from "../langs/JDlang";
+import {JDlang as originJDlang, TLangPages} from "../langs/JDlang";
 
 // 한방에 패치
 // A X I O S  : (http://codeheaven.io/how-to-use-axios-as-your-http-client/)
@@ -447,6 +447,10 @@ function useModal<T = any>(
 }
 
 export let CURRENT_LANG: TLanguageShort = "kr";
+// 언어가 결합된 LANG 함수
+export let LANG: (page: TLangPages, key: string) => any = (page, key) => {
+  return;
+};
 
 const useLang = (defaultLang: TLanguageShort) => {
   const [currentLang, setCurrentLang] = useState(defaultLang);
@@ -456,9 +460,9 @@ const useLang = (defaultLang: TLanguageShort) => {
     setCurrentLang(lang);
   };
 
-  const JDlang = originJDlang.bind(originJDlang, currentLang);
+  LANG = originJDlang.bind(originJDlang, currentLang);
 
-  return {currentLang, changeLang, JDlang};
+  return {currentLang, changeLang, JDlang: LANG};
 };
 
 const getKoreaSpecificDayHook = (

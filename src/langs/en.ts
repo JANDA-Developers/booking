@@ -1,4 +1,4 @@
-export const kr = {
+export const en = {
   header: {},
   sideNav: {},
   dashboard: {},
@@ -28,7 +28,7 @@ export const kr = {
   common: {
     checkIn: "체크인",
     checkOut: "체크아웃",
-    HM: "하우스메뉴얼"
+    HM: "HouseManual"
   },
   setPrice: {},
   resvList: {
