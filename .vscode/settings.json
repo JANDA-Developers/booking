@@ -2,6 +2,7 @@
     "editor.formatOnSave": true,
     "prettier.eslintIntegration": true,
     "javascript.preferences.importModuleSpecifier": "relative",
+    "typescript.preferences.importModuleSpecifier": "relative",
     "search.exclude": {
         "**/dist": true
     },
