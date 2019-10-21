@@ -61,7 +61,7 @@ export function getDailyAssigUtils(
     });
 
     if (muResult(result, "UpdateBooking")) {
-      toast.success(!isIn ? "체크인" : "체크아웃");
+      toast.success(!isIn ? {LANG('checkIn')} : {LANG('checkOut')});
     } else {
       toast.warn("체크인 변경 실패");
     }

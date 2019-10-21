@@ -18,7 +18,7 @@ export const en = {
   roomConfig: {},
   sms: {},
   components: {
-    willGoodForManageMent: "숙소운영에 도움이 될거에요!",
+    will_good_for_manage_ment: "숙소운영에 도움이 될거에요!",
     additionalySettingTo: "추가로 다음과 같은 설정을 해두시면",
     defaultSettingIs: "기본설정이",
     compelted: "완료 되었습니다.",
@@ -26,8 +26,8 @@ export const en = {
     choseCheckOutDate: "체크아웃 날자를 선택해 주세요."
   },
   common: {
-    checkIn: "체크인",
-    checkOut: "체크아웃",
+    checkIn: {LANG('checkIn')},
+    checkOut: {LANG('checkOut')},
     HM: "HouseManual"
   },
   setPrice: {},

@@ -14,16 +14,15 @@ interface IProps {
 }
 
 const JDdatePcikerInformation: React.SFC<IProps> = ({from, to}) => {
-  const lang = LANG.bind(LANG, "components");
   return (
     <div className="JDdatePcikerInformation">
-      {!from && !to && lang("choseCheckInDate")}
-      {from && !to && lang("choseCheckInDate")}
+      {!from && !to && LANG("choseCheckInDate")}
+      {from && !to && LANG("choseCheckInDate")}
       {from &&
         to &&
-        ` ${from.toLocaleDateString()} ${LANG("common", "checkIn")}
+        ` ${from.toLocaleDateString()} ${LANG("checkIn")}
                ${to.toLocaleDateString()}`}
-      {from && to && LANG("common", "checkOut")}
+      {from && to && LANG("checkOut")}
     </div>
   );
 };

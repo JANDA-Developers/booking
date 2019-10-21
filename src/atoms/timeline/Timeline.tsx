@@ -20,7 +20,7 @@ import moment from "moment";
 import ErrProtecter from "../../utils/errProtect";
 import {TimePerMs} from "../../types/enum";
 import JDIcon, {IconSize} from "../icons/Icons";
-import {IUseDayPicker, useModal} from "../../hooks/hook";
+import {IUseDayPicker, useModal, LANG} from "../../hooks/hook";
 import DayPickerModal from "../../components/dayPickerModal/DayPickerModal";
 import {isEmpty} from "../../utils/utils";
 import {THandleMouseDown} from "../../pages/middleServer/assig/components/assigIntrerface";
@@ -211,13 +211,13 @@ const krSubHeaderLabelFormats = Object.assign(
   {},
   defaultSubHeaderLabelFormats,
   {
-    monthLong: "MM 월", // 년 월 필요
-    hourLong: "M월 D일 ddd" // 월 일
+    monthLong: `MM ${LANG("month")}`, // 년 LANG("month") 필요
+    hourLong: `M${LANG("month")} D${LANG("date")} ddd` // LANG("month") 일
   }
 );
 
 const krHeaderLabelFormats = Object.assign({}, defaultHeaderLabelFormats, {
-  dayLong: "YYYY년 MM월 DD일 "
+  dayLong: `YYYY${LANG("year")} MM${LANG("month")} DD${LANG("date")}`
 });
 
 const defaultTimeStart = moment()
@@ -314,7 +314,7 @@ export const SharedSideBarHeader: React.FC<IProps> = ({
         isRange={false}
         canSelectBeforeDay={true}
         calenaderPosition="center"
-        label="달력날자"
+        label={`${LANG("calender_date")}`}
         {...dayPickerHook}
         className="JDwaves-effect JDoverflow-visible"
       />

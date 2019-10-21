@@ -5,29 +5,25 @@ import JDbox from "../../atoms/box/JDbox";
 import {IContext} from "../../pages/MiddleServerRouter";
 import Mbr from "../../atoms/mbr/Mbr";
 import {LANG} from "../../hooks/hook";
+import {JDlang} from "../../langs/JDlang";
 
 interface Iprops {
   context: IContext;
 }
 
 const AdditionConfigPitch: React.FC<Iprops> = ({context}) => {
-  const JDLANG = LANG.bind(LANG, "components");
   return (
     <p>
       <h3>
-        {JDLANG("defaultSettingIs")} <Mbr /> {JDLANG("completed")}
+        {LANG("default_setting_is")} {LANG("completed")}
       </h3>
-      <p>
-        {JDLANG("additionalySettingTo")} <Mbr />{" "}
-        {JDLANG("willGoodForManageMent")}
-      </p>
+      <p>{LANG("additionaly_setting_to_will_good_for_manage_ment")}</p>
       <div>
         <JDbox align="flexVcenter" textAlign="left" mode="border">
           <div>
-            <h6>{LANG("common", "HM")}</h6>
+            <h6>{LANG("HM")}</h6>
             <span>
-              {JDLANG("additionalySettingTo")}게스트에게 숙소 이용 <Mbr />{" "}
-              안내를 편리하게 해보세요.
+              {LANG("make_it_easy_to_guide_accommodation_for_guests")}
             </span>
           </div>
           <Button
@@ -37,40 +33,35 @@ const AdditionConfigPitch: React.FC<Iprops> = ({context}) => {
             }}
             redirect={insideRedirect("HMconfig")}
             mode="border"
-            label="설정하러가기"
+            label={LANG("go_to_set")}
           />
         </JDbox>
       </div>
       <div>
         <JDbox align="flexVcenter" textAlign="left" mode="border">
           <div>
-            <h6>가격설정</h6>
-            <span>
-              날자별로 가격을 다르게
-              <Mbr /> 설정해보세요.
-            </span>
+            <h6>{LANG("pricing")}</h6>
+            <span>{LANG("try_setting_it_up_different_prices_by_date")}</span>
           </div>
           <Button
             size="small"
             redirect={insideRedirect("setPrice")}
             mode="border"
-            label="설정하러가기"
+            label={LANG("go_to_set")}
           />
         </JDbox>
       </div>
       <div>
         <JDbox align="flexVcenter" textAlign="left" mode="border">
           <div>
-            <h6>SMS설정</h6>
-            <span>
-              게스트에게 안내문자를 <Mbr /> 자동 발송해 보세요.
-            </span>
+            <h6>{LANG("sms_setting")}</h6>
+            <span>{LANG("automatically_send_prompts_to_your_guests")}</span>
           </div>
           <Button
             size="small"
             redirect={insideRedirect("sms")}
             mode="border"
-            label="설정하러가기"
+            label={LANG("go_to_set")}
           />
         </JDbox>
       </div>

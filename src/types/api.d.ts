@@ -37,7 +37,7 @@ export interface getSpecification_GetHouse_house_product {
    */
   name: string;
   /**
-   * 제품 가격(월)
+   * 제품 가격(LANG("month"))
    */
   price: number | null;
   /**
@@ -251,7 +251,7 @@ export interface getAllProductTypes_GetAllProductTypes_productTypes {
    */
   name: string;
   /**
-   * 제품 가격(월)
+   * 제품 가격(LANG("month"))
    */
   price: number;
   /**
@@ -389,7 +389,7 @@ export interface getMyProfile_GetMyProfile_user_houses_product {
    */
   name: string;
   /**
-   * 제품 가격(월)
+   * 제품 가격(LANG("month"))
    */
   price: number | null;
   /**
@@ -1794,7 +1794,7 @@ export interface getUserForSU_GetUserForSU_user_houses_product {
    */
   name: string;
   /**
-   * 제품 가격(월)
+   * 제품 가격(LANG("month"))
    */
   price: number | null;
   /**
@@ -4298,7 +4298,7 @@ export interface FproductType {
    */
   name: string;
   /**
-   * 제품 가격(월)
+   * 제품 가격(LANG("month"))
    */
   price: number;
   /**
@@ -4363,7 +4363,7 @@ export interface Fproduct {
    */
   name: string;
   /**
-   * 제품 가격(월)
+   * 제품 가격(LANG("month"))
    */
   price: number | null;
   /**

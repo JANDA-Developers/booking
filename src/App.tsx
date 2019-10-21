@@ -12,8 +12,11 @@ import MiddleServerRouter from "./pages/MiddleServerRouter";
 import JDtoast from "./atoms/toast/Toast";
 import "./lib/wave/wave"; // 웨이브 이펙트
 import "./lib/wave/wave.scss";
+import {useLang} from "./hooks/hook";
 
 function App() {
+  const langHook = useLang("kr");
+
   return (
     <ApolloProvider client={client}>
       <Favicon url="https://res.cloudinary.com/stayjanda-com/image/upload/v1554092565/favicon.ico" />
@@ -32,7 +35,7 @@ function App() {
             <Route
               key={`router${path}`}
               path={path}
-              render={() => <MiddleServerRouter />}
+              render={() => <MiddleServerRouter langHook={langHook} />}
             />
           ))}
           <Route component={NoMatch} />

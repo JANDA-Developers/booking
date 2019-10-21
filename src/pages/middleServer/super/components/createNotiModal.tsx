@@ -81,7 +81,7 @@ const CreateNotiModal: React.FC<Iprops> = ({
             canSelectBeforeDay={false}
             isRange={false}
             input
-            format={"YY년 MM월 DD일 까지"}
+            format={"YY년 MMLANG("month") DD일 까지"}
             calenaderPosition="center"
             {...validPeriodHook}
             label="알람 기간"

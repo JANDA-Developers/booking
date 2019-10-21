@@ -2,13 +2,7 @@ import React from "react";
 import {IUseModal} from "../../../../hooks/hook";
 import LangList from "../../../../components/langList/LangList";
 import JDmodal from "../../../../atoms/modal/Modal";
-import {
-  LANGUAGE_LIST,
-  Language,
-  LanguageKr,
-  LanguageShort,
-  LanguageShort2
-} from "../../../../types/enum";
+import {LANGUAGE_LIST, Language, LanguageKr} from "../../../../types/enum";
 import JDbox from "../../../../atoms/box/JDbox";
 import CircleIcon from "../../../../atoms/circleIcon/CircleIcon";
 import JDIcon from "../../../../atoms/icons/Icons";
@@ -38,7 +32,6 @@ const LangConfigModal: React.FC<IProps> = ({
       >
         {list.map((lang, index) => {
           // @ts-ignore
-          const fileName = LanguageShort2[lang];
           // const flag = require(`../../../../img/flags/${fileName}.png`);
           const flag = "";
           return (

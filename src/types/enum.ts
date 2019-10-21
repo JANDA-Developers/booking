@@ -61,28 +61,28 @@ export enum Language {
   CHINESE = "CHINESE"
 }
 
-export type TLanguageShort = "kr" | "en" | "gb" | "jp" | "cn";
+export type TNationalShort = "kr" | "gb" | "jp" | "cn";
+export type TLanguageShort = "kr" | "en" | "jp" | "cn";
 
-// TODO  이게국가
-export enum LanguageShort {
+export enum LanguageShortResverse {
+  kr = "KOREAN",
+  jp = "JAPANESE",
+  cn = "CHINESE",
+  en = "ENGLISH"
+}
+
+export enum LanguageResverseShort {
   KOREAN = "kr",
-  ENGLISH = "gb",
+  ENGLISH = "en",
   JAPANESE = "jp",
   CHINESE = "cn"
 }
 
-// TODO  이게언어
-export enum LanguageShort2 {
-  KOREAN = "kr",
-  ENGLISH = "en"
-}
-
-export enum LanguageShortResverse {
-  kr = "KOREAN",
-  gb = "ENGLISH",
-  jp = "JAPANESE",
-  cn = "CHINESE",
-  en = "ENGLISH"
+export enum LangShortToNational {
+  kr = "kr",
+  en = "gb",
+  jp = "jp",
+  cn = "cn"
 }
 
 export enum LanguageItSelf {
@@ -215,7 +215,7 @@ export enum BookingModalModes {
 export enum SalesStatisticsUnitKr {
   BY_DAY_OF_WEEK = "요일별",
   BY_DATE = "날자별",
-  MONTHLY = "월별",
+  MONTHLY = "LANG("month")별",
   WEEKLY = "주별",
   YEARLY = "년별"
 }
@@ -298,7 +298,7 @@ export enum ProductTypeKey {
   STANDARD = "STANDARD"
 }
 
-export const WeekArrKr = ["일", "월", "화", "수", "목", "금", "토"];
+export const WeekArrKr = ["일", "LANG("month")", "화", "수", "목", "금", "토"];
 export const WeekArrEn = [
   Day.SUN,
   Day.MON,
@@ -315,8 +315,8 @@ export enum SERVICE_CONTECT {
 }
 
 export enum SmsReplaceKeyEnumKr {
-  STAYDATE = "[숙박일자(월/일)]",
-  STAYDATE_YMD = "[숙박일자(년/월/일)]",
+  STAYDATE = "[숙박일자(LANG("month")/일)]",
+  STAYDATE_YMD = "[숙박일자(년/LANG("month")/일)]",
   ROOMTYPE_N_COUNT = "[숙박정보(방/인원)]",
   BOOKERNAME = "[예약자명]",
   TOTALPRICE = "[가격]",

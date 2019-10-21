@@ -5,7 +5,7 @@ import {
   getAllRoomTypeWithGuest_GetGuests_guests as IG,
   getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms as IR
 } from "../../types/api";
-import {useModal, IUseModal} from "../../hooks/hook";
+import {useModal, IUseModal, LANG} from "../../hooks/hook";
 import JDdayPicker from "../../atoms/dayPicker/DayPicker";
 import BookingModalWrap from "../bookingModal/BookingModalWrap";
 import ArrowDayByDay from "../../atoms/dayPicker/component/inputComponent/ArrowDayByDay";
@@ -128,13 +128,13 @@ const DailyAssig: React.FC<IProps> = ({
         isRange={false}
         input
         canSelectBeforeDay={false}
-        label="달력날자"
+        label={LANG("calender_date")}
         {...dayPickerHook}
         className="JDwaves-effect JDoverflow-visible"
         inputComponent={(prop: any) => (
           <ArrowDayByDay
             {...prop}
-            format={"MM월 DD일"}
+            format={"MMLANG("month") DD일"}
             dayPickerHook={dayPickerHook}
           />
         )}

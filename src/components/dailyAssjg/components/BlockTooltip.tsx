@@ -12,6 +12,7 @@ import {
 } from "../../../types/api";
 import Button from "../../../atoms/button/Button";
 import {ReactTooltip} from "../../../atoms/tooltip/Tooltip";
+import {LANG} from "../../../hooks/hook";
 
 interface Iprops {
   context: IContext;
@@ -41,7 +42,7 @@ const BlockTooltip: React.FC<Iprops> = ({
                 onClick={() => {
                   deleteBtnCallBack(targetBlock);
                 }}
-                label="삭제"
+                label={LANG("delete")}
               />
             </li>
           </ul>

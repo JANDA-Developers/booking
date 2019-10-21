@@ -1,5 +1,6 @@
 import React from "react";
 import JDbox from "../../../../atoms/box/JDbox";
+import {LANG} from "../../../../hooks/hook";
 interface Iprops {}
 
 const AgreePolicy: React.FC<Iprops> = () => {
@@ -7,32 +8,34 @@ const AgreePolicy: React.FC<Iprops> = () => {
     <div className="agreePrivacyPolicy" id="agreePrivacyPolicy">
       <JDbox className="paymentModal__JDbox" mode="table">
         <div className="JDlarge-text JDstandard-margin-bottom">
-          서비스 제공을 위해 귀하의 개인정보를 수집합니다.
+          {LANG("we_collect_your_personal_information_to_provide_the_service")}
         </div>
         <table>
           <thead>
             <tr>
-              <th>개인정보 항목</th>
-              <th>수집 목적</th>
-              <th>보유 기간</th>
+              <th>{LANG("privacy_item")}</th>
+              <th>{LANG("purpose_of_collection")}</th>
+              <th>{LANG("retention_period")}</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>이름,연락처</td>
-              <td>원활한 예약관리</td>
-              <td>숙박후 6개월</td>
+              <td>
+                {LANG("name")},{LANG("contact")}
+              </td>
+              <td>{LANG("smooth_reservation_management")}</td>
+              <td>{LANG("six_months_after_stay")}</td>
             </tr>
           </tbody>
         </table>
         <p className="JDtiny-text JDtextColor-warring-text">
-          {
-            "※ 서비스 제공을 위해 필요한 최소한의 개인정보이므로 동의를 해주셔야 서비스를 이용하실수 있습니다."
-          }
+          {`※ ${LANG(
+            "the_minimum_personal_information_required_to_provide_the_service_is_required_to_use_the_service"
+          )}`}
           <br />
-          {
-            "※ 게스트하우스 규정을 위반할 시 위반내용과 함께 개인정보가 저장됩니다. "
-          }
+          {`※ ${LANG(
+            "if_you_violate_the_accommodation_policy_your_personal_information_will_be_saved_with_the_violation"
+          )} `}
         </p>
       </JDbox>
     </div>

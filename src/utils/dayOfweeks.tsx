@@ -2,18 +2,18 @@ import {DayOfWeekPriceInput} from "../types/api";
 
 // 단순 변환 함수
 const JDMonthTextChanger = (Month: string | number): string => {
-  if (Month === "December" || Month === 11) return "12월";
-  if (Month === "November" || Month === 10) return "11월";
-  if (Month === "October" || Month === 9) return "10월";
-  if (Month === "September" || Month === 8) return "9월";
-  if (Month === "August" || Month === 7) return "8월";
-  if (Month === "July" || Month === 6) return "7월";
-  if (Month === "June" || Month === 5) return "6월";
-  if (Month === "May" || Month === 4) return "5월";
-  if (Month === "April" || Month === 3) return "4월";
-  if (Month === "March" || Month === 2) return "3월";
-  if (Month === "February" || Month === 1) return "2월";
-  if (Month === "January" || Month === 0) return "1월";
+  if (Month === "December" || Month === 11) return "12LANG("month")";
+  if (Month === "November" || Month === 10) return "11LANG("month")";
+  if (Month === "October" || Month === 9) return "10LANG("month")";
+  if (Month === "September" || Month === 8) return "9LANG("month")";
+  if (Month === "August" || Month === 7) return "8LANG("month")";
+  if (Month === "July" || Month === 6) return "7LANG("month")";
+  if (Month === "June" || Month === 5) return "6LANG("month")";
+  if (Month === "May" || Month === 4) return "5LANG("month")";
+  if (Month === "April" || Month === 3) return "4LANG("month")";
+  if (Month === "March" || Month === 2) return "3LANG("month")";
+  if (Month === "February" || Month === 1) return "2LANG("month")";
+  if (Month === "January" || Month === 0) return "1LANG("month")";
   console.error("JDMonthTextChanger Month is not 0~11");
   return "";
 };
@@ -21,11 +21,11 @@ const JDMonthTextChanger = (Month: string | number): string => {
 //  숫자(0~6)를 받아서 무슨 요일인지 반환
 const JDWeekChanger = (number: number, bit?: boolean): string => {
   if (!bit) {
-    const weekLanguage = ["일", "월", "화", "수", "목", "금", "토"];
+    const weekLanguage = ["일", "LANG("month")", "화", "수", "목", "금", "토"];
     return weekLanguage[number % 7];
   }
   if (number === 1) return "일";
-  if (number === 2) return "월";
+  if (number === 2) return "LANG("month")";
   if (number === 4) return "화";
   if (number === 8) return "수";
   if (number === 16) return "목";
@@ -119,7 +119,7 @@ export const numberToStrings = (
 
 export const koreaToNumber = (foo: string) => {
   if (foo === "일") return 0;
-  if (foo === "월") return 1;
+  if (foo === "LANG("month")") return 1;
   if (foo === "화") return 2;
   if (foo === "수") return 3;
   if (foo === "목") return 4;

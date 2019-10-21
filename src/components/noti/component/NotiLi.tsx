@@ -38,7 +38,7 @@ const NotiLi: React.FC<IProps> = ({noti}) => {
   return (
     <li
       onClick={() => {}}
-      data-tip={moment(noti.createdAt).format("MM월 DD일")}
+      data-tip={moment(noti.createdAt).format("MMLANG("month") DD일")}
       data-for="notiCreateDateToolTip"
       className="notiLi"
     >

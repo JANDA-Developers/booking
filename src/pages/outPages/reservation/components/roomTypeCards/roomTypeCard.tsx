@@ -8,7 +8,7 @@ import Button from "../../../../../atoms/button/Button";
 import {IRoomType} from "../../../../../types/interface";
 import Preloader from "../../../../../atoms/preloader/Preloader";
 import {isEmpty, autoComma} from "../../../../../utils/utils";
-import {useModal} from "../../../../../hooks/hook";
+import {useModal, LANG} from "../../../../../hooks/hook";
 import {Gender, PricingType, RoomGender} from "../../../../../types/enum";
 import {IGuestCount} from "./roomTypeCardsWrap";
 import JDmodal from "../../../../../atoms/modal/Modal";
@@ -76,7 +76,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
       let genderKey = "";
       // 남성 SelectOp 리턴
       if (key === "maleCount") {
-        genderKey = " 남";
+        genderKey = ` ${LANG("male")}`;
         if (availableCount.maleCount || guestCountValue.male) {
           return selectOpCreater({
             count: availableCount.maleCount + 1 + guestCountValue.male,
@@ -86,7 +86,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
       }
       // 여성 SelectOp 리턴
       if (key === "femaleCount") {
-        genderKey = " 여";
+        genderKey = ` ${LANG("female")}`;
         if (availableCount.femaleCount || guestCountValue.female) {
           return selectOpCreater({
             count: availableCount.femaleCount + 1 + guestCountValue.female,
@@ -96,7 +96,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
       }
       // 방타입 SelectOp 리턴
       if (key === "roomCount") {
-        genderKey = " 개";
+        genderKey = " ";
         if (availableCount.maleCount || guestCountValue.male) {
           return selectOpCreater({
             count: availableCount.roomCount + 1 + guestCountValue.room,
@@ -172,7 +172,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
 
     // 선택된인원이 없는경우에
     if (totalSelectCount === 0) {
-      toastModalHook.openModal("인원수를 선택해주세요.");
+      toastModalHook.openModal(LANG("please_select_the_number_of_people"));
       return;
     }
 
@@ -215,7 +215,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
             <h6 className="roomTypeCard__roomTypeTitle">
               {roomTypeData.name}{" "}
               {totalCan === 0 && !countLoading && (
-                <JDbadge thema="error">만실</JDbadge>
+                <JDbadge thema="error">{LANG("fullRoom")}</JDbadge>
               )}
             </h6>
           </div>
@@ -284,7 +284,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
             className="roomTypeCard__selectButton"
             size={"small"}
             thema={isSelectedRoom ? "warn" : "primary"}
-            label={isSelectedRoom ? "선택취소" : "선택하기"}
+            label={isSelectedRoom ? LANG("cancel") : LANG("select")}
           />
         </div>
       </div>

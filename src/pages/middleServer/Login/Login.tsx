@@ -8,7 +8,7 @@ import Button from "../../../atoms/button/Button";
 import "./Login.scss";
 import {LOG_USER_IN} from "../../../clientQueries";
 import {EMAIL_SIGN_IN, GET_USER_INFO} from "../../../queries";
-import {useInput} from "../../../hooks/hook";
+import {useInput, LANG} from "../../../hooks/hook";
 import utils, {showError} from "../../../utils/utils";
 import {ApolloClient} from "apollo-boost";
 import {IContext} from "../../MiddleServerRouter";
@@ -39,11 +39,11 @@ const Login: React.FC<Iprops> = ({context}) => {
               const emailSignIn = (e: any) => {
                 e.preventDefault();
                 if (!emailHook.isValid) {
-                  toast.warn("아이디는 이메일 이여야합니다.");
+                  toast.warn(LANG("username_must_be_email"));
                   return;
                 }
                 if (!passwordHook.isValid) {
-                  toast.warn("잘못된 패스워드입니다.");
+                  toast.warn(LANG("invalid_password"));
                   return;
                 }
                 client
@@ -63,15 +63,15 @@ const Login: React.FC<Iprops> = ({context}) => {
                           }
                         });
                         localStorage.setItem("lastLogin", emailHook.value);
-                        toast.success("로그인 완료");
+                        toast.success(LANG("login_complete"));
                         history.replace("/");
                       }
                     }
                     if (error) {
                       console.error(error);
                       if (error === "Wrong Password")
-                        toast.warn("패스워드가 일치하지 않습니다.");
-                      else toast.warn("해당 이메일을 찾을수 없습니다.");
+                        toast.warn(LANG("passwords_do_not_match"));
+                      else toast.warn(LANG("cant_find_this_email"));
                     }
                   });
               };
@@ -92,9 +92,9 @@ const Login: React.FC<Iprops> = ({context}) => {
                       label="Password"
                     />
                   </div>
-                  <Button type="submit" thema="primary" label="로그인" />
+                  <Button type="submit" thema="primary" label={LANG("login")} />
                   <Link to="/signUp">
-                    <Button thema="primary" label="회원가입" />
+                    <Button thema="primary" label={LANG("signUp")} />
                   </Link>
                 </form>
               );

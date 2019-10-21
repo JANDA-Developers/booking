@@ -3,6 +3,7 @@ import React from "react";
 import classNames from "classnames";
 import "./Pagination.scss";
 import Button from "../button/Button";
+import {LANG} from "../../hooks/hook";
 
 interface IProps extends ReactPaginateProps {
   previousDisplay?: boolean;
@@ -39,8 +40,8 @@ const JDPagination: React.SFC<IProps> = ({
         extraAriaContext="extraAriaContext"
         breakClassName="JDpagination__ellipsis"
         breakLinkClassName="JDpagination__ellipsis-a"
-        nextLabel="다음"
-        previousLabel="이전"
+        nextLabel={LANG("next")}
+        previousLabel={LANG("prev")}
         {...props}
       />
     </div>

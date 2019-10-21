@@ -38,7 +38,7 @@ const ItemMenuTooltip: React.FC<IProps> = ({
                       ReactTooltip.hide();
                       toogleCheckInOut(guestId);
                     }}
-                    label={targetGuest.checkInInfo ? "체크아웃" : "체크인"}
+                    label={targetGuest.checkInInfo ? {LANG('checkOut')} : {LANG('checkIn')}}
                   />
                 </li>
                 <li>

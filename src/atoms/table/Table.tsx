@@ -7,6 +7,7 @@ import ReactTable, {
   ReactTableDefaults,
   RowRenderProps
 } from "react-table";
+import {LANG} from "../../hooks/hook";
 
 interface JDrowInfo<T> extends RowRenderProps {
   original: T;
@@ -52,13 +53,13 @@ export const ReactTableDefault = Object.assign(ReactTableDefaults, {
   showPagination: false,
   sortable: false,
   resizable: false,
-  previousText: "이전",
-  nextText: "다음",
+  previousText: LANG("prev"),
+  nextText: LANG("next"),
   loadingText: "Loading...",
-  noDataText: "정보가 존재하지 않습니다..",
-  pageText: "페이지",
+  noDataText: LANG("information_does_not_exist"),
+  pageText: LANG("page"),
   ofText: "/",
-  rowsText: "열"
+  rowsText: LANG("row")
 });
 
 export default JDtable;

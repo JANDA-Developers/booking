@@ -12,7 +12,7 @@ import JDdayPickerInput from "./component/input/JDdayPickerInput";
 import HorizenDay from "./component/horizen/HorizenDays";
 import HorizenCaption from "./component/horizen/HorizenCaption";
 import "./DayPicker.scss";
-import {IUseDayPicker} from "../../hooks/hook";
+import {IUseDayPicker, LANG} from "../../hooks/hook";
 import moment from "moment";
 
 export interface IJDdayPickerProps extends IUseDayPicker {
@@ -192,21 +192,37 @@ const JDdayPicker: React.FC<IJDdayPickerProps> = ({
   const modifiers = {start: from || undefined, end: entered || undefined};
   const selectedDays: any = [from, {from, to: entered}];
   const MONTHS = [
-    "1월",
-    "2월",
-    "3월",
-    "4월",
-    "5월",
-    "6월",
-    "7월",
-    "8월",
-    "9월",
-    "10월",
-    "11월",
-    "12월"
+    `1${LANG("month")}`,
+    `2${LANG("month")}`,
+    `3${LANG("month")}`,
+    `4${LANG("month")}`,
+    `5${LANG("month")}`,
+    `6${LANG("month")}`,
+    `7${LANG("month")}`,
+    `8${LANG("month")}`,
+    `9${LANG("month")}`,
+    `10${LANG("month")}`,
+    `11${LANG("month")}`,
+    `12${LANG("month")}`
   ];
-  const WEEKDAYS_LONG = ["일", "월", "화", "수", "목", "금", "토"];
-  const WEEKDAYS_SHORT = ["일", "월", "화", "수", "목", "금", "토"];
+  const WEEKDAYS_LONG = [
+    LANG("sun"),
+    LANG("mon"),
+    LANG("tue"),
+    LANG("wed"),
+    LANG("thu"),
+    LANG("fri"),
+    LANG("sat")
+  ];
+  const WEEKDAYS_SHORT = [
+    LANG("sun"),
+    LANG("mon"),
+    LANG("tue"),
+    LANG("wed"),
+    LANG("thu"),
+    LANG("fri"),
+    LANG("sat")
+  ];
 
   // TODO : 너무 아슬아슬하게 결합되어있다 분리가 필요함
   const dayPickerProps: DayPickerProps = {

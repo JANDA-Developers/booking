@@ -47,8 +47,8 @@ const GuestTooltip: React.FC<Iprops> = ({
                     }}
                     label={
                       targetGuest.booking.checkInInfo.isIn
-                        ? "체크아웃"
-                        : "체크인"
+                        ? {LANG("checkOut")}
+                        : {LANG('checkIn')}
                     }
                   />
                 </li>

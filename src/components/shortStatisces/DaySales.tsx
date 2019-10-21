@@ -1,5 +1,5 @@
 import React from "react";
-import {IUseDayPicker} from "../../hooks/hook";
+import {IUseDayPicker, LANG} from "../../hooks/hook";
 import JDdayPicker from "../../atoms/dayPicker/DayPicker";
 import ArrowDayByDay from "../../atoms/dayPicker/component/inputComponent/ArrowDayByDay";
 import {autoComma} from "../../utils/utils";
@@ -29,7 +29,7 @@ const DaySales: React.FC<Iprops> = ({
           isRange={false}
           input
           canSelectBeforeDay={false}
-          label="달력날자"
+          label={LANG("calender_date")}
           {...dayPickerHook}
           className="JDwaves-effect JDoverflow-visible"
           inputComponent={(prop: any) => (
@@ -37,7 +37,8 @@ const DaySales: React.FC<Iprops> = ({
           )}
         />
       )}
-      {autoComma(price)}원
+      {autoComma(price)}
+      {LANG("money_unit")}
     </div>
   );
 };

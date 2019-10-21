@@ -3,7 +3,7 @@ import {toast} from "react-toastify";
 import {MutationFn} from "react-apollo";
 import Modal from "../../../../atoms/modal/Modal";
 import Button from "../../../../atoms/button/Button";
-import {IUseModal, useDrawer} from "../../../../hooks/hook";
+import {IUseModal, useDrawer, LANG} from "../../../../hooks/hook";
 import {IHouse} from "../../../../types/interface";
 import Preloader from "../../../../atoms/preloader/Preloader";
 import {getHouse_GetHouse_house} from "../../../../types/api";
@@ -71,17 +71,23 @@ const MyHouseModal: React.SFC<IProps> = ({
                   <SpecificAtionWrap houseId={house._id} />
                 </div>
               )}
-              <p>숙소명: {house.name}</p>
               <p>
-                생성일시:{" "}
+                {LANG("houseName")}: {house.name}
+              </p>
+              <p>
+                {LANG("date_of_creation")}:{" "}
                 {moment(house!.createdAt).format(DateFormat.WITH_TIME)}
               </p>
-              <p>도미토리: {roomCountDomitory}</p>
-              <p>방: {roomCountRoom}</p>
+              <p>
+                {LANG("dormitory")}: {roomCountDomitory}
+              </p>
+              <p>
+                {LANG("room")}: {roomCountRoom}
+              </p>
               {house.product !== null && (
                 <p>
                   <span className="JDstandard-small-space">
-                    예약페이지 URL 복사
+                    {LANG("copy_reservation_page_URL")}
                   </span>
                   <JDIcon
                     onClick={e =>
@@ -98,7 +104,7 @@ const MyHouseModal: React.SFC<IProps> = ({
             </Fragment>
           )}
           <div className="JDmodal__endSection">
-            <Button onClick={onDelete} thema="error" label="삭제" />
+            <Button onClick={onDelete} thema="error" label={LANG("delete")} />
           </div>
         </Fragment>
       )}

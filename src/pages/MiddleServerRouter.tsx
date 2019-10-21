@@ -47,7 +47,7 @@ import {useModal, useToggle, useSideNav, useLang} from "../hooks/hook";
 import MemoAlertModal from "../components/Memo/component/MemoAlertModal";
 import JDoutdatedBrowserRework from "../utils/oldBrowser";
 import SideNav from "../components/sideNav/SideNav";
-import {JDlang, TLangPages} from "../langs/JDlang";
+import {JDlang} from "../langs/JDlang";
 
 export interface IContext extends RouteComponentProps<any> {
   user: getMyProfile_GetMyProfile_user;
@@ -61,7 +61,7 @@ export interface IContext extends RouteComponentProps<any> {
   langHook: {
     currentLang: TLanguageShort;
     changeLang: (lang: TLanguageShort) => void;
-    JDlang: (page: TLangPages, key: string) => any;
+    JDlang: (key: string) => any;
   };
 }
 
@@ -90,14 +90,13 @@ const JDmiddleServer: React.FC<IProps> = ({
   const {userRole} = user;
   const [sideNavIsOpen, setSideNavIsOpen] = useSideNav();
   const houseConfig = houseConfigSetting(currentHouse);
-  const langHook = useLang("kr");
 
   // 지원하지 않는 브라우저로 부터 접속했는지 확인합니다.
   JDoutdatedBrowserRework();
 
-  const langBiner = (group: TLangPages, context: Object) =>
+  const langBiner = (context: Object) =>
     Object.assign(context, {
-      JDlang: langHook.JDlang.bind(langHook.JDlang, group)
+      JDlang: langHook.JDlang.bind(langHook.JDlang)
     });
 
   // 디벨롭

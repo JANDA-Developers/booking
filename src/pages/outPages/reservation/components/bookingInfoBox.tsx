@@ -10,6 +10,7 @@ import {IRoomType} from "../../../../types/interface";
 import {PricingType} from "../../../../types/enum";
 import {autoComma} from "../../../../utils/utils";
 import {IRoomSelectInfo} from "../../../../components/bookingModal/BookingModal";
+import {LANG} from "../../../../hooks/hook";
 
 export interface IBookingInfoBoxProps {
   className?: string;
@@ -32,13 +33,13 @@ const BookingInfoBox: React.FC<IBookingInfoBoxProps> = ({
 
   const TableColumns: JDcolumn<IRoomSelectInfo>[] = [
     {
-      Header: "체크인",
+      Header: {LANG('checkIn')},
       accessor: "roomTypeId",
       Cell: () =>
         from && to ? <div>{moment(from).format("YYYY-MM-DD")}</div> : <div />
     },
     {
-      Header: "체크아웃",
+      Header: {LANG('checkOut')},
       accessor: "roomTypeId",
       Cell: () =>
         from && to ? <div>{moment(to).format("YYYY-MM-DD")}</div> : <div />
@@ -60,12 +61,12 @@ const BookingInfoBox: React.FC<IBookingInfoBoxProps> = ({
       Cell: ({original}) =>
         original.pricingType === PricingType.DOMITORY ? (
           <div>
-            <span>{`${original.count.male}남 `}</span>
-            <span>{`${original.count.female}여 `}</span>
+            <span>{`${original.count.male}${LANG("male")}`}</span>
+            <span>{`${original.count.female}${LANG("female")} `}</span>
           </div>
         ) : (
           <div>
-            <span>{`${original.count.roomCount}개`}</span>
+            <span>{`${original.count.roomCount}`}</span>
           </div>
         )
     }
@@ -78,11 +79,13 @@ const BookingInfoBox: React.FC<IBookingInfoBoxProps> = ({
         columns={TableColumns}
         data={roomSelectInfo}
         minRows={1}
-        noDataText="선택사항이 없습니다."
+        noDataText={LANG("no_choosen_option")}
       />
       <JDbox className="JDmargin-bottom0--wmdUp" mode="border">
-        <span>총가격 : {autoComma(totalPrice)}</span>
-        <span> /원</span>
+        <span>
+          {LANG("total_price")}: {autoComma(totalPrice)}
+        </span>
+        <span> /{LANG("money_unit")}}</span>
       </JDbox>
     </div>
   );

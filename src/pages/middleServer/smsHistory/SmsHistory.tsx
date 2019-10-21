@@ -11,6 +11,7 @@ import JDbox from "../../../atoms/box/JDbox";
 import {s4, autoHypen} from "../../../utils/utils";
 import moment from "moment";
 import {FLOATING_PRElOADER_SIZE, DateFormat} from "../../../types/enum";
+import {LANG} from "../../../hooks/hook";
 
 interface Iprops {
   setPage: any;
@@ -27,12 +28,12 @@ const SmsHistory: React.SFC<Iprops> = ({
 }) => {
   const TableColumns = [
     {
-      Header: "번호",
+      Header: LANG("index"),
       accessor: "index",
       Cell: ({index}: CellInfo) => <span>{index + 1}</span>
     },
     {
-      Header: "전송시간",
+      Header: LANG("transmission_time"),
       accessor: "createdAt",
       Cell: ({value}: CellInfo) => (
         <span>
@@ -43,7 +44,7 @@ const SmsHistory: React.SFC<Iprops> = ({
       )
     },
     {
-      Header: "수신자",
+      Header: LANG("receiver"),
       accessor: "receivers",
       Cell: ({value}: CellInfo) =>
         value.map((receiver: string) => (
@@ -53,7 +54,7 @@ const SmsHistory: React.SFC<Iprops> = ({
         ))
     },
     {
-      Header: "발신내용",
+      Header: LANG("msg_content"),
       accessor: "msg",
       minWidth: 300,
       Cell: ({value}: CellInfo) => (
@@ -67,12 +68,12 @@ const SmsHistory: React.SFC<Iprops> = ({
       )
     },
     {
-      Header: "발신타입",
+      Header: LANG("send_type"),
       accessor: "msgType",
       minWidth: 200
     },
     {
-      Header: "자동발신 여부",
+      Header: LANG("auto_send_whether"),
       accessor: "autoSendCase",
       Cell: ({value}: CellInfo) => (
         <div
@@ -85,14 +86,14 @@ const SmsHistory: React.SFC<Iprops> = ({
       )
     },
     {
-      Header: "발신상태",
+      Header: LANG("send_status"),
       accessor: "sendResult",
       Cell: ({value}: CellInfo) => (
         <span>
           {value ? (
-            <JDbadge thema={"primary"}>송신완료</JDbadge>
+            <JDbadge thema={"primary"}>{LANG("send_complete")}</JDbadge>
           ) : (
-            <JDbadge thema={"error"}>송신실패</JDbadge>
+            <JDbadge thema={"error"}>{LANG("send_fail")}</JDbadge>
           )}
         </span>
       )

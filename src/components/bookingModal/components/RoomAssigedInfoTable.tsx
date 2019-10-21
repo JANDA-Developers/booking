@@ -5,6 +5,7 @@ import {inOr} from "../../../utils/C";
 import JDselect from "../../../atoms/forms/selectBox/SelectBox";
 import {IAssigInfo} from "../../../pages/middleServer/assig/components/assigIntrerface";
 import {IBookingModal_AssigInfo} from "../BookingModal";
+import {LANG} from "../../../hooks/hook";
 
 interface IGuestTableInfo {
   _id: string;
@@ -43,7 +44,7 @@ const RoomAssigedInfoTable: React.FC<Iprops> = ({
 
   const TableColumns: JDcolumn<IGuestTableInfo>[] = [
     {
-      Header: "게스트",
+      Header: LANG("guest"),
       accessor: "_id",
       maxWidth: 64,
       Cell: ({original}) => (
@@ -51,24 +52,24 @@ const RoomAssigedInfoTable: React.FC<Iprops> = ({
       )
     },
     {
-      Header: "방타입",
+      Header: LANG("roomType"),
       accessor: "_id",
       Cell: ({original}) => <div>{original.roomType.name}</div>
     },
     {
-      Header: "방",
+      Header: LANG("room"),
       maxWidth: 80,
       accessor: "_id",
       Cell: ({original}) => <div>{inOr(original.room, "name", "")}</div>
     },
     {
-      Header: "침대번호",
+      Header: LANG("bedIndex"),
       accessor: "_id",
       maxWidth: 80,
       Cell: ({original}) => <div>{(original.bedIndex || 0) + 1}</div>
     },
     {
-      Header: "성별",
+      Header: LANG("gender"),
       accessor: "_id",
       maxWidth: 80,
       Cell: ({original}) => (
@@ -105,7 +106,7 @@ const RoomAssigedInfoTable: React.FC<Iprops> = ({
         {...ReactTableDefault}
         data={guestsData}
         minRows={1}
-        noDataText="선택사항이 없습니다."
+        noDataText={LANG("no_choosen_option")}
       />
     </div>
   );

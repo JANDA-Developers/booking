@@ -1,5 +1,5 @@
 import React from "react";
-import {IUseModal} from "../../../../../hooks/hook";
+import {IUseModal, LANG} from "../../../../../hooks/hook";
 import {IContext} from "../../../../MiddleServerRouter";
 import JDmodal from "../../../../../atoms/modal/Modal";
 import BookingInfoBox, {IBookingInfoBoxProps} from "../bookingInfoBox";
@@ -17,7 +17,9 @@ const BookingInfoModal: React.FC<Iprops> = ({
 }) => {
   return (
     <JDmodal noAnimation {...modalHook}>
-      <h6 className="JDtext-align-center">선택하신 정보가 맞나요?</h6>
+      <h6 className="JDtext-align-center">
+        {LANG("is_selected_info_collect")}
+      </h6>
       <BookingInfoBox {...props} />
       <div className="JDmodal__endSection">
         <Button
@@ -27,7 +29,7 @@ const BookingInfoModal: React.FC<Iprops> = ({
           }}
           thema="primary"
           size="long"
-          label="선택 정보가 맞습니다."
+          label={LANG("selection_information_is_correct")}
         />
       </div>
     </JDmodal>

@@ -8,7 +8,7 @@ import {ISetBookingInfo, IBookerInfo} from "../Reservation";
 import TooltipList from "../../../../atoms/tooltipList/TooltipList";
 import JDbox from "../../../../atoms/box/JDbox";
 import AgreePolicyModal from "./AgreePolicyModal";
-import {useModal} from "../../../../hooks/hook";
+import {useModal, LANG} from "../../../../hooks/hook";
 
 export interface IBookerInfoBoxProps {
   className?: string;
@@ -34,7 +34,7 @@ const BookerInfoBox: React.FC<IBookerInfoBoxProps> = ({
             setBookerInfo({...bookerInfo, name: value});
           }}
           id="JDbookerInfo__name"
-          label="성함"
+          label={LANG("name")}
         />
       </div>
       <div>
@@ -45,7 +45,7 @@ const BookerInfoBox: React.FC<IBookerInfoBoxProps> = ({
           }}
           hyphen
           id="JDbookerInfo__phoneNumber"
-          label="연락처"
+          label={LANG("contact")}
         />
       </div>
       <div>
@@ -56,7 +56,7 @@ const BookerInfoBox: React.FC<IBookerInfoBoxProps> = ({
           }}
           type="password"
           id="JDbookerInfo__password"
-          label="비밀번호"
+          label={LANG("password")}
         />
       </div>
       <div>
@@ -67,7 +67,7 @@ const BookerInfoBox: React.FC<IBookerInfoBoxProps> = ({
           }}
           id="JDbookerInfo__memo"
           textarea
-          label="메모"
+          label={LANG("momo")}
         />
       </div>
       <div className="bookerInfoBox__agreePolicyBox">
@@ -77,13 +77,13 @@ const BookerInfoBox: React.FC<IBookerInfoBoxProps> = ({
             setBookerInfo({...bookerInfo, agreePrivacyPolicy: value});
           }}
           id="JDbookerInfo__agreeMent"
-          label="개인정보 수집 동의"
+          label={LANG("consent_to_collection_of_personal_information")}
         />
         <Button
           onClick={() => {
             agreePolicyModalHook.openModal();
           }}
-          label="약관보기"
+          label={LANG("view_terms")}
           className="JDstandard-space0"
           mode="border"
         />

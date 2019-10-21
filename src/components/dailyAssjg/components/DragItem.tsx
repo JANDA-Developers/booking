@@ -13,6 +13,7 @@ import moment from "moment";
 import classNames from "classnames";
 import Gender from "../../../pages/middleServer/assig/components/items/Gender";
 import {BookingStatus} from "../../../types/enum";
+import {LANG} from "../../../hooks/hook";
 
 export interface IDragItemProp {
   type: string;
@@ -111,7 +112,7 @@ const DragItem: React.FC<IProps> = ({item, place, room, roomType}) => {
               id={`dailyAssigItem__block${item._id}`}
               className="dailyAssigItem__itemBlock dailyAssigItem__blockBlock"
             >
-              자리막기
+              {LANG("block_place")}
             </div>
           );
         }

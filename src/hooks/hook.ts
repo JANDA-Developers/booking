@@ -10,8 +10,8 @@ import {IselectedOption} from "../atoms/forms/selectBox/SelectBox";
 import {IHolidaysByApi} from "../types/interface";
 import moment from "moment";
 import {jsonString} from "../utils/utils";
+import {JDlang as originJDlang} from "../langs/JDlang";
 import {TLanguageShort} from "../types/enum";
-import {JDlang as originJDlang, TLangPages} from "../langs/JDlang";
 
 // 한방에 패치
 // A X I O S  : (http://codeheaven.io/how-to-use-axios-as-your-http-client/)
@@ -447,8 +447,9 @@ function useModal<T = any>(
 }
 
 export let CURRENT_LANG: TLanguageShort = "kr";
+
 // 언어가 결합된 LANG 함수
-export let LANG: (page: TLangPages, key: string) => any = (page, key) => {
+export let LANG: (key: string) => any = key => {
   return;
 };
 

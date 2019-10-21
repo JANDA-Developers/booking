@@ -5,7 +5,7 @@ import ProfileCircle from "../../../atoms/profileCircle/ProfileCircle";
 import SelectHouseWrap from "../../selectHouse/SelectHouseWrap";
 import SharedHeaderComponent from "./SharedHeaderComponent";
 import {IContext} from "../../../pages/MiddleServerRouter";
-import {IUseModal} from "../../../hooks/hook";
+import {IUseModal, LANG} from "../../../hooks/hook";
 import {IconSize} from "../../../atoms/icons/Icons";
 interface Iprops {
   context: IContext;
@@ -24,10 +24,10 @@ const PcHeaderComponent: React.FC<Iprops> = ({
   const UnLoginPcHeaderRight = () => (
     <div className="header__pcRight--unlogin JDdisplay-none--wmd">
       <NavLink className="header__btns header__btns--transparent" to="/login">
-        <Button className="hader__btn" label="로그인" mode="flat" />
+        <Button className="hader__btn" label={LANG("login")} mode="flat" />
       </NavLink>
       <NavLink className="header__btns header__btns--transparent" to="/signUp">
-        <Button className="hader__btn" label="회원가입" mode="flat" />
+        <Button className="hader__btn" label={LANG("signUp")} mode="flat" />
       </NavLink>
     </div>
   );

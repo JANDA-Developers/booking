@@ -1,6 +1,6 @@
 import React, {Fragment} from "react";
 import JDIcon from "../../../icons/Icons";
-import {IUseDayPicker} from "../../../../hooks/hook";
+import {IUseDayPicker, LANG} from "../../../../hooks/hook";
 import moment from "moment";
 
 interface Iprops {
@@ -10,7 +10,7 @@ interface Iprops {
 
 const ArrowDayByDay: React.FC<Iprops> = ({
   dayPickerHook,
-  format = "MM월 DD일",
+  format = `MM${LANG("month")} DD${LANG("date")}`,
   ...props
 }) => {
   const handleDayPickerArrow = (direction: "prev" | "next") => {

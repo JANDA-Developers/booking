@@ -213,12 +213,12 @@ const ResvList: React.SFC<IProps> = ({
       }
     },
     {
-      Header: "체크인",
+      Header: {LANG('checkIn')},
       accessor: "_id",
       Cell: ({original}) => <div>{to4YMMDD(original.checkIn)}</div>
     },
     {
-      Header: "체크아웃",
+      Header: {LANG('checkOut')},
       accessor: "_id",
       Cell: ({original}) => <div>{to4YMMDD(original.checkOut)}</div>
     },
@@ -227,7 +227,7 @@ const ResvList: React.SFC<IProps> = ({
         <div>
           {"예약자명"}
           <br />
-          {"연락처"}
+          {{LANG('contact')}}
         </div>
       ),
       accessor: "name",
@@ -268,7 +268,7 @@ const ResvList: React.SFC<IProps> = ({
       )
     },
     {
-      Header: "메모",
+      Header: {LANG('momo')},
       accessor: "memo",
       minWidth: 200,
       Cell: ({value}) => (

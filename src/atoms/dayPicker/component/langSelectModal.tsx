@@ -5,7 +5,7 @@ import {IContext} from "../../../pages/MiddleServerRouter";
 import {
   LanguageShortResverse,
   LANGUAGE_LIST,
-  LanguageShort
+  LanguageResverseShort
 } from "../../../types/enum";
 import {IUseModal} from "../../../hooks/hook";
 
@@ -23,7 +23,7 @@ const LangSelectModal: React.FC<Iprops> = ({context, modalHook}) => {
     <JDmodal {...modalHook}>
       <LangList
         onClickLng={lang => {
-          changeLang(LanguageShort[lang]);
+          changeLang(LanguageResverseShort[lang]);
         }}
         // @ts-ignore
         hilightLangs={[LanguageShortResverse[currentLang]]}

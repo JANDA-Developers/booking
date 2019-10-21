@@ -8,7 +8,6 @@ import {IntrospectionFragmentMatcher} from "apollo-cache-inmemory";
 import introspectionQueryResultData from "./fragmentTypes.json";
 import ToastError from "./components/toasts/ErrorToast";
 import {JDlang} from "./langs/JDlang";
-import {LanguageShort} from "./types/enum";
 import {CURRENT_LANG} from "./hooks/hook";
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({
@@ -59,7 +58,7 @@ const client = new ApolloClient<object>({
     } else if (networkError) {
       console.error(networkError);
       console.error(`[Network error]: ${networkError}`);
-      toast.warn(JDlang(CURRENT_LANG, "toasts", "check_net_status"));
+      toast.warn(JDlang(CURRENT_LANG, "check_net_status"));
     }
   }
 });

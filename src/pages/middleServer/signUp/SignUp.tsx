@@ -105,7 +105,7 @@ const SignUp: React.FC<Iprops> = ({context}) => {
                         <InputText
                           {...nameHook}
                           validation={utils.isName}
-                          label="성함"
+                          label={LANG("name")}
                         />
                       </div>
                       <div className="flex-grid__col col--full-12 col--md-12">
@@ -113,7 +113,7 @@ const SignUp: React.FC<Iprops> = ({context}) => {
                           {...passwordHook}
                           validation={utils.isPassword}
                           type="password"
-                          label="비밀번호"
+                          label={LANG("password")}
                         />
                       </div>
                       <p className="JDsmall-text">

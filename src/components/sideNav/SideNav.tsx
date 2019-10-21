@@ -201,7 +201,7 @@ const SideNav: React.FC<IProps> = ({isOpen, setIsOpen, context}) => {
                         className="JDmargin-bottom0"
                         contents={[
                           `만료일: ${to4YMMDD(applyedProduct.expireDate)}`,
-                          `가격: ${applyedProduct.price || 0} /월`
+                          `가격: ${applyedProduct.price || 0} /LANG("month")`
                         ]}
                       />
                     }

@@ -1,6 +1,6 @@
 import React, {useState, Fragment} from "react";
 import JDmodal from "../../../atoms/modal/Modal";
-import {IUseModal, useSelect} from "../../../hooks/hook";
+import {IUseModal, useSelect, LANG} from "../../../hooks/hook";
 import JDbox from "../../../atoms/box/JDbox";
 import JDselect, {
   IselectedOption
@@ -169,17 +169,17 @@ const CreateSmsModal: React.FC<IProps> = ({
       <PortalPreloader size="small" loading={loading} />
       {loading || (
         <Fragment>
-          <h5>문자발신</h5>
+          <h5>{LANG("send_sms")}</h5>
           <div className="JDz-index-2">
             <JDselect
               {...smsTargetOpHook}
               onChange={handleSmsTargetChange}
               options={GET_SMS_TARGET_OP}
-              label="대상찾기"
+              label={LANG("find_destination")}}
             />
           </div>
           <div>
-            <JDLabel txt="발신대상" />
+            <JDLabel txt={LANG("outgoing_destination")}} />
             <JDbox className="clear-fix" mode="border">
               {sendTargets.map(receiver => (
                 <JDbox
@@ -194,9 +194,9 @@ const CreateSmsModal: React.FC<IProps> = ({
           </div>
           <div className="JDz-index-1">
             <JDselect
-              label="문자템플릿"
+              label={LANG("sms_template")}
               onChange={handleSelectTemplate}
-              noOptionsMessage="SMS 설정에서 생성 해보세요."
+              noOptionsMessage={LANG("try_to_create_in_SMS_settings")}
               options={smsTemplateOp}
             />
           </div>
@@ -205,7 +205,7 @@ const CreateSmsModal: React.FC<IProps> = ({
               doubleHeight
               onChange={setMsg}
               value={msg}
-              label="전송문자"
+              label={LANG("msg_content")}
               textarea
             />
           </div>
@@ -214,7 +214,7 @@ const CreateSmsModal: React.FC<IProps> = ({
               size={"small"}
               thema="primary"
               onClick={handleSendSmsBtnClick}
-              label="전송"
+              label={LANG("send")}
             />
           </div>
         </Fragment>

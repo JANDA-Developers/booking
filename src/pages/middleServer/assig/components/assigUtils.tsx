@@ -259,8 +259,8 @@ export function getAssigUtils(
     // 아폴로 통신 성공
     if (result && result.data) {
       const message = guestValue[target.itemIndex].checkInInfo
-        ? "체크아웃"
-        : "체크인";
+        ? {LANG('checkOut')}
+        : {LANG('checkIn')};
       onCompletedMessage(result.data.UpdateBooking, message, "실패");
       if (result.data.UpdateBooking.ok) {
         // 뮤테이션 성공시

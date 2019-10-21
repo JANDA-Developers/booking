@@ -2,7 +2,7 @@ import React, {useMemo} from "react";
 import {Query, Mutation} from "react-apollo";
 import BookingModal from "./BookingModal";
 import _ from "lodash";
-import {IUseModal} from "../../hooks/hook";
+import {IUseModal, LANG} from "../../hooks/hook";
 import {
   getBooking,
   getBookingVariables,
@@ -163,8 +163,8 @@ const BookingModalWrap: React.FC<IProps> = ({
                         onCompleted={({UpdateBooking}) => {
                           onCompletedMessage(
                             UpdateBooking,
-                            "예약 업데이트",
-                            "예약 업데이트 실패"
+                            LANG("reservation_update"),
+                            LANG("reservation_update_fail")
                           );
                         }}
                       >
@@ -178,8 +178,8 @@ const BookingModalWrap: React.FC<IProps> = ({
                                 );
                               onCompletedMessage(
                                 StartBooking,
-                                "예약 생성 완료",
-                                "예약 생성 실패"
+                                LANG("reservation_creation_complete"),
+                                LANG("reservation_creation_fail")
                               );
                               if (StartBooking.ok) {
                                 modalHook.closeModal();
@@ -206,8 +206,8 @@ const BookingModalWrap: React.FC<IProps> = ({
                                 onCompleted={({DeleteBooking}) => {
                                   onCompletedMessage(
                                     DeleteBooking,
-                                    "예약 삭제 완료",
-                                    "예약 삭제 실패"
+                                    LANG("reservation_delete_complete"),
+                                    LANG("reservation_delete_fail")
                                   );
                                   modalHook.closeModal();
                                 }}

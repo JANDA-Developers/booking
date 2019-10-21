@@ -53,11 +53,11 @@ const CheckView: React.FC<Iprops> = ({data, refetch}) => {
           onChange={value => setSearchInfo({...searchInfo, phoneNumber: value})}
           hyphen
           value={searchInfo.phoneNumber}
-          label="연락처"
+          label={LANG("contact")}
         />
         <InputText
           onChange={value => setSearchInfo({...searchInfo, password: value})}
-          label="비밀번호"
+          label={LANG("password")}
           value={searchInfo.password}
           type="password"
         />

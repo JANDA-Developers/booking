@@ -153,13 +153,13 @@ export const SpecificAtion: React.FC<IProps> = ({
       title: "홈페이지 신청일시",
       value: moment(productCreateAt)
         .local()
-        .format("YY년 MM월 DD일 HH:mm")
+        .format("YY년 MMLANG("month") DD일 HH:mm")
     },
     {
       title: "홈페이지 예상완료일시",
       value: moment(productCreateAt)
         .add(3, "days")
-        .format("YY년 MM월 DD일 HH:mm")
+        .format("YY년 MMLANG("month") DD일 HH:mm")
     },
     {
       title: "홈페이지 작업 현황",
@@ -191,7 +191,7 @@ export const SpecificAtion: React.FC<IProps> = ({
     },
     {
       title: "상품금액",
-      value: productPrice + " / 월",
+      value: productPrice + " / LANG("month")",
       adminUi: <InputText comma onChange={setPrice} value={price} />
     },
     {
@@ -249,7 +249,7 @@ export const SpecificAtion: React.FC<IProps> = ({
         input
         modalHook={dayPickerModal}
         {...expireDateHook}
-        format={"YY년 MM월 DD일 까지"}
+        format={"YY년 MMLANG("month") DD일 까지"}
         isRange={false}
       />
 

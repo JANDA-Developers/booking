@@ -79,7 +79,11 @@ const Mypage: React.SFC<IProps> = ({
               <p>{`숙소 ${houses.length}개 보유중`}</p>
             </div>
             <div>
-              <InputText {...nameHook} validation={utils.isName} label="성함" />
+              <InputText
+                {...nameHook}
+                validation={utils.isName}
+                label={LANG("name")}
+              />
             </div>
             <div>
               <InputText
@@ -143,7 +147,7 @@ const Mypage: React.SFC<IProps> = ({
             {...passwordHook}
             type="password"
             validation={utils.isPassword}
-            label="비밀번호"
+            label={LANG("password")}
           />
         </div>
         <div className="JDmodal__endSection">

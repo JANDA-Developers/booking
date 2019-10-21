@@ -36,13 +36,13 @@ const DayCheckIn: React.FC<Iprops> = ({
           isRange={false}
           input
           canSelectBeforeDay={false}
-          label="달력날자"
+          label="LANG("calender_date")"
           {...dayPickerHook}
           className="JDwaves-effect JDoverflow-visible"
           inputComponent={(prop: any) => (
             <ArrowDayByDay
               {...prop}
-              format="MM월 DD일"
+              format="MMLANG("month") DD일"
               dayPickerHook={dayPickerHook}
             />
           )}

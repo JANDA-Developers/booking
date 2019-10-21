@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 import {SelectComponentsProps} from "react-select/lib/Select";
 import {isEmpty} from "../../../utils/utils";
+import {LANG} from "../../../hooks/hook";
 
 export interface IselectedOption<T = any> {
   label: string;
@@ -89,7 +90,7 @@ const JDselect: React.SFC<Iprops> = ({
     width: size
   };
 
-  const deafultPlaceHolder = "선택";
+  const deafultPlaceHolder = LANG("select");
 
   return (
     <div style={selectStyle} className={classes}>

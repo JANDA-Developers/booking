@@ -3,7 +3,7 @@ import {IconSize} from "../../../atoms/icons/Icons";
 
 import Button from "../../../atoms/button/Button";
 import Card from "../../../atoms/cards/Card";
-import {useModal} from "../../../hooks/hook";
+import {useModal, LANG} from "../../../hooks/hook";
 import {MutationFn} from "react-apollo";
 import {
   updateSmsTemplate,
@@ -58,7 +58,7 @@ const Sms: React.FC<IProps> = ({
 }) => {
   const {smsTemplates} = smsInfo || DEFAUT_SMS_INFO;
   const smsTemplateModal = useModal<ISmsTemplateModalProps>(false);
-  if (!smsInfo) return <h3>SMS 신청을 먼저 완료해주세요.</h3>;
+  if (!smsInfo) throw Error("non SMS info");
 
   const {house} = context;
 
@@ -97,9 +97,15 @@ const Sms: React.FC<IProps> = ({
             tooltip={
               <JDlist
                 contents={[
-                  <span>자동발신 여부 : {enable ? "Y" : "N"}</span>,
-                  <span>자동발신 대상 : {who} </span>,
-                  <span>자동발신 상황 : {when}</span>
+                  <span>
+                    {LANG("auto_send_whether")} : {enable ? "Y" : "N"}
+                  </span>,
+                  <span>
+                    {LANG("auto_send_target")} : {who}{" "}
+                  </span>,
+                  <span>
+                    {LANG("auto_send_condition")} : {when}
+                  </span>
                 ]}
               />
             }
@@ -116,9 +122,11 @@ const Sms: React.FC<IProps> = ({
     <div id="sms" className="sms container">
       <div className="docs-section">
         <h3>
-          <span className="JDstandard-space">SMS 설정</span>
+          <span className="JDstandard-space">{LANG("sms_setting")}}</span>
           <Help
-            tooltip="SMS 템플릿을 설정해두시면 메세지를 보낼떄 해당 템플릿을 편리하게 보낼수 있습니다."
+            tooltip={LANG(
+              "if_you_set_up_an_SMS_template_you_can_conveniently_send_the_template_when_you_send_a_message"
+            )}
             icon={"help"}
             size={IconSize.MEDIUM}
           />
@@ -127,14 +135,17 @@ const Sms: React.FC<IProps> = ({
           onClick={() => {
             handleCreateBtnClick();
           }}
-          label="템플릿 추가하기"
+          label={LANG("create_template")}
           thema="primary"
         />
         <Link to="/smsHistory">
-          <Button mode="border" icon="arrowTo" label="SMS 내역보기" />
+          <Button
+            mode="border"
+            icon="arrowTo"
+            label={LANG("view_SMS_history")}
+          />
         </Link>
         <div className="docs-section__box">
-          {/* <h6>문자 템플릿 설정</h6> */}
           <div className="row sms__templateCardWrap">
             {isEmpty(smsTemplates) ||
               smsTemplates.map(template => (
@@ -150,7 +161,7 @@ const Sms: React.FC<IProps> = ({
           </div>
           {isEmpty(smsTemplates) && (
             <h4 className="JDtextColor--placeHolder">
-              새로운 템플릿을 생성하세요.
+              {LANG("create_a_new_template")}
             </h4>
           )}
         </div>

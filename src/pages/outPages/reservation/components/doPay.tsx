@@ -7,9 +7,10 @@ import {
 import moment from "moment";
 import {isMobile} from "is-mobile";
 import $ from "jquery";
+import { LANG } from "../../../../hooks/hook";
 
 const nicepayClose = () => {
-  alert("결제가 취소 되었습니다");
+  alert(LANG("payment_canceled"));
 };
 
 const pcCallBackFromNicePay = () => {
@@ -167,7 +168,7 @@ export const openNiceModal = async ({resvInfo, transactionId}: IProp) => {
     form.setAttribute(
       "action",
       "https://web.nicepay.co.kr/v3/smart/smartPayment.jsp"
-    ); //요청 보낼 주소
+
     form.setAttribute("id", "nicePayMobile"); //요청 보낼 주소
     form.setAttribute("name", "tranMgr"); //요청 보낼 주소
 

@@ -5,8 +5,9 @@ import {IDiv} from "../../types/interface";
 import {
   Language,
   LANGUAGE_LIST,
-  LanguageShort,
-  LanguageItSelf
+  LanguageItSelf,
+  LangShortToNational,
+  LanguageResverseShort
 } from "../../types/enum";
 import JDbox from "../../atoms/box/JDbox";
 import Card from "../../atoms/cards/Card";
@@ -27,7 +28,7 @@ const LangList: React.FC<IProps> = ({onClickLng, hideList, hilightLangs}) => {
   return (
     <div className={"clear-fix"}>
       {LangList.map(lang => {
-        const fileName = LanguageShort[lang];
+        const fileName = LangShortToNational[LanguageResverseShort[lang]];
         try {
           const flag = require(`../../img/flags/${fileName}.png`);
           return (

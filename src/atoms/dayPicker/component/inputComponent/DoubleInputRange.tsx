@@ -1,5 +1,5 @@
 import React from "react";
-import {IUseDayPicker} from "../../../../hooks/hook";
+import {IUseDayPicker, LANG} from "../../../../hooks/hook";
 import {to4YMMDD} from "../../../../utils/setMidNight";
 import JDLabel from "../../../label/JDLabel";
 import JDbox from "../../../box/JDbox";
@@ -12,11 +12,11 @@ const DoubleInputRange: React.FC<Iprops> = ({dayPickerHook, ...prop}) => {
   return (
     <div {...prop} className="JDflex--between standard">
       <JDbox>
-        <JDLabel txt="체크인 날자" />
+        <JDLabel txt={LANG("checkin_date")} />
         <h6 className="JDnoWrap">{to4YMMDD(dayPickerHook.from)}</h6>
       </JDbox>
       <JDbox>
-        <JDLabel txt="체크아웃 날자" />
+        <JDLabel txt={LANG("checkout_date")} />
         <h6 className="JDnoWrap">{to4YMMDD(dayPickerHook.to)}</h6>
       </JDbox>
     </div>

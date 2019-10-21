@@ -5,6 +5,7 @@ import moment from "moment";
 import InputText from "../../../forms/inputText/InputText";
 import "moment/locale/ko";
 import {isEmpty} from "../../../../utils/utils";
+import {LANG} from "../../../../hooks/hook";
 // 데이픽커 인풋은 어레인이지를 지원하지 않을려는것만 같다.
 // 무리하게 바꾸었는데 잘 동작할지 모르겠다.
 
@@ -36,7 +37,7 @@ const JDdayPickerInput: React.FC<IProps> = ({
   dayPickerProps,
   displayYear,
   inputClassName,
-  placeholder = "날자를 선택해주세요",
+  placeholder = LANG("please_select_date"),
   format = displayYear ? "YYYY-MM-DD" : "MM-DD",
   inputComponent: InputComponent,
   disabled,

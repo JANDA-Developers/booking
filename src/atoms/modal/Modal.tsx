@@ -3,7 +3,7 @@ import ReactModal from "react-modal";
 import "./Modal.scss";
 import classNames from "classnames";
 import Button from "../button/Button";
-import {IUseModal} from "../../hooks/hook";
+import {IUseModal, LANG} from "../../hooks/hook";
 import {s4} from "../../utils/utils";
 import JDanimation, {Animation} from "../animation/Animations";
 
@@ -93,7 +93,7 @@ const JDmodal: React.SFC<IProps> = ({
     onClick: () => {
       hanldeClickBtn(true);
     },
-    label: trueMessage || "확인"
+    label: trueMessage || LANG("confirm")
   };
 
   const sharedFalseBtnProp: any = {
@@ -102,7 +102,7 @@ const JDmodal: React.SFC<IProps> = ({
     onClick: () => {
       hanldeClickBtn(false);
     },
-    label: falseMessage || "취소"
+    label: falseMessage || LANG("cancel")
   };
 
   const misClickPreventCloseModal = () => {

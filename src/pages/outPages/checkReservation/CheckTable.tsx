@@ -25,7 +25,7 @@ const CheckTable: React.FC<IProps> = ({tableData}) => {
     getBookingForPublic_GetBookingForPublic_booking
   >[] = [
     {
-      Header: "체크인",
+      Header: {LANG('checkIn')},
       accessor: "_id",
       Cell: ({original}) => (
         <div>
@@ -34,7 +34,7 @@ const CheckTable: React.FC<IProps> = ({tableData}) => {
       )
     },
     {
-      Header: "체크아웃",
+      Header: {LANG('checkOut')},
       accessor: "_id",
       Cell: ({original}) => (
         <div>

@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import React, {Fragment} from "react";
 import JDmodal from "../../../../atoms/modal/Modal";
-import {IUseModal} from "../../../../hooks/hook";
+import {IUseModal, LANG} from "../../../../hooks/hook";
 import JDselect from "../../../../atoms/forms/selectBox/SelectBox";
 import Button from "../../../../atoms/button/Button";
 import BookerInfoBox from "./bookerInfoBox";
@@ -53,7 +53,7 @@ const PayMentModal: React.SFC<IProps> = ({
       {createLoading || (
         <div>
           <h6 className="JDreservation__sectionTitle JDtext-align-center">
-            결제 정보 입력
+            {LANG("payment_info")}
           </h6>
           <div>
             <div>
@@ -62,14 +62,14 @@ const PayMentModal: React.SFC<IProps> = ({
                 options={
                   isHost ? PAYMETHOD_FOR_HOST_OP : PAYMETHOD_FOR_BOOKER_OP
                 }
-                label="결제수단"
+                label={LANG("method_of_payment")}
               />
             </div>
             {isHost && (
               <Fragment>
                 <div>
                   <JDselect
-                    label="결제상태"
+                    label={LANG("payment_status")}
                     {...paymentStatusHook}
                     options={PAYMENT_STATUS_OP}
                   />
@@ -90,7 +90,7 @@ const PayMentModal: React.SFC<IProps> = ({
               thema="primary"
               flat
               onClick={onPayRequest}
-              label="결제하기"
+              label={LANG("make_payment")}
               size="long"
             />
           </div>

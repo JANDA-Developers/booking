@@ -5,6 +5,7 @@ import EerrorProtect from "../../../utils/errProtect";
 import {IRoomSelectInfo} from "../BookingModal";
 import {PricingType} from "../../../types/enum";
 import {s4, isEmpty} from "../../../utils/utils";
+import {LANG} from "../../../hooks/hook";
 
 interface IProps {
   className?: string;
@@ -17,22 +18,22 @@ const RoomSelectInfoTable: React.FC<IProps> = ({className, roomSelectInfo}) => {
 
   const TableColumns: JDcolumn<IRoomSelectInfo>[] = [
     {
-      Header: "객실정보",
+      Header: LANG("room_info"),
       accessor: "roomTypeName",
       Cell: ({original}) => <div>{original.roomTypeName}</div>
     },
     {
-      Header: "인원",
+      Header: LANG("Headcount"),
       accessor: "count",
       Cell: ({value, original}) =>
         original.pricingType === PricingType.DOMITORY ? (
           <div>
-            <span>{`${value.male}남 `}</span>
-            <span>{`${value.female}여 `}</span>
+            <span>{`${value.male}${LANG("male")} `}</span>
+            <span>{`${value.female}${LANG("female")} `}</span>
           </div>
         ) : (
           <div>
-            <span>{`${value.roomCount}명`}</span>
+            <span>{`${value.roomCount}${LANG("people")}`}</span>
           </div>
         )
     }
@@ -45,7 +46,7 @@ const RoomSelectInfoTable: React.FC<IProps> = ({className, roomSelectInfo}) => {
         {...ReactTableDefault}
         data={roomSelectInfo}
         minRows={1}
-        noDataText="선택사항이 없습니다."
+        noDataText={LANG("no_choosen_option")}
       />
     </div>
   );
