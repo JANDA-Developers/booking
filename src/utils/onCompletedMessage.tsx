@@ -1,5 +1,4 @@
 import {toast} from "react-toastify";
-import languagedetect from "languagedetect";
 
 const isIncludeKr = (str: string | null): boolean => {
   if (!str) return false;

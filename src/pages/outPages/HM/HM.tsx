@@ -7,7 +7,12 @@ import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
 import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
 import JDmenu, {JDsubMenu} from "../../../atoms/menu/Menu";
 import {Language} from "../../../types/enum";
-import {useModal, IuseImageUploader, IUseModal} from "../../../hooks/hook";
+import {
+  useModal,
+  IuseImageUploader,
+  IUseModal,
+  LANG
+} from "../../../hooks/hook";
 import {Fragment} from "react";
 import "./HM.scss";
 import LangViewModal from "../../middleServer/HMconfig/component/LangViewModal";
@@ -109,7 +114,7 @@ const HMcompoent: React.FC<IProps> = ({
                           title[currentLang] = value;
                           setTitle({...title});
                         }}
-                        placeholder="하우스 메뉴얼 타이틀"
+                        placeholder={LANG("HM_title")}
                       />
                     </div>
                   )}
@@ -120,7 +125,7 @@ const HMcompoent: React.FC<IProps> = ({
                     onClick={() => {
                       languageListModalHook.openModal();
                     }}
-                    tooltip={`현재:${currentLang}`}
+                    tooltip={`${currentLang}`}
                     thema="primary"
                     label="language"
                   />
@@ -142,7 +147,9 @@ const HMcompoent: React.FC<IProps> = ({
                 size={IconSize.BIG_LARGE}
               >
                 <JDIcon
-                  tooltip={`현재 설정된 번호: ${userInfo.phoneNumber}`}
+                  tooltip={`${LANG("current_set_number")}}: ${
+                    userInfo.phoneNumber
+                  }`}
                   size={IconSize.BIG_LARGE}
                   icon="call"
                 />
@@ -158,7 +165,7 @@ const HMcompoent: React.FC<IProps> = ({
                 size={IconSize.BIG_LARGE}
               >
                 <JDIcon
-                  tooltip="구글맵으로 위치확인하기"
+                  tooltip={LANG("check_location_with_google_map")}
                   size={IconSize.BIG_LARGE}
                   icon="location"
                 />
@@ -176,7 +183,7 @@ const HMcompoent: React.FC<IProps> = ({
                 size={IconSize.BIG_LARGE}
               >
                 <JDIcon
-                  tooltip="호스트에게 문자보내기"
+                  tooltip={LANG("send_text_to_host")}
                   size={IconSize.BIG_LARGE}
                   icon="sms"
                 />

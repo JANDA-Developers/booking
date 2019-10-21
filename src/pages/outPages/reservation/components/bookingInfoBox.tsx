@@ -45,7 +45,7 @@ const BookingInfoBox: React.FC<IBookingInfoBoxProps> = ({
         from && to ? <div>{moment(to).format("YYYY-MM-DD")}</div> : <div />
     },
     {
-      Header: "객실정보",
+      Header: LANG("room_info"),
       accessor: "roomTypeId",
       Cell: ({value}) => {
         const roomType = roomTypeInfo.find(
@@ -56,7 +56,7 @@ const BookingInfoBox: React.FC<IBookingInfoBoxProps> = ({
       }
     },
     {
-      Header: "인원",
+      Header: LANG("personnel"),
       accessor: "roomTypeId",
       Cell: ({original}) =>
         original.pricingType === PricingType.DOMITORY ? (

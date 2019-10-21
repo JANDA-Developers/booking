@@ -55,7 +55,7 @@ interface IProps {
 }
 
 const JDmenu: React.FC<IProps> = ({customMode, className, ...prop}) => {
-  const menu = useRef();
+  const menu = useRef(null);
 
   const classes = classNames("JDmenu", className, {
     "JDmenu--sideNav": customMode === "sideNav",

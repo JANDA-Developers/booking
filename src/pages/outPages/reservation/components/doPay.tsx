@@ -65,7 +65,7 @@ export const openNiceModal = async ({resvInfo, transactionId}: IProp) => {
     },
     {
       name: "GoodsName",
-      value: "숙소 예약"
+      value: LANG("house_reservation")
     },
     {
       name: "GoodsCnt",

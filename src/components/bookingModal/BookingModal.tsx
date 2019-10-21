@@ -167,6 +167,7 @@ const BookingModal: React.FC<IProps> = ({
   const payMethodHook = useSelect(
     C(
       bookingId !== "default",
+      // @ts-ignore
       {value: payMethod, label: PayMethodKr[payMethod]},
       null
     )
@@ -174,6 +175,7 @@ const BookingModal: React.FC<IProps> = ({
   const paymentStatusHook = useSelect<PaymentStatus>(
     C(
       bookingId !== "default",
+      // @ts-ignore
       {value: paymentStatus, label: PaymentStatusKr[paymentStatus]},
       null
     )
@@ -183,6 +185,7 @@ const BookingModal: React.FC<IProps> = ({
       bookingId !== "default",
       {
         value: bookingStatus,
+        // @ts-ignore
         label: BookingStatusKr[bookingStatus]
       },
       null

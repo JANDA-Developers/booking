@@ -82,7 +82,6 @@
     "jest-resolve": "23.6.0",
     "jquery": "^3.3.1",
     "json2xls": "^0.1.2",
-    "languagedetect": "^1.2.0",
     "lodash": "^4.17.11",
     "lodash.debounce": "^4.0.8",
     "markdown-to-jsx": "^6.9.1",

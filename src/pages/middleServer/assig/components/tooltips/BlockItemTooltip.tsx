@@ -5,6 +5,7 @@ import {
   IAssigTimelineUtils,
   IAssigTimelineContext
 } from "../assigIntrerface";
+import {LANG} from "../../../../../hooks/hook";
 
 interface IProps {
   assigHooks: IAssigTimelineHooks;
@@ -23,7 +24,7 @@ const BlockItemTooltip: React.FC<IProps> = ({
           onClick={() => {
             deleteItemById(blockMenuProps.item.id);
           }}
-          label="삭제"
+          label={LANG("delete")}
         />
       </li>
       <li>
@@ -31,7 +32,7 @@ const BlockItemTooltip: React.FC<IProps> = ({
           onClick={() => {
             allTooltipsHide();
           }}
-          label="취소"
+          label={LANG("cancel")}
         />
       </li>
     </ul>

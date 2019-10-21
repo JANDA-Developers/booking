@@ -58,7 +58,7 @@ const GuestTooltip: React.FC<Iprops> = ({
                     onClick={() => {
                       deleteBtnCallBack(targetGuest);
                     }}
-                    label="삭제"
+                    label={LANG('delete')}
                   />
                 </li>
               </Fragment>

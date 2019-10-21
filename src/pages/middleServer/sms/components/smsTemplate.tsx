@@ -14,7 +14,7 @@ import {
   SendTargetKr,
   KR_SMS_PARSER
 } from "../../../../types/enum";
-import {useSelect, useInput, useSwitch} from "../../../../hooks/hook";
+import {useSelect, useInput, useSwitch, LANG} from "../../../../hooks/hook";
 import InputText from "../../../../atoms/forms/inputText/InputText";
 import Switch from "../../../../atoms/forms/switch/Switch";
 import Button from "../../../../atoms/button/Button";
@@ -170,8 +170,16 @@ const SmsTemplate: React.SFC<IProps> = ({
       </div>
       <div>
         {/* <Button onClick={handleCreateBtnClick} thema="primary" label="추가" /> */}
-        <Button onClick={handleUpdateBtnClick} thema="primary" label="수정" />
-        <Button onClick={handleDeleteBtnClick} thema="error" label="삭제" />
+        <Button
+          onClick={handleUpdateBtnClick}
+          thema="primary"
+          label={LANG("modify")}
+        />
+        <Button
+          onClick={handleDeleteBtnClick}
+          thema="error"
+          label={LANG("delete")}
+        />
       </div>
     </Fragment>
   );

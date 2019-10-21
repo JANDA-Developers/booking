@@ -8,7 +8,7 @@ import {
   FLOATING_PRElOADER_SIZE
 } from "../../../types/enum";
 import {IQueryOp} from "./StatisticWrap";
-import {IUseDayPicker, useModal} from "../../../hooks/hook";
+import {IUseDayPicker, useModal, LANG} from "../../../hooks/hook";
 import Button from "../../../atoms/button/Button";
 import moment from "moment";
 import Preloader from "../../../atoms/preloader/Preloader";
@@ -144,7 +144,7 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
 
   const handleTodaySalesStatic = () => {
     setQueryOp({
-      selectStatic: "매출통계",
+      selectStatic: LANG("sales_statistics"),
       unit: SalesStatisticsUnit.BY_DAY_OF_WEEK
     });
     queryDateHook.setFrom(
@@ -157,7 +157,7 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
 
   const handleThisMonthSalesStatic = () => {
     setQueryOp({
-      selectStatic: "매출통계",
+      selectStatic: LANG("sales_statistics"),
       unit: SalesStatisticsUnit.BY_DAY_OF_WEEK
     });
     queryDateHook.setFrom(
@@ -170,7 +170,7 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
 
   const handleSetDaySalesStatic = () => {
     setQueryOp({
-      selectStatic: "매출통계",
+      selectStatic: LANG("sales_statistics"),
       unit: SalesStatisticsUnit.BY_DATE
     });
     queryDateHook.setFrom(
@@ -274,7 +274,7 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
                       staticControllerModalHook.openModal();
                     }}
                     thema="primary"
-                    label="통계변경"
+                    label={LANG("change_statistics")}
                     icon="controller"
                   />
                 )}

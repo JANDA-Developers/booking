@@ -121,6 +121,7 @@ export const kr = {
   if_you_violate_the_accommodation_policy_your_personal_information_will_be_saved_with_the_violation:
     "숙박 규정을 위반할 시 위반내용과 함께 개인정보가 저장됩니다.",
   try_to_create_in_SMS_settings: "SMS 설정에서 생성 해보세요.",
+  write_a_description_of_the_menu: "해당 메뉴의 설명을 적어보세요.",
   retention_period: "보유 기간",
   msg_content: "문자내용",
   name: "이름",
@@ -149,12 +150,17 @@ export const kr = {
   password: "비밀번호",
   send_status: "발신상태",
   send_complete: "송신완료",
+  graph_shape: "그래프 형태",
   send_fail: "송신실패",
   payment_status: "결제상태",
   total_price: "총가격",
   method_of_payment: "결제수단",
   people: "명",
   memo: "메모",
+  HM_title: "하우스 메뉴얼 타이틀",
+  current_set_number: "현재 설정된 번호",
+  send_text_to_host: "호스트에게 문자 보내기",
+  check_location_with_google_map: "구글맵으로 위치 확인하기",
   please_select_the_number_of_people: "인원수를 선택해주세요.",
   payment_canceled: "결제가 취소 되었습니다.",
   no_choosen_option: "선택사항이 없습니다.",
@@ -166,16 +172,34 @@ export const kr = {
   noti_period: "알람 기간",
   date_of_creation: "생성일시",
   houseName: "숙소명",
+  house_reservation: "숙소 예약",
   transmission_time: "전송시간",
+  are_you_sure_you_want_to_delete_this_guest: "해당 게스트를 삭제하시겠습니까?",
+  others_booked_by_the_reservation_will_not_be_erased:
+    "해당 예약자가 예약한 다른 인원들은 지워지지 않습니다.",
   dormitory: "도미토리",
   receiver: "수신자",
   invalid_password: "잘못된 패스워드입니다.",
+  only_remove_that_guest: "해당 게스트만 제거",
+  remove_all_reservations_booked_together: "함께 예약된 모든 예약 인원 제거",
   username_must_be_email: "아이디는 이메일 이여야합니다.",
   copy_reservation_page_URL: "예약페이지 URL 복사",
   login_complete: "로그인 완료",
   auth: "인증",
-  house_create: <span>숙소<Mbr />생성</span>,
-  product_registration: <span>상품<Mbr />등록</span>,
+  house_create: (
+    <span>
+      숙소
+      <Mbr />
+      생성
+    </span>
+  ),
+  product_registration: (
+    <span>
+      상품
+      <Mbr />
+      등록
+    </span>
+  ),
   passwords_do_not_match: "패스워드가 일치하지 않습니다.",
   cant_find_this_email: "해당 이메일을 찾을수 없습니다.",
   if_you_set_up_an_SMS_template_you_can_conveniently_send_the_template_when_you_send_a_message:
@@ -202,6 +226,7 @@ export const kr = {
   input_your_password_please: "비밀번호를 입력해주세요.",
   please_enter_your_phone_number: "전화번호를 입력해주세요.",
   date_of_statistics: "통계날자",
+  change_statistics: "통계변경",
   which_unit_would_you_like_to_see: "어떤 단위로 보여 드릴까요?",
   status: "상태",
   Rooms: "객실",

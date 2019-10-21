@@ -2,7 +2,7 @@ import React from "react";
 import {IContext} from "../../../MiddleServerRouter";
 import StaticController from "./StaticController";
 import JDmodal from "../../../../atoms/modal/Modal";
-import {IUseModal} from "../../../../hooks/hook";
+import {IUseModal, LANG} from "../../../../hooks/hook";
 import {IStaticsProps} from "../Statistic";
 import {IconSize} from "../../../../atoms/icons/Icons";
 import StaticIcons from "./StaticIcons";
@@ -26,7 +26,7 @@ const StaticsControllerModal: React.FC<Iprops> = ({
         <div className="modal__section">
           <StaticController staticsProps={staticsProps} context={context} />
         </div>
-        <h6>그래프 형태</h6>
+        <h6>{LANG("graph_shape")}</h6>
         <div>
           <StaticIcons
             iconSize={IconSize.MEDIUM_LARGE}

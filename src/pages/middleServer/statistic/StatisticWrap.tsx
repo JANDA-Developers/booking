@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import Statistic, {IStaticsWrapProps} from "./Statistic";
 import moment from "moment";
-import {useDayPicker} from "../../../hooks/hook";
+import {useDayPicker, LANG} from "../../../hooks/hook";
 import {Query} from "react-apollo";
 import {
   getSalesStatistic,
@@ -31,7 +31,7 @@ class GetSalesStatistic extends Query<
 const StatisticWrap: React.FC<IProps> = ({context}) => {
   const {house} = context;
   const [queryOp, setQueryOp] = useState<IQueryOp>({
-    selectStatic: "매출통계",
+    selectStatic: LANG("sales_statistics"),
     unit: SalesStatisticsUnit.BY_DAY_OF_WEEK
   });
 

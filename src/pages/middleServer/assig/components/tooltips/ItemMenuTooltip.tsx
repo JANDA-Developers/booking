@@ -52,7 +52,7 @@ const ItemMenuTooltip: React.FC<IProps> = ({
                       ReactTooltip.hide();
                       deleteGuestById(guestId);
                     }}
-                    label="삭제"
+                    label={LANG("delete")}
                   />
                 </li>
               </Fragment>

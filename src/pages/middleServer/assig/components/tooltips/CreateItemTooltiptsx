@@ -113,7 +113,7 @@ const CreateItemTooltip: React.FC<IProps> = ({
           </li>
         )}
         <li>
-          <Button label="삭제" onClick={() => deleteItemById(target.id)} />
+          <Button label={LANG('delete')} onClick={() => deleteItemById(target.id)} />
         </li>
       </ul>
     </div>

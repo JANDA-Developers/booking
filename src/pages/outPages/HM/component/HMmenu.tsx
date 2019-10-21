@@ -1,9 +1,11 @@
 import React, {Fragment, useEffect} from "react";
 import ImageUploader from "../../../../atoms/imageUploader/ImageUploader";
-import {useImageUploader, IuseImageUploader} from "../../../../hooks/hook";
+import {
+  useImageUploader,
+  IuseImageUploader,
+  LANG
+} from "../../../../hooks/hook";
 import InputText from "../../../../atoms/forms/inputText/InputText";
-import JDbox from "../../../../atoms/box/JDbox";
-import JDIcon from "../../../../atoms/icons/Icons";
 import {getHM_GetHM_HM_menus} from "../../../../types/api";
 import {Language} from "../../../../types/enum";
 
@@ -54,7 +56,7 @@ const HMmenu: React.FC<IProps> = ({
         }}
         autoHeight
         value={menu.content[currentLang]}
-        placeholder="메뉴에대한 숙소 설명을 적어보세요."
+        placeholder={LANG("write_a_description_of_the_menu")}
         textarea
       />
     </Fragment>

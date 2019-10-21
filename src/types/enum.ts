@@ -151,11 +151,13 @@ export enum TimePerMs {
 }
 
 export enum PaymentStatus {
+  CANCEL = "CANCEL",
   PROGRESSING = "PROGRESSING",
   COMPLETE = "COMPLETE"
 }
 
 export enum PaymentStatusKr {
+  CANCEL = "결제취소",
   PROGRESSING = "미결제",
   COMPLETE = "결제완료"
 }
@@ -423,7 +425,9 @@ export const PAYMENT_STATUS_OP = [
   {value: PaymentStatus.COMPLETE, label: "결제완료"}
 ];
 
-export const STATISTICS_OP = [{value: "매출통계", label: "매출통계"}];
+export const STATISTICS_OP = [
+  {value: LANG("sales_statistics"), label: LANG("sales_statistics")}
+];
 
 export const STATISTICS_TYPE_OP = [
   {

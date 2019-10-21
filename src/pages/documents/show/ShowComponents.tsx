@@ -37,7 +37,8 @@ import {
   useColorPicker,
   useDayPicker,
   useModal,
-  useDrawer
+  useDrawer,
+  LANG
 } from "../../../hooks/hook";
 import "./ShowComponent.scss";
 import JDcolorPicker from "../../../atoms/colorPicker/ColorPicker";
@@ -138,7 +139,7 @@ function ShowComponents() {
     {
       Header: "삭제/생성",
       accessor: "controll",
-      Cell: (props: CellInfo) => <Button thema="error" label="삭제" />
+      Cell: (props: CellInfo) => <Button thema="error" label={LANG("delete")} />
     }
   ];
 
