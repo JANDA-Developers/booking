@@ -9,6 +9,7 @@ import {
   IAssigTimelineContext
 } from "../assigIntrerface";
 import {BookingStatus} from "../../../../../types/enum";
+import {LANG} from "../../../../../hooks/hook";
 
 interface IProps {
   assigHooks: IAssigTimelineHooks;
@@ -27,7 +28,7 @@ const ItemMenuTooltip: React.FC<IProps> = ({
       getContent={(guestId: string) => {
         const targetGuest = guestValue.find(guest => guest.id === guestId);
         if (!targetGuest) return;
-        const isProgressing = targetGuest.status === BookingStatus.PROGRESSING
+        const isProgressing = targetGuest.status === BookingStatus.PROGRESSING;
         return (
           <ul className="tooltipList__ul">
             {!isProgressing && (
@@ -38,7 +39,11 @@ const ItemMenuTooltip: React.FC<IProps> = ({
                       ReactTooltip.hide();
                       toogleCheckInOut(guestId);
                     }}
-                    label={targetGuest.checkInInfo ? {LANG('checkOut')} : {LANG('checkIn')}}
+                    label={
+                      targetGuest.checkInInfo
+                        ? LANG("checkOut")
+                        : LANG("checkIn")
+                    }
                   />
                 </li>
                 <li>

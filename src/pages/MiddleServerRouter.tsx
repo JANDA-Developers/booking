@@ -69,6 +69,11 @@ interface IProps {
   GetUserInfo: any;
   selectedHouse: any;
   IsLoggedIn: any;
+  langHook: {
+    currentLang: TLanguageShort;
+    changeLang: (lang: TLanguageShort) => void;
+    JDlang: (key: string) => any;
+  };
 }
 
 const JDmiddleServer: React.FC<IProps> = ({
@@ -80,7 +85,8 @@ const JDmiddleServer: React.FC<IProps> = ({
     GetMyProfile: {user = DEFAUT_USER} = {},
     loading: loading2
   } = {},
-  selectedHouse: {lastSelectedHouse, loading: loading3}
+  selectedHouse: {lastSelectedHouse, loading: loading3},
+  langHook
 }) => {
   const isLoading: boolean = loading || loading2 || loading3;
   const houses: IHouse[] = user.houses || [];
@@ -93,11 +99,6 @@ const JDmiddleServer: React.FC<IProps> = ({
 
   // 지원하지 않는 브라우저로 부터 접속했는지 확인합니다.
   JDoutdatedBrowserRework();
-
-  const langBiner = (context: Object) =>
-    Object.assign(context, {
-      JDlang: langHook.JDlang.bind(langHook.JDlang)
-    });
 
   // 디벨롭
   if (userRole === "DEVELOPER") setCookie("isDeveloper", "Y", 1);

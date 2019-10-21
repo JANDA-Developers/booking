@@ -15,6 +15,7 @@ import {assigSharedDleteGuestConfirmMessage} from "./items/shared";
 import {getAllRoomTypeWithGuest_GetGuests_guests as IG} from "../../../../types/api";
 import {muResult} from "../../../../utils/utils";
 import {toast} from "react-toastify";
+import {LANG} from "../../../../hooks/hook";
 
 export function getDailyAssigUtils(
   {
@@ -61,7 +62,7 @@ export function getDailyAssigUtils(
     });
 
     if (muResult(result, "UpdateBooking")) {
-      toast.success(!isIn ? {LANG('checkIn')} : {LANG('checkOut')});
+      toast.success(!isIn ? LANG("checkIn") : LANG("checkOut"));
     } else {
       toast.warn("체크인 변경 실패");
     }

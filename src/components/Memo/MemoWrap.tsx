@@ -17,7 +17,7 @@ import {getOperationName} from "apollo-link";
 import {MemoType} from "../../types/enum";
 import Preloader from "../../atoms/preloader/Preloader";
 import {IContext} from "../../pages/MiddleServerRouter";
-import {IUseModal} from "../../hooks/hook";
+import {IUseModal, LANG} from "../../hooks/hook";
 
 export interface IMemoWrapProps extends IConfigMemo {
   context: IContext;
@@ -63,8 +63,8 @@ const MemoWrap: React.FC<IMemoWrapProps> = ({context, memoType, ...prop}) => {
                   onCompleted={({DeleteMemo}) =>
                     onCompletedMessage(
                       DeleteMemo,
-                      "메모 삭제완료",
-                      "메모 삭제실패"
+                      LANG("deleted_note_completed"),
+                      LANG("deleted_note_failed")
                     )
                   }
                 >
@@ -76,8 +76,8 @@ const MemoWrap: React.FC<IMemoWrapProps> = ({context, memoType, ...prop}) => {
                       onCompleted={({UpdateMemo}) =>
                         onCompletedMessage(
                           UpdateMemo,
-                          "메모 업데이트 완료",
-                          "메모 업데이트 실패"
+                          LANG("note_updated"),
+                          LANG("note_updated_failed")
                         )
                       }
                     >

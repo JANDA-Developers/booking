@@ -15,7 +15,8 @@ import BookingModalWrap from "../../../components/bookingModal/BookingModalWrap"
 import {
   IUseDayPicker,
   useModal,
-  getKoreaSpecificDayHook
+  getKoreaSpecificDayHook,
+  LANG
 } from "../../../hooks/hook";
 import classnames from "classnames";
 import assigGroupRendererFn from "./components/groupRenderFn";
@@ -257,7 +258,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
       >
         <div className="docs-section">
           <h3 className="assigTimeline__titleSection">
-            {"배정달력"}
+            {LANG("allocation_calendar")}
             <Preloader
               size="small"
               floating
@@ -272,7 +273,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
                   reservationModal.openModal();
                 }}
                 icon="edit"
-                label="예약하기"
+                label={LANG("make_reservation")}
               />
               <Link to="/resvList">
                 <Button mode="border" icon="arrowTo" label="예약목록 보기" />

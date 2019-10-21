@@ -9,6 +9,7 @@ import {
 } from "../../../pages/middleServer/assig/components/assigIntrerface";
 import {getAllRoomTypeWithGuest_GetGuests_guests as IG} from "../../../types/api";
 import {BookingStatus} from "../../../types/enum";
+import {LANG} from "../../../hooks/hook";
 
 interface Iprops {
   context: IContext;
@@ -47,8 +48,8 @@ const GuestTooltip: React.FC<Iprops> = ({
                     }}
                     label={
                       targetGuest.booking.checkInInfo.isIn
-                        ? {LANG("checkOut")}
-                        : {LANG('checkIn')}
+                        ? LANG("checkOut")
+                        : LANG("checkIn")
                     }
                   />
                 </li>

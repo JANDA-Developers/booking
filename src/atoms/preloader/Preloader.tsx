@@ -95,4 +95,4 @@ const JDpreloader: React.FC<IPreloaderConfigProps> = ({
   );
 };
 
-export default ErrProtecter(JDpreloader);
+export default JDpreloader;

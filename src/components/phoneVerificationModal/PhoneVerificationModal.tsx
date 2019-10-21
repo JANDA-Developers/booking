@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import InputText from "../../atoms/forms/inputText/InputText";
 import Modal from "../../atoms/modal/Modal";
 import Button from "../../atoms/button/Button";
-import {useInput, IUseModal} from "../../hooks/hook";
+import {useInput, IUseModal, LANG} from "../../hooks/hook";
 import {ErrProtecter} from "../../utils/utils";
 import "./PhoneVerification.scss";
 import JDmodal from "../../atoms/modal/Modal";
@@ -58,7 +58,7 @@ const PhoneVerification: React.FC<IProps> = ({
       overlayClassName="Overlay"
       ariaHideApp={false}
     >
-      <h5>휴대폰 인증번호</h5>
+      <h5>{LANG("mobile_phone_verification_number")}</h5>
       <JDTimer initialTime={TimePerMs.M * 3} direction="backward">
         {({timerState}: any) => {
           if (timerState === "STOPPED") {
@@ -67,24 +67,25 @@ const PhoneVerification: React.FC<IProps> = ({
           return (
             <span className="JDtimer">
               <span className="JDtimer__minute">
-                <Timer.Minutes />분
+                <Timer.Minutes />
+                {LANG("minute")}
               </span>
               <span className="JDtimer__second">
-                <Timer.Seconds />초
+                <Timer.Seconds />
+                {LANG("second")}
               </span>
             </span>
           );
         }}
       </JDTimer>
-      <InputText {...keyHook} label="인증번호" />
+      <InputText {...keyHook} label={LANG("certification_number")} />
       <div className="JDmodal__endSection">
         <Button
-          
           thema={"primary"}
-          label="인증하기"
+          label={LANG("authenticate")}
           onClick={() => {
             if (isTimeOver) {
-              toast.warn("시간초과 다시 요청하세요.");
+              toast.warn(LANG("timeout_please_request_again"));
             }
             completePhoneVerificationMu({
               variables: {

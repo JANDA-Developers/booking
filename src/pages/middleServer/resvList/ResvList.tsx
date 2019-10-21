@@ -7,7 +7,7 @@ import JDtable, {ReactTableDefault, JDcolumn} from "../../../atoms/table/Table";
 import CheckBox from "../../../atoms/forms/checkBox/CheckBox";
 import Button from "../../../atoms/button/Button";
 import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
-import {useModal} from "../../../hooks/hook";
+import {useModal, LANG} from "../../../hooks/hook";
 import BookingModalWrap from "../../../components/bookingModal/BookingModalWrap";
 import {IPageInfo, IBooking, IRoomType} from "../../../types/interface";
 import JDbox from "../../../atoms/box/JDbox";
@@ -213,12 +213,12 @@ const ResvList: React.SFC<IProps> = ({
       }
     },
     {
-      Header: {LANG('checkIn')},
+      Header: LANG("checkIn"),
       accessor: "_id",
       Cell: ({original}) => <div>{to4YMMDD(original.checkIn)}</div>
     },
     {
-      Header: {LANG('checkOut')},
+      Header: LANG("checkOut"),
       accessor: "_id",
       Cell: ({original}) => <div>{to4YMMDD(original.checkOut)}</div>
     },
@@ -227,7 +227,7 @@ const ResvList: React.SFC<IProps> = ({
         <div>
           {"예약자명"}
           <br />
-          {{LANG('contact')}}
+          {LANG("contact")}
         </div>
       ),
       accessor: "name",
@@ -268,7 +268,7 @@ const ResvList: React.SFC<IProps> = ({
       )
     },
     {
-      Header: {LANG('momo')},
+      Header: LANG("momo"),
       accessor: "memo",
       minWidth: 200,
       Cell: ({value}) => (

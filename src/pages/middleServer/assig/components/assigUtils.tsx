@@ -77,6 +77,7 @@ import {
   GB_booking,
   TBookingModalOpenWithMark
 } from "../../../../types/interface";
+import {LANG} from "../../../../hooks/hook";
 
 export function getAssigUtils(
   {
@@ -259,8 +260,8 @@ export function getAssigUtils(
     // 아폴로 통신 성공
     if (result && result.data) {
       const message = guestValue[target.itemIndex].checkInInfo
-        ? {LANG('checkOut')}
-        : {LANG('checkIn')};
+        ? LANG("checkOut")
+        : LANG("checkIn");
       onCompletedMessage(result.data.UpdateBooking, message, "실패");
       if (result.data.UpdateBooking.ok) {
         // 뮤테이션 성공시

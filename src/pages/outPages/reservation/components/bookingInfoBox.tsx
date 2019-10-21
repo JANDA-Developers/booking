@@ -33,13 +33,13 @@ const BookingInfoBox: React.FC<IBookingInfoBoxProps> = ({
 
   const TableColumns: JDcolumn<IRoomSelectInfo>[] = [
     {
-      Header: {LANG('checkIn')},
+      Header: LANG("checkIn"),
       accessor: "roomTypeId",
       Cell: () =>
         from && to ? <div>{moment(from).format("YYYY-MM-DD")}</div> : <div />
     },
     {
-      Header: {LANG('checkOut')},
+      Header: LANG("checkOut"),
       accessor: "roomTypeId",
       Cell: () =>
         from && to ? <div>{moment(to).format("YYYY-MM-DD")}</div> : <div />

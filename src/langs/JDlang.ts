@@ -1,6 +1,6 @@
 import {Language, TLanguageShort} from "../types/enum";
 import {kr} from "./kr";
-import {en} from "./en";
+import en from "./en";
 
 const JDlangs = {
   kr,

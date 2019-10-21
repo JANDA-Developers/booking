@@ -1,6 +1,6 @@
 import React, {Fragment, useState} from "react";
 import {getHousesForSU_GetHousesForSU_houses as Ihouse} from "../../../types/api";
-import {IUseModal, useModal} from "../../../hooks/hook";
+import {IUseModal, useModal, LANG} from "../../../hooks/hook";
 import Preloader from "../../../atoms/preloader/Preloader";
 import "./SuperMain.scss";
 import JDPagination from "../../../atoms/pagination/Pagination";
@@ -51,7 +51,7 @@ const SuperMain: React.SFC<Iprops> = ({
                     });
                   }}
                   thema="white"
-                  label="단체알림"
+                  label={LANG("group_notification")}
                   icon="notify"
                 />
               </div>

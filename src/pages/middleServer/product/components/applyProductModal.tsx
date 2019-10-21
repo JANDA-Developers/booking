@@ -5,7 +5,8 @@ import {
   IUseModal,
   useSwitch,
   useRadio,
-  useInput
+  useInput,
+  LANG
 } from "../../../../hooks/hook";
 import Button from "../../../../atoms/button/Button";
 import Radio from "../../../../atoms/forms/radio/Radio";
@@ -68,7 +69,6 @@ const ApplyProductModal: React.FC<IProps> = ({
           <div className="modal__section">{productType.detailDesc}</div>
           <Button
             thema="point"
-            
             label="이 상품을 숙소에 적용하기"
             onClick={() => {
               setStep(2);
@@ -142,9 +142,8 @@ const ApplyProductModal: React.FC<IProps> = ({
       {step > 1 && (
         <div className="JDmodal__endSection">
           <Button
-            
             thema="primary"
-            label="신청하기"
+            label={LANG("apply")}
             onClick={() => {
               if (useLayout && step === 2) setStep(3);
               else if (validation()) {

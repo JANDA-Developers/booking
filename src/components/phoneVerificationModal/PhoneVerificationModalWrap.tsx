@@ -16,7 +16,7 @@ import {
   START_PHONE_VERIFICATION_WITH_PHONE_NUMBER
 } from "../../queries";
 import EerrorProtect from "../../utils/errProtect";
-import {IUseModal} from "../../hooks/hook";
+import {IUseModal, LANG} from "../../hooks/hook";
 import {RouteComponentProps} from "react-router";
 
 class StartPhoneVerificationMu extends Mutation<
@@ -51,8 +51,8 @@ const PhoneVerificationModalWrap: React.FC<IProps> = ({
     onCompleted={({StartSenderVerification}) => {
       onCompletedMessage(
         StartSenderVerification,
-        "인증번호 발송완료",
-        "인증번호 발송실패"
+        LANG("certification_number_sent"),
+        LANG("certification_number_sent_fail")
       );
     }}
   >

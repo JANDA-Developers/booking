@@ -9,7 +9,8 @@ import {
   useInput,
   useSelect,
   useDayPicker,
-  useModal
+  useModal,
+  LANG
 } from "../../../../hooks/hook";
 import JDbox from "../../../../atoms/box/JDbox";
 import {NOTI_LEVEL_OP, NotiType} from "../../../../types/enum";
@@ -57,9 +58,9 @@ const CreateNotiModal: React.FC<Iprops> = ({
 
   return (
     <JDmodal visibleOverflow {...modalHook}>
-      <h6>알림 보내기</h6>
+      <h6>{LANG("send_notification")}</h6>
       <div>
-        <JDbox label="알림 대상" mode="border">
+        <JDbox label={LANG("noti_target")} mode="border">
           <JDbox>{target}</JDbox>
         </JDbox>
       </div>
@@ -67,7 +68,7 @@ const CreateNotiModal: React.FC<Iprops> = ({
         <JDselect
           options={NOTI_LEVEL_OP}
           {...notiLevelHook}
-          label="알람 중요도"
+          label={LANG("noti_level")}
         />
       </div>
       <div>
@@ -81,15 +82,17 @@ const CreateNotiModal: React.FC<Iprops> = ({
             canSelectBeforeDay={false}
             isRange={false}
             input
-            format={"YY년 MMLANG("month") DD일 까지"}
+            format={`YY${LANG("year")} MM${LANG("month")} DD${LANG(
+              "date"
+            )} ${LANG("till")}`}
             calenaderPosition="center"
             {...validPeriodHook}
-            label="알람 기간"
+            label={LANG("noti_period")}
           />
         </div>
       </div>
       <div>
-        <InputText {...titleHook} label="알림제목" />
+        <InputText {...titleHook} label={LANG("noti_title")} />
       </div>
       <div>
         <InputText {...msgHook} textarea label="알림내용" />
@@ -100,7 +103,7 @@ const CreateNotiModal: React.FC<Iprops> = ({
           mode="flat"
           onClick={handleClickSendBtn}
           thema="primary"
-          label="전송"
+          label={LANG("send")}
         />
         <DayPickerModal
           displayInfo={false}

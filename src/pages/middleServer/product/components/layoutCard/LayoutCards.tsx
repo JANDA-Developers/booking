@@ -5,6 +5,7 @@ import Button from "../../../../../atoms/button/Button";
 import {Fragment} from "react";
 import Radio from "../../../../../atoms/forms/radio/Radio";
 import {LayoutType} from "../../../../../types/enum";
+import {LANG} from "../../../../../hooks/hook";
 
 interface IProps extends CardProps {
   selectedLayout?: any;
@@ -22,19 +23,21 @@ interface layout {
 const layouts: layout[] = [
   {
     id: LayoutType.Layout_A,
-    name: "A타입 레이아웃",
+    name: LANG("light_type_layout"),
     link: "http://janda-install.kr/",
-    desc: "기본제공",
+    desc: LANG("basic_offer"),
     img:
       "https://res.cloudinary.com/stayjanda-com/image/upload/v1560234616/layout_type_A.jpg"
   },
   {
     id: LayoutType.Layout_B,
-    name: "B타입 레이아웃",
+    name: LANG("heavy_type_layout"),
     desc: (
       <span>
-        추가비용 50,000 <br />
-        <span className="JDsmall-text">(첫구매시만 발생)</span>
+        {LANG("additional_cost")} 50,000 <br />
+        <span className="JDsmall-text">{`(${LANG(
+          "only_on_first_purchase"
+        )})`}</span>
       </span>
     ),
     link: "http://colton123.net/",
@@ -84,7 +87,7 @@ const LayoutCards: React.FC<IProps> = ({
                   }}
                   mode="flat"
                   thema="grey"
-                  label="살펴보기"
+                  label={LANG("take_a_look")}
                 />
               </div>
             </Card>

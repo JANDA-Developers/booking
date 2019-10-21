@@ -3,6 +3,7 @@ import "./NoMatch.scss";
 import Button from "../../atoms/button/Button";
 import {NavLink} from "react-router-dom";
 import {IContext} from "../MiddleServerRouter";
+import {LANG} from "../../hooks/hook";
 
 interface Iprops {
   context: IContext;
@@ -13,7 +14,7 @@ const NoMatch: React.FC<Iprops> = ({context}) => (
     <div className="container container--centerlize">
       <div>
         <h1>
-          <div className="NoMatch__text">{"페이지가 존재하지 않습니다."}</div>
+          <div className="NoMatch__text">{LANG("page_does_not_exist")}</div>
           <b className="NoMatch__heart">
             💔
             <br />
@@ -25,7 +26,7 @@ const NoMatch: React.FC<Iprops> = ({context}) => (
             size="large"
             mode="border"
             thema="point"
-            label="홈으로 돌아가기"
+            label={LANG("go_back_to_home")}
           />
         </NavLink>
       </div>

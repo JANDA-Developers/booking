@@ -1,26 +1,42 @@
+import React from "react";
 import Mbr from "../atoms/mbr/Mbr";
 
-
 export const kr = {
-  additionaly_setting_to_will_good_for_manage_ment: `추가로 다음과 같은 설정을 해두시면 ${(
-    <Mbr />
-  )} 숙소운영에 도움이 될거에요!`,
-  default_setting_is_compelted: `기본설정이${<Mbr />} 완료 되었습니다.`,
-  make_it_easy_to_guide_accommodation_for_guests: `게스트에게 숙소 이용 ${(
-    <Mbr />
-  )}
-  안내를 편리하게 해보세요.`,
-  try_setting_it_up_different_prices_by_date: `날자별로 가격을 다르게${(
-    <Mbr />
-  )} 설정해보세요.`,
+  additionaly_setting_to_will_good_for_manage_ment: (
+    <span>
+      추가로 다음과 같은 설정을 해두시면 <Mbr /> 숙소운영에 도움이 될거에요!
+    </span>
+  ),
+  default_setting_is_compelted: (
+    <span>
+      기본설정이
+      <Mbr /> 완료 되었습니다.
+    </span>
+  ),
+  make_it_easy_to_guide_accommodation_for_guests: (
+    <span>
+      게스트에게 숙소 이용 <Mbr />
+      안내를 편리하게 해보세요.
+    </span>
+  ),
+  try_setting_it_up_different_prices_by_date: (
+    <span>
+      날자별로 가격을 다르게
+      <Mbr /> 설정해보세요.
+    </span>
+  ),
   Pricing: "가겨설정",
   choseCheckInDate: "체크인 날자를 선택해 주세요.",
   choseCheckOutDate: "체크아웃 날자를 선택해 주세요.",
   checkIn: "체크인",
   go_to_set: "설정하러 가기",
-  automatically_send_prompts_to_your_guests: `게스트에게 안내문자를 ${(
-    <Mbr />
-  )} 자동 발송해 보세요.`,
+  automatically_send_prompts_to_your_guests: (
+    <span>
+      게스트에게 안내문자를
+      <Mbr />
+      자동 발송해 보세요.
+    </span>
+  ),
   sms_setting: "SMS설정",
   checkOut: "체크아웃",
   checkin_date: "체크인 날자",
@@ -30,9 +46,37 @@ export const kr = {
   cancleBooking: "예약취소",
   sendSMS: "문자전송",
   delete: "삭제",
+  turn_off_alarm: "알림해제",
+  timeout_please_request_again: "시간초과 다시 요청 해주세요.",
+  there_is_an_alarm_set_note: "알람 설정된 메모가 있습니다.",
+  group_notification: "단체알림",
+  alarm: "알림",
+  alarm_transmission_failed: "알람 전송 실패",
+  alarm_transmission_completed: "알람 전송 성공",
+  page_does_not_exist: "페이지가 존재하지 않습니다.",
+  go_back_to_home: "홈으로 돌아가기",
+  noti_setting: "알람 설정",
+  note_updated: "메모 업데이트 완료",
+  note_updated_failed: "메모 업데이트 실패",
+  deleted_note_completed: "메모 삭제 완료",
+  deleted_note_failed: "메모 삭제 실패",
+  keep_noti: "계속 메모를 뛰우세요.",
+  close_today: "하루동안 뛰우지 마세요.",
+  authenticate: "인증하기",
+  certification_number: "인증번호",
+  mobile_phone_verification_number: "휴대폰 인증번호",
+  certification_number_sent: "인증번호 발송완료",
+  certification_number_sent_fail: "인증번호 발송실패",
   deleteBooking: "예약삭제",
-  block_place: "자리막기"
+  minute: "분",
+  second: "초",
+  block_place: "자리막기",
   nextResv: "다음 예약 ",
+  make_reservation: "예약하기",
+  send_notification: "알림 보내기",
+  allocation_calendar: "배정달력",
+  noti_target: "알림 대상",
+  noti_level: "알람 중요도",
   checkDelete: "개를 삭제하시겠습니까?",
   check_net_status: "네트워크 연결상태를 확인해주세요!",
   checkCheckInDate: "체크인 날자를 선택해 주세요.",
@@ -47,6 +91,7 @@ export const kr = {
   month: "월",
   calender_date: "달력날자",
   date: "일",
+  till: "까지",
   mon: "월",
   tue: "월",
   wed: "월",
@@ -101,7 +146,7 @@ export const kr = {
   female: "여",
   make_payment: "결제하기",
   payment_info: "결제정보",
-  password:"비밀번호",
+  password: "비밀번호",
   send_status: "발신상태",
   send_complete: "송신완료",
   send_fail: "송신실패",
@@ -117,6 +162,8 @@ export const kr = {
   money_unit: "원",
   send: "전송",
   index: "번호",
+  noti_title: "알림 제목",
+  noti_period: "알람 기간",
   date_of_creation: "생성일시",
   houseName: "숙소명",
   transmission_time: "전송시간",
@@ -126,12 +173,50 @@ export const kr = {
   username_must_be_email: "아이디는 이메일 이여야합니다.",
   copy_reservation_page_URL: "예약페이지 URL 복사",
   login_complete: "로그인 완료",
+  auth: "인증",
+  house_create: <span>숙소<Mbr />생성</span>,
+  product_registration: <span>상품<Mbr />등록</span>,
   passwords_do_not_match: "패스워드가 일치하지 않습니다.",
   cant_find_this_email: "해당 이메일을 찾을수 없습니다.",
   if_you_set_up_an_SMS_template_you_can_conveniently_send_the_template_when_you_send_a_message:
-  "SMS 템플릿을 설정해두시면 메세지를 보낼떄 해당 템플릿을 편리하게 보낼수 있습니다.",
+    "SMS 템플릿을 설정해두시면 메세지를 보낼떄 해당 템플릿을 편리하게 보낼수 있습니다.",
   view_SMS_history: "SMS 내역보기",
   create_template: "템플릿 생성",
   create_a_new_template: "새로운 템플릿을 생성하세요.",
-  send_type: "발신타입"
+  send_type: "발신타입",
+  choose_product: "상품선택",
+  useing: "사용중",
+  basic_offer: "기본제공",
+  light_type_layout: "light 타입 레이아웃",
+  heavy_type_layout: "heavy 타입 레이아웃",
+  please_inquire_separately: "별도 문의 바랍니다.",
+  additional_cost: "추가비용",
+  only_on_first_purchase: "첫구매시에만 발생",
+  take_a_look: "살펴보기",
+  apply: "신청하기",
+  product_application_completed: "상품 신청 완료",
+  product_application_failed: "상품 신청 실패",
+  reservation_confirm: "예약확인",
+  witch_statistics_do_you_want: "어떤 통계를 원하시나요?",
+  input_your_name_please: "이름을 입력해주세요.",
+  input_your_password_please: "비밀번호를 입력해주세요.",
+  please_enter_your_phone_number: "전화번호를 입력해주세요.",
+  date_of_statistics: "통계날자",
+  which_unit_would_you_like_to_see: "어떤 단위로 보여 드릴까요?",
+  status: "상태",
+  Rooms: "객실",
+  sales_statistics: "매출통계",
+  statistical_transformation: "통계 변환",
+  reservation_information: "예약정보",
+  reservation_lookup: "예약조회",
+  personnel: "인원",
+  usage_amount: "이용금액",
+  block_highlights: "블록 하일라이트",
+  Apply: "적용",
+  memo_content: "메모내용",
+  unapplied: "적용해제",
+  apply_color: "적용색상",
+  completed: "완료",
+  modify: "수정",
+  applies_to_all_reservations_booked_together: "함께 예약된 예약에 모두 적용"
 };

@@ -1,4 +1,5 @@
 import {isMobile} from "is-mobile";
+import {LANG} from "../hooks/hook";
 
 export enum PricingType {
   DOMITORY = "DOMITORY",
@@ -215,7 +216,7 @@ export enum BookingModalModes {
 export enum SalesStatisticsUnitKr {
   BY_DAY_OF_WEEK = "요일별",
   BY_DATE = "날자별",
-  MONTHLY = "LANG("month")별",
+  MONTHLY = "년별",
   WEEKLY = "주별",
   YEARLY = "년별"
 }
@@ -298,7 +299,7 @@ export enum ProductTypeKey {
   STANDARD = "STANDARD"
 }
 
-export const WeekArrKr = ["일", "LANG("month")", "화", "수", "목", "금", "토"];
+export const WeekArrKr = ["일", LANG("month"), "화", "수", "목", "금", "토"];
 export const WeekArrEn = [
   Day.SUN,
   Day.MON,
@@ -315,8 +316,8 @@ export enum SERVICE_CONTECT {
 }
 
 export enum SmsReplaceKeyEnumKr {
-  STAYDATE = "[숙박일자(LANG("month")/일)]",
-  STAYDATE_YMD = "[숙박일자(년/LANG("month")/일)]",
+  STAYDATE = "[숙박일자년/일)]",
+  STAYDATE_YMD = "[숙박일자(년/월/일)]",
   ROOMTYPE_N_COUNT = "[숙박정보(방/인원)]",
   BOOKERNAME = "[예약자명]",
   TOTALPRICE = "[가격]",

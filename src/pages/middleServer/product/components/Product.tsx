@@ -3,7 +3,7 @@ import "./Product.scss";
 import JDIcon, {IconSize} from "../../../../atoms/icons/Icons";
 import JDbadge from "../../../../atoms/badge/Badge";
 import Button from "../../../../atoms/button/Button";
-import {IUseModal} from "../../../../hooks/hook";
+import {IUseModal, LANG} from "../../../../hooks/hook";
 import {IProductTypeDesc} from "../../../../types/interface";
 import {applyProductModalInfo} from "./applyProductModal";
 import classNames from "classnames";
@@ -31,7 +31,7 @@ const JDproduct: React.FC<IProps> = ({
 
   const handleProductSelect = () => {
     if (disable) {
-      toast.success("본 상품은 별도 문의 바랍니다.");
+      toast.success(LANG("please_inquire_separately"));
       return;
     }
     setSelectedProductTypeId(productType._id);
@@ -60,7 +60,9 @@ const JDproduct: React.FC<IProps> = ({
           </div>
           <h4 className="JDproduct__limit">
             {productType.name}{" "}
-            {isCurrent && <JDbadge thema={"positive"}>사용중</JDbadge>}
+            {isCurrent && (
+              <JDbadge thema={"positive"}>{LANG("useing")}}</JDbadge>
+            )}
           </h4>
         </div>
         <div className="JDproduct__decs">{productType.shortDesc}</div>
@@ -72,7 +74,7 @@ const JDproduct: React.FC<IProps> = ({
               mode="border"
               thema="point"
               onClick={handleProductSelect}
-              label="상품선택"
+              label={LANG("choose_product")}
             />
           )}
         </div>

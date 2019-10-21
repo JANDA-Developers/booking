@@ -1,7 +1,7 @@
 import React from "react";
 import {IContext} from "../../pages/MiddleServerRouter";
 import {getBookings_GetBookings_bookings} from "../../types/api";
-import {IUseDayPicker} from "../../hooks/hook";
+import {IUseDayPicker, LANG} from "../../hooks/hook";
 import ArrowDayByDay from "../../atoms/dayPicker/component/inputComponent/ArrowDayByDay";
 import JDdayPicker from "../../atoms/dayPicker/DayPicker";
 import Preloader from "../../atoms/preloader/Preloader";
@@ -36,13 +36,13 @@ const DayCheckIn: React.FC<Iprops> = ({
           isRange={false}
           input
           canSelectBeforeDay={false}
-          label="LANG("calender_date")"
+          label={LANG("calender_date")}
           {...dayPickerHook}
           className="JDwaves-effect JDoverflow-visible"
           inputComponent={(prop: any) => (
             <ArrowDayByDay
               {...prop}
-              format="MMLANG("month") DD일"
+              format={`MM${LANG("month")} DD일`}
               dayPickerHook={dayPickerHook}
             />
           )}

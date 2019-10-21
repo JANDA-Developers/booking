@@ -175,11 +175,11 @@ const CreateSmsModal: React.FC<IProps> = ({
               {...smsTargetOpHook}
               onChange={handleSmsTargetChange}
               options={GET_SMS_TARGET_OP}
-              label={LANG("find_destination")}}
+              label={LANG("find_destination")}
             />
           </div>
           <div>
-            <JDLabel txt={LANG("outgoing_destination")}} />
+            <JDLabel txt={LANG("outgoing_destination")} />
             <JDbox className="clear-fix" mode="border">
               {sendTargets.map(receiver => (
                 <JDbox

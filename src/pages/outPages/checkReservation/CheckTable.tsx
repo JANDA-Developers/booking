@@ -14,6 +14,7 @@ import {
 } from "../../../types/enum";
 import moment from "moment";
 import {getRoomSelectInfo} from "../../../utils/guestCountByRoomType";
+import {LANG} from "../../../hooks/hook";
 
 export interface IProps {
   tableData: getBookingForPublic_GetBookingForPublic_booking[] | undefined;
@@ -25,7 +26,7 @@ const CheckTable: React.FC<IProps> = ({tableData}) => {
     getBookingForPublic_GetBookingForPublic_booking
   >[] = [
     {
-      Header: {LANG('checkIn')},
+      Header: LANG("checkIn"),
       accessor: "_id",
       Cell: ({original}) => (
         <div>
@@ -34,7 +35,7 @@ const CheckTable: React.FC<IProps> = ({tableData}) => {
       )
     },
     {
-      Header: {LANG('checkOut')},
+      Header: LANG("checkOut"),
       accessor: "_id",
       Cell: ({original}) => (
         <div>
@@ -43,7 +44,7 @@ const CheckTable: React.FC<IProps> = ({tableData}) => {
       )
     },
     {
-      Header: "객실/인원",
+      Header: LANG("Rooms") + LANG("personnel"),
       accessor: "roomTypes",
       Cell: ({value, original}) => {
         const roomTypes: IRoomType[] = value;
@@ -74,7 +75,7 @@ const CheckTable: React.FC<IProps> = ({tableData}) => {
       }
     },
     {
-      Header: "이용금액",
+      Header: LANG("usage_amount"),
       accessor: "payment",
       Cell: ({value, original}) => (
         <div>
@@ -87,7 +88,7 @@ const CheckTable: React.FC<IProps> = ({tableData}) => {
       )
     },
     {
-      Header: "상태",
+      Header: LANG("status"),
       accessor: "status",
       Cell: ({value, original}) => (
         <span>

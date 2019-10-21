@@ -2,6 +2,7 @@ import React from "react";
 import TooltipList from "../../../atoms/tooltipList/TooltipList";
 import Button from "../../../atoms/button/Button";
 import {getMemos_GetMemos_memos as Memo} from "../../../types/api";
+import {LANG} from "../../../hooks/hook";
 
 interface Iprops {
   handleClickUpdate: (memo: Memo) => void;
@@ -23,7 +24,7 @@ const MemoTooltip: React.FC<Iprops> = ({
           onClick={() => {
             handleClickUpdate(memo);
           }}
-          label="수정"
+          label={LANG("modify")}
         />
       </li>
       <li>
@@ -31,7 +32,7 @@ const MemoTooltip: React.FC<Iprops> = ({
           onClick={() => {
             handleClickDelete(memo);
           }}
-          label="삭제"
+          label={LANG("delete")}
         />
       </li>
       <li>
@@ -39,7 +40,7 @@ const MemoTooltip: React.FC<Iprops> = ({
           onClick={() => {
             handleImportToogle(memo);
           }}
-          label={!memo.enableAlert ? "알람" : "알람해제"}
+          label={!memo.enableAlert ? LANG("alarm") : LANG("turn_off_alarm")}
         />
       </li>
     </ul>

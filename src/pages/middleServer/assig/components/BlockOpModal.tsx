@@ -6,7 +6,7 @@ import {
   IAssigDataControl
 } from "./assigIntrerface";
 import JDcolorPicker from "../../../../atoms/colorPicker/ColorPicker";
-import {useColorPicker, useCheckBox} from "../../../../hooks/hook";
+import {useColorPicker, useCheckBox, LANG} from "../../../../hooks/hook";
 import Button from "../../../../atoms/button/Button";
 import JDmodal from "../../../../atoms/modal/Modal";
 import CheckBox from "../../../../atoms/forms/checkBox/CheckBox";
@@ -68,9 +68,15 @@ const BlockOpModal: React.FC<IProps> = ({
     <JDmodal visibleOverflow className="assig__blockOpModal" {...blockOpModal}>
       <div className="blockOpMenu" id="blockOpMenu">
         <div>
-          <h6>블록하일라이트</h6>
-          <JDcolorPicker label="적용색상" colorHook={colorPickerHook} />
-          <CheckBox label="함께 예약된 예약에 모두 적용" {...addmitToAll} />
+          <h6>{LANG("block_highlights")}}</h6>
+          <JDcolorPicker
+            label={LANG("apply_color")}
+            colorHook={colorPickerHook}
+          />
+          <CheckBox
+            label={LANG("applies_to_all_reservations_booked_together")}
+            {...addmitToAll}
+          />
         </div>
         <div className="JDmodal__endSection">
           <Button
@@ -79,7 +85,7 @@ const BlockOpModal: React.FC<IProps> = ({
             }}
             thema="primary"
             size="small"
-            label="적용"
+            label={LANG("Apply")}
           />
           <Button
             onClick={() => {
@@ -87,7 +93,7 @@ const BlockOpModal: React.FC<IProps> = ({
             }}
             size="small"
             thema="error"
-            label="적용해제"
+            label={LANG("unapplied")}
           />
         </div>
       </div>

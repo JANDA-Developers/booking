@@ -1,19 +1,20 @@
 import {DayOfWeekPriceInput} from "../types/api";
+import { LANG } from "../hooks/hook";
 
 // 단순 변환 함수
 const JDMonthTextChanger = (Month: string | number): string => {
-  if (Month === "December" || Month === 11) return "12LANG("month")";
-  if (Month === "November" || Month === 10) return "11LANG("month")";
-  if (Month === "October" || Month === 9) return "10LANG("month")";
-  if (Month === "September" || Month === 8) return "9LANG("month")";
-  if (Month === "August" || Month === 7) return "8LANG("month")";
-  if (Month === "July" || Month === 6) return "7LANG("month")";
-  if (Month === "June" || Month === 5) return "6LANG("month")";
-  if (Month === "May" || Month === 4) return "5LANG("month")";
-  if (Month === "April" || Month === 3) return "4LANG("month")";
-  if (Month === "March" || Month === 2) return "3LANG("month")";
-  if (Month === "February" || Month === 1) return "2LANG("month")";
-  if (Month === "January" || Month === 0) return "1LANG("month")";
+  if (Month === "December" || Month === 11) return LANG("month");
+  if (Month === "November" || Month === 10) return LANG("month");
+  if (Month === "October" || Month === 9) return LANG("month");
+  if (Month === "September" || Month === 8) return LANG("month");
+  if (Month === "August" || Month === 7) return LANG("month");
+  if (Month === "July" || Month === 6) return LANG("month");
+  if (Month === "June" || Month === 5) return LANG("month");
+  if (Month === "May" || Month === 4) return LANG("month");
+  if (Month === "April" || Month === 3) return LANG("month");
+  if (Month === "March" || Month === 2) return LANG("month");
+  if (Month === "February" || Month === 1) return LANG("month");
+  if (Month === "January" || Month === 0) return LANG("month");
   console.error("JDMonthTextChanger Month is not 0~11");
   return "";
 };
@@ -21,16 +22,16 @@ const JDMonthTextChanger = (Month: string | number): string => {
 //  숫자(0~6)를 받아서 무슨 요일인지 반환
 const JDWeekChanger = (number: number, bit?: boolean): string => {
   if (!bit) {
-    const weekLanguage = ["일", "LANG("month")", "화", "수", "목", "금", "토"];
+    const weekLanguage = [LANG('sun'), LANG('mon'), LANG('the'), LANG('wed'), LANG('thu'), LANG('fri'), LANG('sat')];
     return weekLanguage[number % 7];
   }
-  if (number === 1) return "일";
-  if (number === 2) return "LANG("month")";
-  if (number === 4) return "화";
-  if (number === 8) return "수";
-  if (number === 16) return "목";
-  if (number === 32) return "금";
-  if (number === 64) return "토";
+  if (number === 1) return LANG('sun');
+  if (number === 2) return LANG('mon');
+  if (number === 4) return LANG('tue');
+  if (number === 8) return LANG('wed');
+  if (number === 16) return LANG('thu');
+  if (number === 32) return LANG('fri');
+  if (number === 64) return LANG('sat');
   return "err";
 };
 
@@ -118,13 +119,13 @@ export const numberToStrings = (
 };
 
 export const koreaToNumber = (foo: string) => {
-  if (foo === "일") return 0;
-  if (foo === "LANG("month")") return 1;
-  if (foo === "화") return 2;
-  if (foo === "수") return 3;
-  if (foo === "목") return 4;
-  if (foo === "금") return 5;
-  if (foo === "토") return 6;
+  if (foo === LANG("sun")) return 0;
+  if (foo === LANG("mon")) return 1;
+  if (foo === LANG("tue")) return 2;
+  if (foo === LANG("wed")) return 3;
+  if (foo === LANG("thu")) return 4;
+  if (foo === LANG("fri")) return 5;
+  if (foo === LANG("sat")) return 6;
 };
 
 export {

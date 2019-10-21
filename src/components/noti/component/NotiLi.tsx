@@ -7,6 +7,7 @@ import JDbadge from "../../../atoms/badge/Badge";
 import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
 import Tooltip from "../../../atoms/tooltip/Tooltip";
 import moment from "moment";
+import {LANG} from "../../../hooks/hook";
 
 interface IProps {
   noti: getNotis_GetNotis_notis;
@@ -38,7 +39,7 @@ const NotiLi: React.FC<IProps> = ({noti}) => {
   return (
     <li
       onClick={() => {}}
-      data-tip={moment(noti.createdAt).format("MMLANG("month") DD일")}
+      data-tip={moment(noti.createdAt).format(`MM${LANG("month")} DD일`)}
       data-for="notiCreateDateToolTip"
       className="notiLi"
     >

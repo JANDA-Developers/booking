@@ -3,11 +3,8 @@ import {Query, Mutation} from "react-apollo";
 import {queryDataFormater, onCompletedMessage} from "../../../../utils/utils";
 import CreateNotiModal from "./createNotiModal";
 import {CREATE_NOTI, GET_MEMO, GET_NOTI} from "../../../../queries";
-import {
-  createNoti,
-  createNotiVariables
-} from "../../../../types/api";
-import {IUseModal} from "../../../../hooks/hook";
+import {createNoti, createNotiVariables} from "../../../../types/api";
+import {IUseModal, LANG} from "../../../../hooks/hook";
 import {NotiType} from "../../../../types/enum";
 import {IContext} from "../../../MiddleServerRouter";
 import {getOperationName} from "apollo-link";
@@ -22,15 +19,9 @@ interface IProps {
   modalHook: IUseModal<ICreateNotiModalParam>;
 }
 
-class CreateNotiMu extends Mutation<
-  createNoti,
-  createNotiVariables
-> {}
+class CreateNotiMu extends Mutation<createNoti, createNotiVariables> {}
 
-const CreateNotiModalWrap: React.FC<IProps> = ({
-  context,
-  modalHook
-}) => {
+const CreateNotiModalWrap: React.FC<IProps> = ({context, modalHook}) => {
   return (
     <div>
       <CreateNotiMu
@@ -39,8 +30,8 @@ const CreateNotiModalWrap: React.FC<IProps> = ({
         onCompleted={({CreateNoti}) =>
           onCompletedMessage(
             CreateNoti,
-            "알람전송 완료",
-            "알람전송 실패"
+            LANG("alarm_transmission_completed"),
+            LANG("alarm_transmission_failed")
           )
         }
       >

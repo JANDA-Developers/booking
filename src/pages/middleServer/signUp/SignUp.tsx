@@ -9,7 +9,7 @@ import {LOG_USER_IN, IS_LOGGED_IN} from "../../../clientQueries";
 import {EMAIL_SIGN_UP, GET_USER_INFO} from "../../../queries";
 import "./SignUp.scss";
 import utils from "../../../utils/utils";
-import {useInput, useRadio} from "../../../hooks/hook";
+import {useInput, useRadio, LANG} from "../../../hooks/hook";
 import privacyPolicy from "../../../docs/privacyPolicy";
 import {IContext} from "../../MiddleServerRouter";
 

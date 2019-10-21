@@ -3,7 +3,7 @@ import InputText from "../../../atoms/forms/inputText/InputText";
 import {getMemos_GetMemos_memos} from "../../../types/api";
 import Button from "../../../atoms/button/Button";
 import CheckBox from "../../../atoms/forms/checkBox/CheckBox";
-import {ReactTooltip} from "../../../atoms/tooltip/Tooltip";
+import {LANG} from "../../../hooks/hook";
 interface Iprops {
   memo: getMemos_GetMemos_memos;
   setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
@@ -25,7 +25,7 @@ const MemoEditBox: React.FC<Iprops> = ({
   return (
     <div style={{flex: 1}}>
       <InputText
-        label="메모내용"
+        label={LANG("memo_content")}
         size="fullWidth"
         textarea
         autoHeight
@@ -39,7 +39,7 @@ const MemoEditBox: React.FC<Iprops> = ({
             data-for="siginificantExplicateTooltip"
             className="JDstandard-space"
           >
-            알람 설정
+            {LANG("noti_setting")}}
           </span>
           <CheckBox
             className="JDstandard-margin0"
@@ -50,7 +50,7 @@ const MemoEditBox: React.FC<Iprops> = ({
         <Button
           thema="primary"
           size="small"
-          label={add ? "작성완료" : "수정완료"}
+          label={LANG("completed")}
           onClick={e => {
             e.preventDefault();
             e.stopPropagation();

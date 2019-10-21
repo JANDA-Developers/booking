@@ -5,7 +5,7 @@ import {IContext} from "../../MiddleServerRouter";
 import {HouseStatus, MODAL_MIN_WIDTH} from "../../../types/enum";
 import {isEmpty, stepFinder} from "../../../utils/utils";
 import JDmodal from "../../../atoms/modal/Modal";
-import {useModal} from "../../../hooks/hook";
+import {useModal, LANG} from "../../../hooks/hook";
 import "./StarterModal.scss";
 import {MutationFn} from "react-apollo";
 import {updateHouse, updateHouseVariables} from "../../../types/api";
@@ -39,27 +39,15 @@ const StarterModal: React.FC<IProps> = ({context, updateHouseMu}) => {
             steps={[
               {
                 current: step === "phoneVerification",
-                name: <span>번호인증</span>
+                name: <span>{LANG("auth")}</span>
               },
               {
                 current: step === "houseCreate",
-                name: (
-                  <span>
-                    숙소
-                    <Mbr />
-                    생성
-                  </span>
-                )
+                name: <span>{LANG("house_create")}</span>
               },
               {
                 current: step === "createProduct",
-                name: (
-                  <span>
-                    상품
-                    <Mbr />
-                    등록
-                  </span>
-                )
+                name: <span>{LANG("product_registration")}</span>
               },
               {
                 current: step === "createRoom",

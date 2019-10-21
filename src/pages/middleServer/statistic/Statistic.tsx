@@ -221,7 +221,7 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
           <Button onClick={handleTodaySalesStatic} label="오늘매출" />
           <Button onClick={handleThisMonthSalesStatic} label="이번달매출" />
           <Button onClick={handleSetDaySalesStatic} label="일매출" />
-          <Button onClick={handleSetMonthSalesStatic} label="LANG("month")매출" />
+          <Button onClick={handleSetMonthSalesStatic} label="월매출" />
           <Button onClick={handleSetYearSalesStatic} label="년매출" />
         </div>
         <div className="flex-grid">

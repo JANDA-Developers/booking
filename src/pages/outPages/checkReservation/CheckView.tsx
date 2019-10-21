@@ -9,6 +9,7 @@ import {
 import InputText from "../../../atoms/forms/inputText/InputText";
 import Button from "../../../atoms/button/Button";
 import {ApolloQueryResult} from "apollo-boost";
+import {LANG} from "../../../hooks/hook";
 
 interface Iprops {
   data: getBookingForPublic_GetBookingForPublic_booking | null | undefined;
@@ -26,15 +27,15 @@ const CheckView: React.FC<Iprops> = ({data, refetch}) => {
 
   const validater = () => {
     if (!searchInfo.name) {
-      toast.warn("이름을 입력해주세요.");
+      toast.warn(LANG("input_your_name_please"));
       return false;
     }
     if (!searchInfo.phoneNumber) {
-      toast.warn("전화번호를 입력해주세요.");
+      toast.warn(LANG("please_enter_your_phone_number"));
       return false;
     }
     if (!searchInfo.password) {
-      toast.warn("패스워드를 입력해주세요.");
+      toast.warn("input_your_password_please");
       return false;
     }
     return true;
@@ -42,12 +43,12 @@ const CheckView: React.FC<Iprops> = ({data, refetch}) => {
 
   return (
     <div id="JDreservation" className="JDreservation">
-      <h6>예약정보</h6>
+      <h6>{LANG("reservation_information")}</h6>
       <div className="flex-grid-grow">
         <InputText
           onChange={value => setSearchInfo({...searchInfo, name: value})}
           value={searchInfo.name}
-          label="이름"
+          label={LANG("name")}
         />
         <InputText
           onChange={value => setSearchInfo({...searchInfo, phoneNumber: value})}
@@ -73,10 +74,10 @@ const CheckView: React.FC<Iprops> = ({data, refetch}) => {
               });
             }
           }}
-          label="예약조회"
+          label={LANG("reservation_lookup")}
         />
       </div>
-      <h6>예약확인</h6>
+      <h6>{LANG("reservation_confirm")}}</h6>
       <CheckTable tableData={data ? [data] : undefined} />
     </div>
   );

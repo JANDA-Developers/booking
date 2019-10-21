@@ -134,7 +134,7 @@ const DailyAssig: React.FC<IProps> = ({
         inputComponent={(prop: any) => (
           <ArrowDayByDay
             {...prop}
-            format={"MMLANG("month") DD일"}
+            format={`MM${LANG("month")} DD일`}
             dayPickerHook={dayPickerHook}
           />
         )}

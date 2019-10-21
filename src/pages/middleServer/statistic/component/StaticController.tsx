@@ -11,6 +11,7 @@ import JDdayPicker from "../../../../atoms/dayPicker/DayPicker";
 import {IStaticsWrapProps, IGraphViewMode, IStaticsProps} from "../Statistic";
 import StaticIcons from "./StaticIcons";
 import {IconSize} from "../../../../atoms/icons/Icons";
+import {LANG} from "../../../../hooks/hook";
 
 interface Iprops {
   context: IContext;
@@ -21,10 +22,13 @@ const StaticController: React.FC<Iprops> = ({context, staticsProps}) => {
   const {queryDateHook, queryOp, setQueryOp} = staticsProps;
   return (
     <div>
-      <h6>통계 변환</h6>
+      <h6>{LANG("statistical_transformation")}</h6>
       <div>
         <JDselect
-          selectedOption={{value: "매출통계", label: "매출통계"}}
+          selectedOption={{
+            value: LANG("sales_statistics"),
+            label: LANG("sales_statistics")
+          }}
           onChange={value => {
             setQueryOp({
               ...queryOp,
@@ -32,14 +36,14 @@ const StaticController: React.FC<Iprops> = ({context, staticsProps}) => {
             });
           }}
           options={STATISTICS_OP}
-          label="어떤 통계를 원하시나요?"
+          label={LANG("witch_statistics_do_you_want")}
         />
       </div>
       <div>
         <JDdayPicker
           canSelectBeforeDay={true}
           {...queryDateHook}
-          label="통계날자"
+          label={LANG("date_of_statistics")}
           input
         />
       </div>
@@ -51,12 +55,14 @@ const StaticController: React.FC<Iprops> = ({context, staticsProps}) => {
               unit: value.value
             });
           }}
+          // @ts-ignore
           selectedOption={{
             value: queryOp.unit,
             label: SalesStatisticsUnitKr[queryOp.unit]
           }}
+          // @ts-ignore
           options={STATISTICS_TYPE_OP}
-          label="어떤 단위로 보여 드릴까요?"
+          label={LANG("which_unit_would_you_like_to_see")}
         />
       </div>
     </div>

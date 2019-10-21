@@ -25,6 +25,7 @@ import {LayoutType} from "../../../types/enum";
 import SelectProducts from "./SelectProduct";
 import froductTypeManuFacter from "./froductTypeManuFacter";
 import {IContext} from "../../MiddleServerRouter";
+import {LANG} from "../../../hooks/hook";
 
 class GetProductTypes extends Query<getAllProductTypes> {}
 class BuyProductMutation extends Mutation<buyProduct, buyProductVariables> {}
@@ -72,8 +73,8 @@ const SelectProductWrap: React.FC<IProps> = ({context}) => {
             onCompleted={({BuyProduct}) => {
               onCompletedMessage(
                 BuyProduct,
-                "상품 신청 완료",
-                "예약 신청 실패"
+                LANG("product_application_completed"),
+                LANG("product_application_failed")
               );
               setRedirect(true);
             }}
