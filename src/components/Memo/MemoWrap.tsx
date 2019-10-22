@@ -52,7 +52,11 @@ const MemoWrap: React.FC<IMemoWrapProps> = ({context, memoType, ...prop}) => {
               awaitRefetchQueries
               refetchQueries={[getOperationName(GET_MEMO)!]}
               onCompleted={({CreateMemo}) =>
-                onCompletedMessage(CreateMemo, "메모 생성완료", "메모 생성실패")
+                onCompletedMessage(
+                  CreateMemo,
+                  LANG("create_memo_completed"),
+                  LANG("create_memo_fail")
+                )
               }
             >
               {(createMemoMu, {loading: createMemoLoading}) => (

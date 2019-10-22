@@ -17,7 +17,12 @@ import {
   ROOM_GENDER_OP,
   PRICING_TYPE_OP
 } from "../../../../types/enum";
-import {IUseModal, useImageUploader, useModal} from "../../../../hooks/hook";
+import {
+  IUseModal,
+  useImageUploader,
+  useModal,
+  LANG
+} from "../../../../hooks/hook";
 import {
   createRoomType,
   createRoomTypeVariables,
@@ -258,20 +263,20 @@ const RoomTypeModal: React.SFC<IProps> = ({
           <div className="JDmodal__endSection">
             <Button
               thema="primary"
-              label={isAddMode ? "생성하기" : "복제하기"}
+              label={isAddMode ? LANG("do_create") : LANG("do_copy")}
               size="small"
               onClick={onCreateRoomType}
             />
             <Button
               thema="primary"
-              label="수정하기"
+              label={LANG("do_modify")}
               size="small"
               disabled={isAddMode}
               onClick={onUpdateRoomType}
             />
             <Button
               thema="error"
-              label="삭제하기"
+              label={LANG("do_delete")}
               size="small"
               disabled={isAddMode}
               onClick={onDeleteRoomType}

@@ -1,13 +1,12 @@
 import {Mutation} from "react-apollo";
 import React from "react";
 import {toast} from "react-toastify";
-import {withRouter, RouteComponentProps} from "react-router-dom";
+import {RouteComponentProps} from "react-router-dom";
 import Header from "./Header";
-import {LOG_USER_OUT, SELECTED_HOUSE} from "../../clientQueries";
-import {getOperationName} from "apollo-utilities";
-import {IHouse, IDiv} from "../../types/interface";
-import {getMyProfile_GetMyProfile_user} from "../../types/api";
+import {LOG_USER_OUT} from "../../clientQueries";
+import {IDiv} from "../../types/interface";
 import {IContext} from "../../pages/MiddleServerRouter";
+import {LANG} from "../../hooks/hook";
 
 type IProps = IDiv & {
   context: IContext;
@@ -24,7 +23,7 @@ const HeaderWrap: React.FC<IProps & RouteComponentProps> = ({
   <Mutation
     mutation={LOG_USER_OUT}
     onCompleted={() => {
-      toast.success("로그아웃 완료");
+      toast.success(LANG("logOut_complete"));
       history.replace("./");
     }}
   >

@@ -1,7 +1,7 @@
 import React from "react";
 import {MutationFn} from "react-apollo";
 import JDselect, {IselectedOption} from "../../atoms/forms/selectBox/SelectBox";
-import {IUseSelect} from "../../hooks/hook";
+import {IUseSelect, LANG} from "../../hooks/hook";
 import {insideRedirect} from "../../utils/utils";
 
 interface IProps {
@@ -24,13 +24,13 @@ const JDSeleteHouse: React.SFC<IProps> = ({
     selectHouseMu({variables: {selectedHouse: value}});
   };
 
-  options.push({value: "add", label: "숙소생성+"});
+  options.push({value: "add", label: `${LANG("create_house")}}+`});
 
   return (
     <JDselect
       background="white"
       className={className}
-      placeholder="숙소를 생성해주세요."
+      placeholder={LANG("please_create_house")}
       options={options}
       selectedOption={selectedHouseOption}
       onChange={handleSelectHouse}

@@ -6,6 +6,7 @@ import moment from "moment-timezone";
 import textReader from "../../../utils/textReader";
 import MemoTooltip from "./MemoTooltip";
 import MemoEditBox from "./MemoEditBox";
+import {LANG} from "../../../hooks/hook";
 moment.tz.setDefault("Asia/Seoul");
 
 interface Iprops {
@@ -33,7 +34,9 @@ const MemoBox: React.FC<Iprops> = ({
   const MessageInMemo = () =>
     add ? (
       <span className="JDstandard-space">
-        <span className="JDstandard-small-space">새로운 메모 쓰기</span>
+        <span className="JDstandard-small-space">
+          {LANG("create_new_memo")}
+        </span>
         <JDIcon icon="edit" />
       </span>
     ) : (

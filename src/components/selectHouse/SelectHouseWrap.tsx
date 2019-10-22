@@ -2,7 +2,7 @@ import {ReactPaginateProps} from "react-paginate";
 import React, {useEffect} from "react";
 import {Mutation} from "react-apollo";
 import SelectHouse from "./SelectHouse";
-import {useSelect, IUseSelect} from "../../hooks/hook";
+import {useSelect, IUseSelect, LANG} from "../../hooks/hook";
 import {
   IHouse,
   ISelectHouse,
@@ -42,7 +42,11 @@ const SelectHouseWrap: React.SFC<IProps> = ({className, context}) => {
   return (
     <SelectHouseMutation
       onCompleted={({selectHouse}: any) =>
-        onCompletedMessage(selectHouse, "숙소변경", "변경실패")
+        onCompletedMessage(
+          selectHouse,
+          LANG("change_house"),
+          LANG("change_house_fail")
+        )
       }
       mutation={SELECT_HOUSE}
     >

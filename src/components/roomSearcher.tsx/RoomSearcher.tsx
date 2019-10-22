@@ -2,7 +2,7 @@ import React from "react";
 import {IContext} from "../../pages/MiddleServerRouter";
 import Button from "../../atoms/button/Button";
 import JDdayPicker from "../../atoms/dayPicker/DayPicker";
-import {useDayPicker} from "../../hooks/hook";
+import {useDayPicker, LANG} from "../../hooks/hook";
 import moment from "moment";
 import DoubleInputRange from "../../atoms/dayPicker/component/inputComponent/DoubleInputRange";
 import {validate} from "graphql";
@@ -28,12 +28,12 @@ const RoomSearcher: React.FC<Iprops> = ({callBackOnSearch}) => {
 
   const validate = () => {
     if (!dayPickerHook.from) {
-      toast.warn("체크인 날자를 선택해주세요.");
+      toast.warn(LANG("choseCheckInDate"));
       return false;
     }
 
     if (!dayPickerHook.to) {
-      toast.warn("체크아웃 날자를 선택해주세요.");
+      toast.warn(LANG("choseCheckOutDate");
       return false;
     }
 
@@ -44,7 +44,7 @@ const RoomSearcher: React.FC<Iprops> = ({callBackOnSearch}) => {
     <div className="RoomSearcher">
       <Card align="center">
         <h3 className="RoomSearcher__title JDnoWrap JDtext-align-center">
-          예약 검색하기
+          {LANG("search_reservation")}
         </h3>
         <JDdayPicker
           calenaderPosition="center"
@@ -65,7 +65,7 @@ const RoomSearcher: React.FC<Iprops> = ({callBackOnSearch}) => {
           }}
           thema="primary"
           size="longLarge"
-          label="검색"
+          label={LANG("search")}
         />
       </Card>
     </div>

@@ -1,14 +1,12 @@
 /* eslint-disable react/button-has-type */
-import React, {Fragment, useState} from "react";
+import React, {Fragment} from "react";
 import "./Button.scss";
-import PropTypes from "prop-types";
 import classNames from "classnames";
 import ErrProtecter from "../../utils/errProtect";
 import Icon, {IIcons} from "../icons/Icons";
 import Preloader from "../preloader/Preloader";
 import {s4, colorClass} from "../../utils/utils";
 import Tooltip from "../tooltip/Tooltip";
-import {Redirect, Router, withRouter} from "react-router";
 import {JDColor} from "../../types/enum";
 
 interface IProps extends React.HTMLAttributes<HTMLButtonElement> {

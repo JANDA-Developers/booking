@@ -22,9 +22,9 @@ const NotiLi: React.FC<IProps> = ({noti}) => {
     <span>
       <span className="notiLi__badgeWrap">
         {noti.notiLevel === NotiLevel.WARN && (
-          <JDbadge thema="error">주의</JDbadge>
+          <JDbadge thema="error">{LANG("caution")}</JDbadge>
         )}
-        {!noti.isConfirm && <JDbadge thema="new">새로운</JDbadge>}
+        {!noti.isConfirm && <JDbadge thema="new">{LANG("new")}</JDbadge>}
       </span>
       <h6 className="notiLi__title">{noti.title}</h6>
       <span className="notiLi__msg">{noti.msg}</span>
@@ -39,7 +39,9 @@ const NotiLi: React.FC<IProps> = ({noti}) => {
   return (
     <li
       onClick={() => {}}
-      data-tip={moment(noti.createdAt).format(`MM${LANG("month")} DD일`)}
+      data-tip={moment(noti.createdAt).format(
+        `MM${LANG("month")} DD${LANG("date")}`
+      )}
       data-for="notiCreateDateToolTip"
       className="notiLi"
     >

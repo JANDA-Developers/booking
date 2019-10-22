@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {toast} from "react-toastify";
 import Modal from "../atoms/modal/Modal";
-import {IUseModal} from "../hooks/hook";
+import {IUseModal, LANG} from "../hooks/hook";
 import Button from "../atoms/button/Button";
 import CircleIcon from "../atoms/circleIcon/CircleIcon";
 // @ts-ignore
@@ -15,7 +15,6 @@ import JDbox from "../atoms/box/JDbox";
 
 interface IProps {}
 
-// ❕ 어차피 버튼 눌러서 수정할거니까 전부 STATE 에 하면됨
 const JDHomePageManual: React.FC<IProps> = () => {
   // 설명서 다운로드
   const downloadManual = (form: string) => {
@@ -23,8 +22,8 @@ const JDHomePageManual: React.FC<IProps> = () => {
     if (form === "hwp") manual = manualHwp;
     if (form === "pdf") manual = manualPdf;
 
-    download(manual, `홈페이지 사용 메뉴얼.${form}`).then(() => {
-      toast.success("메뉴얼 다운로드 완료");
+    download(manual, `${LANG("homepage_manual")}${form}`).then(() => {
+      toast.success(LANG("manual_download_complete"));
     });
   };
 
@@ -38,34 +37,32 @@ const JDHomePageManual: React.FC<IProps> = () => {
 
   return (
     <div>
-      <h5>JANDA 메뉴얼</h5>
+      <h5>JANDA {LANG("manual")}</h5>
       <div className="flex-grid">
         <div className="flex-grid__col col--full-6 downloadBox">
           <p className="downloadBox__header">
-            <span>HWP파일</span>
+            <span>HWP{LANG("file")}</span>
             <CircleIcon onClick={onDownloadHwp} hover={false}>
               <img src={hwpIcon} alt="hwp Manual" />
             </CircleIcon>
           </p>
           <Button
             onClick={onDownloadHwp}
-            label="다운로드"
+            label={LANG("download")}
             thema="grey"
-            
             icon="download"
           />
         </div>
         <div className="flex-grid__col col--full-6 downloadBox">
           <JDbox size="small" className="downloadBox__header">
-            <span>PDF파일</span>
+            <span>PDF{LANG("file")}</span>
             <CircleIcon onClick={onDownloadPdf} hover={false}>
               <img src={pdfIcon} alt="pdf Manual" />
             </CircleIcon>
             <Button
               onClick={onDownloadPdf}
-              label="다운로드"
+              label={LANG("download")}
               thema="grey"
-              
               icon="download"
             />
           </JDbox>
@@ -73,7 +70,7 @@ const JDHomePageManual: React.FC<IProps> = () => {
         <div className="JDmodal__endSection JDmodal__endSection--float">
           <h6>
             <a href="http://janda-tmp.com" className="JDanchor">
-              {"체험시작"}
+              {LANG("start_experience")}
             </a>
           </h6>
         </div>

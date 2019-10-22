@@ -42,7 +42,7 @@ const DayCheckIn: React.FC<Iprops> = ({
           inputComponent={(prop: any) => (
             <ArrowDayByDay
               {...prop}
-              format={`MM${LANG("month")} DD일`}
+              format={`MM${LANG("month")} DD${LANG("date")}`}
               dayPickerHook={dayPickerHook}
             />
           )}

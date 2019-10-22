@@ -58,7 +58,7 @@ const GuestTooltip: React.FC<Iprops> = ({
                     onClick={() => {
                       deleteBtnCallBack(targetGuest);
                     }}
-                    label={LANG('delete')}
+                    label={LANG("delete")}
                   />
                 </li>
               </Fragment>
@@ -69,7 +69,7 @@ const GuestTooltip: React.FC<Iprops> = ({
                 onClick={() => {
                   infoBtnCallBack(targetGuest);
                 }}
-                label="정보보기"
+                label={LANG("view_info")}
               />
             </li>
           </ul>

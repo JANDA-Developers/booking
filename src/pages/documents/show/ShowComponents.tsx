@@ -125,15 +125,15 @@ function ShowComponents() {
       accessor: "priority"
     },
     {
-      Header: "시즌명",
+      Header: LANG("season_name"),
       accessor: "name"
     },
     {
-      Header: "시즌기간",
+      Header: LANG("season_period"),
       accessor: "term"
     },
     {
-      Header: "대표색",
+      Header: LANG("rep_color"),
       accessor: "color"
     },
     {

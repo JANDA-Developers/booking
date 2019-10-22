@@ -13,7 +13,7 @@ import {
 } from "../../../types/api";
 import Preloader from "../../../atoms/preloader/Preloader";
 import JDIcon from "../../../atoms/icons/Icons";
-import {useModal} from "../../../hooks/hook";
+import {useModal, LANG} from "../../../hooks/hook";
 import DrragList from "../../../atoms/animation/DrragList";
 import RoomTypeModalWrap, {
   IRoomTypeModalInfo
@@ -97,7 +97,7 @@ const RoomConfigNew: React.FC<IProps> = ({
   return (
     <div id="RoomConfig" className="roomConfig container container--full">
       <div className="docs-section">
-        <h3>방설정</h3>
+        <h3>{LANG("room_setting")}</h3>
         <Button
           onClick={() => {
             roomTypeModalHook.openModal({
@@ -105,14 +105,14 @@ const RoomConfigNew: React.FC<IProps> = ({
             });
           }}
           thema="primary"
-          label="방타입 추가"
+          label={LANG("add_roomType")}
         />
         <div>
           <Preloader size="large" noAnimation loading={loading} />
         </div>
         {roomTypesData.length === 0 && !loading && (
           <h4 className="JDtextColor--placeHolder JDmargin-bottom0">
-            방타입이 <Mbr /> 존재하지 않습니다.
+            {LANG("roomType_dose_not_exsist")}
           </h4>
         )}
         <DrragList
@@ -151,7 +151,7 @@ const RoomConfigNew: React.FC<IProps> = ({
                     });
                   }}
                   mode="border"
-                  label="수정하기"
+                  label={LANG("do_modify")}
                   icon={"edit"}
                   size="small"
                 />

@@ -34,7 +34,7 @@ import {
 } from "../../queries";
 import {BookingStatus} from "../../types/enum";
 import {queryDataFormater} from "../../utils/utils";
-import {useDayPicker, IUseDayPicker} from "../../hooks/hook";
+import {useDayPicker, IUseDayPicker, LANG} from "../../hooks/hook";
 import {IContext} from "../../pages/MiddleServerRouter";
 import DailyAssig from "./DailyAssig";
 import {getOperationName} from "apollo-link";
@@ -148,8 +148,8 @@ const DailyAssigWrap: React.FC<IProps> = ({
                   onCompleted={({AllocateGuestToRoom}) => {
                     onCompletedMessage(
                       AllocateGuestToRoom,
-                      "배정완료",
-                      "배정실패"
+                      LANG("assig_completed"),
+                      LANG("assig_failed")
                     );
                   }}
                   refetchQueries={[
@@ -175,8 +175,8 @@ const DailyAssigWrap: React.FC<IProps> = ({
                         onCompleted={({DeleteGuests}) => {
                           onCompletedMessage(
                             DeleteGuests,
-                            "삭제완료",
-                            "삭제실패"
+                            LANG("delete_completed"),
+                            LANG("delete_failed")
                           );
                         }}
                         mutation={DELETE_GUEST}
@@ -186,8 +186,8 @@ const DailyAssigWrap: React.FC<IProps> = ({
                             onCompleted={({CreateBlock}) => {
                               onCompletedMessage(
                                 CreateBlock,
-                                "방막기 완료",
-                                "방막기 실패"
+                                LANG("block_room_completed"),
+                                LANG("block_room_failed")
                               );
                             }}
                             refetchQueries={[
@@ -207,8 +207,8 @@ const DailyAssigWrap: React.FC<IProps> = ({
                                 onCompleted={({DeleteBlock}) => {
                                   onCompletedMessage(
                                     DeleteBlock,
-                                    "방막기 해제",
-                                    "방막기 해제 실패"
+                                    LANG("room_block_release"),
+                                    LANG("room_block_release_fail")
                                   );
                                 }}
                                 mutation={DELETE_BLOCK}
@@ -222,8 +222,8 @@ const DailyAssigWrap: React.FC<IProps> = ({
                                     onCompleted={({DeleteBooking}) => {
                                       onCompletedMessage(
                                         DeleteBooking,
-                                        "예약 삭제 완료",
-                                        "예약 삭제 실패"
+                                        LANG("reservation_delete_complete"),
+                                        LANG("reservation_delete_fail")
                                       );
                                     }}
                                   >
@@ -236,8 +236,8 @@ const DailyAssigWrap: React.FC<IProps> = ({
                                         onCompleted={({UpdateBlockOption}) => {
                                           onCompletedMessage(
                                             UpdateBlockOption,
-                                            "변경완료",
-                                            "적용실패"
+                                            LANG("update_complete"),
+                                            LANG("update_fail")
                                           );
                                         }}
                                       >

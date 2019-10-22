@@ -17,7 +17,7 @@ import "./Memo.scss";
 import Preloader from "../../atoms/preloader/Preloader";
 import isLast from "../../utils/isLast";
 import JDToolTip, {ReactTooltip} from "../../atoms/tooltip/Tooltip";
-import {useModal} from "../../hooks/hook";
+import {useModal, LANG} from "../../hooks/hook";
 import MemoAlertModal from "./component/MemoAlertModal";
 import {IContext} from "../../pages/MiddleServerRouter";
 
@@ -120,7 +120,7 @@ const Memo: React.FC<Iprops & IConfigMemo> = ({
         <MemoBox {...sharedMemoBoxProps} memo={DEFAUT_MEMO} add={true} />
       </div>
       <JDToolTip type="dark" effect="solid" id="siginificantExplicateTooltip">
-        해당 메모는 다음 접속시 알람을 줍니다.
+        {LANG("the_memo_gives_an_alarm_on_the_next_connection")}
       </JDToolTip>
       <Preloader floating size={"tiny"} loading={mutationLoading} />
       {!isEmpty(filteredMemos) ? (
@@ -134,7 +134,7 @@ const Memo: React.FC<Iprops & IConfigMemo> = ({
         ))
       ) : (
         <span className="JDtextColor--placeHolder">
-          현재 작성된 메모가 없습니다.
+          {LANG("no_notes_are_currently_created")}
         </span>
       )}
     </div>

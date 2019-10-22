@@ -29,6 +29,7 @@ import {getOperationName} from "apollo-link";
 import moment from "moment";
 import {FLOATING_PRElOADER_SIZE, NotiType, NotiLevel} from "../../types/enum";
 import Preloader from "../../atoms/preloader/Preloader";
+import {LANG} from "../../hooks/hook";
 
 class GetNotiQu extends Query<getNotis, getNotisVariables> {}
 
@@ -61,20 +62,25 @@ const addExpiredWarnNoti = (
       ...sharedProp,
       __typename: "Noti",
       notiType: NotiType.PRODUCT_EXPIRE,
-      title: `상품이 만료되었습니다.`,
+      title: LANG("product_has_expired"),
       isConfirm: false,
       notiLevel: NotiLevel.WARN,
-      msg: `현재 상품이 만료되었습니다. 정상적인 서비스가 불가능합니다. 결제를 진행 해주세요.`
+      msg: LANG(
+        "the_current_product_has_expired_normal_service_is_not_possible_Please_proceed_with_the_payment"
+      )
     });
   } else if (daysLeftToExpire < 4) {
     notis.push({
       ...sharedProp,
       __typename: "Noti",
       notiType: NotiType.PRODUCT_EXPIRE,
-      title: `무료 테스트 기간이 ${daysLeftToExpire} 남았습니다.`,
+      title: LANG("F_have_x_days_left_to_try_for_free")(daysLeftToExpire),
       isConfirm: false,
       notiLevel: NotiLevel.WARN,
-      msg: `무료 테스트 기간이 ${daysLeftToExpire} 남았습니다. ${product.expireDate} 만료예정.`
+      msg: LANG("F_you_have_x_free_trial_left_y__is_about_to_expire")(
+        daysLeftToExpire,
+        product.expireDate
+      )
     });
   }
 };

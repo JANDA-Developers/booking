@@ -6,7 +6,7 @@ import TooltipList, {
 } from "../../../atoms/tooltipList/TooltipList";
 import {NavLink} from "react-router-dom";
 import Button from "../../../atoms/button/Button";
-import {IUseModal, useModal} from "../../../hooks/hook";
+import {IUseModal, useModal, LANG} from "../../../hooks/hook";
 import {insideRedirect, isEmpty} from "../../../utils/utils";
 import {UserRole, MemoType} from "../../../types/enum";
 import {IconSize} from "../../../atoms/icons/Icons";
@@ -39,7 +39,7 @@ const SharedHeaderComponent: React.FC<Iprops> = ({
           langSelectModal.openModal();
           ReactTooltip.hide();
         }}
-        label="언어설정"
+        label={LANG("language_setting")}
         mode="flat"
       />
     </li>
@@ -57,7 +57,7 @@ const SharedHeaderComponent: React.FC<Iprops> = ({
             ReactTooltip.hide();
           }}
           icon="logout"
-          label="로그아웃"
+          label={LANG("logOut")}
           mode="flat"
         />
       </li>
@@ -65,7 +65,7 @@ const SharedHeaderComponent: React.FC<Iprops> = ({
         <li>
           <Button
             className="hader__btn"
-            label="관리자화면"
+            label={LANG("admin_screen")}
             icon="admin"
             redirect={insideRedirect(`superAdmin`)}
             mode="flat"
@@ -84,7 +84,7 @@ const SharedHeaderComponent: React.FC<Iprops> = ({
             }}
             blink
             icon="call"
-            label="인증하기"
+            label={LANG("authenticate")}
             mode="flat"
             id="HeaderPhoneVerificationBtn"
           />
@@ -110,7 +110,7 @@ const SharedHeaderComponent: React.FC<Iprops> = ({
             onClick={() => {
               ReactTooltip.hide();
             }}
-            label="로그인"
+            label={LANG("login")}
             mode="flat"
           />
         </NavLink>
@@ -121,7 +121,7 @@ const SharedHeaderComponent: React.FC<Iprops> = ({
             onClick={() => {
               ReactTooltip.hide();
             }}
-            label="회원가입"
+            label={LANG("signUp")}
             mode="flat"
           />
         </NavLink>

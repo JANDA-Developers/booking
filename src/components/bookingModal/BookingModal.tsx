@@ -7,7 +7,8 @@ import {
   IUseModal,
   useDayPicker,
   useModal,
-  useDrawer
+  useDrawer,
+  LANG
 } from "../../hooks/hook";
 import SelectBox from "../../atoms/forms/selectBox/SelectBox";
 import InputText from "../../atoms/forms/inputText/InputText";
@@ -203,27 +204,27 @@ const BookingModal: React.FC<IProps> = ({
     // TODO 젠더 셀렉트 벨리데이션
 
     if (!paymentStatusHook.selectedOption) {
-      toast.warn("결제방법을 선택해주세요.");
+      toast.warn(LANG("please_select_a_payment_method"));
       return false;
     }
 
     if (!paymentStatusHook.selectedOption) {
-      toast.warn("결제상태를 선택해주세요.");
+      toast.warn(LANG("please_select_a_payment_status"));
       return false;
     }
 
     if (!bookingStatueHook.selectedOption) {
-      toast.warn("예약상태를 선택해주세요.");
+      toast.warn(LANG("please_select_reservation_status"));
       return false;
     }
 
     if (!bookingNameHook.value) {
-      toast.warn("부킹이름을 입력해주세요.");
+      toast.warn(LANG("please_enter_booker_name"));
       return false;
     }
 
     if (!bookingPhoneHook.value) {
-      toast.warn("예약자번호를 입력해주세요.");
+      toast.warn(LANG("please_enter_phone_number"));
       return false;
     }
     return true;
@@ -231,7 +232,7 @@ const BookingModal: React.FC<IProps> = ({
 
   const handleSmsIconClick = () => {
     if (!bookingPhoneHook.isValid) {
-      toast.warn("올바른 휴대폰 번호가 아닙니다.");
+      toast.warn(LANG("not_a_valid_mobile_number"));
       return;
     }
     sendSmsModalHook.openModal({
@@ -257,7 +258,9 @@ const BookingModal: React.FC<IProps> = ({
 
   // 예약삭제 버튼 클릭
   const handleDeletBtnClick = () => {
-    confirmModalHook.openModal({txt: "정말 예약을 삭제하시겠습니까?"});
+    confirmModalHook.openModal({
+      txt: LANG("are_you_sure_you_want_to_delete_the_reservation")
+    });
   };
 
   const deleteModalCallBackFn = (confirm: boolean) => {
@@ -386,7 +389,7 @@ const BookingModal: React.FC<IProps> = ({
                 <InputText
                   disabled={allReadOnly}
                   {...bookingNameHook}
-                  label="예약자"
+                  label={LANG("booker")}
                 />
               </div>
               <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
@@ -395,7 +398,7 @@ const BookingModal: React.FC<IProps> = ({
                   {...bookingPhoneHook}
                   validation={isPhone}
                   hyphen
-                  label="전화번호"
+                  label={LANG("phoneNumber")}
                   icon="sms"
                   iconHover
                   iconOnClick={handleSmsIconClick}
@@ -406,22 +409,22 @@ const BookingModal: React.FC<IProps> = ({
                   // disabled={allReadOnly}
                   {...bookingStatueHook}
                   options={BOOKING_STATUS_OP}
-                  label="예약상태"
+                  label={LANG("booking_status")}
                 />
               </div>
             </div>
           </div>
           <div className="modal__section">
-            <h6>결제정보</h6>
+            <h6>{LANG("payment_info")}</h6>
             <div className="flex-grid">
               <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
                 <InputText
                   disabled={allReadOnly}
                   {...priceHook}
-                  placeholder={`정상가:${autoComma(placeHolederPrice)}`}
+                  placeholder={`${LANG("normal_price")}}:${autoComma(placeHolederPrice)}`}
                   returnNumber
                   comma
-                  label="총금액"
+                  label={LANG("total_price")}
                 />
               </div>
               <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
@@ -497,7 +500,7 @@ const BookingModal: React.FC<IProps> = ({
           <div className="JDmodal__endSection">
             <Button
               size="small"
-              label="생성하기"
+              label={LANG("do_create")}
               disabled={allReadOnly}
               thema="primary"
               onClick={handleCreateBtnClick}
@@ -505,13 +508,13 @@ const BookingModal: React.FC<IProps> = ({
             <Button
               size="small"
               disabled={mode === BookingModalModes.CREATE}
-              label="수정하기"
+              label={LANG("do_modify")}
               thema="primary"
               onClick={handleUpdateBtnClick}
             />
             <Button
               size="small"
-              label="예약삭제"
+              label={LANG("delete_booking")}
               disabled={mode === BookingModalModes.CREATE}
               thema="error"
               onClick={handleDeletBtnClick}

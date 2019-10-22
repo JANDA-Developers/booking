@@ -1,6 +1,6 @@
 import React, {Fragment} from "react";
 import {JDtoastModal} from "../../atoms/modal/Modal";
-import {IUseModal} from "../../hooks/hook";
+import {IUseModal, LANG} from "../../hooks/hook";
 
 interface IPriceWarnModalParam {
   confirmCallBackFn: (flag: boolean) => void;
@@ -13,13 +13,12 @@ interface IProps {
 const PriceWarnModal: React.FC<IProps> = ({modalHook}) => (
   <JDtoastModal
     confirmCallBackFn={modalHook.info.confirmCallBackFn}
-    falseMessage="아니요"
-    trueMessage="예"
+    falseMessage={LANG("no")}
+    trueMessage={LANG("yes")}
     {...modalHook}
     confirm
   >
-    가격이 1000원 이하입니다. <br />
-    정말설정하실려는 가격이 맞나요?
+    {LANG("the_price_is_too_low_are_you_sure_to_set_this_price")}
   </JDtoastModal>
 );
 

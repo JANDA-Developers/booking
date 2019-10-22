@@ -15,7 +15,7 @@ import reactWindowSize, {WindowSizeProps} from "react-window-size";
 import {ReactTooltip} from "../../atoms/tooltip/Tooltip";
 import Preloader from "../../atoms/preloader/Preloader";
 import JDmodal from "../../atoms/modal/Modal";
-import {useModal} from "../../hooks/hook";
+import {useModal, LANG} from "../../hooks/hook";
 
 interface IProps {
   context: IContext;
@@ -79,7 +79,7 @@ export const Noti: React.FC<IProps & WindowSizeProps> = ({
           )}
           {notis.length === 0 && !loading && (
             <li className="notiLi JDtextColor--placeHolder">
-              현재 알림이 없습니다.
+              {LANG("no_notifications")}
             </li>
           )}
           {notis.map(noti => (
@@ -103,7 +103,7 @@ export const Noti: React.FC<IProps & WindowSizeProps> = ({
           )}
           {notis.length === 0 && !loading && (
             <li className="notiLi JDtextColor--placeHolder">
-              현재 알림이 없습니다.
+              {LANG("no_notifications")}
             </li>
           )}
           {notis.map(noti => (

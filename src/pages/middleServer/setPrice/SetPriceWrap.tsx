@@ -40,6 +40,7 @@ import Preloader from "../../../atoms/preloader/Preloader";
 import {targetBlinkFuture} from "../../../utils/targetBlink";
 import {IContext} from "../../MiddleServerRouter";
 import reactWindowSize, {WindowSizeProps} from "react-window-size";
+import {LANG} from "../../../hooks/hook";
 
 export interface IAddSeason {
   name: string;
@@ -144,8 +145,8 @@ const SetPriceWrap: React.SFC<IProps & WindowSizeProps> = ({
               onCompleted={({UpdateSeason}) => {
                 onCompletedMessage(
                   UpdateSeason,
-                  "업데이트완료",
-                  "업데이트실패"
+                  LANG("update_complete"),
+                  LANG("update_fail")
                 );
               }}
               mutation={UPDATE_SEASON}
@@ -156,8 +157,8 @@ const SetPriceWrap: React.SFC<IProps & WindowSizeProps> = ({
                   onCompleted={({CreateSeason}) => {
                     onCompletedMessage(
                       CreateSeason,
-                      "시즌 생성완료",
-                      "시즌 생성실패"
+                      LANG("create_season_complete"),
+                      LANG("create_season_fail")
                     );
                     if (CreateSeason.season) {
                       targetBlinkFuture(

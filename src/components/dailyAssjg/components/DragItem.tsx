@@ -76,9 +76,9 @@ const DragItem: React.FC<IProps> = ({item, place, room, roomType}) => {
           );
           return (
             <div
-              data-tip={`${moment(checkIn).format("MM-DD일")} ~ ${moment(
-                checkOut
-              ).format("MM-DD일")}`}
+              data-tip={`${moment(checkIn).format(
+                `MM-DD${LANG("date")}`
+              )} ~ ${moment(checkOut).format(`MM-DD${LANG("day")}}`)}`}
               data-for={
                 status === BookingStatus.PROGRESSING
                   ? "tooltipReadyBlock"

@@ -4,7 +4,8 @@ import {
   IUseModal,
   useSwitch,
   useSelect,
-  useInput
+  useInput,
+  LANG
 } from "../../../../hooks/hook";
 import SmsTemplate from "./smsTemplate";
 import Button from "../../../../atoms/button/Button";
@@ -227,20 +228,20 @@ const SmsTemplateModal: React.FC<Iprops> = ({
       <div className="JDmodal__endSection">
         <Button
           size="small"
-          label={isAdd ? "생성하기" : "복제하기"}
+          label={isAdd ? LANG("do_create") : LANG("do_copy")}
           thema="primary"
           onClick={handleCreateBtnClick}
         />
         <Button
           size="small"
-          label="수정하기"
+          label={LANG("do_modify")}
           thema="primary"
           disabled={isAdd}
           onClick={handleUpdateBtnClick}
         />
         <Button
           size="small"
-          label="예약삭제"
+          label={LANG("delete_booking")}
           thema="error"
           disabled={isAdd}
           onClick={handleDeleteBtnClick}

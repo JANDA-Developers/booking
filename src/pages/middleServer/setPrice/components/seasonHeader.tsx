@@ -1,13 +1,12 @@
 import React, {Fragment} from "react";
 import {ISeason} from "../../../../types/interface";
-import {useDayPicker, useSelect, useModal} from "../../../../hooks/hook";
+import {useDayPicker, useSelect, useModal, LANG} from "../../../../hooks/hook";
 import JDIcon from "../../../../atoms/icons/Icons";
 import JDselect, {
   IselectedOption,
   SelectBoxSize
 } from "../../../../atoms/forms/selectBox/SelectBox";
 import InputText from "../../../../atoms/forms/inputText/InputText";
-import {useState} from "react";
 import moment from "moment";
 import CircleIcon from "../../../../atoms/circleIcon/CircleIcon";
 import TooltipList from "../../../../atoms/tooltipList/TooltipList";
@@ -105,18 +104,18 @@ const SeasonHeader: React.FC<IProps> = ({
               onClick={() => {
                 updateSeasonModal.openModal();
               }}
-              label="수정하기"
+              label={LANG("do_modify")}
             />
           </li>
           <li>
-            <Button onClick={handleDeleteSeason} label="삭제하기" />
+            <Button onClick={handleDeleteSeason} label={LANG("do_delete")} />
           </li>
           <li>
             <Button
               onClick={() => {
                 periorityModalHook.openModal();
               }}
-              label="순위변경"
+              label={LANG("chnage_priority")}
             />
           </li>
         </ul>

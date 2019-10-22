@@ -6,7 +6,8 @@ import {
   IUseModal,
   useInput,
   useDayPicker,
-  useModal
+  useModal,
+  LANG
 } from "../../../../hooks/hook";
 import JDmodal from "../../../../atoms/modal/Modal";
 import CheckBox from "../../../../atoms/forms/checkBox/CheckBox";
@@ -68,16 +69,16 @@ const CreateSeasonModal: React.FC<IProps> = ({
 
   const validation = (): boolean => {
     if (!isName(name)) {
-      toast.warn("올바른 이름이 아닙니다.");
+      toast.warn(LANG("not_a_valid_name"));
       return false;
     }
     if (prices.find(price => price === null || undefined || NaN)) {
-      toast.warn("기본가격을 입력바랍니다.");
+      toast.warn(LANG("please_enter_a_base_price"));
       return false;
     }
 
     if (!dayPickerHook.from || !dayPickerHook.to) {
-      toast.warn("날자를 지정해주세요.");
+      toast.warn(LANG("please_specify_the_date"));
       return false;
     }
 
@@ -114,7 +115,7 @@ const CreateSeasonModal: React.FC<IProps> = ({
     <JDmodal className="createSeasonModal" visibleOverflow {...modalHook}>
       <div>
         <InputText
-          label="시즌명"
+          label={LANG("season_name")}
           defaultValue={name}
           onBlur={e => {
             setName(e.currentTarget.value);

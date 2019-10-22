@@ -18,7 +18,7 @@ import {
   GET_ROOMTYPE_BY_ID,
   GET_ALL_ROOMTYPES
 } from "../../../../queries";
-import {IUseModal} from "../../../../hooks/hook";
+import {IUseModal, LANG} from "../../../../hooks/hook";
 import {
   ErrProtecter,
   onCompletedMessage,
@@ -118,8 +118,8 @@ const UpdateTimelineWrap: React.SFC<IProps> = ({context, modalHook}) => {
             onCompleted={({CreateRoomType}: any) => {
               onCompletedMessage(
                 CreateRoomType,
-                "방타입 생성완료",
-                "방타입 생성실패"
+                LANG("create_roomType_completed"),
+                LANG("create_roomType_fail")
               );
             }}
             awaitRefetchQueries
@@ -135,8 +135,8 @@ const UpdateTimelineWrap: React.SFC<IProps> = ({context, modalHook}) => {
                 onCompleted={({DeleteRoomType}: any) => {
                   onCompletedMessage(
                     DeleteRoomType,
-                    "방타입 제거완료",
-                    "방타입 제거실패"
+                    LANG("remove_roomType_completed"),
+                    LANG("remove_roomType_fail")
                   );
                 }}
                 awaitRefetchQueries
@@ -146,8 +146,8 @@ const UpdateTimelineWrap: React.SFC<IProps> = ({context, modalHook}) => {
                     onCompleted={({UpdateRoomType}: any) => {
                       onCompletedMessage(
                         UpdateRoomType,
-                        "방타입 업데이트 완료",
-                        "방타입 업데이트 실패"
+                        LANG("update_roomType_completed"),
+                        LANG("update_roomType_fail")
                       );
                     }}
                     mutation={UPDATE_ROOMTYPE}

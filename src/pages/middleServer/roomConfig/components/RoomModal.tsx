@@ -5,6 +5,7 @@ import Modal from "../../../../atoms/modal/Modal";
 import InputText from "../../../../atoms/forms/inputText/InputText";
 import Button from "../../../../atoms/button/Button";
 import utils from "../../../../utils/utils";
+import {LANG} from "../../../../hooks/hook";
 
 interface IProps {
   modalHook: any;
@@ -65,7 +66,7 @@ const RoomTypeModal: React.FC<IProps> = ({
       <div className="flex-grid">
         <div className="flex-grid__col col--full-12 col--lg-12 col--md-12">
           <InputText
-            label="방이름"
+            label={LANG("room_name")}
             {...roomNameHook}
             validation={utils.isMaxOver}
             max={10}
@@ -74,20 +75,20 @@ const RoomTypeModal: React.FC<IProps> = ({
       </div>
       <div className="JDmodal__endSection">
         <Button
-          label="생성하기"
+          label={LANG("do_create")}
           thema="primary"
           size="small"
           onClick={onCreateRoom}
         />
         <Button
-          label="수정하기"
+          label={LANG("do_modify")}
           thema="primary"
           size="small"
           disabled={isAddMode}
           onClick={onUpdateRoom}
         />
         <Button
-          label="삭제하기"
+          label={LANG("do_delete")}
           size="small"
           thema="error"
           disabled={isAddMode}

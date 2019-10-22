@@ -10,7 +10,7 @@ import client from "../../../apolloClient";
 import JDbadge from "../../../atoms/badge/Badge";
 import alertMemo from "../../../utils/alertMemo";
 import MemoAlertModal from "./MemoAlertModal";
-import {useModal} from "../../../hooks/hook";
+import {useModal, LANG} from "../../../hooks/hook";
 
 interface Iprops extends IconConifgProps {
   context: IContext;
@@ -44,7 +44,12 @@ const MemoIcon: React.FC<Iprops> = ({context, ...props}) => {
         {...props}
         dots={
           haveEnableAlert
-            ? [<JDbadge tooltip="알람 설정된 메모가 있습니다." thema="point" />]
+            ? [
+                <JDbadge
+                  tooltip={LANG("there_is_an_alarm_set_note")}
+                  thema="point"
+                />
+              ]
             : undefined
         }
       />
