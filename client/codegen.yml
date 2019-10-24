@@ -1,9 +1,0 @@
-schema: YOUR_API
-overwrite: true
-generates:
-  --queries=src/queries.ts  --target=typescript --outputFlat
-  src/types/api.d.ts:
-    schema: schema.json
-    plugins:
-      - typescript
-      - fragment-matcher

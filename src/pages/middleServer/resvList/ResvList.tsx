@@ -271,8 +271,7 @@ const ResvList: React.SFC<IProps> = ({
             className={`resvList__paymentStatus ${original.payment.status ===
               PaymentStatus.PROGRESSING && "resvList__paymentStatus--notYet"}`}
           >
-            {/* // @ts-ignore */}
-            LANG(original.paymentStatus)}
+            {LANG(original.payment.status)}
           </span>
         </div>
       )
