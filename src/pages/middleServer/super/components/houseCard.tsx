@@ -1,17 +1,17 @@
 import React from "react";
 import moment from "moment";
-import {IUseModal, useModal} from "../../../../hooks/hook";
+import { IUseModal, useModal, LANG } from "../../../../hooks/hook";
 import Card from "../../../../atoms/cards/Card";
 import ProfileCircle from "../../../../atoms/profileCircle/ProfileCircle";
 import Button from "../../../../atoms/button/Button";
 import Badge from "../../../../atoms/badge/Badge";
-import {autoHypen} from "../../../../utils/utils";
+import { autoHypen } from "../../../../utils/utils";
 import SpecificAtion from "../../../../components/specification/Specification";
 import JDmodal from "../../../../atoms/modal/Modal";
 import SpecificAtionWrap from "../../../../components/specification/SpecificationWrap";
-import {getHousesForSU_GetHousesForSU_houses} from "../../../../types/api";
-import JDIcon, {IconSize} from "../../../../atoms/icons/Icons";
-import {ICreateNotiModalParam} from "./createNotiModalWrap";
+import { getHousesForSU_GetHousesForSU_houses } from "../../../../types/api";
+import JDIcon, { IconSize } from "../../../../atoms/icons/Icons";
+import { ICreateNotiModalParam } from "./createNotiModalWrap";
 import CircleIcon from "../../../../atoms/circleIcon/CircleIcon";
 
 interface IProps {
@@ -29,16 +29,16 @@ const HouseCard: React.SFC<IProps> = ({
   const getBadgeInfo = () => {
     const badgeInfoes = [];
 
-    const {createdAt, updatedAt} = houseData;
+    const { createdAt, updatedAt } = houseData;
 
     if (moment(createdAt).isAfter(moment().subtract(1, "days"))) {
-      badgeInfoes.push({thema: "new", label: "new"});
+      badgeInfoes.push({ thema: "new", label: "new" });
     }
     if (
       moment(updatedAt).isAfter(moment().subtract(1, "days")) &&
       !moment(createdAt).isSame(updatedAt, "day")
     ) {
-      badgeInfoes.push({thema: "primary", label: "update"});
+      badgeInfoes.push({ thema: "primary", label: "update" });
     }
     return badgeInfoes;
   };
@@ -49,7 +49,7 @@ const HouseCard: React.SFC<IProps> = ({
       <ProfileCircle
         profileImg={houseData.user.profileImg}
         onClick={() => {
-          userModal.openModal({userId: houseData.user._id});
+          userModal.openModal({ userId: houseData.user._id });
         }}
         size={IconSize.LARGE}
         className="houseCard__profile JDmargin-bottom0"
@@ -89,8 +89,8 @@ const HouseCard: React.SFC<IProps> = ({
               label={houseData.product.name}
             />
           ) : (
-            <Button mode="border" size="small" thema="grey" label="상품없음" />
-          )}
+              <Button mode="border" size="small" thema="grey" label={LANG("none_product")} />
+            )}
         </div>
       </div>
       <JDmodal {...specificationModalHook}>

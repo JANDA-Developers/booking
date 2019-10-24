@@ -1,13 +1,13 @@
-import React, {Fragment, useMemo} from "react";
-import {ErrProtecter} from "../../../utils/utils";
+import React, { Fragment, useMemo } from "react";
+import { ErrProtecter } from "../../../utils/utils";
 import Card from "../../../atoms/cards/Card";
 import DailyAssigWrap from "../../../components/dailyAssjg/DailyAssigWrap";
 import "./DashBoard.scss";
-import {MutationFn} from "react-apollo";
-import {updateHouse, updateHouseVariables} from "../../../types/api";
-import {useModal, useDayPicker} from "../../../hooks/hook";
+import { MutationFn } from "react-apollo";
+import { updateHouse, updateHouseVariables } from "../../../types/api";
+import { useModal, useDayPicker, LANG } from "../../../hooks/hook";
 import Button from "../../../atoms/button/Button";
-import {IContext} from "../../MiddleServerRouter";
+import { IContext } from "../../MiddleServerRouter";
 import DaySalesWrap from "../../../components/shortStatisces/DaySalesWrap";
 import DayCheckInWrap from "../../../components/shortStatisces/DayCheckInWrap";
 import ReservationModal from "../../../components/reservationModala/ReservationModal";
@@ -15,7 +15,7 @@ import JDIcon from "../../../atoms/icons/Icons";
 import TooltipList from "../../../atoms/tooltipList/TooltipList";
 import DayPickerModal from "../../../components/dayPickerModal/DayPickerModal";
 // @ts-ignore
-import {Doughnut} from "react-chartjs-2";
+import { Doughnut } from "react-chartjs-2";
 // @ts-ignore
 import Calculater from "react-calculator";
 import TempWeel from "./components/tempWheel";
@@ -29,12 +29,12 @@ interface Iprops {
 }
 
 // eslint-disable-next-line react/prop-types
-const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
+const DashBoard: React.SFC<Iprops> = ({ updateHouseMu, context }) => {
   const reservationModal = useModal();
   const dayPickerModalHook = useModal();
   const smsModal = useModal<IModalSMSinfo>(false);
   const dailyAssigDateHook = useDayPicker(new Date(), new Date());
-  const {house, user} = context;
+  const { house, user } = context;
 
   const MemoDaySalesWrap = useMemo(
     () => <DaySalesWrap context={context} />,
@@ -79,14 +79,14 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
                           });
                         }}
                         icon="sms"
-                        label="단체 메시지"
+                        label={LANG("group_msg")}
                       />
                       <Button
                         onClick={() => {
                           reservationModal.openModal();
                         }}
                         float="right"
-                        label="예약하기"
+                        label={LANG("make_reservation")}
                         thema="primary"
                       />
                     </div>
@@ -104,7 +104,7 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
                     <ReservationModal
                       context={context}
                       modalHook={reservationModal}
-                      callBackCreateBookingMu={(foo: any) => {}}
+                      callBackCreateBookingMu={(foo: any) => { }}
                       publicKey={house.publicKey || undefined}
                     />
                   </Fragment>
@@ -114,13 +114,13 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
             <div className="flex-grid flex-grid--start">
               <div className="flex-grid__col col--full-4 JDstandard-space">
                 <Card className="dashboard__dailyStaticsCard">
-                  <h6>금일 매출</h6>
+                  <h6>{LANG("today_sales")}</h6>
                   {MemoDaySalesWrap}
                   <Doughnut
                     data={{
                       datasets: [
                         {
-                          label: "매출",
+                          label: LANG("sales"),
                           data: [12312]
                         }
                       ]
@@ -130,12 +130,12 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
               </div>
               <div className="flex-grid__col col--full-4">
                 <Card className="dashboard__dailyStaticsCard flex-grid__col">
-                  <h6>체크인 현황</h6>
+                  <h6>{LANG("checkin_status")}</h6>
                   <Doughnut
                     data={{
                       datasets: [
                         {
-                          label: "매출",
+                          label: LANG("sales"),
                           data: [12312]
                         }
                       ]
@@ -152,7 +152,7 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
         <ul className="tooltipList__ul">
           <li>
             <Button
-              label="예약하기"
+              label={LANG("make_reservation")}
               size="small"
               float="right"
               mode="border"
@@ -163,7 +163,7 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
           </li>
           <li>
             <Button
-              label="날자변경"
+              label={LANG("change_date")}
               size="small"
               float="right"
               mode="border"

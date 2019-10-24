@@ -18,7 +18,7 @@ import {
   START_BOOKING,
   START_BOOKING_FOR_PUBLIC
 } from "../../../queries";
-import {useModal, IUseModal} from "../../../hooks/hook";
+import {useModal, IUseModal, LANG} from "../../../hooks/hook";
 import {getOperationName} from "apollo-link";
 import {isInIfram} from "../../../utils/isInIfram";
 import {IContext} from "../../MiddleServerRouter";
@@ -42,7 +42,7 @@ const ReservationWrap: React.FC<
   // .react-select__input
 
   const startBookingCallBackFn = (result: any) => {
-    onCompletedMessage(result, "예약 생성 완료", "예약 생성 실패");
+    onCompletedMessage(result, LANG("reservation_creation_complete"), LANG("reservation_creation_fail"));
     modalHook && modalHook.closeModal();
     callBackCreateBookingMu && callBackCreateBookingMu(result);
   };

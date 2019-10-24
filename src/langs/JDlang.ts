@@ -3,7 +3,8 @@ import {kr} from "./kr";
 import en from "./en";
 
 const JDlangs = {
-  kr
+  kr,
+  en
 };
 
 // 첫번쨰 lnag

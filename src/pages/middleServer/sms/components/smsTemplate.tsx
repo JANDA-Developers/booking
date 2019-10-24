@@ -7,11 +7,8 @@ import {
   AUTO_SEND_OP,
   SMS_TARGET_OP,
   SmsReplaceKeyEnumKeys,
-  SmsReplaceKeyEnumKr,
   SendTarget,
   AutoSendWhen,
-  AutoSendWhenKr,
-  SendTargetKr,
   KR_SMS_PARSER
 } from "../../../../types/enum";
 import {useSelect, useInput, useSwitch, LANG} from "../../../../hooks/hook";
@@ -69,14 +66,14 @@ const SmsTemplate: React.SFC<IProps> = ({
   const autoSendHook = useSelect<AutoSendWhen | null>({
     value: templateData.smsSendCase ? templateData.smsSendCase.when : null,
     label: templateData.smsSendCase
-      ? AutoSendWhenKr[templateData.smsSendCase.when]
-      : "발송안함"
+      ? LANG(templateData.smsSendCase.when)
+      : LANG("dont_send")
   });
   const sendTargetHook = useSelect<SendTarget | null>({
     value: templateData.smsSendCase ? templateData.smsSendCase.who : null,
     label: templateData.smsSendCase
-      ? SendTargetKr[templateData.smsSendCase.who]
-      : "발송안함"
+      ? LANG(templateData.smsSendCase.who)
+      : LANG("dont_send")
   });
 
   const AutoSendWhenTemp =
@@ -132,23 +129,23 @@ const SmsTemplate: React.SFC<IProps> = ({
       <InputText
         value={messageValue}
         onChange={setMessage}
-        label="발신 메세지"
+        label={LANG("msg")}
         textarea
         doubleHeight
       />
       <div>
         <div>
-          <JDLabel txt="템플릿 메세지" />
+          <JDLabel txt={LANG("template_msg")} />
         </div>
         {tempArr.map((value: any) => (
           <Button
             onClick={() => {
-              // @ts-ignore
-              hanldeTemplateBtnClick(SmsReplaceKeyEnumKr[value]);
+              hanldeTemplateBtnClick(LANG(value));
             }}
             key={`templateBtn${templateData._id}${value}`}
-            // @ts-ignore
-            label={SmsReplaceKeyEnumKr[value].replace("[", "").replace("]", "")}
+            label={LANG(value)
+              .replace("[", "")
+              .replace("]", "")}
           />
         ))}
       </div>
@@ -158,15 +155,15 @@ const SmsTemplate: React.SFC<IProps> = ({
           size={SelectBoxSize.FIVE}
           options={AUTO_SEND_OP}
           {...autoSendHook}
-          label="자동발신"
+          label={LANG("auto_send")}
         />
         <JDselect
           size={SelectBoxSize.FOUR}
           options={SMS_TARGET_OP}
           {...sendTargetHook}
-          label="발신대상"
+          label={LANG("outgoing_destination")}
         />
-        <Switch {...enableHook} label="자동발신 활성화" />
+        <Switch {...enableHook} label={LANG("auto_send_enable")} />
       </div>
       <div>
         {/* <Button onClick={handleCreateBtnClick} thema="primary" label="추가" /> */}

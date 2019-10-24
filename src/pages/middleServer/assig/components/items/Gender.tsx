@@ -1,5 +1,6 @@
 import React from "react";
-import {GenderKr, Gender as TGender} from "../../../../../types/enum";
+import {Gender as TGender} from "../../../../../types/enum";
+import {LANG} from "../../../../../hooks/hook";
 
 interface IGenderProp {
   gender?: TGender | null;
@@ -14,7 +15,7 @@ const Gender: React.FC<IGenderProp> = ({gender: propGender, item}) => {
     <span
       className={`assigItem__gender ${`assigItem__gender--${gender.toLowerCase()}`}`}
     >
-      {`(${GenderKr[gender]}) `}
+      {`(${LANG(gender)}) `}
     </span>
   ) : (
     <span />

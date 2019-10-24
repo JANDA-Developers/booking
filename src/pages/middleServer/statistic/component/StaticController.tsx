@@ -1,17 +1,10 @@
 import React from "react";
+import {LANG} from "../../../../hooks/hook";
 import {IContext} from "../../../MiddleServerRouter";
-import {
-  SalesStatisticsUnitKr,
-  STATISTICS_OP,
-  STATISTICS_TYPE_OP
-} from "../../../../types/enum";
-import {IQueryOp} from "../../../outPages/HM/HMwrap";
+import {STATISTICS_OP, STATISTICS_TYPE_OP} from "../../../../types/enum";
 import JDselect from "../../../../atoms/forms/selectBox/SelectBox";
 import JDdayPicker from "../../../../atoms/dayPicker/DayPicker";
-import {IStaticsWrapProps, IGraphViewMode, IStaticsProps} from "../Statistic";
-import StaticIcons from "./StaticIcons";
-import {IconSize} from "../../../../atoms/icons/Icons";
-import {LANG} from "../../../../hooks/hook";
+import {IStaticsProps} from "../Statistic";
 
 interface Iprops {
   context: IContext;
@@ -20,6 +13,8 @@ interface Iprops {
 
 const StaticController: React.FC<Iprops> = ({context, staticsProps}) => {
   const {queryDateHook, queryOp, setQueryOp} = staticsProps;
+  console.log("STATISTICS_TYPE_OP");
+  console.log(STATISTICS_TYPE_OP);
   return (
     <div>
       <h6>{LANG("statistical_transformation")}</h6>
@@ -58,7 +53,7 @@ const StaticController: React.FC<Iprops> = ({context, staticsProps}) => {
           // @ts-ignore
           selectedOption={{
             value: queryOp.unit,
-            label: SalesStatisticsUnitKr[queryOp.unit]
+            label: LANG(queryOp.unit)
           }}
           // @ts-ignore
           options={STATISTICS_TYPE_OP}

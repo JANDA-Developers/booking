@@ -1,15 +1,15 @@
 import React from "react";
-import {MutationFn} from "react-apollo";
+import { MutationFn } from "react-apollo";
 import {
   updateHouseConfig,
   updateHouseConfigVariables
 } from "../../../../types/api";
-import {IContext} from "../../../MiddleServerRouter";
-import {useSwitch, useSelect} from "../../../../hooks/hook";
+import { IContext } from "../../../MiddleServerRouter";
+import { useSwitch, useSelect, LANG } from "../../../../hooks/hook";
 import Button from "../../../../atoms/button/Button";
 import JDswitch from "../../../../atoms/forms/switch/Switch";
 import JDbox from "../../../../atoms/box/JDbox";
-import {PRICING_TYPE_OP_EXPEND} from "../../../../types/enum";
+import { PRICING_TYPE_OP_EXPEND } from "../../../../types/enum";
 import JDselect from "../../../../atoms/forms/selectBox/SelectBox";
 
 interface IProps {
@@ -20,10 +20,10 @@ interface IProps {
   context: IContext;
 }
 
-const BaseConfig: React.FC<IProps> = ({updateHouseConfigMu, context}) => {
-  const {houseConfig, house} = context;
+const BaseConfig: React.FC<IProps> = ({ updateHouseConfigMu, context }) => {
+  const { houseConfig, house } = context;
   const {
-    baseConfig: {pricingTypes}
+    baseConfig: { pricingTypes }
   } = houseConfig;
 
   const useingPricingTypesHook = useSelect(
@@ -55,19 +55,19 @@ const BaseConfig: React.FC<IProps> = ({updateHouseConfigMu, context}) => {
   return (
     <div className="additionDetail">
       <div className="docs-section__box">
-        <span>예약 설정</span>
+        <span>{LANG("reservation_setting")}}</span>
         <div className="additionDetail__titleTopRight">
           <Button
             onClick={() => {
               handleUpdateBtnClick();
             }}
             thema="point"
-            label="저장하기"
+            label={LANG("save")}
           />
         </div>
       </div>
       <div>
-        <h6>상품 형태 입력</h6>
+        <h6>{LANG("set_product_type")}</h6>
         <div>
           <JDselect
             {...useingPricingTypesHook}

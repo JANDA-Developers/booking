@@ -1,20 +1,21 @@
-import React, {Fragment} from "react";
-import {NavLink, Link} from "react-router-dom";
+import React, { Fragment } from "react";
+import { NavLink, Link } from "react-router-dom";
 import "./SideNav.scss";
 import classNames from "classnames";
 import ErrProtecter from "../../utils/errProtect";
-import Icon, {IIcons, IconSize} from "../../atoms/icons/Icons";
+import Icon, { IIcons, IconSize } from "../../atoms/icons/Icons";
 import Button from "../../atoms/button/Button";
-import JDmenu, {JDmenuItem, JDsubMenu} from "../../atoms/menu/Menu";
+import JDmenu, { JDmenuItem, JDsubMenu } from "../../atoms/menu/Menu";
 import ProfileCircle from "../../atoms/profileCircle/ProfileCircle";
 import SelectHouseWrap from "../selectHouse/SelectHouseWrap";
-import {s4, instanceOfA} from "../../utils/utils";
-import {IContext} from "../../pages/MiddleServerRouter";
-import {HouseStatus} from "../../types/enum";
-import {inOr} from "../../utils/C";
+import { s4, instanceOfA } from "../../utils/utils";
+import { IContext } from "../../pages/MiddleServerRouter";
+import { HouseStatus } from "../../types/enum";
+import { inOr } from "../../utils/C";
 import Help from "../../atoms/Help/Help";
 import JDlist from "../../atoms/list/List";
-import {to4YMMDD} from "../../utils/setMidNight";
+import { to4YMMDD } from "../../utils/setMidNight";
+import { LANG } from "../../hooks/hook";
 
 interface IProps {
   isOpen: boolean;
@@ -37,8 +38,8 @@ interface IMenusGroup {
   contents: IMenusItem[];
 }
 
-const SideNav: React.FC<IProps> = ({isOpen, setIsOpen, context}) => {
-  const {applyedProduct, house, user} = context;
+const SideNav: React.FC<IProps> = ({ isOpen, setIsOpen, context }) => {
+  const { applyedProduct, house, user } = context;
 
   const classes = classNames({
     JDsideNav: true,
@@ -56,59 +57,59 @@ const SideNav: React.FC<IProps> = ({isOpen, setIsOpen, context}) => {
     {
       to: "/dashboard",
       icon: "apps",
-      label: "홈",
+      label: LANG("home"),
       disabled: false
     },
     {
       to: "/assigTimeline",
       disabled: disabledFlag,
       icon: "calendar",
-      label: "배정달력"
+      label: LANG("allocation_calendar")
     },
     {
       to: "/statistic",
       icon: "graphPie",
-      label: "통계",
+      label: LANG("statistics"),
       disabled: disabledFlag
     },
     {
       to: "/resvList",
       disabled: disabledFlag,
       icon: "list",
-      label: "예약목록"
+      label: LANG("bookingList")
     },
     {
-      groupTitle: "설정",
+      groupTitle: LANG("config"),
       disabled: disabledFlag,
       contents: [
         {
           to: "/roomConfig",
           icon: "roomChange",
-          label: "방 설정",
+          label: LANG("room_config"),
           disabled: disabledFlag
         },
         {
           to: "/setPrice",
           icon: "money",
-          label: "가격설정",
+          label: LANG("price_setting"),
           disabled: disabledFlag
         },
         {
           to: "/sms",
           icon: "sms",
-          label: "SMS설정",
+          label: LANG("sms_setting"),
           disabled: disabledFlag
         },
         {
           to: "/HMconfig",
           disabled: disabledFlag,
           icon: "list",
-          label: "하우스 메뉴얼"
+          label: LANG("HM")
         },
         {
           to: "/config",
           icon: "config",
-          label: "환경설정",
+          label: LANG("preferences"),
           disabled: disabledFlag
         }
       ]
@@ -116,7 +117,7 @@ const SideNav: React.FC<IProps> = ({isOpen, setIsOpen, context}) => {
     {
       to: "/qna",
       icon: "book",
-      label: "고객문의",
+      label: LANG("customer_inquiry"),
       disabled: false
     }
   ];
@@ -139,7 +140,7 @@ const SideNav: React.FC<IProps> = ({isOpen, setIsOpen, context}) => {
         }}
         className={`JDsideNav__navLink ${
           menu.disabled ? "JDsideNav__navLink--disabled" : ""
-        }`}
+          }`}
       >
         <Icon icon={menu.icon} />
         <span className="JDsideNav__title">{menu.label}</span>
@@ -181,8 +182,8 @@ const SideNav: React.FC<IProps> = ({isOpen, setIsOpen, context}) => {
                     </JDmenuItem>
                   </JDsubMenu>
                 ) : (
-                  <JDmenuItem key={s4()}>{renderLink(menu)}</JDmenuItem>
-                )
+                    <JDmenuItem key={s4()}>{renderLink(menu)}</JDmenuItem>
+                  )
               )}
             </JDmenu>
           </div>
@@ -191,7 +192,7 @@ const SideNav: React.FC<IProps> = ({isOpen, setIsOpen, context}) => {
             <div className="JDsideNav__billing-info">
               <div className="JDsideNav__billing-title">
                 <span className="JDstandard-small-space">
-                  {inOr(applyedProduct, "name", "적용안됨")}
+                  {inOr(applyedProduct, "name", LANG("unapplied"))}
                 </span>
                 {applyedProduct && (
                   <Help
@@ -200,8 +201,8 @@ const SideNav: React.FC<IProps> = ({isOpen, setIsOpen, context}) => {
                       <JDlist
                         className="JDmargin-bottom0"
                         contents={[
-                          `만료일: ${to4YMMDD(applyedProduct.expireDate)}`,
-                          `가격: ${applyedProduct.price || 0} /LANG("month")`
+                          `${LANG("expiry_date")}: ${to4YMMDD(applyedProduct.expireDate)}`,
+                          `${LANG("price")}: ${applyedProduct.price || 0} /LANG("month")`
                         ]}
                       />
                     }
@@ -211,13 +212,13 @@ const SideNav: React.FC<IProps> = ({isOpen, setIsOpen, context}) => {
               <div className="JDsideNav__billing-detail">
                 <span>
                   {applyedProduct &&
-                    `${applyedProduct.daysLeftToExpire}일 사용가능`}
+                    `${applyedProduct.daysLeftToExpire}${LANG("date")} ${LANG("available")}`}
                 </span>
               </div>
             </div>
             <div className="JDsideNav__upgradeBtn">
               <NavLink to="/products">
-                <Button label="업그레이드" mode="border" />
+                <Button label={LANG("non_members")} mode="border" />
               </NavLink>
             </div>
           </div>
@@ -228,7 +229,7 @@ const SideNav: React.FC<IProps> = ({isOpen, setIsOpen, context}) => {
           onClick={handleCurtainClick}
           className={`JDsideNav-curtain ${
             isOpen ? "JDsideNav-curtain--open" : ""
-          }`}
+            }`}
         />
       </div>
     </Fragment>

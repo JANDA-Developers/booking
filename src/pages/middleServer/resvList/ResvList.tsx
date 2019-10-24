@@ -24,7 +24,6 @@ import {JDtoastModal} from "../../../atoms/modal/Modal";
 import {
   PaymentStatus,
   PricingType,
-  PaymentStatusKr,
   BookingStatus,
   FLOATING_PRElOADER_SIZE,
   DateFormat
@@ -104,7 +103,7 @@ const ResvList: React.SFC<IProps> = ({
 
   const handleDeleteBookingBtnClick = () => {
     alertModalHook.openModal({
-      txt: `${JDlang("nextResv")}${checkedIds.length}${JDlang("checkDelete")}`
+      txt: `${LANG("nextResv")}${checkedIds.length}${LANG("checkDelete")}`
     });
   };
 
@@ -164,7 +163,7 @@ const ResvList: React.SFC<IProps> = ({
 
   const TableColumns: JDcolumn<IBooking>[] = [
     {
-      Header: "예약일자",
+      Header: LANG("reservation_did_date"),
       accessor: "createdAt",
       Cell: ({value}) => {
         return (
@@ -177,7 +176,7 @@ const ResvList: React.SFC<IProps> = ({
       }
     },
     {
-      Header: "숙박정보",
+      Header: LANG("accommodation_info"),
       accessor: "roomTypes",
       Cell: ({value, original}) => {
         const roomTypes: IRoomType[] = value;
@@ -198,11 +197,21 @@ const ResvList: React.SFC<IProps> = ({
                   <span>
                     {selectInfo.pricingType === PricingType.DOMITORY ? (
                       <Fragment>
-                        {female !== 0 && <span>{female}여 </span>}
-                        {male !== 0 && <span>{male}남</span>}
+                        {female !== 0 && (
+                          <span>
+                            {female}
+                            {LANG("female")}{" "}
+                          </span>
+                        )}
+                        {male !== 0 && (
+                          <span>
+                            {male}
+                            {LANG("male")}
+                          </span>
+                        )}
                       </Fragment>
                     ) : (
-                      <span>{roomCount}개</span>
+                      <span>{roomCount}</span>
                     )}
                   </span>
                 );
@@ -225,7 +234,7 @@ const ResvList: React.SFC<IProps> = ({
     {
       Header: () => (
         <div>
-          {"예약자명"}
+          {LANG("booker_name")}
           <br />
           {LANG("contact")}
         </div>
@@ -245,24 +254,25 @@ const ResvList: React.SFC<IProps> = ({
     {
       Header: () => (
         <div>
-          {"이용금액"}
+          {LANG("usage_amount")}
           <br />
-          {"결제상태"}
+          {LANG("payment_status")}
         </div>
       ),
       accessor: "payment",
       Cell: ({original}) => (
         <div>
-          <span>{autoComma(original.payment.totalPrice)}원</span>
+          <span>
+            {autoComma(original.payment.totalPrice)}
+            {LANG("money_unit")}
+          </span>
           <br />
           <span
             className={`resvList__paymentStatus ${original.payment.status ===
               PaymentStatus.PROGRESSING && "resvList__paymentStatus--notYet"}`}
           >
-            {
-              // @ts-ignore
-              PaymentStatusKr[original.paymentStatus]
-            }
+            {/* // @ts-ignore */}
+            LANG(original.paymentStatus)}
           </span>
         </div>
       )
@@ -282,7 +292,7 @@ const ResvList: React.SFC<IProps> = ({
       )
     },
     {
-      Header: "상태",
+      Header: LANG("status"),
       accessor: "_id",
       Cell: ({original}) => {
         const {isNew, isConfirm, _id, status, payment, checkInInfo} = original;
@@ -302,19 +312,23 @@ const ResvList: React.SFC<IProps> = ({
                 bookingId={_id}
               />
             )}
-            {isCheckIn && <JDbadge thema={"new"}>체크인</JDbadge>}
-            {isCancled && <JDbadge thema={"error"}>취소</JDbadge>}
-            {isProgressing && <JDbadge thema={"grey"}>진행중</JDbadge>}
-            {isComplete && <JDbadge thema={"positive"}>정상</JDbadge>}
+            {isCheckIn && <JDbadge thema={"new"}>{LANG("checkin")}</JDbadge>}
+            {isCancled && <JDbadge thema={"error"}>{LANG("cancle")}</JDbadge>}
+            {isProgressing && (
+              <JDbadge thema={"grey"}>{LANG("proceeding")}</JDbadge>
+            )}
+            {isComplete && (
+              <JDbadge thema={"positive"}>{LANG("good_status")}</JDbadge>
+            )}
             {isProgressing || isPaied || (
-              <JDbadge thema={"warn"}>미결제</JDbadge>
+              <JDbadge thema={"warn"}>{LANG("unPaid")}</JDbadge>
             )}
           </div>
         );
       }
     },
     {
-      Header: "상세",
+      Header: LANG("detail"),
       accessor: "_id",
       minWidth: 40,
       Cell: ({value}) => (
@@ -351,23 +365,23 @@ const ResvList: React.SFC<IProps> = ({
   return (
     <div id="resvList" className="resvList container container--full">
       <div className="docs-section">
-        <h3>{JDlang("bookingList")}</h3>
+        <h3>{LANG("bookingList")}</h3>
         <div>
           <Button
             size="small"
             onClick={handleCancleBookingBtnClick}
-            label={JDlang("cancleBooking")}
+            label={LANG("cancleBooking")}
           />
           <Button
             onClick={handleSendSmsBtnClick}
             size="small"
-            label={JDlang("sendSMS")}
+            label={LANG("sendSMS")}
           />
           <Button
             onClick={handleDeleteBookingBtnClick}
             size="small"
             thema="error"
-            label={JDlang("deleteBooking")}
+            label={LANG("deleteBooking")}
           />
         </div>
         {networkStatus === 1 && loading ? (

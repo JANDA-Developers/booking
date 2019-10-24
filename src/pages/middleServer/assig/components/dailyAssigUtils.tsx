@@ -8,14 +8,14 @@ import {
   TToogleCheckIn,
   IDailyAssigDataControl
 } from "./assigIntrerface";
-import {ReactTooltip} from "../../../../atoms/tooltipList/TooltipList";
+import { ReactTooltip } from "../../../../atoms/tooltipList/TooltipList";
 import JDisNetworkRequestInFlight from "../../../../utils/netWorkStatusToast";
-import {IDailyAssigContext} from "../../../../components/dailyAssjg/DailyAssig";
-import {assigSharedDleteGuestConfirmMessage} from "./items/shared";
-import {getAllRoomTypeWithGuest_GetGuests_guests as IG} from "../../../../types/api";
-import {muResult} from "../../../../utils/utils";
-import {toast} from "react-toastify";
-import {LANG} from "../../../../hooks/hook";
+import { IDailyAssigContext } from "../../../../components/dailyAssjg/DailyAssig";
+import { assigSharedDleteGuestConfirmMessage } from "./items/shared";
+import { getAllRoomTypeWithGuest_GetGuests_guests as IG } from "../../../../types/api";
+import { muResult } from "../../../../utils/utils";
+import { toast } from "react-toastify";
+import { LANG } from "../../../../hooks/hook";
 
 export function getDailyAssigUtils(
   {
@@ -27,7 +27,7 @@ export function getDailyAssigUtils(
     totalMuLoading,
     updateCheckInMu
   }: IDailyAssigDataControl,
-  {blocksData, guestsData, confirmModalHook, networkStatus}: IDailyAssigContext
+  { blocksData, guestsData, confirmModalHook, networkStatus }: IDailyAssigContext
 ): IDailyAssigUtils {
   const allTooltipsHide = (except: string) => {
     ReactTooltip.hide();
@@ -46,7 +46,7 @@ export function getDailyAssigUtils(
     const {
       booking: {
         _id: bookingId,
-        checkInInfo: {isIn}
+        checkInInfo: { isIn }
       }
     } = targetGuest;
     if (JDisNetworkRequestInFlight(networkStatus)) return;
@@ -64,7 +64,7 @@ export function getDailyAssigUtils(
     if (muResult(result, "UpdateBooking")) {
       toast.success(!isIn ? LANG("checkIn") : LANG("checkOut"));
     } else {
-      toast.warn("체크인 변경 실패");
+      toast.warn(LANG("checkin_change_fail"));
     }
   };
 

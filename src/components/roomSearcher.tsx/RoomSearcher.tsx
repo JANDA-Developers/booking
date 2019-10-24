@@ -33,7 +33,7 @@ const RoomSearcher: React.FC<Iprops> = ({callBackOnSearch}) => {
     }
 
     if (!dayPickerHook.to) {
-      toast.warn(LANG("choseCheckOutDate");
+      toast.warn(LANG("choseCheckOutDate"));
       return false;
     }
 

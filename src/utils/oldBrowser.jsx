@@ -3,6 +3,7 @@
 
 // OLD borwser css는 main.scss 에있음
 import outdatedBrowserRework from "outdated-browser-rework";
+import { LANG } from "../hooks/hook";
 
 const OLD_BROWSER_CONFIG = {
   browserSupport: {
@@ -13,7 +14,7 @@ const OLD_BROWSER_CONFIG = {
     Firefox: 50,
     Opera: 50,
     Vivaldi: 1,
-    Yandex: {major: 17, minor: 10},
+    Yandex: { major: 17, minor: 10 },
     IE: false,
     Kakao: false
   },
@@ -21,17 +22,17 @@ const OLD_BROWSER_CONFIG = {
   isUnknownBrowserOK: true,
   messages: {
     en: {
-      outOfDate: "앱사용 이전에 크롬 브라우저 사용을 권장합니다.",
-      unsupported: "앱사용 이전에 크롬 브라우저 사용을 권장합니다.",
+      outOfDate: LANG("we_recommend_using_the_Chrome_browser_before_using_the_app"),
+      unsupported: LANG("we_recommend_using_the_Chrome_browser_before_using_the_app"),
       update: {
         web:
-          "오래된 브라우저 입니다. 서비스 이용중 문제가 발생할수 있습니다. </br> 브라우저를 업데이트 해주세요.",
-        googlePlay: "googlePlay 에서 크롬을 업데이트 해주세요.",
-        appStore: "appStore 에서 IOS 를 업데이트 해주세요."
+          LANG("this_is_an_old_browser_Problems_may_occur_while_using_the_service_Please_update_your_browser"),
+        googlePlay: LANG("please_update_Chrome_in_googlePlay"),
+        appStore: LANG("please_update_Chrome_in_appStore")
       },
       url: "https://www.google.com/chrome/",
-      callToAction: "권장 브라우저(Chrome)로 업데이트",
-      close: "닫기"
+      callToAction: LANG("update_to_recommended_browser_chrome"),
+      close: LANG("close")
     }
   },
   language: "en"

@@ -11,8 +11,6 @@ import Button from "../../../../atoms/button/Button";
 import JDLabel from "../../../../atoms/label/JDLabel";
 import ImageUploader from "../../../../atoms/imageUploader/ImageUploader";
 import {
-  PricingTypeKr,
-  RoomGenderKr,
   MAX_PEOPLE_COUNT_OP_FN,
   ROOM_GENDER_OP,
   PRICING_TYPE_OP
@@ -73,19 +71,19 @@ const RoomTypeModal: React.SFC<IProps> = ({
     name: roomTypeData.name,
     description: roomTypeData.description,
     pricingType: {
-      label: PricingTypeKr[roomTypeData.pricingType],
+      label: LANG(roomTypeData.pricingType),
       value: roomTypeData.pricingType
     },
     peopleCount: {
-      label: `${roomTypeData.peopleCount}명`,
+      label: `${roomTypeData.peopleCount}${LANG("people_unit")}`,
       value: roomTypeData.peopleCount
     },
     roomGender: {
-      label: RoomGenderKr[roomTypeData.roomGender],
+      label: LANG(roomTypeData.roomGender),
       value: roomTypeData.roomGender
     },
     peopleCountMax: {
-      label: `${roomTypeData.peopleCountMax}명`,
+      label: `${roomTypeData.peopleCountMax}${LANG("people_unit")}`,
       value: roomTypeData.peopleCountMax
     },
     defaultPrice: roomTypeData.defaultPrice || 0
@@ -108,11 +106,11 @@ const RoomTypeModal: React.SFC<IProps> = ({
   const validater = () => {
     if (value)
       if (value.name === "") {
-        toast.warn("방타입명을 입력해주세요.");
+        toast.warn(LANG("enter_room_type_name"));
         return false;
       }
     if (value.peopleCountMax.value < 1) {
-      toast.warn("수용인원은 1명 이상이여야 합니다.");
+      toast.warn(LANG("capacity_must_be_at_least_1_person"));
       return false;
     }
     if (value.defaultPrice < 1000) {
@@ -194,7 +192,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
           <div className="flex-grid">
             <div className="flex-grid__col col--full-6 col--lg-6 col--md-12">
               <InputText
-                label="방타입이름"
+                label={LANG("room_type_name")}
                 value={value.name}
                 onChange={(inValue: any) => {
                   setValue({...value, name: inValue});
@@ -203,7 +201,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
             </div>
             <div className="JDz-index-3 flex-grid__col JDz-index-3 col--full-6 col--lg-6 col--md-12">
               <SelectBox
-                label="수용인원"
+                label={LANG("capacity")}
                 disabled={false}
                 onChange={onChangePeople}
                 options={maxPeopleCountOption}
@@ -212,7 +210,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
             </div>
             <div className="flex-grid__col JDz-index-2 col--full-6 col--lg-6 col--md-12">
               <SelectBox
-                label="방타입선택"
+                label={LANG("select_roomType")}
                 disabled={!isAddMode}
                 onChange={(inValue: any) => {
                   setValue({...value, pricingType: inValue});
@@ -223,7 +221,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
             </div>
             <div className="flex-grid__col JDz-index-2 col--full-6 col--lg-6 col--md-12">
               <SelectBox
-                label="방성별선택"
+                label={LANG("select_roomGender")}
                 disabled={!isAddMode}
                 onChange={(inValue: any) => {
                   setValue({...value, roomGender: inValue});
@@ -233,7 +231,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
               />
             </div>
             <div className="flex-grid__col flex-grid__col--vertical col--full-12 col--lg-12 col--md-12">
-              <JDLabel txt="방사진" />
+              <JDLabel txt={LANG("roomPic")} />
               <ImageUploader {...roomImageHook} minHeight="200px" />
             </div>
             <div className="flex-grid__col col--full-6 col--lg-6 col--md-6">
@@ -243,7 +241,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
                 }}
                 value={value.description}
                 textarea
-                label="방타입 추가설명"
+                label={LANG("room_type_desc")}
               />
             </div>
             <div className="flex-grid__col col--full-6 col--lg-6 col--md-6">
@@ -253,10 +251,10 @@ const RoomTypeModal: React.SFC<IProps> = ({
                 }}
                 comma
                 value={value.defaultPrice}
-                label="방 기본가격"
+                label={LANG("basic_room_price")}
               />
               <p className="JDsmall-text">
-                * 가격이 설정되어 있지 않은 기간 에서 기본으로 적용됨
+                * {LANG("appliedby_default_in_periods_with_no_price_set")}
               </p>
             </div>
           </div>
@@ -281,7 +279,6 @@ const RoomTypeModal: React.SFC<IProps> = ({
               disabled={isAddMode}
               onClick={onDeleteRoomType}
             />
-            {/* <Button label="닫기"  onClick={modalHook.closeModal} /> */}
           </div>
           <PriceWarnModal modalHook={priceWarnModal} />
         </Fragment>

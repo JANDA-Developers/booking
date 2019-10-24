@@ -14,7 +14,7 @@ import CheckView from "./CheckView";
 import JDmodal from "../../../atoms/modal/Modal";
 import JDanimation, {Animation} from "../../../atoms/animation/Animations";
 import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
-import {useModal} from "../../../hooks/hook";
+import {useModal, LANG} from "../../../hooks/hook";
 export interface ISetBookingInfo
   extends React.Dispatch<React.SetStateAction<any>> {}
 
@@ -62,7 +62,7 @@ const SetPrice: React.SFC<IProps> = ({
       <CheckView key={s4()} refetch={refetch} data={booking} />
       <JDmodal center {...comeplteModalHook}>
         <div>
-          <div className="JDstandard-margin-bottom">예약이 완료되었습니다.</div>
+          <div className="JDstandard-margin-bottom">{LANG("reservation_is_completed")}</div>
           <JDanimation animation={[Animation.tada]}>
             <JDIcon
               color="positive"

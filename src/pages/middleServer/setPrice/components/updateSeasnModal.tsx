@@ -1,6 +1,6 @@
 import React, {Fragment} from "react";
 import JDmodal from "../../../../atoms/modal/Modal";
-import {IUseModal, IUseDayPicker} from "../../../../hooks/hook";
+import {IUseModal, IUseDayPicker, LANG} from "../../../../hooks/hook";
 import {ISeason} from "../../../../types/interface";
 import JDdayPicker from "../../../../atoms/dayPicker/DayPicker";
 import InputText from "../../../../atoms/forms/inputText/InputText";
@@ -71,7 +71,7 @@ const UpdateSeasonModal: React.FC<IProps> = ({
           });
           modalHook.closeModal();
         }}
-        label="확인"
+        label={LANG("confrim")}
         thema={"primary"}
       />
     </div>

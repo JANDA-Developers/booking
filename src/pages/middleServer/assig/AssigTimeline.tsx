@@ -1,8 +1,8 @@
-import React, {useState, useEffect, useMemo} from "react";
-import {Link, withRouter} from "react-router-dom";
+import React, { useState, useEffect, useMemo } from "react";
+import { Link, withRouter } from "react-router-dom";
 import "moment/locale/ko";
 import _ from "lodash";
-import {WindowSizeProps} from "react-window-size";
+import { WindowSizeProps } from "react-window-size";
 import Timeline, {
   TimelineHeaders,
   SidebarHeader,
@@ -20,10 +20,10 @@ import {
 } from "../../../hooks/hook";
 import classnames from "classnames";
 import assigGroupRendererFn from "./components/groupRenderFn";
-import {IRoomType} from "../../../types/interface";
+import { IRoomType } from "../../../types/interface";
 import Preloader from "../../../atoms/preloader/Preloader";
 import "./AssigTimeline.scss";
-import {ReactTooltip} from "../../../atoms/tooltipList/TooltipList";
+import { ReactTooltip } from "../../../atoms/tooltipList/TooltipList";
 import {
   TimePerMs,
   WindowSize as EWindowSize,
@@ -33,8 +33,8 @@ import {
 import itemRendererFn from "./components/items/itemRenderFn";
 import ItemMenuTooltip from "./components/tooltips/ItemMenuTooltip";
 import CanvasMenuTooltip from "./components/tooltips/CanvasMenuTooltip";
-import {DEFAUT_ASSIG_ITEM, DEFAUT_NONE_GOUP} from "../../../types/defaults";
-import JDmodal, {JDtoastModal} from "../../../atoms/modal/Modal";
+import { DEFAUT_ASSIG_ITEM, DEFAUT_NONE_GOUP } from "../../../types/defaults";
+import JDmodal, { JDtoastModal } from "../../../atoms/modal/Modal";
 import {
   IAssigDataControl,
   IAssigItem,
@@ -47,17 +47,17 @@ import {
   IDeleteMenuProps,
   TShortKey
 } from "./components/assigIntrerface";
-import {getAssigUtils} from "./components/assigUtils";
+import { getAssigUtils } from "./components/assigUtils";
 import BlockItemTooltip from "./components/tooltips/BlockItemTooltip";
-import {ASSIG_VISIBLE_CELL_MB_DIFF} from "./timelineConfig";
+import { ASSIG_VISIBLE_CELL_MB_DIFF } from "./timelineConfig";
 import JDmultiBox from "../../../atoms/multiBox/MultiBox";
-import {getAssigHandlers} from "./components/assigHandlers";
+import { getAssigHandlers } from "./components/assigHandlers";
 import moment from "moment";
-import {isEmpty} from "../../../utils/utils";
+import { isEmpty } from "../../../utils/utils";
 import BlockOpModal from "./components/BlockOpModal";
 import DailyAssigWrap from "../../../components/dailyAssjg/DailyAssigWrap";
 import ReservationModal from "../../../components/reservationModala/ReservationModal";
-import {IContext} from "../../MiddleServerRouter";
+import { IContext } from "../../MiddleServerRouter";
 import ReadyItemTooltip from "./components/tooltips/ReadyItemTooltip";
 import HeaderCellRender from "./components/HeaderCellRender";
 
@@ -100,8 +100,8 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   dataTime,
   assigDataControl
 }) => {
-  const {networkStatus} = assigDataControl;
-  const {house, houseConfig, sideNavIsOpen} = context;
+  const { networkStatus } = assigDataControl;
+  const { house, houseConfig, sideNavIsOpen } = context;
   const isMobile = windowWidth <= EWindowSize.MOBILE;
   const isTabletDown = windowWidth <= EWindowSize.TABLET;
   const [guestValue, setGuestValue] = useState<IAssigItem[]>(deafultGuestsData);
@@ -112,7 +112,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   const [viewRoomType, setViewRoomType] = useState(
     roomTypesData.map(roomType => roomType._id)
   );
-  const {datas: holidays} = getKoreaSpecificDayHook(["2019", "2018"]);
+  const { datas: holidays } = getKoreaSpecificDayHook(["2019", "2018"]);
   const bookingModal = useModal(false);
   const blockOpModal = useModal<IAssigItem>(false, DEFAUT_ASSIG_ITEM);
   const [blockMenuProps, setBlockMenuProps] = useState<IDeleteMenuProps>({
@@ -185,14 +185,14 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
 
   const assigUtils = getAssigUtils(assigHooks, assigDataControl, assigContext);
 
-  const {assigTimeline} = houseConfig;
+  const { assigTimeline } = houseConfig;
   if (!assigTimeline) {
     throw Error("empty houseConfig__assigTimeline");
   }
 
-  const {roomTypeTabEnable} = assigTimeline;
+  const { roomTypeTabEnable } = assigTimeline;
 
-  const {allTooltipsHide, removeMark} = assigUtils;
+  const { allTooltipsHide, removeMark } = assigUtils;
 
   const assigHandler = getAssigHandlers(assigUtils, assigContext, assigHooks);
 
@@ -276,11 +276,10 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
                 label={LANG("make_reservation")}
               />
               <Link to="/resvList">
-                <Button mode="border" icon="arrowTo" label="예약목록 보기" />
+                <Button mode="border" icon="arrowTo" label={LANG("goto_reservation_list")} />
               </Link>
               {/* 개발중 */}
               {/* <Button
-              label="단축키"
               onClick={() => {
                 keyBoardModal.openModal();
               }}
@@ -346,8 +345,8 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
             defaultTimeEnd={
               isTabletDown
                 ? moment(defaultTimeEnd)
-                    .add(-1 * ASSIG_VISIBLE_CELL_MB_DIFF, "days")
-                    .toDate()
+                  .add(-1 * ASSIG_VISIBLE_CELL_MB_DIFF, "days")
+                  .toDate()
                 : defaultTimeEnd
             }
             defaultTimeStart={defaultTimeStart}
@@ -360,7 +359,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
           >
             <TimelineHeaders>
               <SidebarHeader>
-                {({getRootProps}: any) => (
+                {({ getRootProps }: any) => (
                   <SharedSideBarHeader
                     getRootProps={getRootProps}
                     dayPickerHook={dayPickerHook}
@@ -369,13 +368,13 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
               </SidebarHeader>
               <DateHeader
                 intervalRenderer={(prop: any) => {
-                  const onClickCell = ({intervalContext}: any) => {
+                  const onClickCell = ({ intervalContext }: any) => {
                     if (!intervalContext) return;
                     dailyAssigHook.openModal({
                       date: moment(intervalContext.interval.startTime).toDate()
                     });
                   };
-                  return HeaderCellRender({onClickCell, holidays, ...prop});
+                  return HeaderCellRender({ onClickCell, holidays, ...prop });
                 }}
                 height={GlobalCSS.TIMELINE_HEADER_HEIGHT}
                 unit="day"
@@ -391,7 +390,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
                   mode="border"
                   thema="point"
                   pulse
-                  label="방타입 생성하러가기"
+                  label={LANG("goto_create_roomType")}
                 />
               </Link>
             </div>

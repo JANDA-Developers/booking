@@ -6,8 +6,9 @@ import {
   IAssigTimelineHooks,
   IStartBookingCallBack
 } from "../assigIntrerface";
-import {Gender} from "../../../../../types/enum";
-import {startBooking_StartBooking} from "../../../../../types/api";
+import { Gender } from "../../../../../types/enum";
+import { startBooking_StartBooking } from "../../../../../types/api";
+import { LANG } from "../../../../../hooks/hook";
 
 interface IProps {
   assigHooks: IAssigTimelineHooks;
@@ -16,7 +17,7 @@ interface IProps {
 }
 
 const CanvasMenuTooltip: React.FC<IProps> = ({
-  assigHooks: {},
+  assigHooks: { },
   assigUtils: {
     hilightGuestBlock,
     changeMarkToGhost,
@@ -25,7 +26,7 @@ const CanvasMenuTooltip: React.FC<IProps> = ({
     startBookingModalWithMark
   }
 }) => {
-  const {groupIds, end, start} = getInfoesFromMarks();
+  const { groupIds, end, start } = getInfoesFromMarks();
 
   const bookingCallBack = async (
     result: "error" | startBooking_StartBooking
@@ -35,7 +36,7 @@ const CanvasMenuTooltip: React.FC<IProps> = ({
     if (!result.bookingTransaction.booking) return;
     await changeMarkToGhost();
 
-    hilightGuestBlock({bookingId: result.bookingTransaction.booking._id});
+    hilightGuestBlock({ bookingId: result.bookingTransaction.booking._id });
   };
 
   const createBtnHandler = () => {
@@ -47,7 +48,7 @@ const CanvasMenuTooltip: React.FC<IProps> = ({
       <ul>
         <li>
           <Button
-            label="예약생성"
+            label={LANG("create_booking")}
             onClick={e => {
               e.stopPropagation();
               createBtnHandler();
@@ -59,7 +60,7 @@ const CanvasMenuTooltip: React.FC<IProps> = ({
             onClick={() => {
               addBlock(start, end, groupIds);
             }}
-            label="방막기"
+            label={LANG("block_room")}
           />
         </li>
       </ul>

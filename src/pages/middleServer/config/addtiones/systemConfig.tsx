@@ -1,12 +1,13 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import JDLabel from "../../../../atoms/label/JDLabel";
 import JDrange from "../../../../atoms/forms/range/Range";
-import {MutationFn} from "react-apollo";
+import { MutationFn } from "react-apollo";
 import {
   updateHouseConfig,
   updateHouseConfigVariables
 } from "../../../../types/api";
-import {IContext} from "../../../MiddleServerRouter";
+import { IContext } from "../../../MiddleServerRouter";
+import { LANG } from "../../../../hooks/hook";
 
 interface IProps {
   updateHouseConfigMu: MutationFn<
@@ -20,7 +21,7 @@ const SystemDescription: React.FC<IProps> = ({
   updateHouseConfigMu,
   context
 }) => {
-  const {house} = context;
+  const { house } = context;
   const [range, setRange] = useState<any>(
     house.houseConfig.pollingPeriod ? house.houseConfig.pollingPeriod.period : 0
   );
@@ -45,11 +46,11 @@ const SystemDescription: React.FC<IProps> = ({
   return (
     <div>
       <div className="docs-section__box">
-        <span>기본 시스템설정.</span>
+        <span>{LANG("default_system_setting")}</span>
       </div>
       <div>
-        <h6>풀링주기</h6>
-        <JDLabel txt="풀링주기설정" />
+        <h6>{LANG("polling_period")}</h6>
+        <JDLabel txt={LANG("polling_period_setting")} />
         <JDrange
           onChange={setRange}
           onChangeComplete={handleRangeChange}
@@ -59,15 +60,14 @@ const SystemDescription: React.FC<IProps> = ({
         />
         <p>
           <div className="">
-            설정한 숫자/ms 마다 한번씩 새로운 예약이 있는지 서버로부터
-            확인받습니다.
+            {LANG("server_will_check_if_there_is_a_new_reservation_once_every_set_number_by_ms")}
           </div>
           <div>
-            새로운 예약이 있다면 새로운 예약을 화면에 새로고침 없이 나타냅니다.
+            {LANG("if_there_is_a_new_reservation_the_new_reservation_will_be_displayed_without_refreshing_the_screen")}
           </div>
           <div>
-            * 컴퓨터 성능 및 잦은 화면 업데이트에 문제가 있을경우 풀링주기를
-            높게 설정해보세요.
+            *
+            {LANG("if_you_have_problems_with_computer_performance_and_frequent_screen_updates_try_setting_a_higher_pooling_frequency")}
           </div>
         </p>
       </div>

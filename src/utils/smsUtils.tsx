@@ -1,18 +1,13 @@
-import {
-  SmsReplaceKeyEnumKeys,
-  SmsReplaceKeyEnum,
-  SmsReplaceKeyEnumKr
-} from "../types/enum";
-import {string} from "prop-types";
+import {SmsReplaceKeyEnumKeys, SmsReplaceKeyEnum} from "../types/enum";
 import {getSmsInfo_GetSmsInfo_smsInfo_smsTemplates} from "../types/api";
 import {IselectedOption} from "../atoms/forms/selectBox/SelectBox";
+import {LANG} from "../hooks/hook";
 
 export const smsMessageFormatter = (msg: string): string => {
   let formatMsg = msg;
   SmsReplaceKeyEnumKeys.forEach((key: any) => {
     formatMsg = formatMsg.replace(
-      // @ts-ignore
-      SmsReplaceKeyEnumKr[key],
+      LANG("SmsReplaceKey")[key],
       // @ts-ignore
       SmsReplaceKeyEnum[key]
     );

@@ -1,4 +1,4 @@
-import React, {useMemo, useEffect} from "react";
+import React, { useMemo, useEffect } from "react";
 import {
   ErrProtecter,
   onCompletedMessage,
@@ -7,16 +7,16 @@ import {
 } from "../../../utils/utils";
 import JDSlider from "../../../atoms/slider/Slider";
 import DashBoard from "./DashBoard";
-import {updateHouse, updateHouseVariables} from "../../../types/api";
-import {Mutation} from "react-apollo";
-import {IUser, IHouse} from "../../../types/interface";
-import {UPDATE_HOUSE} from "../../../queries";
-import {IContext} from "../../MiddleServerRouter";
+import { updateHouse, updateHouseVariables } from "../../../types/api";
+import { Mutation } from "react-apollo";
+import { IUser, IHouse } from "../../../types/interface";
+import { UPDATE_HOUSE } from "../../../queries";
+import { IContext } from "../../MiddleServerRouter";
 import StarterModalWrap from "../starterModal/StarterModalWrap";
-import {IUseModal} from "../../../hooks/hook";
-import {arraySum} from "../../../utils/elses";
+import { IUseModal, LANG } from "../../../hooks/hook";
+import { arraySum } from "../../../utils/elses";
 
-class UpdateHouse extends Mutation<updateHouse, updateHouseVariables> {}
+class UpdateHouse extends Mutation<updateHouse, updateHouseVariables> { }
 
 interface Iprops {
   context: IContext;
@@ -24,8 +24,8 @@ interface Iprops {
 }
 
 // eslint-disable-next-line react/prop-types
-const DashBoardWrap: React.FC<Iprops> = ({context}) => {
-  const {house, user} = context;
+const DashBoardWrap: React.FC<Iprops> = ({ context }) => {
+  const { house, user } = context;
 
   if (!house || !house.completeDefaultSetting)
     return <StarterModalWrap key={s4()} context={context} />;
@@ -35,8 +35,8 @@ const DashBoardWrap: React.FC<Iprops> = ({context}) => {
       <div>
         <UpdateHouse
           mutation={UPDATE_HOUSE}
-          onCompleted={({UpdateHouse}) => {
-            onCompletedMessage(UpdateHouse, "메모 저장완료", "메모 저장실패");
+          onCompleted={({ UpdateHouse }) => {
+            onCompletedMessage(UpdateHouse, LANG("memo_save_completed"), LANG("memo_save_failed"));
           }}
         >
           {updateHouseMu => (

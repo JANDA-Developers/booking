@@ -1,10 +1,10 @@
-import React, {useEffect, Fragment} from "react";
+import React, { useEffect, Fragment } from "react";
 import JDmodal from "../../atoms/modal/Modal";
-import {IUseModal} from "../../hooks/hook";
-import {AutoSendWhen} from "../../types/enum";
+import { IUseModal, LANG } from "../../hooks/hook";
+import { AutoSendWhen } from "../../types/enum";
 import "./SendSmsModal.scss";
-import {getSmsInfo_GetSmsInfo_smsInfo} from "../../types/api";
-import {IModalSMSinfo} from "./SendSmsModalWrap";
+import { getSmsInfo_GetSmsInfo_smsInfo } from "../../types/api";
+import { IModalSMSinfo } from "./SendSmsModalWrap";
 import Preloader from "../../atoms/preloader/Preloader";
 
 interface IProps {
@@ -46,8 +46,8 @@ const SendSmsModal: React.FC<IProps> = ({
 
   return (
     <JDmodal
-      trueMessage={"SMS 전송합니다."}
-      falseMessage={"SMS를 전송하지 않습니다."}
+      trueMessage={LANG("send_sms")}
+      falseMessage={LANG("un_send_sms")}
       confirm
       confirmCallBackFn={callBackFn}
       className="sendSmsModal"
@@ -56,10 +56,10 @@ const SendSmsModal: React.FC<IProps> = ({
       {loading ? (
         <Preloader loading={loading} />
       ) : (
-        <div>
-          <Fragment>예약생성을 완료합니다.</Fragment>
-        </div>
-      )}
+          <div>
+            <Fragment>{LANG("complete_the_reservation_creation")}</Fragment>
+          </div>
+        )}
     </JDmodal>
   );
 };

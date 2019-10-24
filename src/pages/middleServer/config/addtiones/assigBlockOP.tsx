@@ -1,10 +1,10 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import JDLabel from "../../../../atoms/label/JDLabel";
 import JDrange from "../../../../atoms/forms/range/Range";
-import {IAddtionProp} from "../components/ConfigBlock";
+import { IAddtionProp } from "../components/ConfigBlock";
 import JDswitch from "../../../../atoms/forms/switch/Switch";
-import {useSwitch} from "../../../../hooks/hook";
-import {muResult} from "../../../../utils/utils";
+import { useSwitch, LANG } from "../../../../hooks/hook";
+import { muResult } from "../../../../utils/utils";
 import JDbox from "../../../../atoms/box/JDbox";
 import HilightPhoto from "../../../../img/describe/guestHilight.gif";
 import {
@@ -16,11 +16,11 @@ const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
   updateHouseConfigMu,
   context
 }) => {
-  const {houseConfig, house} = context;
-  const {assigTimeline} = houseConfig;
-  const {itemBlockOp, roomTypeTabEnable} =
+  const { houseConfig, house } = context;
+  const { assigTimeline } = houseConfig;
+  const { itemBlockOp, roomTypeTabEnable } =
     assigTimeline || DEFAUT_HOUSE_CONFIG.assigTimeline;
-  const {useColor, itemBlockOpEnable} = itemBlockOp || DEFAUT_ADDITION_BLOCKOP;
+  const { useColor, itemBlockOpEnable } = itemBlockOp || DEFAUT_ADDITION_BLOCKOP;
   const [use, setUse] = useState(itemBlockOpEnable);
   const [colorEnable, setEnableColor] = useState(useColor);
 
@@ -45,7 +45,7 @@ const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
   return (
     <div className="additionDetail">
       <div className="docs-section__box">
-        <span>게스트에대한 상세설정이 가능합니다.</span>
+        <span>{LANG("display_related_setting")}</span>
       </div>
       <div className="additionDetail__titleTopRight">
         {/* <JDswitch
@@ -60,7 +60,7 @@ const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
           label="사용하기"
         /> */}
       </div>
-      <h6>색상설정기능사용</h6>
+      <h6>{LANG("use_color_setting_function")}</h6>
       <JDswitch
         checked={colorEnable}
         onChange={async flag => {
@@ -71,7 +71,7 @@ const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
           }
         }}
         // disabled={!use}
-        label="사용하기"
+        label={LANG("use")}
       />
       <JDbox
         className="additionDetail__HilightPhoto"

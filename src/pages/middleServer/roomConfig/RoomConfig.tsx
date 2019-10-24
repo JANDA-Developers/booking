@@ -1,4 +1,4 @@
-import React, {useEffect, Fragment, useState} from "react";
+import React, { useEffect, Fragment, useState } from "react";
 import "moment/locale/ko";
 import ErrProtecter from "../../../utils/errProtect";
 import Button from "../../../atoms/button/Button";
@@ -13,20 +13,20 @@ import {
 } from "../../../types/api";
 import Preloader from "../../../atoms/preloader/Preloader";
 import JDIcon from "../../../atoms/icons/Icons";
-import {useModal, LANG} from "../../../hooks/hook";
+import { useModal, LANG } from "../../../hooks/hook";
 import DrragList from "../../../atoms/animation/DrragList";
 import RoomTypeModalWrap, {
   IRoomTypeModalInfo
 } from "./components/RoomTypeModalWrap";
-import RoomModalWrap, {IRoomModalInfo} from "./components/RoomModalWrap";
+import RoomModalWrap, { IRoomModalInfo } from "./components/RoomModalWrap";
 import Card from "../../../atoms/cards/Card";
 import JDbox from "../../../atoms/box/JDbox";
-import {MutationFn} from "react-apollo";
+import { MutationFn } from "react-apollo";
 import EventListener from "react-event-listener";
-import {IContext} from "../../MiddleServerRouter";
+import { IContext } from "../../MiddleServerRouter";
 import Help from "../../../atoms/Help/Help";
 import RoomTypeInfo from "../../../components/roomTypeInfo/RoomTypeInfo";
-import {PureQueryOptions} from "apollo-boost";
+import { PureQueryOptions } from "apollo-boost";
 import Mbr from "../../../atoms/mbr/Mbr";
 
 let LAST_MOVED_ROOMTPYE = "";
@@ -55,7 +55,7 @@ const RoomConfigNew: React.FC<IProps> = ({
   refetchQueries,
   loading
 }) => {
-  const {house} = context;
+  const { house } = context;
   const roomTypeModalHook = useModal<IRoomTypeModalInfo>(false, {});
   const roomModalHook = useModal<IRoomModalInfo>(false, {});
 
@@ -64,22 +64,22 @@ const RoomConfigNew: React.FC<IProps> = ({
     room: getAllRoomType_GetAllRoomType_roomTypes_rooms,
     index: number
   ) => (
-    <JDbox
-      className="roomConfig__roomBox"
-      align="flexVcenter"
-      clickable
-      onClick={() => {
-        roomModalHook.openModal({
-          roomTypeId: recode._id,
-          roomId: room._id
-        });
-      }}
-      textAlign="center"
-      key={room._id}
-    >
-      <h6 className="roomConfig__roomTitle">{room.name}</h6>
-    </JDbox>
-  );
+      <JDbox
+        className="roomConfig__roomBox"
+        align="flexVcenter"
+        clickable
+        onClick={() => {
+          roomModalHook.openModal({
+            roomTypeId: recode._id,
+            roomId: room._id
+          });
+        }}
+        textAlign="center"
+        key={room._id}
+      >
+        <h6 className="roomConfig__roomTitle">{room.name}</h6>
+      </JDbox>
+    );
 
   // 연구중 🌾
   const handleWindowUnload: any = (mess: Window, e: BeforeUnloadEvent) => {
@@ -117,7 +117,7 @@ const RoomConfigNew: React.FC<IProps> = ({
         )}
         <DrragList
           onUpdate={(info: any, data) => {
-            const {newIndex, oldIndex} = info;
+            const { newIndex, oldIndex } = info;
             if (!roomTypesData[oldIndex]) return;
             changeIndexForRoomTypeMu({
               variables: {
@@ -180,7 +180,7 @@ const RoomConfigNew: React.FC<IProps> = ({
                   key={`add${recode._id}`}
                 >
                   <h6 className="roomConfig__roomTitle">
-                    <span className="JDstandard-small-space">방추가</span>
+                    <span className="JDstandard-small-space">{LANG("add_room")}</span>
                     <JDIcon icon="edit" />
                   </h6>
                 </JDbox>

@@ -69,7 +69,7 @@ const ApplyProductModal: React.FC<IProps> = ({
           <div className="modal__section">{productType.detailDesc}</div>
           <Button
             thema="point"
-            label="이 상품을 숙소에 적용하기"
+            label={LANG("apply_this_product_to_house")}
             onClick={() => {
               setStep(2);
             }}
@@ -81,13 +81,13 @@ const ApplyProductModal: React.FC<IProps> = ({
           <div className="modal__section">
             {isSelectExMode ? (
               <div>
-                잔다 고객분들에게 무료 홈페이지를 제공합니다. <br />
-                잔다 홈페이지를 살펴보세요.
+                {LANG("JANDA_provide_free_homepage_for_guest")} <br />
+                {LANG("check_our_samples")}
               </div>
             ) : (
               <div>
-                잔다 고객분들에게 무료 홈페이지를 제공합니다. <br />
-                홈페이지를 신청하시겠습니까?
+                {LANG("JANDA_provide_free_homepage_for_guest")} <br />
+                {LANG("do_you_want_request_making_homepage")}
               </div>
             )}
           </div>
@@ -96,7 +96,7 @@ const ApplyProductModal: React.FC<IProps> = ({
               selectedValue={useLayout}
               onChange={handleUseLayoutRadio}
               value={true}
-              label="희망합니다."
+              label={LANG("yes")}
               id="HR1--1"
               groupName="HompageRadio"
             />
@@ -104,7 +104,7 @@ const ApplyProductModal: React.FC<IProps> = ({
               selectedValue={useLayout}
               onChange={handleUseLayoutRadio}
               value={false}
-              label="예약서비스만 사용하겠습니다."
+              label={LANG("will_only_use_the_reservation_system")}
               id="HR1--2"
               groupName="HompageRadio"
             />
@@ -114,7 +114,7 @@ const ApplyProductModal: React.FC<IProps> = ({
       {step === 3 && (
         <div>
           <div className="modal__section">
-            <h5>레이아웃 선택</h5>
+            <h5>{LANG("select_layout")}</h5>
             <div className="">
               <div className="applyProductModal__cardsWrap">
                 <LayoutCards
@@ -129,7 +129,7 @@ const ApplyProductModal: React.FC<IProps> = ({
               <InputText
                 placeholder="http://"
                 validation={isUrl}
-                label="신청URL"
+                label={LANG("request_url")}
                 value={url}
                 onChange={(value: string) => {
                   setAppInfoValue({...appInfoValue, url: value});
@@ -143,7 +143,7 @@ const ApplyProductModal: React.FC<IProps> = ({
         <div className="JDmodal__endSection">
           <Button
             thema="primary"
-            label={LANG("apply")}
+            label={LANG("Apply")}
             onClick={() => {
               if (useLayout && step === 2) setStep(3);
               else if (validation()) {

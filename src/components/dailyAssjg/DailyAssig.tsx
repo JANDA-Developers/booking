@@ -5,29 +5,29 @@ import {
   getAllRoomTypeWithGuest_GetGuests_guests as IG,
   getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms as IR
 } from "../../types/api";
-import {useModal, IUseModal, LANG} from "../../hooks/hook";
+import { useModal, IUseModal, LANG } from "../../hooks/hook";
 import JDdayPicker from "../../atoms/dayPicker/DayPicker";
 import BookingModalWrap from "../bookingModal/BookingModalWrap";
 import ArrowDayByDay from "../../atoms/dayPicker/component/inputComponent/ArrowDayByDay";
 import Preloader from "../../atoms/preloader/Preloader";
-import {IContext} from "../../pages/MiddleServerRouter";
-import {DragBoxPlace} from "./components/DragBoxPlace";
-import {DndProvider, DragObjectWithType} from "react-dnd";
+import { IContext } from "../../pages/MiddleServerRouter";
+import { DragBoxPlace } from "./components/DragBoxPlace";
+import { DndProvider, DragObjectWithType } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
 import TouchBackend from "react-dnd-touch-backend";
 import GuestTooltip from "./components/GuestTooltip";
-import {IDailyAssigProp} from "./DailyAssigWrap";
+import { IDailyAssigProp } from "./DailyAssigWrap";
 import getDailyAssigUtils from "../../pages/middleServer/assig/components/dailyAssigUtils";
-import {JDtoastModal} from "../../atoms/modal/Modal";
-import {ReactTooltip} from "../../atoms/tooltipList/TooltipList";
-import {PricingType, FLOATING_PRElOADER_SIZE} from "../../types/enum";
+import { JDtoastModal } from "../../atoms/modal/Modal";
+import { ReactTooltip } from "../../atoms/tooltipList/TooltipList";
+import { PricingType, FLOATING_PRElOADER_SIZE } from "../../types/enum";
 import Tooltip from "../../atoms/tooltip/Tooltip";
-import {isMobile} from "is-mobile";
-import {IDailyAssigDataControl} from "../../pages/middleServer/assig/components/assigIntrerface";
+import { isMobile } from "is-mobile";
+import { IDailyAssigDataControl } from "../../pages/middleServer/assig/components/assigIntrerface";
 import PlaceTooltip from "./components/PlaceTooltip";
 import moment from "moment";
 import BlockTooltip from "./components/BlockTooltip";
-import {isEmpty, instanceOfA} from "../../utils/utils";
+import { isEmpty, instanceOfA } from "../../utils/utils";
 import ReadyItemTooltip from "../../pages/middleServer/assig/components/tooltips/ReadyItemTooltip";
 
 export interface IDailyAssigContext extends IDailyAssigProp {
@@ -47,7 +47,7 @@ const DailyAssig: React.FC<IProps> = ({
   outDailyAssigContext,
   dailyAssigDataControl
 }) => {
-  const {house} = context;
+  const { house } = context;
   const {
     allocateMu,
     loading,
@@ -59,7 +59,7 @@ const DailyAssig: React.FC<IProps> = ({
   } = outDailyAssigContext;
   const bookingModalHook = useModal(false);
   const confirmModalHook = useModal(false);
-  const {createBlockMu, totalMuLoading, deleteBlockMu} = dailyAssigDataControl;
+  const { createBlockMu, totalMuLoading, deleteBlockMu } = dailyAssigDataControl;
 
   const handleDrop = (
     item: IG & DragObjectWithType,
@@ -92,7 +92,7 @@ const DailyAssig: React.FC<IProps> = ({
     dailayAssigContext
   );
 
-  const {toogleCheckInOut} = dailyAssigUtils;
+  const { toogleCheckInOut } = dailyAssigUtils;
 
   const guestTooltipInfoBtnCallBack = (targetGuest: IG) => {
     ReactTooltip.hide();
@@ -134,7 +134,7 @@ const DailyAssig: React.FC<IProps> = ({
         inputComponent={(prop: any) => (
           <ArrowDayByDay
             {...prop}
-            format={`MM${LANG("month")} DD일`}
+            format={`MM${LANG("month")} DD${LANG("date")}`}
             dayPickerHook={dayPickerHook}
           />
         )}
@@ -231,8 +231,8 @@ const DailyAssig: React.FC<IProps> = ({
                 </div>
               </div>
             ) : (
-              <span />
-            )
+                <span />
+              )
           )}
         </div>
       </DndProvider>

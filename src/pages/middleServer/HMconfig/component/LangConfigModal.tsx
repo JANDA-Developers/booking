@@ -1,8 +1,8 @@
 import React from "react";
-import {IUseModal} from "../../../../hooks/hook";
+import {IUseModal, LANG} from "../../../../hooks/hook";
 import LangList from "../../../../components/langList/LangList";
 import JDmodal from "../../../../atoms/modal/Modal";
-import {LANGUAGE_LIST, Language, LanguageKr} from "../../../../types/enum";
+import {LANGUAGE_LIST, Language} from "../../../../types/enum";
 import JDbox from "../../../../atoms/box/JDbox";
 import CircleIcon from "../../../../atoms/circleIcon/CircleIcon";
 import JDIcon from "../../../../atoms/icons/Icons";
@@ -26,7 +26,7 @@ const LangConfigModal: React.FC<IProps> = ({
 
     return (
       <JDbox
-        topLabel={enable ? "지원함" : "지원안함"}
+        topLabel={enable ? LANG("support") : LANG("unSupport")}
         className="clear-fix"
         mode="border"
       >
@@ -38,7 +38,7 @@ const LangConfigModal: React.FC<IProps> = ({
             <JDbox size={undefined} float key={s4()}>
               <div className="JDflex--between JDflex--vCenter">
                 <img className="JDstandard-space" src={flag} />
-                <span className="JDstandard-space">{LanguageKr[lang]}</span>
+                <span className="JDstandard-space">{LANG(lang)}</span>
                 <CircleIcon
                   darkWave
                   thema="greybg"
@@ -64,13 +64,13 @@ const LangConfigModal: React.FC<IProps> = ({
 
   return (
     <JDmodal {...modalHook}>
-      <h6>지원 언어 선택</h6>
+      <h6>{LANG("select_support_language")}</h6>
       <div className="flex-grid">
         <div className="flex-grid__col col--full-6">{shared(true)}</div>
         <div className="flex-grid__col col--full-6">{shared(false)}</div>
       </div>
       <p className="JDtextColor--point">
-        * 언어선택을 바꾸신후 직접 수정하셔야합니다.
+        * {LANG("must_input_text_of_every_lang_you_supporting")}
       </p>
     </JDmodal>
   );

@@ -14,6 +14,7 @@ import {IContext} from "../../MiddleServerRouter";
 import {useMutation} from "@apollo/react-hooks";
 import {getOperationName} from "apollo-link";
 import client from "../../../apolloClient";
+import {LANG} from "../../../hooks/hook";
 
 interface IProps {
   context: IContext;
@@ -34,7 +35,11 @@ const HMwrap: React.FC<IProps> = ({context}) => {
     updateHMVariables
   >(UPDATE_HM, {
     onCompleted: ({UpdateHM}) => {
-      onCompletedMessage(UpdateHM, "예약 생성 완료", "예약 생성 실패");
+      onCompletedMessage(
+        UpdateHM,
+        LANG("reservation_creation_complete"),
+        LANG("reservation_creation_fail")
+      );
     },
     refetchQueries: [getOperationName(GET_HOUSE_MENUAL)!],
     client: client as any

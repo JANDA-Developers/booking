@@ -1,21 +1,22 @@
-import React, {useState} from "react";
-import {randomIntFromInterval} from "../../../../utils/utils";
-import {getMyProfile_GetMyProfile_user} from "../../../../types/api";
+import React, { useState } from "react";
+import { randomIntFromInterval } from "../../../../utils/utils";
+import { getMyProfile_GetMyProfile_user } from "../../../../types/api";
+import { LANG } from "../../../../hooks/hook";
 
 interface IProps {
   userData: getMyProfile_GetMyProfile_user;
 }
 
-const GreetingBox: React.FC<IProps> = ({userData}) => {
+const GreetingBox: React.FC<IProps> = ({ userData }) => {
   if (!userData.name) return null;
 
   const greetingTexts = [
     <span>
-      {`${userData.name}님 안녕하세요.`}
-      {`오늘도 밝은 하루 보내세요`}
+      {LANG("F_user_name_hello")(userData.name)}
+      {LANG("have_a_bright_day_sir")}
     </span>,
-    `${userData.name}님 오늘도 힘찬 하루 되세요.`,
-    `${userData.name}님 좋은 일 가득하길 기원합니다.`
+    LANG("F_user_name_have_a_bright_day")(userData.name),
+    LANG("F_user_name_good_luck")(userData.name)
   ];
 
   const gretting = useState(
@@ -25,7 +26,7 @@ const GreetingBox: React.FC<IProps> = ({userData}) => {
 };
 
 export const PeriodBox: any = (leftDays: number) => (
-  <div>서비스 종료까지 {leftDays} 일 남았습니다.</div>
+  <div>{LANG("F_have_x_days_left_to_try_for_free")(leftDays)}</div>
 );
 
 export default GreetingBox;

@@ -1,6 +1,6 @@
 import React from "react";
 import JDtable, {JDcolumn, ReactTableDefault} from "../../../atoms/table/Table";
-import {Gender, GENDER_OP, GenderKr, PricingType} from "../../../types/enum";
+import {Gender, GENDER_OP} from "../../../types/enum";
 import {inOr} from "../../../utils/C";
 import JDselect from "../../../atoms/forms/selectBox/SelectBox";
 import {IAssigInfo} from "../../../pages/middleServer/assig/components/assigIntrerface";
@@ -38,7 +38,7 @@ const RoomAssigedInfoTable: React.FC<Iprops> = ({
     if (!info) return;
     return {
       value: info.gender,
-      label: info.gender ? GenderKr[info.gender] : ""
+      label: info.gender ? LANG(info.gender) : ""
     };
   };
 

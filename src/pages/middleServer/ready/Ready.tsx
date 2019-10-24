@@ -1,23 +1,24 @@
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import "./Ready.scss";
 import {
   getHouse_GetHouse_house_appInfo,
   getHouse_GetHouse_house_product
 } from "../../../types/api";
-import {IHouse} from "../../../types/interface";
-import {SpecificAtion} from "../../../components/specification/Specification";
+import { IHouse } from "../../../types/interface";
+import { SpecificAtion } from "../../../components/specification/Specification";
 import SpecificationWrap from "../../../components/specification/SpecificationWrap";
 import JDlist from "../../../atoms/list/List";
-import {SERVICE_CONTECT} from "../../../types/enum";
-import {IContext} from "../../MiddleServerRouter";
+import { SERVICE_CONTECT } from "../../../types/enum";
+import { IContext } from "../../MiddleServerRouter";
+import { LANG } from "../../../hooks/hook";
 
 interface IProps {
   context: IContext;
 }
 
-const Ready: React.FC<IProps> = ({context}) => {
-  const {house} = context;
+const Ready: React.FC<IProps> = ({ context }) => {
+  const { house } = context;
   return (
     <div id="Ready" className="ready">
       <Fragment>
@@ -25,10 +26,11 @@ const Ready: React.FC<IProps> = ({context}) => {
         <div className="container container--center">
           <div className="docs-section">
             <div>
-              <h4>서비스 신청이 완료되었습니다.</h4>
+              <h4>{LANG("service_request_is_completed")}</h4>
               <h6>
-                서비스 신청이 완료되었습니다. 3일 내로 담당자가 연락드릴
-                예정입니다. 감사합니다.
+                {LANG("service_request_is_completed")}
+                {LANG("we_will_contect_you_in_3_days")}
+                {LANG("thank_you")}
               </h6>
               <SpecificationWrap houseId={house._id} />
               <div>

@@ -1,8 +1,8 @@
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import "./myHouse.scss";
 import Card from "../../../../atoms/cards/Card";
 import Icon from "../../../../atoms/icons/Icons";
-import {IUseModal} from "../../../../hooks/hook";
+import { IUseModal, LANG } from "../../../../hooks/hook";
 
 interface IProps {
   houseModal: IUseModal;
@@ -18,39 +18,39 @@ const MyHouse: React.SFC<IProps> = ({
   houseModal,
   id
 }) => (
-  <Fragment>
-    <Card
-      hover
-      className="myHouseCard"
-      role="button"
-      tabIndex={0}
-      onClick={() => houseModal.openModal({houseId: id, productId: id})}
-    >
-      <div className="myHouse">
-        <span className="myHouse__title">
-          <h6>
-            {title}
-            <span className="myHouse__purchaseProduct">{purchaseProduct}</span>
-          </h6>
-        </span>
-        <ul className="myHouse__infoList">
-          <li className="myHouse__productName">
-            <Icon icon="product" />
-            {productName || "없음"}
-          </li>
-          <li className="myHouse__dateCreated">
-            <Icon icon="calendar" />
-            {dateCreated}
-          </li>
-          <li className="myHouse__location">
-            <Icon icon="location" />
-            {location}
-          </li>
-        </ul>
-      </div>
-    </Card>
-  </Fragment>
-);
+    <Fragment>
+      <Card
+        hover
+        className="myHouseCard"
+        role="button"
+        tabIndex={0}
+        onClick={() => houseModal.openModal({ houseId: id, productId: id })}
+      >
+        <div className="myHouse">
+          <span className="myHouse__title">
+            <h6>
+              {title}
+              <span className="myHouse__purchaseProduct">{purchaseProduct}</span>
+            </h6>
+          </span>
+          <ul className="myHouse__infoList">
+            <li className="myHouse__productName">
+              <Icon icon="product" />
+              {productName || LANG("none")}
+            </li>
+            <li className="myHouse__dateCreated">
+              <Icon icon="calendar" />
+              {dateCreated}
+            </li>
+            <li className="myHouse__location">
+              <Icon icon="location" />
+              {location}
+            </li>
+          </ul>
+        </div>
+      </Card>
+    </Fragment>
+  );
 
 MyHouse.defaultProps = {
   title: "",
@@ -58,7 +58,7 @@ MyHouse.defaultProps = {
   dateCreated: "",
   location: "",
   productName: "",
-  openMyHouse: () => {}
+  openMyHouse: () => { }
 };
 
 export default MyHouse;

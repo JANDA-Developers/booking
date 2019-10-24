@@ -52,7 +52,7 @@ import {
   s4,
   isEmpty
 } from "../../../../utils/utils";
-import {ReactTooltip} from "../../../../atoms/tooltipList/TooltipList";
+import { ReactTooltip } from "../../../../atoms/tooltipList/TooltipList";
 import {
   RoomGender,
   Gender,
@@ -71,13 +71,13 @@ import {
   getBooking_GetBooking_booking_guests
 } from "../../../../types/api";
 import JDisNetworkRequestInFlight from "../../../../utils/netWorkStatusToast";
-import {assigSharedDleteGuestConfirmMessage} from "./items/shared";
-import {IBookingModalProp} from "../../../../components/bookingModal/BookingModalWrap";
+import { assigSharedDleteGuestConfirmMessage } from "./items/shared";
+import { IBookingModalProp } from "../../../../components/bookingModal/BookingModalWrap";
 import {
   GB_booking,
   TBookingModalOpenWithMark
 } from "../../../../types/interface";
-import {LANG} from "../../../../hooks/hook";
+import { LANG } from "../../../../hooks/hook";
 
 export function getAssigUtils(
   {
@@ -97,7 +97,7 @@ export function getAssigUtils(
     networkStatus,
     refetch
   }: IAssigDataControl,
-  {houseId, groupData}: IAssigTimelineContext
+  { houseId, groupData }: IAssigTimelineContext
 ): IAssigTimelineUtils {
   // 마크제거 MARK REMOVE 마커 제거
   const removeMark: TRemoveMark = () => {
@@ -155,14 +155,14 @@ export function getAssigUtils(
   };
 
   const popUpItemMenuTooltip: TPopUpItemMenuTooltip = async (
-    location: {clientX: number; clientY: number},
+    location: { clientX: number; clientY: number },
     target: IAssigItem
   ) => {
     await allTooltipsHide();
     await removeMark();
 
     if (target.type === GuestTypeAdd.BLOCK) {
-      await openBlockMenu(location, {item: target});
+      await openBlockMenu(location, { item: target });
     }
   };
 
@@ -182,7 +182,7 @@ export function getAssigUtils(
 
     if (!targetDom || targetDom.length === 0) {
       setTimeout(() => {
-        hilightGuestBlock({itemId, bookingId});
+        hilightGuestBlock({ itemId, bookingId });
       }, 1000);
       return;
     }
@@ -262,7 +262,7 @@ export function getAssigUtils(
       const message = guestValue[target.itemIndex].checkInInfo
         ? LANG("checkOut")
         : LANG("checkIn");
-      onCompletedMessage(result.data.UpdateBooking, message, "실패");
+      onCompletedMessage(result.data.UpdateBooking, message, LANG("checkin_change_fail"));
       if (result.data.UpdateBooking.ok) {
         // 뮤테이션 성공시
 
@@ -664,7 +664,7 @@ export function getAssigUtils(
     gender?: Gender
   ) => {
     allTooltipsHide();
-    const {end, start, groupIds} = canvasInfo;
+    const { end, start, groupIds } = canvasInfo;
 
     // 시간이 같고 타입이 Create인 것들을 하나의 부킹으로 묶음
     let linkedItems = guestValue.filter(
@@ -735,7 +735,7 @@ export function getAssigUtils(
         groupIds: []
       };
     const groupIds = marks.map(mark => mark.group);
-    const {start, end} = marks[0];
+    const { start, end } = marks[0];
     return {
       start,
       end,

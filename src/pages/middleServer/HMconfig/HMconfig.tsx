@@ -1,14 +1,15 @@
-import React, {useState, useEffect, useRef, Fragment} from "react";
+import React, { useState, useEffect, useRef, Fragment } from "react";
 import Card from "../../../atoms/cards/Card";
 import {
   useImageUploader,
   useModal,
   IuseImageUploader,
   useShouldSave,
-  useInput
+  useInput,
+  LANG
 } from "../../../hooks/hook";
 import Button from "../../../atoms/button/Button";
-import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
+import JDIcon, { IconSize } from "../../../atoms/icons/Icons";
 import {
   getHM_GetHM_HM,
   updateHM,
@@ -19,7 +20,7 @@ import "./HMconfig.scss";
 import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
 import JDmodal from "../../../atoms/modal/Modal";
 import JDbox from "../../../atoms/box/JDbox";
-import {muResult} from "../../../utils/utils";
+import { muResult } from "../../../utils/utils";
 import {
   Language,
   LANGUAGE_LIST,
@@ -29,20 +30,20 @@ import {
 import Help from "../../../atoms/Help/Help";
 import LangList from "../../../components/langList/LangList";
 import LangConfigModal from "./component/LangConfigModal";
-import {MutationFn} from "react-apollo";
-import {toast} from "react-toastify";
+import { MutationFn } from "react-apollo";
+import { toast } from "react-toastify";
 import Preloader from "../../../atoms/preloader/Preloader";
-import {IContext} from "../../MiddleServerRouter";
-import {isMobile} from "is-mobile";
+import { IContext } from "../../MiddleServerRouter";
+import { isMobile } from "is-mobile";
 import TooltipList, {
   ReactTooltip
 } from "../../../atoms/tooltipList/TooltipList";
 import HMcomponent from "../../outPages/HM/HM";
-import {DEFAUT_HM} from "../../../types/defaults";
+import { DEFAUT_HM } from "../../../types/defaults";
 import InputText from "../../../atoms/forms/inputText/InputText";
-import {isPhone, isEmail} from "../../../utils/inputValidations";
-import {MutationFunctionOptions} from "@apollo/react-common";
-import {ExecutionResult} from "graphql";
+import { isPhone, isEmail } from "../../../utils/inputValidations";
+import { MutationFunctionOptions } from "@apollo/react-common";
+import { ExecutionResult } from "graphql";
 
 interface IProps {
   context: IContext;
@@ -66,7 +67,7 @@ const HMconfig: React.FC<IProps> = ({
   mutationLoading,
   updateHMmu
 }) => {
-  const {house} = context;
+  const { house } = context;
   const tempSrc =
     "https://i.pinimg.com/originals/54/88/35/5488351dfdde55dc9f088eb88a7fef34.png";
   const [currentLang, setCurrentLang] = useState(Language.KOREAN);
@@ -82,7 +83,7 @@ const HMconfig: React.FC<IProps> = ({
   const [isGuestView, setGuestView] = useState(false);
   const [title, setTitle] = useState(HM.title);
   const bgImageHook = useImageUploader(HM.backgroundImg || tempSrc);
-  const {shouldSave, setShouldSave} = useShouldSave([
+  const { shouldSave, setShouldSave } = useShouldSave([
     title,
     bgImageHook.fileUrl,
     enableLangs,
@@ -91,17 +92,17 @@ const HMconfig: React.FC<IProps> = ({
 
   const validate = (): boolean => {
     if (!title) {
-      toast.warn("하우스메뉴얼 타이틀을 입력해주세요");
+      toast.warn(LANG("please_input_HM_title"));
       return false;
     }
 
     if (!phoneNumberHook.isValid) {
-      toast.warn("설정된 전화번호가 유효하지 않습니다.");
+      toast.warn(LANG("the_phone_number_set_is_not_valid"));
       return false;
     }
 
     if (!emailHook.isValid) {
-      toast.warn("설정된 이메일이 유효하지 않습니다.");
+      toast.warn(LANG("the_email_set_is_not_valid"));
       return false;
     }
 
@@ -127,7 +128,7 @@ const HMconfig: React.FC<IProps> = ({
             enableLangs,
             phoneNumber: phoneNumberHook.value,
             backgroundImg: bgImageHook.fileUrl,
-            menus: menuData.map(menu => ({...menu, __typename: undefined})),
+            menus: menuData.map(menu => ({ ...menu, __typename: undefined })),
             title
           }
         }
@@ -172,13 +173,13 @@ const HMconfig: React.FC<IProps> = ({
 
     return (
       <JDmodal minContentsWidth={"350px"} noAnimation {...menusConfigModalHook}>
-        <h6>메뉴 사용 설정</h6>
+        <h6>{LANG("menu_enable_set")}</h6>
         <div className="flex-grid">
           <div className="flex-grid__col col--full-6">
             <JDbox
               className="JDmargin-bottom0 clear-fix"
               mode="border"
-              topLabel="사용중"
+              topLabel={LANG("using")}
             >
               {menuData
                 .filter(data => data.isEnable)
@@ -189,7 +190,7 @@ const HMconfig: React.FC<IProps> = ({
             <JDbox
               className="JDmargin-bottom0 clear-fix"
               mode="border"
-              topLabel="사용안함"
+              topLabel={LANG("not_use")}
             >
               {menuData
                 .filter(data => !data.isEnable)
@@ -206,7 +207,7 @@ const HMconfig: React.FC<IProps> = ({
       onClick={() => {
         menusConfigModalHook.openModal();
       }}
-      label="메뉴설정"
+      label={LANG("menu_set")}
     />
   );
   const LangConfigBtn = (
@@ -214,7 +215,7 @@ const HMconfig: React.FC<IProps> = ({
       onClick={() => {
         languageConfigModalHook.openModal();
       }}
-      label="언어설정"
+      label={LANG("lang_set")}
     />
   );
 
@@ -242,16 +243,13 @@ const HMconfig: React.FC<IProps> = ({
       <div className="container container--sm">
         <div className="docs-section">
           <h3>
-            <span className="JDstandard-space">하우스 메뉴얼 설정</span>
+            <span className="JDstandard-space">{LANG("HM_set")}</span>
             <Help
               size={IconSize.MEDEIUM_SMALL}
               className="JDmargin-bottom0"
               tooltip={
                 <span className="JDletterSpace0">
-                  하우스 메뉴얼은 게스트가 쉽고 편하게 숙소를 이용할 수 있도록
-                  안내 페이지를 송신합니다. <br />
-                  하우스 메뉴얼이 게스트의 숙소 이용법을 설명하는 수고를 덜어
-                  줄겁니다.
+                  {LANG("HM_provides_guests_with_a_comfortable_and_convenient_accommodation_send_the_guide_page")}
                 </span>
               }
             />
@@ -265,7 +263,7 @@ const HMconfig: React.FC<IProps> = ({
                 onClick={() => {
                   handleSaveBtnClick();
                 }}
-                label="저장하기"
+                label={LANG("save")}
               />
               {isMobile() ? (
                 <span
@@ -274,21 +272,21 @@ const HMconfig: React.FC<IProps> = ({
                   data-offset="{'top': 10, 'left': 0}"
                   data-for="HMconfigTolltip"
                 >
-                  <Button tooltip="" icon="config" label="설정" />
+                  <Button tooltip="" icon="config" label={LANG("config")} />
                 </span>
               ) : (
-                <Fragment>
-                  {LangConfigBtn}
-                  {MenuConfigBtn}
-                </Fragment>
-              )}
+                  <Fragment>
+                    {LangConfigBtn}
+                    {MenuConfigBtn}
+                  </Fragment>
+                )}
             </div>
             <div>
               <Button
                 onClick={() => {
                   previewModalHook.openModal();
                 }}
-                label="미리보기"
+                label={LANG("preview")}
               />
             </div>
           </div>
@@ -297,23 +295,23 @@ const HMconfig: React.FC<IProps> = ({
               {loading ? (
                 <Preloader size="large" loading={loading} />
               ) : (
-                <Fragment>
-                  <div className="JDstandard-margin-bottom">
-                    <LangList
-                      onClickLng={lang => {
-                        setCurrentLang(lang);
-                      }}
-                      hilightLangs={[currentLang]}
-                      hideList={LANGUAGE_LIST.filter(
-                        lang => !enableLangs.includes(lang)
-                      )}
-                    />
-                  </div>
-                  <HMcomponent
-                    key={`HM${currentLang}`}
-                    host={
-                      !isGuestView
-                        ? {
+                  <Fragment>
+                    <div className="JDstandard-margin-bottom">
+                      <LangList
+                        onClickLng={lang => {
+                          setCurrentLang(lang);
+                        }}
+                        hilightLangs={[currentLang]}
+                        hideList={LANGUAGE_LIST.filter(
+                          lang => !enableLangs.includes(lang)
+                        )}
+                      />
+                    </div>
+                    <HMcomponent
+                      key={`HM${currentLang}`}
+                      host={
+                        !isGuestView
+                          ? {
                             setTitle,
                             setEnableLngList,
                             setMenuData,
@@ -321,12 +319,12 @@ const HMconfig: React.FC<IProps> = ({
                             emailModalHook,
                             phoneNumberModalHook
                           }
-                        : undefined
-                    }
-                    {...sharedProps}
-                  />
-                </Fragment>
-              )}
+                          : undefined
+                      }
+                      {...sharedProps}
+                    />
+                  </Fragment>
+                )}
             </Card>
           </div>
           {/* 메뉴 설정 모달 */}
@@ -348,12 +346,12 @@ const HMconfig: React.FC<IProps> = ({
           {...phoneNumberHook}
           hyphen
           validation={isPhone}
-          label="연결번호"
+          label={LANG("connected_number")}
         />
       </JDmodal>
 
       <JDmodal {...emailModalHook} minWidth={MODAL_MIN_WIDTH}>
-        <InputText {...emailHook} validation={isEmail} label="연결이메일" />
+        <InputText {...emailHook} validation={isEmail} label={LANG("connected_email")} />
       </JDmodal>
 
       <TooltipList unPadding id="HMconfigTolltip" className="guestTooltip">

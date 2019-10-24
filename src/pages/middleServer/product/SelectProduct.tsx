@@ -1,15 +1,15 @@
 /* eslint-disable no-underscore-dangle */
-import React, {useEffect, Fragment, useState} from "react";
+import React, { useEffect, Fragment, useState } from "react";
 import Product from "./components/Product";
 import Button from "../../../atoms/button/Button";
 import Preloader from "../../../atoms/preloader/Preloader";
 import Modal from "../../../atoms/modal/Modal";
 import Slider from "../../../atoms/slider/Slider";
-import {isEmpty} from "../../../utils/utils";
-import Tooltip, {ReactTooltip} from "../../../atoms/tooltip/Tooltip";
-import {RefundPolicyNode} from "../../../docs/refundPolicy";
-import {IHouse, IProductTypeDesc} from "../../../types/interface";
-import {useModal} from "../../../hooks/hook";
+import { isEmpty } from "../../../utils/utils";
+import Tooltip, { ReactTooltip } from "../../../atoms/tooltip/Tooltip";
+import { RefundPolicyNode } from "../../../docs/refundPolicy";
+import { IHouse, IProductTypeDesc } from "../../../types/interface";
+import { useModal, LANG } from "../../../hooks/hook";
 import "./SelectProduct.scss";
 import {
   refundProduct,
@@ -18,12 +18,12 @@ import {
   buyProductVariables,
   getMyProfile_GetMyProfile_user_houses_product
 } from "../../../types/api";
-import {MutationFn} from "react-apollo";
+import { MutationFn } from "react-apollo";
 import ApplyProductModal, {
   applyProductModalInfo
 } from "./components/applyProductModal";
 import JDlist from "../../../atoms/list/List";
-import {inOr, Check} from "../../../utils/C";
+import { inOr, Check } from "../../../utils/C";
 
 interface IProps {
   productTypes: IProductTypeDesc[];
@@ -65,7 +65,7 @@ const SelectProducts: React.FC<IProps> = ({
   return (
     <div id="selectProducts" className="selectProducts container">
       <div className="docs-section">
-        <h3>서비스 선택</h3>
+        <h3>{LANG("select_service")}</h3>
         <div className="docs-section__box">
           <div
             title="프로덕트 그룹"
@@ -103,25 +103,18 @@ const SelectProducts: React.FC<IProps> = ({
           <p title="하단 메세지">
             {isEmpty(selectedHouse) ? (
               <span className="JDtextColor-warring-text">
-                현재 생성된 숙소가 없습니다.
+                {LANG("no_house_currently_created")}
               </span>
             ) : (
-              <JDlist
-                contents={[
-                  <span>
-                    * 선택하신 서비스는 숙소
-                    <span className="JDtextColor--point">
-                      {` ${selectedHouse.name} `}
+                <JDlist
+                  contents={[
+                    LANG("F_selected_product_apply_to_house"),
+                    <span className="JDtextColor--error">
+                      {LANG("if_you_choose_wrong_size_product_to_house_service_can_be_stop")}
                     </span>
-                    에 적용됩니다.
-                  </span>,
-                  <span className="JDtextColor--error">
-                    규모에 맞지 않는 숙소를 선택하실 경우에 서비스가 중지 될수
-                    있습니다.
-                  </span>
-                ]}
-              />
-            )}
+                  ]}
+                />
+              )}
           </p>
           {/* 서비스해지 버튼 */}
           {Check(currentProduct, "_id") && (
@@ -129,21 +122,18 @@ const SelectProducts: React.FC<IProps> = ({
               onClick={refundModal.openModal}
               disabled={isEmpty(selectedHouse)}
               thema="error"
-              label="서비스해지"
+              label={LANG("release_service")}
             />
           )}
         </div>
       </div>
       {/* 리펀트 시작 */}
       <Modal className="refundModal" {...refundModal}>
-        <h6>서비스 해지</h6>
+        <h6>{LANG("release_service")}</h6>
         <p>
           <RefundPolicyNode />
         </p>
-        <h6>서비스 해지 신청은 상담전화를 통해 요청바람니다.</h6>
-        <div className="JDmodal__endSection">
-          <Button onClick={refundModal.closeModal} label="닫기" />
-        </div>
+        <h6>{LANG("please_request_through_helpline")}</h6>
       </Modal>
       <ApplyProductModal
         houseId={inOr(selectedHouse, "_id", "")}
@@ -152,14 +142,14 @@ const SelectProducts: React.FC<IProps> = ({
       />
       {/* 툴팁  : disabled */}
       <Tooltip
-        getContent={() => <span>휴대폰 인증후 사용가능</span>}
+        getContent={() => <span>{LANG("can_use_after_phone_auth")}</span>}
         class="JDtooltip"
         clickable
         id="tooltip__productDisable"
         effect="solid"
       />
       <Tooltip
-        getContent={() => <span>현재 적용된 서비스</span>}
+        getContent={() => <span>{LANG("currently_applied_service")}</span>}
         class="JDtooltip"
         clickable
         id="tooltip__currentProduct"

@@ -24,10 +24,7 @@ import {
 import {IContext} from "../../../MiddleServerRouter";
 import {DEFAUT_SMS_TEMPLATE} from "../../../../types/defaults";
 import {
-  AutoSendWhenKr,
-  SmsReplaceKeyEnumKr,
   SmsReplaceKeyEnumKeys,
-  SendTargetKr,
   KR_SMS_PARSER,
   AUTO_SEND_OP,
   SMS_TARGET_OP,
@@ -102,14 +99,14 @@ const SmsTemplateModal: React.FC<Iprops> = ({
   const autoSendHook = useSelect<AutoSendWhen | null>({
     value: defulatSmsSendCase ? defulatSmsSendCase.when : null,
     label: defulatSmsSendCase
-      ? AutoSendWhenKr[defulatSmsSendCase.when]
-      : "발송안함"
+      ? LANG(defulatSmsSendCase.when)
+      : LANG("un_send_Sms")
   });
   const sendTargetHook = useSelect<SendTarget | null>({
     value: defulatSmsSendCase ? defulatSmsSendCase.who : null,
     label: defulatSmsSendCase
-      ? SendTargetKr[defulatSmsSendCase.who]
-      : "발송안함"
+      ? LANG(defulatSmsSendCase.who)
+      : LANG("un_send_Sms")
   });
   const templateTitleHook = useInput(defaultFormatName);
 
@@ -162,34 +159,30 @@ const SmsTemplateModal: React.FC<Iprops> = ({
     <JDmodal visibleOverflow {...modalHook}>
       <Fragment>
         <div>
-          <InputText {...templateTitleHook} label="템플릿 타이틀" />
+          <InputText {...templateTitleHook} label={LANG("template_title")} />
         </div>
         <div>
           <InputText
             value={messageValue}
             onChange={setMessage}
-            label="발신 메세지"
+            label={LANG("msg")}
             textarea
             doubleHeight
           />
         </div>
         <div>
           <div>
-            <JDLabel txt="템플릿 메세지" />
+            <JDLabel txt={LANG("template_msg")} />
           </div>
           {SmsReplaceKeyEnumKeys.map((value: any) => (
             <Button
               onClick={() => {
-                hanldeTemplateBtnClick(
-                  // @ts-ignore
-                  SmsReplaceKeyEnumKr[value]
-                );
+                hanldeTemplateBtnClick(LANG("SmsReplaceKey")[value]);
               }}
               key={`templateBtn${templateData._id}${value}`}
-              label={
-                // @ts-ignore
-                SmsReplaceKeyEnumKr[value].replace("[", "").replace("]", "")
-              }
+              label={LANG("SmsReplaceKey")
+                [value].replace("[", "")
+                .replace("]", "")}
             />
           ))}
         </div>
@@ -199,23 +192,25 @@ const SmsTemplateModal: React.FC<Iprops> = ({
             size={SelectBoxSize.FIVE}
             options={AUTO_SEND_OP}
             {...autoSendHook}
-            label="자동발신"
+            label={LANG("auto_send")}
           />
           <JDselect
             size={SelectBoxSize.FOUR}
             options={SMS_TARGET_OP}
             {...sendTargetHook}
-            label="발신대상"
+            label={LANG("send_target")}
           />
           <JDswitch
             {...enableHook}
             label={
               <span>
                 <span className="JDstandard-small-space">
-                  자동발신 활성화 여부
+                  {LANG("is_auto_send_enable")}
                 </span>
                 <Help
-                  tooltip="자동 발신을 해두시면해당 메세지는 설정된 상황에 맞게 자동으로 발송됨니다."
+                  tooltip={LANG(
+                    "if_tou_enable_auto_send_msg_msg_will_send_autoMetically"
+                  )}
                   icon={"help"}
                   size={IconSize.DEFAULT}
                 />

@@ -2,7 +2,6 @@ import React from "react";
 import {IRoomType} from "../../types/interface";
 import JDIcon from "../../atoms/icons/Icons";
 import {getGenderIcon} from "../../utils/utils";
-import {RoomGenderKr, PricingTypeKr} from "../../types/enum";
 import {LANG} from "../../hooks/hook";
 interface Iprops {
   roomType: IRoomType;
@@ -23,7 +22,7 @@ const RoomTypeInfo: React.FC<Iprops> = ({roomType}) => {
         <JDIcon
           labelSize="large"
           tooltip={LANG("room_gender")}
-          label={`${RoomGenderKr[roomType.roomGender]}`}
+          label={`${LANG(roomType.roomGender)}`}
           icon={getGenderIcon(roomType.roomGender)}
         />
       </div>
@@ -31,7 +30,7 @@ const RoomTypeInfo: React.FC<Iprops> = ({roomType}) => {
         <JDIcon
           labelSize="large"
           tooltip={LANG("roomType")}
-          label={PricingTypeKr[roomType.pricingType]}
+          label={LANG(roomType.pricingType)}
           icon={"roomType"}
         />
       </div>
@@ -54,7 +53,7 @@ const RoomTypeInfo: React.FC<Iprops> = ({roomType}) => {
       <div>
         <JDIcon
           labelSize="large"
-          tooltip={LANG("basic_room_price")}}
+          tooltip={LANG("basic_room_price")}
           label={`${roomType.defaultPrice}`}
           icon="money"
         />

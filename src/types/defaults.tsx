@@ -1,4 +1,4 @@
-import {GB_booking, IHouseConfigFull, IBlockOp} from "./interface";
+import { GB_booking, IHouseConfigFull, IBlockOp } from "./interface";
 import {
   RoomGender,
   PricingType,
@@ -29,7 +29,8 @@ import {
   IAssigGroup,
   GuestTypeAdd
 } from "../pages/middleServer/assig/components/assigIntrerface";
-import {s4} from "../utils/utils";
+import { s4 } from "../utils/utils";
+import { LANG } from "../hooks/hook";
 export const DEFAUT_ROOMTYPE_ROOM: getAllRoomType_GetAllRoomType_roomTypes_rooms = {
   __typename: "Room",
   _id: "",
@@ -100,7 +101,7 @@ export const DEFAUT_ASSIG_GROUP: IAssigGroup = {
     _id: "",
     name: ""
   },
-  roomType: {...DEFAUT_ROOMTYPE, rooms: []},
+  roomType: { ...DEFAUT_ROOMTYPE, rooms: [] },
   roomId: "-1",
   bedIndex: -1,
   placeIndex: -1,
@@ -157,12 +158,12 @@ export const DEFAUT_PRODUCT: getSpecification_GetHouse_house_product = {
   layoutPrice: null,
   layoutPricePaid: false,
   layoutType: LayoutType.Layout_A,
-  name: "상품없음",
+  name: LANG("none_product"),
   price: 0,
   productType: {
     __typename: "ProductType",
     _id: "",
-    name: "상품없음"
+    name: LANG("none_product")
   },
   updatedAt: ""
 };

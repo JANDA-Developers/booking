@@ -1,4 +1,4 @@
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import TooltipList, {
   ReactTooltip
 } from "../../../../../atoms/tooltipList/TooltipList";
@@ -8,8 +8,8 @@ import {
   IAssigTimelineUtils,
   IAssigTimelineContext
 } from "../assigIntrerface";
-import {BookingStatus} from "../../../../../types/enum";
-import {LANG} from "../../../../../hooks/hook";
+import { BookingStatus } from "../../../../../types/enum";
+import { LANG } from "../../../../../hooks/hook";
 
 interface IProps {
   assigHooks: IAssigTimelineHooks;
@@ -18,9 +18,9 @@ interface IProps {
 }
 
 const ItemMenuTooltip: React.FC<IProps> = ({
-  assigHooks: {guestValue, bookingModal, blockOpModal},
-  assigContext: {houseConfig},
-  assigUtils: {deleteGuestById, toogleCheckInOut}
+  assigHooks: { guestValue, bookingModal, blockOpModal },
+  assigContext: { houseConfig },
+  assigUtils: { deleteGuestById, toogleCheckInOut }
 }) => {
   return (
     <TooltipList
@@ -64,7 +64,7 @@ const ItemMenuTooltip: React.FC<IProps> = ({
                     ReactTooltip.hide();
                     blockOpModal.openModal(targetGuest);
                   }}
-                  label="색상설정"
+                  label={LANG("color_set")}
                 />
               </li>
             )}
@@ -76,7 +76,7 @@ const ItemMenuTooltip: React.FC<IProps> = ({
                     bookingId: targetGuest.bookingId
                   });
                 }}
-                label="정보보기"
+                label={LANG("view_info")}
               />
             </li>
           </ul>

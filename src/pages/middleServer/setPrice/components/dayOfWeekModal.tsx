@@ -1,13 +1,13 @@
 import classNames from "classnames";
-import React, {useState} from "react";
-import {IUseModal} from "../../../../hooks/hook";
+import React, { useState } from "react";
+import { IUseModal, LANG } from "../../../../hooks/hook";
 import JDmodal from "../../../../atoms/modal/Modal";
-import {autoComma, toNumber} from "../../../../utils/utils";
+import { autoComma, toNumber } from "../../../../utils/utils";
 import Button from "../../../../atoms/button/Button";
 import InputText from "../../../../atoms/forms/inputText/InputText";
-import {dayarrEnToValueArr} from "../../../../utils/dayOfweeks";
-import {priceMapResult} from "../SetPriceWrap";
-import {WeekArrKr, WeekArrEn} from "../../../../types/enum";
+import { dayarrEnToValueArr } from "../../../../utils/dayOfweeks";
+import { priceMapResult } from "../SetPriceWrap";
+import { WeekArrKr, WeekArrEn } from "../../../../types/enum";
 
 export interface IDayOfWeekModalInfo {
   priceInput: priceMapResult;
@@ -34,7 +34,7 @@ const DayOfWeekModal: React.SFC<IProps> = ({
   const classes = classNames("dayOfWeekModal", "", {});
   const dayOfWeekPriceList = modalHook.info.priceInput.dayOfWeekPriceList;
 
-  const {priceInput, seasonId, roomTypeId} = modalHook.info;
+  const { priceInput, seasonId, roomTypeId } = modalHook.info;
   const defaultPrice = priceInput.default;
 
   const [priceArr, setPriceArr] = useState<(number | null)[]>(
@@ -75,7 +75,7 @@ const DayOfWeekModal: React.SFC<IProps> = ({
       ))}
       <div className="JDmodal__endSection">
         <Button
-          label="적용"
+          label={LANG("Apply")}
           size="small"
           onClick={() => {
             handleClickCompleteBtn();

@@ -1,11 +1,11 @@
 import classNames from "classnames";
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import JDmodal from "../../../../atoms/modal/Modal";
-import {IUseModal, LANG} from "../../../../hooks/hook";
+import { IUseModal, LANG } from "../../../../hooks/hook";
 import JDselect from "../../../../atoms/forms/selectBox/SelectBox";
 import Button from "../../../../atoms/button/Button";
 import BookerInfoBox from "./bookerInfoBox";
-import {IReservationHooks} from "../Reservation";
+import { IReservationHooks } from "../Reservation";
 import {
   PAYMETHOD_FOR_BOOKER_OP,
   PAYMETHOD_FOR_HOST_OP,
@@ -75,7 +75,7 @@ const PayMentModal: React.SFC<IProps> = ({
                   />
                 </div>
                 <div>
-                  <InputText comma {...priceHook} label="최종금액" />
+                  <InputText comma {...priceHook} label={LANG("total_price")} />
                 </div>
               </Fragment>
             )}
@@ -84,7 +84,7 @@ const PayMentModal: React.SFC<IProps> = ({
               setBookerInfo={setBookerInfo}
             />
           </div>
-          {isHost && <CheckBox {...sendSmsHook} label="SMS전송" />}
+          {isHost && <CheckBox {...sendSmsHook} label={LANG("send_sms")} />}
           <div className="JDmodal__endSection">
             <Button
               thema="primary"

@@ -19,9 +19,6 @@ import {
   BOOKING_STATUS_OP,
   PAYMENT_STATUS_OP,
   PricingType,
-  PaymentStatusKr,
-  PayMethodKr,
-  BookingStatusKr,
   BookingModalModes,
   PaymentStatus,
   AutoSendWhen,
@@ -169,7 +166,7 @@ const BookingModal: React.FC<IProps> = ({
     C(
       bookingId !== "default",
       // @ts-ignore
-      {value: payMethod, label: PayMethodKr[payMethod]},
+      {value: payMethod, label: LANG(payMethod)},
       null
     )
   );
@@ -177,7 +174,7 @@ const BookingModal: React.FC<IProps> = ({
     C(
       bookingId !== "default",
       // @ts-ignore
-      {value: paymentStatus, label: PaymentStatusKr[paymentStatus]},
+      {value: paymentStatus, label: LANG(paymentStatus)},
       null
     )
   );
@@ -187,7 +184,7 @@ const BookingModal: React.FC<IProps> = ({
       {
         value: bookingStatus,
         // @ts-ignore
-        label: BookingStatusKr[bookingStatus]
+        label: LANG(bookingStatus)
       },
       null
     )
@@ -376,7 +373,7 @@ const BookingModal: React.FC<IProps> = ({
         <Fragment>
           <div className="modal__section">
             <h6>
-              예약자정보{" "}
+              {LANG("booker_info")}{" "}
               <Drawer
                 onClick={e => {
                   setDrawers({bookerInfo: !drawers.bookerInfo});
@@ -421,7 +418,9 @@ const BookingModal: React.FC<IProps> = ({
                 <InputText
                   disabled={allReadOnly}
                   {...priceHook}
-                  placeholder={`${LANG("normal_price")}}:${autoComma(placeHolederPrice)}`}
+                  placeholder={`${LANG("normal_price")}}:${autoComma(
+                    placeHolederPrice
+                  )}`}
                   returnNumber
                   comma
                   label={LANG("total_price")}
@@ -432,7 +431,7 @@ const BookingModal: React.FC<IProps> = ({
                   disabled={allReadOnly}
                   {...payMethodHook}
                   options={PAYMETHOD_FOR_HOST_OP}
-                  label="결제수단"
+                  label={LANG("method_of_payment")}
                 />
               </div>
               <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
@@ -440,14 +439,15 @@ const BookingModal: React.FC<IProps> = ({
                   disabled={allReadOnly}
                   {...paymentStatusHook}
                   options={PAYMENT_STATUS_OP}
-                  label="결제상태"
+                  label={LANG("payment_status")}
                 />
               </div>
             </div>
           </div>
           <div className="modal__section">
             <h6>
-              예약정보 <Drawer {...assigInfoDrawHook} />
+              {LANG("reservation_information")}{" "}
+              <Drawer {...assigInfoDrawHook} />
             </h6>
             <div className="flex-grid">
               <div className="flex-grid__col col--full-8 col--lg-8 col--md-8">
@@ -457,7 +457,7 @@ const BookingModal: React.FC<IProps> = ({
                   {...resvDateHook}
                   input
                   readOnly
-                  label="숙박일자"
+                  label={LANG("date_of_stay")}
                 />
               </div>
               <div className="flex-grid__col col--full-4 col--lg-4 col--md-4">
@@ -467,7 +467,7 @@ const BookingModal: React.FC<IProps> = ({
                   value={moment()
                     .local()
                     .format(DateFormat.WITH_TIME)}
-                  label="예약일시"
+                  label={LANG("reservation_date")}
                 />
               </div>
               <div className="flex-grid__col col--full-12 col--lg-12 col--md-12">
@@ -492,7 +492,7 @@ const BookingModal: React.FC<IProps> = ({
                   {...memoHook}
                   halfHeight
                   textarea
-                  label="예약메모"
+                  label={LANG("reservation_memo")}
                 />
               </div>
             </div>

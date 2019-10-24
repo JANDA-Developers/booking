@@ -1,17 +1,17 @@
-import React, {Fragment} from "react";
-import {getSmsHistory_GetSmsHistory_smsHistories} from "../../../types/api";
+import React, { Fragment } from "react";
+import { getSmsHistory_GetSmsHistory_smsHistories } from "../../../types/api";
 import Preloader from "../../../atoms/preloader/Preloader";
 import "./SmsHistory.scss";
 import JDPagination from "../../../atoms/pagination/Pagination";
-import {IPageInfo} from "../../../types/interface";
-import JDtable, {ReactTableDefault} from "../../../atoms/table/Table";
-import {CellInfo} from "react-table";
+import { IPageInfo } from "../../../types/interface";
+import JDtable, { ReactTableDefault } from "../../../atoms/table/Table";
+import { CellInfo } from "react-table";
 import JDbadge from "../../../atoms/badge/Badge";
 import JDbox from "../../../atoms/box/JDbox";
-import {s4, autoHypen} from "../../../utils/utils";
+import { s4, autoHypen } from "../../../utils/utils";
 import moment from "moment";
-import {FLOATING_PRElOADER_SIZE, DateFormat} from "../../../types/enum";
-import {LANG} from "../../../hooks/hook";
+import { FLOATING_PRElOADER_SIZE, DateFormat } from "../../../types/enum";
+import { LANG } from "../../../hooks/hook";
 
 interface Iprops {
   setPage: any;
@@ -30,12 +30,12 @@ const SmsHistory: React.SFC<Iprops> = ({
     {
       Header: LANG("index"),
       accessor: "index",
-      Cell: ({index}: CellInfo) => <span>{index + 1}</span>
+      Cell: ({ index }: CellInfo) => <span>{index + 1}</span>
     },
     {
       Header: LANG("transmission_time"),
       accessor: "createdAt",
-      Cell: ({value}: CellInfo) => (
+      Cell: ({ value }: CellInfo) => (
         <span>
           {moment(value)
             .local()
@@ -46,7 +46,7 @@ const SmsHistory: React.SFC<Iprops> = ({
     {
       Header: LANG("receiver"),
       accessor: "receivers",
-      Cell: ({value}: CellInfo) =>
+      Cell: ({ value }: CellInfo) =>
         value.map((receiver: string) => (
           <JDbox size="small" textAlign="center" key={s4()}>
             {autoHypen(receiver)}
@@ -57,7 +57,7 @@ const SmsHistory: React.SFC<Iprops> = ({
       Header: LANG("msg_content"),
       accessor: "msg",
       minWidth: 300,
-      Cell: ({value}: CellInfo) => (
+      Cell: ({ value }: CellInfo) => (
         <div
           className={`JDscrool resvList__memo ${value &&
             value.length > 20 &&
@@ -75,7 +75,7 @@ const SmsHistory: React.SFC<Iprops> = ({
     {
       Header: LANG("auto_send_whether"),
       accessor: "autoSendCase",
-      Cell: ({value}: CellInfo) => (
+      Cell: ({ value }: CellInfo) => (
         <div
           className={`JDscrool smsHistory__msg ${value &&
             value.length > 20 &&
@@ -88,13 +88,13 @@ const SmsHistory: React.SFC<Iprops> = ({
     {
       Header: LANG("send_status"),
       accessor: "sendResult",
-      Cell: ({value}: CellInfo) => (
+      Cell: ({ value }: CellInfo) => (
         <span>
           {value ? (
             <JDbadge thema={"primary"}>{LANG("send_complete")}</JDbadge>
           ) : (
-            <JDbadge thema={"error"}>{LANG("send_fail")}</JDbadge>
-          )}
+              <JDbadge thema={"error"}>{LANG("send_fail")}</JDbadge>
+            )}
         </span>
       )
     }
@@ -104,7 +104,7 @@ const SmsHistory: React.SFC<Iprops> = ({
     <div id="smsHistory" className="smsHistory container container--lg">
       <div className="docs-section">
         <Fragment>
-          <h3>SMS 내역</h3>
+          <h3>{LANG("sms_history")}</h3>
           <Preloader
             size={FLOATING_PRElOADER_SIZE}
             floating

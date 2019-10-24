@@ -1,6 +1,6 @@
 import React from "react";
-import {MutationFn} from "react-apollo";
-import {createNoti, createNotiVariables} from "../../../../types/api";
+import { MutationFn } from "react-apollo";
+import { createNoti, createNotiVariables } from "../../../../types/api";
 import InputText from "../../../../atoms/forms/inputText/InputText";
 import JDselect from "../../../../atoms/forms/selectBox/SelectBox";
 import Button from "../../../../atoms/button/Button";
@@ -13,12 +13,12 @@ import {
   LANG
 } from "../../../../hooks/hook";
 import JDbox from "../../../../atoms/box/JDbox";
-import {NOTI_LEVEL_OP, NotiType} from "../../../../types/enum";
-import {IContext} from "../../../MiddleServerRouter";
+import { NOTI_LEVEL_OP, NotiType } from "../../../../types/enum";
+import { IContext } from "../../../MiddleServerRouter";
 import JDmodal from "../../../../atoms/modal/Modal";
 import JDdayPicker from "../../../../atoms/dayPicker/DayPicker";
 import DayPickerModal from "../../../../components/dayPickerModal/DayPickerModal";
-import {ICreateNotiModalParam} from "./createNotiModalWrap";
+import { ICreateNotiModalParam } from "./createNotiModalWrap";
 
 interface Iprops {
   context: IContext;
@@ -32,7 +32,7 @@ const CreateNotiModal: React.FC<Iprops> = ({
   modalHook
 }) => {
   const {
-    info: {target, targetIds}
+    info: { target, targetIds }
   } = modalHook;
   const msgHook = useInput("");
   const titleHook = useInput("");
@@ -95,7 +95,7 @@ const CreateNotiModal: React.FC<Iprops> = ({
         <InputText {...titleHook} label={LANG("noti_title")} />
       </div>
       <div>
-        <InputText {...msgHook} textarea label="알림내용" />
+        <InputText {...msgHook} textarea label={LANG("noti_msg")} />
       </div>
       <div className="JDmodal__endSection">
         <Button

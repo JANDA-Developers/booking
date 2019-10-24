@@ -122,7 +122,7 @@ const Sms: React.FC<IProps> = ({
     <div id="sms" className="sms container">
       <div className="docs-section">
         <h3>
-          <span className="JDstandard-space">{LANG("sms_setting")}}</span>
+          <span className="JDstandard-space">{LANG("sms_setting")}</span>
           <Help
             tooltip={LANG(
               "if_you_set_up_an_SMS_template_you_can_conveniently_send_the_template_when_you_send_a_message"

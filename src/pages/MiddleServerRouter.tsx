@@ -1,5 +1,6 @@
 /* eslint-disable react/forbid-prop-types */
 import React, {Fragment, useEffect} from "react";
+import {JDlang} from "../langs/JDlang";
 import {Route, Switch, RouteComponentProps} from "react-router-dom";
 import {graphql, compose} from "react-apollo";
 import {Helmet} from "react-helmet";
@@ -47,7 +48,6 @@ import {useModal, useToggle, useSideNav, useLang} from "../hooks/hook";
 import MemoAlertModal from "../components/Memo/component/MemoAlertModal";
 import JDoutdatedBrowserRework from "../utils/oldBrowser";
 import SideNav from "../components/sideNav/SideNav";
-import {JDlang} from "../langs/JDlang";
 
 export interface IContext extends RouteComponentProps<any> {
   user: getMyProfile_GetMyProfile_user;

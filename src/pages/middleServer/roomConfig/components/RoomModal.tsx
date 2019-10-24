@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
-import React, {useEffect} from "react";
-import {toast} from "react-toastify";
+import React, { useEffect } from "react";
+import { toast } from "react-toastify";
 import Modal from "../../../../atoms/modal/Modal";
 import InputText from "../../../../atoms/forms/inputText/InputText";
 import Button from "../../../../atoms/button/Button";
 import utils from "../../../../utils/utils";
-import {LANG} from "../../../../hooks/hook";
+import { LANG } from "../../../../hooks/hook";
 
 interface IProps {
   modalHook: any;
@@ -26,7 +26,7 @@ const RoomTypeModal: React.FC<IProps> = ({
 }) => {
   const validater = (): boolean => {
     if (!roomNameHook.isValid) {
-      toast.warn("방이름은 10자 이하여야합니다.");
+      toast.warn(LANG("room_name_must_be_10_characters_or_less"));
       return false;
     }
     return true;

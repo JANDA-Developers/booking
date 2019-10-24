@@ -1,6 +1,6 @@
-import React, {useEffect, useState, useMemo} from "react";
-import {IUseModal} from "../../hooks/hook";
-import {AutoSendWhen} from "../../types/enum";
+import React, { useEffect, useState, useMemo } from "react";
+import { IUseModal, LANG } from "../../hooks/hook";
+import { AutoSendWhen } from "../../types/enum";
 import {
   sendSms,
   sendSmsVariables,
@@ -8,20 +8,20 @@ import {
   getSmsInfoVariables
 } from "../../types/api";
 import client from "../../apolloClient";
-import {Mutation, Query} from "react-apollo";
+import { Mutation, Query } from "react-apollo";
 import {
   SEND_SMS,
   GET_SMS_INFO,
   GET_BOOKINGS_PHONE_NUMBERS
 } from "../../queries";
-import {queryDataFormater, onCompletedMessage} from "../../utils/utils";
+import { queryDataFormater, onCompletedMessage } from "../../utils/utils";
 import CreateSmsModal from "./components/CreateSmsModal";
 import SendSmsModal from "./SendSmsModal";
-import {IContext} from "../../pages/MiddleServerRouter";
-import {useQuery} from "@apollo/react-hooks";
+import { IContext } from "../../pages/MiddleServerRouter";
+import { useQuery } from "@apollo/react-hooks";
 
-class SendSmsMu extends Mutation<sendSms, sendSmsVariables> {}
-class SmsInfoQu extends Query<getSmsInfo, getSmsInfoVariables> {}
+class SendSmsMu extends Mutation<sendSms, sendSmsVariables> { }
+class SmsInfoQu extends Query<getSmsInfo, getSmsInfoVariables> { }
 
 // BOOKING
 export interface IModalSMSinfo {
@@ -46,9 +46,9 @@ interface IProps {
   context: IContext;
 }
 
-const SendSMSmodalWrap: React.FC<IProps> = ({modalHook, context}) => {
-  const {house} = context;
-  const {_id: houseId} = house;
+const SendSMSmodalWrap: React.FC<IProps> = ({ modalHook, context }) => {
+  const { house } = context;
+  const { _id: houseId } = house;
 
   const memoResult = useMemo(
     () => (
@@ -58,7 +58,7 @@ const SendSMSmodalWrap: React.FC<IProps> = ({modalHook, context}) => {
           houseId
         }}
       >
-        {({data: smsData, loading}) => {
+        {({ data: smsData, loading }) => {
           const smsInfo = queryDataFormater(
             smsData,
             "GetSmsInfo",
@@ -68,13 +68,13 @@ const SendSMSmodalWrap: React.FC<IProps> = ({modalHook, context}) => {
 
           return (
             <SendSmsMu
-              onCompleted={({SendSms}) => {
-                onCompletedMessage(SendSms, "SMS 발송완료", "SMS 발송실패");
+              onCompleted={({ SendSms }) => {
+                onCompletedMessage(SendSms, LANG("send_sms_complited"), LANG("send_sms_failed"));
                 modalHook.closeModal();
               }}
               mutation={SEND_SMS}
             >
-              {(sendSmsMu, {loading: sendSMSloading}) =>
+              {(sendSmsMu, { loading: sendSMSloading }) =>
                 modalHook.info.createMode ? (
                   // SMS 만들기 모달
                   <CreateSmsModal
@@ -85,14 +85,14 @@ const SendSMSmodalWrap: React.FC<IProps> = ({modalHook, context}) => {
                     modalHook={modalHook}
                   />
                 ) : (
-                  // 전송 confirm
-                  <SendSmsModal
-                    smsInfo={smsInfo}
-                    loading={loading}
-                    modalHook={modalHook}
-                    callBackFn={modalHook.info.callBackFn}
-                  />
-                )
+                    // 전송 confirm
+                    <SendSmsModal
+                      smsInfo={smsInfo}
+                      loading={loading}
+                      modalHook={modalHook}
+                      callBackFn={modalHook.info.callBackFn}
+                    />
+                  )
               }
             </SendSmsMu>
           );

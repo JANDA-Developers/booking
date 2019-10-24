@@ -1,17 +1,18 @@
 import React from "react";
-import {insideRedirect} from "../../utils/utils";
+import { insideRedirect } from "../../utils/utils";
 import Button from "../../atoms/button/Button";
-interface Iprops {}
+import { LANG } from "../../hooks/hook";
+interface Iprops { }
 
-const ToastError: React.FC<Iprops> = ({}) => {
+const ToastError: React.FC<Iprops> = ({ }) => {
   return (
-    <span style={{height: "100%"}} className="JDflex JDflex--vCenter">
-      <span className="JDstandard-space">이런! 문제가 발생했습니다.</span>
+    <span style={{ height: "100%" }} className="JDflex JDflex--vCenter">
+      <span className="JDstandard-space">{LANG("opps_something_problem_happend")}</span>
       <Button
         size="small"
         className="JDmargin-bottom0"
         redirect={insideRedirect("qna")}
-        label="문의하기"
+        label={LANG("do_question")}
         thema="white"
         mode="flat"
         transparent

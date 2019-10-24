@@ -1,24 +1,24 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import JDmultiStep from "../../../atoms/multiStep/MultiStep";
 import Steps from "./comonent/Steps";
-import {IContext} from "../../MiddleServerRouter";
-import {HouseStatus, MODAL_MIN_WIDTH} from "../../../types/enum";
-import {isEmpty, stepFinder} from "../../../utils/utils";
+import { IContext } from "../../MiddleServerRouter";
+import { HouseStatus, MODAL_MIN_WIDTH } from "../../../types/enum";
+import { isEmpty, stepFinder } from "../../../utils/utils";
 import JDmodal from "../../../atoms/modal/Modal";
-import {useModal, LANG} from "../../../hooks/hook";
+import { useModal, LANG } from "../../../hooks/hook";
 import "./StarterModal.scss";
-import {MutationFn} from "react-apollo";
-import {updateHouse, updateHouseVariables} from "../../../types/api";
+import { MutationFn } from "react-apollo";
+import { updateHouse, updateHouseVariables } from "../../../types/api";
 import Mbr from "../../../atoms/mbr/Mbr";
-import {isMobile} from "is-mobile";
+import { isMobile } from "is-mobile";
 
 interface IProps {
   context: IContext;
   updateHouseMu: MutationFn<updateHouse, updateHouseVariables>;
 }
 
-const StarterModal: React.FC<IProps> = ({context, updateHouseMu}) => {
-  const {history} = context;
+const StarterModal: React.FC<IProps> = ({ context, updateHouseMu }) => {
+  const { history } = context;
   const modalHook = useModal(true);
 
   const defaultStep = stepFinder(context);
@@ -31,7 +31,7 @@ const StarterModal: React.FC<IProps> = ({context, updateHouseMu}) => {
       {...modalHook}
       minWidth={isMobile() ? MODAL_MIN_WIDTH : "40%"}
       isUnderHeader
-      onRequestClose={() => {}}
+      onRequestClose={() => { }}
     >
       {step !== "done" && (
         <div className="staterModal__stepsWrap">
@@ -51,7 +51,7 @@ const StarterModal: React.FC<IProps> = ({context, updateHouseMu}) => {
               },
               {
                 current: step === "createRoom",
-                name: <span>방생성</span>
+                name: <span>{LANG("create_room")}</span>
               }
             ]}
           />

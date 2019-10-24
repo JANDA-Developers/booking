@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, {useState, Fragment} from "react";
-import {Query, Mutation} from "react-apollo";
+import React, { useState, Fragment } from "react";
+import { Query, Mutation } from "react-apollo";
 import {
   getMyProfile_GetMyProfile_user_houses as IHouse,
   getAllSeasonTable,
@@ -37,10 +37,10 @@ import {
 } from "../../../utils/utils";
 import SetPrice from "./SetPrice";
 import Preloader from "../../../atoms/preloader/Preloader";
-import {targetBlinkFuture} from "../../../utils/targetBlink";
-import {IContext} from "../../MiddleServerRouter";
-import reactWindowSize, {WindowSizeProps} from "react-window-size";
-import {LANG} from "../../../hooks/hook";
+import { targetBlinkFuture } from "../../../utils/targetBlink";
+import { IContext } from "../../MiddleServerRouter";
+import reactWindowSize, { WindowSizeProps } from "react-window-size";
+import { LANG } from "../../../hooks/hook";
 
 export interface IAddSeason {
   name: string;
@@ -55,32 +55,32 @@ export interface priceMapResult {
   dayOfWeekPriceList: getAllSeasonTable_GetSeasonPrice_seasonPrices_dayOfWeekPriceList[];
 }
 
-export interface IPriceMap extends Map<string, priceMapResult> {}
+export interface IPriceMap extends Map<string, priceMapResult> { }
 
 class CreateSeasonMutation extends Mutation<
   createSeason,
   createSeasonVariables
-> {}
+  > { }
 class DeleteSeasonMutation extends Mutation<
   deleteSeason,
   deleteSeasonVariables
-> {}
+  > { }
 class UpdateSeasonPriceMutation extends Mutation<
   updateSeasonPrices,
   updateSeasonPricesVariables
-> {}
+  > { }
 class UpdateSeasonMutation extends Mutation<
   updateSeason,
   updateSeasonVariables
-> {}
+  > { }
 class ChangePriorityMutation extends Mutation<
   changePriority,
   changePriorityVariables
-> {}
+  > { }
 class GetAllSeasonTQuery extends Query<
   getAllSeasonTable,
   getAllSeasonTableVariables
-> {}
+  > { }
 
 // 룸타입 아이디 + 시즌아이디
 const priceMapCreater = (seasonPrices: ISeasonPrices[]) => {
@@ -106,14 +106,14 @@ const SetPriceWrap: React.SFC<IProps & WindowSizeProps> = ({
   context,
   ...prop
 }) => {
-  const {house} = context;
+  const { house } = context;
   return (
     // 모든 방 가져오기
     <GetAllSeasonTQuery
       query={GET_ALL_SEASON_TABLE}
-      variables={{houseId: house._id}}
+      variables={{ houseId: house._id }}
     >
-      {({data, loading: dataL, error: seasonE}) => {
+      {({ data, loading: dataL, error: seasonE }) => {
         const seasones = queryDataFormater(
           data,
           "GetAllSeason",
@@ -135,14 +135,14 @@ const SetPriceWrap: React.SFC<IProps & WindowSizeProps> = ({
         // 룸타입 아이디 + 시즌아이디  = {기본가격, 요일별가격}
         const priceMap = seasonPrices && priceMapCreater(seasonPrices);
         const refetchQueries = [
-          {query: GET_ALL_SEASON_TABLE, variables: {houseId: house._id}}
+          { query: GET_ALL_SEASON_TABLE, variables: { houseId: house._id } }
         ];
 
         return (
           <div>
             <UpdateSeasonMutation
               refetchQueries={refetchQueries}
-              onCompleted={({UpdateSeason}) => {
+              onCompleted={({ UpdateSeason }) => {
                 onCompletedMessage(
                   UpdateSeason,
                   LANG("update_complete"),
@@ -151,10 +151,10 @@ const SetPriceWrap: React.SFC<IProps & WindowSizeProps> = ({
               }}
               mutation={UPDATE_SEASON}
             >
-              {(updateSeasonMu, {loading: updateSeasonLoading}) => (
+              {(updateSeasonMu, { loading: updateSeasonLoading }) => (
                 <CreateSeasonMutation
                   mutation={CREATE_SEASON}
-                  onCompleted={({CreateSeason}) => {
+                  onCompleted={({ CreateSeason }) => {
                     onCompletedMessage(
                       CreateSeason,
                       LANG("create_season_complete"),
@@ -168,38 +168,38 @@ const SetPriceWrap: React.SFC<IProps & WindowSizeProps> = ({
                   }}
                   refetchQueries={refetchQueries}
                 >
-                  {(createSeasonMu, {loading: createLoaindg}) => (
+                  {(createSeasonMu, { loading: createLoaindg }) => (
                     <UpdateSeasonPriceMutation
                       mutation={UPDATE_SEASON_PRICES}
-                      onCompleted={({UpdateSeasonPrices}) => {
+                      onCompleted={({ UpdateSeasonPrices }) => {
                         onCompletedMessage(
                           UpdateSeasonPrices,
-                          "업데이트완료",
-                          "업데이트실패"
+                          LANG("update_complete"),
+                          LANG("update_fail")
                         );
                       }}
                       refetchQueries={refetchQueries}
                     >
-                      {(updateSeasonPriceMu, {loading: updatePriceLoading}) => (
+                      {(updateSeasonPriceMu, { loading: updatePriceLoading }) => (
                         <DeleteSeasonMutation
                           mutation={DELETE_SEASON}
-                          onCompleted={({DeleteSeason}) => {
+                          onCompleted={({ DeleteSeason }) => {
                             onCompletedMessage(
                               DeleteSeason,
-                              "시즌삭제 완료",
-                              "시즌삭제 실패"
+                              LANG("delete_season_complete"),
+                              LANG("delete_season_fail")
                             );
                           }}
                           refetchQueries={refetchQueries}
                         >
-                          {(deleteSeasonMu, {loading: deleteLoading}) => (
+                          {(deleteSeasonMu, { loading: deleteLoading }) => (
                             <ChangePriorityMutation
                               mutation={CHANGE_PRIORITY}
-                              onCompleted={({ChangePriority}) => {
+                              onCompleted={({ ChangePriority }) => {
                                 onCompletedMessage(
                                   ChangePriority,
-                                  "순위변경 완료",
-                                  "순위변경 실패"
+                                  LANG("priority_changed"),
+                                  LANG("priority_change_fail")
                                 );
                                 if (ChangePriority.season) {
                                   targetBlinkFuture(
@@ -212,36 +212,36 @@ const SetPriceWrap: React.SFC<IProps & WindowSizeProps> = ({
                             >
                               {(
                                 changePriorityMu,
-                                {loading: changePriorityLoading}
+                                { loading: changePriorityLoading }
                               ) => (
-                                <Fragment>
-                                  <SetPrice
-                                    {...prop}
-                                    key={s4()}
-                                    context={context}
-                                    priceMap={priceMap || new Map()}
-                                    roomTypes={roomTypes || []}
-                                    seasonData={seasones ? seasones : []}
-                                    changePriorityMu={changePriorityMu}
-                                    deleteSeasonMu={deleteSeasonMu}
-                                    createSeasonMu={createSeasonMu}
-                                    updateSeasonPriceMu={updateSeasonPriceMu}
-                                    updateSeasonMu={updateSeasonMu}
-                                    createLoaindg={createLoaindg}
-                                  />
-                                  <Preloader
-                                    floating
-                                    loading={
-                                      createLoaindg ||
-                                      deleteLoading ||
-                                      changePriorityLoading ||
-                                      updateSeasonLoading ||
-                                      updatePriceLoading
-                                    }
-                                    size="medium"
-                                  />
-                                </Fragment>
-                              )}
+                                  <Fragment>
+                                    <SetPrice
+                                      {...prop}
+                                      key={s4()}
+                                      context={context}
+                                      priceMap={priceMap || new Map()}
+                                      roomTypes={roomTypes || []}
+                                      seasonData={seasones ? seasones : []}
+                                      changePriorityMu={changePriorityMu}
+                                      deleteSeasonMu={deleteSeasonMu}
+                                      createSeasonMu={createSeasonMu}
+                                      updateSeasonPriceMu={updateSeasonPriceMu}
+                                      updateSeasonMu={updateSeasonMu}
+                                      createLoaindg={createLoaindg}
+                                    />
+                                    <Preloader
+                                      floating
+                                      loading={
+                                        createLoaindg ||
+                                        deleteLoading ||
+                                        changePriorityLoading ||
+                                        updateSeasonLoading ||
+                                        updatePriceLoading
+                                      }
+                                      size="medium"
+                                    />
+                                  </Fragment>
+                                )}
                             </ChangePriorityMutation>
                           )}
                         </DeleteSeasonMutation>

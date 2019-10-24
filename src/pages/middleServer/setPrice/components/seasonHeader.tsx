@@ -1,6 +1,6 @@
-import React, {Fragment} from "react";
-import {ISeason} from "../../../../types/interface";
-import {useDayPicker, useSelect, useModal, LANG} from "../../../../hooks/hook";
+import React, { Fragment } from "react";
+import { ISeason } from "../../../../types/interface";
+import { useDayPicker, useSelect, useModal, LANG } from "../../../../hooks/hook";
 import JDIcon from "../../../../atoms/icons/Icons";
 import JDselect, {
   IselectedOption,
@@ -20,9 +20,9 @@ import {
   updateSeason,
   updateSeasonVariables
 } from "../../../../types/api";
-import {MutationFn} from "react-apollo";
-import {targetBlinkFuture} from "../../../../utils/targetBlink";
-import {to4YMMDD} from "../../../../utils/setMidNight";
+import { MutationFn } from "react-apollo";
+import { targetBlinkFuture } from "../../../../utils/targetBlink";
+import { to4YMMDD } from "../../../../utils/setMidNight";
 import UpdateSeasonModal from "./updateSeasnModal";
 
 interface IProps {
@@ -51,15 +51,15 @@ const SeasonHeader: React.FC<IProps> = ({
     season.start,
     season.end
       ? moment(season.end)
-          .add(-1, "day")
-          .toDate()
+        .add(-1, "day")
+        .toDate()
       : null
   );
   const updateSeasonModal = useModal(false);
   const periorityModalHook = useModal(false);
   const periorityHook = useSelect({
     value: season.priority,
-    label: `${season.priority}순위`
+    label: `${season.priority}${LANG("nth")}`
   });
 
   const handleDeleteSeason = () => {
@@ -129,7 +129,7 @@ const SeasonHeader: React.FC<IProps> = ({
       <JDselect
         size={SelectBoxSize.FOUR}
         className="JDz-index-1 seasonHeader__selectPriority"
-        label="우선순위"
+        label={LANG("priority")}
         options={priorityOption}
         {...periorityHook}
       />
@@ -138,7 +138,7 @@ const SeasonHeader: React.FC<IProps> = ({
           onClick={() => {
             handleChangePriority();
           }}
-          label="적용"
+          label={LANG("Apply")}
           size="small"
           thema="primary"
         />

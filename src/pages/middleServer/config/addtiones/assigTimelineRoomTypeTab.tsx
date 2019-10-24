@@ -1,10 +1,10 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import JDLabel from "../../../../atoms/label/JDLabel";
 import JDrange from "../../../../atoms/forms/range/Range";
-import {IAddtionProp} from "../components/ConfigBlock";
+import { IAddtionProp } from "../components/ConfigBlock";
 import JDswitch from "../../../../atoms/forms/switch/Switch";
-import {useSwitch} from "../../../../hooks/hook";
-import {muResult} from "../../../../utils/utils";
+import { useSwitch, LANG } from "../../../../hooks/hook";
+import { muResult } from "../../../../utils/utils";
 import JDbox from "../../../../atoms/box/JDbox";
 import TabUsePhoto from "../../../../img/describe/roomTypeTap.gif";
 
@@ -12,8 +12,8 @@ const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
   updateHouseConfigMu,
   context
 }) => {
-  const {houseConfig, house} = context;
-  const {assigTimeline} = houseConfig;
+  const { houseConfig, house } = context;
+  const { assigTimeline } = houseConfig;
   const [use, setUse] = useState(
     assigTimeline ? assigTimeline.roomTypeTabEnable : false
   );
@@ -21,7 +21,7 @@ const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
   return (
     <div className="additionDetail">
       <div className="docs-section__box">
-        <span> 방타입별 탭을 사용합니다.</span>
+        <span>{LANG("Use_room_specific_tabs")}</span>
       </div>
       <div className="additionDetail__titleTopRight">
         <JDswitch
@@ -45,7 +45,7 @@ const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
               setUse(!flag);
             }
           }}
-          label="사용하기"
+          label={LANG("use")}
         />
       </div>
       <JDbox mode="photoFrame" photo={TabUsePhoto} />

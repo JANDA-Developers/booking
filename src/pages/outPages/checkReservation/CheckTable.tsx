@@ -7,11 +7,7 @@ import JDtable, {JDcolumn} from "../../../atoms/table/Table";
 import {ReactTableDefaults} from "react-table";
 import {IRoomType} from "../../../types/interface";
 import JDbox from "../../../atoms/box/JDbox";
-import {
-  PricingType,
-  BookingStatusKr,
-  PaymentStatusKr
-} from "../../../types/enum";
+import {PricingType} from "../../../types/enum";
 import moment from "moment";
 import {getRoomSelectInfo} from "../../../utils/guestCountByRoomType";
 import {LANG} from "../../../hooks/hook";
@@ -60,11 +56,21 @@ const CheckTable: React.FC<IProps> = ({tableData}) => {
                   <span>
                     {selectInfo.pricingType === PricingType.DOMITORY ? (
                       <Fragment>
-                        {female && <span>{female}여 </span>}
-                        {male && <span>{male}남</span>}
+                        {female && (
+                          <span>
+                            {female}
+                            {LANG("female")}{" "}
+                          </span>
+                        )}
+                        {male && (
+                          <span>
+                            {male}
+                            {LANG("male")}
+                          </span>
+                        )}
                       </Fragment>
                     ) : (
-                      <span>{roomCount}개</span>
+                      <span>{roomCount}</span>
                     )}
                   </span>
                 );
@@ -80,24 +86,14 @@ const CheckTable: React.FC<IProps> = ({tableData}) => {
       Cell: ({value, original}) => (
         <div>
           {value.price} <br />
-          {
-            // @ts-ignore
-            PaymentStatusKr[original.paymentStatus]
-          }
+          {LANG(original.payment.status)}
         </div>
       )
     },
     {
       Header: LANG("status"),
       accessor: "status",
-      Cell: ({value, original}) => (
-        <span>
-          {
-            // @ts-ignore
-            BookingStatusKr[value]
-          }
-        </span>
-      )
+      Cell: ({value, original}) => <span>{LANG(value)}</span>
     }
   ];
 

@@ -1,11 +1,12 @@
 import React from "react";
 import JDbadge from "../../../../atoms/badge/Badge";
 import classnames from "classnames";
-import {IHolidaysByApi} from "../../../../types/interface";
-import {searchHoliday} from "../../../../utils/utils";
+import { IHolidaysByApi } from "../../../../types/interface";
+import { searchHoliday } from "../../../../utils/utils";
+import { LANG } from "../../../../hooks/hook";
 
 interface Iprops {
-  onClickCell?: ({intervalContext}: any) => void;
+  onClickCell?: ({ intervalContext }: any) => void;
   holidays?: IHolidaysByApi[];
   getIntervalProps: any;
   intervalContext: any;
@@ -17,7 +18,7 @@ const HeaderCellRender: React.FC<Iprops> = ({
   intervalContext,
   holidays
 }) => {
-  const {startTime} = intervalContext.interval;
+  const { startTime } = intervalContext.interval;
   const holiday = holidays && searchHoliday(startTime, holidays);
   const isToday = startTime.isSame(new Date(), "day");
   const isPast = startTime.isBefore(new Date(), "day");
@@ -39,15 +40,15 @@ const HeaderCellRender: React.FC<Iprops> = ({
         onClickCapture={e => {
           e.preventDefault();
           e.stopPropagation();
-          onClickCell && onClickCell({intervalContext});
+          onClickCell && onClickCell({ intervalContext });
         }}
       >
         {intervalContext.intervalText
-          .replace("요일,", ", ")
-          .replace(/[0-9]{4}년/, "")}
+          .replace(`${LANG("day_of_week")},`, ", ")
+          .replace(`/[0-9]{4}${LANG("year")}/`, "")}
 
         <span className="timelineHeaderCell__badgeWrap">
-          {isToday && <JDbadge tooltip="오늘" hover={false} thema="new" />}
+          {isToday && <JDbadge tooltip={LANG("today")} hover={false} thema="new" />}
           {holiday && <JDbadge tooltip={holiday.dateName} thema={"error"} />}
         </span>
       </div>

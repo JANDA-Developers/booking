@@ -1,7 +1,7 @@
-import React, {useMemo, Fragment} from "react";
+import React, { useMemo, Fragment } from "react";
 import "moment/locale/ko";
 import moment from "moment";
-import {MutationFn} from "react-apollo";
+import { MutationFn } from "react-apollo";
 import Timeline, {
   TimelineHeaders,
   SidebarHeader,
@@ -18,12 +18,13 @@ import {
   deleteDailyPriceVariables
 } from "../../../types/api";
 import Preloader from "../../../atoms/preloader/Preloader";
-import {IItem} from "./DailyPriceWrap";
+import { IItem } from "./DailyPriceWrap";
 import InputText from "../../../atoms/forms/inputText/InputText";
 import {
   IUseDayPicker,
   getKoreaSpecificDayHook,
-  useModal
+  useModal,
+  LANG
 } from "../../../hooks/hook";
 import {
   setMidNight,
@@ -32,11 +33,11 @@ import {
   muResult,
   searchHoliday
 } from "../../../utils/utils";
-import {TimePerMs, GlobalCSS, WindowSize} from "../../../types/enum";
-import reactWindowSize, {WindowSizeProps} from "react-window-size";
+import { TimePerMs, GlobalCSS, WindowSize } from "../../../types/enum";
+import reactWindowSize, { WindowSizeProps } from "react-window-size";
 import JDbadge from "../../../atoms/badge/Badge";
 import Tooltip from "../../../atoms/tooltip/Tooltip";
-import {IContext} from "../../MiddleServerRouter";
+import { IContext } from "../../MiddleServerRouter";
 import PriceWarnModal from "../../../components/priceWarnModal.tsx/PriceWarnModal";
 import HeaderCellRender from "../assig/components/HeaderCellRender";
 
@@ -57,8 +58,8 @@ interface IProps {
       end: number;
     }>
   >;
-  dataTime: {start: number; end: number};
-  defaultTime: {start: number; end: number};
+  dataTime: { start: number; end: number };
+  defaultTime: { start: number; end: number };
   placeHolderMap: Map<any, any>;
 }
 
@@ -79,18 +80,18 @@ const UpdateTimeline: React.FC<IProps & WindowSizeProps> = ({
   windowWidth,
   ...timelineProps
 }) => {
-  const {house} = context;
+  const { house } = context;
   const isMobile = windowWidth <= WindowSize.MOBILE;
   const isTabletDown = windowWidth <= WindowSize.TABLET;
   const priceWarnModalHook = useModal(false);
 
-  const {datas: holidays, loading: holidayLoading} = getKoreaSpecificDayHook([
+  const { datas: holidays, loading: holidayLoading } = getKoreaSpecificDayHook([
     "2019",
     "2018"
   ]);
 
   // 그룹 렌더
-  const UpdateGroupRendererFn = ({group}: any) => {
+  const UpdateGroupRendererFn = ({ group }: any) => {
     const roomType: IRoomType | undefined =
       roomTypesData && roomTypesData[group.roomTypeIndex];
 
@@ -197,7 +198,7 @@ const UpdateTimeline: React.FC<IProps & WindowSizeProps> = ({
     return (
       <div
         className="dailyPrice__cellWrap"
-        style={{...props.style, backgroundColor: "transparent", border: "none"}}
+        style={{ ...props.style, backgroundColor: "transparent", border: "none" }}
       >
         <InputText
           comma
@@ -250,9 +251,9 @@ const UpdateTimeline: React.FC<IProps & WindowSizeProps> = ({
     <div id="dailyPrice">
       <div className="dailyPrice container container--full">
         <div className="docs-section">
-          <h3>상세가격 수정</h3>
+          <h3>{LANG("daily_refine_price")}</h3>
           <p className="JDtextColor--point">
-            * 해당 가격 수정은 모든 가격설정 중 최우선 적용 됩니다.
+            * {LANG("this_price_modification_will_be_the_highest_priority_of_all_pricing")}
           </p>
           <div className="flex-grid flex-grid--end">
             <div className="flex-grid__col col--full-4 col--lg-4 col--md-6" />
@@ -278,7 +279,7 @@ const UpdateTimeline: React.FC<IProps & WindowSizeProps> = ({
               >
                 <TimelineHeaders>
                   <SidebarHeader>
-                    {({getRootProps}: any) => (
+                    {({ getRootProps }: any) => (
                       <SharedSideBarHeader
                         getRootProps={getRootProps}
                         dayPickerHook={dayPickerHook}
@@ -287,7 +288,7 @@ const UpdateTimeline: React.FC<IProps & WindowSizeProps> = ({
                   </SidebarHeader>
                   <DateHeader
                     intervalRenderer={(props: any) => {
-                      return HeaderCellRender({...props, holidays});
+                      return HeaderCellRender({ ...props, holidays });
                     }}
                     height={GlobalCSS.TIMELINE_HEADER_HEIGHT}
                     unit="day"

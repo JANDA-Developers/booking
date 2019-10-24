@@ -6,11 +6,6 @@ export enum PricingType {
   ROOM = "ROOM"
 }
 
-export enum PricingTypeKr {
-  DOMITORY = "도미토리",
-  ROOM = "방형태"
-}
-
 export enum UserRole {
   ADMIN = "ADMIN",
   GHOST = "GHOST",
@@ -100,13 +95,6 @@ export const LANGUAGE_LIST: Language[] = [
   Language.KOREAN
 ];
 
-export enum LanguageKr {
-  KOREAN = "한국어",
-  ENGLISH = "영어",
-  JAPANESE = "일본어",
-  CHINESE = "중국어"
-}
-
 export enum HouseStatus {
   ENABLE = "ENABLE",
   DISALBE = "DISALBE",
@@ -114,12 +102,6 @@ export enum HouseStatus {
 }
 
 export type TextAlign = "left" | "right" | "center";
-
-export enum HouseStatusKr {
-  ENABLE = "정상",
-  DISALBE = "정지",
-  WAIT = "대기"
-}
 
 export enum RoomGender {
   FEMALE = "FEMALE",
@@ -131,18 +113,6 @@ export enum RoomGender {
 //= =============================================================
 // START Enums from Front End
 //= =============================================================
-
-export enum RoomGenderKr {
-  FEMALE = "여성",
-  MALE = "남성",
-  ANY = "제한없음(혼숙O)",
-  SEPARATELY = "제한없음(혼숙X)"
-}
-
-export enum GenderKr {
-  FEMALE = "여",
-  MALE = "남"
-}
 
 export enum TimePerMs {
   DAY = 24 * 60 * 60 * 1000,
@@ -156,12 +126,6 @@ export enum PaymentStatus {
   COMPLETE = "COMPLETE"
 }
 
-export enum PaymentStatusKr {
-  CANCEL = "결제취소",
-  PROGRESSING = "미결제",
-  COMPLETE = "결제완료"
-}
-
 export enum BookingStatus {
   CANCEL = "CANCEL",
   COMPLETE = "COMPLETE",
@@ -169,25 +133,11 @@ export enum BookingStatus {
   PROGRESSING = "PROGRESSING"
 }
 
-export enum BookingStatusKr {
-  COMPLETE = "예약완료",
-  CANCEL = "예약취소",
-  FAIL = "예약실패",
-  PROGRESSING = "예약진행중"
-}
-
 export enum PayMethod {
   VBANK = "VBANK",
   CASH = "CASH",
   CARD = "CARD",
   CHANNEL_PAY = "CHANNEL_PAY"
-}
-
-export enum PayMethodKr {
-  VBANK = "무통장입금",
-  CARD = "카드결제",
-  CASH = "현금결제",
-  CHANNEL_PAY = "채널결제"
 }
 
 // css variable 의 breackPoints 와 일치하도록 하세요.
@@ -212,15 +162,6 @@ export enum Gender {
 export enum BookingModalModes {
   CREATE = "CREATE",
   READ_ONLY = "READ_ONLY"
-}
-
-// export enum
-export enum SalesStatisticsUnitKr {
-  BY_DAY_OF_WEEK = "요일별",
-  BY_DATE = "날자별",
-  MONTHLY = "년별",
-  WEEKLY = "주별",
-  YEARLY = "년별"
 }
 
 export enum NotiType {
@@ -249,23 +190,10 @@ export enum AutoSendWhen {
   WHEN_BOOKING_UPDATE = "WHEN_BOOKING_UPDATE"
 }
 
-export enum AutoSendWhenKr {
-  WEHN_BOOKING_CANCEL = "예약취소시",
-  WHEN_BOOKING_CREATED = "예약생성시",
-  WHEN_BOOKING_CREATED_PAYMENT_PROGRESSING = "예약생성시(미결제)",
-  WHEN_BOOKING_UPDATE = "예약업데이트시"
-}
-
 export enum SendTarget {
   BOTH = "BOTH",
   GUEST = "GUEST",
   HOST = "HOST"
-}
-
-export enum SendTargetKr {
-  BOTH = "게스트,호스트",
-  GUEST = "게스트",
-  HOST = "호스트"
 }
 
 export enum LayoutType {
@@ -301,7 +229,7 @@ export enum ProductTypeKey {
   STANDARD = "STANDARD"
 }
 
-export const WeekArrKr = ["일", LANG("month"), "화", "수", "목", "금", "토"];
+export const WeekArrKr = ["일", "월", "화", "수", "목", "금", "토"];
 export const WeekArrEn = [
   Day.SUN,
   Day.MON,
@@ -317,16 +245,6 @@ export enum SERVICE_CONTECT {
   SERVICE_MANGER_MAIL = "support@stayjanda.com"
 }
 
-export enum SmsReplaceKeyEnumKr {
-  STAYDATE = "[숙박일자년/일)]",
-  STAYDATE_YMD = "[숙박일자(년/월/일)]",
-  ROOMTYPE_N_COUNT = "[숙박정보(방/인원)]",
-  BOOKERNAME = "[예약자명]",
-  TOTALPRICE = "[가격]",
-  PAYMETHOD = "[결제방법]",
-  PAYMENTSTATUS = "[결제상태]",
-  HM = "[하우스 메뉴얼 URL]"
-}
 export const SmsReplaceKeyEnumKeys = [
   "STAYDATE",
   "STAYDATE_YMD",
@@ -353,15 +271,15 @@ export enum NotiLevel {
   WARN = "WARN"
 }
 
-export const KR_SMS_PARSER = {
-  BOOKERNAME: SmsReplaceKeyEnumKr.BOOKERNAME,
-  ROOMTYPE_N_COUNT: SmsReplaceKeyEnumKr.ROOMTYPE_N_COUNT,
-  TOTALPRICE: SmsReplaceKeyEnumKr.TOTALPRICE,
-  STAYDATE: SmsReplaceKeyEnumKr.STAYDATE,
-  STAYDATE_YMD: SmsReplaceKeyEnumKr.STAYDATE_YMD,
-  PAYMENTSTATUS: SmsReplaceKeyEnumKr.PAYMENTSTATUS,
-  PAYMETHOD: SmsReplaceKeyEnumKr.PAYMETHOD,
-  HM: SmsReplaceKeyEnumKr.HM
+export let KR_SMS_PARSER = {
+  BOOKERNAME: "",
+  ROOMTYPE_N_COUNT: "",
+  TOTALPRICE: "",
+  STAYDATE: "",
+  STAYDATE_YMD: "",
+  PAYMENTSTATUS: "",
+  PAYMETHOD: "",
+  HM: ""
 };
 
 //= =============================================================
@@ -402,15 +320,15 @@ export const SELECT_COUNT_DUMMY_OP = [
   {value: 10, label: "10"}
 ];
 
-export const BOOKING_STATUS_OP = [
+export let BOOKING_STATUS_OP = [
   {
     value: BookingStatus.COMPLETE,
-    label: BookingStatusKr[BookingStatus.COMPLETE]
+    label: ""
   },
-  {value: BookingStatus.CANCEL, label: BookingStatusKr[BookingStatus.CANCEL]},
+  {value: BookingStatus.CANCEL, label: ""},
   {
     value: BookingStatus.FAIL,
-    label: BookingStatusKr[BookingStatus.FAIL]
+    label: ""
   }
 ];
 
@@ -420,83 +338,86 @@ export const LAYOUT_TYPE_OP = [
 ];
 
 // [0]가 미결제 이도록
-export const PAYMENT_STATUS_OP = [
-  {value: PaymentStatus.PROGRESSING, label: "미결제"},
-  {value: PaymentStatus.COMPLETE, label: "결제완료"}
+export let PAYMENT_STATUS_OP = [
+  {value: PaymentStatus.PROGRESSING, label: ""},
+  {value: PaymentStatus.COMPLETE, label: ""}
 ];
 
-export const STATISTICS_OP = [
+export let STATISTICS_OP = [
   {value: LANG("sales_statistics"), label: LANG("sales_statistics")}
 ];
 
-export const STATISTICS_TYPE_OP = [
+export let STATISTICS_TYPE_OP = [
   {
     value: SalesStatisticsUnit.BY_DATE,
-    label: SalesStatisticsUnitKr[SalesStatisticsUnit.BY_DATE]
+    label: ""
   },
   {
     value: SalesStatisticsUnit.BY_DAY_OF_WEEK,
-    label: SalesStatisticsUnitKr[SalesStatisticsUnit.BY_DAY_OF_WEEK]
+    label: ""
   },
   {
     value: SalesStatisticsUnit.MONTHLY,
-    label: SalesStatisticsUnitKr[SalesStatisticsUnit.MONTHLY]
+    label: ""
   },
   {
     value: SalesStatisticsUnit.WEEKLY,
-    label: SalesStatisticsUnitKr[SalesStatisticsUnit.WEEKLY]
+    label: ""
   },
   {
     value: SalesStatisticsUnit.YEARLY,
-    label: SalesStatisticsUnitKr[SalesStatisticsUnit.YEARLY]
+    label: ""
   }
 ];
 
-export const SMS_TARGET_OP = [
-  {value: SendTarget.GUEST, label: SendTargetKr.GUEST},
-  {value: SendTarget.HOST, label: SendTargetKr.HOST}
+export let SMS_TARGET_OP = [
+  {value: SendTarget.GUEST, label: ""},
+  {value: SendTarget.HOST, label: ""}
 ];
 
-export const NOTI_LEVEL_OP = [
+export let NOTI_LEVEL_OP = [
   {value: NotiLevel.NORMAL, label: NotiLevel.NORMAL},
   {value: NotiLevel.WARN, label: NotiLevel.WARN}
 ];
 
-export const PRODUCT_STATUS_OP = [
-  {value: HouseStatus.WAIT, label: HouseStatusKr.WAIT},
-  {value: HouseStatus.ENABLE, label: HouseStatusKr.ENABLE},
-  {value: HouseStatus.DISALBE, label: HouseStatusKr.DISALBE}
+export let PRODUCT_STATUS_OP = [
+  {value: HouseStatus.WAIT, label: ""},
+  {value: HouseStatus.ENABLE, label: ""},
+  {value: HouseStatus.DISALBE, label: ""}
 ];
 
-export const PAYMETHOD_FOR_BOOKER_OP = [
-  {value: PayMethod.VBANK, label: "무통장입금"},
-  {value: PayMethod.CARD, label: "카드결제"}
+export let PAYMETHOD_FOR_BOOKER_OP = [
+  {value: PayMethod.VBANK, label: ""},
+  {value: PayMethod.CARD, label: ""}
 ];
 
-export const PAYMETHOD_FOR_HOST_OP = [
-  {value: PayMethod.VBANK, label: "무통장입금"},
-  {value: PayMethod.CASH, label: PayMethodKr[PayMethod.CASH]},
-  {value: PayMethod.CARD, label: "카드결제"},
-  {value: PayMethod.CHANNEL_PAY, label: "채널결제"}
+export let PAYMETHOD_FOR_HOST_OP = [
+  {value: PayMethod.VBANK, label: ""},
+  {value: PayMethod.CASH, label: ""},
+  {value: PayMethod.CARD, label: ""},
+  {value: PayMethod.CHANNEL_PAY, label: ""}
   // {value: PayMethod.ELSE, label: "기타"}
 ];
 
-export const ROOM_GENDER_OP = [
-  {value: RoomGender.SEPARATELY, label: RoomGenderKr.SEPARATELY},
-  {value: RoomGender.ANY, label: RoomGenderKr.ANY},
-  {value: RoomGender.MALE, label: RoomGenderKr.MALE},
-  {value: RoomGender.FEMALE, label: RoomGenderKr.FEMALE}
+export let ROOM_GENDER_OP = [
+  {value: RoomGender.SEPARATELY, label: ""},
+  {value: RoomGender.ANY, label: ""},
+  {value: RoomGender.MALE, label: ""},
+  {value: RoomGender.FEMALE, label: ""}
 ];
 
-export const PRICING_TYPE_OP = [
-  {value: PricingType.DOMITORY, label: PricingTypeKr.DOMITORY},
-  {value: PricingType.ROOM, label: PricingTypeKr.ROOM}
+export let PRICING_TYPE_OP = [
+  {value: PricingType.DOMITORY, label: ""},
+  {value: PricingType.ROOM, label: ""}
 ];
 
-export const PRICING_TYPE_OP_EXPEND = [
-  {value: [PricingType.DOMITORY], label: PricingTypeKr.DOMITORY},
-  {value: [PricingType.ROOM], label: PricingTypeKr.ROOM},
-  {value: [PricingType.ROOM, PricingType.DOMITORY], label: "도미토리 & 방타입"}
+export let PRICING_TYPE_OP_EXPEND = [
+  {value: [PricingType.DOMITORY], label: ""},
+  {value: [PricingType.ROOM], label: ""},
+  {
+    value: [PricingType.ROOM, PricingType.DOMITORY],
+    label: ``
+  }
 ];
 
 export enum GetSmsTarget {
@@ -506,42 +427,41 @@ export enum GetSmsTarget {
   EXSIST_INFO = "EXSIST_INFO"
 }
 
-export const GET_SMS_TARGET_OP = [
-  {value: "EXSIST_INFO", label: "선택 인원"},
-  {value: "TODAY_STAY", label: "오늘 숙박 인원"},
-  {value: "TODAY_CHECKIN", label: "오늘 체크인 인원"},
-  {value: "TOMORROW_CHECKIN", label: "내일 체크인할 인원"}
+export let GET_SMS_TARGET_OP = [
+  {value: "EXSIST_INFO", label: ""},
+  {value: "TODAY_STAY", label: ""},
+  {value: "TODAY_CHECKIN", label: ""},
+  {value: "TOMORROW_CHECKIN", label: ""}
 ];
 
-export const GENDER_OP = [
-  {value: Gender.FEMALE, label: GenderKr.FEMALE},
-  {value: Gender.MALE, label: GenderKr.MALE}
+export let GENDER_OP = [
+  {value: Gender.FEMALE, label: ""},
+  {value: Gender.MALE, label: ""}
 ];
 
-export const AUTO_SEND_OP = [
+export let AUTO_SEND_OP = [
   {
     value: AutoSendWhen.WEHN_BOOKING_CANCEL,
-    label: AutoSendWhenKr.WEHN_BOOKING_CANCEL
+    label: ""
   },
   {
     value: AutoSendWhen.WHEN_BOOKING_CREATED,
-    label: AutoSendWhenKr.WHEN_BOOKING_CREATED
+    label: ""
   },
   {
     value: AutoSendWhen.WHEN_BOOKING_CREATED_PAYMENT_PROGRESSING,
-    label: AutoSendWhenKr.WHEN_BOOKING_CREATED_PAYMENT_PROGRESSING
+    label: ""
   },
   {
     value: AutoSendWhen.WHEN_BOOKING_UPDATE,
-    label: AutoSendWhenKr.WHEN_BOOKING_UPDATE
-  },
-  {value: null, label: "선택안함"}
+    label: ""
+  }
 ];
 
 export const MAX_PEOPLE_COUNT_OP_FN = () => {
   const maxPeopleCountOption = [];
   for (let i = 0; i < 100; i += 1) {
-    maxPeopleCountOption.push({value: i, label: `${i}명`});
+    maxPeopleCountOption.push({value: i, label: `${i}${LANG("person_unit")}`});
   }
   return maxPeopleCountOption;
 };

@@ -6,11 +6,11 @@ import {
   IAssigDataControl
 } from "./assigIntrerface";
 import JDcolorPicker from "../../../../atoms/colorPicker/ColorPicker";
-import {useColorPicker, useCheckBox, LANG} from "../../../../hooks/hook";
+import { useColorPicker, useCheckBox, LANG } from "../../../../hooks/hook";
 import Button from "../../../../atoms/button/Button";
 import JDmodal from "../../../../atoms/modal/Modal";
 import CheckBox from "../../../../atoms/forms/checkBox/CheckBox";
-import {muResult} from "../../../../utils/utils";
+import { muResult } from "../../../../utils/utils";
 
 interface IProps {
   assigHooks: IAssigTimelineHooks;
@@ -20,7 +20,7 @@ interface IProps {
 }
 
 const BlockOpModal: React.FC<IProps> = ({
-  assigUtils: {getGroupById, getItemById, getGuestsByBookingId},
+  assigUtils: { getGroupById, getItemById, getGuestsByBookingId },
   assigHooks: {
     bookingModal,
     createMenuProps,
@@ -28,8 +28,8 @@ const BlockOpModal: React.FC<IProps> = ({
     guestValue,
     setGuestValue
   },
-  assigContext: {groupData},
-  assigDataControl: {updateBlockOpMu}
+  assigContext: { groupData },
+  assigDataControl: { updateBlockOpMu }
 }) => {
   const target = blockOpModal.info;
   const colorPickerHook = useColorPicker(
@@ -93,7 +93,7 @@ const BlockOpModal: React.FC<IProps> = ({
             }}
             size="small"
             thema="error"
-            label={LANG("unapplied")}
+            label={LANG("unappliy")}
           />
         </div>
       </div>

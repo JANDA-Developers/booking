@@ -1,19 +1,20 @@
-import React, {useState, Fragment} from "react";
-import {Query, Mutation} from "react-apollo";
+import React, { useState, Fragment } from "react";
+import { Query, Mutation } from "react-apollo";
 import {
   getSpecification,
   getSpecificationVariables,
   updateUserForSU,
   updateUserForSUVariables
 } from "../../types/api";
-import {GET_HOUSE_SPECIFICATION, UPDATE_USER_FOR_SU} from "../../queries";
+import { GET_HOUSE_SPECIFICATION, UPDATE_USER_FOR_SU } from "../../queries";
 import {
   queryDataFormater,
   onCompletedMessage
 } from "../../utils/utils";
 import SpecificAtion from "./Specification";
 import Preloader from "../../atoms/preloader/Preloader";
-import {getOperationName} from "apollo-link";
+import { getOperationName } from "apollo-link";
+import { LANG } from "../../hooks/hook";
 
 interface IProps {
   houseId: string;
@@ -23,17 +24,17 @@ interface IProps {
 class UpdateUserForSU extends Mutation<
   updateUserForSU,
   updateUserForSUVariables
-> {}
+  > { }
 
 class GetSpecification extends Query<
   getSpecification,
   getSpecificationVariables
-> {}
+  > { }
 
-const SpecificAtionWrap: React.FC<IProps> = ({houseId, isAdmin}) => {
+const SpecificAtionWrap: React.FC<IProps> = ({ houseId, isAdmin }) => {
   return (
-    <GetSpecification query={GET_HOUSE_SPECIFICATION} variables={{houseId}}>
-      {({data: specificData, loading, error}) => {
+    <GetSpecification query={GET_HOUSE_SPECIFICATION} variables={{ houseId }}>
+      {({ data: specificData, loading, error }) => {
         const specification = queryDataFormater(
           specificData,
           "GetHouse",
@@ -44,8 +45,8 @@ const SpecificAtionWrap: React.FC<IProps> = ({houseId, isAdmin}) => {
         return (
           <UpdateUserForSU
             refetchQueries={[getOperationName(GET_HOUSE_SPECIFICATION)!]}
-            onCompleted={({UpdateProductForSU, UpdateHouse}) => {
-              onCompletedMessage(UpdateProductForSU, "변경 완료", "변경 실패");
+            onCompleted={({ UpdateProductForSU, UpdateHouse }) => {
+              onCompletedMessage(UpdateProductForSU, LANG("change_complited"), LANG("change_failed"));
             }}
             mutation={UPDATE_USER_FOR_SU}
           >
@@ -54,13 +55,13 @@ const SpecificAtionWrap: React.FC<IProps> = ({houseId, isAdmin}) => {
                 {loading ? (
                   <Preloader size="large" loading={loading} />
                 ) : (
-                  <SpecificAtion
-                    isAdmin={isAdmin}
-                    loading={loading}
-                    specification={specification!}
-                    updateUserForSu={updateUserForSu}
-                  />
-                )}
+                    <SpecificAtion
+                      isAdmin={isAdmin}
+                      loading={loading}
+                      specification={specification!}
+                      updateUserForSu={updateUserForSu}
+                    />
+                  )}
               </Fragment>
             )}
           </UpdateUserForSU>

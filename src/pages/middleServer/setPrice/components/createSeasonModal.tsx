@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import classNames from "classnames";
-import React, {useState, useEffect} from "react";
-import {Node} from "unist";
+import React, { useState, useEffect } from "react";
+import { Node } from "unist";
 import {
   IUseModal,
   useInput,
@@ -28,13 +28,13 @@ import {
   createSeasonVariables,
   SeasonPriceInput
 } from "../../../../types/api";
-import {arrToApplyDays, applyDaysToArr} from "../../../../utils/dayOfweeks";
+import { arrToApplyDays, applyDaysToArr } from "../../../../utils/dayOfweeks";
 import JDdayPicker from "../../../../atoms/dayPicker/DayPicker";
 import JDbox from "../../../../atoms/box/JDbox";
-import {MutationFn} from "react-apollo";
-import {isName} from "../../../../utils/inputValidations";
+import { MutationFn } from "react-apollo";
+import { isName } from "../../../../utils/inputValidations";
 import PriceWarnModal from "../../../../components/priceWarnModal.tsx/PriceWarnModal";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import moment from "moment";
 
 export interface ICreateSeasonModalInfo {
@@ -126,7 +126,7 @@ const CreateSeasonModal: React.FC<IProps> = ({
         <JDdayPicker
           canSelectBeforeDay={true}
           calenaderPosition="center"
-          label="시즌기간"
+          label={LANG("season_period")}
           input
           isRange
           {...dayPickerHook}
@@ -137,8 +137,8 @@ const CreateSeasonModal: React.FC<IProps> = ({
           <table className="JDtable">
             <thead>
               <tr>
-                <th>방타입</th>
-                <th>시즌 기본가격</th>
+                <th>{LANG("roomType")}</th>
+                <th>{LANG("season_basic_price")}</th>
               </tr>
             </thead>
             <tbody>
@@ -169,7 +169,7 @@ const CreateSeasonModal: React.FC<IProps> = ({
             validation() && validation2();
           }}
           size="small"
-          label="시즌생성"
+          label={LANG("create_season")}
           thema="primary"
         />
       </div>

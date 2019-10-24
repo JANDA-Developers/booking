@@ -1,11 +1,12 @@
 import React from "react";
 import Tooltip from "../../../../../atoms/tooltip/Tooltip";
-interface Iprops {}
+import { LANG } from "../../../../../hooks/hook";
+interface Iprops { }
 
 const ReadyItemTooltip: React.FC<Iprops> = () => {
   return (
     <Tooltip type="dark" id="tooltipReadyBlock">
-      누군가 예약을 진행중 입니다.
+      {LANG("someone_is_making_a_reservation")}
     </Tooltip>
   );
 };

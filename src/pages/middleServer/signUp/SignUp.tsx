@@ -1,24 +1,24 @@
 /* eslint-disable  */
-import React, {useState} from "react";
-import {Mutation} from "react-apollo";
-import {toast} from "react-toastify";
+import React, { useState } from "react";
+import { Mutation } from "react-apollo";
+import { toast } from "react-toastify";
 import InputText from "../../../atoms/forms/inputText/InputText";
 import Radio from "../../../atoms/forms/radio/Radio";
 import Button from "../../../atoms/button/Button";
-import {LOG_USER_IN, IS_LOGGED_IN} from "../../../clientQueries";
-import {EMAIL_SIGN_UP, GET_USER_INFO} from "../../../queries";
+import { LOG_USER_IN, IS_LOGGED_IN } from "../../../clientQueries";
+import { EMAIL_SIGN_UP, GET_USER_INFO } from "../../../queries";
 import "./SignUp.scss";
 import utils from "../../../utils/utils";
-import {useInput, useRadio, LANG} from "../../../hooks/hook";
+import { useInput, useRadio, LANG } from "../../../hooks/hook";
 import privacyPolicy from "../../../docs/privacyPolicy";
-import {IContext} from "../../MiddleServerRouter";
+import { IContext } from "../../MiddleServerRouter";
 
 interface Iprops {
   context: IContext;
 }
 
-const SignUp: React.FC<Iprops> = ({context}) => {
-  const {history} = context;
+const SignUp: React.FC<Iprops> = ({ context }) => {
+  const { history } = context;
   const nameHook = useInput("");
   const emailHook = useInput("");
   const phoneNumberHook = useInput("");
@@ -32,7 +32,7 @@ const SignUp: React.FC<Iprops> = ({context}) => {
         {/* 인증모달 */}
         <Mutation
           mutation={LOG_USER_IN}
-          refetchQueries={[{query: IS_LOGGED_IN}, {query: GET_USER_INFO}]}
+          refetchQueries={[{ query: IS_LOGGED_IN }, { query: GET_USER_INFO }]}
           onCompleted={() => {
             history.replace(`/`);
           }}
@@ -46,11 +46,11 @@ const SignUp: React.FC<Iprops> = ({context}) => {
                 phoneNumber: phoneNumberHook.value,
                 password: passwordHook.value
               }}
-              onCompleted={({EmailSignUp: {ok, error, token}}: any) => {
+              onCompleted={({ EmailSignUp: { ok, error, token } }: any) => {
                 // 자동로그인
                 if (ok) {
                   if (token) {
-                    toast.success("회원가입완료");
+                    toast.success(LANG("signup_complted"));
                     logUserIn({
                       variables: {
                         token: token
@@ -68,38 +68,38 @@ const SignUp: React.FC<Iprops> = ({context}) => {
                 const signUpSubmit = (e: any) => {
                   e.preventDefault();
                   if (!nameHook.isValid) {
-                    toast.warn("올바른 이름이 아닙니다.");
+                    toast.warn(LANG("name_is_not_valid"));
                     return false;
                   }
                   if (!emailHook.isValid) {
-                    toast.warn("올바른 이메일이 아닙니다.");
+                    toast.warn(LANG("not_a_valid_email"))
                     return false;
                   }
                   if (!phoneNumberHook.isValid) {
-                    toast.warn("올바른 휴대폰 번호가 아닙니다.");
+                    toast.warn(LANG("not_a_valid_phoneNumber"));
                     return false;
                   }
                   if (!passwordHook.isValid) {
-                    toast.warn("올바른 패스워드가 아닙니다.");
+                    toast.warn(LANG("not_a_valid_password"));
                     return false;
                   }
                   if (passwordHook.value !== checkPasswordHook.value) {
-                    toast.warn("패스워드 확인이 일치하지 않습니다.");
+                    toast.warn(LANG("not_a_valid_password"));
                     return false;
                   }
                   if (passwordHook.value !== checkPasswordHook.value) {
-                    toast.warn("패스워드 확인이 일치하지 않습니다.");
+                    toast.warn(LANG("password_is_not_matched"));
                     return false;
                   }
                   if (infoAgreement === "N") {
-                    toast.warn("정보제공 동의를 해주세요.");
+                    toast.warn(LANG("please_aree_to_info_offer"));
                     return false;
                   }
                   mutation();
                 };
                 return (
                   <form onSubmit={signUpSubmit}>
-                    <h3>회원가입</h3>
+                    <h3>{LANG("signUp")}</h3>
                     <div className="flex-grid docs-section__box">
                       <div className="flex-grid__col col--full-12 col--md-12">
                         <InputText
@@ -117,13 +117,13 @@ const SignUp: React.FC<Iprops> = ({context}) => {
                         />
                       </div>
                       <p className="JDsmall-text">
-                        * 특수문자 1개이상, 7~15자리 영문 숫자 조합
+                        {LANG("password_condition")}
                       </p>
                       <div className="flex-grid__col col--full-12 col--md-12">
                         <InputText
                           {...checkPasswordHook}
                           type="password"
-                          label="비밀번호 확인"
+                          label={LANG("check_password")}
                         />
                       </div>
                       <div className="flex-grid__col col--full-12 col--md-12">
@@ -131,21 +131,21 @@ const SignUp: React.FC<Iprops> = ({context}) => {
                           {...phoneNumberHook}
                           hyphen
                           validation={utils.isPhone}
-                          label="전화번호"
+                          label={LANG("phoneNumber")}
                         />
                       </div>
                       <div className="flex-grid__col col--full-12 col--md-12">
                         <InputText
                           {...emailHook}
                           validation={utils.isEmail}
-                          label="이메일"
+                          label={LANG("eamil")}
                         />
                       </div>
                       <div className="flex-grid__col col--full-12 col--md-12">
                         <InputText
                           className="signUp__privacyPolicy"
                           value={privacyPolicy}
-                          label="개인정보 이용동의"
+                          label={LANG("agree_to_privacy_policy")}
                           readOnly
                           scroll
                           textarea
@@ -157,7 +157,7 @@ const SignUp: React.FC<Iprops> = ({context}) => {
                           value="Y"
                           selectedValue={infoAgreement}
                           onChange={setInfoAgreement}
-                          label="동의"
+                          label={LANG("agree")}
                           checked
                           id="RD1--1"
                           groupName="Agree"
@@ -166,14 +166,14 @@ const SignUp: React.FC<Iprops> = ({context}) => {
                           value="N"
                           selectedValue={infoAgreement}
                           onChange={setInfoAgreement}
-                          label="동의안함"
+                          label={LANG("not_agree")}
                           id="RD1--2"
                           groupName="Agree"
                         />
                       </div>
                     </div>
                     <div>
-                      <Button thema="primary" type="submit" label="가입완료" />
+                      <Button thema="primary" type="submit" label={LANG("singUp_submit")} />
                     </div>
                   </form>
                 );
