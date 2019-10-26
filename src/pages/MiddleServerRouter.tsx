@@ -8,7 +8,7 @@ import Header from "../components/headers/HeaderWrap";
 import NoMatch from "./noMatch/NoMatch";
 import {IS_LOGGED_IN, SELECTED_HOUSE} from "../clientQueries";
 import {GET_USER_INFO} from "../queries";
-import {isEmpty} from "../utils/utils";
+import {isEmpty, s4} from "../utils/utils";
 import Preloader from "../atoms/preloader/Preloader";
 import "./MiddleServerRouter.scss";
 import classnames from "classnames";
@@ -48,6 +48,8 @@ import {useModal, useToggle, useSideNav, useLang} from "../hooks/hook";
 import MemoAlertModal from "../components/Memo/component/MemoAlertModal";
 import JDoutdatedBrowserRework from "../utils/oldBrowser";
 import SideNav from "../components/sideNav/SideNav";
+import Expired from "./middleServer/expire/Expired";
+import StarterModalWrap from "./middleServer/starterModal/StarterModalWrap";
 
 export interface IContext extends RouteComponentProps<any> {
   user: getMyProfile_GetMyProfile_user;
@@ -194,19 +196,29 @@ const JDmiddleServer: React.FC<IProps> = ({
                 return isLogIn ? (
                   <Fragment>
                     <Switch>
-                      {["/", "/dashboard"].map(path => {
-                        return (
+                      {/* 여기부터는 생성된 하우스가 있어야 접근가능 */}
+                      {currentHouse && currentHouse.completeDefaultSetting ? (
+                        <Switch>
+                          {/* 만료기간이 지났다면*/}
+                          {applyedProduct!.daysLeftToExpire < 1 && (
+                            <Route component={Expired} />
+                          )}
+                          {/* 대쉬보드 */}
                           <Route
                             exact
-                            key={path}
-                            path={path}
-                            render={() => <DashBoard context={propContext} />}
+                            path="/dashboard"
+                            render={prop => {
+                              return <DashBoard context={propContext} />;
+                            }}
                           />
-                        );
-                      })}
-                      {/* 여기부터는 생성된 하우스가 있어야함 */}
-                      {currentHouse && (
-                        <Fragment>
+                          {/* 상품선택 */}
+                          <Route
+                            exact
+                            path="/products"
+                            render={prop => {
+                              return <SelectProducts context={propContext} />;
+                            }}
+                          />
                           {/* 마이 페이지 */}
                           <Route
                             exact
@@ -231,14 +243,6 @@ const JDmiddleServer: React.FC<IProps> = ({
                             path="/config"
                             render={props => {
                               return <ConfigWrap context={propContext} />;
-                            }}
-                          />
-                          {/* 상품선택 */}
-                          <Route
-                            exact
-                            path="/products"
-                            render={prop => {
-                              return <SelectProducts context={propContext} />;
                             }}
                           />
                           {/* SMS 히스토리 */}
@@ -272,18 +276,10 @@ const JDmiddleServer: React.FC<IProps> = ({
                           />
                           {/* 고객문의 */}
                           <Route exact path="/qna" component={Qna} />
-                          {/* 여기이후로 상품이 있어야 나타날수있게 바뀜 */}
-                          {/* 대기 */}
-                          {isEmpty(applyedProduct) ? (
+                          {/* 여기이후로 상품이 있어야 접근가능 */}
+                          {/* 적용된 상품이 없다면 */}
+                          {isEmpty(applyedProduct) && (
                             <Route component={NoMatch} />
-                          ) : (
-                            <Route
-                              exact
-                              path="/ready"
-                              render={() => {
-                                return <Ready context={propContext} />;
-                              }}
-                            />
                           )}
                           {/* /* ------------------------------ JANDA BOOKING ----------------------------- */}{" "}
                           {/* 방배정 */}
@@ -352,7 +348,14 @@ const JDmiddleServer: React.FC<IProps> = ({
                               return <ResvList context={propContext} />;
                             }}
                           />
-                        </Fragment>
+                        </Switch>
+                      ) : (
+                        <div className="middleServer__starterBg">
+                          <StarterModalWrap
+                            key={s4()}
+                            context={propContext as any}
+                          />
+                        </div>
                       )}
                       <Route component={NoMatch} />
                     </Switch>

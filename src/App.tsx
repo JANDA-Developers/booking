@@ -32,6 +32,18 @@ import {
 import {isArray} from "util";
 
 const globalLanguageSetting = () => {
+  const setArrayWithLang = (set: Array<any>, enumKey?: string) => {
+    if (!enumKey) {
+      set.forEach((setIn: any) => {
+        setIn.label = LANG(setIn.value);
+      });
+    } else {
+      set.forEach((setIn: any) => {
+        setIn.label = LANG(enumKey)[setIn.value];
+      });
+    }
+  };
+
   const settings = [
     BOOKING_STATUS_OP,
     KR_SMS_PARSER,
@@ -42,23 +54,25 @@ const globalLanguageSetting = () => {
     PAYMETHOD_FOR_BOOKER_OP,
     PAYMETHOD_FOR_HOST_OP,
     GET_SMS_TARGET_OP,
-    ROOM_GENDER_OP,
     PRICING_TYPE_OP,
+    {value: ROOM_GENDER_OP, enumKey: "RoomGender"},
     PRICING_TYPE_OP_EXPEND,
     GENDER_OP,
     AUTO_SEND_OP
   ];
-  settings.forEach(set => {
+  settings.forEach((set: any) => {
     if (!isArray(set)) {
+      // lang객체에 네임스페이스가 있는 OP 들일경우
+      if (set.hasOwnProperty("enumKey")) {
+        setArrayWithLang(set.value, set.enumKey);
+      }
+      // 네임스페이스가 없는 일반 객체일 경우
       for (const key in set) {
-        console.log("aaaakey");
         // @ts-ignore
         set[key] = LANG(key);
       }
     } else {
-      set.forEach((setIn: any) => {
-        setIn.label = LANG(setIn.value);
-      });
+      setArrayWithLang(set);
     }
   });
 };

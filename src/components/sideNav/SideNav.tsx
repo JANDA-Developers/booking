@@ -1,21 +1,21 @@
-import React, { Fragment } from "react";
-import { NavLink, Link } from "react-router-dom";
+import React, {Fragment} from "react";
+import {NavLink, Link} from "react-router-dom";
 import "./SideNav.scss";
 import classNames from "classnames";
 import ErrProtecter from "../../utils/errProtect";
-import Icon, { IIcons, IconSize } from "../../atoms/icons/Icons";
+import Icon, {IIcons, IconSize} from "../../atoms/icons/Icons";
 import Button from "../../atoms/button/Button";
-import JDmenu, { JDmenuItem, JDsubMenu } from "../../atoms/menu/Menu";
+import JDmenu, {JDmenuItem, JDsubMenu} from "../../atoms/menu/Menu";
 import ProfileCircle from "../../atoms/profileCircle/ProfileCircle";
 import SelectHouseWrap from "../selectHouse/SelectHouseWrap";
-import { s4, instanceOfA } from "../../utils/utils";
-import { IContext } from "../../pages/MiddleServerRouter";
-import { HouseStatus } from "../../types/enum";
-import { inOr } from "../../utils/C";
+import {s4, instanceOfA} from "../../utils/utils";
+import {IContext} from "../../pages/MiddleServerRouter";
+import {HouseStatus} from "../../types/enum";
+import {inOr} from "../../utils/C";
 import Help from "../../atoms/Help/Help";
 import JDlist from "../../atoms/list/List";
-import { to4YMMDD } from "../../utils/setMidNight";
-import { LANG } from "../../hooks/hook";
+import {to4YMMDD} from "../../utils/setMidNight";
+import {LANG} from "../../hooks/hook";
 
 interface IProps {
   isOpen: boolean;
@@ -38,8 +38,8 @@ interface IMenusGroup {
   contents: IMenusItem[];
 }
 
-const SideNav: React.FC<IProps> = ({ isOpen, setIsOpen, context }) => {
-  const { applyedProduct, house, user } = context;
+const SideNav: React.FC<IProps> = ({isOpen, setIsOpen, context}) => {
+  const {applyedProduct, house, user} = context;
 
   const classes = classNames({
     JDsideNav: true,
@@ -140,7 +140,7 @@ const SideNav: React.FC<IProps> = ({ isOpen, setIsOpen, context }) => {
         }}
         className={`JDsideNav__navLink ${
           menu.disabled ? "JDsideNav__navLink--disabled" : ""
-          }`}
+        }`}
       >
         <Icon icon={menu.icon} />
         <span className="JDsideNav__title">{menu.label}</span>
@@ -182,8 +182,8 @@ const SideNav: React.FC<IProps> = ({ isOpen, setIsOpen, context }) => {
                     </JDmenuItem>
                   </JDsubMenu>
                 ) : (
-                    <JDmenuItem key={s4()}>{renderLink(menu)}</JDmenuItem>
-                  )
+                  <JDmenuItem key={s4()}>{renderLink(menu)}</JDmenuItem>
+                )
               )}
             </JDmenu>
           </div>
@@ -201,8 +201,11 @@ const SideNav: React.FC<IProps> = ({ isOpen, setIsOpen, context }) => {
                       <JDlist
                         className="JDmargin-bottom0"
                         contents={[
-                          `${LANG("expiry_date")}: ${to4YMMDD(applyedProduct.expireDate)}`,
-                          `${LANG("price")}: ${applyedProduct.price || 0} /LANG("month")`
+                          `${LANG("expiry_date")}: ${to4YMMDD(
+                            applyedProduct.expireDate
+                          )}`,
+                          `${LANG("price")}: ${applyedProduct.price ||
+                            0} /LANG("month")`
                         ]}
                       />
                     }
@@ -212,13 +215,15 @@ const SideNav: React.FC<IProps> = ({ isOpen, setIsOpen, context }) => {
               <div className="JDsideNav__billing-detail">
                 <span>
                   {applyedProduct &&
-                    `${applyedProduct.daysLeftToExpire}${LANG("date")} ${LANG("available")}`}
+                    `${applyedProduct.daysLeftToExpire}${LANG("date")} ${LANG(
+                      "available"
+                    )}`}
                 </span>
               </div>
             </div>
             <div className="JDsideNav__upgradeBtn">
               <NavLink to="/products">
-                <Button label={LANG("non_members")} mode="border" />
+                <Button label={LANG("choose_product")} mode="border" />
               </NavLink>
             </div>
           </div>
@@ -229,7 +234,7 @@ const SideNav: React.FC<IProps> = ({ isOpen, setIsOpen, context }) => {
           onClick={handleCurtainClick}
           className={`JDsideNav-curtain ${
             isOpen ? "JDsideNav-curtain--open" : ""
-            }`}
+          }`}
         />
       </div>
     </Fragment>

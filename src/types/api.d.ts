@@ -4054,6 +4054,29 @@ export interface getNotisVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: singleUpload
+// ====================================================
+
+export interface singleUpload_SingleUpload {
+  __typename: "SingleUploadResponse";
+  ok: boolean;
+  error: string | null;
+  fileURL: any | null;
+}
+
+export interface singleUpload {
+  SingleUpload: singleUpload_SingleUpload;
+}
+
+export interface singleUploadVariables {
+  file: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: confirmNoti
 // ====================================================
 

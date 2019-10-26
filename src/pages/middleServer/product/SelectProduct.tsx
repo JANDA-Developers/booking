@@ -1,15 +1,15 @@
 /* eslint-disable no-underscore-dangle */
-import React, { useEffect, Fragment, useState } from "react";
+import React, {useEffect, Fragment, useState} from "react";
 import Product from "./components/Product";
 import Button from "../../../atoms/button/Button";
 import Preloader from "../../../atoms/preloader/Preloader";
 import Modal from "../../../atoms/modal/Modal";
 import Slider from "../../../atoms/slider/Slider";
-import { isEmpty } from "../../../utils/utils";
-import Tooltip, { ReactTooltip } from "../../../atoms/tooltip/Tooltip";
-import { RefundPolicyNode } from "../../../docs/refundPolicy";
-import { IHouse, IProductTypeDesc } from "../../../types/interface";
-import { useModal, LANG } from "../../../hooks/hook";
+import {isEmpty} from "../../../utils/utils";
+import Tooltip, {ReactTooltip} from "../../../atoms/tooltip/Tooltip";
+import {RefundPolicyNode} from "../../../docs/refundPolicy";
+import {IHouse, IProductTypeDesc} from "../../../types/interface";
+import {useModal, LANG} from "../../../hooks/hook";
 import "./SelectProduct.scss";
 import {
   refundProduct,
@@ -18,12 +18,12 @@ import {
   buyProductVariables,
   getMyProfile_GetMyProfile_user_houses_product
 } from "../../../types/api";
-import { MutationFn } from "react-apollo";
+import {MutationFn} from "react-apollo";
 import ApplyProductModal, {
   applyProductModalInfo
 } from "./components/applyProductModal";
 import JDlist from "../../../atoms/list/List";
-import { inOr, Check } from "../../../utils/C";
+import {inOr, Check} from "../../../utils/C";
 
 interface IProps {
   productTypes: IProductTypeDesc[];
@@ -106,15 +106,18 @@ const SelectProducts: React.FC<IProps> = ({
                 {LANG("no_house_currently_created")}
               </span>
             ) : (
-                <JDlist
-                  contents={[
-                    LANG("F_selected_product_apply_to_house"),
-                    <span className="JDtextColor--error">
-                      {LANG("if_you_choose_wrong_size_product_to_house_service_can_be_stop")}
-                    </span>
-                  ]}
-                />
-              )}
+              <JDlist
+                contents={[
+                  LANG("F_selected_product_apply_to_house"),
+                  <span className="JDtextColor--error">
+                    *{" "}
+                    {LANG(
+                      "if_you_choose_wrong_size_product_to_house_service_can_be_stop"
+                    )}
+                  </span>
+                ]}
+              />
+            )}
           </p>
           {/* 서비스해지 버튼 */}
           {Check(currentProduct, "_id") && (

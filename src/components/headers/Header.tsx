@@ -49,7 +49,7 @@ const Header: React.FC<IProps> = ({
     <div className="header">
       {/* 로고 */}
       <div className="header__left">
-        <NavLink to="/">
+        <NavLink to="/dashboard">
           <span className="header__logoPlace JDdisplay-none--wmd">
             <img className="header__logo" src={logo} alt="" />
           </span>

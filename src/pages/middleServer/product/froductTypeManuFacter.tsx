@@ -1,11 +1,11 @@
 import React from "react";
-import { IProductTypeDesc } from "../../../types/interface";
-import { getAllProductTypes_GetAllProductTypes_productTypes } from "../../../types/api";
-import { ProductTypeKey } from "../../../types/enum";
-import { autoComma } from "../../../utils/utils";
-import { IIcons } from "../../../atoms/icons/Icons";
+import {IProductTypeDesc} from "../../../types/interface";
+import {getAllProductTypes_GetAllProductTypes_productTypes} from "../../../types/api";
+import {ProductTypeKey} from "../../../types/enum";
+import {autoComma} from "../../../utils/utils";
+import {IIcons} from "../../../atoms/icons/Icons";
 import JDlist from "../../../atoms/list/List";
-import { LANG } from "../../../hooks/hook";
+import {LANG} from "../../../hooks/hook";
 
 const froductTypeManuFacter = (
   productTypes: getAllProductTypes_GetAllProductTypes_productTypes[]
@@ -37,7 +37,7 @@ const froductTypeManuFacter = (
           <JDlist
             linePoint="·"
             contents={[
-              LANG("product1_detail"),
+              LANG("product1_detail1"),
               LANG("product1_detail2"),
               LANG("product1_detail3"),
               LANG("product1_detail4"),
@@ -65,8 +65,8 @@ const froductTypeManuFacter = (
           <JDlist
             linePoint="·"
             contents={[
-              LANG("product2_detail"),
-              LANG("product2_detail2")(productType.roomCount),
+              LANG("product2_detail1"),
+              LANG("F_product2_detail2")(productType.roomCount),
               LANG("product2_detail3"),
               LANG("product2_detail4")
             ]}
@@ -92,8 +92,8 @@ const froductTypeManuFacter = (
           <JDlist
             linePoint="·"
             contents={[
-              LANG("product3_detail"),
-              LANG("product3_detail2")(productType.roomCount),
+              LANG("product3_detail1"),
+              LANG("F_product3_detail2")(productType.roomCount),
               LANG("product3_detail3"),
               LANG("product3_detail4"),
               LANG("product3_detail5")

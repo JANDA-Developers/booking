@@ -64,7 +64,7 @@ const Login: React.FC<Iprops> = ({context}) => {
                         });
                         localStorage.setItem("lastLogin", emailHook.value);
                         toast.success(LANG("login_complete"));
-                        history.replace("/");
+                        history.replace("/dashboard");
                       }
                     }
                     if (error) {

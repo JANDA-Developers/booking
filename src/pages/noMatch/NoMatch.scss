@@ -3,11 +3,7 @@
 #NoMatch {
     text-align: center;
     .NoMatch__heart {
-        padding: 3rem 4.5rem;
-        margin-top: 3.5rem;
-        border-radius: 40%/45%;
-        display: inline-block;
-        background-color: $grey-level1;
+        @extend %JDhugeIcon
     }
     .NoMatch__text {
         @include response($tablet) {

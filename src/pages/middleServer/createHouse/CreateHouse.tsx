@@ -1,27 +1,33 @@
-import { toast } from "react-toastify";
+import {toast} from "react-toastify";
 /* eslint-disable max-len */
-import React, { useState, useEffect, useRef } from "react";
-import { Mutation } from "react-apollo";
-import { GoogleApiWrapper, ProvidedProps } from "google-maps-react";
-import { withRouter, RouteComponentProps } from "react-router-dom";
-import { reverseGeoCode, geoCode } from "./mapHelper";
-import { useInput, useSelect, useFetch, useDebounce, LANG } from "../../../hooks/hook";
-import { SELECT_HOUSE } from "../../../clientQueries";
-import { CREATE_HOUSE, GET_USER_INFO } from "../../../queries";
-import { ADDRESS_API_KEY } from "../../../keys";
-import utils, { ErrProtecter, showError } from "../../../utils/utils";
+import React, {useState, useEffect, useRef} from "react";
+import {Mutation} from "react-apollo";
+import {GoogleApiWrapper, ProvidedProps} from "google-maps-react";
+import {withRouter, RouteComponentProps} from "react-router-dom";
+import {reverseGeoCode, geoCode} from "./mapHelper";
+import {
+  useInput,
+  useSelect,
+  useFetch,
+  useDebounce,
+  LANG
+} from "../../../hooks/hook";
+import {SELECT_HOUSE} from "../../../clientQueries";
+import {CREATE_HOUSE, GET_USER_INFO} from "../../../queries";
+import {ADDRESS_API_KEY} from "../../../keys";
+import utils, {ErrProtecter, showError} from "../../../utils/utils";
 import GoogleMap from "./components/googleMap";
 import InputText from "../../../atoms/forms/inputText/InputText";
 import SelectBox from "../../../atoms/forms/selectBox/SelectBox";
 import Button from "../../../atoms/button/Button";
 import SearchInput from "../../../atoms/searchInput/SearchInput";
 import "./CreateHouse.scss";
-import { show } from "react-tooltip";
-import { createHouse, createHouseVariables } from "../../../types/api";
+import {show} from "react-tooltip";
+import {createHouse, createHouseVariables} from "../../../types/api";
 import Preloader from "../../../atoms/preloader/Preloader";
-import { getOperationName } from "apollo-link";
-import { FLOATING_PRElOADER_SIZE } from "../../../types/enum";
-import { IContext } from "../../MiddleServerRouter";
+import {getOperationName} from "apollo-link";
+import {FLOATING_PRElOADER_SIZE} from "../../../types/enum";
+import {IContext} from "../../MiddleServerRouter";
 
 let map: google.maps.Map | null = null;
 
@@ -29,17 +35,17 @@ interface IProps extends ProvidedProps {
   context: IContext;
 }
 
-class SelectHouseMu extends Mutation<any, any> { }
+class SelectHouseMu extends Mutation<any, any> {}
 
-class CreateHouseMu extends Mutation<createHouse, createHouseVariables> { }
+class CreateHouseMu extends Mutation<createHouse, createHouseVariables> {}
 
 // eslint-disable-next-line react/prop-types
-const CreateHouse: React.FC<IProps> = ({ context, google }) => {
-  const { history } = context;
+const CreateHouse: React.FC<IProps> = ({context, google}) => {
+  const {history} = context;
   const houseNameHoook = useInput("");
   const deatailaddressHook = useInput("");
   const typeSelectHook = useSelect(null);
-  const [location, setLocation] = useState({ address: "", lat: 0, lng: 0 });
+  const [location, setLocation] = useState({address: "", lat: 0, lng: 0});
   const debouncedAdress = useDebounce(location.address, 500);
   const addressGeturl = `http://www.juso.go.kr/addrlink/addrLinkApi.do?currentPage=1&resultType=json&countPerPage=100&keyword=${debouncedAdress}&confmKey=${ADDRESS_API_KEY}`;
   const [adressData, adressLoading, getAdressError, adressGet] = useFetch(
@@ -80,12 +86,12 @@ const CreateHouse: React.FC<IProps> = ({ context, google }) => {
 
   // 선택가능한 숙소타입 목록
   const selectTypeHouse = [
-    { value: "GUEST_HOUSE", label: LANG("guestHouse") },
-    { value: "HOTEL", label: LANG("hotel") },
-    { value: "MOTEL", label: LANG("motel") },
-    { value: "PENSION", label: LANG("pension") },
-    { value: "HOSTEL", label: LANG("hostel") },
-    { value: "YOUTH_HOSTEL", label: LANG("youth_hostel") }
+    {value: "GUEST_HOUSE", label: LANG("guestHouse")},
+    {value: "HOTEL", label: LANG("hotel")},
+    {value: "MOTEL", label: LANG("motel")},
+    {value: "PENSION", label: LANG("pension")},
+    {value: "HOSTEL", label: LANG("hostel")},
+    {value: "YOUTH_HOSTEL", label: LANG("youth_hostel")}
   ];
 
   // 지도 드래그가 끝날때 좌표값을 받아서 저장함
@@ -96,12 +102,12 @@ const CreateHouse: React.FC<IProps> = ({ context, google }) => {
     const lng = newCenter.lng();
     const reversedAddress = await reverseGeoCode(lat, lng);
     if (reversedAddress !== false)
-      setLocation({ address: reversedAddress, lat, lng });
+      setLocation({address: reversedAddress, lat, lng});
   };
 
   // Map Config 그리고 생성
   const loadMap = (lat: number, lng: number) => {
-    const { maps } = google;
+    const {maps} = google;
     const mapNode = mapRef.current;
     const mapConfig = {
       center: {
@@ -120,7 +126,7 @@ const CreateHouse: React.FC<IProps> = ({ context, google }) => {
   // 구글맵 네비 현재위치 조회 성공시
   const handleGeoSucces = (positon: Position) => {
     const {
-      coords: { latitude, longitude }
+      coords: {latitude, longitude}
     } = positon;
     loadMap(latitude, longitude);
   };
@@ -131,13 +137,13 @@ const CreateHouse: React.FC<IProps> = ({ context, google }) => {
     const result = await geoCode(value);
     if (!map || !value) return;
     if (result !== false) {
-      const { lat, lng } = result;
+      const {lat, lng} = result;
       setLocation({
         address: value,
         lat,
         lng
       });
-      map.panTo({ lat, lng });
+      map.panTo({lat, lng});
     }
   };
 
@@ -170,10 +176,10 @@ const CreateHouse: React.FC<IProps> = ({ context, google }) => {
       async location => {
         handleGeoSucces(location);
         const {
-          coords: { latitude: lat, longitude: lng }
+          coords: {latitude: lat, longitude: lng}
         } = location;
         if (map) {
-          map.panTo({ lat, lng });
+          map.panTo({lat, lng});
         }
         const address = await reverseGeoCode(lat, lng);
         setLocation({
@@ -197,7 +203,7 @@ const CreateHouse: React.FC<IProps> = ({ context, google }) => {
           refetchQueries={[getOperationName(GET_USER_INFO)!]}
           awaitRefetchQueries
           onCompleted={() => {
-            history.push("/");
+            history.push("/dashboard");
           }}
         >
           {selectHouseMutation => (
@@ -216,20 +222,20 @@ const CreateHouse: React.FC<IProps> = ({ context, google }) => {
                   lng: location.lng
                 }
               }}
-              refetchQueries={[{ query: GET_USER_INFO }]}
+              refetchQueries={[{query: GET_USER_INFO}]}
               awaitRefetchQueries
-              onCompleted={({ CreateHouse }) => {
+              onCompleted={({CreateHouse}) => {
                 if (CreateHouse.ok && CreateHouse.house) {
                   toast.success(LANG("create_house_completed"));
                   const variables = {
                     value: CreateHouse.house._id,
                     label: CreateHouse.house.name
                   };
-                  selectHouseMutation({ variables: { selectedHouse: variables } });
+                  selectHouseMutation({variables: {selectedHouse: variables}});
                 }
               }}
             >
-              {(createHouseMutation, { loading }) => {
+              {(createHouseMutation, {loading}) => {
                 const createHouseSubmit = (
                   e: React.FormEvent<HTMLFormElement>
                 ) => {
@@ -315,7 +321,7 @@ export default ErrProtecter(
   GoogleApiWrapper({
     apiKey: "AIzaSyCLG8qPORYv6HJIDSgXpLqYDDzIKgSs6FY",
     LoadingContainer: () => (
-      <div style={{ height: "85vh" }}>
+      <div style={{height: "85vh"}}>
         <Preloader floating size={FLOATING_PRElOADER_SIZE} loading={true} />
       </div>
     )

@@ -91,7 +91,15 @@
     }
 }
 
-// 스크롤바 스크롤 scroll scrollbar Scrollbar
+// NoMatch 아이콘 사이즈
+%JDhugeIcon {
+    padding: 3rem 4.5rem;
+    margin-top: 3.5rem;
+    border-radius: 40%/45%;
+    display: inline-block;
+    background-color: $grey-level1;   
+}
+
 %JDscrollbar {
     padding-right: 4px;
 

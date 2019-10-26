@@ -1,24 +1,24 @@
 /* eslint-disable  */
-import React, { useState } from "react";
-import { Mutation } from "react-apollo";
-import { toast } from "react-toastify";
+import React, {useState} from "react";
+import {Mutation} from "react-apollo";
+import {toast} from "react-toastify";
 import InputText from "../../../atoms/forms/inputText/InputText";
 import Radio from "../../../atoms/forms/radio/Radio";
 import Button from "../../../atoms/button/Button";
-import { LOG_USER_IN, IS_LOGGED_IN } from "../../../clientQueries";
-import { EMAIL_SIGN_UP, GET_USER_INFO } from "../../../queries";
+import {LOG_USER_IN, IS_LOGGED_IN} from "../../../clientQueries";
+import {EMAIL_SIGN_UP, GET_USER_INFO} from "../../../queries";
 import "./SignUp.scss";
 import utils from "../../../utils/utils";
-import { useInput, useRadio, LANG } from "../../../hooks/hook";
+import {useInput, useRadio, LANG} from "../../../hooks/hook";
 import privacyPolicy from "../../../docs/privacyPolicy";
-import { IContext } from "../../MiddleServerRouter";
+import {IContext} from "../../MiddleServerRouter";
 
 interface Iprops {
   context: IContext;
 }
 
-const SignUp: React.FC<Iprops> = ({ context }) => {
-  const { history } = context;
+const SignUp: React.FC<Iprops> = ({context}) => {
+  const {history} = context;
   const nameHook = useInput("");
   const emailHook = useInput("");
   const phoneNumberHook = useInput("");
@@ -32,9 +32,9 @@ const SignUp: React.FC<Iprops> = ({ context }) => {
         {/* 인증모달 */}
         <Mutation
           mutation={LOG_USER_IN}
-          refetchQueries={[{ query: IS_LOGGED_IN }, { query: GET_USER_INFO }]}
+          refetchQueries={[{query: IS_LOGGED_IN}, {query: GET_USER_INFO}]}
           onCompleted={() => {
-            history.replace(`/`);
+            history.replace(`/dashboard`);
           }}
         >
           {(logUserIn: any) => (
@@ -46,7 +46,7 @@ const SignUp: React.FC<Iprops> = ({ context }) => {
                 phoneNumber: phoneNumberHook.value,
                 password: passwordHook.value
               }}
-              onCompleted={({ EmailSignUp: { ok, error, token } }: any) => {
+              onCompleted={({EmailSignUp: {ok, error, token}}: any) => {
                 // 자동로그인
                 if (ok) {
                   if (token) {
@@ -72,7 +72,7 @@ const SignUp: React.FC<Iprops> = ({ context }) => {
                     return false;
                   }
                   if (!emailHook.isValid) {
-                    toast.warn(LANG("not_a_valid_email"))
+                    toast.warn(LANG("not_a_valid_email"));
                     return false;
                   }
                   if (!phoneNumberHook.isValid) {
@@ -173,7 +173,11 @@ const SignUp: React.FC<Iprops> = ({ context }) => {
                       </div>
                     </div>
                     <div>
-                      <Button thema="primary" type="submit" label={LANG("singUp_submit")} />
+                      <Button
+                        thema="primary"
+                        type="submit"
+                        label={LANG("singUp_submit")}
+                      />
                     </div>
                   </form>
                 );

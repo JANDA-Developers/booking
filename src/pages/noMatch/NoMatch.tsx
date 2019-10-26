@@ -21,7 +21,7 @@ const NoMatch: React.FC<Iprops> = ({context}) => (
             <span className="NoMatch__heart404">{" 404 "}</span>
           </b>
         </h1>
-        <NavLink to="/">
+        <NavLink to="/dashboard">
           <Button
             size="large"
             mode="border"

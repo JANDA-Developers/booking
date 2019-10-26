@@ -1,6 +1,13 @@
 @import '../style_config/style_config.scss';
 
 .middleServer {
+    &__starterBg {
+        background-image: url("https://res.cloudinary.com/stayjanda-com/image/upload/v1554029494/annananananan.jpg");
+        background-size: cover;
+        background-position: center center;
+        height: 100%;
+    }
+
     &__layout {
         display: flex;
     }
@@ -10,6 +17,10 @@
         max-width: 100%;
     }
 
+    &__side {
+        position: relative;
+        z-index: $z-index-7;
+    }
     &--sideOpen {
         .middleServer__page {
             max-width: calc(100% - #{$sideNav-width});

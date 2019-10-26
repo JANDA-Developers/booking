@@ -279,26 +279,6 @@
             "deprecationReason": null
           },
           {
-            "name": "uploads",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "File",
-                  "ofType": null
-                }
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "TestFunction",
             "description": "",
             "args": [
@@ -407,6 +387,22 @@
               "ofType": {
                 "kind": "OBJECT",
                 "name": "GetErrorInfoResponse",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "uploads",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "File",
                 "ofType": null
               }
             },
@@ -644,7 +640,7 @@
             "args": [
               {
                 "name": "page",
-                "description": "",
+                "description": "오프셋...",
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
@@ -658,7 +654,7 @@
               },
               {
                 "name": "count",
-                "description": "",
+                "description": "출력 개수",
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
@@ -6571,65 +6567,6 @@
       },
       {
         "kind": "OBJECT",
-        "name": "File",
-        "description": "",
-        "fields": [
-          {
-            "name": "filename",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "mimetype",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "encoding",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "OBJECT",
         "name": "NiceTestResponse",
         "description": "",
         "fields": [
@@ -6969,6 +6906,65 @@
               "kind": "SCALAR",
               "name": "DateTime",
               "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "File",
+        "description": "",
+        "fields": [
+          {
+            "name": "filename",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "mimetype",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "encoding",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -10929,7 +10925,7 @@
               },
               {
                 "name": "paymentResultData",
-                "description": "",
+                "description": "결제창에서 나온 파라미터 그대로 보내면됨...",
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
@@ -12492,7 +12488,7 @@
               },
               {
                 "name": "dayOfWeekPriceList",
-                "description": "",
+                "description": "이제는 이걸로 씁시다.",
                 "type": {
                   "kind": "LIST",
                   "name": null,
@@ -13337,7 +13333,7 @@
             "args": [
               {
                 "name": "productTypeId",
-                "description": "",
+                "description": "제품 타입 ID",
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
@@ -13351,7 +13347,7 @@
               },
               {
                 "name": "name",
-                "description": "",
+                "description": "제품 타입 이름",
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
@@ -13365,7 +13361,7 @@
               },
               {
                 "name": "price",
-                "description": "",
+                "description": "제품 가격(월)",
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
@@ -13379,7 +13375,7 @@
               },
               {
                 "name": "roomCount",
-                "description": "",
+                "description": "만들 수 있는 최대 방 / 배드 수 => -1 일때 무제한",
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
@@ -13393,7 +13389,7 @@
               },
               {
                 "name": "roomCountExtraCharge",
-                "description": "",
+                "description": "방 수 추가시 추가 가격  => default: 0",
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
@@ -13407,7 +13403,7 @@
               },
               {
                 "name": "bookingCount",
-                "description": "",
+                "description": "한달간 받을 수 있는 최대 예약 수 => -1 일 떄 무제한",
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
@@ -13421,7 +13417,7 @@
               },
               {
                 "name": "bookingCountExtraCharge",
-                "description": "",
+                "description": "예약 초과시 부과되는 금액 => defualt: 0",
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
@@ -13435,7 +13431,7 @@
               },
               {
                 "name": "description",
-                "description": "",
+                "description": "상세 설명",
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -16430,7 +16426,7 @@
       {
         "kind": "SCALAR",
         "name": "Upload",
-        "description": "",
+        "description": "The `Upload` scalar type represents a file upload.",
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -16471,12 +16467,12 @@
             "deprecationReason": null
           },
           {
-            "name": "file",
+            "name": "fileURL",
             "description": "",
             "args": [],
             "type": {
-              "kind": "OBJECT",
-              "name": "File",
+              "kind": "SCALAR",
+              "name": "URL",
               "ofType": null
             },
             "isDeprecated": false,

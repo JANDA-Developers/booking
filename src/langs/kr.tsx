@@ -17,14 +17,14 @@ export const kr = {
   ENABLE: "정상",
   ENGLISH: "영어",
   FAIL: "예약실패",
-  FEMALE: "여성",
   GUEST: "게스트",
   HM: "하우스 메뉴얼",
   HM_set: "하우스 메뉴얼 설정",
   HM_title: "하우스 메뉴얼 타이틀",
   HOST: "호스트",
   Headcount: "안원수",
-  JANDA_provide_free_homepage_for_guest: "잔다 고객분들에게 무료 홈페이지를 제공합니다.",
+  JANDA_provide_free_homepage_for_guest:
+    "잔다 고객분들에게 무료 홈페이지를 제공합니다.",
   JAPANESE: "일본어",
   KOREAN: "한국어",
   MALE: "남성",
@@ -32,6 +32,8 @@ export const kr = {
   PROGRESSING: "예약진행중",
   Pricing: "가겨설정",
   Rooms: "객실",
+  DOMITORY: "도미토리",
+  ROOM: "룸",
   SmsReplaceKey: {
     DOMITORY: "도미토리",
     ROOM: "룸",
@@ -68,13 +70,15 @@ export const kr = {
   applicant_contact: "신청자 연락처",
   applied_product_type: "적용 상품타입",
   applied_url: "적용URL",
-  appliedby_default_in_periods_with_no_price_set: "가격이 설정되어 있지 않은 기간 에서 기본으로 적용됨",
+  appliedby_default_in_periods_with_no_price_set:
+    "가격이 설정되어 있지 않은 기간 에서 기본으로 적용됨",
   applies_to_all_reservations_booked_together: "함께 예약된 예약에 모두 적용",
   apply: "신청하기",
   apply_color: "적용색상",
   apply_layout: "신청레이아웃",
   apply_this_product_to_house: "이 상품을 숙소에 적용하기",
-  are_you_sure_you_want_to_delete_the_reservation: "정말 예약을 삭제하시겠습니까?",
+  are_you_sure_you_want_to_delete_the_reservation:
+    "정말 예약을 삭제하시겠습니까?",
   are_you_sure_you_want_to_delete_this_guest: "해당 게스트를 삭제하시겠습니까?",
   assig_completed: "배정완료",
   assig_failed: "배정실패",
@@ -89,7 +93,8 @@ export const kr = {
   available: "사용가능",
   basic_offer: "기본제공",
   basic_price: "기본가격",
-  basic_price_is_used_when_season_is_un_setted: "시즌이 적용되지 않는 기간 동안 \"기본가격\"을 사용합니다.",
+  basic_price_is_used_when_season_is_un_setted:
+    '시즌이 적용되지 않는 기간 동안 "기본가격"을 사용합니다.',
   basic_room_price: "기본 방 가격",
   bedIndex: "침대번호",
   block: "자리막음",
@@ -200,7 +205,8 @@ export const kr = {
   detail_adress: "상세주소",
   display_deadline: "표시가한",
   display_related_setting: "배정관련 설정",
-  displays_a_new_reservation_within_the_set_time: "설정된 시간 내의 새로운 예약을 표시합니다.",
+  displays_a_new_reservation_within_the_set_time:
+    "설정된 시간 내의 새로운 예약을 표시합니다.",
   division: "구분",
   do_copy: "복제하기",
   do_create: "생성하기",
@@ -254,12 +260,18 @@ export const kr = {
   house_setting_completed: "숙소설정 완료",
   house_setting_failed: "숙소 설정 실패",
   house_type: "숙소타입",
-  if_there_is_a_new_reservation_the_new_reservation_will_be_displayed_without_refreshing_the_screen: "새로운 예약이 있다면 새로운 예약을 화면에 새로고침 없이 나타냅니다.",
-  if_tou_enable_auto_send_msg_msg_will_send_autoMetically: "자동 발신을 해두시면해당 메세지는 설정된 상황에 맞게 자동으로 발송됨니다.",
-  if_you_choose_wrong_size_product_to_house_service_can_be_stop: "규모에 맞지 않는 숙소를 선택하실 경우에 서비스가 중지 될수 있습니다.",
-  if_you_have_problems_with_computer_performance_and_frequent_screen_updates_try_setting_a_higher_pooling_frequency: "컴퓨터 성능 및 잦은 화면 업데이트에 문제가 있을경우 풀링주기를 높게 설정해보세요.",
-  if_you_set_up_an_SMS_template_you_can_conveniently_send_the_template_when_you_send_a_message: "SMS 템플릿을 설정해두시면 메세지를 보낼떄 해당 템플릿을 편리하게 보낼수 있습니다.",
-  if_you_violate_the_accommodation_policy_your_personal_information_will_be_saved_with_the_violation: "숙박 규정을 위반할 시 위반내용과 함께 개인정보가 저장됩니다.",
+  if_there_is_a_new_reservation_the_new_reservation_will_be_displayed_without_refreshing_the_screen:
+    "새로운 예약이 있다면 새로운 예약을 화면에 새로고침 없이 나타냅니다.",
+  if_tou_enable_auto_send_msg_msg_will_send_autoMetically:
+    "자동 발신을 해두시면해당 메세지는 설정된 상황에 맞게 자동으로 발송됨니다.",
+  if_you_choose_wrong_size_product_to_house_service_can_be_stop:
+    "규모에 맞지 않는 숙소를 선택하실 경우에 서비스가 중지 될수 있습니다.",
+  if_you_have_problems_with_computer_performance_and_frequent_screen_updates_try_setting_a_higher_pooling_frequency:
+    "컴퓨터 성능 및 잦은 화면 업데이트에 문제가 있을경우 풀링주기를 높게 설정해보세요.",
+  if_you_set_up_an_SMS_template_you_can_conveniently_send_the_template_when_you_send_a_message:
+    "SMS 템플릿을 설정해두시면 메세지를 보낼떄 해당 템플릿을 편리하게 보낼수 있습니다.",
+  if_you_violate_the_accommodation_policy_your_personal_information_will_be_saved_with_the_violation:
+    "숙박 규정을 위반할 시 위반내용과 함께 개인정보가 저장됩니다.",
   index: "번호",
   information_does_not_exist: "정보가 존재하지 않습니다...",
   input_your_name_please: "이름을 입력해주세요.",
@@ -307,7 +319,8 @@ export const kr = {
   motel: "모텔",
   msg: "메세지",
   msg_content: "문자내용",
-  must_input_text_of_every_lang_you_supporting: "지원하는 모든 언어에 직접 기입 하셔야 합니다.",
+  must_input_text_of_every_lang_you_supporting:
+    "지원하는 모든 언어에 직접 기입 하셔야 합니다.",
   name: "이름",
   name_is_not_valid: "올바른 이름이 아닙니다.",
   new: "new",
@@ -344,7 +357,8 @@ export const kr = {
   only_on_first_purchase: "첫구매시에만 발생",
   only_remove_that_guest: "해당 게스트만 제거",
   opps_something_problem_happend: "이런! 문제가 발생했습니다.",
-  others_booked_by_the_reservation_will_not_be_erased: "해당 예약자가 예약한 다른 인원들은 지워지지 않습니다.",
+  others_booked_by_the_reservation_will_not_be_erased:
+    "해당 예약자가 예약한 다른 인원들은 지워지지 않습니다.",
   outgoing_destination: "발신대상",
   page: "페이지",
   page_does_not_exist: "페이지가 존재하지 않습니다.",
@@ -405,21 +419,27 @@ export const kr = {
   proceeding: "진행중",
   product1_detail1: "상품을 구매하기전에 체험하기를 통해서 미리 체험해보세요.",
   product1_detail2: "본상품은 구매전 체험을 위한 용도로 사용됩니다.",
-  product1_detail3: "잔다에서 무료로 제공하는 홈페이지를 제공받으실수 없습니다.",
-  product1_detail4: "대부분의 서비스를 사용가능하며 이주일후에는 사용이 불가능 합니다.",
-  product1_detail5: "기한이 끝난후에 새로운 상품을 적용하시면 계속 사용이 가능합니다.",
+  product1_detail3:
+    "잔다에서 무료로 제공하는 홈페이지를 제공받으실수 없습니다.",
+  product1_detail4:
+    "대부분의 서비스를 사용가능하며 이주일후에는 사용이 불가능 합니다.",
+  product1_detail5:
+    "기한이 끝난후에 새로운 상품을 적용하시면 계속 사용이 가능합니다.",
   product1_short1: "이주일간 테스트가능",
   product1_short2: "사용해보고 결정하세요",
   product1_short3: "지금 바로 시작할 수 있습니다.",
   product2_detail1: "게스트 하우스 및 중소숙박에 최적화된 상품입니다.",
-  product2_detail3: "잔다에서 무료로 제공하는 홈페이지를 제공받으실수 있습니다.",
+  product2_detail3:
+    "잔다에서 무료로 제공하는 홈페이지를 제공받으실수 있습니다.",
   product2_detail4: "사용기한은 한달이며 한달후 재결제가 이루어집니다.",
   product2_short1: "중소숙박 최적화 서비스",
   product2_short2: "필요한 서비스만 쉽고",
   product2_short3: "간단하게 사용하세요.",
   product3_detail1: "호텔 같은 큰규모에 적합한 상품.",
-  product3_detail3: "잔다에서 무료로 제공하는 홈페이지를 제공받으실수 있습니다.",
-  product3_detail4: "홈페이지 커스텀 제작을 요청하실수 있으며, 별도 비용이 발생할수 있습니다.",
+  product3_detail3:
+    "잔다에서 무료로 제공하는 홈페이지를 제공받으실수 있습니다.",
+  product3_detail4:
+    "홈페이지 커스텀 제작을 요청하실수 있으며, 별도 비용이 발생할수 있습니다.",
   product3_detail5: "사용기한은 한달이며 한달후 재결제가 이루어집니다.",
   product3_short1: "호텔 대규모 솔루션 최적화",
   product3_short2: "호텔관리자가 관여하여",
@@ -432,7 +452,8 @@ export const kr = {
   product_has_expired: "상품이 만료되었습니다.",
   product_memo: "상품 메모",
   product_price: "상품금액",
-  provides_a_tab_that_can_be_divided_by_status_in_the_assignment_calendar: "배정달력에서 방태입별로 나누어볼수있는 탭을 제공",
+  provides_a_tab_that_can_be_divided_by_status_in_the_assignment_calendar:
+    "배정달력에서 방태입별로 나누어볼수있는 탭을 제공",
   purpose_of_collection: "수집 목적",
   receiver: "수신자",
   release_service: "서비스 해제",
@@ -456,7 +477,8 @@ export const kr = {
   reservation_setting: "예약 설정",
   reservation_update: "예약 업데이트",
   reservation_update_fail: "예약 업데이트 실패",
-  reservations_booked_directly_by_the_administrator_are_not_displayed: "관리자가 직접 예약한 예약은 표시되지 않습니다.",
+  reservations_booked_directly_by_the_administrator_are_not_displayed:
+    "관리자가 직접 예약한 예약은 표시되지 않습니다.",
   retention_period: "보유 기간",
   room: "방",
   roomForm: "방형태",
@@ -516,7 +538,8 @@ export const kr = {
   send_text_to_host: "호스트에게 문자 보내기",
   send_type: "발신타입",
   seperatle_gender: "제한없음(혼숙X)",
-  server_will_check_if_there_is_a_new_reservation_once_every_set_number_by_ms: "설정한 숫자/ms 마다 한번씩 새로운 예약이 있는지 서버로부터 확인받습니다.",
+  server_will_check_if_there_is_a_new_reservation_once_every_set_number_by_ms:
+    "설정한 숫자/ms 마다 한번씩 새로운 예약이 있는지 서버로부터 확인받습니다.",
   service_request_is_completed: "서비스 신청이 완료되었습니다",
   set_daily_price: "일별가격 설정",
   set_product_type: "상품 형태 설정",
@@ -544,16 +567,20 @@ export const kr = {
   template_title: "템플릿 타이틀",
   test_on_two_weeks: "이주일간 테스트 가능",
   thank_you: "감사합니다.",
-  the_current_product_has_expired_normal_service_is_not_possible_Please_proceed_with_the_payment: "현재 상품이 만료되었습니다. 정상적인 서비스가 불가능합니다. 결제를 진행 해주세요.",
+  the_current_product_has_expired_normal_service_is_not_possible_Please_proceed_with_the_payment:
+    "현재 상품이 만료되었습니다. 정상적인 서비스가 불가능합니다. 결제를 진행 해주세요.",
   the_email_set_is_not_valid: "설정된 이메일이 유효하지 않습니다.",
   the_max_count_of_houseName_is_20: "숙소명은 최대 20글자 입니다.",
-  the_memo_gives_an_alarm_on_the_next_connection: "해당 메모는 다음 접속시 알람을 줍니다.",
-  the_minimum_personal_information_required_to_provide_the_service_is_required_to_use_the_service: "서비스 제공을 위해 필요한 최소한의 개인정보이므로 동의를 해주셔야 서비스를 이용하실수 있습니다",
+  the_memo_gives_an_alarm_on_the_next_connection:
+    "해당 메모는 다음 접속시 알람을 줍니다.",
+  the_minimum_personal_information_required_to_provide_the_service_is_required_to_use_the_service:
+    "서비스 제공을 위해 필요한 최소한의 개인정보이므로 동의를 해주셔야 서비스를 이용하실수 있습니다",
   the_phone_number_set_is_not_valid: "설정된 전화번호가 유효하지 않습니다.",
   there_is_an_alarm_set_note: "알람 설정된 메모가 있습니다.",
   there_is_no_room_in_selected_date: "해당날자에 예약가능한 방이 없습니다",
   this_month_sales: "이번달매출",
-  this_price_modification_will_be_the_highest_priority_of_all_pricing: "해당 가격 수정은 모든 가격설정 중 최우선 적용 됩니다.",
+  this_price_modification_will_be_the_highest_priority_of_all_pricing:
+    "해당 가격 수정은 모든 가격설정 중 최우선 적용 됩니다.",
   thu: "목",
   till: "까지",
   time: "시간",
@@ -595,12 +622,16 @@ export const kr = {
   view_info: "정보보기",
   view_terms: "약관보기",
   waiting: "대기",
-  we_collect_your_personal_information_to_provide_the_service: "서비스 제공을 위해 귀하의 개인정보를 수집합니다.",
-  we_recommend_using_the_Chrome_browser_before_using_the_app: "앱사용 이전에 크롬 브라우저 사용을 권장합니다.",
+  we_collect_your_personal_information_to_provide_the_service:
+    "서비스 제공을 위해 귀하의 개인정보를 수집합니다.",
+  we_recommend_using_the_Chrome_browser_before_using_the_app:
+    "앱사용 이전에 크롬 브라우저 사용을 권장합니다.",
   we_will_contect_you_in_3_days: "3일 내로 담당자가 연락드릴 예정입니다.",
   wed: "월",
-  when_day_of_week_price_is_not_setted_basic_season_price_will_be_used: "\"요일별 가격\"이 적용되어 있지 않은 요일에는 시즌 기본가격을 따릅니다.",
-  when_season_multiple_applyed_use_left_side_value_will_be_used: "시즌이 중첩된 있는 동안에는 좌측 시즌 가격을 사용합니다",
+  when_day_of_week_price_is_not_setted_basic_season_price_will_be_used:
+    '"요일별 가격"이 적용되어 있지 않은 요일에는 시즌 기본가격을 따릅니다.',
+  when_season_multiple_applyed_use_left_side_value_will_be_used:
+    "시즌이 중첩된 있는 동안에는 좌측 시즌 가격을 사용합니다",
   which_unit_would_you_like_to_see: "어떤 단위로 보여 드릴까요?",
   will_only_use_the_reservation_system: "예약시스템만 사용하겠습니다.",
   witch_statistics_do_you_want: "어떤 통계를 원하시나요?",
@@ -608,8 +639,10 @@ export const kr = {
   year: "년",
   year_sales: "년매출",
   yes: "예",
-  you_can_clear_the_display_by_clicking: " 클릭하여 해당 표시를 지울 수 있습니다",
-  your_request_cannot_be_fulfilled_right_now: "지금은 요청사항을 수행수 없습니다.",
+  you_can_clear_the_display_by_clicking:
+    " 클릭하여 해당 표시를 지울 수 있습니다",
+  your_request_cannot_be_fulfilled_right_now:
+    "지금은 요청사항을 수행수 없습니다.",
   youth_hostel: "유스호스텔",
   please_verify_your_mobile_phone_to_ensure_smooth_service: (
     <span>
@@ -712,5 +745,12 @@ export const kr = {
   TODAY_STAY: "오늘 머무르는 인원",
   TODAY_CHECKIN: "오늘 체크인하는 인원",
   TOMORROW_CHECKIN: "내일 체크인하는 인원",
-  EXSIST_INFO: "선택한 인원"
+  EXSIST_INFO: "선택한 인원",
+  service_expire: "서비스 만료",
+  RoomGender: {
+    FEMALE: "여성전용",
+    MALE: "남성전용",
+    ANY: "성별 제한 없음",
+    SEPARATELY: "혼숙방지"
+  }
 };

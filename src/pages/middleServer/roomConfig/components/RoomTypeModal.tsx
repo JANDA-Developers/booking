@@ -79,7 +79,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
       value: roomTypeData.peopleCount
     },
     roomGender: {
-      label: LANG(roomTypeData.roomGender),
+      label: LANG(roomTypeData.roomGender, "RoomGender"),
       value: roomTypeData.roomGender
     },
     peopleCountMax: {

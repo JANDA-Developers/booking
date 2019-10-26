@@ -20,37 +20,37 @@ interface layout {
   desc: string | JSX.Element;
 }
 
-const layouts: layout[] = [
-  {
-    id: LayoutType.Layout_A,
-    name: LANG("light_type_layout"),
-    link: "http://janda-install.kr/",
-    desc: LANG("basic_offer"),
-    img:
-      "https://res.cloudinary.com/stayjanda-com/image/upload/v1560234616/layout_type_A.jpg"
-  },
-  {
-    id: LayoutType.Layout_B,
-    name: LANG("heavy_type_layout"),
-    desc: (
-      <span>
-        {LANG("additional_cost")} 50,000 <br />
-        <span className="JDsmall-text">{`(${LANG(
-          "only_on_first_purchase"
-        )})`}</span>
-      </span>
-    ),
-    link: "http://colton123.net/",
-    img:
-      "https://res.cloudinary.com/stayjanda-com/image/upload/v1560234623/type_B_layout.jpg"
-  }
-];
-
 const LayoutCards: React.FC<IProps> = ({
   selectedLayout,
   setLayout,
   ...props
 }) => {
+  const layouts: layout[] = [
+    {
+      id: LayoutType.Layout_A,
+      name: LANG("light_type_layout"),
+      link: "http://janda-install.kr/",
+      desc: LANG("basic_offer"),
+      img:
+        "https://res.cloudinary.com/stayjanda-com/image/upload/v1560234616/layout_type_A.jpg"
+    },
+    {
+      id: LayoutType.Layout_B,
+      name: LANG("heavy_type_layout"),
+      desc: (
+        <span>
+          {LANG("additional_cost")} 50,000 <br />
+          <span className="JDsmall-text">{`(${LANG(
+            "only_on_first_purchase"
+          )})`}</span>
+        </span>
+      ),
+      link: "http://colton123.net/",
+      img:
+        "https://res.cloudinary.com/stayjanda-com/image/upload/v1560234623/type_B_layout.jpg"
+    }
+  ];
+
   const handleClickCard = (id: string, url: string) => {
     setLayout && setLayout(id);
     window.open(url, "_blank");

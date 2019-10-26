@@ -207,17 +207,20 @@ const JDtimeline: React.FC<Iprops> = ({
   );
 };
 
+// 또는 HeaderCellRedner 파일 참조
 const krSubHeaderLabelFormats = Object.assign(
   {},
   defaultSubHeaderLabelFormats,
   {
-    monthLong: `MM ${LANG("month")}`, // 년 LANG("month") 필요
+    monthLong: `AMM ${LANG("month")}`, // 년 LANG("month") 필요
     hourLong: `M${LANG("month")} D${LANG("date")} ddd` // LANG("month") 일
   }
 );
 
 const krHeaderLabelFormats = Object.assign({}, defaultHeaderLabelFormats, {
-  dayLong: `YYYY${LANG("year")} MM${LANG("month")} DD${LANG("date")}`
+  day: {
+    Long: `A YYYY${LANG("year")} MM${LANG("month")} DD${LANG("date")}`
+  }
 });
 
 const defaultTimeStart = moment()
@@ -291,7 +294,9 @@ export const SharedSideBarHeader: React.FC<IProps> = ({
     <div>
       <div className="rct-header-root__topLeft" {...getRootProps()}>
         <div
-          onClick={() => {
+          onClick={e => {
+            e.preventDefault();
+            e.stopPropagation();
             dayPickerModalHook.openModal();
           }}
           style={{

@@ -2197,6 +2197,16 @@ export const GET_NOTI = gql`
 ${F_NOTI}
 `
 
+export const UPLOAD_FILE = gql`
+  mutation singleUpload($file: Upload!) {
+    SingleUpload(file: $file) {
+      ok
+      error
+      fileURL
+    }
+  }
+`;
+
 export const CONFIRM_NOTI = gql`
     mutation confirmNoti($houseId: ID!, $notiIds: [ID!]!) {
         ConfirmNoti(houseId: $houseId, notiIds:$notiIds) {

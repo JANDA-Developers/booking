@@ -2,6 +2,14 @@ import React from "react";
 import DynamicImport from "../utils/dynamicComponent";
 import Preloader from "../atoms/preloader/Preloader";
 
+export const Expired = props => (
+  <DynamicImport load={() => import("./middleServer/expire/Expired")}>
+    {DNcompoent =>
+      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
+    }
+  </DynamicImport>
+);
+
 export const Sms = props => (
   <DynamicImport load={() => import("./middleServer/sms/SmsWrap")}>
     {DNcompoent =>
@@ -9,7 +17,6 @@ export const Sms = props => (
     }
   </DynamicImport>
 );
-
 
 export const DashBoard = props => (
   <DynamicImport load={() => import("./middleServer/dashboard/DashBoardWrap")}>

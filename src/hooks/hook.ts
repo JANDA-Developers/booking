@@ -2,16 +2,27 @@
 /* eslint-disable no-shadow */
 /* ts-ignore */
 import randomColor from "randomcolor";
-import {useState, useEffect, useMemo, useRef} from "react";
+import {
+  useState,
+  useEffect,
+  useMemo,
+  useRef,
+  useCallback,
+  ChangeEvent
+} from "react";
 import Axios from "axios";
-import {toast} from "react-toastify";
-import {CLOUDINARY_KEY} from "../keys";
 import {IselectedOption} from "../atoms/forms/selectBox/SelectBox";
 import {IHolidaysByApi} from "../types/interface";
 import moment from "moment";
-import {jsonString} from "../utils/utils";
+import {muResult} from "../utils/utils";
 import {JDlang as originJDlang} from "../langs/JDlang";
 import {TLanguageShort} from "../types/enum";
+import {useMutation} from "@apollo/react-hooks";
+import {UPLOAD_FILE} from "../queries";
+import client from "../apolloClient";
+import {singleUpload, singleUploadVariables} from "../types/api";
+// @ts-ignore
+import Resizer from "react-image-file-resizer";
 
 // 한방에 패치
 // A X I O S  : (http://codeheaven.io/how-to-use-axios-as-your-http-client/)
@@ -94,35 +105,48 @@ const useImageUploader = (foo?: any): IuseImageUploader => {
   const [fileUrl, setFileUrl] = useState(foo);
   const [uploading, setUploading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [uploadMutation] = useMutation<singleUpload, singleUploadVariables>(
+    UPLOAD_FILE,
+    {client}
+  );
 
   const onChangeFile = async (
-    event: React.ChangeEvent<HTMLInputElement | undefined>
+    event: React.ChangeEvent<HTMLInputElement | undefined>,
+    maxWidth?: number,
+    maxHeight?: number
   ) => {
     if (event) {
+      setUploading(true);
       const {
         target: {name, value, files}
-      }: any = event;
-      if (files) {
-        setUploading(true);
-        const formData = new FormData();
-        formData.append("api_key", CLOUDINARY_KEY || "");
-        formData.append("upload_preset", "jandaAPP");
-        formData.append("file", files[0]);
-        formData.append("timestamp", String(Date.now() / 1000));
-        try {
-          const {
-            data: {secure_url}
-          } = await Axios.post(
-            "https://api.cloudinary.com/v1_1/stayjanda-com/image/upload",
-            formData
+      }: ChangeEvent<HTMLInputElement> = event as ChangeEvent<HTMLInputElement>;
+      if (files && files.length === 1) {
+        const file = files[0];
+        if (file) {
+          const {data} = await uploadMutation({variables: {file}});
+
+          const newImg = Resizer.imageFileResizer(
+            file,
+            maxWidth,
+            maxHeight,
+            "JPEG",
+            100,
+            0,
+            (uri: any) => {
+              console.log(uri);
+            },
+            "base64"
           );
-          if (secure_url) {
-            setFileUrl(secure_url);
+          console.log("newImg");
+          console.log(newImg);
+          console.log(newImg);
+
+          const filUrl = muResult(data, "SingleUpload", "fileURl");
+          if (typeof filUrl !== "boolean") {
+            setIsError(true);
+          } else {
+            setFileUrl(fileUrl);
           }
-        } catch (error) {
-          setIsError(true);
-          toast.error(error);
-        } finally {
           setUploading(false);
         }
       }
@@ -449,7 +473,7 @@ function useModal<T = any>(
 export let CURRENT_LANG: TLanguageShort = "kr";
 
 // 언어가 결합된 LANG 함수
-export let LANG: (key: string) => any = key => {
+export let LANG: (key: string, key2?: string) => any = key => {
   return;
 };
 
