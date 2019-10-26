@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useCallback, useMemo } from "react";
-import { Query, Mutation } from "react-apollo";
+import React, {useState, useCallback, useMemo} from "react";
+import {Query, Mutation} from "react-apollo";
 import moment from "moment-timezone";
 import _ from "lodash";
 import assigDefaultProps from "./timelineConfig";
@@ -22,14 +22,14 @@ import {
   updateBlockOption,
   updateBlockOptionVariables
 } from "../../../types/api";
-import { useDayPicker, LANG } from "../../../hooks/hook";
+import {useDayPicker, LANG} from "../../../hooks/hook";
 import {
   setMidNight,
   queryDataFormater,
   onCompletedMessage
 } from "../../../utils/utils";
 import EerrorProtect from "../../../utils/errProtect";
-import { BookingStatus } from "../../../types/enum";
+import {BookingStatus} from "../../../types/enum";
 import {
   ALLOCATE_GUEST_TO_ROOM,
   UPDATE_BOOKING,
@@ -41,26 +41,26 @@ import {
   UPDATE_BLOCK_OPTION
 } from "../../../queries";
 import AssigTimeline from "./AssigTimeline";
-import { to4YMMDD } from "../../../utils/setMidNight";
-import { roomDataManufacturer } from "./components/groupDataMenufacture";
-import reactWindowSize, { WindowSizeProps } from "react-window-size";
+import {to4YMMDD} from "../../../utils/setMidNight";
+import {roomDataManufacturer} from "./components/groupDataMenufacture";
+import reactWindowSize, {WindowSizeProps} from "react-window-size";
 import {
   IAssigDataControl,
   IAssigMutationLoading
 } from "./components/assigIntrerface";
-import { IContext } from "../../MiddleServerRouter";
-import { guestsDataManufacturer } from "./components/guestsDataManufacturer";
-import { blockDataManufacturer } from "./components/blockDataManufacturer";
+import {IContext} from "../../MiddleServerRouter";
+import {guestsDataManufacturer} from "./components/guestsDataManufacturer";
+import {blockDataManufacturer} from "./components/blockDataManufacturer";
 
 moment.tz.setDefault("UTC");
 
-class UpdateBookingMu extends Mutation<updateBooking, updateBookingVariables> { }
-class CreateBlockMu extends Mutation<createBlock, createBlockVariables> { }
-class DeleteBookingMu extends Mutation<deleteBooking, deleteBookingVariables> { }
+class UpdateBookingMu extends Mutation<updateBooking, updateBookingVariables> {}
+class CreateBlockMu extends Mutation<createBlock, createBlockVariables> {}
+class DeleteBookingMu extends Mutation<deleteBooking, deleteBookingVariables> {}
 class UpdateBlockOpMu extends Mutation<
   updateBlockOption,
   updateBlockOptionVariables
-  > { }
+> {}
 
 interface IProps {
   context: IContext;
@@ -69,36 +69,36 @@ interface IProps {
 class GetAllRoomTypeWithGuestQuery extends Query<
   getAllRoomTypeWithGuest,
   getAllRoomTypeWithGuestVariables
-  > { }
+> {}
 class AllocateGuestToRoomMu extends Mutation<
   allocateGuestToRoom,
   allocateGuestToRoomVariables
-  > { }
-class DeleteGuestMu extends Mutation<deleteGuests, deleteGuestsVariables> { }
-class DeleteBlockMu extends Mutation<deleteBlock, deleteBlockVariables> { }
+> {}
+class DeleteGuestMu extends Mutation<deleteGuests, deleteGuestsVariables> {}
+class DeleteBlockMu extends Mutation<deleteBlock, deleteBlockVariables> {}
 
 const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
   context,
   windowHeight,
   windowWidth
 }) => {
-  const { houseConfig, house } = context;
+  const {houseConfig, house} = context;
   const dayPickerHook = useDayPicker(null, null);
   const defaultStartDate = dayPickerHook.from
     ? dayPickerHook.from
     : moment()
-      .local()
-      .toDate();
+        .local()
+        .toDate();
 
   const defaultEndDate = dayPickerHook.from
     ? moment(dayPickerHook.from)
-      .local()
-      .add(10, "days")
-      .toDate()
+        .local()
+        .add(10, "days")
+        .toDate()
     : moment()
-      .local()
-      .add(10, "days")
-      .toDate();
+        .local()
+        .add(10, "days")
+        .toDate();
 
   const [dataTime, setDataTime] = useState({
     start: setMidNight(
@@ -134,7 +134,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
         bookingStatuses: [BookingStatus.COMPLETE, BookingStatus.PROGRESSING]
       }}
     >
-      {({ data, loading, refetch, stopPolling, startPolling, networkStatus }) => {
+      {({data, loading, refetch, stopPolling, startPolling, networkStatus}) => {
         const roomTypesData = queryDataFormater(
           data,
           "GetAllRoomType",
@@ -157,10 +157,14 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
 
         return (
           <AllocateGuestToRoomMu
-            onCompleted={({ AllocateGuestToRoom }) => {
-              onCompletedMessage(AllocateGuestToRoom, LANG("assig_completed"), LANG("assig_failed"));
+            onCompleted={({AllocateGuestToRoom}) => {
+              onCompletedMessage(
+                AllocateGuestToRoom,
+                LANG("assig_completed"),
+                LANG("assig_failed")
+              );
             }}
-            update={(cache, { data: inData }) => {
+            update={(cache, {data: inData}) => {
               const cacheData: getAllRoomTypeWithGuest | null = cache.readQuery(
                 {
                   query: GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM,
@@ -190,16 +194,20 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
           >
             {allocateMu => (
               <UpdateBookingMu mutation={UPDATE_BOOKING}>
-                {(updateBookingMu, { loading: updateBookingLoading }) => (
+                {(updateBookingMu, {loading: updateBookingLoading}) => (
                   <DeleteGuestMu
-                    onCompleted={({ DeleteGuests }) => {
-                      onCompletedMessage(DeleteGuests, LANG("delete_completed"), LANG("delete_failed"));
+                    onCompleted={({DeleteGuests}) => {
+                      onCompletedMessage(
+                        DeleteGuests,
+                        LANG("delete_completed"),
+                        LANG("delete_failed")
+                      );
                     }}
                     mutation={DELETE_GUEST}
                   >
-                    {(deleteGuestMu, { loading: deleteGuestLoading }) => (
+                    {(deleteGuestMu, {loading: deleteGuestLoading}) => (
                       <CreateBlockMu
-                        onCompleted={({ CreateBlock }) => {
+                        onCompleted={({CreateBlock}) => {
                           onCompletedMessage(
                             CreateBlock,
                             LANG("block_room_completed"),
@@ -208,9 +216,9 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                         }}
                         mutation={CREATE_BLOCK}
                       >
-                        {(createBlockMu, { loading: createBlockLoading }) => (
+                        {(createBlockMu, {loading: createBlockLoading}) => (
                           <DeleteBlockMu
-                            onCompleted={({ DeleteBlock }) => {
+                            onCompleted={({DeleteBlock}) => {
                               onCompletedMessage(
                                 DeleteBlock,
                                 LANG("room_block_release"),
@@ -219,10 +227,10 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                             }}
                             mutation={DELETE_BLOCK}
                           >
-                            {(deleteBlockMu, { loading: deleteBlockLoading }) => (
+                            {(deleteBlockMu, {loading: deleteBlockLoading}) => (
                               <DeleteBookingMu
                                 mutation={DELETE_BOOKING}
-                                onCompleted={({ DeleteBooking }) => {
+                                onCompleted={({DeleteBooking}) => {
                                   onCompletedMessage(
                                     DeleteBooking,
                                     LANG("reservation_delete_complete"),
@@ -232,84 +240,84 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                               >
                                 {(
                                   deleteBookingMu,
-                                  { loading: deleteBookingLoading }
+                                  {loading: deleteBookingLoading}
                                 ) => (
-                                    <UpdateBlockOpMu
-                                      mutation={UPDATE_BLOCK_OPTION}
-                                      onCompleted={({ UpdateBlockOption }) => {
-                                        onCompletedMessage(
-                                          UpdateBlockOption,
-                                          LANG("change_complited"),
-                                          LANG("change_failed")
-                                        );
-                                      }}
-                                    >
-                                      {(
+                                  <UpdateBlockOpMu
+                                    mutation={UPDATE_BLOCK_OPTION}
+                                    onCompleted={({UpdateBlockOption}) => {
+                                      onCompletedMessage(
+                                        UpdateBlockOption,
+                                        LANG("change_complited"),
+                                        LANG("change_failed")
+                                      );
+                                    }}
+                                  >
+                                    {(
+                                      updateBlockOpMu,
+                                      {loading: updateBlockLoading}
+                                    ) => {
+                                      const totalMuLoading =
+                                        updateBlockLoading ||
+                                        createBlockLoading ||
+                                        deleteBlockLoading ||
+                                        deleteGuestLoading ||
+                                        deleteBookingLoading ||
+                                        updateBookingLoading;
+
+                                      const mutationLoadings: IAssigMutationLoading = {
+                                        updateBlockLoading,
+                                        createBlockLoading,
+                                        deleteBlockLoading,
+                                        deleteGuestLoading,
+                                        deleteBookingLoading,
+                                        updateBookingLoading
+                                      };
+
+                                      const assigDataControl: IAssigDataControl = {
+                                        updateBookingMu,
+                                        deleteBookingMu,
+                                        deleteGuestsMu: deleteGuestMu,
+                                        createBlockMu,
+                                        deleteBlockMu,
                                         updateBlockOpMu,
-                                        { loading: updateBlockLoading }
-                                      ) => {
-                                        const totalMuLoading =
-                                          updateBlockLoading ||
-                                          createBlockLoading ||
-                                          deleteBlockLoading ||
-                                          deleteGuestLoading ||
-                                          deleteBookingLoading ||
-                                          updateBookingLoading;
+                                        allocateMu,
+                                        refetch,
+                                        stopPolling,
+                                        startPolling: startPolling.bind(
+                                          startPolling,
+                                          houseConfig.pollingPeriod.period
+                                        ),
+                                        totalMuLoading,
+                                        mutationLoadings,
+                                        networkStatus
+                                      };
 
-                                        const mutationLoadings: IAssigMutationLoading = {
-                                          updateBlockLoading,
-                                          createBlockLoading,
-                                          deleteBlockLoading,
-                                          deleteGuestLoading,
-                                          deleteBookingLoading,
-                                          updateBookingLoading
-                                        };
-
-                                        const assigDataControl: IAssigDataControl = {
-                                          updateBookingMu,
-                                          deleteBookingMu,
-                                          deleteGuestsMu: deleteGuestMu,
-                                          createBlockMu,
-                                          deleteBlockMu,
-                                          updateBlockOpMu,
-                                          allocateMu,
-                                          refetch,
-                                          stopPolling,
-                                          startPolling: startPolling.bind(
-                                            startPolling,
-                                            houseConfig.pollingPeriod.period
-                                          ),
-                                          totalMuLoading,
-                                          mutationLoadings,
-                                          networkStatus
-                                        };
-
-                                        return (
-                                          <AssigTimeline
-                                            context={context}
-                                            loading={loading}
-                                            groupData={formatedRoomData}
-                                            deafultGuestsData={
-                                              formatedItemData || []
-                                            }
-                                            dayPickerHook={dayPickerHook}
-                                            defaultProps={assigDefaultProps}
-                                            roomTypesData={roomTypesData || []}
-                                            defaultTimeStart={defaultStartDate}
-                                            defaultTimeEnd={defaultEndDate}
-                                            assigDataControl={assigDataControl}
-                                            setDataTime={setDataTime}
-                                            windowHeight={windowHeight}
-                                            windowWidth={windowWidth}
-                                            dataTime={dataTime}
-                                            key={`timeline${
-                                              dayPickerHook.from
-                                              }${networkStatus !== 1}`}
-                                          />
-                                        );
-                                      }}
-                                    </UpdateBlockOpMu>
-                                  )}
+                                      return (
+                                        <AssigTimeline
+                                          context={context}
+                                          loading={loading}
+                                          groupData={formatedRoomData}
+                                          deafultGuestsData={
+                                            formatedItemData || []
+                                          }
+                                          dayPickerHook={dayPickerHook}
+                                          defaultProps={assigDefaultProps}
+                                          roomTypesData={roomTypesData || []}
+                                          defaultTimeStart={defaultStartDate}
+                                          defaultTimeEnd={defaultEndDate}
+                                          assigDataControl={assigDataControl}
+                                          setDataTime={setDataTime}
+                                          windowHeight={windowHeight}
+                                          windowWidth={windowWidth}
+                                          dataTime={dataTime}
+                                          key={`timeline${
+                                            dayPickerHook.from
+                                          }${networkStatus !== 1}`}
+                                        />
+                                      );
+                                    }}
+                                  </UpdateBlockOpMu>
+                                )}
                               </DeleteBookingMu>
                             )}
                           </DeleteBlockMu>

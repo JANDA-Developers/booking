@@ -40,7 +40,7 @@ import {IUseModal} from "../../../../hooks/hook";
 import {string} from "prop-types";
 import {MouseEvent} from "react";
 import {IMoveCount, IDotPoint} from "../../../../atoms/timeline/Timeline";
-import {ApolloQueryResult} from "apollo-boost";
+import {ApolloQueryResult} from "apollo-client";
 
 export interface IAssigTimelineContext {
   isMobile: boolean;

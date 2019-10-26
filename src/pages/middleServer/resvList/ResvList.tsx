@@ -39,7 +39,7 @@ import SendSMSmodalWrap, {
 import Preloader from "../../../atoms/preloader/Preloader";
 import ConfirmBadgeWrap from "../../../components/confirmBadge/ConfirmBadgeWrap";
 import textReader from "../../../utils/textReader";
-import {NetworkStatus} from "apollo-boost";
+import {NetworkStatus} from "apollo-client";
 import {IContext} from "../../MiddleServerRouter";
 import {getRoomSelectInfo} from "../../../utils/guestCountByRoomType";
 import {inOr} from "../../../utils/C";

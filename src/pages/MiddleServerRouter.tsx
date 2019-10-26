@@ -199,6 +199,21 @@ const JDmiddleServer: React.FC<IProps> = ({
                       {/* 여기부터는 생성된 하우스가 있어야 접근가능 */}
                       {currentHouse && currentHouse.completeDefaultSetting ? (
                         <Switch>
+                          {/* 슈퍼관리자 */}
+                          {/* 고객문의 */}
+                          <Route exact path="/qna" component={Qna} />
+                          <Route
+                            exact
+                            path="/superAdmin"
+                            render={() => {
+                              return userRole === UserRole.ADMIN ||
+                                userRole === UserRole.DEVELOPER ? (
+                                <SuperMain context={propContext} />
+                              ) : (
+                                <NoMatch context={propContext as any} />
+                              );
+                            }}
+                          />
                           {/* 만료기간이 지났다면*/}
                           {applyedProduct!.daysLeftToExpire < 1 && (
                             <Route component={Expired} />
@@ -261,21 +276,6 @@ const JDmiddleServer: React.FC<IProps> = ({
                               return <Login context={propContext} />;
                             }}
                           />
-                          {/* 슈퍼관리자 */}
-                          <Route
-                            exact
-                            path="/superAdmin"
-                            render={() => {
-                              return userRole === UserRole.ADMIN ||
-                                userRole === UserRole.DEVELOPER ? (
-                                <SuperMain context={propContext} />
-                              ) : (
-                                <NoMatch context={propContext as any} />
-                              );
-                            }}
-                          />
-                          {/* 고객문의 */}
-                          <Route exact path="/qna" component={Qna} />
                           {/* 여기이후로 상품이 있어야 접근가능 */}
                           {/* 적용된 상품이 없다면 */}
                           {isEmpty(applyedProduct) && (

@@ -8,7 +8,7 @@ import {
 } from "../../../types/api";
 import InputText from "../../../atoms/forms/inputText/InputText";
 import Button from "../../../atoms/button/Button";
-import {ApolloQueryResult} from "apollo-boost";
+import {ApolloQueryResult} from "apollo-client";
 import {LANG} from "../../../hooks/hook";
 
 interface Iprops {

@@ -246,12 +246,12 @@ export const SpecificAtion: React.FC<IProps> = ({
         </tbody>
       </table>
       <DayPickerModal
-        input
         modalHook={dayPickerModal}
         {...expireDateHook}
         format={`YY${LANG("year")} MM${LANG("month")} DD${LANG("date")} ${LANG(
           "till"
         )}`}
+        displayInfo={false}
         isRange={false}
       />
 

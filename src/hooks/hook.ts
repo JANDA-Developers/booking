@@ -115,16 +115,15 @@ const useImageUploader = (foo?: any): IuseImageUploader => {
     maxWidth?: number,
     maxHeight?: number
   ) => {
+    event.persist();
     if (event) {
       setUploading(true);
       const {
-        target: {name, value, files}
+        target: {name, value, files, validity}
       }: ChangeEvent<HTMLInputElement> = event as ChangeEvent<HTMLInputElement>;
-      if (files && files.length === 1) {
+      if (validity && files && files.length === 1) {
         const file = files[0];
         if (file) {
-          const {data} = await uploadMutation({variables: {file}});
-
           const newImg = Resizer.imageFileResizer(
             file,
             maxWidth,
@@ -132,22 +131,26 @@ const useImageUploader = (foo?: any): IuseImageUploader => {
             "JPEG",
             100,
             0,
-            (uri: any) => {
-              console.log(uri);
-            },
-            "base64"
-          );
-          console.log("newImg");
-          console.log(newImg);
-          console.log(newImg);
+            async (uri: any) => {
+              const newFile = new File([uri], name, {type: "image/jpeg"});
+              console.log(newFile);
+              console.log("newFile");
+              console.log(newFile);
+              const data = await uploadMutation({variables: {file: newFile}});
 
-          const filUrl = muResult(data, "SingleUpload", "fileURl");
-          if (typeof filUrl !== "boolean") {
-            setIsError(true);
-          } else {
-            setFileUrl(fileUrl);
-          }
-          setUploading(false);
+              const filUrl = muResult(data, "SingleUpload", "fileURl");
+              console.log("data");
+              console.log(data);
+              console.log(filUrl);
+              if (typeof filUrl === "boolean") {
+                setIsError(true);
+              } else {
+                setFileUrl(fileUrl);
+              }
+              setUploading(false);
+            },
+            "blob"
+          );
         }
       }
     }

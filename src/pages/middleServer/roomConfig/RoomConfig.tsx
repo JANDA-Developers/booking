@@ -26,7 +26,7 @@ import EventListener from "react-event-listener";
 import { IContext } from "../../MiddleServerRouter";
 import Help from "../../../atoms/Help/Help";
 import RoomTypeInfo from "../../../components/roomTypeInfo/RoomTypeInfo";
-import { PureQueryOptions } from "apollo-boost";
+import { PureQueryOptions } from "apollo-client";
 import Mbr from "../../../atoms/mbr/Mbr";
 
 let LAST_MOVED_ROOMTPYE = "";

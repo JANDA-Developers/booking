@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { ApolloError, PureQueryOptions } from "apollo-boost";
+import { ApolloError, PureQueryOptions } from "apollo-client";
 import { Mutation } from "react-apollo";
 import { useInput, IUseModal, LANG } from "../../../../hooks/hook";
 import {

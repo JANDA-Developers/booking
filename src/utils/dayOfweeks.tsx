@@ -1,20 +1,20 @@
 import {DayOfWeekPriceInput} from "../types/api";
-import { LANG } from "../hooks/hook";
+import {LANG} from "../hooks/hook";
 
 // 단순 변환 함수
 const JDMonthTextChanger = (Month: string | number): string => {
-  if (Month === "December" || Month === 11) return LANG("month");
-  if (Month === "November" || Month === 10) return LANG("month");
-  if (Month === "October" || Month === 9) return LANG("month");
-  if (Month === "September" || Month === 8) return LANG("month");
-  if (Month === "August" || Month === 7) return LANG("month");
-  if (Month === "July" || Month === 6) return LANG("month");
-  if (Month === "June" || Month === 5) return LANG("month");
-  if (Month === "May" || Month === 4) return LANG("month");
-  if (Month === "April" || Month === 3) return LANG("month");
-  if (Month === "March" || Month === 2) return LANG("month");
-  if (Month === "February" || Month === 1) return LANG("month");
-  if (Month === "January" || Month === 0) return LANG("month");
+  if (Month === "December" || Month === 11) return LANG("december");
+  if (Month === "November" || Month === 10) return LANG("november");
+  if (Month === "October" || Month === 9) return LANG("october");
+  if (Month === "September" || Month === 8) return LANG("september");
+  if (Month === "August" || Month === 7) return LANG("august");
+  if (Month === "July" || Month === 6) return LANG("july");
+  if (Month === "June" || Month === 5) return LANG("june");
+  if (Month === "May" || Month === 4) return LANG("may");
+  if (Month === "April" || Month === 3) return LANG("april");
+  if (Month === "March" || Month === 2) return LANG("march");
+  if (Month === "February" || Month === 1) return LANG("february");
+  if (Month === "January" || Month === 0) return LANG("january");
   console.error("JDMonthTextChanger Month is not 0~11");
   return "";
 };
@@ -22,16 +22,24 @@ const JDMonthTextChanger = (Month: string | number): string => {
 //  숫자(0~6)를 받아서 무슨 요일인지 반환
 const JDWeekChanger = (number: number, bit?: boolean): string => {
   if (!bit) {
-    const weekLanguage = [LANG('sun'), LANG('mon'), LANG('the'), LANG('wed'), LANG('thu'), LANG('fri'), LANG('sat')];
+    const weekLanguage = [
+      LANG("sun"),
+      LANG("mon"),
+      LANG("the"),
+      LANG("wed"),
+      LANG("thu"),
+      LANG("fri"),
+      LANG("sat")
+    ];
     return weekLanguage[number % 7];
   }
-  if (number === 1) return LANG('sun');
-  if (number === 2) return LANG('mon');
-  if (number === 4) return LANG('tue');
-  if (number === 8) return LANG('wed');
-  if (number === 16) return LANG('thu');
-  if (number === 32) return LANG('fri');
-  if (number === 64) return LANG('sat');
+  if (number === 1) return LANG("sun");
+  if (number === 2) return LANG("mon");
+  if (number === 4) return LANG("tue");
+  if (number === 8) return LANG("wed");
+  if (number === 16) return LANG("thu");
+  if (number === 32) return LANG("fri");
+  if (number === 64) return LANG("sat");
   return "err";
 };
 

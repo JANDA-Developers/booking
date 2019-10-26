@@ -28,6 +28,7 @@ export const kr = {
   JAPANESE: "일본어",
   KOREAN: "한국어",
   MALE: "남성",
+  FEMALE: "여성",
   MONTHLY: "월별",
   PROGRESSING: "예약진행중",
   Pricing: "가겨설정",
@@ -741,7 +742,7 @@ export const kr = {
       <Mbr /> 설정해보세요.
     </span>
   ),
-  // 새로 생기는것들은 아래부터 채워나감
+  // 🔻 new
   TODAY_STAY: "오늘 머무르는 인원",
   TODAY_CHECKIN: "오늘 체크인하는 인원",
   TOMORROW_CHECKIN: "내일 체크인하는 인원",
@@ -752,5 +753,17 @@ export const kr = {
     MALE: "남성전용",
     ANY: "성별 제한 없음",
     SEPARATELY: "혼숙방지"
-  }
+  },
+  december: "12월",
+  november: "11월",
+  october: "10월",
+  september: "9월",
+  august: "8월",
+  july: "7월",
+  june: "6월",
+  may: "5월",
+  april: "4월",
+  march: "3월",
+  february: "2월",
+  january: "1월"
 };

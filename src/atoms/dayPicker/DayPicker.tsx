@@ -191,6 +191,8 @@ const JDdayPicker: React.FC<IJDdayPickerProps> = ({
 
   const modifiers = {start: from || undefined, end: entered || undefined};
   const selectedDays: any = [from, {from, to: entered}];
+
+  // 이부분 함수 또는 이넘으로 변경
   const MONTHS = [
     `1${LANG("month")}`,
     `2${LANG("month")}`,

@@ -38,7 +38,7 @@ import {useDayPicker, IUseDayPicker, LANG} from "../../hooks/hook";
 import {IContext} from "../../pages/MiddleServerRouter";
 import DailyAssig from "./DailyAssig";
 import {getOperationName} from "apollo-link";
-import {NetworkStatus} from "apollo-boost";
+import {NetworkStatus} from "apollo-client";
 import {
   IDailyAssigDataControl,
   IAssigItem
