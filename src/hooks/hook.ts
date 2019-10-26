@@ -133,16 +133,10 @@ const useImageUploader = (foo?: any): IuseImageUploader => {
             0,
             async (uri: any) => {
               const newFile = new File([uri], name, {type: "image/jpeg"});
-              console.log(newFile);
-              console.log("newFile");
-              console.log(newFile);
               const data = await uploadMutation({variables: {file: newFile}});
 
-              const filUrl = muResult(data, "SingleUpload", "fileURl");
-              console.log("data");
-              console.log(data);
-              console.log(filUrl);
-              if (typeof filUrl === "boolean") {
+              const fileUrl = muResult(data, "SingleUpload", "fileURL");
+              if (typeof fileUrl === "boolean") {
                 setIsError(true);
               } else {
                 setFileUrl(fileUrl);
