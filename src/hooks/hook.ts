@@ -132,7 +132,7 @@ const useImageUploader = (foo?: any): IuseImageUploader => {
             100,
             0,
             async (uri: any) => {
-              const newFile = new File([uri], name, {type: "image/jpeg"});
+              const newFile = new File([uri], file.name, {type: "image/jpeg"});
               const data = await uploadMutation({variables: {file: newFile}});
 
               const fileUrl = muResult(data, "SingleUpload", "fileURL");
