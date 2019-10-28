@@ -6,15 +6,15 @@ import "rc-menu/assets/index.css";
 import "./Menu.scss";
 // @ts-ignore
 import animate from "css-animation";
+import {MotionType} from "rc-menu/lib/interface";
 
-const animation = {
-  // @ts-ignore
-  enter(node, done) {
-    // @ts-ignore
-    let height;
+const animation: MotionType = {
+  onEnterStart(node, done) {
+    let height: any;
     return animate(node, "rc-menu-collapse", {
       start() {
         height = node.offsetHeight;
+        // @ts-ignore
         node.style.height = 0;
       },
       active() {
@@ -23,26 +23,28 @@ const animation = {
       },
       end() {
         node.style.height = "";
+        // @ts-ignore
         done();
       }
     });
   },
 
-  appear() {
+  onAppearStart() {
     // @ts-ignore
     return this.enter.apply(this, arguments);
   },
-  // @ts-ignore
-  leave(node, done) {
+  onLeaveStart(node, done) {
     return animate(node, "rc-menu-collapse", {
       start() {
         node.style.height = `${node.offsetHeight}px`;
       },
       active() {
+        //@ts-ignore
         node.style.height = 0;
       },
       end() {
         node.style.height = "";
+        //@ts-ignore
         done();
       }
     });
@@ -67,7 +69,7 @@ const JDmenu: React.FC<IProps> = ({customMode, className, ...prop}) => {
       ref={menu}
       selectable={false}
       className={classes}
-      openAnimation={animation}
+      motion={animation}
       {...prop}
     />
   );

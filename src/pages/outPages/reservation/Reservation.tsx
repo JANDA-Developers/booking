@@ -1,6 +1,6 @@
-import React, { useState, Fragment, useEffect } from "react";
-import windowSize, { WindowSizeProps } from "react-window-size";
-import { MutationFn, Query } from "react-apollo";
+import React, {useState, Fragment, useEffect} from "react";
+import windowSize, {WindowSizeProps} from "react-window-size";
+import {MutationFn, Query} from "react-apollo";
 import ErrProtecter from "../../../utils/errProtect";
 import JDdayPicker from "../../../atoms/dayPicker/DayPicker";
 import {
@@ -35,9 +35,9 @@ import {
   insideRedirect,
   muResult
 } from "../../../utils/utils";
-import { isName, isPhone } from "../../../utils/inputValidations";
-import { JDtoastModal } from "../../../atoms/modal/Modal";
-import { IRoomType, IMu } from "../../../types/interface";
+import {isName, isPhone} from "../../../utils/inputValidations";
+import {JDtoastModal} from "../../../atoms/modal/Modal";
+import {IRoomType, IMu} from "../../../types/interface";
 import {
   WindowSize,
   PricingType,
@@ -47,19 +47,19 @@ import {
   PaymentStatus,
   PAYMENT_STATUS_OP
 } from "../../../types/enum";
-import { to4YMMDD } from "../../../utils/setMidNight";
-import { GET_ALL_ROOM_TYPE_FOR_BOOKING } from "../../../queries";
+import {to4YMMDD} from "../../../utils/setMidNight";
+import {GET_ALL_ROOM_TYPE_FOR_BOOKING} from "../../../queries";
 import Preloader from "../../../atoms/preloader/Preloader";
 import moment from "moment";
-import { Helmet } from "react-helmet";
-import { openNiceModal } from "./components/doPay";
-import { reservationDevelop, developEvent } from "../../../utils/developMaster";
+import {Helmet} from "react-helmet";
+import {openNiceModal} from "./components/doPay";
+import {reservationDevelop, developEvent} from "../../../utils/developMaster";
 import RoomSearcher from "../../../components/roomSearcher.tsx/RoomSearcher";
 import BookingInfoModal from "./components/roomTypeCards/bookingInfoModal";
 import isLast from "../../../utils/isLast";
-import { IRoomSelectInfo } from "../../../components/bookingModal/BookingModal";
-import { IContext } from "../../MiddleServerRouter";
-import { ExecutionResult } from "graphql";
+import {IRoomSelectInfo} from "../../../components/bookingModal/BookingModal";
+import {IContext} from "../../MiddleServerRouter";
+import {ExecutionResult} from "graphql";
 
 export interface IBookerInfo {
   name: string;
@@ -90,9 +90,9 @@ export interface IReservationHooks {
   };
 }
 
-class GetAllAvailRoomQu extends Query<getAllRoomTypeForBooker> { }
+class GetAllAvailRoomQu extends Query<getAllRoomTypeForBooker> {}
 export interface ISetBookingInfo
-  extends React.Dispatch<React.SetStateAction<IBookerInfo>> { }
+  extends React.Dispatch<React.SetStateAction<IBookerInfo>> {}
 
 interface IProps {
   startBookingForPublicMu?: IMu<
@@ -158,7 +158,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   const resvConfirmCallBackFunc = (flag: boolean) => {
     if (flag) {
       const publicKey = sessionStorage.getItem("hpk");
-      const { name, password, phoneNumber } = bookerInfo;
+      const {name, password, phoneNumber} = bookerInfo;
       location.href = insideRedirect(
         `outpage/checkReservation/${publicKey}/${name}/${phoneNumber}/${password}`
       );
@@ -180,13 +180,13 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   // Iframe 높이조절
   useEffect(() => {
     const theHeight = $("#JDreservation").height() || 1000;
-    window.parent.postMessage({ height: theHeight }, "*");
+    window.parent.postMessage({height: theHeight}, "*");
   });
 
   //
   const roomSelectValidation = () => {
     if (isEmpty(roomSelectInfo)) {
-      toastModalHook.openModal({ txt: LANG("no_room_selected") });
+      toastModalHook.openModal({txt: LANG("no_room_selected")});
       return false;
     }
     return true;
@@ -195,19 +195,21 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   // 예약전 벨리데이션
   const bookerInfoValidation = (): boolean => {
     if (isName(bookerInfo.name) !== true) {
-      toastModalHook.openModal({ txt: LANG("name_is_not_valid") });
+      toastModalHook.openModal({txt: LANG("name_is_not_valid")});
       return false;
     }
     if (isPhone(bookerInfo.phoneNumber) !== true) {
-      toastModalHook.openModal({ txt: LANG("phoneNum_is_not_valid") });
+      toastModalHook.openModal({txt: LANG("phoneNum_is_not_valid")});
       return false;
     }
     if (bookerInfo.password === "") {
-      toastModalHook.openModal({ txt: LANG("input_your_password_please") });
+      toastModalHook.openModal({txt: LANG("input_your_password_please")});
       return false;
     }
     if (bookerInfo.agreePrivacyPolicy === false) {
-      toastModalHook.openModal({ txt: LANG("please_agree_collect_personal_info") });
+      toastModalHook.openModal({
+        txt: LANG("please_agree_collect_personal_info")
+      });
       return false;
     }
     return true;
@@ -285,14 +287,14 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
 
       if (result) rsevModalHook.closeModal();
 
-      const { transactionId }: any = muResult(
+      const {transactionId}: any = muResult(
         result,
         "StartBookingForPublic",
         "bookingTransaction"
       );
 
       if (transactionId) {
-        openNiceModal({ resvInfo: startBookingVariables, transactionId });
+        openNiceModal({resvInfo: startBookingVariables, transactionId});
       }
     }
   };
@@ -332,7 +334,9 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
       <div className="flex-grid">
         <div className="flex-grid__col JDreservation__card-grid col--full-4 col--lg-5 col--wmd-12">
           <Card className="JDmargin-bottom0 JDreservation__card JDreservation__dayPickerCard">
-            <h6 className="JDreservation__sectionTitle">① {LANG("select_date")}</h6>
+            <h6 className="JDreservation__sectionTitle">
+              ① {LANG("select_date")}
+            </h6>
             {/* TODO: change 될때마다 roomSelectInfo를 초기화 해주어야함 */}
             <JDdayPicker
               {...dayPickerHook}
@@ -351,7 +355,9 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
             fullWidth={isMobile}
             className="JDz-index-1 JDstandard-space0 JDreservation__card"
           >
-            <h6 className="JDreservation__sectionTitle">② {LANG("room_select")}</h6>
+            <h6 className="JDreservation__sectionTitle">
+              ② {LANG("room_select")}
+            </h6>
             {/* TODO: roomTypes들의 반복문을 통해서 만들고 해당 정보는 roomSelectInfo 에서 filter를 통해서 가져와야함 */}
 
             <GetAllAvailRoomQu
@@ -383,17 +389,17 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
                     />
                   ))
                 ) : (
-                    <Fragment>
-                      <h4 className="JDreservation__cardMessage JDtextcolor--placeHolder JDtext-align-center">
-                        <Preloader
-                          className="JDstandard-margin0"
-                          size="large"
-                          loading={roomAvailCountLoading}
-                        />
-                        {roomAvailCountLoading || roomCardMessage()}
-                      </h4>
-                    </Fragment>
-                  );
+                  <Fragment>
+                    <h4 className="JDreservation__cardMessage JDtextcolor--placeHolder JDtext-align-center">
+                      <Preloader
+                        className="JDstandard-margin0"
+                        size="large"
+                        loading={roomAvailCountLoading}
+                      />
+                      {roomAvailCountLoading || roomCardMessage()}
+                    </h4>
+                  </Fragment>
+                );
               }}
             </GetAllAvailRoomQu>
           </Card>
@@ -402,7 +408,9 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
               fullWidth={isMobile}
               className={`JDmargin-bottom0 JDreservation__confirmCard JDreservation__card`}
             >
-              <h6 className="JDreservation__sectionTitle">{LANG("check_selection")}</h6>
+              <h6 className="JDreservation__sectionTitle">
+                {LANG("check_selection")}
+              </h6>
               <BookingInfoBox
                 roomTypeInfo={roomInfoHook[0]}
                 from={dayPickerHook.from}

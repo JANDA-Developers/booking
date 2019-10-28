@@ -11,7 +11,7 @@ import {
 import {MutationFn} from "react-apollo";
 import {MemoType} from "../../types/enum";
 import MemoBox from "./component/MemoBox";
-import {isEmpty} from "../../utils/utils";
+import {isEmpty, s4} from "../../utils/utils";
 import {DEFAUT_MEMO} from "../../types/defaults";
 import "./Memo.scss";
 import Preloader from "../../atoms/preloader/Preloader";
@@ -128,7 +128,7 @@ const Memo: React.FC<Iprops & IConfigMemo> = ({
           <MemoBox
             className={isLast(index, memos) ? "JDmargin-bottom0" : undefined}
             {...sharedMemoBoxProps}
-            key={memo._id + memo.enableAlert ? "--impor" : ""}
+            key={s4()}
             memo={memo}
           />
         ))

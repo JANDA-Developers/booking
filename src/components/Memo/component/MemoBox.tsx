@@ -80,7 +80,9 @@ const MemoBox: React.FC<Iprops> = ({
       <JDbox
         tooltip={
           norAddAndEditMode
-            ? moment(memo.createdAt).format("MM:DD HH:mm")
+            ? moment(memo.createdAt)
+                .local()
+                .format("MM:DD HH:mm")
             : undefined
         }
         tooltipDirection="left"

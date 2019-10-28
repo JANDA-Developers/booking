@@ -38,7 +38,7 @@ import {
   GET_ROOM_TYPE_DATE_PRICE,
   START_BOOKING
 } from "../../queries";
-import {BookingModalModes} from "../../types/enum";
+import {BookingModalModes, MODAL_PRELOADER_SIZE} from "../../types/enum";
 import {getOperationName} from "apollo-utilities";
 import {DEFAUT_BOOKING} from "../../types/defaults";
 import {IAssigTimelineUtils} from "../../pages/middleServer/assig/components/assigIntrerface";
@@ -241,7 +241,7 @@ const BookingModalWrap: React.FC<IProps> = ({
                                   ) : (
                                     <JDmodal {...modalHook}>
                                       <Preloader
-                                        size="large"
+                                        size={MODAL_PRELOADER_SIZE}
                                         noAnimation
                                         loading={totalLoading}
                                       />

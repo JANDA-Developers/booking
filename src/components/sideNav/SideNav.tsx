@@ -201,7 +201,7 @@ const SideNav: React.FC<IProps> = ({isOpen, setIsOpen, context}) => {
                       <JDlist
                         className="JDmargin-bottom0"
                         contents={[
-                          `${LANG("expiry_date")}: ${to4YMMDD(
+                          `${LANG("expire_date")}: ${to4YMMDD(
                             applyedProduct.expireDate
                           )}`,
                           `${LANG("price")}: ${applyedProduct.price ||

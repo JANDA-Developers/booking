@@ -73,9 +73,21 @@ const NotiLi: React.FC<IProps> = ({noti}) => {
                 <SharedNoti />
               </div>
             );
-
+          // 노티가 익스파이어 될떄
           default:
-            return <div>as</div>;
+            NotiType.PRODUCT_EXPIRE;
+            return (
+              <div className="notiLi__contents">
+                <CircleIcon
+                  className="notiLi__symbolWrap"
+                  thema="border"
+                  size={sharedSymbolProp.size}
+                >
+                  <JDIcon color="error" {...sharedSymbolProp} icon="notify" />
+                </CircleIcon>
+                <SharedNoti />
+              </div>
+            );
         }
       })()}
       <Tooltip type="dark" effect="solid" id="NotiCreateDateToolTip" />

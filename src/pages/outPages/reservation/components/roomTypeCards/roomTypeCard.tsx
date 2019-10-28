@@ -225,6 +225,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
               <Fragment>
                 {roomTypeData.roomGender === RoomGender.FEMALE || (
                   <JDselect
+                    menuItemCenterlize
                     borderColor="primary"
                     options={maleSeleteOption}
                     autoSize
@@ -239,6 +240,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
                 )}
                 {roomTypeData.roomGender === RoomGender.MALE || (
                   <JDselect
+                    menuItemCenterlize
                     borderColor="primary"
                     options={femaleSeleteOption}
                     autoSize
@@ -255,6 +257,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
               </Fragment>
             ) : (
               <JDselect
+                menuItemCenterlize
                 borderColor="primary"
                 options={roomSeleteOption}
                 autoSize

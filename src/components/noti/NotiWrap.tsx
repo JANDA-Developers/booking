@@ -27,7 +27,7 @@ import Noti from "./Noti";
 import {IContext} from "../../pages/MiddleServerRouter";
 import {getOperationName} from "apollo-link";
 import moment from "moment";
-import {FLOATING_PRElOADER_SIZE, NotiType, NotiLevel} from "../../types/enum";
+import {FLOATING_PRELOADER_SIZE, NotiType, NotiLevel} from "../../types/enum";
 import Preloader from "../../atoms/preloader/Preloader";
 import {LANG} from "../../hooks/hook";
 
@@ -79,7 +79,9 @@ const addExpiredWarnNoti = (
       notiLevel: NotiLevel.WARN,
       msg: LANG("F_you_have_x_free_trial_left_y__is_about_to_expire")(
         daysLeftToExpire,
-        product.expireDate
+        moment(product.expireDate)
+          .local()
+          .format("YYYY/MM/DD")
       )
     });
   }
@@ -101,6 +103,7 @@ const NotiWrap: React.FC<IProps> = ({context, icon}) => {
         if (applyedProduct) {
           addExpiredWarnNoti(filterdNotis, applyedProduct);
         }
+
         return (
           <ConfirmMutation
             mutation={CONFIRM_NOTI}
@@ -110,7 +113,7 @@ const NotiWrap: React.FC<IProps> = ({context, icon}) => {
               <Fragment>
                 <Preloader
                   floating
-                  size={FLOATING_PRElOADER_SIZE}
+                  size={FLOATING_PRELOADER_SIZE}
                   loading={confirmMutationLoading}
                 />
                 <Noti

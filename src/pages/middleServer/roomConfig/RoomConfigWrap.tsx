@@ -21,7 +21,7 @@ import {IContext} from "../../MiddleServerRouter";
 import RoomConfig from "./RoomConfig";
 import {PureQueryOptions} from "apollo-client";
 import Preloader from "../../../atoms/preloader/Preloader";
-import {FLOATING_PRElOADER_SIZE} from "../../../types/enum";
+import {FLOATING_PRELOADER_SIZE} from "../../../types/enum";
 
 export enum ADD_ROOM {
   "ADDROOM" = -1,
@@ -78,7 +78,7 @@ const RoomConfigWrap: React.FC<IProps> = ({
               <Fragment>
                 <Preloader
                   floating
-                  size={FLOATING_PRElOADER_SIZE}
+                  size={FLOATING_PRELOADER_SIZE}
                   loading={
                     chnageIndexMuLoading || (networkStatus > 1 && loading)
                   }

@@ -26,7 +26,7 @@ import {show} from "react-tooltip";
 import {createHouse, createHouseVariables} from "../../../types/api";
 import Preloader from "../../../atoms/preloader/Preloader";
 import {getOperationName} from "apollo-link";
-import {FLOATING_PRElOADER_SIZE} from "../../../types/enum";
+import {FLOATING_PRELOADER_SIZE} from "../../../types/enum";
 import {IContext} from "../../MiddleServerRouter";
 
 let map: google.maps.Map | null = null;
@@ -322,7 +322,7 @@ export default ErrProtecter(
     apiKey: "AIzaSyCLG8qPORYv6HJIDSgXpLqYDDzIKgSs6FY",
     LoadingContainer: () => (
       <div style={{height: "85vh"}}>
-        <Preloader floating size={FLOATING_PRElOADER_SIZE} loading={true} />
+        <Preloader floating size={FLOATING_PRELOADER_SIZE} loading={true} />
       </div>
     )
   })(CreateHouse)

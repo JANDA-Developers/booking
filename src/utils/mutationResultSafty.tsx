@@ -15,10 +15,6 @@ function muResult<T>(
 
   if (!returnKey) return true;
 
-  console.log("?");
-  console.log(data);
-  console.log(data.data[queryName]);
-  console.log(data.data[queryName][returnKey]);
   const returnValue = data.data[queryName][returnKey];
   return returnValue as T;
 }

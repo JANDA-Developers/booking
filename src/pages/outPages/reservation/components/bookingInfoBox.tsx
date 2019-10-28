@@ -85,7 +85,7 @@ const BookingInfoBox: React.FC<IBookingInfoBoxProps> = ({
         <span>
           {LANG("total_price")}: {autoComma(totalPrice)}
         </span>
-        <span> /{LANG("money_unit")}}</span>
+        <span> /{LANG("money_unit")}</span>
       </JDbox>
     </div>
   );

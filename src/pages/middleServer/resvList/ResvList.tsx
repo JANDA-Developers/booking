@@ -25,7 +25,7 @@ import {
   PaymentStatus,
   PricingType,
   BookingStatus,
-  FLOATING_PRElOADER_SIZE,
+  FLOATING_PRELOADER_SIZE,
   DateFormat
 } from "../../../types/enum";
 import moment from "moment";
@@ -404,7 +404,7 @@ const ResvList: React.SFC<IProps> = ({
           />
         )}
         <Preloader
-          size={FLOATING_PRElOADER_SIZE}
+          size={FLOATING_PRELOADER_SIZE}
           floating
           loading={networkStatus !== 1 && loading}
         />

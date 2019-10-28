@@ -3,6 +3,14 @@
 .JDselect {
   text-align:left;
 
+
+  &--menuItem-centerlize {
+    .react-select__option {
+      padding: 0px!important;
+      text-align: center;  
+    }
+  }
+
   .css-1g6gooi {
     width: 1px;
   }
@@ -179,8 +187,8 @@
       
       //  메뉴 
       &__menu-list {
-        @extend %JDscrollbar;
         padding: 0;
+        @extend %JDscrollbar;
       }
 
       // this is a li !!! 😆

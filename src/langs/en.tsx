@@ -52,7 +52,7 @@ export const en = {
   HM: "하우스 메뉴얼a",
   customer_inquiry: "고객문의a",
   bookingList: "예약목록a",
-  expiry_date: "만료일a",
+  expire_date: "만료일a",
   cancleBooking: "예약취소a",
   sendSMS: "문자전송a",
   preferences: "환경설정a",

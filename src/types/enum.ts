@@ -487,6 +487,7 @@ export const StaticColors = [
   "#0A7B83"
 ];
 
-export const FLOATING_PRElOADER_SIZE = "small";
+export const FLOATING_PRELOADER_SIZE = "small";
+export const MODAL_PRELOADER_SIZE = "large";
 
 export const TEST_PRODUCT_NAME = ProductTypeName.ONE;

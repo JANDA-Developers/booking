@@ -24,7 +24,7 @@ import { muResult } from "../../../utils/utils";
 import {
   Language,
   LANGUAGE_LIST,
-  FLOATING_PRElOADER_SIZE,
+  FLOATING_PRELOADER_SIZE,
   MODAL_MIN_WIDTH
 } from "../../../types/enum";
 import Help from "../../../atoms/Help/Help";
@@ -239,7 +239,7 @@ const HMconfig: React.FC<IProps> = ({
 
   return (
     <div className="HMconfig">
-      <Preloader floating size={FLOATING_PRElOADER_SIZE} loading={loading} />
+      <Preloader floating size={FLOATING_PRELOADER_SIZE} loading={loading} />
       <div className="container container--sm">
         <div className="docs-section">
           <h3>

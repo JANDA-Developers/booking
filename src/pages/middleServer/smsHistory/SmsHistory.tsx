@@ -10,7 +10,7 @@ import JDbadge from "../../../atoms/badge/Badge";
 import JDbox from "../../../atoms/box/JDbox";
 import { s4, autoHypen } from "../../../utils/utils";
 import moment from "moment";
-import { FLOATING_PRElOADER_SIZE, DateFormat } from "../../../types/enum";
+import { FLOATING_PRELOADER_SIZE, DateFormat } from "../../../types/enum";
 import { LANG } from "../../../hooks/hook";
 
 interface Iprops {
@@ -106,7 +106,7 @@ const SmsHistory: React.SFC<Iprops> = ({
         <Fragment>
           <h3>{LANG("sms_history")}</h3>
           <Preloader
-            size={FLOATING_PRElOADER_SIZE}
+            size={FLOATING_PRELOADER_SIZE}
             floating
             loading={loading}
           />

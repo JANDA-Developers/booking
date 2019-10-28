@@ -39,6 +39,7 @@ interface Iprops extends SelectComponentsProps {
   background?: "white";
   borderColor?: "primary";
   displayArrow?: boolean;
+  menuItemCenterlize?: boolean;
 }
 
 const JDselect: React.SFC<Iprops> = ({
@@ -57,6 +58,7 @@ const JDselect: React.SFC<Iprops> = ({
   placeholder,
   textOverflow,
   background,
+  menuItemCenterlize,
   menuCanOverflow,
   displayArrow,
   borderColor,
@@ -83,7 +85,8 @@ const JDselect: React.SFC<Iprops> = ({
     "JDselect--border-primary": borderColor === "primary",
     "JDselect--textOverflowVisible": textOverflow === "visible",
     "JDselect--menuCanOverflow": menuCanOverflow,
-    "JDselect--autoSize": autoSize
+    "JDselect--autoSize": autoSize,
+    "JDselect--menuItem-centerlize": menuItemCenterlize
   });
 
   const selectStyle: any = {
@@ -108,7 +111,6 @@ const JDselect: React.SFC<Iprops> = ({
         isDisabled={disabled}
         noOptionsMessage={() => noOptionsMessage}
         placeholder={placeholder || deafultPlaceHolder}
-        // menuIsOpen={true}
       />
       {rightLabel && (
         <span className="JDselect__label JDselect__label--right">

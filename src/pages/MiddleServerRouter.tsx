@@ -226,6 +226,15 @@ const JDmiddleServer: React.FC<IProps> = ({
                               return <DashBoard context={propContext} />;
                             }}
                           />
+                          {/* 대쉬보드 리다이렉트*/}
+                          <Route
+                            exact
+                            path="/"
+                            render={prop => {
+                              prop.history.push("/dashboard");
+                              return <DashBoard context={propContext} />;
+                            }}
+                          />
                           {/* 상품선택 */}
                           <Route
                             exact

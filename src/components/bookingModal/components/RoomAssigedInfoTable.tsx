@@ -1,11 +1,12 @@
 import React from "react";
 import JDtable, {JDcolumn, ReactTableDefault} from "../../../atoms/table/Table";
-import {Gender, GENDER_OP} from "../../../types/enum";
+import {Gender, GENDER_OP, WindowSize} from "../../../types/enum";
 import {inOr} from "../../../utils/C";
 import JDselect from "../../../atoms/forms/selectBox/SelectBox";
-import {IAssigInfo} from "../../../pages/middleServer/assig/components/assigIntrerface";
 import {IBookingModal_AssigInfo} from "../BookingModal";
+import reactWindowSize, {WindowSizeProps} from "react-window-size";
 import {LANG} from "../../../hooks/hook";
+import "./RoomAssigedInfoTable.scss";
 
 interface IGuestTableInfo {
   _id: string;
@@ -28,10 +29,11 @@ interface Iprops {
   setAssigInfo: React.Dispatch<React.SetStateAction<IBookingModal_AssigInfo[]>>;
 }
 
-const RoomAssigedInfoTable: React.FC<Iprops> = ({
+const RoomAssigedInfoTable: React.FC<Iprops & WindowSizeProps> = ({
   guestsData,
   assigInfo,
-  setAssigInfo
+  setAssigInfo,
+  windowWidth
 }) => {
   const getGenderSelectedOption = (guestId: string) => {
     const info = assigInfo.find(info => info._id === guestId);
@@ -42,20 +44,7 @@ const RoomAssigedInfoTable: React.FC<Iprops> = ({
     };
   };
 
-  const TableColumns: JDcolumn<IGuestTableInfo>[] = [
-    {
-      Header: LANG("guest"),
-      accessor: "_id",
-      maxWidth: 64,
-      Cell: ({original}) => (
-        <div className="RoomAssigedInfoTable__id">{original._id}</div>
-      )
-    },
-    {
-      Header: LANG("roomType"),
-      accessor: "_id",
-      Cell: ({original}) => <div>{original.roomType.name}</div>
-    },
+  let TableColumns: JDcolumn<IGuestTableInfo>[] = [
     {
       Header: LANG("room"),
       maxWidth: 80,
@@ -97,6 +86,26 @@ const RoomAssigedInfoTable: React.FC<Iprops> = ({
     }
   ];
 
+  if (windowWidth > WindowSize.TABLET) {
+    TableColumns = [
+      {
+        Header: LANG("guest"),
+        accessor: "_id",
+        maxWidth: 64,
+        Cell: ({original}) => (
+          <div className="RoomAssigedInfoTable__id">{original._id}</div>
+        )
+      },
+      {
+        Header: LANG("roomType"),
+        accessor: "_id",
+        Cell: ({original}) => <div>{original.roomType.name}</div>
+      },
+
+      ...TableColumns
+    ];
+  }
+
   return (
     <div className={"RoomAssigedInfoTable"}>
       <JDtable
@@ -112,4 +121,4 @@ const RoomAssigedInfoTable: React.FC<Iprops> = ({
   );
 };
 
-export default RoomAssigedInfoTable;
+export default reactWindowSize(RoomAssigedInfoTable);

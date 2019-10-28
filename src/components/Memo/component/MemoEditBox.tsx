@@ -4,6 +4,7 @@ import {getMemos_GetMemos_memos} from "../../../types/api";
 import Button from "../../../atoms/button/Button";
 import CheckBox from "../../../atoms/forms/checkBox/CheckBox";
 import {LANG} from "../../../hooks/hook";
+
 interface Iprops {
   memo: getMemos_GetMemos_memos;
   setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
@@ -39,7 +40,7 @@ const MemoEditBox: React.FC<Iprops> = ({
             data-for="siginificantExplicateTooltip"
             className="JDstandard-space"
           >
-            {LANG("noti_setting")}}
+            {LANG("noti_setting")}
           </span>
           <CheckBox
             className="JDstandard-margin0"

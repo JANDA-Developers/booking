@@ -28,13 +28,16 @@ import {
   useInput,
   useDayPicker,
   useModal,
-  LANG
+  LANG,
+  useDrawer
 } from "../../hooks/hook";
 import {MutationFn} from "react-apollo";
 import {to4YMMDD} from "../../utils/setMidNight";
 import JDdayPicker from "../../atoms/dayPicker/DayPicker";
 import DayPickerModal from "../dayPickerModal/DayPickerModal";
 import {inOr} from "../../utils/C";
+import Drawer from "../../atoms/drawer/Drawer";
+import {IconSize} from "../../atoms/icons/Icons";
 
 interface IProps {
   specification: getSpecification_GetHouse_house;
@@ -89,17 +92,17 @@ export const SpecificAtion: React.FC<IProps> = ({
     ? appInfoRequested[lastRequestIndex]
     : DEFAUT_APP_INFO_REQUEST;
 
+  const drawerHook = useDrawer(false);
+
   const {layoutType, useHostApp, url: requestUrl} = inAppInfoRequested;
 
   if (!user) return <div />;
   const {name: userName, phoneNumber} = user;
-
   // HOOK
   const HouseStatusHook = useSelect({
     label: LANG(status || HouseStatus.WAIT),
     value: status || HouseStatus.WAIT
   });
-
   const dayPickerModal = useModal(false);
   const [price, setPrice] = useState(productPrice || 0);
   const layOutPricePaidHook = useCheckBox(layoutPricePaid || false);
@@ -127,7 +130,7 @@ export const SpecificAtion: React.FC<IProps> = ({
     });
   };
 
-  const columns: {
+  let columns: {
     title: string;
     value: string;
     adminUi?: JSX.Element | JSX.Element[] | string;
@@ -150,47 +153,7 @@ export const SpecificAtion: React.FC<IProps> = ({
       value: useHostApp ? "Y" : "N"
     },
     {
-      title: LANG("homepage_application_date"),
-      value: moment(productCreateAt)
-        .local()
-        .format(`YY${LANG("year")} MM${LANG("month")} DD${LANG("date")} HH:mm`)
-    },
-    {
-      title: LANG("homepage_complete_estimated_date"),
-      value: moment(productCreateAt)
-        .add(3, "days")
-        .format(`YY${LANG("year")} MM${LANG("month")} DD${LANG("date")} HH:mm`)
-    },
-    {
-      title: LANG("homepage_develope_status"),
-      value: existingHostApp ? LANG("completed") : LANG("waiting"),
-      adminUi: <CheckBox {...haveHostAppHook} />
-    },
-    {
-      title: LANG("apply_layout"),
-      value: useHostApp ? layoutType : ""
-    },
-    {
-      title: LANG("request_url"),
-      value: requestUrl
-    },
-    {
-      title: LANG("applied_url"),
-      value: `${applideUrlHook.value}`,
-      adminUi: <InputText {...applideUrlHook} />
-    },
-    {
-      title: LANG("layout_cost"),
-      value: autoComma(layoutPrice || 0),
-      adminUi: <InputText readOnly value={layoutPrice} />
-    },
-    {
-      title: LANG("is_layout_paied"),
-      value: layoutPricePaid ? "Y" : "N",
-      adminUi: <CheckBox {...layOutPricePaidHook} />
-    },
-    {
-      title: LANG("product_price"),
+      title: LANG("monthly_fee"),
       value: productPrice + ` / ${LANG("month")}`,
       adminUi: <InputText comma onChange={setPrice} value={price} />
     },
@@ -202,7 +165,7 @@ export const SpecificAtion: React.FC<IProps> = ({
           onClick={() => {
             dayPickerModal.openModal();
           }}
-          value={`${to4YMMDD(expireDate)}${LANG("till")}`}
+          value={`${to4YMMDD(expireDateHook.from)}${LANG("till")}`}
         />
       )
     },
@@ -220,15 +183,65 @@ export const SpecificAtion: React.FC<IProps> = ({
       title: LANG("product_memo"),
       value: description || "",
       adminUi: <InputText {...descHook} textarea />
-    },
-    {
-      title: LANG("applicant_contact"),
-      value: autoHypen(phoneNumber)
     }
   ];
 
+  if (drawerHook.open) {
+    columns = [
+      ...columns,
+      {
+        title: LANG("homepage_application_date"),
+        value: moment(productCreateAt)
+          .local()
+          .format(
+            `YY${LANG("year")} MM${LANG("month")} DD${LANG("date")} HH:mm`
+          )
+      },
+      {
+        title: LANG("homepage_complete_estimated_date"),
+        value: moment(productCreateAt)
+          .add(3, "days")
+          .format(
+            `YY${LANG("year")} MM${LANG("month")} DD${LANG("date")} HH:mm`
+          )
+      },
+      {
+        title: LANG("applicant_contact"),
+        value: autoHypen(phoneNumber)
+      },
+      {
+        title: LANG("homepage_develope_status"),
+        value: existingHostApp ? LANG("completed") : LANG("waiting"),
+        adminUi: <CheckBox {...haveHostAppHook} />
+      },
+      {
+        title: LANG("apply_layout"),
+        value: useHostApp ? layoutType : ""
+      },
+      {
+        title: LANG("request_url"),
+        value: requestUrl
+      },
+      {
+        title: LANG("applied_url"),
+        value: `${applideUrlHook.value}`,
+        adminUi: <InputText {...applideUrlHook} />
+      },
+      {
+        title: LANG("layout_cost"),
+        value: autoComma(layoutPrice || 0),
+        adminUi: <InputText readOnly value={layoutPrice} />
+      },
+      {
+        title: LANG("is_layout_paied"),
+        value: layoutPricePaid ? "Y" : "N",
+        adminUi: <CheckBox {...layOutPricePaidHook} />
+      }
+    ];
+  }
+
   return (
-    <JDbox mode="table">
+    <JDbox className="JDmargin-bottom0" mode="table">
       <table className="JDtable">
         <thead>
           <tr>
@@ -245,6 +258,9 @@ export const SpecificAtion: React.FC<IProps> = ({
           ))}
         </tbody>
       </table>
+      <div className="JDstandard-margin-bottom">
+        <Drawer size={IconSize.MEDIUM} {...drawerHook} />
+      </div>
       <DayPickerModal
         modalHook={dayPickerModal}
         {...expireDateHook}
@@ -254,7 +270,6 @@ export const SpecificAtion: React.FC<IProps> = ({
         displayInfo={false}
         isRange={false}
       />
-
       {isAdmin && (
         <Button
           className="JDstandard-margin0"

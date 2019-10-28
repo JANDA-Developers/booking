@@ -33,18 +33,21 @@ const HeaderCellRender: React.FC<Iprops> = ({
     }
   );
 
-  console.log(
-    intervalContext.intervalText
-      .replace(`${LANG("day_of_week")},`, ", ")
-      .replace("/([0-9]{4})년/", "")
-  );
-
   return (
     <div className={headerClasses} {...getIntervalProps()}>
       <div
         data-start={startTime}
         className="timelineHeaderCell__inner"
+        onMouseDown={e => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}
+        onMouseUp={e => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}
         onClickCapture={e => {
+          console.log("eaaaass");
           e.preventDefault();
           e.stopPropagation();
           onClickCell && onClickCell({intervalContext});

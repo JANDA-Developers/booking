@@ -71,8 +71,10 @@ main {
 }
 
 .middleServer--sideOpen {
-  .container--centerlize {
-    padding-left: $sideNav-width;
+  @include response($full, $phablet) {
+    .container--centerlize {
+      padding-left: $sideNav-width;
+    }
   }
 }
 

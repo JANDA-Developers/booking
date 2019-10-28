@@ -6,13 +6,15 @@
         position: relative;
         min-width: $sideNav-width;
         height: 100%;
+        z-index: $z-index-1;
+        background-color: white;
     }
 
     @include response($phablet) {
         position:fixed;
         left: 0;
-        top: 0;
-        height: 100vh;
+        top: $header-height;
+        bottom: 0;
         -webkit-box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.2);
         box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.2);
     }
@@ -82,7 +84,6 @@
         bottom:0;
         background-color: $grey-opacity3;
         transition: background-color 0.3s;
-        z-index: $z-index-9;
         display: none;
         &--open {
             background-color: $sideNav-curtain-color;

@@ -75,6 +75,7 @@
     #root &__configIconWrap {
         top: 0;
         flex: 0 0;
+        margin-right: -$assigItem-padding;
         &:hover {
             color: $grey-level1;
             cursor: pointer;

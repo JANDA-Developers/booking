@@ -20,10 +20,16 @@
     &__side {
         position: relative;
         z-index: $z-index-7;
+        
+        @include response($phablet) {
+            position:fixed;
+        }
     }
     &--sideOpen {
-        .middleServer__page {
-            max-width: calc(100% - #{$sideNav-width});
+        @include response($full,$phablet) {
+            .middleServer__page {
+                max-width: calc(100% - #{$sideNav-width});
+            }
         }
     }
 }

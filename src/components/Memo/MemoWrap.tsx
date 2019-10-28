@@ -14,7 +14,7 @@ import {
 } from "../../types/api";
 import {GET_MEMO, CREATE_MEMO, DELETE_MEMO, UPDATE_MEMO} from "../../queries";
 import {getOperationName} from "apollo-link";
-import {MemoType} from "../../types/enum";
+import {MemoType, MODAL_PRELOADER_SIZE} from "../../types/enum";
 import Preloader from "../../atoms/preloader/Preloader";
 import {IContext} from "../../pages/MiddleServerRouter";
 import {IUseModal, LANG} from "../../hooks/hook";
@@ -103,7 +103,10 @@ const MemoWrap: React.FC<IMemoWrapProps> = ({context, memoType, ...prop}) => {
                             {...prop}
                           />
                         ) : (
-                          <Preloader size="large" loading={true} />
+                          <Preloader
+                            size={MODAL_PRELOADER_SIZE}
+                            loading={true}
+                          />
                         )
                       }
                     </UpdateMemoMu>

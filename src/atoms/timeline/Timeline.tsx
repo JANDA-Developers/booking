@@ -294,6 +294,11 @@ export const SharedSideBarHeader: React.FC<IProps> = ({
     <div>
       <div className="rct-header-root__topLeft" {...getRootProps()}>
         <div
+          onMouseDown={e => {
+            e.preventDefault();
+            e.stopPropagation();
+            dayPickerModalHook.openModal();
+          }}
           onClick={e => {
             e.preventDefault();
             e.stopPropagation();

@@ -105,8 +105,7 @@
     // 스틱키는 이위에 랩에서 걸려있음
     &__titleWrap {
         box-sizing: border-box;
-        // 이렇게 해야 sticky가 올바르게 동작 + 20은 아이콘 계수
-        padding-right: $assigItem-padding + 1rem;
+        padding-right: $assigItem-padding * 2;
         white-space: pre-line;
         line-height: 1;
         font-size: $typho-small;
@@ -151,7 +150,7 @@
     &__configIconWrap {
         position:absolute;
         z-index: $z-index-1;
-        right: $assigItem-padding;
+        right: 0;
         top: 0;
         height: 100%;
         display: flex;

@@ -54,7 +54,7 @@ const JDdayPicker: React.FC<IJDdayPickerProps> = ({
   showInputIcon = true,
   displayCaption = true,
   displayHeader = true,
-  displayInfo = true,
+  displayInfo = false,
   format,
   placeholder,
   lang = "ko",

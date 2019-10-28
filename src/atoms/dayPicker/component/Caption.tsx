@@ -8,8 +8,6 @@ interface IProps {
 }
 
 const JDdateCaption: React.SFC<IProps> = ({date}) => {
-  console.log("date🈂️");
-  console.log(date);
   const month = JDMonthTextChanger(date.getMonth());
   const year = date.getFullYear();
   return (

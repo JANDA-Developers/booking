@@ -7,7 +7,8 @@ import {GET_USER_FOR_SU} from "../../../../queries";
 import {showError, queryDataFormater} from "../../../../utils/utils";
 import Preloader from "../../../../atoms/preloader/Preloader";
 import UserModal, {IUserModalProps} from "./userModal";
-import { IContext } from "../../../MiddleServerRouter";
+import {IContext} from "../../../MiddleServerRouter";
+import {MODAL_PRELOADER_SIZE} from "../../../../types/enum";
 
 interface IProps {
   modalHook: IUseModal<IUserModalProps>;
@@ -40,7 +41,7 @@ const UserModalWrap: React.SFC<IProps> = ({modalHook, context}) => (
               modalHook={modalHook}
             />
           ) : (
-            <Preloader loading={loading} size="large" />
+            <Preloader loading={loading} size={MODAL_PRELOADER_SIZE} />
           )}
         </JDmodal>
       );

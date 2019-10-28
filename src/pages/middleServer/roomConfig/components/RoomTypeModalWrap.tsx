@@ -27,7 +27,7 @@ import {
 import {
   PricingType,
   RoomGender,
-  FLOATING_PRElOADER_SIZE
+  FLOATING_PRELOADER_SIZE
 } from "../../../../types/enum";
 import {IContext} from "../../../MiddleServerRouter";
 import {getOperationName} from "apollo-link";

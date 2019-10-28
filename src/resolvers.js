@@ -4,7 +4,7 @@ const resolvers = {
       const result = {
         __typename: "House",
         value: localStorage.getItem("selectId"),
-        label: localStorage.getItem("selectHouseLabel"),
+        label: localStorage.getItem("selectHouseLabel")
       };
 
       return result;
@@ -17,11 +17,7 @@ const resolvers = {
   },
   Mutation: {
     // resolvers: 로그인
-    LogUserIn: (_, {
-      token
-    }, {
-      cache
-    }) => {
+    LogUserIn: (_, {token}, {cache}) => {
       localStorage.setItem("jwt", token);
       cache.writeData({
         data: {
@@ -34,9 +30,7 @@ const resolvers = {
       return null;
     },
     // resolvers: 로그아웃
-    LogUserOut: (_, __, {
-      cache
-    }) => {
+    LogUserOut: (_, __, {cache}) => {
       localStorage.removeItem("jwt");
       cache.writeData({
         data: {
@@ -50,9 +44,7 @@ const resolvers = {
       return null;
     },
     // resolvers: 숙소선택
-    selectHouse: (_, args, {
-      cache
-    }) => {
+    selectHouse: (_, args, {cache}) => {
       try {
         cache.writeData({
           data: {

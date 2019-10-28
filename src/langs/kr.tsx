@@ -1,6 +1,5 @@
 import React from "react";
 import Mbr from "../atoms/mbr/Mbr";
-import {LANG} from "../hooks/hook";
 
 export const kr = {
   Apply: "적용",
@@ -27,8 +26,8 @@ export const kr = {
     "잔다 고객분들에게 무료 홈페이지를 제공합니다.",
   JAPANESE: "일본어",
   KOREAN: "한국어",
-  MALE: "남성",
-  FEMALE: "여성",
+  MALE: "남",
+  FEMALE: "여",
   MONTHLY: "월별",
   PROGRESSING: "예약진행중",
   Pricing: "가겨설정",
@@ -221,7 +220,7 @@ export const kr = {
   eamil: "이메일",
   enter_room_type_name: "방타입명을 입력해주세요.",
   exit_room_settings: "방설정 끝내기",
-  expiry_date: "만료일",
+  expire_date: "만료일",
   failt_to_change_house: "숙소변경 실패",
   female: "여",
   female_gender: "여성",
@@ -743,6 +742,7 @@ export const kr = {
     </span>
   ),
   // 🔻 new
+  monthly_fee: "월요금",
   TODAY_STAY: "오늘 머무르는 인원",
   TODAY_CHECKIN: "오늘 체크인하는 인원",
   TOMORROW_CHECKIN: "내일 체크인하는 인원",

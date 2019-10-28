@@ -37,29 +37,3 @@
     }
 }
 
-
-.RoomAssigedInfoTable {
-
-    position: relative;
-    z-index: $z-index-4;
-
-    @include response($tablet) {
-        padding-bottom: 5rem;
-        overflow: auto;
-    }
-
-    .JDtable{
-        min-width: 440px;
-    }
-    // .rt-tr-group {
-    //     overflow: visible;
-    // }
-    // .rt-td {
-    //     overflow:visible;
-    // }
-    &__id {
-        overflow-x: scroll;
-        @extend %JDscrollbar--slender; 
-        overflow-y: hidden;
-    }
-}
