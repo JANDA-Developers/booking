@@ -87,7 +87,8 @@ export const getRoomSelectInfo = (
   return roomSelectInfo;
 };
 
-// 게스트들을) 받아서 룸타입별로 정렬해주는 함수
+// 게스트들을 받아서 룸타입별로 정렬해주는 함수
+// (부킹/방타입[], 부킹/도미토리[]) 형태
 const guestsToInput = (
   guests: propGuest[] | null
 ): {

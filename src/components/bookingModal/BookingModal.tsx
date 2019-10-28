@@ -56,6 +56,7 @@ import guestsToInput, {
 } from "../../utils/guestCountByRoomType";
 import RoomAssigedInfoTable from "./components/RoomAssigedInfoTable";
 
+// (예약/게스트) 정보
 export interface IBookingModal_AssigInfo {
   _id: string;
   roomId: string;
@@ -64,6 +65,7 @@ export interface IBookingModal_AssigInfo {
   pricingType: PricingType;
 }
 
+//  (예약/방타입) 정보
 export interface IRoomSelectInfo {
   roomTypeId: string;
   roomTypeName?: string;
@@ -125,7 +127,6 @@ const BookingModal: React.FC<IProps> = ({
   const memoHook = useInput(memo || "");
   const emailHook = useInput(email);
   const assigInfoDrawHook = useDrawer(mode === BookingModalModes.CREATE);
-  const guestsToInputs = guestsToInput(guests || []);
   const roomSelectInfo = getRoomSelectInfo(
     bookingData.guests,
     bookingData.roomTypes || []
@@ -278,6 +279,32 @@ const BookingModal: React.FC<IProps> = ({
   // 현재 정보들로 예약 진행
   const startBooking = async (sendSmsFlag: boolean = false) => {
     if (!validate()) return;
+
+    // 예약자가 변경한 성별사항 적용한 임시 게스트정보 생성
+    const getGenderChangedGuest = (): getBooking_GetBooking_booking_guests[] => {
+      if (guests) {
+        return guests.map(guest => {
+          const copyGuest = guest;
+          assigInfo.forEach(info => {
+            if (
+              instanceOfA<getBooking_GetBooking_booking_guests_GuestDomitory>(
+                copyGuest,
+                "gender"
+              )
+            ) {
+              if (copyGuest._id === info._id) {
+                copyGuest.gender = info.gender;
+              }
+            }
+          });
+          return copyGuest;
+        });
+      } else {
+        return [];
+      }
+    };
+
+    const guestsToInputs = guestsToInput(guests ? getGenderChangedGuest() : []);
 
     try {
       await startBookingMu({
@@ -532,3 +559,5 @@ const BookingModal: React.FC<IProps> = ({
   );
 };
 export default BookingModal;
+
+// 달력선택정보 -> 예약정보 -> 배정정보(게스트 바이 게스트) -> (예약자/방배정) 정보

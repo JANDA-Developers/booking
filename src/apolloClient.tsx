@@ -67,7 +67,7 @@ const hanldeError = ({graphQLErrors, networkError}: ErrorResponse) => {
     console.error(`[Network error]: ${networkError}`);
     toast.warn(JDlang(CURRENT_LANG, "check_net_status"));
     // 로그아웃 처리
-    localStorage.removeItem("jwt");
+    // localStorage.removeItem("jwt");
   }
 };
 

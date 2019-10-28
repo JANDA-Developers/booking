@@ -100,20 +100,34 @@ export interface IuseProfileUploader {
   setFileUrl?: React.Dispatch<any>;
 }
 
+export interface IuseImageUploaderOption {
+  resizeMaxWidth?: number;
+  resizeMaxHeight?: number;
+  quality?: number;
+}
+
+const defulatImageUploaderOption: IuseImageUploaderOption = {
+  resizeMaxWidth: 300,
+  resizeMaxHeight: 300,
+  quality: 90
+};
+
 //  이미지 업로더
-const useImageUploader = (foo?: any): IuseImageUploader => {
-  const [fileUrl, setFileUrl] = useState(foo);
+const useImageUploader = (
+  defaultFileUrl?: any,
+  propOption?: IuseImageUploaderOption
+): IuseImageUploader => {
+  const [fileUrl, setFileUrl] = useState(defaultFileUrl);
   const [uploading, setUploading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [uploadMutation] = useMutation<singleUpload, singleUploadVariables>(
     UPLOAD_FILE,
     {client}
   );
+  let option = propOption || defulatImageUploaderOption;
 
   const onChangeFile = async (
-    event: React.ChangeEvent<HTMLInputElement | undefined>,
-    maxWidth?: number,
-    maxHeight?: number
+    event: React.ChangeEvent<HTMLInputElement | undefined>
   ) => {
     event.persist();
     if (event) {
@@ -124,12 +138,12 @@ const useImageUploader = (foo?: any): IuseImageUploader => {
       if (validity && files && files.length === 1) {
         const file = files[0];
         if (file) {
-          const newImg = Resizer.imageFileResizer(
+          Resizer.imageFileResizer(
             file,
-            maxWidth,
-            maxHeight,
+            option.resizeMaxWidth,
+            option.resizeMaxHeight,
             "JPEG",
-            100,
+            option.quality,
             0,
             async (uri: any) => {
               const newFile = new File([uri], file.name, {type: "image/jpeg"});

@@ -32,6 +32,9 @@
             position: absolute;
             display:inline-block;
             .dailyAssig__dayPicker {
+                display:flex;
+                justify-content: center;
+                align-items: center;
                 box-sizing: content-box;
                 height: $dailyAssig-block-height;
             }
