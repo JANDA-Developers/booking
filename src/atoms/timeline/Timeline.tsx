@@ -111,6 +111,22 @@ const JDtimeline: React.FC<Iprops> = ({
     };
   });
 
+  useEffect(() => {
+    // 타임라인 밖까지 드래그했을경우 이벤트가 발생 하지않아서 여기배치
+    // 마우스를 올리면
+    const handleMouseUpCanvas = (e: any) => {
+      if (isActive) {
+        handleDraggingEnd(e);
+      }
+      toggleDraggingMode(false);
+      setDotPoint(defaultDotPoint);
+    };
+    window.addEventListener("mouseup", handleMouseUpCanvas);
+    return () => {
+      window.removeEventListener("mouseup", handleMouseUpCanvas);
+    };
+  });
+
   return (
     <div
       onMouseMove={e => {
@@ -154,13 +170,6 @@ const JDtimeline: React.FC<Iprops> = ({
 
         handleDraggingCell(e, {x: moveCountX, y: moveCountY}, dotPoint);
         // 마우스가 움직인 양을 토대로 위아래 좌우 그룹을 선택상태로 만듬
-      }}
-      onMouseUp={e => {
-        if (isActive) {
-          handleDraggingEnd(e);
-        }
-        toggleDraggingMode(false);
-        setDotPoint(defaultDotPoint);
       }}
       onMouseDown={e => {
         e.persist();

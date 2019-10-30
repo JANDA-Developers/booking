@@ -15,9 +15,11 @@ import "./lib/wave/wave.scss";
 import {useLang} from "./hooks/hook";
 import {globalLanguageSetting} from "./utils/globalLagnSet";
 import {useQuery} from "@apollo/react-hooks";
+import uri from "./uri";
 
 function App() {
   const langHook = useLang("kr");
+
   globalLanguageSetting();
   return (
     <ApolloProvider client={client}>

@@ -50,6 +50,7 @@ import JDoutdatedBrowserRework from "../utils/oldBrowser";
 import SideNav from "../components/sideNav/SideNav";
 import Expired from "./middleServer/expire/Expired";
 import StarterModalWrap from "./middleServer/starterModal/StarterModalWrap";
+import uri from "../uri";
 
 export interface IContext extends RouteComponentProps<any> {
   user: getMyProfile_GetMyProfile_user;
@@ -98,6 +99,9 @@ const JDmiddleServer: React.FC<IProps> = ({
   const {userRole} = user;
   const [sideNavIsOpen, setSideNavIsOpen] = useSideNav();
   const houseConfig = houseConfigSetting(currentHouse);
+
+  console.log("uri");
+  console.log(uri);
 
   // 지원하지 않는 브라우저로 부터 접속했는지 확인합니다.
   JDoutdatedBrowserRework();

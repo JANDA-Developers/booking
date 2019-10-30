@@ -65,9 +65,9 @@ const BookerInfoBox: React.FC<IBookerInfoBoxProps> = ({
           onChange={(value: string) => {
             setBookerInfo({...bookerInfo, memo: value});
           }}
+          label={LANG("memo")}
           id="JDbookerInfo__memo"
           textarea
-          label={LANG("momo")}
         />
       </div>
       <div className="bookerInfoBox__agreePolicyBox">

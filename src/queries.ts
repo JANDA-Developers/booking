@@ -577,9 +577,9 @@ export const GET_USER_INFO = gql`
             user {
                 ...FieldsUser
                 houses {
-                    HM {
-                        publicKey
-                    }
+                    # HM {
+                    #     publicKey
+                    # }
                     houseConfig {
                         ...FhouseConfig
                     }

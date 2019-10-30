@@ -339,8 +339,9 @@ export const LAYOUT_TYPE_OP = [
 
 // [0]가 미결제 이도록
 export let PAYMENT_STATUS_OP = [
-  {value: PaymentStatus.PROGRESSING, label: ""},
-  {value: PaymentStatus.COMPLETE, label: ""}
+  {value: PaymentStatus.CANCEL, label: ""},
+  {value: PaymentStatus.COMPLETE, label: ""},
+  {value: PaymentStatus.PROGRESSING, label: ""}
 ];
 
 export let STATISTICS_OP = [
@@ -387,7 +388,7 @@ export let PRODUCT_STATUS_OP = [
 ];
 
 export let PAYMETHOD_FOR_BOOKER_OP = [
-  {value: PayMethod.VBANK, label: ""},
+  // {value: PayMethod.VBANK, label: ""},
   {value: PayMethod.CARD, label: ""}
 ];
 

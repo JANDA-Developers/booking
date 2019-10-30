@@ -31,12 +31,13 @@ const DaySales: React.FC<Iprops> = ({
 
   const datasets: ChartData<Chart.ChartData> = {
     labels: priceData.map(data => data.payMethod || "") || "",
-    datasets: priceData.map(data => ({
-      label: data.payMethod || "",
-      data: [data.price],
-      backgroundColor: getStaticColors(priceData.length),
-      hoverBackgroundColor: getStaticColors(priceData.length, {light: true})
-    }))
+    datasets: [
+      {
+        data: priceData.map(data => data.price || 0) || 0,
+        backgroundColor: getStaticColors(priceData.length),
+        hoverBackgroundColor: getStaticColors(priceData.length, {light: true})
+      }
+    ]
   };
 
   return (

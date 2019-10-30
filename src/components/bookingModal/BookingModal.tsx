@@ -175,7 +175,7 @@ const BookingModal: React.FC<IProps> = ({
     C(
       bookingId !== "default",
       // @ts-ignore
-      {value: paymentStatus, label: LANG(paymentStatus)},
+      {value: paymentStatus, label: LANG("PaymentStatus", paymentStatus)},
       null
     )
   );
@@ -519,7 +519,7 @@ const BookingModal: React.FC<IProps> = ({
                   {...memoHook}
                   halfHeight
                   textarea
-                  label={LANG("reservation_memo")}
+                  label={LANG("memo")}
                 />
               </div>
             </div>

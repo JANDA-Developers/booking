@@ -36,7 +36,20 @@
 
         &--checkIn {
             background-color: $assigItem-checkIn-color;
-            color: $assigItem-checkIn-color-on;
+            color: $html-color;
+            .dailyAssigItem__gender {
+                &--female {
+                    color: $female-color;
+                }
+                &--male {
+                    color: $male-color;
+                }
+            }   
+            .dailyAssigItem__configIconWrap {
+                &:hover {
+                    color: $grey-level3;
+                }
+            }
         }
     }
 

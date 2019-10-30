@@ -33,6 +33,7 @@ import moment from "moment";
 import BlockTooltip from "./components/BlockTooltip";
 import {isEmpty, instanceOfA} from "../../utils/utils";
 import ReadyItemTooltip from "../../pages/middleServer/assig/components/tooltips/ReadyItemTooltip";
+import DayPickerModal from "../dayPickerModal/DayPickerModal";
 
 export interface IDailyAssigContext extends IDailyAssigProp {
   confirmModalHook: IUseModal<any>;
@@ -63,6 +64,7 @@ const DailyAssig: React.FC<IProps> = ({
   } = outDailyAssigContext;
   const bookingModalHook = useModal(false);
   const confirmModalHook = useModal(false);
+  const dayPickerModalHook = useModal(false);
   const {createBlockMu, totalMuLoading, deleteBlockMu} = dailyAssigDataControl;
 
   const handleDrop = (
@@ -131,17 +133,24 @@ const DailyAssig: React.FC<IProps> = ({
       <JDdayPicker
         isRange={false}
         input
-        canSelectBeforeDay={false}
         label={LANG("calender_date")}
         {...dayPickerHook}
         className="JDwaves-effect JDoverflow-visible"
         inputComponent={(prop: any) => (
           <ArrowDayByDay
             {...prop}
+            onClick={() => {
+              dayPickerModalHook.openModal();
+            }}
             format={`MM${LANG("month")} DD${LANG("date")}`}
             dayPickerHook={dayPickerHook}
           />
         )}
+      />
+      <DayPickerModal
+        isRange={false}
+        modalHook={dayPickerModalHook}
+        {...dayPickerHook}
       />
     </div>
   );

@@ -7,7 +7,6 @@ const JDlangs = {
   en
 };
 
-// 첫번쨰 lnag
 export const JDlang = (lang: TLanguageShort, key: string, key2?: string) => {
   // @ts-ignore
   if (!JDlangs[lang]) return "";

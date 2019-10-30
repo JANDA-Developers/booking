@@ -271,13 +271,13 @@ const ResvList: React.SFC<IProps> = ({
             className={`resvList__paymentStatus ${original.payment.status ===
               PaymentStatus.PROGRESSING && "resvList__paymentStatus--notYet"}`}
           >
-            {LANG(original.payment.status)}
+            {LANG("PaymentStatus", original.payment.status)}
           </span>
         </div>
       )
     },
     {
-      Header: LANG("momo"),
+      Header: LANG("memo"),
       accessor: "memo",
       minWidth: 200,
       Cell: ({value}) => (
@@ -311,7 +311,7 @@ const ResvList: React.SFC<IProps> = ({
                 bookingId={_id}
               />
             )}
-            {isCheckIn && <JDbadge thema={"new"}>{LANG("checkin")}</JDbadge>}
+            {isCheckIn && <JDbadge thema={"new"}>{LANG("new")}</JDbadge>}
             {isCancled && <JDbadge thema={"error"}>{LANG("cancle")}</JDbadge>}
             {isProgressing && (
               <JDbadge thema={"grey"}>{LANG("proceeding")}</JDbadge>

@@ -367,6 +367,7 @@ export const kr = {
   password_is_not_matched: "패스워드 확인이 일치하지 않습니다.",
   passwords_do_not_match: "패스워드가 일치하지 않습니다.",
   pay_cancle: "결제취소",
+  cancle: "취소",
   payment_canceled: "결제가 취소 되었습니다.",
   payment_info: "결제정보",
   payment_status: "결제상태",
@@ -770,5 +771,10 @@ export const kr = {
   HM_update: "하우스 메뉴얼 업데이트",
   HM_update_fail: "하우스 메뉴얼 업데이트 실패",
   // 🆕
-  un_checkIn: "체크인하지 않은"
+  un_checkIn: "체크인하지 않은",
+  PaymentStatus: {
+    CANCEL: "결제취소",
+    PROGRESSING: "결제 진행중",
+    COMPLETE: "결제완료"
+  }
 };
