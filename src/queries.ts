@@ -1313,6 +1313,7 @@ export const GET_SALES_STATISTIC = gql`
                     dayOfWeek
                 }
                 price
+                payMethod
             }
         }
 }`;

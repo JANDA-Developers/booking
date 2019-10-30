@@ -2444,6 +2444,7 @@ export interface getSalesStatistic_GetSalesStatistic_data {
    */
   dateInfo: getSalesStatistic_GetSalesStatistic_data_dateInfo;
   price: number;
+  payMethod: PayMethod | null;
 }
 
 export interface getSalesStatistic_GetSalesStatistic {

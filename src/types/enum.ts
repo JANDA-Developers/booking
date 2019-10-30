@@ -479,7 +479,7 @@ export const MODAL_MIN_WIDTH = isMobile()
   ? `${document.documentElement.clientWidth - 64}px`
   : "360px";
 
-export const StaticColors = [
+export const STATIC_COLORS = [
   "#E8554E",
   "#F19C65",
   "#FFD265",

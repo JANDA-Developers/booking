@@ -3,7 +3,8 @@ import crypto from "crypto";
 import {
   startBookingVariables,
   startBookingForPublicVariables,
-  getPaymentAuth_GetPaymentAuth_auth
+  getPaymentAuth_GetPaymentAuth_auth,
+  getPaymentAuth_GetPaymentAuth
 } from "../../../../types/api";
 import moment from "moment";
 import {isMobile} from "is-mobile";
@@ -28,7 +29,7 @@ type inputParams = {
 interface IProp {
   resvInfo: startBookingVariables | startBookingForPublicVariables;
   transactionId: string;
-  authInfo: getPaymentAuth_GetPaymentAuth_auth;
+  authInfo: getPaymentAuth_GetPaymentAuth;
 }
 
 const inputCreater = (
@@ -51,12 +52,21 @@ export const openNiceModal = async ({
   transactionId,
   authInfo
 }: IProp) => {
+  if (!authInfo.auth) {
+    console.error("결제창 인증정보 없음");
+    return;
+  }
+
+  console.log("authInfo");
+  console.log(authInfo);
+
   const flagMobile = isMobile();
   const {bookerParams, paymentParams} = resvInfo;
   const {price, payMethod} = paymentParams;
   const {name, phoneNumber} = bookerParams;
-  const time = moment(new Date()).format("YYYYMMDDhhmmss");
-  const hashed = authInfo.hash;
+  const time = authInfo.date;
+  const hashed = authInfo.auth.hash;
+  const mid = authInfo.auth.mid;
 
   const sharedInputParams = [
     {
@@ -98,6 +108,7 @@ export const openNiceModal = async ({
     {
       name: "VbankExpDate",
       value: moment(new Date())
+        .local()
         .add("1", "day")
         .format("YYYYMMDDhhmm")
     },
@@ -111,10 +122,11 @@ export const openNiceModal = async ({
     },
     {
       name: "MID",
-      value: "nicepay00m"
+      value: mid
     }
   ];
 
+  // 모바일이 아닐경우
   if (!flagMobile) {
     const form = document.createElement("form");
     form.setAttribute("charset", "utf-8");
@@ -158,9 +170,12 @@ export const openNiceModal = async ({
 
     document.body.appendChild(form);
 
+    console.log("form");
+    console.log(form);
     // @ts-ignore
     window.goPay(form);
   } else {
+    // 모바일일 경우에
     // AcsNoIframe
     const form = document.createElement("form");
     form.setAttribute("charset", "utf-8");

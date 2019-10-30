@@ -1,28 +1,27 @@
-import React, { useState } from "react";
-import { Doughnut, Line, ChartData } from "react-chartjs-2";
+import React, {useState} from "react";
+import {Doughnut, Line, ChartData} from "react-chartjs-2";
 import Card from "../../../atoms/cards/Card";
 import {
   SalesStatisticsUnit,
   WindowSize,
-  StaticColors,
-  FLOATING_PRELOADER_SIZE
+  FLOATING_PRELOADER_SIZE,
+  STATIC_COLORS
 } from "../../../types/enum";
-import { IQueryOp } from "./StatisticWrap";
-import { IUseDayPicker, useModal, LANG } from "../../../hooks/hook";
+import {IQueryOp} from "./StatisticWrap";
+import {IUseDayPicker, useModal, LANG} from "../../../hooks/hook";
 import Button from "../../../atoms/button/Button";
 import moment from "moment";
 import Preloader from "../../../atoms/preloader/Preloader";
-import JDtable, { ReactTableDefault } from "../../../atoms/table/Table";
-import { getSalesStatistic_GetSalesStatistic_data } from "../../../types/api";
-import Color from "color";
-import randomColor from "randomcolor";
-import { CellInfo } from "react-table";
+import JDtable, {ReactTableDefault} from "../../../atoms/table/Table";
+import {getSalesStatistic_GetSalesStatistic_data} from "../../../types/api";
+import {CellInfo} from "react-table";
 import "./Statistic.scss";
-import { IContext } from "../../MiddleServerRouter";
+import {IContext} from "../../MiddleServerRouter";
 import StaticController from "./component/StaticController";
-import reactWindowSize, { WindowSizeProps } from "react-window-size";
+import reactWindowSize, {WindowSizeProps} from "react-window-size";
 import StaticIcons from "./component/StaticIcons";
 import StaticsControllerModal from "./component/StaticsControllerModal";
+import {getStaticColors} from "../../../utils/getStaticColors";
 
 export interface IStaticsWrapProps {
   queryOp: IQueryOp;
@@ -55,8 +54,7 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
   staticsWrapProps,
   windowWidth
 }) => {
-  const { house } = context;
-  const { setQueryOp, queryOp, staticData, queryDateHook } = staticsWrapProps;
+  const {setQueryOp, queryOp, staticData, queryDateHook} = staticsWrapProps;
   const [viewMode, setViewMode] = useState<IGraphViewMode>(IGraphViewMode.pie);
   const staticControllerModalHook = useModal(false);
 
@@ -64,46 +62,39 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
   const addtionGraphDataset =
     viewMode === IGraphViewMode.list
       ? {
-        borderColor: "rgba(75,192,192,1)"
-      }
+          borderColor: "rgba(75,192,192,1)"
+        }
       : {};
 
   // 오바른 라벨구하기
   const labels = ((): string[] => {
+    // 로딩 처리
     if (loading) return new Array(staticData.length).fill("loading");
 
+    // 단위별로 라벨 그룹화
     if (queryOp.unit === SalesStatisticsUnit.BY_DAY_OF_WEEK)
       return staticData.map(data => `${data.dateInfo.dayOfWeek}`);
+
     if (queryOp.unit === SalesStatisticsUnit.BY_DATE)
       return staticData.map(
         data =>
           `${data.dateInfo.year}-${data.dateInfo.month}-${data.dateInfo.date}`
       );
+
     if (queryOp.unit === SalesStatisticsUnit.MONTHLY)
       return staticData.map(
         data => `${data.dateInfo.year}-${data.dateInfo.month}`
       );
+
     if (queryOp.unit === SalesStatisticsUnit.WEEKLY)
       return staticData.map(
         data => `${data.dateInfo.year}-${data.dateInfo.month}`
       );
+
     if (queryOp.unit === SalesStatisticsUnit.YEARLY)
       return staticData.map(data => `${data.dateInfo.year}`);
     return [""];
   })();
-
-  // 랜점컬러
-
-  let randomColors = randomColor({
-    count: staticData.length - StaticColors.length
-  });
-
-  // For 타입스크립트
-  if (typeof randomColors === "string") {
-    randomColors = [...StaticColors, randomColors];
-  } else {
-    randomColors = [...StaticColors, ...randomColors];
-  }
 
   // 그래프 데이터
   const graphData: ChartData<Chart.ChartData> = {
@@ -113,12 +104,8 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
         label: queryOp.selectStatic,
         data: staticData.map(data => data.price),
         fill: false,
-        backgroundColor: randomColors,
-        hoverBackgroundColor: randomColors.map(color =>
-          Color(color)
-            .lighten(0.15)
-            .toString()
-        )
+        backgroundColor: getStaticColors(staticData.length),
+        hoverBackgroundColor: getStaticColors(staticData.length, {light: true})
       }
     ]
   };
@@ -129,19 +116,20 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
     {
       Header: LANG("division"),
       accessor: "data",
-      Cell: ({ value, original, index }: CellInfo) => {
+      Cell: ({value, original, index}: CellInfo) => {
         return <div>{labels[index]}</div>;
       }
     },
     {
       Header: LANG("sales"),
       accessor: "data",
-      Cell: ({ value, original }: CellInfo) => {
+      Cell: ({value, original}: CellInfo) => {
         return <div>{original}</div>;
       }
     }
   ];
 
+  // 오늘날자 통계 선택
   const handleTodaySalesStatic = () => {
     setQueryOp({
       selectStatic: LANG("sales_statistics"),
@@ -155,6 +143,7 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
     queryDateHook.setTo(new Date());
   };
 
+  // 이번달 매출 통계 선택
   const handleThisMonthSalesStatic = () => {
     setQueryOp({
       selectStatic: LANG("sales_statistics"),
@@ -218,11 +207,23 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
       <div className="docs-section">
         <h3>{LANG("statistics")}</h3>
         <div className="statistic__shortBtnsWrap">
-          <Button onClick={handleTodaySalesStatic} label={LANG("today_sales")} />
-          <Button onClick={handleThisMonthSalesStatic} label={LANG("this_month_sales")} />
+          <Button
+            onClick={handleTodaySalesStatic}
+            label={LANG("today_sales")}
+          />
+          <Button
+            onClick={handleThisMonthSalesStatic}
+            label={LANG("this_month_sales")}
+          />
           <Button onClick={handleSetDaySalesStatic} label={LANG("day_sales")} />
-          <Button onClick={handleSetMonthSalesStatic} label={LANG("month_sales")} />
-          <Button onClick={handleSetYearSalesStatic} label={LANG("year_sales")} />
+          <Button
+            onClick={handleSetMonthSalesStatic}
+            label={LANG("month_sales")}
+          />
+          <Button
+            onClick={handleSetYearSalesStatic}
+            label={LANG("year_sales")}
+          />
         </div>
         <div className="flex-grid">
           <div className="flex-grid__col col--full-6 col--wmd-12">
@@ -291,12 +292,12 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
               </Card>
             </div>
           ) : (
-              <StaticsControllerModal
-                context={context}
-                staticsProps={staticsProps}
-                modalHook={staticControllerModalHook}
-              />
-            )}
+            <StaticsControllerModal
+              context={context}
+              staticsProps={staticsProps}
+              modalHook={staticControllerModalHook}
+            />
+          )}
         </div>
       </div>
     </div>

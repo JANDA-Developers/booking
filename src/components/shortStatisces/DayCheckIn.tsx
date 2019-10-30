@@ -5,6 +5,8 @@ import {IUseDayPicker, LANG} from "../../hooks/hook";
 import ArrowDayByDay from "../../atoms/dayPicker/component/inputComponent/ArrowDayByDay";
 import JDdayPicker from "../../atoms/dayPicker/DayPicker";
 import Preloader from "../../atoms/preloader/Preloader";
+import {Doughnut, ChartData} from "react-chartjs-2";
+import {getStaticColors} from "../../utils/getStaticColors";
 
 interface IViewConfig {
   dayPickerHook?: IUseDayPicker;
@@ -29,6 +31,21 @@ const DayCheckIn: React.FC<Iprops> = ({
   loading
 }) => {
   if (loading) return <Preloader loading={loading} size="medium" />;
+
+  const datasets: ChartData<Chart.ChartData> = {
+    labels: [LANG("checkIn"), LANG("un_checkIn")],
+    datasets: [
+      {
+        data: [
+          info.bookingsCheckInCount,
+          info.bookingsCount - info.bookingsCheckInCount
+        ],
+        backgroundColor: ["#ffee00b3", "#CFCFCF"]
+        // hoverBackgroundColor: getStaticColors(2, {light: true})
+      }
+    ]
+  };
+
   return (
     <div>
       {dayPickerHook && viewDayPicker && (
@@ -49,6 +66,7 @@ const DayCheckIn: React.FC<Iprops> = ({
         />
       )}
       {info.bookingsCheckInCount}/{info.bookingsCount}
+      <Doughnut data={datasets} />
     </div>
   );
 };

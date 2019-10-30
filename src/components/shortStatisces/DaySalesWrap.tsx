@@ -11,6 +11,7 @@ import {
   getSalesStatistic_GetSalesStatistic_data
 } from "../../types/api";
 import {SalesStatisticsUnit} from "../../types/enum";
+import moment from "moment";
 
 interface IProps extends IViewConfigProp {
   context: IContext;
@@ -28,7 +29,7 @@ const DaySalesWrap: React.FC<IProps> = ({context}) => {
       <GetSalesQu
         variables={{
           houseId: house._id,
-          checkOut: dayPickerHook.to,
+          checkOut: moment(dayPickerHook.to || new Date()).add(1, "day"),
           checkIn: dayPickerHook.from,
           unit: SalesStatisticsUnit.BY_DATE,
           groupByPayMethod: true
@@ -36,26 +37,14 @@ const DaySalesWrap: React.FC<IProps> = ({context}) => {
         query={GET_SALES_STATISTIC}
       >
         {({data, loading: getSalesLoading}) => {
-          const daySales = queryDataFormater(
-            data,
-            "GetSalesStatistic",
-            "data",
-            []
-          );
-
-          let price = 0;
-          if (daySales) {
-            const days: getSalesStatistic_GetSalesStatistic_data[] = daySales;
-            if (!isEmpty(days)) {
-              price = days[0].price;
-            }
-          }
+          const daySalesData =
+            queryDataFormater(data, "GetSalesStatistic", "data", []) || [];
 
           return (
             <DaySales
               loading={getSalesLoading}
               dayPickerHook={dayPickerHook}
-              price={price}
+              priceData={daySalesData}
             />
           );
         }}

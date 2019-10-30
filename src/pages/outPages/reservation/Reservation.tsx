@@ -306,7 +306,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
           openNiceModal({
             resvInfo: startBookingVariables,
             transactionId,
-            authInfo: authResult.data.GetPaymentAuth.auth
+            authInfo: authResult.data.GetPaymentAuth
           });
         }
       }

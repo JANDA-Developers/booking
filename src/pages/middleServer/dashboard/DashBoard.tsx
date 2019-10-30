@@ -60,7 +60,6 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
 
   return (
     <div className="docs-section">
-      <JDVideo />
       <div id="dashboard" className="dashboard">
         <div className="container container--full">
           <div>{/* <DashBoardHeader /> */}</div>
@@ -114,35 +113,15 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
               </div>
             </div>
             <div className="flex-grid flex-grid--start">
-              <div className="flex-grid__col col--full-4 JDstandard-space">
+              <div className="flex-grid__col col--full-4 col--md-12 JDstandard-space">
                 <Card className="dashboard__dailyStaticsCard">
                   <h6>{LANG("today_sales")}</h6>
                   {MemoDaySalesWrap}
-                  <Doughnut
-                    data={{
-                      datasets: [
-                        {
-                          label: LANG("sales"),
-                          data: [12312]
-                        }
-                      ]
-                    }}
-                  />
                 </Card>
               </div>
-              <div className="flex-grid__col col--full-4">
+              <div className="flex-grid__col col--full-4 col--md-12">
                 <Card className="dashboard__dailyStaticsCard flex-grid__col">
                   <h6>{LANG("checkin_status")}</h6>
-                  <Doughnut
-                    data={{
-                      datasets: [
-                        {
-                          label: LANG("sales"),
-                          data: [12312]
-                        }
-                      ]
-                    }}
-                  />
                   {MemoDayCheckInWrap}
                 </Card>
               </div>

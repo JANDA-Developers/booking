@@ -1,5 +1,5 @@
 import React from "react";
-import { toast } from "react-toastify";
+import {toast} from "react-toastify";
 import profileImg from "../../../img/profile/default_profile.jpg";
 import Button from "../../../atoms/button/Button";
 import InputText from "../../../atoms/forms/inputText/InputText";
@@ -10,11 +10,10 @@ import utils from "../../../utils/utils";
 import Modal from "../../../atoms/modal/Modal";
 import "./MyPage.scss";
 import MyHouseModalWrap from "./components/myHouseModalWrap";
-import { IHouse } from "../../../types/interface";
 import Preloader from "../../../atoms/preloader/Preloader";
-import { IuseImageUploader, LANG } from "../../../hooks/hook";
-import { IContext } from "../../MiddleServerRouter";
-import { IconSize } from "../../../atoms/icons/Icons";
+import {IuseImageUploader, LANG} from "../../../hooks/hook";
+import {IContext} from "../../MiddleServerRouter";
+import {IconSize} from "../../../atoms/icons/Icons";
 
 interface IProps {
   context: IContext;
@@ -34,7 +33,7 @@ const Mypage: React.SFC<IProps> = ({
   loading,
   profileCircleHook
 }) => {
-  const { houses } = context;
+  const {houses} = context;
   const profileStyle = {
     backgroundImage: `url(${profileImg})`
   };
@@ -116,22 +115,22 @@ const Mypage: React.SFC<IProps> = ({
         <div className="row myPage__myHouses">
           {houses
             ? houses.map(house => (
-              <div
-                key={house._id}
-                className="myPage__myHouse col col--4 col--md-6"
-              >
-                <MyHouse
-                  id={house._id}
-                  title={house.name}
-                  houseModal={houseModal}
-                  productId={house.product ? house.product._id : undefined}
-                  productName={house.product ? house.product.name : undefined}
-                  purchaseProduct={house.houseType}
-                  dateCreated={house.createdAt.substr(0, 10)}
-                  location={house.location && house.location.address}
-                />
-              </div>
-            ))
+                <div
+                  key={house._id}
+                  className="myPage__myHouse col col--4 col--md-6"
+                >
+                  <MyHouse
+                    id={house._id}
+                    title={house.name}
+                    houseModal={houseModal}
+                    productId={house.product ? house.product._id : undefined}
+                    productName={house.product ? house.product.name : undefined}
+                    purchaseProduct={house.houseType}
+                    dateCreated={house.createdAt.substr(0, 10)}
+                    location={house.location && house.location.address}
+                  />
+                </div>
+              ))
             : null}
           {/* 숙소추가 */}
           <div className="col col--4 col--md-6">
