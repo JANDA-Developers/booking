@@ -765,5 +765,8 @@ export const kr = {
   april: "4월",
   march: "3월",
   february: "2월",
-  january: "1월"
+  january: "1월",
+  copy_hm_page_URL: "하우스메뉴얼 URL 복사",
+  HM_update: "하우스 메뉴얼 업데이트",
+  HM_update_fail: "하우스 메뉴얼 업데이트 실패"
 };

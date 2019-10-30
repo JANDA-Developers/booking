@@ -694,7 +694,7 @@ a.JDanchor:focus {
 }
 
 .JDtextColor--placeHolder {
-  color: #CDCDCD;
+  color: #CFCFCF;
 }
 
 .JDtextColor-warring-text {
@@ -2537,8 +2537,10 @@ main {
   transition: .3s;
 }
 
-.middleServer--sideOpen .container--centerlize {
-  padding-left: 14rem;
+@media only screen and (max-width: 9999px) and (min-width: 550px) {
+  .middleServer--sideOpen .container--centerlize {
+    padding-left: 14rem;
+  }
 }
 
 /* Self Clearing Goodness */

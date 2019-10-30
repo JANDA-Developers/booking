@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Query} from "react-apollo";
-import {getHMforPublic, getHMforPublicVariables} from "../../../types/api";
+import {getHMforPublic} from "../../../types/api";
 import {SalesStatisticsUnit, Language} from "../../../types/enum";
 import HMcomponent from "./HM";
 import {GET_HOUSE_MENUAL_FOR_PUBLIC} from "../../../queries";
@@ -16,14 +16,17 @@ export interface IQueryOp {
   unit: SalesStatisticsUnit;
 }
 
-class GetHouseMenuaQu extends Query<getHMforPublic, getHMforPublicVariables> {}
+class GetHouseMenuaQu extends Query<getHMforPublic> {}
 
 const HMwrap: React.FC<IProps> = ({match}) => {
-  const [currentLang, setCurrentLang] = useState(Language.KOREAN);
-
-  if (!match.params.publickey) {
+  const {hmKey} = match.params;
+  if (!hmKey) {
     alert("접근불가");
+  } else {
+    sessionStorage.setItem("hmk", hmKey);
   }
+
+  const [currentLang, setCurrentLang] = useState(Language.KOREAN);
 
   return (
     <div>

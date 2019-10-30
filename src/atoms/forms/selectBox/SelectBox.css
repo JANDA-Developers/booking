@@ -6,10 +6,12 @@
 
 .JDselect .react-select-container .react-select__control--is-focused {
   -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
 
 .JDselect .react-select-container .react-select__menu-list {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   padding-right: 4px;
 }
 
@@ -17,7 +19,7 @@
   -webkit-transition: 0.3s;
   transition: 0.3s;
   background-color: transparent;
-  width: 8px;
+  width: 6px;
 }
 
 .JDselect .react-select-container .react-select__menu-list::-webkit-scrollbar-track {
@@ -25,11 +27,11 @@
 }
 
 .JDselect .react-select-container .react-select__menu-list::-webkit-scrollbar-thumb {
-  background-color: #CDCDCD;
+  background-color: #CFCFCF;
   border-radius: 12px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  border: 1px solid #CDCDCD;
+  border: 1px solid #CFCFCF;
 }
 
 .JDselect .react-select-container .react-select__menu-list::-webkit-scrollbar-thumb:hover {
@@ -44,6 +46,11 @@
 .JDselect {
   text-align: left;
   font-size: 1rem;
+}
+
+.JDselect--menuItem-centerlize .react-select__option {
+  padding: 0px !important;
+  text-align: center;
 }
 
 .JDselect .css-1g6gooi {
@@ -127,7 +134,7 @@ html .JDselect--border-primary .react-select-container .react-select__control {
 }
 
 .JDselect .react-select-container .react-select__multi-value {
-  background-color: #CDCDCD;
+  background-color: #CFCFCF;
 }
 
 .JDselect .react-select-container .react-select__multi-value__remove {

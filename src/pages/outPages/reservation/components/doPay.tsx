@@ -2,7 +2,8 @@ import ip from "ip";
 import crypto from "crypto";
 import {
   startBookingVariables,
-  startBookingForPublicVariables
+  startBookingForPublicVariables,
+  getPaymentAuth_GetPaymentAuth_auth
 } from "../../../../types/api";
 import moment from "moment";
 import {isMobile} from "is-mobile";
@@ -27,6 +28,7 @@ type inputParams = {
 interface IProp {
   resvInfo: startBookingVariables | startBookingForPublicVariables;
   transactionId: string;
+  authInfo: getPaymentAuth_GetPaymentAuth_auth;
 }
 
 const inputCreater = (
@@ -44,19 +46,17 @@ const inputCreater = (
   });
 };
 
-export const openNiceModal = async ({resvInfo, transactionId}: IProp) => {
+export const openNiceModal = async ({
+  resvInfo,
+  transactionId,
+  authInfo
+}: IProp) => {
   const flagMobile = isMobile();
   const {bookerParams, paymentParams} = resvInfo;
   const {price, payMethod} = paymentParams;
   const {name, phoneNumber} = bookerParams;
-  const merchantID = "nicepay00m";
   const time = moment(new Date()).format("YYYYMMDDhhmmss");
-  const merchantKey =
-    "EYzu8jGGMfqaDEp76gSckuvnaHHu+bC4opsSN6lHv3b2lurNYkVXrZ7Z1AoqQnXI3eLuaUFyoRNC6FkrzVjceg==";
-  const hashed = crypto
-    .createHash("sha256")
-    .update(`${time}${merchantID}${price}${merchantKey}`)
-    .digest("hex");
+  const hashed = authInfo.hash;
 
   const sharedInputParams = [
     {

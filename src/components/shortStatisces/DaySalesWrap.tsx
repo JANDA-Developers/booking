@@ -28,9 +28,10 @@ const DaySalesWrap: React.FC<IProps> = ({context}) => {
       <GetSalesQu
         variables={{
           houseId: house._id,
-          end: dayPickerHook.to,
-          start: dayPickerHook.from,
-          unit: SalesStatisticsUnit.BY_DATE
+          checkOut: dayPickerHook.to,
+          checkIn: dayPickerHook.from,
+          unit: SalesStatisticsUnit.BY_DATE,
+          groupByPayMethod: true
         }}
         query={GET_SALES_STATISTIC}
       >

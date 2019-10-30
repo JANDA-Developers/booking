@@ -1,10 +1,12 @@
 /* ------------------------------ // STUB UNITY ----------------------------- */
 .dashboardHeader .JDslider__slide-wrap {
   -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
 
 .dashboard__memoCard {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   padding-right: 4px;
 }
 
@@ -12,7 +14,7 @@
   -webkit-transition: 0.3s;
   transition: 0.3s;
   background-color: transparent;
-  width: 8px;
+  width: 6px;
 }
 
 .dashboard__memoCard::-webkit-scrollbar-track {
@@ -20,11 +22,11 @@
 }
 
 .dashboard__memoCard::-webkit-scrollbar-thumb {
-  background-color: #CDCDCD;
+  background-color: #CFCFCF;
   border-radius: 12px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  border: 1px solid #CDCDCD;
+  border: 1px solid #CFCFCF;
 }
 
 .dashboard__memoCard::-webkit-scrollbar-thumb:hover {

@@ -6,10 +6,12 @@
 
 .JDsideNav {
   -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
 
 .JDsideNav__listContainer {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   padding-right: 4px;
 }
 
@@ -17,7 +19,7 @@
   -webkit-transition: 0.3s;
   transition: 0.3s;
   background-color: transparent;
-  width: 8px;
+  width: 6px;
 }
 
 .JDsideNav__listContainer::-webkit-scrollbar-track {
@@ -25,11 +27,11 @@
 }
 
 .JDsideNav__listContainer::-webkit-scrollbar-thumb {
-  background-color: #CDCDCD;
+  background-color: #CFCFCF;
   border-radius: 12px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  border: 1px solid #CDCDCD;
+  border: 1px solid #CFCFCF;
 }
 
 .JDsideNav__listContainer::-webkit-scrollbar-thumb:hover {
@@ -60,14 +62,16 @@
   position: relative;
   min-width: 14rem;
   height: 100%;
+  z-index: 10;
+  background-color: white;
 }
 
 @media only screen and (max-width: 550px) and (min-width: 0px) {
   .JDsideNav {
     position: fixed;
     left: 0;
-    top: 0;
-    height: 100vh;
+    top: 3.5rem;
+    bottom: 0;
     -webkit-box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.2);
     box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.2);
   }
@@ -89,7 +93,7 @@
           box-sizing: border-box;
   padding-left: 1.2rem;
   line-height: 100%;
-  border-top: 1px solid #CDCDCD;
+  border-top: 1px solid #CFCFCF;
   height: 4.25rem;
   padding-bottom: 1rem;
   padding-top: 1rem;
@@ -130,7 +134,6 @@
   background-color: rgba(0, 0, 0, 0.16);
   -webkit-transition: background-color 0.3s;
   transition: background-color 0.3s;
-  z-index: 90;
   display: none;
 }
 
@@ -159,12 +162,13 @@
       -ms-flex-direction: column;
           flex-direction: column;
   text-align: center;
-  border-bottom: 1px solid #CDCDCD;
+  border-bottom: 1px solid #CFCFCF;
 }
 
 .JDsideNav__profill .JDselect {
   padding: 1.2rem;
   padding-bottom: 0;
+  padding-top: 0;
   margin-bottom: 0;
   text-align: left;
 }
@@ -198,7 +202,7 @@
   line-height: 3.25rem;
   background-color: white;
   padding-left: 1.2rem;
-  border-bottom: 1px solid #CDCDCD;
+  border-bottom: 1px solid #CFCFCF;
 }
 
 .JDsideNav__navLink.active {
@@ -216,7 +220,7 @@
 }
 
 .JDsideNav__navLink:not(.JDsideNav__navLink--disabled):hover {
-  background-color: #CDCDCD;
+  background-color: #CFCFCF;
 }
 
 .JDsideNav__navLink--disabled {

@@ -106,12 +106,6 @@ export interface IuseImageUploaderOption {
   quality?: number;
 }
 
-const defulatImageUploaderOption: IuseImageUploaderOption = {
-  resizeMaxWidth: 300,
-  resizeMaxHeight: 300,
-  quality: 90
-};
-
 //  이미지 업로더
 const useImageUploader = (
   defaultFileUrl?: any,
@@ -124,7 +118,41 @@ const useImageUploader = (
     UPLOAD_FILE,
     {client}
   );
-  let option = propOption || defulatImageUploaderOption;
+
+  const DEFAULT_IMAGEUP_LOADER_OPTION: IuseImageUploaderOption = {
+    quality: 90,
+    resizeMaxHeight: 300,
+    resizeMaxWidth: 300
+  };
+
+  let option = propOption || DEFAULT_IMAGEUP_LOADER_OPTION;
+
+  // 화면에 나타는 이미지처리
+  const setFileView = (data: any) => {
+    const fileUrl = muResult(data, "SingleUpload", "fileURL");
+    if (typeof fileUrl === "boolean") {
+      setIsError(true);
+    } else {
+      setFileUrl(fileUrl);
+    }
+    setUploading(false);
+  };
+
+  // S3로 업로드
+  const uploadImg = async (
+    uriOrFile: any,
+    fileName?: string,
+    fileType?: string
+  ) => {
+    let file: any;
+    if (typeof uriOrFile === "string") {
+      file = new File([uriOrFile], fileName!, {type: fileType});
+    } else {
+      file = uriOrFile;
+    }
+    const data = await uploadMutation({variables: {file: file}});
+    setFileView(data);
+  };
 
   const onChangeFile = async (
     event: React.ChangeEvent<HTMLInputElement | undefined>
@@ -137,28 +165,25 @@ const useImageUploader = (
       }: ChangeEvent<HTMLInputElement> = event as ChangeEvent<HTMLInputElement>;
       if (validity && files && files.length === 1) {
         const file = files[0];
+        console.log("file.type");
+        console.log(file.type);
         if (file) {
-          Resizer.imageFileResizer(
-            file,
-            option.resizeMaxWidth,
-            option.resizeMaxHeight,
-            "JPEG",
-            option.quality,
-            0,
-            async (uri: any) => {
-              const newFile = new File([uri], file.name, {type: "image/jpeg"});
-              const data = await uploadMutation({variables: {file: newFile}});
-
-              const fileUrl = muResult(data, "SingleUpload", "fileURL");
-              if (typeof fileUrl === "boolean") {
-                setIsError(true);
-              } else {
-                setFileUrl(fileUrl);
-              }
-              setUploading(false);
-            },
-            "blob"
-          );
+          if (!file.type.includes("video")) {
+            Resizer.imageFileResizer(
+              file,
+              option.resizeMaxWidth,
+              option.resizeMaxHeight,
+              "JPEG",
+              option.quality,
+              0,
+              async (uri: any) => {
+                uploadImg(uri, file.name, file.type);
+              },
+              "blob"
+            );
+          } else {
+            uploadImg(file);
+          }
         }
       }
     }

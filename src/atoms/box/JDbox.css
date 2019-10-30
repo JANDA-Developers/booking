@@ -80,6 +80,12 @@
   width: 100%;
 }
 
+#root .JDbox, .ReactModalPortal .JDbox {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  min-height: 2.25rem;
+}
+
 #root .JDbox--left, .ReactModalPortal .JDbox--left {
   text-align: left;
 }
@@ -121,7 +127,7 @@
 
 #root .JDbox--grey, .ReactModalPortal .JDbox--grey {
   color: #343434;
-  background-color: #CDCDCD;
+  background-color: #CFCFCF;
 }
 
 #root .JDbox--grey:hover, .ReactModalPortal .JDbox--grey:hover {
@@ -143,7 +149,7 @@
 }
 
 #root .JDbox--white:hover, .ReactModalPortal .JDbox--white:hover {
-  background-color: #CDCDCD;
+  background-color: #CFCFCF;
 }
 
 #root .JDbox--error, .ReactModalPortal .JDbox--error {
@@ -218,7 +224,7 @@
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   padding: 0.8rem;
-  background-color: #CDCDCD;
+  background-color: #CFCFCF;
   border-radius: 5px;
   text-align: left;
   width: 100%;
@@ -252,7 +258,7 @@
   background-color: transparent !important;
   border-radius: 5px;
   padding: 0.8rem;
-  border: 1px solid #CDCDCD;
+  border: 1px solid #CFCFCF;
 }
 
 #root .JDbox--border.JDbox--primary, .ReactModalPortal .JDbox--border.JDbox--primary {
@@ -284,7 +290,7 @@
 }
 
 #root .JDbox--border.JDbox--white:hover, .ReactModalPortal .JDbox--border.JDbox--white:hover {
-  color: #CDCDCD;
+  color: #CFCFCF;
 }
 
 #root .JDbox--border.JDbox--new, .ReactModalPortal .JDbox--border.JDbox--new {
@@ -336,7 +342,7 @@
 }
 
 #root .JDbox--border.JDbox--grey, .ReactModalPortal .JDbox--border.JDbox--grey {
-  border-color: #CDCDCD;
+  border-color: #CFCFCF;
 }
 
 #root .JDbox--border.JDbox--grey:hover, .ReactModalPortal .JDbox--border.JDbox--grey:hover {
@@ -389,11 +395,11 @@
 
 #root .JDbox--dashBorder, .ReactModalPortal .JDbox--dashBorder {
   border-radius: 5px;
-  border: 2px dashed #CDCDCD;
+  border: 2px dashed #CFCFCF;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   padding: 0.8rem;
-  color: #CDCDCD;
+  color: #CFCFCF;
   background-color: rgba(255, 255, 255, 0);
 }
 
@@ -456,7 +462,7 @@
 
 #root .JDbox--grey, .ReactModalPortal .JDbox--grey {
   color: #343434;
-  background-color: #CDCDCD;
+  background-color: #CFCFCF;
 }
 
 #root .JDbox--grey:hover, .ReactModalPortal .JDbox--grey:hover {
@@ -478,7 +484,7 @@
 }
 
 #root .JDbox--white:hover, .ReactModalPortal .JDbox--white:hover {
-  background-color: #CDCDCD;
+  background-color: #CFCFCF;
 }
 
 #root .JDbox--error, .ReactModalPortal .JDbox--error {

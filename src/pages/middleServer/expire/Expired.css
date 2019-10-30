@@ -1,5 +1,5 @@
 /* ------------------------------ // STUB UNITY ----------------------------- */
-#NoMatch .NoMatch__heart {
+#Expired .Expired__heart {
   padding: 3rem 4.5rem;
   margin-top: 3.5rem;
   border-radius: 40%/45%;
@@ -8,13 +8,13 @@
 }
 
 /* stylelint-disable declaration-block-no-duplicate-properties  */
-#NoMatch {
+#Expired {
   text-align: center;
 }
 
 @media only screen and (max-width: 750px) and (min-width: 0px) {
-  #NoMatch .NoMatch__text {
+  #Expired .Expired__text {
     font-size: 3.0rem;
   }
 }
-/*# sourceMappingURL=NoMatch.css.map */
+/*# sourceMappingURL=Expired.css.map */

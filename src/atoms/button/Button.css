@@ -1,12 +1,12 @@
 /* ------------------------------ // STUB UNITY ----------------------------- */
 .JDbtn:hover {
   -webkit-box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .JDbtn {
   -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
 
 /* stylelint-disable declaration-block-no-duplicate-properties  */
@@ -61,7 +61,7 @@
 }
 
 .JDbtn.JDbtn--grey {
-  background-color: #CDCDCD;
+  background-color: #CFCFCF;
   border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
@@ -98,7 +98,7 @@
 
 .JDbtn--grey:not(:disabled) {
   color: #343434;
-  background-color: #CDCDCD;
+  background-color: #CFCFCF;
 }
 
 .JDbtn--grey:not(:disabled):hover {
@@ -120,7 +120,7 @@
 }
 
 .JDbtn--white:not(:disabled):hover {
-  background-color: #CDCDCD;
+  background-color: #CFCFCF;
 }
 
 .JDbtn--error:not(:disabled) {
@@ -182,7 +182,7 @@
 }
 
 .JDbtn:disabled {
-  background-color: #CDCDCD;
+  background-color: #CFCFCF;
   -webkit-box-shadow: none;
           box-shadow: none;
   color: #787878;
@@ -194,7 +194,7 @@
 }
 
 .JDbtn:disabled:hover {
-  background-color: #CDCDCD;
+  background-color: #CFCFCF;
   color: #787878;
 }
 
@@ -254,7 +254,7 @@
 }
 
 .JDbtn--flat:hover {
-  background-color: #CDCDCD;
+  background-color: #CFCFCF;
   -webkit-box-shadow: none;
           box-shadow: none;
 }
@@ -266,13 +266,13 @@
 
 #root .JDbtn--border, .ReactModalPortal .JDbtn--border {
   background-color: white;
-  border: 1px solid #CDCDCD;
+  border: 1px solid #CFCFCF;
   -webkit-box-shadow: none;
           box-shadow: none;
 }
 
 #root .JDbtn--border:hover, .ReactModalPortal .JDbtn--border:hover {
-  background-color: #CDCDCD;
+  background-color: #CFCFCF;
 }
 
 #root .JDbtn--border.JDbtn--primary:not(:disabled), .ReactModalPortal .JDbtn--border.JDbtn--primary:not(:disabled) {
@@ -292,7 +292,7 @@
 }
 
 #root .JDbtn--border.JDbtn--grey:not(:disabled), .ReactModalPortal .JDbtn--border.JDbtn--grey:not(:disabled) {
-  border-color: #CDCDCD;
+  border-color: #CFCFCF;
 }
 
 #root .JDbtn--border.JDbtn--grey:not(:disabled):hover, .ReactModalPortal .JDbtn--border.JDbtn--grey:not(:disabled):hover {
@@ -372,7 +372,7 @@
 }
 
 #root .JDbtn--border.JDbtn--white:not(:disabled):hover, .ReactModalPortal .JDbtn--border.JDbtn--white:not(:disabled):hover {
-  color: #CDCDCD;
+  color: #CFCFCF;
 }
 
 #root .JDbtn--border.JDbtn--new:not(:disabled), .ReactModalPortal .JDbtn--border.JDbtn--new:not(:disabled) {

@@ -22,6 +22,7 @@ import TempWeel from "./components/tempWheel";
 import SendSMSmodalWrap, {
   IModalSMSinfo
 } from "../../../components/smsModal/SendSmsModalWrap";
+import JDVideo from "../../../atoms/video/Video";
 
 interface Iprops {
   context: IContext;
@@ -59,6 +60,7 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
 
   return (
     <div className="docs-section">
+      <JDVideo />
       <div id="dashboard" className="dashboard">
         <div className="container container--full">
           <div>{/* <DashBoardHeader /> */}</div>

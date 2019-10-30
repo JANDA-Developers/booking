@@ -1,5 +1,7 @@
 /* ------------------------------ // STUB UNITY ----------------------------- */
 .config__cardsWrap {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   padding-right: 4px;
 }
 
@@ -7,7 +9,7 @@
   -webkit-transition: 0.3s;
   transition: 0.3s;
   background-color: transparent;
-  width: 8px;
+  width: 6px;
 }
 
 .config__cardsWrap::-webkit-scrollbar-track {
@@ -15,11 +17,11 @@
 }
 
 .config__cardsWrap::-webkit-scrollbar-thumb {
-  background-color: #CDCDCD;
+  background-color: #CFCFCF;
   border-radius: 12px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  border: 1px solid #CDCDCD;
+  border: 1px solid #CFCFCF;
 }
 
 .config__cardsWrap::-webkit-scrollbar-thumb:hover {
@@ -33,6 +35,8 @@
 /* stylelint-disable declaration-block-no-duplicate-properties  */
 /* ------------------------------ // STUB UNITY ----------------------------- */
 .config__cardsWrap {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   padding-right: 4px;
 }
 
@@ -40,7 +44,7 @@
   -webkit-transition: 0.3s;
   transition: 0.3s;
   background-color: transparent;
-  width: 8px;
+  width: 6px;
 }
 
 .config__cardsWrap::-webkit-scrollbar-track {
@@ -48,11 +52,11 @@
 }
 
 .config__cardsWrap::-webkit-scrollbar-thumb {
-  background-color: #CDCDCD;
+  background-color: #CFCFCF;
   border-radius: 12px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  border: 1px solid #CDCDCD;
+  border: 1px solid #CFCFCF;
 }
 
 .config__cardsWrap::-webkit-scrollbar-thumb:hover {

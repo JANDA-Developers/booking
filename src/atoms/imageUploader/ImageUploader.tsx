@@ -66,7 +66,7 @@ const ImageUploader: React.SFC<ImageUploaderIProps> = ({
           accept="image/*"
         />
       )}
-      <div className="imageUploader__image" style={imageStyle} />
+      <div className="imageUploader__image" style={imageStyle}></div>
       <Preloader size="large" noAnimation loading={uploading} />
     </div>
   );

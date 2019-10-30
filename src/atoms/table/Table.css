@@ -24,6 +24,22 @@
   text-align: center;
 }
 
+#root .JDtable--visibleOver:not(.JDtable--scrollOverPadding) .rt-table, .ReactModalPortal .JDtable--visibleOver:not(.JDtable--scrollOverPadding) .rt-table {
+  overflow: visible;
+}
+
+#root .JDtable--visibleOver:not(.JDtable--scrollOverPadding) .rt-tbody, .ReactModalPortal .JDtable--visibleOver:not(.JDtable--scrollOverPadding) .rt-tbody {
+  overflow: visible !important;
+}
+
+#root .JDtable--visibleOver:not(.JDtable--scrollOverPadding) .rt-tr-group, .ReactModalPortal .JDtable--visibleOver:not(.JDtable--scrollOverPadding) .rt-tr-group {
+  overflow: visible;
+}
+
+#root .JDtable--visibleOver:not(.JDtable--scrollOverPadding) .rt-td, .ReactModalPortal .JDtable--visibleOver:not(.JDtable--scrollOverPadding) .rt-td {
+  overflow: visible;
+}
+
 #root .JDtable .rt-noData, .ReactModalPortal .JDtable .rt-noData {
   color: #b8b8b8;
   padding: 0;
@@ -69,11 +85,11 @@
 }
 
 #root .JDtable--checkable .rt-tr > div:first-child, .ReactModalPortal .JDtable--checkable .rt-tr > div:first-child {
-  width: 35px !important;
-  -webkit-box-flex: 35 !important;
-      -ms-flex: 35 0 auto !important;
-          flex: 35 0 auto !important;
-  max-width: 35px !important;
+  width: 3.2rem !important;
+  -webkit-box-flex: 3.2rem !important;
+      -ms-flex: 3.2rem 0 auto !important;
+          flex: 3.2rem 0 auto !important;
+  max-width: 3.2rem !important;
   -webkit-box-pack: end;
       -ms-flex-pack: end;
           justify-content: end;

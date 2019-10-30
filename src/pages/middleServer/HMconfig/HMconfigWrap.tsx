@@ -35,11 +35,7 @@ const HMwrap: React.FC<IProps> = ({context}) => {
     updateHMVariables
   >(UPDATE_HM, {
     onCompleted: ({UpdateHM}) => {
-      onCompletedMessage(
-        UpdateHM,
-        LANG("reservation_creation_complete"),
-        LANG("reservation_creation_fail")
-      );
+      onCompletedMessage(UpdateHM, LANG("HM_update"), LANG("HM_update_fail"));
     },
     refetchQueries: [getOperationName(GET_HOUSE_MENUAL)!],
     client: client as any

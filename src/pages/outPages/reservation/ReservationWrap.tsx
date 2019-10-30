@@ -11,18 +11,21 @@ import {
   startBooking,
   startBookingVariables,
   startBookingForPublic,
-  startBookingForPublicVariables
+  startBookingForPublicVariables,
+  getPaymentAuth,
+  getPaymentAuthVariables
 } from "../../../types/api";
 import {
   GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM,
   START_BOOKING,
-  START_BOOKING_FOR_PUBLIC
+  START_BOOKING_FOR_PUBLIC,
+  GET_PAYMENT_AUTH
 } from "../../../queries";
 import {useModal, IUseModal, LANG} from "../../../hooks/hook";
 import {getOperationName} from "apollo-link";
 import {isInIfram} from "../../../utils/isInIfram";
 import {IContext} from "../../MiddleServerRouter";
-import {useMutation} from "@apollo/react-hooks";
+import {useMutation, useQuery} from "@apollo/react-hooks";
 import client from "../../../apolloClient";
 
 class StartBooking extends Mutation<startBooking, startBookingVariables> {}
@@ -39,10 +42,16 @@ export interface IReservationWrapProps {
 const ReservationWrap: React.FC<
   IReservationWrapProps & RouteComponentProps<any>
 > = ({match, publicKey, context, modalHook, callBackCreateBookingMu}) => {
-  // .react-select__input
+  // hpk 를 URL로 부터 받아 헤더에 셋팅
+  sessionStorage.setItem("hpk", publicKey || match.params.publickey);
+  sessionStorage.setItem("hpk33", "33");
 
   const startBookingCallBackFn = (result: any) => {
-    onCompletedMessage(result, LANG("reservation_creation_complete"), LANG("reservation_creation_fail"));
+    onCompletedMessage(
+      result,
+      LANG("reservation_creation_complete"),
+      LANG("reservation_creation_fail")
+    );
     modalHook && modalHook.closeModal();
     callBackCreateBookingMu && callBackCreateBookingMu(result);
   };
@@ -57,7 +66,6 @@ const ReservationWrap: React.FC<
       startBookingCallBackFn(StartBookingForPublic);
     }
   });
-
   const [startBookingMu, {loading: startBookingL}] = useMutation<
     startBooking,
     startBookingVariables
@@ -71,10 +79,10 @@ const ReservationWrap: React.FC<
       startBookingCallBackFn(StartBooking);
     }
   });
-
-  sessionStorage.setItem("hpk", publicKey || match.params.publickey);
-  sessionStorage.setItem("hpk33", "33");
-
+  const {refetch: payAuthQu} = useQuery<
+    getPaymentAuth,
+    getPaymentAuthVariables
+  >(GET_PAYMENT_AUTH, {client, skip: true});
   const confirmModalHook = useModal(false);
 
   if (isInIfram) {
@@ -88,6 +96,7 @@ const ReservationWrap: React.FC<
         confirmModalHook={confirmModalHook}
         startBookingForPublicMu={startBookingForPublicMu}
         startBookingMu={startBookingMu}
+        payAuthQu={payAuthQu}
         createLoading={startBookingLoading}
       />
     </div>

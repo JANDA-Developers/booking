@@ -14,7 +14,7 @@ import {
 } from "../../../../types/enum";
 import JDIcon, {IIcons, IconSize} from "../../../../atoms/icons/Icons";
 import moment from "moment";
-import {isEmpty} from "../../../../utils/utils";
+import {isEmpty, insideRedirect} from "../../../../utils/utils";
 import copytoClipboard from "../../../../utils/copyToClipboard";
 import Drawer from "../../../../atoms/drawer/Drawer";
 import SpecificAtionWrap from "../../../../components/specification/SpecificationWrap";
@@ -85,27 +85,48 @@ const MyHouseModal: React.SFC<IProps> = ({
                 {moment(house!.createdAt).format(DateFormat.WITH_TIME)}
               </p>
               <p>
-                {LANG("dormitory")}: {roomCountDomitory}
+                {LANG("domitory")}: {roomCountDomitory}
               </p>
               <p>
                 {LANG("room")}: {roomCountRoom}
               </p>
               {house.product !== null && (
-                <p>
-                  <span className="JDstandard-small-space">
-                    {LANG("copy_reservation_page_URL")}
-                  </span>
-                  <JDIcon
-                    onClick={e =>
-                      copytoClipboard(
-                        `https://app.stayjanda.com/#/outpage/reservation/${house.publicKey}`
-                      )
-                    }
-                    size={IconSize.MEDEIUM_SMALL}
-                    icon={"copyFile"}
-                    hover={true}
-                  />
-                </p>
+                <Fragment>
+                  <p>
+                    <span className="JDstandard-small-space">
+                      {LANG("copy_reservation_page_URL")}
+                    </span>
+                    <JDIcon
+                      onClick={e => {
+                        copytoClipboard(
+                          insideRedirect(
+                            `outpage/reservation/${house.publicKey}`
+                          )
+                        );
+                      }}
+                      size={IconSize.MEDEIUM_SMALL}
+                      icon={"copyFile"}
+                      hover={true}
+                    />
+                  </p>
+                  {house.HM && (
+                    <p>
+                      <span className="JDstandard-small-space">
+                        {LANG("copy_hm_page_URL")}
+                      </span>
+                      <JDIcon
+                        onClick={e => {
+                          copytoClipboard(
+                            insideRedirect(`outpage/HM/${house.HM!.publicKey}`)
+                          );
+                        }}
+                        size={IconSize.MEDEIUM_SMALL}
+                        icon={"copyFile"}
+                        hover={true}
+                      />
+                    </p>
+                  )}
+                </Fragment>
               )}
             </Fragment>
           )}

@@ -32,7 +32,7 @@ const OutPageRouter: React.SFC<IProps> = ({match, location}) => {
           path="/outpage/infoReservation"
           component={ReservationInfo}
         />
-        <Route exact path="/outpage/HM/:publickey" component={HMwrap} />
+        <Route exact path="/outpage/HM/:hmKey" component={HMwrap} />
         <Route component={NoMatch} />
       </Switch>
     </Fragment>

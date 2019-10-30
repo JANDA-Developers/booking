@@ -26,7 +26,7 @@ const request = async (operation: any) => {
     headers: {
       "X-JWT": localStorage.getItem("jwt") || "",
       "HP-Key": sessionStorage.getItem("hpk") || "",
-      "HM-Key": localStorage.getItem("hmk") || ""
+      "HM-Key": sessionStorage.getItem("hmk") || ""
     }
   });
 };

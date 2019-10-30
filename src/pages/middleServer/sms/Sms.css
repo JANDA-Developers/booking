@@ -1,5 +1,7 @@
 /* ------------------------------ // STUB UNITY ----------------------------- */
 .sms__templateViewCard_smsFormat {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   padding-right: 4px;
 }
 
@@ -7,7 +9,7 @@
   -webkit-transition: 0.3s;
   transition: 0.3s;
   background-color: transparent;
-  width: 8px;
+  width: 6px;
 }
 
 .sms__templateViewCard_smsFormat::-webkit-scrollbar-track {
@@ -15,11 +17,11 @@
 }
 
 .sms__templateViewCard_smsFormat::-webkit-scrollbar-thumb {
-  background-color: #CDCDCD;
+  background-color: #CFCFCF;
   border-radius: 12px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  border: 1px solid #CDCDCD;
+  border: 1px solid #CFCFCF;
 }
 
 .sms__templateViewCard_smsFormat::-webkit-scrollbar-thumb:hover {

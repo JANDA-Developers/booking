@@ -1,7 +1,7 @@
 /* ------------------------------ // STUB UNITY ----------------------------- */
 .JDsearchInput__ul {
   -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
 
 /* stylelint-disable declaration-block-no-duplicate-properties  */
@@ -15,7 +15,7 @@
 }
 
 .JDsearchInput--labeled .JDsearchInput__input {
-  height: calc(2.5rem + 1px);
+  height: calc(2.25rem + 0.8rem);
 }
 
 .JDsearchInput__label {
@@ -118,8 +118,8 @@
 
 .JDsearchInput__li {
   padding: 0.25rem 0.8rem;
-  border-top: 1px dotted #CDCDCD;
-  height: 2.25rem;
+  border-top: 1px dotted #CFCFCF;
+  min-height: 2.25rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -131,7 +131,7 @@
 
 .JDsearchInput__li:hover {
   cursor: pointer;
-  background-color: #CDCDCD;
+  background-color: #CFCFCF;
 }
 
 .JDsearchInput__li:first-child {
@@ -139,7 +139,7 @@
 }
 
 .JDsearchInput__li--active {
-  background-color: #CDCDCD;
+  background-color: #CFCFCF;
 }
 
 .JDsearchInput__li--selected {

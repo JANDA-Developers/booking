@@ -28,7 +28,7 @@
 #root .JDmenu--sideNav .rc-menu-submenu-title, .ReactModalPortal .JDmenu--sideNav .rc-menu-submenu-title {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  border-bottom: 1px solid #CDCDCD;
+  border-bottom: 1px solid #CFCFCF;
   padding-left: 1.2rem !important;
   height: 3.25rem;
   display: -webkit-box;
@@ -40,7 +40,7 @@
 }
 
 #root .JDmenu--sideNav .rc-menu-submenu-active .rc-menu-submenu-title, .ReactModalPortal .JDmenu--sideNav .rc-menu-submenu-active .rc-menu-submenu-title {
-  background-color: #CDCDCD;
+  background-color: #CFCFCF;
 }
 
 #root .JDmenu--dropDown .rc-menu-submenu-arrow, .ReactModalPortal .JDmenu--dropDown .rc-menu-submenu-arrow {
@@ -48,14 +48,14 @@
 }
 
 #root .JDmenu--dropDown .rc-menu-sub, .ReactModalPortal .JDmenu--dropDown .rc-menu-sub {
-  border-bottom: 1px solid #CDCDCD;
+  border-bottom: 1px solid #CFCFCF;
   padding: 0px 1.2rem;
 }
 
 #root .JDmenu--dropDown .rc-menu-submenu-title, .ReactModalPortal .JDmenu--dropDown .rc-menu-submenu-title {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  border-bottom: 1px solid #CDCDCD;
+  border-bottom: 1px solid #CFCFCF;
   padding-left: 1.2rem !important;
   height: 3.25rem;
   display: -webkit-box;
@@ -67,6 +67,6 @@
 }
 
 #root .JDmenu--dropDown .rc-menu-submenu-active .rc-menu-submenu-title, .ReactModalPortal .JDmenu--dropDown .rc-menu-submenu-active .rc-menu-submenu-title {
-  background-color: #CDCDCD;
+  background-color: #CFCFCF;
 }
 /*# sourceMappingURL=Menu.css.map */

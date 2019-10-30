@@ -161,7 +161,7 @@
 .assigItem__titleWrap {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  padding-right: 1.4rem;
+  padding-right: 0.8rem;
   white-space: pre-line;
   line-height: 1;
   font-size: 0.8rem;
@@ -219,7 +219,7 @@
 .assigItem__configIconWrap {
   position: absolute;
   z-index: 10;
-  right: 0.4rem;
+  right: 0;
   top: 0;
   height: 100%;
   display: -webkit-box;
@@ -233,7 +233,7 @@
 }
 
 .assigItem__configIconWrap:hover {
-  color: #CDCDCD;
+  color: #CFCFCF;
 }
 
 @media only screen and (max-width: 400px) and (min-width: 0px) {
@@ -270,16 +270,14 @@
 }
 
 .assigItem--mark {
-  background-color: rgba(255, 255, 255, 0.5);
-  pointer-events: none;
+  opacity: 0.2;
   height: 36px !important;
-  border: 1px solid #4e83efd1;
 }
 
 .assigItem--ghost {
   opacity: 0.3;
   background-color: #4079ecd1;
-  border: 1px soli #CDCDCD;
+  border: 1px soli #CFCFCF;
 }
 
 .assigItem--ghost .assigItem__title {
@@ -307,37 +305,6 @@
 .assigItem--ghost .assigItem__content .animationWrap .preloader__wrap {
   height: 100%;
   line-height: 100%;
-}
-
-.assigItem--create {
-  background-color: #E77002;
-  border-color: #E77002;
-  color: white;
-}
-
-.assigItem--create .assigItem__gender--female {
-  color: white;
-}
-
-.assigItem--create .assigItem__gender--male {
-  color: white;
-}
-
-.assigItem--create.assigItem--linkedSelected {
-  background-color: rgba(255, 255, 255, 0.5);
-  color: #343434;
-}
-
-.assigItem--create.assigItem--linkedSelected .assigItem__gender--female {
-  color: maroon;
-}
-
-.assigItem--create.assigItem--linkedSelected .assigItem__gender--male {
-  color: navy;
-}
-
-.assigItem--create.assigItem--linkedSelected .circleIcon {
-  color: #343434;
 }
 
 #AssigTimeline .assigGroups {
@@ -485,8 +452,8 @@
     box-shadow: 0 8px 17px 2px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
     -webkit-animation-name: fadeInUp;
     animation-name: fadeInUp;
-    -webkit-animation-duration: 1s;
-    animation-duration: 1s;
+    -webkit-animation-duration: .3s;
+    animation-duration: .3s;
     -webkit-animation-fill-mode: after;
     animation-fill-mode: after;
   }
@@ -503,8 +470,8 @@
   #root .itemTooltip--show {
     -webkit-animation-name: fadeInUp;
     animation-name: fadeInUp;
-    -webkit-animation-duration: 1s;
-    animation-duration: 1s;
+    -webkit-animation-duration: .3s;
+    animation-duration: .3s;
     -webkit-animation-fill-mode: after;
     animation-fill-mode: after;
   }

@@ -44,6 +44,8 @@
 }
 
 .JDtextarea.JDtextarea--scroll {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   padding-right: 4px;
 }
 
@@ -51,7 +53,7 @@
   -webkit-transition: 0.3s;
   transition: 0.3s;
   background-color: transparent;
-  width: 8px;
+  width: 6px;
 }
 
 .JDtextarea.JDtextarea--scroll::-webkit-scrollbar-track {
@@ -59,11 +61,11 @@
 }
 
 .JDtextarea.JDtextarea--scroll::-webkit-scrollbar-thumb {
-  background-color: #CDCDCD;
+  background-color: #CFCFCF;
   border-radius: 12px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  border: 1px solid #CDCDCD;
+  border: 1px solid #CFCFCF;
 }
 
 .JDtextarea.JDtextarea--scroll::-webkit-scrollbar-thumb:hover {
@@ -84,7 +86,7 @@
   border-bottom: 1px solid #343434;
   border-radius: 0;
   outline: none;
-  height: 2.5rem;
+  height: 2.25rem;
   width: 100%;
   font-size: 1rem;
   margin-top: 1.6rem;
@@ -96,7 +98,7 @@
   transition: all 0.3s;
   padding: .8rem 0 1.6rem 0;
   resize: none;
-  min-height: 2.5rem;
+  min-height: 2.25rem;
 }
 
 .JDtextarea + .JDtextarea_label {
@@ -124,12 +126,12 @@
 }
 
 .JDtextarea--doubleHeight {
-  height: 5rem !important;
+  height: 4.5rem !important;
 }
 
 .JDtextarea--halfHeight {
-  min-height: 1.25rem;
-  height: 1.25rem;
+  min-height: 1.125rem;
+  height: 1.125rem;
 }
 
 .JDtextarea:disabled, .JDtextarea[readonly="readonly"] {

@@ -23,7 +23,9 @@ import {
   startBookingVariables,
   getAllRoomTypeForBooker,
   startBookingForPublic,
-  startBookingForPublicVariables
+  startBookingForPublicVariables,
+  getPaymentAuth,
+  getPaymentAuthVariables
 } from "../../../types/api";
 import $ from "jquery";
 import BookingInfoBox from "./components/bookingInfoBox";
@@ -60,6 +62,7 @@ import isLast from "../../../utils/isLast";
 import {IRoomSelectInfo} from "../../../components/bookingModal/BookingModal";
 import {IContext} from "../../MiddleServerRouter";
 import {ExecutionResult} from "graphql";
+import {ApolloQueryResult} from "apollo-client";
 
 export interface IBookerInfo {
   name: string;
@@ -99,6 +102,9 @@ interface IProps {
     startBookingForPublic,
     startBookingForPublicVariables
   >;
+  payAuthQu: (
+    variables?: getPaymentAuthVariables | undefined
+  ) => Promise<ApolloQueryResult<getPaymentAuth>>;
   startBookingMu?: IMu<startBooking, startBookingVariables>;
   confirmModalHook: IUseModal<any>;
   createLoading: boolean;
@@ -110,6 +116,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   startBookingMu,
   startBookingForPublicMu,
   context,
+  payAuthQu,
   confirmModalHook,
   createLoading
 }) => {
@@ -294,7 +301,14 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
       );
 
       if (transactionId) {
-        openNiceModal({resvInfo: startBookingVariables, transactionId});
+        const authResult = await payAuthQu({price: priceHook.value});
+        if (authResult && authResult.data.GetPaymentAuth.auth) {
+          openNiceModal({
+            resvInfo: startBookingVariables,
+            transactionId,
+            authInfo: authResult.data.GetPaymentAuth.auth
+          });
+        }
       }
     }
   };

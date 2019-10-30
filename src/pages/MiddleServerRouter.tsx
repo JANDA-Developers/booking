@@ -357,6 +357,7 @@ const JDmiddleServer: React.FC<IProps> = ({
                               return <ResvList context={propContext} />;
                             }}
                           />
+                          <Route component={NoMatch} />
                         </Switch>
                       ) : (
                         <div className="middleServer__starterBg">

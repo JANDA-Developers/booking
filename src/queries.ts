@@ -490,6 +490,9 @@ export const GET_HOUSE_SPECIFICATION = gql`
                     userRole
                     userRoles
                 }
+                HM {
+                    publicKey
+                }
             }
         }
     }
@@ -574,6 +577,9 @@ export const GET_USER_INFO = gql`
             user {
                 ...FieldsUser
                 houses {
+                    HM {
+                        publicKey
+                    }
                     houseConfig {
                         ...FhouseConfig
                     }
@@ -699,6 +705,9 @@ export const GET_HOUSE = gql`
                 location {
                     address
                     addressDetail
+                }
+                HM {
+                    publicKey
                 }
                 publicKey
                 createdAt
@@ -1287,11 +1296,12 @@ export const GET_BOOKING = gql`
 export const GET_SALES_STATISTIC = gql`
     query getSalesStatistic(
         $houseId: ID!
-        $start: DateTime!
-        $end: DateTime!
+        $checkIn: DateTime!
+        $checkOut: DateTime!
         $unit: SalesStatisticsUnit!
+        $groupByPayMethod: Boolean
     ){ 
-        GetSalesStatistic(houseId:$houseId, start:$start, end:$end, unit:$unit) {
+        GetSalesStatistic(houseId:$houseId, checkIn:$checkIn, checkOut:$checkOut, unit:$unit, groupByPayMethod: $groupByPayMethod) {
             ok
             error
             data {
@@ -1500,6 +1510,27 @@ export const ALLOCATE_GUEST_TO_ROOM = gql`
     ${F_GUEST}
 `;
 
+export const GET_PAYMENT_AUTH = gql`
+    query getPaymentAuth(
+        $price: Float!
+    ){
+        GetPaymentAuth(
+            price: $price
+        ){
+            ok
+            error
+            auth {
+                merchantId
+                merchantKey
+                mid
+                hash
+            }
+            date
+        }
+    }
+`
+
+
 // 방타입 :: 방타입 생성
 export const CREATE_ROOMTYPE = gql`
     mutation createRoomType(
@@ -1523,8 +1554,8 @@ export const CREATE_ROOMTYPE = gql`
             description: $description
             defaultPrice: $defaultPrice
             roomGender: $roomGender
-            tags: $tags
             img: $img
+            tags: $tags
         ) {
             ok
             error
@@ -2113,8 +2144,8 @@ export const GET_HOUSE_MENUAL = gql`
 // `
 
 export const GET_HOUSE_MENUAL_FOR_PUBLIC = gql`
-    query getHMforPublic($publicKey: String!) {
-            GetHMforPublic(publicKey:$publicKey) {
+    query getHMforPublic {
+            GetHMforPublic {
                 ok
                 error
                 HM {

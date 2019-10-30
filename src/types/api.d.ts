@@ -87,10 +87,18 @@ export interface getSpecification_GetHouse_house_user {
   _id: string;
   name: any;
   phoneNumber: any;
+  /**
+   * 주요 관리 수단임.. 잘 관리하도록 ㅎ
+   */
   email: any;
   isPhoneVerified: boolean;
   userRole: UserRole;
   userRoles: UserRole[] | null;
+}
+
+export interface getSpecification_GetHouse_house_HM {
+  __typename: "HM";
+  publicKey: string;
 }
 
 export interface getSpecification_GetHouse_house {
@@ -104,6 +112,7 @@ export interface getSpecification_GetHouse_house {
   createdAt: any;
   updatedAt: any | null;
   user: getSpecification_GetHouse_house_user;
+  HM: getSpecification_GetHouse_house_HM | null;
 }
 
 export interface getSpecification_GetHouse {
@@ -302,6 +311,11 @@ export interface getAllProductTypes {
 // GraphQL query operation: getMyProfile
 // ====================================================
 
+export interface getMyProfile_GetMyProfile_user_houses_HM {
+  __typename: "HM";
+  publicKey: string;
+}
+
 export interface getMyProfile_GetMyProfile_user_houses_houseConfig_assigTimeline_itemBlockOp {
   __typename: "ItemBlockOp";
   itemBlockOpEnable: boolean;
@@ -442,6 +456,7 @@ export interface getMyProfile_GetMyProfile_user_houses_location {
 
 export interface getMyProfile_GetMyProfile_user_houses {
   __typename: "House";
+  HM: getMyProfile_GetMyProfile_user_houses_HM | null;
   houseConfig: getMyProfile_GetMyProfile_user_houses_houseConfig;
   smsInfo: getMyProfile_GetMyProfile_user_houses_smsInfo;
   roomTypes: getMyProfile_GetMyProfile_user_houses_roomTypes[] | null;
@@ -464,6 +479,9 @@ export interface getMyProfile_GetMyProfile_user {
   name: any;
   phoneNumber: any;
   password: any | null;
+  /**
+   * 주요 관리 수단임.. 잘 관리하도록 ㅎ
+   */
   email: any;
   isPhoneVerified: boolean;
   profileImg: any | null;
@@ -669,6 +687,11 @@ export interface getHouse_GetHouse_house_location {
   addressDetail: string | null;
 }
 
+export interface getHouse_GetHouse_house_HM {
+  __typename: "HM";
+  publicKey: string;
+}
+
 export interface getHouse_GetHouse_house {
   __typename: "House";
   _id: string;
@@ -679,6 +702,7 @@ export interface getHouse_GetHouse_house {
   appInfo: getHouse_GetHouse_house_appInfo | null;
   product: getHouse_GetHouse_house_product | null;
   location: getHouse_GetHouse_house_location;
+  HM: getHouse_GetHouse_house_HM | null;
   publicKey: string | null;
   createdAt: any;
   updatedAt: any | null;
@@ -1866,6 +1890,9 @@ export interface getUserForSU_GetUserForSU_user {
   name: any;
   phoneNumber: any;
   password: any | null;
+  /**
+   * 주요 관리 수단임.. 잘 관리하도록 ㅎ
+   */
   email: any;
   isPhoneVerified: boolean;
   profileImg: any | null;
@@ -2432,9 +2459,10 @@ export interface getSalesStatistic {
 
 export interface getSalesStatisticVariables {
   houseId: string;
-  start: any;
-  end: any;
+  checkIn: any;
+  checkOut: any;
   unit: SalesStatisticsUnit;
+  groupByPayMethod?: boolean | null;
 }
 
 /* tslint:disable */
@@ -2725,6 +2753,38 @@ export interface allocateGuestToRoomVariables {
   guestId: string;
   allocateInfo: AllocateInfoInput;
   options?: AllocateOptions | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: getPaymentAuth
+// ====================================================
+
+export interface getPaymentAuth_GetPaymentAuth_auth {
+  __typename: "PaymentAuthObject";
+  merchantId: string;
+  merchantKey: string;
+  mid: string;
+  hash: string;
+}
+
+export interface getPaymentAuth_GetPaymentAuth {
+  __typename: "GetPaymentAuthResponse";
+  ok: boolean;
+  error: string | null;
+  auth: getPaymentAuth_GetPaymentAuth_auth | null;
+  date: any | null;
+}
+
+export interface getPaymentAuth {
+  GetPaymentAuth: getPaymentAuth_GetPaymentAuth;
+}
+
+export interface getPaymentAuthVariables {
+  price: number;
 }
 
 /* tslint:disable */
@@ -3879,10 +3939,6 @@ export interface getHMforPublic {
   GetHMforPublic: getHMforPublic_GetHMforPublic;
 }
 
-export interface getHMforPublicVariables {
-  publicKey: string;
-}
-
 /* tslint:disable */
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
@@ -4926,6 +4982,9 @@ export interface FieldsUser {
   name: any;
   phoneNumber: any;
   password: any | null;
+  /**
+   * 주요 관리 수단임.. 잘 관리하도록 ㅎ
+   */
   email: any;
   isPhoneVerified: boolean;
   profileImg: any | null;

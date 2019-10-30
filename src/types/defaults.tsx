@@ -1,4 +1,4 @@
-import { GB_booking, IHouseConfigFull, IBlockOp } from "./interface";
+import {GB_booking, IHouseConfigFull, IBlockOp} from "./interface";
 import {
   RoomGender,
   PricingType,
@@ -11,6 +11,7 @@ import {
   UserRole,
   PaymentType
 } from "./enum";
+
 import {
   getBooking_GetBooking_booking_roomTypes,
   getSmsInfo_GetSmsInfo_smsInfo_smsTemplates,
@@ -21,16 +22,16 @@ import {
   getAllRoomType_GetAllRoomType_roomTypes_rooms,
   getMemos_GetMemos_memos,
   getMyProfile_GetMyProfile_user,
-  getHM_GetHM_HM,
-  getBooking_GetBooking_booking_payment
+  getHM_GetHM_HM
 } from "./api";
 import {
   IAssigItem,
   IAssigGroup,
   GuestTypeAdd
 } from "../pages/middleServer/assig/components/assigIntrerface";
-import { s4 } from "../utils/utils";
-import { LANG } from "../hooks/hook";
+import {s4} from "../utils/utils";
+import {LANG, IuseImageUploaderOption} from "../hooks/hook";
+
 export const DEFAUT_ROOMTYPE_ROOM: getAllRoomType_GetAllRoomType_roomTypes_rooms = {
   __typename: "Room",
   _id: "",
@@ -39,6 +40,7 @@ export const DEFAUT_ROOMTYPE_ROOM: getAllRoomType_GetAllRoomType_roomTypes_rooms
   name: "222",
   updatedAt: ""
 };
+
 export const DEFAUT_ROOMTYPE: getBooking_GetBooking_booking_roomTypes = {
   __typename: "RoomType",
   name: "_",
@@ -101,7 +103,7 @@ export const DEFAUT_ASSIG_GROUP: IAssigGroup = {
     _id: "",
     name: ""
   },
-  roomType: { ...DEFAUT_ROOMTYPE, rooms: [] },
+  roomType: {...DEFAUT_ROOMTYPE, rooms: []},
   roomId: "-1",
   bedIndex: -1,
   placeIndex: -1,

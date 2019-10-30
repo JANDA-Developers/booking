@@ -17,11 +17,11 @@
 }
 
 .JDlist--bordered li {
-  margin-bottom: 1px solid #CDCDCD;
+  margin-bottom: 1px solid #CFCFCF;
 }
 
 .JDlist--stripe li:nth-child(even) {
-  background-color: #CDCDCD;
+  background-color: #CFCFCF;
 }
 
 .JDlist--mbShort li {

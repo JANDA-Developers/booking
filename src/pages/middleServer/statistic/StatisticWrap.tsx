@@ -49,8 +49,8 @@ const StatisticWrap: React.FC<IProps> = ({context}) => {
         skip={!queryDateHook.to || !queryDateHook.from}
         variables={{
           unit: queryOp.unit,
-          end: queryDateHook.to,
-          start: queryDateHook.from,
+          checkOut: queryDateHook.to,
+          checkIn: queryDateHook.from,
           houseId: house._id
         }}
         query={GET_SALES_STATISTIC}
