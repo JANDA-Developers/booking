@@ -66,7 +66,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
 }) => {
   const {house} = context;
   const priceWarnModal = useModal(false);
-  const roomImageHook = useImageUploader();
+  const roomImageHook = useImageUploader(roomTypeData.img);
   const [value, setValue] = useState({
     name: roomTypeData.name,
     description: roomTypeData.description,
@@ -92,7 +92,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
   const updateRoomTypeValue = {
     houseId: house._id,
     name: value.name,
-    img: roomImageHook.fileUrl || undefined,
+    img: roomImageHook.file || undefined,
     pricingType: value.pricingType.value,
     roomGender: value.roomGender.value,
     peopleCount: value.peopleCountMax.value,
@@ -133,7 +133,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
     onCreateFn && onCreateFn();
     createRoomTypeMutation({
       variables: {
-        ...updateRoomTypeValue
+        params: updateRoomTypeValue
       }
     });
     modalHook.closeModal();

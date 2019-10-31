@@ -11,6 +11,17 @@ export const F_LOCATION = gql`
     }
 `;
 
+export const F_IMG = gql`
+    fragment Fimg on JdFile {
+        url
+        filename
+        mimeType
+        tags {
+            Key
+            Value
+        }
+    }
+`;
 
 export const F_MEMO = gql`
     fragment Fmemo on Memo {
@@ -55,14 +66,19 @@ export const F_HM = gql`
     fragment FHM on HM {
         _id
         langList
-        backgroundImg
-        profileImg
+        backgroundImg {
+            ...Fimg
+        }
+        profileImg {
+            ...Fimg
+        }
         phoneNumber
         createdAt
         email
         updatedAt
         title
     }
+    ${F_IMG}
 `
 
 // 하우스메뉴얼 메뉴
@@ -72,10 +88,13 @@ export const F_HMM = gql`
         name
         type
         icon
-        img
+        img {
+          ...Fimg
+        }
         content
         isEnable
     }
+    ${F_IMG}
 `
 
 // 룸타입 관련된 최소 프레임
@@ -247,7 +266,9 @@ export const F_ROOMTYPE = gql`
         index
         roomCount
         roomGender
-        img
+        img {
+            ...Fimg
+        }
         description
         defaultPrice
         createdAt
@@ -255,6 +276,7 @@ export const F_ROOMTYPE = gql`
         roomTemplateSrl
         roomGender
     }
+    ${F_IMG}
 `;
 
 // 예약가능한 인원 프레임
@@ -410,14 +432,17 @@ export const F_USER_INFO = gql`
         phoneNumber
         password
         email
+        profileImg {
+            ...Fimg
+        }
         isPhoneVerified
-        profileImg
         checkPrivacyPolicy
         userRole
         userRoles
         createdAt
         updatedAt
     }
+    ${F_IMG}
 `;
 
 
@@ -439,7 +464,9 @@ const sharedGetAllRoomType = gql`
             createdAt
             defaultPrice
             updatedAt
-            img
+            img {
+                ...Fimg
+            }
             rooms {
                 _id
                 name
@@ -449,6 +476,7 @@ const sharedGetAllRoomType = gql`
             }
         }
     }
+    ${F_IMG}
 `;
 
 
@@ -532,7 +560,9 @@ export const GET_ROOMTYPE_BY_ID = gql`
                 peopleCountMax
                 index
                 roomGender
-                img
+                img {
+                    ...Fimg
+                }
                 description
                 defaultPrice
                 createdAt
@@ -540,6 +570,7 @@ export const GET_ROOMTYPE_BY_ID = gql`
             }
         }
     }
+    ${F_IMG}
 `;
 
 
@@ -638,7 +669,9 @@ export const GET_HOUSES_FOR_SU = gql`
                 user {
                     _id
                     phoneNumber
-                    profileImg
+                    profileImg {
+                        ...Fimg
+                    }
                 }
                 location {
                     address
@@ -659,6 +692,7 @@ export const GET_HOUSES_FOR_SU = gql`
             }
         }
     }
+    ${F_IMG}
     ${F_PAGE_INFO}
 `;
 
@@ -1522,7 +1556,6 @@ export const GET_PAYMENT_AUTH = gql`
             error
             auth {
                 merchantId
-                merchantKey
                 mid
                 hash
             }
@@ -1535,28 +1568,10 @@ export const GET_PAYMENT_AUTH = gql`
 // 방타입 :: 방타입 생성
 export const CREATE_ROOMTYPE = gql`
     mutation createRoomType(
-        $name: String!
-        $houseId: ID!
-        $pricingType: PricingType!
-        $peopleCount: Int!
-        $peopleCountMax: Int
-        $description: String
-        $defaultPrice: Float!
-        $tags: [TagInput!]
-        $img: URL
-        $roomGender: RoomGender
+        $params: CreateRoomTypeInput!
     ) {
         CreateRoomType(
-            name: $name
-            houseId: $houseId
-            pricingType: $pricingType
-            peopleCount: $peopleCount
-            peopleCountMax: $peopleCountMax
-            description: $description
-            defaultPrice: $defaultPrice
-            roomGender: $roomGender
-            img: $img
-            tags: $tags
+            params: $params
         ) {
             ok
             error
@@ -1803,7 +1818,7 @@ export const UPDATE_MYPROFILE = gql`
         $phoneNumber: PhoneNumber!
         $email: EmailAddress!
         $password: Password!
-        $profileImg: URL
+        $profileImg: JdFileInput
     ) {
         UpdateMyProfile(
             name: $name
@@ -2116,6 +2131,7 @@ export const GET_HOUSE_MENUAL = gql`
                 }
             }
         } 
+    ${F_IMG}
     ${F_HMM}
     ${F_HM}
 `
@@ -2234,9 +2250,12 @@ export const UPLOAD_FILE = gql`
     SingleUpload(file: $file) {
       ok
       error
-      fileURL
+      jdFile {
+          ...Fimg
+      }
     }
   }
+  ${F_IMG}
 `;
 
 export const CONFIRM_NOTI = gql`

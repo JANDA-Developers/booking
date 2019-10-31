@@ -1,6 +1,6 @@
 import React from "react";
 import {toast} from "react-toastify";
-import profileImg from "../../../img/profile/default_profile.jpg";
+import defaultProfileImg from "../../../img/profile/default_profile.jpg";
 import Button from "../../../atoms/button/Button";
 import InputText from "../../../atoms/forms/inputText/InputText";
 import ProfileCircle from "../../../atoms/profileCircle/ProfileCircle";
@@ -35,7 +35,7 @@ const Mypage: React.SFC<IProps> = ({
 }) => {
   const {houses} = context;
   const profileStyle = {
-    backgroundImage: `url(${profileImg})`
+    backgroundImage: `url(${defaultProfileImg})`
   };
 
   const checkUpdateMutation = (e: any) => {
@@ -160,7 +160,7 @@ const Mypage: React.SFC<IProps> = ({
           />
         </div>
       </Modal>
-      <MyHouseModalWrap MyHouseModalHook={houseModal} />
+      <MyHouseModalWrap context={context} MyHouseModalHook={houseModal} />
     </div>
   );
 };

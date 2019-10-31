@@ -30,7 +30,8 @@ import {
   GuestTypeAdd
 } from "../pages/middleServer/assig/components/assigIntrerface";
 import {s4} from "../utils/utils";
-import {LANG, IuseImageUploaderOption} from "../hooks/hook";
+import {JdFile} from "rc-menu/lib/interface";
+import {LANG} from "../hooks/hook";
 
 export const DEFAUT_ROOMTYPE_ROOM: getAllRoomType_GetAllRoomType_roomTypes_rooms = {
   __typename: "Room",
@@ -53,7 +54,7 @@ export const DEFAUT_ROOMTYPE: getBooking_GetBooking_booking_roomTypes = {
   description: null,
   defaultPrice: null,
   updatedAt: null,
-  img: undefined,
+  img: null,
   createdAt: undefined,
   _id: "",
   roomTemplateSrl: -1
@@ -214,7 +215,7 @@ export const DEFAUT_HM: getHM_GetHM_HM = {
   __typename: "HM",
   _id: "",
   title: {},
-  backgroundImg: "",
+  backgroundImg: null,
   createdAt: "",
   location: {
     __typename: "Location",
@@ -227,7 +228,7 @@ export const DEFAUT_HM: getHM_GetHM_HM = {
   langList: [],
   menus: [],
   phoneNumber: "",
-  profileImg: "",
+  profileImg: null,
   updatedAt: ""
 };
 
@@ -279,6 +280,14 @@ export const DEFAUT_HOUSE_CONFIG: IHouseConfigFull = {
   }
 };
 
+export const DEFAULT_FILE: JdFile = {
+  filename: "",
+  mimeType: "",
+  tags: [],
+  url: "",
+  __typename: "JdFile"
+};
+
 export const DEFAUT_USER: getMyProfile_GetMyProfile_user = {
   __typename: "User",
   _id: "",
@@ -292,6 +301,6 @@ export const DEFAUT_USER: getMyProfile_GetMyProfile_user = {
   password: "",
   userRole: UserRole.GHOST,
   isPhoneVerified: false,
-  profileImg: undefined,
+  profileImg: null,
   houses: []
 };

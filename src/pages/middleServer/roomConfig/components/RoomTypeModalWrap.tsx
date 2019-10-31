@@ -34,6 +34,7 @@ import {getOperationName} from "apollo-link";
 import {createPortal} from "react-dom";
 import portalTo, {PortalPreloader} from "../../../../utils/portalTo";
 import Preloader from "../../../../atoms/preloader/Preloader";
+import {JdFile} from "rc-menu/lib/interface";
 
 class GetRoomTypeById extends Query<
   getRoomTypeById,
@@ -63,7 +64,7 @@ export interface IDefaultRoomType {
   peopleCount: number;
   peopleCountMax: number;
   roomGender: RoomGender;
-  img?: string;
+  img?: JdFile;
   description: string;
   defaultPrice: number;
 }

@@ -83,12 +83,12 @@ const HMconfig: React.FC<IProps> = ({
   const menusConfigModalHook = useModal();
   const [isGuestView, setGuestView] = useState(false);
   const [title, setTitle] = useState(HM.title);
-  const bgImageHook = useImageUploader(HM.backgroundImg || tempSrc, {
+  const bgImageHook = useImageUploader(HM.backgroundImg, {
     resizeMaxWidth: WindowSize.PHABLET
   });
   const {shouldSave, setShouldSave} = useShouldSave([
     title,
-    bgImageHook.fileUrl,
+    bgImageHook.file,
     enableLangs,
     menuData
   ]);
@@ -119,7 +119,7 @@ const HMconfig: React.FC<IProps> = ({
           updateParams: {
             enableLangs,
             phoneNumber: phoneNumberHook.value,
-            backgroundImg: bgImageHook.fileUrl,
+            backgroundImg: bgImageHook.file,
             menus: menuData.map(menu => ({...menu, __typename: undefined})),
             title
           }
@@ -223,7 +223,7 @@ const HMconfig: React.FC<IProps> = ({
     house,
     title,
     menuData,
-    bgData: bgImageHook.fileUrl,
+    bgData: bgImageHook.file,
     setCurrentLang,
     currentLang,
     userInfo

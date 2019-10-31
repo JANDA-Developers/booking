@@ -39,7 +39,7 @@ const MypageWrap: React.FC<IProps> = ({context, propUserData, ...props}) => {
         phoneNumber: phoneNumberHook.value,
         email: emailHook.value,
         password: passwordHook.value,
-        profileImg: profileCircleHook.fileUrl
+        profileImg: profileCircleHook.file
       }}
       onCompleted={({UpdateMyProfile}: any) => {
         onCompletedMessage(

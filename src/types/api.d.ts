@@ -184,6 +184,20 @@ export interface getSmsHistoryVariables {
 // GraphQL query operation: getRoomTypeById
 // ====================================================
 
+export interface getRoomTypeById_GetRoomTypeById_roomType_img_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface getRoomTypeById_GetRoomTypeById_roomType_img {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: getRoomTypeById_GetRoomTypeById_roomType_img_tags[] | null;
+}
+
 export interface getRoomTypeById_GetRoomTypeById_roomType {
   __typename: "RoomType";
   _id: string;
@@ -196,7 +210,7 @@ export interface getRoomTypeById_GetRoomTypeById_roomType {
   peopleCountMax: number;
   index: number;
   roomGender: RoomGender;
-  img: any | null;
+  img: getRoomTypeById_GetRoomTypeById_roomType_img | null;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -311,9 +325,18 @@ export interface getAllProductTypes {
 // GraphQL query operation: getMyProfile
 // ====================================================
 
-export interface getMyProfile_GetMyProfile_user_houses_HM {
-  __typename: "HM";
-  publicKey: string;
+export interface getMyProfile_GetMyProfile_user_profileImg_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface getMyProfile_GetMyProfile_user_profileImg {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: getMyProfile_GetMyProfile_user_profileImg_tags[] | null;
 }
 
 export interface getMyProfile_GetMyProfile_user_houses_houseConfig_assigTimeline_itemBlockOp {
@@ -456,7 +479,6 @@ export interface getMyProfile_GetMyProfile_user_houses_location {
 
 export interface getMyProfile_GetMyProfile_user_houses {
   __typename: "House";
-  HM: getMyProfile_GetMyProfile_user_houses_HM | null;
   houseConfig: getMyProfile_GetMyProfile_user_houses_houseConfig;
   smsInfo: getMyProfile_GetMyProfile_user_houses_smsInfo;
   roomTypes: getMyProfile_GetMyProfile_user_houses_roomTypes[] | null;
@@ -483,8 +505,8 @@ export interface getMyProfile_GetMyProfile_user {
    * 주요 관리 수단임.. 잘 관리하도록 ㅎ
    */
   email: any;
+  profileImg: getMyProfile_GetMyProfile_user_profileImg | null;
   isPhoneVerified: boolean;
-  profileImg: any | null;
   checkPrivacyPolicy: boolean;
   userRole: UserRole;
   userRoles: UserRole[] | null;
@@ -513,11 +535,25 @@ export interface getMyProfile {
 // GraphQL query operation: getHousesForSU
 // ====================================================
 
+export interface getHousesForSU_GetHousesForSU_houses_user_profileImg_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface getHousesForSU_GetHousesForSU_houses_user_profileImg {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: getHousesForSU_GetHousesForSU_houses_user_profileImg_tags[] | null;
+}
+
 export interface getHousesForSU_GetHousesForSU_houses_user {
   __typename: "User";
   _id: string;
   phoneNumber: any;
-  profileImg: any | null;
+  profileImg: getHousesForSU_GetHousesForSU_houses_user_profileImg | null;
 }
 
 export interface getHousesForSU_GetHousesForSU_houses_location {
@@ -617,6 +653,20 @@ export interface getHouse_GetHouse_house_smsInfo {
   _id: string;
 }
 
+export interface getHouse_GetHouse_house_roomTypes_img_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface getHouse_GetHouse_house_roomTypes_img {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: getHouse_GetHouse_house_roomTypes_img_tags[] | null;
+}
+
 export interface getHouse_GetHouse_house_roomTypes_rooms {
   __typename: "Room";
   _id: string;
@@ -646,7 +696,7 @@ export interface getHouse_GetHouse_house_roomTypes {
   index: number;
   roomCount: number;
   roomGender: RoomGender;
-  img: any | null;
+  img: getHouse_GetHouse_house_roomTypes_img | null;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -731,6 +781,20 @@ export interface getHouseVariables {
 // GraphQL query operation: dailyPriceGetPrice
 // ====================================================
 
+export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_img_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_img {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_img_tags[] | null;
+}
+
 export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType {
   __typename: "RoomType";
   _id: string;
@@ -744,7 +808,7 @@ export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roo
   index: number;
   roomCount: number;
   roomGender: RoomGender;
-  img: any | null;
+  img: dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_img | null;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -925,6 +989,20 @@ export interface getCapacityToRoomTypeForBookerVariables {
 // GraphQL query operation: getAllRoomTypeForBooker
 // ====================================================
 
+export interface getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_img_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_img {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_img_tags[] | null;
+}
+
 export interface getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_rooms {
   __typename: "Room";
   _id: string;
@@ -954,7 +1032,7 @@ export interface getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes {
    */
   defaultPrice: number | null;
   updatedAt: any | null;
-  img: any | null;
+  img: getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_img | null;
   rooms: getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_rooms[];
 }
 
@@ -979,6 +1057,20 @@ export interface getAllRoomTypeForBooker {
 // ====================================================
 // GraphQL query operation: getAllRoomType
 // ====================================================
+
+export interface getAllRoomType_GetAllRoomType_roomTypes_img_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface getAllRoomType_GetAllRoomType_roomTypes_img {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: getAllRoomType_GetAllRoomType_roomTypes_img_tags[] | null;
+}
 
 export interface getAllRoomType_GetAllRoomType_roomTypes_rooms {
   __typename: "Room";
@@ -1009,7 +1101,7 @@ export interface getAllRoomType_GetAllRoomType_roomTypes {
    */
   defaultPrice: number | null;
   updatedAt: any | null;
-  img: any | null;
+  img: getAllRoomType_GetAllRoomType_roomTypes_img | null;
   rooms: getAllRoomType_GetAllRoomType_roomTypes_rooms[];
 }
 
@@ -1039,6 +1131,20 @@ export interface getAllRoomTypeVariables {
 // GraphQL query operation: findBooking
 // ====================================================
 
+export interface findBooking_FindBooking_bookings_roomTypes_img_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface findBooking_FindBooking_bookings_roomTypes_img {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: findBooking_FindBooking_bookings_roomTypes_img_tags[] | null;
+}
+
 export interface findBooking_FindBooking_bookings_roomTypes {
   __typename: "RoomType";
   _id: string;
@@ -1052,7 +1158,7 @@ export interface findBooking_FindBooking_bookings_roomTypes {
   index: number;
   roomCount: number;
   roomGender: RoomGender;
-  img: any | null;
+  img: findBooking_FindBooking_bookings_roomTypes_img | null;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -1152,6 +1258,20 @@ export interface findBookingVariables {
 // GraphQL query operation: findBookingForBooker
 // ====================================================
 
+export interface findBookingForBooker_FindBookingForBooker_bookings_roomTypes_img_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface findBookingForBooker_FindBookingForBooker_bookings_roomTypes_img {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: findBookingForBooker_FindBookingForBooker_bookings_roomTypes_img_tags[] | null;
+}
+
 export interface findBookingForBooker_FindBookingForBooker_bookings_roomTypes {
   __typename: "RoomType";
   _id: string;
@@ -1165,7 +1285,7 @@ export interface findBookingForBooker_FindBookingForBooker_bookings_roomTypes {
   index: number;
   roomCount: number;
   roomGender: RoomGender;
-  img: any | null;
+  img: findBookingForBooker_FindBookingForBooker_bookings_roomTypes_img | null;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -1264,6 +1384,20 @@ export interface findBookingForBookerVariables {
 // GraphQL query operation: getRoomTypeDatePrices
 // ====================================================
 
+export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_img_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_img {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_img_tags[] | null;
+}
+
 export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_roomType {
   __typename: "RoomType";
   _id: string;
@@ -1277,7 +1411,7 @@ export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_
   index: number;
   roomCount: number;
   roomGender: RoomGender;
-  img: any | null;
+  img: getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_img | null;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -1329,6 +1463,20 @@ export interface getRoomTypeDatePricesVariables {
 // GraphQL query operation: getAllRoomTypeWithGuest
 // ====================================================
 
+export interface getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_img_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_img {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_img_tags[] | null;
+}
+
 export interface getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms {
   __typename: "Room";
   _id: string;
@@ -1358,7 +1506,7 @@ export interface getAllRoomTypeWithGuest_GetAllRoomType_roomTypes {
   index: number;
   roomCount: number;
   roomGender: RoomGender;
-  img: any | null;
+  img: getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_img | null;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -1401,6 +1549,20 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_roomType
   _id: string;
 }
 
+export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_roomTypes_img_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_roomTypes_img {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_roomTypes_img_tags[] | null;
+}
+
 export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_roomTypes {
   __typename: "RoomType";
   _id: string;
@@ -1414,7 +1576,7 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_
   index: number;
   roomCount: number;
   roomGender: RoomGender;
-  img: any | null;
+  img: getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_roomTypes_img | null;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -1516,6 +1678,20 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_room {
   roomSrl: number | null;
 }
 
+export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_roomTypes_img_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_roomTypes_img {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_roomTypes_img_tags[] | null;
+}
+
 export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_roomTypes {
   __typename: "RoomType";
   _id: string;
@@ -1529,7 +1705,7 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_room
   index: number;
   roomCount: number;
   roomGender: RoomGender;
-  img: any | null;
+  img: getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_roomTypes_img | null;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -1732,6 +1908,20 @@ export interface getAllRoomTypePriceVariables {
 // GraphQL query operation: getUserForSU
 // ====================================================
 
+export interface getUserForSU_GetUserForSU_user_profileImg_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface getUserForSU_GetUserForSU_user_profileImg {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: getUserForSU_GetUserForSU_user_profileImg_tags[] | null;
+}
+
 export interface getUserForSU_GetUserForSU_user_houses_houseConfig_assigTimeline_itemBlockOp {
   __typename: "ItemBlockOp";
   itemBlockOpEnable: boolean;
@@ -1894,8 +2084,8 @@ export interface getUserForSU_GetUserForSU_user {
    * 주요 관리 수단임.. 잘 관리하도록 ㅎ
    */
   email: any;
+  profileImg: getUserForSU_GetUserForSU_user_profileImg | null;
   isPhoneVerified: boolean;
-  profileImg: any | null;
   checkPrivacyPolicy: boolean;
   userRole: UserRole;
   userRoles: UserRole[] | null;
@@ -1993,6 +2183,20 @@ export interface getFileTxtVariables {
 // GraphQL query operation: getBookingForPublic
 // ====================================================
 
+export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes_img_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes_img {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: getBookingForPublic_GetBookingForPublic_booking_roomTypes_img_tags[] | null;
+}
+
 export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes {
   __typename: "RoomType";
   _id: string;
@@ -2006,7 +2210,7 @@ export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes {
   index: number;
   roomCount: number;
   roomGender: RoomGender;
-  img: any | null;
+  img: getBookingForPublic_GetBookingForPublic_booking_roomTypes_img | null;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -2132,6 +2336,20 @@ export interface getPhoneNumbersVariables {
 // GraphQL query operation: getBookings
 // ====================================================
 
+export interface getBookings_GetBookings_bookings_roomTypes_img_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface getBookings_GetBookings_bookings_roomTypes_img {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: getBookings_GetBookings_bookings_roomTypes_img_tags[] | null;
+}
+
 export interface getBookings_GetBookings_bookings_roomTypes {
   __typename: "RoomType";
   _id: string;
@@ -2145,7 +2363,7 @@ export interface getBookings_GetBookings_bookings_roomTypes {
   index: number;
   roomCount: number;
   roomGender: RoomGender;
-  img: any | null;
+  img: getBookings_GetBookings_bookings_roomTypes_img | null;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -2272,6 +2490,20 @@ export interface getBookingsVariables {
 // GraphQL query operation: getBooking
 // ====================================================
 
+export interface getBooking_GetBooking_booking_roomTypes_img_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface getBooking_GetBooking_booking_roomTypes_img {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: getBooking_GetBooking_booking_roomTypes_img_tags[] | null;
+}
+
 export interface getBooking_GetBooking_booking_roomTypes {
   __typename: "RoomType";
   _id: string;
@@ -2285,7 +2517,7 @@ export interface getBooking_GetBooking_booking_roomTypes {
   index: number;
   roomCount: number;
   roomGender: RoomGender;
-  img: any | null;
+  img: getBooking_GetBooking_booking_roomTypes_img | null;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -2767,7 +2999,6 @@ export interface allocateGuestToRoomVariables {
 export interface getPaymentAuth_GetPaymentAuth_auth {
   __typename: "PaymentAuthObject";
   merchantId: string;
-  merchantKey: string;
   mid: string;
   hash: string;
 }
@@ -2777,7 +3008,7 @@ export interface getPaymentAuth_GetPaymentAuth {
   ok: boolean;
   error: string | null;
   auth: getPaymentAuth_GetPaymentAuth_auth | null;
-  date: any | null;
+  date: string | null;
 }
 
 export interface getPaymentAuth {
@@ -2810,16 +3041,7 @@ export interface createRoomType {
 }
 
 export interface createRoomTypeVariables {
-  name: string;
-  houseId: string;
-  pricingType: PricingType;
-  peopleCount: number;
-  peopleCountMax?: number | null;
-  description?: string | null;
-  defaultPrice: number;
-  tags?: TagInput[] | null;
-  img?: any | null;
-  roomGender?: RoomGender | null;
+  params: CreateRoomTypeInput;
 }
 
 /* tslint:disable */
@@ -3248,7 +3470,7 @@ export interface updateMyProfileVariables {
   phoneNumber: any;
   email: any;
   password: any;
-  profileImg?: any | null;
+  profileImg?: JdFileInput | null;
 }
 
 /* tslint:disable */
@@ -3814,6 +4036,48 @@ export interface updateSenderVariables {
 // GraphQL query operation: getHM
 // ====================================================
 
+export interface getHM_GetHM_HM_backgroundImg_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface getHM_GetHM_HM_backgroundImg {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: getHM_GetHM_HM_backgroundImg_tags[] | null;
+}
+
+export interface getHM_GetHM_HM_profileImg_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface getHM_GetHM_HM_profileImg {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: getHM_GetHM_HM_profileImg_tags[] | null;
+}
+
+export interface getHM_GetHM_HM_menus_img_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface getHM_GetHM_HM_menus_img {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: getHM_GetHM_HM_menus_img_tags[] | null;
+}
+
 export interface getHM_GetHM_HM_menus {
   __typename: "HMmenu";
   /**
@@ -3826,7 +4090,7 @@ export interface getHM_GetHM_HM_menus {
    * 메뉴 아이콘
    */
   icon: string | null;
-  img: string | null;
+  img: getHM_GetHM_HM_menus_img | null;
   content: any;
   isEnable: boolean;
 }
@@ -3846,8 +4110,8 @@ export interface getHM_GetHM_HM {
    * 선택 가능한 언어 목록
    */
   langList: Language[];
-  backgroundImg: string | null;
-  profileImg: string | null;
+  backgroundImg: getHM_GetHM_HM_backgroundImg | null;
+  profileImg: getHM_GetHM_HM_profileImg | null;
   phoneNumber: string | null;
   createdAt: any;
   email: string;
@@ -3883,6 +4147,48 @@ export interface getHMVariables {
 // GraphQL query operation: getHMforPublic
 // ====================================================
 
+export interface getHMforPublic_GetHMforPublic_HM_backgroundImg_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface getHMforPublic_GetHMforPublic_HM_backgroundImg {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: getHMforPublic_GetHMforPublic_HM_backgroundImg_tags[] | null;
+}
+
+export interface getHMforPublic_GetHMforPublic_HM_profileImg_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface getHMforPublic_GetHMforPublic_HM_profileImg {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: getHMforPublic_GetHMforPublic_HM_profileImg_tags[] | null;
+}
+
+export interface getHMforPublic_GetHMforPublic_HM_menus_img_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface getHMforPublic_GetHMforPublic_HM_menus_img {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: getHMforPublic_GetHMforPublic_HM_menus_img_tags[] | null;
+}
+
 export interface getHMforPublic_GetHMforPublic_HM_menus {
   __typename: "HMmenu";
   /**
@@ -3895,7 +4201,7 @@ export interface getHMforPublic_GetHMforPublic_HM_menus {
    * 메뉴 아이콘
    */
   icon: string | null;
-  img: string | null;
+  img: getHMforPublic_GetHMforPublic_HM_menus_img | null;
   content: any;
   isEnable: boolean;
 }
@@ -3915,8 +4221,8 @@ export interface getHMforPublic_GetHMforPublic_HM {
    * 선택 가능한 언어 목록
    */
   langList: Language[];
-  backgroundImg: string | null;
-  profileImg: string | null;
+  backgroundImg: getHMforPublic_GetHMforPublic_HM_backgroundImg | null;
+  profileImg: getHMforPublic_GetHMforPublic_HM_profileImg | null;
   phoneNumber: string | null;
   createdAt: any;
   email: string;
@@ -4114,11 +4420,25 @@ export interface getNotisVariables {
 // GraphQL mutation operation: singleUpload
 // ====================================================
 
+export interface singleUpload_SingleUpload_jdFile_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface singleUpload_SingleUpload_jdFile {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: singleUpload_SingleUpload_jdFile_tags[] | null;
+}
+
 export interface singleUpload_SingleUpload {
   __typename: "SingleUploadResponse";
   ok: boolean;
   error: string | null;
-  fileURL: any | null;
+  jdFile: singleUpload_SingleUpload_jdFile | null;
 }
 
 export interface singleUpload {
@@ -4202,6 +4522,28 @@ export interface FieldsLocation {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL fragment: Fimg
+// ====================================================
+
+export interface Fimg_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface Fimg {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: Fimg_tags[] | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL fragment: Fmemo
 // ====================================================
 
@@ -4264,6 +4606,34 @@ export interface Fhouse {
 // GraphQL fragment: FHM
 // ====================================================
 
+export interface FHM_backgroundImg_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface FHM_backgroundImg {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: FHM_backgroundImg_tags[] | null;
+}
+
+export interface FHM_profileImg_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface FHM_profileImg {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: FHM_profileImg_tags[] | null;
+}
+
 export interface FHM {
   __typename: "HM";
   _id: string;
@@ -4271,8 +4641,8 @@ export interface FHM {
    * 선택 가능한 언어 목록
    */
   langList: Language[];
-  backgroundImg: string | null;
-  profileImg: string | null;
+  backgroundImg: FHM_backgroundImg | null;
+  profileImg: FHM_profileImg | null;
   phoneNumber: string | null;
   createdAt: any;
   email: string;
@@ -4288,6 +4658,20 @@ export interface FHM {
 // GraphQL fragment: FHMmenu
 // ====================================================
 
+export interface FHMmenu_img_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface FHMmenu_img {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: FHMmenu_img_tags[] | null;
+}
+
 export interface FHMmenu {
   __typename: "HMmenu";
   /**
@@ -4300,7 +4684,7 @@ export interface FHMmenu {
    * 메뉴 아이콘
    */
   icon: string | null;
-  img: string | null;
+  img: FHMmenu_img | null;
   content: any;
   isEnable: boolean;
 }
@@ -4618,6 +5002,20 @@ export interface FsmsHistory {
 // GraphQL fragment: FroomType
 // ====================================================
 
+export interface FroomType_img_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface FroomType_img {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: FroomType_img_tags[] | null;
+}
+
 export interface FroomType {
   __typename: "RoomType";
   _id: string;
@@ -4631,7 +5029,7 @@ export interface FroomType {
   index: number;
   roomCount: number;
   roomGender: RoomGender;
-  img: any | null;
+  img: FroomType_img | null;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -4677,6 +5075,20 @@ export interface FavailablePeopleCount {
 // GraphQL fragment: Fbooking
 // ====================================================
 
+export interface Fbooking_roomTypes_img_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface Fbooking_roomTypes_img {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: Fbooking_roomTypes_img_tags[] | null;
+}
+
 export interface Fbooking_roomTypes {
   __typename: "RoomType";
   _id: string;
@@ -4690,7 +5102,7 @@ export interface Fbooking_roomTypes {
   index: number;
   roomCount: number;
   roomGender: RoomGender;
-  img: any | null;
+  img: Fbooking_roomTypes_img | null;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -4977,6 +5389,20 @@ export interface FroomTypeCapacity {
 // GraphQL fragment: FieldsUser
 // ====================================================
 
+export interface FieldsUser_profileImg_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface FieldsUser_profileImg {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: FieldsUser_profileImg_tags[] | null;
+}
+
 export interface FieldsUser {
   __typename: "User";
   _id: string;
@@ -4987,8 +5413,8 @@ export interface FieldsUser {
    * 주요 관리 수단임.. 잘 관리하도록 ㅎ
    */
   email: any;
+  profileImg: FieldsUser_profileImg | null;
   isPhoneVerified: boolean;
-  profileImg: any | null;
   checkPrivacyPolicy: boolean;
   userRole: UserRole;
   userRoles: UserRole[] | null;
@@ -5003,6 +5429,20 @@ export interface FieldsUser {
 // ====================================================
 // GraphQL fragment: FsharedGetAllRoomType
 // ====================================================
+
+export interface FsharedGetAllRoomType_roomTypes_img_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface FsharedGetAllRoomType_roomTypes_img {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: FsharedGetAllRoomType_roomTypes_img_tags[] | null;
+}
 
 export interface FsharedGetAllRoomType_roomTypes_rooms {
   __typename: "Room";
@@ -5033,7 +5473,7 @@ export interface FsharedGetAllRoomType_roomTypes {
    */
   defaultPrice: number | null;
   updatedAt: any | null;
-  img: any | null;
+  img: FsharedGetAllRoomType_roomTypes_img | null;
   rooms: FsharedGetAllRoomType_roomTypes_rooms[];
 }
 
@@ -5052,6 +5492,20 @@ export interface FsharedGetAllRoomType {
 // GraphQL fragment: FroomTypePriceResult
 // ====================================================
 
+export interface FroomTypePriceResult_roomTypeDatePrices_roomType_img_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface FroomTypePriceResult_roomTypeDatePrices_roomType_img {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: FroomTypePriceResult_roomTypeDatePrices_roomType_img_tags[] | null;
+}
+
 export interface FroomTypePriceResult_roomTypeDatePrices_roomType {
   __typename: "RoomType";
   _id: string;
@@ -5065,7 +5519,7 @@ export interface FroomTypePriceResult_roomTypeDatePrices_roomType {
   index: number;
   roomCount: number;
   roomGender: RoomGender;
-  img: any | null;
+  img: FroomTypePriceResult_roomTypeDatePrices_roomType_img | null;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -5342,6 +5796,19 @@ export interface CreateNotiParams {
   notiLevel?: NotiLevel | null;
 }
 
+export interface CreateRoomTypeInput {
+  name: string;
+  houseId: string;
+  pricingType: PricingType;
+  roomGender?: RoomGender | null;
+  img?: JdFileInput | null;
+  peopleCount: number;
+  peopleCountMax?: number | null;
+  defaultPrice?: number | null;
+  description?: string | null;
+  tags?: TagInput[] | null;
+}
+
 export interface DayOfWeekPriceInput {
   day: Day;
   price: number;
@@ -5366,7 +5833,7 @@ export interface HMmenuInput {
   id: number;
   type?: HMmenuType | null;
   name?: any | null;
-  img?: string | null;
+  img?: JdFileInput | null;
   content?: any | null;
   icon?: string | null;
   isEnable?: boolean | null;
@@ -5380,6 +5847,18 @@ export interface InitValueGetCapacityToRoomInput {
 export interface ItemBlockOpInput {
   itemBlockOpEnable: boolean;
   useColor: boolean;
+}
+
+export interface JdFileInput {
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags?: JdTagInput[] | null;
+}
+
+export interface JdTagInput {
+  Key: string;
+  Value: string;
 }
 
 export interface LocationInput {
@@ -5490,7 +5969,7 @@ export interface UpdateBookingMutationParamsInput {
 
 export interface UpdateHMparams {
   title?: any | null;
-  backgroundImg?: string | null;
+  backgroundImg?: JdFileInput | null;
   houseProfileImg?: string | null;
   email?: string | null;
   phoneNumber?: any | null;
@@ -5528,7 +6007,7 @@ export interface UpdateRoomTypeInput {
   name?: string | null;
   peopleCount?: number | null;
   peopleCountMax?: number | null;
-  img?: any | null;
+  img?: JdFileInput | null;
   defaultPrice?: number | null;
   description?: string | null;
 }

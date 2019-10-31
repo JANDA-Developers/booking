@@ -197,7 +197,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
   // 방배경사진
   const roomStyle = {
     // TODO :사진정보 여기에
-    backgroundImage: `url(${roomTypeData.img})`
+    backgroundImage: `url(${roomTypeData.img ? roomTypeData.img.url : ""})`
   };
 
   return (
@@ -294,7 +294,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
       <JDmodal className="roomImgPop" {...roomImgModalHook}>
         <img
           className="roomImgPop__img"
-          src={roomTypeData.img}
+          src={roomTypeData.img ? roomTypeData.img.url : ""}
           alt="방 이미지"
         />
         <div className="roomImgPop__description">

@@ -54,7 +54,7 @@ const HMwrap: React.FC<IProps> = ({match}) => {
                 location: HM.location,
                 email: HM.email
               }}
-              bgData={HM.backgroundImg || ""}
+              bgData={HM.backgroundImg}
               title={HM.title}
             />
           );

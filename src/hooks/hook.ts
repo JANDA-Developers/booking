@@ -14,7 +14,7 @@ import Axios from "axios";
 import {IselectedOption} from "../atoms/forms/selectBox/SelectBox";
 import {IHolidaysByApi} from "../types/interface";
 import moment from "moment";
-import {muResult} from "../utils/utils";
+import {muResult, targetBlink} from "../utils/utils";
 import {JDlang as originJDlang} from "../langs/JDlang";
 import {TLanguageShort} from "../types/enum";
 import {useMutation} from "@apollo/react-hooks";
@@ -23,6 +23,7 @@ import client from "../apolloClient";
 import {singleUpload, singleUploadVariables} from "../types/api";
 // @ts-ignore
 import Resizer from "react-image-file-resizer";
+import {JdFile} from "rc-menu/lib/interface";
 
 // 한방에 패치
 // A X I O S  : (http://codeheaven.io/how-to-use-axios-as-your-http-client/)
@@ -83,21 +84,19 @@ const useFetch = (url: string | undefined = ""): IUseFetch => {
 };
 
 // 이미지업로더
+export interface IuseImageUploaderOP {
+  file?: JdFile | null;
+  uploading?: boolean;
+  onChangeFile?(event: React.ChangeEvent<HTMLInputElement | undefined>): void;
+}
+
 export interface IuseImageUploader {
-  fileUrl: string;
+  file?: JdFile | null;
   uploading: boolean;
   isError: boolean;
   onChangeFile(event: React.ChangeEvent<HTMLInputElement | undefined>): void;
-  setFileUrl: React.Dispatch<any>;
-}
-
-// 프로필 서클 업로더
-export interface IuseProfileUploader {
-  fileUrl?: string;
-  uploading?: boolean;
-  isError?: boolean;
-  onChangeFile?(event: React.ChangeEvent<HTMLInputElement | undefined>): void;
-  setFileUrl?: React.Dispatch<any>;
+  setFile: React.Dispatch<any>;
+  option?: IuseImageUploaderOption;
 }
 
 export interface IuseImageUploaderOption {
@@ -108,10 +107,17 @@ export interface IuseImageUploaderOption {
 
 //  이미지 업로더
 const useImageUploader = (
-  defaultFileUrl?: any,
+  defaultFile?: JdFile | null,
   propOption?: IuseImageUploaderOption
 ): IuseImageUploader => {
-  const [fileUrl, setFileUrl] = useState(defaultFileUrl);
+  if (defaultFile && defaultFile.tags) {
+    defaultFile.tags.forEach((tag: any) => {
+      delete tag.__typename;
+    });
+    delete defaultFile.__typename;
+  }
+
+  const [file, setFile] = useState(defaultFile);
   const [uploading, setUploading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [uploadMutation] = useMutation<singleUpload, singleUploadVariables>(
@@ -120,20 +126,27 @@ const useImageUploader = (
   );
 
   const DEFAULT_IMAGEUP_LOADER_OPTION: IuseImageUploaderOption = {
-    quality: 90,
-    resizeMaxHeight: 300,
-    resizeMaxWidth: 300
+    quality: 100,
+    resizeMaxHeight: 500,
+    resizeMaxWidth: 500
   };
 
   let option = propOption || DEFAULT_IMAGEUP_LOADER_OPTION;
 
   // 화면에 나타는 이미지처리
   const setFileView = (data: any) => {
-    const fileUrl = muResult(data, "SingleUpload", "fileURL");
-    if (typeof fileUrl === "boolean") {
+    const file = muResult(data, "SingleUpload", "jdFile");
+    if (typeof file === "boolean") {
       setIsError(true);
     } else {
-      setFileUrl(fileUrl);
+      // @ts-ignore
+      file.tags.forEach((tag: any) => {
+        delete tag.__typename;
+      });
+      // @ts-ignore
+      delete file.__typename;
+      // @ts-ignore
+      setFile(file);
     }
     setUploading(false);
   };
@@ -151,7 +164,10 @@ const useImageUploader = (
       file = uriOrFile;
     }
     const data = await uploadMutation({variables: {file: file}});
-    setFileView(data);
+    if (data.data) {
+      delete data.data.SingleUpload.__typename;
+      setFileView(data);
+    }
   };
 
   const onChangeFile = async (
@@ -168,6 +184,7 @@ const useImageUploader = (
         console.log("file.type");
         console.log(file.type);
         if (file) {
+          // 이미지인경우 리사이즈 해서 업로드
           if (!file.type.includes("video")) {
             Resizer.imageFileResizer(
               file,
@@ -182,6 +199,7 @@ const useImageUploader = (
               "blob"
             );
           } else {
+            // 비디오인경우
             uploadImg(file);
           }
         }
@@ -190,11 +208,12 @@ const useImageUploader = (
   };
 
   return {
-    fileUrl,
+    file,
     uploading,
     isError,
     onChangeFile,
-    setFileUrl
+    setFile,
+    option: propOption
   };
 };
 

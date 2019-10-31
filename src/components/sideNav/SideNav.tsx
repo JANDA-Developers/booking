@@ -164,7 +164,7 @@ const SideNav: React.FC<IProps> = ({isOpen, setIsOpen, context}) => {
                 <ProfileCircle
                   size={IconSize.MEDIUM_LARGE}
                   isBordered
-                  profileImg={user.profileImg}
+                  file={user.profileImg}
                 />
               </div>
             </Link>

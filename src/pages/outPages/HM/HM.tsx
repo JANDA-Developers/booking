@@ -23,6 +23,7 @@ import {
 import HMmenu from "./component/HMmenu";
 
 import Preloader from "../../../atoms/preloader/Preloader";
+import {JdFile} from "rc-menu/lib/interface";
 
 interface IProps {
   host?: {
@@ -34,7 +35,7 @@ interface IProps {
     phoneNumberModalHook: IUseModal<any>;
   };
   menuData: getHM_GetHM_HM_menus[];
-  bgData: string;
+  bgData?: JdFile | null;
   title: any;
   enableLangs: Language[];
   setCurrentLang: React.Dispatch<React.SetStateAction<Language>>;
@@ -42,7 +43,7 @@ interface IProps {
   loading?: boolean;
   userInfo: {
     email: string | null;
-    profileImg: string | null;
+    profileImg?: JdFile | null;
     phoneNumber: string | null;
     location: getHM_GetHM_HM_location;
   };
@@ -78,7 +79,9 @@ const HMcompoent: React.FC<IProps> = ({
                 <Fragment>
                   {!host ? (
                     <div
-                      style={{backgroundImage: `url(${bgData})`}}
+                      style={{
+                        backgroundImage: `url(${bgData ? bgData.url : ""})`
+                      }}
                       className="HM__bg"
                     />
                   ) : (
@@ -87,10 +90,11 @@ const HMcompoent: React.FC<IProps> = ({
                       mode="noEffect"
                       {...host.bgImageHook}
                       minHeight="150px"
+                      height="150px"
                     />
                   )}
                   <ProfileCircle
-                    profileImg={userInfo.profileImg}
+                    file={userInfo.profileImg}
                     isBordered
                     whiteBorder
                     size={IconSize.BIG_LARGE}
@@ -217,7 +221,7 @@ const HMcompoent: React.FC<IProps> = ({
                         menuData={menuData}
                         host={host}
                         onChangeFile={file => {
-                          menu.img = file;
+                          menu.img = file || null;
                           host && host.setMenuData([...menuData]);
                         }}
                       />

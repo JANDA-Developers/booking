@@ -1,24 +1,20 @@
 import JDbox from "../../atoms/box/JDbox";
 import {
   getSpecification_GetHouse_house,
-  UserRole,
   updateUserForSU,
   updateUserForSUVariables
 } from "../../types/api";
-import {Fragment, useState} from "react";
+import {useState} from "react";
 import moment from "moment";
 import React from "react";
-import {autoHypen, isEmpty, autoComma, stringToPrice} from "../../utils/utils";
+import {autoHypen, isEmpty, autoComma} from "../../utils/utils";
 import {DEFAUT_PRODUCT, DEFAUT_APP_INFO_REQUEST} from "../../types/defaults";
-import Preloader from "../../atoms/preloader/Preloader";
 import JDselect from "../../atoms/forms/selectBox/SelectBox";
 import InputText from "../../atoms/forms/inputText/InputText";
 import {
-  LAYOUT_TYPE_OP,
   SELECT_PRODUCT_TYPE_OP,
   HouseStatus,
-  PRODUCT_STATUS_OP,
-  HouseType
+  PRODUCT_STATUS_OP
 } from "../../types/enum";
 import Button from "../../atoms/button/Button";
 import CheckBox from "../../atoms/forms/checkBox/CheckBox";

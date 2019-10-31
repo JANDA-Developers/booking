@@ -3348,8 +3348,8 @@
             "description": "",
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "URL",
+              "kind": "OBJECT",
+              "name": "JdFile",
               "ofType": null
             },
             "isDeprecated": false,
@@ -3538,12 +3538,134 @@
         "possibleTypes": null
       },
       {
+        "kind": "OBJECT",
+        "name": "JdFile",
+        "description": "",
+        "fields": [
+          {
+            "name": "url",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "URL",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "filename",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "mimeType",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "tags",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "JdTag",
+                  "ofType": null
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
         "kind": "SCALAR",
         "name": "URL",
         "description": "URL 타입 스칼라 검증. ",
         "fields": null,
         "inputFields": null,
         "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "JdTag",
+        "description": "",
+        "fields": [
+          {
+            "name": "Key",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "Value",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
         "enumValues": null,
         "possibleTypes": null
       },
@@ -4347,8 +4469,8 @@
             "description": "",
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "URL",
+              "kind": "OBJECT",
+              "name": "JdFile",
               "ofType": null
             },
             "isDeprecated": false,
@@ -5419,7 +5541,7 @@
       {
         "kind": "OBJECT",
         "name": "HM",
-        "description": "하우스메뉴얼 콘피그 ",
+        "description": "하우스메뉴얼 콘피그",
         "fields": [
           {
             "name": "_id",
@@ -5482,8 +5604,8 @@
             "description": "",
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
+              "kind": "OBJECT",
+              "name": "JdFile",
               "ofType": null
             },
             "isDeprecated": false,
@@ -5538,8 +5660,8 @@
             "description": "",
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
+              "kind": "OBJECT",
+              "name": "JdFile",
               "ofType": null
             },
             "isDeprecated": false,
@@ -5726,8 +5848,8 @@
             "description": "",
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
+              "kind": "OBJECT",
+              "name": "JdFile",
               "ofType": null
             },
             "isDeprecated": false,
@@ -7811,7 +7933,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "DateTime",
+              "name": "String",
               "ofType": null
             },
             "isDeprecated": false,
@@ -7830,22 +7952,6 @@
         "fields": [
           {
             "name": "merchantId",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "merchantKey",
             "description": "",
             "args": [],
             "type": {
@@ -13415,125 +13521,15 @@
             "description": "로그인 token 필요함!",
             "args": [
               {
-                "name": "name",
+                "name": "params",
                 "description": "",
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
                   "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
+                    "kind": "INPUT_OBJECT",
+                    "name": "CreateRoomTypeInput",
                     "ofType": null
-                  }
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "houseId",
-                "description": "",
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "ID",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "pricingType",
-                "description": "",
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "ENUM",
-                    "name": "PricingType",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "roomGender",
-                "description": "",
-                "type": {
-                  "kind": "ENUM",
-                  "name": "RoomGender",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "img",
-                "description": "",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "URL",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "peopleCount",
-                "description": "",
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "peopleCountMax",
-                "description": "",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "defaultPrice",
-                "description": "",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Float",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "description",
-                "description": "",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "tags",
-                "description": "",
-                "type": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "INPUT_OBJECT",
-                      "name": "TagInput",
-                      "ofType": null
-                    }
                   }
                 },
                 "defaultValue": null
@@ -14966,8 +14962,8 @@
                 "name": "profileImg",
                 "description": "",
                 "type": {
-                  "kind": "SCALAR",
-                  "name": "URL",
+                  "kind": "INPUT_OBJECT",
+                  "name": "JdFileInput",
                   "ofType": null
                 },
                 "defaultValue": null
@@ -16411,12 +16407,12 @@
             "deprecationReason": null
           },
           {
-            "name": "fileURL",
+            "name": "jdFile",
             "description": "",
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "URL",
+              "kind": "OBJECT",
+              "name": "JdFile",
               "ofType": null
             },
             "isDeprecated": false,
@@ -16921,8 +16917,8 @@
             "name": "backgroundImg",
             "description": "",
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
+              "kind": "INPUT_OBJECT",
+              "name": "JdFileInput",
               "ofType": null
             },
             "defaultValue": null
@@ -16996,6 +16992,116 @@
       },
       {
         "kind": "INPUT_OBJECT",
+        "name": "JdFileInput",
+        "description": "",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "url",
+            "description": "",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "URL",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "filename",
+            "description": "",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "mimeType",
+            "description": "",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "tags",
+            "description": "",
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "JdTagInput",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "JdTagInput",
+        "description": "",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "Key",
+            "description": "",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "Value",
+            "description": "",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
         "name": "HMmenuInput",
         "description": "",
         "fields": null,
@@ -17038,8 +17144,8 @@
             "name": "img",
             "description": "",
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
+              "kind": "INPUT_OBJECT",
+              "name": "JdFileInput",
               "ofType": null
             },
             "defaultValue": null
@@ -19503,6 +19609,141 @@
       },
       {
         "kind": "INPUT_OBJECT",
+        "name": "CreateRoomTypeInput",
+        "description": "",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "name",
+            "description": "",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "houseId",
+            "description": "",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "pricingType",
+            "description": "",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "ENUM",
+                "name": "PricingType",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "roomGender",
+            "description": "",
+            "type": {
+              "kind": "ENUM",
+              "name": "RoomGender",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "img",
+            "description": "",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "JdFileInput",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "peopleCount",
+            "description": "",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "peopleCountMax",
+            "description": "",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "defaultPrice",
+            "description": "",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "description",
+            "description": "",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "tags",
+            "description": "",
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "TagInput",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
         "name": "TagInput",
         "description": "",
         "fields": null,
@@ -19952,8 +20193,8 @@
             "name": "img",
             "description": "",
             "type": {
-              "kind": "SCALAR",
-              "name": "URL",
+              "kind": "INPUT_OBJECT",
+              "name": "JdFileInput",
               "ofType": null
             },
             "defaultValue": null
@@ -22935,6 +23176,143 @@
         "possibleTypes": null
       },
       {
+        "kind": "ENUM",
+        "name": "MimeType",
+        "description": "",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": [
+          {
+            "name": "TEXT_PLAIN",
+            "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "TEXT_CSS",
+            "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "TEXT_JAVASCRIPT",
+            "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "IMAGE_GIF",
+            "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "IMAGE_PNG",
+            "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "IMAGE_JPEG",
+            "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "IMAGE_BMP",
+            "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "IMAGE_WEBP",
+            "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "AUDIO_MIDI",
+            "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "AUDIO_MPEG",
+            "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "AUDIO_WEBM",
+            "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "AUDIO_OGG",
+            "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "AUDIO_WAV",
+            "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "VIDEO_WEBM",
+            "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "VIDEO_OGG",
+            "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "APPLICATION_OCTET_STREAM",
+            "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "APPLICATION_PKCS12",
+            "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "APPLICATION_VND_MSPOWERPOINT",
+            "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "APPLICATION_XHTML_XML",
+            "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "APPLICATION_XML",
+            "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "APPLICATION_PDF",
+            "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "possibleTypes": null
+      },
+      {
         "kind": "INPUT_OBJECT",
         "name": "SelectOption",
         "description": "이하 프론트에서 필요한 input 요청",
@@ -24814,8 +25192,8 @@
     ],
     "directives": [
       {
-        "name": "skip",
-        "description": "Directs the executor to skip this field or fragment when the `if` argument is true.",
+        "name": "include",
+        "description": "Directs the executor to include this field or fragment only when the `if` argument is true.",
         "locations": [
           "FIELD",
           "FRAGMENT_SPREAD",
@@ -24824,7 +25202,7 @@
         "args": [
           {
             "name": "if",
-            "description": "Skipped when true.",
+            "description": "Included when true.",
             "type": {
               "kind": "NON_NULL",
               "name": null,
@@ -24839,8 +25217,8 @@
         ]
       },
       {
-        "name": "include",
-        "description": "Directs the executor to include this field or fragment only when the `if` argument is true.",
+        "name": "skip",
+        "description": "Directs the executor to skip this field or fragment when the `if` argument is true.",
         "locations": [
           "FIELD",
           "FRAGMENT_SPREAD",
@@ -24849,7 +25227,7 @@
         "args": [
           {
             "name": "if",
-            "description": "Included when true.",
+            "description": "Skipped when true.",
             "type": {
               "kind": "NON_NULL",
               "name": null,

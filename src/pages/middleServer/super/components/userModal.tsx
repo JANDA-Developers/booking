@@ -2,7 +2,6 @@ import React from "react";
 import JDmodal from "../../../../atoms/modal/Modal";
 import {IUseModal} from "../../../../hooks/hook";
 import MypageWrap from "../../myPage/MyPageWrap";
-import {Context} from "tern";
 import {IContext} from "../../../MiddleServerRouter";
 import {getUserForSU_GetUserForSU_user} from "../../../../types/api";
 

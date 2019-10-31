@@ -8,9 +8,12 @@ import {
 import InputText from "../../../../atoms/forms/inputText/InputText";
 import {getHM_GetHM_HM_menus} from "../../../../types/api";
 import {Language} from "../../../../types/enum";
+import {JdFile} from "rc-menu/lib/interface";
+import {DEFAULT_FILE} from "../../../../types/defaults";
+import JDVideo from "../../../../atoms/video/Video";
 
 interface IProps {
-  onChangeFile: (url: string) => void;
+  onChangeFile: (file?: JdFile | null) => void;
   host?: {
     setEnableLngList: any;
     setMenuData: React.Dispatch<React.SetStateAction<getHM_GetHM_HM_menus[]>>;
@@ -36,19 +39,36 @@ const HMmenu: React.FC<IProps> = ({
   const imageUploaderHook = useImageUploader(menu.img);
 
   useEffect(() => {
-    onChangeFile(imageUploaderHook.fileUrl);
-  }, [imageUploaderHook.fileUrl]);
+    onChangeFile(imageUploaderHook.file);
+  }, [imageUploaderHook.file]);
+
+  const {file} = imageUploaderHook;
+  const {url, mimeType} = file || DEFAULT_FILE;
+  const isVideo = mimeType.includes("video");
+  const isImg = mimeType.includes("image");
 
   return !host ? (
     <Fragment>
       {sharedPart()}
-      <img src={imageUploaderHook.fileUrl} alt="" />
+      {isVideo ? (
+        <JDVideo width="100%" height="auto" controls url={url} />
+      ) : (
+        <img
+          src={imageUploaderHook.file ? imageUploaderHook.file.url : ""}
+          alt=""
+        />
+      )}
       <p>{menu.content[currentLang]}</p>
     </Fragment>
   ) : (
     <Fragment>
       {sharedPart()}
-      <ImageUploader coverImg minHeight="150px" {...imageUploaderHook} />
+      <ImageUploader
+        autoHeight
+        coverImg
+        minHeight="150px"
+        {...imageUploaderHook}
+      />
       <InputText
         onChange={value => {
           menu.content[currentLang] = value;
