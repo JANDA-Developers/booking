@@ -23,7 +23,6 @@ import client from "../apolloClient";
 import {singleUpload, singleUploadVariables} from "../types/api";
 // @ts-ignore
 import Resizer from "react-image-file-resizer";
-import {JdFile} from "rc-menu/lib/interface";
 
 // 한방에 패치
 // A X I O S  : (http://codeheaven.io/how-to-use-axios-as-your-http-client/)
@@ -110,6 +109,7 @@ const useImageUploader = (
   defaultFile?: JdFile | null,
   propOption?: IuseImageUploaderOption
 ): IuseImageUploader => {
+  
   if (defaultFile && defaultFile.tags) {
     defaultFile.tags.forEach((tag: any) => {
       delete tag.__typename;
