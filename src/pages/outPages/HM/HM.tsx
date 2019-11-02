@@ -23,7 +23,7 @@ import {
 import HMmenu from "./component/HMmenu";
 
 import Preloader from "../../../atoms/preloader/Preloader";
-import {JdFile} from "rc-menu/lib/interface";
+import {JdFile} from "../../../types/interface";
 
 interface IProps {
   host?: {

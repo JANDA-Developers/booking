@@ -34,7 +34,7 @@ import {getOperationName} from "apollo-link";
 import {createPortal} from "react-dom";
 import portalTo, {PortalPreloader} from "../../../../utils/portalTo";
 import Preloader from "../../../../atoms/preloader/Preloader";
-import {JdFile} from "rc-menu/lib/interface";
+import {JdFile} from "../../../../types/interface";
 
 class GetRoomTypeById extends Query<
   getRoomTypeById,

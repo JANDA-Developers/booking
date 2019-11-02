@@ -12,7 +12,7 @@ import {
 } from "react";
 import Axios from "axios";
 import {IselectedOption} from "../atoms/forms/selectBox/SelectBox";
-import {IHolidaysByApi} from "../types/interface";
+import {IHolidaysByApi, JdFile} from "../types/interface";
 import moment from "moment";
 import {muResult, targetBlink} from "../utils/utils";
 import {JDlang as originJDlang} from "../langs/JDlang";
@@ -109,7 +109,6 @@ const useImageUploader = (
   defaultFile?: JdFile | null,
   propOption?: IuseImageUploaderOption
 ): IuseImageUploader => {
-  
   if (defaultFile && defaultFile.tags) {
     defaultFile.tags.forEach((tag: any) => {
       delete tag.__typename;

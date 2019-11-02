@@ -13,13 +13,15 @@ import {
   ProductTypeKey,
   getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory,
   getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom,
-  getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_blockOption
+  getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_blockOption,
+  singleUpload_SingleUpload_jdFile
 } from "./api";
 import {IselectedOption} from "../atoms/forms/selectBox/SelectBox";
 import {PricingType} from "./enum";
 import {MutationFunctionOptions} from "@apollo/react-common";
 import {ExecutionResult} from "graphql";
 import {IStartBookingCallBack} from "../pages/middleServer/assig/components/assigIntrerface";
+export interface JdFile extends singleUpload_SingleUpload_jdFile {}
 
 export interface GASt_RoomType
   extends getAllSeasonTable_GetAllRoomType_roomTypes {}

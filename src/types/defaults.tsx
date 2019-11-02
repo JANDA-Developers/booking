@@ -1,4 +1,4 @@
-import {GB_booking, IHouseConfigFull, IBlockOp} from "./interface";
+import {GB_booking, IHouseConfigFull, IBlockOp, JdFile} from "./interface";
 import {
   RoomGender,
   PricingType,
@@ -30,7 +30,6 @@ import {
   GuestTypeAdd
 } from "../pages/middleServer/assig/components/assigIntrerface";
 import {s4} from "../utils/utils";
-import {JdFile} from "rc-menu/lib/interface";
 import {LANG} from "../hooks/hook";
 
 export const DEFAUT_ROOMTYPE_ROOM: getAllRoomType_GetAllRoomType_roomTypes_rooms = {

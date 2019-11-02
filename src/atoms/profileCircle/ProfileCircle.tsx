@@ -6,7 +6,6 @@ import defaultImg from "../../img/profile/default_profile.jpg";
 import {IDiv} from "../../types/interface";
 import {IconSize} from "../icons/Icons";
 import {IuseImageUploaderOP} from "../../hooks/hook";
-import {JdFile} from "rc-menu/lib/interface";
 import {DEFAULT_FILE} from "../../types/defaults";
 
 interface Iprops extends IDiv, IuseImageUploaderOP {

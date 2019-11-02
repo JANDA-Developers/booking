@@ -8,9 +8,9 @@ import {
 import InputText from "../../../../atoms/forms/inputText/InputText";
 import {getHM_GetHM_HM_menus} from "../../../../types/api";
 import {Language} from "../../../../types/enum";
-import {JdFile} from "rc-menu/lib/interface";
 import {DEFAULT_FILE} from "../../../../types/defaults";
 import JDVideo from "../../../../atoms/video/Video";
+import {JdFile} from "../../../../types/interface";
 
 interface IProps {
   onChangeFile: (file?: JdFile | null) => void;
