@@ -3,10 +3,11 @@ import {onCompletedMessage, s4} from "../../../utils/utils";
 import DashBoard from "./DashBoard";
 import {updateHouse, updateHouseVariables} from "../../../types/api";
 import {Mutation} from "react-apollo";
-import {UPDATE_HOUSE} from "../../../queries";
+import {UPDATE_HOUSE, GET_USER_INFO} from "../../../queries";
 import {IContext} from "../../MiddleServerRouter";
 import StarterModalWrap from "../starterModal/StarterModalWrap";
 import {IUseModal, LANG} from "../../../hooks/hook";
+import {getOperationName} from "apollo-link";
 
 class UpdateHouse extends Mutation<updateHouse, updateHouseVariables> {}
 
@@ -24,6 +25,7 @@ const DashBoardWrap: React.FC<Iprops> = ({context}) => {
       <div>
         <UpdateHouse
           mutation={UPDATE_HOUSE}
+          refetchQueries={[getOperationName(GET_USER_INFO)!]}
           onCompleted={({UpdateHouse}) => {
             onCompletedMessage(
               UpdateHouse,

@@ -16,6 +16,15 @@ const isPhone = string => {
   return validation;
 };
 
+const isHaveScharacter = string => {
+  var regExp = /[~!@#$%^&*()_+|<>?:{}]/;
+  return regExp.test(string);
+};
+
+const isLengthIn = (string, max, min) => {
+  return string.length <= max && min < string.length;
+};
+
 const isName = string => {
   if (string === "") return NEUTRAL;
   const regExp = /[가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9 .'_]+$/gi;
@@ -36,6 +45,11 @@ const isYYYYMMDD = string => {
 const isEmail = string => {
   if (string === "") return NEUTRAL;
   const regExp = /^[-$^_=+0-9A-Za-z~]+@[-$%/0-9=?A-Z^_a-z~]+.[0-9A-Za-z~]+\w$/;
+  return regExp.test(string);
+};
+
+const isHaveNumber = string => {
+  var regExp = /[0-9]/;
   return regExp.test(string);
 };
 
@@ -67,5 +81,8 @@ export {
   isUrl,
   isMaxOver,
   isPassword,
-  isNumberMinMax
+  isNumberMinMax,
+  isLengthIn,
+  isHaveScharacter,
+  isHaveNumber
 };

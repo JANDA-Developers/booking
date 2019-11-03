@@ -8,8 +8,7 @@ import {
   SMS_TARGET_OP,
   SmsReplaceKeyEnumKeys,
   SendTarget,
-  AutoSendWhen,
-  KR_SMS_PARSER
+  AutoSendWhen
 } from "../../../../types/enum";
 import {useSelect, useInput, useSwitch, LANG} from "../../../../hooks/hook";
 import InputText from "../../../../atoms/forms/inputText/InputText";
@@ -58,7 +57,7 @@ const SmsTemplate: React.SFC<IProps> = ({
   smsInfo
 }) => {
   const [messageValue, setMessage] = useState(
-    smsMsgParser(templateData.smsFormat, KR_SMS_PARSER)
+    smsMsgParser(templateData.smsFormat, LANG("SmsReplaceKey"))
   );
   const enableHook = useSwitch(
     templateData.smsSendCase ? templateData.smsSendCase.enable : false
@@ -100,11 +99,7 @@ const SmsTemplate: React.SFC<IProps> = ({
   const hanldeTemplateBtnClick = (label: string) => {
     setMessage(`${messageValue} ${label}`);
   };
-  const handleCreateBtnClick = () => {
-    smsTemplateMutationes.createSmsTemplateMu({
-      variables: tempTemplateVariables
-    });
-  };
+
   const handleDeleteBtnClick = () => {
     smsTemplateMutationes.deleteSmsTemplateMu({
       variables: {
@@ -113,6 +108,7 @@ const SmsTemplate: React.SFC<IProps> = ({
       }
     });
   };
+
   const handleUpdateBtnClick = () => {
     smsTemplateMutationes.updateSmsTemplateMu({
       variables: {
@@ -158,7 +154,6 @@ const SmsTemplate: React.SFC<IProps> = ({
           label={LANG("auto_send")}
         />
         <JDselect
-          size={SelectBoxSize.FOUR}
           options={SMS_TARGET_OP}
           {...sendTargetHook}
           label={LANG("outgoing_destination")}

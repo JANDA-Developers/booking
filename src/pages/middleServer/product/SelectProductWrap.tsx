@@ -81,7 +81,7 @@ const SelectProductWrap: React.FC<IProps> = ({context}) => {
             refetchQueries={refetchQueries}
             awaitRefetchQueries
           >
-            {buyProductMu => (
+            {(buyProductMu, {loading: buyProductLoading}) => (
               <RefundProductMutation
                 mutation={REFUND_PRODUCT}
                 refetchQueries={refetchQueries}
@@ -96,6 +96,7 @@ const SelectProductWrap: React.FC<IProps> = ({context}) => {
                         refundMu={refundMu}
                         buyProductMu={buyProductMu}
                         loading={loading}
+                        mutationLoading={buyProductLoading}
                         selectedHouse={selectedHouse}
                         currentProduct={currentProduct}
                         isPhoneVerified={isPhoneVerified}

@@ -87,7 +87,8 @@ const HMcompoent: React.FC<IProps> = ({
                   ) : (
                     <ImageUploader
                       className="HM__bg"
-                      mode="noEffect"
+                      mode="noBg"
+                      coverImg
                       {...host.bgImageHook}
                       minHeight="150px"
                       height="150px"

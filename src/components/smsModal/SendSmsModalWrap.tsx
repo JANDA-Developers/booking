@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useMemo} from "react";
+import React, {useMemo} from "react";
 import {IUseModal, LANG} from "../../hooks/hook";
 import {AutoSendWhen} from "../../types/enum";
 import {
@@ -7,25 +7,18 @@ import {
   getSmsInfo,
   getSmsInfoVariables
 } from "../../types/api";
-import client from "../../apolloClient";
 import {Mutation, Query} from "react-apollo";
-import {
-  SEND_SMS,
-  GET_SMS_INFO,
-  GET_BOOKINGS_PHONE_NUMBERS
-} from "../../queries";
+import {SEND_SMS, GET_SMS_INFO} from "../../queries";
 import {queryDataFormater, onCompletedMessage} from "../../utils/utils";
-import CreateSmsModal from "./components/CreateSmsModal";
 import SendSmsModal from "./SendSmsModal";
 import {IContext} from "../../pages/MiddleServerRouter";
-import {useQuery} from "@apollo/react-hooks";
 
 class SendSmsMu extends Mutation<sendSms, sendSmsVariables> {}
 class SmsInfoQu extends Query<getSmsInfo, getSmsInfoVariables> {}
 
 // BOOKING
 export interface IModalSMSinfo {
-  booking?: {
+  smsFormatInfo?: {
     name: string;
     phoneNumber: string;
     start: string | Date;
@@ -36,19 +29,20 @@ export interface IModalSMSinfo {
     email: any;
   };
   receivers: string[];
-  createMode?: boolean;
   autoSendWhen?: AutoSendWhen;
-  callBackFn?(flag: boolean): any;
+  callBackFn?(flag: boolean, smsSendFn: any): any;
 }
 
 interface IProps {
   modalHook: IUseModal<IModalSMSinfo>;
   context: IContext;
+  mode?: "Booking" | "Noraml";
 }
 
-const SendSMSmodalWrap: React.FC<IProps> = ({modalHook, context}) => {
+const SendSMSmodalWrap: React.FC<IProps> = ({modalHook, context, mode}) => {
   const {house} = context;
   const {_id: houseId} = house;
+  const {autoSendWhen, callBackFn} = modalHook.info;
 
   const memoResult = useMemo(
     () => (
@@ -78,26 +72,18 @@ const SendSMSmodalWrap: React.FC<IProps> = ({modalHook, context}) => {
               }}
               mutation={SEND_SMS}
             >
-              {(sendSmsMu, {loading: sendSMSloading}) =>
-                modalHook.info.createMode ? (
-                  // SMS 만들기 모달
-                  <CreateSmsModal
-                    context={context}
-                    loading={loading || sendSMSloading}
-                    smsInfo={smsInfo}
-                    sendSmsMu={sendSmsMu}
-                    modalHook={modalHook}
-                  />
-                ) : (
-                  // 전송 confirm
-                  <SendSmsModal
-                    smsInfo={smsInfo}
-                    loading={loading}
-                    modalHook={modalHook}
-                    callBackFn={modalHook.info.callBackFn}
-                  />
-                )
-              }
+              {(sendSmsMu, {loading: sendSMSloading}) => (
+                <SendSmsModal
+                  context={context}
+                  loading={loading || sendSMSloading}
+                  smsInfo={smsInfo}
+                  callBackFn={callBackFn}
+                  autoSendWhen={autoSendWhen}
+                  sendSmsMu={sendSmsMu}
+                  modalHook={modalHook}
+                  mode={mode}
+                />
+              )}
             </SendSmsMu>
           );
         }}

@@ -24,12 +24,14 @@ import ApplyProductModal, {
 } from "./components/applyProductModal";
 import JDlist from "../../../atoms/list/List";
 import {inOr, Check} from "../../../utils/C";
+import PrloaderModal from "../../../atoms/preloaderModal/PreloaderModal";
 
 interface IProps {
   productTypes: IProductTypeDesc[];
   refundMu: MutationFn<refundProduct, refundProductVariables>;
   buyProductMu: MutationFn<buyProduct, buyProductVariables>;
   loading: boolean;
+  mutationLoading: boolean;
   selectedHouse: IHouse;
   currentProduct: getMyProfile_GetMyProfile_user_houses_product | undefined;
   isPhoneVerified: boolean;
@@ -43,7 +45,8 @@ const SelectProducts: React.FC<IProps> = ({
   loading,
   selectedHouse,
   currentProduct,
-  isPhoneVerified
+  isPhoneVerified,
+  mutationLoading
 }) => {
   const currentProductTypeId = inOr(currentProduct, "_id", "");
   const applyModal = useModal<applyProductModalInfo>(false);
@@ -65,6 +68,11 @@ const SelectProducts: React.FC<IProps> = ({
   return (
     <div id="selectProducts" className="selectProducts container">
       <div className="docs-section">
+        {loading && (
+          <div>
+            <Preloader size={"large"} loading={true} />
+          </div>
+        )}
         <h3>{LANG("select_service")}</h3>
         <div className="docs-section__box">
           <div
@@ -72,7 +80,6 @@ const SelectProducts: React.FC<IProps> = ({
             className="flex-grid flex-grid-grow selectProducts__productWrapWrap"
           >
             <div className="flex-grid__col selectProducts__productWrap col--wmd-0">
-              <Preloader noAnimation size="large" loading={loading} />
               {productTypes.map(productType => (
                 <Product
                   key={productType._id}
@@ -158,6 +165,7 @@ const SelectProducts: React.FC<IProps> = ({
         id="tooltip__currentProduct"
         effect="solid"
       />
+      <PrloaderModal loading={mutationLoading} />
     </div>
   );
 };

@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-import React from "react";
+import React, {useEffect} from "react";
 import {ApolloProvider} from "react-apollo";
 import {HashRouter as Router, Route, Switch} from "react-router-dom";
 // @ts-ignore
@@ -16,40 +16,47 @@ import {useLang} from "./hooks/hook";
 import {globalLanguageSetting} from "./utils/globalLagnSet";
 import {useQuery} from "@apollo/react-hooks";
 import uri from "./uri";
+import {iosScrollUnbounce} from "./utils/iosScrollUnBounce";
 
 function App() {
   const langHook = useLang("kr");
 
   globalLanguageSetting();
+
+  useEffect(() => {
+    iosScrollUnbounce();
+  }, []);
   return (
-    <ApolloProvider client={client}>
-      <Favicon url="https://res.cloudinary.com/stayjanda-com/image/upload/v1554092565/favicon.ico" />
-      <Router>
-        <Switch>
-          {/* 상위 컴포넌트 영향에벋어날수 없다. */}
-          <Route
-            path="/documents"
-            render={prop => <DocumentRouter {...prop} />}
-          />
-          <Route
-            path="/outpage/:token"
-            render={prop => <OutPageRouter {...prop} />}
-          />
-          {["/"].map(path => (
+    <div id="JDoutWrapper">
+      <ApolloProvider client={client}>
+        <Favicon url="https://res.cloudinary.com/stayjanda-com/image/upload/v1554092565/favicon.ico" />
+        <Router>
+          <Switch>
+            {/* 상위 컴포넌트 영향에벋어날수 없다. */}
             <Route
-              key={`router${path}`}
-              path={path}
-              render={() => <MiddleServerRouter langHook={langHook} />}
+              path="/documents"
+              render={prop => <DocumentRouter {...prop} />}
             />
-          ))}
-          <Route component={NoMatch} />
-        </Switch>
-      </Router>
-      <JDtoast />
-      <div id="JDpreloaderPortal" />
-      {/* for old borwser */}
-      <div id="outdated" />
-    </ApolloProvider>
+            <Route
+              path="/outpage/:token"
+              render={prop => <OutPageRouter {...prop} />}
+            />
+            {["/"].map(path => (
+              <Route
+                key={`router${path}`}
+                path={path}
+                render={() => <MiddleServerRouter langHook={langHook} />}
+              />
+            ))}
+            <Route component={NoMatch} />
+          </Switch>
+        </Router>
+        <JDtoast />
+        <div id="JDpreloaderPortal" />
+        {/* for old borwser */}
+        <div id="outdated" />
+      </ApolloProvider>
+    </div>
   );
 }
 export default App;

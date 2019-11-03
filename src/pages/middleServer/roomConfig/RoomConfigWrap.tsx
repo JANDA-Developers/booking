@@ -13,9 +13,7 @@ import {GET_ALL_ROOMTYPES, CHANGE_INDEX_FOR_ROOMTYPE} from "../../../queries";
 import {
   ErrProtecter,
   queryDataFormater,
-  onCompletedMessage,
-  s4,
-  jsonString
+  onCompletedMessage
 } from "../../../utils/utils";
 import {IContext} from "../../MiddleServerRouter";
 import RoomConfig from "./RoomConfig";
@@ -26,10 +24,6 @@ import {FLOATING_PRELOADER_SIZE} from "../../../types/enum";
 export enum ADD_ROOM {
   "ADDROOM" = -1,
   "ADDROOM_TYPE" = -1
-}
-
-interface IRoomConfigParam {
-  withGuide?: string;
 }
 
 interface IProps {

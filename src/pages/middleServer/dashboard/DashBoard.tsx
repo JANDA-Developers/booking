@@ -75,8 +75,7 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
                       <Button
                         onClick={() => {
                           smsModal.openModal({
-                            receivers: [],
-                            createMode: true
+                            receivers: []
                           });
                         }}
                         icon="sms"

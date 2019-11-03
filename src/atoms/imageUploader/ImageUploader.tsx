@@ -12,7 +12,7 @@ import {DEFAULT_FILE} from "../../types/defaults";
 export interface ImageUploaderIProps extends IuseImageUploader {
   minHeight: string;
   height?: string;
-  mode?: "noEffect";
+  mode?: "noEffect" | "noBg";
   className?: any;
   coverImg?: boolean;
   canUploadImg?: boolean;
@@ -44,6 +44,7 @@ const ImageUploader: React.SFC<ImageUploaderIProps> = ({
     "imageUploader--error": isError,
     "imageUploader--loading": uploading,
     "imageUploader--coverImg": coverImg,
+    "imageUploader--noBg": mode === "noBg",
     "imageUploader--noEffect": mode === "noEffect"
   });
 

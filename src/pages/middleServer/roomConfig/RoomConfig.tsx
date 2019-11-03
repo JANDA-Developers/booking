@@ -106,7 +106,7 @@ const RoomConfigNew: React.FC<IProps> = ({
           {roomTypesData.map((roomType, index) => (
             <Card
               key={roomType._id}
-              className={`roomConfig__roomType roomConfig__roomType${roomType._id}`}
+              className={`JDstandard-space0 roomConfig__roomType roomConfig__roomType${roomType._id}`}
             >
               <div className="roomConfig__roomType_titleSection">
                 <div className="roomConfig__roomType_titleAndIcons">

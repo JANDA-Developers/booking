@@ -1,7 +1,7 @@
-import React, { useState, Fragment } from "react";
+import React, {useState, Fragment} from "react";
 import classNames from "classnames";
-import JDanimation, { Animation } from "../../../../atoms/animation/Animations";
-import { IUser, IHouse } from "../../../../types/interface";
+import JDanimation, {Animation} from "../../../../atoms/animation/Animations";
+import {IUser, IHouse} from "../../../../types/interface";
 import {
   randomIntFromInterval,
   insideRedirect,
@@ -9,7 +9,7 @@ import {
 } from "../../../../utils/utils";
 import JDbox from "../../../../atoms/box/JDbox";
 import Button from "../../../../atoms/button/Button";
-import { NavLink } from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import SpecificAtion from "../../../../components/specification/Specification";
 import SpecificAtionWrap from "../../../../components/specification/SpecificationWrap";
 import $ from "jquery";
@@ -17,15 +17,15 @@ import CreateHouse from "../../createHouse/CreateHouse";
 import SelectProductWrap from "../../product/SelectProductWrap";
 import Ready from "../../ready/Ready";
 import RoomConfigWrap from "../../roomConfig/RoomConfigWrap";
-import { IContext } from "../../../MiddleServerRouter";
+import {IContext} from "../../../MiddleServerRouter";
 import AdditionConfigPitch from "../../../../components/additionConfigPitch/AdditionConfigPitch";
-import { IStepsStart } from "../../../../utils/stepFinder";
-import { MutationFn } from "react-apollo";
-import { updateHouse, updateHouseVariables } from "../../../../types/api";
-import { getOperationName } from "apollo-link";
-import { GET_USER_INFO } from "../../../../queries";
+import {IStepsStart} from "../../../../utils/stepFinder";
+import {MutationFn} from "react-apollo";
+import {updateHouse, updateHouseVariables} from "../../../../types/api";
+import {getOperationName} from "apollo-link";
+import {GET_USER_INFO} from "../../../../queries";
 import "./Steps.scss";
-import { LANG } from "../../../../hooks/hook";
+import {LANG} from "../../../../hooks/hook";
 
 interface IProps {
   step: IStepsStart;
@@ -49,7 +49,7 @@ const Steps: React.FC<IProps> = ({
   updateHouseMu,
   setStep
 }) => {
-  const { house } = context;
+  const {house} = context;
   switch (step) {
     case "phoneVerification":
       return (
@@ -107,6 +107,12 @@ const Steps: React.FC<IProps> = ({
               <Button
                 thema="primary"
                 onClick={() => {
+                  updateHouseMu({
+                    variables: {
+                      houseId: house._id,
+                      completeDefaultSetting: true
+                    }
+                  });
                   setStep("done");
                 }}
                 disabled={getRoomCountFromHouse(house) < 1}
@@ -124,15 +130,9 @@ const Steps: React.FC<IProps> = ({
           <div className="JDmodal__endSection">
             <Button
               onClick={() => {
-                updateHouseMu({
-                  variables: {
-                    houseId: house._id,
-                    completeDefaultSetting: true
-                  }
-                });
                 stepFinishCallBack();
               }}
-              label={LANG("exit_room_settings")}
+              label={LANG("exit_house_settings")}
               size="long"
               thema="primary"
             />

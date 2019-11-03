@@ -1,7 +1,8 @@
 .applyProductModal {
     &__cardsWrap {
+        overflow-x: auto;
+        overflow-y: hidden;
         display:flex;
-        justify-content: space-around;
         white-space: nowrap;
         & > div {
             display:inline-block;

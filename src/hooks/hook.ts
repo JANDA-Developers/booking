@@ -180,8 +180,6 @@ const useImageUploader = (
       }: ChangeEvent<HTMLInputElement> = event as ChangeEvent<HTMLInputElement>;
       if (validity && files && files.length === 1) {
         const file = files[0];
-        console.log("file.type");
-        console.log(file.type);
         if (file) {
           // 이미지인경우 리사이즈 해서 업로드
           if (!file.type.includes("video")) {

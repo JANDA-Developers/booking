@@ -11,7 +11,7 @@ interface Iprops {
   smsInfoId: string;
 }
 
-const SuperMainWrap: React.SFC<Iprops> = ({smsInfoId}) => {
+const SmsHistoryWrap: React.SFC<Iprops> = ({smsInfoId}) => {
   const [page, setPage] = useState(1);
 
   return (
@@ -52,4 +52,4 @@ const SuperMainWrap: React.SFC<Iprops> = ({smsInfoId}) => {
   );
 };
 
-export default SuperMainWrap;
+export default SmsHistoryWrap;

@@ -22,6 +22,8 @@ import reactWindowSize, {WindowSizeProps} from "react-window-size";
 import StaticIcons from "./component/StaticIcons";
 import StaticsControllerModal from "./component/StaticsControllerModal";
 import {getStaticColors} from "../../../utils/getStaticColors";
+import JDgraph from "../../../atoms/graph/graph";
+import {Switch} from "react-router";
 
 export interface IStaticsWrapProps {
   queryOp: IQueryOp;
@@ -45,7 +47,7 @@ interface IProps {
 export enum IGraphViewMode {
   list = "list",
   line = "line",
-  pie = "pie"
+  doughnut = "doughnut"
 }
 
 const Statistic: React.FC<IProps & WindowSizeProps> = ({
@@ -55,7 +57,9 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
   windowWidth
 }) => {
   const {setQueryOp, queryOp, staticData, queryDateHook} = staticsWrapProps;
-  const [viewMode, setViewMode] = useState<IGraphViewMode>(IGraphViewMode.pie);
+  const [viewMode, setViewMode] = useState<IGraphViewMode>(
+    IGraphViewMode.doughnut
+  );
   const staticControllerModalHook = useModal(false);
 
   // 각 그래프 형태에따라 데이터셋 변화
@@ -111,23 +115,6 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
   };
 
   Object.assign(graphData, addtionGraphDataset);
-
-  const columns = [
-    {
-      Header: LANG("division"),
-      accessor: "data",
-      Cell: ({value, original, index}: CellInfo) => {
-        return <div>{labels[index]}</div>;
-      }
-    },
-    {
-      Header: LANG("sales"),
-      accessor: "data",
-      Cell: ({value, original}: CellInfo) => {
-        return <div>{original}</div>;
-      }
-    }
-  ];
 
   // 오늘날자 통계 선택
   const handleTodaySalesStatic = () => {
@@ -249,24 +236,21 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
                   loading={loading}
                 />
                 <div>
-                  {viewMode === IGraphViewMode.pie && (
+                  <div
+                    className={
+                      viewMode === "list" ? "statistic__table" : undefined
+                    }
+                  >
+                    <JDgraph JDtype={viewMode} data={graphData} />
+                  </div>
+                  {/* {viewMode === IGraphViewMode.pie && (
                     <Doughnut data={graphData} />
                   )}
                   {viewMode === IGraphViewMode.line && (
                     <Line data={graphData} />
                   )}
                   {viewMode === IGraphViewMode.list && (
-                    <JDtable
-                      inClassNames="statistic__table"
-                      {...ReactTableDefault}
-                      data={
-                        graphData.datasets
-                          ? graphData.datasets[0].data || []
-                          : []
-                      }
-                      columns={columns}
-                    />
-                  )}
+                  )} */}
                 </div>
                 {windowWidth > WindowSize.TABLET || (
                   <Button

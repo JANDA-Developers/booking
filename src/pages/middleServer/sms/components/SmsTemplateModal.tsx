@@ -7,7 +7,6 @@ import {
   useInput,
   LANG
 } from "../../../../hooks/hook";
-import SmsTemplate from "./smsTemplate";
 import Button from "../../../../atoms/button/Button";
 import {smsMsgParser, smsMessageFormatter} from "../../../../utils/utils";
 import {
@@ -25,10 +24,8 @@ import {IContext} from "../../../MiddleServerRouter";
 import {DEFAUT_SMS_TEMPLATE} from "../../../../types/defaults";
 import {
   SmsReplaceKeyEnumKeys,
-  KR_SMS_PARSER,
   AUTO_SEND_OP,
-  SMS_TARGET_OP,
-  SmsReplaceKeyEnum
+  SMS_TARGET_OP
 } from "../../../../types/enum";
 import InputText from "../../../../atoms/forms/inputText/InputText";
 import {MutationFn} from "react-apollo";
@@ -91,7 +88,7 @@ const SmsTemplateModal: React.FC<Iprops> = ({
 
   // HOOKS
   const [messageValue, setMessage] = useState(
-    smsMsgParser(defaultSmsFormat, KR_SMS_PARSER)
+    smsMsgParser(defaultSmsFormat, LANG("SmsReplaceKey"))
   );
   const enableHook = useSwitch(
     defulatSmsSendCase ? defulatSmsSendCase.enable : false

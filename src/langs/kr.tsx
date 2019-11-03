@@ -35,8 +35,6 @@ export const kr = {
   DOMITORY: "도미토리",
   ROOM: "룸",
   SmsReplaceKey: {
-    DOMITORY: "도미토리",
-    ROOM: "룸",
     STAYDATE: `[숙박일자(년/일)]`,
     STAYDATE_YMD: `[숙박일자(년/월/일)]`,
     ROOMTYPE_N_COUNT: `[숙박정보(방/명)]`,
@@ -363,7 +361,16 @@ export const kr = {
   page: "페이지",
   page_does_not_exist: "페이지가 존재하지 않습니다.",
   password: "비밀번호",
-  password_condition: "* 특수문자 1개이상, 7~15자리 영문 숫자 조합",
+  password_condition: (special: any, length: any, enAndNumber: any) => (
+    <span>
+      *{" "}
+      <span className={special && "JDtextColor--point"}>특수문자 1개이상</span>,
+      <span className={length && "JDtextColor--point"}>7~15자리</span>,
+      <span className={enAndNumber && "JDtextColor--point"}>
+        영문 숫자 조합
+      </span>
+    </span>
+  ),
   password_is_not_matched: "패스워드 확인이 일치하지 않습니다.",
   passwords_do_not_match: "패스워드가 일치하지 않습니다.",
   pay_cancle: "결제취소",
@@ -532,10 +539,11 @@ export const kr = {
   send_fail: "송신실패",
   send_notification: "알림 보내기",
   send_sms: "문자발신",
-  send_sms_complited: "발송완료",
-  send_sms_failed: "발송실패",
+  send_sms_complited: "SMS 발송완료",
+  send_sms_failed: "SMS 발송실패",
   send_status: "발신상태",
   send_target: "발신대상",
+  host_slash_guest: "호스트/게스트",
   send_text_to_host: "호스트에게 문자 보내기",
   send_type: "발신타입",
   seperatle_gender: "제한없음(혼숙X)",
@@ -776,5 +784,14 @@ export const kr = {
     CANCEL: "결제취소",
     PROGRESSING: "결제 진행중",
     COMPLETE: "결제완료"
-  }
+  },
+  SendTarget: {
+    BOTH: "게스트/호스트",
+    GUEST: "게스트",
+    HOST: "호스트"
+  },
+  please_select_pay_status: "결제 상태를 선택해 주세요.",
+  exit_house_settings: "숙소설정 끝내기",
+  none_data: "데이터가 없습니다.",
+  dontSMS: "전송안함"
 };

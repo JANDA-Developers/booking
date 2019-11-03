@@ -38,9 +38,9 @@ const StaticIcons: React.FC<Iprops> = ({
       />
       <JDIcon
         onClick={() => {
-          setViewMode(IGraphViewMode.pie);
+          setViewMode(IGraphViewMode.doughnut);
         }}
-        selected={viewMode === IGraphViewMode.pie}
+        selected={viewMode === IGraphViewMode.doughnut}
         hover
         icon="graphPie"
         size={iconSize}

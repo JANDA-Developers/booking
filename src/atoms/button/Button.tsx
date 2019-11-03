@@ -57,7 +57,6 @@ const Button: React.FC<IProps> = ({
   className,
   transparent,
   size,
-  // 내부적인 링크는 LINK 태그를 사용하세요.
   hrefOpen,
   // 투글은 클래스만 바꾸어 줍니다.
   toggle,
@@ -85,7 +84,9 @@ const Button: React.FC<IProps> = ({
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     hrefOpen && window.open(hrefOpen);
-    if (redirect) window.location.href = redirect;
+    if (redirect) {
+      document.location.href = redirect;
+    }
     onClick && onClick(event);
   };
 

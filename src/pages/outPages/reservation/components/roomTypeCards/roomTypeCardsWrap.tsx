@@ -115,6 +115,9 @@ const RoomTypeCardWrap: React.SFC<IProps> = ({
           roomCount: 0
         };
 
+        console.log("count");
+        console.log(count);
+
         if (count) {
           if (count.__typename === "CapacityRoomTypeDomitory") {
             availableCount = {

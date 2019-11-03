@@ -36,6 +36,7 @@ const ResvListWrap: React.FC<IProps> = ({ context }) => {
   const {
     pollingPeriod: { period }
   } = houseConfig;
+  
   return (
     <GetBookingsQuery
       query={GET_BOOKINGS}

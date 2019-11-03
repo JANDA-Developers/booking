@@ -201,6 +201,10 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
 
   // 예약전 벨리데이션
   const bookerInfoValidation = (): boolean => {
+    if (!paymentStatusHook.selectedOption) {
+      toastModalHook.openModal({txt: LANG("please_select_pay_status")});
+      return false;
+    }
     if (isName(bookerInfo.name) !== true) {
       toastModalHook.openModal({txt: LANG("name_is_not_valid")});
       return false;
@@ -274,7 +278,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
         paymentParams: {
           payMethod: payMethodHook.selectedOption!.value,
           price: priceHook.value,
-          status: PaymentStatus.PROGRESSING
+          status: paymentStatusHook.selectedOption!.value
         }
       };
 

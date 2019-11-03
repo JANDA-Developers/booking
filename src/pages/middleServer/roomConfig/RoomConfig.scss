@@ -69,7 +69,7 @@ $roomWidth: 10rem;
         @include response($tablet) {
             flex-wrap: wrap;
             .JDbox {
-                max-width: 30%;
+                max-width: clac(33.3% - #{$standard-space}) ;
                 &:nth-child(3n) {
                     margin-right: 0;
                 }

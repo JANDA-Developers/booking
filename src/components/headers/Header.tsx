@@ -35,6 +35,7 @@ const Header: React.FC<IProps> = ({
 }) => {
   const {user} = context;
   const {house} = context;
+  const {completeDefaultSetting} = house || {completeDefaultSetting: false};
   const isMobile = windowWidth < WindowSize.PHABLET;
 
   useEffect(() => {
@@ -56,15 +57,17 @@ const Header: React.FC<IProps> = ({
         </NavLink>
         {/* 메뉴버튼 */}
         <span className="header__menueWrap">
-          <span className="header__menue">
-            <Icon
-              onClick={() => {
-                setSideNavIsOpen();
-              }}
-              size={!sideNavIsOpen ? IconSize.LARGE : IconSize.MEDEIUM_SMALL}
-              icon={!sideNavIsOpen ? "menue" : "clear"}
-            />
-          </span>
+          {completeDefaultSetting && (
+            <span className="header__menue">
+              <Icon
+                onClick={() => {
+                  setSideNavIsOpen();
+                }}
+                size={!sideNavIsOpen ? IconSize.LARGE : IconSize.MEDEIUM_SMALL}
+                icon={!sideNavIsOpen ? "menue" : "clear"}
+              />
+            </span>
+          )}
         </span>
       </div>
       {/* space between 2번째 */}

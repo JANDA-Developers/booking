@@ -97,7 +97,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
       // 방타입 SelectOp 리턴
       if (key === "roomCount") {
         genderKey = " ";
-        if (availableCount.maleCount || guestCountValue.male) {
+        if (availableCount.roomCount) {
           return selectOpCreater({
             count: availableCount.roomCount + 1 + guestCountValue.room,
             labelAdd: genderKey
@@ -119,6 +119,9 @@ const RoomTypeCard: React.SFC<IProps> = ({
   const maleSeleteOption = countSelectOpFn("maleCount");
   const femaleSeleteOption = countSelectOpFn("femaleCount");
   const roomSeleteOption = countSelectOpFn("roomCount");
+
+  console.log("roomSeleteOption");
+  console.log(roomSeleteOption);
 
   const totalCan =
     maleSeleteOption.length +

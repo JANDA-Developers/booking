@@ -2,12 +2,13 @@ import React from "react";
 import {IUseDayPicker, LANG} from "../../hooks/hook";
 import JDdayPicker from "../../atoms/dayPicker/DayPicker";
 import ArrowDayByDay from "../../atoms/dayPicker/component/inputComponent/ArrowDayByDay";
-import {autoComma} from "../../utils/utils";
+import {autoComma, isEmpty} from "../../utils/utils";
 import Preloader from "../../atoms/preloader/Preloader";
 import {Doughnut, ChartData} from "react-chartjs-2";
 import {getSalesStatistic_GetSalesStatistic_data} from "../../types/api";
 import {arraySum} from "../../utils/elses";
 import {getStaticColors} from "../../utils/getStaticColors";
+import JDgraph from "../../atoms/graph/graph";
 
 export interface IViewConfigProp {
   showDayPicker?: boolean;
@@ -29,16 +30,22 @@ const DaySales: React.FC<Iprops> = ({
 
   const totalPrice = arraySum(priceData.map(data => data.price));
 
+  const prices = priceData.map(data => data.price);
+  const labels = priceData.map(data => data.payMethod || "");
+
   const datasets: ChartData<Chart.ChartData> = {
-    labels: priceData.map(data => data.payMethod || "") || "",
+    labels,
     datasets: [
       {
-        data: priceData.map(data => data.price || 0) || 0,
+        data: prices,
         backgroundColor: getStaticColors(priceData.length),
         hoverBackgroundColor: getStaticColors(priceData.length, {light: true})
       }
     ]
   };
+
+  console.log("datasets");
+  console.log(datasets);
 
   return (
     <div>
@@ -57,7 +64,7 @@ const DaySales: React.FC<Iprops> = ({
       )}
       {autoComma(totalPrice)}
       {LANG("money_unit")}
-      <Doughnut data={datasets} />
+      <JDgraph originalData={priceData} JDtype="doughnut" data={datasets} />
     </div>
   );
 };

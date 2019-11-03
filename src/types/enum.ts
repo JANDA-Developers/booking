@@ -201,17 +201,6 @@ export enum LayoutType {
   Layout_B = "Layout_B"
 }
 
-export enum SmsReplaceKeyEnum {
-  STAYDATE = "%STAYDATE%",
-  STAYDATE_YMD = "$STAYDATE_YMD%",
-  ROOMTYPE_N_COUNT = "%ROOMTYPE_N_COUNT%",
-  BOOKERNAME = "%BOOKERNAME%",
-  TOTALPRICE = "%TOTALPRICE%",
-  PAYMETHOD = "%PAYMETHOD%",
-  PAYMENTSTATUS = "%PAYMENTSTATUS%",
-  HM = "%HM%"
-}
-
 export enum Day {
   FRI = "FRI",
   MON = "MON",
@@ -255,10 +244,11 @@ export const SmsReplaceKeyEnumKeys = [
   "PAYMENTSTATUS",
   "HM"
 ];
+// 위아래 인덱스가 맞아야함
 export const SmsReplaceKeyEnumValues = [
   "%STAYDATE%",
-  "$STAYDATEYMD%",
-  "%ROOMTYPENCOUNT%",
+  "%STAYDATE_YMD%",
+  "%ROOMTYPE_N_COUNT%",
   "%BOOKERNAME%",
   "%TOTALPRICE%",
   "%PAYMETHOD%",
@@ -270,17 +260,6 @@ export enum NotiLevel {
   NORMAL = "NORMAL",
   WARN = "WARN"
 }
-
-export let KR_SMS_PARSER = {
-  BOOKERNAME: "",
-  ROOMTYPE_N_COUNT: "",
-  TOTALPRICE: "",
-  STAYDATE: "",
-  STAYDATE_YMD: "",
-  PAYMENTSTATUS: "",
-  PAYMETHOD: "",
-  HM: ""
-};
 
 //= =============================================================
 // START global options
@@ -337,16 +316,15 @@ export const LAYOUT_TYPE_OP = [
   {value: LayoutType.Layout_B, label: LayoutType.Layout_B}
 ];
 
-// [0]가 미결제 이도록
+// [0]가 진행중이 되도록 고정
 export let PAYMENT_STATUS_OP = [
+  {value: PaymentStatus.PROGRESSING, label: ""},
   {value: PaymentStatus.CANCEL, label: ""},
-  {value: PaymentStatus.COMPLETE, label: ""},
-  {value: PaymentStatus.PROGRESSING, label: ""}
+  {value: PaymentStatus.COMPLETE, label: ""}
 ];
 
-export let STATISTICS_OP = [
-  {value: LANG("sales_statistics"), label: LANG("sales_statistics")}
-];
+// 아직 통계선택들이 작업 안되어있음 View 만 사용중
+export let STATISTICS_OP = [{value: "sales_statistics", label: ""}];
 
 export let STATISTICS_TYPE_OP = [
   {
@@ -373,7 +351,8 @@ export let STATISTICS_TYPE_OP = [
 
 export let SMS_TARGET_OP = [
   {value: SendTarget.GUEST, label: ""},
-  {value: SendTarget.HOST, label: ""}
+  {value: SendTarget.HOST, label: ""},
+  {value: SendTarget.BOTH, label: ""}
 ];
 
 export let NOTI_LEVEL_OP = [

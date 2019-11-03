@@ -24,7 +24,7 @@ const JDSeleteHouse: React.SFC<IProps> = ({
     selectHouseMu({variables: {selectedHouse: value}});
   };
 
-  options.push({value: "add", label: `${LANG("create_house")}}+`});
+  options.push({value: "add", label: `${LANG("create_house")}+`});
 
   return (
     <JDselect

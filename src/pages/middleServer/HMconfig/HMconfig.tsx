@@ -229,6 +229,8 @@ const HMconfig: React.FC<IProps> = ({
     userInfo
   };
 
+  if (loading) return <Preloader page loading={loading} />;
+
   return (
     <div className="HMconfig">
       <Preloader floating size={FLOATING_PRELOADER_SIZE} loading={loading} />
@@ -286,39 +288,35 @@ const HMconfig: React.FC<IProps> = ({
           </div>
           <div>
             <Card fullHeight align="center">
-              {loading ? (
-                <Preloader size="large" loading={loading} />
-              ) : (
-                <Fragment>
-                  <div className="JDstandard-margin-bottom">
-                    <LangList
-                      onClickLng={lang => {
-                        setCurrentLang(lang);
-                      }}
-                      hilightLangs={[currentLang]}
-                      hideList={LANGUAGE_LIST.filter(
-                        lang => !enableLangs.includes(lang)
-                      )}
-                    />
-                  </div>
-                  <HMcomponent
-                    key={`HM${currentLang}`}
-                    host={
-                      !isGuestView
-                        ? {
-                            setTitle,
-                            setEnableLngList,
-                            setMenuData,
-                            bgImageHook,
-                            emailModalHook,
-                            phoneNumberModalHook
-                          }
-                        : undefined
-                    }
-                    {...sharedProps}
+              <Fragment>
+                <div className="JDstandard-margin-bottom">
+                  <LangList
+                    onClickLng={lang => {
+                      setCurrentLang(lang);
+                    }}
+                    hilightLangs={[currentLang]}
+                    hideList={LANGUAGE_LIST.filter(
+                      lang => !enableLangs.includes(lang)
+                    )}
                   />
-                </Fragment>
-              )}
+                </div>
+                <HMcomponent
+                  key={`HM${currentLang}`}
+                  host={
+                    !isGuestView
+                      ? {
+                          setTitle,
+                          setEnableLngList,
+                          setMenuData,
+                          bgImageHook,
+                          emailModalHook,
+                          phoneNumberModalHook
+                        }
+                      : undefined
+                  }
+                  {...sharedProps}
+                />
+              </Fragment>
             </Card>
           </div>
           {/* 메뉴 설정 모달 */}

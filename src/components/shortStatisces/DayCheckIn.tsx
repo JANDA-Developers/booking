@@ -7,6 +7,7 @@ import JDdayPicker from "../../atoms/dayPicker/DayPicker";
 import Preloader from "../../atoms/preloader/Preloader";
 import {Doughnut, ChartData} from "react-chartjs-2";
 import {getStaticColors} from "../../utils/getStaticColors";
+import JDgraph from "../../atoms/graph/graph";
 
 interface IViewConfig {
   dayPickerHook?: IUseDayPicker;
@@ -66,7 +67,7 @@ const DayCheckIn: React.FC<Iprops> = ({
         />
       )}
       {info.bookingsCheckInCount}/{info.bookingsCount}
-      <Doughnut data={datasets} />
+      <JDgraph JDtype="doughnut" originalData={[]} data={datasets} />
     </div>
   );
 };

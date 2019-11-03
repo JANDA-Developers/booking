@@ -5,7 +5,6 @@ import {useDayPicker, LANG} from "../../../hooks/hook";
 import {Query} from "react-apollo";
 import {
   getSalesStatistic,
-  getAllRoomTypeWithGuestVariables,
   getSalesStatisticVariables
 } from "../../../types/api";
 import {GET_SALES_STATISTIC} from "../../../queries";

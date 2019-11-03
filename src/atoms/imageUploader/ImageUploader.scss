@@ -20,7 +20,10 @@
     text-align: center;
 
 
-
+    &--noBg {
+        background-image:none;
+    }
+    
     &--noEffect {
         position: relative;
         border:none;

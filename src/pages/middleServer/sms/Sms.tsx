@@ -25,9 +25,9 @@ import SmsTemplateModal, {
 } from "./components/SmsTemplateModal";
 import {DEFAUT_SMS_INFO} from "../../../types/defaults";
 import Help from "../../../atoms/Help/Help";
-import {KR_SMS_PARSER} from "../../../types/enum";
 import "./Sms.scss";
 import JDlist from "../../../atoms/list/List";
+import JDpreloader from "../../../atoms/preloader/Preloader";
 
 interface IProps {
   smsTemplateMutationes: {
@@ -58,7 +58,9 @@ const Sms: React.FC<IProps> = ({
 }) => {
   const {smsTemplates} = smsInfo || DEFAUT_SMS_INFO;
   const smsTemplateModal = useModal<ISmsTemplateModalProps>(false);
-  if (!smsInfo) throw Error("non SMS info");
+
+  // 로딩상태일때.
+  if (!smsInfo) return <JDpreloader loading={true} page />;
 
   const {house} = context;
 
@@ -112,7 +114,7 @@ const Sms: React.FC<IProps> = ({
           />
         </h6>
         <p className="sms__templateViewCard_smsFormat">
-          {smsMsgParser(template.smsFormat, KR_SMS_PARSER)}
+          {smsMsgParser(template.smsFormat, LANG("SmsReplaceKey"))}
         </p>
       </Card>
     );

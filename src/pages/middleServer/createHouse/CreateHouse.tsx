@@ -178,7 +178,7 @@ const CreateHouse: React.FC<IProps> = ({context, google}) => {
           coords: {latitude: lat, longitude: lng}
         } = location;
         if (map) {
-          map.panTo({lat, lng});
+          map.panTo({lat: lat || 35.1484595, lng: lng || 129.0632157});
         }
         const address = await reverseGeoCode(lat, lng);
         setLocation({
@@ -242,6 +242,12 @@ const CreateHouse: React.FC<IProps> = ({context, google}) => {
                   e.preventDefault();
                   if (submitValidation()) createHouseMutation();
                 };
+                if (loading) {
+                  return;
+                  <div>
+                    <Preloader loading={true} size="large" />
+                  </div>;
+                }
                 return (
                   <form onSubmit={createHouseSubmit}>
                     <h3>{LANG("create_house")}</h3>

@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
-import { ApolloError, PureQueryOptions } from "apollo-client";
-import { Mutation } from "react-apollo";
-import { useInput, IUseModal, LANG } from "../../../../hooks/hook";
+import React, {useEffect} from "react";
+import {ApolloError, PureQueryOptions} from "apollo-client";
+import {Mutation} from "react-apollo";
+import {useInput, IUseModal, LANG} from "../../../../hooks/hook";
 import {
   ErrProtecter,
   onCompletedMessage,
@@ -15,8 +15,7 @@ import {
   deleteRoomVariables,
   updateRoom,
   updateRoomVariables,
-  getAllRoomType_GetAllRoomType_roomTypes,
-  getAllRoomType_GetAllRoomType_roomTypes_rooms
+  getAllRoomType_GetAllRoomType_roomTypes
 } from "../../../../types/api";
 import {
   CREATE_ROOM,
@@ -24,12 +23,12 @@ import {
   UPDATE_ROOM,
   GET_ALL_ROOMTYPES
 } from "../../../../queries";
-import { DEFAUT_ROOMTYPE_ROOM } from "../../../../types/defaults";
-import { IContext } from "../../../MiddleServerRouter";
+import {DEFAUT_ROOMTYPE_ROOM} from "../../../../types/defaults";
+import {IContext} from "../../../MiddleServerRouter";
 
-class CreateRoomMutation extends Mutation<createRoom, createRoomVariables> { }
-class DeleteRoomMutation extends Mutation<deleteRoom, deleteRoomVariables> { }
-class UpdateRoomMutation extends Mutation<updateRoom, updateRoomVariables> { }
+class CreateRoomMutation extends Mutation<createRoom, createRoomVariables> {}
+class DeleteRoomMutation extends Mutation<deleteRoom, deleteRoomVariables> {}
+class UpdateRoomMutation extends Mutation<updateRoom, updateRoomVariables> {}
 
 export interface IRoomModalInfo {
   roomId?: string;
@@ -50,20 +49,24 @@ const UpdateTimelineWrap: React.SFC<IProps> = ({
   context,
   refetchQueries: outRefetchQueries
 }) => {
-  const { house } = context;
+  const {house} = context;
   const refetchQueries = [
-    { query: GET_ALL_ROOMTYPES, variables: { houseId: house._id } },
+    {query: GET_ALL_ROOMTYPES, variables: {houseId: house._id}},
     ...outRefetchQueries
   ];
-  const { info } = modalHook;
+  const {info} = modalHook;
   const isAddMode = info.isAddMode;
+  // 오픈한 방의 방타입을 찾음
   const targetRoomType = roomTypeData.find(
     roomType => roomType._id === info.roomTypeId
   );
   if (!targetRoomType && !isAddMode) return <div />;
+
+  // 오픈한 방을 찾음
   const targetRoom = targetRoomType
     ? targetRoomType.rooms.find(room => room._id === info.roomId)
     : DEFAUT_ROOMTYPE_ROOM;
+
   if (!targetRoom && !isAddMode) return <div />;
   const roomNameHook = useInput(targetRoom ? targetRoom.name : "", true);
 
@@ -76,8 +79,12 @@ const UpdateTimelineWrap: React.SFC<IProps> = ({
         name: roomNameHook.value,
         roomType: modalHook.info.roomTypeId
       }}
-      onCompleted={({ CreateRoom }: createRoom) => {
-        onCompletedMessage(CreateRoom, LANG("room_create_completed"), LANG("room_create_fail"));
+      onCompleted={({CreateRoom}: createRoom) => {
+        onCompletedMessage(
+          CreateRoom,
+          LANG("room_create_completed"),
+          LANG("room_create_fail")
+        );
       }}
     >
       {createRoomMutation => (
@@ -87,11 +94,15 @@ const UpdateTimelineWrap: React.SFC<IProps> = ({
           variables={{
             roomId: modalHook.info.roomId || ""
           }}
-          onCompleted={({ DeleteRoom }: deleteRoom) => {
-            onCompletedMessage(DeleteRoom, LANG("room_delete_completed"), LANG("room_delete_fail"));
+          onCompleted={({DeleteRoom}: deleteRoom) => {
+            onCompletedMessage(
+              DeleteRoom,
+              LANG("room_delete_completed"),
+              LANG("room_delete_fail")
+            );
           }}
         >
-          {deleteRoomMutation => (
+          {(deleteRoomMutation, {loading: deleteRoomLoading}) => (
             <UpdateRoomMutation
               mutation={UPDATE_ROOM}
               refetchQueries={refetchQueries}
@@ -99,7 +110,7 @@ const UpdateTimelineWrap: React.SFC<IProps> = ({
                 roomId: modalHook.info.roomId || "",
                 name: roomNameHook.value
               }}
-              onCompleted={({ UpdateRoom }: updateRoom) => {
+              onCompleted={({UpdateRoom}: updateRoom) => {
                 onCompletedMessage(
                   UpdateRoom,
                   LANG("room_update"),
@@ -107,7 +118,7 @@ const UpdateTimelineWrap: React.SFC<IProps> = ({
                 );
               }}
             >
-              {updateRoomMutation => (
+              {(updateRoomMutation, {loading}) => (
                 <RoomModal
                   modalHook={modalHook}
                   roomNameHook={roomNameHook}

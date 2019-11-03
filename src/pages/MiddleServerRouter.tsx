@@ -100,9 +100,6 @@ const JDmiddleServer: React.FC<IProps> = ({
   const [sideNavIsOpen, setSideNavIsOpen] = useSideNav();
   const houseConfig = houseConfigSetting(currentHouse);
 
-  console.log("uri");
-  console.log(uri);
-
   // 지원하지 않는 브라우저로 부터 접속했는지 확인합니다.
   JDoutdatedBrowserRework();
 
@@ -132,6 +129,7 @@ const JDmiddleServer: React.FC<IProps> = ({
     }
   });
 
+  // 로딩처리
   if (isLoading)
     return (
       <Preloader
@@ -178,18 +176,20 @@ const JDmiddleServer: React.FC<IProps> = ({
         <div className="middleServer__layout">
           {/* 사이드 네비 */}
           <div className="middleServer__side">
-            <Route
-              render={props => {
-                const propContext = Object.assign(tempContext, props, JDlang);
-                return (
-                  <SideNav
-                    context={propContext as any}
-                    isOpen={sideNavIsOpen}
-                    setIsOpen={setSideNavIsOpen}
-                  />
-                );
-              }}
-            />
+            {currentHouse && currentHouse.completeDefaultSetting && (
+              <Route
+                render={props => {
+                  const propContext = Object.assign(tempContext, props, JDlang);
+                  return (
+                    <SideNav
+                      context={propContext as any}
+                      isOpen={sideNavIsOpen}
+                      setIsOpen={setSideNavIsOpen}
+                    />
+                  );
+                }}
+              />
+            )}
           </div>
           {/* 페이지 라우팅 시작 */}
           <div className="middleServer__page">
@@ -278,7 +278,11 @@ const JDmiddleServer: React.FC<IProps> = ({
                             exact
                             path="/smsHistory"
                             render={props => {
-                              return <SmsHistory smsInfoId={propContext} />;
+                              return (
+                                <SmsHistory
+                                  smsInfoId={currentHouse.smsInfo._id}
+                                />
+                              );
                             }}
                           />
                           {/* 로그인 */}

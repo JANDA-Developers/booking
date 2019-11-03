@@ -1,6 +1,4 @@
 import {
-  BOOKING_STATUS_OP,
-  KR_SMS_PARSER,
   STATISTICS_TYPE_OP,
   SMS_TARGET_OP,
   PRODUCT_STATUS_OP,
@@ -12,7 +10,9 @@ import {
   ROOM_GENDER_OP,
   PRICING_TYPE_OP_EXPEND,
   GENDER_OP,
-  AUTO_SEND_OP
+  BOOKING_STATUS_OP,
+  AUTO_SEND_OP,
+  STATISTICS_OP
 } from "../types/enum";
 import {LANG} from "../hooks/hook";
 import {isArray} from "util";
@@ -31,16 +31,16 @@ export const globalLanguageSetting = () => {
   };
 
   const settings = [
-    BOOKING_STATUS_OP,
-    KR_SMS_PARSER,
     {value: PAYMENT_STATUS_OP, enumKey: "PaymentStatus"},
     STATISTICS_TYPE_OP,
-    SMS_TARGET_OP,
+    STATISTICS_OP,
+    {value: SMS_TARGET_OP, enumKey: "SendTarget"},
     PRODUCT_STATUS_OP,
+    BOOKING_STATUS_OP,
     PAYMETHOD_FOR_BOOKER_OP,
     PAYMETHOD_FOR_HOST_OP,
     GET_SMS_TARGET_OP,
-  PRICING_TYPE_OP,
+    PRICING_TYPE_OP,
     {value: ROOM_GENDER_OP, enumKey: "RoomGender"},
     PRICING_TYPE_OP_EXPEND,
     GENDER_OP,

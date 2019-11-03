@@ -131,8 +131,7 @@ const ResvList: React.SFC<IProps> = ({
     });
 
     sendSmsModalHook.openModal({
-      receivers,
-      createMode: true
+      receivers
     });
   };
 

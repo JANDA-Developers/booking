@@ -3,9 +3,7 @@ import Button from "../../atoms/button/Button";
 import {insideRedirect} from "../../utils/utils";
 import JDbox from "../../atoms/box/JDbox";
 import {IContext} from "../../pages/MiddleServerRouter";
-import Mbr from "../../atoms/mbr/Mbr";
 import {LANG} from "../../hooks/hook";
-import {JDlang} from "../../langs/JDlang";
 
 interface Iprops {
   context: IContext;

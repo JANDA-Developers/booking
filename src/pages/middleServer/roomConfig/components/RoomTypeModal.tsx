@@ -113,6 +113,11 @@ const RoomTypeModal: React.SFC<IProps> = ({
       toast.warn(LANG("capacity_must_be_at_least_1_person"));
       return false;
     }
+
+    if (!value.defaultPrice) {
+      toast.warn(LANG("please_enter_a_base_price"));
+      return false;
+    }
     if (value.defaultPrice < 1000) {
       priceWarnModal.openModal({
         confirmCallBackFn: createRoomType

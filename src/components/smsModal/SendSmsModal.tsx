@@ -1,65 +1,243 @@
-import React, { useEffect, Fragment } from "react";
+import React, {useState, Fragment} from "react";
 import JDmodal from "../../atoms/modal/Modal";
-import { IUseModal, LANG } from "../../hooks/hook";
-import { AutoSendWhen } from "../../types/enum";
+import {IUseModal, useSelect, LANG} from "../../hooks/hook";
+import JDbox from "../../atoms/box/JDbox";
+import JDselect, {IselectedOption} from "../../atoms/forms/selectBox/SelectBox";
+import {GET_SMS_TARGET_OP, GetSmsTarget} from "../../types/enum";
+import Button from "../../atoms/button/Button";
 import "./SendSmsModal.scss";
-import { getSmsInfo_GetSmsInfo_smsInfo } from "../../types/api";
-import { IModalSMSinfo } from "./SendSmsModalWrap";
-import Preloader from "../../atoms/preloader/Preloader";
+import {MutationFn} from "react-apollo";
+import {
+  sendSms,
+  sendSmsVariables,
+  getSmsInfo_GetSmsInfo_smsInfo,
+  getBookings,
+  getBookingsVariables,
+  AutoSendWhen
+} from "../../types/api";
+import InputText from "../../atoms/forms/inputText/InputText";
+import {
+  smsMsgParser,
+  templateOpCreater,
+  smsMessageFormatter
+} from "../../utils/smsUtils";
+import moment from "moment";
+import {IModalSMSinfo} from "./SendSmsModalWrap";
+import {autoComma, autoHypen, s4, queryDataFormater} from "../../utils/utils";
+import JDLabel from "../../atoms/label/JDLabel";
+import {GET_BOOKINGS_PHONE_NUMBERS} from "../../queries";
+import {useQuery} from "@apollo/react-hooks";
+import {IContext} from "../../pages/MiddleServerRouter";
+import client from "../../apolloClient";
+import {PortalPreloader} from "../../utils/portalTo";
 
 interface IProps {
+  context: IContext;
   modalHook: IUseModal<IModalSMSinfo>;
+  sendSmsMu: MutationFn<sendSms, sendSmsVariables>;
   loading: boolean;
   smsInfo: getSmsInfo_GetSmsInfo_smsInfo | null | undefined;
-  callBackFn?(flag: boolean): any;
+  callBackFn?(flag: boolean, smsSendFn: any): any;
+  autoSendWhen?: AutoSendWhen;
+  mode?: "Booking" | "Noraml";
 }
 
 const SendSmsModal: React.FC<IProps> = ({
+  context,
   modalHook,
-  loading,
+  sendSmsMu,
+  smsInfo,
   callBackFn,
-  smsInfo
+  mode,
+  autoSendWhen
 }) => {
-  // 완성때 자동발신이 있는지 체크
-  const autoSendCheck = (): boolean => {
-    if (smsInfo && smsInfo.smsTemplates) {
-      const result = smsInfo.smsTemplates.find(smsT => {
-        if (!smsT.smsSendCase) return false;
-        return (
-          smsT.smsSendCase.when === AutoSendWhen.WHEN_BOOKING_CREATED ||
-          AutoSendWhen.WHEN_BOOKING_CREATED_PAYMENT_PROGRESSING
-        );
-      });
-      if (result) return true;
+  const [msg, setMsg] = useState("");
+  const today = new Date();
+  const {
+    house: {_id: houseId}
+  } = context;
+  const smsTargetOpHook = useSelect(GET_SMS_TARGET_OP[0]);
+  const {data, loading, refetch} = useQuery<getBookings, getBookingsVariables>(
+    GET_BOOKINGS_PHONE_NUMBERS,
+    {
+      skip: true,
+      client,
+      variables: {
+        count: 0,
+        page: 0,
+        houseId,
+        filter: {
+          stayDate: moment(today).format("YYYY-MM-DD")
+        }
+      }
     }
-    return false;
+  );
+
+  const bookings = queryDataFormater(
+    data,
+    "GetBookings",
+    "bookings",
+    undefined
+  );
+
+  const phoneNumbers = bookings
+    ? bookings.map(booking => booking.phoneNumber)
+    : [];
+  const sendTargets =
+    smsTargetOpHook.selectedOption!.value === GetSmsTarget.EXSIST_INFO
+      ? modalHook.info.receivers
+      : phoneNumbers;
+  const smsTemplates = (smsInfo && smsInfo.smsTemplates) || [];
+  const smsTemplateOp = templateOpCreater(smsTemplates);
+
+  const handleSendSmsBtnClick = (flag: boolean) => {
+    modalHook.closeModal();
+    if (!smsInfo) {
+      throw Error("smsInfo is not exist");
+    }
+    const sendSMSfn = sendSmsMu.bind(sendSmsMu, {
+      variables: {
+        smsInfoId: smsInfo._id,
+        msg: smsMessageFormatter(msg),
+        receivers: sendTargets,
+        sender: process.env.REACT_APP_API_SMS_SENDER_NUMBER
+      }
+    });
+
+    if (callBackFn) {
+      callBackFn(flag, sendSMSfn);
+    } else {
+      sendSMSfn();
+    }
   };
 
-  const checkResult = !autoSendCheck() && !loading;
-
-  useEffect(() => {
-    if (checkResult && callBackFn) {
-      modalHook.closeModal();
-      callBackFn && callBackFn(false);
+  const handleSmsTargetChange = (v: IselectedOption<any>) => {
+    smsTargetOpHook.onChange(v);
+    if (v.value === GetSmsTarget.TODAY_STAY) {
+      refetch({
+        houseId,
+        count: 99,
+        page: 1,
+        filter: {
+          stayDate: moment(today).toDate()
+        }
+      });
     }
-  }, [callBackFn]);
+  };
+
+  // 예약정보를 기반으로 뷰 변환
+  const handleSelectTemplate = (selectedOp: IselectedOption) => {
+    if (smsInfo && smsInfo.smsTemplates) {
+      const targetTemplate = smsInfo.smsTemplates.find(
+        template => template._id === selectedOp.value
+      );
+
+      if (targetTemplate) {
+        let msg = "";
+        const {smsFormatInfo} = modalHook.info;
+        if (smsFormatInfo) {
+          const {
+            payMethod,
+            end,
+            name,
+            paymentStatus,
+            price,
+            start
+          } = smsFormatInfo;
+          smsMsgParser(targetTemplate.smsFormat, {
+            BOOKERNAME: name,
+            ROOMTYPE_N_COUNT: "",
+            STAYDATE: `${moment(start).format("MM-DD")}~${moment(end).format(
+              "MM-DD"
+            )}`,
+            STAYDATE_YMD: `${moment(start).format("YY-MM-DD")}~${moment(
+              end
+            ).format("YY-MM-DD")}`,
+            TOTALPRICE: `${autoComma(price)}`,
+            PAYMENTSTATUS: `${paymentStatus}`,
+            PAYMETHOD: `${payMethod}`,
+            HM: "[하우스메뉴얼 주소]"
+          });
+        } else {
+          smsMsgParser(targetTemplate.smsFormat, LANG("SmsReplaceKey"));
+        }
+        setMsg(msg);
+      }
+    }
+  };
 
   return (
     <JDmodal
-      trueMessage={LANG("send_sms")}
-      falseMessage={LANG("un_send_sms")}
-      confirm
-      confirmCallBackFn={callBackFn}
-      className="sendSmsModal"
+      className={`sendSmsModal ${loading && "sendSmsModal--loading"}`}
       {...modalHook}
     >
-      {loading ? (
-        <Preloader loading={loading} />
-      ) : (
+      <PortalPreloader size="small" loading={loading} />
+      {loading || (
+        <Fragment>
+          <h5>{LANG("send_sms")}</h5>
+          {mode === "Booking" && (
+            <div className="JDz-index-2">
+              <JDselect
+                {...smsTargetOpHook}
+                onChange={handleSmsTargetChange}
+                options={GET_SMS_TARGET_OP}
+                label={LANG("find_destination")}
+              />
+            </div>
+          )}
           <div>
-            <Fragment>{LANG("complete_the_reservation_creation")}</Fragment>
+            <JDLabel txt={LANG("outgoing_destination")} />
+            <JDbox className="clear-fix" mode="border">
+              {sendTargets &&
+                sendTargets.map(receiver => (
+                  <JDbox
+                    size={sendTargets.length > 4 ? "small" : undefined}
+                    float
+                    key={s4()}
+                  >
+                    <span>{autoHypen(receiver)}</span>
+                  </JDbox>
+                ))}
+            </JDbox>
           </div>
-        )}
+          <div className="JDz-index-1">
+            <JDselect
+              label={LANG("sms_template")}
+              onChange={handleSelectTemplate}
+              noOptionsMessage={LANG("try_to_create_in_SMS_settings")}
+              options={smsTemplateOp}
+            />
+          </div>
+          <div>
+            <InputText
+              doubleHeight
+              onChange={setMsg}
+              value={msg}
+              label={LANG("msg_content")}
+              textarea
+            />
+          </div>
+          <div className="JDmodal__endSection">
+            <Button
+              size={"small"}
+              thema="primary"
+              onClick={() => {
+                handleSendSmsBtnClick(true);
+              }}
+              label={LANG("sendSMS")}
+            />
+            {callBackFn && (
+              <Button
+                size={"small"}
+                onClick={() => {
+                  handleSendSmsBtnClick(false);
+                }}
+                label={LANG("dontSMS")}
+              />
+            )}
+          </div>
+        </Fragment>
+      )}
     </JDmodal>
   );
 };

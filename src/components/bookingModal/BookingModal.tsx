@@ -104,6 +104,7 @@ const BookingModal: React.FC<IProps> = ({
   context,
   mode
 }) => {
+  const isCreateMode = mode === BookingModalModes.CREATE;
   const {
     _id: bookingId,
     email,
@@ -122,7 +123,7 @@ const BookingModal: React.FC<IProps> = ({
   const sendSmsModalHook = useModal<IModalSMSinfo>(false);
   const confirmModalHook = useModal(false);
   const bookingNameHook = useInput(name);
-  const bookingPhoneHook = useInput(phoneNumber);
+  const bookingPhoneHook = useInput(phoneNumber, true);
   const priceHook = useInput(totalPrice);
   const memoHook = useInput(memo || "");
   const emailHook = useInput(email);
@@ -190,13 +191,13 @@ const BookingModal: React.FC<IProps> = ({
       null
     )
   );
-  const isProgressing = bookingStatus === BookingStatus.PROGRESSING;
-  const allReadOnly = isProgressing;
-
   const resvDateHook = useDayPicker(
     moment(checkIn).toDate(),
     moment(checkOut).toDate()
   );
+
+  const isProgressing = bookingStatus === BookingStatus.PROGRESSING;
+  const allReadOnly = isProgressing;
 
   const validate = () => {
     // TODO 젠더 셀렉트 벨리데이션
@@ -234,15 +235,14 @@ const BookingModal: React.FC<IProps> = ({
       return;
     }
     sendSmsModalHook.openModal({
-      ...smsModalInfoTemp,
-      createMode: true
+      ...smsModalInfoTemp
     });
   };
 
   // SMS 오토 완성을 위한 정보
   const smsModalInfoTemp: IModalSMSinfo = {
     receivers: [bookingPhoneHook.value],
-    booking: {
+    smsFormatInfo: {
       name: bookingNameHook.value,
       payMethod: inOr(payMethodHook.selectedOption, "label", ""),
       email: emailHook.value,
@@ -261,6 +261,7 @@ const BookingModal: React.FC<IProps> = ({
     });
   };
 
+  // 예약삭제 여부를 물어보는 버튼 컬백함수
   const deleteModalCallBackFn = (confirm: boolean) => {
     if (confirm) {
       deleteBookingMu({
@@ -277,7 +278,7 @@ const BookingModal: React.FC<IProps> = ({
   };
 
   // 현재 정보들로 예약 진행
-  const startBooking = async (sendSmsFlag: boolean = false) => {
+  const startBooking = async (callBackStartBooking?: any) => {
     if (!validate()) return;
 
     // 예약자가 변경한 성별사항 적용한 임시 게스트정보 생성
@@ -338,6 +339,7 @@ const BookingModal: React.FC<IProps> = ({
           // sendSmsFlag
         }
       });
+      callBackStartBooking && callBackStartBooking();
     } catch (error) {
       whenCreateBookingFail();
     }
@@ -347,14 +349,17 @@ const BookingModal: React.FC<IProps> = ({
   const handleCreateBtnClick = () => {
     if (!bookingData.roomTypes) return;
 
-    const smsCallBackFn = async (flag: boolean) => {
-      startBooking(flag);
+    const smsCallBackFn = async (flag: boolean, sendSmsMu: any) => {
+      if (flag) {
+        startBooking(sendSmsMu);
+      } else {
+        startBooking();
+      }
     };
 
     sendSmsModalHook.openModal({
       ...smsModalInfoTemp,
       autoSendWhen: AutoSendWhen.WHEN_BOOKING_CREATED,
-      createMode: false,
       callBackFn: smsCallBackFn
     });
   };
@@ -528,13 +533,13 @@ const BookingModal: React.FC<IProps> = ({
             <Button
               size="small"
               label={LANG("do_create")}
-              disabled={allReadOnly}
+              disabled={!isCreateMode}
               thema="primary"
               onClick={handleCreateBtnClick}
             />
             <Button
               size="small"
-              disabled={mode === BookingModalModes.CREATE}
+              disabled={isCreateMode}
               label={LANG("do_modify")}
               thema="primary"
               onClick={handleUpdateBtnClick}
@@ -542,7 +547,7 @@ const BookingModal: React.FC<IProps> = ({
             <Button
               size="small"
               label={LANG("delete_booking")}
-              disabled={mode === BookingModalModes.CREATE}
+              disabled={isCreateMode}
               thema="error"
               onClick={handleDeletBtnClick}
             />
@@ -558,6 +563,7 @@ const BookingModal: React.FC<IProps> = ({
     </Modal>
   );
 };
+
 export default BookingModal;
 
 // 달력선택정보 -> 예약정보 -> 배정정보(게스트 바이 게스트) -> (예약자/방배정) 정보
