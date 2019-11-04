@@ -27,7 +27,7 @@ import {
   Gender
 } from "../../types/enum";
 import "./BookingModal.scss";
-import {GB_booking, IGuestCount} from "../../types/interface";
+import {GB_booking, IGuestCount, BookingModalMode} from "../../types/interface";
 import {MutationFn} from "react-apollo";
 import {
   updateBooking,
@@ -52,7 +52,6 @@ import _ from "lodash";
 import C, {inOr} from "../../utils/C";
 import guestsToInput, {getRoomSelectInfo} from "../../utils/typeChanger";
 import RoomAssigedInfoTable from "./components/RoomAssigedInfoTable";
-import {BookingModalMode} from "rc-menu/lib/interface";
 
 // (예약/게스트) 정보
 export interface IBookingModal_AssigInfo {

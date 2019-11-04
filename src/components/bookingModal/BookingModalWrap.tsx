@@ -26,7 +26,7 @@ import {
   isEmpty,
   mergeObject
 } from "../../utils/utils";
-import {GB_booking} from "../../types/interface";
+import {GB_booking, BookingModalMode} from "../../types/interface";
 import Preloader from "../../atoms/preloader/Preloader";
 import {
   GET_BOOKING,
@@ -44,7 +44,6 @@ import {DEFAULT_BOOKING} from "../../types/defaults";
 import JDmodal from "../../atoms/modal/Modal";
 import {totalPriceGetAveragePrice} from "../../utils/booking";
 import {IContext} from "../../pages/MiddleServerRouter";
-import {BookingModalMode} from "rc-menu/lib/interface";
 
 export interface IBookingModalProp {
   startBookingCallBack?: (result: "error" | startBooking_StartBooking) => any;

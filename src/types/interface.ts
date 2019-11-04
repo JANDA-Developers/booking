@@ -63,6 +63,7 @@ export interface IPageResult {
   data: any;
   pageInfo: IPage;
 }
+export type BookingModalMode = "READ_ONLY" | "CREATE" | "CREATE_ASSIG";
 export interface ISelectHouse {
   ok: boolean;
   erorr: any;
