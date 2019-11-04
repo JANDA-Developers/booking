@@ -48,7 +48,7 @@ const SendSmsModal: React.FC<IProps> = ({
   sendSmsMu,
   smsInfo,
   callBackFn,
-  mode,
+  mode = "Noraml",
   autoSendWhen
 }) => {
   const [msg, setMsg] = useState("");
@@ -60,7 +60,6 @@ const SendSmsModal: React.FC<IProps> = ({
   const {data, loading, refetch} = useQuery<getBookings, getBookingsVariables>(
     GET_BOOKINGS_PHONE_NUMBERS,
     {
-      skip: true,
       client,
       variables: {
         count: 0,
@@ -90,6 +89,7 @@ const SendSmsModal: React.FC<IProps> = ({
   const smsTemplates = (smsInfo && smsInfo.smsTemplates) || [];
   const smsTemplateOp = templateOpCreater(smsTemplates);
 
+  // 문자전송 버튼 클릭시
   const handleSendSmsBtnClick = (flag: boolean) => {
     modalHook.closeModal();
     if (!smsInfo) {
@@ -111,6 +111,8 @@ const SendSmsModal: React.FC<IProps> = ({
     }
   };
 
+  // 전송 타겟 변경시
+  // API 해당 타켓들의 전화번호를 요청함
   const handleSmsTargetChange = (v: IselectedOption<any>) => {
     smsTargetOpHook.onChange(v);
     if (v.value === GetSmsTarget.TODAY_STAY) {
@@ -144,7 +146,7 @@ const SendSmsModal: React.FC<IProps> = ({
             price,
             start
           } = smsFormatInfo;
-          smsMsgParser(targetTemplate.smsFormat, {
+          msg = smsMsgParser(targetTemplate.smsFormat, {
             BOOKERNAME: name,
             ROOMTYPE_N_COUNT: "",
             STAYDATE: `${moment(start).format("MM-DD")}~${moment(end).format(
@@ -159,7 +161,7 @@ const SendSmsModal: React.FC<IProps> = ({
             HM: "[하우스메뉴얼 주소]"
           });
         } else {
-          smsMsgParser(targetTemplate.smsFormat, LANG("SmsReplaceKey"));
+          msg = smsMsgParser(targetTemplate.smsFormat, LANG("SmsReplaceKey"));
         }
         setMsg(msg);
       }
@@ -175,7 +177,7 @@ const SendSmsModal: React.FC<IProps> = ({
       {loading || (
         <Fragment>
           <h5>{LANG("send_sms")}</h5>
-          {mode === "Booking" && (
+          {mode === "Noraml" && (
             <div className="JDz-index-2">
               <JDselect
                 {...smsTargetOpHook}

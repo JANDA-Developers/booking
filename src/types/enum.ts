@@ -159,11 +159,6 @@ export enum Gender {
   MALE = "MALE"
 }
 
-export enum BookingModalModes {
-  CREATE = "CREATE",
-  READ_ONLY = "READ_ONLY"
-}
-
 export enum NotiType {
   ELSE = "ELSE",
   NEW_BOOKING = "NEW_BOOKING",
@@ -366,10 +361,7 @@ export let PRODUCT_STATUS_OP = [
   {value: HouseStatus.DISALBE, label: ""}
 ];
 
-export let PAYMETHOD_FOR_BOOKER_OP = [
-  // {value: PayMethod.VBANK, label: ""},
-  {value: PayMethod.CARD, label: ""}
-];
+export let PAYMETHOD_FOR_BOOKER_OP = [{value: PayMethod.CARD, label: ""}];
 
 export let PAYMETHOD_FOR_HOST_OP = [
   {value: PayMethod.VBANK, label: ""},
@@ -438,6 +430,7 @@ export let AUTO_SEND_OP = [
   }
 ];
 
+// 99명의 선택가능한 셀렉트 옵션 생성
 export const MAX_PEOPLE_COUNT_OP_FN = () => {
   const maxPeopleCountOption = [];
   for (let i = 0; i < 100; i += 1) {
@@ -460,6 +453,8 @@ export const MODAL_MIN_WIDTH = isMobile()
   : "360px";
 
 export const STATIC_COLORS = [
+  "#4c5b73",
+  "#E8554E",
   "#E8554E",
   "#F19C65",
   "#FFD265",

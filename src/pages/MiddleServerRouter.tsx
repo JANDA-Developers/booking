@@ -35,7 +35,7 @@ import {
 } from "./pages";
 import {UserRole, TLanguageShort} from "../types/enum";
 import {IHouse, IHouseConfigFull} from "../types/interface";
-import {DEFAUT_USER} from "../types/defaults";
+import {DEFAULT_USER} from "../types/defaults";
 import {
   getMyProfile_GetMyProfile_user,
   getMyProfile_GetMyProfile_user_houses_product
@@ -85,7 +85,7 @@ const JDmiddleServer: React.FC<IProps> = ({
     loading
   },
   GetUserInfo: {
-    GetMyProfile: {user = DEFAUT_USER} = {},
+    GetMyProfile: {user = DEFAULT_USER} = {},
     loading: loading2
   } = {},
   selectedHouse: {lastSelectedHouse, loading: loading3},

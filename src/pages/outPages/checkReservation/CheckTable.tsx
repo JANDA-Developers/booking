@@ -9,7 +9,7 @@ import {IRoomType} from "../../../types/interface";
 import JDbox from "../../../atoms/box/JDbox";
 import {PricingType} from "../../../types/enum";
 import moment from "moment";
-import {getRoomSelectInfo} from "../../../utils/guestCountByRoomType";
+import {getRoomSelectInfo} from "../../../utils/typeChanger";
 import {LANG} from "../../../hooks/hook";
 
 export interface IProps {

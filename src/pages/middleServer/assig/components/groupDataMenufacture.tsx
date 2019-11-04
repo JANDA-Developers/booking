@@ -1,6 +1,6 @@
 import {IRoomType} from "../../../../types/interface";
 import {isEmpty} from "../../../../utils/utils";
-import {DEFAUT_ASSIG_GROUP} from "../../../../types/defaults";
+import {DEFAULT_ASSIG_GROUP} from "../../../../types/defaults";
 import {RoomGender, Gender, PricingType} from "../../../../types/enum";
 import {IAssigGroup} from "./assigIntrerface";
 
@@ -97,7 +97,7 @@ export const roomDataManufacturer = (
       // 방생성중일떄만 will be deprecate ⛔️
       if (isAdd) {
         roomGroups.push({
-          ...DEFAUT_ASSIG_GROUP,
+          ...DEFAULT_ASSIG_GROUP,
           id: `add${roomTypeData._id}${roomTypeIndex}`,
           roomTypeId: roomTypeData._id,
           roomTypeIndex: roomTypeData.index,
@@ -108,7 +108,7 @@ export const roomDataManufacturer = (
     } else if (isAdd) {
       if (roomTypeData.pricingType === "ROOM") {
         roomGroups.push({
-          ...DEFAUT_ASSIG_GROUP,
+          ...DEFAULT_ASSIG_GROUP,
           id: `add${roomTypeData._id}${roomTypeIndex}`,
           roomTypeId: roomTypeData._id,
           roomTypeIndex: roomTypeData.index,
@@ -120,7 +120,7 @@ export const roomDataManufacturer = (
       } else {
         for (let i = 0; roomTypeData.peopleCount > i; i += 1) {
           roomGroups.push({
-            ...DEFAUT_ASSIG_GROUP,
+            ...DEFAULT_ASSIG_GROUP,
             id: `add${roomTypeData._id}${roomTypeIndex}` + i,
             roomTypeId: roomTypeData._id,
             roomTypeIndex: roomTypeData.index,
@@ -140,7 +140,7 @@ export const roomDataManufacturer = (
   // 방생성중일떄만
   if (isAdd) {
     roomGroups.push({
-      ...DEFAUT_ASSIG_GROUP,
+      ...DEFAULT_ASSIG_GROUP,
       id: `addRoomType`,
       type: "addRoomType"
     });

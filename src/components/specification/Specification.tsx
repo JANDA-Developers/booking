@@ -8,7 +8,7 @@ import {useState} from "react";
 import moment from "moment";
 import React from "react";
 import {autoHypen, isEmpty, autoComma} from "../../utils/utils";
-import {DEFAUT_PRODUCT, DEFAUT_APP_INFO_REQUEST} from "../../types/defaults";
+import {DEFAULT_PRODUCT, DEFAULT_APP_INFO_REQUEST} from "../../types/defaults";
 import JDselect from "../../atoms/forms/selectBox/SelectBox";
 import InputText from "../../atoms/forms/inputText/InputText";
 import {
@@ -79,14 +79,14 @@ export const SpecificAtion: React.FC<IProps> = ({
     expireDate,
     daysLeftToExpire,
     isExpired
-  } = product || DEFAUT_PRODUCT;
+  } = product || DEFAULT_PRODUCT;
 
   const lastRequestIndex = !isEmpty(appInfoRequested)
     ? appInfoRequested.length - 1
     : 0;
   const inAppInfoRequested = !isEmpty(appInfoRequested)
     ? appInfoRequested[lastRequestIndex]
-    : DEFAUT_APP_INFO_REQUEST;
+    : DEFAULT_APP_INFO_REQUEST;
 
   const drawerHook = useDrawer(false);
 

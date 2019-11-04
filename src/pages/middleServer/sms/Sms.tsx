@@ -23,7 +23,7 @@ import {IContext} from "../../MiddleServerRouter";
 import SmsTemplateModal, {
   ISmsTemplateModalProps
 } from "./components/SmsTemplateModal";
-import {DEFAUT_SMS_INFO} from "../../../types/defaults";
+import {DEFAULT_SMS_INFO} from "../../../types/defaults";
 import Help from "../../../atoms/Help/Help";
 import "./Sms.scss";
 import JDlist from "../../../atoms/list/List";
@@ -56,7 +56,7 @@ const Sms: React.FC<IProps> = ({
   smsInfo,
   context
 }) => {
-  const {smsTemplates} = smsInfo || DEFAUT_SMS_INFO;
+  const {smsTemplates} = smsInfo || DEFAULT_SMS_INFO;
   const smsTemplateModal = useModal<ISmsTemplateModalProps>(false);
 
   // 로딩상태일때.

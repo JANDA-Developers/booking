@@ -9,7 +9,8 @@ import {
   TimePerMs,
   MemoType,
   UserRole,
-  PaymentType
+  PaymentType,
+  Gender
 } from "./enum";
 
 import {
@@ -22,7 +23,8 @@ import {
   getAllRoomType_GetAllRoomType_roomTypes_rooms,
   getMemos_GetMemos_memos,
   getMyProfile_GetMyProfile_user,
-  getHM_GetHM_HM
+  getHM_GetHM_HM,
+  getBooking_GetBooking_booking_guests_GuestDomitory
 } from "./api";
 import {
   IAssigItem,
@@ -32,7 +34,7 @@ import {
 import {s4} from "../utils/utils";
 import {LANG} from "../hooks/hook";
 
-export const DEFAUT_ROOMTYPE_ROOM: getAllRoomType_GetAllRoomType_roomTypes_rooms = {
+export const DEFAULT_ROOMTYPE_ROOM: getAllRoomType_GetAllRoomType_roomTypes_rooms = {
   __typename: "Room",
   _id: "",
   createdAt: "",
@@ -41,7 +43,7 @@ export const DEFAUT_ROOMTYPE_ROOM: getAllRoomType_GetAllRoomType_roomTypes_rooms
   updatedAt: ""
 };
 
-export const DEFAUT_ROOMTYPE: getBooking_GetBooking_booking_roomTypes = {
+export const DEFAULT_ROOMTYPE: getBooking_GetBooking_booking_roomTypes = {
   __typename: "RoomType",
   name: "_",
   pricingType: PricingType.DOMITORY,
@@ -60,7 +62,7 @@ export const DEFAUT_ROOMTYPE: getBooking_GetBooking_booking_roomTypes = {
 };
 
 // 유틸성을 위해 만들어둔 기본 booking
-export const DEFAUT_BOOKING: GB_booking = {
+export const DEFAULT_BOOKING: GB_booking = {
   __typename: "Booking",
   _id: "default",
   memo: "",
@@ -93,7 +95,7 @@ export const DEFAUT_BOOKING: GB_booking = {
   }
 };
 
-export const DEFAUT_ASSIG_GROUP: IAssigGroup = {
+export const DEFAULT_ASSIG_GROUP: IAssigGroup = {
   id: "-1",
   title: "",
   roomTypeId: "-1",
@@ -103,7 +105,7 @@ export const DEFAUT_ASSIG_GROUP: IAssigGroup = {
     _id: "",
     name: ""
   },
-  roomType: {...DEFAUT_ROOMTYPE, rooms: []},
+  roomType: {...DEFAULT_ROOMTYPE, rooms: []},
   roomId: "-1",
   bedIndex: -1,
   placeIndex: -1,
@@ -114,7 +116,7 @@ export const DEFAUT_ASSIG_GROUP: IAssigGroup = {
   pricingType: PricingType.ROOM
 };
 
-export const DEFAUT_SMS_TEMPLATE: getSmsInfo_GetSmsInfo_smsInfo_smsTemplates = {
+export const DEFAULT_SMS_TEMPLATE: getSmsInfo_GetSmsInfo_smsInfo_smsTemplates = {
   _id: "-1",
   __typename: "SmsTemplate",
   formatName: "",
@@ -122,7 +124,7 @@ export const DEFAUT_SMS_TEMPLATE: getSmsInfo_GetSmsInfo_smsInfo_smsTemplates = {
   smsSendCase: null
 };
 
-export const DEFAUT_SMS_INFO: getSmsInfo_GetSmsInfo_smsInfo = {
+export const DEFAULT_SMS_INFO: getSmsInfo_GetSmsInfo_smsInfo = {
   __typename: "SmsInfo",
   _id: "-1",
   receivers: null,
@@ -130,7 +132,7 @@ export const DEFAUT_SMS_INFO: getSmsInfo_GetSmsInfo_smsInfo = {
   smsTemplates: null
 };
 
-export const DEFAUT_APP_INFO_REQUEST: getSpecification_GetHouse_house_product_appInfoRequested = {
+export const DEFAULT_APP_INFO_REQUEST: getSpecification_GetHouse_house_product_appInfoRequested = {
   __typename: "AppInfoRequest",
   isDone: false,
   layoutType: LayoutType.Layout_A,
@@ -140,7 +142,7 @@ export const DEFAUT_APP_INFO_REQUEST: getSpecification_GetHouse_house_product_ap
 };
 
 // specification에서 사용
-export const DEFAUT_PRODUCT: getSpecification_GetHouse_house_product = {
+export const DEFAULT_PRODUCT: getSpecification_GetHouse_house_product = {
   __typename: "Product",
   _id: "0",
   daysLeftToExpire: 0,
@@ -170,18 +172,18 @@ export const DEFAUT_PRODUCT: getSpecification_GetHouse_house_product = {
   updatedAt: ""
 };
 
-export const DEFAUT_NONE_GOUP: IAssigGroup = {
-  ...DEFAUT_ASSIG_GROUP,
+export const DEFAULT_NONE_GOUP: IAssigGroup = {
+  ...DEFAULT_ASSIG_GROUP,
   id: "noneGroup",
   type: "noneGroup"
 };
 
-export const DEFAUT_BLOCK_OP: IBlockOp = {
+export const DEFAULT_BLOCK_OP: IBlockOp = {
   __typename: "BlockOption",
   color: null
 };
 
-export const DEFAUT_ASSIG_ITEM: IAssigItem = {
+export const DEFAULT_ASSIG_ITEM: IAssigItem = {
   bedIndex: -1,
   bookingId: "",
   end: 0,
@@ -199,18 +201,18 @@ export const DEFAUT_ASSIG_ITEM: IAssigItem = {
   start: 0,
   type: GuestTypeAdd.BLOCK,
   canMove: true,
-  blockOption: DEFAUT_BLOCK_OP,
+  blockOption: DEFAULT_BLOCK_OP,
   showEffect: false,
   showNewBadge: false
 };
 
-export const DEFAUT_ADDITION_BLOCKOP: getMyProfile_GetMyProfile_user_houses_houseConfig_assigTimeline_itemBlockOp = {
+export const DEFAULT_ADDITION_BLOCKOP: getMyProfile_GetMyProfile_user_houses_houseConfig_assigTimeline_itemBlockOp = {
   __typename: "ItemBlockOp",
   itemBlockOpEnable: false,
   useColor: false
 };
 
-export const DEFAUT_HM: getHM_GetHM_HM = {
+export const DEFAULT_HM: getHM_GetHM_HM = {
   __typename: "HM",
   _id: "",
   title: {},
@@ -231,7 +233,7 @@ export const DEFAUT_HM: getHM_GetHM_HM = {
   updatedAt: ""
 };
 
-export const DEFAUT_MEMO: getMemos_GetMemos_memos = {
+export const DEFAULT_MEMO: getMemos_GetMemos_memos = {
   __typename: "Memo",
   _id: s4(),
   createdAt: "",
@@ -244,7 +246,7 @@ export const DEFAUT_MEMO: getMemos_GetMemos_memos = {
 
 // 서버 모델에서 가져옴
 // @ts-ignore
-export const DEFAUT_HOUSE_CONFIG: IHouseConfigFull = {
+export const DEFAULT_HOUSE_CONFIG: IHouseConfigFull = {
   __typename: "HouseConfig",
   pollingPeriod: {
     __typename: "PollingPeriod",
@@ -279,6 +281,18 @@ export const DEFAUT_HOUSE_CONFIG: IHouseConfigFull = {
   }
 };
 
+export const DEFAULT_GUEST: getBooking_GetBooking_booking_guests_GuestDomitory = {
+  __typename: "GuestDomitory",
+  _id: "",
+  bedIndex: 0,
+  checkIn: "",
+  checkOut: "",
+  gender: Gender.MALE,
+  pricingType: PricingType.DOMITORY,
+  room: null,
+  roomType: DEFAULT_ROOMTYPE
+};
+
 export const DEFAULT_FILE: JdFile = {
   filename: "",
   mimeType: "",
@@ -287,7 +301,7 @@ export const DEFAULT_FILE: JdFile = {
   __typename: "JdFile"
 };
 
-export const DEFAUT_USER: getMyProfile_GetMyProfile_user = {
+export const DEFAULT_USER: getMyProfile_GetMyProfile_user = {
   __typename: "User",
   _id: "",
   createdAt: "",

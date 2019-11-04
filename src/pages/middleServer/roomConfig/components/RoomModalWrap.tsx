@@ -23,7 +23,7 @@ import {
   UPDATE_ROOM,
   GET_ALL_ROOMTYPES
 } from "../../../../queries";
-import {DEFAUT_ROOMTYPE_ROOM} from "../../../../types/defaults";
+import {DEFAULT_ROOMTYPE_ROOM} from "../../../../types/defaults";
 import {IContext} from "../../../MiddleServerRouter";
 
 class CreateRoomMutation extends Mutation<createRoom, createRoomVariables> {}
@@ -65,7 +65,7 @@ const UpdateTimelineWrap: React.SFC<IProps> = ({
   // 오픈한 방을 찾음
   const targetRoom = targetRoomType
     ? targetRoomType.rooms.find(room => room._id === info.roomId)
-    : DEFAUT_ROOMTYPE_ROOM;
+    : DEFAULT_ROOMTYPE_ROOM;
 
   if (!targetRoom && !isAddMode) return <div />;
   const roomNameHook = useInput(targetRoom ? targetRoom.name : "", true);

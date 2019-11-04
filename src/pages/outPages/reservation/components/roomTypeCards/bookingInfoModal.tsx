@@ -1,6 +1,5 @@
 import React from "react";
 import {IUseModal, LANG} from "../../../../../hooks/hook";
-import {IContext} from "../../../../MiddleServerRouter";
 import JDmodal from "../../../../../atoms/modal/Modal";
 import BookingInfoBox, {IBookingInfoBoxProps} from "../bookingInfoBox";
 import Button from "../../../../../atoms/button/Button";

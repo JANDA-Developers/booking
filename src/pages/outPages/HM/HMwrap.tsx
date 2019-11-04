@@ -6,7 +6,7 @@ import HMcomponent from "./HM";
 import {GET_HOUSE_MENUAL_FOR_PUBLIC} from "../../../queries";
 import {queryDataFormater} from "../../../utils/utils";
 import {RouteComponentProps} from "react-router";
-import {DEFAUT_HM} from "../../../types/defaults";
+import {DEFAULT_HM} from "../../../types/defaults";
 
 interface IProps extends RouteComponentProps<any> {}
 // refetch 가 Query 컴포넌트 리턴 프로프임
@@ -38,8 +38,8 @@ const HMwrap: React.FC<IProps> = ({match}) => {
       >
         {({data: HMData, loading}) => {
           const HM =
-            queryDataFormater(HMData, "GetHMforPublic", "HM", DEFAUT_HM) ||
-            DEFAUT_HM;
+            queryDataFormater(HMData, "GetHMforPublic", "HM", DEFAULT_HM) ||
+            DEFAULT_HM;
 
           return (
             <HMcomponent

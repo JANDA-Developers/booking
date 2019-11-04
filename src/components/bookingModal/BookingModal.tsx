@@ -19,7 +19,6 @@ import {
   BOOKING_STATUS_OP,
   PAYMENT_STATUS_OP,
   PricingType,
-  BookingModalModes,
   PaymentStatus,
   AutoSendWhen,
   PAYMETHOD_FOR_HOST_OP,
@@ -51,10 +50,9 @@ import {IContext} from "../../pages/MiddleServerRouter";
 import Drawer from "../../atoms/drawer/Drawer";
 import _ from "lodash";
 import C, {inOr} from "../../utils/C";
-import guestsToInput, {
-  getRoomSelectInfo
-} from "../../utils/guestCountByRoomType";
+import guestsToInput, {getRoomSelectInfo} from "../../utils/typeChanger";
 import RoomAssigedInfoTable from "./components/RoomAssigedInfoTable";
+import {BookingModalMode} from "rc-menu/lib/interface";
 
 // (예약/게스트) 정보
 export interface IBookingModal_AssigInfo {
@@ -89,7 +87,7 @@ interface IProps {
   >;
   context: IContext;
   loading: boolean;
-  mode?: BookingModalModes;
+  mode?: BookingModalMode;
 }
 
 const BookingModal: React.FC<IProps> = ({
@@ -104,7 +102,7 @@ const BookingModal: React.FC<IProps> = ({
   context,
   mode
 }) => {
-  const isCreateMode = mode === BookingModalModes.CREATE;
+  const isCreateMode = mode === "CREATE" || mode === "CREATE_ASSIG";
   const {
     _id: bookingId,
     email,
@@ -127,7 +125,7 @@ const BookingModal: React.FC<IProps> = ({
   const priceHook = useInput(totalPrice);
   const memoHook = useInput(memo || "");
   const emailHook = useInput(email);
-  const assigInfoDrawHook = useDrawer(mode === BookingModalModes.CREATE);
+  const assigInfoDrawHook = useDrawer(mode === "CREATE_ASSIG");
   const roomSelectInfo = getRoomSelectInfo(
     bookingData.guests,
     bookingData.roomTypes || []
@@ -195,6 +193,12 @@ const BookingModal: React.FC<IProps> = ({
     moment(checkIn).toDate(),
     moment(checkOut).toDate()
   );
+
+  const allocationParams = assigInfo.map(info => ({
+    bedIndex: info.bedIndex,
+    gender: info.gender,
+    roomId: info.roomId
+  }));
 
   const isProgressing = bookingStatus === BookingStatus.PROGRESSING;
   const allReadOnly = isProgressing;
@@ -308,7 +312,7 @@ const BookingModal: React.FC<IProps> = ({
     const guestsToInputs = guestsToInput(guests ? getGenderChangedGuest() : []);
 
     try {
-      await startBookingMu({
+      const result = await startBookingMu({
         variables: {
           bookerParams: {
             agreePrivacyPolicy: true,
@@ -330,16 +334,19 @@ const BookingModal: React.FC<IProps> = ({
             status: paymentStatusHook.selectedOption!.value
           },
           houseId,
-          allocationParams: assigInfo.map(info => ({
-            bedIndex: info.bedIndex,
-            gender: info.gender,
-            roomId: info.roomId
-          })),
-          forceToAllocate: true
-          // sendSmsFlag
+          allocationParams:
+            mode === "CREATE_ASSIG" ? allocationParams : undefined,
+          forceToAllocate: mode === "CREATE_ASSIG"
         }
       });
-      callBackStartBooking && callBackStartBooking();
+      if (
+        result &&
+        result.data &&
+        result.data.StartBooking.ok &&
+        callBackStartBooking
+      ) {
+        callBackStartBooking();
+      }
     } catch (error) {
       whenCreateBookingFail();
     }

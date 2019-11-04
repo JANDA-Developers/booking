@@ -53,16 +53,11 @@ import {
   isEmpty
 } from "../../../../utils/utils";
 import {ReactTooltip} from "../../../../atoms/tooltipList/TooltipList";
+import {RoomGender, Gender, PricingType} from "../../../../types/enum";
 import {
-  RoomGender,
-  Gender,
-  PricingType,
-  BookingModalModes
-} from "../../../../types/enum";
-import {
-  DEFAUT_ASSIG_ITEM,
-  DEFAUT_ROOMTYPE,
-  DEFAUT_BOOKING
+  DEFAULT_ASSIG_ITEM,
+  DEFAULT_ROOMTYPE,
+  DEFAULT_BOOKING
 } from "../../../../types/defaults";
 import $ from "jquery";
 import {
@@ -237,7 +232,7 @@ export function getAssigUtils(
     itemIndex?: number
   ) => {
     if (JDisNetworkRequestInFlight(networkStatus)) return;
-    let target: IAssigItem = DEFAUT_ASSIG_ITEM;
+    let target: IAssigItem = DEFAULT_ASSIG_ITEM;
 
     if (itemIndex !== undefined) {
       target = guestValue[itemIndex];
@@ -350,7 +345,7 @@ export function getAssigUtils(
     groupIds.forEach((id, i) => {
       const group = getGroupById(id);
       filteredGuestValue.push({
-        ...DEFAUT_ASSIG_ITEM,
+        ...DEFAULT_ASSIG_ITEM,
         roomTypeId: group.roomTypeId,
         bedIndex: group.bedIndex,
         roomId: group.roomId,
@@ -513,7 +508,7 @@ export function getAssigUtils(
       if (!targetGroup) throw Error("그룹 아이디가 그룹데이터안에 없습니다.");
       const tempId = s4();
       const tempItem = {
-        ...DEFAUT_ASSIG_ITEM,
+        ...DEFAULT_ASSIG_ITEM,
         bookingId: s4(),
         roomId: targetGroup.roomId,
         bedIndex: targetGroup.bedIndex,
@@ -634,7 +629,7 @@ export function getAssigUtils(
     const createParam: GB_booking = {
       __typename: "Booking",
       _id: s4(),
-      ...DEFAUT_BOOKING,
+      ...DEFAULT_BOOKING,
       checkIn: createItems[0].start,
       checkOut: createItems[0].end,
       agreePrivacyPolicy: true,
@@ -645,7 +640,7 @@ export function getAssigUtils(
     const modalParam: IBookingModalProp = {
       createParam,
       startBookingCallBack,
-      mode: BookingModalModes.CREATE
+      mode: "CREATE_ASSIG"
     };
 
     bookingModal.openModal(modalParam);
@@ -692,7 +687,7 @@ export function getAssigUtils(
     // groupIds.forEach(groupId => {
     //   const group = getGroupById(groupId);
     //   const newItem = {
-    //     ...DEFAUT_ASSIG_ITEM,
+    //     ...DEFAULT_ASSIG_ITEM,
     //     roomTypeId: group.roomTypeId,
     //     room: group.roomId,
     //     bookingId: "create",
@@ -817,7 +812,7 @@ export function getAssigUtils(
 
     return uniquRoomTypes.map(
       (group): getBooking_GetBooking_booking_roomTypes => ({
-        ...DEFAUT_ROOMTYPE,
+        ...DEFAULT_ROOMTYPE,
         ...group.roomType
       })
     );

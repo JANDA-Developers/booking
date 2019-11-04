@@ -63,6 +63,11 @@ import {IRoomSelectInfo} from "../../../components/bookingModal/BookingModal";
 import {IContext} from "../../MiddleServerRouter";
 import {ExecutionResult} from "graphql";
 import {ApolloQueryResult} from "apollo-client";
+import BookingModalWrap, {
+  IBookingModalProp
+} from "../../../components/bookingModal/BookingModalWrap";
+import {DEFAULT_BOOKING} from "../../../types/defaults";
+import {divisionRoomSelectInfo} from "../../../utils/typeChanger";
 
 export interface IBookerInfo {
   name: string;
@@ -141,10 +146,11 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   const toastModalHook = useModal(false);
   const bookingInfoModal = useModal(false);
   const roomInfoHook = useState<IRoomType[]>([]);
+  const bookingModalHook = useModal<IBookingModalProp>();
   const sendSmsHook = useCheckBox(isHost ? false : true);
   const priceHook = useInput(0);
   const payMethodHook = useSelect(
-    isHost ? PAYMETHOD_FOR_BOOKER_OP[0] : PAYMETHOD_FOR_HOST_OP[0]
+    isHost ? PAYMETHOD_FOR_HOST_OP[0] : PAYMETHOD_FOR_BOOKER_OP[0]
   );
   const paymentStatusHook = useSelect(PAYMENT_STATUS_OP[0]);
 
@@ -190,7 +196,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
     window.parent.postMessage({height: theHeight}, "*");
   });
 
-  //
+  //방선택 을 했는지 확인
   const roomSelectValidation = () => {
     if (isEmpty(roomSelectInfo)) {
       toastModalHook.openModal({txt: LANG("no_room_selected")});
@@ -319,10 +325,22 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
 
   const handleResvBtnClick = () => {
     if (roomSelectValidation()) {
-      if (isMobile) {
-        bookingInfoModal.openModal();
+      if (isHost) {
+        bookingModalHook.openModal({
+          mode: "CREATE",
+          createParam: {
+            ...DEFAULT_BOOKING,
+            checkOut: dayPickerHook.to,
+            checkIn: dayPickerHook.from,
+            ...divisionRoomSelectInfo(roomSelectInfo)
+          }
+        });
       } else {
-        rsevModalHook.openModal();
+        if (isMobile) {
+          bookingInfoModal.openModal();
+        } else {
+          rsevModalHook.openModal();
+        }
       }
     }
   };
@@ -463,6 +481,11 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
           )}
         </div>
       </div>
+      {/* 호스트예약일떄 */}
+      {context && (
+        <BookingModalWrap context={context} modalHook={bookingModalHook} />
+      )}
+      {/* 게스트예약일떄 */}
       <PayMentModal
         bookingCompleteFn={bookingCompleteFn}
         createLoading={createLoading}
@@ -470,6 +493,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
         modalHook={rsevModalHook}
         isHost={isHost}
       />
+      {/* 모바일 + 게스트일떄 */}
       {isMobile && (
         <BookingInfoModal
           paymentModalHook={rsevModalHook}

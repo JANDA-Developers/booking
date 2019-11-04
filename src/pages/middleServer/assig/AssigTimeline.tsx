@@ -34,7 +34,7 @@ import $ from "jquery";
 import itemRendererFn from "./components/items/itemRenderFn";
 import ItemMenuTooltip from "./components/tooltips/ItemMenuTooltip";
 import CanvasMenuTooltip from "./components/tooltips/CanvasMenuTooltip";
-import {DEFAUT_ASSIG_ITEM, DEFAUT_NONE_GOUP} from "../../../types/defaults";
+import {DEFAULT_ASSIG_ITEM, DEFAULT_NONE_GOUP} from "../../../types/defaults";
 import JDmodal, {JDtoastModal} from "../../../atoms/modal/Modal";
 import {
   IAssigDataControl,
@@ -115,12 +115,12 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   );
   const {datas: holidays} = getKoreaSpecificDayHook(["2019", "2018"]);
   const bookingModal = useModal(false);
-  const blockOpModal = useModal<IAssigItem>(false, DEFAUT_ASSIG_ITEM);
+  const blockOpModal = useModal<IAssigItem>(false, DEFAULT_ASSIG_ITEM);
   const [blockMenuProps, setBlockMenuProps] = useState<IDeleteMenuProps>({
-    item: DEFAUT_ASSIG_ITEM
+    item: DEFAULT_ASSIG_ITEM
   });
   const [createMenuProps, setCreateMenuProps] = useState<ICreateMenuProps>({
-    item: DEFAUT_ASSIG_ITEM
+    item: DEFAULT_ASSIG_ITEM
   });
   const dailyAssigHook = useModal(false);
 
@@ -251,7 +251,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   );
 
   // 그룹 데이터가 비어있다면 보정용으로 하나추가
-  if (isEmpty(filteredGroup)) filteredGroup = [DEFAUT_NONE_GOUP];
+  if (isEmpty(filteredGroup)) filteredGroup = [DEFAULT_NONE_GOUP];
 
   return (
     <div>
@@ -424,11 +424,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
           context={context}
           publicKey={house.publicKey || undefined}
         />
-        <BookingModalWrap
-          assigUtils={assigUtils}
-          context={context}
-          modalHook={bookingModal}
-        />
+        <BookingModalWrap context={context} modalHook={bookingModal} />
         <JDtoastModal confirm {...confirmDelteGuestHook} />
         {/* <KeyBoardModal modalHook={keyBoardModal}> */}
         <JDmodal {...dailyAssigHook}>

@@ -1,4 +1,4 @@
-import {DEFAUT_ASSIG_ITEM} from "../../../../types/defaults";
+import {DEFAULT_ASSIG_ITEM} from "../../../../types/defaults";
 import {IAssigItem, GuestTypeAdd} from "./assigIntrerface";
 import moment from "moment";
 import {IBlock} from "../../../../types/interface";
@@ -9,7 +9,7 @@ export const blockDataManufacturer = (blocksData: IBlock[]) => {
   blocksData.forEach(blockData => {
     if (blockData) {
       alloCateItems.push({
-        ...DEFAUT_ASSIG_ITEM,
+        ...DEFAULT_ASSIG_ITEM,
         id: blockData._id,
         temp: true,
         bookingId: blockData._id,

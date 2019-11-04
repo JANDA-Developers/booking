@@ -7,7 +7,7 @@ import { useSwitch, useRange, LANG } from "../../../../hooks/hook";
 import { muResult } from "../../../../utils/utils";
 import JDbox from "../../../../atoms/box/JDbox";
 import NewBookingBadge from "../../../../img/describe/newBookingBadge.png";
-import { DEFAUT_HOUSE_CONFIG } from "../../../../types/defaults";
+import { DEFAULT_HOUSE_CONFIG } from "../../../../types/defaults";
 import { TimePerMs } from "../../../../types/enum";
 import JDbadge from "../../../../atoms/badge/Badge";
 
@@ -17,9 +17,9 @@ const NewBookingMark: React.FC<IAddtionProp> = ({
 }) => {
   const { houseConfig, house } = context;
   const { bookingConfig } = houseConfig;
-  const { newBookingMark } = bookingConfig || DEFAUT_HOUSE_CONFIG.bookingConfig;
+  const { newBookingMark } = bookingConfig || DEFAULT_HOUSE_CONFIG.bookingConfig;
   const { enable, newGuestTime } =
-    newBookingMark || DEFAUT_HOUSE_CONFIG.bookingConfig.newBookingMark;
+    newBookingMark || DEFAULT_HOUSE_CONFIG.bookingConfig.newBookingMark;
   const [use, setUse] = useState(enable || false);
   const timeHook = useRange(newGuestTime);
 

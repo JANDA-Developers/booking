@@ -2,7 +2,6 @@ import {
   RoomGender,
   PricingType,
   Gender,
-  BookingModalModes,
   BookingStatus
 } from "../../../../types/enum";
 import {
@@ -507,7 +506,7 @@ export interface IAssigInfo {
 export interface ICreateBookingInfo {
   bookingId: string;
   createMode: boolean;
-  type: BookingModalModes.CREATE;
+  type: "CREACT";
   checkIn: number;
   checkOut: number;
   resvInfoes: {

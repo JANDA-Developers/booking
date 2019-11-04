@@ -44,7 +44,7 @@ interface IProps {
   onUpdateFn?: any;
   onDelteFn?: any;
   loading: boolean;
-  isAddMode?: boolean;
+  mode: "Create" | "Modify";
   mutationLoading: boolean;
   modalHook: IUseModal<IRoomTypeModalInfo>;
   roomTypeData: IRoomType | IDefaultRoomType;
@@ -54,7 +54,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
   modalHook,
   context,
   loading,
-  isAddMode,
+  mode,
   mutationLoading,
   onCreateFn,
   onUpdateFn,
@@ -65,8 +65,10 @@ const RoomTypeModal: React.SFC<IProps> = ({
   roomTypeData
 }) => {
   const {house} = context;
+  const isCreate = mode === "Create";
   const priceWarnModal = useModal(false);
   const roomImageHook = useImageUploader(roomTypeData.img);
+  // 룸타입 벨류
   const [value, setValue] = useState({
     name: roomTypeData.name,
     description: roomTypeData.description,
@@ -79,7 +81,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
       value: roomTypeData.peopleCount
     },
     roomGender: {
-      label: LANG(roomTypeData.roomGender, "RoomGender"),
+      label: LANG("RoomGender", roomTypeData.roomGender),
       value: roomTypeData.roomGender
     },
     peopleCountMax: {
@@ -101,9 +103,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
     defaultPrice: value.defaultPrice
   };
 
-  // const [peopleCountOption, setPeopleCountOption] = useState<IselectedOption[]>([]);
-
-  const validater = () => {
+  const validater = (fn: any) => {
     if (value)
       if (value.name === "") {
         toast.warn(LANG("enter_room_type_name"));
@@ -119,22 +119,25 @@ const RoomTypeModal: React.SFC<IProps> = ({
       return false;
     }
     if (value.defaultPrice < 1000) {
+      const callBackFn = (flag: boolean) => {
+        if (flag) {
+          fn();
+        }
+      };
       priceWarnModal.openModal({
-        confirmCallBackFn: createRoomType
+        confirmCallBackFn: callBackFn
       });
       return false;
     }
+    fn();
     return true;
   };
 
   const onCreateRoomType = async () => {
-    if (validater()) {
-      createRoomType();
-    }
+    validater(createRoomType);
   };
 
-  const createRoomType = (flag?: boolean) => {
-    if (flag === false) return;
+  const createRoomType = () => {
     onCreateFn && onCreateFn();
     createRoomTypeMutation({
       variables: {
@@ -150,7 +153,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
   };
 
   const onUpdateRoomType = async () => {
-    if (validater()) {
+    const updateFn = () => {
       updateRoomTypeMutation({
         variables: {
           params: {
@@ -165,7 +168,9 @@ const RoomTypeModal: React.SFC<IProps> = ({
         }
       });
       modalHook.closeModal();
-    }
+    };
+
+    validater(updateFn);
   };
 
   const onChangePeople = (inValue: any) => {
@@ -173,10 +178,6 @@ const RoomTypeModal: React.SFC<IProps> = ({
   };
 
   const maxPeopleCountOption = MAX_PEOPLE_COUNT_OP_FN();
-
-  const pricingTypeOptions = PRICING_TYPE_OP;
-
-  const genderOptions = ROOM_GENDER_OP;
 
   return (
     <Modal
@@ -216,22 +217,22 @@ const RoomTypeModal: React.SFC<IProps> = ({
             <div className="flex-grid__col JDz-index-2 col--full-6 col--lg-6 col--md-12">
               <SelectBox
                 label={LANG("select_roomType")}
-                disabled={!isAddMode}
+                disabled={mode === "Modify"}
                 onChange={(inValue: any) => {
                   setValue({...value, pricingType: inValue});
                 }}
-                options={pricingTypeOptions}
+                options={PRICING_TYPE_OP}
                 selectedOption={value.pricingType}
               />
             </div>
             <div className="flex-grid__col JDz-index-2 col--full-6 col--lg-6 col--md-12">
               <SelectBox
                 label={LANG("select_roomGender")}
-                disabled={!isAddMode}
+                disabled={!isCreate}
                 onChange={(inValue: any) => {
                   setValue({...value, roomGender: inValue});
                 }}
-                options={genderOptions}
+                options={ROOM_GENDER_OP}
                 selectedOption={value.roomGender}
               />
             </div>
@@ -266,7 +267,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
           <div className="JDmodal__endSection">
             <Button
               thema="primary"
-              label={isAddMode ? LANG("do_create") : LANG("do_copy")}
+              label={isCreate ? LANG("do_create") : LANG("do_copy")}
               size="small"
               onClick={onCreateRoomType}
             />
@@ -274,14 +275,14 @@ const RoomTypeModal: React.SFC<IProps> = ({
               thema="primary"
               label={LANG("do_modify")}
               size="small"
-              disabled={isAddMode}
+              disabled={isCreate}
               onClick={onUpdateRoomType}
             />
             <Button
               thema="error"
               label={LANG("do_delete")}
               size="small"
-              disabled={isAddMode}
+              disabled={isCreate}
               onClick={onDeleteRoomType}
             />
           </div>

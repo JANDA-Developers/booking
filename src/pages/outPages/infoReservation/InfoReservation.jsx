@@ -3,8 +3,6 @@ import ErrProtecter from "../../../utils/errProtect";
 import "./InfoReservation.scss";
 
 const SetPrice = () => {
-  const [, setSSSS] = useState();
-  const onChange = event => {};
   useEffect(() => {
     // const editor = new Editor({
     //   el: document.querySelector("#editSection"),

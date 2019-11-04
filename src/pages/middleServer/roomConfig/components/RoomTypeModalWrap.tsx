@@ -55,7 +55,7 @@ class UpdateRoomTypeMutation extends Mutation<
 
 export interface IRoomTypeModalInfo {
   roomTypeId?: string;
-  isAddMode?: boolean;
+  mode: "Create" | "Modify";
 }
 
 export interface IDefaultRoomType {
@@ -76,7 +76,7 @@ interface IProps {
 
 const UpdateTimelineWrap: React.SFC<IProps> = ({context, modalHook}) => {
   const {house} = context;
-  const {roomTypeId, isAddMode} = modalHook.info;
+  const {roomTypeId, mode} = modalHook.info;
   const refetchQueries = [
     {query: GET_ALL_ROOMTYPES, variables: {houseId: house._id}}
   ];
@@ -85,13 +85,16 @@ const UpdateTimelineWrap: React.SFC<IProps> = ({context, modalHook}) => {
     getOperationName(GET_ROOMTYPE_BY_ID)!
   ];
 
-  if (!roomTypeId && !isAddMode) return <div />;
+  const isCreate = mode === "Create";
+
+  // ⛔️
+  if (!roomTypeId && !isCreate) return <div />;
 
   return (
     <GetRoomTypeById
       fetchPolicy="network-only"
       query={GET_ROOMTYPE_BY_ID}
-      skip={isAddMode || !roomTypeId}
+      skip={isCreate || !roomTypeId}
       variables={{roomTypeId: roomTypeId || ""}}
     >
       {({data: queryRoomTypeData, loading, error}) => {
@@ -174,7 +177,7 @@ const UpdateTimelineWrap: React.SFC<IProps> = ({context, modalHook}) => {
                             createRoomTypeMutation={createRoomTypeMutation}
                             deleteRoomTypeMutation={deleteRoomTypeMutation}
                             updateRoomTypeMutation={updateRoomTypeMutation}
-                            isAddMode={isAddMode}
+                            mode={mode}
                             key={`roomTypeModal__modal${
                               roomType ? roomType._id : ""
                             }`}

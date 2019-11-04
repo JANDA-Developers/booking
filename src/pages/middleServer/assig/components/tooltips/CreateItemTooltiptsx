@@ -8,8 +8,8 @@ import {
   IAssigTimelineHooks
 } from "../assigIntrerface";
 import {
-  DEFAUT_ASSIG_GROUP,
-  DEFAUT_BOOKING
+  DEFAULT_ASSIG_GROUP,
+  DEFAULT_BOOKING
 } from "../../../../../types/defaults";
 import {isEmpty, s4} from "../../../../../utils/utils";
 import {
@@ -39,7 +39,7 @@ const CreateItemTooltip: React.FC<IProps> = ({
   assigContext: {groupData, isMobile}
 }) => {
   const target = createMenuProps.item;
-  let targetGroup = DEFAUT_ASSIG_GROUP;
+  let targetGroup = DEFAULT_ASSIG_GROUP;
   if (!isEmpty(target.group)) {
     targetGroup = getGroupById(target.group);
   }

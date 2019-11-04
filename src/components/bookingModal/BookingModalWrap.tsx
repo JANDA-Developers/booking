@@ -38,13 +38,13 @@ import {
   GET_ROOM_TYPE_DATE_PRICE,
   START_BOOKING
 } from "../../queries";
-import {BookingModalModes, MODAL_PRELOADER_SIZE} from "../../types/enum";
+import {MODAL_PRELOADER_SIZE} from "../../types/enum";
 import {getOperationName} from "apollo-utilities";
-import {DEFAUT_BOOKING} from "../../types/defaults";
-import {IAssigTimelineUtils} from "../../pages/middleServer/assig/components/assigIntrerface";
+import {DEFAULT_BOOKING} from "../../types/defaults";
 import JDmodal from "../../atoms/modal/Modal";
 import {totalPriceGetAveragePrice} from "../../utils/booking";
 import {IContext} from "../../pages/MiddleServerRouter";
+import {BookingModalMode} from "rc-menu/lib/interface";
 
 export interface IBookingModalProp {
   startBookingCallBack?: (result: "error" | startBooking_StartBooking) => any;
@@ -56,13 +56,12 @@ export interface IBookingModalProp {
   ) => any;
   bookingId?: string;
   createParam?: GB_booking;
-  mode?: BookingModalModes;
+  mode?: BookingModalMode;
 }
 
 interface IProps {
   context: IContext;
   modalHook: IUseModal<IBookingModalProp>;
-  assigUtils?: IAssigTimelineUtils;
 }
 
 class AllocateGuestToRoomMu extends Mutation<
@@ -78,12 +77,7 @@ class GetPriceWithDate extends Query<
   getRoomTypeDatePricesVariables
 > {}
 
-const BookingModalWrap: React.FC<IProps> = ({
-  modalHook,
-  context,
-  assigUtils,
-  ...props
-}) => {
+const BookingModalWrap: React.FC<IProps> = ({modalHook, context, ...props}) => {
   const {house} = context;
 
   const Result = useMemo(
@@ -214,7 +208,7 @@ const BookingModalWrap: React.FC<IProps> = ({
                               >
                                 {deleteBookingMu => {
                                   const bookingData = isEmpty(mergedBooking)
-                                    ? DEFAUT_BOOKING
+                                    ? DEFAULT_BOOKING
                                     : mergedBooking;
 
                                   const totalLoading =

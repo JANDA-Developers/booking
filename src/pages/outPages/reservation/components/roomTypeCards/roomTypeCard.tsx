@@ -183,6 +183,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
     roomSelectInfoCopy.push({
       roomTypeId: roomTypeData._id,
       pricingType: roomTypeData.pricingType,
+      roomTypeName: roomTypeData.name,
       count: {
         female: guestCountValue.female,
         male: guestCountValue.male,

@@ -3,7 +3,7 @@ import {BookingStatus, Gender} from "../../../../types/enum";
 import {instanceOfA} from "../../../../utils/utils";
 import {IGuestD, IGuest} from "../../../../types/interface";
 import moment from "moment";
-import {DEFAUT_BLOCK_OP} from "../../../../types/defaults";
+import {DEFAULT_BLOCK_OP} from "../../../../types/defaults";
 
 //  TODO: 메모를 사용해서 데이터를 아끼자
 // 게스트 데이터를 달력에서 쓸수있는 Item 데이터로 변경 절차
@@ -61,7 +61,7 @@ export const guestsDataManufacturer = (allGuestsData: IGuest[]) => {
         bedIndex: bedIndex,
         blockOption: Object.assign(
           {},
-          guestData.blockOption || DEFAUT_BLOCK_OP
+          guestData.blockOption || DEFAULT_BLOCK_OP
         ),
         showEffect: false
       };

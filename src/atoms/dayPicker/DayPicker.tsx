@@ -226,7 +226,8 @@ const JDdayPicker: React.FC<IJDdayPickerProps> = ({
     LANG("sat")
   ];
 
-  // TODO : 너무 아슬아슬하게 결합되어있다 분리가 필요함
+  console.log("displayYear");
+  console.log(displayYear);
   const dayPickerProps: DayPickerProps = {
     tabIndex: 1,
     renderDay: horizen ? HorizenDay : undefined,
@@ -237,7 +238,7 @@ const JDdayPicker: React.FC<IJDdayPickerProps> = ({
       const element = horizen ? (
         <HorizenCaption date={date} onChange={() => {}} />
       ) : (
-        <Caption date={date} onChange={() => {}} />
+        <Caption displayYear={displayYear} date={date} />
       );
       return element;
     },

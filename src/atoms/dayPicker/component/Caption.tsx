@@ -4,15 +4,15 @@ import {JDMonthTextChanger} from "../../../utils/utils";
 
 interface IProps {
   date: Date;
-  [foo: string]: any;
+  displayYear: boolean;
 }
 
-const JDdateCaption: React.SFC<IProps> = ({date}) => {
+const JDdateCaption: React.SFC<IProps> = ({date, displayYear}) => {
   const month = JDMonthTextChanger(date.getMonth());
   const year = date.getFullYear();
   return (
     <div className="DayPicker-Caption">
-      <span className="DayPicker-Caption__year">{year}</span>
+      {displayYear && <span className="DayPicker-Caption__year">{year}</span>}
       <span className="DayPicker-Caption__month">{month}</span>
     </div>
   );

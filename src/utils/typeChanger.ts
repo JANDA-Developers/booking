@@ -1,14 +1,22 @@
 import {
   StartBookingRoomGuestInput,
   StartBookingDomitoryGuestInput,
-  getBooking_GetBooking_booking_guests_GuestDomitory
+  getBooking_GetBooking_booking_guests_GuestDomitory,
+  getBooking_GetBooking_booking_guests_GuestRoom,
+  getBooking_GetBooking_booking_guests,
+  getBooking_GetBooking_booking_roomTypes
 } from "../types/api";
 import {IRoomSelectInfo} from "../components/bookingModal/BookingModal";
 import {PricingType} from "../types/enum";
-import {DEFAUT_ROOMTYPE} from "../types/defaults";
+import {
+  DEFAULT_ROOMTYPE,
+  DEFAULT_ROOMTYPE_ROOM,
+  DEFAULT_GUEST
+} from "../types/defaults";
 import {instanceOfA} from "./utils";
 import {Gender} from "../types/enum";
 import _ from "lodash";
+import {GB_booking} from "../types/interface";
 
 interface propRoomType {
   _id: string;
@@ -25,7 +33,72 @@ interface propGuest {
   roomType: propRoomType;
 }
 
-// 게스트정보 + 방타입정보 => 혼합정보
+// 성별 과 룸타입을 중심으로 분류 하는 용도
+// 예약관련 정보 일부로 GetBooking정보로 변환할때 사용중
+// 혼합정보[] => 게스트정보(일부)[] + 방타입정보(일부)[]
+export const divisionRoomSelectInfo = (
+  roomSelectInfoes: IRoomSelectInfo[]
+): {
+  guests: getBooking_GetBooking_booking_guests[];
+  roomTypes: getBooking_GetBooking_booking_roomTypes[];
+} => {
+  const generateGuest = (
+    roomSelectInfo: IRoomSelectInfo,
+    gender: Gender | null
+  ):
+    | getBooking_GetBooking_booking_guests_GuestDomitory
+    | getBooking_GetBooking_booking_guests_GuestRoom => ({
+    ...DEFAULT_GUEST,
+    gender,
+    roomType: {
+      __typename: "RoomType",
+      _id: roomSelectInfo.roomTypeId,
+      name: roomSelectInfo.roomTypeName || ""
+    }
+  });
+
+  const guests: getBooking_GetBooking_booking_guests[] = [];
+  const roomTypes: getBooking_GetBooking_booking_roomTypes[] = [];
+
+  roomSelectInfoes.forEach(roomSelectInfo => {
+    let i_female = 0;
+    let i_male = 0;
+    let i_roomCount = 0;
+    const {
+      count: {female, male, roomCount}
+    } = roomSelectInfo;
+
+    const roomType: getBooking_GetBooking_booking_roomTypes = {
+      ...DEFAULT_ROOMTYPE,
+      _id: roomSelectInfo.roomTypeId,
+      name: roomSelectInfo.roomTypeName || "",
+      pricingType: roomSelectInfo.pricingType
+    };
+
+    roomTypes.push(roomType);
+
+    while (i_female + i_male + i_roomCount < female + male + roomCount) {
+      if (i_female < female) {
+        i_female++;
+        guests.push(generateGuest(roomSelectInfo, Gender.FEMALE));
+      } else if (i_male < male) {
+        i_male++;
+        guests.push(generateGuest(roomSelectInfo, Gender.MALE));
+      } else if (i_roomCount < roomCount) {
+        i_roomCount++;
+        guests.push(generateGuest(roomSelectInfo, null));
+      }
+    }
+  });
+  return {
+    guests,
+    roomTypes
+  };
+};
+
+// 성별 과 룸타입을 중심으로 분류 하는 용도
+// GetBooking 정보로 예약창에 룸타입별로 정렬된 뷰를 만들떄 사용중
+// 게스트정보(일부)[] + 방타입정보(일부)[] => 혼합정보(IRoomSelectInfo)[]
 export const getRoomSelectInfo = (
   guests: propGuest[] | null,
   roomTypes: {
@@ -40,7 +113,7 @@ export const getRoomSelectInfo = (
   const tempArr = guests.map((guest): IRoomSelectInfo | "duplicate" => {
     const guestRoomType =
       roomTypes.find(roomType => roomType._id === guest.roomType._id) ||
-      DEFAUT_ROOMTYPE;
+      DEFAULT_ROOMTYPE;
 
     // 중복체크
     if (roomTypesBuffer.includes(guestRoomType._id)) {
@@ -79,6 +152,7 @@ export const getRoomSelectInfo = (
     };
   });
 
+  // 중복 제거
   // @ts-ignore
   const roomSelectInfo: IRoomSelectInfo[] = tempArr.filter(
     v => v !== "duplicate"
@@ -87,8 +161,12 @@ export const getRoomSelectInfo = (
   return roomSelectInfo;
 };
 
+// 성별 과 룸타입을 중심으로 분류 하는 용도
 // 게스트들을 받아서 룸타입별로 정렬해주는 함수
-// (부킹/방타입[], 부킹/도미토리[]) 형태
+// 게스트S => (부킹/방타입[], 부킹/도미토리[]) 형태
+// RoomSelectInfo와 유사
+// RoomSelectInfo는 프론트 코드를 위해 존재
+// guestsToInput은 API를 위해 존재
 const guestsToInput = (
   guests: propGuest[] | null
 ): {
@@ -153,5 +231,8 @@ const guestsToInput = (
     countInDomitorys
   };
 };
+
+// FUNC LIST
+//  --
 
 export default guestsToInput;

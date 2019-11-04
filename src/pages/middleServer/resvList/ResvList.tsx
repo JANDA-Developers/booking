@@ -41,7 +41,7 @@ import ConfirmBadgeWrap from "../../../components/confirmBadge/ConfirmBadgeWrap"
 import textReader from "../../../utils/textReader";
 import {NetworkStatus} from "apollo-client";
 import {IContext} from "../../MiddleServerRouter";
-import {getRoomSelectInfo} from "../../../utils/guestCountByRoomType";
+import {getRoomSelectInfo} from "../../../utils/typeChanger";
 import {inOr} from "../../../utils/C";
 
 interface IProps {

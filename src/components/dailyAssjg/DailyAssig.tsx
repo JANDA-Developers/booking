@@ -170,7 +170,7 @@ const DailyAssig: React.FC<IProps> = ({
         noAnimation
         floating
         size={FLOATING_PRELOADER_SIZE}
-        loading={(loading && networkStatus > 1) || totalMuLoading}
+        loading={networkStatus < 7 || totalMuLoading}
       />
       <Preloader
         noAnimation

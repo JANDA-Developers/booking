@@ -1,40 +1,21 @@
-import PropTypes from "prop-types";
-import classNames from "classnames";
-import React, { useState, useEffect } from "react";
-import { Node } from "unist";
-import {
-  IUseModal,
-  useInput,
-  useDayPicker,
-  useModal,
-  LANG
-} from "../../../../hooks/hook";
+import React, {useState, useEffect} from "react";
+import {IUseModal, useDayPicker, useModal, LANG} from "../../../../hooks/hook";
 import JDmodal from "../../../../atoms/modal/Modal";
-import CheckBox from "../../../../atoms/forms/checkBox/CheckBox";
-import {
-  JDWeekChanger,
-  ErrProtecter,
-  stringToPrice,
-  s4,
-  autoComma,
-  toNumber
-} from "../../../../utils/utils";
+import {s4, autoComma, toNumber} from "../../../../utils/utils";
 import Button from "../../../../atoms/button/Button";
 import InputText from "../../../../atoms/forms/inputText/InputText";
 import {
-  DayOfWeekPriceInput,
   getAllSeasonTable_GetAllRoomType_roomTypes,
   createSeason,
   createSeasonVariables,
   SeasonPriceInput
 } from "../../../../types/api";
-import { arrToApplyDays, applyDaysToArr } from "../../../../utils/dayOfweeks";
 import JDdayPicker from "../../../../atoms/dayPicker/DayPicker";
 import JDbox from "../../../../atoms/box/JDbox";
-import { MutationFn } from "react-apollo";
-import { isName } from "../../../../utils/inputValidations";
+import {MutationFn} from "react-apollo";
+import {isName} from "../../../../utils/inputValidations";
 import PriceWarnModal from "../../../../components/priceWarnModal.tsx/PriceWarnModal";
-import { toast } from "react-toastify";
+import {toast} from "react-toastify";
 import moment from "moment";
 
 export interface ICreateSeasonModalInfo {
@@ -126,6 +107,7 @@ const CreateSeasonModal: React.FC<IProps> = ({
         <JDdayPicker
           canSelectBeforeDay={true}
           calenaderPosition="center"
+          displayYear={false}
           label={LANG("season_period")}
           input
           isRange
@@ -178,3 +160,5 @@ const CreateSeasonModal: React.FC<IProps> = ({
   );
 };
 export default CreateSeasonModal;
+
+// CreateSeasonModal 과 UpdateSeasonModal이 분리되어 있음에 유의

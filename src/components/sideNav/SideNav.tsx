@@ -205,7 +205,7 @@ const SideNav: React.FC<IProps> = ({isOpen, setIsOpen, context}) => {
                             applyedProduct.expireDate
                           )}`,
                           `${LANG("price")}: ${applyedProduct.price ||
-                            0} /LANG("month")`
+                            0} /${LANG("month")}`
                         ]}
                       />
                     }

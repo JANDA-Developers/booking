@@ -8,8 +8,8 @@ import { muResult } from "../../../../utils/utils";
 import JDbox from "../../../../atoms/box/JDbox";
 import HilightPhoto from "../../../../img/describe/guestHilight.gif";
 import {
-  DEFAUT_ADDITION_BLOCKOP,
-  DEFAUT_HOUSE_CONFIG
+  DEFAULT_ADDITION_BLOCKOP,
+  DEFAULT_HOUSE_CONFIG
 } from "../../../../types/defaults";
 
 const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
@@ -19,8 +19,8 @@ const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
   const { houseConfig, house } = context;
   const { assigTimeline } = houseConfig;
   const { itemBlockOp, roomTypeTabEnable } =
-    assigTimeline || DEFAUT_HOUSE_CONFIG.assigTimeline;
-  const { useColor, itemBlockOpEnable } = itemBlockOp || DEFAUT_ADDITION_BLOCKOP;
+    assigTimeline || DEFAULT_HOUSE_CONFIG.assigTimeline;
+  const { useColor, itemBlockOpEnable } = itemBlockOp || DEFAULT_ADDITION_BLOCKOP;
   const [use, setUse] = useState(itemBlockOpEnable);
   const [colorEnable, setEnableColor] = useState(useColor);
 

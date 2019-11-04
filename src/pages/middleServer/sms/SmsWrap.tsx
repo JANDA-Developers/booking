@@ -28,7 +28,7 @@ import {
   onCompletedMessage
 } from "../../../utils/utils";
 import { getOperationName } from "apollo-utilities";
-import { DEFAUT_SMS_TEMPLATE } from "../../../types/defaults";
+import { DEFAULT_SMS_TEMPLATE } from "../../../types/defaults";
 import Preloader from "../../../atoms/preloader/Preloader";
 import { IContext } from "../../MiddleServerRouter";
 import { LANG } from "../../../hooks/hook";
