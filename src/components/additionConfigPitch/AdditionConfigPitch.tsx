@@ -32,7 +32,6 @@ const AdditionConfigPitch: React.FC<Iprops> = ({context}) => {
           <Button
             size="small"
             onClick={() => {
-              sessionStorage.setItem("isHMconfigBtnClick", "Y");
               setRedirect("HMconfig");
             }}
             mode="border"

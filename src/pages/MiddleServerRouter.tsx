@@ -8,7 +8,7 @@ import Header from "../components/headers/HeaderWrap";
 import NoMatch from "./noMatch/NoMatch";
 import {IS_LOGGED_IN, SELECTED_HOUSE} from "../clientQueries";
 import {GET_USER_INFO} from "../queries";
-import {isEmpty, s4} from "../utils/utils";
+import {isEmpty, s4, insideRedirect} from "../utils/utils";
 import Preloader from "../atoms/preloader/Preloader";
 import "./MiddleServerRouter.scss";
 import classnames from "classnames";
@@ -235,7 +235,7 @@ const JDmiddleServer: React.FC<IProps> = ({
                             exact
                             path="/"
                             render={prop => {
-                              prop.history.push("/dashboard");
+                              location.href = insideRedirect("dashboard");
                               return <DashBoard context={propContext} />;
                             }}
                           />
