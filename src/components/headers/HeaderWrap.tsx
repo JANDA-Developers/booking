@@ -1,5 +1,5 @@
 import {Mutation} from "react-apollo";
-import React from "react";
+import React, {useState} from "react";
 import {toast} from "react-toastify";
 import {RouteComponentProps} from "react-router-dom";
 import Header from "./Header";
@@ -19,23 +19,25 @@ const HeaderWrap: React.FC<IProps & RouteComponentProps> = ({
   history,
   sideNavIsOpen,
   setSideNavIsOpen
-}) => (
-  <Mutation
-    mutation={LOG_USER_OUT}
-    onCompleted={() => {
-      toast.success(LANG("logOut_complete"));
-      history.replace("./");
-    }}
-  >
-    {(logOutMutation: any) => (
-      <Header
-        sideNavIsOpen={sideNavIsOpen}
-        setSideNavIsOpen={setSideNavIsOpen}
-        context={context}
-        logOutMutation={logOutMutation}
-      />
-    )}
-  </Mutation>
-);
+}) => {
+  return (
+    <Mutation
+      mutation={LOG_USER_OUT}
+      onCompleted={() => {
+        toast.success(LANG("logOut_complete"));
+        history.replace("./");
+      }}
+    >
+      {(logOutMutation: any) => (
+        <Header
+          sideNavIsOpen={sideNavIsOpen}
+          setSideNavIsOpen={setSideNavIsOpen}
+          context={context}
+          logOutMutation={logOutMutation}
+        />
+      )}
+    </Mutation>
+  );
+};
 
 export default HeaderWrap;

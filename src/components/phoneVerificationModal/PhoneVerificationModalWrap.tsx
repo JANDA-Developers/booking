@@ -76,12 +76,16 @@ const PhoneVerificationModalWrap: React.FC<IProps> = ({
           awaitRefetchQueries
           refetchQueries={[{query: GET_USER_INFO}]}
         >
-          {completePhoneVerificationMu => (
+          {(
+            completePhoneVerificationMu,
+            {loading: completePhoneVerificationLoding}
+          ) => (
             // performance.now() ::[https://stackoverflow.com/questions/51524293/new-date-as-react-key-prop]
             <PhoneVerificationModal
               key={`phoneVerification${modalHook.isOpen && "--open"}`}
               startPhoneVerificationMu={startPhoneVerificationMu}
               completePhoneVerificationMu={completePhoneVerificationMu}
+              muLoading={completePhoneVerificationLoding}
               phoneNumber={phoneNumber}
               modalHook={modalHook}
             />

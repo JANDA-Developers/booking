@@ -1,7 +1,6 @@
 /* eslint-disable max-len */
 import React from "react";
 import classNames from "classnames";
-import ErrProtecter from "../../utils/errProtect";
 import "./Preloader.scss";
 import JDanimation, {Animation} from "../animation/Animations";
 export type PreloaderSize = "large" | "tiny" | "medium" | "small";
@@ -42,7 +41,7 @@ const JDpreloader: React.FC<IPreloaderConfigProps> = ({
     "preloader--floating": floating
   });
 
-  return !page ? (
+  const UnPagePreloader = () => (
     <JDanimation animation={noAnimation ? [] : animation}>
       {loading && (
         <span className={`preloader__wrap ${wrapClasses}`}>
@@ -84,7 +83,9 @@ const JDpreloader: React.FC<IPreloaderConfigProps> = ({
         </span>
       )}
     </JDanimation>
-  ) : (
+  );
+
+  const PagePreloader = () => (
     <JDanimation animation={[Animation.fadeOut]}>
       {loading && (
         <div className={`preloader--page__wrap ${wrapClassName}`}>
@@ -93,6 +94,16 @@ const JDpreloader: React.FC<IPreloaderConfigProps> = ({
       )}
     </JDanimation>
   );
+
+  const returnFn = () => {
+    if (page) {
+      return <PagePreloader />;
+    } else {
+      return <UnPagePreloader />;
+    }
+  };
+
+  return returnFn();
 };
 
 export default JDpreloader;

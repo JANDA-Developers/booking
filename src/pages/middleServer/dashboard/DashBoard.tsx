@@ -64,33 +64,31 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
         <div className="container container--full">
           <div>{/* <DashBoardHeader /> */}</div>
           <div className="dashboard__section1">
-            <div className="flex-grid JDstandard-margin-bottom">
+            <div className="flex-grid">
               <div
                 className={`flex-grid__col col--wmd-12
                 col--full-12`}
               >
-                <Card className="JDcard--fullHeight JDcard--fullHeight-wmd">
+                <div>
+                  <Button
+                    onClick={() => {
+                      reservationModal.openModal();
+                    }}
+                    label={LANG("make_reservation")}
+                    thema="primary"
+                  />
+                  <Button
+                    onClick={() => {
+                      smsModal.openModal({
+                        receivers: []
+                      });
+                    }}
+                    icon="sms"
+                    label={LANG("group_msg")}
+                  />
+                </div>
+                <Card>
                   <Fragment>
-                    <div className="JDstandard-margin-bottom">
-                      <Button
-                        onClick={() => {
-                          smsModal.openModal({
-                            receivers: []
-                          });
-                        }}
-                        icon="sms"
-                        label={LANG("group_msg")}
-                      />
-                      <Button
-                        onClick={() => {
-                          reservationModal.openModal();
-                        }}
-                        float="right"
-                        label={LANG("make_reservation")}
-                        thema="primary"
-                      />
-                    </div>
-
                     <div className="dashboard__tooltipsWrap">
                       <span
                         data-event="click"

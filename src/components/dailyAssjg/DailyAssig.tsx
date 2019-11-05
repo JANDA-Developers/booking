@@ -34,6 +34,7 @@ import BlockTooltip from "./components/BlockTooltip";
 import {isEmpty, instanceOfA} from "../../utils/utils";
 import ReadyItemTooltip from "../../pages/middleServer/assig/components/tooltips/ReadyItemTooltip";
 import DayPickerModal from "../dayPickerModal/DayPickerModal";
+import {PortalPreloader} from "../../utils/portalTo";
 
 export interface IDailyAssigContext extends IDailyAssigProp {
   confirmModalHook: IUseModal<any>;
@@ -166,7 +167,7 @@ const DailyAssig: React.FC<IProps> = ({
       <div className="dailyAssig__dayPicker--center">
         {calendarPosition === "center" && <DailyAssigDayPicker />}
       </div>
-      <Preloader
+      <PortalPreloader
         noAnimation
         floating
         size={FLOATING_PRELOADER_SIZE}

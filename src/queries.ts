@@ -2044,12 +2044,11 @@ export const UPDATE_SMS_TEMPLATE = gql`
 // SMS :: SMS 전송
 export const SEND_SMS = gql`
     mutation sendSms(
-        $sender: PhoneNumber!
         $receivers: [PhoneNumber!]
         $msg: String!
         $smsInfoId: ID!
     ) {
-        SendSms(smsInfoId: $smsInfoId, sender: $sender, receivers: $receivers, msg: $msg) {
+        SendSms(smsInfoId: $smsInfoId, receivers: $receivers, msg: $msg) {
             ok
             error
             result {

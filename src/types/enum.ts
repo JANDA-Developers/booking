@@ -401,9 +401,9 @@ export enum GetSmsTarget {
 
 export let GET_SMS_TARGET_OP = [
   {value: "EXSIST_INFO", label: ""},
-  {value: "TODAY_STAY", label: ""},
-  {value: "TODAY_CHECKIN", label: ""},
-  {value: "TOMORROW_CHECKIN", label: ""}
+  {value: "TODAY_STAY", label: ""}
+  // {value: "TODAY_CHECKIN", label: ""},
+  // {value: "TOMORROW_CHECKIN", label: ""}
 ];
 
 export let GENDER_OP = [

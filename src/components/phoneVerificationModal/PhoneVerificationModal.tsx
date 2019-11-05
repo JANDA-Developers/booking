@@ -18,6 +18,7 @@ import JDTimer, {TimerStateType} from "../../atoms/timer/Timer";
 import {TimePerMs} from "../../types/enum";
 import Timer from "react-compound-timer";
 import {toast} from "react-toastify";
+import PrloaderModal from "../../atoms/preloaderModal/PreloaderModal";
 
 interface IProps {
   modalHook: IUseModal<any>;
@@ -30,13 +31,15 @@ interface IProps {
     completePhoneVerificationVariables
   >;
   phoneNumber: string | undefined;
+  muLoading: boolean;
 }
 
 const PhoneVerification: React.FC<IProps> = ({
   modalHook,
   completePhoneVerificationMu,
   startPhoneVerificationMu,
-  phoneNumber
+  phoneNumber,
+  muLoading
 }) => {
   const keyHook = useInput("");
   const [isTimeOver, setTimeOver] = useState(false);
@@ -50,6 +53,10 @@ const PhoneVerification: React.FC<IProps> = ({
       });
     }
   }, [phoneNumber]);
+
+  if (muLoading) {
+    return <PrloaderModal loading={true} />;
+  }
 
   return (
     <JDmodal

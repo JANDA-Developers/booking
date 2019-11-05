@@ -87,14 +87,6 @@ const BlockOpModal: React.FC<IProps> = ({
             size="small"
             label={LANG("Apply")}
           />
-          <Button
-            onClick={() => {
-              handleClickAdmit("cancle");
-            }}
-            size="small"
-            thema="error"
-            label={LANG("unappliy")}
-          />
         </div>
       </div>
     </JDmodal>

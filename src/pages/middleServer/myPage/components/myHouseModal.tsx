@@ -1,4 +1,4 @@
-import React, {Fragment} from "react";
+import React, {Fragment, useState} from "react";
 import {toast} from "react-toastify";
 import {MutationFn} from "react-apollo";
 import Modal from "../../../../atoms/modal/Modal";
@@ -19,6 +19,7 @@ import copytoClipboard from "../../../../utils/copyToClipboard";
 import Drawer from "../../../../atoms/drawer/Drawer";
 import SpecificAtionWrap from "../../../../components/specification/SpecificationWrap";
 import {IContext} from "../../../MiddleServerRouter";
+import {Redirect} from "react-router";
 
 interface IProps {
   modalHook: IUseModal;
@@ -29,7 +30,8 @@ interface IProps {
   context: IContext;
 }
 
-const MyHouseModal: React.SFC<IProps> = ({
+// 여기서 <Redicet/> 를 쓸수없는 이유가뭔지 모르겠음
+const MyHouseModal: React.FC<IProps> = ({
   houseChangeMu,
   deleteMu,
   modalHook,
@@ -38,7 +40,6 @@ const MyHouseModal: React.SFC<IProps> = ({
   context
 }) => {
   const drawerHook = useDrawer(false);
-  const {history} = context;
 
   const onDelete = () => {
     if (house && house.product) {
@@ -116,14 +117,12 @@ const MyHouseModal: React.SFC<IProps> = ({
                     {/* 예약 페이지로 이동 */}
                     <JDIcon
                       onClick={e => {
-                        history.push(
-                          insideRedirect(
-                            `outpage/reservation/${house.publicKey}`
-                          )
+                        location.href = insideRedirect(
+                          `outpage/reservation/${house.publicKey}`
                         );
                       }}
                       size={IconSize.MEDEIUM_SMALL}
-                      icon={"copyFile"}
+                      icon={"arrowTo"}
                       hover={true}
                     />
                   </p>
@@ -132,7 +131,7 @@ const MyHouseModal: React.SFC<IProps> = ({
                       <span className="JDstandard-small-space">
                         {LANG("copy_hm_page_URL")}
                       </span>
-                      {/* 하우스 메뉴얼로 이동 */}
+                      {/* 하우스 메뉴얼 URL 복사*/}
                       <JDIcon
                         onClick={e => {
                           copytoClipboard(
@@ -146,8 +145,8 @@ const MyHouseModal: React.SFC<IProps> = ({
                       {/* 하우스 메뉴얼 페이지로 이동 */}
                       <JDIcon
                         onClick={e => {
-                          history.push(
-                            insideRedirect(`outpage/HM/${house.HM!.publicKey}`)
+                          location.href = insideRedirect(
+                            `outpage/HM/${house.HM!.publicKey}`
                           );
                         }}
                         size={IconSize.MEDEIUM_SMALL}

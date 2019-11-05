@@ -1,15 +1,20 @@
-import React from "react";
+import React, {useState} from "react";
 import Button from "../../atoms/button/Button";
 import {insideRedirect} from "../../utils/utils";
 import JDbox from "../../atoms/box/JDbox";
 import {IContext} from "../../pages/MiddleServerRouter";
 import {LANG} from "../../hooks/hook";
+import {Redirect} from "react-router";
 
 interface Iprops {
   context: IContext;
 }
 
 const AdditionConfigPitch: React.FC<Iprops> = ({context}) => {
+  const [redirect, setRedirect] = useState("");
+
+  if (redirect) return <Redirect to={redirect} />;
+
   return (
     <p>
       <h3>
@@ -28,8 +33,8 @@ const AdditionConfigPitch: React.FC<Iprops> = ({context}) => {
             size="small"
             onClick={() => {
               sessionStorage.setItem("isHMconfigBtnClick", "Y");
+              setRedirect("HMconfig");
             }}
-            redirect={insideRedirect("HMconfig")}
             mode="border"
             label={LANG("go_to_set")}
           />
@@ -43,7 +48,9 @@ const AdditionConfigPitch: React.FC<Iprops> = ({context}) => {
           </div>
           <Button
             size="small"
-            redirect={insideRedirect("setPrice")}
+            onClick={() => {
+              setRedirect("setPrice");
+            }}
             mode="border"
             label={LANG("go_to_set")}
           />
@@ -57,7 +64,9 @@ const AdditionConfigPitch: React.FC<Iprops> = ({context}) => {
           </div>
           <Button
             size="small"
-            redirect={insideRedirect("sms")}
+            onClick={() => {
+              setRedirect("sms");
+            }}
             mode="border"
             label={LANG("go_to_set")}
           />

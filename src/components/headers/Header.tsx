@@ -51,7 +51,10 @@ const Header: React.FC<IProps> = ({
       {/* 로고 */}
       <div className="header__left">
         <NavLink to="/dashboard">
-          <span className="header__logoPlace JDdisplay-none--wmd">
+          <span
+            className={`header__logoPlace ${completeDefaultSetting &&
+              "JDdisplay-none--wmd"}`}
+          >
             <img className="header__logo" src={logo} alt="" />
           </span>
         </NavLink>

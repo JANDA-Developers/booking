@@ -223,13 +223,16 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
                     setViewMode={setViewMode}
                   />
                 )}
-                <Preloader
-                  wrapClassName="statistic__graphPreloader"
-                  position="center"
-                  noAnimation
-                  size={"large"}
-                  loading={loading}
-                />
+                {/* 사파리에서 로딩이 안없어짐 */}
+                {loading && (
+                  <Preloader
+                    wrapClassName="statistic__graphPreloader"
+                    position="center"
+                    noAnimation
+                    size={"large"}
+                    loading={loading}
+                  />
+                )}
                 <Preloader
                   floating
                   size={FLOATING_PRELOADER_SIZE}

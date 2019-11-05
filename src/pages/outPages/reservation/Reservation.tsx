@@ -49,10 +49,8 @@ import {
   PaymentStatus,
   PAYMENT_STATUS_OP
 } from "../../../types/enum";
-import {to4YMMDD} from "../../../utils/setMidNight";
 import {GET_ALL_ROOM_TYPE_FOR_BOOKING} from "../../../queries";
 import Preloader from "../../../atoms/preloader/Preloader";
-import moment from "moment";
 import {Helmet} from "react-helmet";
 import {openNiceModal} from "./components/doPay";
 import {reservationDevelop, developEvent} from "../../../utils/developMaster";
@@ -180,6 +178,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
     }
   };
 
+  // Deprecated
   developEvent(() => {
     reservationDevelop(reservationHooks);
   });
@@ -232,6 +231,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
     return true;
   };
 
+  // 날자와 방현황에 따른  메세지 리턴
   const roomCardMessage = () => {
     if (!dayPickerHook.from) return LANG("please_slect_date_at_calender");
     if (dayPickerHook.from && !dayPickerHook.to)
@@ -323,6 +323,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
     }
   };
 
+  // 예약버튼 클릭시
   const handleResvBtnClick = () => {
     if (roomSelectValidation()) {
       if (isHost) {
@@ -345,6 +346,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
     }
   };
 
+  /* 모바일 날자 검색 UI */
   if (step === "search" && isMobile) {
     return (
       <div id="JDreservation" className="JDreservation">

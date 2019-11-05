@@ -3,8 +3,9 @@ import {IUseDayPicker, LANG} from "../../../../hooks/hook";
 import {to4YMMDD} from "../../../../utils/setMidNight";
 import JDLabel from "../../../label/JDLabel";
 import JDbox from "../../../box/JDbox";
+import {IDiv} from "../../../../types/interface";
 
-interface Iprops {
+interface Iprops extends IDiv {
   dayPickerHook: IUseDayPicker;
 }
 

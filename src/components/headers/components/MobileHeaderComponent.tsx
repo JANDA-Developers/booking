@@ -29,7 +29,7 @@ const MobileHeaderComponent: React.FC<Iprops> = ({context}) => {
           data-event="click"
           className="header__apps"
           data-place="bottom"
-          data-offset="{'top': -5, 'left': 25}"
+          data-offset="{'top': -5, 'left': 35}"
         >
           <JDIcon
             className="header__mobileMenu"

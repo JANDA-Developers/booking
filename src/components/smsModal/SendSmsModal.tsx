@@ -30,6 +30,7 @@ import {useQuery} from "@apollo/react-hooks";
 import {IContext} from "../../pages/MiddleServerRouter";
 import client from "../../apolloClient";
 import {PortalPreloader} from "../../utils/portalTo";
+import JDpreloader from "../../atoms/preloader/Preloader";
 
 interface IProps {
   context: IContext;
@@ -173,7 +174,7 @@ const SendSmsModal: React.FC<IProps> = ({
       className={`sendSmsModal ${loading && "sendSmsModal--loading"}`}
       {...modalHook}
     >
-      <PortalPreloader size="small" loading={loading} />
+      <JDpreloader size="large" loading={loading} />
       {loading || (
         <Fragment>
           <h5>{LANG("send_sms")}</h5>

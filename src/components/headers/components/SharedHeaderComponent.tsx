@@ -163,7 +163,7 @@ const SharedHeaderComponent: React.FC<Iprops> = ({
           </CircleIcon>
         )}
       </span>
-      <TooltipList id="tooltip_user">
+      <TooltipList id="tooltip_user" >
         <ul>{isLogIn ? <LoginIconMenu /> : <UnLoginIconMenu />}</ul>
       </TooltipList>
       <MemoModal

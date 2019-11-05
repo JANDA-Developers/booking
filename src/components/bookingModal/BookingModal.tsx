@@ -456,7 +456,7 @@ const BookingModal: React.FC<IProps> = ({
                 <InputText
                   disabled={allReadOnly}
                   {...priceHook}
-                  placeholder={`${LANG("normal_price")}}:${autoComma(
+                  placeholder={`${LANG("normal_price")}:${autoComma(
                     placeHolederPrice
                   )}`}
                   returnNumber

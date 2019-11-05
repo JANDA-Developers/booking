@@ -21,12 +21,13 @@ import SelectBox from "../../../atoms/forms/selectBox/SelectBox";
 import Button from "../../../atoms/button/Button";
 import SearchInput from "../../../atoms/searchInput/SearchInput";
 import "./CreateHouse.scss";
-import {show} from "react-tooltip";
 import {createHouse, createHouseVariables} from "../../../types/api";
 import Preloader from "../../../atoms/preloader/Preloader";
 import {getOperationName} from "apollo-link";
 import {FLOATING_PRELOADER_SIZE} from "../../../types/enum";
 import {IContext} from "../../MiddleServerRouter";
+import PrloaderModal from "../../../atoms/preloaderModal/PreloaderModal";
+import {Redirect} from "react-router";
 
 let map: google.maps.Map | null = null;
 
@@ -50,6 +51,7 @@ const CreateHouse: React.FC<IProps> = ({context, google}) => {
   const [adressData, adressLoading, getAdressError, adressGet] = useFetch(
     addressGeturl
   );
+  const [redirect, setRedirect] = useState("");
   const mapRef = useRef(null);
 
   if (getAdressError) console.error(getAdressError);
@@ -193,16 +195,20 @@ const CreateHouse: React.FC<IProps> = ({context, google}) => {
     );
   }, []);
 
+  if (redirect) {
+    return <Redirect to={redirect} />;
+  }
+
   return (
     <div id="createHomePage" className="container container--sm">
-      <div className="docs-sectionp">
+      <div className="docs-section">
         {/* 하우스 선택 */}
         <SelectHouseMu
           mutation={SELECT_HOUSE}
           refetchQueries={[getOperationName(GET_USER_INFO)!]}
           awaitRefetchQueries
           onCompleted={() => {
-            history.push("/dashboard");
+            setRedirect("dashboard");
           }}
         >
           {selectHouseMutation => (
@@ -234,22 +240,18 @@ const CreateHouse: React.FC<IProps> = ({context, google}) => {
                 }
               }}
             >
-              {(createHouseMutation, {loading}) => {
+              {(createHouseMutation, {loading: createHouseMuLoading}) => {
+                // 숙소생성 서브밋
                 const createHouseSubmit = (
                   e: React.FormEvent<HTMLFormElement>
                 ) => {
-                  if (loading) return;
+                  if (createHouseMuLoading) return;
                   e.preventDefault();
                   if (submitValidation()) createHouseMutation();
                 };
-                if (loading) {
-                  return;
-                  <div>
-                    <Preloader loading={true} size="large" />
-                  </div>;
-                }
                 return (
                   <form onSubmit={createHouseSubmit}>
+                    <PrloaderModal loading={createHouseMuLoading} />
                     <h3>{LANG("create_house")}</h3>
                     <div className="flex-grid docs-section__box">
                       {/* 숙소명 입력 */}
