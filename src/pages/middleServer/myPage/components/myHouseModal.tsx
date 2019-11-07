@@ -20,6 +20,7 @@ import Drawer from "../../../../atoms/drawer/Drawer";
 import SpecificAtionWrap from "../../../../components/specification/SpecificationWrap";
 import {IContext} from "../../../MiddleServerRouter";
 import {Redirect} from "react-router";
+import {JDlang} from "../../../../langs/JDlang";
 
 interface IProps {
   modalHook: IUseModal;
@@ -99,7 +100,7 @@ const MyHouseModal: React.FC<IProps> = ({
                 <Fragment>
                   <p>
                     <span className="JDstandard-small-space">
-                      {LANG("copy_reservation_page_URL")}
+                      {LANG("reservation_page_URL")}
                     </span>
                     {/* 예약 페이지 URL 복사 */}
                     <JDIcon
@@ -110,6 +111,7 @@ const MyHouseModal: React.FC<IProps> = ({
                           )
                         );
                       }}
+                      tooltip={LANG("copy_reservation_page_URL")}
                       size={IconSize.MEDEIUM_SMALL}
                       icon={"copyFile"}
                       hover={true}
@@ -121,6 +123,7 @@ const MyHouseModal: React.FC<IProps> = ({
                           `outpage/reservation/${house.publicKey}`
                         );
                       }}
+                      tooltip={LANG("move_reservation_page")}
                       size={IconSize.MEDEIUM_SMALL}
                       icon={"arrowTo"}
                       hover={true}
@@ -129,7 +132,7 @@ const MyHouseModal: React.FC<IProps> = ({
                   {house.HM && (
                     <p>
                       <span className="JDstandard-small-space">
-                        {LANG("copy_hm_page_URL")}
+                        {LANG("hm_page_URL")}
                       </span>
                       {/* 하우스 메뉴얼 URL 복사*/}
                       <JDIcon
@@ -138,6 +141,7 @@ const MyHouseModal: React.FC<IProps> = ({
                             insideRedirect(`outpage/HM/${house.HM!.publicKey}`)
                           );
                         }}
+                        tooltip={LANG("copy_hm_page_URL")}
                         size={IconSize.MEDEIUM_SMALL}
                         icon={"copyFile"}
                         hover={true}
@@ -149,6 +153,7 @@ const MyHouseModal: React.FC<IProps> = ({
                             `outpage/HM/${house.HM!.publicKey}`
                           );
                         }}
+                        tooltip={LANG("move_hm_page")}
                         size={IconSize.MEDEIUM_SMALL}
                         icon={"arrowTo"}
                         hover={true}

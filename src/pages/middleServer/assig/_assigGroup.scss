@@ -72,7 +72,9 @@
 
         // roomType이름과 room 이름들 
         &__names {
-            display:inline-block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             word-wrap: break-word;
             padding: $standard-small-space;
             text-align:center;

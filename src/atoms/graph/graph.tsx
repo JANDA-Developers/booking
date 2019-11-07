@@ -43,10 +43,6 @@ const JDgraph: React.FC<Iprops> = ({JDtype, data, originalData, ...prop}) => {
     }
   ];
 
-  console.log("dataset");
-  console.log(dataset);
-  console.log(dataset);
-
   switch (JDtype) {
     case "doughnut":
       return <Doughnut data={dataset} {...prop} />;

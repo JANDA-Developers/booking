@@ -328,7 +328,7 @@ const ResvList: React.SFC<IProps> = ({
     {
       Header: LANG("detail"),
       accessor: "_id",
-      minWidth: 40,
+      width: 60,
       Cell: ({value}) => (
         <JDIcon
           onClick={() => {

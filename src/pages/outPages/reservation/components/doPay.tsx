@@ -1,14 +1,11 @@
 import ip from "ip";
-import crypto from "crypto";
 import {
   startBookingVariables,
   startBookingForPublicVariables,
-  getPaymentAuth_GetPaymentAuth_auth,
   getPaymentAuth_GetPaymentAuth
 } from "../../../../types/api";
 import moment from "moment";
 import {isMobile} from "is-mobile";
-import $ from "jquery";
 import {LANG} from "../../../../hooks/hook";
 
 const nicepayClose = () => {
@@ -56,9 +53,6 @@ export const openNiceModal = async ({
     console.error("결제창 인증정보 없음");
     return;
   }
-
-  console.log("authInfo");
-  console.log(authInfo);
 
   const flagMobile = isMobile();
   const {bookerParams, paymentParams} = resvInfo;
@@ -170,8 +164,6 @@ export const openNiceModal = async ({
 
     document.body.appendChild(form);
 
-    console.log("form");
-    console.log(form);
     // @ts-ignore
     window.goPay(form);
   } else {

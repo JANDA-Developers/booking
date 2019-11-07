@@ -26,7 +26,7 @@ import Preloader from "../../../atoms/preloader/Preloader";
 import {getOperationName} from "apollo-link";
 import {FLOATING_PRELOADER_SIZE} from "../../../types/enum";
 import {IContext} from "../../MiddleServerRouter";
-import PrloaderModal from "../../../atoms/preloaderModal/PreloaderModal";
+import PreloaderModal from "../../../atoms/preloaderModal/PreloaderModal";
 import {Redirect} from "react-router";
 
 let map: google.maps.Map | null = null;
@@ -251,7 +251,7 @@ const CreateHouse: React.FC<IProps> = ({context, google}) => {
                 };
                 return (
                   <form onSubmit={createHouseSubmit}>
-                    <PrloaderModal loading={createHouseMuLoading} />
+                    <PreloaderModal loading={createHouseMuLoading} />
                     <h3>{LANG("create_house")}</h3>
                     <div className="flex-grid docs-section__box">
                       {/* 숙소명 입력 */}

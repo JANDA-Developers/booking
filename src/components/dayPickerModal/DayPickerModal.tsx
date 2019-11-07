@@ -4,11 +4,11 @@ import JDmodal from "../../atoms/modal/Modal";
 import JDdayPicker, {IJDdayPickerProps} from "../../atoms/dayPicker/DayPicker";
 import "./DayPickerModal.scss";
 import {MODAL_MIN_WIDTH} from "../../types/enum";
-import DayPicker from "react-day-picker";
 
 interface Iprops extends IJDdayPickerProps {
   autoClose?: boolean;
   modalHook: IUseModal;
+  callBackChangeDate?: (from?: Date | null, to?: Date | null) => void;
 }
 
 const DayPickerModal: React.FC<Iprops> = ({
@@ -16,12 +16,11 @@ const DayPickerModal: React.FC<Iprops> = ({
   from,
   to,
   autoClose,
+  callBackChangeDate,
   ...props
 }) => {
   const handleChangeDate = (prop: any) => {
-    console.log(autoClose);
-    console.log(from);
-    console.log(to);
+    callBackChangeDate && callBackChangeDate(from, to);
     if (from && to && autoClose) {
       setTimeout(() => {
         modalHook.closeModal();
@@ -35,12 +34,19 @@ const DayPickerModal: React.FC<Iprops> = ({
       className="DayPickerModal"
       {...modalHook}
     >
-      <JDdayPicker
-        from={from}
-        to={to}
-        onChangeDate={handleChangeDate}
-        {...props}
-      />
+      <div
+        onClick={e => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}
+      >
+        <JDdayPicker
+          from={from}
+          to={to}
+          onChangeDate={handleChangeDate}
+          {...props}
+        />
+      </div>
     </JDmodal>
   );
 };

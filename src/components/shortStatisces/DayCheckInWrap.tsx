@@ -30,6 +30,7 @@ const DayCheckInWrap: React.FC<IProps> = ({context}) => {
           count: 999999,
           page: 1
         }}
+        // GET_CHECKINS 로변경
         query={GET_BOOKINGS}
       >
         {({data: Data, loading: getGuestsLoading}) => {

@@ -69,7 +69,7 @@
     }
     
     &__toast {
-        
+        border-radius: $standard-border-radius;
         background-color: white;
         height: $toast-height;
         line-height: $toast-height;

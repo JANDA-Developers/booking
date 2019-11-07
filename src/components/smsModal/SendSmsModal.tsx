@@ -100,8 +100,7 @@ const SendSmsModal: React.FC<IProps> = ({
       variables: {
         smsInfoId: smsInfo._id,
         msg: smsMessageFormatter(msg),
-        receivers: sendTargets,
-        sender: process.env.REACT_APP_API_SMS_SENDER_NUMBER
+        receivers: sendTargets
       }
     });
 

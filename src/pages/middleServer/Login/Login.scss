@@ -11,5 +11,5 @@
 }
 
 #loginPage > div {
-    width: 100%;
+    width: calc(100% - #{$container-padding * 2});
 }

@@ -2,6 +2,7 @@ import React from "react";
 import {toast} from "react-toastify";
 import isEmpty from "./isEmptyData";
 import ToastError from "../components/toasts/ErrorToast";
+import {isIncludeKr} from "./onCompletedMessage";
 
 function queryDataFormater<T, K extends keyof T, C extends keyof T[K], D>(
   data: T | undefined,
@@ -18,9 +19,11 @@ function queryDataFormater<T, K extends keyof T, C extends keyof T[K], D>(
         }
       }
       if (inData.error) {
-        console.error("queryDataFormater: Error From BackEnd");
-        console.error(inData.error);
-        toast.warn(<ToastError />);
+        if (isIncludeKr(inData.error)) {
+          toast.warn(inData.error);
+        } else {
+          toast.warn(<ToastError />);
+        }
         return falsyReturn as any;
       }
       return inData;

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { EerrorProtect } from "../../../utils/errProtect";
+import React, {useState} from "react";
+import {EerrorProtect} from "../../../utils/errProtect";
 import "./SetPrice.scss";
 import {
   getAllSeasonTable_GetAllRoomType_roomTypes,
@@ -18,16 +18,16 @@ import {
 } from "../../../types/api";
 import classNames from "classnames";
 import Button from "../../../atoms/button/Button";
-import { Link } from "react-router-dom";
-import { priceMapResult } from "./SetPriceWrap";
-import JDtable, { ReactTableDefault } from "../../../atoms/table/Table";
-import { CellInfo } from "react-table";
+import {Link} from "react-router-dom";
+import {priceMapResult} from "./SetPriceWrap";
+import JDtable, {ReactTableDefault} from "../../../atoms/table/Table";
+import {CellInfo} from "react-table";
 import JDIcon from "../../../atoms/icons/Icons";
 import InputText from "../../../atoms/forms/inputText/InputText";
-import { toNumber, muResult, s4 } from "../../../utils/utils";
+import {toNumber, muResult, s4} from "../../../utils/utils";
 import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
 import JDbox from "../../../atoms/box/JDbox";
-import { numberToStrings } from "../../../utils/dayOfweeks";
+import {numberToStrings} from "../../../utils/dayOfweeks";
 import selectOpCreater from "../../../utils/selectOptionCreater";
 import SeasonHeader from "./components/seasonHeader";
 import {
@@ -37,13 +37,13 @@ import {
   useDayPicker,
   LANG
 } from "../../../hooks/hook";
-import DayOfWeekModal, { IDayOfWeekModalInfo } from "./components/dayOfWeekModal";
+import DayOfWeekModal, {IDayOfWeekModalInfo} from "./components/dayOfWeekModal";
 import JDmodal from "../../../atoms/modal/Modal";
 import CreateSeasonModal from "./components/createSeasonModal";
-import { MutationFn } from "react-apollo";
-import reactWindowSize, { WindowSizeProps } from "react-window-size";
-import { WindowSize } from "../../../types/enum";
-import { IContext } from "../../MiddleServerRouter";
+import {MutationFn} from "react-apollo";
+import reactWindowSize, {WindowSizeProps} from "react-window-size";
+import {WindowSize} from "../../../types/enum";
+import {IContext} from "../../MiddleServerRouter";
 import JDlist from "../../../atoms/list/List";
 
 interface IProps {
@@ -87,7 +87,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
   loading,
   context
 }) => {
-  const { house } = context;
+  const {house} = context;
   const isPhablet = windowWidth <= WindowSize.PHABLET;
   const dayOfWeekModal = useModal<IDayOfWeekModalInfo>(false);
   const createSeasonModal = useModal(false);
@@ -102,7 +102,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
     }))
   );
   const [priceMap, setPriceMap] = useState(defaultPriceMap);
-  const { shouldSave, setShouldSave } = useShouldSave([priceMap, roomTypePrices]);
+  const {shouldSave, setShouldSave} = useShouldSave([priceMap, roomTypePrices]);
 
   const priorityOption = selectOpCreater({
     count: seasonData.length,
@@ -185,7 +185,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
     accessor: "index",
     minWidth: isPhablet ? 130 : 130,
     maxWidth: 234,
-    Cell: ({ value, original: roomType, index }: CellInfo) => {
+    Cell: ({value, original: roomType, index}: CellInfo) => {
       const targetPrice = priceMap.get(roomType._id + season._id);
       return (
         <div>
@@ -229,14 +229,14 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
     {
       Header: `${LANG("roomType")} \\ ${LANG("season")}`,
       accessor: "name",
-      Cell: ({ value, original, index }: CellInfo) => {
+      Cell: ({value, original, index}: CellInfo) => {
         return <div>{value}</div>;
       }
     },
     {
       Header: LANG("basic_price"),
       accessor: "defaultPrice",
-      Cell: ({ value, original, index }: CellInfo) => {
+      Cell: ({value, original, index}: CellInfo) => {
         return (
           <InputText
             label={LANG("room_type_basic_price")}
@@ -286,7 +286,11 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
           thema="point"
         />
         <Link to="/dailyPrice">
-          <Button icon="arrowTo" label={LANG("set_daily_price")} mode="border" />
+          <Button
+            icon="arrowTo"
+            label={LANG("set_daily_price")}
+            mode="border"
+          />
         </Link>
         <JDtable
           className="setPrice__table"
@@ -310,11 +314,15 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
         />
         <JDlist
           marginBottom="short"
-          linePoint="*"
           contents={[
-            LANG("basic_price_is_used_when_season_is_un_setted"),
-            LANG("when_season_multiple_applyed_use_left_side_value_will_be_used"),
-            LANG("when_day_of_week_price_is_not_setted_basic_season_price_will_be_used")
+            <span className="JDtextColor--point">
+              {LANG("price_priority")}
+            </span>,
+            <span className="JDtextColor--point">
+              {LANG(
+                "when_season_multiple_applyed_use_left_side_value_will_be_used"
+              )}
+            </span>
           ]}
         />
       </div>

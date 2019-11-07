@@ -5,6 +5,15 @@ $roomWidth: 10rem;
 
 .roomConfig {
 
+
+    &__roomType {
+        margin-right: 0;
+    }
+
+    &__roomCardWrap {
+        margin-bottom: -$standard-margin-bottom!important;
+    }
+
     &__roomBox {
         max-width: fit-content;
     }
@@ -21,6 +30,10 @@ $roomWidth: 10rem;
         }
     }
     .roomConfig__roomType {
+        margin-right: 0;
+        &:last-child {
+            margin-bottom:0;
+        }
         .JDdrragable--ghost {
             .roomConfig__iconsWrap {
                 display:none;

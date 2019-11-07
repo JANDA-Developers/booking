@@ -47,7 +47,6 @@ const HeaderCellRender: React.FC<Iprops> = ({
           e.stopPropagation();
         }}
         onClickCapture={e => {
-          console.log("eaaaass");
           e.preventDefault();
           e.stopPropagation();
           onClickCell && onClickCell({intervalContext});

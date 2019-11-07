@@ -1,24 +1,27 @@
 import React, {useState} from "react";
 import JDmultiStep from "../../../atoms/multiStep/MultiStep";
-import Steps from "./comonent/Steps";
+import Steps from "./comonent/StarterSteps";
 import {IContext} from "../../MiddleServerRouter";
-import {HouseStatus, MODAL_MIN_WIDTH} from "../../../types/enum";
-import {isEmpty, stepFinder} from "../../../utils/utils";
+import {stepFinder} from "../../../utils/utils";
 import JDmodal from "../../../atoms/modal/Modal";
 import {useModal, LANG} from "../../../hooks/hook";
 import "./StarterModal.scss";
 import {MutationFn} from "react-apollo";
 import {updateHouse, updateHouseVariables} from "../../../types/api";
-import Mbr from "../../../atoms/mbr/Mbr";
 import {isMobile} from "is-mobile";
+import {MODAL_MIN_WIDTH} from "../../../types/enum";
 
 interface IProps {
   context: IContext;
   updateHouseMu: MutationFn<updateHouse, updateHouseVariables>;
+  callBackStartStepEnd?: () => void;
 }
 
-const StarterModal: React.FC<IProps> = ({context, updateHouseMu}) => {
-  const {history} = context;
+const StarterModal: React.FC<IProps> = ({
+  callBackStartStepEnd,
+  context,
+  updateHouseMu
+}) => {
   const modalHook = useModal(true);
 
   const defaultStep = stepFinder(context);
@@ -57,11 +60,12 @@ const StarterModal: React.FC<IProps> = ({context, updateHouseMu}) => {
           />
         </div>
       )}
+
       <div className="dashboard__stepsWrap">
         <Steps
           stepFinishCallBack={() => {
+            callBackStartStepEnd && callBackStartStepEnd();
             modalHook.closeModal();
-            location.href = "./";
           }}
           updateHouseMu={updateHouseMu}
           context={context}

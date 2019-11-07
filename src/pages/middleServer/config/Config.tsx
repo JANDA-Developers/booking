@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import { ErrProtecter, s4 } from "../../../utils/utils";
+import React, {useState} from "react";
+import {ErrProtecter, s4} from "../../../utils/utils";
 import ConfigBlock from "./components/ConfigBlock";
-import { configBlocks } from "./addtiones/configs";
+import {configBlocks} from "./addtiones/configs";
 import Card from "../../../atoms/cards/Card";
 import "./Config.scss";
 import Sticky from "react-sticky-el";
-import { MutationFn } from "react-apollo";
+import {MutationFn} from "react-apollo";
 import {
   updateHouseConfig,
   updateHouseConfigVariables
 } from "../../../types/api";
-import { IHouse, IHouseConfigFull } from "../../../types/interface";
-import { IContext } from "../../MiddleServerRouter";
-import { LANG } from "../../../hooks/hook";
+import {IHouse, IHouseConfigFull} from "../../../types/interface";
+import {IContext} from "../../MiddleServerRouter";
+import {LANG} from "../../../hooks/hook";
 
 interface IProps {
   updateHouseConfigMu: MutationFn<
@@ -23,16 +23,16 @@ interface IProps {
 }
 
 // AdditionMoudle 클릭시 변경
-const Config: React.FC<IProps> = ({ updateHouseConfigMu, context }) => {
+const Config: React.FC<IProps> = ({updateHouseConfigMu, context}) => {
   const [additionIndex, setAdditionIndex] = useState<null | number>(null);
   return (
     <div id="Config" className="container config">
       <div className="flex-grid docs-section">
-        <div className="flex-grid__col col--full-4 col--md-12">
+        <div className="JDstandard-margin-bottom flex-grid__col col--full-4 col--md-12">
           <div className="config__cardsWrap">
             {configBlocks.map((addtion, index) => (
               <Card
-                className="JDstandard-space0"
+                className={"config__tabCard"}
                 key={s4()}
                 selected={index === additionIndex}
                 hover
@@ -54,14 +54,14 @@ const Config: React.FC<IProps> = ({ updateHouseConfigMu, context }) => {
                   <h5>{LANG("select_the_desired_setting_item")}</h5>
                 </div>
               ) : (
-                  <div>
-                    <h5>{configBlocks[additionIndex].name}</h5>
-                    {configBlocks[additionIndex].detailDescription({
-                      updateHouseConfigMu,
-                      context
-                    })}
-                  </div>
-                )}
+                <div>
+                  <h5>{configBlocks[additionIndex].name}</h5>
+                  {configBlocks[additionIndex].detailDescription({
+                    updateHouseConfigMu,
+                    context
+                  })}
+                </div>
+              )}
             </Card>
           </Sticky>
         </div>

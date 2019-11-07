@@ -31,7 +31,7 @@ import {IDailyAssigDataControl} from "../../pages/middleServer/assig/components/
 import PlaceTooltip from "./components/PlaceTooltip";
 import moment from "moment";
 import BlockTooltip from "./components/BlockTooltip";
-import {isEmpty, instanceOfA} from "../../utils/utils";
+import {isEmpty, instanceOfA, s4} from "../../utils/utils";
 import ReadyItemTooltip from "../../pages/middleServer/assig/components/tooltips/ReadyItemTooltip";
 import DayPickerModal from "../dayPickerModal/DayPickerModal";
 import {PortalPreloader} from "../../utils/portalTo";
@@ -249,7 +249,7 @@ const DailyAssig: React.FC<IProps> = ({
                 </div>
               </div>
             ) : (
-              <span />
+              <span key={s4()} />
             )
           )}
         </div>

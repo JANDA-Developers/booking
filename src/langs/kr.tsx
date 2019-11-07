@@ -145,7 +145,7 @@ export const kr = {
   choseCheckInDate: "체크인 날자를 선택해 주세요.",
   choseCheckOutDate: "체크아웃 날자를 선택해 주세요.",
   close: "닫기",
-  close_today: "하루동안 뛰우지 마세요.",
+  close_today: "하루동안 알림 중지",
   color_set: "색상설정",
   complete_pay: "결제완료",
   complete_the_reservation_creation: "예약생성을 완료합니다.",
@@ -281,7 +281,7 @@ export const kr = {
   is_layout_paied: "레이아웃 비용 지불여부",
   is_selected_info_collect: "선택 정보가 맞나요?",
   item: "항목",
-  keep_noti: "계속 메모를 뛰우세요.",
+  keep_noti: "계속 알림",
   lang_set: "언어설정",
   language_setting: "언어설정",
   layout_cost: "레이아웃 비용",
@@ -775,11 +775,12 @@ export const kr = {
   march: "3월",
   february: "2월",
   january: "1월",
+
   copy_hm_page_URL: "하우스메뉴얼 URL 복사",
   HM_update: "하우스 메뉴얼 업데이트",
   HM_update_fail: "하우스 메뉴얼 업데이트 실패",
   // 🆕
-  un_checkIn: "체크인하지 않은",
+  un_checkIn: "미입실",
   PaymentStatus: {
     CANCEL: "결제취소",
     PROGRESSING: "결제 진행중",
@@ -788,10 +789,20 @@ export const kr = {
   SendTarget: {
     BOTH: "게스트/호스트",
     GUEST: "게스트",
-    HOST: "호스트"
+    HOST: "va호스트"
   },
   please_select_pay_status: "결제 상태를 선택해 주세요.",
   exit_house_settings: "숙소설정 끝내기",
-  none_data: "데이터가 없습니다.",
-  dontSMS: "전송안함"
+  none_data: "no data",
+  dontSMS: "전송안함",
+  hm_page_URL: "하우스메뉴얼 URL",
+  move_hm_page: "하우스메뉴얼 페이지로 이동",
+  reservation_page_URL: "예약페이지 URL",
+  move_reservation_page: "예약페이지 이동",
+  reservation_creation_complete_for_guest: "예약이 완료 되었습니다.",
+  reservation_creation_fail_for_guest: "예약 생성 실패",
+  price_priority:
+    "*우선 적용순위: 방타입 기본가격 < 시즌기본가격 < 시즌 요일별가격 < 일별 가격",
+  reference_fail: "조회실패",
+  reference_sucess: "조회성공"
 };

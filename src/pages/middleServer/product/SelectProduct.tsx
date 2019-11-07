@@ -24,7 +24,7 @@ import ApplyProductModal, {
 } from "./components/applyProductModal";
 import JDlist from "../../../atoms/list/List";
 import {inOr, Check} from "../../../utils/C";
-import PrloaderModal from "../../../atoms/preloaderModal/PreloaderModal";
+import PreloaderModal from "../../../atoms/preloaderModal/PreloaderModal";
 
 interface IProps {
   productTypes: IProductTypeDesc[];
@@ -165,7 +165,7 @@ const SelectProducts: React.FC<IProps> = ({
         id="tooltip__currentProduct"
         effect="solid"
       />
-      <PrloaderModal loading={mutationLoading} />
+      <PreloaderModal loading={mutationLoading} />
     </div>
   );
 };

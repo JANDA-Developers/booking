@@ -1,23 +1,20 @@
 import React from "react";
-import {showError, onCompletedMessage} from "../../utils/utils";
+import {onCompletedMessage} from "../../utils/utils";
 import {Mutation} from "react-apollo";
 import PhoneVerificationModal from "./PhoneVerificationModal";
 import {
   completePhoneVerification,
-  startPhoneVerification,
   completePhoneVerificationVariables,
   startPhoneVerificationWithPhoneNumber,
   startPhoneVerificationWithPhoneNumberVariables
 } from "../../types/api";
 import {
-  PHONE_VERIFICATION,
   COMEPLETE_PHONE_VERIFICATION,
   GET_USER_INFO,
   START_PHONE_VERIFICATION_WITH_PHONE_NUMBER
 } from "../../queries";
 import EerrorProtect from "../../utils/errProtect";
 import {IUseModal, LANG} from "../../hooks/hook";
-import {RouteComponentProps} from "react-router";
 
 class StartPhoneVerificationMu extends Mutation<
   startPhoneVerificationWithPhoneNumber,
@@ -56,8 +53,7 @@ const PhoneVerificationModalWrap: React.FC<IProps> = ({
       );
     }}
   >
-    {startPhoneVerificationMu => {
-      /* 👿 ??? 이걸 바로실행하면 무한반복됨 이유가뭘까? */
+    {(startPhoneVerificationMu, {loading: startVerifiLoading}) => {
       return (
         <CompletePhoneVerification
           mutation={COMEPLETE_PHONE_VERIFICATION}
@@ -80,12 +76,11 @@ const PhoneVerificationModalWrap: React.FC<IProps> = ({
             completePhoneVerificationMu,
             {loading: completePhoneVerificationLoding}
           ) => (
-            // performance.now() ::[https://stackoverflow.com/questions/51524293/new-date-as-react-key-prop]
             <PhoneVerificationModal
               key={`phoneVerification${modalHook.isOpen && "--open"}`}
               startPhoneVerificationMu={startPhoneVerificationMu}
               completePhoneVerificationMu={completePhoneVerificationMu}
-              muLoading={completePhoneVerificationLoding}
+              muLoading={completePhoneVerificationLoding || startVerifiLoading}
               phoneNumber={phoneNumber}
               modalHook={modalHook}
             />

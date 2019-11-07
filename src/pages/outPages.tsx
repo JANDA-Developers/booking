@@ -17,7 +17,7 @@ export const Reservation = (props: any) => (
 
 export const ReservationCheck = (props: any) => (
   <DynamicImport
-    load={() => import("./outPages/checkReservation/CheckReservation")}
+    load={() => import("./outPages/checkReservation/CheckReservationWrap")}
   >
     {(DNcompoent: any) =>
       DNcompoent === null ? (

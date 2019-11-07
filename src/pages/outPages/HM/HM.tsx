@@ -66,136 +66,136 @@ const HMcompoent: React.FC<IProps> = ({
     ? menuData.filter((menu: any) => menu.isEnable)
     : menuData;
 
+  if (loading) {
+    return <Preloader page size="large" loading={loading} />;
+  }
+
   return (
     <div className="HM">
       <div className="HM__mocUp" />
       <div className="HM__frame">
-        {loading ? (
-          <Preloader size="large" loading={loading} />
-        ) : (
-          <section className="HM__headerSectiion">
-            <div className="docs-section__box">
-              <div className="HM__bgSection">
-                <Fragment>
-                  {!host ? (
-                    <div
-                      style={{
-                        backgroundImage: `url(${bgData ? bgData.url : ""})`
-                      }}
-                      className="HM__bg"
-                    />
-                  ) : (
-                    <ImageUploader
-                      className="HM__bg"
-                      mode="noBg"
-                      coverImg
-                      {...host.bgImageHook}
-                      minHeight="150px"
-                      height="150px"
-                    />
-                  )}
-                  <ProfileCircle
-                    file={userInfo.profileImg}
-                    isBordered
-                    whiteBorder
-                    size={IconSize.BIG_LARGE}
-                    className="HM__profilceCricle"
-                  />
-                </Fragment>
-              </div>
-            </div>
-            {(!host && !title) || (
-              <div className="docs-section__box">
-                <div className="HM__titleWrap">
-                  {!host ? (
-                    <h6>{title[currentLang]}</h6>
-                  ) : (
-                    <div>
-                      <InputText
-                        textAlign="center"
-                        value={title[currentLang]}
-                        onChange={value => {
-                          const {setTitle} = host;
-                          title[currentLang] = value;
-                          setTitle({...title});
-                        }}
-                        placeholder={LANG("HM_title")}
-                      />
-                    </div>
-                  )}
-                </div>
-                <div className="HM__languageBtnWrap JDflex--center">
-                  <Button
-                    className="JDmargin-bottom0"
-                    onClick={() => {
-                      languageListModalHook.openModal();
+        <section className="HM__headerSectiion">
+          <div className="docs-section__box">
+            <div className="HM__bgSection">
+              <Fragment>
+                {!host ? (
+                  <div
+                    style={{
+                      backgroundImage: `url(${bgData ? bgData.url : ""})`
                     }}
-                    tooltip={`${currentLang}`}
-                    thema="primary"
-                    label="language"
+                    className="HM__bg"
                   />
-                </div>
-              </div>
-            )}
-            <div className="HM__contectMenu">
-              {/* 👿 자식에게 넘길수있도록 하자 */}
-              <CircleIcon
-                darkWave
-                thema="greybg"
-                onClick={() => {
-                  if (!host) {
-                    document.location.href = `tel:${userInfo.phoneNumber}`;
-                  } else {
-                    host.phoneNumberModalHook.openModal();
-                  }
-                }}
-                size={IconSize.BIG_LARGE}
-              >
-                <JDIcon
-                  tooltip={`${LANG("current_set_number")}}: ${
-                    userInfo.phoneNumber
-                  }`}
+                ) : (
+                  <ImageUploader
+                    className="HM__bg"
+                    mode="noBg"
+                    coverImg
+                    {...host.bgImageHook}
+                    minHeight="150px"
+                    height="150px"
+                  />
+                )}
+                <ProfileCircle
+                  file={userInfo.profileImg}
+                  isBordered
+                  whiteBorder
                   size={IconSize.BIG_LARGE}
-                  icon="call"
+                  className="HM__profilceCricle"
                 />
-              </CircleIcon>
-              <CircleIcon
-                darkWave
-                onClick={() => {
-                  window.open(
-                    `https://www.google.com/maps/search/?api=1&query=${userInfo.location.address}`
-                  );
-                }}
-                thema="greybg"
-                size={IconSize.BIG_LARGE}
-              >
-                <JDIcon
-                  tooltip={LANG("check_location_with_google_map")}
-                  size={IconSize.BIG_LARGE}
-                  icon="location"
-                />
-              </CircleIcon>
-              <CircleIcon
-                darkWave
-                onClick={() => {
-                  if (!host) {
-                    window.open(`mailto:${userInfo.email}`);
-                  } else {
-                    host.emailModalHook.openModal();
-                  }
-                }}
-                thema="greybg"
-                size={IconSize.BIG_LARGE}
-              >
-                <JDIcon
-                  tooltip={LANG("send_text_to_host")}
-                  size={IconSize.BIG_LARGE}
-                  icon="sms"
-                />
-              </CircleIcon>
+              </Fragment>
             </div>
-          </section>
-        )}
+          </div>
+          {(!host && !title) || (
+            <div className="docs-section__box">
+              <div className="HM__titleWrap">
+                {!host ? (
+                  <h6>{title[currentLang]}</h6>
+                ) : (
+                  <div>
+                    <InputText
+                      textAlign="center"
+                      value={title[currentLang]}
+                      onChange={value => {
+                        const {setTitle} = host;
+                        title[currentLang] = value;
+                        setTitle({...title});
+                      }}
+                      placeholder={LANG("HM_title")}
+                    />
+                  </div>
+                )}
+              </div>
+              <div className="HM__languageBtnWrap JDflex--center">
+                <Button
+                  className="JDmargin-bottom0"
+                  onClick={() => {
+                    languageListModalHook.openModal();
+                  }}
+                  tooltip={`${currentLang}`}
+                  thema="primary"
+                  label="language"
+                />
+              </div>
+            </div>
+          )}
+          <div className="HM__contectMenu">
+            {/* 👿 자식에게 넘길수있도록 하자 */}
+            <CircleIcon
+              darkWave
+              thema="greybg"
+              onClick={() => {
+                if (!host) {
+                  document.location.href = `tel:${userInfo.phoneNumber}`;
+                } else {
+                  host.phoneNumberModalHook.openModal();
+                }
+              }}
+              size={IconSize.BIG_LARGE}
+            >
+              <JDIcon
+                tooltip={`${LANG("current_set_number")}}: ${
+                  userInfo.phoneNumber
+                }`}
+                size={IconSize.BIG_LARGE}
+                icon="call"
+              />
+            </CircleIcon>
+            <CircleIcon
+              darkWave
+              onClick={() => {
+                window.open(
+                  `https://www.google.com/maps/search/?api=1&query=${userInfo.location.address}`
+                );
+              }}
+              thema="greybg"
+              size={IconSize.BIG_LARGE}
+            >
+              <JDIcon
+                tooltip={LANG("check_location_with_google_map")}
+                size={IconSize.BIG_LARGE}
+                icon="location"
+              />
+            </CircleIcon>
+            <CircleIcon
+              darkWave
+              onClick={() => {
+                if (!host) {
+                  window.open(`mailto:${userInfo.email}`);
+                } else {
+                  host.emailModalHook.openModal();
+                }
+              }}
+              thema="greybg"
+              size={IconSize.BIG_LARGE}
+            >
+              <JDIcon
+                tooltip={LANG("send_text_to_host")}
+                size={IconSize.BIG_LARGE}
+                icon="sms"
+              />
+            </CircleIcon>
+          </div>
+        </section>
         <section className="HM__bodySection">
           <ul className="HM__menus">
             <li className="HM__menu">

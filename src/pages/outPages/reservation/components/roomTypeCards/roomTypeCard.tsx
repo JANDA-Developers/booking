@@ -1,8 +1,7 @@
 import classNames from "classnames";
 import React, {Fragment, useState, useEffect, useMemo} from "react";
 import JDselect, {
-  IselectedOption,
-  SelectBoxSize
+  IselectedOption
 } from "../../../../../atoms/forms/selectBox/SelectBox";
 import Button from "../../../../../atoms/button/Button";
 import {IRoomType} from "../../../../../types/interface";
@@ -119,9 +118,6 @@ const RoomTypeCard: React.SFC<IProps> = ({
   const maleSeleteOption = countSelectOpFn("maleCount");
   const femaleSeleteOption = countSelectOpFn("femaleCount");
   const roomSeleteOption = countSelectOpFn("roomCount");
-
-  console.log("roomSeleteOption");
-  console.log(roomSeleteOption);
 
   const totalCan =
     maleSeleteOption.length +

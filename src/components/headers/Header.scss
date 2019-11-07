@@ -29,7 +29,13 @@ html .header {
         align-items: center;
         display: flex;
         height: 100%;
-        padding-right: $container-padding;
+
+        // JANDA 로고 좌측크기만큼 보정 크기임
+        padding-right: 0.2rem;
+        
+        @include response($tablet) {
+            padding-right: $container-padding;
+        }
 
         & + .animationWrap {
             display: none;

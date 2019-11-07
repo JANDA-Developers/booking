@@ -14,15 +14,10 @@ import ReservationModal from "../../../components/reservationModala/ReservationM
 import JDIcon from "../../../atoms/icons/Icons";
 import TooltipList from "../../../atoms/tooltipList/TooltipList";
 import DayPickerModal from "../../../components/dayPickerModal/DayPickerModal";
-// @ts-ignore
-import {Doughnut} from "react-chartjs-2";
-// @ts-ignore
-import Calculater from "react-calculator";
-import TempWeel from "./components/tempWheel";
 import SendSMSmodalWrap, {
   IModalSMSinfo
 } from "../../../components/smsModal/SendSmsModalWrap";
-import JDVideo from "../../../atoms/video/Video";
+import moment from "moment";
 
 interface Iprops {
   context: IContext;
@@ -62,13 +57,13 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
     <div className="docs-section">
       <div id="dashboard" className="dashboard">
         <div className="container container--full">
-          <div>{/* <DashBoardHeader /> */}</div>
           <div className="dashboard__section1">
             <div className="flex-grid">
               <div
                 className={`flex-grid__col col--wmd-12
                 col--full-12`}
               >
+                {/* 상단 버튼 집합 */}
                 <div>
                   <Button
                     onClick={() => {
@@ -89,14 +84,22 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
                 </div>
                 <Card>
                   <Fragment>
-                    <div className="dashboard__tooltipsWrap">
-                      <span
-                        data-event="click"
-                        data-tip={true}
-                        data-for="DailyAssigTooltip"
-                      >
-                        <JDIcon hover icon="dotMenuVertical" />
-                      </span>
+                    <div className="JDdisplay-none--wmdUp">
+                      <h6>
+                        {moment(dailyAssigDateHook.from || new Date()).format(
+                          "YY.MM.DD."
+                        )}
+                      </h6>
+                      {/* 데일리 어시그 컨트롤 툴팁 버튼 */}
+                      <div className="dashboard__tooltipsWrap">
+                        <span
+                          data-event="click"
+                          data-tip={true}
+                          data-for="DailyAssigTooltip"
+                        >
+                          <JDIcon hover icon="dotMenuVertical" />
+                        </span>
+                      </div>
                     </div>
                     {MemoDailyAssigWrap}
                     <ReservationModal
@@ -109,6 +112,7 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
                 </Card>
               </div>
             </div>
+            {/* 통계 */}
             <div className="flex-grid flex-grid--start">
               <div className="flex-grid__col col--full-4 col--md-12 JDstandard-space">
                 <Card className="dashboard__dailyStaticsCard">
@@ -126,6 +130,7 @@ const DashBoard: React.SFC<Iprops> = ({updateHouseMu, context}) => {
           </div>
         </div>
       </div>
+      {/* 데일리 어시그 컨트롤 툴팁 */}
       <TooltipList id="DailyAssigTooltip">
         <ul className="tooltipList__ul">
           <li>

@@ -13,8 +13,6 @@ interface Iprops {
 
 const StaticController: React.FC<Iprops> = ({context, staticsProps}) => {
   const {queryDateHook, queryOp, setQueryOp} = staticsProps;
-  console.log("STATISTICS_TYPE_OP");
-  console.log(STATISTICS_TYPE_OP);
   return (
     <div>
       <h6>{LANG("statistical_transformation")}</h6>

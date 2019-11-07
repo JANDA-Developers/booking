@@ -757,10 +757,10 @@ export const GET_HOUSE = gql`
 export const PRICE_TIMELINE_GET_PRICE = gql`
   query dailyPriceGetPrice(
     $houseId: ID!
-    $start: DateTime!
-    $end: DateTime!
+    $checkIn: DateTime!
+    $checkOut: DateTime!
   ) {
-    GetRoomTypeDatePrices(houseId:$houseId, start: $start, end: $end) {
+    GetRoomTypeDatePrices(houseId:$houseId, checkIn: $checkIn, checkOut: $checkOut) {
       ok
       error
       roomTypeDatePrices {
@@ -783,7 +783,7 @@ export const PRICE_TIMELINE_GET_PRICE = gql`
         description
       }
     }
-    GetAllDailyPrice(houseId: $houseId, start: $start, end: $end) {
+    GetAllDailyPrice(houseId: $houseId, checkIn: $checkIn, checkOut: $checkOut) {
       ok
       error
       dailyPrices {
@@ -1181,8 +1181,9 @@ export const GET_BOOKING_FOR_PUBLIC = gql`
     query getBookingForPublic(
         $transactionId: String
         $getBookingParam: GetBookingParams
+        $skip: Boolean!
     ) {
-        GetBookingForPublic(transactionId: $transactionId, getBookingParam:$getBookingParam) {
+        GetBookingForPublic(transactionId: $transactionId, getBookingParam:$getBookingParam) @skip(if: $skip) {
             ok
             error
             booking {
@@ -1223,6 +1224,32 @@ export const GET_BOOKINGS_PHONE_NUMBERS = gql`
             }
         }
     }`;
+
+
+
+export const GET_CHECKINS = gql`
+    query getBookings(
+        $houseId: ID!
+        $page: Int!
+        $count: Int!
+        $filter: GetBookingsFilter
+    ) {
+        GetBookings(
+            houseId: $houseId
+            page: $page
+            count: $count
+            filter: $filter
+        ) {
+            ok
+            error
+            bookings {
+                checkInInfo {
+            isIn
+            checkInDateTime
+            }
+            }
+        }
+    }`
 
 export const GET_BOOKINGS = gql`
     query getBookings(

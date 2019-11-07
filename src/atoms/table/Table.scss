@@ -10,7 +10,16 @@
         border: $table-outborder;
         box-sizing: border-box;
         background-color: white;
-
+        
+        .rt-thead {
+            border-color: $html-color;
+        }
+        // 끝까지 선이 안그어지는 버그가 있음. 편법사용
+        .rt-th:last-child {
+            border-bottom: 2px solid $html-color;
+            margin-bottom: -2px;
+        }
+        
         * {
             border-color: $table-borders-color;
         }

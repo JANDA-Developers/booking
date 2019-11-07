@@ -20,7 +20,13 @@ import moment from "moment";
 import ErrProtecter from "../../utils/errProtect";
 import {TimePerMs} from "../../types/enum";
 import JDIcon, {IconSize} from "../icons/Icons";
-import {IUseDayPicker, useModal, LANG} from "../../hooks/hook";
+import {
+  IUseDayPicker,
+  useModal,
+  LANG,
+  useDayPicker,
+  IUseModal
+} from "../../hooks/hook";
 import DayPickerModal from "../../components/dayPickerModal/DayPickerModal";
 import {isEmpty} from "../../utils/utils";
 import {THandleMouseDown} from "../../pages/middleServer/assig/components/assigIntrerface";
@@ -290,15 +296,14 @@ export {
 };
 
 interface IProps {
-  dayPickerHook: IUseDayPicker;
+  dayPickerModalHook: IUseModal;
   getRootProps: any;
 }
 
 export const SharedSideBarHeader: React.FC<IProps> = ({
-  dayPickerHook,
+  dayPickerModalHook,
   getRootProps
 }) => {
-  const dayPickerModalHook = useModal(false);
   return (
     <div>
       <div className="rct-header-root__topLeft" {...getRootProps()}>
@@ -306,7 +311,7 @@ export const SharedSideBarHeader: React.FC<IProps> = ({
           onMouseDown={e => {
             e.preventDefault();
             e.stopPropagation();
-            dayPickerModalHook.openModal();
+            // dayPickerModalHook.openModal();
           }}
           onClick={e => {
             e.preventDefault();
@@ -328,15 +333,6 @@ export const SharedSideBarHeader: React.FC<IProps> = ({
           />
         </div>
       </div>
-      <DayPickerModal
-        modalHook={dayPickerModalHook}
-        isRange={false}
-        canSelectBeforeDay={true}
-        calenaderPosition="center"
-        label={`${LANG("calender_date")}`}
-        {...dayPickerHook}
-        className="JDwaves-effect JDoverflow-visible"
-      />
     </div>
   );
 };

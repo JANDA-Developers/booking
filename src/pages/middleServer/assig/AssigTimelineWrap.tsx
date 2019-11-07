@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, {useState, useCallback, useMemo} from "react";
+import React, {useState, useCallback, useMemo, Fragment} from "react";
 import {Query, Mutation} from "react-apollo";
 import moment from "moment-timezone";
 import _ from "lodash";
@@ -22,7 +22,7 @@ import {
   updateBlockOption,
   updateBlockOptionVariables
 } from "../../../types/api";
-import {useDayPicker, LANG} from "../../../hooks/hook";
+import {useDayPicker, LANG, useModal} from "../../../hooks/hook";
 import {
   setMidNight,
   queryDataFormater,
@@ -51,6 +51,7 @@ import {
 import {IContext} from "../../MiddleServerRouter";
 import {guestsDataManufacturer} from "./components/guestsDataManufacturer";
 import {blockDataManufacturer} from "./components/blockDataManufacturer";
+import DayPickerModal from "../../../components/dayPickerModal/DayPickerModal";
 
 moment.tz.setDefault("UTC");
 
@@ -82,8 +83,9 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
   windowHeight,
   windowWidth
 }) => {
+  const dayPickerModalHook = useModal(false);
   const {houseConfig, house} = context;
-  const dayPickerHook = useDayPicker(null, null);
+  const dayPickerHook = useDayPicker(new Date(), new Date());
   const defaultStartDate = dayPickerHook.from
     ? dayPickerHook.from
     : moment()
@@ -310,9 +312,10 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                                           windowHeight={windowHeight}
                                           windowWidth={windowWidth}
                                           dataTime={dataTime}
-                                          key={`timeline${
-                                            dayPickerHook.from
-                                          }${networkStatus !== 1}`}
+                                          key={`timeline${moment(
+                                            dayPickerHook.from || new Date()
+                                          ).format("YYMMDD")}${networkStatus !==
+                                            1}`}
                                         />
                                       );
                                     }}

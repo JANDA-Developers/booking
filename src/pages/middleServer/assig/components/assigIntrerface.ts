@@ -411,6 +411,8 @@ interface Ids {
 
 export type TGetItmes = (type: GuestTypeAdd) => IAssigItem[];
 
+export type THilightHeader = (date?: Date | null) => void;
+
 interface THlightGuestBlockProps {
   bookingId?: string;
   itemId?: string;
@@ -448,6 +450,7 @@ export interface IAssigHandlers {
 }
 
 export interface IAssigTimelineUtils {
+  hilightHeader: THilightHeader;
   changeMarkToGhost: TChangeMarkToGhost;
   getInfoesFromMarks: TGetInfoesFromMarks;
   getAssigInfoFromItems: TGetAssigInfoFromItems;

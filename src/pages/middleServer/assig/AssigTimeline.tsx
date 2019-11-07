@@ -61,6 +61,8 @@ import ReservationModal from "../../../components/reservationModala/ReservationM
 import {IContext} from "../../MiddleServerRouter";
 import ReadyItemTooltip from "./components/tooltips/ReadyItemTooltip";
 import HeaderCellRender from "./components/HeaderCellRender";
+import {PortalPreloader} from "../../../utils/portalTo";
+import DayPickerModal from "../../../components/dayPickerModal/DayPickerModal";
 
 interface IProps {
   context: IContext;
@@ -103,9 +105,18 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
 }) => {
   const {networkStatus} = assigDataControl;
   const {house, houseConfig, sideNavIsOpen} = context;
-  const isMobile = windowWidth <= EWindowSize.MOBILE;
+  const isDesktopHDDown = windowWidth < EWindowSize.DESKTOPHD;
   const isTabletDown = windowWidth <= EWindowSize.TABLET;
+  const isMobile = windowWidth < EWindowSize.PHABLET;
+  const timeline_size_var = (() => {
+    if (isMobile) return 7;
+    if (isTabletDown) return 6;
+    if (isDesktopHDDown) return 5;
+    return 0;
+  })();
+
   const [guestValue, setGuestValue] = useState<IAssigItem[]>(deafultGuestsData);
+  const dayPickerModalHook = useModal(false);
   const keyBoardModal = useModal(false);
   const confirmDelteGuestHook = useModal(false);
   const reservationModal = useModal(false);
@@ -197,7 +208,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
 
   const {roomTypeTabEnable} = assigTimeline;
 
-  const {allTooltipsHide, removeMark} = assigUtils;
+  const {allTooltipsHide, removeMark, hilightHeader} = assigUtils;
 
   const assigHandler = getAssigHandlers(assigUtils, assigContext, assigHooks);
 
@@ -230,6 +241,10 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   useEffect(() => {
     ReactTooltip.rebuild();
   });
+
+  useEffect(() => {
+    hilightHeader(dayPickerHook.from);
+  }, [dayPickerHook.from]);
 
   useEffect(() => {
     if (isEmpty(groupData) && !loading) setEmpty(true);
@@ -267,7 +282,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
         <div className="docs-section">
           <h3 className="assigTimeline__titleSection">
             {LANG("allocation_calendar")}
-            <Preloader
+            <PortalPreloader
               size="small"
               floating
               loading={loading}
@@ -280,6 +295,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
                 onClick={() => {
                   reservationModal.openModal();
                 }}
+                disabled={networkStatus === 1}
                 icon="edit"
                 label={LANG("make_reservation")}
               />
@@ -354,13 +370,9 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
               })
             }
             groupRenderer={assigGroupRendererFn}
-            defaultTimeEnd={
-              isTabletDown
-                ? moment(defaultTimeEnd)
-                    .add(-1 * ASSIG_VISIBLE_CELL_MB_DIFF, "days")
-                    .toDate()
-                : defaultTimeEnd
-            }
+            defaultTimeEnd={moment(defaultTimeEnd)
+              .add(-1 * timeline_size_var, "days")
+              .toDate()}
             defaultTimeStart={defaultTimeStart}
             handleDraggingEnd={handleDraggingEnd}
             moveResizeValidator={handleMoveResizeValidator}
@@ -370,11 +382,12 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
             key={sideNavIsOpen ? "a" : "b"}
           >
             <TimelineHeaders>
+              {/* 왼쪽 위 달력 부분 */}
               <SidebarHeader>
                 {({getRootProps}: any) => (
                   <SharedSideBarHeader
+                    dayPickerModalHook={dayPickerModalHook}
                     getRootProps={getRootProps}
-                    dayPickerHook={dayPickerHook}
                   />
                 )}
               </SidebarHeader>
@@ -435,6 +448,15 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
           />
         </JDmodal>
       </div>
+      <DayPickerModal
+        modalHook={dayPickerModalHook}
+        isRange={false}
+        canSelectBeforeDay={true}
+        calenaderPosition="center"
+        label={`${LANG("calender_date")}`}
+        {...dayPickerHook}
+        className="JDwaves-effect JDoverflow-visible"
+      />
     </div>
   );
 };

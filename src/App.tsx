@@ -14,8 +14,6 @@ import "./lib/wave/wave"; // 웨이브 이펙트
 import "./lib/wave/wave.scss";
 import {useLang} from "./hooks/hook";
 import {globalLanguageSetting} from "./utils/globalLagnSet";
-import {useQuery} from "@apollo/react-hooks";
-import uri from "./uri";
 import {iosScrollUnbounce} from "./utils/iosScrollUnBounce";
 
 function App() {

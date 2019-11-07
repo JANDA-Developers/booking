@@ -3936,7 +3936,6 @@ export interface sendSms {
 }
 
 export interface sendSmsVariables {
-  sender: any;
   receivers?: any[] | null;
   msg: string;
   smsInfoId: string;

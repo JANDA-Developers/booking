@@ -7,7 +7,7 @@ import {useModal} from "../../hooks/hook";
 
 interface Iprops extends IPreloaderConfigProps {}
 
-const PrloaderModal: React.FC<Iprops> = ({loading}) => {
+const PreloaderModal: React.FC<Iprops> = ({loading}) => {
   const modalHook = useModal();
   return createPortal(
     <JDmodal {...modalHook} isOpen={loading || false}>
@@ -17,4 +17,4 @@ const PrloaderModal: React.FC<Iprops> = ({loading}) => {
   );
 };
 
-export default PrloaderModal;
+export default PreloaderModal;

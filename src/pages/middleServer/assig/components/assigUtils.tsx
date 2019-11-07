@@ -42,7 +42,8 @@ import {
   ICanvasMenuTooltipProps,
   ICreateCreateItem,
   TChangeMarkToGhost,
-  TGetInfoesFromMarks
+  TGetInfoesFromMarks,
+  THilightHeader
 } from "./assigIntrerface";
 import {
   onCompletedMessage,
@@ -50,10 +51,16 @@ import {
   targetBlink,
   JDscrollTo,
   s4,
-  isEmpty
+  isEmpty,
+  setMidNight
 } from "../../../../utils/utils";
 import {ReactTooltip} from "../../../../atoms/tooltipList/TooltipList";
-import {RoomGender, Gender, PricingType} from "../../../../types/enum";
+import {
+  RoomGender,
+  Gender,
+  PricingType,
+  TimePerMs
+} from "../../../../types/enum";
 import {
   DEFAULT_ASSIG_ITEM,
   DEFAULT_ROOMTYPE,
@@ -73,6 +80,7 @@ import {
   TBookingModalOpenWithMark
 } from "../../../../types/interface";
 import {LANG} from "../../../../hooks/hook";
+import moment from "moment";
 
 export function getAssigUtils(
   {
@@ -716,11 +724,21 @@ export function getAssigUtils(
 
   // canvas 용 메뉴오픈
   const openCanvasMenuTooltip: TOpenCanvasMenuTooltip = location => {
-    console.log("$444");
     $("#canvasMenu")
       .css("left", location.clientX + 10)
       .css("top", location.clientY + 5)
       .addClass("assig__tooltips--show");
+  };
+
+  const hilightHeader: THilightHeader = (date?: Date | null) => {
+    // if (!date) return;
+    // const time =
+    // moment(date)
+    // .local()
+    // .valueOf() -
+    // TimePerMs.H * 3;
+    // const target = $(`.timelineHeaderCell__inner[data-start="${time}"]`);
+    // targetBlink(target.parent());
   };
 
   const getItems = (type: GuestTypeAdd) =>
@@ -855,6 +873,7 @@ export function getAssigUtils(
     getBookingIdByGuestId,
     startBookingModalWithMark,
     hilightGuestBlock,
+    hilightHeader,
     deleteGhost,
     createCreateItem,
     getItems

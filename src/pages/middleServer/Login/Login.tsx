@@ -1,7 +1,7 @@
 import React from "react";
 import {Mutation, withApollo} from "react-apollo";
 import {toast} from "react-toastify";
-import {withRouter, Link, RouteComponentProps} from "react-router-dom";
+import {Link} from "react-router-dom";
 import Card from "../../../atoms/cards/Card";
 import InputText from "../../../atoms/forms/inputText/InputText";
 import Button from "../../../atoms/button/Button";
@@ -9,10 +9,10 @@ import "./Login.scss";
 import {LOG_USER_IN} from "../../../clientQueries";
 import {EMAIL_SIGN_IN, GET_USER_INFO} from "../../../queries";
 import {useInput, LANG} from "../../../hooks/hook";
-import utils, {showError} from "../../../utils/utils";
-import {ApolloClient} from "apollo-client";
+import utils from "../../../utils/utils";
 import {IContext} from "../../MiddleServerRouter";
 import client from "../../../apolloClient";
+import PreloaderModal from "../../../atoms/preloaderModal/PreloaderModal";
 
 interface Iprops {
   context: IContext;
@@ -29,14 +29,15 @@ const Login: React.FC<Iprops> = ({context}) => {
       <div>
         <h1>Login</h1>
         <Card>
-          {/* todo: this need better way */}
           {/* 로그인 뮤테이션 (로컬 ) */}
           <Mutation
             mutation={LOG_USER_IN}
             refetchQueries={[{query: GET_USER_INFO}]}
           >
-            {(logUserIn: any) => {
+            {(logUserIn: any, {loading: loginMuLoading}: any) => {
               const emailSignIn = (e: any) => {
+                if (loginMuLoading) return;
+
                 e.preventDefault();
                 if (!emailHook.isValid) {
                   toast.warn(LANG("username_must_be_email"));
@@ -75,8 +76,13 @@ const Login: React.FC<Iprops> = ({context}) => {
                     }
                   });
               };
+
+              console.log("loginMuLoading");
+              console.log(loginMuLoading);
+
               return (
                 <form onSubmit={emailSignIn}>
+                  <PreloaderModal loading={loginMuLoading} />
                   <div>
                     <InputText
                       {...emailHook}

@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, {Fragment} from "react";
-import {ErrProtecter} from "../../../utils/utils";
+import React, {Fragment, useState, useEffect} from "react";
+import {ErrProtecter, s4, autoComma} from "../../../utils/utils";
 import {getBookingForPublic_GetBookingForPublic_booking} from "../../../types/api";
 import JDtable, {JDcolumn} from "../../../atoms/table/Table";
 import {ReactTableDefaults} from "react-table";
@@ -17,7 +17,14 @@ export interface IProps {
 }
 
 // 하우스 아이디를 우선 Props를 통해서 받아야함
-const CheckTable: React.FC<IProps> = ({tableData}) => {
+const CheckTable: React.FC<IProps> = ({tableData: tableDataProp}) => {
+  const [tableData, setTableData] = useState(tableDataProp);
+  useEffect(() => {
+    if (tableDataProp) {
+      setTableData([...tableDataProp]);
+    }
+  });
+
   const TableColumns: JDcolumn<
     getBookingForPublic_GetBookingForPublic_booking
   >[] = [
@@ -44,30 +51,24 @@ const CheckTable: React.FC<IProps> = ({tableData}) => {
       accessor: "roomTypes",
       Cell: ({value, original}) => {
         const roomTypes: IRoomType[] = value;
+        // ⛔️ 젠더정보가 없기때문에 들어갈수없다 gender를 넣을려면 코드겐부터
         const roomSelectInfo = getRoomSelectInfo(original.guests, roomTypes);
         return roomSelectInfo.map(selectInfo => (
-          <JDbox size="small">
+          <JDbox key={s4()} size="small">
             {selectInfo.roomTypeName}
             <br />
             <span>
               {(() => {
                 const {female, male, roomCount} = selectInfo.count;
+
+                console.log({female, male, roomCount});
+
                 return (
                   <span>
                     {selectInfo.pricingType === PricingType.DOMITORY ? (
                       <Fragment>
-                        {female && (
-                          <span>
-                            {female}
-                            {LANG("female")}{" "}
-                          </span>
-                        )}
-                        {male && (
-                          <span>
-                            {male}
-                            {LANG("male")}
-                          </span>
-                        )}
+                        {female && <span>{female + LANG("female") + " "}</span>}
+                        {male && <span>{male + LANG("male")}</span>}
                       </Fragment>
                     ) : (
                       <span>{roomCount}</span>
@@ -83,17 +84,21 @@ const CheckTable: React.FC<IProps> = ({tableData}) => {
     {
       Header: LANG("usage_amount"),
       accessor: "payment",
-      Cell: ({value, original}) => (
-        <div>
-          {value.price} <br />
-          {LANG(original.payment.status)}
-        </div>
-      )
+      Cell: ({value}) => {
+        return (
+          <div>
+            {autoComma(value.totalPrice)}
+            {LANG("money_unit")}
+            <br />
+            {LANG("PaymentStatus", value.status)}
+          </div>
+        );
+      }
     },
     {
       Header: LANG("status"),
       accessor: "status",
-      Cell: ({value, original}) => <span>{LANG(value)}</span>
+      Cell: ({value}) => <span>{LANG(value)}</span>
     }
   ];
 

@@ -18,7 +18,7 @@ import JDTimer, {TimerStateType} from "../../atoms/timer/Timer";
 import {TimePerMs} from "../../types/enum";
 import Timer from "react-compound-timer";
 import {toast} from "react-toastify";
-import PrloaderModal from "../../atoms/preloaderModal/PreloaderModal";
+import PreloaderModal from "../../atoms/preloaderModal/PreloaderModal";
 
 interface IProps {
   modalHook: IUseModal<any>;
@@ -55,7 +55,7 @@ const PhoneVerification: React.FC<IProps> = ({
   }, [phoneNumber]);
 
   if (muLoading) {
-    return <PrloaderModal loading={true} />;
+    return <PreloaderModal loading={true} />;
   }
 
   return (
@@ -91,6 +91,7 @@ const PhoneVerification: React.FC<IProps> = ({
           thema={"primary"}
           label={LANG("authenticate")}
           onClick={() => {
+            if (muLoading) return;
             if (isTimeOver) {
               toast.warn(LANG("timeout_please_request_again"));
             }

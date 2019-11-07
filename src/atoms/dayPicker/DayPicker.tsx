@@ -226,8 +226,6 @@ const JDdayPicker: React.FC<IJDdayPickerProps> = ({
     LANG("sat")
   ];
 
-  console.log("displayYear");
-  console.log(displayYear);
   const dayPickerProps: DayPickerProps = {
     tabIndex: 1,
     renderDay: horizen ? HorizenDay : undefined,

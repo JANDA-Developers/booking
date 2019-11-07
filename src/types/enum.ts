@@ -16,7 +16,8 @@ export enum UserRole {
 
 export enum DateFormat {
   WITH_TIME = "YY/MM/DD HH:mm",
-  YYMMDD = "YY/MM/DD"
+  YYMMDD = "YY/MM/DD",
+  MMDD = "MM/DD"
 }
 
 export enum GuestType {
@@ -313,9 +314,9 @@ export const LAYOUT_TYPE_OP = [
 
 // [0]가 진행중이 되도록 고정
 export let PAYMENT_STATUS_OP = [
-  {value: PaymentStatus.PROGRESSING, label: ""},
-  {value: PaymentStatus.CANCEL, label: ""},
-  {value: PaymentStatus.COMPLETE, label: ""}
+  {value: PaymentStatus.COMPLETE, label: ""},
+  {value: PaymentStatus.CANCEL, label: ""}
+  // {value: PaymentStatus.PROGRESSING, label: ""},
 ];
 
 // 아직 통계선택들이 작업 안되어있음 View 만 사용중

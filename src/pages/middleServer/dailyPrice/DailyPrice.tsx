@@ -1,6 +1,5 @@
 import React, {useMemo, Fragment} from "react";
 import "moment/locale/ko";
-import moment from "moment";
 import {MutationFn} from "react-apollo";
 import Timeline, {
   TimelineHeaders,
@@ -26,25 +25,14 @@ import {
   useModal,
   LANG
 } from "../../../hooks/hook";
-import {
-  setMidNight,
-  autoComma,
-  isEmpty,
-  muResult,
-  searchHoliday
-} from "../../../utils/utils";
-import {
-  TimePerMs,
-  GlobalCSS,
-  WindowSize,
-  MODAL_PRELOADER_SIZE
-} from "../../../types/enum";
+import {setMidNight, autoComma, muResult} from "../../../utils/utils";
+import {TimePerMs, GlobalCSS, WindowSize} from "../../../types/enum";
 import reactWindowSize, {WindowSizeProps} from "react-window-size";
-import JDbadge from "../../../atoms/badge/Badge";
-import Tooltip from "../../../atoms/tooltip/Tooltip";
 import {IContext} from "../../MiddleServerRouter";
 import PriceWarnModal from "../../../components/priceWarnModal.tsx/PriceWarnModal";
 import HeaderCellRender from "../assig/components/HeaderCellRender";
+import DayPickerModal from "../../../components/dayPickerModal/DayPickerModal";
+import moment from "moment";
 
 interface IProps {
   items: IItem[] | undefined;
@@ -89,6 +77,7 @@ const UpdateTimeline: React.FC<IProps & WindowSizeProps> = ({
   const isMobile = windowWidth <= WindowSize.MOBILE;
   const isTabletDown = windowWidth <= WindowSize.TABLET;
   const priceWarnModalHook = useModal(false);
+  const dayPickerModalHook = useModal(false);
 
   const {datas: holidays, loading: holidayLoading} = getKoreaSpecificDayHook([
     "2019",
@@ -127,7 +116,9 @@ const UpdateTimeline: React.FC<IProps & WindowSizeProps> = ({
     const result = await createDailyPriceMu({
       variables: {
         houseId: house._id,
-        date: item.end,
+        date: moment(item.start)
+          .local()
+          .format("YYYY-MM-DD"),
         roomTypeId: item.group,
         price: value
       }
@@ -289,8 +280,8 @@ const UpdateTimeline: React.FC<IProps & WindowSizeProps> = ({
                   <SidebarHeader>
                     {({getRootProps}: any) => (
                       <SharedSideBarHeader
+                        dayPickerModalHook={dayPickerModalHook}
                         getRootProps={getRootProps}
-                        dayPickerHook={dayPickerHook}
                       />
                     )}
                   </SidebarHeader>
@@ -304,7 +295,16 @@ const UpdateTimeline: React.FC<IProps & WindowSizeProps> = ({
                 </TimelineHeaders>
               </Timeline>
               <PriceWarnModal modalHook={priceWarnModalHook} />
-              <Preloader size={MODAL_PRELOADER_SIZE} loading={loading} />
+              <Preloader page loading={loading} />
+              <DayPickerModal
+                modalHook={dayPickerModalHook}
+                isRange={false}
+                canSelectBeforeDay={true}
+                calenaderPosition="center"
+                label={`${LANG("calender_date")}`}
+                {...dayPickerHook}
+                className="JDwaves-effect JDoverflow-visible"
+              />
             </div>
           </div>
         </div>

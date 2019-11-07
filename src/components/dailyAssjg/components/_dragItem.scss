@@ -38,10 +38,10 @@
             background-color: $assigItem-checkIn-color;
             color: $html-color;
             .dailyAssigItem__gender {
-                &--female {
+                .assigItem--female {
                     color: $female-color;
                 }
-                &--male {
+                .assigItem--male {
                     color: $male-color;
                 }
             }   

@@ -67,7 +67,11 @@ const DayCheckIn: React.FC<Iprops> = ({
         />
       )}
       {info.bookingsCheckInCount}/{info.bookingsCount}
-      <JDgraph JDtype="doughnut" originalData={[]} data={datasets} />
+      <JDgraph
+        JDtype="doughnut"
+        originalData={info.bookingsCount ? [info.bookingsCount] : []}
+        data={datasets}
+      />
     </div>
   );
 };

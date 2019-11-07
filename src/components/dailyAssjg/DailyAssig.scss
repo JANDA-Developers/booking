@@ -7,6 +7,13 @@
     border-top: 1px solid $grey-opacity1;
     border-left: 1px solid $grey-opacity1;
     border-right: 1px solid $grey-opacity1;
+
+    &__roomTypeName {
+        @include response($tablet) {
+            width: 12px;
+        }
+    }
+
     // border: 2px solid $html-color;
     &__row {
         display:flex;

@@ -2,7 +2,7 @@ import React, {Fragment, useEffect} from "react";
 import {useQuery} from "@apollo/react-hooks";
 import {GET_MEMO} from "../../../queries";
 import {getMemos, getMemosVariables} from "../../../types/api";
-import {queryDataFormater} from "../../../utils/utils";
+import {queryDataFormater, s4} from "../../../utils/utils";
 import JDIcon, {IconConifgProps} from "../../../atoms/icons/Icons";
 import {IContext} from "../../../pages/MiddleServerRouter";
 import {MemoType} from "../../../types/enum";
@@ -46,6 +46,7 @@ const MemoIcon: React.FC<Iprops> = ({context, ...props}) => {
           haveEnableAlert
             ? [
                 <JDbadge
+                  key={s4()}
                   tooltip={LANG("there_is_an_alarm_set_note")}
                   thema="point"
                 />

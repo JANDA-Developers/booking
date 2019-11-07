@@ -3,6 +3,13 @@
 @import './components/ConfigBlock.scss';
 
 .config {
+    &__tabCard {
+        margin-right: 0;
+        @include response($tablet) {
+            margin-right: $standard-small-space;
+        }
+    };
+    
     &__detailSection {
         right: 0px;
     }
@@ -10,7 +17,6 @@
     &__cardsWrap {
         max-width: 100%;
         overflow:visible;
-        margin-bottom: 2%;
         
         @extend %JDscrollbar;
         

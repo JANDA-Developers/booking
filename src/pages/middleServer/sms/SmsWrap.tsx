@@ -1,6 +1,6 @@
-import React, { useRef, Fragment, useEffect } from "react";
+import React, {useRef, Fragment, useEffect} from "react";
 import Sms from "./Sms";
-import { Mutation, Query } from "react-apollo";
+import {Mutation, Query} from "react-apollo";
 import {
   createSmsTemplate,
   createSmsTemplateVariables,
@@ -27,35 +27,35 @@ import {
   showError,
   onCompletedMessage
 } from "../../../utils/utils";
-import { getOperationName } from "apollo-utilities";
-import { DEFAULT_SMS_TEMPLATE } from "../../../types/defaults";
+import {getOperationName} from "apollo-utilities";
+import {DEFAULT_SMS_TEMPLATE} from "../../../types/defaults";
 import Preloader from "../../../atoms/preloader/Preloader";
-import { IContext } from "../../MiddleServerRouter";
-import { LANG } from "../../../hooks/hook";
+import {IContext} from "../../MiddleServerRouter";
+import {LANG} from "../../../hooks/hook";
 
 class CreateSmsTemplate extends Mutation<
   createSmsTemplate,
   createSmsTemplateVariables
-  > { }
+> {}
 class DeleteSmsTemplate extends Mutation<
   deleteSmsTemplate,
   deleteSmsTemplateVariables
-  > { }
+> {}
 class UpdateSmsTemplate extends Mutation<
   updateSmsTemplate,
   updateSmsTemplateVariables
-  > { }
-class UpdateSmsSender extends Mutation<updateSender, updateSenderVariables> { }
-class GetSmsInfo extends Query<getSmsInfo, getSmsInfoVariables> { }
+> {}
+class UpdateSmsSender extends Mutation<updateSender, updateSenderVariables> {}
+class GetSmsInfo extends Query<getSmsInfo, getSmsInfoVariables> {}
 
 interface IProps {
   context: IContext;
 }
 
-const SmsWrap: React.FC<IProps> = ({ context }) => {
-  const { house } = context;
+const SmsWrap: React.FC<IProps> = ({context}) => {
+  const {house} = context;
 
-  useEffect(() => { }, []);
+  useEffect(() => {}, []);
 
   return (
     <GetSmsInfo
@@ -64,7 +64,7 @@ const SmsWrap: React.FC<IProps> = ({ context }) => {
         houseId: house._id
       }}
     >
-      {({ data: smsData, loading, error }) => {
+      {({data: smsData, loading, error}) => {
         const smsInfo = queryDataFormater(
           smsData,
           "GetSmsInfo",
@@ -76,7 +76,7 @@ const SmsWrap: React.FC<IProps> = ({ context }) => {
           <CreateSmsTemplate
             mutation={CREATE_SMS_TEMPLATE}
             refetchQueries={[getOperationName(GET_SMS_INFO)!]}
-            onCompleted={({ CreateSmsTemplate }) =>
+            onCompleted={({CreateSmsTemplate}) =>
               onCompletedMessage(
                 CreateSmsTemplate,
                 LANG("create_template_complited"),
@@ -88,7 +88,7 @@ const SmsWrap: React.FC<IProps> = ({ context }) => {
               <DeleteSmsTemplate
                 mutation={DELETE_SMS_TEMPLATE}
                 refetchQueries={[getOperationName(GET_SMS_INFO)!]}
-                onCompleted={({ DeleteSmsTemplate }) =>
+                onCompleted={({DeleteSmsTemplate}) =>
                   onCompletedMessage(
                     DeleteSmsTemplate,
                     LANG("delete_template_completed"),
@@ -101,7 +101,7 @@ const SmsWrap: React.FC<IProps> = ({ context }) => {
                     {updateSenderMu => (
                       <UpdateSmsTemplate
                         mutation={UPDATE_SMS_TEMPLATE}
-                        onCompleted={({ UpdateSmsTemplate }) =>
+                        onCompleted={({UpdateSmsTemplate}) =>
                           onCompletedMessage(
                             UpdateSmsTemplate,
                             LANG("update_template_completed"),

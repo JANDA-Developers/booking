@@ -51,6 +51,7 @@ import SideNav from "../components/sideNav/SideNav";
 import Expired from "./middleServer/expire/Expired";
 import StarterModalWrap from "./middleServer/starterModal/StarterModalWrap";
 import uri from "../uri";
+import {AddtionalConfigModal} from "../components/else/AdditionalConfigModal";
 
 export interface IContext extends RouteComponentProps<any> {
   user: getMyProfile_GetMyProfile_user;
@@ -97,8 +98,14 @@ const JDmiddleServer: React.FC<IProps> = ({
   const memoAlertModal = useModal(false);
   const applyedProduct = (currentHouse && currentHouse.product) || undefined;
   const {userRole} = user;
+  // 추가적 설정 모달
+  const additionalConfigModal = useModal(false);
   const [sideNavIsOpen, setSideNavIsOpen] = useSideNav();
   const houseConfig = houseConfigSetting(currentHouse);
+
+  const callBackStartStepEnd = () => {
+    additionalConfigModal.openModal();
+  };
 
   // 지원하지 않는 브라우저로 부터 접속했는지 확인합니다.
   JDoutdatedBrowserRework();
@@ -140,7 +147,8 @@ const JDmiddleServer: React.FC<IProps> = ({
     );
 
   const middleServerClassNames = classnames("middleServer", undefined, {
-    "middleServer--sideOpen": sideNavIsOpen
+    "middleServer--sideOpen":
+      sideNavIsOpen && currentHouse && currentHouse.completeDefaultSetting
   });
 
   // 🍰 메인리턴
@@ -158,6 +166,10 @@ const JDmiddleServer: React.FC<IProps> = ({
             const propContext = Object.assign(tempContext, props, JDlang);
             return (
               <Fragment>
+                <AddtionalConfigModal
+                  context={propContext as any}
+                  modalHook={additionalConfigModal}
+                />
                 <MemoAlertModal
                   context={propContext as any}
                   modalHook={memoAlertModal}
@@ -372,6 +384,7 @@ const JDmiddleServer: React.FC<IProps> = ({
                           <StarterModalWrap
                             key={s4()}
                             context={propContext as any}
+                            callBackStartStepEnd={callBackStartStepEnd}
                           />
                         </div>
                       )}

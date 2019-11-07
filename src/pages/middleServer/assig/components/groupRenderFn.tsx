@@ -75,6 +75,8 @@ const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({
         arraySum(arrayHeights.get()) + target.length * 2
       );
     }
+
+    // 여기뒤에 id를 넣음으로서 퍼포먼스를 개선할 여지가 있음 하지만
   });
 
   if (group.type === "noneGroup") {

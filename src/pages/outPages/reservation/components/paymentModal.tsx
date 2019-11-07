@@ -1,45 +1,30 @@
 import classNames from "classnames";
-import React, { Fragment } from "react";
+import React, {Fragment} from "react";
 import JDmodal from "../../../../atoms/modal/Modal";
-import { IUseModal, LANG } from "../../../../hooks/hook";
+import {IUseModal, LANG} from "../../../../hooks/hook";
 import JDselect from "../../../../atoms/forms/selectBox/SelectBox";
 import Button from "../../../../atoms/button/Button";
 import BookerInfoBox from "./bookerInfoBox";
-import { IReservationHooks } from "../Reservation";
-import {
-  PAYMETHOD_FOR_BOOKER_OP,
-  PAYMETHOD_FOR_HOST_OP,
-  PAYMENT_STATUS_OP
-} from "../../../../types/enum";
-import CheckBox from "../../../../atoms/forms/checkBox/CheckBox";
+import {PAYMETHOD_FOR_BOOKER_OP} from "../../../../types/enum";
 import Preloader from "../../../../atoms/preloader/Preloader";
-import InputText from "../../../../atoms/forms/inputText/InputText";
+import {IReservationHooks} from "../Reservation";
 
 interface IProps {
   className?: string;
   modalHook: IUseModal;
   createLoading: boolean;
   bookingCompleteFn(): void;
-  isHost: boolean;
   reservationHooks: IReservationHooks;
 }
 
-const PayMentModal: React.SFC<IProps> = ({
+const PayMentModal: React.FC<IProps> = ({
   className,
   modalHook,
   reservationHooks,
   bookingCompleteFn,
-  createLoading,
-  isHost
+  createLoading
 }) => {
-  const {
-    payMethodHook,
-    sendSmsHook,
-    bookerInfo,
-    setBookerInfo,
-    paymentStatusHook,
-    priceHook
-  } = reservationHooks;
+  const {payMethodHook, bookerInfo, setBookerInfo} = reservationHooks;
   const classes = classNames("paymentModal", className, {});
 
   // pay 한후 request 받아서 진행
@@ -59,32 +44,15 @@ const PayMentModal: React.SFC<IProps> = ({
             <div>
               <JDselect
                 {...payMethodHook}
-                options={
-                  isHost ? PAYMETHOD_FOR_HOST_OP : PAYMETHOD_FOR_BOOKER_OP
-                }
+                options={PAYMETHOD_FOR_BOOKER_OP}
                 label={LANG("method_of_payment")}
               />
             </div>
-            {isHost && (
-              <Fragment>
-                <div>
-                  <JDselect
-                    label={LANG("payment_status")}
-                    {...paymentStatusHook}
-                    options={PAYMENT_STATUS_OP}
-                  />
-                </div>
-                <div>
-                  <InputText comma {...priceHook} label={LANG("total_price")} />
-                </div>
-              </Fragment>
-            )}
             <BookerInfoBox
               bookerInfo={bookerInfo}
               setBookerInfo={setBookerInfo}
             />
           </div>
-          {isHost && <CheckBox {...sendSmsHook} label={LANG("send_sms")} />}
           <div className="JDmodal__endSection">
             <Button
               thema="primary"

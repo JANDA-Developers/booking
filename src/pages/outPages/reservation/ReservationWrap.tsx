@@ -46,16 +46,7 @@ const ReservationWrap: React.FC<
   sessionStorage.setItem("hpk", publicKey || match.params.publickey);
   sessionStorage.setItem("hpk33", "33");
 
-  const startBookingCallBackFn = (result: any) => {
-    onCompletedMessage(
-      result,
-      LANG("reservation_creation_complete"),
-      LANG("reservation_creation_fail")
-    );
-    modalHook && modalHook.closeModal();
-    callBackCreateBookingMu && callBackCreateBookingMu(result);
-  };
-
+  // 스타트부킹(게스트)
   const [startBookingForPublicMu, {loading: startBookingLoading}] = useMutation<
     startBookingForPublic,
     startBookingForPublicVariables
@@ -66,24 +57,16 @@ const ReservationWrap: React.FC<
       startBookingCallBackFn(StartBookingForPublic);
     }
   });
-  const [startBookingMu, {loading: startBookingL}] = useMutation<
-    startBooking,
-    startBookingVariables
-  >(START_BOOKING, {
-    client,
-    refetchQueries: [
-      getOperationName(GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM) || ""
-    ],
-    awaitRefetchQueries: true,
-    onCompleted: ({StartBooking}) => {
-      startBookingCallBackFn(StartBooking);
-    }
-  });
+  // 페이 인증
   const {refetch: payAuthQu} = useQuery<
     getPaymentAuth,
     getPaymentAuthVariables
   >(GET_PAYMENT_AUTH, {client, skip: true});
-  const confirmModalHook = useModal(false);
+
+  const startBookingCallBackFn = (result: any) => {
+    modalHook && modalHook.closeModal();
+    callBackCreateBookingMu && callBackCreateBookingMu(result);
+  };
 
   if (isInIfram) {
     $("html").addClass("inIframe");
@@ -93,9 +76,7 @@ const ReservationWrap: React.FC<
     <div>
       <Reservation
         context={context}
-        confirmModalHook={confirmModalHook}
         startBookingForPublicMu={startBookingForPublicMu}
-        startBookingMu={startBookingMu}
         payAuthQu={payAuthQu}
         createLoading={startBookingLoading}
       />

@@ -94,9 +94,15 @@
 
     &--unRange {
         .DayPicker-Day {
-            border-radius: 0px!important;
+            border-radius:0%;
             &--start {
                 color:white;
+            }
+
+            &:hover {
+                background-color:$grey-level1;
+                border-radius: $standard-border-radius!important;
+                overflow:hidden;
             }
         }
     }

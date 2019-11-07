@@ -27,6 +27,7 @@
     "src/.queries.ts",
     "src/atoms/toggleNoti",
     "src/pages/middleServer/dashboard/components/tempWheel.js",
-    "src/utils/iosScrollUnBounce.js"
+    "src/utils/iosScrollUnBounce.js",
+    "src/polyfill/polyfill.js"
   ]
 }

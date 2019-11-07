@@ -101,57 +101,59 @@ const RoomConfigNew: React.FC<IProps> = ({
               key={roomType._id}
               className={`JDstandard-space0 roomConfig__roomType roomConfig__roomType${roomType._id}`}
             >
-              <div className="roomConfig__roomType_titleSection">
-                <div className="roomConfig__roomType_titleAndIcons">
-                  <h5 className="JDstandard-space">{roomType.name}</h5>
-                  <Help
-                    icon="info"
-                    tooltip={<RoomTypeInfo roomType={roomType} />}
+              <div className="roomConfig__roomCardWrap">
+                <div className="roomConfig__roomType_titleSection">
+                  <div className="roomConfig__roomType_titleAndIcons">
+                    <h5 className="JDstandard-space">{roomType.name}</h5>
+                    <Help
+                      icon="info"
+                      tooltip={<RoomTypeInfo roomType={roomType} />}
+                    />
+                  </div>
+                  <Button
+                    onClick={() => {
+                      roomTypeModalHook.openModal({
+                        roomTypeId: roomType._id,
+                        mode: "Modify"
+                      });
+                    }}
+                    mode="border"
+                    label={LANG("do_modify")}
+                    icon={"edit"}
+                    size="small"
                   />
                 </div>
-                <Button
-                  onClick={() => {
-                    roomTypeModalHook.openModal({
-                      roomTypeId: roomType._id,
-                      mode: "Modify"
-                    });
-                  }}
-                  mode="border"
-                  label={LANG("do_modify")}
-                  icon={"edit"}
-                  size="small"
-                />
-              </div>
 
-              <div className="roomConfig__roomsWrapWrap">
-                {roomType.rooms.map(room => {
-                  const RoomBox = getRoomBox(roomType, room);
-                  return <Fragment key={room._id}>{RoomBox}</Fragment>;
-                })}
-                {/* add */}
-                <JDbox
-                  clickable
-                  textAlign="center"
-                  mode="dashBorder"
-                  onClick={e => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    roomModalHook.openModal({
-                      isAddMode: true,
-                      roomTypeId: roomType._id
-                    });
-                  }}
-                  align="flexVcenter"
-                  className="roomConfig__addRoomBox"
-                  key={`add${roomType._id}`}
-                >
-                  <h6 className="roomConfig__roomTitle">
-                    <span className="JDstandard-small-space">
-                      {LANG("add_room")}
-                    </span>
-                    <JDIcon icon="edit" />
-                  </h6>
-                </JDbox>
+                <div className="roomConfig__roomsWrapWrap">
+                  {roomType.rooms.map(room => {
+                    const RoomBox = getRoomBox(roomType, room);
+                    return <Fragment key={room._id}>{RoomBox}</Fragment>;
+                  })}
+                  {/* add */}
+                  <JDbox
+                    clickable
+                    textAlign="center"
+                    mode="dashBorder"
+                    onClick={e => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      roomModalHook.openModal({
+                        isAddMode: true,
+                        roomTypeId: roomType._id
+                      });
+                    }}
+                    align="flexVcenter"
+                    className="roomConfig__addRoomBox"
+                    key={`add${roomType._id}`}
+                  >
+                    <h6 className="roomConfig__roomTitle">
+                      <span className="JDstandard-small-space">
+                        {LANG("add_room")}
+                      </span>
+                      <JDIcon icon="edit" />
+                    </h6>
+                  </JDbox>
+                </div>
               </div>
             </Card>
           ))}

@@ -57,7 +57,7 @@ const MemoBox: React.FC<Iprops> = ({
   const MemoToolAndBadge = () => (
     <div className="JDflex">
       <div>
-        <div className="JDhoverBox__ JDflex--vCenter">
+        <div className={`${enableAlert || "JDhoverBox__"} zJDflex--vCenter`}>
           <JDIcon
             className="JDstandard-small-space "
             hover
@@ -82,7 +82,7 @@ const MemoBox: React.FC<Iprops> = ({
           norAddAndEditMode
             ? moment(memo.createdAt)
                 .local()
-                .format("MM:DD HH:mm")
+                .format("작성 MM/DD HH:MM")
             : undefined
         }
         tooltipDirection="left"

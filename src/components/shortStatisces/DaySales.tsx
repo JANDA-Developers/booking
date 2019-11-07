@@ -44,9 +44,6 @@ const DaySales: React.FC<Iprops> = ({
     ]
   };
 
-  console.log("datasets");
-  console.log(datasets);
-
   return (
     <div>
       {showDayPicker && dayPickerHook && (

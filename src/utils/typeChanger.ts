@@ -109,6 +109,13 @@ export const getRoomSelectInfo = (
 ): IRoomSelectInfo[] => {
   if (!guests) return [];
 
+  console.log("!!!!!@@@@@");
+  console.log("guests");
+  console.log(guests);
+  console.log("roomTypes");
+  console.log(roomTypes);
+  console.log("!!!!!@@@@@");
+
   const roomTypesBuffer: string[] = [];
   const tempArr = guests.map((guest): IRoomSelectInfo | "duplicate" => {
     const guestRoomType =

@@ -11,6 +11,7 @@ function targetBlink(targetDoms: JQuery<HTMLElement>, infi?: boolean) {
   setTimeout(() => {
     JD_BLINK_STACK++;
     targetDoms.addClass(`JDtext-blink`);
+    1;
     if (infi) {
       targetDoms.addClass(`JDtext-blink--infinity`);
     }

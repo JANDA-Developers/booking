@@ -12,6 +12,10 @@ p > div {
     margin-bottom: $standard-text-line-term;
 }
 
+button {
+    padding: 0;
+}
+
 input {
     background-color: transparent;
 }
@@ -253,11 +257,15 @@ a.JDanchor {
     position: relative;
     z-index: $z-index-10
 }
+
+// .JDdisplay-none--(이것일때)
 .JDdisplay-none {
     display:none;
+    // Up 클래스
     @include responseUpClass() {
         display:none!important;
     }
+    // Down클래스 Down 생략
     @include responseClass() {
         display:none!important;
     }

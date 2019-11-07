@@ -60,6 +60,7 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
   const [viewMode, setViewMode] = useState<IGraphViewMode>(
     IGraphViewMode.doughnut
   );
+  const isTabletDown = windowWidth <= WindowSize.TABLET;
   const staticControllerModalHook = useModal(false);
 
   // 각 그래프 형태에따라 데이터셋 변화
@@ -214,9 +215,9 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
         </div>
         <div className="flex-grid">
           <div className="flex-grid__col col--full-6 col--wmd-12">
-            <Card className="statistic__graphCard" fullHeight>
+            <Card className="statistic__graphCard" fullHeight={!isTabletDown}>
               <div>
-                {windowWidth > WindowSize.TABLET && (
+                {!isTabletDown && (
                   <StaticIcons
                     context={context}
                     viewMode={viewMode}
@@ -225,13 +226,15 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
                 )}
                 {/* 사파리에서 로딩이 안없어짐 */}
                 {loading && (
-                  <Preloader
-                    wrapClassName="statistic__graphPreloader"
-                    position="center"
-                    noAnimation
-                    size={"large"}
-                    loading={loading}
-                  />
+                  <div className="statistic__graphPreloader">
+                    <Preloader
+                      wrapClassName=""
+                      position="center"
+                      noAnimation
+                      size={"large"}
+                      loading={loading}
+                    />
+                  </div>
                 )}
                 <Preloader
                   floating
@@ -244,34 +247,19 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
                       viewMode === "list" ? "statistic__table" : undefined
                     }
                   >
-                    <JDgraph JDtype={viewMode} data={graphData} />
+                    <JDgraph
+                      originalData={staticData}
+                      JDtype={viewMode}
+                      data={graphData}
+                    />
                   </div>
-                  {/* {viewMode === IGraphViewMode.pie && (
-                    <Doughnut data={graphData} />
-                  )}
-                  {viewMode === IGraphViewMode.line && (
-                    <Line data={graphData} />
-                  )}
-                  {viewMode === IGraphViewMode.list && (
-                  )} */}
                 </div>
-                {windowWidth > WindowSize.TABLET || (
-                  <Button
-                    mode="flat"
-                    onClick={() => {
-                      staticControllerModalHook.openModal();
-                    }}
-                    thema="primary"
-                    label={LANG("change_statistics")}
-                    icon="controller"
-                  />
-                )}
               </div>
             </Card>
           </div>
           {windowWidth > WindowSize.TABLET ? (
             <div className="flex-grid__col col--full-6 col--wmd-12">
-              <Card fullHeight>
+              <Card fullHeight={!isTabletDown}>
                 <StaticController
                   staticsProps={staticsProps}
                   context={context}
@@ -286,6 +274,17 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
             />
           )}
         </div>
+        {windowWidth > WindowSize.TABLET || (
+          <Button
+            mode="flat"
+            onClick={() => {
+              staticControllerModalHook.openModal();
+            }}
+            thema="primary"
+            label={LANG("change_statistics")}
+            icon="controller"
+          />
+        )}
       </div>
     </div>
   );

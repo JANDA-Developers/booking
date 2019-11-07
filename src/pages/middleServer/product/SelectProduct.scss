@@ -6,9 +6,10 @@
 
 
 .selectProducts {
+    overflow: auto;
+    
     &__productWrap {
         display: flex;
-        margin-bottom: $standard-margin-bottom;
 
         .JDproduct {
             width: 25%;

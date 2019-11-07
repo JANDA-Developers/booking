@@ -23,45 +23,46 @@ h3,
 h4,
 h5,
 h6 {
-  margin-top: 0;
   font-weight: 400;
   word-wrap: break-word;
   line-height: 120%;
+  // line-height 보정
+  margin-top: -$standard-height;
 }
 
 h1 {
   font-size: 3.5rem;
-  letter-spat_g: -.1rem;
+  letter-spacing: -.1rem;
   margin-bottom: 2.5rem
 }
 
 h2 {
   font-size: 3rem;
-  letter-spat_g: -.1rem;
+  letter-spacing: -.1rem;
   margin-bottom: 2rem
 }
 
 h3 {
   font-size: 2.4rem;
-  letter-spat_g: -.1rem;
+  letter-spacing: -.1rem;
   margin-bottom: $standard-margin-bottom + .5rem
 }
 
 h4 {
   font-size: 2rem;
-  letter-spat_g: -.08rem;
+  letter-spacing: -.08rem;
   margin-bottom: $standard-margin-bottom + .4rem
 }
 
 h5 {
   font-size: 1.6rem;
-  letter-spat_g: -.05rem;
+  letter-spacing: -.05rem;
   margin-bottom: $standard-margin-bottom + .3rem
 }
 
 h6 {
   font-size: $typho-h6;
-  letter-spat_g: 0;
+  letter-spacing: 0;
   margin-bottom: $standard-margin-bottom
 }
 

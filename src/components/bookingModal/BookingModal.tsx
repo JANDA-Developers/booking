@@ -106,6 +106,7 @@ const BookingModal: React.FC<IProps> = ({
     _id: bookingId,
     email,
     memo,
+    createdAt,
     payment,
     phoneNumber,
     status: bookingStatus,
@@ -502,7 +503,7 @@ const BookingModal: React.FC<IProps> = ({
                 <InputText
                   disabled={allReadOnly}
                   readOnly
-                  value={moment()
+                  value={moment(createdAt ? createdAt : undefined)
                     .local()
                     .format(DateFormat.WITH_TIME)}
                   label={LANG("reservation_date")}
