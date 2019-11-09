@@ -20,13 +20,17 @@ const NotiLi: React.FC<IProps> = ({noti}) => {
 
   const SharedNoti = () => (
     <span>
-      <span className="notiLi__badgeWrap">
-        {noti.notiLevel === NotiLevel.WARN && (
-          <JDbadge thema="error">{LANG("caution")}</JDbadge>
-        )}
-        {!noti.isConfirm && <JDbadge thema="new">{LANG("new")}</JDbadge>}
-      </span>
-      <h6 className="notiLi__title">{noti.title}</h6>
+      <div>
+        <h6 className="notiLi__title">
+          <span className="notiLi__title_txt">{noti.title}</span>
+          <div className="notiLi__badgeWrap">
+            {noti.notiLevel === NotiLevel.WARN && (
+              <JDbadge thema="error">{LANG("caution")}</JDbadge>
+            )}
+            {!noti.isConfirm && <JDbadge thema="new">{LANG("new")}</JDbadge>}
+          </div>
+        </h6>
+      </div>
       <span className="notiLi__msg">{noti.msg}</span>
     </span>
   );

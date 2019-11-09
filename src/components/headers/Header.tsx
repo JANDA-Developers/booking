@@ -36,7 +36,7 @@ const Header: React.FC<IProps> = ({
   const {user} = context;
   const {house} = context;
   const {completeDefaultSetting} = house || {completeDefaultSetting: false};
-  const isMobile = windowWidth < WindowSize.PHABLET;
+  const isPhabletDown = windowWidth < WindowSize.TABLET;
 
   useEffect(() => {
     ReactTooltip.hide();
@@ -82,25 +82,27 @@ const Header: React.FC<IProps> = ({
       )}
       {/* space between 3번째 */}
       <div className="header__right">
+        {/* PC와 모바일에 관계없는 헤더 컴포넌트 */}
         <SharedHeaderComponent
           logOutMutation={logOutMutation}
           phoneVerificationModalHook={phoneVerificationModalHook}
           context={context}
         />
-        {!isMobile ? (
-          <PcHeaderComponent
-            phoneVerificationModalHook={phoneVerificationModalHook}
-            context={context}
-          />
-        ) : (
+        {/* 모바일과 PC 각각의 헤더 컴포넌트*/}
+        {isPhabletDown ? (
           <MobileHeaderComponent
             logOutMutation={logOutMutation}
             phoneVerificationModalHook={phoneVerificationModalHook}
             context={context}
           />
+        ) : (
+          <PcHeaderComponent
+            phoneVerificationModalHook={phoneVerificationModalHook}
+            context={context}
+          />
         )}
       </div>
-
+      {/* 핸드폰 인증모달 */}
       <PhoneVerificationModalWrap
         phoneNumber={user.phoneNumber}
         modalHook={phoneVerificationModalHook}

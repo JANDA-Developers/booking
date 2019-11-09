@@ -27,6 +27,7 @@ interface IProp {
   resvInfo: startBookingVariables | startBookingForPublicVariables;
   transactionId: string;
   authInfo: getPaymentAuth_GetPaymentAuth;
+  houseName: string;
 }
 
 const inputCreater = (
@@ -47,7 +48,8 @@ const inputCreater = (
 export const openNiceModal = async ({
   resvInfo,
   transactionId,
-  authInfo
+  authInfo,
+  houseName
 }: IProp) => {
   if (!authInfo.auth) {
     console.error("결제창 인증정보 없음");
@@ -62,14 +64,19 @@ export const openNiceModal = async ({
   const hashed = authInfo.auth.hash;
   const mid = authInfo.auth.mid;
 
-  const sharedInputParams = [
+  if (!time) return;
+
+  const sharedInputParams: {
+    name: string;
+    value: string;
+  }[] = [
     {
       name: "PayMethod",
       value: payMethod
     },
     {
       name: "GoodsName",
-      value: LANG("house_reservation")
+      value: houseName
     },
     {
       name: "GoodsCnt",
@@ -123,11 +130,12 @@ export const openNiceModal = async ({
   // 모바일이 아닐경우
   if (!flagMobile) {
     const form = document.createElement("form");
+    // @ts-ignore
     form.setAttribute("charset", "utf-8");
     form.setAttribute("method", "Post"); //Post 방식
     form.setAttribute(
       "action",
-      process.env.REACT_APP_API_PAY_MENT_RETURN_URL_DEV_PC || ""
+      process.env.REACT_APP_API_PAY_MENT_RETURN_URL || ""
     ); //요청 보낼 주소
     form.setAttribute("id", "nicePay"); //요청 보낼 주소
     form.setAttribute("name", "payForm"); //요청 보낼 주소
@@ -167,10 +175,13 @@ export const openNiceModal = async ({
     // @ts-ignore
     window.goPay(form);
   } else {
+    // @ts-ignore
+    // document.charset = "euc-kr";
+
     // 모바일일 경우에
     // AcsNoIframe
     const form = document.createElement("form");
-    form.setAttribute("charset", "utf-8");
+    form.setAttribute("accept-charset", "euc-kr");
     form.setAttribute("method", "Post"); //Post 방식
     form.setAttribute(
       "action",
@@ -192,7 +203,11 @@ export const openNiceModal = async ({
       },
       {
         name: "ReturnURL",
-        value: process.env.REACT_APP_API_PAY_MENT_RETURN_URL_DEV || ""
+        value: process.env.REACT_APP_API_PAY_MENT_RETURN_URL || ""
+      },
+      {
+        name: "IspCancelUrl",
+        value: location.href
       }
     ];
 

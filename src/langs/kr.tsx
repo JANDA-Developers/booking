@@ -602,7 +602,7 @@ export const kr = {
   total_price: "총가격",
   transmission_time: "전송시간",
   try_to_create_in_SMS_settings: "SMS 설정에서 생성 해보세요.",
-  tue: "월",
+  tue: "화",
   turn_off_alarm: "알림해제",
   unPaid: "미결제",
   unSupport: "지원안함",
@@ -636,7 +636,7 @@ export const kr = {
   we_recommend_using_the_Chrome_browser_before_using_the_app:
     "앱사용 이전에 크롬 브라우저 사용을 권장합니다.",
   we_will_contect_you_in_3_days: "3일 내로 담당자가 연락드릴 예정입니다.",
-  wed: "월",
+  wed: "수",
   when_day_of_week_price_is_not_setted_basic_season_price_will_be_used:
     '"요일별 가격"이 적용되어 있지 않은 요일에는 시즌 기본가격을 따릅니다.',
   when_season_multiple_applyed_use_left_side_value_will_be_used:
@@ -782,7 +782,7 @@ export const kr = {
   // 🆕
   un_checkIn: "미입실",
   PaymentStatus: {
-    CANCEL: "결제취소",
+    CANCEL: "미결제",
     PROGRESSING: "결제 진행중",
     COMPLETE: "결제완료"
   },

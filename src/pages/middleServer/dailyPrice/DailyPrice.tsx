@@ -54,6 +54,7 @@ interface IProps {
   dataTime: {start: number; end: number};
   defaultTime: {start: number; end: number};
   placeHolderMap: Map<any, any>;
+  networkStatus: number;
 }
 
 const UpdateTimeline: React.FC<IProps & WindowSizeProps> = ({
@@ -71,8 +72,11 @@ const UpdateTimeline: React.FC<IProps & WindowSizeProps> = ({
   dayPickerHook,
   placeHolderMap,
   windowWidth,
+  networkStatus,
   ...timelineProps
 }) => {
+  if (networkStatus === 1) return <Preloader page loading={true} />;
+
   const {house} = context;
   const isMobile = windowWidth <= WindowSize.MOBILE;
   const isTabletDown = windowWidth <= WindowSize.TABLET;
@@ -295,7 +299,6 @@ const UpdateTimeline: React.FC<IProps & WindowSizeProps> = ({
                 </TimelineHeaders>
               </Timeline>
               <PriceWarnModal modalHook={priceWarnModalHook} />
-              <Preloader page loading={loading} />
               <DayPickerModal
                 modalHook={dayPickerModalHook}
                 isRange={false}

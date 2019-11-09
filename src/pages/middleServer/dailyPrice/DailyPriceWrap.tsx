@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState } from "react";
-import { Mutation, Query } from "react-apollo";
+import React, {useState} from "react";
+import {Mutation, Query} from "react-apollo";
 import moment from "moment-timezone";
 import {
   getAllRoomTypePrice_GetAllRoomType_roomTypes as IRoomType,
@@ -16,7 +16,7 @@ import {
   dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices
 } from "../../../types/api";
 import DailyPrice from "./DailyPrice";
-import { DailyPriceDefaultProps } from "./timelineConfig";
+import {DailyPriceDefaultProps} from "./timelineConfig";
 import {
   GET_ALL_ROOMTYPES_PRICE,
   PRICE_TIMELINE_GET_PRICE,
@@ -30,22 +30,22 @@ import {
   setMidNight,
   onCompletedMessage
 } from "../../../utils/utils";
-import { TimePerMs } from "../../../types/enum";
-import { useDayPicker, LANG } from "../../../hooks/hook";
-import { IContext } from "../../MiddleServerRouter";
+import {TimePerMs} from "../../../types/enum";
+import {useDayPicker, LANG} from "../../../hooks/hook";
+import {IContext} from "../../MiddleServerRouter";
 
 class GetAllRoomTypePriceQuery extends Query<
   dailyPriceGetPrice,
   dailyPriceGetPriceVariables
-  > { }
+> {}
 class CreateDailyPriceMu extends Mutation<
   createDailyPrice,
   createDailyPriceVariables
-  > { }
+> {}
 class DeleteDailyPriceMu extends Mutation<
   deleteDailyPrice,
   deleteDailyPriceVariables
-  > { }
+> {}
 
 export interface IItem {
   id: string;
@@ -105,8 +105,8 @@ interface IProps {
   context: IContext;
 }
 
-const DailyPriceWrap: React.FC<IProps> = ({ context }) => {
-  const { house } = context;
+const DailyPriceWrap: React.FC<IProps> = ({context}) => {
+  const {house} = context;
   //  Default 값
   const dayPickerHook = useDayPicker(null, null);
   const defaultTime = {
@@ -115,15 +115,15 @@ const DailyPriceWrap: React.FC<IProps> = ({ context }) => {
       : setMidNight(moment().valueOf()),
     end: dayPickerHook.to
       ? setMidNight(
-        moment(dayPickerHook.to)
-          .add(7, "days")
-          .valueOf()
-      )
+          moment(dayPickerHook.to)
+            .add(7, "days")
+            .valueOf()
+        )
       : setMidNight(
-        moment()
-          .add(7, "days")
-          .valueOf()
-      )
+          moment()
+            .add(7, "days")
+            .valueOf()
+        )
   };
   const [dataTime, setDataTime] = useState({
     start: setMidNight(
@@ -169,10 +169,10 @@ const DailyPriceWrap: React.FC<IProps> = ({ context }) => {
 
   const queryVarialbes = {
     houseId: house._id,
-    start: moment(dataTime.start)
+    checkIn: moment(dataTime.start)
       .toISOString()
       .split("T")[0],
-    end: moment(dataTime.end)
+    checkOut: moment(dataTime.end)
       .toISOString()
       .split("T")[0]
   };
@@ -184,7 +184,7 @@ const DailyPriceWrap: React.FC<IProps> = ({ context }) => {
       query={PRICE_TIMELINE_GET_PRICE}
       variables={queryVarialbes}
     >
-      {({ data, loading, error }) => {
+      {({data, loading, error, networkStatus}) => {
         const roomTypesData = queryDataFormater(
           data,
           "GetAllRoomType",
@@ -221,7 +221,7 @@ const DailyPriceWrap: React.FC<IProps> = ({ context }) => {
         return (
           // 방생성 뮤테이션
           <CreateDailyPriceMu
-            onCompleted={({ CreateDailyPrice }) => {
+            onCompleted={({CreateDailyPrice}) => {
               onCompletedMessage(
                 CreateDailyPrice,
                 LANG("price_setting_complited"),
@@ -229,14 +229,14 @@ const DailyPriceWrap: React.FC<IProps> = ({ context }) => {
               );
             }}
             refetchQueries={[
-              { query: GET_ALL_ROOMTYPES_PRICE, variables: queryVarialbes }
+              {query: GET_ALL_ROOMTYPES_PRICE, variables: queryVarialbes}
             ]}
             mutation={CREATE_DAILY_PRICE}
           >
             {createDailyPriceMu => (
               // 방생성 뮤테이션
               <DeleteDailyPriceMu
-                onCompleted={({ DeleteDailyPrice }) => {
+                onCompleted={({DeleteDailyPrice}) => {
                   onCompletedMessage(
                     DeleteDailyPrice,
                     LANG("price_setting_delete"),
@@ -244,7 +244,7 @@ const DailyPriceWrap: React.FC<IProps> = ({ context }) => {
                   );
                 }}
                 refetchQueries={[
-                  { query: GET_ALL_ROOMTYPES_PRICE, variables: queryVarialbes }
+                  {query: GET_ALL_ROOMTYPES_PRICE, variables: queryVarialbes}
                 ]}
                 mutation={DELETE_DAILY_PRICE}
               >
@@ -264,6 +264,7 @@ const DailyPriceWrap: React.FC<IProps> = ({ context }) => {
                     key={`defaultTime${defaultTime.start}${defaultTime.end}`}
                     delteDailyPriceMu={deleteDailyPriceMu}
                     dayPickerHook={dayPickerHook}
+                    networkStatus={networkStatus}
                   />
                 )}
               </DeleteDailyPriceMu>

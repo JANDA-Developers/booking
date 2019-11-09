@@ -887,8 +887,8 @@ export interface dailyPriceGetPrice {
 
 export interface dailyPriceGetPriceVariables {
   houseId: string;
-  start: any;
-  end: any;
+  checkIn: any;
+  checkOut: any;
 }
 
 /* tslint:disable */
@@ -931,8 +931,8 @@ export interface getCapacityToRoomType {
 
 export interface getCapacityToRoomTypeVariables {
   roomTypeId: string;
-  start: any;
-  end: any;
+  checkIn: any;
+  checkOut: any;
   initValue?: InitValueGetCapacityToRoomInput | null;
 }
 
@@ -976,8 +976,8 @@ export interface getCapacityToRoomTypeForBooker {
 
 export interface getCapacityToRoomTypeForBookerVariables {
   roomTypeId: string;
-  start: any;
-  end: any;
+  checkIn: any;
+  checkOut: any;
   initValue?: InitValueGetCapacityToRoomInput | null;
 }
 
@@ -1449,8 +1449,8 @@ export interface getRoomTypeDatePrices {
 }
 
 export interface getRoomTypeDatePricesVariables {
-  start: any;
-  end: any;
+  checkIn: any;
+  checkOut: any;
   roomTypeIds?: string[] | null;
   houseId?: string | null;
 }
@@ -1896,8 +1896,8 @@ export interface getAllRoomTypePrice {
 
 export interface getAllRoomTypePriceVariables {
   houseId: string;
-  start: any;
-  end: any;
+  checkIn: any;
+  checkOut: any;
 }
 
 /* tslint:disable */
@@ -2295,6 +2295,7 @@ export interface getBookingForPublic {
 export interface getBookingForPublicVariables {
   transactionId?: string | null;
   getBookingParam?: GetBookingParams | null;
+  skip: boolean;
 }
 
 /* tslint:disable */
@@ -2322,6 +2323,43 @@ export interface getPhoneNumbers {
 }
 
 export interface getPhoneNumbersVariables {
+  houseId: string;
+  page: number;
+  count: number;
+  filter?: GetBookingsFilter | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: getCheckIns
+// ====================================================
+
+export interface getCheckIns_GetBookings_bookings_checkInInfo {
+  __typename: "CheckInInfo";
+  isIn: boolean;
+  checkInDateTime: any | null;
+}
+
+export interface getCheckIns_GetBookings_bookings {
+  __typename: "Booking";
+  checkInInfo: getCheckIns_GetBookings_bookings_checkInInfo;
+}
+
+export interface getCheckIns_GetBookings {
+  __typename: "GetBookingsResponse";
+  ok: boolean;
+  error: string | null;
+  bookings: getCheckIns_GetBookings_bookings[] | null;
+}
+
+export interface getCheckIns {
+  GetBookings: getCheckIns_GetBookings;
+}
+
+export interface getCheckInsVariables {
   houseId: string;
   page: number;
   count: number;
@@ -3008,6 +3046,7 @@ export interface getPaymentAuth_GetPaymentAuth {
   ok: boolean;
   error: string | null;
   auth: getPaymentAuth_GetPaymentAuth_auth | null;
+  houseName: string | null;
   date: string | null;
 }
 

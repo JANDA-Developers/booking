@@ -4,7 +4,6 @@ import JDtable, {ReactTableDefault, JDcolumn} from "../../../atoms/table/Table";
 import EerrorProtect from "../../../utils/errProtect";
 import {IRoomSelectInfo} from "../BookingModal";
 import {PricingType} from "../../../types/enum";
-import {s4, isEmpty} from "../../../utils/utils";
 import {LANG} from "../../../hooks/hook";
 
 interface IProps {
@@ -14,7 +13,6 @@ interface IProps {
 
 const RoomSelectInfoTable: React.FC<IProps> = ({className, roomSelectInfo}) => {
   const classes = classNames("roomSelectInfoTable", className, {});
-  const haveRoomNames = roomSelectInfo.find(V => !isEmpty(V.roomNames));
 
   const TableColumns: JDcolumn<IRoomSelectInfo>[] = [
     {

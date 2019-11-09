@@ -3,7 +3,6 @@ import {NavLink} from "react-router-dom";
 import Button from "../../../atoms/button/Button";
 import ProfileCircle from "../../../atoms/profileCircle/ProfileCircle";
 import SelectHouseWrap from "../../selectHouse/SelectHouseWrap";
-import SharedHeaderComponent from "./SharedHeaderComponent";
 import {IContext} from "../../../pages/MiddleServerRouter";
 import {IUseModal, LANG} from "../../../hooks/hook";
 import {IconSize} from "../../../atoms/icons/Icons";
@@ -36,7 +35,7 @@ const PcHeaderComponent: React.FC<Iprops> = ({
   // 버튼이 툴팁 안쪽에 있음 + 숙소선택랩
   // 로그인된 헤더 메뉴
   const LoginPcHeaderRight = () => (
-    <div className="header__pcRight JDdisplay-none--wmd">
+    <div className="header__pcRight">
       {/* 프로필 아이콘 */}
       <span
         data-tip

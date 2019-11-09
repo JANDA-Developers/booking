@@ -31,6 +31,7 @@ const SharedHeaderComponent: React.FC<Iprops> = ({
   const memoModalHook = useModal();
   const langSelectModal = useModal();
 
+  // 로그 여부와 상관없이 공유된
   const sharedOverLogin = (
     <li>
       <Button
@@ -133,6 +134,7 @@ const SharedHeaderComponent: React.FC<Iprops> = ({
   const {isLogIn} = context;
   return (
     <Fragment>
+      {/* 알람 */}
       <span>
         {isEmpty(context.house) || (
           <NotiWrap
@@ -149,6 +151,7 @@ const SharedHeaderComponent: React.FC<Iprops> = ({
           />
         )}
       </span>
+      {/* 메모 */}
       <span className="JDstandard-space">
         {isEmpty(context.house) || (
           <CircleIcon size={IconSize.MEDIUM}>
@@ -163,7 +166,8 @@ const SharedHeaderComponent: React.FC<Iprops> = ({
           </CircleIcon>
         )}
       </span>
-      <TooltipList id="tooltip_user" >
+      {/* 툴팁만 존재 버튼은 각 PC와 모바일 파일에 있음 */}
+      <TooltipList id="tooltip_user">
         <ul>{isLogIn ? <LoginIconMenu /> : <UnLoginIconMenu />}</ul>
       </TooltipList>
       <MemoModal

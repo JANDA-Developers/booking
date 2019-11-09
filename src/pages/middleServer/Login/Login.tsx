@@ -64,7 +64,7 @@ const Login: React.FC<Iprops> = ({context}) => {
                           }
                         });
                         localStorage.setItem("lastLogin", emailHook.value);
-                        toast.success(LANG("login_complete"));
+                        // toast.success(LANG("login_complete"));
                         history.replace("/dashboard");
                       }
                     }
@@ -76,9 +76,6 @@ const Login: React.FC<Iprops> = ({context}) => {
                     }
                   });
               };
-
-              console.log("loginMuLoading");
-              console.log(loginMuLoading);
 
               return (
                 <form onSubmit={emailSignIn}>

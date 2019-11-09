@@ -48,9 +48,9 @@
 
     &__li {
        &--active{
-            background-color: $pagination-li-active;
-            a {
-                color: $primary-color-on;
+           a {
+                background-color: $pagination-li-active!important;
+                color: $primary-color-on!important;
             }
         }
     }

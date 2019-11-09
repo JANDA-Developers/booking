@@ -2,7 +2,6 @@ import ReactPaginate, {ReactPaginateProps} from "react-paginate";
 import React from "react";
 import classNames from "classnames";
 import "./Pagination.scss";
-import Button from "../button/Button";
 import {LANG} from "../../hooks/hook";
 
 interface IProps extends ReactPaginateProps {

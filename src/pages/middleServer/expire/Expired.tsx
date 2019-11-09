@@ -21,7 +21,7 @@ const Expired: React.FC<Iprops> = ({context}) => (
             <span className="Expired__heart404">{"만료"}</span>
           </b>
         </h1>
-        <NavLink to="/dashboard">
+        <NavLink to="/products">
           <Button
             size="large"
             mode="border"

@@ -60,23 +60,15 @@ const CheckReservationWrap: React.FC<IProps> = ({
     undefined
   );
 
-  console.log("booking");
-  console.log(booking);
-
   // 예약완료 메세지 모달 오픈
   if (booking && transId && isFirstSender[0]) {
     comeplteModalHook.openModal();
     isFirstSender[1](false);
   }
-
   return (
     <div>
       {/* 예약확인 관련된 뷰 */}
-      <CheckReservation
-        refetch={refetch}
-        data={booking}
-        loading={loading}
-      />
+      <CheckReservation refetch={refetch} data={booking} loading={loading} />
       <JDmodal center {...comeplteModalHook}>
         <div>
           <div className="JDstandard-margin-bottom">

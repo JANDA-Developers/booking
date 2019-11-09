@@ -34,7 +34,7 @@ html .header {
         padding-right: 0.2rem;
         
         @include response($tablet) {
-            padding-right: $container-padding;
+            padding-right: $container-padding--md;
         }
 
         & + .animationWrap {
@@ -78,7 +78,8 @@ html .header {
 
     // 로고 이미지 여백 맞춤
     &__logoPlace {
-        margin-left: -4px;
+        // 이미지 보정치수
+        margin-left: -1px;
         & + * {
             margin-right: -2px;
         }
@@ -168,10 +169,12 @@ html .header {
     
     // 셀렉트박스 조정
     &__selectHouse {
-        width: 200px;
         margin-bottom: 0;
         margin:0;
-        
+        width: $standard-width * 24;
+        @include response($desktop) {
+            width: $standard-width * 18;
+        }
         .react-select-container {
             .react-select__control {
                 border:none;
@@ -186,7 +189,6 @@ html .header {
         margin-bottom: 0;
         min-width: 300px;
         height: $standard-line-height;
-        margin-right: $standard-space;
 
         @include response($phablet) {
             min-width: unset

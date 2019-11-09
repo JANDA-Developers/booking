@@ -128,7 +128,8 @@ $container-full-width: 94% !default;
 $container-small-width: 550px !default;
 $container-middle-width: 800px !default;
 $container-large-width: 1200px !default;
-$container-padding: $standard-space; // ⭐️
+$container-padding: $standard-width * 4; // ⭐️
+$container-padding--md: $standard-width * 3; // ⭐️
 $container-content-full: calc(100% - #{$container-padding * 2}); // ⭐️
 $total-columns: 12 !default;
 $column-width: 100 / $total-columns !default; // calculates individual column width based off of # of columns
@@ -155,7 +156,7 @@ $label-font-color: $html-color !default;
 // 1. Forms 폼
 // ANCHOR Forms ==========================================================================
 // -- Text Inputs + Textarea 인풋
-$input-padding-top: 1rem;
+$input-padding-top: .9rem;
 $input-labeled-padding-top: $input-padding-top + $standard-label-margin;
 $input-height: $standard-line-height!default;
 $input-noLabel-height: $standard-line-height !default;
@@ -326,6 +327,7 @@ $searchInput-message-space: 1rem;
 
 $sideNav-list-padding: $standard-space;
 $sideNav-width: $standard-width * 35;
+$sideNav-width-wmd: $sideNav-width * 0.95;
 $sideNav-profile-height : 12rem;
 $sideNav-profile-circle-margin-top : 2rem;
 $sideNav-list-li-height : 3.25rem;
@@ -337,7 +339,7 @@ $sideNav-productView-height: 4.25rem;
 // 8 Header 헤더
 // ANCHOR Header NAV =========================================================================
 $header-height: $standard-height * 14;
-$header-padding: 1rem;
+$header-padding: $container-padding;
 
 // 9 CircleIcon 둥근 아이콘
 // ANCHOR Header NAV =========================================================================

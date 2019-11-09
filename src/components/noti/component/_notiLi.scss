@@ -3,18 +3,21 @@ $notiLi-padding : $standard-space;
 .notiLi {
     position: relative;
     padding: $notiLi-padding;
-    width: $standard-width * 45;
-
+    width: $standard-width * 55;
+    
     &__msg {
-        white-space: nowrap;
     }
-
+    
     &__symbolWrap {
         margin-right: $notiLi-padding;
     }
-
+    
     &__title {
         color: $html-color;
+        &_txt {
+            display:block;
+            margin-bottom: $standard-height;
+        }
     }
 
     &__contents {
@@ -26,8 +29,11 @@ $notiLi-padding : $standard-space;
     }
 
     &__badgeWrap {
-        position:absolute;
-        top: $notiLi-padding;
-        right: $notiLi-padding;
+        line-height: 0;
+        .JDbadge  {
+            &:first-child {
+                margin-left: 0;
+            }
+        }
     }
 }

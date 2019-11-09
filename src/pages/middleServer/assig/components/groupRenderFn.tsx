@@ -67,12 +67,12 @@ const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({
       const target = $(`.assigGroups__rooms${group.roomTypeId}`);
 
       const arrayHeights = target.map(function() {
-        const height = ($(this).height() || 0) + 2;
+        const height = $(this).height() || 0;
         return height;
       });
 
       $(`#assigGroups__roomType${group.roomTypeId}`).height(
-        arraySum(arrayHeights.get()) + target.length * 2
+        arraySum(arrayHeights.get()) + target.length / 2
       );
     }
 

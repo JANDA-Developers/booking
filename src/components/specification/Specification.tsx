@@ -29,7 +29,6 @@ import {
 } from "../../hooks/hook";
 import {MutationFn} from "react-apollo";
 import {to4YMMDD} from "../../utils/setMidNight";
-import JDdayPicker from "../../atoms/dayPicker/DayPicker";
 import DayPickerModal from "../dayPickerModal/DayPickerModal";
 import {inOr} from "../../utils/C";
 import Drawer from "../../atoms/drawer/Drawer";
@@ -258,6 +257,7 @@ export const SpecificAtion: React.FC<IProps> = ({
         <Drawer size={IconSize.MEDIUM} {...drawerHook} />
       </div>
       <DayPickerModal
+        autoClose
         modalHook={dayPickerModal}
         {...expireDateHook}
         format={`YY${LANG("year")} MM${LANG("month")} DD${LANG("date")} ${LANG(

@@ -21,7 +21,7 @@ const JDtoast: React.FC<IProps> = ({...props}) => (
     position={"bottom-right"}
     transition={Zoom}
     {...props}
-    autoClose={4000}
+    autoClose={3000}
   />
 );
 

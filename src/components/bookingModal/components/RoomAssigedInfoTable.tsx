@@ -35,6 +35,8 @@ const RoomAssigedInfoTable: React.FC<Iprops & WindowSizeProps> = ({
   setAssigInfo,
   windowWidth
 }) => {
+  const isTabletUp = windowWidth > WindowSize.TABLET;
+
   const getGenderSelectedOption = (guestId: string) => {
     const info = assigInfo.find(info => info._id === guestId);
     if (!info) return;
@@ -47,20 +49,20 @@ const RoomAssigedInfoTable: React.FC<Iprops & WindowSizeProps> = ({
   let TableColumns: JDcolumn<IGuestTableInfo>[] = [
     {
       Header: LANG("room"),
-      maxWidth: 80,
+      maxWidth: isTabletUp ? 80 : undefined,
       accessor: "_id",
       Cell: ({original}) => <div>{inOr(original.room, "name", "")}</div>
     },
     {
       Header: LANG("bedIndex"),
       accessor: "_id",
-      maxWidth: 80,
+      maxWidth: isTabletUp ? 80 : undefined,
       Cell: ({original}) => <div>{(original.bedIndex || 0) + 1}</div>
     },
     {
       Header: LANG("gender"),
       accessor: "_id",
-      maxWidth: 80,
+      maxWidth: isTabletUp ? 80 : undefined,
       Cell: ({original}) => (
         <div
           style={{

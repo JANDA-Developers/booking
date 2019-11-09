@@ -66,6 +66,7 @@ import BookingModalWrap, {
 } from "../../../components/bookingModal/BookingModalWrap";
 import {DEFAULT_BOOKING} from "../../../types/defaults";
 import {divisionRoomSelectInfo} from "../../../utils/typeChanger";
+import {to4YMMDD} from "../../../utils/setMidNight";
 
 export interface IBookerInfo {
   name: string;
@@ -253,8 +254,8 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
           phoneNumber
         },
         checkInOut: {
-          checkIn: dayPickerHook.from,
-          checkOut: dayPickerHook.to
+          checkIn: to4YMMDD(dayPickerHook.from),
+          checkOut: to4YMMDD(dayPickerHook.to)
         },
         guestDomitoryParams: roomSelectInfo
           .filter(room => room.pricingType === PricingType.DOMITORY)
@@ -291,17 +292,20 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
         // 나이스 모듈 오픈전 인증을 받음.
         const authResult = await payAuthQu({price: priceHook.value});
         if (authResult && authResult.data.GetPaymentAuth.auth) {
+          const {GetPaymentAuth} = authResult.data;
+          const {houseName} = GetPaymentAuth;
           openNiceModal({
             resvInfo: startBookingVariables,
             transactionId,
-            authInfo: authResult.data.GetPaymentAuth
+            authInfo: authResult.data.GetPaymentAuth,
+            houseName: houseName || ""
           });
         }
       }
     }
   };
 
-  // 예약하기 버튼 클릭시
+  // 예약하기 버튼 클릭1시
   const handleResvBtnClick = () => {
     if (roomSelectValidation()) {
       if (isHost) {

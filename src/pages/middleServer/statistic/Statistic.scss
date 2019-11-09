@@ -24,7 +24,20 @@
     }
 
     &__graphCard {
+        min-height: $standard-height * 40;
         position: relative;
+        display:flex;
+        flex-direction: column;
+
+        .statistic__graphWrap {
+            flex: 1 1;
+            display:flex;
+            align-items: center;
+            .chartjs-render-monitor {
+                flex: 1 1;
+            }
+        }
+
         .statistic__graphPreloader {
             position:absolute;
             top: 0;

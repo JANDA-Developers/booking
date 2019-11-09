@@ -871,7 +871,7 @@
                 "defaultValue": null
               },
               {
-                "name": "start",
+                "name": "checkIn",
                 "description": "",
                 "type": {
                   "kind": "NON_NULL",
@@ -885,7 +885,7 @@
                 "defaultValue": null
               },
               {
-                "name": "end",
+                "name": "checkOut",
                 "description": "",
                 "type": {
                   "kind": "NON_NULL",
@@ -1082,7 +1082,7 @@
                 "defaultValue": null
               },
               {
-                "name": "start",
+                "name": "checkIn",
                 "description": "",
                 "type": {
                   "kind": "NON_NULL",
@@ -1096,7 +1096,7 @@
                 "defaultValue": null
               },
               {
-                "name": "end",
+                "name": "checkOut",
                 "description": "",
                 "type": {
                   "kind": "NON_NULL",
@@ -1141,7 +1141,7 @@
                 "defaultValue": null
               },
               {
-                "name": "start",
+                "name": "checkIn",
                 "description": "",
                 "type": {
                   "kind": "NON_NULL",
@@ -1155,7 +1155,7 @@
                 "defaultValue": null
               },
               {
-                "name": "end",
+                "name": "checkOut",
                 "description": "",
                 "type": {
                   "kind": "NON_NULL",
@@ -1210,7 +1210,7 @@
                 "defaultValue": null
               },
               {
-                "name": "start",
+                "name": "checkIn",
                 "description": "",
                 "type": {
                   "kind": "NON_NULL",
@@ -1224,7 +1224,7 @@
                 "defaultValue": null
               },
               {
-                "name": "end",
+                "name": "checkOut",
                 "description": "",
                 "type": {
                   "kind": "NON_NULL",
@@ -7977,6 +7977,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "PaymentAuthObject",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "houseName",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
               "ofType": null
             },
             "isDeprecated": false,

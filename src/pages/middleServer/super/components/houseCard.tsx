@@ -6,13 +6,11 @@ import ProfileCircle from "../../../../atoms/profileCircle/ProfileCircle";
 import Button from "../../../../atoms/button/Button";
 import Badge from "../../../../atoms/badge/Badge";
 import {autoHypen} from "../../../../utils/utils";
-import SpecificAtion from "../../../../components/specification/Specification";
 import JDmodal from "../../../../atoms/modal/Modal";
 import SpecificAtionWrap from "../../../../components/specification/SpecificationWrap";
 import {getHousesForSU_GetHousesForSU_houses} from "../../../../types/api";
 import JDIcon, {IconSize} from "../../../../atoms/icons/Icons";
 import {ICreateNotiModalParam} from "./createNotiModalWrap";
-import CircleIcon from "../../../../atoms/circleIcon/CircleIcon";
 
 interface IProps {
   userModal: IUseModal;

@@ -109,8 +109,8 @@ const BookingModalWrap: React.FC<IProps> = ({modalHook, context, ...props}) => {
             | getRoomTypeDatePricesVariables
             | undefined = mergedBooking
             ? {
-                start: mergedBooking.checkIn,
-                end: mergedBooking.checkOut,
+                checkIn: mergedBooking.checkIn,
+                checkOut: mergedBooking.checkOut,
                 houseId: house._id,
                 roomTypeIds: mergedBooking.roomTypes
                   ? mergedBooking.roomTypes.map(roomType => roomType._id)

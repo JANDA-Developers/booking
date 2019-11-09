@@ -4,8 +4,11 @@
 .resvList {
 
     &__statusBadgesWrap {
+        margin-bottom: -$standard-height;
         .JDbadge {
-            &:fist-child {
+            margin-left: $standard-width;
+            margin-bottom: $standard-height;
+            &:first-child {
                 margin-left: 0;
             }
         }

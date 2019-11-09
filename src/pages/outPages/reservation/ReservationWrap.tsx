@@ -54,6 +54,12 @@ const ReservationWrap: React.FC<
     client,
     awaitRefetchQueries: true,
     onCompleted: ({StartBookingForPublic}) => {
+      process.env.NODE_ENV === "development" &&
+        onCompletedMessage(
+          StartBookingForPublic,
+          "개발 메세지: StartBooking Sucess",
+          "개발 메세지: StartBooking Fail"
+        );
       startBookingCallBackFn(StartBookingForPublic);
     }
   });

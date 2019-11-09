@@ -12,6 +12,9 @@
         &__wrap {
             justify-content: space-between;
             display:flex;
+            .JDinput-wrap {
+                margin-right: 0;
+            }
         } 
 
         &__dayPicker {

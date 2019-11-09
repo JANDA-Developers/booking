@@ -803,11 +803,11 @@ export const PRICE_TIMELINE_GET_PRICE = gql`
 export const GET_CAPACITY_TO_ROOM_TYPE = gql`
     query getCapacityToRoomType(
         $roomTypeId: ID!
-        $start: DateTime!
-        $end: DateTime!
+        $checkIn: DateTime!
+        $checkOut: DateTime!
         $initValue: InitValueGetCapacityToRoomInput
     ) {
-    GetCapacityToRoomType(roomTypeId:$roomTypeId, start:$start, end:$end, initValue: $initValue) {
+    GetCapacityToRoomType(roomTypeId:$roomTypeId, checkIn:$checkIn, checkOut:$checkOut, initValue: $initValue) {
         ok
         error
         capacityRoomType {
@@ -829,11 +829,11 @@ export const GET_CAPACITY_TO_ROOM_TYPE = gql`
 export const GET_CAPACITY_TO_ROOM_TYPE_FOR_BOOKER = gql`
     query getCapacityToRoomTypeForBooker(
         $roomTypeId: ID!
-        $start: DateTime!
-        $end: DateTime!
+        $checkIn: DateTime!
+        $checkOut: DateTime!
         $initValue: InitValueGetCapacityToRoomInput
     ) {
-    GetCapacityToRoomTypeForBooker(roomTypeId:$roomTypeId, start:$start, end:$end, initValue: $initValue) {
+    GetCapacityToRoomTypeForBooker(roomTypeId:$roomTypeId, checkIn: $checkIn, checkOut:$checkOut, initValue: $initValue) {
         ok
         error
         capacityRoomType {
@@ -964,12 +964,12 @@ export const F_ROOM_TYPE_DATE_PRICE_RESULT = gql`
 
 export const GET_ROOM_TYPE_DATE_PRICE = gql`
     query getRoomTypeDatePrices(
-        $start: DateTime!
-        $end: DateTime!
+        $checkIn: DateTime!
+        $checkOut: DateTime!
         $roomTypeIds: [ID!]
         $houseId: ID
     ) {
-        GetRoomTypeDatePrices(start: $start, end:$end, roomTypeIds:$roomTypeIds, houseId: $houseId) {
+        GetRoomTypeDatePrices(checkIn: $checkIn, checkOut:$checkOut, roomTypeIds:$roomTypeIds, houseId: $houseId) {
             ...FroomTypePriceResult
         }
     }
@@ -1063,8 +1063,8 @@ export const GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM = gql`
 export const GET_ALL_ROOMTYPES_PRICE = gql`
     query getAllRoomTypePrice(
         $houseId: ID!
-        $start: DateTime!
-        $end: DateTime!
+        $checkIn: DateTime!
+        $checkOut: DateTime!
     ) {
         GetAllRoomType(houseId: $houseId) {
             ok
@@ -1076,7 +1076,7 @@ export const GET_ALL_ROOMTYPES_PRICE = gql`
                 description
             }
         }
-        GetAllDailyPrice(houseId: $houseId, start: $start, end: $end) {
+        GetAllDailyPrice(houseId: $houseId, checkIn: $checkIn, checkOut: $checkOut) {
             ok
             error
             dailyPrices {
@@ -1228,7 +1228,7 @@ export const GET_BOOKINGS_PHONE_NUMBERS = gql`
 
 
 export const GET_CHECKINS = gql`
-    query getBookings(
+    query getCheckIns(
         $houseId: ID!
         $page: Int!
         $count: Int!
@@ -1586,6 +1586,7 @@ export const GET_PAYMENT_AUTH = gql`
                 mid
                 hash
             }
+            houseName
             date
         }
     }

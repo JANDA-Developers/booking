@@ -42,11 +42,19 @@ const LangList: React.FC<IProps> = ({onClickLng, hideList, hilightLangs}) => {
               onClick={() => {
                 onClickLng && onClickLng(lang);
               }}
+              className="JDflex--center"
+              size="small"
               clickable
               float
             >
-              <img className="JDstandard-space" src={flag} />
-              <span>{LanguageItSelf[lang]}</span>
+              <img className="JDstandard-small-space" src={flag} />
+              <span
+                style={{
+                  marginLeft: "-1px"
+                }}
+              >
+                {LanguageItSelf[lang]}
+              </span>
             </JDbox>
           );
         } catch {

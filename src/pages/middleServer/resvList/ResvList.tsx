@@ -157,6 +157,7 @@ const ResvList: React.SFC<IProps> = ({
           }
         });
       });
+      setCheckedIds([]);
     }
   };
 

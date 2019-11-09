@@ -52,6 +52,7 @@ import _ from "lodash";
 import C, {inOr} from "../../utils/C";
 import guestsToInput, {getRoomSelectInfo} from "../../utils/typeChanger";
 import RoomAssigedInfoTable from "./components/RoomAssigedInfoTable";
+import {to4YMMDD} from "../../utils/setMidNight";
 
 // (예약/게스트) 정보
 export interface IBookingModal_AssigInfo {
@@ -255,7 +256,18 @@ const BookingModal: React.FC<IProps> = ({
       start: resvDateHook.from!,
       paymentStatus: inOr(paymentStatusHook.selectedOption, "label", ""),
       price: priceHook.value || 0
-    }
+    },
+    // 페이먼트 에따라서 각 상황에맞는 SMS 를 찾아줌
+    autoSendWhen: (() => {
+      const {selectedOption} = paymentStatusHook;
+      if (selectedOption) {
+        if (selectedOption.value === PaymentStatus.COMPLETE) {
+          return AutoSendWhen.WHEN_BOOKING_CREATED;
+        } else if (selectedOption.value === PaymentStatus.PROGRESSING) {
+          return AutoSendWhen.WHEN_BOOKING_CREATED_PAYMENT_PROGRESSING;
+        }
+      }
+    })()
   };
 
   // 예약삭제 버튼 클릭
@@ -323,8 +335,8 @@ const BookingModal: React.FC<IProps> = ({
             phoneNumber: bookingPhoneHook.value
           },
           checkInOut: {
-            checkIn: resvDateHook.from,
-            checkOut: resvDateHook.to
+            checkIn: to4YMMDD(resvDateHook.from),
+            checkOut: to4YMMDD(resvDateHook.to)
           },
           guestDomitoryParams: guestsToInputs.countInDomitorys,
           guestRoomParams: guestsToInputs.countInRooms,

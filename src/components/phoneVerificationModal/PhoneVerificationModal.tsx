@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import InputText from "../../atoms/forms/inputText/InputText";
-import Modal from "../../atoms/modal/Modal";
 import Button from "../../atoms/button/Button";
 import {useInput, IUseModal, LANG} from "../../hooks/hook";
 import {ErrProtecter} from "../../utils/utils";
@@ -10,11 +9,10 @@ import {MutationFn} from "react-apollo";
 import {
   completePhoneVerification,
   completePhoneVerificationVariables,
-  startPhoneVerification,
   startPhoneVerificationWithPhoneNumber,
   startPhoneVerificationWithPhoneNumberVariables
 } from "../../types/api";
-import JDTimer, {TimerStateType} from "../../atoms/timer/Timer";
+import JDTimer from "../../atoms/timer/Timer";
 import {TimePerMs} from "../../types/enum";
 import Timer from "react-compound-timer";
 import {toast} from "react-toastify";

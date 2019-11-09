@@ -8,6 +8,10 @@
         height: 100%;
         z-index: $z-index-1;
         background-color: white;
+        
+        @include response($tablet) {
+            min-width: $sideNav-width-wmd;
+        }
     }
 
     @include response($phablet) {
@@ -73,7 +77,9 @@
         overflow: hidden;
         left:0px;
         @extend %z-depth-5;
-        
+        @include response($tablet, $phablet) {
+            width: $sideNav-width-wmd;
+        }
     }
 
     &-curtain {

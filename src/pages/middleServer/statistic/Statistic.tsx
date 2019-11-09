@@ -1,20 +1,17 @@
-import React, {useState} from "react";
-import {Doughnut, Line, ChartData} from "react-chartjs-2";
+import React, {useState, Fragment} from "react";
+import {ChartData} from "react-chartjs-2";
 import Card from "../../../atoms/cards/Card";
 import {
   SalesStatisticsUnit,
   WindowSize,
-  FLOATING_PRELOADER_SIZE,
-  STATIC_COLORS
+  FLOATING_PRELOADER_SIZE
 } from "../../../types/enum";
 import {IQueryOp} from "./StatisticWrap";
 import {IUseDayPicker, useModal, LANG} from "../../../hooks/hook";
 import Button from "../../../atoms/button/Button";
 import moment from "moment";
 import Preloader from "../../../atoms/preloader/Preloader";
-import JDtable, {ReactTableDefault} from "../../../atoms/table/Table";
 import {getSalesStatistic_GetSalesStatistic_data} from "../../../types/api";
-import {CellInfo} from "react-table";
 import "./Statistic.scss";
 import {IContext} from "../../MiddleServerRouter";
 import StaticController from "./component/StaticController";
@@ -23,7 +20,6 @@ import StaticIcons from "./component/StaticIcons";
 import StaticsControllerModal from "./component/StaticsControllerModal";
 import {getStaticColors} from "../../../utils/getStaticColors";
 import JDgraph from "../../../atoms/graph/graph";
-import {Switch} from "react-router";
 
 export interface IStaticsWrapProps {
   queryOp: IQueryOp;
@@ -216,35 +212,31 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
         <div className="flex-grid">
           <div className="flex-grid__col col--full-6 col--wmd-12">
             <Card className="statistic__graphCard" fullHeight={!isTabletDown}>
-              <div>
-                {!isTabletDown && (
-                  <StaticIcons
-                    context={context}
-                    viewMode={viewMode}
-                    setViewMode={setViewMode}
+              {loading ? (
+                <div className="statistic__graphPreloader">
+                  <Preloader
+                    wrapClassName=""
+                    position="center"
+                    noAnimation
+                    size={"large"}
+                    loading={loading}
                   />
-                )}
-                {/* 사파리에서 로딩이 안없어짐 */}
-                {loading && (
-                  <div className="statistic__graphPreloader">
-                    <Preloader
-                      wrapClassName=""
-                      position="center"
-                      noAnimation
-                      size={"large"}
-                      loading={loading}
+                </div>
+              ) : (
+                <Fragment>
+                  {/* 통계 아이콘랩 */}
+                  {!isTabletDown && (
+                    <StaticIcons
+                      context={context}
+                      viewMode={viewMode}
+                      setViewMode={setViewMode}
                     />
-                  </div>
-                )}
-                <Preloader
-                  floating
-                  size={FLOATING_PRELOADER_SIZE}
-                  loading={loading}
-                />
-                <div>
+                  )}
+                  {/* 그래프 랩 */}
                   <div
                     className={
-                      viewMode === "list" ? "statistic__table" : undefined
+                      (viewMode === "list" ? "statistic__table" : undefined) +
+                      " statistic__graphWrap"
                     }
                   >
                     <JDgraph
@@ -253,8 +245,8 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
                       data={graphData}
                     />
                   </div>
-                </div>
-              </div>
+                </Fragment>
+              )}
             </Card>
           </div>
           {windowWidth > WindowSize.TABLET ? (
@@ -286,6 +278,7 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
           />
         )}
       </div>
+      <Preloader floating size={FLOATING_PRELOADER_SIZE} loading={loading} />
     </div>
   );
 };

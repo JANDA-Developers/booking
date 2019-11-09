@@ -82,8 +82,8 @@ const RoomTypeCardWrap: React.SFC<IProps> = ({
           : GET_CAPACITY_TO_ROOM_TYPE_FOR_BOOKER
       }
       variables={{
-        start: to4YMMDD(dayPickerHook.from),
-        end: to4YMMDD(
+        checkIn: to4YMMDD(dayPickerHook.from),
+        checkOut: to4YMMDD(
           moment(dayPickerHook.to!)
             .add(-1, "day")
             .toDate()
@@ -136,8 +136,8 @@ const RoomTypeCardWrap: React.SFC<IProps> = ({
             skip={dayPickerHook.to === null}
             variables={{
               houseId,
-              end: to4YMMDD(moment(dayPickerHook.to!)),
-              start: to4YMMDD(dayPickerHook.from),
+              checkOut: to4YMMDD(moment(dayPickerHook.to!)),
+              checkIn: to4YMMDD(dayPickerHook.from),
               roomTypeIds: [roomTypeData._id]
             }}
             query={GET_ROOM_TYPE_DATE_PRICE}

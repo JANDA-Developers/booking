@@ -17,7 +17,10 @@ main {
   width: 100%;
   box-sizing: border-box;
   min-height:90%;
-
+  
+  @include response ($phablet) {
+    padding: 0 $container-padding--md;
+  }
   @include response ($mobile) {
     overflow:hidden;
   }
@@ -26,11 +29,7 @@ main {
 .container--full {
   margin: 0 auto;
   width: auto;
-  max-width: $container-full-width;
-
-  @include response ($phablet) {
-    max-width: none;
-  }
+  max-width: none;
 }
 
 .container--sm {
@@ -76,6 +75,11 @@ main {
   @include response($full, $phablet) {
     .container--centerlize {
       padding-left: $sideNav-width;
+    }
+  }
+  @include response($tablet, $phablet) {
+    .container--centerlize {
+      padding-left: $sideNav-width-wmd;
     }
   }
 }

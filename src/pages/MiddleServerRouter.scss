@@ -31,5 +31,10 @@
                 max-width: calc(100% - #{$sideNav-width});
             }
         }
+        @include response($tablet,$phablet) {
+            .middleServer__page {
+                max-width: calc(100% - #{$sideNav-width-wmd});
+            }
+        }
     }
 }

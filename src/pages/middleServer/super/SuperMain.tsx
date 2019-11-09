@@ -8,9 +8,6 @@ import HouseCard from "./components/houseCard";
 import {IPageInfo} from "../../../types/interface";
 import UserModal from "./components/userModalWrap";
 import Button from "../../../atoms/button/Button";
-import SendSMSmodalWrap, {
-  IModalSMSinfo
-} from "../../../components/smsModal/SendSmsModalWrap";
 import CreateNotiModalWrap, {
   ICreateNotiModalParam
 } from "./components/createNotiModalWrap";

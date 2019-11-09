@@ -16,6 +16,7 @@ import {
   updateSeasonVariables,
   UpdateSeasonPriceInput
 } from "../../../types/api";
+import Preloader from "../../../atoms/preloader/Preloader";
 import classNames from "classnames";
 import Button from "../../../atoms/button/Button";
 import {Link} from "react-router-dom";
@@ -24,27 +25,19 @@ import JDtable, {ReactTableDefault} from "../../../atoms/table/Table";
 import {CellInfo} from "react-table";
 import JDIcon from "../../../atoms/icons/Icons";
 import InputText from "../../../atoms/forms/inputText/InputText";
-import {toNumber, muResult, s4} from "../../../utils/utils";
+import {toNumber, muResult} from "../../../utils/utils";
 import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
-import JDbox from "../../../atoms/box/JDbox";
-import {numberToStrings} from "../../../utils/dayOfweeks";
 import selectOpCreater from "../../../utils/selectOptionCreater";
 import SeasonHeader from "./components/seasonHeader";
-import {
-  useModal,
-  useCheckBox,
-  useShouldSave,
-  useDayPicker,
-  LANG
-} from "../../../hooks/hook";
+import {useModal, useShouldSave, useDayPicker, LANG} from "../../../hooks/hook";
 import DayOfWeekModal, {IDayOfWeekModalInfo} from "./components/dayOfWeekModal";
-import JDmodal from "../../../atoms/modal/Modal";
 import CreateSeasonModal from "./components/createSeasonModal";
 import {MutationFn} from "react-apollo";
-import reactWindowSize, {WindowSizeProps} from "react-window-size";
+import {WindowSizeProps} from "react-window-size";
 import {WindowSize} from "../../../types/enum";
 import {IContext} from "../../MiddleServerRouter";
 import JDlist from "../../../atoms/list/List";
+import JDLabel from "../../../atoms/label/JDLabel";
 
 interface IProps {
   loading?: boolean;
@@ -91,9 +84,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
   const isPhablet = windowWidth <= WindowSize.PHABLET;
   const dayOfWeekModal = useModal<IDayOfWeekModalInfo>(false);
   const createSeasonModal = useModal(false);
-  const dayPickerHook = useDayPicker(null, null);
   const [seasonData, setSeasons] = useState(defaultSeasonData);
-  const [isChange, setIsChange] = useState(false);
 
   const [roomTypePrices, setRoomTypePrices] = useState(
     roomTypes.map(roomType => ({
@@ -261,8 +252,8 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
 
   const containerClasses = classNames("container", undefined, {
     "container--sm": seasonData.length < 3,
-    "container--md": seasonData.length >= 3 && seasonData.length < 4,
-    "container--lg": seasonData.length >= 4 && seasonData.length < 5
+    "container--md": seasonData.length >= 3 && seasonData.length < 5,
+    "container--lg": seasonData.length >= 5 && seasonData.length < 7
   });
 
   return (
@@ -292,13 +283,19 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
             mode="border"
           />
         </Link>
-        <JDtable
-          className="setPrice__table"
-          marginAtuo={false}
-          {...ReactTableDefault}
-          data={roomTypes}
-          columns={tableColumns}
-        />
+        {loading ? (
+          <div>
+            <Preloader size={"large"} loading={loading} />
+          </div>
+        ) : (
+          <JDtable
+            className="setPrice__table"
+            marginAtuo={false}
+            {...ReactTableDefault}
+            data={roomTypes}
+            columns={tableColumns}
+          />
+        )}
         <CreateSeasonModal
           key={roomTypes.toString()}
           houseId={house._id}

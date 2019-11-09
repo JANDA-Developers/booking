@@ -1,4 +1,4 @@
-import React, {useState, Fragment} from "react";
+import React, {useState, Fragment, useEffect} from "react";
 import JDmodal from "../../atoms/modal/Modal";
 import {IUseModal, useSelect, LANG} from "../../hooks/hook";
 import JDbox from "../../atoms/box/JDbox";
@@ -29,7 +29,6 @@ import {GET_BOOKINGS_PHONE_NUMBERS} from "../../queries";
 import {useQuery} from "@apollo/react-hooks";
 import {IContext} from "../../pages/MiddleServerRouter";
 import client from "../../apolloClient";
-import {PortalPreloader} from "../../utils/portalTo";
 import JDpreloader from "../../atoms/preloader/Preloader";
 
 interface IProps {
@@ -57,6 +56,7 @@ const SendSmsModal: React.FC<IProps> = ({
   const {
     house: {_id: houseId}
   } = context;
+  const templateSelectHook = useSelect(null);
   const smsTargetOpHook = useSelect(GET_SMS_TARGET_OP[0]);
   const {data, loading, refetch} = useQuery<getBookings, getBookingsVariables>(
     GET_BOOKINGS_PHONE_NUMBERS,
@@ -79,6 +79,26 @@ const SendSmsModal: React.FC<IProps> = ({
     "bookings",
     undefined
   );
+
+  useEffect(() => {
+    if (smsInfo && smsInfo.smsTemplates) {
+      const targetTemplate = smsTemplates.find(template => {
+        if (template.smsSendCase && template.smsSendCase.when) {
+          return template.smsSendCase.when === autoSendWhen;
+        }
+        return false;
+      });
+      if (targetTemplate) {
+        const targetTempOp = smsTemplateOp.find(
+          temp => temp.value === targetTemplate._id
+        );
+        if (targetTempOp) {
+          templateSelectHook.onChange(targetTempOp);
+          handleSelectTemplate(targetTempOp);
+        }
+      }
+    }
+  }, [modalHook.isOpen]);
 
   const phoneNumbers = bookings
     ? bookings.map(booking => booking.phoneNumber)
@@ -205,7 +225,11 @@ const SendSmsModal: React.FC<IProps> = ({
           <div className="JDz-index-1">
             <JDselect
               label={LANG("sms_template")}
-              onChange={handleSelectTemplate}
+              selectedOption={templateSelectHook.selectedOption}
+              onChange={(v: any) => {
+                templateSelectHook.onChange(v);
+                handleSelectTemplate(v);
+              }}
               noOptionsMessage={LANG("try_to_create_in_SMS_settings")}
               options={smsTemplateOp}
             />
@@ -223,6 +247,7 @@ const SendSmsModal: React.FC<IProps> = ({
             <Button
               size={"small"}
               thema="primary"
+              disabled={!msg}
               onClick={() => {
                 handleSendSmsBtnClick(true);
               }}
