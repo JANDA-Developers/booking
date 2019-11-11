@@ -1,7 +1,5 @@
-import PropTypes from "prop-types";
 import classNames from "classnames";
 import React from "react";
-import {Node} from "unist";
 import ErrProtecter from "../../utils/errProtect";
 import "./Card.scss";
 import {IDiv} from "../../types/interface";
