@@ -1,4 +1,4 @@
-@import "../../style_config/style_config";
+@import "../../style_config/config";
 
 .JDcard {
     position: relative;
@@ -6,7 +6,7 @@
     padding: $card-padding;
     text-align: left;
     border-radius: $standard-border-radius;
-    background-color: $stadnard-background-color;
+    background-color: white;
 
     .JDbtn {
         margin-bottom: 0;

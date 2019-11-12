@@ -1,5 +1,5 @@
 import React from "react";
-import {IContext} from "../../../pages/MiddleServerRouter";
+import {IContext} from "../../../pages/bookingServer/MiddleServerRouter";
 import JDmodal from "../../../atoms/modal/Modal";
 import {IUseModal, LANG} from "../../../hooks/hook";
 import Button from "../../../atoms/button/Button";

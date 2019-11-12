@@ -7,9 +7,9 @@ import {
   getBookingForPublicVariables
 } from "../../../types/api";
 import {queryDataFormater, s4, onCompletedMessage} from "../../../utils/utils";
-import {GET_BOOKING_FOR_PUBLIC} from "../../../queries";
+import {GET_BOOKING_FOR_PUBLIC} from "../../../apollo/queries";
 import {RouteComponentProps} from "react-router";
-import client from "../../../apolloClient";
+import client from "../../../apollo/apolloClient";
 import CheckReservation from "./CheckReservation";
 import JDmodal from "../../../atoms/modal/Modal";
 import JDanimation, {Animation} from "../../../atoms/animation/Animations";

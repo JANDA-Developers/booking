@@ -1,10 +1,10 @@
 import React from "react";
 import {Query} from "react-apollo";
 import DaySales, {IViewConfigProp} from "./DaySales";
-import {GET_SALES_STATISTIC} from "../../queries";
+import {GET_SALES_STATISTIC} from "../../apollo/queries";
 import {useDayPicker} from "../../hooks/hook";
 import {queryDataFormater, isEmpty} from "../../utils/utils";
-import {IContext} from "../../pages/MiddleServerRouter";
+import {IContext} from "../../pages/bookingServer/MiddleServerRouter";
 import {
   getSalesStatisticVariables,
   getSalesStatistic,

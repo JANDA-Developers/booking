@@ -6,7 +6,7 @@ import JDicon, {IconSize, IIcons} from "../../icons/Icons";
 import ErrProtecter from "../../../utils/errProtect";
 import autoHyphen, {numberStr, toNumber} from "../../../utils/autoFormat";
 import {NEUTRAL} from "../../../types/enum";
-import {getByteLength} from "../../../utils/elses";
+import {getByteLength} from "../../../utils/math";
 import {autoComma, s4} from "../../../utils/utils";
 import $ from "jquery";
 

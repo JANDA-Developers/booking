@@ -20,7 +20,7 @@ import {IselectedOption} from "../atoms/forms/selectBox/SelectBox";
 import {PricingType} from "./enum";
 import {MutationFunctionOptions} from "@apollo/react-common";
 import {ExecutionResult} from "graphql";
-import {IStartBookingCallBack} from "../pages/middleServer/assig/components/assigIntrerface";
+import {IStartBookingCallBack} from "../pages/bookingServer/assig/assigIntrerface";
 export interface JdFile extends singleUpload_SingleUpload_jdFile {}
 
 export interface GASt_RoomType

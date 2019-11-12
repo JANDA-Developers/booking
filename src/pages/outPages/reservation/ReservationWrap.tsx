@@ -20,13 +20,13 @@ import {
   START_BOOKING,
   START_BOOKING_FOR_PUBLIC,
   GET_PAYMENT_AUTH
-} from "../../../queries";
+} from "../../../apollo/queries";
 import {useModal, IUseModal, LANG} from "../../../hooks/hook";
 import {getOperationName} from "apollo-link";
 import {isInIfram} from "../../../utils/isInIfram";
-import {IContext} from "../../MiddleServerRouter";
+import {IContext} from "../../bookingServer/MiddleServerRouter";
 import {useMutation, useQuery} from "@apollo/react-hooks";
-import client from "../../../apolloClient";
+import client from "../../../apollo/apolloClient";
 
 class StartBooking extends Mutation<startBooking, startBookingVariables> {}
 

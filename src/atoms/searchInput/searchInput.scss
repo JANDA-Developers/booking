@@ -1,4 +1,4 @@
-@import '../../style_config/style_config';
+@import '../../style_config/config';
 
 
 
@@ -80,11 +80,11 @@
         }
 
         &--valid {
-            border-color: $success-color;
-            box-shadow: 0px 1px 0px 0px $success-color;
+            border-color: $positive-color;
+            box-shadow: 0px 1px 0px 0px $positive-color;
 
             & + .JDsearchInput__icon {
-                color: $success-color;
+                color: $positive-color;
             }
         }
 
@@ -160,6 +160,8 @@
 
     &__input_wrapper { 
         display: block;
+        background:yellow;
+        height: $standard-line-height;
     }
     // 리스트 아래 부분 설명
     &__detail {

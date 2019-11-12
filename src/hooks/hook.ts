@@ -2,25 +2,17 @@
 /* eslint-disable no-shadow */
 /* ts-ignore */
 import randomColor from "randomcolor";
-import {
-  useState,
-  useEffect,
-  useMemo,
-  useRef,
-  useCallback,
-  ChangeEvent
-} from "react";
+import { useState, useEffect, useRef, ChangeEvent } from "react";
 import Axios from "axios";
-import {IselectedOption} from "../atoms/forms/selectBox/SelectBox";
-import {IHolidaysByApi, JdFile} from "../types/interface";
+import { IselectedOption } from "../atoms/forms/selectBox/SelectBox";
+import { IHolidaysByApi, JdFile } from "../types/interface";
 import moment from "moment";
-import {muResult, targetBlink} from "../utils/utils";
-import {JDlang as originJDlang} from "../langs/JDlang";
-import {TLanguageShort} from "../types/enum";
-import {useMutation} from "@apollo/react-hooks";
-import {UPLOAD_FILE} from "../queries";
-import client from "../apolloClient";
-import {singleUpload, singleUploadVariables} from "../types/api";
+import { muResult, targetBlink } from "../utils/utils";
+import { TLanguageShort } from "../types/enum";
+import { useMutation } from "@apollo/react-hooks";
+import { UPLOAD_FILE } from "../apollo/queries";
+import client from "../apollo/apolloClient";
+import { singleUpload, singleUploadVariables } from "../types/api";
 // @ts-ignore
 import Resizer from "react-image-file-resizer";
 
@@ -47,7 +39,7 @@ const useShouldSave = (updateValue: any[]) => {
     }
   }, updateValue);
 
-  return {shouldSave, setShouldSave};
+  return { shouldSave, setShouldSave };
 };
 
 const useFetch = (url: string | undefined = ""): IUseFetch => {
@@ -121,7 +113,7 @@ const useImageUploader = (
   const [isError, setIsError] = useState(false);
   const [uploadMutation] = useMutation<singleUpload, singleUploadVariables>(
     UPLOAD_FILE,
-    {client}
+    { client }
   );
 
   const DEFAULT_IMAGEUP_LOADER_OPTION: IuseImageUploaderOption = {
@@ -158,11 +150,11 @@ const useImageUploader = (
   ) => {
     let file: any;
     if (typeof uriOrFile === "string") {
-      file = new File([uriOrFile], fileName!, {type: fileType});
+      file = new File([uriOrFile], fileName!, { type: fileType });
     } else {
       file = uriOrFile;
     }
-    const data = await uploadMutation({variables: {file: file}});
+    const data = await uploadMutation({ variables: { file: file } });
     if (data.data) {
       delete data.data.SingleUpload.__typename;
       setFileView(data);
@@ -176,7 +168,7 @@ const useImageUploader = (
     if (event) {
       setUploading(true);
       const {
-        target: {name, value, files, validity}
+        target: { name, value, files, validity }
       }: ChangeEvent<HTMLInputElement> = event as ChangeEvent<HTMLInputElement>;
       if (validity && files && files.length === 1) {
         const file = files[0];
@@ -394,7 +386,7 @@ function useSwitch(defaultValue: boolean) {
     setChecked(value);
   };
 
-  return {checked, onChange};
+  return { checked, onChange };
 }
 
 function useDrawer(defaultValue: boolean) {
@@ -404,7 +396,7 @@ function useDrawer(defaultValue: boolean) {
     setOpen(!open);
   };
 
-  return {open, onClick};
+  return { open, onClick };
 }
 
 // useRange
@@ -415,7 +407,7 @@ function useRange(defaultValue: number) {
     setValue(value);
   };
 
-  return {value, onChange};
+  return { value, onChange };
 }
 
 export interface IUseSelect<V = any> {
@@ -438,7 +430,7 @@ function useSelect<V = any>(
     setSelectedOption(value);
   };
 
-  return {selectedOption, onChange};
+  return { selectedOption, onChange };
 }
 
 // 투글 훅
@@ -529,7 +521,29 @@ export let LANG: (key: string, key2?: string) => any = key => {
   return;
 };
 
-const useLang = (defaultLang: TLanguageShort) => {
+// 해당 언어를 찾음
+export const JDlang = (
+  lang: TLanguageShort,
+  langSet: any,
+  key: string,
+  key2?: string
+) => {
+  // @ts-ignore
+  if (!langSet[lang]) return "";
+  // @ts-ignore
+  if (!langSet[lang][key]) return "";
+  // @ts-ignore
+  if (key2) {
+    // @ts-ignore
+    if (!langSet[lang][key][key2]) return;
+    // @ts-ignore
+    return langSet[lang][key][key2];
+  }
+  // @ts-ignore
+  return langSet[lang][key];
+};
+
+const useLang = (defaultLang: TLanguageShort, langSet: any) => {
   const [currentLang, setCurrentLang] = useState(defaultLang);
 
   const changeLang = (lang: TLanguageShort) => {
@@ -537,9 +551,10 @@ const useLang = (defaultLang: TLanguageShort) => {
     setCurrentLang(lang);
   };
 
-  LANG = originJDlang.bind(originJDlang, currentLang);
+  // 언어와 셋을 결합한 함수로 셋팅함
+  LANG = JDlang.bind(JDlang, currentLang, langSet);
 
-  return {currentLang, changeLang, JDlang: LANG};
+  return { currentLang, changeLang };
 };
 
 const getKoreaSpecificDayHook = (
@@ -564,7 +579,7 @@ const getKoreaSpecificDayHook = (
         )}&${encodeURIComponent("solMonth")}=${encodeURIComponent(`0${i}`)}`;
 
         try {
-          const {data} = await Axios(url + queryParams);
+          const { data } = await Axios(url + queryParams);
           const item = data.response.body.items;
           if (Array.isArray(item.item)) {
             item.item.forEach((inItem: any) => {
@@ -594,7 +609,7 @@ const getKoreaSpecificDayHook = (
     });
   }, [years.join()]);
 
-  return {datas, loading};
+  return { datas, loading };
 };
 
 export {

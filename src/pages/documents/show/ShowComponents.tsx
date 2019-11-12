@@ -1,6 +1,6 @@
-import React, {useRef, useState} from "react";
-import {NavLink} from "react-router-dom";
-import {toast} from "react-toastify";
+import React, { useRef, useState } from "react";
+import { NavLink } from "react-router-dom";
+import { toast } from "react-toastify";
 import faker from "faker";
 import Tooltip from "../../../atoms/tooltip/Tooltip";
 import CheckBox from "../../../atoms/forms/checkBox/CheckBox";
@@ -21,11 +21,11 @@ import SliderExample from "./examples/example_slider";
 import SliderExample2 from "./examples/example_slider2";
 import JDlabel from "../../../atoms/label/JDLabel";
 import JDmodal from "../../../atoms/modal/Modal";
-import JDtable, {ReactTableDefault} from "../../../atoms/table/Table";
+import JDtable, { ReactTableDefault } from "../../../atoms/table/Table";
 import ProfileCircle from "../../../atoms/profileCircle/ProfileCircle";
-import {Tab, TabList, TabPanel, JDtabs} from "../../../atoms/tabs/tabs_";
+import { Tab, TabList, TabPanel, JDtabs } from "../../../atoms/tabs/tabs_";
 import utils from "../../../utils/utils";
-import Icon, {icons} from "../../../atoms/icons/Icons";
+import Icon, { icons } from "../../../atoms/icons/Icons";
 import {
   useInput,
   useCheckBox,
@@ -42,11 +42,9 @@ import {
 } from "../../../hooks/hook";
 import "./ShowComponent.scss";
 import JDcolorPicker from "../../../atoms/colorPicker/ColorPicker";
-import DrragList from "../../../atoms/animation/DrragList";
-import Card from "../../../atoms/cards/Card";
 import JDbox from "../../../atoms/box/JDbox";
-import {CellInfo} from "react-table";
-import {UserRole, TimePerMs} from "../../../types/enum";
+import { CellInfo } from "react-table";
+import { TimePerMs } from "../../../types/enum";
 import JDrange from "../../../atoms/forms/range/Range";
 import Drawer from "../../../atoms/drawer/Drawer";
 import JDTimer from "../../../atoms/timer/Timer";
@@ -77,22 +75,22 @@ function ShowComponents() {
   const drawerHook = useDrawer(false);
 
   const searchDummyData = [
-    {name: "Manpreet Singh", pic: ""},
-    {name: "Abhimanyu Kapoor", pic: ""},
-    {name: "Richard B. Gomes", pic: ""},
-    {name: "Utkarsh Jain", pic: ""}
+    { name: "Manpreet Singh", pic: "" },
+    { name: "Abhimanyu Kapoor", pic: "" },
+    { name: "Richard B. Gomes", pic: "" },
+    { name: "Utkarsh Jain", pic: "" }
   ];
 
   const selectDummyOptions = [
-    {value: "chocolate", label: "Chocolate"},
-    {value: "strawberry", label: "Strawberry"},
-    {value: "vanilla", label: "Vanilla"}
+    { value: "chocolate", label: "Chocolate" },
+    { value: "strawberry", label: "Strawberry" },
+    { value: "vanilla", label: "Vanilla" }
   ];
 
   const TableData = [
-    {color: "blue", food: "food", actor: "i"},
-    {color: "blue", food: "food", actor: "i"},
-    {color: "blue", food: "food", actor: "i"}
+    { color: "blue", food: "food", actor: "i" },
+    { color: "blue", food: "food", actor: "i" },
+    { color: "blue", food: "food", actor: "i" }
   ];
 
   const dummyDrragData = [
@@ -118,7 +116,7 @@ function ShowComponents() {
     {
       Header: "번호",
       accessor: "index",
-      Cell: ({index}: CellInfo) => <span>{index}</span>
+      Cell: ({ index }: CellInfo) => <span>{index}</span>
     },
     {
       Header: "우선순위",
@@ -146,7 +144,7 @@ function ShowComponents() {
   interface ICWProp {
     title: string;
   }
-  const ComponentWrap: React.FC<ICWProp> = ({children, title}) => (
+  const ComponentWrap: React.FC<ICWProp> = ({ children, title }) => (
     <div className="docs-section__box">
       <h6>{title}</h6>
       {children}
@@ -589,7 +587,7 @@ function ShowComponents() {
         {/* 타이머 */}
         <ComponentWrap title="Timer">
           <JDTimer initialTime={TimePerMs.M * 3} direction="backward">
-            {({timerState}: any) => {
+            {({ timerState }: any) => {
               return (
                 <span className="JDtimer">
                   <span className="JDtimer__minute">
@@ -607,23 +605,12 @@ function ShowComponents() {
         <ComponentWrap title="Multi Step">
           <JDmultiStep
             steps={[
-              {current: false, name: "ex1"},
-              {current: false, name: "ex2"},
-              {current: true, name: "ex3"}
+              { current: false, name: "ex1" },
+              { current: false, name: "ex2" },
+              { current: true, name: "ex3" }
             ]}
           />
         </ComponentWrap>
-        {/* 드래그리스트 */}
-        <h6>DragList</h6>
-        <div className="docs-section__box clear-fix">
-          <DrragList data={dummyDrragData} rowKey="tittle">
-            {(recode: any, index: any) => (
-              <Card key={index}>
-                <h6>this can Drragable</h6> {recode.title}
-              </Card>
-            )}
-          </DrragList>
-        </div>
         {/* JDbox */}
         <h6>JDbox</h6>
         <div className="docs-section__box clear-fix">

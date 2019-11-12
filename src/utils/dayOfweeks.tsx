@@ -1,5 +1,7 @@
-import {DayOfWeekPriceInput} from "../types/api";
-import {LANG} from "../hooks/hook";
+import { DayOfWeekPriceInput } from "../types/api";
+import { LANG } from "../hooks/hook";
+
+// 🔴 deprecated
 
 // 단순 변환 함수
 const JDMonthTextChanger = (Month: string | number): string => {

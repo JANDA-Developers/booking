@@ -9,7 +9,7 @@ import JDmenu, {JDmenuItem, JDsubMenu} from "../../atoms/menu/Menu";
 import ProfileCircle from "../../atoms/profileCircle/ProfileCircle";
 import SelectHouseWrap from "../selectHouse/SelectHouseWrap";
 import {s4, instanceOfA} from "../../utils/utils";
-import {IContext} from "../../pages/MiddleServerRouter";
+import {IContext} from "../../pages/bookingServer/MiddleServerRouter";
 import {HouseStatus} from "../../types/enum";
 import {inOr} from "../../utils/C";
 import Help from "../../atoms/Help/Help";

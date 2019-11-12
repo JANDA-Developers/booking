@@ -1,4 +1,4 @@
-@import '../../style_config/style_config';
+@import '../../style_config/config';
 @import './components/dragItem';
 
 .dailyAssig {
@@ -107,7 +107,7 @@
         }
 
         &--Full {
-            background-color: $warn-opacity1;
+            background-color: $orange-opacity1;
         }
     }
 }

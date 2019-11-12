@@ -11,7 +11,7 @@ import GuestSearchInputWrap from "../guestSearchInput/GuestSearchInputWrap";
 import PhoneVerificationModalWrap from "../phoneVerificationModal/PhoneVerificationModalWrap";
 import windowSize from "react-window-size";
 import {WindowSize} from "../../types/enum";
-import {IContext} from "../../pages/MiddleServerRouter";
+import {IContext} from "../../pages/bookingServer/MiddleServerRouter";
 import MobileHeaderComponent from "./components/MobileHeaderComponent";
 import PcHeaderComponent from "./components/PcHeaderComponent";
 import SharedHeaderComponent from "./components/SharedHeaderComponent";

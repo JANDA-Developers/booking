@@ -15,7 +15,7 @@ import {
 } from "../../../hooks/hook";
 import {Fragment} from "react";
 import "./HM.scss";
-import LangViewModal from "../../middleServer/HMconfig/component/LangViewModal";
+import LangViewModal from "../../bookingServer/HMconfig/component/LangViewModal";
 import {
   getHM_GetHM_HM_location,
   getHM_GetHM_HM_menus

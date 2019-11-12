@@ -1,4 +1,4 @@
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 
 // 한국어인지 검사한다 한국어검사
 export const isIncludeKr = (str: string | null): boolean => {
@@ -14,6 +14,7 @@ interface result {
   [data: string]: any;
 }
 
+// 아폴로 완료메세지를 반환 (백엔드 인터페이스에 의존하고 있음)
 const onCompletedMessage = (
   result: result,
   resultOK: string,

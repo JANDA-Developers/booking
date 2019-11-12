@@ -1,4 +1,4 @@
-@import '../../style_config/style_config.scss';
+@import '../../style_config/config.scss';
 
 .JDsideNav {
 
@@ -167,7 +167,7 @@
         }
 
         &--disabled {
-            color: $standard-disabled-color;
+            color: $disabled-color;
             cursor: auto;
         }
     }

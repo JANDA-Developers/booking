@@ -1,4 +1,4 @@
-@import "../../../../style_config/style_config";
+@import "../../../../style_config/config";
 
 .colorPage {
 
@@ -147,7 +147,6 @@
         }
 
         &--link {
-            background-color: $link-color;
 
             .colorPage-circle__txt {
                 color: #fff

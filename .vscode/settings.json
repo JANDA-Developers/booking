@@ -8,6 +8,5 @@
   "files.exclude": {
     "**/dist/**": true
   },
-  "editor.tabSize": 2,
-  "prettier.tabWidth": 2
+  "editor.tabSize": 2
 }

@@ -1,3 +1,4 @@
+// 이름, 값, 만료일 => 쿠키설정
 export function setCookie(cookie_name: string, value: string, days: number) {
   var exdate = new Date();
   exdate.setDate(exdate.getDate() + days);
@@ -9,6 +10,7 @@ export function setCookie(cookie_name: string, value: string, days: number) {
   document.cookie = cookie_name + "=" + cookie_value;
 }
 
+// 쿠키 이름 => 쿠키
 export function getCookie(cookieName: string) {
   var i,
     x,

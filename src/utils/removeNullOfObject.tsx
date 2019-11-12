@@ -1,3 +1,5 @@
+// 오브젝트에서 null인것을 제거함
+// Key 자체를 제거
 export const removeNullOfObject = (obj: any) => {
   if (typeof obj === "object") {
     for (let [key, value] of Object.entries(obj)) {

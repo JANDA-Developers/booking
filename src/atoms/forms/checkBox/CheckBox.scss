@@ -1,5 +1,5 @@
 
-@import '../../../style_config/style_config';
+@import '../../../style_config/config';
 
 /* 브라우저 기본 css 제거 */
 .JDcheck_box:not(:checked),
@@ -141,7 +141,7 @@
         border-color: $checkbox-disabled-border-color;
     }
     &:disabled+.JDcheck_box_label {
-        color: $standard-disabled-color;
+        color: $disabled-color;
         cursor:default;
     }
 }

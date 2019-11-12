@@ -30,7 +30,7 @@ import {
   IAssigItem,
   IAssigGroup,
   GuestTypeAdd
-} from "../pages/middleServer/assig/components/assigIntrerface";
+} from "../pages/bookingServer/assig/assigIntrerface";
 import {s4} from "../utils/utils";
 import {LANG} from "../hooks/hook";
 

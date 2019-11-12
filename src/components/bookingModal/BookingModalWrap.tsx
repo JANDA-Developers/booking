@@ -1,8 +1,8 @@
-import React, {useMemo} from "react";
-import {Query, Mutation} from "react-apollo";
+import React, { useMemo } from "react";
+import { Query, Mutation } from "react-apollo";
 import BookingModal from "./BookingModal";
 import _ from "lodash";
-import {IUseModal, LANG} from "../../hooks/hook";
+import { IUseModal, LANG } from "../../hooks/hook";
 import {
   getBooking,
   getBookingVariables,
@@ -26,7 +26,7 @@ import {
   isEmpty,
   mergeObject
 } from "../../utils/utils";
-import {GB_booking, BookingModalMode} from "../../types/interface";
+import { GB_booking, BookingModalMode } from "../../types/interface";
 import Preloader from "../../atoms/preloader/Preloader";
 import {
   GET_BOOKING,
@@ -37,13 +37,13 @@ import {
   GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM,
   GET_ROOM_TYPE_DATE_PRICE,
   START_BOOKING
-} from "../../queries";
-import {MODAL_PRELOADER_SIZE} from "../../types/enum";
-import {getOperationName} from "apollo-utilities";
-import {DEFAULT_BOOKING} from "../../types/defaults";
+} from "../../apollo/queries";
+import { MODAL_PRELOADER_SIZE } from "../../types/enum";
+import { getOperationName } from "apollo-utilities";
+import { DEFAULT_BOOKING } from "../../types/defaults";
 import JDmodal from "../../atoms/modal/Modal";
-import {totalPriceGetAveragePrice} from "../../utils/booking";
-import {IContext} from "../../pages/MiddleServerRouter";
+import { IContext } from "../../pages/bookingServer/MiddleServerRouter";
+import { totalPriceGetAveragePrice } from "./helper";
 
 export interface IBookingModalProp {
   startBookingCallBack?: (result: "error" | startBooking_StartBooking) => any;
@@ -76,8 +76,12 @@ class GetPriceWithDate extends Query<
   getRoomTypeDatePricesVariables
 > {}
 
-const BookingModalWrap: React.FC<IProps> = ({modalHook, context, ...props}) => {
-  const {house} = context;
+const BookingModalWrap: React.FC<IProps> = ({
+  modalHook,
+  context,
+  ...props
+}) => {
+  const { house } = context;
 
   const Result = useMemo(
     () => (
@@ -90,7 +94,7 @@ const BookingModalWrap: React.FC<IProps> = ({modalHook, context, ...props}) => {
           bookingId: modalHook.info.bookingId || ""
         }}
       >
-        {({data: bookingData, loading: getBooking_loading, error}) => {
+        {({ data: bookingData, loading: getBooking_loading, error }) => {
           // 쿼리결과
           const booking = queryDataFormater(
             bookingData,
@@ -124,7 +128,7 @@ const BookingModalWrap: React.FC<IProps> = ({modalHook, context, ...props}) => {
               query={GET_ROOM_TYPE_DATE_PRICE}
               variables={priceQueryVariables}
             >
-              {({data: priceResult, loading: getPrice_loading, error}) => {
+              {({ data: priceResult, loading: getPrice_loading, error }) => {
                 const priceData = queryDataFormater(
                   priceResult,
                   "GetRoomTypeDatePrices",
@@ -153,7 +157,7 @@ const BookingModalWrap: React.FC<IProps> = ({modalHook, context, ...props}) => {
                           ) || ""
                         ]}
                         mutation={UPDATE_BOOKING}
-                        onCompleted={({UpdateBooking}) => {
+                        onCompleted={({ UpdateBooking }) => {
                           onCompletedMessage(
                             UpdateBooking,
                             LANG("reservation_update"),
@@ -164,7 +168,7 @@ const BookingModalWrap: React.FC<IProps> = ({modalHook, context, ...props}) => {
                         {updateBookingMu => (
                           <CreatBookingMu
                             mutation={START_BOOKING}
-                            onCompleted={({StartBooking}) => {
+                            onCompleted={({ StartBooking }) => {
                               if (modalHook.info.startBookingCallBack)
                                 modalHook.info.startBookingCallBack(
                                   StartBooking
@@ -186,7 +190,7 @@ const BookingModalWrap: React.FC<IProps> = ({modalHook, context, ...props}) => {
                           >
                             {(
                               startBookingMu,
-                              {loading: startBookingLoading}
+                              { loading: startBookingLoading }
                             ) => (
                               <DeleteBookingMu
                                 mutation={DELETE_BOOKING}
@@ -196,7 +200,7 @@ const BookingModalWrap: React.FC<IProps> = ({modalHook, context, ...props}) => {
                                     GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM
                                   ) || ""
                                 ]}
-                                onCompleted={({DeleteBooking}) => {
+                                onCompleted={({ DeleteBooking }) => {
                                   onCompletedMessage(
                                     DeleteBooking,
                                     LANG("reservation_delete_complete"),

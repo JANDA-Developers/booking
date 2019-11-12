@@ -16,7 +16,7 @@ import {
   UPDATE_BOOKING,
   GET_ALL_README,
   GET_FILE_TXT
-} from "../../../queries";
+} from "../../../apollo/queries";
 import {getOperationName} from "apollo-link";
 import {usePagiNation} from "../../../hooks/hook";
 import DocumentHome from "./DocumentHome";

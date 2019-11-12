@@ -6,7 +6,7 @@ function C<T, F>(condition: any, trueReturn: T, falseReutrn: F) {
 export default C;
 
 type falsy = null | undefined;
-
+// 🔴 deprecated
 // 삼항연산자 변형 단축
 function inOr<Q, T extends keyof Q, F>(
   condition: Q | falsy,
@@ -16,6 +16,7 @@ function inOr<Q, T extends keyof Q, F>(
   return condition ? condition[trueReturn] : falseReutrn;
 }
 
+// 🔴 deprecated
 // 안쪽 프로퍼티 까지검사
 function Check<Q, T extends keyof Q>(
   condition: Q | falsy,
@@ -25,6 +26,5 @@ function Check<Q, T extends keyof Q>(
   if (!condition[key]) return undefined;
   return condition[key];
 }
-export {Check};
-
-export {inOr};
+export { Check };
+export { inOr };

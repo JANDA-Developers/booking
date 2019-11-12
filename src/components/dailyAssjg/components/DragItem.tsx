@@ -11,7 +11,7 @@ import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
 import {ReactTooltip} from "../../../atoms/tooltip/Tooltip";
 import moment from "moment";
 import classNames from "classnames";
-import Gender from "../../../pages/middleServer/assig/components/items/Gender";
+import Gender from "../../../pages/bookingServer/assig/components/items/Gender";
 import {BookingStatus} from "../../../types/enum";
 import {LANG} from "../../../hooks/hook";
 

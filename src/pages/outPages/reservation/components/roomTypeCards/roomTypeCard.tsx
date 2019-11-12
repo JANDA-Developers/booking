@@ -15,7 +15,7 @@ import moment from "moment";
 import selectOpCreater from "../../../../../utils/selectOptionCreater";
 import JDbadge from "../../../../../atoms/badge/Badge";
 import {IReservationHooks} from "../../Reservation";
-import {PortalPreloader} from "../../../../../utils/portalTo";
+import {PortalPreloader} from "../../../../../utils/portalElement";
 
 interface IProps {
   className?: string;

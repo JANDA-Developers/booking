@@ -1,7 +1,7 @@
 import React, * as react from "react";
-import {Query, Mutation} from "react-apollo";
-import {queryDataFormater, onCompletedMessage} from "../../utils/utils";
-import Memo, {IConfigMemo} from "./Memo";
+import { Query, Mutation } from "react-apollo";
+import { queryDataFormater, onCompletedMessage } from "../../utils/utils";
+import Memo, { IConfigMemo } from "./Memo";
 import {
   getMemos,
   getMemosVariables,
@@ -12,12 +12,17 @@ import {
   deleteMemoVariables,
   deleteMemo
 } from "../../types/api";
-import {GET_MEMO, CREATE_MEMO, DELETE_MEMO, UPDATE_MEMO} from "../../queries";
-import {getOperationName} from "apollo-link";
-import {MemoType, MODAL_PRELOADER_SIZE} from "../../types/enum";
+import {
+  GET_MEMO,
+  CREATE_MEMO,
+  DELETE_MEMO,
+  UPDATE_MEMO
+} from "../../apollo/queries";
+import { getOperationName } from "apollo-link";
+import { MemoType, MODAL_PRELOADER_SIZE } from "../../types/enum";
 import Preloader from "../../atoms/preloader/Preloader";
-import {IContext} from "../../pages/MiddleServerRouter";
-import {IUseModal, LANG} from "../../hooks/hook";
+import { IContext } from "../../pages/bookingServer/MiddleServerRouter";
+import { IUseModal, LANG } from "../../hooks/hook";
 
 export interface IMemoWrapProps extends IConfigMemo {
   context: IContext;
@@ -30,9 +35,9 @@ class CreateMemoMu extends Mutation<createMemo, createMemoVariables> {}
 class UpdateMemoMu extends Mutation<updateMemo, updateMemoVariables> {}
 class DeleteMemoMu extends Mutation<deleteMemo, deleteMemoVariables> {}
 
-const MemoWrap: React.FC<IMemoWrapProps> = ({context, memoType, ...prop}) => {
+const MemoWrap: React.FC<IMemoWrapProps> = ({ context, memoType, ...prop }) => {
   const {
-    house: {_id: houseId}
+    house: { _id: houseId }
   } = context;
   return (
     <div>
@@ -44,14 +49,14 @@ const MemoWrap: React.FC<IMemoWrapProps> = ({context, memoType, ...prop}) => {
         }}
         query={GET_MEMO}
       >
-        {({data: Data, loading: getMemoLoading, networkStatus}) => {
+        {({ data: Data, loading: getMemoLoading, networkStatus }) => {
           const getMemosData = queryDataFormater(Data, "GetMemos", "memos", []);
           return (
             <CreateMemoMu
               mutation={CREATE_MEMO}
               awaitRefetchQueries
               refetchQueries={[getOperationName(GET_MEMO)!]}
-              onCompleted={({CreateMemo}) =>
+              onCompleted={({ CreateMemo }) =>
                 onCompletedMessage(
                   CreateMemo,
                   LANG("create_memo_completed"),
@@ -59,12 +64,12 @@ const MemoWrap: React.FC<IMemoWrapProps> = ({context, memoType, ...prop}) => {
                 )
               }
             >
-              {(createMemoMu, {loading: createMemoLoading}) => (
+              {(createMemoMu, { loading: createMemoLoading }) => (
                 <DeleteMemoMu
                   mutation={DELETE_MEMO}
                   awaitRefetchQueries
                   refetchQueries={[getOperationName(GET_MEMO)!]}
-                  onCompleted={({DeleteMemo}) =>
+                  onCompleted={({ DeleteMemo }) =>
                     onCompletedMessage(
                       DeleteMemo,
                       LANG("deleted_note_completed"),
@@ -72,12 +77,12 @@ const MemoWrap: React.FC<IMemoWrapProps> = ({context, memoType, ...prop}) => {
                     )
                   }
                 >
-                  {(deleteMemoMu, {loading: deleteMemoLoading}) => (
+                  {(deleteMemoMu, { loading: deleteMemoLoading }) => (
                     <UpdateMemoMu
                       mutation={UPDATE_MEMO}
                       awaitRefetchQueries
                       refetchQueries={[getOperationName(GET_MEMO)!]}
-                      onCompleted={({UpdateMemo}) =>
+                      onCompleted={({ UpdateMemo }) =>
                         onCompletedMessage(
                           UpdateMemo,
                           LANG("note_updated"),
@@ -85,7 +90,7 @@ const MemoWrap: React.FC<IMemoWrapProps> = ({context, memoType, ...prop}) => {
                         )
                       }
                     >
-                      {(updateMemoMu, {loading: updateMemoLoading}) =>
+                      {(updateMemoMu, { loading: updateMemoLoading }) =>
                         networkStatus !== 1 ? (
                           <Memo
                             mutationLoading={

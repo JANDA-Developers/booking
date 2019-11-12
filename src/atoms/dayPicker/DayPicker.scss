@@ -1,4 +1,4 @@
-@import "../../style_config/style_config";
+@import "../../style_config/config";
 
 
 // end부분 회색주석
@@ -9,7 +9,7 @@
             border-color: transparent;
         .DayPicker-Week {
             .DayPicker-Day--selected.DayPicker-Day.DayPicker-Day--end {
-                background-color: $warn-color!important;
+                background-color: $orange-color!important;
             }
         }
     }

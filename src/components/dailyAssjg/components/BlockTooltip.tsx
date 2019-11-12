@@ -1,10 +1,10 @@
 import React from "react";
 import TooltipList from "../../../atoms/tooltipList/TooltipList";
-import {IContext} from "../../../pages/MiddleServerRouter";
+import {IContext} from "../../../pages/bookingServer/MiddleServerRouter";
 import {
   IDailyAssigUtils,
   IDailyAssigDataControl
-} from "../../../pages/middleServer/assig/components/assigIntrerface";
+} from "../../../pages/bookingServer/assig/assigIntrerface";
 import {IDailyAssigContext} from "../DailyAssig";
 import {
   getAllRoomTypeWithGuest_GetGuests_guests as IG,

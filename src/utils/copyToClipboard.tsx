@@ -1,6 +1,7 @@
-import {toast} from "react-toastify";
-import {LANG} from "../hooks/hook";
+import { toast } from "react-toastify";
+import { LANG } from "../hooks/hook";
 
+// 클리보드에 문자열 복사
 const copytoClipboard = (text: string): void => {
   var textField = document.createElement("textarea");
   textField.innerText = text;

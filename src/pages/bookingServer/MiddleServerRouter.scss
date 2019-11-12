@@ -1,0 +1,40 @@
+@import '../../style_config/config.scss';
+
+.middleServer {
+    &__starterBg {
+        background-image: url("https://res.cloudinary.com/stayjanda-com/image/upload/v1554029494/annananananan.jpg");
+        background-size: cover;
+        background-position: center center;
+        height: 100%;
+    }
+
+    &__layout {
+        display: flex;
+    }
+    &__page {
+        flex: 1 1;
+        transition: .3s;
+        max-width: 100%;
+    }
+
+    &__side {
+        position: relative;
+        z-index: $z-index-7;
+        
+        @include response($phablet) {
+            position:fixed;
+        }
+    }
+    &--sideOpen {
+        @include response($full,$phablet) {
+            .middleServer__page {
+                max-width: calc(100% - #{$sideNav-width});
+            }
+        }
+        @include response($tablet,$phablet) {
+            .middleServer__page {
+                max-width: calc(100% - #{$sideNav-width-wmd});
+            }
+        }
+    }
+}

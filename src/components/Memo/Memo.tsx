@@ -19,7 +19,7 @@ import isLast from "../../utils/isLast";
 import JDToolTip, {ReactTooltip} from "../../atoms/tooltip/Tooltip";
 import {useModal, LANG} from "../../hooks/hook";
 import MemoAlertModal from "./component/MemoAlertModal";
-import {IContext} from "../../pages/MiddleServerRouter";
+import {IContext} from "../../pages/bookingServer/MiddleServerRouter";
 
 export interface IConfigMemo {
   showOnlyAlert?: boolean;

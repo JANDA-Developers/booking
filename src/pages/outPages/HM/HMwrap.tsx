@@ -3,7 +3,7 @@ import {Query} from "react-apollo";
 import {getHMforPublic} from "../../../types/api";
 import {SalesStatisticsUnit, Language} from "../../../types/enum";
 import HMcomponent from "./HM";
-import {GET_HOUSE_MENUAL_FOR_PUBLIC} from "../../../queries";
+import {GET_HOUSE_MENUAL_FOR_PUBLIC} from "../../../apollo/queries";
 import {queryDataFormater} from "../../../utils/utils";
 import {RouteComponentProps} from "react-router";
 import {DEFAULT_HM} from "../../../types/defaults";

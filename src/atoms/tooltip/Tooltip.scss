@@ -1,4 +1,4 @@
-@import "../../style_config/style_config";
+@import "../../style_config/config";
 
 .JDtooltip.__react_component_tooltip {
     &.show {
@@ -6,10 +6,8 @@
     }
  
     &.type-info{
-        background-color:$link-color;
         
         &:after{
-            border-top-color:$link-color;
         }
     }
 

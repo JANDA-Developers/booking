@@ -6,7 +6,7 @@ import {autoComma, isEmpty} from "../../utils/utils";
 import Preloader from "../../atoms/preloader/Preloader";
 import {Doughnut, ChartData} from "react-chartjs-2";
 import {getSalesStatistic_GetSalesStatistic_data} from "../../types/api";
-import {arraySum} from "../../utils/elses";
+import {arraySum} from "../../utils/math";
 import {getStaticColors} from "../../utils/getStaticColors";
 import JDgraph from "../../atoms/graph/graph";
 

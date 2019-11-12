@@ -2,6 +2,7 @@ import $ from "jquery";
 
 let JD_BLINK_STACK = 0;
 
+// 대상에게 반짝임 효과를 부여합니다.
 function targetBlink(targetDoms: JQuery<HTMLElement>, infi?: boolean) {
   // 무한반복방지
   if (JD_BLINK_STACK > 20) {
@@ -18,6 +19,7 @@ function targetBlink(targetDoms: JQuery<HTMLElement>, infi?: boolean) {
   }, 300);
 }
 
+// 아직 생성되지 않은 대상에게 반짝임 효과를 부여합니다.
 function targetBlinkFuture(selecter: string, infi?: boolean) {
   const targetDom = $(selecter);
 
@@ -39,4 +41,4 @@ function targetBlinkFuture(selecter: string, infi?: boolean) {
 }
 
 export default targetBlink;
-export {targetBlinkFuture};
+export { targetBlinkFuture };

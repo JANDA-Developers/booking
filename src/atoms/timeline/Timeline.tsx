@@ -29,7 +29,7 @@ import {
 } from "../../hooks/hook";
 import DayPickerModal from "../../components/dayPickerModal/DayPickerModal";
 import {isEmpty} from "../../utils/utils";
-import {THandleMouseDown} from "../../pages/middleServer/assig/components/assigIntrerface";
+import {THandleMouseDown} from "../../pages/bookingServer/assig/assigIntrerface";
 
 export interface IDotPoint {
   offsetX: number;

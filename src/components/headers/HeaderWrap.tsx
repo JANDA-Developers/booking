@@ -3,9 +3,9 @@ import React, {useState} from "react";
 import {toast} from "react-toastify";
 import {RouteComponentProps} from "react-router-dom";
 import Header from "./Header";
-import {LOG_USER_OUT} from "../../clientQueries";
+import {LOG_USER_OUT} from "../../apollo/clientQueries";
 import {IDiv} from "../../types/interface";
-import {IContext} from "../../pages/MiddleServerRouter";
+import {IContext} from "../../pages/bookingServer/MiddleServerRouter";
 import {LANG} from "../../hooks/hook";
 
 type IProps = IDiv & {

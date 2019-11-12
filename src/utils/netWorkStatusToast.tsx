@@ -2,6 +2,10 @@ import { isNetworkRequestInFlight as APL } from "apollo-client/core/networkStatu
 import { toast } from "react-toastify";
 import { LANG } from "../hooks/hook";
 
+// 1 로딩,
+// 2 변수셋팅,
+// 3 fetchMore,
+//4 리패치
 //5 풀링 중
 //6 풀링 중
 //7 모든게 정상

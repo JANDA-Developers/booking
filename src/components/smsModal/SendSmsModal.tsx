@@ -25,10 +25,10 @@ import moment from "moment";
 import {IModalSMSinfo} from "./SendSmsModalWrap";
 import {autoComma, autoHypen, s4, queryDataFormater} from "../../utils/utils";
 import JDLabel from "../../atoms/label/JDLabel";
-import {GET_BOOKINGS_PHONE_NUMBERS} from "../../queries";
+import {GET_BOOKINGS_PHONE_NUMBERS} from "../../apollo/queries";
 import {useQuery} from "@apollo/react-hooks";
-import {IContext} from "../../pages/MiddleServerRouter";
-import client from "../../apolloClient";
+import {IContext} from "../../pages/bookingServer/MiddleServerRouter";
+import client from "../../apollo/apolloClient";
 import JDpreloader from "../../atoms/preloader/Preloader";
 
 interface IProps {

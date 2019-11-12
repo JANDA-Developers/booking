@@ -1,0 +1,35 @@
+@import '../../../style_config/config.scss';
+
+#dailyPrice {
+    .dailyPrice {
+        min-height: 100vh;
+
+        &__cellWrap {
+            padding: $standard-tiny-space;
+        }
+
+        &__timeline {
+            .JDinput {
+                margin: 0;
+                padding: 0;
+                height: 2rem;
+                width: 80%;
+                margin-left: 10%;
+            }
+            
+            .rct-header {
+                // pointer-events: none;
+            }
+            
+            .JDinput-wrap {
+                padding-bottom: $standard-margin-bottom;
+            }
+
+            .rct-sidebar {
+                text-align: center;
+            }
+        }
+
+        @extend %timelineTopLeftIconBox;
+    }
+}

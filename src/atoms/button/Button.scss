@@ -1,6 +1,6 @@
 
 
-@import "../../style_config/style_config";
+@import "../../style_config/config";
 
 .JDbtn {
   // border: $button-border;
@@ -178,8 +178,6 @@
     color: $primary-color-on;
   }
 
-  &--toogleOff.JDbtn {
-  }
 }
 
 

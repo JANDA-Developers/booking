@@ -1,6 +1,6 @@
 import React from "react";
 import {useQuery} from "@apollo/react-hooks";
-import {GET_MEMO, GET_NOTI} from "../../../queries";
+import {GET_MEMO, GET_NOTI} from "../../../apollo/queries";
 import {
   getMemos,
   getMemosVariables,
@@ -9,9 +9,9 @@ import {
 } from "../../../types/api";
 import {queryDataFormater, s4} from "../../../utils/utils";
 import JDIcon, {IconConifgProps} from "../../../atoms/icons/Icons";
-import {IContext} from "../../../pages/MiddleServerRouter";
+import {IContext} from "../../../pages/bookingServer/MiddleServerRouter";
 import {MemoType, NotiLevel} from "../../../types/enum";
-import client from "../../../apolloClient";
+import client from "../../../apollo/apolloClient";
 import JDbadge from "../../../atoms/badge/Badge";
 
 interface Iprops extends IconConifgProps {

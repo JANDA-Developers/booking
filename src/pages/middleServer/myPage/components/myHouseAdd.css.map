@@ -1,9 +1,0 @@
-{
-    "version": 3,
-    "mappings": "AAAA,AAAA,aAAa,CAAC;EACV,MAAM,EAAE,KAAK;EACb,UAAU,EAAC,MAAM;EACjB,OAAO,EAAC,IAAI;EACZ,eAAe,EAAE,MAAM;EACvB,WAAW,EAAE,MAAM;EACnB,aAAa,EAAE,CAAC;CACnB",
-    "sources": [
-        "myHouseAdd.scss"
-    ],
-    "names": [],
-    "file": "myHouseAdd.css"
-}

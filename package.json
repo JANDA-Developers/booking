@@ -26,12 +26,12 @@
     "dotenv": "6.0.0",
     "dotenv-expand": "4.2.0",
     "faker": "^4.1.0",
+    "fs-extra": "7.0.0",
     "google-maps-react": "^2.0.2",
     "graphql-tag": "^2.10.1",
     "interactjs": "^1.3.4",
     "ip": "^1.1.5",
     "is-mobile": "^2.1.0",
-    "fs-extra": "7.0.0",
     "jquery": "^3.3.1",
     "lodash": "^4.17.11",
     "markdown-to-jsx": "^6.9.1",
@@ -74,7 +74,6 @@
     "react-tooltip": "^3.9.2",
     "react-window-size": "^1.2.2",
     "resolve": "1.8.1",
-    "url-loader": "1.1.1",
     "whatwg-fetch": "^3.0.0"
   },
   "scripts": {
@@ -84,13 +83,12 @@
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
     "precodegen": "apollo schema:download --endpoint=http://localhost:4000/graphql",
-    "codegen": "apollo codegen:generate src/types/api.d.ts --queries=src/queries.ts --addTypename --localSchemaFile=schema.json --target=typescript --outputFlat"
+    "codegen": "apollo codegen:generate src/types/api.d.ts --queries=src/apollo/queries.ts --addTypename --localSchemaFile=schema.json --target=typescript --outputFlat"
   },
   "eslintConfig": {
     "extends": "react-app"
   },
   "eslintIgnore": [
-    "naverMap.js",
     "**/*.js"
   ],
   "browserslist": [
@@ -100,18 +98,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "fork-ts-checker-webpack-plugin-alt": "0.4.14",
-    "babel-plugin-named-asset-import": "^0.2.3",
-    "babel-polyfill": "^6.26.0",
-    "babel-preset-react-app": "^6.1.0",
-    "file-loader": "2.0.0",
-    "pnp-webpack-plugin": "1.1.0",
-    "postcss-flexbugs-fixes": "4.1.0",
-    "postcss-loader": "3.0.0",
-    "postcss-preset-env": "6.0.6",
-    "postcss-safe-parser": "4.0.1",
-    "mini-css-extract-plugin": "0.4.3",
-    "optimize-css-assets-webpack-plugin": "5.0.1",
+    "find-unused-sass-variables": "^1.0.2",
     "@apollo/react-hooks": "^3.1.1",
     "@babel/core": "7.1.0",
     "@types/apollo-upload-client": "^8.1.3",
@@ -145,11 +132,13 @@
     "@types/react-tabs": "^2.3.1",
     "@types/react-tooltip": "^3.9.2",
     "@types/react-window-size": "^1.2.0",
-    "html-webpack-plugin": "4.0.0-alpha.2",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "9.0.0",
     "babel-jest": "23.6.0",
     "babel-loader": "8.0.4",
+    "babel-plugin-named-asset-import": "^0.2.3",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-react-app": "^6.1.0",
     "case-sensitive-paths-webpack-plugin": "2.1.2",
     "eslint": "^5.16.0",
     "eslint-config-react-app": "^3.0.5",
@@ -158,61 +147,26 @@
     "eslint-plugin-import": "2.14.0",
     "eslint-plugin-jsx-a11y": "6.1.2",
     "eslint-plugin-react": "7.11.1",
+    "file-loader": "2.0.0",
+    "fork-ts-checker-webpack-plugin-alt": "0.4.14",
+    "html-webpack-plugin": "4.0.0-alpha.2",
     "jest": "23.6.0",
+    "mini-css-extract-plugin": "0.4.3",
     "node-sass": "^4.13.0",
+    "optimize-css-assets-webpack-plugin": "5.0.1",
+    "pnp-webpack-plugin": "1.1.0",
+    "postcss-flexbugs-fixes": "4.1.0",
+    "postcss-loader": "3.0.0",
+    "postcss-preset-env": "6.0.6",
+    "postcss-safe-parser": "4.0.1",
     "sass-loader": "^7.3.1",
     "style-loader": "0.23.0",
     "terser-webpack-plugin": "1.1.0",
     "typescript": "^3.3.4000",
+    "url-loader": "1.1.1",
     "webpack": "4.19.1",
     "webpack-dev-server": "3.1.9",
     "webpack-manifest-plugin": "2.0.4",
     "workbox-webpack-plugin": "3.6.3"
-  },
-  "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx,ts,tsx}",
-      "!src/**/*.d.ts"
-    ],
-    "resolver": "jest-pnp-resolver",
-    "setupFiles": [
-      "react-app-polyfill/jsdom"
-    ],
-    "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
-      "<rootDir>/src/**/?(*.)(spec|test).{js,jsx,ts,tsx}"
-    ],
-    "testEnvironment": "jsdom",
-    "testURL": "http://localhost",
-    "transform": {
-      "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/node_modules/babel-jest",
-      "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
-      "^(?!.*\\.(js|jsx|ts|tsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
-    },
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$",
-      "^.+\\.module\\.(css|sass|scss)$"
-    ],
-    "moduleNameMapper": {
-      "^react-native$": "react-native-web",
-      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy"
-    },
-    "moduleFileExtensions": [
-      "web.js",
-      "js",
-      "web.ts",
-      "ts",
-      "web.tsx",
-      "tsx",
-      "json",
-      "web.jsx",
-      "jsx",
-      "node"
-    ]
-  },
-  "babel": {
-    "presets": [
-      "react-app"
-    ]
   }
 }

@@ -1,7 +1,8 @@
-import {STATIC_COLORS} from "../types/enum";
+import { STATIC_COLORS } from "../types/enum";
 import Color from "color";
 import randomColor from "randomcolor";
 
+// 통계에 필요한 색상들을 가져옴
 export const getStaticColors = (
   count: number = 10,
   option?: {

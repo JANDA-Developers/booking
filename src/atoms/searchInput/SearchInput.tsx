@@ -1,14 +1,11 @@
 // 참고: https://codepen.io/manpreet/pen/EyXwrE
 import $ from "jquery";
-import PropTypes from "prop-types";
-import React, {useState, useRef, useEffect} from "react";
+import React, { useState, useRef, useEffect } from "react";
 import classNames from "classnames";
-import List from "./list";
-import "./searchInput.scss";
+import List from "./components/list";
 import Icon from "../icons/Icons";
 import Preloader from "../preloader/Preloader";
-import searchListFormat from "../../utils/searchListFormater";
-import {isEmpty} from "../../utils/utils";
+import searchListFormat from "./helper";
 
 interface IProps {
   dataList: Array<any>;

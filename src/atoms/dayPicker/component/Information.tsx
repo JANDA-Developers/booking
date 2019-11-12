@@ -1,7 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
-import {JDlang} from "../../../langs/JDlang";
-import {CURRENT_LANG, LANG} from "../../../hooks/hook";
+import { LANG } from "../../../hooks/hook";
 
 // handler는 마우스 오버 이벤트 입니다.
 // form 은 시작날자
@@ -13,7 +11,7 @@ interface IProps {
   [foo: string]: any;
 }
 
-const JDdatePcikerInformation: React.SFC<IProps> = ({from, to}) => {
+const JDdatePcikerInformation: React.SFC<IProps> = ({ from, to }) => {
   return (
     <div className="JDdatePcikerInformation">
       {!from && !to && LANG("choseCheckInDate")}

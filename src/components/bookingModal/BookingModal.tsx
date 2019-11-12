@@ -1,6 +1,6 @@
-import React, {Fragment, useState} from "react";
+import React, { Fragment, useState } from "react";
 import moment from "moment";
-import Modal, {JDtoastModal} from "../../atoms/modal/Modal";
+import Modal, { JDtoastModal } from "../../atoms/modal/Modal";
 import {
   useInput,
   useSelect,
@@ -27,8 +27,12 @@ import {
   Gender
 } from "../../types/enum";
 import "./BookingModal.scss";
-import {GB_booking, IGuestCount, BookingModalMode} from "../../types/interface";
-import {MutationFn} from "react-apollo";
+import {
+  GB_booking,
+  IGuestCount,
+  BookingModalMode
+} from "../../types/interface";
+import { MutationFn } from "react-apollo";
 import {
   updateBooking,
   updateBookingVariables,
@@ -41,18 +45,19 @@ import {
   getBooking_GetBooking_booking_guests,
   getBooking_GetBooking_booking_guests_GuestDomitory
 } from "../../types/api";
-import SendSMSmodalWrap, {IModalSMSinfo} from "../smsModal/SendSmsModalWrap";
+import SendSMSmodalWrap, { IModalSMSinfo } from "../smsModal/SendSmsModalWrap";
 import Preloader from "../../atoms/preloader/Preloader";
-import {toast} from "react-toastify";
-import {isPhone} from "../../utils/inputValidations";
-import {autoComma, instanceOfA} from "../../utils/utils";
-import {IContext} from "../../pages/MiddleServerRouter";
+import { toast } from "react-toastify";
+import { isPhone } from "../../utils/inputValidations";
+import { autoComma, instanceOfA } from "../../utils/utils";
+import { IContext } from "../../pages/bookingServer/MiddleServerRouter";
 import Drawer from "../../atoms/drawer/Drawer";
 import _ from "lodash";
-import C, {inOr} from "../../utils/C";
-import guestsToInput, {getRoomSelectInfo} from "../../utils/typeChanger";
+import C, { inOr } from "../../utils/C";
+import { guestsToInput } from "./helper";
 import RoomAssigedInfoTable from "./components/RoomAssigedInfoTable";
-import {to4YMMDD} from "../../utils/setMidNight";
+import { to4YMMDD } from "../../utils/setMidNight";
+import { getRoomSelectInfo } from "../../utils/typeChanger";
 
 // (예약/게스트) 정보
 export interface IBookingModal_AssigInfo {
@@ -116,9 +121,9 @@ const BookingModal: React.FC<IProps> = ({
     name,
     guests
   } = bookingData;
-  const {payMethod, status: paymentStatus, totalPrice} = payment;
-  const {house} = context;
-  const {_id: houseId} = house;
+  const { payMethod, status: paymentStatus, totalPrice } = payment;
+  const { house } = context;
+  const { _id: houseId } = house;
   const sendSmsModalHook = useModal<IModalSMSinfo>(false);
   const confirmModalHook = useModal(false);
   const bookingNameHook = useInput(name);
@@ -167,7 +172,7 @@ const BookingModal: React.FC<IProps> = ({
     C(
       bookingId !== "default",
       // @ts-ignore
-      {value: payMethod, label: LANG(payMethod)},
+      { value: payMethod, label: LANG(payMethod) },
       null
     )
   );
@@ -175,7 +180,7 @@ const BookingModal: React.FC<IProps> = ({
     C(
       bookingId !== "default",
       // @ts-ignore
-      {value: paymentStatus, label: LANG("PaymentStatus", paymentStatus)},
+      { value: paymentStatus, label: LANG("PaymentStatus", paymentStatus) },
       null
     )
   );
@@ -259,7 +264,7 @@ const BookingModal: React.FC<IProps> = ({
     },
     // 페이먼트 에따라서 각 상황에맞는 SMS 를 찾아줌
     autoSendWhen: (() => {
-      const {selectedOption} = paymentStatusHook;
+      const { selectedOption } = paymentStatusHook;
       if (selectedOption) {
         if (selectedOption.value === PaymentStatus.COMPLETE) {
           return AutoSendWhen.WHEN_BOOKING_CREATED;
@@ -427,7 +432,7 @@ const BookingModal: React.FC<IProps> = ({
               {LANG("booker_info")}{" "}
               <Drawer
                 onClick={e => {
-                  setDrawers({bookerInfo: !drawers.bookerInfo});
+                  setDrawers({ bookerInfo: !drawers.bookerInfo });
                 }}
                 open={drawers.bookerInfo}
               />

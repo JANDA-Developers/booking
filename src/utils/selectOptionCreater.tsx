@@ -1,4 +1,4 @@
-import {IselectedOption} from "../atoms/forms/selectBox/SelectBox";
+import { IselectedOption } from "../atoms/forms/selectBox/SelectBox";
 
 interface IProps {
   count: number;
@@ -6,6 +6,7 @@ interface IProps {
   labelAdd?: string;
 }
 
+//  start 부터 count 개만큼 선택 옵션을 만듭니다.
 const selectOpCreater = ({
   count,
   labelAdd = "",

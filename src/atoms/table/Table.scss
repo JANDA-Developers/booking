@@ -1,4 +1,4 @@
-@import '../../style_config/style_config.scss';
+@import '../../style_config/config.scss';
 
 
 #root,.ReactModalPortal {
@@ -51,7 +51,7 @@
 
         // 데이터가 없을때 플레이스 홀더
         .rt-noData{
-            color: $standard-placeholder-color;
+            color: $placeholder-color;
             padding: 0;
             top: auto;
             bottom: 0;

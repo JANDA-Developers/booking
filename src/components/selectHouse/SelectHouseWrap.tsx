@@ -8,12 +8,12 @@ import {
   ISelectHouse,
   ISelectHouseVariables
 } from "../../types/interface";
-import {SELECT_HOUSE, SELECTED_HOUSE} from "../../clientQueries";
+import {SELECT_HOUSE, SELECTED_HOUSE} from "../../apollo/clientQueries";
 import {showError, onCompletedMessage} from "../../utils/utils";
 import {IselectedOption} from "../../atoms/forms/selectBox/SelectBox";
-import {GET_USER_INFO} from "../../queries";
+import {GET_USER_INFO} from "../../apollo/queries";
 import {getOperationName} from "apollo-utilities";
-import {IContext} from "../../pages/MiddleServerRouter";
+import {IContext} from "../../pages/bookingServer/MiddleServerRouter";
 
 class SelectHouseMutation extends Mutation<
   ISelectHouse,

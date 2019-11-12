@@ -1,4 +1,4 @@
-@import '../../style_config/style_config';
+@import '../../style_config/config';
 
 .imageUploader {
     position:relative;
@@ -60,7 +60,7 @@
 
     .preloader__wrap {
         position: absolute;
-        z-idnex: $z-index-0;
+        z-index: $z-index-0;
         top: 0;
         left: 0;
         right: 0;

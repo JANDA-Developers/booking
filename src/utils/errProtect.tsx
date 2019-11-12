@@ -1,21 +1,21 @@
-import React, { Component, FunctionComponent } from 'react';
+import React, { FunctionComponent } from "react";
 
 export function EerrorProtect<P>(WrappedComponent: FunctionComponent<P>) {
   return class extends React.Component<P, any> {
     state = {
-      hasErr: false,
+      hasErr: false
     };
 
     ComponentDidCatch = () => {
       this.setState({
-        hasErr: true,
+        hasErr: true
       });
     };
 
     render() {
       const { hasErr } = this.state;
       if (hasErr) {
-        return 'sorry Something Wrong';
+        return "sorry Something Wrong";
       }
       return <WrappedComponent {...this.props} />;
     }

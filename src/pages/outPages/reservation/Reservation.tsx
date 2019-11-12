@@ -1,6 +1,6 @@
-import React, {useState, Fragment, useEffect} from "react";
-import windowSize, {WindowSizeProps} from "react-window-size";
-import {Query} from "react-apollo";
+import React, { useState, Fragment, useEffect } from "react";
+import windowSize, { WindowSizeProps } from "react-window-size";
+import { Query } from "react-apollo";
 import ErrProtecter from "../../../utils/errProtect";
 import JDdayPicker from "../../../atoms/dayPicker/DayPicker";
 import {
@@ -37,36 +37,31 @@ import {
   insideRedirect,
   muResult
 } from "../../../utils/utils";
-import {isName, isPhone} from "../../../utils/inputValidations";
-import {JDtoastModal} from "../../../atoms/modal/Modal";
-import {IRoomType, IMu} from "../../../types/interface";
+import { isName, isPhone } from "../../../utils/inputValidations";
+import { JDtoastModal } from "../../../atoms/modal/Modal";
+import { IRoomType, IMu } from "../../../types/interface";
 import {
   WindowSize,
   PricingType,
   PAYMETHOD_FOR_BOOKER_OP,
-  PAYMETHOD_FOR_HOST_OP,
-  PayMethod,
-  PaymentStatus,
-  PAYMENT_STATUS_OP
+  PayMethod
 } from "../../../types/enum";
-import {GET_ALL_ROOM_TYPE_FOR_BOOKING} from "../../../queries";
+import { GET_ALL_ROOM_TYPE_FOR_BOOKING } from "../../../apollo/queries";
 import Preloader from "../../../atoms/preloader/Preloader";
-import {Helmet} from "react-helmet";
-import {openNiceModal} from "./components/doPay";
-import {reservationDevelop, developEvent} from "../../../utils/developMaster";
+import { Helmet } from "react-helmet";
+import { openNiceModal } from "./components/doPay";
 import RoomSearcher from "../../../components/roomSearcher.tsx/RoomSearcher";
 import BookingInfoModal from "./components/roomTypeCards/bookingInfoModal";
 import isLast from "../../../utils/isLast";
-import {IRoomSelectInfo} from "../../../components/bookingModal/BookingModal";
-import {IContext} from "../../MiddleServerRouter";
-import {ExecutionResult} from "graphql";
-import {ApolloQueryResult} from "apollo-client";
+import { IRoomSelectInfo } from "../../../components/bookingModal/BookingModal";
+import { IContext } from "../../bookingServer/MiddleServerRouter";
+import { ApolloQueryResult } from "apollo-client";
 import BookingModalWrap, {
   IBookingModalProp
 } from "../../../components/bookingModal/BookingModalWrap";
-import {DEFAULT_BOOKING} from "../../../types/defaults";
-import {divisionRoomSelectInfo} from "../../../utils/typeChanger";
-import {to4YMMDD} from "../../../utils/setMidNight";
+import { DEFAULT_BOOKING } from "../../../types/defaults";
+import { divisionRoomSelectInfo } from "./helper";
+import { to4YMMDD } from "../../../utils/setMidNight";
 
 export interface IBookerInfo {
   name: string;
@@ -162,7 +157,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   const resvConfirmCallBackFunc = (flag: boolean) => {
     if (flag) {
       const publicKey = sessionStorage.getItem("hpk");
-      const {name, password, phoneNumber} = bookerInfo;
+      const { name, password, phoneNumber } = bookerInfo;
       location.href = insideRedirect(
         `outpage/checkReservation/${publicKey}/${name}/${phoneNumber}/${password}`
       );
@@ -170,11 +165,6 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
       location.reload();
     }
   };
-
-  // Deprecated
-  developEvent(() => {
-    reservationDevelop(reservationHooks);
-  });
 
   // 날자를 선택하면 예약선택 상태 초기화
   useEffect(() => {
@@ -185,13 +175,13 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   // Iframe 높이조절
   useEffect(() => {
     const theHeight = $("#JDreservation").height() || 1000;
-    window.parent.postMessage({height: theHeight}, "*");
+    window.parent.postMessage({ height: theHeight }, "*");
   });
 
   //방선택 을 했는지 확인
   const roomSelectValidation = () => {
     if (isEmpty(roomSelectInfo)) {
-      toastModalHook.openModal({txt: LANG("no_room_selected")});
+      toastModalHook.openModal({ txt: LANG("no_room_selected") });
       return false;
     }
     return true;
@@ -200,15 +190,15 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   // 예약전 벨리데이션
   const bookerInfoValidation = (): boolean => {
     if (isName(bookerInfo.name) !== true) {
-      toastModalHook.openModal({txt: LANG("name_is_not_valid")});
+      toastModalHook.openModal({ txt: LANG("name_is_not_valid") });
       return false;
     }
     if (isPhone(bookerInfo.phoneNumber) !== true) {
-      toastModalHook.openModal({txt: LANG("phoneNum_is_not_valid")});
+      toastModalHook.openModal({ txt: LANG("phoneNum_is_not_valid") });
       return false;
     }
     if (bookerInfo.password === "") {
-      toastModalHook.openModal({txt: LANG("input_your_password_please")});
+      toastModalHook.openModal({ txt: LANG("input_your_password_please") });
       return false;
     }
     if (bookerInfo.agreePrivacyPolicy === false) {
@@ -282,7 +272,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
 
       if (result) rsevModalHook.closeModal();
 
-      const {transactionId}: any = muResult(
+      const { transactionId }: any = muResult(
         result,
         "StartBookingForPublic",
         "bookingTransaction"
@@ -290,10 +280,10 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
 
       if (transactionId) {
         // 나이스 모듈 오픈전 인증을 받음.
-        const authResult = await payAuthQu({price: priceHook.value});
+        const authResult = await payAuthQu({ price: priceHook.value });
         if (authResult && authResult.data.GetPaymentAuth.auth) {
-          const {GetPaymentAuth} = authResult.data;
-          const {houseName} = GetPaymentAuth;
+          const { GetPaymentAuth } = authResult.data;
+          const { houseName } = GetPaymentAuth;
           openNiceModal({
             resvInfo: startBookingVariables,
             transactionId,

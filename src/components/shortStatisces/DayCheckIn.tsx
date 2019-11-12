@@ -1,5 +1,5 @@
 import React from "react";
-import {IContext} from "../../pages/MiddleServerRouter";
+import {IContext} from "../../pages/bookingServer/MiddleServerRouter";
 import {getBookings_GetBookings_bookings} from "../../types/api";
 import {IUseDayPicker, LANG} from "../../hooks/hook";
 import ArrowDayByDay from "../../atoms/dayPicker/component/inputComponent/ArrowDayByDay";

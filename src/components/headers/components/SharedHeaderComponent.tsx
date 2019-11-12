@@ -1,20 +1,20 @@
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import NotiWrap from "../../noti/NotiWrap";
-import {IContext} from "../../../pages/MiddleServerRouter";
+import { IContext } from "../../../pages/bookingServer/MiddleServerRouter";
 import TooltipList, {
   ReactTooltip
 } from "../../../atoms/tooltipList/TooltipList";
-import {NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Button from "../../../atoms/button/Button";
-import {IUseModal, useModal, LANG} from "../../../hooks/hook";
-import {insideRedirect, isEmpty} from "../../../utils/utils";
-import {UserRole, MemoType} from "../../../types/enum";
-import {IconSize} from "../../../atoms/icons/Icons";
+import { IUseModal, useModal, LANG } from "../../../hooks/hook";
+import { insideRedirect, isEmpty } from "../../../utils/utils";
+import { UserRole, MemoType } from "../../../types/enum";
+import { IconSize } from "../../../atoms/icons/Icons";
 import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
 import MemoModal from "../../Memo/component/MemoModal";
 import MemoIcon from "../../Memo/component/MemoIcon";
 import NotiIcon from "../../noti/component/NotiIcon";
-import LangSelectModal from "../../../atoms/dayPicker/component/langSelectModal";
+import LangSelectModal from "../../langList/langSelectModal";
 interface Iprops {
   context: IContext;
   logOutMutation: any;
@@ -26,8 +26,8 @@ const SharedHeaderComponent: React.FC<Iprops> = ({
   logOutMutation,
   phoneVerificationModalHook
 }) => {
-  const {user} = context;
-  const {isPhoneVerified} = user;
+  const { user } = context;
+  const { isPhoneVerified } = user;
   const memoModalHook = useModal();
   const langSelectModal = useModal();
 
@@ -131,7 +131,7 @@ const SharedHeaderComponent: React.FC<Iprops> = ({
     </Fragment>
   );
 
-  const {isLogIn} = context;
+  const { isLogIn } = context;
   return (
     <Fragment>
       {/* 알람 */}
