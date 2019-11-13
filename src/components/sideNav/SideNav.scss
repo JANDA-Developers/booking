@@ -2,38 +2,6 @@
 
 .JDsideNav {
 
-    &__inner {
-        position: relative;
-        min-width: $sideNav-width;
-        height: 100%;
-        z-index: $z-index-1;
-        background-color: white;
-        
-        @include response($tablet) {
-            min-width: $sideNav-width-wmd;
-        }
-    }
-
-    @include response($phablet) {
-        position:fixed;
-        left: 0;
-        top: $header-height;
-        bottom: 0;
-        -webkit-box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.2);
-        box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.2);
-    }
-
-    display: block;
-    width: 0px;
-    overflow: hidden;
-    background-color:white;
-    height: calc(100vh - #{$header-height});
-    box-sizing:border-box;
-    transition: 0.3s;
-    position: sticky;
-    top: $header-height;
-    @extend %z-depth-1;
-
     &__houseName {
         font-size: $typho-large;
         color:white;
@@ -69,33 +37,6 @@
             font-size: $typho-small;
             margin-bottom: 0;
             margin-right: $sideNav-list-padding;
-        }
-    }
-    
-    &--open {
-        width: $sideNav-width;
-        overflow: hidden;
-        left:0px;
-        @extend %z-depth-5;
-        @include response($tablet, $phablet) {
-            width: $sideNav-width-wmd;
-        }
-    }
-
-    &-curtain {
-        position:fixed;
-        top:0;
-        left: 0;
-        right:0;
-        bottom:0;
-        background-color: $grey-opacity3;
-        transition: background-color 0.3s;
-        display: none;
-        &--open {
-            background-color: $sideNav-curtain-color;
-            @include response($phablet) {
-                display: block;
-            }
         }
     }
     

@@ -57,7 +57,7 @@ import { IContext } from "../MiddleServerRouter";
 import ReadyItemTooltip from "./components/tooltips/ReadyItemTooltip";
 import HeaderCellRender from "./helpers/HeaderCellRender";
 import { PortalPreloader } from "../../../utils/portalElement";
-import DayPickerModal from "../../../components/dayPickerModal/DayPickerModal";
+import DayPickerModal from "../../../atoms/dayPickerModal/DayPickerModal";
 
 interface IProps {
   context: IContext;

@@ -1,14 +1,14 @@
 import React from "react";
 import Button from "../../atoms/button/Button";
 import JDdayPicker from "../../atoms/dayPicker/DayPicker";
-import {useDayPicker, LANG, useModal} from "../../hooks/hook";
+import { useDayPicker, LANG, useModal } from "../../hooks/hook";
 import moment from "moment";
 import DoubleInputRange from "../../atoms/dayPicker/component/inputComponent/DoubleInputRange";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import "./RoomSearcher.scss";
 import Card from "../../atoms/cards/Card";
 import DayPicker from "react-day-picker";
-import DayPickerModal from "../dayPickerModal/DayPickerModal";
+import DayPickerModal from "../../atoms/dayPickerModal/DayPickerModal";
 export interface IRetrunRoomSearcher {
   checkIn: Date;
   checkOut: Date;
@@ -18,7 +18,7 @@ interface Iprops {
   callBackOnSearch: (prop: IRetrunRoomSearcher) => void;
 }
 
-const RoomSearcher: React.FC<Iprops> = ({callBackOnSearch}) => {
+const RoomSearcher: React.FC<Iprops> = ({ callBackOnSearch }) => {
   const dayPickerModal = useModal(false);
   const dayPickerHook = useDayPicker(
     new Date(),

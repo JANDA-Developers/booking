@@ -16,11 +16,11 @@ import {
   getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_blockOption,
   singleUpload_SingleUpload_jdFile
 } from "./api";
-import {IselectedOption} from "../atoms/forms/selectBox/SelectBox";
-import {PricingType} from "./enum";
-import {MutationFunctionOptions} from "@apollo/react-common";
-import {ExecutionResult} from "graphql";
-import {IStartBookingCallBack} from "../pages/bookingServer/assig/assigIntrerface";
+import { IselectedOption } from "../atoms/forms/selectBox/SelectBox";
+import { PricingType } from "./enum";
+import { MutationFunctionOptions } from "@apollo/react-common";
+import { ExecutionResult } from "graphql";
+import { IStartBookingCallBack } from "../pages/bookingServer/assig/assigIntrerface";
 export interface JdFile extends singleUpload_SingleUpload_jdFile {}
 
 export interface GASt_RoomType
@@ -31,8 +31,6 @@ export interface IUser extends getMyProfile_GetMyProfile_user {}
 export interface IHouse extends getMyProfile_GetMyProfile_user_houses {}
 export interface IHouseConfig
   extends getMyProfile_GetMyProfile_user_houses_houseConfig {}
-export interface IDiv extends React.HTMLAttributes<HTMLDivElement> {}
-export interface IUl extends React.HTMLAttributes<HTMLUListElement> {}
 export interface IRoomType extends getAllRoomType_GetAllRoomType_roomType {}
 export interface IBooking extends getBookings_GetBookings_bookings {}
 export type IGuest = getAllRoomTypeWithGuest_GetGuests_guests;

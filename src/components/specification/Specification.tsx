@@ -4,11 +4,14 @@ import {
   updateUserForSU,
   updateUserForSUVariables
 } from "../../types/api";
-import {useState} from "react";
+import { useState } from "react";
 import moment from "moment";
 import React from "react";
-import {autoHypen, isEmpty, autoComma} from "../../utils/utils";
-import {DEFAULT_PRODUCT, DEFAULT_APP_INFO_REQUEST} from "../../types/defaults";
+import { autoHypen, isEmpty, autoComma } from "../../utils/utils";
+import {
+  DEFAULT_PRODUCT,
+  DEFAULT_APP_INFO_REQUEST
+} from "../../types/defaults";
 import JDselect from "../../atoms/forms/selectBox/SelectBox";
 import InputText from "../../atoms/forms/inputText/InputText";
 import {
@@ -27,12 +30,12 @@ import {
   LANG,
   useDrawer
 } from "../../hooks/hook";
-import {MutationFn} from "react-apollo";
-import {to4YMMDD} from "../../utils/setMidNight";
-import DayPickerModal from "../dayPickerModal/DayPickerModal";
-import {inOr} from "../../utils/C";
+import { MutationFn } from "react-apollo";
+import { to4YMMDD } from "../../utils/setMidNight";
+import { inOr } from "../../utils/C";
 import Drawer from "../../atoms/drawer/Drawer";
-import {IconSize} from "../../atoms/icons/Icons";
+import { IconSize } from "../../atoms/icons/Icons";
+import DayPickerModal from "../../atoms/dayPickerModal/DayPickerModal";
 
 interface IProps {
   specification: getSpecification_GetHouse_house;
@@ -47,16 +50,7 @@ export const SpecificAtion: React.FC<IProps> = ({
   isAdmin,
   updateUserForSu
 }) => {
-  const {
-    _id,
-    product,
-    createdAt,
-    houseType,
-    name: houseName,
-    updatedAt,
-    status,
-    user
-  } = specification;
+  const { product, houseType, name: houseName, status, user } = specification;
 
   const {
     appliedUrl,
@@ -67,17 +61,10 @@ export const SpecificAtion: React.FC<IProps> = ({
     existingHostApp,
     description,
     layoutPrice,
-    roomCount,
-    roomCountExtraCharge,
     appInfoRequested,
     layoutPricePaid,
-    productType,
-    canHaveHostApp,
-    discountedPrice,
-    bookingCountExtraCharge,
     expireDate,
-    daysLeftToExpire,
-    isExpired
+    daysLeftToExpire
   } = product || DEFAULT_PRODUCT;
 
   const lastRequestIndex = !isEmpty(appInfoRequested)
@@ -89,10 +76,10 @@ export const SpecificAtion: React.FC<IProps> = ({
 
   const drawerHook = useDrawer(false);
 
-  const {layoutType, useHostApp, url: requestUrl} = inAppInfoRequested;
+  const { layoutType, useHostApp, url: requestUrl } = inAppInfoRequested;
 
   if (!user) return <div />;
-  const {name: userName, phoneNumber} = user;
+  const { name: userName, phoneNumber } = user;
   // HOOK
   const HouseStatusHook = useSelect({
     label: LANG(status || HouseStatus.WAIT),
@@ -136,13 +123,13 @@ export const SpecificAtion: React.FC<IProps> = ({
       adminUi: (
         <JDselect
           options={SELECT_PRODUCT_TYPE_OP}
-          selectedOption={{value: productName, label: productName}}
+          selectedOption={{ value: productName, label: productName }}
         />
       )
     },
-    {title: LANG("houseName"), value: houseName},
-    {title: LANG("house_type"), value: houseType},
-    {title: LANG("applicant"), value: userName},
+    { title: LANG("houseName"), value: houseName },
+    { title: LANG("house_type"), value: houseType },
+    { title: LANG("applicant"), value: userName },
     {
       title: LANG("is_apply_homepage"),
       value: useHostApp ? "Y" : "N"

@@ -31,7 +31,7 @@ import reactWindowSize, { WindowSizeProps } from "react-window-size";
 import { IContext } from "../MiddleServerRouter";
 import PriceWarnModal from "../../../components/priceWarnModal.tsx/PriceWarnModal";
 import HeaderCellRender from "../assig/helpers/HeaderCellRender";
-import DayPickerModal from "../../../components/dayPickerModal/DayPickerModal";
+import DayPickerModal from "../../../atoms/dayPickerModal/DayPickerModal";
 import moment from "moment";
 
 interface IProps {

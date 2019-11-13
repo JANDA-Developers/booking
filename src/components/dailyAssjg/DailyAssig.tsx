@@ -33,8 +33,8 @@ import moment from "moment";
 import BlockTooltip from "./components/BlockTooltip";
 import { isEmpty, instanceOfA, s4 } from "../../utils/utils";
 import ReadyItemTooltip from "../../pages/bookingServer/assig/components/tooltips/ReadyItemTooltip";
-import DayPickerModal from "../dayPickerModal/DayPickerModal";
 import { PortalPreloader } from "../../utils/portalElement";
+import DayPickerModal from "../../atoms/dayPickerModal/DayPickerModal";
 
 export interface IDailyAssigContext extends IDailyAssigProp {
   confirmModalHook: IUseModal<any>;

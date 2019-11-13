@@ -48,7 +48,7 @@ import { IAssigDataControl, IAssigMutationLoading } from "./assigIntrerface";
 import { IContext } from "../MiddleServerRouter";
 import { guestsDataManufacturer } from "./helpers/guestsDataManufacturer";
 import { blockDataManufacturer } from "./helpers/blockDataManufacturer";
-import DayPickerModal from "../../../components/dayPickerModal/DayPickerModal";
+import DayPickerModal from "../../../atoms/dayPickerModal/DayPickerModal";
 
 moment.tz.setDefault("UTC");
 

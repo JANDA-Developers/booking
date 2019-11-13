@@ -1,21 +1,21 @@
-import React, {Fragment} from "react";
-import {NavLink, Link} from "react-router-dom";
+import React, { Fragment } from "react";
+import { NavLink, Link } from "react-router-dom";
 import "./SideNav.scss";
-import classNames from "classnames";
 import ErrProtecter from "../../utils/errProtect";
-import Icon, {IIcons, IconSize} from "../../atoms/icons/Icons";
+import Icon, { IIcons, IconSize } from "../../atoms/icons/Icons";
 import Button from "../../atoms/button/Button";
-import JDmenu, {JDmenuItem, JDsubMenu} from "../../atoms/menu/Menu";
+import JDmenu, { JDmenuItem, JDsubMenu } from "../../atoms/menu/Menu";
 import ProfileCircle from "../../atoms/profileCircle/ProfileCircle";
 import SelectHouseWrap from "../selectHouse/SelectHouseWrap";
-import {s4, instanceOfA} from "../../utils/utils";
-import {IContext} from "../../pages/bookingServer/MiddleServerRouter";
-import {HouseStatus} from "../../types/enum";
-import {inOr} from "../../utils/C";
+import { s4, instanceOfA } from "../../utils/utils";
+import { IContext } from "../../pages/bookingServer/MiddleServerRouter";
+import { HouseStatus } from "../../types/enum";
+import { inOr } from "../../utils/C";
 import Help from "../../atoms/Help/Help";
 import JDlist from "../../atoms/list/List";
-import {to4YMMDD} from "../../utils/setMidNight";
-import {LANG} from "../../hooks/hook";
+import { to4YMMDD } from "../../utils/setMidNight";
+import { LANG } from "../../hooks/hook";
+import JDsideNav from "../../atoms/sideNav/JDsideNav";
 
 interface IProps {
   isOpen: boolean;
@@ -38,17 +38,8 @@ interface IMenusGroup {
   contents: IMenusItem[];
 }
 
-const SideNav: React.FC<IProps> = ({isOpen, setIsOpen, context}) => {
-  const {applyedProduct, house, user} = context;
-
-  const classes = classNames({
-    JDsideNav: true,
-    "JDsideNav--open": isOpen
-  });
-
-  const handleCurtainClick = () => {
-    setIsOpen(false);
-  };
+const SideNav: React.FC<IProps> = ({ isOpen, setIsOpen, context }) => {
+  const { applyedProduct, house, user } = context;
 
   const status = house && house.status;
   const disabledFlag = status !== HouseStatus.ENABLE;
@@ -154,90 +145,79 @@ const SideNav: React.FC<IProps> = ({isOpen, setIsOpen, context}) => {
   });
 
   return (
-    <Fragment>
-      <div className={classes}>
-        <div className="JDsideNav__inner">
-          {/* 프로필 */}
-          <div className="JDsideNav__profill">
-            <Link to="/myPage">
-              <div className="JDsideNav__circle">
-                <ProfileCircle
-                  size={IconSize.MEDIUM_LARGE}
-                  isBordered
-                  file={user.profileImg}
-                />
-              </div>
-            </Link>
-            <span className="JDsideNav__name">{user.name || "비회원"}</span>
-            <SelectHouseWrap context={context} />
+    <JDsideNav isOpen={isOpen} setIsOpen={setIsOpen}>
+      {/* 프로필 */}
+      <div className="JDsideNav__profill">
+        <Link to="/myPage">
+          <div className="JDsideNav__circle">
+            <ProfileCircle
+              size={IconSize.MEDIUM_LARGE}
+              isBordered
+              file={user.profileImg}
+            />
           </div>
-          {/* 리스트 컨테이너 */}
-          <div className="JDsideNav__listContainer">
-            <JDmenu customMode="sideNav" mode="inline">
-              {sortedMenus.map(menu =>
-                instanceOfA<IMenusGroup>(menu, "contents") ? (
-                  <JDsubMenu key={s4()} title={menu.groupTitle}>
-                    <JDmenuItem>
-                      {menu.contents.map(content => renderLink(content))}
-                    </JDmenuItem>
-                  </JDsubMenu>
-                ) : (
-                  <JDmenuItem key={s4()}>{renderLink(menu)}</JDmenuItem>
-                )
-              )}
-            </JDmenu>
-          </div>
-          {/* 하단 상품뷰 */}
-          <div className="JDsideNav__productView">
-            <div className="JDsideNav__billing-info">
-              <div className="JDsideNav__billing-title">
-                <span className="JDstandard-small-space">
-                  {inOr(applyedProduct, "name", LANG("unapplied"))}
-                </span>
-                {applyedProduct && (
-                  <Help
-                    icon="info"
-                    tooltip={
-                      <JDlist
-                        className="JDmargin-bottom0"
-                        contents={[
-                          `${LANG("expire_date")}: ${to4YMMDD(
-                            applyedProduct.expireDate
-                          )}`,
-                          `${LANG("price")}: ${applyedProduct.price ||
-                            0} /${LANG("month")}`
-                        ]}
-                      />
-                    }
+        </Link>
+        <span className="JDsideNav__name">{user.name || "비회원"}</span>
+        <SelectHouseWrap context={context} />
+      </div>
+      {/* 리스트 컨테이너 */}
+      <div className="JDsideNav__listContainer">
+        <JDmenu customMode="sideNav" mode="inline">
+          {sortedMenus.map(menu =>
+            instanceOfA<IMenusGroup>(menu, "contents") ? (
+              <JDsubMenu key={s4()} title={menu.groupTitle}>
+                <JDmenuItem>
+                  {menu.contents.map(content => renderLink(content))}
+                </JDmenuItem>
+              </JDsubMenu>
+            ) : (
+              <JDmenuItem key={s4()}>{renderLink(menu)}</JDmenuItem>
+            )
+          )}
+        </JDmenu>
+      </div>
+      {/* 하단 상품뷰 */}
+      <div className="JDsideNav__productView">
+        <div className="JDsideNav__billing-info">
+          <div className="JDsideNav__billing-title">
+            <span className="JDstandard-small-space">
+              {inOr(applyedProduct, "name", LANG("unapplied"))}
+            </span>
+            {applyedProduct && (
+              <Help
+                icon="info"
+                tooltip={
+                  <JDlist
+                    className="JDmargin-bottom0"
+                    contents={[
+                      `${LANG("expire_date")}: ${to4YMMDD(
+                        applyedProduct.expireDate
+                      )}`,
+                      `${LANG("price")}: ${applyedProduct.price || 0} /${LANG(
+                        "month"
+                      )}`
+                    ]}
                   />
-                )}
-              </div>
-              <div className="JDsideNav__billing-detail">
-                <span>
-                  {applyedProduct &&
-                    `${applyedProduct.daysLeftToExpire}${LANG("date")} ${LANG(
-                      "available"
-                    )}`}
-                </span>
-              </div>
-            </div>
-            <div className="JDsideNav__upgradeBtn">
-              <NavLink to="/products">
-                <Button label={LANG("choose_product")} mode="border" />
-              </NavLink>
-            </div>
+                }
+              />
+            )}
+          </div>
+          <div className="JDsideNav__billing-detail">
+            <span>
+              {applyedProduct &&
+                `${applyedProduct.daysLeftToExpire}${LANG("date")} ${LANG(
+                  "available"
+                )}`}
+            </span>
           </div>
         </div>
-        {/* 사이드 네비 외 가림막 */}
-        <div
-          role="presentation"
-          onClick={handleCurtainClick}
-          className={`JDsideNav-curtain ${
-            isOpen ? "JDsideNav-curtain--open" : ""
-          }`}
-        />
+        <div className="JDsideNav__upgradeBtn">
+          <NavLink to="/products">
+            <Button label={LANG("choose_product")} mode="border" />
+          </NavLink>
+        </div>
       </div>
-    </Fragment>
+    </JDsideNav>
   );
 };
 
