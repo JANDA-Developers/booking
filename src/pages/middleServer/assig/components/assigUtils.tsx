@@ -7,7 +7,6 @@ import {
   TFilterTimeZone,
   TAllTooltipsHide,
   TIsGenderSafe,
-  TDeleteGuestById,
   TAddBlock,
   TGenderToggleById,
   TResizeValidater,
@@ -23,7 +22,6 @@ import {
   TToogleCheckIn,
   TOpenCanvasMenuTooltip,
   TOpenBlockMenu,
-  TOpenCreateMenu,
   TCreateMark,
   TDeleteBookingById,
   TGetBookingIdByGuestId,
@@ -51,16 +49,10 @@ import {
   targetBlink,
   JDscrollTo,
   s4,
-  isEmpty,
-  setMidNight
+  isEmpty
 } from "../../../../utils/utils";
-import {ReactTooltip} from "../../../../atoms/tooltipList/TooltipList";
-import {
-  RoomGender,
-  Gender,
-  PricingType,
-  TimePerMs
-} from "../../../../types/enum";
+import { ReactTooltip } from "../../../../atoms/tooltipList/TooltipList";
+import { RoomGender, Gender, PricingType } from "../../../../types/enum";
 import {
   DEFAULT_ASSIG_ITEM,
   DEFAULT_ROOMTYPE,
@@ -73,22 +65,20 @@ import {
   getBooking_GetBooking_booking_guests
 } from "../../../../types/api";
 import JDisNetworkRequestInFlight from "../../../../utils/netWorkStatusToast";
-import {assigSharedDleteGuestConfirmMessage} from "./items/shared";
-import {IBookingModalProp} from "../../../../components/bookingModal/BookingModalWrap";
 import {
   GB_booking,
   TBookingModalOpenWithMark
 } from "../../../../types/interface";
-import {LANG} from "../../../../hooks/hook";
-import moment from "moment";
+import { LANG } from "../../../../hooks/hook";
+import { IBookingModalProp } from "../../../../components/bookingModal/declaration";
 
 export function getAssigUtils(
   {
     setGuestValue,
     guestValue,
-    confirmDelteGuestHook,
     setBlockMenuProps,
-    bookingModal
+    bookingModal,
+    confirmModalHook
   }: IAssigTimelineHooks,
   {
     allocateMu,
@@ -100,7 +90,7 @@ export function getAssigUtils(
     networkStatus,
     refetch
   }: IAssigDataControl,
-  {houseId, groupData}: IAssigTimelineContext
+  { houseId, groupData }: IAssigTimelineContext
 ): IAssigTimelineUtils {
   // 마크제거 MARK REMOVE 마커 제거
   const removeMark: TRemoveMark = () => {
@@ -158,14 +148,14 @@ export function getAssigUtils(
   };
 
   const popUpItemMenuTooltip: TPopUpItemMenuTooltip = async (
-    location: {clientX: number; clientY: number},
+    location: { clientX: number; clientY: number },
     target: IAssigItem
   ) => {
     await allTooltipsHide();
     await removeMark();
 
     if (target.type === GuestTypeAdd.BLOCK) {
-      await openBlockMenu(location, {item: target});
+      await openBlockMenu(location, { item: target });
     }
   };
 
@@ -185,7 +175,7 @@ export function getAssigUtils(
 
     if (!targetDom || targetDom.length === 0) {
       setTimeout(() => {
-        hilightGuestBlock({itemId, bookingId});
+        hilightGuestBlock({ itemId, bookingId });
       }, 1000);
       return;
     }
@@ -362,6 +352,7 @@ export function getAssigUtils(
         type: GuestTypeAdd.MARK,
         start: start,
         end: end,
+        canSelect: false,
         group: id
       });
     });
@@ -373,15 +364,31 @@ export function getAssigUtils(
     guestValue.filter(guest => guest.bookingId === bookingId);
 
   // 예약을 예약 아이디로 삭제
-  const deleteBookingById: TDeleteBookingById = async (bookingId: string) => {
-    const result = await deleteBookingMu({
-      variables: {
-        bookingId
-      }
-    });
+  const deleteBookingById: TDeleteBookingById = async (bookingId, confirm) => {
+    // 예약 삭제 진행
+    const callBackFn = async (flag: boolean) => {
+      if (flag) {
+        const result = await deleteBookingMu({
+          variables: {
+            bookingId
+          }
+        });
 
-    if (result && result.data && result.data.DeleteBooking.ok) {
-      setGuestValue(guestValue.filter(guest => guest.bookingId !== bookingId));
+        if (result && result.data && result.data.DeleteBooking.ok) {
+          setGuestValue(
+            guestValue.filter(guest => guest.bookingId !== bookingId)
+          );
+        }
+      }
+    };
+
+    // 확인메시지 출력여부
+    if (!confirm) callBackFn(true);
+    else {
+      confirmModalHook.openModal({
+        txt: LANG("are_you_sure_you_want_to_delete_the_reservation"),
+        callBack: callBackFn
+      });
     }
   };
 
@@ -394,30 +401,6 @@ export function getAssigUtils(
       throw Error("guestId not exist :: getBookingByGuestId");
     }
     return target.bookingId;
-  };
-
-  // 해당 게스트를 찾아서 제거함
-  const deleteGuestById: TDeleteGuestById = guestId => {
-    if (JDisNetworkRequestInFlight(networkStatus)) return;
-    const deleteGuestCallBackFn = (flag: boolean, key: string) => {
-      if (key === "deleteAll") {
-        deleteBookingById(getBookingIdByGuestId(guestId));
-      }
-
-      if (flag) {
-        deleteGuestsMu({
-          variables: {
-            guestIds: [guestId]
-          }
-        });
-        deleteItemById(guestId);
-      }
-    };
-
-    confirmDelteGuestHook.openModal({
-      callBack: deleteGuestCallBackFn,
-      ...assigSharedDleteGuestConfirmMessage
-    });
   };
 
   const getGuestsInGroup: TGetGuestsInGroup = (group: IAssigGroup) =>
@@ -619,7 +602,7 @@ export function getAssigUtils(
       .addClass("assig__tooltips--show");
   };
 
-  // 여기작업중
+  // 마크와함께 부킹시작
   const startBookingModalWithMark: TBookingModalOpenWithMark = startBookingCallBack => {
     const createItems = getItems(GuestTypeAdd.MARK);
 
@@ -636,8 +619,8 @@ export function getAssigUtils(
     // 모달안에 넣어줄 새로만들 부킹정보
     const createParam: GB_booking = {
       __typename: "Booking",
-      _id: s4(),
       ...DEFAULT_BOOKING,
+      _id: s4(),
       checkIn: createItems[0].start,
       checkOut: createItems[0].end,
       agreePrivacyPolicy: true,
@@ -671,7 +654,7 @@ export function getAssigUtils(
     gender?: Gender
   ) => {
     allTooltipsHide();
-    const {end, start, groupIds} = canvasInfo;
+    const { end, start, groupIds } = canvasInfo;
 
     // 시간이 같고 타입이 Create인 것들을 하나의 부킹으로 묶음
     let linkedItems = guestValue.filter(
@@ -753,7 +736,7 @@ export function getAssigUtils(
         groupIds: []
       };
     const groupIds = marks.map(mark => mark.group);
-    const {start, end} = marks[0];
+    const { start, end } = marks[0];
     return {
       start,
       end,
@@ -848,7 +831,6 @@ export function getAssigUtils(
     itemsToGuets,
     groupToRoomType,
     allTooltipsHide,
-    deleteGuestById,
     deleteItemById,
     // openCreateMenu,
     isGenderSafe,

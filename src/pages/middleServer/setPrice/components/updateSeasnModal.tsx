@@ -1,13 +1,13 @@
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import JDmodal from "../../../../atoms/modal/Modal";
-import {IUseModal, IUseDayPicker, LANG} from "../../../../hooks/hook";
-import {ISeason} from "../../../../types/interface";
+import { IUseModal, IUseDayPicker, LANG } from "../../../../hooks/hook";
+import { ISeason } from "../../../../types/interface";
 import JDdayPicker from "../../../../atoms/dayPicker/DayPicker";
 import InputText from "../../../../atoms/forms/inputText/InputText";
-import {updateSeason, updateSeasonVariables} from "../../../../types/api";
-import {MutationFn} from "react-apollo";
+import { updateSeason, updateSeasonVariables } from "../../../../types/api";
+import { MutationFn } from "react-apollo";
 import Button from "../../../../atoms/button/Button";
-import {to4YMMDD} from "../../../../utils/setMidNight";
+import { to4YMMDD } from "../../../../utils/setMidNight";
 
 interface IProps {
   season: ISeason;
@@ -43,7 +43,7 @@ const UpdateSeasonModal: React.FC<IProps> = ({
         calenaderPosition="center"
         inputClassName="JDmargin-bottom0--wmdUp"
         canSelectBeforeDay={true}
-        showInputIcon={false}
+        displayIcon={false}
         displayYear={false}
         format={"MM/DD"}
         input

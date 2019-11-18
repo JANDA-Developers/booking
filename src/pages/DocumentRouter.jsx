@@ -1,6 +1,6 @@
 /* eslint-disable react/forbid-prop-types */
-import React, {Fragment, Component} from "react";
-import {Route, Switch} from "react-router-dom";
+import React, { Fragment, Component } from "react";
+import { Route, Switch } from "react-router-dom";
 import Helmet from "react-helmet";
 import Header from "../components/documentHeader/DocumentHeader";
 import NoMatch from "./noMatch/NoMatch";
@@ -9,6 +9,7 @@ import {
   ShowComponents,
   Grid,
   ColorPage,
+  LangPage,
   Margin,
   Brand
 } from "./documentPages";
@@ -56,6 +57,7 @@ class DocumentRouter extends Component {
           />
           <Route exact path="/documents/grid" component={Grid} />
           <Route exact path="/documents/color" component={ColorPage} />
+          <Route exact path="/documents/lang" component={LangPage} />
           <Route exact path="/documents/margin" component={Margin} />
           <Route exact path="/documents/brand" component={Brand} />
           <Route path="/documents/" component={NoMatch} />

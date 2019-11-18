@@ -1,4 +1,4 @@
-import React, {Fragment, useRef, useState, useEffect} from "react";
+import React, { Fragment, useRef, useState, useEffect } from "react";
 import DayPicker, {
   CaptionElementProps,
   DayModifiers,
@@ -12,7 +12,7 @@ import JDdayPickerInput from "./component/input/JDdayPickerInput";
 import HorizenDay from "./component/horizen/HorizenDays";
 import HorizenCaption from "./component/horizen/HorizenCaption";
 import "./DayPicker.scss";
-import {IUseDayPicker, LANG} from "../../hooks/hook";
+import { IUseDayPicker, LANG } from "../../hooks/hook";
 import moment from "moment";
 
 export interface IJDdayPickerProps extends IUseDayPicker {
@@ -27,7 +27,7 @@ export interface IJDdayPickerProps extends IUseDayPicker {
   canSelectSameDate?: boolean;
   format?: string;
   lang?: string;
-  showInputIcon?: boolean;
+  displayIcon?: boolean;
   inputDisabled?: boolean;
   maxLimit?: boolean;
   showWeekEndColor?: boolean;
@@ -51,7 +51,7 @@ const JDdayPicker: React.FC<IJDdayPickerProps> = ({
   inputDisabled,
   onChangeDate,
   canSelectSameDate = true,
-  showInputIcon = true,
+  displayIcon = true,
   displayCaption = true,
   displayHeader = true,
   displayInfo = false,
@@ -189,8 +189,8 @@ const JDdayPicker: React.FC<IJDdayPickerProps> = ({
     "DayPicker--center": calenaderPosition === "left"
   });
 
-  const modifiers = {start: from || undefined, end: entered || undefined};
-  const selectedDays: any = [from, {from, to: entered}];
+  const modifiers = { start: from || undefined, end: entered || undefined };
+  const selectedDays: any = [from, { from, to: entered }];
 
   // 이부분 함수 또는 이넘으로 변경
   const MONTHS = [
@@ -232,7 +232,7 @@ const JDdayPicker: React.FC<IJDdayPickerProps> = ({
     navbarElement: <Navbar />,
     weekdayElement: horizen ? undefined : undefined,
     showWeekDays: !horizen,
-    captionElement: ({date}: CaptionElementProps) => {
+    captionElement: ({ date }: CaptionElementProps) => {
       const element = horizen ? (
         <HorizenCaption date={date} onChange={() => {}} />
       ) : (
@@ -252,14 +252,14 @@ const JDdayPicker: React.FC<IJDdayPickerProps> = ({
     weekdaysShort: WEEKDAYS_SHORT,
     locale: lang,
     showOutsideDays: false,
-    disabledDays: canSelectBeforeDay ? undefined : [{before: new Date()}]
+    disabledDays: canSelectBeforeDay ? undefined : [{ before: new Date() }]
   };
 
   return (
     <div className={`${wrapClasses}`} ref={dayPickerFullWrap}>
       {input ? (
         <JDdayPickerInput
-          showInputIcon={showInputIcon}
+          displayIcon={displayIcon}
           inputComponent={inputComponent}
           placeholder={placeholder}
           format={format}

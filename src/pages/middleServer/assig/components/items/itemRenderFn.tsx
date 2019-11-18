@@ -1,7 +1,7 @@
 import React from "react";
 import classnames from "classnames";
-import {ASSIG_IMELINE_HEIGHT} from "../../../../../atoms/timeline/Timeline";
-import {ITimelineContext, IItemContext} from "../../../../../types/interface";
+import { ASSIG_IMELINE_HEIGHT } from "../../../../../atoms/timeline/Timeline";
+import { ITimelineContext, IItemContext } from "../../../../../types/interface";
 import {
   IAssigTimelineUtils,
   IAssigTimelineContext,
@@ -11,14 +11,13 @@ import {
 } from "../assigIntrerface";
 import GuestBlock from "./GuestBlock";
 import BlockBlock from "./BlockBlock";
-import CreateBlock from "./CreateBlock";
 import GhostBlock from "./GhostBlock";
-import {BookingStatus} from "../../../../../types/enum";
+import { BookingStatus } from "../../../../../types/enum";
 
 const CLASS_LINKED = "assigItem--linkedSelected";
 const CLASS_MOVING = "assigItem--moving";
 const CLASS_DISABLE = "assigItem--disable";
-export {CLASS_DISABLE, CLASS_MOVING, CLASS_LINKED};
+export { CLASS_DISABLE, CLASS_MOVING, CLASS_LINKED };
 
 interface IRenderItemProps {
   item: IAssigItem;
@@ -42,7 +41,7 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
   assigContext,
   assigHooks
 }) => {
-  const {left: leftResizeProps, right: rightResizeProps} = getResizeProps();
+  const { left: leftResizeProps, right: rightResizeProps } = getResizeProps();
 
   const baseItemCalsses = `assigItem--booking${item.bookingId}`;
   const classNames = classnames("assigItem", baseItemCalsses, {
@@ -61,7 +60,7 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
 
   /* getItemProps에 다양한 스타일 속성을 오버라이드 하기를 권장합니다. */
 
-  const {isMobile} = assigContext;
+  const { isMobile } = assigContext;
 
   const targetGroup = assigUtils.getGroupById(item.group);
 
@@ -80,7 +79,7 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
   if (item.type === GuestTypeAdd.GUEST) itemContext.useResizeHandle = false;
 
   return (
-    <div {...props} id={`assigItem--item${item.id}`}>
+    <div {...props} title={item.memo} id={`assigItem--item${item.id}`}>
       {itemContext.useResizeHandle ? <div {...leftResizeProps} /> : ""}
       {(() => {
         switch (item.type) {

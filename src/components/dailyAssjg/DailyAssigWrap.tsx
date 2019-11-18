@@ -1,6 +1,6 @@
-import React, {useMemo, Fragment} from "react";
-import {onCompletedMessage} from "../../utils/utils";
-import {Query, Mutation, MutationFn} from "react-apollo";
+import React, { useMemo, Fragment } from "react";
+import { onCompletedMessage } from "../../utils/utils";
+import { Query, Mutation, MutationFn } from "react-apollo";
 import {
   getAllRoomTypeWithGuestVariables,
   getAllRoomTypeWithGuest,
@@ -32,20 +32,20 @@ import {
   DELETE_BOOKING,
   UPDATE_BOOKING
 } from "../../queries";
-import {BookingStatus} from "../../types/enum";
-import {queryDataFormater} from "../../utils/utils";
-import {useDayPicker, IUseDayPicker, LANG} from "../../hooks/hook";
-import {IContext} from "../../pages/MiddleServerRouter";
+import { BookingStatus } from "../../types/enum";
+import { queryDataFormater } from "../../utils/utils";
+import { useDayPicker, IUseDayPicker, LANG } from "../../hooks/hook";
+import { IContext } from "../../pages/MiddleServerRouter";
 import DailyAssig from "./DailyAssig";
-import {getOperationName} from "apollo-link";
-import {NetworkStatus} from "apollo-client";
+import { getOperationName } from "apollo-link";
+import { NetworkStatus } from "apollo-client";
 import {
   IDailyAssigDataControl,
   IAssigItem
 } from "../../pages/middleServer/assig/components/assigIntrerface";
 import moment from "moment";
-import {guestsDataManufacturer} from "../../pages/middleServer/assig/components/guestsDataManufacturer";
-import {blockDataManufacturer} from "../../pages/middleServer/assig/components/blockDataManufacturer";
+import { guestsDataManufacturer } from "../../pages/middleServer/assig/components/guestsDataManufacturer";
+import { blockDataManufacturer } from "../../pages/middleServer/assig/components/blockDataManufacturer";
 
 class GetAllRoomTypeWithGuestQuery extends Query<
   getAllRoomTypeWithGuest,
@@ -80,7 +80,8 @@ export interface IDailyAssigProp {
   roomTypesData: getAllRoomTypeWithGuest_GetAllRoomType_roomTypes[];
   itemDatas: (
     | getAllRoomTypeWithGuest_GetGuests_guests
-    | getAllRoomTypeWithGuest_GetBlocks_blocks)[];
+    | getAllRoomTypeWithGuest_GetBlocks_blocks
+  )[];
 }
 
 interface IProps {
@@ -96,9 +97,9 @@ const DailyAssigWrap: React.FC<IProps> = ({
   isInModal,
   calendarPosition = "topLeft"
 }) => {
-  const {house} = context;
+  const { house } = context;
   const dayPickerHook = useDayPicker(date, date);
-  const {houseConfig, _id: houseId} = house;
+  const { houseConfig, _id: houseId } = house;
   const updateVariables = {
     houseId: houseId,
     checkIn: dayPickerHook.from || new Date(),
@@ -118,7 +119,7 @@ const DailyAssigWrap: React.FC<IProps> = ({
           bookingStatuses: [BookingStatus.COMPLETE, BookingStatus.PROGRESSING]
         }}
       >
-        {({data, loading, networkStatus}) => {
+        {({ data, loading, networkStatus }) => {
           const roomTypesData =
             queryDataFormater(data, "GetAllRoomType", "roomTypes", undefined) ||
             []; // 원본데이터
@@ -143,9 +144,9 @@ const DailyAssigWrap: React.FC<IProps> = ({
               ]}
               mutation={UPDATE_BOOKING}
             >
-              {(updateCheckInMu, {loading: checkInBookingLoading}) => (
+              {(updateCheckInMu, { loading: checkInBookingLoading }) => (
                 <AllocateGuestToRoomMu
-                  onCompleted={({AllocateGuestToRoom}) => {
+                  onCompleted={({ AllocateGuestToRoom }) => {
                     onCompletedMessage(
                       AllocateGuestToRoom,
                       LANG("assig_completed"),
@@ -172,7 +173,7 @@ const DailyAssigWrap: React.FC<IProps> = ({
                     };
                     return (
                       <DeleteGuestMu
-                        onCompleted={({DeleteGuests}) => {
+                        onCompleted={({ DeleteGuests }) => {
                           onCompletedMessage(
                             DeleteGuests,
                             LANG("delete_completed"),
@@ -181,9 +182,9 @@ const DailyAssigWrap: React.FC<IProps> = ({
                         }}
                         mutation={DELETE_GUEST}
                       >
-                        {(deleteGuestMu, {loading: deleteGuestLoading}) => (
+                        {(deleteGuestMu, { loading: deleteGuestLoading }) => (
                           <CreateBlockMu
-                            onCompleted={({CreateBlock}) => {
+                            onCompleted={({ CreateBlock }) => {
                               onCompletedMessage(
                                 CreateBlock,
                                 LANG("block_room_completed"),
@@ -197,14 +198,17 @@ const DailyAssigWrap: React.FC<IProps> = ({
                             ]}
                             mutation={CREATE_BLOCK}
                           >
-                            {(createBlockMu, {loading: createBlockLoading}) => (
+                            {(
+                              createBlockMu,
+                              { loading: createBlockLoading }
+                            ) => (
                               <DeleteBlockMu
                                 refetchQueries={[
                                   getOperationName(
                                     GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM
                                   )!
                                 ]}
-                                onCompleted={({DeleteBlock}) => {
+                                onCompleted={({ DeleteBlock }) => {
                                   onCompletedMessage(
                                     DeleteBlock,
                                     LANG("room_block_release"),
@@ -215,11 +219,16 @@ const DailyAssigWrap: React.FC<IProps> = ({
                               >
                                 {(
                                   deleteBlockMu,
-                                  {loading: deleteBlockLoading}
+                                  { loading: deleteBlockLoading }
                                 ) => (
                                   <DeleteBookingMu
+                                    refetchQueries={[
+                                      getOperationName(
+                                        GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM
+                                      )!
+                                    ]}
                                     mutation={DELETE_BOOKING}
-                                    onCompleted={({DeleteBooking}) => {
+                                    onCompleted={({ DeleteBooking }) => {
                                       onCompletedMessage(
                                         DeleteBooking,
                                         LANG("reservation_delete_complete"),
@@ -229,11 +238,13 @@ const DailyAssigWrap: React.FC<IProps> = ({
                                   >
                                     {(
                                       deleteBookingMu,
-                                      {loading: deleteBookingLoading}
+                                      { loading: deleteBookingLoading }
                                     ) => (
                                       <UpdateBlockOpMu
                                         mutation={UPDATE_BLOCK_OPTION}
-                                        onCompleted={({UpdateBlockOption}) => {
+                                        onCompleted={({
+                                          UpdateBlockOption
+                                        }) => {
                                           onCompletedMessage(
                                             UpdateBlockOption,
                                             LANG("update_complete"),
@@ -243,7 +254,7 @@ const DailyAssigWrap: React.FC<IProps> = ({
                                       >
                                         {(
                                           updateBlockOpMu,
-                                          {loading: updateBlockLoading}
+                                          { loading: updateBlockLoading }
                                         ) => {
                                           const totalMuLoading =
                                             updateBlockLoading ||

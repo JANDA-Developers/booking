@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, {useState, useCallback, useMemo, Fragment} from "react";
-import {Query, Mutation} from "react-apollo";
+import React, { useState, useCallback, useMemo, Fragment } from "react";
+import { Query, Mutation } from "react-apollo";
 import moment from "moment-timezone";
 import _ from "lodash";
 import assigDefaultProps from "./timelineConfig";
@@ -22,14 +22,15 @@ import {
   updateBlockOption,
   updateBlockOptionVariables
 } from "../../../types/api";
-import {useDayPicker, LANG, useModal} from "../../../hooks/hook";
+import { useDayPicker, LANG, useModal } from "../../../hooks/hook";
 import {
   setMidNight,
   queryDataFormater,
-  onCompletedMessage
+  onCompletedMessage,
+  s4
 } from "../../../utils/utils";
 import EerrorProtect from "../../../utils/errProtect";
-import {BookingStatus} from "../../../types/enum";
+import { BookingStatus } from "../../../types/enum";
 import {
   ALLOCATE_GUEST_TO_ROOM,
   UPDATE_BOOKING,
@@ -41,16 +42,16 @@ import {
   UPDATE_BLOCK_OPTION
 } from "../../../queries";
 import AssigTimeline from "./AssigTimeline";
-import {to4YMMDD} from "../../../utils/setMidNight";
-import {roomDataManufacturer} from "./components/groupDataMenufacture";
-import reactWindowSize, {WindowSizeProps} from "react-window-size";
+import { to4YMMDD } from "../../../utils/setMidNight";
+import { roomDataManufacturer } from "./components/groupDataMenufacture";
+import reactWindowSize, { WindowSizeProps } from "react-window-size";
 import {
   IAssigDataControl,
   IAssigMutationLoading
 } from "./components/assigIntrerface";
-import {IContext} from "../../MiddleServerRouter";
-import {guestsDataManufacturer} from "./components/guestsDataManufacturer";
-import {blockDataManufacturer} from "./components/blockDataManufacturer";
+import { IContext } from "../../MiddleServerRouter";
+import { guestsDataManufacturer } from "./components/guestsDataManufacturer";
+import { blockDataManufacturer } from "./components/blockDataManufacturer";
 import DayPickerModal from "../../../components/dayPickerModal/DayPickerModal";
 
 moment.tz.setDefault("UTC");
@@ -83,9 +84,9 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
   windowHeight,
   windowWidth
 }) => {
-  const dayPickerModalHook = useModal(false);
-  const {houseConfig, house} = context;
+  const { houseConfig, house } = context;
   const dayPickerHook = useDayPicker(new Date(), new Date());
+  const [reloadKey, setReloadKey] = useState(s4());
   const defaultStartDate = dayPickerHook.from
     ? dayPickerHook.from
     : moment()
@@ -115,6 +116,10 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
     )
   });
 
+  const reloadTimeline = () => {
+    setReloadKey(s4());
+  };
+
   const updateVariables = {
     houseId: house._id,
     checkIn: to4YMMDD(moment(dataTime.start)),
@@ -136,7 +141,14 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
         bookingStatuses: [BookingStatus.COMPLETE, BookingStatus.PROGRESSING]
       }}
     >
-      {({data, loading, refetch, stopPolling, startPolling, networkStatus}) => {
+      {({
+        data,
+        loading,
+        refetch,
+        stopPolling,
+        startPolling,
+        networkStatus
+      }) => {
         const roomTypesData = queryDataFormater(
           data,
           "GetAllRoomType",
@@ -159,14 +171,14 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
 
         return (
           <AllocateGuestToRoomMu
-            onCompleted={({AllocateGuestToRoom}) => {
+            onCompleted={({ AllocateGuestToRoom }) => {
               onCompletedMessage(
                 AllocateGuestToRoom,
                 LANG("assig_completed"),
                 LANG("assig_failed")
               );
             }}
-            update={(cache, {data: inData}) => {
+            update={(cache, { data: inData }) => {
               const cacheData: getAllRoomTypeWithGuest | null = cache.readQuery(
                 {
                   query: GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM,
@@ -196,9 +208,9 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
           >
             {allocateMu => (
               <UpdateBookingMu mutation={UPDATE_BOOKING}>
-                {(updateBookingMu, {loading: updateBookingLoading}) => (
+                {(updateBookingMu, { loading: updateBookingLoading }) => (
                   <DeleteGuestMu
-                    onCompleted={({DeleteGuests}) => {
+                    onCompleted={({ DeleteGuests }) => {
                       onCompletedMessage(
                         DeleteGuests,
                         LANG("delete_completed"),
@@ -207,9 +219,9 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                     }}
                     mutation={DELETE_GUEST}
                   >
-                    {(deleteGuestMu, {loading: deleteGuestLoading}) => (
+                    {(deleteGuestMu, { loading: deleteGuestLoading }) => (
                       <CreateBlockMu
-                        onCompleted={({CreateBlock}) => {
+                        onCompleted={({ CreateBlock }) => {
                           onCompletedMessage(
                             CreateBlock,
                             LANG("block_room_completed"),
@@ -218,9 +230,9 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                         }}
                         mutation={CREATE_BLOCK}
                       >
-                        {(createBlockMu, {loading: createBlockLoading}) => (
+                        {(createBlockMu, { loading: createBlockLoading }) => (
                           <DeleteBlockMu
-                            onCompleted={({DeleteBlock}) => {
+                            onCompleted={({ DeleteBlock }) => {
                               onCompletedMessage(
                                 DeleteBlock,
                                 LANG("room_block_release"),
@@ -229,10 +241,13 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                             }}
                             mutation={DELETE_BLOCK}
                           >
-                            {(deleteBlockMu, {loading: deleteBlockLoading}) => (
+                            {(
+                              deleteBlockMu,
+                              { loading: deleteBlockLoading }
+                            ) => (
                               <DeleteBookingMu
                                 mutation={DELETE_BOOKING}
-                                onCompleted={({DeleteBooking}) => {
+                                onCompleted={({ DeleteBooking }) => {
                                   onCompletedMessage(
                                     DeleteBooking,
                                     LANG("reservation_delete_complete"),
@@ -242,11 +257,11 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                               >
                                 {(
                                   deleteBookingMu,
-                                  {loading: deleteBookingLoading}
+                                  { loading: deleteBookingLoading }
                                 ) => (
                                   <UpdateBlockOpMu
                                     mutation={UPDATE_BLOCK_OPTION}
-                                    onCompleted={({UpdateBlockOption}) => {
+                                    onCompleted={({ UpdateBlockOption }) => {
                                       onCompletedMessage(
                                         UpdateBlockOption,
                                         LANG("change_complited"),
@@ -256,7 +271,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                                   >
                                     {(
                                       updateBlockOpMu,
-                                      {loading: updateBlockLoading}
+                                      { loading: updateBlockLoading }
                                     ) => {
                                       const totalMuLoading =
                                         updateBlockLoading ||
@@ -311,11 +326,12 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                                           setDataTime={setDataTime}
                                           windowHeight={windowHeight}
                                           windowWidth={windowWidth}
+                                          reloadTimeline={reloadTimeline}
                                           dataTime={dataTime}
                                           key={`timeline${moment(
                                             dayPickerHook.from || new Date()
                                           ).format("YYMMDD")}${networkStatus !==
-                                            1}`}
+                                            1}${reloadKey}`}
                                         />
                                       );
                                     }}

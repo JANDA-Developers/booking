@@ -1,12 +1,17 @@
 import React from "react";
-import JDtable, {JDcolumn, ReactTableDefault} from "../../../atoms/table/Table";
-import {Gender, GENDER_OP, WindowSize} from "../../../types/enum";
-import {inOr} from "../../../utils/C";
+import JDtable, {
+  JDcolumn,
+  ReactTableDefault
+} from "../../../atoms/table/Table";
+import { Gender, GENDER_OP, WindowSize } from "../../../types/enum";
+import { inOr } from "../../../utils/C";
 import JDselect from "../../../atoms/forms/selectBox/SelectBox";
-import {IBookingModal_AssigInfo} from "../BookingModal";
-import reactWindowSize, {WindowSizeProps} from "react-window-size";
-import {LANG} from "../../../hooks/hook";
+import reactWindowSize, { WindowSizeProps } from "react-window-size";
+import { LANG } from "../../../hooks/hook";
 import "./RoomAssigedInfoTable.scss";
+import { IBookingModal_AssigInfo } from "../declaration";
+
+const Alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"];
 
 interface IGuestTableInfo {
   _id: string;
@@ -51,19 +56,21 @@ const RoomAssigedInfoTable: React.FC<Iprops & WindowSizeProps> = ({
       Header: LANG("room"),
       maxWidth: isTabletUp ? 80 : undefined,
       accessor: "_id",
-      Cell: ({original}) => <div>{inOr(original.room, "name", "")}</div>
+      Cell: ({ original }) => <div>{inOr(original.room, "name", "")}</div>
     },
     {
       Header: LANG("bedIndex"),
       accessor: "_id",
       maxWidth: isTabletUp ? 80 : undefined,
-      Cell: ({original}) => <div>{(original.bedIndex || 0) + 1}</div>
+      Cell: ({ original }) => (
+        <div>{original.bedIndex ? original.bedIndex + 1 : ""}</div>
+      )
     },
     {
       Header: LANG("gender"),
       accessor: "_id",
       maxWidth: isTabletUp ? 80 : undefined,
-      Cell: ({original}) => (
+      Cell: ({ original }) => (
         <div
           style={{
             width: "100%"
@@ -90,18 +97,18 @@ const RoomAssigedInfoTable: React.FC<Iprops & WindowSizeProps> = ({
 
   if (windowWidth > WindowSize.TABLET) {
     TableColumns = [
-      {
-        Header: LANG("guest"),
-        accessor: "_id",
-        maxWidth: 64,
-        Cell: ({original}) => (
-          <div className="RoomAssigedInfoTable__id">{original._id}</div>
-        )
-      },
+      // {
+      //   Header: LANG("guest"),
+      //   accessor: "_id",
+      //   maxWidth: 64,
+      //   Cell: ({ original, index }) => (
+      //     <div className="RoomAssigedInfoTable__id">{Alphabet[index || 0]}</div>
+      //   )
+      // },
       {
         Header: LANG("roomType"),
         accessor: "_id",
-        Cell: ({original}) => <div>{original.roomType.name}</div>
+        Cell: ({ original }) => <div>{original.roomType.name}</div>
       },
 
       ...TableColumns

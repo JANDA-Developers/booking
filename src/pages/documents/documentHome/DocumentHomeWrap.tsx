@@ -1,24 +1,12 @@
-import React, {useState} from "react";
-import {Query} from "react-apollo";
+import React, { useState } from "react";
+import { Query } from "react-apollo";
 import {
   getAllReadMe,
   getFileTxt,
   getFileTxtVariables
 } from "../../../types/api";
-import {
-  showError,
-  queryDataFormater,
-  onCompletedMessage
-} from "../../../utils/utils";
-import {
-  GET_BOOKINGS,
-  DELETE_BOOKING,
-  UPDATE_BOOKING,
-  GET_ALL_README,
-  GET_FILE_TXT
-} from "../../../queries";
-import {getOperationName} from "apollo-link";
-import {usePagiNation} from "../../../hooks/hook";
+import { queryDataFormater } from "../../../utils/utils";
+import { GET_ALL_README, GET_FILE_TXT } from "../../../queries";
 import DocumentHome from "./DocumentHome";
 
 interface IProps {
@@ -33,7 +21,7 @@ const DocumentHomeWrap: React.FC<IProps> = () => {
 
   return (
     <GetAllReadMe query={GET_ALL_README}>
-      {({data: readMeData, loading, error}) => {
+      {({ data: readMeData, loading, error }) => {
         const allReadMe = queryDataFormater(
           readMeData,
           "GetAllReadMe",
@@ -43,10 +31,10 @@ const DocumentHomeWrap: React.FC<IProps> = () => {
         return (
           <GetFileTxt
             skip={readMePath === ""}
-            variables={{path: readMePath}}
+            variables={{ path: readMePath }}
             query={GET_FILE_TXT}
           >
-            {({data: markDownTxtData, loading, error}) => {
+            {({ data: markDownTxtData, loading, error }) => {
               const markDownTxt = queryDataFormater(
                 markDownTxtData,
                 "GetFileTxt",

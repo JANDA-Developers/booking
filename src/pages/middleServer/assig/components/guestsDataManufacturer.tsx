@@ -1,9 +1,9 @@
-import {IAssigItem, GuestTypeAdd} from "./assigIntrerface";
-import {BookingStatus, Gender} from "../../../../types/enum";
-import {instanceOfA} from "../../../../utils/utils";
-import {IGuestD, IGuest} from "../../../../types/interface";
+import { IAssigItem, GuestTypeAdd } from "./assigIntrerface";
+import { BookingStatus, Gender, PaymentStatus } from "../../../../types/enum";
+import { instanceOfA } from "../../../../utils/utils";
+import { IGuestD, IGuest } from "../../../../types/interface";
 import moment from "moment";
-import {DEFAULT_BLOCK_OP} from "../../../../types/defaults";
+import { DEFAULT_BLOCK_OP } from "../../../../types/defaults";
 
 //  TODO: 메모를 사용해서 데이터를 아끼자
 // 게스트 데이터를 달력에서 쓸수있는 Item 데이터로 변경 절차
@@ -24,7 +24,7 @@ export const guestsDataManufacturer = (allGuestsData: IGuest[]) => {
     ) {
       let gender: Gender | null = null;
       let bedIndex = 0;
-      const {_id, roomType, booking, room} = guestData;
+      const { _id, roomType, booking, room } = guestData;
       const {
         _id: bookingId,
         checkInInfo,
@@ -33,8 +33,13 @@ export const guestsDataManufacturer = (allGuestsData: IGuest[]) => {
         status,
         name,
         checkIn,
-        checkOut
+        checkOut,
+        memo,
+        payment
       } = booking;
+
+      const { status: paymentStatus } = payment;
+      const isUnpaid = paymentStatus !== PaymentStatus.COMPLETE;
 
       if (instanceOfA<IGuestD>(guestData, "gender")) {
         gender = guestData.gender;
@@ -56,9 +61,12 @@ export const guestsDataManufacturer = (allGuestsData: IGuest[]) => {
         group: room._id + bedIndex,
         start: moment(checkIn).valueOf(),
         end: moment(checkOut).valueOf(),
+        canSelect: true,
         canMove: status !== BookingStatus.PROGRESSING,
         type: GuestTypeAdd.GUEST,
         bedIndex: bedIndex,
+        memo: memo || undefined,
+        isUnpaid,
         blockOption: Object.assign(
           {},
           guestData.blockOption || DEFAULT_BLOCK_OP

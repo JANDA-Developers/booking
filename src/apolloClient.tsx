@@ -1,21 +1,21 @@
-import {ApolloClient} from "apollo-client";
+import { ApolloClient } from "apollo-client";
 import React from "react";
 import dotenv from "dotenv";
 import uri from "./uri";
 import resolvers from "./resolvers";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import {
   InMemoryCache,
   IntrospectionFragmentMatcher
 } from "apollo-cache-inmemory";
 import introspectionQueryResultData from "./fragmentTypes.json";
 import ToastError from "./components/toasts/ErrorToast";
-import {JDlang} from "./langs/JDlang";
-import {CURRENT_LANG} from "./hooks/hook";
-import {Observable, ApolloLink} from "apollo-link";
-import {withClientState} from "apollo-link-state";
-import {onError, ErrorResponse} from "apollo-link-error";
-import {createUploadLink} from "apollo-upload-client";
+import { JDlang } from "./langs/JDlang";
+import { CURRENT_LANG } from "./hooks/hook";
+import { Observable, ApolloLink } from "apollo-link";
+import { withClientState } from "apollo-link-state";
+import { onError, ErrorResponse } from "apollo-link-error";
+import { createUploadLink } from "apollo-upload-client";
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({
   introspectionQueryResultData
@@ -52,11 +52,11 @@ const requestLink = new ApolloLink(
     })
 );
 
-const cache = new InMemoryCache({addTypename: true, fragmentMatcher});
+const cache = new InMemoryCache({ addTypename: true, fragmentMatcher });
 
-const hanldeError = ({graphQLErrors, networkError}: ErrorResponse) => {
+const hanldeError = ({ graphQLErrors, networkError }: ErrorResponse) => {
   if (graphQLErrors) {
-    graphQLErrors.map(({message, locations, path}) => {
+    graphQLErrors.map(({ message, locations, path }) => {
       console.warn(
         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
       );
@@ -75,7 +75,7 @@ dotenv.config({
   path: "../.env"
 });
 
-const clinetStatues = {
+const clinetStatuss = {
   defaults: {
     auth: {
       __typename: "Auth",
@@ -95,7 +95,7 @@ const client = new ApolloClient({
   link: ApolloLink.from([
     onError(hanldeError),
     requestLink,
-    withClientState(clinetStatues),
+    withClientState(clinetStatuss),
     createUploadLink({
       uri,
       credentials: "omit"

@@ -1,29 +1,28 @@
-import {BookingStatus, Gender} from "../types/enum";
-import {arraySum} from "./elses";
+import { BookingStatus, Gender } from "../types/enum";
+import { arraySum } from "./elses";
 import isEmpty from "./isEmptyData";
 import {
   getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices,
   getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices
 } from "../types/api";
 import moment from "moment";
-import {IRoomSelectInfo} from "../components/bookingModal/BookingModal";
 
 // booking들을 받아서 종합 BookingStatu를 반환합니다.
-type TProp = {bookingStatus: BookingStatus; [foo: string]: any}[] | null;
+type TProp = { bookingStatus: BookingStatus; [foo: string]: any }[] | null;
 export const bookingStatuMerge = (bookings: TProp): BookingStatus | null => {
   if (isEmpty(bookings)) {
     return null;
   }
   bookings &&
     bookings.forEach(booking => {
-      if (booking.bookingStatue === BookingStatus.CANCEL)
+      if (booking.bookingStatus === BookingStatus.CANCEL)
         return BookingStatus.CANCEL;
     });
   return BookingStatus.COMPLETE;
 };
 
 type TProp2 = {
-  bookingStatue: BookingStatus;
+  bookingStatus: BookingStatus;
   price: number;
   [foo: string]: any;
 }[];
@@ -53,7 +52,7 @@ export const getAveragePrice = (
 export const bookingPriceMerge = (bookings: TProp2): number =>
   arraySum(
     bookings.map(booking =>
-      booking.bookingStatue === BookingStatus.COMPLETE ? booking.price : 0
+      booking.bookingStatus === BookingStatus.COMPLETE ? booking.price : 0
     )
   );
 

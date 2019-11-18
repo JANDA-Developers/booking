@@ -2,6 +2,7 @@
 
 .bookingModal {
     @include response($full, $tablet) {
+        width: 80%;
         max-width: $standard-width * 100;
     }
     @include response($mobile) {

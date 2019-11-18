@@ -146,6 +146,12 @@ a.JDanchor {
     display:flex;
 }
 
+.JDflex--oneone {
+    & > div {
+        flex: 1 1
+    }
+}
+
 
 #root,.ReactModalPortal {
     .JDmargin-bottom0 {
@@ -193,8 +199,13 @@ a.JDanchor {
 .JDtextColor--error {
     color: $error-color
 }
+
 .JDtextColor--point {
     color: $point-color
+}
+
+.JDbgColor--point {
+    background-color: $point-color
 }
 
 .JDtextColor--placeHolder {
@@ -202,7 +213,11 @@ a.JDanchor {
 }
 
 .JDtextColor-warring-text {
-    color: $error-color
+    background-color: $error-color
+}
+
+.JDbgColor-warring {
+    background-color: $error-color
 }
 
 .JDnoWrap {

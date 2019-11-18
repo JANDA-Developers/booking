@@ -1,18 +1,18 @@
 import React from "react";
 import TooltipList from "../../../atoms/tooltipList/TooltipList";
-import {IContext} from "../../../pages/MiddleServerRouter";
+import { IContext } from "../../../pages/MiddleServerRouter";
 import {
   IDailyAssigUtils,
   IDailyAssigDataControl
 } from "../../../pages/middleServer/assig/components/assigIntrerface";
-import {IDailyAssigContext} from "../DailyAssig";
+import { IDailyAssigContext } from "../DailyAssig";
 import {
   getAllRoomTypeWithGuest_GetGuests_guests as IG,
   getAllRoomTypeWithGuest_GetBlocks_blocks as IB
 } from "../../../types/api";
 import Button from "../../../atoms/button/Button";
-import {ReactTooltip} from "../../../atoms/tooltip/Tooltip";
-import {LANG} from "../../../hooks/hook";
+import { ReactTooltip } from "../../../atoms/tooltip/Tooltip";
+import { LANG } from "../../../hooks/hook";
 
 interface Iprops {
   context: IContext;
@@ -26,7 +26,7 @@ const BlockTooltip: React.FC<Iprops> = ({
   deleteBtnCallBack,
   dailayAssigContext
 }) => {
-  const {blocksData} = dailayAssigContext;
+  const { blocksData } = dailayAssigContext;
 
   return (
     <TooltipList

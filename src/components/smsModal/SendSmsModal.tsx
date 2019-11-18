@@ -1,12 +1,14 @@
-import React, {useState, Fragment, useEffect} from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import JDmodal from "../../atoms/modal/Modal";
-import {IUseModal, useSelect, LANG} from "../../hooks/hook";
+import { IUseModal, useSelect, LANG } from "../../hooks/hook";
 import JDbox from "../../atoms/box/JDbox";
-import JDselect, {IselectedOption} from "../../atoms/forms/selectBox/SelectBox";
-import {GET_SMS_TARGET_OP, GetSmsTarget} from "../../types/enum";
+import JDselect, {
+  IselectedOption
+} from "../../atoms/forms/selectBox/SelectBox";
+import { GET_SMS_TARGET_OP, GetSmsTarget } from "../../types/enum";
 import Button from "../../atoms/button/Button";
 import "./SendSmsModal.scss";
-import {MutationFn} from "react-apollo";
+import { MutationFn } from "react-apollo";
 import {
   sendSms,
   sendSmsVariables,
@@ -22,12 +24,12 @@ import {
   smsMessageFormatter
 } from "../../utils/smsUtils";
 import moment from "moment";
-import {IModalSMSinfo} from "./SendSmsModalWrap";
-import {autoComma, autoHypen, s4, queryDataFormater} from "../../utils/utils";
+import { IModalSMSinfo } from "./SendSmsModalWrap";
+import { autoComma, autoHypen, s4, queryDataFormater } from "../../utils/utils";
 import JDLabel from "../../atoms/label/JDLabel";
-import {GET_BOOKINGS_PHONE_NUMBERS} from "../../queries";
-import {useQuery} from "@apollo/react-hooks";
-import {IContext} from "../../pages/MiddleServerRouter";
+import { GET_BOOKINGS_PHONE_NUMBERS } from "../../queries";
+import { useQuery } from "@apollo/react-hooks";
+import { IContext } from "../../pages/MiddleServerRouter";
 import client from "../../apolloClient";
 import JDpreloader from "../../atoms/preloader/Preloader";
 
@@ -36,6 +38,7 @@ interface IProps {
   modalHook: IUseModal<IModalSMSinfo>;
   sendSmsMu: MutationFn<sendSms, sendSmsVariables>;
   loading: boolean;
+  bookingIds?: string[];
   smsInfo: getSmsInfo_GetSmsInfo_smsInfo | null | undefined;
   callBackFn?(flag: boolean, smsSendFn: any): any;
   autoSendWhen?: AutoSendWhen;
@@ -48,30 +51,31 @@ const SendSmsModal: React.FC<IProps> = ({
   sendSmsMu,
   smsInfo,
   callBackFn,
+  bookingIds,
   mode = "Noraml",
   autoSendWhen
 }) => {
   const [msg, setMsg] = useState("");
   const today = new Date();
   const {
-    house: {_id: houseId}
+    house: { _id: houseId }
   } = context;
   const templateSelectHook = useSelect(null);
   const smsTargetOpHook = useSelect(GET_SMS_TARGET_OP[0]);
-  const {data, loading, refetch} = useQuery<getBookings, getBookingsVariables>(
-    GET_BOOKINGS_PHONE_NUMBERS,
-    {
-      client,
-      variables: {
-        count: 0,
-        page: 0,
-        houseId,
-        filter: {
-          stayDate: moment(today).format("YYYY-MM-DD")
-        }
+  const { data, loading, refetch } = useQuery<
+    getBookings,
+    getBookingsVariables
+  >(GET_BOOKINGS_PHONE_NUMBERS, {
+    client,
+    variables: {
+      count: 0,
+      page: 0,
+      houseId,
+      filter: {
+        stayDate: moment(today).format("YYYY-MM-DD")
       }
     }
-  );
+  });
 
   const bookings = queryDataFormater(
     data,
@@ -102,7 +106,8 @@ const SendSmsModal: React.FC<IProps> = ({
 
   const phoneNumbers = bookings
     ? bookings.map(booking => booking.phoneNumber)
-    : [];
+    : undefined;
+  const tempBookingIds = bookings ? bookings.map(booking => booking._id) : [];
   const sendTargets =
     smsTargetOpHook.selectedOption!.value === GetSmsTarget.EXSIST_INFO
       ? modalHook.info.receivers
@@ -120,7 +125,8 @@ const SendSmsModal: React.FC<IProps> = ({
       variables: {
         smsInfoId: smsInfo._id,
         msg: smsMessageFormatter(msg),
-        receivers: sendTargets
+        receivers: sendTargets,
+        bookingIds: tempBookingIds || bookingIds
       }
     });
 
@@ -156,7 +162,7 @@ const SendSmsModal: React.FC<IProps> = ({
 
       if (targetTemplate) {
         let msg = "";
-        const {smsFormatInfo} = modalHook.info;
+        const { smsFormatInfo } = modalHook.info;
         if (smsFormatInfo) {
           const {
             payMethod,

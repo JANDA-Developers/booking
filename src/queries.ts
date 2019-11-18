@@ -311,6 +311,7 @@ export const F_BOOKING = gql`
         payment {
             ...Fpayment
         }
+        funnels
         status
         createdAt
         updatedAt
@@ -1220,6 +1221,7 @@ export const GET_BOOKINGS_PHONE_NUMBERS = gql`
             ok
             error
             bookings {
+                _id
                 phoneNumber
             }
         }
@@ -2075,8 +2077,9 @@ export const SEND_SMS = gql`
         $receivers: [PhoneNumber!]
         $msg: String!
         $smsInfoId: ID!
+        $bookingIds: [ID!]
     ) {
-        SendSms(smsInfoId: $smsInfoId, receivers: $receivers, msg: $msg) {
+        SendSms(bookingIds:$bookingIds, smsInfoId: $smsInfoId, receivers: $receivers, msg: $msg) {
             ok
             error
             result {

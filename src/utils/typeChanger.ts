@@ -6,17 +6,17 @@ import {
   getBooking_GetBooking_booking_guests,
   getBooking_GetBooking_booking_roomTypes
 } from "../types/api";
-import {IRoomSelectInfo} from "../components/bookingModal/BookingModal";
-import {PricingType} from "../types/enum";
+import { PricingType } from "../types/enum";
 import {
   DEFAULT_ROOMTYPE,
   DEFAULT_ROOMTYPE_ROOM,
   DEFAULT_GUEST
 } from "../types/defaults";
-import {instanceOfA} from "./utils";
-import {Gender} from "../types/enum";
+import { instanceOfA } from "./utils";
+import { Gender } from "../types/enum";
 import _ from "lodash";
-import {GB_booking} from "../types/interface";
+import { GB_booking } from "../types/interface";
+import { IRoomSelectInfo } from "../components/bookingModal/declaration";
 
 interface propRoomType {
   _id: string;
@@ -65,7 +65,7 @@ export const divisionRoomSelectInfo = (
     let i_male = 0;
     let i_roomCount = 0;
     const {
-      count: {female, male, roomCount}
+      count: { female, male, roomCount }
     } = roomSelectInfo;
 
     const roomType: getBooking_GetBooking_booking_roomTypes = {
@@ -163,7 +163,7 @@ export const getRoomSelectInfo = (
 
 // 성별 과 룸타입을 중심으로 분류 하는 용도
 // 게스트들을 받아서 룸타입별로 정렬해주는 함수
-// 게스트S => (부킹/방타입[], 부킹/도미토리[]) 형태
+// 게스트 => (부킹/방타입[], 부킹/도미토리[]) 형태
 // RoomSelectInfo와 유사
 // RoomSelectInfo는 프론트 코드를 위해 존재
 // guestsToInput은 API를 위해 존재

@@ -1,4 +1,4 @@
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 
 // 한국어인지 검사한다 한국어검사
 export const isIncludeKr = (str: string | null): boolean => {
@@ -27,7 +27,6 @@ const onCompletedMessage = (
     toast.success(resultOK);
     // 한글이 있다면 에러 메세지는 백엔드에서 온것
   } else if (haveKr) {
-    console.log("aaaas");
     toast.warn(result.error);
     // 한글이 없다면 에러 메세지는 프론트에서 기입한것
   } else {

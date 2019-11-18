@@ -76,7 +76,7 @@ export const kr = {
   apply_layout: "신청레이아웃",
   apply_this_product_to_house: "이 상품을 숙소에 적용하기",
   are_you_sure_you_want_to_delete_the_reservation:
-    "정말 예약을 삭제하시겠습니까?",
+    "정말 예약을 삭제 하시겠습니까?",
   are_you_sure_you_want_to_delete_this_guest: "해당 게스트를 삭제하시겠습니까?",
   assig_completed: "배정완료",
   assig_failed: "배정실패",
@@ -109,7 +109,7 @@ export const kr = {
   calender_date: "달력날자",
   can_use_after_phone_auth: "휴대폰 인증후 사용가능",
   cancel: "취소",
-  cancleBooking: "예약취소",
+  cancelBooking: "예약취소",
   cant_find_this_email: "해당 이메일을 찾을수 없습니다.",
   capacity: "수용인원",
   capacity_must_be_at_least_1_person: "수용인원은 1명 이상이여야 합니다.",
@@ -189,7 +189,6 @@ export const kr = {
   default_Setting_complted: "기본 설정완료",
   default_system_setting: "기본 시스템 설정",
   delete: "삭제",
-  deleteBooking: "예약삭제",
   delete_booking: "예약삭제",
   delete_completed: "삭제완료",
   delete_failed: "삭제실패",
@@ -353,7 +352,7 @@ export const kr = {
   noti_title: "알림 제목",
   nth: "순위",
   only_on_first_purchase: "첫구매시에만 발생",
-  only_remove_that_guest: "해당 게스트만 제거",
+  // delete 1.0.1: only_remove_that_guest: "해당 게스트만 제거",
   opps_something_problem_happend: "이런! 문제가 발생했습니다.",
   others_booked_by_the_reservation_will_not_be_erased:
     "해당 예약자가 예약한 다른 인원들은 지워지지 않습니다.",
@@ -373,15 +372,12 @@ export const kr = {
   ),
   password_is_not_matched: "패스워드 확인이 일치하지 않습니다.",
   passwords_do_not_match: "패스워드가 일치하지 않습니다.",
-  pay_cancle: "결제취소",
-  cancle: "취소",
+  pay_cancel: "결제취소",
   payment_canceled: "결제가 취소 되었습니다.",
   payment_info: "결제정보",
   payment_status: "결제상태",
   paymethod: "결제방법",
   pension: "펜션",
-  people: "명",
-  people_unit: "명",
   person_unit: "명",
   personnel: "인원",
   phoneNum_is_not_valid: "올바른 이름이 아닙니다.",
@@ -779,7 +775,7 @@ export const kr = {
   copy_hm_page_URL: "하우스메뉴얼 URL 복사",
   HM_update: "하우스 메뉴얼 업데이트",
   HM_update_fail: "하우스 메뉴얼 업데이트 실패",
-  // 🆕
+  // 1.0.1 add
   un_checkIn: "미입실",
   PaymentStatus: {
     CANCEL: "미결제",
@@ -804,5 +800,22 @@ export const kr = {
   price_priority:
     "*우선 적용순위: 방타입 기본가격 < 시즌기본가격 < 시즌 요일별가격 < 일별 가격",
   reference_fail: "조회실패",
-  reference_sucess: "조회성공"
+  reference_sucess: "조회성공",
+  funnels: "유입경로",
+  see_all: "전체보기",
+  Funnels: {
+    AGODA: "아고다",
+    AIRBNB: "에어비앤비",
+    BOOKING_COM: "부킹닷컴",
+    COOPANG: "쿠팡",
+    ELSE_CHANNEL: "기타채널",
+    FREINDS: "지인예약",
+    HOMEPAGE: "홈페이지",
+    NAVER: "네이버",
+    PHONE_CALL: "전화예약",
+    WALK_IN: "현장예약",
+    YANOLJA: "야놀자",
+    YEOGIEOTTAE: "여기어때"
+  },
+  goto_today: "오늘 날자로"
 };

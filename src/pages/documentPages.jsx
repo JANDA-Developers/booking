@@ -2,6 +2,14 @@ import React from "react";
 import DynamicImport from "../utils/dynamicComponent";
 import Preloader from "../atoms/preloader/Preloader";
 
+export const LangPage = props => (
+  <DynamicImport load={() => import("./documents/LangPage")}>
+    {DNcompoent =>
+      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
+    }
+  </DynamicImport>
+);
+
 export const Margin = props => (
   <DynamicImport load={() => import("./documents/Margin")}>
     {DNcompoent =>

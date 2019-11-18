@@ -1,5 +1,12 @@
+@import "../../../pages/middleServer/assig/components/items/statusMarker";
+
 .dailyAssigItem  {
     
+
+    &__gender {
+        margin-right: $standard-tiny-space;
+    }
+
     &__place {
         &:last-child {
             .dailyAssigItem__itemBlock {
@@ -54,6 +61,8 @@
     }
 
     &__itemName {
+        display: flex;
+        align-items: center;
         white-space: nowrap;
         max-width: 100%;
         overflow: hidden;

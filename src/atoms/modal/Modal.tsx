@@ -1,11 +1,11 @@
-import React, {Fragment, useEffect, useState} from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import ReactModal from "react-modal";
 import "./Modal.scss";
 import classNames from "classnames";
 import Button from "../button/Button";
-import {IUseModal, LANG} from "../../hooks/hook";
-import {s4} from "../../utils/utils";
-import JDanimation, {Animation} from "../animation/Animations";
+import { IUseModal, LANG } from "../../hooks/hook";
+import { s4 } from "../../utils/utils";
+import JDanimation, { Animation } from "../animation/Animations";
 
 interface IProps extends ReactModal.Props, IUseModal {
   center?: boolean;
@@ -17,6 +17,7 @@ interface IProps extends ReactModal.Props, IUseModal {
   minContentsWidth?: string;
   noAnimation?: boolean;
   minWidth?: string;
+  paddingSize?: "large";
   visibleOverflow?: boolean;
   falseMessage?: string | any[];
   trueMessage?: string | any[];
@@ -37,6 +38,7 @@ const JDmodal: React.SFC<IProps> = ({
   isAlert,
   children,
   confirm,
+  paddingSize,
   confirmCallBackFn,
   visibleOverflow,
   trueMessage,
@@ -73,7 +75,8 @@ const JDmodal: React.SFC<IProps> = ({
     "JDmodal--visibleOverflow": visibleOverflow,
     "JDmodal--alert": isAlert || confirm,
     "JDmodal--alertWaring": info && info.thema === "warn",
-    "JDmodal--noAnimation": !shouldAnimation
+    "JDmodal--noAnimation": !shouldAnimation,
+    "JDmodal--paddingLarge": paddingSize === "large"
   });
 
   const defualtJDmodalProps = {
@@ -136,7 +139,7 @@ const JDmodal: React.SFC<IProps> = ({
         appElement={appElement}
         {...props}
         {...defualtJDmodalProps}
-        style={{content: {...modalStyle}}}
+        style={{ content: { ...modalStyle } }}
         overlayClassName={overlayClassNames}
       >
         {getChildren()}
@@ -186,4 +189,4 @@ JDmodal.defaultProps = {
 export default JDmodal;
 
 const JDtoastModal = JDmodal;
-export {JDtoastModal};
+export { JDtoastModal };

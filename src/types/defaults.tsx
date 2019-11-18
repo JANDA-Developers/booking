@@ -1,4 +1,4 @@
-import {GB_booking, IHouseConfigFull, IBlockOp, JdFile} from "./interface";
+import { GB_booking, IHouseConfigFull, IBlockOp, JdFile } from "./interface";
 import {
   RoomGender,
   PricingType,
@@ -31,8 +31,8 @@ import {
   IAssigGroup,
   GuestTypeAdd
 } from "../pages/middleServer/assig/components/assigIntrerface";
-import {s4} from "../utils/utils";
-import {LANG} from "../hooks/hook";
+import { s4 } from "../utils/utils";
+import { LANG } from "../hooks/hook";
 
 export const DEFAULT_ROOMTYPE_ROOM: getAllRoomType_GetAllRoomType_roomTypes_rooms = {
   __typename: "Room",
@@ -66,6 +66,7 @@ export const DEFAULT_BOOKING: GB_booking = {
   __typename: "Booking",
   _id: "default",
   memo: "",
+  funnels: null,
   createdAt: "",
   updatedAt: "",
   status: BookingStatus.COMPLETE,
@@ -105,7 +106,7 @@ export const DEFAULT_ASSIG_GROUP: IAssigGroup = {
     _id: "",
     name: ""
   },
-  roomType: {...DEFAULT_ROOMTYPE, rooms: []},
+  roomType: { ...DEFAULT_ROOMTYPE, rooms: [] },
   roomId: "-1",
   bedIndex: -1,
   placeIndex: -1,

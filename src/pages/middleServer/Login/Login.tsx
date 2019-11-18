@@ -1,16 +1,16 @@
 import React from "react";
-import {Mutation, withApollo} from "react-apollo";
-import {toast} from "react-toastify";
-import {Link} from "react-router-dom";
+import { Mutation } from "react-apollo";
+import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 import Card from "../../../atoms/cards/Card";
 import InputText from "../../../atoms/forms/inputText/InputText";
 import Button from "../../../atoms/button/Button";
 import "./Login.scss";
-import {LOG_USER_IN} from "../../../clientQueries";
-import {EMAIL_SIGN_IN, GET_USER_INFO} from "../../../queries";
-import {useInput, LANG} from "../../../hooks/hook";
+import { LOG_USER_IN } from "../../../clientQueries";
+import { EMAIL_SIGN_IN, GET_USER_INFO } from "../../../queries";
+import { useInput, LANG } from "../../../hooks/hook";
 import utils from "../../../utils/utils";
-import {IContext} from "../../MiddleServerRouter";
+import { IContext } from "../../MiddleServerRouter";
 import client from "../../../apolloClient";
 import PreloaderModal from "../../../atoms/preloaderModal/PreloaderModal";
 
@@ -18,8 +18,8 @@ interface Iprops {
   context: IContext;
 }
 
-const Login: React.FC<Iprops> = ({context}) => {
-  const {history} = context;
+const Login: React.FC<Iprops> = ({ context }) => {
+  const { history } = context;
   const lastLoginEmail = localStorage.getItem("lastLogin") || "";
   const emailHook = useInput(lastLoginEmail, true);
   const passwordHook = useInput("");
@@ -32,9 +32,9 @@ const Login: React.FC<Iprops> = ({context}) => {
           {/* 로그인 뮤테이션 (로컬 ) */}
           <Mutation
             mutation={LOG_USER_IN}
-            refetchQueries={[{query: GET_USER_INFO}]}
+            refetchQueries={[{ query: GET_USER_INFO }]}
           >
-            {(logUserIn: any, {loading: loginMuLoading}: any) => {
+            {(logUserIn: any, { loading: loginMuLoading }: any) => {
               const emailSignIn = (e: any) => {
                 if (loginMuLoading) return;
 
@@ -47,6 +47,7 @@ const Login: React.FC<Iprops> = ({context}) => {
                   toast.warn(LANG("invalid_password"));
                   return;
                 }
+
                 client
                   .query({
                     query: EMAIL_SIGN_IN,
@@ -55,26 +56,31 @@ const Login: React.FC<Iprops> = ({context}) => {
                       password: passwordHook.value
                     }
                   })
-                  .then(({data: {EmailSignIn: {ok, token, error}}}) => {
-                    if (ok) {
-                      if (token) {
-                        logUserIn({
-                          variables: {
-                            token
-                          }
-                        });
-                        localStorage.setItem("lastLogin", emailHook.value);
-                        // toast.success(LANG("login_complete"));
-                        history.replace("/dashboard");
+                  .then(
+                    ({
+                      data: {
+                        EmailSignIn: { ok, token, error }
+                      }
+                    }) => {
+                      if (ok) {
+                        if (token) {
+                          logUserIn({
+                            variables: {
+                              token
+                            }
+                          });
+                          localStorage.setItem("lastLogin", emailHook.value);
+                          // toast.success(LANG("login_complete"));
+                          history.replace("/dashboard");
+                        }
+                      }
+                      if (error) {
+                        if (error === "Wrong Password")
+                          toast.warn(LANG("passwords_do_not_match"));
+                        else toast.warn(LANG("cant_find_this_email"));
                       }
                     }
-                    if (error) {
-                      console.error(error);
-                      if (error === "Wrong Password")
-                        toast.warn(LANG("passwords_do_not_match"));
-                      else toast.warn(LANG("cant_find_this_email"));
-                    }
-                  });
+                  );
               };
 
               return (

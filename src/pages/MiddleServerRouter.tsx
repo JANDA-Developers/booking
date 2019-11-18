@@ -1,14 +1,14 @@
 /* eslint-disable react/forbid-prop-types */
-import React, {Fragment, useEffect} from "react";
-import {JDlang} from "../langs/JDlang";
-import {Route, Switch, RouteComponentProps} from "react-router-dom";
-import {graphql, compose} from "react-apollo";
-import {Helmet} from "react-helmet";
+import React, { Fragment, useEffect } from "react";
+import { JDlang } from "../langs/JDlang";
+import { Route, Switch, RouteComponentProps } from "react-router-dom";
+import { graphql, compose } from "react-apollo";
+import { Helmet } from "react-helmet";
 import Header from "../components/headers/HeaderWrap";
 import NoMatch from "./noMatch/NoMatch";
-import {IS_LOGGED_IN, SELECTED_HOUSE} from "../clientQueries";
-import {GET_USER_INFO} from "../queries";
-import {isEmpty, s4, insideRedirect} from "../utils/utils";
+import { IS_LOGGED_IN, SELECTED_HOUSE } from "../clientQueries";
+import { GET_USER_INFO } from "../queries";
+import { isEmpty, s4, insideRedirect } from "../utils/utils";
 import Preloader from "../atoms/preloader/Preloader";
 import "./MiddleServerRouter.scss";
 import classnames from "classnames";
@@ -19,7 +19,6 @@ import {
   MyPage,
   SignUp,
   Login,
-  Ready,
   AssigTimeline,
   SuperMain,
   SetPrice,
@@ -33,25 +32,25 @@ import {
   ConfigWrap,
   HMconfig
 } from "./pages";
-import {UserRole, TLanguageShort} from "../types/enum";
-import {IHouse, IHouseConfigFull} from "../types/interface";
-import {DEFAULT_USER} from "../types/defaults";
+import { UserRole, TLanguageShort } from "../types/enum";
+import { IHouse, IHouseConfigFull } from "../types/interface";
+import { DEFAULT_USER } from "../types/defaults";
 import {
   getMyProfile_GetMyProfile_user,
   getMyProfile_GetMyProfile_user_houses_product
 } from "../types/api";
-import {setCookie} from "../utils/cookies";
+import { setCookie } from "../utils/cookies";
 import greet from "../utils/greet";
 import getCurrentHouse from "../utils/getLastSelectHouse";
 import houseConfigSetting from "../utils/houseConfigSetting";
-import {useModal, useToggle, useSideNav, useLang} from "../hooks/hook";
+import { useModal, useSideNav } from "../hooks/hook";
 import MemoAlertModal from "../components/Memo/component/MemoAlertModal";
 import JDoutdatedBrowserRework from "../utils/oldBrowser";
 import SideNav from "../components/sideNav/SideNav";
 import Expired from "./middleServer/expire/Expired";
 import StarterModalWrap from "./middleServer/starterModal/StarterModalWrap";
-import uri from "../uri";
-import {AddtionalConfigModal} from "../components/else/AdditionalConfigModal";
+import { AddtionalConfigModal } from "../components/else/AdditionalConfigModal";
+import { onError } from "apollo-link-error";
 
 export interface IContext extends RouteComponentProps<any> {
   user: getMyProfile_GetMyProfile_user;
@@ -82,14 +81,14 @@ interface IProps {
 
 const JDmiddleServer: React.FC<IProps> = ({
   IsLoggedIn: {
-    auth: {isLogIn},
+    auth: { isLogIn },
     loading
   },
   GetUserInfo: {
-    GetMyProfile: {user = DEFAULT_USER} = {},
+    GetMyProfile: { user = DEFAULT_USER } = {},
     loading: loading2
   } = {},
-  selectedHouse: {lastSelectedHouse, loading: loading3},
+  selectedHouse: { lastSelectedHouse, loading: loading3 },
   langHook
 }) => {
   const isLoading: boolean = loading || loading2 || loading3;
@@ -97,7 +96,7 @@ const JDmiddleServer: React.FC<IProps> = ({
   const currentHouse = getCurrentHouse(houses, lastSelectedHouse);
   const memoAlertModal = useModal(false);
   const applyedProduct = (currentHouse && currentHouse.product) || undefined;
-  const {userRole} = user;
+  const { userRole } = user;
   // 추가적 설정 모달
   const additionalConfigModal = useModal(false);
   const [sideNavIsOpen, setSideNavIsOpen] = useSideNav();
@@ -416,10 +415,10 @@ const JDmiddleServer: React.FC<IProps> = ({
 };
 
 export default compose(
-  graphql(IS_LOGGED_IN, {name: "IsLoggedIn"}),
+  graphql(IS_LOGGED_IN, { name: "IsLoggedIn" }),
   graphql(GET_USER_INFO, {
     name: "GetUserInfo",
-    skip: ({IsLoggedIn}: any) => {
+    skip: ({ IsLoggedIn }: any) => {
       if (IsLoggedIn && IsLoggedIn.auth) {
         return !IsLoggedIn.auth.isLogIn;
       }

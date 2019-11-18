@@ -87,8 +87,10 @@ $standard-width: 0.4rem; // 정수를 곱해서 사용
 $standard-height: 0.25rem; // 정수를 곱해서 사용
 $standard-section-height: 23.4rem; // 어떤 높이를 강제 구격할떄사용
 $standard-disabled-color: $grey-level2 !default;
+$standard-largest-space: $standard-width * 5;
+$standard-large-space: $standard-width * 4;
 $standard-space: $standard-width * 3 !default; // except textInput 구조가 다름
-$standard-small-space: $standard-width * 2 !default; // except textInput 구조가 다름
+$standard-small-space: $standard-width * 1.75 !default; // except textInput 구조가 다름
 $standard-tiny-space: $standard-width !default; // except textInput 구조가 다름
 $standard-margin-bottom: $standard-height * 4 !default; // except textInput 구조가 다름
 $standard-text-line-term: $standard-height * 2 !default;
@@ -128,8 +130,8 @@ $container-full-width: 94% !default;
 $container-small-width: 550px !default;
 $container-middle-width: 800px !default;
 $container-large-width: 1200px !default;
-$container-padding: $standard-width * 4; // ⭐️
-$container-padding--md: $standard-width * 3; // ⭐️
+$container-padding: $standard-large-space; // ⭐️
+$container-padding--md: $standard-space; // ⭐️
 $container-content-full: calc(100% - #{$container-padding * 2}); // ⭐️
 $total-columns: 12 !default;
 $column-width: 100 / $total-columns !default; // calculates individual column width based off of # of columns
@@ -306,7 +308,7 @@ $button-height: $standard-height * 9 !default;
 // ANCHOR Modals =========================================================================
 
 $modal-background-color: $curtain-color !default;
-$modal-content-padding: $container-padding * 2 !default;
+$modal-content-padding: $container-padding !default;
 $modal-border-radius: $standard-border-radius !default;
 $modal-section-padding: $standard-margin-bottom * 1.5;
 
@@ -459,5 +461,5 @@ $menu-border-bottom:  1px solid $grey-level1;
 
 // 24 daily Assig
 // ANCHOR menu Menu=========================================================================
-$dailyAssig-block-height:  $standard-height * 9; //.125rem === "border"
+$dailyAssig-block-height:  $standard-height * 10; //.125rem === "border"
 $menu-border-bottom:  1px solid $grey-level1;

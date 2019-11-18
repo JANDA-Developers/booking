@@ -1,17 +1,17 @@
-import React, {useMemo} from "react";
-import {IUseModal, LANG} from "../../hooks/hook";
-import {AutoSendWhen} from "../../types/enum";
+import React, { useMemo } from "react";
+import { IUseModal, LANG } from "../../hooks/hook";
+import { AutoSendWhen } from "../../types/enum";
 import {
   sendSms,
   sendSmsVariables,
   getSmsInfo,
   getSmsInfoVariables
 } from "../../types/api";
-import {Mutation, Query} from "react-apollo";
-import {SEND_SMS, GET_SMS_INFO} from "../../queries";
-import {queryDataFormater, onCompletedMessage} from "../../utils/utils";
+import { Mutation, Query } from "react-apollo";
+import { SEND_SMS, GET_SMS_INFO } from "../../queries";
+import { queryDataFormater, onCompletedMessage } from "../../utils/utils";
 import SendSmsModal from "./SendSmsModal";
-import {IContext} from "../../pages/MiddleServerRouter";
+import { IContext } from "../../pages/MiddleServerRouter";
 
 class SendSmsMu extends Mutation<sendSms, sendSmsVariables> {}
 class SmsInfoQu extends Query<getSmsInfo, getSmsInfoVariables> {}
@@ -29,6 +29,7 @@ export interface IModalSMSinfo {
     email: any;
   };
   receivers: string[];
+  bookingIds?: string[];
   autoSendWhen?: AutoSendWhen;
   callBackFn?(flag: boolean, smsSendFn: any): any;
 }
@@ -39,10 +40,10 @@ interface IProps {
   mode?: "Booking" | "Noraml";
 }
 
-const SendSMSmodalWrap: React.FC<IProps> = ({modalHook, context, mode}) => {
-  const {house} = context;
-  const {_id: houseId} = house;
-  const {autoSendWhen, callBackFn} = modalHook.info;
+const SendSMSmodalWrap: React.FC<IProps> = ({ modalHook, context, mode }) => {
+  const { house } = context;
+  const { _id: houseId } = house;
+  const { autoSendWhen, callBackFn, bookingIds } = modalHook.info;
 
   const memoResult = useMemo(
     () => (
@@ -52,7 +53,7 @@ const SendSMSmodalWrap: React.FC<IProps> = ({modalHook, context, mode}) => {
           houseId
         }}
       >
-        {({data: smsData, loading}) => {
+        {({ data: smsData, loading }) => {
           const smsInfo = queryDataFormater(
             smsData,
             "GetSmsInfo",
@@ -62,7 +63,7 @@ const SendSMSmodalWrap: React.FC<IProps> = ({modalHook, context, mode}) => {
 
           return (
             <SendSmsMu
-              onCompleted={({SendSms}) => {
+              onCompleted={({ SendSms }) => {
                 onCompletedMessage(
                   SendSms,
                   LANG("send_sms_complited"),
@@ -72,11 +73,12 @@ const SendSMSmodalWrap: React.FC<IProps> = ({modalHook, context, mode}) => {
               }}
               mutation={SEND_SMS}
             >
-              {(sendSmsMu, {loading: sendSMSloading}) => (
+              {(sendSmsMu, { loading: sendSMSloading }) => (
                 <SendSmsModal
                   context={context}
                   loading={loading || sendSMSloading}
                   smsInfo={smsInfo}
+                  bookingIds={bookingIds}
                   callBackFn={callBackFn}
                   autoSendWhen={autoSendWhen}
                   sendSmsMu={sendSmsMu}

@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
-import {MutationFn} from "react-apollo";
-import React, {useState, Fragment, useEffect} from "react";
-import {toast} from "react-toastify";
+import { MutationFn } from "react-apollo";
+import React, { useState, Fragment, useEffect } from "react";
+import { toast } from "react-toastify";
 import Modal from "../../../../atoms/modal/Modal";
 import SelectBox, {
   IselectedOption
@@ -30,9 +30,9 @@ import {
   updateRoomTypeVariables,
   getRoomTypeById_GetRoomTypeById_roomType as IRoomType
 } from "../../../../types/api";
-import {IDefaultRoomType, IRoomTypeModalInfo} from "./RoomTypeModalWrap";
+import { IDefaultRoomType, IRoomTypeModalInfo } from "./RoomTypeModalWrap";
 import Preloader from "../../../../atoms/preloader/Preloader";
-import {IContext} from "../../../MiddleServerRouter";
+import { IContext } from "../../../MiddleServerRouter";
 import PriceWarnModal from "../../../../components/priceWarnModal.tsx/PriceWarnModal";
 
 interface IProps {
@@ -64,7 +64,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
   updateRoomTypeMutation,
   roomTypeData
 }) => {
-  const {house} = context;
+  const { house } = context;
   const isCreate = mode === "Create";
   const priceWarnModal = useModal(false);
   const roomImageHook = useImageUploader(roomTypeData.img);
@@ -77,7 +77,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
       value: roomTypeData.pricingType
     },
     peopleCount: {
-      label: `${roomTypeData.peopleCount}${LANG("people_unit")}`,
+      label: `${roomTypeData.peopleCount}${LANG("person_unit")}`,
       value: roomTypeData.peopleCount
     },
     roomGender: {
@@ -85,7 +85,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
       value: roomTypeData.roomGender
     },
     peopleCountMax: {
-      label: `${roomTypeData.peopleCountMax}${LANG("people_unit")}`,
+      label: `${roomTypeData.peopleCountMax}${LANG("person_unit")}`,
       value: roomTypeData.peopleCountMax
     },
     defaultPrice: roomTypeData.defaultPrice || 0
@@ -174,7 +174,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
   };
 
   const onChangePeople = (inValue: any) => {
-    setValue({...value, peopleCountMax: inValue});
+    setValue({ ...value, peopleCountMax: inValue });
   };
 
   const maxPeopleCountOption = MAX_PEOPLE_COUNT_OP_FN();
@@ -201,7 +201,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
                 label={LANG("room_type_name")}
                 value={value.name}
                 onChange={(inValue: any) => {
-                  setValue({...value, name: inValue});
+                  setValue({ ...value, name: inValue });
                 }}
               />
             </div>
@@ -219,7 +219,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
                 label={LANG("select_roomType")}
                 disabled={mode === "Modify"}
                 onChange={(inValue: any) => {
-                  setValue({...value, pricingType: inValue});
+                  setValue({ ...value, pricingType: inValue });
                 }}
                 options={PRICING_TYPE_OP}
                 selectedOption={value.pricingType}
@@ -230,7 +230,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
                 label={LANG("select_roomGender")}
                 disabled={!isCreate}
                 onChange={(inValue: any) => {
-                  setValue({...value, roomGender: inValue});
+                  setValue({ ...value, roomGender: inValue });
                 }}
                 options={ROOM_GENDER_OP}
                 selectedOption={value.roomGender}
@@ -243,7 +243,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
             <div className="flex-grid__col col--full-6 col--lg-6 col--md-6">
               <InputText
                 onChange={(inValue: any) => {
-                  setValue({...value, description: inValue});
+                  setValue({ ...value, description: inValue });
                 }}
                 value={value.description}
                 textarea
@@ -253,7 +253,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
             <div className="flex-grid__col col--full-6 col--lg-6 col--md-6">
               <InputText
                 onChange={(inValue: any) => {
-                  setValue({...value, defaultPrice: inValue});
+                  setValue({ ...value, defaultPrice: inValue });
                 }}
                 comma
                 value={value.defaultPrice}

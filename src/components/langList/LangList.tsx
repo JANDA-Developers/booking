@@ -1,7 +1,6 @@
-import classNames from "classnames";
 import React from "react";
 import ErrProtecter from "../../utils/errProtect";
-import {IDiv} from "../../types/interface";
+import { IDiv } from "../../types/interface";
 import {
   Language,
   LANGUAGE_LIST,
@@ -10,8 +9,7 @@ import {
   LanguageResverseShort
 } from "../../types/enum";
 import JDbox from "../../atoms/box/JDbox";
-import Card from "../../atoms/cards/Card";
-import {s4} from "../../utils/utils";
+import { s4 } from "../../utils/utils";
 
 interface IProps extends IDiv {
   children?: JSX.Element[] | JSX.Element | string | Element[];
@@ -20,7 +18,7 @@ interface IProps extends IDiv {
   hilightLangs?: Language[];
 }
 
-const LangList: React.FC<IProps> = ({onClickLng, hideList, hilightLangs}) => {
+const LangList: React.FC<IProps> = ({ onClickLng, hideList, hilightLangs }) => {
   const LangList = hideList
     ? LANGUAGE_LIST.filter(lang => !hideList.includes(lang))
     : LANGUAGE_LIST;

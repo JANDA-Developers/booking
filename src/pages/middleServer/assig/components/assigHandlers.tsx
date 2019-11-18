@@ -20,9 +20,9 @@ import {
   THandleMouseDown,
   THandleDraggingEnd
 } from "./assigIntrerface";
-import {TimePerMs} from "../../../../types/enum";
-import {setMidNight} from "../../../../utils/utils";
-import {CLASS_MOVING, CLASS_LINKED} from "./items/itemRenderFn";
+import { TimePerMs } from "../../../../types/enum";
+import { setMidNight } from "../../../../utils/utils";
+import { CLASS_MOVING, CLASS_LINKED } from "./items/itemRenderFn";
 import moment from "moment";
 import $ from "jquery";
 import {
@@ -31,7 +31,7 @@ import {
   ASSIG_DATA_START_LIMITE,
   ASSIG_DATA_END_LIMITE
 } from "../timelineConfig";
-import {ReactTooltip} from "../../../../atoms/tooltip/Tooltip";
+import { ReactTooltip } from "../../../../atoms/tooltip/Tooltip";
 
 export function getAssigHandlers(
   {
@@ -44,13 +44,11 @@ export function getAssigHandlers(
     resizeBlockBlock,
     openBlockMenu,
     popUpItemMenuTooltip,
-    getGroupById,
     moveLinkedItems,
     removeMark,
-    addBlock,
     toogleCheckInOut
   }: IAssigTimelineUtils,
-  {groupData, isMobile}: IAssigTimelineContext,
+  { groupData, isMobile }: IAssigTimelineContext,
   {
     setDataTime,
     dataTime,
@@ -59,6 +57,7 @@ export function getAssigHandlers(
     setGuestValue
   }: IAssigTimelineHooks
 ): IAssigHandlers {
+  // 단축키
   const shortKey: TShortKey = async (
     flag: "canvas" | "guestItem",
     e: React.MouseEvent<HTMLElement>,
@@ -83,6 +82,7 @@ export function getAssigHandlers(
     e: React.MouseEvent<HTMLElement>,
     time: number
   ) => {
+    console.info("handleItemDoubleClick");
     if (!e.persist) return;
     e.persist();
     const location = {
@@ -93,7 +93,7 @@ export function getAssigHandlers(
     popUpItemMenuTooltip(location, target);
 
     if (target.type === GuestTypeAdd.GUEST)
-      bookingModal.openModal({bookingId: target.bookingId});
+      bookingModal.openModal({ bookingId: target.bookingId });
   };
 
   // 핸들 캔버스 더블클릭시
@@ -102,19 +102,7 @@ export function getAssigHandlers(
     time: number,
     e: React.MouseEvent<HTMLElement>
   ) => {
-    if (!e.persist) return;
-    e.stopPropagation();
-    e.preventDefault();
-    e.persist();
-
-    await allTooltipsHide();
-
-    const targetGroup = getGroupById(groupId);
-
-    // TODO 이거를 groupId 를 배열로하고
-    openCanvasMenuTooltip(e);
-
-    createMark(time, time + TimePerMs.DAY, [groupId]);
+    // 현재 인터페이스만 존재하는 함수 입니다.
   };
 
   //  캔버스 클릭시 호출됨
@@ -123,13 +111,23 @@ export function getAssigHandlers(
     time: number,
     e: React.MouseEvent<HTMLElement>
   ) => {
-    if (!e.persist) return;
-    e.persist();
-    // if (isMobile) {
-    handleCanvasDoubleClick(groupId, time, e);
-    // }
+    console.info("handleCanvasClick");
+    if (e && e.persist) {
+      e.persist();
+    }
 
-    if (shortKey) await shortKey("canvas", e, time, groupId);
+    allTooltipsHide();
+    if (!e.shiftKey)
+      setGuestValue([
+        ...guestValue.filter(guest => guest.type !== GuestTypeAdd.MARK)
+      ]);
+
+    await allTooltipsHide();
+
+    openCanvasMenuTooltip(e);
+    createMark(time, time + TimePerMs.DAY, [groupId]);
+
+    // if (shortKey) await shortKey("canvas", e, time, groupId);
     $(".assigItem").removeClass(CLASS_LINKED);
   };
   // 핸들 움직일때 벨리데이션 (마우스 움직이면 호출됨)
@@ -177,8 +175,8 @@ export function getAssigHandlers(
 
   // 드래그를 토대로 마크들을 생성시킴
   const handleDraggingCell: THandleDraggingCell = (e, moveCounts, dotPoint) => {
-    let {timeStart, placeIndex} = dotPoint;
-    const {x, y} = moveCounts;
+    let { timeStart, placeIndex } = dotPoint;
+    const { x, y } = moveCounts;
     let timeEnd = timeStart + TimePerMs.DAY * x + TimePerMs.DAY;
     const ids = [];
     for (let i = 0; i <= y; i++) {
@@ -225,24 +223,25 @@ export function getAssigHandlers(
     e: React.MouseEvent<HTMLElement>,
     time: number
   ) => {
+    console.info("handleItemClick");
     e.persist && e.persist();
+    const target = getItemById(itemId);
+    if (target.type === GuestTypeAdd.MARK) return;
     await removeMark();
     await allTooltipsHide();
     if (!e.clientX) return;
 
-    const {clientX, clientY} = e;
+    const { clientX, clientY } = e;
     const location = {
       clientX: clientX + 10,
       clientY: clientY + 15
     };
 
-    const target = getItemById(itemId);
-
     if (target.bookingId === "block") return;
 
     if (isMobile) {
       if (target.type === GuestTypeAdd.BLOCK)
-        openBlockMenu(location, {item: target});
+        openBlockMenu(location, { item: target });
       // if (target.type === GuestTypeAdd.MAKE)
       // openCreateMenu(location, {item: target});
     } else {
@@ -320,13 +319,7 @@ export function getAssigHandlers(
     }
   };
 
-  const handleMouseDownCanvas: THandleMouseDown = e => {
-    allTooltipsHide();
-    if (!e.shiftKey)
-      setGuestValue([
-        ...guestValue.filter(guest => guest.type !== GuestTypeAdd.MARK)
-      ]);
-  };
+  const handleMouseDownCanvas: THandleMouseDown = e => {};
 
   const assigHandler: IAssigHandlers = {
     handleCanvasClick,

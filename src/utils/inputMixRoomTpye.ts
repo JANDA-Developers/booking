@@ -1,9 +1,9 @@
-import {IRoomSelectInfo} from "../components/bookingModal/BookingModal";
 import {
   StartBookingRoomGuestInput,
   StartBookingDomitoryGuestInput
 } from "../types/api";
-import {PricingType} from "../types/enum";
+import { PricingType } from "../types/enum";
+import { IRoomSelectInfo } from "../components/bookingModal/declaration";
 
 // 인원정보  + 룸정보 혼합 하기
 // 이함수는 TEMP

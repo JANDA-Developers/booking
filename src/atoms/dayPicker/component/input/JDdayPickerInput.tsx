@@ -1,11 +1,12 @@
-import {DayPickerProps} from "react-day-picker";
-import React, {useRef, useEffect, Fragment} from "react";
+import { DayPickerProps } from "react-day-picker";
+import React, { useRef, useEffect, Fragment } from "react";
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import moment from "moment";
 import InputText from "../../../forms/inputText/InputText";
 import "moment/locale/ko";
-import {isEmpty} from "../../../../utils/utils";
-import {LANG} from "../../../../hooks/hook";
+import { isEmpty } from "../../../../utils/utils";
+import { LANG } from "../../../../hooks/hook";
+import { DateFormat } from "../../../../types/enum";
 // 데이픽커 인풋은 어레인이지를 지원하지 않을려는것만 같다.
 // 무리하게 바꾸었는데 잘 동작할지 모르겠다.
 
@@ -17,7 +18,7 @@ interface IProps {
   canSelectSameDate?: boolean;
   format?: string;
   label?: string;
-  showInputIcon: boolean;
+  displayIcon: boolean;
   placeholder?: string;
   inputClassName?: string;
   displayYear?: boolean;
@@ -33,12 +34,12 @@ const JDdayPickerInput: React.FC<IProps> = ({
   isRange,
   label,
   readOnly,
-  showInputIcon,
+  displayIcon,
   dayPickerProps,
   displayYear,
   inputClassName,
   placeholder = LANG("please_select_date"),
-  format = displayYear ? "YYYY-MM-DD" : "MM-DD",
+  format = displayYear ? DateFormat.YYMMDD : DateFormat.MMDD,
   inputComponent: InputComponent,
   disabled,
   ...props
@@ -112,7 +113,7 @@ const JDdayPickerInput: React.FC<IProps> = ({
         readOnly={readOnly}
         disabled={disabled}
         label={label}
-        icon={label && showInputIcon ? "calendar" : undefined}
+        icon={label && displayIcon ? "calendar" : undefined}
         {...props}
         {...prop}
       />
@@ -126,7 +127,7 @@ const JDdayPickerInput: React.FC<IProps> = ({
       <DayPickerInput
         ref={DayPickerInputRef}
         placeholder={placeholder}
-        dayPickerProps={{...dayPickerProps}}
+        dayPickerProps={{ ...dayPickerProps }}
         format={format}
         component={MyComponent}
         hideOnDayClick={!isRange}

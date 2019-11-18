@@ -1,6 +1,5 @@
 @import "../../style_config/style_config";
 
-
 // ⚠️ JDmodal 로 수정할수없음 
 .ReactModal {
     // 모달 장막
@@ -37,6 +36,7 @@
         transition: 0.3s;
         transition-timing-function: ease-out;
         
+
         &--after-open {
             transform: scale(1);
             opacity: 1;
@@ -53,13 +53,20 @@
 
         max-height: 80vh;
         overflow-y:auto;
+        @extend %JDscrollbar;
+
+        &::-webkit-scrollbar {
+            transition: 0.3s;
+            background-color:transparent;
+            width: 10px;
+        }
 
         .container {
             padding: 0;
         }
 
         @include response($phablet) {
-            padding: $modal-content-padding /2;
+            // padding: $modal-content-padding /2;
             max-height: 80%;
             margin-bottom: 10%;
         }
@@ -100,6 +107,11 @@
 
     &--alert {
         font-weight:bold;
+    }
+    &--paddingLarge {
+        @include response($full, $tablet) {
+            padding: $standard-largest-space;
+        }
     }
 
     &--center {

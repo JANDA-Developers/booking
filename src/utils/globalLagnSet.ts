@@ -12,10 +12,11 @@ import {
   GENDER_OP,
   BOOKING_STATUS_OP,
   AUTO_SEND_OP,
-  STATISTICS_OP
+  STATISTICS_OP,
+  FUNNELS_OP
 } from "../types/enum";
-import {LANG} from "../hooks/hook";
-import {isArray} from "util";
+import { LANG } from "../hooks/hook";
+import { isArray } from "util";
 
 export const globalLanguageSetting = () => {
   const setArrayWithLang = (set: Array<any>, enumKey?: string) => {
@@ -31,17 +32,18 @@ export const globalLanguageSetting = () => {
   };
 
   const settings = [
-    {value: PAYMENT_STATUS_OP, enumKey: "PaymentStatus"},
+    { value: PAYMENT_STATUS_OP, enumKey: "PaymentStatus" },
     STATISTICS_TYPE_OP,
     STATISTICS_OP,
-    {value: SMS_TARGET_OP, enumKey: "SendTarget"},
+    { value: SMS_TARGET_OP, enumKey: "SendTarget" },
     PRODUCT_STATUS_OP,
     BOOKING_STATUS_OP,
     PAYMETHOD_FOR_BOOKER_OP,
     PAYMETHOD_FOR_HOST_OP,
     GET_SMS_TARGET_OP,
     PRICING_TYPE_OP,
-    {value: ROOM_GENDER_OP, enumKey: "RoomGender"},
+    { value: FUNNELS_OP, enumKey: "Funnels" },
+    { value: ROOM_GENDER_OP, enumKey: "RoomGender" },
     PRICING_TYPE_OP_EXPEND,
     GENDER_OP,
     AUTO_SEND_OP

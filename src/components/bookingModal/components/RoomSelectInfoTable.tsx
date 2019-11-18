@@ -1,29 +1,35 @@
 import classNames from "classnames";
 import React from "react";
-import JDtable, {ReactTableDefault, JDcolumn} from "../../../atoms/table/Table";
+import JDtable, {
+  ReactTableDefault,
+  JDcolumn
+} from "../../../atoms/table/Table";
 import EerrorProtect from "../../../utils/errProtect";
-import {IRoomSelectInfo} from "../BookingModal";
-import {PricingType} from "../../../types/enum";
-import {LANG} from "../../../hooks/hook";
+import { PricingType } from "../../../types/enum";
+import { LANG } from "../../../hooks/hook";
+import { IRoomSelectInfo } from "../declaration";
 
 interface IProps {
   className?: string;
   roomSelectInfo: IRoomSelectInfo[];
 }
 
-const RoomSelectInfoTable: React.FC<IProps> = ({className, roomSelectInfo}) => {
+const RoomSelectInfoTable: React.FC<IProps> = ({
+  className,
+  roomSelectInfo
+}) => {
   const classes = classNames("roomSelectInfoTable", className, {});
 
   const TableColumns: JDcolumn<IRoomSelectInfo>[] = [
     {
       Header: LANG("room_info"),
       accessor: "roomTypeName",
-      Cell: ({original}) => <div>{original.roomTypeName}</div>
+      Cell: ({ original }) => <div>{original.roomTypeName}</div>
     },
     {
       Header: LANG("Headcount"),
       accessor: "count",
-      Cell: ({value, original}) =>
+      Cell: ({ value, original }) =>
         original.pricingType === PricingType.DOMITORY ? (
           <div>
             <span>{`${value.male}${LANG("male")} `}</span>
@@ -31,7 +37,7 @@ const RoomSelectInfoTable: React.FC<IProps> = ({className, roomSelectInfo}) => {
           </div>
         ) : (
           <div>
-            <span>{`${value.roomCount}${LANG("people")}`}</span>
+            <span>{`${value.roomCount}${LANG("person_unit")}`}</span>
           </div>
         )
     }

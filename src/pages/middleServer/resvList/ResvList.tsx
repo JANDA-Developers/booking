@@ -1,18 +1,21 @@
-import React, {useState, Fragment} from "react";
+import React, { useState, Fragment } from "react";
 import selectTableHOC, {
   SelectInputComponentProps,
   SelectAllInputComponentProps
 } from "react-table/lib/hoc/selectTable";
-import JDtable, {ReactTableDefault, JDcolumn} from "../../../atoms/table/Table";
+import JDtable, {
+  ReactTableDefault,
+  JDcolumn
+} from "../../../atoms/table/Table";
 import CheckBox from "../../../atoms/forms/checkBox/CheckBox";
 import Button from "../../../atoms/button/Button";
-import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
-import {useModal, LANG} from "../../../hooks/hook";
+import JDIcon, { IconSize } from "../../../atoms/icons/Icons";
+import { useModal, LANG } from "../../../hooks/hook";
 import BookingModalWrap from "../../../components/bookingModal/BookingModalWrap";
-import {IPageInfo, IBooking, IRoomType} from "../../../types/interface";
+import { IPageInfo, IBooking, IRoomType } from "../../../types/interface";
 import JDbox from "../../../atoms/box/JDbox";
-import {to4YMMDD} from "../../../utils/setMidNight";
-import {MutationFn} from "react-apollo";
+import { to4YMMDD } from "../../../utils/setMidNight";
+import { MutationFn } from "react-apollo";
 import {
   deleteBooking,
   deleteBookingVariables,
@@ -20,7 +23,7 @@ import {
   updateBooking
 } from "../../../types/api";
 import autoHyphen from "../../../utils/autoFormat";
-import {JDtoastModal} from "../../../atoms/modal/Modal";
+import { JDtoastModal } from "../../../atoms/modal/Modal";
 import {
   PaymentStatus,
   PricingType,
@@ -32,17 +35,18 @@ import moment from "moment";
 import JDbadge from "../../../atoms/badge/Badge";
 import "./ResvList.scss";
 import JDPagination from "../../../atoms/pagination/Pagination";
-import {autoComma} from "../../../utils/utils";
+import { autoComma } from "../../../utils/utils";
 import SendSMSmodalWrap, {
   IModalSMSinfo
 } from "../../../components/smsModal/SendSmsModalWrap";
 import Preloader from "../../../atoms/preloader/Preloader";
 import ConfirmBadgeWrap from "../../../components/confirmBadge/ConfirmBadgeWrap";
 import textReader from "../../../utils/textReader";
-import {NetworkStatus} from "apollo-client";
-import {IContext} from "../../MiddleServerRouter";
-import {getRoomSelectInfo} from "../../../utils/typeChanger";
-import {inOr} from "../../../utils/C";
+import { NetworkStatus } from "apollo-client";
+import { IContext } from "../../MiddleServerRouter";
+import { getRoomSelectInfo } from "../../../utils/typeChanger";
+import { inOr } from "../../../utils/C";
+import { toast } from "react-toastify";
 
 interface IProps {
   pageInfo: IPageInfo | undefined;
@@ -70,7 +74,7 @@ const ResvList: React.SFC<IProps> = ({
   const {
     houseConfig: {
       bookingConfig: {
-        newBookingMark: {enable: newBookingMarkEnable}
+        newBookingMark: { enable: newBookingMarkEnable }
       }
     },
     JDlang
@@ -130,8 +134,13 @@ const ResvList: React.SFC<IProps> = ({
       }
     });
 
+    if (checkedIds.length !== receivers.length) {
+      toast.warn("JD1114 ERR");
+    }
+
     sendSmsModalHook.openModal({
-      receivers
+      receivers: receivers.filter(receiver => receiver),
+      bookingIds: checkedIds
     });
   };
 
@@ -165,7 +174,7 @@ const ResvList: React.SFC<IProps> = ({
     {
       Header: LANG("reservation_did_date"),
       accessor: "createdAt",
-      Cell: ({value}) => {
+      Cell: ({ value }) => {
         return (
           <div className="resvList__createdAt">
             {moment(value)
@@ -178,7 +187,7 @@ const ResvList: React.SFC<IProps> = ({
     {
       Header: LANG("accommodation_info"),
       accessor: "roomTypes",
-      Cell: ({value, original}) => {
+      Cell: ({ value, original }) => {
         const roomTypes: IRoomType[] = value;
         const selectInfoes = getRoomSelectInfo(original.guests, roomTypes);
 
@@ -192,7 +201,7 @@ const ResvList: React.SFC<IProps> = ({
             <br />
             <span>
               {(() => {
-                const {female, male, roomCount} = selectInfo.count;
+                const { female, male, roomCount } = selectInfo.count;
                 return (
                   <span>
                     {selectInfo.pricingType === PricingType.DOMITORY ? (
@@ -224,12 +233,12 @@ const ResvList: React.SFC<IProps> = ({
     {
       Header: LANG("checkIn"),
       accessor: "_id",
-      Cell: ({original}) => <div>{to4YMMDD(original.checkIn)}</div>
+      Cell: ({ original }) => <div>{to4YMMDD(original.checkIn)}</div>
     },
     {
       Header: LANG("checkOut"),
       accessor: "_id",
-      Cell: ({original}) => <div>{to4YMMDD(original.checkOut)}</div>
+      Cell: ({ original }) => <div>{to4YMMDD(original.checkOut)}</div>
     },
     {
       Header: () => (
@@ -240,7 +249,7 @@ const ResvList: React.SFC<IProps> = ({
         </div>
       ),
       accessor: "name",
-      Cell: ({original}) => {
+      Cell: ({ original }) => {
         const Booking: IBooking = original;
         return (
           <div>
@@ -260,7 +269,7 @@ const ResvList: React.SFC<IProps> = ({
         </div>
       ),
       accessor: "payment",
-      Cell: ({original}) => (
+      Cell: ({ original }) => (
         <div>
           <span>
             {autoComma(original.payment.totalPrice)}
@@ -280,7 +289,7 @@ const ResvList: React.SFC<IProps> = ({
       Header: LANG("memo"),
       accessor: "memo",
       minWidth: 200,
-      Cell: ({value}) => (
+      Cell: ({ value }) => (
         <div
           className={`JDscrool resvList__memo ${value &&
             value.length > 20 &&
@@ -293,12 +302,19 @@ const ResvList: React.SFC<IProps> = ({
     {
       Header: LANG("status"),
       accessor: "_id",
-      Cell: ({original}) => {
-        const {isNew, isConfirm, _id, status, payment, checkInInfo} = original;
+      Cell: ({ original }) => {
+        const {
+          isNew,
+          isConfirm,
+          _id,
+          status,
+          payment,
+          checkInInfo
+        } = original;
         const isCancled = status === BookingStatus.CANCEL;
         const isProgressing = status === BookingStatus.PROGRESSING;
         const isComplete = status === BookingStatus.COMPLETE;
-        const {status: paymentStatus} = payment;
+        const { status: paymentStatus } = payment;
         const isPaied = paymentStatus === PaymentStatus.COMPLETE;
         const isCheckIn = checkInInfo.isIn;
 
@@ -312,13 +328,13 @@ const ResvList: React.SFC<IProps> = ({
               />
             )}
             {isCheckIn && <JDbadge thema={"new"}>{LANG("new")}</JDbadge>}
-            {isCancled && <JDbadge thema={"error"}>{LANG("cancle")}</JDbadge>}
+            {isCancled && <JDbadge thema={"error"}>{LANG("cancel")}</JDbadge>}
             {isProgressing && (
               <JDbadge thema={"grey"}>{LANG("proceeding")}</JDbadge>
             )}
-            {isComplete && (
+            {/* {isComplete && (
               <JDbadge thema={"positive"}>{LANG("good_status")}</JDbadge>
-            )}
+            )} */}
             {isProgressing || isPaied || (
               <JDbadge thema={"warn"}>{LANG("unPaid")}</JDbadge>
             )}
@@ -330,7 +346,7 @@ const ResvList: React.SFC<IProps> = ({
       Header: LANG("detail"),
       accessor: "_id",
       width: 60,
-      Cell: ({value}) => (
+      Cell: ({ value }) => (
         <JDIcon
           onClick={() => {
             bookingModalHook.openModal({
@@ -345,7 +361,7 @@ const ResvList: React.SFC<IProps> = ({
     }
   ];
 
-  const selectInputCompoent = ({checked, id}: SelectInputComponentProps) => {
+  const selectInputCompoent = ({ checked, id }: SelectInputComponentProps) => {
     const inId = id.replace("select-", "");
     const onChange = (flag: boolean) => {
       onToogleRow(inId);
@@ -369,7 +385,7 @@ const ResvList: React.SFC<IProps> = ({
           <Button
             size="small"
             onClick={handleCancleBookingBtnClick}
-            label={LANG("cancleBooking")}
+            label={LANG("cancelBooking")}
           />
           <Button
             onClick={handleSendSmsBtnClick}
@@ -380,7 +396,7 @@ const ResvList: React.SFC<IProps> = ({
             onClick={handleDeleteBookingBtnClick}
             size="small"
             thema="error"
-            label={LANG("deleteBooking")}
+            label={LANG("delete_booking")}
           />
         </div>
         {networkStatus === 1 && loading ? (
@@ -409,7 +425,7 @@ const ResvList: React.SFC<IProps> = ({
           loading={networkStatus !== 1 && loading}
         />
         <JDPagination
-          onPageChange={({selected}: {selected: number}) => {
+          onPageChange={({ selected }: { selected: number }) => {
             setPage(selected + 1);
           }}
           pageCount={inOr(pageInfo, "totalPage", 1)}

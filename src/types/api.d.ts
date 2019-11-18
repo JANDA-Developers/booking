@@ -1225,6 +1225,7 @@ export interface findBooking_FindBooking_bookings {
   checkIn: any;
   checkOut: any;
   payment: findBooking_FindBooking_bookings_payment;
+  funnels: Funnels | null;
   status: BookingStatus;
   createdAt: any;
   updatedAt: any | null;
@@ -1352,6 +1353,7 @@ export interface findBookingForBooker_FindBookingForBooker_bookings {
   checkIn: any;
   checkOut: any;
   payment: findBookingForBooker_FindBookingForBooker_bookings_payment;
+  funnels: Funnels | null;
   status: BookingStatus;
   createdAt: any;
   updatedAt: any | null;
@@ -1623,6 +1625,7 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking 
   checkIn: any;
   checkOut: any;
   payment: getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_payment;
+  funnels: Funnels | null;
   status: BookingStatus;
   createdAt: any;
   updatedAt: any | null;
@@ -1752,6 +1755,7 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking {
   checkIn: any;
   checkOut: any;
   payment: getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_payment;
+  funnels: Funnels | null;
   status: BookingStatus;
   createdAt: any;
   updatedAt: any | null;
@@ -2274,6 +2278,7 @@ export interface getBookingForPublic_GetBookingForPublic_booking {
   checkIn: any;
   checkOut: any;
   payment: getBookingForPublic_GetBookingForPublic_booking_payment;
+  funnels: Funnels | null;
   status: BookingStatus;
   createdAt: any;
   updatedAt: any | null;
@@ -2308,6 +2313,7 @@ export interface getBookingForPublicVariables {
 
 export interface getPhoneNumbers_GetBookings_bookings {
   __typename: "Booking";
+  _id: string;
   phoneNumber: any;
 }
 
@@ -2487,6 +2493,7 @@ export interface getBookings_GetBookings_bookings {
   checkIn: any;
   checkOut: any;
   payment: getBookings_GetBookings_bookings_payment;
+  funnels: Funnels | null;
   status: BookingStatus;
   createdAt: any;
   updatedAt: any | null;
@@ -2662,6 +2669,7 @@ export interface getBooking_GetBooking_booking {
   checkIn: any;
   checkOut: any;
   payment: getBooking_GetBooking_booking_payment;
+  funnels: Funnels | null;
   status: BookingStatus;
   createdAt: any;
   updatedAt: any | null;
@@ -3978,6 +3986,7 @@ export interface sendSmsVariables {
   receivers?: any[] | null;
   msg: string;
   smsInfoId: string;
+  bookingIds?: string[] | null;
 }
 
 /* tslint:disable */
@@ -5187,6 +5196,7 @@ export interface Fbooking {
   checkIn: any;
   checkOut: any;
   payment: Fbooking_payment;
+  funnels: Funnels | null;
   status: BookingStatus;
   createdAt: any;
   updatedAt: any | null;
@@ -5628,6 +5638,21 @@ export enum Day {
   WED = "WED",
 }
 
+export enum Funnels {
+  AGODA = "AGODA",
+  AIRBNB = "AIRBNB",
+  BOOKING_COM = "BOOKING_COM",
+  COOPANG = "COOPANG",
+  ELSE_CHANNEL = "ELSE_CHANNEL",
+  FREINDS = "FREINDS",
+  HOMEPAGE = "HOMEPAGE",
+  NAVER = "NAVER",
+  PHONE_CALL = "PHONE_CALL",
+  WALK_IN = "WALK_IN",
+  YANOLJA = "YANOLJA",
+  YEOGIEOTTAE = "YEOGIEOTTAE",
+}
+
 /**
  * 도미토리 방식으로 예약한 게스트만 적용됨
  */
@@ -5956,6 +5981,7 @@ export interface StartBookingBookerInput {
   memo: string;
   email?: string | null;
   agreePrivacyPolicy: boolean;
+  funnels?: Funnels | null;
 }
 
 export interface StartBookingDomitoryGuestInput {
@@ -6003,6 +6029,7 @@ export interface UpdateBookingMutationParamsInput {
   paymentStatus?: PaymentStatus | null;
   bookingStatus?: BookingStatus | null;
   memo?: string | null;
+  funnels?: Funnels | null;
 }
 
 export interface UpdateHMparams {
