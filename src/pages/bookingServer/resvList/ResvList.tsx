@@ -43,9 +43,10 @@ import Preloader from "../../../atoms/preloader/Preloader";
 import ConfirmBadgeWrap from "../../../components/confirmBadge/ConfirmBadgeWrap";
 import textReader from "../../../utils/textReader";
 import { NetworkStatus } from "apollo-client";
-import { IContext } from "../MiddleServerRouter";
+import { IContext } from "../../MiddleServerRouter";
 import { getRoomSelectInfo } from "../../../utils/typeChanger";
 import { inOr } from "../../../utils/C";
+import { toast } from "react-toastify";
 
 interface IProps {
   pageInfo: IPageInfo | undefined;
@@ -75,7 +76,8 @@ const ResvList: React.SFC<IProps> = ({
       bookingConfig: {
         newBookingMark: { enable: newBookingMarkEnable }
       }
-    }
+    },
+    JDlang
   } = context;
 
   const [checkedIds, setCheckedIds] = useState<string[]>([]);
@@ -132,8 +134,13 @@ const ResvList: React.SFC<IProps> = ({
       }
     });
 
+    if (checkedIds.length !== receivers.length) {
+      toast.warn("JD1114 ERR");
+    }
+
     sendSmsModalHook.openModal({
-      receivers
+      receivers: receivers.filter(receiver => receiver),
+      bookingIds: checkedIds
     });
   };
 
@@ -321,13 +328,13 @@ const ResvList: React.SFC<IProps> = ({
               />
             )}
             {isCheckIn && <JDbadge thema={"new"}>{LANG("new")}</JDbadge>}
-            {isCancled && <JDbadge thema={"error"}>{LANG("cancle")}</JDbadge>}
+            {isCancled && <JDbadge thema={"error"}>{LANG("cancel")}</JDbadge>}
             {isProgressing && (
               <JDbadge thema={"grey"}>{LANG("proceeding")}</JDbadge>
             )}
-            {isComplete && (
+            {/* {isComplete && (
               <JDbadge thema={"positive"}>{LANG("good_status")}</JDbadge>
-            )}
+            )} */}
             {isProgressing || isPaied || (
               <JDbadge thema={"warn"}>{LANG("unPaid")}</JDbadge>
             )}
@@ -378,7 +385,7 @@ const ResvList: React.SFC<IProps> = ({
           <Button
             size="small"
             onClick={handleCancleBookingBtnClick}
-            label={LANG("cancleBooking")}
+            label={LANG("cancelBooking")}
           />
           <Button
             onClick={handleSendSmsBtnClick}
@@ -389,7 +396,7 @@ const ResvList: React.SFC<IProps> = ({
             onClick={handleDeleteBookingBtnClick}
             size="small"
             thema="error"
-            label={LANG("deleteBooking")}
+            label={LANG("delete_booking")}
           />
         </div>
         {networkStatus === 1 && loading ? (

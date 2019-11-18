@@ -3,17 +3,15 @@ import { ErrProtecter } from "../../../utils/utils";
 import Card from "../../../atoms/cards/Card";
 import DailyAssigWrap from "../../../components/dailyAssjg/DailyAssigWrap";
 import "./DashBoard.scss";
-import { MutationFn } from "react-apollo";
-import { updateHouse, updateHouseVariables } from "../../../types/api";
 import { useModal, useDayPicker, LANG } from "../../../hooks/hook";
 import Button from "../../../atoms/button/Button";
-import { IContext } from "../MiddleServerRouter";
+import { IContext } from "../../MiddleServerRouter";
 import DaySalesWrap from "../../../components/shortStatisces/DaySalesWrap";
 import DayCheckInWrap from "../../../components/shortStatisces/DayCheckInWrap";
 import ReservationModal from "../../../components/reservationModala/ReservationModal";
 import JDIcon from "../../../atoms/icons/Icons";
 import TooltipList from "../../../atoms/tooltipList/TooltipList";
-import DayPickerModal from "../../../atoms/dayPickerModal/DayPickerModal";
+import DayPickerModal from "../../../components/dayPickerModal/DayPickerModal";
 import SendSMSmodalWrap, {
   IModalSMSinfo
 } from "../../../components/smsModal/SendSmsModalWrap";
@@ -21,16 +19,15 @@ import moment from "moment";
 
 interface Iprops {
   context: IContext;
-  updateHouseMu: MutationFn<updateHouse, updateHouseVariables>;
 }
 
 // eslint-disable-next-line react/prop-types
-const DashBoard: React.SFC<Iprops> = ({ updateHouseMu, context }) => {
+const DashBoard: React.SFC<Iprops> = ({ context }) => {
   const reservationModal = useModal();
   const dayPickerModalHook = useModal();
-  const smsModal = useModal<IModalSMSinfo>(false);
+  const smsModalHook = useModal<IModalSMSinfo>(false);
   const dailyAssigDateHook = useDayPicker(new Date(), new Date());
-  const { house, user } = context;
+  const { house } = context;
 
   const MemoDaySalesWrap = useMemo(
     () => <DaySalesWrap context={context} />,
@@ -74,7 +71,7 @@ const DashBoard: React.SFC<Iprops> = ({ updateHouseMu, context }) => {
                   />
                   <Button
                     onClick={() => {
-                      smsModal.openModal({
+                      smsModalHook.openModal({
                         receivers: []
                       });
                     }}
@@ -162,7 +159,7 @@ const DashBoard: React.SFC<Iprops> = ({ updateHouseMu, context }) => {
           {...dailyAssigDateHook}
         />
       </TooltipList>
-      <SendSMSmodalWrap modalHook={smsModal} context={context} />
+      <SendSMSmodalWrap modalHook={smsModalHook} context={context} />
     </div>
   );
 };

@@ -1,23 +1,23 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, {Fragment, useState, useEffect} from "react";
-import {ErrProtecter, s4, autoComma} from "../../../utils/utils";
-import {getBookingForPublic_GetBookingForPublic_booking} from "../../../types/api";
-import JDtable, {JDcolumn} from "../../../atoms/table/Table";
-import {ReactTableDefaults} from "react-table";
-import {IRoomType} from "../../../types/interface";
+import React, { Fragment, useState, useEffect } from "react";
+import { ErrProtecter, s4, autoComma } from "../../../utils/utils";
+import { getBookingForPublic_GetBookingForPublic_booking } from "../../../types/api";
+import JDtable, { JDcolumn } from "../../../atoms/table/Table";
+import { ReactTableDefaults } from "react-table";
+import { IRoomType } from "../../../types/interface";
 import JDbox from "../../../atoms/box/JDbox";
-import {PricingType} from "../../../types/enum";
+import { PricingType } from "../../../types/enum";
 import moment from "moment";
-import {getRoomSelectInfo} from "../../../utils/typeChanger";
-import {LANG} from "../../../hooks/hook";
+import { getRoomSelectInfo } from "../../../utils/typeChanger";
+import { LANG } from "../../../hooks/hook";
 
 export interface IProps {
   tableData: getBookingForPublic_GetBookingForPublic_booking[] | undefined;
 }
 
 // 하우스 아이디를 우선 Props를 통해서 받아야함
-const CheckTable: React.FC<IProps> = ({tableData: tableDataProp}) => {
+const CheckTable: React.FC<IProps> = ({ tableData: tableDataProp }) => {
   const [tableData, setTableData] = useState(tableDataProp);
   useEffect(() => {
     if (tableDataProp) {
@@ -31,7 +31,7 @@ const CheckTable: React.FC<IProps> = ({tableData: tableDataProp}) => {
     {
       Header: LANG("checkIn"),
       accessor: "_id",
-      Cell: ({original}) => (
+      Cell: ({ original }) => (
         <div>
           <span>{moment(original.checkIn).format("YYYY-MM-DD")}</span>
         </div>
@@ -40,7 +40,7 @@ const CheckTable: React.FC<IProps> = ({tableData: tableDataProp}) => {
     {
       Header: LANG("checkOut"),
       accessor: "_id",
-      Cell: ({original}) => (
+      Cell: ({ original }) => (
         <div>
           <span>{moment(original.checkOut).format("YYYY-MM-DD")}</span>
         </div>
@@ -49,7 +49,7 @@ const CheckTable: React.FC<IProps> = ({tableData: tableDataProp}) => {
     {
       Header: LANG("Rooms") + LANG("personnel"),
       accessor: "roomTypes",
-      Cell: ({value, original}) => {
+      Cell: ({ value, original }) => {
         const roomTypes: IRoomType[] = value;
         // ⛔️ 젠더정보가 없기때문에 들어갈수없다 gender를 넣을려면 코드겐부터
         const roomSelectInfo = getRoomSelectInfo(original.guests, roomTypes);
@@ -59,9 +59,7 @@ const CheckTable: React.FC<IProps> = ({tableData: tableDataProp}) => {
             <br />
             <span>
               {(() => {
-                const {female, male, roomCount} = selectInfo.count;
-
-                console.log({female, male, roomCount});
+                const { female, male, roomCount } = selectInfo.count;
 
                 return (
                   <span>
@@ -84,7 +82,7 @@ const CheckTable: React.FC<IProps> = ({tableData: tableDataProp}) => {
     {
       Header: LANG("usage_amount"),
       accessor: "payment",
-      Cell: ({value}) => {
+      Cell: ({ value }) => {
         return (
           <div>
             {autoComma(value.totalPrice)}
@@ -98,7 +96,7 @@ const CheckTable: React.FC<IProps> = ({tableData: tableDataProp}) => {
     {
       Header: LANG("status"),
       accessor: "status",
-      Cell: ({value}) => <span>{LANG(value)}</span>
+      Cell: ({ value }) => <span>{LANG(value)}</span>
     }
   ];
 

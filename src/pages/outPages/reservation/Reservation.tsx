@@ -19,8 +19,6 @@ import "./Reservation.scss";
 import Button from "../../../atoms/button/Button";
 import Card from "../../../atoms/cards/Card";
 import {
-  startBooking,
-  startBookingVariables,
   getAllRoomTypeForBooker,
   startBookingForPublic,
   startBookingForPublicVariables,
@@ -44,24 +42,27 @@ import {
   WindowSize,
   PricingType,
   PAYMETHOD_FOR_BOOKER_OP,
-  PayMethod
+  PayMethod,
+  Funnels
 } from "../../../types/enum";
-import { GET_ALL_ROOM_TYPE_FOR_BOOKING } from "../../../apollo/queries";
+import { GET_ALL_ROOM_TYPE_FOR_BOOKING } from "../../../queries";
 import Preloader from "../../../atoms/preloader/Preloader";
 import { Helmet } from "react-helmet";
 import { openNiceModal } from "./components/doPay";
+import { reservationDevelop, developEvent } from "../../../utils/developMaster";
 import RoomSearcher from "../../../components/roomSearcher.tsx/RoomSearcher";
 import BookingInfoModal from "./components/roomTypeCards/bookingInfoModal";
 import isLast from "../../../utils/isLast";
-import { IRoomSelectInfo } from "../../../components/bookingModal/BookingModal";
-import { IContext } from "../../bookingServer/MiddleServerRouter";
+import { IContext } from "../../MiddleServerRouter";
 import { ApolloQueryResult } from "apollo-client";
-import BookingModalWrap, {
-  IBookingModalProp
-} from "../../../components/bookingModal/BookingModalWrap";
+import BookingModalWrap from "../../../components/bookingModal/BookingModalWrap";
 import { DEFAULT_BOOKING } from "../../../types/defaults";
-import { divisionRoomSelectInfo } from "./helper";
+import { divisionRoomSelectInfo } from "../../../utils/typeChanger";
 import { to4YMMDD } from "../../../utils/setMidNight";
+import {
+  IBookingModalProp,
+  IRoomSelectInfo
+} from "../../../components/bookingModal/declaration";
 
 export interface IBookerInfo {
   name: string;
@@ -105,6 +106,7 @@ interface IProps {
   ) => Promise<ApolloQueryResult<getPaymentAuth>>;
   createLoading: boolean;
   context?: IContext;
+  modalHook?: IUseModal;
 }
 
 const Reservation: React.SFC<IProps & WindowSizeProps> = ({
@@ -112,7 +114,8 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   startBookingForPublicMu,
   context,
   payAuthQu,
-  createLoading
+  createLoading,
+  modalHook
 }) => {
   const isHost = context ? true : false;
   const houseId = context ? context.house._id : undefined;
@@ -165,6 +168,11 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
       location.reload();
     }
   };
+
+  // Deprecated
+  developEvent(() => {
+    reservationDevelop(reservationHooks);
+  });
 
   // 날자를 선택하면 예약선택 상태 초기화
   useEffect(() => {
@@ -241,7 +249,8 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
           memo,
           name,
           password,
-          phoneNumber
+          phoneNumber,
+          funnel: Funnels.HOMEPAGE
         },
         checkInOut: {
           checkIn: to4YMMDD(dayPickerHook.from),
@@ -457,7 +466,15 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
       </div>
       {/* 호스트예약일떄 */}
       {context && (
-        <BookingModalWrap context={context} modalHook={bookingModalHook} />
+        <BookingModalWrap
+          startBookingCallBack={result => {
+            if (result !== "error") {
+              modalHook && modalHook.closeModal();
+            }
+          }}
+          context={context}
+          modalHook={bookingModalHook}
+        />
       )}
       {/* 게스트예약일떄 */}
       <PayMentModal

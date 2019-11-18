@@ -37,7 +37,7 @@ const BlockOpModal: React.FC<IProps> = ({
   );
   const addmitToAll = useCheckBox(false);
 
-  const handleClickAdmit = (flag?: "cancle") => {
+  const handleClickAdmit = (flag?: "cancel") => {
     const result = updateBlockOpMu({
       variables: {
         applyWithBooking: addmitToAll.checked,
@@ -57,7 +57,7 @@ const BlockOpModal: React.FC<IProps> = ({
         inTarget.forEach(
           ininTarget => (ininTarget.blockOption.color = colorPickerHook.color)
         );
-      } else if (flag === "cancle") {
+      } else if (flag === "cancel") {
         inTarget.forEach(ininTarget => (ininTarget.blockOption.color = null));
       }
       setGuestValue([...guestValue]);

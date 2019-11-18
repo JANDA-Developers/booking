@@ -1,6 +1,6 @@
 import React from "react";
 import Mbr from "../atoms/mbr/Mbr";
-import {LANG} from "../hooks/hook";
+import { LANG } from "../hooks/hook";
 
 export const en = {
   Apply: "Apply",
@@ -115,7 +115,7 @@ export const en = {
   calender_date: "calendar date",
   can_use_after_phone_auth: "Enable after phone authentication",
   cancel: "cancel",
-  cancleBooking: "Cancel Reservation",
+  cancelBooking: "Cancel Reservation",
   cant_find_this_email: "We can't find that email.",
   capacity: "capacity",
   capacity_must_be_at_least_1_person: "You must have at least 1 person.",
@@ -233,7 +233,7 @@ export const en = {
   file: "file",
   find_destination: "find destination",
   free_experience: "free experience",
-  fri: "fri",
+  fri: "F",
   fullRoom: "full",
   gender: "gender",
   go_back: "go back",
@@ -318,7 +318,7 @@ export const en = {
   mobile_phone_verification_failed: "phone verification failed",
   mobile_phone_verification_number: "mobile phone verification number",
   modify: "modify",
-  mon: "mon",
+  mon: "M",
   money_unit: "won",
   month: "month",
   month_sales: "monthly sales",
@@ -373,15 +373,13 @@ export const en = {
     "* 1 or more special characters, 7 to 15 alphanumeric characters",
   password_is_not_matched: "Password check did not match.",
   passwords_do_not_match: "Passwords do not match.",
-  pay_cancle: "Cancel payment",
+  pay_cancel: "Cancel payment",
   payment_canceled: "Payment canceled",
   payment_info: "payment information",
   payment_status: "payment status",
   paymethod: "payment method",
   pension: "pension",
-  people: "people",
-  people_unit: "people",
-  person_unit: "person",
+  person_unit: "people",
   personnel: "person",
   phoneNum_is_not_valid: "Not a valid name.",
   phoneNumber: "phone number",
@@ -543,6 +541,7 @@ export const en = {
   send_sms_failed: "send failed",
   send_status: "send status",
   send_target: "send to",
+  host_slash_guest: "host/guest",
   send_text_to_host: "Send Text to Host",
   send_type: "send type",
   seperatle_gender: "unlimited (mixed x)",
@@ -590,7 +589,7 @@ export const en = {
   this_month_sales: "This Month's Sales",
   this_price_modification_will_be_the_highest_priority_of_all_pricing:
     "Modifying that price is the highest priority of all pricing.",
-  thu: "thu",
+  thu: "Tu",
   till: "until",
   time: "time",
   timeout_please_request_again: "Please try again.",
@@ -602,7 +601,7 @@ export const en = {
   total_price: "total price",
   transmission_time: "transmission time",
   try_to_create_in_SMS_settings: "Try to create it in SMS settings.",
-  tue: "tue",
+  tue: "T",
   turn_off_alarm: "disable alerts",
   unPaid: "unpaid",
   unSupport: "not supported",
@@ -656,15 +655,13 @@ export const en = {
     "I can't fulfill my request right now",
   youth_hostel: "youth hostel",
   please_verify_your_mobile_phone_to_ensure_smooth_service: (
-    <span>
-            Please verify your mobile phone to ensure smooth service.     
-    </span>
+    <span>Please verify your mobile phone to ensure smooth service.</span>
   ),
   F_selected_product_apply_to_house: (houseName: any) => (
     <span>
-            * The service you choose       
+      * The service you choose
       <span className="JDtextColor--point"> {`$ {houseName}`} </span>
-            Apply.     
+      Apply.
     </span>
   ),
   F_have_x_days_left_to_try_for_free: (daysLeftToExpire: string) =>
@@ -686,73 +683,73 @@ export const en = {
     `This product is suitable for accommodation with $ {n} rooms or less.`,
   the_price_is_too_low_are_you_sure_to_set_this_price: (
     <span>
-            The price is less than 1000 won. <br />
-            Do you really want to set the price?     
+      The price is less than 1000 won. <br />
+      Do you really want to set the price?
     </span>
   ),
   house_create: (
     <span>
-            Rooms       
+      Rooms
       <Mbr />
-            produce     
+      produce
     </span>
   ),
   product_registration: (
     <span>
-            product       
+      product
       <Mbr />
-            Enrollment     
+      Enrollment
     </span>
   ),
   this_is_an_old_browser_Problems_may_occur_while_using_the_service_Please_update_your_browser: (
     <span>
-            This is an old browser. Problems may occur while using the service.{" "}
-      <br /> {""}
-            Please update your browser.     
+      This is an old browser. Problems may occur while using the service. <br />{" "}
+      {""}
+      Please update your browser.
     </span>
   ),
   HM_provides_guests_with_a_comfortable_and_convenient_accommodation_send_the_guide_page: (
     <span>
-            The House Manual provides a guide page for guests to use the
-      accommodation easily and conveniently.       Send. <br />
-            The house manual will save you the trouble of explaining how to use
-      your accommodation.     
+      The House Manual provides a guide page for guests to use the accommodation
+      easily and conveniently. Send. <br />
+      The house manual will save you the trouble of explaining how to use your
+      accommodation.
     </span>
   ),
   automatically_send_prompts_to_your_guests: (
     <span>
-            Let your guests know       
+      Let your guests know
       <Mbr />
-            Try sending it automatically.     
+      Try sending it automatically.
     </span>
   ),
   roomType_dose_not_exsist: (
     <span>
-            Room type <Mbr /> does not exist.     
+      Room type <Mbr /> does not exist.
     </span>
   ),
   additionaly_setting_to_will_good_for_manage_ment: (
     <span>
-            In addition, the following settings will help you to run the <Mbr />{" "}
-      accommodation!     
+      In addition, the following settings will help you to run the <Mbr />{" "}
+      accommodation!
     </span>
   ),
   default_setting_is_compelted: (
     <span>
-            The default setting is       
-      <Mbr /> Finished.     
+      The default setting is
+      <Mbr /> Finished.
     </span>
   ),
   make_it_easy_to_guide_accommodation_for_guests: (
     <span>
-            Accommodation for guests <Mbr />
-            Make it easy to guide.     
+      Accommodation for guests <Mbr />
+      Make it easy to guide.
     </span>
   ),
   try_setting_it_up_different_prices_by_date: (
     <span>
-            Different prices by date       
-      <Mbr /> Try setting it up.     
+      Different prices by date
+      <Mbr /> Try setting it up.
     </span>
   ),
   monthly_fee: "monthly rate",
@@ -781,7 +778,50 @@ export const en = {
   january: "JAN",
   copy_hm_page_URL: "Copy house manual URL",
   HM_update: "Update House Manual",
-  HM_update_fail: "House manual update failed"
+  HM_update_fail: "House manual update failed",
+  //1.0.1 add
+  un_checkIn: "un checkIn",
+  PaymentStatus: {
+    CANCEL: "unPaid",
+    PROGRESSING: "processing",
+    COMPLETE: "complete"
+  },
+  SendTarget: {
+    BOTH: "guest/host",
+    GUEST: "guest",
+    HOST: "host"
+  },
+  please_select_pay_status: "please select pay status",
+  exit_house_settings: "exit house settings",
+  none_data: "no data",
+  dontSMS: "don't sms",
+  hm_page_URL: "house manual URL",
+  move_hm_page: "to house manual",
+  reservation_page_URL: "reservation page URL",
+  move_reservation_page: "to reservation page",
+  reservation_creation_complete_for_guest: "reservation complete",
+  reservation_creation_fail_for_guest: "reservation fail",
+  price_priority:
+    "* Priority priority: Room type base price < Seasonal base price < Season day price < Daily price",
+  reference_fail: "reference fail",
+  reference_sucess: "reference sucess",
+  funnels: "funnels",
+  see_all: "see all",
+  Funnels: {
+    AGODA: "AGODA",
+    AIRBNB: "AIRBNB",
+    BOOKING_COM: "BOOKING_COM",
+    COOPANG: "COOPANG",
+    ELSE_CHANNEL: "ELSE CHANNEL",
+    FREINDS: "FREINDS",
+    HOMEPAGE: "HOMEPAGE",
+    NAVER: "NAVER",
+    PHONE_CALL: "PHONE BOOK",
+    WALK_IN: "WALK IN",
+    YANOLJA: "YANOLJA",
+    YEOGIEOTTAE: "YEOGIEOTTAE"
+  },
+  goto_today: "to today"
 };
 
 export default en;

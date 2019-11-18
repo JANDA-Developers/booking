@@ -102,7 +102,7 @@ const BlockOpModal: React.FC<IProps> = ({
           />
           <Button
             onClick={() => {
-              handleClickAdmit("cancle");
+              handleClickAdmit("cancel");
             }}
             size="small"
             thema="warn"

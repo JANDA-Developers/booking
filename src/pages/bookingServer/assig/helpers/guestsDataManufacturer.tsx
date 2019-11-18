@@ -1,5 +1,5 @@
-import { IAssigItem, GuestTypeAdd } from "../assigIntrerface";
-import { BookingStatus, Gender } from "../../../../types/enum";
+import { IAssigItem, GuestTypeAdd } from "./assigIntrerface";
+import { BookingStatus, Gender, PaymentStatus } from "../../../../types/enum";
 import { instanceOfA } from "../../../../utils/utils";
 import { IGuestD, IGuest } from "../../../../types/interface";
 import moment from "moment";
@@ -33,8 +33,13 @@ export const guestsDataManufacturer = (allGuestsData: IGuest[]) => {
         status,
         name,
         checkIn,
-        checkOut
+        checkOut,
+        memo,
+        payment
       } = booking;
+
+      const { status: paymentStatus } = payment;
+      const isUnpaid = paymentStatus !== PaymentStatus.COMPLETE;
 
       if (instanceOfA<IGuestD>(guestData, "gender")) {
         gender = guestData.gender;
@@ -56,9 +61,12 @@ export const guestsDataManufacturer = (allGuestsData: IGuest[]) => {
         group: room._id + bedIndex,
         start: moment(checkIn).valueOf(),
         end: moment(checkOut).valueOf(),
+        canSelect: true,
         canMove: status !== BookingStatus.PROGRESSING,
         type: GuestTypeAdd.GUEST,
         bedIndex: bedIndex,
+        memo: memo || undefined,
+        isUnpaid,
         blockOption: Object.assign(
           {},
           guestData.blockOption || DEFAULT_BLOCK_OP

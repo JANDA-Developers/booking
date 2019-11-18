@@ -3,13 +3,13 @@ import {
   PricingType,
   Gender,
   BookingStatus
-} from "../../../types/enum";
+} from "../../../../types/enum";
 import {
   IRoomType,
   IHouseConfig,
   IBlockOp,
   TBookingModalOpenWithMark
-} from "../../../types/interface";
+} from "../../../../types/interface";
 import { MutationFn, FetchResult } from "react-apollo";
 import {
   allocateGuestToRoom,
@@ -34,11 +34,11 @@ import {
   getAllRoomTypeWithGuestVariables,
   getAllRoomTypeWithGuest,
   getBooking_GetBooking_booking_guests
-} from "../../../types/api";
-import { IUseModal } from "../../../hooks/hook";
+} from "../../../../types/api";
+import { IUseModal } from "../../../../hooks/hook";
 import { string } from "prop-types";
 import { MouseEvent } from "react";
-import { IMoveCount, IDotPoint } from "../../../atoms/timeline/Timeline";
+import { IMoveCount, IDotPoint } from "../../../../atoms/timeline/Timeline";
 import { ApolloQueryResult } from "apollo-client";
 
 export interface IAssigTimelineContext {
@@ -88,8 +88,6 @@ export type TDleteGhost = () => void;
 export type TAllTooltipsHide = (
   except?: "blockMenu" | "canvasMenu" | "createMenu" | "itemTooltip"
 ) => void;
-
-export type TDeleteGuestById = (guestId: string) => void;
 
 export type TCreateMark = (
   start: number,
@@ -174,7 +172,7 @@ export type TResizeLinkedItems = (bookingId: string, newTime: number) => void;
 
 export type TMoveLinkedItems = (bookingId: string, newTime: number) => void;
 
-export type TDeleteBookingById = (bookingId: string) => void;
+export type TDeleteBookingById = (bookingId: string, confrim?: boolean) => void;
 
 export type IGetGuestByBookingId = (bookingId: string) => IAssigItem[];
 
@@ -227,10 +225,13 @@ export interface IAssigItem {
   itemIndex: number;
   name: string;
   group: string;
+  memo?: string;
+  isUnpaid?: boolean;
   temp: boolean;
   loading: boolean;
   bookingId: string;
   checkInInfo: boolean;
+  canSelect?: boolean;
   showNewBadge: boolean;
   roomTypeId: string;
   roomId: string;
@@ -296,7 +297,6 @@ export interface IDeletepgetDailyAssigUtilsMenuProps {
 
 export interface IDailyAssigUtils {
   allTooltipsHide: (except: string) => void;
-  deleteGuestById: TDeleteGuestById;
   deleteBookingById: TDeleteBookingById;
   getBookingIdByGuestId: TGetBookingIdByGuestId;
   toogleCheckInOut: (
@@ -328,7 +328,7 @@ export interface IAssigTimelineHooks {
   setBlockMenuProps: React.Dispatch<React.SetStateAction<IDeleteMenuProps>>;
   setGuestValue: (value: IAssigItem[]) => void;
   setCreateMenuProps: React.Dispatch<React.SetStateAction<ICreateMenuProps>>;
-  confirmDelteGuestHook: IUseModal<any>;
+  confirmModalHook: IUseModal<any>;
   dataTime: {
     start: number;
     end: number;
@@ -466,7 +466,6 @@ export interface IAssigTimelineUtils {
   isTherePerson: TIsTherePerson;
   filterTimeZone: TFilterTimeZone;
   allTooltipsHide: TAllTooltipsHide;
-  deleteGuestById: TDeleteGuestById;
   getGuestsInGroup: TGetGuestsInGroup;
   deleteItemById: TDeleteItemById;
   isGenderSafe: TIsGenderSafe;

@@ -3,7 +3,7 @@ import React, { useState, useCallback, useMemo, Fragment } from "react";
 import { Query, Mutation } from "react-apollo";
 import moment from "moment-timezone";
 import _ from "lodash";
-import assigDefaultProps from "./helpers/timelineConfig";
+import assigDefaultProps from "./timelineConfig";
 import {
   getAllRoomTypeWithGuest,
   getAllRoomTypeWithGuestVariables,
@@ -26,7 +26,8 @@ import { useDayPicker, LANG, useModal } from "../../../hooks/hook";
 import {
   setMidNight,
   queryDataFormater,
-  onCompletedMessage
+  onCompletedMessage,
+  s4
 } from "../../../utils/utils";
 import EerrorProtect from "../../../utils/errProtect";
 import { BookingStatus } from "../../../types/enum";
@@ -39,16 +40,19 @@ import {
   CREATE_BLOCK,
   DELETE_BOOKING,
   UPDATE_BLOCK_OPTION
-} from "../../../apollo/queries";
+} from "../../../queries";
 import AssigTimeline from "./AssigTimeline";
 import { to4YMMDD } from "../../../utils/setMidNight";
-import { roomDataManufacturer } from "./helpers/groupDataMenufacture";
+import { roomDataManufacturer } from "./components/groupDataMenufacture";
 import reactWindowSize, { WindowSizeProps } from "react-window-size";
-import { IAssigDataControl, IAssigMutationLoading } from "./assigIntrerface";
-import { IContext } from "../MiddleServerRouter";
-import { guestsDataManufacturer } from "./helpers/guestsDataManufacturer";
-import { blockDataManufacturer } from "./helpers/blockDataManufacturer";
-import DayPickerModal from "../../../atoms/dayPickerModal/DayPickerModal";
+import {
+  IAssigDataControl,
+  IAssigMutationLoading
+} from "./components/assigIntrerface";
+import { IContext } from "../../MiddleServerRouter";
+import { guestsDataManufacturer } from "./components/guestsDataManufacturer";
+import { blockDataManufacturer } from "./components/blockDataManufacturer";
+import DayPickerModal from "../../../components/dayPickerModal/DayPickerModal";
 
 moment.tz.setDefault("UTC");
 
@@ -80,9 +84,9 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
   windowHeight,
   windowWidth
 }) => {
-  const dayPickerModalHook = useModal(false);
   const { houseConfig, house } = context;
   const dayPickerHook = useDayPicker(new Date(), new Date());
+  const [reloadKey, setReloadKey] = useState(s4());
   const defaultStartDate = dayPickerHook.from
     ? dayPickerHook.from
     : moment()
@@ -111,6 +115,10 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
         .valueOf()
     )
   });
+
+  const reloadTimeline = () => {
+    setReloadKey(s4());
+  };
 
   const updateVariables = {
     houseId: house._id,
@@ -318,11 +326,12 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
                                           setDataTime={setDataTime}
                                           windowHeight={windowHeight}
                                           windowWidth={windowWidth}
+                                          reloadTimeline={reloadTimeline}
                                           dataTime={dataTime}
                                           key={`timeline${moment(
                                             dayPickerHook.from || new Date()
                                           ).format("YYMMDD")}${networkStatus !==
-                                            1}`}
+                                            1}${reloadKey}`}
                                         />
                                       );
                                     }}

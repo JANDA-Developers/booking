@@ -3,12 +3,10 @@ import Button from "../../../../../atoms/button/Button";
 import {
   IAssigTimelineUtils,
   IAssigTimelineContext,
-  IAssigTimelineHooks,
-  IStartBookingCallBack
-} from "../../assigIntrerface";
-import {Gender} from "../../../../../types/enum";
-import {startBooking_StartBooking} from "../../../../../types/api";
-import {LANG} from "../../../../../hooks/hook";
+  IAssigTimelineHooks
+} from "../assigIntrerface";
+import { startBooking_StartBooking } from "../../../../../types/api";
+import { LANG } from "../../../../../hooks/hook";
 
 interface IProps {
   assigHooks: IAssigTimelineHooks;
@@ -27,7 +25,7 @@ const CanvasMenuTooltip: React.FC<IProps> = ({
     allTooltipsHide
   }
 }) => {
-  const {groupIds, end, start} = getInfoesFromMarks();
+  const { groupIds, end, start } = getInfoesFromMarks();
 
   const bookingCallBack = async (
     result: "error" | startBooking_StartBooking
@@ -37,7 +35,7 @@ const CanvasMenuTooltip: React.FC<IProps> = ({
     if (!result.bookingTransaction.booking) return;
     await changeMarkToGhost();
 
-    hilightGuestBlock({bookingId: result.bookingTransaction.booking._id});
+    hilightGuestBlock({ bookingId: result.bookingTransaction.booking._id });
   };
 
   const createBtnHandler = () => {

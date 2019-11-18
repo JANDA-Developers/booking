@@ -6,11 +6,11 @@ import JDtable, {
   JDcolumn
 } from "../../../../atoms/table/Table";
 import JDbox from "../../../../atoms/box/JDbox";
-import {IRoomType} from "../../../../types/interface";
-import {PricingType} from "../../../../types/enum";
-import {autoComma} from "../../../../utils/utils";
-import {IRoomSelectInfo} from "../../../../components/bookingModal/BookingModal";
-import {LANG} from "../../../../hooks/hook";
+import { IRoomType } from "../../../../types/interface";
+import { PricingType } from "../../../../types/enum";
+import { autoComma } from "../../../../utils/utils";
+import { LANG } from "../../../../hooks/hook";
+import { IRoomSelectInfo } from "../../../../components/bookingModal/declaration";
 
 export interface IBookingInfoBoxProps {
   className?: string;
@@ -47,7 +47,7 @@ const BookingInfoBox: React.FC<IBookingInfoBoxProps> = ({
     {
       Header: LANG("room_info"),
       accessor: "roomTypeId",
-      Cell: ({value}) => {
+      Cell: ({ value }) => {
         const roomType = roomTypeInfo.find(
           inRoomType => inRoomType._id === value
         );
@@ -58,7 +58,7 @@ const BookingInfoBox: React.FC<IBookingInfoBoxProps> = ({
     {
       Header: LANG("personnel"),
       accessor: "roomTypeId",
-      Cell: ({original}) =>
+      Cell: ({ original }) =>
         original.pricingType === PricingType.DOMITORY ? (
           <div>
             <span>{`${original.count.male}${LANG("male")}`}</span>

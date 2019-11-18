@@ -31,21 +31,21 @@ import {
   DELETE_BLOCK,
   DELETE_BOOKING,
   UPDATE_BOOKING
-} from "../../apollo/queries";
+} from "../../queries";
 import { BookingStatus } from "../../types/enum";
 import { queryDataFormater } from "../../utils/utils";
 import { useDayPicker, IUseDayPicker, LANG } from "../../hooks/hook";
-import { IContext } from "../../pages/bookingServer/MiddleServerRouter";
+import { IContext } from "../../pages/MiddleServerRouter";
 import DailyAssig from "./DailyAssig";
 import { getOperationName } from "apollo-link";
 import { NetworkStatus } from "apollo-client";
 import {
   IDailyAssigDataControl,
   IAssigItem
-} from "../../pages/bookingServer/assig/assigIntrerface";
+} from "../../pages/middleServer/assig/components/assigIntrerface";
 import moment from "moment";
-import { guestsDataManufacturer } from "../../pages/bookingServer/assig/helpers/guestsDataManufacturer";
-import { blockDataManufacturer } from "../../pages/bookingServer/assig/helpers/blockDataManufacturer";
+import { guestsDataManufacturer } from "../../pages/middleServer/assig/components/guestsDataManufacturer";
+import { blockDataManufacturer } from "../../pages/middleServer/assig/components/blockDataManufacturer";
 
 class GetAllRoomTypeWithGuestQuery extends Query<
   getAllRoomTypeWithGuest,
@@ -222,6 +222,11 @@ const DailyAssigWrap: React.FC<IProps> = ({
                                   { loading: deleteBlockLoading }
                                 ) => (
                                   <DeleteBookingMu
+                                    refetchQueries={[
+                                      getOperationName(
+                                        GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM
+                                      )!
+                                    ]}
                                     mutation={DELETE_BOOKING}
                                     onCompleted={({ DeleteBooking }) => {
                                       onCompletedMessage(

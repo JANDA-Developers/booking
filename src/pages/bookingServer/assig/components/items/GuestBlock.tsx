@@ -1,20 +1,17 @@
 import React from "react";
-import {Fragment} from "react";
-import JDIcon, {IconSize} from "../../../../../atoms/icons/Icons";
+import { Fragment } from "react";
+import JDIcon, { IconSize } from "../../../../../atoms/icons/Icons";
 import ConfirmBadgeWrap from "../../../../../components/confirmBadge/ConfirmBadgeWrap";
 import {
   IAssigItem,
   IAssigTimelineUtils,
   IAssigTimelineContext,
   IAssigTimelineHooks
-} from "../../assigIntrerface";
-import {getAssigUtils} from "../../helpers/assigUtils";
-import {
-  DEFAULT_ADDITION_BLOCKOP,
-  DEFAULT_HOUSE_CONFIG
-} from "../../../../../types/defaults";
-import {BookingStatus} from "../../../../../types/enum";
+} from "../assigIntrerface";
+import { DEFAULT_HOUSE_CONFIG } from "../../../../../types/defaults";
+import { BookingStatus } from "../../../../../types/enum";
 import Gender from "./Gender";
+import StatusMarker from "./StatusMarker";
 
 interface IProps {
   item: IAssigItem;
@@ -26,10 +23,10 @@ interface IProps {
 
 const guestBlock: React.FC<IProps> = ({
   assigContext,
-  assigUtils: {bookingCheckedNew, getGuestsByBookingId},
+  assigUtils: { bookingCheckedNew, getGuestsByBookingId },
   item,
   itemContext,
-  assigHooks: {setGuestValue}
+  assigHooks: { setGuestValue }
 }) => {
   const bookingConfig = assigContext.houseConfig.bookingConfig;
   const newBookingMark = bookingConfig
@@ -37,9 +34,18 @@ const guestBlock: React.FC<IProps> = ({
     : DEFAULT_HOUSE_CONFIG.bookingConfig.newBookingMark;
   const bookingMarkEnable = newBookingMark && newBookingMark.enable;
 
-  const {blockOption, status, bookingId, gender, id, showNewBadge} = item;
+  const {
+    blockOption,
+    status,
+    bookingId,
+    gender,
+    id,
+    showNewBadge,
+    memo,
+    isUnpaid
+  } = item;
 
-  const isReady = status === BookingStatus.PROGRESSING
+  const isReady = status === BookingStatus.PROGRESSING;
 
   return (
     <Fragment>
@@ -70,6 +76,7 @@ const guestBlock: React.FC<IProps> = ({
             }}
             className="assigItem__title assigItem__title--guest"
           >
+            <StatusMarker isUnpaid={isUnpaid} memo={memo} />
             {item.name}
           </span>
         </span>

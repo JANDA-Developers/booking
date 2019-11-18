@@ -1,0 +1,52 @@
+@import '../../style_config/style_config';
+
+.langPage {
+
+  &__row {
+    display:flex;
+    align-items: center;
+    border-bottom: 1px solid $grey-level1;
+  }
+
+  &__enums {
+  }
+
+  &__rowKey {
+    width: 330px;
+    word-break: break-word;
+    padding-right: $standard-small-space;
+  }
+
+  &__langKey {
+    &:first-child {
+      margin-left: calc(50px + #{$standard-space});
+    }
+  }
+  &__rowIndex {
+    width: 50px;
+    display: inline-block;
+    font-weight: bold;
+    height: 100%;
+    padding-right: $standard-space;
+  }
+
+  &__value {
+    padding: $standard-small-space;
+    width: 330px;
+    overflow: auto;
+    text-align: left;
+    overflow-x:hidden;
+
+    margin-right: 3rem;
+
+    @extend %JDscrollbar; 
+
+    &--enum {
+    }
+  }
+  &__empty {
+    background-color: $error-color;
+  }
+  &__wrapAll {
+  }
+}

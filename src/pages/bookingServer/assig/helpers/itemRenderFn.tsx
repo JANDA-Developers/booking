@@ -1,7 +1,7 @@
 import React from "react";
 import classnames from "classnames";
-import { ASSIG_IMELINE_HEIGHT } from "../../../../atoms/timeline/Timeline";
-import { ITimelineContext, IItemContext } from "../../../../types/interface";
+import { ASSIG_IMELINE_HEIGHT } from "../../../../../atoms/timeline/Timeline";
+import { ITimelineContext, IItemContext } from "../../../../../types/interface";
 import {
   IAssigTimelineUtils,
   IAssigTimelineContext,
@@ -9,11 +9,10 @@ import {
   GuestTypeAdd,
   IAssigItem
 } from "../assigIntrerface";
-import GuestBlock from "../components/items/GuestBlock";
-import BlockBlock from "../components/items/BlockBlock";
-import CreateBlock from "../components/items/CreateBlock";
-import GhostBlock from "../components/items/GhostBlock";
-import { BookingStatus } from "../../../../types/enum";
+import GuestBlock from "./GuestBlock";
+import BlockBlock from "./BlockBlock";
+import GhostBlock from "./GhostBlock";
+import { BookingStatus } from "../../../../../types/enum";
 
 const CLASS_LINKED = "assigItem--linkedSelected";
 const CLASS_MOVING = "assigItem--moving";
@@ -80,7 +79,7 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
   if (item.type === GuestTypeAdd.GUEST) itemContext.useResizeHandle = false;
 
   return (
-    <div {...props} id={`assigItem--item${item.id}`}>
+    <div {...props} title={item.memo} id={`assigItem--item${item.id}`}>
       {itemContext.useResizeHandle ? <div {...leftResizeProps} /> : ""}
       {(() => {
         switch (item.type) {

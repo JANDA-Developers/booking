@@ -20,7 +20,7 @@ interface IProps {
 const ItemMenuTooltip: React.FC<IProps> = ({
   assigHooks: { guestValue, bookingModal, blockOpModal },
   assigContext: { houseConfig },
-  assigUtils: { deleteGuestById, toogleCheckInOut }
+  assigUtils: { deleteBookingById, getBookingIdByGuestId, toogleCheckInOut }
 }) => {
   return (
     <TooltipList
@@ -50,7 +50,7 @@ const ItemMenuTooltip: React.FC<IProps> = ({
                   <Button
                     onClick={() => {
                       ReactTooltip.hide();
-                      deleteGuestById(guestId);
+                      deleteBookingById(getBookingIdByGuestId(guestId), true);
                     }}
                     label={LANG("delete")}
                   />

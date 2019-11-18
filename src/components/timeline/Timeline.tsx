@@ -22,7 +22,7 @@ import { TimePerMs } from "../../types/enum";
 import JDIcon, { IconSize } from "../icons/Icons";
 import { LANG, IUseModal } from "../../hooks/hook";
 import { isEmpty } from "../../utils/utils";
-import { THandleMouseDown } from "../../pages/bookingServer/assig/assigIntrerface";
+import { THandleMouseDown } from "../../pages/middleServer/assig/components/assigIntrerface";
 
 export interface IDotPoint {
   offsetX: number;
@@ -39,7 +39,7 @@ export interface IMoveCount {
 }
 
 // 변수설정
-const ASSIG_IMELINE_HEIGHT = 36;
+const ASSIG_IMELINE_HEIGHT = 40;
 export { ASSIG_IMELINE_HEIGHT };
 
 interface Iprops {
@@ -85,30 +85,12 @@ const JDtimeline: React.FC<Iprops> = ({
     firstCellLeft = $(firstCell).position().left;
   }
 
-  const scrollTarget = $(".rct-scroll");
-
   const toggleDraggingMode = (flag: boolean) => {
     $(
       ".react-calendar-timeline .rct-outer .rct-scroll .rct-horizontal-lines .group"
     ).css("cursor", flag ? "crosshair" : "");
     setIsActive(flag);
   };
-
-  useEffect(() => {
-    const handleKeyDown = (e: any) => {
-      if (e.ctrlKey) toggleDraggingMode(true);
-    };
-    const handleKeyUp = (e: any) => {
-      toggleDraggingMode(false);
-      scrollTarget.css("pointer-events", "all");
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("keyup", handleKeyUp);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("keyup", handleKeyUp);
-    };
-  });
 
   useEffect(() => {
     // 타임라인 밖까지 드래그했을경우 이벤트가 발생 하지않아서 여기배치
@@ -134,12 +116,11 @@ const JDtimeline: React.FC<Iprops> = ({
           !oneDayWith ||
           !handleDraggingCell ||
           !isActive ||
-          !e.ctrlKey ||
           !dotPoint.clientX ||
           !dotPoint.clientY
         )
           return;
-        const { clientX, clientY, offsetX } = e.nativeEvent;
+        const { clientX, clientY } = e.nativeEvent;
         const moveDiffX = clientX - dotPoint.clientX;
         const moveDiffY = clientY - dotPoint.clientY;
 
@@ -176,17 +157,18 @@ const JDtimeline: React.FC<Iprops> = ({
         handleMouseDownCanvas && handleMouseDownCanvas(e);
 
         if (
+          // 마우스 오른쪽버튼이 아니거나
+          e.button !== 2 ||
           // 그룹이 올바르지 않거나
           !$(group).hasClass("group") ||
-          // 활성화가 되어있지 않거나
-          !isActive ||
           // 원데이 위드가 없거나
           !oneDayWith ||
           isEmpty(targetGroup)
         )
           return;
 
-        scrollTarget.css("pointer-events", "none");
+        toggleDraggingMode(true);
+        // scrollTarget.css("pointer-events", "none");
 
         const { offsetX, offsetY, clientY, clientX } = e.nativeEvent;
 

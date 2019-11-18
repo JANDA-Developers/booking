@@ -1,47 +1,53 @@
 import React from "react";
 import {
-  TDeleteGuestById,
-  IAssigTimelineUtils,
   TDeleteBookingById,
   TGetBookingIdByGuestId,
   IDailyAssigUtils,
-  TToogleCheckIn,
   IDailyAssigDataControl
-} from "../assigIntrerface";
+} from "./assigIntrerface";
 import { ReactTooltip } from "../../../../atoms/tooltipList/TooltipList";
 import JDisNetworkRequestInFlight from "../../../../utils/netWorkStatusToast";
 import { IDailyAssigContext } from "../../../../components/dailyAssjg/DailyAssig";
-import { assigSharedDleteGuestConfirmMessage } from "../components/items/shared";
 import { getAllRoomTypeWithGuest_GetGuests_guests as IG } from "../../../../types/api";
 import { muResult } from "../../../../utils/utils";
 import { toast } from "react-toastify";
 import { LANG } from "../../../../hooks/hook";
 
 export function getDailyAssigUtils(
-  {
-    deleteBookingMu,
-    allocateMu,
-    createBlockMu,
-    deleteBlockMu,
-    deleteGuestsMu,
-    totalMuLoading,
-    updateCheckInMu
-  }: IDailyAssigDataControl,
-  { blocksData, guestsData, confirmModalHook, networkStatus }: IDailyAssigContext
+  { deleteBookingMu, updateCheckInMu }: IDailyAssigDataControl,
+  { guestsData, networkStatus, confirmModalHook }: IDailyAssigContext
 ): IDailyAssigUtils {
+  // 모든 툴팁 숨김
   const allTooltipsHide = (except: string) => {
     ReactTooltip.hide();
   };
 
   // 예약을 예약 아이디로 삭제
-  const deleteBookingById: TDeleteBookingById = async (bookingId: string) => {
-    const result = await deleteBookingMu({
-      variables: {
-        bookingId
+  const deleteBookingById: TDeleteBookingById = async (
+    bookingId: string,
+    confirm
+  ) => {
+    const callBackFn = async (flag: boolean) => {
+      if (flag) {
+        const result = await deleteBookingMu({
+          variables: {
+            bookingId
+          }
+        });
       }
-    });
+    };
+
+    // 확인메시지 출력여부
+    if (!confirm) callBackFn(true);
+    else {
+      confirmModalHook.openModal({
+        txt: LANG("are_you_sure_you_want_to_delete_the_reservation"),
+        callBack: callBackFn
+      });
+    }
   };
 
+  // 체크인 아웃 투글
   const toogleCheckInOut = async (targetGuest: IG) => {
     const {
       booking: {
@@ -79,31 +85,8 @@ export function getDailyAssigUtils(
     return target.booking._id;
   };
 
-  // 해당 게스트를 찾아서 제거함
-  const deleteGuestById: TDeleteGuestById = guestId => {
-    if (JDisNetworkRequestInFlight(networkStatus)) return;
-    const confirmModalCallBack = (flag: boolean, key: string) => {
-      if (key === "deleteAll") {
-        deleteBookingById(getBookingIdByGuestId(guestId));
-      }
-      if (flag) {
-        deleteGuestsMu({
-          variables: {
-            guestIds: [guestId]
-          }
-        });
-      }
-    };
-
-    confirmModalHook.openModal({
-      callBack: confirmModalCallBack,
-      children: assigSharedDleteGuestConfirmMessage
-    });
-  };
-
   const dailyAssigUtils = {
     allTooltipsHide,
-    deleteGuestById,
     deleteBookingById,
     getBookingIdByGuestId,
     toogleCheckInOut

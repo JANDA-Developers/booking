@@ -12,12 +12,12 @@ import {
   GENDER_OP,
   BOOKING_STATUS_OP,
   AUTO_SEND_OP,
-  STATISTICS_OP
-} from "./types/enum";
-import { LANG } from "./hooks/hook";
+  STATISTICS_OP,
+  FUNNELS_OP
+} from "../types/enum";
+import { LANG } from "../hooks/hook";
 import { isArray } from "util";
 
-// 이넘들을 LANG에 맞게 셋팅함
 export const globalLanguageSetting = () => {
   const setArrayWithLang = (set: Array<any>, enumKey?: string) => {
     if (!enumKey) {
@@ -42,6 +42,7 @@ export const globalLanguageSetting = () => {
     PAYMETHOD_FOR_HOST_OP,
     GET_SMS_TARGET_OP,
     PRICING_TYPE_OP,
+    { value: FUNNELS_OP, enumKey: "Funnels" },
     { value: ROOM_GENDER_OP, enumKey: "RoomGender" },
     PRICING_TYPE_OP_EXPEND,
     GENDER_OP,

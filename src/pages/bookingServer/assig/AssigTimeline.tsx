@@ -19,9 +19,9 @@ import {
   LANG
 } from "../../../hooks/hook";
 import classnames from "classnames";
-import assigGroupRendererFn from "./helpers/groupRenderFn";
+import assigGroupRendererFn from "./components/groupRenderFn";
 import { IRoomType } from "../../../types/interface";
-import "./css/AssigTimeline.scss";
+import "./AssigTimeline.scss";
 import { ReactTooltip } from "../../../atoms/tooltipList/TooltipList";
 import {
   WindowSize as EWindowSize,
@@ -29,7 +29,7 @@ import {
   WindowSize
 } from "../../../types/enum";
 import $ from "jquery";
-import itemRendererFn from "./helpers/itemRenderFn";
+import itemRendererFn from "./components/items/itemRenderFn";
 import ItemMenuTooltip from "./components/tooltips/ItemMenuTooltip";
 import CanvasMenuTooltip from "./components/tooltips/CanvasMenuTooltip";
 import { DEFAULT_ASSIG_ITEM, DEFAULT_NONE_GOUP } from "../../../types/defaults";
@@ -43,21 +43,21 @@ import {
   IAssigTimelineContext,
   ICreateMenuProps,
   IDeleteMenuProps
-} from "./assigIntrerface";
-import { getAssigUtils } from "./helpers/assigUtils";
+} from "./components/assigIntrerface";
+import { getAssigUtils } from "./components/assigUtils";
 import BlockItemTooltip from "./components/tooltips/BlockItemTooltip";
 import JDmultiBox from "../../../atoms/multiBox/MultiBox";
-import { getAssigHandlers } from "./helpers/assigHandlers";
+import { getAssigHandlers } from "./components/assigHandlers";
 import moment from "moment";
 import { isEmpty } from "../../../utils/utils";
 import BlockOpModal from "./components/BlockOpModal";
 import DailyAssigWrap from "../../../components/dailyAssjg/DailyAssigWrap";
 import ReservationModal from "../../../components/reservationModala/ReservationModal";
-import { IContext } from "../MiddleServerRouter";
+import { IContext } from "../../MiddleServerRouter";
 import ReadyItemTooltip from "./components/tooltips/ReadyItemTooltip";
-import HeaderCellRender from "./helpers/HeaderCellRender";
-import { PortalPreloader } from "../../../utils/portalElement";
-import DayPickerModal from "../../../atoms/dayPickerModal/DayPickerModal";
+import HeaderCellRender from "./components/HeaderCellRender";
+import { PortalPreloader } from "../../../utils/portalTo";
+import DayPickerModal from "../../../components/dayPickerModal/DayPickerModal";
 
 interface IProps {
   context: IContext;
@@ -80,6 +80,7 @@ interface IProps {
       end: number;
     }>
   >;
+  reloadTimeline: () => void;
 }
 
 const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
@@ -96,7 +97,8 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   roomTypesData,
   setDataTime,
   dataTime,
-  assigDataControl
+  assigDataControl,
+  reloadTimeline
 }) => {
   const { networkStatus } = assigDataControl;
   const { house, houseConfig, sideNavIsOpen } = context;
@@ -113,7 +115,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   const [guestValue, setGuestValue] = useState<IAssigItem[]>(deafultGuestsData);
   const dayPickerModalHook = useModal(false);
   const keyBoardModal = useModal(false);
-  const confirmDelteGuestHook = useModal(false);
+  const confirmModalHook = useModal(false);
   const reservationModal = useModal(false);
   const [inIsEmpty, setEmpty] = useState(false);
   const [viewRoomType, setViewRoomType] = useState(
@@ -178,7 +180,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     setGuestValue,
     setCreateMenuProps,
     setBlockMenuProps,
-    confirmDelteGuestHook,
+    confirmModalHook,
     bookingModal,
     setDataTime,
     dataTime,
@@ -294,13 +296,19 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
                 icon="edit"
                 label={LANG("make_reservation")}
               />
-              <Link to="/resvList">
-                <Button
-                  mode="border"
-                  icon="arrowTo"
-                  label={LANG("goto_reservation_list")}
-                />
-              </Link>
+              <Button
+                onClick={() => {
+                  dayPickerHook.setDate(
+                    moment()
+                      .local()
+                      .add(-1, "day")
+                      .toDate()
+                  );
+                  reloadTimeline();
+                }}
+                icon="calendar"
+                label={LANG("goto_today")}
+              />
               {/* 개발중 */}
               {/* <Button
               onClick={() => {
@@ -312,8 +320,8 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
             {roomTypeTabEnable && (
               <JDmultiBox
                 defaultAllToogle={true}
-                // withAllTooglerLabel="전부보기"
-                // withAllToogler
+                withAllTooglerLabel={LANG("see_all")}
+                withAllToogler
                 onChange={setViewRoomType}
                 value={roomTypesData.map(roomType => roomType._id)}
                 selectedValue={viewRoomType}
@@ -433,7 +441,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
           publicKey={house.publicKey || undefined}
         />
         <BookingModalWrap context={context} modalHook={bookingModal} />
-        <JDtoastModal confirm {...confirmDelteGuestHook} />
+        <JDtoastModal confirm {...confirmModalHook} />
         {/* <KeyBoardModal modalHook={keyBoardModal}> */}
         <JDmodal {...dailyAssigHook}>
           <DailyAssigWrap
