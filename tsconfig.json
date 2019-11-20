@@ -23,10 +23,10 @@
     "src/pages/outPages/infoReservation/InfoReservation.jsx",
     "src/atoms/timeline/Timeline.jsx",
     "src/components/sendSmsModal",
-    "src/pages/pages.jsx",
+    "src/pages/documents/pages.jsxver/pages.jsx",
     "src/.queries.ts",
     "src/atoms/toggleNoti",
-    "src/pages/middleServer/dashboard/components/tempWheel.js",
+    "src/pages/bookingServer/dashboard/components/tempWheel.js",
     "src/utils/iosScrollUnBounce.js",
     "src/polyfill/polyfill.js"
   ]
