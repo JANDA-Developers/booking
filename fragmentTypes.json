@@ -1,1 +1,0 @@
-{"__schema":{"types":[{"kind":"UNION","name":"CapacityRoomUnion","possibleTypes":[{"name":"CapacityRoom"},{"name":"CapacityRoomDomitory"}]},{"kind":"UNION","name":"CapacityRoomTypeUnion","possibleTypes":[{"name":"CapacityRoomType"},{"name":"CapacityRoomTypeDomitory"}]}]}}
