@@ -1,0 +1,35 @@
+.JDbox {
+    &--table {
+        table {
+            width: 100%;
+            color:$html-color;
+            border-radius: $table-border-radius;
+            padding:0;
+            border-spacing:0px;
+            border-collapse:collapse;
+            border: 1px solid $table-outborder-color;
+            margin-bottom: $standard-margin-bottom;
+        }
+        tr {
+            &:not(:last-child)  {
+                border-bottom: 1px solid $grey-opacity1;
+            }
+            & > td:last-child,
+            & > th:last-child {
+                border-right:none;
+            }
+        }
+        th, td {
+            border-right:1px solid $table-borders-color;
+            padding: $standard-small-space;
+            
+            @include baseMargin {
+                margin-right: 0;
+                margin-bottom: 0;
+            }
+        }
+        th {
+            border-bottom: 2px solid $html-color;
+        }  
+    }
+}

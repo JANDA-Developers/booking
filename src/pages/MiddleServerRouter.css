@@ -1,0 +1,41 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+.middleServer__starterBg {
+  background-image: url("https://res.cloudinary.com/stayjanda-com/image/upload/v1554029494/annananananan.jpg");
+  background-size: cover;
+  background-position: center center;
+  height: 100%;
+}
+
+.middleServer__layout {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.middleServer__page {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1;
+          flex: 1 1;
+  -webkit-transition: .3s;
+  transition: .3s;
+  max-width: 100%;
+}
+
+.middleServer__side {
+  position: relative;
+  z-index: 70;
+}
+
+@media only screen and (max-width: 550px) and (min-width: 0px) {
+  .middleServer__side {
+    position: fixed;
+  }
+}
+
+@media only screen and (max-width: 9999px) and (min-width: 550px) {
+  .middleServer--sideOpen .middleServer__page {
+    max-width: calc(100% - 14rem);
+  }
+}
+/*# sourceMappingURL=MiddleServerRouter.css.map */

@@ -1,0 +1,11 @@
+@import '../../style_config/style_config';
+
+.DayPickerModal {
+    overflow:hidden;
+    .DayPicker-box {
+        width: 100%;
+        & > div {
+            width: 100%;
+        }
+    }
+}

@@ -1,0 +1,47 @@
+@import '../../style_config/style_config.scss';
+
+.profileCircle {
+    width: $profileCircle-size;
+    height: $profileCircle-size;
+    background-color:white;
+    background-position: center center;
+    background-size: 100%;
+    border-radius:50%;
+    position: relative;
+    overflow:hidden;
+    box-sizing:border-box;
+    flex: none;
+ 
+    &:hover {
+        cursor:pointer;
+        &:after{
+            content:"";
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top:0;
+            left: 0;
+            background-color:$hover-effect-dark;
+        }
+    }
+
+    &--bordered {
+        border: 2px solid $standard-outborder-color;
+    }
+
+    &--whiteBorder {
+        border-color:white;
+    }
+
+
+    &__input {
+        position: absolute;
+        height: 100%;
+        top: 0;
+        border: 0;
+        left: 0;
+        opacity: 0;
+        right: 0;
+        z-index: $z-index-1;
+    }
+}

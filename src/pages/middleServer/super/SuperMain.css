@@ -1,0 +1,57 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+@-webkit-keyframes color {
+  from {
+    background-color: #FBFBFB;
+  }
+  to {
+    background-color: #172B3A;
+  }
+}
+@keyframes color {
+  from {
+    background-color: #FBFBFB;
+  }
+  to {
+    background-color: #172B3A;
+  }
+}
+
+#superMain {
+  background-color: #172B3A;
+  min-height: 100vh;
+  -webkit-animation: color .2s linear;
+          animation: color .2s linear;
+}
+
+.houseCard {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-right: 0;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.houseCard__gird {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+}
+
+.houseCard__contentsWrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 100%;
+}
+
+.houseCard__houseName {
+  margin-right: 0.8rem;
+}
+/*# sourceMappingURL=SuperMain.css.map */

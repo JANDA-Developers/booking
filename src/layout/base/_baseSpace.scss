@@ -1,0 +1,78 @@
+
+
+// 기본적으로 오른쪽 마진과 아래쪽 마진을 가집니다.
+// div 안의 마지막 요소는 오른쪽 마진이 없습니다.
+// 버튼과 버튼 사이 마진은 작습니다.
+// 버튼과 버튼 사이 마진은 작습니다.
+
+@import '../../style_config/style_config';
+
+@include baseMargin(){
+    margin-right: $standard-space;
+}
+
+// 버튼 사이의 간격
+
+.JDanchor + .JDanchor{
+    margin-left: $standard-space; 
+}
+.JDbtn, .JDbtn + a {
+    margin-right: $buttons-space;
+}
+
+// 🚩다이브 안 오른쪽에 마진제거
+div {
+    @include baseMargin("& > "){
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+    // 이거 JDinput 구조때문임
+    .JDinput-wrap {
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+}
+
+// 🚩카드의 마지막과 테이블안, 기타 안에서 마진 제거 
+
+// 링크와 아이콘 간격1
+.JDanchor .JDicon__svg {
+    margin-right: $standard-small-space;
+}
+
+.JDicon ~ .JDicon {
+    margin-left: $standard-small-space;
+}
+.JDicon ~ .Icon__label {
+
+    margin-left: $standard-label-margin /2;
+}
+
+@include baseMargin {
+    margin-bottom: $standard-margin-bottom;
+}
+
+// 테이블 안의 마진 제거
+.JDtable--marginAtuo,.react-tabs__tab {
+    @include baseMargin {
+        margin: 0;
+    } 
+    .JDinput {
+        height: 2rem;
+        padding: 0;
+        box-sizing: content-box;
+        
+    }
+}
+
+.JDbox__content > *:last-child {
+    margin-right: 0;
+}
+
+
+
+div > .animationWrap:first-child > .JDbadge {
+    margin-left:0;
+}

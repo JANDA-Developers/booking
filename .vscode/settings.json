@@ -1,0 +1,13 @@
+{
+  "editor.formatOnSave": true,
+  "javascript.preferences.importModuleSpecifier": "relative",
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "search.exclude": {
+    "**/dist": true
+  },
+  "files.exclude": {
+    "**/dist/**": true
+  },
+  "editor.tabSize": 2,
+  "prettier.tabWidth": 2
+}

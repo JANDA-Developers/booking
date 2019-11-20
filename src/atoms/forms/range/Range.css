@@ -1,0 +1,45 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+html .input-range {
+  margin-bottom: 2.5rem;
+  margin-top: 2.2rem;
+}
+
+html .input-range__track {
+  background-color: #CFCFCF;
+}
+
+html .input-range__track--active {
+  background-color: #4c5b73;
+}
+
+html .input-range__slider {
+  background-color: #4c5b73;
+}
+
+html .input-range__label-container {
+  font-size: 1rem;
+  color: #343434;
+}
+
+html .input-range__label--value {
+  top: -2.2rem;
+}
+
+html .input-range__label--min {
+  bottom: -1.5rem;
+}
+
+html .input-range__label--min .input-range__label-container {
+  left: 0;
+}
+
+html .input-range__label--max {
+  right: 0;
+  bottom: -1.5rem;
+}
+
+html .input-range__label--max .input-range__label-container {
+  left: 0;
+}
+/*# sourceMappingURL=Range.css.map */

@@ -1,0 +1,66 @@
+@import "../../style_config/style_config";
+
+.JDcard {
+    position: relative;
+    @extend %z-depth-1;
+    padding: $card-padding;
+    text-align: left;
+    border-radius: $standard-border-radius;
+    background-color: $stadnard-background-color;
+
+    .JDbtn {
+        margin-bottom: 0;
+    }
+
+    &--align {
+        text-align: center;
+    }
+
+    &--fullWidth {
+        box-sizing:border-box;
+        width: 100%;
+    }
+
+    &--noMargin {
+        margin: 0;
+    }
+
+    // ⭐️ 이거 잘 키워서 좋게만들자
+    &--fullHeight {
+        box-sizing: border-box;
+        min-height: 100%;
+
+        &-wmd {
+            @include response($phablet) {
+                min-height: none;
+            }
+        }
+    }
+
+    &--selected {
+        border: 1px solid $primary-color;    
+    }
+
+    &--hover:hover  {
+        background-color: $grey-level1;
+        cursor:pointer;
+
+        .JDhelp {
+            color: $grey-level2;
+        }
+
+        * {
+            cursor: inherit;
+        }
+    }
+
+    & > *:last-child {
+        margin-bottom: 0;
+    }
+
+    // drragable 을 위해서
+    & > * {
+        cursor:auto;
+    }
+
+}

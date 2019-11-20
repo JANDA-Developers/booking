@@ -1,0 +1,155 @@
+// validation @extends
+
+%valid-input-style {
+    border-bottom: 1px solid $input-success-color;
+    box-shadow: 0 1px 0 0 $input-success-color;
+}
+
+%invalid-input-style {
+    border-bottom: $input-invalid-border;
+    box-shadow: 0 1px 0 0 $input-error-color;
+}
+
+%custom-success-message {
+    content: attr(data-success);
+    display: block;
+    color: $input-success-color;
+    opacity: 1;
+    transform: translateY(3rem);
+}
+
+%custom-error-message {
+    content: attr(data-error);
+    display:block;
+    color: $input-error-color;
+    opacity: 1;
+    transform: translateY(3rem);
+}
+
+%input-after-style {
+    display: block;
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    opacity: 0;
+    transition: .2s opacity ease-out, .2s color ease-out;
+}
+
+
+// 4. Forms
+// ==========================================================================
+// box-shadow @extends
+
+%z-depth-5 {
+    -webkit-box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.2);
+}
+
+%z-depth-4 {
+    -webkit-box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -7px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -7px rgba(0, 0, 0, 0.2);
+}
+
+%z-depth-3 {
+    -webkit-box-shadow: 0 8px 17px 2px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 17px 2px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
+}
+
+%z-depth-2 {
+    -webkit-box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+}
+
+%z-depth-1-half {
+    -webkit-box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
+    // box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+%z-depth-1 {
+    -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+    // box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+%z-depth-half {
+    -webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.07), 0 2px 1px -1px rgba(0, 0, 0, 0.06), 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.07), 0 2px 1px -1px rgba(0, 0, 0, 0.06), 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+%JDblink {
+    opacity: 1;
+    -webkit-animation: blink 2s linear;
+    -moz-animation: blink 2s linear;
+    animation: blink 2s linear;
+    animation-iteration-count: 1;
+    animation-fill-mode:forwards;
+    &--infinity {
+        animation-iteration-count: infinite;
+        animation-delay: 3000
+    }
+}
+
+// NoMatch 아이콘 사이즈
+%JDhugeIcon {
+    padding: 3rem 4.5rem;
+    margin-top: 3.5rem;
+    border-radius: 40%/45%;
+    display: inline-block;
+    background-color: $grey-level1;   
+}
+
+%JDscrollbar {
+    box-sizing: border-box;
+    padding-right: 4px;
+
+    &::-webkit-scrollbar {
+        transition: 0.3s;
+        background-color:transparent;
+        width:6px;
+    }
+    &::-webkit-scrollbar-track {
+        background-color: transparent;
+    }
+    // &::-webkit-scrollbar-track:hover {
+    //     background-color: $grey-level1;
+    // }
+    &::-webkit-scrollbar-thumb {
+        background-color: $grey-level1;
+        border-radius: 12px;
+        box-sizing: border-box;
+        border: 1px solid $grey-level1;
+        &:hover {
+            background-color: $grey-level2;
+        }
+    }
+    &::-webkit-scrollbar-button {display:none}
+}
+
+%JDscrollbar--slender {
+    padding-right: 4px;
+
+    &::-webkit-scrollbar {
+        transition: 0.3s;
+        background-color:transparent;
+        width:4px;
+        height:4px;
+    }
+    &::-webkit-scrollbar-track {
+        background-color: transparent;
+    }
+    // &::-webkit-scrollbar-track:hover {
+    //     background-color: $grey-level1;
+    // }
+    &::-webkit-scrollbar-thumb {
+        background-color: $grey-level1;
+        border-radius: 6px;
+        box-sizing: border-box;
+        border: 1px solid $grey-level1;
+        &:hover {
+            background-color: $grey-level2;
+        }
+    }
+    &::-webkit-scrollbar-button {display:none}
+}

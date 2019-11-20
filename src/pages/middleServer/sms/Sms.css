@@ -1,0 +1,41 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+.sms__templateViewCard_smsFormat {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding-right: 4px;
+}
+
+.sms__templateViewCard_smsFormat::-webkit-scrollbar {
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  background-color: transparent;
+  width: 6px;
+}
+
+.sms__templateViewCard_smsFormat::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.sms__templateViewCard_smsFormat::-webkit-scrollbar-thumb {
+  background-color: #CFCFCF;
+  border-radius: 12px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border: 1px solid #CFCFCF;
+}
+
+.sms__templateViewCard_smsFormat::-webkit-scrollbar-thumb:hover {
+  background-color: #b8b8b8;
+}
+
+.sms__templateViewCard_smsFormat::-webkit-scrollbar-button {
+  display: none;
+}
+
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+.sms__templateViewCard_smsFormat {
+  overflow: auto;
+  height: 11.25rem;
+  white-space: pre-line;
+}
+/*# sourceMappingURL=Sms.css.map */

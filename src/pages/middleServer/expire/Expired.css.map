@@ -1,0 +1,15 @@
+{
+    "version": 3,
+    "mappings": "AEIA,gFAAgF;AFFhF,AI4FA,QJ5FQ,CAEN,eAAe,CI0FL;EACR,OAAO,EAAE,WAAW;EACpB,UAAU,EAAE,MAAM;EAClB,aAAa,EAAE,OAAO;EACtB,OAAO,EAAE,YAAY;EACrB,gBAAgB,EFhCN,OAAO;CEiCpB;;AE2KD,kEAAkE;AN7QlE,AAAA,QAAQ,CAAC;EACP,UAAU,EAAE,MAAM;CASnB;;AMgVG,MAAM,MAAM,MAAM,MAAM,SAAS,EAAE,KAAK,OAAO,SAAS,EAAE,GAAG;EN1VjE,AAKE,QALM,CAKN,cAAc,CAAC;IAEP,SAAS,EAAE,MAAM;GAExB",
+    "sources": [
+        "Expired.scss",
+        "../../../style_config/style_config.scss",
+        "../../../style_config/abstracts/_variables.scss",
+        "../../../style_config/abstracts/_functions.scss",
+        "../../../style_config/abstracts/_extends.scss",
+        "../../../style_config/abstracts/_sharedStyles.scss",
+        "../../../style_config/abstracts/_mixins.scss"
+    ],
+    "names": [],
+    "file": "Expired.css"
+}

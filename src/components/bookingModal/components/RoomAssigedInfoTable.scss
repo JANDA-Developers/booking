@@ -1,0 +1,13 @@
+@import "../../../style_config/style_config";
+
+.RoomAssigedInfoTable {
+
+  position: relative;
+  z-index: $z-index-4;
+
+  &__id {
+      overflow-x: scroll;
+      @extend %JDscrollbar--slender; 
+      overflow-y: hidden;
+  }
+}

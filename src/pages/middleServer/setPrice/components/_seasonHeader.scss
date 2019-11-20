@@ -1,0 +1,26 @@
+
+#setPrice {
+    .rt-th {
+        & > div {
+            width: 100%;
+        }
+        overflow: visible
+    }
+
+    .seasonHeader {
+        
+        &__wrap {
+            justify-content: space-between;
+            display:flex;
+            .JDinput-wrap {
+                margin-right: 0;
+            }
+        } 
+
+        &__dayPicker {
+            .JDinput {
+                margin-bottom:0;
+            }
+        }
+    }
+}

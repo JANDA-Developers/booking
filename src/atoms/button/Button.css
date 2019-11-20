@@ -1,0 +1,409 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+.JDbtn:hover {
+  -webkit-box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.JDbtn {
+  -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+.JDbtn {
+  border-radius: 5px;
+  display: inline-block;
+  height: 2.25rem;
+  line-height: 100%;
+  outline: 0;
+  padding: 0 1.2rem;
+  text-transform: uppercase;
+  vertical-align: middle;
+  -webkit-tap-highlight-color: transparent;
+  text-decoration: none;
+  color: #343434;
+  background-color: #fff;
+  text-align: center;
+  letter-spacing: 0.5px;
+  -webkit-transition: background-color 0.2s ease-out;
+  transition: background-color 0.2s ease-out;
+  cursor: pointer;
+  border: none;
+}
+
+.JDbtn__contents {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  white-space: nowrap;
+}
+
+.JDbtn.JDwaves-effect {
+  overflow: hidden;
+}
+
+.JDbtn--left {
+  float: left;
+}
+
+.JDbtn--right {
+  float: right;
+}
+
+.JDbtn.JDbtn--white {
+  color: white;
+}
+
+.JDbtn.JDbtn--grey {
+  background-color: #CFCFCF;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.JDbtn.JDbtn--grey:hover {
+  background-color: #b8b8b8;
+}
+
+.JDbtn--positive:not(:disabled) {
+  background-color: #009364;
+  color: white;
+}
+
+.JDbtn--positive:not(:disabled):hover {
+  background-color: #007a53;
+}
+
+.JDbtn--primary:not(:disabled) {
+  background-color: #4c5b73;
+  color: #fff;
+}
+
+.JDbtn--primary:not(:disabled):hover {
+  background-color: #6d809f;
+}
+
+.JDbtn--point:not(:disabled) {
+  background-color: #c56c47;
+  color: #fff;
+}
+
+.JDbtn--point:not(:disabled):hover {
+  background-color: #d79a81;
+}
+
+.JDbtn--grey:not(:disabled) {
+  color: #343434;
+  background-color: #CFCFCF;
+}
+
+.JDbtn--grey:not(:disabled):hover {
+  background-color: #b8b8b8;
+}
+
+.JDbtn--black:not(:disabled) {
+  background-color: #343434;
+  color: white;
+}
+
+.JDbtn--black:not(:disabled):hover {
+  background-color: #585858;
+}
+
+.JDbtn--white:not(:disabled) {
+  background-color: white;
+  color: #343434;
+}
+
+.JDbtn--white:not(:disabled):hover {
+  background-color: #CFCFCF;
+}
+
+.JDbtn--error:not(:disabled) {
+  background-color: #ff6760;
+  color: white;
+}
+
+.JDbtn--error:not(:disabled):hover {
+  background-color: #ff4f47;
+}
+
+.JDbtn--warn:not(:disabled) {
+  background-color: #FF6E16;
+  color: white;
+}
+
+.JDbtn--warn:not(:disabled):hover {
+  background-color: #cb690a;
+}
+
+.JDbtn--new:not(:disabled) {
+  background-color: #FFD821;
+  color: #343434;
+}
+
+.JDbtn--new:not(:disabled):hover {
+  background-color: #ffe56e;
+}
+
+.JDbtn.JDbtn--transparent {
+  background-color: transparent;
+}
+
+.JDbtn.JDbtn--transparent:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+.JDbtn--text-white {
+  color: white !important;
+}
+
+.JDbtn__icon {
+  line-height: inherit;
+  margin-left: 0.8rem;
+  float: right;
+}
+
+.JDbtn__icon--left {
+  float: left;
+  -webkit-box-ordinal-group: 0;
+      -ms-flex-order: -1;
+          order: -1;
+  margin-left: 0;
+  margin-right: 0.8rem;
+}
+
+.JDbtn:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+.JDbtn:disabled {
+  background-color: #CFCFCF;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  color: #787878;
+  cursor: default;
+}
+
+.JDbtn:disabled * {
+  pointer-events: none;
+}
+
+.JDbtn:disabled:hover {
+  background-color: #CFCFCF;
+  color: #787878;
+}
+
+.JDbtn--large {
+  height: 3.375rem;
+  line-height: 3.375rem;
+  padding: 0 2rem;
+  font-size: 1.3rem;
+}
+
+.JDbtn--large .JDbtn__icon {
+  font-size: 1.3rem;
+}
+
+.JDbtn--long {
+  width: 100%;
+}
+
+.JDbtn--long .JDbtn__icon {
+  float: none;
+}
+
+.JDbtn--small {
+  padding: 0 0.6rem;
+  font-size: 1rem;
+}
+
+.JDbtn--small .JDbtn__icon {
+  margin-left: 0.8rem;
+}
+
+.JDbtn--small .JDbtn__icon--left {
+  float: left;
+  margin-left: 0;
+  margin-right: 0.8rem;
+}
+
+.JDbtn--flat {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  background-color: white;
+  color: #343434;
+  cursor: pointer;
+}
+
+.JDbtn--flat.JDbtn--white {
+  color: white;
+}
+
+.JDbtn--flat.JDbtn--primary:not(:disabled) {
+  background-color: #4c5b73;
+}
+
+.JDbtn--flat:disabled {
+  color: #787878;
+  cursor: default;
+}
+
+.JDbtn--flat:hover {
+  background-color: #CFCFCF;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+.JDbtn--toogleOn.JDbtn {
+  background-color: #4c5b73;
+  color: #fff;
+}
+
+#root .JDbtn--border, .ReactModalPortal .JDbtn--border {
+  background-color: white;
+  border: 1px solid #CFCFCF;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+#root .JDbtn--border:hover, .ReactModalPortal .JDbtn--border:hover {
+  background-color: #CFCFCF;
+}
+
+#root .JDbtn--border.JDbtn--primary:not(:disabled), .ReactModalPortal .JDbtn--border.JDbtn--primary:not(:disabled) {
+  border-color: #4c5b73;
+}
+
+#root .JDbtn--border.JDbtn--primary:not(:disabled):hover, .ReactModalPortal .JDbtn--border.JDbtn--primary:not(:disabled):hover {
+  border-color: #6d809f;
+}
+
+#root .JDbtn--border.JDbtn--point:not(:disabled), .ReactModalPortal .JDbtn--border.JDbtn--point:not(:disabled) {
+  border-color: #c56c47;
+}
+
+#root .JDbtn--border.JDbtn--point:not(:disabled):hover, .ReactModalPortal .JDbtn--border.JDbtn--point:not(:disabled):hover {
+  border-color: #d79a81;
+}
+
+#root .JDbtn--border.JDbtn--grey:not(:disabled), .ReactModalPortal .JDbtn--border.JDbtn--grey:not(:disabled) {
+  border-color: #CFCFCF;
+}
+
+#root .JDbtn--border.JDbtn--grey:not(:disabled):hover, .ReactModalPortal .JDbtn--border.JDbtn--grey:not(:disabled):hover {
+  border-color: #b8b8b8;
+}
+
+#root .JDbtn--border.JDbtn--black:not(:disabled), .ReactModalPortal .JDbtn--border.JDbtn--black:not(:disabled) {
+  border-color: #343434;
+}
+
+#root .JDbtn--border.JDbtn--black:not(:disabled):hover, .ReactModalPortal .JDbtn--border.JDbtn--black:not(:disabled):hover {
+  border-color: #585858;
+}
+
+#root .JDbtn--border.JDbtn--white:not(:disabled), .ReactModalPortal .JDbtn--border.JDbtn--white:not(:disabled) {
+  border-color: white;
+}
+
+#root .JDbtn--border.JDbtn--error:not(:disabled), .ReactModalPortal .JDbtn--border.JDbtn--error:not(:disabled) {
+  border-color: #ff6760;
+}
+
+#root .JDbtn--border.JDbtn--error:not(:disabled):hover, .ReactModalPortal .JDbtn--border.JDbtn--error:not(:disabled):hover {
+  border-color: #ff4f47;
+}
+
+#root .JDbtn--border.JDbtn--warn:not(:disabled), .ReactModalPortal .JDbtn--border.JDbtn--warn:not(:disabled) {
+  border-color: #FF6E16;
+}
+
+#root .JDbtn--border.JDbtn--warn:not(:disabled):hover, .ReactModalPortal .JDbtn--border.JDbtn--warn:not(:disabled):hover {
+  border-color: #cb690a;
+}
+
+#root .JDbtn--border.JDbtn--new:not(:disabled), .ReactModalPortal .JDbtn--border.JDbtn--new:not(:disabled) {
+  border-color: #FFD821;
+}
+
+#root .JDbtn--border.JDbtn--new:not(:disabled):hover, .ReactModalPortal .JDbtn--border.JDbtn--new:not(:disabled):hover {
+  border-color: #ffe56e;
+}
+
+#root .JDbtn--border.JDbtn--positive:not(:disabled), .ReactModalPortal .JDbtn--border.JDbtn--positive:not(:disabled) {
+  border-color: #009364;
+}
+
+#root .JDbtn--border.JDbtn--positive:not(:disabled):hover, .ReactModalPortal .JDbtn--border.JDbtn--positive:not(:disabled):hover {
+  border-color: #007a53;
+}
+
+#root .JDbtn--border.JDbtn--primary:not(:disabled), .ReactModalPortal .JDbtn--border.JDbtn--primary:not(:disabled) {
+  color: #4c5b73;
+}
+
+#root .JDbtn--border.JDbtn--primary:not(:disabled):hover, .ReactModalPortal .JDbtn--border.JDbtn--primary:not(:disabled):hover {
+  color: #445267;
+}
+
+#root .JDbtn--border.JDbtn--point:not(:disabled), .ReactModalPortal .JDbtn--border.JDbtn--point:not(:disabled) {
+  color: #c56c47;
+}
+
+#root .JDbtn--border.JDbtn--point:not(:disabled):hover, .ReactModalPortal .JDbtn--border.JDbtn--point:not(:disabled):hover {
+  color: #924b2e;
+}
+
+#root .JDbtn--border.JDbtn--black:not(:disabled), .ReactModalPortal .JDbtn--border.JDbtn--black:not(:disabled) {
+  color: #343434;
+}
+
+#root .JDbtn--border.JDbtn--black:not(:disabled):hover, .ReactModalPortal .JDbtn--border.JDbtn--black:not(:disabled):hover {
+  color: #585858;
+}
+
+#root .JDbtn--border.JDbtn--white:not(:disabled), .ReactModalPortal .JDbtn--border.JDbtn--white:not(:disabled) {
+  color: white;
+}
+
+#root .JDbtn--border.JDbtn--white:not(:disabled):hover, .ReactModalPortal .JDbtn--border.JDbtn--white:not(:disabled):hover {
+  color: #CFCFCF;
+}
+
+#root .JDbtn--border.JDbtn--new:not(:disabled), .ReactModalPortal .JDbtn--border.JDbtn--new:not(:disabled) {
+  color: #FFD821;
+}
+
+#root .JDbtn--border.JDbtn--new:not(:disabled):hover, .ReactModalPortal .JDbtn--border.JDbtn--new:not(:disabled):hover {
+  color: #d4ae00;
+}
+
+#root .JDbtn--border.JDbtn--error:not(:disabled), .ReactModalPortal .JDbtn--border.JDbtn--error:not(:disabled) {
+  color: #ff6760;
+}
+
+#root .JDbtn--border.JDbtn--error:not(:disabled):hover, .ReactModalPortal .JDbtn--border.JDbtn--error:not(:disabled):hover {
+  color: #ff4f47;
+}
+
+#root .JDbtn--border.JDbtn--positive:not(:disabled), .ReactModalPortal .JDbtn--border.JDbtn--positive:not(:disabled) {
+  color: #009364;
+}
+
+#root .JDbtn--border.JDbtn--positive:not(:disabled):hover, .ReactModalPortal .JDbtn--border.JDbtn--positive:not(:disabled):hover {
+  color: #007a53;
+}
+
+#root .JDbtn--border.JDbtn--warn:not(:disabled), .ReactModalPortal .JDbtn--border.JDbtn--warn:not(:disabled) {
+  color: #FF6E16;
+}
+
+#root .JDbtn--border.JDbtn--warn:not(:disabled):hover, .ReactModalPortal .JDbtn--border.JDbtn--warn:not(:disabled):hover {
+  color: #cb690a;
+}
+/*# sourceMappingURL=Button.css.map */

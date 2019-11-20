@@ -1,0 +1,15 @@
+{
+    "version": 3,
+    "mappings": "AEIA,gFAAgF;AI2QhF,kEAAkE;AN7QlE,AAAA,qBAAqB,CAAC;EAClB,UAAU,EAAC,WAAW;CAQzB;;AATD,AAEI,qBAFiB,CAEjB,EAAE,CAAC;EACC,gBAAgB,EE8DV,OAAO;EF7Db,aAAa,EAAC,CAAC;EACf,OAAO,EAAE,GAAG;EACZ,YAAY,EAAE,cAAc;EAC5B,WAAW,EAAE,cAAc;CAC9B",
+    "sources": [
+        "example_slider.scss",
+        "../../../../style_config/style_config.scss",
+        "../../../../style_config/abstracts/_variables.scss",
+        "../../../../style_config/abstracts/_functions.scss",
+        "../../../../style_config/abstracts/_extends.scss",
+        "../../../../style_config/abstracts/_sharedStyles.scss",
+        "../../../../style_config/abstracts/_mixins.scss"
+    ],
+    "names": [],
+    "file": "example_slider.css"
+}

@@ -1,0 +1,158 @@
+@import '../../../style_config/style_config';
+
+
+/* ----------------------------- 코드 최적화가 필요합니다. ----------------------------- */
+/* Text Inputs + Textarea
+/* Text inputs */
+
+.JDinput-wrap {
+  position: relative;
+
+  &--fullHeight {
+    height: 100%;
+  }
+
+  &--fullWidth {
+    width: 100%;
+  }
+}
+
+//  😄 인풋라인에 아이콘 맞춰줌 
+.JDinput-iconWrap{
+  position: absolute;
+  right: 0.25em;
+  height: 100%;
+  margin-top: $standard-label-margin;
+  display: flex;
+  .JDicon__svg {
+    top:unset;
+  }
+}
+
+.JDinput {
+
+  background-color: transparent;
+  border: none;
+  border-bottom: $input-border;
+  border-radius: 0;
+  outline: none;
+  height: $input-noLabel-height;
+  line-height: $input-height;
+  width: 100%;
+  font-size: $input-font-size;
+  padding: $input-padding;
+  padding-top: 0;
+  box-shadow: none;
+  box-sizing: content-box;
+  transition: $input-transition;
+
+  &--center {
+    text-align: center;
+  }
+
+  &--h6 {
+    font-size: $typho-h6;
+  }
+
+  &--h5 {
+    font-size: $typho-h6;
+  }
+
+  &--h4 {
+    font-size: $typho-h6;
+  }
+
+  &--h3 {
+    font-size: $typho-h6;
+  }
+
+  //아래에있는 라벨을 위로 끌어올립니다
+  &+.JDinput_label,
+  &+.JDtextarea_label {
+    position: absolute;
+    font-size: $label-font-size;
+    color: $label-font-color;
+    top: 0.1rem;
+    left: 0;
+  }
+
+  &::placeholder {
+    color: $placeholder-text-color;
+  }
+
+  // Disabled input style
+  &:disabled {
+    color: $input-disabled-color;
+    border-bottom: $input-disabled-border;
+  }
+
+  // Disabled .JDinput_label style
+  &:disabled+.JDinput_label {
+    color: $input-disabled-color;
+  }
+
+  // Focused input style
+  &:focus:not([readonly]) {
+    border-bottom: 1px solid $input-focus-color;
+    box-shadow: 0 1px 0 0 $input-focus-color;
+  }
+
+  // Focused .JDinput_label style
+  &:focus:not([readonly])+.JDinput_label {
+    color: $label-font-color;
+  }
+
+  &--labeled {
+    padding-top: $input-labeled-padding-top;
+    height: $input-height;
+  }
+
+  // Valid Input Style
+  &--valid.JDinput:not([readonly]),
+  &--valid.JDinput:focus:not([readonly]) {
+    @extend %valid-input-style;
+  }
+  &--valid.JDinput:focus:not([readonly])+.JDinput_label {
+    color: $label-font-color
+  }
+
+  // Custom Success Message
+  &--valid:not([readonly])+.JDinput_label:after,
+  &--valid:focus:not([readonly])+.JDinput_label:after {
+    @extend %custom-success-message;
+  }
+
+  // Invalid Input Style
+  &--invalid.JDinput:not([readonly]),
+  &--invalid.JDinput:focus:not([readonly]) {
+    @extend %invalid-input-style;
+  }
+
+  // Custom Error message
+  &--invalid.JDinput+.JDinput_label:after,
+  &--invalid.JDinput:focus+.JDinput_label:after {
+    @extend %custom-error-message;
+  }
+
+  // Full width .JDinput_label when using validate for error messages
+  &--validate.JDinput+.JDinput_label {
+    width: 100%;
+  }
+
+  // Form Message Shared Styles
+  &+.JDinput_label:after {
+    @extend %input-after-style;
+  }
+
+  &--invalid.JDinput+.JDinput_label:after,
+  &--valid.JDinput+.JDinput_label:after {
+    display: none;
+  }
+
+  &--invalid.JDinput.JDinput--allWaysShowValidMessage+.JDinput_label:after,
+  &--valid.JDinput.JDinput--allWaysShowValidMessage+.JDinput_label:after {
+    display: block;
+  }
+
+
+}

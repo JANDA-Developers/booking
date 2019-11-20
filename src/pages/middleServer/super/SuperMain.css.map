@@ -1,0 +1,15 @@
+{
+    "version": 3,
+    "mappings": "AEIA,gFAAgF;AI2QhF,kEAAkE;AN3QlE,UAAU,CAAV,KAAU;EACT,IAAI;IACG,gBAAgB,EE2CL,OAAO;;EFzCzB,EAAE;IACK,gBAAgB,EEyDV,OAAO;;;;AFrDrB,AAAA,UAAU,CAAC;EACP,gBAAgB,EEoDN,OAAO;EFnDjB,UAAU,EAAE,KAAK;EACjB,SAAS,EAAE,gBAAgB;CAC9B;;AAED,AAAA,UAAU,CAAC;EACP,OAAO,EAAC,IAAI;EACZ,YAAY,EAAC,CAAC;EACd,WAAW,EAAE,MAAM;EACnB,aAAa,EAAE,MAA2B;CAgB7C;;AAfI,AAAD,gBAAO,CAAC;EACJ,SAAS,EAAE,CAAC;CACf;;AAIA,AAAD,wBAAe,CAAC;EACZ,OAAO,EAAE,IAAI;EACb,eAAe,EAAE,aAAa;EAC9B,KAAK,EAAE,IAAI;CACd;;AAEA,AAAD,qBAAY,CAAC;EACT,YAAY,EEqDG,MAAmB;CFpDrC",
+    "sources": [
+        "SuperMain.scss",
+        "../../../style_config/style_config.scss",
+        "../../../style_config/abstracts/_variables.scss",
+        "../../../style_config/abstracts/_functions.scss",
+        "../../../style_config/abstracts/_extends.scss",
+        "../../../style_config/abstracts/_sharedStyles.scss",
+        "../../../style_config/abstracts/_mixins.scss"
+    ],
+    "names": [],
+    "file": "SuperMain.css"
+}

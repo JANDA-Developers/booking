@@ -1,0 +1,90 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+.roomConfig__roomBox {
+  max-width: -webkit-fit-content;
+  max-width: -moz-fit-content;
+  max-width: fit-content;
+}
+
+.roomConfig__roomTitle {
+  margin: 0;
+}
+
+.roomConfig .JDdrragable--chosen .roomConfig__roomType .roomConfig__iconsWrap {
+  display: none;
+}
+
+.roomConfig .roomConfig__roomType .JDdrragable--ghost .roomConfig__iconsWrap {
+  display: none;
+}
+
+.roomConfig .roomConfig__roomType .JDdrragable--drag .roomConfig__iconsWrap {
+  display: none;
+}
+
+.roomConfig__addRoomBox {
+  min-width: -webkit-fit-content;
+  min-width: -moz-fit-content;
+  min-width: fit-content;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  cursor: pointer !important;
+}
+
+.roomConfig__roomType_titleAndIcons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.roomConfig__roomType_titleSection {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.roomConfig__roomsWrap > div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.roomConfig__roomsWrap > div .rc-draggable-list-draggableRow {
+  min-width: 100px;
+  margin-right: 1.2rem;
+}
+
+.roomConfig__roomsWrap > div .rc-draggable-list-draggableRow .JDbox {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0;
+          flex: 0 0;
+  white-space: nowrap;
+  margin-bottom: 0 !important;
+}
+
+.roomConfig__roomsWrap > div .rc-draggable-list-draggableRow .JDbox .circleIcon {
+  margin: 0;
+}
+
+.roomConfig__roomsWrapWrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+@media only screen and (max-width: 750px) and (min-width: 0px) {
+  .roomConfig__roomsWrapWrap {
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+  }
+  .roomConfig__roomsWrapWrap .JDbox {
+    max-width: 30%;
+  }
+  .roomConfig__roomsWrapWrap .JDbox:nth-child(3n) {
+    margin-right: 0;
+  }
+}
+/*# sourceMappingURL=RoomConfig.css.map */

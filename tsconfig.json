@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "rootDir": "./src",
+    "strict": true,
+    "target": "es6",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noEmit": true,
+    "jsx": "preserve",
+    "lib": ["dom", "es6", "es2016"],
+    "allowJs": true,
+    "skipLibCheck": false,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/pages/documents/show/ShowComponents.tsx",
+    "src/pages/outPages/infoReservation/InfoReservation.jsx",
+    "src/atoms/timeline/Timeline.jsx",
+    "src/components/sendSmsModal",
+    "src/pages/pages.jsx",
+    "src/.queries.ts",
+    "src/atoms/toggleNoti",
+    "src/pages/middleServer/dashboard/components/tempWheel.js",
+    "src/utils/iosScrollUnBounce.js",
+    "src/polyfill/polyfill.js"
+  ]
+}

@@ -1,0 +1,67 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+.memo {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding-right: 4px;
+}
+
+.memo::-webkit-scrollbar {
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  background-color: transparent;
+  width: 6px;
+}
+
+.memo::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.memo::-webkit-scrollbar-thumb {
+  background-color: #CFCFCF;
+  border-radius: 12px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border: 1px solid #CFCFCF;
+}
+
+.memo::-webkit-scrollbar-thumb:hover {
+  background-color: #b8b8b8;
+}
+
+.memo::-webkit-scrollbar-button {
+  display: none;
+}
+
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+.memoBox {
+  white-space: pre-wrap;
+  margin-right: 0px;
+  min-width: 300px;
+}
+
+.memoBox .JDbox__content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  position: relative;
+}
+
+.memoBox__time {
+  font-size: 9px;
+  position: absolute;
+  bottom: 2;
+  right: 2px;
+}
+
+.memo {
+  min-height: -webkit-fit-content;
+  min-height: -moz-fit-content;
+  min-height: fit-content;
+  max-height: 60vh;
+  overflow: auto;
+  overflow-x: hidden;
+}
+/*# sourceMappingURL=Memo.css.map */

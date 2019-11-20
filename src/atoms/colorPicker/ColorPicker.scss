@@ -1,0 +1,34 @@
+@import "../../style_config/style_config";
+
+.JDcolorPicker {
+    display:inline-block;
+    
+   &__swatch {
+        padding: $colorPicker-padding;
+        background-color: #fff;
+        border-radius: $colorPicker-radius;
+        border: 1px solid $colorPicker-outborder-color;
+        display: inline-block;
+        cursor: pointer;
+   }
+   &__color {
+     width: $colorPicker-width;
+     height: $colorPicker-height;
+     border-radius: $colorPicker-radius;
+   }
+   &__modalWrap {
+        position: absolute;
+        z-index: 2;
+   }
+   &__cover {
+        position: fixed;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+   }
+
+   .JDLabel {
+        margin-bottom: 0;
+   }
+}

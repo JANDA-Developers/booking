@@ -1,0 +1,100 @@
+@import '../../style_config/style_config';
+
+.imageUploader {
+    position:relative;
+    width:100%;
+    border: $IUploader-border; 
+    border-radius: $IUploader-border-radius;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    cursor:pointer;
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/c/cd/Cloud_upload_font_awesome.svg');
+    display:flex;
+    align-items: center;
+    justify-content:center;
+    max-height:100%;
+    overflow:hidden;
+    flex-grow: 1;
+    font-size: 2rem;  // prettier
+    text-align: center;
+
+
+    &--noBg {
+        background-image:none;
+    }
+    
+    &--noEffect {
+        position: relative;
+        border:none;
+        border-radius: 0px;
+        background-image:none;
+
+        &:hover {
+            filter: brightness(.9);
+        }
+        
+        .imageUploader__image {
+            background-size: cover;
+            position:absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            max-height: 100%;
+        }
+    }
+    
+
+    &--coverImg {
+        .imageUploader__image {
+            background-size: cover;
+            position:absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            max-height: 100%;
+        }
+    }
+
+    .preloader__wrap {
+        position: absolute;
+        z-idnex: $z-index-0;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display:flex;
+        align-items:center;
+        justify-content: center;
+        width: auto;
+        height: auto;
+    }
+
+    &__image {
+        width: 100%;
+        background-size:contain;
+        background-position: center center;
+        background-repeat:no-repeat;
+    }
+
+    &--error {
+        border-color: $error-color;
+    }
+    &--loading {
+        background-image:none;
+    }
+
+    &__input {
+        position:absolute;
+        z-index: $z-index-1;
+        top:0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0;
+        cursor:pointer;
+        width: 100%;
+    }
+}

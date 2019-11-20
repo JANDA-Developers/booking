@@ -1,0 +1,13 @@
+@import '../../../style_config/style_config.scss';
+
+#Expired {
+  text-align: center;
+  .Expired__heart {
+      @extend %JDhugeIcon
+  }
+  .Expired__text {
+      @include response($tablet) {
+          font-size: 3.0rem; // h3
+      }       
+  }
+}

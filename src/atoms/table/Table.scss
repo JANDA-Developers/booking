@@ -1,0 +1,106 @@
+@import '../../style_config/style_config.scss';
+
+
+#root,.ReactModalPortal {
+    .JDtable {
+        width: 100%;
+        border-collapse: inherit;
+        border-radius: $standard-border-radius;
+        border-color: $table-outborder-color;
+        border: $table-outborder;
+        box-sizing: border-box;
+        background-color: white;
+        
+        .rt-thead {
+            border-color: $html-color;
+        }
+        // 끝까지 선이 안그어지는 버그가 있음. 편법사용
+        .rt-th:last-child {
+            border-bottom: 2px solid $html-color;
+            margin-bottom: -2px;
+        }
+        
+        * {
+            border-color: $table-borders-color;
+        }
+
+        .JDinput {
+            box-sizing: content-box;
+        }
+
+        &--center {
+            text-align: center;
+        }
+
+        
+        &--visibleOver:not(.JDtable--scrollOverPadding) {
+            .rt-table {
+                overflow: visible;
+            }
+            .rt-tbody {
+                overflow: visible!important;
+            }
+            .rt-tr-group {
+                overflow: visible;
+            }
+            .rt-td {
+                overflow:visible;
+            }
+        }
+
+
+        // 데이터가 없을때 플레이스 홀더
+        .rt-noData{
+            color: $standard-placeholder-color;
+            padding: 0;
+            top: auto;
+            bottom: 0;
+        }
+
+        .rt-tbody {
+            overflow:hidden;
+        }
+
+//      👼 REACT TABLE
+        .rt {
+            &-thead {
+                    box-shadow: none;
+                    border-bottom: $table-header-border-bottom;
+            }
+
+            &-td {
+                display:flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+
+        .rt-th,.rt-td {
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            white-space: normal;
+            max-width:100%;
+            padding: $table-padding;
+        }
+
+        &--checkable {
+            //  ❗️ 강제 오버라이드
+            .rt-tr > div:first-child {
+                width: $standard-width * 8!important;
+                flex: $standard-width * 8 0 auto!important;
+                max-width: $standard-width * 8!important;
+                justify-content: end;
+            }
+        }
+    }
+}
+
+
+.JDtable {
+    .rt-tr > div:first-child {
+        .JDcheck_box_wrap {
+            width: 100%;
+        }
+    }
+}

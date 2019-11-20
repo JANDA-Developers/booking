@@ -1,0 +1,51 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+.profileCircle {
+  width: 4rem;
+  height: 4rem;
+  background-color: white;
+  background-position: center center;
+  background-size: 100%;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  -webkit-box-flex: 0;
+      -ms-flex: none;
+          flex: none;
+}
+
+.profileCircle:hover {
+  cursor: pointer;
+}
+
+.profileCircle:hover:after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+.profileCircle--bordered {
+  border: 2px solid #343434;
+}
+
+.profileCircle--whiteBorder {
+  border-color: white;
+}
+
+.profileCircle__input {
+  position: absolute;
+  height: 100%;
+  top: 0;
+  border: 0;
+  left: 0;
+  opacity: 0;
+  right: 0;
+  z-index: 10;
+}
+/*# sourceMappingURL=ProfileCircle.css.map */

@@ -1,0 +1,51 @@
+@import "../../style_config/style_config";
+
+.JDlist {
+    @include textAlign--prefixer();
+
+    &--whiteSpace {
+        li {
+            white-space: nowrap;
+        }
+    }
+
+    &--bordered {
+        li {
+            margin-bottom: 1px solid $grey-level1;
+        }
+    }
+    
+    &--stripe {
+        li:nth-child(even){
+            background-color: $grey-level1;
+        }
+    }
+
+    &--mbShort {
+        li {
+            margin-bottom: $standard-margin-bottom /2;
+        }
+    }
+
+    &--mbNormal {
+        li {
+            margin-bottom: $standard-margin-bottom;
+        }
+    }
+
+    &--mbLong {
+        li {
+            margin-bottom: $standard-margin-bottom * 1.5;
+        }
+    }
+
+    &__li {
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+    &__index {
+        display: block;
+        margin-right: $standard-space /2;
+    }    
+}

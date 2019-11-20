@@ -1,0 +1,111 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+.applyProductModal__cardsWrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  white-space: nowrap;
+}
+
+.applyProductModal__cardsWrap > div {
+  display: inline-block;
+}
+
+.applyProductModal__cardsWrap > div:first-child {
+  margin-left: 0;
+}
+
+.selectProducts__productWrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.selectProducts__productWrap .JDproduct {
+  width: 25%;
+  margin-right: 1.2rem;
+  min-width: 190px;
+}
+
+.selectProducts__productWrap .JDproduct:last-child {
+  margin-right: 0;
+}
+
+#selectProducts .col--full-0 {
+  margin-left: 0;
+}
+
+@media (max-width: 750px) {
+  #selectProducts {
+    text-align: center;
+  }
+}
+
+#selectProducts .JDslider .JDradio {
+  /* Disabled style */
+  /* Disabled style */
+}
+
+#selectProducts .JDslider .JDradio__input--gap:disabled:checked + #selectProducts .JDslider .JDradio__label:before {
+  border: 2px solid #b8b8b8;
+}
+
+#selectProducts .JDslider .JDradio__input--gap:disabled:checked + #selectProducts .JDslider .JDradio__label:after {
+  border: none;
+  background-color: #b8b8b8;
+}
+
+#selectProducts .JDslider .JDradio__input:disabled:not(:checked) + #selectProducts .JDslider .JDradio__label:before,
+#selectProducts .JDslider .JDradio__input:disabled:checked + #selectProducts .JDslider .JDradio__label:before {
+  background-color: transparent;
+  border-color: #b8b8b8;
+}
+
+#selectProducts .JDslider .JDradio__input:disabled + #selectProducts .JDslider .JDradio__label {
+  color: #b8b8b8;
+}
+
+#selectProducts .JDslider .JDradio__input:disabled:not(:checked) + #selectProducts .JDslider .JDradio__label:before {
+  border-color: #b8b8b8;
+}
+
+#selectProducts .JDslider .JDradio__input:disabled:checked + #selectProducts .JDslider .JDradio__label:after {
+  background-color: #b8b8b8;
+  border-color: #b8b8b8;
+}
+
+.downloadBox {
+  border: 1px solid #343434;
+  padding: 0.8rem;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.downloadBox .circleIcon {
+  vertical-align: middle;
+}
+
+.downloadBox .JDbtn {
+  margin-bottom: 0;
+}
+
+.products__experience {
+  width: 380px;
+  height: 280px;
+}
+
+.products__experience .circleIcon {
+  margin: 0;
+}
+
+.products__productWrapWrap {
+  margin-bottom: 1rem;
+}
+
+.layoutCard__imgBox {
+  height: 9rem;
+}
+/*# sourceMappingURL=SelectProduct.css.map */

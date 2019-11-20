@@ -1,0 +1,574 @@
+// -----------------------------------------------------------------------------
+// This file contains all application-wide Sass mixins.
+// -----------------------------------------------------------------------------
+
+
+//마우스가 위에 올라왔을때 효과
+
+@mixin textAlign--prefixer() {
+    &--left {
+        text-align: left
+    }
+    &--center {
+        text-align: center
+    }
+    &--right {
+        text-align: right
+    }
+}
+
+@mixin colorText--prefixer($After: "") {
+    &--primary#{$After} {
+        color: $primary-color;
+        &:hover {
+            color: $primary-color-dark;
+        } 
+    }
+
+    &--point#{$After} {
+        color: $point-color;
+        &:hover {
+            color: $point-color-dark;
+        } 
+    }
+
+    &--black#{$After} {
+        color: $html-color;
+
+        &:hover {
+            color: $grey-level4;
+        } 
+    }
+
+    &--white#{$After} {
+        color: white;
+
+        &:hover {
+            color: $grey-level1;
+        }
+    }
+       
+    &--new#{$After} {
+        color: $new-color;
+        &:hover {
+            color: $new-color-dark;
+        } 
+    }
+       
+    &--error#{$After} {
+        color: $error-color;
+        &:hover {
+            color: $error-color-dark;
+        } 
+    }
+       
+    &--positive#{$After} {
+        color: $positive-color;
+        &:hover {
+            color: $positive-color-dark;
+        } 
+    }
+       
+    &--warn#{$After} {
+        color: $warn-color;
+        &:hover {
+            color: $warn-color-dark;
+        } 
+    }
+}
+
+@mixin colorBorder--prefixer($After:"") { 
+    &--primary#{$After} {
+        border-color: $primary-color;
+
+        &:hover {
+            border-color: $primary-color-light
+        } 
+    }
+
+    &--point#{$After} {
+        border-color: $point-color;
+        &:hover {
+            border-color: $point-color-light;
+        } 
+    }
+
+    &--grey#{$After} {
+        border-color: $grey-level1;
+        &:hover {
+            border-color: $grey-level2;
+        } 
+    }
+
+    &--black#{$After} {
+        border-color: $html-color;
+        &:hover {
+            border-color: $grey-level4;
+        } 
+    }
+
+    &--white#{$After} {
+        border-color: white;
+    }
+
+    &--error#{$After} {
+        border-color: $error-color;
+
+        &:hover {
+            border-color: $error-color-dark;
+        } 
+    }
+    
+    &--warn#{$After} {
+        border-color: $warn-color;
+        &:hover {
+            border-color: $warn-color-dark;
+        } 
+    }
+       
+    &--new#{$After} {
+        border-color: $new-color;
+        &:hover {
+            border-color: $new-color-light;
+        } 
+    }
+
+    &--positive#{$After} {
+        border-color: $positive-color;
+        &:hover {
+            border-color: $positive-color-dark;
+        } 
+    }
+
+}
+@mixin colorBg--prefixer($After:"") {
+
+    &--positive#{$After} {
+        background-color: $positive-color;
+        color: $positive-color-on;
+        &:hover {
+            background-color: $positive-color-dark;
+        } 
+    }
+
+    &--primary#{$After} {
+        background-color: $primary-color;
+        color: $primary-color-on;
+
+        &:hover {
+            background-color: $primary-color-light
+        } 
+    }
+
+    &--point#{$After} {
+        background-color: $point-color;
+        color: $point-color-on;
+        &:hover {
+            background-color: $point-color-light;
+        } 
+    }
+
+    &--grey#{$After} {
+        color: $html-color;
+        background-color: $grey-level1;
+        &:hover {
+            background-color: $grey-level2;
+        } 
+    }
+
+    &--black#{$After} {
+        background-color: $html-color;
+        color:white;
+
+        &:hover {
+            background-color: $grey-level4;
+        } 
+    }
+
+    &--white#{$After} {
+        background-color: white;
+        color: $html-color;
+
+        &:hover {
+            background-color: $grey-level1;
+        } 
+    }
+
+    &--error#{$After} {
+        background-color: $error-color;
+        color: white;
+
+        &:hover {
+            background-color: $error-color-dark;
+        } 
+    }
+
+    &--warn#{$After} {
+        background-color: $warn-color;
+        color: white;
+
+        &:hover {
+            background-color: $warn-color-dark;
+        } 
+    }
+       
+    &--new#{$After} {
+        background-color: $new-color;
+        color: $new-color-on;
+
+        &:hover {
+            background-color: $new-color-light;
+        } 
+    }
+}
+
+@mixin on-event($self: false) {
+    @if $self {
+
+        &,
+        &:hover,
+        &:active,
+        &:focus {
+            @content;
+        }
+    }
+
+    @else {
+
+        &:hover,
+        &:active,
+        &:focus {
+            @content;
+        }
+    }
+}
+
+@mixin baseMargin($condition: "") {
+    
+    // 마진 bottom
+    #{$condition}.JDcheck_box_wrap,
+    #{$condition}.JDswitch-wrap,
+    #{$condition}.JDradio,
+    #{$condition}.JDselect,
+    #{$condition}.JDbtn,
+    #{$condition}.JDlist,
+    #{$condition}.circleIcon-wrap,
+    #{$condition}.imageUploader,
+    #{$condition}.JDslider,
+    #{$condition}.JDpagination,
+    #{$condition}.profileCircle,
+    #{$condition}.JDcard,
+    #{$condition}.JDbox,
+    #{$condition}.JDtable,
+    #{$condition}.JDcolorPicker,
+    #{$condition}.JDinput-wrap,
+    #{$condition}.JDsearchInput,
+    #{$condition}.input-range,
+    #{$condition}.JDbox--border {
+        @content;
+    }
+}
+
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+
+// Components Flex-Grid
+@mixin component-layout($margin, $width) {
+    .flex-grid {
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+
+
+    }
+
+    .flex-grid>* {
+        flex: 1;
+
+        &.flex-grid__col {
+            flex-grow: 4;
+            margin-left: $margin;
+        }
+        
+        &.flex-grid__col--fixed-width {
+            flex: 0 0 $width;
+        }
+
+        &.flex-grid__col--sm {
+            flex-grow: 2;
+        }
+
+        &.flex-grid__col--lg {
+            flex-grow: 8;
+        }
+
+        &:first-child {
+            margin-left: 0rem;
+        }
+
+        &:last-child {
+            margin-right: 0rem;
+        }
+        
+            
+    }
+
+    @media (max-width: $phablet) {
+        .flex-grid--md {
+            display: block;
+        }
+
+        .flex-grid--md>* {
+            padding-left: 0;
+            padding-right: 0;
+
+            &.flex-grid__col {
+                margin-left: 0;
+            }
+
+        }
+    }
+
+    @media (max-width: $desktop) {
+        .flex-grid--lg {
+            display: block;
+        }
+
+        .flex-grid--lg>* {
+            padding-left: 0;
+            padding-right: 0;
+
+            &.flex-grid__col {
+                margin-left: 0;
+            }
+        }
+    }
+}
+
+// 반응형 생성기
+@mixin response($max:9999px,$min:0px) {
+    @media only screen and (max-width: $max) and (min-width: $min) {
+      @content; 
+  }
+}
+
+// 클래스 생산
+// ~ 이상일때
+@mixin responseClass() {
+    @include response($mobile) {
+        &--sm {
+            @content; 
+        }
+    }
+    @include response($phablet) {
+        &--md {
+            @content; 
+        }
+    }
+    @include response($tablet) {
+        &--wmd {   
+            @content; 
+        }
+    }
+    @include response($desktop) {
+        &--lg { 
+            @content; 
+        }
+    }  
+    @include response($desktophd) {
+        &--wlg { 
+            @content; 
+        }
+    }  
+}
+
+
+// 클래스 생산
+// ~이하일 때 @content 하겠다. 
+@mixin responseUpClass() {
+    @include response($full,$mobile) {
+        &--smUp {
+            @content; 
+        }
+    }
+    @include response($full,$phablet) {
+        &--mdUp {
+            @content; 
+        }
+    }
+    @include response($full,$tablet) {
+        &--wmdUp {   
+            @content; 
+        }
+    }
+    @include response($full,$desktop) {
+        &--lgUp { 
+            @content; 
+        }
+    }  
+    @include response($full,$desktophd) {
+        &--wlgUp { 
+            @content; 
+        }
+    }  
+}
+
+// 그리드 생성기
+
+@mixin grid-system-vertical($mode) {
+
+    $max:9999px !default;
+    
+    @if $mode == sm {
+        $max: $mobile;
+    } @else if $mode == md {
+        $max: $phablet;
+    } @else if $mode == wmd {
+        $max: $tablet;
+    } @else if $mode == lg {
+        $max: $desktop;
+    } @else if $mode == wlg {
+        $max: $desktophd;
+    } @else if $mode == full {
+        $max: $full;
+    }
+    
+    .flex-grid--vertical {
+        &-#{$mode} {
+            flex-direction: column;
+            height: 100%;
+            @include response($full, $max){
+                .flex-grid__col {
+                    margin: 0;
+                }
+            }
+        }
+    }
+    @include response($max){
+        .flex-grid--vertical {
+            &-#{$mode} {
+                flex-direction: row;
+            }
+        }
+    }
+}
+
+@mixin accent() {
+    #root,.ReactModalPortal {
+        @content; 
+    }
+}
+
+@mixin grid-system($mode) {
+
+    $max:9999px !default;
+    
+    @if $mode == sm {
+        $max: $mobile;
+    } @else if $mode == md {
+        $max: $phablet;
+    } @else if $mode == wmd {
+        $max: $tablet;
+    } @else if $mode == lg {
+        $max: $desktop;
+    } @else if $mode == wlg {
+        $max: $desktophd;
+    } @else if $mode == full {
+        $max: $full;
+    }
+    
+    @include response($max){
+        
+        @content; 
+        
+        //Todo: for 문으로 간추리자
+        .flex-grid__col,.col {
+            &.col--#{$mode}-0 {
+                display: none;
+            }
+
+            &.col--#{$mode}-1 {
+                display:block;
+                width: flex-grid-column-width(1);
+            }
+            
+            &.col--#{$mode}-2 {
+                display:block;
+                width: flex-grid-column-width(2);
+            }
+            
+            &.col--#{$mode}-3 {
+                display:block;
+                width: flex-grid-column-width(3);
+                &.col--float {
+                    &:not(.aaaa) {margin-left: 2%;}
+                    &:nth-child(4n + 1) {
+                        margin-left: 0;
+                    }
+                }
+            }
+            
+            &.col--#{$mode}-4 {
+                display:block;
+                width: flex-grid-column-width(4);
+                &.col--float {
+                    &:not(.aaaa) {margin-left: 2%;}
+                    &:nth-child(3n + 1) {
+                        margin-left: 0;
+                    }
+                }
+            }
+            
+            &.col--#{$mode}-5 {
+                display:block;
+                width: flex-grid-column-width(5);
+            }
+            
+            &.col--#{$mode}-6 {
+                display:block;
+                width: flex-grid-column-width(6);
+                &.col--float {
+                    &:not(.aaaa) {margin-left: 2%;}
+                    &:nth-child(2n + 1) {
+                        margin-left: 0;
+                    }
+                }
+            }
+            
+            &.col--#{$mode}-7 {
+                display:block;
+                width: flex-grid-column-width(7);
+            }
+            
+            &.col--#{$mode}-8 {
+                display:block;
+                width: flex-grid-column-width(8);
+            }
+            
+            &.col--#{$mode}-9 {
+                display:block;
+                width: flex-grid-column-width(9);
+            }
+            
+            &.col--#{$mode}-10 {
+                display:block;
+                width: flex-grid-column-width(10);
+            }
+            
+            &.col--#{$mode}-11 {
+                display:block;
+                width: flex-grid-column-width(11);
+            }
+            
+            &.col--#{$mode}-12 {
+                display:block;
+                width: flex-grid-column-width(12);
+            }
+
+            // TODO display 를 통합해서 어딘가로 옮기고 flex명령도 같이 수정자로서 자리를 잡아야하는데.. 여기위치는 너무 애매해
+            &.flex-grid__col--vertical {
+                display:flex;
+                flex-direction: column;
+            }
+        }
+    }
+}

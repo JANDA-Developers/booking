@@ -1,0 +1,68 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+#root .react-tabs .JDinput {
+  padding: 0;
+  height: 2rem;
+  line-height: 2rem;
+}
+
+#root .react-tabs__tab-list {
+  height: 2.25rem;
+  line-height: 2.25rem;
+  border-bottom: 1px solid #343434;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+#root .react-tabs__tab {
+  padding: 0px 0.8rem;
+  outline: 0;
+}
+
+#root .react-tabs__tab:not(.react-tabs__tab--selected) .JDinput {
+  border: none;
+  pointer-events: none;
+}
+
+#root .react-tabs__tab--selected {
+  position: relative;
+  bottom: -1px;
+  background-color: #FBFBFB;
+  border: 1px solid #343434;
+  border-bottom: 0px solid transparent;
+  border-radius: 5px 5px 0px 0px;
+  line-height: calc(2.25rem - 4px);
+}
+
+#root .react-tabs__tab:hover {
+  cursor: pointer;
+}
+
+#root .JDtabs--style_button .react-tabs__tab-list {
+  border: none;
+  display: block;
+  height: auto;
+}
+
+#root .JDtabs--style_button .react-tabs__tab-list:after {
+  clear: both;
+  content: "";
+  display: block;
+}
+
+#root .JDtabs--style_button .react-tabs__tab {
+  border: 1px solid #343434;
+  border-radius: 5px;
+  float: left;
+  margin: 0.16667rem 0.3rem;
+  line-height: auto;
+}
+
+#root .JDtabs--style_button .react-tabs__tab--selected {
+  background-color: #CFCFCF;
+  border-color: transparent;
+  line-height: unset;
+}
+/*# sourceMappingURL=tabs_.css.map */

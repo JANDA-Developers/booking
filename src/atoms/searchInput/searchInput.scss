@@ -1,0 +1,169 @@
+@import '../../style_config/style_config';
+
+
+
+
+.JDsearchInput{
+    position: relative;
+    display: block;
+
+    &--labeled {
+
+        .JDsearchInput__input_wrapper {
+            padding-top: $input-padding-top;
+        }
+        // border-box
+        .JDsearchInput__input {
+            height: calc(#{$input-height} + #{$standard-label-margin});
+        }
+        .JDsearchInput__icon {
+        }
+    }
+
+    &__label {
+        position: absolute;
+        top: 0.1rem;
+        left: 0;
+        font-size: $label-font-size;
+        color: $label-font-color;
+    }
+    
+    &__icon {
+        height: 100%;
+        position: absolute;
+        font-size: 1.2rem;
+        right: $standard-small-space - 0.25rem;
+        display:flex;
+        top:0;
+        .JDicon__svg {
+            top: 0;
+        }
+        .preloader {
+            height: 100%;
+        }
+    }
+    // 오픈된 리스트
+    &--staticList {
+        .JDsearchInput__ul {
+            position: relative;
+        }
+    }
+    // 피드백 메세지
+    &__feedBack {
+        position:absolute;
+        bottom: calc(#{$standard-margin-bottom} - .9rem);
+        left: 0;
+        font-size: $typho-tiny;
+    }
+
+    &__input {
+        // 1px은 보더값을 위한것
+        border:none;
+        border-bottom: $searchInput-input-border;
+        outline:none;
+        width: 100%;
+        box-sizing: border-box;
+        padding-right: 1.75rem;
+        height: $input-noLabel-height;
+        margin-bottom: $searchInput-message-space;
+        
+        &:focus {
+            border-color: $primary-color-light;
+            box-shadow: 0 1px 0 0 $primary-color-light;
+            
+            & + .JDsearchInput__icon {
+                color: $primary-color;
+                &:hover {
+                    color: $primary-color-light;
+                }
+            }
+        }
+
+        &--valid {
+            border-color: $success-color;
+            box-shadow: 0px 1px 0px 0px $success-color;
+
+            & + .JDsearchInput__icon {
+                color: $success-color;
+            }
+        }
+
+}
+
+//리스트
+    &__ul {
+        position: absolute;
+        @extend %z-depth-1;
+        margin: 0;
+        padding: 0;
+        background-color:white;
+        border-radius: $searchInput-border-radius;
+        max-height: $searchInput-li-height * 5;
+        overflow-y: auto;
+        z-index: $z-index-2;
+        max-width: 100%;
+        overflow-x:auto;
+
+        &--hide {
+            opacity: 0;
+            z-index: -1;
+            height: 0;
+        }
+        
+        // base Space에 정의된만큼 뛰워준 겁니다.
+        top: calc( 100% - #{$standard-margin-bottom});
+
+        &--show {
+            display: block!important;
+        }
+    }
+
+    &__li {
+        padding: $searchInput-li-padding;
+        border-top: $searchInput-li-border-top;
+        min-height: $searchInput-li-height;
+        overflow:hidden;
+        text-overflow: ellipsis;    
+        white-space: nowrap;
+
+        &--unDetail {
+            line-height: $searchInput-li-height;
+        }
+
+        &--hide {
+            // display:none;
+        }
+
+        &:hover{
+            cursor:pointer;
+            background-color: $grey-level1;
+        }
+
+        &:first-child {
+            border-top:none;
+        }
+
+
+        &--active {
+            background-color: $grey-level1;
+        }
+        
+        &--selected {
+            background-color: $primary-color;
+            color: #fff;
+            &:hover{
+                background-color: $primary-color;
+                color: #fff;
+            }
+        }
+    }
+
+    &__input_wrapper { 
+        display: block;
+    }
+    // 리스트 아래 부분 설명
+    &__detail {
+        font-size: $typho-small;
+    }
+
+}

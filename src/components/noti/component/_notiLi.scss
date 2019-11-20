@@ -1,0 +1,39 @@
+
+$notiLi-padding : $standard-space;
+.notiLi {
+    position: relative;
+    padding: $notiLi-padding;
+    width: $standard-width * 55;
+    
+    &__msg {
+    }
+    
+    &__symbolWrap {
+        margin-right: $notiLi-padding;
+    }
+    
+    &__title {
+        color: $html-color;
+        &_txt {
+            display:block;
+            margin-bottom: $standard-height;
+        }
+    }
+
+    &__contents {
+        display:flex;
+        align-items: center;
+    }
+
+    &__symbol {
+    }
+
+    &__badgeWrap {
+        line-height: 0;
+        .JDbadge  {
+            &:first-child {
+                margin-left: 0;
+            }
+        }
+    }
+}

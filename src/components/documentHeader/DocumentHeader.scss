@@ -1,0 +1,30 @@
+@import '../../style_config/style_config';
+
+
+.doc-header {
+
+    @include component-layout(2%, 200px);
+    background-color: $nav-color;
+    text-align: center;
+
+    &__link {
+        color: white;
+        text-decoration: none;
+        line-height: 100%;
+        padding: $nav-link-padding;
+    }
+
+    .header__link {
+
+        @include on-event() {
+            background-color: lighten($nav-color, 20%);
+        }
+
+        &.active {
+            background-color: lighten($nav-color, 20%);
+        }
+
+    }
+
+
+}

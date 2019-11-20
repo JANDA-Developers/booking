@@ -1,0 +1,18 @@
+.memoBox {
+    white-space: pre-wrap;
+    margin-right: 0px;
+
+    
+    .JDbox__content {
+        display:flex;
+        justify-content: space-between;
+        position: relative;
+    }
+
+    &__time {
+        font-size: $typho-superTiny;
+        position: absolute;
+        bottom:2;
+        right: 2px;
+    }
+}

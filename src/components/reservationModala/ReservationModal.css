@@ -1,0 +1,18 @@
+/* ------------------------------ // STUB UNITY ----------------------------- */
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+.reservationModal {
+  width: 90%;
+}
+
+@media only screen and (max-width: 750px) and (min-width: 0px) {
+  .reservationModal #JDreservation .JDreservation__mobileRoomSearcherWrap {
+    background-image: none;
+    min-height: 0 !important;
+  }
+  .reservationModal .JDcard {
+    -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+    padding: 0 !important;
+  }
+}
+/*# sourceMappingURL=ReservationModal.css.map */

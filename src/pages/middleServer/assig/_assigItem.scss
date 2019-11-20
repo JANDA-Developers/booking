@@ -1,0 +1,233 @@
+@import "./components/items/statusMarker";
+
+// 🍓 배정아이템
+.assigItem {
+    $B: '.assigItem';
+    cursor: pointer;
+    z-index: $z-index-8;
+    background-color: $assigItem-normalStatus-color;
+    color:white;
+    @extend %z-depth-half;
+    font-size: 0;
+    box-sizing: border-box;
+    position: relative;
+
+    &__genderCircle {
+        overflow: visible;
+    }
+
+    &__badgeWrap {
+        position:absolute;
+        left: 0;
+        top:-35%;
+    }
+
+    @include response($mobile) {
+        font-size: $typho-tiny;
+    }
+    
+    &__title {
+        padding: .1rem;
+        border-radius: $standard-border-radius;
+        min-width: 30px;
+        overflow: hidden;
+    }
+
+    &--searched {
+        background-color: #FF9632;
+    }
+
+    &--progressing {
+        opacity: $assigItem-progressing-opacity;
+    }
+
+    // 😲 체크인된
+    &--checkIn {
+        background-color: $assigItem-checkIn-color;
+        color: $html-color;
+        #{$B}__gender {
+            &--female {
+                color: $female-color;
+            }
+            &--male {
+                color: $male-color;
+            }
+        }   
+        #{$B}__configIconWrap {
+            &:hover {
+                color: $grey-level3;
+            }
+        }
+    }
+    // 😲 선택된
+    &--selected {
+        border-color: $primary-color;
+        border-right-width: $assigItem-padding!important;
+        border-right-style: ridge!important;
+        border: $assigItem-selected-linked-border;
+
+        #{$B}__rightHandler {
+            cursor: e-resize!important;
+            right: -$assigItem-selected-linked-border-thick;
+        }
+    }
+    // 😲 선택된것과 관련된
+    &--linkedSelected {
+        color: $html-color;
+        background-color: $assigItem-linked-bgColor;
+        border: $assigItem-selected-linked-border;
+
+        #{$B}__configIconWrap {
+            &:hover {
+                color: $grey-level3;
+            }
+        }
+        #{$B}__gender {
+            &--female {
+                color: $female-color;
+            }
+            &--male {
+                color: $male-color;
+            }
+        }
+    }
+    // 😲 링크선택 && 체크인된
+    &--linkedSelected.assigItem--checkIn {
+        background-color: $assigItem-checkIn-color;
+    }
+    // 😲 
+    &--linkedSelected#{&}--unAllocated {
+    }
+    // 😲 움직이는 중인
+    &--moving {
+        opacity: 0.3;
+        box-shadow:none;
+    }
+
+    // 스틱키는 이위에 랩에서 걸려있음
+    &__titleWrap {
+        // 1 긴 블록일 경우 좌측에 타이틀이 붙게끔 설정
+        position: sticky;
+        max-width: 100%;
+        width: max-content;
+        left: 0;
+        // END 1
+        box-sizing: border-box;
+        padding-right: $assigItem-padding * 2;
+        white-space: pre-line;
+        line-height: 1;
+        font-size: $typho-small;
+        border-radius: $standard-border-radius;
+        display:flex;
+        align-items: center;
+        height: 100%;
+
+        @include response($mobile) {
+            width: 100%;
+            padding-right:0;
+        }
+    }
+
+    &__gender {
+        color:white;
+        margin-right: $assigItem-padding;
+        @include response($phablet) {
+            margin-right: 0;
+        }
+    }
+
+    &__content {
+        width: 100%;
+        align-items: center;
+        padding: 0px $assigItem-padding;
+        height: 100%;
+        overflow:visible!important;
+        white-space: nowrap;
+        
+        .circleIcon {
+            margin: 0;
+            max-height: 100%;
+            vertical-align: baseline;
+        }
+        
+        @include response($mobile) {
+            padding: 0px $assigItem-padding /2;
+        }
+    }
+    
+    &__configIconWrap {
+        position:absolute;
+        z-index: $z-index-1;
+        right: 0;
+        top: 0;
+        height: 100%;
+        display: flex;
+        align-items: flex-end;
+        font-size:0;
+        cursor: pointer;
+
+        &:hover {
+            color: $grey-level1;
+        }
+
+        @include response($mobile) {
+            opacity: 0;
+            width: 0px;
+        }
+    }
+    &__validateMarker {
+        position: absolute;
+        background-color: $error-color;
+        z-index: -1;
+        top: 0;
+        bottom:0;
+    }
+    // 😲 방막기일떄
+    &--block {
+        background-color: $assigItem-block-color;
+        color:white;
+        cursor: pointer;
+        // X 버튼
+        .circleIcon {
+            color:white;
+        }
+    }
+    // 😲 방막기 선택된
+    &--block.assigItem--selected {
+        background-color: $html-color;
+        border-top:0;
+        border-left:0;
+        border-bottom:0;
+        color:white;
+    }
+    // 😲 마킹
+    &--mark {
+        opacity: 0.2;
+        @extend %z-depth-2;
+    }
+    // 👻 임시
+    &--ghost {
+        opacity: 0.3;
+        background-color: $assigItem-normalStatus-color;
+        border: 1px soli $grey-level1;
+
+        .assigItem__title {
+            display: none;
+        }
+
+        .assigItem__content {
+            display:flex;
+            height: 100%;
+            align-items: center;
+            align-content: center;
+             .animationWrap {
+                 display: flex;
+
+                 .preloader__wrap {
+                    height: 100%;
+                    line-height: 100%;
+                 }
+             }
+        }
+    }
+}
