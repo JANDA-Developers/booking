@@ -1,28 +1,28 @@
 import React from "react";
-import {useQuery} from "@apollo/react-hooks";
-import {GET_MEMO, GET_NOTI} from "../../../queries";
+import { useQuery } from "@apollo/react-hooks";
+import { GET_MEMO, GET_NOTI } from "../../../apollo/queries";
 import {
   getMemos,
   getMemosVariables,
   getNotis,
   getNotisVariables
 } from "../../../types/api";
-import {queryDataFormater, s4} from "../../../utils/utils";
-import JDIcon, {IconConifgProps} from "../../../atoms/icons/Icons";
-import {IContext} from "../../../pages/MiddleServerRouter";
-import {MemoType, NotiLevel} from "../../../types/enum";
-import client from "../../../apolloClient";
+import { queryDataFormater, s4 } from "../../../utils/utils";
+import JDIcon, { IconConifgProps } from "../../../atoms/icons/Icons";
+import { IContext } from "../../../pages/bookingHost/BookingHostRouter";
+import { MemoType, NotiLevel } from "../../../types/enum";
+import client from "../../../apollo/apolloClient";
 import JDbadge from "../../../atoms/badge/Badge";
 
 interface Iprops extends IconConifgProps {
   context: IContext;
 }
 
-const NotiIcon: React.FC<Iprops> = ({context, ...props}) => {
-  const {house} = context;
-  const {data} = useQuery<getNotis, getNotisVariables>(GET_NOTI, {
+const NotiIcon: React.FC<Iprops> = ({ context, ...props }) => {
+  const { house } = context;
+  const { data } = useQuery<getNotis, getNotisVariables>(GET_NOTI, {
     client,
-    variables: {houseId: house._id, count: 20}
+    variables: { houseId: house._id, count: 20 }
   });
 
   const notis = queryDataFormater(data, "GetNotis", "notis", []) || [];

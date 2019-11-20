@@ -22,7 +22,7 @@ import { TimePerMs } from "../../types/enum";
 import JDIcon, { IconSize } from "../icons/Icons";
 import { LANG, IUseModal } from "../../hooks/hook";
 import { isEmpty } from "../../utils/utils";
-import { THandleMouseDown } from "../../pages/middleServer/assig/components/assigIntrerface";
+import { THandleMouseDown } from "../../pages/bookingHost/assig/components/assigIntrerface";
 
 export interface IDotPoint {
   offsetX: number;

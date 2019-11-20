@@ -2,7 +2,7 @@ import React from "react";
 import "./NoMatch.scss";
 import Button from "../../atoms/button/Button";
 import {NavLink} from "react-router-dom";
-import {IContext} from "../MiddleServerRouter";
+import {IContext} from "../bookingHost/BookingHostRouter";
 import {LANG} from "../../hooks/hook";
 
 interface Iprops {

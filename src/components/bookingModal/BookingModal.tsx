@@ -44,7 +44,7 @@ import Preloader from "../../atoms/preloader/Preloader";
 import { toast } from "react-toastify";
 import { isPhone } from "../../utils/inputValidations";
 import { autoComma } from "../../utils/utils";
-import { IContext } from "../../pages/MiddleServerRouter";
+import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import Drawer from "../../atoms/drawer/Drawer";
 import _ from "lodash";
 import C from "../../utils/C";

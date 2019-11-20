@@ -12,12 +12,15 @@ import {
   getPaymentAuth,
   getPaymentAuthVariables
 } from "../../../types/api";
-import { START_BOOKING_FOR_PUBLIC, GET_PAYMENT_AUTH } from "../../../queries";
+import {
+  START_BOOKING_FOR_PUBLIC,
+  GET_PAYMENT_AUTH
+} from "../../../apollo/queries";
 import { IUseModal } from "../../../hooks/hook";
 import { isInIfram } from "../../../utils/isInIfram";
-import { IContext } from "../../MiddleServerRouter";
+import { IContext } from "../../bookingHost/BookingHostRouter";
 import { useMutation, useQuery } from "@apollo/react-hooks";
-import client from "../../../apolloClient";
+import client from "../../../apollo/apolloClient";
 
 export interface IReservationWrapProps {
   publicKey?: string;

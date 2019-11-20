@@ -1,10 +1,8 @@
-import PropTypes from "prop-types";
 import classNames from "classnames";
 import React from "react";
-import {Node} from "unist";
 import ErrProtecter from "../../utils/errProtect";
 import "./Card.scss";
-import {IDiv} from "../../types/interface";
+import { IDiv } from "../../types/interface";
 
 interface IProps extends IDiv {
   children?: JSX.Element[] | JSX.Element | string;

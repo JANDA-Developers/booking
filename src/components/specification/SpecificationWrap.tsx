@@ -6,7 +6,7 @@ import {
   updateUserForSU,
   updateUserForSUVariables
 } from "../../types/api";
-import { GET_HOUSE_SPECIFICATION, UPDATE_USER_FOR_SU } from "../../queries";
+import { GET_HOUSE_SPECIFICATION, UPDATE_USER_FOR_SU } from "../../apollo/queries";
 import {
   queryDataFormater,
   onCompletedMessage

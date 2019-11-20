@@ -5,7 +5,7 @@ import ReservationWrap, {
 } from "../../pages/outPages/reservation/ReservationWrap";
 import JDmodal from "../../atoms/modal/Modal";
 import "./ReservationModal.scss";
-import {IContext} from "../../pages/MiddleServerRouter";
+import {IContext} from "../../pages/bookingHost/BookingHostRouter";
 
 export interface IReservationModalProps extends IReservationWrapProps {
   modalHook: IUseModal;

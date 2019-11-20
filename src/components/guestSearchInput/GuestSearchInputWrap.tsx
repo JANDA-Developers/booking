@@ -1,11 +1,11 @@
 import React, {useState} from "react";
 import GuestSearchInput from "./GuestSearchInput";
 import {queryDataFormater} from "../../utils/utils";
-import {GET_BOOKINGS} from "../../queries";
+import {GET_BOOKINGS} from "../../apollo/queries";
 import {Query} from "react-apollo";
 import {getBookings, getBookingsVariables} from "../../types/api";
 import {isYYYYMMDD, isNumberMinMax} from "../../utils/inputValidations";
-import {IContext} from "../../pages/MiddleServerRouter";
+import {IContext} from "../../pages/bookingHost/BookingHostRouter";
 
 class GetBookingsQuery extends Query<getBookings, getBookingsVariables> {}
 

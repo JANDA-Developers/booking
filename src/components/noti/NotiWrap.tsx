@@ -5,7 +5,7 @@ import {
   GET_USER_INFO,
   GET_NOTI,
   CONFIRM_NOTI
-} from "../../queries";
+} from "../../apollo/queries";
 import {
   showError,
   onCompletedMessage,
@@ -24,7 +24,7 @@ import {
   getMyProfile_GetMyProfile_user_houses_product
 } from "../../types/api";
 import Noti from "./Noti";
-import {IContext} from "../../pages/MiddleServerRouter";
+import {IContext} from "../../pages/bookingHost/BookingHostRouter";
 import {getOperationName} from "apollo-link";
 import moment from "moment";
 import {FLOATING_PRELOADER_SIZE, NotiType, NotiLevel} from "../../types/enum";

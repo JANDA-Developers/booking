@@ -1,20 +1,24 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import ErrProtecter from "../../../utils/errProtect";
 import "./CheckReservation.scss";
-import {useQuery} from "@apollo/react-hooks";
+import { useQuery } from "@apollo/react-hooks";
 import {
   getBookingForPublic,
   getBookingForPublicVariables
 } from "../../../types/api";
-import {queryDataFormater, s4, onCompletedMessage} from "../../../utils/utils";
-import {GET_BOOKING_FOR_PUBLIC} from "../../../queries";
-import {RouteComponentProps} from "react-router";
-import client from "../../../apolloClient";
+import {
+  queryDataFormater,
+  s4,
+  onCompletedMessage
+} from "../../../utils/utils";
+import { GET_BOOKING_FOR_PUBLIC } from "../../../apollo/queries";
+import { RouteComponentProps } from "react-router";
+import client from "../../../apollo/apolloClient";
 import CheckReservation from "./CheckReservation";
 import JDmodal from "../../../atoms/modal/Modal";
-import JDanimation, {Animation} from "../../../atoms/animation/Animations";
-import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
-import {useModal, LANG} from "../../../hooks/hook";
+import JDanimation, { Animation } from "../../../atoms/animation/Animations";
+import JDIcon, { IconSize } from "../../../atoms/icons/Icons";
+import { useModal, LANG } from "../../../hooks/hook";
 export interface ISetBookingInfo
   extends React.Dispatch<React.SetStateAction<any>> {}
 
@@ -27,13 +31,13 @@ interface IProps extends RouteComponentProps<ICheckParams> {}
 
 const CheckReservationWrap: React.FC<IProps> = ({
   match: {
-    params: {transId, publickey}
+    params: { transId, publickey }
   }
 }) => {
   sessionStorage.setItem("hpk", publickey);
   const comeplteModalHook = useModal(false);
   const isFirstSender = useState(true);
-  const {data, refetch, loading} = useQuery<
+  const { data, refetch, loading } = useQuery<
     getBookingForPublic,
     getBookingForPublicVariables
   >(GET_BOOKING_FOR_PUBLIC, {
@@ -44,7 +48,7 @@ const CheckReservationWrap: React.FC<IProps> = ({
       // @ts-ignore
       skip: !transId
     },
-    onCompleted: ({GetBookingForPublic}) => {
+    onCompleted: ({ GetBookingForPublic }) => {
       onCompletedMessage(
         GetBookingForPublic,
         LANG("reference_sucess"),

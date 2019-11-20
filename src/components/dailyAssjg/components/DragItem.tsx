@@ -11,10 +11,10 @@ import JDIcon, { IconSize } from "../../../atoms/icons/Icons";
 import { ReactTooltip } from "../../../atoms/tooltip/Tooltip";
 import moment from "moment";
 import classNames from "classnames";
-import Gender from "../../../pages/middleServer/assig/components/items/Gender";
+import Gender from "../../../pages/bookingHost/assig/components/items/Gender";
 import { BookingStatus, PaymentStatus } from "../../../types/enum";
 import { LANG } from "../../../hooks/hook";
-import StatusMarker from "../../../pages/middleServer/assig/components/items/StatusMarker";
+import StatusMarker from "../../../pages/bookingHost/assig/components/items/StatusMarker";
 
 export interface IDragItemProp {
   type: string;

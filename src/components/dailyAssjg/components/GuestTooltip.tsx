@@ -1,12 +1,12 @@
 import React, {Fragment} from "react";
 import TooltipList from "../../../atoms/tooltipList/TooltipList";
 import Button from "../../../atoms/button/Button";
-import {IContext} from "../../../pages/MiddleServerRouter";
+import {IContext} from "../../../pages/bookingHost/BookingHostRouter";
 import {IDailyAssigContext} from "../DailyAssig";
 import {
   IDailyAssigUtils,
   IDailyAssigDataControl
-} from "../../../pages/middleServer/assig/components/assigIntrerface";
+} from "../../../pages/bookingHost/assig/components/assigIntrerface";
 import {getAllRoomTypeWithGuest_GetGuests_guests as IG} from "../../../types/api";
 import {BookingStatus} from "../../../types/enum";
 import {LANG} from "../../../hooks/hook";

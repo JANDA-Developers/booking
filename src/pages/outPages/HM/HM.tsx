@@ -4,18 +4,17 @@ import ProfileCircle from "../../../atoms/profileCircle/ProfileCircle";
 import InputText from "../../../atoms/forms/inputText/InputText";
 import Button from "../../../atoms/button/Button";
 import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
-import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
-import JDmenu, {JDsubMenu} from "../../../atoms/menu/Menu";
-import {Language} from "../../../types/enum";
+import JDIcon, { IconSize } from "../../../atoms/icons/Icons";
+import JDmenu, { JDsubMenu } from "../../../atoms/menu/Menu";
+import { Language } from "../../../types/enum";
 import {
   useModal,
   IuseImageUploader,
   IUseModal,
   LANG
 } from "../../../hooks/hook";
-import {Fragment} from "react";
+import { Fragment } from "react";
 import "./HM.scss";
-import LangViewModal from "../../middleServer/HMconfig/component/LangViewModal";
 import {
   getHM_GetHM_HM_location,
   getHM_GetHM_HM_menus
@@ -23,7 +22,8 @@ import {
 import HMmenu from "./component/HMmenu";
 
 import Preloader from "../../../atoms/preloader/Preloader";
-import {JdFile} from "../../../types/interface";
+import { JdFile } from "../../../types/interface";
+import LangViewModal from "../../bookingHost/HMconfig/component/LangViewModal";
 
 interface IProps {
   host?: {
@@ -116,9 +116,9 @@ const HMcompoent: React.FC<IProps> = ({
                       textAlign="center"
                       value={title[currentLang]}
                       onChange={value => {
-                        const {setTitle} = host;
+                        const { setTitle } = host;
                         title[currentLang] = value;
-                        setTitle({...title});
+                        setTitle({ ...title });
                       }}
                       placeholder={LANG("HM_title")}
                     />

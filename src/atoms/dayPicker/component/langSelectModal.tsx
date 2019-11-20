@@ -1,7 +1,7 @@
 import React from "react";
 import JDmodal from "../../modal/Modal";
 import LangList from "../../../components/langList/LangList";
-import {IContext} from "../../../pages/MiddleServerRouter";
+import {IContext} from "../../../pages/bookingHost/BookingHostRouter";
 import {
   LanguageShortResverse,
   LANGUAGE_LIST,

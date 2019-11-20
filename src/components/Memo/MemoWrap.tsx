@@ -12,11 +12,11 @@ import {
   deleteMemoVariables,
   deleteMemo
 } from "../../types/api";
-import {GET_MEMO, CREATE_MEMO, DELETE_MEMO, UPDATE_MEMO} from "../../queries";
+import {GET_MEMO, CREATE_MEMO, DELETE_MEMO, UPDATE_MEMO} from "../../apollo/queries";
 import {getOperationName} from "apollo-link";
 import {MemoType, MODAL_PRELOADER_SIZE} from "../../types/enum";
 import Preloader from "../../atoms/preloader/Preloader";
-import {IContext} from "../../pages/MiddleServerRouter";
+import {IContext} from "../../pages/bookingHost/BookingHostRouter";
 import {IUseModal, LANG} from "../../hooks/hook";
 
 export interface IMemoWrapProps extends IConfigMemo {

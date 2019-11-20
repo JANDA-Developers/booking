@@ -3,7 +3,7 @@ import {NavLink} from "react-router-dom";
 import Button from "../../../atoms/button/Button";
 import ProfileCircle from "../../../atoms/profileCircle/ProfileCircle";
 import SelectHouseWrap from "../../selectHouse/SelectHouseWrap";
-import {IContext} from "../../../pages/MiddleServerRouter";
+import {IContext} from "../../../pages/bookingHost/BookingHostRouter";
 import {IUseModal, LANG} from "../../../hooks/hook";
 import {IconSize} from "../../../atoms/icons/Icons";
 interface Iprops {

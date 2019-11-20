@@ -1,9 +1,0 @@
-{
-    "version": 3,
-    "mappings": "AAAA,AAAA,aAAa,CAAC;EACV,KAAK,EAAE,WAAW;CASrB;;AAPI,AAAD,oBAAQ,CAAC;EACL,WAAW,EAAE,MAAM;CACtB;;AAEA,AAAD,wBAAY,CAAC;EACT,KAAK,EAAE,IAAI;CACd",
-    "sources": [
-        "RoomSearcher.scss"
-    ],
-    "names": [],
-    "file": "RoomSearcher.css"
-}

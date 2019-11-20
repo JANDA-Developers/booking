@@ -2,8 +2,12 @@
 import ErrProtecter from "./errProtect";
 import isEmpty from "./isEmptyData";
 import download from "./download";
-import {smsMessageFormatter, smsMsgParser, templateOpCreater} from "./smsUtils";
-import autoHypen, {autoComma, numberStr, toNumber} from "./autoFormat";
+import {
+  smsMessageFormatter,
+  smsMsgParser,
+  templateOpCreater
+} from "./smsUtils";
+import autoHypen, { autoComma, numberStr, toNumber } from "./autoFormat";
 import stepFinder from "./stepFinder";
 import {
   JDMonthTextChanger,
@@ -23,17 +27,14 @@ import {
   isNumberMinMax
 } from "./inputValidations";
 import insideRedirect from "./insideRedirect";
-import isDiff from "./isDiff";
 import searchHoliday from "./searchHoliday";
 import isTestProduct from "./isTestProduct";
-import {textAlignClass, colorClass} from "./autoClasses";
+import { textAlignClass, colorClass } from "./autoClasses";
 import searchListFormat from "./searchListFormater";
-import {showError} from "./errorMessage";
+import { showError } from "./errorMessage";
 import onCompletedMessage from "./onCompletedMessage";
 import queryDataFormater from "./queryFormater";
-import pageNationFormater from "./paginationFormat";
 import setMidNight from "./setMidNight";
-import stringToPrice from "./stringToPrice";
 import removeNullOfObject from "./removeNullOfObject";
 import s4 from "./keyGen";
 import randomIntFromInterval from "./randomNumber";
@@ -69,12 +70,10 @@ const JDutils = {
   autoHypen,
   onCompletedMessage,
   queryDataFormater,
-  pageNationFormater,
   setMidNight,
   getRoomCountFromHouse,
   applyDaysToArr,
   arrToApplyDays,
-  stringToPrice,
   templateOpCreater,
   smsMsgParser,
   autoComma,
@@ -114,7 +113,6 @@ export {
   autoHypen,
   getRoomCountFromHouse,
   dayarrEnToBooleanArr,
-  pageNationFormater,
   getGenderIcon,
   showError,
   smsMsgParser,
@@ -128,8 +126,6 @@ export {
   applyDaysToArr,
   randomIntFromInterval,
   arrToApplyDays,
-  stringToPrice,
-  isDiff,
   targetBlink,
   autoComma,
   numberStr,

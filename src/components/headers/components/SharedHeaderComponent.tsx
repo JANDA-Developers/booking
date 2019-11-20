@@ -1,6 +1,6 @@
 import React, {Fragment} from "react";
 import NotiWrap from "../../noti/NotiWrap";
-import {IContext} from "../../../pages/MiddleServerRouter";
+import {IContext} from "../../../pages/bookingHost/BookingHostRouter";
 import TooltipList, {
   ReactTooltip
 } from "../../../atoms/tooltipList/TooltipList";

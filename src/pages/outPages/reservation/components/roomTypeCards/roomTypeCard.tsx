@@ -1,21 +1,21 @@
 import classNames from "classnames";
-import React, {Fragment, useState, useEffect, useMemo} from "react";
+import React, { Fragment, useState, useEffect, useMemo } from "react";
 import JDselect, {
   IselectedOption
 } from "../../../../../atoms/forms/selectBox/SelectBox";
 import Button from "../../../../../atoms/button/Button";
-import {IRoomType} from "../../../../../types/interface";
+import { IRoomType } from "../../../../../types/interface";
 import Preloader from "../../../../../atoms/preloader/Preloader";
-import {isEmpty, autoComma} from "../../../../../utils/utils";
-import {useModal, LANG} from "../../../../../hooks/hook";
-import {Gender, PricingType, RoomGender} from "../../../../../types/enum";
-import {IGuestCount} from "./roomTypeCardsWrap";
+import { isEmpty, autoComma } from "../../../../../utils/utils";
+import { useModal, LANG } from "../../../../../hooks/hook";
+import { Gender, PricingType, RoomGender } from "../../../../../types/enum";
+import { IGuestCount } from "./roomTypeCardsWrap";
 import JDmodal from "../../../../../atoms/modal/Modal";
 import moment from "moment";
 import selectOpCreater from "../../../../../utils/selectOptionCreater";
 import JDbadge from "../../../../../atoms/badge/Badge";
-import {IReservationHooks} from "../../Reservation";
-import {PortalPreloader} from "../../../../../utils/portalTo";
+import { IReservationHooks } from "../../Reservation";
+import { PortalPreloader } from "../../../../../utils/portalElement";
 
 interface IProps {
   className?: string;
@@ -163,7 +163,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
     if (isSelectedRoom) {
       roomSelectInfoCopy.splice(roomTypeIndex, 1);
       setRoomSelectInfo(roomSelectInfoCopy);
-      setDisabled({female: false, male: false, count: false});
+      setDisabled({ female: false, male: false, count: false });
 
       priceHook.onChange(priceHook.value - totalRoomTypePrice);
       return;
@@ -188,7 +188,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
     });
 
     setRoomSelectInfo(roomSelectInfoCopy);
-    setDisabled({female: true, male: true, count: true});
+    setDisabled({ female: true, male: true, count: true });
     priceHook.onChange(priceHook.value + totalRoomTypePrice);
 
     roomInfoHook[1]([...roomInfoHook[0], roomTypeData]);

@@ -23,7 +23,7 @@ import {
   TUseInput,
   IUseModal
 } from "../../hooks/hook";
-import { IContext } from "../../pages/MiddleServerRouter";
+import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 
 // (예약/게스트) 정보
 export interface IBookingModal_AssigInfo {

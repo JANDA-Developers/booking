@@ -12,7 +12,7 @@ import {
   COMEPLETE_PHONE_VERIFICATION,
   GET_USER_INFO,
   START_PHONE_VERIFICATION_WITH_PHONE_NUMBER
-} from "../../queries";
+} from "../../apollo/queries";
 import EerrorProtect from "../../utils/errProtect";
 import {IUseModal, LANG} from "../../hooks/hook";
 

@@ -45,7 +45,7 @@ import {
   PayMethod,
   Funnels
 } from "../../../types/enum";
-import { GET_ALL_ROOM_TYPE_FOR_BOOKING } from "../../../queries";
+import { GET_ALL_ROOM_TYPE_FOR_BOOKING } from "../../../apollo/queries";
 import Preloader from "../../../atoms/preloader/Preloader";
 import { Helmet } from "react-helmet";
 import { openNiceModal } from "./components/doPay";
@@ -53,7 +53,7 @@ import { reservationDevelop, developEvent } from "../../../utils/developMaster";
 import RoomSearcher from "../../../components/roomSearcher.tsx/RoomSearcher";
 import BookingInfoModal from "./components/roomTypeCards/bookingInfoModal";
 import isLast from "../../../utils/isLast";
-import { IContext } from "../../MiddleServerRouter";
+import { IContext } from "../../bookingHost/BookingHostRouter";
 import { ApolloQueryResult } from "apollo-client";
 import BookingModalWrap from "../../../components/bookingModal/BookingModalWrap";
 import { DEFAULT_BOOKING } from "../../../types/defaults";
