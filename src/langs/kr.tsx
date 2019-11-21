@@ -824,6 +824,7 @@ export const kr = {
   get_temporary_password: "임시 비밀번호 받기",
   temp_password: "임시 비밀번호",
   copied_to_cliboard: "클립보드에 복사됨",
+  current_password: "기존 패스워드",
   password_resset: "비밀번호 재발급",
   password_rewrite: "비밀번호 재설정",
   password_resset_completed: "임시 비밀번호로 변경 되었습니다.",

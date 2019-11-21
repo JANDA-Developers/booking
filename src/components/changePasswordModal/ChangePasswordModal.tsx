@@ -51,21 +51,28 @@ const ChangePasswordModal: React.FC<Iprops> = ({
           ? LANG("please_rewrite_your_new_password")
           : LANG("password_rewrite")}
       </h6>
-      <InputText label={LANG("")} {...oldPasswordHook} />
+      <div>
+      <InputText label={LANG("current_password")} {...oldPasswordHook} />
+      </div>
+      <div>
       <InputText
         validation={isPassword}
         label={LANG("new_password")}
         type="password"
         {...newPasswordHook}
       />
-      <JDpreloader loading={muLoading} floating />
+      </div>
+      <div className="JDsmall-text JDstandard-margin-bottom">
       <PasswordChecker txt={newPasswordHook.value} />
+      </div>
+      <JDpreloader loading={muLoading} floating />
       <InputText
         validation={isPassword}
         label={LANG("check_password")}
         type="password"
         {...newConfimPasswordHook}
       />
+      <div className="JDmodal__endSection">
       <Button
         onClick={() => {
           if (validate()) {
@@ -79,6 +86,7 @@ const ChangePasswordModal: React.FC<Iprops> = ({
         thema="primary"
         label={LANG("change")}
       />
+      </div>
     </JDmodal>
   );
 };
