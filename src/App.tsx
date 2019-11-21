@@ -14,11 +14,27 @@ import "./lib/wave/wave"; // 웨이브 이펙트
 import "./lib/wave/wave.scss";
 import { useLang } from "./hooks/hook";
 import { globalLanguageSetting } from "./utils/globalLagnSet";
+import $ from "jquery";
 
 function App() {
   const langHook = useLang("kr");
 
   globalLanguageSetting();
+
+  useEffect(() => {
+    const versionToggle = (e: any) => {
+      if (e.altKey && e.ctrlKey && e.key === "v") {
+        $("#JDversion").toggle();
+      }
+    };
+
+    document.addEventListener("keydown", versionToggle);
+    return () => {
+      document.removeEventListener("keydown", versionToggle);
+    };
+  });
+
+  <div onKeyDown={e => {}}></div>;
 
   return (
     <div id="JDoutWrapper">
@@ -46,6 +62,18 @@ function App() {
           </Switch>
         </Router>
         <JDtoast />
+        <div
+          style={{
+            display: "none",
+            position: "fixed",
+            right: "2%",
+            bottom: "1%"
+          }}
+          id="JDversion"
+          className="JDtextColor--placeHolder"
+        >
+          1.1.0 Last Update 2019.11.21.
+        </div>
         <div id="JDpreloaderPortal" />
         {/* for old borwser */}
         <div id="outdated" />

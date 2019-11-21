@@ -6,7 +6,7 @@ import JDswitch from "../../../../atoms/forms/switch/Switch";
 import { useSwitch, LANG } from "../../../../hooks/hook";
 import { muResult } from "../../../../utils/utils";
 import JDbox from "../../../../atoms/box/JDbox";
-import TabUsePhoto from "../../../../img/describe/roomTypeTap.gif";
+import { IMG_REPO } from "../../../../types/enum";
 
 const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
   updateHouseConfigMu,
@@ -48,7 +48,7 @@ const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
           label={LANG("use")}
         />
       </div>
-      <JDbox mode="photoFrame" photo={TabUsePhoto} />
+      <JDbox mode="photoFrame" photo={`${IMG_REPO}describe/roomTypeTap.gif`} />
       <div />
     </div>
   );

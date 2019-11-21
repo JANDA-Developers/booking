@@ -12,12 +12,12 @@ import utils from "../../../utils/utils";
 import { useInput, useRadio, LANG } from "../../../hooks/hook";
 import privacyPolicy from "../../../docs/privacyPolicy";
 import { IContext } from "../../bookingHost/BookingHostRouter";
-import uri from "../../../apollo/uri";
 import {
   isHaveNumber,
   isLengthIn,
   isHaveScharacter
 } from "../../../utils/inputValidations";
+import PasswordChecker from "../../../components/passwordChecker/PasswordCheck";
 
 interface Iprops {
   context: IContext;
@@ -31,11 +31,6 @@ const SignUp: React.FC<Iprops> = ({ context }) => {
   const passwordHook = useInput("");
   const checkPasswordHook = useInput("");
   const [infoAgreement, setInfoAgreement] = useRadio("N");
-  const [passwordCondition, setPasswordCondition] = useState({
-    special: false,
-    length: false,
-    enAndNumber: false
-  });
 
   return (
     <div id="signUpPage" className="signUp container container--sm">
@@ -123,11 +118,6 @@ const SignUp: React.FC<Iprops> = ({ context }) => {
                         <InputText
                           {...passwordHook}
                           onChange={v => {
-                            setPasswordCondition({
-                              enAndNumber: isHaveNumber(v),
-                              length: isLengthIn(v, 15, 7),
-                              special: isHaveScharacter(v)
-                            });
                             passwordHook.onChange(v);
                           }}
                           validation={utils.isPassword}
@@ -136,11 +126,7 @@ const SignUp: React.FC<Iprops> = ({ context }) => {
                         />
                       </div>
                       <p className="JDsmall-text">
-                        {LANG("password_condition")(
-                          passwordCondition.special,
-                          passwordCondition.length,
-                          passwordCondition.enAndNumber
-                        )}
+                        <PasswordChecker txt={passwordHook.value} />
                       </p>
                       <div className="flex-grid__col col--full-12 col--md-12">
                         <InputText

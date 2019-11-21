@@ -1,17 +1,16 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import "./Header.scss";
-import {NavLink} from "react-router-dom";
-import {ReactTooltip} from "../../atoms/tooltipList/TooltipList";
-import Icon, {IconSize} from "../../atoms/icons/Icons";
-import {ErrProtecter} from "../../utils/utils";
-import logo from "../../img/logo/logo--white.png"; // with import
-import {useModal} from "../../hooks/hook";
-import {IDiv} from "../../types/interface";
+import { NavLink } from "react-router-dom";
+import { ReactTooltip } from "../../atoms/tooltipList/TooltipList";
+import Icon, { IconSize } from "../../atoms/icons/Icons";
+import { ErrProtecter } from "../../utils/utils";
+import { useModal } from "../../hooks/hook";
+import { IDiv } from "../../types/interface";
 import GuestSearchInputWrap from "../guestSearchInput/GuestSearchInputWrap";
 import PhoneVerificationModalWrap from "../phoneVerificationModal/PhoneVerificationModalWrap";
 import windowSize from "react-window-size";
-import {WindowSize} from "../../types/enum";
-import {IContext} from "../../pages/bookingHost/BookingHostRouter";
+import { WindowSize, IMG_REPO } from "../../types/enum";
+import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import MobileHeaderComponent from "./components/MobileHeaderComponent";
 import PcHeaderComponent from "./components/PcHeaderComponent";
 import SharedHeaderComponent from "./components/SharedHeaderComponent";
@@ -33,9 +32,9 @@ const Header: React.FC<IProps> = ({
   sideNavIsOpen,
   setSideNavIsOpen
 }) => {
-  const {user} = context;
-  const {house} = context;
-  const {completeDefaultSetting} = house || {completeDefaultSetting: false};
+  const { user } = context;
+  const { house } = context;
+  const { completeDefaultSetting } = house || { completeDefaultSetting: false };
   const isPhabletDown = windowWidth < WindowSize.TABLET;
 
   useEffect(() => {
@@ -55,7 +54,11 @@ const Header: React.FC<IProps> = ({
             className={`header__logoPlace ${completeDefaultSetting &&
               "JDdisplay-none--wmd"}`}
           >
-            <img className="header__logo" src={logo} alt="" />
+            <img
+              className="header__logo"
+              src={`${IMG_REPO}logo/logo--white.png`}
+              alt=""
+            />
           </span>
         </NavLink>
         {/* 메뉴버튼 */}

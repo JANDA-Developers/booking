@@ -1,6 +1,5 @@
 import React from "react";
 import { toast } from "react-toastify";
-import defaultProfileImg from "../../../img/profile/default_profile.jpg";
 import Button from "../../../atoms/button/Button";
 import InputText from "../../../atoms/forms/inputText/InputText";
 import ProfileCircle from "../../../atoms/profileCircle/ProfileCircle";
@@ -11,9 +10,11 @@ import Modal from "../../../atoms/modal/Modal";
 import "./MyPage.scss";
 import MyHouseModalWrap from "./components/myHouseModalWrap";
 import Preloader from "../../../atoms/preloader/Preloader";
-import { IuseImageUploader, LANG } from "../../../hooks/hook";
+import { IuseImageUploader, LANG, useModal } from "../../../hooks/hook";
 import { IContext } from "../../bookingHost/BookingHostRouter";
 import { IconSize } from "../../../atoms/icons/Icons";
+import ChangePasswordModalWrap from "../../../components/changePasswordModal/ChangePasswordModalWrap";
+import { IMG_REPO } from "../../../types/enum";
 
 interface IProps {
   context: IContext;
@@ -35,8 +36,9 @@ const Mypage: React.SFC<IProps> = ({
 }) => {
   const { houses } = context;
   const profileStyle = {
-    backgroundImage: `url(${defaultProfileImg})`
+    backgroundImage: `url(${IMG_REPO}profile/default_profile.jpg)`
   };
+  const changePasswordModalHook = useModal();
 
   const checkUpdateMutation = (e: any) => {
     e.preventDefault();
@@ -103,8 +105,11 @@ const Mypage: React.SFC<IProps> = ({
               <Button
                 onClick={passWordModal.openModal}
                 thema="primary"
-                mode="border"
                 label={LANG("change_profile")}
+              />
+              <Button
+                onClick={changePasswordModalHook.openModal}
+                label={LANG("password_rewrite")}
               />
             </div>
           </form>
@@ -160,6 +165,7 @@ const Mypage: React.SFC<IProps> = ({
           />
         </div>
       </Modal>
+      <ChangePasswordModalWrap modalHook={changePasswordModalHook} />
       <MyHouseModalWrap context={context} MyHouseModalHook={houseModal} />
     </div>
   );

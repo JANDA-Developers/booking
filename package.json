@@ -83,7 +83,7 @@
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
     "precodegen": "apollo schema:download --endpoint=http://localhost:4000/graphql",
-    "codegen": "apollo codegen:generate src/types/api.d.ts --queries=src/apollo../queries.ts --addTypename --localSchemaFile=schema.json --target=typescript --outputFlat"
+    "codegen": "apollo codegen:generate src/types/api.d.ts --queries=src/apollo/queries.ts --addTypename --localSchemaFile=schema.json --target=typescript --outputFlat"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -98,8 +98,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "find-unused-sass-variables": "^1.0.2",
-    "@apollo/react-hooks": "^3.1.1",
+    "@apollo/react-hooks": "^3.1.3",
     "@babel/core": "7.1.0",
     "@types/apollo-upload-client": "^8.1.3",
     "@types/chart.js": "^2.7.56",
@@ -148,6 +147,7 @@
     "eslint-plugin-jsx-a11y": "6.1.2",
     "eslint-plugin-react": "7.11.1",
     "file-loader": "2.0.0",
+    "find-unused-sass-variables": "^1.0.2",
     "fork-ts-checker-webpack-plugin-alt": "0.4.14",
     "html-webpack-plugin": "4.0.0-alpha.2",
     "jest": "23.6.0",

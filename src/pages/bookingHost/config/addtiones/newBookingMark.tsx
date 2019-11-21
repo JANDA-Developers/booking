@@ -6,9 +6,8 @@ import JDswitch from "../../../../atoms/forms/switch/Switch";
 import { useSwitch, useRange, LANG } from "../../../../hooks/hook";
 import { muResult } from "../../../../utils/utils";
 import JDbox from "../../../../atoms/box/JDbox";
-import NewBookingBadge from "../../../../img/describe/newBookingBadge.png";
 import { DEFAULT_HOUSE_CONFIG } from "../../../../types/defaults";
-import { TimePerMs } from "../../../../types/enum";
+import { TimePerMs, IMG_REPO } from "../../../../types/enum";
 import JDbadge from "../../../../atoms/badge/Badge";
 
 const NewBookingMark: React.FC<IAddtionProp> = ({
@@ -17,7 +16,8 @@ const NewBookingMark: React.FC<IAddtionProp> = ({
 }) => {
   const { houseConfig, house } = context;
   const { bookingConfig } = houseConfig;
-  const { newBookingMark } = bookingConfig || DEFAULT_HOUSE_CONFIG.bookingConfig;
+  const { newBookingMark } =
+    bookingConfig || DEFAULT_HOUSE_CONFIG.bookingConfig;
   const { enable, newGuestTime } =
     newBookingMark || DEFAULT_HOUSE_CONFIG.bookingConfig.newBookingMark;
   const [use, setUse] = useState(enable || false);
@@ -83,20 +83,30 @@ const NewBookingMark: React.FC<IAddtionProp> = ({
         maxValue={TimePerMs.DAY * 7}
         minValue={TimePerMs.H}
         formatLabel={value =>
-          `${parseInt((value / TimePerMs.H).toString(), 10)} ${LANG('time')}`
+          `${parseInt((value / TimePerMs.H).toString(), 10)} ${LANG("time")}`
         }
         value={timeHook.value}
         onChangeComplete={handleRangeChange}
         onChange={timeHook.onChange}
       />
-      <JDbox mode="photoFrame" photo={NewBookingBadge} />
+      <JDbox
+        mode="photoFrame"
+        photo={`${IMG_REPO}describe/newBookingBadge.png`}
+      />
       <div>
         <p>
-          <div className="">{LANG("displays_a_new_reservation_within_the_set_time")}</div>
-          <div>{LANG("reservations_booked_directly_by_the_administrator_are_not_displayed")}</div>
+          <div className="">
+            {LANG("displays_a_new_reservation_within_the_set_time")}
+          </div>
+          <div>
+            {LANG(
+              "reservations_booked_directly_by_the_administrator_are_not_displayed"
+            )}
+          </div>
           <div>
             {LANG("reservation_mark")}
-            <JDbadge thema="new">new</JDbadge>{LANG("you_can_clear_the_display_by_clicking")}
+            <JDbadge thema="new">new</JDbadge>
+            {LANG("you_can_clear_the_display_by_clicking")}
           </div>
         </p>
       </div>

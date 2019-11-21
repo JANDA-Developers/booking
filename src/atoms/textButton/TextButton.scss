@@ -1,0 +1,12 @@
+@import "~Styles/style_config.scss";
+
+.TextButton {
+  margin-right: $standard-small-space;
+  margin-bottom: $standard-label-margin;
+  &:hover {
+    cursor: pointer;
+    color: $grey-level3;
+  }
+  @include colorText--prefixer();   
+  @include sizeText--prefixer();   
+}

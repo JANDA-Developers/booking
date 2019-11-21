@@ -1882,6 +1882,30 @@ export const START_PHONE_VERIFICATION_WITH_PHONE_NUMBER = gql`
     }
 `;
 
+
+export const START_PASSWORD_RESET = gql`
+    mutation startPasswordReset($email: EmailAddress!, $phoneNumber: String!) {
+        StartPasswordReset(email:$email, phoneNumber:$phoneNumber) {
+            ok
+            error
+        }
+    }
+`;
+
+export const COMPLETE_PASSWORD_RESET = gql`
+    mutation completePasswordReset(
+        $email: EmailAddress!
+        $phoneNumber: PhoneNumber!
+        $key: String!
+    ) {
+        CompletePasswordReset(email:$email, phoneNumber:$phoneNumber, key:$key) {
+            ok
+            error
+            newPassword
+        }
+    }
+`
+
 // 유저 :: 휴대폰 인증 완료 키를 보냄
 export const COMEPLETE_PHONE_VERIFICATION = gql`
     mutation completePhoneVerification($key: String!) {
@@ -2141,6 +2165,7 @@ export const UPDATE_SENDER = gql`
     ${F_SMS_SENDER}
 `;
 
+
 // 게스트용
 export const GET_HOUSE_MENUAL = gql`
     query getHM($houseId: ID!) {
@@ -2287,6 +2312,29 @@ export const UPLOAD_FILE = gql`
   }
   ${F_IMG}
 `;
+
+
+export const CHANGE_PASSWORD = gql`
+    mutation changePassword(
+        $currentPassword: Password!,
+        $newPassword: Password!,
+        $newPasswordRepeat: Password!
+    ) {
+        ChangePassword(currentPassword: $currentPassword, newPassword: $newPassword, newPasswordRepeat: $newPasswordRepeat){
+            ok
+            error
+        }
+    }
+`
+
+export const FIND_MY_EMAIL = gql`
+    mutation findMyEmail($phoneNumber:String!) {
+        FindMyEmail(phoneNumber: $phoneNumber){
+            ok
+            error
+        }
+    }
+`
 
 export const CONFIRM_NOTI = gql`
     mutation confirmNoti($houseId: ID!, $notiIds: [ID!]!) {

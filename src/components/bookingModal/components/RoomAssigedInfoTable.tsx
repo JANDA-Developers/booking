@@ -11,8 +11,6 @@ import { LANG } from "../../../hooks/hook";
 import "./RoomAssigedInfoTable.scss";
 import { IBookingModal_AssigInfo } from "../declaration";
 
-const Alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"];
-
 interface IGuestTableInfo {
   _id: string;
   roomType: {
@@ -63,7 +61,7 @@ const RoomAssigedInfoTable: React.FC<Iprops & WindowSizeProps> = ({
       accessor: "_id",
       maxWidth: isTabletUp ? 80 : undefined,
       Cell: ({ original }) => (
-        <div>{original.bedIndex ? original.bedIndex + 1 : ""}</div>
+        <div>{original.bedIndex ? original.bedIndex + 1 : "1"}</div>
       )
     },
     {

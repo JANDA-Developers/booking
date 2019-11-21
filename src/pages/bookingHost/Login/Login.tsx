@@ -8,11 +8,14 @@ import Button from "../../../atoms/button/Button";
 import "./Login.scss";
 import { LOG_USER_IN } from "../../../apollo/clientQueries";
 import { EMAIL_SIGN_IN, GET_USER_INFO } from "../../../apollo/queries";
-import { useInput, LANG } from "../../../hooks/hook";
+import { useInput, LANG, useModal } from "../../../hooks/hook";
 import utils from "../../../utils/utils";
 import { IContext } from "../../bookingHost/BookingHostRouter";
 import client from "../../../apollo/apolloClient";
 import PreloaderModal from "../../../atoms/preloaderModal/PreloaderModal";
+import TextButton from "../../../atoms/textButton/TextButton";
+import RessetPasswordWrap from "../../../components/phoneVerificationModal/RessetPasswordModalWrap";
+import FindEmailModalWrap from "../../../components/findEmailModal/FindEmailModalWrap";
 
 interface Iprops {
   context: IContext;
@@ -23,6 +26,8 @@ const Login: React.FC<Iprops> = ({ context }) => {
   const lastLoginEmail = localStorage.getItem("lastLogin") || "";
   const emailHook = useInput(lastLoginEmail, true);
   const passwordHook = useInput("");
+  const ressetPasswordModalHook = useModal(false);
+  const findPasswordModalHook = useModal(false);
 
   return (
     <div id="loginPage" className="container container--centerlize">
@@ -101,16 +106,52 @@ const Login: React.FC<Iprops> = ({ context }) => {
                       label="Password"
                     />
                   </div>
-                  <Button type="submit" thema="primary" label={LANG("login")} />
-                  <Link to="/signUp">
-                    <Button thema="primary" label={LANG("signUp")} />
-                  </Link>
+                  <div>
+                    
+                    <div>
+                      <Button
+                        type="submit"
+                        thema="primary"
+                        label={LANG("login")}
+                      />
+                      <Link to="/signUp">
+                        <Button thema="primary" label={LANG("signUp")} />
+                      </Link>
+                    </div>
+                  </div>
                 </form>
               );
             }}
           </Mutation>
         </Card>
+
+         <div>
+          <TextButton
+            onClick={() => {
+              findPasswordModalHook.openModal();
+            }}
+            size="small"
+          >
+            {LANG("find_email")}
+          </TextButton>
+          <TextButton
+            onClick={() => {
+              ressetPasswordModalHook.openModal();
+            }}
+            size="small"
+          >
+            {LANG("password_resset")}
+          </TextButton>
+        </div>
       </div>
+      <FindEmailModalWrap
+        context={context}
+        modalHook={findPasswordModalHook}
+      />
+      <RessetPasswordWrap
+        context={context}
+        modalHook={ressetPasswordModalHook}
+      />
     </div>
   );
 };

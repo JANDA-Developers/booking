@@ -1,54 +1,42 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import InputText from "../../atoms/forms/inputText/InputText";
 import Button from "../../atoms/button/Button";
-import {useInput, IUseModal, LANG} from "../../hooks/hook";
-import {ErrProtecter} from "../../utils/utils";
+import { useInput, IUseModal, LANG } from "../../hooks/hook";
+import { ErrProtecter } from "../../utils/utils";
 import "./PhoneVerification.scss";
 import JDmodal from "../../atoms/modal/Modal";
-import {MutationFn} from "react-apollo";
+import { MutationFn } from "react-apollo";
 import {
   completePhoneVerification,
-  completePhoneVerificationVariables,
-  startPhoneVerificationWithPhoneNumber,
-  startPhoneVerificationWithPhoneNumberVariables
+  completePhoneVerificationVariables
 } from "../../types/api";
 import JDTimer from "../../atoms/timer/Timer";
-import {TimePerMs} from "../../types/enum";
+import { TimePerMs } from "../../types/enum";
 import Timer from "react-compound-timer";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import PreloaderModal from "../../atoms/preloaderModal/PreloaderModal";
 
 interface IProps {
   modalHook: IUseModal<any>;
-  startPhoneVerificationMu: MutationFn<
-    startPhoneVerificationWithPhoneNumber,
-    startPhoneVerificationWithPhoneNumberVariables
-  >;
-  completePhoneVerificationMu: MutationFn<
-    completePhoneVerification,
-    completePhoneVerificationVariables
-  >;
+  modalOpenCallBackFn: () => void;
+  handleCompleteBtnClick: (key: string) => void;
   phoneNumber: string | undefined;
   muLoading: boolean;
 }
 
 const PhoneVerification: React.FC<IProps> = ({
   modalHook,
-  completePhoneVerificationMu,
-  startPhoneVerificationMu,
   phoneNumber,
-  muLoading
+  muLoading,
+  handleCompleteBtnClick,
+  modalOpenCallBackFn
 }) => {
   const keyHook = useInput("");
   const [isTimeOver, setTimeOver] = useState(false);
 
   useEffect(() => {
     if (phoneNumber && modalHook.isOpen) {
-      startPhoneVerificationMu({
-        variables: {
-          phoneNumber: phoneNumber
-        }
-      });
+      modalOpenCallBackFn();
     }
   }, [phoneNumber]);
 
@@ -65,7 +53,7 @@ const PhoneVerification: React.FC<IProps> = ({
     >
       <h5>{LANG("mobile_phone_verification_number")}</h5>
       <JDTimer initialTime={TimePerMs.M * 3} direction="backward">
-        {({timerState}: any) => {
+        {({ timerState }: any) => {
           if (timerState === "STOPPED") {
             setTimeOver(true);
           }
@@ -93,11 +81,7 @@ const PhoneVerification: React.FC<IProps> = ({
             if (isTimeOver) {
               toast.warn(LANG("timeout_please_request_again"));
             }
-            completePhoneVerificationMu({
-              variables: {
-                key: keyHook.value
-              }
-            });
+            handleCompleteBtnClick(keyHook.value);
           }}
         />
       </div>

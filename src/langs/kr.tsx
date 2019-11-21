@@ -817,5 +817,26 @@ export const kr = {
     YANOLJA: "야놀자",
     YEOGIEOTTAE: "여기어때"
   },
-  goto_today: "오늘 날자로"
+  goto_today: "오늘 날자로",
+  // 1.1.0 패치
+  email: "이메일",
+  find_email: "이메일 찾기",
+  get_temporary_password: "임시 비밀번호 받기",
+  temp_password: "임시 비밀번호",
+  copied_to_cliboard: "클립보드에 복사됨",
+  password_resset: "비밀번호 재발급",
+  password_rewrite: "비밀번호 재설정",
+  password_resset_completed: "임시 비밀번호로 변경 되었습니다.",
+  password_resset_failed: "비밀번호 발급이 실패했습니다.",
+  get_email_bt_msg: "문자로 이메일 받기",
+  change_password_complete: "비밀번호 변경 완료",
+  change_password_failed: "비밀번호 변경 실패",
+  new_password: "새로운 패스워드",
+  please_rewrite_your_new_password: (
+    <span>
+      비밀번호를 재발급 받으셨군요
+      <br />
+      새로운 비밀번호를 설정 해주세요.
+    </span>
+  )
 };

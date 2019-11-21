@@ -1,6 +1,9 @@
 import { isMobile } from "is-mobile";
 import { LANG } from "../hooks/hook";
 
+export const IMG_REPO =
+  "https://s3.ap-northeast-2.amazonaws.com/booking.stayjanda.statichosting/static/media/";
+
 export enum PricingType {
   DOMITORY = "DOMITORY",
   ROOM = "ROOM"
@@ -103,6 +106,17 @@ export enum HouseStatus {
 }
 
 export type TextAlign = "left" | "right" | "center";
+export type TextSize =
+  | "h1"
+  | "h2"
+  | "h3"
+  | "h4"
+  | "h5"
+  | "h6"
+  | "normal"
+  | "small"
+  | "tiny"
+  | "superTiny";
 
 export enum RoomGender {
   FEMALE = "FEMALE",

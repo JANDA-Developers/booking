@@ -31,39 +31,27 @@ h6 {
 }
 
 h1 {
-  font-size: 3.5rem;
-  letter-spacing: -.1rem;
-  margin-bottom: 2.5rem
+ @extend %h1;
 }
 
 h2 {
-  font-size: 3rem;
-  letter-spacing: -.1rem;
-  margin-bottom: 2rem
+  @extend %h2;
 }
 
 h3 {
-  font-size: 2.4rem;
-  letter-spacing: -.1rem;
-  margin-bottom: $standard-margin-bottom + .5rem
+  @extend %h3;
 }
 
 h4 {
-  font-size: 2rem;
-  letter-spacing: -.08rem;
-  margin-bottom: $standard-margin-bottom + .4rem
+  @extend %h4;
 }
 
 h5 {
-  font-size: 1.6rem;
-  letter-spacing: -.05rem;
-  margin-bottom: $standard-margin-bottom + .3rem
+  @extend %h5;
 }
 
 h6 {
-  font-size: $typho-h6;
-  letter-spacing: 0;
-  margin-bottom: $standard-margin-bottom
+  @extend %h6;
 }
 
 // 타블렛 이상일때

@@ -73,7 +73,7 @@ const ReservationWrap: React.FC<IReservationWrapProps &
     callBackCreateBookingMu && callBackCreateBookingMu(result);
   };
 
-  if (isInIfram) {
+  if (isInIfram()) {
     $("html").addClass("inIframe");
   }
 

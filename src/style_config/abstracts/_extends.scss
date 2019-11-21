@@ -100,6 +100,44 @@
     background-color: $grey-level1;   
 }
 
+
+%h1 {
+    font-size: 3.5rem;
+    letter-spacing: -.1rem;
+    margin-bottom: 2.5rem
+  }
+  
+  %h2 {
+    font-size: 3rem;
+    letter-spacing: -.1rem;
+    margin-bottom: 2rem
+  }
+  
+  %h3 {
+    font-size: 2.4rem;
+    letter-spacing: -.1rem;
+    margin-bottom: $standard-margin-bottom + .5rem
+  }
+  
+  %h4 {
+    font-size: 2rem;
+    letter-spacing: -.08rem;
+    margin-bottom: $standard-margin-bottom + .4rem
+  }
+  
+  %h5 {
+    font-size: 1.6rem;
+    letter-spacing: -.05rem;
+    margin-bottom: $standard-margin-bottom + .3rem
+  }
+  
+  %h6 {
+    font-size: $typho-h6;
+    letter-spacing: 0;
+    margin-bottom: $standard-margin-bottom
+  }
+  
+
 %JDscrollbar {
     box-sizing: border-box;
     padding-right: 4px;

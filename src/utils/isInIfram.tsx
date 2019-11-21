@@ -1,1 +1,1 @@
-export const isInIfram = () => self !== top;
+export const isInIfram = (): boolean => self !== top;

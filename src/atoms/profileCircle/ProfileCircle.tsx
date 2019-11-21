@@ -2,11 +2,11 @@ import classNames from "classnames";
 import React from "react";
 import ErrProtecter from "../../utils/errProtect";
 import "./ProfileCircle.scss";
-import defaultImg from "../../img/profile/default_profile.jpg";
-import {IDiv} from "../../types/interface";
-import {IconSize} from "../icons/Icons";
-import {IuseImageUploaderOP} from "../../hooks/hook";
-import {DEFAULT_FILE} from "../../types/defaults";
+import { IDiv } from "../../types/interface";
+import { IconSize } from "../icons/Icons";
+import { IuseImageUploaderOP } from "../../hooks/hook";
+import { DEFAULT_FILE } from "../../types/defaults";
+import { IMG_REPO } from "../../types/enum";
 
 interface Iprops extends IDiv, IuseImageUploaderOP {
   isBordered?: boolean;
@@ -29,7 +29,7 @@ const ProfileCircle: React.FC<Iprops> = ({
   uploading,
   ...props
 }) => {
-  const {url} = file || DEFAULT_FILE;
+  const { url } = file || DEFAULT_FILE;
 
   const classes = classNames("profileCircle JDwaves-effect", className, {
     "profileCircle--bordered": isBordered,
@@ -39,7 +39,8 @@ const ProfileCircle: React.FC<Iprops> = ({
   const circleSize = parseFloat(size || "1em") * 2 + "em";
 
   const profileStyle = {
-    backgroundImage: `url("${url || defaultImg}")`,
+    backgroundImage: `url("${url ||
+      IMG_REPO + "profile/default_profile.jpg"}")`,
     width: circleSize,
     height: circleSize
   };

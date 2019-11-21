@@ -6,11 +6,12 @@ import JDswitch from "../../../../atoms/forms/switch/Switch";
 import { useSwitch, LANG } from "../../../../hooks/hook";
 import { muResult } from "../../../../utils/utils";
 import JDbox from "../../../../atoms/box/JDbox";
-import HilightPhoto from "../../../../img/describe/guestHilight.gif";
+
 import {
   DEFAULT_ADDITION_BLOCKOP,
   DEFAULT_HOUSE_CONFIG
 } from "../../../../types/defaults";
+import { IMG_REPO } from "../../../../types/enum";
 
 const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
   updateHouseConfigMu,
@@ -20,7 +21,8 @@ const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
   const { assigTimeline } = houseConfig;
   const { itemBlockOp, roomTypeTabEnable } =
     assigTimeline || DEFAULT_HOUSE_CONFIG.assigTimeline;
-  const { useColor, itemBlockOpEnable } = itemBlockOp || DEFAULT_ADDITION_BLOCKOP;
+  const { useColor, itemBlockOpEnable } =
+    itemBlockOp || DEFAULT_ADDITION_BLOCKOP;
   const [use, setUse] = useState(itemBlockOpEnable);
   const [colorEnable, setEnableColor] = useState(useColor);
 
@@ -76,7 +78,7 @@ const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
       <JDbox
         className="additionDetail__HilightPhoto"
         mode="photoFrame"
-        photo={HilightPhoto}
+        photo={`${IMG_REPO}describe/guestHilight.gif`}
       />
       <div />
     </div>
