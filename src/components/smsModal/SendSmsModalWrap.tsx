@@ -8,10 +8,10 @@ import {
   getSmsInfoVariables
 } from "../../types/api";
 import { Mutation, Query } from "react-apollo";
-import { SEND_SMS, GET_SMS_INFO } from "../../queries";
+import { SEND_SMS, GET_SMS_INFO } from "../../apollo/queries";
 import { queryDataFormater, onCompletedMessage } from "../../utils/utils";
 import SendSmsModal from "./SendSmsModal";
-import { IContext } from "../../pages/MiddleServerRouter";
+import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 
 class SendSmsMu extends Mutation<sendSms, sendSmsVariables> {}
 class SmsInfoQu extends Query<getSmsInfo, getSmsInfoVariables> {}

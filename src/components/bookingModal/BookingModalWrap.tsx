@@ -37,7 +37,7 @@ import {
   GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM,
   GET_ROOM_TYPE_DATE_PRICE,
   START_BOOKING
-} from "../../queries";
+} from "../../apollo/queries";
 import { MODAL_PRELOADER_SIZE } from "../../types/enum";
 import { getOperationName } from "apollo-utilities";
 import { DEFAULT_BOOKING } from "../../types/defaults";

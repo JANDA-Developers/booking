@@ -9,7 +9,7 @@ import {
   confirmNotiVariables
 } from "../../types/api";
 import NotiLi from "./component/NotiLi";
-import {IContext} from "../../pages/MiddleServerRouter";
+import {IContext} from "../../pages/bookingHost/BookingHostRouter";
 import {WindowSize} from "../../types/enum";
 import reactWindowSize, {WindowSizeProps} from "react-window-size";
 import {ReactTooltip} from "../../atoms/tooltip/Tooltip";

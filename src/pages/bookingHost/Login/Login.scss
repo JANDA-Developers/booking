@@ -1,0 +1,16 @@
+@import '~Styles/style_config.scss';
+
+#loginPage {
+    text-align: center;
+
+    .JDcard {
+        box-sizing:border-box;
+        max-width:360px;
+        margin:0 auto;
+        margin-bottom: $standard-margin-bottom;
+    }
+}
+
+#loginPage > div {
+    width: calc(100% - #{$container-padding * 2});
+}

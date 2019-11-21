@@ -1,6 +1,6 @@
 import React from "react";
-import {onCompletedMessage} from "../../utils/utils";
-import {Mutation} from "react-apollo";
+import { onCompletedMessage } from "../../utils/utils";
+import { Mutation } from "react-apollo";
 import PhoneVerificationModal from "./PhoneVerificationModal";
 import {
   completePhoneVerification,
@@ -12,9 +12,9 @@ import {
   COMEPLETE_PHONE_VERIFICATION,
   GET_USER_INFO,
   START_PHONE_VERIFICATION_WITH_PHONE_NUMBER
-} from "../../queries";
+} from "../../apollo/queries";
 import EerrorProtect from "../../utils/errProtect";
-import {IUseModal, LANG} from "../../hooks/hook";
+import { IUseModal, LANG } from "../../hooks/hook";
 
 class StartPhoneVerificationMu extends Mutation<
   startPhoneVerificationWithPhoneNumber,
@@ -43,9 +43,9 @@ const PhoneVerificationModalWrap: React.FC<IProps> = ({
   phoneNumber = modalHook.info ? modalHook.info.phoneNumber : undefined
 }) => (
   <StartPhoneVerificationMu
-    variables={{phoneNumber}}
+    variables={{ phoneNumber }}
     mutation={START_PHONE_VERIFICATION_WITH_PHONE_NUMBER}
-    onCompleted={({StartSenderVerification}) => {
+    onCompleted={({ StartSenderVerification }) => {
       onCompletedMessage(
         StartSenderVerification,
         LANG("certification_number_sent"),
@@ -53,11 +53,11 @@ const PhoneVerificationModalWrap: React.FC<IProps> = ({
       );
     }}
   >
-    {(startPhoneVerificationMu, {loading: startVerifiLoading}) => {
+    {(startPhoneVerificationMu, { loading: startVerifiLoading }) => {
       return (
         <CompletePhoneVerification
           mutation={COMEPLETE_PHONE_VERIFICATION}
-          onCompleted={({CompletePhoneVerification}) => {
+          onCompleted={({ CompletePhoneVerification }) => {
             onCompletedMessage(
               CompletePhoneVerification,
               LANG("mobile_phone_verification_completed"),
@@ -70,21 +70,39 @@ const PhoneVerificationModalWrap: React.FC<IProps> = ({
             }
           }}
           awaitRefetchQueries
-          refetchQueries={[{query: GET_USER_INFO}]}
+          refetchQueries={[{ query: GET_USER_INFO }]}
         >
           {(
             completePhoneVerificationMu,
-            {loading: completePhoneVerificationLoding}
-          ) => (
-            <PhoneVerificationModal
-              key={`phoneVerification${modalHook.isOpen && "--open"}`}
-              startPhoneVerificationMu={startPhoneVerificationMu}
-              completePhoneVerificationMu={completePhoneVerificationMu}
-              muLoading={completePhoneVerificationLoding || startVerifiLoading}
-              phoneNumber={phoneNumber}
-              modalHook={modalHook}
-            />
-          )}
+            { loading: completePhoneVerificationLoding }
+          ) => {
+            const handleCompleteBtnClick = (key: string) => {
+              completePhoneVerificationMu({
+                variables: {
+                  key
+                }
+              });
+            };
+            const modalOpenCallBackFn = () => {
+              startPhoneVerificationMu({
+                variables: {
+                  phoneNumber: phoneNumber
+                }
+              });
+            };
+            return (
+              <PhoneVerificationModal
+                key={`phoneVerification${modalHook.isOpen && "--open"}`}
+                modalOpenCallBackFn={modalOpenCallBackFn}
+                handleCompleteBtnClick={handleCompleteBtnClick}
+                muLoading={
+                  completePhoneVerificationLoding || startVerifiLoading
+                }
+                phoneNumber={phoneNumber}
+                modalHook={modalHook}
+              />
+            );
+          }}
         </CompletePhoneVerification>
       );
     }}

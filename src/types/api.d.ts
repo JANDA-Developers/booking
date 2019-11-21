@@ -3565,6 +3565,57 @@ export interface startPhoneVerificationWithPhoneNumberVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: startPasswordReset
+// ====================================================
+
+export interface startPasswordReset_StartPasswordReset {
+  __typename: "StartPasswordResetResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface startPasswordReset {
+  /**
+   * 비밀번호 변경을 위한 문자 인증 시작
+   */
+  StartPasswordReset: startPasswordReset_StartPasswordReset;
+}
+
+export interface startPasswordResetVariables {
+  email: any;
+  phoneNumber: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: completePasswordReset
+// ====================================================
+
+export interface completePasswordReset_CompletePasswordReset {
+  __typename: "CompletePasswordResetResponse";
+  ok: boolean;
+  error: string | null;
+  newPassword: any;
+}
+
+export interface completePasswordReset {
+  CompletePasswordReset: completePasswordReset_CompletePasswordReset;
+}
+
+export interface completePasswordResetVariables {
+  email: any;
+  phoneNumber: any;
+  key: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: completePhoneVerification
 // ====================================================
 
@@ -4494,6 +4545,52 @@ export interface singleUpload {
 
 export interface singleUploadVariables {
   file: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: changePassword
+// ====================================================
+
+export interface changePassword_ChangePassword {
+  __typename: "ChangePasswordResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface changePassword {
+  ChangePassword: changePassword_ChangePassword;
+}
+
+export interface changePasswordVariables {
+  currentPassword: any;
+  newPassword: any;
+  newPasswordRepeat: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: findMyEmail
+// ====================================================
+
+export interface findMyEmail_FindMyEmail {
+  __typename: "FindMyEmailResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface findMyEmail {
+  FindMyEmail: findMyEmail_FindMyEmail;
+}
+
+export interface findMyEmailVariables {
+  phoneNumber: string;
 }
 
 /* tslint:disable */

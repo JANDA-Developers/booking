@@ -1,6 +1,6 @@
 import React from "react";
 import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
-import {IContext} from "../../../pages/MiddleServerRouter";
+import {IContext} from "../../../pages/bookingHost/BookingHostRouter";
 interface Iprops {
   context: IContext;
   logOutMutation: any;

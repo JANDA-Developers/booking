@@ -6,7 +6,7 @@ import {
   getFileTxtVariables
 } from "../../../types/api";
 import { queryDataFormater } from "../../../utils/utils";
-import { GET_ALL_README, GET_FILE_TXT } from "../../../queries";
+import { GET_ALL_README, GET_FILE_TXT } from "../../../apollo/queries";
 import DocumentHome from "./DocumentHome";
 
 interface IProps {

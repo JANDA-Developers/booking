@@ -6,7 +6,8 @@ import {
   LANGUAGE_LIST,
   LanguageItSelf,
   LangShortToNational,
-  LanguageResverseShort
+  LanguageResverseShort,
+  IMG_REPO
 } from "../../types/enum";
 import JDbox from "../../atoms/box/JDbox";
 import { s4 } from "../../utils/utils";
@@ -23,42 +24,40 @@ const LangList: React.FC<IProps> = ({ onClickLng, hideList, hilightLangs }) => {
     ? LANGUAGE_LIST.filter(lang => !hideList.includes(lang))
     : LANGUAGE_LIST;
 
+  console.log("LangList");
+  console.log(LangList);
+
   return (
     <div className={"clear-fix"}>
       {LangList.map(lang => {
         const fileName = LangShortToNational[LanguageResverseShort[lang]];
-        try {
-          const flag = require(`../../img/flags/${fileName}.png`);
-          return (
-            <JDbox
-              key={s4()}
-              thema={
-                hilightLangs && hilightLangs.includes(lang)
-                  ? "primary"
-                  : undefined
-              }
-              onClick={() => {
-                onClickLng && onClickLng(lang);
+        const flag = `${IMG_REPO}national_flag/${fileName}.png`;
+        return (
+          <JDbox
+            key={s4()}
+            thema={
+              hilightLangs && hilightLangs.includes(lang)
+                ? "primary"
+                : undefined
+            }
+            onClick={() => {
+              onClickLng && onClickLng(lang);
+            }}
+            className="JDflex--center"
+            size="small"
+            clickable
+            float
+          >
+            <img className="JDstandard-small-space" src={flag} />
+            <span
+              style={{
+                marginLeft: "-1px"
               }}
-              className="JDflex--center"
-              size="small"
-              clickable
-              float
             >
-              <img className="JDstandard-small-space" src={flag} />
-              <span
-                style={{
-                  marginLeft: "-1px"
-                }}
-              >
-                {LanguageItSelf[lang]}
-              </span>
-            </JDbox>
-          );
-        } catch {
-          return <div />;
-        } finally {
-        }
+              {LanguageItSelf[lang]}
+            </span>
+          </JDbox>
+        );
       })}
     </div>
   );

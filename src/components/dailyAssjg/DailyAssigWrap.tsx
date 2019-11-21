@@ -31,21 +31,21 @@ import {
   DELETE_BLOCK,
   DELETE_BOOKING,
   UPDATE_BOOKING
-} from "../../queries";
+} from "../../apollo/queries";
 import { BookingStatus } from "../../types/enum";
 import { queryDataFormater } from "../../utils/utils";
 import { useDayPicker, IUseDayPicker, LANG } from "../../hooks/hook";
-import { IContext } from "../../pages/MiddleServerRouter";
+import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import DailyAssig from "./DailyAssig";
 import { getOperationName } from "apollo-link";
 import { NetworkStatus } from "apollo-client";
 import {
   IDailyAssigDataControl,
   IAssigItem
-} from "../../pages/middleServer/assig/components/assigIntrerface";
+} from "../../pages/bookingHost/assig/components/assigIntrerface";
 import moment from "moment";
-import { guestsDataManufacturer } from "../../pages/middleServer/assig/components/guestsDataManufacturer";
-import { blockDataManufacturer } from "../../pages/middleServer/assig/components/blockDataManufacturer";
+import { guestsDataManufacturer } from "../../pages/bookingHost/assig/helper/guestsDataManufacturer";
+import { blockDataManufacturer } from "../../pages/bookingHost/assig/helper/blockDataManufacturer";
 
 class GetAllRoomTypeWithGuestQuery extends Query<
   getAllRoomTypeWithGuest,

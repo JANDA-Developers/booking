@@ -4,7 +4,7 @@ import React, { Fragment, useState } from "react";
 import { Mutation } from "react-apollo";
 import InfoReservation from "./InfoReservation";
 import { ErrProtecter } from "../../../utils/utils";
-import { START_BOOKING } from "../../../queries";
+import { START_BOOKING } from "../../../apollo/queries";
 
 interface IProps {
     name: string;

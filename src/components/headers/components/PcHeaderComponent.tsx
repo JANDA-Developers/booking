@@ -1,11 +1,11 @@
 import React from "react";
-import {NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Button from "../../../atoms/button/Button";
 import ProfileCircle from "../../../atoms/profileCircle/ProfileCircle";
 import SelectHouseWrap from "../../selectHouse/SelectHouseWrap";
-import {IContext} from "../../../pages/MiddleServerRouter";
-import {IUseModal, LANG} from "../../../hooks/hook";
-import {IconSize} from "../../../atoms/icons/Icons";
+import { IContext } from "../../../pages/bookingHost/BookingHostRouter";
+import { IUseModal, LANG } from "../../../hooks/hook";
+import { IconSize } from "../../../atoms/icons/Icons";
 interface Iprops {
   context: IContext;
   phoneVerificationModalHook: IUseModal;
@@ -15,8 +15,8 @@ const PcHeaderComponent: React.FC<Iprops> = ({
   context,
   phoneVerificationModalHook
 }) => {
-  const {user, houses, house, isLogIn} = context;
-  const {profileImg, isPhoneVerified} = user;
+  const { user, houses, house, isLogIn } = context;
+  const { profileImg, isPhoneVerified } = user;
   // PC
   // 버튼이 밖으로 노출되있음
   // 로그인 피씨 헤더 메뉴
@@ -26,7 +26,11 @@ const PcHeaderComponent: React.FC<Iprops> = ({
         <Button className="hader__btn" label={LANG("login")} mode="flat" />
       </NavLink>
       <NavLink className="header__btns header__btns--transparent" to="/signUp">
-        <Button className="hader__btn" label={LANG("signUp")} mode="flat" />
+        <Button
+          className="hader__btn header__signUpBtn"
+          label={LANG("signUp")}
+          mode="flat"
+        />
       </NavLink>
     </div>
   );

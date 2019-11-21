@@ -6,7 +6,7 @@ import {
   getAllRoomTypeWithGuestVariables
 } from "../../types/api";
 import {Query} from "react-apollo";
-import {GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM} from "../../queries";
+import {GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM} from "../../apollo/queries";
 import {queryDataFormater} from "../../utils/utils";
 import {PricingType} from "../../types/enum";
 import {IHouse} from "../../types/interface";

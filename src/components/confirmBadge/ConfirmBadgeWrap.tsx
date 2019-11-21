@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {ErrProtecter, showError, onCompletedMessage} from "../../utils/utils";
 import {Mutation} from "react-apollo";
 import {confirmBooking, confirmBookingVariables} from "../../types/api";
-import {CONFIRM_BOOKING} from "../../queries";
+import {CONFIRM_BOOKING} from "../../apollo/queries";
 import ConfirmBadge from "./ConfirmBadge";
 import {IJDbadge} from "../../atoms/badge/Badge";
 

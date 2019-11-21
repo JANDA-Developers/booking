@@ -18,7 +18,7 @@ $roomCardHeight: $standard-height * 32;
 
     &__imgSection {
         max-width: $roomCardHeight * 1.68;
-        background-image: url('../../../img/default_room.png');
+        background-image: url($s3 + "infographic/noimg_01.png");
         background-size: contain;
         background-position:center center;
         background-repeat: no-repeat;

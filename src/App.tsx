@@ -1,20 +1,20 @@
 /* eslint-disable no-shadow */
-import React, {useEffect} from "react";
-import {ApolloProvider} from "react-apollo";
-import {HashRouter as Router, Route, Switch} from "react-router-dom";
+import React, { useEffect } from "react";
+import { ApolloProvider } from "react-apollo";
+import { HashRouter as Router, Route, Switch } from "react-router-dom";
 // @ts-ignore
 import Favicon from "react-favicon";
-import client from "./apolloClient";
-import DocumentRouter from "./pages/DocumentRouter";
-import OutPageRouter from "./pages/OutPageRouter";
+import client from "./apollo/apolloClient";
+import DocumentRouter from "./pages/documents/DocumentRouter";
+import OutPageRouter from "./pages/outPages/OutPageRouter";
 import NoMatch from "./pages/noMatch/NoMatch";
-import MiddleServerRouter from "./pages/MiddleServerRouter";
+import BookingHostRouter from "./pages/bookingHost/BookingHostRouter";
 import JDtoast from "./atoms/toast/Toast";
 import "./lib/wave/wave"; // 웨이브 이펙트
 import "./lib/wave/wave.scss";
-import {useLang} from "./hooks/hook";
-import {globalLanguageSetting} from "./utils/globalLagnSet";
-import {iosScrollUnbounce} from "./utils/iosScrollUnBounce";
+import { useLang } from "./hooks/hook";
+import { globalLanguageSetting } from "./utils/globalLagnSet";
+import $ from "jquery";
 
 function App() {
   const langHook = useLang("kr");
@@ -22,8 +22,20 @@ function App() {
   globalLanguageSetting();
 
   useEffect(() => {
-    iosScrollUnbounce();
-  }, []);
+    const versionToggle = (e: any) => {
+      if (e.altKey && e.ctrlKey && e.key === "v") {
+        $("#JDversion").toggle();
+      }
+    };
+
+    document.addEventListener("keydown", versionToggle);
+    return () => {
+      document.removeEventListener("keydown", versionToggle);
+    };
+  });
+
+  <div onKeyDown={e => {}}></div>;
+
   return (
     <div id="JDoutWrapper">
       <ApolloProvider client={client}>
@@ -43,13 +55,25 @@ function App() {
               <Route
                 key={`router${path}`}
                 path={path}
-                render={() => <MiddleServerRouter langHook={langHook} />}
+                render={() => <BookingHostRouter langHook={langHook} />}
               />
             ))}
             <Route component={NoMatch} />
           </Switch>
         </Router>
         <JDtoast />
+        <div
+          style={{
+            display: "none",
+            position: "fixed",
+            right: "2%",
+            bottom: "1%"
+          }}
+          id="JDversion"
+          className="JDtextColor--placeHolder"
+        >
+          1.1.0 Last Update 2019.11.21.
+        </div>
         <div id="JDpreloaderPortal" />
         {/* for old borwser */}
         <div id="outdated" />

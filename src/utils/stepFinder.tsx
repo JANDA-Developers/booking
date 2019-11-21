@@ -1,4 +1,4 @@
-import {IContext} from "../pages/MiddleServerRouter";
+import {IContext} from "../pages/bookingHost/BookingHostRouter";
 import {HouseStatus} from "../types/enum";
 
 export type IStepsStart =

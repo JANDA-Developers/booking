@@ -1,7 +1,7 @@
 import JDmodal from "../../atoms/modal/Modal";
 
 import React from "react";
-import {IContext} from "../../pages/MiddleServerRouter";
+import {IContext} from "../../pages/bookingHost/BookingHostRouter";
 import {IUseModal, LANG} from "../../hooks/hook";
 import Button from "../../atoms/button/Button";
 import AdditionConfigPitch from "./component/additionConfigPitch/AdditionConfigPitch";

@@ -5,7 +5,7 @@ import BookingModalWrap from "../bookingModal/BookingModalWrap";
 import {useModal} from "../../hooks/hook";
 import $ from "jquery";
 import {autoHypen} from "../../utils/utils";
-import {IContext} from "../../pages/MiddleServerRouter";
+import {IContext} from "../../pages/bookingHost/BookingHostRouter";
 
 interface IProps {
   loading: boolean;

@@ -1,4 +1,4 @@
-@import '../../style_config/style_config';
+@import '~Styles/style_config';
 @import './component/notiLi';
 
 .noti {
@@ -26,7 +26,6 @@
     
     &__dotsWrap {
         display: flex;
-        top: 4px;
         width: 100%;
         justify-content: space-around;
         position: absolute;

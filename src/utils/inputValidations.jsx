@@ -1,6 +1,6 @@
 // 빈 문자열이면 중립을 반환합니다.
 
-import {NEUTRAL} from "../types/enum";
+import { NEUTRAL } from "../types/enum";
 
 const isUrl = string => {
   if (string === "") return NEUTRAL;
@@ -62,7 +62,7 @@ const isMaxOver = (string, max) => {
 const isPassword = string => {
   if (string === "") return NEUTRAL;
   // 특수문자 1개이상 숫자 0 에서  9  7~15 자리의 숫자
-  const regExp = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/;
+  const regExp = /^(?=.*[0-9])(?=.*[!@#$%^&*_\-~;?/])[a-zA-Z0-9!@#$%^&*_\-~;?/]{7,15}$/gi;
   return regExp.test(string);
 };
 

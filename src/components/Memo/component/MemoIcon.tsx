@@ -1,26 +1,26 @@
-import React, {Fragment, useEffect} from "react";
-import {useQuery} from "@apollo/react-hooks";
-import {GET_MEMO} from "../../../queries";
-import {getMemos, getMemosVariables} from "../../../types/api";
-import {queryDataFormater, s4} from "../../../utils/utils";
-import JDIcon, {IconConifgProps} from "../../../atoms/icons/Icons";
-import {IContext} from "../../../pages/MiddleServerRouter";
-import {MemoType} from "../../../types/enum";
-import client from "../../../apolloClient";
+import React, { Fragment, useEffect } from "react";
+import { useQuery } from "@apollo/react-hooks";
+import { GET_MEMO } from "../../../apollo/queries";
+import { getMemos, getMemosVariables } from "../../../types/api";
+import { queryDataFormater, s4 } from "../../../utils/utils";
+import JDIcon, { IconConifgProps } from "../../../atoms/icons/Icons";
+import { IContext } from "../../../pages/bookingHost/BookingHostRouter";
+import { MemoType } from "../../../types/enum";
+import client from "../../../apollo/apolloClient";
 import JDbadge from "../../../atoms/badge/Badge";
-import alertMemo from "../../../utils/alertMemo";
 import MemoAlertModal from "./MemoAlertModal";
-import {useModal, LANG} from "../../../hooks/hook";
+import { useModal, LANG } from "../../../hooks/hook";
+import { alertMemo } from "../../../pages/bookingHost/helper";
 
 interface Iprops extends IconConifgProps {
   context: IContext;
   onClick: any;
 }
 
-const MemoIcon: React.FC<Iprops> = ({context, ...props}) => {
-  const {house} = context;
+const MemoIcon: React.FC<Iprops> = ({ context, ...props }) => {
+  const { house } = context;
   const memoAlertModalHook = useModal(false);
-  const {data, loading} = useQuery<getMemos, getMemosVariables>(GET_MEMO, {
+  const { data, loading } = useQuery<getMemos, getMemosVariables>(GET_MEMO, {
     client,
     variables: {
       houseId: house._id,

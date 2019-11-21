@@ -1,4 +1,4 @@
-@import '../../style_config/style_config';
+@import '~Styles/style_config';
 
 .middlerServerLoading {
     z-index: $z-index-8 + 1;
@@ -19,7 +19,9 @@ html .header {
     position: sticky;
     top:0;
 
-
+    &__signUpBtn {
+        margin-right: -$button-padding-side + 0.7rem; //0.7rem header 보정상수
+    }
 
     &__NotifyIcon {
         color:white;
