@@ -11,7 +11,7 @@ import { IUseModal } from "../../../hooks/hook";
 
 interface Iprops {
   context: IContext;
-  modalHook: IUseodal;
+  modalHook: IUseModal;
 }
 
 const LangSelectModal: React.FC<Iprops> = ({ context, modalHook }) => {
