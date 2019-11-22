@@ -105,7 +105,8 @@ export const makeAssigInfo = (
         if (
           instanceOfA<getBooking_GetBooking_booking_guests_GuestDomitory>(
             guest,
-            "gender"
+            "gender",
+            true
           )
         ) {
           return {
@@ -148,7 +149,8 @@ export const bookingModalGetStartBookingVariables = (
 
   // 예약자가 변경한 성별사항을 적용한 임시 게스트정보 생성
   const getGenderChangedGuest = (): getBooking_GetBooking_booking_guests[] => {
-    if (guests) {
+    if (mode === "CREATE_ASSIG") {
+      if(guests) {
       return guests.map(guest => {
         const copyGuest = guest;
         assigInfo.forEach(info => {
@@ -165,13 +167,20 @@ export const bookingModalGetStartBookingVariables = (
         });
         return copyGuest;
       });
-    } else {
-      return [];
     }
+  } else if(guests) {
+      return guests;
+  } 
+    return [];
   };
+
+
 
   // 게스트들을 룸타입별로 정렬
   const guestsToInputs = guestsToInput(guests ? getGenderChangedGuest() : []);
+
+
+  console.log(guestsToInputs);
 
   const allocationParams = assigInfo.map(info => ({
     bedIndex: info.bedIndex,

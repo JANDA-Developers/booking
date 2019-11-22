@@ -28,6 +28,6 @@
     "src/atoms/toggleNoti",
     "src/pages/bookingServer/dashboard/components/tempWheel.js",
     "src/utils/iosScrollUnBounce.js",
-    "src/polyfill/polyfill.js"
+    "src/polyfill/polyfill.js", "src/components/cardResistModal"
   ]
 }

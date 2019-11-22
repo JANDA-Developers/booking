@@ -38,6 +38,9 @@ const RoomAssigedInfoTable: React.FC<Iprops & WindowSizeProps> = ({
   setAssigInfo,
   windowWidth
 }) => {
+  console.log("assigInfo");
+  console.log(assigInfo);
+
   const isTabletUp = windowWidth > WindowSize.TABLET;
 
   const getGenderSelectedOption = (guestId: string) => {

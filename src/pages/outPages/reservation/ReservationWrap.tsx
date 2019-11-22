@@ -84,6 +84,7 @@ const ReservationWrap: React.FC<IReservationWrapProps &
         startBookingForPublicMu={startBookingForPublicMu}
         payAuthQu={payAuthQu}
         createLoading={startBookingLoading}
+        reservationModalHook={modalHook}
       />
     </div>
   );

@@ -72,7 +72,7 @@ function App() {
           id="JDversion"
           className="JDtextColor--placeHolder"
         >
-          1.1.1 Last Update 2019.11.21.
+          1.1.2 Last Update 2019.11.22.
         </div>
         <div id="JDpreloaderPortal" />
         {/* for old borwser */}

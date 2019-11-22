@@ -42,6 +42,8 @@ export const divisionRoomSelectInfo = (
   guests: getBooking_GetBooking_booking_guests[];
   roomTypes: getBooking_GetBooking_booking_roomTypes[];
 } => {
+
+  // 게스트정보 일부 + 방선택정보  => 게스트 정보
   const generateGuest = (
     roomSelectInfo: IRoomSelectInfo,
     gender: Gender | null
@@ -49,6 +51,7 @@ export const divisionRoomSelectInfo = (
     | getBooking_GetBooking_booking_guests_GuestDomitory
     | getBooking_GetBooking_booking_guests_GuestRoom => ({
     ...DEFAULT_GUEST,
+    pricingType: gender ? PricingType.DOMITORY : PricingType.ROOM,
     gender,
     roomType: {
       __typename: "RoomType",
@@ -57,17 +60,22 @@ export const divisionRoomSelectInfo = (
     }
   });
 
+  // 템프
   const guests: getBooking_GetBooking_booking_guests[] = [];
   const roomTypes: getBooking_GetBooking_booking_roomTypes[] = [];
 
   roomSelectInfoes.forEach(roomSelectInfo => {
+
+    // 템프
     let i_female = 0;
     let i_male = 0;
     let i_roomCount = 0;
+
     const {
       count: { female, male, roomCount }
     } = roomSelectInfo;
 
+    // 임시로 생성한 룸타입
     const roomType: getBooking_GetBooking_booking_roomTypes = {
       ...DEFAULT_ROOMTYPE,
       _id: roomSelectInfo.roomTypeId,
@@ -77,6 +85,7 @@ export const divisionRoomSelectInfo = (
 
     roomTypes.push(roomType);
 
+    // 전체 카운팅을 다시 샘니다.
     while (i_female + i_male + i_roomCount < female + male + roomCount) {
       if (i_female < female) {
         i_female++;
@@ -90,6 +99,7 @@ export const divisionRoomSelectInfo = (
       }
     }
   });
+
   return {
     guests,
     roomTypes
@@ -201,7 +211,8 @@ const guestsToInput = (
       if (
         instanceOfA<getBooking_GetBooking_booking_guests_GuestDomitory>(
           guest,
-          "gender"
+          "gender",
+          true
         )
       ) {
         if (guest.gender === Gender.FEMALE) {
@@ -212,7 +223,8 @@ const guestsToInput = (
       } else if (
         !instanceOfA<getBooking_GetBooking_booking_guests_GuestDomitory>(
           guest,
-          "gender"
+          "gender",
+          true
         )
       ) {
         countInRoom.countRoom++;

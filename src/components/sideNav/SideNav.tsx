@@ -113,13 +113,13 @@ const SideNav: React.FC<IProps> = ({isOpen, setIsOpen, context}) => {
           disabled: disabledFlag
         }
       ]
-    },
-    {
-      to: "/qna",
-      icon: "book",
-      label: LANG("customer_inquiry"),
-      disabled: false
     }
+    // {
+    //   to: "/qna",
+    //   icon: "book",
+    //   label: LANG("customer_inquiry"),
+    //   disabled: false
+    // }
   ];
 
   // 인터페이스만 존재 내용없음

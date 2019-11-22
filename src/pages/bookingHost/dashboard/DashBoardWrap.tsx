@@ -15,7 +15,7 @@ const DashBoardWrap: React.FC<Iprops> = ({ context }) => {
   const MemorizedDashBoardWrap = useMemo(
     () => (
       <div>
-        <DashBoard context={context} />}
+        <DashBoard context={context} />
       </div>
     ),
     [house._id]

@@ -1,15 +1,18 @@
 @import "~Styles/style_config.scss";
 
 .bookingModal {
-    @include response($full, $tablet) {
-        width: 80%;
-        max-width: $standard-width * 100;
+
+    &:not(.bookingModal--loading) { 
+        @include response($full, $tablet) {
+            width: 80%;
+            max-width: $standard-width * 100;
+        }
+        @include response($mobile) {
+            .JDinput-iconWrap {
+                display:none;
+            }
+        }
     }
-    @include response($mobile) {
-        .JDinput-iconWrap {
-           display:none;
-       }
-   }
     
     .roomSelectInfoTable {
 

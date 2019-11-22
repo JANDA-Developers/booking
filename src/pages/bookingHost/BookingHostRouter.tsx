@@ -215,7 +215,7 @@ const JDbookingHost: React.FC<IProps> = ({
                         <Switch>
                           {/* 슈퍼관리자 */}
                           {/* 고객문의 */}
-                          <Route exact path="/qna" component={Qna} />
+                          {/* <Route exact path="/qna" component={Qna} /> */}
                           <Route
                             exact
                             path="/superAdmin"
