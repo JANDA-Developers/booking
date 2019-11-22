@@ -32,9 +32,9 @@ const Ready: React.FC<IProps> = ({ context }) => {
                     <span>
                       문의 사항이 있으시면 아래연락처로 편하게 연락주세요.
                     </span>,
-                    <span className="JDlarge-text">
-                      ☎️ 문의 전화번호 {SERVICE_CONTECT.SERVICE_MANGER_PHONE}
-                    </span>
+                    // <span className="JDlarge-text">
+                    //   ☎️ 문의 전화번호 {SERVICE_CONTECT.SERVICE_MANGER_PHONE}
+                    // </span>
                     <span className="JDlarge-text">
                       📧 문의 이메일 {SERVICE_CONTECT.SERVICE_MANGER_MAIL}
                     </span>,

@@ -21,11 +21,12 @@
     display:flex;
     margin-right:0;
     align-items: center;
-    margin-bottom: $standard-small-margin-bottom;
-    
+    margin-bottom: $standard-small-space;
+
     &__gird {
         flex-grow: 1;
     }
+    
     &__profile {
     }
 
