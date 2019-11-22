@@ -106,7 +106,7 @@ interface IProps {
   ) => Promise<ApolloQueryResult<getPaymentAuth>>;
   createLoading: boolean;
   context?: IContext;
-  modalHook?: IUseModal;
+  reservationModalHook?: IUseModal;
 }
 
 const Reservation: React.SFC<IProps & WindowSizeProps> = ({
@@ -115,7 +115,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   context,
   payAuthQu,
   createLoading,
-  modalHook
+  reservationModalHook,
 }) => {
   const isHost = context ? true : false;
   const houseId = context ? context.house._id : undefined;
@@ -242,7 +242,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
       if (!startBookingForPublicMu)
         throw Error("startBookingForPublicMu 가 없음");
 
-      const startBookingVariables = {
+      const startBookingVariables: startBookingForPublicVariables = {
         bookerParams: {
           agreePrivacyPolicy,
           email,
@@ -250,7 +250,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
           name,
           password,
           phoneNumber,
-          funnel: Funnels.HOMEPAGE
+          funnels: Funnels.HOMEPAGE
         },
         checkInOut: {
           checkIn: to4YMMDD(dayPickerHook.from),
@@ -274,7 +274,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
           price: priceHook.value
         }
       };
-
+ 
       const result = await startBookingForPublicMu({
         variables: startBookingVariables
       });
@@ -307,6 +307,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   // 예약하기 버튼 클릭1시
   const handleResvBtnClick = () => {
     if (roomSelectValidation()) {
+      // 호스트가 하는 예약일경우 다른창으로
       if (isHost) {
         bookingModalHook.openModal({
           mode: "CREATE",
@@ -468,8 +469,10 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
       {context && (
         <BookingModalWrap
           startBookingCallBack={result => {
+
+            console.log("startBookingCallBackACTIVE");
             if (result !== "error") {
-              modalHook && modalHook.closeModal();
+              reservationModalHook && reservationModalHook.closeModal();
             }
           }}
           context={context}

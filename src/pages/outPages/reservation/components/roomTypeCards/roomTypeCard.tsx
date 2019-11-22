@@ -51,8 +51,8 @@ const RoomTypeCard: React.SFC<IProps> = ({
   const {
     dayPickerHook,
     priceHook,
-    roomSelectInfo,
     roomInfoHook,
+    roomSelectInfo,
     setRoomSelectInfo,
     toastModalHook
   } = reservationHooks;
@@ -153,6 +153,11 @@ const RoomTypeCard: React.SFC<IProps> = ({
 
   // 방선택하기 클릭시
   const handleRoomSelectClick = () => {
+
+
+    console.log("roomSelectInfo");
+    console.log(roomSelectInfo);
+
     const roomSelectInfoCopy = roomSelectInfo.slice();
 
     const dayDiff =
@@ -175,6 +180,10 @@ const RoomTypeCard: React.SFC<IProps> = ({
       return;
     }
 
+
+    console.log("guestCountValue");
+    console.log(guestCountValue);
+
     // 선택된방이 아닐경우에
     roomSelectInfoCopy.push({
       roomTypeId: roomTypeData._id,
@@ -187,6 +196,9 @@ const RoomTypeCard: React.SFC<IProps> = ({
       }
     });
 
+    console.log("roomSelectInfoCopy");
+    console.log(roomSelectInfoCopy);
+    
     setRoomSelectInfo(roomSelectInfoCopy);
     setDisabled({ female: true, male: true, count: true });
     priceHook.onChange(priceHook.value + totalRoomTypePrice);
@@ -220,7 +232,6 @@ const RoomTypeCard: React.SFC<IProps> = ({
             </h6>
           </div>
           <div className="roomTypeCard__middleBottomSection">
-            {/* 여기서나온 값을 state 에 저장하는거임 */}
             {roomTypeData.pricingType === PricingType.DOMITORY ? (
               <Fragment>
                 {roomTypeData.roomGender === RoomGender.FEMALE || (

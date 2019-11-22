@@ -20,13 +20,7 @@
             &__tab {
                 padding: 0px $tabs-tab-padding;
                 outline:0;
-
-                &:not(.react-tabs__tab--selected) {
-                    .JDinput {
-                        border:none;
-                        pointer-events: none;
-                    }
-                }
+                
                 // 선택된
                 &--selected {
                     position: relative;
@@ -37,6 +31,14 @@
                     border-radius: $tabs-tab-border-radious $tabs-tab-border-radious 0px 0px ;
                     line-height : calc(#{$tabs-height} - 4px);    
                 }
+
+                &:not(.react-tabs__tab--selected) {
+                    .JDinput {
+                        border:none;
+                        pointer-events: none;
+                    }
+                }
+                
                 &:hover {
                     cursor: pointer;
                 }

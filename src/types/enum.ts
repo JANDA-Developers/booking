@@ -191,6 +191,7 @@ export type JDColor =
   | "white"
   | "grey"
   | "normal"
+  | "blue"
   | "positive";
 
 export enum AutoSendWhen {
@@ -497,7 +498,6 @@ export const MODAL_MIN_WIDTH = isMobile()
 
 export const STATIC_COLORS = [
   "#4c5b73",
-  "#E8554E",
   "#E8554E",
   "#F19C65",
   "#FFD265",

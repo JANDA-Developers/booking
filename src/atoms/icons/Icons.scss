@@ -1,11 +1,8 @@
 @import '~Styles/style_config';
 
 .JDicon__svg {
-
     display: inline-flex;
     align-self: center;
-    // width: 1em;
-    // height: 1em;
     fill: currentColor;
     top: .125em;
     position: relative;
@@ -15,8 +12,6 @@
         cursor: pointer;;
         color: $grey-level3;
     }
-
-
     &--selected {
         color: $primary-color-light;
         &:hover {

@@ -23,6 +23,14 @@
   cursor: pointer;
   border:none;
 
+  // Flot
+  &--left {
+    float: left
+  }
+
+  &--right {
+    float: right;
+  }
 
   &__contents {
     display:flex;
@@ -34,14 +42,6 @@
   &.JDwaves-effect {
     overflow:hidden;
   }
-  // Flot
-  &--left {
-    float: left
-  }
-
-  &--right {
-    float: right;
-  }
 
   &.JDbtn--white {
     color:white;
@@ -50,6 +50,7 @@
   &.JDbtn--grey {
     background-color: $grey-level1;
     border: 1px solid $grey-opacity1;
+
     &:hover {
       background-color: $grey-level2;
     }
@@ -62,9 +63,11 @@
 
   &.JDbtn--transparent {
     background-color: transparent;
+    
     &:hover {
       background-color: $grey-opacity1;
     }
+
   }
 
   // Colors

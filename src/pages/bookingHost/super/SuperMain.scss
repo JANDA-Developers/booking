@@ -7,12 +7,12 @@
         background-color: $background-color;
 	}
 	to {
-        background-color: $admin-color;
+        background-color: $primary-color-dark;
 	}
 }
 
 #superMain {
-    background-color: $admin-color;
+    background-color: $primary-color-dark;
     min-height: 100vh;
     animation: color .2s linear;
 }
@@ -21,10 +21,12 @@
     display:flex;
     margin-right:0;
     align-items: center;
-    margin-bottom: $standard-margin-bottom / 2;
+    margin-bottom: $standard-small-space;
+
     &__gird {
         flex-grow: 1;
     }
+    
     &__profile {
     }
 

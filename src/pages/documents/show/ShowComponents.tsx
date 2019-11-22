@@ -23,7 +23,7 @@ import JDlabel from "../../../atoms/label/JDLabel";
 import JDmodal from "../../../atoms/modal/Modal";
 import JDtable, { ReactTableDefault } from "../../../atoms/table/Table";
 import ProfileCircle from "../../../atoms/profileCircle/ProfileCircle";
-import { Tab, TabList, TabPanel, JDtabs } from "../../../atoms/tabs/tabs_";
+import { Tab, TabList, TabPanel, JDtabs } from "../../../atoms/tabs/Tabs_";
 import utils from "../../../utils/utils";
 import Icon, { icons } from "../../../atoms/icons/Icons";
 import {

@@ -5,19 +5,19 @@
 // 👿 에니메이션 css 순수하게 가진 파일이필요
 @import '../../../../atoms/animation/ComponentAnimations.scss';
 
-  @keyframes fadeInUp {
+@keyframes fadeInUp {
     from {
         opacity: 0;
         -webkit-transform: translate3d(0, 100%, 0);
         transform: translate3d(0, 100%, 0);
       }
     
-      to {
-        opacity: 1;
-        -webkit-transform: translate3d(0, 0, 0);
-        transform: translate3d(0, 0, 0);
-      }
-  }
+    to {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    }
+}
 
 @-webkit-keyframes fadeInUp {
     from {
@@ -147,7 +147,7 @@
             .rct-outer {
                 background-image: linear-gradient(to right, #{$grey-level2} 0%, #fff 50%, #{$grey-level2} 100%);	
                 animation: grdAnime 2s infinite linear;
-                height: $standard-height * 90!important;
+                height: 0.25rem * 90!important;
                 background-size: 200% auto;
             }
             .group,.rct-scroll{

@@ -2,7 +2,14 @@
 
 .JDselect {
   text-align:left;
+  font-size: $typho-normal;
 
+  &--textOverflowVisible {
+    .react-select__placeholder,
+    .react-select__single-value {
+      overflow:visible!important;
+    }
+  }
 
   &--menuItem-centerlize {
     .react-select__option {
@@ -11,9 +18,6 @@
     }
   }
 
-  .css-1g6gooi {
-    width: 1px;
-  }
   &--autoSize {
     .react-select__value-container {
       & > div:first-child {
@@ -51,12 +55,14 @@
     }
   }
 
+  .css-1g6gooi {
+    width: 1px;
+  }
+
   // NO 옵션
   .react-select__menu-Notice--no-options {
     color: $selcet-placeholder-color;
   }
-
-  font-size: $typho-normal;
 
   .JDselect__label {
     font-size: $label-font-size;
@@ -76,12 +82,13 @@
       padding-left: $standard-small-space;
     }
   }
-  // disabled style 디스에이블 스타일 1
+
+  // disabled style
   &--disabled {
-  .JDselect__label{
-    color:$select-disabled-color;
+    .JDselect__label{
+      color:$select-disabled-color;
+    }
   }
-}
   
   .react-select-container {
 
@@ -91,7 +98,7 @@
         padding-right: 0!important;
       }
 
-      // disabled style 디스에이블 스타일 2
+      // disabled style 2
       &__control--is-disabled.react-select__control {
         border-color: $select-disabled-color;
         .react-select__placeholder{
@@ -252,13 +259,6 @@
           // width: 0;
         }
       }
-    }
-  }
-
-  &--textOverflowVisible {
-    .react-select__placeholder,
-    .react-select__single-value {
-      overflow:visible!important;
     }
   }
 }

@@ -10,15 +10,10 @@ import {
   updateBookingVariables,
   deleteBooking,
   deleteBookingVariables,
-  allocateGuestToRoom,
-  allocateGuestToRoomVariables,
   getRoomTypeDatePrices,
   getRoomTypeDatePricesVariables,
   startBooking,
   startBookingVariables,
-  deleteBooking_DeleteBooking,
-  updateBooking_UpdateBooking,
-  startBooking_StartBooking
 } from "../../types/api";
 import {
   queryDataFormater,
@@ -33,7 +28,6 @@ import {
   UPDATE_BOOKING,
   DELETE_BOOKING,
   GET_BOOKINGS,
-  ALLOCATE_GUEST_TO_ROOM,
   GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM,
   GET_ROOM_TYPE_DATE_PRICE,
   START_BOOKING
@@ -84,11 +78,18 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
             undefined
           );
 
+
+          console.log("modalHook.info.createParam");
+          console.log(modalHook.info.createParam);
+
           // (API로 가져온 Booking 정보) + (예약 생성요청 정보)
           const mergedBooking = mergeObject(
             booking,
             modalHook.info.createParam
           );
+
+          console.log("mergedBooking");
+          console.log(mergedBooking);
 
           const priceQueryVariables:
             | getRoomTypeDatePricesVariables
@@ -142,8 +143,6 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
                       <CreatBookingMu
                         mutation={START_BOOKING}
                         onCompleted={({ StartBooking }) => {
-                          if (modalHook.info.startBookingCallBack)
-                            modalHook.info.startBookingCallBack(StartBooking);
                           onCompletedMessage(
                             StartBooking,
                             LANG("reservation_creation_complete"),
@@ -153,6 +152,9 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
                             modalHook.closeModal();
                             startBookingCallBack &&
                               startBookingCallBack(StartBooking);
+
+                            if (modalHook.info.startBookingCallBack)
+                              modalHook.info.startBookingCallBack(StartBooking);
                           }
                         }}
                         refetchQueries={[

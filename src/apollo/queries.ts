@@ -2191,30 +2191,6 @@ export const GET_HOUSE_MENUAL = gql`
     ${F_HM}
 `
 
-// // 호스트용
-// export const GET_HOUSE_MENUAL_CONFIG = gql`
-//     query getHM($houseId: ID!) {
-//             GetHM(houseId:$houseId) {
-//                 ok
-//                 error
-//                 HM {
-//                     ...FHM
-//                     menus {
-//                         ...FHMmenu
-//                     }
-//                     location {
-//                         address
-//                         addressDetail
-//                         lat
-//                         lng
-//                     }
-//                 }
-//             }
-//         } 
-//     ${F_HMM}
-//     ${F_HM}
-// `
-
 export const GET_HOUSE_MENUAL_FOR_PUBLIC = gql`
     query getHMforPublic {
             GetHMforPublic {

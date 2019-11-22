@@ -1,11 +1,8 @@
 import React from "react";
 import classNames from "classnames";
-import {TabsProps, Tab, Tabs, TabList, TabPanel} from "react-tabs";
-import "./tabs_.scss";
-import {Children} from "react";
-import {IDiv} from "../../types/interface";
+import {Tab, Tabs, TabList, TabPanel} from "react-tabs";
+import "./Tabs_.scss";
 
-// 👿 이건 그냥 모듈안에서 타입정의를 가져온것이다.  확장하려했으니 안되는 이유를 모르겠다.
 interface IProps {
   styleMode?: "button";
   className?: string;

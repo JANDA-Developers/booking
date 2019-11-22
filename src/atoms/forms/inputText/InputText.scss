@@ -50,20 +50,9 @@
     text-align: center;
   }
 
-  &--h6 {
-    font-size: $typho-h6;
-  }
-
-  &--h5 {
-    font-size: $typho-h6;
-  }
-
-  &--h4 {
-    font-size: $typho-h6;
-  }
-
-  &--h3 {
-    font-size: $typho-h6;
+  &--labeled {
+    padding-top: $input-labeled-padding-top;
+    height: $input-height;
   }
 
   //아래에있는 라벨을 위로 끌어올립니다
@@ -100,11 +89,6 @@
   // Focused .JDinput_label style
   &:focus:not([readonly])+.JDinput_label {
     color: $label-font-color;
-  }
-
-  &--labeled {
-    padding-top: $input-labeled-padding-top;
-    height: $input-height;
   }
 
   // Valid Input Style

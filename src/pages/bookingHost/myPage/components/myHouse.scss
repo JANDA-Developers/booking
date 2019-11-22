@@ -28,7 +28,6 @@
     }
 
     &__infoList {
-        line-height: $standard-lists-line;
         & > li {
             overflow:hidden;
             white-space:nowrap;
@@ -37,7 +36,7 @@
     }
 
     .JDicon__svg {
-        margin-right: $standard-small-icon-margin;
+        margin-right: $standard-small-space;
     }
     
 }

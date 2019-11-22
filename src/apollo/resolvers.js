@@ -1,3 +1,4 @@
+// 클라이언트 사이드 리솔버
 const resolvers = {
   Query: {
     lastSelectedHouse: () => {

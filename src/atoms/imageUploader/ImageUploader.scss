@@ -19,7 +19,13 @@
     font-size: 2rem;  // prettier
     text-align: center;
 
-
+    &--error {
+        border-color: $error-color;
+    }
+    &--loading {
+        background-image:none;
+    }
+    
     &--noBg {
         background-image:none;
     }
@@ -77,13 +83,6 @@
         background-size:contain;
         background-position: center center;
         background-repeat:no-repeat;
-    }
-
-    &--error {
-        border-color: $error-color;
-    }
-    &--loading {
-        background-image:none;
     }
 
     &__input {

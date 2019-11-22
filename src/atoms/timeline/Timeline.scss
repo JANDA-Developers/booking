@@ -9,7 +9,7 @@
 .react-calendar-timeline {
     overflow: hidden;
     border-radius: $standard-border-radius;
-    border:2px solid $standard-outborder-color;
+    border:2px solid $outborder-color;
     div {
         // 🥇 이로서 드레그 끈김을 막을수있다.
         user-select: none;

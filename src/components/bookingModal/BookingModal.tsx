@@ -283,7 +283,7 @@ const BookingModal: React.FC<IProps> = ({
       }}
       paddingSize="large"
       {...modalHook}
-      className="Modal bookingModal"
+      className={`Modal bookingModal ${(loading || startBookingLoading) && "bookingModal--loading"}`}
       overlayClassName="Overlay"
     >
       <Preloader size={"large"} loading={loading || startBookingLoading} />
@@ -292,12 +292,6 @@ const BookingModal: React.FC<IProps> = ({
           <div className="modal__section">
             <h5>
               {LANG("booker_info")}{" "}
-              {/* <Drawer
-                onClick={e => {
-                  setDrawers({ bookerInfo: !drawers.bookerInfo });
-                }}
-                open={drawers.bookerInfo}
-              /> */}
             </h5>
             <div className="JDflex JDflex--oneone">
               <InputText

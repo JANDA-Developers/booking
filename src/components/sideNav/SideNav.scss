@@ -157,20 +157,20 @@
                 background-color: $primary-color;
             }
         }
-        
-        .JDicon__svg {
-            padding: 0rem $sideNav-list-padding;
-            padding-left: 0;
-        }
+       
         &:not(.JDsideNav__navLink--disabled):hover {
             background-color:$grey-level1;
         }
 
         &--disabled {
-            color: $standard-disabled-color;
+            color: $disabled-color;
             cursor: auto;
         }
+
+        .JDicon__svg {
+            padding: 0rem $sideNav-list-padding;
+            padding-left: 0;
+        }
     }
-    
 
 }

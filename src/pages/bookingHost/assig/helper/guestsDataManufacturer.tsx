@@ -41,7 +41,7 @@ export const guestsDataManufacturer = (allGuestsData: IGuest[]) => {
       const { status: paymentStatus } = payment;
       const isUnpaid = paymentStatus !== PaymentStatus.COMPLETE;
 
-      if (instanceOfA<IGuestD>(guestData, "gender")) {
+      if (instanceOfA<IGuestD>(guestData, "gender", true)) {
         gender = guestData.gender;
         bedIndex = guestData.bedIndex;
       }

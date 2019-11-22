@@ -135,7 +135,7 @@ export const openNiceModal = async ({
     form.setAttribute("method", "Post"); //Post 방식
     form.setAttribute(
       "action",
-      process.env.REACT_APP_API_PAY_MENT_RETURN_URL || ""
+      `https://${process.env.REACT_APP_API_HOST_PRODUCT}${process.env.REACT_APP_API_PAYMENT_ENDPOINT}` || ""
     ); //요청 보낼 주소
     form.setAttribute("id", "nicePay"); //요청 보낼 주소
     form.setAttribute("name", "payForm"); //요청 보낼 주소

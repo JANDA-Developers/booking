@@ -9,12 +9,14 @@ import { textSizeClass } from "../../utils/autoClasses";
 interface Iprops extends ISpan {
   color?: JDColor;
   size?: TextSize;
+  anchor?: boolean;
 }
 
-const TextButton: React.FC<Iprops> = ({ size, color, className, ...props }) => {
-  const classNames = classnames("TextButton", className, {
-    ...colorClass("TextButton", color),
-    ...textSizeClass("TextButton", size)
+const TextButton: React.FC<Iprops> = ({ anchor, size, color, className, ...props }) => {
+  const classNames = classnames("textButton", className, {
+    "textButton--anchor": anchor,
+    ...colorClass("textButton", color),
+    ...textSizeClass("textButton", size)
   });
 
   return <span className={classNames} {...props} />;

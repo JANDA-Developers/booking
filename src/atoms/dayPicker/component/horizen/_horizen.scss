@@ -64,14 +64,13 @@ $horizen-calendarCell-width : calc(14.28vw - 2.8px);
                         display: inline-block;
                         width: $horizen-calendarCell-width;
 
-                        &__month {
-                            font-size: 8px;
-                        }
-
                         &--outside {
                             display: none;
                         }
 
+                        &__month {
+                            font-size: 8px;
+                        }
                     }
                 }
             }

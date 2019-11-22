@@ -5,7 +5,7 @@ import React from "react";
 import Icon from "../../../atoms/icons/Icons";
 import $ from "jquery";
 import "./DocumentHome.scss";
-import {JDtabs, Tab, TabList, TabPanel} from "../../../atoms/tabs/tabs_";
+import {JDtabs, Tab, TabList, TabPanel} from "../../../atoms/tabs/Tabs_";
 
 interface IProps {
   loading: boolean;
@@ -61,15 +61,16 @@ const DocumentHome: React.FC<IProps> = ({
               <Icon icon="checkList" />
             </a>
           </span>
-          <span className="documentHome__anchorContainer">
-            <a
+          {/* <span className="documentHome__anchorContainer">
+            <TextButton
+              color=""
               className="JDanchor"
               href="https://github.com/BaeKY/jd-api-server"
             >
               {"Slack"}
               <Icon icon="slack" />
             </a>
-          </span>
+          </span> */}
         </div>
         <JDtabs>
           {/* 상위탭 */}

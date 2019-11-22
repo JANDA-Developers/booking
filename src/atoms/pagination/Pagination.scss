@@ -61,6 +61,13 @@
         }
     }
     & > &__btn {
+        &--disabled {
+            display: none;
+
+            & + li {
+                margin-left: 0;
+            }
+        }
         &-prev{
             margin-left: 0;
             &__a{
@@ -73,13 +80,6 @@
             &__a{
                 color:$html-color;
                 opacity: 1;
-            }
-        }
-        &--disabled {
-            display: none;
-
-            & + li {
-                margin-left: 0;
             }
         }
     }

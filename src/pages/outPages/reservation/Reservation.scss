@@ -9,7 +9,7 @@ $flex-grid--column-margin: .8%;
 }
 
 #JDreservation {
-    padding: $standard-width;
+    padding: 0.4rem;
     box-sizing: border-box;
     padding-bottom: $standard-margin-bottom;
     
@@ -51,7 +51,7 @@ $flex-grid--column-margin: .8%;
         }
 
         &__cardMessage {
-            height: $standard-height * 4 * 11;
+            height: 0.25rem * 4 * 11;
             display:flex;
             justify-content: center;
             align-items: center;

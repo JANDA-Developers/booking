@@ -102,15 +102,13 @@
     }
 }
 .JDmodal {
-
-
-
     &--alert {
         font-weight:bold;
     }
+    
     &--paddingLarge {
         @include response($full, $tablet) {
-            padding: $standard-largest-space;
+            padding: $standard-huge-space;
         }
     }
 

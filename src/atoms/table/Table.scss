@@ -11,6 +11,35 @@
         box-sizing: border-box;
         background-color: white;
         
+        &--checkable {
+            //  ❗️ 강제 오버라이드
+            .rt-tr > div:first-child {
+                width: 0.4rem * 8!important;
+                flex: 0.4rem * 8 0 auto!important;
+                max-width: 0.4rem * 8!important;
+                justify-content: end;
+            }
+        }
+
+        &--center {
+            text-align: center;
+        }
+        
+        &--visibleOver:not(.JDtable--scrollOverPadding) {
+            .rt-table {
+                overflow: visible;
+            }
+            .rt-tbody {
+                overflow: visible!important;
+            }
+            .rt-tr-group {
+                overflow: visible;
+            }
+            .rt-td {
+                overflow:visible;
+            }
+        }
+
         .rt-thead {
             border-color: $html-color;
         }
@@ -28,30 +57,10 @@
             box-sizing: content-box;
         }
 
-        &--center {
-            text-align: center;
-        }
-
-        
-        &--visibleOver:not(.JDtable--scrollOverPadding) {
-            .rt-table {
-                overflow: visible;
-            }
-            .rt-tbody {
-                overflow: visible!important;
-            }
-            .rt-tr-group {
-                overflow: visible;
-            }
-            .rt-td {
-                overflow:visible;
-            }
-        }
-
 
         // 데이터가 없을때 플레이스 홀더
         .rt-noData{
-            color: $standard-placeholder-color;
+            color: $placeholder-color;
             padding: 0;
             top: auto;
             bottom: 0;
@@ -82,16 +91,6 @@
             white-space: normal;
             max-width:100%;
             padding: $table-padding;
-        }
-
-        &--checkable {
-            //  ❗️ 강제 오버라이드
-            .rt-tr > div:first-child {
-                width: $standard-width * 8!important;
-                flex: $standard-width * 8 0 auto!important;
-                max-width: $standard-width * 8!important;
-                justify-content: end;
-            }
         }
     }
 }
