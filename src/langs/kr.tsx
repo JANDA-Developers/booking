@@ -833,6 +833,8 @@ export const kr = {
   change_password_complete: "비밀번호 변경 완료",
   change_password_failed: "비밀번호 변경 실패",
   new_password: "새로운 패스워드",
+  card_resist: "카드등록",
+  card_number: "카드번호",
   please_rewrite_your_new_password: (
     <span>
       비밀번호를 재발급 받으셨군요

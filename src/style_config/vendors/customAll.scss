@@ -208,16 +208,16 @@ a.JDanchor {
     background-color: $point-color
 }
 
+.JDbgColor--warring {
+    background-color: $error-color
+}
+
+.JDtextColor--error {
+    background-color: $error-color
+}
+
 .JDtextColor--placeHolder {
     color: $grey-level1
-}
-
-.JDtextColor-warring-text {
-    background-color: $error-color
-}
-
-.JDbgColor-warring {
-    background-color: $error-color
 }
 
 .JDnoWrap {

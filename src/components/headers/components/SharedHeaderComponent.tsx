@@ -136,6 +136,10 @@ const SharedHeaderComponent: React.FC<Iprops> = ({
   return (
     <Fragment>
       {/* 알람 */}
+      {isPhoneVerified && <div className="JDtext-blink header__btns">
+          <Button thema="primary" onClick={()=>{}} label={LANG("card_resist")} />
+        </div>
+      }
       <span>
         {isEmpty(context.house) || (
           <NotiWrap

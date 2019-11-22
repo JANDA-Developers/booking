@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import { ReactTooltip } from "../../atoms/tooltipList/TooltipList";
 import Icon, { IconSize } from "../../atoms/icons/Icons";
 import { ErrProtecter } from "../../utils/utils";
-import { useModal } from "../../hooks/hook";
+import { useModal, LANG } from "../../hooks/hook";
 import { IDiv } from "../../types/interface";
 import GuestSearchInputWrap from "../guestSearchInput/GuestSearchInputWrap";
 import PhoneVerificationModalWrap from "../phoneVerificationModal/PhoneVerificationModalWrap";

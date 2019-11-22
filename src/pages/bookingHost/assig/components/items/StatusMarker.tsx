@@ -13,7 +13,7 @@ const StatusMarker: React.FC<IProps> = ({ memo, isUnpaid }) => {
 
   return (
     <div className="statusMarker">
-      {isUnpaid && <Dot className="JDbgColor-warring" title={LANG("unPaid")} />}
+      {isUnpaid && <Dot className="JDbgColor--error" title={LANG("unPaid")} />}
       {memo && <Dot className="JDbgColor--point" title={`메모: ${memo}`} />}
     </div>
   );

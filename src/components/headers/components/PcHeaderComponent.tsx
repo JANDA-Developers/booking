@@ -40,6 +40,8 @@ const PcHeaderComponent: React.FC<Iprops> = ({
   // 로그인된 헤더 메뉴
   const LoginPcHeaderRight = () => (
     <div className="header__pcRight">
+
+
       {/* 프로필 아이콘 */}
       <span
         data-tip

@@ -4,7 +4,7 @@ import "./Textarea.scss";
 import classNames from "classnames";
 import JDicon, {IconSize, IIcons} from "../../icons/Icons";
 import ErrProtecter from "../../../utils/errProtect";
-import autoHyphen, {numberStr, toNumber} from "../../../utils/autoFormat";
+import autoHyphen, {numberStr, toNumber, card_space} from "../../../utils/autoFormat";
 import {NEUTRAL} from "../../../types/enum";
 import {getByteLength} from "../../../utils/elses";
 import {autoComma, s4} from "../../../utils/utils";
@@ -43,6 +43,7 @@ interface IProps extends React.HTMLAttributes<HTMLInputElement> {
   hyphen?: boolean;
   byte?: boolean;
   comma?: boolean;
+  card?: boolean;
   returnNumber?: boolean;
   allWaysShowValidMessage?: boolean;
   className?: string;
@@ -79,6 +80,7 @@ const InputText: React.FC<IProps> = ({
   iconHover,
   hyphen,
   byte,
+  card,
   size,
   textSize,
   wrapClassName,
@@ -95,6 +97,7 @@ const InputText: React.FC<IProps> = ({
       inInValue = inInValue.toString();
     }
     if (typeof inInValue === "string") {
+      if (card) return card_space(inInValue);
       if (hyphen) return autoHyphen(inInValue);
       if (comma) return autoComma(inInValue);
       return inInValue;
