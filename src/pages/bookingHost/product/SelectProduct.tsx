@@ -109,7 +109,7 @@ const SelectProducts: React.FC<IProps> = ({
           </div>
           <p title="하단 메세지">
             {isEmpty(selectedHouse) ? (
-              <span className="JDtextColor-warring-text">
+              <span className="JDtextColor--error">
                 {LANG("no_house_currently_created")}
               </span>
             ) : (

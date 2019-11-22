@@ -99,7 +99,7 @@ $animation-time: 0.5s;
 .item-wrap {
 	padding: $standard-small-space;
 	position: relative;
-	height: $standard-height * 8;
+	height: 0.25rem * 8;
 	&:before, &:after {
 		position: absolute;
 		left: 0;

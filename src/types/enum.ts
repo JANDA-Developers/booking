@@ -191,6 +191,7 @@ export type JDColor =
   | "white"
   | "grey"
   | "normal"
+  | "blue"
   | "positive";
 
 export enum AutoSendWhen {

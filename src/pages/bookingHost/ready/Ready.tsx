@@ -1,16 +1,9 @@
 import React, { Fragment } from "react";
-import PropTypes from "prop-types";
 import "./Ready.scss";
-import {
-  getHouse_GetHouse_house_appInfo,
-  getHouse_GetHouse_house_product
-} from "../../../types/api";
-import { IHouse } from "../../../types/interface";
-import { SpecificAtion } from "../../../components/specification/Specification";
 import SpecificationWrap from "../../../components/specification/SpecificationWrap";
 import JDlist from "../../../atoms/list/List";
 import { SERVICE_CONTECT } from "../../../types/enum";
-import { IContext } from "../../bookingHost/BookingHostRouter";
+import { IContext } from "../BookingHostRouter";
 import { LANG } from "../../../hooks/hook";
 
 interface IProps {
@@ -41,7 +34,7 @@ const Ready: React.FC<IProps> = ({ context }) => {
                     </span>,
                     <span className="JDlarge-text">
                       ☎️ 문의 전화번호 {SERVICE_CONTECT.SERVICE_MANGER_PHONE}
-                    </span>,
+                    </span>
                     <span className="JDlarge-text">
                       📧 문의 이메일 {SERVICE_CONTECT.SERVICE_MANGER_MAIL}
                     </span>,

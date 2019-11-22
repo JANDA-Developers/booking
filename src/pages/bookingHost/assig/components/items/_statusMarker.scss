@@ -4,11 +4,11 @@
   display: flex;
   &__dot {
       box-sizing:border-box;
-      margin-bottom:  $standard-height;
+      margin-bottom:  0.25rem;
       display:inline-block;
       border-radius: 100%;
-      height: $standard-width;
-      width: $standard-width;
+      height: 0.4rem;
+      width: 0.4rem;
       border: 1px solid $html-color;
       margin-right: 4px;
 

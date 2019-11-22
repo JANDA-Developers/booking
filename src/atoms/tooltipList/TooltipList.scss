@@ -10,6 +10,25 @@
         padding:0;
         margin-top:0;
 
+        // 상단 화살표
+        &:after{
+            position: absolute;
+            border-radius: 3px;
+            border: none;
+            width: 16px;
+            height:16px;
+            z-index:0;
+            background-color:white;
+            transform: translateY(2px) rotate(45deg);
+            @extend %z-depth-1;
+        }
+        
+        &--unPadding {
+            ul {
+                padding:0;
+            }
+        }
+
         & > * {
             position:relative;
             background-color: $tooltipList-background-color;
@@ -36,25 +55,6 @@
 
             & > li:last-child {
                 border-bottom: 0px
-            }
-        }
-
-        // 상단 화살표
-        &:after{
-            position: absolute;
-            border-radius: 3px;
-            border: none;
-            width: 16px;
-            height:16px;
-            z-index:0;
-            background-color:white;
-            transform: translateY(2px) rotate(45deg);
-            @extend %z-depth-1;
-        }
-        
-        &--unPadding {
-            ul {
-                padding:0;
             }
         }
     }

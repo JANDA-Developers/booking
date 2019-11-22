@@ -19,7 +19,6 @@ interface IProps extends React.HTMLAttributes<HTMLInputElement> {
   halfHeight?: boolean;
   label?: string;
   size?: "fullWidth" | "fullHeight";
-  textSize?: "h6";
   type?: string;
   textAlign?: "center";
   dataError?: string;
@@ -29,8 +28,6 @@ interface IProps extends React.HTMLAttributes<HTMLInputElement> {
   iconOnClick?: any;
   dataSuccess?: string;
   validation?: any;
-  // 음... 곤란하군 만약에 이벤트 객체를 핸들링할 경우가 생긴다면
-  // onChnage=> onChangeValue로 바꾸어야겠다.
   onChange?(value?: any): void;
   onChangeValid?: any;
   onBlur?(e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>): any;
@@ -80,7 +77,6 @@ const InputText: React.FC<IProps> = ({
   hyphen,
   byte,
   size,
-  textSize,
   wrapClassName,
   comma,
   ...props
@@ -130,7 +126,6 @@ const InputText: React.FC<IProps> = ({
 
   const classes = classNames(textarea ? "JDtextarea" : "JDinput", className, {
     "JDinput--labeled": label && !textarea,
-    "JDinput--h6": textSize === "h6",
     "JDinput--center": textAlign === "center",
     "JDinput--valid": (isValid === true || selfValid === true) && !textarea,
     "JDinput--invalid": (isValid === false || selfValid === false) && !textarea,

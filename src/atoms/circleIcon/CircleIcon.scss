@@ -5,8 +5,6 @@
     background: none;
     border: none;
     outline: none;
-    // width: $circle-icon-size;
-    // height: $circle-icon-size;
     align-content: center;
     justify-content:center;
     display: inline-block;
@@ -14,15 +12,11 @@
     line-height: 100%;
     cursor:pointer;
 
-    &-Wrap {
-        display:flex;
-        flex-direction: column;
-        text-align:center;
-    }
     &:hover {
         background-color: $hover-effect-dark;
         transition:0.3s;
     }
+    
     &--white {
         color:white;
         &:hover{
@@ -45,11 +39,16 @@
         background-color:unset;
     }
 
+    &-Wrap {
+        display:flex;
+        flex-direction: column;
+        text-align:center;
+    }
+
     .JDicon__svg {
         line-height: 100%;
         top:.1em;
     }
-
 
     img {
         width: 100%;

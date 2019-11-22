@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import Button from "../../../atoms/button/Button";
-import {insideRedirect} from "../../../utils/utils";
 import JDbox from "../../../atoms/box/JDbox";
 import {IContext} from "../../../pages/bookingHost/BookingHostRouter";
 import {LANG} from "../../../hooks/hook";

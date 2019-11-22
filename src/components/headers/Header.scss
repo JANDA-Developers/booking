@@ -12,7 +12,7 @@ html .header {
     padding-right: $header-padding;
     height: $header-height;
     z-index: $z-index-9;
-        justify-content: space-between;
+    justify-content: space-between;
     @extend %z-depth-1;
     width: 100%;
     box-sizing: border-box;
@@ -173,9 +173,9 @@ html .header {
     &__selectHouse {
         margin-bottom: 0;
         margin:0;
-        width: $standard-width * 24;
+        width: 0.4rem * 24;
         @include response($desktop) {
-            width: $standard-width * 18;
+            width: 0.4rem * 18;
         }
         .react-select-container {
             .react-select__control {

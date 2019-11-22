@@ -31,6 +31,21 @@
 // Filled in Style ***
 .JDcheck_box {
 
+    &--small {
+        +.JDcheck_box_label {
+            width: 21px;
+        }
+        +.JDcheck_box_label:after {
+            width: 16px!important;
+            height: 16px!important;
+        }
+    }
+
+    &--small +.JDcheck_box_label {
+        padding-left: 0; // space with label
+        height: 20px;
+    }
+
     /* ---------------------------------- 라벨스타일 --------------------------------- */
     +.JDcheck_box_label {
         position: relative;
@@ -42,11 +57,6 @@
         font-size: $checkBox-label-fontSize;
         color: $checkBox-label-color;
         user-select: none;
-    }
-
-    &--small +.JDcheck_box_label {
-        padding-left: 0; // space with label
-        height: 20px;
     }
 
     // General
@@ -82,15 +92,6 @@
         z-index: 0;
     }
 
-    &--small {
-        +.JDcheck_box_label {
-            width: 21px;
-        }
-        +.JDcheck_box_label:after {
-            width: 16px!important;
-            height: 16px!important;
-        }
-    }
 
     /* ---------------------------------- 체크스타일 --------------------------------- */
     &:checked {
@@ -141,7 +142,7 @@
         border-color: $checkbox-disabled-border-color;
     }
     &:disabled+.JDcheck_box_label {
-        color: $standard-disabled-color;
+        color: $disabled-color;
         cursor:default;
     }
 }

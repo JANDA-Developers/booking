@@ -74,7 +74,10 @@ function App() {
         >
           1.1.2 Last Update 2019.11.22.
         </div>
-        <div id="JDpreloaderPortal" />
+        <div style={{
+            position: "relative",
+            zIndex: 999999
+        }} id="JDpreloaderPortal" />
         {/* for old borwser */}
         <div id="outdated" />
       </ApolloProvider>

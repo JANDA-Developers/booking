@@ -26,24 +26,6 @@
     height: inherit;
     position: relative;
 
-    &__fill {
-        fill: $preloader-fill-color;
-    }
-
-    &__wrap {
-        transform-origin: center cetner;
-
-        &--center {
-            width: 100%;
-            display:flex;
-            justify-content: center;
-        }
-    }
-
-    &__outerline {
-        fill: $preloader-background-color;
-    }
-
     &--large {
         width: 8rem;
         height: 8rem;
@@ -70,6 +52,24 @@
         right: 3%!important;
         transform-origin: left bottom;
     }
+
+    &__fill {
+        fill: $preloader-fill-color;
+    }
+
+    &__wrap {
+        transform-origin: center cetner;
+
+        &--center {
+            width: 100%;
+            display:flex;
+            justify-content: center;
+        }
+    }
+
+    &__outerline {
+        fill: $preloader-background-color;
+    }
 }
 
 .preloader--page__wrap {
@@ -81,6 +81,7 @@
         right: 0;
         bottom: 0;
     background-color:white;
+    
     .preloader--page {
         width: 13%;
         padding-top: 13%;
@@ -94,6 +95,7 @@
             border-top: 3rem solid $preloader-fill-color;
         }
     }
+    
     @include response ($desktophd) {
         display:flex;
         align-items: center;

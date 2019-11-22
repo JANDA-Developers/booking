@@ -4,7 +4,7 @@
     display:inline-block;
     padding: $badge-padding;
     border-radius: $standard-border-radius;
-    border: 1px solid $standard-outborder-color;
+    border: 1px solid $outborder-color;
     margin-bottom: $standard-margin-bottom /2;
     &__minute {
         margin-right: $standard-space /3;

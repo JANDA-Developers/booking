@@ -3,7 +3,7 @@ $notiLi-padding : $standard-space;
 .notiLi {
     position: relative;
     padding: $notiLi-padding;
-    width: $standard-width * 55;
+    width: 0.4rem * 55;
     
     &__msg {
     }
@@ -16,7 +16,7 @@ $notiLi-padding : $standard-space;
         color: $html-color;
         &_txt {
             display:block;
-            margin-bottom: $standard-height;
+            margin-bottom: 0.25rem;
         }
     }
 

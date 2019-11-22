@@ -5,8 +5,7 @@ import {IUseDayPicker, LANG} from "../../hooks/hook";
 import ArrowDayByDay from "../../atoms/dayPicker/component/inputComponent/ArrowDayByDay";
 import JDdayPicker from "../../atoms/dayPicker/DayPicker";
 import Preloader from "../../atoms/preloader/Preloader";
-import {Doughnut, ChartData} from "react-chartjs-2";
-import {getStaticColors} from "../../utils/getStaticColors";
+import {ChartData} from "react-chartjs-2";
 import JDgraph from "../../atoms/graph/graph";
 
 interface IViewConfig {

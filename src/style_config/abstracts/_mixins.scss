@@ -103,9 +103,16 @@
     }
        
     &--warn#{$After} {
-        color: $warn-color;
+        color: $orange-color;
         &:hover {
-            color: $warn-color-dark;
+            color: $orange-color-dark;
+        } 
+    }
+
+    &--blue#{$After} {
+        color: $blue-color;
+        &:hover {
+            color: $blue-color-dark;
         } 
     }
 }
@@ -153,9 +160,9 @@
     }
     
     &--warn#{$After} {
-        border-color: $warn-color;
+        border-color: $orange-color;
         &:hover {
-            border-color: $warn-color-dark;
+            border-color: $orange-color-dark;
         } 
     }
        
@@ -237,11 +244,11 @@
     }
 
     &--warn#{$After} {
-        background-color: $warn-color;
+        background-color: $orange-color;
         color: white;
 
         &:hover {
-            background-color: $warn-color-dark;
+            background-color: $orange-color-dark;
         } 
     }
        

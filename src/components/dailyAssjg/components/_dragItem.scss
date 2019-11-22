@@ -33,9 +33,6 @@
         color: white;
         align-items: center;
         flex: unset;
-        * {
-            flex: unset;
-        }
 
         &--progressing {
             opacity: $assigItem-progressing-opacity;
@@ -57,6 +54,10 @@
                     color: $grey-level3;
                 }
             }
+        }
+        
+        * {
+            flex: unset;
         }
     }
 

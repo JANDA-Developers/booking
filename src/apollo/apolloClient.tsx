@@ -54,6 +54,8 @@ const requestLink = new ApolloLink(
 
 const cache = new InMemoryCache({ addTypename: true, fragmentMatcher });
 
+// networkError : 아래 에러는 그래프큐엘 통신이 실패했거나
+// graphQLErrors : 그래프큐엘 통신규약이 맞지않음
 const hanldeError = ({ graphQLErrors, networkError }: ErrorResponse) => {
   if (graphQLErrors) {
     graphQLErrors.map(({ message, locations, path }) => {
@@ -66,8 +68,6 @@ const hanldeError = ({ graphQLErrors, networkError }: ErrorResponse) => {
     console.error(networkError);
     console.error(`[Network error]: ${networkError}`);
     toast.warn(JDlang(CURRENT_LANG, "check_net_status"));
-    // 로그아웃 처리
-    // localStorage.removeItem("jwt");
   }
 };
 

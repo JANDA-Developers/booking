@@ -1,166 +1,166 @@
-@import "../~Styles/style_config.scss";
+// @import "../~Styles/style_config.scss";
 
-.colorPage {
+// .colorPage {
 
-    //todo: 명명규칙 BEM 
-    &-box {
+//     //todo: 명명규칙 BEM 
+//     &-box {
 
-        &-wrap {
-            padding: .5rem;
-        }
+//         &-wrap {
+//             padding: .5rem;
+//         }
 
-        padding-top: 100%;
-        position: relative;
-        margin-bottom: 1rem;
-    }
+//         padding-top: 100%;
+//         position: relative;
+//         margin-bottom: 1rem;
+//     }
 
-    &-circle {
+//     &-circle {
 
-        background-color: white;
+//         background-color: white;
 
-        &__txt {
-            position: absolute;
-            top: calc(50% - 1rem);
-            width: 100%;
+//         &__txt {
+//             position: absolute;
+//             top: calc(50% - 1rem);
+//             width: 100%;
             
-            @include response($tablet){
-                font-size:1.2rem;
-                top: calc(50% - .6rem);
-            }
-        }
+//             @include response($tablet){
+//                 font-size:1.2rem;
+//                 top: calc(50% - .6rem);
+//             }
+//         }
 
-        @extend %z-depth-3;
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        border-radius: 50%;
-        text-align: center;
+//         @extend %z-depth-3;
+//         position: absolute;
+//         top: 0;
+//         left: 0;
+//         right: 0;
+//         bottom: 0;
+//         border-radius: 50%;
+//         text-align: center;
 
-        &--primary {
-            background-color: $primary-color;
+//         &--primary {
+//             background-color: $primary-color;
 
-            .colorPage-circle__txt {
-                color: $primary-color-on
-            }
-        }
+//             .colorPage-circle__txt {
+//                 color: $primary-color-on
+//             }
+//         }
 
-        &--primary-light {
-            background-color: $primary-color-light;
+//         &--primary-light {
+//             background-color: $primary-color-light;
 
-            .colorPage-circle__txt {
-                color: $primary-color-light-on
-            }
-        }
+//             .colorPage-circle__txt {
+//                 color: $primary-color-light-on
+//             }
+//         }
 
-        &--primary-dark {
-            background-color: $primary-color-dark;
+//         &--primary-dark {
+//             background-color: $primary-color-dark;
 
-            .colorPage-circle__txt {
-                color: $primary-color-dark-on
-            }
-        }
+//             .colorPage-circle__txt {
+//                 color: $primary-color-dark-on
+//             }
+//         }
 
-        &--point {
-            background-color: $point-color;
+//         &--point {
+//             background-color: $point-color;
 
-            .colorPage-circle__txt {
-                color: $point-color-on
-            }
-        }
+//             .colorPage-circle__txt {
+//                 color: $point-color-on
+//             }
+//         }
 
-        &--point-light {
-            background-color: $point-color-light;
+//         &--point-light {
+//             background-color: $point-color-light;
 
-            .colorPage-circle__txt {
-                color: $point-color-light-on
-            }
-        }
+//             .colorPage-circle__txt {
+//                 color: $point-color-light-on
+//             }
+//         }
 
-        &--point-dark {
-            background-color: $point-color-dark;
+//         &--point-dark {
+//             background-color: $point-color-dark;
 
-            .colorPage-circle__txt {
-                color: $point-color-dark-on
-            }
-        }
+//             .colorPage-circle__txt {
+//                 color: $point-color-dark-on
+//             }
+//         }
 
-        &--html-color {
-            background-color: $html-color;
+//         &--html-color {
+//             background-color: $html-color;
 
-            .colorPage-circle__txt {
-                color: #fff
-            }
-        }
+//             .colorPage-circle__txt {
+//                 color: #fff
+//             }
+//         }
 
-        &--grey-level1 {
-            background-color: $grey-level1;
+//         &--grey-level1 {
+//             background-color: $grey-level1;
 
-            .colorPage-circle__txt {
-                color: #fff
-            }
-        }
+//             .colorPage-circle__txt {
+//                 color: #fff
+//             }
+//         }
 
-        &--grey-level2 {
-            background-color: $grey-level2;
+//         &--grey-level2 {
+//             background-color: $grey-level2;
 
-            .colorPage-circle__txt {
-                color: #fff
-            }
-        }
+//             .colorPage-circle__txt {
+//                 color: #fff
+//             }
+//         }
 
-        &--grey-level3 {
-            background-color: $grey-level3;
+//         &--grey-level3 {
+//             background-color: $grey-level3;
 
-            .colorPage-circle__txt {
-                color: #fff
-            }
-        }
+//             .colorPage-circle__txt {
+//                 color: #fff
+//             }
+//         }
 
-        &--html-color {
-            background-color: $html-color;
+//         &--html-color {
+//             background-color: $html-color;
 
-            .colorPage-circle__txt {
-                color: #fff
-            }
-        }
+//             .colorPage-circle__txt {
+//                 color: #fff
+//             }
+//         }
 
-        &--button-disabled {
-            background-color: $button-disabled-background;
-        }
+//         &--button-disabled {
+//             background-color: $button-disabled-background;
+//         }
 
-        &--new {
-            background-color: $new-color;
+//         &--new {
+//             background-color: $new-color;
 
-            .colorPage-circle__txt {
-                color: #fff
-            }
-        }
+//             .colorPage-circle__txt {
+//                 color: #fff
+//             }
+//         }
 
-        &--error {
-            background-color: $error-color;
+//         &--error {
+//             background-color: $error-color;
 
-            .colorPage-circle__txt {
-                color: #fff
-            }
-        }
+//             .colorPage-circle__txt {
+//                 color: #fff
+//             }
+//         }
 
-        &--link {
-            background-color: $link-color;
+//         &--link {
+//             background-color: $blue-color;
 
-            .colorPage-circle__txt {
-                color: #fff
-            }
-        }
+//             .colorPage-circle__txt {
+//                 color: #fff
+//             }
+//         }
 
-        &--background-color {
-            background-color: $background-color;
+//         &--background-color {
+//             background-color: $background-color;
 
-            .colorPage-circle__txt {
-                color: $html-color
-            }
-        }
+//             .colorPage-circle__txt {
+//                 color: $html-color
+//             }
+//         }
 
-    }
-}
+//     }
+// }

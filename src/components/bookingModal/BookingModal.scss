@@ -5,14 +5,14 @@
     &:not(.bookingModal--loading) { 
         @include response($full, $tablet) {
             width: 80%;
-            max-width: $standard-width * 100;
+            max-width: 0.4rem * 100;
         }
+    }
         @include response($mobile) {
             .JDinput-iconWrap {
                 display:none;
             }
         }
-    }
     
     .roomSelectInfoTable {
 
@@ -27,7 +27,7 @@
             & > .JDselect {
                 flex-grow: 1;
                 &:first-child {
-                    margin-right: $standard-space /2;
+                    margin-right: $standard-tiny-space;
                 }
             }
         }

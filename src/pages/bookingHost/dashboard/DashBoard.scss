@@ -14,14 +14,14 @@
     }
 
     &__section1 {
-        min-height: $standard-section-height;
+        min-height: 10rem;
         padding-bottom: 1rem;
     }
     &__stepsWrap {
         text-align: center;
     }
     &__memoCard {
-        max-height: $standard-height * 7 * 9;
+        max-height: 0.25rem * 7 * 9;
         overflow-y: auto;
         @extend %JDscrollbar;
     }
@@ -51,7 +51,7 @@
 
     .JDslider__slide {
         flex-direction: column;
-        height: $standard-height * 5 * 9;
+        height: 0.25rem * 5 * 9;
         background-size: cover;
         background-position: 50% 50%;
         display: flex;

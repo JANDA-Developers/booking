@@ -32,6 +32,10 @@
     &__dayPicker {
         margin-bottom: $standard-margin-bottom;
         display:flex;
+        background-color: $primary-color;
+        color: $primary-color-on;
+        align-items: center;
+        
         &--leftTop {
             left: 0;
             right: 0;
@@ -46,9 +50,6 @@
                 height: $dailyAssig-block-height;
             }
         }
-        background-color: $primary-color;
-        color: $primary-color-on;
-        align-items: center;
     }
 
     &__roomTypeTittle {
@@ -57,14 +58,14 @@
         border-right: 1px solid $grey-opacity1;
         padding: $standard-tiny-space;
         text-align: center;
-        max-width: $standard-width * 22;
+        max-width: 0.4rem * 22;
         display: flex;
         box-sizing: border-box;
         border-bottom: 1px solid $grey-opacity1;
         justify-content: center;
 
         @include response($tablet) {
-            max-width: $standard-width * 6;
+            max-width: 0.4rem * 6;
             padding-top: 0!important;
         }
     }
@@ -107,7 +108,7 @@
         }
 
         &--Full {
-            background-color: $warn-opacity1;
+            background-color: $orange-opacity1;
         }
     }
 }

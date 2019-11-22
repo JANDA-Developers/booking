@@ -1,5 +1,7 @@
 import { JDColor, TextAlign, TextSize } from "../types/enum";
 
+// mixin 파일의 
+// --prefixer 와 함께 동작함
 const colorClass = (boxName: string, color?: JDColor | null) => {
   let obj: any = {};
   obj[`${boxName}--primary`] = color === "primary";
@@ -11,6 +13,7 @@ const colorClass = (boxName: string, color?: JDColor | null) => {
   obj[`${boxName}--new`] = color === "new";
   obj[`${boxName}--black`] = color === "black";
   obj[`${boxName}--white`] = color === "white";
+  obj[`${boxName}--blue`] = color === "blue";
 
   return obj;
 };

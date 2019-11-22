@@ -1,6 +1,20 @@
 @import '~Styles/style_config.scss';
 
 .bookingHost {
+
+    &--sideOpen {
+        @include response($full,$phablet) {
+            .bookingHost__page {
+                max-width: calc(100% - #{$sideNav-width});
+            }
+        }
+        @include response($tablet,$phablet) {
+            .bookingHost__page {
+                max-width: calc(100% - #{$sideNav-width-wmd});
+            }
+        }
+    }
+
     &__starterBg {
         background-image: url("https://res.cloudinary.com/stayjanda-com/image/upload/v1554029494/annananananan.jpg");
         background-size: cover;
@@ -11,6 +25,7 @@
     &__layout {
         display: flex;
     }
+
     &__page {
         flex: 1 1;
         transition: .3s;
@@ -23,18 +38,6 @@
         
         @include response($phablet) {
             position:fixed;
-        }
-    }
-    &--sideOpen {
-        @include response($full,$phablet) {
-            .bookingHost__page {
-                max-width: calc(100% - #{$sideNav-width});
-            }
-        }
-        @include response($tablet,$phablet) {
-            .bookingHost__page {
-                max-width: calc(100% - #{$sideNav-width-wmd});
-            }
         }
     }
 }
