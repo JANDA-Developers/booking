@@ -109,6 +109,7 @@ const UpdateTimeline: React.FC<IProps & WindowSizeProps> = ({
         roomTypeId: item.group
       }
     });
+
     if (muResult(result, "DeleteDailyPrice")) priceMap.delete(item.id);
     else {
       // 에러처리
@@ -127,6 +128,7 @@ const UpdateTimeline: React.FC<IProps & WindowSizeProps> = ({
         price: value
       }
     });
+
     if (muResult(result, "CreateDailyPrice")) priceMap.set(item.id, value);
     else {
       // 에러처리

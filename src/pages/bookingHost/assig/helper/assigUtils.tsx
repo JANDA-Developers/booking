@@ -429,14 +429,11 @@ export function getAssigUtils(
     });
 
     // 에러처리
-    const newBlock: any = muResult<createBlock_CreateBlock_block>(
-      result,
-      "CreateBlock",
-      "block"
-    );
-    if (typeof newBlock !== "boolean") {
+    const newBlock = muResult(result, "CreateBlock", "block");
+    if (newBlock) {
       // setGuestValue([...guestValueOriginCopy,]);
     } else {
+      // 복구 처리
       setGuestValue([...guestValueOriginCopy]);
     }
   };
@@ -473,15 +470,14 @@ export function getAssigUtils(
         }
       }
     });
-    // 실패하면 전부 되돌림
-
-    // 👿 이반복을 함수 if 로 만들면 어떨까?
-    if (!muResult(result, "AllocateGuestToRoom"))
+    // 실패시 복구
+    if (!muResult(result, "AllocateGuestToRoom")) {
       if (guestValueOriginCopy) {
         setGuestValue([...guestValueOriginCopy]);
       } else {
         location.reload();
       }
+    }
   };
 
   // 방막기
@@ -537,13 +533,9 @@ export function getAssigUtils(
         }
       });
 
-      const block = muResult<createBlock_CreateBlock_block>(
-        result,
-        "CreateBlock",
-        "block"
-      );
+      const block = muResult(result, "CreateBlock", "block");
 
-      if (typeof block === "boolean") {
+      if (!block) {
         setGuestValue(guestValueOriginCopy);
       } else {
       }
@@ -753,7 +745,9 @@ export function getAssigUtils(
           blockId: id
         }
       });
-      if (!muResult(result, "DeleteBlock ")) {
+
+      // 에러가 아니면 반영
+      if (muResult(result, "DeleteBlock")) {
         setGuestValue([...guestValue.filter(guest => guest.id !== id)]);
       }
     } else {

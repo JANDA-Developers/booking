@@ -78,7 +78,9 @@ export interface getSpecification_GetHouse_house_product {
   description: string | null;
   createdAt: any;
   updatedAt: any | null;
-  appInfoRequested: getSpecification_GetHouse_house_product_appInfoRequested[] | null;
+  appInfoRequested:
+    | getSpecification_GetHouse_house_product_appInfoRequested[]
+    | null;
   productType: getSpecification_GetHouse_house_product_productType;
 }
 
@@ -468,7 +470,9 @@ export interface getMyProfile_GetMyProfile_user_houses_product {
   createdAt: any;
   updatedAt: any | null;
   productType: getMyProfile_GetMyProfile_user_houses_product_productType;
-  appInfoRequested: getMyProfile_GetMyProfile_user_houses_product_appInfoRequested[] | null;
+  appInfoRequested:
+    | getMyProfile_GetMyProfile_user_houses_product_appInfoRequested[]
+    | null;
 }
 
 export interface getMyProfile_GetMyProfile_user_houses_location {
@@ -792,7 +796,9 @@ export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roo
   url: any;
   filename: string;
   mimeType: string;
-  tags: dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_img_tags[] | null;
+  tags:
+    | dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_img_tags[]
+    | null;
 }
 
 export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType {
@@ -831,14 +837,18 @@ export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_dat
 export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices {
   __typename: "RoomTypeDatePrice";
   roomType: dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType;
-  datePrices: dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices[] | null;
+  datePrices:
+    | dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices[]
+    | null;
 }
 
 export interface dailyPriceGetPrice_GetRoomTypeDatePrices {
   __typename: "GetRoomTypeDatePricesResponse";
   ok: boolean;
   error: string | null;
-  roomTypeDatePrices: dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices[] | null;
+  roomTypeDatePrices:
+    | dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices[]
+    | null;
 }
 
 export interface dailyPriceGetPrice_GetAllRoomType_roomTypes {
@@ -916,7 +926,9 @@ export interface getCapacityToRoomType_GetCapacityToRoomType_capacityRoomType_Ca
   availableCount: getCapacityToRoomType_GetCapacityToRoomType_capacityRoomType_CapacityRoomTypeDomitory_availableCount;
 }
 
-export type getCapacityToRoomType_GetCapacityToRoomType_capacityRoomType = getCapacityToRoomType_GetCapacityToRoomType_capacityRoomType_CapacityRoomType | getCapacityToRoomType_GetCapacityToRoomType_capacityRoomType_CapacityRoomTypeDomitory;
+export type getCapacityToRoomType_GetCapacityToRoomType_capacityRoomType =
+  | getCapacityToRoomType_GetCapacityToRoomType_capacityRoomType_CapacityRoomType
+  | getCapacityToRoomType_GetCapacityToRoomType_capacityRoomType_CapacityRoomTypeDomitory;
 
 export interface getCapacityToRoomType_GetCapacityToRoomType {
   __typename: "GetCapacityToRoomTypeResponse";
@@ -961,7 +973,9 @@ export interface getCapacityToRoomTypeForBooker_GetCapacityToRoomTypeForBooker_c
   availableCount: getCapacityToRoomTypeForBooker_GetCapacityToRoomTypeForBooker_capacityRoomType_CapacityRoomTypeDomitory_availableCount;
 }
 
-export type getCapacityToRoomTypeForBooker_GetCapacityToRoomTypeForBooker_capacityRoomType = getCapacityToRoomTypeForBooker_GetCapacityToRoomTypeForBooker_capacityRoomType_CapacityRoomType | getCapacityToRoomTypeForBooker_GetCapacityToRoomTypeForBooker_capacityRoomType_CapacityRoomTypeDomitory;
+export type getCapacityToRoomTypeForBooker_GetCapacityToRoomTypeForBooker_capacityRoomType =
+  | getCapacityToRoomTypeForBooker_GetCapacityToRoomTypeForBooker_capacityRoomType_CapacityRoomType
+  | getCapacityToRoomTypeForBooker_GetCapacityToRoomTypeForBooker_capacityRoomType_CapacityRoomTypeDomitory;
 
 export interface getCapacityToRoomTypeForBooker_GetCapacityToRoomTypeForBooker {
   __typename: "GetCapacityToRoomTypeResponse";
@@ -1000,7 +1014,9 @@ export interface getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_img {
   url: any;
   filename: string;
   mimeType: string;
-  tags: getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_img_tags[] | null;
+  tags:
+    | getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_img_tags[]
+    | null;
 }
 
 export interface getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_rooms {
@@ -1270,7 +1286,9 @@ export interface findBookingForBooker_FindBookingForBooker_bookings_roomTypes_im
   url: any;
   filename: string;
   mimeType: string;
-  tags: findBookingForBooker_FindBookingForBooker_bookings_roomTypes_img_tags[] | null;
+  tags:
+    | findBookingForBooker_FindBookingForBooker_bookings_roomTypes_img_tags[]
+    | null;
 }
 
 export interface findBookingForBooker_FindBookingForBooker_bookings_roomTypes {
@@ -1341,7 +1359,9 @@ export interface findBookingForBooker_FindBookingForBooker_bookings_guests {
 export interface findBookingForBooker_FindBookingForBooker_bookings {
   __typename: "Booking";
   _id: string;
-  roomTypes: findBookingForBooker_FindBookingForBooker_bookings_roomTypes[] | null;
+  roomTypes:
+    | findBookingForBooker_FindBookingForBooker_bookings_roomTypes[]
+    | null;
   isNew: boolean;
   name: any;
   password: string | null;
@@ -1397,7 +1417,9 @@ export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_
   url: any;
   filename: string;
   mimeType: string;
-  tags: getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_img_tags[] | null;
+  tags:
+    | getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_img_tags[]
+    | null;
 }
 
 export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_roomType {
@@ -1436,14 +1458,18 @@ export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_
 export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices {
   __typename: "RoomTypeDatePrice";
   roomType: getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_roomType;
-  datePrices: getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices[] | null;
+  datePrices:
+    | getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices[]
+    | null;
 }
 
 export interface getRoomTypeDatePrices_GetRoomTypeDatePrices {
   __typename: "GetRoomTypeDatePricesResponse";
   ok: boolean;
   error: string | null;
-  roomTypeDatePrices: getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices[] | null;
+  roomTypeDatePrices:
+    | getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices[]
+    | null;
 }
 
 export interface getRoomTypeDatePrices {
@@ -1562,7 +1588,9 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_
   url: any;
   filename: string;
   mimeType: string;
-  tags: getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_roomTypes_img_tags[] | null;
+  tags:
+    | getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_roomTypes_img_tags[]
+    | null;
 }
 
 export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_roomTypes {
@@ -1613,7 +1641,9 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_
 export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking {
   __typename: "Booking";
   _id: string;
-  roomTypes: getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_roomTypes[] | null;
+  roomTypes:
+    | getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_roomTypes[]
+    | null;
   isNew: boolean;
   name: any;
   password: string | null;
@@ -1692,7 +1722,9 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_room
   url: any;
   filename: string;
   mimeType: string;
-  tags: getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_roomTypes_img_tags[] | null;
+  tags:
+    | getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_roomTypes_img_tags[]
+    | null;
 }
 
 export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_roomTypes {
@@ -1743,7 +1775,9 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_paym
 export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking {
   __typename: "Booking";
   _id: string;
-  roomTypes: getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_roomTypes[] | null;
+  roomTypes:
+    | getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_roomTypes[]
+    | null;
   isNew: boolean;
   name: any;
   password: string | null;
@@ -1788,7 +1822,9 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom {
   blockOption: getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_blockOption | null;
 }
 
-export type getAllRoomTypeWithGuest_GetGuests_guests = getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory | getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom;
+export type getAllRoomTypeWithGuest_GetGuests_guests =
+  | getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory
+  | getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom;
 
 export interface getAllRoomTypeWithGuest_GetGuests {
   __typename: "GetGuestsResponse";
@@ -2054,7 +2090,9 @@ export interface getUserForSU_GetUserForSU_user_houses_product {
   createdAt: any;
   updatedAt: any | null;
   productType: getUserForSU_GetUserForSU_user_houses_product_productType;
-  appInfoRequested: getUserForSU_GetUserForSU_user_houses_product_appInfoRequested[] | null;
+  appInfoRequested:
+    | getUserForSU_GetUserForSU_user_houses_product_appInfoRequested[]
+    | null;
 }
 
 export interface getUserForSU_GetUserForSU_user_houses_location {
@@ -2198,7 +2236,9 @@ export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes_img {
   url: any;
   filename: string;
   mimeType: string;
-  tags: getBookingForPublic_GetBookingForPublic_booking_roomTypes_img_tags[] | null;
+  tags:
+    | getBookingForPublic_GetBookingForPublic_booking_roomTypes_img_tags[]
+    | null;
 }
 
 export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes {
@@ -2476,7 +2516,9 @@ export interface getBookings_GetBookings_bookings_guests_GuestRoom {
   roomType: getBookings_GetBookings_bookings_guests_GuestRoom_roomType;
 }
 
-export type getBookings_GetBookings_bookings_guests = getBookings_GetBookings_bookings_guests_GuestDomitory | getBookings_GetBookings_bookings_guests_GuestRoom;
+export type getBookings_GetBookings_bookings_guests =
+  | getBookings_GetBookings_bookings_guests_GuestDomitory
+  | getBookings_GetBookings_bookings_guests_GuestRoom;
 
 export interface getBookings_GetBookings_bookings {
   __typename: "Booking";
@@ -2652,7 +2694,9 @@ export interface getBooking_GetBooking_booking_guests_GuestRoom {
   room: getBooking_GetBooking_booking_guests_GuestRoom_room | null;
 }
 
-export type getBooking_GetBooking_booking_guests = getBooking_GetBooking_booking_guests_GuestDomitory | getBooking_GetBooking_booking_guests_GuestRoom;
+export type getBooking_GetBooking_booking_guests =
+  | getBooking_GetBooking_booking_guests_GuestDomitory
+  | getBooking_GetBooking_booking_guests_GuestRoom;
 
 export interface getBooking_GetBooking_booking {
   __typename: "Booking";
@@ -2844,7 +2888,9 @@ export interface getAllSeasonTable_GetSeasonPrice_seasonPrices {
   /**
    * 요일별 가격 배열. day는 uniq값
    */
-  dayOfWeekPriceList: getAllSeasonTable_GetSeasonPrice_seasonPrices_dayOfWeekPriceList[] | null;
+  dayOfWeekPriceList:
+    | getAllSeasonTable_GetSeasonPrice_seasonPrices_dayOfWeekPriceList[]
+    | null;
 }
 
 export interface getAllSeasonTable_GetSeasonPrice {
@@ -5712,14 +5758,14 @@ export enum AutoSendWhen {
   WEHN_BOOKING_CANCEL = "WEHN_BOOKING_CANCEL",
   WHEN_BOOKING_CREATED = "WHEN_BOOKING_CREATED",
   WHEN_BOOKING_CREATED_PAYMENT_PROGRESSING = "WHEN_BOOKING_CREATED_PAYMENT_PROGRESSING",
-  WHEN_BOOKING_UPDATE = "WHEN_BOOKING_UPDATE",
+  WHEN_BOOKING_UPDATE = "WHEN_BOOKING_UPDATE"
 }
 
 export enum BookingStatus {
   CANCEL = "CANCEL",
   COMPLETE = "COMPLETE",
   FAIL = "FAIL",
-  PROGRESSING = "PROGRESSING",
+  PROGRESSING = "PROGRESSING"
 }
 
 /**
@@ -5732,7 +5778,7 @@ export enum Day {
   SUN = "SUN",
   THU = "THU",
   TUE = "TUE",
-  WED = "WED",
+  WED = "WED"
 }
 
 export enum Funnels {
@@ -5747,7 +5793,7 @@ export enum Funnels {
   PHONE_CALL = "PHONE_CALL",
   WALK_IN = "WALK_IN",
   YANOLJA = "YANOLJA",
-  YEOGIEOTTAE = "YEOGIEOTTAE",
+  YEOGIEOTTAE = "YEOGIEOTTAE"
 }
 
 /**
@@ -5755,7 +5801,7 @@ export enum Funnels {
  */
 export enum Gender {
   FEMALE = "FEMALE",
-  MALE = "MALE",
+  MALE = "MALE"
 }
 
 export enum HMmenuType {
@@ -5768,13 +5814,13 @@ export enum HMmenuType {
   LOCATION = "LOCATION",
   NEARBY_ATTRACTIONS = "NEARBY_ATTRACTIONS",
   RECYCLING = "RECYCLING",
-  SAFETY = "SAFETY",
+  SAFETY = "SAFETY"
 }
 
 export enum HouseStatus {
   DISALBE = "DISALBE",
   ENABLE = "ENABLE",
-  WAIT = "WAIT",
+  WAIT = "WAIT"
 }
 
 export enum HouseType {
@@ -5783,78 +5829,78 @@ export enum HouseType {
   HOTEL = "HOTEL",
   MOTEL = "MOTEL",
   PENSION = "PENSION",
-  YOUTH_HOSTEL = "YOUTH_HOSTEL",
+  YOUTH_HOSTEL = "YOUTH_HOSTEL"
 }
 
 export enum Language {
   CHINESE = "CHINESE",
   ENGLISH = "ENGLISH",
   JAPANESE = "JAPANESE",
-  KOREAN = "KOREAN",
+  KOREAN = "KOREAN"
 }
 
 export enum LayoutType {
   Layout_A = "Layout_A",
-  Layout_B = "Layout_B",
+  Layout_B = "Layout_B"
 }
 
 export enum MemoType {
-  HOST = "HOST",
+  HOST = "HOST"
 }
 
 export enum MsgType {
   LMS = "LMS",
   MMS = "MMS",
-  SMS = "SMS",
+  SMS = "SMS"
 }
 
 export enum NotiLevel {
   NORMAL = "NORMAL",
-  WARN = "WARN",
+  WARN = "WARN"
 }
 
 export enum NotiType {
   ELSE = "ELSE",
   NEW_BOOKING = "NEW_BOOKING",
   PRODUCT_EXPIRE = "PRODUCT_EXPIRE",
-  TO_ALL = "TO_ALL",
+  TO_ALL = "TO_ALL"
 }
 
 export enum PayMethod {
   CARD = "CARD",
   CASH = "CASH",
   CHANNEL_PAY = "CHANNEL_PAY",
-  VBANK = "VBANK",
+  VBANK = "VBANK"
 }
 
 export enum PaymentStatus {
   CANCEL = "CANCEL",
   COMPLETE = "COMPLETE",
-  PROGRESSING = "PROGRESSING",
+  PROGRESSING = "PROGRESSING"
 }
 
 export enum PaymentType {
   ONE_TIME = "ONE_TIME",
-  SUBSCRIPTION = "SUBSCRIPTION",
+  SUBSCRIPTION = "SUBSCRIPTION"
 }
 
 export enum PricingType {
   DOMITORY = "DOMITORY",
-  ROOM = "ROOM",
+  ROOM = "ROOM"
 }
 
 export enum ProductTypeKey {
   DEMO = "DEMO",
   NEGOTIATION = "NEGOTIATION",
   PREMIUM = "PREMIUM",
-  STANDARD = "STANDARD",
+  STANDARD = "STANDARD"
 }
 
 export enum RoomGender {
   ANY = "ANY",
   FEMALE = "FEMALE",
   MALE = "MALE",
-  SEPARATELY = "SEPARATELY",
+  SEPARATELY = "SEPARATELY"
 }
 
 export enum SalesStatisticsUnit {
@@ -5862,20 +5908,20 @@ export enum SalesStatisticsUnit {
   BY_DAY_OF_WEEK = "BY_DAY_OF_WEEK",
   MONTHLY = "MONTHLY",
   WEEKLY = "WEEKLY",
-  YEARLY = "YEARLY",
+  YEARLY = "YEARLY"
 }
 
 export enum SendTarget {
   BOTH = "BOTH",
   GUEST = "GUEST",
-  HOST = "HOST",
+  HOST = "HOST"
 }
 
 export enum TransactionStatus {
   CANCEL = "CANCEL",
   COMPLETE = "COMPLETE",
   FAIL = "FAIL",
-  PROGRESSING = "PROGRESSING",
+  PROGRESSING = "PROGRESSING"
 }
 
 export enum UserRole {
@@ -5884,7 +5930,7 @@ export enum UserRole {
   DEVELOPER = "DEVELOPER",
   GHOST = "GHOST",
   GUEST = "GUEST",
-  HOST = "HOST",
+  HOST = "HOST"
 }
 
 export interface AllocateInfoInput {

@@ -57,14 +57,8 @@ const RessetPasswordModal: React.FC<Iprops> = ({
     const tempResult = await completePasswordResetMu({
       variables: { ...mutationVariable, key }
     });
-    const result = muResult<string>(
-      tempResult,
-      "CompletePasswordReset",
-      "newPassword"
-    );
-    console.log(":result eee result");
-    console.log(result);
-    if (typeof result === "boolean") return;
+    const result = muResult(tempResult, "CompletePasswordReset", "newPassword");
+    if (!result) return;
     setNewPassword(result);
     setStep("complete");
   };
@@ -84,10 +78,7 @@ const RessetPasswordModal: React.FC<Iprops> = ({
     const tempResult = await startPasswordResetMu({
       variables: mutationVariable
     });
-    const result = muResult<boolean>(tempResult, "StartPasswordReset");
-    console.log("result");
-    console.log(result);
-    console.log(tempResult);
+    const result = muResult(tempResult, "StartPasswordReset");
     if (!result) {
       setStep("input");
     }

@@ -115,7 +115,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   context,
   payAuthQu,
   createLoading,
-  reservationModalHook,
+  reservationModalHook
 }) => {
   const isHost = context ? true : false;
   const houseId = context ? context.house._id : undefined;
@@ -274,20 +274,21 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
           price: priceHook.value
         }
       };
- 
-      const result = await startBookingForPublicMu({
+
+      const tempResult = await startBookingForPublicMu({
         variables: startBookingVariables
       });
 
-      if (result) rsevModalHook.closeModal();
+      if (tempResult) rsevModalHook.closeModal();
 
-      const { transactionId }: any = muResult(
-        result,
+      const validResult = muResult(
+        tempResult,
         "StartBookingForPublic",
         "bookingTransaction"
       );
 
-      if (transactionId) {
+      if (validResult && validResult.transactionId) {
+        const { transactionId } = validResult;
         // 나이스 모듈 오픈전 인증을 받음.
         const authResult = await payAuthQu({ price: priceHook.value });
         if (authResult && authResult.data.GetPaymentAuth.auth) {
@@ -469,7 +470,6 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
       {context && (
         <BookingModalWrap
           startBookingCallBack={result => {
-
             console.log("startBookingCallBackACTIVE");
             if (result !== "error") {
               reservationModalHook && reservationModalHook.closeModal();

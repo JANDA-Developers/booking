@@ -68,6 +68,8 @@ const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
         onChange={async flag => {
           await setEnableColor(flag);
           const result = await updateFn();
+
+          // 에러처리
           if (!muResult(result, "UpdateHouseConfig")) {
             setEnableColor(!flag);
           }

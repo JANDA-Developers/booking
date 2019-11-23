@@ -20,15 +20,8 @@ interface IProps {
 }
 
 const BlockOpModal: React.FC<IProps> = ({
-  assigUtils: { getGroupById, getItemById, getGuestsByBookingId },
-  assigHooks: {
-    bookingModal,
-    createMenuProps,
-    blockOpModal,
-    guestValue,
-    setGuestValue
-  },
-  assigContext: { groupData },
+  assigUtils: { getGuestsByBookingId },
+  assigHooks: { blockOpModal, guestValue, setGuestValue },
   assigDataControl: { updateBlockOpMu }
 }) => {
   const target = blockOpModal.info;
@@ -37,27 +30,28 @@ const BlockOpModal: React.FC<IProps> = ({
   );
   const addmitToAll = useCheckBox(false);
 
-  const handleClickAdmit = (flag?: "cancel") => {
-    const result = updateBlockOpMu({
+  const handleClickApply = async (cancle: boolean) => {
+    const result = await updateBlockOpMu({
       variables: {
         applyWithBooking: addmitToAll.checked,
         blockOption: {
-          color: flag ? null : colorPickerHook.color
+          color: cancle ? null : colorPickerHook.color
         },
         guestId: blockOpModal.info.id
       }
     });
 
-    if (!muResult(result, "updateBlockOption")) {
+    // 성공시 화면에 반영
+    if (muResult(result, "UpdateBlockOption")) {
       let inTarget = [target];
       if (addmitToAll.checked)
         inTarget = getGuestsByBookingId(target.bookingId);
 
-      if (!flag) {
+      if (!cancle) {
         inTarget.forEach(
           ininTarget => (ininTarget.blockOption.color = colorPickerHook.color)
         );
-      } else if (flag === "cancel") {
+      } else if (cancle) {
         inTarget.forEach(ininTarget => (ininTarget.blockOption.color = null));
       }
       setGuestValue([...guestValue]);
@@ -81,7 +75,7 @@ const BlockOpModal: React.FC<IProps> = ({
         <div className="JDmodal__endSection">
           <Button
             onClick={() => {
-              handleClickAdmit();
+              handleClickApply(false);
             }}
             thema="primary"
             size="small"
