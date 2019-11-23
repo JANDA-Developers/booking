@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState } from "react";
 import { Mutation, Query } from "react-apollo";
-import moment from "moment-timezone";
+import moment from "moment";
 import {
   getAllRoomTypePrice_GetAllRoomType_roomTypes as IRoomType,
   getAllRoomType_GetAllRoomType_roomTypes_rooms as IRoom,

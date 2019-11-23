@@ -8,9 +8,6 @@
     position: relative;
     display:flex;
     height:300px;
-    &--slider {
-        height: 330px;
-    }
     flex-direction: column;
     padding:1rem;
     transition:.3s;
@@ -18,12 +15,16 @@
     background-color: $grey-level1;
     transform: scale(1);
     text-align:center;
+
+    &--slider {
+        height: 330px;
+    }
+
     &__icon {
         margin-top: $standard-margin-bottom;
         margin-bottom: $standard-margin-bottom + 0.2rem;
     }
 
-    
     &__price {
         position: absolute;
         bottom: 1rem; 
@@ -31,7 +32,7 @@
         width: 100%;
     }
 
-    &:hover:not(.JDproduct--slider) {
+    &.JDproduct--hover:hover:not(.JDproduct--slider) {
         cursor:pointer;
         background-color: $primary-color;
         color: white;
@@ -44,7 +45,8 @@
             /* Similar syntax to box-shadow */
         }
     }
-    .JDproduct--slider:hover {
+
+    &.JDproduct--hover .JDproduct--slider:hover {
         transform: sacle(1);
         box-shadow: none;
     }

@@ -2,12 +2,11 @@ import React, {useState, Fragment} from "react";
 import JDbox from "../../../atoms/box/JDbox";
 import {getMemos_GetMemos_memos} from "../../../types/api";
 import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
-import moment from "moment-timezone";
+import moment from "moment";
 import textReader from "../../../utils/textReader";
 import MemoTooltip from "./MemoTooltip";
 import MemoEditBox from "./MemoEditBox";
 import {LANG} from "../../../hooks/hook";
-moment.tz.setDefault("Asia/Seoul");
 
 interface Iprops {
   memo: getMemos_GetMemos_memos;

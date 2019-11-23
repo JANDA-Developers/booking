@@ -1,5 +1,5 @@
-import React, {Fragment, useState} from "react";
-import {toast} from "react-toastify";
+import React, { Fragment, useState } from "react";
+import { toast } from "react-toastify";
 import Modal from "../../../../atoms/modal/Modal";
 import {
   IUseModal,
@@ -13,19 +13,19 @@ import Radio from "../../../../atoms/forms/radio/Radio";
 import InputText from "../../../../atoms/forms/inputText/InputText";
 import LayoutCards from "./layoutCard/LayoutCards";
 import JDLabel from "../../../../atoms/label/JDLabel";
-import {IAdditionHook} from "../SelectProductWrap";
-import {LayoutType, ProductTypeKey} from "../../../../types/enum";
-import {isUrl} from "../../../../utils/inputValidations";
+import { IAdditionHook } from "../SelectProductWrap";
+import { LayoutType, ProductTypeKey } from "../../../../types/enum";
+import { isUrl } from "../../../../utils/inputValidations";
 import {
   getAllProductTypes_GetAllProductTypes_productTypes,
   buyProduct,
   buyProductVariables
 } from "../../../../types/api";
-import {MutationFn} from "react-apollo";
-import {IProductTypeDesc} from "../../../../types/interface";
+import { MutationFn } from "react-apollo";
+import { IProductTypeDecs } from "../../../../types/interface";
 
 export interface applyProductModalInfo {
-  productType: IProductTypeDesc;
+  productType: IProductTypeDecs;
 }
 
 interface IProps {
@@ -42,7 +42,7 @@ const ApplyProductModal: React.FC<IProps> = ({
 }) => {
   if (!modalHook.isOpen) return <div />;
 
-  const {productType} = modalHook.info;
+  const { productType } = modalHook.info;
   const isSelectExMode = productType.key === ProductTypeKey.DEMO;
 
   const [step, setStep] = useState(1);
@@ -52,9 +52,9 @@ const ApplyProductModal: React.FC<IProps> = ({
     layoutType: LayoutType.Layout_A
   });
 
-  const {layoutType, url, useLayout} = appInfoValue;
+  const { layoutType, url, useLayout } = appInfoValue;
   const handleUseLayoutRadio = (value: boolean) => {
-    setAppInfoValue({...appInfoValue, useLayout: value});
+    setAppInfoValue({ ...appInfoValue, useLayout: value });
   };
 
   const validation = () => {
@@ -120,7 +120,7 @@ const ApplyProductModal: React.FC<IProps> = ({
                 <LayoutCards
                   selectedLayout={layoutType}
                   setLayout={(value: LayoutType) => {
-                    setAppInfoValue({...appInfoValue, layoutType: value});
+                    setAppInfoValue({ ...appInfoValue, layoutType: value });
                   }}
                 />
               </div>
@@ -132,7 +132,7 @@ const ApplyProductModal: React.FC<IProps> = ({
                 label={LANG("request_url")}
                 value={url}
                 onChange={(value: string) => {
-                  setAppInfoValue({...appInfoValue, url: value});
+                  setAppInfoValue({ ...appInfoValue, url: value });
                 }}
               />
             )}

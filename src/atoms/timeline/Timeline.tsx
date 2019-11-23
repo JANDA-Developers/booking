@@ -192,7 +192,8 @@ const JDtimeline: React.FC<Iprops> = ({
         });
       }}
     >
-      <Timeline id="react-calendar-timeline" {...props} />
+      <Timeline 
+        id="react-calendar-timeline" {...props} utcOffset={TimePerMs.H * -8} />
     </div>
   );
 };

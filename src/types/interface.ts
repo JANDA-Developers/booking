@@ -181,7 +181,7 @@ export interface IHolidaysByApi {
   seq: number;
 }
 
-export interface IProductTypeDesc {
+export interface IProductTypeDecs {
   _id: string;
   name: string;
   price: number;

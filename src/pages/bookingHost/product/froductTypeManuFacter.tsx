@@ -1,15 +1,15 @@
 import React from "react";
-import {IProductTypeDesc} from "../../../types/interface";
-import {getAllProductTypes_GetAllProductTypes_productTypes} from "../../../types/api";
-import {ProductTypeKey} from "../../../types/enum";
-import {autoComma} from "../../../utils/utils";
-import {IIcons} from "../../../atoms/icons/Icons";
+import { IProductTypeDecs } from "../../../types/interface";
+import { getAllProductTypes_GetAllProductTypes_productTypes } from "../../../types/api";
+import { ProductTypeKey } from "../../../types/enum";
+import { autoComma } from "../../../utils/utils";
+import { IIcons } from "../../../atoms/icons/Icons";
 import JDlist from "../../../atoms/list/List";
-import {LANG} from "../../../hooks/hook";
+import { LANG } from "../../../hooks/hook";
 
 const froductTypeManuFacter = (
   productTypes: getAllProductTypes_GetAllProductTypes_productTypes[]
-): IProductTypeDesc[] => {
+): IProductTypeDecs[] => {
   const specifcGet = (
     productType: getAllProductTypes_GetAllProductTypes_productTypes
   ): {

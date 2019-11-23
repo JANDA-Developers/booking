@@ -2,13 +2,13 @@ import React from "react";
 import "./MultiStep.scss";
 import {s4} from "../../utils/utils";
 
-export interface step {
+export interface IMultiStepSteps {
   name: string | JSX.Element;
   current: boolean;
 }
 
 interface IProps {
-  steps: step[];
+  steps: IMultiStepSteps[];
 }
 
 const JDmultiStep: React.SFC<IProps> = ({steps}) => (
