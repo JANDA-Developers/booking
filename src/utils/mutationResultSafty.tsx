@@ -1,18 +1,25 @@
 import isEmpty from "./isEmptyData";
+import { ExecutionResult } from "graphql";
 
-// 결과가 정확한지 반환
-// 결과값중 특별히 반활될것이 있다면 T를 반환
+function muResult<D, Q extends keyof D>(
+  result: void | undefined | null | ExecutionResult<D>,
+  queryName: Q,
+  returnKey?: undefined
+): false | true;
 function muResult<D, Q extends keyof D, R extends keyof D[Q]>(
-  data: D,
+  result: void | undefined | null | ExecutionResult<D>,
   queryName: Q,
   returnKey: R
-): "error" | D[Q][R] {
-  if (isEmpty(data)) return "error";
-  if (isEmpty(data[queryName])) return "error";
-  // @ts-ignore
-  if (!data[queryName].ok) return "error";
+): false | D[Q][R];
+function muResult(result: any, queryName: any, returnKey: any): any {
+  if (isEmpty(result)) return false;
+  if (isEmpty(result["data"])) return false;
+  if (isEmpty(result["data"][queryName])) return false;
+  // @ts-ignore 이것도 ExecutionResult 처럼 만들면 가능하다
+  if (result["data"][queryName].ok) return false;
+  if (returnKey === undefined) return true;
 
-  const returnValue = data[queryName][returnKey];
+  const returnValue = result["data"][queryName][returnKey];
   return returnValue;
 }
 

@@ -41,6 +41,7 @@ const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
                 }
               }
             });
+            // 에러처리
             if (!muResult(result, "UpdateHouseConfig")) {
               setUse(!flag);
             }

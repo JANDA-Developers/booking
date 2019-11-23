@@ -1,8 +1,8 @@
 import React from "react";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import isEmpty from "./isEmptyData";
 import ToastError from "../components/toasts/ErrorToast";
-import {isIncludeKr} from "./onCompletedMessage";
+import { isIncludeKr } from "./onCompletedMessage";
 
 function queryDataFormater<T, K extends keyof T, C extends keyof T[K], D>(
   data: T | undefined,

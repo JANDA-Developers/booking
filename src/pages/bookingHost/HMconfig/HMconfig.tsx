@@ -125,7 +125,8 @@ const HMconfig: React.FC<IProps> = ({
           }
         }
       });
-      if (muResult(result, "UpdateManual")) {
+
+      if (muResult(result, "UpdateHM")) {
         setShouldSave(false);
       }
     }

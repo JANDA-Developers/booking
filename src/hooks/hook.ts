@@ -1,6 +1,3 @@
-/* eslint-disable camelcase */
-/* eslint-disable no-shadow */
-/* ts-ignore */
 import randomColor from "randomcolor";
 import { useState, useEffect, useRef, ChangeEvent } from "react";
 import Axios from "axios";
@@ -14,11 +11,9 @@ import { useMutation } from "@apollo/react-hooks";
 import { UPLOAD_FILE } from "../apollo/queries";
 import client from "../apollo/apolloClient";
 import { singleUpload, singleUploadVariables } from "../types/api";
-// @ts-ignore
+// @ts-ignore 타입이 존재하지않는 모듈
 import Resizer from "react-image-file-resizer";
-
-// 한방에 패치
-// A X I O S  : (http://codeheaven.io/how-to-use-axios-as-your-http-client/)
+import { ExecutionResult } from "graphql";
 
 export type IUseFetch = [
   any,
@@ -126,18 +121,19 @@ const useImageUploader = (
   let option = propOption || DEFAULT_IMAGEUP_LOADER_OPTION;
 
   // 화면에 나타는 이미지처리
-  const setFileView = (data: any) => {
+  const setFileView = (data: ExecutionResult<singleUpload>) => {
     const file = muResult(data, "SingleUpload", "jdFile");
-    if (typeof file === "boolean") {
+
+    if (!file) {
       setIsError(true);
-    } else {
-      // @ts-ignore
-      file.tags.forEach((tag: any) => {
-        delete tag.__typename;
-      });
-      // @ts-ignore
+    } else if (file) {
+      if (file.tags) {
+        file.tags.forEach((tag: any) => {
+          delete tag.__typename;
+        });
+      }
       delete file.__typename;
-      // @ts-ignore
+
       setFile(file);
     }
     setUploading(false);
@@ -155,10 +151,10 @@ const useImageUploader = (
     } else {
       file = uriOrFile;
     }
-    const data = await uploadMutation({ variables: { file: file } });
-    if (data.data) {
-      delete data.data.SingleUpload.__typename;
-      setFileView(data);
+    const result = await uploadMutation({ variables: { file: file } });
+    if (result.data) {
+      delete result.data.SingleUpload.__typename;
+      setFileView(result);
     }
   };
 
