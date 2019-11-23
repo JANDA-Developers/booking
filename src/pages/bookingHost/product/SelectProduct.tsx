@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import React, { useEffect, Fragment, useState } from "react";
-import JDproductCard from "./components/Product";
+import JDproductCard from "./components/ProductCard";
 import Button from "../../../atoms/button/Button";
 import Preloader from "../../../atoms/preloader/Preloader";
 import Modal from "../../../atoms/modal/Modal";
@@ -8,7 +8,7 @@ import Slider from "../../../atoms/slider/Slider";
 import { isEmpty } from "../../../utils/utils";
 import Tooltip, { ReactTooltip } from "../../../atoms/tooltip/Tooltip";
 import { RefundPolicyNode } from "../../../docs/refundPolicy";
-import { IHouse, IProductTypeDecs } from "../../../types/interface";
+import { IHouse, IProductTypeDec } from "../../../types/interface";
 import { useModal, LANG } from "../../../hooks/hook";
 import "./SelectProduct.scss";
 import {
@@ -21,13 +21,14 @@ import {
 import { MutationFn } from "react-apollo";
 import ApplyProductModal, {
   applyProductModalInfo
-} from "./components/applyProductModal";
+} from "./components/ApplyProductModal";
 import JDlist from "../../../atoms/list/List";
 import { inOr, Check } from "../../../utils/C";
 import PreloaderModal from "../../../atoms/preloaderModal/PreloaderModal";
+import { closeTooltip } from "../../../utils/closeTooltip";
 
 interface IProps {
-  productTypes: IProductTypeDecs[];
+  productTypeDecs: IProductTypeDec[];
   refundMu: MutationFn<refundProduct, refundProductVariables>;
   buyProductMu: MutationFn<buyProduct, buyProductVariables>;
   loading: boolean;
@@ -39,7 +40,7 @@ interface IProps {
 
 // currentProduct : 현재 적용중인 서비스
 const SelectProducts: React.FC<IProps> = ({
-  productTypes,
+  productTypeDecs,
   refundMu,
   buyProductMu,
   loading,
@@ -60,11 +61,6 @@ const SelectProducts: React.FC<IProps> = ({
     ReactTooltip.rebuild();
   });
 
-  // 유팀 함수로 옴겨야할듯 하다.
-  const closeTooltip = () => {
-    ReactTooltip.hide();
-  };
-
   return (
     <div id="selectProducts" className="selectProducts container">
       <div className="docs-section">
@@ -80,30 +76,37 @@ const SelectProducts: React.FC<IProps> = ({
             className="flex-grid flex-grid-grow selectProducts__productWrapWrap"
           >
             <div className="flex-grid__col selectProducts__productWrap col--wmd-0">
-              {productTypes.map(productType => (
-                <JDproductCard
-                  key={productType._id}
-                  productType={productType}
-                  setSelectedProductTypeId={setSelectedProductTypeId}
-                  isCurrent={currentProductTypeId === productType._id}
-                  isSelected={selectedProductTypeId === productType._id}
-                  applyModal={applyModal}
-                />
-              ))}
+              {productTypeDecs.map(productTypeDec => {
+                const { _id } = productTypeDec;
+
+                return (
+                  <JDproductCard
+                    key={_id}
+                    productTypeDecs={productTypeDec}
+                    setSelectedProductTypeId={setSelectedProductTypeId}
+                    isCurrent={currentProductTypeId === _id}
+                    isSelected={selectedProductTypeId === _id}
+                    applyModal={applyModal}
+                  />
+                );
+              })}
             </div>
             <div className="flex-grid__col col--wmd-6 col--full-0">
               <Slider onSwipe={closeTooltip} infinite={false}>
-                {productTypes.map(productType => (
-                  <JDproductCard
-                    key={`${productType._id}--slider`}
-                    slider
-                    productType={productType}
-                    setSelectedProductTypeId={setSelectedProductTypeId}
-                    isCurrent={currentProductTypeId === productType._id}
-                    isSelected={selectedProductTypeId === productType._id}
-                    applyModal={applyModal}
-                  />
-                ))}
+                {productTypeDecs.map(productTypeDec => {
+                  const { _id } = productTypeDec;
+                  return (
+                    <JDproductCard
+                      key={`${_id}--slider`}
+                      slider
+                      productTypeDecs={productTypeDec}
+                      setSelectedProductTypeId={setSelectedProductTypeId}
+                      isCurrent={currentProductTypeId === _id}
+                      isSelected={selectedProductTypeId === _id}
+                      applyModal={applyModal}
+                    />
+                  );
+                })}
               </Slider>
             </div>
           </div>

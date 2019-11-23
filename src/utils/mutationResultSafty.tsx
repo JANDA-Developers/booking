@@ -2,21 +2,18 @@ import isEmpty from "./isEmptyData";
 
 // 결과가 정확한지 반환
 // 결과값중 특별히 반활될것이 있다면 T를 반환
-function muResult<T>(
-  data: any,
-  // 캐피탈 API 실제명
-  queryName: string,
-  returnKey?: string
-): boolean | T {
-  if (isEmpty(data)) return false;
-  if (isEmpty(data.data)) return false;
-  if (isEmpty(data.data[queryName])) return false;
-  if (!data.data[queryName].ok) return false;
+function muResult<D, Q extends keyof D, R extends keyof D[Q]>(
+  data: D,
+  queryName: Q,
+  returnKey: R
+): "error" | D[Q][R] {
+  if (isEmpty(data)) return "error";
+  if (isEmpty(data[queryName])) return "error";
+  // @ts-ignore
+  if (!data[queryName].ok) return "error";
 
-  if (!returnKey) return true;
-
-  const returnValue = data.data[queryName][returnKey];
-  return returnValue as T;
+  const returnValue = data[queryName][returnKey];
+  return returnValue;
 }
 
 export default muResult;

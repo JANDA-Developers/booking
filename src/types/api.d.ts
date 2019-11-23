@@ -407,6 +407,41 @@ export interface getMyProfile_GetMyProfile_user_houses_appInfo {
 export interface getMyProfile_GetMyProfile_user_houses_product_productType {
   __typename: "ProductType";
   _id: string;
+  /**
+   * 제품 이름
+   */
+  name: string;
+  /**
+   * 제품 가격(월)
+   */
+  price: number;
+  /**
+   * 만들 수 있는 최대 방 / 배드 수 => -1 일때 무제한
+   */
+  roomCount: number;
+  /**
+   * ProductTypeKey
+   */
+  key: ProductTypeKey;
+  /**
+   * 방 수 추가시 추가 가격  => default: 0
+   */
+  roomCountExtraCharge: number;
+  /**
+   * 한달간 받을 수 있는 최대 예약 수 => -1 일 떄 무제한
+   */
+  bookingCount: number;
+  /**
+   * 예약 초과시 부과되는 금액 => defualt: 0
+   */
+  bookingCountExtraCharge: number;
+  /**
+   * 상세 설명
+   */
+  description: string | null;
+  canHaveHostApp: boolean;
+  createdAt: any;
+  updatedAt: any | null;
 }
 
 export interface getMyProfile_GetMyProfile_user_houses_product_appInfoRequested {
@@ -4647,6 +4682,65 @@ export interface createNotiVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: createBillkey
+// ====================================================
+
+export interface createBillkey_CreateBillkey_billInfo {
+  __typename: "BillInfo";
+  ok: boolean;
+  billkey: string;
+  authDate: any;
+  cardCl: number;
+  cardName: string;
+}
+
+export interface createBillkey_CreateBillkey_billpayResult {
+  __typename: "BillpayResult";
+  ok: boolean;
+  /**
+   * 결과 메시지
+   */
+  msg: string;
+  /**
+   * 결제번호
+   */
+  tid: string;
+  /**
+   * 인증 날짜
+   */
+  authDate: any;
+  /**
+   * 카드 코드 => 0: 신용, 1: 체크
+   */
+  cardCl: number;
+  /**
+   * 카드사명
+   */
+  cardName: string;
+}
+
+export interface createBillkey_CreateBillkey {
+  __typename: "CreateBillkeyResponse";
+  ok: boolean;
+  error: string | null;
+  billInfo: createBillkey_CreateBillkey_billInfo | null;
+  billpayResult: createBillkey_CreateBillkey_billpayResult | null;
+}
+
+export interface createBillkey {
+  CreateBillkey: createBillkey_CreateBillkey;
+}
+
+export interface createBillkeyVariables {
+  billParams: CreateBillkeyInput;
+  paymentParams?: RequestPaymentInput | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL fragment: FieldsLocation
 // ====================================================
 
@@ -5572,6 +5666,56 @@ export interface FieldsUser {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL fragment: FbillInfo
+// ====================================================
+
+export interface FbillInfo {
+  __typename: "BillInfo";
+  ok: boolean;
+  billkey: string;
+  authDate: any;
+  cardCl: number;
+  cardName: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: FbillpayResult
+// ====================================================
+
+export interface FbillpayResult {
+  __typename: "BillpayResult";
+  ok: boolean;
+  /**
+   * 결과 메시지
+   */
+  msg: string;
+  /**
+   * 결제번호
+   */
+  tid: string;
+  /**
+   * 인증 날짜
+   */
+  authDate: any;
+  /**
+   * 카드 코드 => 0: 신용, 1: 체크
+   */
+  cardCl: number;
+  /**
+   * 카드사명
+   */
+  cardName: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL fragment: FsharedGetAllRoomType
 // ====================================================
 
@@ -5941,6 +6085,14 @@ export interface CollectingInfoFromGuestInput {
   country?: boolean | null;
 }
 
+export interface CreateBillkeyInput {
+  cardNo: string;
+  pwd: string;
+  expYear: string;
+  expMonth: string;
+  idNo: string;
+}
+
 export interface CreateMemoParams {
   title?: string | null;
   text: string;
@@ -6036,6 +6188,17 @@ export interface NewBookingMarkInput {
 export interface PollingPeriodInput {
   enable: boolean;
   period: number;
+}
+
+/**
+ * 만약 존재하면 billkey 발금과 동시에 결제함.
+ */
+export interface RequestPaymentInput {
+  price: number;
+  moid: string;
+  buyerName: string;
+  goodsName: string;
+  cardQuota: number;
 }
 
 export interface RoomTypePriceInput {

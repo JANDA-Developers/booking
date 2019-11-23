@@ -1,16 +1,20 @@
-import React, {useEffect, useRef, useState, FormEvent} from "react";
+import React, { useEffect, useRef, useState, FormEvent } from "react";
 import "./InputText.scss";
 import "./Textarea.scss";
 import classNames from "classnames";
-import JDicon, {IconSize, IIcons} from "../../icons/Icons";
+import JDicon, { IconSize, IIcons } from "../../icons/Icons";
 import ErrProtecter from "../../../utils/errProtect";
-import autoHyphen, {numberStr, toNumber, card_space} from "../../../utils/autoFormat";
-import {NEUTRAL} from "../../../types/enum";
-import {getByteLength} from "../../../utils/elses";
-import {autoComma, s4} from "../../../utils/utils";
+import autoHyphen, {
+  numberStr,
+  toNumber,
+  card_space
+} from "../../../utils/autoFormat";
+import { NEUTRAL } from "../../../types/enum";
+import { getByteLength } from "../../../utils/elses";
+import { autoComma, s4 } from "../../../utils/utils";
 import $ from "jquery";
 
-interface IProps extends React.HTMLAttributes<HTMLInputElement> {
+interface IProps {
   readOnly?: boolean;
   disabled?: boolean;
   textarea?: boolean;
@@ -47,7 +51,8 @@ interface IProps extends React.HTMLAttributes<HTMLInputElement> {
   wrapClassName?: string;
 }
 
-const InputText: React.FC<IProps> = ({
+const InputText: React.FC<IProps &
+  React.AllHTMLAttributes<HTMLInputElement>> = ({
   readOnly,
   label,
   disabled,
@@ -102,7 +107,7 @@ const InputText: React.FC<IProps> = ({
   };
 
   const inHandleChange = (event: any) => {
-    const {target} = event;
+    const { target } = event;
     const result = validation(target.value, max);
     autoChangeHeight();
     if (onChange) {

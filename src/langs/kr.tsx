@@ -835,6 +835,17 @@ export const kr = {
   new_password: "새로운 패스워드",
   card_resist: "카드등록",
   card_number: "카드번호",
+  check_product: "상품 확인",
+  regist: "등록 하기",
+  exp_year: "기한/년",
+  exp_month: "기한/월",
+  card_regist_complete_fail: "카드 등록 실패",
+  card_regist_complete: "카드 등록 완료",
+  registration_confirmation: "등록 확인",
+  input_information: "정보 입력",
+  input_card_information: "카드정보 입력하기",
+  idnumber_or_business_number: "주민등록번호 앞(6자리) 또는 사업자번호",
+  card_pasword_front_two_digits: "카드 비밀번호 앞 2자리",
   please_rewrite_your_new_password: (
     <span>
       비밀번호를 재발급 받으셨군요

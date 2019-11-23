@@ -16,9 +16,8 @@ import { RouteComponentProps } from "react-router";
 import client from "../../../apollo/apolloClient";
 import CheckReservation from "./CheckReservation";
 import JDmodal from "../../../atoms/modal/Modal";
-import JDanimation, { Animation } from "../../../atoms/animation/Animations";
-import JDIcon, { IconSize } from "../../../atoms/icons/Icons";
 import { useModal, LANG } from "../../../hooks/hook";
+import CompleteCircle from "../../../components/completeCircle/CompleteCircle";
 export interface ISetBookingInfo
   extends React.Dispatch<React.SetStateAction<any>> {}
 
@@ -79,13 +78,7 @@ const CheckReservationWrap: React.FC<IProps> = ({
             {LANG("reservation_is_completed")}
           </div>
           {/* 예약완료 에니메이션 */}
-          <JDanimation animation={[Animation.tada]}>
-            <JDIcon
-              color="positive"
-              size={IconSize.SUPER_LARGE}
-              icon="circleCheckIn"
-            ></JDIcon>
-          </JDanimation>
+          <CompleteCircle />
         </div>
       </JDmodal>
     </div>

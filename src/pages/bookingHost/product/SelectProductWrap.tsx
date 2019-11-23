@@ -23,7 +23,7 @@ import {
 import { ReactTooltip } from "../../../atoms/tooltipList/TooltipList";
 import { LayoutType } from "../../../types/enum";
 import SelectProducts from "./SelectProduct";
-import froductTypeManuFacter from "./froductTypeManuFacter";
+import productTypeGetDesc from "./helper";
 import { IContext } from "../../bookingHost/BookingHostRouter";
 import { LANG } from "../../../hooks/hook";
 
@@ -66,7 +66,7 @@ const SelectProductWrap: React.FC<IProps> = ({ context }) => {
           "productTypes",
           []
         );
-        const productTypeDesc = froductTypeManuFacter(productTypes || []);
+        const productTypeDesc = productTypeGetDesc(productTypes || []);
         return (
           <BuyProductMutation
             mutation={BUY_PRODUCTS}
@@ -92,7 +92,7 @@ const SelectProductWrap: React.FC<IProps> = ({ context }) => {
                   ) : (
                     <Fragment>
                       <SelectProducts
-                        productTypes={productTypeDesc}
+                        productTypeDecs={productTypeDesc}
                         refundMu={refundMu}
                         buyProductMu={buyProductMu}
                         loading={loading}

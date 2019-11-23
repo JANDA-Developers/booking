@@ -1,5 +1,5 @@
 import React from "react";
-import { IProductTypeDecs } from "../../../types/interface";
+import { IProductTypeDec } from "../../../types/interface";
 import { getAllProductTypes_GetAllProductTypes_productTypes } from "../../../types/api";
 import { ProductTypeKey } from "../../../types/enum";
 import { autoComma } from "../../../utils/utils";
@@ -7,18 +7,20 @@ import { IIcons } from "../../../atoms/icons/Icons";
 import JDlist from "../../../atoms/list/List";
 import { LANG } from "../../../hooks/hook";
 
-const froductTypeManuFacter = (
+interface IProductSpecifc {
+  icon: IIcons | "";
+  shortDesc: string | JSX.Element | JSX.Element[];
+  detailDesc: string | JSX.Element | JSX.Element[];
+  priceText: string;
+  disable?: boolean;
+}
+
+const ProductTypeGetDesc = (
   productTypes: getAllProductTypes_GetAllProductTypes_productTypes[]
-): IProductTypeDecs[] => {
+): IProductTypeDec[] => {
   const specifcGet = (
     productType: getAllProductTypes_GetAllProductTypes_productTypes
-  ): {
-    icon: IIcons | "";
-    shortDesc: string | JSX.Element | JSX.Element[];
-    detailDesc: string | JSX.Element | JSX.Element[];
-    priceText: string;
-    disable?: boolean;
-  } => {
+  ): IProductSpecifc => {
     if (productType.key === ProductTypeKey.DEMO)
       return {
         icon: "rocket",
@@ -135,4 +137,4 @@ const froductTypeManuFacter = (
   return specifc;
 };
 
-export default froductTypeManuFacter;
+export default ProductTypeGetDesc;

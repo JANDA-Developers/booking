@@ -22,10 +22,10 @@ import {
   buyProductVariables
 } from "../../../../types/api";
 import { MutationFn } from "react-apollo";
-import { IProductTypeDecs } from "../../../../types/interface";
+import { IProductTypeDec } from "../../../../types/interface";
 
 export interface applyProductModalInfo {
-  productType: IProductTypeDecs;
+  productType: IProductTypeDec;
 }
 
 interface IProps {

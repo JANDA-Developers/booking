@@ -1,17 +1,17 @@
 import React, { Fragment } from "react";
-import "./Product.scss";
+import "./ProductCard.scss";
 import JDIcon, { IconSize } from "../../../../atoms/icons/Icons";
 import JDbadge from "../../../../atoms/badge/Badge";
 import Button from "../../../../atoms/button/Button";
 import { IUseModal, LANG } from "../../../../hooks/hook";
-import { IProductTypeDecs } from "../../../../types/interface";
-import { applyProductModalInfo } from "./applyProductModal";
+import { IProductTypeDec } from "../../../../types/interface";
+import { applyProductModalInfo } from "./ApplyProductModal";
 import classNames from "classnames";
 import { toast } from "react-toastify";
 
 //  👿 방관련된 정보들을 정리해서 interfcae로 만드는편이 낳음
 interface IProps {
-  productTypeDecs: IProductTypeDecs;
+  productTypeDec: IProductTypeDec;
   slider?: boolean;
   hover?: boolean;
   isSelected?: boolean;
@@ -21,7 +21,7 @@ interface IProps {
 }
 
 const JDproductCard: React.FC<IProps> = ({
-  productTypeDecs,
+  productTypeDec,
   slider,
   hover = true,
   isSelected,
@@ -37,7 +37,7 @@ const JDproductCard: React.FC<IProps> = ({
     shortDesc,
     priceText,
     _id
-  } = productTypeDecs;
+  } = productTypeDec;
 
   const handleProductSelect = () => {
     if (disable) {
@@ -45,7 +45,7 @@ const JDproductCard: React.FC<IProps> = ({
       return;
     }
     setSelectedProductTypeId && setSelectedProductTypeId(_id);
-    applyModal && applyModal.openModal({ productType: productTypeDecs });
+    applyModal && applyModal.openModal({ productType: productTypeDec });
   };
 
   const classes = classNames("JDproduct", undefined, {

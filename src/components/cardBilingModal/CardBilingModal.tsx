@@ -1,83 +1,127 @@
 import React, { useState } from "react";
-import { IContext } from "../../pages/bookingHost/BookingHostRouter";
-import { useInput, LANG, IUseModal } from "../../hooks/hook";
-import InputText from "../../atoms/forms/inputText/InputText";
+import { LANG } from "../../hooks/hook";
 import JDmodal from "../../atoms/modal/Modal";
 import JDmultiStep, { IMultiStepSteps } from "../../atoms/multiStep/MultiStep";
-import JDproductCard from "../../pages/bookingHost/product/components/Product";
+import productTypeGetDesc from "../../pages/bookingHost/product/helper";
+import Button from "../../atoms/button/Button";
+import CheckProduct from "./components/CheckProduct";
+import CardInfoRegi from "./components/CardInfoRegi";
+import { IChainProp } from "./CardBilingModalWrap";
+import { MutationFunctionOptions } from "@apollo/react-common";
+import { createBillkey, createBillkeyVariables } from "../../types/api";
+import { ExecutionResult, validate } from "graphql";
+import RegiComplete from "./components/RegiComplete";
+import { muResult } from "../../utils/utils";
 
-interface Iprops {
-  context: IContext;
-  modalHook: IUseModal;
+interface Iprops extends IChainProp {
+  createBillMu: (
+    options?:
+      | MutationFunctionOptions<createBillkey, createBillkeyVariables>
+      | undefined
+  ) => Promise<ExecutionResult<createBillkey>>;
 }
 
-const CardBillingModal: React.FC<Iprops> = ({ context, modalHook }) => {
+export type TCardRegistInfo = {
+  cardNumber: string;
+  idNumber: string;
+  expMonth: string;
+  expYear: string;
+  cardPassword: string;
+};
+
+export type CardBillingSteps = "checkProdcut" | "cardInfo" | "complete";
+
+const CardBillingModal: React.FC<Iprops> = ({
+  context,
+  modalHook,
+  createBillMu
+}) => {
   const { applyedProduct } = context;
-  let temp;
-  if (applyedProduct) {
-    const { _id } = applyedProduct;
+
+  // 진입 밸리데이션
+  if (!applyedProduct) {
+    throw Error("CardBillingModal:: 상품이 적용되어있어야합니다.");
+    // for typescript
+    return (<div />) as any;
   }
 
-  // 아이디를 가지고 설명 가져와야함
+  const [cardInfo, setCardInfo] = useState<TCardRegistInfo>({
+    cardNumber: "",
+    idNumber: "",
+    expMonth: "",
+    expYear: "",
+    cardPassword: ""
+  });
 
-  const [step, setStep] = useState<"checkProdcut" | "cardInfo" | "complete">(
-    "checkProdcut"
-  );
-  const cardNumberHook = useInput("");
+  const { productType: currnetProductType } = applyedProduct;
+  const [step, setStep] = useState<CardBillingSteps>("checkProdcut");
+
+  const [productTypeDecs] = productTypeGetDesc([currnetProductType]);
 
   const multiStepSteps: IMultiStepSteps[] = [
     {
       // "상품 확인"
-      name: LANG(""),
+      name: LANG("check_product"),
       current: step === "checkProdcut"
     },
     // "정보 입력"
-    { name: LANG(""), current: step === "cardInfo" },
+    { name: LANG("input_information"), current: step === "cardInfo" },
     {
       // 등록확인
-      name: LANG(""),
+      name: LANG("registration_confirmation"),
       current: step === "complete"
     }
   ];
 
+  const validate = () => {
+    return true;
+  };
+
+  const handleCardRegistBtnClick = () => {
+    if (validate()) {
+      const reuslt = createBillMu({
+        variables: {
+          billParams: {
+            cardNo: cardInfo.cardNumber,
+            expMonth: cardInfo.expMonth,
+            expYear: cardInfo.expYear,
+            idNo: cardInfo.idNumber,
+            pwd: cardInfo.cardPassword
+          }
+        }
+      });
+    }
+  };
+
   const renderContent = () => {
     if (step === "checkProdcut") {
+      return (
+        <CheckProduct
+          setStep={setStep}
+          productTypeDecs={productTypeDecs}
+          context={context}
+        />
+      );
     } else if (step === "cardInfo") {
+      <CardInfoRegi
+        cardInfo={cardInfo}
+        setCardInfo={setCardInfo}
+        setStep={setStep}
+        context={context}
+      />;
     } else if (step === "complete") {
+      <RegiComplete />;
     }
   };
 
   // checkProdcut 상품확인
   return () => (
     <JDmodal {...modalHook}>
-      <h5>{LANG("")}</h5>
+      <h5>{LANG("card_resist")}</h5>
       <JDmultiStep steps={multiStepSteps} />
-      {/* describe */}
-      <JDproductCard hover={false} isCurrent />
+      {renderContent()}
     </JDmodal>
   );
 };
-
-{
-  /* <tr>
-<th><span>카드번호</span></th>
-<td><input name="CardNo" type="text" value=""/></td>
-</tr>
-<tr>
-<th><span>유효기간</span></th>
-<td>
-    <input name="ExpMonth" maxLength="2" size="3" type="text" placeholder="MONTH" value="">/                
-    <input name="ExpYear" maxLength="2" size="3" type="text" placeholder="YEAR" value="">
-</td>
-</tr>
-<tr>
-<th><span>생년월일(YYMMDD)or사업자번호</span></th>
-<td><input name="IDNo" type="password" value=""></td>
-</tr>
-<tr>
-<th><span>비밀번호 앞 두자리</span></th>
-<td><input name="CardPw" type="password" value="" size="2" maxlength="2"></td>
-</tr>            */
-}
 
 export default CardBillingModal;
