@@ -1,4 +1,5 @@
-@import '~Styles/style_config';
+
+
 @import './box_tables';
 @import './box_photo';
 
@@ -34,7 +35,6 @@
             float:left;
             width: auto!important;
             vertical-align: top;
-            margin: 2px!important;
         }
 
         &--normal {
@@ -59,7 +59,8 @@
         &--small {
             font-size: $typho-small;
             padding: $standard-tiny-space;
-            margin-bottom: $standard-margin-bottom /3;
+            margin-right: $standard-tiny-space;
+            margin-bottom: $standard-tiny-space;
         }
 
         &--center {

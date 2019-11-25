@@ -1,10 +1,9 @@
-import {
-  ASSIG_IMELINE_HEIGHT,
-  sharedProps
-} from "../../../atoms/timeline/Timeline";
 import assigGroupRendererFn from "./helper/groupRenderFn";
-import itemRendererFn from "./components/items/itemRenderFn";
 import { IAssigGroup } from "./components/assigIntrerface";
+import {
+  sharedProps,
+  ASSIG_IMELINE_HEIGHT
+} from "../../../atoms/timeline/config";
 
 // Assig Timeline 으로 전달될 객체
 const assigDefaultProps = {

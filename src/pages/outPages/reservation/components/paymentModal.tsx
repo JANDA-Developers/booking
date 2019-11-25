@@ -1,13 +1,13 @@
 import classNames from "classnames";
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import JDmodal from "../../../../atoms/modal/Modal";
-import {IUseModal, LANG} from "../../../../hooks/hook";
+import { IUseModal, LANG } from "../../../../hooks/hook";
 import JDselect from "../../../../atoms/forms/selectBox/SelectBox";
 import Button from "../../../../atoms/button/Button";
 import BookerInfoBox from "./bookerInfoBox";
-import {PAYMETHOD_FOR_BOOKER_OP} from "../../../../types/enum";
+import { PAYMETHOD_FOR_BOOKER_OP } from "../../../../types/enum";
 import Preloader from "../../../../atoms/preloader/Preloader";
-import {IReservationHooks} from "../Reservation";
+import { IReservationHooks } from "../Reservation";
 
 interface IProps {
   className?: string;
@@ -24,7 +24,7 @@ const PayMentModal: React.FC<IProps> = ({
   bookingCompleteFn,
   createLoading
 }) => {
-  const {payMethodHook, bookerInfo, setBookerInfo} = reservationHooks;
+  const { payMethodHook, bookerInfo, setBookerInfo } = reservationHooks;
   const classes = classNames("paymentModal", className, {});
 
   // pay 한후 request 받아서 진행
@@ -55,6 +55,7 @@ const PayMentModal: React.FC<IProps> = ({
           </div>
           <div className="JDmodal__endSection">
             <Button
+              mode="flat"
               thema="primary"
               flat
               onClick={onPayRequest}

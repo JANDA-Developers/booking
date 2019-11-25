@@ -1,7 +1,7 @@
 import React from "react";
-import {IUseModal, LANG} from "../../../../../hooks/hook";
+import { IUseModal, LANG } from "../../../../../hooks/hook";
 import JDmodal from "../../../../../atoms/modal/Modal";
-import BookingInfoBox, {IBookingInfoBoxProps} from "../bookingInfoBox";
+import BookingInfoBox, { IBookingInfoBoxProps } from "../bookingInfoBox";
 import Button from "../../../../../atoms/button/Button";
 
 interface Iprops extends IBookingInfoBoxProps {
@@ -22,6 +22,7 @@ const BookingInfoModal: React.FC<Iprops> = ({
       <BookingInfoBox {...props} />
       <div className="JDmodal__endSection">
         <Button
+          mode="flat"
           onClick={() => {
             modalHook.closeModal();
             paymentModalHook.openModal();

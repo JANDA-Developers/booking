@@ -1,6 +1,11 @@
 import React, { Fragment } from "react";
 import { ISeason } from "../../../../types/interface";
-import { useDayPicker, useSelect, useModal, LANG } from "../../../../hooks/hook";
+import {
+  useDayPicker,
+  useSelect,
+  useModal,
+  LANG
+} from "../../../../hooks/hook";
 import JDIcon from "../../../../atoms/icons/Icons";
 import JDselect, {
   IselectedOption,
@@ -51,8 +56,8 @@ const SeasonHeader: React.FC<IProps> = ({
     season.start,
     season.end
       ? moment(season.end)
-        .add(-1, "day")
-        .toDate()
+          .add(-1, "day")
+          .toDate()
       : null
   );
   const updateSeasonModal = useModal(false);
@@ -135,6 +140,7 @@ const SeasonHeader: React.FC<IProps> = ({
       />
       <div className="JDmodal__endSection">
         <Button
+          mode="flat"
           onClick={() => {
             handleChangePriority();
           }}

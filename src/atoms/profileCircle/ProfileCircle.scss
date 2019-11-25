@@ -13,7 +13,6 @@
     flex: none;
  
     &:hover {
-        cursor:pointer;
         &:after{
             content:"";
             width: 100%;
@@ -33,7 +32,6 @@
         border-color:white;
     }
 
-
     &__input {
         position: absolute;
         height: 100%;
@@ -43,5 +41,9 @@
         opacity: 0;
         right: 0;
         z-index: $z-index-1;
+
+        &:hover {
+            cursor: pointer;
+        }
     }
 }

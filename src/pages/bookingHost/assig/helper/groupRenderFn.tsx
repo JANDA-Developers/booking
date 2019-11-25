@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import $ from "jquery";
 import { PricingType } from "../../../../types/enum";
-import { ASSIG_IMELINE_HEIGHT } from "../../../../atoms/timeline/Timeline";
 import { arraySum } from "../../../../utils/elses";
 import { IAssigGroup, TGetGuestsInGroup } from "../components/assigIntrerface";
+import { ASSIG_IMELINE_HEIGHT } from "../../../../atoms/timeline/config";
 
 let LAST_ROOMTYPE = "unRendered";
 let LAST_ROOM = "unRendered";

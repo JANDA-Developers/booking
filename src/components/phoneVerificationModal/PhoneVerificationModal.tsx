@@ -5,11 +5,6 @@ import { useInput, IUseModal, LANG } from "../../hooks/hook";
 import { ErrProtecter } from "../../utils/utils";
 import "./PhoneVerification.scss";
 import JDmodal from "../../atoms/modal/Modal";
-import { MutationFn } from "react-apollo";
-import {
-  completePhoneVerification,
-  completePhoneVerificationVariables
-} from "../../types/api";
 import JDTimer from "../../atoms/timer/Timer";
 import { TimePerMs } from "../../types/enum";
 import Timer from "react-compound-timer";
@@ -74,6 +69,7 @@ const PhoneVerification: React.FC<IProps> = ({
       <InputText {...keyHook} label={LANG("certification_number")} />
       <div className="JDmodal__endSection">
         <Button
+          mode="flat"
           thema={"primary"}
           label={LANG("authenticate")}
           onClick={() => {

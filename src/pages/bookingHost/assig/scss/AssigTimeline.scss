@@ -39,7 +39,7 @@
 #AssigTimeline {
 
     .rct-header-root {
-        top: 0;
+        top: $header-height;
         z-index: 999999;
     }
 

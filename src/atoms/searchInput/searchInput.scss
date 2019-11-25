@@ -61,9 +61,9 @@
     // 피드백 메세지
     &__feedBack {
         position:absolute;
-        bottom: calc(#{$standard-margin-bottom} - .9rem);
         left: 0;
         font-size: $typho-tiny;
+        bottom: 0
     }
 
     &__input {
@@ -103,8 +103,7 @@
         z-index: $z-index-2;
         max-width: 100%;
         overflow-x:auto;
-        // base Space에 정의된만큼 뛰워준 겁니다.
-        top: calc( 100% - #{$standard-margin-bottom});
+        top: 100%;
 
         &--hide {
             opacity: 0;
@@ -142,9 +141,7 @@
             line-height: $searchInput-li-height;
         }
 
-        &--hide {
-            // display:none;
-        }
+
 
         &:hover{
             cursor:pointer;

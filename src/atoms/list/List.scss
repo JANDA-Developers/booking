@@ -23,19 +23,19 @@
 
     &--mbShort {
         li {
-            margin-bottom: $standard-margin-bottom /2;
+            margin-bottom: $standard-tiny-space;
         }
     }
 
     &--mbNormal {
         li {
-            margin-bottom: $standard-margin-bottom;
+            margin-bottom: $standard-label-margin;
         }
     }
 
     &--mbLong {
         li {
-            margin-bottom: $standard-margin-bottom * 1.5;
+            margin-bottom: $standard-huge-space;
         }
     }
 

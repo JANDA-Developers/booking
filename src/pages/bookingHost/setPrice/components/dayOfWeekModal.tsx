@@ -75,6 +75,7 @@ const DayOfWeekModal: React.SFC<IProps> = ({
       ))}
       <div className="JDmodal__endSection">
         <Button
+          mode="flat"
           label={LANG("Apply")}
           size="small"
           onClick={() => {

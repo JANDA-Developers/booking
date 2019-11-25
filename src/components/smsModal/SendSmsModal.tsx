@@ -251,6 +251,7 @@ const SendSmsModal: React.FC<IProps> = ({
           </div>
           <div className="JDmodal__endSection">
             <Button
+              mode="flat"
               size={"small"}
               thema="primary"
               disabled={!msg}
@@ -261,6 +262,7 @@ const SendSmsModal: React.FC<IProps> = ({
             />
             {callBackFn && (
               <Button
+                mode="flat"
                 size={"small"}
                 onClick={() => {
                   handleSendSmsBtnClick(false);

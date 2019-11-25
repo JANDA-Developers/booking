@@ -266,12 +266,14 @@ const RoomTypeModal: React.SFC<IProps> = ({
           </div>
           <div className="JDmodal__endSection">
             <Button
+              mode="flat"
               thema="primary"
               label={isCreate ? LANG("do_create") : LANG("do_copy")}
               size="small"
               onClick={onCreateRoomType}
             />
             <Button
+              mode="flat"
               thema="primary"
               label={LANG("do_modify")}
               size="small"
@@ -279,6 +281,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
               onClick={onUpdateRoomType}
             />
             <Button
+              mode="flat"
               thema="error"
               label={LANG("do_delete")}
               size="small"

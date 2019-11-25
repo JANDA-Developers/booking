@@ -52,18 +52,18 @@ const ChangePasswordModal: React.FC<Iprops> = ({
           : LANG("password_rewrite")}
       </h6>
       <div>
-      <InputText label={LANG("current_password")} {...oldPasswordHook} />
+        <InputText label={LANG("current_password")} {...oldPasswordHook} />
       </div>
       <div>
-      <InputText
-        validation={isPassword}
-        label={LANG("new_password")}
-        type="password"
-        {...newPasswordHook}
-      />
+        <InputText
+          validation={isPassword}
+          label={LANG("new_password")}
+          type="password"
+          {...newPasswordHook}
+        />
       </div>
       <div className="JDsmall-text JDstandard-margin-bottom">
-      <PasswordChecker txt={newPasswordHook.value} />
+        <PasswordChecker txt={newPasswordHook.value} />
       </div>
       <JDpreloader loading={muLoading} floating />
       <InputText
@@ -73,19 +73,20 @@ const ChangePasswordModal: React.FC<Iprops> = ({
         {...newConfimPasswordHook}
       />
       <div className="JDmodal__endSection">
-      <Button
-        onClick={() => {
-          if (validate()) {
-            callBackChangeBtn(
-              oldPasswordHook.value,
-              newPasswordHook.value,
-              newConfimPasswordHook.value
-            );
-          }
-        }}
-        thema="primary"
-        label={LANG("change")}
-      />
+        <Button
+          mode="flat"
+          onClick={() => {
+            if (validate()) {
+              callBackChangeBtn(
+                oldPasswordHook.value,
+                newPasswordHook.value,
+                newConfimPasswordHook.value
+              );
+            }
+          }}
+          thema="primary"
+          label={LANG("change")}
+        />
       </div>
     </JDmodal>
   );

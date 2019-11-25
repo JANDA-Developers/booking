@@ -4,19 +4,23 @@ import Button from "../../../atoms/button/Button";
 import { LANG } from "../../../hooks/hook";
 import { CardBillingSteps, TCardRegistInfo } from "../CardBilingModal";
 import InputText from "../../../atoms/forms/inputText/InputText";
+import TextButton from "../../../atoms/textButton/TextButton";
+import JDlist from "../../../atoms/list/List";
 
 interface Iprops {
   context: IContext;
   setStep: React.Dispatch<React.SetStateAction<CardBillingSteps>>;
   setCardInfo: React.Dispatch<React.SetStateAction<TCardRegistInfo>>;
   cardInfo: TCardRegistInfo;
+  handleCardRegistBtnClick: () => void;
 }
 
 const CardInfoRegi: React.FC<Iprops> = ({
   context,
   setStep,
   cardInfo,
-  setCardInfo
+  setCardInfo,
+  handleCardRegistBtnClick
 }) => {
   const handleOnChangeInput = (
     v: string,
@@ -31,6 +35,7 @@ const CardInfoRegi: React.FC<Iprops> = ({
       <div>
         <div>
           <InputText
+            card
             onChange={(v: any) => {
               handleOnChangeInput(v, "cardNumber");
             }}
@@ -38,7 +43,7 @@ const CardInfoRegi: React.FC<Iprops> = ({
             label={LANG("card_number")}
           />
         </div>
-        <div>
+        <div className="JDflex">
           <InputText
             onChange={(v: any) => {
               handleOnChangeInput(v, "expMonth");
@@ -53,13 +58,22 @@ const CardInfoRegi: React.FC<Iprops> = ({
               handleOnChangeInput(v, "expYear");
             }}
             value={cardInfo.expYear}
-            sizes="2"
             maxLength={2}
             label={LANG("exp_year")}
+          />
+          <InputText
+            onChange={(v: any) => {
+              handleOnChangeInput(v, "cardPassword");
+            }}
+            value={cardInfo.cardPassword}
+            maxLength={2}
+            label={LANG("card_pasword_front_two_digits")}
+            type="password"
           />
         </div>
         <div>
           <InputText
+            type="password"
             onChange={(v: any) => {
               handleOnChangeInput(v, "idNumber");
             }}
@@ -67,26 +81,27 @@ const CardInfoRegi: React.FC<Iprops> = ({
             label={LANG("idnumber_or_business_number")}
           />
         </div>
-        <div>
-          <InputText
-            onChange={(v: any) => {
-              handleOnChangeInput(v, "cardPassword");
-            }}
-            value={cardInfo.cardPassword}
-            sizes="2"
-            maxLength={2}
-            label={LANG("card_pasword_front_two_digits")}
-            type="password"
-          />
+        <div className="JDsmall-text JDstandard-margin-bottom">
+          <div>
+            {LANG("completing_this_card_registration_you_agree_to_the")}
+          </div>
+          <TextButton color="primary" className="JDstandard-margin0" anchor>
+            {LANG("use_conditions")},
+          </TextButton>{" "}
+          <TextButton color="primary" className="JDstandard-margin0" anchor>
+            {LANG("privacy_policy")}
+          </TextButton>
         </div>
       </div>
       <div className="JDmodal__endSection">
         <Button
           onClick={() => {
-            setStep("complete");
+            handleCardRegistBtnClick();
           }}
-          thema="positive"
-          label={LANG("input_card_information")}
+          size="long"
+          mode="flat"
+          thema="primary"
+          label={LANG("card_regist_complete")}
         />
       </div>
     </div>

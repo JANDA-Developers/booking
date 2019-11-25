@@ -59,7 +59,6 @@ const RessetPasswordWrap: React.FC<Iprops> = ({ context, modalHook }) => {
 
   return (
     <RessetPasswordModal
-      key={modalHook.isOpen ? "passwordRessetOpen" : "passwordRessetClose"}
       completePasswordResetMu={completePasswordResetMu}
       startPasswordResetMu={startPasswordResetMu}
       context={context}

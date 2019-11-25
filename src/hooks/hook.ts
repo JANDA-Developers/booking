@@ -82,7 +82,6 @@ export interface IuseImageUploader {
   uploading: boolean;
   isError: boolean;
   onChangeFile(event: React.ChangeEvent<HTMLInputElement | undefined>): void;
-  setFile: React.Dispatch<any>;
   option?: IuseImageUploaderOption;
 }
 
@@ -121,8 +120,8 @@ const useImageUploader = (
   let option = propOption || DEFAULT_IMAGEUP_LOADER_OPTION;
 
   // 화면에 나타는 이미지처리
-  const setFileView = (data: ExecutionResult<singleUpload>) => {
-    const file = muResult(data, "SingleUpload", "jdFile");
+  const setFileView = (result: ExecutionResult<singleUpload>) => {
+    const file = muResult(result, "SingleUpload", "jdFile");
 
     if (!file) {
       setIsError(true);
@@ -133,7 +132,6 @@ const useImageUploader = (
         });
       }
       delete file.__typename;
-
       setFile(file);
     }
     setUploading(false);
@@ -151,7 +149,8 @@ const useImageUploader = (
     } else {
       file = uriOrFile;
     }
-    const result = await uploadMutation({ variables: { file: file } });
+    const result = await uploadMutation({ variables: { file } });
+
     if (result.data) {
       delete result.data.SingleUpload.__typename;
       setFileView(result);
@@ -196,9 +195,8 @@ const useImageUploader = (
   return {
     file,
     uploading,
-    isError,
     onChangeFile,
-    setFile,
+    isError,
     option: propOption
   };
 };
@@ -224,7 +222,7 @@ function useDebounce(value: any, delay: number) {
 export interface TUseInput<T = string> {
   value: T;
   onChangeValid: (value: boolean | string) => void;
-  onChange: (foo: T) => void;
+  onChange: (foo: any) => any;
   isValid: any;
 }
 
@@ -253,7 +251,7 @@ function useInput<T = string>(
   const [value, setValue] = useState(defaultValue);
   const [isValid, setIsValid] = useState(defulatValid);
 
-  const onChange = (value: T) => {
+  const onChange = (value: any) => {
     setValue(value);
   };
 

@@ -43,7 +43,7 @@ import SendSMSmodalWrap, { IModalSMSinfo } from "../smsModal/SendSmsModalWrap";
 import Preloader from "../../atoms/preloader/Preloader";
 import { toast } from "react-toastify";
 import { isPhone } from "../../utils/inputValidations";
-import { autoComma } from "../../utils/utils";
+import { autoComma, muResult } from "../../utils/utils";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import Drawer from "../../atoms/drawer/Drawer";
 import _ from "lodash";
@@ -214,12 +214,7 @@ const BookingModal: React.FC<IProps> = ({
       const result = await startBookingMu({
         variables: bookingModalGetStartBookingVariables(bookingModalContext)
       });
-      if (
-        result &&
-        result.data &&
-        result.data.StartBooking.ok &&
-        callBackStartBooking
-      ) {
+      if (muResult(result, "StartBooking")) {
         callBackStartBooking();
       }
     } catch (error) {
@@ -283,16 +278,15 @@ const BookingModal: React.FC<IProps> = ({
       }}
       paddingSize="large"
       {...modalHook}
-      className={`Modal bookingModal ${(loading || startBookingLoading) && "bookingModal--loading"}`}
+      className={`Modal bookingModal ${(loading || startBookingLoading) &&
+        "bookingModal--loading"}`}
       overlayClassName="Overlay"
     >
       <Preloader size={"large"} loading={loading || startBookingLoading} />
       {loading || startBookingLoading || (
         <Fragment>
           <div className="modal__section">
-            <h5>
-              {LANG("booker_info")}{" "}
-            </h5>
+            <h5>{LANG("booker_info")} </h5>
             <div className="JDflex JDflex--oneone">
               <InputText
                 disabled={allReadOnly}
@@ -409,9 +403,11 @@ const BookingModal: React.FC<IProps> = ({
               label={LANG("do_create")}
               disabled={!isCreateMode}
               thema="primary"
+              mode="flat"
               onClick={handleCreateBtnClick}
             />
             <Button
+              mode="flat"
               size="small"
               disabled={isCreateMode}
               label={LANG("do_modify")}
@@ -419,6 +415,7 @@ const BookingModal: React.FC<IProps> = ({
               onClick={handleUpdateBtnClick}
             />
             <Button
+              mode="flat"
               size="small"
               label={LANG("delete_booking")}
               disabled={isCreateMode}

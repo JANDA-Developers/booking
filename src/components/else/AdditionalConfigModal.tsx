@@ -1,8 +1,8 @@
 import JDmodal from "../../atoms/modal/Modal";
 
 import React from "react";
-import {IContext} from "../../pages/bookingHost/BookingHostRouter";
-import {IUseModal, LANG} from "../../hooks/hook";
+import { IContext } from "../../pages/bookingHost/BookingHostRouter";
+import { IUseModal, LANG } from "../../hooks/hook";
 import Button from "../../atoms/button/Button";
 import AdditionConfigPitch from "./component/additionConfigPitch/AdditionConfigPitch";
 
@@ -19,6 +19,7 @@ export const AddtionalConfigModal: React.FC<Iprops> = ({
     <AdditionConfigPitch context={context} />
     <div className="JDmodal__endSection">
       <Button
+        mode="flat"
         onClick={() => {
           modalHook.closeModal();
         }}

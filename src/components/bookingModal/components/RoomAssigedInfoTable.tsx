@@ -38,18 +38,17 @@ const RoomAssigedInfoTable: React.FC<Iprops & WindowSizeProps> = ({
   setAssigInfo,
   windowWidth
 }) => {
-  console.log("assigInfo");
-  console.log(assigInfo);
-
   const isTabletUp = windowWidth > WindowSize.TABLET;
 
   const getGenderSelectedOption = (guestId: string) => {
     const info = assigInfo.find(info => info._id === guestId);
     if (!info) return;
-    return {
-      value: info.gender,
-      label: info.gender ? LANG(info.gender) : ""
-    };
+    return info.gender
+      ? {
+          value: info.gender,
+          label: LANG(info.gender)
+        }
+      : GENDER_OP[0];
   };
 
   let TableColumns: JDcolumn<IGuestTableInfo>[] = [
@@ -98,14 +97,6 @@ const RoomAssigedInfoTable: React.FC<Iprops & WindowSizeProps> = ({
 
   if (windowWidth > WindowSize.TABLET) {
     TableColumns = [
-      // {
-      //   Header: LANG("guest"),
-      //   accessor: "_id",
-      //   maxWidth: 64,
-      //   Cell: ({ original, index }) => (
-      //     <div className="RoomAssigedInfoTable__id">{Alphabet[index || 0]}</div>
-      //   )
-      // },
       {
         Header: LANG("roomType"),
         accessor: "_id",

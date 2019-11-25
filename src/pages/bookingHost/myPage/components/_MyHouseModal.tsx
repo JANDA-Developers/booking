@@ -1,26 +1,24 @@
-import React, {Fragment, useState} from "react";
-import {toast} from "react-toastify";
-import {MutationFn} from "react-apollo";
+import React, { Fragment } from "react";
+import { toast } from "react-toastify";
+import { MutationFn } from "react-apollo";
 import Modal from "../../../../atoms/modal/Modal";
 import Button from "../../../../atoms/button/Button";
-import {IUseModal, useDrawer, LANG} from "../../../../hooks/hook";
-import {IHouse} from "../../../../types/interface";
+import { IUseModal, useDrawer, LANG } from "../../../../hooks/hook";
 import Preloader from "../../../../atoms/preloader/Preloader";
-import {getHouse_GetHouse_house} from "../../../../types/api";
+import { getHouse_GetHouse_house } from "../../../../types/api";
 import {
   PricingType,
   DateFormat,
   MODAL_PRELOADER_SIZE
 } from "../../../../types/enum";
-import JDIcon, {IIcons, IconSize} from "../../../../atoms/icons/Icons";
+import JDIcon, { IconSize } from "../../../../atoms/icons/Icons";
 import moment from "moment";
-import {isEmpty, insideRedirect} from "../../../../utils/utils";
+import { insideRedirect } from "../../../../utils/utils";
 import copytoClipboard from "../../../../utils/copyToClipboard";
 import Drawer from "../../../../atoms/drawer/Drawer";
+import Vtable, { VtableColumns } from "../../../../atoms/vtable/Vtable";
 import SpecificAtionWrap from "../../../../components/specification/SpecificationWrap";
-import {IContext} from "../../../bookingHost/BookingHostRouter";
-import {Redirect} from "react-router";
-import {JDlang} from "../../../../langs/JDlang";
+import { IContext } from "../../BookingHostRouter";
 
 interface IProps {
   modalHook: IUseModal;
@@ -40,6 +38,8 @@ const MyHouseModal: React.FC<IProps> = ({
   loading,
   context
 }) => {
+  if (!house) return <div />;
+
   const drawerHook = useDrawer(false);
 
   const onDelete = () => {
@@ -64,14 +64,125 @@ const MyHouseModal: React.FC<IProps> = ({
       }
     });
 
+  const columns: VtableColumns[] = [
+    {
+      label: LANG("houseName"),
+      content: house.name
+    },
+    {
+      label: LANG("date_of_creation"),
+      content: moment(house!.createdAt).format(DateFormat.WITH_TIME)
+    },
+    { label: LANG("domitory"), content: roomCountDomitory },
+    { label: LANG("room"), content: roomCountRoom },
+    {
+      label: LANG("reservation_page_URL"),
+      content: (
+        <span>
+          <JDIcon
+            onClick={e => {
+              copytoClipboard(
+                insideRedirect(`outpage/reservation/${house.publicKey}`)
+              );
+            }}
+            tooltip={LANG("copy_reservation_page_URL")}
+            size={IconSize.MEDEIUM_SMALL}
+            icon={"copyFile"}
+            hover={true}
+          />
+          {/* 예약 페이지로 이동 */}
+          <JDIcon
+            onClick={e => {
+              location.href = insideRedirect(
+                `outpage/reservation/${house.publicKey}`
+              );
+            }}
+            tooltip={LANG("move_reservation_page")}
+            size={IconSize.MEDEIUM_SMALL}
+            icon={"arrowTo"}
+            hover={true}
+          />
+        </span>
+      )
+    },
+    {
+      label: LANG("reservation_page_URL"),
+      content: (
+        <span>
+          <JDIcon
+            onClick={e => {
+              copytoClipboard(
+                insideRedirect(`outpage/reservation/${house.publicKey}`)
+              );
+            }}
+            tooltip={LANG("copy_reservation_page_URL")}
+            size={IconSize.MEDEIUM_SMALL}
+            icon={"copyFile"}
+            hover={true}
+          />
+          {/* 예약 페이지로 이동 */}
+          <JDIcon
+            onClick={e => {
+              location.href = insideRedirect(
+                `outpage/reservation/${house.publicKey}`
+              );
+            }}
+            tooltip={LANG("move_reservation_page")}
+            size={IconSize.MEDEIUM_SMALL}
+            icon={"arrowTo"}
+            hover={true}
+          />
+        </span>
+      )
+    },
+    {
+      label: LANG("hm_page_URL"),
+      content: (
+        <span>
+          <JDIcon
+            onClick={e => {
+              copytoClipboard(
+                insideRedirect(`outpage/HM/${house.HM!.publicKey}`)
+              );
+            }}
+            tooltip={LANG("copy_hm_page_URL")}
+            size={IconSize.MEDEIUM_SMALL}
+            icon={"copyFile"}
+            hover={true}
+          />
+          {/* 하우스 메뉴얼 페이지로 이동 */}
+          <JDIcon
+            onClick={e => {
+              location.href = insideRedirect(
+                `outpage/HM/${house.HM!.publicKey}`
+              );
+            }}
+            tooltip={LANG("move_hm_page")}
+            size={IconSize.MEDEIUM_SMALL}
+            icon={"arrowTo"}
+            hover={true}
+          />
+        </span>
+      )
+    }
+  ];
+
   return (
-    <Modal {...modalHook}>
+    <Modal className="myHouseModal" {...modalHook}>
       {loading ? (
         <Preloader size={MODAL_PRELOADER_SIZE} loading={loading} />
       ) : (
         <Fragment>
           {house && (
             <Fragment>
+              <div>
+                <Vtable
+                  header={{
+                    title: LANG("house_info")
+                  }}
+                  columns={columns}
+                />
+              </div>
               <h6>
                 <span className="JDstandard-small-space">
                   {LANG("house_info")}
@@ -83,19 +194,6 @@ const MyHouseModal: React.FC<IProps> = ({
                   <SpecificAtionWrap houseId={house._id} />
                 </div>
               )}
-              <p>
-                {LANG("houseName")}: {house.name}
-              </p>
-              <p>
-                {LANG("date_of_creation")}:{" "}
-                {moment(house!.createdAt).format(DateFormat.WITH_TIME)}
-              </p>
-              <p>
-                {LANG("domitory")}: {roomCountDomitory}
-              </p>
-              <p>
-                {LANG("room")}: {roomCountRoom}
-              </p>
               {house.product !== null && (
                 <Fragment>
                   <p>
@@ -103,31 +201,6 @@ const MyHouseModal: React.FC<IProps> = ({
                       {LANG("reservation_page_URL")}
                     </span>
                     {/* 예약 페이지 URL 복사 */}
-                    <JDIcon
-                      onClick={e => {
-                        copytoClipboard(
-                          insideRedirect(
-                            `outpage/reservation/${house.publicKey}`
-                          )
-                        );
-                      }}
-                      tooltip={LANG("copy_reservation_page_URL")}
-                      size={IconSize.MEDEIUM_SMALL}
-                      icon={"copyFile"}
-                      hover={true}
-                    />
-                    {/* 예약 페이지로 이동 */}
-                    <JDIcon
-                      onClick={e => {
-                        location.href = insideRedirect(
-                          `outpage/reservation/${house.publicKey}`
-                        );
-                      }}
-                      tooltip={LANG("move_reservation_page")}
-                      size={IconSize.MEDEIUM_SMALL}
-                      icon={"arrowTo"}
-                      hover={true}
-                    />
                   </p>
                   {house.HM && (
                     <p>
@@ -165,7 +238,12 @@ const MyHouseModal: React.FC<IProps> = ({
             </Fragment>
           )}
           <div className="JDmodal__endSection">
-            <Button onClick={onDelete} thema="error" label={LANG("delete")} />
+            <Button
+              mode="flat"
+              onClick={onDelete}
+              thema="error"
+              label={LANG("delete")}
+            />
           </div>
         </Fragment>
       )}

@@ -1,4 +1,4 @@
-import {sharedProps} from "../../../atoms/timeline/Timeline";
+import { sharedProps } from "../../../atoms/timeline/config";
 
 const dailyPriceKeys = {
   groupIdKey: "_id",
@@ -30,4 +30,4 @@ const DailyPriceDefaultProps = {
   lineHeight: 54
 };
 export default DailyPriceDefaultProps;
-export {DailyPriceDefaultProps};
+export { DailyPriceDefaultProps };

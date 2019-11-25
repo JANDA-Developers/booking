@@ -68,6 +68,7 @@ const ApplyProductModal: React.FC<IProps> = ({
           <h3>{productType.name}</h3>
           <div className="modal__section">{productType.detailDesc}</div>
           <Button
+            mode="flat"
             thema="point"
             label={LANG("apply_this_product_to_house")}
             onClick={() => {
@@ -142,6 +143,7 @@ const ApplyProductModal: React.FC<IProps> = ({
       {step > 1 && (
         <div className="JDmodal__endSection">
           <Button
+            mode="flat"
             thema="primary"
             label={LANG("Apply")}
             onClick={() => {

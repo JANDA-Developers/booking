@@ -3,15 +3,17 @@ import { LANG } from "../../hooks/hook";
 import JDmodal from "../../atoms/modal/Modal";
 import JDmultiStep, { IMultiStepSteps } from "../../atoms/multiStep/MultiStep";
 import productTypeGetDesc from "../../pages/bookingHost/product/helper";
-import Button from "../../atoms/button/Button";
 import CheckProduct from "./components/CheckProduct";
 import CardInfoRegi from "./components/CardInfoRegi";
 import { IChainProp } from "./CardBilingModalWrap";
 import { MutationFunctionOptions } from "@apollo/react-common";
 import { createBillkey, createBillkeyVariables } from "../../types/api";
-import { ExecutionResult, validate } from "graphql";
+import { ExecutionResult } from "graphql";
 import RegiComplete from "./components/RegiComplete";
-import { muResult } from "../../utils/utils";
+import "./CardBillModal.scss";
+import { toNumber, muResult } from "../../utils/utils";
+import { toast } from "react-toastify";
+import moment from "moment";
 
 interface Iprops extends IChainProp {
   createBillMu: (
@@ -30,6 +32,11 @@ export type TCardRegistInfo = {
 };
 
 export type CardBillingSteps = "checkProdcut" | "cardInfo" | "complete";
+const CARD_BILL_STEP: CardBillingSteps[] = [
+  "checkProdcut",
+  "cardInfo",
+  "complete"
+];
 
 const CardBillingModal: React.FC<Iprops> = ({
   context,
@@ -74,12 +81,41 @@ const CardBillingModal: React.FC<Iprops> = ({
   ];
 
   const validate = () => {
+    const {
+      expMonth: expMonthTemp,
+      expYear: expYearTemp,
+      cardNumber,
+      idNumber
+    } = cardInfo;
+
+    const expMonth = toNumber(expMonthTemp);
+
+    // 길이검사
+    if (expMonth > 12 || expMonth < 1 || expYearTemp.length !== 2) {
+      toast.warn("유효 하지 않은 카드 기한입니다.");
+      return false;
+    } else if (
+      // 기한검사
+      moment(20 + expYearTemp + expMonth + "01", "YYYYMMDD").isBefore(
+        moment(),
+        "month"
+      )
+    ) {
+      toast.warn("유효 하지 않은 카드 기한입니다.");
+      return false;
+    }
+
+    if (cardNumber.length !== 16) {
+      toast.warn("유효하지 않은 카드번호 입니다.");
+      return false;
+    }
+
     return true;
   };
 
-  const handleCardRegistBtnClick = () => {
+  const handleCardRegistBtnClick = async () => {
     if (validate()) {
-      const reuslt = createBillMu({
+      const reuslt = await createBillMu({
         variables: {
           billParams: {
             cardNo: cardInfo.cardNumber,
@@ -90,6 +126,10 @@ const CardBillingModal: React.FC<Iprops> = ({
           }
         }
       });
+
+      const billInfo = muResult(reuslt, "CreateBillkey", "billInfo");
+      if (billInfo) {
+      }
     }
   };
 
@@ -103,22 +143,32 @@ const CardBillingModal: React.FC<Iprops> = ({
         />
       );
     } else if (step === "cardInfo") {
-      <CardInfoRegi
-        cardInfo={cardInfo}
-        setCardInfo={setCardInfo}
-        setStep={setStep}
-        context={context}
-      />;
+      return (
+        <CardInfoRegi
+          handleCardRegistBtnClick={handleCardRegistBtnClick}
+          cardInfo={cardInfo}
+          setCardInfo={setCardInfo}
+          setStep={setStep}
+          context={context}
+        />
+      );
     } else if (step === "complete") {
-      <RegiComplete />;
+      return <RegiComplete />;
     }
   };
 
+  const handleStepClick = (index: number) => {
+    setStep(CARD_BILL_STEP[index]);
+  };
+
   // checkProdcut 상품확인
-  return () => (
-    <JDmodal {...modalHook}>
-      <h5>{LANG("card_resist")}</h5>
-      <JDmultiStep steps={multiStepSteps} />
+  return (
+    <JDmodal className="CardBillModal" {...modalHook}>
+      <JDmultiStep
+        onStepClick={handleStepClick}
+        clickAble={[0, 1]}
+        steps={multiStepSteps}
+      />
       {renderContent()}
     </JDmodal>
   );

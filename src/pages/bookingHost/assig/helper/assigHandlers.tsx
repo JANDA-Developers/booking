@@ -21,7 +21,7 @@ import {
   THandleDraggingEnd
 } from "../components/assigIntrerface";
 import { TimePerMs } from "../../../../types/enum";
-import { setMidNight } from "../../../../utils/utils";
+import { setMidNight, isEmpty } from "../../../../utils/utils";
 import { CLASS_MOVING, CLASS_LINKED } from "../components/items/itemRenderFn";
 import moment from "moment";
 import $ from "jquery";
@@ -32,6 +32,8 @@ import {
   ASSIG_DATA_END_LIMITE
 } from "../timelineConfig";
 import { ReactTooltip } from "../../../../atoms/tooltip/Tooltip";
+import Timer from "react-compound-timer/build";
+import { IDotPoint } from "../../../../atoms/timeline/declare";
 
 export function getAssigHandlers(
   {
@@ -111,12 +113,10 @@ export function getAssigHandlers(
     time: number,
     e: React.MouseEvent<HTMLElement>
   ) => {
-    console.info("handleCanvasClick");
     if (e && e.persist) {
       e.persist();
     }
 
-    allTooltipsHide();
     if (!e.shiftKey)
       setGuestValue([
         ...guestValue.filter(guest => guest.type !== GuestTypeAdd.MARK)
@@ -177,8 +177,10 @@ export function getAssigHandlers(
   const handleDraggingCell: THandleDraggingCell = (e, moveCounts, dotPoint) => {
     let { timeStart, placeIndex } = dotPoint;
     const { x, y } = moveCounts;
+
     let timeEnd = timeStart + TimePerMs.DAY * x + TimePerMs.DAY;
     const ids = [];
+
     for (let i = 0; i <= y; i++) {
       if (!groupData[placeIndex + i]) return;
       ids.push(groupData[placeIndex + i].id);
@@ -189,6 +191,9 @@ export function getAssigHandlers(
       timeStart = timeEnd;
       timeEnd = timeTemp;
     }
+
+    if (isEmpty(ids)) return;
+
     createMark(timeStart, timeEnd, ids);
   };
 
@@ -251,8 +256,8 @@ export function getAssigHandlers(
     if (shortKey) await shortKey("guestItem", e, undefined, undefined, itemId);
   };
 
-  const handleDraggingEnd: THandleDraggingEnd = e => {
-    openCanvasMenuTooltip(e);
+  const handleDraggingEnd: THandleDraggingEnd = (e, IS_MOVE: boolean) => {
+    IS_MOVE && openCanvasMenuTooltip(e);
   };
 
   // 타임라인 이동시
@@ -319,7 +324,10 @@ export function getAssigHandlers(
     }
   };
 
-  const handleMouseDownCanvas: THandleMouseDown = e => {};
+  const handleMouseDownCanvas: THandleMouseDown = e => {
+    allTooltipsHide();
+    removeMark();
+  };
 
   const assigHandler: IAssigHandlers = {
     handleCanvasClick,

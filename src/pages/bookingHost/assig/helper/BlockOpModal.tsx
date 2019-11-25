@@ -74,6 +74,7 @@ const BlockOpModal: React.FC<IProps> = ({
         </div>
         <div className="JDmodal__endSection">
           <Button
+            mode="flat"
             onClick={() => {
               handleClickApply(false);
             }}

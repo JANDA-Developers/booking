@@ -1,14 +1,14 @@
 // 참고: https://codepen.io/manpreet/pen/EyXwrE
 import $ from "jquery";
 import PropTypes from "prop-types";
-import React, {useState, useRef, useEffect} from "react";
+import React, { useState, useRef, useEffect } from "react";
 import classNames from "classnames";
 import List from "./list";
 import "./searchInput.scss";
 import Icon from "../icons/Icons";
 import Preloader from "../preloader/Preloader";
 import searchListFormat from "../../utils/searchListFormater";
-import {isEmpty} from "../../utils/utils";
+import { isEmpty } from "../../utils/utils";
 
 interface IProps {
   dataList: Array<any>;
@@ -65,6 +65,9 @@ const JDsearchInput: React.FC<IProps> = ({
   const [filteredDataList, SetFilteredDataList] = useState(formatDataList);
   const inputRef: any = useRef(null);
   const ulRef: any = useRef(null);
+
+
+
 
   //  value와 메치되는 리스트를 찾습니다.
   const setList = (value = inputRef.current.value) => {

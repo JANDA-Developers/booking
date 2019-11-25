@@ -16,7 +16,7 @@ interface IProps extends ReactModal.Props, IUseModal {
   children?: any;
   minContentsWidth?: string;
   noAnimation?: boolean;
-  minWidth?: string;
+  minWidth?: string |;
   paddingSize?: "large";
   visibleOverflow?: boolean;
   falseMessage?: string | any[];

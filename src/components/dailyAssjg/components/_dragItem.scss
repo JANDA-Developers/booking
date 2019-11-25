@@ -41,12 +41,15 @@
         &--checkIn {
             background-color: $assigItem-checkIn-color;
             color: $html-color;
+
+
+            
             .dailyAssigItem__gender {
-                .assigItem--female {
-                    color: $female-color;
+                .assigItem__gender--male--female {
+                    color: $female-color!important;
                 }
-                .assigItem--male {
-                    color: $male-color;
+                .assigItem__gender--male {
+                    color: $male-color!important;
                 }
             }   
             .dailyAssigItem__configIconWrap {

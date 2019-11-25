@@ -71,9 +71,11 @@ const JDproductCard: React.FC<IProps> = ({
           </div>
           <h4 className="JDproduct__limit">
             {name}{" "}
-            {isCurrent && (
-              <JDbadge thema={"positive"}>{LANG("useing")}}</JDbadge>
-            )}
+            <span className="JDproduct__badgeWrap">
+              {isCurrent && (
+                <JDbadge thema={"positive"}>{LANG("useing")}</JDbadge>
+              )}
+            </span>
           </h4>
         </div>
         <div className="JDproduct__decs">{shortDesc}</div>

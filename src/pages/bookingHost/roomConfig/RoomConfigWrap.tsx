@@ -1,25 +1,27 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, {Fragment} from "react";
-import {Query, Mutation} from "react-apollo";
+import React, { Fragment } from "react";
+import { Query, Mutation } from "react-apollo";
 import {
   getAllRoomType,
   changeIndexForRoomType,
   changeIndexForRoomTypeVariables
 } from "../../../types/api";
-import {useToggle, LANG} from "../../../hooks/hook";
-import roomTimelineDefaultProps from "./timelineConfig";
-import {GET_ALL_ROOMTYPES, CHANGE_INDEX_FOR_ROOMTYPE} from "../../../apollo/queries";
+import { useToggle, LANG } from "../../../hooks/hook";
+import {
+  GET_ALL_ROOMTYPES,
+  CHANGE_INDEX_FOR_ROOMTYPE
+} from "../../../apollo/queries";
 import {
   ErrProtecter,
   queryDataFormater,
   onCompletedMessage
 } from "../../../utils/utils";
-import {IContext} from "../../bookingHost/BookingHostRouter";
+import { IContext } from "../../bookingHost/BookingHostRouter";
 import RoomConfig from "./RoomConfig";
-import {PureQueryOptions} from "apollo-client";
+import { PureQueryOptions } from "apollo-client";
 import Preloader from "../../../atoms/preloader/Preloader";
-import {FLOATING_PRELOADER_SIZE} from "../../../types/enum";
+import { FLOATING_PRELOADER_SIZE } from "../../../types/enum";
 
 export enum ADD_ROOM {
   "ADDROOM" = -1,
@@ -42,7 +44,7 @@ const RoomConfigWrap: React.FC<IProps> = ({
   refetchQueries = [],
   ...prop
 }) => {
-  const {house} = context;
+  const { house } = context;
   const [_, setConfigMode] = useToggle(false);
 
   return (
@@ -50,16 +52,16 @@ const RoomConfigWrap: React.FC<IProps> = ({
     <GetAllRoomTypeQuery
       fetchPolicy="network-only"
       query={GET_ALL_ROOMTYPES}
-      variables={{houseId: house._id}}
+      variables={{ houseId: house._id }}
     >
-      {({data: roomData, loading, error, networkStatus}) => {
+      {({ data: roomData, loading, error, networkStatus }) => {
         const roomTypesData =
           queryDataFormater(roomData, "GetAllRoomType", "roomTypes", []) || []; // 원본데이터
 
         return (
           <ChangeIndexForRoomTypeMu
-            refetchQueries={[{query: GET_ALL_ROOMTYPES}]}
-            onCompleted={({ChangeIndexForRoomType}) => {
+            refetchQueries={[{ query: GET_ALL_ROOMTYPES }]}
+            onCompleted={({ ChangeIndexForRoomType }) => {
               onCompletedMessage(
                 ChangeIndexForRoomType,
                 LANG("priority_changed"),
@@ -68,7 +70,7 @@ const RoomConfigWrap: React.FC<IProps> = ({
             }}
             mutation={CHANGE_INDEX_FOR_ROOMTYPE}
           >
-            {(changeIndexForRoomTypeMu, {loading: chnageIndexMuLoading}) => (
+            {(changeIndexForRoomTypeMu, { loading: chnageIndexMuLoading }) => (
               <Fragment>
                 <Preloader
                   floating
@@ -83,7 +85,6 @@ const RoomConfigWrap: React.FC<IProps> = ({
                   refetchQueries={refetchQueries}
                   setConfigMode={setConfigMode}
                   changeIndexForRoomTypeMu={changeIndexForRoomTypeMu}
-                  defaultProps={roomTimelineDefaultProps}
                   roomTypesData={roomTypesData}
                 />
               </Fragment>

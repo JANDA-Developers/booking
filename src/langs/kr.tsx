@@ -846,11 +846,16 @@ export const kr = {
   input_card_information: "카드정보 입력하기",
   idnumber_or_business_number: "주민등록번호 앞(6자리) 또는 사업자번호",
   card_pasword_front_two_digits: "카드 비밀번호 앞 2자리",
+  completing_this_card_registration_you_agree_to_the:
+    "이 카드정보를 등록함으로서 당신은 다음에 동의합니다.",
   please_rewrite_your_new_password: (
     <span>
       비밀번호를 재발급 받으셨군요
       <br />
       새로운 비밀번호를 설정 해주세요.
     </span>
-  )
+  ),
+  use_conditions: "이용 조건",
+  privacy_policy: "가격 정책",
+  and: "그리고"
 };

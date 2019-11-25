@@ -6,7 +6,7 @@ $base-padding: 1em;
 $base-border-radius: .2em;
 $screen-xs-max: 786px;
 
-$text-color: #263238;
+$text-color: $html-color;
 $text-color-inverted: #fff;
 $hover-hover: #d8f1ff;
 
@@ -14,9 +14,9 @@ $brand-primary: $point-color;
 $brand-success: #54b948;
 $brand-danger: #d50000;
 
-$gray-dark: #333;
-$gray-light: #999;
-$gray-lighter: #eee;
+$gray-dark: $html-color;
+$gray-light: $grey-level2;
+$gray-lighter: $grey-level1;
 
 $icon-danger: '!';
 $icon-success: '✓';
@@ -53,6 +53,13 @@ $animation-time: 0.5s;
 	z-index: 2;
 	border-radius: $base-border-radius;
 
+
+	&--clickAble {
+		&:hover {
+			cursor: pointer;
+		}
+	}
+
 	// Step title and subtitle defaults
 	.item-title,
 	.item-subtitle {
@@ -64,8 +71,7 @@ $animation-time: 0.5s;
 		.item-subtitle { display: none; }
 	}
 	.item-title {
-		color: $brand-primary;
-		font-weight: 600;
+		color: $html-color;
 		margin: 0;
 		display: flex;
     align-items: center;
@@ -81,7 +87,7 @@ $animation-time: 0.5s;
 	}
 	&.active.current:hover .item-title,
 	&.active.current:hover .item-subtitle {
-		color: $brand-primary;
+		color: $html-color;
 	}
 	&.error:after {
 		position: absolute;
@@ -105,19 +111,21 @@ $animation-time: 0.5s;
 		left: 0;
 		content: ' ';
 		width: 100%;
-		height: 50.5%;
+		height: 50%;
 		z-index: 1;
 		background-color: $gray-lighter;
 	}
 
 	// Top of the arrow
 	&:before {
+		height: 50.5%;
 		top: 0;
 		transform: skew(20deg);
 		border-radius: .2em .2em 0 0;
 	}
 	// Bottom of the arrow
 	&:after {
+		height: 50%;
 		bottom: 0;
 		transform: skew(-20deg);
 		border-radius: 0 0 .2em .2em;

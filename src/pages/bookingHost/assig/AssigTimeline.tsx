@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { Link } from "react-router-dom";
 import "moment/locale/ko";
 import _ from "lodash";
@@ -6,8 +6,7 @@ import { WindowSizeProps } from "react-window-size";
 import Timeline, {
   TimelineHeaders,
   SidebarHeader,
-  DateHeader,
-  SharedSideBarHeader
+  DateHeader
 } from "../../../atoms/timeline/Timeline";
 import ErrProtecter from "../../../utils/errProtect";
 import Button from "../../../atoms/button/Button";
@@ -22,7 +21,6 @@ import classnames from "classnames";
 import assigGroupRendererFn from "./helper/groupRenderFn";
 import { IRoomType } from "../../../types/interface";
 import "./scss/AssigTimeline.scss";
-import { ReactTooltip } from "../../../atoms/tooltipList/TooltipList";
 import {
   WindowSize as EWindowSize,
   GlobalCSS,
@@ -58,6 +56,7 @@ import HeaderCellRender from "./helper/HeaderCellRender";
 import { PortalPreloader } from "../../../utils/portalElement";
 import DayPickerModal from "../../../components/dayPickerModal/DayPickerModal";
 import { IContext } from "../BookingHostRouter";
+import { SharedSideBarHeader } from "../../../atoms/timeline/components/SharedHeader";
 
 interface IProps {
   context: IContext;
@@ -157,6 +156,8 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   // 풀링으로 새로받은 게스트데이터를 적용시켜준다.
   useEffect(() => {
     if (networkStatus >= 7) {
+      console.log("🎅 ??");
+
       const newIndexStart = deafultGuestsData.length;
 
       // TODO 함수분리
@@ -187,16 +188,22 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     blockOpModal
   };
 
-  const assigContext: IAssigTimelineContext = {
-    isMobile,
-    houseConfig,
-    windowWidth,
-    windowHeight,
-    groupData,
-    houseId: house._id
-  };
+  const assigContext: IAssigTimelineContext = useMemo(
+    () => ({
+      isMobile,
+      houseConfig,
+      windowWidth,
+      windowHeight,
+      groupData,
+      houseId: house._id
+    }),
+    [windowWidth, guestValue]
+  );
 
-  const assigUtils = getAssigUtils(assigHooks, assigDataControl, assigContext);
+  const assigUtils = useMemo(
+    () => getAssigUtils(assigHooks, assigDataControl, assigContext),
+    [guestValue]
+  );
 
   const { assigTimeline } = houseConfig;
   if (!assigTimeline) {
@@ -207,7 +214,10 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
 
   const { allTooltipsHide, removeMark, hilightHeader } = assigUtils;
 
-  const assigHandler = getAssigHandlers(assigUtils, assigContext, assigHooks);
+  const assigHandler = useMemo(
+    () => getAssigHandlers(assigUtils, assigContext, assigHooks),
+    [guestValue]
+  );
 
   const {
     handleCanvasClick,
@@ -232,17 +242,18 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     allTooltipsHide();
   };
 
-  // 툴팁 제거 이벤트들을 window에 달아줌 그리고 나갈때 제거
+  const renderHeaderCell = useCallback((prop: any) => {
+    // 아이템 업데이트때는 업데이트될 필요가없는데
+    const onClickCell = ({ intervalContext }: any) => {
+      if (!intervalContext) return;
+      dailyAssigHook.openModal({
+        date: moment(intervalContext.interval.startTime).toDate()
+      });
+    };
+    return HeaderCellRender({ onClickCell, holidays, ...prop });
+  }, []);
 
-  // 툴팁 리빌드
-  useEffect(() => {
-    ReactTooltip.rebuild();
-  });
-
-  useEffect(() => {
-    hilightHeader(dayPickerHook.from);
-  }, [dayPickerHook.from]);
-
+  // 아예 그룹이 없을떄 처리
   useEffect(() => {
     if (isEmpty(groupData) && !loading) setEmpty(true);
   }, [inIsEmpty]);
@@ -254,7 +265,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
         "assigTimeline--loading": isEmpty(groupData) && loading,
         "assigTimeline--empty": inIsEmpty
       }),
-    [windowWidth]
+    [windowWidth, guestValue]
   );
 
   // 그룹 데이터에서 필터된것만 추출
@@ -395,15 +406,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
                 )}
               </SidebarHeader>
               <DateHeader
-                intervalRenderer={(prop: any) => {
-                  const onClickCell = ({ intervalContext }: any) => {
-                    if (!intervalContext) return;
-                    dailyAssigHook.openModal({
-                      date: moment(intervalContext.interval.startTime).toDate()
-                    });
-                  };
-                  return HeaderCellRender({ onClickCell, holidays, ...prop });
-                }}
+                intervalRenderer={renderHeaderCell}
                 height={GlobalCSS.TIMELINE_HEADER_HEIGHT}
                 unit="day"
               />

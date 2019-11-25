@@ -19,10 +19,6 @@ html .header {
     position: sticky;
     top:0;
 
-    &__signUpBtn {
-        margin-right: -$button-padding-side + 0.7rem; //0.7rem header 보정상수
-    }
-
     &__NotifyIcon {
         color:white;
     }
@@ -64,7 +60,8 @@ html .header {
         display: flex;
         height: 100%;
         align-items: center;
-
+        margin-right: -$button-padding-side; //0.7rem header 보정상수
+        
         &--unlogin {
             margin-left: 0;
             height:100%;

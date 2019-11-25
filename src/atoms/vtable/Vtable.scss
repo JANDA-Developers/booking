@@ -1,0 +1,35 @@
+@import "~Styles/style_config.scss";
+
+.vtable {
+    padding: $standard-large-space;
+    border: 1px solid $grey-level0;
+    border-radius: $standard-border-radius;
+    padding-bottom: 0;
+
+    &__column {
+        display: flex;
+        align-items: center;
+        padding: $standard-space;
+        padding-left: 0;
+        padding-right: 0;
+        border-bottom: 1px solid $grey-level0;
+        justify-content: space-between;
+
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+
+    &__label {
+        margin-right: $standard-large-space;
+        .JDlabel {
+            display:flex;
+            align-items: center;
+            margin-bottom: 0;
+        }
+    }
+
+    &__header {
+        
+    }
+}

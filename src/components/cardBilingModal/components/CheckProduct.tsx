@@ -19,13 +19,22 @@ const CheckProduct: React.FC<Iprops> = ({
 }) => {
   return (
     <div>
-      <JDproductCard productTypeDec={productTypeDecs} hover={false} isCurrent />
+      <div className="JDstandard-margin-bottom">
+        <JDproductCard
+          productTypeDec={productTypeDecs}
+          hover={false}
+          isCurrent
+        />
+      </div>
+
       <div className="JDmodal__endSection">
         <Button
           onClick={() => {
             setStep("cardInfo");
           }}
-          thema="positive"
+          size="long"
+          mode="flat"
+          thema="primary"
           label={LANG("input_card_information")}
         />
       </div>

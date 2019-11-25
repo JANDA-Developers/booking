@@ -288,6 +288,7 @@ export function getAssigUtils(
       $("#createMenu").removeClass("assig__tooltips--show");
     if (except !== "itemTooltip")
       $("#itemTooltip").removeClass("assig__tooltips--show");
+    ReactTooltip.rebuild();
   };
 
   // 유틸 두게스트의 충돌시간 구해줌 없다면 false를 반환함
@@ -342,6 +343,7 @@ export function getAssigUtils(
 
     groupIds.forEach((id, i) => {
       const group = getGroupById(id);
+
       filteredGuestValue.push({
         ...DEFAULT_ASSIG_ITEM,
         roomTypeId: group.roomTypeId,
@@ -442,9 +444,14 @@ export function getAssigUtils(
     targetGuest: IAssigItem,
     newGroupOrder: number
   ) => {
+    const targetGroup = getGroupById(targetGuest.group);
+    const moveGroup = groupData[newGroupOrder];
+
+    if (targetGroup.id === moveGroup.id) return;
+
     const guestValueOriginCopy = $.extend(true, [], guestValue);
 
-    targetGuest.group = groupData[newGroupOrder].id;
+    targetGuest.group = moveGroup.id;
     setGuestValue([...guestValue]);
 
     // 배정 뮤테이션을 발생
@@ -459,8 +466,10 @@ export function getAssigUtils(
     guestValueOriginCopy?: IAssigItem[]
   ) => {
     if (JDisNetworkRequestInFlight(networkStatus)) return;
+
     const group = groupData[newGroupOrder];
     const newGroupId = group.roomId;
+
     const result = await allocateMu({
       variables: {
         guestId: itemId,
@@ -598,10 +607,13 @@ export function getAssigUtils(
   const startBookingModalWithMark: TBookingModalOpenWithMark = startBookingCallBack => {
     const createItems = getItems(GuestTypeAdd.MARK);
 
+    if (isEmpty(createItems)) return;
+
     // 아이템들의 그룹들
     const createItemTempGroups = createItems.map(item =>
       getGroupById(item.group)
     );
+
     // 아이템들의 룸타입들
     const roomTypes = groupToRoomType(createItemTempGroups);
 

@@ -24,9 +24,6 @@ const LangList: React.FC<IProps> = ({ onClickLng, hideList, hilightLangs }) => {
     ? LANGUAGE_LIST.filter(lang => !hideList.includes(lang))
     : LANGUAGE_LIST;
 
-  console.log("LangList");
-  console.log(LangList);
-
   return (
     <div className={"clear-fix"}>
       {LangList.map(lang => {

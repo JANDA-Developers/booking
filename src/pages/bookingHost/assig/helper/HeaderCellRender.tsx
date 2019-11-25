@@ -1,13 +1,13 @@
 import React from "react";
 import JDbadge from "../../../../atoms/badge/Badge";
 import classnames from "classnames";
-import {IHolidaysByApi} from "../../../../types/interface";
-import {searchHoliday} from "../../../../utils/utils";
-import {LANG} from "../../../../hooks/hook";
+import { IHolidaysByApi } from "../../../../types/interface";
+import { searchHoliday } from "../../../../utils/utils";
+import { LANG } from "../../../../hooks/hook";
 import moment from "moment";
 
 interface Iprops {
-  onClickCell?: ({intervalContext}: any) => void;
+  onClickCell?: ({ intervalContext }: any) => void;
   holidays?: IHolidaysByApi[];
   getIntervalProps: any;
   intervalContext: any;
@@ -19,7 +19,7 @@ const HeaderCellRender: React.FC<Iprops> = ({
   intervalContext,
   holidays
 }) => {
-  const {startTime} = intervalContext.interval;
+  const { startTime } = intervalContext.interval;
   const holiday = holidays && searchHoliday(startTime, holidays);
   const isToday = startTime.isSame(new Date(), "day");
   const isPast = startTime.isBefore(new Date(), "day");
@@ -49,7 +49,7 @@ const HeaderCellRender: React.FC<Iprops> = ({
         onClickCapture={e => {
           e.preventDefault();
           e.stopPropagation();
-          onClickCell && onClickCell({intervalContext});
+          onClickCell && onClickCell({ intervalContext });
         }}
       >
         {intervalContext.intervalText

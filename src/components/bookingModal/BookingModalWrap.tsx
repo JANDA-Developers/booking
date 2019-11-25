@@ -13,7 +13,7 @@ import {
   getRoomTypeDatePrices,
   getRoomTypeDatePricesVariables,
   startBooking,
-  startBookingVariables,
+  startBookingVariables
 } from "../../types/api";
 import {
   queryDataFormater,
@@ -78,18 +78,11 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
             undefined
           );
 
-
-          console.log("modalHook.info.createParam");
-          console.log(modalHook.info.createParam);
-
           // (API로 가져온 Booking 정보) + (예약 생성요청 정보)
           const mergedBooking = mergeObject(
             booking,
             modalHook.info.createParam
           );
-
-          console.log("mergedBooking");
-          console.log(mergedBooking);
 
           const priceQueryVariables:
             | getRoomTypeDatePricesVariables

@@ -1,13 +1,13 @@
 /* eslint-disable prop-types */
-import React, {useRef, useEffect} from "react";
+import React, { useRef, useEffect } from "react";
 import "./ImageUploader.scss";
 import classnames from "classnames";
 import Preloader from "../preloader/Preloader";
-import {IuseImageUploader} from "../../hooks/hook";
+import { IuseImageUploader } from "../../hooks/hook";
 import JDVideo from "../video/Video";
 import $ from "jquery";
-import {s4} from "../../utils/utils";
-import {DEFAULT_FILE} from "../../types/defaults";
+import { s4 } from "../../utils/utils";
+import { DEFAULT_FILE } from "../../types/defaults";
 
 export interface ImageUploaderIProps extends IuseImageUploader {
   minHeight: string;
@@ -19,7 +19,7 @@ export interface ImageUploaderIProps extends IuseImageUploader {
   autoHeight?: boolean;
 }
 
-const ImageUploader: React.SFC<ImageUploaderIProps> = ({
+const ImageUploader: React.FC<ImageUploaderIProps> = ({
   uploading,
   file,
   isError,
@@ -34,7 +34,7 @@ const ImageUploader: React.SFC<ImageUploaderIProps> = ({
   option,
   ...props
 }) => {
-  const {url, mimeType} = file || DEFAULT_FILE;
+  const { url, mimeType } = file || DEFAULT_FILE;
   const isVideo = mimeType.includes("video");
   const isImg = mimeType.includes("image");
   const imageUploaderRef = useRef<HTMLDivElement>(null);

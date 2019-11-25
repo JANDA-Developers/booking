@@ -86,7 +86,12 @@ const RessetPasswordModal: React.FC<Iprops> = ({
 
   if (step === "input") {
     return (
-      <JDmodal {...modalHook}>
+      <JDmodal
+        onAfterClose={() => {
+          // setStep("input");
+        }}
+        {...modalHook}
+      >
         <h6>{LANG("get_temporary_password")}</h6>
         <div>
           <InputText
@@ -105,9 +110,11 @@ const RessetPasswordModal: React.FC<Iprops> = ({
         </div>
         <div className="JDmodal__endSection">
           <Button
+            mode="flat"
             thema="primary"
             onClick={() => {
               if (validate()) {
+                console.log("EEEEEEE");
                 setStep("verify");
               }
             }}
@@ -142,6 +149,7 @@ const RessetPasswordModal: React.FC<Iprops> = ({
         />
         <div className="JDmodal__endSection">
           <Button
+            mode="flat"
             thema="primary"
             onClick={() => {
               modalHook.closeModal();

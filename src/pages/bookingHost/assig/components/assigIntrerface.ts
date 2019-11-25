@@ -38,8 +38,10 @@ import {
 import { IUseModal } from "../../../../hooks/hook";
 import { string } from "prop-types";
 import { MouseEvent } from "react";
-import { IMoveCount, IDotPoint } from "../../../../atoms/timeline/Timeline";
 import { ApolloQueryResult } from "apollo-client";
+import { IMoveCount, IDotPoint } from "../../../../atoms/timeline/declare";
+import { ExecutionResult } from "graphql";
+import { MutationFunctionOptions } from "@apollo/react-common";
 
 export interface IAssigTimelineContext {
   isMobile: boolean;
@@ -250,13 +252,44 @@ export interface IAssigDataControl {
   refetch: (
     variables?: getAllRoomTypeWithGuestVariables | undefined
   ) => Promise<ApolloQueryResult<getAllRoomTypeWithGuest>>;
-  deleteBookingMu: MutationFn<deleteBooking, deleteBookingVariables>;
-  allocateMu: MutationFn<allocateGuestToRoom, allocateGuestToRoomVariables>;
-  deleteBlockMu: MutationFn<deleteBlock, deleteBlockVariables>;
-  updateBookingMu: MutationFn<updateBooking, updateBookingVariables>;
-  deleteGuestsMu: MutationFn<deleteGuests, deleteGuestsVariables>;
-  createBlockMu: MutationFn<createBlock, createBlockVariables>;
-  updateBlockOpMu: MutationFn<updateBlockOption, updateBlockOptionVariables>;
+  deleteBookingMu: (
+    options?:
+      | MutationFunctionOptions<deleteBooking, deleteBookingVariables>
+      | undefined
+  ) => Promise<ExecutionResult<deleteBooking>>;
+  allocateMu: (
+    options?:
+      | MutationFunctionOptions<
+          allocateGuestToRoom,
+          allocateGuestToRoomVariables
+        >
+      | undefined
+  ) => Promise<ExecutionResult<allocateGuestToRoom>>;
+  deleteBlockMu: (
+    options?:
+      | MutationFunctionOptions<deleteBlock, deleteBlockVariables>
+      | undefined
+  ) => Promise<ExecutionResult<deleteBlock>>;
+  updateBookingMu: (
+    options?:
+      | MutationFunctionOptions<updateBooking, updateBookingVariables>
+      | undefined
+  ) => Promise<ExecutionResult<updateBooking>>;
+  deleteGuestsMu: (
+    options?:
+      | MutationFunctionOptions<deleteGuests, deleteGuestsVariables>
+      | undefined
+  ) => Promise<ExecutionResult<deleteGuests>>;
+  createBlockMu: (
+    options?:
+      | MutationFunctionOptions<createBlock, createBlockVariables>
+      | undefined
+  ) => Promise<ExecutionResult<createBlock>>;
+  updateBlockOpMu: (
+    options?:
+      | MutationFunctionOptions<updateBlockOption, updateBlockOptionVariables>
+      | undefined
+  ) => Promise<ExecutionResult<updateBlockOption>>;
   stopPolling: () => void;
   startPolling: () => void;
   totalMuLoading: boolean;
@@ -348,7 +381,8 @@ export type THandleCanvasContextMenu = (
 ) => void;
 
 export type THandleDraggingEnd = (
-  e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  IS_MOVE: boolean
 ) => void;
 
 export type THandleTimeChange = (

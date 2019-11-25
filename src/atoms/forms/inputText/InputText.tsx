@@ -14,13 +14,16 @@ import { getByteLength } from "../../../utils/elses";
 import { autoComma, s4 } from "../../../utils/utils";
 import $ from "jquery";
 
-interface IProps {
+// @ts-ignore
+interface IProps extends React.AllHTMLAttributes<HTMLInputElement> {
+  placeholder?: string;
   readOnly?: boolean;
   disabled?: boolean;
   textarea?: boolean;
   scroll?: boolean;
   doubleHeight?: boolean;
   halfHeight?: boolean;
+  overfloweEllipsis?: boolean;
   label?: string;
   size?: "fullWidth" | "fullHeight";
   type?: string;
@@ -49,10 +52,12 @@ interface IProps {
   allWaysShowValidMessage?: boolean;
   className?: string;
   wrapClassName?: string;
+  maxLength?: number;
+  minLength?: number;
+  sizes?: string;
 }
 
-const InputText: React.FC<IProps &
-  React.AllHTMLAttributes<HTMLInputElement>> = ({
+const InputText: React.FC<IProps> = ({
   readOnly,
   label,
   disabled,
@@ -75,6 +80,7 @@ const InputText: React.FC<IProps &
   autoHeight,
   dataError,
   dataSuccess,
+  overfloweEllipsis,
   allWaysShowValidMessage,
   icon,
   iconOnClick,
@@ -117,6 +123,8 @@ const InputText: React.FC<IProps &
         } else {
           onChange(numberStr(target.value));
         }
+      } else if (card) {
+        onChange(target.value.replace(/ /gi, ""));
       } else onChange(target.value);
     }
 
@@ -133,6 +141,7 @@ const InputText: React.FC<IProps &
   });
 
   const classes = classNames(textarea ? "JDtextarea" : "JDinput", className, {
+    "JDinput--overfloweEllipsis": overfloweEllipsis,
     "JDinput--labeled": label && !textarea,
     "JDinput--center": textAlign === "center",
     "JDinput--valid": (isValid === true || selfValid === true) && !textarea,
@@ -203,6 +212,7 @@ const InputText: React.FC<IProps &
         ref={refContainer || inRefContainer}
         data-color="1213"
         className={classes}
+        maxLength={card ? 19 : undefined}
         {...props}
       />
       <label

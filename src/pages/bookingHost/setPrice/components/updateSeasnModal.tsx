@@ -60,6 +60,7 @@ const UpdateSeasonModal: React.FC<IProps> = ({
     </div>
     <div className="JDmodal__endSection">
       <Button
+        mode="flat"
         onClick={() => {
           updateSeasonMu({
             variables: {

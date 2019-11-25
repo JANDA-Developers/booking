@@ -82,7 +82,7 @@ const SelectProducts: React.FC<IProps> = ({
                 return (
                   <JDproductCard
                     key={_id}
-                    productTypeDecs={productTypeDec}
+                    productTypeDec={productTypeDec}
                     setSelectedProductTypeId={setSelectedProductTypeId}
                     isCurrent={currentProductTypeId === _id}
                     isSelected={selectedProductTypeId === _id}
@@ -99,7 +99,7 @@ const SelectProducts: React.FC<IProps> = ({
                     <JDproductCard
                       key={`${_id}--slider`}
                       slider
-                      productTypeDecs={productTypeDec}
+                      productTypeDec={productTypeDec}
                       setSelectedProductTypeId={setSelectedProductTypeId}
                       isCurrent={currentProductTypeId === _id}
                       isSelected={selectedProductTypeId === _id}

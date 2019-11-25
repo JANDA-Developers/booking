@@ -4,8 +4,7 @@ import { MutationFn } from "react-apollo";
 import Timeline, {
   TimelineHeaders,
   SidebarHeader,
-  DateHeader,
-  SharedSideBarHeader
+  DateHeader
 } from "../../../atoms/timeline/Timeline";
 import ErrProtecter from "../../../utils/errProtect";
 import "./DailyPrice.scss";
@@ -33,6 +32,7 @@ import PriceWarnModal from "../../../components/priceWarnModal.tsx/PriceWarnModa
 import HeaderCellRender from "../assig/helper/HeaderCellRender";
 import DayPickerModal from "../../../components/dayPickerModal/DayPickerModal";
 import moment from "moment";
+import { SharedSideBarHeader } from "../../../atoms/timeline/components/SharedHeader";
 
 interface IProps {
   items: IItem[] | undefined;

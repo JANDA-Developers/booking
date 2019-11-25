@@ -28,6 +28,7 @@ import {
   MODAL_MIN_WIDTH,
   WindowSize
 } from "../../../types/enum";
+import MockUp from "../../../atoms/mockup/MockUp";
 import Help from "../../../atoms/Help/Help";
 import LangList from "../../../components/langList/LangList";
 import LangConfigModal from "./component/LangConfigModal";
@@ -301,22 +302,24 @@ const HMconfig: React.FC<IProps> = ({
                     )}
                   />
                 </div>
-                <HMcomponent
-                  key={`HM${currentLang}`}
-                  host={
-                    !isGuestView
-                      ? {
-                          setTitle,
-                          setEnableLngList,
-                          setMenuData,
-                          bgImageHook,
-                          emailModalHook,
-                          phoneNumberModalHook
-                        }
-                      : undefined
-                  }
-                  {...sharedProps}
-                />
+                <MockUp mockup={false}>
+                  <HMcomponent
+                    key={`HM${currentLang}`}
+                    host={
+                      !isGuestView
+                        ? {
+                            setTitle,
+                            setEnableLngList,
+                            setMenuData,
+                            bgImageHook,
+                            emailModalHook,
+                            phoneNumberModalHook
+                          }
+                        : undefined
+                    }
+                    {...sharedProps}
+                  />
+                </MockUp>
               </Fragment>
             </Card>
           </div>

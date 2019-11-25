@@ -1,16 +1,16 @@
-import React, {useState} from "react";
-import Statistic, {IStaticsWrapProps} from "./Statistic";
+import React, { useState } from "react";
+import Statistic, { IStaticsWrapProps } from "./Statistic";
 import moment from "moment";
-import {useDayPicker, LANG} from "../../../hooks/hook";
-import {Query} from "react-apollo";
+import { useDayPicker, LANG } from "../../../hooks/hook";
+import { Query } from "react-apollo";
 import {
   getSalesStatistic,
   getSalesStatisticVariables
 } from "../../../types/api";
-import {GET_SALES_STATISTIC} from "../../../apollo/queries";
-import {SalesStatisticsUnit} from "../../../types/enum";
-import {queryDataFormater} from "../../../utils/utils";
-import {IContext} from "../../bookingHost/BookingHostRouter";
+import { GET_SALES_STATISTIC } from "../../../apollo/queries";
+import { SalesStatisticsUnit } from "../../../types/enum";
+import { queryDataFormater } from "../../../utils/utils";
+import { IContext } from "../../bookingHost/BookingHostRouter";
 
 interface IProps {
   context: IContext;
@@ -27,18 +27,18 @@ class GetSalesStatistic extends Query<
   getSalesStatisticVariables
 > {}
 
-const StatisticWrap: React.FC<IProps> = ({context}) => {
-  const {house} = context;
+const StatisticWrap: React.FC<IProps> = ({ context }) => {
+  const { house } = context;
   const [queryOp, setQueryOp] = useState<IQueryOp>({
     selectStatic: LANG("sales_statistics"),
     unit: SalesStatisticsUnit.BY_DAY_OF_WEEK
   });
 
   const queryDateHook = useDayPicker(
+    new Date(),
     moment(new Date())
-      .add(-1, "day")
-      .toDate(),
-    new Date()
+      .add(1, "day")
+      .toDate()
   );
 
   const data: any[] = [];
@@ -54,7 +54,7 @@ const StatisticWrap: React.FC<IProps> = ({context}) => {
         }}
         query={GET_SALES_STATISTIC}
       >
-        {({data: statisticData, loading, error, networkStatus}) => {
+        {({ data: statisticData, loading, error, networkStatus }) => {
           const statistic = queryDataFormater(
             statisticData,
             "GetSalesStatistic",

@@ -1,12 +1,18 @@
-
 // 카드 번호 스페이스 오토
-const card_space = (val:string = "") => {
-  let chIbn = val.split('-').join('');
-  if (chIbn && chIbn.length > 0) {
-    chIbn = (chIbn.match(new RegExp('.{1,4}', 'g')) || []).join(' ') ;
+const card_space = (value: string = "") => {
+  var v = value.replace(/\s+/g, "").replace(/[^0-9]/gi, "");
+  var matches = v.match(/\d{4,16}/g);
+  var match = (matches && matches[0]) || "";
+  var parts = [];
+  for (let i = 0, len = match.length; i < len; i += 4) {
+    parts.push(match.substring(i, i + 4));
   }
-  return chIbn;
-}
+  if (parts.length) {
+    return parts.join(" ");
+  } else {
+    return value;
+  }
+};
 
 //  전화번호 형식에 맞추어 - 붙임
 const autoHypenPhone = (str: string = ""): string => {
@@ -67,4 +73,4 @@ const toNumber = (value: string | number = ""): number => {
 };
 
 export default autoHypenPhone;
-export {autoComma, numberStr, toNumber, card_space};
+export { autoComma, numberStr, toNumber, card_space };

@@ -7,7 +7,7 @@
 
 // 최상단
 .react-calendar-timeline {
-    overflow: hidden;
+    // overflow hidden을 적용시 sticky 헤더는 동작안함
     border-radius: $standard-border-radius;
     border:2px solid $outborder-color;
     div {
@@ -60,6 +60,7 @@
 
     .rct-header-root {
         position:sticky!important;
+        overflow: hidden;
     }
     .rct-calendar-header {
         background-color:$grey-level3;

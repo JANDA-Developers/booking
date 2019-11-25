@@ -76,8 +76,9 @@ const Mypage: React.SFC<IProps> = ({
                 size={IconSize.MEDIUM_LARGE}
                 isBordered
                 style={profileStyle}
+                className="JDstandard-space0"
               />
-              <p>{LANG("F_have_house_count_n")}</p>
+              <p>{LANG("F_have_house_count_n")(houses.length)}</p>
             </div>
             <div>
               <InputText
@@ -156,6 +157,7 @@ const Mypage: React.SFC<IProps> = ({
         </div>
         <div className="JDmodal__endSection">
           <Button
+            mode="flat"
             thema="primary"
             label={LANG("confirm")}
             onClick={(e: any) => {

@@ -23,9 +23,9 @@ const MypageWrap: React.FC<IProps> = ({ context, propUserData, ...props }) => {
   let userData = propUserData;
   if (!userData) userData = context.user;
   if (!userData) return <div />;
-  const nameHook = useInput(userData.name, true);
-  const phoneNumberHook = useInput(userData.phoneNumber, true);
-  const emailHook = useInput(userData.email, true);
+  const nameHook = useInput(userData.name);
+  const phoneNumberHook = useInput(userData.phoneNumber);
+  const emailHook = useInput(userData.email);
   const passwordHook = useInput("");
   const passWordModal = useModal(false);
   const houseModal = useModal(false);

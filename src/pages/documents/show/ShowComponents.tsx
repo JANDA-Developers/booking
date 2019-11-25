@@ -70,7 +70,6 @@ function ShowComponents() {
   const colorPickerHook3 = useColorPicker(defaultColor3);
   const dayPickerHook = useDayPicker(null, null);
   const switchHook = useSwitch(false);
-  const refContainer = useRef();
   const [SideNavIsOpen, setSideNavIsOpen] = useToggle(false);
   const imageUploaderHook = useImageUploader();
   const drawerHook = useDrawer(false);
@@ -209,11 +208,7 @@ function ShowComponents() {
         <ComponentWrap title="InputText">
           <div className="flex-grid">
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
-              <InputText
-                {...inputVali}
-                refContainer={refContainer}
-                label="noraml"
-              />
+              <InputText {...inputVali} label="noraml" />
             </div>
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
               <InputText
@@ -275,10 +270,10 @@ function ShowComponents() {
                 onTypeChange={onTypeChange}
                 onFindOne={onTypeChange}
                 feedBackMessage="feedBackMessage"
-                staticList
                 dataList={searchDummyData}
-                filter
                 label="normal"
+                staticList
+                filter
               />
             </div>
           </div>
@@ -505,7 +500,11 @@ function ShowComponents() {
           <JDmodal {...useModalHook}>
             <p>Modal text!</p>
             <div className="JDmodal__endSection">
-              <Button label="Close Modal" onClick={useModalHook.closeModal} />
+              <Button
+                mode="flat"
+                label="Close Modal"
+                onClick={useModalHook.closeModal}
+              />
             </div>
           </JDmodal>
         </div>

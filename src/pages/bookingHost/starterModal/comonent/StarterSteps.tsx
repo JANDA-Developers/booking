@@ -1,19 +1,19 @@
-import React, {Fragment} from "react";
-import {getRoomCountFromHouse} from "../../../../utils/utils";
+import React, { Fragment } from "react";
+import { getRoomCountFromHouse } from "../../../../utils/utils";
 import Button from "../../../../atoms/button/Button";
 import $ from "jquery";
 import CreateHouse from "../../createHouse/CreateHouse";
 import SelectProductWrap from "../../product/SelectProductWrap";
 import Ready from "../../ready/Ready";
 import RoomConfigWrap from "../../roomConfig/RoomConfigWrap";
-import {IContext} from "../../../bookingHost/BookingHostRouter";
-import {IStepsStart} from "../../../../utils/stepFinder";
-import {MutationFn} from "react-apollo";
-import {updateHouse, updateHouseVariables} from "../../../../types/api";
-import {getOperationName} from "apollo-link";
-import {GET_USER_INFO} from "../../../../apollo/queries";
+import { IContext } from "../../../bookingHost/BookingHostRouter";
+import { IStepsStart } from "../../../../utils/stepFinder";
+import { MutationFn } from "react-apollo";
+import { updateHouse, updateHouseVariables } from "../../../../types/api";
+import { getOperationName } from "apollo-link";
+import { GET_USER_INFO } from "../../../../apollo/queries";
 import "./StarterSteps.scss";
-import {LANG} from "../../../../hooks/hook";
+import { LANG } from "../../../../hooks/hook";
 
 interface IProps {
   step: IStepsStart;
@@ -31,7 +31,7 @@ const StarterSteps: React.FC<IProps> = ({
   updateHouseMu,
   setStep
 }) => {
-  const {house} = context;
+  const { house } = context;
   switch (step) {
     case "phoneVerification":
       return (
@@ -97,6 +97,7 @@ const StarterSteps: React.FC<IProps> = ({
                   });
                   setStep("done");
                 }}
+                mode="flat"
                 disabled={getRoomCountFromHouse(house) < 1}
                 size="long"
                 label={LANG("exit_room_settings")}

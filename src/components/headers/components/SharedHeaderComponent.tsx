@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useMemo } from "react";
 import NotiWrap from "../../noti/NotiWrap";
 import { IContext } from "../../../pages/bookingHost/BookingHostRouter";
 import TooltipList, {
@@ -16,22 +16,23 @@ import MemoIcon from "../../Memo/component/MemoIcon";
 import NotiIcon from "../../noti/component/NotiIcon";
 import LangSelectModal from "../../../atoms/dayPicker/component/langSelectModal";
 import CardBillingModalWrap from "../../cardBilingModal/CardBilingModalWrap";
-interface Iprops {
+
+interface IProps {
   context: IContext;
   logOutMutation: any;
   phoneVerificationModalHook: IUseModal;
 }
 
-const SharedHeaderComponent: React.FC<Iprops> = ({
+const SharedHeaderComponent: React.FC<IProps> = ({
   context,
   logOutMutation,
   phoneVerificationModalHook
 }) => {
-  const { user } = context;
+  const { user, applyedProduct } = context;
   const { isPhoneVerified } = user;
   const memoModalHook = useModal();
   const langSelectModal = useModal();
-  const cardBillModalWrap = useModal();
+  const cardBillModalHook = useModal();
 
   // 로그 여부와 상관없이 공유된
   const sharedOverLogin = (
@@ -142,7 +143,9 @@ const SharedHeaderComponent: React.FC<Iprops> = ({
         <div className="JDtext-blink header__btns">
           <Button
             thema="primary"
-            onClick={() => {}}
+            onClick={() => {
+              cardBillModalHook.openModal();
+            }}
             label={LANG("card_resist")}
           />
         </div>
@@ -188,7 +191,9 @@ const SharedHeaderComponent: React.FC<Iprops> = ({
         modalHook={memoModalHook}
       />
       <LangSelectModal modalHook={langSelectModal} context={context} />
-      <CardBillingModalWrap modalHook={cardBillModalWrap} context={context} />
+      {applyedProduct && (
+        <CardBillingModalWrap modalHook={cardBillModalHook} context={context} />
+      )}
     </Fragment>
   );
 };

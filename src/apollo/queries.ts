@@ -672,6 +672,7 @@ export const GET_USER_INFO = gql`
     ${F_PRODUCT}
     ${F_APP_INFO_REQUEST}
     ${F_HOUSE_CONFIG}
+    ${F_PRODUCT_TYPE}
 `;
 
 // 슈퍼계정 :: 모든집 가져오기

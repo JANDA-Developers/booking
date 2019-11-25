@@ -8,7 +8,6 @@ const RegiComplete: React.FC = () => {
       <div className="JDstandard-margin-bottom">
         {LANG("registration_confirmation")}
       </div>
-      <CompleteCircle />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from "react";
+import React, { Fragment, useState } from "react";
 import JDmodal from "../../../../atoms/modal/Modal";
 import {
   IUseModal,
@@ -8,7 +8,7 @@ import {
   LANG
 } from "../../../../hooks/hook";
 import Button from "../../../../atoms/button/Button";
-import {smsMsgParser, smsMessageFormatter} from "../../../../utils/utils";
+import { smsMsgParser, smsMessageFormatter } from "../../../../utils/utils";
 import {
   getSmsInfo_GetSmsInfo_smsInfo,
   SendTarget,
@@ -20,22 +20,22 @@ import {
   createSmsTemplate,
   createSmsTemplateVariables
 } from "../../../../types/api";
-import {IContext} from "../../../bookingHost/BookingHostRouter";
-import {DEFAULT_SMS_TEMPLATE} from "../../../../types/defaults";
+import { IContext } from "../../../bookingHost/BookingHostRouter";
+import { DEFAULT_SMS_TEMPLATE } from "../../../../types/defaults";
 import {
   SmsReplaceKeyEnumKeys,
   AUTO_SEND_OP,
   SMS_TARGET_OP
 } from "../../../../types/enum";
 import InputText from "../../../../atoms/forms/inputText/InputText";
-import {MutationFn} from "react-apollo";
+import { MutationFn } from "react-apollo";
 import JDLabel from "../../../../atoms/label/JDLabel";
 import JDselect, {
   SelectBoxSize
 } from "../../../../atoms/forms/selectBox/SelectBox";
 import JDswitch from "../../../../atoms/forms/switch/Switch";
 import Help from "../../../../atoms/Help/Help";
-import {IconSize} from "../../../../atoms/icons/Icons";
+import { IconSize } from "../../../../atoms/icons/Icons";
 
 export interface ISmsTemplateModalProps {
   templateId: string;
@@ -68,10 +68,10 @@ const SmsTemplateModal: React.FC<Iprops> = ({
   context,
   modalHook
 }) => {
-  const {house} = context;
-  const {_id: houseId} = house;
-  const {templateId, isAdd} = modalHook.info;
-  const {smsTemplates = []} = smsInfo;
+  const { house } = context;
+  const { _id: houseId } = house;
+  const { templateId, isAdd } = modalHook.info;
+  const { smsTemplates = [] } = smsInfo;
   const {
     createSmsTemplateMu,
     deleteSmsTemplateMu,
@@ -107,8 +107,8 @@ const SmsTemplateModal: React.FC<Iprops> = ({
   });
   const templateTitleHook = useInput(defaultFormatName);
 
-  const {selectedOption: sendTSO} = sendTargetHook;
-  const {selectedOption: sendASO} = autoSendHook;
+  const { selectedOption: sendTSO } = sendTargetHook;
+  const { selectedOption: sendASO } = autoSendHook;
   const AutoSendWhenTemp =
     sendTSO && sendTSO.value && sendASO && sendASO.value
       ? {
@@ -219,12 +219,14 @@ const SmsTemplateModal: React.FC<Iprops> = ({
       </Fragment>
       <div className="JDmodal__endSection">
         <Button
+          mode="flat"
           size="small"
           label={isAdd ? LANG("do_create") : LANG("do_copy")}
           thema="primary"
           onClick={handleCreateBtnClick}
         />
         <Button
+          mode="flat"
           size="small"
           label={LANG("do_modify")}
           thema="primary"
@@ -232,6 +234,7 @@ const SmsTemplateModal: React.FC<Iprops> = ({
           onClick={handleUpdateBtnClick}
         />
         <Button
+          mode="flat"
           size="small"
           label={LANG("delete_booking")}
           thema="error"

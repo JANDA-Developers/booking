@@ -15,6 +15,7 @@ interface Iprops extends IDiv, IuseImageUploaderOP {
   config?: boolean;
   className?: string;
   onClick?(): void;
+  isError?: boolean;
 }
 
 const ProfileCircle: React.FC<Iprops> = ({
@@ -27,12 +28,14 @@ const ProfileCircle: React.FC<Iprops> = ({
   file,
   onChangeFile,
   uploading,
+  isError,
   ...props
 }) => {
   const { url } = file || DEFAULT_FILE;
 
   const classes = classNames("profileCircle JDwaves-effect", className, {
     "profileCircle--bordered": isBordered,
+    "profileCircle--error": isError,
     "profileCircle--whiteBorder": whiteBorder
   });
 

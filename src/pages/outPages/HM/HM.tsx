@@ -113,6 +113,7 @@ const HMcompoent: React.FC<IProps> = ({
                 ) : (
                   <div>
                     <InputText
+                      overfloweEllipsis
                       textAlign="center"
                       value={title[currentLang]}
                       onChange={value => {

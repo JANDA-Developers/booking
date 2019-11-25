@@ -13,7 +13,7 @@ import ToastError from "../components/toasts/ErrorToast";
 import { JDlang } from "../langs/JDlang";
 import { CURRENT_LANG } from "../hooks/hook";
 import { Observable, ApolloLink } from "apollo-link";
-import { withClientState } from "apollo-link-state";
+// DEFRECATEDDDDD
 import { onError, ErrorResponse } from "apollo-link-error";
 import { createUploadLink } from "apollo-upload-client";
 
@@ -75,8 +75,8 @@ dotenv.config({
   path: "../.env"
 });
 
-const clinetStatuss = {
-  defaults: {
+cache.writeData({
+  data: {
     auth: {
       __typename: "Auth",
       isLogIn: Boolean(localStorage.getItem("jwt"))
@@ -86,16 +86,14 @@ const clinetStatuss = {
       value: localStorage.getItem("selectId"),
       label: localStorage.getItem("selectHouseLabel")
     }
-  },
-  resolvers,
-  cache
-};
+  }
+});
 
 const client = new ApolloClient({
+  resolvers,
   link: ApolloLink.from([
     onError(hanldeError),
     requestLink,
-    withClientState(clinetStatuss),
     createUploadLink({
       uri,
       credentials: "omit"

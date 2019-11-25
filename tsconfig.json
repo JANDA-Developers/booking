@@ -19,15 +19,11 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
-    "src/pages/documents/show/ShowComponents.tsx",
-    "src/pages/outPages/infoReservation/InfoReservation.jsx",
-    "src/atoms/timeline/Timeline.jsx",
     "src/components/sendSmsModal",
     "src/pages/documents/pages.jsxver/pages.jsx",
     "src/.queries.ts",
     "src/atoms/toggleNoti",
-    "src/pages/bookingServer/dashboard/components/tempWheel.js",
-    "src/utils/iosScrollUnBounce.js",
-    "src/polyfill/polyfill.js", "src/components/cardResistModal"
-  ]
+    "src/components/cardResistModal"
+  ],
+  "exclude": ["node_modules"]
 }

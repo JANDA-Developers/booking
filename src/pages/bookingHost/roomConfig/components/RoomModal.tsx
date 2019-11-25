@@ -75,12 +75,14 @@ const RoomTypeModal: React.FC<IProps> = ({
       </div>
       <div className="JDmodal__endSection">
         <Button
+          mode="flat"
           label={LANG("do_create")}
           thema="primary"
           size="small"
           onClick={onCreateRoom}
         />
         <Button
+          mode="flat"
           label={LANG("do_modify")}
           thema="primary"
           size="small"
@@ -88,6 +90,7 @@ const RoomTypeModal: React.FC<IProps> = ({
           onClick={onUpdateRoom}
         />
         <Button
+          mode="flat"
           label={LANG("do_delete")}
           size="small"
           thema="error"

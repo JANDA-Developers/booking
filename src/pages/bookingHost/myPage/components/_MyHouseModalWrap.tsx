@@ -5,7 +5,7 @@ import {
   GET_USER_INFO,
   GET_HOUSE
 } from "../../../../apollo/queries";
-import MyHouseModal from "./myHouseModal";
+import MyHouseModal from "./MyHouseModal";
 import { IUseModal, LANG } from "../../../../hooks/hook";
 import {
   onCompletedMessage,

@@ -1,4 +1,4 @@
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import "moment/locale/ko";
 import ErrProtecter from "../../../utils/errProtect";
 import Button from "../../../atoms/button/Button";
@@ -12,22 +12,21 @@ import {
 } from "../../../types/api";
 import Preloader from "../../../atoms/preloader/Preloader";
 import JDIcon from "../../../atoms/icons/Icons";
-import {useModal, LANG} from "../../../hooks/hook";
+import { useModal, LANG } from "../../../hooks/hook";
 import RoomTypeModalWrap, {
   IRoomTypeModalInfo
 } from "./components/RoomTypeModalWrap";
-import RoomModalWrap, {IRoomModalInfo} from "./components/RoomModalWrap";
+import RoomModalWrap, { IRoomModalInfo } from "./components/RoomModalWrap";
 import Card from "../../../atoms/cards/Card";
 import JDbox from "../../../atoms/box/JDbox";
-import {MutationFn} from "react-apollo";
-import {IContext} from "../../bookingHost/BookingHostRouter";
+import { MutationFn } from "react-apollo";
+import { IContext } from "../../bookingHost/BookingHostRouter";
 import Help from "../../../atoms/Help/Help";
 import RoomTypeInfo from "../../../components/roomTypeInfo/RoomTypeInfo";
-import {PureQueryOptions} from "apollo-client";
+import { PureQueryOptions } from "apollo-client";
 
 interface IProps {
   items?: any;
-  defaultProps: any;
   setConfigMode: any;
   context: IContext;
   loading?: boolean;

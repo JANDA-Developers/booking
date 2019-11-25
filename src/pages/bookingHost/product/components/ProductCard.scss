@@ -3,7 +3,7 @@
 .JDproduct {
     position: relative;
     display:flex;
-    height:300px;
+    height: 21.5rem;
     flex-direction: column;
     padding:1rem;
     transition:.3s;
@@ -16,6 +16,10 @@
         height: 330px;
     }
 
+    &__badgeWrap {
+        position: absolute;
+    }
+
     &__icon {
         margin-top: $standard-margin-bottom;
         margin-bottom: $standard-margin-bottom + 0.2rem;
@@ -23,8 +27,8 @@
 
     &__price {
         position: absolute;
-        bottom: 1rem; 
         left: 0;
+        bottom: .5rem; // 보정상수
         width: 100%;
     }
 
