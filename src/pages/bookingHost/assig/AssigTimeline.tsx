@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+  Fragment
+} from "react";
 import { Link } from "react-router-dom";
 import "moment/locale/ko";
 import _ from "lodash";
@@ -57,6 +63,8 @@ import { PortalPreloader } from "../../../utils/portalElement";
 import DayPickerModal from "../../../components/dayPickerModal/DayPickerModal";
 import { IContext } from "../BookingHostRouter";
 import { SharedSideBarHeader } from "../../../atoms/timeline/components/SharedHeader";
+import PageHeader from "../../../components/pageHeader/PageHeader";
+import PageBody from "../../../components/pageBody/PageBody";
 
 interface IProps {
   context: IContext;
@@ -82,7 +90,7 @@ interface IProps {
   reloadTimeline: () => void;
 }
 
-const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
+const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
   dayPickerHook,
   defaultProps,
   groupData,
@@ -120,7 +128,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   const [viewRoomType, setViewRoomType] = useState(
     roomTypesData.map(roomType => roomType._id)
   );
-  const { datas: holidays } = getKoreaSpecificDayHook(["2019", "2018"]);
+  // const { datas: holidays } = getKoreaSpecificDayHook(["2019", "2018"]);
   const bookingModal = useModal(false);
   const blockOpModal = useModal<IAssigItem>(false, DEFAULT_ASSIG_ITEM);
   const [blockMenuProps, setBlockMenuProps] = useState<IDeleteMenuProps>({
@@ -141,10 +149,10 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
     const handleClickWindow = () => {
       allTooltipsHide();
     };
-    $(".rct-header-root").mousedown(e => {
-      // e.preventDefault();
-      // e.stopPropagation();
-    });
+    // $(".rct-header-root").mousedown(e => {
+    //   // e.preventDefault();
+    //   // e.stopPropagation();
+    // });
     window.addEventListener("scroll", handleWindowScrollEvent);
     window.addEventListener("click", handleClickWindow);
     return () => {
@@ -156,15 +164,12 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   // 풀링으로 새로받은 게스트데이터를 적용시켜준다.
   useEffect(() => {
     if (networkStatus >= 7) {
-      console.log("🎅 ??");
-
+      console.count("volatilityEffectCount");
       const newIndexStart = deafultGuestsData.length;
 
-      // TODO 함수분리
       // 업데이트전 휘발성 블럭들을 찾아서 합쳐줍니다.
-      const volatilityBlocks = guestValue.filter(
-        guest => guest.type === GuestTypeAdd.MARK
-      );
+      const volatilityBlocks = getItemByTypes(GuestTypeAdd.MARK);
+
       // 휘발성 블록들의 인덱스를 다시 정의해줍니다.
       volatilityBlocks.forEach(
         (block, index) => (block.itemIndex = newIndexStart + index)
@@ -212,7 +217,12 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
 
   const { roomTypeTabEnable } = assigTimeline;
 
-  const { allTooltipsHide, removeMark, hilightHeader } = assigUtils;
+  const {
+    allTooltipsHide,
+    removeMark,
+    getItemByTypes,
+    hilightHeader
+  } = assigUtils;
 
   const assigHandler = useMemo(
     () => getAssigHandlers(assigUtils, assigContext, assigHooks),
@@ -250,7 +260,9 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
         date: moment(intervalContext.interval.startTime).toDate()
       });
     };
-    return HeaderCellRender({ onClickCell, holidays, ...prop });
+    return (
+      <HeaderCellRender onClickCell={onClickCell} holidays={[]} {...prop} />
+    );
   }, []);
 
   // 아예 그룹이 없을떄 처리
@@ -277,26 +289,27 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
   if (isEmpty(filteredGroup)) filteredGroup = [DEFAULT_NONE_GOUP];
 
   return (
-    <div>
-      <div
-        id="AssigTimeline"
-        className={`${timelineClassNames} container container--full`}
-        onDoubleClick={handleTimelineWrapClickEvent}
-        onClick={e => {
-          // 윈도우 마우스클릭 이벤트를 방지함
-          e.stopPropagation();
-        }}
-      >
-        <div className="docs-section">
-          <h3 className="assigTimeline__titleSection">
-            {LANG("allocation_calendar")}
-            <PortalPreloader
-              size="small"
-              floating
-              loading={loading}
-              className="assigTimeline__mainPreloder"
-            />
-          </h3>
+    <Fragment>
+      <PageHeader
+        title={LANG("allocation_calendar")}
+        desc={LANG("assigTimeline__decs")}
+      />
+      <PortalPreloader
+        size="small"
+        floating
+        loading={loading}
+        className="assigTimeline__mainPreloder"
+      />
+      <PageBody>
+        <div
+          id="AssigTimeline"
+          className={timelineClassNames}
+          onDoubleClick={handleTimelineWrapClickEvent}
+          onClick={e => {
+            // 윈도우 마우스클릭 이벤트를 방지함
+            e.stopPropagation();
+          }}
+        >
           <div className="flex-grid flex-grid--end">
             <div>
               <Button
@@ -330,6 +343,7 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
             </div>
             {roomTypeTabEnable && (
               <JDmultiBox
+                noWrap
                 defaultAllToogle={true}
                 withAllTooglerLabel={LANG("see_all")}
                 withAllToogler
@@ -426,45 +440,41 @@ const ShowTimeline: React.FC<IProps & WindowSizeProps> = ({
               </Link>
             </div>
           )}
-        </div>
-        <ReservationModal
-          modalHook={reservationModal}
-          callBackCreateBookingMu={CreateBooking => {
-            if (
-              CreateBooking.bookingTransaction &&
-              CreateBooking.bookingTransaction.booking
-            ) {
-              assigUtils.hilightGuestBlock({
-                bookingId: CreateBooking.bookingTransaction.booking._id,
-                scrollMove: true
-              });
-            }
-          }}
-          context={context}
-          publicKey={house.publicKey || undefined}
-        />
-        <BookingModalWrap context={context} modalHook={bookingModal} />
-        <JDtoastModal confirm {...confirmModalHook} />
-        {/* <KeyBoardModal modalHook={keyBoardModal}> */}
-        <JDmodal {...dailyAssigHook}>
-          <DailyAssigWrap
-            isInModal
-            date={dailyAssigHook.info.date}
+          <ReservationModal
+            modalHook={reservationModal}
+            callBackCreateBookingMu={CreateBooking => {
+              if (
+                CreateBooking.bookingTransaction &&
+                CreateBooking.bookingTransaction.booking
+              ) {
+                assigUtils.hilightGuestBlock({
+                  bookingId: CreateBooking.bookingTransaction.booking._id,
+                  scrollMove: true
+                });
+              }
+            }}
             context={context}
+            publicKey={house.publicKey || undefined}
           />
-        </JDmodal>
-      </div>
-      <DayPickerModal
-        modalHook={dayPickerModalHook}
-        isRange={false}
-        canSelectBeforeDay={true}
-        calenaderPosition="center"
-        label={`${LANG("calender_date")}`}
-        {...dayPickerHook}
-        className="JDwaves-effect JDoverflow-visible"
-      />
-    </div>
+          <BookingModalWrap context={context} modalHook={bookingModal} />
+          <JDtoastModal confirm {...confirmModalHook} />
+          {/* <KeyBoardModal modalHook={keyBoardModal}> */}
+          <JDmodal {...dailyAssigHook}>
+            <DailyAssigWrap date={dailyAssigHook.info.date} context={context} />
+          </JDmodal>
+        </div>
+        <DayPickerModal
+          modalHook={dayPickerModalHook}
+          isRange={false}
+          canSelectBeforeDay={true}
+          calenaderPosition="center"
+          label={`${LANG("calender_date")}`}
+          {...dayPickerHook}
+          className="JDwaves-effect JDoverflow-visible"
+        />
+      </PageBody>
+    </Fragment>
   );
 };
 
-export default ErrProtecter(ShowTimeline);
+export default ErrProtecter(AssigTimeline);

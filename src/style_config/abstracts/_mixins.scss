@@ -5,6 +5,31 @@
 
 //마우스가 위에 올라왔을때 효과
 
+@mixin mb--prefixer($Before: "&", $After: "") {
+    #{$Before}--largest-mb #{$After}{
+        margin-bottom: $standard-largest-space;
+    }   
+    #{$Before}--huge-mb #{$After}{
+        margin-bottom: $standard-huge-space;
+    }
+    #{$Before}--large-mb #{$After}{
+        margin-bottom: $standard-large-space;
+    }
+    #{$Before}--space-mb #{$After}{
+        margin-bottom: $standard-space;
+    }
+    #{$Before}--small-mb #{$After}{
+        margin-bottom: $standard-small-space;
+    }
+    #{$Before}--tiny-mb #{$After}{
+        margin-bottom: $standard-tiny-space;
+
+    }
+    #{$Before}--superTiny-mb #{$After}{
+        margin-bottom: $standard-superTiny-space;
+    }
+}
+
 @mixin sizeText--prefixer() {
     &--h1 {
         @extend %h1;
@@ -69,7 +94,7 @@
         color: $html-color;
 
         &:hover {
-            color: $grey-level4;
+            color: $grey-level5;
         } 
     }
 
@@ -117,6 +142,42 @@
     }
 }
 
+
+@mixin iconSize--prefixer($n: 1, $After: "") {
+
+    &--tiny#{$After} {
+        width: $icon-size-tiny * $n;
+        height: $icon-size-tiny * $n;
+    }
+
+    &--small#{$After} {
+        width: $icon-size-small * $n;
+        height: $icon-size-small * $n;
+    }
+       
+    &--normal#{$After} {
+        width: $icon-size-normal * $n;
+        height: $icon-size-normal * $n;
+    }
+       
+    &--large#{$After} {
+        width: $icon-size-large * $n;
+        height: $icon-size-large * $n;
+    }
+       
+    &--huge#{$After} {
+        width: $icon-size-huge * $n;
+        height: $icon-size-huge * $n;
+    }
+
+    &--largest#{$After} {
+        width: $icon-size-largest * $n;
+        height: $icon-size-largest * $n;
+    }
+}
+
+
+
 @mixin colorBorder--prefixer($After:"") { 
     &--primary#{$After} {
         border-color: $primary-color;
@@ -143,7 +204,7 @@
     &--black#{$After} {
         border-color: $html-color;
         &:hover {
-            border-color: $grey-level4;
+            border-color: $grey-level5;
         } 
     }
 
@@ -179,7 +240,6 @@
             border-color: $positive-color-dark;
         } 
     }
-
 }
 @mixin colorBg--prefixer($After:"") {
 
@@ -221,7 +281,7 @@
         color:white;
 
         &:hover {
-            background-color: $grey-level4;
+            background-color: $grey-level5;
         } 
     }
 
@@ -308,6 +368,10 @@
     #{$condition}.JDbox--border {
         @content;
     }
+}
+
+@mixin shadow($depth) {
+    @extend %z-depth-#{$depth}; 
 }
 
 /* stylelint-disable declaration-block-no-duplicate-properties  */

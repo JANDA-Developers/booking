@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import moment from "moment-timezone";
 import _ from "lodash";
 import assigDefaultProps from "./timelineConfig";
@@ -133,16 +133,17 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
     }
   );
 
-  const roomTypesData = queryDataFormater(
-    data,
-    "GetAllRoomType",
-    "roomTypes",
-    undefined
-  ); // 원본데이터
+  // 주기 풀링 왜에는 잘 호출되지 않는것 같다.
+  console.count("callingWrapCount");
+
+  const roomTypesData =
+    queryDataFormater(data, "GetAllRoomType", "roomTypes", []) || []; // 원본데이터
 
   const guestsData = queryDataFormater(data, "GetGuests", "guests", []) || [];
   const blocks = queryDataFormater(data, "GetBlocks", "blocks", []) || [];
-  const formatedRoomData = roomDataManufacturer(roomTypesData); // 타임라인을 위해 가공된 데이터
+  const formatedRoomData = useMemo(() => roomDataManufacturer(roomTypesData), [
+    roomTypesData.length
+  ]); // 타임라인을 위해 가공된 데이터
   const formatedGuestsData = guestsDataManufacturer(guestsData); // 타임라인을 위해 가공된 데이터
   const formatedBlockData = blockDataManufacturer(blocks); // 타임라인을 위해 가공된 데이터
   const formatedItemData = formatedGuestsData
@@ -159,30 +160,6 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
   >(ALLOCATE_GUEST_TO_ROOM, {
     client,
     ignoreResults: true,
-    update: (cache, { data: inData }) => {
-      const cacheData: getAllRoomTypeWithGuest | null = cache.readQuery({
-        query: GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM,
-        variables: updateVariables
-      });
-      if (cacheData && inData) {
-        const result = _.unionBy(
-          [inData.AllocateGuestToRoom.guest],
-          cacheData.GetGuests.guests,
-          "_id"
-        );
-
-        cache.writeQuery({
-          query: GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM,
-          data: {
-            GetAllRoomType: cacheData.GetAllRoomType,
-            GetGuests: {
-              ...cacheData.GetGuests,
-              guests: result
-            }
-          }
-        });
-      }
-    },
     onCompleted: ({ AllocateGuestToRoom }) => {
       onCompletedMessage(
         AllocateGuestToRoom,

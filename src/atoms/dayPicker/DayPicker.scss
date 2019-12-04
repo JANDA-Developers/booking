@@ -1,4 +1,4 @@
-@import "~Styles/style_config.scss";
+@import "~Styles";
 
 
 // end부분 회색주석
@@ -9,7 +9,7 @@
             border-color: transparent;
         .DayPicker-Week {
             .DayPicker-Day--selected.DayPicker-Day.DayPicker-Day--end {
-                background-color: $orange-color!important;
+                background-color: $daypicker-checkOut-bgColor!important;
             }
         }
     }
@@ -36,7 +36,7 @@
             border:none;
             border-radius: 0px 0px $daypicker-border-radius $daypicker-border-radius;
             min-width: 330px;
-        }    
+        }
 
         &--showWeekEndColor {
             .DayPicker-WeekdaysRow {
@@ -205,7 +205,7 @@
 
                             // 시작과 끝 포함 사이의 날자들 포함
                             &--selected {
-                                background-color: $primary-color;
+                                background-color:  $primary-color;
                                 color: $primary-color-on;
                                 border-radius: 0%;
                             }

@@ -7,7 +7,7 @@ import {
   getAllRoomTypeWithGuest_GetBlocks_blocks as IB
 } from "../../../types/api";
 import { instanceOfA } from "../../../utils/utils";
-import JDIcon, { IconSize } from "../../../atoms/icons/Icons";
+import JDIcon from "../../../atoms/icons/Icons";
 import { ReactTooltip } from "../../../atoms/tooltip/Tooltip";
 import moment from "moment";
 import classNames from "classnames";
@@ -106,7 +106,7 @@ const DragItem: React.FC<IProps> = ({ item, place, room, roomType }) => {
                 id={`dailyAssigItem__configIconWrapId${_id}`}
                 className="dailyAssigItem__configIconWrap"
               >
-                <JDIcon icon="dotMenuVertical" size={IconSize.MEDEIUM_SMALL} />
+                <JDIcon icon="dotMenuVertical" size={"small"} />
               </span>
             </div>
           );

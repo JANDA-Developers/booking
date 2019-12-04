@@ -11,6 +11,18 @@ export interface getSpecification_GetHouse_house_appInfo {
   url: any;
 }
 
+export interface getSpecification_GetHouse_house_product_status {
+  __typename: "ProductStatus";
+  /**
+   * 계속 이용 여부 => false면 더이상 결제 안하고 expireDate 연장 안함
+   */
+  isContinue: boolean;
+  /**
+   * isContinue === false 인경우 생성됨
+   */
+  discontinueDate: any | null;
+}
+
 export interface getSpecification_GetHouse_house_product_appInfoRequested {
   __typename: "AppInfoRequest";
   url: string;
@@ -40,6 +52,8 @@ export interface getSpecification_GetHouse_house_product {
    * 제품 가격(월)
    */
   price: number | null;
+  billKey: string | null;
+  status: getSpecification_GetHouse_house_product_status;
   /**
    * 할인된 가격
    */
@@ -78,10 +92,35 @@ export interface getSpecification_GetHouse_house_product {
   description: string | null;
   createdAt: any;
   updatedAt: any | null;
-  appInfoRequested:
-    | getSpecification_GetHouse_house_product_appInfoRequested[]
-    | null;
+  /**
+   * 사용자 앱 요청사항 History => ex) 홈페이지 요청, 하우스메뉴얼 사용 요청 등등
+   */
+  appInfoRequested: getSpecification_GetHouse_house_product_appInfoRequested[] | null;
   productType: getSpecification_GetHouse_house_product_productType;
+}
+
+export interface getSpecification_GetHouse_house_user_profileImg_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface getSpecification_GetHouse_house_user_profileImg {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: getSpecification_GetHouse_house_user_profileImg_tags[] | null;
+}
+
+export interface getSpecification_GetHouse_house_user_paymentInfos {
+  __typename: "PaymentInfo";
+  authDate: any;
+  billKey: string;
+  cardName: string;
+  cardNo: string;
+  cardCl: number;
+  isLive: boolean;
 }
 
 export interface getSpecification_GetHouse_house_user {
@@ -89,13 +128,19 @@ export interface getSpecification_GetHouse_house_user {
   _id: string;
   name: any;
   phoneNumber: any;
+  password: any | null;
   /**
    * 주요 관리 수단임.. 잘 관리하도록 ㅎ
    */
   email: any;
+  profileImg: getSpecification_GetHouse_house_user_profileImg | null;
   isPhoneVerified: boolean;
+  checkPrivacyPolicy: boolean;
   userRole: UserRole;
   userRoles: UserRole[] | null;
+  createdAt: any;
+  updatedAt: any | null;
+  paymentInfos: getSpecification_GetHouse_house_user_paymentInfos[] | null;
 }
 
 export interface getSpecification_GetHouse_house_HM {
@@ -406,6 +451,18 @@ export interface getMyProfile_GetMyProfile_user_houses_appInfo {
   url: any;
 }
 
+export interface getMyProfile_GetMyProfile_user_houses_product_status {
+  __typename: "ProductStatus";
+  /**
+   * 계속 이용 여부 => false면 더이상 결제 안하고 expireDate 연장 안함
+   */
+  isContinue: boolean;
+  /**
+   * isContinue === false 인경우 생성됨
+   */
+  discontinueDate: any | null;
+}
+
 export interface getMyProfile_GetMyProfile_user_houses_product_productType {
   __typename: "ProductType";
   _id: string;
@@ -466,6 +523,8 @@ export interface getMyProfile_GetMyProfile_user_houses_product {
    * 제품 가격(월)
    */
   price: number | null;
+  billKey: string | null;
+  status: getMyProfile_GetMyProfile_user_houses_product_status;
   /**
    * 할인된 가격
    */
@@ -505,9 +564,10 @@ export interface getMyProfile_GetMyProfile_user_houses_product {
   createdAt: any;
   updatedAt: any | null;
   productType: getMyProfile_GetMyProfile_user_houses_product_productType;
-  appInfoRequested:
-    | getMyProfile_GetMyProfile_user_houses_product_appInfoRequested[]
-    | null;
+  /**
+   * 사용자 앱 요청사항 History => ex) 홈페이지 요청, 하우스메뉴얼 사용 요청 등등
+   */
+  appInfoRequested: getMyProfile_GetMyProfile_user_houses_product_appInfoRequested[] | null;
 }
 
 export interface getMyProfile_GetMyProfile_user_houses_location {
@@ -518,20 +578,30 @@ export interface getMyProfile_GetMyProfile_user_houses_location {
 
 export interface getMyProfile_GetMyProfile_user_houses {
   __typename: "House";
-  houseConfig: getMyProfile_GetMyProfile_user_houses_houseConfig;
-  smsInfo: getMyProfile_GetMyProfile_user_houses_smsInfo;
-  roomTypes: getMyProfile_GetMyProfile_user_houses_roomTypes[] | null;
-  appInfo: getMyProfile_GetMyProfile_user_houses_appInfo | null;
-  product: getMyProfile_GetMyProfile_user_houses_product | null;
   _id: string;
+  completeDefaultSetting: boolean;
   name: string;
   houseType: HouseType;
   status: HouseStatus | null;
   publicKey: string | null;
   createdAt: any;
   updatedAt: any | null;
-  completeDefaultSetting: boolean;
+  houseConfig: getMyProfile_GetMyProfile_user_houses_houseConfig;
+  smsInfo: getMyProfile_GetMyProfile_user_houses_smsInfo;
+  roomTypes: getMyProfile_GetMyProfile_user_houses_roomTypes[] | null;
+  appInfo: getMyProfile_GetMyProfile_user_houses_appInfo | null;
+  product: getMyProfile_GetMyProfile_user_houses_product | null;
   location: getMyProfile_GetMyProfile_user_houses_location;
+}
+
+export interface getMyProfile_GetMyProfile_user_paymentInfos {
+  __typename: "PaymentInfo";
+  authDate: any;
+  billKey: string;
+  cardName: string;
+  cardNo: string;
+  cardCl: number;
+  isLive: boolean;
 }
 
 export interface getMyProfile_GetMyProfile_user {
@@ -552,6 +622,7 @@ export interface getMyProfile_GetMyProfile_user {
   createdAt: any;
   updatedAt: any | null;
   houses: getMyProfile_GetMyProfile_user_houses[];
+  paymentInfos: getMyProfile_GetMyProfile_user_paymentInfos[] | null;
 }
 
 export interface getMyProfile_GetMyProfile {
@@ -831,9 +902,7 @@ export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roo
   url: any;
   filename: string;
   mimeType: string;
-  tags:
-    | dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_img_tags[]
-    | null;
+  tags: dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_img_tags[] | null;
 }
 
 export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType {
@@ -872,18 +941,14 @@ export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_dat
 export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices {
   __typename: "RoomTypeDatePrice";
   roomType: dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType;
-  datePrices:
-    | dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices[]
-    | null;
+  datePrices: dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices[] | null;
 }
 
 export interface dailyPriceGetPrice_GetRoomTypeDatePrices {
   __typename: "GetRoomTypeDatePricesResponse";
   ok: boolean;
   error: string | null;
-  roomTypeDatePrices:
-    | dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices[]
-    | null;
+  roomTypeDatePrices: dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices[] | null;
 }
 
 export interface dailyPriceGetPrice_GetAllRoomType_roomTypes {
@@ -961,9 +1026,7 @@ export interface getCapacityToRoomType_GetCapacityToRoomType_capacityRoomType_Ca
   availableCount: getCapacityToRoomType_GetCapacityToRoomType_capacityRoomType_CapacityRoomTypeDomitory_availableCount;
 }
 
-export type getCapacityToRoomType_GetCapacityToRoomType_capacityRoomType =
-  | getCapacityToRoomType_GetCapacityToRoomType_capacityRoomType_CapacityRoomType
-  | getCapacityToRoomType_GetCapacityToRoomType_capacityRoomType_CapacityRoomTypeDomitory;
+export type getCapacityToRoomType_GetCapacityToRoomType_capacityRoomType = getCapacityToRoomType_GetCapacityToRoomType_capacityRoomType_CapacityRoomType | getCapacityToRoomType_GetCapacityToRoomType_capacityRoomType_CapacityRoomTypeDomitory;
 
 export interface getCapacityToRoomType_GetCapacityToRoomType {
   __typename: "GetCapacityToRoomTypeResponse";
@@ -1008,9 +1071,7 @@ export interface getCapacityToRoomTypeForBooker_GetCapacityToRoomTypeForBooker_c
   availableCount: getCapacityToRoomTypeForBooker_GetCapacityToRoomTypeForBooker_capacityRoomType_CapacityRoomTypeDomitory_availableCount;
 }
 
-export type getCapacityToRoomTypeForBooker_GetCapacityToRoomTypeForBooker_capacityRoomType =
-  | getCapacityToRoomTypeForBooker_GetCapacityToRoomTypeForBooker_capacityRoomType_CapacityRoomType
-  | getCapacityToRoomTypeForBooker_GetCapacityToRoomTypeForBooker_capacityRoomType_CapacityRoomTypeDomitory;
+export type getCapacityToRoomTypeForBooker_GetCapacityToRoomTypeForBooker_capacityRoomType = getCapacityToRoomTypeForBooker_GetCapacityToRoomTypeForBooker_capacityRoomType_CapacityRoomType | getCapacityToRoomTypeForBooker_GetCapacityToRoomTypeForBooker_capacityRoomType_CapacityRoomTypeDomitory;
 
 export interface getCapacityToRoomTypeForBooker_GetCapacityToRoomTypeForBooker {
   __typename: "GetCapacityToRoomTypeResponse";
@@ -1049,9 +1110,7 @@ export interface getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_img {
   url: any;
   filename: string;
   mimeType: string;
-  tags:
-    | getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_img_tags[]
-    | null;
+  tags: getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_img_tags[] | null;
 }
 
 export interface getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_rooms {
@@ -1321,9 +1380,7 @@ export interface findBookingForBooker_FindBookingForBooker_bookings_roomTypes_im
   url: any;
   filename: string;
   mimeType: string;
-  tags:
-    | findBookingForBooker_FindBookingForBooker_bookings_roomTypes_img_tags[]
-    | null;
+  tags: findBookingForBooker_FindBookingForBooker_bookings_roomTypes_img_tags[] | null;
 }
 
 export interface findBookingForBooker_FindBookingForBooker_bookings_roomTypes {
@@ -1394,9 +1451,7 @@ export interface findBookingForBooker_FindBookingForBooker_bookings_guests {
 export interface findBookingForBooker_FindBookingForBooker_bookings {
   __typename: "Booking";
   _id: string;
-  roomTypes:
-    | findBookingForBooker_FindBookingForBooker_bookings_roomTypes[]
-    | null;
+  roomTypes: findBookingForBooker_FindBookingForBooker_bookings_roomTypes[] | null;
   isNew: boolean;
   name: any;
   password: string | null;
@@ -1452,9 +1507,7 @@ export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_
   url: any;
   filename: string;
   mimeType: string;
-  tags:
-    | getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_img_tags[]
-    | null;
+  tags: getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_img_tags[] | null;
 }
 
 export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_roomType {
@@ -1493,18 +1546,14 @@ export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_
 export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices {
   __typename: "RoomTypeDatePrice";
   roomType: getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_roomType;
-  datePrices:
-    | getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices[]
-    | null;
+  datePrices: getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices[] | null;
 }
 
 export interface getRoomTypeDatePrices_GetRoomTypeDatePrices {
   __typename: "GetRoomTypeDatePricesResponse";
   ok: boolean;
   error: string | null;
-  roomTypeDatePrices:
-    | getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices[]
-    | null;
+  roomTypeDatePrices: getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices[] | null;
 }
 
 export interface getRoomTypeDatePrices {
@@ -1623,9 +1672,7 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_
   url: any;
   filename: string;
   mimeType: string;
-  tags:
-    | getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_roomTypes_img_tags[]
-    | null;
+  tags: getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_roomTypes_img_tags[] | null;
 }
 
 export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_roomTypes {
@@ -1676,9 +1723,7 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_
 export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking {
   __typename: "Booking";
   _id: string;
-  roomTypes:
-    | getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_roomTypes[]
-    | null;
+  roomTypes: getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_roomTypes[] | null;
   isNew: boolean;
   name: any;
   password: string | null;
@@ -1757,9 +1802,7 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_room
   url: any;
   filename: string;
   mimeType: string;
-  tags:
-    | getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_roomTypes_img_tags[]
-    | null;
+  tags: getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_roomTypes_img_tags[] | null;
 }
 
 export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_roomTypes {
@@ -1810,9 +1853,7 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_paym
 export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking {
   __typename: "Booking";
   _id: string;
-  roomTypes:
-    | getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_roomTypes[]
-    | null;
+  roomTypes: getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_roomTypes[] | null;
   isNew: boolean;
   name: any;
   password: string | null;
@@ -1857,9 +1898,7 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom {
   blockOption: getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_blockOption | null;
 }
 
-export type getAllRoomTypeWithGuest_GetGuests_guests =
-  | getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory
-  | getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom;
+export type getAllRoomTypeWithGuest_GetGuests_guests = getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory | getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom;
 
 export interface getAllRoomTypeWithGuest_GetGuests {
   __typename: "GetGuestsResponse";
@@ -2054,6 +2093,7 @@ export interface getUserForSU_GetUserForSU_user_houses_smsInfo {
 export interface getUserForSU_GetUserForSU_user_houses_roomTypes {
   __typename: "RoomType";
   _id: string;
+  roomCount: number;
 }
 
 export interface getUserForSU_GetUserForSU_user_houses_appInfo {
@@ -2061,9 +2101,56 @@ export interface getUserForSU_GetUserForSU_user_houses_appInfo {
   url: any;
 }
 
+export interface getUserForSU_GetUserForSU_user_houses_product_status {
+  __typename: "ProductStatus";
+  /**
+   * 계속 이용 여부 => false면 더이상 결제 안하고 expireDate 연장 안함
+   */
+  isContinue: boolean;
+  /**
+   * isContinue === false 인경우 생성됨
+   */
+  discontinueDate: any | null;
+}
+
 export interface getUserForSU_GetUserForSU_user_houses_product_productType {
   __typename: "ProductType";
   _id: string;
+  /**
+   * 제품 이름
+   */
+  name: string;
+  /**
+   * 제품 가격(월)
+   */
+  price: number;
+  /**
+   * 만들 수 있는 최대 방 / 배드 수 => -1 일때 무제한
+   */
+  roomCount: number;
+  /**
+   * ProductTypeKey
+   */
+  key: ProductTypeKey;
+  /**
+   * 방 수 추가시 추가 가격  => default: 0
+   */
+  roomCountExtraCharge: number;
+  /**
+   * 한달간 받을 수 있는 최대 예약 수 => -1 일 떄 무제한
+   */
+  bookingCount: number;
+  /**
+   * 예약 초과시 부과되는 금액 => defualt: 0
+   */
+  bookingCountExtraCharge: number;
+  /**
+   * 상세 설명
+   */
+  description: string | null;
+  canHaveHostApp: boolean;
+  createdAt: any;
+  updatedAt: any | null;
 }
 
 export interface getUserForSU_GetUserForSU_user_houses_product_appInfoRequested {
@@ -2086,6 +2173,8 @@ export interface getUserForSU_GetUserForSU_user_houses_product {
    * 제품 가격(월)
    */
   price: number | null;
+  billKey: string | null;
+  status: getUserForSU_GetUserForSU_user_houses_product_status;
   /**
    * 할인된 가격
    */
@@ -2125,9 +2214,10 @@ export interface getUserForSU_GetUserForSU_user_houses_product {
   createdAt: any;
   updatedAt: any | null;
   productType: getUserForSU_GetUserForSU_user_houses_product_productType;
-  appInfoRequested:
-    | getUserForSU_GetUserForSU_user_houses_product_appInfoRequested[]
-    | null;
+  /**
+   * 사용자 앱 요청사항 History => ex) 홈페이지 요청, 하우스메뉴얼 사용 요청 등등
+   */
+  appInfoRequested: getUserForSU_GetUserForSU_user_houses_product_appInfoRequested[] | null;
 }
 
 export interface getUserForSU_GetUserForSU_user_houses_location {
@@ -2138,17 +2228,30 @@ export interface getUserForSU_GetUserForSU_user_houses_location {
 
 export interface getUserForSU_GetUserForSU_user_houses {
   __typename: "House";
+  _id: string;
+  completeDefaultSetting: boolean;
+  name: string;
+  houseType: HouseType;
+  status: HouseStatus | null;
+  publicKey: string | null;
+  createdAt: any;
+  updatedAt: any | null;
   houseConfig: getUserForSU_GetUserForSU_user_houses_houseConfig;
   smsInfo: getUserForSU_GetUserForSU_user_houses_smsInfo;
   roomTypes: getUserForSU_GetUserForSU_user_houses_roomTypes[] | null;
   appInfo: getUserForSU_GetUserForSU_user_houses_appInfo | null;
   product: getUserForSU_GetUserForSU_user_houses_product | null;
-  _id: string;
-  name: string;
-  houseType: HouseType;
   location: getUserForSU_GetUserForSU_user_houses_location;
-  createdAt: any;
-  updatedAt: any | null;
+}
+
+export interface getUserForSU_GetUserForSU_user_paymentInfos {
+  __typename: "PaymentInfo";
+  authDate: any;
+  billKey: string;
+  cardName: string;
+  cardNo: string;
+  cardCl: number;
+  isLive: boolean;
 }
 
 export interface getUserForSU_GetUserForSU_user {
@@ -2169,6 +2272,7 @@ export interface getUserForSU_GetUserForSU_user {
   createdAt: any;
   updatedAt: any | null;
   houses: getUserForSU_GetUserForSU_user_houses[];
+  paymentInfos: getUserForSU_GetUserForSU_user_paymentInfos[] | null;
 }
 
 export interface getUserForSU_GetUserForSU {
@@ -2271,9 +2375,7 @@ export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes_img {
   url: any;
   filename: string;
   mimeType: string;
-  tags:
-    | getBookingForPublic_GetBookingForPublic_booking_roomTypes_img_tags[]
-    | null;
+  tags: getBookingForPublic_GetBookingForPublic_booking_roomTypes_img_tags[] | null;
 }
 
 export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes {
@@ -2404,6 +2506,39 @@ export interface getPhoneNumbers {
 }
 
 export interface getPhoneNumbersVariables {
+  houseId: string;
+  page: number;
+  count: number;
+  filter?: GetBookingsFilter | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: getBookingMemos
+// ====================================================
+
+export interface getBookingMemos_GetBookings_bookings {
+  __typename: "Booking";
+  name: any;
+  bookingId: string;
+  memo: string | null;
+}
+
+export interface getBookingMemos_GetBookings {
+  __typename: "GetBookingsResponse";
+  ok: boolean;
+  error: string | null;
+  bookings: getBookingMemos_GetBookings_bookings[] | null;
+}
+
+export interface getBookingMemos {
+  GetBookings: getBookingMemos_GetBookings;
+}
+
+export interface getBookingMemosVariables {
   houseId: string;
   page: number;
   count: number;
@@ -2551,9 +2686,7 @@ export interface getBookings_GetBookings_bookings_guests_GuestRoom {
   roomType: getBookings_GetBookings_bookings_guests_GuestRoom_roomType;
 }
 
-export type getBookings_GetBookings_bookings_guests =
-  | getBookings_GetBookings_bookings_guests_GuestDomitory
-  | getBookings_GetBookings_bookings_guests_GuestRoom;
+export type getBookings_GetBookings_bookings_guests = getBookings_GetBookings_bookings_guests_GuestDomitory | getBookings_GetBookings_bookings_guests_GuestRoom;
 
 export interface getBookings_GetBookings_bookings {
   __typename: "Booking";
@@ -2729,9 +2862,7 @@ export interface getBooking_GetBooking_booking_guests_GuestRoom {
   room: getBooking_GetBooking_booking_guests_GuestRoom_room | null;
 }
 
-export type getBooking_GetBooking_booking_guests =
-  | getBooking_GetBooking_booking_guests_GuestDomitory
-  | getBooking_GetBooking_booking_guests_GuestRoom;
+export type getBooking_GetBooking_booking_guests = getBooking_GetBooking_booking_guests_GuestDomitory | getBooking_GetBooking_booking_guests_GuestRoom;
 
 export interface getBooking_GetBooking_booking {
   __typename: "Booking";
@@ -2923,9 +3054,7 @@ export interface getAllSeasonTable_GetSeasonPrice_seasonPrices {
   /**
    * 요일별 가격 배열. day는 uniq값
    */
-  dayOfWeekPriceList:
-    | getAllSeasonTable_GetSeasonPrice_seasonPrices_dayOfWeekPriceList[]
-    | null;
+  dayOfWeekPriceList: getAllSeasonTable_GetSeasonPrice_seasonPrices_dayOfWeekPriceList[] | null;
 }
 
 export interface getAllSeasonTable_GetSeasonPrice {
@@ -3679,7 +3808,7 @@ export interface completePasswordReset_CompletePasswordReset {
   __typename: "CompletePasswordResetResponse";
   ok: boolean;
   error: string | null;
-  newPassword: any;
+  newPassword: string | null;
 }
 
 export interface completePasswordReset {
@@ -4728,58 +4857,223 @@ export interface createNotiVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: createBillkey
+// GraphQL mutation operation: registerBillKey
 // ====================================================
 
-export interface createBillkey_CreateBillkey_billInfo {
+export interface registerBillKey_RegisterBillKey_billInfo {
   __typename: "BillInfo";
   ok: boolean;
-  billkey: string;
-  authDate: any;
+  resultCode: BillKeyResultCode;
+  resultMsg: string;
+  cardNo: string;
+  billKey: string;
+  authDate: string;
   cardCl: number;
   cardName: string;
 }
 
-export interface createBillkey_CreateBillkey_billpayResult {
-  __typename: "BillpayResult";
-  ok: boolean;
-  /**
-   * 결과 메시지
-   */
-  msg: string;
-  /**
-   * 결제번호
-   */
-  tid: string;
-  /**
-   * 인증 날짜
-   */
-  authDate: any;
-  /**
-   * 카드 코드 => 0: 신용, 1: 체크
-   */
-  cardCl: number;
-  /**
-   * 카드사명
-   */
-  cardName: string;
-}
-
-export interface createBillkey_CreateBillkey {
-  __typename: "CreateBillkeyResponse";
+export interface registerBillKey_RegisterBillKey {
+  __typename: "RegisterBillKeyResponse";
   ok: boolean;
   error: string | null;
-  billInfo: createBillkey_CreateBillkey_billInfo | null;
-  billpayResult: createBillkey_CreateBillkey_billpayResult | null;
+  billInfo: registerBillKey_RegisterBillKey_billInfo | null;
 }
 
-export interface createBillkey {
-  CreateBillkey: createBillkey_CreateBillkey;
+export interface registerBillKey {
+  RegisterBillKey: registerBillKey_RegisterBillKey;
 }
 
-export interface createBillkeyVariables {
-  billParams: CreateBillkeyInput;
-  paymentParams?: RequestPaymentInput | null;
+export interface registerBillKeyVariables {
+  param: RegisterBillKeyInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: updateProductBillInfo
+// ====================================================
+
+export interface updateProductBillInfo_UpdateProductBillInfo {
+  __typename: "UpdateProductBillInfoResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface updateProductBillInfo {
+  UpdateProductBillInfo: updateProductBillInfo_UpdateProductBillInfo;
+}
+
+export interface updateProductBillInfoVariables {
+  param: UpdateProductBillInfoInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: unRegisterBillKey
+// ====================================================
+
+export interface unRegisterBillKey_UnregisterBillKey {
+  __typename: "UnregisterBillKeyResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface unRegisterBillKey {
+  /**
+   * billKey를 제거하고 User쪽의 데이터 및 Product쪽 데이터도 같이 제거함
+   */
+  UnregisterBillKey: unRegisterBillKey_UnregisterBillKey;
+}
+
+export interface unRegisterBillKeyVariables {
+  billKey: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: discontinueProduct
+// ====================================================
+
+export interface discontinueProduct_DiscontinueProduct {
+  __typename: "DiscontinueProductResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface discontinueProduct {
+  DiscontinueProduct: discontinueProduct_DiscontinueProduct;
+}
+
+export interface discontinueProductVariables {
+  productId: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: doBillPayCancelProduct
+// ====================================================
+
+export interface doBillPayCancelProduct_DoBillPayCancelProduct_result {
+  __typename: "PayCancelResultData";
+  ok: boolean;
+  resultCode: PayCancelResultCode;
+  resultMsg: string;
+  cancelAmt: number;
+  cancelNum: string;
+  payMethod: string;
+  tid: string;
+  authDate: any;
+}
+
+export interface doBillPayCancelProduct_DoBillPayCancelProduct {
+  __typename: "DoBillPayCancelProductResponse";
+  ok: boolean;
+  error: string | null;
+  result: doBillPayCancelProduct_DoBillPayCancelProduct_result | null;
+}
+
+export interface doBillPayCancelProduct {
+  DoBillPayCancelProduct: doBillPayCancelProduct_DoBillPayCancelProduct;
+}
+
+export interface doBillPayCancelProductVariables {
+  param: PayCancelProductInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: getPayHistory
+// ====================================================
+
+export interface getPayHistory_GetPayHistory_payHistories_status {
+  __typename: "PayStatus";
+  ok: boolean;
+  resultCode: CardPayResultCode;
+  resultMsg: string;
+  date: any;
+}
+
+export interface getPayHistory_GetPayHistory_payHistories_cancelStatus {
+  __typename: "PayCancelStatus";
+  ok: boolean;
+  isPartial: boolean;
+  amt: number;
+  goodsCnt: number | null;
+  resultCode: PayCancelResultCode;
+  resultMsg: string;
+  cancelNum: string;
+  cancelMsg: string;
+  date: any;
+}
+
+export interface getPayHistory_GetPayHistory_payHistories {
+  __typename: "PayHistory";
+  _id: string;
+  userId: string;
+  target: PayTarget;
+  payload: string;
+  goodsCnt: number;
+  /**
+   * trade id
+   */
+  tid: string;
+  payMethod: PayMethod;
+  amt: number;
+  status: getPayHistory_GetPayHistory_payHistories_status;
+  cancelStatus: getPayHistory_GetPayHistory_payHistories_cancelStatus | null;
+  createdAt: any;
+  updatedAt: any | null;
+}
+
+export interface getPayHistory_GetPayHistory {
+  __typename: "GetPayHistoryResponse";
+  ok: boolean;
+  error: string | null;
+  payHistories: getPayHistory_GetPayHistory_payHistories[] | null;
+}
+
+export interface getPayHistory {
+  GetPayHistory: getPayHistory_GetPayHistory;
+}
+
+export interface getPayHistoryVariables {
+  param: GetPayHistoryInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: doBillPayProduct
+// ====================================================
+
+export interface doBillPayProduct_DoBillPayProduct {
+  __typename: "DoBillPayProductResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface doBillPayProduct {
+  DoBillPayProduct: doBillPayProduct_DoBillPayProduct;
+}
+
+export interface doBillPayProductVariables {
+  param: DoBillPayProductInput;
 }
 
 /* tslint:disable */
@@ -4874,6 +5168,7 @@ export interface FNoti {
 export interface Fhouse {
   __typename: "House";
   _id: string;
+  completeDefaultSetting: boolean;
   name: string;
   houseType: HouseType;
   status: HouseStatus | null;
@@ -5103,6 +5398,18 @@ export interface FappInfoRequest {
 // GraphQL fragment: Fproduct
 // ====================================================
 
+export interface Fproduct_status {
+  __typename: "ProductStatus";
+  /**
+   * 계속 이용 여부 => false면 더이상 결제 안하고 expireDate 연장 안함
+   */
+  isContinue: boolean;
+  /**
+   * isContinue === false 인경우 생성됨
+   */
+  discontinueDate: any | null;
+}
+
 export interface Fproduct {
   __typename: "Product";
   _id: string;
@@ -5114,6 +5421,8 @@ export interface Fproduct {
    * 제품 가격(월)
    */
   price: number | null;
+  billKey: string | null;
+  status: Fproduct_status;
   /**
    * 할인된 가격
    */
@@ -5671,24 +5980,24 @@ export interface FroomTypeCapacity {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL fragment: FieldsUser
+// GraphQL fragment: Fuser
 // ====================================================
 
-export interface FieldsUser_profileImg_tags {
+export interface Fuser_profileImg_tags {
   __typename: "JdTag";
   Key: string;
   Value: string;
 }
 
-export interface FieldsUser_profileImg {
+export interface Fuser_profileImg {
   __typename: "JdFile";
   url: any;
   filename: string;
   mimeType: string;
-  tags: FieldsUser_profileImg_tags[] | null;
+  tags: Fuser_profileImg_tags[] | null;
 }
 
-export interface FieldsUser {
+export interface Fuser {
   __typename: "User";
   _id: string;
   name: any;
@@ -5698,7 +6007,7 @@ export interface FieldsUser {
    * 주요 관리 수단임.. 잘 관리하도록 ㅎ
    */
   email: any;
-  profileImg: FieldsUser_profileImg | null;
+  profileImg: Fuser_profileImg | null;
   isPhoneVerified: boolean;
   checkPrivacyPolicy: boolean;
   userRole: UserRole;
@@ -5712,14 +6021,17 @@ export interface FieldsUser {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL fragment: FbillInfo
+// GraphQL fragment: FbillInfoResult
 // ====================================================
 
-export interface FbillInfo {
+export interface FbillInfoResult {
   __typename: "BillInfo";
   ok: boolean;
-  billkey: string;
-  authDate: any;
+  resultCode: BillKeyResultCode;
+  resultMsg: string;
+  cardNo: string;
+  billKey: string;
+  authDate: string;
   cardCl: number;
   cardName: string;
 }
@@ -5729,32 +6041,17 @@ export interface FbillInfo {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL fragment: FbillpayResult
+// GraphQL fragment: FpaymentInfo
 // ====================================================
 
-export interface FbillpayResult {
-  __typename: "BillpayResult";
-  ok: boolean;
-  /**
-   * 결과 메시지
-   */
-  msg: string;
-  /**
-   * 결제번호
-   */
-  tid: string;
-  /**
-   * 인증 날짜
-   */
+export interface FpaymentInfo {
+  __typename: "PaymentInfo";
   authDate: any;
-  /**
-   * 카드 코드 => 0: 신용, 1: 체크
-   */
-  cardCl: number;
-  /**
-   * 카드사명
-   */
+  billKey: string;
   cardName: string;
+  cardNo: string;
+  cardCl: number;
+  isLive: boolean;
 }
 
 /* tslint:disable */
@@ -5817,6 +6114,267 @@ export interface FsharedGetAllRoomType {
   ok: boolean | null;
   error: string | null;
   roomTypes: FsharedGetAllRoomType_roomTypes[] | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: Fcontext
+// ====================================================
+
+export interface Fcontext_profileImg_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface Fcontext_profileImg {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: Fcontext_profileImg_tags[] | null;
+}
+
+export interface Fcontext_houses_houseConfig_assigTimeline_itemBlockOp {
+  __typename: "ItemBlockOp";
+  itemBlockOpEnable: boolean;
+  useColor: boolean;
+}
+
+export interface Fcontext_houses_houseConfig_assigTimeline {
+  __typename: "AssigTimeline";
+  roomTypeTabEnable: boolean;
+  itemBlockOp: Fcontext_houses_houseConfig_assigTimeline_itemBlockOp | null;
+}
+
+export interface Fcontext_houses_houseConfig_pollingPeriod {
+  __typename: "PollingPeriod";
+  enable: boolean;
+  period: number;
+}
+
+export interface Fcontext_houses_houseConfig_bookingConfig_newBookingMark {
+  __typename: "NewBookingMark";
+  enable: boolean | null;
+  newGuestTime: number;
+}
+
+export interface Fcontext_houses_houseConfig_bookingConfig_collectingInfoFromGuest {
+  __typename: "CollectingInfoFromGuest";
+  email: boolean | null;
+  country: boolean | null;
+}
+
+export interface Fcontext_houses_houseConfig_bookingConfig {
+  __typename: "BookingConfig";
+  newBookingMark: Fcontext_houses_houseConfig_bookingConfig_newBookingMark | null;
+  collectingInfoFromGuest: Fcontext_houses_houseConfig_bookingConfig_collectingInfoFromGuest | null;
+}
+
+export interface Fcontext_houses_houseConfig_baseConfig {
+  __typename: "BaseConfig";
+  pricingTypes: PricingType[];
+}
+
+export interface Fcontext_houses_houseConfig {
+  __typename: "HouseConfig";
+  assigTimeline: Fcontext_houses_houseConfig_assigTimeline;
+  pollingPeriod: Fcontext_houses_houseConfig_pollingPeriod;
+  bookingConfig: Fcontext_houses_houseConfig_bookingConfig;
+  baseConfig: Fcontext_houses_houseConfig_baseConfig;
+}
+
+export interface Fcontext_houses_smsInfo {
+  __typename: "SmsInfo";
+  _id: string;
+}
+
+export interface Fcontext_houses_roomTypes {
+  __typename: "RoomType";
+  _id: string;
+  roomCount: number;
+}
+
+export interface Fcontext_houses_appInfo {
+  __typename: "AppInfo";
+  url: any;
+}
+
+export interface Fcontext_houses_product_status {
+  __typename: "ProductStatus";
+  /**
+   * 계속 이용 여부 => false면 더이상 결제 안하고 expireDate 연장 안함
+   */
+  isContinue: boolean;
+  /**
+   * isContinue === false 인경우 생성됨
+   */
+  discontinueDate: any | null;
+}
+
+export interface Fcontext_houses_product_productType {
+  __typename: "ProductType";
+  _id: string;
+  /**
+   * 제품 이름
+   */
+  name: string;
+  /**
+   * 제품 가격(월)
+   */
+  price: number;
+  /**
+   * 만들 수 있는 최대 방 / 배드 수 => -1 일때 무제한
+   */
+  roomCount: number;
+  /**
+   * ProductTypeKey
+   */
+  key: ProductTypeKey;
+  /**
+   * 방 수 추가시 추가 가격  => default: 0
+   */
+  roomCountExtraCharge: number;
+  /**
+   * 한달간 받을 수 있는 최대 예약 수 => -1 일 떄 무제한
+   */
+  bookingCount: number;
+  /**
+   * 예약 초과시 부과되는 금액 => defualt: 0
+   */
+  bookingCountExtraCharge: number;
+  /**
+   * 상세 설명
+   */
+  description: string | null;
+  canHaveHostApp: boolean;
+  createdAt: any;
+  updatedAt: any | null;
+}
+
+export interface Fcontext_houses_product_appInfoRequested {
+  __typename: "AppInfoRequest";
+  url: string;
+  layoutType: LayoutType;
+  requestedDate: any;
+  isDone: boolean;
+  useHostApp: boolean;
+}
+
+export interface Fcontext_houses_product {
+  __typename: "Product";
+  _id: string;
+  /**
+   * 제품 이름
+   */
+  name: string;
+  /**
+   * 제품 가격(월)
+   */
+  price: number | null;
+  billKey: string | null;
+  status: Fcontext_houses_product_status;
+  /**
+   * 할인된 가격
+   */
+  discountedPrice: number | null;
+  /**
+   * 만들 수 있는 최대 방 / 배드 수 => -1 일때 무제한
+   */
+  roomCount: number | null;
+  /**
+   * 방 수 추가시 추가 가격  => default: 0
+   */
+  roomCountExtraCharge: number | null;
+  /**
+   * 한달간 받을 수 있는 최대 예약 수 => -1 일 떄 무제한
+   */
+  bookingCount: number | null;
+  /**
+   * 예약 초과시 부과되는 금액 => defualt: 0
+   */
+  bookingCountExtraCharge: number | null;
+  layoutType: LayoutType | null;
+  layoutPrice: number | null;
+  layoutPricePaid: boolean | null;
+  appliedUrl: string | null;
+  expireDate: any;
+  /**
+   * 상품 만료까지 남은 일수
+   */
+  daysLeftToExpire: number;
+  /**
+   * 상품이 만료된 여부
+   */
+  isExpired: boolean;
+  canHaveHostApp: boolean;
+  existingHostApp: boolean;
+  description: string | null;
+  createdAt: any;
+  updatedAt: any | null;
+  productType: Fcontext_houses_product_productType;
+  /**
+   * 사용자 앱 요청사항 History => ex) 홈페이지 요청, 하우스메뉴얼 사용 요청 등등
+   */
+  appInfoRequested: Fcontext_houses_product_appInfoRequested[] | null;
+}
+
+export interface Fcontext_houses_location {
+  __typename: "Location";
+  address: string;
+  addressDetail: string | null;
+}
+
+export interface Fcontext_houses {
+  __typename: "House";
+  _id: string;
+  completeDefaultSetting: boolean;
+  name: string;
+  houseType: HouseType;
+  status: HouseStatus | null;
+  publicKey: string | null;
+  createdAt: any;
+  updatedAt: any | null;
+  houseConfig: Fcontext_houses_houseConfig;
+  smsInfo: Fcontext_houses_smsInfo;
+  roomTypes: Fcontext_houses_roomTypes[] | null;
+  appInfo: Fcontext_houses_appInfo | null;
+  product: Fcontext_houses_product | null;
+  location: Fcontext_houses_location;
+}
+
+export interface Fcontext_paymentInfos {
+  __typename: "PaymentInfo";
+  authDate: any;
+  billKey: string;
+  cardName: string;
+  cardNo: string;
+  cardCl: number;
+  isLive: boolean;
+}
+
+export interface Fcontext {
+  __typename: "User";
+  _id: string;
+  name: any;
+  phoneNumber: any;
+  password: any | null;
+  /**
+   * 주요 관리 수단임.. 잘 관리하도록 ㅎ
+   */
+  email: any;
+  profileImg: Fcontext_profileImg | null;
+  isPhoneVerified: boolean;
+  checkPrivacyPolicy: boolean;
+  userRole: UserRole;
+  userRoles: UserRole[] | null;
+  createdAt: any;
+  updatedAt: any | null;
+  houses: Fcontext_houses[];
+  paymentInfos: Fcontext_paymentInfos[] | null;
 }
 
 /* tslint:disable */
@@ -5902,14 +6460,47 @@ export enum AutoSendWhen {
   WEHN_BOOKING_CANCEL = "WEHN_BOOKING_CANCEL",
   WHEN_BOOKING_CREATED = "WHEN_BOOKING_CREATED",
   WHEN_BOOKING_CREATED_PAYMENT_PROGRESSING = "WHEN_BOOKING_CREATED_PAYMENT_PROGRESSING",
-  WHEN_BOOKING_UPDATE = "WHEN_BOOKING_UPDATE"
+  WHEN_BOOKING_UPDATE = "WHEN_BOOKING_UPDATE",
+}
+
+/**
+ * 빌키 발급 응답 코드
+ */
+export enum BillKeyResultCode {
+  ERR_CARD_EXIST = "ERR_CARD_EXIST",
+  ERR_CARD_SAMSUNG = "ERR_CARD_SAMSUNG",
+  ERR_CARD_UNSUPPORTED = "ERR_CARD_UNSUPPORTED",
+  ERR_ENCODING_FAIL = "ERR_ENCODING_FAIL",
+  OK = "OK",
+  OK_REQUEST = "OK_REQUEST",
 }
 
 export enum BookingStatus {
   CANCEL = "CANCEL",
   COMPLETE = "COMPLETE",
   FAIL = "FAIL",
-  PROGRESSING = "PROGRESSING"
+  PROGRESSING = "PROGRESSING",
+}
+
+/**
+ * 카드결제 코드
+ */
+export enum CardPayResultCode {
+  ERR_AMT_MINIMUM = "ERR_AMT_MINIMUM",
+  ERR_AUTH_NO = "ERR_AUTH_NO",
+  ERR_CARD_BALANCE = "ERR_CARD_BALANCE",
+  ERR_CARD_CANNOT_INSTALLMENT = "ERR_CARD_CANNOT_INSTALLMENT",
+  ERR_CARD_EXP_INFO = "ERR_CARD_EXP_INFO",
+  ERR_CARD_NUM = "ERR_CARD_NUM",
+  ERR_CARD_QUOTA = "ERR_CARD_QUOTA",
+  ERR_CARD_QUOTA_EXCEED = "ERR_CARD_QUOTA_EXCEED",
+  ERR_CARD_UNSUPPORTED = "ERR_CARD_UNSUPPORTED",
+  ERR_CURRENCY_CODE = "ERR_CURRENCY_CODE",
+  ERR_CURRENCY_TRANSFORM = "ERR_CURRENCY_TRANSFORM",
+  ERR_DOMESTIC_UNSUPPORT_DOLLOR = "ERR_DOMESTIC_UNSUPPORT_DOLLOR",
+  ERR_RESPONSE_FAIL = "ERR_RESPONSE_FAIL",
+  ERR_UNKNOWN_CARD = "ERR_UNKNOWN_CARD",
+  OK = "OK",
 }
 
 /**
@@ -5922,7 +6513,7 @@ export enum Day {
   SUN = "SUN",
   THU = "THU",
   TUE = "TUE",
-  WED = "WED"
+  WED = "WED",
 }
 
 export enum Funnels {
@@ -5937,7 +6528,7 @@ export enum Funnels {
   PHONE_CALL = "PHONE_CALL",
   WALK_IN = "WALK_IN",
   YANOLJA = "YANOLJA",
-  YEOGIEOTTAE = "YEOGIEOTTAE"
+  YEOGIEOTTAE = "YEOGIEOTTAE",
 }
 
 /**
@@ -5945,7 +6536,7 @@ export enum Funnels {
  */
 export enum Gender {
   FEMALE = "FEMALE",
-  MALE = "MALE"
+  MALE = "MALE",
 }
 
 export enum HMmenuType {
@@ -5958,13 +6549,13 @@ export enum HMmenuType {
   LOCATION = "LOCATION",
   NEARBY_ATTRACTIONS = "NEARBY_ATTRACTIONS",
   RECYCLING = "RECYCLING",
-  SAFETY = "SAFETY"
+  SAFETY = "SAFETY",
 }
 
 export enum HouseStatus {
   DISALBE = "DISALBE",
   ENABLE = "ENABLE",
-  WAIT = "WAIT"
+  WAIT = "WAIT",
 }
 
 export enum HouseType {
@@ -5973,78 +6564,105 @@ export enum HouseType {
   HOTEL = "HOTEL",
   MOTEL = "MOTEL",
   PENSION = "PENSION",
-  YOUTH_HOSTEL = "YOUTH_HOSTEL"
+  YOUTH_HOSTEL = "YOUTH_HOSTEL",
 }
 
 export enum Language {
   CHINESE = "CHINESE",
   ENGLISH = "ENGLISH",
   JAPANESE = "JAPANESE",
-  KOREAN = "KOREAN"
+  KOREAN = "KOREAN",
 }
 
 export enum LayoutType {
   Layout_A = "Layout_A",
-  Layout_B = "Layout_B"
+  Layout_B = "Layout_B",
 }
 
 export enum MemoType {
-  HOST = "HOST"
+  HOST = "HOST",
 }
 
 export enum MsgType {
   LMS = "LMS",
   MMS = "MMS",
-  SMS = "SMS"
+  SMS = "SMS",
 }
 
 export enum NotiLevel {
   NORMAL = "NORMAL",
-  WARN = "WARN"
+  WARN = "WARN",
 }
 
 export enum NotiType {
   ELSE = "ELSE",
   NEW_BOOKING = "NEW_BOOKING",
   PRODUCT_EXPIRE = "PRODUCT_EXPIRE",
-  TO_ALL = "TO_ALL"
+  TO_ALL = "TO_ALL",
+}
+
+/**
+ * 취소 응답 코드
+ */
+export enum PayCancelResultCode {
+  ERR_ALREADY_CANCELED = "ERR_ALREADY_CANCELED",
+  ERR_AMT_OVER = "ERR_AMT_OVER",
+  ERR_ANT_INCORRECT = "ERR_ANT_INCORRECT",
+  ERR_ANT_MINUS = "ERR_ANT_MINUS",
+  ERR_EXISTING = "ERR_EXISTING",
+  ERR_IMPOSSIBLE = "ERR_IMPOSSIBLE",
+  ERR_LIMIT_EXCEED = "ERR_LIMIT_EXCEED",
+  ERR_OVERDUE = "ERR_OVERDUE",
+  ERR_PASSWORD_INCORRECT = "ERR_PASSWORD_INCORRECT",
+  ERR_UNEXIST_PAYMENT = "ERR_UNEXIST_PAYMENT",
+  FAIL = "FAIL",
+  IN_PROGRESS = "IN_PROGRESS",
+  OK = "OK",
+  REFUNDED = "REFUNDED",
 }
 
 export enum PayMethod {
+  BILL = "BILL",
   CARD = "CARD",
   CASH = "CASH",
   CHANNEL_PAY = "CHANNEL_PAY",
-  VBANK = "VBANK"
+  VBANK = "VBANK",
+}
+
+export enum PayTarget {
+  BOOKING = "BOOKING",
+  SMS = "SMS",
+  USAGE_PLAN = "USAGE_PLAN",
 }
 
 export enum PaymentStatus {
   CANCEL = "CANCEL",
   COMPLETE = "COMPLETE",
-  PROGRESSING = "PROGRESSING"
+  PROGRESSING = "PROGRESSING",
 }
 
 export enum PaymentType {
   ONE_TIME = "ONE_TIME",
-  SUBSCRIPTION = "SUBSCRIPTION"
+  SUBSCRIPTION = "SUBSCRIPTION",
 }
 
 export enum PricingType {
   DOMITORY = "DOMITORY",
-  ROOM = "ROOM"
+  ROOM = "ROOM",
 }
 
 export enum ProductTypeKey {
   DEMO = "DEMO",
   NEGOTIATION = "NEGOTIATION",
   PREMIUM = "PREMIUM",
-  STANDARD = "STANDARD"
+  STANDARD = "STANDARD",
 }
 
 export enum RoomGender {
   ANY = "ANY",
   FEMALE = "FEMALE",
   MALE = "MALE",
-  SEPARATELY = "SEPARATELY"
+  SEPARATELY = "SEPARATELY",
 }
 
 export enum SalesStatisticsUnit {
@@ -6052,20 +6670,20 @@ export enum SalesStatisticsUnit {
   BY_DAY_OF_WEEK = "BY_DAY_OF_WEEK",
   MONTHLY = "MONTHLY",
   WEEKLY = "WEEKLY",
-  YEARLY = "YEARLY"
+  YEARLY = "YEARLY",
 }
 
 export enum SendTarget {
   BOTH = "BOTH",
   GUEST = "GUEST",
-  HOST = "HOST"
+  HOST = "HOST",
 }
 
 export enum TransactionStatus {
   CANCEL = "CANCEL",
   COMPLETE = "COMPLETE",
   FAIL = "FAIL",
-  PROGRESSING = "PROGRESSING"
+  PROGRESSING = "PROGRESSING",
 }
 
 export enum UserRole {
@@ -6074,7 +6692,7 @@ export enum UserRole {
   DEVELOPER = "DEVELOPER",
   GHOST = "GHOST",
   GUEST = "GUEST",
-  HOST = "HOST"
+  HOST = "HOST",
 }
 
 export interface AllocateInfoInput {
@@ -6131,9 +6749,9 @@ export interface CollectingInfoFromGuestInput {
   country?: boolean | null;
 }
 
-export interface CreateBillkeyInput {
+export interface CreateBillKeyInput {
   cardNo: string;
-  pwd: string;
+  cardPw: string;
   expYear: string;
   expMonth: string;
   idNo: string;
@@ -6173,6 +6791,14 @@ export interface DayOfWeekPriceInput {
   additionalPrice?: number | null;
 }
 
+export interface DoBillPayProductInput {
+  billKey?: string | null;
+  productId: string;
+  added: number;
+  amt?: number | null;
+  force: boolean;
+}
+
 export interface GetBookingParams {
   name: string;
   phoneNumber: string;
@@ -6185,6 +6811,10 @@ export interface GetBookingsFilter {
   phoneNumnber?: string | null;
   stayDate?: any | null;
   createdAt?: any | null;
+}
+
+export interface GetPayHistoryInput {
+  target: PayTarget;
 }
 
 export interface HMmenuInput {
@@ -6231,20 +6861,27 @@ export interface NewBookingMarkInput {
   newGuestTime: number;
 }
 
+export interface PayCancelInput {
+  tid: string;
+  cancelAmt: number;
+  cancelMsg: string;
+  isPartialCancel: boolean;
+}
+
+export interface PayCancelProductInput {
+  payCancelInput: PayCancelInput;
+  productId: string;
+  decreasePeriod: number;
+}
+
 export interface PollingPeriodInput {
   enable: boolean;
   period: number;
 }
 
-/**
- * 만약 존재하면 billkey 발금과 동시에 결제함.
- */
-export interface RequestPaymentInput {
-  price: number;
-  moid: string;
-  buyerName: string;
-  goodsName: string;
-  cardQuota: number;
+export interface RegisterBillKeyInput {
+  createBillKeyInput: CreateBillKeyInput;
+  addBillInfoToUser: boolean;
 }
 
 export interface RoomTypePriceInput {
@@ -6360,6 +6997,11 @@ export interface UpdateMemoParams {
   enableAlert?: boolean | null;
   text: string;
   memoType: MemoType;
+}
+
+export interface UpdateProductBillInfoInput {
+  productIds?: string[] | null;
+  billKey: string;
 }
 
 export interface UpdateProductParams {

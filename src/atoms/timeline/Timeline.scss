@@ -1,5 +1,5 @@
 
-@import '~Styles/style_config.scss';
+@import '~Styles';
 
 // TODO: BEM 규칙에 맞게 node Modules 변경해야함
 
@@ -53,7 +53,7 @@
             
             &:hover {
                 cursor: pointer;
-                background-color: $grey-level4;
+                background-color: $grey-level5;
             }
         }
     }
@@ -63,7 +63,7 @@
         overflow: hidden;
     }
     .rct-calendar-header {
-        background-color:$grey-level3;
+        background-color:$grey-level4;
         line-height:100%;
 
         color:white;
@@ -91,7 +91,7 @@
             text-overflow: ellipsis;
             box-sizing: content-box;
             margin: 0;
-            border-bottom: 1px solid $grey-opacity3;
+            border-bottom: 1px solid $grey-opacity2;
 
             &-odd{
             }
@@ -136,12 +136,12 @@
             .rct-horizontal-lines {
                 
                 .rct-hl-even,.rct-hl-odd {
-                    border-bottom: 1px dotted $grey-opacity3;
+                    border-bottom: 1px dotted $grey-opacity2;
                     box-sizing: content-box;
                     z-index: 40;
                 }
                 .rct-hl-even {
-                    border-bottom: 1px dotted $grey-opacity3;
+                    border-bottom: 1px dotted $grey-opacity2;
                 }
 
                 .group {

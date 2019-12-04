@@ -84,18 +84,21 @@ export interface IDailyAssigProp {
   )[];
 }
 
-interface IProps {
+export interface IChainProps {
+  calendarPosition?: "center" | "inside" | "topLeft";
+  onRederCallBack?: () => void;
+}
+
+interface IProps extends IChainProps {
   context: IContext;
   date: Date;
-  isInModal?: boolean;
-  calendarPosition?: "center" | "inside" | "topLeft";
 }
 
 const DailyAssigWrap: React.FC<IProps> = ({
   date,
   context,
-  isInModal,
-  calendarPosition = "topLeft"
+  calendarPosition = "topLeft",
+  ...props
 }) => {
   const { house } = context;
   const dayPickerHook = useDayPicker(date, date);
@@ -285,6 +288,7 @@ const DailyAssigWrap: React.FC<IProps> = ({
                                                 dailyAssigDataControl={
                                                   dailyAssigDataControl
                                                 }
+                                                {...props}
                                               />
                                             </Fragment>
                                           );

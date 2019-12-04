@@ -42,6 +42,7 @@ const LangList: React.FC<IProps> = ({ onClickLng, hideList, hilightLangs }) => {
             }}
             className="JDflex--center"
             size="small"
+            space="tiny"
             clickable
             float
           >

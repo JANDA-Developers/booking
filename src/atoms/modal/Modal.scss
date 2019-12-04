@@ -1,4 +1,4 @@
-@import "~Styles/style_config.scss";
+@import "~Styles";
 
 // ⚠️ JDmodal 로 수정할수없음 
 .ReactModal {
@@ -53,13 +53,8 @@
 
         max-height: 80vh;
         overflow-y:auto;
+        
         @extend %JDscrollbar;
-
-        &::-webkit-scrollbar {
-            transition: 0.3s;
-            background-color:transparent;
-            width: 10px;
-        }
 
         .container {
             padding: 0;
@@ -102,6 +97,13 @@
     }
 }
 .JDmodal {
+
+    &--loading {
+        min-width: 0!important;
+        max-width: unset!important;
+        width: fit-content!important;
+    }
+
     &--alert {
         font-weight:bold;
     }
@@ -117,7 +119,7 @@
     }
 
     &--visibleOverflow {
-        overflow:visible;
+        overflow:visible!important;
         @include response($tablet) {
             overflow:auto;
         }

@@ -20,6 +20,8 @@ import StaticIcons from "./component/StaticIcons";
 import StaticsControllerModal from "./component/StaticsControllerModal";
 import { getStaticColors } from "../../../utils/getStaticColors";
 import JDgraph from "../../../atoms/graph/graph";
+import PageHeader from "../../../components/pageHeader/PageHeader";
+import PageBody from "../../../components/pageBody/PageBody";
 
 export interface IStaticsWrapProps {
   queryOp: IQueryOp;
@@ -189,9 +191,9 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
   };
 
   return (
-    <div className="container statistic">
-      <div className="docs-section">
-        <h3>{LANG("statistics")}</h3>
+    <div className="statistic">
+      <PageHeader title={LANG("statistics")} desc={LANG("static_page_desc")} />
+      <PageBody>
         <div className="statistic__shortBtnsWrap">
           <Button
             onClick={handleTodaySalesStatic}
@@ -213,7 +215,7 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
         </div>
         <div className="flex-grid">
           <div className="flex-grid__col col--full-6 col--wmd-12">
-            <Card className="statistic__graphCard" fullHeight={!isTabletDown}>
+            <Card className="statistic__graphCard">
               {loading ? (
                 <div className="statistic__graphPreloader">
                   <Preloader
@@ -279,7 +281,7 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
             icon="controller"
           />
         )}
-      </div>
+      </PageBody>
       <Preloader floating size={FLOATING_PRELOADER_SIZE} loading={loading} />
     </div>
   );

@@ -1,4 +1,6 @@
-@import '~Styles/style_config';
+@import '~Styles';
+
+$select-font-color: $grey-level4;
 
 .JDselect {
   text-align:left;
@@ -106,13 +108,15 @@
         }
         // 화살표 
         .react-select__indicator {
-          color: $select-disabled-color;
+          color: $select-font-color;
         }
       }
 
       &__single-value {
         width: 100%;
         margin: 0;
+        // color: $select-font-color;
+      color: $html-color;
       }
 
       &__label {
@@ -148,12 +152,12 @@
 
       //아이콘 이전 라인
       &__indicator {
-        color: $html-color;
+        color: $select-font-color;
         padding: $select-padding;
       }
 
       &__indicator:hover {
-        color: $grey-level3;
+        color: $select-font-color;
       }
 
       &__indicator-separator {
@@ -163,8 +167,6 @@
       &-container {
         border-radius: $select-radius;
       }
-
-      
 
       &__control {
         flex-wrap: inherit;
@@ -176,7 +178,15 @@
 
         &--is-focused {
           border-color: $select-focus-border-color;
+          color: $html-color!important;
           @extend %z-depth-1;
+
+          .react-select__indicator {
+            color: $html-color!important;
+          }
+          .react-select__single-value {
+            color: $html-color;
+          }
         }
       }
 
@@ -236,7 +246,7 @@
     .react-select-container {
       width:100%;
       .react-select__control{
-        padding: 0rem $standard-small-space/2;
+        padding: 0rem $standard-tiny-space;
       }
       .react-select__value-container {
         padding: 0;

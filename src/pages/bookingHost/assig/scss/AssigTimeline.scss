@@ -1,4 +1,4 @@
-@import '~Styles/style_config.scss';
+@import '~Styles';
 @import './assigItem';
 @import './assigGroup';
 @import './assigTooltips';
@@ -105,7 +105,7 @@
             border-bottom:1px solid $grey-level3;
         }
         &--lastOfRoomType {
-            border-bottom:1px solid $html-color;
+            border-bottom:1px solid $grey-level4;
         }
         
     }

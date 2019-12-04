@@ -104,31 +104,31 @@
   %h1 {
     font-size: 3.5rem;
     letter-spacing: -.1rem;
-    margin-bottom: $standard-margin-bottom + .6rem
+    margin-bottom: $standard-largest-space;
   }
   
   %h2 {
     font-size: 3rem;
     letter-spacing: -.1rem;
-    margin-bottom: $standard-margin-bottom + .5rem
+    margin-bottom: $standard-huge-space;
   }
   
   %h3 {
     font-size: 2.4rem;
     letter-spacing: -.1rem;
-    margin-bottom: $standard-margin-bottom + .4rem
+    margin-bottom: $standard-margin-bottom;
   }
   
   %h4 {
     font-size: 2rem;
     letter-spacing: -.08rem;
-    margin-bottom: $standard-margin-bottom + .3rem
+    margin-bottom: $standard-margin-bottom
   }
   
   %h5 {
     font-size: 1.6rem;
     letter-spacing: -.05rem;
-    margin-bottom: $standard-margin-bottom + .2rem
+    margin-bottom: $standard-margin-bottom
   }
   
   %h6 {
@@ -139,33 +139,37 @@
   
 
 %JDscrollbar {
+    overflow:hidden;
     box-sizing: border-box;
-    padding-right: 4px;
-
-    &::-webkit-scrollbar {
-        transition: 0.3s;
-        background-color:transparent;
-        width:6px;
-    }
-    &::-webkit-scrollbar-track {
-        background-color: transparent;
-    }
-    // &::-webkit-scrollbar-track:hover {
-    //     background-color: $grey-level1;
-    // }
-    &::-webkit-scrollbar-thumb {
-        background-color: $grey-level1;
-        border-radius: 12px;
-        box-sizing: border-box;
-        border: 1px solid $grey-level1;
-        &:hover {
-            background-color: $grey-level2;
+    &:hover {
+        overflow:auto;
+        &::-webkit-scrollbar {
+            width: 10px;
+            transition: 0.3s;
+            background-color:transparent;
+            cursor: pointer;
         }
+        &::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
+        // &::-webkit-scrollbar-track:hover {
+        //     background-color: $grey-level1;
+        // }
+        &::-webkit-scrollbar-thumb {
+            background-color: $grey-level1;
+            box-sizing: border-box;
+            border: 1px solid $grey-level1;
+            cursor: pointer;
+            &:hover {
+                background-color: $grey-level2;
+            }
+        }
+        &::-webkit-scrollbar-button {display:none}
     }
-    &::-webkit-scrollbar-button {display:none}
 }
 
 %JDscrollbar--slender {
+    
     padding-right: 4px;
 
     &::-webkit-scrollbar {

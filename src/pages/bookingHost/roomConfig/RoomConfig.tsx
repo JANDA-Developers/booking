@@ -11,7 +11,6 @@ import {
   getAllRoomType_GetAllRoomType_roomTypes_rooms
 } from "../../../types/api";
 import Preloader from "../../../atoms/preloader/Preloader";
-import JDIcon from "../../../atoms/icons/Icons";
 import { useModal, LANG } from "../../../hooks/hook";
 import RoomTypeModalWrap, {
   IRoomTypeModalInfo
@@ -24,6 +23,8 @@ import { IContext } from "../../bookingHost/BookingHostRouter";
 import Help from "../../../atoms/Help/Help";
 import RoomTypeInfo from "../../../components/roomTypeInfo/RoomTypeInfo";
 import { PureQueryOptions } from "apollo-client";
+import PageHeader from "../../../components/pageHeader/PageHeader";
+import PageBody from "../../../components/pageBody/PageBody";
 
 interface IProps {
   items?: any;
@@ -67,14 +68,17 @@ const RoomConfigNew: React.FC<IProps> = ({
       textAlign="center"
       key={room._id}
     >
-      <h6 className="roomConfig__roomTitle">{room.name}</h6>
+      <span className="roomConfig__roomTitle">{room.name}</span>
     </JDbox>
   );
 
   return (
-    <div id="RoomConfig" className="roomConfig container container--full">
-      <div className="docs-section">
-        <h3>{LANG("room_setting")}</h3>
+    <div id="RoomConfig" className="roomConfig">
+      <PageHeader
+        title={LANG("room_setting")}
+        desc={LANG("room_setting_desc")}
+      />
+      <PageBody>
         <Button
           onClick={() => {
             roomTypeModalHook.openModal({
@@ -129,10 +133,9 @@ const RoomConfigNew: React.FC<IProps> = ({
                     return <Fragment key={room._id}>{RoomBox}</Fragment>;
                   })}
                   {/* add */}
-                  <JDbox
-                    clickable
-                    textAlign="center"
-                    mode="dashBorder"
+                  <Button
+                    mode="border"
+                    size="small"
                     onClick={e => {
                       e.preventDefault();
                       e.stopPropagation();
@@ -141,23 +144,17 @@ const RoomConfigNew: React.FC<IProps> = ({
                         roomTypeId: roomType._id
                       });
                     }}
-                    align="flexVcenter"
-                    className="roomConfig__addRoomBox"
+                    icon="add"
+                    label={LANG("add_room")}
+                    className="roomConfig__addRoomBox JDstandard-margin-bottom"
                     key={`add${roomType._id}`}
-                  >
-                    <h6 className="roomConfig__roomTitle">
-                      <span className="JDstandard-small-space">
-                        {LANG("add_room")}
-                      </span>
-                      <JDIcon icon="edit" />
-                    </h6>
-                  </JDbox>
+                  />
                 </div>
               </div>
             </Card>
           ))}
         </Fragment>
-      </div>
+      </PageBody>
       <RoomTypeModalWrap
         context={context}
         modalHook={roomTypeModalHook}

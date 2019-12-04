@@ -2,17 +2,19 @@ import React, { useEffect, useRef, useState, FormEvent } from "react";
 import "./InputText.scss";
 import "./Textarea.scss";
 import classNames from "classnames";
-import JDicon, { IconSize, IIcons } from "../../icons/Icons";
+import JDicon, { IIcons } from "../../icons/Icons";
 import ErrProtecter from "../../../utils/errProtect";
 import autoHyphen, {
   numberStr,
   toNumber,
   card_space
 } from "../../../utils/autoFormat";
-import { NEUTRAL } from "../../../types/enum";
+import { NEUTRAL, TMarginSize } from "../../../types/enum";
 import { getByteLength } from "../../../utils/elses";
 import { autoComma, s4 } from "../../../utils/utils";
 import $ from "jquery";
+import JDlabel from "../../label/JDLabel";
+import { JDmrClass, JDmbClass } from "../../../utils/autoClasses";
 
 // @ts-ignore
 interface IProps extends React.AllHTMLAttributes<HTMLInputElement> {
@@ -55,6 +57,8 @@ interface IProps extends React.AllHTMLAttributes<HTMLInputElement> {
   maxLength?: number;
   minLength?: number;
   sizes?: string;
+  mr?: TMarginSize;
+  mb?: TMarginSize;
 }
 
 const InputText: React.FC<IProps> = ({
@@ -92,6 +96,8 @@ const InputText: React.FC<IProps> = ({
   size,
   wrapClassName,
   comma,
+  mr,
+  mb,
   ...props
 }) => {
   const [selfValid, setSelfValid] = useState<boolean | "">("");
@@ -137,7 +143,9 @@ const InputText: React.FC<IProps> = ({
 
   const wrapClasses = classNames("JDinput-wrap", wrapClassName, {
     "JDinput-wrap--fullWidth": size === "fullWidth",
-    "JDinput-wrap--fullHeight": size === "fullHeight"
+    "JDinput-wrap--fullHeight": size === "fullHeight",
+    ...JDmrClass(mr),
+    ...JDmbClass(mb)
   });
 
   const classes = classNames(textarea ? "JDtextarea" : "JDinput", className, {
@@ -190,39 +198,42 @@ const InputText: React.FC<IProps> = ({
   // 인풋 과 텍스트어리어 경계
   return !textarea ? (
     <div className={wrapClasses}>
-      {icon ? (
-        <span className="JDinput-iconWrap">
-          {icon && (
-            <JDicon
-              size={IconSize.MEDIUM}
-              onClick={iconOnClick}
-              hover={iconHover}
-              icon={icon}
-            />
-          )}
-        </span>
-      ) : null}
-      <input
-        onChange={inHandleChange}
-        disabled={disabled}
-        readOnly={readOnly}
-        onBlur={onBlur}
-        type={type}
-        value={formatedValue}
-        ref={refContainer || inRefContainer}
-        data-color="1213"
-        className={classes}
-        maxLength={card ? 19 : undefined}
-        {...props}
-      />
-      <label
-        htmlFor="JDinput"
-        data-error={dataError}
-        data-success={dataSuccess}
-        className="JDinput_label"
-      >
-        {label}
-      </label>
+      {label && (
+        <JDlabel
+          txt={label}
+          // htmlFor="JDinput"
+          // data-error={dataError}
+          // data-success={dataSuccess}
+          className="JDinput_label"
+        />
+      )}
+      <div className="JDinput__inside-wrap">
+        {icon ? (
+          <span className="JDinput-iconWrap">
+            {icon && (
+              <JDicon
+                size={"normal"}
+                onClick={iconOnClick}
+                hover={iconHover}
+                icon={icon}
+              />
+            )}
+          </span>
+        ) : null}
+        <input
+          onChange={inHandleChange}
+          disabled={disabled}
+          readOnly={readOnly}
+          onBlur={onBlur}
+          type={type}
+          value={formatedValue}
+          ref={refContainer || inRefContainer}
+          data-color="1213"
+          className={classes}
+          maxLength={card ? 19 : undefined}
+          {...props}
+        />
+      </div>
     </div>
   ) : (
     <div className={wrapClasses}>

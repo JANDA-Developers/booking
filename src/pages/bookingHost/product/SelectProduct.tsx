@@ -129,25 +129,8 @@ const SelectProducts: React.FC<IProps> = ({
               />
             )}
           </p>
-          {/* 서비스해지 버튼 */}
-          {Check(currentProduct, "_id") && (
-            <Button
-              onClick={refundModal.openModal}
-              disabled={isEmpty(selectedHouse)}
-              thema="error"
-              label={LANG("release_service")}
-            />
-          )}
         </div>
       </div>
-      {/* 리펀트 시작 */}
-      <Modal className="refundModal" {...refundModal}>
-        <h6>{LANG("release_service")}</h6>
-        <p>
-          <RefundPolicyNode />
-        </p>
-        <h6>{LANG("please_request_through_helpline")}</h6>
-      </Modal>
       <ApplyProductModal
         houseId={inOr(selectedHouse, "_id", "")}
         buyProductMu={buyProductMu}

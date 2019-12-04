@@ -1,5 +1,5 @@
 import React from "react";
-import JDIcon, { IconSize } from "../../icons/Icons";
+import JDIcon from "../../icons/Icons";
 import { IUseModal } from "../../../hooks/hook";
 
 interface IProps {
@@ -34,7 +34,7 @@ export const SharedSideBarHeader: React.FC<IProps> = ({
         >
           <JDIcon
             className="dailyPrice__topLeftIcon"
-            size={IconSize.MEDEIUM_SMALL}
+            size={"small"}
             icon="calendar"
           />
         </div>

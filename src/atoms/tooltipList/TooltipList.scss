@@ -1,4 +1,4 @@
-@import "~Styles/style_config.scss";
+@import "~Styles";
 
 #root,.ReactModalPortal {
     .tooltipList {
@@ -6,7 +6,7 @@
         background-color: white;
         opacity:1;
         z-index: 80!important;
-        @extend %z-depth-2;
+        @extend %z-depth-3;
         padding:0;
         margin-top:0;
 
@@ -42,11 +42,14 @@
             margin: -1px;
             & > li {
                 border-bottom:1px solid $grey-level1;
-                .JDbtn  {
+                .JDbtn {
+                    width: calc(100% - #{$button-padding-side * 2});
+                    box-sizing: content-box;
+                    padding-top: $standard-superTiny-space;
+                    padding-bottom: $standard-superTiny-space;
                     // color: $html-color;
                     margin:0;
-                    width: 100%;
-                    border-radius: 0;
+                    border-radius: 0!important;
                     border:none;
                     box-shadow: none;
 

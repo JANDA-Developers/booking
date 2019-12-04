@@ -40,7 +40,6 @@ class CreateHouseMu extends Mutation<createHouse, createHouseVariables> {}
 
 // eslint-disable-next-line react/prop-types
 const CreateHouse: React.FC<IProps> = ({ context, google }) => {
-  const { history } = context;
   const houseNameHoook = useInput("");
   const deatailaddressHook = useInput("");
   const typeSelectHook = useSelect(null);

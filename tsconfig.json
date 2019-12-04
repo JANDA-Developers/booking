@@ -23,7 +23,9 @@
     "src/pages/documents/pages.jsxver/pages.jsx",
     "src/.queries.ts",
     "src/atoms/toggleNoti",
-    "src/components/cardResistModal"
+    "src/components/cardResistModal",
+    "src/utils/jsdrag.js",
+    "src/pages/bookingHost/resvList/Excel.jsx"
   ],
   "exclude": ["node_modules"]
 }

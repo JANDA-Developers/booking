@@ -1,12 +1,12 @@
 import classNames from "classnames";
-import React, {useRef, useEffect} from "react";
+import React, { useRef, useEffect } from "react";
 // @ts-ignore
-import Menu, {SubMenu as JDsubMenu, MenuItem as JDmenuItem} from "rc-menu";
+import Menu, { SubMenu as JDsubMenu, MenuItem as JDmenuItem } from "rc-menu";
 import "rc-menu/assets/index.css";
 import "./Menu.scss";
 // @ts-ignore
 import animate from "css-animation";
-import {MotionType} from "rc-menu/lib/interface";
+import { MotionType } from "rc-menu/lib/interface";
 
 const animation: MotionType = {
   onEnterStart(node, done) {
@@ -56,7 +56,7 @@ interface IProps {
   [key: string]: any;
 }
 
-const JDmenu: React.FC<IProps> = ({customMode, className, ...prop}) => {
+const JDmenu: React.FC<IProps> = ({ customMode, className, ...prop }) => {
   const menu = useRef(null);
 
   const classes = classNames("JDmenu", className, {
@@ -76,4 +76,4 @@ const JDmenu: React.FC<IProps> = ({customMode, className, ...prop}) => {
 };
 
 export default JDmenu;
-export {JDsubMenu, JDmenuItem};
+export { JDsubMenu, JDmenuItem };

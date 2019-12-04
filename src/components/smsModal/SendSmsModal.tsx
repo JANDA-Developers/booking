@@ -72,7 +72,10 @@ const SendSmsModal: React.FC<IProps> = ({
       page: 0,
       houseId,
       filter: {
-        stayDate: moment(today).format("YYYY-MM-DD")
+        stayDate: {
+          checkIn: moment(today).format("YYYY-MM-DD"),
+          checkOut: moment(today).format("YYYY-MM-DD")
+        }
       }
     }
   });
@@ -147,7 +150,10 @@ const SendSmsModal: React.FC<IProps> = ({
         count: 99,
         page: 1,
         filter: {
-          stayDate: moment(today).toDate()
+          stayDate: {
+            checkIn: moment(today).toDate(),
+            checkOut: moment(today).toDate()
+          }
         }
       });
     }

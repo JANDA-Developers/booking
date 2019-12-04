@@ -1,166 +1,24 @@
-// @import "../~Styles/style_config.scss";
+@import '~Styles';
 
-// .colorPage {
+.colorPage-box {
+    width: 30px;
+    height: 30px;
+    
+    &-wrap {
+        min-width: 50px;
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: $standard-tiny-space;
+        border: 1px solid $grey-level1;
+        margin-right: $standard-tiny-space;
+        margin-bottom: $standard-tiny-space;
+        border-radius: $standard-border-radius;
+    }
 
-//     //todo: 명명규칙 BEM 
-//     &-box {
-
-//         &-wrap {
-//             padding: .5rem;
-//         }
-
-//         padding-top: 100%;
-//         position: relative;
-//         margin-bottom: 1rem;
-//     }
-
-//     &-circle {
-
-//         background-color: white;
-
-//         &__txt {
-//             position: absolute;
-//             top: calc(50% - 1rem);
-//             width: 100%;
-            
-//             @include response($tablet){
-//                 font-size:1.2rem;
-//                 top: calc(50% - .6rem);
-//             }
-//         }
-
-//         @extend %z-depth-3;
-//         position: absolute;
-//         top: 0;
-//         left: 0;
-//         right: 0;
-//         bottom: 0;
-//         border-radius: 50%;
-//         text-align: center;
-
-//         &--primary {
-//             background-color: $primary-color;
-
-//             .colorPage-circle__txt {
-//                 color: $primary-color-on
-//             }
-//         }
-
-//         &--primary-light {
-//             background-color: $primary-color-light;
-
-//             .colorPage-circle__txt {
-//                 color: $primary-color-light-on
-//             }
-//         }
-
-//         &--primary-dark {
-//             background-color: $primary-color-dark;
-
-//             .colorPage-circle__txt {
-//                 color: $primary-color-dark-on
-//             }
-//         }
-
-//         &--point {
-//             background-color: $point-color;
-
-//             .colorPage-circle__txt {
-//                 color: $point-color-on
-//             }
-//         }
-
-//         &--point-light {
-//             background-color: $point-color-light;
-
-//             .colorPage-circle__txt {
-//                 color: $point-color-light-on
-//             }
-//         }
-
-//         &--point-dark {
-//             background-color: $point-color-dark;
-
-//             .colorPage-circle__txt {
-//                 color: $point-color-dark-on
-//             }
-//         }
-
-//         &--html-color {
-//             background-color: $html-color;
-
-//             .colorPage-circle__txt {
-//                 color: #fff
-//             }
-//         }
-
-//         &--grey-level1 {
-//             background-color: $grey-level1;
-
-//             .colorPage-circle__txt {
-//                 color: #fff
-//             }
-//         }
-
-//         &--grey-level2 {
-//             background-color: $grey-level2;
-
-//             .colorPage-circle__txt {
-//                 color: #fff
-//             }
-//         }
-
-//         &--grey-level3 {
-//             background-color: $grey-level3;
-
-//             .colorPage-circle__txt {
-//                 color: #fff
-//             }
-//         }
-
-//         &--html-color {
-//             background-color: $html-color;
-
-//             .colorPage-circle__txt {
-//                 color: #fff
-//             }
-//         }
-
-//         &--button-disabled {
-//             background-color: $button-disabled-background;
-//         }
-
-//         &--new {
-//             background-color: $new-color;
-
-//             .colorPage-circle__txt {
-//                 color: #fff
-//             }
-//         }
-
-//         &--error {
-//             background-color: $error-color;
-
-//             .colorPage-circle__txt {
-//                 color: #fff
-//             }
-//         }
-
-//         &--link {
-//             background-color: $blue-color;
-
-//             .colorPage-circle__txt {
-//                 color: #fff
-//             }
-//         }
-
-//         &--background-color {
-//             background-color: $background-color;
-
-//             .colorPage-circle__txt {
-//                 color: $html-color
-//             }
-//         }
-
-//     }
-// }
+    &s-wrap {
+        display: flex;
+        flex-wrap: wrap;
+    }
+}

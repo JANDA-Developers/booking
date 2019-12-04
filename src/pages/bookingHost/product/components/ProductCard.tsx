@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import "./ProductCard.scss";
-import JDIcon, { IconSize } from "../../../../atoms/icons/Icons";
+import JDIcon from "../../../../atoms/icons/Icons";
 import JDbadge from "../../../../atoms/badge/Badge";
 import Button from "../../../../atoms/button/Button";
 import { IUseModal, LANG } from "../../../../hooks/hook";
@@ -64,7 +64,7 @@ const JDproductCard: React.FC<IProps> = ({
         <div>
           <div className="JDproduct__iconWrap">
             <JDIcon
-              size={IconSize.SUPER_LARGE}
+              size={"largest"}
               className="JDproduct__icon"
               icon={icon || "rocket"}
             />

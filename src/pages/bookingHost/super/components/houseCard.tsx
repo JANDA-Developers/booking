@@ -1,16 +1,16 @@
 import React from "react";
 import moment from "moment";
-import {IUseModal, useModal, LANG} from "../../../../hooks/hook";
+import { IUseModal, useModal, LANG } from "../../../../hooks/hook";
 import Card from "../../../../atoms/cards/Card";
 import ProfileCircle from "../../../../atoms/profileCircle/ProfileCircle";
 import Button from "../../../../atoms/button/Button";
 import Badge from "../../../../atoms/badge/Badge";
-import {autoHypen} from "../../../../utils/utils";
+import { autoHypen } from "../../../../utils/utils";
 import JDmodal from "../../../../atoms/modal/Modal";
 import SpecificAtionWrap from "../../../../components/specification/SpecificationWrap";
-import {getHousesForSU_GetHousesForSU_houses} from "../../../../types/api";
-import JDIcon, {IconSize} from "../../../../atoms/icons/Icons";
-import {ICreateNotiModalParam} from "./createNotiModalWrap";
+import { getHousesForSU_GetHousesForSU_houses } from "../../../../types/api";
+import JDIcon from "../../../../atoms/icons/Icons";
+import { ICreateNotiModalParam } from "./createNotiModalWrap";
 
 interface IProps {
   userModal: IUseModal;
@@ -27,16 +27,16 @@ const HouseCard: React.SFC<IProps> = ({
   const getBadgeInfo = () => {
     const badgeInfoes = [];
 
-    const {createdAt, updatedAt} = houseData;
+    const { createdAt, updatedAt } = houseData;
 
     if (moment(createdAt).isAfter(moment().subtract(1, "days"))) {
-      badgeInfoes.push({thema: "new", label: "new"});
+      badgeInfoes.push({ thema: "new", label: "new" });
     }
     if (
       moment(updatedAt).isAfter(moment().subtract(1, "days")) &&
       !moment(createdAt).isSame(updatedAt, "day")
     ) {
-      badgeInfoes.push({thema: "primary", label: "update"});
+      badgeInfoes.push({ thema: "primary", label: "update" });
     }
     return badgeInfoes;
   };
@@ -47,9 +47,9 @@ const HouseCard: React.SFC<IProps> = ({
       <ProfileCircle
         file={houseData.user.profileImg}
         onClick={() => {
-          userModal.openModal({userId: houseData.user._id});
+          userModal.openModal({ userId: houseData.user._id });
         }}
-        size={IconSize.LARGE}
+        size={"large"}
         className="houseCard__profile JDmargin-bottom0"
       />
       <div className="houseCard__contentsWrap">
@@ -65,7 +65,7 @@ const HouseCard: React.SFC<IProps> = ({
               });
             }}
             hover
-            size={IconSize.MEDEIUM_SMALL}
+            size={"small"}
             icon="notify"
           />
           {badgeInfoes.map(badgeInfo => (

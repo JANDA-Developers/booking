@@ -1,8 +1,8 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import "./MultiBox.scss";
 import classNames from "classnames";
 import Button from "../button/Button";
-import {s4} from "../../utils/utils";
+import { s4 } from "../../utils/utils";
 
 interface IProps {
   labels: string[];
@@ -12,6 +12,8 @@ interface IProps {
   withAllToogler?: boolean;
   defaultAllToogle?: boolean;
   withAllTooglerLabel?: string;
+  className?: string;
+  noWrap?: boolean;
 }
 
 const JDmultiBox: React.FC<IProps> = ({
@@ -21,7 +23,9 @@ const JDmultiBox: React.FC<IProps> = ({
   labels,
   onChange,
   withAllToogler,
-  withAllTooglerLabel
+  withAllTooglerLabel,
+  className,
+  noWrap
 }) => {
   const [onAllToggle, setAllToggle] = useState(defaultAllToogle);
   const handleMultiBoxAllChange = () => {
@@ -39,29 +43,35 @@ const JDmultiBox: React.FC<IProps> = ({
     onChange(selectedValue.slice());
   };
 
-  const classes = classNames({
-    JDswitch__input: true
+  const classes = classNames("multiBox", className, {
+    "multiBox--noWrap": noWrap
+  });
+
+  const innerClasses = classNames("multiBox__inner", undefined, {
+    "multiBox__inner--noWrap": noWrap
   });
 
   return (
-    <div className="multiBox">
-      {withAllToogler && (
-        <Button
-          size="small"
-          toggle={onAllToggle}
-          label={withAllTooglerLabel}
-          onClick={handleMultiBoxAllChange}
-        />
-      )}
-      {labels.map((label, index) => (
-        <Button
-          size="small"
-          key={s4()}
-          toggle={selectedValue.includes(value[index])}
-          label={label}
-          onClick={() => handleMultiBoxChange(value[index])}
-        />
-      ))}
+    <div className={`multiBox ${classes}`}>
+      <div className={innerClasses}>
+        {withAllToogler && (
+          <Button
+            size="small"
+            toggle={onAllToggle}
+            label={withAllTooglerLabel}
+            onClick={handleMultiBoxAllChange}
+          />
+        )}
+        {labels.map((label, index) => (
+          <Button
+            size="small"
+            key={s4()}
+            toggle={selectedValue.includes(value[index])}
+            label={label}
+            onClick={() => handleMultiBoxChange(value[index])}
+          />
+        ))}
+      </div>
     </div>
   );
 };

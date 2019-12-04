@@ -1,0 +1,48 @@
+@import '~Styles';
+
+#root .periodicalSignCard {
+    width: 100%;
+    height: 290px;
+    display:flex;
+    flex-direction: column;
+    border: 1px solid $grey-level1;
+
+
+    &__price {
+        margin:0;
+    }
+
+    &__infoTable {
+        margin-bottom: 0;
+    }
+
+    &__product {
+        display:flex;
+        align-items: center;
+    }
+
+    &__priceZone {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-right: 1px solid $grey-level0;
+    }
+
+    &__bodyWrap {
+        width: 100%;
+        flex: 1 1;
+        align-items: center;
+        text-align:center;
+        justify-content: space-between;
+    }
+
+    &__header{
+        display: flex;
+        align-items: center;
+        background-color:$primary-color;
+        justify-content: flex-end;
+        color: $primary-color-on;
+    }
+}

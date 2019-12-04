@@ -1,4 +1,4 @@
-@import '~Styles/style_config';
+@import '~Styles';
 
 
 #root {
@@ -18,18 +18,15 @@
             }
             
             &__tab {
+                box-sizing: border-box;
                 padding: 0px $tabs-tab-padding;
                 outline:0;
                 
                 // 선택된
                 &--selected {
-                    position: relative;
-                    bottom: -1px;
-                    background-color: $background-color;
-                    border: 1px solid $html-color;
-                    border-bottom: 0px solid transparent;
+                    color: $tabs-tab-selected-color;
+                    border-bottom: $tabs-tab-selected-border-bottom;
                     border-radius: $tabs-tab-border-radious $tabs-tab-border-radious 0px 0px ;
-                    line-height : calc(#{$tabs-height} - 4px);    
                 }
 
                 &:not(.react-tabs__tab--selected) {
@@ -46,6 +43,15 @@
         }
         
     .JDtabs {
+
+
+        &--tabsAlign-spaceAround {
+            .react-tabs__tab-list {
+                display: flex;
+                justify-content: space-around;
+            }
+        }
+
         &--style_button {
             $B: ".react-tabs" ;
             #{$B}__tab-list {
@@ -59,7 +65,7 @@
                 }
             }
             #{$B}__tab {
-                border: 1px solid $html-color;
+                border: 1px solid $tabs-tab-border-color;
                 border-radius: $tabs-tab-border-radious;
                 float:left;
                 margin: $standard-margin-bottom /6 $standard-space /4;
@@ -71,6 +77,8 @@
                 }
             }
         }
+        
+        @include mb--prefixer("&",".react-tabs__tab-list");
     }
 
 }

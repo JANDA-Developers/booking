@@ -1,6 +1,29 @@
-@import '~Styles/style_config.scss';
+@import '~Styles';
 
 .JDsideNav {
+
+
+
+    display: block;
+    width: 0px;
+    overflow: hidden;
+    background-color:white;
+    height: calc(100vh - #{$header-height});
+    box-sizing:border-box;
+    transition: 0.3s;
+    position: sticky;
+    top: $header-height;
+
+    @extend %z-depth-2;
+
+    @include response($phablet) {
+        position:fixed;
+        left: 0;
+        top: $header-height;
+        bottom: 0;
+        -webkit-box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.2);
+    }
 
     &__inner {
         position: relative;
@@ -13,26 +36,6 @@
             min-width: $sideNav-width-wmd;
         }
     }
-
-    @include response($phablet) {
-        position:fixed;
-        left: 0;
-        top: $header-height;
-        bottom: 0;
-        -webkit-box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.2);
-        box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.2);
-    }
-
-    display: block;
-    width: 0px;
-    overflow: hidden;
-    background-color:white;
-    height: calc(100vh - #{$header-height});
-    box-sizing:border-box;
-    transition: 0.3s;
-    position: sticky;
-    top: $header-height;
-    @extend %z-depth-1;
 
     &__houseName {
         font-size: $typho-large;
@@ -134,10 +137,13 @@
     }
 
     &__listContainer {
-        overflow: auto;
         @extend %JDscrollbar;
         padding: 0px;
         max-height: calc(100vh - #{$sideNav-profile-height} - #{$sideNav-productView-height});
+        padding-bottom: 6rem; //스크롤 여유분 포함
+    }
+    .rc-menu-submenu-arrow {
+        right: calc(#{$sideNav-list-padding} + 5px)!important;
     }
 
     &__navLink {

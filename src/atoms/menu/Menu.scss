@@ -1,4 +1,4 @@
-@import "~Styles/style_config.scss";
+@import "~Styles";
 
 #root,.ReactModalPortal {
     .rc-menu {
@@ -45,6 +45,7 @@
     }
 
     .JDmenu--dropDown {
+        border-top: $menu-border-bottom;
 
         .rc-menu-submenu-arrow {
             right: calc(#{$menu-dropDown-side-padding} + 5px);

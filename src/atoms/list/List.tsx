@@ -1,10 +1,10 @@
 import classNames from "classnames";
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import ErrProtecter from "../../utils/errProtect";
-import {IUl} from "../../types/interface";
-import {s4, textAlignClass} from "../../utils/utils";
+import { IUl } from "../../types/interface";
+import { s4, textAlignClass } from "../../utils/utils";
 import "./List.scss";
-import {TextAlign} from "../../types/enum";
+import { TextAlign } from "../../types/enum";
 
 interface IProps extends IUl {
   className?: string;
@@ -50,8 +50,8 @@ const JDlist: React.FC<IProps> = ({
               {linePoint ||
                 (withIndex && (
                   <span className="JDlist__index">
-                    {linePoint && `${linePoint}`}
                     {withIndex && index}
+                    {linePoint && `${linePoint}`}
                   </span>
                 ))}
               {content}

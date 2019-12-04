@@ -44,9 +44,7 @@ const JDtimeline: React.FC<ITimelineProps> = ({
   const [dotPoint, setDotPoint] = useState<IDotPoint>(defaultDotPoint);
 
   const toggleDraggingMode = (flag: boolean) => {
-    $(
-      ".react-calendar-timeline .rct-outer .rct-scroll .rct-horizontal-lines .group"
-    ).css("cursor", flag ? "crosshair" : "");
+    $("html").css("cursor", flag ? "cell" : "");
     setIsActive(flag);
   };
 

@@ -1,4 +1,4 @@
-@import '~Styles/style_config';
+@import '~Styles';
 
 .JDicon__svg {
     display: inline-flex;
@@ -10,7 +10,7 @@
     
     &--hover:hover {
         cursor: pointer;;
-        color: $grey-level3;
+        color: $grey-level4;
     }
     &--selected {
         color: $primary-color-light;
@@ -32,7 +32,11 @@
 }
 
 .JDicon {
+    width: 1em;
+    height: 1em;
+    
     @include colorText--prefixer();   
+    @include iconSize--prefixer();   
 }
 
 .JDicon__dots {

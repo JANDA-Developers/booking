@@ -1,13 +1,16 @@
 import React from "react";
 import classNames from "classnames";
-import {Tab, Tabs, TabList, TabPanel} from "react-tabs";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "./Tabs_.scss";
+import { mbClass } from "../../utils/autoClasses";
+import { TMarginSize } from "../../types/enum";
 
 interface IProps {
   styleMode?: "button";
   className?: string;
   defaultFocus?: boolean;
   defaultIndex?: number;
+  tabsAlign?: "spaceAround";
   disabledTabClassName?: string;
   domRef?: (node?: HTMLElement) => void;
   forceRenderTabPanel?: boolean;
@@ -15,15 +18,24 @@ interface IProps {
   selectedIndex?: number;
   selectedTabClassName?: string;
   selectedTabPanelClassName?: string;
+  mb?: TMarginSize;
 }
 
-const JDtabs: React.FC<IProps> = ({styleMode, className, ...props}) => {
+const JDtabs: React.FC<IProps> = ({
+  mb,
+  tabsAlign,
+  styleMode,
+  className,
+  ...props
+}) => {
   const classes = classNames("JDtabs", className, {
     "JDtabs--style_button": styleMode === "button",
-    "JDtabs--normal": !styleMode
+    "JDtabs--normal": !styleMode,
+    "JDtabs--tabsAlign-spaceAround": tabsAlign === "spaceAround",
+    ...mbClass("JDtabs", mb)
   });
 
   return <Tabs {...props} className={classes} />;
 };
 
-export {Tab, JDtabs, TabList, TabPanel};
+export { Tab, JDtabs, TabList, TabPanel };

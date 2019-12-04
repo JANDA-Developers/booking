@@ -24,7 +24,6 @@ const checkBizID = (
   return false;
 };
 
-
 const isUrl = string => {
   if (string === "") return NEUTRAL;
   const regExp = /^http(s)?:\/\/(www\.)?[a-z0-9]+([-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
@@ -57,7 +56,6 @@ const isName = string => {
 };
 
 const isYYYYMMDD = string => {
-  if (string === "") return NEUTRAL;
   const regExp = /^(19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/;
   // const regExp2 = /^(19|20)\d{2}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[0-1])$/;
   let validation = regExp.test(string);

@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import {EerrorProtect} from "../../../utils/errProtect";
+import React, { useState } from "react";
+import { EerrorProtect } from "../../../utils/errProtect";
 import "./SetPrice.scss";
 import {
   getAllSeasonTable_GetAllRoomType_roomTypes,
@@ -19,25 +19,34 @@ import {
 import Preloader from "../../../atoms/preloader/Preloader";
 import classNames from "classnames";
 import Button from "../../../atoms/button/Button";
-import {Link} from "react-router-dom";
-import {priceMapResult} from "./SetPriceWrap";
-import JDtable, {ReactTableDefault} from "../../../atoms/table/Table";
-import {CellInfo} from "react-table";
+import { Link } from "react-router-dom";
+import { priceMapResult } from "./SetPriceWrap";
+import JDtable, { ReactTableDefault } from "../../../atoms/table/Table";
+import { CellInfo } from "react-table";
 import JDIcon from "../../../atoms/icons/Icons";
 import InputText from "../../../atoms/forms/inputText/InputText";
-import {toNumber, muResult} from "../../../utils/utils";
+import { toNumber, muResult } from "../../../utils/utils";
 import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
 import selectOpCreater from "../../../utils/selectOptionCreater";
 import SeasonHeader from "./components/seasonHeader";
-import {useModal, useShouldSave, useDayPicker, LANG} from "../../../hooks/hook";
-import DayOfWeekModal, {IDayOfWeekModalInfo} from "./components/dayOfWeekModal";
+import {
+  useModal,
+  useShouldSave,
+  useDayPicker,
+  LANG
+} from "../../../hooks/hook";
+import DayOfWeekModal, {
+  IDayOfWeekModalInfo
+} from "./components/dayOfWeekModal";
 import CreateSeasonModal from "./components/createSeasonModal";
-import {MutationFn} from "react-apollo";
-import {WindowSizeProps} from "react-window-size";
-import {WindowSize} from "../../../types/enum";
-import {IContext} from "../../bookingHost/BookingHostRouter";
+import { MutationFn } from "react-apollo";
+import { WindowSizeProps } from "react-window-size";
+import { WindowSize } from "../../../types/enum";
+import { IContext } from "../../bookingHost/BookingHostRouter";
 import JDlist from "../../../atoms/list/List";
 import JDLabel from "../../../atoms/label/JDLabel";
+import PageHeader from "../../../components/pageHeader/PageHeader";
+import PageBody from "../../../components/pageBody/PageBody";
 
 interface IProps {
   loading?: boolean;
@@ -80,7 +89,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
   loading,
   context
 }) => {
-  const {house} = context;
+  const { house } = context;
   const isPhablet = windowWidth <= WindowSize.PHABLET;
   const dayOfWeekModal = useModal<IDayOfWeekModalInfo>(false);
   const createSeasonModal = useModal(false);
@@ -93,7 +102,10 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
     }))
   );
   const [priceMap, setPriceMap] = useState(defaultPriceMap);
-  const {shouldSave, setShouldSave} = useShouldSave([priceMap, roomTypePrices]);
+  const { shouldSave, setShouldSave } = useShouldSave([
+    priceMap,
+    roomTypePrices
+  ]);
 
   const priorityOption = selectOpCreater({
     count: seasonData.length,
@@ -176,7 +188,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
     accessor: "index",
     minWidth: isPhablet ? 130 : 130,
     maxWidth: 234,
-    Cell: ({value, original: roomType, index}: CellInfo) => {
+    Cell: ({ value, original: roomType, index }: CellInfo) => {
       const targetPrice = priceMap.get(roomType._id + season._id);
       return (
         <div>
@@ -220,14 +232,14 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
     {
       Header: `${LANG("roomType")} \\ ${LANG("season")}`,
       accessor: "name",
-      Cell: ({value, original, index}: CellInfo) => {
+      Cell: ({ value, original, index }: CellInfo) => {
         return <div>{value}</div>;
       }
     },
     {
       Header: LANG("basic_price"),
       accessor: "defaultPrice",
-      Cell: ({value, original, index}: CellInfo) => {
+      Cell: ({ value, original, index }: CellInfo) => {
         return (
           <InputText
             label={LANG("room_type_basic_price")}
@@ -250,16 +262,13 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
     ...seasonTableColumns
   ];
 
-  const containerClasses = classNames("container", undefined, {
-    "container--sm": seasonData.length < 3,
-    "container--md": seasonData.length >= 3 && seasonData.length < 5,
-    "container--lg": seasonData.length >= 5 && seasonData.length < 7
-  });
-
   return (
-    <div id="setPrice" className={`setPrice ${containerClasses}`}>
-      <div className="docs-section">
-        <h3>{LANG("price_setting")}</h3>
+    <div id="setPrice" className={`setPrice`}>
+      <PageHeader
+        title={LANG("price_setting")}
+        desc={LANG("price_setting__desc")}
+      />
+      <PageBody>
         <Button
           onClick={() => {
             createSeasonModal.openModal();
@@ -322,7 +331,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
             </span>
           ]}
         />
-      </div>
+      </PageBody>
     </div>
   );
 };

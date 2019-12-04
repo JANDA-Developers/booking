@@ -2,6 +2,14 @@ import React from "react";
 import DynamicImport from "../../utils/dynamicComponent";
 import Preloader from "../../atoms/preloader/Preloader";
 
+export const SmsInfo = props => (
+  <DynamicImport load={() => import("./smsInfo/SmsInfo")}>
+    {DNcompoent =>
+      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
+    }
+  </DynamicImport>
+);
+
 export const Expired = props => (
   <DynamicImport load={() => import("./expire/Expired")}>
     {DNcompoent =>
@@ -10,8 +18,10 @@ export const Expired = props => (
   </DynamicImport>
 );
 
-export const Sms = props => (
-  <DynamicImport load={() => import("./sms/SmsWrap")}>
+export const SmsTemplateSetting = props => (
+  <DynamicImport
+    load={() => import("./smsTemplateSetting/SmsTemplateSettingWrap")}
+  >
     {DNcompoent =>
       DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
     }

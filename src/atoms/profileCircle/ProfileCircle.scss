@@ -1,4 +1,4 @@
-@import '~Styles/style_config.scss';
+@import '~Styles';
 
 .profileCircle {
     width: $profileCircle-size;
@@ -8,10 +8,12 @@
     background-size: 100%;
     border-radius:50%;
     position: relative;
-    overflow:hidden;
     box-sizing:border-box;
     flex: none;
+    overflow:visible!important;
  
+    @include iconSize--prefixer(2);   
+
     &:hover {
         &:after{
             content:"";
@@ -20,24 +22,64 @@
             position: absolute;
             top:0;
             left: 0;
+            border-radius: 50%;
             background-color:$hover-effect-dark;
         }
     }
 
     &--bordered {
-        border: 2px solid $outborder-color;
+        border: $profileCircle-border;
     }
 
     &--whiteBorder {
         border-color:white;
     }
 
+    &--config {
+        &:hover {
+            cursor: auto;
+            &:after{
+                content:none;
+            }
+        }
+    }
+
+    &__addIcon {
+        display:inline-block;
+        padding: $standard-superTiny-space;
+        position: absolute;
+        right: -$standard-small-space;
+        bottom: -$standard-superTiny-space;
+        border-radius: 50%;
+        background-color: white;
+        &-inner {
+            display:flex;
+            align-items: center;
+            justify-content: center;
+            width: $icon-size-tiny * 2;
+            height: $icon-size-tiny * 2;
+            background-color: white;
+            border-radius: 50%;
+
+            &:hover {
+                cursor: pointer;
+                background-color: $grey-level1;
+            }
+
+            @include shadow(1);
+        }
+        .JDicon__svg {
+            top:0;
+        }
+    }
+
     &__input {
         position: absolute;
         height: 100%;
         top: 0;
+        bottom: 100%;
         border: 0;
-        left: 0;
+        left: 100%;
         opacity: 0;
         right: 0;
         z-index: $z-index-1;

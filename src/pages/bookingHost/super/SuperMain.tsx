@@ -1,19 +1,19 @@
-import React, {Fragment, useState} from "react";
-import {getHousesForSU_GetHousesForSU_houses as Ihouse} from "../../../types/api";
-import {IUseModal, useModal, LANG} from "../../../hooks/hook";
+import React, { Fragment, useState } from "react";
+import { getHousesForSU_GetHousesForSU_houses as Ihouse } from "../../../types/api";
+import { IUseModal, useModal, LANG } from "../../../hooks/hook";
 import Preloader from "../../../atoms/preloader/Preloader";
 import "./SuperMain.scss";
 import JDPagination from "../../../atoms/pagination/Pagination";
 import HouseCard from "./components/houseCard";
-import {IPageInfo} from "../../../types/interface";
+import { IPageInfo } from "../../../types/interface";
 import UserModal from "./components/userModalWrap";
 import Button from "../../../atoms/button/Button";
 import CreateNotiModalWrap, {
   ICreateNotiModalParam
 } from "./components/createNotiModalWrap";
-import {IContext} from "../../bookingHost/BookingHostRouter";
-import {isEmpty} from "../../../utils/utils";
-import {NotiType} from "../../../types/enum";
+import { IContext } from "../../bookingHost/BookingHostRouter";
+import { isEmpty } from "../../../utils/utils";
+import { NotiType } from "../../../types/enum";
 interface Iprops {
   context: IContext;
   page: number;
@@ -36,7 +36,7 @@ const SuperMain: React.SFC<Iprops> = ({
   const NotiModalHook = useModal<ICreateNotiModalParam>(false);
   return (
     <div id="superMain">
-      <div className="container container--sm">
+      <div className="container container--full">
         <div className="docs-section">
           <Fragment>
             <div className="docs-section__box">

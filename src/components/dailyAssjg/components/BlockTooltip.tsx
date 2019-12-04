@@ -6,9 +6,7 @@ import {
   IDailyAssigDataControl
 } from "../../../pages/bookingHost/assig/components/assigIntrerface";
 import { IDailyAssigContext } from "../DailyAssig";
-import {
-  getAllRoomTypeWithGuest_GetBlocks_blocks as IB
-} from "../../../types/api";
+import { getAllRoomTypeWithGuest_GetBlocks_blocks as IB } from "../../../types/api";
 import Button from "../../../atoms/button/Button";
 import { LANG } from "../../../hooks/hook";
 

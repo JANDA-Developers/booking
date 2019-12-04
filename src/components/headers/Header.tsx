@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import "./Header.scss";
 import { NavLink } from "react-router-dom";
 import { ReactTooltip } from "../../atoms/tooltipList/TooltipList";
-import Icon, { IconSize } from "../../atoms/icons/Icons";
+import Icon from "../../atoms/icons/Icons";
 import { ErrProtecter } from "../../utils/utils";
-import { useModal, LANG } from "../../hooks/hook";
+import { useModal } from "../../hooks/hook";
 import { IDiv } from "../../types/interface";
 import GuestSearchInputWrap from "../guestSearchInput/GuestSearchInputWrap";
 import PhoneVerificationModalWrap from "../phoneVerificationModal/PhoneVerificationModalWrap";
@@ -14,6 +14,10 @@ import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import MobileHeaderComponent from "./components/MobileHeaderComponent";
 import PcHeaderComponent from "./components/PcHeaderComponent";
 import SharedHeaderComponent from "./components/SharedHeaderComponent";
+import CircleIcon from "../../atoms/circleIcon/CircleIcon";
+import JDIcon from "../../atoms/icons/Icons";
+import Logo from "./components/Logo";
+import HeaderMenu from "./components/HeaderMenu";
 
 type ITempProps = IDiv & {
   context: IContext;
@@ -49,38 +53,28 @@ const Header: React.FC<IProps> = ({
     <div className="header">
       {/* 로고 */}
       <div className="header__left">
-        <NavLink to="/dashboard">
-          <span
-            className={`header__logoPlace ${completeDefaultSetting &&
-              "JDdisplay-none--wmd"}`}
-          >
-            <img
-              className="header__logo"
-              src={`${IMG_REPO}logo/logo--white.png`}
-              alt=""
-            />
-          </span>
-        </NavLink>
+        <Logo completeDefaultSetting={completeDefaultSetting} />
         {/* 메뉴버튼 */}
-        <span className="header__menueWrap">
-          {completeDefaultSetting && (
-            <span className="header__menue">
-              <Icon
-                onClick={() => {
-                  setSideNavIsOpen();
-                }}
-                size={!sideNavIsOpen ? IconSize.LARGE : IconSize.MEDEIUM_SMALL}
-                icon={!sideNavIsOpen ? "menue" : "clear"}
-              />
-            </span>
-          )}
-        </span>
+        <HeaderMenu
+          setSideNavIsOpen={setSideNavIsOpen}
+          sideNavIsOpen={sideNavIsOpen}
+          completeDefaultSetting={completeDefaultSetting}
+        />
       </div>
       {/* space between 2번째 */}
       {/* 게스트 서치용 */}
-      {house && (
-        <div className="header__center">
-          <GuestSearchInputWrap context={context} />
+      {isPhabletDown ||
+        (house && (
+          <div className="header__center">
+            <GuestSearchInputWrap context={context} />
+          </div>
+        ))}
+      {/* 모바일 이하 게스트 서치용 */}
+      {isPhabletDown && (
+        <div>
+          <CircleIcon size="normal">
+            <JDIcon color="white" size="normal" icon="magnifier" />
+          </CircleIcon>
         </div>
       )}
       {/* space between 3번째 */}

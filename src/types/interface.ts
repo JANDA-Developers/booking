@@ -31,6 +31,7 @@ export interface IUser extends getMyProfile_GetMyProfile_user {}
 export interface IHouse extends getMyProfile_GetMyProfile_user_houses {}
 export interface IHouseConfig
   extends getMyProfile_GetMyProfile_user_houses_houseConfig {}
+export interface IInput extends React.HTMLAttributes<HTMLInputElement> {}
 export interface IDiv extends React.HTMLAttributes<HTMLDivElement> {}
 export interface ISpan extends React.HTMLAttributes<HTMLSpanElement> {}
 export interface IUl extends React.HTMLAttributes<HTMLUListElement> {}
@@ -39,6 +40,9 @@ export interface IBooking extends getBookings_GetBookings_bookings {}
 export type IGuest = getAllRoomTypeWithGuest_GetGuests_guests;
 export type IGuestD = getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory;
 export type IGuestR = getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom;
+export type TMuFn<m, mv> = (
+  options?: MutationFunctionOptions<m, mv> | undefined
+) => Promise<ExecutionResult<m>>;
 export interface ISeason extends getAllSeasonTable_GetAllSeason_seasons {}
 export interface IBlock extends getAllRoomTypeWithGuest_GetBlocks_blocks {}
 export interface IBlockOp

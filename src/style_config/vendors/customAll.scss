@@ -1,4 +1,4 @@
-@import '~Styles/style_config.scss';
+@import '~Styles';
 
 html{
     overflow-y: scroll;
@@ -56,12 +56,44 @@ a.JDanchor {
 }
 
 // 규격정의 ------------
+.JDstandard-superTiny-mb {
+    margin-bottom: $standard-superTiny-space!important;
+}
+
+.JDstandard-tiny-mb {
+    margin-bottom: $standard-tiny-space!important;
+}
+
+.JDstandard-small-mb {
+    margin-bottom: $standard-small-space!important;
+}
+
 .JDstandard-margin-bottom {
-    margin-bottom: $standard-margin-bottom;
+    margin-bottom: $standard-margin-bottom!important;
+}
+
+.JDstandard-huge-mb {
+    margin-bottom: $standard-huge-space!important;
+}
+
+.JDstandard-large-mb {
+    margin-bottom: $standard-large-space!important;
+}
+
+.JDstandard-largest-mb {
+    margin-bottom: $standard-largest-space!important;
+}
+
+.JDstandard-mb0 {
+    margin-bottom: 0!important;
+}
+
+.JDstandard-largest-space {
+    margin-right: $standard-space!important;
 }
 
 .JDstandard-space {
-    margin-right: $standard-space;
+    margin-right: $standard-space!important;
 }
 
 .JDstandard-space0 {
@@ -69,7 +101,15 @@ a.JDanchor {
 }
 
 .JDstandard-small-space {
-    margin-right: $standard-small-space;
+    margin-right: $standard-small-space!important;
+}
+
+.JDstandard-tiny-space {
+    margin-right: $standard-tiny-space!important;
+}
+
+.JDstandard-superTiny-space {
+    margin-right: $standard-superTiny-space!important;
 }
 
 .JDletterSpace0 {
@@ -99,6 +139,10 @@ a.JDanchor {
     justify-content: space-around;
 }
 
+.JDflex--center {
+    display:flex;
+    justify-content: center;
+}
 // 세로 정렬만 사용
 .JDflex--vCenter {
     display:flex;
@@ -117,7 +161,14 @@ a.JDanchor {
 .JDtext-align-center {
     text-align: center;
 }
-
+// ✏️ text
+.JDtext-align-left {
+    text-align: left;
+}
+// ✏️ text
+.JDtext-align-right {
+    text-align: right;
+}
 // size
 .JDlarge-text {
     font-size: $typho-large
@@ -129,6 +180,11 @@ a.JDanchor {
 
 .JDtiny-text {
     font-size: $typho-tiny
+}
+
+// color
+.JDtextColor--grey {
+    color: $grey-text-color
 }
 
 // color

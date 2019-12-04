@@ -24,7 +24,8 @@ import {
   getMemos_GetMemos_memos,
   getMyProfile_GetMyProfile_user,
   getHM_GetHM_HM,
-  getBooking_GetBooking_booking_guests_GuestDomitory
+  getBooking_GetBooking_booking_guests_GuestDomitory,
+  getMyProfile_GetMyProfile_user_paymentInfos
 } from "./api";
 import {
   IAssigItem,
@@ -146,7 +147,13 @@ export const DEFAULT_APP_INFO_REQUEST: getSpecification_GetHouse_house_product_a
 export const DEFAULT_PRODUCT: getSpecification_GetHouse_house_product = {
   __typename: "Product",
   _id: "0",
+  status: {
+    __typename: "ProductStatus",
+    discontinueDate: "",
+    isContinue: false
+  },
   daysLeftToExpire: 0,
+  billKey: null,
   expireDate: new Date(),
   isExpired: false,
   appliedUrl: "",
@@ -307,6 +314,7 @@ export const DEFAULT_USER: getMyProfile_GetMyProfile_user = {
   _id: "",
   createdAt: "",
   checkPrivacyPolicy: false,
+  paymentInfos: null,
   updatedAt: "",
   name: "",
   phoneNumber: "",
@@ -317,4 +325,14 @@ export const DEFAULT_USER: getMyProfile_GetMyProfile_user = {
   isPhoneVerified: false,
   profileImg: null,
   houses: []
+};
+
+export const DEFAULT_PAYMENT_INFO: getMyProfile_GetMyProfile_user_paymentInfos = {
+  __typename: "PaymentInfo",
+  authDate: new Date(),
+  billKey: "",
+  cardCl: 0,
+  cardName: "",
+  cardNo: "",
+  isLive: false
 };

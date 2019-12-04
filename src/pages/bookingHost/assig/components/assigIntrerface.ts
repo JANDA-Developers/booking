@@ -72,6 +72,7 @@ export type TFilterTimeZone = (
 ) => IAssigItem[];
 
 export type TGetItemById = (guestId: string) => IAssigItem;
+export type TGetItemByType = (type: GuestTypeAdd) => IAssigItem[];
 
 export type TPopUpItemMenuTooltip = (
   location: {
@@ -484,6 +485,7 @@ export interface IAssigHandlers {
 }
 
 export interface IAssigTimelineUtils {
+  getItemByTypes: TGetItemByType;
   hilightHeader: THilightHeader;
   changeMarkToGhost: TChangeMarkToGhost;
   getInfoesFromMarks: TGetInfoesFromMarks;

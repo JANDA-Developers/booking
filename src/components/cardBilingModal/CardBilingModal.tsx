@@ -7,20 +7,29 @@ import CheckProduct from "./components/CheckProduct";
 import CardInfoRegi from "./components/CardInfoRegi";
 import { IChainProp } from "./CardBilingModalWrap";
 import { MutationFunctionOptions } from "@apollo/react-common";
-import { createBillkey, createBillkeyVariables } from "../../types/api";
+import {
+  registerBillKey,
+  registerBillKeyVariables,
+  registerBillKey_RegisterBillKey_billInfo,
+  updateProductBillInfo,
+  updateProductBillInfoVariables
+} from "../../types/api";
+import client from "../../apollo/apolloClient";
 import { ExecutionResult } from "graphql";
 import RegiComplete from "./components/RegiComplete";
 import "./CardBillModal.scss";
-import { toNumber, muResult } from "../../utils/utils";
+import { toNumber, muResult, onCompletedMessage } from "../../utils/utils";
 import { toast } from "react-toastify";
 import moment from "moment";
+import JDpreloader from "../../atoms/preloader/Preloader";
+import { DUMMY_BILL_INFO } from "../../types/enum";
+import PeriodicPay from "./components/PeriodicPay";
+import { IMu } from "../../types/interface";
 
 interface Iprops extends IChainProp {
-  createBillMu: (
-    options?:
-      | MutationFunctionOptions<createBillkey, createBillkeyVariables>
-      | undefined
-  ) => Promise<ExecutionResult<createBillkey>>;
+  createBillMu: IMu<registerBillKey, registerBillKeyVariables>;
+  updateBillPayMu: IMu<updateProductBillInfo, updateProductBillInfoVariables>;
+  loading: boolean;
 }
 
 export type TCardRegistInfo = {
@@ -41,10 +50,12 @@ const CARD_BILL_STEP: CardBillingSteps[] = [
 const CardBillingModal: React.FC<Iprops> = ({
   context,
   modalHook,
-  createBillMu
+  createBillMu,
+  updateBillPayMu,
+  loading
 }) => {
   const { applyedProduct } = context;
-
+  const { _id: productId } = applyedProduct!;
   // 진입 밸리데이션
   if (!applyedProduct) {
     throw Error("CardBillingModal:: 상품이 적용되어있어야합니다.");
@@ -53,13 +64,16 @@ const CardBillingModal: React.FC<Iprops> = ({
   }
 
   const [cardInfo, setCardInfo] = useState<TCardRegistInfo>({
-    cardNumber: "",
-    idNumber: "",
-    expMonth: "",
-    expYear: "",
-    cardPassword: ""
+    cardNumber: "4619541019492956",
+    idNumber: "950901",
+    expMonth: "08",
+    expYear: "24",
+    cardPassword: "41"
   });
 
+  const [billInfo, setBillInfo] = useState<
+    registerBillKey_RegisterBillKey_billInfo
+  >();
   const { productType: currnetProductType } = applyedProduct;
   const [step, setStep] = useState<CardBillingSteps>("checkProdcut");
 
@@ -117,18 +131,40 @@ const CardBillingModal: React.FC<Iprops> = ({
     if (validate()) {
       const reuslt = await createBillMu({
         variables: {
-          billParams: {
-            cardNo: cardInfo.cardNumber,
-            expMonth: cardInfo.expMonth,
-            expYear: cardInfo.expYear,
-            idNo: cardInfo.idNumber,
-            pwd: cardInfo.cardPassword
+          param: {
+            addBillInfoToUser: true,
+            createBillKeyInput: {
+              cardNo: cardInfo.cardNumber,
+              expMonth: cardInfo.expMonth,
+              expYear: cardInfo.expYear,
+              idNo: cardInfo.idNumber,
+              cardPw: cardInfo.cardPassword
+            }
           }
         }
       });
 
-      const billInfo = muResult(reuslt, "CreateBillkey", "billInfo");
+      const billInfo = muResult(reuslt, "RegisterBillKey", "billInfo");
+
       if (billInfo) {
+        const { billKey } = billInfo;
+        const result = await updateBillPayMu({
+          variables: {
+            param: {
+              billKey,
+              productIds: [productId]
+            }
+          }
+        });
+        if (muResult(result, "UpdateProductBillInfo")) {
+          toast.success(LANG("periodical_pay_regist_complete"));
+          setStep("complete");
+          setBillInfo(billInfo);
+        } else {
+          toast.warn(LANG("card_regist_complete_fail"));
+        }
+      } else {
+        toast.warn(LANG("card_regist_complete_fail"));
       }
     }
   };
@@ -153,7 +189,7 @@ const CardBillingModal: React.FC<Iprops> = ({
         />
       );
     } else if (step === "complete") {
-      return <RegiComplete />;
+      return <PeriodicPay billInfo={billInfo!} context={context} />;
     }
   };
 
@@ -161,12 +197,27 @@ const CardBillingModal: React.FC<Iprops> = ({
     setStep(CARD_BILL_STEP[index]);
   };
 
+  if (loading) {
+    return (
+      <JDmodal
+        loading={loading}
+        className="CardBillModal"
+        {...modalHook}
+        onRequestClose={() => {
+          toast.warn(LANG("your_request_cannot_be_fulfilled_right_now"));
+          return;
+        }}
+      >
+        <JDpreloader loading={loading} size="large" />
+      </JDmodal>
+    );
+  }
   // checkProdcut 상품확인
   return (
     <JDmodal className="CardBillModal" {...modalHook}>
       <JDmultiStep
         onStepClick={handleStepClick}
-        clickAble={[0, 1]}
+        clickAble={[0, 1, 2]}
         steps={multiStepSteps}
       />
       {renderContent()}

@@ -24,7 +24,7 @@ import {
   SetPrice,
   Qna,
   DailyPrice,
-  Sms,
+  SmsTemplateSetting,
   ResvList,
   SmsHistory,
   Statistic,
@@ -50,6 +50,7 @@ import StarterModalWrap from "../bookingHost/starterModal/StarterModalWrap";
 import { AddtionalConfigModal } from "../../components/else/AdditionalConfigModal";
 import { onError } from "apollo-link-error";
 import { greet, houseConfigSetting } from "./helper";
+import SmsInfo from "./smsInfo/SmsInfo";
 
 export interface IContext extends RouteComponentProps<any> {
   user: getMyProfile_GetMyProfile_user;
@@ -98,7 +99,7 @@ const JDbookingHost: React.FC<IProps> = ({
   const { userRole } = user;
   // 추가적 설정 모달
   const additionalConfigModal = useModal(false);
-  const [sideNavIsOpen, setSideNavIsOpen] = useSideNav();
+  const { sideNavIsOpen, setSideNavIsOpen } = useSideNav();
   const houseConfig = houseConfigSetting(currentHouse);
 
   const callBackStartStepEnd = () => {
@@ -295,6 +296,14 @@ const JDbookingHost: React.FC<IProps> = ({
                               );
                             }}
                           />
+                          {/* SMS 히스토리 */}
+                          <Route
+                            exact
+                            path="/smsInfo"
+                            render={props => {
+                              return <SmsInfo context={propContext as any} />;
+                            }}
+                          />
                           {/* 로그인 */}
                           <Route
                             exact
@@ -354,9 +363,11 @@ const JDbookingHost: React.FC<IProps> = ({
                           {/* SMS */}
                           <Route
                             exact
-                            path="/sms"
+                            path="/smsTemplate"
                             render={() => {
-                              return <Sms context={propContext} />;
+                              return (
+                                <SmsTemplateSetting context={propContext} />
+                              );
                             }}
                           />
                           {/* 가격설정 */}

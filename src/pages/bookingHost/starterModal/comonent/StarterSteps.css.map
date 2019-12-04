@@ -1,0 +1,15 @@
+{
+    "version": 3,
+    "mappings": "AMwXA,kEAAkE;ANtXlE,AAAA,uBAAuB,CAAC;EACpB,SAAS,EAAE,KAAK;CACnB",
+    "sources": [
+        "StarterSteps.scss",
+        "../../../../style_config/style_config.scss",
+        "../../../../style_config/abstracts/_variables.scss",
+        "../../../../style_config/abstracts/_functions.scss",
+        "../../../../style_config/abstracts/_extends.scss",
+        "../../../../style_config/abstracts/_sharedStyles.scss",
+        "../../../../style_config/abstracts/_mixins.scss"
+    ],
+    "names": [],
+    "file": "StarterSteps.css"
+}

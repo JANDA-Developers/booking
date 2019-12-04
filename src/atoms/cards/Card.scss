@@ -1,12 +1,15 @@
-@import "~Styles/style_config.scss";
+@import "~Styles";
+
+$card-radius: $standard-border-radius;
+$card-hover-bg: $grey-level1;
 
 .JDcard {
+    @include shadow($card-shadow);
     position: relative;
-    @extend %z-depth-1;
     padding: $card-padding;
     text-align: left;
-    border-radius: $standard-border-radius;
-    background-color: white;
+    border-radius: $card-radius;
+    background-color: $card-bg;
 
     &--align {
         text-align: center;
@@ -38,7 +41,7 @@
     }
 
     &--hover:hover  {
-        background-color: $grey-level1;
+        background-color: $card-hover-bg;
         cursor:pointer;
 
         .JDhelp {

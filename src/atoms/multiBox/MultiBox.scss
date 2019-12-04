@@ -1,0 +1,16 @@
+@import '~Styles';
+
+.multiBox {
+    max-width: 100%;
+    margin-bottom: $standard-margin-bottom;
+    &__inner {
+        overflow:auto;
+        &--noWrap {
+            white-space: nowrap;
+            @extend %JDscrollbar--slender;
+        }
+    }
+    .JDbtn {
+        margin-bottom: 0;
+    }
+}

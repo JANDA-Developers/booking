@@ -1,13 +1,14 @@
 /* eslint-disable react/button-has-type */
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import "./Button.scss";
 import classNames from "classnames";
 import ErrProtecter from "../../utils/errProtect";
-import Icon, {IIcons} from "../icons/Icons";
+import Icon, { IIcons } from "../icons/Icons";
 import Preloader from "../preloader/Preloader";
-import {s4, colorClass} from "../../utils/utils";
+import { s4, colorClass } from "../../utils/utils";
 import Tooltip from "../tooltip/Tooltip";
-import {JDColor} from "../../types/enum";
+import { JDColor, TMarginSize } from "../../types/enum";
+import { JDmbClass, JDmrClass } from "../../utils/autoClasses";
 
 interface IProps extends React.HTMLAttributes<HTMLButtonElement> {
   disabled?: boolean;
@@ -33,6 +34,8 @@ interface IProps extends React.HTMLAttributes<HTMLButtonElement> {
   hrefOpen?: string;
   tooltip?: string;
   redirect?: string;
+  mb?: TMarginSize;
+  mr?: TMarginSize;
 }
 
 const Button: React.FC<IProps> = ({
@@ -57,6 +60,8 @@ const Button: React.FC<IProps> = ({
   className,
   transparent,
   size,
+  mb,
+  mr,
   hrefOpen,
   // 투글은 클래스만 바꾸어 줍니다.
   toggle,
@@ -77,7 +82,9 @@ const Button: React.FC<IProps> = ({
     "JDbtn--pulse": pulse,
     "JDbtn--toogleOn": toggle === true,
     "JDbtn--toogle111Off": toggle === false,
-    "JDtext-blink": blink
+    "JDtext-blink": blink,
+    ...JDmbClass(mb),
+    ...JDmrClass(mr)
   });
 
   const handleClickButton = (
@@ -142,4 +149,4 @@ Button.defaultProps = {
   preloader: false
 };
 
-export default ErrProtecter(Button);
+export default Button;

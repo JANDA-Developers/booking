@@ -1,5 +1,7 @@
 
-@import '~Styles/style_config';
+@import '~Styles';
+
+$checkbox-border-thick: 2px;
 
 /* 브라우저 기본 css 제거 */
 .JDcheck_box:not(:checked),
@@ -54,8 +56,8 @@
         display: inline-block;
         height: 25px;
         line-height: 25px;
-        font-size: $checkBox-label-fontSize;
-        color: $checkBox-label-color;
+        font-size: $checkbox-label-fontSize;
+        color: $checkbox-label-color;
         user-select: none;
     }
 
@@ -87,7 +89,7 @@
         height: 20px;
         width: 20px;
         background-color: transparent;
-        border: 2px solid $checkBox-border-color;
+        border: $checkbox-border-thick solid $checkbox-border-color;
         top: 0px;
         z-index: 0;
     }
@@ -101,10 +103,10 @@
             left: 0px;
             width: 8px;
             height: 13px;
-            border-top: 2px solid transparent;
-            border-left: 2px solid transparent;
-            border-right: 2px solid $checkbox-sign-color;
-            border-bottom: 2px solid $checkbox-sign-color;
+            border-top: $checkbox-border-thick solid transparent;
+            border-left: $checkbox-border-thick solid transparent;
+            border-right: $checkbox-border-thick solid $checkbox-sign-color;
+            border-bottom: $checkbox-border-thick solid $checkbox-sign-color;
             transform: rotateZ(37deg);
             transform-origin: 100% 100%;
         }

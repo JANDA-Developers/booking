@@ -7,6 +7,7 @@ import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import { queryDataFormater } from "../../utils/utils";
 import moment from "moment";
 import { useDayPicker } from "../../hooks/hook";
+import { to4YMMDD } from "../../utils/setMidNight";
 
 interface IProps {
   context: IContext;
@@ -26,7 +27,10 @@ const DayCheckInWrap: React.FC<IProps> = ({ context }) => {
           variables={{
             houseId: house._id,
             filter: {
-              stayDate: new Date()
+              stayDate: {
+                checkIn: to4YMMDD(new Date()),
+                checkOut: to4YMMDD(new Date())
+              }
             },
             count: 999999,
             page: 1

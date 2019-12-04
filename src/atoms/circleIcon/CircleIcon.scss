@@ -1,13 +1,13 @@
-@import "~Styles/style_config.scss";
+@import "~Styles";
 
-.circleIcon {
+html .circleIcon {
     border-radius:50%;
     background: none;
     border: none;
     outline: none;
     align-content: center;
     justify-content:center;
-    display: inline-block;
+    display: flex;
     font-size:inherit;
     line-height: 100%;
     cursor:pointer;
@@ -16,6 +16,8 @@
         background-color: $hover-effect-dark;
         transition:0.3s;
     }
+
+    @include iconSize--prefixer(2);
     
     &--white {
         color:white;

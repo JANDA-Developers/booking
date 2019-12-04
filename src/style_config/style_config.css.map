@@ -1,0 +1,14 @@
+{
+    "version": 3,
+    "mappings": "AKwXA,kEAAkE",
+    "sources": [
+        "style_config.scss",
+        "abstracts/_variables.scss",
+        "abstracts/_functions.scss",
+        "abstracts/_extends.scss",
+        "abstracts/_sharedStyles.scss",
+        "abstracts/_mixins.scss"
+    ],
+    "names": [],
+    "file": "style_config.css"
+}

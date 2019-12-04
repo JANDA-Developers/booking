@@ -1,4 +1,4 @@
-@import '~Styles/style_config';
+@import '~Styles';
 
 
 /* ----------------------------- 코드 최적화가 필요합니다. ----------------------------- */
@@ -7,7 +7,9 @@
 
 .JDinput-wrap {
   position: relative;
-
+  font-size: 0;
+  text-align: left;
+  
   &--fullHeight {
     height: 100%;
   }
@@ -22,29 +24,38 @@
   position: absolute;
   right: 0.25em;
   height: 100%;
-  margin-top: $standard-label-margin;
   display: flex;
+  align-items: center;
+  top: -0.4rem; //보정상수
+
   .JDicon__svg {
     top:unset;
   }
 }
 
 .JDinput {
-
+  margin:0;
+  padding:0;
   background-color: transparent;
   border: none;
   border-bottom: $input-border;
   border-radius: 0;
   outline: none;
-  height: $input-noLabel-height;
-  line-height: $input-height;
+  height: 100%;
   width: 100%;
   font-size: $input-font-size;
-  padding: $input-padding;
-  padding-top: 0;
   box-shadow: none;
-  box-sizing: content-box;
+  box-sizing: border-box;
   transition: $input-transition;
+
+  &--labeled {
+    margin-top: -0.4rem;  //보정 상수
+  }
+
+  &__inside-wrap {
+    position: relative;
+    height: $input-height;
+  }
 
   &--overfloweEllipsis {
     text-overflow: ellipsis;
@@ -52,11 +63,6 @@
 
   &--center {
     text-align: center;
-  }
-
-  &--labeled {
-    padding-top: $input-labeled-padding-top;
-    height: $input-height;
   }
 
   //아래에있는 라벨을 위로 끌어올립니다

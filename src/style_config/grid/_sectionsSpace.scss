@@ -1,12 +1,12 @@
-@import '~Styles/style_config';
+@import '~Styles';
 
 
 .docs-section {
-    padding: $docs-section-padding;
+    padding: $docs-padding;
     
     // 🚩섹션 안에 박스는 원소들의 마지막 마진과 더해질수 있습니다.
     &__box {
-        padding-bottom: $docs-section__box-bottom;
+        padding-bottom: $docs-section__padding;
         
         & > * {
             vertical-align: top;
@@ -14,6 +14,6 @@
     }
     
     &--narrowTop {
-        padding: $docs-section-padding--narrowTop;
+        padding: $docs-padding--narrowTop;
     }
 }

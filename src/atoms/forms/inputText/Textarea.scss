@@ -1,4 +1,4 @@
-@import '~Styles/style_config';
+@import '~Styles';
 
 
 /* ----------------------------- 코드 최적화가 필요합니다. ----------------------------- */
@@ -14,17 +14,17 @@
   border-bottom: $input-border;
   border-radius: 0;
   outline: none;
-  height: $input-height;
+  height: $textarea-height;
+  // 오토 height 으로 조절되는 높이중
+  min-height: $textarea-height;
   width: 100%;
   font-size: $input-font-size;
   margin-top: $textarea-margin-top;
-  // padding: $input-padding;
   box-shadow: none;
   box-sizing: content-box;
   transition: $input-transition;
   padding: 0rem 0 1.6rem 0;
   resize: none;
-  min-height: $input-height;
   
   //아래에있는 라벨을 위로 끌어올립니다
   &+.JDtextarea_label {

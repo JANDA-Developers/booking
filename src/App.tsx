@@ -15,6 +15,7 @@ import "./lib/wave/wave.scss";
 import { useLang } from "./hooks/hook";
 import { globalLanguageSetting } from "./utils/globalLagnSet";
 import $ from "jquery";
+import Axios from "axios";
 
 function App() {
   const langHook = useLang("kr");
@@ -74,10 +75,13 @@ function App() {
         >
           1.1.2 Last Update 2019.11.22.
         </div>
-        <div style={{
+        <div
+          style={{
             position: "relative",
             zIndex: 999999
-        }} id="JDpreloaderPortal" />
+          }}
+          id="JDpreloaderPortal"
+        />
         {/* for old borwser */}
         <div id="outdated" />
       </ApolloProvider>

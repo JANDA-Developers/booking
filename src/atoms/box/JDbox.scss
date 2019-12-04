@@ -1,14 +1,19 @@
 
 
+@import "~Styles";
+
 @import './box_tables';
 @import './box_photo';
-
 
 
 #root,.ReactModalPortal {
     .JDbox {
         box-sizing: border-box;
         min-height: $standard-line-height;
+
+        &--space-tiny {
+            margin-right: $standard-tiny-space;
+        }
 
         &--clickable {
             cursor: pointer;
@@ -59,8 +64,10 @@
         &--small {
             font-size: $typho-small;
             padding: $standard-tiny-space;
-            margin-right: $standard-tiny-space;
-            margin-bottom: $standard-tiny-space;
+
+            &:not(.JDbox:last-child) {
+                margin-right: $standard-tiny-space;
+            }
         }
 
         &--center {
@@ -71,14 +78,19 @@
             background-color: transparent!important;
             border-radius: $standard-border-radius;
             padding: $standard-small-space;
-            border: 1px solid $grey-level1;
+            border: $box-border;
 
             &.JDbox {
                 @include colorText--prefixer();
                 @include colorBorder--prefixer();
             }
+
+            .JDlabel {
+                margin-bottom: $standard-tiny-space;
+            }
         }
         
+        // dfre ?
         &--dashBorder {
             border-radius: $standard-border-radius;
             border: 2px dashed $grey-level1;

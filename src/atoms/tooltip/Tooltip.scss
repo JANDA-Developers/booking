@@ -1,6 +1,7 @@
-@import "~Styles/style_config.scss";
+@import "~Styles";
 
 .JDtooltip.__react_component_tooltip {
+    border-radius: $standard-border-radius;
     &.show {
         opacity: 1;
     }

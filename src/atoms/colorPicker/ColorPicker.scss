@@ -1,13 +1,13 @@
-@import "~Styles/style_config.scss";
+@import "~Styles";
 
 .JDcolorPicker {
     display:inline-block;
     
    &__swatch {
         padding: $colorPicker-padding;
-        background-color: #fff;
+        background-color: $colorPicker-bg;
         border-radius: $colorPicker-radius;
-        border: 1px solid $colorPicker-outborder-color;
+        border: $colorPicker-border;
         display: inline-block;
         cursor: pointer;
    }

@@ -1,10 +1,29 @@
-@import '~Styles/style_config';
+@import '~Styles';
 
 
 
 .JDsearchInput{
     position: relative;
     display: block;
+
+    &--unFeedBack {
+        .JDsearchInput__input_wrapper { 
+            margin-bottom: 0;
+        }
+    }
+    
+    &--fill {
+        .JDsearchInput__innerWrap {
+            background-color: white;
+            border:none!important;
+            box-shadow:none!important;
+            padding: 0 $standard-tiny-space;
+            border-radius: $standard-border-radius;
+            .JDsearchInput__icon {
+                right:$standard-tiny-space;
+            }
+        }
+    }
 
     &--valid {
         border-color: $green-color;
@@ -25,14 +44,22 @@
     &--labeled {
 
         .JDsearchInput__input_wrapper {
-            padding-top: $input-padding-top;
+            margin-top: -0.4rem;
         }
         // border-box
         .JDsearchInput__input {
-            height: calc(#{$input-height} + #{$standard-label-margin});
+            height: calc(#{$input-height} + 1px);
         }
         .JDsearchInput__icon {
         }
+    }
+
+    &__innerWrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: $input-height;
+        border-bottom: $searchInput-input-border;
     }
 
     &__label {
@@ -44,12 +71,13 @@
     }
     
     &__icon {
-        height: 100%;
-        position: absolute;
+        position:absolute;
         font-size: 1.2rem;
-        right: $standard-small-space - 0.25rem;
         display:flex;
-        top:0;
+        right: 0;
+        height: $input-height;
+        bottom: 0;
+
         .JDicon__svg {
             top: 0;
         }
@@ -60,22 +88,21 @@
 
     // 피드백 메세지
     &__feedBack {
+        color: $searchInput-feedBack-color;
         position:absolute;
         left: 0;
         font-size: $typho-tiny;
-        bottom: 0
+        top: 100%;
     }
 
     &__input {
         // 1px은 보더값을 위한것
         border:none;
-        border-bottom: $searchInput-input-border;
         outline:none;
         width: 100%;
         box-sizing: border-box;
         padding-right: 1.75rem;
-        height: $input-noLabel-height;
-        margin-bottom: $searchInput-message-space;
+        bottom:0;
         
         &:focus {
             border-color: $primary-color-light;
@@ -155,6 +182,7 @@
 
     &__input_wrapper { 
         display: block;
+        margin-bottom: $searchInput-message-space
     }
     // 리스트 아래 부분 설명
     &__detail {

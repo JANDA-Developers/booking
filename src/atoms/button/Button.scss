@@ -1,6 +1,6 @@
 
 
-@import "~Styles/style_config.scss";
+@import "~Styles";
 
 .JDbtn {
   // border: $button-border;
@@ -49,10 +49,10 @@
 
   &.JDbtn--grey {
     background-color: $grey-level1;
-    border: 1px solid $grey-opacity1;
+    border: 1px solid $outborder-color;
 
     &:hover {
-      background-color: $grey-level2;
+      background-color: $grey-level1;
     }
   }
 
@@ -159,10 +159,6 @@
     
     &.JDbtn--white {
       color:white;
-    }
-    
-    &.JDbtn--primary:not(:disabled) {
-      background-color: $primary-color;
     }
     
     &:disabled {

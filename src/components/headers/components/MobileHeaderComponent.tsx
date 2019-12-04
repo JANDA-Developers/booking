@@ -1,6 +1,6 @@
 import React from "react";
-import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
-import {IContext} from "../../../pages/bookingHost/BookingHostRouter";
+import JDIcon from "../../../atoms/icons/Icons";
+import { IContext } from "../../../pages/bookingHost/BookingHostRouter";
 interface Iprops {
   context: IContext;
   logOutMutation: any;
@@ -21,11 +21,7 @@ const MobileHeaderComponent: React.FC<Iprops> = () => {
           data-place="bottom"
           data-offset="{'top': -5, 'left': 35}"
         >
-          <JDIcon
-            className="header__mobileMenu"
-            size={IconSize.MEDIUM}
-            icon="apps"
-          />
+          <JDIcon className="header__mobileMenu" size={"normal"} icon="apps" />
         </span>
       </span>
     </div>

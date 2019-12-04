@@ -9,7 +9,7 @@ import {
   LANG
 } from "../../../hooks/hook";
 import Button from "../../../atoms/button/Button";
-import JDIcon, { IconSize } from "../../../atoms/icons/Icons";
+import JDIcon from "../../../atoms/icons/Icons";
 import {
   getHM_GetHM_HM,
   updateHM,
@@ -17,6 +17,8 @@ import {
   getHM_GetHM_HM_menus
 } from "../../../types/api";
 import "./HMconfig.scss";
+// @ts-ignore
+import omitDeep from "omit-deep";
 import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
 import JDmodal from "../../../atoms/modal/Modal";
 import JDbox from "../../../atoms/box/JDbox";
@@ -29,23 +31,25 @@ import {
   WindowSize
 } from "../../../types/enum";
 import MockUp from "../../../atoms/mockup/MockUp";
-import Help from "../../../atoms/Help/Help";
 import LangList from "../../../components/langList/LangList";
 import LangConfigModal from "./component/LangConfigModal";
-import { MutationFn } from "react-apollo";
 import { toast } from "react-toastify";
 import Preloader from "../../../atoms/preloader/Preloader";
 import { IContext } from "../../bookingHost/BookingHostRouter";
-import { isMobile } from "is-mobile";
-import TooltipList, {
-  ReactTooltip
-} from "../../../atoms/tooltipList/TooltipList";
+import { ReactTooltip } from "../../../atoms/tooltipList/TooltipList";
 import HMcomponent from "../../outPages/HM/HM";
 import { DEFAULT_HM } from "../../../types/defaults";
 import InputText from "../../../atoms/forms/inputText/InputText";
 import { isPhone, isEmail } from "../../../utils/inputValidations";
 import { MutationFunctionOptions } from "@apollo/react-common";
 import { ExecutionResult } from "graphql";
+import ImageUploader from "../../../atoms/imageUploader/ImageUploader";
+import JDLabel from "../../../atoms/label/JDLabel";
+import HMmenu from "../../outPages/HM/component/HMmenu";
+import JDmenu, { JDsubMenu } from "../../../atoms/menu/Menu";
+import PageHeader from "../../../components/pageHeader/PageHeader";
+import PageBody from "../../../components/pageBody/PageBody";
+import Menus from "./component/Menus";
 
 interface IProps {
   context: IContext;
@@ -75,14 +79,12 @@ const HMconfig: React.FC<IProps> = ({
   const [currentLang, setCurrentLang] = useState(Language.KOREAN);
   const [enableLangs, setEnableLngList] = useState(HM.langList);
   const [menuData, setMenuData] = useState(HM.menus);
-  const previewModalHook = useModal();
   const phoneNumberModalHook = useModal();
   const phoneNumberHook = useInput(HM.phoneNumber, true);
   const emailModalHook = useModal();
   const emailHook = useInput(HM.email, true);
   const languageConfigModalHook = useModal();
   const menusConfigModalHook = useModal();
-  const [isGuestView, setGuestView] = useState(false);
   const [title, setTitle] = useState(HM.title);
   const bgImageHook = useImageUploader(HM.backgroundImg, {
     resizeMaxWidth: WindowSize.PHABLET
@@ -115,16 +117,19 @@ const HMconfig: React.FC<IProps> = ({
   const handleSaveBtnClick = async () => {
     if (validate()) {
       const result = await updateHMmu({
-        variables: {
-          houseId: house._id,
-          updateParams: {
-            enableLangs,
-            phoneNumber: phoneNumberHook.value,
-            backgroundImg: bgImageHook.file,
-            menus: menuData.map(menu => ({ ...menu, __typename: undefined })),
-            title
-          }
-        }
+        variables: omitDeep(
+          {
+            houseId: house._id,
+            updateParams: {
+              enableLangs,
+              phoneNumber: phoneNumberHook.value,
+              backgroundImg: bgImageHook.file,
+              menus: menuData.map(menu => ({ ...menu })),
+              title
+            }
+          },
+          ["__typename"]
+        )
       });
 
       if (muResult(result, "UpdateHM")) {
@@ -141,7 +146,7 @@ const HMconfig: React.FC<IProps> = ({
         <div className="JDflex--between JDflex--vCenter">
           <JDIcon
             className="JDstandard-space"
-            size={IconSize.NORMAL}
+            size={"small"}
             icon={menu.icon as any}
           />
           <span className="HMmenuConfigMenu__menuTitle JDstandard-small-space">
@@ -166,7 +171,7 @@ const HMconfig: React.FC<IProps> = ({
     );
 
     return (
-      <JDmodal minContentsWidth={"350px"} noAnimation {...menusConfigModalHook}>
+      <JDmodal minContentsWidth={"340px"} noAnimation {...menusConfigModalHook}>
         <h6>{LANG("menu_enable_set")}</h6>
         <div className="flex-grid">
           <div className="flex-grid__col col--full-6">
@@ -196,16 +201,11 @@ const HMconfig: React.FC<IProps> = ({
     );
   };
 
-  const MenuConfigBtn = (
+  const visibleMenuData = menuData.filter((menu: any) => menu.isEnable);
+
+  const LangConfigBtn = () => (
     <Button
-      onClick={() => {
-        menusConfigModalHook.openModal();
-      }}
-      label={LANG("menu_set")}
-    />
-  );
-  const LangConfigBtn = (
-    <Button
+      mode="border"
       onClick={() => {
         languageConfigModalHook.openModal();
       }}
@@ -231,111 +231,99 @@ const HMconfig: React.FC<IProps> = ({
     userInfo
   };
 
+  const HeaderConfig = () => (
+    <Fragment>
+      <div>
+        <InputText
+          label={LANG("house_title")}
+          overfloweEllipsis
+          value={title[currentLang]}
+          onChange={value => {
+            title[currentLang] = value;
+            setTitle({ ...title });
+          }}
+          placeholder={LANG("HM_title")}
+        />
+      </div>
+      <div>
+        <ImageUploader
+          mode="input"
+          label={LANG("house_front_img")}
+          className="JDstandard-margin-bottom"
+          minHeight="100px"
+          {...bgImageHook}
+        />
+      </div>
+    </Fragment>
+  );
+
   if (loading) return <Preloader page loading={loading} />;
 
   return (
     <div className="HMconfig">
       <Preloader floating size={FLOATING_PRELOADER_SIZE} loading={loading} />
-      <div className="container container--sm">
-        <div className="docs-section">
-          <h3>
-            <span className="JDstandard-space">{LANG("HM_set")}</span>
-            <Help
-              size={IconSize.MEDEIUM_SMALL}
-              className="JDmargin-bottom0"
-              tooltip={
-                <span className="JDletterSpace0">
-                  {LANG(
-                    "HM_provides_guests_with_a_comfortable_and_convenient_accommodation_send_the_guide_page"
+      <PageHeader title={LANG("HM_set")} desc={LANG("HM_set__desc")} />
+      <PageBody>
+        <div className="flex-grid-grow">
+          <div className="flex-grid__col">
+            <Card>
+              <div className="JDstandard-margin-bottom JDflex--between">
+                <h4>{LANG("HM_detail_info")}</h4>
+                <Button
+                  mode="flat"
+                  className="JDz-index-1"
+                  thema="point"
+                  pulse={shouldSave}
+                  onClick={() => {
+                    handleSaveBtnClick();
+                  }}
+                  label={LANG("save")}
+                />
+              </div>
+              <JDLabel txt={LANG("current_config_lang")} />
+              <div className="JDflex">
+                <LangList
+                  onClickLng={lang => {
+                    setCurrentLang(lang);
+                  }}
+                  hilightLangs={[currentLang]}
+                  hideList={LANGUAGE_LIST.filter(
+                    lang => !enableLangs.includes(lang)
                   )}
-                </span>
-              }
-            />
-          </h3>
-          <div className="JDflex--between JDflex--vCenter">
-            <div>
-              <Button
-                className="JDz-index-1"
-                thema="point"
-                pulse={shouldSave}
-                onClick={() => {
-                  handleSaveBtnClick();
-                }}
-                label={LANG("save")}
-              />
-              {isMobile() ? (
-                <span
-                  data-tip={true}
-                  data-event="click"
-                  data-offset="{'top': 10, 'left': 0}"
-                  data-for="HMconfigTolltip"
-                >
-                  <Button tooltip="" icon="config" label={LANG("config")} />
-                </span>
-              ) : (
-                <Fragment>
-                  {LangConfigBtn}
-                  {MenuConfigBtn}
-                </Fragment>
-              )}
-            </div>
-            <div>
-              <Button
-                onClick={() => {
-                  previewModalHook.openModal();
-                }}
-                label={LANG("preview")}
-              />
-            </div>
-          </div>
-          <div>
-            <Card fullHeight align="center">
-              <Fragment>
-                <div className="JDstandard-margin-bottom">
-                  <LangList
-                    onClickLng={lang => {
-                      setCurrentLang(lang);
-                    }}
-                    hilightLangs={[currentLang]}
-                    hideList={LANGUAGE_LIST.filter(
-                      lang => !enableLangs.includes(lang)
-                    )}
-                  />
-                </div>
-                <MockUp mockup={false}>
-                  <HMcomponent
-                    key={`HM${currentLang}`}
-                    host={
-                      !isGuestView
-                        ? {
-                            setTitle,
-                            setEnableLngList,
-                            setMenuData,
-                            bgImageHook,
-                            emailModalHook,
-                            phoneNumberModalHook
-                          }
-                        : undefined
-                    }
-                    {...sharedProps}
-                  />
-                </MockUp>
-              </Fragment>
+                />
+                <LangConfigBtn />
+              </div>
+              <HeaderConfig />
+              <div>
+                <Menus
+                  currentLang={currentLang}
+                  menuData={visibleMenuData}
+                  host={{
+                    setEnableLngList,
+                    setMenuData,
+                    bgImageHook,
+                    setTitle
+                  }}
+                />
+              </div>
             </Card>
           </div>
-          {/* 메뉴 설정 모달 */}
-          <MenusConfigModal />
-          {/* 언어 설정 모달 */}
-          <LangConfigModal
-            setEnableLngList={setEnableLngList}
-            modalHook={languageConfigModalHook}
-            enableLangs={enableLangs}
-          />
+          {/* 미리보기 */}
+          <div className="HMconfig__preview flex-grid__col">
+            <MockUp frame="JDmocUp">
+              <HMcomponent {...sharedProps} />
+            </MockUp>
+          </div>
         </div>
-      </div>
-      <JDmodal minWidth={MODAL_MIN_WIDTH} {...previewModalHook}>
-        <HMcomponent {...sharedProps} />
-      </JDmodal>
+        {/* 메뉴 설정 모달 */}
+        <MenusConfigModal />
+        {/* 언어 설정 모달 */}
+        <LangConfigModal
+          setEnableLngList={setEnableLngList}
+          modalHook={languageConfigModalHook}
+          enableLangs={enableLangs}
+        />
+      </PageBody>
 
       <JDmodal {...phoneNumberModalHook} minWidth={MODAL_MIN_WIDTH}>
         <InputText
@@ -353,13 +341,6 @@ const HMconfig: React.FC<IProps> = ({
           label={LANG("connected_email")}
         />
       </JDmodal>
-
-      <TooltipList unPadding id="HMconfigTolltip" className="guestTooltip">
-        <ul className="tooltipList__ul">
-          <li>{LangConfigBtn}</li>
-          <li>{MenuConfigBtn}</li>
-        </ul>
-      </TooltipList>
     </div>
   );
 };

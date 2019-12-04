@@ -1,4 +1,4 @@
-@import '~Styles/style_config.scss';
+@import '~Styles';
 
 @keyframes rotate {
     0% {
@@ -58,6 +58,8 @@
     }
 
     &__wrap {
+        display: inline-block;
+        font-size: 0;
         transform-origin: center cetner;
 
         &--center {

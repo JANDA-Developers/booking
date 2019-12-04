@@ -57,7 +57,6 @@ import {
 } from "./helper";
 import { getRoomSelectInfo } from "../../utils/typeChanger";
 import { IBookingModalContext } from "./declaration";
-import { IconSize } from "../../atoms/icons/Icons";
 import JDLabel from "../../atoms/label/JDLabel";
 
 interface IProps {
@@ -341,7 +340,7 @@ const BookingModal: React.FC<IProps> = ({
           <div>
             <h5>
               {LANG("reservation_information")}{" "}
-              <Drawer size={IconSize.MEDEIUM_SMALL} {...assigInfoDrawHook} />
+              <Drawer size={"small"} {...assigInfoDrawHook} />
             </h5>
             <div className="JDflex JDflex--oneone">
               <SelectBox

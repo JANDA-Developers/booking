@@ -1,11 +1,12 @@
 /* eslint-disable max-len */
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import classNames from "classnames";
 import "./Icons.scss";
-import {string} from "prop-types";
-import {s4, colorClass} from "../../utils/utils";
+import { string } from "prop-types";
+import { s4, colorClass } from "../../utils/utils";
 import Tooltip from "../tooltip/Tooltip";
-import {JDColor} from "../../types/enum";
+import { JDColor, IconSize } from "../../types/enum";
+import { iconSizeClass } from "../../utils/autoClasses";
 
 export type IIcons =
   | "arrowRight"
@@ -78,9 +79,18 @@ export type IIcons =
   | "vUp"
   | "vDown"
   | "admin"
+  | "quoteRight"
+  | "quoteLeft"
+  | "camera"
   | "copyFile";
 
-const icons: {[s: string]: string} = {
+const icons: { [s: string]: string } = {
+  camera:
+    "M18 5l-2-3h-8l-2 3h-6v17h24v-17h-6zm4 7h-4.079c.581 3.754-2.312 7-5.921 7-3.612 0-6.501-3.248-5.921-7h-4.079v-5h5.07l2-3h5.859l2 3h5.071v5zm-10-3c-2.243 0-4 1.73-4 3.939 0 2.239 1.794 4.061 4 4.061s4-1.822 4-4.061c0-2.209-1.757-3.939-4-3.939zm-.436 3.555c-.632.503-1.461.5-1.852-.006-.39-.506-.194-1.324.438-1.827.632-.502 1.461-.499 1.851.007.391.505.195 1.323-.437 1.826z",
+  quoteRight:
+    "M9.983 3v7.391c0 5.704-3.731 9.57-8.983 10.609l-.995-2.151c2.432-.917 3.995-3.638 3.995-5.849h-4v-10h9.983zm14.017 0v7.391c0 5.704-3.748 9.571-9 10.609l-.996-2.151c2.433-.917 3.996-3.638 3.996-5.849h-3.983v-10h9.983z",
+  quoteLeft:
+    "M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z",
   arrowRight: "M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z",
   arrowLeft: "M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z",
   logout:
@@ -221,18 +231,6 @@ const icons: {[s: string]: string} = {
     "M20.999 23h-17.995l-.003-.994c-.007-1.885.086-2.588 1.981-3.002 2.142-.467 4.111-.987 4.659-2.222.247-.557.177-1.178-.206-1.847-1.387-2.416-1.851-4.565-1.382-6.189h7.907c.45 1.608-.019 3.757-1.395 6.192-.378.671-.444 1.292-.195 1.847.554 1.236 2.516 1.754 4.65 2.219 1.895.414 1.989 1.123 1.98 3.026l-.001.97zm-13.165-21.167c.625 0 1.11.702.666 1.331-.223.316-.169.507-.019.728.319.47.781.858 1.437.858 1.05 0 1.605-.868 1.721-1.604.04-.256.063-.447-.182-.685-.167-.162-.289-.376-.289-.628 0-.46.373-.833.833-.833.46 0 .833.373.833.833 0 .252-.122.466-.289.628-.244.238-.222.429-.182.685.115.736.671 1.604 1.721 1.604.657 0 1.118-.388 1.436-.858.152-.221.206-.412-.018-.728-.443-.629.041-1.331.666-1.331.46 0 .833.373.833.833 0 .332-.359.623-.644.754-.343.158-.356.549-.356.904v3.422h-8v-3.422c0-.355-.013-.746-.356-.904-.284-.131-.644-.422-.644-.754 0-.46.373-.833.833-.833zm11.398 16.195c-1.33-.29-3.556-.775-3.949-1.652-.042-.093-.169-.376.154-.946 1.436-2.541 1.956-4.85 1.557-6.684h.007v-4.422000000000001l.001-.115c.501-.3.999-.838.999-1.543 0-1.01-.822-1.833-1.833-1.833-.69 0-1.317.382-1.636.996-.277.536-.268 1.149.015 1.686-.219.235-.384.235-.463.235-.518 0-.68-.512-.721-.699.305-.349.472-.776.472-1.218 0-1.011-.823-1.833-1.834-1.833-1.011 0-1.833.822-1.833 1.833 0 .442.166.868.472 1.218-.042.186-.204.699-.722.699-.08 0-.249 0-.464-.234.285-.546.292-1.155.016-1.687-.318-.614-.945-.996-1.636-.996-1.011 0-1.833.823-1.833 1.833 0 .704.498 1.242.999 1.542l.001.116v4.422h.017c-.418 1.85.1 4.161 1.549 6.687.327.567.201.85.16.943-.388.874-2.623 1.361-3.958 1.652-2.781.606-2.775 2.261-2.768 3.983l.004 1.989h19.993l.002-1.968c.01-2.095-.172-3.438-2.768-4.004z"
 };
 
-export enum IconSize {
-  DEFAULT = "1em",
-  NORMAL = "1rem",
-  MEDEIUM_SMALL = "1.25rem",
-  MEDIUM = "1.45rem",
-  LARGE = "1.7rem",
-  MEDIUM_LARGE = "2rem",
-  BIG_LARGE = "2.25rem", //standard-line-height
-  LARGE_LARGE = "2.75rem", //standard-line-height
-  SUPER_LARGE = "4rem"
-}
-
 export interface IconConifgProps {
   label?: string;
   labelSize?: "large" | "small";
@@ -265,23 +263,19 @@ const JDIcon: React.FC<IConProps & IconConifgProps> = ({
   const classes = classNames("JDicon", className, {
     JDicon__svg: true,
     "JDicon__svg--hover": hover,
+    "JDicon__svg--selected": selected,
     ...colorClass("JDicon", color),
-    "JDicon__svg--selected": selected
+    ...iconSizeClass("JDicon", size)
   });
 
   const newId = s4();
 
-  const style = {
-    width: size,
-    height: size
-  };
   return (
     <Fragment>
       <svg
         {...props}
         alignmentBaseline="central"
         className={classes}
-        style={style}
         version="1.1"
         viewBox="0 0 24 24 "
         onClick={onClick}
@@ -311,10 +305,10 @@ const JDIcon: React.FC<IConProps & IconConifgProps> = ({
 };
 
 JDIcon.defaultProps = {
-  size: IconSize.DEFAULT,
+  size: undefined,
   hover: false
 };
 
-export {icons};
+export { icons };
 
 export default JDIcon;

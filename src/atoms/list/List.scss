@@ -1,4 +1,4 @@
-@import "~Styles/style_config.scss";
+@import "~Styles";
 
 .JDlist {
     @include textAlign--prefixer();
@@ -46,6 +46,6 @@
     }
     &__index {
         display: block;
-        margin-right: $standard-space /2;
+        margin-right: $standard-superTiny-space;
     }    
 }

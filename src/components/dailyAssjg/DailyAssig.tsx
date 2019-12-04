@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./DailyAssig.scss";
 import {
   getAllRoomTypeWithGuest_GetBlocks_blocks as IB,
@@ -16,7 +16,7 @@ import { DndProvider, DragObjectWithType } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
 import TouchBackend from "react-dnd-touch-backend";
 import GuestTooltip from "./components/GuestTooltip";
-import { IDailyAssigProp } from "./DailyAssigWrap";
+import { IDailyAssigProp, IChainProps } from "./DailyAssigWrap";
 import getDailyAssigUtils from "../../pages/bookingHost/assig/helper/dailyAssigUtils";
 import { JDtoastModal } from "../../atoms/modal/Modal";
 import { ReactTooltip } from "../../atoms/tooltipList/TooltipList";
@@ -42,7 +42,7 @@ export interface IDailyAssigContext extends IDailyAssigProp {
   handleDrop: (item: IG & DragObjectWithType, room: IR, place: number) => void;
 }
 
-interface IProps {
+interface IProps extends IChainProps {
   context: IContext;
   dailyAssigDataControl: IDailyAssigDataControl;
   outDailyAssigContext: IDailyAssigProp;
@@ -51,7 +51,8 @@ interface IProps {
 const DailyAssig: React.FC<IProps> = ({
   context,
   outDailyAssigContext,
-  dailyAssigDataControl
+  dailyAssigDataControl,
+  onRederCallBack
 }) => {
   const { house } = context;
   const {
@@ -163,6 +164,12 @@ const DailyAssig: React.FC<IProps> = ({
       <DailyAssigDayPicker />
     </span>
   );
+
+  useEffect(() => {
+    if (loading === false && !isEmpty(dailayAssigContext.formatedItemData)) {
+      onRederCallBack && onRederCallBack();
+    }
+  }, [loading]);
 
   return (
     <div className="dailyAssigWrap">

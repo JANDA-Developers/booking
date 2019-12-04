@@ -1,6 +1,6 @@
 import React from "react";
 import { Fragment } from "react";
-import JDIcon, { IconSize } from "../../../../../atoms/icons/Icons";
+import JDIcon from "../../../../../atoms/icons/Icons";
 import ConfirmBadgeWrap from "../../../../../components/confirmBadge/ConfirmBadgeWrap";
 import {
   IAssigItem,
@@ -89,7 +89,7 @@ const guestBlock: React.FC<IProps> = ({
         id={`assigItem__configIconWrapId${id}`}
         className="assigItem__configIconWrap"
       >
-        <JDIcon icon="dotMenuVertical" size={IconSize.MEDEIUM_SMALL} />
+        <JDIcon icon="dotMenuVertical" size={"small"} />
       </span>
     </Fragment>
   );

@@ -1,3 +1,7 @@
-@import '~Styles/style_config.scss';
+@import '~Styles';
 
-
+.HMconfig {
+    &__preview {
+        max-width: fit-content;
+    }
+}

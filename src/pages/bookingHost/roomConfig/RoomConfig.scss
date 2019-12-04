@@ -1,10 +1,9 @@
-@import '~Styles/style_config.scss';
+@import '~Styles';
 
 $roomTypeWidth: 10rem;
 $roomWidth: 10rem;
 
 .roomConfig {
-
 
     &__roomType {
         margin-right: 0;
@@ -15,6 +14,8 @@ $roomWidth: 10rem;
     }
 
     &__roomBox {
+        // 🔴 이부분은 box에서 내부적으로 처리하는게 낳았을텐데
+        padding: $standard-tiny-space!important;
         max-width: fit-content;
     }
 
@@ -50,6 +51,7 @@ $roomWidth: 10rem;
 
     &__addRoomBox {
         min-width: fit-content;
+        margin-bottom: $standard-margin-bottom;
         box-sizing: border-box;
         cursor: pointer!important;
     }
@@ -62,19 +64,6 @@ $roomWidth: 10rem;
     }
     &__roomsWrap > div {
         display:flex;
-
-        .rc-draggable-list-draggableRow {
-            min-width: 100px;
-            margin-right: $standard-space;
-            .JDbox {
-                flex: 0 0;
-                white-space: nowrap;
-                margin-bottom: 0!important;
-                .circleIcon {
-                    margin:0;
-                }
-            }
-        }
     }
     &__roomsWrapWrap {
         display:flex;

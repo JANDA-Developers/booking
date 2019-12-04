@@ -5,7 +5,7 @@ import ProfileCircle from "../../../atoms/profileCircle/ProfileCircle";
 import SelectHouseWrap from "../../selectHouse/SelectHouseWrap";
 import { IContext } from "../../../pages/bookingHost/BookingHostRouter";
 import { IUseModal, LANG } from "../../../hooks/hook";
-import { IconSize } from "../../../atoms/icons/Icons";
+
 interface Iprops {
   context: IContext;
   phoneVerificationModalHook: IUseModal;
@@ -40,8 +40,6 @@ const PcHeaderComponent: React.FC<Iprops> = ({
   // 로그인된 헤더 메뉴
   const LoginPcHeaderRight = () => (
     <div className="header__pcRight">
-
-
       {/* 프로필 아이콘 */}
       <span
         data-tip
@@ -55,12 +53,12 @@ const PcHeaderComponent: React.FC<Iprops> = ({
           file={profileImg}
           isBordered
           whiteBorder
-          size={IconSize.DEFAULT}
+          size={undefined}
         />
       </span>
       <SelectHouseWrap className="header__selectHouse" context={context} />
       {user && !isPhoneVerified && (
-        <span className="header__btns">
+        <span className="header__pcRight-end header__btns">
           <Button
             className="JDmargin-bottom0"
             onClick={() => {

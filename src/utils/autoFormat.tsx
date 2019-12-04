@@ -1,7 +1,7 @@
 // 카드 번호 스페이스 오토
 const card_space = (value: string = "") => {
-  var v = value.replace(/\s+/g, "").replace(/[^0-9]/gi, "");
-  var matches = v.match(/\d{4,16}/g);
+  var v = value.replace(/\s+/g, "").replace(/[^0-9\*]/gi, "");
+  var matches = v.match(/[0-9\*]{4,16}/g);
   var match = (matches && matches[0]) || "";
   var parts = [];
   for (let i = 0, len = match.length; i < len; i += 4) {

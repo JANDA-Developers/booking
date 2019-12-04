@@ -1,11 +1,14 @@
 import React from "react";
 import { IContext } from "../../../pages/bookingHost/BookingHostRouter";
 import Button from "../../../atoms/button/Button";
-import { LANG } from "../../../hooks/hook";
+import { LANG, useModal } from "../../../hooks/hook";
 import { CardBillingSteps, TCardRegistInfo } from "../CardBilingModal";
 import InputText from "../../../atoms/forms/inputText/InputText";
 import TextButton from "../../../atoms/textButton/TextButton";
 import JDlist from "../../../atoms/list/List";
+import privacyPolicy from "../../../docs/privacyPolicy";
+import RefundPolicyModal from "../../policyModal/RefundPolicyModal";
+import PrivacyPolicyModal from "../../policyModal/PrivacyPolicyModal";
 
 interface Iprops {
   context: IContext;
@@ -22,6 +25,9 @@ const CardInfoRegi: React.FC<Iprops> = ({
   setCardInfo,
   handleCardRegistBtnClick
 }) => {
+  const refundPolicyModalHook = useModal();
+  const privacyPolicyModalHook = useModal();
+
   const handleOnChangeInput = (
     v: string,
     key: "cardNumber" | "idNumber" | "expMonth" | "expYear" | "cardPassword"
@@ -85,7 +91,12 @@ const CardInfoRegi: React.FC<Iprops> = ({
           <div>
             {LANG("completing_this_card_registration_you_agree_to_the")}
           </div>
-          <TextButton color="primary" className="JDstandard-margin0" anchor>
+          <TextButton
+            onClick={() => {}}
+            color="primary"
+            className="JDstandard-margin0"
+            anchor
+          >
             {LANG("use_conditions")},
           </TextButton>{" "}
           <TextButton color="primary" className="JDstandard-margin0" anchor>
@@ -101,9 +112,11 @@ const CardInfoRegi: React.FC<Iprops> = ({
           size="long"
           mode="flat"
           thema="primary"
-          label={LANG("card_regist_complete")}
+          label={LANG("payment_regist_complete")}
         />
       </div>
+      <RefundPolicyModal modalHook={refundPolicyModalHook} />
+      <PrivacyPolicyModal modalHook={privacyPolicyModalHook} />
     </div>
   );
 };

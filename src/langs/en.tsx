@@ -243,7 +243,6 @@ export const en = {
   goto_create_roomType: "Go to create room type",
   goto_reservation_list: "view reservation list",
   graph_shape: "graph shape",
-  group_msg: "group message",
   group_notification: "group notification",
   guest: "guest",
   guestHouse: "guesthouse",

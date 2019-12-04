@@ -9,13 +9,13 @@ import Button from "../../../atoms/button/Button";
 import { IUseModal, useModal, LANG } from "../../../hooks/hook";
 import { insideRedirect, isEmpty } from "../../../utils/utils";
 import { UserRole, MemoType } from "../../../types/enum";
-import { IconSize } from "../../../atoms/icons/Icons";
 import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
 import MemoModal from "../../Memo/component/MemoModal";
 import MemoIcon from "../../Memo/component/MemoIcon";
 import NotiIcon from "../../noti/component/NotiIcon";
 import LangSelectModal from "../../../atoms/dayPicker/component/langSelectModal";
 import CardBillingModalWrap from "../../cardBilingModal/CardBilingModalWrap";
+import { Tooltip } from "chart.js";
 
 interface IProps {
   context: IContext;
@@ -136,11 +136,14 @@ const SharedHeaderComponent: React.FC<IProps> = ({
   );
 
   const { isLogIn } = context;
+  let isPriceAble = applyedProduct ? applyedProduct.price : false;
+  if (isPriceAble === 0) isPriceAble = false;
+
   return (
     <Fragment>
       {/* 알람 */}
-      {isPhoneVerified && (
-        <div className="JDtext-blink header__btns">
+      {isPriceAble && (
+        <div className="JDtext-blink header__btns header__iconsLeftSide">
           <Button
             thema="primary"
             onClick={() => {
@@ -154,12 +157,8 @@ const SharedHeaderComponent: React.FC<IProps> = ({
         {isEmpty(context.house) || (
           <NotiWrap
             icon={
-              <CircleIcon size={IconSize.MEDIUM}>
-                <NotiIcon
-                  context={context}
-                  color="white"
-                  size={IconSize.MEDIUM}
-                />
+              <CircleIcon size={"normal"}>
+                <NotiIcon context={context} color="white" size={"normal"} />
               </CircleIcon>
             }
             context={context}
@@ -169,15 +168,8 @@ const SharedHeaderComponent: React.FC<IProps> = ({
       {/* 메모 */}
       <span className="JDstandard-space">
         {isEmpty(context.house) || (
-          <CircleIcon size={IconSize.MEDIUM}>
-            <MemoIcon
-              onClick={() => {
-                memoModalHook.openModal();
-              }}
-              context={context}
-              color="white"
-              size={IconSize.MEDIUM}
-            />
+          <CircleIcon size={"normal"}>
+            <MemoIcon context={context} color="white" size={"normal"} />
           </CircleIcon>
         )}
       </span>
@@ -185,11 +177,6 @@ const SharedHeaderComponent: React.FC<IProps> = ({
       <TooltipList id="tooltip_user">
         <ul>{isLogIn ? <LoginIconMenu /> : <UnLoginIconMenu />}</ul>
       </TooltipList>
-      <MemoModal
-        memoType={MemoType.HOST}
-        context={context}
-        modalHook={memoModalHook}
-      />
       <LangSelectModal modalHook={langSelectModal} context={context} />
       {applyedProduct && (
         <CardBillingModalWrap modalHook={cardBillModalHook} context={context} />

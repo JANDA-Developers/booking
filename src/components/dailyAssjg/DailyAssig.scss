@@ -1,4 +1,4 @@
-@import '~Styles/style_config';
+@import '~Styles';
 @import './components/dragItem';
 
 .dailyAssig {
@@ -87,7 +87,6 @@
 
     &__room {
         min-width: 5.5rem;
-        border-bottom: 1px solid $grey-opacity1;
         border-right: 1px solid $grey-opacity1;
         margin-right: -1px; 
     }

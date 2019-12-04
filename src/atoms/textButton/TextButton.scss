@@ -1,4 +1,4 @@
-@import "~Styles/style_config.scss";
+@import "~Styles";
 
 .textButton {
   margin-right: $standard-small-space;
@@ -6,7 +6,7 @@
   
   &:hover {
     cursor: pointer;
-    color: $grey-level3;
+    color: $grey-level4;
   }
 
   &--anchor {

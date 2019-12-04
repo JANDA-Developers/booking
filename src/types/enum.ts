@@ -1,5 +1,6 @@
 import { isMobile } from "is-mobile";
 import { LANG } from "../hooks/hook";
+import { registerBillKey_RegisterBillKey_billInfo } from "./api";
 
 export const IMG_REPO =
   "https://s3.ap-northeast-2.amazonaws.com/booking.stayjanda.statichosting/static/media/";
@@ -104,7 +105,15 @@ export enum HouseStatus {
   DISALBE = "DISALBE",
   WAIT = "WAIT"
 }
-
+export type TMarginSize =
+  | "no"
+  | "largest"
+  | "huge"
+  | "large"
+  | "normal"
+  | "small"
+  | "tiny"
+  | "superTiny";
 export type TextAlign = "left" | "right" | "center";
 export type TextSize =
   | "h1"
@@ -149,6 +158,7 @@ export enum BookingStatus {
 }
 
 export enum PayMethod {
+  BILL = "BILL",
   VBANK = "VBANK",
   CASH = "CASH",
   CARD = "CARD",
@@ -174,12 +184,26 @@ export enum Gender {
   MALE = "MALE"
 }
 
+export enum ExcelExpress {
+  SELECT_OP = "SELECT_OP",
+  DATE_OP = "DATE_OP",
+  COUNT_OP = "COUNT_OP"
+}
+
 export enum NotiType {
   ELSE = "ELSE",
   NEW_BOOKING = "NEW_BOOKING",
   PRODUCT_EXPIRE = "PRODUCT_EXPIRE",
   TO_ALL = "TO_ALL"
 }
+
+export type IconSize =
+  | "tiny"
+  | "small"
+  | "normal"
+  | "large"
+  | "huge"
+  | "largest";
 
 export type JDColor =
   | "primary"
@@ -285,6 +309,12 @@ export const SmsReplaceKeyEnumValues = [
 export enum NotiLevel {
   NORMAL = "NORMAL",
   WARN = "WARN"
+}
+
+export enum PayTarget {
+  USAGE_PLAN = "USAGE_PLAN",
+  BOOKING = "BOOKING",
+  SMS = "SMS"
 }
 
 //= =============================================================
@@ -438,6 +468,12 @@ export let GENDER_OP = [
   { value: Gender.MALE, label: "" }
 ];
 
+export let EXCEL_EXPRESS_OP = [
+  { value: ExcelExpress.SELECT_OP, label: "" },
+  { value: ExcelExpress.COUNT_OP, label: "" },
+  { value: ExcelExpress.DATE_OP, label: "" }
+];
+
 export let FUNNELS_OP = [
   { value: Funnels.PHONE_CALL, label: "" },
   { value: Funnels.WALK_IN, label: "" },
@@ -504,6 +540,18 @@ export const STATIC_COLORS = [
   "#2AA876",
   "#0A7B83"
 ];
+
+export const DUMMY_BILL_INFO: registerBillKey_RegisterBillKey_billInfo = {
+  __typename: "BillInfo",
+  authDate: "2019.10.11",
+  billKey: "",
+  cardCl: 1,
+  cardNo: "4212 6532 1264 7432",
+  cardName: "신한카드",
+  ok: true,
+  resultCode: "OK" as any,
+  resultMsg: ""
+};
 
 export const FLOATING_PRELOADER_SIZE = "small";
 export const MODAL_PRELOADER_SIZE = "large";

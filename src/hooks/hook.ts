@@ -1,10 +1,22 @@
 import randomColor from "randomcolor";
-import { useState, useEffect, useRef, ChangeEvent } from "react";
+import {
+  useState,
+  useEffect,
+  useRef,
+  ChangeEvent,
+  Dispatch,
+  SetStateAction
+} from "react";
 import Axios from "axios";
 import { IselectedOption } from "../atoms/forms/selectBox/SelectBox";
 import { IHolidaysByApi, JdFile } from "../types/interface";
 import moment from "moment";
-import { muResult, targetBlink } from "../utils/utils";
+import {
+  muResult,
+  targetBlink,
+  onCompletedMessage,
+  instanceOfA
+} from "../utils/utils";
 import { JDlang as originJDlang } from "../langs/JDlang";
 import { TLanguageShort } from "../types/enum";
 import { useMutation } from "@apollo/react-hooks";
@@ -14,6 +26,8 @@ import { singleUpload, singleUploadVariables } from "../types/api";
 // @ts-ignore 타입이 존재하지않는 모듈
 import Resizer from "react-image-file-resizer";
 import { ExecutionResult } from "graphql";
+// @ts-ignore
+import omitDeep from "omit-deep";
 
 export type IUseFetch = [
   any,
@@ -96,19 +110,21 @@ const useImageUploader = (
   defaultFile?: JdFile | null,
   propOption?: IuseImageUploaderOption
 ): IuseImageUploader => {
-  if (defaultFile && defaultFile.tags) {
-    defaultFile.tags.forEach((tag: any) => {
-      delete tag.__typename;
-    });
-    delete defaultFile.__typename;
-  }
-
   const [file, setFile] = useState(defaultFile);
   const [uploading, setUploading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [uploadMutation] = useMutation<singleUpload, singleUploadVariables>(
     UPLOAD_FILE,
-    { client }
+    {
+      client,
+      onCompleted: ({ SingleUpload }) => {
+        onCompletedMessage(
+          SingleUpload,
+          LANG("uploade_compelte"),
+          LANG("uploade_fail")
+        );
+      }
+    }
   );
 
   const DEFAULT_IMAGEUP_LOADER_OPTION: IuseImageUploaderOption = {
@@ -126,33 +142,28 @@ const useImageUploader = (
     if (!file) {
       setIsError(true);
     } else if (file) {
-      if (file.tags) {
-        file.tags.forEach((tag: any) => {
-          delete tag.__typename;
-        });
-      }
-      delete file.__typename;
-      setFile(file);
+      setFile(omitDeep(file, ["__typename"]));
     }
     setUploading(false);
   };
 
   // S3로 업로드
   const uploadImg = async (
-    uriOrFile: any,
+    // Blob === video, File === img
+    uriOrFile: File | Blob,
     fileName?: string,
     fileType?: string
   ) => {
-    let file: any;
-    if (typeof uriOrFile === "string") {
+    let file: File;
+    if (!instanceOfA(uriOrFile, "name")) {
       file = new File([uriOrFile], fileName!, { type: fileType });
     } else {
-      file = uriOrFile;
+      file = uriOrFile as File;
     }
+
     const result = await uploadMutation({ variables: { file } });
 
     if (result.data) {
-      delete result.data.SingleUpload.__typename;
       setFileView(result);
     }
   };
@@ -168,6 +179,8 @@ const useImageUploader = (
       }: ChangeEvent<HTMLInputElement> = event as ChangeEvent<HTMLInputElement>;
       if (validity && files && files.length === 1) {
         const file = files[0];
+        console.log("file");
+        console.log(file);
         if (file) {
           // 이미지인경우 리사이즈 해서 업로드
           if (!file.type.includes("video")) {
@@ -183,8 +196,8 @@ const useImageUploader = (
               },
               "blob"
             );
+            // 비디오인경우에
           } else {
-            // 비디오인경우
             uploadImg(file);
           }
         }
@@ -438,19 +451,25 @@ function useToggle(defaultValue: boolean): [boolean, any] {
 
   return [toggle, onClick];
 }
+
+export interface IUseSideNav {
+  sideNavIsOpen: boolean;
+  setSideNavIsOpen: (flag?: boolean | undefined) => void;
+}
+
 // 사이드 네비
-function useSideNav(): [boolean, any] {
+function useSideNav(): IUseSideNav {
   let defaultValue = true;
   const navRecord = localStorage.getItem("JDsideOpen");
   defaultValue = navRecord === "Y";
-  const [isOpen, setOpen] = useState(defaultValue);
+  const [sideNavIsOpen, setOpen] = useState(defaultValue);
 
-  const onClick = () => {
-    localStorage.setItem("JDsideOpen", isOpen ? "N" : "Y");
-    setOpen(!isOpen);
+  const setSideNavIsOpen = (flag?: boolean) => {
+    localStorage.setItem("JDsideOpen", sideNavIsOpen ? "N" : "Y");
+    setOpen(flag ? flag : !sideNavIsOpen);
   };
 
-  return [isOpen, onClick];
+  return { sideNavIsOpen, setSideNavIsOpen };
 }
 
 // 투글 훅
@@ -584,6 +603,53 @@ const getKoreaSpecificDayHook = (
   return { datas, loading };
 };
 
+export interface IUseCheckBoxTable {
+  onToogleRow: (key: string) => void;
+  checkedIds: string[];
+  setCheckedIds: Dispatch<SetStateAction<string[]>>;
+  selectAll: any;
+  setSelectAll: any;
+  onToogleAllRow: () => void;
+  isSelected: (key: string) => any;
+}
+
+const useCheckBoxTable = (
+  defaultCheckIds: string[] = [],
+  allIds: string[] = []
+): IUseCheckBoxTable => {
+  const [checkedIds, setCheckedIds] = useState<string[]>(defaultCheckIds);
+  const [selectAll, setSelectAll]: any = useState(false);
+
+  //    모든 라인들에대한 아이디를 투글함
+  const onToogleAllRow = () => {
+    const updateSelecetedes = allIds.map(id =>
+      checkedIds.includes(id) ? "" : id
+    );
+    setCheckedIds(updateSelecetedes);
+    setSelectAll(!selectAll);
+  };
+
+  const onToogleRow = (key: string) => {
+    if (checkedIds.includes(key)) {
+      setCheckedIds([...checkedIds.filter(value => value !== key)]);
+    } else {
+      setCheckedIds([...checkedIds, key]);
+    }
+  };
+
+  const isSelected = (key: string) => checkedIds.includes(key);
+
+  return {
+    onToogleRow,
+    onToogleAllRow,
+    checkedIds,
+    setCheckedIds,
+    selectAll,
+    setSelectAll,
+    isSelected
+  };
+};
+
 export {
   useInput,
   useCheckBox,
@@ -604,5 +670,6 @@ export {
   useDayPicker,
   getKoreaSpecificDayHook,
   usePagiNation,
-  useRedirect
+  useRedirect,
+  useCheckBoxTable
 };

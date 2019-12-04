@@ -50,7 +50,6 @@ const SelectProductWrap: React.FC<IProps> = ({ context }) => {
     applyedProduct: currentProduct,
     user: { isPhoneVerified }
   } = context;
-  const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
     ReactTooltip.rebuild();
@@ -76,7 +75,6 @@ const SelectProductWrap: React.FC<IProps> = ({ context }) => {
                 LANG("product_application_completed"),
                 LANG("product_application_failed")
               );
-              setRedirect(true);
             }}
             refetchQueries={refetchQueries}
             awaitRefetchQueries
@@ -86,24 +84,20 @@ const SelectProductWrap: React.FC<IProps> = ({ context }) => {
                 mutation={REFUND_PRODUCT}
                 refetchQueries={refetchQueries}
               >
-                {refundMu =>
-                  redirect ? (
-                    <Redirect push to="/ready" />
-                  ) : (
-                    <Fragment>
-                      <SelectProducts
-                        productTypeDecs={productTypeDesc}
-                        refundMu={refundMu}
-                        buyProductMu={buyProductMu}
-                        loading={loading}
-                        mutationLoading={buyProductLoading}
-                        selectedHouse={selectedHouse}
-                        currentProduct={currentProduct}
-                        isPhoneVerified={isPhoneVerified}
-                      />
-                    </Fragment>
-                  )
-                }
+                {refundMu => (
+                  <Fragment>
+                    <SelectProducts
+                      productTypeDecs={productTypeDesc}
+                      refundMu={refundMu}
+                      buyProductMu={buyProductMu}
+                      loading={loading}
+                      mutationLoading={buyProductLoading}
+                      selectedHouse={selectedHouse}
+                      currentProduct={currentProduct}
+                      isPhoneVerified={isPhoneVerified}
+                    />
+                  </Fragment>
+                )}
               </RefundProductMutation>
             )}
           </BuyProductMutation>

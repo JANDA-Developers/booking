@@ -1,10 +1,18 @@
-@import "~Styles/style_config.scss";
+@import "~Styles";
 
 .vtable {
     padding: $standard-large-space;
     border: 1px solid $grey-level0;
     border-radius: $standard-border-radius;
     padding-bottom: 0;
+
+    &--unBorder {
+        border: none;
+    }
+
+    &--noHeader {
+        padding-top: 0;
+    }
 
     &__column {
         display: flex;
@@ -20,8 +28,16 @@
         }
     }
 
+    &__content {
+        margin:0;
+        min-width: fit-content;
+        display: flex;
+        justify-content: flex-end;
+    }
+
     &__label {
-        margin-right: $standard-large-space;
+        margin:0;
+
         .JDlabel {
             display:flex;
             align-items: center;
@@ -30,6 +46,7 @@
     }
 
     &__header {
+        margin-bottom: $standard-margin-bottom;
         
     }
 }

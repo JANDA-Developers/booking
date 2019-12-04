@@ -1,4 +1,4 @@
-@import '~Styles/style_config';
+@import '~Styles';
 
 .middlerServerLoading {
     z-index: $z-index-8 + 1;
@@ -19,6 +19,11 @@ html .header {
     position: sticky;
     top:0;
 
+
+    &__iconsLeftSide {
+        margin-right: -$standard-tiny-space;
+    }
+
     &__NotifyIcon {
         color:white;
     }
@@ -32,7 +37,7 @@ html .header {
         padding-right: 0.2rem;
         
         @include response($tablet) {
-            padding-right: $container-padding--md;
+            padding-right: $container-padding--md;    
         }
 
         & + .animationWrap {
@@ -60,12 +65,15 @@ html .header {
         display: flex;
         height: 100%;
         align-items: center;
-        margin-right: -$button-padding-side; //0.7rem header 보정상수
         
         &--unlogin {
             margin-left: 0;
             height:100%;
             line-height: 100%;
+        }
+        
+        &-end {
+            margin-right: -$button-padding-side; //0.7rem header 보정상수
         }
     }
 
@@ -96,6 +104,12 @@ html .header {
     &__menueWrap {
         margin-left:-4px;
         margin-right:$standard-space;
+
+        @include response($tablet) {
+            margin-left: 0;
+            margin-right: $container-padding--md;    
+        }
+
         .header__menue {
             cursor: pointer;
             color:white;
@@ -183,33 +197,14 @@ html .header {
             }
         }
     }
-
-    // 에약자 검색바
-    .JDsearchInput {
-        margin-bottom: 0;
-        min-width: 300px;
-        height: $standard-line-height;
-
-        @include response($phablet) {
-            min-width: unset
-        }
-        
-        &__input {
-            margin:0;
-            padding:0;
-            padding-left: $standard-small-space;
-            border-radius: $standard-border-radius;
-        }
-        &__ul {
-            @extend %z-depth-3
-        }
-    }
     
-
     @include response($phablet) {
         padding-left: 0rem;
         padding-right: 0rem;
         
+        &__btns {
+            display: none;
+        }
         
         &__logoPlace {
             padding-left: calc(#{$standard-small-space} * 2);
@@ -220,11 +215,6 @@ html .header {
             }
         }
         
-        .JDbtn  {
-            padding-left: $container-padding;
-            padding-right: $container-padding;
-        }
-
         //  툴팁 화살표 방향 설정  모바일일때 구석에있어야함
         .__react_component_tooltip::before,.__react_component_tooltip::after {
             left: auto;
@@ -235,9 +225,8 @@ html .header {
         border: none;
     }
 
-    .JDsearchInput__input {
-        background-color: white;
-        box-shadow: none;
-        border:none;
+    .JDsearchInput {
+        margin-bottom: 0;
     }
+    
 }

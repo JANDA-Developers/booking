@@ -1,4 +1,4 @@
-@import '../~Styles/style_config.scss';
+@import '../~Styles';
 
 #root,.ReactModalPortal {
     .HM {
@@ -40,7 +40,6 @@
             display:flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: $standard-margin-bottom;
         }
 
         &__contectMenu {

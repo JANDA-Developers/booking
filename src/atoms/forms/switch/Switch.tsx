@@ -1,10 +1,10 @@
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import "./Switch.scss";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import ErrProtecter from "../../../utils/errProtect";
 import JDlabel from "../../label/JDLabel";
-import {s4} from "../../../utils/utils";
+import { s4 } from "../../../utils/utils";
 import Tooltip from "../../tooltip/Tooltip";
 
 interface IProps {
@@ -53,7 +53,7 @@ const JDswitch: React.FC<IProps> = ({
           onClick={handleCheckboxChange}
         >
           <label htmlFor="JDswitch">
-            {ltxt !== "" && <span className="JDswitch__ltxt">{ltxt}</span>}
+            {ltxt && <span className="JDswitch__ltxt">{ltxt}</span>}
             <input
               onChange={() => {}}
               checked={checked}
@@ -62,7 +62,7 @@ const JDswitch: React.FC<IProps> = ({
               type="checkbox"
             />
             <span className="JDswitch__lever" />
-            {rtxt !== "" && <span className="JDswitch__rtxt">{rtxt}</span>}
+            {rtxt && <span className="JDswitch__rtxt">{rtxt}</span>}
           </label>
         </span>
         {tooltip && (

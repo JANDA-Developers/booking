@@ -41,7 +41,8 @@ import {
   ICreateCreateItem,
   TChangeMarkToGhost,
   TGetInfoesFromMarks,
-  THilightHeader
+  THilightHeader,
+  TGetItemByType
 } from "../components/assigIntrerface";
 import {
   onCompletedMessage,
@@ -71,6 +72,11 @@ import {
 } from "../../../../types/interface";
 import { LANG } from "../../../../hooks/hook";
 import { IBookingModalProp } from "../../../../components/bookingModal/declaration";
+
+const TOOLTIP_POSITION = {
+  x: 15,
+  y: 8
+};
 
 export function getAssigUtils(
   {
@@ -107,8 +113,10 @@ export function getAssigUtils(
     ]);
   };
 
-  // TODO
-  // const getItemByTypes
+  const getItemByTypes: TGetItemByType = (type: GuestTypeAdd) => {
+    const targetGuests = guestValue.filter(guest => guest.type === type);
+    return targetGuests;
+  };
 
   const getItemById: TGetItemById = guestId => {
     const targetGuest = guestValue.find(guest => guest.id === guestId);
@@ -712,8 +720,8 @@ export function getAssigUtils(
   // canvas 용 메뉴오픈
   const openCanvasMenuTooltip: TOpenCanvasMenuTooltip = location => {
     $("#canvasMenu")
-      .css("left", location.clientX + 10)
-      .css("top", location.clientY + 5)
+      .css("left", location.clientX + TOOLTIP_POSITION.x)
+      .css("top", location.clientY + TOOLTIP_POSITION.y)
       .addClass("assig__tooltips--show");
   };
 
@@ -864,7 +872,8 @@ export function getAssigUtils(
     hilightHeader,
     deleteGhost,
     createCreateItem,
-    getItems
+    getItems,
+    getItemByTypes
   };
 
   return assigUtils;
