@@ -45,9 +45,9 @@ const PhoneVerificationModalWrap: React.FC<IProps> = ({
   <StartPhoneVerificationMu
     variables={{ phoneNumber }}
     mutation={START_PHONE_VERIFICATION_WITH_PHONE_NUMBER}
-    onCompleted={({ StartSenderVerification }) => {
+    onCompleted={({ StartPhoneVerification }: any) => {
       onCompletedMessage(
-        StartSenderVerification,
+        StartPhoneVerification,
         LANG("certification_number_sent"),
         LANG("certification_number_sent_fail")
       );
@@ -84,11 +84,7 @@ const PhoneVerificationModalWrap: React.FC<IProps> = ({
               });
             };
             const modalOpenCallBackFn = () => {
-              startPhoneVerificationMu({
-                variables: {
-                  phoneNumber: phoneNumber
-                }
-              });
+              startPhoneVerificationMu();
             };
             return (
               <PhoneVerificationModal

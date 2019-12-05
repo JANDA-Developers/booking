@@ -1874,8 +1874,8 @@ export const PHONE_VERIFICATION = gql`
 
 //  유저 :: 휴대폰인증(발신자용)
 export const START_PHONE_VERIFICATION_WITH_PHONE_NUMBER = gql`
-    mutation startPhoneVerificationWithPhoneNumber($phoneNumber: PhoneNumber!) {
-        StartSenderVerification(phoneNumber: $phoneNumber) {
+    mutation startPhoneVerificationWithPhoneNumber {
+        StartPhoneVerification {
             ok
             error
         }
