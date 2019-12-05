@@ -22,8 +22,9 @@ $z-index-10: 100; // sideNav  toast
 
 // -- ✏️ TyphoGraphy 타이포 그래피
 $typho-h6 : 1.3rem !default;
-$typho-large : 1.3rem !default;
-$typho-normal : 1rem !default;
+$typho-huge : 1.3rem !default;
+$typho-large : 1.1rem !default;
+$typho-normal : 0.95rem !default;
 $typho-small : 0.825rem !default;
 $typho-tiny : 10px !default;
 $typho-superTiny : 9px !default;
@@ -102,6 +103,9 @@ $grey-text-color: $grey-level5 !default;
 $curtain-color: rgba(0,0,0,.78) !default; // 사이드 네비와 모달의 화면 가림색
 
 // 📖 ---- 표준 단위
+$doc-section-space: 0.4rem * 12 !default; 
+
+
 $standard-largest-space: 0.4rem * 7 !default; 
 $standard-huge-space: 0.4rem * 5 !default; 
 $standard-large-space: 0.4rem * 4 !default; 
@@ -306,7 +310,7 @@ $button-disabled-color: $grey-level4 !default;
 
 
 // -- Large buttons
-$button-large-icon-font-size: $typho-large !default;
+$button-large-icon-font-size: $typho-huge !default;
 $button-large-height: $button-height * 1.5 !default;
 $button-large-padding: 0 $standard-huge-space !default;
 
@@ -318,7 +322,7 @@ $button-flat-disabled-color: $button-disabled-color !default;
 $button-small-padding-side: $standard-small-space !default;
 $button-small-padding: 0 $button-small-padding-side !default;
 $button-small-font-size: $typho-normal !default;
-$button-large-font-size: $typho-large !default;
+$button-large-font-size: $typho-huge !default;
 
 $button-height: $standard-line-height !default;
 // 5 Modals

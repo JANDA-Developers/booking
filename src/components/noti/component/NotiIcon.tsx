@@ -1,18 +1,14 @@
 import React from "react";
 import { useQuery } from "@apollo/react-hooks";
 import { GET_MEMO, GET_NOTI } from "../../../apollo/queries";
-import {
-  getMemos,
-  getMemosVariables,
-  getNotis,
-  getNotisVariables
-} from "../../../types/api";
+import { getNotis, getNotisVariables } from "../../../types/api";
 import { queryDataFormater, s4 } from "../../../utils/utils";
-import JDIcon, { IconConifgProps } from "../../../atoms/icons/Icons";
+import JDIcon from "../../../atoms/icons/Icons";
 import { IContext } from "../../../pages/bookingHost/BookingHostRouter";
-import { MemoType, NotiLevel } from "../../../types/enum";
+import { NotiLevel } from "../../../types/enum";
 import client from "../../../apollo/apolloClient";
 import JDbadge from "../../../atoms/badge/Badge";
+import { IconConifgProps } from "../../../atoms/icons/declation";
 
 interface Iprops extends IconConifgProps {
   context: IContext;

@@ -3,9 +3,9 @@ import { IProductTypeDec } from "../../../types/interface";
 import { getAllProductTypes_GetAllProductTypes_productTypes } from "../../../types/api";
 import { ProductTypeKey } from "../../../types/enum";
 import { autoComma } from "../../../utils/utils";
-import { IIcons } from "../../../atoms/icons/Icons";
 import JDlist from "../../../atoms/list/List";
 import { LANG } from "../../../hooks/hook";
+import { IIcons } from "../../../atoms/icons/declation";
 
 interface IProductSpecifc {
   icon: IIcons | "";

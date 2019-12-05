@@ -32,10 +32,10 @@ const assigDefaultProps = {
 export const ASSIG_VISIBLE_CELL_PC = 10;
 export const ASSIG_VISIBLE_CELL_MB_DIFF = 6.5;
 // 불러올 데이터양
-export const ASSIG_DATA_END = 14;
-export const ASSIG_DATA_START = 18;
+export const ASSIG_DATA_END = 14; // 앞으로 N일까지 미리 가져옴
+export const ASSIG_DATA_START = 14; // 뒤로 N일까지 미리 가져옴
 // 불러올 데이터 타이밍
-export const ASSIG_DATA_START_LIMITE = 10;
-export const ASSIG_DATA_END_LIMITE = 10;
+export const ASSIG_DATA_START_LIMITE = 4; // 뒤로갈때필요
+export const ASSIG_DATA_END_LIMITE = 4; //N일 이전에 요청시작
 
 export default assigDefaultProps;

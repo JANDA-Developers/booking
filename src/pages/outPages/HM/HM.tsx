@@ -18,6 +18,7 @@ import Preloader from "../../../atoms/preloader/Preloader";
 import { JdFile } from "../../../types/interface";
 import LangViewModal from "../../bookingHost/HMconfig/component/LangViewModal";
 import { IMenusprops } from "../../bookingHost/HMconfig/component/Menus";
+import JDmenuTitle from "../../../atoms/menu/components/MenuTitle";
 
 interface IProps extends IMenusprops {
   bgData?: JdFile | null;
@@ -149,15 +150,10 @@ const HMcompoent: React.FC<IProps> = ({
                     <JDsubMenu
                       key={menu.id}
                       title={
-                        <div className="JDflex--vCenter">
-                          <JDIcon
-                            className="JDstandard-space"
-                            size={"small"}
-                            icon={(menu.icon as any) || undefined}
-                          />
-                          <span>{menu.name[currentLang]}</span>
-                          <span></span>
-                        </div>
+                        <JDmenuTitle
+                          title={menu.name[currentLang]}
+                          icon={(menu.icon as any) || undefined}
+                        />
                       }
                     >
                       <HMmenu

@@ -8,7 +8,7 @@ import { IMG_REPO } from "../types/enum";
 export const kr = {
   Apply: "적용",
   BOTH: "게스트,호스트",
-  BY_DATE: "날자별",
+  BY_DATE: "날짜별",
   BY_DAY_OF_WEEK: "요일별",
   CANCEL: "예약취소",
   CARD: "카드결제",
@@ -110,7 +110,7 @@ export const kr = {
   booker_name: "예약자명",
   bookingList: "예약목록",
   booking_status: "예약상태",
-  calender_date: "달력날자",
+  calender_date: "달력날짜",
   can_use_after_phone_auth: "휴대폰 인증후 사용가능",
   cancel: "취소",
   cancelBooking: "예약취소",
@@ -123,14 +123,14 @@ export const kr = {
   certification_number_sent_fail: "인증번호 발송실패",
   change: "변경",
   change_complited: "변경완료",
-  change_date: "날자변경",
+  change_date: "날짜변경",
   change_failed: "변경실패",
   change_house: "숙소변경",
   change_house_fail: "숙소 변경 실패",
   change_profile: "프로필 변경",
   change_statistics: "통계변경",
   changed_current_house: "현재숙소 변경",
-  checkCheckInDate: "체크인 날자를 선택해 주세요.",
+  checkCheckInDate: "체크인 날짜를 선택해 주세요.",
   checkDelete: "개를 삭제하시겠습니까?",
   checkIn: "체크인",
   checkOut: "체크아웃",
@@ -140,14 +140,14 @@ export const kr = {
   check_password: "비밀번호 확인",
   check_selection: "선택 확인",
   checkin_change_fail: "체크인 변경 실패",
-  checkin_date: "체크인 날자",
+  checkin_date: "체크인 날짜",
   checkin_status: "체크인 현황",
-  checkout_date: "체크아웃 날자",
+  checkout_date: "체크아웃 날짜",
   chnage_priority: "순위변경",
   choose_product: "상품선택",
   choosen_person: "선택 인원",
-  choseCheckInDate: "체크인 날자를 선택해 주세요.",
-  choseCheckOutDate: "체크아웃 날자를 선택해 주세요.",
+  choseCheckInDate: "체크인 날짜를 선택해 주세요.",
+  choseCheckOutDate: "체크아웃 날짜를 선택해 주세요.",
   close: "닫기",
   close_today: "하루동안 알림 중지",
   color_set: "색상설정",
@@ -185,7 +185,7 @@ export const kr = {
   daily_refine_price: "상세가격 수정",
   date: "일",
   date_of_creation: "생성일시",
-  date_of_statistics: "통계날자",
+  date_of_statistics: "통계날짜",
   date_of_stay: "숙박일자",
   day_of_week: "요일",
   day_of_week_price: "요일별가격",
@@ -401,13 +401,13 @@ export const kr = {
   please_search_house_location: "숙소위치를 검색해주세요.",
   please_select_a_payment_method: "결제방법을 선택해주세요.",
   please_select_a_payment_status: "결제상태를 선택해주세요.",
-  please_select_checkOut_date: "체크아웃 날자를 선택해주세요.",
-  please_select_date: "날자를 선택해 주세요",
+  please_select_checkOut_date: "체크아웃 날짜를 선택해주세요.",
+  please_select_date: "날짜를 선택해 주세요",
   please_select_reservation_status: "예약상태를 선택해주세요.",
   please_select_the_accommodation_type: "숙소타입을 선택 해주세요.",
   please_select_the_number_of_people: "인원수를 선택해주세요.",
-  please_slect_date_at_calender: "달력에서 날자를 선택해주세요.",
-  please_specify_the_date: "날자를 지정해주세요.",
+  please_slect_date_at_calender: "달력에서 날짜를 선택해주세요.",
+  please_specify_the_date: "날짜를 지정해주세요.",
   polling_period: "풀링주기",
   polling_period_setting: "풀링주기 설정",
   preferences: "환경설정",
@@ -524,7 +524,7 @@ export const kr = {
   season_period: "시즌기간",
   second: "초",
   select: "선택",
-  select_date: "날자선택",
+  select_date: "날짜선택",
   select_house_type: "숙소타입 선택",
   select_roomGender: "방성별 선택",
   select_roomType: "방타입 선택",
@@ -586,7 +586,7 @@ export const kr = {
     "서비스 제공을 위해 필요한 최소한의 개인정보이므로 동의를 해주셔야 서비스를 이용하실수 있습니다",
   the_phone_number_set_is_not_valid: "설정된 전화번호가 유효하지 않습니다.",
   there_is_an_alarm_set_note: "알람 설정된 메모가 있습니다.",
-  there_is_no_room_in_selected_date: "해당날자에 예약가능한 방이 없습니다",
+  there_is_no_room_in_selected_date: "해당날짜에 예약가능한 방이 없습니다",
   this_month_sales: "이번달매출",
   this_price_modification_will_be_the_highest_priority_of_all_pricing:
     "해당 가격 수정은 모든 가격설정 중 최우선 적용 됩니다.",
@@ -739,7 +739,7 @@ export const kr = {
   ),
   try_setting_it_up_different_prices_by_date: (
     <span>
-      날자별로 가격을 다르게
+      날짜별로 가격을 다르게
       <Mbr /> 설정해보세요.
     </span>
   ),
@@ -814,7 +814,7 @@ export const kr = {
     YANOLJA: "야놀자",
     YEOGIEOTTAE: "여기어때"
   },
-  goto_today: "오늘 날자로",
+  goto_today: "오늘 날짜로",
   // 1.1.0 패치
   email: "이메일",
   find_email: "이메일 찾기",
@@ -892,14 +892,14 @@ export const kr = {
   ),
   pay_with_this_card: "이카드로 정기결제 등록",
   static_page_desc:
-    "매출에 관한 통계를 확인할수 있습니다. 표기할 날자와 기한을 설정하여 그사이에 매출을 확인할 수 있습니다.",
+    "매출에 관한 통계를 확인할수 있습니다. 표기할 날짜와 기한을 설정하여 그사이에 매출을 확인할 수 있습니다.",
   assigTimeline__decs: "배정달력에서 게스트들을 원하는 방에 배정할수 있습니다.",
   JANDA_home: "JANDA 홈",
   JANDA_home_desc:
-    "현 대쉬보드에서 오늘날자에 관한 배정 현황을 확인할수 있습니다.",
-  bookingList__desc: "예약에 관한 내용을 날자순으로 나타냅니다.",
+    "현 대쉬보드에서 오늘날짜에 관한 배정 현황을 확인할수 있습니다.",
+  bookingList__desc: "예약에 관한 내용을 날짜순으로 나타냅니다.",
   price_setting__desc:
-    "날자별 가격 혹은 기간별 가격을 설정할수 있습니다. 해당날자에 해당가격이 되도록 조정해보세요.",
+    "날짜별 가격 혹은 기간별 가격을 설정할수 있습니다. 해당날짜에 해당가격이 되도록 조정해보세요.",
   lang_use_set: "언어 사용설정",
   HM_set__desc: (
     <span>
@@ -930,7 +930,7 @@ export const kr = {
   ExcelExpress: {
     SELECT_OP: "현재 선택한 내용으로 출력",
     COUNT_OP: "최근 생성 갯수로 출력",
-    DATE_OP: "날자로 출력"
+    DATE_OP: "날짜로 출력"
   },
   unit: "개",
   pay_date: "납부일자",
@@ -944,6 +944,7 @@ export const kr = {
   how_to_save_sms_template_title: "SMS양식 저장하는 방법",
   how_to_save_sms_template_doc: (
     <JDlist
+      marginBottom="long"
       contents={[
         "1. SMS양식 메뉴에서 [양식생성]을 클릭합니다.",
         <div>
@@ -952,7 +953,11 @@ export const kr = {
           숙박일자/숙박정보/예약자명/가격/결제방법/결제상태/하우스메뉴얼URL문구를
           아래에 양식메시지에서 클릭하시면 메시지 발송시에 자동으로 정보가
           입력됩니다.
-          <PhotoFrame src={`${IMG_REPO}smsInfo/smsinfo_img_01--kr.png`} />
+        </div>,
+        <div>
+          <PhotoFrame
+            src={`https://s3.ap-northeast-2.amazonaws.com/booking.stayjanda.statichosting/static/media/smsInfo/smsinfo_img_01--kr.png`}
+          />
         </div>,
         "3. 자동발신 상태를 예약취소시/예약생성시/예약생성시(미결제)/예약업데이트시 별로 선택하여 설정하고",
         "4. 발신대상을 게스트/호스트/게스트+호스트 별로 지정을 해주시고 우측에 자동발신 활설화 여부를 on / oFF 설정해주시면 언제든지 고객에게 알림 문자가 발송되게 설정됩니다."
@@ -979,5 +984,6 @@ export const kr = {
       ]}
     />
   ),
-  sms_usage: "SMS 이용법"
+  sms_usage: "SMS 이용법",
+  sms_service: "SMS 서비스"
 };

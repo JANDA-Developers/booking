@@ -38,7 +38,7 @@
     }
 
     &__houseName {
-        font-size: $typho-large;
+        font-size: $typho-huge;
         color:white;
     }
 
@@ -121,6 +121,7 @@
         }
     }
     
+
     &__name {
         font-size: $typho-small;
         margin-bottom: $standard-margin-bottom;
@@ -146,15 +147,32 @@
         right: calc(#{$sideNav-list-padding} + 5px)!important;
     }
 
-    &__navLink {
+    // !!!!! TODO 메뉴 정리!!!
+    &__menus {
+        align-items: center;
         text-decoration: none;
         color: $html-color;
-        display: block;
+        display: flex;
         height: $sideNav-list-li-height;
-        line-height: $sideNav-list-li-height;
-        background-color: $sideNav-list-li-bgColor;
-        padding-left: $sideNav-list-padding;
         border-bottom : 1px solid $grey-level1;
+        background-color:white;
+        
+
+        &_subTitle {
+            display: flex;
+            align-items: center;
+        }
+
+        &--subTitle {
+            padding-left: 0;
+            border-bottom : none;
+        }
+
+        &--pr {
+            padding-right: $sideNav-list-padding;
+        }
+        
+        padding-left: $sideNav-list-padding;
         
         &.active {
             background-color: $primary-color;
@@ -163,8 +181,14 @@
                 background-color: $primary-color;
             }
         }
+
+
+        .rc-menu-submenu-title {
+            display:flex;
+            align-items: center;
+        }
        
-        &:not(.JDsideNav__navLink--disabled):hover {
+        &:not(.JDsideNav__menus--disabled):hover {
             background-color:$grey-level1;
         }
 
@@ -177,6 +201,19 @@
             padding: 0rem $sideNav-list-padding;
             padding-left: 0;
         }
+        
+        &-subItemWrap {
+            .JDsideNav__menus {
+                background-color: $grey-level0;
+                padding-left: $sideNav-list-padding * 2;
+                &.active {
+                    background-color: $primary-color;
+                    color:white;
+                    #root &:hover {
+                        background-color: $primary-color;
+                    }
+                }
+            }
+        }
     }
-
 }

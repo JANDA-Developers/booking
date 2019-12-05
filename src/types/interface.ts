@@ -17,7 +17,7 @@ import {
   singleUpload_SingleUpload_jdFile
 } from "./api";
 import { IselectedOption } from "../atoms/forms/selectBox/SelectBox";
-import { PricingType } from "./enum";
+import { PricingType, TMarginSize } from "./enum";
 import { MutationFunctionOptions } from "@apollo/react-common";
 import { ExecutionResult } from "graphql";
 import { IStartBookingCallBack } from "../pages/bookingHost/assig/components/assigIntrerface";
@@ -204,5 +204,10 @@ export interface IProductTypeDec {
   priceText: string;
   disable?: boolean | undefined;
 }
-
+// 일부만 시험적용중
+// 추후에 모든 아톰에 적용할에정
+export interface JDatomExtentionSet {
+  mb?: TMarginSize;
+  mr?: TMarginSize;
+}
 /*  -------------------------------------------------------------------------- */

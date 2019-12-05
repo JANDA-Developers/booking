@@ -1,6 +1,5 @@
 import classNames from "classnames";
 import React, { useRef, useEffect } from "react";
-// @ts-ignore
 import Menu, { SubMenu as JDsubMenu, MenuItem as JDmenuItem } from "rc-menu";
 import "rc-menu/assets/index.css";
 import "./Menu.scss";

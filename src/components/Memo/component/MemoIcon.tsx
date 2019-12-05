@@ -3,7 +3,7 @@ import { useQuery } from "@apollo/react-hooks";
 import { GET_MEMO } from "../../../apollo/queries";
 import { getMemos, getMemosVariables } from "../../../types/api";
 import { queryDataFormater, s4 } from "../../../utils/utils";
-import JDIcon, { IconConifgProps } from "../../../atoms/icons/Icons";
+import JDIcon from "../../../atoms/icons/Icons";
 import { IContext } from "../../../pages/bookingHost/BookingHostRouter";
 import { MemoType } from "../../../types/enum";
 import client from "../../../apollo/apolloClient";
@@ -14,6 +14,7 @@ import { alertMemo } from "../../../pages/bookingHost/helper";
 import FloatBox from "../../../atoms/floatBox/FloatBox";
 import JDbox from "../../../atoms/box/JDbox";
 import MemoWrap from "../MemoWrap";
+import { IconConifgProps } from "../../../atoms/icons/declation";
 
 interface Iprops extends IconConifgProps {
   context: IContext;

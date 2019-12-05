@@ -42,7 +42,7 @@ import {
   TChangeMarkToGhost,
   TGetInfoesFromMarks,
   THilightHeader,
-  TGetItemByType
+  TGetItemsByType
 } from "../components/assigIntrerface";
 import {
   onCompletedMessage,
@@ -53,7 +53,12 @@ import {
   isEmpty
 } from "../../../../utils/utils";
 import { ReactTooltip } from "../../../../atoms/tooltipList/TooltipList";
-import { RoomGender, Gender, PricingType } from "../../../../types/enum";
+import {
+  RoomGender,
+  Gender,
+  PricingType,
+  TimePerMs
+} from "../../../../types/enum";
 import {
   DEFAULT_ASSIG_ITEM,
   DEFAULT_ROOMTYPE,
@@ -84,7 +89,8 @@ export function getAssigUtils(
     guestValue,
     setBlockMenuProps,
     bookingModal,
-    confirmModalHook
+    confirmModalHook,
+    isMultiSelectingMode
   }: IAssigTimelineHooks,
   {
     allocateMu,
@@ -100,10 +106,12 @@ export function getAssigUtils(
 ): IAssigTimelineUtils {
   // 마크제거 MARK REMOVE 마커 제거
   const removeMark: TRemoveMark = () => {
-    console.info("removeMark");
-    setGuestValue([
-      ...guestValue.filter(item => item.type !== GuestTypeAdd.MARK)
-    ]);
+    if (!isMultiSelectingMode) {
+      console.info("removeMark");
+      setGuestValue([
+        ...guestValue.filter(item => item.type !== GuestTypeAdd.MARK)
+      ]);
+    }
   };
 
   const deleteGhost: TDleteGhost = () => {
@@ -113,8 +121,9 @@ export function getAssigUtils(
     ]);
   };
 
-  const getItemByTypes: TGetItemByType = (type: GuestTypeAdd) => {
+  const getItemsByType: TGetItemsByType = (type: GuestTypeAdd) => {
     const targetGuests = guestValue.filter(guest => guest.type === type);
+
     return targetGuests;
   };
 
@@ -348,6 +357,8 @@ export function getAssigUtils(
     const filteredGuestValue = guestValue.filter(
       guest => guest.type !== GuestTypeAdd.MARK
     );
+
+    if (end - start < TimePerMs.DAY - TimePerMs.H) return;
 
     groupIds.forEach((id, i) => {
       const group = getGroupById(id);
@@ -719,9 +730,15 @@ export function getAssigUtils(
 
   // canvas 용 메뉴오픈
   const openCanvasMenuTooltip: TOpenCanvasMenuTooltip = location => {
-    $("#canvasMenu")
+    let fixY = 0;
+    const target = $("#canvasMenu");
+    if (window.innerHeight < location.clientY + 100) {
+      fixY = window.innerHeight - (target.height() || 0) - 20;
+    }
+
+    target
       .css("left", location.clientX + TOOLTIP_POSITION.x)
-      .css("top", location.clientY + TOOLTIP_POSITION.y)
+      .css("top", fixY || location.clientY + TOOLTIP_POSITION.y)
       .addClass("assig__tooltips--show");
   };
 
@@ -873,7 +890,7 @@ export function getAssigUtils(
     deleteGhost,
     createCreateItem,
     getItems,
-    getItemByTypes
+    getItemsByType
   };
 
   return assigUtils;

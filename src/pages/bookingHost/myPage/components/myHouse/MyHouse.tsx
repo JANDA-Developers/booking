@@ -28,10 +28,8 @@ const MyHouse: React.SFC<IProps> = ({
     >
       <div className="myHouse">
         <span className="myHouse__title">
-          <h6 className="JDstandard-margin-bottom">
-            {title}
-            <span className="myHouse__purchaseProduct">{purchaseProduct}</span>
-          </h6>
+          <h6 className="JDstandard-margin-bottom">{title}</h6>
+          <span className="myHouse__purchaseProduct">{purchaseProduct}</span>
         </span>
         <JDlist
           marginBottom="short"

@@ -22,7 +22,7 @@ $z-index-10: 100; // sideNav  toast
 
 // -- ✏️ TyphoGraphy 타이포 그래피
 $typho-h6 : 1.3rem !default;
-$typho-large : 1.3rem !default;
+$typho-huge : 1.3rem !default;
 $typho-normal : 1rem !default;
 $typho-small : 0.825rem !default;
 $typho-tiny : 10px !default;
@@ -307,7 +307,7 @@ $button-disabled-color: $grey-level4 !default;
 
 
 // -- Large buttons
-$button-large-icon-font-size: $typho-large !default;
+$button-large-icon-font-size: $typho-huge !default;
 $button-large-height: $button-height * 1.5 !default;
 $button-large-padding: 0 $standard-huge-space !default;
 
@@ -319,7 +319,7 @@ $button-flat-disabled-color: $button-disabled-color !default;
 $button-small-padding-side: $standard-small-space !default;
 $button-small-padding: 0 $button-small-padding-side !default;
 $button-small-font-size: $typho-normal !default;
-$button-large-font-size: $typho-large !default;
+$button-large-font-size: $typho-huge !default;
 
 $button-height: $standard-line-height !default;
 // 5 Modals
@@ -408,7 +408,7 @@ $card-bg: white;
 $tabs-height: $standard-line-height !default;
 $tabs-margin-bottom: $standard-margin-bottom !default;
 $tabs-tab-padding:  $standard-space !default;
-$tabs-tab-border-color: $grey-level1 !default;
+$tabs-tab-border-color: $outborder-color !default;
 $tabs-tab-border-radious: $standard-border-radius !default;
 $tabs-tab-selected-color: $primary-color !default;
 $tabs-tab-selected-border-bottom: 2px solid $tabs-tab-selected-color !default;

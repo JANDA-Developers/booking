@@ -2,15 +2,18 @@
 import React, { Fragment } from "react";
 import "./Button.scss";
 import classNames from "classnames";
-import ErrProtecter from "../../utils/errProtect";
-import Icon, { IIcons } from "../icons/Icons";
+import Icon from "../icons/Icons";
 import Preloader from "../preloader/Preloader";
 import { s4, colorClass } from "../../utils/utils";
 import Tooltip from "../tooltip/Tooltip";
 import { JDColor, TMarginSize } from "../../types/enum";
 import { JDmbClass, JDmrClass } from "../../utils/autoClasses";
+import { JDatomExtentionSet } from "../../types/interface";
+import { IIcons } from "../icons/declation";
 
-interface IProps extends React.HTMLAttributes<HTMLButtonElement> {
+interface IProps
+  extends React.HTMLAttributes<HTMLButtonElement>,
+    JDatomExtentionSet {
   disabled?: boolean;
   label?: string;
   icon?: IIcons;
@@ -34,8 +37,6 @@ interface IProps extends React.HTMLAttributes<HTMLButtonElement> {
   hrefOpen?: string;
   tooltip?: string;
   redirect?: string;
-  mb?: TMarginSize;
-  mr?: TMarginSize;
 }
 
 const Button: React.FC<IProps> = ({

@@ -17,7 +17,6 @@ import ErrProtecter from "../../utils/errProtect";
 import { TimePerMs } from "../../types/enum";
 import { IDotPoint, ITimelineProps } from "./declare";
 import { getStartTime, cellMoveCountCalculation } from "./helper";
-import { OverlappingFieldsCanBeMergedRule } from "graphql";
 
 // 드래그를 했는지 검사
 let IS_MOVE = true;
@@ -44,7 +43,7 @@ const JDtimeline: React.FC<ITimelineProps> = ({
   const [dotPoint, setDotPoint] = useState<IDotPoint>(defaultDotPoint);
 
   const toggleDraggingMode = (flag: boolean) => {
-    $("html").css("cursor", flag ? "cell" : "");
+    $(".rct-scroll").css("cursor", flag ? "cell" : "");
     setIsActive(flag);
   };
 

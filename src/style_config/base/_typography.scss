@@ -6,7 +6,7 @@
 html {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   color: $html-color;
-  font-size: 0.9rem;
+  font-size: 0.95rem; //이것이 모든 타이포에 영향을줌 
 }
 // @한국꺼
 html {
@@ -25,9 +25,8 @@ h5,
 h6 {
   font-weight: 400;
   word-wrap: break-word;
-  line-height: 120%;
-  // line-height 보정
-  margin-top: -0.25rem;
+  line-height: 1;
+  margin-top:0;
 }
 
 h1 {

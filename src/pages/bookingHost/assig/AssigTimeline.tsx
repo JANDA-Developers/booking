@@ -65,6 +65,8 @@ import { IContext } from "../BookingHostRouter";
 import { SharedSideBarHeader } from "../../../atoms/timeline/components/SharedHeader";
 import PageHeader from "../../../components/pageHeader/PageHeader";
 import PageBody from "../../../components/pageBody/PageBody";
+import { Tooltip } from "chart.js";
+import ReactTooltip from "react-tooltip";
 
 interface IProps {
   context: IContext;
@@ -121,6 +123,7 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
 
   const [guestValue, setGuestValue] = useState<IAssigItem[]>(deafultGuestsData);
   const dayPickerModalHook = useModal(false);
+  const [isMultiSelectingMode, setIsMultiSelectingMode] = useState(false);
   const keyBoardModal = useModal(false);
   const confirmModalHook = useModal(false);
   const reservationModal = useModal(false);
@@ -144,15 +147,33 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
     allTooltipsHide();
   };
 
+  const handleKeyDownCavnas = (e: KeyboardEvent) => {
+    if (
+      !isMultiSelectingMode &&
+      e.shiftKey &&
+      !isEmpty(getItemsByType(GuestTypeAdd.MARK))
+    ) {
+      console.log("💁");
+      setIsMultiSelectingMode(true);
+    }
+  };
+
+  const handleKeyUpCavnas = (e: KeyboardEvent) => {
+    setIsMultiSelectingMode(false);
+  };
+
   //  스크롤 할때
   useEffect(() => {
     const handleClickWindow = () => {
       allTooltipsHide();
     };
+
     // $(".rct-header-root").mousedown(e => {
     //   // e.preventDefault();
     //   // e.stopPropagation();
     // });
+    window.addEventListener("keyup", handleKeyUpCavnas);
+    window.addEventListener("keydown", handleKeyDownCavnas);
     window.addEventListener("scroll", handleWindowScrollEvent);
     window.addEventListener("click", handleClickWindow);
     return () => {
@@ -168,7 +189,7 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
       const newIndexStart = deafultGuestsData.length;
 
       // 업데이트전 휘발성 블럭들을 찾아서 합쳐줍니다.
-      const volatilityBlocks = getItemByTypes(GuestTypeAdd.MARK);
+      const volatilityBlocks = getItemsByType(GuestTypeAdd.MARK);
 
       // 휘발성 블록들의 인덱스를 다시 정의해줍니다.
       volatilityBlocks.forEach(
@@ -190,24 +211,26 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
     bookingModal,
     setDataTime,
     dataTime,
-    blockOpModal
+    blockOpModal,
+    isMultiSelectingMode
   };
 
   const assigContext: IAssigTimelineContext = useMemo(
     () => ({
       isMobile,
       houseConfig,
+      networkStatus,
       windowWidth,
       windowHeight,
       groupData,
       houseId: house._id
     }),
-    [windowWidth, guestValue]
+    [windowWidth, guestValue, networkStatus]
   );
 
   const assigUtils = useMemo(
     () => getAssigUtils(assigHooks, assigDataControl, assigContext),
-    [guestValue]
+    [guestValue, isMultiSelectingMode]
   );
 
   const { assigTimeline } = houseConfig;
@@ -220,14 +243,11 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
   const {
     allTooltipsHide,
     removeMark,
-    getItemByTypes,
+    getItemsByType,
     hilightHeader
   } = assigUtils;
 
-  const assigHandler = useMemo(
-    () => getAssigHandlers(assigUtils, assigContext, assigHooks),
-    [guestValue]
-  );
+  const assigHandler = getAssigHandlers(assigUtils, assigContext, assigHooks);
 
   const {
     handleCanvasClick,
@@ -398,10 +418,10 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
               })
             }
             groupRenderer={assigGroupRendererFn}
+            defaultTimeStart={defaultTimeStart}
             defaultTimeEnd={moment(defaultTimeEnd)
               .add(-1 * timeline_size_var, "days")
               .toDate()}
-            defaultTimeStart={defaultTimeStart}
             handleDraggingEnd={handleDraggingEnd}
             moveResizeValidator={handleMoveResizeValidator}
             onItemSelect={handleItemSelect}

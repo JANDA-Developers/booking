@@ -2,13 +2,14 @@ import classNames from "classnames";
 import React, { Fragment } from "react";
 import ErrProtecter from "../../utils/errProtect";
 import "./JDbox.scss";
-import JDIcon, { IIcons } from "../icons/Icons";
+import JDIcon from "../icons/Icons";
 import { IDiv } from "../../types/interface";
 import JDLabel from "../label/JDLabel";
 import Tooltip from "../tooltip/Tooltip";
 import { s4 } from "../../utils/utils";
 import { TextAlign, JDColor } from "../../types/enum";
 import { textAlignClass, colorClass } from "../../utils/autoClasses";
+import { IIcons } from "../icons/declation";
 
 interface IProps extends IDiv {
   className?: string;

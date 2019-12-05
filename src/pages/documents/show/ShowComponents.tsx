@@ -22,7 +22,7 @@ import JDtable, { ReactTableDefault } from "../../../atoms/table/Table";
 import ProfileCircle from "../../../atoms/profileCircle/ProfileCircle";
 import { Tab, TabList, TabPanel, JDtabs } from "../../../atoms/tabs/Tabs_";
 import utils from "../../../utils/utils";
-import Icon, { icons } from "../../../atoms/icons/Icons";
+import Icon, { JDicons } from "../../../atoms/icons/Icons";
 import {
   useInput,
   useCheckBox,
@@ -589,7 +589,7 @@ function ShowComponents() {
         </ComponentWrap>
         {/* 아이콘들 */}
         <ComponentWrap title="Icons">
-          {Object.keys(icons).map((key: any) => (
+          {Object.keys(JDicons).map((key: any) => (
             <div
               key={`showComponent__${key}`}
               className="showComponent__icon_box"

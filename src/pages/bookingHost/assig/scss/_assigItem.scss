@@ -202,6 +202,7 @@
     }
     // 😲 마킹
     &--mark {
+        pointer-events: none;
         opacity: 0.2;
         @extend %z-depth-2;
     }

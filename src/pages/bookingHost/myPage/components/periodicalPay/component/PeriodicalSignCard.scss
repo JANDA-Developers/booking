@@ -5,7 +5,7 @@
     height: 290px;
     display:flex;
     flex-direction: column;
-    border: 1px solid $grey-level1;
+    border: 1px solid $outborder-color;
 
 
     &__price {
@@ -44,5 +44,6 @@
         background-color:$primary-color;
         justify-content: flex-end;
         color: $primary-color-on;
+        margin-left: -1px;
     }
 }

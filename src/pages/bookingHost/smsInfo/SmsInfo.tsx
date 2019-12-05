@@ -22,9 +22,11 @@ const SmsInfo: React.FC<Iprops> = ({ context }) => {
       />
       <PageBody>
         <PhotoFrame
+          unStyle
+          type=".png"
           context={context}
           langPic
-          src={IMG_REPO + `smsInfo/smsinfo_img_02.png`}
+          src={IMG_REPO + `smsInfo/smsinfo_img_02`}
         />
         <Doc>
           <DocSection>
@@ -34,10 +36,15 @@ const SmsInfo: React.FC<Iprops> = ({ context }) => {
           <DocSection>
             <DocHeader>{LANG("how_to_send_sms_for_all_title")}</DocHeader>
             {LANG("how_to_send_sms_for_all_doc")}
-            <div className="JDflex--center">
-              <Button label={LANG("go_to_sms_template")} />
-            </div>
           </DocSection>
+          <div className="JDflex--center">
+            <Button
+              mr="no"
+              thema="primary"
+              icon="arrowTo"
+              label={LANG("go_to_sms_template")}
+            />
+          </div>
         </Doc>
       </PageBody>
     </div>

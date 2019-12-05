@@ -1,3 +1,16 @@
-.PhotoFrame {
-    
+@import '~Styles';
+
+.photoFrame {
+    border: 1px solid $grey-opacity1;
+    border-radius: $standard-border-radius;
+    padding:$standard-small-space;
+
+    &--unStyle {
+        border:none;
+        padding:0;
+    }
+
+    &__img {
+        max-width: 100%;
+    }
 }

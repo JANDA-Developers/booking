@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, FormEvent } from "react";
 import "./InputText.scss";
 import "./Textarea.scss";
 import classNames from "classnames";
-import JDicon, { IIcons } from "../../icons/Icons";
+import JDicon from "../../icons/Icons";
 import ErrProtecter from "../../../utils/errProtect";
 import autoHyphen, {
   numberStr,
@@ -15,6 +15,7 @@ import { autoComma, s4 } from "../../../utils/utils";
 import $ from "jquery";
 import JDlabel from "../../label/JDLabel";
 import { JDmrClass, JDmbClass } from "../../../utils/autoClasses";
+import { IIcons } from "../../icons/declation";
 
 // @ts-ignore
 interface IProps extends React.AllHTMLAttributes<HTMLInputElement> {

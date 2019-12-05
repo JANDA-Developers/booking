@@ -1,4 +1,6 @@
 import React from "react";
+import "./Doc.scss";
+
 interface Iprops {}
 
 const Doc: React.FC<Iprops> = ({ children }) => {
@@ -12,9 +14,9 @@ const DocSection: React.FC = ({ children }) => {
 const DocHeader: React.FC = ({ children }) => {
   return (
     <div className="JDdocHeader">
-      <h6>
+      <h4>
         <span className="">{children}</span>
-      </h6>
+      </h4>
     </div>
   );
 };

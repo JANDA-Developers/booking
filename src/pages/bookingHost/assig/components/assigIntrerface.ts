@@ -47,6 +47,7 @@ export interface IAssigTimelineContext {
   isMobile: boolean;
   windowWidth: number;
   windowHeight: number;
+  networkStatus: number;
   houseConfig: IHouseConfig;
   groupData: IAssigGroup[];
   houseId: string;
@@ -72,7 +73,7 @@ export type TFilterTimeZone = (
 ) => IAssigItem[];
 
 export type TGetItemById = (guestId: string) => IAssigItem;
-export type TGetItemByType = (type: GuestTypeAdd) => IAssigItem[];
+export type TGetItemsByType = (type: GuestTypeAdd) => IAssigItem[];
 
 export type TPopUpItemMenuTooltip = (
   location: {
@@ -356,6 +357,7 @@ export interface IDailyAssigDataControl {
 export interface IAssigTimelineHooks {
   blockOpModal: IUseModal<IAssigItem>;
   bookingModal: IUseModal<any>;
+  isMultiSelectingMode: boolean;
   guestValue: IAssigItem[];
   createMenuProps: ICreateMenuProps;
   blockMenuProps: IDeleteMenuProps;
@@ -485,7 +487,7 @@ export interface IAssigHandlers {
 }
 
 export interface IAssigTimelineUtils {
-  getItemByTypes: TGetItemByType;
+  getItemsByType: TGetItemsByType;
   hilightHeader: THilightHeader;
   changeMarkToGhost: TChangeMarkToGhost;
   getInfoesFromMarks: TGetInfoesFromMarks;
