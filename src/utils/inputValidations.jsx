@@ -1,6 +1,6 @@
 // 빈 문자열이면 중립을 반환합니다.
 
-import { NEUTRAL } from "../types/enum";
+import { NEUTRAL } from "../types/const";
 
 const checkBizID = (
   bizID //사업자등록번호 체크

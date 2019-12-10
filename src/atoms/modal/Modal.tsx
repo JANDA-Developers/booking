@@ -183,10 +183,6 @@ const JDmodal: React.SFC<IProps> = ({
   );
 };
 
-JDmodal.defaultProps = {
-  center: false
-};
-
 export default JDmodal;
 
 const JDtoastModal = JDmodal;

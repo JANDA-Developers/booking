@@ -3,7 +3,6 @@ import Mbr from "../atoms/mbr/Mbr";
 import TextButton from "../atoms/textButton/TextButton";
 import JDlist from "../atoms/list/List";
 import PhotoFrame from "../atoms/photoFrame/PhotoFrame";
-import { IMG_REPO } from "../types/enum";
 
 export const kr = {
   Apply: "적용",
@@ -842,7 +841,8 @@ export const kr = {
   registration_confirmation: "등록 확인",
   input_information: "정보 입력",
   input_card_information: "카드정보 입력하기",
-  idnumber_or_business_number: "주민등록번호 앞(6자리) 또는 사업자번호",
+  idnumber_6front: "주민등록번호 앞(6자리)",
+  idnumber_or_business_number: "주민번호/사업자번호",
   card_pasword_front_two_digits: "비밀번호 앞 2자리",
   completing_this_card_registration_you_agree_to_the:
     "이 카드정보를 등록함으로서 당신은 다음에 동의합니다.",
@@ -912,6 +912,7 @@ export const kr = {
   periodicalPay_manage: "정기결제 관리",
   product_change: "상품변경",
   periodical_pay_regist_complete: "정기결제 등록 완료",
+  periodical_pay_regist_fail: "정기결제 등록 실패",
   periodical_sign_date: "정기결제 등록 일자",
   change_periodical_change: "정기결제 정보 변경",
   payment_fee: "납부요금",
@@ -985,5 +986,18 @@ export const kr = {
     />
   ),
   sms_usage: "SMS 이용법",
-  sms_service: "SMS 서비스"
+  sms_service: "SMS 서비스",
+  credit: "신용",
+  expiration_date: "유효기한",
+  add_card: "카드추가",
+  please_input_card_info: "카드정보를 입력해 주세요.",
+  add_card_dec: "빠르고 간편한 결제를 위해 카드를 등록해주세요.",
+  card_info: "카드정보",
+  card_delte_complete: "카드 삭제 성공",
+  card_info_complete_fail: "카드 삭제 실패",
+  periodical_cancel_complete: "정기결제 취소 완료",
+  periodical_cancel_complete_fail: "정기결제 취소 실패",
+  card_regist: "카드 등록",
+  card_delete: "카드 삭제",
+  bill_pay_regist: "정기 결제 등록"
 };

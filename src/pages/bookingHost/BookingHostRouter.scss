@@ -5,12 +5,12 @@
     &--sideOpen {
         @include response($full,$phablet) {
             .bookingHost__page {
-                max-width: calc(100% - #{$sideNav-width});
+                width: calc(100% - #{$sideNav-width});
             }
         }
         @include response($tablet,$phablet) {
             .bookingHost__page {
-                max-width: calc(100% - #{$sideNav-width-wmd});
+                width: calc(100% - #{$sideNav-width-wmd});
             }
         }
     }

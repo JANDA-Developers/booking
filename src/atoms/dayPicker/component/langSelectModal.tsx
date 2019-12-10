@@ -4,9 +4,9 @@ import LangList from "../../../components/langList/LangList";
 import { IContext } from "../../../pages/bookingHost/BookingHostRouter";
 import {
   LanguageShortResverse,
-  LANGUAGE_LIST,
   LanguageResverseShort
 } from "../../../types/enum";
+import { LANGUAGE_LIST } from "../../../types/const";
 import { IUseModal } from "../../../hooks/hook";
 
 interface Iprops {

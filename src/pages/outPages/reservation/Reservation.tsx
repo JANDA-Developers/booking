@@ -41,10 +41,10 @@ import { IRoomType, IMu } from "../../../types/interface";
 import {
   WindowSize,
   PricingType,
-  PAYMETHOD_FOR_BOOKER_OP,
   PayMethod,
   Funnels
 } from "../../../types/enum";
+import { PAYMETHOD_FOR_BOOKER_OP } from "../../../types/const";
 import { GET_ALL_ROOM_TYPE_FOR_BOOKING } from "../../../apollo/queries";
 import Preloader from "../../../atoms/preloader/Preloader";
 import { Helmet } from "react-helmet";

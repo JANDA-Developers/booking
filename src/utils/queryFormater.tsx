@@ -3,6 +3,8 @@ import { toast } from "react-toastify";
 import isEmpty from "./isEmptyData";
 import ToastError from "../components/toasts/ErrorToast";
 import { isIncludeKr } from "./onCompletedMessage";
+import { DEFAULT_PAY_HISTORY } from "../types/defaults";
+import { JDpageInfo, TP } from "../types/interface";
 
 function queryDataFormater<T, K extends keyof T, C extends keyof T[K], D>(
   data: T | undefined,
@@ -33,9 +35,39 @@ function queryDataFormater<T, K extends keyof T, C extends keyof T[K], D>(
   return falsyReturn as any;
 }
 
+interface ResultWithPaging<T, K extends keyof T, D> {
+  data: T[K] | D;
+  pageInfo: JDpageInfo;
+}
+
+function getFromResult<T, K extends keyof T, D>(
+  result: (T & TP) | undefined | null,
+  dataKey: K,
+  falsyData: D
+): ResultWithPaging<T, K, D> {
+  if (isEmpty(result)) {
+    return {
+      data: falsyData,
+      pageInfo: DEFAULT_PAY_HISTORY
+    };
+  }
+  if (isEmpty(result[dataKey])) {
+    return {
+      data: falsyData,
+      pageInfo: DEFAULT_PAY_HISTORY
+    };
+  }
+
+  return {
+    data: result[dataKey],
+    pageInfo: result["pageInfo"]
+  };
+  // console.error('queryDataFormater: EMPTY DATA');
+}
+
 // 페이지네이션 ok error 처리,
 // 순수정보까지 도달하게해줌
 //  원본 data 객체 찾기 기능이 있음
-
+export { getFromResult };
 export default queryDataFormater;
 // export {copyFindReplace};

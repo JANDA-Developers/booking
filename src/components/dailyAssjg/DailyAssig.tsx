@@ -20,18 +20,18 @@ import { IDailyAssigProp, IChainProps } from "./DailyAssigWrap";
 import getDailyAssigUtils from "../../pages/bookingHost/assig/helper/dailyAssigUtils";
 import { JDtoastModal } from "../../atoms/modal/Modal";
 import { ReactTooltip } from "../../atoms/tooltipList/TooltipList";
+import { PricingType } from "../../types/enum";
 import {
-  PricingType,
   FLOATING_PRELOADER_SIZE,
   MODAL_PRELOADER_SIZE
-} from "../../types/enum";
+} from "../../types/const";
 import Tooltip from "../../atoms/tooltip/Tooltip";
 import { isMobile } from "is-mobile";
 import { IDailyAssigDataControl } from "../../pages/bookingHost/assig/components/assigIntrerface";
 import PlaceTooltip from "./components/PlaceTooltip";
 import moment from "moment";
 import BlockTooltip from "./components/BlockTooltip";
-import { isEmpty, instanceOfA, s4 } from "../../utils/utils";
+import { isEmpty, s4 } from "../../utils/utils";
 import ReadyItemTooltip from "../../pages/bookingHost/assig/components/tooltips/ReadyItemTooltip";
 import DayPickerModal from "../dayPickerModal/DayPickerModal";
 import { PortalPreloader } from "../../utils/portalElement";

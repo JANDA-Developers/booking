@@ -76,4 +76,4 @@ const JDmultiBox: React.FC<IProps> = ({
   );
 };
 
-export default JDmultiBox;
+export default React.memo(JDmultiBox);

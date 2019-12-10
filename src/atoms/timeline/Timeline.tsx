@@ -8,7 +8,15 @@ import Timeline, {
   // @ts-ignore
   TimelineHeaders,
   // @ts-ignore
-  CustomHeader
+  CustomHeader,
+  // @ts-ignore
+  TimelineMarkers,
+  // @ts-ignore
+  CustomMarker,
+  // @ts-ignore
+  TodayMarker,
+  // @ts-ignore
+  CursorMarker
 } from "react-calendar-timeline";
 import React, { useState, useEffect } from "react";
 import "./Timeline.scss";
@@ -17,7 +25,8 @@ import ErrProtecter from "../../utils/errProtect";
 import { TimePerMs } from "../../types/enum";
 import { IDotPoint, ITimelineProps } from "./declare";
 import { getStartTime, cellMoveCountCalculation } from "./helper";
-
+// @ts-ignore
+import containerResizeDetector from "react-calendar-timeline/lib/resize-detector/container";
 // 드래그를 했는지 검사
 let IS_MOVE = true;
 
@@ -123,12 +132,20 @@ const JDtimeline: React.FC<ITimelineProps> = ({
       <Timeline
         id="react-calendar-timeline"
         {...props}
-        utcOffset={TimePerMs.H * -8}
+        resizeDetector={containerResizeDetector}
       />
     </div>
   );
 };
 
-export { DateHeader, SidebarHeader, TimelineHeaders, CustomHeader };
+export {
+  DateHeader,
+  SidebarHeader,
+  TimelineHeaders,
+  CustomHeader,
+  CursorMarker,
+  TimelineMarkers,
+  CustomMarker
+};
 
 export default ErrProtecter(JDtimeline);

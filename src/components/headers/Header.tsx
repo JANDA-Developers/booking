@@ -1,15 +1,13 @@
 import React, { useEffect } from "react";
 import "./Header.scss";
-import { NavLink } from "react-router-dom";
 import { ReactTooltip } from "../../atoms/tooltipList/TooltipList";
-import Icon from "../../atoms/icons/Icons";
 import { ErrProtecter } from "../../utils/utils";
 import { useModal } from "../../hooks/hook";
 import { IDiv } from "../../types/interface";
 import GuestSearchInputWrap from "../guestSearchInput/GuestSearchInputWrap";
 import PhoneVerificationModalWrap from "../phoneVerificationModal/PhoneVerificationModalWrap";
 import windowSize from "react-window-size";
-import { WindowSize, IMG_REPO } from "../../types/enum";
+import { WindowSize } from "../../types/enum";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import MobileHeaderComponent from "./components/MobileHeaderComponent";
 import PcHeaderComponent from "./components/PcHeaderComponent";

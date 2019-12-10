@@ -1,35 +1,23 @@
-import React, {Fragment} from "react";
-import {Mutation, Query} from "react-apollo";
-import {
-  UPDATE_MYPROFILE,
-  GET_USER_INFO,
-  GET_NOTI,
-  CONFIRM_NOTI
-} from "../../apollo/queries";
-import {
-  showError,
-  onCompletedMessage,
-  queryDataFormater,
-  s4
-} from "../../utils/utils";
-import {IUser, IHouse, IDiv} from "../../types/interface";
+import React, { Fragment } from "react";
+import { Mutation, Query } from "react-apollo";
+import { GET_NOTI, CONFIRM_NOTI } from "../../apollo/queries";
+import { queryDataFormater, s4 } from "../../utils/utils";
 import {
   getNotis,
   getNotisVariables,
-  confirmBooking,
-  confirmBookingVariables,
   confirmNoti,
   confirmNotiVariables,
   getNotis_GetNotis_notis,
   getMyProfile_GetMyProfile_user_houses_product
 } from "../../types/api";
 import Noti from "./Noti";
-import {IContext} from "../../pages/bookingHost/BookingHostRouter";
-import {getOperationName} from "apollo-link";
+import { IContext } from "../../pages/bookingHost/BookingHostRouter";
+import { getOperationName } from "apollo-link";
 import moment from "moment";
-import {FLOATING_PRELOADER_SIZE, NotiType, NotiLevel} from "../../types/enum";
+import { NotiType, NotiLevel } from "../../types/enum";
+import { FLOATING_PRELOADER_SIZE } from "../../types/const";
 import Preloader from "../../atoms/preloader/Preloader";
-import {LANG} from "../../hooks/hook";
+import { LANG } from "../../hooks/hook";
 
 class GetNotiQu extends Query<getNotis, getNotisVariables> {}
 
@@ -46,7 +34,7 @@ const addExpiredWarnNoti = (
 ): void => {
   if (!product) return;
 
-  const {isExpired, daysLeftToExpire} = product;
+  const { isExpired, daysLeftToExpire } = product;
 
   // 몇일 남았는지는 toast로 넣고 만료 직전에 노티를 넣자
 
@@ -87,16 +75,16 @@ const addExpiredWarnNoti = (
   }
 };
 
-const NotiWrap: React.FC<IProps> = ({context, icon}) => {
-  const {house, applyedProduct} = context;
+const NotiWrap: React.FC<IProps> = ({ context, icon }) => {
+  const { house, applyedProduct } = context;
 
   return (
     <GetNotiQu
       skip={!house}
       query={GET_NOTI}
-      variables={{houseId: house._id, count: 20}}
+      variables={{ houseId: house._id, count: 20 }}
     >
-      {({data, loading}) => {
+      {({ data, loading }) => {
         const notis = queryDataFormater(data, "GetNotis", "notis", []) || [];
         const filterdNotis = notis.filter(noti => true);
 
@@ -109,7 +97,7 @@ const NotiWrap: React.FC<IProps> = ({context, icon}) => {
             mutation={CONFIRM_NOTI}
             refetchQueries={[getOperationName(GET_NOTI)!]}
           >
-            {(confirmMutationMu, {loading: confirmMutationLoading}) => (
+            {(confirmMutationMu, { loading: confirmMutationLoading }) => (
               <Fragment>
                 <Preloader
                   floating

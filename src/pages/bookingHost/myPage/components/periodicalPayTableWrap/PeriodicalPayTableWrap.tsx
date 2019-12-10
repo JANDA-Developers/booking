@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { IContext } from "../../../BookingHostRouter";
 import { useQuery } from "@apollo/react-hooks";
 import client from "../../../../../apollo/apolloClient";
@@ -9,31 +9,47 @@ import {
 } from "../../../../../types/api";
 import { queryDataFormater } from "../../../../../utils/utils";
 import PeriodicalPayTable from "./PeriodicalPayTable";
-import { PayTarget } from "../../../../../types/enum";
+import { getFromResult } from "../../../../../utils/queryFormater";
 
 interface Iprops {
   context: IContext;
 }
 
 const PeriodicalTableWrap: React.FC<Iprops> = ({ context }) => {
+  const [page, setPage] = useState(1);
   const { data, loading } = useQuery<getPayHistory, getPayHistoryVariables>(
     GET_PAY_HISTORY,
     {
       client,
       variables: {
         param: {
-          target: PayTarget.USAGE_PLAN
+          filter: {},
+          paging: {
+            selectedPage: page,
+            count: 20
+          }
         }
       }
     }
   );
 
-  const payHistory =
-    queryDataFormater(data, "GetPayHistory", "payHistories", []) || [];
+  const queryResult = queryDataFormater(
+    data,
+    "GetPayHistory",
+    "result",
+    undefined
+  );
+  const { data: historyData, pageInfo } = getFromResult(
+    queryResult,
+    "payHistories",
+    []
+  );
 
   return (
     <PeriodicalPayTable
-      historyData={payHistory}
+      pageInfo={pageInfo}
+      setPage={setPage}
+      historyData={historyData || []}
       context={context}
       loading={loading}
     />

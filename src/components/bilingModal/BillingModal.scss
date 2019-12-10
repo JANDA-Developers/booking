@@ -1,6 +1,6 @@
 @import '~Styles';
 
-.CardBillModal {
+.BillModal {
     min-width: 410px;
     max-width: 410px;
     @include response($tablet) {

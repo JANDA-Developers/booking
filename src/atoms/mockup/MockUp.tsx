@@ -1,6 +1,6 @@
 import React from "react";
 import "./MockUp.scss";
-import { IMG_REPO } from "../../types/enum";
+import { IMG_REPO } from "../../types/const";
 import classNames from "classnames";
 
 interface Iprops {

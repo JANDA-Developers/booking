@@ -7,7 +7,7 @@ import Button from "../../../../atoms/button/Button";
 import InputText from "../../../../atoms/forms/inputText/InputText";
 import { dayarrEnToValueArr } from "../../../../utils/dayOfweeks";
 import { priceMapResult } from "../SetPriceWrap";
-import { WeekArrKr, WeekArrEn } from "../../../../types/enum";
+import { WeekArrKr, WeekArrEn } from "../../../../types/const";
 
 export interface IDayOfWeekModalInfo {
   priceInput: priceMapResult;

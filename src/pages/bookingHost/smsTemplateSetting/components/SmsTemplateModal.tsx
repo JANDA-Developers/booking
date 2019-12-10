@@ -22,11 +22,6 @@ import {
 } from "../../../../types/api";
 import { IContext } from "../../BookingHostRouter";
 import { DEFAULT_SMS_TEMPLATE } from "../../../../types/defaults";
-import {
-  SmsReplaceKeyEnumKeys,
-  AUTO_SEND_OP,
-  SMS_TARGET_OP
-} from "../../../../types/enum";
 import InputText from "../../../../atoms/forms/inputText/InputText";
 import { MutationFn } from "react-apollo";
 import JDLabel from "../../../../atoms/label/JDLabel";
@@ -35,6 +30,11 @@ import JDselect, {
 } from "../../../../atoms/forms/selectBox/SelectBox";
 import JDswitch from "../../../../atoms/forms/switch/Switch";
 import Help from "../../../../atoms/Help/Help";
+import {
+  AUTO_SEND_OP,
+  SMS_TARGET_OP,
+  SmsReplaceKeyEnumKeys
+} from "../../../../types/const";
 
 export interface ISmsTemplateModalProps {
   templateId: string;

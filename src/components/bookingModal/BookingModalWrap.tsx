@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { Query, Mutation } from "react-apollo";
 import BookingModal from "./BookingModal";
 import _ from "lodash";
-import { IUseModal, LANG } from "../../hooks/hook";
+import { LANG } from "../../hooks/hook";
 import {
   getBooking,
   getBookingVariables,
@@ -32,7 +32,7 @@ import {
   GET_ROOM_TYPE_DATE_PRICE,
   START_BOOKING
 } from "../../apollo/queries";
-import { MODAL_PRELOADER_SIZE } from "../../types/enum";
+import { MODAL_PRELOADER_SIZE } from "../../types/const";
 import { getOperationName } from "apollo-utilities";
 import { DEFAULT_BOOKING } from "../../types/defaults";
 import JDmodal from "../../atoms/modal/Modal";
@@ -58,178 +58,172 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
 }) => {
   const { house } = context;
 
-  const Result = useMemo(
-    () => (
-      <GetBookingQuery
-        query={GET_BOOKING}
-        skip={
-          isEmpty(modalHook.info) || modalHook.info.createParam !== undefined
-        }
-        variables={{
-          bookingId: modalHook.info.bookingId || ""
-        }}
-      >
-        {({ data: bookingData, loading: getBooking_loading }) => {
-          // 쿼리결과
-          const booking = queryDataFormater(
-            bookingData,
-            "GetBooking",
-            "booking",
-            undefined
-          );
+  return (
+    <GetBookingQuery
+      query={GET_BOOKING}
+      skip={isEmpty(modalHook.info) || modalHook.info.createParam !== undefined}
+      variables={{
+        bookingId: modalHook.info.bookingId || ""
+      }}
+    >
+      {({ data: bookingData, loading: getBooking_loading }) => {
+        // 쿼리결과
+        const booking = queryDataFormater(
+          bookingData,
+          "GetBooking",
+          "booking",
+          undefined
+        );
 
-          // (API로 가져온 Booking 정보) + (예약 생성요청 정보)
-          const mergedBooking = mergeObject(
-            booking,
-            modalHook.info.createParam
-          );
+        // (API로 가져온 Booking 정보) + (예약 생성요청 정보)
+        const mergedBooking = mergeObject(booking, modalHook.info.createParam);
 
-          const priceQueryVariables:
-            | getRoomTypeDatePricesVariables
-            | undefined = mergedBooking
-            ? {
-                checkIn: mergedBooking.checkIn,
-                checkOut: mergedBooking.checkOut,
-                houseId: house._id,
-                roomTypeIds: mergedBooking.roomTypes
-                  ? mergedBooking.roomTypes.map(roomType => roomType._id)
-                  : [""]
-              }
-            : undefined;
+        const priceQueryVariables:
+          | getRoomTypeDatePricesVariables
+          | undefined = mergedBooking
+          ? {
+              checkIn: mergedBooking.checkIn,
+              checkOut: mergedBooking.checkOut,
+              houseId: house._id,
+              roomTypeIds: mergedBooking.roomTypes
+                ? mergedBooking.roomTypes.map(roomType => roomType._id)
+                : [""]
+            }
+          : undefined;
 
-          return (
-            <GetPriceWithDate
-              skip={!priceQueryVariables}
-              query={GET_ROOM_TYPE_DATE_PRICE}
-              variables={priceQueryVariables}
-            >
-              {({ data: priceResult, loading: getPrice_loading }) => {
-                const priceData = queryDataFormater(
-                  priceResult,
-                  "GetRoomTypeDatePrices",
-                  "roomTypeDatePrices",
-                  []
-                );
-                const placeHolederPrice = totalPriceGetAveragePrice(
-                  priceData || []
-                );
-                return (
-                  <UpdateBookingMu
-                    refetchQueries={[
-                      getOperationName(GET_BOOKINGS) || "",
-                      getOperationName(
-                        GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM
-                      ) || ""
-                    ]}
-                    mutation={UPDATE_BOOKING}
-                    onCompleted={({ UpdateBooking }) => {
-                      onCompletedMessage(
-                        UpdateBooking,
-                        LANG("reservation_update"),
-                        LANG("reservation_update_fail")
-                      );
-                      updateBookingCallBack &&
-                        updateBookingCallBack(UpdateBooking);
-                    }}
-                  >
-                    {updateBookingMu => (
-                      <CreatBookingMu
-                        mutation={START_BOOKING}
-                        onCompleted={({ StartBooking }) => {
-                          onCompletedMessage(
-                            StartBooking,
-                            LANG("reservation_creation_complete"),
-                            LANG("reservation_creation_fail")
-                          );
-                          if (StartBooking.ok) {
+        return (
+          <GetPriceWithDate
+            skip={!priceQueryVariables}
+            query={GET_ROOM_TYPE_DATE_PRICE}
+            variables={priceQueryVariables}
+          >
+            {({ data: priceResult, loading: getPrice_loading }) => {
+              const priceData = queryDataFormater(
+                priceResult,
+                "GetRoomTypeDatePrices",
+                "roomTypeDatePrices",
+                []
+              );
+              const placeHolederPrice = totalPriceGetAveragePrice(
+                priceData || []
+              );
+              return (
+                <UpdateBookingMu
+                  refetchQueries={[
+                    getOperationName(GET_BOOKINGS) || "",
+                    getOperationName(GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM) ||
+                      ""
+                  ]}
+                  mutation={UPDATE_BOOKING}
+                  onCompleted={({ UpdateBooking }) => {
+                    onCompletedMessage(
+                      UpdateBooking,
+                      LANG("reservation_update"),
+                      LANG("reservation_update_fail")
+                    );
+                    updateBookingCallBack &&
+                      updateBookingCallBack(UpdateBooking);
+                  }}
+                >
+                  {updateBookingMu => (
+                    <CreatBookingMu
+                      mutation={START_BOOKING}
+                      onCompleted={({ StartBooking }) => {
+                        onCompletedMessage(
+                          StartBooking,
+                          LANG("reservation_creation_complete"),
+                          LANG("reservation_creation_fail")
+                        );
+                        if (StartBooking.ok) {
+                          modalHook.closeModal();
+                          startBookingCallBack &&
+                            startBookingCallBack(StartBooking);
+
+                          if (modalHook.info.startBookingCallBack)
+                            modalHook.info.startBookingCallBack(StartBooking);
+                        }
+                      }}
+                      refetchQueries={[
+                        getOperationName(
+                          GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM
+                        ) || ""
+                      ]}
+                    >
+                      {(startBookingMu, { loading: startBookingLoading }) => (
+                        <DeleteBookingMu
+                          mutation={DELETE_BOOKING}
+                          refetchQueries={[
+                            getOperationName(GET_BOOKINGS) || "",
+                            getOperationName(
+                              GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM
+                            ) || ""
+                          ]}
+                          onCompleted={({ DeleteBooking }) => {
+                            onCompletedMessage(
+                              DeleteBooking,
+                              LANG("reservation_delete_complete"),
+                              LANG("reservation_delete_fail")
+                            );
                             modalHook.closeModal();
-                            startBookingCallBack &&
-                              startBookingCallBack(StartBooking);
 
-                            if (modalHook.info.startBookingCallBack)
-                              modalHook.info.startBookingCallBack(StartBooking);
-                          }
-                        }}
-                        refetchQueries={[
-                          getOperationName(
-                            GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM
-                          ) || ""
-                        ]}
-                      >
-                        {(startBookingMu, { loading: startBookingLoading }) => (
-                          <DeleteBookingMu
-                            mutation={DELETE_BOOKING}
-                            refetchQueries={[
-                              getOperationName(GET_BOOKINGS) || "",
-                              getOperationName(
-                                GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM
-                              ) || ""
-                            ]}
-                            onCompleted={({ DeleteBooking }) => {
-                              onCompletedMessage(
-                                DeleteBooking,
-                                LANG("reservation_delete_complete"),
-                                LANG("reservation_delete_fail")
-                              );
-                              modalHook.closeModal();
+                            deleteBookingCallBack &&
+                              deleteBookingCallBack(DeleteBooking);
+                          }}
+                        >
+                          {deleteBookingMu => {
+                            const bookingData = isEmpty(mergedBooking)
+                              ? DEFAULT_BOOKING
+                              : mergedBooking;
 
-                              deleteBookingCallBack &&
-                                deleteBookingCallBack(DeleteBooking);
-                            }}
-                          >
-                            {deleteBookingMu => {
-                              const bookingData = isEmpty(mergedBooking)
-                                ? DEFAULT_BOOKING
-                                : mergedBooking;
+                            const totalLoading =
+                              getBooking_loading || getPrice_loading;
 
-                              const totalLoading =
-                                getBooking_loading || getPrice_loading;
-
-                              return !totalLoading ? (
-                                <BookingModal
-                                  bookingData={bookingData}
-                                  mode={modalHook.info.mode}
-                                  context={context}
+                            return !totalLoading ? (
+                              <BookingModal
+                                bookingData={bookingData}
+                                mode={modalHook.info.mode}
+                                context={context}
+                                loading={totalLoading}
+                                modalHook={modalHook}
+                                startBookingMu={startBookingMu}
+                                updateBookingMu={updateBookingMu}
+                                deleteBookingMu={deleteBookingMu}
+                                startBookingLoading={startBookingLoading}
+                                placeHolederPrice={placeHolederPrice}
+                                {...props}
+                                key={
+                                  modalHook.info.createParam
+                                    ? s4()
+                                    : `bookingModal${modalHook.info.bookingId}`
+                                }
+                              />
+                            ) : (
+                              <JDmodal {...modalHook}>
+                                <Preloader
+                                  size={MODAL_PRELOADER_SIZE}
+                                  noAnimation
                                   loading={totalLoading}
-                                  modalHook={modalHook}
-                                  startBookingMu={startBookingMu}
-                                  updateBookingMu={updateBookingMu}
-                                  deleteBookingMu={deleteBookingMu}
-                                  startBookingLoading={startBookingLoading}
-                                  placeHolederPrice={placeHolederPrice}
-                                  {...props}
-                                  key={
-                                    modalHook.info.createParam
-                                      ? s4()
-                                      : `bookingModal${modalHook.info.bookingId}`
-                                  }
                                 />
-                              ) : (
-                                <JDmodal {...modalHook}>
-                                  <Preloader
-                                    size={MODAL_PRELOADER_SIZE}
-                                    noAnimation
-                                    loading={totalLoading}
-                                  />
-                                </JDmodal>
-                              );
-                            }}
-                          </DeleteBookingMu>
-                        )}
-                      </CreatBookingMu>
-                    )}
-                  </UpdateBookingMu>
-                );
-              }}
-            </GetPriceWithDate>
-          );
-        }}
-      </GetBookingQuery>
-    ),
-    [JSON.stringify(modalHook)]
+                              </JDmodal>
+                            );
+                          }}
+                        </DeleteBookingMu>
+                      )}
+                    </CreatBookingMu>
+                  )}
+                </UpdateBookingMu>
+              );
+            }}
+          </GetPriceWithDate>
+        );
+      }}
+    </GetBookingQuery>
   );
-
-  return Result;
 };
 
-export default BookingModalWrap;
+// 이모달은 포퍼몬스를 이유로 열고 닫히는 순간에만 업데이트 합니다.
+export default React.memo(
+  BookingModalWrap,
+  (prevProp, nextProp) =>
+    prevProp.modalHook.isOpen === nextProp.modalHook.isOpen
+);

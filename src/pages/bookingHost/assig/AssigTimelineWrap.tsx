@@ -77,11 +77,11 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
   const defaultEndDate = dayPickerHook.from
     ? moment(dayPickerHook.from)
         .local()
-        .add(10, "days")
+        .add(14, "days")
         .toDate()
     : moment()
         .local()
-        .add(10, "days")
+        .add(14, "days")
         .toDate();
 
   const [dataTime, setDataTime] = useState({
@@ -141,9 +141,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
 
   const guestsData = queryDataFormater(data, "GetGuests", "guests", []) || [];
   const blocks = queryDataFormater(data, "GetBlocks", "blocks", []) || [];
-  const formatedRoomData = useMemo(() => roomDataManufacturer(roomTypesData), [
-    roomTypesData.length
-  ]); // 타임라인을 위해 가공된 데이터
+  const formatedRoomData = roomDataManufacturer(roomTypesData); // 타임라인을 위해 가공된 데이터
   const formatedGuestsData = guestsDataManufacturer(guestsData); // 타임라인을 위해 가공된 데이터
   const formatedBlockData = blockDataManufacturer(blocks); // 타임라인을 위해 가공된 데이터
   const formatedItemData = formatedGuestsData
@@ -315,7 +313,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
       dataTime={dataTime}
       key={`timeline${moment(dayPickerHook.from || new Date()).format(
         "YYMMDD"
-      )}${networkStatus !== 1}${reloadKey}`}
+      )}${formatedRoomData.length}${reloadKey}`}
     />
   );
 };

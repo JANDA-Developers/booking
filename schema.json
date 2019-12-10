@@ -1417,42 +1417,14 @@
             "description": "",
             "args": [
               {
-                "name": "smsInfoId",
+                "name": "param",
                 "description": "",
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
                   "ofType": {
-                    "kind": "SCALAR",
-                    "name": "ID",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "page",
-                "description": "",
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "count",
-                "description": "",
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Int",
+                    "kind": "INPUT_OBJECT",
+                    "name": "GetSmsHistoryInput",
                     "ofType": null
                   }
                 },
@@ -3948,6 +3920,34 @@
             "deprecationReason": null
           },
           {
+            "name": "card",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "ENUM",
+              "name": "Card",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "cardCode",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "isLive",
             "description": "",
             "args": [],
@@ -3967,6 +3967,209 @@
         "inputFields": null,
         "interfaces": [],
         "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "ENUM",
+        "name": "Card",
+        "description": "",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": [
+          {
+            "name": "AMX",
+            "description": "AMX",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "BC_CARD",
+            "description": "bc",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "SHINHAN",
+            "description": "신한",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "CHUKHYUP",
+            "description": "ch",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "CITY",
+            "description": "ct",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "DINERS_CARD",
+            "description": "diners",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "GWANGJU",
+            "description": "gj",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "HYUNDAI",
+            "description": "hd",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "HANMI",
+            "description": "hm",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "KEB_HANA",
+            "description": "hn",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "JEONBOOK",
+            "description": "jb",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "JCB",
+            "description": "jcb",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "CHOHUNG",
+            "description": "jh",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "JEJU_BANK",
+            "description": "jj",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "KAKAO_BANK",
+            "description": "kakao",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "K_BANK",
+            "description": "kbank",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "KDB",
+            "description": "kdb",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "KB_CARD",
+            "description": "km",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "KOREA_POST",
+            "description": "koreapost",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "LOTTE_CARD",
+            "description": "lt",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "MASTER_CARD",
+            "description": "master",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "NONGHYUP",
+            "description": "nh",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "OK_CASH_BAG",
+            "description": "okcashbag",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "SUHYUP",
+            "description": "sh",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "SHINSEGAE",
+            "description": "shm",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "MG_CARD",
+            "description": "sm",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "JEOCHUK",
+            "description": "jc",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "SAMSUNG",
+            "description": "ss",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "WOORI",
+            "description": "wr",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "VISA",
+            "description": "visa",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "UNIONPAY",
+            "description": "yr",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "SAVINGS_BANK",
+            "description": "jc",
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
         "possibleTypes": null
       },
       {
@@ -6891,8 +7094,8 @@
             "name": "stayDate",
             "description": "",
             "type": {
-              "kind": "SCALAR",
-              "name": "DateTime",
+              "kind": "INPUT_OBJECT",
+              "name": "PeriodInput",
               "ofType": null
             },
             "defaultValue": null
@@ -6901,9 +7104,48 @@
             "name": "createdAt",
             "description": "",
             "type": {
-              "kind": "SCALAR",
-              "name": "DateTime",
+              "kind": "INPUT_OBJECT",
+              "name": "PeriodInput",
               "ofType": null
+            },
+            "defaultValue": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "PeriodInput",
+        "description": "",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "checkIn",
+            "description": "",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "checkOut",
+            "description": "",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
             },
             "defaultValue": null
           }
@@ -6990,7 +7232,7 @@
         "fields": [
           {
             "name": "currentPage",
-            "description": "",
+            "description": "현제 보고있는 페이지",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -7006,7 +7248,7 @@
           },
           {
             "name": "totalPage",
-            "description": "",
+            "description": "전체 페이지 수",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -7022,7 +7264,23 @@
           },
           {
             "name": "rowCount",
-            "description": "",
+            "description": "현재 페이지 데이터 수",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalCount",
+            "description": "전체 데이터 수",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -8735,16 +8993,138 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "target",
+            "name": "paging",
             "description": "",
             "type": {
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "ENUM",
-                "name": "PayTarget",
+                "kind": "INPUT_OBJECT",
+                "name": "OffsetPagingInput",
                 "ofType": null
               }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "filter",
+            "description": "",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "GetPayHistoryFilterInput",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "sort",
+            "description": "ex) { createdAt: -1 } => createdAt 기준으로 내림차순 정렬",
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Object",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "OffsetPagingInput",
+        "description": "",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "selectedPage",
+            "description": "몇번쨰 페이지 불러올지 => 인덱스 아님! '1' 부터 시작",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "count",
+            "description": "한 페이지당 데이터 수",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "GetPayHistoryFilterInput",
+        "description": "",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "target",
+            "description": "",
+            "type": {
+              "kind": "ENUM",
+              "name": "PayTarget",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "payload",
+            "description": "",
+            "type": {
+              "kind": "SCALAR",
+              "name": "ID",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "payResult",
+            "description": "",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "isCanceled",
+            "description": "",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
             },
             "defaultValue": null
           }
@@ -8816,6 +9196,29 @@
             "deprecationReason": null
           },
           {
+            "name": "result",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "GetPayHistoryResultData",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "GetPayHistoryResultData",
+        "description": "",
+        "fields": [
+          {
             "name": "payHistories",
             "description": "",
             "args": [],
@@ -8830,6 +9233,22 @@
                   "name": "PayHistory",
                   "ofType": null
                 }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "pageInfo",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "PageInfoOffsetBase",
+                "ofType": null
               }
             },
             "isDeprecated": false,
@@ -11277,6 +11696,147 @@
         "possibleTypes": null
       },
       {
+        "kind": "INPUT_OBJECT",
+        "name": "GetSmsHistoryInput",
+        "description": "",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "paging",
+            "description": "",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "OffsetPagingInput",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "filter",
+            "description": "",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "GetSmsHistoryFilterInput",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "sort",
+            "description": "ex) { createdAt: -1 } => createdAt 기준으로 내림차순 정렬",
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Object",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "GetSmsHistoryFilterInput",
+        "description": "",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "smsInfoId",
+            "description": "",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "msgType",
+            "description": "",
+            "type": {
+              "kind": "ENUM",
+              "name": "MsgType",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "sendResult",
+            "description": "",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "autoSend",
+            "description": "",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "defaultValue": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "ENUM",
+        "name": "MsgType",
+        "description": "",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": [
+          {
+            "name": "SMS",
+            "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "LMS",
+            "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "MMS",
+            "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "possibleTypes": null
+      },
+      {
         "kind": "OBJECT",
         "name": "GetSmsHistoryResponse",
         "description": "",
@@ -11309,6 +11869,29 @@
             "isDeprecated": false,
             "deprecationReason": null
           },
+          {
+            "name": "result",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "GetSmsHistoryResultData",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "GetSmsHistoryResultData",
+        "description": "",
+        "fields": [
           {
             "name": "smsHistories",
             "description": "",
@@ -11489,6 +12072,22 @@
             "deprecationReason": null
           },
           {
+            "name": "byte",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "createdAt",
             "description": "",
             "args": [],
@@ -11524,35 +12123,6 @@
         "inputFields": null,
         "interfaces": [],
         "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "ENUM",
-        "name": "MsgType",
-        "description": "",
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
-        "enumValues": [
-          {
-            "name": "SMS",
-            "description": "",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "LMS",
-            "description": "",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "MMS",
-            "description": "",
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
         "possibleTypes": null
       },
       {
@@ -16981,6 +17551,30 @@
                 "name": "String",
                 "ofType": null
               }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "cardCode",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "card",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "ENUM",
+              "name": "Card",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -24487,6 +25081,26 @@
               }
             },
             "defaultValue": null
+          },
+          {
+            "name": "cardCode",
+            "description": "",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "card",
+            "description": "",
+            "type": {
+              "kind": "ENUM",
+              "name": "Card",
+              "ofType": null
+            },
+            "defaultValue": null
           }
         ],
         "interfaces": null,
@@ -26781,45 +27395,6 @@
         "possibleTypes": null
       },
       {
-        "kind": "INPUT_OBJECT",
-        "name": "PeriodInput",
-        "description": "",
-        "fields": null,
-        "inputFields": [
-          {
-            "name": "start",
-            "description": "",
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "DateTime",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "end",
-            "description": "",
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "DateTime",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          }
-        ],
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
         "kind": "OBJECT",
         "name": "DateRange",
         "description": "",
@@ -27399,6 +27974,29 @@
         "inputFields": null,
         "interfaces": [],
         "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "ENUM",
+        "name": "CardType",
+        "description": "",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": [
+          {
+            "name": "CREDIT",
+            "description": "Nicepay.CardCl = 0",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "DEBIT",
+            "description": "Nicepay.CardCl = 1",
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
         "possibleTypes": null
       },
       {

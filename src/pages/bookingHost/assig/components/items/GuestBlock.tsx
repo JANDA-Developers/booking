@@ -95,4 +95,4 @@ const guestBlock: React.FC<IProps> = ({
   );
 };
 
-export default guestBlock;
+export default React.memo(guestBlock, () => true);

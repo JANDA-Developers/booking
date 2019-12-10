@@ -3,13 +3,12 @@ import JDLabel from "../../../../atoms/label/JDLabel";
 import JDselect, {
   SelectBoxSize
 } from "../../../../atoms/forms/selectBox/SelectBox";
+import { SendTarget, AutoSendWhen } from "../../../../types/enum";
 import {
   AUTO_SEND_OP,
   SMS_TARGET_OP,
-  SmsReplaceKeyEnumKeys,
-  SendTarget,
-  AutoSendWhen
-} from "../../../../types/enum";
+  SmsReplaceKeyEnumKeys
+} from "../../../../types/const";
 import { useSelect, useInput, useSwitch, LANG } from "../../../../hooks/hook";
 import InputText from "../../../../atoms/forms/inputText/InputText";
 import Switch from "../../../../atoms/forms/switch/Switch";

@@ -1,11 +1,8 @@
 import React, { useState, Fragment } from "react";
 import { ChartData } from "react-chartjs-2";
 import Card from "../../../atoms/cards/Card";
-import {
-  SalesStatisticsUnit,
-  WindowSize,
-  FLOATING_PRELOADER_SIZE
-} from "../../../types/enum";
+import { SalesStatisticsUnit, WindowSize } from "../../../types/enum";
+import { FLOATING_PRELOADER_SIZE } from "../../../types/const";
 import { IQueryOp } from "./StatisticWrap";
 import { IUseDayPicker, useModal, LANG } from "../../../hooks/hook";
 import Button from "../../../atoms/button/Button";

@@ -13,7 +13,8 @@ import {
   LANG
 } from "../../../../hooks/hook";
 import JDbox from "../../../../atoms/box/JDbox";
-import { NOTI_LEVEL_OP, NotiType } from "../../../../types/enum";
+import { NotiType } from "../../../../types/enum";
+import { NOTI_LEVEL_OP } from "../../../../types/const";
 import { IContext } from "../../../bookingHost/BookingHostRouter";
 import JDmodal from "../../../../atoms/modal/Modal";
 import JDdayPicker from "../../../../atoms/dayPicker/DayPicker";

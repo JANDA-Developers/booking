@@ -1,0 +1,63 @@
+
+@import "~Styles";
+
+.CardViewer {    
+    overflow:hidden;
+    
+    &--unPadding {
+        margin: -$modal-content-padding;
+    }
+
+    &__slider {
+        width: 100%;
+        padding-top:$modal-content-padding;
+        padding-right:$modal-content-padding;
+        overflow:hidden;
+        padding-bottom:0;
+    }
+    
+    &__infoFromWrap {
+        background-color: $grey-level1;
+        padding: $modal-content-padding;
+    }
+
+    &__cardsWrap {
+        position: relative;
+        white-space: nowrap;
+        max-width: 100%;
+        @extend %JDscrollbar;
+        padding-left: 20px;
+        padding-top: 20px;
+        margin-top: -20px;
+        border-bottom: 2px solid $grey-level4;
+        overflow-y: hidden!important;
+
+        .creaditCard {
+            margin-bottom: -1rem;
+            white-space: normal;
+            display: inline-block;
+            margin-right: $standard-large-space;
+            vertical-align: bottom;
+
+            &__logoWrap {
+                display:flex;
+                align-items: center;
+            }
+
+            &__add {
+                text-align: center;
+                color: $html-color;
+                border: 1px solid $html-color;
+                
+                &--selected {
+                    @include shadow(3);
+                }
+
+                &-dec {
+                    font-size: $label-font-size;
+                    color: $label-font-color;
+                }
+            }
+        }
+    }
+}

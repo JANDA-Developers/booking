@@ -12,7 +12,10 @@ import { WindowSizeProps } from "react-window-size";
 import Timeline, {
   TimelineHeaders,
   SidebarHeader,
-  DateHeader
+  DateHeader,
+  TimelineMarkers,
+  CustomMarker,
+  CursorMarker
 } from "../../../atoms/timeline/Timeline";
 import ErrProtecter from "../../../utils/errProtect";
 import Button from "../../../atoms/button/Button";
@@ -67,6 +70,7 @@ import PageHeader from "../../../components/pageHeader/PageHeader";
 import PageBody from "../../../components/pageBody/PageBody";
 import { Tooltip } from "chart.js";
 import ReactTooltip from "react-tooltip";
+import Sticky from "react-sticky-el";
 
 interface IProps {
   context: IContext;
@@ -153,10 +157,12 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
       e.shiftKey &&
       !isEmpty(getItemsByType(GuestTypeAdd.MARK))
     ) {
-      console.log("💁");
+      console.info(handleKeyDownCavnas);
       setIsMultiSelectingMode(true);
     }
   };
+
+  const debounceKeyDownCanvas = _.debounce(handleKeyDownCavnas, 100);
 
   const handleKeyUpCavnas = (e: KeyboardEvent) => {
     setIsMultiSelectingMode(false);
@@ -173,10 +179,12 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
     //   // e.stopPropagation();
     // });
     window.addEventListener("keyup", handleKeyUpCavnas);
-    window.addEventListener("keydown", handleKeyDownCavnas);
+    window.addEventListener("keydown", debounceKeyDownCanvas);
     window.addEventListener("scroll", handleWindowScrollEvent);
     window.addEventListener("click", handleClickWindow);
     return () => {
+      window.removeEventListener("keyup", handleKeyUpCavnas);
+      window.removeEventListener("keydown", debounceKeyDownCanvas);
       window.removeEventListener("scroll", handleWindowScrollEvent);
       window.removeEventListener("scroll", handleClickWindow);
     };
@@ -247,7 +255,10 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
     hilightHeader
   } = assigUtils;
 
-  const assigHandler = getAssigHandlers(assigUtils, assigContext, assigHooks);
+  const assigHandler = useMemo(
+    () => getAssigHandlers(assigUtils, assigContext, assigHooks),
+    [guestValue, isMultiSelectingMode]
+  );
 
   const {
     handleCanvasClick,
@@ -301,12 +312,33 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
   );
 
   // 그룹 데이터에서 필터된것만 추출
-  let filteredGroup = groupData.filter(group =>
-    viewRoomType.includes(group.roomTypeId)
+  let filteredGroup = useMemo(
+    () => groupData.filter(group => viewRoomType.includes(group.roomTypeId)),
+    [groupData.length]
   );
 
   // 그룹 데이터가 비어있다면 보정용으로 하나추가
   if (isEmpty(filteredGroup)) filteredGroup = [DEFAULT_NONE_GOUP];
+
+  // 메모를 사용해 멀티박스 업데이트 방지
+  const roomTypesDatas = useMemo(
+    () => ({
+      value: roomTypesData.map(roomType => roomType._id),
+      labels: roomTypesData.map(roomType => roomType.name)
+    }),
+    [roomTypesData.length]
+  );
+
+  const callBackitemRenderer = useCallback(
+    (props: any) =>
+      itemRendererFn({
+        ...props,
+        assigUtils,
+        assigContext,
+        assigHooks
+      }),
+    []
+  );
 
   return (
     <Fragment>
@@ -327,7 +359,7 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
           onDoubleClick={handleTimelineWrapClickEvent}
           onClick={e => {
             // 윈도우 마우스클릭 이벤트를 방지함
-            e.stopPropagation();
+            // e.stopPropagation();
           }}
         >
           <div className="flex-grid flex-grid--end">
@@ -353,13 +385,12 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
                 icon="calendar"
                 label={LANG("goto_today")}
               />
-              {/* 개발중 */}
-              {/* <Button
-              onClick={() => {
-                keyBoardModal.openModal();
-              }}
-              icon="keyBoard"
-            /> */}
+              <Button
+                onClick={() => {
+                  keyBoardModal.openModal();
+                }}
+                icon="keyBoard"
+              />
             </div>
             {roomTypeTabEnable && (
               <JDmultiBox
@@ -368,9 +399,8 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
                 withAllTooglerLabel={LANG("see_all")}
                 withAllToogler
                 onChange={setViewRoomType}
-                value={roomTypesData.map(roomType => roomType._id)}
                 selectedValue={viewRoomType}
-                labels={roomTypesData.map(roomType => roomType.name)}
+                {...roomTypesDatas}
               />
             )}
           </div>
@@ -397,56 +427,56 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
             assigContext={assigContext}
             assigUtils={assigUtils}
           />
-          <Timeline
-            handleMouseDownCanvas={handleMouseDownCanvas}
-            onItemMove={handleItemMove}
-            onItemResize={handleItemResize}
-            items={guestValue}
-            groups={filteredGroup}
-            {...defaultProps}
-            handleDraggingCell={handleDraggingCell}
-            onItemDoubleClick={handleItemDoubleClick}
-            onItemClick={handleItemClick}
-            onCanvasClick={handleCanvasClick}
-            onTimeChange={handleTimeChange}
-            itemRenderer={(props: any) =>
-              itemRendererFn({
-                ...props,
-                assigUtils,
-                assigContext,
-                assigHooks
-              })
-            }
-            groupRenderer={assigGroupRendererFn}
-            defaultTimeStart={defaultTimeStart}
-            defaultTimeEnd={moment(defaultTimeEnd)
-              .add(-1 * timeline_size_var, "days")
-              .toDate()}
-            handleDraggingEnd={handleDraggingEnd}
-            moveResizeValidator={handleMoveResizeValidator}
-            onItemSelect={handleItemSelect}
-            onCanvasContextMenu={handleCanvasContextMenu}
-            sidebarWidth={isMobile ? 100 : 230}
-            key={sideNavIsOpen ? "a" : "b"}
-          >
-            <TimelineHeaders>
-              {/* 왼쪽 위 달력 부분 */}
-              <SidebarHeader>
-                {({ getRootProps }: any) => (
-                  <SharedSideBarHeader
-                    dayPickerModalHook={dayPickerModalHook}
-                    getRootProps={getRootProps}
-                  />
-                )}
-              </SidebarHeader>
-              <DateHeader
-                intervalRenderer={renderHeaderCell}
-                height={GlobalCSS.TIMELINE_HEADER_HEIGHT}
-                unit="day"
-              />
-              <DateHeader />
-            </TimelineHeaders>
-          </Timeline>
+          <div className="assigTimeline__timelineWrap">
+            <Timeline
+              handleMouseDownCanvas={handleMouseDownCanvas}
+              onItemMove={handleItemMove}
+              onItemResize={handleItemResize}
+              items={guestValue}
+              groups={filteredGroup}
+              {...defaultProps}
+              handleDraggingCell={handleDraggingCell}
+              onItemDoubleClick={handleItemDoubleClick}
+              onItemClick={handleItemClick}
+              onCanvasClick={handleCanvasClick}
+              onTimeChange={handleTimeChange}
+              itemRenderer={callBackitemRenderer}
+              groupRenderer={assigGroupRendererFn}
+              defaultTimeStart={defaultTimeStart}
+              defaultTimeEnd={moment(defaultTimeEnd.valueOf())
+                .add(-1 * timeline_size_var, "days")
+                .valueOf()}
+              handleDraggingEnd={handleDraggingEnd}
+              moveResizeValidator={handleMoveResizeValidator}
+              onItemSelect={handleItemSelect}
+              onCanvasContextMenu={handleCanvasContextMenu}
+              sidebarWidth={isMobile ? 100 : 230}
+              key={sideNavIsOpen ? "a" : "b"}
+            >
+              <TimelineHeaders>
+                {/* 왼쪽 위 달력 부분 */}
+                <SidebarHeader>
+                  {({ getRootProps }: any) => (
+                    <SharedSideBarHeader
+                      dayPickerModalHook={dayPickerModalHook}
+                      getRootProps={getRootProps}
+                    />
+                  )}
+                </SidebarHeader>
+                <DateHeader
+                  labelFormat="MM.DD ddd"
+                  intervalRenderer={renderHeaderCell}
+                  height={GlobalCSS.TIMELINE_HEADER_HEIGHT}
+                  unit="day"
+                />
+                <CursorMarker />
+                <DateHeader />
+              </TimelineHeaders>
+              <TimelineMarkers>
+                <CustomMarker date={new Date()} />
+              </TimelineMarkers>
+            </Timeline>
+          </div>
           {/* 생성된 방이 없을때 */}
           {inIsEmpty && (
             <div className="assigTimeline__placeHolderWrap">

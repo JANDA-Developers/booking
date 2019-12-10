@@ -1,15 +1,15 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import JDmultiStep from "../../../atoms/multiStep/MultiStep";
 import Steps from "./comonent/StarterSteps";
-import {IContext} from "../../bookingHost/BookingHostRouter";
-import {stepFinder} from "../../../utils/utils";
+import { IContext } from "../../bookingHost/BookingHostRouter";
+import { stepFinder } from "../../../utils/utils";
 import JDmodal from "../../../atoms/modal/Modal";
-import {useModal, LANG} from "../../../hooks/hook";
+import { useModal, LANG } from "../../../hooks/hook";
 import "./StarterModal.scss";
-import {MutationFn} from "react-apollo";
-import {updateHouse, updateHouseVariables} from "../../../types/api";
-import {isMobile} from "is-mobile";
-import {MODAL_MIN_WIDTH} from "../../../types/enum";
+import { MutationFn } from "react-apollo";
+import { updateHouse, updateHouseVariables } from "../../../types/api";
+import { isMobile } from "is-mobile";
+import { MODAL_MIN_WIDTH } from "../../../types/const";
 
 interface IProps {
   context: IContext;

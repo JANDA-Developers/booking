@@ -80,4 +80,4 @@ const JDIcon: React.FC<IConProps & IconConifgProps> = ({
 
 export { JDicons };
 
-export default JDIcon;
+export default React.memo(JDIcon);

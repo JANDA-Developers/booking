@@ -5,7 +5,8 @@ import JDbox from "../../atoms/box/JDbox";
 import JDselect, {
   IselectedOption
 } from "../../atoms/forms/selectBox/SelectBox";
-import { GET_SMS_TARGET_OP, GetSmsTarget } from "../../types/enum";
+import { GetSmsTarget } from "../../types/enum";
+import { GET_SMS_TARGET_OP } from "../../types/const";
 import Button from "../../atoms/button/Button";
 import "./SendSmsModal.scss";
 import { MutationFn } from "react-apollo";

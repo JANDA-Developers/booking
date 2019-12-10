@@ -3,12 +3,11 @@ import ErrProtecter from "../../utils/errProtect";
 import { IDiv } from "../../types/interface";
 import {
   Language,
-  LANGUAGE_LIST,
   LanguageItSelf,
   LangShortToNational,
-  LanguageResverseShort,
-  IMG_REPO
+  LanguageResverseShort
 } from "../../types/enum";
+import { LANGUAGE_LIST, IMG_REPO } from "../../types/const";
 import JDbox from "../../atoms/box/JDbox";
 import { s4 } from "../../utils/utils";
 

@@ -5,8 +5,7 @@ import PhoneVerificationModal from "./PhoneVerificationModal";
 import {
   completePhoneVerification,
   completePhoneVerificationVariables,
-  startPhoneVerificationWithPhoneNumber,
-  startPhoneVerificationWithPhoneNumberVariables
+  startPhoneVerificationWithPhoneNumber
 } from "../../types/api";
 import {
   COMEPLETE_PHONE_VERIFICATION,
@@ -17,8 +16,7 @@ import EerrorProtect from "../../utils/errProtect";
 import { IUseModal, LANG } from "../../hooks/hook";
 
 class StartPhoneVerificationMu extends Mutation<
-  startPhoneVerificationWithPhoneNumber,
-  startPhoneVerificationWithPhoneNumberVariables
+  startPhoneVerificationWithPhoneNumber
 > {}
 class CompletePhoneVerification extends Mutation<
   completePhoneVerification,
@@ -45,9 +43,9 @@ const PhoneVerificationModalWrap: React.FC<IProps> = ({
   <StartPhoneVerificationMu
     variables={{ phoneNumber }}
     mutation={START_PHONE_VERIFICATION_WITH_PHONE_NUMBER}
-    onCompleted={({ StartSenderVerification }) => {
+    onCompleted={({ StartPhoneVerification }) => {
       onCompletedMessage(
-        StartSenderVerification,
+        StartPhoneVerification,
         LANG("certification_number_sent"),
         LANG("certification_number_sent_fail")
       );

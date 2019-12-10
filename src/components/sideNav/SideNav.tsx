@@ -213,6 +213,7 @@ const SideNav: React.FC<IProps> = ({ isOpen, setIsOpen, context }) => {
                       <div className="JDsideNav__menus-subItemWrap">
                         {menu.contents.map(menu => (
                           <JDmenuLinker
+                            key={menu.key}
                             className={`JDsideNav__menus JDsideNav__menus--sub ${
                               menu.disabled
                                 ? "JDsideNav__navLink--disabled"

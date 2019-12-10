@@ -23,13 +23,12 @@ import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
 import JDmodal from "../../../atoms/modal/Modal";
 import JDbox from "../../../atoms/box/JDbox";
 import { muResult } from "../../../utils/utils";
+import { Language, WindowSize } from "../../../types/enum";
 import {
-  Language,
   LANGUAGE_LIST,
   FLOATING_PRELOADER_SIZE,
-  MODAL_MIN_WIDTH,
-  WindowSize
-} from "../../../types/enum";
+  MODAL_MIN_WIDTH
+} from "../../../types/const";
 import MockUp from "../../../atoms/mockup/MockUp";
 import LangList from "../../../components/langList/LangList";
 import LangConfigModal from "./component/LangConfigModal";

@@ -4,7 +4,8 @@ import { IUseModal, useDayPicker, LANG, useSelect } from "../../hooks/hook";
 import { Excel, IExcelProps, TMultiColumns } from "./Excel";
 import JDdayPicker from "../../atoms/dayPicker/DayPicker";
 import JDselect from "../../atoms/forms/selectBox/SelectBox";
-import { EXCEL_EXPRESS_OP, ExcelExpress } from "../../types/enum";
+import { ExcelExpress } from "../../types/enum";
+import { EXCEL_EXPRESS_OP } from "../../types/const";
 import JDpreloader from "../../atoms/preloader/Preloader";
 import selectOpCreater from "../../utils/selectOptionCreater";
 

@@ -1,4 +1,4 @@
-import {STATIC_COLORS} from "../types/enum";
+import { STATIC_COLORS } from "../types/const";
 import Color from "color";
 import randomColor from "randomcolor";
 

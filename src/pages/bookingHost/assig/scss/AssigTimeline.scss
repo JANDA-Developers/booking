@@ -137,6 +137,15 @@
     .assigTimeline {
 
 
+        &__timelineWrap {
+            border:2px solid $outborder-color;
+        }
+
+        .rct-outer {
+            width: 100%;
+        }
+
+
         &--empty {
             .react-calendar-timeline {
                 display:none!important;

@@ -1,4 +1,11 @@
-import { GB_booking, IHouseConfigFull, IBlockOp, JdFile } from "./interface";
+import { IuseImageUploaderOption, LANG } from "../hooks/hook";
+import {
+  GB_booking,
+  IHouseConfigFull,
+  IBlockOp,
+  JdFile,
+  JDpageInfo
+} from "./interface";
 import {
   RoomGender,
   PricingType,
@@ -32,8 +39,6 @@ import {
   IAssigGroup,
   GuestTypeAdd
 } from "../pages/bookingHost/assig/components/assigIntrerface";
-import { s4 } from "../utils/utils";
-import { LANG } from "../hooks/hook";
 
 export const DEFAULT_ROOMTYPE_ROOM: getAllRoomType_GetAllRoomType_roomTypes_rooms = {
   __typename: "Room",
@@ -170,12 +175,12 @@ export const DEFAULT_PRODUCT: getSpecification_GetHouse_house_product = {
   layoutPrice: null,
   layoutPricePaid: false,
   layoutType: LayoutType.Layout_A,
-  name: LANG("none_product"),
+  name: LANG("none_product") as any,
   price: 0,
   productType: {
     __typename: "ProductType",
     _id: "",
-    name: LANG("none_product")
+    name: LANG("none_product") as any
   },
   updatedAt: ""
 };
@@ -243,13 +248,19 @@ export const DEFAULT_HM: getHM_GetHM_HM = {
 
 export const DEFAULT_MEMO: getMemos_GetMemos_memos = {
   __typename: "Memo",
-  _id: s4(),
+  _id: "default__memo",
   createdAt: "",
   memoType: MemoType.HOST,
   text: "",
   enableAlert: false,
   title: "",
   updatedAt: ""
+};
+
+export const DEFAULT_IMAGEUP_LOADER_OPTION: IuseImageUploaderOption = {
+  quality: 100,
+  resizeMaxHeight: 500,
+  resizeMaxWidth: 500
 };
 
 // 서버 모델에서 가져옴
@@ -335,4 +346,17 @@ export const DEFAULT_PAYMENT_INFO: getMyProfile_GetMyProfile_user_paymentInfos =
   cardName: "",
   cardNo: "",
   isLive: false
+};
+
+export const DEFAULT_CARD_INFO = {
+  cardNumber: "",
+  idNumber: "",
+  exp: "",
+  cardPassword: ""
+};
+
+export const DEFAULT_PAY_HISTORY: JDpageInfo = {
+  currentPage: 0,
+  rowCount: 0,
+  totalPage: 0
 };

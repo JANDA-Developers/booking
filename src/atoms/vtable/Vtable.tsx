@@ -71,6 +71,7 @@ const Vtable: React.FC<IProps> = ({ columns, className, header, border }) => {
         <div className="vtable__column">
           {column.label.map((label, index) => (
             <Row
+              key={label}
               style={{ width: width }}
               label={label}
               // @ts-ignore

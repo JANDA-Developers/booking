@@ -94,7 +94,6 @@ export function getAssigUtils(
   }: IAssigTimelineHooks,
   {
     allocateMu,
-    deleteGuestsMu,
     createBlockMu,
     deleteBlockMu,
     deleteBookingMu,

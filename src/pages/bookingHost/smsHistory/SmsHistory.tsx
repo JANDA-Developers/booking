@@ -1,21 +1,21 @@
 import React, { Fragment } from "react";
-import { getSmsHistory_GetSmsHistory_smsHistories } from "../../../types/api";
 import Preloader from "../../../atoms/preloader/Preloader";
 import "./SmsHistory.scss";
 import JDPagination from "../../../atoms/pagination/Pagination";
-import { IPageInfo } from "../../../types/interface";
+import { IPageInfo, ISmsH } from "../../../types/interface";
 import JDtable, { ReactTableDefault } from "../../../atoms/table/Table";
 import { CellInfo } from "react-table";
 import JDbadge from "../../../atoms/badge/Badge";
 import JDbox from "../../../atoms/box/JDbox";
 import { s4, autoHypen } from "../../../utils/utils";
 import moment from "moment";
-import { FLOATING_PRELOADER_SIZE, DateFormat } from "../../../types/enum";
+import { FLOATING_PRELOADER_SIZE } from "../../../types/const";
+import { DateFormat } from "../../../types/enum";
 import { LANG } from "../../../hooks/hook";
 
 interface Iprops {
   setPage: any;
-  smsData: getSmsHistory_GetSmsHistory_smsHistories[];
+  smsData: ISmsH[];
   loading: boolean;
   pageData: IPageInfo | undefined | null;
 }

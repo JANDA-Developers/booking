@@ -15,7 +15,7 @@ import {
   AUTO_SEND_OP,
   STATISTICS_OP,
   FUNNELS_OP
-} from "../types/enum";
+} from "../types/const";
 import { LANG } from "../hooks/hook";
 import { isArray } from "util";
 

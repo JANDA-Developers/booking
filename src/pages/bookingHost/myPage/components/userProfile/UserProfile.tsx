@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment } from "react";
 import { IContext } from "../../../BookingHostRouter";
 import Card from "../../../../../atoms/cards/Card";
 import {
@@ -21,7 +21,7 @@ import {
   isEmail,
   isPhone
 } from "../../../../../utils/inputValidations";
-import { IMG_REPO } from "../../../../../types/enum";
+import { IMG_REPO } from "../../../../../types/const";
 import MyHouse from "../myHouse/MyHouse";
 import ChangePasswordModalWrap from "../../../../../components/changePasswordModal/ChangePasswordModalWrap";
 import MyHouseModalWrap from "../myHouseModal/MyHouseModalWrap";

@@ -48,9 +48,6 @@
   box-sizing: border-box;
   transition: $input-transition;
 
-  &--labeled {
-    margin-top: -0.4rem;  //보정 상수
-  }
 
   &__inside-wrap {
     position: relative;

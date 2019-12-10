@@ -1,24 +1,29 @@
 import React, { useState } from "react";
 import { IContext } from "../../../BookingHostRouter";
-import { getPayHistory_GetPayHistory_payHistories } from "../../../../../types/api";
-import ReactTable from "react-table";
 import { LANG, useCheckBoxTable } from "../../../../../hooks/hook";
 import { JDcolumn, ReactTableDefault } from "../../../../../atoms/table/Table";
 import moment from "moment";
 import { JDSelectableJDtable } from "../../../../../atoms/table/SelectTable";
 import { DateFormat } from "../../../../../types/enum";
 import Button from "../../../../../atoms/button/Button";
+import { IPayHistroy, IPageInfo } from "../../../../../types/interface";
+import { inOr } from "../../../../../utils/C";
+import JDPagination from "../../../../../atoms/pagination/Pagination";
 
 interface Iprops {
   context: IContext;
-  historyData: getPayHistory_GetPayHistory_payHistories[];
+  setPage: React.Dispatch<React.SetStateAction<number>>;
+  historyData: IPayHistroy[];
+  pageInfo: IPageInfo;
   loading: boolean;
 }
 
 const PeriodicalPayTable: React.FC<Iprops> = ({
   context,
   historyData,
-  loading
+  loading,
+  pageInfo,
+  setPage
 }) => {
   // TODO: 아래세줄들을 hook으로 치환
 
@@ -27,7 +32,7 @@ const PeriodicalPayTable: React.FC<Iprops> = ({
     historyData.map(data => data._id)
   );
 
-  const TableColumns: JDcolumn<getPayHistory_GetPayHistory_payHistories>[] = [
+  const TableColumns: JDcolumn<IPayHistroy>[] = [
     {
       // 청구 년월
       Header: LANG("reservation_did_date"),
@@ -98,6 +103,14 @@ const PeriodicalPayTable: React.FC<Iprops> = ({
         columns={TableColumns}
         {...checkBoxTableHook}
         keyField="_id"
+      />
+      <JDPagination
+        onPageChange={({ selected }: { selected: number }) => {
+          setPage(selected + 1);
+        }}
+        pageCount={inOr(pageInfo, "totalPage", 1)}
+        pageRangeDisplayed={1}
+        marginPagesDisplayed={4}
       />
     </div>
   );

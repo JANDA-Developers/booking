@@ -185,7 +185,7 @@ export interface getSpecificationVariables {
 // GraphQL query operation: getSmsHistory
 // ====================================================
 
-export interface getSmsHistory_GetSmsHistory_smsHistories {
+export interface getSmsHistory_GetSmsHistory_result_smsHistories {
   __typename: "SmsHistory";
   _id: string;
   msg: string;
@@ -198,19 +198,33 @@ export interface getSmsHistory_GetSmsHistory_smsHistories {
   updatedAt: any;
 }
 
-export interface getSmsHistory_GetSmsHistory_pageInfo {
+export interface getSmsHistory_GetSmsHistory_result_pageInfo {
   __typename: "PageInfoOffsetBase";
+  /**
+   * 현제 보고있는 페이지
+   */
   currentPage: number;
+  /**
+   * 전체 페이지 수
+   */
   totalPage: number;
+  /**
+   * 현재 페이지 데이터 수
+   */
   rowCount: number;
+}
+
+export interface getSmsHistory_GetSmsHistory_result {
+  __typename: "GetSmsHistoryResultData";
+  smsHistories: getSmsHistory_GetSmsHistory_result_smsHistories[] | null;
+  pageInfo: getSmsHistory_GetSmsHistory_result_pageInfo;
 }
 
 export interface getSmsHistory_GetSmsHistory {
   __typename: "GetSmsHistoryResponse";
   ok: boolean;
   error: string | null;
-  smsHistories: getSmsHistory_GetSmsHistory_smsHistories[] | null;
-  pageInfo: getSmsHistory_GetSmsHistory_pageInfo;
+  result: getSmsHistory_GetSmsHistory_result | null;
 }
 
 export interface getSmsHistory {
@@ -218,9 +232,7 @@ export interface getSmsHistory {
 }
 
 export interface getSmsHistoryVariables {
-  smsInfoId: string;
-  page: number;
-  count: number;
+  param: GetSmsHistoryInput;
 }
 
 /* tslint:disable */
@@ -701,8 +713,17 @@ export interface getHousesForSU_GetHousesForSU_houses {
 
 export interface getHousesForSU_GetHousesForSU_pageInfo {
   __typename: "PageInfoOffsetBase";
+  /**
+   * 현제 보고있는 페이지
+   */
   currentPage: number;
+  /**
+   * 전체 페이지 수
+   */
   totalPage: number;
+  /**
+   * 현재 페이지 데이터 수
+   */
   rowCount: number;
 }
 
@@ -2713,8 +2734,17 @@ export interface getBookings_GetBookings_bookings {
 
 export interface getBookings_GetBookings_pageInfo {
   __typename: "PageInfoOffsetBase";
+  /**
+   * 현제 보고있는 페이지
+   */
   currentPage: number;
+  /**
+   * 전체 페이지 수
+   */
   totalPage: number;
+  /**
+   * 현재 페이지 데이터 수
+   */
   rowCount: number;
 }
 
@@ -3756,18 +3786,14 @@ export interface startPhoneVerification {
 // GraphQL mutation operation: startPhoneVerificationWithPhoneNumber
 // ====================================================
 
-export interface startPhoneVerificationWithPhoneNumber_StartSenderVerification {
-  __typename: "StartSenderVerificationResponse";
+export interface startPhoneVerificationWithPhoneNumber_StartPhoneVerification {
+  __typename: "StartPhoneVerificationResponse";
   ok: boolean;
   error: string | null;
 }
 
 export interface startPhoneVerificationWithPhoneNumber {
-  StartSenderVerification: startPhoneVerificationWithPhoneNumber_StartSenderVerification;
-}
-
-export interface startPhoneVerificationWithPhoneNumberVariables {
-  phoneNumber: any;
+  StartPhoneVerification: startPhoneVerificationWithPhoneNumber_StartPhoneVerification;
 }
 
 /* tslint:disable */
@@ -3808,7 +3834,6 @@ export interface completePasswordReset_CompletePasswordReset {
   __typename: "CompletePasswordResetResponse";
   ok: boolean;
   error: string | null;
-  newPassword: string | null;
 }
 
 export interface completePasswordReset {
@@ -3819,6 +3844,56 @@ export interface completePasswordResetVariables {
   email: any;
   phoneNumber: any;
   key: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: deleteBillKey
+// ====================================================
+
+export interface deleteBillKey_DeleteBillKey {
+  __typename: "DeleteBillKeyResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface deleteBillKey {
+  /**
+   * 로그인 상태에서 가능한 함수. (user.paymentInfo.billKey 대조함.)
+   */
+  DeleteBillKey: deleteBillKey_DeleteBillKey;
+}
+
+export interface deleteBillKeyVariables {
+  billKey: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: unregisterBillKey
+// ====================================================
+
+export interface unregisterBillKey_UnregisterBillKey {
+  __typename: "UnregisterBillKeyResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface unregisterBillKey {
+  /**
+   * billKey를 제거하고 User쪽의 데이터 및 Product쪽 데이터도 같이 제거함
+   */
+  UnregisterBillKey: unregisterBillKey_UnregisterBillKey;
+}
+
+export interface unregisterBillKeyVariables {
+  billKey: string;
 }
 
 /* tslint:disable */
@@ -4914,31 +4989,6 @@ export interface updateProductBillInfoVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: unRegisterBillKey
-// ====================================================
-
-export interface unRegisterBillKey_UnregisterBillKey {
-  __typename: "UnregisterBillKeyResponse";
-  ok: boolean;
-  error: string | null;
-}
-
-export interface unRegisterBillKey {
-  /**
-   * billKey를 제거하고 User쪽의 데이터 및 Product쪽 데이터도 같이 제거함
-   */
-  UnregisterBillKey: unRegisterBillKey_UnregisterBillKey;
-}
-
-export interface unRegisterBillKeyVariables {
-  billKey: string;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// This file was automatically generated and should not be edited.
-
-// ====================================================
 // GraphQL mutation operation: discontinueProduct
 // ====================================================
 
@@ -4999,7 +5049,23 @@ export interface doBillPayCancelProductVariables {
 // GraphQL query operation: getPayHistory
 // ====================================================
 
-export interface getPayHistory_GetPayHistory_payHistories_status {
+export interface getPayHistory_GetPayHistory_result_pageInfo {
+  __typename: "PageInfoOffsetBase";
+  /**
+   * 현제 보고있는 페이지
+   */
+  currentPage: number;
+  /**
+   * 전체 페이지 수
+   */
+  totalPage: number;
+  /**
+   * 현재 페이지 데이터 수
+   */
+  rowCount: number;
+}
+
+export interface getPayHistory_GetPayHistory_result_payHistories_status {
   __typename: "PayStatus";
   ok: boolean;
   resultCode: CardPayResultCode;
@@ -5007,7 +5073,7 @@ export interface getPayHistory_GetPayHistory_payHistories_status {
   date: any;
 }
 
-export interface getPayHistory_GetPayHistory_payHistories_cancelStatus {
+export interface getPayHistory_GetPayHistory_result_payHistories_cancelStatus {
   __typename: "PayCancelStatus";
   ok: boolean;
   isPartial: boolean;
@@ -5020,7 +5086,7 @@ export interface getPayHistory_GetPayHistory_payHistories_cancelStatus {
   date: any;
 }
 
-export interface getPayHistory_GetPayHistory_payHistories {
+export interface getPayHistory_GetPayHistory_result_payHistories {
   __typename: "PayHistory";
   _id: string;
   userId: string;
@@ -5033,17 +5099,23 @@ export interface getPayHistory_GetPayHistory_payHistories {
   tid: string;
   payMethod: PayMethod;
   amt: number;
-  status: getPayHistory_GetPayHistory_payHistories_status;
-  cancelStatus: getPayHistory_GetPayHistory_payHistories_cancelStatus | null;
+  status: getPayHistory_GetPayHistory_result_payHistories_status;
+  cancelStatus: getPayHistory_GetPayHistory_result_payHistories_cancelStatus | null;
   createdAt: any;
   updatedAt: any | null;
+}
+
+export interface getPayHistory_GetPayHistory_result {
+  __typename: "GetPayHistoryResultData";
+  pageInfo: getPayHistory_GetPayHistory_result_pageInfo;
+  payHistories: getPayHistory_GetPayHistory_result_payHistories[] | null;
 }
 
 export interface getPayHistory_GetPayHistory {
   __typename: "GetPayHistoryResponse";
   ok: boolean;
   error: string | null;
-  payHistories: getPayHistory_GetPayHistory_payHistories[] | null;
+  result: getPayHistory_GetPayHistory_result | null;
 }
 
 export interface getPayHistory {
@@ -5546,8 +5618,17 @@ export interface Fpayment {
 
 export interface FpageInfo {
   __typename: "PageInfoOffsetBase";
+  /**
+   * 현제 보고있는 페이지
+   */
   currentPage: number;
+  /**
+   * 전체 페이지 수
+   */
   totalPage: number;
+  /**
+   * 현재 페이지 데이터 수
+   */
   rowCount: number;
 }
 
@@ -6809,12 +6890,34 @@ export interface GetBookingsFilter {
   bookingId?: string | null;
   name?: string | null;
   phoneNumnber?: string | null;
-  stayDate?: any | null;
-  createdAt?: any | null;
+  stayDate?: PeriodInput | null;
+  createdAt?: PeriodInput | null;
+}
+
+export interface GetPayHistoryFilterInput {
+  target?: PayTarget | null;
+  payload?: string | null;
+  payResult?: boolean | null;
+  isCanceled?: boolean | null;
 }
 
 export interface GetPayHistoryInput {
-  target: PayTarget;
+  paging: OffsetPagingInput;
+  filter: GetPayHistoryFilterInput;
+  sort?: any[] | null;
+}
+
+export interface GetSmsHistoryFilterInput {
+  smsInfoId: string;
+  msgType?: MsgType | null;
+  sendResult?: boolean | null;
+  autoSend?: boolean | null;
+}
+
+export interface GetSmsHistoryInput {
+  paging: OffsetPagingInput;
+  filter: GetSmsHistoryFilterInput;
+  sort?: any[] | null;
 }
 
 export interface HMmenuInput {
@@ -6861,6 +6964,11 @@ export interface NewBookingMarkInput {
   newGuestTime: number;
 }
 
+export interface OffsetPagingInput {
+  selectedPage: number;
+  count: number;
+}
+
 export interface PayCancelInput {
   tid: string;
   cancelAmt: number;
@@ -6872,6 +6980,11 @@ export interface PayCancelProductInput {
   payCancelInput: PayCancelInput;
   productId: string;
   decreasePeriod: number;
+}
+
+export interface PeriodInput {
+  checkIn: any;
+  checkOut: any;
 }
 
 export interface PollingPeriodInput {

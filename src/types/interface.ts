@@ -14,7 +14,9 @@ import {
   getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory,
   getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom,
   getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_blockOption,
-  singleUpload_SingleUpload_jdFile
+  singleUpload_SingleUpload_jdFile,
+  getPayHistory_GetPayHistory_result_payHistories,
+  getSmsHistory_GetSmsHistory_result_smsHistories
 } from "./api";
 import { IselectedOption } from "../atoms/forms/selectBox/SelectBox";
 import { PricingType, TMarginSize } from "./enum";
@@ -29,6 +31,8 @@ export interface GB_booking extends getBooking_GetBooking_booking {}
 export interface IProduct extends getHouse_GetHouse_house_product {}
 export interface IUser extends getMyProfile_GetMyProfile_user {}
 export interface IHouse extends getMyProfile_GetMyProfile_user_houses {}
+export interface IPayHistroy
+  extends getPayHistory_GetPayHistory_result_payHistories {}
 export interface IHouseConfig
   extends getMyProfile_GetMyProfile_user_houses_houseConfig {}
 export interface IInput extends React.HTMLAttributes<HTMLInputElement> {}
@@ -40,6 +44,7 @@ export interface IBooking extends getBookings_GetBookings_bookings {}
 export type IGuest = getAllRoomTypeWithGuest_GetGuests_guests;
 export type IGuestD = getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory;
 export type IGuestR = getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom;
+export type ISmsH = getSmsHistory_GetSmsHistory_result_smsHistories;
 export type TMuFn<m, mv> = (
   options?: MutationFunctionOptions<m, mv> | undefined
 ) => Promise<ExecutionResult<m>>;
@@ -211,3 +216,13 @@ export interface JDatomExtentionSet {
   mr?: TMarginSize;
 }
 /*  -------------------------------------------------------------------------- */
+
+export interface JDpageInfo {
+  currentPage: number;
+  totalPage: number;
+  rowCount: number;
+}
+
+export interface TP {
+  pageInfo: JDpageInfo;
+}

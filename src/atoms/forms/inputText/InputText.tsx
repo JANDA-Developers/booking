@@ -9,7 +9,8 @@ import autoHyphen, {
   toNumber,
   card_space
 } from "../../../utils/autoFormat";
-import { NEUTRAL, TMarginSize } from "../../../types/enum";
+import { TMarginSize } from "../../../types/enum";
+import { NEUTRAL } from "../../../types/const";
 import { getByteLength } from "../../../utils/elses";
 import { autoComma, s4 } from "../../../utils/utils";
 import $ from "jquery";

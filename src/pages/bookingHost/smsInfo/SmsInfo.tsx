@@ -4,9 +4,8 @@ import { LANG } from "../../../hooks/hook";
 import PageBody from "../../../components/pageBody/PageBody";
 import Doc, { DocSection, DocHeader } from "../../../components/doc/Doc";
 import Button from "../../../atoms/button/Button";
-import JDlist from "../../../atoms/list/List";
 import PhotoFrame from "../../../atoms/photoFrame/PhotoFrame";
-import { IMG_REPO } from "../../../types/enum";
+import { IMG_REPO } from "../../../types/const";
 import { IContext } from "../BookingHostRouter";
 
 interface Iprops {

@@ -23,7 +23,7 @@ import "./CreateHouse.scss";
 import { createHouse, createHouseVariables } from "../../../types/api";
 import Preloader from "../../../atoms/preloader/Preloader";
 import { getOperationName } from "apollo-link";
-import { FLOATING_PRELOADER_SIZE } from "../../../types/enum";
+import { FLOATING_PRELOADER_SIZE } from "../../../types/const";
 import { IContext } from "../../bookingHost/BookingHostRouter";
 import PreloaderModal from "../../../atoms/preloaderModal/PreloaderModal";
 import { Redirect } from "react-router";

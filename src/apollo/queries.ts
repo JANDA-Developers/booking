@@ -603,15 +603,17 @@ export const GET_HOUSE_SPECIFICATION = gql`
 
 // SMS :: 히스토리 가져오기
 export const GET_SMS_HISTORY = gql`
-  query getSmsHistory($smsInfoId: ID!, $page: Int!, $count: Int!) {
-    GetSmsHistory(smsInfoId: $smsInfoId, page: $page, count: $count) {
+  query getSmsHistory($param: GetSmsHistoryInput!) {
+    GetSmsHistory(param: $param) {
       ok
       error
-      smsHistories {
-        ...FsmsHistory
-      }
-      pageInfo {
-        ...FpageInfo
+      result {
+        smsHistories {
+          ...FsmsHistory
+        }
+        pageInfo {
+          ...FpageInfo
+        }
       }
     }
   }
@@ -1905,6 +1907,7 @@ export const UPDATE_MYPROFILE = gql`
     }
   }
 `;
+
 // 유저 :: 휴대폰인증 (유저용)
 export const PHONE_VERIFICATION = gql`
   mutation startPhoneVerification {
@@ -1934,7 +1937,7 @@ export const START_PASSWORD_RESET = gql`
   }
 `;
 
-export const COMPLETE_PASSWORD_RESET = gql`
+export const COMPLETE_PASSWORD_RESETE = gql`
   mutation completePasswordReset(
     $email: EmailAddress!
     $phoneNumber: PhoneNumber!
@@ -1943,7 +1946,24 @@ export const COMPLETE_PASSWORD_RESET = gql`
     CompletePasswordReset(email: $email, phoneNumber: $phoneNumber, key: $key) {
       ok
       error
-      newPassword
+    }
+  }
+`;
+
+export const DELETE_BILL_KEY = gql`
+  mutation deleteBillKey($billKey: String!) {
+    DeleteBillKey(billKey: $billKey) {
+      ok
+      error
+    }
+  }
+`;
+
+export const UN_REGISTER_BILLKEY = gql`
+  mutation unregisterBillKey($billKey: String!) {
+    UnregisterBillKey(billKey: $billKey) {
+      ok
+      error
     }
   }
 `;
@@ -2399,15 +2419,6 @@ export const UPDATE_PRODUCT_BILL_INFO = gql`
   }
 `;
 
-export const UN_REGISTER_BILLKEY = gql`
-  mutation unRegisterBillKey($billKey: String!) {
-    UnregisterBillKey(billKey: $billKey) {
-      ok
-      error
-    }
-  }
-`;
-
 export const DIS_CONTINUE_PRODUCT = gql`
   mutation discontinueProduct($productId: ID!) {
     DiscontinueProduct(productId: $productId) {
@@ -2441,37 +2452,43 @@ export const GET_PAY_HISTORY = gql`
     GetPayHistory(param: $param) {
       ok
       error
-      payHistories {
-        _id
-        userId
-        target
-        payload
-        goodsCnt
-        tid
-        payMethod
-        amt
-        status {
-          ok
-          resultCode
-          resultMsg
-          date
+      result {
+        pageInfo {
+          ...FpageInfo
         }
-        cancelStatus {
-          ok
-          isPartial
-          amt
+        payHistories {
+          _id
+          userId
+          target
+          payload
           goodsCnt
-          resultCode
-          resultMsg
-          cancelNum
-          cancelMsg
-          date
+          tid
+          payMethod
+          amt
+          status {
+            ok
+            resultCode
+            resultMsg
+            date
+          }
+          cancelStatus {
+            ok
+            isPartial
+            amt
+            goodsCnt
+            resultCode
+            resultMsg
+            cancelNum
+            cancelMsg
+            date
+          }
+          createdAt
+          updatedAt
         }
-        createdAt
-        updatedAt
       }
     }
   }
+  ${F_PAGE_INFO}
 `;
 
 export const DO_BILL_PAY_PRODUCT = gql`

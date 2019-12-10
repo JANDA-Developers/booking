@@ -57,9 +57,8 @@ const RessetPasswordModal: React.FC<Iprops> = ({
     const tempResult = await completePasswordResetMu({
       variables: { ...mutationVariable, key }
     });
-    const result = muResult(tempResult, "CompletePasswordReset", "newPassword");
+    const result = muResult(tempResult, "CompletePasswordReset");
     if (!result) return;
-    setNewPassword(result);
     setStep("complete");
   };
 

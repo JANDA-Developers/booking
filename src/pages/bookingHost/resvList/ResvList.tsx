@@ -23,9 +23,9 @@ import {
   PaymentStatus,
   PricingType,
   BookingStatus,
-  FLOATING_PRELOADER_SIZE,
   DateFormat
 } from "../../../types/enum";
+import { FLOATING_PRELOADER_SIZE } from "../../../types/const";
 import moment from "moment";
 import JDbadge from "../../../atoms/badge/Badge";
 import "./ResvList.scss";

@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { MutationFn } from "react-apollo";
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState, Fragment } from "react";
 import { toast } from "react-toastify";
 import Modal from "../../../../atoms/modal/Modal";
 import SelectBox, {
@@ -14,7 +14,7 @@ import {
   MAX_PEOPLE_COUNT_OP_FN,
   ROOM_GENDER_OP,
   PRICING_TYPE_OP
-} from "../../../../types/enum";
+} from "../../../../types/const";
 import {
   IUseModal,
   useImageUploader,

@@ -14,11 +14,8 @@ import {
 } from "../../types/defaults";
 import JDselect from "../../atoms/forms/selectBox/SelectBox";
 import InputText from "../../atoms/forms/inputText/InputText";
-import {
-  SELECT_PRODUCT_TYPE_OP,
-  HouseStatus,
-  PRODUCT_STATUS_OP
-} from "../../types/enum";
+import { HouseStatus } from "../../types/enum";
+import { PRODUCT_STATUS_OP, SELECT_PRODUCT_TYPE_OP } from "../../types/const";
 import Button from "../../atoms/button/Button";
 import CheckBox from "../../atoms/forms/checkBox/CheckBox";
 import {

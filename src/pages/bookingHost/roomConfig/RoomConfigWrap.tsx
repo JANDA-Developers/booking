@@ -21,7 +21,7 @@ import { IContext } from "../../bookingHost/BookingHostRouter";
 import RoomConfig from "./RoomConfig";
 import { PureQueryOptions } from "apollo-client";
 import Preloader from "../../../atoms/preloader/Preloader";
-import { FLOATING_PRELOADER_SIZE } from "../../../types/enum";
+import { FLOATING_PRELOADER_SIZE } from "../../../types/const";
 
 export enum ADD_ROOM {
   "ADDROOM" = -1,

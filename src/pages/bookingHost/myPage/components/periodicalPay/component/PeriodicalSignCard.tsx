@@ -7,7 +7,6 @@ import { getMyProfile_GetMyProfile_user_paymentInfos } from "../../../../../../t
 import { DEFAULT_PAYMENT_INFO } from "../../../../../../types/defaults";
 import "./PeriodicalSignCard.scss";
 import moment from "moment";
-import { DateFormat } from "../../../../../../types/enum";
 import {
   card_space,
   autoComma,
@@ -15,6 +14,7 @@ import {
 } from "../../../../../../utils/autoFormat";
 import BillPayChangeModal from "./BillPayChangeModal";
 import { isTestProduct } from "../../../../../../utils/utils";
+import { DateFormat } from "../../../../../../types/enum";
 
 interface Iprops {
   context: IContext;

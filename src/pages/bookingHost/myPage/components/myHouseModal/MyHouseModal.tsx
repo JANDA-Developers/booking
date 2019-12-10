@@ -6,11 +6,8 @@ import Button from "../../../../../atoms/button/Button";
 import { IUseModal, useDrawer, LANG } from "../../../../../hooks/hook";
 import Preloader from "../../../../../atoms/preloader/Preloader";
 import { getHouse_GetHouse_house } from "../../../../../types/api";
-import {
-  PricingType,
-  DateFormat,
-  MODAL_PRELOADER_SIZE
-} from "../../../../../types/enum";
+import { PricingType, DateFormat } from "../../../../../types/enum";
+import { MODAL_PRELOADER_SIZE } from "../../../../../types/const";
 import JDIcon from "../../../../../atoms/icons/Icons";
 import moment from "moment";
 import { insideRedirect } from "../../../../../utils/utils";

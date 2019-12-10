@@ -8,14 +8,12 @@ import { NavLink } from "react-router-dom";
 import Button from "../../../atoms/button/Button";
 import { IUseModal, useModal, LANG } from "../../../hooks/hook";
 import { insideRedirect, isEmpty } from "../../../utils/utils";
-import { UserRole, MemoType } from "../../../types/enum";
+import { UserRole } from "../../../types/enum";
 import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
-import MemoModal from "../../Memo/component/MemoModal";
 import MemoIcon from "../../Memo/component/MemoIcon";
 import NotiIcon from "../../noti/component/NotiIcon";
 import LangSelectModal from "../../../atoms/dayPicker/component/langSelectModal";
-import CardBillingModalWrap from "../../cardBilingModal/CardBilingModalWrap";
-import { Tooltip } from "chart.js";
+import BillingModalWrap from "../../bilingModal/BillingModalWrap";
 
 interface IProps {
   context: IContext;
@@ -32,7 +30,7 @@ const SharedHeaderComponent: React.FC<IProps> = ({
   const { isPhoneVerified } = user;
   const memoModalHook = useModal();
   const langSelectModal = useModal();
-  const cardBillModalHook = useModal();
+  const billModalHook = useModal();
 
   // 로그 여부와 상관없이 공유된
   const sharedOverLogin = (
@@ -147,7 +145,7 @@ const SharedHeaderComponent: React.FC<IProps> = ({
           <Button
             thema="primary"
             onClick={() => {
-              cardBillModalHook.openModal();
+              billModalHook.openModal();
             }}
             label={LANG("card_resist")}
           />
@@ -179,7 +177,7 @@ const SharedHeaderComponent: React.FC<IProps> = ({
       </TooltipList>
       <LangSelectModal modalHook={langSelectModal} context={context} />
       {applyedProduct && (
-        <CardBillingModalWrap modalHook={cardBillModalHook} context={context} />
+        <BillingModalWrap modalHook={billModalHook} context={context} />
       )}
     </Fragment>
   );

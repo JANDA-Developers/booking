@@ -1,8 +1,9 @@
 import React from "react";
-import {IUseModal} from "../../../../hooks/hook";
+import { IUseModal } from "../../../../hooks/hook";
 import LangList from "../../../../components/langList/LangList";
 import JDmodal from "../../../../atoms/modal/Modal";
-import {LANGUAGE_LIST, Language} from "../../../../types/enum";
+import { Language } from "../../../../types/enum";
+import { LANGUAGE_LIST } from "../../../../types/const";
 
 interface IProps {
   modalHook: IUseModal;

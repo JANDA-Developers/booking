@@ -16,15 +16,17 @@ import Button from "../../atoms/button/Button";
 import RoomSelectInfoTable from "./components/RoomSelectInfoTable";
 import JDdayPicker from "../../atoms/dayPicker/DayPicker";
 import {
-  BOOKING_STATUS_OP,
-  PAYMENT_STATUS_OP,
   PaymentStatus,
   AutoSendWhen,
-  PAYMETHOD_FOR_HOST_OP,
   DateFormat,
-  BookingStatus,
-  FUNNELS_OP
+  BookingStatus
 } from "../../types/enum";
+import {
+  FUNNELS_OP,
+  BOOKING_STATUS_OP,
+  PAYMETHOD_FOR_HOST_OP,
+  PAYMENT_STATUS_OP
+} from "../../types/const";
 import "./BookingModal.scss";
 import { GB_booking, BookingModalMode } from "../../types/interface";
 import { MutationFn } from "react-apollo";
@@ -35,8 +37,6 @@ import {
   deleteBookingVariables,
   startBooking,
   startBookingVariables,
-  allocateGuestToRoom,
-  allocateGuestToRoomVariables,
   Funnels
 } from "../../types/api";
 import SendSMSmodalWrap, { IModalSMSinfo } from "../smsModal/SendSmsModalWrap";

@@ -3,12 +3,12 @@ import { IContext } from "../../../pages/bookingHost/BookingHostRouter";
 import JDproductCard from "../../../pages/bookingHost/product/components/ProductCard";
 import Button from "../../../atoms/button/Button";
 import { LANG } from "../../../hooks/hook";
-import { CardBillingSteps } from "../CardBilingModal";
+import { BillingSteps } from "../BillingModal";
 import { IProductTypeDec } from "../../../types/interface";
 
 interface Iprops {
   context: IContext;
-  setStep: React.Dispatch<React.SetStateAction<CardBillingSteps>>;
+  setStep: React.Dispatch<React.SetStateAction<BillingSteps>>;
   productTypeDecs: IProductTypeDec;
 }
 

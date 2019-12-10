@@ -7,9 +7,17 @@
 
 // 최상단
 .react-calendar-timeline {
+
+    
+    @include response($phablet) {
+        // 모듈버그 픽스용!
+        padding-right: 30rem;
+        margin-right: -30rem;
+    }
+
     // overflow hidden을 적용시 sticky 헤더는 동작안함
     border-radius: $standard-border-radius;
-    border:2px solid $outborder-color;
+
     div {
         // 🥇 이로서 드레그 끈김을 막을수있다.
         user-select: none;

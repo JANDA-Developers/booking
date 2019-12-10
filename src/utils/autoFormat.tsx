@@ -1,3 +1,27 @@
+// 카드 만료일 Get
+const cardExprieGet = (period: string = "") => {
+  var replaceCard = period.replace(/\//g, "");
+  var inputMonth = replaceCard.substring(0, 2); // 선언한 변수 month에 월의 정보값을 담는다.
+  var inputYear = replaceCard.substring(2, 4); // 선언한 변수 year에 년의 정보값을 담는다.
+  return {
+    month: inputMonth,
+    year: inputYear
+  };
+};
+
+// 카드 만료일 MM/YY
+const cardExpire = (period: string = "") => {
+  // replace 함수를 사용하여 슬래시( / )을 공백으로 치환한다.
+  var replaceCard = period.replace(/\//g, "");
+
+  // 텍스트박스의 입력값이 4~5글자 사이가 되는 경우에만 실행한다.
+  if (replaceCard.length >= 4 && replaceCard.length < 5) {
+    var inputMonth = replaceCard.substring(0, 2); // 선언한 변수 month에 월의 정보값을 담는다.
+    var inputYear = replaceCard.substring(2, 4); // 선언한 변수 year에 년의 정보값을 담는다.
+    return inputMonth + "/" + inputYear;
+  }
+  return period;
+};
 // 카드 번호 스페이스 오토
 const card_space = (value: string = "") => {
   var v = value.replace(/\s+/g, "").replace(/[^0-9\*]/gi, "");
@@ -73,4 +97,11 @@ const toNumber = (value: string | number = ""): number => {
 };
 
 export default autoHypenPhone;
-export { autoComma, numberStr, toNumber, card_space };
+export {
+  cardExprieGet,
+  autoComma,
+  numberStr,
+  cardExpire,
+  toNumber,
+  card_space
+};

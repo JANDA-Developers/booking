@@ -28,6 +28,7 @@ import Resizer from "react-image-file-resizer";
 import { ExecutionResult } from "graphql";
 // @ts-ignore
 import omitDeep from "omit-deep";
+import { DEFAULT_IMAGEUP_LOADER_OPTION } from "../types/defaults";
 
 export type IUseFetch = [
   any,
@@ -127,12 +128,6 @@ const useImageUploader = (
     }
   );
 
-  const DEFAULT_IMAGEUP_LOADER_OPTION: IuseImageUploaderOption = {
-    quality: 100,
-    resizeMaxHeight: 500,
-    resizeMaxWidth: 500
-  };
-
   let option = propOption || DEFAULT_IMAGEUP_LOADER_OPTION;
 
   // 화면에 나타는 이미지처리
@@ -141,9 +136,10 @@ const useImageUploader = (
 
     if (!file) {
       setIsError(true);
-    } else if (file) {
+    } else {
       setFile(omitDeep(file, ["__typename"]));
     }
+
     setUploading(false);
   };
 
@@ -155,53 +151,48 @@ const useImageUploader = (
     fileType?: string
   ) => {
     let file: File;
-    if (!instanceOfA(uriOrFile, "name")) {
-      file = new File([uriOrFile], fileName!, { type: fileType });
-    } else {
-      file = uriOrFile as File;
-    }
+    const isVideo = instanceOfA(uriOrFile, "name");
+
+    if (isVideo) file = uriOrFile as File;
+    else file = new File([uriOrFile], fileName!, { type: fileType });
 
     const result = await uploadMutation({ variables: { file } });
 
-    if (result.data) {
-      setFileView(result);
-    }
+    if (muResult(result, "SingleUpload")) setFileView(result);
   };
 
-  const onChangeFile = async (
-    event: React.ChangeEvent<HTMLInputElement | undefined>
-  ) => {
+  //  이벤트 객체 => uploadImg(파일객체);
+  const onChangeFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
     event.persist();
-    if (event) {
-      setUploading(true);
-      const {
-        target: { name, value, files, validity }
-      }: ChangeEvent<HTMLInputElement> = event as ChangeEvent<HTMLInputElement>;
-      if (validity && files && files.length === 1) {
-        const file = files[0];
-        console.log("file");
-        console.log(file);
-        if (file) {
-          // 이미지인경우 리사이즈 해서 업로드
-          if (!file.type.includes("video")) {
-            Resizer.imageFileResizer(
-              file,
-              option.resizeMaxWidth,
-              option.resizeMaxHeight,
-              "JPEG",
-              option.quality,
-              0,
-              async (uri: any) => {
-                uploadImg(uri, file.name, file.type);
-              },
-              "blob"
-            );
-            // 비디오인경우에
-          } else {
-            uploadImg(file);
-          }
-        }
-      }
+    setUploading(true);
+
+    const {
+      target: { files, validity }
+    } = event;
+
+    if (!validity || !files || files.length !== 1 || !files[0]) return;
+
+    const file = files[0];
+    console.log("file");
+    console.log(file);
+    const isVideo = file.type.includes("video");
+
+    if (isVideo) {
+      uploadImg(file);
+    } else {
+      // 이미지인경우 리사이즈 해서 업로드
+      Resizer.imageFileResizer(
+        file,
+        option.resizeMaxWidth,
+        option.resizeMaxHeight,
+        "JPEG",
+        option.quality,
+        0,
+        async (uri: any) => {
+          uploadImg(uri, file.name, file.type);
+        },
+        "blob"
+      );
     }
   };
 

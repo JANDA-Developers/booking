@@ -22,7 +22,8 @@ import {
   GET_BOOKINGS_MEMOS
 } from "../../apollo/queries";
 import { getOperationName } from "apollo-link";
-import { MemoType, MODAL_PRELOADER_SIZE } from "../../types/enum";
+import { MemoType } from "../../types/enum";
+import { MODAL_PRELOADER_SIZE } from "../../types/const";
 import Preloader from "../../atoms/preloader/Preloader";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import { IUseModal, LANG } from "../../hooks/hook";

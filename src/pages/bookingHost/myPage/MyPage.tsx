@@ -9,6 +9,8 @@ import UserProfile from "./components/userProfile/UserProfile";
 import PeriodicalPay from "./components/periodicalPay/PeriodicalPay";
 import { getUserForSU_GetUserForSU_user } from "../../../types/api";
 import PhotoFrame from "../../../atoms/photoFrame/PhotoFrame";
+import CreaditCard from "./components/cardModal.tsx/components/CreaditCard";
+import CardModal from "./components/cardModal.tsx/CardModal";
 
 interface IProps {
   context: IContext;

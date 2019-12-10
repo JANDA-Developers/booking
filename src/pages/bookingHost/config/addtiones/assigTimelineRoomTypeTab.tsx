@@ -4,7 +4,7 @@ import JDswitch from "../../../../atoms/forms/switch/Switch";
 import { LANG } from "../../../../hooks/hook";
 import { muResult } from "../../../../utils/utils";
 import JDbox from "../../../../atoms/box/JDbox";
-import { IMG_REPO } from "../../../../types/enum";
+import { IMG_REPO } from "../../../../types/const";
 
 const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
   updateHouseConfigMu,

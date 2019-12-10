@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { IMG_REPO } from "../../../types/enum";
+import { IMG_REPO } from "../../../types/const";
 interface Iprops {
   completeDefaultSetting: boolean;
 }

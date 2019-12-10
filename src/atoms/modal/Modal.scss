@@ -2,6 +2,9 @@
 
 // ⚠️ JDmodal 로 수정할수없음 
 .ReactModal {
+
+    overflow-x: hidden!important;
+
     // 모달 장막
     &__Overlay {
         display: flex;

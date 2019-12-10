@@ -5,11 +5,10 @@ import {
   updateHouseConfigVariables
 } from "../../../../types/api";
 import { IContext } from "../../../bookingHost/BookingHostRouter";
-import { useSwitch, useSelect, LANG } from "../../../../hooks/hook";
+import { useSelect, LANG } from "../../../../hooks/hook";
 import Button from "../../../../atoms/button/Button";
-import JDswitch from "../../../../atoms/forms/switch/Switch";
 import JDbox from "../../../../atoms/box/JDbox";
-import { PRICING_TYPE_OP_EXPEND } from "../../../../types/enum";
+import { PRICING_TYPE_OP_EXPEND } from "../../../../types/const";
 import JDselect from "../../../../atoms/forms/selectBox/SelectBox";
 
 interface IProps {

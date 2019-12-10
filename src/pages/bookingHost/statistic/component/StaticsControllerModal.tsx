@@ -5,7 +5,7 @@ import JDmodal from "../../../../atoms/modal/Modal";
 import { IUseModal, LANG } from "../../../../hooks/hook";
 import { IStaticsProps } from "../Statistic";
 import StaticIcons from "./StaticIcons";
-import { MODAL_MIN_WIDTH } from "../../../../types/enum";
+import { MODAL_MIN_WIDTH } from "../../../../types/const";
 
 interface Iprops {
   context: IContext;

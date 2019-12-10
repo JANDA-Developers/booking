@@ -24,18 +24,10 @@ import {
   onCompletedMessage,
   queryDataFormater
 } from "../../../../utils/utils";
-import {
-  PricingType,
-  RoomGender,
-  FLOATING_PRELOADER_SIZE
-} from "../../../../types/enum";
+import { PricingType, RoomGender } from "../../../../types/enum";
 import { IContext } from "../../../bookingHost/BookingHostRouter";
 import { getOperationName } from "apollo-link";
-import { createPortal } from "react-dom";
-import portalElement, {
-  PortalPreloader
-} from "../../../../utils/portalElement";
-import Preloader from "../../../../atoms/preloader/Preloader";
+import { PortalPreloader } from "../../../../utils/portalElement";
 import { JdFile } from "../../../../types/interface";
 
 class GetRoomTypeById extends Query<
