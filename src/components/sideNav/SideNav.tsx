@@ -162,8 +162,23 @@ const SideNav: React.FC<IProps> = ({ isOpen, setIsOpen, context }) => {
           icon: "book",
           label: LANG("solution_usage_guide"),
           disabled: disabledFlag
+        },
+        {
+          key: "frequent_questions",
+          to: "/frequent_questions",
+          icon: "question",
+          label: LANG("frequent_questions"),
+          disabled: disabledFlag
         }
       ]
+    },
+    // MY PAGE
+    {
+      key: "mypage",
+      label: LANG("mypage"),
+      disabled: disabledFlag,
+      icon: "person",
+      to: "/myPage"
     }
   ];
 

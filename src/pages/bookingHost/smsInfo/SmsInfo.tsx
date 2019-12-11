@@ -15,10 +15,7 @@ interface Iprops {
 const SmsInfo: React.FC<Iprops> = ({ context }) => {
   return (
     <div>
-      <PageHeader
-        desc={LANG("bookingList__desc")}
-        title={LANG("bookingList")}
-      />
+      <PageHeader desc={LANG("sms_info_decs")} title={LANG("sms_info")} />
       <PageBody>
         <PhotoFrame
           unStyle

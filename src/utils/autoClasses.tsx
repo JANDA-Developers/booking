@@ -14,13 +14,13 @@ import {
 const JDmrClass = (size?: TMarginSize | null) => {
   let obj: any = {};
   obj[`JDstandard-space0`] = size === "no";
-  obj[`JDstandard-superTiny`] = size === "tiny";
-  obj[`JDstandard-tiny`] = size === "tiny";
-  obj[`JDstandard-small`] = size === "small";
+  obj[`JDstandard-superTiny-space`] = size === "tiny";
+  obj[`JDstandard-tiny-space`] = size === "tiny";
+  obj[`JDstandard-small-space`] = size === "small";
   obj[`JDstandard-space`] = size === "normal";
-  obj[`JDstandard-large`] = size === "large";
-  obj[`JDstandard-huge`] = size === "huge";
-  obj[`JDstandard-largest`] = size === "largest";
+  obj[`JDstandard-large-space`] = size === "large";
+  obj[`JDstandard-huge-space`] = size === "huge";
+  obj[`JDstandard-largest-space`] = size === "largest";
 
   return obj;
 };

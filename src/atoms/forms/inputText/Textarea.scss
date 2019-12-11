@@ -10,9 +10,8 @@
   line-height: 140%;
   // General Styles
   background-color: transparent;
-  border: none;
-  border-bottom: $input-border;
-  border-radius: 0;
+  border: $input-border;
+  border-radius: $standard-border-radius;
   outline: none;
   height: $textarea-height;
   // 오토 height 으로 조절되는 높이중
@@ -23,7 +22,7 @@
   box-shadow: none;
   box-sizing: content-box;
   transition: $input-transition;
-  padding: 0rem 0 1.6rem 0;
+  padding: $standard-small-space;
   resize: none;
   
   //아래에있는 라벨을 위로 끌어올립니다
@@ -41,7 +40,7 @@
 
 
   &--doubleHeight {
-    height: $input-height *2!important;
+    height: $input-height *3!important;
   }
 
   &--halfHeight {
@@ -52,7 +51,7 @@
   &:disabled,
   &[readonly="readonly"] {
     color: $input-disabled-color;
-    border-bottom: $input-disabled-border;
+    border: $input-disabled-border;
   }
 
   // Disabled .JDinput_label style
@@ -63,8 +62,7 @@
 
   // Focused input style
   &:focus:not([readonly]) {
-    border-bottom: 1px solid $input-focus-color;
-    box-shadow: 0 1px 0 0 $input-focus-color;
+    @extend %input-focus-style;
   }
 
   // Focused .JDinput_label style
@@ -194,7 +192,7 @@
   .JDtextarea {
     box-sizing:border-box;
     margin-top: $textarea-margin-top;
-    height: calc(100% - #{$textarea-margin-top});
+    height: $input-height * 3;
     &:not(.JDtextarea--labeled) {
       margin-top:0px;
     }

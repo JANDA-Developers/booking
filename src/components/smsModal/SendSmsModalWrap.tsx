@@ -45,55 +45,55 @@ const SendSMSmodalWrap: React.FC<IProps> = ({ modalHook, context, mode }) => {
   const { _id: houseId } = house;
   const { autoSendWhen, callBackFn, bookingIds } = modalHook.info;
 
-  const memoResult = useMemo(
-    () => (
-      <SmsInfoQu
-        query={GET_SMS_INFO}
-        variables={{
-          houseId
-        }}
-      >
-        {({ data: smsData, loading }) => {
-          const smsInfo = queryDataFormater(
-            smsData,
-            "GetSmsInfo",
-            "smsInfo",
-            undefined
-          );
+  return (
+    <SmsInfoQu
+      query={GET_SMS_INFO}
+      variables={{
+        houseId
+      }}
+    >
+      {({ data: smsData, loading }) => {
+        const smsInfo = queryDataFormater(
+          smsData,
+          "GetSmsInfo",
+          "smsInfo",
+          undefined
+        );
 
-          return (
-            <SendSmsMu
-              onCompleted={({ SendSms }) => {
-                onCompletedMessage(
-                  SendSms,
-                  LANG("send_sms_complited"),
-                  LANG("send_sms_failed")
-                );
-                modalHook.closeModal();
-              }}
-              mutation={SEND_SMS}
-            >
-              {(sendSmsMu, { loading: sendSMSloading }) => (
-                <SendSmsModal
-                  context={context}
-                  loading={loading || sendSMSloading}
-                  smsInfo={smsInfo}
-                  bookingIds={bookingIds}
-                  callBackFn={callBackFn}
-                  autoSendWhen={autoSendWhen}
-                  sendSmsMu={sendSmsMu}
-                  modalHook={modalHook}
-                  mode={mode}
-                />
-              )}
-            </SendSmsMu>
-          );
-        }}
-      </SmsInfoQu>
-    ),
-    [modalHook.isOpen]
+        return (
+          <SendSmsMu
+            onCompleted={({ SendSms }) => {
+              onCompletedMessage(
+                SendSms,
+                LANG("send_sms_complited"),
+                LANG("send_sms_failed")
+              );
+              modalHook.closeModal();
+            }}
+            mutation={SEND_SMS}
+          >
+            {(sendSmsMu, { loading: sendSMSloading }) => (
+              <SendSmsModal
+                context={context}
+                loading={loading || sendSMSloading}
+                smsInfo={smsInfo}
+                bookingIds={bookingIds}
+                callBackFn={callBackFn}
+                autoSendWhen={autoSendWhen}
+                sendSmsMu={sendSmsMu}
+                modalHook={modalHook}
+                mode={mode}
+              />
+            )}
+          </SendSmsMu>
+        );
+      }}
+    </SmsInfoQu>
   );
-  return memoResult;
 };
 
-export default SendSMSmodalWrap;
+export default React.memo(
+  SendSMSmodalWrap,
+  (prevProp, nextProp) =>
+    prevProp.modalHook.isOpen === nextProp.modalHook.isOpen
+);

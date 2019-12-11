@@ -1,13 +1,16 @@
 // validation @extends
 
 %valid-input-style {
-    border-bottom: 1px solid $input-success-color;
-    box-shadow: 0 1px 0 0 $input-success-color;
+    border: 1px solid $input-success-color;
 }
 
 %invalid-input-style {
-    border-bottom: $input-invalid-border;
-    box-shadow: 0 1px 0 0 $input-error-color;
+    border: $input-invalid-border;
+}
+
+%input-focus-style {
+    border: 1px solid $input-focus-color;
+    @extend %z-depth-1;
 }
 
 %custom-success-message {

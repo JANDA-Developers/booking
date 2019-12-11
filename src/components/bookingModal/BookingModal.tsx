@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useMemo } from "react";
 import moment from "moment";
 import Modal, { JDtoastModal } from "../../atoms/modal/Modal";
 import {
@@ -110,9 +110,10 @@ const BookingModal: React.FC<IProps> = ({
   const memoHook = useInput(memo || "");
   const emailHook = useInput(email);
   const assigInfoDrawHook = useDrawer(mode === "CREATE_ASSIG");
-  const roomSelectInfo = getRoomSelectInfo(
-    bookingData.guests,
-    bookingData.roomTypes || []
+  // 아래 메모 목적은 인풋이 바뀔떄마다 바뀌는걸 막기위함임
+  const roomSelectInfo = useMemo(
+    () => getRoomSelectInfo(bookingData.guests, bookingData.roomTypes || []),
+    [bookingData]
   );
   const [assigInfo, setAssigInfo] = useState(makeAssigInfo(guests));
   const [drawers, setDrawers] = useState({
@@ -213,9 +214,7 @@ const BookingModal: React.FC<IProps> = ({
       const result = await startBookingMu({
         variables: bookingModalGetStartBookingVariables(bookingModalContext)
       });
-      if (muResult(result, "StartBooking")) {
-        callBackStartBooking();
-      }
+      if (muResult(result, "StartBooking")) callBackStartBooking();
     } catch (error) {
       modalHook.closeModal();
     }
@@ -291,6 +290,7 @@ const BookingModal: React.FC<IProps> = ({
                 disabled={allReadOnly}
                 {...bookingNameHook}
                 label={LANG("booker")}
+                placeholder={LANG("booker")}
               />
               <InputText
                 disabled={allReadOnly}
@@ -298,6 +298,7 @@ const BookingModal: React.FC<IProps> = ({
                 validation={isPhone}
                 hyphen
                 label={LANG("phoneNumber")}
+                placeholder={LANG("phoneNumber")}
                 icon="sms"
                 iconHover
                 iconOnClick={handleSmsIconClick}
@@ -366,6 +367,7 @@ const BookingModal: React.FC<IProps> = ({
                   .local()
                   .format(DateFormat.WITH_TIME)}
                 label={LANG("reservation_date")}
+                placeholder={LANG("reservation_date")}
               />
             </div>
           </div>

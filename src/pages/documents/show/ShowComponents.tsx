@@ -254,6 +254,13 @@ function ShowComponents() {
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
               <InputText label="disabled" disabled />
             </div>
+            <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
+              <InputText
+                label="disabled"
+                isValid={false}
+                falseMessage="this input is inValid"
+              />
+            </div>
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6" />
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6" />
           </div>

@@ -3,9 +3,9 @@ import Select from "react-select";
 import "./SelectBox.scss";
 import PropTypes from "prop-types";
 import classNames from "classnames";
-import {SelectComponentsProps} from "react-select/lib/Select";
-import {isEmpty} from "../../../utils/utils";
-import {LANG} from "../../../hooks/hook";
+import { SelectComponentsProps } from "react-select/lib/Select";
+import { isEmpty } from "../../../utils/utils";
+import { LANG } from "../../../hooks/hook";
 
 export interface IselectedOption<T = any> {
   label: string;
@@ -129,4 +129,4 @@ JDselect.defaultProps = {
   props: {}
 };
 
-export default JDselect;
+export default React.memo(JDselect);

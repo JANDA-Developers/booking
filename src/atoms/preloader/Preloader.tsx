@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import React from "react";
+import React, { useMemo } from "react";
 import classNames from "classnames";
 import "./Preloader.scss";
 import JDanimation, { Animation } from "../animation/Animations";
@@ -100,4 +100,4 @@ const JDpreloader: React.FC<IPreloaderConfigProps> = ({
   return returnFn();
 };
 
-export default JDpreloader;
+export default React.memo(JDpreloader, () => false);

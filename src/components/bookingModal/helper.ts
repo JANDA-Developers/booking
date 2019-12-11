@@ -12,6 +12,7 @@ import { LANG } from "../../hooks/hook";
 import { IModalSMSinfo } from "../smsModal/SendSmsModalWrap";
 import guestsToInput from "../../utils/typeChanger";
 import { to4YMMDD } from "../../utils/setMidNight";
+import { isDomitoryGuest } from "../../utils/interfaceMatch";
 
 export const bookingModalValidate = (
   bookingModalContext: IBookingModalContext,
@@ -102,13 +103,7 @@ export const makeAssigInfo = (
 ): IBookingModal_AssigInfo[] =>
   guests
     ? guests.map(guest => {
-        if (
-          instanceOfA<getBooking_GetBooking_booking_guests_GuestDomitory>(
-            guest,
-            "gender",
-            true
-          )
-        ) {
+        if (isDomitoryGuest(guest)) {
           return {
             _id: guest._id,
             roomId: inOr(guest.room, "_id", ""),
@@ -147,40 +142,27 @@ export const bookingModalGetStartBookingVariables = (
     funnelStatusHook
   } = bookingModalContext;
 
-  console.log("assigInfo");
-  console.log(assigInfo);
-
   // 예약자가 변경한 성별사항을 적용한 임시 게스트정보 생성
   const getGenderChangedGuest = (): getBooking_GetBooking_booking_guests[] => {
+    if (!guests) return [];
+
     if (mode === "CREATE_ASSIG") {
-      if (guests) {
-        return guests.map(guest => {
-          const copyGuest = guest;
-          assigInfo.forEach(info => {
-            if (
-              instanceOfA<getBooking_GetBooking_booking_guests_GuestDomitory>(
-                copyGuest,
-                "gender"
-              )
-            ) {
-              if (copyGuest._id === info._id) {
-                copyGuest.gender = info.gender;
-              }
-            }
-          });
-          return copyGuest;
+      return guests.map(guest => {
+        const copyGuest = guest;
+
+        assigInfo.forEach(info => {
+          if (isDomitoryGuest(copyGuest) && copyGuest._id === info._id)
+            copyGuest.gender = info.gender;
         });
-      }
-    } else if (guests) {
-      return guests;
+        return copyGuest;
+      });
     }
-    return [];
+
+    return guests;
   };
 
   // 게스트들을 룸타입별로 정렬
   const guestsToInputs = guestsToInput(guests ? getGenderChangedGuest() : []);
-
-  console.log(guestsToInputs);
 
   const allocationParams = assigInfo.map(info => ({
     bedIndex: info.bedIndex,

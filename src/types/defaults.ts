@@ -20,6 +20,9 @@ import {
   Gender
 } from "./enum";
 
+console.log("LANG");
+console.log(LANG);
+
 import {
   getBooking_GetBooking_booking_roomTypes,
   getSmsInfo_GetSmsInfo_smsInfo_smsTemplates,
@@ -175,12 +178,12 @@ export const DEFAULT_PRODUCT: getSpecification_GetHouse_house_product = {
   layoutPrice: null,
   layoutPricePaid: false,
   layoutType: LayoutType.Layout_A,
-  name: LANG("none_product") as any,
+  name: "",
   price: 0,
   productType: {
     __typename: "ProductType",
     _id: "",
-    name: LANG("none_product") as any
+    name: ""
   },
   updatedAt: ""
 };

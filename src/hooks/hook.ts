@@ -5,7 +5,8 @@ import {
   useRef,
   ChangeEvent,
   Dispatch,
-  SetStateAction
+  SetStateAction,
+  useCallback
 } from "react";
 import Axios from "axios";
 import { IselectedOption } from "../atoms/forms/selectBox/SelectBox";
@@ -156,6 +157,8 @@ const useImageUploader = (
     if (isVideo) file = uriOrFile as File;
     else file = new File([uriOrFile], fileName!, { type: fileType });
 
+    console.info("upload file parameter");
+    console.log(file);
     const result = await uploadMutation({ variables: { file } });
 
     if (muResult(result, "SingleUpload")) setFileView(result);
@@ -173,8 +176,6 @@ const useImageUploader = (
     if (!validity || !files || files.length !== 1 || !files[0]) return;
 
     const file = files[0];
-    console.log("file");
-    console.log(file);
     const isVideo = file.type.includes("video");
 
     if (isVideo) {
@@ -255,13 +256,13 @@ function useInput<T = string>(
   const [value, setValue] = useState(defaultValue);
   const [isValid, setIsValid] = useState(defulatValid);
 
-  const onChange = (value: any) => {
+  const onChange = useCallback((value: any) => {
     setValue(value);
-  };
+  }, []);
 
-  const onChangeValid = (value: boolean | string) => {
+  const onChangeValid = useCallback((value: boolean | string) => {
     setIsValid(value);
-  };
+  }, []);
 
   return {
     value,
@@ -310,11 +311,11 @@ function useDayPicker(
   const [entered, setEntered] = useState<Date | null>(toTemp);
   const [to, setTo]: any = useState<Date | null>(toTemp);
 
-  const setDate = (date: Date) => {
+  const setDate = useCallback((date: Date) => {
     setFrom(date);
     setEntered(date);
     setTo(date);
-  };
+  }, []);
 
   return {
     from,
@@ -425,9 +426,9 @@ function useSelect<V = any>(
 ): IUseSelect<V> {
   const [selectedOption, setSelectedOption] = useState(defaultValue);
 
-  const onChange = (value: IselectedOption<V>) => {
+  const onChange = useCallback((value: IselectedOption<V>) => {
     setSelectedOption(value);
-  };
+  }, []);
 
   return { selectedOption, onChange };
 }
@@ -455,10 +456,13 @@ function useSideNav(): IUseSideNav {
   defaultValue = navRecord === "Y";
   const [sideNavIsOpen, setOpen] = useState(defaultValue);
 
-  const setSideNavIsOpen = (flag?: boolean) => {
-    localStorage.setItem("JDsideOpen", sideNavIsOpen ? "N" : "Y");
-    setOpen(flag ? flag : !sideNavIsOpen);
-  };
+  const setSideNavIsOpen = useCallback(
+    (flag?: boolean) => {
+      localStorage.setItem("JDsideOpen", sideNavIsOpen ? "N" : "Y");
+      setOpen(flag ? flag : !sideNavIsOpen);
+    },
+    [sideNavIsOpen]
+  );
 
   return { sideNavIsOpen, setSideNavIsOpen };
 }

@@ -198,6 +198,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
           <div className="flex-grid">
             <div className="flex-grid__col col--full-6 col--lg-6 col--md-12">
               <InputText
+                placeholder={LANG("room_type_name")}
                 label={LANG("room_type_name")}
                 value={value.name}
                 onChange={(inValue: any) => {

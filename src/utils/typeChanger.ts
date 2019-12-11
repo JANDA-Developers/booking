@@ -17,6 +17,7 @@ import { Gender } from "../types/enum";
 import _ from "lodash";
 import { GB_booking } from "../types/interface";
 import { IRoomSelectInfo } from "../components/bookingModal/declaration";
+import { isDomitoryGuest } from "./interfaceMatch";
 
 interface propRoomType {
   _id: string;
@@ -42,7 +43,6 @@ export const divisionRoomSelectInfo = (
   guests: getBooking_GetBooking_booking_guests[];
   roomTypes: getBooking_GetBooking_booking_roomTypes[];
 } => {
-
   // 게스트정보 일부 + 방선택정보  => 게스트 정보
   const generateGuest = (
     roomSelectInfo: IRoomSelectInfo,
@@ -65,7 +65,6 @@ export const divisionRoomSelectInfo = (
   const roomTypes: getBooking_GetBooking_booking_roomTypes[] = [];
 
   roomSelectInfoes.forEach(roomSelectInfo => {
-
     // 템프
     let i_female = 0;
     let i_male = 0;
@@ -126,9 +125,8 @@ export const getRoomSelectInfo = (
       DEFAULT_ROOMTYPE;
 
     // 중복체크
-    if (roomTypesBuffer.includes(guestRoomType._id)) {
-      return "duplicate";
-    }
+    if (roomTypesBuffer.includes(guestRoomType._id)) return "duplicate";
+
     // 메모리에 접수
     roomTypesBuffer.push(guestRoomType._id);
 
@@ -207,35 +205,17 @@ const guestsToInput = (
       countFemale: 0,
       countMale: 0
     };
+
     guestsInRoom.forEach(guest => {
-      if (
-        instanceOfA<getBooking_GetBooking_booking_guests_GuestDomitory>(
-          guest,
-          "gender",
-          true
-        )
-      ) {
-        if (guest.gender === Gender.FEMALE) {
-          countInDomitory.countFemale++;
-        } else {
-          countInDomitory.countMale++;
-        }
-      } else if (
-        !instanceOfA<getBooking_GetBooking_booking_guests_GuestDomitory>(
-          guest,
-          "gender",
-          true
-        )
-      ) {
-        countInRoom.countRoom++;
-      }
+      if (isDomitoryGuest(guest)) {
+        if (guest.gender === Gender.FEMALE) countInDomitory.countFemale++;
+        else countInDomitory.countMale++;
+      } else countInRoom.countRoom++;
     });
-    if (countInRoom.countRoom) {
-      countInRooms.push(countInRoom);
-    }
-    if (countInDomitory.countFemale + countInDomitory.countMale) {
-      countInDomitorys.push(countInDomitory);
-    }
+
+    const isDomitory = countInRoom.countRoom === 0;
+    if (isDomitory) countInDomitorys.push(countInDomitory);
+    else countInRooms.push(countInRoom);
   });
 
   return {

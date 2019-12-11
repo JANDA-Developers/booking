@@ -15,7 +15,9 @@ const PageHeader: React.FC<Iprops> = ({ title, desc }) => {
           <JDIcon size="largest" icon="quoteLeft" />
         </span>
         <div>
-          <h3 className="PageHeader__title">{title}</h3>
+          <h3 className="PageHeader__title">
+            <b>{title}</b>
+          </h3>
           <span className="PageHeader__desc">{desc}</span>
         </div>
         <span className="PageHeader__quotoes">

@@ -55,9 +55,11 @@ interface IProps extends React.AllHTMLAttributes<HTMLInputElement> {
   returnNumber?: boolean;
   allWaysShowValidMessage?: boolean;
   className?: string;
+  unValidMessage?: string;
   wrapClassName?: string;
   maxLength?: number;
   minLength?: number;
+  falseMessage?: string;
   sizes?: string;
   mr?: TMarginSize;
   mb?: TMarginSize;
@@ -89,6 +91,7 @@ const InputText: React.FC<IProps> = ({
   overfloweEllipsis,
   allWaysShowValidMessage,
   icon,
+  unValidMessage,
   iconOnClick,
   textAlign,
   iconHover,
@@ -100,6 +103,7 @@ const InputText: React.FC<IProps> = ({
   comma,
   mr,
   mb,
+  falseMessage,
   ...props
 }) => {
   const [selfValid, setSelfValid] = useState<boolean | "">("");
@@ -210,18 +214,6 @@ const InputText: React.FC<IProps> = ({
         />
       )}
       <div className="JDinput__inside-wrap">
-        {icon ? (
-          <span className="JDinput-iconWrap">
-            {icon && (
-              <JDicon
-                size={"normal"}
-                onClick={iconOnClick}
-                hover={iconHover}
-                icon={icon}
-              />
-            )}
-          </span>
-        ) : null}
         <input
           onChange={inHandleChange}
           disabled={disabled}
@@ -235,6 +227,24 @@ const InputText: React.FC<IProps> = ({
           maxLength={card ? 19 : undefined}
           {...props}
         />
+        {icon ? (
+          <span className="JDinput-iconWrap">
+            {icon && (
+              <JDicon
+                size={"normal"}
+                onClick={iconOnClick}
+                hover={iconHover}
+                icon={icon}
+              />
+            )}
+          </span>
+        ) : null}
+        {falseMessage && (
+          <span className="JDinput__falseMessage">
+            <JDicon mr="tiny" mb="no" color="error" icon="info" />{" "}
+            {falseMessage}
+          </span>
+        )}
       </div>
     </div>
   ) : (
@@ -286,4 +296,4 @@ InputText.defaultProps = {
   value: undefined
 };
 
-export default ErrProtecter(InputText);
+export default React.memo(InputText);

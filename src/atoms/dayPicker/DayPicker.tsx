@@ -283,4 +283,4 @@ const JDdayPicker: React.FC<IJDdayPickerProps> = ({
   );
 };
 
-export default JDdayPicker;
+export default React.memo(JDdayPicker);

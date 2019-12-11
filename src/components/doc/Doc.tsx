@@ -15,7 +15,9 @@ const DocHeader: React.FC = ({ children }) => {
   return (
     <div className="JDdocHeader">
       <h4>
-        <span className="">{children}</span>
+        <b>
+          <span className="">{children}</span>
+        </b>
       </h4>
     </div>
   );

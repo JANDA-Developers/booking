@@ -139,6 +139,11 @@ a.JDanchor {
     justify-content: space-around;
 }
 
+.JDflex--column {
+    display:flex;
+    flex-direction: column;
+}
+
 .JDflex--center {
     display:flex;
     justify-content: center;

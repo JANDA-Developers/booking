@@ -22,32 +22,39 @@
 //  😄 인풋라인에 아이콘 맞춰줌 
 .JDinput-iconWrap{
   position: absolute;
-  right: 0.25em;
+  right: $input-side-padding;
   height: 100%;
   display: flex;
+  top: 0;
   align-items: center;
-  top: -0.4rem; //보정상수
-
+  
   .JDicon__svg {
     top:unset;
   }
 }
 
 .JDinput {
+
   margin:0;
-  padding:0;
+  border-radius: $standard-border-radius;
+  padding:$input-padding;
   background-color: transparent;
-  border: none;
-  border-bottom: $input-border;
-  border-radius: 0;
+  border: 1px solid $outborder-color;
+  border-bottom: $input-border-bottom;
   outline: none;
-  height: 100%;
+  height: $input-height;
   width: 100%;
   font-size: $input-font-size;
   box-shadow: none;
   box-sizing: border-box;
   transition: $input-transition;
 
+
+  &__falseMessage {
+    display:flex;
+    font-size: 1rem;
+    color: $error-color;
+  }
 
   &__inside-wrap {
     position: relative;
@@ -79,7 +86,7 @@
   // Disabled input style
   &:disabled {
     color: $input-disabled-color;
-    border-bottom: $input-disabled-border;
+    border: $input-disabled-border;
   }
 
   // Disabled .JDinput_label style
@@ -88,9 +95,13 @@
   }
 
   // Focused input style
+  &:focus {
+   & ~ .JDinput-iconWrap {
+      color: $html-color;
+    } 
+  }
   &:focus:not([readonly]) {
-    border-bottom: 1px solid $input-focus-color;
-    box-shadow: 0 1px 0 0 $input-focus-color;
+     @extend %input-focus-style;
   }
 
   // Focused .JDinput_label style

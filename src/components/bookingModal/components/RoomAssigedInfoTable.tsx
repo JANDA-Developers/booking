@@ -110,4 +110,4 @@ const RoomAssigedInfoTable: React.FC<Iprops> = ({
   );
 };
 
-export default RoomAssigedInfoTable;
+export default React.memo(RoomAssigedInfoTable);

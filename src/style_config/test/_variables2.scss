@@ -120,8 +120,8 @@ $standard-label-margin : $standard-tiny-space !default;
 
 // ⭐️ InputText, SelectBox 등등 대부분의 원소 구성요서 들의 세로 크기를 의미합니다.
 // 크기를 규격화 해서 한 라인으로 세울수 있도록 합니다.
-$standard-border-radius: 5px !default;
-$standard-line-height: 0.25rem * 9 !default; 
+$standard-border-radius: 3px !default;
+$standard-line-height: 0.25rem * 10 !default; 
 $standard-input-outborder-color: $outborder-color !default;
 
 // 💔 -- BreackPoints 브레이크 포인트
@@ -180,11 +180,15 @@ $label-font-color: $grey-text-color !default;
 // -- Text Inputs + Textarea 인풋
 $input-outborder-color: $outborder-color;
 $input-height: $standard-line-height!default;
+$input-background: transparent!default;
 $input-border: 1px solid $input-outborder-color !default;
+$input-border-bottom: undefined;
 $input-error-color: $error-color !default;
 $input-success-color: none !default;
 $input-focus-color: $primary-color-light !default;
 $input-font-size: $typho-normal !default;
+$input-side-padding: $standard-small-space !default;
+$input-padding: 0px $standard-small-space !default;
 
 $input-transition: all 0.3s !default;
 $input-disabled-color: $disabled-color!default;
@@ -210,7 +214,7 @@ $select-option-selected-bgcolor: $primary-color !default;
 $select-option-hover-bgcolor: $hover-effect-dark !default;
 $select-option-padding: 0rem $standard-small-space !default;
 $select-option-height: $standard-line-height !default;
-$select-padding: 2px .5rem !default;
+$select-padding: $input-padding !default;
 $select-radius: $standard-border-radius !default;
 $select-disabled-color: $disabled-color !default;
 $select-menue-radius: $standard-border-radius !default;
