@@ -5,7 +5,12 @@ import {
 } from "../../types/api";
 import { instanceOfA } from "../../utils/utils";
 import { inOr } from "../../utils/C";
-import { Gender, PaymentStatus, AutoSendWhen } from "../../types/enum";
+import {
+  Gender,
+  PaymentStatus,
+  AutoSendWhen,
+  PricingType
+} from "../../types/enum";
 import { IBookingModal_AssigInfo, IBookingModalContext } from "./declaration";
 import { toast } from "react-toastify";
 import { LANG } from "../../hooks/hook";
@@ -102,17 +107,13 @@ export const makeAssigInfo = (
 ): IBookingModal_AssigInfo[] =>
   guests
     ? guests.map(guest => {
-        if (
-          instanceOfA<getBooking_GetBooking_booking_guests_GuestDomitory>(
-            guest,
-            "gender",
-            true
-          )
-        ) {
+        if (guest.pricingType === PricingType.DOMITORY) {
           return {
             _id: guest._id,
             roomId: inOr(guest.room, "_id", ""),
+            // @ts-ignore
             gender: guest.gender || Gender.MALE,
+            // @ts-ignore
             bedIndex: guest.bedIndex,
             pricingType: guest.pricingType
           };
@@ -150,35 +151,32 @@ export const bookingModalGetStartBookingVariables = (
   // 예약자가 변경한 성별사항을 적용한 임시 게스트정보 생성
   const getGenderChangedGuest = (): getBooking_GetBooking_booking_guests[] => {
     if (mode === "CREATE_ASSIG") {
-      if(guests) {
-      return guests.map(guest => {
-        const copyGuest = guest;
-        assigInfo.forEach(info => {
-          if (
-            instanceOfA<getBooking_GetBooking_booking_guests_GuestDomitory>(
-              copyGuest,
-              "gender"
-            )
-          ) {
-            if (copyGuest._id === info._id) {
-              copyGuest.gender = info.gender;
+      if (guests) {
+        return guests.map(guest => {
+          const copyGuest = guest;
+          assigInfo.forEach(info => {
+            if (
+              instanceOfA<getBooking_GetBooking_booking_guests_GuestDomitory>(
+                copyGuest,
+                "gender"
+              )
+            ) {
+              if (copyGuest._id === info._id) {
+                copyGuest.gender = info.gender;
+              }
             }
-          }
+          });
+          return copyGuest;
         });
-        return copyGuest;
-      });
-    }
-  } else if(guests) {
+      }
+    } else if (guests) {
       return guests;
-  } 
+    }
     return [];
   };
 
-
-
   // 게스트들을 룸타입별로 정렬
   const guestsToInputs = guestsToInput(guests ? getGenderChangedGuest() : []);
-
 
   console.log(guestsToInputs);
 
