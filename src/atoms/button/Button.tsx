@@ -11,7 +11,7 @@ import { JDmbClass, JDmrClass } from "../../utils/autoClasses";
 import { JDatomExtentionSet } from "../../types/interface";
 import { IIcons } from "../icons/declation";
 
-interface IProps
+export interface IButtonProps
   extends React.HTMLAttributes<HTMLButtonElement>,
     JDatomExtentionSet {
   disabled?: boolean;
@@ -22,7 +22,7 @@ interface IProps
   dataTip?: any;
   dataFor?: any;
   mode?: "flat" | "normal" | "border";
-  size?: "small" | "large" | "long" | "longLarge";
+  size?: "tiny" | "small" | "large" | "long" | "longLarge";
   flat?: boolean;
   float?: string;
   type?: "button" | "submit" | "reset" | undefined;
@@ -39,7 +39,7 @@ interface IProps
   redirect?: string;
 }
 
-const Button: React.FC<IProps> = ({
+const Button: React.FC<IButtonProps> = ({
   disabled,
   label,
   icon,
@@ -71,6 +71,7 @@ const Button: React.FC<IProps> = ({
   const classes = classNames("JDbtn", className, {
     "JDbtn--flat": mode === "flat" || flat,
     "JDbtn--small": size === "small",
+    "JDbtn--tiny": size === "tiny",
     "JDbtn--large": size === "large" || size === "longLarge",
     "JDbtn--long": size === "long" || size === "longLarge",
     "JDbtn--border": mode === "border",

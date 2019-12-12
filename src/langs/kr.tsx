@@ -3,6 +3,7 @@ import Mbr from "../atoms/mbr/Mbr";
 import TextButton from "../atoms/textButton/TextButton";
 import JDlist from "../atoms/list/List";
 import PhotoFrame from "../atoms/photoFrame/PhotoFrame";
+import { IMG_REPO } from "../types/const";
 
 export const kr = {
   Apply: "적용",
@@ -961,7 +962,7 @@ export const kr = {
         </div>,
         <div>
           <PhotoFrame
-            src={`https://s3.ap-northeast-2.amazonaws.com/booking.stayjanda.statichosting/static/media/smsInfo/smsinfo_img_01--kr.png`}
+            src={`https://s3.ap-northeast-2.amazonaws.com/booking.stayjanda.files/booking_app/describe/smsinfo_img_01.png`}
           />
         </div>,
         <div>
@@ -1026,5 +1027,9 @@ export const kr = {
   solution_specification: "솔루션 명세서",
   noti_config: "알람설정",
   memo_manage: "메모관리",
-  house_detail_config: "하우스 세부설정"
+  house_detail_config: "하우스 세부설정",
+  frequent_questions: "자주하는 질문",
+  mypage_profile_desc: "회원정보를 수정할수 있습니다.",
+  mypage_houses_desc: "보유중인 숙소를 관리할수 있습니다.",
+  show_detail: "자세히보기"
 };

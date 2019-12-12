@@ -5,6 +5,7 @@ import Icon from "../../../../../atoms/icons/Icons";
 import { IUseModal, LANG } from "../../../../../hooks/hook";
 import JDlist from "../../../../../atoms/list/List";
 import JDbox from "../../../../../atoms/box/JDbox";
+import JDboxHeader from "../../../../../atoms/box/components/JDboxHeader";
 
 interface IProps {
   houseModal: IUseModal;
@@ -22,14 +23,14 @@ const MyHouse: React.SFC<IProps> = ({
 }) => (
   <Fragment>
     <JDbox
+      mode="border"
       clickable
       className="myHouseCard"
       onClick={() => houseModal.openModal({ houseId: id, productId: id })}
     >
       <div className="myHouse">
         <span className="myHouse__title">
-          <h6 className="JDstandard-margin-bottom">{title}</h6>
-          <span className="myHouse__purchaseProduct">{purchaseProduct}</span>
+          <JDboxHeader title={title} desc={purchaseProduct} />
         </span>
         <JDlist
           marginBottom="short"

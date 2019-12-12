@@ -2,7 +2,8 @@ import classNames from "classnames";
 import React from "react";
 import ErrProtecter from "../../utils/errProtect";
 import "./Card.scss";
-import { IDiv } from "../../types/interface";
+import { IDiv, JDatomExtentionSet } from "../../types/interface";
+import { JDmbClass, JDmrClass } from "../../utils/autoClasses";
 
 interface IProps extends IDiv {
   children?: JSX.Element[] | JSX.Element | string;
@@ -18,7 +19,7 @@ interface IProps extends IDiv {
 
 export interface CardProps extends IProps {}
 
-const JDcard: React.FC<IProps> = ({
+const JDcard: React.FC<IProps & JDatomExtentionSet> = ({
   children,
   hover,
   align,
@@ -28,6 +29,8 @@ const JDcard: React.FC<IProps> = ({
   fullWidth,
   selected,
   noMargin,
+  mb,
+  mr,
   ...props
 }) => {
   const classes = classNames("JDcard", className, {
@@ -37,7 +40,9 @@ const JDcard: React.FC<IProps> = ({
     "JDcard--fullHeight": fullHeight,
     "JDcard--fullWidth": fullWidth,
     "JDcard--noMargin": noMargin,
-    "JDcard--center": align === "center"
+    "JDcard--center": align === "center",
+    ...JDmbClass(mb),
+    ...JDmrClass(mr)
   });
 
   const handleClickCard = () => {
@@ -55,4 +60,4 @@ JDcard.defaultProps = {
   hover: false
 };
 
-export default ErrProtecter<IProps>(JDcard);
+export default JDcard;

@@ -14,7 +14,7 @@
     position: sticky;
     top: $header-height;
 
-    @extend %z-depth-2;
+    @extend %z-depth-1;
 
     @include response($phablet) {
         position:fixed;

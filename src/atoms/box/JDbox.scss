@@ -4,6 +4,7 @@
 
 @import './box_tables';
 @import './box_photo';
+@import './components/boxHeader';
 
 
 #root,.ReactModalPortal {
@@ -19,6 +20,9 @@
             cursor: pointer;
             &:hover {
                 background-color: $grey-level2;
+                .JDboxHeader {
+                    border-color: $grey-level2;
+                }
             }
         }
 
@@ -75,7 +79,7 @@
         }
 
         &--border {
-            background-color: transparent!important;
+            background-color: transparent;
             border-radius: $standard-border-radius;
             padding: $standard-small-space;
             border: $box-border;
@@ -87,6 +91,12 @@
 
             .JDlabel {
                 margin-bottom: $standard-tiny-space;
+            }
+
+            &.JDbox--clickable {
+                &:hover {
+                    background-color: $grey-level1;
+                }
             }
         }
         

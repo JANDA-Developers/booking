@@ -155,10 +155,9 @@ const JDsearchInput: React.FC<IProps> = ({
   };
 
   // Handler - 인풋 : onChange
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    if (filter) setList(e.target.value);
-    onTypeChange && onTypeChange(e.target.value);
+  const handleChange = (v: any) => {
+    if (filter) setList(v);
+    onTypeChange && onTypeChange(v);
   };
 
   // Handler - 인풋 : onFocus
@@ -225,18 +224,21 @@ const JDsearchInput: React.FC<IProps> = ({
       {label && <JDLabel txt={label} />}
       <div className="JDsearchInput__input_wrapper">
         <div className="JDsearchInput__innerWrap">
-          <input
+          <InputText
             {...props}
+            defaultValue={props.defaultValue}
             onFocus={handleOnFocus}
             onBlur={handleOnBlur}
             onKeyDown={handleOnKeyPress}
-            ref={inputRef}
+            refContainer={inputRef}
             className="JDsearchInput__input"
             onChange={handleChange}
             placeholder={placeholder}
             value={onTypeValue}
+            icon="magnifier"
+            loading={isLoading || false}
           />
-          <span
+          {/* <span
             tabIndex={0}
             role="button"
             onClick={handleOnSearchClick}
@@ -245,7 +247,7 @@ const JDsearchInput: React.FC<IProps> = ({
           >
             <Preloader noAnimation loading={isLoading || false} />
             {isLoading || <Icon hover icon="magnifier" />}
-          </span>
+          </span> */}
         </div>
         {feedBackMessage && (
           <span className="JDsearchInput__feedBack">{`${feedBackMessage}`}</span>

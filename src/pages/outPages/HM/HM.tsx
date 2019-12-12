@@ -19,6 +19,7 @@ import { JdFile } from "../../../types/interface";
 import LangViewModal from "../../bookingHost/HMconfig/component/LangViewModal";
 import { IMenusprops } from "../../bookingHost/HMconfig/component/Menus";
 import JDmenuTitle from "../../../atoms/menu/components/MenuTitle";
+import { IMG_REPO } from "../../../types/const";
 
 interface IProps extends IMenusprops {
   bgData?: JdFile | null;
@@ -59,7 +60,7 @@ const HMcompoent: React.FC<IProps> = ({
               <Fragment>
                 <div
                   style={{
-                    backgroundImage: `url(${bgData ? bgData.url : ""})`
+                    backgroundImage: `url(${bgData ? bgData.url : ``})`
                   }}
                   className="HM__bg"
                 />

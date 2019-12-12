@@ -1,6 +1,9 @@
 import React from "react";
 import { IContext } from "../../../../BookingHostRouter";
-import Vtable, { TVtableColumns } from "../../../../../../atoms/vtable/Vtable";
+import Vtable, {
+  VtableColumn,
+  VtableCell
+} from "../../../../../../atoms/vtable/Vtable";
 import { LANG, useModal } from "../../../../../../hooks/hook";
 import Button from "../../../../../../atoms/button/Button";
 import { getMyProfile_GetMyProfile_user_paymentInfos } from "../../../../../../types/api";
@@ -48,35 +51,6 @@ const PeriodicalSignCard: React.FC<Iprops> = ({ context }) => {
     return isLive ? LANG("approved") : LANG("need_regist");
   })();
 
-  const priceTable: TVtableColumns[] = [
-    {
-      label: [LANG("product_info"), LANG("current_status")],
-      content: [productName, currentStatus]
-    },
-    {
-      label: [LANG("method_of_payment"), LANG("periodical_sign_date")],
-      content: [
-        billKey ? "card" : LANG("un_registed"),
-        moment(authDate).format(DateFormat.YYMMDD)
-      ]
-    },
-    {
-      label: [LANG("payment_information"), ""],
-      content: [
-        `${cardName}:${card_space(cardNo)}`,
-        <Button
-          mode="border"
-          onClick={() => {
-            // 1. 카드 등록이 안된경우
-            // 2. 카드 등록은 했지만 결제등록이 안된경우
-            billPayChangeModalHook.openModal();
-          }}
-          label={LANG("change_periodical_change")}
-        />
-      ]
-    }
-  ];
-
   return (
     <div className="periodicalSignCard">
       {/* 헤더 */}
@@ -106,11 +80,40 @@ const PeriodicalSignCard: React.FC<Iprops> = ({ context }) => {
           </h1>
         </div>
         <div className="flex-grid__col col--full-8">
-          <Vtable
-            border="none"
-            className="periodicalSignCard__infoTable"
-            columns={priceTable}
-          />
+          <Vtable border="none" className="periodicalSignCard__infoTable">
+            <VtableColumn>
+              <VtableCell label={LANG("product_info")}>
+                {productName}
+              </VtableCell>
+              <VtableCell label={LANG("current_status")}>
+                {currentStatus}
+              </VtableCell>
+            </VtableColumn>
+            <VtableColumn>
+              <VtableCell label={LANG("method_of_payment")}>
+                {billKey ? "card" : LANG("un_registed")}
+              </VtableCell>
+              <VtableCell label={LANG("periodical_sign_date")}>
+                {moment(authDate).format(DateFormat.YYMMDD)}
+              </VtableCell>
+            </VtableColumn>
+            <VtableColumn>
+              <VtableCell label={LANG("payment_information")}>
+                {cardName}:{card_space(cardNo)}
+              </VtableCell>
+              <VtableCell label={""}>
+                <Button
+                  mode="border"
+                  onClick={() => {
+                    // 1. 카드 등록이 안된경우
+                    // 2. 카드 등록은 했지만 결제등록이 안된경우
+                    billPayChangeModalHook.openModal();
+                  }}
+                  label={LANG("change_periodical_change")}
+                />
+              </VtableCell>
+            </VtableColumn>
+          </Vtable>
         </div>
       </div>
       <BillPayChangeModal

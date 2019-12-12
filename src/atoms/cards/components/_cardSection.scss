@@ -1,0 +1,6 @@
+.cardSection {
+    margin-bottom: $doc-section-space;
+    &:last-child {
+        margin-bottom: 0;
+    }
+}

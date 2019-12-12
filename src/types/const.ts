@@ -28,7 +28,7 @@ export const LANGUAGE_LIST: Language[] = [
 ];
 
 export const IMG_REPO =
-  "https://s3.ap-northeast-2.amazonaws.com/booking.stayjanda.statichosting/static/media/";
+  "https://s3.ap-northeast-2.amazonaws.com/booking.stayjanda.files/";
 
 export const WeekArrKr = ["일", "월", "화", "수", "목", "금", "토"];
 export const WeekArrEn = [

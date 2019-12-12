@@ -22,7 +22,7 @@ const SmsInfo: React.FC<Iprops> = ({ context }) => {
           type=".png"
           context={context}
           langPic
-          src={IMG_REPO + `smsInfo/smsinfo_img_02`}
+          src={IMG_REPO + `booking_app/describe/smsinfo_img_02`}
         />
         <Doc>
           <DocSection>

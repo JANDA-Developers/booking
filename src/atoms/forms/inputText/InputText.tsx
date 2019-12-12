@@ -17,6 +17,7 @@ import $ from "jquery";
 import JDlabel from "../../label/JDLabel";
 import { JDmrClass, JDmbClass } from "../../../utils/autoClasses";
 import { IIcons } from "../../icons/declation";
+import Preloader from "../../preloader/Preloader";
 
 // @ts-ignore
 interface IProps extends React.AllHTMLAttributes<HTMLInputElement> {
@@ -46,12 +47,13 @@ interface IProps extends React.AllHTMLAttributes<HTMLInputElement> {
   isValid?: any;
   value?: string | null | number;
   max?: number;
-  defaultValue?: string;
+  defaultValue?: string | number | string[];
   // 컨트롤 일때만 작동함
   hyphen?: boolean;
   byte?: boolean;
   comma?: boolean;
   card?: boolean;
+  loading?: boolean;
   returnNumber?: boolean;
   allWaysShowValidMessage?: boolean;
   className?: string;
@@ -76,6 +78,7 @@ const InputText: React.FC<IProps> = ({
   className,
   onBlur,
   max,
+  loading,
   isValid,
   onChangeValid,
   refContainer,
@@ -158,6 +161,7 @@ const InputText: React.FC<IProps> = ({
     "JDinput--overfloweEllipsis": overfloweEllipsis,
     "JDinput--labeled": label && !textarea,
     "JDinput--center": textAlign === "center",
+    "JDinput--withIcon": icon,
     "JDinput--valid": (isValid === true || selfValid === true) && !textarea,
     "JDinput--invalid": (isValid === false || selfValid === false) && !textarea,
     "JDinput--allWaysShowValidMessage":
@@ -227,18 +231,22 @@ const InputText: React.FC<IProps> = ({
           maxLength={card ? 19 : undefined}
           {...props}
         />
-        {icon ? (
+        {
           <span className="JDinput-iconWrap">
-            {icon && (
-              <JDicon
-                size={"normal"}
-                onClick={iconOnClick}
-                hover={iconHover}
-                icon={icon}
-              />
+            {loading ? (
+              <Preloader noAnimation loading={loading} />
+            ) : (
+              icon && (
+                <JDicon
+                  size={"normal"}
+                  onClick={iconOnClick}
+                  hover={iconHover}
+                  icon={icon}
+                />
+              )
             )}
           </span>
-        ) : null}
+        }
         {falseMessage && (
           <span className="JDinput__falseMessage">
             <JDicon mr="tiny" mb="no" color="error" icon="info" />{" "}

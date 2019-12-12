@@ -1,4 +1,6 @@
 @import "~Styles";
+@import "./components/cardHeader";
+@import "./components/cardSection";
 
 $card-radius: $standard-border-radius;
 $card-hover-bg: $grey-level1;

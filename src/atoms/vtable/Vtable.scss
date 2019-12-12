@@ -1,10 +1,24 @@
 @import "~Styles";
 
+
+$flex-grid--column-margin: 10%;
+
+
 .vtable {
+
     padding: $standard-large-space;
-    border: 1px solid $grey-level0;
+    border: 1px solid $grey-level1;
     border-radius: $standard-border-radius;
     padding-bottom: 0;
+
+    // @include component-layout(4%, 200px)
+
+        @include grid-system-grow();
+
+    &--unStyle {
+        border: none;
+        padding: 0;
+    }
 
     &--unBorder {
         border: none;
@@ -14,13 +28,18 @@
         padding-top: 0;
     }
 
+    &__cell {
+        display:flex;
+        justify-content: space-between;
+    }
+
     &__column {
         display: flex;
         align-items: center;
         padding: $standard-space;
         padding-left: 0;
         padding-right: 0;
-        border-bottom: 1px solid $grey-level0;
+        border-bottom: 1px solid $grey-level1;
         justify-content: space-between;
 
         &:last-child {
@@ -46,7 +65,20 @@
     }
 
     &__header {
-        margin-bottom: $standard-margin-bottom;
-        
+        padding-bottom: $standard-tiny-space;
+        margin-bottom: $standard-small-space;   
+
+        &--borderBottom {
+            border-bottom: 2px solid $grey-level1;
+        }
+    }
+
+    &__titleSection {
+        display:flex;
+        justify-content: space-between;
+    }
+    
+    &__title {
+        margin-bottom: 0;
     }
 }

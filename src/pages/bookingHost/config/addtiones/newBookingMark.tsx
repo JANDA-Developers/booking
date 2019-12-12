@@ -94,7 +94,7 @@ const NewBookingMark: React.FC<IAddtionProp> = ({
       />
       <JDbox
         mode="photoFrame"
-        photo={`${IMG_REPO}describe/newBookingBadge.png`}
+        photo={`${IMG_REPO}booking_app/describe/newBookingBadge.png`}
       />
       <div>
         <p>

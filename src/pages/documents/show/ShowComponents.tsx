@@ -48,7 +48,7 @@ import Drawer from "../../../atoms/drawer/Drawer";
 import JDTimer from "../../../atoms/timer/Timer";
 import Timer from "react-compound-timer/build";
 import JDmultiStep from "../../../atoms/multiStep/MultiStep";
-import Vtable, { TVtableColumns } from "../../../atoms/vtable/Vtable";
+import Vtable from "../../../atoms/vtable/Vtable";
 import JDIcon from "../../../atoms/icons/Icons";
 
 function ShowComponents() {
@@ -139,34 +139,34 @@ function ShowComponents() {
     }
   ];
 
-  const VTableColumns: TVtableColumns[] = [
-    {
-      label: "example1",
-      content: (
-        <span>
-          <span className="JDstandard-space">Lorem ipsum dolor sit</span>
-          <JDIcon icon="addCircle" />
-        </span>
-      )
-    },
-    {
-      label: "example2",
-      content: <span>Lorem ipsum dolor sit</span>
-    },
-    {
-      label: "example3",
-      content: (
-        <span className="JDflex--vCenter">
-          <span className="JDstandard-space">Lorem ipsum dolor sit</span>
-          <Button
-            className="JDstandard-margin0"
-            mode="border"
-            label="example"
-          />
-        </span>
-      )
-    }
-  ];
+  // const VTableColumns: TVtableColumns[] = [
+  //   {
+  //     label: "example1",
+  //     content: (
+  //       <span>
+  //         <span className="JDstandard-space">Lorem ipsum dolor sit</span>
+  //         <JDIcon icon="addCircle" />
+  //       </span>
+  //     )
+  //   },
+  //   {
+  //     label: "example2",
+  //     content: <span>Lorem ipsum dolor sit</span>
+  //   },
+  //   {
+  //     label: "example3",
+  //     content: (
+  //       <span className="JDflex--vCenter">
+  //         <span className="JDstandard-space">Lorem ipsum dolor sit</span>
+  //         <Button
+  //           className="JDstandard-margin0"
+  //           mode="border"
+  //           label="example"
+  //         />
+  //       </span>
+  //     )
+  //   }
+  // ];
 
   interface ICWProp {
     title: string;
@@ -223,7 +223,7 @@ function ShowComponents() {
         </ComponentWrap>
         {/* 인풋 텍스트 */}
         <ComponentWrap title="InputText">
-          <div className="flex-SmsInfogrid">
+          <div className="flex-grid">
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
               <InputText {...inputVali} label="noraml" />
             </div>
@@ -503,14 +503,14 @@ function ShowComponents() {
         </ComponentWrap>
         {/* 벌티컬 테이블 */}
         <ComponentWrap className="flex-grid" title="VTable">
-          <Vtable
+          {/* <Vtable
             header={{
               desc:
                 "Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident magnam beatae nesciunt earum sed in dolores quis, molestiae illo nisi hic amet perspiciatis exercitationem numquam, repellendus a, distinctio nam non!",
               title: "VTable"
             }}
             columns={VTableColumns}
-          />
+          /> */}
         </ComponentWrap>
         {/* 컬러픽커 */}
         <ComponentWrap title="ColorPikcer">

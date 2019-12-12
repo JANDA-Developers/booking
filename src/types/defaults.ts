@@ -20,9 +20,6 @@ import {
   Gender
 } from "./enum";
 
-console.log("LANG");
-console.log(LANG);
-
 import {
   getBooking_GetBooking_booking_roomTypes,
   getSmsInfo_GetSmsInfo_smsInfo_smsTemplates,

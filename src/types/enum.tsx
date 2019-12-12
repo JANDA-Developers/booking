@@ -1,7 +1,3 @@
-import { isMobile } from "is-mobile";
-import { LANG } from "../hooks/hook";
-import { registerBillKey_RegisterBillKey_billInfo } from "./api";
-
 export enum PricingType {
   DOMITORY = "DOMITORY",
   ROOM = "ROOM"
@@ -258,7 +254,8 @@ export type IconSize =
   | "normal"
   | "large"
   | "huge"
-  | "largest";
+  | "largest"
+  | "largest2";
 
 export type JDColor =
   | "primary"

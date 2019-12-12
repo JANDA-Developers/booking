@@ -310,9 +310,10 @@ a.JDanchor {
         }
     }
     
-    .JDbox__content {
-        *:last-child {
-            margin-bottom: 0;
-        }
-    }
+}
+
+.JDbox__content {
+    *:last-child {
+       margin-bottom: 0;
+   }
 }

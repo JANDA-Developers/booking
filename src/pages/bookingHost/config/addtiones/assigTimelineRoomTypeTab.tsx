@@ -47,7 +47,10 @@ const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
           label={LANG("use")}
         />
       </div>
-      <JDbox mode="photoFrame" photo={`${IMG_REPO}describe/roomTypeTap.gif`} />
+      <JDbox
+        mode="photoFrame"
+        photo={`${IMG_REPO}booking_app/describe/roomTypeTap.gif`}
+      />
       <div />
     </div>
   );

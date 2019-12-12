@@ -2,12 +2,16 @@ import React, { Fragment } from "react";
 import "./Vtable.scss";
 import JDLabel from "../label/JDLabel";
 import classNames from "classnames";
+import { s4 } from "../../utils/utils";
+import { IDiv } from "../../types/interface";
 
 interface IProps {
-  columns: TVtableColumns[];
+  headerRgiht?: JSX.Element | JSX.Element[];
   header?: Vheader;
   className?: string;
   border?: "none";
+  mode?: "unStyle";
+  headerMode?: "bottomBorder";
 }
 
 export type Vheader = {
@@ -15,89 +19,57 @@ export type Vheader = {
   desc?: JSX.Element | string;
 };
 
-export type TVtableColumns = {
-  display?: boolean;
-  label: string | string[];
-  content: JSX.Element | string | number | JSX.Element[] | string[];
-};
-
-interface IColumnPorp {
-  column: TVtableColumns;
-}
-
-const Vtable: React.FC<IProps> = ({ columns, className, header, border }) => {
+const Vtable: React.FC<IProps> = ({
+  className,
+  headerMode,
+  header,
+  border,
+  children,
+  headerRgiht,
+  mode
+}) => {
   const classes = classNames("vtable", className, {
     "vtable--noHeader": !header,
-    "vtable--unBorder": border === "none"
+    "vtable--unBorder": border === "none",
+    "vtable--unStyle": mode === "unStyle"
   });
-
-  columns.forEach(column => {
-    if (column.display === undefined) column.display = true;
+  const headerClasses = classNames("vtable__header", undefined, {
+    "vtable__header--borderBottom": headerMode === "bottomBorder"
   });
-
-  const Column = ({ column }: IColumnPorp) => {
-    if (column.display === false) return <div />;
-
-    const Row = ({
-      label,
-      content,
-      style
-    }: {
-      style?: React.CSSProperties;
-      label: string;
-      content: string | JSX.Element | number;
-    }) => (
-      <Fragment key={label + content}>
-        <div style={style} className="vtable__label">
-          <JDLabel txt={label} />
-        </div>
-        <div style={style} className="vtable__content">
-          {content}
-        </div>
-      </Fragment>
-    );
-
-    if (typeof column.label !== "object") {
-      return (
-        <div className="vtable__column">
-          <Row label={column.label} content={column.content.toString()} />
-        </div>
-      );
-    } else {
-      const width =
-        100 / (column.label.length * 2 + column.label.length - 1) + "%";
-
-      return (
-        <div className="vtable__column">
-          {column.label.map((label, index) => (
-            <Row
-              key={label}
-              style={{ width: width }}
-              label={label}
-              // @ts-ignore
-              content={column.content[index]}
-            />
-          ))}
-        </div>
-      );
-    }
-  };
 
   return (
     <div className={classes}>
       {header && (
-        <div className="vtable__header">
-          <h5>{header.title}</h5>
-          {header.desc}
+        <div className={headerClasses}>
+          <div className="vtable__titleSection">
+            <h6 className="vtable__title">
+              <b>{header.title}</b>
+            </h6>
+            {header.desc}
+            <div className="vtable__titleRightWrap">{headerRgiht}</div>
+          </div>
         </div>
       )}
-      <div className="vtable__body">
-        {columns.map(column => (
-          <Column key={`Column${column.label}`} column={column} />
-        ))}
-      </div>
+      <div className="vtable__body" children={children} />
     </div>
   );
 };
+
+export const VtableColumn: React.FC<IDiv> = ({ children }) => {
+  return <div className="vtable__column flex-grid-grow" children={children} />;
+};
+
+interface IVtableCellProp {
+  label: string;
+}
+
+export const VtableCell: React.FC<IVtableCellProp> = ({ label, children }) => (
+  <div className="vtable__cell flex-grid">
+    <div className="vtable__label">
+      <JDLabel txt={label} />
+    </div>
+    <div className="vtable__content" children={children} />
+  </div>
+);
 
 export default Vtable;

@@ -1,7 +1,11 @@
 import React from "react";
 import { LANG } from "../../../hooks/hook";
 import { IContext } from "../../../pages/bookingHost/BookingHostRouter";
-import Vtable, { Vheader, TVtableColumns } from "../../../atoms/vtable/Vtable";
+import Vtable, {
+  Vheader,
+  VtableColumn,
+  VtableCell
+} from "../../../atoms/vtable/Vtable";
 import { registerBillKey_RegisterBillKey_billInfo } from "../../../types/api";
 import { card_space } from "../../../utils/autoFormat";
 
@@ -19,10 +23,9 @@ const RegiComplete: React.FC<IProps> = ({ context, billInfo }) => {
     title: LANG("payment_information")
   };
 
-  const tableColumn: TVtableColumns[] = [
+  const tableColumn = [
     {
-      content: name,
-      label: LANG("member_name")
+      content: name
     },
     {
       content: authDate,
@@ -38,7 +41,19 @@ const RegiComplete: React.FC<IProps> = ({ context, billInfo }) => {
     <div>
       <h3>{LANG("card_regist_complete")}</h3>
       <span>{LANG("card_regist_complete_message")}</span>
-      <Vtable columns={tableColumn} header={tableTitle} />
+      <Vtable header={tableTitle}>
+        <VtableColumn>
+          <VtableCell label={LANG("member_name")}>{name}</VtableCell>
+        </VtableColumn>
+        <VtableColumn>
+          <VtableCell label={LANG("regi_date")}>{authDate}</VtableCell>
+        </VtableColumn>
+        <VtableColumn>
+          <VtableCell label={LANG("payment_information")}>
+            {cardName}, {card_space(cardNo)}
+          </VtableCell>
+        </VtableColumn>
+      </Vtable>
     </div>
   );
 };

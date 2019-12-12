@@ -134,6 +134,15 @@
   }
 
   // Small button
+  &--tiny {
+    font-size: $button-tiny-font-size;
+    padding: 0 $button-tiny-padding-side;
+    height: $buttons-tiny-height;
+    .JDbtn__icon {
+      margin-left: $buttons-tiny-icon-margin;
+    }
+  }
+  
   &--small {
     padding: $button-small-padding;
     font-size: $button-small-font-size;
@@ -186,11 +195,11 @@
 #root,.ReactModalPortal {
   .JDbtn--border {
     background-color: white;
-    border: 1px solid $grey-level1;
+    border: 1px solid $outborder-color;
     box-shadow:none;
 
     &:hover {
-      background-color: $grey-level1;
+      background-color: $outborder-color;
     }
 
     &.JDbtn {

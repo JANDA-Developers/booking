@@ -109,6 +109,7 @@ const SignUp: React.FC<Iprops> = ({ context }) => {
                     <div className="flex-grid docs-section__box">
                       <div className="flex-grid__col col--full-12 col--md-12">
                         <InputText
+                          id="singupName"
                           {...nameHook}
                           validation={utils.isName}
                           label={LANG("name")}
@@ -116,6 +117,7 @@ const SignUp: React.FC<Iprops> = ({ context }) => {
                       </div>
                       <div className="flex-grid__col col--full-12 col--md-12">
                         <InputText
+                          id="singupPassword"
                           {...passwordHook}
                           onChange={v => {
                             passwordHook.onChange(v);
@@ -130,6 +132,7 @@ const SignUp: React.FC<Iprops> = ({ context }) => {
                       </p>
                       <div className="flex-grid__col col--full-12 col--md-12">
                         <InputText
+                          id="singupPasswordCheck"
                           {...checkPasswordHook}
                           type="password"
                           label={LANG("check_password")}
@@ -137,6 +140,7 @@ const SignUp: React.FC<Iprops> = ({ context }) => {
                       </div>
                       <div className="flex-grid__col col--full-12 col--md-12">
                         <InputText
+                          id="singupPhoneNumber"
                           {...phoneNumberHook}
                           hyphen
                           validation={utils.isPhone}
@@ -145,6 +149,7 @@ const SignUp: React.FC<Iprops> = ({ context }) => {
                       </div>
                       <div className="flex-grid__col col--full-12 col--md-12">
                         <InputText
+                          id="singupEamil"
                           {...emailHook}
                           validation={utils.isEmail}
                           label={LANG("eamil")}
@@ -183,6 +188,7 @@ const SignUp: React.FC<Iprops> = ({ context }) => {
                     </div>
                     <div>
                       <Button
+                        id="singupBtn"
                         thema="primary"
                         type="submit"
                         label={LANG("singUp_submit")}

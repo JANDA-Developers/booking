@@ -6,6 +6,10 @@
     position: relative;
     display: block;
 
+    .JDinput-wrap {
+        margin:0!important;
+    }
+
     &--unFeedBack {
         .JDsearchInput__input_wrapper { 
             margin-bottom: 0;
@@ -17,8 +21,10 @@
             background-color: white;
             border:none!important;
             box-shadow:none!important;
-            padding: 0 $standard-tiny-space;
             border-radius: $standard-border-radius;
+            .JDinput {
+                border:none;
+            }
             .JDsearchInput__icon {
                 right:$standard-tiny-space;
             }
@@ -44,7 +50,6 @@
     &--labeled {
 
         .JDsearchInput__input_wrapper {
-            margin-top: -0.4rem;
         }
         // border-box
         .JDsearchInput__input {
@@ -55,11 +60,9 @@
     }
 
     &__innerWrap {
-        display: flex;
         align-items: center;
         justify-content: space-between;
         height: $input-height;
-        border-bottom: $searchInput-input-border;
     }
 
     &__label {
@@ -70,22 +73,6 @@
         color: $label-font-color;
     }
     
-    &__icon {
-        position:absolute;
-        font-size: 1.2rem;
-        display:flex;
-        right: 0;
-        height: $input-height;
-        bottom: 0;
-
-        .JDicon__svg {
-            top: 0;
-        }
-        .preloader {
-            height: 100%;
-        }
-    }
-
     // 피드백 메세지
     &__feedBack {
         color: $searchInput-feedBack-color;
@@ -97,7 +84,6 @@
 
     &__input {
         // 1px은 보더값을 위한것
-        border:none;
         outline:none;
         width: 100%;
         box-sizing: border-box;

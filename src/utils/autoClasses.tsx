@@ -48,6 +48,7 @@ const iconSizeClass = (boxName: string, size?: IconSize | null) => {
   obj[`${boxName}--large`] = size === "large";
   obj[`${boxName}--huge`] = size === "huge";
   obj[`${boxName}--largest`] = size === "largest";
+  obj[`${boxName}--largest2`] = size === "largest2";
 
   return obj;
 };

@@ -47,7 +47,7 @@ $point-color-dark-on: $point-color-on !default;
 
 $grey-level-1: #FBFBFB !default; // 흰색 effect-dark 받을때 컬러 오버랩을 원치 않을때 사용
 $grey-level0: #eee !default; // 흰색 effect-dark 받을때 컬러 오버랩을 원치 않을때 사용
-$grey-level1: #deDeDe !default; // 흰색 effect-dark 받을때 컬러 오버랩을 원치 않을때 사용
+$grey-level1: #d9d9d9 !default; // 흰색 effect-dark 받을때 컬러 오버랩을 원치 않을때 사용
 $grey-level2: #bebebe !default; 
 $grey-level3: #989898 !default;
 $grey-level4: #787878 !default;
@@ -95,8 +95,8 @@ $female-color: maroon!default !default;
 
 $disabled-color: $grey-level2 !default;
 
-$outborder-color: $grey-level3 !default; //화면 가장자리에 붙어있는 border들의 컬러
-$placeholder-color: $grey-level2 !default;
+$outborder-color: $grey-level2 !default; //화면 가장자리에 붙어있는 border들의 컬러
+$placeholder-color: $outborder-color !default;
 
 $grey-text-color: $grey-level5 !default;
 
@@ -104,8 +104,6 @@ $curtain-color: rgba(0,0,0,.78) !default; // 사이드 네비와 모달의 화�
 
 // 📖 ---- 표준 단위
 $doc-section-space: 0.4rem * 12 !default; 
-
-
 $standard-largest-space: 0.4rem * 7 !default; 
 $standard-huge-space: 0.4rem * 5 !default; 
 $standard-large-space: 0.4rem * 4 !default; 
@@ -163,7 +161,7 @@ $flex-grid--column-margin: 2% !default;
 
 // -- Section 섹션여백
 $docs-padding-top: $standard-largest-space !default; // pageHeader padding top
-$docs-padding-bottom: $standard-largest-space * 2 !default; // pageBody padding bottom
+$docs-padding-bottom: $standard-largest-space !default; // pageBody padding bottom
 $docs-padding: $docs-padding-top 0 $docs-padding-bottom 0 !default;
 $docs-padding--narrowTop: $standard-largest-space 0 $docs-padding-bottom 0 !default;
 $docs-section__padding: $standard-largest-space !default;
@@ -264,6 +262,7 @@ $icon-size-normal: 1.45rem !default;
 $icon-size-large: 1.8rem !default;
 $icon-size-huge: 2.25rem !default;
 $icon-size-largest: 4rem!default;
+$icon-size-largest2: 6rem!default;
 
 // 3 Calender 캘랜더 달력
 // ANCHOR DayPicker=========================================================================
@@ -302,7 +301,6 @@ $button-padding: 0 $button-padding-side !default;
 $button-radius: $standard-border-radius !default;
 $buttons-space: $standard-small-space !default;
 $buttons-icon-margin: $icon-space !default;
-$buttons-small-icon-margin: $standard-small-space !default;
 $button-letter-spacing: .5px !default;
 $button-color: $html-color !default;
 $button-bgColor: #fff !default;
@@ -317,6 +315,7 @@ $button-disabled-color: $grey-level4 !default;
 $button-large-icon-font-size: $typho-huge !default;
 $button-large-height: $button-height * 1.5 !default;
 $button-large-padding: 0 $standard-huge-space !default;
+$button-large-font-size: $typho-huge !default;
 
 // -- Flat buttons
 $button-flat-color: $html-color !default;
@@ -326,7 +325,13 @@ $button-flat-disabled-color: $button-disabled-color !default;
 $button-small-padding-side: $standard-small-space !default;
 $button-small-padding: 0 $button-small-padding-side !default;
 $button-small-font-size: $typho-normal !default;
-$button-large-font-size: $typho-huge !default;
+$buttons-small-icon-margin: $standard-small-space !default;
+
+// -- tiny buttons
+$buttons-tiny-height: 1.8rem !default;
+$button-tiny-padding-side: $standard-tiny-space !default;
+$buttons-tiny-icon-margin: $button-tiny-padding-side !default;
+$button-tiny-font-size: $typho-small;
 
 $button-height: $standard-line-height !default;
 // 5 Modals

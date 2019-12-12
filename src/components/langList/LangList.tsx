@@ -10,6 +10,7 @@ import {
 import { LANGUAGE_LIST, IMG_REPO } from "../../types/const";
 import JDbox from "../../atoms/box/JDbox";
 import { s4 } from "../../utils/utils";
+import "./LangList.scss";
 
 interface IProps extends IDiv {
   children?: JSX.Element[] | JSX.Element | string | Element[];
@@ -27,7 +28,7 @@ const LangList: React.FC<IProps> = ({ onClickLng, hideList, hilightLangs }) => {
     <div className={"clear-fix"}>
       {LangList.map(lang => {
         const fileName = LangShortToNational[LanguageResverseShort[lang]];
-        const flag = `${IMG_REPO}national_flag/${fileName}.png`;
+        const flag = `${IMG_REPO}flags/${fileName}.png`;
         return (
           <JDbox
             key={s4()}
@@ -45,14 +46,19 @@ const LangList: React.FC<IProps> = ({ onClickLng, hideList, hilightLangs }) => {
             clickable
             float
           >
-            <img className="JDstandard-small-space" src={flag} />
-            <span
-              style={{
-                marginLeft: "-1px"
-              }}
-            >
-              {LanguageItSelf[lang]}
-            </span>
+            <div className="JDflex JDflex--vCenter">
+              <img
+                className="LangList__flag JDstandard-small-space"
+                src={flag}
+              />
+              <span
+                style={{
+                  marginLeft: "-1px"
+                }}
+              >
+                {LanguageItSelf[lang]}
+              </span>
+            </div>
           </JDbox>
         );
       })}

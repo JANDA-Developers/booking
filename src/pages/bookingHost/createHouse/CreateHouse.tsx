@@ -260,6 +260,7 @@ const CreateHouse: React.FC<IProps> = ({ context, google }) => {
                           {...houseNameHoook}
                           validation={utils.isMaxOver}
                           max={20}
+                          placeholder={LANG("houseName")}
                           label={LANG("houseName")}
                         />
                       </div>
@@ -299,6 +300,7 @@ const CreateHouse: React.FC<IProps> = ({ context, google }) => {
                           {...deatailaddressHook}
                           validation={utils.isMaxOver}
                           max={50}
+                          placeholder={LANG("detail_adress")}
                           label={LANG("detail_adress")}
                         />
                       </div>

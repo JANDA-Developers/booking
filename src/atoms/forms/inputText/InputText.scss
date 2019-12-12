@@ -69,6 +69,7 @@
     text-align: center;
   }
 
+
   //아래에있는 라벨을 위로 끌어올립니다
   &+.JDinput_label,
   &+.JDtextarea_label {
@@ -154,6 +155,11 @@
   &--invalid.JDinput.JDinput--allWaysShowValidMessage+.JDinput_label:after,
   &--valid.JDinput.JDinput--allWaysShowValidMessage+.JDinput_label:after {
     display: block;
+  }
+  
+  &--withIcon {
+    padding-right: ($input-side-padding * 2) + $icon-size-normal!important;
+    text-overflow: ellipsis;
   }
 
 
