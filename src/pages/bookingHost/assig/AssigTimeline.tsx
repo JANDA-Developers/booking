@@ -71,6 +71,7 @@ import PageBody from "../../../components/pageBody/PageBody";
 import { Tooltip } from "chart.js";
 import ReactTooltip from "react-tooltip";
 import Sticky from "react-sticky-el";
+import { ASSIG_BASIC_CONFIG_STORAGE_NAME, ASSIG_BASIC_DEFAULT_CONFIG, IAssigBaseConfig } from "./components/AssigTimelineConfigModal/BasicConfig";
 
 interface IProps {
   context: IContext;
@@ -145,6 +146,8 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
     item: DEFAULT_ASSIG_ITEM
   });
   const dailyAssigHook = useModal(false);
+
+  const basicConfig:IAssigBaseConfig = localStorage.getItem(ASSIG_BASIC_CONFIG_STORAGE_NAME) || ASSIG_BASIC_DEFAULT_CONFIG;
 
   // 스크롤시 툴팁제거
   const handleWindowScrollEvent = () => {
@@ -508,7 +511,7 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
           />
           <BookingModalWrap context={context} modalHook={bookingModal} />
           <JDtoastModal confirm {...confirmModalHook} />
-          {/* <KeyBoardModal modalHook={keyBoardModal}> */}
+          <keyBoardModal modalHook={keyBoardModal}>
           <JDmodal {...dailyAssigHook}>
             <DailyAssigWrap date={dailyAssigHook.info.date} context={context} />
           </JDmodal>

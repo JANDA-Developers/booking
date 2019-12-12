@@ -251,13 +251,15 @@ function useRedirect(
 // 밸리데이션을 포함한 훅 리턴
 function useInput<T = string>(
   defaultValue: T,
-  defulatValid: boolean | string = ""
+  defulatValid: boolean | string = "",
+  prefix?: any = "",
+  suffix?: any = ""
 ): TUseInput<T> {
   const [value, setValue] = useState(defaultValue);
   const [isValid, setIsValid] = useState(defulatValid);
 
   const onChange = useCallback((value: any) => {
-    setValue(value);
+    setValue(prefix + value + suffix);
   }, []);
 
   const onChangeValid = useCallback((value: boolean | string) => {
@@ -400,14 +402,14 @@ function useDrawer(defaultValue: boolean) {
 }
 
 // useRange
-function useRange(defaultValue: number) {
+function useRange(defaultValue: number, maxValue?: number, minValue?: number) {
   const [value, setValue] = useState(defaultValue);
 
   const onChange = (value: any) => {
     setValue(value);
   };
 
-  return { value, onChange };
+  return { value, onChange, maxValue, minValue };
 }
 
 export interface IUseSelect<V = any> {

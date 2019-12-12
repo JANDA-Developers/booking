@@ -27,7 +27,7 @@ const PasswordCheckModal: React.FC<Iprops> = ({
 
   return (
     <JDmodal {...modalHook}>
-      <h6>{LANG("created_house")}</h6>
+      <h6>{LANG("change_profile")}</h6>
       <div>
         <InputText
           {...passwordHook}

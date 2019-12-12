@@ -53,6 +53,11 @@ import { blockDataManufacturer } from "./helper/blockDataManufacturer";
 import { IContext } from "../BookingHostRouter";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import client from "../../../apollo/apolloClient";
+import {
+  ASSIG_BASIC_CONFIG_STORAGE_NAME,
+  ASSIG_BASIC_DEFAULT_CONFIG,
+  IAssigBaseConfig
+} from "./components/AssigTimelineConfigModal/BasicConfig";
 
 moment.tz.setDefault("UTC");
 
@@ -96,6 +101,10 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
         .valueOf()
     )
   });
+
+  const basicConfig: IAssigBaseConfig =
+    JSON.parse(localStorage.getItem(ASSIG_BASIC_CONFIG_STORAGE_NAME)) ||
+    ASSIG_BASIC_DEFAULT_CONFIG;
 
   const reloadTimeline = () => {
     setReloadKey(s4());

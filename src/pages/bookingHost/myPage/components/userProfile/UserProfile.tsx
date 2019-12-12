@@ -78,15 +78,15 @@ const UserProfile: React.FC<Iprops> = ({ context, userInfo }) => {
   });
 
   const handleCallBackConfirm = (password: string) => {
-    if (!nameHook.isValid) {
+    if (nameHook.isValid === false) {
       toast.warn(LANG("not_a_valid_name"));
       return false;
     }
-    if (!emailHook.isValid) {
+    if (emailHook.isValid === false) {
       toast.warn(LANG("not_a_valid_email"));
       return false;
     }
-    if (!phoneNumberHook.isValid) {
+    if (phoneNumberHook.isValid === false) {
       toast.warn(LANG("not_a_valid_phoneNumber"));
       return false;
     }

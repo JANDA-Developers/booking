@@ -1946,6 +1946,7 @@ export const COMPLETE_PASSWORD_RESETE = gql`
     CompletePasswordReset(email: $email, phoneNumber: $phoneNumber, key: $key) {
       ok
       error
+      newPassword
     }
   }
 `;

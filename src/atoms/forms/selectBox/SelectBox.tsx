@@ -129,4 +129,6 @@ JDselect.defaultProps = {
   props: {}
 };
 
-export default React.memo(JDselect);
+const JDselect = React.memo(JDselect);
+
+export default JDselect;

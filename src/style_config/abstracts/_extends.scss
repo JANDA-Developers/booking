@@ -144,37 +144,35 @@
 %JDscrollbar {
     overflow:hidden;
     box-sizing: border-box;
+    
     &:hover {
         overflow:auto;
         &::-webkit-scrollbar {
-            width: 10px;
+            width: $JDscrollbar-width;
             transition: 0.3s;
-            background-color:$grey-level0;
+            background-color: $JDscrollbar-bar-color;
             cursor: pointer;
+            height: $JDscrollbar-height;
         }
         &::-webkit-scrollbar-track {
-            background-color: $grey-level0;
+            background-color: $JDscrollbar-bar-color;
         }
-        // &::-webkit-scrollbar-track:hover {
-        //     background-color: $grey-level1;
-        // }
         &::-webkit-scrollbar-thumb {
-            background-color: $grey-level2;
+            background-color: $JDscrollbar-thumb-color;
             box-sizing: border-box;
-            border: 1px solid $grey-level2;
+            border: 1px solid $JDscrollbar-thumb-color;
             cursor: pointer;
             &:hover {
-                background-color: $grey-level3;
+                background-color: $JDscrollbar-thumb-hover-color;
             }
         }
         &::-webkit-scrollbar-button {display:none}
     }
 }
 
+// scrollbar slender form 
 %JDscrollbar--slender {
-    
     padding-right: 4px;
-
     &::-webkit-scrollbar {
         transition: 0.3s;
         background-color:transparent;
