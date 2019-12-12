@@ -48,7 +48,14 @@ const LangList: React.FC<IProps> = ({ onClickLng, hideList, hilightLangs }) => {
             clickable
             float
           >
-            <img className="JDstandard-small-space" src={flag} />
+            <img
+              style={{
+                width: 20,
+                height: 20
+              }}
+              className="JDstandard-small-space"
+              src={flag}
+            />
             <span
               style={{
                 marginLeft: "-1px"
