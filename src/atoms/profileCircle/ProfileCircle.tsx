@@ -40,7 +40,7 @@ const ProfileCircle: React.FC<Iprops> = ({
 
   const profileStyle = {
     backgroundImage: `url("${url ||
-      IMG_REPO + "profile/default_profile.jpg"}")`,
+      IMG_REPO + "default/default_profile.jpg"}")`,
     width: circleSize,
     height: circleSize
   };

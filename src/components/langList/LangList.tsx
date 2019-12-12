@@ -31,7 +31,7 @@ const LangList: React.FC<IProps> = ({ onClickLng, hideList, hilightLangs }) => {
     <div className={"clear-fix"}>
       {LangList.map(lang => {
         const fileName = LangShortToNational[LanguageResverseShort[lang]];
-        const flag = `${IMG_REPO}national_flag/${fileName}.png`;
+        const flag = `${IMG_REPO}flags/${fileName}.png`;
         return (
           <JDbox
             key={s4()}

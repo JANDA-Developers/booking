@@ -2,7 +2,7 @@ import { isMobile } from "is-mobile";
 import { LANG } from "../hooks/hook";
 
 export const IMG_REPO =
-  "https://s3.ap-northeast-2.amazonaws.com/booking.stayjanda.statichosting/static/media/";
+  "https://s3.ap-northeast-2.amazonaws.com/booking.stayjanda.files/";
 
 export enum PricingType {
   DOMITORY = "DOMITORY",
