@@ -565,7 +565,19 @@
     }
 }
 
-@mixin grid-system($mode) {
+
+@mixin grid-system-all($flagFullWidth:false) {
+    @include grid-system(full,$flagFullWidth);
+    @include grid-system(wlg,$flagFullWidth);
+    @include grid-system(lg,$flagFullWidth);
+    @include grid-system(wmd,$flagFullWidth);
+    @include grid-system(wmd,$flagFullWidth);
+    @include grid-system(md,$flagFullWidth);
+    @include grid-system(sm,$flagFullWidth);
+}
+
+
+@mixin grid-system($mode, $flagFullWidth:false) {
 
     $max:9999px !default;
     
@@ -595,17 +607,30 @@
 
             &.col--#{$mode}-1 {
                 display:block;
-                width: flex-grid-column-width(1);
+                @if($flagFullWidth) {
+                    width: flex-grid-column-width-noMargin(1);
+                } @else {
+                    width: flex-grid-column-width(1);
+                }
             }
             
             &.col--#{$mode}-2 {
                 display:block;
-                width: flex-grid-column-width(2);
+                @if($flagFullWidth) {
+                    width: flex-grid-column-width-noMargin(2);
+                } @else {
+                    width: flex-grid-column-width(2);
+                }
             }
             
             &.col--#{$mode}-3 {
                 display:block;
                 width: flex-grid-column-width(3);
+                @if($flagFullWidth) {
+                    width: flex-grid-column-width-noMargin(3);
+                } @else {
+                    width: flex-grid-column-width(3);
+                }
                 &.col--float {
                     &:not(.aaaa) {margin-left: 2%;}
                     &:nth-child(4n + 1) {
@@ -616,7 +641,11 @@
             
             &.col--#{$mode}-4 {
                 display:block;
-                width: flex-grid-column-width(4);
+                @if($flagFullWidth) {
+                    width: flex-grid-column-width-noMargin(4);
+                } @else {
+                    width: flex-grid-column-width(4);
+                }
                 &.col--float {
                     &:not(.aaaa) {margin-left: 2%;}
                     &:nth-child(3n + 1) {
@@ -627,12 +656,20 @@
             
             &.col--#{$mode}-5 {
                 display:block;
-                width: flex-grid-column-width(5);
+                @if($flagFullWidth) {
+                    width: flex-grid-column-width-noMargin(5);
+                } @else {
+                    width: flex-grid-column-width(5);
+                }
             }
             
             &.col--#{$mode}-6 {
                 display:block;
-                width: flex-grid-column-width(6);
+                @if($flagFullWidth) {
+                    width: flex-grid-column-width-noMargin(6);
+                } @else {
+                    width: flex-grid-column-width(6);
+                }
                 &.col--float {
                     &:not(.aaaa) {margin-left: 2%;}
                     &:nth-child(2n + 1) {
@@ -643,32 +680,56 @@
             
             &.col--#{$mode}-7 {
                 display:block;
-                width: flex-grid-column-width(7);
+                @if($flagFullWidth) {
+                    width: flex-grid-column-width-noMargin(7);
+                } @else {
+                    width: flex-grid-column-width(7);
+                }
             }
             
             &.col--#{$mode}-8 {
                 display:block;
-                width: flex-grid-column-width(8);
+                @if($flagFullWidth) {
+                    width: flex-grid-column-width-noMargin(8);
+                } @else {
+                    width: flex-grid-column-width(8);
+                }
             }
             
             &.col--#{$mode}-9 {
                 display:block;
-                width: flex-grid-column-width(9);
+                @if($flagFullWidth) {
+                    width: flex-grid-column-width-noMargin(9);
+                } @else {
+                    width: flex-grid-column-width(9);
+                }
             }
             
             &.col--#{$mode}-10 {
                 display:block;
-                width: flex-grid-column-width(10);
+                @if($flagFullWidth) {
+                    width: flex-grid-column-width-noMargin(10);
+                } @else {
+                    width: flex-grid-column-width(10);
+                }
             }
             
             &.col--#{$mode}-11 {
                 display:block;
-                width: flex-grid-column-width(11);
+                @if($flagFullWidth) {
+                    width: flex-grid-column-width-noMargin(11);
+                } @else {
+                    width: flex-grid-column-width(11);
+                }
             }
             
             &.col--#{$mode}-12 {
                 display:block;
-                width: flex-grid-column-width(12);
+                @if($flagFullWidth) {
+                    width: flex-grid-column-width-noMargin(12);
+                } @else {
+                    width: flex-grid-column-width(12);
+                }
             }
 
             // TODO display 를 통합해서 어딘가로 옮기고 flex명령도 같이 수정자로서 자리를 잡아야하는데.. 여기위치는 너무 애매해

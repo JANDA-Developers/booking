@@ -6,28 +6,46 @@
     display:flex;
     flex-direction: column;
     border: 1px solid $outborder-color;
+    
+    @include response($phablet) {
+        height: auto;
+    }
 
+    &__productBtn {
+        margin-left: -$button-small-padding-side;
+        margin-right: -$button-small-padding-side;
+    }
 
     &__price {
         margin:0;
     }
 
-    &__infoTable {
-        margin-bottom: 0;
-    }
 
     &__product {
         display:flex;
         align-items: center;
     }
 
+    &__infoTable {
+        padding: $standard-space;
+    }
+
     &__priceZone {
+        padding-bottom: $standard-large-space;
+        padding-top: $standard-margin-bottom;
         height: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         border-right: 1px solid $grey-level0;
+        box-sizing: border-box;
+        
+        @include response($phablet) {
+            border-right: 0;
+            border-bottom: 1px solid $grey-level0;
+            height: auto;
+        }
     }
 
     &__bodyWrap {
@@ -39,10 +57,11 @@
     }
 
     &__header{
+        padding: 0 $standard-space;
         display: flex;
         align-items: center;
         background-color:$primary-color;
-        justify-content: flex-end;
+        justify-content: space-between;
         color: $primary-color-on;
         margin-left: -1px;
     }

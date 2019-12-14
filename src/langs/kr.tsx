@@ -914,7 +914,7 @@ export const kr = {
   product_change: "상품변경",
   periodical_pay_regist_complete: "정기결제 등록 완료",
   periodical_pay_regist_fail: "정기결제 등록 실패",
-  periodical_sign_date: "정기결제 등록 일자",
+  sign_date: "등록 일자",
   change_periodical_change: "정기결제 정보 변경",
   payment_fee: "납부요금",
   approved: "승인완료",
@@ -1014,6 +1014,8 @@ export const kr = {
   card_regist: "카드 등록",
   card_delete: "카드 삭제",
   bill_pay_regist: "정기 결제 등록",
+  bill_pay_regist_width_this_card: "이 카드로 정기결제 등록",
+  bill_pay_regist_change_width_this_card: "이 카드로 정기결제 변경",
   un_exsist_page: "존재 하지않는 페이지",
   sms_info: "SMS 안내",
   sms_info_decs: "SMS 이용에대한 안내 드립니다.",
@@ -1031,5 +1033,14 @@ export const kr = {
   frequent_questions: "자주하는 질문",
   mypage_profile_desc: "회원정보를 수정할수 있습니다.",
   mypage_houses_desc: "보유중인 숙소를 관리할수 있습니다.",
-  show_detail: "자세히보기"
+  show_detail: "자세히보기",
+  basic_config: "기본설정",
+  guestStatus_mark: "게스트 상태 마크",
+  shortkey_config: "키보드 설정",
+  change_pay_method: "결제수단변경",
+  un_validate_card_number: "유효하지 않은 카드번호 입니다.",
+  un_validate_card_expire: "유효 하지 않은 카드 기한입니다.",
+  periodical_paying: "정기결제중",
+  creadit_card_change: "결제 카드 변경",
+  select_this_card: "이 카드로 결제변경"
 };

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { IContext } from "../../../BookingHostRouter";
-import { LANG, useCheckBoxTable } from "../../../../../hooks/hook";
+import { LANG, useCheckBoxTable, useModal } from "../../../../../hooks/hook";
 import { JDcolumn, ReactTableDefault } from "../../../../../atoms/table/Table";
 import moment from "moment";
 import { JDSelectableJDtable } from "../../../../../atoms/table/SelectTable";

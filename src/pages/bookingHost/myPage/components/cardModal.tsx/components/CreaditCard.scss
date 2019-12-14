@@ -2,8 +2,9 @@
 @import '~Styles';
 
 
+$card-padding:$standard-space;
 .creaditCard {
-    padding: $standard-space;
+    padding: $card-padding;
     text-align: left;
     border-radius: $standard-border-radius;
     height: 130px;
@@ -22,6 +23,11 @@
         filter: brightness(1.15);
     }
 
+    &__badgeWrap {
+        position: absolute;
+        right: $card-padding;
+        top: $card-padding;
+    }
 
     &__label {
     }

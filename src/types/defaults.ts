@@ -104,6 +104,7 @@ export const DEFAULT_BOOKING: GB_booking = {
 
 export const DEFAULT_ASSIG_GROUP: IAssigGroup = {
   id: "-1",
+  stackItems: false,
   title: "",
   roomTypeId: "-1",
   roomTypeIndex: -1,

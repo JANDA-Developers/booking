@@ -49,9 +49,12 @@
         @include response ($full,$phablet) {
             max-width: 80%;
         }
-
+        
         @include response ($phablet) {
+            width: 100%;
+            max-width: 90%;
             margin: $container-padding;
+            padding: $modal-content-padding--wmd;
         }
 
         max-height: 80vh;

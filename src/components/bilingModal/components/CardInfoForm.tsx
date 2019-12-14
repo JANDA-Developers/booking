@@ -12,7 +12,7 @@ import FormBox, {
   FormHeader,
   FormRow
 } from "../../../atoms/forms/formBox/FormBox";
-import { toNumber } from "../../../utils/utils";
+import { toNumber, isEmpty } from "../../../utils/utils";
 import { toast } from "react-toastify";
 import moment from "moment";
 import { DEFAULT_CARD_INFO } from "../../../types/defaults";
@@ -23,41 +23,42 @@ import {
   cardExpire
 } from "../../../utils/autoFormat";
 import { TCardViewInfo } from "./CardInfoFormWrap";
-import { updateProductBillInfoVariables } from "../../../types/api";
+import { ICardModalTarget } from "../../../pages/bookingHost/myPage/components/cardModal.tsx/CardModal";
 
 export interface IChainProps {
-  mode?: "create" | "view";
+  mode?: "create" | "viewAndUpdate";
   viewInfo?: TCardViewInfo;
+  selectCallBack?: (billKey: string) => void;
 }
 
 interface Iprops extends IChainProps {
   context: IContext;
   handleRegistBtn: (cardInfo: TCardRegistInfo) => void;
-  handleDisContinueBtn: (productId: string) => Promise<void>;
-  handleContinueBtn: (
-    variables: updateProductBillInfoVariables
-  ) => Promise<void>;
   handleDeleteBtn: (billKey: string) => Promise<void>;
+  currentHouseInfo?: ICardModalTarget;
 }
 
 const CardInfoForm: React.FC<Iprops> = ({
-  context,
   mode,
   viewInfo,
   handleRegistBtn,
-  handleDisContinueBtn,
-  handleContinueBtn,
-  handleDeleteBtn
+  handleDeleteBtn,
+  currentHouseInfo,
+  selectCallBack
 }) => {
   const refundPolicyModalHook = useModal();
   const privacyPolicyModalHook = useModal();
 
   const isCreateMode = mode === "create";
-  const isUseingCard = true;
+  const isCardOfCurrentProductUsing =
+    currentHouseInfo &&
+    currentHouseInfo.product &&
+    viewInfo &&
+    currentHouseInfo.product.billKey === viewInfo!.billKey;
+  const needSubmit = !isEmpty(currentHouseInfo);
 
   const validate = () => {
     const { exp: expTemp, cardNumber, idNumber } = cardInfo;
-
     const expObj = cardExprieGet(expTemp);
 
     // 길이검사
@@ -66,7 +67,7 @@ const CardInfoForm: React.FC<Iprops> = ({
       toNumber(expObj.month) < 1 ||
       expTemp.length !== 5
     ) {
-      toast.warn("유효 하지 않은 카드 기한입니다.");
+      toast.warn(LANG("un_validate_card_expire"));
       return false;
     }
     if (
@@ -76,12 +77,12 @@ const CardInfoForm: React.FC<Iprops> = ({
         "month"
       )
     ) {
-      toast.warn("유효 하지 않은 카드 기한입니다.");
+      toast.warn(LANG("un_validate_card_expire"));
       return false;
     }
 
     if (cardNumber.length !== 16) {
-      toast.warn("유효하지 않은 카드번호 입니다.");
+      toast.warn(LANG("un_validate_card_number"));
       return false;
     }
 
@@ -200,48 +201,34 @@ const CardInfoForm: React.FC<Iprops> = ({
             label={LANG("card_regist")}
           />
         ) : (
-          <Fragment>
-            {/* 카드삭제 */}
-            {isUseingCard ? (
-              // 정기결제 취소
-              <Button
-                onClick={() => {
-                  handleDisContinueBtn("");
-                }}
-                size="small"
-                mode="flat"
-                thema="primary"
-                label={LANG("bill_pay_cancle")}
-              />
-            ) : (
+          viewInfo && (
+            <Fragment>
+              {/* 카드삭제 */}
               <Fragment>
                 <Button
                   onClick={() => {
-                    handleDeleteBtn("");
+                    handleDeleteBtn(viewInfo.billKey);
                   }}
                   size="small"
                   mode="flat"
-                  thema="primary"
+                  thema="error"
                   label={LANG("card_delete")}
                 />
-                {/* // 정기결제 등록 */}
-                <Button
-                  onClick={() => {
-                    handleContinueBtn({
-                      param: {
-                        billKey: viewInfo!.billKey,
-                        productIds: []
-                      }
-                    });
-                  }}
-                  size="small"
-                  mode="flat"
-                  thema="primary"
-                  label={LANG("bill_pay_regist")}
-                />
+                {/* // Submit Select Card*/}
+                {needSubmit && !isCardOfCurrentProductUsing && (
+                  <Button
+                    onClick={() => {
+                      selectCallBack && selectCallBack(viewInfo.billKey);
+                    }}
+                    size="small"
+                    mode="flat"
+                    thema="primary"
+                    label={LANG("select_this_card")}
+                  />
+                )}
               </Fragment>
-            )}
-          </Fragment>
+            </Fragment>
+          )
         )}
       </div>
       <RefundPolicyModal modalHook={refundPolicyModalHook} />

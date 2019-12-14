@@ -1,11 +1,19 @@
 import React from "react";
-import InputText from "../inputText/InputText";
-interface Iprops {}
 
-const GetKey: React.FC<Iprops> = () => {
+interface Iprops {
+  onChange: (key: string, keyCode?: number) => void;
+  key: string;
+}
+
+const GetKey: React.FC<Iprops> = ({ onChange, key }) => {
   return (
     <div>
-      <InputText value={} onChange={() => {}} />
+      <input
+        value={key}
+        onKeyDown={e => {
+          onChange(e.key, e.keyCode);
+        }}
+      />
     </div>
   );
 };

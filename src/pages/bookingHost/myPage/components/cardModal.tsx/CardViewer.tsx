@@ -5,21 +5,30 @@ import { LANG } from "../../../../../hooks/hook";
 import JDIcon from "../../../../../atoms/icons/Icons";
 import "./CardViewer.scss";
 import { getMyProfile_GetMyProfile_user_paymentInfos } from "../../../../../types/api";
-import { isEmpty, JDscrollTo, toNumber } from "../../../../../utils/utils";
+import { toNumber } from "../../../../../utils/utils";
 import CardInfoFormWrap, {
   ICardInfoFormWrapProps
 } from "../../../../../components/bilingModal/components/CardInfoFormWrap";
 import $ from "jquery";
+import { getTargetsWithBillKey } from "../../../../../utils/getTargetsWithBillKey";
+import { ICardModalTarget } from "./CardModal";
 
 interface Iprops extends ICardInfoFormWrapProps {
   context: IContext;
   unPadding?: boolean;
+  currentHouseInfo?: ICardModalTarget;
 }
 
-const CardViewer: React.FC<Iprops> = ({ context, unPadding }) => {
+const CardViewer: React.FC<Iprops> = ({
+  context,
+  unPadding,
+  currentHouseInfo,
+  selectCallBack
+}) => {
   const { user } = context;
   const { paymentInfos } = user;
   const scrollContainer = useRef<HTMLDivElement>(null);
+
   const [
     selecteInfo,
     setSelectInfo
@@ -59,33 +68,43 @@ const CardViewer: React.FC<Iprops> = ({ context, unPadding }) => {
     </div>
   );
 
+  // GET USING-BILLKEY -  WITH TARGET-NAME
+  const payTargets = getTargetsWithBillKey(context);
+
   return (
     <div className={`CardViewer ${unPadding && "CardViewer--unPadding"}`}>
       <div className="CardViewer__sliderWrap">
         <div className="CardViewer__slider">
           <div ref={scrollContainer} className="CardViewer__cardsWrap">
             {paymentInfos &&
-              paymentInfos.map((payment, index) => (
-                <CreaditCard
-                  key={`card:${payment.billKey}`}
-                  isSelected={
-                    selecteInfo
-                      ? selecteInfo.billKey === payment.billKey
-                      : false
-                  }
-                  callBackCardClick={info => {
-                    setSelectInfo(info);
-                    scrollSlider(index);
-                  }}
-                  payment={payment}
-                />
-              ))}
+              paymentInfos.map((payment, index) => {
+                const payTaget = payTargets.filter(
+                  paytaget => paytaget.billKey === payment.billKey
+                );
+                return (
+                  <CreaditCard
+                    payTargets={payTaget}
+                    key={`card:${payment.billKey}`}
+                    isSelected={
+                      selecteInfo
+                        ? selecteInfo.billKey === payment.billKey
+                        : false
+                    }
+                    callBackCardClick={info => {
+                      setSelectInfo(info);
+                      scrollSlider(index);
+                    }}
+                    payment={payment}
+                  />
+                );
+              })}
             <CreaditCardAdd />
           </div>
         </div>
       </div>
       <div className="CardViewer__infoFromWrap">
         <CardInfoFormWrap
+          selectCallBack={selectCallBack}
           viewInfo={
             selecteInfo
               ? {
@@ -96,8 +115,9 @@ const CardViewer: React.FC<Iprops> = ({ context, unPadding }) => {
                 }
               : undefined
           }
-          mode={selecteInfo ? "view" : "create"}
-          registCallBack={info => 0}
+          currentHouseInfo={currentHouseInfo}
+          mode={selecteInfo ? "viewAndUpdate" : "create"}
+          registCallBack={() => {}}
           context={context}
         />
       </div>

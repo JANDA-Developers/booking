@@ -61,18 +61,9 @@ const Header: React.FC<IProps> = ({
       </div>
       {/* space between 2번째 */}
       {/* 게스트 서치용 */}
-      {isPhabletDown ||
-        (house && (
-          <div className="header__center">
-            <GuestSearchInputWrap context={context} />
-          </div>
-        ))}
-      {/* 모바일 이하 게스트 서치용 */}
-      {isPhabletDown && (
-        <div>
-          <CircleIcon size="normal">
-            <JDIcon color="white" size="normal" icon="magnifier" />
-          </CircleIcon>
+      {house && (
+        <div className="header__center">
+          <GuestSearchInputWrap context={context} />
         </div>
       )}
       {/* space between 3번째 */}

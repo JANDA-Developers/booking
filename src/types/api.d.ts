@@ -3834,6 +3834,7 @@ export interface completePasswordReset_CompletePasswordReset {
   __typename: "CompletePasswordResetResponse";
   ok: boolean;
   error: string | null;
+  newPassword: string | null;
 }
 
 export interface completePasswordReset {
@@ -4989,21 +4990,21 @@ export interface updateProductBillInfoVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: discontinueProduct
+// GraphQL mutation operation: updateProductBillPayStatus
 // ====================================================
 
-export interface discontinueProduct_DiscontinueProduct {
-  __typename: "DiscontinueProductResponse";
+export interface updateProductBillPayStatus_UpdateProductBillPayStatus {
+  __typename: "UpdateProductBillPayStatusResponse";
   ok: boolean;
   error: string | null;
 }
 
-export interface discontinueProduct {
-  DiscontinueProduct: discontinueProduct_DiscontinueProduct;
+export interface updateProductBillPayStatus {
+  UpdateProductBillPayStatus: updateProductBillPayStatus_UpdateProductBillPayStatus;
 }
 
-export interface discontinueProductVariables {
-  productId: string;
+export interface updateProductBillPayStatusVariables {
+  param: UpdateProductBillPayStatusInput;
 }
 
 /* tslint:disable */
@@ -7115,6 +7116,11 @@ export interface UpdateMemoParams {
 export interface UpdateProductBillInfoInput {
   productIds?: string[] | null;
   billKey: string;
+}
+
+export interface UpdateProductBillPayStatusInput {
+  productId: string;
+  isContinue: boolean;
 }
 
 export interface UpdateProductParams {

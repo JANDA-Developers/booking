@@ -141,7 +141,7 @@
   }
   
 
-%JDscrollbar {
+%JDscrollbar--common {
     overflow:hidden;
     box-sizing: border-box;
     
@@ -169,30 +169,31 @@
         &::-webkit-scrollbar-button {display:none}
     }
 }
+  
+%JDscrollbar {
+    @extend %JDscrollbar--common;
+}
 
 // scrollbar slender form 
-%JDscrollbar--slender {
-    padding-right: 4px;
-    &::-webkit-scrollbar {
-        transition: 0.3s;
-        background-color:transparent;
-        width:4px;
-        height:4px;
-    }
-    &::-webkit-scrollbar-track {
-        background-color: transparent;
-    }
-    // &::-webkit-scrollbar-track:hover {
-    //     background-color: $grey-level1;
-    // }
-    &::-webkit-scrollbar-thumb {
-        background-color: $grey-level1;
-        border-radius: 6px;
-        box-sizing: border-box;
-        border: 1px solid $grey-level1;
-        &:hover {
-            background-color: $grey-level2;
+%JDscrollbar--hidden {
+    @extend %JDscrollbar--common;
+    &:hover {
+        &::-webkit-scrollbar {
+            transition: 0.3s;
+            background-color:transparent;
+            width:0px;
+            height:0px;
         }
     }
-    &::-webkit-scrollbar-button {display:none}
+}
+%JDscrollbar--slender {
+    @extend %JDscrollbar--common;
+    &:hover {
+        &::-webkit-scrollbar {
+            transition: 0.3s;
+            background-color:transparent;
+            width:4px;
+            height:4px;
+        }
+    }
 }

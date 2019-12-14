@@ -1,12 +1,13 @@
 import React from "react";
-import { IContext } from "../../../BookingHostRouter";
+import { IContext } from "../../../../BookingHostRouter";
 import Vtable, {
   VtableColumn,
   VtableCell
-} from "../../../../../atoms/vtable/Vtable";
-import JDswitch from "../../../../../atoms/forms/switch/Switch";
-import { useSwitch, useRange } from "../../../../../hooks/hook";
-import JDrange from "../../../../../atoms/forms/range/Range";
+} from "../../../../../../atoms/vtable/Vtable";
+import JDswitch from "../../../../../../atoms/forms/switch/Switch";
+import { useSwitch, useRange } from "../../../../../../hooks/hook";
+import JDrange from "../../../../../../atoms/forms/range/Range";
+import getConfigStorage from "../../../helper/getStorage";
 
 interface Iprops {
   context: IContext;
@@ -17,51 +18,57 @@ interface Iprops {
 // Mouse Market
 // ZoomLevel
 
-
 export interface IAssigBaseConfig {
-    useTodayMark: boolean,
-    useCursorMark: boolean,
-    zoomHook: number      
-};
+  useTodayMark: boolean;
+  useCursorMark: boolean;
+  zoomValue: number;
+}
 export const ASSIG_BASIC_CONFIG_STORAGE_NAME = "assigTimeline_basicConfig";
 
-export const ASSIG_BASIC_DEFAULT_CONFIG:IAssigBaseConfig = {
-    useTodayMark: true,
-    useCursorMark: true,
-    zoomHook: 30      
-}
+export const ASSIG_BASIC_DEFAULT_CONFIG: IAssigBaseConfig = {
+  useTodayMark: true,
+  useCursorMark: true,
+  zoomValue: 30
+};
 
 const BasicConfig: React.FC<Iprops> = ({ context }) => {
-  const config = localStorage.getItem(ASSIG_BASIC_CONFIG_STORAGE_NAME)
-  const parsedConfig =  config ? JSON.parse(config) : ASSIG_BASIC_DEFAULT_CONFIG;
+  const config = getConfigStorage();
+  const {
+    useCursorMark: deafultCursorMark,
+    useTodayMark: defaultTodayMark,
+    zoomValue: defaultZoomValue
+  } = config.basicConfig;
 
-  const useTodayMark = useSwitch(parsedConfig);
-  const useCursorMark = useSwitch(true);
-  const zoomHook = useRange(30, 60, 0);
+  const useTodayMark = useSwitch(deafultCursorMark);
+  const useCursorMark = useSwitch(defaultTodayMark);
+  const zoomValue = useRange(defaultZoomValue, 60, 0);
 
-  const saveData = (data:IAssigBaseConfig) => { 
-    localStorage.setItem(ASSIG_BASIC_CONFIG_STORAGE_NAME,JSON.stringify(data))
-  }
+  const saveData = (data: IAssigBaseConfig) => {
+    localStorage.setItem(ASSIG_BASIC_CONFIG_STORAGE_NAME, JSON.stringify(data));
+  };
 
   saveData({
     useTodayMark: useTodayMark.checked,
     useCursorMark: useCursorMark.checked,
-    zoomHook: zoomHook.value;
-  })
-
+    zoomValue: zoomValue.value
+  });
 
   return (
     <div>
-      <Vtable>
+      <Vtable mode="unStyle">
         <VtableColumn>
           <VtableCell label="Today Mark">
             <JDswitch {...useTodayMark} />
           </VtableCell>
+        </VtableColumn>
+        <VtableColumn>
           <VtableCell label="Cursor Mark">
             <JDswitch {...useCursorMark} />
           </VtableCell>
+        </VtableColumn>
+        <VtableColumn>
           <VtableCell label="Zoom Range">
-            <JDrange {...zoomHook} />
+            <JDrange {...zoomValue} />
           </VtableCell>
         </VtableColumn>
       </Vtable>

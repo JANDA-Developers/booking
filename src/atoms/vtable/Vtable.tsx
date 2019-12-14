@@ -3,15 +3,19 @@ import "./Vtable.scss";
 import JDLabel from "../label/JDLabel";
 import classNames from "classnames";
 import { s4 } from "../../utils/utils";
-import { IDiv } from "../../types/interface";
+import { IDiv, JDatomExtentionSet } from "../../types/interface";
+import { JDmrClass, JDmbClass } from "../../utils/autoClasses";
+import BaseHeader from "../base/BaseHeader";
 
-interface IProps {
+interface IProps extends JDatomExtentionSet {
   headerRgiht?: JSX.Element | JSX.Element[];
   header?: Vheader;
   className?: string;
   border?: "none";
   mode?: "unStyle";
+  cellColumn?: boolean;
   headerMode?: "bottomBorder";
+  mobileReAssign?: "topLabel";
 }
 
 export type Vheader = {
@@ -26,12 +30,18 @@ const Vtable: React.FC<IProps> = ({
   border,
   children,
   headerRgiht,
-  mode
+  cellColumn,
+  mode,
+  mb,
+  mr
 }) => {
   const classes = classNames("vtable", className, {
     "vtable--noHeader": !header,
     "vtable--unBorder": border === "none",
-    "vtable--unStyle": mode === "unStyle"
+    "vtable--unStyle": mode === "unStyle",
+    "vtable--cellColumn": cellColumn,
+    ...JDmrClass(mr),
+    ...JDmbClass(mb)
   });
   const headerClasses = classNames("vtable__header", undefined, {
     "vtable__header--borderBottom": headerMode === "bottomBorder"
@@ -40,15 +50,16 @@ const Vtable: React.FC<IProps> = ({
   return (
     <div className={classes}>
       {header && (
-        <div className={headerClasses}>
-          <div className="vtable__titleSection">
-            <h6 className="vtable__title">
+        <BaseHeader
+          titleElement={
+            <h6>
               <b>{header.title}</b>
             </h6>
-            {header.desc}
-            <div className="vtable__titleRightWrap">{headerRgiht}</div>
-          </div>
-        </div>
+          }
+          desc={header.desc}
+          headerRgiht={headerRgiht}
+          className={headerClasses}
+        />
       )}
       <div className="vtable__body" children={children} />
     </div>

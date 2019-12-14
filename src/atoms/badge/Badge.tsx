@@ -1,9 +1,10 @@
 import React from "react";
 import "./Badge.scss";
 import classnames from "classnames";
-import {JDColor} from "../../types/enum";
-import {colorClass, s4} from "../../utils/utils";
+import { JDColor } from "../../types/enum";
+import { colorClass, s4 } from "../../utils/utils";
 import JDToolTip from "../tooltip/Tooltip";
+import { TElements } from "../../types/interface";
 
 export interface IJDbadge extends React.HTMLAttributes<HTMLSpanElement> {
   badgeSize?: "noraml" | "tiny";
@@ -11,7 +12,7 @@ export interface IJDbadge extends React.HTMLAttributes<HTMLSpanElement> {
   hover?: boolean;
   className?: string;
   children?: any;
-  tooltip?: string;
+  tooltip?: TElements;
 }
 
 const JDbadge: React.SFC<IJDbadge> = ({

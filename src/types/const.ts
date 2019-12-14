@@ -263,9 +263,7 @@ export const NEUTRAL = "";
 
 export const EMPTY = "";
 
-export const MODAL_MIN_WIDTH = isMobile()
-  ? `${document.documentElement.clientWidth - 64}px`
-  : "360px";
+export const MODAL_MIN_WIDTH = isMobile() ? `90%` : "360px";
 
 export const STATIC_COLORS = [
   "#4c5b73",

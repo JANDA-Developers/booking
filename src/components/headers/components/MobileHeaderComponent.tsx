@@ -11,8 +11,8 @@ interface Iprops {
 const MobileHeaderComponent: React.FC<Iprops> = () => {
   return (
     <div>
-      <span>
-        <span
+      <div>
+        <div
           data-tip
           data-delay-hide={0}
           data-for="tooltip_user"
@@ -22,8 +22,8 @@ const MobileHeaderComponent: React.FC<Iprops> = () => {
           data-offset="{'top': -5, 'left': 35}"
         >
           <JDIcon className="header__mobileMenu" size={"normal"} icon="apps" />
-        </span>
-      </span>
+        </div>
+      </div>
     </div>
   );
 };

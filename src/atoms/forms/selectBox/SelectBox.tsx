@@ -42,7 +42,7 @@ interface Iprops extends SelectComponentsProps {
   menuItemCenterlize?: boolean;
 }
 
-const JDselect: React.SFC<Iprops> = ({
+const JDselectTemp: React.SFC<Iprops> = ({
   label,
   disabled,
   selectedOption,
@@ -121,7 +121,7 @@ const JDselect: React.SFC<Iprops> = ({
   );
 };
 
-JDselect.defaultProps = {
+JDselectTemp.defaultProps = {
   disabled: false,
   label: "",
   onChange: () => {},
@@ -129,6 +129,6 @@ JDselect.defaultProps = {
   props: {}
 };
 
-const JDselect = React.memo(JDselect);
+const JDselect = React.memo(JDselectTemp);
 
 export default JDselect;

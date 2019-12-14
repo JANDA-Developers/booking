@@ -19,17 +19,17 @@ const CardHeader: React.FC<Iprops & IDiv> = ({
 }) => {
   const classes = classNames("cardHeader", className, {});
   return (
-    <BaseHeader {...props} className={classes}>
-      <div className="cardHeader__titleSection">
-        <h5 className="cardHeader__title JDstandard-space">
-          <b>{title} </b>
+    <BaseHeader
+      titleElement={
+        <h5>
+          <b>{title}</b>
         </h5>
-        {desc && <div className="cardHeader__decs">{desc}</div>}
-        <div className="cardHeader__rightWrap">
-          {headerRgiht && <div>{headerRgiht}</div>}
-        </div>
-      </div>
-    </BaseHeader>
+      }
+      headerRgiht={headerRgiht}
+      desc={desc}
+      {...props}
+      className={classes}
+    />
   );
 };
 

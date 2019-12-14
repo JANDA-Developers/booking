@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { IContext } from "../../../../BookingHostRouter";
 import "./CreaditCard.scss";
 import PhotoFrame from "../../../../../../atoms/photoFrame/PhotoFrame";
@@ -9,8 +9,13 @@ import { CardStyleInfo } from "./helper";
 import classNames from "classnames";
 import { card_space } from "../../../../../../utils/autoFormat";
 import { IMG_REPO } from "../../../../../../types/const";
+import { IPayTaget } from "../../../../../../utils/getTargetsWithBillKey";
+import JDbadge from "../../../../../../atoms/badge/Badge";
+import { isEmpty } from "../../../../../../utils/utils";
+import ReactTooltip from "react-tooltip";
 
 interface Iprops {
+  payTargets: IPayTaget[];
   isSelected?: boolean;
   payment: getMyProfile_GetMyProfile_user_paymentInfos;
   callBackCardClick: (
@@ -24,11 +29,13 @@ const CreaditCard: React.FC<Iprops> = ({
   payment,
   callBackCardClick,
   className,
+  payTargets,
   isSelected,
   refProp
 }) => {
-  const { cardName, cardNo } = payment;
+  const { cardNo } = payment;
   const folderName = "card_logo/";
+  const haveTaget = isEmpty(payTargets);
 
   const getLinear = (color: string) =>
     `radial-gradient(circle at 0% 0%, ${color} 0%, ${color} 40%, ${Color(color)
@@ -36,6 +43,10 @@ const CreaditCard: React.FC<Iprops> = ({
       .toString()} 100%)`;
   const classes = classNames("creaditCard", className, {
     "creaditCard--selected": isSelected
+  });
+
+  useEffect(() => {
+    ReactTooltip.rebuild();
   });
 
   return (
@@ -48,18 +59,30 @@ const CreaditCard: React.FC<Iprops> = ({
       className={classes}
     >
       <div className="creaditCard__logoWrap">
+        {/* logo */}
         <PhotoFrame
           unStyle
           className="creaditCard__logo"
           type=".png"
           src={IMG_REPO + folderName + "cd_" + CardStyleInfo[3].logo}
         />
+        {/* creadi t+ */}
         <span className="JDsmall-text creaditCard__label">{`(${LANG(
           "credit"
         )})`}</span>
       </div>
       <div className="creaditCard__cardNumber">{card_space(cardNo)}</div>
       <div className="creaditCard__cardDate">11/22</div>
+      <span className="creaditCard__badgeWrap">
+        {haveTaget || (
+          <JDbadge
+            tooltip={payTargets.map(target => target.name)}
+            thema="primary"
+          >
+            {LANG("periodical_paying")}
+          </JDbadge>
+        )}
+      </span>
     </div>
   );
 };

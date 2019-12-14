@@ -10,7 +10,6 @@ import {
 import Button from "../../../../../atoms/button/Button";
 import ProfileCircle from "../../../../../atoms/profileCircle/ProfileCircle";
 import { toast } from "react-toastify";
-
 import {
   updateMyProfileVariables,
   updateMyProfile,
@@ -41,6 +40,7 @@ import Vtable, {
   VtableColumn,
   VtableCell
 } from "../../../../../atoms/vtable/Vtable";
+import { WindowSize } from "../../../../../types/enum";
 
 interface Iprops {
   context: IContext;
@@ -109,6 +109,8 @@ const UserProfile: React.FC<Iprops> = ({ context, userInfo }) => {
   const changePasswordModalHook = useModal();
   const passwordCheckModalHook = useModal();
 
+  const isPhabletDwon = window.innerWidth < WindowSize.PHABLET;
+
   return (
     <Fragment>
       <Card mr="no">
@@ -118,19 +120,23 @@ const UserProfile: React.FC<Iprops> = ({ context, userInfo }) => {
         />
         <CardSection>
           <div className="flex-grid">
-            <div className="JDstandard-margin-bottom flex-grid__col col--full-8">
+            <div className="JDstandard-margin-bottom flex-grid__col col--full-8 col--lg-12">
               <div className="flex-grid-grow">
-                <div className=" myPage__profileCircleWrap">
+                <div className="myPage__profileCircleWrap">
                   <ProfileCircle
                     {...profileCircleHook}
                     config
-                    size={"largest2"}
+                    size={isPhabletDwon ? "largest" : "largest2"}
                     style={profileStyle}
                     className=" JDstandard-margin0"
                   />
                 </div>
                 <div className="formWrap flex-grid__col ">
-                  <Vtable border={"none"}>
+                  <Vtable
+                    mode={isPhabletDwon ? "unStyle" : undefined}
+                    border={"none"}
+                    mb="no"
+                  >
                     <VtableColumn>
                       <VtableCell label={LANG("name")}>
                         <InputText mb="no" {...nameHook} validation={isName} />
@@ -159,7 +165,7 @@ const UserProfile: React.FC<Iprops> = ({ context, userInfo }) => {
                 </div>
               </div>
             </div>
-            <div className="flex-grid__col col--full-4"></div>
+            <div className="flex-grid__col col--full-4 col--lg-0"></div>
           </div>
           <div className="JDmodal__endSection">
             <Button
@@ -184,40 +190,43 @@ const UserProfile: React.FC<Iprops> = ({ context, userInfo }) => {
           {<JDpreloader loading={loading} />}
           <div className="flex-grid myPage__myHouses">
             {houses &&
-              houses.map((house, index) => (
-                <Fragment key={house._id}>
-                  <div className="myPage__myHouse flex-grid__col col--full-3">
-                    <MyHouse
-                      id={house._id}
-                      title={house.name}
-                      houseModal={houseModal}
-                      productId={house.product ? house.product._id : undefined}
-                      productName={
-                        house.product ? house.product.name : undefined
-                      }
-                      purchaseProduct={house.houseType}
-                      dateCreated={house.createdAt.substr(0, 10)}
-                      location={house.location && house.location.address}
-                    />
-                  </div>
-                  {houses.length === index + 1 && (
-                    <div
-                      key={house._id}
-                      className="myPage__myHouse flex-grid__col col--full-3"
-                    >
-                      <Link to="/createHouse">
-                        <JDbox
-                          clickable
-                          mode="border"
-                          className="myHouseCard JDflex JDflex--vCenter JDflex--center"
-                        >
-                          <JDIcon size="huge" icon="addCircle" />
-                        </JDbox>
-                      </Link>
+              houses.map((house, index) => {
+                const commonClasses =
+                  "myPage__myHouse flex-grid__col col--full-3 col--md-12";
+                return (
+                  <Fragment key={house._id}>
+                    <div className={commonClasses}>
+                      <MyHouse
+                        id={house._id}
+                        title={house.name}
+                        houseModal={houseModal}
+                        productId={
+                          house.product ? house.product._id : undefined
+                        }
+                        productName={
+                          house.product ? house.product.name : undefined
+                        }
+                        purchaseProduct={house.houseType}
+                        dateCreated={house.createdAt.substr(0, 10)}
+                        location={house.location && house.location.address}
+                      />
                     </div>
-                  )}
-                </Fragment>
-              ))}
+                    {houses.length === index + 1 && (
+                      <div className={commonClasses}>
+                        <Link to="/createHouse">
+                          <JDbox
+                            clickable
+                            mode="border"
+                            className="myHouseCard JDflex JDflex--vCenter JDflex--center"
+                          >
+                            <JDIcon size="huge" icon="addCircle" />
+                          </JDbox>
+                        </Link>
+                      </div>
+                    )}
+                  </Fragment>
+                );
+              })}
             {/* 숙소추가 */}
           </div>
         </CardSection>

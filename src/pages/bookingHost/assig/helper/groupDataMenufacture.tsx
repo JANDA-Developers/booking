@@ -51,6 +51,7 @@ export const roomDataManufacturer = (
             roomIndex: room.index,
             roomType: roomTypeData,
             roomId: room._id,
+            stackItems: false,
             room: {
               _id: room._id,
               name: room.name
@@ -76,6 +77,7 @@ export const roomDataManufacturer = (
                 _id: room._id,
                 name: room.name
               },
+              stackItems: false,
               roomTypeId: roomTypeData._id,
               roomTypeIndex: roomTypeData.index,
               roomIndex: room.index,

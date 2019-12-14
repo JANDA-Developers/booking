@@ -12,7 +12,7 @@ const HeaderMenu: React.FC<Iprops> = ({
   sideNavIsOpen
 }) => {
   return (
-    <span className="header__menueWrap">
+    <div className="header__menueWrap">
       {completeDefaultSetting && (
         <span className="header__menue">
           <JDIcon
@@ -24,7 +24,7 @@ const HeaderMenu: React.FC<Iprops> = ({
           />
         </span>
       )}
-    </span>
+    </div>
   );
 };
 

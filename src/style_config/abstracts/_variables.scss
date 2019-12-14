@@ -145,7 +145,7 @@ $container-small-width: 550px !default;
 $container-middle-width: 800px !default;
 $container-large-width: 1200px !default;
 $container-padding: $standard-largest-space !default; // ⭐️
-$container-padding--md: $standard-space !default; // ⭐️
+$container-padding--md: $standard-tiny-space !default; // ⭐️
 
 // -- Column 컬럼
 $total-columns: 12 !default;

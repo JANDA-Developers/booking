@@ -2,12 +2,15 @@ import React, { Fragment } from "react";
 import "./Switch.scss";
 import PropTypes from "prop-types";
 import classNames from "classnames";
+import wrapClassNames from "classnames";
 import ErrProtecter from "../../../utils/errProtect";
 import JDlabel from "../../label/JDLabel";
 import { s4 } from "../../../utils/utils";
 import Tooltip from "../../tooltip/Tooltip";
+import { JDatomExtentionSet } from "../../../types/interface";
+import { JDmrClass, JDmbClass } from "../../../utils/autoClasses";
 
-interface IProps {
+interface IProps extends JDatomExtentionSet {
   disabled?: boolean;
   checked?: boolean;
   onChange?(foo: boolean): void;
@@ -24,7 +27,9 @@ const JDswitch: React.FC<IProps> = ({
   ltxt,
   tooltip,
   rtxt,
-  label
+  label,
+  mr,
+  mb
 }) => {
   const handleCheckboxChange = () => {
     const flag = disabled ? checked : !checked;
@@ -37,9 +42,14 @@ const JDswitch: React.FC<IProps> = ({
 
   const newId = s4();
 
+  const wrapClasses = classNames("JDswitch-wrapWrap", undefined, {
+    ...JDmbClass(mb),
+    ...JDmrClass(mr)
+  });
+
   return (
     <span
-      className="JDswitch-wrapWrap"
+      className={wrapClasses}
       data-tip={tooltip}
       data-for={tooltip ? `btnTooltip${newId}` : undefined}
     >

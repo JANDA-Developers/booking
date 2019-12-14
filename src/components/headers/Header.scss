@@ -78,6 +78,7 @@ html .header {
     }
 
     &__apps {
+        font-size: 0;
         margin-left: auto;
         .circleIcon  {
             margin-right:0;
@@ -102,6 +103,7 @@ html .header {
     // 메뉴버튼 (사이드네비)
 
     &__menueWrap {
+        font-size: 0;
         margin-left:-4px;
         margin-right:$standard-space;
 
@@ -115,6 +117,10 @@ html .header {
             color:white;
             border-radius: 100%;
             margin-left:$standard-space;
+            @include response($tablet) {
+                margin-left: 0;
+                padding-left: $container-padding--md;    
+            }
             height: 100%;
             &:hover {
                 background-color: $grey-opacity1;
@@ -227,6 +233,8 @@ html .header {
 
     .JDsearchInput {
         margin-bottom: 0;
+        @include response($tablet) {
+            width: 150px;
+        }
     }
-    
 }

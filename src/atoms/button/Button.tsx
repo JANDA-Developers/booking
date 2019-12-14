@@ -17,6 +17,7 @@ export interface IButtonProps
   disabled?: boolean;
   label?: string;
   icon?: IIcons;
+  cunsumPadding?: boolean;
   onClick?(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void;
   iconClasses?: string[];
   dataTip?: any;
@@ -50,6 +51,7 @@ const Button: React.FC<IButtonProps> = ({
   dataFor,
   flat,
   mode,
+  cunsumPadding,
   float,
   type,
   color,
@@ -84,6 +86,7 @@ const Button: React.FC<IButtonProps> = ({
     "JDbtn--pulse": pulse,
     "JDbtn--toogleOn": toggle === true,
     "JDbtn--toogle111Off": toggle === false,
+    "JDbtn--cunsumPadding": cunsumPadding,
     "JDtext-blink": blink,
     ...JDmbClass(mb),
     ...JDmrClass(mr)

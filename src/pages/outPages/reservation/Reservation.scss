@@ -14,15 +14,10 @@ $flex-grid--column-margin: .8%;
     padding-bottom: $standard-margin-bottom;
     
     // 😆 어떻게 그리드 시스템을 오버라이드 하는지 보여줌
+    //  $flex-grid--column-margin: .8% 
+    
     .flex-grid {
-
-        @include grid-system(full);
-        @include grid-system(wlg);
-        @include grid-system(lg);
-        @include grid-system(wmd);
-        @include grid-system(wmd);
-        @include grid-system(md);
-        @include grid-system(sm);
+        @include grid-system-all();
     }
 
     @include response($tablet) {

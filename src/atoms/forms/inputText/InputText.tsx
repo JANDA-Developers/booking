@@ -1,9 +1,8 @@
-import React, { useEffect, useRef, useState, FormEvent } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./InputText.scss";
 import "./Textarea.scss";
 import classNames from "classnames";
 import JDicon from "../../icons/Icons";
-import ErrProtecter from "../../../utils/errProtect";
 import autoHyphen, {
   numberStr,
   toNumber,
@@ -208,15 +207,7 @@ const InputText: React.FC<IProps> = ({
   // 인풋 과 텍스트어리어 경계
   return !textarea ? (
     <div className={wrapClasses}>
-      {label && (
-        <JDlabel
-          txt={label}
-          // htmlFor="JDinput"
-          // data-error={dataError}
-          // data-success={dataSuccess}
-          className="JDinput_label"
-        />
-      )}
+      {label && <JDlabel txt={label} className="JDinput_label" />}
       <div className="JDinput__inside-wrap">
         <input
           onChange={inHandleChange}

@@ -13,6 +13,10 @@ $card-hover-bg: $grey-level1;
     border-radius: $card-radius;
     background-color: $card-bg;
 
+    @include response($tablet) {
+        padding: $card-padding--md;
+    }
+
     &--align {
         text-align: center;
     }

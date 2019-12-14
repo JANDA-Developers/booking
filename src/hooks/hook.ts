@@ -252,14 +252,16 @@ function useRedirect(
 function useInput<T = string>(
   defaultValue: T,
   defulatValid: boolean | string = "",
-  prefix?: any = "",
-  suffix?: any = ""
+  prefix?: any,
+  suffix?: any
 ): TUseInput<T> {
   const [value, setValue] = useState(defaultValue);
   const [isValid, setIsValid] = useState(defulatValid);
 
   const onChange = useCallback((value: any) => {
-    setValue(prefix + value + suffix);
+    let prefixTemp = prefix || "";
+    let suffixTemp = suffix || "";
+    setValue(prefixTemp + value + suffixTemp);
   }, []);
 
   const onChangeValid = useCallback((value: boolean | string) => {

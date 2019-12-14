@@ -23,6 +23,11 @@
   cursor: pointer;
   border:none;
 
+  &--cunsumPadding {
+    margin-left: -$button-padding-side;
+    margin-right: -$button-padding-side;
+  }
+
   // Flot
   &--left {
     float: left
@@ -146,6 +151,12 @@
   &--small {
     padding: $button-small-padding;
     font-size: $button-small-font-size;
+    
+    &.JDbtn--cunsumPadding {
+          margin-left: -$button-small-padding-side;
+          margin-right: -$button-small-padding-side;
+    }
+
     
     .JDbtn__icon {
       margin-left: $buttons-small-icon-margin;

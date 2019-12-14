@@ -57,7 +57,8 @@ import {
   ASSIG_BASIC_CONFIG_STORAGE_NAME,
   ASSIG_BASIC_DEFAULT_CONFIG,
   IAssigBaseConfig
-} from "./components/AssigTimelineConfigModal/BasicConfig";
+} from "./components/AssigTimelineConfigModal/components/BasicConfig";
+import getConfigStorage from "./helper/getStorage";
 
 moment.tz.setDefault("UTC");
 
@@ -102,10 +103,6 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
     )
   });
 
-  const basicConfig: IAssigBaseConfig =
-    JSON.parse(localStorage.getItem(ASSIG_BASIC_CONFIG_STORAGE_NAME)) ||
-    ASSIG_BASIC_DEFAULT_CONFIG;
-
   const reloadTimeline = () => {
     setReloadKey(s4());
   };
@@ -133,14 +130,13 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
         ...updateVariables,
         bookingStatuses: [BookingStatus.COMPLETE, BookingStatus.PROGRESSING]
       },
-      partialRefetch: true,
       notifyOnNetworkStatusChange: true,
-      fetchPolicy: "network-only",
-      pollInterval: houseConfig.pollingPeriod
-        ? houseConfig.pollingPeriod.period
-        : undefined
+      fetchPolicy: "no-cache",
+      pollInterval: 1000
     }
   );
+
+  client.cache.reset();
 
   // 주기 풀링 왜에는 잘 호출되지 않는것 같다.
   console.count("callingWrapCount");

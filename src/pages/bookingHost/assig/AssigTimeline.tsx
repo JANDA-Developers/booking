@@ -20,12 +20,7 @@ import Timeline, {
 import ErrProtecter from "../../../utils/errProtect";
 import Button from "../../../atoms/button/Button";
 import BookingModalWrap from "../../../components/bookingModal/BookingModalWrap";
-import {
-  IUseDayPicker,
-  useModal,
-  getKoreaSpecificDayHook,
-  LANG
-} from "../../../hooks/hook";
+import { IUseDayPicker, useModal, LANG } from "../../../hooks/hook";
 import classnames from "classnames";
 import assigGroupRendererFn from "./helper/groupRenderFn";
 import { IRoomType } from "../../../types/interface";
@@ -33,9 +28,9 @@ import "./scss/AssigTimeline.scss";
 import {
   WindowSize as EWindowSize,
   GlobalCSS,
-  WindowSize
+  WindowSize,
+  TimePerMs
 } from "../../../types/enum";
-import $ from "jquery";
 import itemRendererFn from "./components/items/itemRenderFn";
 import ItemMenuTooltip from "./components/tooltips/ItemMenuTooltip";
 import CanvasMenuTooltip from "./components/tooltips/CanvasMenuTooltip";
@@ -68,10 +63,8 @@ import { IContext } from "../BookingHostRouter";
 import { SharedSideBarHeader } from "../../../atoms/timeline/components/SharedHeader";
 import PageHeader from "../../../components/pageHeader/PageHeader";
 import PageBody from "../../../components/pageBody/PageBody";
-import { Tooltip } from "chart.js";
-import ReactTooltip from "react-tooltip";
-import Sticky from "react-sticky-el";
-import { ASSIG_BASIC_CONFIG_STORAGE_NAME, ASSIG_BASIC_DEFAULT_CONFIG, IAssigBaseConfig } from "./components/AssigTimelineConfigModal/BasicConfig";
+import AssigTimelineConfigModal from "./components/AssigTimelineConfigModal/AssigTimelineConfigModal";
+import getConfigStorage from "./helper/getStorage";
 
 interface IProps {
   context: IContext;
@@ -125,11 +118,10 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
     if (isDesktopHDDown) return 5;
     return 0;
   })();
-
   const [guestValue, setGuestValue] = useState<IAssigItem[]>(deafultGuestsData);
   const dayPickerModalHook = useModal(false);
   const [isMultiSelectingMode, setIsMultiSelectingMode] = useState(false);
-  const keyBoardModal = useModal(false);
+  const configModal = useModal(false);
   const confirmModalHook = useModal(false);
   const reservationModal = useModal(false);
   const [inIsEmpty, setEmpty] = useState(false);
@@ -146,8 +138,10 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
     item: DEFAULT_ASSIG_ITEM
   });
   const dailyAssigHook = useModal(false);
-
-  const basicConfig:IAssigBaseConfig = localStorage.getItem(ASSIG_BASIC_CONFIG_STORAGE_NAME) || ASSIG_BASIC_DEFAULT_CONFIG;
+  const { basicConfig } = useMemo(() => getConfigStorage(), [
+    configModal.isOpen
+  ]);
+  const { useTodayMark, useCursorMark, zoomValue } = basicConfig;
 
   // 스크롤시 툴팁제거
   const handleWindowScrollEvent = () => {
@@ -170,46 +164,6 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
   const handleKeyUpCavnas = (e: KeyboardEvent) => {
     setIsMultiSelectingMode(false);
   };
-
-  //  스크롤 할때
-  useEffect(() => {
-    const handleClickWindow = () => {
-      allTooltipsHide();
-    };
-
-    // $(".rct-header-root").mousedown(e => {
-    //   // e.preventDefault();
-    //   // e.stopPropagation();
-    // });
-    window.addEventListener("keyup", handleKeyUpCavnas);
-    window.addEventListener("keydown", debounceKeyDownCanvas);
-    window.addEventListener("scroll", handleWindowScrollEvent);
-    window.addEventListener("click", handleClickWindow);
-    return () => {
-      window.removeEventListener("keyup", handleKeyUpCavnas);
-      window.removeEventListener("keydown", debounceKeyDownCanvas);
-      window.removeEventListener("scroll", handleWindowScrollEvent);
-      window.removeEventListener("scroll", handleClickWindow);
-    };
-  });
-
-  // 풀링으로 새로받은 게스트데이터를 적용시켜준다.
-  useEffect(() => {
-    if (networkStatus >= 7) {
-      console.count("volatilityEffectCount");
-      const newIndexStart = deafultGuestsData.length;
-
-      // 업데이트전 휘발성 블럭들을 찾아서 합쳐줍니다.
-      const volatilityBlocks = getItemsByType(GuestTypeAdd.MARK);
-
-      // 휘발성 블록들의 인덱스를 다시 정의해줍니다.
-      volatilityBlocks.forEach(
-        (block, index) => (block.itemIndex = newIndexStart + index)
-      );
-
-      setGuestValue([...deafultGuestsData, ...volatilityBlocks]);
-    }
-  }, [deafultGuestsData]);
 
   const assigHooks: IAssigTimelineHooks = {
     guestValue,
@@ -299,21 +253,6 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
     );
   }, []);
 
-  // 아예 그룹이 없을떄 처리
-  useEffect(() => {
-    if (isEmpty(groupData) && !loading) setEmpty(true);
-  }, [inIsEmpty]);
-
-  const timelineClassNames = useMemo(
-    () =>
-      classnames("assigTimeline", undefined, {
-        "assiTimeline--mobile": windowWidth <= WindowSize.MOBILE,
-        "assigTimeline--loading": isEmpty(groupData) && loading,
-        "assigTimeline--empty": inIsEmpty
-      }),
-    [windowWidth, guestValue]
-  );
-
   // 그룹 데이터에서 필터된것만 추출
   let filteredGroup = useMemo(
     () => groupData.filter(group => viewRoomType.includes(group.roomTypeId)),
@@ -342,6 +281,74 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
       }),
     []
   );
+
+  // 아예 그룹이 없을떄 처리
+  useEffect(() => {
+    if (isEmpty(groupData) && !loading) setEmpty(true);
+  }, [inIsEmpty]);
+
+  const timelineClassNames = useMemo(
+    () =>
+      classnames("assigTimeline", undefined, {
+        "assiTimeline--mobile": windowWidth <= WindowSize.MOBILE,
+        "assigTimeline--loading": isEmpty(groupData) && loading,
+        "assigTimeline--empty": inIsEmpty
+      }),
+    [windowWidth, guestValue]
+  );
+
+  //  스크롤 할때
+  useEffect(() => {
+    const handleClickWindow = () => {
+      allTooltipsHide();
+    };
+
+    // $(".rct-header-root").mousedown(e => {
+    //   // e.preventDefault();
+    //   // e.stopPropagation();
+    // });
+    window.addEventListener("keyup", handleKeyUpCavnas);
+    window.addEventListener("keydown", debounceKeyDownCanvas);
+    window.addEventListener("scroll", handleWindowScrollEvent);
+    window.addEventListener("click", handleClickWindow);
+    return () => {
+      window.removeEventListener("keyup", handleKeyUpCavnas);
+      window.removeEventListener("keydown", debounceKeyDownCanvas);
+      window.removeEventListener("scroll", handleWindowScrollEvent);
+      window.removeEventListener("scroll", handleClickWindow);
+    };
+  });
+
+  // 풀링으로 새로받은 게스트데이터를 적용시켜준다.
+  useEffect(() => {
+    if (networkStatus >= 7) {
+      console.count("volatilityEffectCount");
+      const newIndexStart = deafultGuestsData.length;
+
+      // 업데이트전 휘발성 블럭들을 찾아서 합쳐줍니다.
+      const volatilityBlocks = getItemsByType(GuestTypeAdd.MARK);
+
+      // 휘발성 블록들의 인덱스를 다시 정의해줍니다.
+      volatilityBlocks.forEach(
+        (block, index) => (block.itemIndex = newIndexStart + index)
+      );
+
+      setGuestValue([...deafultGuestsData, ...volatilityBlocks]);
+    }
+  }, [deafultGuestsData]);
+
+  const endTime = (() => {
+    let configZoom = zoomValue || 0;
+    return (
+      moment(defaultTimeEnd.valueOf())
+        .add(-1 * timeline_size_var, "days")
+        .valueOf() -
+      configZoom * TimePerMs.H * 3
+    );
+  })();
+  const timelineKey = `timeline${endTime}${sideNavIsOpen ? "a" : "b"}`;
+  console.log("timelineKey");
+  console.log(timelineKey);
 
   return (
     <Fragment>
@@ -390,7 +397,7 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
               />
               <Button
                 onClick={() => {
-                  keyBoardModal.openModal();
+                  configModal.openModal();
                 }}
                 icon="keyBoard"
               />
@@ -432,6 +439,7 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
           />
           <div className="assigTimeline__timelineWrap">
             <Timeline
+              key={timelineKey}
               handleMouseDownCanvas={handleMouseDownCanvas}
               onItemMove={handleItemMove}
               onItemResize={handleItemResize}
@@ -446,15 +454,12 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
               itemRenderer={callBackitemRenderer}
               groupRenderer={assigGroupRendererFn}
               defaultTimeStart={defaultTimeStart}
-              defaultTimeEnd={moment(defaultTimeEnd.valueOf())
-                .add(-1 * timeline_size_var, "days")
-                .valueOf()}
+              defaultTimeEnd={endTime}
               handleDraggingEnd={handleDraggingEnd}
               moveResizeValidator={handleMoveResizeValidator}
               onItemSelect={handleItemSelect}
               onCanvasContextMenu={handleCanvasContextMenu}
               sidebarWidth={isMobile ? 100 : 230}
-              key={sideNavIsOpen ? "a" : "b"}
             >
               <TimelineHeaders>
                 {/* 왼쪽 위 달력 부분 */}
@@ -472,11 +477,11 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
                   height={GlobalCSS.TIMELINE_HEADER_HEIGHT}
                   unit="day"
                 />
-                <CursorMarker />
+                {useCursorMark && <CursorMarker />}
                 <DateHeader />
               </TimelineHeaders>
               <TimelineMarkers>
-                <CustomMarker date={new Date()} />
+                {useTodayMark && <CustomMarker date={new Date()} />}
               </TimelineMarkers>
             </Timeline>
           </div>
@@ -511,7 +516,7 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
           />
           <BookingModalWrap context={context} modalHook={bookingModal} />
           <JDtoastModal confirm {...confirmModalHook} />
-          <keyBoardModal modalHook={keyBoardModal}>
+          <AssigTimelineConfigModal context={context} modalHook={configModal} />
           <JDmodal {...dailyAssigHook}>
             <DailyAssigWrap date={dailyAssigHook.info.date} context={context} />
           </JDmodal>

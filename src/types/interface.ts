@@ -45,6 +45,7 @@ export type IGuest = getAllRoomTypeWithGuest_GetGuests_guests;
 export type IGuestD = getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory;
 export type IGuestR = getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom;
 export type ISmsH = getSmsHistory_GetSmsHistory_result_smsHistories;
+export type TElements = string | JSX.Element | JSX.Element[] | string[];
 export type TMuFn<m, mv> = (
   options?: MutationFunctionOptions<m, mv> | undefined
 ) => Promise<ExecutionResult<m>>;
@@ -123,6 +124,7 @@ export interface ITimelineContext {
   canvasTimeStart: number;
   canvasTimeEn: number;
 }
+
 export interface IItemContext {
   dimensions: any;
   useResizeHandle: boolean;

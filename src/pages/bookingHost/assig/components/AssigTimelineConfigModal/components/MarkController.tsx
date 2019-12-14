@@ -1,19 +1,18 @@
 import React from "react";
-import Button from "../../../../atoms/button/Button";
-import JDselect from "../../../../atoms/forms/selectBox/SelectBox";
+import Button from "../../../../../../atoms/button/Button";
+import JDselect from "../../../../../../atoms/forms/selectBox/SelectBox";
 import Vtable, {
   VtableColumn,
   VtableCell
-} from "../../../../atoms/vtable/Vtable";
-import JDcolorPicker from "../../../../atoms/colorPicker/ColorPicker";
-import JDswitch from "../../../../atoms/forms/switch/Switch";
-import {
-  useColorPicker,
-  useDayPicker,
-  useSwitch
-} from "../../../../hooks/hook";
+} from "../../../../../../atoms/vtable/Vtable";
+import JDcolorPicker from "../../../../../../atoms/colorPicker/ColorPicker";
+import JDswitch from "../../../../../../atoms/forms/switch/Switch";
+import { useColorPicker, useSwitch } from "../../../../../../hooks/hook";
+import { IContext } from "../../../../BookingHostRouter";
 
-interface Iprops {}
+interface Iprops {
+  context: IContext;
+}
 
 const MarkController: React.FC<Iprops> = ({ context }) => {
   const useHasMemoColor = useSwitch(false);
@@ -25,16 +24,16 @@ const MarkController: React.FC<Iprops> = ({ context }) => {
   return (
     <div>
       <div>
-        <Vtable>
+        <Vtable mode="unStyle">
           <VtableColumn>
             <VtableCell label="has memo mark">
-              <JDswitch {...useHasMemoColor} />
+              <JDswitch mr="normal" {...useHasMemoColor} />
               <JDcolorPicker colorHook={hasMemoColor} />
             </VtableCell>
           </VtableColumn>
           <VtableColumn>
             <VtableCell label="didn't pay mark">
-              <JDswitch {...unPayUse} />
+              <JDswitch mr="normal" {...unPayUse} />
               <JDcolorPicker colorHook={unPayColor} />
             </VtableCell>
           </VtableColumn>
@@ -43,7 +42,7 @@ const MarkController: React.FC<Iprops> = ({ context }) => {
       <div className="JDmodal__endSection">
         <Button
           onClick={() => {
-            handleClickAdmit();
+            // handleClickAdmit();
           }}
           thema="primary"
           size="small"
@@ -51,7 +50,7 @@ const MarkController: React.FC<Iprops> = ({ context }) => {
         />
         <Button
           onClick={() => {
-            handleClickAdmit("cancel");
+            // handleClickAdmit("cancel");
           }}
           size="small"
           thema="warn"

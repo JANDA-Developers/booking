@@ -147,7 +147,7 @@ $container-small-width: 550px !default;
 $container-middle-width: 800px !default;
 $container-large-width: 1200px !default;
 $container-padding: $standard-largest-space !default; // ⭐️
-$container-padding--md: $standard-space !default; // ⭐️
+$container-padding--md: $standard-small-space !default; // ⭐️
 
 // -- Column 컬럼
 $total-columns: 12 !default;
@@ -339,6 +339,7 @@ $button-height: $standard-line-height !default;
 
 $modal-background-color: $curtain-color !default;
 $modal-content-padding: $standard-large-space !default;
+$modal-content-padding--wmd: $standard-space !default;
 $modal-border-radius: $standard-border-radius !default;
 $modal-section-padding: $standard-largest-space !default;
 
@@ -411,6 +412,7 @@ $profileCircle-border: 2px solid $grey-level2!default;
 // 14 Card 카드
 // ANCHOR card Card=========================================================================
 $card-padding: $standard-large-space !default;
+$card-padding--md: $standard-small-space !default;
 $card-shadow: 1!default;
 $card-bg: white;
 
@@ -419,7 +421,7 @@ $card-bg: white;
 
 $tabs-height: $standard-line-height !default;
 $tabs-margin-bottom: $standard-margin-bottom !default;
-$tabs-tab-padding:  $standard-space !default;
+$tabs-tab-padding:  0 !default;
 $tabs-tab-border-color: $grey-level1 !default;
 $tabs-tab-border-radious: $standard-border-radius !default;
 $tabs-tab-selected-color: $primary-color !default;
@@ -506,4 +508,3 @@ $JDscrollbar-height: 13px;
 $JDscrollbar-width: 10px;
 $JDscrollbar-thumb-color: $grey-level2;
 $JDscrollbar-thumb-hover-color: $grey-level3;
-$JDscrollbar-thumb-hover-color: $grey-level3; 

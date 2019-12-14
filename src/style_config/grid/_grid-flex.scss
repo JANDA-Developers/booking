@@ -207,11 +207,10 @@
     flex: 0 0!important;
   }
 
-  @include grid-system(full);
-  @include grid-system(wlg);
-  @include grid-system(lg);
-  @include grid-system(wmd);
-  @include grid-system(md);
-  @include grid-system(sm);
+  @include grid-system-all()
+
+  &--noMargin {
+    @include grid-system-all(true)
+  }
 
 }

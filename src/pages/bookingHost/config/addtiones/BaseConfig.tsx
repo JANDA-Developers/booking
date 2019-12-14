@@ -31,13 +31,13 @@ const BaseConfig: React.FC<IProps> = ({ updateHouseConfigMu, context }) => {
     )!
   );
 
-  const vlidate = (): boolean => {
+  const validate = (): boolean => {
     if (!useingPricingTypesHook.selectedOption) return false;
     return true;
   };
 
   const handleUpdateBtnClick = () => {
-    if (vlidate()) {
+    if (validate()) {
       updateHouseConfigMu({
         variables: {
           houseId: house._id,

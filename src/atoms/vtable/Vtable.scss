@@ -12,13 +12,50 @@ $flex-grid--column-margin: 10%;
     padding-bottom: 0;
 
     // @include component-layout(4%, 200px)
+    // This make cell out of Columns;
+    &--cellColumn {
+        .vtable__column {
+            display:block!important;
+        }
+                  .vtable__column {
+                &:last-child {
+                    padding-top: 0;
+                    .vtable__cell {
+                        &:last-child {
+                            border-bottom: none;
+                            padding-bottom: 0;
+                        }
+                    }
+                }
+            }
+            
+            .vtable__column {
+                &:first-child {
+                    padding-bottom: 0;
+                    border-top: none;
+                    .vtable__cell {
+                        &:fisrt-child {
+                            border-bottom: none;
+                            padding-bottom: 0;
+                        }
+                    }
+                }
+            }
 
-        @include grid-system-grow();
 
-    &--unStyle {
-        border: none;
-        padding: 0;
+        .vtable__cell {
+            margin:0!important;
+            display: flex;
+            align-items: center;
+            padding: $standard-space;
+            padding-left: 0;
+            padding-right: 0;
+            border-bottom: 1px solid $grey-level1;
+            justify-content: space-between;
+        }
     }
+
+    @include grid-system-grow();
 
     &--unBorder {
         border: none;
@@ -30,46 +67,69 @@ $flex-grid--column-margin: 10%;
 
     &__cell {
         display:flex;
+        align-self: center;
         justify-content: space-between;
     }
+    .vtable--unStyle {
+            border: none;
+            padding: 0;
+    }
+    &:not(.vtable--cellColumn) {
+        .vtable__column {
+            display: flex;
+            align-items: center;
+            padding: $standard-space;
+            padding-left: 0;
+            padding-right: 0;
+            border-bottom: 1px solid $grey-level1;
+            justify-content: space-between;
 
-    &__column {
-        display: flex;
-        align-items: center;
-        padding: $standard-space;
-        padding-left: 0;
-        padding-right: 0;
-        border-bottom: 1px solid $grey-level1;
-        justify-content: space-between;
-
-        &:last-child {
-            border-bottom: none;
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+        &.vtable--unStyle {
+            border: none;
+            padding: 0;
+            .vtable__column {
+                &:first-child {
+                    padding-top: 0;
+                }
+                &:last-child {
+                    padding-bottom:0;
+                }
+            }
         }
     }
 
     &__content {
+        white-space: nowrap;
         margin:0;
         min-width: fit-content;
         display: flex;
         justify-content: flex-end;
+        align-items: center;
+        max-width: 40%;
+        width: 100%;
+
+        & > div {
+            width: 100%
+        }
+
+        @include baseMargin() {
+            margin: 0;
+        }
     }
 
     &__label {
         margin:0;
+        display:flex;
+        align-items: center;
 
         .JDlabel {
             display:flex;
             align-items: center;
             margin-bottom: 0;
-        }
-    }
-
-    &__header {
-        padding-bottom: $standard-tiny-space;
-        margin-bottom: $standard-small-space;   
-
-        &--borderBottom {
-            border-bottom: 2px solid $grey-level1;
         }
     }
 

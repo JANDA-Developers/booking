@@ -42,8 +42,10 @@
             margin: -1px;
             & > li {
                 border-bottom:1px solid $grey-level1;
+                display:flex;
                 .JDbtn {
-                    width: calc(100% - #{$button-padding-side * 2});
+                    flex: 1 1;
+                    display:block;
                     box-sizing: content-box;
                     padding-top: $standard-superTiny-space;
                     padding-bottom: $standard-superTiny-space;

@@ -2420,9 +2420,11 @@ export const UPDATE_PRODUCT_BILL_INFO = gql`
   }
 `;
 
-export const DIS_CONTINUE_PRODUCT = gql`
-  mutation discontinueProduct($productId: ID!) {
-    DiscontinueProduct(productId: $productId) {
+export const UPDATE_PRODUCT_BILL_PAY_STATUS = gql`
+  mutation updateProductBillPayStatus(
+    $param: UpdateProductBillPayStatusInput!
+  ) {
+    UpdateProductBillPayStatus(param: $param) {
       ok
       error
     }

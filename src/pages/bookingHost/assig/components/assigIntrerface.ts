@@ -42,6 +42,11 @@ import { ApolloQueryResult } from "apollo-client";
 import { IMoveCount, IDotPoint } from "../../../../atoms/timeline/declare";
 import { ExecutionResult } from "graphql";
 import { MutationFunctionOptions } from "@apollo/react-common";
+import { IAssigBaseConfig } from "./AssigTimelineConfigModal/components/BasicConfig";
+
+export interface IUserConfig {
+  basicConfig: IAssigBaseConfig;
+}
 
 export interface IAssigTimelineContext {
   isMobile: boolean;
@@ -200,6 +205,7 @@ export interface IAssigGroup {
   id: string;
   title: string;
   roomTypeId: string;
+  stackItems: boolean;
   roomTypeIndex: number;
   roomIndex: number;
   roomType: IRoomType;

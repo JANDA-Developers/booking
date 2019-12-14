@@ -7,7 +7,7 @@
         overflow:auto;
         &--noWrap {
             white-space: nowrap;
-            @extend %JDscrollbar--slender;
+            @extend %JDscrollbar--hidden;
         }
     }
     .JDbtn {

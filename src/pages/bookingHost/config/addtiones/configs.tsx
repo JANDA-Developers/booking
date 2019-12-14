@@ -2,10 +2,6 @@ import React from "react";
 import { IAddition, IAddtionProp } from "../components/ConfigBlock";
 import SystemDescription from "./systemConfig";
 import AssigTimelineRoomTypeTab from "./assigTimelineRoomTypeTab";
-import AssigBlockOP from "./assigBlockOP";
-import NewBookingMark from "./newBookingMark";
-import ReservationConfig from "./ReservationConfig";
-import BaseConfig from "./BaseConfig";
 import { LANG } from "../../../../hooks/hook";
 
 export const configBlocks: IAddition[] = [
@@ -28,13 +24,15 @@ export const configBlocks: IAddition[] = [
     detailDescription: (prop: IAddtionProp) => <SystemDescription {...prop} />
   },
   {
-    description: LANG("provides_a_tab_that_can_be_divided_by_status_in_the_assignment_calendar"),
+    description: LANG(
+      "provides_a_tab_that_can_be_divided_by_status_in_the_assignment_calendar"
+    ),
     name: LANG("room_type_tab"),
     updateAt: "2019-07-01",
     detailDescription: (prop: IAddtionProp) => (
       <AssigTimelineRoomTypeTab {...prop} />
     )
-  },
+  }
   // 테스트하고 정리해서 ㄱㄱ
   // {
   //   description: "배정 게스트에 대한 상세설정기능",

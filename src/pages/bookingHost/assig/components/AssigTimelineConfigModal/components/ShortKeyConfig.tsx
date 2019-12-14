@@ -27,7 +27,7 @@ const ShortKeyConfig: React.FC<Iprops> = ({ context }) => {
 
   return (
     <div>
-      <Vtable>
+      <Vtable mode="unStyle">
         <VtableColumn>
           <VtableCell label="MoveTo today">
             <InputText />
