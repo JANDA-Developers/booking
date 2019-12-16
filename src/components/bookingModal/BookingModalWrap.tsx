@@ -63,7 +63,9 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
       query={GET_BOOKING}
       skip={isEmpty(modalHook.info) || modalHook.info.createParam !== undefined}
       variables={{
-        bookingId: modalHook.info.bookingId || ""
+        param: {
+          bookingId: modalHook.info.bookingId || ""
+        }
       }}
     >
       {({ data: bookingData, loading: getBooking_loading }) => {

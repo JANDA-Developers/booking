@@ -76,57 +76,57 @@ const PeriodicalSignCard: React.FC<Iprops & WindowSizeProps> = ({
         </div>
       </div>
       <div className="flex-grid--noMargin flex-grid periodicalSignCard__bodyWrap">
-        <div className="flex-grid__col col--lg-12 col--full-4 periodicalSignCard__priceZone">
-          <span>
-            {moment(new Date()).format(
-              `YYYY${LANG("year")} MM${LANG("month")} `
-            )}
-            {LANG("payment_fee")}
-          </span>
-          <h1 className="periodicalSignCard__price JDtextColor--point">
-            {autoComma(toNumber(price || 0))}
-          </h1>
+        <div className="flex-grid__col col--lg-12 col--full-4">
+          <div className="periodicalSignCard__priceZone">
+            <span>
+              {moment(new Date()).format(
+                `YYYY${LANG("year")} MM${LANG("month")} `
+              )}
+              {LANG("payment_fee")}
+            </span>
+            <h1 className="periodicalSignCard__price JDtextColor--point">
+              {autoComma(toNumber(price || 0))}
+            </h1>
+          </div>
         </div>
         <div className="flex-grid__col col--lg-12 col--full-8">
-          <Vtable
-            cellColumn={isPhabletDown}
-            mode="unStyle"
-            className="periodicalSignCard__infoTable"
-          >
-            <VtableColumn>
-              <VtableCell label={LANG("product_info")}>
-                {productName}
-              </VtableCell>
-              <VtableCell label={LANG("current_status")}>
-                <SelecterPayStatus
-                  isContinue={isContinue}
-                  productId={productId}
-                />
-              </VtableCell>
-            </VtableColumn>
-            <VtableColumn>
-              <VtableCell label={LANG("method_of_payment")}>
-                {billKey ? "card" : LANG("un_registed")}
-              </VtableCell>
-              <VtableCell label={LANG("sign_date")}>
-                {moment(authDate).format(DateFormat.YYMMDD)}
-              </VtableCell>
-            </VtableColumn>
-            <VtableColumn>
-              <VtableCell label={LANG("payment_information")}>
-                {cardName}:{card_space(cardNo)}
-              </VtableCell>
-              <VtableCell label={""}>
-                <CreaditCardChangeBtn
-                  currentHouseInfo={{
-                    houseName: house.name,
-                    product: applyedProduct
-                  }}
-                  cardModalHook={cardModalHook}
-                />
-              </VtableCell>
-            </VtableColumn>
-          </Vtable>
+          <div className="periodicalSignCard__infoTableWrap">
+            <Vtable cellColumn={isPhabletDown} mode="unStyle">
+              <VtableColumn>
+                <VtableCell label={LANG("product_info")}>
+                  {productName}
+                </VtableCell>
+                <VtableCell label={LANG("current_status")}>
+                  <SelecterPayStatus
+                    isContinue={isContinue}
+                    productId={productId}
+                  />
+                </VtableCell>
+              </VtableColumn>
+              <VtableColumn>
+                <VtableCell label={LANG("method_of_payment")}>
+                  {billKey ? "card" : LANG("un_registed")}
+                </VtableCell>
+                <VtableCell label={LANG("sign_date")}>
+                  {moment(authDate).format(DateFormat.YYMMDD)}
+                </VtableCell>
+              </VtableColumn>
+              <VtableColumn>
+                <VtableCell label={LANG("payment_information")}>
+                  {cardName}:{card_space(cardNo)}
+                </VtableCell>
+                <VtableCell label={""}>
+                  <CreaditCardChangeBtn
+                    currentHouseInfo={{
+                      houseName: house.name,
+                      product: applyedProduct
+                    }}
+                    cardModalHook={cardModalHook}
+                  />
+                </VtableCell>
+              </VtableColumn>
+            </Vtable>
+          </div>
         </div>
       </div>
       <CardModal modalHook={cardModalHook} context={context} />

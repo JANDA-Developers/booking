@@ -366,9 +366,11 @@ export const kr = {
   password_condition: (special: any, length: any, enAndNumber: any) => (
     <span>
       *{" "}
-      <span className={special && "JDtextColor--point"}>특수문자 1개이상</span>,
-      <span className={length && "JDtextColor--point"}>7~15자리</span>,
-      <span className={enAndNumber && "JDtextColor--point"}>
+      <span className={special ? "JDtextColor--point" : ""}>
+        특수문자 1개이상
+      </span>
+      ,<span className={length ? "JDtextColor--point" : ""}>7~15자리</span>,
+      <span className={enAndNumber ? "JDtextColor--point" : ""}>
         영문 숫자 조합
       </span>
     </span>
@@ -925,7 +927,7 @@ export const kr = {
   bill_pay_cancle_complete: "정기 결제 취소 완료",
   bill_pay_cancle_fail: "정기 결제 취소 실패",
   on_testing: "테스트 사용중",
-  un_registed: "안됨",
+  un_registed: "적용안됨",
   uploade_compelte: "업로드 완료",
   uploade_fail: "업로드 실패",
   HM_detail_info: "하우스 메뉴얼 상세정보",
@@ -1042,5 +1044,8 @@ export const kr = {
   un_validate_card_expire: "유효 하지 않은 카드 기한입니다.",
   periodical_paying: "정기결제중",
   creadit_card_change: "결제 카드 변경",
-  select_this_card: "이 카드로 결제변경"
+  select_this_card: "이 카드로 결제변경",
+  pay_history: "결제 내역",
+  there_is_no_card: "등록된 카드가 존재하지 않습니다.",
+  no_card: "카드 없음"
 };

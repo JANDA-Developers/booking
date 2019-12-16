@@ -132,7 +132,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
       },
       notifyOnNetworkStatusChange: true,
       fetchPolicy: "no-cache",
-      pollInterval: 1000
+      pollInterval: houseConfig.pollingPeriod?.period || 100000
     }
   );
 

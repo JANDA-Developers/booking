@@ -5,7 +5,7 @@ import { LANG } from "../../../../../hooks/hook";
 import JDIcon from "../../../../../atoms/icons/Icons";
 import "./CardViewer.scss";
 import { getMyProfile_GetMyProfile_user_paymentInfos } from "../../../../../types/api";
-import { toNumber } from "../../../../../utils/utils";
+import { toNumber, isEmpty } from "../../../../../utils/utils";
 import CardInfoFormWrap, {
   ICardInfoFormWrapProps
 } from "../../../../../components/bilingModal/components/CardInfoFormWrap";
@@ -53,6 +53,13 @@ const CardViewer: React.FC<Iprops> = ({
     }
   };
 
+  const CardUnExsist = () => (
+    <div className={`creaditCard creaditCard--unExsist`}>
+      <div>{LANG("no_card")}</div>
+      <span className="creaditCard__add-dec">{LANG("there_is_no_card")}</span>
+    </div>
+  );
+
   const CreaditCardAdd = () => (
     <div
       onClick={() => {
@@ -99,6 +106,7 @@ const CardViewer: React.FC<Iprops> = ({
                 );
               })}
             <CreaditCardAdd />
+            {isEmpty(paymentInfos) && <CardUnExsist />}
           </div>
         </div>
       </div>

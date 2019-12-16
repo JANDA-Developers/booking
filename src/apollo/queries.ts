@@ -175,7 +175,6 @@ export const F_PRODUCT = gql`
     layoutPricePaid
     appliedUrl
     expireDate
-    daysLeftToExpire
     isExpired
     canHaveHostApp
     existingHostApp
@@ -276,7 +275,6 @@ export const F_ROOMTYPE = gql`
     defaultPrice
     createdAt
     updatedAt
-    roomTemplateSrl
     roomGender
   }
   ${F_IMG}
@@ -1357,8 +1355,8 @@ export const GET_BOOKINGS = gql`
 
 // 예약 :: 아이디로서 예약을 조회
 export const GET_BOOKING = gql`
-  query getBooking($bookingId: ID!) {
-    GetBooking(bookingId: $bookingId) {
+  query getBooking($param: GetBookingInput!) {
+    GetBooking(param: $param) {
       ok
       error
       booking {
@@ -1980,18 +1978,8 @@ export const COMEPLETE_PHONE_VERIFICATION = gql`
 `;
 // 유저 :: 회원가입
 export const EMAIL_SIGN_UP = gql`
-  mutation emailSignUp(
-    $name: Name!
-    $email: EmailAddress!
-    $phoneNumber: PhoneNumber!
-    $password: Password!
-  ) {
-    EmailSignUp(
-      name: $name
-      email: $email
-      password: $password
-      phoneNumber: $phoneNumber
-    ) {
+  mutation emailSignUp($param: EmailSignUpInput!) {
+    EmailSignUp(param: $param) {
       ok
       error
       token
@@ -2431,25 +2419,6 @@ export const UPDATE_PRODUCT_BILL_PAY_STATUS = gql`
   }
 `;
 
-export const DO_BILLPAY_CANCLE_PRODUCT = gql`
-  mutation doBillPayCancelProduct($param: PayCancelProductInput!) {
-    DoBillPayCancelProduct(param: $param) {
-      ok
-      error
-      result {
-        ok
-        resultCode
-        resultMsg
-        cancelAmt
-        cancelNum
-        payMethod
-        tid
-        authDate
-      }
-    }
-  }
-`;
-
 export const GET_PAY_HISTORY = gql`
   query getPayHistory($param: GetPayHistoryInput!) {
     GetPayHistory(param: $param) {
@@ -2499,6 +2468,35 @@ export const DO_BILL_PAY_PRODUCT = gql`
     DoBillPayProduct(param: $param) {
       ok
       error
+    }
+  }
+`;
+
+export const DO_BILL_PAY_CANCEL_PRODUCT = gql`
+  mutation doBillPayCancelProduct($param: PayCancelProductInput!) {
+    DoBillPayCancelProduct(param: $param) {
+      ok
+      error
+    }
+  }
+`;
+
+export const GET_REPLACE_MESSAGE = gql`
+  query getReplacedMessage($param: GetReplacedMessageInput!) {
+    GetReplacedMessage(param: $param) {
+      ok
+      error
+      message
+    }
+  }
+`;
+
+export const GET_REPLACE_MESSAGES = gql`
+  query getReplacedMessages($param: GetReplacedMessagesInput!) {
+    GetReplacedMessages(param: $param) {
+      ok
+      error
+      messages
     }
   }
 `;

@@ -62,27 +62,9 @@ export const bookingModalValidate = (
 export const makeSmsInfoParam = (
   bookingModalContext: IBookingModalContext
 ): IModalSMSinfo => {
-  const {
-    bookingNameHook,
-    bookingPhoneHook,
-    paymentStatusHook,
-    priceHook,
-    resvDateHook,
-    payMethodHook,
-    emailHook
-  } = bookingModalContext;
+  const { bookingPhoneHook, paymentStatusHook } = bookingModalContext;
   return {
     receivers: [bookingPhoneHook.value],
-    smsFormatInfo: {
-      name: bookingNameHook.value,
-      payMethod: inOr(payMethodHook.selectedOption, "label", ""),
-      email: emailHook.value,
-      phoneNumber: bookingPhoneHook.value,
-      end: resvDateHook.to!,
-      start: resvDateHook.from!,
-      paymentStatus: inOr(paymentStatusHook.selectedOption, "label", ""),
-      price: priceHook.value || 0
-    },
     // 페이먼트 에따라서 각 상황에맞는 SMS 를 찾아줌
     autoSendWhen: (() => {
       const { selectedOption } = paymentStatusHook;

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import JDmultiStep from "../../../atoms/multiStep/MultiStep";
-import Steps from "./comonent/StarterSteps";
+import StarterSteps from "./comonent/StarterSteps";
 import { IContext } from "../../bookingHost/BookingHostRouter";
 import { stepFinder } from "../../../utils/utils";
 import JDmodal from "../../../atoms/modal/Modal";
@@ -62,7 +62,7 @@ const StarterModal: React.FC<IProps> = ({
       )}
 
       <div className="dashboard__stepsWrap">
-        <Steps
+        <StarterSteps
           stepFinishCallBack={() => {
             callBackStartStepEnd && callBackStartStepEnd();
             modalHook.closeModal();

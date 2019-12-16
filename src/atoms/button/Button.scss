@@ -23,10 +23,6 @@
   cursor: pointer;
   border:none;
 
-  &--cunsumPadding {
-    margin-left: -$button-padding-side;
-    margin-right: -$button-padding-side;
-  }
 
   // Flot
   &--left {
@@ -62,7 +58,6 @@
   }
 
   // MODE
-
 
   @include colorBg--prefixer(":not(:disabled)");
 
@@ -154,7 +149,7 @@
     
     &.JDbtn--cunsumPadding {
           margin-left: -$button-small-padding-side;
-          margin-right: -$button-small-padding-side;
+          margin-right: -$button-small-padding-side!important;
     }
 
     
@@ -198,6 +193,11 @@
   }
 
   &--toogleOff.JDbtn {
+  }
+  
+  &--cunsumPadding {
+    margin-left: -$button-padding-side;
+    margin-right: -$button-padding-side;
   }
 }
 

@@ -120,7 +120,7 @@ const UserProfile: React.FC<Iprops> = ({ context, userInfo }) => {
         />
         <CardSection>
           <div className="flex-grid">
-            <div className="JDstandard-margin-bottom flex-grid__col col--full-8 col--lg-12">
+            <div className="JDstandard-margin-bottom flex-grid__col col--full-8 col--wlg-12">
               <div className="flex-grid-grow">
                 <div className="myPage__profileCircleWrap">
                   <ProfileCircle
@@ -165,7 +165,7 @@ const UserProfile: React.FC<Iprops> = ({ context, userInfo }) => {
                 </div>
               </div>
             </div>
-            <div className="flex-grid__col col--full-4 col--lg-0"></div>
+            <div className="flex-grid__col col--full-4 col--wlg-0"></div>
           </div>
           <div className="JDmodal__endSection">
             <Button

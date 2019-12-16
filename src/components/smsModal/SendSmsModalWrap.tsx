@@ -5,29 +5,29 @@ import {
   sendSms,
   sendSmsVariables,
   getSmsInfo,
-  getSmsInfoVariables
+  getSmsInfoVariables,
+  getReplacedMessageVariables,
+  getReplacedMessagesVariables,
+  getReplacedMessages
 } from "../../types/api";
 import { Mutation, Query } from "react-apollo";
-import { SEND_SMS, GET_SMS_INFO } from "../../apollo/queries";
+import {
+  SEND_SMS,
+  GET_SMS_INFO,
+  GET_REPLACE_MESSAGE,
+  GET_REPLACE_MESSAGES
+} from "../../apollo/queries";
+import client from "../../apollo/apolloClient";
 import { queryDataFormater, onCompletedMessage } from "../../utils/utils";
 import SendSmsModal from "./SendSmsModal";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
+import { useQuery } from "@apollo/react-hooks";
 
 class SendSmsMu extends Mutation<sendSms, sendSmsVariables> {}
 class SmsInfoQu extends Query<getSmsInfo, getSmsInfoVariables> {}
 
 // BOOKING
 export interface IModalSMSinfo {
-  smsFormatInfo?: {
-    name: string;
-    phoneNumber: string;
-    start: string | Date;
-    end: string | Date;
-    paymentStatus: string;
-    payMethod: string;
-    price: number;
-    email: any;
-  };
   receivers: string[];
   bookingIds?: string[];
   autoSendWhen?: AutoSendWhen;

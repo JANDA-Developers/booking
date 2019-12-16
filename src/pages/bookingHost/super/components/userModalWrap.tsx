@@ -33,7 +33,7 @@ const UserModalWrap: React.SFC<IProps> = ({ modalHook, context }) => (
       if (!user && !loading) throw Error("nonUserId");
 
       return (
-        <JDmodal {...modalHook}>
+        <JDmodal loading={loading} minWidth="90%" {...modalHook}>
           {!loading ? (
             <UserModal
               propUserData={user!}

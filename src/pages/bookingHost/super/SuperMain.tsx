@@ -42,11 +42,17 @@ const SuperMain: React.SFC<Iprops> = ({
             <div className="docs-section__box">
               <div>
                 <Button
+                  mode="border"
+                  thema="white"
+                  label={LANG("pay_history")}
+                />
+                <Button
                   onClick={() => {
                     NotiModalHook.openModal({
                       target: NotiType.TO_ALL
                     });
                   }}
+                  mode="border"
                   thema="white"
                   label={LANG("group_notification")}
                   icon="notify"

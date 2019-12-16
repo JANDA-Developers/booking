@@ -2929,7 +2929,7 @@ export interface getBooking {
 }
 
 export interface getBookingVariables {
-  bookingId: string;
+  param: GetBookingInput;
 }
 
 /* tslint:disable */
@@ -3939,10 +3939,7 @@ export interface emailSignUp {
 }
 
 export interface emailSignUpVariables {
-  name: any;
-  email: any;
-  phoneNumber: any;
-  password: any;
+  param: EmailSignUpInput;
 }
 
 /* tslint:disable */
@@ -5012,41 +5009,6 @@ export interface updateProductBillPayStatusVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: doBillPayCancelProduct
-// ====================================================
-
-export interface doBillPayCancelProduct_DoBillPayCancelProduct_result {
-  __typename: "PayCancelResultData";
-  ok: boolean;
-  resultCode: PayCancelResultCode;
-  resultMsg: string;
-  cancelAmt: number;
-  cancelNum: string;
-  payMethod: string;
-  tid: string;
-  authDate: any;
-}
-
-export interface doBillPayCancelProduct_DoBillPayCancelProduct {
-  __typename: "DoBillPayCancelProductResponse";
-  ok: boolean;
-  error: string | null;
-  result: doBillPayCancelProduct_DoBillPayCancelProduct_result | null;
-}
-
-export interface doBillPayCancelProduct {
-  DoBillPayCancelProduct: doBillPayCancelProduct_DoBillPayCancelProduct;
-}
-
-export interface doBillPayCancelProductVariables {
-  param: PayCancelProductInput;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// This file was automatically generated and should not be edited.
-
-// ====================================================
 // GraphQL query operation: getPayHistory
 // ====================================================
 
@@ -5147,6 +5109,74 @@ export interface doBillPayProduct {
 
 export interface doBillPayProductVariables {
   param: DoBillPayProductInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: doBillPayCancelProduct
+// ====================================================
+
+export interface doBillPayCancelProduct_DoBillPayCancelProduct {
+  __typename: "DoBillPayCancelProductResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface doBillPayCancelProduct {
+  DoBillPayCancelProduct: doBillPayCancelProduct_DoBillPayCancelProduct;
+}
+
+export interface doBillPayCancelProductVariables {
+  param: PayCancelProductInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: getReplacedMessage
+// ====================================================
+
+export interface getReplacedMessage_GetReplacedMessage {
+  __typename: "GetReplacedMessageResponse";
+  ok: boolean;
+  error: string | null;
+  message: string | null;
+}
+
+export interface getReplacedMessage {
+  GetReplacedMessage: getReplacedMessage_GetReplacedMessage;
+}
+
+export interface getReplacedMessageVariables {
+  param: GetReplacedMessageInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: getReplacedMessages
+// ====================================================
+
+export interface getReplacedMessages_GetReplacedMessages {
+  __typename: "GetReplacedMessagesResponse";
+  ok: boolean;
+  error: string | null;
+  messages: string[] | null;
+}
+
+export interface getReplacedMessages {
+  GetReplacedMessages: getReplacedMessages_GetReplacedMessages;
+}
+
+export interface getReplacedMessagesVariables {
+  param: GetReplacedMessagesInput;
 }
 
 /* tslint:disable */
@@ -6881,6 +6911,19 @@ export interface DoBillPayProductInput {
   force: boolean;
 }
 
+export interface EmailSignUpInput {
+  name: any;
+  email: any;
+  password: any;
+  phoneNumber: any;
+  timezone?: string | null;
+}
+
+export interface GetBookingInput {
+  bookingId?: string | null;
+  bookingNum?: string | null;
+}
+
 export interface GetBookingParams {
   name: string;
   phoneNumber: string;
@@ -6906,6 +6949,16 @@ export interface GetPayHistoryInput {
   paging: OffsetPagingInput;
   filter: GetPayHistoryFilterInput;
   sort?: any[] | null;
+}
+
+export interface GetReplacedMessageInput {
+  bookingNum: string;
+  smsTemplateId: string;
+}
+
+export interface GetReplacedMessagesInput {
+  bookingNums?: string[] | null;
+  smsTemplateId: string;
 }
 
 export interface GetSmsHistoryFilterInput {

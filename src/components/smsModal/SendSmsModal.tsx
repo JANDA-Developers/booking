@@ -16,7 +16,9 @@ import {
   getSmsInfo_GetSmsInfo_smsInfo,
   getBookings,
   getBookingsVariables,
-  AutoSendWhen
+  AutoSendWhen,
+  getReplacedMessages,
+  getReplacedMessagesVariables
 } from "../../types/api";
 import InputText from "../../atoms/forms/inputText/InputText";
 import {
@@ -26,9 +28,18 @@ import {
 } from "../../utils/smsUtils";
 import moment from "moment";
 import { IModalSMSinfo } from "./SendSmsModalWrap";
-import { autoComma, autoHypen, s4, queryDataFormater } from "../../utils/utils";
+import {
+  autoComma,
+  autoHypen,
+  s4,
+  queryDataFormater,
+  isEmpty
+} from "../../utils/utils";
 import JDLabel from "../../atoms/label/JDLabel";
-import { GET_BOOKINGS_PHONE_NUMBERS } from "../../apollo/queries";
+import {
+  GET_BOOKINGS_PHONE_NUMBERS,
+  GET_REPLACE_MESSAGES
+} from "../../apollo/queries";
 import { useQuery } from "@apollo/react-hooks";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import client from "../../apollo/apolloClient";
@@ -108,10 +119,8 @@ const SendSmsModal: React.FC<IProps> = ({
     }
   }, [modalHook.isOpen]);
 
-  const phoneNumbers = bookings
-    ? bookings.map(booking => booking.phoneNumber)
-    : undefined;
-  const tempBookingIds = bookings ? bookings.map(booking => booking._id) : [];
+  const phoneNumbers = bookings?.map(booking => booking.phoneNumber);
+  const tempBookingIds = bookings?.map(booking => booking._id) || [];
   const sendTargets =
     smsTargetOpHook.selectedOption!.value === GetSmsTarget.EXSIST_INFO
       ? modalHook.info.receivers
@@ -161,42 +170,37 @@ const SendSmsModal: React.FC<IProps> = ({
   };
 
   // 예약정보를 기반으로 뷰 변환
-  const handleSelectTemplate = (selectedOp: IselectedOption) => {
+  const handleSelectTemplate = async (selectedOp: IselectedOption) => {
     if (smsInfo && smsInfo.smsTemplates) {
       const targetTemplate = smsInfo.smsTemplates.find(
         template => template._id === selectedOp.value
       );
 
-      if (targetTemplate) {
+      if (!targetTemplate) return;
+
+      console.log("bookingIds");
+      console.log(bookingIds);
+      if (!isEmpty(bookingIds)) {
+        const { data } = await client.query<
+          getReplacedMessages,
+          getReplacedMessagesVariables
+        >({
+          query: GET_REPLACE_MESSAGES,
+          variables: {
+            param: {
+              smsTemplateId: targetTemplate._id,
+              bookingNums: bookingIds
+            }
+          }
+        });
+
+        const messages =
+          queryDataFormater(data, "GetReplacedMessages", "messages", "") || "";
+
         let msg = "";
-        const { smsFormatInfo } = modalHook.info;
-        if (smsFormatInfo) {
-          const {
-            payMethod,
-            end,
-            name,
-            paymentStatus,
-            price,
-            start
-          } = smsFormatInfo;
-          msg = smsMsgParser(targetTemplate.smsFormat, {
-            BOOKERNAME: name,
-            ROOMTYPE_N_COUNT: "",
-            STAYDATE: `${moment(start).format("MM-DD")}~${moment(end).format(
-              "MM-DD"
-            )}`,
-            STAYDATE_YMD: `${moment(start).format("YY-MM-DD")}~${moment(
-              end
-            ).format("YY-MM-DD")}`,
-            TOTALPRICE: `${autoComma(price)}`,
-            PAYMENTSTATUS: `${paymentStatus}`,
-            PAYMETHOD: `${payMethod}`,
-            HM: "[하우스메뉴얼 주소]"
-          });
-        } else {
-          msg = smsMsgParser(targetTemplate.smsFormat, LANG("SmsReplaceKey"));
-        }
-        setMsg(msg);
+        setMsg(messages[0]);
+      } else {
+        setMsg(smsMsgParser(targetTemplate.smsFormat));
       }
     }
   };

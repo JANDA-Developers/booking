@@ -347,8 +347,6 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
     );
   })();
   const timelineKey = `timeline${endTime}${sideNavIsOpen ? "a" : "b"}`;
-  console.log("timelineKey");
-  console.log(timelineKey);
 
   return (
     <Fragment>

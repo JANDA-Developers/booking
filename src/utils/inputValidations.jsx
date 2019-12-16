@@ -65,7 +65,7 @@ const isYYYYMMDD = string => {
 
 const isEmail = string => {
   if (string === "") return NEUTRAL;
-  const regExp = /^[-$^_=+0-9A-Za-z~]+@[-$%/0-9=?A-Z^_a-z~]+.[0-9A-Za-z~]+\w$/;
+  const regExp = /^[-$.^_=+0-9A-Za-z~]+@[-$%/0-9=?A-Z^_a-z~]+.[0-9A-Za-z~]+\w$/;
   return regExp.test(string);
 };
 

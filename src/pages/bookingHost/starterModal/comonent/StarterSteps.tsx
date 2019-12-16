@@ -36,11 +36,12 @@ const StarterSteps: React.FC<IProps> = ({
     case "phoneVerification":
       return (
         <Fragment>
-          <h5>
+          <h5 id="phoneVerification">
             {LANG("please_verify_your_mobile_phone_to_ensure_smooth_service")}
           </h5>
           <div className="JDmodal__endSection">
             <Button
+              id="StarterHeaderPhoneVerificationBtn"
               onClick={() => {
                 $("#HeaderPhoneVerificationBtn").click();
               }}
