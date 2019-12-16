@@ -80,10 +80,7 @@ interface IProps {
 }
 
 const JDbookingHost: React.FC<IProps> = ({
-  IsLoggedIn: {
-    auth: { isLogIn },
-    loading
-  },
+  IsLoggedIn: { auth, loading },
   GetUserInfo: {
     GetMyProfile: { user = DEFAULT_USER } = {},
     loading: loading2
@@ -91,6 +88,9 @@ const JDbookingHost: React.FC<IProps> = ({
   selectedHouse: { lastSelectedHouse, loading: loading3 },
   langHook
 }) => {
+  const { isLogIn } = auth || {
+    isLogIn: false
+  };
   const isLoading: boolean = loading || loading2 || loading3;
   const houses: IHouse[] = user.houses || [];
   const currentHouse = getCurrentHouse(houses, lastSelectedHouse);

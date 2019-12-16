@@ -178,8 +178,7 @@ const SendSmsModal: React.FC<IProps> = ({
 
       if (!targetTemplate) return;
 
-      console.log("bookingIds");
-      console.log(bookingIds);
+      // IF have id then get reaplce message
       if (!isEmpty(bookingIds)) {
         const { data } = await client.query<
           getReplacedMessages,
@@ -200,6 +199,7 @@ const SendSmsModal: React.FC<IProps> = ({
         let msg = "";
         setMsg(messages[0]);
       } else {
+        // Maybe it is not exsist booking show smsFormat
         setMsg(smsMsgParser(targetTemplate.smsFormat));
       }
     }
@@ -227,16 +227,15 @@ const SendSmsModal: React.FC<IProps> = ({
           <div>
             <JDLabel txt={LANG("outgoing_destination")} />
             <JDbox className="clear-fix" mode="border">
-              {sendTargets &&
-                sendTargets.map(receiver => (
-                  <JDbox
-                    size={sendTargets.length > 4 ? "small" : undefined}
-                    float
-                    key={s4()}
-                  >
-                    <span>{autoHypen(receiver)}</span>
-                  </JDbox>
-                ))}
+              {sendTargets?.map(receiver => (
+                <JDbox
+                  size={sendTargets.length > 4 ? "small" : undefined}
+                  float
+                  key={s4()}
+                >
+                  <span>{autoHypen(receiver)}</span>
+                </JDbox>
+              ))}
             </JDbox>
           </div>
           <div className="JDz-index-1">

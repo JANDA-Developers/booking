@@ -21,20 +21,6 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({
   introspectionQueryResultData
 });
 
-const cleanTypeName = new ApolloLink((operation, forward) => {
-  if (operation.variables) {
-    const omitTypename = (key: any, value: any) =>
-      key === "__typename" ? undefined : value;
-    operation.variables = JSON.parse(
-      JSON.stringify(operation.variables),
-      omitTypename
-    );
-  }
-  return forward(operation).map(data => {
-    return data;
-  });
-});
-
 const request = async (operation: any) => {
   operation.setContext({
     headers: {
@@ -111,8 +97,7 @@ const client = new ApolloClient({
     createUploadLink({
       uri,
       credentials: "omit"
-    }),
-    cleanTypeName
+    })
   ]),
   cache
 });

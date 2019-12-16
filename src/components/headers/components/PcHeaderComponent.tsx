@@ -15,7 +15,7 @@ const PcHeaderComponent: React.FC<Iprops> = ({
   context,
   phoneVerificationModalHook
 }) => {
-  const { user, houses, house, isLogIn } = context;
+  const { user, isLogIn } = context;
   const { profileImg, isPhoneVerified } = user;
   // PC
   // 버튼이 밖으로 노출되있음
