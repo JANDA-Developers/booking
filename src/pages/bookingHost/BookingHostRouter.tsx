@@ -230,7 +230,7 @@ const JDbookingHost: React.FC<IProps> = ({
                             }}
                           />
                           {/* 만료기간이 지났다면*/}
-                          {applyedProduct!.daysLeftToExpire < 1 && (
+                          {applyedProduct!.isExpired && (
                             <Route component={Expired} />
                           )}
                           {/* 대쉬보드 */}

@@ -34,7 +34,8 @@ const addExpiredWarnNoti = (
 ): void => {
   if (!product) return;
 
-  const { isExpired, daysLeftToExpire } = product;
+  const { isExpired, expireDate } = product;
+  const leftDate = moment(new Date()).diff(expireDate, "day");
 
   // 몇일 남았는지는 toast로 넣고 만료 직전에 노티를 넣자
 
@@ -57,16 +58,16 @@ const addExpiredWarnNoti = (
         "the_current_product_has_expired_normal_service_is_not_possible_Please_proceed_with_the_payment"
       )
     });
-  } else if (daysLeftToExpire < 4) {
+  } else if (leftDate < 4) {
     notis.push({
       ...sharedProp,
       __typename: "Noti",
       notiType: NotiType.PRODUCT_EXPIRE,
-      title: LANG("F_have_x_days_left_to_try_for_free")(daysLeftToExpire),
+      title: LANG("F_have_x_days_left_to_try_for_free")(leftDate),
       isConfirm: false,
       notiLevel: NotiLevel.WARN,
       msg: LANG("F_you_have_x_free_trial_left_y__is_about_to_expire")(
-        daysLeftToExpire,
+        leftDate,
         moment(product.expireDate)
           .local()
           .format("YYYY/MM/DD")
