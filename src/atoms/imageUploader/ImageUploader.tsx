@@ -11,6 +11,7 @@ import { DEFAULT_FILE } from "../../types/defaults";
 import InputText from "../forms/inputText/InputText";
 import Button from "../button/Button";
 import JDLabel from "../label/JDLabel";
+import { IDiv } from "../../types/interface";
 
 export interface ImageUploaderIProps extends IuseImageUploader {
   minHeight?: string;
@@ -23,7 +24,7 @@ export interface ImageUploaderIProps extends IuseImageUploader {
   label?: string;
 }
 
-const ImageUploader: React.FC<ImageUploaderIProps> = ({
+const ImageUploader: React.FC<ImageUploaderIProps & IDiv> = ({
   uploading,
   file,
   isError,
@@ -37,6 +38,7 @@ const ImageUploader: React.FC<ImageUploaderIProps> = ({
   height = "200px",
   // 옵션은 HOOK에 지정된 것들
   option,
+  id,
   ...props
 }) => {
   const { url, mimeType, filename } = file || DEFAULT_FILE;
@@ -84,9 +86,10 @@ const ImageUploader: React.FC<ImageUploaderIProps> = ({
     }
   });
 
+  // input shape
   if (mode === "input")
     return (
-      <div className={`imageUploader ${classes}`}>
+      <div id={id} className={`imageUploader ${classes}`}>
         {label && (
           <JDLabel className="imageUploader--input__label" txt={label} />
         )}
@@ -126,6 +129,7 @@ const ImageUploader: React.FC<ImageUploaderIProps> = ({
     <Fragment>
       {label && <JDLabel txt={label} />}
       <div
+        id={id}
         ref={imageUploaderRef}
         className={`imageUploader ${classes}`}
         style={

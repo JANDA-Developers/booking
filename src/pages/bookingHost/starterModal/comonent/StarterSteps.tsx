@@ -88,6 +88,7 @@ const StarterSteps: React.FC<IProps> = ({
             </div>
             <div className="staterModal__createRoom_finish_Btn JDmodal__endSection">
               <Button
+                id="SettingFinishBtn"
                 thema="primary"
                 onClick={() => {
                   updateHouseMu({

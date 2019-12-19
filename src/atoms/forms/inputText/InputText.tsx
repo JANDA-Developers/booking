@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import "./InputText.scss";
 import "./Textarea.scss";
 import classNames from "classnames";
@@ -106,6 +106,7 @@ const InputText: React.FC<IProps> = ({
   mr,
   mb,
   falseMessage,
+  id,
   ...props
 }) => {
   const [selfValid, setSelfValid] = useState<boolean | "">("");
@@ -191,7 +192,7 @@ const InputText: React.FC<IProps> = ({
 
   const autoChangeHeight = () => {
     if (autoHeight) {
-      const target = $(`#JDtextarea${newId}`);
+      const target = $(`.JDtextarea${newId}`);
       target.height("auto").height(target.prop("scrollHeight") + 12);
     }
   };
@@ -200,7 +201,7 @@ const InputText: React.FC<IProps> = ({
     autoChangeHeight();
   });
 
-  const newId = s4();
+  const newId = useMemo(() => s4(), []);
 
   const formatedValue = valueFormat(value);
 
@@ -221,6 +222,7 @@ const InputText: React.FC<IProps> = ({
           className={classes}
           maxLength={card ? 19 : undefined}
           {...props}
+          id={id}
         />
         {
           <span className="JDinput-iconWrap">
@@ -261,10 +263,10 @@ const InputText: React.FC<IProps> = ({
         }}
         onChange={inHandleChange}
         onBlur={onBlur}
-        id={`JDtextarea${newId}`}
-        className={classes}
+        className={classes + ` JDtextarea${newId}`}
         readOnly={readOnly}
         ref={refContainer || inRefContainer}
+        id={id}
       />
       <label htmlFor="JDtextarea" className="JDtextarea_label">
         {label}

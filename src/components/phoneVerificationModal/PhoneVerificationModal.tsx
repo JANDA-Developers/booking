@@ -66,9 +66,14 @@ const PhoneVerification: React.FC<IProps> = ({
           );
         }}
       </JDTimer>
-      <InputText {...keyHook} label={LANG("certification_number")} />
+      <InputText
+        id="verifiKeyInput"
+        {...keyHook}
+        label={LANG("certification_number")}
+      />
       <div className="JDmodal__endSection">
         <Button
+          id="verfiCompleteBtn"
           mode="flat"
           thema={"primary"}
           label={LANG("authenticate")}

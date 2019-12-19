@@ -56,6 +56,7 @@ const RoomConfigNew: React.FC<IProps> = ({
     room: getAllRoomType_GetAllRoomType_roomTypes_rooms
   ) => (
     <JDbox
+      id={`RoomBox${room.index}`}
       className="roomConfig__roomBox"
       align="flexVcenter"
       clickable
@@ -80,6 +81,7 @@ const RoomConfigNew: React.FC<IProps> = ({
       />
       <PageBody>
         <Button
+          id="AddRoomTypeBtn"
           onClick={() => {
             roomTypeModalHook.openModal({
               mode: "Create"
@@ -99,7 +101,7 @@ const RoomConfigNew: React.FC<IProps> = ({
         )}
         <Fragment>
           {/* 방타입 카드 출력 */}
-          {roomTypesData.map(roomType => (
+          {roomTypesData.map((roomType, index) => (
             <Card
               key={roomType._id}
               className={`JDstandard-space0 roomConfig__roomType roomConfig__roomType${roomType._id}`}
@@ -114,6 +116,7 @@ const RoomConfigNew: React.FC<IProps> = ({
                     />
                   </div>
                   <Button
+                    id={`RoomTypeModifyBtn${index}`}
                     onClick={() => {
                       roomTypeModalHook.openModal({
                         roomTypeId: roomType._id,
@@ -128,12 +131,13 @@ const RoomConfigNew: React.FC<IProps> = ({
                 </div>
 
                 <div className="roomConfig__roomsWrapWrap">
-                  {roomType.rooms.map(room => {
+                  {roomType.rooms.map((room, index) => {
                     const RoomBox = getRoomBox(roomType, room);
                     return <Fragment key={room._id}>{RoomBox}</Fragment>;
                   })}
                   {/* add */}
                   <Button
+                    id={`AddRoomBtn${index}`}
                     mode="border"
                     size="small"
                     onClick={e => {

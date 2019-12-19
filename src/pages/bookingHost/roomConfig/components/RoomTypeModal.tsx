@@ -183,7 +183,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
     <Modal
       overlayClassName="Overlay"
       center={false} // 이거 제거 필요
-      className="Modal"
+      id="RoomTypeModal"
       {...modalHook}
       style={{
         content: {
@@ -198,6 +198,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
           <div className="flex-grid">
             <div className="flex-grid__col col--full-6 col--lg-6 col--md-12">
               <InputText
+                id="RoomTypeName"
                 placeholder={LANG("room_type_name")}
                 label={LANG("room_type_name")}
                 value={value.name}
@@ -208,6 +209,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
             </div>
             <div className="JDz-index-3 flex-grid__col JDz-index-4 col--full-6 col--lg-6 col--md-12">
               <SelectBox
+                id="CapacitySelecter"
                 label={LANG("capacity")}
                 disabled={false}
                 onChange={onChangePeople}
@@ -217,6 +219,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
             </div>
             <div className="flex-grid__col JDz-index-3 col--full-6 col--lg-6 col--md-12">
               <SelectBox
+                id="RoomTypeTypeSelecter"
                 label={LANG("select_roomType")}
                 disabled={mode === "Modify"}
                 onChange={(inValue: any) => {
@@ -228,6 +231,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
             </div>
             <div className="flex-grid__col JDz-index-2 col--full-6 col--lg-6 col--md-12">
               <SelectBox
+                id="RoomTypeGenderSelecter"
                 label={LANG("select_roomGender")}
                 disabled={!isCreate}
                 onChange={(inValue: any) => {
@@ -239,10 +243,15 @@ const RoomTypeModal: React.SFC<IProps> = ({
             </div>
             <div className="flex-grid__col flex-grid__col--vertical col--full-12 col--lg-12 col--md-12">
               <JDLabel txt={LANG("roomPic")} />
-              <ImageUploader {...roomImageHook} minHeight="200px" />
+              <ImageUploader
+                id="RoomTypeImgUploader"
+                {...roomImageHook}
+                minHeight="200px"
+              />
             </div>
             <div className="flex-grid__col col--full-6 col--lg-6 col--md-6">
               <InputText
+                id="RoomTypeDecs"
                 onChange={(inValue: any) => {
                   setValue({ ...value, description: inValue });
                 }}
@@ -253,6 +262,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
             </div>
             <div className="flex-grid__col col--full-6 col--lg-6 col--md-6">
               <InputText
+                id="RoomTypeBasicPrice"
                 onChange={(inValue: any) => {
                   setValue({ ...value, defaultPrice: inValue });
                 }}
@@ -267,6 +277,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
           </div>
           <div className="JDmodal__endSection">
             <Button
+              id="DoCreateBtn"
               mode="flat"
               thema="primary"
               label={isCreate ? LANG("do_create") : LANG("do_copy")}
@@ -274,6 +285,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
               onClick={onCreateRoomType}
             />
             <Button
+              id="DoUpdateBtn"
               mode="flat"
               thema="primary"
               label={LANG("do_modify")}
@@ -282,6 +294,7 @@ const RoomTypeModal: React.SFC<IProps> = ({
               onClick={onUpdateRoomType}
             />
             <Button
+              id="DoDeleteBtn"
               mode="flat"
               thema="error"
               label={LANG("do_delete")}

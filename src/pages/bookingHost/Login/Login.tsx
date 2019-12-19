@@ -111,12 +111,13 @@ const Login: React.FC<Iprops> = ({ context }) => {
                   <div>
                     <div>
                       <Button
+                        id="LoginBtn"
                         type="submit"
                         thema="primary"
                         label={LANG("login")}
                       />
                       <Link id="linkToSingUp" to="/signUp">
-                        <Button thema="primary" label={LANG("signUp")} />
+                        <Button  thema="primary" label={LANG("signUp")} />
                       </Link>
                     </div>
                   </div>

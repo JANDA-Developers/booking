@@ -127,8 +127,8 @@ const SideNav: React.FC<IProps> = ({ isOpen, setIsOpen, context }) => {
       contents: [
         {
           // 템플리설정
-          key: "smsTemplateSetting",
-          to: "/smsTemplateSetting",
+          key: "smsTemplate",
+          to: "/smsTemplate",
           icon: "sms",
           label: LANG("template_setting"),
           disabled: disabledFlag

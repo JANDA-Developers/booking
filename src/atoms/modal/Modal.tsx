@@ -6,6 +6,7 @@ import Button from "../button/Button";
 import { IUseModal, LANG } from "../../hooks/hook";
 import { s4 } from "../../utils/utils";
 import JDanimation, { Animation } from "../animation/Animations";
+import { IDiv } from "../../types/interface";
 
 interface IProps extends ReactModal.Props, IUseModal {
   center?: boolean;
@@ -22,6 +23,7 @@ interface IProps extends ReactModal.Props, IUseModal {
   visibleOverflow?: boolean;
   falseMessage?: string | any[];
   trueMessage?: string | any[];
+  id?: string;
   confirmCallBackFn?(flag: boolean, key?: string): any;
 }
 

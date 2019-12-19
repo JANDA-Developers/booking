@@ -79,7 +79,10 @@ const CardViewer: React.FC<Iprops> = ({
   const payTargets = getTargetsWithBillKey(context);
 
   return (
-    <div className={`CardViewer ${unPadding && "CardViewer--unPadding"}`}>
+    <div
+      id="CardViewr"
+      className={`CardViewer ${unPadding && "CardViewer--unPadding"}`}
+    >
       <div className="CardViewer__sliderWrap">
         <div className="CardViewer__slider">
           <div ref={scrollContainer} className="CardViewer__cardsWrap">

@@ -66,6 +66,7 @@ const RoomTypeModal: React.FC<IProps> = ({
       <div className="flex-grid">
         <div className="flex-grid__col col--full-12 col--lg-12 col--md-12">
           <InputText
+            id="RoomName"
             label={LANG("room_name")}
             {...roomNameHook}
             validation={utils.isMaxOver}
@@ -75,6 +76,7 @@ const RoomTypeModal: React.FC<IProps> = ({
       </div>
       <div className="JDmodal__endSection">
         <Button
+          id="RoomModalAddBtn"
           mode="flat"
           label={LANG("do_create")}
           thema="primary"
@@ -82,6 +84,7 @@ const RoomTypeModal: React.FC<IProps> = ({
           onClick={onCreateRoom}
         />
         <Button
+          id="RoomModalUpdateBtn"
           mode="flat"
           label={LANG("do_modify")}
           thema="primary"
@@ -90,6 +93,7 @@ const RoomTypeModal: React.FC<IProps> = ({
           onClick={onUpdateRoom}
         />
         <Button
+          id="RoomModalDeleteBtn"
           mode="flat"
           label={LANG("do_delete")}
           size="small"

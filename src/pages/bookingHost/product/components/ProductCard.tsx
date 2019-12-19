@@ -18,9 +18,11 @@ interface IProps {
   isCurrent?: boolean;
   applyModal?: IUseModal<applyProductModalInfo>;
   setSelectedProductTypeId?: React.Dispatch<React.SetStateAction<string>>;
+  id?: string;
 }
 
 const JDproductCard: React.FC<IProps> = ({
+  id,
   productTypeDec,
   slider,
   hover = true,
@@ -58,6 +60,7 @@ const JDproductCard: React.FC<IProps> = ({
   return (
     <Fragment>
       <div
+        id={id}
         className={classes}
         onClick={slider ? undefined : handleProductSelect}
       >

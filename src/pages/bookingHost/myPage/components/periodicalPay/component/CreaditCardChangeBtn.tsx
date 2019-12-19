@@ -46,6 +46,7 @@ const CreaditCardChangeBtn: React.FC<Iprops> = ({
 
   return (
     <Button
+      id="CreaditCardChangeBtn"
       mode="border"
       onClick={() => {
         // 1. 카드 등록이 안된경우

@@ -67,13 +67,15 @@ const SendSmsModal: React.FC<IProps> = ({
   mode = "Noraml",
   autoSendWhen
 }) => {
-  const [msg, setMsg] = useState("");
-  const today = new Date();
   const {
     house: { _id: houseId }
   } = context;
+  const today = new Date();
+  const [msg, setMsg] = useState("");
   const templateSelectHook = useSelect(null);
   const smsTargetOpHook = useSelect(GET_SMS_TARGET_OP[0]);
+
+  //
   const { data, loading, refetch } = useQuery<
     getBookings,
     getBookingsVariables
@@ -196,6 +198,9 @@ const SendSmsModal: React.FC<IProps> = ({
         const messages =
           queryDataFormater(data, "GetReplacedMessages", "messages", "") || "";
 
+        console.log("data");
+        console.log(data);
+        console.log(bookingIds);
         let msg = "";
         setMsg(messages[0]);
       } else {

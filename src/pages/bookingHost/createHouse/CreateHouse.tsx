@@ -215,9 +215,8 @@ const CreateHouse: React.FC<IProps> = ({ context, google }) => {
               mutation={CREATE_HOUSE}
               variables={{
                 name: houseNameHoook.value,
-                houseType: typeSelectHook.selectedOption
-                  ? typeSelectHook.selectedOption.value
-                  : "GUEST_HOUSE",
+                houseType:
+                  typeSelectHook.selectedOption?.value || "GUEST_HOUSE",
                 location: {
                   address: location.address,
                   addressDetail: deatailaddressHook.value,
@@ -257,6 +256,7 @@ const CreateHouse: React.FC<IProps> = ({ context, google }) => {
                       {/* 숙소명 입력 */}
                       <div className="flex-grid__col col--full-12 col--md-12">
                         <InputText
+                          id="HouseName"
                           {...houseNameHoook}
                           validation={utils.isMaxOver}
                           max={20}
@@ -267,6 +267,7 @@ const CreateHouse: React.FC<IProps> = ({ context, google }) => {
                       {/* 숙소 타입 선택 */}
                       <div className="flex-grid__col col--full-12 col--md-12">
                         <SelectBox
+                          id="HouseType"
                           {...typeSelectHook}
                           options={selectTypeHouse}
                           isOpen
@@ -275,6 +276,7 @@ const CreateHouse: React.FC<IProps> = ({ context, google }) => {
                       </div>
                       <div className="flex-grid__col col--full-8 col--md-12">
                         <SearchInput
+                          id="Adress"
                           maxCount={10}
                           filter={false}
                           feedBackMessage={
@@ -297,6 +299,7 @@ const CreateHouse: React.FC<IProps> = ({ context, google }) => {
                       </div>
                       <div className="flex-grid__col col--full-4 col--md-12">
                         <InputText
+                          id="AdressDetail"
                           {...deatailaddressHook}
                           validation={utils.isMaxOver}
                           max={50}
@@ -304,10 +307,11 @@ const CreateHouse: React.FC<IProps> = ({ context, google }) => {
                           label={LANG("detail_adress")}
                         />
                       </div>
-                      <div className="createHomePage__map flex-grid__col col--full-12 col--md-12">
+                      <div className="test__googleMapWrap createHomePage__map flex-grid__col col--full-12 col--md-12">
                         <GoogleMap mapRef={mapRef} />
                       </div>
                       <Button
+                        id="CreateHouseSubmitBtn"
                         type="submit"
                         thema="primary"
                         label={LANG("create_house_completed")}

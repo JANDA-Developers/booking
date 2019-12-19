@@ -115,6 +115,7 @@ const CardInfoForm: React.FC<Iprops> = ({
             {/* 카드번호 */}
             {isCreateMode ? (
               <InputText
+                id="CardModal__CardNumber"
                 card
                 placeholder={"**** **** **** ****"}
                 onChange={(v: any) => {
@@ -132,6 +133,7 @@ const CardInfoForm: React.FC<Iprops> = ({
             {isCreateMode ? (
               // 유효기한
               <InputText
+                id="CardModal__ExpireDate"
                 onChange={(v: any) => {
                   handleOnChangeInput(cardExpire(v), "exp");
                 }}
@@ -150,6 +152,7 @@ const CardInfoForm: React.FC<Iprops> = ({
             <FormCell label={LANG("card_pasword_front_two_digits")}>
               {/* 카드 비밀번호 */}
               <InputText
+                id="CardModal__CardPW"
                 placeholder="**XX"
                 onChange={(v: any) => {
                   handleOnChangeInput(v, "cardPassword");
@@ -162,6 +165,7 @@ const CardInfoForm: React.FC<Iprops> = ({
             <FormCell label={LANG("idnumber_6front")}>
               {/* 아이디 넘버 */}
               <InputText
+                id="CardModal__IdNum"
                 placeholder={LANG("idnumber_or_business_number")}
                 readOnly={!isCreateMode}
                 type="password"
@@ -177,6 +181,7 @@ const CardInfoForm: React.FC<Iprops> = ({
       <div className="JDsmall-text JDstandard-margin-bottom">
         <div>{LANG("completing_this_card_registration_you_agree_to_the")}</div>
         <TextButton
+          id="CardModalSubmit"
           onClick={() => {}}
           color="primary"
           className="JDstandard-margin0"
@@ -192,6 +197,7 @@ const CardInfoForm: React.FC<Iprops> = ({
         {isCreateMode ? (
           // 카드등록
           <Button
+            id="CardModal__CardRegistBtn"
             onClick={() => {
               onCardRegistBtnClick();
             }}

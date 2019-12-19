@@ -1,15 +1,16 @@
 import React from "react";
 import "./PageHeader.scss";
 import JDIcon from "../../atoms/icons/Icons";
+import { IDiv } from "../../types/interface";
 
-interface Iprops {
+interface Iprops extends IDiv {
   title?: string;
   desc?: string | JSX.Element;
 }
 
-const PageHeader: React.FC<Iprops> = ({ title, desc }) => {
+const PageHeader: React.FC<Iprops> = ({ title, desc, ...props }) => {
   return (
-    <div className="PageHeader">
+    <div className="PageHeader" {...props}>
       <div className="PageHeader__inner container container--full">
         <span className="PageHeader__quotoes">
           <JDIcon size="largest" icon="quoteLeft" />

@@ -1,13 +1,10 @@
 /* eslint-disable no-underscore-dangle */
 import React, { useEffect, Fragment, useState } from "react";
 import JDproductCard from "./components/ProductCard";
-import Button from "../../../atoms/button/Button";
 import Preloader from "../../../atoms/preloader/Preloader";
-import Modal from "../../../atoms/modal/Modal";
 import Slider from "../../../atoms/slider/Slider";
 import { isEmpty } from "../../../utils/utils";
 import Tooltip, { ReactTooltip } from "../../../atoms/tooltip/Tooltip";
-import { RefundPolicyNode } from "../../../docs/refundPolicy";
 import { IHouse, IProductTypeDec } from "../../../types/interface";
 import { useModal, LANG } from "../../../hooks/hook";
 import "./SelectProduct.scss";
@@ -23,7 +20,7 @@ import ApplyProductModal, {
   applyProductModalInfo
 } from "./components/ApplyProductModal";
 import JDlist from "../../../atoms/list/List";
-import { inOr, Check } from "../../../utils/C";
+import { inOr } from "../../../utils/C";
 import PreloaderModal from "../../../atoms/preloaderModal/PreloaderModal";
 import { closeTooltip } from "../../../utils/closeTooltip";
 
@@ -76,11 +73,12 @@ const SelectProducts: React.FC<IProps> = ({
             className="flex-grid flex-grid-grow selectProducts__productWrapWrap"
           >
             <div className="flex-grid__col selectProducts__productWrap col--wmd-0">
-              {productTypeDecs.map(productTypeDec => {
+              {productTypeDecs.map((productTypeDec, index) => {
                 const { _id } = productTypeDec;
 
                 return (
                   <JDproductCard
+                    id={`Product${index}`}
                     key={_id}
                     productTypeDec={productTypeDec}
                     setSelectedProductTypeId={setSelectedProductTypeId}
@@ -93,10 +91,11 @@ const SelectProducts: React.FC<IProps> = ({
             </div>
             <div className="flex-grid__col col--wmd-6 col--full-0">
               <Slider onSwipe={closeTooltip} infinite={false}>
-                {productTypeDecs.map(productTypeDec => {
+                {productTypeDecs.map((productTypeDec, index) => {
                   const { _id } = productTypeDec;
                   return (
                     <JDproductCard
+                      id={`Product${index}--slider`}
                       key={`${_id}--slider`}
                       slider
                       productTypeDec={productTypeDec}

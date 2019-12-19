@@ -1,26 +1,13 @@
-import React, { Fragment, useState } from "react";
-import { toast } from "react-toastify";
+import React, { useState } from "react";
 import Modal from "../../../../atoms/modal/Modal";
-import {
-  IUseModal,
-  useSwitch,
-  useRadio,
-  useInput,
-  LANG
-} from "../../../../hooks/hook";
+import { IUseModal, LANG } from "../../../../hooks/hook";
 import Button from "../../../../atoms/button/Button";
 import Radio from "../../../../atoms/forms/radio/Radio";
 import InputText from "../../../../atoms/forms/inputText/InputText";
 import LayoutCards from "./layoutCard/LayoutCards";
-import JDLabel from "../../../../atoms/label/JDLabel";
-import { IAdditionHook } from "../SelectProductWrap";
 import { LayoutType, ProductTypeKey } from "../../../../types/enum";
 import { isUrl } from "../../../../utils/inputValidations";
-import {
-  getAllProductTypes_GetAllProductTypes_productTypes,
-  buyProduct,
-  buyProductVariables
-} from "../../../../types/api";
+import { buyProduct, buyProductVariables } from "../../../../types/api";
 import { MutationFn } from "react-apollo";
 import { IProductTypeDec } from "../../../../types/interface";
 
@@ -68,6 +55,7 @@ const ApplyProductModal: React.FC<IProps> = ({
           <h3>{productType.name}</h3>
           <div className="modal__section">{productType.detailDesc}</div>
           <Button
+            id="ApplyStep1Btn"
             mode="flat"
             thema="point"
             label={LANG("apply_this_product_to_house")}
@@ -112,11 +100,12 @@ const ApplyProductModal: React.FC<IProps> = ({
           </div>
         </div>
       )}
+      {/* Only for Use Layout */}
       {step === 3 && (
         <div>
           <div className="modal__section">
             <h5>{LANG("select_layout")}</h5>
-            <div className="">
+            <div>
               <div className="applyProductModal__cardsWrap">
                 <LayoutCards
                   selectedLayout={layoutType}
@@ -143,6 +132,7 @@ const ApplyProductModal: React.FC<IProps> = ({
       {step > 1 && (
         <div className="JDmodal__endSection">
           <Button
+            id="ApplyStepEndBtn"
             mode="flat"
             thema="primary"
             label={LANG("Apply")}

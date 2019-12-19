@@ -117,7 +117,8 @@ const UpdateTimelineWrap: React.SFC<IProps> = ({ context, modalHook }) => {
               onCompletedMessage(
                 CreateRoomType,
                 LANG("create_roomType_completed"),
-                LANG("create_roomType_fail")
+                LANG("create_roomType_fail"),
+                "CreateRoomType"
               );
             }}
             awaitRefetchQueries
@@ -134,7 +135,8 @@ const UpdateTimelineWrap: React.SFC<IProps> = ({ context, modalHook }) => {
                   onCompletedMessage(
                     DeleteRoomType,
                     LANG("remove_roomType_completed"),
-                    LANG("remove_roomType_fail")
+                    LANG("remove_roomType_fail"),
+                    "DeleteRoomType"
                   );
                 }}
                 awaitRefetchQueries

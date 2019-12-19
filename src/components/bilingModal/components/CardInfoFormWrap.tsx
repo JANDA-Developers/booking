@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import {
   registerBillKey,
   registerBillKeyVariables,
@@ -20,6 +20,8 @@ import { getOperationName } from "apollo-link";
 import { LANG } from "../../../hooks/hook";
 import { cardExprieGet } from "../../../utils/autoFormat";
 import { ICardModalTarget } from "../../../pages/bookingHost/myPage/components/cardModal.tsx/CardModal";
+import Preloader from "../../../atoms/preloader/Preloader";
+import { PortalPreloader } from "../../../utils/portalElement";
 
 export interface TCardViewInfo {
   billKey: string;
@@ -57,7 +59,8 @@ const CardInfoFormWrap: React.FC<ICardInfoFormWrapProps> = ({
       onCompletedMessage(
         RegisterBillKey,
         LANG("card_regist_complete"),
-        LANG("card_regist_complete_fail")
+        LANG("card_regist_complete_fail"),
+        "RegisterBillKey"
       );
       registCallBack && registCallBack();
     }
@@ -109,14 +112,19 @@ const CardInfoFormWrap: React.FC<ICardInfoFormWrapProps> = ({
     });
   };
 
+  const loading = registerBillLoading || unRegisterBillLoading;
+
   return (
-    <CardInfoForm
-      {...props}
-      context={context}
-      currentHouseInfo={currentHouseInfo}
-      handleRegistBtn={createBillFn}
-      handleDeleteBtn={unRegisterBillKeyFn}
-    />
+    <Fragment>
+      <CardInfoForm
+        {...props}
+        context={context}
+        currentHouseInfo={currentHouseInfo}
+        handleRegistBtn={createBillFn}
+        handleDeleteBtn={unRegisterBillKeyFn}
+      />
+      <PortalPreloader loading={loading} />
+    </Fragment>
   );
 };
 

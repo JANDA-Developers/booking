@@ -197,6 +197,12 @@ const useImageUploader = (
     }
   };
 
+  useEffect(()=> {
+    return ()=> {
+      setUploading(false);
+    }
+  },[])
+
   return {
     file,
     uploading,

@@ -23,7 +23,9 @@ const Mypage: React.SFC<IProps> = ({ context, userInfo }) => {
         <JDtabs tabsAlign="spaceAround" mb="large">
           <TabList>
             <Tab>{LANG("user_info")}</Tab>
-            <Tab>{LANG("periodicalPay_manage")}</Tab>
+            <Tab>
+              <span className="payTabIn">{LANG("periodicalPay_manage")}</span>
+            </Tab>
           </TabList>
           <TabPanel>
             <UserProfile userInfo={userInfo} context={context} />

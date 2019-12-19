@@ -1,4 +1,4 @@
-import { toast } from "react-toastify";
+import { toast, ToastOptions } from "react-toastify";
 
 // 한국어인지 검사한다 한국어검사
 export const isIncludeKr = (str: string | null): boolean => {
@@ -17,22 +17,33 @@ interface result {
 const onCompletedMessage = (
   result: result,
   resultOK: string,
-  resultFale: string | undefined
+  resultFale: string | undefined,
+  queryName?: string
 ) => {
   if (!result) {
     return;
   }
   const haveKr = isIncludeKr(result.error);
   if (result.ok) {
-    toast.success(resultOK);
+    toast.success(resultOK, {
+      className: `${queryName}-ok`
+    });
     // 한글이 있다면 에러 메세지는 백엔드에서 온것
   } else if (haveKr) {
-    toast.warn(result.error);
+    toast.warn(result.error, {
+      toastId: `${queryName}-error`
+    });
     // 한글이 없다면 에러 메세지는 프론트에서 기입한것
   } else {
     console.error(`Error From BackEnd Message  : ${result.error}`);
-    resultFale && toast.warn(resultFale);
-    resultFale || toast.warn(result.error);
+    resultFale &&
+      toast.warn({
+        toastId: `${queryName}-error`
+      });
+    resultFale ||
+      toast.warn(result.error, {
+        toastId: `${queryName}-error`
+      });
   }
 };
 
