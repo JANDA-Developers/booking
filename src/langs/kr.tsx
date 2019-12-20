@@ -21,7 +21,7 @@ export const kr = {
   HM_set: "하우스 메뉴얼 설정",
   HM_title: "하우스 메뉴얼 타이틀",
   HOST: "호스트",
-  Headcount: "안원수",
+  Headcount: "인원수",
   JANDA_provide_free_homepage_for_guest:
     "잔다 고객분들에게 무료 홈페이지를 제공합니다.",
   JAPANESE: "일본어",
