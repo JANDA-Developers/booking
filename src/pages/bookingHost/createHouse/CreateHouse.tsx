@@ -46,7 +46,7 @@ const CreateHouse: React.FC<IProps> = ({ context, google }) => {
   const typeSelectHook = useSelect(null);
   const [location, setLocation] = useState({ address: "", lat: 0, lng: 0 });
   const debouncedAdress = useDebounce(location.address, 500);
-  const addressGeturl = `http://www.juso.go.kr/addrlink/addrLinkApi.do?currentPage=1&resultType=json&countPerPage=100&keyword=${debouncedAdress}&confmKey=${process.env.REACT_APP_API_ADDRESS_API_KEY}`;
+  const addressGeturl = `https://www.juso.go.kr/addrlink/addrLinkApi.do?currentPage=1&resultType=json&countPerPage=100&keyword=${debouncedAdress}&confmKey=${process.env.REACT_APP_API_ADDRESS_API_KEY}`;
   const [adressData, adressLoading, getAdressError, adressGet] = useFetch(
     addressGeturl
   );
