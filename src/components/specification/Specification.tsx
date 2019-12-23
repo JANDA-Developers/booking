@@ -75,7 +75,7 @@ export const SpecificAtion: React.FC<IProps> = ({
     discountedPrice,
     bookingCountExtraCharge,
     expireDate,
-    daysLeftToExpire,
+    // daysLeftToExpire,
     isExpired
   } = product || DEFAULT_PRODUCT;
 
@@ -165,8 +165,8 @@ export const SpecificAtion: React.FC<IProps> = ({
     },
     {
       title: LANG("left_days"),
-      value: `${daysLeftToExpire}`,
-      adminUi: `${daysLeftToExpire}`
+      value: ``, //${daysLeftToExpire}
+      adminUi: `` //${daysLeftToExpire}`
     },
     {
       title: LANG("current_status"),

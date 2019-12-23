@@ -197,8 +197,9 @@ export enum TimePerMs {
 
 export enum PaymentStatus {
   CANCEL = "CANCEL",
-  PROGRESSING = "PROGRESSING",
-  COMPLETE = "COMPLETE"
+  COMPLETE = "COMPLETE",
+  FAILED = "FAILED",
+  PROGRESSING = "PROGRESSING"
 }
 
 export enum BookingStatus {

@@ -127,14 +127,12 @@ const BookingModal: React.FC<IProps> = ({
     )
   );
   const paymentStatusHook = useSelect<PaymentStatus>(
-    C(
-      bookingId !== "default",
-      { value: paymentStatus, label: LANG("PaymentStatus", paymentStatus) },
-      {
-        value: PaymentStatus.COMPLETE,
-        label: LANG("PaymentStatus", PaymentStatus.COMPLETE)
-      }
-    )
+    bookingId !== "default"
+      ? { value: paymentStatus, label: LANG("PaymentStatus", paymentStatus) }
+      : {
+          value: PaymentStatus.COMPLETE,
+          label: LANG("PaymentStatus", PaymentStatus.COMPLETE)
+        }
   );
   const funnelStatusHook = useSelect<Funnels | null>(
     funnels ? { value: funnels, label: LANG("Funnels", funnels) } : null

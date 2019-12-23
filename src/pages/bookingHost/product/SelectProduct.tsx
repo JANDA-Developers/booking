@@ -22,7 +22,10 @@ import ApplyProductModal, {
 import JDlist from "../../../atoms/list/List";
 import { inOr } from "../../../utils/C";
 import PreloaderModal from "../../../atoms/preloaderModal/PreloaderModal";
+import PageBody, { PageBottom } from "../../../components/pageBody/PageBody";
 import { closeTooltip } from "../../../utils/closeTooltip";
+import { WindowSize } from "../../../types/enum";
+import PageHeader from "../../../components/pageHeader/PageHeader";
 
 interface IProps {
   productTypeDecs: IProductTypeDec[];
@@ -58,78 +61,61 @@ const SelectProducts: React.FC<IProps> = ({
     ReactTooltip.rebuild();
   });
 
-  return (
-    <div id="selectProducts" className="selectProducts container">
-      <div className="docs-section">
-        {loading && (
-          <div>
-            <Preloader size={"large"} loading={true} />
-          </div>
-        )}
-        <h3>{LANG("select_service")}</h3>
-        <div className="docs-section__box">
-          <div
-            title="프로덕트 그룹"
-            className="flex-grid flex-grid-grow selectProducts__productWrapWrap"
-          >
-            <div className="flex-grid__col selectProducts__productWrap col--wmd-0">
-              {productTypeDecs.map((productTypeDec, index) => {
-                const { _id } = productTypeDec;
+  const isTabeltDown = window.innerWidth < WindowSize.TABLET;
+  const CardsGroup = () => (
+    <div className="flex-grid__col selectProducts__productWrap">
+      <Slider condition={isTabeltDown} onSwipe={closeTooltip} infinite={false}>
+        {productTypeDecs.map((productTypeDec, index) => {
+          const { _id } = productTypeDec;
+          const commonProps = {
+            productTypeDec: productTypeDec,
+            setSelectedProductTypeId: setSelectedProductTypeId,
+            isCurrent: currentProductTypeId === _id,
+            isSelected: selectedProductTypeId === _id,
+            applyModal: applyModal
+          };
+          return isTabeltDown ? (
+            <JDproductCard id={`Product${index}`} key={_id} {...commonProps} />
+          ) : (
+            <JDproductCard
+              id={`Product${index}--slider`}
+              key={`${_id}--slider`}
+              slider
+              {...commonProps}
+            />
+          );
+        })}
+      </Slider>
+    </div>
+  );
 
-                return (
-                  <JDproductCard
-                    id={`Product${index}`}
-                    key={_id}
-                    productTypeDec={productTypeDec}
-                    setSelectedProductTypeId={setSelectedProductTypeId}
-                    isCurrent={currentProductTypeId === _id}
-                    isSelected={selectedProductTypeId === _id}
-                    applyModal={applyModal}
-                  />
-                );
-              })}
-            </div>
-            <div className="flex-grid__col col--wmd-6 col--full-0">
-              <Slider onSwipe={closeTooltip} infinite={false}>
-                {productTypeDecs.map((productTypeDec, index) => {
-                  const { _id } = productTypeDec;
-                  return (
-                    <JDproductCard
-                      id={`Product${index}--slider`}
-                      key={`${_id}--slider`}
-                      slider
-                      productTypeDec={productTypeDec}
-                      setSelectedProductTypeId={setSelectedProductTypeId}
-                      isCurrent={currentProductTypeId === _id}
-                      isSelected={selectedProductTypeId === _id}
-                      applyModal={applyModal}
-                    />
-                  );
-                })}
-              </Slider>
-            </div>
-          </div>
-          <p title="하단 메세지">
-            {isEmpty(selectedHouse) ? (
-              <span className="JDtextColor--error">
-                {LANG("no_house_currently_created")}
-              </span>
-            ) : (
-              <JDlist
-                contents={[
-                  LANG("F_selected_product_apply_to_house"),
-                  <span className="JDtextColor--error">
-                    *{" "}
-                    {LANG(
-                      "if_you_choose_wrong_size_product_to_house_service_can_be_stop"
-                    )}
-                  </span>
-                ]}
-              />
-            )}
-          </p>
+  return (
+    <div id="selectProducts" className="selectProducts">
+      <PageHeader title={LANG("select_service")} />
+      <PageBody>
+        <Preloader size={"large"} loading={loading} />
+        <div className="flex-grid flex-grid-grow selectProducts__productWrapWrap">
+          <CardsGroup />
         </div>
-      </div>
+        <PageBottom>
+          {isEmpty(selectedHouse) ? (
+            <span className="JDtextColor--error">
+              {LANG("no_house_currently_created")}
+            </span>
+          ) : (
+            <JDlist
+              contents={[
+                LANG("F_selected_product_apply_to_house"),
+                <span className="JDtextColor--error">
+                  {LANG(
+                    "if_you_choose_wrong_size_product_to_house_service_can_be_stop"
+                  )}
+                </span>
+              ]}
+            />
+          )}
+        </PageBottom>
+      </PageBody>
       <ApplyProductModal
         houseId={inOr(selectedHouse, "_id", "")}
         buyProductMu={buyProductMu}

@@ -52,7 +52,13 @@ export interface getSpecification_GetHouse_house_product {
    * 제품 가격(월)
    */
   price: number | null;
+  /**
+   * 정기결제 키값
+   */
   billKey: string | null;
+  /**
+   * 상품 정기결제 상태
+   */
   status: getSpecification_GetHouse_house_product_status;
   /**
    * 할인된 가격
@@ -74,28 +80,51 @@ export interface getSpecification_GetHouse_house_product {
    * 예약 초과시 부과되는 금액 => defualt: 0
    */
   bookingCountExtraCharge: number | null;
-  layoutType: LayoutType | null;
-  layoutPrice: number | null;
-  layoutPricePaid: boolean | null;
-  appliedUrl: string | null;
-  expireDate: any;
   /**
-   * 상품 만료까지 남은 일수
+   * Deprecate
    */
-  daysLeftToExpire: number;
+  layoutType: LayoutType | null;
+  /**
+   * Deprecate
+   */
+  layoutPrice: number | null;
+  /**
+   * Deprecate
+   */
+  layoutPricePaid: boolean | null;
+  /**
+   * Deprecate
+   */
+  appliedUrl: string | null;
+  /**
+   * 상품 만료 예정일
+   */
+  expireDate: any;
   /**
    * 상품이 만료된 여부
    */
   isExpired: boolean;
+  /**
+   * Deprecated
+   */
   canHaveHostApp: boolean;
+  /**
+   * Deprecated
+   */
   existingHostApp: boolean;
+  /**
+   * 상세 설명
+   */
   description: string | null;
   createdAt: any;
   updatedAt: any | null;
   /**
-   * 사용자 앱 요청사항 History => ex) 홈페이지 요청, 하우스메뉴얼 사용 요청 등등
+   * Deprecated
    */
   appInfoRequested: getSpecification_GetHouse_house_product_appInfoRequested[] | null;
+  /**
+   * 상품 만료까지 남은 일수
+   */
   productType: getSpecification_GetHouse_house_product_productType;
 }
 
@@ -535,7 +564,13 @@ export interface getMyProfile_GetMyProfile_user_houses_product {
    * 제품 가격(월)
    */
   price: number | null;
+  /**
+   * 정기결제 키값
+   */
   billKey: string | null;
+  /**
+   * 상품 정기결제 상태
+   */
   status: getMyProfile_GetMyProfile_user_houses_product_status;
   /**
    * 할인된 가격
@@ -557,27 +592,50 @@ export interface getMyProfile_GetMyProfile_user_houses_product {
    * 예약 초과시 부과되는 금액 => defualt: 0
    */
   bookingCountExtraCharge: number | null;
-  layoutType: LayoutType | null;
-  layoutPrice: number | null;
-  layoutPricePaid: boolean | null;
-  appliedUrl: string | null;
-  expireDate: any;
   /**
-   * 상품 만료까지 남은 일수
+   * Deprecate
    */
-  daysLeftToExpire: number;
+  layoutType: LayoutType | null;
+  /**
+   * Deprecate
+   */
+  layoutPrice: number | null;
+  /**
+   * Deprecate
+   */
+  layoutPricePaid: boolean | null;
+  /**
+   * Deprecate
+   */
+  appliedUrl: string | null;
+  /**
+   * 상품 만료 예정일
+   */
+  expireDate: any;
   /**
    * 상품이 만료된 여부
    */
   isExpired: boolean;
+  /**
+   * Deprecated
+   */
   canHaveHostApp: boolean;
+  /**
+   * Deprecated
+   */
   existingHostApp: boolean;
+  /**
+   * 상세 설명
+   */
   description: string | null;
   createdAt: any;
   updatedAt: any | null;
+  /**
+   * 상품 만료까지 남은 일수
+   */
   productType: getMyProfile_GetMyProfile_user_houses_product_productType;
   /**
-   * 사용자 앱 요청사항 History => ex) 홈페이지 요청, 하우스메뉴얼 사용 요청 등등
+   * Deprecated
    */
   appInfoRequested: getMyProfile_GetMyProfile_user_houses_product_appInfoRequested[] | null;
 }
@@ -696,6 +754,9 @@ export interface getHousesForSU_GetHousesForSU_houses_product {
    * 제품 이름
    */
   name: string;
+  /**
+   * 상품 만료까지 남은 일수
+   */
   productType: getHousesForSU_GetHousesForSU_houses_product_productType;
 }
 
@@ -835,10 +896,6 @@ export interface getHouse_GetHouse_house_roomTypes {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
-  /**
-   * Legarcy
-   */
-  roomTemplateSrl: number | null;
   rooms: getHouse_GetHouse_house_roomTypes_rooms[];
 }
 
@@ -859,6 +916,9 @@ export interface getHouse_GetHouse_house_product {
    * 제품 이름
    */
   name: string;
+  /**
+   * 상품 만료까지 남은 일수
+   */
   productType: getHouse_GetHouse_house_product_productType;
 }
 
@@ -947,10 +1007,6 @@ export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roo
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
-  /**
-   * Legarcy
-   */
-  roomTemplateSrl: number | null;
 }
 
 export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices {
@@ -1297,10 +1353,6 @@ export interface findBooking_FindBooking_bookings_roomTypes {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
-  /**
-   * Legarcy
-   */
-  roomTemplateSrl: number | null;
 }
 
 export interface findBooking_FindBooking_bookings_checkInInfo {
@@ -1425,10 +1477,6 @@ export interface findBookingForBooker_FindBookingForBooker_bookings_roomTypes {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
-  /**
-   * Legarcy
-   */
-  roomTemplateSrl: number | null;
 }
 
 export interface findBookingForBooker_FindBookingForBooker_bookings_checkInInfo {
@@ -1552,10 +1600,6 @@ export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
-  /**
-   * Legarcy
-   */
-  roomTemplateSrl: number | null;
 }
 
 export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices {
@@ -1647,10 +1691,6 @@ export interface getAllRoomTypeWithGuest_GetAllRoomType_roomTypes {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
-  /**
-   * Legarcy
-   */
-  roomTemplateSrl: number | null;
   rooms: getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms[];
 }
 
@@ -1717,10 +1757,6 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
-  /**
-   * Legarcy
-   */
-  roomTemplateSrl: number | null;
 }
 
 export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_checkInInfo {
@@ -1847,10 +1883,6 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_room
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
-  /**
-   * Legarcy
-   */
-  roomTemplateSrl: number | null;
 }
 
 export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_checkInInfo {
@@ -2194,7 +2226,13 @@ export interface getUserForSU_GetUserForSU_user_houses_product {
    * 제품 가격(월)
    */
   price: number | null;
+  /**
+   * 정기결제 키값
+   */
   billKey: string | null;
+  /**
+   * 상품 정기결제 상태
+   */
   status: getUserForSU_GetUserForSU_user_houses_product_status;
   /**
    * 할인된 가격
@@ -2216,27 +2254,50 @@ export interface getUserForSU_GetUserForSU_user_houses_product {
    * 예약 초과시 부과되는 금액 => defualt: 0
    */
   bookingCountExtraCharge: number | null;
-  layoutType: LayoutType | null;
-  layoutPrice: number | null;
-  layoutPricePaid: boolean | null;
-  appliedUrl: string | null;
-  expireDate: any;
   /**
-   * 상품 만료까지 남은 일수
+   * Deprecate
    */
-  daysLeftToExpire: number;
+  layoutType: LayoutType | null;
+  /**
+   * Deprecate
+   */
+  layoutPrice: number | null;
+  /**
+   * Deprecate
+   */
+  layoutPricePaid: boolean | null;
+  /**
+   * Deprecate
+   */
+  appliedUrl: string | null;
+  /**
+   * 상품 만료 예정일
+   */
+  expireDate: any;
   /**
    * 상품이 만료된 여부
    */
   isExpired: boolean;
+  /**
+   * Deprecated
+   */
   canHaveHostApp: boolean;
+  /**
+   * Deprecated
+   */
   existingHostApp: boolean;
+  /**
+   * 상세 설명
+   */
   description: string | null;
   createdAt: any;
   updatedAt: any | null;
+  /**
+   * 상품 만료까지 남은 일수
+   */
   productType: getUserForSU_GetUserForSU_user_houses_product_productType;
   /**
-   * 사용자 앱 요청사항 History => ex) 홈페이지 요청, 하우스메뉴얼 사용 요청 등등
+   * Deprecated
    */
   appInfoRequested: getUserForSU_GetUserForSU_user_houses_product_appInfoRequested[] | null;
 }
@@ -2309,6 +2370,65 @@ export interface getUserForSU {
 
 export interface getUserForSUVariables {
   userId: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: getUsers
+// ====================================================
+
+export interface getUsers_GetUsers_result_users_houses {
+  __typename: "House";
+  _id: string;
+  name: string;
+}
+
+export interface getUsers_GetUsers_result_users {
+  __typename: "User";
+  _id: string;
+  name: any;
+  createdAt: any;
+  houses: getUsers_GetUsers_result_users_houses[];
+}
+
+export interface getUsers_GetUsers_result_pageInfo {
+  __typename: "PageInfoOffsetBase";
+  /**
+   * 현제 보고있는 페이지
+   */
+  currentPage: number;
+  /**
+   * 전체 페이지 수
+   */
+  totalPage: number;
+  /**
+   * 현재 페이지 데이터 수
+   */
+  rowCount: number;
+}
+
+export interface getUsers_GetUsers_result {
+  __typename: "GetUsersResultData";
+  users: getUsers_GetUsers_result_users[] | null;
+  pageInfo: getUsers_GetUsers_result_pageInfo;
+}
+
+export interface getUsers_GetUsers {
+  __typename: "GetUsersResponse";
+  ok: boolean;
+  error: string | null;
+  result: getUsers_GetUsers_result | null;
+}
+
+export interface getUsers {
+  GetUsers: getUsers_GetUsers;
+}
+
+export interface getUsersVariables {
+  param: GetUsersInput;
 }
 
 /* tslint:disable */
@@ -2420,10 +2540,6 @@ export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
-  /**
-   * Legarcy
-   */
-  roomTemplateSrl: number | null;
 }
 
 export interface getBookingForPublic_GetBookingForPublic_booking_checkInInfo {
@@ -2646,10 +2762,6 @@ export interface getBookings_GetBookings_bookings_roomTypes {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
-  /**
-   * Legarcy
-   */
-  roomTemplateSrl: number | null;
 }
 
 export interface getBookings_GetBookings_bookings_checkInInfo {
@@ -2810,10 +2922,6 @@ export interface getBooking_GetBooking_booking_roomTypes {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
-  /**
-   * Legarcy
-   */
-  roomTemplateSrl: number | null;
 }
 
 export interface getBooking_GetBooking_booking_checkInInfo {
@@ -5524,7 +5632,13 @@ export interface Fproduct {
    * 제품 가격(월)
    */
   price: number | null;
+  /**
+   * 정기결제 키값
+   */
   billKey: string | null;
+  /**
+   * 상품 정기결제 상태
+   */
   status: Fproduct_status;
   /**
    * 할인된 가격
@@ -5546,21 +5660,41 @@ export interface Fproduct {
    * 예약 초과시 부과되는 금액 => defualt: 0
    */
   bookingCountExtraCharge: number | null;
-  layoutType: LayoutType | null;
-  layoutPrice: number | null;
-  layoutPricePaid: boolean | null;
-  appliedUrl: string | null;
-  expireDate: any;
   /**
-   * 상품 만료까지 남은 일수
+   * Deprecate
    */
-  daysLeftToExpire: number;
+  layoutType: LayoutType | null;
+  /**
+   * Deprecate
+   */
+  layoutPrice: number | null;
+  /**
+   * Deprecate
+   */
+  layoutPricePaid: boolean | null;
+  /**
+   * Deprecate
+   */
+  appliedUrl: string | null;
+  /**
+   * 상품 만료 예정일
+   */
+  expireDate: any;
   /**
    * 상품이 만료된 여부
    */
   isExpired: boolean;
+  /**
+   * Deprecated
+   */
   canHaveHostApp: boolean;
+  /**
+   * Deprecated
+   */
   existingHostApp: boolean;
+  /**
+   * 상세 설명
+   */
   description: string | null;
   createdAt: any;
   updatedAt: any | null;
@@ -5742,10 +5876,6 @@ export interface FroomType {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
-  /**
-   * Legarcy
-   */
-  roomTemplateSrl: number | null;
 }
 
 /* tslint:disable */
@@ -5815,10 +5945,6 @@ export interface Fbooking_roomTypes {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
-  /**
-   * Legarcy
-   */
-  roomTemplateSrl: number | null;
 }
 
 export interface Fbooking_checkInInfo {
@@ -6387,7 +6513,13 @@ export interface Fcontext_houses_product {
    * 제품 가격(월)
    */
   price: number | null;
+  /**
+   * 정기결제 키값
+   */
   billKey: string | null;
+  /**
+   * 상품 정기결제 상태
+   */
   status: Fcontext_houses_product_status;
   /**
    * 할인된 가격
@@ -6409,27 +6541,50 @@ export interface Fcontext_houses_product {
    * 예약 초과시 부과되는 금액 => defualt: 0
    */
   bookingCountExtraCharge: number | null;
-  layoutType: LayoutType | null;
-  layoutPrice: number | null;
-  layoutPricePaid: boolean | null;
-  appliedUrl: string | null;
-  expireDate: any;
   /**
-   * 상품 만료까지 남은 일수
+   * Deprecate
    */
-  daysLeftToExpire: number;
+  layoutType: LayoutType | null;
+  /**
+   * Deprecate
+   */
+  layoutPrice: number | null;
+  /**
+   * Deprecate
+   */
+  layoutPricePaid: boolean | null;
+  /**
+   * Deprecate
+   */
+  appliedUrl: string | null;
+  /**
+   * 상품 만료 예정일
+   */
+  expireDate: any;
   /**
    * 상품이 만료된 여부
    */
   isExpired: boolean;
+  /**
+   * Deprecated
+   */
   canHaveHostApp: boolean;
+  /**
+   * Deprecated
+   */
   existingHostApp: boolean;
+  /**
+   * 상세 설명
+   */
   description: string | null;
   createdAt: any;
   updatedAt: any | null;
+  /**
+   * 상품 만료까지 남은 일수
+   */
   productType: Fcontext_houses_product_productType;
   /**
-   * 사용자 앱 요청사항 History => ex) 홈페이지 요청, 하우스메뉴얼 사용 요청 등등
+   * Deprecated
    */
   appInfoRequested: Fcontext_houses_product_appInfoRequested[] | null;
 }
@@ -6532,10 +6687,6 @@ export interface FroomTypePriceResult_roomTypeDatePrices_roomType {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
-  /**
-   * Legarcy
-   */
-  roomTemplateSrl: number | null;
 }
 
 export interface FroomTypePriceResult_roomTypeDatePrices_datePrices {
@@ -6750,6 +6901,7 @@ export enum PayTarget {
 export enum PaymentStatus {
   CANCEL = "CANCEL",
   COMPLETE = "COMPLETE",
+  FAILED = "FAILED",
   PROGRESSING = "PROGRESSING",
 }
 
@@ -6934,8 +7086,8 @@ export interface GetBookingsFilter {
   bookingId?: string | null;
   name?: string | null;
   phoneNumnber?: string | null;
-  stayDate?: PeriodInput | null;
-  createdAt?: PeriodInput | null;
+  stayDate?: StayDateInput | null;
+  createdAt?: StayDateInput | null;
 }
 
 export interface GetPayHistoryFilterInput {
@@ -6943,6 +7095,7 @@ export interface GetPayHistoryFilterInput {
   payload?: string | null;
   payResult?: boolean | null;
   isCanceled?: boolean | null;
+  period?: PeriodInput | null;
 }
 
 export interface GetPayHistoryInput {
@@ -6957,7 +7110,7 @@ export interface GetReplacedMessageInput {
 }
 
 export interface GetReplacedMessagesInput {
-  bookingNums?: string[] | null;
+  bookingIds?: string[] | null;
   smsTemplateId: string;
 }
 
@@ -6971,6 +7124,16 @@ export interface GetSmsHistoryFilterInput {
 export interface GetSmsHistoryInput {
   paging: OffsetPagingInput;
   filter: GetSmsHistoryFilterInput;
+  sort?: any[] | null;
+}
+
+export interface GetUsersFilterInput {
+  updatedAt?: any | null;
+}
+
+export interface GetUsersInput {
+  paging: OffsetPagingInput;
+  filter?: GetUsersFilterInput | null;
   sort?: any[] | null;
 }
 
@@ -7037,8 +7200,8 @@ export interface PayCancelProductInput {
 }
 
 export interface PeriodInput {
-  checkIn: any;
-  checkOut: any;
+  start: any;
+  end: any;
 }
 
 export interface PollingPeriodInput {
@@ -7109,6 +7272,11 @@ export interface StartBookingPaymentInput {
 export interface StartBookingRoomGuestInput {
   roomTypeId: string;
   countRoom: number;
+}
+
+export interface StayDateInput {
+  checkIn: any;
+  checkOut: any;
 }
 
 export interface TagInput {

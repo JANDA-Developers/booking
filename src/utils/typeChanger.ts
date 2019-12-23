@@ -121,7 +121,7 @@ export const getRoomSelectInfo = (
   const roomTypesBuffer: string[] = [];
   const tempArr = guests.map((guest): IRoomSelectInfo | "duplicate" => {
     const guestRoomType =
-      roomTypes.find(roomType => roomType._id === guest.roomType._id) ||
+      roomTypes?.find(roomType => roomType._id === guest.roomType._id) ||
       DEFAULT_ROOMTYPE;
 
     // 중복체크

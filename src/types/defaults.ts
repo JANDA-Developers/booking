@@ -63,8 +63,7 @@ export const DEFAULT_ROOMTYPE: getBooking_GetBooking_booking_roomTypes = {
   updatedAt: null,
   img: null,
   createdAt: undefined,
-  _id: "",
-  roomTemplateSrl: -1
+  _id: ""
 };
 
 // 유틸성을 위해 만들어둔 기본 booking
@@ -158,7 +157,6 @@ export const DEFAULT_PRODUCT: getSpecification_GetHouse_house_product = {
     discontinueDate: "",
     isContinue: false
   },
-  daysLeftToExpire: 0,
   billKey: null,
   expireDate: new Date(),
   isExpired: false,

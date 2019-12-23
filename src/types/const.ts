@@ -72,15 +72,13 @@ export const SELECT_DUMMY_OP = [
 export enum ProductTypeName {
   ONE = "JANDA-T",
   TOW = "JANDA-G",
-  THREE = "JANDA-H",
-  FOUR = "JANDA-X"
+  THREE = "JANDA-H"
 }
 
 export const SELECT_PRODUCT_TYPE_OP = [
   { value: ProductTypeName.ONE, label: ProductTypeName.ONE },
   { value: ProductTypeName.TOW, label: ProductTypeName.TOW },
-  { value: ProductTypeName.THREE, label: ProductTypeName.THREE },
-  { value: ProductTypeName.FOUR, label: ProductTypeName.FOUR }
+  { value: ProductTypeName.THREE, label: ProductTypeName.THREE }
 ];
 
 export const SELECT_COUNT_DUMMY_OP = [

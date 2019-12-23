@@ -49,6 +49,7 @@ const RoomConfigNew: React.FC<IProps> = ({
 }) => {
   const roomTypeModalHook = useModal<IRoomTypeModalInfo>(false, {});
   const roomModalHook = useModal<IRoomModalInfo>(false, {});
+  const isRoomTypeExisit = roomTypesData.length === 0 && !loading;
 
   // 상자 형태의 [방] 출력
   const getRoomBox = (
@@ -93,8 +94,7 @@ const RoomConfigNew: React.FC<IProps> = ({
         <div>
           <Preloader size="large" noAnimation loading={loading} />
         </div>
-        {/* 방타입이 존재하지 않습니다. */}
-        {roomTypesData.length === 0 && !loading && (
+        {isRoomTypeExisit && (
           <h4 className="JDtextColor--placeHolder JDmargin-bottom0">
             {LANG("roomType_dose_not_exsist")}
           </h4>

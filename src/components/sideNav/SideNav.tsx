@@ -281,9 +281,7 @@ const SideNav: React.FC<IProps> = ({ isOpen, setIsOpen, context }) => {
               <div className="JDsideNav__billing-detail">
                 <span>
                   {applyedProduct &&
-                    `${applyedProduct.daysLeftToExpire}${LANG("date")} ${LANG(
-                      "available"
-                    )}`}
+                    `${new Date()}${LANG("date")} ${LANG("available")}`}
                 </span>
               </div>
             </div>

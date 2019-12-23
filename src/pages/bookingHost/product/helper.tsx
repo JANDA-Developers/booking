@@ -104,24 +104,6 @@ const ProductTypeGetDesc = (
         ),
         priceText: autoComma(productType.price)
       };
-    if (productType.key === ProductTypeKey.NEGOTIATION)
-      return {
-        icon: "peopleWithStarts",
-        detailDesc: <div></div>,
-        shortDesc: (
-          <JDlist
-            noWrap
-            align="center"
-            contents={[
-              LANG("product4_short1"),
-              LANG("product4_short2"),
-              LANG("product4_short3")
-            ]}
-          />
-        ),
-        priceText: LANG("inquire_separately"),
-        disable: true
-      };
     return {
       icon: "",
       shortDesc: "",

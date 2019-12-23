@@ -179,6 +179,8 @@ const ResvList: React.SFC<IProps> = ({
       accessor: "roomTypes",
       Cell: ({ value, original }) => {
         const roomTypes: IRoomType[] = value;
+        console.log("roomTypes");
+        console.log(roomTypes);
         const selectInfoes = getRoomSelectInfo(original.guests, roomTypes);
 
         return selectInfoes.map(selectInfo => (

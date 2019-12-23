@@ -160,6 +160,7 @@ export const F_PRODUCT = gql`
     _id
     name
     price
+    daysLeftToExpire
     billKey
     status {
       isContinue
@@ -1156,6 +1157,31 @@ export const GET_USER_FOR_SU = gql`
     }
   }
   ${F_CONTEXT}
+`;
+
+// 슈퍼유저 ::모든 유저 가져오기
+export const GET_USERS_FOR_SU = gql`
+  query getUsers($param: GetUsersInput!) {
+    GetUsers(param: $param) {
+      ok
+      error
+      result {
+        users {
+          _id
+          name
+          createdAt
+          houses {
+            _id
+            name
+          }
+        }
+        pageInfo {
+          ...FpageInfo
+        }
+      }
+    }
+  }
+  ${F_PAGE_INFO}
 `;
 
 // 배정 ::블록 옵션 설정

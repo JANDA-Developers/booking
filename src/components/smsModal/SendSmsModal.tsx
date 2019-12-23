@@ -190,7 +190,7 @@ const SendSmsModal: React.FC<IProps> = ({
           variables: {
             param: {
               smsTemplateId: targetTemplate._id,
-              bookingNums: bookingIds
+              bookingIds
             }
           }
         });

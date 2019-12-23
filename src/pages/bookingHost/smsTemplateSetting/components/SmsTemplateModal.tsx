@@ -175,6 +175,7 @@ const SmsTemplateModal: React.FC<Iprops> = ({
               onClick={() => {
                 hanldeTemplateBtnClick(LANG("SmsReplaceKey")[value]);
               }}
+              disabled={value === ("HM" || "PAYMETHOD" || "PAYMENTSTATUS")}
               size="small"
               mode="border"
               key={`templateBtn${templateData._id}${value}`}
