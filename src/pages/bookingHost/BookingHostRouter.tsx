@@ -57,6 +57,7 @@ interface JDRoute {
   Component: React.FC<any>;
   path?: string;
   condition?: boolean;
+  exact?: boolean;
 }
 
 export interface IContext extends RouteComponentProps<any> {
@@ -137,6 +138,11 @@ const JDbookingHost: React.FC<IProps> = ({
       condition: !isLogIn
     },
     {
+      path: "/",
+      Component: DashBoard,
+      condition: doneBasicSetting
+    },
+    {
       path: "/dashboard",
       Component: DashBoard,
       condition: doneBasicSetting
@@ -189,7 +195,8 @@ const JDbookingHost: React.FC<IProps> = ({
     {
       path: "/superAdmin",
       Component: SuperMain,
-      condition: superPermission
+      condition: superPermission,
+      exact: false
     },
     {
       Component: AssigTimeline,
@@ -243,12 +250,12 @@ const JDbookingHost: React.FC<IProps> = ({
   ];
 
   const renderRoute = (propContext: IContext, loginRouter: JDRoute) => {
-    const { Component, path, condition } = loginRouter;
+    const { Component, path, condition, exact = true } = loginRouter;
 
     if (condition) {
       return (
         <Route
-          exact
+          exact={exact}
           key={path || Component.name}
           path={path}
           render={prop => {

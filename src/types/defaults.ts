@@ -172,6 +172,7 @@ export const DEFAULT_PRODUCT: getSpecification_GetHouse_house_product = {
   discountedPrice: 0,
   existingHostApp: false,
   layoutPrice: null,
+  daysLeftToExpire: 0,
   layoutPricePaid: false,
   layoutType: LayoutType.Layout_A,
   name: "",
@@ -354,7 +355,7 @@ export const DEFAULT_CARD_INFO = {
   cardPassword: ""
 };
 
-export const DEFAULT_PAY_HISTORY: JDpageInfo = {
+export const DEFAULT_PAGE_INFO: JDpageInfo = {
   currentPage: 0,
   rowCount: 0,
   totalPage: 0

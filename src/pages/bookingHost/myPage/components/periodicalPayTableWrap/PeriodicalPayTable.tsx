@@ -104,14 +104,7 @@ const PeriodicalPayTable: React.FC<Iprops> = ({
         {...checkBoxTableHook}
         keyField="_id"
       />
-      <JDPagination
-        onPageChange={({ selected }: { selected: number }) => {
-          setPage(selected + 1);
-        }}
-        pageCount={inOr(pageInfo, "totalPage", 1)}
-        pageRangeDisplayed={1}
-        marginPagesDisplayed={4}
-      />
+      <JDPagination setPage={setPage} pageInfo={pageInfo} />
     </div>
   );
 };

@@ -2205,15 +2205,28 @@ export const SEND_SMS = gql`
 export const UPDATE_USER_FOR_SU = gql`
   mutation updateUserForSU(
     $productId: ID!
-    $productParams: UpdateProductParams!
+    $productParams: UpdateProductParams
     $houseId: ID!
-    $status: HouseStatus!
+    # under for house
+    $name: String
+    $houseType: HouseType
+    $location: LocationInput
+    $completeDefaultSetting: Boolean
+    $refundPolicy: [TermsOfRefundInput!]
   ) {
     UpdateProductForSU(productId: $productId, params: $productParams) {
       ok
       error
     }
-    UpdateHouse(houseId: $houseId, status: $status) {
+    UpdateHouse(
+      houseId: $houseId
+      refundPolicy: $refundPolicy
+      houseType: $houseType
+      location: $location
+      completeDefaultSetting: $completeDefaultSetting
+      status: $status
+      name: $name
+    ) {
       ok
       error
     }

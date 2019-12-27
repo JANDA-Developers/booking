@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import isEmpty from "./isEmptyData";
 import ToastError from "../components/toasts/ErrorToast";
 import { isIncludeKr } from "./onCompletedMessage";
-import { DEFAULT_PAY_HISTORY } from "../types/defaults";
+import { DEFAULT_PAGE_INFO } from "../types/defaults";
 import { JDpageInfo, TP } from "../types/interface";
 
 function queryDataFormater<T, K extends keyof T, C extends keyof T[K], D>(
@@ -40,6 +40,7 @@ interface ResultWithPaging<T, K extends keyof T, D> {
   pageInfo: JDpageInfo;
 }
 
+// this is used for pagination
 function getFromResult<T, K extends keyof T, D>(
   result: (T & TP) | undefined | null,
   dataKey: K,
@@ -48,13 +49,13 @@ function getFromResult<T, K extends keyof T, D>(
   if (isEmpty(result)) {
     return {
       data: falsyData,
-      pageInfo: DEFAULT_PAY_HISTORY
+      pageInfo: DEFAULT_PAGE_INFO
     };
   }
   if (isEmpty(result[dataKey])) {
     return {
       data: falsyData,
-      pageInfo: DEFAULT_PAY_HISTORY
+      pageInfo: DEFAULT_PAGE_INFO
     };
   }
 

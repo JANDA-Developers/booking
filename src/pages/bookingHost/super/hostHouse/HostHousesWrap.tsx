@@ -1,12 +1,13 @@
-import React, {Fragment, useState} from "react";
-import {Query} from "react-apollo";
-import {getHousesForSU, getHousesForSUVariables} from "../../../types/api";
-import SuperMain from "./SuperMain";
-import {GET_HOUSES_FOR_SU} from "../../../apollo/queries";
-import {queryDataFormater, showError} from "../../../utils/utils";
-import {useModal} from "../../../hooks/hook";
-import Modal from "../../../atoms/modal/Modal";
-import {IContext} from "../../bookingHost/BookingHostRouter";
+import React, { Fragment, useState } from "react";
+import { Query } from "react-apollo";
+import { getHousesForSU, getHousesForSUVariables } from "../../../../types/api";
+import SuperMain from "./hostHouses";
+import { GET_HOUSES_FOR_SU } from "../../../../apollo/queries";
+import { queryDataFormater, showError } from "../../../../utils/utils";
+import { useModal } from "../../../../hooks/hook";
+import Modal from "../../../../atoms/modal/Modal";
+import { IContext } from "../../BookingHostRouter";
+import { DEFAULT_PAGE_INFO } from "../../../../types/defaults";
 
 class GetAllHouse extends Query<getHousesForSU, getHousesForSUVariables> {}
 
@@ -14,7 +15,7 @@ interface Iprops {
   context: IContext;
 }
 
-const SuperMainWrap: React.FC<Iprops> = ({context}) => {
+const HostHousesWrap: React.FC<Iprops> = ({ context }) => {
   const userModal = useModal(false);
   const [page, setPage] = useState(1);
 
@@ -26,7 +27,7 @@ const SuperMainWrap: React.FC<Iprops> = ({context}) => {
         count: 20
       }}
     >
-      {({data: housePages, loading, error}) => {
+      {({ data: housePages, loading, error }) => {
         const housePageData = queryDataFormater(
           housePages,
           "GetHousesForSU",
@@ -46,7 +47,7 @@ const SuperMainWrap: React.FC<Iprops> = ({context}) => {
               page={page}
               setPage={setPage}
               userModal={userModal}
-              pageData={pageInfo}
+              pageData={pageInfo || DEFAULT_PAGE_INFO}
               houseData={housePageData || []}
               loading={loading}
               context={context}
@@ -59,4 +60,4 @@ const SuperMainWrap: React.FC<Iprops> = ({context}) => {
   );
 };
 
-export default SuperMainWrap;
+export default HostHousesWrap;

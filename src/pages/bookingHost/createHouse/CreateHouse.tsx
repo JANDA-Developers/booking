@@ -26,7 +26,7 @@ import { getOperationName } from "apollo-link";
 import { FLOATING_PRELOADER_SIZE } from "../../../types/const";
 import { IContext } from "../../bookingHost/BookingHostRouter";
 import PreloaderModal from "../../../atoms/preloaderModal/PreloaderModal";
-import { Redirect } from "react-router";
+import { Redirect } from "react-router-dom";
 
 let map: google.maps.Map | null = null;
 

@@ -118,8 +118,7 @@ export const SpecificAtion: React.FC<IProps> = ({
           expireDate: expireDateHook.from!
         },
         productId: productId,
-        houseId: specification._id,
-        status: inOr(HouseStatusHook.selectedOption, "value", HouseStatus.WAIT)
+        houseId: specification._id
       }
     });
   };

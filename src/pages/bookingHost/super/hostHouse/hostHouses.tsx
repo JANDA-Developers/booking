@@ -1,19 +1,19 @@
 import React, { Fragment, useState } from "react";
-import { getHousesForSU_GetHousesForSU_houses as Ihouse } from "../../../types/api";
-import { IUseModal, useModal, LANG } from "../../../hooks/hook";
-import Preloader from "../../../atoms/preloader/Preloader";
-import "./SuperMain.scss";
-import JDPagination from "../../../atoms/pagination/Pagination";
-import HouseCard from "./components/houseCard";
-import { IPageInfo } from "../../../types/interface";
-import UserModal from "./components/userModalWrap";
-import Button from "../../../atoms/button/Button";
+import { getHousesForSU_GetHousesForSU_houses as Ihouse } from "../../../../types/api";
+import { IUseModal, useModal, LANG } from "../../../../hooks/hook";
+import Preloader from "../../../../atoms/preloader/Preloader";
+import "./HostHouses.scss";
+import JDPagination from "../../../../atoms/pagination/Pagination";
+import HouseCard from "../components/houseCard";
+import { IPageInfo } from "../../../../types/interface";
+import UserModal from "../components/userModalWrap";
+import Button from "../../../../atoms/button/Button";
 import CreateNotiModalWrap, {
   ICreateNotiModalParam
-} from "./components/createNotiModalWrap";
-import { IContext } from "../../bookingHost/BookingHostRouter";
-import { isEmpty } from "../../../utils/utils";
-import { NotiType } from "../../../types/enum";
+} from "../components/createNotiModalWrap";
+import { IContext } from "../../BookingHostRouter";
+import { isEmpty } from "../../../../utils/utils";
+import { NotiType } from "../../../../types/enum";
 interface Iprops {
   context: IContext;
   page: number;
@@ -21,7 +21,7 @@ interface Iprops {
   houseData: any;
   loading: boolean;
   userModal: IUseModal;
-  pageData: IPageInfo | undefined | null;
+  pageData: IPageInfo;
 }
 
 const SuperMain: React.SFC<Iprops> = ({
@@ -56,6 +56,7 @@ const SuperMain: React.SFC<Iprops> = ({
               <Preloader size="large" noAnimation loading={loading} />
               {houseData.map((house: Ihouse) => (
                 <HouseCard
+                  context={context}
                   key={`houseCard${house._id}`}
                   houseData={house}
                   NotiModalHook={NotiModalHook}
@@ -63,14 +64,7 @@ const SuperMain: React.SFC<Iprops> = ({
                 />
               ))}
             </div>
-            <JDPagination
-              onPageChange={selectedItem => {
-                setPage(selectedItem.selected + 1);
-              }}
-              pageCount={pageData ? pageData.totalPage : 1}
-              pageRangeDisplayed={1}
-              marginPagesDisplayed={4}
-            />
+            <JDPagination setPage={setPage} pageInfo={pageData} />
             {userModal.isOpen && (
               <UserModal context={context} modalHook={userModal} />
             )}

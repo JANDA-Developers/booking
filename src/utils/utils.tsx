@@ -33,7 +33,7 @@ import { textAlignClass, colorClass } from "./autoClasses";
 import searchListFormat from "./searchListFormater";
 import { showError } from "./errorMessage";
 import onCompletedMessage from "./onCompletedMessage";
-import queryDataFormater from "./queryFormater";
+import queryDataFormater, { getFromResult } from "./queryFormater";
 import setMidNight from "./setMidNight";
 import removeNullOfObject from "./removeNullOfObject";
 import s4 from "./keyGen";
@@ -91,7 +91,8 @@ const JDutils = {
   insideRedirect,
   instanceOfA,
   mergeObject,
-  s4
+  s4,
+  getFromResult
 };
 
 export default JDutils;
@@ -101,6 +102,7 @@ export {
   insideRedirect,
   instanceOfA,
   jsonString,
+  getFromResult,
   JDWeekChanger,
   isEmpty,
   smsMessageFormatter,

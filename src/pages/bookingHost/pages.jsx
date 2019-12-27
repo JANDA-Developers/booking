@@ -109,7 +109,7 @@ export const SelectProducts = props => (
 );
 
 export const SuperMain = props => (
-  <DynamicImport load={() => import("./super/SuperMainWrap")}>
+  <DynamicImport load={() => import("./super/superAdminRouter")}>
     {DNcompoent =>
       DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
     }

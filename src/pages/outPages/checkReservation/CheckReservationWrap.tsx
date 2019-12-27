@@ -12,7 +12,7 @@ import {
   onCompletedMessage
 } from "../../../utils/utils";
 import { GET_BOOKING_FOR_PUBLIC } from "../../../apollo/queries";
-import { RouteComponentProps } from "react-router";
+import { RouteComponentProps } from "react-router-dom";
 import client from "../../../apollo/apolloClient";
 import CheckReservation from "./CheckReservation";
 import JDmodal from "../../../atoms/modal/Modal";

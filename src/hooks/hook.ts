@@ -197,11 +197,11 @@ const useImageUploader = (
     }
   };
 
-  useEffect(()=> {
-    return ()=> {
+  useEffect(() => {
+    return () => {
       setUploading(false);
-    }
-  },[])
+    };
+  }, []);
 
   return {
     file,
@@ -478,15 +478,19 @@ function useSideNav(): IUseSideNav {
   return { sideNavIsOpen, setSideNavIsOpen };
 }
 
+export interface IusePageNation {
+  page: number;
+  setPage: (page: number) => void;
+}
 // 투글 훅
-function usePagiNation(defaultValue: number): [number, (page: number) => void] {
+function usePageNation(defaultValue: number): IusePageNation {
   const [page, inSetPage] = useState(defaultValue);
 
   const setPage = (foo: number) => {
     inSetPage(foo);
   };
 
-  return [page, setPage];
+  return { page, setPage };
 }
 
 export interface IUseModal<T = any> {
@@ -675,7 +679,7 @@ export {
   useColorPicker,
   useDayPicker,
   getKoreaSpecificDayHook,
-  usePagiNation,
+  usePageNation,
   useRedirect,
   useCheckBoxTable
 };

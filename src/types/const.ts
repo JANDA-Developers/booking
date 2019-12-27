@@ -14,11 +14,13 @@ import {
   Funnels,
   AutoSendWhen,
   Language,
-  Day
+  Day,
+  HouseType
 } from "./enum";
 import { isMobile } from "is-mobile";
 import { registerBillKey_RegisterBillKey_billInfo } from "./api";
 import { LANG } from "../hooks/hook";
+import { IselectedOption } from "../atoms/forms/selectBox/SelectBox";
 
 export const LANGUAGE_LIST: Language[] = [
   Language.CHINESE,
@@ -75,7 +77,7 @@ export enum ProductTypeName {
   THREE = "JANDA-H"
 }
 
-export const SELECT_PRODUCT_TYPE_OP = [
+export const SELECT_PRODUCT_TYPE_OP: IselectedOption[] = [
   { value: ProductTypeName.ONE, label: ProductTypeName.ONE },
   { value: ProductTypeName.TOW, label: ProductTypeName.TOW },
   { value: ProductTypeName.THREE, label: ProductTypeName.THREE }
@@ -205,6 +207,16 @@ export let EXCEL_EXPRESS_OP = [
   { value: ExcelExpress.SELECT_OP, label: "" },
   { value: ExcelExpress.COUNT_OP, label: "" },
   { value: ExcelExpress.DATE_OP, label: "" }
+];
+
+// 선택가능한 숙소타입 목록
+export let HOUSE_TYPE_OP = [
+  { value: HouseType.GUEST_HOUSE, label: LANG("guestHouse") },
+  { value: HouseType.HOTEL, label: LANG("hotel") },
+  { value: HouseType.MOTEL, label: LANG("motel") },
+  { value: HouseType.PENSION, label: LANG("pension") },
+  { value: HouseType.HOSTEL, label: LANG("hostel") },
+  { value: HouseType.YOUTH_HOSTEL, label: LANG("youth_hostel") }
 ];
 
 export let FUNNELS_OP = [

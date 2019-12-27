@@ -17,7 +17,7 @@ interface Iprops {
   setPage: any;
   smsData: ISmsH[];
   loading: boolean;
-  pageData: IPageInfo | undefined | null;
+  pageData: IPageInfo;
 }
 
 const SmsHistory: React.FC<Iprops> = ({
@@ -119,14 +119,7 @@ const SmsHistory: React.FC<Iprops> = ({
             align="center"
             minRows={3}
           />
-          <JDPagination
-            onPageChange={selectedItem => {
-              setPage(selectedItem.selected + 1);
-            }}
-            pageCount={pageData ? pageData.totalPage : 1}
-            pageRangeDisplayed={1}
-            marginPagesDisplayed={4}
-          />
+          <JDPagination setPage={setPage} pageInfo={pageData} />
         </Fragment>
       </div>
     </div>

@@ -6,13 +6,16 @@ import ProfileCircle from "../../../../atoms/profileCircle/ProfileCircle";
 import Button from "../../../../atoms/button/Button";
 import Badge from "../../../../atoms/badge/Badge";
 import { autoHypen } from "../../../../utils/utils";
-import JDmodal from "../../../../atoms/modal/Modal";
-import SpecificAtionWrap from "../../../../components/specification/SpecificationWrap";
 import { getHousesForSU_GetHousesForSU_houses } from "../../../../types/api";
 import JDIcon from "../../../../atoms/icons/Icons";
 import { ICreateNotiModalParam } from "./createNotiModalWrap";
+import SuperAdminController, {
+  IControllerModalProps
+} from "./SuperAdminController";
+import { IContext } from "../../BookingHostRouter";
 
 interface IProps {
+  context: IContext;
   userModal: IUseModal;
   houseData: getHousesForSU_GetHousesForSU_houses;
   NotiModalHook: IUseModal<ICreateNotiModalParam>;
@@ -21,9 +24,10 @@ interface IProps {
 const HouseCard: React.SFC<IProps> = ({
   userModal,
   houseData,
-  NotiModalHook
+  NotiModalHook,
+  context
 }) => {
-  const specificationModalHook = useModal(false);
+  const controllerHook = useModal<IControllerModalProps>(false);
   const getBadgeInfo = () => {
     const badgeInfoes = [];
 
@@ -82,9 +86,11 @@ const HouseCard: React.SFC<IProps> = ({
               size="small"
               thema="grey"
               onClick={() => {
-                specificationModalHook.openModal();
+                controllerHook.openModal({
+                  houseId: houseData._id
+                });
               }}
-              label={houseData.product.name}
+              label={"Manage"}
             />
           ) : (
             <Button
@@ -96,9 +102,7 @@ const HouseCard: React.SFC<IProps> = ({
           )}
         </div>
       </div>
-      <JDmodal {...specificationModalHook}>
-        <SpecificAtionWrap houseId={houseData._id} isAdmin={true} />
-      </JDmodal>
+      <SuperAdminController modalHook={controllerHook} context={context} />
     </Card>
   );
 };

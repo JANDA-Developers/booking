@@ -35,7 +35,8 @@ import {
   useDayPicker,
   useModal,
   useDrawer,
-  LANG
+  LANG,
+  usePageNation
 } from "../../../hooks/hook";
 import "./ShowComponent.scss";
 import JDcolorPicker from "../../../atoms/colorPicker/ColorPicker";
@@ -72,6 +73,7 @@ function ShowComponents() {
   const [SideNavIsOpen, setSideNavIsOpen] = useToggle(false);
   const imageUploaderHook = useImageUploader();
   const drawerHook = useDrawer(false);
+  const { page, setPage } = usePageNation(1);
 
   const searchDummyData = [
     { name: "Manpreet Singh", pic: "" },
@@ -631,10 +633,12 @@ function ShowComponents() {
         {/* 페이지네이션 */}
         <ComponentWrap className="clear-fix" title="Pagination">
           <Pagination
-            pageCount={13}
-            initialPage={0}
-            marginPagesDisplayed={1}
-            pageRangeDisplayed={5}
+            setPage={setPage}
+            pageInfo={{
+              currentPage: page,
+              rowCount: 20,
+              totalPage: 20
+            }}
           />
         </ComponentWrap>
         {/* 타이머 */}

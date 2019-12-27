@@ -5,6 +5,7 @@ import { queryDataFormater, showError } from "../../../utils/utils";
 import { GET_SMS_HISTORY } from "../../../apollo/queries";
 import SmsHistory from "./SmsHistory";
 import { getFromResult } from "../../../utils/queryFormater";
+import { usePageNation } from "../../../hooks/hook";
 
 class GetAllSmsHistory extends Query<getSmsHistory, getSmsHistoryVariables> {}
 
@@ -13,7 +14,7 @@ interface Iprops {
 }
 
 const SmsHistoryWrap: React.SFC<Iprops> = ({ smsInfoId }) => {
-  const [page, setPage] = useState(1);
+  const { page, setPage } = usePageNation(1);
 
   return (
     <GetAllSmsHistory

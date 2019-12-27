@@ -53,6 +53,10 @@ export interface getSpecification_GetHouse_house_product {
    */
   price: number | null;
   /**
+   * 상품 만료일까지 남은 일 수
+   */
+  daysLeftToExpire: number;
+  /**
    * 정기결제 키값
    */
   billKey: string | null;
@@ -564,6 +568,10 @@ export interface getMyProfile_GetMyProfile_user_houses_product {
    * 제품 가격(월)
    */
   price: number | null;
+  /**
+   * 상품 만료일까지 남은 일 수
+   */
+  daysLeftToExpire: number;
   /**
    * 정기결제 키값
    */
@@ -2226,6 +2234,10 @@ export interface getUserForSU_GetUserForSU_user_houses_product {
    * 제품 가격(월)
    */
   price: number | null;
+  /**
+   * 상품 만료일까지 남은 일 수
+   */
+  daysLeftToExpire: number;
   /**
    * 정기결제 키값
    */
@@ -4458,9 +4470,13 @@ export interface updateUserForSU {
 
 export interface updateUserForSUVariables {
   productId: string;
-  productParams: UpdateProductParams;
+  productParams?: UpdateProductParams | null;
   houseId: string;
-  status: HouseStatus;
+  name?: string | null;
+  houseType?: HouseType | null;
+  location?: LocationInput | null;
+  completeDefaultSetting?: boolean | null;
+  refundPolicy?: TermsOfRefundInput[] | null;
 }
 
 /* tslint:disable */
@@ -5633,6 +5649,10 @@ export interface Fproduct {
    */
   price: number | null;
   /**
+   * 상품 만료일까지 남은 일 수
+   */
+  daysLeftToExpire: number;
+  /**
    * 정기결제 키값
    */
   billKey: string | null;
@@ -6514,6 +6534,10 @@ export interface Fcontext_houses_product {
    */
   price: number | null;
   /**
+   * 상품 만료일까지 남은 일 수
+   */
+  daysLeftToExpire: number;
+  /**
    * 정기결제 키값
    */
   billKey: string | null;
@@ -6894,6 +6918,7 @@ export enum PayMethod {
 
 export enum PayTarget {
   BOOKING = "BOOKING",
+  EMAIL = "EMAIL",
   SMS = "SMS",
   USAGE_PLAN = "USAGE_PLAN",
 }

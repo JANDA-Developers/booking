@@ -1714,7 +1714,7 @@
   dependencies:
     "@types/history" "*"
     "@types/react" "*"
-    "@types/react-router" "*"
+    "@types/react-router-dom" "*"
 
 "@types/react-router@*":
   version "5.1.3"

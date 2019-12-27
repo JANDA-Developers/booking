@@ -54,7 +54,7 @@ import { GET_BOOKINGS } from "../../../apollo/queries";
 import { JDSelectableJDtable } from "../../../atoms/table/SelectTable";
 
 interface IProps {
-  pageInfo: IPageInfo | undefined;
+  pageInfo: IPageInfo;
   bookingsData: IBooking[];
   loading: boolean;
   updateBookingLoading: boolean;
@@ -457,10 +457,8 @@ const ResvList: React.SFC<IProps> = ({
           loading={networkStatus !== 1 && loading}
         />
         <JDPagination
-          onPageChange={({ selected }: { selected: number }) => {
-            setPage(selected + 1);
-          }}
-          pageCount={inOr(pageInfo, "totalPage", 1)}
+          setPage={setPage}
+          pageInfo={pageInfo}
           pageRangeDisplayed={1}
           marginPagesDisplayed={4}
         />

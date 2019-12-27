@@ -1,15 +1,15 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Button from "../../../../atoms/button/Button";
 import JDbox from "../../../../atoms/box/JDbox";
-import {IContext} from "../../../../pages/bookingHost/BookingHostRouter";
-import {LANG} from "../../../../hooks/hook";
-import {Redirect} from "react-router";
+import { IContext } from "../../../../pages/bookingHost/BookingHostRouter";
+import { LANG } from "../../../../hooks/hook";
+import { Redirect } from "react-router-dom";
 
 interface Iprops {
   context: IContext;
 }
 
-const AdditionConfigPitch: React.FC<Iprops> = ({context}) => {
+const AdditionConfigPitch: React.FC<Iprops> = ({ context }) => {
   const [redirect, setRedirect] = useState("");
 
   if (redirect) return <Redirect to={redirect} />;

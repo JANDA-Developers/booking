@@ -15,8 +15,9 @@ import {
   DELETE_BOOKING,
   UPDATE_BOOKING
 } from "../../../apollo/queries";
+import { DEFAULT_PAGE_INFO } from "../../../types/defaults";
 import { getOperationName } from "apollo-link";
-import { usePagiNation, LANG } from "../../../hooks/hook";
+import { usePageNation, LANG } from "../../../hooks/hook";
 import { isNetworkRequestInFlight } from "apollo-client/core/networkStatus";
 import { IContext } from "../../bookingHost/BookingHostRouter";
 
@@ -30,7 +31,7 @@ class GetBookingsQuery extends Query<getBookings, getBookingsVariables> {}
 
 const ResvListWrap: React.FC<IProps> = ({ context }) => {
   const { house, houseConfig } = context;
-  const [page, setPage] = usePagiNation(1);
+  const { page, setPage } = usePageNation(1);
 
   const {
     pollingPeriod: { period }
@@ -85,7 +86,7 @@ const ResvListWrap: React.FC<IProps> = ({ context }) => {
                   <Fragment>
                     <ResvList
                       context={context}
-                      pageInfo={pageInfo || undefined}
+                      pageInfo={pageInfo || DEFAULT_PAGE_INFO}
                       bookingsData={bookings || []}
                       deleteBookingMu={deleteBookingMu}
                       updateBookingMu={updateBookingMu}

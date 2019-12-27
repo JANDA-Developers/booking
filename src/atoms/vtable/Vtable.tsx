@@ -3,7 +3,7 @@ import "./Vtable.scss";
 import JDLabel from "../label/JDLabel";
 import classNames from "classnames";
 import { s4 } from "../../utils/utils";
-import { IDiv, JDatomExtentionSet } from "../../types/interface";
+import { IDiv, JDatomExtentionSet, TElements } from "../../types/interface";
 import { JDmrClass, JDmbClass } from "../../utils/autoClasses";
 import BaseHeader from "../base/BaseHeader";
 
@@ -83,4 +83,20 @@ export const VtableCell: React.FC<IVtableCellProp> = ({ label, children }) => (
   </div>
 );
 
+interface IColumnCellsProps {
+  datas: {
+    label: string;
+    Component: () => TElements;
+  }[];
+}
+
+export const ColumnCells: React.FC<IColumnCellsProps> = ({ datas }) => (
+  <Fragment>
+    {datas.map(d => (
+      <VtableColumn key={d.label}>
+        <VtableCell label={d.label}>{d.Component()}</VtableCell>
+      </VtableColumn>
+    ))}
+  </Fragment>
+);
 export default Vtable;

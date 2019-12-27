@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/rules-of-hooks */
 import React from "react";
-import { RouteComponentProps } from "react-router";
+import { RouteComponentProps } from "react-router-dom";
 import Reservation from "./Reservation";
 import $ from "jquery";
 import { onCompletedMessage } from "../../../utils/utils";

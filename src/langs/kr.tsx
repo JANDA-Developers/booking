@@ -1047,5 +1047,13 @@ export const kr = {
   select_this_card: "이 카드로 결제변경",
   pay_history: "결제 내역",
   there_is_no_card: "등록된 카드가 존재하지 않습니다.",
-  no_card: "카드 없음"
+  no_card: "카드 없음",
+  HouseType: {
+    GUEST_HOUSE: "게스트하우스",
+    HOTEL: "호텔",
+    MOTEL: "모텔",
+    PENSION: "펜션",
+    HOSTEL: "호스텔",
+    YOUTH_HOSTEL: "유스호스텔"
+  }
 };
