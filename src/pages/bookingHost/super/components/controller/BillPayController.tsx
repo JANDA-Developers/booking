@@ -1,27 +1,27 @@
 import React from "react";
-import { IContext } from "../../BookingHostRouter";
+import { IContext } from "../../../BookingHostRouter";
 import {
   DO_BILL_PAY_PRODUCT,
   DO_BILL_PAY_CANCEL_PRODUCT
-} from "../../../../apollo/queries";
-import client from "../../../../apollo/apolloClient";
+} from "../../../../../apollo/queries";
+import client from "../../../../../apollo/apolloClient";
 import {
   doBillPayProduct,
   doBillPayProductVariables,
   doBillPayCancelProduct,
   doBillPayCancelProductVariables
-} from "../../../../types/api";
+} from "../../../../../types/api";
 import { useMutation } from "@apollo/react-hooks";
-import { onCompletedMessage } from "../../../../utils/utils";
-import { LANG, IUseModal, useInput } from "../../../../hooks/hook";
-import JDmodal from "../../../../atoms/modal/Modal";
+import { onCompletedMessage } from "../../../../../utils/utils";
+import { LANG, IUseModal, useInput } from "../../../../../hooks/hook";
+import JDmodal from "../../../../../atoms/modal/Modal";
 import { Tab, TabList, TabPanel } from "react-tabs";
-import Button from "../../../../atoms/button/Button";
-import InputText from "../../../../atoms/forms/inputText/InputText";
-import { JDtabs } from "../../../../atoms/tabs/Tabs_";
+import Button from "../../../../../atoms/button/Button";
+import InputText from "../../../../../atoms/forms/inputText/InputText";
+import { JDtabs } from "../../../../../atoms/tabs/Tabs_";
+import { IControllSharedPorps } from "./SuperAdminControllModal";
 
-interface Iprops {
-  context: IContext;
+interface Iprops extends IControllSharedPorps {
   modalHook: IUseModal;
   billRequestParams: {
     pay?: doBillPayProductVariables;
@@ -31,9 +31,12 @@ interface Iprops {
 
 const BillPayController: React.FC<Iprops> = ({
   context,
+  data,
   modalHook,
   billRequestParams
 }) => {
+  const { product } = data!;
+
   const amtHook = useInput(billRequestParams.pay?.param.amt || 0);
   const amtCancelHook = useInput(
     billRequestParams.cancel?.param.payCancelInput.cancelAmt || 0

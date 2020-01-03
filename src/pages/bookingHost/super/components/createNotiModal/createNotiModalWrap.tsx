@@ -1,12 +1,12 @@
 import React, * as react from "react";
 import { Mutation } from "react-apollo";
-import { onCompletedMessage } from "../../../../utils/utils";
+import { onCompletedMessage } from "../../../../../utils/utils";
 import CreateNotiModal from "./createNotiModal";
-import { CREATE_NOTI, GET_MEMO, GET_NOTI } from "../../../../apollo/queries";
-import { createNoti, createNotiVariables } from "../../../../types/api";
-import { IUseModal, LANG } from "../../../../hooks/hook";
-import { NotiType } from "../../../../types/enum";
-import { IContext } from "../../../bookingHost/BookingHostRouter";
+import { CREATE_NOTI, GET_MEMO, GET_NOTI } from "../../../../../apollo/queries";
+import { createNoti, createNotiVariables } from "../../../../../types/api";
+import { IUseModal, LANG } from "../../../../../hooks/hook";
+import { NotiType } from "../../../../../types/enum";
+import { IContext } from "../../../BookingHostRouter";
 import { getOperationName } from "apollo-link";
 
 export interface ICreateNotiModalParam {

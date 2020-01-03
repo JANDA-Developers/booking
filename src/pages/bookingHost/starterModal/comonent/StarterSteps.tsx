@@ -4,8 +4,7 @@ import Button from "../../../../atoms/button/Button";
 import $ from "jquery";
 import CreateHouse from "../../createHouse/CreateHouse";
 import SelectProductWrap from "../../product/SelectProductWrap";
-import Ready from "../../ready/Ready";
-import RoomConfigWrap from "../../roomConfig/RoomConfigWrap";
+// import RoomConfigWrap from "../../roomConfig/RoomConfigWrap";
 import { IContext } from "../../../bookingHost/BookingHostRouter";
 import { IStepsStart } from "../../../../utils/stepFinder";
 import { MutationFn } from "react-apollo";
@@ -68,23 +67,15 @@ const StarterSteps: React.FC<IProps> = ({
           </div>
         </Fragment>
       );
-    case "readyAssign":
-      return (
-        <Fragment>
-          <div className="JDsectionDistroy">
-            <Ready context={context} />
-          </div>
-        </Fragment>
-      );
     case "createRoom":
       return (
         <Fragment>
           <div className="staterModal__createRoom JDsectionDistroy">
             <div className="modal__section">
-              <RoomConfigWrap
+              {/* <RoomConfigWrap
                 refetchQueries={[getOperationName(GET_USER_INFO)!]}
                 context={context}
-              />
+              /> */}
             </div>
             <div className="staterModal__createRoom_finish_Btn JDmodal__endSection">
               <Button
@@ -93,8 +84,12 @@ const StarterSteps: React.FC<IProps> = ({
                 onClick={() => {
                   updateHouseMu({
                     variables: {
-                      houseId: house._id,
-                      completeDefaultSetting: true
+                      param: {
+                        houseId: house._id,
+                        updateParams: {
+                          completeDefaultSetting: true
+                        }
+                      }
                     }
                   });
                   setStep("done");

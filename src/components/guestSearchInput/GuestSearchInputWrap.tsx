@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import GuestSearchInput from "./GuestSearchInput";
-import { queryDataFormater } from "../../utils/utils";
+import { queryDataFormater, getFromResult } from "../../utils/utils";
 import { GET_BOOKINGS } from "../../apollo/queries";
 import { Query } from "react-apollo";
 import {
   getBookings,
   getBookingsVariables,
-  GetBookingsFilter
+  GetBookingsFilterInput
 } from "../../types/api";
 import { isYYYYMMDD, isNumberMinMax } from "../../utils/inputValidations";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
@@ -20,27 +20,47 @@ interface IProps {
 const GuestSearchInputWrap: React.FC<IProps> = ({ context }) => {
   const { house } = context;
   let houseId = "";
-  houseId = house ? house._id : "";
+  houseId = house?._id || "";
 
   const [onTypeValue, setType] = useState<string>("");
 
-  const searchFilterCreater = (value: string): GetBookingsFilter => {
+  // check value type for filter
+  const findSearchType = (
+    value: string
+  ): "phoneNumnber" | "name" | "stayDate" => {
     const isPhoneNumber = isNumberMinMax(value, 4, 11);
-    return {
-      phoneNumnber: isPhoneNumber && !isYYYYMMDD(value) ? value : undefined,
-      name: !isPhoneNumber && !isYYYYMMDD(value) ? value : undefined,
-      stayDate: isYYYYMMDD(value)
-        ? {
-            checkIn: value,
-            checkOut: value
-          }
-        : undefined,
-      createdAt: undefined
-    };
+    if (isYYYYMMDD(value)) return "stayDate";
+    else if (isPhoneNumber) return "phoneNumnber";
+    else return "name";
+  };
+
+  // search filter object create
+  const searchFilterCreater = (value: string): GetBookingsFilterInput => {
+    const target = findSearchType(value);
+
+    if (target === "name") {
+      return {
+        name: value
+      };
+    } else if (target === "phoneNumnber") {
+      return {
+        phoneNumnber: value
+      };
+    } else if (target === "stayDate") {
+      return {
+        stayDate: {
+          checkIn: value,
+          checkOut: value
+        }
+      };
+    } else {
+      return {};
+    }
   };
 
   const filter = searchFilterCreater(onTypeValue);
 
+  // for GetBookingsQuery
   const skipValidate = () => {
     if (!houseId) return false;
     if (!filter.name && !filter.phoneNumnber && !filter.stayDate) return false;
@@ -52,16 +72,25 @@ const GuestSearchInputWrap: React.FC<IProps> = ({ context }) => {
       skip={skipValidate()}
       query={GET_BOOKINGS}
       variables={{
-        houseId: houseId || "",
-        count: 10,
-        page: 1,
-        filter: filter
+        param: {
+          paging: {
+            count: 10,
+            selectedPage: 1
+          },
+          filter
+        }
       }}
     >
       {({ data: bookingsData, loading, error }) => {
-        const bookings = queryDataFormater(
+        const result = queryDataFormater(
           bookingsData,
           "GetBookings",
+          "result",
+          undefined
+        );
+
+        const { data: bookings, pageInfo } = getFromResult(
+          result,
           "bookings",
           undefined
         );

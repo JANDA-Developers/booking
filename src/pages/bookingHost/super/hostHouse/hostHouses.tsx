@@ -1,16 +1,16 @@
 import React, { Fragment, useState } from "react";
-import { getHousesForSU_GetHousesForSU_houses as Ihouse } from "../../../../types/api";
+import { getHousesForSU_GetHousesForSU_result_houses as Ihouse } from "../../../../types/api";
 import { IUseModal, useModal, LANG } from "../../../../hooks/hook";
 import Preloader from "../../../../atoms/preloader/Preloader";
 import "./HostHouses.scss";
 import JDPagination from "../../../../atoms/pagination/Pagination";
 import HouseCard from "../components/houseCard";
 import { IPageInfo } from "../../../../types/interface";
-import UserModal from "../components/userModalWrap";
+import UserModal from "../components/userModal/userModalWrap";
 import Button from "../../../../atoms/button/Button";
 import CreateNotiModalWrap, {
   ICreateNotiModalParam
-} from "../components/createNotiModalWrap";
+} from "../components/createNotiModal/createNotiModalWrap";
 import { IContext } from "../../BookingHostRouter";
 import { isEmpty } from "../../../../utils/utils";
 import { NotiType } from "../../../../types/enum";

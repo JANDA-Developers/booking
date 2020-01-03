@@ -6,33 +6,35 @@ import { isIncludeKr } from "./onCompletedMessage";
 import { DEFAULT_PAGE_INFO } from "../types/defaults";
 import { JDpageInfo, TP } from "../types/interface";
 
+// If has KR => toast Message or another
+const dataErrorToast = (error: string) => {
+  if (isIncludeKr(error)) {
+    toast.warn(error);
+  } else {
+    toast.warn(<ToastError />);
+  }
+};
+
 function queryDataFormater<T, K extends keyof T, C extends keyof T[K], D>(
   data: T | undefined,
   queryName: K,
   dataName: C | undefined,
   falsyReturn: D
 ): C extends undefined ? T[K] | D : T[K][C] | D {
-  if (!isEmpty(data)) {
-    if (!isEmpty(data[queryName])) {
-      const inData: any = data[queryName];
-      if (dataName) {
-        if (inData[dataName]) {
-          return inData[dataName];
-        }
-      }
-      if (inData.error) {
-        if (isIncludeKr(inData.error)) {
-          toast.warn(inData.error);
-        } else {
-          toast.warn(<ToastError />);
-        }
-        return falsyReturn as any;
-      }
-      return inData;
-    }
+  if (isEmpty(data) || isEmpty(data[queryName])) return falsyReturn as any;
+
+  let inData: any = data[queryName];
+
+  const { error } = inData;
+
+  if (error) {
+    dataErrorToast(error);
+    return falsyReturn as any;
   }
-  // console.error('queryDataFormater: EMPTY DATA');
-  return falsyReturn as any;
+
+  if (dataName && inData[dataName]) return inData[dataName];
+
+  return inData;
 }
 
 interface ResultWithPaging<T, K extends keyof T, D> {

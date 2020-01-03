@@ -26,6 +26,7 @@ import PageBody, { PageBottom } from "../../../components/pageBody/PageBody";
 import { closeTooltip } from "../../../utils/closeTooltip";
 import { WindowSize } from "../../../types/enum";
 import PageHeader from "../../../components/pageHeader/PageHeader";
+import { IContext } from "../BookingHostRouter";
 
 interface IProps {
   productTypeDecs: IProductTypeDec[];
@@ -36,32 +37,36 @@ interface IProps {
   selectedHouse: IHouse;
   currentProduct: getMyProfile_GetMyProfile_user_houses_product | undefined;
   isPhoneVerified: boolean;
+  context: IContext;
+  disableProducts?: string[];
 }
 
 // currentProduct : 현재 적용중인 서비스
 const SelectProducts: React.FC<IProps> = ({
   productTypeDecs,
-  refundMu,
   buyProductMu,
+  context,
   loading,
   selectedHouse,
   currentProduct,
-  isPhoneVerified,
-  mutationLoading
+  mutationLoading,
+  disableProducts
 }) => {
+  productTypeDecs.filter(
+    productType => !disableProducts?.includes(productType._id)
+  );
   const currentProductTypeId = inOr(currentProduct, "_id", "");
   const applyModal = useModal<applyProductModalInfo>(false);
-  const refundModal = useModal(false);
-
   const [selectedProductTypeId, setSelectedProductTypeId] = useState(
     currentProductTypeId
   );
+
+  const isTabeltDown = window.innerWidth < WindowSize.TABLET;
 
   useEffect(() => {
     ReactTooltip.rebuild();
   });
 
-  const isTabeltDown = window.innerWidth < WindowSize.TABLET;
   const CardsGroup = () => (
     <div className="flex-grid__col selectProducts__productWrap">
       <Slider condition={isTabeltDown} onSwipe={closeTooltip} infinite={false}>
@@ -117,7 +122,8 @@ const SelectProducts: React.FC<IProps> = ({
         </PageBottom>
       </PageBody>
       <ApplyProductModal
-        houseId={inOr(selectedHouse, "_id", "")}
+        context={context}
+        houseId={selectedHouse?._id || ""}
         buyProductMu={buyProductMu}
         modalHook={applyModal}
       />

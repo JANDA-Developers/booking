@@ -21,4 +21,4 @@ export const phoneVerification = async (page: puppeteer.Page) => {
   await page.click("#verfiCompleteBtn");
   await expectOkFromGraphql(page);
 };
-test.skip("skip", () => {});
+test.skip("skip", () => { });

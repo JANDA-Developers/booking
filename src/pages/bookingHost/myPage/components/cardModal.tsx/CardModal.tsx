@@ -5,6 +5,7 @@ import JDmodal from "../../../../../atoms/modal/Modal";
 import "./CardModal.scss";
 import CardViewer from "./CardViewer";
 import { getMyProfile_GetMyProfile_user_houses_product } from "../../../../../types/api";
+import { assertValidSDL } from "graphql/validation/validate";
 
 export interface ICardModalTarget {
   product?: getMyProfile_GetMyProfile_user_houses_product;

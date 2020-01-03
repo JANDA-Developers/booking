@@ -198,6 +198,12 @@ export let GET_SMS_TARGET_OP = [
   // {value: "TOMORROW_CHECKIN", label: ""}
 ];
 
+export let HOUSE_STATUS_OP = [
+  { value: HouseStatus.DISALBE, label: "" },
+  { value: HouseStatus.WAIT, label: "" },
+  { value: HouseStatus.ENABLE, label: "" }
+];
+
 export let GENDER_OP = [
   { value: Gender.FEMALE, label: "" },
   { value: Gender.MALE, label: "" }
@@ -252,6 +258,7 @@ export let AUTO_SEND_OP = [
   }
 ];
 
+//  DEPRECATE => selectOpCreater 
 // 99명의 선택가능한 셀렉트 옵션 생성
 export const MAX_PEOPLE_COUNT_OP_FN = () => {
   const maxPeopleCountOption = [];

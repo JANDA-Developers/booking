@@ -23,9 +23,7 @@ const StarterModal: React.FC<IProps> = ({
   updateHouseMu
 }) => {
   const modalHook = useModal(true);
-
   const defaultStep = stepFinder(context);
-
   const [step, setStep] = useState(defaultStep);
 
   return (
@@ -47,10 +45,6 @@ const StarterModal: React.FC<IProps> = ({
               {
                 current: step === "houseCreate",
                 name: <span>{LANG("house_create")}</span>
-              },
-              {
-                current: step === "createProduct",
-                name: <span>{LANG("product_registration")}</span>
               },
               {
                 current: step === "createRoom",
@@ -76,5 +70,4 @@ const StarterModal: React.FC<IProps> = ({
     </JDmodal>
   );
 };
-
 export default StarterModal;

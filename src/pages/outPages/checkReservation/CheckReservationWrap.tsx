@@ -19,14 +19,14 @@ import JDmodal from "../../../atoms/modal/Modal";
 import { useModal, LANG } from "../../../hooks/hook";
 import CompleteCircle from "../../../components/completeCircle/CompleteCircle";
 export interface ISetBookingInfo
-  extends React.Dispatch<React.SetStateAction<any>> {}
+  extends React.Dispatch<React.SetStateAction<any>> { }
 
 export interface ICheckParams {
   publickey: string;
   transId?: string;
 }
 
-interface IProps extends RouteComponentProps<ICheckParams> {}
+interface IProps extends RouteComponentProps<ICheckParams> { }
 
 const CheckReservationWrap: React.FC<IProps> = ({
   match: {

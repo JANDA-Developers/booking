@@ -6,18 +6,18 @@ import ProfileCircle from "../../../../atoms/profileCircle/ProfileCircle";
 import Button from "../../../../atoms/button/Button";
 import Badge from "../../../../atoms/badge/Badge";
 import { autoHypen } from "../../../../utils/utils";
-import { getHousesForSU_GetHousesForSU_houses } from "../../../../types/api";
+import { getHousesForSU_GetHousesForSU_result_houses } from "../../../../types/api";
 import JDIcon from "../../../../atoms/icons/Icons";
-import { ICreateNotiModalParam } from "./createNotiModalWrap";
+import { ICreateNotiModalParam } from "./createNotiModal/createNotiModalWrap";
 import SuperAdminController, {
   IControllerModalProps
-} from "./SuperAdminController";
+} from "./controller/SuperAdminControllModal";
 import { IContext } from "../../BookingHostRouter";
 
 interface IProps {
   context: IContext;
   userModal: IUseModal;
-  houseData: getHousesForSU_GetHousesForSU_houses;
+  houseData: getHousesForSU_GetHousesForSU_result_houses;
   NotiModalHook: IUseModal<ICreateNotiModalParam>;
 }
 

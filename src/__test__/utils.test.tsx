@@ -3,7 +3,6 @@ import muResult from "../utils/mutationResultSafty";
 import { ExecutionResult } from "graphql";
 import { WindowSize } from "../types/enum";
 import { TLogin } from "../pages/bookingHost/Login/__test__/Login.test";
-import { toNumber } from "../utils/autoFormat";
 
 export const S = 1000;
 export const urlBase = "http://localhost:3000";
@@ -26,6 +25,19 @@ export const takeShot = async (
   });
   return;
 };
+
+export const TgetElement = async (page: puppeteer.Page, selecter: string) => {
+  const el = await page.$(selecter);
+  if (!el) throw Error(selecter + "is not exist");
+  return el;
+};
+
+export async function TgetAttr<T>(
+  puppetEl: puppeteer.ElementHandle<Element>,
+  attr: string
+): Promise<T> {
+  return (await (await puppetEl.getProperty("attr")).jsonValue()) as any;
+}
 
 export const Tselect = async (
   page: puppeteer.Page,
@@ -60,6 +72,21 @@ export const Ttype = async (
 ) => {
   await page.click(selecter);
   await page.type(selecter, text);
+};
+
+export const TTextWait = async (
+  page: puppeteer.Page,
+  text: string,
+  selecter?: string | "body"
+) => {
+  await page.waitForFunction(
+    `document.querySelector(${selecter}).innerText.includes(${text})`
+  );
+};
+
+export const TwaitClick = async (page: puppeteer.Page, selecter: string) => {
+  await page.waitForSelector(selecter);
+  await page.click(selecter);
 };
 
 // ---------------------------------------------------
@@ -119,7 +146,6 @@ export const getDefaultViewport = (windowSize: WindowSize) => {
         width,
         height: (width * 9) / 16
       };
-      break;
     default:
       return undefined;
   }
@@ -127,6 +153,8 @@ export const getDefaultViewport = (windowSize: WindowSize) => {
 
 interface TestLogin {
   email?: string;
+  tokenLogin?: boolean;
+  token?: string;
 }
 
 export const testReady = async (
@@ -146,14 +174,24 @@ export const testReady = async (
   await page.goto(urlBase);
 
   if (login) {
-    await TLogin(page, login.email || "crawl123@naver.com");
+    if (false) {
+      // TODO
+      // await page.evaluate(() => {
+      //   localStorage.setItem("token", "example-token");
+      // });
+      // await page.reload();
+    } else {
+      await TLogin(page, login.email || "crawl123@naver.com");
+      await page.waitForNavigation({
+        waitUntil: "domcontentloaded"
+      });
+      await page.waitForSelector("#dashboard");
+    }
   }
-  await page.waitForNavigation({
-    waitUntil: "domcontentloaded"
-  });
-  await page.waitForSelector("#dashboard");
+
   if (goto) {
     await page.goto(goto);
+    await page.waitFor(1000);
   }
 
   return {

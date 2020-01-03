@@ -353,7 +353,7 @@ const BookingModal: React.FC<IProps> = ({
                 inputDisabled={allReadOnly}
                 canSelectBeforeDay={false}
                 {...resvDateHook}
-                input
+                mode="input"
                 className="JDstandard-space"
                 readOnly
                 label={LANG("date_of_stay")}

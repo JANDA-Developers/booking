@@ -6,8 +6,8 @@ export const selectProduct = async (page: puppeteer.Page) => {
   await takeShot(page, "pc", "productSelect", "start");
   await page.waitForSelector("#Product1");
   await page.click("#Product1");
-  await page.waitForSelector("#ApplyStep1Btn");
-  await page.click("#ApplyStep1Btn");
+  await page.waitForSelector("#ApplyStepDescBtn");
+  await page.click("#ApplyStepDescBtn");
   await page.waitForSelector("#ApplyStepEndBtn");
   await page.click("#ApplyStepEndBtn");
   await takeShot(page, "pc", "productSelect", "start");

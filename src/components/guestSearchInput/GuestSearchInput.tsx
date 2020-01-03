@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import JDsearchInput from "../../atoms/searchInput/SearchInput";
-import { getBookings_GetBookings_bookings } from "../../types/api";
+import { getBookings_GetBookings_result_bookings } from "../../types/api";
 import BookingModalWrap from "../bookingModal/BookingModalWrap";
 import { useModal } from "../../hooks/hook";
 import $ from "jquery";
@@ -12,7 +12,7 @@ interface IProps {
   context: IContext;
   onTypeValue: string;
   setType: any;
-  bookings: getBookings_GetBookings_bookings[];
+  bookings: getBookings_GetBookings_result_bookings[];
 }
 
 const GuestSearchInput: React.FC<IProps> = ({
@@ -66,7 +66,7 @@ const GuestSearchInput: React.FC<IProps> = ({
   };
 
   const BookingsDataManufacter = (
-    bookings: getBookings_GetBookings_bookings[]
+    bookings: getBookings_GetBookings_result_bookings[]
   ) => {
     const bookingData = bookings.map(booking => {
       booking.phoneNumber = autoHypen(booking.phoneNumber);

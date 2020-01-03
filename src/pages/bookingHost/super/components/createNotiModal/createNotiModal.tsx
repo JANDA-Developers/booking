@@ -1,9 +1,9 @@
 import React from "react";
 import { MutationFn } from "react-apollo";
-import { createNoti, createNotiVariables } from "../../../../types/api";
-import InputText from "../../../../atoms/forms/inputText/InputText";
-import JDselect from "../../../../atoms/forms/selectBox/SelectBox";
-import Button from "../../../../atoms/button/Button";
+import { createNoti, createNotiVariables } from "../../../../../types/api";
+import InputText from "../../../../../atoms/forms/inputText/InputText";
+import JDselect from "../../../../../atoms/forms/selectBox/SelectBox";
+import Button from "../../../../../atoms/button/Button";
 import {
   IUseModal,
   useInput,
@@ -11,14 +11,14 @@ import {
   useDayPicker,
   useModal,
   LANG
-} from "../../../../hooks/hook";
-import JDbox from "../../../../atoms/box/JDbox";
-import { NotiType } from "../../../../types/enum";
-import { NOTI_LEVEL_OP } from "../../../../types/const";
-import { IContext } from "../../../bookingHost/BookingHostRouter";
-import JDmodal from "../../../../atoms/modal/Modal";
-import JDdayPicker from "../../../../atoms/dayPicker/DayPicker";
-import DayPickerModal from "../../../../components/dayPickerModal/DayPickerModal";
+} from "../../../../../hooks/hook";
+import JDbox from "../../../../../atoms/box/JDbox";
+import { NotiType } from "../../../../../types/enum";
+import { NOTI_LEVEL_OP } from "../../../../../types/const";
+import { IContext } from "../../../BookingHostRouter";
+import JDmodal from "../../../../../atoms/modal/Modal";
+import JDdayPicker from "../../../../../atoms/dayPicker/DayPicker";
+import DayPickerModal from "../../../../../components/dayPickerModal/DayPickerModal";
 import { ICreateNotiModalParam } from "./createNotiModalWrap";
 
 interface Iprops {
@@ -82,7 +82,7 @@ const CreateNotiModal: React.FC<Iprops> = ({
             readOnly
             canSelectBeforeDay={false}
             isRange={false}
-            input
+            mode="input"
             format={`YY${LANG("year")} MM${LANG("month")} DD${LANG(
               "date"
             )} ${LANG("till")}`}

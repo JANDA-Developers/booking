@@ -136,7 +136,7 @@ const DailyAssig: React.FC<IProps> = ({
     <div className="dailyAssig__dayPicker">
       <JDdayPicker
         isRange={false}
-        input
+        mode="input"
         label={LANG("calender_date")}
         {...dayPickerHook}
         className="JDwaves-effect JDoverflow-visible"

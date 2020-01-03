@@ -94,8 +94,13 @@ const isNumberMinMax = (string, min, max) => {
   return regExp.test(string);
 };
 
+const isNumber = value => {
+  return /^\d*$/.test(value);
+};
+
 export {
   isEmail,
+  isNumber,
   isYYYYMMDD,
   isPhone,
   isName,

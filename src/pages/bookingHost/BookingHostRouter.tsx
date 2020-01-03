@@ -1,7 +1,7 @@
 /* eslint-disable react/forbid-prop-types */
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { JDlang } from "../../langs/JDlang";
-import { Route, Switch, RouteComponentProps } from "react-router-dom";
+import { Route, Switch, RouteComponentProps, Redirect } from "react-router-dom";
 import { graphql, compose } from "react-apollo";
 import { Helmet } from "react-helmet";
 import Header from "../../components/headers/HeaderWrap";
@@ -101,6 +101,7 @@ const JDbookingHost: React.FC<IProps> = ({
   const houses: IHouse[] = user.houses || [];
   const currentHouse = getCurrentHouse(houses, lastSelectedHouse);
   const memoAlertModal = useModal(false);
+  const [redirect, setRedirect] = useState();
   const applyedProduct = currentHouse?.product;
   const { userRole } = user;
   // 추가적 설정 모달
@@ -133,10 +134,6 @@ const JDbookingHost: React.FC<IProps> = ({
   });
 
   const routers: JDRoute[] = [
-    {
-      Component: Login,
-      condition: !isLogIn
-    },
     {
       path: "/",
       Component: DashBoard,
@@ -178,13 +175,13 @@ const JDbookingHost: React.FC<IProps> = ({
       condition: doneBasicSetting
     },
     {
-      path: "/login",
-      Component: Login,
+      path: "/signUp",
+      Component: SignUp,
       condition: true
     },
     {
-      path: "/signUp",
-      Component: SignUp,
+      path: "/login",
+      Component: Login,
       condition: true
     },
     {
@@ -242,6 +239,11 @@ const JDbookingHost: React.FC<IProps> = ({
       Component: StarterModalWrap,
       path: undefined,
       condition: isLogIn && !doneBasicSetting
+    },
+    {
+      path: "/",
+      Component: Login,
+      condition: true
     },
     {
       Component: NoMatch,

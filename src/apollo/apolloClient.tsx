@@ -3,12 +3,8 @@ import React from "react";
 import dotenv from "dotenv";
 import uri from "./uri";
 import resolvers from "./resolvers";
+import cache from "./cache";
 import { toast } from "react-toastify";
-import {
-  InMemoryCache,
-  IntrospectionFragmentMatcher
-} from "apollo-cache-inmemory";
-import introspectionQueryResultData from "./fragmentTypes.json";
 import ToastError from "../components/toasts/ErrorToast";
 import { JDlang } from "../langs/JDlang";
 import { CURRENT_LANG } from "../hooks/hook";
@@ -16,10 +12,6 @@ import { Observable, ApolloLink } from "apollo-link";
 // DEFRECATEDDDDD
 import { onError, ErrorResponse } from "apollo-link-error";
 import { createUploadLink } from "apollo-upload-client";
-
-const fragmentMatcher = new IntrospectionFragmentMatcher({
-  introspectionQueryResultData
-});
 
 const request = async (operation: any) => {
   operation.setContext({
@@ -51,8 +43,6 @@ const requestLink = new ApolloLink(
       };
     })
 );
-
-const cache = new InMemoryCache({ addTypename: true, fragmentMatcher });
 
 // networkError : 아래 에러는 그래프큐엘 통신이 실패했거나
 // graphQLErrors : 그래프큐엘 통신규약이 맞지않음

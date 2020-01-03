@@ -80,18 +80,19 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
         // (API로 가져온 Booking 정보) + (예약 생성요청 정보)
         const mergedBooking = mergeObject(booking, modalHook.info.createParam);
 
-        const priceQueryVariables:
+        let priceQueryVariables:
           | getRoomTypeDatePricesVariables
-          | undefined = mergedBooking
-          ? {
-              checkIn: mergedBooking.checkIn,
-              checkOut: mergedBooking.checkOut,
-              houseId: house._id,
-              roomTypeIds: mergedBooking.roomTypes
-                ? mergedBooking.roomTypes.map(roomType => roomType._id)
-                : [""]
-            }
-          : undefined;
+          | undefined = undefined;
+
+        if (mergedBooking) {
+          const { checkIn, checkOut, roomTypes } = mergedBooking;
+          priceQueryVariables = {
+            checkIn: checkIn,
+            checkOut: checkOut,
+            houseId: house._id,
+            roomTypeIds: roomTypes?.map(roomType => roomType._id) || [""]
+          };
+        }
 
         return (
           <GetPriceWithDate

@@ -1,29 +1,36 @@
 import React from "react";
-import { IContext } from "../../BookingHostRouter";
-import { IUseModal } from "../../../../hooks/hook";
-import JDmodal from "../../../../atoms/modal/Modal";
-import { JDtabs, TabList, Tab, TabPanel } from "../../../../atoms/tabs/Tabs_";
+import { IContext } from "../../../BookingHostRouter";
+import { IUseModal } from "../../../../../hooks/hook";
+import JDmodal from "../../../../../atoms/modal/Modal";
+import {
+  JDtabs,
+  TabList,
+  Tab,
+  TabPanel
+} from "../../../../../atoms/tabs/Tabs_";
 import HouseControll from "./HouseContoll";
-import HomePageControll from "./HomePageControll";
 import ProductControll from "./ProductControll";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import client from "../../../../apollo/apolloClient";
+import client from "../../../../../apollo/apolloClient";
 import {
   GET_HOUSE_SPECIFICATION,
   UPDATE_USER_FOR_SU
-} from "../../../../apollo/queries";
+} from "../../../../../apollo/queries";
 import {
   getSpecification,
   getSpecificationVariables,
   updateUserForSU,
   updateUserForSUVariables,
-  UpdateProductParams,
-  LocationInput,
-  TermsOfRefundInput,
-  getSpecification_GetHouse_house
-} from "../../../../types/api";
-import { queryDataFormater, onCompletedMessage } from "../../../../utils/utils";
-import { HouseType } from "../../../../types/enum";
+  getSpecification_GetHouse_house,
+  UpdateHouseInput,
+  UpdateProductForSUInput
+} from "../../../../../types/api";
+import {
+  queryDataFormater,
+  onCompletedMessage
+} from "../../../../../utils/utils";
+import "./SuperAdminControllModal.scss";
+import BillPayController from "./BillPayController";
 
 export interface IControllSharedPorps {
   context: IContext;
@@ -32,15 +39,11 @@ export interface IControllSharedPorps {
 }
 
 export interface IControllUpdateParam {
-  productParams?: UpdateProductParams | null;
-  name?: string | null;
-  houseType?: HouseType | null;
-  location?: LocationInput | null;
-  completeDefaultSetting?: boolean | null;
-  refundPolicy?: TermsOfRefundInput[] | null;
+  updateProductParams?: UpdateProductForSUInput;
+  updateHouseParams?: UpdateHouseInput;
 }
 
-export type IControllUpdateFn = (param: IControllUpdateParam) => any;
+export type IControllUpdateFn = (param: IControllUpdateParam) => void;
 
 export interface IControllerModalProps {
   houseId: string;
@@ -87,23 +90,37 @@ const SuperAdminController: React.FC<Iprops> = ({ context, modalHook }) => {
     queryDataFormater(data, "GetHouse", "house", undefined) || undefined;
 
   const updateFn: IControllUpdateFn = params => {
-    if (!specificData) return;
-    if (!specificData.product) return;
+    if (!specificData || !specificData.product?._id) return;
+    const {
+      _id: houseId,
+      product: { _id: productId }
+    } = specificData;
+
+    const defulatParams = {
+      updateHouseParams: {
+        houseId,
+        updateParams: {}
+      },
+      productParams: {
+        productId,
+        updateParams: {}
+      }
+    };
+
     updateUserForSuMu({
       variables: {
-        houseId,
-        productId: specificData.product._id,
+        ...defulatParams,
         ...params
       }
     });
   };
 
   return (
-    <JDmodal {...modalHook}>
-      <JDtabs>
+    <JDmodal className="SuperAdminControllModal" {...modalHook}>
+      <JDtabs tabsAlign="spaceAround">
         <TabList>
           <Tab>House</Tab>
-          <Tab>Hompage</Tab>
+          <Tab>BillPay</Tab>
           <Tab>Product</Tab>
         </TabList>
         <TabPanel>
@@ -114,11 +131,11 @@ const SuperAdminController: React.FC<Iprops> = ({ context, modalHook }) => {
           />
         </TabPanel>
         <TabPanel>
-          <HomePageControll
+          {/* <BillPayController
             updateFn={updateFn}
             context={context}
             data={specificData}
-          />
+          /> */}
         </TabPanel>
         <TabPanel>
           <ProductControll

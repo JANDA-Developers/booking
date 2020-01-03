@@ -441,7 +441,6 @@ export const F_USER = gql`
     isPhoneVerified
     checkPrivacyPolicy
     userRole
-    userRoles
     createdAt
     updatedAt
   }
@@ -690,37 +689,39 @@ export const GET_USER_INFO = gql`
 
 // 슈퍼계정 :: 모든집 가져오기
 export const GET_HOUSES_FOR_SU = gql`
-  query getHousesForSU($page: Int!, $count: Int!) {
-    GetHousesForSU(page: $page, count: $count) {
+  query getHousesForSU($param: GetHousesForSUInput!) {
+    GetHousesForSU(param: $param) {
       ok
       error
-      houses {
-        _id
-        name
-        houseType
-        user {
-          _id
-          phoneNumber
-          profileImg {
-            ...Fimg
-          }
-        }
-        location {
-          address
-          addressDetail
-        }
-        createdAt
-        updatedAt
-        product {
+      result {
+        houses {
           _id
           name
-          productType {
+          houseType
+          user {
             _id
+            phoneNumber
+            profileImg {
+              ...Fimg
+            }
+          }
+          location {
+            address
+            addressDetail
+          }
+          createdAt
+          updatedAt
+          product {
+            _id
+            name
+            productType {
+              _id
+            }
           }
         }
-      }
-      pageInfo {
-        ...FpageInfo
+        pageInfo {
+          ...FpageInfo
+        }
       }
     }
   }
@@ -1255,71 +1256,47 @@ export const GET_BOOKING_FOR_PUBLIC = gql`
 // 예약 ::모든 예약을 가져옴
 
 export const GET_BOOKINGS_PHONE_NUMBERS = gql`
-  query getPhoneNumbers(
-    $houseId: ID!
-    $page: Int!
-    $count: Int!
-    $filter: GetBookingsFilter
-  ) {
-    GetBookings(
-      houseId: $houseId
-      page: $page
-      count: $count
-      filter: $filter
-    ) {
+  query getPhoneNumbers($param: GetBookingsInput!) {
+    GetBookings(param: $param) {
       ok
       error
-      bookings {
-        _id
-        phoneNumber
+      result {
+        bookings {
+          _id
+          phoneNumber
+        }
       }
     }
   }
 `;
 
 export const GET_BOOKINGS_MEMOS = gql`
-  query getBookingMemos(
-    $houseId: ID!
-    $page: Int!
-    $count: Int!
-    $filter: GetBookingsFilter
-  ) {
-    GetBookings(
-      houseId: $houseId
-      page: $page
-      count: $count
-      filter: $filter
-    ) {
+  query getBookingMemos($param: GetBookingsInput!) {
+    GetBookings(param: $param) {
       ok
       error
-      bookings {
-        name
-        bookingId
-        memo
+      result {
+        bookings {
+          name
+          bookingId
+          memo
+        }
       }
     }
   }
 `;
 
 export const GET_CHECKINS = gql`
-  query getCheckIns(
-    $houseId: ID!
-    $page: Int!
-    $count: Int!
-    $filter: GetBookingsFilter
-  ) {
-    GetBookings(
-      houseId: $houseId
-      page: $page
-      count: $count
-      filter: $filter
-    ) {
+  query getCheckIns($param: GetBookingsInput!) {
+    GetBookings(param: $param) {
       ok
       error
-      bookings {
-        checkInInfo {
-          isIn
-          checkInDateTime
+      result {
+        bookings {
+          checkInInfo {
+            isIn
+            checkInDateTime
+          }
         }
       }
     }
@@ -1327,47 +1304,39 @@ export const GET_CHECKINS = gql`
 `;
 
 export const GET_BOOKINGS = gql`
-  query getBookings(
-    $houseId: ID!
-    $page: Int!
-    $count: Int!
-    $filter: GetBookingsFilter
-  ) {
-    GetBookings(
-      houseId: $houseId
-      page: $page
-      count: $count
-      filter: $filter
-    ) {
+  query getBookings($param: GetBookingsInput!) {
+    GetBookings(param: $param) {
       ok
       error
-      bookings {
-        ...Fbooking
-        guests {
-          ... on GuestDomitory {
-            ...FguestDomitory
-            roomType {
-              _id
-              name
+      result {
+        bookings {
+          ...Fbooking
+          guests {
+            ... on GuestDomitory {
+              ...FguestDomitory
+              roomType {
+                _id
+                name
+              }
+            }
+            ... on GuestRoom {
+              ...FguestRoom
+              roomType {
+                _id
+              }
             }
           }
-          ... on GuestRoom {
-            ...FguestRoom
-            roomType {
-              _id
-            }
+          roomTypes {
+            _id
+            name
+            pricingType
           }
+          createdAt
+          updatedAt
         }
-        roomTypes {
-          _id
-          name
-          pricingType
+        pageInfo {
+          ...FpageInfo
         }
-        createdAt
-        updatedAt
-      }
-      pageInfo {
-        ...FpageInfo
       }
     }
   }
@@ -2015,24 +1984,8 @@ export const EMAIL_SIGN_UP = gql`
 // 숙소관련 ────────────────────────────────────────────────────────────────────────────────
 // 하우스 :: 하우스 업데이트
 export const UPDATE_HOUSE = gql`
-  mutation updateHouse(
-    $houseId: ID!
-    $name: String
-    $houseType: HouseType
-    $location: LocationInput
-    $completeDefaultSetting: Boolean
-    $refundPolicy: [TermsOfRefundInput!]
-    $termsOfBooking: TermsOfBookingInput
-  ) {
-    UpdateHouse(
-      houseId: $houseId
-      name: $name
-      houseType: $houseType
-      location: $location
-      refundPolicy: $refundPolicy
-      termsOfBooking: $termsOfBooking
-      completeDefaultSetting: $completeDefaultSetting
-    ) {
+  mutation updateHouse($param: UpdateHouseInput!) {
+    UpdateHouse(param: $param) {
       ok
       error
     }
@@ -2204,29 +2157,15 @@ export const SEND_SMS = gql`
 
 export const UPDATE_USER_FOR_SU = gql`
   mutation updateUserForSU(
-    $productId: ID!
-    $productParams: UpdateProductParams
-    $houseId: ID!
-    # under for house
-    $name: String
-    $houseType: HouseType
-    $location: LocationInput
-    $completeDefaultSetting: Boolean
-    $refundPolicy: [TermsOfRefundInput!]
+    $productParams: UpdateProductForSUInput!
+    $updateHouseParams: UpdateHouseInput!
   ) {
-    UpdateProductForSU(productId: $productId, params: $productParams) {
+    UpdateProductForSU(param: $productParams) {
       ok
       error
     }
-    UpdateHouse(
-      houseId: $houseId
-      refundPolicy: $refundPolicy
-      houseType: $houseType
-      location: $location
-      completeDefaultSetting: $completeDefaultSetting
-      status: $status
-      name: $name
-    ) {
+
+    UpdateHouse(param: $updateHouseParams) {
       ok
       error
     }

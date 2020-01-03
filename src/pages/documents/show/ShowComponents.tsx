@@ -438,7 +438,7 @@ function ShowComponents() {
               <DayPicker
                 canSelectBeforeDay={false}
                 {...dayPickerHook}
-                horizen
+                mode="horizen"
               />
             </div>
           </div>
@@ -450,7 +450,7 @@ function ShowComponents() {
             <DayPicker
               {...dayPickerHook}
               canSelectBeforeDay={false}
-              input
+              mode="input"
               label="input"
               isRange
             />
@@ -458,7 +458,7 @@ function ShowComponents() {
           <div className="flex-grid__col col--full-4 col--wmd-12">
             <DayPicker
               {...dayPickerHook}
-              input
+              mode="input"
               label="input"
               canSelectBeforeDay={false}
               isRange={false}

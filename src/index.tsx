@@ -10,8 +10,9 @@ import "./style_config/main.scss";
 import App from "./App";
 // @ts-ignore
 import { registerObserver } from "react-perf-devtool";
+
 dotenv.config({
-  path: process.env.NODE_ENV === "development" ? "../.env" : "../.env.product"
+  path: "../.env"
 });
 
 registerObserver();

@@ -1,29 +1,27 @@
 import React from "react";
-import { IControllSharedPorps } from "./SuperAdminController";
-import Vtable, { ColumnCells } from "../../../../atoms/vtable/Vtable";
-import JDselect from "../../../../atoms/forms/selectBox/SelectBox";
-import { SELECT_PRODUCT_TYPE_OP } from "../../../../types/const";
+import { IControllSharedPorps } from "./SuperAdminControllModal";
+import Vtable, { ColumnCells } from "../../../../../atoms/vtable/Vtable";
+import JDselect from "../../../../../atoms/forms/selectBox/SelectBox";
+import { SELECT_PRODUCT_TYPE_OP } from "../../../../../types/const";
 import {
   useSwitch,
   useSelect,
   useInput,
   useDayPicker
-} from "../../../../hooks/hook";
-import JDswitch from "../../../../atoms/forms/switch/Switch";
-import Button from "../../../../atoms/button/Button";
-import InputText from "../../../../atoms/forms/inputText/InputText";
-import optionFineder from "../../../../utils/optionFinder";
-import JDdayPickerInput from "../../../../atoms/dayPicker/component/input/JDdayPickerInput";
-import DayPickerInput from "react-day-picker/DayPickerInput";
-import JDdayPicker from "../../../../atoms/dayPicker/DayPicker";
+} from "../../../../../hooks/hook";
+import JDswitch from "../../../../../atoms/forms/switch/Switch";
+import Button from "../../../../../atoms/button/Button";
+import InputText from "../../../../../atoms/forms/inputText/InputText";
+import optionFineder from "../../../../../utils/optionFinder";
+import JDdayPicker from "../../../../../atoms/dayPicker/DayPicker";
 
 interface Iprops extends IControllSharedPorps {}
 
 const ProductContoll: React.FC<Iprops> = ({ context, data, updateFn }) => {
   if (!data) return <div />;
-  const { product } = data;
+  const { product, _id: houseId } = data;
   if (product === null) return <div>Un Exist Product</div>;
-  const { status, name, price, expireDate } = product;
+  const { status, name, price, expireDate, _id: productId } = product;
   const { isContinue } = status;
 
   const descriptionHook = useInput(name);
@@ -55,27 +53,38 @@ const ProductContoll: React.FC<Iprops> = ({ context, data, updateFn }) => {
     },
     {
       label: "ExpireDate",
-      Component: () => <JDdayPicker input {...expireDateHook} inputComponent />
+      Component: () => (
+        <JDdayPicker isRange={false} mode="input" {...expireDateHook} />
+      )
     }
   ];
+
+  const handleUpdateBtn = () => {
+    updateFn({
+      updateProductParams: {
+        productId,
+        updateParams: {
+          description: descriptionHook.value,
+          expireDate: expireDateHook.from,
+          price: priceHook.value
+        }
+      }
+    });
+  };
 
   return (
     <div>
       <Vtable>
         <ColumnCells datas={renders} />
-        <Button
-          label="update product"
-          onClick={() => {
-            updateFn({
-              productParams: {
-                description: descriptionHook.value,
-                expireDate: expireDateHook.from,
-                price: priceHook.value
-              }
-            });
-          }}
-        />
       </Vtable>
+      <div className="JDmodal__endSection">
+        <Button
+          flat
+          thema="primary"
+          label="update product"
+          onClick={handleUpdateBtn}
+        />
+      </div>
     </div>
   );
 };

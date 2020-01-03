@@ -30,7 +30,6 @@ import {
 import { MutationFn } from "react-apollo";
 import { to4YMMDD } from "../../utils/setMidNight";
 import DayPickerModal from "../dayPickerModal/DayPickerModal";
-import { inOr } from "../../utils/C";
 import Drawer from "../../atoms/drawer/Drawer";
 
 interface IProps {
@@ -66,14 +65,8 @@ export const SpecificAtion: React.FC<IProps> = ({
     existingHostApp,
     description,
     layoutPrice,
-    roomCount,
-    roomCountExtraCharge,
     appInfoRequested,
     layoutPricePaid,
-    productType,
-    canHaveHostApp,
-    discountedPrice,
-    bookingCountExtraCharge,
     expireDate,
     // daysLeftToExpire,
     isExpired
@@ -104,24 +97,6 @@ export const SpecificAtion: React.FC<IProps> = ({
   const haveHostAppHook = useCheckBox(existingHostApp);
   const descHook = useInput(description || "");
   const expireDateHook = useDayPicker(expireDate, expireDate);
-
-  const handleUpdateClick = () => {
-    if (!expireDateHook.from) return;
-    updateUserForSu({
-      variables: {
-        productParams: {
-          appliedUrl: applideUrlHook.value,
-          description: descHook.value,
-          existingHostApp: haveHostAppHook.checked,
-          price,
-          layoutPricePaid: layOutPricePaidHook.checked,
-          expireDate: expireDateHook.from!
-        },
-        productId: productId,
-        houseId: specification._id
-      }
-    });
-  };
 
   let columns: {
     title: string;
@@ -185,7 +160,7 @@ export const SpecificAtion: React.FC<IProps> = ({
       {
         title: LANG("homepage_application_date"),
         value: moment(productCreateAt)
-          .local()
+        .local()
           .format(
             `YY${LANG("year")} MM${LANG("month")} DD${LANG("date")} HH:mm`
           )
@@ -264,16 +239,6 @@ export const SpecificAtion: React.FC<IProps> = ({
         displayInfo={false}
         isRange={false}
       />
-      {isAdmin && (
-        <Button
-          className="JDstandard-margin0"
-          onClick={() => {
-            handleUpdateClick();
-          }}
-          label={LANG("change")}
-          thema="primary"
-        />
-      )}
     </JDbox>
   );
 };

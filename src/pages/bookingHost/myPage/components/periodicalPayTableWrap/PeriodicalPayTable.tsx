@@ -7,7 +7,6 @@ import { JDSelectableJDtable } from "../../../../../atoms/table/SelectTable";
 import { DateFormat } from "../../../../../types/enum";
 import Button from "../../../../../atoms/button/Button";
 import { IPayHistroy, IPageInfo } from "../../../../../types/interface";
-import { inOr } from "../../../../../utils/C";
 import JDPagination from "../../../../../atoms/pagination/Pagination";
 
 interface Iprops {
@@ -26,6 +25,11 @@ const PeriodicalPayTable: React.FC<Iprops> = ({
   setPage
 }) => {
   // TODO: 아래세줄들을 hook으로 치환
+
+  const handlePrintBill = () => {
+    
+  }
+
 
   const checkBoxTableHook = useCheckBoxTable(
     [],
@@ -84,7 +88,7 @@ const PeriodicalPayTable: React.FC<Iprops> = ({
       Cell: ({ value }) => {
         return (
           <div>
-            <Button mr="no" label={LANG("bill")} mode="flat" thema="primary" />
+            <Button onClick={handlePrintBill} mr="no" label={LANG("bill")} mode="flat" thema="primary" />
           </div>
         );
       }

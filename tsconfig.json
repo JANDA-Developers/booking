@@ -7,7 +7,11 @@
     "moduleResolution": "node",
     "noEmit": true,
     "jsx": "preserve",
-    "lib": ["dom", "es6", "es2016"],
+    "lib": [
+      "dom",
+      "es6",
+      "es2016"
+    ],
     "allowJs": true,
     "skipLibCheck": false,
     "esModuleInterop": true,
@@ -26,7 +30,11 @@
     "src/atoms/toggleNoti",
     "src/components/cardResistModal",
     "src/utils/jsdrag.js",
-    "src/pages/bookingHost/resvList/Excel.jsx"
+    "src/pages/bookingHost/resvList/Excel.jsx",
+    "src/pages/outPages/print/CreditCardReceipt.tsx",
+    "src/pages/outPages/print/CreditCardReceipt.js"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }

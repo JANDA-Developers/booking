@@ -23,7 +23,7 @@ interface IProps {
   inputClassName?: string;
   displayYear?: boolean;
   dayPickerProps: DayPickerProps;
-  inputComponent?: any;
+  InputComponent?: React.FC;
   disabled?: boolean;
 }
 
@@ -40,7 +40,7 @@ const JDdayPickerInput: React.FC<IProps> = ({
   inputClassName,
   placeholder = LANG("please_select_date"),
   format = displayYear ? DateFormat.YYMMDD : DateFormat.MMDD,
-  inputComponent: InputComponent,
+  InputComponent,
   disabled,
   ...props
 }) => {
@@ -104,7 +104,7 @@ const JDdayPickerInput: React.FC<IProps> = ({
 
   const MyComponent = React.forwardRef((prop: any, ref) =>
     InputComponent ? (
-      InputComponent(prop)
+      <InputComponent {...props} />
     ) : (
       <InputText
         ref={ref}

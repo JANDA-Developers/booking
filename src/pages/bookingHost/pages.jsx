@@ -148,14 +148,6 @@ export const Login = props => (
   </DynamicImport>
 );
 
-export const Ready = props => (
-  <DynamicImport load={() => import("./ready/Ready")}>
-    {DNcompoent =>
-      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
-    }
-  </DynamicImport>
-);
-
 export const AssigTimeline = props => (
   <DynamicImport load={() => import("./assig/AssigTimelineWrap")}>
     {DNcompoent =>

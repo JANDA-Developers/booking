@@ -1055,5 +1055,8 @@ export const kr = {
     PENSION: "펜션",
     HOSTEL: "호스텔",
     YOUTH_HOSTEL: "유스호스텔"
-  }
+  },
+  please_select_room_gender: "방성별을 선택 해주세요.",
+  please_select_room_type: "방타입을 선택 해주세요.",
+  please_input_max_people_count: "최대인원수를 입력 해주세요."
 };

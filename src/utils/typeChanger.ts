@@ -9,13 +9,10 @@ import {
 import { PricingType } from "../types/enum";
 import {
   DEFAULT_ROOMTYPE,
-  DEFAULT_ROOMTYPE_ROOM,
   DEFAULT_GUEST
 } from "../types/defaults";
-import { instanceOfA } from "./utils";
 import { Gender } from "../types/enum";
 import _ from "lodash";
-import { GB_booking } from "../types/interface";
 import { IRoomSelectInfo } from "../components/bookingModal/declaration";
 import { isDomitoryGuest } from "./interfaceMatch";
 
@@ -50,15 +47,15 @@ export const divisionRoomSelectInfo = (
   ):
     | getBooking_GetBooking_booking_guests_GuestDomitory
     | getBooking_GetBooking_booking_guests_GuestRoom => ({
-    ...DEFAULT_GUEST,
-    pricingType: gender ? PricingType.DOMITORY : PricingType.ROOM,
-    gender,
-    roomType: {
-      __typename: "RoomType",
-      _id: roomSelectInfo.roomTypeId,
-      name: roomSelectInfo.roomTypeName || ""
-    }
-  });
+      ...DEFAULT_GUEST,
+      pricingType: gender ? PricingType.DOMITORY : PricingType.ROOM,
+      gender,
+      roomType: {
+        __typename: "RoomType",
+        _id: roomSelectInfo.roomTypeId,
+        name: roomSelectInfo.roomTypeName || ""
+      }
+    });
 
   // 템프
   const guests: getBooking_GetBooking_booking_guests[] = [];

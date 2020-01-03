@@ -87,7 +87,7 @@ function getClientEnvironment(publicUrl) {
     }, {})
   };
 
-  const style = process.env.STYLE || "../src/style_config/style_config.scss";
+  const style = "../src/style_config/style_config.scss";
 
   return { raw, stringified, style };
 }

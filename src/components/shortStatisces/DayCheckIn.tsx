@@ -1,11 +1,11 @@
 import React from "react";
-import {IContext} from "../../pages/bookingHost/BookingHostRouter";
-import {getBookings_GetBookings_bookings} from "../../types/api";
-import {IUseDayPicker, LANG} from "../../hooks/hook";
+import { IContext } from "../../pages/bookingHost/BookingHostRouter";
+import { getBookings_GetBookings_result_bookings } from "../../types/api";
+import { IUseDayPicker, LANG } from "../../hooks/hook";
 import ArrowDayByDay from "../../atoms/dayPicker/component/inputComponent/ArrowDayByDay";
 import JDdayPicker from "../../atoms/dayPicker/DayPicker";
 import Preloader from "../../atoms/preloader/Preloader";
-import {ChartData} from "react-chartjs-2";
+import { ChartData } from "react-chartjs-2";
 import JDgraph from "../../atoms/graph/graph";
 
 interface IViewConfig {
@@ -17,7 +17,7 @@ interface Iprops extends IViewConfig {
   context: IContext;
   loading: boolean;
   info: {
-    bookingsCheckInToday: getBookings_GetBookings_bookings[];
+    bookingsCheckInToday: getBookings_GetBookings_result_bookings[];
     bookingsCount: number;
     bookingsCheckInCount: number;
   };
@@ -51,7 +51,7 @@ const DayCheckIn: React.FC<Iprops> = ({
       {dayPickerHook && viewDayPicker && (
         <JDdayPicker
           isRange={false}
-          input
+          mode="input"
           canSelectBeforeDay={false}
           label={LANG("calender_date")}
           {...dayPickerHook}

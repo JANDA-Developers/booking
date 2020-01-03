@@ -1,4 +1,4 @@
-import {IselectedOption} from "../atoms/forms/selectBox/SelectBox";
+import { IselectedOption } from "../atoms/forms/selectBox/SelectBox";
 
 interface IProps {
   count: number;

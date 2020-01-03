@@ -9,9 +9,7 @@ import {
   ShowComponents,
   Grid,
   ColorPage,
-  LangPage,
-  Margin,
-  Brand
+  LangPage
 } from "./pages";
 
 class DocumentRouter extends Component {

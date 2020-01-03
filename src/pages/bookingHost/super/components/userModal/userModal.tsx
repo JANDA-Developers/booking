@@ -1,9 +1,9 @@
 import React from "react";
-import JDmodal from "../../../../atoms/modal/Modal";
-import { IUseModal } from "../../../../hooks/hook";
-import MypageWrap from "../../myPage/MyPageWrap";
-import { IContext } from "../../../bookingHost/BookingHostRouter";
-import { getUserForSU_GetUserForSU_user } from "../../../../types/api";
+import JDmodal from "../../../../../atoms/modal/Modal";
+import { IUseModal } from "../../../../../hooks/hook";
+import MypageWrap from "../../../myPage/MyPageWrap";
+import { IContext } from "../../../BookingHostRouter";
+import { getUserForSU_GetUserForSU_user } from "../../../../../types/api";
 
 export interface IUserModalProps {
   userId: string;

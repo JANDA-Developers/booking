@@ -7,7 +7,7 @@ import {
   updateMemo,
   updateMemoVariables,
   getMemos_GetMemos_memos,
-  getBookingMemos_GetBookings_bookings
+  getBookingMemos_GetBookings_result_bookings
 } from "../../types/api";
 import { MutationFn } from "react-apollo";
 import { MemoType } from "../../types/enum";
@@ -31,7 +31,7 @@ export interface IConfigMemo {
 }
 
 interface Iprops {
-  bookingData: getBookingMemos_GetBookings_bookings[];
+  bookingData: getBookingMemos_GetBookings_result_bookings[];
   createMemoMu: MutationFn<createMemo, createMemoVariables>;
   deleteMemoMu: MutationFn<deleteMemo, deleteMemoVariables>;
   updateMemoMu: MutationFn<updateMemo, updateMemoVariables>;

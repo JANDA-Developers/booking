@@ -1,6 +1,10 @@
 import React, * as react from "react";
 import { Query, Mutation } from "react-apollo";
-import { queryDataFormater, onCompletedMessage } from "../../utils/utils";
+import {
+  queryDataFormater,
+  onCompletedMessage,
+  getFromResult
+} from "../../utils/utils";
 import Memo, { IConfigMemo } from "./Memo";
 import {
   getMemos,
@@ -54,14 +58,22 @@ const MemoWrap: React.FC<IMemoWrapProps> = ({ context, memoType, ...prop }) => {
     client,
     notifyOnNetworkStatusChange: true,
     variables: {
-      houseId,
-      count: 20,
-      page: 0
+      param: {
+        paging: {
+          count: 20,
+          selectedPage: 1
+        }
+      }
     }
   });
 
-  const bookings =
-    queryDataFormater(memoData, "GetBookings", "bookings", []) || [];
+  const result = queryDataFormater(
+    memoData,
+    "GetBookings",
+    "result",
+    undefined
+  );
+  const bookings = result?.bookings || [];
 
   return (
     <div>

@@ -1,0 +1,52 @@
+// import React from "react";
+// import { IControllSharedPorps } from "./SuperAdminControllModal";
+// import Vtable, { ColumnCells } from "../../../../../atoms/vtable/Vtable";
+// import Button from "../../../../../atoms/button/Button";
+
+// interface Iprops extends IControllSharedPorps {}
+
+// const HomePageContoll: React.FC<Iprops> = ({ context, data, updateFn }) => {
+//   if(!data || !data.appInfo) return <div/>;
+//   const {appInfo} = data;
+//   const {} = appInfo
+//   const handleUpdateBtn = () => {
+//     // updateFn({
+//     //   updateHouseParams: {
+//     //     houseId
+//     //   }
+//     // });
+//   };
+
+//   const renders = [
+//     // {
+//     //   label: "House Name",
+//     //   Component: () => <InputText {...houseNameHook} />
+//     // },
+//     // {
+//     //   label: "House Type",
+//     //   Component: () => <JDselect {...houseTypeHook} options={HOUSE_TYPE_OP} />
+//     // },
+//     // {
+//     //   label: "House Status",
+//     //   Component: () => (
+//     //     <JDselect {...houseStatusHook} options={HOUSE_STATUS_OP} />
+//     //   )
+//     // }
+//   ];
+
+//   return (
+//     <div>
+//       <Vtable>{/* <ColumnCells datas={renders} /> */}</Vtable>
+//       <div className="JDmodal__endSection">
+//         <Button
+//           flat
+//           thema="primary"
+//           label="update product"
+//           onClick={handleUpdateBtn}
+//         />
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default HomePageContoll;

@@ -82,24 +82,23 @@ const SendSmsModal: React.FC<IProps> = ({
   >(GET_BOOKINGS_PHONE_NUMBERS, {
     client,
     variables: {
-      count: 0,
-      page: 0,
-      houseId,
-      filter: {
-        stayDate: {
-          checkIn: moment(today).format("YYYY-MM-DD"),
-          checkOut: moment(today).format("YYYY-MM-DD")
+      param: {
+        paging: {
+          count: 0,
+          selectedPage: 1
+        },
+        filter: {
+          stayDate: {
+            checkIn: moment(today).format("YYYY-MM-DD"),
+            checkOut: moment(today).format("YYYY-MM-DD")
+          }
         }
       }
     }
   });
 
-  const bookings = queryDataFormater(
-    data,
-    "GetBookings",
-    "bookings",
-    undefined
-  );
+  const result = queryDataFormater(data, "GetBookings", "result", undefined);
+  const bookings = result?.bookings || [];
 
   useEffect(() => {
     if (smsInfo && smsInfo.smsTemplates) {
@@ -158,13 +157,16 @@ const SendSmsModal: React.FC<IProps> = ({
     smsTargetOpHook.onChange(v);
     if (v.value === GetSmsTarget.TODAY_STAY) {
       refetch({
-        houseId,
-        count: 99,
-        page: 1,
-        filter: {
-          stayDate: {
-            checkIn: moment(today).toDate(),
-            checkOut: moment(today).toDate()
+        param: {
+          paging: {
+            count: 99,
+            selectedPage: 1
+          },
+          filter: {
+            stayDate: {
+              checkIn: moment(today).toDate(),
+              checkOut: moment(today).toDate()
+            }
           }
         }
       });

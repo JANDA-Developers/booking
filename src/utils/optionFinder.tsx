@@ -7,7 +7,7 @@ const optionFineder = (
 ): IselectedOption => {
   const targetOp = options.find(op => op.value === value);
   if (!targetOp) {
-    throw Error("optionFineder :: can not find option of value");
+    return { value: "", label: "Select" };
   }
   return targetOp;
 };

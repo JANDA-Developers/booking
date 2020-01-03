@@ -4,7 +4,8 @@ import {
   IHouseConfigFull,
   IBlockOp,
   JdFile,
-  JDpageInfo
+  JDpageInfo,
+  IRoomType
 } from "./interface";
 import {
   RoomGender,
@@ -49,13 +50,14 @@ export const DEFAULT_ROOMTYPE_ROOM: getAllRoomType_GetAllRoomType_roomTypes_room
   updatedAt: ""
 };
 
-export const DEFAULT_ROOMTYPE: getBooking_GetBooking_booking_roomTypes = {
+export const DEFAULT_ROOMTYPE: IRoomType = {
   __typename: "RoomType",
   name: "_",
   pricingType: PricingType.DOMITORY,
   peopleCount: 0,
   peopleCountMax: 0,
   index: -1,
+  rooms: [],
   roomCount: 0,
   roomGender: RoomGender.ANY,
   description: null,
@@ -329,7 +331,6 @@ export const DEFAULT_USER: getMyProfile_GetMyProfile_user = {
   updatedAt: "",
   name: "",
   phoneNumber: "",
-  userRoles: [],
   email: "",
   password: "",
   userRole: UserRole.GHOST,

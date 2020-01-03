@@ -365,8 +365,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
               displayCaption={!isMobile}
               displayInfo={!isMobile}
               canSelectBeforeDay={false}
-              horizen={isMobile}
-              mode="reservation"
+              mode="checkInOutStyle"
               className="JDreservation__topDayPicker JDmargin-bottom0"
             />
           </Card>

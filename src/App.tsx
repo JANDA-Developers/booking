@@ -15,7 +15,9 @@ import "./lib/wave/wave.scss";
 import { useLang } from "./hooks/hook";
 import { globalLanguageSetting } from "./utils/globalLagnSet";
 import $ from "jquery";
-import Axios from "axios";
+import ReactDOMServer from 'react-dom/server';
+import Button from "./atoms/button/Button";
+
 
 function App() {
   const langHook = useLang("kr");
@@ -35,7 +37,11 @@ function App() {
     };
   });
 
-  <div onKeyDown={e => {}}></div>;
+  <div onKeyDown={e => { }}></div>;
+
+
+  console.log("ReactDOMServer.renderToStaticMarkup(<Button/>)");
+  console.log(ReactDOMServer.renderToStaticMarkup(<Button />));
 
   return (
     <div id="JDoutWrapper">

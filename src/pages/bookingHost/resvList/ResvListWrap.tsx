@@ -9,7 +9,11 @@ import {
   deleteBooking,
   deleteBookingVariables
 } from "../../../types/api";
-import { queryDataFormater, onCompletedMessage } from "../../../utils/utils";
+import {
+  queryDataFormater,
+  onCompletedMessage,
+  getFromResult
+} from "../../../utils/utils";
 import {
   GET_BOOKINGS,
   DELETE_BOOKING,
@@ -42,21 +46,23 @@ const ResvListWrap: React.FC<IProps> = ({ context }) => {
       query={GET_BOOKINGS}
       pollInterval={period}
       notifyOnNetworkStatusChange
-      variables={{ houseId: house._id, page, count: 20 }}
+      variables={{
+        param: {
+          paging: {
+            selectedPage: page,
+            count: 20
+          }
+        }
+      }}
     >
       {({ data: boookerData, loading, error, networkStatus }) => {
-        const bookings = queryDataFormater(
+        const result = queryDataFormater(
           boookerData,
           "GetBookings",
-          "bookings",
+          "result",
           undefined
         );
-        const pageInfo = queryDataFormater(
-          boookerData,
-          "GetBookings",
-          "pageInfo",
-          undefined
-        );
+        const { data, pageInfo } = getFromResult(result, "bookings", []);
 
         return (
           <DeleteBookingMu
@@ -87,7 +93,7 @@ const ResvListWrap: React.FC<IProps> = ({ context }) => {
                     <ResvList
                       context={context}
                       pageInfo={pageInfo || DEFAULT_PAGE_INFO}
-                      bookingsData={bookings || []}
+                      bookingsData={data || []}
                       deleteBookingMu={deleteBookingMu}
                       updateBookingMu={updateBookingMu}
                       updateBookingLoading={updateBookingLoading}

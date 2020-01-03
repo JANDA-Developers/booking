@@ -37,7 +37,7 @@ const StaticController: React.FC<Iprops> = ({ context, staticsProps }) => {
           canSelectBeforeDay={true}
           {...queryDateHook}
           label={LANG("date_of_statistics")}
-          input
+          mode="input"
         />
       </div>
       <div>

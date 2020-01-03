@@ -1,98 +1,40 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { Fragment } from "react";
-import { Query, Mutation } from "react-apollo";
-import {
-  getAllRoomType,
-  changeIndexForRoomType,
-  changeIndexForRoomTypeVariables
-} from "../../../types/api";
-import { useToggle, LANG } from "../../../hooks/hook";
-import {
-  GET_ALL_ROOMTYPES,
-  CHANGE_INDEX_FOR_ROOMTYPE
-} from "../../../apollo/queries";
-import {
-  ErrProtecter,
-  queryDataFormater,
-  onCompletedMessage
-} from "../../../utils/utils";
+import { getAllRoomType, getAllRoomTypeVariables } from "../../../types/api";
+import { GET_ALL_ROOMTYPES } from "../../../apollo/queries";
+import { ErrProtecter, queryDataFormater } from "../../../utils/utils";
 import { IContext } from "../../bookingHost/BookingHostRouter";
+import client from "../../../apollo/apolloClient";
 import RoomConfig from "./RoomConfig";
 import { PureQueryOptions } from "apollo-client";
-import Preloader from "../../../atoms/preloader/Preloader";
-import { FLOATING_PRELOADER_SIZE } from "../../../types/const";
-
-export enum ADD_ROOM {
-  "ADDROOM" = -1,
-  "ADDROOM_TYPE" = -1
-}
+import { useQuery } from "@apollo/react-hooks";
 
 interface IProps {
   context: IContext;
   refetchQueries?: (PureQueryOptions | string)[];
 }
 
-class GetAllRoomTypeQuery extends Query<getAllRoomType> {}
-class ChangeIndexForRoomTypeMu extends Mutation<
-  changeIndexForRoomType,
-  changeIndexForRoomTypeVariables
-> {}
-
-const RoomConfigWrap: React.FC<IProps> = ({
-  context,
-  refetchQueries = [],
-  ...prop
-}) => {
+const RoomConfigWrap: React.FC<IProps> = ({ context, refetchQueries = [] }) => {
   const { house } = context;
-  const [_, setConfigMode] = useToggle(false);
+  const { data: roomData, loading } = useQuery<
+    getAllRoomType,
+    getAllRoomTypeVariables
+  >(GET_ALL_ROOMTYPES, {
+    client,
+    fetchPolicy: "network-only",
+    variables: { houseId: house._id }
+  });
+  const roomTypesData =
+    queryDataFormater(roomData, "GetAllRoomType", "roomTypes", []) || [];
 
   return (
-    // 모든 방 가져오기
-    <GetAllRoomTypeQuery
-      fetchPolicy="network-only"
-      query={GET_ALL_ROOMTYPES}
-      variables={{ houseId: house._id }}
-    >
-      {({ data: roomData, loading, error, networkStatus }) => {
-        const roomTypesData =
-          queryDataFormater(roomData, "GetAllRoomType", "roomTypes", []) || []; // 원본데이터
-
-        return (
-          <ChangeIndexForRoomTypeMu
-            refetchQueries={[{ query: GET_ALL_ROOMTYPES }]}
-            onCompleted={({ ChangeIndexForRoomType }) => {
-              onCompletedMessage(
-                ChangeIndexForRoomType,
-                LANG("priority_changed"),
-                LANG("priority_change_fail")
-              );
-            }}
-            mutation={CHANGE_INDEX_FOR_ROOMTYPE}
-          >
-            {(changeIndexForRoomTypeMu, { loading: chnageIndexMuLoading }) => (
-              <Fragment>
-                <Preloader
-                  floating
-                  size={FLOATING_PRELOADER_SIZE}
-                  loading={
-                    chnageIndexMuLoading || (networkStatus > 1 && loading)
-                  }
-                />
-                <RoomConfig
-                  context={context}
-                  loading={loading}
-                  refetchQueries={refetchQueries}
-                  setConfigMode={setConfigMode}
-                  changeIndexForRoomTypeMu={changeIndexForRoomTypeMu}
-                  roomTypesData={roomTypesData}
-                />
-              </Fragment>
-            )}
-          </ChangeIndexForRoomTypeMu>
-        );
-      }}
-    </GetAllRoomTypeQuery>
+    <RoomConfig
+      context={context}
+      loading={loading}
+      roomTypesData={roomTypesData}
+      key={loading ? "roomConfig--loading" : "roomConfig"}
+    />
   );
 };
 

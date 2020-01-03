@@ -25,22 +25,30 @@ const DayCheckInWrap: React.FC<IProps> = ({ context }) => {
         <GetBookingsQu
           skip={!house._id}
           variables={{
-            houseId: house._id,
-            filter: {
-              stayDate: {
-                checkIn: to4YMMDD(new Date()),
-                checkOut: to4YMMDD(new Date())
+            param: {
+              filter: {
+                stayDate: {
+                  checkIn: to4YMMDD(new Date()),
+                  checkOut: to4YMMDD(new Date())
+                }
+              },
+              paging: {
+                count: 999999,
+                selectedPage: 1
               }
-            },
-            count: 999999,
-            page: 1
+            }
           }}
           // GET_CHECKINS 로변경
           query={GET_BOOKINGS}
         >
           {({ data: Data, loading: getGuestsLoading }) => {
-            const bookings =
-              queryDataFormater(Data, "GetBookings", "bookings", []) || [];
+            const result = queryDataFormater(
+              Data,
+              "GetBookings",
+              "result",
+              undefined
+            );
+            const bookings = result?.bookings || [];
 
             const bookingsCheckInToday = bookings.filter(booking =>
               moment(booking.checkIn).isSame(

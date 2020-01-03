@@ -46,7 +46,7 @@ const UpdateSeasonModal: React.FC<IProps> = ({
         displayIcon={false}
         displayYear={false}
         format={"MM/DD"}
-        input
+        mode="input"
         {...dayPickerHook}
         isRange
         onChangeDate={(from, to) => {

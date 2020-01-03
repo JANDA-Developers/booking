@@ -114,7 +114,7 @@ const CreateSeasonModal: React.FC<IProps> = ({
           calenaderPosition="center"
           displayYear={false}
           label={LANG("season_period")}
-          input
+          mode="input"
           isRange
           {...dayPickerHook}
         />

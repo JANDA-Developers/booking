@@ -12,14 +12,13 @@ import JDdayPickerInput from "./component/input/JDdayPickerInput";
 import HorizenDay from "./component/horizen/HorizenDays";
 import HorizenCaption from "./component/horizen/HorizenCaption";
 import "./DayPicker.scss";
-import { IUseDayPicker, LANG } from "../../hooks/hook";
-import moment from "moment";
+import { IUseDayPicker } from "../../hooks/hook";
+import { getDateCharLang } from "./helper";
 
 export interface IJDdayPickerProps extends IUseDayPicker {
   canSelectBeforeDay?: boolean;
-  horizen?: boolean;
   placeholder?: string;
-  input?: boolean;
+  mode?: "horizen" | "input" | "checkInOutStyle";
   label?: string;
   readOnly?: boolean;
   isRange?: boolean;
@@ -31,7 +30,6 @@ export interface IJDdayPickerProps extends IUseDayPicker {
   inputDisabled?: boolean;
   maxLimit?: boolean;
   showWeekEndColor?: boolean;
-  mode?: "reservation";
   inputComponent?: any;
   onChangeDate?(foo?: string | Date | null, foo2?: string | Date | null): void;
   className?: string;
@@ -44,9 +42,8 @@ export interface IJDdayPickerProps extends IUseDayPicker {
 
 const JDdayPicker: React.FC<IJDdayPickerProps> = React.memo(
   ({
-    horizen,
+    mode,
     calenaderPosition = "right",
-    input,
     isRange = true,
     label,
     inputDisabled,
@@ -71,13 +68,13 @@ const JDdayPicker: React.FC<IJDdayPickerProps> = React.memo(
     setEntered,
     maxLimit,
     readOnly,
-    mode,
     showWeekEndColor = true,
     className
   }) => {
     const dayPickerFullWrap: any = useRef();
     const isInitialMount = useRef(true);
 
+    const isHorizen = mode === "horizen";
     // 리셋버튼 클릭 이벤트
     const handleResetClick = () => {
       setFrom(null);
@@ -86,7 +83,7 @@ const JDdayPicker: React.FC<IJDdayPickerProps> = React.memo(
     };
 
     // From을 SET 할지 TO를 SET 할지 물어봄
-    const isSelectingFromDay = (inFrom: any, inTo: any, day: any) => {
+    const isFromSelect = (inFrom: any, inTo: any, day: any) => {
       // From 이전의 날자를 선택했다면
       const isBeforeFirstDay =
         inFrom && DayPicker.DateUtils.isDayBefore(day, inFrom);
@@ -97,7 +94,7 @@ const JDdayPicker: React.FC<IJDdayPickerProps> = React.memo(
 
     // handle --day : Enter
     const handleDayMouseEnter = (day: Date) => {
-      if (!isSelectingFromDay(from, to, day)) setEntered(day);
+      if (!isFromSelect(from, to, day)) setEntered(day);
     };
 
     // handle --day : Click
@@ -127,29 +124,20 @@ const JDdayPicker: React.FC<IJDdayPickerProps> = React.memo(
       }
 
       // 첫선택 인가?
-      if (isSelectingFromDay(from, to, day)) {
+      if (isFromSelect(from, to, day)) {
         // 첫날을 셋팅하고 나머지날자는 널 기입
         setFrom(day);
         setEntered(null);
         setTo(null);
       } else {
-        // 마지막 날에 값 기입
-        if (from && mode === "reservation" && moment(from).isSame(day, "day")) {
-          setTo(
-            moment(from)
-              .add(1, "day")
-              .toDate()
-          );
-        } else {
-          setTo(day);
-        }
+        setTo(day);
         setEntered(day);
       }
     };
 
     // Effect : calendar With Set
     useEffect(() => {
-      if (horizen) {
+      if (isHorizen) {
         const Months = dayPickerFullWrap.current.querySelector(
           ".DayPicker-Months"
         );
@@ -171,7 +159,7 @@ const JDdayPicker: React.FC<IJDdayPickerProps> = React.memo(
     const wrapClasses = classNames("DayPicker-box", className, {
       "DayPicker-box--inputComponent": inputComponent,
       "DayPicker--readOnly": readOnly,
-      "DayPicker--reservation": mode === "reservation",
+      "DayPicker--reservation": mode === "checkInOutStyle",
       "DayPicker--showWeekEndColor": showWeekEndColor,
       "DayPicker--unDisplayCaption": displayCaption === false,
       "DayPicker--unDisplayNavbar": displayHeader === false,
@@ -180,8 +168,8 @@ const JDdayPicker: React.FC<IJDdayPickerProps> = React.memo(
 
     // 이건 순수하게 달력부분
     const classes = classNames({
-      "DayPicker--horizen": horizen,
-      "DayPicker--input": input,
+      "DayPicker--horizen": isHorizen,
+      "DayPicker--input": mode === "input",
       "DayPicker--maxLimit": maxLimit,
       "DayPicker--unYear": !displayYear,
       "DayPicker--unRange": !isRange,
@@ -190,78 +178,52 @@ const JDdayPicker: React.FC<IJDdayPickerProps> = React.memo(
       "DayPicker--center": calenaderPosition === "left"
     });
 
+    const { MONTHS, WEEKDAYS_LONG, WEEKDAYS_SHORT } = getDateCharLang();
+
     const modifiers = { start: from || undefined, end: entered || undefined };
     const selectedDays: any = [from, { from, to: entered }];
 
     // 이부분 함수 또는 이넘으로 변경
-    const MONTHS = [
-      `1${LANG("month")}`,
-      `2${LANG("month")}`,
-      `3${LANG("month")}`,
-      `4${LANG("month")}`,
-      `5${LANG("month")}`,
-      `6${LANG("month")}`,
-      `7${LANG("month")}`,
-      `8${LANG("month")}`,
-      `9${LANG("month")}`,
-      `10${LANG("month")}`,
-      `11${LANG("month")}`,
-      `12${LANG("month")}`
-    ];
-    const WEEKDAYS_LONG = [
-      LANG("sun"),
-      LANG("mon"),
-      LANG("tue"),
-      LANG("wed"),
-      LANG("thu"),
-      LANG("fri"),
-      LANG("sat")
-    ];
-    const WEEKDAYS_SHORT = [
-      LANG("sun"),
-      LANG("mon"),
-      LANG("tue"),
-      LANG("wed"),
-      LANG("thu"),
-      LANG("fri"),
-      LANG("sat")
-    ];
+
+    const horizenProps = {
+      renderDay: HorizenDay,
+      numberOfMonths: 3,
+      showWeekDays: false,
+      captionElement: ({ date }: CaptionElementProps) => (
+        <HorizenCaption date={date} onChange={() => {}} />
+      )
+    };
 
     const dayPickerProps: DayPickerProps = {
       tabIndex: 1,
-      renderDay: horizen ? HorizenDay : undefined,
+      renderDay: undefined,
+      numberOfMonths: 1,
+      showWeekDays: true,
+      captionElement: ({ date }: CaptionElementProps) => (
+        <Caption displayYear={displayYear} date={date} />
+      ),
       navbarElement: <Navbar />,
-      weekdayElement: horizen ? undefined : undefined,
-      showWeekDays: !horizen,
-      captionElement: ({ date }: CaptionElementProps) => {
-        const element = horizen ? (
-          <HorizenCaption date={date} onChange={() => {}} />
-        ) : (
-          <Caption displayYear={displayYear} date={date} />
-        );
-        return element;
-      },
       className: `Range ${classes}`,
       selectedDays,
       modifiers,
       onDayClick: handleDayClick,
       onDayMouseEnter: handleDayMouseEnter,
-      numberOfMonths: horizen ? 3 : 1,
       pagedNavigation: true,
       months: MONTHS,
       weekdaysLong: WEEKDAYS_LONG,
       weekdaysShort: WEEKDAYS_SHORT,
       locale: lang,
       showOutsideDays: false,
-      disabledDays: canSelectBeforeDay ? undefined : [{ before: new Date() }]
+      disabledDays: canSelectBeforeDay ? undefined : [{ before: new Date() }],
+      ...horizenProps
     };
 
     return (
       <div className={`${wrapClasses}`} ref={dayPickerFullWrap}>
-        {input ? (
+        {mode === "input" ? (
           <JDdayPickerInput
             displayIcon={displayIcon}
-            inputComponent={inputComponent}
+            InputComponent={inputComponent}
             placeholder={placeholder}
             format={format}
             disabled={inputDisabled}

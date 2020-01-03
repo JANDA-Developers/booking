@@ -2,7 +2,7 @@ import {
   getMyProfile_GetMyProfile_user,
   getHouse_GetHouse_house_product,
   getAllRoomType_GetAllRoomType_roomTypes as getAllRoomType_GetAllRoomType_roomType,
-  getBookings_GetBookings_bookings,
+  getBookingMemos_GetBookings_result_bookings,
   getAllRoomTypeWithGuest_GetGuests_guests,
   getAllSeasonTable_GetAllRoomType_roomTypes,
   getBooking_GetBooking_booking,
@@ -16,31 +16,34 @@ import {
   getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_blockOption,
   singleUpload_SingleUpload_jdFile,
   getPayHistory_GetPayHistory_result_payHistories,
-  getSmsHistory_GetSmsHistory_result_smsHistories
+  getSmsHistory_GetSmsHistory_result_smsHistories,
+  getBookings_GetBookings_result_bookings,
+  getAllRoomType_GetAllRoomType_roomTypes_rooms
 } from "./api";
 import { IselectedOption } from "../atoms/forms/selectBox/SelectBox";
 import { PricingType, TMarginSize } from "./enum";
 import { MutationFunctionOptions } from "@apollo/react-common";
 import { ExecutionResult } from "graphql";
 import { IStartBookingCallBack } from "../pages/bookingHost/assig/components/assigIntrerface";
-export interface JdFile extends singleUpload_SingleUpload_jdFile {}
+export interface JdFile extends singleUpload_SingleUpload_jdFile { }
 
 export interface GASt_RoomType
-  extends getAllSeasonTable_GetAllRoomType_roomTypes {}
-export interface GB_booking extends getBooking_GetBooking_booking {}
-export interface IProduct extends getHouse_GetHouse_house_product {}
-export interface IUser extends getMyProfile_GetMyProfile_user {}
-export interface IHouse extends getMyProfile_GetMyProfile_user_houses {}
+  extends getAllSeasonTable_GetAllRoomType_roomTypes { }
+export interface GB_booking extends getBooking_GetBooking_booking { }
+export interface IProduct extends getHouse_GetHouse_house_product { }
+export interface IUser extends getMyProfile_GetMyProfile_user { }
+export interface IHouse extends getMyProfile_GetMyProfile_user_houses { }
 export interface IPayHistroy
-  extends getPayHistory_GetPayHistory_result_payHistories {}
+  extends getPayHistory_GetPayHistory_result_payHistories { }
 export interface IHouseConfig
-  extends getMyProfile_GetMyProfile_user_houses_houseConfig {}
-export interface IInput extends React.HTMLAttributes<HTMLInputElement> {}
-export interface IDiv extends React.HTMLAttributes<HTMLDivElement> {}
-export interface ISpan extends React.HTMLAttributes<HTMLSpanElement> {}
-export interface IUl extends React.HTMLAttributes<HTMLUListElement> {}
-export interface IRoomType extends getAllRoomType_GetAllRoomType_roomType {}
-export interface IBooking extends getBookings_GetBookings_bookings {}
+  extends getMyProfile_GetMyProfile_user_houses_houseConfig { }
+export interface IInput extends React.HTMLAttributes<HTMLInputElement> { }
+export interface IDiv extends React.HTMLAttributes<HTMLDivElement> { }
+export interface ISpan extends React.HTMLAttributes<HTMLSpanElement> { }
+export interface IUl extends React.HTMLAttributes<HTMLUListElement> { }
+export interface IRoomType extends getAllRoomType_GetAllRoomType_roomType { }
+export interface IBooking extends getBookings_GetBookings_result_bookings { }
+export interface IRoom extends getAllRoomType_GetAllRoomType_roomTypes_rooms { }
 export type IGuest = getAllRoomTypeWithGuest_GetGuests_guests;
 export type IGuestD = getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory;
 export type IGuestR = getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom;
@@ -49,10 +52,10 @@ export type TElements = string | JSX.Element | JSX.Element[] | string[];
 export type TMuFn<m, mv> = (
   options?: MutationFunctionOptions<m, mv> | undefined
 ) => Promise<ExecutionResult<m>>;
-export interface ISeason extends getAllSeasonTable_GetAllSeason_seasons {}
-export interface IBlock extends getAllRoomTypeWithGuest_GetBlocks_blocks {}
+export interface ISeason extends getAllSeasonTable_GetAllSeason_seasons { }
+export interface IBlock extends getAllRoomTypeWithGuest_GetBlocks_blocks { }
 export interface IBlockOp
-  extends getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_blockOption {}
+  extends getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_blockOption { }
 export interface IPageInfo {
   currentPage: number;
   totalPage: number;

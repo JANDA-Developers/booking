@@ -15,7 +15,7 @@ import {
   updateBooking,
   getBookings,
   getBookingsVariables,
-  GetBookingsFilter
+  GetBookingsFilterInput
 } from "../../../types/api";
 import autoHyphen from "../../../utils/autoFormat";
 import { JDtoastModal } from "../../../atoms/modal/Modal";
@@ -375,9 +375,8 @@ const ResvList: React.SFC<IProps> = ({
                 count,
                 date
               }: TExcelGetDataProp) => {
-                const filter: GetBookingsFilter | undefined = date
+                const filter: GetBookingsFilterInput | undefined = date
                   ? {
-                      // 나중에 크리에이트로 변경
                       stayDate: {
                         checkIn: to4YMMDD(date.from),
                         checkOut: to4YMMDD(date.to)
@@ -391,15 +390,23 @@ const ResvList: React.SFC<IProps> = ({
                 >({
                   query: GET_BOOKINGS,
                   variables: {
-                    filter,
-                    count: count || 99999,
-                    houseId,
-                    page: 0
+                    param: {
+                      filter,
+                      paging: {
+                        count: count || 99999,
+                        selectedPage: 1
+                      }
+                    }
                   }
                 });
 
-                const bookings =
-                  queryDataFormater(data, "GetBookings", "bookings", []) || [];
+                const result = queryDataFormater(
+                  data,
+                  "GetBookings",
+                  "result",
+                  undefined
+                );
+                const bookings = result?.bookings || [];
 
                 const excelData = resvDatasToExcel(bookings);
                 const excelSelectData = resvDatasToExcel(selectData);

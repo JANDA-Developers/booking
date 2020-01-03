@@ -35,13 +35,14 @@ const ExcelModal: React.FC<Iprops> = ({ modalHook }) => {
   if (!data) return <div />;
   const dateCallDayPicker = useDayPicker(null, null);
   const excelExpressHook = useSelect(EXCEL_EXPRESS_OP[0]);
-  const expressMode = excelExpressHook.selectedOption
-    ? excelExpressHook.selectedOption.value
-    : EXCEL_EXPRESS_OP[0];
+
+  const expressMode =
+    excelExpressHook.selectedOption?.value || EXCEL_EXPRESS_OP[0];
+
   const dataLength = (() => {
     if (expressMode === ExcelExpress.SELECT_OP)
-      return selectData[0] ? selectData[0].data.length : 0;
-    else data[0] ? data[0].data.length : 0;
+      return selectData[0]?.data.length || 0;
+    else data[0]?.data.length || 0;
   })();
 
   const handleDateChange = (from: Date, to: Date) => {
@@ -74,7 +75,7 @@ const ExcelModal: React.FC<Iprops> = ({ modalHook }) => {
             displayIcon
             canSelectBeforeDay
             label={LANG("express_info")}
-            input
+            mode="input"
             onChangeDate={handleDateChange}
             {...dateCallDayPicker}
             isRange

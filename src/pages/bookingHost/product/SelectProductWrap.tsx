@@ -40,11 +40,12 @@ export interface IAdditionHook {
   url: string;
 }
 interface IProps {
+  disabledProducts?: string[];
   context: IContext;
 }
 
 // currentProduct : 현재 적용중인 상품
-const SelectProductWrap: React.FC<IProps> = ({ context }) => {
+const SelectProductWrap: React.FC<IProps> = ({ context, disabledProducts }) => {
   const {
     house: selectedHouse,
     applyedProduct: currentProduct,
@@ -87,6 +88,7 @@ const SelectProductWrap: React.FC<IProps> = ({ context }) => {
                 {refundMu => (
                   <Fragment>
                     <SelectProducts
+                      context={context}
                       productTypeDecs={productTypeDesc}
                       refundMu={refundMu}
                       buyProductMu={buyProductMu}
@@ -95,6 +97,7 @@ const SelectProductWrap: React.FC<IProps> = ({ context }) => {
                       selectedHouse={selectedHouse}
                       currentProduct={currentProduct}
                       isPhoneVerified={isPhoneVerified}
+                      disableProducts={disabledProducts}
                     />
                   </Fragment>
                 )}

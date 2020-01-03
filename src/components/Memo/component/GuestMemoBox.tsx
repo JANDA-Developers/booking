@@ -1,13 +1,12 @@
-import React, { useEffect } from "react";
-import { getBookingMemos_GetBookings_bookings } from "../../../types/api";
+import React from "react";
+import { getBookingMemos_GetBookings_result_bookings } from "../../../types/api";
 import JDbox from "../../../atoms/box/JDbox";
 import { IDiv } from "../../../types/interface";
 import TextButton from "../../../atoms/textButton/TextButton";
 import { bookingSearch } from "../../../utils/bookingSearch";
-import { MemoToolTipIcon } from "./MemoTooltipIcon";
-import ReactTooltip from "react-tooltip";
+
 interface Iprops extends IDiv {
-  booking: getBookingMemos_GetBookings_bookings;
+  booking: getBookingMemos_GetBookings_result_bookings;
 }
 
 const GuestMemoBox: React.FC<Iprops> = ({ booking, ...prop }) => {

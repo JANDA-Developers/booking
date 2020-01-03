@@ -1,11 +1,7 @@
 /* eslint-disable react/prop-types */
-import { MutationFn } from "react-apollo";
-import React, { useState, Fragment } from "react";
-import { toast } from "react-toastify";
+import React, { Fragment, useState } from "react";
 import Modal from "../../../../atoms/modal/Modal";
-import SelectBox, {
-  IselectedOption
-} from "../../../../atoms/forms/selectBox/SelectBox";
+import SelectBox from "../../../../atoms/forms/selectBox/SelectBox";
 import InputText from "../../../../atoms/forms/inputText/InputText";
 import Button from "../../../../atoms/button/Button";
 import JDLabel from "../../../../atoms/label/JDLabel";
@@ -21,179 +17,86 @@ import {
   useModal,
   LANG
 } from "../../../../hooks/hook";
-import {
-  createRoomType,
-  createRoomTypeVariables,
-  deleteRoomType,
-  deleteRoomTypeVariables,
-  updateRoomType,
-  updateRoomTypeVariables,
-  getRoomTypeById_GetRoomTypeById_roomType as IRoomType
-} from "../../../../types/api";
-import { IDefaultRoomType, IRoomTypeModalInfo } from "./RoomTypeModalWrap";
 import Preloader from "../../../../atoms/preloader/Preloader";
-import { IContext } from "../../../bookingHost/BookingHostRouter";
 import PriceWarnModal from "../../../../components/priceWarnModal.tsx/PriceWarnModal";
+import { IContext } from "../../../bookingHost/BookingHostRouter";
+import { IRoomType } from "../../../../types/interface";
+import optionFineder from "../../../../utils/optionFinder";
+import { IRoomTypeModalInfo, TMode } from "../declation";
+import { DEFAULT_ROOMTYPE } from "../../../../types/defaults";
+import { toast } from "react-toastify";
 
 interface IProps {
   context: IContext;
-  createRoomTypeMutation: MutationFn<createRoomType, createRoomTypeVariables>;
-  deleteRoomTypeMutation: MutationFn<deleteRoomType, deleteRoomTypeVariables>;
-  updateRoomTypeMutation: MutationFn<updateRoomType, updateRoomTypeVariables>;
-  onCreateFn?: any;
-  onUpdateFn?: any;
-  onDelteFn?: any;
-  loading: boolean;
-  mode: "Create" | "Modify";
-  mutationLoading: boolean;
   modalHook: IUseModal<IRoomTypeModalInfo>;
-  roomTypeData: IRoomType | IDefaultRoomType;
+  loading?: boolean;
+  onSubmit: (roomType: IRoomType, mode: TMode) => void;
 }
 
-const RoomTypeModal: React.SFC<IProps> = ({
-  modalHook,
-  context,
-  loading,
-  mode,
-  mutationLoading,
-  onCreateFn,
-  onUpdateFn,
-  onDelteFn,
-  createRoomTypeMutation,
-  deleteRoomTypeMutation,
-  updateRoomTypeMutation,
-  roomTypeData
-}) => {
-  const { house } = context;
-  const isCreate = mode === "Create";
+const RoomTypeModal: React.FC<IProps> = ({ modalHook, loading, onSubmit }) => {
+  const { info } = modalHook;
+  const { roomType, mode } = info;
+  const [data, setData] = useState(roomType || DEFAULT_ROOMTYPE);
+  const {
+    img,
+    name,
+    roomGender,
+    defaultPrice,
+    pricingType,
+    peopleCountMax,
+    description
+  } = data;
+  const isCreate = mode === "create";
   const priceWarnModal = useModal(false);
-  const roomImageHook = useImageUploader(roomTypeData.img);
-  // 룸타입 벨류
-  const [value, setValue] = useState({
-    name: roomTypeData.name,
-    description: roomTypeData.description,
-    pricingType: {
-      label: LANG(roomTypeData.pricingType),
-      value: roomTypeData.pricingType
-    },
-    peopleCount: {
-      label: `${roomTypeData.peopleCount}${LANG("person_unit")}`,
-      value: roomTypeData.peopleCount
-    },
-    roomGender: {
-      label: LANG("RoomGender", roomTypeData.roomGender),
-      value: roomTypeData.roomGender
-    },
-    peopleCountMax: {
-      label: `${roomTypeData.peopleCountMax}${LANG("person_unit")}`,
-      value: roomTypeData.peopleCountMax
-    },
-    defaultPrice: roomTypeData.defaultPrice || 0
-  });
-
-  const updateRoomTypeValue = {
-    houseId: house._id,
-    name: value.name,
-    img: roomImageHook.file || undefined,
-    pricingType: value.pricingType.value,
-    roomGender: value.roomGender.value,
-    peopleCount: value.peopleCountMax.value,
-    peopleCountMax: value.peopleCountMax.value,
-    description: value.description,
-    defaultPrice: value.defaultPrice
+  const roomImageHook = useImageUploader(img);
+  const maxPeopleCountOp = MAX_PEOPLE_COUNT_OP_FN();
+  const peopleCountMaxOp = optionFineder(maxPeopleCountOp, peopleCountMax);
+  const pricingTypeOp = optionFineder(PRICING_TYPE_OP, pricingType);
+  const roomGenderOp = optionFineder(ROOM_GENDER_OP, roomGender);
+  const modalStyle = {
+    content: {
+      maxWidth: "600px"
+    }
   };
 
-  const validater = (fn: any) => {
-    if (value)
-      if (value.name === "") {
-        toast.warn(LANG("enter_room_type_name"));
-        return false;
-      }
-    if (value.peopleCountMax.value < 1) {
-      toast.warn(LANG("capacity_must_be_at_least_1_person"));
+  const validation = () => {
+    if (peopleCountMax < 1) {
+      toast.warn("please_input_max_people_count");
       return false;
     }
-
-    if (!value.defaultPrice) {
-      toast.warn(LANG("please_enter_a_base_price"));
+    if (!roomGender) {
+      toast.warn("please_select_room_gender");
       return false;
     }
-    if (value.defaultPrice < 1000) {
-      const callBackFn = (flag: boolean) => {
-        if (flag) {
-          fn();
-        }
-      };
-      priceWarnModal.openModal({
-        confirmCallBackFn: callBackFn
-      });
+    if (!defaultPrice) {
+      toast.warn("please_enter_a_base_price");
       return false;
     }
-    fn();
+    if (!pricingTypeOp.value) {
+      toast.warn("please_select_room_type");
+      return false;
+    }
+    if (!name) {
+      toast.warn("enter_room_type_name");
+      return false;
+    }
     return true;
   };
 
-  const onCreateRoomType = async () => {
-    validater(createRoomType);
-  };
-
-  const createRoomType = () => {
-    onCreateFn && onCreateFn();
-    createRoomTypeMutation({
-      variables: {
-        params: updateRoomTypeValue
-      }
-    });
-    modalHook.closeModal();
-  };
-
-  const onDeleteRoomType = async () => {
-    deleteRoomTypeMutation();
-    modalHook.closeModal();
-  };
-
-  const onUpdateRoomType = async () => {
-    const updateFn = () => {
-      updateRoomTypeMutation({
-        variables: {
-          params: {
-            defaultPrice: updateRoomTypeValue.defaultPrice,
-            description: updateRoomTypeValue.description,
-            img: updateRoomTypeValue.img,
-            name: updateRoomTypeValue.name,
-            peopleCount: updateRoomTypeValue.peopleCountMax,
-            peopleCountMax: updateRoomTypeValue.peopleCountMax
-          },
-          roomTypeId: modalHook.info.roomTypeId || ""
-        }
-      });
-      modalHook.closeModal();
-    };
-
-    validater(updateFn);
-  };
-
-  const onChangePeople = (inValue: any) => {
-    setValue({ ...value, peopleCountMax: inValue });
-  };
-
-  const maxPeopleCountOption = MAX_PEOPLE_COUNT_OP_FN();
+  function set<T extends keyof IRoomType>(key: T, value: IRoomType[]) {
+    setData({ ...data, [key]: value });
+  }
 
   return (
     <Modal
       overlayClassName="Overlay"
       center={false} // 이거 제거 필요
       id="RoomTypeModal"
+      style={modalStyle}
       {...modalHook}
-      style={{
-        content: {
-          maxWidth: "600px"
-        }
-      }}
     >
-      {loading || mutationLoading ? (
-        <Preloader loading={loading || mutationLoading} size="large" />
-      ) : (
+      {loading && <Preloader loading={loading} size="large" />}
+      {loading || (
         <Fragment>
           <div className="flex-grid">
             <div className="flex-grid__col col--full-6 col--lg-6 col--md-12">
@@ -201,9 +104,9 @@ const RoomTypeModal: React.SFC<IProps> = ({
                 id="RoomTypeName"
                 placeholder={LANG("room_type_name")}
                 label={LANG("room_type_name")}
-                value={value.name}
+                value={name}
                 onChange={(inValue: any) => {
-                  setValue({ ...value, name: inValue });
+                  set("name", inValue);
                 }}
               />
             </div>
@@ -212,21 +115,23 @@ const RoomTypeModal: React.SFC<IProps> = ({
                 id="CapacitySelecter"
                 label={LANG("capacity")}
                 disabled={false}
-                onChange={onChangePeople}
-                options={maxPeopleCountOption}
-                selectedOption={value.peopleCountMax}
+                onChange={op => {
+                  set("peopleCountMax", op.value);
+                }}
+                options={maxPeopleCountOp}
+                selectedOption={peopleCountMaxOp}
               />
             </div>
             <div className="flex-grid__col JDz-index-3 col--full-6 col--lg-6 col--md-12">
               <SelectBox
                 id="RoomTypeTypeSelecter"
                 label={LANG("select_roomType")}
-                disabled={mode === "Modify"}
-                onChange={(inValue: any) => {
-                  setValue({ ...value, pricingType: inValue });
+                disabled={!isCreate}
+                onChange={op => {
+                  set("pricingType", op.value);
                 }}
                 options={PRICING_TYPE_OP}
-                selectedOption={value.pricingType}
+                selectedOption={pricingTypeOp}
               />
             </div>
             <div className="flex-grid__col JDz-index-2 col--full-6 col--lg-6 col--md-12">
@@ -234,11 +139,11 @@ const RoomTypeModal: React.SFC<IProps> = ({
                 id="RoomTypeGenderSelecter"
                 label={LANG("select_roomGender")}
                 disabled={!isCreate}
-                onChange={(inValue: any) => {
-                  setValue({ ...value, roomGender: inValue });
+                onChange={op => {
+                  set("roomGender", op.value);
                 }}
                 options={ROOM_GENDER_OP}
-                selectedOption={value.roomGender}
+                selectedOption={roomGenderOp}
               />
             </div>
             <div className="flex-grid__col flex-grid__col--vertical col--full-12 col--lg-12 col--md-12">
@@ -252,10 +157,10 @@ const RoomTypeModal: React.SFC<IProps> = ({
             <div className="flex-grid__col col--full-6 col--lg-6 col--md-6">
               <InputText
                 id="RoomTypeDecs"
-                onChange={(inValue: any) => {
-                  setValue({ ...value, description: inValue });
+                onChange={val => {
+                  set("description", val);
                 }}
-                value={value.description}
+                value={description}
                 textarea
                 label={LANG("room_type_desc")}
               />
@@ -263,11 +168,11 @@ const RoomTypeModal: React.SFC<IProps> = ({
             <div className="flex-grid__col col--full-6 col--lg-6 col--md-6">
               <InputText
                 id="RoomTypeBasicPrice"
-                onChange={(inValue: any) => {
-                  setValue({ ...value, defaultPrice: inValue });
+                onChange={(val: any) => {
+                  set("defaultPrice", val);
                 }}
                 comma
-                value={value.defaultPrice}
+                value={defaultPrice}
                 label={LANG("basic_room_price")}
               />
               <p className="JDsmall-text">
@@ -277,12 +182,15 @@ const RoomTypeModal: React.SFC<IProps> = ({
           </div>
           <div className="JDmodal__endSection">
             <Button
+              disabled={!isCreate}
               id="DoCreateBtn"
               mode="flat"
               thema="primary"
-              label={isCreate ? LANG("do_create") : LANG("do_copy")}
+              label={LANG("do_create")}
               size="small"
-              onClick={onCreateRoomType}
+              onClick={() => {
+                if (validation()) onSubmit(roomType, "create");
+              }}
             />
             <Button
               id="DoUpdateBtn"
@@ -291,7 +199,9 @@ const RoomTypeModal: React.SFC<IProps> = ({
               label={LANG("do_modify")}
               size="small"
               disabled={isCreate}
-              onClick={onUpdateRoomType}
+              onClick={() => {
+                if (validation()) onSubmit(roomType, "update");
+              }}
             />
             <Button
               id="DoDeleteBtn"
@@ -300,7 +210,9 @@ const RoomTypeModal: React.SFC<IProps> = ({
               label={LANG("do_delete")}
               size="small"
               disabled={isCreate}
-              onClick={onDeleteRoomType}
+              onClick={() => {
+                onSubmit(roomType, "delete");
+              }}
             />
           </div>
           <PriceWarnModal modalHook={priceWarnModal} />

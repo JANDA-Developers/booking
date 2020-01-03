@@ -1,58 +1,67 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect } from "react";
-import { toast } from "react-toastify";
+import React, { useState } from "react";
 import Modal from "../../../../atoms/modal/Modal";
 import InputText from "../../../../atoms/forms/inputText/InputText";
+import utils, { toNumber } from "../../../../utils/utils";
+import { IUseModal, LANG, useSelect } from "../../../../hooks/hook";
+import { IContext } from "../../BookingHostRouter";
+import { IRoom } from "../../../../types/interface";
 import Button from "../../../../atoms/button/Button";
-import utils from "../../../../utils/utils";
-import { LANG } from "../../../../hooks/hook";
+import { IRoomModalInfo, TRoomModalSubmit, TMode } from "../declation";
+import { isNumber } from "../../../../utils/inputValidations";
+import { DEFAULT_ROOMTYPE_ROOM } from "../../../../types/defaults";
+import JDselect from "../../../../atoms/forms/selectBox/SelectBox";
+import selectOpCreater from "../../../../utils/selectOptionCreater";
 
 interface IProps {
-  modalHook: any;
-  roomNameHook: any;
-  createRoomMutation: any;
-  updateRoomMutation: any;
-  deleteRoomMutation: any;
-  isAddMode?: boolean;
+  modalHook: IUseModal<IRoomModalInfo>;
+  context: IContext;
+  onSubmit: TRoomModalSubmit;
 }
 
-const RoomTypeModal: React.FC<IProps> = ({
-  modalHook,
-  roomNameHook,
-  createRoomMutation,
-  updateRoomMutation,
-  deleteRoomMutation,
-  isAddMode
-}) => {
-  const validater = (): boolean => {
-    if (!roomNameHook.isValid) {
-      toast.warn(LANG("room_name_must_be_10_characters_or_less"));
-      return false;
-    }
-    return true;
-  };
+const RoomModal: React.FC<IProps> = ({ modalHook, onSubmit }) => {
+  const { info } = modalHook;
+  const { mode, room, roomType } = info;
+  const isCreateMode = mode === "create";
+  const [data, setData] = useState<IRoom[]>([room || DEFAULT_ROOMTYPE_ROOM]);
+  const countOp = selectOpCreater({
+    count: 100,
+    labelAdd: LANG("unit"),
+    start: 1
+  });
+  const createCountHook = useSelect(countOp[0]);
+  const [createStartNumber, setCreateStartNumber] = useState<number>();
 
-  const onDeleteRoom = (): void => {
-    deleteRoomMutation();
-    modalHook.closeModal();
-  };
-
-  const onCreateRoom = async (): Promise<void> => {
-    if (await validater()) {
-      modalHook.closeModal();
-      createRoomMutation();
+  const handleSubmit = (mode: TMode) => {
+    let datas;
+    if (mode === "create") {
+      datas = roomDatasGet();
+      onSubmit(datas, roomType, mode);
+    } else {
+      onSubmit(data, roomType, mode);
     }
   };
 
-  const onUpdateRoom = async (): Promise<void> => {
-    if (await validater()) {
-      updateRoomMutation();
-      modalHook.closeModal();
+  // Make Multiple Room Data
+  function roomDatasGet() {
+    const tempDatas = [];
+    for (let i = 0; i < (createCountHook.selectedOption?.value || 0); i++) {
+      const data = Object.assign({}, DEFAULT_ROOMTYPE_ROOM);
+      data.name = (toNumber(createStartNumber || 0) + i).toString();
+      tempDatas.push(data);
     }
-  };
+    return tempDatas;
+  }
+
+  function set<T extends keyof IRoom>(key: T, value: IRoom[T]) {
+    const target = data[0];
+    target[key] = value;
+    setData([target]);
+  }
 
   return (
     <Modal
+      visibleOverflow
       {...modalHook}
       overlayClassName="Overlay"
       center={false} // 이거 제거 필요
@@ -65,44 +74,76 @@ const RoomTypeModal: React.FC<IProps> = ({
     >
       <div className="flex-grid">
         <div className="flex-grid__col col--full-12 col--lg-12 col--md-12">
-          <InputText
-            id="RoomName"
-            label={LANG("room_name")}
-            {...roomNameHook}
-            validation={utils.isMaxOver}
-            max={10}
-          />
+          {mode === "update" && (
+            <InputText
+              onChange={v => {
+                set("name", v);
+              }}
+              value={name}
+              id="RoomName"
+              label={"RoomNumber Start"}
+              validation={utils.isMaxOver}
+              max={10}
+            />
+          )}
+          {mode === "create" && (
+            <div className="JDflex JDz-index-2">
+              <InputText
+                id="RoomNameInput"
+                onChange={v => {
+                  setCreateStartNumber(v);
+                }}
+                value={createStartNumber}
+                label={"RoomNumber Start"}
+                validation={isNumber}
+                max={10}
+              />
+              <JDselect
+                id="RoomCountSelect"
+                label="count number"
+                options={countOp}
+                {...createCountHook}
+              />
+            </div>
+          )}
         </div>
       </div>
       <div className="JDmodal__endSection">
         <Button
-          id="RoomModalAddBtn"
+          disabled={!isCreateMode}
+          id="RoomCreateBtn"
           mode="flat"
+          thema="primary"
           label={LANG("do_create")}
-          thema="primary"
           size="small"
-          onClick={onCreateRoom}
+          onClick={async () => {
+            handleSubmit("create");
+          }}
         />
         <Button
-          id="RoomModalUpdateBtn"
+          id="DoUpdateBtn"
           mode="flat"
+          thema="primary"
           label={LANG("do_modify")}
-          thema="primary"
           size="small"
-          disabled={isAddMode}
-          onClick={onUpdateRoom}
+          disabled={isCreateMode}
+          onClick={() => {
+            handleSubmit("update");
+          }}
         />
         <Button
-          id="RoomModalDeleteBtn"
+          id="RoomDeleteBtn"
           mode="flat"
+          thema="primary"
           label={LANG("do_delete")}
           size="small"
-          thema="error"
-          disabled={isAddMode}
-          onClick={onDeleteRoom}
+          disabled={isCreateMode}
+          onClick={() => {
+            handleSubmit("delete");
+          }}
         />
       </div>
     </Modal>
   );
 };
-export default RoomTypeModal;
+export default RoomModal;
