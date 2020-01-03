@@ -1,7 +1,6 @@
 import React from "react";
-import PropTypes from "prop-types";
-import {JDlang} from "../../../langs/JDlang";
-import {CURRENT_LANG, LANG} from "../../../hooks/hook";
+import { LANG } from "../../../hooks/hook";
+import JDbox from "../../box/JDbox";
 
 // handler는 마우스 오버 이벤트 입니다.
 // form 은 시작날자
@@ -13,16 +12,33 @@ interface IProps {
   [foo: string]: any;
 }
 
-const JDdatePcikerInformation: React.SFC<IProps> = ({from, to}) => {
+const JDdatePcikerInformation: React.SFC<IProps> = ({ from, to }) => {
+  interface wrapProp {
+    condition: any;
+    children: any;
+  }
+  const Wrapper = ({ condition, children }: wrapProp) => {
+    if (!condition) return null;
+
+    return (
+      <JDbox align="flexVcenter" size="small">
+        {children}
+      </JDbox>
+    );
+  };
+
   return (
-    <div className="JDdatePcikerInformation">
-      {!from && !to && LANG("choseCheckInDate")}
-      {from && !to && LANG("choseCheckInDate")}
-      {from &&
-        to &&
-        ` ${from.toLocaleDateString()} ${LANG("checkIn")}
-               ${to.toLocaleDateString()}`}
-      {from && to && LANG("checkOut")}
+    <div className="JDflex JDdatePcikerInformation">
+      <Wrapper condition={!from && !to} children={LANG("choseCheckInDate")} />
+      <Wrapper
+        condition={from}
+        children={from?.toLocaleDateString() + " " + LANG("checkIn")}
+      />
+      <Wrapper condition={from && !to} children={LANG("choseCheckInDate")} />
+      <Wrapper
+        condition={from && to}
+        children={to?.toLocaleDateString() + " " + LANG("checkOut")}
+      />
     </div>
   );
 };

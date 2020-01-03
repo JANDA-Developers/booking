@@ -38,7 +38,6 @@ interface IMenusGroup {
 
 const SideNav: React.FC<IProps> = ({ isOpen, setIsOpen, context }) => {
   const { applyedProduct, house, user } = context;
-
   const [openMenu, setOpenMenu] = useState<string[]>([]);
 
   const classes = classNames({
@@ -281,7 +280,9 @@ const SideNav: React.FC<IProps> = ({ isOpen, setIsOpen, context }) => {
               <div className="JDsideNav__billing-detail">
                 <span>
                   {applyedProduct &&
-                    `${new Date()}${LANG("date")} ${LANG("available")}`}
+                    `${applyedProduct.daysLeftToExpire}${LANG("date")} ${LANG(
+                      "available"
+                    )}`}
                 </span>
               </div>
             </div>

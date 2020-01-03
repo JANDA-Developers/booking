@@ -1,158 +1,157 @@
-
-
 @import "~Styles";
 
-@import './box_tables';
-@import './box_photo';
-@import './components/boxHeader';
+@import "./box_tables";
+@import "./box_photo";
+@import "./components/boxHeader";
 
+#root,
+.ReactModalPortal {
+  .JDbox {
+    box-sizing: border-box;
+    min-height: $standard-line-height;
 
-#root,.ReactModalPortal {
-    .JDbox {
-        box-sizing: border-box;
-        min-height: $standard-line-height;
-
-        &--space-tiny {
-            margin-right: $standard-tiny-space;
-        }
-
-        &--clickable {
-            cursor: pointer;
-            &:hover {
-                background-color: $grey-level2;
-                .JDboxHeader {
-                    border-color: $grey-level2;
-                }
-            }
-        }
-
-        &--flex {
-            .JDbox__content {
-                display:flex;
-                justify-content: space-between;
-            }
-        }
-        &--flexVcenter {
-            .JDbox__content {
-                display:flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-        }
-        
-        &--float {
-            float:left;
-            width: auto!important;
-            vertical-align: top;
-        }
-
-        &--normal {
-            box-sizing: border-box;
-            padding: $standard-small-space;
-            background-color: $grey-level1;
-            border-radius: $standard-border-radius;
-            text-align: left;
-            width: 100%;
-            
-            &__content {
-                display: flex;
-                justify-content: space-between;
-            }
-            
-            .JDinput {
-                margin-bottom: 0;
-                padding: 0;
-            }
-        }
-        
-        &--small {
-            font-size: $typho-small;
-            padding: $standard-tiny-space;
-
-            &:not(.JDbox:last-child) {
-                margin-right: $standard-tiny-space;
-            }
-        }
-
-        &--center {
-            text-align:center;
-        }
-
-        &--border {
-            background-color: transparent;
-            border-radius: $standard-border-radius;
-            padding: $standard-small-space;
-            border: $box-border;
-
-            &.JDbox {
-                @include colorText--prefixer();
-                @include colorBorder--prefixer();
-            }
-
-            .JDlabel {
-                margin-bottom: $standard-tiny-space;
-            }
-
-            &.JDbox--clickable {
-                &:hover {
-                    background-color: $grey-level1;
-                }
-            }
-        }
-        
-        // dfre ?
-        &--dashBorder {
-            border-radius: $standard-border-radius;
-            border: 2px dashed $grey-level1;
-            box-sizing:border-box;
-            padding: $standard-small-space;
-            color: $grey-level1;
-
-            background-color: rgba(255,255,255,0);
-            
-            &.JDbox--clickable {
-                cursor: pointer;
-                &:hover {
-                    color: $grey-level2;
-                    border-color: $grey-level2;
-                    background-color: rgba(255,255,255,0);
-                }
-            }
-        }
-        
-        &--standard {
-            height: $standard-line-height;
-            box-sizing: border-box;
-            line-height: 100%;
-        }
-
-        &--withIcon {
-            padding-right: 2rem;
-            position: relative;
-
-            .JDbox__icon {
-                position:absolute;
-                right: $standard-small-space;
-                top:50%;
-                transform: translateY(-50%);
-            }
-        }
-
-        &__label {
-            font-size: $typho-tiny;
-            margin-bottom: $standard-margin-bottom /3;
-        }
-
-        @include textAlign--prefixer();
-
-        @include colorBg--prefixer();
-
-        @include colorBg--prefixer();
-
-        &--primary {
-            .JDicon:hover {
-                color: $grey-level2!important;
-            }
-        }
+    &--space-tiny {
+      margin-right: $standard-tiny-space;
     }
+
+    &--clickable {
+      cursor: pointer;
+      &:hover {
+        background-color: $grey-level2;
+        .JDboxHeader {
+          border-color: $grey-level2;
+        }
+      }
+    }
+
+    &--flex {
+      .JDbox__content {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+    &--flexVcenter {
+      .JDbox__content {
+        height: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+
+    &--float {
+      float: left;
+      width: auto !important;
+      vertical-align: top;
+    }
+
+    &--normal {
+      box-sizing: border-box;
+      padding: $standard-small-space;
+      background-color: $grey-level1;
+      border-radius: $standard-border-radius;
+      text-align: left;
+      width: 100%;
+
+      &__content {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .JDinput {
+        margin-bottom: 0;
+        padding: 0;
+      }
+    }
+
+    &--small {
+      font-size: $typho-small;
+      padding: $standard-tiny-space;
+
+      &:not(.JDbox:last-child) {
+        margin-right: $standard-tiny-space;
+      }
+    }
+
+    &--center {
+      text-align: center;
+    }
+
+    &--border {
+      background-color: transparent;
+      border-radius: $standard-border-radius;
+      padding: $standard-small-space;
+      border: $box-border;
+
+      &.JDbox {
+        @include colorText--prefixer();
+        @include colorBorder--prefixer();
+      }
+
+      .JDlabel {
+        margin-bottom: $standard-tiny-space;
+      }
+
+      &.JDbox--clickable {
+        &:hover {
+          background-color: $grey-level1;
+        }
+      }
+    }
+
+    // dfre ?
+    &--dashBorder {
+      border-radius: $standard-border-radius;
+      border: 2px dashed $grey-level1;
+      box-sizing: border-box;
+      padding: $standard-small-space;
+      color: $grey-level1;
+
+      background-color: rgba(255, 255, 255, 0);
+
+      &.JDbox--clickable {
+        cursor: pointer;
+        &:hover {
+          color: $grey-level2;
+          border-color: $grey-level2;
+          background-color: rgba(255, 255, 255, 0);
+        }
+      }
+    }
+
+    &--standard {
+      height: $standard-line-height;
+      box-sizing: border-box;
+      line-height: 100%;
+    }
+
+    &--withIcon {
+      padding-right: 2rem;
+      position: relative;
+
+      .JDbox__icon {
+        position: absolute;
+        right: $standard-small-space;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
+
+    &__label {
+      font-size: $typho-tiny;
+      margin-bottom: $standard-margin-bottom / 3;
+    }
+
+    @include textAlign--prefixer();
+
+    @include colorBg--prefixer();
+
+    @include colorBg--prefixer();
+
+    &--primary {
+      .JDicon:hover {
+        color: $grey-level2 !important;
+      }
+    }
+  }
 }

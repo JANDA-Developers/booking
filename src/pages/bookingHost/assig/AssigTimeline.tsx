@@ -234,6 +234,7 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
 
   // 툴팁들을 제거하고
   const handleTimelineWrapClickEvent = () => {
+    console.count("handleTimelineWrapClickEvent");
     if (guestValue.find(guest => guest.type === GuestTypeAdd.MARK)) {
       removeMark();
     }

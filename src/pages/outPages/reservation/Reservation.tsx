@@ -63,6 +63,7 @@ import {
   IBookingModalProp,
   IRoomSelectInfo
 } from "../../../components/bookingModal/declaration";
+import JDbox from "../../../atoms/box/JDbox";
 
 export interface IBookerInfo {
   name: string;
@@ -359,15 +360,12 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
               ① {LANG("select_date")}
             </h6>
             {/* TODO: change 될때마다 roomSelectInfo를 초기화 해주어야함 */}
-            <JDdayPicker
-              {...dayPickerHook}
-              displayHeader={!isMobile}
-              displayCaption={!isMobile}
-              displayInfo={!isMobile}
-              canSelectBeforeDay={false}
-              mode="checkInOutStyle"
-              className="JDreservation__topDayPicker JDmargin-bottom0"
-            />
+            <JDbox align="flexVcenter" size="small">
+              {dayPickerHook.from?.toLocaleDateString() + " " + LANG("checkIn")}
+            </JDbox>
+            <JDbox align="flexVcenter" size="small">
+              {dayPickerHook.to?.toLocaleDateString() + " " + LANG("checkOut")}
+            </JDbox>
           </Card>
         </div>
         <div className="flex-grid__col JDreservation__roomSelect-grid col--full-8 col--lg-7 col--wmd-12">

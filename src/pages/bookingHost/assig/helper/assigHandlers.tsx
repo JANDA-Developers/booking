@@ -120,6 +120,7 @@ export function getAssigHandlers(
   ) => {
     if (e && e.persist) {
       e.persist();
+      e.stopPropagation();
     }
 
     if (!e.shiftKey)

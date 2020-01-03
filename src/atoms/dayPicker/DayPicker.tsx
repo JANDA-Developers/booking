@@ -241,8 +241,8 @@ const JDdayPicker: React.FC<IJDdayPickerProps> = React.memo(
           />
         ) : (
           <Fragment>
-            <DayPicker {...dayPickerProps} />
             <Information from={from} to={to} handler={handleDayMouseEnter} />
+            <DayPicker {...dayPickerProps} />
           </Fragment>
         )}
       </div>
