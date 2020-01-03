@@ -6,7 +6,6 @@ import {
   Tupload,
   takeShot,
   S,
-  urlBase,
   testReady,
   TwaitClick,
   TTextWait,
@@ -17,71 +16,62 @@ import { toNumber } from "../../../../utils/autoFormat";
 const roomBoxSelecter = ".TRoomBox";
 
 export const createRoomType = async (
-  page: puppeteer.Page,
   type: "Domitory" | "Room",
   count?: number
 ) => {
-  await TwaitClick(page, "#AddRoomTypeBtn");
+  await TwaitClick("#AddRoomTypeBtn");
   await page.waitForSelector("#RoomTypeName");
   const roomTypeName = faker.random.word("fruit");
-  await Ttype(page, "#RoomTypeName", roomTypeName);
-  await Tselect(page, "#CapacitySelecter", count);
+  await Ttype("#RoomTypeName", roomTypeName);
+  await Tselect("#CapacitySelecter", count);
 
-  await Tupload(page, "#RoomTypeImgUploader", "/devImg/RoomT1.jpg");
-  await takeShot(page, "pc", "roomTypeModal");
+  await Tupload("#RoomTypeImgUploader", "/devImg/RoomT1.jpg");
+  await takeShot("pc", "roomTypeModal");
 
-  await Tselect(page, "#CapacitySelecter", count);
-  await Tselect(page, "#RoomTypeGenderSelecter", faker.random.number(4));
+  await Tselect("#CapacitySelecter", count);
+  await Tselect("#RoomTypeGenderSelecter", faker.random.number(4));
   await Tselect(
-    page,
     "#RoomTypeTypeSelecter",
     faker.random.number(type === "Domitory" ? 0 : 1)
   );
-  await Ttype(page, "#RoomTypeDecs", faker.random.words(10));
-  await Ttype(
-    page,
-    "#RoomTypeBasicPrice",
-    faker.random.number(100000).toString()
-  );
+  await Ttype("#RoomTypeDecs", faker.random.words(10));
+  await Ttype("#RoomTypeBasicPrice", faker.random.number(100000).toString());
   await page.click("#DoCreateBtn");
-  await TTextWait(page, roomTypeName, ".TRoomTypeName");
+  await TTextWait(roomTypeName, ".TRoomTypeName");
 };
 
-const openRoomTypeUpdateBtn = async (page: puppeteer.Page) => {
+const openRoomTypeUpdateBtn = async () => {
   const cardSelecter = ".TRoomTypeCard";
   await page.waitForSelector(cardSelecter);
-  const roomTypeCard = await TgetElement(page, cardSelecter);
-  const updateBtn = await TgetElement(page, ".TRoomTypeUpdateBtn");
+  const roomTypeCard = await TgetElement(cardSelecter);
+  const updateBtn = await TgetElement(".TRoomTypeUpdateBtn");
   const roomTypeId = await TgetAttr<string>(roomTypeCard, "id");
   await updateBtn.click();
   return roomTypeId;
 };
 
-export const deleteRoomTypes = async (page: puppeteer.Page) => {
-  const roomTypeId = await openRoomTypeUpdateBtn(page);
+export const deleteRoomTypes = async () => {
+  const roomTypeId = await openRoomTypeUpdateBtn();
   //   check it is deleted on Ui
-  await TwaitClick(page, "#DoDeleteBtn");
+  await TwaitClick("#DoDeleteBtn");
   await page.waitFor(2000);
   expect(await page.$(`#RoomTypeCard${roomTypeId}`)).toBeFalsy();
 };
 
-export const updateRoomTypes = async (page: puppeteer.Page) => {
-  await openRoomTypeUpdateBtn(page);
-  await Ttype(page, "#RoomTypeName", "updateRoomType");
-  await TwaitClick(page, "#DoUpdateBtn");
+export const updateRoomTypes = async () => {
+  await openRoomTypeUpdateBtn();
+  await Ttype("#RoomTypeName", "updateRoomType");
+  await TwaitClick("#DoUpdateBtn");
   await page.waitFor(2000);
   // skip result check
 };
 
-export const createRoom = async (
-  page: puppeteer.Page,
-  roomTypeIndex: number
-) => {
-  await TwaitClick(page, `#AddRoomBtn${roomTypeIndex}`);
+export const createRoom = async (roomTypeIndex: number) => {
+  await TwaitClick(`#AddRoomBtn${roomTypeIndex}`);
   const startRoomNumber = faker.random.number(100).toString();
   const counts = 10;
-  await Ttype(page, "#RoomNameInput", startRoomNumber);
-  await Tselect(page, "#RoomCountSelect", counts);
+  await Ttype("#RoomNameInput", startRoomNumber);
+  await Tselect("#RoomCountSelect", counts);
   await page.click(`#RoomCreateBtn`);
   await page.waitFor(3000);
 
@@ -100,12 +90,12 @@ export const createRoom = async (
   });
 };
 
-export const updateRoom = async (page: puppeteer.Page) => {
+export const updateRoom = async () => {
   await page.waitForSelector("#RoomConfig");
   await page.click("#AddRoomTypeBtn");
 };
 
-export const deleteRoom = async (page: puppeteer.Page) => {
+export const deleteRoom = async () => {
   await page.waitForSelector(roomBoxSelecter);
   const room = await page.$(roomBoxSelecter);
   if (!room) return;
@@ -120,50 +110,42 @@ export const deleteRoom = async (page: puppeteer.Page) => {
   expect(target2).toBeFalsy();
 };
 
-let page: puppeteer.Page;
-
-describe("User Can Do Room Process Collectly", () => {
+describe.skip("User Can Do Room Process Collectly", () => {
   beforeAll(async () => {
-    const { page: inPage } = await testReady(
-      `${urlBase}/#/roomConfig`,
-      {},
-      { slowMo: 1 }
-    );
-    page = inPage;
-  }, 20 * S);
-
+    await testReady();
+  });
   test(
     "Create Room Type Correctly",
     async () => {
-      await createRoomType(page, "Domitory", 4);
+      await createRoomType("Domitory");
     },
     10 * S
   );
   test(
     "Create Room Correctly",
     async () => {
-      await createRoom(page, 0);
+      await createRoom(0);
     },
     5 * S
   );
   test(
     "Delete Room Correctly",
     async () => {
-      await deleteRoom(page);
+      await deleteRoom();
     },
     20 * S
   );
   test(
     "Delete RoomTypes Correctly",
     async () => {
-      await deleteRoomTypes(page);
+      await deleteRoomTypes();
     },
     30 * S
   );
-  test.only(
+  test(
     "Update RoomTypes Correctly",
     async () => {
-      await updateRoomTypes(page);
+      await updateRoomTypes();
     },
     30 * S
   );

@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { IContext } from "../../../BookingHostRouter";
 import { useQuery } from "@apollo/react-hooks";

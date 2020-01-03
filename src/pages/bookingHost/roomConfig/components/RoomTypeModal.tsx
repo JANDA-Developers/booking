@@ -189,7 +189,7 @@ const RoomTypeModal: React.FC<IProps> = ({ modalHook, loading, onSubmit }) => {
               label={LANG("do_create")}
               size="small"
               onClick={() => {
-                if (validation()) onSubmit(roomType, "create");
+                if (validation()) onSubmit(data, "create");
               }}
             />
             <Button
@@ -200,7 +200,7 @@ const RoomTypeModal: React.FC<IProps> = ({ modalHook, loading, onSubmit }) => {
               size="small"
               disabled={isCreate}
               onClick={() => {
-                if (validation()) onSubmit(roomType, "update");
+                if (validation()) onSubmit(data, "update");
               }}
             />
             <Button
@@ -211,7 +211,7 @@ const RoomTypeModal: React.FC<IProps> = ({ modalHook, loading, onSubmit }) => {
               size="small"
               disabled={isCreate}
               onClick={() => {
-                onSubmit(roomType, "delete");
+                onSubmit(data, "delete");
               }}
             />
           </div>

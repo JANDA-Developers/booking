@@ -79,9 +79,9 @@ const RoomModal: React.FC<IProps> = ({ modalHook, onSubmit }) => {
               onChange={v => {
                 set("name", v);
               }}
-              value={name}
+              value={data[0].name}
               id="RoomName"
-              label={"RoomNumber Start"}
+              label={"RoomNumber"}
               validation={utils.isMaxOver}
               max={10}
             />

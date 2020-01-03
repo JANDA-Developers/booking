@@ -8,20 +8,15 @@ import {
   toastCheck
 } from "../../../../../../__test__/utils.test";
 
-export const cardDelete = () => {};
-export const cardCeate = () => {};
-
-let page: puppeteer.Page;
+export const cardDelete = () => { };
+export const cardCeate = () => { };
 
 export const cardModalTest = () => {
   describe("Card Modal Test regist and delete", () => {
     beforeAll(async () => {
-      const { page: callBackPage } = await testReady(
+      await testReady(
         `${urlBase}/#/myPage`,
-        {},
-        { slowMo: 10 }
       );
-      page = callBackPage;
     }, 20 * S);
 
     test("Open Card Modal", async () => {
@@ -33,18 +28,18 @@ export const cardModalTest = () => {
       await page.waitForSelector("#CreaditCardChangeBtn");
       await page.click("#CreaditCardChangeBtn");
       await page.waitForSelector("#CardViewr");
-      await takeShot(page, "pc", "cardModal");
+      await takeShot("pc", "cardModal");
     });
 
     test(
       "Card Regist Complete",
       async () => {
-        await Ttype(page, "#CardModal__CardNumber", "4619541019492956");
-        await Ttype(page, "#CardModal__ExpireDate", "0824");
-        await Ttype(page, "#CardModal__CardPW", "41");
-        await Ttype(page, "#CardModal__IdNum", "950901");
+        await Ttype("#CardModal__CardNumber", "4619541019492956");
+        await Ttype("#CardModal__ExpireDate", "0824");
+        await Ttype("#CardModal__CardPW", "41");
+        await Ttype("#CardModal__IdNum", "950901");
         await page.click("#CardModal__CardRegistBtn");
-        await toastCheck(page, "RegisterBillKey");
+        await toastCheck("RegisterBillKey");
       },
       60 * S
     );

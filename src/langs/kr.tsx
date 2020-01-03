@@ -3,7 +3,6 @@ import Mbr from "../atoms/mbr/Mbr";
 import TextButton from "../atoms/textButton/TextButton";
 import JDlist from "../atoms/list/List";
 import PhotoFrame from "../atoms/photoFrame/PhotoFrame";
-import { IMG_REPO } from "../types/const";
 
 export const kr = {
   Apply: "적용",

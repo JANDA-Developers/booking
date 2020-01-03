@@ -575,9 +575,9 @@ const getKoreaSpecificDayHook = (
           "https://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo";
         const queryParams = `?${encodeURIComponent("ServiceKey")}=${
           process.env.REACT_APP_API_SPECIFIC_DAY_KEY
-        }&${encodeURIComponent("solYear")}=${encodeURIComponent(
-          year
-        )}&${encodeURIComponent("solMonth")}=${encodeURIComponent(`0${i}`)}`;
+          }&${encodeURIComponent("solYear")}=${encodeURIComponent(
+            year
+          )}&${encodeURIComponent("solMonth")}=${encodeURIComponent(`0${i}`)}`;
 
         try {
           const { data } = await Axios(url + queryParams);

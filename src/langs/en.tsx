@@ -441,7 +441,7 @@ export const en = {
   product2_short3: "Use it simply",
   product3_detail1: "Suitable for large hotels like hotels.",
   product3_detail3: "You can get a free homepage on the couch.",
-  product3_detail4: "You can request a custom homepage, which may cost extra.",
+  product3_detail4: "You can request a custom home which may cost extra.",
   product3_detail5:
     "The expiration date is one month, with a repayment after one month.",
   product3_short1: "Optimize a hotel large solution",

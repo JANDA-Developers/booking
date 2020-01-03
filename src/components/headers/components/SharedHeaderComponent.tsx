@@ -140,17 +140,6 @@ const SharedHeaderComponent: React.FC<IProps> = ({
   return (
     <Fragment>
       {/* 알람 */}
-      {isPriceAble && (
-        <div className="JDtext-blink header__btns header__iconsLeftSide">
-          <Button
-            thema="primary"
-            onClick={() => {
-              billModalHook.openModal();
-            }}
-            label={LANG("card_resist")}
-          />
-        </div>
-      )}
       <span>
         {isEmpty(context.house) || (
           <NotiWrap
@@ -176,9 +165,6 @@ const SharedHeaderComponent: React.FC<IProps> = ({
         <ul>{isLogIn ? <LoginIconMenu /> : <UnLoginIconMenu />}</ul>
       </TooltipList>
       <LangSelectModal modalHook={langSelectModal} context={context} />
-      {applyedProduct && (
-        <BillingModalWrap modalHook={billModalHook} context={context} />
-      )}
     </Fragment>
   );
 };

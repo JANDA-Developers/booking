@@ -12,8 +12,6 @@ import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import MobileHeaderComponent from "./components/MobileHeaderComponent";
 import PcHeaderComponent from "./components/PcHeaderComponent";
 import SharedHeaderComponent from "./components/SharedHeaderComponent";
-import CircleIcon from "../../atoms/circleIcon/CircleIcon";
-import JDIcon from "../../atoms/icons/Icons";
 import Logo from "./components/Logo";
 import HeaderMenu from "./components/HeaderMenu";
 

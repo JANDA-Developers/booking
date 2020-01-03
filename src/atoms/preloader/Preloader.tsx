@@ -18,10 +18,10 @@ export interface IPreloaderConfigProps
 }
 
 const JDpreloader: React.FC<IPreloaderConfigProps> = ({
-  page,
   size = "tiny",
   position,
   className,
+  page,
   wrapClassName,
   loading = false,
   floating,

@@ -6,19 +6,18 @@ import {
   responseResultCheck
 } from "../../../__test__/utils.test";
 
-export const phoneVerification = async (page: puppeteer.Page) => {
-  await takeShot(page, "pc", "start__phoneVerifi");
+export const phoneVerification = async () => {
+  await takeShot("pc", "start__phoneVerifi");
   await page.waitForSelector("#phoneVerification");
   await page.click("#StarterHeaderPhoneVerificationBtn");
   const key = await responseResultCheck(
-    page,
     "StartPhoneVerification",
     "error"
   );
-  await Ttype(page, "#verifiKeyInput", key as any);
+  await Ttype("#verifiKeyInput", key as any);
   // Complete StartPhoneVerification
-  await takeShot(page, "pc", "phoneVerifi--modal.jpeg", "start");
+  await takeShot("pc", "phoneVerifi--modal.jpeg", "start");
   await page.click("#verfiCompleteBtn");
-  await expectOkFromGraphql(page);
+  await expectOkFromGraphql();
 };
 test.skip("skip", () => { });

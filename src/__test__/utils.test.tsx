@@ -8,7 +8,6 @@ export const S = 1000;
 export const urlBase = "http://localhost:3000";
 
 export const takeShot = async (
-  page: puppeteer.Page,
   mode: "mb" | "pc",
   name: string,
   propPrefix?: string,
@@ -26,7 +25,7 @@ export const takeShot = async (
   return;
 };
 
-export const TgetElement = async (page: puppeteer.Page, selecter: string) => {
+export const TgetElement = async (selecter: string) => {
   const el = await page.$(selecter);
   if (!el) throw Error(selecter + "is not exist");
   return el;
@@ -39,11 +38,7 @@ export async function TgetAttr<T>(
   return (await (await puppetEl.getProperty("attr")).jsonValue()) as any;
 }
 
-export const Tselect = async (
-  page: puppeteer.Page,
-  selecter: string,
-  propSelectIndex?: number
-) => {
+export const Tselect = async (selecter: string, propSelectIndex?: number) => {
   const selectIndex = propSelectIndex || 1;
   await page.click(selecter);
   await page.waitForSelector(`${selecter} .react-select__option`);
@@ -52,46 +47,34 @@ export const Tselect = async (
   );
 };
 
-export const Tupload = async (
-  page: puppeteer.Page,
-  uploaderSelecter: string,
-  fileUrl: string
-) => {
+export const Tupload = async (uploaderSelecter: string, fileUrl: string) => {
   const [fileChooser] = await Promise.all([
     page.waitForFileChooser(),
     page.click(uploaderSelecter) // some button that triggers file selection
   ]);
   await fileChooser.accept([fileUrl]);
-  await expectOkFromGraphql(page);
+  await expectOkFromGraphql();
 };
 
-export const Ttype = async (
-  page: puppeteer.Page,
-  selecter: string,
-  text: string
-) => {
+export const Ttype = async (selecter: string, text: string) => {
   await page.click(selecter);
   await page.type(selecter, text);
 };
 
-export const TTextWait = async (
-  page: puppeteer.Page,
-  text: string,
-  selecter?: string | "body"
-) => {
+export const TTextWait = async (text: string, selecter?: string | "body") => {
   await page.waitForFunction(
     `document.querySelector(${selecter}).innerText.includes(${text})`
   );
 };
 
-export const TwaitClick = async (page: puppeteer.Page, selecter: string) => {
+export const TwaitClick = async (selecter: string) => {
   await page.waitForSelector(selecter);
   await page.click(selecter);
 };
 
 // ---------------------------------------------------
 
-export const expectOkFromGraphql = async (page: puppeteer.Page) => {
+export const expectOkFromGraphql = async () => {
   const response = await page.waitForResponse(isResponseFromServer, {
     timeout: 10 * S
   });
@@ -101,7 +84,7 @@ export const expectOkFromGraphql = async (page: puppeteer.Page) => {
 };
 
 //
-export const toastCheck = async (page: puppeteer.Page, queryName?: string) => {
+export const toastCheck = async (queryName?: string) => {
   if (queryName) {
     await page.waitForSelector(`.${queryName}-ok`, {
       timeout: 60 * S
@@ -117,13 +100,9 @@ export const toastCheck = async (page: puppeteer.Page, queryName?: string) => {
 // There is no way!!! to get body-specific  result
 // Some Query will Stuck at here escape this util fnc Don't trust it
 // Find another way to check
-export const responseResultCheck = async (
-  page: puppeteer.Page,
-  query: string,
-  key?: string
-) => {
+export const responseResultCheck = async (query: string, key?: string) => {
   console.info("responseResultCheck");
-  const response = await expectOkFromGraphql(page);
+  const response = await expectOkFromGraphql();
   const resultValidate: ExecutionResult<any> = (await response.json()) as any;
   console.log("resultValidate");
   expect(muResult(resultValidate, query) === true);
@@ -157,19 +136,7 @@ interface TestLogin {
   token?: string;
 }
 
-export const testReady = async (
-  goto?: string,
-  login?: TestLogin,
-  launchOption?: puppeteer.LaunchOptions
-) => {
-  const browser = await puppeteer.launch({
-    headless: false,
-    slowMo: 10,
-    defaultViewport: getDefaultViewport(WindowSize.DESKTOPHD),
-    ...launchOption
-  });
-  const page = await browser.newPage();
-  const context = await browser.defaultBrowserContext();
+export const testReady = async (goto?: string, login?: TestLogin) => {
   await context.overridePermissions(urlBase, ["geolocation"]);
   await page.goto(urlBase);
 
@@ -181,7 +148,7 @@ export const testReady = async (
       // });
       // await page.reload();
     } else {
-      await TLogin(page, login.email || "crawl123@naver.com");
+      await TLogin(login.email || "crawl123@naver.com");
       await page.waitForNavigation({
         waitUntil: "domcontentloaded"
       });
@@ -193,11 +160,6 @@ export const testReady = async (
     await page.goto(goto);
     await page.waitFor(1000);
   }
-
-  return {
-    page,
-    browser
-  };
 };
 
 test.skip("skip", () => {});

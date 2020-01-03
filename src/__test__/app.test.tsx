@@ -1,30 +1,24 @@
-import puppeteer from "puppeteer";
 import { S, testReady } from "./utils.test";
-import {
-  deleteRoomTypes,
-  deleteRoom,
-  createRoom,
-  createRoomType
-} from "../pages/bookingHost/config/__test__/roomConfig.test";
 import { makeHouse } from "../pages/bookingHost/createHouse/__test__/createHouse.test";
 import { selectProduct } from "../pages/bookingHost/product/__test__/selectProdcut.test";
 import { testCreateUser } from "../pages/bookingHost/signUp/__test__/singUp.test";
 import { phoneVerification } from "../components/phoneVerificationModal/__test__/phoneVerification.test";
-
-let browser: puppeteer.Browser;
-let page: puppeteer.Page;
+import {
+  deleteRoom,
+  deleteRoomTypes,
+  createRoom,
+  createRoomType
+} from "../pages/bookingHost/roomConfig/__test__/roomConfig.test";
 
 describe("User Can Do First Process Correctly", () => {
   beforeAll(async () => {
-    const obj = await testReady();
-    browser = obj.browser;
-    page = obj.page;
+    await testReady();
   });
 
   test(
     "Signup Correctly",
     async () => {
-      await testCreateUser(page);
+      await testCreateUser();
     },
     10 * S
   );
@@ -32,7 +26,7 @@ describe("User Can Do First Process Correctly", () => {
   test(
     "Phone Verification Correctly",
     async () => {
-      await phoneVerification(page);
+      await phoneVerification();
     },
     10 * S
   );
@@ -40,7 +34,7 @@ describe("User Can Do First Process Correctly", () => {
   test(
     "Make House Correctly",
     async () => {
-      await makeHouse(page);
+      await makeHouse();
     },
     10 * S
   );
@@ -48,7 +42,7 @@ describe("User Can Do First Process Correctly", () => {
   test(
     "Select Product Correctly",
     async () => {
-      await selectProduct(page);
+      await selectProduct();
     },
     10 * S
   );
@@ -60,28 +54,28 @@ describe("User Can Do First Process Correctly", () => {
     test(
       "Create Room Type Correctly",
       async () => {
-        await createRoomType(page, "Domitory", 4);
+        await createRoomType("Domitory");
       },
       10 * S
     );
     test(
       "Create Room Correctly",
       async () => {
-        await createRoom(page, 0);
+        await createRoom(0);
       },
       5 * S
     );
     test.skip(
       "Delete Room Correctly",
       async () => {
-        await deleteRoom(page);
+        await deleteRoom();
       },
       20 * S
     );
     test.skip(
       "Delete RoomTypes Correctly",
       async () => {
-        await deleteRoomTypes(page, 0);
+        await deleteRoomTypes();
       },
       30 * S
     );

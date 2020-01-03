@@ -30,7 +30,7 @@ const SuperMain: React.SFC<Iprops> = ({
   houseData,
   loading,
   pageData,
-  page,
+  
   setPage
 }) => {
   const NotiModalHook = useModal<ICreateNotiModalParam>(false);

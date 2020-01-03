@@ -90,9 +90,6 @@ const RoomConfigNew: React.FC<IProps> = ({
     ...originalUniqData
   ];
 
-  console.log("viewRoomTypeData");
-  console.log(viewRoomTypeData);
-
   const removeRoomType = async (_id: string) => {
     // Remove in update && create
     _.remove(data.createDatas, RT => RT._id === _id);
@@ -131,6 +128,7 @@ const RoomConfigNew: React.FC<IProps> = ({
     } else if (mode === "update") {
       const isInCreate = data.createDatas.find(RT => RT._id === _id);
       const isInUpdate = data.updateDatas.find(RT => RT._id === _id);
+
       // update in create
       if (isInCreate) {
         var index = _.findIndex(data.createDatas, { _id: _id });
@@ -175,9 +173,6 @@ const RoomConfigNew: React.FC<IProps> = ({
         desc={LANG("room_setting_desc")}
       />
       <PageBody>
-        <div>
-          <Preloader size="large" noAnimation loading={loading} />
-        </div>
         {isRoomTypeExist && noRoomTypeMessage}
         <RoomTypeAddBtn
           onClick={() => {
@@ -187,7 +182,11 @@ const RoomConfigNew: React.FC<IProps> = ({
             });
           }}
         />
+        <Button thema="point" label="Save Change" onClick={() => {}} />
         <Fragment>
+          <div>
+            <Preloader size="large" noAnimation loading={loading} />
+          </div>
           {/* 방타입 카드 출력 */}
           {viewRoomTypeData.map((roomType, index) => {
             const { _id, name } = roomType;
@@ -265,6 +264,7 @@ const RoomConfigNew: React.FC<IProps> = ({
         </Fragment>
       </PageBody>
       <RoomTypeModal
+        key={`${roomTypeModalHook.isOpen}`}
         onSubmit={handleRoomTypeModalSubmit}
         context={context}
         modalHook={roomTypeModalHook}

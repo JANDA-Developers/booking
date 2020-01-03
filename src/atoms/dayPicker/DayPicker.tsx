@@ -185,14 +185,17 @@ const JDdayPicker: React.FC<IJDdayPickerProps> = React.memo(
 
     // 이부분 함수 또는 이넘으로 변경
 
-    const horizenProps = {
-      renderDay: HorizenDay,
-      numberOfMonths: 3,
-      showWeekDays: false,
-      captionElement: ({ date }: CaptionElementProps) => (
-        <HorizenCaption date={date} onChange={() => {}} />
-      )
-    };
+    const horizenProps =
+      mode === "horizen"
+        ? {
+            renderDay: HorizenDay,
+            numberOfMonths: 3,
+            showWeekDays: false,
+            captionElement: ({ date }: CaptionElementProps) => (
+              <HorizenCaption date={date} onChange={() => {}} />
+            )
+          }
+        : {};
 
     const dayPickerProps: DayPickerProps = {
       tabIndex: 1,
