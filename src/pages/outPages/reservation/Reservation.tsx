@@ -19,11 +19,11 @@ import "./Reservation.scss";
 import Button from "../../../atoms/button/Button";
 import Card from "../../../atoms/cards/Card";
 import {
-  getAllRoomTypeForBooker,
   startBookingForPublic,
   startBookingForPublicVariables,
   getPaymentAuth,
-  getPaymentAuthVariables
+  getPaymentAuthVariables,
+  getAllRoomTypeForBooker
 } from "../../../types/api";
 import $ from "jquery";
 import BookingInfoBox from "./components/bookingInfoBox";
@@ -33,7 +33,9 @@ import {
   isEmpty,
   queryDataFormater,
   insideRedirect,
-  muResult
+  muResult,
+  toNumber,
+  mergeObject
 } from "../../../utils/utils";
 import { isName, isPhone } from "../../../utils/inputValidations";
 import { JDtoastModal } from "../../../atoms/modal/Modal";
@@ -45,7 +47,7 @@ import {
   Funnels
 } from "../../../types/enum";
 import { PAYMETHOD_FOR_BOOKER_OP } from "../../../types/const";
-import { GET_ALL_ROOM_TYPE_FOR_BOOKING } from "../../../apollo/queries";
+import { GET_ALL_ROOM_TYPE_FOR_BOOKER } from "../../../apollo/queries";
 import Preloader from "../../../atoms/preloader/Preloader";
 import { Helmet } from "react-helmet";
 import { openNiceModal } from "./components/doPay";
@@ -131,6 +133,8 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
 
   const isMobile = windowWidth < WindowSize.PHABLET;
   const dayPickerHook = useDayPicker(null, null);
+  console.log(to4YMMDD(dayPickerHook.from));
+  console.log(to4YMMDD(dayPickerHook.to));
   const confirmModalHook = useModal(false);
   // 모바일에서만 사용
   const [step, setStep] = useState<"search" | "select">("search");
@@ -272,7 +276,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
           })),
         paymentParams: {
           payMethod: payMethodHook.selectedOption!.value,
-          price: priceHook.value
+          price: toNumber(priceHook.value)
         }
       };
 
@@ -285,19 +289,19 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
       const validResult = muResult(
         tempResult,
         "StartBookingForPublic",
-        "bookingTransaction"
+        "booking"
       );
 
-      if (validResult && validResult.transactionId) {
-        const { transactionId } = validResult;
+      if (validResult) {
+        const { _id } = validResult;
         // 나이스 모듈 오픈전 인증을 받음.
         const authResult = await payAuthQu({ price: priceHook.value });
-        if (authResult && authResult.data.GetPaymentAuth.auth) {
+        if (authResult?.data.GetPaymentAuth.auth) {
           const { GetPaymentAuth } = authResult.data;
           const { houseName } = GetPaymentAuth;
           openNiceModal({
             resvInfo: startBookingVariables,
-            transactionId,
+            transactionId: _id,
             authInfo: authResult.data.GetPaymentAuth,
             houseName: houseName || ""
           });
@@ -311,10 +315,15 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
     if (roomSelectValidation()) {
       // 호스트가 하는 예약일경우 다른창으로
       if (isHost) {
+        const tempDefault = mergeObject(DEFAULT_BOOKING, {
+          payment: {
+            totalPrice: priceHook.value
+          }
+        });
         bookingModalHook.openModal({
           mode: "CREATE",
           createParam: {
-            ...DEFAULT_BOOKING,
+            ...tempDefault,
             checkOut: dayPickerHook.to,
             checkIn: dayPickerHook.from,
             ...divisionRoomSelectInfo(roomSelectInfo)
@@ -360,12 +369,28 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
               ① {LANG("select_date")}
             </h6>
             {/* TODO: change 될때마다 roomSelectInfo를 초기화 해주어야함 */}
-            <JDbox align="flexVcenter" size="small">
-              {dayPickerHook.from?.toLocaleDateString() + " " + LANG("checkIn")}
-            </JDbox>
-            <JDbox align="flexVcenter" size="small">
-              {dayPickerHook.to?.toLocaleDateString() + " " + LANG("checkOut")}
-            </JDbox>
+            {isMobile || (
+              <JDdayPicker
+                mode="checkInOutStyle"
+                canSelectSameDate={false}
+                isRange
+                {...dayPickerHook}
+              />
+            )}
+            {isMobile && (
+              <Fragment>
+                <JDbox align="flexVcenter" size="small">
+                  {dayPickerHook.from?.toLocaleDateString() +
+                    " " +
+                    LANG("checkIn")}
+                </JDbox>
+                <JDbox align="flexVcenter" size="small">
+                  {dayPickerHook.to?.toLocaleDateString() +
+                    " " +
+                    LANG("checkOut")}
+                </JDbox>
+              </Fragment>
+            )}
           </Card>
         </div>
         <div className="flex-grid__col JDreservation__roomSelect-grid col--full-8 col--lg-7 col--wmd-12">
@@ -379,8 +404,8 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
             {/* TODO: roomTypes들의 반복문을 통해서 만들고 해당 정보는 roomSelectInfo 에서 filter를 통해서 가져와야함 */}
 
             <GetAllAvailRoomQu
-              skip={!dayPickerHook.from || !dayPickerHook.to}
-              query={GET_ALL_ROOM_TYPE_FOR_BOOKING}
+              skip={!(dayPickerHook.from && dayPickerHook.to)}
+              query={GET_ALL_ROOM_TYPE_FOR_BOOKER}
             >
               {({
                 data: roomTypeData,

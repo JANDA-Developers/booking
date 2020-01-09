@@ -17,6 +17,7 @@ export interface IButtonProps
   disabled?: boolean;
   label?: string;
   icon?: IIcons;
+  refContainer?: any;
   cunsumPadding?: boolean;
   onClick?(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void;
   iconClasses?: string[];
@@ -52,6 +53,7 @@ const Button: React.FC<IButtonProps> = ({
   flat,
   mode,
   cunsumPadding,
+  refContainer,
   float,
   type,
   color,
@@ -110,6 +112,7 @@ const Button: React.FC<IButtonProps> = ({
     <Fragment>
       <button
         {...props}
+        ref={refContainer}
         type={type}
         disabled={disabled}
         className={`JDbtn JDwaves-effect ${classes}`}

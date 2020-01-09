@@ -24,6 +24,8 @@ interface IProps extends ReactModal.Props, IUseModal {
   falseMessage?: string | any[];
   trueMessage?: string | any[];
   id?: string;
+  contentClassName?: string;
+  contentWrapStyle?: React.CSSProperties;
   confirmCallBackFn?(flag: boolean, key?: string): any;
 }
 
@@ -48,6 +50,8 @@ const JDmodal: React.SFC<IProps> = ({
   noAnimation = true,
   falseMessage,
   loading,
+  contentClassName,
+  contentWrapStyle: contentWrapStyleProp,
   appElement = document.getElementById("root") || undefined,
   ...props
 }) => {
@@ -124,11 +128,12 @@ const JDmodal: React.SFC<IProps> = ({
   };
 
   const modalContentsStyle = {
-    minWidth: minContentsWidth
+    minWidth: minContentsWidth,
+    ...contentWrapStyleProp
   };
 
   const getChildren = () => (
-    <div style={modalContentsStyle}>
+    <div className={contentClassName} style={modalContentsStyle}>
       {children}
       {info && info.children}
       {typeof info === "string" && info}

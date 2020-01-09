@@ -1,240 +1,245 @@
-@import '~Styles';
+@import "~Styles";
 
 .middlerServerLoading {
-    z-index: $z-index-8 + 1;
+  z-index: $z-index-8 + 1;
 }
 
 html .header {
-    background-color: $nav-color;
-    display:flex;
+  background-color: $nav-color;
+  display: flex;
+  align-items: center;
+  padding-left: $header-padding;
+  padding-right: $header-padding;
+  height: $header-height;
+  z-index: $z-index-9;
+  justify-content: space-between;
+  @extend %z-depth-1;
+  width: 100%;
+  box-sizing: border-box;
+  position: sticky;
+  top: 0;
+
+  &__iconsLeftSide {
+    margin-right: -$standard-tiny-space;
+  }
+
+  &__NotifyIcon {
+    color: white;
+  }
+
+  &__right {
     align-items: center;
-    padding-left: $header-padding;
-    padding-right: $header-padding;
-    height: $header-height;
-    z-index: $z-index-9;
-    justify-content: space-between;
-    @extend %z-depth-1;
-    width: 100%;
-    box-sizing: border-box;
-    position: sticky;
-    top:0;
+    display: flex;
+    height: 100%;
 
+    // JANDA 로고 좌측크기만큼 보정 크기임
+    padding-right: 0.2rem;
 
-    &__iconsLeftSide {
-        margin-right: -$standard-tiny-space;
+    @include response($tablet) {
+      padding-right: $container-padding--md;
     }
 
-    &__NotifyIcon {
-        color:white;
+    & + .animationWrap {
+      display: none;
+    }
+  }
+
+  &__btns {
+    display: inline-block;
+    height: 100%;
+    .JDbtn {
+      box-shadow: none;
+      height: 100%;
+    }
+  }
+
+  &__left {
+    display: flex;
+    height: 100%;
+    align-items: center;
+  }
+
+  &__pcRight {
+    display: flex;
+    height: 100%;
+    align-items: center;
+
+    &--unlogin {
+      margin-left: 0;
+      height: 100%;
+      line-height: 100%;
     }
 
-    &__right {
-        align-items: center;
-        display: flex;
-        height: 100%;
-
-        // JANDA 로고 좌측크기만큼 보정 크기임
-        padding-right: 0.2rem;
-        
-        @include response($tablet) {
-            padding-right: $container-padding--md;    
-        }
-
-        & + .animationWrap {
-            display: none;
-        }
+    &-end {
+      margin-right: -$button-padding-side; //0.7rem header 보정상수
     }
-    
-    &__btns {
-        display:inline-block;
-        height: 100%;
-        .JDbtn {
-            box-shadow: none;
-            height: 100%;
-        }
-    }
+  }
 
-
-    &__left {
-        display: flex;
-        height: 100%;
-        align-items: center;
-    }
-
-    &__pcRight {
-        display: flex;
-        height: 100%;
-        align-items: center;
-        
-        &--unlogin {
-            margin-left: 0;
-            height:100%;
-            line-height: 100%;
-        }
-        
-        &-end {
-            margin-right: -$button-padding-side; //0.7rem header 보정상수
-        }
-    }
-
-    &__apps {
-        font-size: 0;
-        margin-left: auto;
-        .circleIcon  {
-            margin-right:0;
-        }
-    }
-
-    // 로고 이미지 여백 맞춤
-    &__logoPlace {
-        // 이미지 보정치수
-        margin-left: -1px;
-        & + * {
-            margin-right: -2px;
-        }
-    }
-
-    // 로고
-    &__logo {
-        width: 80px;
-        margin-top: -2px; // 보정
-    }
-
-    // 메뉴버튼 (사이드네비)
-
-    &__menueWrap {
-        font-size: 0;
-        margin-left:-4px;
-        margin-right:$standard-space;
-
-        @include response($tablet) {
-            margin-left: 0;
-            margin-right: $container-padding--md;    
-        }
-
-        .header__menue {
-            cursor: pointer;
-            color:white;
-            border-radius: 100%;
-            margin-left:$standard-space;
-            @include response($tablet) {
-                margin-left: 0;
-                padding-left: $container-padding--md;    
-            }
-            height: 100%;
-            &:hover {
-                background-color: $grey-opacity1;
-            }
-            // 메뉴버튼 후로 우측배치
-            & + * {
-                margin-left: auto;
-            }
-        }
-    }
-
-
-    &__mobileMenu {
-        color:white;
-    }
-
-    // 프로필 써클
-    &__profile {
-        margin-left: auto;
-        margin-right: 12px;  // 왼쪽 아이콘에의한 상수 
-    }
-
-    // 버튼들 로그인 로그아웃...
-    &__btns {
-        height: 100%;
-        line-height: 100%;
-        justify-content: flex-end;
-
-        .JDbtn {
-            border-radius: 0!important;
-            &:hover{
-                background-color:rgba(0,0,0,.1);
-            }
-        }
-
-        &--transparent {
-            .JDbtn {
-                background-color: transparent;
-                border-radius: 0;
-                color: white;
-                &:hover {
-                    background-color: $grey-opacity1;
-                }
-            }
-        }
-
-        &--verify {
-            background-color: $primary-color-light;
-        }
-    }
-
-    // 버튼사이 간격조절
-    &__btns+&__btns {
-        margin-left: $buttons-space;
-    }
-
-    // 툴팁리스트
-    #tooltip_user {
-        li {
-            text-align: center;
-        }
-    }
+  &__apps {
+    font-size: 0;
+    margin-left: auto;
     .circleIcon {
-        margin-bottom: 0;
+      margin-right: 0;
     }
-    
-    // 셀렉트박스 조정
-    &__selectHouse {
-        margin-bottom: 0;
-        margin:0;
-        width: 0.4rem * 24;
-        @include response($desktop) {
-            width: 0.4rem * 18;
-        }
-        .react-select-container {
-            .react-select__control {
-                border:none;
-                min-height:28px;
-                height: 2.25rem;
-            }
-        }
-    }
-    
-    @include response($phablet) {
-        padding-left: 0rem;
-        padding-right: 0rem;
-        
-        &__btns {
-            display: none;
-        }
-        
-        &__logoPlace {
-            padding-left: calc(#{$standard-small-space} * 2);
+  }
 
-            .header__logo {
-                width: 75px;
-                margin-top:0;
-            }
-        }
-        
-        //  툴팁 화살표 방향 설정  모바일일때 구석에있어야함
-        .__react_component_tooltip::before,.__react_component_tooltip::after {
-            left: auto;
-            right: 4px;
-        }
+  // 로고 이미지 여백 맞춤
+  &__logoPlace {
+    // 이미지 보정치수
+    margin-left: -1px;
+    & + * {
+      margin-right: -2px;
     }
-    #root .JDselect .react-select-container .react-select__contr {
+  }
+
+  // 로고
+  &__logo {
+    width: 80px;
+    margin-top: -2px; // 보정
+  }
+
+  // 메뉴버튼 (사이드네비)
+
+  &__menueWrap {
+    font-size: 0;
+    margin-left: -4px;
+    margin-right: $standard-space;
+
+    @include response($tablet) {
+      margin-left: 0;
+      margin-right: $container-padding--md;
+    }
+
+    .header__menue {
+      cursor: pointer;
+      color: white;
+      border-radius: 100%;
+      margin-left: $standard-space;
+      @include response($tablet) {
+        margin-left: 0;
+        padding-left: $container-padding--md;
+      }
+      height: 100%;
+      &:hover {
+        background-color: $grey-opacity1;
+      }
+      // 메뉴버튼 후로 우측배치
+      & + * {
+        margin-left: auto;
+      }
+    }
+  }
+
+  &__mobileMenu {
+    color: white;
+  }
+
+  // 프로필 써클
+  &__profile {
+    margin-left: auto;
+    margin-right: 12px; // 왼쪽 아이콘에의한 상수
+  }
+
+  // 버튼들 로그인 로그아웃...
+  &__btns {
+    height: 100%;
+    line-height: 100%;
+    justify-content: flex-end;
+
+    .JDbtn {
+      border-radius: 0 !important;
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    &--transparent {
+      .JDbtn {
+        background-color: transparent;
+        border-radius: 0;
+        color: white;
+        &:hover {
+          background-color: $grey-opacity1;
+        }
+      }
+    }
+
+    &--verify {
+      background-color: $primary-color-light;
+    }
+  }
+
+  // 버튼사이 간격조절
+  &__btns + &__btns {
+    margin-left: $buttons-space;
+  }
+
+  // 툴팁리스트
+  #tooltip_user {
+    li {
+      text-align: center;
+    }
+  }
+  .circleIcon {
+    margin-bottom: 0;
+  }
+
+  // 셀렉트박스 조정
+  &__selectHouse {
+    margin-bottom: 0;
+    margin: 0;
+    width: 0.4rem * 24;
+    @include response($desktop) {
+      width: 0.4rem * 18;
+    }
+    .react-select-container {
+      .react-select__control {
         border: none;
+        min-height: 28px;
+        height: 2.25rem;
+      }
+    }
+  }
+
+  @include response($phablet) {
+    padding-left: 0rem;
+    padding-right: 0rem;
+
+    &__btns {
+      display: none;
     }
 
-    .JDsearchInput {
-        margin-bottom: 0;
-        @include response($tablet) {
-            width: 150px;
-        }
+    &__logoPlace {
+      padding-left: calc(#{$standard-small-space} * 2);
+
+      .header__logo {
+        width: 75px;
+        margin-top: 0;
+      }
     }
+
+    //  툴팁 화살표 방향 설정  모바일일때 구석에있어야함
+    .__react_component_tooltip::before,
+    .__react_component_tooltip::after {
+      left: auto;
+      right: 4px;
+    }
+  }
+  #root .JDselect .react-select-container .react-select__contr {
+    border: none;
+  }
+
+  .JDsearchInput {
+    &__ul {
+      position: absolute;
+      top: calc(100% + #{$standard-space});
+      right: 0;
+      left: 0;
+      @include shadow(4);
+    }
+    margin-bottom: 0;
+    @include response($tablet) {
+      width: 150px;
+    }
+  }
 }

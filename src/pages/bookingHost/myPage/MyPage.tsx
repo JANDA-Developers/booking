@@ -18,7 +18,7 @@ interface IProps {
 const Mypage: React.SFC<IProps> = ({ context, userInfo }) => {
   return (
     <div id="myPage" className="myPage">
-      <PageHeader desc={""} title={"MyPage"} />
+      <PageHeader desc={LANG("mypage_desc")} title={"MyPage"} />
       <PageBody>
         <JDtabs tabsAlign="spaceAround" mb="large">
           <TabList>

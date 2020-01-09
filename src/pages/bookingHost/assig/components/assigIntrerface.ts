@@ -218,7 +218,7 @@ export interface IAssigGroup {
   isLastOfRoom: boolean;
   isLastOfRoomType: boolean;
   bedIndex: number;
-  type: "add" | "normal" | "addRoomType" | "noneGroup";
+  // type: "add" | "normal" | "addRoomType" | "noneGroup";
   roomGender: RoomGender | null;
   pricingType: PricingType;
 }
@@ -268,9 +268,9 @@ export interface IAssigDataControl {
   allocateMu: (
     options?:
       | MutationFunctionOptions<
-          allocateGuestToRoom,
-          allocateGuestToRoomVariables
-        >
+        allocateGuestToRoom,
+        allocateGuestToRoomVariables
+      >
       | undefined
   ) => Promise<ExecutionResult<allocateGuestToRoom>>;
   deleteBlockMu: (

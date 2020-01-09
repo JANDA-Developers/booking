@@ -7,15 +7,11 @@ import CheckProduct from "./components/CheckProduct";
 import { IChainProp } from "./BillingModalWrap";
 import {
   registerBillKey_RegisterBillKey_billInfo,
-  updateProductBillInfo,
-  updateProductBillInfoVariables
 } from "../../types/api";
 import "./BillingModal.scss";
-import { muResult } from "../../utils/utils";
 import { toast } from "react-toastify";
 import JDpreloader from "../../atoms/preloader/Preloader";
 import PeriodicPay from "./components/PeriodicPay";
-import { IMu } from "../../types/interface";
 import CardViewer from "../../pages/bookingHost/myPage/components/cardModal.tsx/CardViewer";
 
 interface Iprops extends IChainProp {}

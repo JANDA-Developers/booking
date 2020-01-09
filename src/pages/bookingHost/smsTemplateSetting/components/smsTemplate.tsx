@@ -9,7 +9,7 @@ import {
   SMS_TARGET_OP,
   SmsReplaceKeyEnumKeys
 } from "../../../../types/const";
-import { useSelect, useInput, useSwitch, LANG } from "../../../../hooks/hook";
+import { useSelect, useSwitch, LANG } from "../../../../hooks/hook";
 import InputText from "../../../../atoms/forms/inputText/InputText";
 import Switch from "../../../../atoms/forms/switch/Switch";
 import Button from "../../../../atoms/button/Button";

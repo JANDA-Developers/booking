@@ -9,7 +9,6 @@ import {
 } from "../../types/api";
 import {
   COMEPLETE_PHONE_VERIFICATION,
-  GET_USER_INFO,
   START_PHONE_VERIFICATION_WITH_PHONE_NUMBER
 } from "../../apollo/queries";
 import EerrorProtect from "../../utils/errProtect";
@@ -25,20 +24,20 @@ class CompletePhoneVerification extends Mutation<
 
 interface IPhoneVerifModalInfo {
   phoneNumber?: string;
-  onPhoneVerified?(): void;
+  callBackPhoneVerified?(): void;
   [foo: string]: any;
 }
 
 interface IProps {
   modalHook: IUseModal<IPhoneVerifModalInfo>;
   phoneNumber?: string;
-  onPhoneVerified?(): void;
+  callBackPhoneVerified?(): void;
 }
 
 const PhoneVerificationModalWrap: React.FC<IProps> = ({
   modalHook,
-  onPhoneVerified = modalHook.info ? modalHook.info.onPhoneVerified : undefined,
-  phoneNumber = modalHook.info ? modalHook.info.phoneNumber : undefined
+  callBackPhoneVerified = modalHook.info?.onPhoneVerified,
+  phoneNumber = modalHook.info?.phoneNumber
 }) => (
   <StartPhoneVerificationMu
     variables={{ phoneNumber }}
@@ -61,14 +60,10 @@ const PhoneVerificationModalWrap: React.FC<IProps> = ({
               LANG("mobile_phone_verification_completed"),
               LANG("mobile_phone_verification_failed")
             );
-            modalHook.closeModal();
             if (CompletePhoneVerification.ok) {
-              window.location.reload();
-              onPhoneVerified && onPhoneVerified();
+              callBackPhoneVerified && callBackPhoneVerified();
             }
           }}
-          awaitRefetchQueries
-          refetchQueries={[{ query: GET_USER_INFO }]}
         >
           {(
             completePhoneVerificationMu,
@@ -84,7 +79,7 @@ const PhoneVerificationModalWrap: React.FC<IProps> = ({
             const modalOpenCallBackFn = () => {
               startPhoneVerificationMu({
                 variables: {
-                  phoneNumber: phoneNumber
+                  phoneNumber
                 }
               });
             };

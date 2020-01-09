@@ -6,25 +6,22 @@ import TooltipList, {
 } from "../../../atoms/tooltipList/TooltipList";
 import { NavLink } from "react-router-dom";
 import Button from "../../../atoms/button/Button";
-import { IUseModal, useModal, LANG } from "../../../hooks/hook";
+import { useModal, LANG } from "../../../hooks/hook";
 import { insideRedirect, isEmpty } from "../../../utils/utils";
 import { UserRole } from "../../../types/enum";
 import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
 import MemoIcon from "../../Memo/component/MemoIcon";
 import NotiIcon from "../../noti/component/NotiIcon";
 import LangSelectModal from "../../../atoms/dayPicker/component/langSelectModal";
-import BillingModalWrap from "../../bilingModal/BillingModalWrap";
 
 interface IProps {
   context: IContext;
   logOutMutation: any;
-  phoneVerificationModalHook: IUseModal;
 }
 
 const SharedHeaderComponent: React.FC<IProps> = ({
   context,
-  logOutMutation,
-  phoneVerificationModalHook
+  logOutMutation
 }) => {
   const { user, applyedProduct } = context;
   const { isPhoneVerified } = user;
@@ -72,23 +69,6 @@ const SharedHeaderComponent: React.FC<IProps> = ({
             redirect={insideRedirect(`superAdmin`)}
             mode="flat"
             thema="point"
-          />
-        </li>
-      )}
-      {user && !isPhoneVerified && (
-        <li>
-          <Button
-            onClick={() => {
-              phoneVerificationModalHook.openModal({
-                phoneNumber: user.phoneNumber
-              });
-              ReactTooltip.hide();
-            }}
-            blink
-            icon="call"
-            label={LANG("authenticate")}
-            mode="flat"
-            id="HeaderPhoneVerificationBtn"
           />
         </li>
       )}

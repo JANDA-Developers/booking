@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Modal from "../../../../atoms/modal/Modal";
 import InputText from "../../../../atoms/forms/inputText/InputText";
-import utils, { toNumber } from "../../../../utils/utils";
+import utils, { toNumber, s4 } from "../../../../utils/utils";
 import { IUseModal, LANG, useSelect } from "../../../../hooks/hook";
 import { IContext } from "../../BookingHostRouter";
 import { IRoom } from "../../../../types/interface";
@@ -47,6 +47,7 @@ const RoomModal: React.FC<IProps> = ({ modalHook, onSubmit }) => {
     const tempDatas = [];
     for (let i = 0; i < (createCountHook.selectedOption?.value || 0); i++) {
       const data = Object.assign({}, DEFAULT_ROOMTYPE_ROOM);
+      data._id = s4();
       data.name = (toNumber(createStartNumber || 0) + i).toString();
       tempDatas.push(data);
     }

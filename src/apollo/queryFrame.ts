@@ -402,26 +402,6 @@ export const F_GUEST_ROOM = gql`
   ${F_GUEST}
 `;
 
-// 에약가능 인원 관련 프레임
-export const F_ROOM_CAPACITY = gql`
-  fragment FroomTypeCapacity on RoomTypeCapacity {
-    roomTypeId
-    pricingType
-    availablePeopleCount {
-      ...FavailablePeopleCount
-    }
-    roomCapacityList {
-      roomId
-      roomGender
-      availableGenders
-      availableCount
-      peopleCount
-      emptyBeds
-    }
-  }
-  ${F_AVAILABLE_PEOPLE_COUNT}
-`;
-
 // 유저 기본적인 정보 프레임
 export const F_USER_INFO = gql`
   fragment FieldsUser on User {
@@ -463,3 +443,5 @@ export const F_BILL_PAY_RESULT = gql`
     cardName
   }
 `;
+
+

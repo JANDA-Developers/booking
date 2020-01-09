@@ -19,7 +19,8 @@ import {
   PaymentStatus,
   AutoSendWhen,
   DateFormat,
-  BookingStatus
+  BookingStatus,
+  WindowSize
 } from "../../types/enum";
 import {
   FUNNELS_OP,
@@ -43,9 +44,8 @@ import SendSMSmodalWrap, { IModalSMSinfo } from "../smsModal/SendSmsModalWrap";
 import Preloader from "../../atoms/preloader/Preloader";
 import { toast } from "react-toastify";
 import { isPhone } from "../../utils/inputValidations";
-import { autoComma, muResult } from "../../utils/utils";
+import { autoComma, muResult, toNumber } from "../../utils/utils";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
-import Drawer from "../../atoms/drawer/Drawer";
 import _ from "lodash";
 import C from "../../utils/C";
 import RoomAssigedInfoTable from "./components/RoomAssigedInfoTable";
@@ -115,10 +115,8 @@ const BookingModal: React.FC<IProps> = ({
     () => getRoomSelectInfo(bookingData.guests, bookingData.roomTypes || []),
     [bookingData]
   );
+  const isPhabletDown = window.innerWidth < WindowSize.TABLET;
   const [assigInfo, setAssigInfo] = useState(makeAssigInfo(guests));
-  const [drawers, setDrawers] = useState({
-    bookerInfo: false
-  });
   const payMethodHook = useSelect(
     C(
       bookingId !== "default",
@@ -255,10 +253,8 @@ const BookingModal: React.FC<IProps> = ({
           paymentStatus: paymentStatusHook.selectedOption!.value,
           bookingStatus: bookingStatusHook.selectedOption!.value,
           phoneNumber: bookingPhoneHook.value,
-          price: priceHook.value,
-          funnels: funnelStatusHook.selectedOption
-            ? funnelStatusHook.selectedOption.value
-            : null
+          price: toNumber(priceHook.value),
+          funnels: funnelStatusHook.selectedOption?.value || null
         }
       }
     });
@@ -281,100 +277,121 @@ const BookingModal: React.FC<IProps> = ({
       <Preloader size={"large"} loading={loading || startBookingLoading} />
       {loading || startBookingLoading || (
         <Fragment>
-          <div className="modal__section">
-            <h5>{LANG("booker_info")} </h5>
-            <div className="JDflex JDflex--oneone">
-              <InputText
-                disabled={allReadOnly}
-                {...bookingNameHook}
-                label={LANG("booker")}
-                placeholder={LANG("booker")}
-              />
-              <InputText
-                disabled={allReadOnly}
-                {...bookingPhoneHook}
-                validation={isPhone}
-                hyphen
-                label={LANG("phoneNumber")}
-                placeholder={LANG("phoneNumber")}
-                icon="sms"
-                iconHover
-                iconOnClick={handleSmsIconClick}
-              />
-              <SelectBox
-                disabled={allReadOnly}
-                {...funnelStatusHook}
-                options={FUNNELS_OP}
-                label={LANG("funnels")}
-              />
+          <div className={`JDz-index-1 ${isPhabletDown || "flex-grid-grow"}`}>
+            <div className="modal__section flex-grid__col ">
+              <h5>{LANG("booker_info")}</h5>
+              <div
+                className={`JDflex JDflex--oneone ${isPhabletDown ||
+                  "JDflex--column"}`}
+              >
+                <InputText
+                  id="BookerNameInput"
+                  mr={isPhabletDown ? undefined : "no"}
+                  disabled={allReadOnly}
+                  {...bookingNameHook}
+                  label={LANG("booker")}
+                  placeholder={LANG("booker")}
+                />
+                <InputText
+                  id="BookerPhoneInput"
+                  mr={isPhabletDown ? undefined : "no"}
+                  disabled={allReadOnly}
+                  {...bookingPhoneHook}
+                  validation={isPhone}
+                  hyphen
+                  label={LANG("phoneNumber")}
+                  placeholder={LANG("phoneNumber")}
+                  icon="sms"
+                  iconHover
+                  iconOnClick={handleSmsIconClick}
+                />
+                <SelectBox
+                  id="FunnelSelect"
+                  mr={isPhabletDown ? undefined : "no"}
+                  disabled={allReadOnly}
+                  {...funnelStatusHook}
+                  options={FUNNELS_OP}
+                  label={LANG("funnels")}
+                />
+              </div>
             </div>
-          </div>
-          <div className="modal__section">
-            <h5>{LANG("payment_info")}</h5>
-            <div className="JDflex JDflex--oneone">
-              <InputText
-                disabled={allReadOnly}
-                {...priceHook}
-                placeholder={`${LANG("normal_price")}:${autoComma(
-                  placeHolederPrice
-                )}`}
-                returnNumber
-                comma
-                label={LANG("total_price")}
-              />
-              <SelectBox
-                disabled={allReadOnly}
-                {...payMethodHook}
-                options={PAYMETHOD_FOR_HOST_OP}
-                label={LANG("method_of_payment")}
-              />
-              <SelectBox
-                disabled={allReadOnly}
-                {...paymentStatusHook}
-                options={PAYMENT_STATUS_OP}
-                label={LANG("payment_status")}
-              />
+            <div className="modal__section flex-grid__col  ">
+              <h5>{LANG("payment_info")}</h5>
+              <div
+                className={`JDflex JDflex--oneone ${isPhabletDown ||
+                  "JDflex--column"}`}
+              >
+                <InputText
+                  id="PriceHook"
+                  mr={isPhabletDown ? undefined : "no"}
+                  disabled={allReadOnly}
+                  {...priceHook}
+                  placeholder={`${LANG("normal_price")}:${autoComma(
+                    placeHolederPrice
+                  )}`}
+                  comma
+                  label={LANG("total_price")}
+                />
+                <SelectBox
+                  id="PayMethodSelect"
+                  mr={isPhabletDown ? undefined : "no"}
+                  disabled={allReadOnly}
+                  {...payMethodHook}
+                  options={PAYMETHOD_FOR_HOST_OP}
+                  label={LANG("method_of_payment")}
+                />
+                <SelectBox
+                  mr={isPhabletDown ? undefined : "no"}
+                  disabled={allReadOnly}
+                  {...paymentStatusHook}
+                  options={PAYMENT_STATUS_OP}
+                  label={LANG("payment_status")}
+                />
+              </div>
             </div>
-          </div>
-          <div>
-            <h5>
-              {LANG("reservation_information")}{" "}
-              <Drawer size={"small"} {...assigInfoDrawHook} />
-            </h5>
-            <div className="JDflex JDflex--oneone">
-              <SelectBox
-                disabled={allReadOnly}
-                {...bookingStatusHook}
-                options={BOOKING_STATUS_OP}
-                label={LANG("booking_status")}
-              />
-              <JDdayPicker
-                displayIcon={false}
-                inputDisabled={allReadOnly}
-                canSelectBeforeDay={false}
-                {...resvDateHook}
-                mode="input"
-                className="JDstandard-space"
-                readOnly
-                label={LANG("date_of_stay")}
-              />
-              <InputText
-                disabled={allReadOnly}
-                readOnly
-                value={moment(createdAt ? createdAt : undefined)
-                  .local()
-                  .format(DateFormat.WITH_TIME)}
-                label={LANG("reservation_date")}
-                placeholder={LANG("reservation_date")}
-              />
+            <div className="flex-grid__col modal__section">
+              <h5>
+                {LANG("reservation_information")}{" "}
+                {/* <Drawer size={"small"} {...assigInfoDrawHook} /> */}
+              </h5>
+              <div
+                className={`JDflex JDflex--oneone ${isPhabletDown ||
+                  "JDflex--column"}`}
+              >
+                <SelectBox
+                  mr={isPhabletDown ? undefined : "no"}
+                  disabled={allReadOnly}
+                  {...bookingStatusHook}
+                  options={BOOKING_STATUS_OP}
+                  label={LANG("booking_status")}
+                />
+                <JDdayPicker
+                  mr={isPhabletDown ? undefined : "no"}
+                  displayIcon={false}
+                  inputDisabled={allReadOnly}
+                  canSelectBeforeDay={false}
+                  {...resvDateHook}
+                  mode="input"
+                  className="JDstandard-space"
+                  readOnly
+                  label={LANG("date_of_stay")}
+                />
+                <InputText
+                  mr={isPhabletDown ? undefined : "no"}
+                  disabled={allReadOnly}
+                  readOnly
+                  value={moment(createdAt ? createdAt : undefined)
+                    .local()
+                    .format(DateFormat.WITH_TIME)}
+                  label={LANG("reservation_date")}
+                  placeholder={LANG("reservation_date")}
+                />
+              </div>
             </div>
-          </div>
-          <div>
-            <JDLabel txt="인원 및 방정보" />
-            <RoomSelectInfoTable roomSelectInfo={roomSelectInfo} />
-          </div>
-          {assigInfoDrawHook.open && (
-            <div>
+            <div className="flex-grid__col modal__section">
+              <h5>{LANG("room_assig_info")}</h5>
+              <JDLabel txt="인원 및 방정보" />
+              <RoomSelectInfoTable roomSelectInfo={roomSelectInfo} />
               <JDLabel txt="배정정보" />
               <RoomAssigedInfoTable
                 setAssigInfo={setAssigInfo}
@@ -382,30 +399,30 @@ const BookingModal: React.FC<IProps> = ({
                 guestsData={guests || []}
               />
             </div>
-          )}
-          <div className="JDz-index-1 modal__section">
-            <div className="flex-grid">
-              <div className="flex-grid__col col--full-12 col--lg-12 col--md-12">
-                <InputText
-                  disabled={allReadOnly}
-                  {...memoHook}
-                  halfHeight
-                  textarea
-                  label={LANG("memo")}
-                />
-              </div>
+            <div className="JDz-index-1 modal__section flex-grid__col  ">
+              <h5>{LANG("else")}</h5>
+              <InputText
+                disabled={allReadOnly}
+                {...memoHook}
+                halfHeight
+                textarea
+                label={LANG("memo")}
+              />
             </div>
           </div>
           <div className="JDmodal__endSection">
             <Button
+              id="BookingModalCreateBtn"
               size="small"
               label={LANG("do_create")}
               disabled={!isCreateMode}
               thema="primary"
               mode="flat"
               onClick={handleCreateBtnClick}
+              tabIndex={0}
             />
             <Button
+              id="BookingModalUpdateBtn"
               mode="flat"
               size="small"
               disabled={isCreateMode}
@@ -414,6 +431,7 @@ const BookingModal: React.FC<IProps> = ({
               onClick={handleUpdateBtnClick}
             />
             <Button
+              id="BookingModalDeleteBtn"
               mode="flat"
               size="small"
               label={LANG("delete_booking")}

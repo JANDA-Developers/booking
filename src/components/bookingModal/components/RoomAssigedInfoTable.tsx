@@ -3,11 +3,10 @@ import JDtable, {
   JDcolumn,
   ReactTableDefault
 } from "../../../atoms/table/Table";
-import { Gender, WindowSize } from "../../../types/enum";
+import { Gender } from "../../../types/enum";
 import { GENDER_OP } from "../../../types/const";
 import { inOr } from "../../../utils/C";
 import JDselect from "../../../atoms/forms/selectBox/SelectBox";
-import reactWindowSize, { WindowSizeProps } from "react-window-size";
 import { LANG } from "../../../hooks/hook";
 import "./RoomAssigedInfoTable.scss";
 import { IBookingModal_AssigInfo } from "../declaration";
@@ -51,11 +50,6 @@ const RoomAssigedInfoTable: React.FC<Iprops> = ({
 
   let TableColumns: JDcolumn<IGuestTableInfo>[] = [
     {
-      Header: LANG("roomType"),
-      accessor: "_id",
-      Cell: ({ original }) => <div>{original.roomType.name}</div>
-    },
-    {
       Header: LANG("room"),
       accessor: "_id",
       Cell: ({ original }) => <div>{inOr(original.room, "name", "")}</div>
@@ -76,20 +70,18 @@ const RoomAssigedInfoTable: React.FC<Iprops> = ({
             width: "100%"
           }}
         >
-          {original.gender === null && (
-            <JDselect
-              onChange={value => {
-                const targetInfo = assigInfo.find(
-                  info => info._id === original._id
-                );
-                if (!targetInfo) return;
-                targetInfo.gender = value.value;
-                setAssigInfo([...assigInfo]);
-              }}
-              selectedOption={getGenderSelectedOption(original._id)}
-              options={GENDER_OP}
-            />
-          )}
+          <JDselect
+            onChange={value => {
+              const targetInfo = assigInfo.find(
+                info => info._id === original._id
+              );
+              if (!targetInfo) return;
+              targetInfo.gender = value.value;
+              setAssigInfo([...assigInfo]);
+            }}
+            selectedOption={getGenderSelectedOption(original._id)}
+            options={GENDER_OP}
+          />
         </div>
       )
     }

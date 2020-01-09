@@ -18,7 +18,10 @@ import {
   getPayHistory_GetPayHistory_result_payHistories,
   getSmsHistory_GetSmsHistory_result_smsHistories,
   getBookings_GetBookings_result_bookings,
-  getAllRoomType_GetAllRoomType_roomTypes_rooms
+  getAllRoomType_GetAllRoomType_roomTypes_rooms,
+  getRoomTypeInfo_GetRoomTypeById_roomType_capacity_CapacityRoomType,
+  getRoomTypeInfo_GetRoomTypeById_roomType_capacity_CapacityRoomTypeDomitory,
+  registerBillKey_RegisterBillKey_billInfo
 } from "./api";
 import { IselectedOption } from "../atoms/forms/selectBox/SelectBox";
 import { PricingType, TMarginSize } from "./enum";
@@ -44,11 +47,15 @@ export interface IUl extends React.HTMLAttributes<HTMLUListElement> { }
 export interface IRoomType extends getAllRoomType_GetAllRoomType_roomType { }
 export interface IBooking extends getBookings_GetBookings_result_bookings { }
 export interface IRoom extends getAllRoomType_GetAllRoomType_roomTypes_rooms { }
+export type TRef = React.MutableRefObject<any>;
 export type IGuest = getAllRoomTypeWithGuest_GetGuests_guests;
 export type IGuestD = getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory;
 export type IGuestR = getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom;
+export type TRoomCapacity = getRoomTypeInfo_GetRoomTypeById_roomType_capacity_CapacityRoomType;
+export type TDomitoryCapacity = getRoomTypeInfo_GetRoomTypeById_roomType_capacity_CapacityRoomTypeDomitory;
 export type ISmsH = getSmsHistory_GetSmsHistory_result_smsHistories;
 export type TElements = string | JSX.Element | JSX.Element[] | string[];
+export interface IBillInfo extends registerBillKey_RegisterBillKey_billInfo { };
 export type TMuFn<m, mv> = (
   options?: MutationFunctionOptions<m, mv> | undefined
 ) => Promise<ExecutionResult<m>>;

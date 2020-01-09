@@ -1,6 +1,6 @@
 import React from "react";
 import { IContext } from "../../../BookingHostRouter";
-import { IUseModal } from "../../../../../hooks/hook";
+import { IUseModal, LANG } from "../../../../../hooks/hook";
 import JDmodal from "../../../../../atoms/modal/Modal";
 import {
   JDtabs,
@@ -30,7 +30,8 @@ import {
   onCompletedMessage
 } from "../../../../../utils/utils";
 import "./SuperAdminControllModal.scss";
-import BillPayController from "./BillPayController";
+import Preloader from "../../../../../atoms/preloader/Preloader";
+import { PortalPreloader } from "../../../../../utils/portalElement";
 
 export interface IControllSharedPorps {
   context: IContext;
@@ -54,6 +55,7 @@ interface Iprops {
   modalHook: IUseModal<IControllerModalProps>;
 }
 
+// I change my patern modal can be wrap and make iniside view to ohter file
 const SuperAdminController: React.FC<Iprops> = ({ context, modalHook }) => {
   const { houseId } = modalHook.info;
   const { data, loading } = useQuery<
@@ -75,13 +77,8 @@ const SuperAdminController: React.FC<Iprops> = ({ context, modalHook }) => {
     onCompleted: ({ UpdateHouse, UpdateProductForSU }) => {
       onCompletedMessage(
         UpdateHouse,
-        "Update User Info Complet!",
-        "Fail to update user info!"
-      );
-      onCompletedMessage(
-        UpdateProductForSU,
-        "Update User Info Complet!",
-        "Fail to update user info!"
+        LANG("update_user_info_complete"),
+        LANG("update_user_info_fail")
       );
     }
   });
@@ -115,12 +112,20 @@ const SuperAdminController: React.FC<Iprops> = ({ context, modalHook }) => {
     });
   };
 
+  if (loading)
+    return (
+      <JDmodal loading className="SuperAdminControllModal" {...modalHook}>
+        <Preloader size="large" />
+      </JDmodal>
+    );
+
   return (
     <JDmodal className="SuperAdminControllModal" {...modalHook}>
+      <PortalPreloader loading={updateUserForSuLoading} />
       <JDtabs tabsAlign="spaceAround">
         <TabList>
           <Tab>House</Tab>
-          <Tab>BillPay</Tab>
+          {/* <Tab>BillPay</Tab> */}
           <Tab>Product</Tab>
         </TabList>
         <TabPanel>
@@ -130,13 +135,13 @@ const SuperAdminController: React.FC<Iprops> = ({ context, modalHook }) => {
             data={specificData}
           />
         </TabPanel>
-        <TabPanel>
-          {/* <BillPayController
+        {/* <TabPanel> */}
+        {/* <BillPayController
             updateFn={updateFn}
             context={context}
             data={specificData}
           /> */}
-        </TabPanel>
+        {/* </TabPanel> */}
         <TabPanel>
           <ProductControll
             updateFn={updateFn}

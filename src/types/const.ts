@@ -49,8 +49,8 @@ export const SmsReplaceKeyEnumKeys = [
   "ROOMTYPE_N_COUNT",
   "BOOKERNAME",
   "TOTALPRICE",
-  "PAYMETHOD",
-  "PAYMENTSTATUS",
+  // "PAYMETHOD",
+  // "PAYMENTSTATUS",
   "HM"
 ];
 // 위아래 인덱스가 맞아야함
@@ -60,8 +60,8 @@ export const SmsReplaceKeyEnumValues = [
   "%ROOMTYPE_N_COUNT%",
   "%BOOKERNAME%",
   "%TOTALPRICE%",
-  "%PAYMETHOD%",
-  "%PAYMENTSTATUS%",
+  // "%PAYMETHOD%",
+  // "%PAYMENTSTATUS%",
   "%HM%"
 ];
 
@@ -72,13 +72,11 @@ export const SELECT_DUMMY_OP = [
 ];
 
 export enum ProductTypeName {
-  ONE = "JANDA-T",
   TOW = "JANDA-G",
   THREE = "JANDA-H"
 }
 
 export const SELECT_PRODUCT_TYPE_OP: IselectedOption[] = [
-  { value: ProductTypeName.ONE, label: ProductTypeName.ONE },
   { value: ProductTypeName.TOW, label: ProductTypeName.TOW },
   { value: ProductTypeName.THREE, label: ProductTypeName.THREE }
 ];
@@ -306,4 +304,4 @@ export const DUMMY_BILL_INFO: registerBillKey_RegisterBillKey_billInfo = {
 export const FLOATING_PRELOADER_SIZE = "small";
 export const MODAL_PRELOADER_SIZE = "large";
 
-export const TEST_PRODUCT_NAME = ProductTypeName.ONE;
+export const TEST_PRODUCT_NAME = "JANDA-T";

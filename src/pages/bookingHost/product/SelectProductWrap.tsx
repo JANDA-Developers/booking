@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useEffect, Fragment } from "react";
 import { Mutation, Query } from "react-apollo";
-import { Redirect } from "react-router-dom";
 import {
   GET_PRODUCTS_TYPES,
   BUY_PRODUCTS,
@@ -11,11 +10,12 @@ import {
 import {
   ErrProtecter,
   queryDataFormater,
-  onCompletedMessage
+  onCompletedMessage,
+  isTestProduct
 } from "../../../utils/utils";
 import {
-  buyProduct,
-  buyProductVariables,
+  selectProduct,
+  selectProductVariables,
   refundProduct,
   refundProductVariables,
   getAllProductTypes
@@ -28,7 +28,10 @@ import { IContext } from "../../bookingHost/BookingHostRouter";
 import { LANG } from "../../../hooks/hook";
 
 class GetProductTypes extends Query<getAllProductTypes> {}
-class BuyProductMutation extends Mutation<buyProduct, buyProductVariables> {}
+class BuyProductMutation extends Mutation<
+  selectProduct,
+  selectProductVariables
+> {}
 class RefundProductMutation extends Mutation<
   refundProduct,
   refundProductVariables
@@ -66,13 +69,18 @@ const SelectProductWrap: React.FC<IProps> = ({ context, disabledProducts }) => {
           "productTypes",
           []
         );
-        const productTypeDesc = productTypeGetDesc(productTypes || []);
+
+        const filteredProductTypes: any =
+          productTypes?.filter(pt => !isTestProduct(pt.name)) || [];
+
+        const productTypeDesc = productTypeGetDesc(filteredProductTypes);
+
         return (
           <BuyProductMutation
             mutation={BUY_PRODUCTS}
-            onCompleted={({ BuyProduct }) => {
+            onCompleted={({ SelectProduct }) => {
               onCompletedMessage(
-                BuyProduct,
+                SelectProduct,
                 LANG("product_application_completed"),
                 LANG("product_application_failed")
               );

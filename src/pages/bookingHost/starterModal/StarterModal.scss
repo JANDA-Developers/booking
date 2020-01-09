@@ -1,13 +1,29 @@
-@import '~Styles';
+@import "~Styles";
 
 .staterModal {
-    text-align: center;
-    
-    &__stepsWrap {
-        border-bottom: 1px solid $grey-level1;
-        margin-bottom: $standard-margin-bottom;
-    }
+  min-width: 40%;
+  text-align: center;
 
-    &__createRoom_finish_Btn {
-    }
+  .steps__createHouseWrap {
+    max-width: 650px; // $phablet
+  }
+
+  &__stepsWrap {
+    border-bottom: 1px solid $grey-level1;
+    margin-bottom: $standard-margin-bottom;
+  }
+  .pageBody {
+    padding: 0;
+  }
+  .PageHeader {
+    display: none !important;
+  }
+  #CreateHouseSubmitBtn,
+  #RoomConfigSubmitBtn {
+    display: none;
+  }
+
+  @include response($phablet) {
+    min-width: 95%;
+  }
 }

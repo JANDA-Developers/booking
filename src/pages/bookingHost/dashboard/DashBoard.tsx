@@ -69,6 +69,7 @@ const DashBoard: React.SFC<Iprops> = ({ context }) => {
               {/* 상단 버튼 집합 */}
               <div>
                 <Button
+                  id="CreateResvModalUpBtn"
                   onClick={() => {
                     reservationModal.openModal();
                   }}

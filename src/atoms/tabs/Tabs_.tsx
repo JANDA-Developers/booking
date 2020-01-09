@@ -10,7 +10,7 @@ interface IProps {
   className?: string;
   defaultFocus?: boolean;
   defaultIndex?: number;
-  tabsAlign?: "spaceAround";
+  tabsAlign?: "spaceAround" | "spaceBetween";
   disabledTabClassName?: string;
   domRef?: (node?: HTMLElement) => void;
   forceRenderTabPanel?: boolean;
@@ -32,6 +32,8 @@ const JDtabs: React.FC<IProps> = ({
     "JDtabs--style_button": styleMode === "button",
     "JDtabs--normal": !styleMode,
     "JDtabs--tabsAlign-spaceAround": tabsAlign === "spaceAround",
+    "JDtabs--tabsAlign-spaceBetween": tabsAlign === "spaceBetween",
+    "JDtabs--tabsAlign-normal": tabsAlign === undefined,
     ...mbClass("JDtabs", mb)
   });
 

@@ -89,31 +89,25 @@ const SmsTemplateModal: React.FC<Iprops> = ({
   const [messageValue, setMessage] = useState(
     smsMsgParser(defaultSmsFormat, LANG("SmsReplaceKey"))
   );
-  const enableHook = useSwitch(
-    defulatSmsSendCase ? defulatSmsSendCase.enable : false
-  );
+  const enableHook = useSwitch(defulatSmsSendCase?.enable || false);
   const autoSendHook = useSelect<AutoSendWhen | null>({
-    value: defulatSmsSendCase ? defulatSmsSendCase.when : null,
-    label: defulatSmsSendCase
-      ? LANG(defulatSmsSendCase.when)
-      : LANG("un_send_Sms")
+    value: defulatSmsSendCase?.when || null,
+    label: LANG(defulatSmsSendCase?.when || "un_send_Sms")
   });
   const sendTargetHook = useSelect<SendTarget | null>({
-    value: defulatSmsSendCase ? defulatSmsSendCase.who : null,
-    label: defulatSmsSendCase
-      ? LANG(defulatSmsSendCase.who)
-      : LANG("un_send_Sms")
+    value: defulatSmsSendCase?.who || null,
+    label: LANG(defulatSmsSendCase?.who || "un_send_Sms")
   });
   const templateTitleHook = useInput(defaultFormatName);
 
   const { selectedOption: sendTSO } = sendTargetHook;
   const { selectedOption: sendASO } = autoSendHook;
   const AutoSendWhenTemp =
-    sendTSO && sendTSO.value && sendASO && sendASO.value
+    sendTSO?.value && sendASO?.value
       ? {
           enable: enableHook.checked,
-          when: sendASO.value!,
-          who: sendTSO.value!
+          when: sendASO.value,
+          who: sendTSO.value
         }
       : null;
 
@@ -152,82 +146,93 @@ const SmsTemplateModal: React.FC<Iprops> = ({
   };
 
   return (
-    <JDmodal visibleOverflow {...modalHook}>
+    <JDmodal className="smsTemplateModal" {...modalHook}>
       <Fragment>
-        <div>
-          <InputText {...templateTitleHook} label={LANG("template_title")} />
-        </div>
-        <div>
-          <InputText
-            value={messageValue}
-            onChange={setMessage}
-            label={LANG("msg")}
-            textarea
-            doubleHeight
-          />
-        </div>
-        <div>
+        <div className="smsTemplateModal__contentWrap">
           <div>
-            <JDLabel txt={LANG("template_msg")} />
-          </div>
-          {SmsReplaceKeyEnumKeys.map((value: any) => (
-            <Button
-              onClick={() => {
-                hanldeTemplateBtnClick(LANG("SmsReplaceKey")[value]);
-              }}
-              disabled={value === ("HM" || "PAYMETHOD" || "PAYMENTSTATUS")}
-              size="small"
-              mode="border"
-              key={`templateBtn${templateData._id}${value}`}
-              label={LANG("SmsReplaceKey")
-                [value].replace("[", "")
-                .replace("]", "")}
+            <InputText
+              id="TemplateTitleInput"
+              {...templateTitleHook}
+              label={LANG("template_title")}
             />
-          ))}
-        </div>
-        <div className="JDz-index-1 flex-grid flex-grid--start">
-          {/* props 로부터 받아서 쓸거임. onChange시에는 뮤테이션을 날리겠지. */}
-          <JDselect
-            size={SelectBoxSize.FIVE}
-            options={AUTO_SEND_OP}
-            {...autoSendHook}
-            label={LANG("auto_send")}
-          />
-          <JDselect
-            size={SelectBoxSize.FOUR}
-            options={SMS_TARGET_OP}
-            {...sendTargetHook}
-            label={LANG("send_target")}
-          />
-          <JDswitch
-            {...enableHook}
-            label={
-              <span>
-                <span className="JDstandard-small-space">
-                  {LANG("is_auto_send_enable")}
+          </div>
+          <div>
+            <InputText
+              id="MessageInput"
+              value={messageValue}
+              onChange={setMessage}
+              label={LANG("msg")}
+              textarea
+              doubleHeight
+            />
+          </div>
+          <div>
+            <div>
+              <JDLabel txt={LANG("template_msg")} />
+            </div>
+            {SmsReplaceKeyEnumKeys.map((value: any) => (
+              <Button
+                onClick={() => {
+                  hanldeTemplateBtnClick(LANG("SmsReplaceKey")[value]);
+                }}
+                disabled={value === ("HM" || "PAYMETHOD" || "PAYMENTSTATUS")}
+                size="small"
+                mode="border"
+                key={`templateBtn${templateData._id}${value}`}
+                label={LANG("SmsReplaceKey")
+                  [value].replace("[", "")
+                  .replace("]", "")}
+              />
+            ))}
+          </div>
+          <div className="JDz-index-1 flex-grid flex-grid--start">
+            {/* props 로부터 받아서 쓸거임. onChange시에는 뮤테이션을 날리겠지. */}
+            <JDselect
+              id="AutoSendSelect"
+              size={SelectBoxSize.FIVE}
+              options={AUTO_SEND_OP}
+              {...autoSendHook}
+              label={LANG("auto_send")}
+            />
+            <JDselect
+              id="SendTagetSelect"
+              size={SelectBoxSize.FOUR}
+              options={SMS_TARGET_OP}
+              {...sendTargetHook}
+              label={LANG("send_target")}
+            />
+            <JDswitch
+              id="EnableSwitch"
+              {...enableHook}
+              label={
+                <span>
+                  <span className="JDstandard-small-space">
+                    {LANG("is_auto_send_enable")}
+                  </span>
+                  <Help
+                    tooltip={LANG(
+                      "if_tou_enable_auto_send_msg_msg_will_send_autoMetically"
+                    )}
+                    icon={"help"}
+                    size={undefined}
+                  />
                 </span>
-                <Help
-                  tooltip={LANG(
-                    "if_tou_enable_auto_send_msg_msg_will_send_autoMetically"
-                  )}
-                  icon={"help"}
-                  size={undefined}
-                />
-              </span>
-            }
-          />
+              }
+            />
+          </div>
         </div>
-        <div></div>
       </Fragment>
       <div className="JDmodal__endSection">
         <Button
+          id="CreateTemplateBtn"
           mode="flat"
           size="small"
-          label={isAdd ? LANG("do_create") : LANG("do_copy")}
+          label={LANG(isAdd ? "do_create" : "do_copy")}
           thema="primary"
           onClick={handleCreateBtnClick}
         />
         <Button
+          id="UpdateTemplateBtn"
           mode="flat"
           size="small"
           label={LANG("do_modify")}
@@ -236,6 +241,7 @@ const SmsTemplateModal: React.FC<Iprops> = ({
           onClick={handleUpdateBtnClick}
         />
         <Button
+          id="DeleteTemplateBtn"
           mode="flat"
           size="small"
           label={LANG("delete_booking")}

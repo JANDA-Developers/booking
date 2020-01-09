@@ -12,7 +12,10 @@ interface Iprops {
 const AdditionConfigPitch: React.FC<Iprops> = ({ context }) => {
   const [redirect, setRedirect] = useState("");
 
-  if (redirect) return <Redirect to={redirect} />;
+  if (redirect) {
+    alert("??!!!");
+    return <Redirect to={redirect} />;
+  }
 
   return (
     <p>

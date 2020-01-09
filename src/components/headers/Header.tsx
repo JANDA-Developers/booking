@@ -1,11 +1,9 @@
 import React, { useEffect } from "react";
 import "./Header.scss";
 import { ReactTooltip } from "../../atoms/tooltipList/TooltipList";
-import { ErrProtecter } from "../../utils/utils";
-import { useModal } from "../../hooks/hook";
+import { ErrProtecter, isEmpty } from "../../utils/utils";
 import { IDiv } from "../../types/interface";
 import GuestSearchInputWrap from "../guestSearchInput/GuestSearchInputWrap";
-import PhoneVerificationModalWrap from "../phoneVerificationModal/PhoneVerificationModalWrap";
 import windowSize from "react-window-size";
 import { WindowSize } from "../../types/enum";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
@@ -32,9 +30,8 @@ const Header: React.FC<IProps> = ({
   sideNavIsOpen,
   setSideNavIsOpen
 }) => {
-  const { user } = context;
   const { house } = context;
-  const { completeDefaultSetting } = house || { completeDefaultSetting: false };
+  const doneHouseInit = !isEmpty(house);
   const isPhabletDown = windowWidth < WindowSize.TABLET;
 
   useEffect(() => {
@@ -42,55 +39,33 @@ const Header: React.FC<IProps> = ({
     ReactTooltip.rebuild();
   });
 
-  const phoneVerificationModalHook = useModal(false);
-
   // 🍰 메인리턴
   return (
     <div className="header">
-      {/* 로고 */}
       <div className="header__left">
-        <Logo completeDefaultSetting={completeDefaultSetting} />
-        {/* 메뉴버튼 */}
+        <Logo completeDefaultSetting={doneHouseInit} />
         <HeaderMenu
           setSideNavIsOpen={setSideNavIsOpen}
           sideNavIsOpen={sideNavIsOpen}
-          completeDefaultSetting={completeDefaultSetting}
+          doneHouseInit={doneHouseInit}
         />
       </div>
-      {/* space between 2번째 */}
-      {/* 게스트 서치용 */}
       {house && (
         <div className="header__center">
           <GuestSearchInputWrap context={context} />
         </div>
       )}
-      {/* space between 3번째 */}
       <div className="header__right">
-        {/* PC와 모바일에 관계없는 헤더 컴포넌트 */}
         <SharedHeaderComponent
           logOutMutation={logOutMutation}
-          phoneVerificationModalHook={phoneVerificationModalHook}
           context={context}
         />
-        {/* 모바일과 PC 각각의 헤더 컴포넌트*/}
         {isPhabletDown ? (
-          <MobileHeaderComponent
-            logOutMutation={logOutMutation}
-            phoneVerificationModalHook={phoneVerificationModalHook}
-            context={context}
-          />
+          <MobileHeaderComponent context={context} />
         ) : (
-          <PcHeaderComponent
-            phoneVerificationModalHook={phoneVerificationModalHook}
-            context={context}
-          />
+          <PcHeaderComponent context={context} />
         )}
       </div>
-      {/* 핸드폰 인증모달 */}
-      <PhoneVerificationModalWrap
-        phoneNumber={user.phoneNumber}
-        modalHook={phoneVerificationModalHook}
-      />
     </div>
   );
 };

@@ -51,16 +51,6 @@ const FloatBox: React.FC<Iprops> = ({
   return (
     <div ref={refContainer} className={classes}>
       <div ref={refContainerIn} className="floatBox__contentsWrap">
-        <CircleIcon
-          hover
-          onClick={() => {
-            modalHook.closeModal();
-          }}
-          size="tiny"
-          className="floatBox__clearIcon"
-        >
-          <JDIcon size="tiny" icon="clear" />
-        </CircleIcon>
         {children}
         <div className="floatBox__endSection">
           <Button

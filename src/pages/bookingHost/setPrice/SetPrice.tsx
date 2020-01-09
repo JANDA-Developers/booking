@@ -17,7 +17,6 @@ import {
   UpdateSeasonPriceInput
 } from "../../../types/api";
 import Preloader from "../../../atoms/preloader/Preloader";
-import classNames from "classnames";
 import Button from "../../../atoms/button/Button";
 import { Link } from "react-router-dom";
 import { priceMapResult } from "./SetPriceWrap";
@@ -186,8 +185,6 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
       />
     ),
     accessor: "index",
-    minWidth: isPhablet ? 130 : 130,
-    maxWidth: 234,
     Cell: ({ value, original: roomType, index }: CellInfo) => {
       const targetPrice = priceMap.get(roomType._id + season._id);
       return (
@@ -206,21 +203,20 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
                     toNumber(e.currentTarget.value)
                   );
                 }}
+                iconProps={{
+                  size: "small",
+                  tooltip: LANG("day_of_week_price")
+                }}
+                iconHover
+                icon="edit"
+                iconOnClick={() => {
+                  dayOfWeekModal.openModal({
+                    roomTypeId: roomType._id,
+                    seasonId: season._id,
+                    priceInput: targetPrice
+                  });
+                }}
               />
-              <CircleIcon>
-                <JDIcon
-                  tooltip={LANG("day_of_week_price")}
-                  className="JDmargin-bottom0"
-                  onClick={() => {
-                    dayOfWeekModal.openModal({
-                      roomTypeId: roomType._id,
-                      seasonId: season._id,
-                      priceInput: targetPrice
-                    });
-                  }}
-                  icon="edit"
-                />
-              </CircleIcon>
             </div>
           )}
         </div>

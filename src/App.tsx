@@ -12,12 +12,12 @@ import BookingHostRouter from "./pages/bookingHost/BookingHostRouter";
 import JDtoast from "./atoms/toast/Toast";
 import "./lib/wave/wave"; // 웨이브 이펙트
 import "./lib/wave/wave.scss";
-import { useLang } from "./hooks/hook";
+import { useLang, LANG } from "./hooks/hook";
 import { globalLanguageSetting } from "./utils/globalLagnSet";
 import $ from "jquery";
-import ReactDOMServer from 'react-dom/server';
+import ReactDOMServer from "react-dom/server";
 import Button from "./atoms/button/Button";
-
+import { toast } from "react-toastify";
 
 function App() {
   const langHook = useLang("kr");
@@ -31,18 +31,19 @@ function App() {
       }
     };
 
+    window.addEventListener("online", () => {
+      toast.success(LANG("network_connected"));
+    });
+    window.addEventListener("offline", () => {
+      toast.warn(LANG("check_net_status"));
+    });
     document.addEventListener("keydown", versionToggle);
     return () => {
       document.removeEventListener("keydown", versionToggle);
     };
   });
 
-  <div onKeyDown={e => { }}></div>;
-
-
-  console.log("ReactDOMServer.renderToStaticMarkup(<Button/>)");
-  console.log(ReactDOMServer.renderToStaticMarkup(<Button />));
-
+  <div onKeyDown={e => {}}></div>;
   return (
     <div id="JDoutWrapper">
       <ApolloProvider client={client}>

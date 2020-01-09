@@ -12,10 +12,7 @@ import {
   queryDataFormater,
   isEmpty
 } from "../../../../../utils/utils";
-import {
-  SELECT_HOUSE,
-  SELECTED_HOUSE
-} from "../../../../../apollo/clientQueries";
+import { SELECT_HOUSE } from "../../../../../apollo/clientQueries";
 import {
   getHouse,
   getHouseVariables,
@@ -37,7 +34,7 @@ const MyHouseModalWrap: React.SFC<IProps> = ({
 }) => (
   <DeleteHouseMutation
     mutation={DELETE_HOUSE}
-    refetchQueries={[{ query: GET_USER_INFO }, { query: SELECTED_HOUSE }]}
+    refetchQueries={[{ query: GET_USER_INFO }]}
     variables={{
       id: modalHook.info.houseId
     }}

@@ -3,17 +3,17 @@ import { IUseSideNav } from "../../../hooks/hook";
 import JDIcon from "../../../atoms/icons/Icons";
 
 interface Iprops extends IUseSideNav {
-  completeDefaultSetting: boolean;
+  doneHouseInit: boolean;
 }
 
 const HeaderMenu: React.FC<Iprops> = ({
-  completeDefaultSetting,
+  doneHouseInit,
   setSideNavIsOpen,
   sideNavIsOpen
 }) => {
   return (
     <div className="header__menueWrap">
-      {completeDefaultSetting && (
+      {doneHouseInit && (
         <span className="header__menue">
           <JDIcon
             onClick={() => {

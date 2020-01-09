@@ -35,7 +35,7 @@ const addExpiredWarnNoti = (
   if (!product) return;
 
   const { isExpired, expireDate } = product;
-  const leftDate = moment(new Date()).diff(expireDate, "day");
+  const leftDate = moment(expireDate).diff(new Date(), "day");
 
   // 몇일 남았는지는 toast로 넣고 만료 직전에 노티를 넣자
 
@@ -58,7 +58,7 @@ const addExpiredWarnNoti = (
         "the_current_product_has_expired_normal_service_is_not_possible_Please_proceed_with_the_payment"
       )
     });
-  } else if (leftDate < 4) {
+  } else if (leftDate < 14) {
     notis.push({
       ...sharedProp,
       __typename: "Noti",
@@ -100,11 +100,13 @@ const NotiWrap: React.FC<IProps> = ({ context, icon }) => {
           >
             {(confirmMutationMu, { loading: confirmMutationLoading }) => (
               <Fragment>
-                <Preloader
-                  floating
-                  size={FLOATING_PRELOADER_SIZE}
-                  loading={confirmMutationLoading}
-                />
+                <div style={{ position: "absolute" }}>
+                  <Preloader
+                    floating
+                    size={FLOATING_PRELOADER_SIZE}
+                    loading={confirmMutationLoading}
+                  />
+                </div>
                 <Noti
                   icon={icon}
                   loading={loading}

@@ -1,0 +1,9 @@
+@import "~Styles";
+
+.smsTemplateModal {
+  &__contentWrap {
+    max-height: 400px;
+    padding-bottom: 100px;
+    @extend %JDscrollbar;
+  }
+}

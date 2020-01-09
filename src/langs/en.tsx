@@ -1,6 +1,9 @@
 import React from "react";
 import Mbr from "../atoms/mbr/Mbr";
 import { LANG } from "../hooks/hook";
+import TextButton from "../atoms/textButton/TextButton";
+import JDlist from "../atoms/list/List";
+import PhotoFrame from "../atoms/photoFrame/PhotoFrame";
 
 export const en = {
   Apply: "Apply",
@@ -820,7 +823,253 @@ export const en = {
     YANOLJA: "YANOLJA",
     YEOGIEOTTAE: "YEOGIEOTTAE"
   },
-  goto_today: "to today"
+  goto_today: "to today",
+  // 1.1.0 패치
+  email: "email",
+  find_email: "find email",
+  get_temporary_password: "get temp password",
+  temp_password: "temp password",
+  copied_to_cliboard: "copied to cliboard",
+  current_password: "current password",
+  password_resset: "password reset",
+  password_rewrite: "password rewrite",
+  password_resset_completed: "password reset completed",
+  password_resset_failed: "password reset failed",
+  get_email_bt_msg: "get email by message",
+  change_password_complete: "password change completed",
+  change_password_failed: "password change failed",
+  new_password: "new password",
+  card_resist: "card resist",
+  card_number: "card number",
+  check_product: "check product",
+  regist: "regist",
+  exp_year: "exp/year",
+  exp_month: "exp/month",
+  card_regist_complete_fail: "card regist fail",
+  card_regist_complete: "card regist complete",
+  payment_regist_complete: "payment regist complete",
+  registration_confirmation: "registration confimation",
+  input_information: "input information",
+  input_card_information: "input card information",
+  idnumber_6front: "id number 6",
+  idnumber_or_business_number: "id num/business num",
+  card_pasword_front_two_digits: "card password",
+  completing_this_card_registration_you_agree_to_the:
+    "By registering this card information, you agree to the following",
+  please_rewrite_your_new_password: (
+    <span>
+      temp password detected please change your password
+      <br />
+      please get new password
+    </span>
+  ),
+  use_conditions: "use condition",
+  privacy_policy: "privacy policy",
+  and: "end",
+  member_ship: "member ship",
+  create_memo: "create memo",
+  host_memo: "host memo",
+  guest_memo: "guest memo",
+  write: "write",
+  no_guest_notes_after_today: "no guest notes after today",
+  update: "update",
+  create: "create",
+  house_front_img: "house front img",
+  house_title: "house title",
+  info_img: "info img",
+  info_txt: "info text",
+  current_config_lang: "current config language",
+  solution_usage_guide: "solution usage guide",
+  payment_information: "payment info",
+  member_name: "member name",
+  regi_date: "regi date",
+  product_info: "product info",
+  deposit_card_owner: "deposit card owner",
+  pay_regist_complete_title: (
+    <span>
+      JANDA SOLUTION <br />
+      periodical payment is resgisted
+    </span>
+  ),
+  pay_regist_complete_text:
+    "Thank you for your regular payment. If you want to change your payment information or change your payment information, you can change it on Mypage. If you haven't made the payment, please contact our Customer Support Center at support@stayjanda.com. Please email me",
+  card_regist_complete_message: (
+    <span>
+      The card information is registered. You can check the information in{" "}
+      <TextButton color="primary">MYPage</TextButton>
+    </span>
+  ),
+  pay_with_this_card: "payment registration with this card",
+  static_page_desc:
+    "You can check the statistics on sales. You can check the sales in the meantime by setting the date and due date.",
+  assigTimeline__decs: "You can assign guests to any room in your calendar.",
+  JANDA_home: "JANDA Home",
+  JANDA_home_desc:
+    "You can check the assignment status for today's date in the current dashboard.",
+  bookingList__desc:
+    "The reservation information is displayed in chronological order.",
+  price_setting__desc:
+    "You can set the price for each day or price for a period. Try adjusting the price to be on that day.",
+  lang_use_set: "Enable language",
+  HM_set__desc: (
+    <span>
+      The House Manual provides a guide page for guests to use the accommodation
+      easily and conveniently. Send. <br />
+      The house manual will save you the trouble of explaining how to use your
+      accommodation.
+    </span>
+  ),
+  user_info: "Profile",
+  periodicalPay_manage: "Periodic payment management",
+  product_change: "Product change",
+  periodical_pay_regist_complete: "Subscription registration completed",
+  periodical_pay_regist_fail: "Subscription registration failed",
+  sign_date: "sign date",
+  change_periodical_change: "정기결제 정보 변경",
+  payment_fee: "납부요금",
+  approved: "승인완료",
+  excel_express: "엑셀출력",
+  express_info: "출력정보",
+  express_count: "출력갯수",
+  bill_pay_cancle: "정기 결제 취소",
+  bill_pay_cancle_complete: "정기 결제 취소 완료",
+  bill_pay_cancle_fail: "정기 결제 취소 실패",
+  on_testing: "테스트 사용중",
+  un_registed: "적용안됨",
+  uploade_compelte: "업로드 완료",
+  uploade_fail: "업로드 실패",
+  HM_detail_info: "하우스 메뉴얼 상세정보",
+  ExcelExpress: {
+    SELECT_OP: "현재 선택한 내용으로 출력",
+    COUNT_OP: "최근 생성 갯수로 출력",
+    DATE_OP: "날짜로 출력"
+  },
+  unit: "개",
+  pay_date: "납부일자",
+  bill: "영수증",
+  need_regist: (
+    <TextButton className="JDstandard-margin0" color="error">
+      등록필요
+    </TextButton>
+  ),
+  go_to_sms_template: "SMS 양식 바로가기",
+  how_to_save_sms_template_title: "SMS양식 저장하는 방법",
+  how_to_save_sms_template_doc: (
+    <JDlist
+      marginBottom="long"
+      contents={[
+        <div>
+          1. <b>SMS양식</b> 메뉴에서 <b>[양식생성]</b>을 클릭합니다.
+        </div>,
+        <div>
+          2. 양식생성 화면에서 타이틀과, 메시지를 입력하시고 메시지화면에서 중간
+          중간에 생성할
+          <b>
+            숙박일자/숙박정보/예약자명/가격/결제방법/결제상태/하우스메뉴얼URL
+          </b>
+          문구를 아래에 <b>양식메시지</b>에서 클릭하시면 메시지 발송시에
+          자동으로 정보가 입력됩니다.
+        </div>,
+        <div>
+          <PhotoFrame
+            src={`https://s3.ap-northeast-2.amazonaws.com/booking.stayjanda.files/booking_app/describe/smsinfo_img_01.png`}
+          />
+        </div>,
+        <div>
+          3. 자동발신 상태를{" "}
+          <b>예약취소시/예약생성시/예약생성시(미결제)/예약업데이트시</b> 별로
+          선택하여 설정하고
+        </div>,
+        <div>
+          4. 발신대상을 <b>게스트/호스트/게스트+호스트</b> 별로 지정을 해주시고
+          우측에 <b>자동발신 활설화</b> 여부를 on / oFF 설정해주시면 언제든지
+          고객에게 알림 문자가 발송되게 설정됩니다
+        </div>
+      ]}
+    />
+  ),
+  how_to_send_sms_for_all_title: "단체SMS 보내는 방법",
+  how_to_send_sms_for_all_doc: (
+    <JDlist
+      marginBottom="long"
+      contents={[
+        <span>
+          1. 단체SMS는 솔루션 메인화면과 예약목록 화면에서 가능합니다.
+          <b>메인화면</b>에서는 오늘의 예약리스트 상단에 <b>‘단체메시지’</b>{" "}
+          버튼을 클릭하셔야 보낼 수 있고, <b>예약목록</b> 화면에서는 내가 원하는
+          예약자를 선택하여 리스트 상단에 <b>‘문자전송’</b>버튼을 클릭해서
+          여러명에게 단체문자를 보낼 수 있습니다.
+        </span>,
+        <div>
+          2. 그러나 단체SMS를 보내기 위해서는 <b>SMS양식</b>화면에서 미리 만들어
+          둔 SMS양식이 있어야 합니다. 개성있고 재밌는 SMS양식을 만들어주세요.
+          예시 : 조식알림문자, 저녁 파티이벤트 안내 문자, 공사안내, 분실물안내,
+          긴급대피안내문자
+        </div>
+      ]}
+    />
+  ),
+  sms_usage: "SMS 이용법",
+  sms_service: "SMS 서비스",
+  credit: "신용",
+  expiration_date: "유효기한",
+  add_card: "카드추가",
+  please_input_card_info: "카드정보를 입력해 주세요.",
+  add_card_dec: "빠르고 간편한 결제를 위해 카드를 등록해주세요.",
+  card_info: "카드정보",
+  card_delte_complete: "카드 삭제 성공",
+  card_info_complete_fail: "카드 삭제 실패",
+  periodical_cancel_complete: "정기결제 취소 완료",
+  periodical_cancel_complete_fail: "정기결제 취소 실패",
+  card_regist: "카드 등록",
+  card_delete: "카드 삭제",
+  bill_pay_regist: "정기 결제 등록",
+  bill_pay_regist_width_this_card: "이 카드로 정기결제 등록",
+  bill_pay_regist_change_width_this_card: "이 카드로 정기결제 변경",
+  un_exsist_page: "존재 하지않는 페이지",
+  sms_info: "SMS 안내",
+  sms_info_decs: "SMS 이용에대한 안내 드립니다.",
+  un_exsist_page_decs: (
+    <span>
+      존재 하지않는 페이지 입니다.
+      <br /> 뒤로가기를 눌러주세요.
+    </span>
+  ),
+  mypage: "MY PAGE",
+  solution_specification: "solution_specification",
+  noti_config: "noti config",
+  memo_manage: "memo manage",
+  house_detail_config: "house detail config",
+  frequent_questions: "frequent question",
+  mypage_profile_desc: "Change user info",
+  mypage_houses_desc: "Management created houses",
+  show_detail: "read more",
+  basic_config: "default setting",
+  guestStatus_mark: "guest status mark",
+  shortkey_config: "keyboard setting",
+  change_pay_method: "Change pay method",
+  un_validate_card_number: "Invalid card number.",
+  un_validate_card_expire: "Invalid card due date.",
+  periodical_paying: "using",
+  creadit_card_change: "change credit card",
+  select_this_card: "change to this card",
+  pay_history: "pay history",
+  there_is_no_card: "There is no exist card",
+  no_card: "no card",
+  HouseType: {
+    GUEST_HOUSE: "GuestHouse",
+    HOTEL: "Hotel",
+    MOTEL: "Motel",
+    PENSION: "Pension",
+    HOSTEL: "Hostel",
+    YOUTH_HOSTEL: "Youth Hotel"
+  },
+  please_select_room_gender: "please sleect room gender",
+  please_input_max_people_count: "Please enter max count cpacity",
+  please_select_room_type: "Please select room type.",
+  room_assig_info: "room/assig info",
+  else: "else",
+  check_init: "check init"
 };
 
 export default en;

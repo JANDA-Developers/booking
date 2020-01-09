@@ -116,6 +116,7 @@ const RoomTypeModal: React.FC<IProps> = ({ modalHook, loading, onSubmit }) => {
                 label={LANG("capacity")}
                 disabled={false}
                 onChange={op => {
+                  set("peopleCount", op.value);
                   set("peopleCountMax", op.value);
                 }}
                 options={maxPeopleCountOp}

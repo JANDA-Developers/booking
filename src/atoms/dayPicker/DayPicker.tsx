@@ -14,8 +14,11 @@ import HorizenCaption from "./component/horizen/HorizenCaption";
 import "./DayPicker.scss";
 import { IUseDayPicker } from "../../hooks/hook";
 import { getDateCharLang } from "./helper";
+import { JDatomExtentionSet } from "../../types/interface";
+import { JDmbClass, JDmrClass } from "../../utils/autoClasses";
+import moment from "moment";
 
-export interface IJDdayPickerProps extends IUseDayPicker {
+export interface IJDdayPickerProps extends IUseDayPicker, JDatomExtentionSet {
   canSelectBeforeDay?: boolean;
   placeholder?: string;
   mode?: "horizen" | "input" | "checkInOutStyle";
@@ -69,7 +72,9 @@ const JDdayPicker: React.FC<IJDdayPickerProps> = React.memo(
     maxLimit,
     readOnly,
     showWeekEndColor = true,
-    className
+    className,
+    mr,
+    mb
   }) => {
     const dayPickerFullWrap: any = useRef();
     const isInitialMount = useRef(true);
@@ -163,7 +168,9 @@ const JDdayPicker: React.FC<IJDdayPickerProps> = React.memo(
       "DayPicker--showWeekEndColor": showWeekEndColor,
       "DayPicker--unDisplayCaption": displayCaption === false,
       "DayPicker--unDisplayNavbar": displayHeader === false,
-      "DayPicker--unDisplayInfo": displayInfo === false
+      "DayPicker--unDisplayInfo": displayInfo === false,
+      ...JDmbClass(mb),
+      ...JDmrClass(mr)
     });
 
     // 이건 순수하게 달력부분

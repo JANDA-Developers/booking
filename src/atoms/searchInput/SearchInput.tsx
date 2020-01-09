@@ -4,8 +4,6 @@ import React, { useState, useRef, useEffect } from "react";
 import classNames from "classnames";
 import List from "./list";
 import "./searchInput.scss";
-import Icon from "../icons/Icons";
-import Preloader from "../preloader/Preloader";
 import searchListFormat from "../../utils/searchListFormater";
 import JDLabel from "../label/JDLabel";
 import { IInput } from "../../types/interface";
@@ -221,7 +219,11 @@ const JDsearchInput: React.FC<IProps> = ({
 
   return (
     <div className={classes}>
-      {label && <JDLabel txt={label} />}
+      {label && (
+        <div className="JDtext-align-left">
+          <JDLabel txt={label} />
+        </div>
+      )}
       <div className="JDsearchInput__input_wrapper">
         <div className="JDsearchInput__innerWrap">
           <InputText

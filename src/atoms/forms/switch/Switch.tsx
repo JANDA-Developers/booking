@@ -1,13 +1,10 @@
-import React, { Fragment } from "react";
+import React from "react";
 import "./Switch.scss";
-import PropTypes from "prop-types";
 import classNames from "classnames";
-import wrapClassNames from "classnames";
-import ErrProtecter from "../../../utils/errProtect";
 import JDlabel from "../../label/JDLabel";
 import { s4 } from "../../../utils/utils";
 import Tooltip from "../../tooltip/Tooltip";
-import { JDatomExtentionSet } from "../../../types/interface";
+import { JDatomExtentionSet, ISpan } from "../../../types/interface";
 import { JDmrClass, JDmbClass } from "../../../utils/autoClasses";
 
 interface IProps extends JDatomExtentionSet {
@@ -18,6 +15,7 @@ interface IProps extends JDatomExtentionSet {
   ltxt?: string;
   rtxt?: string;
   tooltip?: string;
+  id?: string;
 }
 
 const JDswitch: React.FC<IProps> = ({
@@ -29,7 +27,8 @@ const JDswitch: React.FC<IProps> = ({
   rtxt,
   label,
   mr,
-  mb
+  mb,
+  ...props
 }) => {
   const handleCheckboxChange = () => {
     const flag = disabled ? checked : !checked;
@@ -49,6 +48,7 @@ const JDswitch: React.FC<IProps> = ({
 
   return (
     <span
+      {...props}
       className={wrapClasses}
       data-tip={tooltip}
       data-for={tooltip ? `btnTooltip${newId}` : undefined}

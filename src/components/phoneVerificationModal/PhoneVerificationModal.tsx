@@ -35,12 +35,9 @@ const PhoneVerification: React.FC<IProps> = ({
     }
   }, [phoneNumber]);
 
-  if (muLoading) {
-    return <PreloaderModal loading={true} />;
-  }
-
   return (
     <JDmodal
+      loading={muLoading}
       {...modalHook}
       className="Modal"
       overlayClassName="Overlay"

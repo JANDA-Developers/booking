@@ -1,11 +1,11 @@
 import React from "react";
-import { IUseModal, LANG } from "../../../../../hooks/hook";
+import { IUseModal } from "../../../../../hooks/hook";
 import { IContext } from "../../../BookingHostRouter";
 import JDmodal from "../../../../../atoms/modal/Modal";
 import "./CardModal.scss";
 import CardViewer from "./CardViewer";
 import { getMyProfile_GetMyProfile_user_houses_product } from "../../../../../types/api";
-import { assertValidSDL } from "graphql/validation/validate";
+import { TCardViewInfo } from "../../../../../components/bilingModal/components/CardInfoFormWrap";
 
 export interface ICardModalTarget {
   product?: getMyProfile_GetMyProfile_user_houses_product;
@@ -14,7 +14,7 @@ export interface ICardModalTarget {
 
 export interface ICardModalInfo {
   currentHouseInfo?: ICardModalTarget;
-  selectCallBack?: (billKey: string) => any;
+  selectCallBack?: (billKey: TCardViewInfo) => any;
 }
 
 interface Iprops {

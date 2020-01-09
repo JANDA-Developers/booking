@@ -47,6 +47,29 @@ export const Tselect = async (selecter: string, propSelectIndex?: number) => {
   );
 };
 
+export const TWait = async (second: number) => {
+  await page.waitFor(second * S);
+};
+
+export const TWaitTill = async (second: number, isDone: () => Promise<any>) => {
+  const maxTries = 3;
+  for (let count = 0; ; count++) {
+    await page.waitFor(second * S);
+    try {
+      // console.log("try");
+      return await isDone();
+    } catch (e) {
+      if (count < maxTries) {
+        // console.log("retry");
+        continue;
+      } else {
+        // console.log("else");
+        throw e;
+      }
+    }
+  }
+};
+
 export const Tupload = async (uploaderSelecter: string, fileUrl: string) => {
   const [fileChooser] = await Promise.all([
     page.waitForFileChooser(),
@@ -56,18 +79,16 @@ export const Tupload = async (uploaderSelecter: string, fileUrl: string) => {
   await expectOkFromGraphql();
 };
 
-export const Ttype = async (selecter: string, text: string) => {
+export const TType = async (selecter: string, text: string) => {
   await page.click(selecter);
   await page.type(selecter, text);
 };
 
-export const TTextWait = async (text: string, selecter?: string | "body") => {
-  await page.waitForFunction(
-    `document.querySelector(${selecter}).innerText.includes(${text})`
-  );
+export const TClick = async (selecter: string) => {
+  await page.click(selecter);
 };
 
-export const TwaitClick = async (selecter: string) => {
+export const TWaitClick = async (selecter: string) => {
   await page.waitForSelector(selecter);
   await page.click(selecter);
 };
@@ -157,8 +178,78 @@ export const testReady = async (goto?: string, login?: TestLogin) => {
   }
 
   if (goto) {
-    await page.goto(goto);
+    let tempGoto = goto;
+    if (!goto.includes("http")) {
+      tempGoto = urlBase + "/#/" + goto;
+    }
+    console.log(goto);
+    console.log(goto);
+    await page.goto(tempGoto);
     await page.waitFor(1000);
+  }
+};
+
+interface TCheckStringOption {
+  shouldFail: boolean;
+}
+
+export const TGetStringFrom = async (selecter: string): Promise<string> => {
+  await page.waitForSelector(selecter);
+  const element = await page.$$(selecter);
+  if (!element) throw new Error("ele is not found");
+
+  const text = await Promise.all(
+    element.map(async el => (await el.getProperty("textContent")).jsonValue())
+  );
+  const texts = text.join();
+  return texts;
+};
+
+export const TGetId = async (
+  selecter: string,
+  returnAsSelecter: boolean
+): Promise<string> => {
+  await page.waitForSelector(selecter);
+  const target = await page.$(selecter);
+  if (!target) throw new Error(`Dose not exist ${selecter}`);
+  const id = await (await target.getProperty("id")).jsonValue();
+  if (!id) throw new Error(`Property Id is not Exsist on ${selecter}`);
+  if (returnAsSelecter) return `#${id}`;
+  else return id as string;
+};
+
+// CHeck string in select if select is multiful
+// and one of them has string it will return true !
+export const TCheckString = async (
+  selecter: string,
+  checkString: string,
+  options?: TCheckStringOption
+) => {
+  const defaultOption: TCheckStringOption = {
+    shouldFail: false
+  };
+  const { shouldFail } = options || defaultOption;
+  const texts = await TGetStringFrom(selecter);
+  if (shouldFail) {
+    expect(texts).toEqual(expect.not.stringMatching(new RegExp(checkString)));
+  } else {
+    expect(texts).toEqual(expect.stringMatching(new RegExp(checkString)));
+  }
+};
+
+export const TWaitVsible = async (
+  selecter: string,
+  visible: boolean = false
+) => {
+  await page.waitForSelector(selecter, { hidden: visible });
+};
+
+export const TExist = async (selecter: string, expectExsist: boolean) => {
+  const target = await page.$(selecter);
+  if (expectExsist) {
+    expect(target).not.toEqual(null);
+  } else {
+    expect(target).toEqual(null);
   }
 };
 

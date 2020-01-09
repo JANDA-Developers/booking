@@ -35,6 +35,7 @@ import { isEmpty, s4 } from "../../utils/utils";
 import ReadyItemTooltip from "../../pages/bookingHost/assig/components/tooltips/ReadyItemTooltip";
 import DayPickerModal from "../dayPickerModal/DayPickerModal";
 import { PortalPreloader } from "../../utils/portalElement";
+import { to4YMMDD } from "../../utils/setMidNight";
 
 export interface IDailyAssigContext extends IDailyAssigProp {
   confirmModalHook: IUseModal<any>;
@@ -172,7 +173,7 @@ const DailyAssig: React.FC<IProps> = ({
   }, [loading]);
 
   return (
-    <div className="dailyAssigWrap">
+    <div className={`dailyAssigWrap ${loading && "dailyAssigWrap--loading"}`}>
       <div className="dailyAssig__dayPicker--center">
         {calendarPosition === "center" && <DailyAssigDayPicker />}
       </div>
@@ -269,10 +270,12 @@ const DailyAssig: React.FC<IProps> = ({
           createBlockMu({
             variables: {
               bedIndex: infoJson.place,
-              checkIn: dayPickerHook.from,
-              checkOut: moment(dayPickerHook.to!)
-                .add(1, "day")
-                .toDate(),
+              checkIn: to4YMMDD(dayPickerHook.from),
+              checkOut: to4YMMDD(
+                moment(dayPickerHook.to!)
+                  .add(1, "day")
+                  .toDate()
+              ),
               houseId: house._id,
               roomId: infoJson.roomId
             }

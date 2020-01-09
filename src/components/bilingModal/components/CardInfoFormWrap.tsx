@@ -20,7 +20,6 @@ import { getOperationName } from "apollo-link";
 import { LANG } from "../../../hooks/hook";
 import { cardExprieGet } from "../../../utils/autoFormat";
 import { ICardModalTarget } from "../../../pages/bookingHost/myPage/components/cardModal.tsx/CardModal";
-import Preloader from "../../../atoms/preloader/Preloader";
 import { PortalPreloader } from "../../../utils/portalElement";
 
 export interface TCardViewInfo {

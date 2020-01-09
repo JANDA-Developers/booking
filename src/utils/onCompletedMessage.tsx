@@ -1,4 +1,6 @@
-import { toast, ToastOptions } from "react-toastify";
+import React from "react";
+import { toast } from "react-toastify";
+import ToastError from "../components/toasts/ErrorToast";
 
 // 한국어인지 검사한다 한국어검사
 export const isIncludeKr = (str: string | null): boolean => {
@@ -23,6 +25,7 @@ const onCompletedMessage = (
   if (!result) {
     return;
   }
+  console.log(result);
   const haveKr = isIncludeKr(result.error);
   if (result.ok) {
     toast.success(resultOK, {
@@ -37,11 +40,11 @@ const onCompletedMessage = (
   } else {
     console.error(`Error From BackEnd Message  : ${result.error}`);
     resultFale &&
-      toast.warn({
+      toast.warn(<ToastError />, {
         toastId: `${queryName}-error`
       });
     resultFale ||
-      toast.warn(result.error, {
+      toast.warn(<ToastError />, {
         toastId: `${queryName}-error`
       });
   }

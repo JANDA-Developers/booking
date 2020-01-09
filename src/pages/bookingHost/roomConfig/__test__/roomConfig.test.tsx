@@ -1,14 +1,12 @@
-import puppeteer from "puppeteer";
 import faker from "faker";
 import {
-  Ttype,
+  TType,
   Tselect,
   Tupload,
   takeShot,
   S,
   testReady,
-  TwaitClick,
-  TTextWait,
+  TWaitClick,
   TgetElement,
   TgetAttr
 } from "../../../../__test__/utils.test";
@@ -19,25 +17,23 @@ export const createRoomType = async (
   type: "Domitory" | "Room",
   count?: number
 ) => {
-  await TwaitClick("#AddRoomTypeBtn");
+  await TWaitClick("#AddRoomTypeBtn");
   await page.waitForSelector("#RoomTypeName");
   const roomTypeName = faker.random.word("fruit");
-  await Ttype("#RoomTypeName", roomTypeName);
-  await Tselect("#CapacitySelecter", count);
+  await TType("#RoomTypeName", roomTypeName);
+  await Tselect("#CapacitySelecter", count || 4);
 
   await Tupload("#RoomTypeImgUploader", "/devImg/RoomT1.jpg");
   await takeShot("pc", "roomTypeModal");
 
-  await Tselect("#CapacitySelecter", count);
   await Tselect("#RoomTypeGenderSelecter", faker.random.number(4));
   await Tselect(
     "#RoomTypeTypeSelecter",
     faker.random.number(type === "Domitory" ? 0 : 1)
   );
-  await Ttype("#RoomTypeDecs", faker.random.words(10));
-  await Ttype("#RoomTypeBasicPrice", faker.random.number(100000).toString());
+  await TType("#RoomTypeDecs", faker.random.words(10));
+  await TType("#RoomTypeBasicPrice", faker.random.number(100000).toString());
   await page.click("#DoCreateBtn");
-  await TTextWait(roomTypeName, ".TRoomTypeName");
 };
 
 const openRoomTypeUpdateBtn = async () => {
@@ -53,24 +49,24 @@ const openRoomTypeUpdateBtn = async () => {
 export const deleteRoomTypes = async () => {
   const roomTypeId = await openRoomTypeUpdateBtn();
   //   check it is deleted on Ui
-  await TwaitClick("#DoDeleteBtn");
+  await TWaitClick("#DoDeleteBtn");
   await page.waitFor(2000);
   expect(await page.$(`#RoomTypeCard${roomTypeId}`)).toBeFalsy();
 };
 
 export const updateRoomTypes = async () => {
   await openRoomTypeUpdateBtn();
-  await Ttype("#RoomTypeName", "updateRoomType");
-  await TwaitClick("#DoUpdateBtn");
+  await TType("#RoomTypeName", "updateRoomType");
+  await TWaitClick("#DoUpdateBtn");
   await page.waitFor(2000);
   // skip result check
 };
 
 export const createRoom = async (roomTypeIndex: number) => {
-  await TwaitClick(`#AddRoomBtn${roomTypeIndex}`);
+  await TWaitClick(`#AddRoomBtn${roomTypeIndex}`);
   const startRoomNumber = faker.random.number(100).toString();
   const counts = 10;
-  await Ttype("#RoomNameInput", startRoomNumber);
+  await TType("#RoomNameInput", startRoomNumber);
   await Tselect("#RoomCountSelect", counts);
   await page.click(`#RoomCreateBtn`);
   await page.waitFor(3000);

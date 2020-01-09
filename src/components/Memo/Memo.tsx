@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment } from "react";
+import React, { Fragment } from "react";
 import {
   createMemo,
   createMemoVariables,
@@ -16,14 +16,14 @@ import { isEmpty, s4 } from "../../utils/utils";
 import "./Memo.scss";
 import Preloader from "../../atoms/preloader/Preloader";
 import isLast from "../../utils/isLast";
-import JDToolTip, { ReactTooltip } from "../../atoms/tooltip/Tooltip";
+import JDToolTip from "../../atoms/tooltip/Tooltip";
 import { LANG, useModal } from "../../hooks/hook";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import Button from "../../atoms/button/Button";
 import { TabList, Tab, TabPanel } from "react-tabs";
 import { JDtabs } from "../../atoms/tabs/Tabs_";
 import GuestMemoBox from "./component/GuestMemoBox";
-import EditMemoModal from "./component/EditMemoModal";
+import EditMemoModal, { IEditMemoInfo } from "./component/EditMemoModal";
 import MemoTooltip from "./component/MemoTooltip";
 
 export interface IConfigMemo {
@@ -52,7 +52,7 @@ const Memo: React.FC<Iprops & IConfigMemo> = ({
   bookingData,
   context
 }) => {
-  const editMemoModalHook = useModal(false);
+  const editMemoModalHook = useModal<IEditMemoInfo>(false);
 
   const filteredMemos = (() => {
     if (showOnlyAlert) return memos.filter(memo => memo.enableAlert);
@@ -75,7 +75,12 @@ const Memo: React.FC<Iprops & IConfigMemo> = ({
   };
 
   const handleEditBtn = (id: string) => {
-    editMemoModalHook.openModal();
+    console.log("id");
+    console.log(id);
+    editMemoModalHook.openModal({
+      mode: "update",
+      memo: memos.find(m => m._id === id)
+    });
   };
 
   return (
@@ -94,7 +99,9 @@ const Memo: React.FC<Iprops & IConfigMemo> = ({
             <div className="JDtext-align-left">
               <Button
                 onClick={() => {
-                  editMemoModalHook.openModal();
+                  editMemoModalHook.openModal({
+                    mode: "create"
+                  });
                 }}
                 icon="edit"
                 thema="primary"
@@ -141,6 +148,7 @@ const Memo: React.FC<Iprops & IConfigMemo> = ({
         </TabPanel>
       </JDtabs>
       <EditMemoModal
+        key={`Edit${editMemoModalHook.isOpen ? "Y" : "N"}`}
         createMu={createMemoMu}
         updateMu={updateMemoMu}
         context={context}

@@ -1,13 +1,13 @@
 @import "~Styles";
 
 .RoomAssigedInfoTable {
-
+  max-height: 300px;
   position: relative;
   z-index: $z-index-4;
 
   &__id {
-      overflow-x: scroll;
-      @extend %JDscrollbar--slender; 
-      overflow-y: hidden;
+    overflow-x: scroll;
+    @extend %JDscrollbar--slender;
+    overflow-y: hidden;
   }
 }

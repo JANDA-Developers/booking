@@ -24,9 +24,9 @@ export const kr = {
   HM_set: "하우스 메뉴얼 설정",
   HM_title: "하우스 메뉴얼 타이틀",
   HOST: "호스트",
-  Headcount: "안원수",
+  Headcount: "인원수",
   JANDA_provide_free_homepage_for_guest:
-    "잔다 고객분들에게 무료 홈페이지를 제공합니다.",
+    "잔다 고객분 들에게 무료 홈페이지를 제공합니다.",
   JAPANESE: "일본어",
   KOREAN: "한국어",
   MALE: "남",
@@ -134,7 +134,7 @@ export const kr = {
   checkIn: "체크인",
   checkOut: "체크아웃",
   check_location_with_google_map: "구글맵으로 위치 확인하기",
-  check_net_status: "네트워크 연결상태를 확인해주세요!",
+  check_net_status: "인터넷 연결을 확인해주세요.",
   check_our_samples: "샘플들을 살펴보세요.",
   check_password: "비밀번호 확인",
   check_selection: "선택 확인",
@@ -163,7 +163,7 @@ export const kr = {
   create_a_new_template: "새로운 양식을 생성하세요.",
   create_booking: "예약생성",
   create_house: "숙소생성",
-  create_house_completed: "숙소생성완료",
+  create_house_completed: "숙소생성",
   create_memo_completed: "메모 생성완료",
   create_memo_fail: "메모 생성실패",
   create_new_memo: "새로운 메모 쓰기",
@@ -1057,5 +1057,22 @@ export const kr = {
   },
   please_select_room_gender: "방성별을 선택 해주세요.",
   please_select_room_type: "방타입을 선택 해주세요.",
-  please_input_max_people_count: "최대인원수를 입력 해주세요."
+  please_input_max_people_count: "최대인원수를 입력 해주세요.",
+  room_assig_info: "방/배정 정보",
+  else: "기타",
+  check_init: "생성확인",
+  timeline_config: "타임라인설정",
+  mypage_desc:
+    "정기결제에 대한 관리 및 생성한 숙소와 유저 프로필을 확인할 수 있습니다.",
+  room_config_desc:
+    "숙소를 운영하는데 필요한 방타입 및 방을 생성 및 수정하세요.",
+  HouseStatus: {
+    DISALBE: "중지",
+    WAIT: "대기",
+    ENABLE: "사용가능"
+  },
+  update_user_info_complete: "슈퍼 관리자 업데이트 완료",
+  update_user_info_fail: "슈퍼 관리자 업데이트 실패",
+  server_dose_not_respond: "서버가 응답하지 않습니다.",
+  network_connected: "네트워크에 연결되었습니다."
 };

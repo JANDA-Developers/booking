@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import moment from "moment-timezone";
 import _ from "lodash";
 import assigDefaultProps from "./timelineConfig";
@@ -53,12 +53,6 @@ import { blockDataManufacturer } from "./helper/blockDataManufacturer";
 import { IContext } from "../BookingHostRouter";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import client from "../../../apollo/apolloClient";
-import {
-  ASSIG_BASIC_CONFIG_STORAGE_NAME,
-  ASSIG_BASIC_DEFAULT_CONFIG,
-  IAssigBaseConfig
-} from "./components/AssigTimelineConfigModal/components/BasicConfig";
-import getConfigStorage from "./helper/getStorage";
 
 moment.tz.setDefault("UTC");
 
@@ -71,24 +65,18 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
   windowHeight,
   windowWidth
 }) => {
-  const { houseConfig, house } = context;
+  const { houseConfig, house, langHook } = context;
   const dayPickerHook = useDayPicker(new Date(), new Date());
   const [reloadKey, setReloadKey] = useState(s4());
-  const defaultStartDate = dayPickerHook.from
-    ? dayPickerHook.from
-    : moment()
-        .local()
-        .toDate();
-
-  const defaultEndDate = dayPickerHook.from
-    ? moment(dayPickerHook.from)
-        .local()
-        .add(14, "days")
-        .toDate()
-    : moment()
-        .local()
-        .add(14, "days")
-        .toDate();
+  const defaultStartDate =
+    dayPickerHook.from ||
+    moment()
+      .local()
+      .toDate();
+  const defaultEndDate = moment(dayPickerHook.from || new Date())
+    .local()
+    .add(14, "days")
+    .toDate();
 
   const [dataTime, setDataTime] = useState({
     start: setMidNight(
@@ -113,7 +101,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
     checkOut: to4YMMDD(moment(dataTime.end))
   };
 
-  moment.tz.setDefault("UTC");
+  moment.lang(langHook.currentLang);
 
   const {
     data,
@@ -144,6 +132,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
   const guestsData = queryDataFormater(data, "GetGuests", "guests", []) || [];
   const blocks = queryDataFormater(data, "GetBlocks", "blocks", []) || [];
   const formatedRoomData = roomDataManufacturer(roomTypesData); // 타임라인을 위해 가공된 데이터
+
   const formatedGuestsData = guestsDataManufacturer(guestsData); // 타임라인을 위해 가공된 데이터
   const formatedBlockData = blockDataManufacturer(blocks); // 타임라인을 위해 가공된 데이터
   const formatedItemData = formatedGuestsData

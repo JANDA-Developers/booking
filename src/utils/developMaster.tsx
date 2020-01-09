@@ -1,6 +1,7 @@
 import $ from "jquery";
-import {getCookie} from "./cookies";
-import {IReservationHooks} from "../pages/outPages/reservation/Reservation";
+import { getCookie } from "./cookies";
+import { IReservationHooks } from "../pages/outPages/reservation/Reservation";
+import { ElementHandle, JSHandle } from "puppeteer";
 
 export const isDeveloper = () => {
   return getCookie("isDeveloper") === "Y";
@@ -14,6 +15,28 @@ export const developEvent = (developEvent: any) => {
   }
 };
 
+async function filter(arr: any, callback: any): Promise<any> {
+  const fail = Symbol();
+  return (
+    await Promise.all(
+      arr.map(async (item: any) => ((await callback(item)) ? item : fail))
+    )
+  ).filter(i => i !== fail);
+}
+
+export const TFilterByProperty = async (
+  targets: ElementHandle<Element>[],
+  property: string,
+  filterFn: (property: any) => Promise<boolean>
+): Promise<ElementHandle<Element>[]> => {
+  return await filter(targets, async (t: ElementHandle<Element>) => {
+    const bool = await filterFn(
+      (await (await t.getProperty(property)).jsonValue()) as any
+    );
+    return bool;
+  });
+};
+
 export const reservationDevelop = (reservationHooks: IReservationHooks) => {
   const target = $(".DayPicker-Day").not(".DayPicker-Day--disabled");
   if (target.length > 2) {
@@ -21,7 +44,7 @@ export const reservationDevelop = (reservationHooks: IReservationHooks) => {
     target[1].click();
   }
 
-  const {setBookerInfo} = reservationHooks;
+  const { setBookerInfo } = reservationHooks;
   setTimeout(() => {
     $(".roomTypeCard__selectButton")[0].click();
     setBookerInfo({

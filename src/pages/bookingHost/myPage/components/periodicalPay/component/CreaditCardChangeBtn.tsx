@@ -3,10 +3,7 @@ import {
   updateProductBillInfoVariables,
   updateProductBillInfo
 } from "../../../../../../types/api";
-import {
-  UPDATE_PRODUCT_BILL_PAY_STATUS,
-  UPDATE_PRODUCT_BILL_INFO
-} from "../../../../../../apollo/queries";
+import { UPDATE_PRODUCT_BILL_INFO } from "../../../../../../apollo/queries";
 import { onCompletedMessage } from "../../../../../../utils/utils";
 import { LANG, IUseModal } from "../../../../../../hooks/hook";
 import Button from "../../../../../../atoms/button/Button";
@@ -53,11 +50,11 @@ const CreaditCardChangeBtn: React.FC<Iprops> = ({
         // 2. 카드 등록은 했지만 결제등록이 안된경우
         cardModalHook.openModal({
           currentHouseInfo,
-          selectCallBack: billKey => {
+          selectCallBack: biinInfo => {
             updateProductBillInfoMu({
               variables: {
                 param: {
-                  billKey,
+                  billKey: biinInfo.billKey,
                   productIds: [currentHouseInfo.product!._id]
                 }
               }

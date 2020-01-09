@@ -1,24 +1,22 @@
-import puppeteer from "puppeteer";
 import faker from "faker";
 import {
-  Ttype,
+  TType,
   Tselect,
   takeShot,
-  expectOkFromGraphql,
-  S
 } from "../../../../__test__/utils.test";
 
-export const makeHouse = async () => {
+export const makeHouse = async (inStart: boolean) => {
   await page.waitForSelector("#HouseName");
-  await Ttype("#HouseName", faker.name.jobType());
+  await TType("#HouseName", faker.name.jobType());
   await Tselect("#HouseType");
-  await Ttype("#Adress", "창원시");
-  await Ttype("#AdressDetail", faker.address.city());
+  await TType("#Adress", "창원시");
+  await TType("#AdressDetail", faker.address.city());
   await takeShot("pc", "makeHouse");
-  await page.waitFor(3 * S);
-  // page.clickAdressDetail.test__googleMapWrap;
-  await page.click("#CreateHouseSubmitBtn");
-  await expectOkFromGraphql();
+  if (inStart) {
+    await page.click("#NextBtnToRoomConfig");
+  } else {
+    await page.click("#CreateHouseSubmitBtn");
+  }
 };
 
-test.skip("", () => { });
+test.skip("skip !", () => { });

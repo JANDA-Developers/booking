@@ -87,7 +87,7 @@ const JDproductCard: React.FC<IProps> = ({
         <div>
           {slider && (
             <Button
-              mode="border"
+              mode="flat"
               thema="point"
               onClick={handleProductSelect}
               label={LANG("choose_product")}

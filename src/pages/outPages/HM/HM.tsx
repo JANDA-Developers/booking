@@ -8,18 +8,13 @@ import { Language } from "../../../types/enum";
 import { useModal, LANG } from "../../../hooks/hook";
 import { Fragment } from "react";
 import "./HM.scss";
-import {
-  getHM_GetHM_HM_location,
-  getHM_GetHM_HM_menus
-} from "../../../types/api";
+import { getHM_GetHM_HM_location } from "../../../types/api";
 import HMmenu from "./component/HMmenu";
-
 import Preloader from "../../../atoms/preloader/Preloader";
 import { JdFile } from "../../../types/interface";
 import LangViewModal from "../../bookingHost/HMconfig/component/LangViewModal";
 import { IMenusprops } from "../../bookingHost/HMconfig/component/Menus";
 import JDmenuTitle from "../../../atoms/menu/components/MenuTitle";
-import { IMG_REPO } from "../../../types/const";
 
 interface IProps extends IMenusprops {
   bgData?: JdFile | null;

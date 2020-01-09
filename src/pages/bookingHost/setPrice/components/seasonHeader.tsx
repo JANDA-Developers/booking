@@ -27,8 +27,8 @@ import {
 } from "../../../../types/api";
 import { MutationFn } from "react-apollo";
 import { targetBlinkFuture } from "../../../../utils/targetBlink";
-import { to4YMMDD } from "../../../../utils/setMidNight";
 import UpdateSeasonModal from "./updateSeasnModal";
+import JDbox from "../../../../atoms/box/JDbox";
 
 interface IProps {
   season: ISeason;
@@ -68,6 +68,7 @@ const SeasonHeader: React.FC<IProps> = ({
   });
 
   const handleDeleteSeason = () => {
+    console.log("occured");
     deleteSeasonMu({
       variables: {
         houseId,
@@ -91,17 +92,6 @@ const SeasonHeader: React.FC<IProps> = ({
 
   const Menue = () => (
     <Fragment>
-      <div
-        data-tip
-        data-delay-hide={0}
-        data-for={`seasonMenu${season._id}`}
-        data-event="click"
-        data-place="top"
-      >
-        <CircleIcon>
-          <JDIcon icon="dotMenuVertical" />
-        </CircleIcon>
-      </div>
       <TooltipList id={`seasonMenu${season._id}`}>
         <ul className="tooltipList__ul">
           <li>
@@ -113,7 +103,13 @@ const SeasonHeader: React.FC<IProps> = ({
             />
           </li>
           <li>
-            <Button onClick={handleDeleteSeason} label={LANG("do_delete")} />
+            <Button
+              onClick={() => {
+                console.log("?");
+                handleDeleteSeason();
+              }}
+              label={LANG("do_delete")}
+            />
           </li>
           <li>
             <Button
@@ -155,18 +151,26 @@ const SeasonHeader: React.FC<IProps> = ({
   // ⭐️⭐️⭐️
   return (
     <div id={`seasonHeader${season._id}`} className="seasonHeader">
-      <div className="seasonHeader__wrap">
-        <InputText
-          defaultValue={season.name}
-          readOnly
-          className="JDmargin-bottom0--wmdUp"
-        />
-        <Menue />
+      <div
+        className="seasonHeader__wrap"
+        data-tip
+        data-delay-hide={0}
+        data-for={`seasonMenu${season._id}`}
+        data-event="click"
+        data-place="top"
+      >
+        <JDbox mr="no" clickable>
+          {season.name}
+        </JDbox>
       </div>
+      <Menue />
       <div>
         <InputText
+          style={{
+            width: "100%"
+          }}
           readOnly
-          wrapClassName="JDmargin-bottom0"
+          mb="no"
           value={`${moment(dayPickerHook.from || "").format(
             "MM/DD"
           )} ~ ${moment(dayPickerHook.to || "").format("MM/DD")}`}

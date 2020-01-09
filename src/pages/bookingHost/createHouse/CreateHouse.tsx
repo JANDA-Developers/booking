@@ -1,8 +1,7 @@
 import { toast } from "react-toastify";
 /* eslint-disable max-len */
 import React, { useState, useEffect, useRef } from "react";
-import { Mutation } from "react-apollo";
-import { GoogleApiWrapper, ProvidedProps } from "google-maps-react";
+import { ProvidedProps, GoogleApiWrapper } from "google-maps-react";
 import { reverseGeoCode, geoCode } from "./mapHelper";
 import {
   useInput,
@@ -11,45 +10,75 @@ import {
   useDebounce,
   LANG
 } from "../../../hooks/hook";
-import { SELECT_HOUSE } from "../../../apollo/clientQueries";
-import { CREATE_HOUSE, GET_USER_INFO } from "../../../apollo/queries";
-import utils, { ErrProtecter } from "../../../utils/utils";
+import utils from "../../../utils/utils";
 import GoogleMap from "./components/googleMap";
 import InputText from "../../../atoms/forms/inputText/InputText";
 import SelectBox from "../../../atoms/forms/selectBox/SelectBox";
 import Button from "../../../atoms/button/Button";
 import SearchInput from "../../../atoms/searchInput/SearchInput";
 import "./CreateHouse.scss";
-import { createHouse, createHouseVariables } from "../../../types/api";
 import Preloader from "../../../atoms/preloader/Preloader";
-import { getOperationName } from "apollo-link";
-import { FLOATING_PRELOADER_SIZE } from "../../../types/const";
+import { FLOATING_PRELOADER_SIZE, HOUSE_TYPE_OP } from "../../../types/const";
 import { IContext } from "../../bookingHost/BookingHostRouter";
 import PreloaderModal from "../../../atoms/preloaderModal/PreloaderModal";
-import { Redirect } from "react-router-dom";
+import { initHouseVariables, HouseType } from "../../../types/api";
+import { TRef } from "../../../types/interface";
+import EerrorProtect from "../../../utils/errProtect";
+import optionFineder from "../../../utils/optionFinder";
 
 let map: google.maps.Map | null = null;
 
+type TLocation = {
+  addressDetail: string;
+  address: string;
+  lat: number;
+  lng: number;
+};
+
+type houseData = {
+  name: string;
+  houseType: HouseType;
+  location: TLocation;
+};
+
 interface IProps extends ProvidedProps {
   context: IContext;
+  houseData?: houseData;
+  muLoading?: boolean;
+  onSubmit: (variables: initHouseVariables) => void;
+  submitRef?: TRef;
 }
 
-class SelectHouseMu extends Mutation<any, any> {}
-
-class CreateHouseMu extends Mutation<createHouse, createHouseVariables> {}
-
 // eslint-disable-next-line react/prop-types
-const CreateHouse: React.FC<IProps> = ({ context, google }) => {
-  const houseNameHoook = useInput("");
-  const deatailaddressHook = useInput("");
-  const typeSelectHook = useSelect(null);
-  const [location, setLocation] = useState({ address: "", lat: 0, lng: 0 });
-  const debouncedAdress = useDebounce(location.address, 500);
-  const addressGeturl = `http://www.juso.go.kr/addrlink/addrLinkApi.do?currentPage=1&resultType=json&countPerPage=100&keyword=${debouncedAdress}&confmKey=${process.env.REACT_APP_API_ADDRESS_API_KEY}`;
+const CreateHouse: React.FC<IProps> = ({
+  context,
+  google,
+  houseData,
+  onSubmit,
+  submitRef,
+  muLoading
+}) => {
+  const defaultData = {
+    name: "",
+    houseType: null,
+    location: {
+      addressDetail: "",
+      address: "",
+      lat: 0,
+      lng: 0
+    }
+  };
+
+  const { name, houseType, location: defaultLocation } =
+    houseData || defaultData;
+  const houseNameHoook = useInput(name);
+  const typeSelectHook = useSelect(optionFineder(HOUSE_TYPE_OP, houseType));
+  const [location, setLocation] = useState(defaultLocation);
+  const debouncedAdress = useDebounce(location.address, 100);
+  const addressGeturl = `http://www.juso.go.kr/addrlink/addrLinkApi.do?currentPag<e=1&resultType=json&countPerPage=100&keyword=${debouncedAdress}&confmKey=${process.env.REACT_APP_API_ADDRESS_API_KEY}`;
   const [adressData, adressLoading, getAdressError, adressGet] = useFetch(
     addressGeturl
   );
-  const [redirect, setRedirect] = useState("");
   const mapRef = useRef(null);
 
   if (getAdressError) console.error(getAdressError);
@@ -60,7 +89,7 @@ const CreateHouse: React.FC<IProps> = ({ context, google }) => {
       return false;
     }
 
-    if (houseNameHoook.isValid === "") {
+    if (!houseNameHoook.value) {
       toast.warn(LANG("please_enter_the_name_of_the_house"));
       return false;
     }
@@ -70,7 +99,7 @@ const CreateHouse: React.FC<IProps> = ({ context, google }) => {
       return false;
     }
 
-    if (typeSelectHook.selectedOption === null) {
+    if (!typeSelectHook.selectedOption?.value) {
       toast.warn(LANG("please_select_the_accommodation_type"));
       return false;
     }
@@ -101,7 +130,7 @@ const CreateHouse: React.FC<IProps> = ({ context, google }) => {
     const lng = newCenter.lng();
     const reversedAddress = await reverseGeoCode(lat, lng);
     if (reversedAddress !== false)
-      setLocation({ address: reversedAddress, lat, lng });
+      setLocation({ ...location, address: reversedAddress, lat, lng });
   };
 
   // Map Config 그리고 생성
@@ -138,6 +167,7 @@ const CreateHouse: React.FC<IProps> = ({ context, google }) => {
     if (result !== false) {
       const { lat, lng } = result;
       setLocation({
+        ...location,
         address: value,
         lat,
         lng
@@ -172,16 +202,17 @@ const CreateHouse: React.FC<IProps> = ({ context, google }) => {
   // 구글맵 첫 생성 (현재위치)
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
-      async location => {
-        handleGeoSucces(location);
+      async inlocation => {
+        handleGeoSucces(inlocation);
         const {
           coords: { latitude: lat, longitude: lng }
-        } = location;
+        } = inlocation;
         if (map) {
           map.panTo({ lat: lat || 35.1484595, lng: lng || 129.0632157 });
         }
         const address = await reverseGeoCode(lat, lng);
         setLocation({
+          ...location,
           lat,
           lng,
           address
@@ -193,143 +224,95 @@ const CreateHouse: React.FC<IProps> = ({ context, google }) => {
     );
   }, []);
 
-  if (redirect) {
-    return <Redirect to={redirect} />;
-  }
+  const createHouseSubmit = () => {
+    if (submitValidation()) {
+      onSubmit({
+        param: {
+          createHouseInput: {
+            name: houseNameHoook.value,
+            houseType: typeSelectHook.selectedOption!.value,
+            location
+          },
+          createRoomTypesInput: []
+        }
+      });
+    }
+  };
 
   return (
     <div id="createHomePage" className="container container--sm">
       <div className="docs-section">
-        {/* 하우스 선택 */}
-        <SelectHouseMu
-          mutation={SELECT_HOUSE}
-          refetchQueries={[getOperationName(GET_USER_INFO)!]}
-          awaitRefetchQueries
-          onCompleted={() => {
-            setRedirect("dashboard");
-          }}
-        >
-          {selectHouseMutation => (
-            // Mutation : 숙소생성
-            <CreateHouseMu
-              mutation={CREATE_HOUSE}
-              variables={{
-                name: houseNameHoook.value,
-                houseType:
-                  typeSelectHook.selectedOption?.value || "GUEST_HOUSE",
-                location: {
-                  address: location.address,
-                  addressDetail: deatailaddressHook.value,
-                  lat: location.lat,
-                  lng: location.lng
-                }
+        <PreloaderModal loading={muLoading} />
+        <div className="flex-grid">
+          {/* 숙소명 입력 */}
+          <div className="flex-grid__col col--full-12 col--md-12">
+            <InputText
+              id="HouseName"
+              {...houseNameHoook}
+              validation={utils.isMaxOver}
+              max={20}
+              placeholder={LANG("houseName")}
+              label={LANG("houseName")}
+            />
+          </div>
+          {/* 숙소 타입 선택 */}
+          <div className="flex-grid__col col--full-12 col--md-12">
+            <SelectBox
+              id="HouseType"
+              {...typeSelectHook}
+              options={selectTypeHouse}
+              isOpen
+              label={LANG("select_house_type")}
+            />
+          </div>
+          <div className="flex-grid__col col--full-8 col--md-12">
+            <SearchInput
+              id="Adress"
+              maxCount={10}
+              filter={false}
+              feedBackMessage={adressData.results?.common.errorMessage || ""}
+              dataList={adressData.results && adressData.results.juso}
+              label={LANG("house_adress")}
+              asId="bdMgtSn"
+              asName="roadAddr"
+              asDetail="jibunAddr"
+              isLoading={adressLoading}
+              onFindOne={handleOnFind}
+              onTypeChange={onTypeChange}
+              onTypeValue={location.address}
+            />
+          </div>
+          <div className="flex-grid__col col--full-4 col--md-12">
+            <InputText
+              onChange={v => {
+                setLocation({ ...location, addressDetail: v });
               }}
-              refetchQueries={[{ query: GET_USER_INFO }]}
-              awaitRefetchQueries
-              onCompleted={({ CreateHouse }) => {
-                if (CreateHouse.ok && CreateHouse.house) {
-                  toast.success(LANG("create_house_completed"));
-                  const variables = {
-                    value: CreateHouse.house._id,
-                    label: CreateHouse.house.name
-                  };
-                  selectHouseMutation({
-                    variables: { selectedHouse: variables }
-                  });
-                }
-              }}
-            >
-              {(createHouseMutation, { loading: createHouseMuLoading }) => {
-                // 숙소생성 서브밋
-                const createHouseSubmit = (
-                  e: React.FormEvent<HTMLFormElement>
-                ) => {
-                  if (createHouseMuLoading) return;
-                  e.preventDefault();
-                  if (submitValidation()) createHouseMutation();
-                };
-                return (
-                  <form onSubmit={createHouseSubmit}>
-                    <PreloaderModal loading={createHouseMuLoading} />
-                    <h3>{LANG("create_house")}</h3>
-                    <div className="flex-grid docs-section__box">
-                      {/* 숙소명 입력 */}
-                      <div className="flex-grid__col col--full-12 col--md-12">
-                        <InputText
-                          id="HouseName"
-                          {...houseNameHoook}
-                          validation={utils.isMaxOver}
-                          max={20}
-                          placeholder={LANG("houseName")}
-                          label={LANG("houseName")}
-                        />
-                      </div>
-                      {/* 숙소 타입 선택 */}
-                      <div className="flex-grid__col col--full-12 col--md-12">
-                        <SelectBox
-                          id="HouseType"
-                          {...typeSelectHook}
-                          options={selectTypeHouse}
-                          isOpen
-                          label={LANG("select_house_type")}
-                        />
-                      </div>
-                      <div className="flex-grid__col col--full-8 col--md-12">
-                        <SearchInput
-                          id="Adress"
-                          maxCount={10}
-                          filter={false}
-                          feedBackMessage={
-                            adressData.results
-                              ? adressData.results.common.errorMessage
-                              : ""
-                          }
-                          dataList={
-                            adressData.results && adressData.results.juso
-                          }
-                          label={LANG("house_adress")}
-                          asId="bdMgtSn"
-                          asName="roadAddr"
-                          asDetail="jibunAddr"
-                          isLoading={adressLoading}
-                          onFindOne={handleOnFind}
-                          onTypeChange={onTypeChange}
-                          onTypeValue={location.address}
-                        />
-                      </div>
-                      <div className="flex-grid__col col--full-4 col--md-12">
-                        <InputText
-                          id="AdressDetail"
-                          {...deatailaddressHook}
-                          validation={utils.isMaxOver}
-                          max={50}
-                          placeholder={LANG("detail_adress")}
-                          label={LANG("detail_adress")}
-                        />
-                      </div>
-                      <div className="test__googleMapWrap createHomePage__map flex-grid__col col--full-12 col--md-12">
-                        <GoogleMap mapRef={mapRef} />
-                      </div>
-                      <Button
-                        id="CreateHouseSubmitBtn"
-                        type="submit"
-                        thema="primary"
-                        label={LANG("create_house_completed")}
-                        mode="normal"
-                      />
-                    </div>
-                  </form>
-                );
-              }}
-            </CreateHouseMu>
-          )}
-        </SelectHouseMu>
+              value={location.addressDetail}
+              id="AdressDetail"
+              validation={utils.isMaxOver}
+              max={50}
+              placeholder={LANG("detail_adress")}
+              label={LANG("detail_adress")}
+            />
+          </div>
+          <div className="test__googleMapWrap createHomePage__map flex-grid__col col--full-12 col--md-12">
+            <GoogleMap mapRef={mapRef} />
+          </div>
+          <Button
+            refContainer={submitRef}
+            id="CreateHouseSubmitBtn"
+            thema="primary"
+            label={LANG("create_house")}
+            mode="normal"
+            onClick={createHouseSubmit}
+          />
+        </div>
       </div>
     </div>
   );
 };
 
-export default ErrProtecter(
+export default EerrorProtect<IProps>(
   // @ts-ignore
   GoogleApiWrapper({
     apiKey: "AIzaSyCLG8qPORYv6HJIDSgXpLqYDDzIKgSs6FY",

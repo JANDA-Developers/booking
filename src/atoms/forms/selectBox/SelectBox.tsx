@@ -1,11 +1,11 @@
 import React from "react";
 import Select from "react-select";
 import "./SelectBox.scss";
-import PropTypes from "prop-types";
 import classNames from "classnames";
 import { SelectComponentsProps } from "react-select/lib/Select";
-import { isEmpty } from "../../../utils/utils";
 import { LANG } from "../../../hooks/hook";
+import { JDatomExtentionSet } from "../../../types/interface";
+import { JDmbClass, JDmrClass } from "../../../utils/autoClasses";
 
 export interface IselectedOption<T = any> {
   label: string;
@@ -42,7 +42,7 @@ interface Iprops extends SelectComponentsProps {
   menuItemCenterlize?: boolean;
 }
 
-const JDselectTemp: React.SFC<Iprops> = ({
+const JDselectTemp: React.SFC<Iprops & JDatomExtentionSet> = ({
   label,
   disabled,
   selectedOption,
@@ -63,6 +63,8 @@ const JDselectTemp: React.SFC<Iprops> = ({
   displayArrow,
   borderColor,
   autoSize,
+  mb,
+  mr,
   // eslint-disable-next-line no-unused-vars
   ...props
 }) => {
@@ -86,7 +88,9 @@ const JDselectTemp: React.SFC<Iprops> = ({
     "JDselect--textOverflowVisible": textOverflow === "visible",
     "JDselect--menuCanOverflow": menuCanOverflow,
     "JDselect--autoSize": autoSize,
-    "JDselect--menuItem-centerlize": menuItemCenterlize
+    "JDselect--menuItem-centerlize": menuItemCenterlize,
+    ...JDmbClass(mb),
+    ...JDmrClass(mr)
   });
 
   const selectStyle: any = {

@@ -15,25 +15,30 @@ import {
 import { IContext } from "../../../pages/bookingHost/BookingHostRouter";
 import { MemoType } from "../../../types/enum";
 
+export interface IEditMemoInfo {
+  memo?: getMemos_GetMemos_memos;
+  mode: "update" | "create";
+}
+
 interface Iprops {
   context: IContext;
-  modalHook: IUseModal;
+  modalHook: IUseModal<IEditMemoInfo>;
   createMu: MutationFn<createMemo, createMemoVariables>;
   updateMu: MutationFn<updateMemo, updateMemoVariables>;
-  memo?: getMemos_GetMemos_memos;
 }
 
 const EditMemoModal: React.FC<Iprops> = ({
   modalHook,
   createMu,
   updateMu,
-  memo,
   context
 }) => {
+  const { memo, mode } = modalHook.info;
+  const isCreateMode = mode === "create";
   const { house } = context;
-  const textHook = useInput("");
+  const textHook = useInput(memo?.text || "");
 
-  const handleCreateBtn = () => {
+  const handleSubmitBtn = () => {
     createMu({
       variables: {
         houseId: house._id,
@@ -56,7 +61,7 @@ const EditMemoModal: React.FC<Iprops> = ({
           updateMemoParams: {
             enableAlert: memo.enableAlert,
             memoType: memo.memoType,
-            text: memo.text,
+            text: textHook.value,
             title: memo.title
           }
         }
@@ -82,23 +87,19 @@ const EditMemoModal: React.FC<Iprops> = ({
       <div className="JDmodal__endSection">
         <Button
           onClick={() => {
-            handleCreateBtn();
+            isCreateMode ? handleSubmitBtn() : handleUpdateBtn();
           }}
           mode="flat"
           thema="primary"
-          label={LANG("create")}
-        />
-        <Button
-          onClick={() => {
-            handleUpdateBtn();
-          }}
-          mode="flat"
-          thema="grey"
-          label={LANG("update")}
+          label={isCreateMode ? LANG("create") : LANG("update")}
         />
       </div>
     </JDmodal>
   );
 };
 
-export default EditMemoModal;
+export default React.memo(
+  EditMemoModal,
+  (prevProp, nextProp) =>
+    prevProp.modalHook.isOpen === nextProp.modalHook.isOpen
+);

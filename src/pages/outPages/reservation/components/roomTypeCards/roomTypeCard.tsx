@@ -1,11 +1,10 @@
 import classNames from "classnames";
-import React, { Fragment, useState, useEffect, useMemo } from "react";
+import React, { Fragment, useState, useMemo } from "react";
 import JDselect, {
   IselectedOption
 } from "../../../../../atoms/forms/selectBox/SelectBox";
 import Button from "../../../../../atoms/button/Button";
 import { IRoomType } from "../../../../../types/interface";
-import Preloader from "../../../../../atoms/preloader/Preloader";
 import { isEmpty, autoComma } from "../../../../../utils/utils";
 import { useModal, LANG } from "../../../../../hooks/hook";
 import { Gender, PricingType, RoomGender } from "../../../../../types/enum";
@@ -26,7 +25,6 @@ interface IProps {
   guestCountValue: IGuestCount;
   truePrice: number;
   countLoading: boolean;
-  priceLoading: boolean;
   lastCard: boolean;
   availableCount: {
     maleCount: number;
@@ -38,7 +36,6 @@ interface IProps {
 const RoomTypeCard: React.SFC<IProps> = ({
   className,
   roomTypeData,
-  priceLoading,
   windowWidth,
   setGuestCount,
   guestCountValue,
@@ -147,14 +144,12 @@ const RoomTypeCard: React.SFC<IProps> = ({
       male: flag === Gender.MALE ? selectedValue : guestCountValue.male,
       female: flag === Gender.FEMALE ? selectedValue : guestCountValue.female,
       room: flag === "room" ? selectedValue : guestCountValue.room,
-      get: flag !== "room" ? flag : Gender.FEMALE
+      initGender: flag !== "room" ? flag : Gender.FEMALE
     });
   };
 
   // 방선택하기 클릭시
   const handleRoomSelectClick = () => {
-
-
     console.log("roomSelectInfo");
     console.log(roomSelectInfo);
 
@@ -180,7 +175,6 @@ const RoomTypeCard: React.SFC<IProps> = ({
       return;
     }
 
-
     console.log("guestCountValue");
     console.log(guestCountValue);
 
@@ -198,7 +192,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
 
     console.log("roomSelectInfoCopy");
     console.log(roomSelectInfoCopy);
-    
+
     setRoomSelectInfo(roomSelectInfoCopy);
     setDisabled({ female: true, male: true, count: true });
     priceHook.onChange(priceHook.value + totalRoomTypePrice);
@@ -237,7 +231,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
                 {roomTypeData.roomGender === RoomGender.FEMALE || (
                   <JDselect
                     menuItemCenterlize
-                    borderColor="primary"
+                    bporderColor="primary"
                     options={maleSeleteOption}
                     autoSize
                     onChange={selectedOp =>
@@ -285,13 +279,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
         </div>
         <div className="flex-grid__col col--grow-1 roomTypeCard__lastSection">
           <div className="roomTypeCard__lastTopSection">
-            {priceLoading ? (
-              <Preloader loading />
-            ) : (
-              <span className="roomTypeCard__price">
-                {autoComma(truePrice)}
-              </span>
-            )}
+            <span className="roomTypeCard__price">{autoComma(truePrice)}</span>
           </div>
           <Button
             onClick={handleRoomSelectClick}
@@ -305,7 +293,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
       <JDmodal className="roomImgPop" {...roomImgModalHook}>
         <img
           className="roomImgPop__img"
-          src={roomTypeData.img ? roomTypeData.img.url : ""}
+          src={roomTypeData.img?.url || ""}
           alt="방 이미지"
         />
         <div className="roomImgPop__description">

@@ -4,7 +4,7 @@ const resolvers = {
     lastSelectedHouse: () => {
       const result = {
         __typename: "House",
-        value: localStorage.getItem("selectId"),
+        value: localStorage.getItem("selectHouseId"),
         label: localStorage.getItem("selectHouseLabel")
       };
 
@@ -57,7 +57,7 @@ const resolvers = {
             }
           }
         });
-        localStorage.setItem("selectId", args.selectedHouse.value);
+        localStorage.setItem("selectHouseId", args.selectedHouse.value);
         localStorage.setItem("selectHouseLabel", args.selectedHouse.label);
         return {
           __typename: "House",

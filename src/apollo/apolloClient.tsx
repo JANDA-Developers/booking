@@ -9,7 +9,6 @@ import ToastError from "../components/toasts/ErrorToast";
 import { JDlang } from "../langs/JDlang";
 import { CURRENT_LANG } from "../hooks/hook";
 import { Observable, ApolloLink } from "apollo-link";
-// DEFRECATEDDDDD
 import { onError, ErrorResponse } from "apollo-link-error";
 import { createUploadLink } from "apollo-upload-client";
 
@@ -57,7 +56,7 @@ const hanldeError = ({ graphQLErrors, networkError }: ErrorResponse) => {
   } else if (networkError) {
     console.error(networkError);
     console.error(`[Network error]: ${networkError}`);
-    toast.warn(JDlang(CURRENT_LANG, "check_net_status"));
+    toast.warn(JDlang(CURRENT_LANG, "server_dose_not_respond"));
   }
 };
 

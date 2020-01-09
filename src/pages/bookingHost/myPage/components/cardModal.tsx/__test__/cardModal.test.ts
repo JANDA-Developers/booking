@@ -1,10 +1,9 @@
-import puppeteer from "puppeteer";
 import {
   testReady,
   S,
   urlBase,
   takeShot,
-  Ttype,
+  TType,
   toastCheck
 } from "../../../../../../__test__/utils.test";
 
@@ -16,6 +15,7 @@ export const cardModalTest = () => {
     beforeAll(async () => {
       await testReady(
         `${urlBase}/#/myPage`,
+        {}
       );
     }, 20 * S);
 
@@ -34,10 +34,10 @@ export const cardModalTest = () => {
     test(
       "Card Regist Complete",
       async () => {
-        await Ttype("#CardModal__CardNumber", "4619541019492956");
-        await Ttype("#CardModal__ExpireDate", "0824");
-        await Ttype("#CardModal__CardPW", "41");
-        await Ttype("#CardModal__IdNum", "950901");
+        await TType("#CardModal__CardNumber", "4619541019492956");
+        await TType("#CardModal__ExpireDate", "0824");
+        await TType("#CardModal__CardPW", "41");
+        await TType("#CardModal__IdNum", "950901");
         await page.click("#CardModal__CardRegistBtn");
         await toastCheck("RegisterBillKey");
       },

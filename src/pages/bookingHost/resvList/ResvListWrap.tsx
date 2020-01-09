@@ -48,6 +48,9 @@ const ResvListWrap: React.FC<IProps> = ({ context }) => {
       notifyOnNetworkStatusChange
       variables={{
         param: {
+          filter: {
+            houseId: house._id
+          },
           paging: {
             selectedPage: page,
             count: 20

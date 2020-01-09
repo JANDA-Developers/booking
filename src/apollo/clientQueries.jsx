@@ -21,15 +21,7 @@ export const LOG_USER_OUT = gql`
     LogUserOut @client
   }
 `;
-// 선택된 집 가져옴
-export const SELECTED_HOUSE = gql`
-  query lastSelectedHouse {
-    lastSelectedHouse @client {
-      label
-      value
-    }
-  }
-`;
+
 // 하우스 선택
 export const SELECT_HOUSE = gql`
   mutation selectHouse($selectedHouse: SelectOption) {

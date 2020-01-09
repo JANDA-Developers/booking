@@ -1,27 +1,17 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { IUseModal, LANG } from "../../hooks/hook";
 import { AutoSendWhen } from "../../types/enum";
 import {
   sendSms,
   sendSmsVariables,
   getSmsInfo,
-  getSmsInfoVariables,
-  getReplacedMessageVariables,
-  getReplacedMessagesVariables,
-  getReplacedMessages
+  getSmsInfoVariables
 } from "../../types/api";
 import { Mutation, Query } from "react-apollo";
-import {
-  SEND_SMS,
-  GET_SMS_INFO,
-  GET_REPLACE_MESSAGE,
-  GET_REPLACE_MESSAGES
-} from "../../apollo/queries";
-import client from "../../apollo/apolloClient";
+import { SEND_SMS, GET_SMS_INFO } from "../../apollo/queries";
 import { queryDataFormater, onCompletedMessage } from "../../utils/utils";
 import SendSmsModal from "./SendSmsModal";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
-import { useQuery } from "@apollo/react-hooks";
 
 class SendSmsMu extends Mutation<sendSms, sendSmsVariables> {}
 class SmsInfoQu extends Query<getSmsInfo, getSmsInfoVariables> {}

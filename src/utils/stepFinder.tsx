@@ -1,32 +1,19 @@
-import {IContext} from "../pages/bookingHost/BookingHostRouter";
-import {HouseStatus} from "../types/enum";
+import { IContext } from "../pages/bookingHost/BookingHostRouter";
+import { HouseStatus } from "../types/enum";
+import { phoneVerification } from "../components/phoneVerificationModal/__test__/phoneVerification.test";
 
 export type IStepsStart =
   | "phoneVerification"
   | "houseCreate"
-  | "createProduct"
-  | "readyAssign"
   | "createRoom"
-  | "done";
+  | "check";
 
 const stepFinder = (context: IContext): IStepsStart => {
-  const {house, applyedProduct, user} = context;
+  const { user } = context;
+  const { isPhoneVerified } = user;
 
   let step: IStepsStart = "phoneVerification";
-
-  // findCurrent Step
-  if (user.isPhoneVerified) {
-    step = "houseCreate";
-  }
-  if (house) {
-    step = "createProduct";
-    if (applyedProduct) {
-      step = "readyAssign";
-      if (house.status === HouseStatus.ENABLE) {
-        step = "createRoom";
-      }
-    }
-  }
+  if (isPhoneVerified) step = "houseCreate";
 
   return step;
 };

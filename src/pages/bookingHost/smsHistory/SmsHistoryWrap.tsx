@@ -6,14 +6,19 @@ import { GET_SMS_HISTORY } from "../../../apollo/queries";
 import SmsHistory from "./SmsHistory";
 import { getFromResult } from "../../../utils/queryFormater";
 import { usePageNation } from "../../../hooks/hook";
+import { IContext } from "../BookingHostRouter";
 
 class GetAllSmsHistory extends Query<getSmsHistory, getSmsHistoryVariables> {}
 
 interface Iprops {
-  smsInfoId: string;
+  context: IContext;
 }
 
-const SmsHistoryWrap: React.SFC<Iprops> = ({ smsInfoId }) => {
+const SmsHistoryWrap: React.SFC<Iprops> = ({ context }) => {
+  const { house } = context;
+  const {
+    smsInfo: { _id: smsInfoId }
+  } = house;
   const { page, setPage } = usePageNation(1);
 
   return (

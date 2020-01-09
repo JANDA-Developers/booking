@@ -16,17 +16,20 @@ interface IProps {
 class GetBookingsQu extends Query<getBookings, getBookingsVariables> {}
 
 const DayCheckInWrap: React.FC<IProps> = ({ context }) => {
-  const { house } = context;
+  const {
+    house: { _id: houseId }
+  } = context;
   const dayPickerHook = useDayPicker(new Date(), new Date());
 
   return useMemo(
     () => (
       <div>
         <GetBookingsQu
-          skip={!house._id}
+          skip={!houseId}
           variables={{
             param: {
               filter: {
+                houseId,
                 stayDate: {
                   checkIn: to4YMMDD(new Date()),
                   checkOut: to4YMMDD(new Date())

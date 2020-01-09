@@ -33,9 +33,6 @@ $roomWidth: 10rem;
   }
   .roomConfig__roomType {
     margin-right: 0;
-    &:last-child {
-      margin-bottom: 0;
-    }
     .JDdrragable--ghost {
       .roomConfig__iconsWrap {
         display: none;

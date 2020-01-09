@@ -1,10 +1,6 @@
 import React, * as react from "react";
 import { Query, Mutation } from "react-apollo";
-import {
-  queryDataFormater,
-  onCompletedMessage,
-  getFromResult
-} from "../../utils/utils";
+import { queryDataFormater, onCompletedMessage } from "../../utils/utils";
 import Memo, { IConfigMemo } from "./Memo";
 import {
   getMemos,
@@ -33,7 +29,6 @@ import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import { IUseModal, LANG } from "../../hooks/hook";
 import { useQuery } from "@apollo/react-hooks";
 import client from "../../apollo/apolloClient";
-import moment from "moment";
 
 export interface IMemoWrapProps extends IConfigMemo {
   context: IContext;
@@ -59,6 +54,9 @@ const MemoWrap: React.FC<IMemoWrapProps> = ({ context, memoType, ...prop }) => {
     notifyOnNetworkStatusChange: true,
     variables: {
       param: {
+        filter: {
+          houseId
+        },
         paging: {
           count: 20,
           selectedPage: 1

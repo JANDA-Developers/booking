@@ -340,11 +340,9 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
 
   const endTime = (() => {
     let configZoom = zoomValue || 0;
-    return (
-      moment(defaultTimeEnd.valueOf())
-        .add(-1 * timeline_size_var, "days")
-        .valueOf() -
-      configZoom * TimePerMs.H * 3
+    return moment(defaultTimeEnd.valueOf() - configZoom * TimePerMs.H * 3).add(
+      -1 * timeline_size_var,
+      "days"
     );
   })();
   const timelineKey = `timeline${endTime}${sideNavIsOpen ? "a" : "b"}`;
@@ -398,6 +396,7 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
                 onClick={() => {
                   configModal.openModal();
                 }}
+                label={LANG("timeline_config")}
                 icon="keyBoard"
               />
             </div>
@@ -480,7 +479,7 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
                 <DateHeader />
               </TimelineHeaders>
               <TimelineMarkers>
-                {useTodayMark && <CustomMarker date={new Date()} />}
+                {useTodayMark && <CustomMarker date={new Date().valueOf()} />}
               </TimelineMarkers>
             </Timeline>
           </div>
@@ -500,12 +499,9 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
           <ReservationModal
             modalHook={reservationModal}
             callBackCreateBookingMu={CreateBooking => {
-              if (
-                CreateBooking.bookingTransaction &&
-                CreateBooking.bookingTransaction.booking
-              ) {
+              if (CreateBooking?.booking) {
                 assigUtils.hilightGuestBlock({
-                  bookingId: CreateBooking.bookingTransaction.booking._id,
+                  bookingId: CreateBooking.booking._id,
                   scrollMove: true
                 });
               }

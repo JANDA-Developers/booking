@@ -1,6 +1,6 @@
 import puppeteer from "puppeteer";
 import {
-  Ttype,
+  TType,
   takeShot,
   expectOkFromGraphql,
   responseResultCheck
@@ -14,7 +14,7 @@ export const phoneVerification = async () => {
     "StartPhoneVerification",
     "error"
   );
-  await Ttype("#verifiKeyInput", key as any);
+  await TType("#verifiKeyInput", key as any);
   // Complete StartPhoneVerification
   await takeShot("pc", "phoneVerifi--modal.jpeg", "start");
   await page.click("#verfiCompleteBtn");

@@ -2,19 +2,23 @@ import React, { useState } from "react";
 import Modal from "../../../../atoms/modal/Modal";
 import { IUseModal, LANG, useModal } from "../../../../hooks/hook";
 import Button from "../../../../atoms/button/Button";
-import { ProductTypeKey } from "../../../../types/enum";
-import { buyProduct, buyProductVariables } from "../../../../types/api";
 import { MutationFn } from "react-apollo";
 import { IProductTypeDec } from "../../../../types/interface";
-import CardModal from "../../myPage/components/cardModal.tsx/CardModal";
+import CardModal, {
+  ICardModalInfo
+} from "../../myPage/components/cardModal.tsx/CardModal";
 import { IContext } from "../../BookingHostRouter";
+import BillCompleteView from "../../../../components/bilingModal/components/PeriodicPay";
+import { muResult } from "../../../../utils/utils";
+import { TCardViewInfo } from "../../../../components/bilingModal/components/CardInfoFormWrap";
+import { selectProduct, selectProductVariables } from "../../../../types/api";
 
 export interface applyProductModalInfo {
   productType: IProductTypeDec;
 }
 
 interface IProps {
-  buyProductMu: MutationFn<buyProduct, buyProductVariables>;
+  buyProductMu: MutationFn<selectProduct, selectProductVariables>;
   modalHook: IUseModal<applyProductModalInfo>;
   houseId: string;
   context: IContext;
@@ -28,13 +32,13 @@ const ApplyProductModal: React.FC<IProps> = ({
   buyProductMu
 }) => {
   if (!modalHook.isOpen) return <div />;
-
-  const cardModalHook = useModal(false);
+  const {
+    house: { name, _id }
+  } = context;
+  const cardModalHook = useModal<ICardModalInfo>(false);
+  const [billInfo, setBillInfo] = useState();
   const { productType } = modalHook.info;
-  const [step, setStep] = useState<"describe" | "cardSelect" | "complete">(
-    "describe"
-  );
-  const isSelectTestMode = productType.key === ProductTypeKey.DEMO;
+  const [step, setStep] = useState<"describe" | "complete">("describe");
 
   const validation = () => {
     return true;
@@ -52,18 +56,33 @@ const ApplyProductModal: React.FC<IProps> = ({
             thema="point"
             label={LANG("apply_this_product_to_house")}
             onClick={() => {
-              if (isSelectTestMode) {
-                setStep("complete");
-              } else {
-                setStep("cardSelect");
-              }
+              cardModalHook.openModal({
+                currentHouseInfo: {
+                  houseName: name
+                },
+                selectCallBack: async (billInfo: TCardViewInfo) => {
+                  const result = await buyProductMu({
+                    variables: {
+                      param: {
+                        houseId: _id,
+                        productTypeId: productType._id
+                      }
+                    }
+                  });
+                  if (muResult(result, "SelectProduct")) {
+                    setStep("complete");
+                    setBillInfo(billInfo);
+                  }
+                }
+              });
             }}
           />
         </div>
       )}
-      {step === "cardSelect" && (
-        <CardModal modalHook={cardModalHook} context={context} />
+      {step === "complete" && (
+        <BillCompleteView context={context} billInfo={billInfo} />
       )}
+      <CardModal modalHook={cardModalHook} context={context} />
     </Modal>
   );
 };

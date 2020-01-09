@@ -1,8 +1,7 @@
-import puppeteer from "puppeteer";
 import faker from "faker";
 import chalk from "chalk";
 import {
-  Ttype,
+  TType,
   takeShot,
   expectOkFromGraphql
 } from "../../../../__test__/utils.test";
@@ -12,19 +11,17 @@ export const testCreateUser = async () => {
   await page.click("#linkToSingUp");
   await page.waitForSelector("#signUpPage");
   await page.click("#singupName");
-  await Ttype(
-
+  await TType(
     "#singupName",
     faker.name.firstName() + faker.name.lastName()
   );
   const randomePW = "#rammus123";
-  await Ttype("#singupPassword", randomePW);
-  await Ttype("#singupPasswordCheck", randomePW);
+  await TType("#singupPassword", randomePW);
+  await TType("#singupPasswordCheck", randomePW);
   const randomeEm = faker.internet.email();
   console.log(chalk.green.bold(`${randomeEm}`));
-  await Ttype("#singupEamil", randomeEm);
-  await Ttype(
-
+  await TType("#singupEamil", randomeEm);
+  await TType(
     "#singupPhoneNumber",
     faker.phone.phoneNumber("010#######")
   );

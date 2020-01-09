@@ -1,5 +1,6 @@
 import gql from "graphql-tag";
 
+
 export const F_LOCATION = gql`
   fragment FieldsLocation on House {
     location {
@@ -41,8 +42,8 @@ export const F_NOTI = gql`
     title
     notiType
     notiLevel
-    createdAt
     isConfirm
+    createdAt
     updatedAt
   }
 `;
@@ -50,7 +51,6 @@ export const F_NOTI = gql`
 export const F_HOUSE = gql`
   fragment Fhouse on House {
     _id
-    completeDefaultSetting
     name
     houseType
     status
@@ -78,6 +78,7 @@ export const F_HM = gql`
   }
   ${F_IMG}
 `;
+
 
 // 하우스메뉴얼 메뉴
 export const F_HMM = gql`
@@ -225,6 +226,8 @@ export const F_PAYMENT = gql`
   }
 `;
 
+
+
 // 페이지 정보에 관한 프레임
 export const F_PAGE_INFO = gql`
   fragment FpageInfo on PageInfoOffsetBase {
@@ -281,14 +284,6 @@ export const F_ROOMTYPE = gql`
   ${F_IMG}
 `;
 
-// 예약가능한 인원 프레임
-export const F_AVAILABLE_PEOPLE_COUNT = gql`
-  fragment FavailablePeopleCount on AvailablePeopleCount {
-    countAny
-    countFemale
-    countMale
-  }
-`;
 
 // 예약에 관한 정보프레임
 export const F_BOOKING = gql`
@@ -329,13 +324,6 @@ export const F_ROOM = gql`
   fragment Froom on Room {
     _id
     name
-    pricingType
-    peopleCount
-    peopleCountMax
-    index
-    createdAt
-    updatedAt
-    roomSrl
   }
 `;
 
@@ -345,30 +333,44 @@ export const F_BLOCK_OP = gql`
   }
 `;
 
-export const F_BOOKING_TRANSACTION = gql`
-  fragment FbookingTransaction on BookingTransaction {
-    _id
-    transactionId
-    createdAt
-    updatedAt
+
+export const F_CAPACITY_ROOM = gql`
+  fragment FcapacityRoom on CapacityRoomType {
+    checkIn
+    checkOut
+    capacities {
+      room {
+        ...Froom
+      }
+      isAvailable
+    }
+    count
   }
+  ${F_ROOM}
 `;
-export const F_BOOKING_TRANSACTION_PROGRESS = gql`
-  fragment FbookingTransactionProgress on BookingTransactionProgress {
-    startBooking {
-      status
-      updatedAt
+
+export const F_CAPACITY_DOMITORY = gql`
+  fragment FcapacityDomitory on CapacityRoomTypeDomitory {
+    checkIn
+    checkOut
+    capacities {
+      room {
+        ...Froom
+      }
+      genders
+      beds
+      count
     }
-    payment {
-      status
-      updatedAt
-    }
-    completeBooking {
-      status
-      updatedAt
+    availableCount {
+      male
+      female
+      total
     }
   }
+  ${F_ROOM}
 `;
+
+
 
 // 게스트에 관한 정보 프레임(방정보 포함)
 export const F_BLOCK = gql`
@@ -405,26 +407,6 @@ export const F_GUEST_ROOM = gql`
     ...Fguest
   }
   ${F_GUEST}
-`;
-
-// 에약가능 인원 관련 프레임
-export const F_ROOM_CAPACITY = gql`
-  fragment FroomTypeCapacity on RoomTypeCapacity {
-    roomTypeId
-    pricingType
-    availablePeopleCount {
-      ...FavailablePeopleCount
-    }
-    roomCapacityList {
-      roomId
-      roomGender
-      availableGenders
-      availableCount
-      peopleCount
-      emptyBeds
-    }
-  }
-  ${F_AVAILABLE_PEOPLE_COUNT}
 `;
 
 // 유저 기본적인 정보 프레임
@@ -496,9 +478,6 @@ const sharedGetAllRoomType = gql`
       rooms {
         _id
         name
-        index
-        createdAt
-        updatedAt
       }
     }
   }
@@ -792,11 +771,10 @@ export const PRICE_TIMELINE_GET_PRICE = gql`
     $houseId: ID!
     $checkIn: DateTime!
     $checkOut: DateTime!
+    $param: GetRoomTypeDatePricesInput!
   ) {
     GetRoomTypeDatePrices(
-      houseId: $houseId
-      checkIn: $checkIn
-      checkOut: $checkOut
+      param: $param
     ) {
       ok
       error
@@ -840,70 +818,9 @@ export const PRICE_TIMELINE_GET_PRICE = gql`
   ${F_ROOMTYPE}
 `;
 
-export const GET_CAPACITY_TO_ROOM_TYPE = gql`
-  query getCapacityToRoomType(
-    $roomTypeId: ID!
-    $checkIn: DateTime!
-    $checkOut: DateTime!
-    $initValue: InitValueGetCapacityToRoomInput
-  ) {
-    GetCapacityToRoomType(
-      roomTypeId: $roomTypeId
-      checkIn: $checkIn
-      checkOut: $checkOut
-      initValue: $initValue
-    ) {
-      ok
-      error
-      capacityRoomType {
-        ... on CapacityRoomType {
-          count
-        }
-        ... on CapacityRoomTypeDomitory {
-          availableCount {
-            male
-            female
-            total
-          }
-        }
-      }
-    }
-  }
-`;
 
-export const GET_CAPACITY_TO_ROOM_TYPE_FOR_BOOKER = gql`
-  query getCapacityToRoomTypeForBooker(
-    $roomTypeId: ID!
-    $checkIn: DateTime!
-    $checkOut: DateTime!
-    $initValue: InitValueGetCapacityToRoomInput
-  ) {
-    GetCapacityToRoomTypeForBooker(
-      roomTypeId: $roomTypeId
-      checkIn: $checkIn
-      checkOut: $checkOut
-      initValue: $initValue
-    ) {
-      ok
-      error
-      capacityRoomType {
-        ... on CapacityRoomType {
-          count
-        }
-        ... on CapacityRoomTypeDomitory {
-          availableCount {
-            male
-            female
-            total
-          }
-        }
-      }
-    }
-  }
-`;
-
-// 예약 :: 예약자를 위한 예약인원 가져오기 (인증 토큰때문)
-export const GET_ALL_ROOM_TYPE_FOR_BOOKING = gql`
+// 예약 :: 예약자를 위한 예약인원 
+export const GET_ALL_ROOM_TYPE_FOR_BOOKER = gql`
   query getAllRoomTypeForBooker {
     GetAllRoomTypeForBooker {
       ...FsharedGetAllRoomType
@@ -1009,19 +926,12 @@ export const F_ROOM_TYPE_DATE_PRICE_RESULT = gql`
   ${F_ROOMTYPE}
 `;
 
-export const GET_ROOM_TYPE_DATE_PRICE = gql`
+
+export const GET_ROOM_TYPES_DATE_PRICE = gql`
   query getRoomTypeDatePrices(
-    $checkIn: DateTime!
-    $checkOut: DateTime!
-    $roomTypeIds: [ID!]
-    $houseId: ID
+    $param: GetRoomTypeDatePricesInput!
   ) {
-    GetRoomTypeDatePrices(
-      checkIn: $checkIn
-      checkOut: $checkOut
-      roomTypeIds: $roomTypeIds
-      houseId: $houseId
-    ) {
+    GetRoomTypeDatePrices(param:$param) {
       ...FroomTypePriceResult
     }
   }
@@ -1062,6 +972,7 @@ export const GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM = gql`
             ...Froom
           }
           roomType {
+            pricingType
             _id
           }
           booking {
@@ -1159,6 +1070,23 @@ export const GET_USER_FOR_SU = gql`
   }
   ${F_CONTEXT}
 `;
+
+export const INIT_HOUSE = gql`
+  mutation initHouse(
+    $param: InitHouseInput!
+  ) {
+    InitHouse(param:$param) {
+      ok
+      error
+      result {
+        house { 
+          _id
+          name
+        }
+      }
+    }
+  }
+`
 
 // 슈퍼유저 ::모든 유저 가져오기
 export const GET_USERS_FOR_SU = gql`
@@ -1539,12 +1467,12 @@ export const START_BOOKING_FOR_PUBLIC = gql`
     ) {
       ok
       error
-      bookingTransaction {
-        ...FbookingTransaction
+      booking {
+        _id
+        bookingId
       }
     }
   }
-  ${F_BOOKING_TRANSACTION}
 `;
 
 export const START_BOOKING = gql`
@@ -1570,15 +1498,12 @@ export const START_BOOKING = gql`
     ) {
       ok
       error
-      bookingTransaction {
-        ...FbookingTransaction
-        booking {
+      booking {
           _id
-        }
+          bookingId
       }
     }
   }
-  ${F_BOOKING_TRANSACTION}
 `;
 
 // // 예약 :: 예약생성 (호스트용)
@@ -1645,8 +1570,8 @@ export const GET_PAYMENT_AUTH = gql`
 
 // 방타입 :: 방타입 생성
 export const CREATE_ROOMTYPE = gql`
-  mutation createRoomType($params: CreateRoomTypeInput!) {
-    CreateRoomType(params: $params) {
+  mutation createRoomType($param: CreateRoomTypeInput!) {
+    CreateRoomType(param: $param) {
       ok
       error
     }
@@ -1654,14 +1579,14 @@ export const CREATE_ROOMTYPE = gql`
 `;
 
 // 방 :: 방생성
-export const CREATE_ROOM = gql`
-  mutation createRoom($name: String!, $roomType: ID!) {
-    CreateRoom(name: $name, roomType: $roomType) {
-      ok
-      error
-    }
-  }
-`;
+// export const CREATE_ROOM = gql`
+//   mutation createRoom($CreateRoomInput:CreateRoomInput!) {
+//     CreateRoom(CreateRoomInput: $CreateRoomInput) {
+//       ok
+//       error
+//     }
+//   }
+// `;
 
 // 방배정 :: 방막기 해제
 export const DELETE_BLOCK = gql`
@@ -1738,24 +1663,26 @@ export const DELETE_DAILY_PRICE = gql`
     }
   }
 `;
-// 방타입 :: 방타입 제거
-export const DELETE_ROOMTYPE = gql`
-  mutation deleteRoomType($houseId: ID!, $roomTypeId: ID!) {
-    DeleteRoomType(houseId: $houseId, roomTypeId: $roomTypeId) {
-      ok
-      error
-    }
-  }
-`;
+// // 방타입 :: 방타입 제거
+// export const DELETE_ROOMTYPE = gql`
+//   mutation deleteRoomType($deleteRoom:DeleteRoomTypeInput!) {
+//     DeleteRoomType(deleteRoom: $deleteRoom) {
+//       ok
+//       error
+//     }
+//   }
+// `;
 // 방 :: 방 제거
-export const DELETE_ROOM = gql`
-  mutation deleteRoom($roomId: ID!) {
-    DeleteRoom(roomId: $roomId) {
-      ok
-      error
-    }
-  }
-`;
+// export const DELETE_ROOM = gql`
+//   mutation deleteRoom($DeleteRoomInput: DeleteRoomInput!) {
+//     DeleteRoom(DeleteRoomInput: $DeleteRoomInput) {
+//       ok
+//       error
+//     }
+//   }
+// `;
+
+
 
 // 방 :: 업데이트 방
 export const UPDATE_ROOM = gql`
@@ -1767,14 +1694,14 @@ export const UPDATE_ROOM = gql`
   }
 `;
 // 방타입 :: 방타입 업데이트
-export const UPDATE_ROOMTYPE = gql`
-  mutation updateRoomType($roomTypeId: ID!, $params: UpdateRoomTypeInput!) {
-    UpdateRoomType(roomTypeId: $roomTypeId, params: $params) {
-      ok
-      error
-    }
-  }
-`;
+// export const UPDATE_ROOMTYPE = gql`
+//   mutation updateRoomType($roomTypeId: ID!, $params: UpdateRoomTypeInput!) {
+//     UpdateRoomType(roomTypeId: $roomTypeId, params: $params) {
+//       ok
+//       error
+//     }
+//   }
+// `;
 
 // START 시즌관련 ────────────────────────────────────────────────────────────────────────────────
 // 시즌 :: 시즌가격생성 (현재 사용안함)
@@ -2008,11 +1935,9 @@ export const UPDATE_HOUSE_CONFIG = gql`
 // 하우스 :: 하우스생성
 export const CREATE_HOUSE = gql`
   mutation createHouse(
-    $name: String!
-    $houseType: HouseType!
-    $location: LocationInput!
+    $param: CreateHouseInput!
   ) {
-    CreateHouse(name: $name, houseType: $houseType, location: $location) {
+    CreateHouse(param:$param) {
       ok
       error
       house {
@@ -2034,16 +1959,10 @@ export const DELETE_HOUSE = gql`
 // 상품관련 ────────────────────────────────────────────────────────────────────────────────
 // 상품 :: 상품구매
 export const BUY_PRODUCTS = gql`
-  mutation buyProduct(
-    $houseId: ID!
-    $productTypeId: ID!
-    $appInfoRequest: AppInfoRequestInput!
+  mutation selectProduct(
+    $param: SelectProductInput!
   ) {
-    BuyProduct(
-      houseId: $houseId
-      productTypeId: $productTypeId
-      appInfoRequest: $appInfoRequest
-    ) {
+    SelectProduct(param:$param) {
       ok
       error
     }
@@ -2082,6 +2001,34 @@ export const DELETE_SMS_TEMPLATE = gql`
     }
   }
 `;
+
+export const GET_ROOM_TYPE_INFO = gql`
+  query getRoomTypeInfo($roomTypeId: ID!,$RoomTypeCapacityInput:RoomTypeCapacityInput!, $GetRoomTypeDatePricesInput:GetRoomTypeDatePricesInput!) {
+    GetRoomTypeById(roomTypeId: $roomTypeId) {
+      ok
+      error
+      roomType {
+        _id
+        capacity(param: $RoomTypeCapacityInput) {
+          ... on CapacityRoomType {
+            ...FcapacityRoom 
+          }
+          ... on CapacityRoomTypeDomitory {
+            ...FcapacityDomitory
+          }
+        }
+      }
+    }
+    GetRoomTypeDatePrices(
+      param: $GetRoomTypeDatePricesInput
+    ) {
+      ...FroomTypePriceResult
+    }
+  }
+  ${F_CAPACITY_DOMITORY}
+  ${F_ROOM_TYPE_DATE_PRICE_RESULT}
+  ${F_CAPACITY_ROOM}
+`
 
 // SMS :: SMS 정보 가져오기
 export const GET_SMS_INFO = gql`
@@ -2164,7 +2111,6 @@ export const UPDATE_USER_FOR_SU = gql`
       ok
       error
     }
-
     UpdateHouse(param: $updateHouseParams) {
       ok
       error
@@ -2478,3 +2424,16 @@ export const GET_REPLACE_MESSAGES = gql`
     }
   }
 `;
+
+export const SAVE_ROOMTYPES = gql`
+  mutation saveRoomTypes(
+      $param: SaveRoomTypesInput!
+    ) {
+    SaveRoomTypes(
+      param: $param
+    ) {
+      ok
+      error
+    }
+  }
+`

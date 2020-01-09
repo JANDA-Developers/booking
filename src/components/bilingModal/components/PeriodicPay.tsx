@@ -4,7 +4,8 @@ import { registerBillKey_RegisterBillKey_billInfo } from "../../../types/api";
 import Vtable, {
   Vheader,
   VtableColumn,
-  VtableCell
+  VtableCell,
+  ColumnCells
 } from "../../../atoms/vtable/Vtable";
 import { LANG } from "../../../hooks/hook";
 import Button from "../../../atoms/button/Button";
@@ -17,7 +18,7 @@ interface IProps {
   billInfo: registerBillKey_RegisterBillKey_billInfo;
 }
 
-const PeriodicPay: React.FC<IProps> = ({ context, billInfo }) => {
+const BillCompleteView: React.FC<IProps> = ({ context, billInfo }) => {
   const { user, applyedProduct } = context;
   if (!applyedProduct || !billInfo) return <div />;
   const { name } = user;
@@ -29,6 +30,29 @@ const PeriodicPay: React.FC<IProps> = ({ context, billInfo }) => {
     title: LANG("payment_information")
   };
 
+  const renders = [
+    {
+      label: LANG("member_name"),
+      Component: name
+    },
+    {
+      label: LANG("regi_date"),
+      Component: moment(authDate).format(DateFormat.YYMMDD)
+    },
+    {
+      label: LANG("product_info"),
+      Component: productTypeName
+    },
+    {
+      label: LANG("deposit_card_owner"),
+      Component: name
+    },
+    {
+      label: LANG("payment_information"),
+      Component: `${cardName}}: ${card_space(cardNo)}`
+    }
+  ];
+
   return (
     <div>
       <div className="JDstandard-margin-bottom">
@@ -37,31 +61,11 @@ const PeriodicPay: React.FC<IProps> = ({ context, billInfo }) => {
       </div>
       <div>
         <Vtable>
-          <VtableColumn>
-            <VtableCell label={LANG("member_name")}>{name}</VtableCell>
-          </VtableColumn>
-          <VtableColumn>
-            <VtableCell label={LANG("regi_date")}>
-              {moment(authDate).format(DateFormat.YYMMDD)}
-            </VtableCell>
-          </VtableColumn>
-          <VtableColumn>
-            <VtableCell label={LANG("product_info")}>
-              {productTypeName}
-            </VtableCell>
-          </VtableColumn>
-          <VtableColumn>
-            <VtableCell label={LANG("deposit_card_owner")}>{name}</VtableCell>
-          </VtableColumn>
-          <VtableColumn>
-            <VtableCell label={LANG("payment_information")}>
-              {cardName}: {card_space(cardNo)}
-            </VtableCell>
-          </VtableColumn>
+          <ColumnCells datas={renders} />
         </Vtable>
       </div>
     </div>
   );
 };
 
-export default PeriodicPay;
+export default BillCompleteView;

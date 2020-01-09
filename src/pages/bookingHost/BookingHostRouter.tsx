@@ -1,14 +1,13 @@
 /* eslint-disable react/forbid-prop-types */
 import React, { Fragment, useEffect, useState } from "react";
 import { JDlang } from "../../langs/JDlang";
-import { Route, Switch, RouteComponentProps, Redirect } from "react-router-dom";
+import { Route, Switch, RouteComponentProps } from "react-router-dom";
 import { graphql, compose } from "react-apollo";
 import { Helmet } from "react-helmet";
 import Header from "../../components/headers/HeaderWrap";
 import NoMatch from "../noMatch/NoMatch";
-import { IS_LOGGED_IN, SELECTED_HOUSE } from "../../apollo/clientQueries";
+import { IS_LOGGED_IN } from "../../apollo/clientQueries";
 import { GET_USER_INFO } from "../../apollo/queries";
-import { isEmpty, s4, insideRedirect } from "../../utils/utils";
 import Preloader from "../../atoms/preloader/Preloader";
 import "./BookingHostRouter.scss";
 import classnames from "classnames";
@@ -41,17 +40,16 @@ import {
 } from "../../types/api";
 import { setCookie } from "../../utils/cookies";
 import getCurrentHouse from "../../utils/getLastSelectHouse";
-import { useModal, useSideNav } from "../../hooks/hook";
+import { useModal, useSideNav, LANG } from "../../hooks/hook";
 import MemoAlertModal from "../../components/Memo/component/MemoAlertModal";
 import JDoutdatedBrowserRework from "../../utils/oldBrowser";
 import SideNav from "../../components/sideNav/SideNav";
 import Expired from "../bookingHost/expire/Expired";
-import StarterModalWrap from "../bookingHost/starterModal/StarterModalWrap";
 import { AddtionalConfigModal } from "../../components/else/AdditionalConfigModal";
-import { onError } from "apollo-link-error";
 import { greet, houseConfigSetting } from "./helper";
 import SmsInfo from "./smsInfo/SmsInfo";
-import { Condition } from "../../components/pageBody/PageBody";
+import CreateHouseWrap from "./createHouse/CreateHouseWrap";
+import { toast } from "react-toastify";
 
 interface JDRoute {
   Component: React.FC<any>;
@@ -93,13 +91,12 @@ const JDbookingHost: React.FC<IProps> = ({
     GetMyProfile: { user = DEFAULT_USER } = {},
     loading: loading2
   } = {},
-  selectedHouse: { lastSelectedHouse, loading: loading3 },
   langHook
 }) => {
   const isLogIn = auth?.isLogIn || false;
-  const isLoading: boolean = loading || loading2 || loading3;
+  const isLoading: boolean = loading || loading2;
   const houses: IHouse[] = user.houses || [];
-  const currentHouse = getCurrentHouse(houses, lastSelectedHouse);
+  const currentHouse = getCurrentHouse(houses);
   const memoAlertModal = useModal(false);
   const [redirect, setRedirect] = useState();
   const applyedProduct = currentHouse?.product;
@@ -108,8 +105,8 @@ const JDbookingHost: React.FC<IProps> = ({
   const additionalConfigModal = useModal(false);
   const { sideNavIsOpen, setSideNavIsOpen } = useSideNav();
   const houseConfig = houseConfigSetting(currentHouse);
-  const doneBasicSetting = currentHouse?.completeDefaultSetting;
   const isExpired = applyedProduct?.isExpired;
+  const houseExists = currentHouse !== undefined;
   const superPermission =
     userRole === UserRole.ADMIN || userRole === UserRole.DEVELOPER;
   // 지원하지 않는 브라우저로 부터 접속했는지 확인합니다.
@@ -130,49 +127,49 @@ const JDbookingHost: React.FC<IProps> = ({
   };
 
   const bookingHostClassNames = classnames("bookingHost", undefined, {
-    "bookingHost--sideOpen": sideNavIsOpen && doneBasicSetting
+    "bookingHost--sideOpen": sideNavIsOpen && houseExists
   });
 
   const routers: JDRoute[] = [
     {
       path: "/",
       Component: DashBoard,
-      condition: doneBasicSetting
+      condition: houseExists
     },
     {
       path: "/dashboard",
       Component: DashBoard,
-      condition: doneBasicSetting
+      condition: houseExists
     },
     {
       path: "/products",
       Component: SelectProducts,
-      condition: doneBasicSetting
+      condition: houseExists
     },
     {
       path: "/myPage",
       Component: MyPage,
-      condition: doneBasicSetting
+      condition: houseExists
     },
     {
       path: "/createHouse",
-      Component: CreateHouse,
-      condition: doneBasicSetting
+      Component: CreateHouseWrap,
+      condition: houseExists
     },
     {
       path: "/config",
       Component: ConfigWrap,
-      condition: doneBasicSetting
+      condition: houseExists
     },
     {
       path: "/smsHistory",
       Component: SmsHistory,
-      condition: doneBasicSetting
+      condition: houseExists
     },
     {
       path: "/smsInfo",
       Component: SmsInfo,
-      condition: doneBasicSetting
+      condition: houseExists
     },
     {
       path: "/signUp",
@@ -198,47 +195,47 @@ const JDbookingHost: React.FC<IProps> = ({
     {
       Component: AssigTimeline,
       path: "/assigTimeline",
-      condition: doneBasicSetting
+      condition: houseExists
     },
     {
       Component: HMconfig,
       path: "/HMconfig",
-      condition: doneBasicSetting
+      condition: houseExists
     },
     {
       Component: DailyPrice,
       path: "/dailyPrice",
-      condition: doneBasicSetting
+      condition: houseExists
     },
     {
       Component: Statistic,
       path: "/statistic",
-      condition: doneBasicSetting
+      condition: houseExists
     },
     {
       Component: RoomConfig,
       path: "/roomConfig",
-      condition: doneBasicSetting
+      condition: houseExists
     },
     {
       Component: SmsTemplateSetting,
       path: "/smsTemplate",
-      condition: doneBasicSetting
+      condition: houseExists
     },
     {
       Component: SetPrice,
       path: "/setPrice",
-      condition: doneBasicSetting
+      condition: houseExists
     },
     {
       Component: ResvList,
       path: "/resvList",
-      condition: doneBasicSetting
+      condition: houseExists
     },
     {
-      Component: StarterModalWrap,
+      Component: CreateHouseWrap,
       path: undefined,
-      condition: isLogIn && !doneBasicSetting
+      condition: isLogIn && !houseExists
     },
     {
       path: "/",
@@ -273,10 +270,18 @@ const JDbookingHost: React.FC<IProps> = ({
     if (currentHouse) {
       greet(tempContext as any);
     }
+
+    if (
+      currentHouse &&
+      localStorage.getItem("popUpAdditionalConfigModal") === "Y"
+    ) {
+      // get local storage default setting and
+      additionalConfigModal.openModal();
+      localStorage.setItem("popUpAdditionalConfigModal", "N");
+    }
   });
 
-  // 로딩처리
-  if (isLoading)
+  if (isLoading) {
     return (
       <Preloader
         wrapClassName="middlerServerLoading"
@@ -284,6 +289,7 @@ const JDbookingHost: React.FC<IProps> = ({
         loading={isLoading}
       />
     );
+  }
 
   // 🍰 메인리턴
   return (
@@ -320,7 +326,7 @@ const JDbookingHost: React.FC<IProps> = ({
         <div className="bookingHost__layout">
           {/* 사이드 네비 */}
           <div className="bookingHost__side">
-            {doneBasicSetting && (
+            {houseExists && (
               <Route
                 render={props => {
                   const propContext = Object.assign(tempContext, props, JDlang);
@@ -368,8 +374,5 @@ export default compose(
       }
       return true;
     }
-  }),
-  graphql(SELECTED_HOUSE, {
-    name: "selectedHouse"
   })
 )(JDbookingHost);

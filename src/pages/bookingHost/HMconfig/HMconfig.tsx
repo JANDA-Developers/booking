@@ -44,8 +44,6 @@ import { MutationFunctionOptions } from "@apollo/react-common";
 import { ExecutionResult } from "graphql";
 import ImageUploader from "../../../atoms/imageUploader/ImageUploader";
 import JDLabel from "../../../atoms/label/JDLabel";
-import HMmenu from "../../outPages/HM/component/HMmenu";
-import JDmenu, { JDsubMenu } from "../../../atoms/menu/Menu";
 import PageHeader from "../../../components/pageHeader/PageHeader";
 import PageBody from "../../../components/pageBody/PageBody";
 import Menus from "./component/Menus";
@@ -94,6 +92,8 @@ const HMconfig: React.FC<IProps> = ({
     enableLangs,
     menuData
   ]);
+
+  const isPhabeltDown = window.innerWidth < WindowSize.PHABLET;
 
   const validate = (): boolean => {
     if (!title) {
@@ -204,6 +204,7 @@ const HMconfig: React.FC<IProps> = ({
 
   const LangConfigBtn = () => (
     <Button
+      mb="normal"
       mode="border"
       onClick={() => {
         languageConfigModalHook.openModal();
@@ -230,32 +231,6 @@ const HMconfig: React.FC<IProps> = ({
     userInfo
   };
 
-  const HeaderConfig = () => (
-    <Fragment>
-      <div>
-        <InputText
-          label={LANG("house_title")}
-          overfloweEllipsis
-          value={title[currentLang]}
-          onChange={value => {
-            title[currentLang] = value;
-            setTitle({ ...title });
-          }}
-          placeholder={LANG("HM_title")}
-        />
-      </div>
-      <div>
-        <ImageUploader
-          mode="input"
-          label={LANG("house_front_img")}
-          className="JDstandard-margin-bottom"
-          minHeight="100px"
-          {...bgImageHook}
-        />
-      </div>
-    </Fragment>
-  );
-
   if (loading) return <Preloader page loading={loading} />;
 
   return (
@@ -263,8 +238,8 @@ const HMconfig: React.FC<IProps> = ({
       <Preloader floating size={FLOATING_PRELOADER_SIZE} loading={loading} />
       <PageHeader title={LANG("HM_set")} desc={LANG("HM_set__desc")} />
       <PageBody>
-        <div className="flex-grid-grow">
-          <div className="flex-grid__col">
+        <div className={`${isPhabeltDown ? "flex-grid" : "flex-grid-grow"}`}>
+          <div className="flex-grid__col col--md-12">
             <Card>
               <div className="JDstandard-margin-bottom JDflex--between">
                 <h4>{LANG("HM_detail_info")}</h4>
@@ -292,7 +267,29 @@ const HMconfig: React.FC<IProps> = ({
                 />
                 <LangConfigBtn />
               </div>
-              <HeaderConfig />
+              <Fragment>
+                <div>
+                  <InputText
+                    label={LANG("house_title")}
+                    overfloweEllipsis
+                    value={title[currentLang]}
+                    onChange={value => {
+                      title[currentLang] = value;
+                      setTitle({ ...title });
+                    }}
+                    placeholder={LANG("HM_title")}
+                  />
+                </div>
+                <div>
+                  <ImageUploader
+                    mode="input"
+                    label={LANG("house_front_img")}
+                    className="JDstandard-margin-bottom"
+                    minHeight="100px"
+                    {...bgImageHook}
+                  />
+                </div>
+              </Fragment>
               <div>
                 <Menus
                   currentLang={currentLang}
@@ -308,7 +305,7 @@ const HMconfig: React.FC<IProps> = ({
             </Card>
           </div>
           {/* 미리보기 */}
-          <div className="HMconfig__preview flex-grid__col">
+          <div className="HMconfig__preview flex-grid__col col--md-12">
             <MockUp frame="JDmocUp">
               <HMcomponent {...sharedProps} />
             </MockUp>

@@ -119,6 +119,7 @@ const DailyAssigWrap: React.FC<IProps> = ({
         query={GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM}
         variables={{
           ...updateVariables,
+          houseId,
           bookingStatuses: [BookingStatus.COMPLETE, BookingStatus.PROGRESSING]
         }}
       >
@@ -166,7 +167,7 @@ const DailyAssigWrap: React.FC<IProps> = ({
                       allocateMu,
                       loading,
                       blocksData: blocks,
-                      guestsData: guestsData,
+                      guestsData,
                       formatedItemData,
                       dayPickerHook: dayPickerHook,
                       roomTypesData: roomTypesData,

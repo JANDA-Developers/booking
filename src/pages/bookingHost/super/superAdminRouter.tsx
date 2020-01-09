@@ -10,16 +10,16 @@ interface Iprops {
 const SuperAdminRouter: React.FC<Iprops> = ({ context }) => {
   return (
     <div>
-      <Route
+      {/* <Route
         path="/superAdmin"
         render={() => <SuperAdminHeader context={context} />}
-      />
-      <Route
+      /> */}
+      {/* <Route
         path="/superAdmin/users"
         render={() => <Users context={context} />}
-      />
+      /> */}
       <Route
-        path="/superAdmin/hostHouses"
+        path="/superAdmin"
         render={() => <HostHouses context={context} />}
       />
     </div>

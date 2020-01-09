@@ -149,28 +149,28 @@ const SideNav: React.FC<IProps> = ({ isOpen, setIsOpen, context }) => {
       ]
     },
     // 고객문의
-    {
-      key: "customer_inquiry",
-      groupTitle: LANG("customer_inquiry"),
-      disabled: disabledFlag,
-      icon: "question",
-      contents: [
-        {
-          key: "solution_usage_guide",
-          to: "/solution_usage_guide",
-          icon: "book",
-          label: LANG("solution_usage_guide"),
-          disabled: disabledFlag
-        },
-        {
-          key: "frequent_questions",
-          to: "/frequent_questions",
-          icon: "question",
-          label: LANG("frequent_questions"),
-          disabled: disabledFlag
-        }
-      ]
-    },
+    // {
+    //   key: "customer_inquiry",
+    //   groupTitle: LANG("customer_inquiry"),
+    //   disabled: disabledFlag,
+    //   icon: "question",
+    //   contents: [
+    //     {
+    //       key: "solution_usage_guide",
+    //       to: "/solution_usage_guide",
+    //       icon: "book",
+    //       label: LANG("solution_usage_guide"),
+    //       disabled: disabledFlag
+    //     },
+    //     {
+    //       key: "frequent_questions",
+    //       to: "/frequent_questions",
+    //       icon: "question",
+    //       label: LANG("frequent_questions"),
+    //       disabled: disabledFlag
+    //     }
+    //   ]
+    // },
     // MY PAGE
     {
       key: "mypage",

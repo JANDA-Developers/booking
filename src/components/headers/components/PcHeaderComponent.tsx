@@ -8,13 +8,9 @@ import { IUseModal, LANG } from "../../../hooks/hook";
 
 interface Iprops {
   context: IContext;
-  phoneVerificationModalHook: IUseModal;
 }
 
-const PcHeaderComponent: React.FC<Iprops> = ({
-  context,
-  phoneVerificationModalHook
-}) => {
+const PcHeaderComponent: React.FC<Iprops> = ({ context }) => {
   const { user, isLogIn } = context;
   const { profileImg, isPhoneVerified } = user;
   // PC
@@ -57,23 +53,6 @@ const PcHeaderComponent: React.FC<Iprops> = ({
         />
       </span>
       <SelectHouseWrap className="header__selectHouse" context={context} />
-      {user && !isPhoneVerified && (
-        <span className="header__pcRight-end header__btns">
-          <Button
-            className="JDmargin-bottom0"
-            onClick={() => {
-              phoneVerificationModalHook.openModal({
-                phoneNumber: user.phoneNumber
-              });
-            }}
-            transparent
-            label={LANG("authenticate")}
-            blink
-            color="white"
-            mode="flat"
-          />
-        </span>
-      )}
     </div>
   );
 

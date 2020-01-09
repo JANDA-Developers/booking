@@ -1,12 +1,11 @@
 import React, { Fragment, useState } from "react";
 import "moment/locale/ko";
-import ErrProtecter from "../../../utils/errProtect";
 import Button from "../../../atoms/button/Button";
 import "./RoomConfig.scss";
 import _ from "lodash";
 import {
   getAllRoomType_GetAllRoomType_roomTypes as IRoomType,
-  getAllRoomType_GetAllRoomType_roomTypes
+  UpsertRoomTypeInput
 } from "../../../types/api";
 import Preloader from "../../../atoms/preloader/Preloader";
 import { useModal, LANG } from "../../../hooks/hook";
@@ -29,32 +28,43 @@ import {
 } from "./declation";
 import { s4, isEmpty } from "../../../utils/utils";
 import { RoomBox } from "./components/RoomBox";
+import { toast } from "react-toastify";
+import { RoomConfigSubmitData } from "../../../components/bookingModal/declaration";
 
 interface IProps {
   context: IContext;
+  defaultData: {
+    roomTypesData: IRoomType[];
+    defaultCreateRoomType: IRoomType[];
+  };
+  onSubmit: (data: RoomConfigSubmitData) => void;
+  submitRef?: React.MutableRefObject<null>;
+  isStart?: boolean;
   loading?: boolean;
-  roomTypesData: getAllRoomType_GetAllRoomType_roomTypes[];
 }
 
-const RoomConfigNew: React.FC<IProps> = ({
+const RoomConfig: React.FC<IProps> = ({
   context,
-  roomTypesData,
-  loading
+  loading,
+  onSubmit,
+  submitRef,
+  isStart,
+  defaultData
 }) => {
+  const { defaultCreateRoomType, roomTypesData } = defaultData;
   const roomTypeModalHook = useModal<IRoomTypeModalInfo>(false, {});
   const roomModalHook = useModal<IRoomModalInfo>(false, {});
-  const isRoomTypeExist = roomTypesData.length === 0 && !loading;
   const [data, setData] = useState<IRoomDataSet>({
     original: roomTypesData,
+    createDatas: defaultCreateRoomType,
     deleteIds: [],
-    createDatas: [],
     updateDatas: []
   });
 
   const finder = (
     id: string,
     target: ("update" | "create" | "original" | "delete")[]
-  ) => {
+  ): (IRoomType | string)[] => {
     const findInCreate = (id: string) => {
       return data.createDatas.find(RT => RT._id === id);
     };
@@ -67,7 +77,7 @@ const RoomConfigNew: React.FC<IProps> = ({
     };
 
     const roomType = target.filter(t => {
-      let target;
+      let target: IRoomType | undefined | string;
       if (t === "update") target = findInUpdate(id);
       if (t === "create" && !target) target = findInCreate(id);
       if (t === "original" && !target) target = findInOriginal(id);
@@ -75,6 +85,7 @@ const RoomConfigNew: React.FC<IProps> = ({
         target = data.deleteIds.find(_id => _id === id);
       return target;
     });
+
     return roomType;
   };
 
@@ -89,6 +100,48 @@ const RoomConfigNew: React.FC<IProps> = ({
     ...data.updateDatas,
     ...originalUniqData
   ];
+
+  const isRoomTypeExist = viewRoomTypeData.length === 0 && !loading;
+
+  function handleSubmit() {
+    if (isStart) {
+      if (isEmpty(data.createDatas)) {
+        toast.warn("Empty roomType");
+        return false;
+      }
+    }
+
+    const deleteDatas = {
+      __typename: undefined,
+      index: undefined,
+      defaultPrice: undefined,
+      roomCount: undefined,
+      createdAt: undefined,
+      updatedAt: undefined,
+      _id: undefined
+    };
+
+    const updateInput: UpsertRoomTypeInput[] = data.updateDatas.map(RT => ({
+      ...RT,
+      rooms: RT.rooms.map(room => room.name),
+      roomTypeId: RT._id,
+      ...deleteDatas
+    }));
+
+    const createInput: UpsertRoomTypeInput[] = data.createDatas.map(RT => ({
+      ...RT,
+      rooms: RT.rooms.map(room => room.name),
+      ...deleteDatas
+    }));
+
+    const submitData: RoomConfigSubmitData = {
+      ...data,
+      updateDatas: updateInput,
+      createDatas: createInput
+    };
+
+    onSubmit(submitData);
+  }
 
   const removeRoomType = async (_id: string) => {
     // Remove in update && create
@@ -144,12 +197,12 @@ const RoomConfigNew: React.FC<IProps> = ({
   };
 
   const noRoomTypeMessage = (
-    <h4 className="JDtextColor--placeHolder JDmargin-bottom0">
+    <h4 className="JDtextColor--placeHolder">
       {LANG("roomType_dose_not_exsist")}
     </h4>
   );
 
-  const onSubmitRoomModal: TRoomModalSubmit = (rooms, roomType, mode) => {
+  const handleSubmitRoomModal: TRoomModalSubmit = (rooms, roomType, mode) => {
     if (mode === "delete") {
       rooms.forEach(room => {
         roomType.rooms = roomType.rooms.filter(_room => _room._id !== room._id);
@@ -159,8 +212,14 @@ const RoomConfigNew: React.FC<IProps> = ({
         const target = roomType.rooms.find(_room => _room._id === room._id);
         if (target) room = target;
       });
+      if (isEmpty(finder(roomType._id, ["create", "update"]))) {
+        data.updateDatas.push(roomType);
+      }
     } else if (mode === "create") {
       roomType.rooms = [...roomType.rooms, ...rooms];
+      if (isEmpty(finder(roomType._id, ["create", "update"]))) {
+        data.createDatas.push(roomType);
+      }
     }
     roomModalHook.closeModal();
     setData({ ...data });
@@ -170,11 +229,11 @@ const RoomConfigNew: React.FC<IProps> = ({
     <div id="RoomConfig" className="roomConfig">
       <PageHeader
         title={LANG("room_setting")}
-        desc={LANG("room_setting_desc")}
+        desc={LANG("room_config_desc")}
       />
       <PageBody>
-        {isRoomTypeExist && noRoomTypeMessage}
         <RoomTypeAddBtn
+          mode={isStart ? "flat" : undefined}
           onClick={() => {
             roomTypeModalHook.openModal({
               roomType: DEFAULT_ROOMTYPE,
@@ -182,12 +241,22 @@ const RoomConfigNew: React.FC<IProps> = ({
             });
           }}
         />
-        <Button thema="point" label="Save Change" onClick={() => {}} />
+        <Button
+          id="RoomConfigSubmitBtn"
+          mode={isStart ? "flat" : undefined}
+          refContainer={submitRef}
+          thema="point"
+          label="Save Change"
+          onClick={() => {
+            handleSubmit();
+          }}
+        />
         <Fragment>
           <div>
             <Preloader size="large" noAnimation loading={loading} />
           </div>
           {/* 방타입 카드 출력 */}
+          {isRoomTypeExist && noRoomTypeMessage}
           {viewRoomTypeData.map((roomType, index) => {
             const { _id, name } = roomType;
             return (
@@ -273,10 +342,10 @@ const RoomConfigNew: React.FC<IProps> = ({
         context={context}
         key={roomModalHook.info.room?._id || s4()}
         modalHook={roomModalHook}
-        onSubmit={onSubmitRoomModal}
+        onSubmit={handleSubmitRoomModal}
       />
     </div>
   );
 };
 
-export default ErrProtecter(RoomConfigNew);
+export default RoomConfig;

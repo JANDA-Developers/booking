@@ -88,6 +88,7 @@ const SendSmsModal: React.FC<IProps> = ({
           selectedPage: 1
         },
         filter: {
+          houseId,
           stayDate: {
             checkIn: moment(today).format("YYYY-MM-DD"),
             checkOut: moment(today).format("YYYY-MM-DD")
@@ -101,20 +102,22 @@ const SendSmsModal: React.FC<IProps> = ({
   const bookings = result?.bookings || [];
 
   useEffect(() => {
-    if (smsInfo && smsInfo.smsTemplates) {
-      const targetTemplate = smsTemplates.find(template => {
-        if (template.smsSendCase && template.smsSendCase.when) {
-          return template.smsSendCase.when === autoSendWhen;
-        }
-        return false;
-      });
-      if (targetTemplate) {
-        const targetTempOp = smsTemplateOp.find(
-          temp => temp.value === targetTemplate._id
-        );
-        if (targetTempOp) {
-          templateSelectHook.onChange(targetTempOp);
-          handleSelectTemplate(targetTempOp);
+    if (modalHook.isOpen === true) {
+      if (smsInfo && smsInfo.smsTemplates) {
+        const targetTemplate = smsTemplates.find(template => {
+          if (template.smsSendCase && template.smsSendCase.when) {
+            return template.smsSendCase.when === autoSendWhen;
+          }
+          return false;
+        });
+        if (targetTemplate) {
+          const targetTempOp = smsTemplateOp.find(
+            temp => temp.value === targetTemplate._id
+          );
+          if (targetTempOp) {
+            templateSelectHook.onChange(targetTempOp);
+            handleSelectTemplate(targetTempOp);
+          }
         }
       }
     }
@@ -279,6 +282,7 @@ const SendSmsModal: React.FC<IProps> = ({
             />
             {callBackFn && (
               <Button
+                id="UnSendSmsBtn"
                 mode="flat"
                 size={"small"}
                 onClick={() => {

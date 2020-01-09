@@ -1,13 +1,14 @@
 import React from "react";
-import Button from "../../../../atoms/button/Button";
+import Button, { IButtonProps } from "../../../../atoms/button/Button";
 import { LANG } from "../../../../hooks/hook";
 
-export const RoomTypeAddBtn = ({ onClick }: any) => (
+export const RoomTypeAddBtn = ({ onClick, ...props }: IButtonProps) => (
   <Button
     id="AddRoomTypeBtn"
     onClick={onClick}
     thema="primary"
     label={LANG("add_roomType")}
+    {...props}
   />
 );
 

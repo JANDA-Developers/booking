@@ -50,18 +50,18 @@ const AssigTimelineConfigModal: React.FC<IProps> = ({ modalHook, context }) => {
       <JDtabs tabsAlign="spaceAround" mb="large">
         <TabList>
           <Tab>{LANG("basic_config")}</Tab>
-          <Tab>{LANG("guestStatus_mark")}</Tab>
-          <Tab>{LANG("shortkey_config")}</Tab>
+          {/* <Tab>{LANG("guestStatus_mark")}</Tab>
+          <Tab>{LANG("shortkey_config")}</Tab> */}
         </TabList>
         <TabPanel>
           <BasicConfig context={context} />
         </TabPanel>
-        <TabPanel>
+        {/* <TabPanel>
           <MarkController context={context} />
         </TabPanel>
         <TabPanel>
           <ShortKeyConfig context={context} />
-        </TabPanel>
+        </TabPanel> */}
       </JDtabs>
     </JDmodal>
   );

@@ -11,8 +11,8 @@ import "./SelectProduct.scss";
 import {
   refundProduct,
   refundProductVariables,
-  buyProduct,
-  buyProductVariables,
+  selectProduct,
+  selectProductVariables,
   getMyProfile_GetMyProfile_user_houses_product
 } from "../../../types/api";
 import { MutationFn } from "react-apollo";
@@ -31,7 +31,7 @@ import { IContext } from "../BookingHostRouter";
 interface IProps {
   productTypeDecs: IProductTypeDec[];
   refundMu: MutationFn<refundProduct, refundProductVariables>;
-  buyProductMu: MutationFn<buyProduct, buyProductVariables>;
+  buyProductMu: MutationFn<selectProduct, selectProductVariables>;
   loading: boolean;
   mutationLoading: boolean;
   selectedHouse: IHouse;
@@ -110,7 +110,7 @@ const SelectProducts: React.FC<IProps> = ({
           ) : (
             <JDlist
               contents={[
-                LANG("F_selected_product_apply_to_house"),
+                LANG("F_selected_product_apply_to_house")(selectedHouse.name),
                 <span className="JDtextColor--error">
                   {LANG(
                     "if_you_choose_wrong_size_product_to_house_service_can_be_stop"

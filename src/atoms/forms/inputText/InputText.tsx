@@ -15,7 +15,7 @@ import { autoComma, s4 } from "../../../utils/utils";
 import $ from "jquery";
 import JDlabel from "../../label/JDLabel";
 import { JDmrClass, JDmbClass } from "../../../utils/autoClasses";
-import { IIcons } from "../../icons/declation";
+import { IIcons, IconConifgProps } from "../../icons/declation";
 import Preloader from "../../preloader/Preloader";
 
 // @ts-ignore
@@ -64,6 +64,7 @@ interface IProps extends React.AllHTMLAttributes<HTMLInputElement> {
   sizes?: string;
   mr?: TMarginSize;
   mb?: TMarginSize;
+  iconProps?: IconConifgProps;
 }
 
 const InputText: React.FC<IProps> = ({
@@ -107,6 +108,7 @@ const InputText: React.FC<IProps> = ({
   mb,
   falseMessage,
   id,
+  iconProps,
   ...props
 }) => {
   const [selfValid, setSelfValid] = useState<boolean | "">("");
@@ -235,6 +237,7 @@ const InputText: React.FC<IProps> = ({
                   onClick={iconOnClick}
                   hover={iconHover}
                   icon={icon}
+                  {...iconProps}
                 />
               )
             )}

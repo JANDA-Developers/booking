@@ -14,7 +14,6 @@ import { JdFile } from "../../../../types/interface";
 import JDLabel from "../../../../atoms/label/JDLabel";
 
 export interface IHMmenuPropsChain {
-  onChangeFile?: (file?: JdFile | null) => void;
   host?: {
     setEnableLngList: any;
     setMenuData: React.Dispatch<React.SetStateAction<getHM_GetHM_HM_menus[]>>;
@@ -29,21 +28,16 @@ interface IProps extends IHMmenuPropsChain {
   currentLang: Language;
 }
 
-const HMmenu: React.FC<IProps> = ({
-  onChangeFile,
-  menuData,
-  currentLang,
-  host,
-  menu
-}) => {
+const HMmenu: React.FC<IProps> = ({ menuData, currentLang, host, menu }) => {
   const sharedPart = () => (
     <div className="HM__menuTitle">{menu.name[currentLang]}</div>
   );
-  const imageUploaderHook = useImageUploader(menu.img);
-
-  useEffect(() => {
-    onChangeFile && onChangeFile(imageUploaderHook.file);
-  }, [imageUploaderHook.file]);
+  const imageUploaderHook = useImageUploader(menu.img, undefined, file => {
+    if (host) {
+      menu.img = file;
+      host.setMenuData([...menuData]);
+    }
+  });
 
   const { file } = imageUploaderHook;
   const { url, mimeType } = file || DEFAULT_FILE;
@@ -76,10 +70,7 @@ const HMmenu: React.FC<IProps> = ({
       {isVideo ? (
         <JDVideo width="100%" height="auto" controls url={url} />
       ) : (
-        <img
-          src={imageUploaderHook.file ? imageUploaderHook.file.url : ""}
-          alt=""
-        />
+        <img src={imageUploaderHook.file?.url || ""} alt="" />
       )}
       <p>{menu.content[currentLang]}</p>
     </Fragment>

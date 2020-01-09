@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { Query, Mutation } from "react-apollo";
 import BookingModal from "./BookingModal";
 import _ from "lodash";
@@ -10,10 +10,10 @@ import {
   updateBookingVariables,
   deleteBooking,
   deleteBookingVariables,
-  getRoomTypeDatePrices,
-  getRoomTypeDatePricesVariables,
   startBooking,
-  startBookingVariables
+  startBookingVariables,
+  getRoomTypeDatePrices,
+  getRoomTypeDatePricesVariables
 } from "../../types/api";
 import {
   queryDataFormater,
@@ -29,8 +29,8 @@ import {
   DELETE_BOOKING,
   GET_BOOKINGS,
   GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM,
-  GET_ROOM_TYPE_DATE_PRICE,
-  START_BOOKING
+  START_BOOKING,
+  GET_ROOM_TYPES_DATE_PRICE
 } from "../../apollo/queries";
 import { MODAL_PRELOADER_SIZE } from "../../types/const";
 import { getOperationName } from "apollo-utilities";
@@ -38,6 +38,7 @@ import { DEFAULT_BOOKING } from "../../types/defaults";
 import JDmodal from "../../atoms/modal/Modal";
 import { totalPriceGetAveragePrice } from "../../utils/booking";
 import { IBookingModalWrapProps } from "./declaration";
+import moment from "moment";
 
 class UpdateBookingMu extends Mutation<updateBooking, updateBookingVariables> {}
 class CreatBookingMu extends Mutation<startBooking, startBookingVariables> {}
@@ -87,17 +88,19 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
         if (mergedBooking) {
           const { checkIn, checkOut, roomTypes } = mergedBooking;
           priceQueryVariables = {
-            checkIn: checkIn,
-            checkOut: checkOut,
-            houseId: house._id,
-            roomTypeIds: roomTypes?.map(roomType => roomType._id) || [""]
+            param: {
+              checkIn: moment(checkIn).format("YYYY-MM-DD"),
+              checkOut: moment(checkOut).format("YYYY-MM-DD"),
+              houseId: house._id,
+              roomTypeIds: roomTypes?.map(roomType => roomType._id) || [""]
+            }
           };
         }
 
         return (
           <GetPriceWithDate
             skip={!priceQueryVariables}
-            query={GET_ROOM_TYPE_DATE_PRICE}
+            query={GET_ROOM_TYPES_DATE_PRICE}
             variables={priceQueryVariables}
           >
             {({ data: priceResult, loading: getPrice_loading }) => {
@@ -135,7 +138,8 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
                         onCompletedMessage(
                           StartBooking,
                           LANG("reservation_creation_complete"),
-                          LANG("reservation_creation_fail")
+                          LANG("reservation_creation_fail"),
+                          "StartBooking"
                         );
                         if (StartBooking.ok) {
                           modalHook.closeModal();

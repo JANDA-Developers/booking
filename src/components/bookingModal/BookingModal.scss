@@ -1,43 +1,40 @@
 @import "~Styles";
 
 .bookingModal {
-
-    &:not(.bookingModal--loading) { 
-        @include response($full, $tablet) {
-            width: 80%;
-            max-width: 0.4rem * 100;
-        }
+  &:not(.bookingModal--loading) {
+    @include response($full, $tablet) {
+      width: 80%;
     }
-        @include response($mobile) {
-            .JDinput-iconWrap {
-                display:none;
-            }
-        }
-    
-    .roomSelectInfoTable {
-
-        &__roomSelect {
-            width: 100%;
-        }
-
-        &__personSelects {
-            width: 100%;
-            display: flex;
-
-            & > .JDselect {
-                flex-grow: 1;
-                &:first-child {
-                    margin-right: $standard-tiny-space;
-                }
-            }
-        }
-
-        .JDtable { 
-            .rt-td,.rt-tbody,.rt-table {
-                overflow:visible;
-            }
-        }
-
+  }
+  @include response($mobile) {
+    .JDinput-iconWrap {
+      display: none;
     }
+  }
+
+  .roomSelectInfoTable {
+    &__roomSelect {
+      width: 100%;
+    }
+
+    &__personSelects {
+      width: 100%;
+      display: flex;
+
+      & > .JDselect {
+        flex-grow: 1;
+        &:first-child {
+          margin-right: $standard-tiny-space;
+        }
+      }
+    }
+
+    .JDtable {
+      .rt-td,
+      .rt-tbody,
+      .rt-table {
+        overflow: visible;
+      }
+    }
+  }
 }
-

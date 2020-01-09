@@ -20,9 +20,7 @@ import {
   PaymentType,
   Gender
 } from "./enum";
-
 import {
-  getBooking_GetBooking_booking_roomTypes,
   getSmsInfo_GetSmsInfo_smsInfo_smsTemplates,
   getSmsInfo_GetSmsInfo_smsInfo,
   getSpecification_GetHouse_house_product,
@@ -44,10 +42,7 @@ import {
 export const DEFAULT_ROOMTYPE_ROOM: getAllRoomType_GetAllRoomType_roomTypes_rooms = {
   __typename: "Room",
   _id: "",
-  createdAt: "",
-  index: -1,
   name: "222",
-  updatedAt: ""
 };
 
 export const DEFAULT_ROOMTYPE: IRoomType = {
@@ -120,7 +115,6 @@ export const DEFAULT_ASSIG_GROUP: IAssigGroup = {
   placeIndex: -1,
   isLastOfRoom: false,
   isLastOfRoomType: false,
-  type: "normal",
   roomGender: null,
   pricingType: PricingType.ROOM
 };
@@ -190,7 +184,6 @@ export const DEFAULT_PRODUCT: getSpecification_GetHouse_house_product = {
 export const DEFAULT_NONE_GOUP: IAssigGroup = {
   ...DEFAULT_ASSIG_GROUP,
   id: "noneGroup",
-  type: "noneGroup"
 };
 
 export const DEFAULT_BLOCK_OP: IBlockOp = {
@@ -361,3 +354,4 @@ export const DEFAULT_PAGE_INFO: JDpageInfo = {
   rowCount: 0,
   totalPage: 0
 };
+

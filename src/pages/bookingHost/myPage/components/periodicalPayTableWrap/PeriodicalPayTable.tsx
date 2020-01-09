@@ -26,10 +26,7 @@ const PeriodicalPayTable: React.FC<Iprops> = ({
 }) => {
   // TODO: 아래세줄들을 hook으로 치환
 
-  const handlePrintBill = () => {
-    
-  }
-
+  const handlePrintBill = () => {};
 
   const checkBoxTableHook = useCheckBoxTable(
     [],
@@ -80,19 +77,19 @@ const PeriodicalPayTable: React.FC<Iprops> = ({
           </div>
         );
       }
-    },
-    {
-      // 영수증
-      Header: LANG("bill"),
-      accessor: "_id",
-      Cell: ({ value }) => {
-        return (
-          <div>
-            <Button onClick={handlePrintBill} mr="no" label={LANG("bill")} mode="flat" thema="primary" />
-          </div>
-        );
-      }
     }
+    // {
+    //   // 영수증
+    //   Header: LANG("bill"),
+    //   accessor: "_id",
+    //   Cell: ({ value }) => {
+    //     return (
+    //       <div>
+    //         <Button onClick={handlePrintBill} mr="no" label={LANG("bill")} mode="flat" thema="primary" />
+    //       </div>
+    //     );
+    //   }
+    // }
   ];
 
   return (

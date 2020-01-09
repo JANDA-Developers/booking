@@ -4,7 +4,6 @@ import DayPickerInput from "react-day-picker/DayPickerInput";
 import moment from "moment";
 import InputText from "../../../forms/inputText/InputText";
 import "moment/locale/ko";
-import { isEmpty } from "../../../../utils/utils";
 import { LANG } from "../../../../hooks/hook";
 import { DateFormat } from "../../../../types/enum";
 // 데이픽커 인풋은 어레인이지를 지원하지 않을려는것만 같다.
@@ -27,7 +26,6 @@ interface IProps {
   disabled?: boolean;
 }
 
-// 👿 이 파일은 전체적으로 타입스크립트 작업이 필요하다.
 const JDdayPickerInput: React.FC<IProps> = ({
   from,
   to,
@@ -108,6 +106,7 @@ const JDdayPickerInput: React.FC<IProps> = ({
     ) : (
       <InputText
         ref={ref}
+        tabIndex={readOnly ? "-1" : undefined}
         wrapClassName={"DayPicker__inputWrap"}
         className={`DayPicker__input ${inputClassName}`}
         readOnly={readOnly}

@@ -6,9 +6,8 @@ export default (() => {
 
   console.log("env");
   console.log(env);
-
   console.log(DEV);
 
   if (env === "development") return DEV;
-  else return PROD;
+  else return PROD
 })();

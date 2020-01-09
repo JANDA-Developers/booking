@@ -12,10 +12,13 @@ interface Iprops {
 const AdditionConfigPitch: React.FC<Iprops> = ({ context }) => {
   const [redirect, setRedirect] = useState("");
 
-  if (redirect) return <Redirect to={redirect} />;
+  if (redirect) {
+    alert("??2");
+    return <Redirect to={redirect} />;
+  }
 
   return (
-    <p>
+    <div>
       <h3>
         {LANG("default_setting_is")} {LANG("completed")}
       </h3>
@@ -70,7 +73,7 @@ const AdditionConfigPitch: React.FC<Iprops> = ({ context }) => {
           />
         </JDbox>
       </div>
-    </p>
+    </div>
   );
 };
 

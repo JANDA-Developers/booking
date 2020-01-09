@@ -1,19 +1,13 @@
-import { ReactPaginateProps } from "react-paginate";
-import React, { useEffect } from "react";
+import React from "react";
 import { Mutation } from "react-apollo";
 import SelectHouse from "./SelectHouse";
-import { useSelect, IUseSelect, LANG } from "../../hooks/hook";
-import {
-  IHouse,
-  ISelectHouse,
-  ISelectHouseVariables
-} from "../../types/interface";
-import { SELECT_HOUSE, SELECTED_HOUSE } from "../../apollo/clientQueries";
-import { showError, onCompletedMessage } from "../../utils/utils";
-import { IselectedOption } from "../../atoms/forms/selectBox/SelectBox";
+import { ISelectHouse, ISelectHouseVariables } from "../../types/interface";
+import { SELECT_HOUSE } from "../../apollo/clientQueries";
+import { onCompletedMessage } from "../../utils/utils";
+import { IContext } from "../../pages/bookingHost/BookingHostRouter";
+import { LANG } from "../../hooks/hook";
 import { GET_USER_INFO } from "../../apollo/queries";
 import { getOperationName } from "apollo-utilities";
-import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 
 class SelectHouseMutation extends Mutation<
   ISelectHouse,
@@ -41,6 +35,8 @@ const SelectHouseWrap: React.SFC<IProps> = ({ className, context }) => {
 
   return (
     <SelectHouseMutation
+      awaitRefetchQueries
+      refetchQueries={[getOperationName(GET_USER_INFO)!]}
       onCompleted={({ selectHouse }: any) =>
         onCompletedMessage(
           selectHouse,

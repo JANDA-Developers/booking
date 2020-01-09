@@ -28,7 +28,7 @@ import { ICardModalTarget } from "../../../pages/bookingHost/myPage/components/c
 export interface IChainProps {
   mode?: "create" | "viewAndUpdate";
   viewInfo?: TCardViewInfo;
-  selectCallBack?: (billKey: string) => void;
+  selectCallBack?: (billKey: TCardViewInfo) => void;
 }
 
 interface Iprops extends IChainProps {
@@ -224,7 +224,7 @@ const CardInfoForm: React.FC<Iprops> = ({
                 {needSubmit && !isCardOfCurrentProductUsing && (
                   <Button
                     onClick={() => {
-                      selectCallBack && selectCallBack(viewInfo.billKey);
+                      selectCallBack && selectCallBack(viewInfo);
                     }}
                     size="small"
                     mode="flat"

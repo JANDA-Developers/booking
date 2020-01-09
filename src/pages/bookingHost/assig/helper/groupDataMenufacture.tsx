@@ -26,8 +26,7 @@ export const roomGenderToGedner = (
 //  TODO: 메모를 사용해서 데이터를 아끼자
 //  isAdd 는 방타입 생성에서 추가 버튼을 위한것
 export const roomDataManufacturer = (
-  roomTypeDatas: IRoomType[] | null | undefined = [],
-  isAdd?: boolean
+  roomTypeDatas: IRoomType[] | null | undefined = []
 ) => {
   const roomGroups: IAssigGroup[] = [];
 
@@ -39,56 +38,51 @@ export const roomDataManufacturer = (
     const { rooms } = roomTypeData;
 
     // 빈방타입 제외
+    console.log("rooms1");
     if (!isEmpty(rooms)) {
+      console.log("rooms2");
       // 🏠 방타입일 경우
+
+      const sharedProps = {
+        roomTypeId: roomTypeData._id,
+        roomTypeIndex: roomTypeData.index,
+        stackItems: false,
+        roomGender: roomTypeData.roomGender,
+        roomType: roomTypeData,
+        pricingType: roomTypeData.pricingType
+      };
+
       if (roomTypeData.pricingType === "ROOM") {
-        rooms.map((room, index) => {
+        rooms.forEach((room, index) => {
           roomGroups.push({
-            id: room._id + 0,
             title: room.name,
-            roomTypeId: roomTypeData._id,
-            roomTypeIndex: roomTypeData.index,
-            roomIndex: room.index,
-            roomType: roomTypeData,
+            id: room._id + 0,
             roomId: room._id,
-            stackItems: false,
-            room: {
-              _id: room._id,
-              name: room.name
-            },
-            pricingType: roomTypeData.pricingType,
+            roomIndex: index,
+            room,
             bedIndex: 0,
             placeIndex: -1,
             isLastOfRoom: true,
             isLastOfRoomType: roomTypeData.roomCount === index,
-            type: "normal",
-            roomGender: roomTypeData.roomGender
+            ...sharedProps
           });
         });
       }
       // 🛌 베드타입일경우
       if (roomTypeData.pricingType === "DOMITORY") {
-        rooms.map((room, index) => {
-          for (let i = 0; roomTypeData.peopleCount > i; i += 1) {
+        rooms.forEach((room, index) => {
+          for (let i = 0; roomTypeData.peopleCountMax > i; i += 1) {
             roomGroups.push({
               id: room._id + i,
               title: room.name,
-              room: {
-                _id: room._id,
-                name: room.name
-              },
-              stackItems: false,
-              roomTypeId: roomTypeData._id,
-              roomTypeIndex: roomTypeData.index,
-              roomIndex: room.index,
+              room,
+              roomIndex: index,
               roomType: roomTypeData,
               roomId: room._id,
               bedIndex: i,
               placeIndex: i + 1,
               isLastOfRoom: roomTypeData.peopleCount === i + 1,
-              type: "normal",
-              roomGender: roomTypeData.roomGender,
-              pricingType: roomTypeData.pricingType,
+              ...sharedProps,
               isLastOfRoomType:
                 roomTypeData.roomCount === index + 1 &&
                 roomTypeData.peopleCount === i + 1
@@ -96,56 +90,8 @@ export const roomDataManufacturer = (
           }
         });
       }
-      // 방생성중일떄만 will be deprecate ⛔️
-      if (isAdd) {
-        roomGroups.push({
-          ...DEFAULT_ASSIG_GROUP,
-          id: `add${roomTypeData._id}${roomTypeIndex}`,
-          roomTypeId: roomTypeData._id,
-          roomTypeIndex: roomTypeData.index,
-          type: "add"
-        });
-      }
-      // 방생성중일떄만 will be deprecate ⛔️
-    } else if (isAdd) {
-      if (roomTypeData.pricingType === "ROOM") {
-        roomGroups.push({
-          ...DEFAULT_ASSIG_GROUP,
-          id: `add${roomTypeData._id}${roomTypeIndex}`,
-          roomTypeId: roomTypeData._id,
-          roomTypeIndex: roomTypeData.index,
-          roomType: roomTypeData,
-          roomGender: roomTypeData.roomGender,
-          roomId: `${roomTypeData._id}add`,
-          type: "add"
-        });
-      } else {
-        for (let i = 0; roomTypeData.peopleCount > i; i += 1) {
-          roomGroups.push({
-            ...DEFAULT_ASSIG_GROUP,
-            id: `add${roomTypeData._id}${roomTypeIndex}` + i,
-            roomTypeId: roomTypeData._id,
-            roomTypeIndex: roomTypeData.index,
-            roomType: roomTypeData,
-            roomGender: roomTypeData.roomGender,
-            roomId: `${roomTypeData._id}add`,
-            type: "add",
-            placeIndex: i + 1,
-            isLastOfRoom: roomTypeData.peopleCount === i + 1,
-            isLastOfRoomType: true
-          });
-        }
-      }
     }
   });
 
-  // 방생성중일떄만
-  if (isAdd) {
-    roomGroups.push({
-      ...DEFAULT_ASSIG_GROUP,
-      id: `addRoomType`,
-      type: "addRoomType"
-    });
-  }
   return roomGroups;
 };

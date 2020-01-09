@@ -1,66 +1,66 @@
-@import '../../../../style_config/style_config.scss';
+@import "../../../../style_config/style_config.scss";
 
 .JDproduct {
-    position: relative;
-    display:flex;
-    height: 21.5rem;
-    flex-direction: column;
-    padding:1rem;
-    transition:.3s;
-    transition-timing-function: ease-in-out;
-    background-color: $grey-level1;
-    transform: scale(1);
-    text-align:center;
+  position: relative;
+  display: flex;
+  height: 21.5rem;
+  flex-direction: column;
+  padding: 1rem;
+  transition: 0.3s;
+  transition-timing-function: ease-in-out;
+  background-color: $grey-level1;
+  transform: scale(1);
+  text-align: center;
 
-    &--slider {
-        height: 330px;
-    }
+  &--slider {
+    height: 360px;
+  }
 
-    &__badgeWrap {
-        position: absolute;
-    }
+  &__badgeWrap {
+    position: absolute;
+  }
 
-    &__icon {
-        margin-top: $standard-margin-bottom;
-        margin-bottom: $standard-margin-bottom + 0.2rem;
-    }
+  &__icon {
+    margin-top: $standard-margin-bottom;
+    margin-bottom: $standard-margin-bottom + 0.2rem;
+  }
 
-    &__price {
-        position: absolute;
-        left: 0;
-        bottom: .5rem; // 보정상수
-        width: 100%;
-    }
+  &__price {
+    position: absolute;
+    left: 0;
+    bottom: 0.5rem; // 보정상수
+    width: 100%;
+  }
 
-    &.JDproduct--hover:hover:not(.JDproduct--slider) {
-        cursor:pointer;
-        background-color: $primary-color;
-        color: white;
-        transform: scale(1.05);
-        @extend %z-depth-3;
-        .JDproduct__icon {
-            position:realtive;
-            // -webkit-filter: drop-shadow( 6px 4px 3px rgba(0, 0, 0, 0.16));
-            // filter: drop-shadow( 6px 4px 3px rgba(0, 0, 0, 0.16));
-            /* Similar syntax to box-shadow */
-        }
+  &.JDproduct--hover:hover:not(.JDproduct--slider) {
+    cursor: pointer;
+    background-color: $primary-color;
+    color: white;
+    transform: scale(1.05);
+    @extend %z-depth-3;
+    .JDproduct__icon {
+      position: realtive;
+      // -webkit-filter: drop-shadow( 6px 4px 3px rgba(0, 0, 0, 0.16));
+      // filter: drop-shadow( 6px 4px 3px rgba(0, 0, 0, 0.16));
+      /* Similar syntax to box-shadow */
     }
+  }
 
-    &.JDproduct--hover .JDproduct--slider:hover {
-        transform: sacle(1);
-        box-shadow: none;
-    }
+  &.JDproduct--hover .JDproduct--slider:hover {
+    transform: sacle(1);
+    box-shadow: none;
+  }
 }
 
 .refundModal {
-    max-width: 0.4rem * 10 * 9;
-    font-size: $typho-small;
-    div {
-        margin-bottom: $standard-margin-bottom;
-    }
+  max-width: 0.4rem * 10 * 9;
+  font-size: $typho-small;
+  div {
+    margin-bottom: $standard-margin-bottom;
+  }
 
-    & > div,
-    .JDmodal__endSection {
-        margin-bottom: 0;
-    }
+  & > div,
+  .JDmodal__endSection {
+    margin-bottom: 0;
+  }
 }

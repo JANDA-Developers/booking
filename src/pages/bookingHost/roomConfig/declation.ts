@@ -1,5 +1,4 @@
 import { IRoomType, IRoom } from "../../../types/interface";
-import { updateRoomTypeVariables, createRoomTypeVariables } from "../../../types/api";
 
 export type TRoomModalSubmit = (room: IRoom[], roomType: IRoomType, mode: TMode) => void;
 

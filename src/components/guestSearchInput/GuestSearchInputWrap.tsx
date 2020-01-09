@@ -62,10 +62,11 @@ const GuestSearchInputWrap: React.FC<IProps> = ({ context }) => {
 
   // for GetBookingsQuery
   const skipValidate = () => {
-    if (!houseId) return false;
-    if (!filter.name && !filter.phoneNumnber && !filter.stayDate) return false;
-    return true;
+    if (!houseId) return true;
+    if (!filter.name && !filter.phoneNumnber && !filter.stayDate) return true;
+    return false;
   };
+  console.log(skipValidate());
 
   return (
     <GetBookingsQuery
@@ -77,7 +78,10 @@ const GuestSearchInputWrap: React.FC<IProps> = ({ context }) => {
             count: 10,
             selectedPage: 1
           },
-          filter
+          filter: {
+            ...filter,
+            houseId
+          }
         }
       }}
     >

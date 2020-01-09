@@ -91,7 +91,12 @@ const SmsTemplateSetting: React.FC<IProps> = ({
       who: ""
     };
     return (
-      <Card className="sms__templateViewCard" hover {...prop}>
+      <Card
+        id={`TemplateCard${template._id}`}
+        className="TSmsTemplateCard sms__templateViewCard"
+        hover
+        {...prop}
+      >
         <h6>
           <span className="JDstandard-small-space">{template.formatName} </span>
           <Help
@@ -126,6 +131,7 @@ const SmsTemplateSetting: React.FC<IProps> = ({
       <PageHeader title={LANG("sms_setting")} desc={LANG("sms__decs")} />
       <PageBody>
         <Button
+          id="TemplateCreateBtn"
           onClick={() => {
             handleCreateBtnClick();
           }}
@@ -143,7 +149,10 @@ const SmsTemplateSetting: React.FC<IProps> = ({
           <div className="row sms__templateCardWrap">
             {isEmpty(smsTemplates) ||
               smsTemplates.map(template => (
-                <div className="col col--float col--full-3 col--lg-4 col--md-6">
+                <div
+                  key={template._id}
+                  className="col col--float col--full-3 col--lg-4 col--md-6"
+                >
                   <SmsTemplateViewCard
                     onClick={() => {
                       handleSmsViewCardClick(template._id);

@@ -110,7 +110,8 @@ export interface IuseImageUploaderOption {
 //  이미지 업로더
 const useImageUploader = (
   defaultFile?: JdFile | null,
-  propOption?: IuseImageUploaderOption
+  propOption?: IuseImageUploaderOption,
+  onUpload?: (file: JdFile) => void
 ): IuseImageUploader => {
   const [file, setFile] = useState(defaultFile);
   const [uploading, setUploading] = useState(false);
@@ -138,6 +139,7 @@ const useImageUploader = (
     if (!file) {
       setIsError(true);
     } else {
+      onUpload && onUpload(file);
       setFile(omitDeep(file, ["__typename"]));
     }
 
@@ -237,6 +239,7 @@ export interface TUseInput<T = string> {
   isValid: any;
 }
 
+// @deprecated
 export type TUseRedirect = [boolean, string, (url: string) => void];
 
 function useRedirect(

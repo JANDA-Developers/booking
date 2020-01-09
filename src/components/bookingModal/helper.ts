@@ -85,24 +85,24 @@ export const makeAssigInfo = (
 ): IBookingModal_AssigInfo[] =>
   guests
     ? guests.map(guest => {
-        if (isDomitoryGuest(guest)) {
-          return {
-            _id: guest._id,
-            roomId: inOr(guest.room, "_id", ""),
-            gender: guest.gender || Gender.MALE,
-            bedIndex: guest.bedIndex,
-            pricingType: guest.pricingType
-          };
-        } else {
-          return {
-            _id: guest._id,
-            roomId: inOr(guest.room, "_id", ""),
-            gender: null,
-            bedIndex: 0,
-            pricingType: guest.pricingType
-          };
-        }
-      })
+      if (isDomitoryGuest(guest)) {
+        return {
+          _id: guest._id,
+          roomId: inOr(guest.room, "_id", ""),
+          gender: guest.gender || Gender.MALE,
+          bedIndex: guest.bedIndex,
+          pricingType: guest.pricingType
+        };
+      } else {
+        return {
+          _id: guest._id,
+          roomId: inOr(guest.room, "_id", ""),
+          gender: null,
+          bedIndex: 0,
+          pricingType: guest.pricingType
+        };
+      }
+    })
     : [];
 
 // 현재 부킹모달 정보들을 토대로 예약생성에 필요한 파라미터를 반환합니다.
@@ -172,7 +172,7 @@ export const bookingModalGetStartBookingVariables = (
     guestRoomParams: guestsToInputs.countInRooms,
     paymentParams: {
       payMethod: payMethodHook.selectedOption!.value,
-      price: priceHook.value,
+      price: parseInt(priceHook.value),
       status: paymentStatusHook.selectedOption!.value
     },
     houseId,
