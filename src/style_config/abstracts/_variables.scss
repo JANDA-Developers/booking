@@ -181,7 +181,7 @@ $input-background: transparent !default;
 $input-border: 1px solid $input-outborder-color !default;
 $input-border-bottom: undefined;
 $input-error-color: $error-color !default;
-$input-success-color: none !default;
+$input-success-color: $outborder-color !default;
 $input-focus-color: $primary-color-light !default;
 $input-font-size: $typho-normal !default;
 $input-side-padding: $standard-small-space !default;

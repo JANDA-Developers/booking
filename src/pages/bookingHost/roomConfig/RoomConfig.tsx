@@ -3,6 +3,8 @@ import "moment/locale/ko";
 import Button from "../../../atoms/button/Button";
 import "./RoomConfig.scss";
 import _ from "lodash";
+// @ts-ignore
+import omitDeep from "omit-deep";
 import {
   getAllRoomType_GetAllRoomType_roomTypes as IRoomType,
   UpsertRoomTypeInput
@@ -26,6 +28,7 @@ import {
   TRoomModalSubmit,
   IRoomModalInfo
 } from "./declation";
+import $ from "jquery";
 import { s4, isEmpty } from "../../../utils/utils";
 import { RoomBox } from "./components/RoomBox";
 import { toast } from "react-toastify";
@@ -121,16 +124,42 @@ const RoomConfig: React.FC<IProps> = ({
       _id: undefined
     };
 
-    const updateInput: UpsertRoomTypeInput[] = data.updateDatas.map(RT => ({
-      ...RT,
-      roomTypeId: RT._id,
-      ...deleteDatas
-    }));
+    const removeUnExisistId = (roomTypeId: string, room: any) => {
+      const targetRoomType = data.original.find(o => o._id === roomTypeId);
+      if (!targetRoomType) {
+        room._id = undefined;
+        return;
+      }
+      if (!targetRoomType.rooms.find(r => (r._id = room._id))) {
+        room._id = undefined;
+      }
+      return room;
+    };
 
-    const createInput: UpsertRoomTypeInput[] = data.createDatas.map(RT => ({
-      ...RT,
-      ...deleteDatas
-    }));
+    const updateInput: UpsertRoomTypeInput[] = data.updateDatas.map(
+      RT =>
+        omitDeep({
+          ...RT,
+          img: omitDeep(RT.img, ["__typename"]),
+          rooms: omitDeep(
+            RT.rooms.map(r => removeUnExisistId(RT._id, r)),
+            ["__typename"]
+          ),
+          ...deleteDatas,
+          roomTypeId: RT._id
+        }),
+      ["__typename"]
+    );
+
+    const createInput: UpsertRoomTypeInput[] = data.createDatas.map(
+      RT =>
+        omitDeep({
+          ...RT,
+          rooms: RT.rooms,
+          ...deleteDatas
+        }),
+      ["__typename", "_id"]
+    );
 
     const submitData: RoomConfigSubmitData = {
       ...data,
@@ -202,9 +231,18 @@ const RoomConfig: React.FC<IProps> = ({
 
   const handleSubmitRoomModal: TRoomModalSubmit = (rooms, roomType, mode) => {
     if (mode === "delete") {
-      rooms.forEach(room => {
-        roomType.rooms = roomType.rooms.filter(_room => _room._id !== room._id);
-      });
+      const filteredRooms = roomType.rooms.filter(
+        _room => rooms[0]._id !== _room._id
+      );
+
+      const targetRoomType = finder(roomType._id, ["create", "update"]);
+      if (isEmpty(targetRoomType)) {
+        const originalCopy = $.extend(true, {}, roomType);
+        originalCopy.rooms = filteredRooms;
+        data.updateDatas.push(originalCopy);
+      } else {
+        roomType.rooms = filteredRooms;
+      }
     } else if (mode === "update") {
       rooms.forEach(room => {
         const target = roomType.rooms.find(_room => _room._id === room._id);

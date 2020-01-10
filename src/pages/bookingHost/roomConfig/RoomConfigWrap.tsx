@@ -72,7 +72,7 @@ const RoomConfigWrap: React.FC<IProps> = ({ context }) => {
           defaultCreateRoomType: [],
           roomTypesData
         }}
-        key={loading ? "roomConfig--loading" : "roomConfig"}
+        key={`roomConfig${roomTypesData.length}`}
       />
       <Preloader floating loading={saveRoomsLoading} />
     </Fragment>

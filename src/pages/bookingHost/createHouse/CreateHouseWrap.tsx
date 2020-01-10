@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { IContext } from "../BookingHostRouter";
-import { CreateHouse } from "../pages";
 import { INIT_HOUSE, GET_USER_INFO } from "../../../apollo/queries";
 import { toast } from "react-toastify";
 import { LANG } from "../../../hooks/hook";
@@ -12,6 +11,7 @@ import { initHouse, initHouseVariables } from "../../../types/api";
 import { Redirect } from "react-router-dom";
 import StarterModal from "../starterModal/StarterModal";
 import { onCompletedMessage } from "../../../utils/utils";
+import CreateHouse from "./CreateHouse";
 
 interface IProps {
   context: IContext;
@@ -62,7 +62,6 @@ const CreateHouseWrap: React.FC<IProps> = ({ context }) => {
   };
 
   if (redirect) {
-    alert("??");
     return <Redirect to={redirect} />;
   }
 

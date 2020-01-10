@@ -25,6 +25,7 @@ import optionFineder from "../../../../utils/optionFinder";
 import { IRoomTypeModalInfo, TMode } from "../declation";
 import { DEFAULT_ROOMTYPE } from "../../../../types/defaults";
 import { toast } from "react-toastify";
+import { toNumber } from "../../../../utils/utils";
 
 interface IProps {
   context: IContext;
@@ -172,7 +173,7 @@ const RoomTypeModal: React.FC<IProps> = ({ modalHook, loading, onSubmit }) => {
               <InputText
                 id="RoomTypeBasicPrice"
                 onChange={(val: any) => {
-                  set("defaultPrice", val);
+                  set("defaultPrice", toNumber(val));
                 }}
                 comma
                 value={defaultPrice}
