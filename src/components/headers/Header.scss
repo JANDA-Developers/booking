@@ -235,11 +235,11 @@ html .header {
       top: calc(100% + #{$standard-space});
       right: 0;
       left: 0;
-      @include shadow(4);
+      @include shadow(3);
     }
     margin-bottom: 0;
     @include response($tablet) {
-      width: 150px;
+      width: 120px;
     }
   }
 }

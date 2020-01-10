@@ -17,5 +17,7 @@ export const PortalPreloader = ({
 //
 export const portalElement = () =>
   document.getElementById("JDpreloaderPortal")!;
+export const hightPortalElement = () =>
+  document.getElementById("JDpriorityPortal")!;
 
 export default portalElement;

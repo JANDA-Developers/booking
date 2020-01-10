@@ -47,7 +47,7 @@
 
     &--normal {
       box-sizing: border-box;
-      padding: $standard-small-space;
+      padding: $box-padding;
       background-color: $grey-level1;
       border-radius: $standard-border-radius;
       text-align: left;
@@ -80,7 +80,7 @@
     &--border {
       background-color: transparent;
       border-radius: $standard-border-radius;
-      padding: $standard-small-space;
+      padding: $box-padding;
       border: $box-border;
 
       &.JDbox {
@@ -104,7 +104,7 @@
       border-radius: $standard-border-radius;
       border: 2px dashed $grey-level1;
       box-sizing: border-box;
-      padding: $standard-small-space;
+      padding: $box-padding;
       color: $grey-level1;
 
       background-color: rgba(255, 255, 255, 0);

@@ -258,9 +258,9 @@ export let AUTO_SEND_OP = [
 
 //  DEPRECATE => selectOpCreater 
 // 99명의 선택가능한 셀렉트 옵션 생성
-export const MAX_PEOPLE_COUNT_OP_FN = () => {
+export const MAX_PEOPLE_COUNT_OP_FN = (max = 100) => {
   const maxPeopleCountOption = [];
-  for (let i = 0; i < 100; i += 1) {
+  for (let i = 0; i < max; i += 1) {
     maxPeopleCountOption.push({
       value: i,
       label: `${i}${LANG("person_unit")}`

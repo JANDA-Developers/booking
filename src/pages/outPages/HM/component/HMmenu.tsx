@@ -70,7 +70,7 @@ const HMmenu: React.FC<IProps> = ({ menuData, currentLang, host, menu }) => {
       {isVideo ? (
         <JDVideo width="100%" height="auto" controls url={url} />
       ) : (
-        <img src={imageUploaderHook.file?.url || ""} alt="" />
+        <img src={menu.img?.url || ""} alt="" />
       )}
       <p>{menu.content[currentLang]}</p>
     </Fragment>

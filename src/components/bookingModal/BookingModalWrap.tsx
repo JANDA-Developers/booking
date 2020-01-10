@@ -39,6 +39,7 @@ import JDmodal from "../../atoms/modal/Modal";
 import { totalPriceGetAveragePrice } from "../../utils/booking";
 import { IBookingModalWrapProps } from "./declaration";
 import moment from "moment";
+import PreloaderModal from "../../atoms/preloaderModal/PreloaderModal";
 
 class UpdateBookingMu extends Mutation<updateBooking, updateBookingVariables> {}
 class CreatBookingMu extends Mutation<startBooking, startBookingVariables> {}
@@ -205,13 +206,7 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
                                 }
                               />
                             ) : (
-                              <JDmodal {...modalHook}>
-                                <Preloader
-                                  size={MODAL_PRELOADER_SIZE}
-                                  noAnimation
-                                  loading={totalLoading}
-                                />
-                              </JDmodal>
+                              <PreloaderModal loading={true} />
                             );
                           }}
                         </DeleteBookingMu>

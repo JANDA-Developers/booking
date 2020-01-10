@@ -16,7 +16,8 @@ import {
   muResult,
   targetBlink,
   onCompletedMessage,
-  instanceOfA
+  instanceOfA,
+  isIncludeSpecialChar
 } from "../utils/utils";
 import { JDlang as originJDlang } from "../langs/JDlang";
 import { TLanguageShort } from "../types/enum";
@@ -30,6 +31,7 @@ import { ExecutionResult } from "graphql";
 // @ts-ignore
 import omitDeep from "omit-deep";
 import { DEFAULT_IMAGEUP_LOADER_OPTION } from "../types/defaults";
+import { toast } from "react-toastify";
 
 export type IUseFetch = [
   any,
@@ -160,25 +162,30 @@ const useImageUploader = (
     else file = new File([uriOrFile], fileName!, { type: fileType });
 
     console.info("upload file parameter");
-    console.log(file);
+    console.info(file);
     const result = await uploadMutation({ variables: { file } });
 
     if (muResult(result, "SingleUpload")) setFileView(result);
   };
 
+
+
   //  이벤트 객체 => uploadImg(파일객체);
   const onChangeFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
     event.persist();
     setUploading(true);
-
     const {
       target: { files, validity }
     } = event;
 
-    if (!validity || !files || files.length !== 1 || !files[0]) return;
+    if (!validity || !files || files.length !== 1 || !files[0]) {
+      setUploading(false);
+      return
+    };
 
     const file = files[0];
     const isVideo = file.type.includes("video");
+    const filteredName = file.name.replace(/!@#$%^&*(),?"{}|<>:/gi, "_");
 
     if (isVideo) {
       uploadImg(file);
@@ -192,7 +199,7 @@ const useImageUploader = (
         option.quality,
         0,
         async (uri: any) => {
-          uploadImg(uri, file.name, file.type);
+          uploadImg(uri, filteredName, file.type);
         },
         "blob"
       );

@@ -95,13 +95,13 @@ const RoomModal: React.FC<IProps> = ({ modalHook, onSubmit }) => {
                   setCreateStartNumber(v);
                 }}
                 value={createStartNumber}
-                label={"RoomNumber Start"}
+                label={LANG("room_start_number")}
                 validation={isNumber}
                 max={10}
               />
               <JDselect
                 id="RoomCountSelect"
-                label="count number"
+                label={LANG("room_count")}
                 options={countOp}
                 {...createCountHook}
               />

@@ -1,178 +1,172 @@
-@import '~Styles';
+@import "~Styles";
 
+.JDsearchInput {
+  position: relative;
+  display: block;
 
+  .JDinput-wrap {
+    margin: 0 !important;
+  }
 
-.JDsearchInput{
-    position: relative;
+  &--unFeedBack {
+    .JDsearchInput__input_wrapper {
+      margin-bottom: 0;
+    }
+  }
+
+  &--fill {
+    .JDsearchInput__innerWrap {
+      background-color: white;
+      border: none !important;
+      box-shadow: none !important;
+      border-radius: $standard-border-radius;
+      .JDinput {
+        border: none;
+      }
+      .JDsearchInput__icon {
+        right: $standard-tiny-space;
+      }
+    }
+  }
+
+  &--valid {
+    border-color: $green-color;
+    box-shadow: 0px 1px 0px 0px $green-color;
+
+    & + .JDsearchInput__icon {
+      color: $green-color;
+    }
+  }
+
+  // 오픈된 리스트
+  &--staticList {
+    .JDsearchInput__ul {
+      position: relative;
+    }
+  }
+
+  &--labeled {
+    .JDsearchInput__input_wrapper {
+    }
+    // border-box
+    .JDsearchInput__input {
+      height: calc(#{$input-height} + 1px);
+    }
+    .JDsearchInput__icon {
+    }
+  }
+
+  &__innerWrap {
+    align-items: center;
+    justify-content: space-between;
+    height: $input-height;
+  }
+
+  &__label {
+    position: absolute;
+    top: 0.1rem;
+    left: 0;
+    font-size: $label-font-size;
+    color: $label-font-color;
+  }
+
+  // 피드백 메세지
+  &__feedBack {
+    color: $searchInput-feedBack-color;
+    position: absolute;
+    left: 0;
+    font-size: $typho-tiny;
+    top: 100%;
+  }
+
+  &__input {
+    // 1px은 보더값을 위한것
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+    padding-right: 1.75rem;
+    bottom: 0;
+
+    &:focus {
+      border-color: $primary-color-light;
+      box-shadow: 0 1px 0 0 $primary-color-light;
+
+      & + .JDsearchInput__icon {
+        color: $primary-color;
+        &:hover {
+          color: $primary-color-light;
+        }
+      }
+    }
+  }
+
+  //리스트
+  &__ul {
+    position: absolute;
+    @extend %z-depth-1;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    border-radius: $searchInput-border-radius;
+    max-height: $searchInput-li-height * 5;
+    overflow-y: auto;
+    z-index: $z-index-2;
+    max-width: 100%;
+    overflow-x: auto;
+    top: 100%;
+
+    &--hide {
+      opacity: 0;
+      z-index: -1;
+      height: 0;
+    }
+
+    &--show {
+      display: block !important;
+    }
+  }
+
+  &__li {
+    padding: $searchInput-li-padding;
+    border-top: $searchInput-li-border-top;
+    min-height: $searchInput-li-height;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &--active {
+      background-color: $grey-level1;
+    }
+
+    &--selected {
+      background-color: $primary-color;
+      color: #fff;
+      &:hover {
+        background-color: $primary-color-light !important;
+        color: #fff;
+      }
+    }
+
+    &--unDetail {
+      line-height: $searchInput-li-height;
+    }
+
+    &:hover {
+      cursor: pointer;
+      background-color: $grey-level1;
+    }
+
+    &:first-child {
+      border-top: none;
+    }
+  }
+
+  &__input_wrapper {
     display: block;
-
-    .JDinput-wrap {
-        margin:0!important;
-    }
-
-    &--unFeedBack {
-        .JDsearchInput__input_wrapper { 
-            margin-bottom: 0;
-        }
-    }
-    
-    &--fill {
-        .JDsearchInput__innerWrap {
-            background-color: white;
-            border:none!important;
-            box-shadow:none!important;
-            border-radius: $standard-border-radius;
-            .JDinput {
-                border:none;
-            }
-            .JDsearchInput__icon {
-                right:$standard-tiny-space;
-            }
-        }
-    }
-
-    &--valid {
-        border-color: $green-color;
-        box-shadow: 0px 1px 0px 0px $green-color;
-
-        & + .JDsearchInput__icon {
-            color: $green-color;
-        }
-    }
-
-    // 오픈된 리스트
-    &--staticList {
-        .JDsearchInput__ul {
-            position: relative;
-        }
-    }
-
-    &--labeled {
-
-        .JDsearchInput__input_wrapper {
-        }
-        // border-box
-        .JDsearchInput__input {
-            height: calc(#{$input-height} + 1px);
-        }
-        .JDsearchInput__icon {
-        }
-    }
-
-    &__innerWrap {
-        align-items: center;
-        justify-content: space-between;
-        height: $input-height;
-    }
-
-    &__label {
-        position: absolute;
-        top: 0.1rem;
-        left: 0;
-        font-size: $label-font-size;
-        color: $label-font-color;
-    }
-    
-    // 피드백 메세지
-    &__feedBack {
-        color: $searchInput-feedBack-color;
-        position:absolute;
-        left: 0;
-        font-size: $typho-tiny;
-        top: 100%;
-    }
-
-    &__input {
-        // 1px은 보더값을 위한것
-        outline:none;
-        width: 100%;
-        box-sizing: border-box;
-        padding-right: 1.75rem;
-        bottom:0;
-        
-        &:focus {
-            border-color: $primary-color-light;
-            box-shadow: 0 1px 0 0 $primary-color-light;
-            
-            & + .JDsearchInput__icon {
-                color: $primary-color;
-                &:hover {
-                    color: $primary-color-light;
-                }
-            }
-        }
-    }
-
-//리스트
-    &__ul {
-        position: absolute;
-        @extend %z-depth-1;
-        margin: 0;
-        padding: 0;
-        background-color:white;
-        border-radius: $searchInput-border-radius;
-        max-height: $searchInput-li-height * 5;
-        overflow-y: auto;
-        z-index: $z-index-2;
-        max-width: 100%;
-        overflow-x:auto;
-        top: 100%;
-
-        &--hide {
-            opacity: 0;
-            z-index: -1;
-            height: 0;
-        }
-        
-        &--show {
-            display: block!important;
-        }        
-    }
-
-    &__li {
-        padding: $searchInput-li-padding;
-        border-top: $searchInput-li-border-top;
-        min-height: $searchInput-li-height;
-        overflow:hidden;
-        text-overflow: ellipsis;    
-        white-space: nowrap;
-
-        &--active {
-            background-color: $grey-level1;
-        }
-        
-        &--selected {
-            background-color: $primary-color;
-            color: #fff;
-            &:hover{
-                background-color: $primary-color;
-                color: #fff;
-            }
-        }
-
-        &--unDetail {
-            line-height: $searchInput-li-height;
-        }
-
-
-
-        &:hover{
-            cursor:pointer;
-            background-color: $grey-level1;
-        }
-
-        &:first-child {
-            border-top:none;
-        }
-    }
-
-    &__input_wrapper { 
-        display: block;
-        margin-bottom: $searchInput-message-space
-    }
-    // 리스트 아래 부분 설명
-    &__detail {
-        font-size: $typho-small;
-    }
-
+    margin-bottom: $searchInput-message-space;
+  }
+  // 리스트 아래 부분 설명
+  &__detail {
+    font-size: $typho-small;
+  }
 }

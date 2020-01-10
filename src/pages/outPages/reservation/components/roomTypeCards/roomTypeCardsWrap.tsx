@@ -16,10 +16,9 @@ import client from "../../../../../apollo/apolloClient";
 import { to4YMMDD } from "../../../../../utils/setMidNight";
 import { IRoomType, TDomitoryCapacity } from "../../../../../types/interface";
 import { getAveragePrice } from "../../../../../utils/booking";
-import moment from "moment";
 import { Gender } from "../../../../../types/enum";
-import { IReservationHooks } from "../../Reservation";
 import { useQuery } from "@apollo/react-hooks";
+import { IReservationHooks } from "../../declation";
 
 export interface IGuestCount {
   male: number;

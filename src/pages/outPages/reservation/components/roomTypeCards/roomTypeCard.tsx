@@ -13,8 +13,8 @@ import JDmodal from "../../../../../atoms/modal/Modal";
 import moment from "moment";
 import selectOpCreater from "../../../../../utils/selectOptionCreater";
 import JDbadge from "../../../../../atoms/badge/Badge";
-import { IReservationHooks } from "../../Reservation";
 import { PortalPreloader } from "../../../../../utils/portalElement";
+import { IReservationHooks } from "../../declation";
 
 interface IProps {
   className?: string;
@@ -175,9 +175,6 @@ const RoomTypeCard: React.SFC<IProps> = ({
       return;
     }
 
-    console.log("guestCountValue");
-    console.log(guestCountValue);
-
     // 선택된방이 아닐경우에
     roomSelectInfoCopy.push({
       roomTypeId: roomTypeData._id,
@@ -190,9 +187,6 @@ const RoomTypeCard: React.SFC<IProps> = ({
       }
     });
 
-    console.log("roomSelectInfoCopy");
-    console.log(roomSelectInfoCopy);
-
     setRoomSelectInfo(roomSelectInfoCopy);
     setDisabled({ female: true, male: true, count: true });
     priceHook.onChange(priceHook.value + totalRoomTypePrice);
@@ -203,7 +197,8 @@ const RoomTypeCard: React.SFC<IProps> = ({
   // 방배경사진
   const roomStyle = {
     // TODO :사진정보 여기에
-    backgroundImage: `url(${roomTypeData.img ? roomTypeData.img.url : ""})`
+    backgroundImage: `url(${roomTypeData.img?.url ||
+      "https://s3.ap-northeast-2.amazonaws.com/booking.stayjanda.files/default/default_room.jpeg"})`
   };
 
   return (
@@ -286,7 +281,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
             className="roomTypeCard__selectButton"
             size={"small"}
             thema={isSelectedRoom ? "warn" : "primary"}
-            label={isSelectedRoom ? LANG("cancel") : LANG("select")}
+            label={LANG(isSelectedRoom ? "cancel" : "select")}
           />
         </div>
       </div>

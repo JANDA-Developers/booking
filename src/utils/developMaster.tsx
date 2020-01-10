@@ -1,6 +1,5 @@
 import $ from "jquery";
 import { getCookie } from "./cookies";
-import { IReservationHooks } from "../pages/outPages/reservation/Reservation";
 import { ElementHandle, JSHandle } from "puppeteer";
 
 export const isDeveloper = () => {
@@ -37,7 +36,7 @@ export const TFilterByProperty = async (
   });
 };
 
-export const reservationDevelop = (reservationHooks: IReservationHooks) => {
+export const reservationDevelop = (reservationHooks: any) => {
   const target = $(".DayPicker-Day").not(".DayPicker-Day--disabled");
   if (target.length > 2) {
     target[0].click();

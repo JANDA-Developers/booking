@@ -12,18 +12,23 @@ import CardInfoFormWrap, {
 import $ from "jquery";
 import { getTargetsWithBillKey } from "../../../../../utils/getTargetsWithBillKey";
 import { ICardModalTarget } from "./CardModal";
+import { TBillInfo } from "../../../../../types/interface";
+
+export type TCreateCardCallBack = (billKey: TBillInfo) => void;
 
 interface Iprops extends ICardInfoFormWrapProps {
   context: IContext;
   unPadding?: boolean;
   currentHouseInfo?: ICardModalTarget;
+  createCardCallBack?: TCreateCardCallBack;
 }
 
 const CardViewer: React.FC<Iprops> = ({
   context,
   unPadding,
   currentHouseInfo,
-  selectCallBack
+  selectCallBack,
+  createCardCallBack
 }) => {
   const { user } = context;
   const { paymentInfos } = user;
@@ -126,6 +131,7 @@ const CardViewer: React.FC<Iprops> = ({
                 }
               : undefined
           }
+          createCardCallBack={createCardCallBack}
           currentHouseInfo={currentHouseInfo}
           mode={selecteInfo ? "viewAndUpdate" : "create"}
           registCallBack={() => {}}

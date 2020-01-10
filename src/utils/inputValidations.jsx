@@ -47,6 +47,11 @@ const isLengthIn = (string, max, min) => {
   return string.length <= max && min < string.length;
 };
 
+const isIncludeSpecialChar = string => {
+  const regExp = /[!@#$%^&*(),?"{}|<>]/g;
+  return regExp.test(string);
+};
+
 const isName = string => {
   if (string === "") return NEUTRAL;
   const regExp = /[가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9 .'_]+$/gi;
@@ -110,5 +115,6 @@ export {
   isNumberMinMax,
   isLengthIn,
   isHaveScharacter,
-  isHaveNumber
+  isHaveNumber,
+  isIncludeSpecialChar
 };

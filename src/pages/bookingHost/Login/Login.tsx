@@ -37,7 +37,11 @@ const Login: React.FC<Iprops> = ({ context }) => {
           {/* 로그인 뮤테이션 (로컬 ) */}
           <Mutation
             mutation={LOG_USER_IN}
+            awaitRefetchQueries
             refetchQueries={[{ query: GET_USER_INFO }]}
+            onCompleted={() => {
+              history.replace("/dashboard");
+            }}
           >
             {(logUserIn: any, { loading: loginMuLoading }: any) => {
               const emailSignIn = (e: any) => {
@@ -69,14 +73,12 @@ const Login: React.FC<Iprops> = ({ context }) => {
                     }) => {
                       if (ok) {
                         if (token) {
+                          localStorage.setItem("lastLogin", emailHook.value);
                           logUserIn({
                             variables: {
                               token
                             }
                           });
-                          localStorage.setItem("lastLogin", emailHook.value);
-                          // toast.success(LANG("login_complete"));
-                          history.replace("/dashboard");
                         }
                       }
                       if (error) {

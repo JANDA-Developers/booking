@@ -884,7 +884,7 @@ export const kr = {
     </span>
   ),
   pay_regist_complete_text:
-    "정기결제를 해주셔서 감사합니다. 정기결제 정보가 다르거나 결제정보를 변경을 원하시면 잔다솔루션에 Mypage에서 변경을 하시면 됩니다. 만약 해당 결제를 본인이 하신게 아니시면 고객센터(support@stayjanda.com)로 이메일을 보내주세요.",
+    "정기결제 정보가 다르거나 결제정보를 변경을 원하시면 잔다솔루션에 Mypage에서 변경을 하시면 됩니다. 만약 해당 결제를 본인이 하신게 아니시면 고객센터(support@stayjanda.com)로 이메일을 보내주세요.",
   card_regist_complete_message: (
     <span>
       카드 정보가 등록 되었습니다.
@@ -1074,5 +1074,15 @@ export const kr = {
   update_user_info_complete: "슈퍼 관리자 업데이트 완료",
   update_user_info_fail: "슈퍼 관리자 업데이트 실패",
   server_dose_not_respond: "서버가 응답하지 않습니다.",
-  network_connected: "네트워크에 연결되었습니다."
+  network_connected: "네트워크에 연결되었습니다.",
+  periodical_payment_is_stopped: (houseName: string) =>
+    `${houseName}의 정기결제가 중지되었습니다.`,
+  request_is_failed: "요청이 실패했습니다.",
+  product_regist_complete_message: "상품등록이 완료 되었습니다.",
+  select_product_desc:
+    "상품을 등록할때 카드정보를 입력받습니다. 만료기간이 끝나면 자동적으로 결제를 진행합니다.",
+  please_check_file_has_special_char: "파일에 특수문자가 있는지 검사 해주세요.",
+  room_start_number: "방시작 번호.",
+  assig_info: "배정정보",
+  people_and_room_info: "인원 및 방정보"
 };

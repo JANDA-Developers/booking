@@ -1,15 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import GuestSearchInput from "./GuestSearchInput";
 import { queryDataFormater, getFromResult } from "../../utils/utils";
 import { GET_BOOKINGS } from "../../apollo/queries";
 import { Query } from "react-apollo";
-import {
-  getBookings,
-  getBookingsVariables,
-  GetBookingsFilterInput
-} from "../../types/api";
-import { isYYYYMMDD, isNumberMinMax } from "../../utils/inputValidations";
+import { getBookings, getBookingsVariables } from "../../types/api";
+import _ from "lodash";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
+import { thortedFilterCreater } from "./helper";
 
 class GetBookingsQuery extends Query<getBookings, getBookingsVariables> {}
 
@@ -24,53 +21,24 @@ const GuestSearchInputWrap: React.FC<IProps> = ({ context }) => {
 
   const [onTypeValue, setType] = useState<string>("");
 
-  // check value type for filter
-  const findSearchType = (
-    value: string
-  ): "phoneNumnber" | "name" | "stayDate" => {
-    const isPhoneNumber = isNumberMinMax(value, 4, 11);
-    if (isYYYYMMDD(value)) return "stayDate";
-    else if (isPhoneNumber) return "phoneNumnber";
-    else return "name";
-  };
-
-  // search filter object create
-  const searchFilterCreater = (value: string): GetBookingsFilterInput => {
-    const target = findSearchType(value);
-
-    if (target === "name") {
-      return {
-        name: value
-      };
-    } else if (target === "phoneNumnber") {
-      return {
-        phoneNumnber: value
-      };
-    } else if (target === "stayDate") {
-      return {
-        stayDate: {
-          checkIn: value,
-          checkOut: value
-        }
-      };
-    } else {
-      return {};
-    }
-  };
-
-  const filter = searchFilterCreater(onTypeValue);
+  const filter = thortedFilterCreater(onTypeValue);
 
   // for GetBookingsQuery
-  const skipValidate = () => {
+  const skipValidate = useMemo(() => {
     if (!houseId) return true;
     if (!filter.name && !filter.phoneNumnber && !filter.stayDate) return true;
     return false;
-  };
-  console.log(skipValidate());
+  }, [
+    (filter.name || "") +
+      filter.bookingId +
+      filter.name +
+      filter.phoneNumnber +
+      filter.stayDate
+  ]);
 
   return (
     <GetBookingsQuery
-      skip={skipValidate()}
+      skip={skipValidate}
       query={GET_BOOKINGS}
       variables={{
         param: {

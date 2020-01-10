@@ -51,7 +51,6 @@ import { GET_ALL_ROOM_TYPE_FOR_BOOKER } from "../../../apollo/queries";
 import Preloader from "../../../atoms/preloader/Preloader";
 import { Helmet } from "react-helmet";
 import { openNiceModal } from "./components/doPay";
-import { reservationDevelop, developEvent } from "../../../utils/developMaster";
 import RoomSearcher from "../../../components/roomSearcher.tsx/RoomSearcher";
 import BookingInfoModal from "./components/roomTypeCards/bookingInfoModal";
 import isLast from "../../../utils/isLast";
@@ -66,34 +65,7 @@ import {
   IRoomSelectInfo
 } from "../../../components/bookingModal/declaration";
 import JDbox from "../../../atoms/box/JDbox";
-
-export interface IBookerInfo {
-  name: string;
-  password: string;
-  memo: string;
-  email: string;
-  phoneNumber: string;
-  agreePrivacyPolicy: boolean;
-}
-
-export interface IReservationHooks {
-  priceHook: TUseInput<number>;
-  roomInfoHook: [
-    IRoomType[],
-    React.Dispatch<React.SetStateAction<IRoomType[]>>
-  ];
-  toastModalHook: IUseModal<any>;
-  bookerInfo: IBookerInfo;
-  setBookerInfo: React.Dispatch<React.SetStateAction<IBookerInfo>>;
-  dayPickerHook: IUseDayPicker;
-  roomSelectInfo: IRoomSelectInfo[];
-  setRoomSelectInfo: React.Dispatch<React.SetStateAction<IRoomSelectInfo[]>>;
-  payMethodHook: IUseSelect<PayMethod>;
-  sendSmsHook: {
-    checked: boolean;
-    onChange: (value: boolean) => void;
-  };
-}
+import { IBookerInfo, IReservationHooks } from "./declation";
 
 class GetAllAvailRoomQu extends Query<getAllRoomTypeForBooker> {}
 export interface ISetBookingInfo
@@ -145,10 +117,9 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   const bookingInfoModal = useModal(false);
   const roomInfoHook = useState<IRoomType[]>([]);
   const bookingModalHook = useModal<IBookingModalProp>();
-  const sendSmsHook = useCheckBox(isHost ? false : true);
+  const sendSmsHook = useCheckBox(!isHost);
   const priceHook = useInput(0);
   const payMethodHook = useSelect(PAYMETHOD_FOR_BOOKER_OP[0]);
-
   const reservationHooks: IReservationHooks = {
     priceHook,
     roomInfoHook,
@@ -163,25 +134,21 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   };
 
   const resvConfirmCallBackFunc = (flag: boolean) => {
-    if (flag) {
-      const publicKey = sessionStorage.getItem("hpk");
-      const { name, password, phoneNumber } = bookerInfo;
-      location.href = insideRedirect(
-        `outpage/checkReservation/${publicKey}/${name}/${phoneNumber}/${password}`
-      );
-    } else {
+    if (!flag) {
       location.reload();
+      return;
     }
+    const publicKey = sessionStorage.getItem("hpk");
+    const { name, password, phoneNumber } = bookerInfo;
+    location.href = insideRedirect(
+      `outpage/checkReservation/${publicKey}/${name}/${phoneNumber}/${password}`
+    );
   };
-
-  // Deprecated
-  developEvent(() => {
-    reservationDevelop(reservationHooks);
-  });
 
   // 날자를 선택하면 예약선택 상태 초기화
   useEffect(() => {
     setRoomSelectInfo([]);
+    priceHook.onChange(0);
     setBookerInfo(defaultBookingInfo);
   }, [dayPickerHook.to, dayPickerHook.from]);
 
@@ -223,7 +190,6 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
     return true;
   };
 
-  // 날자와 방현황에 따른  메세지 리턴
   const roomCardMessage = () => {
     if (!dayPickerHook.from) return LANG("please_slect_date_at_calender");
     if (dayPickerHook.from && !dayPickerHook.to)
@@ -234,108 +200,115 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   };
 
   const bookingCompleteFn = async () => {
-    if (bookerInfoValidation()) {
-      const {
+    if (!bookerInfoValidation()) return;
+
+    const {
+      agreePrivacyPolicy,
+      email,
+      memo,
+      name,
+      password,
+      phoneNumber
+    } = bookerInfo;
+
+    if (!startBookingForPublicMu)
+      throw Error("startBookingForPublicMu 가 없음");
+
+    const startBookingVariables: startBookingForPublicVariables = {
+      bookerParams: {
         agreePrivacyPolicy,
         email,
         memo,
         name,
         password,
-        phoneNumber
-      } = bookerInfo;
+        phoneNumber,
+        funnels: Funnels.HOMEPAGE
+      },
+      checkInOut: {
+        checkIn: to4YMMDD(dayPickerHook.from),
+        checkOut: to4YMMDD(dayPickerHook.to)
+      },
+      guestDomitoryParams: roomSelectInfo
+        .filter(room => room.pricingType === PricingType.DOMITORY)
+        .map(room => ({
+          roomTypeId: room.roomTypeId,
+          countFemale: room.count.female,
+          countMale: room.count.male
+        })),
+      guestRoomParams: roomSelectInfo
+        .filter(room => room.pricingType === PricingType.ROOM)
+        .map(room => ({
+          roomTypeId: room.roomTypeId,
+          countRoom: room.count.roomCount
+        })),
+      paymentParams: {
+        payMethod: payMethodHook.selectedOption!.value,
+        price: toNumber(priceHook.value)
+      }
+    };
 
-      if (!startBookingForPublicMu)
-        throw Error("startBookingForPublicMu 가 없음");
+    const tempResult = await startBookingForPublicMu({
+      variables: startBookingVariables
+    });
 
-      const startBookingVariables: startBookingForPublicVariables = {
-        bookerParams: {
-          agreePrivacyPolicy,
-          email,
-          memo,
-          name,
-          password,
-          phoneNumber,
-          funnels: Funnels.HOMEPAGE
-        },
-        checkInOut: {
-          checkIn: to4YMMDD(dayPickerHook.from),
-          checkOut: to4YMMDD(dayPickerHook.to)
-        },
-        guestDomitoryParams: roomSelectInfo
-          .filter(room => room.pricingType === PricingType.DOMITORY)
-          .map(room => ({
-            roomTypeId: room.roomTypeId,
-            countFemale: room.count.female,
-            countMale: room.count.male
-          })),
-        guestRoomParams: roomSelectInfo
-          .filter(room => room.pricingType === PricingType.ROOM)
-          .map(room => ({
-            roomTypeId: room.roomTypeId,
-            countRoom: room.count.roomCount
-          })),
-        paymentParams: {
-          payMethod: payMethodHook.selectedOption!.value,
-          price: toNumber(priceHook.value)
+    if (tempResult) rsevModalHook.closeModal();
+
+    const validResult = muResult(
+      tempResult,
+      "StartBookingForPublic",
+      "booking"
+    );
+
+    if (!validResult) return;
+
+    const { _id } = validResult;
+    // 나이스 모듈 오픈전 인증을 받음.
+    const authResult = await payAuthQu({
+      price: toNumber(priceHook.value)
+    });
+    if (!authResult?.data.GetPaymentAuth.auth) return;
+
+    const { GetPaymentAuth } = authResult.data;
+    const { houseName } = GetPaymentAuth;
+    openNiceModal({
+      resvInfo: startBookingVariables,
+      transactionId: _id,
+      authInfo: authResult.data.GetPaymentAuth,
+      houseName: houseName || ""
+    });
+  };
+
+  const openBookingModal = (user: "guest" | "host") => {
+    if (user === "host") {
+      const tempDefault = mergeObject(DEFAULT_BOOKING, {
+        payment: {
+          totalPrice: priceHook.value
         }
-      };
-
-      const tempResult = await startBookingForPublicMu({
-        variables: startBookingVariables
       });
-
-      if (tempResult) rsevModalHook.closeModal();
-
-      const validResult = muResult(
-        tempResult,
-        "StartBookingForPublic",
-        "booking"
-      );
-
-      if (validResult) {
-        const { _id } = validResult;
-        // 나이스 모듈 오픈전 인증을 받음.
-        const authResult = await payAuthQu({ price: priceHook.value });
-        if (authResult?.data.GetPaymentAuth.auth) {
-          const { GetPaymentAuth } = authResult.data;
-          const { houseName } = GetPaymentAuth;
-          openNiceModal({
-            resvInfo: startBookingVariables,
-            transactionId: _id,
-            authInfo: authResult.data.GetPaymentAuth,
-            houseName: houseName || ""
-          });
+      bookingModalHook.openModal({
+        mode: "CREATE",
+        createParam: {
+          ...tempDefault,
+          checkOut: dayPickerHook.to,
+          checkIn: dayPickerHook.from,
+          ...divisionRoomSelectInfo(roomSelectInfo)
         }
+      });
+    } else {
+      if (isMobile) {
+        bookingInfoModal.openModal();
+      } else {
+        rsevModalHook.openModal();
       }
     }
   };
 
-  // 예약하기 버튼 클릭1시
   const handleResvBtnClick = () => {
-    if (roomSelectValidation()) {
-      // 호스트가 하는 예약일경우 다른창으로
-      if (isHost) {
-        const tempDefault = mergeObject(DEFAULT_BOOKING, {
-          payment: {
-            totalPrice: priceHook.value
-          }
-        });
-        bookingModalHook.openModal({
-          mode: "CREATE",
-          createParam: {
-            ...tempDefault,
-            checkOut: dayPickerHook.to,
-            checkIn: dayPickerHook.from,
-            ...divisionRoomSelectInfo(roomSelectInfo)
-          }
-        });
-      } else {
-        if (isMobile) {
-          bookingInfoModal.openModal();
-        } else {
-          rsevModalHook.openModal();
-        }
-      }
+    if (!roomSelectValidation()) return;
+    if (isHost) {
+      openBookingModal("host");
+    } else {
+      openBookingModal("guest");
     }
   };
 
@@ -378,7 +351,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
               />
             )}
             {isMobile && (
-              <Fragment>
+              <div className="JDflex">
                 <JDbox align="flexVcenter" size="small">
                   {dayPickerHook.from?.toLocaleDateString() +
                     " " +
@@ -389,7 +362,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
                     " " +
                     LANG("checkOut")}
                 </JDbox>
-              </Fragment>
+              </div>
             )}
           </Card>
         </div>
@@ -459,7 +432,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
                 from={dayPickerHook.from}
                 to={dayPickerHook.to}
                 roomSelectInfo={roomSelectInfo}
-                totalPrice={priceHook.value}
+                totalPrice={toNumber(priceHook.value)}
               />
             </Card>
           )}

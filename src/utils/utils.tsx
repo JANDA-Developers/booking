@@ -24,7 +24,8 @@ import {
   isMaxOver,
   isYYYYMMDD,
   isPassword,
-  isNumberMinMax
+  isNumberMinMax,
+  isIncludeSpecialChar
 } from "./inputValidations";
 import insideRedirect from "./insideRedirect";
 import searchHoliday from "./searchHoliday";
@@ -51,6 +52,7 @@ import getRoomCountFromHouse from "./getRoomCountFromHouse";
 const JDutils = {
   isTestProduct,
   ErrProtecter,
+  isIncludeSpecialChar,
   targetBlink,
   isEmpty,
   isEmail,
@@ -97,6 +99,7 @@ const JDutils = {
 
 export default JDutils;
 export {
+  isIncludeSpecialChar,
   onCompletedMessage,
   JDMonthTextChanger,
   insideRedirect,

@@ -9,6 +9,7 @@ interface IProps {
   selectedValue: string[];
   value: string[];
   onChange: (value: string[]) => void;
+  reversal?: "onlyFull" | "always";
   withAllToogler?: boolean;
   defaultAllToogle?: boolean;
   withAllTooglerLabel?: string;
@@ -24,21 +25,36 @@ const JDmultiBox: React.FC<IProps> = ({
   onChange,
   withAllToogler,
   withAllTooglerLabel,
+  reversal,
   className,
   noWrap
 }) => {
   const [onAllToggle, setAllToggle] = useState(defaultAllToogle);
+
   const handleMultiBoxAllChange = () => {
     setAllToggle(!onAllToggle);
     onChange(!onAllToggle ? value : []);
   };
 
-  const handleMultiBoxChange = (inValue: string) => {
-    const index = selectedValue.findIndex(inInValue => inInValue === inValue);
-    if (index === -1) {
-      selectedValue.push(inValue);
+  const handleMultiBoxChange = (text: string) => {
+    const selectedTagrgetIndex = selectedValue.findIndex(
+      inInValue => inInValue === text
+    );
+    const isSelectedValue = selectedTagrgetIndex !== -1;
+
+    if (reversal === "always") {
+      selectedValue = [];
+    } else if (
+      reversal === "onlyFull" &&
+      selectedValue.length === value.length
+    ) {
+      selectedValue = [];
+    }
+
+    if (!isSelectedValue) {
+      selectedValue.push(text);
     } else {
-      selectedValue.splice(index, 1);
+      selectedValue.splice(selectedTagrgetIndex, 1);
     }
     onChange(selectedValue.slice());
   };

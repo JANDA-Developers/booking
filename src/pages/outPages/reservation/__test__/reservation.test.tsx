@@ -44,6 +44,13 @@ describe("reservation", () => {
     await unSendSmsModal();
     await toastCheck("StartBooking");
   });
+
+  test.skip("Do Reservation Process With Guest", async () => {
+    // first go to mypage
+    await page.goto("");
+    // second copy url to go resvpage
+    // Do resvProcessForGuest
+  });
 });
 
 export default "c";

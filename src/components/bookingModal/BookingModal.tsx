@@ -117,6 +117,11 @@ const BookingModal: React.FC<IProps> = ({
   );
   const isPhabletDown = window.innerWidth < WindowSize.TABLET;
   const [assigInfo, setAssigInfo] = useState(makeAssigInfo(guests));
+  const modalStyle = {
+    content: {
+      maxWidth: "30rem"
+    }
+  };
   const payMethodHook = useSelect(
     C(
       bookingId !== "default",
@@ -263,11 +268,7 @@ const BookingModal: React.FC<IProps> = ({
 
   return (
     <Modal
-      style={{
-        content: {
-          maxWidth: "30rem"
-        }
-      }}
+      style={modalStyle}
       paddingSize="large"
       {...modalHook}
       className={`Modal bookingModal ${(loading || startBookingLoading) &&
@@ -325,12 +326,13 @@ const BookingModal: React.FC<IProps> = ({
                   id="PriceHook"
                   mr={isPhabletDown ? undefined : "no"}
                   disabled={allReadOnly}
-                  {...priceHook}
                   placeholder={`${LANG("normal_price")}:${autoComma(
                     placeHolederPrice
                   )}`}
                   comma
                   label={LANG("total_price")}
+                  {...priceHook}
+                  value={toNumber(priceHook.value)}
                 />
                 <SelectBox
                   id="PayMethodSelect"
@@ -380,7 +382,7 @@ const BookingModal: React.FC<IProps> = ({
                   mr={isPhabletDown ? undefined : "no"}
                   disabled={allReadOnly}
                   readOnly
-                  value={moment(createdAt ? createdAt : undefined)
+                  value={moment(createdAt || undefined)
                     .local()
                     .format(DateFormat.WITH_TIME)}
                   label={LANG("reservation_date")}
@@ -390,14 +392,18 @@ const BookingModal: React.FC<IProps> = ({
             </div>
             <div className="flex-grid__col modal__section">
               <h5>{LANG("room_assig_info")}</h5>
-              <JDLabel txt="인원 및 방정보" />
+              <JDLabel txt={LANG("people_and_room_info")} />
               <RoomSelectInfoTable roomSelectInfo={roomSelectInfo} />
-              <JDLabel txt="배정정보" />
-              <RoomAssigedInfoTable
-                setAssigInfo={setAssigInfo}
-                assigInfo={assigInfo}
-                guestsData={guests || []}
-              />
+              {mode !== "CREATE" && (
+                <Fragment>
+                  <JDLabel txt={LANG("assig_info")} />
+                  <RoomAssigedInfoTable
+                    setAssigInfo={setAssigInfo}
+                    assigInfo={assigInfo}
+                    guestsData={guests || []}
+                  />
+                </Fragment>
+              )}
             </div>
             <div className="JDz-index-1 modal__section flex-grid__col  ">
               <h5>{LANG("else")}</h5>

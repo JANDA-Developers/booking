@@ -180,14 +180,14 @@ const MyHouseModal: React.FC<IProps> = ({
               </div>
             </Fragment>
           )}
-          <div className="JDmodal__endSection">
+          {/* <div className="JDmodal__endSection">
             <Button
               mode="flat"
               onClick={onDelete}
               thema="error"
               label={LANG("delete")}
             />
-          </div>
+          </div> */}
         </Fragment>
       )}
     </Modal>

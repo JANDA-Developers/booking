@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/rules-of-hooks */
-import React from "react";
+import React, { Fragment } from "react";
 import {
   getAllRoomType,
   getAllRoomTypeVariables,
@@ -18,6 +18,7 @@ import client from "../../../apollo/apolloClient";
 import RoomConfig from "./RoomConfig";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { RoomConfigSubmitData } from "../../../components/bookingModal/declaration";
+import Preloader from "../../../atoms/preloader/Preloader";
 
 interface IProps {
   context: IContext;
@@ -62,16 +63,19 @@ const RoomConfigWrap: React.FC<IProps> = ({ context }) => {
   };
 
   return (
-    <RoomConfig
-      onSubmit={handleSubmit}
-      context={context}
-      loading={loading}
-      defaultData={{
-        defaultCreateRoomType: [],
-        roomTypesData
-      }}
-      key={loading ? "roomConfig--loading" : "roomConfig"}
-    />
+    <Fragment>
+      <RoomConfig
+        onSubmit={handleSubmit}
+        context={context}
+        loading={loading}
+        defaultData={{
+          defaultCreateRoomType: [],
+          roomTypesData
+        }}
+        key={loading ? "roomConfig--loading" : "roomConfig"}
+      />
+      <Preloader floating loading={saveRoomsLoading} />
+    </Fragment>
   );
 };
 

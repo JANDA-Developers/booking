@@ -24,9 +24,11 @@ import { inOr } from "../../../utils/C";
 import PreloaderModal from "../../../atoms/preloaderModal/PreloaderModal";
 import PageBody, { PageBottom } from "../../../components/pageBody/PageBody";
 import { closeTooltip } from "../../../utils/closeTooltip";
+import { hightPortalElement } from "../../../utils/portalElement";
 import { WindowSize } from "../../../types/enum";
 import PageHeader from "../../../components/pageHeader/PageHeader";
 import { IContext } from "../BookingHostRouter";
+import { createPortal } from "react-dom";
 
 interface IProps {
   productTypeDecs: IProductTypeDec[];
@@ -96,8 +98,11 @@ const SelectProducts: React.FC<IProps> = ({
 
   return (
     <div id="selectProducts" className="selectProducts">
-      <PageHeader title={LANG("select_service")} />
-      <PageBody>
+      <PageHeader
+        desc={LANG("select_product_desc")}
+        title={LANG("select_service")}
+      />
+      <PageBody size={WindowSize.PHABLET}>
         <Preloader size={"large"} loading={loading} />
         <div className="flex-grid flex-grid-grow selectProducts__productWrapWrap">
           <CardsGroup />
@@ -123,6 +128,7 @@ const SelectProducts: React.FC<IProps> = ({
       </PageBody>
       <ApplyProductModal
         context={context}
+        loading={mutationLoading}
         houseId={selectedHouse?._id || ""}
         buyProductMu={buyProductMu}
         modalHook={applyModal}
@@ -142,7 +148,6 @@ const SelectProducts: React.FC<IProps> = ({
         id="tooltip__currentProduct"
         effect="solid"
       />
-      <PreloaderModal loading={mutationLoading} />
     </div>
   );
 };

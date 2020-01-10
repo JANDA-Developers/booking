@@ -403,6 +403,7 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
             {roomTypeTabEnable && (
               <JDmultiBox
                 noWrap
+                reversal="onlyFull"
                 defaultAllToogle={true}
                 withAllTooglerLabel={LANG("see_all")}
                 withAllToogler

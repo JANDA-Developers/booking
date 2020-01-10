@@ -98,6 +98,7 @@ const PeriodicalSignCard: React.FC<Iprops & WindowSizeProps> = ({
                 </VtableCell>
                 <VtableCell label={LANG("current_status")}>
                   <SelecterPayStatus
+                    context={context}
                     isContinue={isContinue}
                     productId={productId}
                   />

@@ -109,7 +109,10 @@ const JDdayPicker: React.FC<IJDdayPickerProps> = React.memo(
       if (modifiers.disabled) return;
 
       // 같은날을 선택할수 없는경우에
-      if (from && !canSelectSameDate && day <= from) {
+
+      if (from && !canSelectSameDate && moment(from).isSame(day, "d")) return;
+
+      if (from && day <= from) {
         handleResetClick();
         return;
       }

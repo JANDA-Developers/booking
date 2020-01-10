@@ -21,14 +21,16 @@ const LangSelectModal: React.FC<Iprops> = ({ context, modalHook }) => {
   } = context;
   return (
     <JDmodal {...modalHook}>
-      <LangList
-        onClickLng={lang => {
-          changeLang(LanguageResverseShort[lang]);
-        }}
-        // @ts-ignorec
-        hilightLangs={[LanguageShortResverse[currentLang]]}
-        hideList={LANGUAGE_LIST.filter(lang => !enableLangs.includes(lang))}
-      />
+      <div className="JDflex JDstandard-margin-bottom-minus">
+        <LangList
+          onClickLng={lang => {
+            changeLang(LanguageResverseShort[lang]);
+          }}
+          // @ts-ignorec
+          hilightLangs={[LanguageShortResverse[currentLang]]}
+          hideList={LANGUAGE_LIST.filter(lang => !enableLangs.includes(lang))}
+        />
+      </div>
     </JDmodal>
   );
 };

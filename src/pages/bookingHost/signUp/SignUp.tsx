@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import InputText from "../../../atoms/forms/inputText/InputText";
 import Radio from "../../../atoms/forms/radio/Radio";
 import Button from "../../../atoms/button/Button";
-import { LOG_USER_IN, IS_LOGGED_IN } from "../../../apollo/clientQueries";
+import { LOG_USER_IN } from "../../../apollo/clientQueries";
 import client from "../../../apollo/apolloClient";
 import { EMAIL_SIGN_UP, GET_USER_INFO } from "../../../apollo/queries";
 import "./SignUp.scss";
@@ -33,7 +33,7 @@ const SignUp: React.FC<Iprops> = ({ context }) => {
   const [eamilSingInMu] = useMutation(LOG_USER_IN, {
     client,
     ignoreResults: true,
-    refetchQueries: [{ query: IS_LOGGED_IN }, { query: GET_USER_INFO }],
+    refetchQueries: [{ query: GET_USER_INFO }],
     onCompleted: () => {
       history.replace(`/dashboard`);
     }

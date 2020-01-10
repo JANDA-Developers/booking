@@ -11,12 +11,20 @@ import client from "../../../../../../apollo/apolloClient";
 import { UPDATE_PRODUCT_BILL_PAY_STATUS } from "../../../../../../apollo/queries";
 import { useMutation } from "@apollo/react-hooks";
 import { onCompletedMessage, muResult } from "../../../../../../utils/utils";
+import { IContext } from "../../../../BookingHostRouter";
+
 interface Iprops {
+  context: IContext;
   isContinue: boolean;
   productId: string;
 }
 
-const SelecterPayStatus: React.FC<Iprops> = ({ productId, isContinue }) => {
+const SelecterPayStatus: React.FC<Iprops> = ({
+  productId,
+  isContinue,
+  context
+}) => {
+  const { house } = context;
   // 카드 삭제
   const [updateProductBillPayStatusMu] = useMutation<
     updateProductBillPayStatus,
@@ -26,8 +34,8 @@ const SelecterPayStatus: React.FC<Iprops> = ({ productId, isContinue }) => {
     onCompleted: ({ UpdateProductBillPayStatus }) => {
       onCompletedMessage(
         UpdateProductBillPayStatus,
-        LANG("card_delte_complete"),
-        LANG("card_info_complete_fail")
+        LANG("periodical_payment_is_stopped")(house.name),
+        LANG("request_is_failed")
       );
     }
   });
@@ -55,7 +63,13 @@ const SelecterPayStatus: React.FC<Iprops> = ({ productId, isContinue }) => {
     }
   };
 
-  return <JDselect {...selectHook} onChange={handleChange} options={CHANGE_PAY_STATUS_OP} />;
+  return (
+    <JDselect
+      {...selectHook}
+      onChange={handleChange}
+      options={CHANGE_PAY_STATUS_OP}
+    />
+  );
 };
 
 export default SelecterPayStatus;

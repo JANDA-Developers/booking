@@ -93,7 +93,7 @@ const numberStr = (str: string = ""): string => str.replace(/[^0-9.]/g, "");
 // 스트링을 숫자로 만듬
 const toNumber = (value: string | number = ""): number => {
   if (typeof value === "number") return value;
-  return parseInt(value.replace(/[^0-9.]/g, ""), 10);
+  return parseInt(value.replace(/[^0-9.]/g, ""));
 };
 
 export default autoHypenPhone;

@@ -15,8 +15,6 @@ import "./lib/wave/wave.scss";
 import { useLang, LANG } from "./hooks/hook";
 import { globalLanguageSetting } from "./utils/globalLagnSet";
 import $ from "jquery";
-import ReactDOMServer from "react-dom/server";
-import Button from "./atoms/button/Button";
 import { toast } from "react-toastify";
 
 function App() {
@@ -63,6 +61,7 @@ function App() {
               <Route
                 key={`router${path}`}
                 path={path}
+                // @ts-ignore
                 render={() => <BookingHostRouter langHook={langHook} />}
               />
             ))}
@@ -88,6 +87,13 @@ function App() {
             zIndex: 999999
           }}
           id="JDpreloaderPortal"
+        />
+        <div
+          style={{
+            position: "fixed",
+            zIndex: 999999 + 1
+          }}
+          id="JDpriorityPortal"
         />
         {/* for old borwser */}
         <div id="outdated" />

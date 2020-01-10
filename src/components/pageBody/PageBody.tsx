@@ -1,10 +1,23 @@
 import React, { Fragment } from "react";
 import "./PageBody.scss";
 import { IDiv } from "../../types/interface";
-import { any } from "prop-types";
+import { WindowSize } from "../../types/enum";
+import classNames from "classnames";
 
-const PageBody: React.FC = ({ children }) => {
-  return <div className="pageBody container container--full">{children}</div>;
+interface IContinaerProp {
+  size?: WindowSize;
+}
+
+const PageBody: React.FC<IContinaerProp> = ({ children, size }) => {
+  const classes = classNames("container", classNames, {
+    "container--full": size === undefined,
+    "container--sm": size === WindowSize.MOBILE,
+    "container--md": size === WindowSize.PHABLET,
+    "container--wmd": size === WindowSize.TABLET,
+    "container--lg": size === WindowSize.DESKTOP,
+    "container--wlg": size === WindowSize.DESKTOPHD
+  });
+  return <div className={`pageBody ${classes}`}>{children}</div>;
 };
 
 export const PageBottom: React.FC<IDiv> = props => <div {...props} />;

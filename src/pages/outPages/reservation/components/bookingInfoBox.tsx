@@ -72,6 +72,9 @@ const BookingInfoBox: React.FC<IBookingInfoBoxProps> = ({
     }
   ];
 
+  console.log("totalPrice");
+  console.log(totalPrice);
+
   return (
     <div className={classes}>
       <JDtable

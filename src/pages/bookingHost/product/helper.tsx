@@ -1,6 +1,5 @@
 import React from "react";
-import { IProductTypeDec } from "../../../types/interface";
-import { getAllProductTypes_GetAllProductTypes_productTypes } from "../../../types/api";
+import { IProductTypeDec, IProductType } from "../../../types/interface";
 import { ProductTypeKey } from "../../../types/enum";
 import { autoComma } from "../../../utils/utils";
 import JDlist from "../../../atoms/list/List";
@@ -16,17 +15,14 @@ interface IProductSpecifc {
 }
 
 const ProductTypeGetDesc = (
-  productTypes: getAllProductTypes_GetAllProductTypes_productTypes[]
+  productTypes: IProductType[]
 ): IProductTypeDec[] => {
-  const specifcGet = (
-    productType: getAllProductTypes_GetAllProductTypes_productTypes
-  ): IProductSpecifc => {
+  const specifcGet = (productType: IProductType): IProductSpecifc => {
     if (productType.key === ProductTypeKey.DEMO)
       return {
         icon: "rocket",
         shortDesc: (
           <JDlist
-            noWrap
             align="center"
             contents={[
               LANG("product1_short1"),
@@ -54,7 +50,6 @@ const ProductTypeGetDesc = (
         icon: "heartHouse",
         shortDesc: (
           <JDlist
-            noWrap
             align="center"
             contents={[
               LANG("product2_short1"),
@@ -81,7 +76,6 @@ const ProductTypeGetDesc = (
         icon: "hotel",
         shortDesc: (
           <JDlist
-            noWrap
             align="center"
             contents={[
               LANG("product3_shortl"),

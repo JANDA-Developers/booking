@@ -55,15 +55,12 @@ const JDSlider: React.FC<IProps> = ({
   const classes = classnames(JDslideDefaultSettings.className, className, {
     "JDslider--unDisplayArrow": displayArrow === false
   });
-
-  const settings = Object.assign(JDslideDefaultSettings, {
-    className: classes
-  });
+  JDslideDefaultSettings.className = classes;
 
   if (!condition) return <Fragment>{children}</Fragment>;
 
   return (
-    <Slider {...settings} {...props}>
+    <Slider {...JDslideDefaultSettings} {...props}>
       {children}
     </Slider>
   );

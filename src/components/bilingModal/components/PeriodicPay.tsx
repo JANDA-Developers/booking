@@ -1,21 +1,16 @@
 import React from "react";
 import { IContext } from "../../../pages/bookingHost/BookingHostRouter";
 import { registerBillKey_RegisterBillKey_billInfo } from "../../../types/api";
-import Vtable, {
-  Vheader,
-  VtableColumn,
-  VtableCell,
-  ColumnCells
-} from "../../../atoms/vtable/Vtable";
+import Vtable, { Vheader, ColumnCells } from "../../../atoms/vtable/Vtable";
 import { LANG } from "../../../hooks/hook";
-import Button from "../../../atoms/button/Button";
 import { card_space } from "../../../utils/autoFormat";
 import moment from "moment";
 import { DateFormat } from "../../../types/enum";
+import { IBillInfo, TPayinfoes } from "../../../types/interface";
 
 interface IProps {
   context: IContext;
-  billInfo: registerBillKey_RegisterBillKey_billInfo;
+  billInfo: IBillInfo | TPayinfoes;
 }
 
 const BillCompleteView: React.FC<IProps> = ({ context, billInfo }) => {
@@ -33,30 +28,30 @@ const BillCompleteView: React.FC<IProps> = ({ context, billInfo }) => {
   const renders = [
     {
       label: LANG("member_name"),
-      Component: name
+      Component: () => name
     },
     {
       label: LANG("regi_date"),
-      Component: moment(authDate).format(DateFormat.YYMMDD)
+      Component: () => moment(authDate).format(DateFormat.YYMMDD)
     },
     {
       label: LANG("product_info"),
-      Component: productTypeName
+      Component: () => productTypeName
     },
     {
       label: LANG("deposit_card_owner"),
-      Component: name
+      Component: () => name
     },
     {
       label: LANG("payment_information"),
-      Component: `${cardName}}: ${card_space(cardNo)}`
+      Component: () => `${cardName}}: ${card_space(cardNo)}`
     }
   ];
 
   return (
     <div>
       <div className="JDstandard-margin-bottom">
-        <h3>{LANG("pay_regist_complete_title")}</h3>
+        <h3>{LANG("product_regist_complete_message")}</h3>
         <span>{LANG("pay_regist_complete_text")}</span>
       </div>
       <div>

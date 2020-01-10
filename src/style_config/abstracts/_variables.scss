@@ -1,35 +1,33 @@
-
 // superTiny => tiny => small => normal => large => huge => largest;
 
-// ⭐️ Style Rule 
+// ⭐️ Style Rule
 
 // project-only
 $s3: "https://s3.ap-northeast-2.amazonaws.com/booking.stayjanda.statichosting/static/media/";
 
-// -- z-index 
+// -- z-index
 $z-index-0: -1; // container--centerlize
 $z-index-1: 10; // tineline Select__meunu
 $z-index-2: 20; // searchUl
 $z-index-3: 30; // dayPicker
 $z-index-4: 40;
-$z-index-5: 50; 
+$z-index-5: 50;
 $z-index-6: 60; // Modal Level 1
 $z-index-7: 70;
 $z-index-8: 80; // Assig Item
 $z-index-9: 90; // sideNav Curton header
 $z-index-10: 100; // sideNav  toast
 
-
 // -- ✏️ TyphoGraphy 타이포 그래피
-$typho-h6 : 1.3rem !default;
-$typho-huge : 1.3rem !default;
-$typho-large : 1.1rem !default;
-$typho-normal : 0.95rem !default;
-$typho-small : 0.825rem !default;
-$typho-tiny : 10px !default;
-$typho-superTiny : 9px !default;
+$typho-h6: 1.3rem !default;
+$typho-huge: 1.3rem !default;
+$typho-large: 1.1rem !default;
+$typho-normal: 0.95rem !default;
+$typho-small: 0.825rem !default;
+$typho-tiny: 10px !default;
+$typho-superTiny: 9px !default;
 
-// -- 🌈 Colors 컬러 칼라 
+// -- 🌈 Colors 컬러 칼라
 $html-color: #343434 !default;
 $primary-color: #4c5b73 !default;
 $primary-color-on: #fff !default;
@@ -38,28 +36,28 @@ $primary-color-dark: #445267 !default; // 흰색 호버 bg 에 오버랩 되었�
 $primary-color-light-on: $primary-color-on !default !default;
 $primary-color-dark-on: $primary-color-on !default !default;
 
-$point-color: #D5673A !default;
+$point-color: #d5673a !default;
 $point-color-on: #fff !default;
 $point-color-light: lighten($point-color, 15%) !default;
 $point-color-dark: darken($point-color, 15%) !default;
 $point-color-light-on: $point-color-on !default;
 $point-color-dark-on: $point-color-on !default;
 
-$grey-level-1: #FBFBFB !default; // 흰색 effect-dark 받을때 컬러 오버랩을 원치 않을때 사용
+$grey-level-1: #fbfbfb !default; // 흰색 effect-dark 받을때 컬러 오버랩을 원치 않을때 사용
 $grey-level0: #eee !default; // 흰색 effect-dark 받을때 컬러 오버랩을 원치 않을때 사용
 $grey-level1: #d9d9d9 !default; // 흰색 effect-dark 받을때 컬러 오버랩을 원치 않을때 사용
-$grey-level2: #bebebe !default; 
+$grey-level2: #bebebe !default;
 $grey-level3: #989898 !default;
 $grey-level4: #787878 !default;
 $grey-level5: #585858 !default;
-$grey-opacity1: rgba(0,0,0,.068) !default;;
-$grey-opacity2: rgba(0,0,0,.18) !default;;
-$grey-opacity3: rgba(0,0,0,.25) !default;;
+$grey-opacity1: rgba(0, 0, 0, 0.068) !default;
+$grey-opacity2: rgba(0, 0, 0, 0.18) !default;
+$grey-opacity3: rgba(0, 0, 0, 0.25) !default;
 
 $background-color: $grey-level-1 !default;
 $header-bg-color: $grey-level0 !default;
 
-$yellow-color: #FFD821 !default;
+$yellow-color: #ffd821 !default;
 
 $new-color: $yellow-color !default;
 $new-color-light: lighten($new-color, 15%) !default;
@@ -69,57 +67,59 @@ $new-color-on: $html-color !default;
 $green-color: rgb(0, 147, 100) !default;
 
 $error-color: #ff6760 !default;
-$error-color-dark: darken(#ff6760,5%) !default;
+$error-color-dark: darken(#ff6760, 5%) !default;
 
-$orange-color: #FF6E16 !default;
-$orange-color-dark: darken(#F58F2C,15%) !default;
-$orange-opacity1: rgba(#FF6E16, 10%) !default;
+$orange-color: #ff6e16 !default;
+$orange-color-dark: darken(#f58f2c, 15%) !default;
+$orange-opacity1: rgba(#ff6e16, 10%) !default;
 
-$blue-color: rgba(0,0,255,1) !default;
-$blue-color-dark: darken(rgba(0,0,255,1),15%) !default;
-$blue-opacity1: rgba(0,0,255,.04) !default;
-$blue-opacity2: rgba(0,0,255,.08) !default;
+$blue-color: rgba(0, 0, 255, 1) !default;
+$blue-color-dark: darken(rgba(0, 0, 255, 1), 15%) !default;
+$blue-opacity1: rgba(0, 0, 255, 0.04) !default;
+$blue-opacity2: rgba(0, 0, 255, 0.08) !default;
 
 $positive-color: $green-color !default;
 $positive-opacity1: rgba($positive-color, 0.1) !default;
 $positive-opacity2: rgba($positive-color, 0.3) !default;
 $positive-color-dark: darken($positive-color, 5%) !default;
-$positive-color-on: white !default;;
+$positive-color-on: white !default;
 
-$admin-bg-color: #172B3A !default;;
+$admin-bg-color: #172b3a !default;
+$hover-effect-dark: $grey-opacity1 !default;
 
-$hover-effect-dark: $grey-opacity1 !default;;
-
-$male-color: navy!default !default;
-$female-color: maroon!default !default;
+$male-color: navy !default !default;
+$female-color: maroon !default !default;
 
 $disabled-color: $grey-level2 !default;
-
 $outborder-color: $grey-level2 !default; //화면 가장자리에 붙어있는 border들의 컬러
 $placeholder-color: $outborder-color !default;
 
 $grey-text-color: $grey-level5 !default;
-
-$curtain-color: rgba(0,0,0,.78) !default; // 사이드 네비와 모달의 화면 가림색
+$curtain-color: rgba(
+  0,
+  0,
+  0,
+  0.78
+) !default; // 사이드 네비와 모달의 화면 가림색
 
 // 📖 ---- 표준 단위
-$doc-section-space: 0.4rem * 12 !default; 
-$standard-largest-space: 0.4rem * 7 !default; 
-$standard-huge-space: 0.4rem * 5 !default; 
-$standard-large-space: 0.4rem * 4 !default; 
-$standard-space: 0.4rem * 3 !default; 
-$standard-small-space: 0.4rem * 2 !default; 
-$standard-tiny-space: 0.4rem !default; 
-$standard-superTiny-space: 0.25rem !default; 
+$doc-section-space: 0.4rem * 12 !default;
+$standard-largest-space: 0.4rem * 7 !default;
+$standard-huge-space: 0.4rem * 5 !default;
+$standard-large-space: 0.4rem * 4 !default;
+$standard-space: 0.4rem * 3 !default;
+$standard-small-space: 0.4rem * 2 !default;
+$standard-tiny-space: 0.4rem !default;
+$standard-superTiny-space: 0.25rem !default;
 
 // --- 표준 규격
-$standard-margin-bottom: $standard-space !default; 
-$standard-label-margin : $standard-tiny-space !default;
+$standard-margin-bottom: $standard-space !default;
+$standard-label-margin: $standard-tiny-space !default;
 
 // ⭐️ InputText, SelectBox 등등 대부분의 원소 구성요서 들의 세로 크기를 의미합니다.
 // 크기를 규격화 해서 한 라인으로 세울수 있도록 합니다.
 $standard-border-radius: 3px !default;
-$standard-line-height: 0.25rem * 10 !default; 
+$standard-line-height: 0.25rem * 10 !default;
 $standard-input-outborder-color: $outborder-color !default;
 
 // 💔 -- BreackPoints 브레이크 포인트
@@ -128,21 +128,21 @@ $mobile: "400px" !default; // sm
 $phablet: "550px" !default; //  md
 $tablet: "750px" !default; //  wmd
 $desktop: "1000px" !default; // lg
-$desktophd: "1200px" !default; //  wlg 
-$full: "9999px" !default; 
-$null: "0px" !default; 
+$desktophd: "1200px" !default; //  wlg
+$full: "9999px" !default;
+$null: "0px" !default;
 
-// 함수로 만드는방법이 있지만 복잡합니다. 
+// 함수로 만드는방법이 있지만 복잡합니다.
 // https://hugogiraudel.com/2014/01/15/sass-string-to-number/
 $mobileUp: "401px" !default; // sm
 $phabletUp: "551px" !default; //  md
 $tabletUp: "751px" !default; //  wmd
 $desktopUp: "1001px" !default; // lg
-$desktophdUp: "1201px" !default; //  wlg 
+$desktophdUp: "1201px" !default; //  wlg
 
 // -- Grid 그리드
 $container-width: 1000px !default;
-$container-full-max-width: none !default; // --full 일떄 
+$container-full-max-width: none !default; // --full 일떄
 $container-small-width: 550px !default;
 $container-middle-width: 800px !default;
 $container-large-width: 1200px !default;
@@ -154,10 +154,9 @@ $total-columns: 12 !default;
 $column-width: 100 / $total-columns !default; // calculates individual column width based off of # of columns
 $column-margin: 2% !default; // space between column grids
 
-// -- flex 버전의 그리드 
+// -- flex 버전의 그리드
 $flex-grid__column--fixed-width: 200px !default;
 $flex-grid--column-margin: 2% !default;
-
 
 // -- Section 섹션여백
 $docs-padding-top: $standard-largest-space !default; // pageHeader padding top
@@ -177,8 +176,8 @@ $label-font-color: $grey-text-color !default;
 // ANCHOR Forms ==========================================================================
 // -- Text Inputs + Textarea 인풋
 $input-outborder-color: $outborder-color;
-$input-height: $standard-line-height!default;
-$input-background: transparent!default;
+$input-height: $standard-line-height !default;
+$input-background: transparent !default;
 $input-border: 1px solid $input-outborder-color !default;
 $input-border-bottom: undefined;
 $input-error-color: $error-color !default;
@@ -189,7 +188,7 @@ $input-side-padding: $standard-small-space !default;
 $input-padding: 0px $standard-small-space !default;
 
 $input-transition: all 0.3s !default;
-$input-disabled-color: $disabled-color!default;
+$input-disabled-color: $disabled-color !default;
 $input-disabled-border: 1px dotted $input-disabled-color !default;
 $input-invalid-border: 1px solid $input-error-color !default;
 $placeholder-text-color: $placeholder-color !default;
@@ -225,7 +224,7 @@ $select-multi-remove-hover-color: $html-color !default;
 $select-multi-remove-hover-bgcolor: $error-color !default;
 $select-multi-remove-bgcolor: $grey-level2 !default;
 $select-multi-bgcolor: $grey-level1 !default;
-$select-multi-color:  $html-color !default;
+$select-multi-color: $html-color !default;
 
 // -- Switches 스위치
 $switch-checked-bgcolor: $primary-color !default;
@@ -234,21 +233,21 @@ $switch-unchecked-bgcolor: $grey-level2 !default;
 $switch-unchecked-lever-bgcolor: $grey-level1 !default;
 $switch-radius: 15px !default;
 $switch-label-fontSize: 1rem !default;
-$switch-label-color:$html-color !default;
+$switch-label-color: $html-color !default;
 $switch-disabled-solid-color: $disabled-color !default;
 
 // -- CheckBox 체크박스
 $checkbox-label-fontSize: 1rem !default;
-$checkbox-label-color:$html-color !default;
+$checkbox-label-color: $html-color !default;
 $checkbox-border-color: $input-outborder-color !default;
 $checkbox-disabled-border-color: $disabled-color !default;
 $checkbox-checked-color: $primary-color !default;
-$checkbox-sign-color : #fff !default;
+$checkbox-sign-color: #fff !default;
 
 // 2 DOC__ 다큐먼트
 // ANCHOR DOC ==========================================================================
 
-// -- nav 다큐먼트 네비  
+// -- nav 다큐먼트 네비
 $nav-color: $primary-color !default;
 $nav-link-padding: $standard-small-space 0rem !default;
 
@@ -261,15 +260,15 @@ $icon-size-small: 1.25rem !default;
 $icon-size-normal: 1.45rem !default;
 $icon-size-large: 1.8rem !default;
 $icon-size-huge: 2.25rem !default;
-$icon-size-largest: 4rem!default;
-$icon-size-largest2: 6rem!default;
+$icon-size-largest: 4rem !default;
+$icon-size-largest2: 6rem !default;
 
 // 3 Calender 캘랜더 달력
 // ANCHOR DayPicker=========================================================================
 
 // -- Shared styles
 $daypicker-block-height: 3rem !default;
-$daypicker-border-tick: .2rem !default;
+$daypicker-border-tick: 0.2rem !default;
 $daypicker-disabled-color: $grey-level2 !default;
 $daypicker-otuside-bgcolor: #fff !default;
 $daypicker-dot-size: 5px !default; // calculator
@@ -277,18 +276,18 @@ $daypicker-dot-top: 5px !default; // calculator
 $daypicker-caption-margin-bottom: 1rem !default; // it must be a pixcel
 $daypicker-caption-height: $standard-line-height !default;
 $daypicker-day-transition: 0.2s !default;
-$daypicker-border: 1px solid $outborder-color!default;
+$daypicker-border: 1px solid $outborder-color !default;
 $daypicker-border-radius: $standard-border-radius !default;
 $daypicker-today-color: $green-color !default;
 $daypicker-insdie-padding: $standard-tiny-space !default;
 $daypicker-checkOut-bgColor: $orange-color !default;
 
 // -- horizen
-$horizen-caption-bgcolor : $grey-level1 !default;
-$horizen-month-bordeRight :  none;
+$horizen-caption-bgcolor: $grey-level1 !default;
+$horizen-month-bordeRight: none;
 
 // -- input
-$dayPicker-input-height : $input-height + 1rem !default;
+$dayPicker-input-height: $input-height + 1rem !default;
 
 // 4 Buttons
 // ANCHOR Buttons =========================================================================
@@ -301,7 +300,7 @@ $button-padding: 0 $button-padding-side !default;
 $button-radius: $standard-border-radius !default;
 $buttons-space: $standard-small-space !default;
 $buttons-icon-margin: $icon-space !default;
-$button-letter-spacing: .5px !default;
+$button-letter-spacing: 0.5px !default;
 $button-color: $html-color !default;
 $button-bgColor: #fff !default;
 $button-bgColor-hover: $hover-effect-dark !default;
@@ -309,7 +308,6 @@ $button-bgColor-hover: $hover-effect-dark !default;
 // -- Disabled styles
 $button-disabled-background: $grey-level1 !default;
 $button-disabled-color: $grey-level4 !default;
-
 
 // -- Large buttons
 $button-large-icon-font-size: $typho-huge !default;
@@ -348,10 +346,10 @@ $modal-section-padding: $standard-largest-space !default;
 
 $searchInput-feedBack-color: $grey-level2;
 $searchInput-input-border: $input-border !default;
-$searchInput-border-color:$grey-level1 !default;
+$searchInput-border-color: $grey-level1 !default;
 $searchInput-border-radius: $standard-border-radius;
 $searchInput-li-border-top: 1px dotted $searchInput-border-color !default;
-$searchInput-li-padding: 0 $standard-small-space !default;
+$searchInput-li-padding: $standard-tiny-space $standard-small-space !default;
 $searchInput-li-height: $standard-line-height !default;
 $searchInput-message-space: 1rem !default;
 
@@ -361,10 +359,10 @@ $searchInput-message-space: 1rem !default;
 $sideNav-list-padding: $standard-large-space !default;
 $sideNav-width: 0.4rem * 38 !default;
 $sideNav-width-wmd: $sideNav-width * 0.95 !default;
-$sideNav-profile-height : 13rem !default;
-$sideNav-profile-circle-margin-top : 2rem !default;
-$sideNav-list-li-height : 3.25rem !default;
-$sideNav-list-li-bgColor : white !default;
+$sideNav-profile-height: 13rem !default;
+$sideNav-profile-circle-margin-top: 2rem !default;
+$sideNav-list-li-height: 3.25rem !default;
+$sideNav-list-li-bgColor: white !default;
 $sideNav-curtain-color: $curtain-color !default;
 $sideNav-productView-height: 4.25rem !default;
 
@@ -384,7 +382,7 @@ $slider-dot-margin: 12px !default;
 $slider-dot-bgColor: $grey-level2 !default;
 $slider-dot-active-bgColor: $html-color !default;
 $slider-dot-hover-bgColor: $grey-level4 !default;
-$slider-arrow-height : 2rem !default;
+$slider-arrow-height: 2rem !default;
 
 // 11 Pagination 페이지네이션
 // ANCHOR paginiation Paginiation =========================================================================
@@ -407,13 +405,13 @@ $toast-margin-bottom: $standard-margin-bottom/2 !default;
 // ANCHOR toast Toast=========================================================================
 $profileCircle-size: 4rem !default;
 // border 옵션일 경우 넣어야 동작
-$profileCircle-border: 2px solid $grey-level2!default;
+$profileCircle-border: 2px solid $grey-level2 !default;
 
 // 14 Card 카드
 // ANCHOR card Card=========================================================================
 $card-padding: $standard-large-space !default;
 $card-padding--md: $standard-small-space !default;
-$card-shadow: 1!default;
+$card-shadow: 1 !default;
 $card-bg: white;
 
 // 15 Tabs 탭
@@ -421,7 +419,7 @@ $card-bg: white;
 
 $tabs-height: $standard-line-height !default;
 $tabs-margin-bottom: $standard-margin-bottom !default;
-$tabs-tab-padding:  0 !default;
+$tabs-tab-padding: 0 !default;
 $tabs-tab-border-color: $grey-level1 !default;
 $tabs-tab-border-radious: $standard-border-radius !default;
 $tabs-tab-selected-color: $primary-color !default;
@@ -455,20 +453,20 @@ $IUploader-border: 2px dashed $IUploader-border-color !default;
 // 20 colorPicker 컬러 칼라 컬러픽커
 // ANCHOR color Color=========================================================================
 $colorPicker-padding: $standard-tiny-space !default;
-$colorPicker-height: $standard-line-height  - ($colorPicker-padding * 2) !default;
+$colorPicker-height: $standard-line-height - ($colorPicker-padding * 2) !default;
 $colorPicker-width: 3rem !default;
 $colorPicker-radius: $standard-border-radius !default;
 $colorPicker-outborder-color: $outborder-color !default;
 $colorPicker-bg: white !default;
 $colorPicker-border: 1px solid $colorPicker-outborder-color !default;
 
-// 21 assigTimeline 배정 타임라인 방배정 
+// 21 assigTimeline 배정 타임라인 방배정
 // ANCHOR assig Assig=========================================================================
 $assigItem-block-color: $html-color !default;
 $assigItem-normalStatus-color: #4079ecd1 !default; //#2153dbcc
-$assigItem-checkIn-color:  rgba(255, 238, 0, 0.7) !default;
+$assigItem-checkIn-color: rgba(255, 238, 0, 0.7) !default;
 $assigItem-selected-border-color: #4e83efd1 !default;
-$assigItem-linked-bgColor: rgba(255,255,255,.5) !default;
+$assigItem-linked-bgColor: rgba(255, 255, 255, 0.5) !default;
 $assigItem-progressing-opacity: 0.5 !default;
 // 반하얀색임
 
@@ -478,34 +476,34 @@ $AT-mobile-assigGroup-roomType-width: 2.25rem !default;
 $AT-mobile-assigGroup-room-width: 2.25rem !default;
 
 $assigItem-selected-linked-border-thick: 1px !default;
-$assigItem-selected-linked-border: $assigItem-selected-linked-border-thick solid $assigItem-selected-border-color !default;
+$assigItem-selected-linked-border: $assigItem-selected-linked-border-thick solid
+  $assigItem-selected-border-color !default;
 $assigItem-padding: 0.4rem !default;
 
 // 22 badge 뱃지
 // ANCHOR badge Badge=========================================================================
-$badge-padding:  0.30em 0.35em 0.35em 0.3em !default;
-$badge-padding-tiny:  0.15em 0.3em !default;
-$badge-radius-tiny:  2px !default;
+$badge-padding: 0.3em 0.35em 0.35em 0.3em !default;
+$badge-padding-tiny: 0.15em 0.3em !default;
+$badge-radius-tiny: 2px !default;
 
 // 23 menu 메뉴
 // ANCHOR menu Menu=========================================================================
-$menu-dropDown-side-padding:  $standard-space !default;
-$menu-border-bottom:  1px solid $grey-level1 !default;
+$menu-dropDown-side-padding: $standard-space !default;
+$menu-border-bottom: 1px solid $grey-level1 !default;
 
 // 24 daily Assig
 // ANCHOR menu Menu=========================================================================
-$dailyAssig-block-height:  $standard-line-height !default; //.125rem === "border"
-$menu-border-bottom:  1px solid $grey-level1 !default;
+$dailyAssig-block-height: $standard-line-height !default; //.125rem === "border"
+$menu-border-bottom: 1px solid $grey-level1 !default;
 
 // 25 box 박스
 // ANCHOR box Box =========================================================================
-$box-border:  1px solid $outborder-color !default; //.보더"
+$box-border: 1px solid $outborder-color !default; //.보더"
+$box-padding: $standard-small-space;
 
-
-//27 scrollbar 
+//27 scrollbar
 $JDscrollbar-bar-color: $grey-level0;
 $JDscrollbar-height: 13px;
 $JDscrollbar-width: 10px;
 $JDscrollbar-thumb-color: $grey-level2;
 $JDscrollbar-thumb-hover-color: $grey-level3;
-

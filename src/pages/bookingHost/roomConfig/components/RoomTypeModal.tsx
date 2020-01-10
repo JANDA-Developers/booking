@@ -48,7 +48,9 @@ const RoomTypeModal: React.FC<IProps> = ({ modalHook, loading, onSubmit }) => {
   } = data;
   const isCreate = mode === "create";
   const priceWarnModal = useModal(false);
-  const roomImageHook = useImageUploader(img);
+  const roomImageHook = useImageUploader(img, undefined, file => {
+    set("img", file);
+  });
   const maxPeopleCountOp = MAX_PEOPLE_COUNT_OP_FN();
   const peopleCountMaxOp = optionFineder(maxPeopleCountOp, peopleCountMax);
   const pricingTypeOp = optionFineder(PRICING_TYPE_OP, pricingType);
@@ -83,7 +85,7 @@ const RoomTypeModal: React.FC<IProps> = ({ modalHook, loading, onSubmit }) => {
     return true;
   };
 
-  function set<T extends keyof IRoomType>(key: T, value: IRoomType[]) {
+  function set<T extends keyof IRoomType>(key: T, value: IRoomType[T]) {
     setData({ ...data, [key]: value });
   }
 

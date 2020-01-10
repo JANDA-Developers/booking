@@ -14,13 +14,15 @@ import client from "../../../apollo/apolloClient";
 import { useMutation } from "@apollo/react-hooks";
 import { IContext } from "../../../pages/bookingHost/BookingHostRouter";
 import CardInfoForm, { IChainProps } from "./CardInfoForm";
-import { onCompletedMessage } from "../../../utils/utils";
+import { onCompletedMessage, muResult } from "../../../utils/utils";
 import { TCardRegistInfo } from "../BillingModal";
 import { getOperationName } from "apollo-link";
 import { LANG } from "../../../hooks/hook";
 import { cardExprieGet } from "../../../utils/autoFormat";
 import { ICardModalTarget } from "../../../pages/bookingHost/myPage/components/cardModal.tsx/CardModal";
 import { PortalPreloader } from "../../../utils/portalElement";
+import { TCreateCardCallBack } from "../../../pages/bookingHost/myPage/components/cardModal.tsx/CardViewer";
+import PreloaderModal from "../../../atoms/preloaderModal/PreloaderModal";
 
 export interface TCardViewInfo {
   billKey: string;
@@ -35,6 +37,7 @@ export interface ICardInfoFormWrapProps extends IChainProps {
   deleteBillCallBack?: () => any;
   registCallBack?: () => any;
   currentHouseInfo?: ICardModalTarget;
+  createCardCallBack?: TCreateCardCallBack;
 }
 
 // 이곳에서 카드 등록 수정 삭제 모든 요청 발생
@@ -43,6 +46,7 @@ const CardInfoFormWrap: React.FC<ICardInfoFormWrapProps> = ({
   registCallBack,
   deleteBillCallBack,
   currentHouseInfo,
+  createCardCallBack,
   ...props
 }) => {
   const refetchQueries = [getOperationName(GET_USER_INFO) || ""];
@@ -95,7 +99,7 @@ const CardInfoFormWrap: React.FC<ICardInfoFormWrapProps> = ({
   const createBillFn = async (cardInfo: TCardRegistInfo) => {
     const expObj = cardExprieGet(cardInfo.exp);
 
-    const reuslt = await createBillMu({
+    const result = await createBillMu({
       variables: {
         param: {
           addBillInfoToUser: true,
@@ -109,6 +113,11 @@ const CardInfoFormWrap: React.FC<ICardInfoFormWrapProps> = ({
         }
       }
     });
+
+    const tempResult = muResult(result, "RegisterBillKey", "billInfo");
+    if (tempResult) {
+      createCardCallBack && createCardCallBack(tempResult);
+    }
   };
 
   const loading = registerBillLoading || unRegisterBillLoading;
@@ -122,7 +131,7 @@ const CardInfoFormWrap: React.FC<ICardInfoFormWrapProps> = ({
         handleRegistBtn={createBillFn}
         handleDeleteBtn={unRegisterBillKeyFn}
       />
-      <PortalPreloader loading={loading} />
+      <PreloaderModal loading={loading} />
     </Fragment>
   );
 };

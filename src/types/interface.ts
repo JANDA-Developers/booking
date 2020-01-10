@@ -21,7 +21,9 @@ import {
   getAllRoomType_GetAllRoomType_roomTypes_rooms,
   getRoomTypeInfo_GetRoomTypeById_roomType_capacity_CapacityRoomType,
   getRoomTypeInfo_GetRoomTypeById_roomType_capacity_CapacityRoomTypeDomitory,
-  registerBillKey_RegisterBillKey_billInfo
+  registerBillKey_RegisterBillKey_billInfo,
+  getMyProfile_GetMyProfile_user_paymentInfos,
+  getAllProductTypes_GetAllProductTypes_productTypes
 } from "./api";
 import { IselectedOption } from "../atoms/forms/selectBox/SelectBox";
 import { PricingType, TMarginSize } from "./enum";
@@ -29,7 +31,7 @@ import { MutationFunctionOptions } from "@apollo/react-common";
 import { ExecutionResult } from "graphql";
 import { IStartBookingCallBack } from "../pages/bookingHost/assig/components/assigIntrerface";
 export interface JdFile extends singleUpload_SingleUpload_jdFile { }
-
+export interface IProductType extends getAllProductTypes_GetAllProductTypes_productTypes { }
 export interface GASt_RoomType
   extends getAllSeasonTable_GetAllRoomType_roomTypes { }
 export interface GB_booking extends getBooking_GetBooking_booking { }
@@ -48,6 +50,8 @@ export interface IRoomType extends getAllRoomType_GetAllRoomType_roomType { }
 export interface IBooking extends getBookings_GetBookings_result_bookings { }
 export interface IRoom extends getAllRoomType_GetAllRoomType_roomTypes_rooms { }
 export type TRef = React.MutableRefObject<any>;
+export type TPayinfoes = getMyProfile_GetMyProfile_user_paymentInfos;
+export type TBillInfo = registerBillKey_RegisterBillKey_billInfo;
 export type IGuest = getAllRoomTypeWithGuest_GetGuests_guests;
 export type IGuestD = getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory;
 export type IGuestR = getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom;

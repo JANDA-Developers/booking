@@ -1,5 +1,4 @@
 import React from "react";
-import JDmodal from "../../../../../atoms/modal/Modal";
 import { IUseModal } from "../../../../../hooks/hook";
 import MypageWrap from "../../../myPage/MyPageWrap";
 import { IContext } from "../../../BookingHostRouter";

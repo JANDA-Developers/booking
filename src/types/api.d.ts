@@ -7031,6 +7031,11 @@ export interface RegisterBillKeyInput {
   addBillInfoToUser: boolean;
 }
 
+export interface RoomInput {
+  _id?: string | null;
+  name: string;
+}
+
 export interface RoomTypeCapacityInitValueInput {
   count: number;
   gender: Gender;
@@ -7105,6 +7110,7 @@ export interface StartBookingPaymentInput {
   price: number;
   payMethod: PayMethod;
   status?: PaymentStatus | null;
+  payInfo?: CreateBillKeyInput | null;
 }
 
 export interface StartBookingRoomGuestInput {
@@ -7237,7 +7243,7 @@ export interface UpsertRoomTypeInput {
   img?: JdFileInput | null;
   defaultPrice?: number | null;
   description?: string | null;
-  rooms?: string[] | null;
+  rooms?: RoomInput[] | null;
 }
 
 //==============================================================

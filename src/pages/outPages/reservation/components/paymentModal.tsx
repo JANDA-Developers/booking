@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { Fragment } from "react";
+import React from "react";
 import JDmodal from "../../../../atoms/modal/Modal";
 import { IUseModal, LANG } from "../../../../hooks/hook";
 import JDselect from "../../../../atoms/forms/selectBox/SelectBox";
@@ -7,7 +7,7 @@ import Button from "../../../../atoms/button/Button";
 import BookerInfoBox from "./bookerInfoBox";
 import { PAYMETHOD_FOR_BOOKER_OP } from "../../../../types/const";
 import Preloader from "../../../../atoms/preloader/Preloader";
-import { IReservationHooks } from "../Reservation";
+import { IReservationHooks } from "../declation";
 
 interface IProps {
   className?: string;

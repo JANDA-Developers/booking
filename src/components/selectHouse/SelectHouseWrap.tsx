@@ -36,14 +36,15 @@ const SelectHouseWrap: React.SFC<IProps> = ({ className, context }) => {
   return (
     <SelectHouseMutation
       awaitRefetchQueries
-      refetchQueries={[getOperationName(GET_USER_INFO)!]}
-      onCompleted={({ selectHouse }: any) =>
+      refetchQueries={[{ query: GET_USER_INFO }]}
+      onCompleted={({ selectHouse }: any) => {
         onCompletedMessage(
           selectHouse,
           LANG("change_house"),
           LANG("change_house_fail")
-        )
-      }
+        );
+        location.reload();
+      }}
       mutation={SELECT_HOUSE}
     >
       {selectHouseMu => (

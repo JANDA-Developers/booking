@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState } from "react";
 import { Mutation, Query } from "react-apollo";
-import moment from "moment";
+import moment from "moment-timezone";
 import {
   getAllRoomTypePrice_GetAllRoomType_roomTypes as IRoomType,
   getAllRoomType_GetAllRoomType_roomTypes_rooms as IRoom,
@@ -33,6 +33,8 @@ import {
 import { TimePerMs } from "../../../types/enum";
 import { useDayPicker, LANG } from "../../../hooks/hook";
 import { IContext } from "../../bookingHost/BookingHostRouter";
+
+moment.tz.setDefault("Asia/Seoul");
 
 class GetAllRoomTypePriceQuery extends Query<
   dailyPriceGetPrice,

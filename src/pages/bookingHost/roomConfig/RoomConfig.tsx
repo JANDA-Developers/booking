@@ -54,13 +54,14 @@ const RoomConfig: React.FC<IProps> = ({
   const { defaultCreateRoomType, roomTypesData } = defaultData;
   const roomTypeModalHook = useModal<IRoomTypeModalInfo>(false, {});
   const roomModalHook = useModal<IRoomModalInfo>(false, {});
-  const [data, setData] = useState<IRoomDataSet>({
+  const defulatData = {
     original: roomTypesData,
     createDatas: defaultCreateRoomType,
     deleteIds: [],
     updateDatas: []
-  });
-
+  };
+  const [data, setData] = useState<IRoomDataSet>(defulatData);
+  const shouldSave = data !== defulatData;
   const finder = (
     id: string,
     target: ("update" | "create" | "original" | "delete")[]
@@ -114,7 +115,6 @@ const RoomConfig: React.FC<IProps> = ({
     const deleteDatas = {
       __typename: undefined,
       index: undefined,
-      defaultPrice: undefined,
       roomCount: undefined,
       createdAt: undefined,
       updatedAt: undefined,
@@ -123,14 +123,12 @@ const RoomConfig: React.FC<IProps> = ({
 
     const updateInput: UpsertRoomTypeInput[] = data.updateDatas.map(RT => ({
       ...RT,
-      rooms: RT.rooms.map(room => room.name),
       roomTypeId: RT._id,
       ...deleteDatas
     }));
 
     const createInput: UpsertRoomTypeInput[] = data.createDatas.map(RT => ({
       ...RT,
-      rooms: RT.rooms.map(room => room.name),
       ...deleteDatas
     }));
 
@@ -242,11 +240,12 @@ const RoomConfig: React.FC<IProps> = ({
           }}
         />
         <Button
+          pulse={shouldSave}
           id="RoomConfigSubmitBtn"
           mode={isStart ? "flat" : undefined}
           refContainer={submitRef}
           thema="point"
-          label="Save Change"
+          label={LANG("save")}
           onClick={() => {
             handleSubmit();
           }}

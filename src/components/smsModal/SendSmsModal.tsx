@@ -236,16 +236,18 @@ const SendSmsModal: React.FC<IProps> = ({
           )}
           <div>
             <JDLabel txt={LANG("outgoing_destination")} />
-            <JDbox className="clear-fix" mode="border">
-              {sendTargets?.map(receiver => (
-                <JDbox
-                  size={sendTargets.length > 4 ? "small" : undefined}
-                  float
-                  key={s4()}
-                >
-                  <span>{autoHypen(receiver)}</span>
-                </JDbox>
-              ))}
+            <JDbox mode="border">
+              <div className="clear-fix sendSmsModal__receiverWrap">
+                {sendTargets?.map(receiver => (
+                  <JDbox
+                    size={sendTargets.length > 4 ? "small" : undefined}
+                    float
+                    key={s4()}
+                  >
+                    <span>{autoHypen(receiver)}</span>
+                  </JDbox>
+                ))}
+              </div>
             </JDbox>
           </div>
           <div className="JDz-index-1">

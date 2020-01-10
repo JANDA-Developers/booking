@@ -34,7 +34,7 @@ const JDdatePcikerInformation: React.SFC<IProps> = ({ from, to }) => {
         condition={from}
         children={from?.toLocaleDateString() + " " + LANG("checkIn")}
       />
-      <Wrapper condition={from && !to} children={LANG("choseCheckInDate")} />
+      <Wrapper condition={from && !to} children={LANG("choseCheckOutDate")} />
       <Wrapper
         condition={from && to}
         children={to?.toLocaleDateString() + " " + LANG("checkOut")}

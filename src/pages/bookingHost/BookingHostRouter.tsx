@@ -6,14 +6,12 @@ import { graphql, compose } from "react-apollo";
 import { Helmet } from "react-helmet";
 import Header from "../../components/headers/HeaderWrap";
 import NoMatch from "../noMatch/NoMatch";
-import { IS_LOGGED_IN } from "../../apollo/clientQueries";
 import { GET_USER_INFO } from "../../apollo/queries";
 import Preloader from "../../atoms/preloader/Preloader";
 import "./BookingHostRouter.scss";
 import classnames from "classnames";
 import {
   SelectProducts,
-  CreateHouse,
   DashBoard,
   MyPage,
   SignUp,
@@ -21,7 +19,6 @@ import {
   AssigTimeline,
   SuperMain,
   SetPrice,
-  Qna,
   DailyPrice,
   SmsTemplateSetting,
   ResvList,
@@ -86,15 +83,11 @@ interface IProps {
 }
 
 const JDbookingHost: React.FC<IProps> = ({
-  IsLoggedIn: { auth, loading },
-  GetUserInfo: {
-    GetMyProfile: { user = DEFAULT_USER } = {},
-    loading: loading2
-  } = {},
+  GetUserInfo: { GetMyProfile: { user = DEFAULT_USER } = {}, loading } = {},
   langHook
 }) => {
-  const isLogIn = auth?.isLogIn || false;
-  const isLoading: boolean = loading || loading2;
+  const isLogIn = user !== DEFAULT_USER;
+  const isLoading: boolean = loading;
   const houses: IHouse[] = user.houses || [];
   const currentHouse = getCurrentHouse(houses);
   const memoAlertModal = useModal(false);
@@ -365,12 +358,12 @@ const JDbookingHost: React.FC<IProps> = ({
 };
 
 export default compose(
-  graphql(IS_LOGGED_IN, { name: "IsLoggedIn" }),
   graphql(GET_USER_INFO, {
     name: "GetUserInfo",
-    skip: ({ IsLoggedIn }: any) => {
-      if (IsLoggedIn?.auth) {
-        return !IsLoggedIn.auth.isLogIn;
+    skip: () => {
+      const jwt = localStorage.getItem("jwt");
+      if (jwt) {
+        return false;
       }
       return true;
     }

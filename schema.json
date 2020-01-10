@@ -19598,8 +19598,8 @@
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
+                  "kind": "INPUT_OBJECT",
+                  "name": "RoomInput",
                   "ofType": null
                 }
               }
@@ -19704,6 +19704,41 @@
           },
           {
             "name": "Value",
+            "description": "",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "RoomInput",
+        "description": "",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "_id",
+            "description": "",
+            "type": {
+              "kind": "SCALAR",
+              "name": "ID",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "name",
             "description": "",
             "type": {
               "kind": "NON_NULL",
@@ -21739,6 +21774,16 @@
             "type": {
               "kind": "ENUM",
               "name": "PaymentStatus",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "payInfo",
+            "description": "",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "CreateBillKeyInput",
               "ofType": null
             },
             "defaultValue": null

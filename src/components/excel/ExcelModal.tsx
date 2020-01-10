@@ -5,7 +5,7 @@ import { Excel, IExcelProps, TMultiColumns } from "./Excel";
 import JDdayPicker from "../../atoms/dayPicker/DayPicker";
 import JDselect from "../../atoms/forms/selectBox/SelectBox";
 import { ExcelExpress } from "../../types/enum";
-import { EXCEL_EXPRESS_OP } from "../../types/const";
+import { EXCEL_EXPRESS_OP, MAX_PEOPLE_COUNT_OP_FN } from "../../types/const";
 import JDpreloader from "../../atoms/preloader/Preloader";
 import selectOpCreater from "../../utils/selectOptionCreater";
 
@@ -35,10 +35,8 @@ const ExcelModal: React.FC<Iprops> = ({ modalHook }) => {
   if (!data) return <div />;
   const dateCallDayPicker = useDayPicker(null, null);
   const excelExpressHook = useSelect(EXCEL_EXPRESS_OP[0]);
-
   const expressMode =
     excelExpressHook.selectedOption?.value || EXCEL_EXPRESS_OP[0];
-
   const dataLength = (() => {
     if (expressMode === ExcelExpress.SELECT_OP)
       return selectData[0]?.data.length || 0;
@@ -83,13 +81,14 @@ const ExcelModal: React.FC<Iprops> = ({ modalHook }) => {
         </div>
       )}
       {expressMode === ExcelExpress.COUNT_OP && (
-        <div>
+        <div className="JDz-index-1">
           <JDselect
             onChange={v => {
               v;
               handleCountChange(v.value);
             }}
             selectOp={selectOp}
+            options={MAX_PEOPLE_COUNT_OP_FN(1000)}
             label={LANG("express_count")}
           />
         </div>
