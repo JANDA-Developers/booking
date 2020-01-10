@@ -210,7 +210,11 @@ const RoomConfig: React.FC<IProps> = ({
     // TODO :: Do validation
     const { _id } = roomType;
     if (mode === "delete") {
-      await removeRoomType(_id);
+      if (finder(_id, ["create"])) {
+        data.createDatas = data.createDatas.filter(rt => rt._id !== _id);
+      } else {
+        await removeRoomType(_id);
+      }
     } else if (mode === "create") {
       await createRoomType(roomType);
     } else if (mode === "update") {
