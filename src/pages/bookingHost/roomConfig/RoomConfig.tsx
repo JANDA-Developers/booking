@@ -61,7 +61,7 @@ const RoomConfig: React.FC<IProps> = ({
     original: roomTypesData,
     createDatas: defaultCreateRoomType,
     deleteIds: [],
-    updateDatas: []
+    updateDatas: $.extend(true, [], roomTypesData)
   };
   const [data, setData] = useState<IRoomDataSet>(defulatData);
   const shouldSave = data !== defulatData;
@@ -126,13 +126,19 @@ const RoomConfig: React.FC<IProps> = ({
 
     const removeUnExisistId = (roomTypeId: string, room: any) => {
       const targetRoomType = data.original.find(o => o._id === roomTypeId);
+      room.__typename = undefined;
+
       if (!targetRoomType) {
         room._id = undefined;
-        return;
+        return room;
       }
-      if (!targetRoomType.rooms.find(r => (r._id = room._id))) {
+
+      const targetRoom = targetRoomType.rooms.find(r => r._id === room._id);
+      if (!targetRoom) {
         room._id = undefined;
       }
+
+      console.log("room");
       return room;
     };
 
@@ -141,10 +147,7 @@ const RoomConfig: React.FC<IProps> = ({
         omitDeep({
           ...RT,
           img: omitDeep(RT.img, ["__typename"]),
-          rooms: omitDeep(
-            RT.rooms.map(r => removeUnExisistId(RT._id, r)),
-            ["__typename"]
-          ),
+          rooms: RT.rooms.map(r => removeUnExisistId(RT._id, r)),
           ...deleteDatas,
           roomTypeId: RT._id
         }),
@@ -155,10 +158,11 @@ const RoomConfig: React.FC<IProps> = ({
       RT =>
         omitDeep({
           ...RT,
-          rooms: RT.rooms,
+          img: omitDeep(RT.img, ["__typename"]),
+          rooms: RT.rooms.map(r => removeUnExisistId(RT._id, r)),
           ...deleteDatas
         }),
-      ["__typename", "_id"]
+      ["__typename"]
     );
 
     const submitData: RoomConfigSubmitData = {
@@ -166,6 +170,9 @@ const RoomConfig: React.FC<IProps> = ({
       updateDatas: updateInput,
       createDatas: createInput
     };
+
+    console.log("submitData");
+    console.log(submitData);
 
     onSubmit(submitData);
   }
@@ -187,12 +194,13 @@ const RoomConfig: React.FC<IProps> = ({
     const tempId = s4();
     roomType._id = tempId;
     // Add to create array
-    data.createDatas.push(roomType);
+    data.createDatas.unshift(roomType);
   };
 
   const updateRoomType = async (roomType: IRoomType) => {
+    console.log("this is happend");
     var index = _.findIndex(data.updateDatas, { _id: roomType._id });
-    data.createDatas.splice(index, 1, roomType);
+    data.updateDatas.splice(index, 1, roomType);
   };
 
   const handleRoomTypeModalSubmit = async (
@@ -216,6 +224,7 @@ const RoomConfig: React.FC<IProps> = ({
       } else if (isInUpdate) {
         updateRoomType(roomType);
       } else {
+        //
         addNewUpdate(roomType);
       }
     }
@@ -254,7 +263,7 @@ const RoomConfig: React.FC<IProps> = ({
     } else if (mode === "create") {
       roomType.rooms = [...roomType.rooms, ...rooms];
       if (isEmpty(finder(roomType._id, ["create", "update"]))) {
-        data.createDatas.push(roomType);
+        data.updateDatas.push(roomType);
       }
     }
     roomModalHook.closeModal();

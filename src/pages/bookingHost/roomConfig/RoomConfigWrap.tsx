@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { Fragment } from "react";
+import React, { Fragment, useMemo } from "react";
 import {
   getAllRoomType,
   getAllRoomTypeVariables,
@@ -11,7 +11,8 @@ import { GET_ALL_ROOMTYPES, SAVE_ROOMTYPES } from "../../../apollo/queries";
 import {
   ErrProtecter,
   queryDataFormater,
-  onCompletedMessage
+  onCompletedMessage,
+  s4
 } from "../../../utils/utils";
 import { IContext } from "../../bookingHost/BookingHostRouter";
 import client from "../../../apollo/apolloClient";
@@ -19,6 +20,8 @@ import RoomConfig from "./RoomConfig";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { RoomConfigSubmitData } from "../../../components/bookingModal/declaration";
 import Preloader from "../../../atoms/preloader/Preloader";
+import { getOperationName } from "apollo-utilities";
+import { arraySum } from "../../../utils/elses";
 
 interface IProps {
   context: IContext;
@@ -40,6 +43,8 @@ const RoomConfigWrap: React.FC<IProps> = ({ context }) => {
     saveRoomTypesVariables
   >(SAVE_ROOMTYPES, {
     client,
+    refetchQueries: [getOperationName(GET_ALL_ROOMTYPES) || ""],
+    awaitRefetchQueries: true,
     onCompleted: ({ SaveRoomTypes }) => {
       onCompletedMessage(SaveRoomTypes, "save rooms done", "save rooms fail");
     }
@@ -62,6 +67,10 @@ const RoomConfigWrap: React.FC<IProps> = ({ context }) => {
     });
   };
 
+  const key = useMemo(() => s4(), [
+    roomTypesData.length,
+    arraySum(roomTypesData.map(rt => rt.rooms.length))
+  ]);
   return (
     <Fragment>
       <RoomConfig
@@ -72,7 +81,7 @@ const RoomConfigWrap: React.FC<IProps> = ({ context }) => {
           defaultCreateRoomType: [],
           roomTypesData
         }}
-        key={`roomConfig${roomTypesData.length}`}
+        key={key}
       />
       <Preloader floating loading={saveRoomsLoading} />
     </Fragment>
