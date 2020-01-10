@@ -21,14 +21,11 @@ import ApplyProductModal, {
 } from "./components/ApplyProductModal";
 import JDlist from "../../../atoms/list/List";
 import { inOr } from "../../../utils/C";
-import PreloaderModal from "../../../atoms/preloaderModal/PreloaderModal";
 import PageBody, { PageBottom } from "../../../components/pageBody/PageBody";
 import { closeTooltip } from "../../../utils/closeTooltip";
-import { hightPortalElement } from "../../../utils/portalElement";
 import { WindowSize } from "../../../types/enum";
 import PageHeader from "../../../components/pageHeader/PageHeader";
 import { IContext } from "../BookingHostRouter";
-import { createPortal } from "react-dom";
 
 interface IProps {
   productTypeDecs: IProductTypeDec[];
