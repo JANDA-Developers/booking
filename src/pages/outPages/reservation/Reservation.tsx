@@ -1,6 +1,7 @@
 import React, { useState, Fragment, useEffect } from "react";
 import windowSize, { WindowSizeProps } from "react-window-size";
 import { Query } from "react-apollo";
+import { cardExpToObj } from "../../../utils/autoFormat";
 import ErrProtecter from "../../../utils/errProtect";
 import JDdayPicker from "../../../atoms/dayPicker/DayPicker";
 import {
@@ -9,10 +10,7 @@ import {
   IUseModal,
   useCheckBox,
   useSelect,
-  IUseDayPicker,
-  IUseSelect,
   useInput,
-  TUseInput,
   LANG
 } from "../../../hooks/hook";
 import "./Reservation.scss";
@@ -21,8 +19,6 @@ import Card from "../../../atoms/cards/Card";
 import {
   startBookingForPublic,
   startBookingForPublicVariables,
-  getPaymentAuth,
-  getPaymentAuthVariables,
   getAllRoomTypeForBooker
 } from "../../../types/api";
 import $ from "jquery";
@@ -40,24 +36,18 @@ import {
 import { isName, isPhone } from "../../../utils/inputValidations";
 import { JDtoastModal } from "../../../atoms/modal/Modal";
 import { IRoomType, IMu } from "../../../types/interface";
-import {
-  WindowSize,
-  PricingType,
-  PayMethod,
-  Funnels
-} from "../../../types/enum";
+import { WindowSize, PricingType, Funnels } from "../../../types/enum";
 import { PAYMETHOD_FOR_BOOKER_OP } from "../../../types/const";
 import { GET_ALL_ROOM_TYPE_FOR_BOOKER } from "../../../apollo/queries";
 import Preloader from "../../../atoms/preloader/Preloader";
 import { Helmet } from "react-helmet";
-import { openNiceModal } from "./components/doPay";
 import RoomSearcher from "../../../components/roomSearcher.tsx/RoomSearcher";
 import BookingInfoModal from "./components/roomTypeCards/bookingInfoModal";
 import isLast from "../../../utils/isLast";
 import { IContext } from "../../bookingHost/BookingHostRouter";
 import { ApolloQueryResult } from "apollo-client";
 import BookingModalWrap from "../../../components/bookingModal/BookingModalWrap";
-import { DEFAULT_BOOKING } from "../../../types/defaults";
+import { DEFAULT_BOOKING, DEFAULT_CARD_INFO } from "../../../types/defaults";
 import { divisionRoomSelectInfo } from "../../../utils/typeChanger";
 import { to4YMMDD } from "../../../utils/setMidNight";
 import {
@@ -66,6 +56,8 @@ import {
 } from "../../../components/bookingModal/declaration";
 import JDbox from "../../../atoms/box/JDbox";
 import { IBookerInfo, IReservationHooks } from "./declation";
+import { TCardRegistInfo } from "../../../components/bilingModal/BillingModal";
+import { Redirect } from "react-router-dom";
 
 class GetAllAvailRoomQu extends Query<getAllRoomTypeForBooker> {}
 export interface ISetBookingInfo
@@ -76,9 +68,6 @@ interface IProps {
     startBookingForPublic,
     startBookingForPublicVariables
   >;
-  payAuthQu: (
-    variables?: getPaymentAuthVariables | undefined
-  ) => Promise<ApolloQueryResult<getPaymentAuth>>;
   createLoading: boolean;
   context?: IContext;
   reservationModalHook?: IUseModal;
@@ -88,7 +77,6 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   windowWidth,
   startBookingForPublicMu,
   context,
-  payAuthQu,
   createLoading,
   reservationModalHook
 }) => {
@@ -107,21 +95,24 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   const dayPickerHook = useDayPicker(null, null);
   console.log(to4YMMDD(dayPickerHook.from));
   console.log(to4YMMDD(dayPickerHook.to));
-  const confirmModalHook = useModal(false);
   // 모바일에서만 사용
+  const [redirect, setRedirect] = useState("");
   const [step, setStep] = useState<"search" | "select">("search");
   const [roomSelectInfo, setRoomSelectInfo] = useState<IRoomSelectInfo[]>([]);
   const [bookerInfo, setBookerInfo] = useState<IBookerInfo>(defaultBookingInfo);
   const rsevModalHook = useModal(false);
   const toastModalHook = useModal(false);
+  const confirmModalHook = useModal(false);
   const bookingInfoModal = useModal(false);
   const roomInfoHook = useState<IRoomType[]>([]);
   const bookingModalHook = useModal<IBookingModalProp>();
   const sendSmsHook = useCheckBox(!isHost);
   const priceHook = useInput(0);
+  const cardInfoHook = useState<TCardRegistInfo>(DEFAULT_CARD_INFO);
   const payMethodHook = useSelect(PAYMETHOD_FOR_BOOKER_OP[0]);
   const reservationHooks: IReservationHooks = {
     priceHook,
+    cardInfoHook,
     roomInfoHook,
     toastModalHook,
     dayPickerHook,
@@ -133,16 +124,18 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
     payMethodHook
   };
 
-  const resvConfirmCallBackFunc = (flag: boolean) => {
-    if (!flag) {
-      location.reload();
-      return;
-    }
+  const openPaymentCompleteModal = () => {
+    console.log("eze");
     const publicKey = sessionStorage.getItem("hpk");
     const { name, password, phoneNumber } = bookerInfo;
-    location.href = insideRedirect(
-      `outpage/checkReservation/${publicKey}/${name}/${phoneNumber}/${password}`
-    );
+
+    confirmModalHook.openModal({
+      txt: LANG("reservation_is_completed") + LANG("move_to_check_page"),
+      confirmCallBackFn: () => {
+        setRedirect(`outpage/checkReservation/${publicKey}/${name}/${phoneNumber}
+      /${password}`);
+      }
+    });
   };
 
   // 날자를 선택하면 예약선택 상태 초기화
@@ -167,29 +160,6 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
     return true;
   };
 
-  // 예약전 벨리데이션
-  const bookerInfoValidation = (): boolean => {
-    if (isName(bookerInfo.name) !== true) {
-      toastModalHook.openModal({ txt: LANG("name_is_not_valid") });
-      return false;
-    }
-    if (isPhone(bookerInfo.phoneNumber) !== true) {
-      toastModalHook.openModal({ txt: LANG("phoneNum_is_not_valid") });
-      return false;
-    }
-    if (bookerInfo.password === "") {
-      toastModalHook.openModal({ txt: LANG("input_your_password_please") });
-      return false;
-    }
-    if (bookerInfo.agreePrivacyPolicy === false) {
-      toastModalHook.openModal({
-        txt: LANG("please_agree_collect_personal_info")
-      });
-      return false;
-    }
-    return true;
-  };
-
   const roomCardMessage = () => {
     if (!dayPickerHook.from) return LANG("please_slect_date_at_calender");
     if (dayPickerHook.from && !dayPickerHook.to)
@@ -200,8 +170,6 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   };
 
   const bookingCompleteFn = async () => {
-    if (!bookerInfoValidation()) return;
-
     const {
       agreePrivacyPolicy,
       email,
@@ -213,6 +181,10 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
 
     if (!startBookingForPublicMu)
       throw Error("startBookingForPublicMu 가 없음");
+
+    const { cardNumber, idNumber, exp, cardPassword } = cardInfoHook[0];
+
+    const { month, year } = cardExpToObj(exp);
 
     const startBookingVariables: startBookingForPublicVariables = {
       bookerParams: {
@@ -243,7 +215,14 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
         })),
       paymentParams: {
         payMethod: payMethodHook.selectedOption!.value,
-        price: toNumber(priceHook.value)
+        price: toNumber(priceHook.value),
+        cardPayInfo: {
+          cardNo: cardNumber,
+          cardPw: cardPassword,
+          expMonth: month,
+          expYear: year,
+          idNo: idNumber
+        }
       }
     };
 
@@ -261,21 +240,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
 
     if (!validResult) return;
 
-    const { _id } = validResult;
-    // 나이스 모듈 오픈전 인증을 받음.
-    const authResult = await payAuthQu({
-      price: toNumber(priceHook.value)
-    });
-    if (!authResult?.data.GetPaymentAuth.auth) return;
-
-    const { GetPaymentAuth } = authResult.data;
-    const { houseName } = GetPaymentAuth;
-    openNiceModal({
-      resvInfo: startBookingVariables,
-      transactionId: _id,
-      authInfo: authResult.data.GetPaymentAuth,
-      houseName: houseName || ""
-    });
+    openPaymentCompleteModal();
   };
 
   const openBookingModal = (user: "guest" | "host") => {
@@ -328,6 +293,10 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
         </div>
       </div>
     );
+  }
+
+  if (redirect) {
+    return <Redirect to={redirect} />;
   }
 
   return (
@@ -474,14 +443,14 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
           modalHook={bookingModalHook}
         />
       )}
-      {/* 게스트예약일떄 */}
+      {/* 게스트예약일떄 카드 정보를 입력 할수있는 창 */}
       <PayMentModal
         bookingCompleteFn={bookingCompleteFn}
         createLoading={createLoading}
         reservationHooks={reservationHooks}
         modalHook={rsevModalHook}
       />
-      {/* 모바일 + 게스트일떄 */}
+      {/* 모바일 + 게스트일떄 장바구니 먼저 보여줌 */}
       {isMobile && (
         <BookingInfoModal
           paymentModalHook={rsevModalHook}
@@ -493,13 +462,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
           totalPrice={priceHook.value}
         />
       )}
-      <JDtoastModal
-        confirm
-        center
-        falseMessage={LANG("close")}
-        confirmCallBackFn={resvConfirmCallBackFunc}
-        {...confirmModalHook}
-      />
+      <JDtoastModal {...confirmModalHook} confirm />
       <JDtoastModal {...toastModalHook} isAlert />
     </div>
   );

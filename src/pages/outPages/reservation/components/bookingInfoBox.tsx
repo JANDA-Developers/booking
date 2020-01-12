@@ -8,7 +8,7 @@ import JDtable, {
 import JDbox from "../../../../atoms/box/JDbox";
 import { IRoomType } from "../../../../types/interface";
 import { PricingType } from "../../../../types/enum";
-import { autoComma } from "../../../../utils/utils";
+import { autoComma, toNumber } from "../../../../utils/utils";
 import { LANG } from "../../../../hooks/hook";
 import { IRoomSelectInfo } from "../../../../components/bookingModal/declaration";
 
@@ -86,7 +86,7 @@ const BookingInfoBox: React.FC<IBookingInfoBoxProps> = ({
       />
       <JDbox className="JDmargin-bottom0--wmdUp" mode="border">
         <span>
-          {LANG("total_price")}: {autoComma(totalPrice)}
+          {LANG("total_price")}: {autoComma(toNumber(totalPrice))}
         </span>
         <span> /{LANG("money_unit")}</span>
       </JDbox>

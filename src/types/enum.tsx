@@ -225,6 +225,13 @@ export enum WindowSize {
   DESKTOP = 1000,
   DESKTOPHD = 1200
 }
+export enum WindowSizeHeight {
+  MOBILE = 660,
+  PHABLET = 660,
+  TABLET = 660,
+  DESKTOP = 768,
+  DESKTOPHD = 1080
+}
 
 // 👿 deprecate
 export enum GlobalCSS {

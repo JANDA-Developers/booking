@@ -7,14 +7,19 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "prestart": "node scripts/fragement.js",
-    "start:local": "cp ./env.local ./.env && node scripts/start.js",
-    "start": "cp ./env.dev ./.env && node scripts/start.js",
-    "start:product": "cp ./env.product ./.env && build/index.html",
-    "build": "node scripts/build.js",
+    "test:pics": "node scripts/pics.js",
     "test": "node scripts/test.js",
+    "start": "node scripts/start.js",
+    "prestart": "node scripts/fragement.js",
+    "start:build": "build/index.html",
+    "dev:52": "cp ./env.dev ./.env && yarn start",
+    "dev:local": "cp ./env.local ./.env && yarn start",
+    "build": "cp ./env.product ./.env && node scripts/build.js",
+    "build:52": "cp ./env.52 ./.env && node scripts/build.js",
     "precodegen": "apollo schema:download --endpoint=http://localhost:4000/graphql",
-    "codegen": "apollo codegen:generate src/types/api.d.ts --queries=src/apollo/queries.ts --addTypename --localSchemaFile=schema.json --target=typescript --outputFlat"
+    "codegen": "apollo codegen:generate src/types/api.d.ts --queries=src/apollo/queries.ts --addTypename --localSchemaFile=schema.json --target=typescript --outputFlat",
+    "precodegen:52": "apollo schema:download --endpoint=http://52.78.71.75:4000/graphql",
+    "codegen:52": "apollo codegen:generate src/types/api.d.ts --queries=src/apollo/queries.ts --addTypename --localSchemaFile=schema.json --target=typescript --outputFlat"
   },
   "dependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.7.5",

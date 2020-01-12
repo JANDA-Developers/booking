@@ -1,14 +1,13 @@
 import puppeteer from "puppeteer";
 import muResult from "../utils/mutationResultSafty";
 import { ExecutionResult } from "graphql";
-import { WindowSize } from "../types/enum";
+import { WindowSize, WindowSizeHeight } from "../types/enum";
 import { TLogin } from "../pages/bookingHost/Login/__test__/Login.test";
 
 export const S = 1000;
 export const urlBase = "http://localhost:3000";
 
 export const takeShot = async (
-  mode: "mb" | "pc",
   name: string,
   propPrefix?: string,
   propModifier?: string
@@ -16,12 +15,21 @@ export const takeShot = async (
   const tempPrefix = propPrefix ? `${propPrefix}__` : "";
   const modifier = propModifier ? `--${propModifier}` : "";
   const fileName = `${tempPrefix}${name}${modifier}`;
+  const { width } = page.viewport();
+
+  let mode;
+  if (width >= WindowSize.MOBILE) mode = "mb";
+  if (width >= WindowSize.PHABLET) mode = "phablet";
+  if (width >= WindowSize.TABLET) mode = "tablet";
+  if (width >= WindowSize.DESKTOP) mode = "desktop";
+  if (width >= WindowSize.DESKTOPHD) mode = "pc";
 
   await page.screenshot({
-    path: `testScreenShot/${mode}/${fileName}.jpeg`,
+    path: `src/pages/documents/pics/testScreenShot/${mode}/${fileName}`,
     type: "jpeg",
     fullPage: true
   });
+
   return;
 };
 
@@ -157,9 +165,25 @@ interface TestLogin {
   token?: string;
 }
 
-export const testReady = async (goto?: string, login?: TestLogin) => {
+export const testReady = async (
+  goto?: string,
+  login?: TestLogin,
+  mode: WindowSize = WindowSize.DESKTOP
+) => {
   await context.overridePermissions(urlBase, ["geolocation"]);
   await page.goto(urlBase);
+
+  let height: number = 0;
+  if (mode === WindowSize.DESKTOPHD) height = WindowSizeHeight.DESKTOPHD;
+  if (mode === WindowSize.DESKTOP) height = WindowSizeHeight.DESKTOP;
+  if (mode === WindowSize.TABLET) height = WindowSizeHeight.TABLET;
+  if (mode === WindowSize.PHABLET) height = WindowSizeHeight.PHABLET;
+  if (mode === WindowSize.MOBILE) height = WindowSizeHeight.MOBILE;
+
+  await page.setViewport({
+    height,
+    width: mode
+  });
 
   if (login) {
     if (false) {
@@ -182,8 +206,6 @@ export const testReady = async (goto?: string, login?: TestLogin) => {
     if (!goto.includes("http")) {
       tempGoto = urlBase + "/#/" + goto;
     }
-    console.log(goto);
-    console.log(goto);
     await page.goto(tempGoto);
     await page.waitFor(1000);
   }

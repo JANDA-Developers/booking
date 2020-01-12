@@ -90,6 +90,7 @@ const Button: React.FC<IButtonProps> = ({
     "JDbtn--toogle111Off": toggle === false,
     "JDbtn--cunsumPadding": cunsumPadding,
     "JDtext-blink": blink,
+    "visibility-none": props.hidden,
     ...JDmbClass(mb),
     ...JDmrClass(mr)
   });

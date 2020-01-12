@@ -1,5 +1,5 @@
 // 카드 만료일 Get
-const cardExprieGet = (period: string = "") => {
+const cardExpToObj = (period: string = "") => {
   var replaceCard = period.replace(/\//g, "");
   var inputMonth = replaceCard.substring(0, 2); // 선언한 변수 month에 월의 정보값을 담는다.
   var inputYear = replaceCard.substring(2, 4); // 선언한 변수 year에 년의 정보값을 담는다.
@@ -97,11 +97,4 @@ const toNumber = (value: string | number = ""): number => {
 };
 
 export default autoHypenPhone;
-export {
-  cardExprieGet,
-  autoComma,
-  numberStr,
-  cardExpire,
-  toNumber,
-  card_space
-};
+export { cardExpToObj, autoComma, numberStr, cardExpire, toNumber, card_space };

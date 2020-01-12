@@ -1,5 +1,5 @@
-const URI = `${process.env.REACT_APP_API_URI}`;
+export const SERVER_URI = `${process.env.REACT_APP_API_SERVER_URI}`;
 
 export default (() => {
-  return URI
+  return SERVER_URI
 })();

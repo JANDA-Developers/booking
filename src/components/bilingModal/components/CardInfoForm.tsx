@@ -17,13 +17,10 @@ import { toast } from "react-toastify";
 import moment from "moment";
 import { DEFAULT_CARD_INFO } from "../../../types/defaults";
 import { DateFormat } from "../../../types/enum";
-import {
-  card_space,
-  cardExprieGet,
-  cardExpire
-} from "../../../utils/autoFormat";
+import { card_space, cardExpire } from "../../../utils/autoFormat";
 import { TCardViewInfo } from "./CardInfoFormWrap";
 import { ICardModalTarget } from "../../../pages/bookingHost/myPage/components/cardModal.tsx/CardModal";
+import { cardValidate } from "../../../utils/validations";
 
 export interface IChainProps {
   mode?: "create" | "viewAndUpdate";
@@ -57,42 +54,14 @@ const CardInfoForm: React.FC<Iprops> = ({
     currentHouseInfo.product.billKey === viewInfo!.billKey;
   const needSubmit = !isEmpty(currentHouseInfo);
 
-  const validate = () => {
-    const { exp: expTemp, cardNumber, idNumber } = cardInfo;
-    const expObj = cardExprieGet(expTemp);
-
-    // 길이검사
-    if (
-      toNumber(expObj.month) > 12 ||
-      toNumber(expObj.month) < 1 ||
-      expTemp.length !== 5
-    ) {
-      toast.warn(LANG("un_validate_card_expire"));
-      return false;
-    }
-    if (
-      // 기한검사
-      moment(20 + expObj.month + expObj.year + "01", "YYYYMMDD").isBefore(
-        moment(),
-        "month"
-      )
-    ) {
-      toast.warn(LANG("un_validate_card_expire"));
-      return false;
-    }
-
-    if (cardNumber.length !== 16) {
-      toast.warn(LANG("un_validate_card_number"));
-      return false;
-    }
-
-    return true;
-  };
-
   const [cardInfo, setCardInfo] = useState<TCardRegistInfo>(DEFAULT_CARD_INFO);
 
   const onCardRegistBtnClick = () => {
-    if (validate()) handleRegistBtn(cardInfo);
+    const validateResult = cardValidate(cardInfo);
+    if (validateResult.result) handleRegistBtn(cardInfo);
+    else {
+      toast.warn(validateResult.msg);
+    }
   };
 
   const handleOnChangeInput = (

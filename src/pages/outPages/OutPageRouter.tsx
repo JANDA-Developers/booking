@@ -6,7 +6,7 @@ import { Reservation, ReservationInfo, ReservationCheck } from "./outPages";
 import HMwrap from "./HM/HMwrap";
 import { StaticContext } from "react-router";
 
-interface IProps extends RouteComponentProps<any, StaticContext, any> { }
+interface IProps extends RouteComponentProps<any, StaticContext, any> {}
 
 const OutPageRouter: React.SFC<IProps> = ({ match, location }) => {
   // TODO location.search 안에 변수 있음 거기서 token 뽑아서 서버에 요청
@@ -21,7 +21,7 @@ const OutPageRouter: React.SFC<IProps> = ({ match, location }) => {
         />
         <Route
           exact
-          path="/outpage/checkReservation/:publickey/:transId?"
+          path="/outpage/checkReservation/:publickey/:name?/:phoneNumber?/:password?"
           component={ReservationCheck}
         />
         <Route

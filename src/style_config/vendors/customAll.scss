@@ -276,7 +276,14 @@ a.JDanchor {
   z-index: $z-index-10;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 // .JDdisplay-none--(이것일때)
+.visibility-none {
+  visibility: none !important;
+}
 .JDdisplay-none {
   display: none;
   // Up 클래스

@@ -1084,5 +1084,11 @@ export const kr = {
   please_check_file_has_special_char: "파일에 특수문자가 있는지 검사 해주세요.",
   room_start_number: "방시작 번호.",
   assig_info: "배정정보",
-  people_and_room_info: "인원 및 방정보"
+  people_and_room_info: "인원 및 방정보",
+  to_next: "다음으로",
+  payment_completed: "결제가 완료 되었습니다.",
+  payer: "결제자",
+  payment_amt: "결제금액",
+  payment_date: "결제일자",
+  move_to_check_page: "확인 페이지로 이동합니다."
 };

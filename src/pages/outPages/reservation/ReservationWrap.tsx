@@ -2,29 +2,23 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
-import Reservation from "./Reservation";
 import $ from "jquery";
-import { onCompletedMessage } from "../../../utils/utils";
 import {
   startBooking_StartBooking,
   startBookingForPublic,
-  startBookingForPublicVariables,
-  getPaymentAuth,
-  getPaymentAuthVariables
+  startBookingForPublicVariables
 } from "../../../types/api";
-import {
-  START_BOOKING_FOR_PUBLIC,
-  GET_PAYMENT_AUTH
-} from "../../../apollo/queries";
-import { IUseModal } from "../../../hooks/hook";
+import { START_BOOKING_FOR_PUBLIC } from "../../../apollo/queries";
+import { IUseModal, LANG } from "../../../hooks/hook";
 import { isInIfram } from "../../../utils/isInIfram";
 import { IContext } from "../../bookingHost/BookingHostRouter";
-import { useMutation, useQuery } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
 import client from "../../../apollo/apolloClient";
+import Reservation from "./Reservation";
+import { onCompletedMessage } from "../../../utils/utils";
 
 export interface IReservationWrapProps {
   publicKey?: string;
-  // context가 존재하면 Host가 한 예약
   context?: IContext;
   modalHook?: IUseModal;
   callBackCreateBookingMu?: (CreateBooking: startBooking_StartBooking) => void;
@@ -34,13 +28,14 @@ export interface IReservationWrapProps {
 const ReservationWrap: React.FC<IReservationWrapProps &
   RouteComponentProps<any>> = ({
   match,
-  publicKey,
+  publicKey: publicKeyProp,
   context,
   modalHook,
   callBackCreateBookingMu
 }) => {
+  const publicKey = publicKeyProp || match.params.publickey;
   // hpk 를 URL로 부터 받아 헤더에 셋팅
-  sessionStorage.setItem("hpk", publicKey || match.params.publickey);
+  sessionStorage.setItem("hpk", publicKey);
 
   // 스타트부킹(게스트)
   const [
@@ -52,21 +47,15 @@ const ReservationWrap: React.FC<IReservationWrapProps &
       client,
       awaitRefetchQueries: true,
       onCompleted: ({ StartBookingForPublic }) => {
-        process.env.NODE_ENV === "development" &&
-          onCompletedMessage(
-            StartBookingForPublic,
-            "개발 메세지: StartBooking Sucess",
-            "개발 메세지: StartBooking Fail"
-          );
+        onCompletedMessage(
+          StartBookingForPublic,
+          LANG("COMPLETE"),
+          LANG("FAIL")
+        );
         startBookingCallBackFn(StartBookingForPublic);
       }
     }
   );
-  // 페이 인증
-  const { refetch: payAuthQu } = useQuery<
-    getPaymentAuth,
-    getPaymentAuthVariables
-  >(GET_PAYMENT_AUTH, { client, skip: true });
 
   const startBookingCallBackFn = (result: any) => {
     modalHook && modalHook.closeModal();
@@ -82,7 +71,6 @@ const ReservationWrap: React.FC<IReservationWrapProps &
       <Reservation
         context={context}
         startBookingForPublicMu={startBookingForPublicMu}
-        payAuthQu={payAuthQu}
         createLoading={startBookingLoading}
         reservationModalHook={modalHook}
       />

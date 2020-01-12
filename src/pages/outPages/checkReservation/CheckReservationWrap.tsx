@@ -19,21 +19,24 @@ import JDmodal from "../../../atoms/modal/Modal";
 import { useModal, LANG } from "../../../hooks/hook";
 import CompleteCircle from "../../../components/completeCircle/CompleteCircle";
 export interface ISetBookingInfo
-  extends React.Dispatch<React.SetStateAction<any>> { }
+  extends React.Dispatch<React.SetStateAction<any>> {}
 
 export interface ICheckParams {
   publickey: string;
-  transId?: string;
+  name: string;
+  phoneNumber: string;
+  password: string;
 }
 
-interface IProps extends RouteComponentProps<ICheckParams> { }
+interface IProps extends RouteComponentProps<ICheckParams> {}
 
 const CheckReservationWrap: React.FC<IProps> = ({
   match: {
-    params: { transId, publickey }
+    params: { password, name, phoneNumber, publickey }
   }
 }) => {
   sessionStorage.setItem("hpk", publickey);
+  const isDirect = name + password + phoneNumber === "";
   const comeplteModalHook = useModal(false);
   const isFirstSender = useState(true);
   const { data, refetch, loading } = useQuery<
@@ -43,9 +46,12 @@ const CheckReservationWrap: React.FC<IProps> = ({
     client: client,
     fetchPolicy: "network-only",
     variables: {
-      transactionId: transId,
-      // @ts-ignore
-      skip: !transId
+      getBookingParam: {
+        name,
+        password,
+        phoneNumber
+      },
+      skip: isDirect
     },
     onCompleted: ({ GetBookingForPublic }) => {
       onCompletedMessage(
@@ -64,10 +70,11 @@ const CheckReservationWrap: React.FC<IProps> = ({
   );
 
   // 예약완료 메세지 모달 오픈
-  if (booking && transId && isFirstSender[0]) {
+  if (booking && isDirect && isFirstSender[0]) {
     comeplteModalHook.openModal();
     isFirstSender[1](false);
   }
+
   return (
     <div>
       {/* 예약확인 관련된 뷰 */}

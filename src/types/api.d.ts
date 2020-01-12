@@ -3244,38 +3244,6 @@ export interface allocateGuestToRoomVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: getPaymentAuth
-// ====================================================
-
-export interface getPaymentAuth_GetPaymentAuth_auth {
-  __typename: "PaymentAuthObject";
-  merchantId: string;
-  mid: string;
-  hash: string;
-}
-
-export interface getPaymentAuth_GetPaymentAuth {
-  __typename: "GetPaymentAuthResponse";
-  ok: boolean;
-  error: string | null;
-  auth: getPaymentAuth_GetPaymentAuth_auth | null;
-  houseName: string | null;
-  date: string | null;
-}
-
-export interface getPaymentAuth {
-  GetPaymentAuth: getPaymentAuth_GetPaymentAuth;
-}
-
-export interface getPaymentAuthVariables {
-  price: number;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// This file was automatically generated and should not be edited.
-
-// ====================================================
 // GraphQL mutation operation: createRoomType
 // ====================================================
 
@@ -7110,7 +7078,7 @@ export interface StartBookingPaymentInput {
   price: number;
   payMethod: PayMethod;
   status?: PaymentStatus | null;
-  payInfo?: CreateBillKeyInput | null;
+  cardPayInfo?: CreateBillKeyInput | null;
 }
 
 export interface StartBookingRoomGuestInput {

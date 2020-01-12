@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { toast } from "react-toastify";
 import { MutationFn } from "react-apollo";
 import Modal from "../../../../../atoms/modal/Modal";
@@ -25,6 +25,7 @@ import Vtable, {
   VtableColumn,
   VtableCell
 } from "../../../../../atoms/vtable/Vtable";
+import { Redirect } from "react-router-dom";
 
 interface IProps {
   modalHook: IUseModal;
@@ -43,7 +44,7 @@ const MyHouseModal: React.FC<IProps> = ({
   loading
 }) => {
   if (!house) return <div />;
-
+  const [redirect, setRedirect] = useState("");
   const houseNameHook = useInput(house.name);
   const drawerHook = useDrawer(false);
 
@@ -102,8 +103,17 @@ const MyHouseModal: React.FC<IProps> = ({
   //   }
   // ];
 
+  if (redirect) {
+    return <Redirect to={redirect} />;
+  }
+
   return (
-    <Modal loading={loading} className="myHouseModal" {...modalHook}>
+    <Modal
+      visibleOverflow
+      loading={loading}
+      className="myHouseModal"
+      {...modalHook}
+    >
       {loading ? (
         <Preloader size={MODAL_PRELOADER_SIZE} loading={loading} />
       ) : (
@@ -164,7 +174,7 @@ const MyHouseModal: React.FC<IProps> = ({
                         {/* 예약 페이지로 이동 */}
                         <JDIcon
                           onClick={e => {
-                            location.href = insideRedirect(
+                            setRedirect(
                               `outpage/reservation/${house.publicKey}`
                             );
                           }}

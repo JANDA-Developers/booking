@@ -18,7 +18,7 @@ import { onCompletedMessage, muResult } from "../../../utils/utils";
 import { TCardRegistInfo } from "../BillingModal";
 import { getOperationName } from "apollo-link";
 import { LANG } from "../../../hooks/hook";
-import { cardExprieGet } from "../../../utils/autoFormat";
+import { cardExpToObj } from "../../../utils/autoFormat";
 import { ICardModalTarget } from "../../../pages/bookingHost/myPage/components/cardModal.tsx/CardModal";
 import { PortalPreloader } from "../../../utils/portalElement";
 import { TCreateCardCallBack } from "../../../pages/bookingHost/myPage/components/cardModal.tsx/CardViewer";
@@ -97,7 +97,7 @@ const CardInfoFormWrap: React.FC<ICardInfoFormWrapProps> = ({
 
   // 카드등록 FN
   const createBillFn = async (cardInfo: TCardRegistInfo) => {
-    const expObj = cardExprieGet(cardInfo.exp);
+    const expObj = cardExpToObj(cardInfo.exp);
 
     const result = await createBillMu({
       variables: {

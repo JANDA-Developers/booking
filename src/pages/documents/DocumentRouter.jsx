@@ -11,6 +11,7 @@ import {
   ColorPage,
   LangPage
 } from "./pages";
+import TestPics from "./pics/TestPics";
 
 class DocumentRouter extends Component {
   state = {};
@@ -53,6 +54,7 @@ class DocumentRouter extends Component {
             path="/documents/ShowComponents"
             component={ShowComponents}
           />
+          <Route exact path="/documents/pics" component={TestPics} />
           <Route exact path="/documents/grid" component={Grid} />
           <Route exact path="/documents/color" component={ColorPage} />
           <Route exact path="/documents/lang" component={LangPage} />

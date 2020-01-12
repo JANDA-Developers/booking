@@ -1506,30 +1506,6 @@ export const START_BOOKING = gql`
   }
 `;
 
-// // 예약 :: 예약생성 (호스트용)
-// export const START_BOOKING = gql`
-//     mutation startBooking(
-//         $bookingParams: CreateBookingParams!
-//         $sendSmsFlag: Boolean!
-//     ) {
-//         CreateBooking(
-//             bookingParams: $bookingParams
-//             sendSmsFlag: $sendSmsFlag
-//         ) {
-//             ok
-//             error
-//             booking {
-//                 ...Fbooking
-//                 guests {
-//                     ...Fguest
-//                 }
-//             }
-//         }
-//     }
-//     ${F_BOOKING}
-//     ${F_GUEST}
-// `;
-
 // 방배정 :: 게스트를 방에다 배정
 export const ALLOCATE_GUEST_TO_ROOM = gql`
   mutation allocateGuestToRoom(
@@ -1552,21 +1528,21 @@ export const ALLOCATE_GUEST_TO_ROOM = gql`
   ${F_GUEST}
 `;
 
-export const GET_PAYMENT_AUTH = gql`
-  query getPaymentAuth($price: Float!) {
-    GetPaymentAuth(price: $price) {
-      ok
-      error
-      auth {
-        merchantId
-        mid
-        hash
-      }
-      houseName
-      date
-    }
-  }
-`;
+// export const GET_PAYMENT_AUTH = gql`
+//   query getPaymentAuth($price: Float!) {
+//     GetPaymentAuth(price: $price) {
+//       ok
+//       error
+//       auth {
+//         merchantId
+//         mid
+//         hash
+//       }
+//       houseName
+//       date
+//     }
+//   }
+// `;
 
 // 방타입 :: 방타입 생성
 export const CREATE_ROOMTYPE = gql`

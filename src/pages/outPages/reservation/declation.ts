@@ -2,6 +2,7 @@ import { TUseInput, IUseModal, IUseDayPicker, IUseSelect } from "../../../hooks/
 import { IRoomType } from "../../../types/interface";
 import { IRoomSelectInfo } from "../../../components/bookingModal/declaration";
 import { PayMethod } from "../../../types/api";
+import { TCardRegistInfo } from "../../../components/bilingModal/BillingModal";
 
 export interface IBookerInfo {
     name: string;
@@ -14,6 +15,7 @@ export interface IBookerInfo {
 
 export interface IReservationHooks {
     priceHook: TUseInput<number>;
+    cardInfoHook: [TCardRegistInfo, React.Dispatch<React.SetStateAction<TCardRegistInfo>>],
     roomInfoHook: [
         IRoomType[],
         React.Dispatch<React.SetStateAction<IRoomType[]>>

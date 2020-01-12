@@ -5,8 +5,8 @@ import {
   getPaymentAuth_GetPaymentAuth
 } from "../../../../types/api";
 import moment from "moment";
-import {isMobile} from "is-mobile";
-import {LANG} from "../../../../hooks/hook";
+import { isMobile } from "is-mobile";
+import { LANG } from "../../../../hooks/hook";
 
 const nicepayClose = () => {
   alert(LANG("payment_canceled"));
@@ -36,7 +36,7 @@ const inputCreater = (
 ): void => {
   let hiddenField = document.createElement("input");
 
-  inputParams.forEach(({name, value}) => {
+  inputParams.forEach(({ name, value }) => {
     hiddenField = document.createElement("input");
     hiddenField.setAttribute("type", "hidden");
     hiddenField.setAttribute("name", name);
@@ -57,9 +57,9 @@ export const openNiceModal = async ({
   }
 
   const flagMobile = isMobile();
-  const {bookerParams, paymentParams} = resvInfo;
-  const {price, payMethod} = paymentParams;
-  const {name, phoneNumber} = bookerParams;
+  const { bookerParams, paymentParams } = resvInfo;
+  const { price, payMethod } = paymentParams;
+  const { name, phoneNumber } = bookerParams;
   const time = authInfo.date;
   const hashed = authInfo.auth.hash;
   const mid = authInfo.auth.mid;
@@ -135,7 +135,7 @@ export const openNiceModal = async ({
     form.setAttribute("method", "Post"); //Post 방식
     form.setAttribute(
       "action",
-      `https://${process.env.REACT_APP_API_HOST_PRODUCT}${process.env.REACT_APP_API_PAYMENT_ENDPOINT}` || ""
+      `${process.env.REACT_APP_API_SERVER_URL}` || ""
     ); //요청 보낼 주소
     form.setAttribute("id", "nicePay"); //요청 보낼 주소
     form.setAttribute("name", "payForm"); //요청 보낼 주소
@@ -202,8 +202,7 @@ export const openNiceModal = async ({
         value: "utf-8"
       },
       {
-        name: "ReturnURL",
-        value: process.env.REACT_APP_API_PAY_MENT_RETURN_URL || ""
+        name: "ReturnURL"
       },
       {
         name: "IspCancelUrl",

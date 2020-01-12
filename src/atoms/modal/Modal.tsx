@@ -44,7 +44,7 @@ const JDmodal: React.SFC<IProps> = ({
   children,
   confirm,
   paddingSize,
-  confirmCallBackFn,
+  confirmCallBackFn = info?.confirmCallBackFn,
   visibleOverflow,
   trueMessage,
   noAnimation = true,

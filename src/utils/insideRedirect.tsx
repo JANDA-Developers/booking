@@ -1,5 +1,5 @@
 const insideRedirect = (lastDestination: string) => {
-  const locationHerfTo = `http://${process.env.REACT_APP_API_HOST_URL}/#/${lastDestination}`;
+  const locationHerfTo = `${process.env.REACT_APP_API_CLIENT_URL}/#/${lastDestination}`;
   return locationHerfTo;
 };
 
