@@ -23,9 +23,41 @@ export const reverseGeoCode = async (lat: number, lng: number) => {
   const { data } = await axios(URL);
   if (!data.error_message) {
     const { results } = data;
+    console.log("results");
+    console.log(results);
     const firstPlace = results[0];
+    if (!firstPlace) return "";
     const address = firstPlace.formatted_address;
     return address;
   }
-  return false;
+  return "";
+};
+
+// Map Config 그리고 생성
+export const loadMap = (lat: number, lng: number, mapRef: any, google: any) => {
+  const { maps } = google;
+  const mapNode = mapRef.current;
+  const mapConfig = {
+    center: {
+      lat,
+      lng
+    },
+    disableDefaultUI: true,
+    minZoom: 8,
+    zoom: 15,
+    zoomControl: true
+  };
+  return new maps.Map(mapNode, mapConfig);
+};
+
+export const getLocationFromMap = async (map: google.maps.Map) => {
+  const newCenter = map.getCenter();
+  const lat = newCenter.lat();
+  const lng = newCenter.lng();
+  const reversedAddress = await reverseGeoCode(lat, lng);
+  return {
+    lat,
+    lng,
+    reversedAddress
+  };
 };

@@ -16,7 +16,7 @@
   min-height: $textarea-height;
   width: 100%;
   font-size: $input-font-size;
-  margin-top: $textarea-margin-top;
+  margin-top: calc(#{$textarea-margin-top} - 2px);
   box-shadow: none;
   box-sizing: content-box;
   transition: $input-transition;

@@ -196,17 +196,18 @@ export enum TimePerMs {
 }
 
 export enum PaymentStatus {
-  CANCEL = "CANCEL",
-  COMPLETE = "COMPLETE",
+  CANCELED = "CANCELED",
+  COMPLETED = "COMPLETED",
   FAILED = "FAILED",
-  PROGRESSING = "PROGRESSING"
+  NOT_YET = "NOT_YET"
 }
 
 export enum BookingStatus {
-  CANCEL = "CANCEL",
-  COMPLETE = "COMPLETE",
+  CANCELED = "CANCELED",
+  COMPLETED = "COMPLETED",
+  // 아래 두개의 상태값은 쓰이지 않는다.
   FAIL = "FAIL",
-  PROGRESSING = "PROGRESSING"
+  NOT_YET = "NOT_YET"
 }
 
 export enum PayMethod {
@@ -214,7 +215,8 @@ export enum PayMethod {
   VBANK = "VBANK",
   CASH = "CASH",
   CARD = "CARD",
-  CHANNEL_PAY = "CHANNEL_PAY"
+  CHANNEL_PAY = "CHANNEL_PAY",
+  BANK_TRANSFER = "BANK_TRANSFER"
 }
 
 // css variable 의 breackPoints 와 일치하도록 하세요.
@@ -226,11 +228,11 @@ export enum WindowSize {
   DESKTOPHD = 1200
 }
 export enum WindowSizeHeight {
-  MOBILE = 660,
-  PHABLET = 660,
-  TABLET = 660,
-  DESKTOP = 768,
-  DESKTOPHD = 1080
+  MOBILE = 560,
+  PHABLET = 560,
+  TABLET = 560,
+  DESKTOP = 668,
+  DESKTOPHD = 980
 }
 
 // 👿 deprecate
@@ -281,7 +283,7 @@ export type JDColor =
 export enum AutoSendWhen {
   WEHN_BOOKING_CANCEL = "WEHN_BOOKING_CANCEL",
   WHEN_BOOKING_CREATED = "WHEN_BOOKING_CREATED",
-  WHEN_BOOKING_CREATED_PAYMENT_PROGRESSING = "WHEN_BOOKING_CREATED_PAYMENT_PROGRESSING",
+  WHEN_BOOKING_CREATED_PAYMENT_NOT_YET = "WHEN_BOOKING_CREATED_PAYMENT_NOT_YET",
   WHEN_BOOKING_UPDATE = "WHEN_BOOKING_UPDATE"
 }
 

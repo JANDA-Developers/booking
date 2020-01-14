@@ -116,7 +116,7 @@ const useImageUploader = (
   onUpload?: (file: JdFile) => void
 ): IuseImageUploader => {
   const [file, setFile] = useState(defaultFile);
-  const [uploading, setUploading] = useState(false);
+  const [uploading, seTUploading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [uploadMutation] = useMutation<singleUpload, singleUploadVariables>(
     UPLOAD_FILE,
@@ -145,7 +145,7 @@ const useImageUploader = (
       setFile(omitDeep(file, ["__typename"]));
     }
 
-    setUploading(false);
+    seTUploading(false);
   };
 
   // S3로 업로드
@@ -173,13 +173,13 @@ const useImageUploader = (
   //  이벤트 객체 => uploadImg(파일객체);
   const onChangeFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
     event.persist();
-    setUploading(true);
+    seTUploading(true);
     const {
       target: { files, validity }
     } = event;
 
     if (!validity || !files || files.length !== 1 || !files[0]) {
-      setUploading(false);
+      seTUploading(false);
       return
     };
 
@@ -208,7 +208,7 @@ const useImageUploader = (
 
   useEffect(() => {
     return () => {
-      setUploading(false);
+      seTUploading(false);
     };
   }, []);
 

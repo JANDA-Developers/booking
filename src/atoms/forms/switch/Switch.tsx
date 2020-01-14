@@ -16,6 +16,7 @@ interface IProps extends JDatomExtentionSet {
   rtxt?: string;
   tooltip?: string;
   id?: string;
+  className?: string;
 }
 
 const JDswitch: React.FC<IProps> = ({
@@ -28,6 +29,7 @@ const JDswitch: React.FC<IProps> = ({
   label,
   mr,
   mb,
+  className,
   ...props
 }) => {
   const handleCheckboxChange = () => {
@@ -35,13 +37,13 @@ const JDswitch: React.FC<IProps> = ({
     onChange && onChange(flag);
   };
 
-  const classes = classNames({
+  const classes = classNames(className, undefined, {
     JDswitch__input: true
   });
 
   const newId = s4();
 
-  const wrapClasses = classNames("JDswitch-wrapWrap", undefined, {
+  const wrapClasses = classNames("JDswitch-wrap", undefined, {
     ...JDmbClass(mb),
     ...JDmrClass(mr)
   });
@@ -49,11 +51,11 @@ const JDswitch: React.FC<IProps> = ({
   return (
     <span
       {...props}
-      className={wrapClasses}
+      className={"JDswitch-wrapWrap"}
       data-tip={tooltip}
       data-for={tooltip ? `btnTooltip${newId}` : undefined}
     >
-      <span className="JDswitch-wrap">
+      <span className={wrapClasses}>
         {label && <JDlabel txt={label} />}
         <span
           tabIndex={0}

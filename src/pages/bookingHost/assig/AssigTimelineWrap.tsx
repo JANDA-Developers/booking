@@ -116,7 +116,7 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
       client,
       variables: {
         ...updateVariables,
-        bookingStatuses: [BookingStatus.COMPLETE, BookingStatus.PROGRESSING]
+        bookingStatuses: [BookingStatus.COMPLETED, BookingStatus.NOT_YET]
       },
       notifyOnNetworkStatusChange: true,
       fetchPolicy: "no-cache",

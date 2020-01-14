@@ -6,6 +6,7 @@ import { SelectComponentsProps } from "react-select/lib/Select";
 import { LANG } from "../../../hooks/hook";
 import { JDatomExtentionSet } from "../../../types/interface";
 import { JDmbClass, JDmrClass } from "../../../utils/autoClasses";
+import { ValueType } from "react-select/lib/types";
 
 export interface IselectedOption<T = any> {
   label: string;
@@ -25,6 +26,7 @@ interface Iprops extends SelectComponentsProps {
   label?: string | JSX.Element;
   disabled?: boolean;
   selectedOption?: IselectedOption | null;
+  selectedOptions?: ValueType<IselectedOption<any>>;
   options?: IselectedOption[];
   onChange?(foo: IselectedOption): void;
   className?: string;
@@ -62,6 +64,7 @@ const JDselectTemp: React.SFC<Iprops & JDatomExtentionSet> = ({
   menuCanOverflow,
   displayArrow,
   borderColor,
+  selectedOptions,
   autoSize,
   mb,
   mr,
@@ -107,7 +110,7 @@ const JDselectTemp: React.SFC<Iprops & JDatomExtentionSet> = ({
       <Select
         {...props}
         options={options}
-        value={validSelectedOption}
+        value={selectedOptions || validSelectedOption}
         defaultValue={defaultValue}
         onChange={handleChange}
         className="react-select-container"

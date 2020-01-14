@@ -3,14 +3,16 @@ import chalk from "chalk";
 import {
   TType,
   takeShot,
-  expectOkFromGraphql
+  expectOkFromGraphql,
+  TClick,
+  TWait,
+  TWaitClick
 } from "../../../../__test__/utils.test";
 
 export const testCreateUser = async () => {
-  await page.waitForSelector("#linkToSingUp");
-  await page.click("#linkToSingUp");
+  await TWaitClick("#linkToSingUp");
   await page.waitForSelector("#signUpPage");
-  await page.click("#singupName");
+  await TClick("#singupName");
   await TType(
     "#singupName",
     faker.name.firstName() + faker.name.lastName()
@@ -25,9 +27,9 @@ export const testCreateUser = async () => {
     "#singupPhoneNumber",
     faker.phone.phoneNumber("010#######")
   );
-  await page.click("#RD1");
+  await TClick("#RD1");
   await takeShot("pc", "singUp");
-  await page.click("#singupBtn");
+  await TClick("#singupBtn");
   await expectOkFromGraphql();
 };
 

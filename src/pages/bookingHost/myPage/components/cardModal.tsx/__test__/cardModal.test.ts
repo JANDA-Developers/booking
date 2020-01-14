@@ -7,13 +7,23 @@ import {
   toastCheck
 } from "../../../../../../__test__/utils.test";
 
+// Fill Card Info
+export const fillCardInfo = async () => {
+  await TType("#CardModal__CardNumber", "4619541019492956");
+  await TType("#CardModal__ExpireDate", "0824");
+  await TType("#CardModal__CardPW", "41");
+  await TType("#CardModal__IdNum", "950901");
+}
+
+// TODO
 export const cardDelete = () => { };
 export const cardCeate = () => { };
 
 export const cardModalTest = () => {
-  describe("Card Modal Test regist and delete", () => {
+  describe.skip("Card Modal Test regist and delete", () => {
+
     beforeAll(async () => {
-      await testReady(
+      await testReady(true,
         `${urlBase}/#/myPage`,
         {}
       );
@@ -34,10 +44,7 @@ export const cardModalTest = () => {
     test(
       "Card Regist Complete",
       async () => {
-        await TType("#CardModal__CardNumber", "4619541019492956");
-        await TType("#CardModal__ExpireDate", "0824");
-        await TType("#CardModal__CardPW", "41");
-        await TType("#CardModal__IdNum", "950901");
+        await fillCardInfo();
         await page.click("#CardModal__CardRegistBtn");
         await toastCheck("RegisterBillKey");
       },

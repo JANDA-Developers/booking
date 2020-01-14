@@ -44,6 +44,7 @@ const PeriodicalSignCard: React.FC<Iprops & WindowSizeProps> = ({
     _id: productId,
     status: { isContinue }
   } = applyedProduct!;
+
   const { name } = productType;
   let { paymentInfos } = user;
   let paymentInfo: getMyProfile_GetMyProfile_user_paymentInfos = DEFAULT_PAYMENT_INFO;
@@ -59,8 +60,8 @@ const PeriodicalSignCard: React.FC<Iprops & WindowSizeProps> = ({
       <div className="periodicalSignCard__header">
         <span>{house.name}</span>
         <div>
-          <div className="periodicalSignCard__product">
-            <span className="JDstandard-space periodicalSignCard__product-name">{`${LANG(
+          <div className=" periodicalSignCard__product">
+            <span className="JDdisplay-none--wmd JDstandard-space periodicalSignCard__product-name">{`${LANG(
               "applied_product_type"
             )}:${name}`}</span>
             <Button

@@ -14,7 +14,7 @@ export const guestsDataManufacturer = (allGuestsData: IGuest[]) => {
   if (!allGuestsData) return alloCateItems;
 
   const guestsData = allGuestsData.filter(
-    guest => guest.booking.status !== BookingStatus.CANCEL
+    guest => guest.booking.status !== BookingStatus.CANCELED
   );
 
   guestsData.forEach((guestData, index) => {
@@ -41,7 +41,7 @@ export const guestsDataManufacturer = (allGuestsData: IGuest[]) => {
       } = booking;
 
       const { status: paymentStatus } = payment;
-      const isUnpaid = paymentStatus !== PaymentStatus.COMPLETE;
+      const isUnpaid = paymentStatus !== PaymentStatus.COMPLETED;
 
       if (instanceOfA<IGuestD>(guestData, "gender", true)) {
         gender = guestData.gender;
@@ -64,7 +64,7 @@ export const guestsDataManufacturer = (allGuestsData: IGuest[]) => {
         start: moment(checkIn).valueOf(),
         end: moment(checkOut).valueOf(),
         canSelect: true,
-        canMove: status !== BookingStatus.PROGRESSING,
+        canMove: status !== BookingStatus.NOT_YET,
         type: GuestTypeAdd.GUEST,
         bedIndex: bedIndex,
         memo: memo || undefined,

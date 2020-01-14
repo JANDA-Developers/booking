@@ -26,7 +26,8 @@ import {
   Statistic,
   RoomConfig,
   ConfigWrap,
-  HMconfig
+  HMconfig,
+  HouseConfig
 } from "./pages";
 import { UserRole, TLanguageShort } from "../../types/enum";
 import { IHouse, IHouseConfigFull } from "../../types/interface";
@@ -46,7 +47,6 @@ import { AddtionalConfigModal } from "../../components/else/AdditionalConfigModa
 import { greet, houseConfigSetting } from "./helper";
 import SmsInfo from "./smsInfo/SmsInfo";
 import CreateHouseWrap from "./createHouse/CreateHouseWrap";
-import { toast } from "react-toastify";
 
 interface JDRoute {
   Component: React.FC<any>;
@@ -103,7 +103,8 @@ const JDbookingHost: React.FC<IProps> = ({
   const superPermission =
     userRole === UserRole.ADMIN || userRole === UserRole.DEVELOPER;
   // 지원하지 않는 브라우저로 부터 접속했는지 확인합니다.
-  JDoutdatedBrowserRework();
+  // @ts-ignore
+  window.isOldBorwesr && JDoutdatedBrowserRework();
   // 디벨롭
   if (userRole === "DEVELOPER") setCookie("isDeveloper", "Y", 1);
 
@@ -147,6 +148,11 @@ const JDbookingHost: React.FC<IProps> = ({
     {
       path: "/createHouse",
       Component: CreateHouseWrap,
+      condition: houseExists
+    },
+    {
+      path: "/houseConfig",
+      Component: HouseConfig,
       condition: houseExists
     },
     {

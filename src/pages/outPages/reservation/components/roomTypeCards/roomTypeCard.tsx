@@ -198,7 +198,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
   const roomStyle = {
     // TODO :사진정보 여기에
     backgroundImage: `url(${roomTypeData.img?.url ||
-      "https://s3.ap-northeast-2.amazonaws.com/booking.stayjanda.files/default/default_room.jpeg"})`
+      "https://s3.ap-northeast-2.amazonaws.com/booking.stayjanda.files/infographic/noimg.png"})`
   };
 
   return (

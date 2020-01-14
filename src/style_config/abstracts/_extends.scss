@@ -188,13 +188,11 @@
 // scrollbar slender form
 %JDscrollbar--hidden {
   @extend %JDscrollbar--common;
-  &:hover {
-    &::-webkit-scrollbar {
-      transition: 0.3s;
-      background-color: transparent;
-      width: 0px;
-      height: 0px;
-    }
+  &::-webkit-scrollbar {
+    transition: 0.3s;
+    background-color: transparent;
+    width: 0px;
+    height: 0px;
   }
 }
 %JDscrollbar--slender {

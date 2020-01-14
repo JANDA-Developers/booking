@@ -1,16 +1,17 @@
-@import '~Styles';
+@import "~Styles";
 
 .multiBox {
-    max-width: 100%;
-    margin-bottom: $standard-margin-bottom;
-    &__inner {
-        overflow:auto;
-        &--noWrap {
-            white-space: nowrap;
-            @extend %JDscrollbar--hidden;
-        }
+  max-width: 100%;
+  margin-bottom: $standard-margin-bottom;
+  &__inner {
+    margin: -4px;
+    padding: 4px;
+    &--noWrap {
+      white-space: nowrap;
+      @extend %JDscrollbar--slender;
     }
-    .JDbtn {
-        margin-bottom: 0;
-    }
+  }
+  .JDbtn {
+    margin-bottom: 0;
+  }
 }

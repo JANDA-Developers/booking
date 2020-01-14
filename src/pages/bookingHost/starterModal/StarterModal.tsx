@@ -1,8 +1,9 @@
-import React, { useState, useRef, Fragment, useEffect } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import JDmultiStep from "../../../atoms/multiStep/MultiStep";
 import { IContext } from "../../bookingHost/BookingHostRouter";
-import { stepFinder, s4 } from "../../../utils/utils";
+import { stepFinder, s4, cardValidate } from "../../../utils/utils";
 import JDmodal from "../../../atoms/modal/Modal";
+import { IMG_REPO } from "../../../types/const";
 import { useModal, LANG } from "../../../hooks/hook";
 import "./StarterModal.scss";
 import {
@@ -14,27 +15,28 @@ import Button from "../../../atoms/button/Button";
 import RoomConfig from "../roomConfig/RoomConfig";
 import PhoneVerificationModalWrap from "../../../components/phoneVerificationModal/PhoneVerificationModalWrap";
 import CreateHouse from "../createHouse/CreateHouse";
-import { IStepsStart } from "../../../utils/stepFinder";
 import { RoomConfigSubmitData } from "../../../components/bookingModal/declaration";
-import { DEFAULT_ROOMTYPE } from "../../../types/defaults";
+import { DEFAULT_ROOMTYPE, DEFAULT_CARD_INFO } from "../../../types/defaults";
 import Vtable, { ColumnCells } from "../../../atoms/vtable/Vtable";
-import { validate } from "graphql";
+import CardInfoForm from "../../outPages/reservation/components/CardInfoForm";
+import { cardExpToObj } from "../../../utils/autoFormat";
+import { toast } from "react-toastify";
+import PreloaderModal from "../../../atoms/preloaderModal/PreloaderModal";
+import PhotoFrame from "../../../atoms/photoFrame/PhotoFrame";
 
 interface IProps {
   context: IContext;
   onSubmit: (variables: initHouseVariables) => void;
+  muLoading: boolean;
 }
 
-const StarterModal: React.FC<IProps> = ({ context, onSubmit }) => {
+const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
   const modalHook = useModal(true);
   const defaultStep = stepFinder(context);
   const [step, setStep] = useState(defaultStep);
-
-  console.log("step");
-  console.log(step);
-
   const roomSubmitRef = useRef<any>(null);
   const houseSubmitRef = useRef<any>(null);
+  const [cardInfo, setCardInfo] = useState(DEFAULT_CARD_INFO);
   const [InitHouseData, setInitHouseData] = useState<CreateHouseInput | null>();
   const [roomTypesData, setRoomsTypeData] = useState<UpsertRoomTypeInput[]>([]);
   const {
@@ -49,14 +51,8 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit }) => {
 
   const handleSubmitCreateRoomTypes = (param: RoomConfigSubmitData) => {
     setRoomsTypeData(param.createDatas);
-    setStep("check");
+    setStep("card");
   };
-
-  const tempSteps: IStepsStart[] = [
-    "phoneVerification",
-    "houseCreate",
-    "createRoom"
-  ];
 
   let roomCount = 0;
   roomTypesData.forEach(rt => {
@@ -82,8 +78,6 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit }) => {
     }
   ];
 
-  const movableSteps = defaultStep === "phoneVerification" ? [] : [1, 2];
-
   const staterSteps = [
     {
       current: step === "phoneVerification",
@@ -98,23 +92,30 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit }) => {
       name: <span>{LANG("create_room")}</span>
     },
     {
+      current: step === "card",
+      name: <span>{LANG("payment_info")}</span>
+    },
+    {
       current: step === "check",
       name: <span>{LANG("check_init")}</span>
     }
   ];
 
-  const Wrap: React.FC = ({ children }) => (
-    <JDmodal
-      className="staterModal"
-      {...modalHook}
-      isUnderHeader
-      onRequestClose={() => {}}
-    >
-      <div className="staterModal__stepsWrap">
-        <JDmultiStep steps={staterSteps} />
-      </div>
-      <div className="dashboard__stepsWrap">{children}</div>
-    </JDmodal>
+  const Wrap: React.FC = useCallback(
+    ({ children }) => (
+      <JDmodal
+        className="staterModal"
+        {...modalHook}
+        isUnderHeader
+        onRequestClose={() => {}}
+      >
+        <div className="staterModal__stepsWrap">
+          <JDmultiStep steps={staterSteps} />
+        </div>
+        <div className="dashboard__stepsWrap">{children}</div>
+      </JDmodal>
+    ),
+    [step]
   );
 
   switch (step) {
@@ -157,14 +158,15 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit }) => {
               context={context}
             />
             <Button
+              mr="no"
               id="NextBtnToRoomConfig"
               thema="primary"
               mode="flat"
               onClick={() => {
                 houseSubmitRef.current?.click();
               }}
-              className="JDmargin-bottom0"
-              label={"next step"}
+              mb="no"
+              label={LANG("next_step")}
             />
           </div>
         </Wrap>
@@ -194,20 +196,56 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit }) => {
               onClick={() => {
                 setStep("houseCreate");
               }}
-              className="JDmargin-bottom0"
-              label={"prev step"}
+              mb="no"
+              label={LANG("prev_step")}
             />
             <Button
-              id="NextBtnToFinish"
+              id="NextBtnToCard"
               thema="primary"
               mode="flat"
               onClick={() => {
                 roomSubmitRef.current?.click();
               }}
-              className="JDmargin-bottom0"
-              label={"next step"}
+              mb="no"
+              label={LANG("next_step")}
             />
           </div>
+        </Wrap>
+      );
+    case "card":
+      return (
+        <Wrap>
+          <PhotoFrame
+            mb="normal"
+            unStyle
+            src={`${IMG_REPO}booking_app/describe/jd_booking_free_ex_banner.jpg`}
+          />
+          <CardInfoForm
+            column="2"
+            cardInfo={cardInfo}
+            setCardInfo={setCardInfo}
+          />
+          <Button
+            thema="primary"
+            mode="flat"
+            onClick={() => {
+              setStep("createRoom");
+            }}
+            mb="no"
+            label={LANG("prev_step")}
+          />
+          <Button
+            id="NextBtnToFinish"
+            thema="primary"
+            mode="flat"
+            onClick={() => {
+              const { msg, result } = cardValidate(cardInfo);
+              if (result) setStep("check");
+              else toast.warn(msg);
+            }}
+            mb="no"
+            label={LANG("next_step")}
+          />
         </Wrap>
       );
     case "check":
@@ -221,7 +259,7 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit }) => {
               thema="primary"
               mode="flat"
               onClick={() => {
-                setStep("createRoom");
+                setStep("card");
               }}
               className="JDmargin-bottom0"
               label={"prev step"}
@@ -232,17 +270,27 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit }) => {
               onClick={() => {
                 if (!InitHouseData) return;
                 localStorage.setItem("popUpAdditionalConfigModal", "Y");
+
+                const expObj = cardExpToObj(cardInfo.exp);
+
                 onSubmit({
                   param: {
+                    cardInfo: {
+                      cardNo: cardInfo.cardNumber,
+                      cardPw: cardInfo.cardPassword,
+                      expMonth: expObj.month,
+                      expYear: expObj.year,
+                      idNo: cardInfo.idNumber
+                    },
                     createHouseInput: InitHouseData,
                     createRoomTypesInput: roomTypesData as any
                   }
                 });
               }}
               mode="flat"
-              size="long"
               label={LANG("exit_room_settings")}
             />
+            <PreloaderModal loading={muLoading} />
           </div>
         </Wrap>
       );

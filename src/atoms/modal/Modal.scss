@@ -103,7 +103,7 @@
 .JDmodal {
   &--loading {
     min-width: 0 !important;
-    max-width: unset !important;
+    max-width: fit-content !important;
     width: fit-content !important;
   }
 

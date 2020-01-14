@@ -2,7 +2,12 @@ import { toast } from "react-toastify";
 /* eslint-disable max-len */
 import React, { useState, useEffect, useRef } from "react";
 import { ProvidedProps, GoogleApiWrapper } from "google-maps-react";
-import { reverseGeoCode, geoCode } from "./mapHelper";
+import {
+  reverseGeoCode,
+  geoCode,
+  loadMap,
+  getLocationFromMap
+} from "./mapHelper";
 import {
   useInput,
   useSelect,
@@ -74,18 +79,18 @@ const CreateHouse: React.FC<IProps> = ({
   const houseNameHoook = useInput(name);
   const typeSelectHook = useSelect(optionFineder(HOUSE_TYPE_OP, houseType));
   const [location, setLocation] = useState(defaultLocation);
-  const debouncedAdress = useDebounce(location.address, 100);
-  const addressGeturl = `http://www.juso.go.kr/addrlink/addrLinkApi.do?currentPag<e=1&resultType=json&countPerPage=100&keyword=${debouncedAdress}&confmKey=${process.env.REACT_APP_API_ADDRESS_API_KEY}`;
-  const [adressData, adressLoading, getAdressError, adressGet] = useFetch(
+  const debouncedAddress = useDebounce(location.address, 100);
+  const addressGeturl = `http://www.juso.go.kr/addrlink/addrLinkApi.do?currentPag<e=1&resultType=json&countPerPage=100&keyword=${debouncedAddress}&confmKey=${process.env.REACT_APP_API_ADDRESS_API_KEY}`;
+  const [addressData, addressLoading, getAddressError, addressGet] = useFetch(
     addressGeturl
   );
   const mapRef = useRef(null);
 
-  if (getAdressError) console.error(getAdressError);
+  if (getAddressError) console.error(getAddressError);
 
   // 제출전 입력값이 정확한지 검사
   const submitValidation = () => {
-    if (adressLoading) {
+    if (addressLoading) {
       return false;
     }
 
@@ -125,30 +130,13 @@ const CreateHouse: React.FC<IProps> = ({
   // 지도 드래그가 끝날때 좌표값을 받아서 저장함
   const handleDragEnd = async () => {
     if (!map) return;
-    const newCenter = map.getCenter();
-    const lat = newCenter.lat();
-    const lng = newCenter.lng();
-    const reversedAddress = await reverseGeoCode(lat, lng);
-    if (reversedAddress !== false)
-      setLocation({ ...location, address: reversedAddress, lat, lng });
-  };
-
-  // Map Config 그리고 생성
-  const loadMap = (lat: number, lng: number) => {
-    const { maps } = google;
-    const mapNode = mapRef.current;
-    const mapConfig = {
-      center: {
-        lat,
-        lng
-      },
-      disableDefaultUI: true,
-      minZoom: 8,
-      zoom: 15,
-      zoomControl: true
-    };
-    map = new maps.Map(mapNode, mapConfig);
-    map.addListener("dragend", handleDragEnd);
+    const { lat, lng, reversedAddress } = await getLocationFromMap(map);
+    setLocation({
+      ...location,
+      address: reversedAddress as string,
+      lat,
+      lng
+    });
   };
 
   // 구글맵 네비 현재위치 조회 성공시
@@ -156,14 +144,15 @@ const CreateHouse: React.FC<IProps> = ({
     const {
       coords: { latitude, longitude }
     } = positon;
-    loadMap(latitude, longitude);
+    map = loadMap(latitude, longitude, mapRef, google);
+    if (!map) return;
+    map.addListener("dragend", handleDragEnd);
   };
 
   // 인풋서치 이후에 구글맵 위치를 변환
   const changeMapBySearch = async (value: string | null) => {
-    if (!value) return;
+    if (!value || !map) return;
     const result = await geoCode(value);
-    if (!map || !value) return;
     if (result !== false) {
       const { lat, lng } = result;
       setLocation({
@@ -196,7 +185,7 @@ const CreateHouse: React.FC<IProps> = ({
 
   // 도로명주소 가져오기
   useEffect(() => {
-    adressGet(addressGeturl);
+    addressGet(addressGeturl);
   }, [addressGeturl]);
 
   // 구글맵 첫 생성 (현재위치)
@@ -228,6 +217,13 @@ const CreateHouse: React.FC<IProps> = ({
     if (submitValidation()) {
       onSubmit({
         param: {
+          cardInfo: {
+            cardNo: "",
+            cardPw: "",
+            expMonth: "",
+            expYear: " ",
+            idNo: ""
+          },
           createHouseInput: {
             name: houseNameHoook.value,
             houseType: typeSelectHook.selectedOption!.value,
@@ -267,16 +263,16 @@ const CreateHouse: React.FC<IProps> = ({
           </div>
           <div className="flex-grid__col col--full-8 col--md-12">
             <SearchInput
-              id="Adress"
+              id="Address"
               maxCount={10}
               filter={false}
-              feedBackMessage={adressData.results?.common.errorMessage || ""}
-              dataList={adressData.results && adressData.results.juso}
-              label={LANG("house_adress")}
+              feedBackMessage={addressData.results?.common.errorMessage || ""}
+              dataList={addressData.results && addressData.results.juso}
+              label={LANG("house_address")}
               asId="bdMgtSn"
               asName="roadAddr"
               asDetail="jibunAddr"
-              isLoading={adressLoading}
+              isLoading={addressLoading}
               onFindOne={handleOnFind}
               onTypeChange={onTypeChange}
               onTypeValue={location.address}
@@ -288,11 +284,11 @@ const CreateHouse: React.FC<IProps> = ({
                 setLocation({ ...location, addressDetail: v });
               }}
               value={location.addressDetail}
-              id="AdressDetail"
+              id="AddressDetail"
               validation={utils.isMaxOver}
               max={50}
-              placeholder={LANG("detail_adress")}
-              label={LANG("detail_adress")}
+              placeholder={LANG("detail_address")}
+              label={LANG("detail_address")}
             />
           </div>
           <div className="test__googleMapWrap createHomePage__map flex-grid__col col--full-12 col--md-12">

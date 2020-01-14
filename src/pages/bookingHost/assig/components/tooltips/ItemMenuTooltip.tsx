@@ -28,7 +28,7 @@ const ItemMenuTooltip: React.FC<IProps> = ({
       getContent={(guestId: string) => {
         const targetGuest = guestValue.find(guest => guest.id === guestId);
         if (!targetGuest) return;
-        const isProgressing = targetGuest.status === BookingStatus.PROGRESSING;
+        const isProgressing = targetGuest.status === BookingStatus.NOT_YET;
         return (
           <ul className="tooltipList__ul">
             {!isProgressing && (

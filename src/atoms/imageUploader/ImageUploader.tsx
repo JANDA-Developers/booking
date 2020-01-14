@@ -3,7 +3,7 @@ import React, { useRef, useEffect, Fragment } from "react";
 import "./ImageUploader.scss";
 import classnames from "classnames";
 import Preloader from "../preloader/Preloader";
-import { IuseImageUploader } from "../../hooks/hook";
+import { IuseImageUploader, LANG } from "../../hooks/hook";
 import JDVideo from "../video/Video";
 import $ from "jquery";
 import { s4 } from "../../utils/utils";
@@ -103,6 +103,7 @@ const ImageUploader: React.FC<ImageUploaderIProps & IDiv> = ({
           />
           <div className="imageUploader--input__buttonWrap">
             <Button
+              className="imageUploader--input__button"
               onClick={function() {
                 if (imageUploaderRefInput.current) {
                   $(imageUploaderRefInput.current).click();
@@ -151,7 +152,7 @@ const ImageUploader: React.FC<ImageUploaderIProps & IDiv> = ({
           )}
           {isVideo && <JDVideo className="imageUploader__video" url={url} />}
         </div>
-        {/* 이 이미지는 이미지 크기를 재는 용도로만 사용됨 */}
+        {/* 아래 이미지는 이미지 크기를 재는 용도로만 사용됨 */}
         <img
           style={{
             visibility: "hidden",
@@ -162,6 +163,11 @@ const ImageUploader: React.FC<ImageUploaderIProps & IDiv> = ({
           src={url}
         />
         <Preloader size="large" noAnimation loading={uploading} />
+        {url === undefined && (
+          <div className="JDtextColor--placeHolder imageUploader__subText">
+            {LANG("please_upload_image")}
+          </div>
+        )}
       </div>
     </Fragment>
   );

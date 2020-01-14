@@ -1,8 +1,5 @@
 import { IUseModal, LANG } from "../../../hooks/hook";
 import { isName, isPhone } from "../../../utils/inputValidations";
-import { TCardRegistInfo } from "../../../components/bilingModal/BillingModal";
-import { cardExpToObj, toNumber } from "../../../utils/autoFormat";
-import moment from "moment";
 
 // 예약전 벨리데이션
 export const bookerInfoValidation = ({

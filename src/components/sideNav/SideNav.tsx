@@ -88,6 +88,13 @@ const SideNav: React.FC<IProps> = ({ isOpen, setIsOpen, context }) => {
       disabled: disabledFlag,
       contents: [
         {
+          key: "houseConfig",
+          to: "/houseConfig",
+          icon: "house",
+          label: LANG("house_config"),
+          disabled: disabledFlag
+        },
+        {
           key: "roomConfig",
           to: "/roomConfig",
           icon: "roomChange",

@@ -10,7 +10,6 @@ import { getHM_GetHM_HM_menus } from "../../../../types/api";
 import { Language } from "../../../../types/enum";
 import { DEFAULT_FILE } from "../../../../types/defaults";
 import JDVideo from "../../../../atoms/video/Video";
-import { JdFile } from "../../../../types/interface";
 import JDLabel from "../../../../atoms/label/JDLabel";
 
 export interface IHMmenuPropsChain {
@@ -28,28 +27,39 @@ interface IProps extends IHMmenuPropsChain {
   currentLang: Language;
 }
 
-const HMmenu: React.FC<IProps> = ({ menuData, currentLang, host, menu }) => {
-  const sharedPart = () => (
-    <div className="HM__menuTitle">{menu.name[currentLang]}</div>
-  );
+const MenuContent: React.FC<IProps> = ({
+  menuData,
+  currentLang,
+  host,
+  menu
+}) => {
   const imageUploaderHook = useImageUploader(menu.img, undefined, file => {
     if (host) {
       menu.img = file;
       host.setMenuData([...menuData]);
     }
   });
-
   const { file } = imageUploaderHook;
   const { url, mimeType } = file || DEFAULT_FILE;
   const isVideo = mimeType.includes("video");
+
+  const sharedPart = () => (
+    <div className="HM__inMenuTitle">{menu.name[currentLang]}</div>
+  );
 
   if (host) {
     return (
       <Fragment>
         {sharedPart()}
         <JDLabel txt={LANG("info_img")} />
-        <ImageUploader mode="input" minHeight="100px" {...imageUploaderHook} />
+        <ImageUploader
+          className="TMenuImgUploader"
+          mode="input"
+          minHeight="100px"
+          {...imageUploaderHook}
+        />
         <InputText
+          className="TMenuInfoTxt"
           label={LANG("info_txt")}
           onChange={value => {
             menu.content[currentLang] = value;
@@ -77,4 +87,4 @@ const HMmenu: React.FC<IProps> = ({ menuData, currentLang, host, menu }) => {
   );
 };
 
-export default HMmenu;
+export default MenuContent;

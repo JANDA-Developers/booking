@@ -51,9 +51,9 @@ const updateSMSTemplate = async () => {
   await TCheckString(idSelecter, title + "update");
 };
 
-describe("Template Process", () => {
+describe.skip("Template Process", () => {
   beforeAll(async () => {
-    await testReady("smsTemplate", {});
+    await testReady(true, "smsTemplate", {});
   });
 
   test.skip("Make sms template", async () => {

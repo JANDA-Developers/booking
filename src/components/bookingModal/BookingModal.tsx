@@ -26,7 +26,8 @@ import {
   FUNNELS_OP,
   BOOKING_STATUS_OP,
   PAYMETHOD_FOR_HOST_OP,
-  PAYMENT_STATUS_OP
+  PAYMENT_STATUS_OP,
+  CHECK_IN_OUT_OP
 } from "../../types/const";
 import "./BookingModal.scss";
 import { GB_booking, BookingModalMode } from "../../types/interface";
@@ -58,6 +59,8 @@ import {
 import { getRoomSelectInfo } from "../../utils/typeChanger";
 import { IBookingModalContext } from "./declaration";
 import JDLabel from "../../atoms/label/JDLabel";
+import JDselect from "../../atoms/forms/selectBox/SelectBox";
+import optionFineder from "../../utils/optionFinder";
 
 interface IProps {
   modalHook: IUseModal;
@@ -95,6 +98,7 @@ const BookingModal: React.FC<IProps> = ({
     status: bookingStatus,
     checkIn,
     checkOut,
+    checkInInfo,
     name,
     funnels,
     guests
@@ -102,11 +106,14 @@ const BookingModal: React.FC<IProps> = ({
   const { payMethod, status: paymentStatus, totalPrice } = payment;
   const { house } = context;
   const { _id: houseId } = house;
+  const checkInOutHook = useSelect(
+    optionFineder(CHECK_IN_OUT_OP, checkInInfo.isIn)
+  );
   const sendSmsModalHook = useModal<IModalSMSinfo>(false);
   const confirmModalHook = useModal(false);
   const bookingNameHook = useInput(name);
   const bookingPhoneHook = useInput(phoneNumber, true);
-  const priceHook = useInput(totalPrice);
+  const priceHook = useInput(totalPrice || placeHolederPrice);
   const memoHook = useInput(memo || "");
   const emailHook = useInput(email);
   const assigInfoDrawHook = useDrawer(mode === "CREATE_ASSIG");
@@ -133,8 +140,8 @@ const BookingModal: React.FC<IProps> = ({
     bookingId !== "default"
       ? { value: paymentStatus, label: LANG("PaymentStatus", paymentStatus) }
       : {
-          value: PaymentStatus.COMPLETE,
-          label: LANG("PaymentStatus", PaymentStatus.COMPLETE)
+          value: PaymentStatus.COMPLETED,
+          label: LANG("PaymentStatus", PaymentStatus.COMPLETED)
         }
   );
   const funnelStatusHook = useSelect<Funnels | null>(
@@ -172,7 +179,7 @@ const BookingModal: React.FC<IProps> = ({
     mode
   };
 
-  const isProgressing = bookingStatus === BookingStatus.PROGRESSING;
+  const isProgressing = bookingStatus === BookingStatus.NOT_YET;
   const allReadOnly = isProgressing;
 
   // SMS 발송 모달에 전달할 정보를 생성
@@ -251,7 +258,7 @@ const BookingModal: React.FC<IProps> = ({
           email: "demo@naver.com",
           memo: memoHook.value,
           checkInInfo: {
-            isIn: bookingData.checkIn.isIn || false
+            isIn: checkInOutHook.selectedOption?.value || false
           },
           name: bookingNameHook.value,
           payMethod: payMethodHook.selectedOption!.value,
@@ -271,9 +278,9 @@ const BookingModal: React.FC<IProps> = ({
       style={modalStyle}
       paddingSize="large"
       {...modalHook}
-      className={`Modal bookingModal ${(loading || startBookingLoading) &&
-        "bookingModal--loading"}`}
+      className={`Modal bookingModal`}
       overlayClassName="Overlay"
+      loading={loading || startBookingLoading}
     >
       <Preloader size={"large"} loading={loading || startBookingLoading} />
       {loading || startBookingLoading || (
@@ -407,13 +414,22 @@ const BookingModal: React.FC<IProps> = ({
             </div>
             <div className="JDz-index-1 modal__section flex-grid__col  ">
               <h5>{LANG("else")}</h5>
-              <InputText
-                disabled={allReadOnly}
-                {...memoHook}
-                halfHeight
-                textarea
-                label={LANG("memo")}
-              />
+              <div>
+                <InputText
+                  disabled={allReadOnly}
+                  {...memoHook}
+                  halfHeight
+                  textarea
+                  label={LANG("memo")}
+                />
+              </div>
+              <div>
+                <JDselect
+                  options={CHECK_IN_OUT_OP}
+                  label={LANG("check_in_slash_check_out")}
+                  {...checkInOutHook}
+                />
+              </div>
             </div>
           </div>
           <div className="JDmodal__endSection">
@@ -446,14 +462,15 @@ const BookingModal: React.FC<IProps> = ({
               onClick={handleDeletBtnClick}
             />
           </div>
+
+          <SendSMSmodalWrap context={context} modalHook={sendSmsModalHook} />
+          <JDtoastModal
+            confirm
+            confirmCallBackFn={deleteModalCallBackFn}
+            {...confirmModalHook}
+          />
         </Fragment>
       )}
-      <SendSMSmodalWrap context={context} modalHook={sendSmsModalHook} />
-      <JDtoastModal
-        confirm
-        confirmCallBackFn={deleteModalCallBackFn}
-        {...confirmModalHook}
-      />
     </Modal>
   );
 };

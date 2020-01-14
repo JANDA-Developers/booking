@@ -6,16 +6,20 @@ import $ from "jquery";
 import {
   startBooking_StartBooking,
   startBookingForPublic,
-  startBookingForPublicVariables
+  startBookingForPublicVariables,
+  getHouseForPublic
 } from "../../../types/api";
-import { START_BOOKING_FOR_PUBLIC } from "../../../apollo/queries";
+import {
+  START_BOOKING_FOR_PUBLIC,
+  GET_HOUSE_FOR_PUBLIC
+} from "../../../apollo/queries";
 import { IUseModal, LANG } from "../../../hooks/hook";
 import { isInIfram } from "../../../utils/isInIfram";
 import { IContext } from "../../bookingHost/BookingHostRouter";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation, useQuery } from "@apollo/react-hooks";
 import client from "../../../apollo/apolloClient";
 import Reservation from "./Reservation";
-import { onCompletedMessage } from "../../../utils/utils";
+import { onCompletedMessage, queryDataFormater } from "../../../utils/utils";
 
 export interface IReservationWrapProps {
   publicKey?: string;
@@ -37,6 +41,15 @@ const ReservationWrap: React.FC<IReservationWrapProps &
   // hpk 를 URL로 부터 받아 헤더에 셋팅
   sessionStorage.setItem("hpk", publicKey);
 
+  const { data } = useQuery<getHouseForPublic>(GET_HOUSE_FOR_PUBLIC, {
+    client,
+    skip: publicKey === undefined
+  });
+
+  const publicHouseInfo =
+    queryDataFormater(data, "GetHouseForPublic", "house", undefined) ||
+    undefined;
+
   // 스타트부킹(게스트)
   const [
     startBookingForPublicMu,
@@ -45,7 +58,6 @@ const ReservationWrap: React.FC<IReservationWrapProps &
     START_BOOKING_FOR_PUBLIC,
     {
       client,
-      awaitRefetchQueries: true,
       onCompleted: ({ StartBookingForPublic }) => {
         onCompletedMessage(
           StartBookingForPublic,
@@ -70,6 +82,7 @@ const ReservationWrap: React.FC<IReservationWrapProps &
     <div>
       <Reservation
         context={context}
+        publicHouseInfo={publicHouseInfo}
         startBookingForPublicMu={startBookingForPublicMu}
         createLoading={startBookingLoading}
         reservationModalHook={modalHook}

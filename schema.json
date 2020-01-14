@@ -177,22 +177,16 @@
             "description": "",
             "args": [
               {
-                "name": "transactionId",
+                "name": "param",
                 "description": "",
                 "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "getBookingParam",
-                "description": "",
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "GetBookingParams",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "GetBookingForPublicInput",
+                    "ofType": null
+                  }
                 },
                 "defaultValue": null
               }
@@ -235,6 +229,26 @@
                 "kind": "OBJECT",
                 "name": "GetBookingsResponse",
                 "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "countryList",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Country",
+                  "ofType": null
+                }
               }
             },
             "isDeprecated": false,
@@ -585,6 +599,22 @@
                 "defaultValue": null
               }
             ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "GetHouseResponse",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "GetHouseForPublic",
+            "description": "",
+            "args": [],
             "type": {
               "kind": "NON_NULL",
               "name": null,
@@ -1924,7 +1954,7 @@
             "deprecationReason": null
           },
           {
-            "name": "bookingId",
+            "name": "bookingNum",
             "description": "",
             "args": [],
             "type": {
@@ -2071,6 +2101,18 @@
                 "name": "Boolean",
                 "ofType": null
               }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "nationality",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -2303,7 +2345,7 @@
             "deprecationReason": null
           },
           {
-            "name": "houseId",
+            "name": "houseNum",
             "description": "",
             "args": [],
             "type": {
@@ -2559,6 +2601,34 @@
             "deprecationReason": null
           },
           {
+            "name": "paymentTerm",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "bookingPayInfo",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "BookingPayInfo",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "createdAt",
             "description": "",
             "args": [],
@@ -2582,22 +2652,6 @@
               "kind": "SCALAR",
               "name": "DateTime",
               "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "paymentTerm",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -4762,6 +4816,18 @@
             "deprecationReason": null
           },
           {
+            "name": "houseId",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "ID",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "target",
             "description": "",
             "args": [],
@@ -4987,6 +5053,12 @@
           {
             "name": "VBANK",
             "description": "가상계좌",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "BANK_TRANSFER",
+            "description": "계좌입금",
             "isDeprecated": false,
             "deprecationReason": null
           },
@@ -5890,7 +5962,7 @@
             "deprecationReason": null
           },
           {
-            "name": "WHEN_BOOKING_CREATED_PAYMENT_PROGRESSING",
+            "name": "WHEN_BOOKING_CREATED_PAYMENT_NOT_YET",
             "description": "예약 완료 - 미결제 고객",
             "isDeprecated": false,
             "deprecationReason": null
@@ -8646,6 +8718,108 @@
       },
       {
         "kind": "OBJECT",
+        "name": "BookingPayInfo",
+        "description": "",
+        "fields": [
+          {
+            "name": "bankAccountInfo",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "BankAccountInfo",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "payMethods",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "PayMethod",
+                  "ofType": null
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "BankAccountInfo",
+        "description": "",
+        "fields": [
+          {
+            "name": "bankName",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "accountNum",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "accountHolder",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
         "name": "CheckInInfo",
         "description": "",
         "fields": [
@@ -8857,26 +9031,26 @@
         "interfaces": null,
         "enumValues": [
           {
-            "name": "PROGRESSING",
-            "description": "예약 대기",
+            "name": "NOT_YET",
+            "description": "예약 대기 (deprecated)",
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "COMPLETE",
+            "name": "COMPLETED",
             "description": "예약 완료",
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "CANCEL",
+            "name": "CANCELED",
             "description": "예약 취소",
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "FAIL",
-            "description": "예약 실패",
+            "description": "예약 실패 (deprecated)",
             "isDeprecated": false,
             "deprecationReason": null
           }
@@ -9014,19 +9188,19 @@
         "interfaces": null,
         "enumValues": [
           {
-            "name": "PROGRESSING",
+            "name": "NOT_YET",
             "description": "",
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "COMPLETE",
+            "name": "COMPLETED",
             "description": "",
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "CANCEL",
+            "name": "CANCELED",
             "description": "",
             "isDeprecated": false,
             "deprecationReason": null
@@ -9207,21 +9381,27 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "GetBookingParams",
+        "name": "GetBookingForPublicInput",
         "description": "",
         "fields": null,
         "inputFields": [
           {
-            "name": "name",
+            "name": "bookingNum",
             "description": "",
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "name",
+            "description": "name, phoneNumber, password vs BookingNum",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null
           },
@@ -9229,13 +9409,9 @@
             "name": "phoneNumber",
             "description": "",
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null
           },
@@ -9243,13 +9419,9 @@
             "name": "password",
             "description": "",
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null
           }
@@ -9328,7 +9500,7 @@
             "defaultValue": null
           },
           {
-            "name": "bookingId",
+            "name": "bookingNum",
             "description": "",
             "type": {
               "kind": "SCALAR",
@@ -9507,6 +9679,81 @@
               "ofType": {
                 "kind": "OBJECT",
                 "name": "PageInfoOffsetBase",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "Country",
+        "description": "",
+        "fields": [
+          {
+            "name": "name",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "alphaCode3",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "alphaCode2",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "numericCode",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
                 "ofType": null
               }
             },
@@ -11298,6 +11545,16 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "houseId",
+            "description": "",
+            "type": {
+              "kind": "SCALAR",
+              "name": "ID",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "target",
             "description": "",
             "type": {
@@ -11312,7 +11569,7 @@
             "description": "",
             "type": {
               "kind": "SCALAR",
-              "name": "ID",
+              "name": "String",
               "ofType": null
             },
             "defaultValue": null
@@ -19401,6 +19658,16 @@
               }
             },
             "defaultValue": null
+          },
+          {
+            "name": "cardInfo",
+            "description": "",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "CreateBillKeyInput",
+              "ofType": null
+            },
+            "defaultValue": null
           }
         ],
         "interfaces": null,
@@ -19788,6 +20055,87 @@
         "possibleTypes": null
       },
       {
+        "kind": "INPUT_OBJECT",
+        "name": "CreateBillKeyInput",
+        "description": "",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "cardNo",
+            "description": "",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "cardPw",
+            "description": "",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "expYear",
+            "description": "",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "expMonth",
+            "description": "",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "idNo",
+            "description": "사업자번호 or 생년월일",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
         "kind": "OBJECT",
         "name": "InitHouseResponse",
         "description": "",
@@ -20024,87 +20372,6 @@
               "ofType": {
                 "kind": "SCALAR",
                 "name": "Boolean",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          }
-        ],
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "INPUT_OBJECT",
-        "name": "CreateBillKeyInput",
-        "description": "",
-        "fields": null,
-        "inputFields": [
-          {
-            "name": "cardNo",
-            "description": "",
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "cardPw",
-            "description": "",
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "expYear",
-            "description": "",
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "expMonth",
-            "description": "",
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "idNo",
-            "description": "사업자번호 or 생년월일",
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
                 "ofType": null
               }
             },
@@ -21766,6 +22033,16 @@
             "type": {
               "kind": "ENUM",
               "name": "Funnels",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "nationality",
+            "description": "",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
               "ofType": null
             },
             "defaultValue": null
@@ -23496,6 +23773,34 @@
               "ofType": null
             },
             "defaultValue": null
+          },
+          {
+            "name": "bankAccountInfo",
+            "description": "계좌정보",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "BankAccountInfoInput",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "bookingPayMethods",
+            "description": "결제방법들",
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "PayMethod",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null
           }
         ],
         "interfaces": null,
@@ -23594,6 +23899,59 @@
               "ofType": {
                 "kind": "SCALAR",
                 "name": "Int",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "BankAccountInfoInput",
+        "description": "",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "bankName",
+            "description": "",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "accountNum",
+            "description": "",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "accountHolder",
+            "description": "",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               }
             },
@@ -31915,6 +32273,16 @@
             "defaultValue": null
           },
           {
+            "name": "houseId",
+            "description": "",
+            "type": {
+              "kind": "SCALAR",
+              "name": "ID",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "payload",
             "description": "",
             "type": {
@@ -32353,7 +32721,7 @@
         "interfaces": null,
         "enumValues": [
           {
-            "name": "PROGRESSING",
+            "name": "NOT_YET",
             "description": "",
             "isDeprecated": false,
             "deprecationReason": null

@@ -1,7 +1,4 @@
 import React from "react";
-import { LANG } from "../../../hooks/hook";
-import { UPDATE_MYPROFILE, GET_USER_INFO } from "../../../apollo/queries";
-import { onCompletedMessage } from "../../../utils/utils";
 import MyPage from "./MyPage";
 import { IDiv } from "../../../types/interface";
 import { IContext } from "../../bookingHost/BookingHostRouter";

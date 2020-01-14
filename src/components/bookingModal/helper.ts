@@ -1,9 +1,7 @@
 import {
   getBooking_GetBooking_booking_guests,
-  getBooking_GetBooking_booking_guests_GuestDomitory,
   startBookingVariables
 } from "../../types/api";
-import { instanceOfA } from "../../utils/utils";
 import { inOr } from "../../utils/C";
 import { Gender, PaymentStatus, AutoSendWhen } from "../../types/enum";
 import { IBookingModal_AssigInfo, IBookingModalContext } from "./declaration";
@@ -69,10 +67,10 @@ export const makeSmsInfoParam = (
     autoSendWhen: (() => {
       const { selectedOption } = paymentStatusHook;
       if (selectedOption) {
-        if (selectedOption.value === PaymentStatus.COMPLETE) {
+        if (selectedOption.value === PaymentStatus.COMPLETED) {
           return AutoSendWhen.WHEN_BOOKING_CREATED;
-        } else if (selectedOption.value === PaymentStatus.PROGRESSING) {
-          return AutoSendWhen.WHEN_BOOKING_CREATED_PAYMENT_PROGRESSING;
+        } else if (selectedOption.value === PaymentStatus.NOT_YET) {
+          return AutoSendWhen.WHEN_BOOKING_CREATED_PAYMENT_NOT_YET;
         }
       }
     })()
@@ -160,9 +158,7 @@ export const bookingModalGetStartBookingVariables = (
       name: bookingNameHook.value,
       password: "admin",
       phoneNumber: bookingPhoneHook.value,
-      funnels: funnelStatusHook.selectedOption
-        ? funnelStatusHook.selectedOption.value
-        : null
+      funnels: funnelStatusHook.selectedOption?.value || null
     },
     checkInOut: {
       checkIn: to4YMMDD(resvDateHook.from),

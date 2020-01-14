@@ -90,7 +90,6 @@ const RoomAssigedInfoTable: React.FC<Iprops> = ({
   return (
     <div className={"RoomAssigedInfoTable"}>
       <JDtable
-        visibleOver
         // @ts-ignore
         columns={TableColumns}
         {...ReactTableDefault}

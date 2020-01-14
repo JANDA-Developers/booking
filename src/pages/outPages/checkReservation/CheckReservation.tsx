@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import CheckTable from "./CheckTable";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import {
   getBookingForPublic_GetBookingForPublic_booking,
   getBookingForPublicVariables,
@@ -8,8 +8,8 @@ import {
 } from "../../../types/api";
 import InputText from "../../../atoms/forms/inputText/InputText";
 import Button from "../../../atoms/button/Button";
-import {ApolloQueryResult} from "apollo-client";
-import {LANG} from "../../../hooks/hook";
+import { ApolloQueryResult } from "apollo-client";
+import { LANG } from "../../../hooks/hook";
 
 interface Iprops {
   loading: boolean;
@@ -19,8 +19,8 @@ interface Iprops {
   ) => Promise<ApolloQueryResult<getBookingForPublic>>;
 }
 
-const CheckReservation: React.FC<Iprops> = ({data, refetch, loading}) => {
-  const {name, password, phoneNumber} = data || {
+const CheckReservation: React.FC<Iprops> = ({ data, refetch, loading }) => {
+  const { name, password, phoneNumber } = data || {
     name: "",
     password: "",
     phoneNumber: ""
@@ -59,18 +59,20 @@ const CheckReservation: React.FC<Iprops> = ({data, refetch, loading}) => {
       <h6>{LANG("reservation_information")}</h6>
       <div className="flex-grid-grow">
         <InputText
-          onChange={value => setSearchInfo({...searchInfo, name: value})}
+          onChange={value => setSearchInfo({ ...searchInfo, name: value })}
           value={searchInfo.name}
           label={LANG("name")}
         />
         <InputText
-          onChange={value => setSearchInfo({...searchInfo, phoneNumber: value})}
+          onChange={value =>
+            setSearchInfo({ ...searchInfo, phoneNumber: value })
+          }
           hyphen
           value={searchInfo.phoneNumber}
           label={LANG("contact")}
         />
         <InputText
-          onChange={value => setSearchInfo({...searchInfo, password: value})}
+          onChange={value => setSearchInfo({ ...searchInfo, password: value })}
           label={LANG("password")}
           value={searchInfo.password}
           type="password"
@@ -81,7 +83,12 @@ const CheckReservation: React.FC<Iprops> = ({data, refetch, loading}) => {
           onClick={() => {
             if (validater()) {
               refetch({
-                getBookingParam: searchInfo,
+                param: {
+                  bookingNum: undefined,
+                  name: searchInfo.name,
+                  password: searchInfo.password,
+                  phoneNumber: searchInfo.phoneNumber
+                },
                 // @ts-ignore
                 skip: loading
               });

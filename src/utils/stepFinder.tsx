@@ -6,6 +6,7 @@ export type IStepsStart =
   | "phoneVerification"
   | "houseCreate"
   | "createRoom"
+  | "card"
   | "check";
 
 const stepFinder = (context: IContext): IStepsStart => {

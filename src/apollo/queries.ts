@@ -2,11 +2,19 @@ import gql from "graphql-tag";
 
 
 export const F_LOCATION = gql`
-  fragment FieldsLocation on House {
-    location {
+  fragment Flocation on Location {
       address
       addressDetail
-    }
+      lat
+      lng
+  }
+`;
+
+export const F_BANK_ACOUNT_INFO = gql`
+  fragment FbankAccountInfo on BankAccountInfo {
+      bankName
+      accountNum
+      accountHolder
   }
 `;
 
@@ -492,6 +500,12 @@ export const F_CONTEXT = gql`
     ...Fuser
     houses {
       ...Fhouse
+      bookingPayInfo {
+        bankAccountInfo {
+          ...FbankAccountInfo
+        }
+        payMethods
+      }
       houseConfig {
         ...FhouseConfig
       }
@@ -515,8 +529,7 @@ export const F_CONTEXT = gql`
         }
       }
       location {
-        address
-        addressDetail
+        ...Flocation
       }
     }
     paymentInfos {
@@ -530,6 +543,8 @@ export const F_CONTEXT = gql`
   ${F_HOUSE_CONFIG}
   ${F_PRODUCT_TYPE}
   ${F_PAYMENT_INFO}
+  ${F_LOCATION}
+  ${F_BANK_ACOUNT_INFO}
 `;
 
 /* ---------------------------------- query --------------------------------- */
@@ -1156,13 +1171,11 @@ export const GET_FILE_TXT = gql`
 // BOOKING_FOR_PUBLIC 가져오기
 export const GET_BOOKING_FOR_PUBLIC = gql`
   query getBookingForPublic(
-    $transactionId: String
-    $getBookingParam: GetBookingParams
+    $param: GetBookingForPublicInput!
     $skip: Boolean!
   ) {
     GetBookingForPublic(
-      transactionId: $transactionId
-      getBookingParam: $getBookingParam
+      param:$param
     ) @skip(if: $skip) {
       ok
       error
@@ -1206,7 +1219,7 @@ export const GET_BOOKINGS_MEMOS = gql`
       result {
         bookings {
           name
-          bookingId
+          bookingNum
           memo
         }
       }
@@ -1469,7 +1482,7 @@ export const START_BOOKING_FOR_PUBLIC = gql`
       error
       booking {
         _id
-        bookingId
+        bookingNum
       }
     }
   }
@@ -1500,7 +1513,7 @@ export const START_BOOKING = gql`
       error
       booking {
           _id
-          bookingId
+          bookingNum
       }
     }
   }
@@ -1893,6 +1906,24 @@ export const UPDATE_HOUSE = gql`
       error
     }
   }
+`;
+
+export const GET_HOUSE_FOR_PUBLIC = gql`
+  query getHouseForPublic {
+    GetHouseForPublic {
+      ok
+      error
+      house {
+        bookingPayInfo {
+          bankAccountInfo {
+            ...FbankAccountInfo
+          }
+          payMethods
+        }
+      }
+    }
+  }
+  ${F_BANK_ACOUNT_INFO}
 `;
 
 // 숙소설정 업데이트

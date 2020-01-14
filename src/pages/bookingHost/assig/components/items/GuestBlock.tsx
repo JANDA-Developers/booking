@@ -45,7 +45,7 @@ const guestBlock: React.FC<IProps> = ({
     isUnpaid
   } = item;
 
-  const isReady = status === BookingStatus.PROGRESSING;
+  const isReady = status === BookingStatus.NOT_YET;
 
   return (
     <Fragment>

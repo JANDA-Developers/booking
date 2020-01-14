@@ -124,7 +124,7 @@ const SendSmsModal: React.FC<IProps> = ({
   }, [modalHook.isOpen]);
 
   const phoneNumbers = bookings?.map(booking => booking.phoneNumber);
-  const tempBookingIds = bookings?.map(booking => booking._id) || [];
+  const queryBookingIds = bookings?.map(booking => booking._id) || [];
   const sendTargets =
     smsTargetOpHook.selectedOption!.value === GetSmsTarget.EXSIST_INFO
       ? modalHook.info.receivers
@@ -143,7 +143,7 @@ const SendSmsModal: React.FC<IProps> = ({
         smsInfoId: smsInfo._id,
         msg: smsMessageFormatter(msg),
         receivers: sendTargets,
-        bookingIds: tempBookingIds || bookingIds
+        bookingIds: isEmpty(queryBookingIds) ? bookingIds : queryBookingIds
       }
     });
 
@@ -203,10 +203,6 @@ const SendSmsModal: React.FC<IProps> = ({
         const messages =
           queryDataFormater(data, "GetReplacedMessages", "messages", "") || "";
 
-        console.log("data");
-        console.log(data);
-        console.log(bookingIds);
-        let msg = "";
         setMsg(messages[0]);
       } else {
         // Maybe it is not exsist booking show smsFormat

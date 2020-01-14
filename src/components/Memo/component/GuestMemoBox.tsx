@@ -20,7 +20,7 @@ const GuestMemoBox: React.FC<Iprops> = ({ booking, ...prop }) => {
         topLabel={
           <TextButton
             onClick={() => {
-              bookingSearch(booking.bookingId);
+              bookingSearch(booking.bookingNum);
             }}
             color="primary"
           >

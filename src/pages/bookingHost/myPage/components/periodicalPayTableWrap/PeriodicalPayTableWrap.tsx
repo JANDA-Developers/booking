@@ -10,6 +10,7 @@ import {
 import { queryDataFormater } from "../../../../../utils/utils";
 import PeriodicalPayTable from "./PeriodicalPayTable";
 import { getFromResult } from "../../../../../utils/queryFormater";
+import { PayTarget } from "../../../../../types/enum";
 
 interface Iprops {
   context: IContext;
@@ -23,7 +24,9 @@ const PeriodicalTableWrap: React.FC<Iprops> = ({ context }) => {
       client,
       variables: {
         param: {
-          filter: {},
+          filter: {
+            target: PayTarget.USAGE_PLAN
+          },
           paging: {
             selectedPage: page,
             count: 20

@@ -2,7 +2,7 @@ import faker from "faker";
 import {
   TType,
   Tselect,
-  Tupload,
+  TUpload,
   takeShot,
   S,
   testReady,
@@ -23,7 +23,7 @@ export const createRoomType = async (
   await TType("#RoomTypeName", roomTypeName);
   await Tselect("#CapacitySelecter", count || 4);
 
-  await Tupload("#RoomTypeImgUploader", "/devImg/RoomT1.jpg");
+  await TUpload("#RoomTypeImgUploader", "/devImg/RoomT1.jpg");
   await takeShot("pc", "roomTypeModal");
 
   await Tselect("#RoomTypeGenderSelecter", faker.random.number(4));
@@ -69,7 +69,7 @@ export const createRoom = async (roomTypeIndex: number) => {
   await TType("#RoomNameInput", startRoomNumber);
   await Tselect("#RoomCountSelect", counts);
   await page.click(`#RoomCreateBtn`);
-  await page.waitFor(3000);
+  await page.waitFor(2000);
 
   // check all rooms created Collectly
   const rooms = await page.$$(roomBoxSelecter);
@@ -106,9 +106,9 @@ export const deleteRoom = async () => {
   expect(target2).toBeFalsy();
 };
 
-describe.skip("User Can Do Room Process Collectly", () => {
+describe.skip("Room Process", () => {
   beforeAll(async () => {
-    await testReady();
+    await testReady(true);
   });
   test(
     "Create Room Type Correctly",

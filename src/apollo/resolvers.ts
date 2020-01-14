@@ -34,6 +34,7 @@ const resolvers = {
     // resolvers: 로그아웃
     LogUserOut: (_: any, __: any, { cache }: any) => {
       localStorage.removeItem("jwt");
+      cache.reset();
       cache.writeData({
         data: {
           auth: {

@@ -1,4 +1,11 @@
-import { S, testReady, TWaitClick, expectOkFromGraphql } from "./utils.test";
+import {
+  S,
+  testReady,
+  TWaitClick,
+  expectOkFromGraphql,
+  TWait,
+  takeShot
+} from "./utils.test";
 import { makeHouse } from "../pages/bookingHost/createHouse/__test__/createHouse.test";
 import { testCreateUser } from "../pages/bookingHost/signUp/__test__/singUp.test";
 import { phoneVerification } from "../components/phoneVerificationModal/__test__/phoneVerification.test";
@@ -8,13 +15,16 @@ import {
   createRoom,
   createRoomType
 } from "../pages/bookingHost/roomConfig/__test__/roomConfig.test";
+import { fillCardInfo } from "../pages/bookingHost/myPage/components/cardModal.tsx/__test__/cardModal.test";
 
-describe("User Can Do First Process Correctly", () => {
+describe("First Process", () => {
   beforeAll(async () => {
-    await testReady();
+    await testReady(false, undefined, {
+      email: "Alyce46@hotmail.com"
+    });
   });
 
-  test(
+  test.skip(
     "Signup Correctly",
     async () => {
       await testCreateUser();
@@ -22,7 +32,7 @@ describe("User Can Do First Process Correctly", () => {
     10 * S
   );
 
-  test(
+  test.skip(
     "Phone Verification Correctly",
     async () => {
       await phoneVerification();
@@ -45,6 +55,7 @@ describe("User Can Do First Process Correctly", () => {
     },
     10 * S
   );
+
   test(
     "Create Room Correctly",
     async () => {
@@ -52,6 +63,7 @@ describe("User Can Do First Process Correctly", () => {
     },
     5 * S
   );
+
   test.skip(
     "Delete Room Correctly",
     async () => {
@@ -67,9 +79,20 @@ describe("User Can Do First Process Correctly", () => {
     30 * S
   );
 
+  test("Input card", async () => {
+    await TWaitClick("#NextBtnToCard");
+    await page.waitForSelector("#CardModal__CardNumber");
+    await fillCardInfo();
+  });
+
   test("Finish start process", async () => {
     await TWaitClick("#NextBtnToFinish");
     await TWaitClick("#SettingFinishBtn");
     await expectOkFromGraphql();
+  });
+
+  afterAll(async () => {
+    await TWait(1000);
+    await takeShot("DashBoard");
   });
 });

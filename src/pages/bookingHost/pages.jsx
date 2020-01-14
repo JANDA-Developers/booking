@@ -171,3 +171,11 @@ export const DailyPrice = props => (
     }
   </DynamicImport>
 );
+
+export const HouseConfig = props => (
+  <DynamicImport load={() => import("./houseConfig/HouseConfigWrap")}>
+    {DNcompoent =>
+      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
+    }
+  </DynamicImport>
+);

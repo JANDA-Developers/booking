@@ -16,6 +16,7 @@ import {
   arrToApplyDays,
   dayarrEnToBooleanArr
 } from "./dayOfweeks";
+import { cardValidate } from "./validations";
 import {
   isEmail,
   isPhone,
@@ -123,6 +124,7 @@ export {
   smsMsgParser,
   isTestProduct,
   queryDataFormater,
+  cardValidate,
   mergeObject,
   setMidNight,
   JDscrollTo,

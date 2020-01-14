@@ -13,6 +13,7 @@ export const en = {
   CANCEL: "Cancel Reservation",
   CARD: "Payment",
   CASH: "cash payments",
+  BANK_TRANSPER: " Bank Transper",
   CHANNEL_PAY: "Channel Pay",
   CHINESE: "Chinese",
   COMPLETE: "booked",
@@ -33,7 +34,7 @@ export const en = {
   MALE: "M",
   FEMALE: "F",
   MONTHLY: "monthly",
-  PROGRESSING: "In progress",
+  NOT_YET: "In progress",
   Pricing: "Set Up",
   Rooms: "Rooms",
   DOMITORY: "dormitory",
@@ -56,8 +57,7 @@ export const en = {
   WEEKLY: "Weekly",
   WEHN_BOOKING_CANCEL: "On cancellation",
   WHEN_BOOKING_CREATED: "when creating reservation",
-  WHEN_BOOKING_CREATED_PAYMENT_PROGRESSING:
-    "When creating a reservation (unpaid)",
+  WHEN_BOOKING_CREATED_PAYMENT_NOT_YET: "When creating a reservation (unpaid)",
   WHEN_BOOKING_UPDATE: "On reservation update",
   YEARLY: "by year",
   accommodation_info: "Accommodation information",
@@ -210,7 +210,7 @@ export const en = {
   deleted_note_completed: "Notes deleted successfully",
   deleted_note_failed: "Failed to delete notes",
   detail: "detail",
-  detail_adress: "detailed address",
+  detail_address: "detailed address",
   display_deadline: "displayed",
   display_related_setting: "Assignment related setting",
   displays_a_new_reservation_within_the_set_time:
@@ -260,7 +260,7 @@ export const en = {
   hostel: "hostel",
   hotel: "hotel",
   houseName: "hostname",
-  house_adress: "hosting address",
+  house_address: "hosting address",
   house_delete_completed: "Homestay deleted",
   house_delete_failed: "Failed to delete home",
   house_info: "hotel information",
@@ -574,6 +574,7 @@ export const en = {
   take_a_look: "look around",
   template_msg: "template message",
   template_title: "template title",
+  template_setting: "template setting",
   test_on_two_weeks: "Can test for two weeks",
   thank_you: "Thank you.",
   the_current_product_has_expired_normal_service_is_not_possible_Please_proceed_with_the_payment:
@@ -784,12 +785,12 @@ export const en = {
   //1.0.1 add
   un_checkIn: "un checkIn",
   PaymentStatus: {
-    CANCEL: "unPaid",
-    PROGRESSING: "processing",
-    COMPLETE: "complete"
+    CANCELED: "unPaid",
+    NOT_YET: "processing",
+    COMPLETED: "complete"
   },
   SendTarget: {
-    BOTH: "guest/host",
+    BOTH: "guest&host",
     GUEST: "guest",
     HOST: "host"
   },
@@ -925,50 +926,51 @@ export const en = {
   periodical_pay_regist_complete: "Subscription registration completed",
   periodical_pay_regist_fail: "Subscription registration failed",
   sign_date: "sign date",
-  change_periodical_change: "정기결제 정보 변경",
-  payment_fee: "납부요금",
-  approved: "승인완료",
-  excel_express: "엑셀출력",
-  express_info: "출력정보",
-  express_count: "출력갯수",
-  bill_pay_cancle: "정기 결제 취소",
-  bill_pay_cancle_complete: "정기 결제 취소 완료",
-  bill_pay_cancle_fail: "정기 결제 취소 실패",
-  on_testing: "테스트 사용중",
-  un_registed: "적용안됨",
-  uploade_compelte: "업로드 완료",
-  uploade_fail: "업로드 실패",
-  HM_detail_info: "하우스 메뉴얼 상세정보",
+  change_periodical_change: "Periodical pay change",
+  payment_fee: "Payment fee",
+  approved: "approved",
+  excel_express: "excel express",
+  express_info: "express info",
+  express_count: "express count",
+  bill_pay_cancle: "bill pay cancel",
+  bill_pay_cancle_complete: "Bill pay cancel completed",
+  bill_pay_cancle_fail: "Bill pay cancel failed",
+  on_testing: "On Testing",
+  un_registed: "un registed",
+  uploade_compelte: "Upload completed",
+  uploade_fail: "Upload fail",
+  HM_detail_info: "House Manual Info",
   ExcelExpress: {
-    SELECT_OP: "현재 선택한 내용으로 출력",
-    COUNT_OP: "최근 생성 갯수로 출력",
-    DATE_OP: "날짜로 출력"
+    SELECT_OP: "Express with current select1",
+    COUNT_OP: "Express with current count",
+    DATE_OP: "Express with date"
   },
-  unit: "개",
-  pay_date: "납부일자",
-  bill: "영수증",
+  unit: "count",
+  pay_date: "pay date",
+  bill: "bill",
   need_regist: (
     <TextButton className="JDstandard-margin0" color="error">
-      등록필요
+      require regist
     </TextButton>
   ),
-  go_to_sms_template: "SMS 양식 바로가기",
-  how_to_save_sms_template_title: "SMS양식 저장하는 방법",
+  go_to_sms_template: "go to SMS",
+  how_to_save_sms_template_title: "How to save sms SMS template ?",
   how_to_save_sms_template_doc: (
     <JDlist
       marginBottom="long"
       contents={[
         <div>
-          1. <b>SMS양식</b> 메뉴에서 <b>[양식생성]</b>을 클릭합니다.
+          1. On the <b> SMS Forms </b> menu, click <b> [Create Form] </b>.
         </div>,
         <div>
-          2. 양식생성 화면에서 타이틀과, 메시지를 입력하시고 메시지화면에서 중간
-          중간에 생성할
+          2. Enter the title and message on the form creation screen, and select
+          the middle of the message screen. Generate in the middle
           <b>
-            숙박일자/숙박정보/예약자명/가격/결제방법/결제상태/하우스메뉴얼URL
+            Accommodation Date / Accommodation Information / Booker Name / Price
+            / Payment Method / Payment Status / House Manual URL
           </b>
-          문구를 아래에 <b>양식메시지</b>에서 클릭하시면 메시지 발송시에
-          자동으로 정보가 입력됩니다.
+          Click on the message below in the <b> Form Message </b> to send the
+          message. The information is entered automatically.
         </div>,
         <div>
           <PhotoFrame
@@ -976,63 +978,72 @@ export const en = {
           />
         </div>,
         <div>
-          3. 자동발신 상태를{" "}
-          <b>예약취소시/예약생성시/예약생성시(미결제)/예약업데이트시</b> 별로
-          선택하여 설정하고
+          3. Automatically call status {""}
+          When{" "}
+          <b>
+            {" "}
+            cancellation of reservation / creation of reservation / creation of
+            reservation (unpaid) / reservation update{" "}
+          </b>
+          Select and set
         </div>,
         <div>
-          4. 발신대상을 <b>게스트/호스트/게스트+호스트</b> 별로 지정을 해주시고
-          우측에 <b>자동발신 활설화</b> 여부를 on / oFF 설정해주시면 언제든지
-          고객에게 알림 문자가 발송되게 설정됩니다
+          4. Specify the destination for each{" "}
+          <b> guest / host / guest + host </b>. You can always turn on / oFF{" "}
+          <b> automatically active </b> on the right Your notification text will
+          be sent to the customer
         </div>
       ]}
     />
   ),
-  how_to_send_sms_for_all_title: "단체SMS 보내는 방법",
+  how_to_send_sms_for_all_title: "How to send a group SMS",
   how_to_send_sms_for_all_doc: (
     <JDlist
       marginBottom="long"
       contents={[
         <span>
-          1. 단체SMS는 솔루션 메인화면과 예약목록 화면에서 가능합니다.
-          <b>메인화면</b>에서는 오늘의 예약리스트 상단에 <b>‘단체메시지’</b>{" "}
-          버튼을 클릭하셔야 보낼 수 있고, <b>예약목록</b> 화면에서는 내가 원하는
-          예약자를 선택하여 리스트 상단에 <b>‘문자전송’</b>버튼을 클릭해서
-          여러명에게 단체문자를 보낼 수 있습니다.
+          1. Group SMS is available on the solution main screen and reservation
+          list screen. In the <b> Main Screen </b>, you can see at the top of
+          today's reservation list {""}
+          Click the <b> ‘Group Messages’ </b> button to send. {""}
+          On the <b> Reservation List </b> screen, select the scheduler you want
+          Click the <b> 'Send Text' </b> button at the top to send a group text
+          to You can send
         </span>,
         <div>
-          2. 그러나 단체SMS를 보내기 위해서는 <b>SMS양식</b>화면에서 미리 만들어
-          둔 SMS양식이 있어야 합니다. 개성있고 재밌는 SMS양식을 만들어주세요.
-          예시 : 조식알림문자, 저녁 파티이벤트 안내 문자, 공사안내, 분실물안내,
-          긴급대피안내문자
+          2. However, if you want to send a group SMS, make it in advance on the{" "}
+          <b> SMS Form </b> screen. You must have an SMS form. Create a unique
+          and fun SMS form. Emergency evacuation letter example: Breakfast
+          reminder letter, dinner party event guide letter, Construction
+          information, lost property information,
         </div>
       ]}
     />
   ),
-  sms_usage: "SMS 이용법",
-  sms_service: "SMS 서비스",
-  credit: "신용",
-  expiration_date: "유효기한",
-  add_card: "카드추가",
-  please_input_card_info: "카드정보를 입력해 주세요.",
-  add_card_dec: "빠르고 간편한 결제를 위해 카드를 등록해주세요.",
-  card_info: "카드정보",
-  card_delte_complete: "카드 삭제 성공",
-  card_info_complete_fail: "카드 삭제 실패",
-  periodical_cancel_complete: "정기결제 취소 완료",
-  periodical_cancel_complete_fail: "정기결제 취소 실패",
-  card_regist: "카드 등록",
-  card_delete: "카드 삭제",
-  bill_pay_regist: "정기 결제 등록",
-  bill_pay_regist_width_this_card: "이 카드로 정기결제 등록",
-  bill_pay_regist_change_width_this_card: "이 카드로 정기결제 변경",
-  un_exsist_page: "존재 하지않는 페이지",
-  sms_info: "SMS 안내",
-  sms_info_decs: "SMS 이용에대한 안내 드립니다.",
+  sms_usage: "SMS usage",
+  sms_service: "SMS service",
+  credit: "credit",
+  expiration_date: "expiration date",
+  add_card: "add card",
+  please_input_card_info: "Please input card info",
+  add_card_dec: "Please add card info for quality service",
+  card_info: "card info",
+  card_delte_complete: "delete card completed",
+  card_info_complete_fail: "delete card failed",
+  periodical_cancel_complete: "Periodical pay cancel completed",
+  periodical_cancel_complete_fail: "Periodical pay cancel failed ",
+  card_regist: "card regist",
+  card_delete: "card delte",
+  bill_pay_regist: "Bill pay regist",
+  bill_pay_regist_width_this_card: "Periodical pay with this card",
+  bill_pay_regist_change_width_this_card: "Change to this card",
+  un_exsist_page: "UN EXSIST PAGE",
+  sms_info: "SMS info",
+  sms_info_decs: "Here is SMS usage guid",
   un_exsist_page_decs: (
     <span>
-      존재 하지않는 페이지 입니다.
-      <br /> 뒤로가기를 눌러주세요.
+      UN EXSIST PAGE
+      <br /> please click "goto back" btn
     </span>
   ),
   mypage: "MY PAGE",
@@ -1069,7 +1080,58 @@ export const en = {
   please_select_room_type: "Please select room type.",
   room_assig_info: "room/assig info",
   else: "else",
-  check_init: "check init"
+  check_init: "check init",
+  timeline_config: "timeline config",
+  mypage_desc:
+    "You can manage your subscriptions and view the accommodations and user profiles you have created.",
+  room_config_desc:
+    "Create and edit room types and rooms to run your accommodation.",
+  HouseStatus: {
+    DISALBE: "DISABLED",
+    WAIT: "WAIT",
+    ENABLE: "ENABLE"
+  },
+  update_user_info_complete: "update user info completed",
+  update_user_info_fail: "update user info failed",
+  server_dose_not_respond: "server is not respond",
+  network_connected: "network connected.",
+  periodical_payment_is_stopped: (houseName: string) =>
+    `${houseName}'s periodical pay is stopped`,
+  request_is_failed: "request is failed.",
+  product_regist_complete_message: "product regist complete",
+  select_product_desc:
+    "When you register your product, you will receive your card information. After the expiration period ends, payment will be automatically made.",
+  please_check_file_has_special_char:
+    "Check for special characters in the file.",
+  room_start_number: "room start number",
+  assig_info: "assig info",
+  people_and_room_info: "Person and Room Information",
+  to_next: "to next",
+  payment_completed: "Payment has been completed.",
+  payer: "Biller",
+  payment_amt: "pay amt",
+  payment_date: "pay date",
+  move_to_check_page: "Go to the booking confirmation page.",
+  please_upload_image: "Please upload an image.",
+  check_in_slash_check_out: "checkIn/checkOut",
+  finish: "finish setting",
+  prev_step: "prev step",
+  next_step: "next step",
+  house_config: "house config",
+  house_config_desc:
+    "You can manage the information of the selected accommodation at a glance. Information entered here will be sent to the homepage, e-mail, and so on.",
+  basic_info: "basic info",
+  basic_info_desc: "You can modify the basic information of the accommodation.",
+  deposit_info: "Deposit Information",
+  deposit_info_desc: "You can modify the deposit information of the property.",
+  account_number: "account number",
+  depositor: "depositor",
+  bank_name: "bank name",
+  support_payment_method: "support payment method",
+  update_house_completed: "update house completed",
+  update_house_failed: "Update house failed",
+  sms__decs:
+    "If you set up an SMS form, you can conveniently send the form when you send a message."
 };
 
 export default en;

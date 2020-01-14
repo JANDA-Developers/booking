@@ -135,6 +135,7 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
                   {updateBookingMu => (
                     <CreatBookingMu
                       mutation={START_BOOKING}
+                      awaitRefetchQueries
                       onCompleted={({ StartBooking }) => {
                         onCompletedMessage(
                           StartBooking,
@@ -152,6 +153,7 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
                         }
                       }}
                       refetchQueries={[
+                        getOperationName(GET_BOOKINGS) || "",
                         getOperationName(
                           GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM
                         ) || ""
@@ -166,6 +168,7 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
                               GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM
                             ) || ""
                           ]}
+                          awaitRefetchQueries
                           onCompleted={({ DeleteBooking }) => {
                             onCompletedMessage(
                               DeleteBooking,

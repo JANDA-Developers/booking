@@ -47,7 +47,7 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
   const classNames = classnames("assigItem", baseItemCalsses, {
     "assigItem--selected": itemContext.selected,
     "assigItem--checkIn": item.checkInInfo,
-    "assigItem--progressing": item.status === BookingStatus.PROGRESSING,
+    "assigItem--progressing": item.status === BookingStatus.NOT_YET,
     "assigItem--block": item.type === GuestTypeAdd.BLOCK,
     "assigItem--mark": item.type === GuestTypeAdd.MARK,
     "assigItem--ghost": item.type === GuestTypeAdd.GHOST,

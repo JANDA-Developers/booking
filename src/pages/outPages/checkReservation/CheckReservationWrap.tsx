@@ -46,7 +46,7 @@ const CheckReservationWrap: React.FC<IProps> = ({
     client: client,
     fetchPolicy: "network-only",
     variables: {
-      getBookingParam: {
+      param: {
         name,
         password,
         phoneNumber

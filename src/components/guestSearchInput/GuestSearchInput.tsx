@@ -53,8 +53,6 @@ const GuestSearchInput: React.FC<IProps> = ({
     scrollTarget.scrollTo({ left: targetDom.offsetLeft - targetWidth / 2 });
   };
 
-
-  
   const handleFindOne = (label?: string | null, id?: string) => {
     if (!id) return;
     setType(label);
@@ -81,9 +79,6 @@ const GuestSearchInput: React.FC<IProps> = ({
     if (!value) unHilightTarget();
     setType(value);
   };
-
-
-  
 
   return (
     <Fragment>

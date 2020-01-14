@@ -107,7 +107,7 @@ const ResvList: React.SFC<IProps> = ({
         variables: {
           bookingId: id,
           params: {
-            bookingStatus: BookingStatus.CANCEL
+            bookingStatus: BookingStatus.CANCELED
           }
         }
       });
@@ -140,7 +140,7 @@ const ResvList: React.SFC<IProps> = ({
         variables: {
           bookingId: id,
           params: {
-            bookingStatus: BookingStatus.COMPLETE
+            bookingStatus: BookingStatus.COMPLETED
           }
         }
       });
@@ -270,7 +270,7 @@ const ResvList: React.SFC<IProps> = ({
           <br />
           <span
             className={`resvList__paymentStatus ${original.payment.status ===
-              PaymentStatus.PROGRESSING && "resvList__paymentStatus--notYet"}`}
+              PaymentStatus.NOT_YET && "resvList__paymentStatus--notYet"}`}
           >
             {LANG("PaymentStatus", original.payment.status)}
           </span>
@@ -303,11 +303,11 @@ const ResvList: React.SFC<IProps> = ({
           payment,
           checkInInfo
         } = original;
-        const isCancled = status === BookingStatus.CANCEL;
-        const isProgressing = status === BookingStatus.PROGRESSING;
-        const isComplete = status === BookingStatus.COMPLETE;
+        const isCancled = status === BookingStatus.CANCELED;
+        const isProgressing = status === BookingStatus.NOT_YET;
+        const isComplete = status === BookingStatus.COMPLETED;
         const { status: paymentStatus } = payment;
-        const isPaied = paymentStatus === PaymentStatus.COMPLETE;
+        const isPaied = paymentStatus === PaymentStatus.COMPLETED;
         const isCheckIn = checkInInfo.isIn;
 
         return (
@@ -321,10 +321,7 @@ const ResvList: React.SFC<IProps> = ({
             )}
             {isCheckIn && <JDbadge thema={"new"}>{LANG("new")}</JDbadge>}
             {isCancled && <JDbadge thema={"error"}>{LANG("cancel")}</JDbadge>}
-            {isProgressing && (
-              <JDbadge thema={"grey"}>{LANG("proceeding")}</JDbadge>
-            )}
-            {/* {isComplete && (
+            {/* {isComplete &1& (
               <JDbadge thema={"positive"}>{LANG("good_status")}</JDbadge>
             )} */}
             {isProgressing || isPaied || (

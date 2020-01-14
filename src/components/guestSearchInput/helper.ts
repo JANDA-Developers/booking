@@ -37,6 +37,7 @@ const searchFilterCreater = (value: string): GetBookingsFilterInput => {
     }
 };
 
-export const thortedFilterCreater = _.throttle(searchFilterCreater, 1000, {
-    trailing: true
+export const debouncedFilterCreater = _.debounce(searchFilterCreater, undefined, {
+    trailing: true,
+    leading: true,
 });

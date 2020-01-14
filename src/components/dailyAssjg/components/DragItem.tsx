@@ -65,7 +65,7 @@ const DragItem: React.FC<IProps> = ({ item, place, room, roomType }) => {
           const { booking, checkIn, checkOut, _id } = item;
           const { checkInInfo, status, name, payment, memo } = booking;
           const { status: paymentStatus } = payment;
-          const isUnpaid = paymentStatus !== PaymentStatus.COMPLETE;
+          const isUnpaid = paymentStatus !== PaymentStatus.COMPLETED;
           const guestBlockClasses = classNames(
             "dailyAssigItem__guest",
             undefined,
@@ -74,7 +74,7 @@ const DragItem: React.FC<IProps> = ({ item, place, room, roomType }) => {
             },
             {
               "dailyAssigItem__guest--progressing":
-                status === BookingStatus.PROGRESSING
+                status === BookingStatus.NOT_YET
             }
           );
           return (
@@ -83,7 +83,7 @@ const DragItem: React.FC<IProps> = ({ item, place, room, roomType }) => {
                 `MM-DD${LANG("date")}`
               )} ~ ${moment(checkOut).format(`MM-DD${LANG("date")}`)}`}
               data-for={
-                status === BookingStatus.PROGRESSING
+                status === BookingStatus.NOT_YET
                   ? "tooltipReadyBlock"
                   : "guestCheckInOutToolTip"
               }

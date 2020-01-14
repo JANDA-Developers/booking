@@ -1,43 +1,46 @@
-@import '~Styles';
+@import "~Styles";
+
+#outdated {
+  display: block !important;
+}
 
 .bookingHost {
-
-    &--sideOpen {
-        @include response($full,$phablet) {
-            .bookingHost__page {
-                width: calc(100% - #{$sideNav-width});
-            }
-        }
-        @include response($tablet,$phablet) {
-            .bookingHost__page {
-                width: calc(100% - #{$sideNav-width-wmd});
-            }
-        }
+  &--sideOpen {
+    @include response($full, $phablet) {
+      .bookingHost__page {
+        width: calc(100% - #{$sideNav-width});
+      }
     }
-
-    &__starterBg {
-        background-image: url("https://res.cloudinary.com/stayjanda-com/image/upload/v1554029494/annananananan.jpg");
-        background-size: cover;
-        background-position: center center;
-        height: 100%;
+    @include response($tablet, $phablet) {
+      .bookingHost__page {
+        width: calc(100% - #{$sideNav-width-wmd});
+      }
     }
+  }
 
-    &__layout {
-        display: flex;
-    }
+  &__starterBg {
+    background-image: url("https://res.cloudinary.com/stayjanda-com/image/upload/v1554029494/annananananan.jpg");
+    background-size: cover;
+    background-position: center center;
+    height: 100%;
+  }
 
-    &__page {
-        flex: 1 1;
-        transition: .3s;
-        max-width: 100%;
-    }
+  &__layout {
+    display: flex;
+  }
 
-    &__side {
-        position: relative;
-        z-index: $z-index-7;
-        
-        @include response($phablet) {
-            position:fixed;
-        }
+  &__page {
+    flex: 1 1;
+    transition: 0.3s;
+    max-width: 100%;
+  }
+
+  &__side {
+    position: relative;
+    z-index: $z-index-7;
+
+    @include response($phablet) {
+      position: fixed;
     }
+  }
 }

@@ -9,19 +9,15 @@ import {
   LANG
 } from "../../../hooks/hook";
 import Button from "../../../atoms/button/Button";
-import JDIcon from "../../../atoms/icons/Icons";
 import {
   getHM_GetHM_HM,
   updateHM,
-  updateHMVariables,
-  getHM_GetHM_HM_menus
+  updateHMVariables
 } from "../../../types/api";
 import "./HMconfig.scss";
 // @ts-ignore
 import omitDeep from "omit-deep";
-import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
 import JDmodal from "../../../atoms/modal/Modal";
-import JDbox from "../../../atoms/box/JDbox";
 import { muResult } from "../../../utils/utils";
 import { Language, WindowSize } from "../../../types/enum";
 import {
@@ -67,11 +63,9 @@ const HMconfig: React.FC<IProps> = ({
   HM = DEFAULT_HM,
   loading,
   context,
-  mutationLoading,
   updateHMmu
 }) => {
   const { house } = context;
-  const tempSrc = null;
   // "https://i.pinimg.com/originals/54/88/35/5488351dfdde55dc9f088eb88a7fef34.png";
   const [currentLang, setCurrentLang] = useState(Language.KOREAN);
   const [enableLangs, setEnableLngList] = useState(HM.langList);
@@ -81,7 +75,6 @@ const HMconfig: React.FC<IProps> = ({
   const emailModalHook = useModal();
   const emailHook = useInput(HM.email, true);
   const languageConfigModalHook = useModal();
-  const menusConfigModalHook = useModal();
   const [title, setTitle] = useState(HM.title);
   const bgImageHook = useImageUploader(HM.backgroundImg, {
     resizeMaxWidth: WindowSize.PHABLET
@@ -92,8 +85,25 @@ const HMconfig: React.FC<IProps> = ({
     enableLangs,
     menuData
   ]);
-
   const isPhabeltDown = window.innerWidth < WindowSize.PHABLET;
+
+  const userInfo = {
+    profileImg: HM.profileImg,
+    email: emailHook.value,
+    phoneNumber: phoneNumberHook.value,
+    location: HM.location
+  };
+
+  const sharedProps = {
+    enableLangs,
+    house,
+    title,
+    menuData,
+    bgData: bgImageHook.file,
+    setCurrentLang,
+    currentLang,
+    userInfo
+  };
 
   const validate = (): boolean => {
     if (!title) {
@@ -112,6 +122,8 @@ const HMconfig: React.FC<IProps> = ({
     }
     return true;
   };
+
+  ReactTooltip.rebuild();
 
   const handleSaveBtnClick = async () => {
     if (validate()) {
@@ -137,70 +149,7 @@ const HMconfig: React.FC<IProps> = ({
     }
   };
 
-  ReactTooltip.rebuild();
-
-  const MenusConfigModal = () => {
-    const renderContent = (isEnable: boolean, menu: getHM_GetHM_HM_menus) => (
-      <JDbox key={menu.id} className="HMmenuConfigMenu">
-        <div className="JDflex--between JDflex--vCenter">
-          <JDIcon
-            className="JDstandard-space"
-            size={"small"}
-            icon={menu.icon as any}
-          />
-          <span className="HMmenuConfigMenu__menuTitle JDstandard-small-space">
-            {menu.name[currentLang]}
-          </span>
-          <CircleIcon
-            darkWave
-            thema="greybg"
-            onClick={() => {
-              if (isEnable) {
-                menu.isEnable = false;
-              } else {
-                menu.isEnable = true;
-              }
-              setMenuData([...menuData]);
-            }}
-          >
-            <JDIcon icon={isEnable ? "arrowRight" : "arrowLeft"} />
-          </CircleIcon>
-        </div>
-      </JDbox>
-    );
-
-    return (
-      <JDmodal minContentsWidth={"340px"} noAnimation {...menusConfigModalHook}>
-        <h6>{LANG("menu_enable_set")}</h6>
-        <div className="flex-grid">
-          <div className="flex-grid__col col--full-6">
-            <JDbox
-              className="JDmargin-bottom0 clear-fix"
-              mode="border"
-              topLabel={LANG("using")}
-            >
-              {menuData
-                .filter(data => data.isEnable)
-                .map(menu => renderContent(true, menu))}
-            </JDbox>
-          </div>
-          <div className="flex-grid__col col--full-6">
-            <JDbox
-              className="JDmargin-bottom0 clear-fix"
-              mode="border"
-              topLabel={LANG("not_use")}
-            >
-              {menuData
-                .filter(data => !data.isEnable)
-                .map(menu => renderContent(false, menu))}
-            </JDbox>
-          </div>
-        </div>
-      </JDmodal>
-    );
-  };
-
-  const visibleMenuData = menuData.filter((menu: any) => menu.isEnable);
+  if (loading) return <Preloader page loading={loading} />;
 
   const LangConfigBtn = () => (
     <Button
@@ -213,26 +162,6 @@ const HMconfig: React.FC<IProps> = ({
     />
   );
 
-  const userInfo = {
-    profileImg: HM.profileImg,
-    email: emailHook.value,
-    phoneNumber: phoneNumberHook.value,
-    location: HM.location
-  };
-
-  const sharedProps = {
-    enableLangs,
-    house,
-    title,
-    menuData,
-    bgData: bgImageHook.file,
-    setCurrentLang,
-    currentLang,
-    userInfo
-  };
-
-  if (loading) return <Preloader page loading={loading} />;
-
   return (
     <div className="HMconfig">
       <Preloader floating size={FLOATING_PRELOADER_SIZE} loading={loading} />
@@ -244,6 +173,7 @@ const HMconfig: React.FC<IProps> = ({
               <div className="JDstandard-margin-bottom JDflex--between">
                 <h4>{LANG("HM_detail_info")}</h4>
                 <Button
+                  id="HMsaveBtn"
                   mode="flat"
                   className="JDz-index-1"
                   thema="point"
@@ -270,6 +200,7 @@ const HMconfig: React.FC<IProps> = ({
               <Fragment>
                 <div>
                   <InputText
+                    id="HMtitleInput"
                     label={LANG("house_title")}
                     overfloweEllipsis
                     value={title[currentLang]}
@@ -282,6 +213,7 @@ const HMconfig: React.FC<IProps> = ({
                 </div>
                 <div>
                   <ImageUploader
+                    id="BackImgUploader"
                     mode="input"
                     label={LANG("house_front_img")}
                     className="JDstandard-margin-bottom"
@@ -293,7 +225,7 @@ const HMconfig: React.FC<IProps> = ({
               <div>
                 <Menus
                   currentLang={currentLang}
-                  menuData={visibleMenuData}
+                  menuData={menuData}
                   host={{
                     setEnableLngList,
                     setMenuData,
@@ -311,8 +243,6 @@ const HMconfig: React.FC<IProps> = ({
             </MockUp>
           </div>
         </div>
-        {/* 메뉴 설정 모달 */}
-        <MenusConfigModal />
         {/* 언어 설정 모달 */}
         <LangConfigModal
           setEnableLngList={setEnableLngList}

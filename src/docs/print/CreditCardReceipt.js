@@ -1,19 +1,7 @@
-import { RouteComponentProps } from "react-router-dom";
+import React from "react"
 
 
-interface ICardReciptParams {
-  lang: "kr" | "en",
-  payHistoryId: string,
-  viewParams: any;
-}
-
-interface IProps extends RouteComponentProps<ICardReciptParams> {
-
-}
-
-const CardRecipt: React.FC<IProps> = ({ match, location }) => {
-  const { params } = match;
-  const { lang, payHistoryId, viewParams } = params;
+const CardRecipt = ({ name, phoneNumber,bookingNumber,bookerName }) => {
   return (
     <div>
       <table cellPadding={0} cellSpacing={0} width="100%" style={{ fontFamily: 'Verdana, Geneva, sans-serif', textAlign: "center", zoom: -1 }}>
@@ -55,11 +43,11 @@ const CardRecipt: React.FC<IProps> = ({ match, location }) => {
                               <th style={{ textAlign: 'left', padding: '1% 2%', fontWeight: 'bold', border: '1px solid #cfcfcf', background: '#e8e8e8' }}>
                                 <strong>예약번호</strong></th>
                               <td style={{ textAlign: 'left', padding: '1% 2%', border: '1px solid #cfcfcf', background: '#ffffff', fontFamily: '돋움, AppleGothic, sans-serif' }}>
-                                RV342342521</td>
+                                {bookingNumber}</td>
                               <th style={{ textAlign: 'left', padding: '1% 2%', fontWeight: 'bold', border: '1px solid #cfcfcf', background: '#e8e8e8' }}>
                                 <strong>예약자명</strong></th>
                               <td style={{ textAlign: 'left', padding: '1% 2%', border: '1px solid #cfcfcf', background: '#ffffff', fontFamily: '돋움, AppleGothic, sans-serif' }}>
-                                김선화</td>
+                                    {bookerName}</td>
                             </tr>
                             <tr>
                               <th style={{ textAlign: 'left', padding: '1% 2%', fontWeight: 'bold', border: '1px solid #cfcfcf', background: '#e8e8e8' }}>
@@ -277,4 +265,4 @@ const CardRecipt: React.FC<IProps> = ({ match, location }) => {
   );
 }
 
-export default NewComponent;
+export default CardRecipt;

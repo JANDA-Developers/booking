@@ -120,7 +120,7 @@ const DailyAssigWrap: React.FC<IProps> = ({
         variables={{
           ...updateVariables,
           houseId,
-          bookingStatuses: [BookingStatus.COMPLETE, BookingStatus.PROGRESSING]
+          bookingStatuses: [BookingStatus.COMPLETED, BookingStatus.NOT_YET]
         }}
       >
         {({ data, loading, networkStatus }) => {

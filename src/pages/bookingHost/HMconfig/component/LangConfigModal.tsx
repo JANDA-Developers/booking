@@ -68,9 +68,6 @@ const LangConfigModal: React.FC<IProps> = ({
         <div className="flex-grid__col col--full-6">{shared(true)}</div>
         <div className="flex-grid__col col--full-6">{shared(false)}</div>
       </div>
-      <p className="JDtextColor--point">
-        * {LANG("must_input_text_of_every_lang_you_supporting")}
-      </p>
     </JDmodal>
   );
 };

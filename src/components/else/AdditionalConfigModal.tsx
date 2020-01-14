@@ -16,17 +16,11 @@ export const AddtionalConfigModal: React.FC<Iprops> = ({
   modalHook
 }) => (
   <JDmodal minWidth={"40%"} {...modalHook}>
-    <AdditionConfigPitch context={context} />
-    <div className="JDmodal__endSection">
-      <Button
-        mode="flat"
-        onClick={() => {
-          modalHook.closeModal();
-        }}
-        label={LANG("exit_house_settings")}
-        size="long"
-        thema="primary"
-      />
-    </div>
+    <AdditionConfigPitch
+      redirectCallBack={() => {
+        modalHook.closeModal();
+      }}
+      context={context}
+    />
   </JDmodal>
 );

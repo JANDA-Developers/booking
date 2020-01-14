@@ -6,7 +6,7 @@ import { Query } from "react-apollo";
 import { getBookings, getBookingsVariables } from "../../types/api";
 import _ from "lodash";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
-import { thortedFilterCreater } from "./helper";
+import { debouncedFilterCreater } from "./helper";
 
 class GetBookingsQuery extends Query<getBookings, getBookingsVariables> {}
 
@@ -21,7 +21,7 @@ const GuestSearchInputWrap: React.FC<IProps> = ({ context }) => {
 
   const [onTypeValue, setType] = useState<string>("");
 
-  const filter = thortedFilterCreater(onTypeValue);
+  const filter = debouncedFilterCreater(onTypeValue) || {};
 
   // for GetBookingsQuery
   const skipValidate = useMemo(() => {
@@ -30,7 +30,7 @@ const GuestSearchInputWrap: React.FC<IProps> = ({ context }) => {
     return false;
   }, [
     (filter.name || "") +
-      filter.bookingId +
+      filter.bookingNum +
       filter.name +
       filter.phoneNumnber +
       filter.stayDate

@@ -2,8 +2,10 @@ import React from "react";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import classNames from "classnames";
 import "./PhotoFrame.scss";
+import { JDatomExtentionSet } from "../../types/interface";
+import { JDmrClass, JDmbClass } from "../../utils/autoClasses";
 
-interface Iprops {
+interface Iprops extends JDatomExtentionSet {
   src?: string;
   context?: IContext;
   langPic?: boolean;
@@ -18,7 +20,9 @@ const PhotoFrame: React.FC<Iprops> = ({
   context,
   unStyle,
   langPic,
-  className
+  className,
+  mb,
+  mr
 }) => {
   let src = srcProp;
 
@@ -32,7 +36,9 @@ const PhotoFrame: React.FC<Iprops> = ({
   if (type) src += type;
 
   const classes = classNames("photoFrame", className, {
-    "photoFrame--unStyle": unStyle
+    "photoFrame--unStyle": unStyle,
+    ...JDmbClass(mb),
+    ...JDmrClass(mr)
   });
 
   return (

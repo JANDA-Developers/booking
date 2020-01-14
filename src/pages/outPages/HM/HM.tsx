@@ -41,6 +41,7 @@ const HMcompoent: React.FC<IProps> = ({
   enableLangs
 }) => {
   const languageListModalHook = useModal();
+  const visibleMenuData = menuData.filter(m => m.isEnable);
 
   if (loading) {
     return <Preloader page size="large" loading={loading} />;
@@ -141,7 +142,7 @@ const HMcompoent: React.FC<IProps> = ({
           <ul className="HM__menus">
             <li className="HM__menu">
               <JDmenu customMode="dropDown" mode="inline">
-                {menuData.map(menu => {
+                {visibleMenuData.map(menu => {
                   return (
                     <JDsubMenu
                       key={menu.id}

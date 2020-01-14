@@ -1,15 +1,15 @@
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import TooltipList from "../../../atoms/tooltipList/TooltipList";
 import Button from "../../../atoms/button/Button";
-import {IContext} from "../../../pages/bookingHost/BookingHostRouter";
-import {IDailyAssigContext} from "../DailyAssig";
+import { IContext } from "../../../pages/bookingHost/BookingHostRouter";
+import { IDailyAssigContext } from "../DailyAssig";
 import {
   IDailyAssigUtils,
   IDailyAssigDataControl
 } from "../../../pages/bookingHost/assig/components/assigIntrerface";
-import {getAllRoomTypeWithGuest_GetGuests_guests as IG} from "../../../types/api";
-import {BookingStatus} from "../../../types/enum";
-import {LANG} from "../../../hooks/hook";
+import { getAllRoomTypeWithGuest_GetGuests_guests as IG } from "../../../types/api";
+import { BookingStatus } from "../../../types/enum";
+import { LANG } from "../../../hooks/hook";
 
 interface Iprops {
   context: IContext;
@@ -27,7 +27,7 @@ const GuestTooltip: React.FC<Iprops> = ({
   dailayAssigContext,
   checkInBtnCallBack
 }) => {
-  const {guestsData} = dailayAssigContext;
+  const { guestsData } = dailayAssigContext;
 
   return (
     <TooltipList
@@ -36,7 +36,7 @@ const GuestTooltip: React.FC<Iprops> = ({
         const targetGuest = guestsData.find(guest => guest._id === guestId);
         if (!targetGuest) return;
         const isProgressing =
-          targetGuest.booking.status === BookingStatus.PROGRESSING;
+          targetGuest.booking.status === BookingStatus.NOT_YET;
         return (
           <ul className="tooltipList__ul">
             {!isProgressing && (

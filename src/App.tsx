@@ -16,6 +16,7 @@ import { useLang, LANG } from "./hooks/hook";
 import { globalLanguageSetting } from "./utils/globalLagnSet";
 import $ from "jquery";
 import { toast } from "react-toastify";
+import { FAVI_URL } from "./types/const";
 
 function App() {
   const langHook = useLang("kr");
@@ -45,7 +46,7 @@ function App() {
   return (
     <div id="JDoutWrapper">
       <ApolloProvider client={client}>
-        <Favicon url="https://res.cloudinary.com/stayjanda-com/image/upload/v1554092565/favicon.ico" />
+        <Favicon url={FAVI_URL} />
         <Router>
           <Switch>
             {/* 상위 컴포넌트 영향에벋어날수 없다. */}

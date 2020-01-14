@@ -7,13 +7,14 @@ import { Redirect } from "react-router-dom";
 
 interface Iprops {
   context: IContext;
+  redirectCallBack: () => void;
 }
 
-const AdditionConfigPitch: React.FC<Iprops> = ({ context }) => {
+const AdditionConfigPitch: React.FC<Iprops> = ({ redirectCallBack }) => {
   const [redirect, setRedirect] = useState("");
 
   if (redirect) {
-    alert("??!!!");
+    redirectCallBack();
     return <Redirect to={redirect} />;
   }
 

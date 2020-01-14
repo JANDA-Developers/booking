@@ -154,6 +154,7 @@ const SmsTemplate: React.SFC<IProps> = ({
           label={LANG("auto_send")}
         />
         <JDselect
+          size={SelectBoxSize.FOUR}
           options={SMS_TARGET_OP}
           {...sendTargetHook}
           label={LANG("outgoing_destination")}

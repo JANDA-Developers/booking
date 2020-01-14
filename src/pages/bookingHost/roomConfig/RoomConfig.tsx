@@ -210,9 +210,12 @@ const RoomConfig: React.FC<IProps> = ({
     // TODO :: Do validation
     const { _id } = roomType;
     if (mode === "delete") {
-      if (finder(_id, ["create"])) {
+      console.log(1);
+      if (!isEmpty(finder(_id, ["create"]))) {
+        console.log(2);
         data.createDatas = data.createDatas.filter(rt => rt._id !== _id);
       } else {
+        console.log(3);
         await removeRoomType(_id);
       }
     } else if (mode === "create") {
@@ -281,26 +284,29 @@ const RoomConfig: React.FC<IProps> = ({
         desc={LANG("room_config_desc")}
       />
       <PageBody>
-        <RoomTypeAddBtn
-          mode={isStart ? "flat" : undefined}
-          onClick={() => {
-            roomTypeModalHook.openModal({
-              roomType: DEFAULT_ROOMTYPE,
-              mode: "create"
-            });
-          }}
-        />
-        <Button
-          pulse={shouldSave}
-          id="RoomConfigSubmitBtn"
-          mode={isStart ? "flat" : undefined}
-          refContainer={submitRef}
-          thema="point"
-          label={LANG("save")}
-          onClick={() => {
-            handleSubmit();
-          }}
-        />
+        <div>
+          <RoomTypeAddBtn
+            mode={isStart ? "flat" : undefined}
+            onClick={() => {
+              roomTypeModalHook.openModal({
+                roomType: DEFAULT_ROOMTYPE,
+                mode: "create"
+              });
+            }}
+          />
+          <Button
+            hidden={isStart}
+            pulse={shouldSave}
+            id="RoomConfigSubmitBtn"
+            mode={isStart ? "flat" : undefined}
+            refContainer={submitRef}
+            thema="point"
+            label={LANG("save")}
+            onClick={() => {
+              handleSubmit();
+            }}
+          />
+        </div>
         <Fragment>
           <div>
             <Preloader size="large" noAnimation loading={loading} />

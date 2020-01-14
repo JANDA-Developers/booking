@@ -60,7 +60,7 @@ const ExcelModal: React.FC<Iprops> = ({ modalHook }) => {
 
   return (
     <JDmodal visibleOverflow {...modalHook}>
-      <div className="JDz-index-1">
+      <div className="JDz-index-2">
         <JDselect
           {...excelExpressHook}
           options={EXCEL_EXPRESS_OP}

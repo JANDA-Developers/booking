@@ -19,7 +19,8 @@ import Card from "../../../atoms/cards/Card";
 import {
   startBookingForPublic,
   startBookingForPublicVariables,
-  getAllRoomTypeForBooker
+  getAllRoomTypeForBooker,
+  getHouseForPublic_GetHouseForPublic_house
 } from "../../../types/api";
 import $ from "jquery";
 import BookingInfoBox from "./components/bookingInfoBox";
@@ -28,15 +29,18 @@ import RoomTypeCardWrap from "./components/roomTypeCards/roomTypeCardsWrap";
 import {
   isEmpty,
   queryDataFormater,
-  insideRedirect,
   muResult,
   toNumber,
   mergeObject
 } from "../../../utils/utils";
-import { isName, isPhone } from "../../../utils/inputValidations";
 import { JDtoastModal } from "../../../atoms/modal/Modal";
 import { IRoomType, IMu } from "../../../types/interface";
-import { WindowSize, PricingType, Funnels } from "../../../types/enum";
+import {
+  WindowSize,
+  PricingType,
+  Funnels,
+  PayMethod
+} from "../../../types/enum";
 import { PAYMETHOD_FOR_BOOKER_OP } from "../../../types/const";
 import { GET_ALL_ROOM_TYPE_FOR_BOOKER } from "../../../apollo/queries";
 import Preloader from "../../../atoms/preloader/Preloader";
@@ -45,7 +49,6 @@ import RoomSearcher from "../../../components/roomSearcher.tsx/RoomSearcher";
 import BookingInfoModal from "./components/roomTypeCards/bookingInfoModal";
 import isLast from "../../../utils/isLast";
 import { IContext } from "../../bookingHost/BookingHostRouter";
-import { ApolloQueryResult } from "apollo-client";
 import BookingModalWrap from "../../../components/bookingModal/BookingModalWrap";
 import { DEFAULT_BOOKING, DEFAULT_CARD_INFO } from "../../../types/defaults";
 import { divisionRoomSelectInfo } from "../../../utils/typeChanger";
@@ -68,6 +71,7 @@ interface IProps {
     startBookingForPublic,
     startBookingForPublicVariables
   >;
+  publicHouseInfo?: getHouseForPublic_GetHouseForPublic_house;
   createLoading: boolean;
   context?: IContext;
   reservationModalHook?: IUseModal;
@@ -78,6 +82,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   startBookingForPublicMu,
   context,
   createLoading,
+  publicHouseInfo,
   reservationModalHook
 }) => {
   const isHost = context ? true : false;
@@ -132,8 +137,9 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
     confirmModalHook.openModal({
       txt: LANG("reservation_is_completed") + LANG("move_to_check_page"),
       confirmCallBackFn: () => {
-        setRedirect(`outpage/checkReservation/${publicKey}/${name}/${phoneNumber}
-      /${password}`);
+        setRedirect(
+          `outpage/checkReservation/${publicKey}/${name}/${phoneNumber}/${password}`
+        );
       }
     });
   };
@@ -186,6 +192,8 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
 
     const { month, year } = cardExpToObj(exp);
 
+    const isCardPay = payMethodHook.selectedOption?.value === PayMethod.CARD;
+
     const startBookingVariables: startBookingForPublicVariables = {
       bookerParams: {
         agreePrivacyPolicy,
@@ -216,13 +224,15 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
       paymentParams: {
         payMethod: payMethodHook.selectedOption!.value,
         price: toNumber(priceHook.value),
-        cardPayInfo: {
-          cardNo: cardNumber,
-          cardPw: cardPassword,
-          expMonth: month,
-          expYear: year,
-          idNo: idNumber
-        }
+        cardPayInfo: isCardPay
+          ? {
+              cardNo: cardNumber,
+              cardPw: cardPassword,
+              expMonth: month,
+              expYear: year,
+              idNo: idNumber
+            }
+          : undefined
       }
     };
 
@@ -445,6 +455,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
       )}
       {/* 게스트예약일떄 카드 정보를 입력 할수있는 창 */}
       <PayMentModal
+        publicHouseInfo={publicHouseInfo}
         bookingCompleteFn={bookingCompleteFn}
         createLoading={createLoading}
         reservationHooks={reservationHooks}

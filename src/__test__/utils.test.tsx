@@ -78,7 +78,7 @@ export const TWaitTill = async (second: number, isDone: () => Promise<any>) => {
   }
 };
 
-export const Tupload = async (uploaderSelecter: string, fileUrl: string) => {
+export const TUpload = async (uploaderSelecter: string, fileUrl: string) => {
   const [fileChooser] = await Promise.all([
     page.waitForFileChooser(),
     page.click(uploaderSelecter) // some button that triggers file selection
@@ -108,7 +108,7 @@ export const expectOkFromGraphql = async () => {
     timeout: 10 * S
   });
 
-  expect(response.ok() === true);
+  await expect(response.ok() === true);
   return response;
 };
 
@@ -163,11 +163,13 @@ interface TestLogin {
   email?: string;
   tokenLogin?: boolean;
   token?: string;
+  shouldLogin?: boolean;
 }
 
 export const testReady = async (
+  skip: boolean,
   goto?: string,
-  login?: TestLogin,
+  login: TestLogin | false = {},
   mode: WindowSize = WindowSize.DESKTOP
 ) => {
   await context.overridePermissions(urlBase, ["geolocation"]);
@@ -184,6 +186,8 @@ export const testReady = async (
     height,
     width: mode
   });
+
+  if (skip) return;
 
   if (login) {
     if (false) {

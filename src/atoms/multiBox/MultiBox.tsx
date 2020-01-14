@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./MultiBox.scss";
 import classNames from "classnames";
 import Button from "../button/Button";
-import { s4 } from "../../utils/utils";
+import { s4, isEmpty } from "../../utils/utils";
 
 interface IProps {
   labels: string[];
@@ -51,7 +51,7 @@ const JDmultiBox: React.FC<IProps> = ({
       selectedValue = [];
     }
 
-    if (!isSelectedValue) {
+    if (isEmpty(isSelectedValue)) {
       selectedValue.push(text);
     } else {
       selectedValue.splice(selectedTagrgetIndex, 1);

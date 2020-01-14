@@ -65,7 +65,14 @@ const CreateHouseWrap: React.FC<IProps> = ({ context }) => {
     return <Redirect to={redirect} />;
   }
 
-  if (!house) return <StarterModal context={context} onSubmit={handleSubmit} />;
+  if (!house)
+    return (
+      <StarterModal
+        muLoading={loading}
+        context={context}
+        onSubmit={handleSubmit}
+      />
+    );
   return <CreateHouse context={context} onSubmit={handleSubmit} />;
 };
 

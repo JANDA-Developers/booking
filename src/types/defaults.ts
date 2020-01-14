@@ -47,7 +47,7 @@ export const DEFAULT_ROOMTYPE_ROOM: getAllRoomType_GetAllRoomType_roomTypes_room
 
 export const DEFAULT_ROOMTYPE: IRoomType = {
   __typename: "RoomType",
-  name: "_",
+  name: "",
   pricingType: PricingType.DOMITORY,
   peopleCount: 0,
   peopleCountMax: 0,
@@ -71,7 +71,7 @@ export const DEFAULT_BOOKING: GB_booking = {
   funnels: null,
   createdAt: "",
   updatedAt: "",
-  status: BookingStatus.COMPLETE,
+  status: BookingStatus.COMPLETED,
   isConfirm: false,
   isNew: false,
   roomTypes: null,
@@ -92,7 +92,7 @@ export const DEFAULT_BOOKING: GB_booking = {
     __typename: "Payment",
     payMethod: PayMethod.CARD,
     paymentResultParam: null,
-    status: PaymentStatus.COMPLETE,
+    status: PaymentStatus.COMPLETED,
     totalPrice: 0,
     type: PaymentType.ONE_TIME
   }
@@ -201,7 +201,7 @@ export const DEFAULT_ASSIG_ITEM: IAssigItem = {
   id: "",
   checkInInfo: false,
   name: "",
-  status: BookingStatus.COMPLETE,
+  status: BookingStatus.COMPLETED,
   roomId: "",
   temp: false,
   roomTypeId: "",

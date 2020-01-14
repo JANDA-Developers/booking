@@ -9,6 +9,8 @@ import { TFilterByProperty } from "../../../../utils/developMaster";
 import { createBookingModal } from "../../../../components/bookingModal/__test__/bookingModal.test";
 import { unSendSmsModal } from "../../../../components/smsModal/__test__/sendSmsModal.test";
 
+export const fillCardInfoForm = async () => {};
+
 export const createResvModal = async () => {
   const tweets = await page.$$(".DayPicker-Day");
   const d = await TFilterByProperty(
@@ -20,7 +22,6 @@ export const createResvModal = async () => {
   await d[0].click();
   await d[1].click();
 
-  // what if the select is not exsist by condition :o
   try {
     await page.waitForSelector(".roomTypeCard .JDselect");
     await Tselect(".roomTypeCard .JDselect", 2);
@@ -32,9 +33,9 @@ export const createResvModal = async () => {
   await TWaitClick("#ResvBtn");
 };
 
-describe("reservation", () => {
+describe.skip("reservation", () => {
   beforeAll(async () => {
-    await testReady(undefined, {});
+    await testReady(true, undefined, {});
   });
 
   test("Do ReservationProcess With Host", async () => {

@@ -29,8 +29,11 @@ export const LANGUAGE_LIST: Language[] = [
   Language.KOREAN
 ];
 
+export const FAVI_URL = "https://res.cloudinary.com/stayjanda-com/image/upload/v1554092565/favicon.ico";
+
 export const IMG_REPO =
   "https://s3.ap-northeast-2.amazonaws.com/booking.stayjanda.files/";
+
 
 export const WeekArrKr = ["일", "월", "화", "수", "목", "금", "토"];
 export const WeekArrEn = [
@@ -97,10 +100,10 @@ export const SELECT_COUNT_DUMMY_OP = [
 
 export let BOOKING_STATUS_OP = [
   {
-    value: BookingStatus.COMPLETE,
+    value: BookingStatus.COMPLETED,
     label: ""
   },
-  { value: BookingStatus.CANCEL, label: "" }
+  { value: BookingStatus.CANCELED, label: "" }
 ];
 
 export const LAYOUT_TYPE_OP = [
@@ -110,9 +113,9 @@ export const LAYOUT_TYPE_OP = [
 
 // [0]가 진행중이 되도록 고정
 export let PAYMENT_STATUS_OP = [
-  { value: PaymentStatus.COMPLETE, label: "" },
-  { value: PaymentStatus.CANCEL, label: "" }
-  // {value: PaymentStatus.PROGRESSING, label: ""},
+  { value: PaymentStatus.COMPLETED, label: "" },
+  { value: PaymentStatus.CANCELED, label: "" }
+  // {value: PaymentStatus.NOT_YET, label: ""},
 ];
 
 // 아직 통계선택들이 작업 안되어있음 View 만 사용중
@@ -158,7 +161,10 @@ export let PRODUCT_STATUS_OP = [
   { value: HouseStatus.DISALBE, label: "" }
 ];
 
-export let PAYMETHOD_FOR_BOOKER_OP = [{ value: PayMethod.CARD, label: "" }];
+export let PAYMETHOD_FOR_BOOKER_OP = [{ value: PayMethod.CARD, label: "" },
+{
+  value: PayMethod.BANK_TRANSFER, label: ""
+}];
 
 export let PAYMETHOD_FOR_HOST_OP = [
   { value: PayMethod.VBANK, label: "" },
@@ -196,10 +202,21 @@ export let GET_SMS_TARGET_OP = [
   // {value: "TOMORROW_CHECKIN", label: ""}
 ];
 
+export let OPTIONAL_APPLY_PAYMETHOD = [
+  { value: PayMethod.CARD, label: "" },
+  { value: PayMethod.BANK_TRANSFER, label: "" }
+]
+
+
 export let HOUSE_STATUS_OP = [
   { value: HouseStatus.DISALBE, label: "" },
   { value: HouseStatus.WAIT, label: "" },
   { value: HouseStatus.ENABLE, label: "" }
+];
+
+export let CHECK_IN_OUT_OP = [
+  { value: true, label: "In" },
+  { value: false, label: "Out" }
 ];
 
 export let GENDER_OP = [
@@ -247,7 +264,7 @@ export let AUTO_SEND_OP = [
     label: ""
   },
   {
-    value: AutoSendWhen.WHEN_BOOKING_CREATED_PAYMENT_PROGRESSING,
+    value: AutoSendWhen.WHEN_BOOKING_CREATED_PAYMENT_NOT_YET,
     label: ""
   },
   {
@@ -300,6 +317,7 @@ export const DUMMY_BILL_INFO: registerBillKey_RegisterBillKey_billInfo = {
   resultCode: "OK" as any,
   resultMsg: ""
 };
+
 
 export const FLOATING_PRELOADER_SIZE = "small";
 export const MODAL_PRELOADER_SIZE = "large";
