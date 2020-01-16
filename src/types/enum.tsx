@@ -204,10 +204,7 @@ export enum PaymentStatus {
 
 export enum BookingStatus {
   CANCELED = "CANCELED",
-  COMPLETED = "COMPLETED",
-  // 아래 두개의 상태값은 쓰이지 않는다.
-  FAIL = "FAIL",
-  NOT_YET = "NOT_YET"
+  COMPLETED = "COMPLETED"
 }
 
 export enum PayMethod {

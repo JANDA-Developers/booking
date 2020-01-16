@@ -71,22 +71,18 @@ const DragItem: React.FC<IProps> = ({ item, place, room, roomType }) => {
             undefined,
             {
               "dailyAssigItem__guest--checkIn": checkInInfo.isIn
-            },
-            {
-              "dailyAssigItem__guest--progressing":
-                status === BookingStatus.NOT_YET
             }
+            // {
+            //   "dailyAssigItem__guest--progressing":
+            //     status === BookingStatus.NOT_YET
+            // }
           );
           return (
             <div
-              data-tip={`${moment(checkIn).format(
-                `MM-DD${LANG("date")}`
-              )} ~ ${moment(checkOut).format(`MM-DD${LANG("date")}`)}`}
-              data-for={
-                status === BookingStatus.NOT_YET
-                  ? "tooltipReadyBlock"
-                  : "guestCheckInOutToolTip"
-              }
+              data-tip={`${moment(checkIn).format(`MM/DD`)} ~ ${moment(
+                checkOut
+              ).format(`MM/DD`)}`}
+              data-for={"guestCheckInOutToolTip"}
               className={`dailyAssigItem__itemBlock ${guestBlockClasses}`}
             >
               <span className="dailyAssigItem__itemName">

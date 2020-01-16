@@ -62,7 +62,7 @@ export const guestsDataManufacturer = (allGuestsData: IGuest[]) => {
         start: moment(checkIn).valueOf(),
         end: moment(checkOut).valueOf(),
         canSelect: true,
-        canMove: status !== BookingStatus.NOT_YET,
+        canMove: status !== BookingStatus.CANCELED,
         type: GuestTypeAdd.GUEST,
         bedIndex: bedIndex,
         memo: memo || undefined,

@@ -24,7 +24,7 @@ describe("First Process", () => {
     });
   });
 
-  test.skip(
+  test(
     "Signup Correctly",
     async () => {
       await testCreateUser();
@@ -32,7 +32,7 @@ describe("First Process", () => {
     10 * S
   );
 
-  test.skip(
+  test(
     "Phone Verification Correctly",
     async () => {
       await phoneVerification();

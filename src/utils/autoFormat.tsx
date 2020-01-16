@@ -9,6 +9,10 @@ const cardExpToObj = (period: string = "") => {
   };
 };
 
+function capitalizeFirstLetter(string: string = "") {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 // 카드 만료일 MM/YY
 const cardExpire = (period: string = "") => {
   // replace 함수를 사용하여 슬래시( / )을 공백으로 치환한다.
@@ -97,4 +101,12 @@ const toNumber = (value: string | number = ""): number => {
 };
 
 export default autoHypenPhone;
-export { cardExpToObj, autoComma, numberStr, cardExpire, toNumber, card_space };
+export {
+  cardExpToObj,
+  autoComma,
+  capitalizeFirstLetter,
+  numberStr,
+  cardExpire,
+  toNumber,
+  card_space
+};

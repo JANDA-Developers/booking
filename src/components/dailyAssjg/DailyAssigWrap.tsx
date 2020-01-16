@@ -100,6 +100,7 @@ const DailyAssigWrap: React.FC<IProps> = ({
   calendarPosition = "topLeft",
   ...props
 }) => {
+  const { langHook } = context;
   const { house } = context;
   const dayPickerHook = useDayPicker(date, date);
   const { houseConfig, _id: houseId } = house;
@@ -110,6 +111,7 @@ const DailyAssigWrap: React.FC<IProps> = ({
       .add(1, "day")
       .toDate()
   };
+  moment.lang(langHook.currentLang);
 
   const Result = useMemo(() => {
     return (
@@ -120,7 +122,7 @@ const DailyAssigWrap: React.FC<IProps> = ({
         variables={{
           ...updateVariables,
           houseId,
-          bookingStatuses: [BookingStatus.COMPLETED, BookingStatus.NOT_YET]
+          bookingStatuses: [BookingStatus.COMPLETED, BookingStatus.CANCELED]
         }}
       >
         {({ data, loading, networkStatus }) => {

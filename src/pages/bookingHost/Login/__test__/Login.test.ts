@@ -10,7 +10,7 @@ export const TLogin = async (email: string) => {
   await TType("#LoginEmail", email);
   await TType("#LoginPassword", "#rammus123");
 
-  await takeShot("pc", "signIn");
+  await takeShot("signIn");
   await page.click("#LoginBtn");
   await expectOkFromGraphql();
 };

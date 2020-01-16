@@ -5,7 +5,6 @@ import {
   takeShot,
   expectOkFromGraphql,
   TClick,
-  TWait,
   TWaitClick
 } from "../../../../__test__/utils.test";
 
@@ -28,7 +27,7 @@ export const testCreateUser = async () => {
     faker.phone.phoneNumber("010#######")
   );
   await TClick("#RD1");
-  await takeShot("pc", "singUp");
+  await takeShot("singUp");
   await TClick("#singupBtn");
   await expectOkFromGraphql();
 };

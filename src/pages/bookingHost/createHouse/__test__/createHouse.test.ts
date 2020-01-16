@@ -11,7 +11,7 @@ export const makeHouse = async (inStart: boolean) => {
   await Tselect("#HouseType");
   await TType("#Address", "창원시");
   await TType("#AddressDetail", faker.address.city());
-  await takeShot("pc", "makeHouse");
+  await takeShot("makeHouse");
   if (inStart) {
     await page.click("#NextBtnToRoomConfig");
   } else {

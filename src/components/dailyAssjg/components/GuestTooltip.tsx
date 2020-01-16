@@ -35,34 +35,9 @@ const GuestTooltip: React.FC<Iprops> = ({
       getContent={(guestId: string) => {
         const targetGuest = guestsData.find(guest => guest._id === guestId);
         if (!targetGuest) return;
-        const isProgressing =
-          targetGuest.booking.status === BookingStatus.NOT_YET;
+
         return (
           <ul className="tooltipList__ul">
-            {!isProgressing && (
-              <Fragment>
-                <li>
-                  <Button
-                    onClick={() => {
-                      checkInBtnCallBack(targetGuest);
-                    }}
-                    label={
-                      targetGuest.booking.checkInInfo.isIn
-                        ? LANG("checkOut")
-                        : LANG("checkIn")
-                    }
-                  />
-                </li>
-                <li>
-                  <Button
-                    onClick={() => {
-                      deleteBtnCallBack(targetGuest);
-                    }}
-                    label={LANG("delete")}
-                  />
-                </li>
-              </Fragment>
-            )}
             {/* TODO  색상표시 여기 */}
             <li>
               <Button

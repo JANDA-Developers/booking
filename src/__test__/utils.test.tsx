@@ -1,24 +1,30 @@
 import puppeteer from "puppeteer";
 import muResult from "../utils/mutationResultSafty";
 import { ExecutionResult } from "graphql";
-import { WindowSize, WindowSizeHeight } from "../types/enum";
+import { WindowSize, WindowSizeHeight, WindowSizeShort } from "../types/enum";
 import { TLogin } from "../pages/bookingHost/Login/__test__/Login.test";
-import { currentWinSize } from "../utils/currentWinSize";
+
+export const currentWinSize = (): WindowSizeShort => {
+  const { width } = page.viewport();
+  let mode = "wlg";
+  if (width >= WindowSize.MOBILE) mode = "sm";
+  if (width >= WindowSize.PHABLET) mode = "md";
+  if (width >= WindowSize.TABLET) mode = "wmd";
+  if (width >= WindowSize.DESKTOP) mode = "lg";
+  if (width >= WindowSize.DESKTOPHD) mode = "wlg";
+  return mode as WindowSizeShort;
+};
 
 export const S = 1000;
 export const urlBase = "http://localhost:3000";
 
-export const takeShot = async (
-  name: string,
-  propPrefix?: string,
-  propModifier?: string
-) => {
-  const tempPrefix = propPrefix ? `${propPrefix}__` : "";
-  const modifier = propModifier ? `--${propModifier}` : "";
-  const fileName = `${tempPrefix}${name}${modifier}`;
+export const takeShot = async (name: string) => {
+  const fileName = name;
 
   const mode = currentWinSize();
 
+  console.log(`src/pages/documents/pics/testScreenShot/${mode}/${fileName}`);
+  console.log(`src/pages/documents/pics/testScreenShot/${mode}/${fileName}`);
   await page.screenshot({
     path: `src/pages/documents/pics/testScreenShot/${mode}/${fileName}`,
     type: "jpeg",

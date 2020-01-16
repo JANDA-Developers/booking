@@ -19,7 +19,12 @@ const DayCheckInWrap: React.FC<IProps> = ({ context }) => {
   const {
     house: { _id: houseId }
   } = context;
-  const dayPickerHook = useDayPicker(new Date(), new Date());
+  const dayPickerHook = useDayPicker(
+    new Date(),
+    moment(new Date())
+      .add(1, "d")
+      .toDate()
+  );
 
   return useMemo(
     () => (

@@ -15,6 +15,7 @@ import { Gender } from "../types/enum";
 import _ from "lodash";
 import { IRoomSelectInfo } from "../components/bookingModal/declaration";
 import { isDomitoryGuest } from "./interfaceMatch";
+import { LANG } from "../hooks/hook";
 
 interface propRoomType {
   _id: string;
@@ -101,6 +102,28 @@ export const divisionRoomSelectInfo = (
     roomTypes
   };
 };
+
+
+export const getRoomSelectString = (selectInfoes: IRoomSelectInfo[]) => {
+  selectInfoes
+    .map(info => {
+      const { count, roomTypeName } = info;
+      const { female, male, roomCount } = count;
+      let result = roomTypeName;
+      if (female) {
+        result += female + LANG("FEMALE");
+      }
+      if (male) {
+        result += male + LANG("MALE");
+      }
+      if (roomCount) {
+        result += LANG("room") + roomCount + LANG("MALE");
+      }
+      return result;
+    })
+    .join(" | ");
+
+}
 
 // 성별 과 룸타입을 중심으로 분류 하는 용도
 // GetBooking 정보로 예약창에 룸타입별로 정렬된 뷰를 만들떄 사용중

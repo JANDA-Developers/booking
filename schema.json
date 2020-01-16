@@ -9043,12 +9043,6 @@
         "interfaces": null,
         "enumValues": [
           {
-            "name": "NOT_YET",
-            "description": "예약 대기 (deprecated)",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "COMPLETED",
             "description": "예약 완료",
             "isDeprecated": false,
@@ -9057,12 +9051,6 @@
           {
             "name": "CANCELED",
             "description": "예약 취소",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "FAIL",
-            "description": "예약 실패 (deprecated)",
             "isDeprecated": false,
             "deprecationReason": null
           }
@@ -9123,6 +9111,30 @@
             "deprecationReason": null
           },
           {
+            "name": "goodsVat",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "supplyAmt",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "status",
             "description": "",
             "args": [],
@@ -9157,6 +9169,30 @@
             "type": {
               "kind": "SCALAR",
               "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "tid",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "cardInfo",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "PaymentInfo",
               "ofType": null
             },
             "isDeprecated": false,
@@ -25286,7 +25322,7 @@
           },
           {
             "name": "authCode",
-            "description": "승인 코드 => ex) 02(국민)",
+            "description": "승인 코드 => ex) ??",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -25326,6 +25362,54 @@
               "ofType": {
                 "kind": "SCALAR",
                 "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "amt",
+            "description": "금액",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "goodsVat",
+            "description": "부가세",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "supplyAmt",
+            "description": "공급가액",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
                 "ofType": null
               }
             },

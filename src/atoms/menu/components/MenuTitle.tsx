@@ -2,6 +2,7 @@ import React from "react";
 import JDIcon from "../../icons/Icons";
 import "./MenuTitle.scss";
 import { IconConifgProps, IIcons } from "../../icons/declation";
+import { capitalizeFirstLetter } from "../../../utils/autoFormat";
 
 interface Iprops extends IconConifgProps {
   className?: string;

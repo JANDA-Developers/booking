@@ -147,7 +147,7 @@ const DailyAssig: React.FC<IProps> = ({
             onClick={() => {
               dayPickerModalHook.openModal();
             }}
-            format={`MM${LANG("month")} DD${LANG("date")}`}
+            format={`MM/DD`}
             dayPickerHook={dayPickerHook}
           />
         )}

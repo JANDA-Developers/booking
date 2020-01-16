@@ -38,7 +38,7 @@ export const cardModalTest = () => {
       await page.waitForSelector("#CreaditCardChangeBtn");
       await page.click("#CreaditCardChangeBtn");
       await page.waitForSelector("#CardViewr");
-      await takeShot("pc", "cardModal");
+      await takeShot("cardModal");
     });
 
     test(

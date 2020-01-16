@@ -1,4 +1,5 @@
 import React from "react"
+import { autoHypen } from "../../utils/utils";
 
 
 
@@ -14,7 +15,7 @@ const CardRecipt = ({resvInfo, payInfo,hostInfo}) => {
     payDate,
     cardName,
     cardNumber,
-    // Installment,
+  // Installment,
     approvalNumber,
     price,
     TAX,
@@ -107,11 +108,11 @@ const CardRecipt = ({resvInfo, payInfo,hostInfo}) => {
                               <th style={{ textAlign: 'left', padding: '1% 2%', fontWeight: 'bold', border: '1px solid #cfcfcf', background: '#e8e8e8' }}>
                                 <strong>결제수단</strong></th>
                               <td style={{ textAlign: 'left', padding: '1% 2%', border: '1px solid #cfcfcf', background: '#ffffff', fontFamily: '돋움, AppleGothic, sans-serif' }}>
-                {payMethod}</td>
+                                {payMethod}</td>
                               <th style={{ textAlign: 'left', padding: '1% 2%', fontWeight: 'bold', border: '1px solid #cfcfcf', background: '#e8e8e8' }}>
                                 <strong>거래상태</strong></th>
                               <td style={{ textAlign: 'left', padding: '1% 2%', border: '1px solid #cfcfcf', background: '#ffffff', fontFamily: '돋움, AppleGothic, sans-serif' }}>
-                {payStatus}</td>
+                                {payStatus}</td>
                             </tr>
                             <tr>
                               <th style={{ textAlign: 'left', padding: '1% 2%', fontWeight: 'bold', border: '1px solid #cfcfcf', background: '#e8e8e8' }}>
@@ -149,7 +150,7 @@ const CardRecipt = ({resvInfo, payInfo,hostInfo}) => {
                               <td style={{ textAlign: 'right', padding: '1% 2%', border: '1px solid #cfcfcf', background: '#ffffff', fontFamily: '돋움, AppleGothic, sans-serif' }}>
                                 <strong style={{ color: '#ff6a00' }}>{price}</strong></td>
                               <th style={{ textAlign: 'left', padding: '1% 2%', fontWeight: 'bold', border: '1px solid #cfcfcf', background: '#e8e8e8' }}>
-                                <strong>과세금액</strong></th>
+                                <strong>공급가액</strong></th>
                               <td style={{ textAlign: 'right', padding: '1% 2%', border: '1px solid #cfcfcf', background: '#ffffff', fontFamily: '돋움, AppleGothic, sans-serif' }}>
                 {TAX}</td>
                             </tr>
@@ -186,7 +187,7 @@ const CardRecipt = ({resvInfo, payInfo,hostInfo}) => {
                               <th style={{ textAlign: 'left', padding: '1% 2%', fontWeight: 'bold', border: '1px solid #cfcfcf', background: '#e8e8e8' }}>
                                 <strong>상호</strong></th>
                               <td style={{ textAlign: 'left', padding: '1% 2%', border: '1px solid #cfcfcf', background: '#ffffff', fontFamily: '돋움, AppleGothic, sans-serif' }}>
-                {houseName}</td>
+                                {houseName}</td>
                               <th style={{ textAlign: 'left', padding: '1% 2%', fontWeight: 'bold', border: '1px solid #cfcfcf', background: '#e8e8e8' }}>
                                 <strong>사업자번호</strong></th>
                               <td style={{ textAlign: 'left', padding: '1% 2%', border: '1px solid #cfcfcf', background: '#ffffff', fontFamily: '돋움, AppleGothic, sans-serif' }}>
@@ -196,11 +197,11 @@ const CardRecipt = ({resvInfo, payInfo,hostInfo}) => {
                               <th style={{ textAlign: 'left', padding: '1% 2%', fontWeight: 'bold', border: '1px solid #cfcfcf', background: '#e8e8e8' }}>
                                 <strong>대표자명</strong></th>
                               <td style={{ textAlign: 'left', padding: '1% 2%', border: '1px solid #cfcfcf', background: '#ffffff', fontFamily: '돋움, AppleGothic, sans-serif' }}>
-                {hostName}</td>
+                                {hostName}</td>
                               <th style={{ textAlign: 'left', padding: '1% 2%', fontWeight: 'bold', border: '1px solid #cfcfcf', background: '#e8e8e8' }}>
                                 <strong>연락처</strong></th>
                               <td style={{ textAlign: 'left', padding: '1% 2%', border: '1px solid #cfcfcf', background: '#ffffff', fontFamily: '돋움, AppleGothic, sans-serif' }}>
-                {houseContact}</td>
+                                {autoHypen(houseContact)}</td>
                             </tr>
                             <tr>
                               <th style={{ textAlign: 'left', padding: '1% 2%', fontWeight: 'bold', border: '1px solid #cfcfcf', background: '#e8e8e8' }}>

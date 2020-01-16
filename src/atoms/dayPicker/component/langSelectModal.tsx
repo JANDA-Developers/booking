@@ -7,7 +7,7 @@ import {
   LanguageResverseShort
 } from "../../../types/enum";
 import { LANGUAGE_LIST } from "../../../types/const";
-import { IUseModal } from "../../../hooks/hook";
+import { IUseModal, LANG } from "../../../hooks/hook";
 
 interface Iprops {
   context: IContext;
@@ -24,6 +24,7 @@ const LangSelectModal: React.FC<Iprops> = ({ context, modalHook }) => {
       <div className="JDflex JDstandard-margin-bottom-minus">
         <LangList
           onClickLng={lang => {
+            localStorage.setItem("LastLang", LANG(LanguageResverseShort[lang]));
             changeLang(LanguageResverseShort[lang]);
           }}
           // @ts-ignorec

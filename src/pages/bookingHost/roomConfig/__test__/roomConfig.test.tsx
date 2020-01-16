@@ -24,7 +24,7 @@ export const createRoomType = async (
   await Tselect("#CapacitySelecter", count || 4);
 
   await TUpload("#RoomTypeImgUploader", "/devImg/RoomT1.jpg");
-  await takeShot("pc", "roomTypeModal");
+  await takeShot("roomTypeModal");
 
   await Tselect("#RoomTypeGenderSelecter", faker.random.number(4));
   await Tselect(

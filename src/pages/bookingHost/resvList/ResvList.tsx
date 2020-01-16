@@ -302,7 +302,6 @@ const ResvList: React.SFC<IProps> = ({
           checkInInfo
         } = original;
         const isCancled = status === BookingStatus.CANCELED;
-        const isProgressing = status === BookingStatus.NOT_YET;
         const isComplete = status === BookingStatus.COMPLETED;
         const { status: paymentStatus } = payment;
         const isPaied = paymentStatus === PaymentStatus.COMPLETED;
@@ -322,9 +321,7 @@ const ResvList: React.SFC<IProps> = ({
             {/* {isComplete &1& (
               <JDbadge thema={"positive"}>{LANG("good_status")}</JDbadge>
             )} */}
-            {isProgressing || isPaied || (
-              <JDbadge thema={"warn"}>{LANG("unPaid")}</JDbadge>
-            )}
+            {isPaied || <JDbadge thema={"warn"}>{LANG("unPaid")}</JDbadge>}
           </div>
         );
       }

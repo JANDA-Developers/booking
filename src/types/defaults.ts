@@ -95,6 +95,11 @@ export const DEFAULT_BOOKING: GB_booking = {
     paymentResultParam: null,
     status: PaymentStatus.COMPLETED,
     totalPrice: 0,
+    cardInfo: null,
+    goodsVat: 0,
+    refundedPrice: 0,
+    supplyAmt: 0,
+    tid: null,
     type: PaymentType.ONE_TIME
   }
 };
@@ -338,6 +343,8 @@ export const DEFAULT_PAYMENT_INFO: getMyProfile_GetMyProfile_user_paymentInfos =
   authDate: new Date(),
   billKey: "",
   cardCl: 0,
+  cardCode: 0,
+  cardNoHashed: "",
   cardName: "",
   card: null,
   cardNo: "",

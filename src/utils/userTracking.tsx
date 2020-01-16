@@ -23,13 +23,16 @@ const userTacking = (label: string = "", value: string = "") => {
       UTH = "";
       histories = [trakHistory];
     } else {
-      const prevHostory = JSON.parse(hexDecode(UTH)) as UTH[];
-      histories = [...prevHostory, trakHistory];
+      try {
+        console.log(hexDecode(UTH));
+        const prevHostory = JSON.parse(hexDecode(UTH) || "[]") as UTH[];
+        histories = [...prevHostory, trakHistory];
+      } catch (e) {
+        console.error("e");
+      }
     }
   }
 
-  console.log("histories");
-  console.log(histories);
   localStorage.setItem("UTH", hexEncode(JSON.stringify(histories)));
 };
 

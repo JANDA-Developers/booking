@@ -7,6 +7,7 @@ const findSearchType = (
     value: string
 ): "phoneNumnber" | "name" | "stayDate" => {
     const isPhoneNumber = isNumberMinMax(value, 4, 11);
+    
     if (isYYYYMMDD(value)) return "stayDate";
     else if (isPhoneNumber) return "phoneNumnber";
     else return "name";

@@ -19,7 +19,9 @@ import { toast } from "react-toastify";
 import { FAVI_URL } from "./types/const";
 
 function App() {
-  const langHook = useLang("kr");
+  console.log('localStorage.getItem("LastLang")');
+  console.log(localStorage.getItem("LastLang"));
+  const langHook = useLang((localStorage.getItem("LastLang") as any) || "kr");
 
   globalLanguageSetting();
 

@@ -92,7 +92,6 @@ const JDbookingHost: React.FC<IProps> = ({
   const houses: IHouse[] = user.houses || [];
   const currentHouse = getCurrentHouse(houses);
   const memoAlertModal = useModal(false);
-  const [redirect, setRedirect] = useState();
   const applyedProduct = currentHouse?.product;
   const { userRole } = user;
   // 추가적 설정 모달

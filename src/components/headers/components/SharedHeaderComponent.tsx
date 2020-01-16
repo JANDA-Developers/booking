@@ -25,9 +25,7 @@ const SharedHeaderComponent: React.FC<IProps> = ({
 }) => {
   const { user, applyedProduct } = context;
   const { isPhoneVerified } = user;
-  const memoModalHook = useModal();
   const langSelectModal = useModal();
-  const billModalHook = useModal();
 
   // 로그 여부와 상관없이 공유된
   const sharedOverLogin = (

@@ -228,8 +228,12 @@ export const F_PAYMENT = gql`
     type
     payMethod
     totalPrice
+    goodsVat
+    supplyAmt
     status
     paymentResultParam
+    refundedPrice
+    tid
   }
 `;
 
@@ -292,41 +296,6 @@ export const F_ROOMTYPE = gql`
 `;
 
 
-// 예약에 관한 정보프레임
-export const F_BOOKING = gql`
-  fragment Fbooking on Booking {
-    _id
-    roomTypes {
-      ...FroomType
-    }
-    isNew
-    name
-    bookingNum
-    password
-    phoneNumber
-    email
-    checkInInfo {
-      isIn
-      checkInDateTime
-    }
-    memo
-    agreePrivacyPolicy
-    checkIn
-    checkOut
-    payment {
-      ...Fpayment
-    }
-    funnels
-    status
-    createdAt
-    updatedAt
-    isNew
-    isConfirm
-  }
-  ${F_ROOMTYPE}
-  ${F_PAYMENT}
-`;
-
 //  방에대한 정보 프레임
 export const F_ROOM = gql`
   fragment Froom on Room {
@@ -340,7 +309,6 @@ export const F_BLOCK_OP = gql`
     color
   }
 `;
-
 
 export const F_CAPACITY_ROOM = gql`
   fragment FcapacityRoom on CapacityRoomType {
@@ -451,14 +419,16 @@ export const F_BILLINFO_RESULT = gql`
   }
 `;
 
-export const F_PAYMENT_INFO = gql`
-  fragment FpaymentInfo on PaymentInfo {
+export const F_CARD_INFO = gql`
+  fragment FcardInfo on PaymentInfo {
     authDate
     billKey
     cardName
     cardNo
-    card
     cardCl
+    card
+    cardCode
+    cardNoHashed
     isLive
   }
 `;
@@ -492,6 +462,48 @@ const sharedGetAllRoomType = gql`
   }
   ${F_IMG}
 `;
+
+
+// 예약에 관한 정보프레임
+export const F_BOOKING = gql`
+  fragment Fbooking on Booking {
+    _id
+    roomTypes {
+      ...FroomType
+    }
+    isNew
+    name
+    bookingNum
+    password
+    phoneNumber
+    email
+    checkInInfo {
+      isIn
+      checkInDateTime
+    }
+    memo
+    agreePrivacyPolicy
+    checkIn
+    checkOut
+    payment {
+      ...Fpayment
+      cardInfo {
+        ...FcardInfo
+      }
+    }
+    funnels
+    status
+    createdAt
+    updatedAt
+    isNew
+    isConfirm
+  }
+  ${F_CARD_INFO}
+  ${F_ROOMTYPE}
+  ${F_PAYMENT}
+  ${F_CARD_INFO}
+`;
+
 
 // 기본정보를 모두 출력
 // 호스트에서 유저를 조회하거나
@@ -534,7 +546,7 @@ export const F_CONTEXT = gql`
       }
     }
     paymentInfos {
-      ...FpaymentInfo
+      ...FcardInfo
     }
   }
   ${F_HOUSE}
@@ -543,7 +555,7 @@ export const F_CONTEXT = gql`
   ${F_APP_INFO_REQUEST}
   ${F_HOUSE_CONFIG}
   ${F_PRODUCT_TYPE}
-  ${F_PAYMENT_INFO}
+  ${F_CARD_INFO}
   ${F_LOCATION}
   ${F_BANK_ACOUNT_INFO}
 `;
@@ -579,7 +591,7 @@ export const GET_HOUSE_SPECIFICATION = gql`
         user {
           ...Fuser
           paymentInfos {
-            ...FpaymentInfo
+            ...FcardInfo
           }
         }
         HM {
@@ -589,7 +601,7 @@ export const GET_HOUSE_SPECIFICATION = gql`
     }
   }
   ${F_USER}
-  ${F_PAYMENT_INFO}
+  ${F_CARD_INFO}
   ${F_PRODUCT}
   ${F_APP_INFO_REQUEST}
 `;
@@ -907,6 +919,9 @@ export const FIND_BOOKING_FOR_BOOKER = gql`
         ...Fbooking
         payment {
           ...Fpayment
+          cardInfo {
+            ...FcardInfo
+          }
         }
         guests {
           ...Fguest
@@ -922,6 +937,7 @@ export const FIND_BOOKING_FOR_BOOKER = gql`
   }
   ${F_PAYMENT}
   ${F_GUEST}
+  ${F_CARD_INFO}
   ${F_BOOKING}
 `;
 

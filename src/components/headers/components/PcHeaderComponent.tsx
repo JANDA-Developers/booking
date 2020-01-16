@@ -40,6 +40,7 @@ const PcHeaderComponent: React.FC<Iprops> = ({ context }) => {
       <span
         data-tip
         data-delay-hide={0}
+        data-place="bottom"
         data-for="tooltip_user"
         data-event="click"
         className="header__profile"

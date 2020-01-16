@@ -12,10 +12,12 @@ import Button from "../../../atoms/button/Button";
 import { ApolloQueryResult } from "apollo-client";
 import { LANG } from "../../../hooks/hook";
 import CardRecipt from "../../../docs/print/CreditCardReceipt";
-import ReactDOMServer from "react-dom/server";
-import { FAVI_URL } from "../../../types/const";
-import { getRoomSelectInfo } from "../../../utils/typeChanger";
-import $ from "jquery";
+import {
+  getRoomSelectInfo,
+  getRoomSelectString
+} from "../../../utils/typeChanger";
+import { openForPrint } from "../../../utils/openForPrint";
+import { DEFAULT_CARD_INFO } from "../../../types/defaults";
 
 interface Iprops {
   loading: boolean;
@@ -53,60 +55,55 @@ const CheckReservation: React.FC<Iprops> = ({
   const printRecipt = (
     data: getBookingForPublic_GetBookingForPublic_booking
   ) => {
-    const w = window.open("", "JD-receipt");
-    if (!w || !houseData) return;
+    if (!houseData) return;
     const {
       location: { address, addressDetail },
       name: houseName,
       phoneNumber: houseContact
     } = houseData;
     const { name, payment, bookingNum, roomTypes, guests } = data;
-    const { payMethod, status, totalPrice, type } = payment;
+    const {
+      payMethod,
+      status,
+      totalPrice,
+      type,
+      goodsVat,
+      supplyAmt,
+      cardInfo
+    } = payment;
+    if (!cardInfo) return;
+    const { cardName, cardNo, authDate } = cardInfo;
     if (!roomTypes) return;
     const selectInfoes = getRoomSelectInfo(guests, roomTypes);
-    const stringBookInfo = selectInfoes
-      .map(
-        info => `
-        ${info.roomTypeName} 
-        ${info.count.female}
-        ${LANG("FEMALE")}
-        ${info.count.male}
-        ${LANG("MALE")}
-        ${LANG("room")}
-        ${info.count.roomCount}
-        ${LANG("unit")}`
-      )
-      .join(" | ");
+    const stringBookInfo = getRoomSelectString(selectInfoes);
 
-    w.document.title = "JD-receipt";
-    w.document.body.innerHTML = ReactDOMServer.renderToStaticMarkup(
-      CardRecipt({
-        resvInfo: {
-          bookingNum: bookingNum,
-          bookerName: name,
-          bookInfo: stringBookInfo
-        },
-        payInfo: {
-          payMethod,
-          payStatus: status,
-          payDate: "",
-          cardName: "",
-          cardNumber: "",
-          price: totalPrice,
-          TAX: "",
-          VAT: ""
-        },
-        hostInfo: {
-          address: address + addressDetail,
-          houseName: name,
-          bNumber: "",
-          hostName: "",
-          houseContact,
-          hompage: ""
-        }
-      })
-    );
-    $("head", w.document).append(`<link rel="icon" href=${FAVI_URL}>`);
+    const markUp = CardRecipt({
+      resvInfo: {
+        bookingNum: bookingNum,
+        bookerName: name,
+        bookInfo: stringBookInfo
+      },
+      payInfo: {
+        payMethod,
+        payStatus: status,
+        payDate: authDate,
+        cardName,
+        cardNumber: cardNo,
+        price: totalPrice,
+        TAX: supplyAmt,
+        VAT: goodsVat
+      },
+      hostInfo: {
+        address: address + addressDetail,
+        houseName: houseName,
+        bNumber: "",
+        hostName: "",
+        houseContact,
+        hompage: ""
+      }
+    });
+
+    openForPrint(markUp);
   };
 
   const validater = () => {

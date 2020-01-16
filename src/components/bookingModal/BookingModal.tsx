@@ -111,7 +111,7 @@ const BookingModal: React.FC<IProps> = ({
     guests
   } = bookingData;
   const refundModalHook = useModal(false);
-  const { payMethod, status: paymentStatus, totalPrice } = payment;
+  const { payMethod, status: paymentStatus, totalPrice, tid } = payment;
   const [refundAmt, setRefundAmt] = useState<number>(totalPrice);
   const { house } = context;
   const { _id: houseId } = house;
@@ -189,12 +189,6 @@ const BookingModal: React.FC<IProps> = ({
     houseId,
     mode
   };
-
-  const isProgressing = bookingStatus === BookingStatus.NOT_YET;
-  if (isProgressing) {
-    throw Error("Booking Status is NOT_YET 예약을 지우세요.");
-  }
-  const allReadOnly = isProgressing;
 
   // SMS 발송 모달에 전달할 정보를 생성
   const smsModalInfoTemp = makeSmsInfoParam(bookingModalContext);
@@ -288,6 +282,7 @@ const BookingModal: React.FC<IProps> = ({
   };
 
   const handleRefundBtn = () => {
+    if (!tid) return;
     refundFn({
       param: {
         bookingNum,
@@ -295,7 +290,7 @@ const BookingModal: React.FC<IProps> = ({
           cancelAmt: refundAmt,
           cancelMsg: "HOST-CANCEL",
           isPartialCancel: refundAmt === totalPrice,
-          tid: ""
+          tid
         }
       }
     });
@@ -323,7 +318,6 @@ const BookingModal: React.FC<IProps> = ({
                 <InputText
                   id="BookerNameInput"
                   mr={isPhabletDown ? undefined : "no"}
-                  disabled={allReadOnly}
                   {...bookingNameHook}
                   label={LANG("booker")}
                   placeholder={LANG("booker")}
@@ -331,7 +325,6 @@ const BookingModal: React.FC<IProps> = ({
                 <InputText
                   id="BookerPhoneInput"
                   mr={isPhabletDown ? undefined : "no"}
-                  disabled={allReadOnly}
                   {...bookingPhoneHook}
                   validation={isPhone}
                   hyphen
@@ -344,7 +337,6 @@ const BookingModal: React.FC<IProps> = ({
                 <SelectBox
                   id="FunnelSelect"
                   mr={isPhabletDown ? undefined : "no"}
-                  disabled={allReadOnly}
                   {...funnelStatusHook}
                   options={FUNNELS_OP}
                   label={LANG("funnels")}
@@ -360,7 +352,6 @@ const BookingModal: React.FC<IProps> = ({
                 <InputText
                   id="PriceHook"
                   mr={isPhabletDown ? undefined : "no"}
-                  disabled={allReadOnly}
                   placeholder={`${LANG("normal_price")}:${autoComma(
                     placeHolederPrice
                   )}`}
@@ -372,14 +363,12 @@ const BookingModal: React.FC<IProps> = ({
                 <SelectBox
                   id="PayMethodSelect"
                   mr={isPhabletDown ? undefined : "no"}
-                  disabled={allReadOnly}
                   {...payMethodHook}
                   options={PAYMETHOD_FOR_HOST_OP}
                   label={LANG("method_of_payment")}
                 />
                 <SelectBox
                   mr={isPhabletDown ? undefined : "no"}
-                  disabled={allReadOnly}
                   {...paymentStatusHook}
                   options={PAYMENT_STATUS_OP}
                   label={LANG("payment_status")}
@@ -397,7 +386,6 @@ const BookingModal: React.FC<IProps> = ({
               >
                 <SelectBox
                   mr={isPhabletDown ? undefined : "no"}
-                  disabled={allReadOnly}
                   {...bookingStatusHook}
                   options={BOOKING_STATUS_OP}
                   label={LANG("booking_status")}
@@ -405,7 +393,6 @@ const BookingModal: React.FC<IProps> = ({
                 <JDdayPicker
                   mr={isPhabletDown ? undefined : "no"}
                   displayIcon={false}
-                  inputDisabled={allReadOnly}
                   canSelectBeforeDay={false}
                   {...resvDateHook}
                   mode="input"
@@ -415,7 +402,6 @@ const BookingModal: React.FC<IProps> = ({
                 />
                 <InputText
                   mr={isPhabletDown ? undefined : "no"}
-                  disabled={allReadOnly}
                   readOnly
                   value={moment(createdAt || undefined)
                     .local()
@@ -444,7 +430,6 @@ const BookingModal: React.FC<IProps> = ({
               <h5>{LANG("else")}</h5>
               <div>
                 <InputText
-                  disabled={allReadOnly}
                   {...memoHook}
                   halfHeight
                   textarea
