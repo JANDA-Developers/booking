@@ -17,6 +17,7 @@ import JDlabel from "../../label/JDLabel";
 import { JDmrClass, JDmbClass } from "../../../utils/autoClasses";
 import { IIcons, IconConifgProps } from "../../icons/declation";
 import Preloader from "../../preloader/Preloader";
+import userTacking from "../../../utils/userTracking";
 
 // @ts-ignore
 interface IProps extends React.AllHTMLAttributes<HTMLInputElement> {
@@ -207,6 +208,15 @@ const InputText: React.FC<IProps> = ({
 
   const formatedValue = valueFormat(value);
 
+  const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    event.persist();
+    const {
+      currentTarget: { value }
+    } = event;
+    userTacking(label, value);
+    onBlur && onBlur(event);
+  };
+
   // 인풋 과 텍스트어리어 경계
   return !textarea ? (
     <div className={wrapClasses}>
@@ -216,7 +226,7 @@ const InputText: React.FC<IProps> = ({
           onChange={inHandleChange}
           disabled={disabled}
           readOnly={readOnly}
-          onBlur={onBlur}
+          onBlur={handleBlur}
           type={type}
           value={formatedValue}
           ref={refContainer || inRefContainer}

@@ -12,6 +12,7 @@ import { isNumber } from "../../../../utils/inputValidations";
 import { DEFAULT_ROOMTYPE_ROOM } from "../../../../types/defaults";
 import JDselect from "../../../../atoms/forms/selectBox/SelectBox";
 import selectOpCreater from "../../../../utils/selectOptionCreater";
+import ModalEndSection from "../../../../atoms/modal/components/ModalEndSection";
 
 interface IProps {
   modalHook: IUseModal<IRoomModalInfo>;
@@ -109,7 +110,7 @@ const RoomModal: React.FC<IProps> = ({ modalHook, onSubmit }) => {
           )}
         </div>
       </div>
-      <div className="JDmodal__endSection">
+      <ModalEndSection>
         <Button
           disabled={!isCreateMode}
           id="RoomCreateBtn"
@@ -143,7 +144,7 @@ const RoomModal: React.FC<IProps> = ({ modalHook, onSubmit }) => {
             handleSubmit("delete");
           }}
         />
-      </div>
+      </ModalEndSection>
     </Modal>
   );
 };

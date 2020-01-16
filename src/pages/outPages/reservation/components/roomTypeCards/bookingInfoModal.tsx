@@ -3,6 +3,7 @@ import { IUseModal, LANG } from "../../../../../hooks/hook";
 import JDmodal from "../../../../../atoms/modal/Modal";
 import BookingInfoBox, { IBookingInfoBoxProps } from "../bookingInfoBox";
 import Button from "../../../../../atoms/button/Button";
+import ModalEndSection from "../../../../../atoms/modal/components/ModalEndSection";
 
 interface Iprops extends IBookingInfoBoxProps {
   modalHook: IUseModal;
@@ -20,7 +21,7 @@ const BookingInfoModal: React.FC<Iprops> = ({
         {LANG("is_selected_info_collect")}
       </h6>
       <BookingInfoBox {...props} />
-      <div className="JDmodal__endSection">
+      <ModalEndSection>
         <Button
           mode="flat"
           onClick={() => {
@@ -31,7 +32,7 @@ const BookingInfoModal: React.FC<Iprops> = ({
           size="long"
           label={LANG("selection_information_is_correct")}
         />
-      </div>
+      </ModalEndSection>
     </JDmodal>
   );
 };

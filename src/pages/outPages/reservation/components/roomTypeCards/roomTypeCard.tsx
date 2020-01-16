@@ -5,7 +5,7 @@ import JDselect, {
 } from "../../../../../atoms/forms/selectBox/SelectBox";
 import Button from "../../../../../atoms/button/Button";
 import { IRoomType } from "../../../../../types/interface";
-import { isEmpty, autoComma } from "../../../../../utils/utils";
+import { isEmpty, autoComma, toNumber } from "../../../../../utils/utils";
 import { useModal, LANG } from "../../../../../hooks/hook";
 import { Gender, PricingType, RoomGender } from "../../../../../types/enum";
 import { IGuestCount } from "./roomTypeCardsWrap";
@@ -150,9 +150,6 @@ const RoomTypeCard: React.SFC<IProps> = ({
 
   // 방선택하기 클릭시
   const handleRoomSelectClick = () => {
-    console.log("roomSelectInfo");
-    console.log(roomSelectInfo);
-
     const roomSelectInfoCopy = roomSelectInfo.slice();
 
     const dayDiff =
@@ -189,7 +186,9 @@ const RoomTypeCard: React.SFC<IProps> = ({
 
     setRoomSelectInfo(roomSelectInfoCopy);
     setDisabled({ female: true, male: true, count: true });
-    priceHook.onChange(priceHook.value + totalRoomTypePrice);
+    priceHook.onChange(
+      toNumber(priceHook.value) + toNumber(totalRoomTypePrice)
+    );
 
     roomInfoHook[1]([...roomInfoHook[0], roomTypeData]);
   };

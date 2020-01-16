@@ -227,6 +227,13 @@ export enum WindowSize {
   DESKTOP = 1000,
   DESKTOPHD = 1200
 }
+export enum WindowSizeShort {
+  MOBILE = "sm",
+  PHABLET = "md",
+  TABLET = "wmd",
+  DESKTOP = "lg",
+  DESKTOPHD = "wlg"
+}
 export enum WindowSizeHeight {
   MOBILE = 560,
   PHABLET = 560,

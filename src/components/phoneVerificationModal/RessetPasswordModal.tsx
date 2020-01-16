@@ -17,6 +17,7 @@ import { toast } from "react-toastify";
 import PhoneVerificationModal from "./PhoneVerificationModal";
 import { muResult } from "../../utils/utils";
 import copytoClipboard from "../../utils/copyToClipboard";
+import ModalEndSection from "../../atoms/modal/components/ModalEndSection";
 interface Iprops {
   context: IContext;
   modalHook: IUseModal;
@@ -107,19 +108,18 @@ const RessetPasswordModal: React.FC<Iprops> = ({
             label={LANG("eamil")}
           />
         </div>
-        <div className="JDmodal__endSection">
+        <ModalEndSection>
           <Button
             mode="flat"
             thema="primary"
             onClick={() => {
               if (validate()) {
-                console.log("EEEEEEE");
                 setStep("verify");
               }
             }}
             label={LANG("get_temporary_password")}
-          ></Button>
-        </div>
+          />
+        </ModalEndSection>
       </JDmodal>
     );
   } else if (step === "verify") {
@@ -146,7 +146,7 @@ const RessetPasswordModal: React.FC<Iprops> = ({
           icon={"copyFile"}
           readOnly
         />
-        <div className="JDmodal__endSection">
+        <ModalEndSection>
           <Button
             mode="flat"
             thema="primary"
@@ -155,7 +155,7 @@ const RessetPasswordModal: React.FC<Iprops> = ({
             }}
             label={LANG("close")}
           />
-        </div>
+        </ModalEndSection>
       </JDmodal>
     );
   }

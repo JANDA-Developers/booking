@@ -152,6 +152,7 @@ export interface getSpecification_GetHouse_house_user_paymentInfos {
   billKey: string;
   cardName: string;
   cardNo: string;
+  card: Card | null;
   cardCl: number;
   isLive: boolean;
 }
@@ -674,7 +675,7 @@ export interface getMyProfile_GetMyProfile_user_houses {
   publicKey: string | null;
   createdAt: any;
   updatedAt: any | null;
-  bookingPayInfo: getMyProfile_GetMyProfile_user_houses_bookingPayInfo | null;
+  bookingPayInfo: getMyProfile_GetMyProfile_user_houses_bookingPayInfo;
   houseConfig: getMyProfile_GetMyProfile_user_houses_houseConfig;
   smsInfo: getMyProfile_GetMyProfile_user_houses_smsInfo;
   roomTypes: getMyProfile_GetMyProfile_user_houses_roomTypes[] | null;
@@ -689,6 +690,7 @@ export interface getMyProfile_GetMyProfile_user_paymentInfos {
   billKey: string;
   cardName: string;
   cardNo: string;
+  card: Card | null;
   cardCl: number;
   isLive: boolean;
 }
@@ -1301,6 +1303,7 @@ export interface findBooking_FindBooking_bookings {
   roomTypes: findBooking_FindBooking_bookings_roomTypes[] | null;
   isNew: boolean;
   name: any;
+  bookingNum: string;
   password: string | null;
   phoneNumber: any;
   email: any | null;
@@ -1422,6 +1425,7 @@ export interface findBookingForBooker_FindBookingForBooker_bookings {
   roomTypes: findBookingForBooker_FindBookingForBooker_bookings_roomTypes[] | null;
   isNew: boolean;
   name: any;
+  bookingNum: string;
   password: string | null;
   phoneNumber: any;
   email: any | null;
@@ -1651,6 +1655,7 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking 
   roomTypes: getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_roomTypes[] | null;
   isNew: boolean;
   name: any;
+  bookingNum: string;
   password: string | null;
   phoneNumber: any;
   email: any | null;
@@ -1764,6 +1769,7 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking {
   roomTypes: getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_roomTypes[] | null;
   isNew: boolean;
   name: any;
+  bookingNum: string;
   password: string | null;
   phoneNumber: any;
   email: any | null;
@@ -2181,7 +2187,7 @@ export interface getUserForSU_GetUserForSU_user_houses {
   publicKey: string | null;
   createdAt: any;
   updatedAt: any | null;
-  bookingPayInfo: getUserForSU_GetUserForSU_user_houses_bookingPayInfo | null;
+  bookingPayInfo: getUserForSU_GetUserForSU_user_houses_bookingPayInfo;
   houseConfig: getUserForSU_GetUserForSU_user_houses_houseConfig;
   smsInfo: getUserForSU_GetUserForSU_user_houses_smsInfo;
   roomTypes: getUserForSU_GetUserForSU_user_houses_roomTypes[] | null;
@@ -2196,6 +2202,7 @@ export interface getUserForSU_GetUserForSU_user_paymentInfos {
   billKey: string;
   cardName: string;
   cardNo: string;
+  card: Card | null;
   cardCl: number;
   isLive: boolean;
 }
@@ -2480,6 +2487,7 @@ export interface getBookingForPublic_GetBookingForPublic_booking {
   roomTypes: getBookingForPublic_GetBookingForPublic_booking_roomTypes[] | null;
   isNew: boolean;
   name: any;
+  bookingNum: string;
   password: string | null;
   phoneNumber: any;
   email: any | null;
@@ -2726,6 +2734,7 @@ export interface getBookings_GetBookings_result_bookings {
   roomTypes: getBookings_GetBookings_result_bookings_roomTypes[] | null;
   isNew: boolean;
   name: any;
+  bookingNum: string;
   password: string | null;
   phoneNumber: any;
   email: any | null;
@@ -2906,6 +2915,7 @@ export interface getBooking_GetBooking_booking {
   roomTypes: getBooking_GetBooking_booking_roomTypes[] | null;
   isNew: boolean;
   name: any;
+  bookingNum: string;
   password: string | null;
   phoneNumber: any;
   email: any | null;
@@ -3835,6 +3845,17 @@ export interface updateHouseVariables {
 // GraphQL query operation: getHouseForPublic
 // ====================================================
 
+export interface getHouseForPublic_GetHouseForPublic_house_user {
+  __typename: "User";
+  name: any;
+}
+
+export interface getHouseForPublic_GetHouseForPublic_house_location {
+  __typename: "Location";
+  address: string;
+  addressDetail: string | null;
+}
+
 export interface getHouseForPublic_GetHouseForPublic_house_bookingPayInfo_bankAccountInfo {
   __typename: "BankAccountInfo";
   bankName: string;
@@ -3850,7 +3871,11 @@ export interface getHouseForPublic_GetHouseForPublic_house_bookingPayInfo {
 
 export interface getHouseForPublic_GetHouseForPublic_house {
   __typename: "House";
-  bookingPayInfo: getHouseForPublic_GetHouseForPublic_house_bookingPayInfo | null;
+  phoneNumber: any | null;
+  name: string;
+  user: getHouseForPublic_GetHouseForPublic_house_user;
+  location: getHouseForPublic_GetHouseForPublic_house_location;
+  bookingPayInfo: getHouseForPublic_GetHouseForPublic_house_bookingPayInfo;
 }
 
 export interface getHouseForPublic_GetHouseForPublic {
@@ -5143,6 +5168,28 @@ export interface doBillPayProductVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: refundBooking
+// ====================================================
+
+export interface refundBooking_CancelBooking {
+  __typename: "CancelBookingResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface refundBooking {
+  CancelBooking: refundBooking_CancelBooking;
+}
+
+export interface refundBookingVariables {
+  param: CancelBookingInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: doBillPayCancelProduct
 // ====================================================
 
@@ -5897,6 +5944,7 @@ export interface Fbooking {
   roomTypes: Fbooking_roomTypes[] | null;
   isNew: boolean;
   name: any;
+  bookingNum: string;
   password: string | null;
   phoneNumber: any;
   email: any | null;
@@ -6147,6 +6195,7 @@ export interface FpaymentInfo {
   billKey: string;
   cardName: string;
   cardNo: string;
+  card: Card | null;
   cardCl: number;
   isLive: boolean;
 }
@@ -6476,7 +6525,7 @@ export interface Fcontext_houses {
   publicKey: string | null;
   createdAt: any;
   updatedAt: any | null;
-  bookingPayInfo: Fcontext_houses_bookingPayInfo | null;
+  bookingPayInfo: Fcontext_houses_bookingPayInfo;
   houseConfig: Fcontext_houses_houseConfig;
   smsInfo: Fcontext_houses_smsInfo;
   roomTypes: Fcontext_houses_roomTypes[] | null;
@@ -6491,6 +6540,7 @@ export interface Fcontext_paymentInfos {
   billKey: string;
   cardName: string;
   cardNo: string;
+  card: Card | null;
   cardCl: number;
   isLive: boolean;
 }
@@ -6611,6 +6661,41 @@ export enum BookingStatus {
   COMPLETED = "COMPLETED",
   FAIL = "FAIL",
   NOT_YET = "NOT_YET",
+}
+
+export enum Card {
+  AMX = "AMX",
+  BC_CARD = "BC_CARD",
+  CHOHUNG = "CHOHUNG",
+  CHUKHYUP = "CHUKHYUP",
+  CITY = "CITY",
+  DINERS_CARD = "DINERS_CARD",
+  GWANGJU = "GWANGJU",
+  HANMI = "HANMI",
+  HYUNDAI = "HYUNDAI",
+  JCB = "JCB",
+  JEJU_BANK = "JEJU_BANK",
+  JEOCHUK = "JEOCHUK",
+  JEONBOOK = "JEONBOOK",
+  KAKAO_BANK = "KAKAO_BANK",
+  KB_CARD = "KB_CARD",
+  KDB = "KDB",
+  KEB_HANA = "KEB_HANA",
+  KOREA_POST = "KOREA_POST",
+  K_BANK = "K_BANK",
+  LOTTE_CARD = "LOTTE_CARD",
+  MASTER_CARD = "MASTER_CARD",
+  MG_CARD = "MG_CARD",
+  NONGHYUP = "NONGHYUP",
+  OK_CASH_BAG = "OK_CASH_BAG",
+  SAMSUNG = "SAMSUNG",
+  SAVINGS_BANK = "SAVINGS_BANK",
+  SHINHAN = "SHINHAN",
+  SHINSEGAE = "SHINSEGAE",
+  SUHYUP = "SUHYUP",
+  UNIONPAY = "UNIONPAY",
+  VISA = "VISA",
+  WOORI = "WOORI",
 }
 
 /**
@@ -6860,6 +6945,11 @@ export interface BlockOptionInput {
 export interface BookingConfigInput {
   newBookingMark?: NewBookingMarkInput | null;
   collectingInfoFromGuest?: CollectingInfoFromGuestInput | null;
+}
+
+export interface CancelBookingInput {
+  bookingNum: string;
+  refundInfo?: PayCancelInput | null;
 }
 
 export interface CheckInInput {
@@ -7252,6 +7342,7 @@ export interface UpdateHouseValuesInput {
   refundPolicy?: TermsOfRefundInput[] | null;
   termsOfBooking?: TermsOfBookingInput | null;
   phoneNumber?: any | null;
+  email?: any | null;
   status?: HouseStatus | null;
   bankAccountInfo?: BankAccountInfoInput | null;
   bookingPayMethods?: PayMethod[] | null;

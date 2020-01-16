@@ -11,6 +11,7 @@ import Button from "../../../../atoms/button/Button";
 import JDmodal from "../../../../atoms/modal/Modal";
 import CheckBox from "../../../../atoms/forms/checkBox/CheckBox";
 import { muResult } from "../../../../utils/utils";
+import ModalEndSection from "../../../../atoms/modal/components/ModalEndSection";
 
 interface IProps {
   assigHooks: IAssigTimelineHooks;
@@ -72,7 +73,7 @@ const BlockOpModal: React.FC<IProps> = ({
             {...addmitToAll}
           />
         </div>
-        <div className="JDmodal__endSection">
+        <ModalEndSection>
           <Button
             mode="flat"
             onClick={() => {
@@ -82,7 +83,7 @@ const BlockOpModal: React.FC<IProps> = ({
             size="small"
             label={LANG("Apply")}
           />
-        </div>
+        </ModalEndSection>
       </div>
     </JDmodal>
   );

@@ -23,6 +23,7 @@ import { cardExpToObj } from "../../../utils/autoFormat";
 import { toast } from "react-toastify";
 import PreloaderModal from "../../../atoms/preloaderModal/PreloaderModal";
 import PhotoFrame from "../../../atoms/photoFrame/PhotoFrame";
+import ModalEndSection from "../../../atoms/modal/components/ModalEndSection";
 
 interface IProps {
   context: IContext;
@@ -125,7 +126,7 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
           <h5 id="phoneVerification">
             {LANG("please_verify_your_mobile_phone_to_ensure_smooth_service")}
           </h5>
-          <div className="JDmodal__endSection">
+          <ModalEndSection>
             <Button
               id="StarterHeaderPhoneVerificationBtn"
               onClick={() => {
@@ -144,7 +145,7 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
               phoneNumber={phoneNumber}
               modalHook={phoneVerificationModalHook}
             />
-          </div>
+          </ModalEndSection>
         </Wrap>
       );
     case "houseCreate":
@@ -221,6 +222,7 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
             src={`${IMG_REPO}booking_app/describe/jd_booking_free_ex_banner.jpg`}
           />
           <CardInfoForm
+            forHost
             column="2"
             cardInfo={cardInfo}
             setCardInfo={setCardInfo}
@@ -251,7 +253,7 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
     case "check":
       return (
         <Wrap>
-          <div className="staterModal__createRoom_finish_Btn JDmodal__endSection">
+          <ModalEndSection className="staterModal__createRoom_finish_Btn">
             <Vtable>
               <ColumnCells datas={initInfoDataTable} />
             </Vtable>
@@ -291,7 +293,7 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
               label={LANG("exit_room_settings")}
             />
             <PreloaderModal loading={muLoading} />
-          </div>
+          </ModalEndSection>
         </Wrap>
       );
     default:

@@ -10,6 +10,7 @@ import { TimePerMs } from "../../types/enum";
 import Timer from "react-compound-timer";
 import { toast } from "react-toastify";
 import PreloaderModal from "../../atoms/preloaderModal/PreloaderModal";
+import ModalEndSection from "../../atoms/modal/components/ModalEndSection";
 
 interface IProps {
   modalHook: IUseModal<any>;
@@ -64,11 +65,12 @@ const PhoneVerification: React.FC<IProps> = ({
         }}
       </JDTimer>
       <InputText
+        placeholder={"******"}
         id="verifiKeyInput"
         {...keyHook}
         label={LANG("certification_number")}
       />
-      <div className="JDmodal__endSection">
+      <ModalEndSection>
         <Button
           id="verfiCompleteBtn"
           mode="flat"
@@ -82,7 +84,7 @@ const PhoneVerification: React.FC<IProps> = ({
             handleCompleteBtnClick(keyHook.value);
           }}
         />
-      </div>
+      </ModalEndSection>
     </JDmodal>
   );
 };

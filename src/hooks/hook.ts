@@ -392,7 +392,6 @@ function useRadio(defaultValue: any = "") {
   const [value, setValue] = useState(defaultValue);
 
   const onChange = (value: any) => {
-    console.log(value);
     setValue(value);
   };
 

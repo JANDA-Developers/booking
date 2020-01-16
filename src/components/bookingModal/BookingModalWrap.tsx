@@ -11,6 +11,8 @@ import {
   deleteBooking,
   deleteBookingVariables,
   startBooking,
+  refundBooking,
+  refundBookingVariables,
   startBookingVariables,
   getRoomTypeDatePrices,
   getRoomTypeDatePricesVariables
@@ -22,7 +24,6 @@ import {
   mergeObject,
   s4
 } from "../../utils/utils";
-import Preloader from "../../atoms/preloader/Preloader";
 import {
   GET_BOOKING,
   UPDATE_BOOKING,
@@ -30,16 +31,17 @@ import {
   GET_BOOKINGS,
   GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM,
   START_BOOKING,
-  GET_ROOM_TYPES_DATE_PRICE
+  GET_ROOM_TYPES_DATE_PRICE,
+  REFUND_BOOKING
 } from "../../apollo/queries";
-import { MODAL_PRELOADER_SIZE } from "../../types/const";
+import client from "../../apollo/apolloClient";
 import { getOperationName } from "apollo-utilities";
 import { DEFAULT_BOOKING } from "../../types/defaults";
-import JDmodal from "../../atoms/modal/Modal";
 import { totalPriceGetAveragePrice } from "../../utils/booking";
 import { IBookingModalWrapProps } from "./declaration";
 import moment from "moment";
 import PreloaderModal from "../../atoms/preloaderModal/PreloaderModal";
+import { useMutation } from "@apollo/react-hooks";
 
 class UpdateBookingMu extends Mutation<updateBooking, updateBookingVariables> {}
 class CreatBookingMu extends Mutation<startBooking, startBookingVariables> {}
@@ -59,6 +61,31 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
   ...props
 }) => {
   const { house } = context;
+  const [refundMu, { data, loading: cancelLoading }] = useMutation<
+    refundBooking,
+    refundBookingVariables
+  >(REFUND_BOOKING, {
+    client,
+    onCompleted: ({ CancelBooking }) => {
+      onCompletedMessage(
+        CancelBooking,
+        LANG("refund_complete"),
+        LANG("refund_fail")
+      );
+    }
+  });
+
+  const refundFn = (variables: refundBookingVariables) => {
+    const { bookingNum, refundInfo } = variables.param;
+    refundMu({
+      variables: {
+        param: {
+          bookingNum,
+          refundInfo
+        }
+      }
+    });
+  };
 
   return (
     <GetBookingQuery
@@ -196,6 +223,7 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
                                 context={context}
                                 loading={totalLoading}
                                 modalHook={modalHook}
+                                refundFn={refundFn}
                                 startBookingMu={startBookingMu}
                                 updateBookingMu={updateBookingMu}
                                 deleteBookingMu={deleteBookingMu}

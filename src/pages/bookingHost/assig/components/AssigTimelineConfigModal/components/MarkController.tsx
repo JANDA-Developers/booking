@@ -9,6 +9,7 @@ import JDcolorPicker from "../../../../../../atoms/colorPicker/ColorPicker";
 import JDswitch from "../../../../../../atoms/forms/switch/Switch";
 import { useColorPicker, useSwitch } from "../../../../../../hooks/hook";
 import { IContext } from "../../../../BookingHostRouter";
+import ModalEndSection from "../../../../../../atoms/modal/components/ModalEndSection";
 
 interface Iprops {
   context: IContext;
@@ -39,7 +40,7 @@ const MarkController: React.FC<Iprops> = ({ context }) => {
           </VtableColumn>
         </Vtable>
       </div>
-      <div className="JDmodal__endSection">
+      <ModalEndSection>
         <Button
           onClick={() => {
             // handleClickAdmit();
@@ -56,7 +57,7 @@ const MarkController: React.FC<Iprops> = ({ context }) => {
           thema="warn"
           label="적용해제"
         />
-      </div>
+      </ModalEndSection>
     </div>
   );
 };

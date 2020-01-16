@@ -41,6 +41,7 @@ import Vtable, {
   VtableCell
 } from "../../../../../atoms/vtable/Vtable";
 import { WindowSize } from "../../../../../types/enum";
+import ModalEndSection from "../../../../../atoms/modal/components/ModalEndSection";
 
 interface Iprops {
   context: IContext;
@@ -167,7 +168,7 @@ const UserProfile: React.FC<Iprops> = ({ context, userInfo }) => {
             </div>
             <div className="flex-grid__col col--full-2 col--wlg-0"></div>
           </div>
-          <div className="JDmodal__endSection">
+          <ModalEndSection>
             <Button
               onClick={passwordCheckModalHook.openModal}
               thema="primary"
@@ -179,7 +180,7 @@ const UserProfile: React.FC<Iprops> = ({ context, userInfo }) => {
               mode="border"
               label={LANG("password_rewrite")}
             />
-          </div>
+          </ModalEndSection>
         </CardSection>
         <CardHeader
           desc={LANG("mypage_houses_desc")}

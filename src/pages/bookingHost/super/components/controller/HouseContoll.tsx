@@ -7,6 +7,7 @@ import { HOUSE_TYPE_OP, HOUSE_STATUS_OP } from "../../../../../types/const";
 import { useInput, useSelect } from "../../../../../hooks/hook";
 import optionFineder from "../../../../../utils/optionFinder";
 import Button from "../../../../../atoms/button/Button";
+import ModalEndSection from "../../../../../atoms/modal/components/ModalEndSection";
 
 interface Iprops extends IControllSharedPorps {}
 
@@ -52,14 +53,14 @@ const HouseControll: React.FC<Iprops> = ({ context, data, updateFn }) => {
       <Vtable>
         <ColumnCells datas={renders} />
       </Vtable>
-      <div className="JDmodal__endSection">
+      <ModalEndSection>
         <Button
           flat
           thema="primary"
           label="update product"
           onClick={handleUpdateBtn}
         />
-      </div>
+      </ModalEndSection>
     </div>
   );
 };

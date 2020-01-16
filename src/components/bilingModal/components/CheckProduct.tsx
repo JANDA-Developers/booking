@@ -5,6 +5,7 @@ import Button from "../../../atoms/button/Button";
 import { LANG } from "../../../hooks/hook";
 import { BillingSteps } from "../BillingModal";
 import { IProductTypeDec } from "../../../types/interface";
+import ModalEndSection from "../../../atoms/modal/components/ModalEndSection";
 
 interface Iprops {
   context: IContext;
@@ -27,7 +28,7 @@ const CheckProduct: React.FC<Iprops> = ({
         />
       </div>
 
-      <div className="JDmodal__endSection">
+      <ModalEndSection>
         <Button
           onClick={() => {
             setStep("cardInfo");
@@ -37,7 +38,7 @@ const CheckProduct: React.FC<Iprops> = ({
           thema="primary"
           label={LANG("input_card_information")}
         />
-      </div>
+      </ModalEndSection>
     </div>
   );
 };

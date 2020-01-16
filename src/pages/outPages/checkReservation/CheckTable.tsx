@@ -99,12 +99,14 @@ const CheckTable: React.FC<IProps> = ({ tableData: tableDataProp }) => {
   ];
 
   return (
-    <JDtable
-      {...ReactTableDefaults}
-      data={tableData || []}
-      minRows={1}
-      columns={TableColumns}
-    />
+    <Fragment>
+      <JDtable
+        {...ReactTableDefaults}
+        data={tableData || []}
+        minRows={1}
+        columns={TableColumns}
+      />
+    </Fragment>
   );
 };
 

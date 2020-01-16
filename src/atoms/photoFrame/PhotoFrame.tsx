@@ -4,11 +4,14 @@ import classNames from "classnames";
 import "./PhotoFrame.scss";
 import { JDatomExtentionSet } from "../../types/interface";
 import { JDmrClass, JDmbClass } from "../../utils/autoClasses";
+import { WindowSizeShort } from "../../types/enum";
+import { currentWinSize } from "../../utils/currentWinSize";
 
 interface Iprops extends JDatomExtentionSet {
   src?: string;
   context?: IContext;
   langPic?: boolean;
+  responseImg?: WindowSizeShort[];
   unStyle?: boolean;
   type?: string;
   className?: string;
@@ -21,10 +24,18 @@ const PhotoFrame: React.FC<Iprops> = ({
   unStyle,
   langPic,
   className,
+  responseImg,
   mb,
   mr
 }) => {
   let src = srcProp;
+
+  if (responseImg) {
+    const mode = currentWinSize();
+    if (responseImg.includes(mode)) {
+      src += mode;
+    }
+  }
 
   if (context && langPic) {
     const {

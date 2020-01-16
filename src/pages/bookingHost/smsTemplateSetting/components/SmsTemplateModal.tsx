@@ -35,6 +35,7 @@ import {
   SMS_TARGET_OP,
   SmsReplaceKeyEnumKeys
 } from "../../../../types/const";
+import ModalEndSection from "../../../../atoms/modal/components/ModalEndSection";
 
 export interface ISmsTemplateModalProps {
   templateId: string;
@@ -222,7 +223,7 @@ const SmsTemplateModal: React.FC<Iprops> = ({
           </div>
         </div>
       </Fragment>
-      <div className="JDmodal__endSection">
+      <ModalEndSection>
         <Button
           id="CreateTemplateBtn"
           mode="flat"
@@ -249,7 +250,7 @@ const SmsTemplateModal: React.FC<Iprops> = ({
           disabled={isAdd}
           onClick={handleDeleteBtnClick}
         />
-      </div>
+      </ModalEndSection>
     </JDmodal>
   );
 };

@@ -14,6 +14,7 @@ import {
 } from "../../../types/api";
 import { IContext } from "../../../pages/bookingHost/BookingHostRouter";
 import { MemoType } from "../../../types/enum";
+import ModalEndSection from "../../../atoms/modal/components/ModalEndSection";
 
 export interface IEditMemoInfo {
   memo?: getMemos_GetMemos_memos;
@@ -84,7 +85,7 @@ const EditMemoModal: React.FC<Iprops> = ({
       <div>
         <InputText label={LANG("memo")} {...textHook} autoHeight textarea />
       </div>
-      <div className="JDmodal__endSection">
+      <ModalEndSection>
         <Button
           onClick={() => {
             isCreateMode ? handleSubmitBtn() : handleUpdateBtn();
@@ -93,7 +94,7 @@ const EditMemoModal: React.FC<Iprops> = ({
           thema="primary"
           label={isCreateMode ? LANG("create") : LANG("update")}
         />
-      </div>
+      </ModalEndSection>
     </JDmodal>
   );
 };

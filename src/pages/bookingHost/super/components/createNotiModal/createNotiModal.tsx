@@ -20,6 +20,7 @@ import JDmodal from "../../../../../atoms/modal/Modal";
 import JDdayPicker from "../../../../../atoms/dayPicker/DayPicker";
 import DayPickerModal from "../../../../../components/dayPickerModal/DayPickerModal";
 import { ICreateNotiModalParam } from "./createNotiModalWrap";
+import ModalEndSection from "../../../../../atoms/modal/components/ModalEndSection";
 
 interface Iprops {
   context: IContext;
@@ -98,7 +99,7 @@ const CreateNotiModal: React.FC<Iprops> = ({
       <div>
         <InputText {...msgHook} textarea label={LANG("noti_msg")} />
       </div>
-      <div className="JDmodal__endSection">
+      <ModalEndSection>
         <Button
           size="small"
           mode="flat"
@@ -112,7 +113,7 @@ const CreateNotiModal: React.FC<Iprops> = ({
           {...validPeriodHook}
           modalHook={dayPickerModalHook}
         />
-      </div>
+      </ModalEndSection>
     </JDmodal>
   );
 };

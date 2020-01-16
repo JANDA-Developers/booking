@@ -5,6 +5,7 @@ import Button from "../../../../../atoms/button/Button";
 import { isPassword } from "../../../../../utils/inputValidations";
 import JDmodal from "../../../../../atoms/modal/Modal";
 import { toast } from "react-toastify";
+import ModalEndSection from "../../../../../atoms/modal/components/ModalEndSection";
 
 interface Iprops {
   modalHook: IUseModal;
@@ -36,7 +37,7 @@ const PasswordCheckModal: React.FC<Iprops> = ({
           label={LANG("password")}
         />
       </div>
-      <div className="JDmodal__endSection">
+      <ModalEndSection>
         <Button
           mode="flat"
           thema="primary"
@@ -47,7 +48,7 @@ const PasswordCheckModal: React.FC<Iprops> = ({
             }
           }}
         />
-      </div>
+      </ModalEndSection>
     </JDmodal>
   );
 };

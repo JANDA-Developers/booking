@@ -20,7 +20,8 @@ import {
   AutoSendWhen,
   DateFormat,
   BookingStatus,
-  WindowSize
+  WindowSize,
+  PayMethod
 } from "../../types/enum";
 import {
   FUNNELS_OP,
@@ -39,7 +40,8 @@ import {
   deleteBookingVariables,
   startBooking,
   startBookingVariables,
-  Funnels
+  Funnels,
+  refundBookingVariables
 } from "../../types/api";
 import SendSMSmodalWrap, { IModalSMSinfo } from "../smsModal/SendSmsModalWrap";
 import Preloader from "../../atoms/preloader/Preloader";
@@ -61,6 +63,8 @@ import { IBookingModalContext } from "./declaration";
 import JDLabel from "../../atoms/label/JDLabel";
 import JDselect from "../../atoms/forms/selectBox/SelectBox";
 import optionFineder from "../../utils/optionFinder";
+import ModalEndSection from "../../atoms/modal/components/ModalEndSection";
+import RefundModal from "../refundModal/RefundModal";
 
 interface IProps {
   modalHook: IUseModal;
@@ -70,6 +74,7 @@ interface IProps {
   updateBookingMu: MutationFn<updateBooking, updateBookingVariables>;
   deleteBookingMu: MutationFn<deleteBooking, deleteBookingVariables>;
   startBookingLoading: boolean;
+  refundFn: (variables: refundBookingVariables) => void;
   context: IContext;
   loading: boolean;
   mode?: BookingModalMode;
@@ -85,6 +90,7 @@ const BookingModal: React.FC<IProps> = ({
   placeHolederPrice,
   loading,
   context,
+  refundFn,
   mode
 }) => {
   const isCreateMode = mode === "CREATE" || mode === "CREATE_ASSIG";
@@ -99,11 +105,14 @@ const BookingModal: React.FC<IProps> = ({
     checkIn,
     checkOut,
     checkInInfo,
+    bookingNum,
     name,
     funnels,
     guests
   } = bookingData;
+  const refundModalHook = useModal(false);
   const { payMethod, status: paymentStatus, totalPrice } = payment;
+  const [refundAmt, setRefundAmt] = useState<number>(totalPrice);
   const { house } = context;
   const { _id: houseId } = house;
   const checkInOutHook = useSelect(
@@ -116,7 +125,6 @@ const BookingModal: React.FC<IProps> = ({
   const priceHook = useInput(totalPrice || placeHolederPrice);
   const memoHook = useInput(memo || "");
   const emailHook = useInput(email);
-  const assigInfoDrawHook = useDrawer(mode === "CREATE_ASSIG");
   // 아래 메모 목적은 인풋이 바뀔떄마다 바뀌는걸 막기위함임
   const roomSelectInfo = useMemo(
     () => getRoomSelectInfo(bookingData.guests, bookingData.roomTypes || []),
@@ -138,7 +146,10 @@ const BookingModal: React.FC<IProps> = ({
   );
   const paymentStatusHook = useSelect<PaymentStatus>(
     bookingId !== "default"
-      ? { value: paymentStatus, label: LANG("PaymentStatus", paymentStatus) }
+      ? {
+          value: paymentStatus,
+          label: LANG("PaymentStatus", paymentStatus)
+        }
       : {
           value: PaymentStatus.COMPLETED,
           label: LANG("PaymentStatus", PaymentStatus.COMPLETED)
@@ -173,13 +184,16 @@ const BookingModal: React.FC<IProps> = ({
     payMethodHook,
     emailHook,
     guests,
-    assigInfo,
     memoHook,
+    assigInfo,
     houseId,
     mode
   };
 
   const isProgressing = bookingStatus === BookingStatus.NOT_YET;
+  if (isProgressing) {
+    throw Error("Booking Status is NOT_YET 예약을 지우세요.");
+  }
   const allReadOnly = isProgressing;
 
   // SMS 발송 모달에 전달할 정보를 생성
@@ -271,6 +285,20 @@ const BookingModal: React.FC<IProps> = ({
       }
     });
     modalHook.closeModal();
+  };
+
+  const handleRefundBtn = () => {
+    refundFn({
+      param: {
+        bookingNum,
+        refundInfo: {
+          cancelAmt: refundAmt,
+          cancelMsg: "HOST-CANCEL",
+          isPartialCancel: refundAmt === totalPrice,
+          tid: ""
+        }
+      }
+    });
   };
 
   return (
@@ -430,9 +458,16 @@ const BookingModal: React.FC<IProps> = ({
                   {...checkInOutHook}
                 />
               </div>
+              <div>
+                <InputText
+                  value={bookingNum}
+                  label={LANG("booking_number")}
+                  readOnly
+                />
+              </div>
             </div>
           </div>
-          <div className="JDmodal__endSection">
+          <ModalEndSection>
             <Button
               id="BookingModalCreateBtn"
               size="small"
@@ -461,8 +496,26 @@ const BookingModal: React.FC<IProps> = ({
               thema="error"
               onClick={handleDeletBtnClick}
             />
-          </div>
-
+            {paymentStatus === PaymentStatus.COMPLETED &&
+              payMethod === PayMethod.CARD && (
+                <Button
+                  id="BookingModalRefundBtn"
+                  mode="flat"
+                  size="small"
+                  label={LANG("refund")}
+                  thema="error"
+                  onClick={() => {
+                    refundModalHook.openModal();
+                  }}
+                />
+              )}
+          </ModalEndSection>
+          <RefundModal
+            onRefundClick={handleRefundBtn}
+            setRefundAmt={setRefundAmt}
+            refundAmt={refundAmt}
+            modalHook={refundModalHook}
+          />
           <SendSMSmodalWrap context={context} modalHook={sendSmsModalHook} />
           <JDtoastModal
             confirm

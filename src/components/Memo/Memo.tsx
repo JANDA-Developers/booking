@@ -75,8 +75,6 @@ const Memo: React.FC<Iprops & IConfigMemo> = ({
   };
 
   const handleEditBtn = (id: string) => {
-    console.log("id");
-    console.log(id);
     editMemoModalHook.openModal({
       mode: "update",
       memo: memos.find(m => m._id === id)

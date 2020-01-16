@@ -58,8 +58,6 @@ const MockUp: React.FC<Iprops> = ({
     return 0;
   })();
 
-  console.log("innerPadding");
-  console.log(innerPadding);
   const style = {
     padding: innerPadding,
     height: width * MOCK_INFOES[frame].heightRatio,

@@ -21,7 +21,7 @@ export const testCreateUser = async () => {
   await TType("#singupPassword", randomePW);
   await TType("#singupPasswordCheck", randomePW);
   const randomeEm = faker.internet.email();
-  console.log(chalk.green.bold(`${randomeEm}`));
+  console.info(chalk.green.bold(`${randomeEm}`));
   await TType("#singupEamil", randomeEm);
   await TType(
     "#singupPhoneNumber",

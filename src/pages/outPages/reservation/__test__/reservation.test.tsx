@@ -1,17 +1,9 @@
-import {
-  testReady,
-  TWaitClick,
-  TClick,
-  Tselect,
-  toastCheck
-} from "../../../../__test__/utils.test";
+import { TWaitClick, TClick, Tselect } from "../../../../__test__/utils.test";
 import { TFilterByProperty } from "../../../../utils/developMaster";
-import { createBookingModal } from "../../../../components/bookingModal/__test__/bookingModal.test";
-import { unSendSmsModal } from "../../../../components/smsModal/__test__/sendSmsModal.test";
 
 export const fillCardInfoForm = async () => {};
 
-export const createResvModal = async () => {
+export const insertResv = async () => {
   const tweets = await page.$$(".DayPicker-Day");
   const d = await TFilterByProperty(
     tweets,
@@ -32,26 +24,5 @@ export const createResvModal = async () => {
   }
   await TWaitClick("#ResvBtn");
 };
-
-describe.skip("reservation", () => {
-  beforeAll(async () => {
-    await testReady(true, undefined, {});
-  });
-
-  test("Do ReservationProcess With Host", async () => {
-    await TClick("#CreateResvModalUpBtn");
-    await createResvModal();
-    await createBookingModal();
-    await unSendSmsModal();
-    await toastCheck("StartBooking");
-  });
-
-  test.skip("Do Reservation Process With Guest", async () => {
-    // first go to mypage
-    await page.goto("");
-    // second copy url to go resvpage
-    // Do resvProcessForGuest
-  });
-});
 
 export default "c";

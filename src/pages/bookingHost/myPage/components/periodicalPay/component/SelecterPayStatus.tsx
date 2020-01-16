@@ -1,8 +1,5 @@
-import React from "react";
-import JDselect, {
-  IselectedOption
-} from "../../../../../../atoms/forms/selectBox/SelectBox";
-import { useSelect, LANG } from "../../../../../../hooks/hook";
+import React, { Fragment, useState } from "react";
+import { useSelect, LANG, useModal } from "../../../../../../hooks/hook";
 import {
   updateProductBillPayStatus,
   updateProductBillPayStatusVariables
@@ -10,8 +7,15 @@ import {
 import client from "../../../../../../apollo/apolloClient";
 import { UPDATE_PRODUCT_BILL_PAY_STATUS } from "../../../../../../apollo/queries";
 import { useMutation } from "@apollo/react-hooks";
-import { onCompletedMessage, muResult } from "../../../../../../utils/utils";
+import {
+  onCompletedMessage,
+  muResult,
+  textAlignClass
+} from "../../../../../../utils/utils";
 import { IContext } from "../../../../BookingHostRouter";
+import Button from "../../../../../../atoms/button/Button";
+import JDmodal from "../../../../../../atoms/modal/Modal";
+import ModalEndSection from "../../../../../../atoms/modal/components/ModalEndSection";
 
 interface Iprops {
   context: IContext;
@@ -24,6 +28,10 @@ const SelecterPayStatus: React.FC<Iprops> = ({
   isContinue,
   context
 }) => {
+  const [btnLabel, setBtnLabel] = useState<"periodical_paying" | "pay_stopped">(
+    "periodical_paying"
+  );
+  const modalHook = useModal(false);
   const { house } = context;
   // 카드 삭제
   const [updateProductBillPayStatusMu] = useMutation<
@@ -40,35 +48,40 @@ const SelecterPayStatus: React.FC<Iprops> = ({
     }
   });
 
-  const CHANGE_PAY_STATUS_OP = [
-    { value: true, label: "Continue" },
-    { value: false, label: "Dis continue" }
-  ];
-  const selectHook = useSelect(
-    isContinue ? CHANGE_PAY_STATUS_OP[0] : CHANGE_PAY_STATUS_OP[1]
-  );
-
-  const handleChange = async (v: IselectedOption) => {
-    const result = await updateProductBillPayStatusMu({
+  const handelChangeBtn = () => {
+    updateProductBillPayStatusMu({
       variables: {
         param: {
-          isContinue: v.value,
+          isContinue: !isContinue,
           productId
         }
       }
     });
-    if (muResult(result, "UpdateProductBillPayStatus")) {
-      //  DO MUTATION AT HERE
-      selectHook.onChange(v);
-    }
   };
 
   return (
-    <JDselect
-      {...selectHook}
-      onChange={handleChange}
-      options={CHANGE_PAY_STATUS_OP}
-    />
+    <Fragment>
+      <Button
+        mode="border"
+        label={isContinue ? LANG("periodical_paying") : LANG("pay_stopped")}
+        onClick={() => {
+          modalHook.openModal();
+        }}
+      />
+      <JDmodal {...modalHook}>
+        <div className="modal__section">
+          {LANG("do_you_want_to_change_periodical_pay")}
+        </div>
+        <ModalEndSection>
+          <Button
+            thema={isContinue ? "error" : "primary"}
+            mode="flat"
+            label={LANG(isContinue ? "auto_pay_stop" : "auto_pay_continue")}
+            onClick={handelChangeBtn}
+          />
+        </ModalEndSection>
+      </JDmodal>
+    </Fragment>
   );
 };
 

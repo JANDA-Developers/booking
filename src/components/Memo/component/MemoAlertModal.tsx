@@ -6,6 +6,7 @@ import Button from "../../../atoms/button/Button";
 import MemoWrap from "../MemoWrap";
 import { MemoType } from "../../../types/enum";
 import { setCookie } from "../../../utils/cookies";
+import ModalEndSection from "../../../atoms/modal/components/ModalEndSection";
 
 interface Iprops {
   context: IContext;
@@ -19,7 +20,7 @@ const MemoAlertModal: React.FC<Iprops> = ({ context, modalHook }) => {
       <div className="modal__section">
         <MemoWrap showOnlyAlert memoType={MemoType.HOST} context={context} />
       </div>
-      <div className="JDmodal__endSection">
+      <ModalEndSection>
         <Button
           mode="flat"
           onClick={() => {
@@ -40,7 +41,7 @@ const MemoAlertModal: React.FC<Iprops> = ({ context, modalHook }) => {
           thema="point"
           label={LANG("close_today")}
         />
-      </div>
+      </ModalEndSection>
     </JDmodal>
   );
 };

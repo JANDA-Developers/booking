@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
-import { IContext } from "../../../../BookingHostRouter";
 import "./CreaditCard.scss";
 import PhotoFrame from "../../../../../../atoms/photoFrame/PhotoFrame";
 import { LANG } from "../../../../../../hooks/hook";
 import Color from "color";
 import { getMyProfile_GetMyProfile_user_paymentInfos } from "../../../../../../types/api";
-import { CardStyleInfo } from "./helper";
+import { CardStyleInfo, CreaditCardTypesShort } from "./helper";
 import classNames from "classnames";
 import { card_space } from "../../../../../../utils/autoFormat";
 import { IMG_REPO } from "../../../../../../types/const";
@@ -33,7 +32,9 @@ const CreaditCard: React.FC<Iprops> = ({
   isSelected,
   refProp
 }) => {
-  const { cardNo } = payment;
+  const { card, cardNo }: any = payment;
+  // @ts-ignore
+  const cardShort = CreaditCardTypesShort[card];
   const folderName = "card_logo/";
   const haveTaget = isEmpty(payTargets);
 
@@ -44,6 +45,8 @@ const CreaditCard: React.FC<Iprops> = ({
   const classes = classNames("creaditCard", className, {
     "creaditCard--selected": isSelected
   });
+  const cardStyle = CardStyleInfo.find(card => card.logo === cardShort);
+  if (!cardShort || !cardStyle) throw Error(`unExist card type ${card}`);
 
   useEffect(() => {
     ReactTooltip.rebuild();
@@ -54,7 +57,7 @@ const CreaditCard: React.FC<Iprops> = ({
       ref={refProp}
       onClick={() => callBackCardClick(payment)}
       style={{
-        background: getLinear(CardStyleInfo[3].bg)
+        background: getLinear(cardStyle.bg)
       }}
       className={classes}
     >
@@ -64,7 +67,7 @@ const CreaditCard: React.FC<Iprops> = ({
           unStyle
           className="creaditCard__logo"
           type=".png"
-          src={IMG_REPO + folderName + "cd_" + CardStyleInfo[3].logo}
+          src={IMG_REPO + folderName + "cd_" + cardStyle.logo}
         />
         {/* creadi t+ */}
         <span className="JDsmall-text creaditCard__label">{`(${LANG(

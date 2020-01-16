@@ -6,12 +6,18 @@ import Button from "../../../../atoms/button/Button";
 import { cardExpire } from "../../../../utils/autoFormat";
 
 interface IProps {
+  forHost?: boolean;
   column?: "2";
   cardInfo: TCardRegistInfo;
   setCardInfo: React.Dispatch<React.SetStateAction<TCardRegistInfo>>;
 }
 
-const CardInfoForm: React.FC<IProps> = ({ cardInfo, column, setCardInfo }) => {
+const CardInfoForm: React.FC<IProps> = ({
+  cardInfo,
+  column,
+  setCardInfo,
+  forHost
+}) => {
   function set<T extends keyof TCardRegistInfo>(
     key: T,
     value: TCardRegistInfo[T]
@@ -66,7 +72,9 @@ const CardInfoForm: React.FC<IProps> = ({ cardInfo, column, setCardInfo }) => {
         </div>
         <div className={commonClass}>
           <InputText
-            label={LANG("idnumber_6front")}
+            label={LANG(
+              forHost ? "idnumber_6front" : "idnumber_or_business_number"
+            )}
             placeholder={LANG("idnumber_6front")}
             id="CardModal__IdNum"
             type="password"

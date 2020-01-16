@@ -138,7 +138,6 @@ const RoomConfig: React.FC<IProps> = ({
         room._id = undefined;
       }
 
-      console.log("room");
       return room;
     };
 
@@ -171,9 +170,6 @@ const RoomConfig: React.FC<IProps> = ({
       createDatas: createInput
     };
 
-    console.log("submitData");
-    console.log(submitData);
-
     onSubmit(submitData);
   }
 
@@ -198,7 +194,6 @@ const RoomConfig: React.FC<IProps> = ({
   };
 
   const updateRoomType = async (roomType: IRoomType) => {
-    console.log("this is happend");
     var index = _.findIndex(data.updateDatas, { _id: roomType._id });
     data.updateDatas.splice(index, 1, roomType);
   };
@@ -210,12 +205,9 @@ const RoomConfig: React.FC<IProps> = ({
     // TODO :: Do validation
     const { _id } = roomType;
     if (mode === "delete") {
-      console.log(1);
       if (!isEmpty(finder(_id, ["create"]))) {
-        console.log(2);
         data.createDatas = data.createDatas.filter(rt => rt._id !== _id);
       } else {
-        console.log(3);
         await removeRoomType(_id);
       }
     } else if (mode === "create") {

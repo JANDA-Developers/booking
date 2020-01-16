@@ -21,6 +21,7 @@ import { card_space, cardExpire } from "../../../utils/autoFormat";
 import { TCardViewInfo } from "./CardInfoFormWrap";
 import { ICardModalTarget } from "../../../pages/bookingHost/myPage/components/cardModal.tsx/CardModal";
 import { cardValidate } from "../../../utils/validations";
+import ModalEndSection from "../../../atoms/modal/components/ModalEndSection";
 
 export interface IChainProps {
   mode?: "create" | "viewAndUpdate";
@@ -162,7 +163,7 @@ const CardInfoForm: React.FC<Iprops> = ({
           {LANG("privacy_policy")}
         </TextButton>
       </div>
-      <div className="JDmodal__endSection">
+      <ModalEndSection>
         {isCreateMode ? (
           // 카드등록
           <Button
@@ -205,7 +206,7 @@ const CardInfoForm: React.FC<Iprops> = ({
             </Fragment>
           )
         )}
-      </div>
+      </ModalEndSection>
       <RefundPolicyModal modalHook={refundPolicyModalHook} />
       <PrivacyPolicyModal modalHook={privacyPolicyModalHook} />
     </div>

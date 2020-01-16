@@ -44,6 +44,7 @@ import { useQuery } from "@apollo/react-hooks";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import client from "../../apollo/apolloClient";
 import JDpreloader from "../../atoms/preloader/Preloader";
+import ModalEndSection from "../../atoms/modal/components/ModalEndSection";
 
 interface IProps {
   context: IContext;
@@ -267,7 +268,7 @@ const SendSmsModal: React.FC<IProps> = ({
               textarea
             />
           </div>
-          <div className="JDmodal__endSection">
+          <ModalEndSection>
             <Button
               mode="flat"
               size={"small"}
@@ -289,7 +290,7 @@ const SendSmsModal: React.FC<IProps> = ({
                 label={LANG("dontSMS")}
               />
             )}
-          </div>
+          </ModalEndSection>
         </Fragment>
       )}
     </JDmodal>

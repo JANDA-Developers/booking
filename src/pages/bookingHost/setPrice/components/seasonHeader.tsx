@@ -29,6 +29,7 @@ import { MutationFn } from "react-apollo";
 import { targetBlinkFuture } from "../../../../utils/targetBlink";
 import UpdateSeasonModal from "./updateSeasnModal";
 import JDbox from "../../../../atoms/box/JDbox";
+import ModalEndSection from "../../../../atoms/modal/components/ModalEndSection";
 
 interface IProps {
   season: ISeason;
@@ -68,7 +69,6 @@ const SeasonHeader: React.FC<IProps> = ({
   });
 
   const handleDeleteSeason = () => {
-    console.log("occured");
     deleteSeasonMu({
       variables: {
         houseId,
@@ -105,7 +105,6 @@ const SeasonHeader: React.FC<IProps> = ({
           <li>
             <Button
               onClick={() => {
-                console.log("?");
                 handleDeleteSeason();
               }}
               label={LANG("do_delete")}
@@ -134,7 +133,7 @@ const SeasonHeader: React.FC<IProps> = ({
         options={priorityOption}
         {...periorityHook}
       />
-      <div className="JDmodal__endSection">
+      <ModalEndSection>
         <Button
           mode="flat"
           onClick={() => {
@@ -144,7 +143,7 @@ const SeasonHeader: React.FC<IProps> = ({
           size="small"
           thema="primary"
         />
-      </div>
+      </ModalEndSection>
     </JDmodal>
   );
 

@@ -44,7 +44,7 @@ export const globalLanguageSetting = () => {
     { value: SMS_TARGET_OP, enumKey: "SendTarget" },
     OPTIONAL_APPLY_PAYMETHOD,
     PRODUCT_STATUS_OP,
-    BOOKING_STATUS_OP,
+    { value: BOOKING_STATUS_OP, enumKey: "BookingStatus" },
     PAYMETHOD_FOR_BOOKER_OP,
     OPTIONAL_APPLY_PAYMETHOD,
     PAYMETHOD_FOR_HOST_OP,

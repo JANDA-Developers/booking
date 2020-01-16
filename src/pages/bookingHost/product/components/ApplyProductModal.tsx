@@ -16,6 +16,7 @@ import BillCompleteView from "../../../../components/bilingModal/components/Peri
 import { muResult, isEmpty } from "../../../../utils/utils";
 import { selectProduct, selectProductVariables } from "../../../../types/api";
 import PreloaderModal from "../../../../atoms/preloaderModal/PreloaderModal";
+import ModalEndSection from "../../../../atoms/modal/components/ModalEndSection";
 
 export interface applyProductModalInfo {
   productType: IProductTypeDec;
@@ -102,7 +103,7 @@ const ApplyProductModal: React.FC<IProps> = ({
   return (
     <Modal className="applyProductModal" {...modalHook}>
       {step === "describe" && (
-        <div className="JDmodal__endSection">
+        <ModalEndSection>
           <h3>{productType.name}</h3>
           <div className="modal__section">{productType.detailDesc}</div>
           <Button
@@ -120,7 +121,7 @@ const ApplyProductModal: React.FC<IProps> = ({
               }
             }}
           />
-        </div>
+        </ModalEndSection>
       )}
       {step === "complete" && billInfo && (
         <BillCompleteView context={context} billInfo={billInfo} />

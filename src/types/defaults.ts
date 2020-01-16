@@ -54,7 +54,7 @@ export const DEFAULT_ROOMTYPE: IRoomType = {
   index: -1,
   rooms: [],
   roomCount: 0,
-  roomGender: RoomGender.ANY,
+  roomGender: RoomGender.SEPARATELY,
   description: null,
   defaultPrice: null,
   updatedAt: null,
@@ -68,6 +68,7 @@ export const DEFAULT_BOOKING: GB_booking = {
   __typename: "Booking",
   _id: "default",
   memo: "",
+  bookingNum: "",
   funnels: null,
   createdAt: "",
   updatedAt: "",
@@ -338,6 +339,7 @@ export const DEFAULT_PAYMENT_INFO: getMyProfile_GetMyProfile_user_paymentInfos =
   billKey: "",
   cardCl: 0,
   cardName: "",
+  card: null,
   cardNo: "",
   isLive: false
 };

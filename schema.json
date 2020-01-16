@@ -2601,17 +2601,25 @@
             "deprecationReason": null
           },
           {
-            "name": "paymentTerm",
+            "name": "phoneNumber",
             "description": "",
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "PhoneNumber",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "email",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "EmailAddress",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -2621,9 +2629,13 @@
             "description": "",
             "args": [],
             "type": {
-              "kind": "OBJECT",
-              "name": "BookingPayInfo",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "BookingPayInfo",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -23765,6 +23777,16 @@
             "defaultValue": null
           },
           {
+            "name": "email",
+            "description": "",
+            "type": {
+              "kind": "SCALAR",
+              "name": "EmailAddress",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "status",
             "description": "",
             "type": {
@@ -32488,29 +32510,6 @@
         ],
         "interfaces": null,
         "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "ENUM",
-        "name": "PaymentTarget",
-        "description": "",
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
-        "enumValues": [
-          {
-            "name": "BOOKING",
-            "description": "게스트 예약",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "SOLUTION_FEE",
-            "description": "호스트 솔루션 이용료",
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
         "possibleTypes": null
       },
       {

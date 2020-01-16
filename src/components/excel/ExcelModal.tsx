@@ -8,6 +8,7 @@ import { ExcelExpress } from "../../types/enum";
 import { EXCEL_EXPRESS_OP, MAX_PEOPLE_COUNT_OP_FN } from "../../types/const";
 import JDpreloader from "../../atoms/preloader/Preloader";
 import selectOpCreater from "../../utils/selectOptionCreater";
+import ModalEndSection from "../../atoms/modal/components/ModalEndSection";
 
 export interface TExcelGetDataProp {
   mode: ExcelExpress;
@@ -99,11 +100,11 @@ const ExcelModal: React.FC<Iprops> = ({ modalHook }) => {
           {dataLength}
         </div>
       )}
-      <div className="JDmodal__endSection">
+      <ModalEndSection>
         <Excel
           data={expressMode === ExcelExpress.SELECT_OP ? selectData : data}
         />
-      </div>
+      </ModalEndSection>
     </JDmodal>
   );
 };

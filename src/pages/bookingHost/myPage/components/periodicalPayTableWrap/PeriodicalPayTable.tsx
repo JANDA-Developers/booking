@@ -31,21 +31,6 @@ const PeriodicalPayTable: React.FC<Iprops> = ({
     historyData.map(data => data._id)
   );
 
-  const handlePrintBill = (data: any) => {
-    const w = window.open("", "JD-receipt");
-    if (!w) return;
-    w.document.title = "JD-receipt";
-    w.document.body.innerHTML = ReactDOMServer.renderToStaticMarkup(
-      CardRecipt({
-        name: "ez",
-        phoneNumber: "ez2",
-        bookerName: "ez3",
-        bookingNumber: "010"
-      })
-    );
-    $("head", w.document).append(`<link rel="icon" href=${FAVI_URL}>`);
-  };
-
   const TableColumns: JDcolumn<IPayHistroy>[] = [
     {
       // 청구 년월
@@ -90,27 +75,27 @@ const PeriodicalPayTable: React.FC<Iprops> = ({
           </div>
         );
       }
-    },
-    {
-      // 영수증
-      Header: LANG("bill"),
-      accessor: "_id",
-      Cell: ({ value, original }) => {
-        return (
-          <div>
-            <Button
-              onClick={() => {
-                handlePrintBill(original);
-              }}
-              mr="no"
-              label={LANG("bill")}
-              mode="flat"
-              thema="primary"
-            />
-          </div>
-        );
-      }
     }
+    // {
+    //   // 영수증
+    //   Header: LANG("bill"),
+    //   accessor: "_id",
+    //   Cell: ({ value, original }) => {
+    //     return (
+    //       <div>
+    //         <Button
+    //           onClick={() => {
+    //             handlePrintBill(original);
+    //           }}
+    //           mr="no"
+    //           label={LANG("bill")}
+    //           mode="flat"
+    //           thema="primary"
+    //         />
+    //       </div>
+    //     );
+    //   }
+    // }
   ];
 
   return (

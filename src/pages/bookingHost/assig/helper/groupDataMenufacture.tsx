@@ -38,9 +38,7 @@ export const roomDataManufacturer = (
     const { rooms } = roomTypeData;
 
     // 빈방타입 제외
-    console.log("rooms1");
     if (!isEmpty(rooms)) {
-      console.log("rooms2");
       // 🏠 방타입일 경우
 
       const sharedProps = {

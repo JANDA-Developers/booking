@@ -27,7 +27,8 @@ import {
   RoomConfig,
   ConfigWrap,
   HMconfig,
-  HouseConfig
+  HouseConfig,
+  HomepageRequest
 } from "./pages";
 import { UserRole, TLanguageShort } from "../../types/enum";
 import { IHouse, IHouseConfigFull } from "../../types/interface";
@@ -168,6 +169,11 @@ const JDbookingHost: React.FC<IProps> = ({
     {
       path: "/smsInfo",
       Component: SmsInfo,
+      condition: houseExists
+    },
+    {
+      path: "/homepageRequest",
+      Component: HomepageRequest,
       condition: houseExists
     },
     {

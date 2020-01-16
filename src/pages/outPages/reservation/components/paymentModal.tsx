@@ -15,6 +15,7 @@ import { PayMethod } from "../../../../types/enum";
 import Vtable, { ColumnCells } from "../../../../atoms/vtable/Vtable";
 import { getHouseForPublic_GetHouseForPublic_house } from "../../../../types/api";
 import { toNumber } from "../../../../utils/utils";
+import ModalEndSection from "../../../../atoms/modal/components/ModalEndSection";
 
 interface IProps {
   className?: string;
@@ -59,7 +60,7 @@ const PayMentModal: React.FC<IProps> = ({
     if (!bookerInfoValidation(bookerInfo, toastModalHook)) return;
 
     const skipCardValidate =
-      payMethodHook.selectedOption?.value === PayMethod.BANK_TRANSFER;
+      payMethodHook.selectedOption?.value !== PayMethod.CARD;
 
     const validateResult = cardValidate(cardInfoHook[0]);
     if (!skipCardValidate && !validateResult.result) {
@@ -91,7 +92,7 @@ const PayMentModal: React.FC<IProps> = ({
   ];
 
   const CommonFroPayMethod = () => (
-    <div className="JDmodal__endSection">
+    <ModalEndSection>
       <Button
         mode="flat"
         thema="primary"
@@ -100,11 +101,11 @@ const PayMentModal: React.FC<IProps> = ({
         label={LANG("make_payment")}
         size="long"
       />
-    </div>
+    </ModalEndSection>
   );
 
   return (
-    <JDmodal className={classes} {...modalHook}>
+    <JDmodal minWidth={"320px"} className={classes} {...modalHook}>
       <Preloader size={"large"} loading={createLoading} />
       {createLoading || (
         <div>
@@ -117,7 +118,7 @@ const PayMentModal: React.FC<IProps> = ({
                 bookerInfo={bookerInfo}
                 setBookerInfo={setBookerInfo}
               />
-              <div className="JDmodal__endSection">
+              <ModalEndSection>
                 <Button
                   mode="flat"
                   thema="primary"
@@ -129,7 +130,7 @@ const PayMentModal: React.FC<IProps> = ({
                   }}
                   size="long"
                 />
-              </div>
+              </ModalEndSection>
             </div>
           )}
           {step === "cardInput" && (
@@ -155,7 +156,7 @@ const PayMentModal: React.FC<IProps> = ({
               )}
               {selectedPayMethod === PayMethod.BANK_TRANSFER && (
                 <div>
-                  <Vtable>
+                  <Vtable mr="no">
                     <ColumnCells datas={renders} />
                   </Vtable>
                   <CommonFroPayMethod />

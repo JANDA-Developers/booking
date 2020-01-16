@@ -51,6 +51,7 @@ import Timer from "react-compound-timer/build";
 import JDmultiStep from "../../../atoms/multiStep/MultiStep";
 import Vtable from "../../../atoms/vtable/Vtable";
 import JDIcon from "../../../atoms/icons/Icons";
+import ModalEndSection from "../../../atoms/modal/components/ModalEndSection";
 
 function ShowComponents() {
   const defaultColor = faker.commerce.color();
@@ -554,13 +555,13 @@ function ShowComponents() {
           />
           <JDmodal {...useModalHook}>
             <p>Modal text!</p>
-            <div className="JDmodal__endSection">
+            <ModalEndSection>
               <Button
                 mode="flat"
                 label="Close Modal"
                 onClick={useModalHook.closeModal}
               />
-            </div>
+            </ModalEndSection>
           </JDmodal>
         </ComponentWrap>
         {/* 툴팁 */}

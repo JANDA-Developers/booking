@@ -25,7 +25,6 @@ const onCompletedMessage = (
   if (!result) {
     return;
   }
-  console.log(result);
   const haveKr = isIncludeKr(result.error);
   if (result.ok) {
     toast.success(resultOK, {

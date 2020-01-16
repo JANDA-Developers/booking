@@ -20,6 +20,7 @@ import Button from "../../../../../atoms/button/Button";
 import InputText from "../../../../../atoms/forms/inputText/InputText";
 import { JDtabs } from "../../../../../atoms/tabs/Tabs_";
 import { IControllSharedPorps } from "./SuperAdminControllModal";
+import ModalEndSection from "../../../../../atoms/modal/components/ModalEndSection";
 
 interface Iprops extends IControllSharedPorps {
   modalHook: IUseModal;
@@ -118,16 +119,16 @@ const BillPayController: React.FC<Iprops> = ({
         </TabList>
         <TabPanel>
           <InputText {...amtHook} label="amt" />
-          <div className="JDmodal__endSection">
+          <ModalEndSection>
             <Button onClick={handleDoBillPay} mode="flat" label="pay" />
-          </div>
+          </ModalEndSection>
         </TabPanel>
         <TabPanel>
           <InputText {...amtCancelHook} label="amt to cancel" />
           <InputText {...decreasePeriodHook} label="decrease/day" />
-          <div className="JDmodal__endSection">
+          <ModalEndSection>
             <Button onClick={handleCancelBillPay} mode="flat" label="cancel" />
-          </div>
+          </ModalEndSection>
         </TabPanel>
       </JDtabs>
     </JDmodal>

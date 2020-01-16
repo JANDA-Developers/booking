@@ -114,8 +114,8 @@ export const LAYOUT_TYPE_OP = [
 // [0]가 진행중이 되도록 고정
 export let PAYMENT_STATUS_OP = [
   { value: PaymentStatus.COMPLETED, label: "" },
-  { value: PaymentStatus.CANCELED, label: "" }
-  // {value: PaymentStatus.NOT_YET, label: ""},
+  { value: PaymentStatus.NOT_YET, label: "" }
+  // { value: PaymentStatus.CANCELED, label: "" }
 ];
 
 // 아직 통계선택들이 작업 안되어있음 View 만 사용중

@@ -3,6 +3,7 @@ import muResult from "../utils/mutationResultSafty";
 import { ExecutionResult } from "graphql";
 import { WindowSize, WindowSizeHeight } from "../types/enum";
 import { TLogin } from "../pages/bookingHost/Login/__test__/Login.test";
+import { currentWinSize } from "../utils/currentWinSize";
 
 export const S = 1000;
 export const urlBase = "http://localhost:3000";
@@ -15,14 +16,8 @@ export const takeShot = async (
   const tempPrefix = propPrefix ? `${propPrefix}__` : "";
   const modifier = propModifier ? `--${propModifier}` : "";
   const fileName = `${tempPrefix}${name}${modifier}`;
-  const { width } = page.viewport();
 
-  let mode;
-  if (width >= WindowSize.MOBILE) mode = "mb";
-  if (width >= WindowSize.PHABLET) mode = "phablet";
-  if (width >= WindowSize.TABLET) mode = "tablet";
-  if (width >= WindowSize.DESKTOP) mode = "desktop";
-  if (width >= WindowSize.DESKTOPHD) mode = "pc";
+  const mode = currentWinSize();
 
   await page.screenshot({
     path: `src/pages/documents/pics/testScreenShot/${mode}/${fileName}`,
@@ -64,14 +59,11 @@ export const TWaitTill = async (second: number, isDone: () => Promise<any>) => {
   for (let count = 0; ; count++) {
     await page.waitFor(second * S);
     try {
-      // console.log("try");
       return await isDone();
     } catch (e) {
       if (count < maxTries) {
-        // console.log("retry");
         continue;
       } else {
-        // console.log("else");
         throw e;
       }
     }
@@ -133,7 +125,6 @@ export const responseResultCheck = async (query: string, key?: string) => {
   console.info("responseResultCheck");
   const response = await expectOkFromGraphql();
   const resultValidate: ExecutionResult<any> = (await response.json()) as any;
-  console.log("resultValidate");
   expect(muResult(resultValidate, query) === true);
   if (key) return muResult(resultValidate, query, key);
 };

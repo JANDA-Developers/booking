@@ -1,6 +1,5 @@
 import React from "react";
 import { IContext } from "../../../pages/bookingHost/BookingHostRouter";
-import { registerBillKey_RegisterBillKey_billInfo } from "../../../types/api";
 import Vtable, { Vheader, ColumnCells } from "../../../atoms/vtable/Vtable";
 import { LANG } from "../../../hooks/hook";
 import { card_space } from "../../../utils/autoFormat";

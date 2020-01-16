@@ -7,6 +7,7 @@ import { LANG } from "../../../hooks/hook";
 import { JDatomExtentionSet } from "../../../types/interface";
 import { JDmbClass, JDmrClass } from "../../../utils/autoClasses";
 import { ValueType } from "react-select/lib/types";
+import userTacking from "../../../utils/userTracking";
 
 export interface IselectedOption<T = any> {
   label: string;
@@ -79,6 +80,7 @@ const JDselectTemp: React.SFC<Iprops & JDatomExtentionSet> = ({
   else validSelectedOption = selectedOption;
 
   const handleChange = (selectOption: any) => {
+    userTacking(label?.toString(), selectOption?.value);
     onChange && onChange(selectOption);
   };
 

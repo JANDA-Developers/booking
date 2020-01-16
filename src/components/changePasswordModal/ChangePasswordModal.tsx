@@ -10,6 +10,7 @@ import JDmodal from "../../atoms/modal/Modal";
 import PreloaderModal from "../../atoms/preloaderModal/PreloaderModal";
 import JDpreloader from "../../atoms/preloader/Preloader";
 import PasswordChecker from "../passwordChecker/PasswordCheck";
+import ModalEndSection from "../../atoms/modal/components/ModalEndSection";
 
 interface Iprops {
   modalHook: IUseModal;
@@ -72,7 +73,7 @@ const ChangePasswordModal: React.FC<Iprops> = ({
         type="password"
         {...newConfimPasswordHook}
       />
-      <div className="JDmodal__endSection">
+      <ModalEndSection>
         <Button
           mode="flat"
           onClick={() => {
@@ -87,7 +88,7 @@ const ChangePasswordModal: React.FC<Iprops> = ({
           thema="primary"
           label={LANG("change")}
         />
-      </div>
+      </ModalEndSection>
     </JDmodal>
   );
 };

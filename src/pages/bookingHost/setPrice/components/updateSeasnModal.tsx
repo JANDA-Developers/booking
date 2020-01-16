@@ -8,6 +8,7 @@ import { updateSeason, updateSeasonVariables } from "../../../../types/api";
 import { MutationFn } from "react-apollo";
 import Button from "../../../../atoms/button/Button";
 import { to4YMMDD } from "../../../../utils/setMidNight";
+import ModalEndSection from "../../../../atoms/modal/components/ModalEndSection";
 
 interface IProps {
   season: ISeason;
@@ -58,7 +59,7 @@ const UpdateSeasonModal: React.FC<IProps> = ({
         }}
       />
     </div>
-    <div className="JDmodal__endSection">
+    <ModalEndSection>
       <Button
         mode="flat"
         onClick={() => {
@@ -75,7 +76,7 @@ const UpdateSeasonModal: React.FC<IProps> = ({
         label={LANG("confrim")}
         thema={"primary"}
       />
-    </div>
+    </ModalEndSection>
   </JDmodal>
 );
 

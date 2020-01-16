@@ -8,6 +8,7 @@ import InputText from "../../../../atoms/forms/inputText/InputText";
 import { dayarrEnToValueArr } from "../../../../utils/dayOfweeks";
 import { priceMapResult } from "../SetPriceWrap";
 import { WeekArrKr, WeekArrEn } from "../../../../types/const";
+import ModalEndSection from "../../../../atoms/modal/components/ModalEndSection";
 
 export interface IDayOfWeekModalInfo {
   priceInput: priceMapResult;
@@ -73,7 +74,7 @@ const DayOfWeekModal: React.SFC<IProps> = ({
           label={WeekArrKr[index]}
         />
       ))}
-      <div className="JDmodal__endSection">
+      <ModalEndSection>
         <Button
           mode="flat"
           label={LANG("Apply")}
@@ -83,7 +84,7 @@ const DayOfWeekModal: React.SFC<IProps> = ({
           }}
           thema="primary"
         />
-      </div>
+      </ModalEndSection>
     </JDmodal>
   );
 };

@@ -6,7 +6,7 @@ import {
   TClick
 } from "../../../__test__/utils.test";
 
-export const createBookingModal = async () => {
+export const insertBookingModal = async () => {
   await TWaitClick("#CreateResvModalUpBtn");
   await TType("#BookerNameInput", faker.name.firstName());
   await TType("#BookerPhoneInput", faker.phone.phoneNumber("###########"));

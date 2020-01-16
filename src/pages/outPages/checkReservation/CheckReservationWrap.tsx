@@ -4,14 +4,14 @@ import "./CheckReservation.scss";
 import { useQuery } from "@apollo/react-hooks";
 import {
   getBookingForPublic,
-  getBookingForPublicVariables
+  getBookingForPublicVariables,
+  getHouseForPublic
 } from "../../../types/api";
+import { queryDataFormater, onCompletedMessage } from "../../../utils/utils";
 import {
-  queryDataFormater,
-  s4,
-  onCompletedMessage
-} from "../../../utils/utils";
-import { GET_BOOKING_FOR_PUBLIC } from "../../../apollo/queries";
+  GET_BOOKING_FOR_PUBLIC,
+  GET_HOUSE_FOR_PUBLIC
+} from "../../../apollo/queries";
 import { RouteComponentProps } from "react-router-dom";
 import client from "../../../apollo/apolloClient";
 import CheckReservation from "./CheckReservation";
@@ -39,6 +39,15 @@ const CheckReservationWrap: React.FC<IProps> = ({
   const isDirect = name + password + phoneNumber === "";
   const comeplteModalHook = useModal(false);
   const isFirstSender = useState(true);
+
+  const { data: houseData } = useQuery<getHouseForPublic>(
+    GET_HOUSE_FOR_PUBLIC,
+    {
+      client,
+      skip: publickey === undefined
+    }
+  );
+
   const { data, refetch, loading } = useQuery<
     getBookingForPublic,
     getBookingForPublicVariables
@@ -75,10 +84,19 @@ const CheckReservationWrap: React.FC<IProps> = ({
     isFirstSender[1](false);
   }
 
+  const publicHouseInfo =
+    queryDataFormater(houseData, "GetHouseForPublic", "house", undefined) ||
+    undefined;
+
   return (
     <div>
       {/* 예약확인 관련된 뷰 */}
-      <CheckReservation refetch={refetch} data={booking} loading={loading} />
+      <CheckReservation
+        houseData={publicHouseInfo}
+        refetch={refetch}
+        data={booking}
+        loading={loading}
+      />
       <JDmodal center {...comeplteModalHook}>
         <div>
           <div className="JDstandard-margin-bottom">

@@ -1,6 +1,5 @@
 import gql from "graphql-tag";
 
-
 export const F_LOCATION = gql`
   fragment Flocation on Location {
       address
@@ -302,6 +301,7 @@ export const F_BOOKING = gql`
     }
     isNew
     name
+    bookingNum
     password
     phoneNumber
     email
@@ -457,6 +457,7 @@ export const F_PAYMENT_INFO = gql`
     billKey
     cardName
     cardNo
+    card
     cardCl
     isLive
   }
@@ -1190,6 +1191,7 @@ export const GET_BOOKING_FOR_PUBLIC = gql`
       }
     }
   }
+  ${F_PAYMENT}
   ${F_GUEST}
   ${F_BOOKING}
 `;
@@ -1914,6 +1916,12 @@ export const GET_HOUSE_FOR_PUBLIC = gql`
       ok
       error
       house {
+        phoneNumber,
+        name,
+        location {
+          address
+          addressDetail
+        }
         bookingPayInfo {
           bankAccountInfo {
             ...FbankAccountInfo
@@ -2402,6 +2410,15 @@ export const DO_BILL_PAY_PRODUCT = gql`
     }
   }
 `;
+
+export const REFUND_BOOKING = gql`
+  mutation refundBooking($param: CancelBookingInput!) {
+    CancelBooking(param: $param) {
+      ok
+      error
+    }
+  }
+`
 
 export const DO_BILL_PAY_CANCEL_PRODUCT = gql`
   mutation doBillPayCancelProduct($param: PayCancelProductInput!) {

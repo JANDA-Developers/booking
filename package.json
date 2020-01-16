@@ -55,6 +55,7 @@
     "jquery": "^3.3.1",
     "lodash": "^4.17.11",
     "markdown-to-jsx": "^6.9.1",
+    "md5": "^2.2.1",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.25",
     "omit-deep": "^0.3.0",

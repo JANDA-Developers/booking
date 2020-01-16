@@ -7,6 +7,7 @@ import { IUseModal, LANG } from "../../hooks/hook";
 import { s4 } from "../../utils/utils";
 import JDanimation, { Animation } from "../animation/Animations";
 import { IDiv } from "../../types/interface";
+import ModalEndSection from "./components/ModalEndSection";
 
 interface IProps extends ReactModal.Props, IUseModal {
   center?: boolean;
@@ -148,13 +149,14 @@ const JDmodal: React.SFC<IProps> = ({
       appElement={appElement}
       {...props}
       {...defualtJDmodalProps}
+      // @ts-ignore
       style={{ content: { ...modalStyle } }}
       overlayClassName={overlayClassNames}
     >
       {getChildren()}
       {confirm && (
         <Fragment>
-          <div className="JDmodal__endSection JDmodal__endSection--confirm">
+          <ModalEndSection className="JDmodal__endSection--confirm">
             {inInfo.trueMessage instanceof Array ? (
               inInfo.trueMessage.map((message: any) => (
                 <Button
@@ -183,7 +185,7 @@ const JDmodal: React.SFC<IProps> = ({
             ) : (
               <Button {...sharedFalseBtnProp} />
             )}
-          </div>
+          </ModalEndSection>
         </Fragment>
       )}
     </ReactModal>

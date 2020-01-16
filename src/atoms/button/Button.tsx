@@ -6,10 +6,11 @@ import Icon from "../icons/Icons";
 import Preloader from "../preloader/Preloader";
 import { s4, colorClass } from "../../utils/utils";
 import Tooltip from "../tooltip/Tooltip";
-import { JDColor, TMarginSize } from "../../types/enum";
+import { JDColor } from "../../types/enum";
 import { JDmbClass, JDmrClass } from "../../utils/autoClasses";
 import { JDatomExtentionSet } from "../../types/interface";
 import { IIcons } from "../icons/declation";
+import userTacking from "../../utils/userTracking";
 
 export interface IButtonProps
   extends React.HTMLAttributes<HTMLButtonElement>,
@@ -102,6 +103,8 @@ const Button: React.FC<IButtonProps> = ({
     if (redirect) {
       document.location.href = redirect;
     }
+    userTacking(label);
+
     onClick && onClick(event);
   };
 

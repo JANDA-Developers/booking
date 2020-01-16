@@ -179,3 +179,11 @@ export const HouseConfig = props => (
     }
   </DynamicImport>
 );
+
+export const HomepageRequest = props => (
+  <DynamicImport load={() => import("./homepageRequest/HomepageRequestWrap")}>
+    {DNcompoent =>
+      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
+    }
+  </DynamicImport>
+);

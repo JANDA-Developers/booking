@@ -200,8 +200,6 @@ export function getAssigHandlers(
         timeEnd = end;
         ids = [...ids, ...markInfo.groupIds];
         ids = _.uniq(ids);
-        console.log("ids ⭐️");
-        console.log(ids);
       }
     } else if (timeEnd < timeStart) {
       const timeTemp = timeStart;

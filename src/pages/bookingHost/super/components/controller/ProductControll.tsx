@@ -14,6 +14,7 @@ import Button from "../../../../../atoms/button/Button";
 import InputText from "../../../../../atoms/forms/inputText/InputText";
 import optionFineder from "../../../../../utils/optionFinder";
 import JDdayPicker from "../../../../../atoms/dayPicker/DayPicker";
+import ModalEndSection from "../../../../../atoms/modal/components/ModalEndSection";
 
 interface Iprops extends IControllSharedPorps {}
 
@@ -77,14 +78,14 @@ const ProductContoll: React.FC<Iprops> = ({ context, data, updateFn }) => {
       <Vtable>
         <ColumnCells datas={renders} />
       </Vtable>
-      <div className="JDmodal__endSection">
+      <ModalEndSection>
         <Button
           flat
           thema="primary"
           label="update product"
           onClick={handleUpdateBtn}
         />
-      </div>
+      </ModalEndSection>
     </div>
   );
 };

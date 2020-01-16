@@ -23,8 +23,6 @@ export const reverseGeoCode = async (lat: number, lng: number) => {
   const { data } = await axios(URL);
   if (!data.error_message) {
     const { results } = data;
-    console.log("results");
-    console.log(results);
     const firstPlace = results[0];
     if (!firstPlace) return "";
     const address = firstPlace.formatted_address;

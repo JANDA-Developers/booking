@@ -15,11 +15,13 @@ import { createUploadLink } from "apollo-upload-client";
 const request = async (operation: any) => {
   operation.setContext({
     headers: {
+      UTH: localStorage.getItem("UTH") || "",
       "X-JWT": localStorage.getItem("jwt") || "",
       "HP-Key": sessionStorage.getItem("hpk") || "",
       "HM-Key": sessionStorage.getItem("hmk") || ""
     }
   });
+  localStorage.setItem("UTH", "[]");
 };
 
 const requestLink = new ApolloLink(
@@ -36,7 +38,6 @@ const requestLink = new ApolloLink(
           });
         })
         .catch(observer.error.bind(observer));
-
       return () => {
         if (handle) handle.unsubscribe();
       };
@@ -54,8 +55,6 @@ const hanldeError = ({ graphQLErrors, networkError }: ErrorResponse) => {
     });
     toast.warn(<ToastError />);
   } else if (networkError) {
-    console.error(networkError);
-    console.error(`[Network error]: ${networkError}`);
     toast.warn(JDlang(CURRENT_LANG, "server_dose_not_respond"));
   }
 };

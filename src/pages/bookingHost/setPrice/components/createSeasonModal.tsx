@@ -22,6 +22,7 @@ import { isName } from "../../../../utils/inputValidations";
 import PriceWarnModal from "../../../../components/priceWarnModal.tsx/PriceWarnModal";
 import { toast } from "react-toastify";
 import moment from "moment";
+import ModalEndSection from "../../../../atoms/modal/components/ModalEndSection";
 
 export interface ICreateSeasonModalInfo {
   applyedDays: number;
@@ -150,7 +151,7 @@ const CreateSeasonModal: React.FC<IProps> = ({
           </table>
         </JDbox>
       </div>
-      <div className="JDmodal__endSection">
+      <ModalEndSection>
         <Button
           mode="flat"
           onClick={() => {
@@ -160,7 +161,7 @@ const CreateSeasonModal: React.FC<IProps> = ({
           label={LANG("create_season")}
           thema="primary"
         />
-      </div>
+      </ModalEndSection>
       <PriceWarnModal modalHook={priceWarnModal} />
     </JDmodal>
   );

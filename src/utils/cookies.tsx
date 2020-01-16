@@ -1,12 +1,19 @@
-export function setCookie(cookie_name: string, value: string, days: number) {
-  var exdate = new Date();
-  exdate.setDate(exdate.getDate() + days);
-  // 설정 일수만큼 현재시간에 만료값으로 지정
+export function setCookie(
+  cookie_name: string,
+  value: string,
+  days: number | Date
+) {
+  if (typeof days === "number") {
+    var exdate = new Date();
+    exdate.setDate(exdate.getDate() + days);
+    // 설정 일수만큼 현재시간에 만료값으로 지정
 
-  var cookie_value =
-    escape(value) +
-    (days == null ? "" : ";    expires=" + exdate.toUTCString());
-  document.cookie = cookie_name + "=" + cookie_value;
+    var cookie_value =
+      escape(value) +
+      (days == null ? "" : ";    expires=" + exdate.toUTCString());
+    document.cookie = cookie_name + "=" + cookie_value;
+  } else {
+  }
 }
 
 export function getCookie(cookieName: string) {

@@ -26,6 +26,7 @@ import { IRoomTypeModalInfo, TMode } from "../declation";
 import { DEFAULT_ROOMTYPE } from "../../../../types/defaults";
 import { toast } from "react-toastify";
 import { toNumber } from "../../../../utils/utils";
+import ModalEndSection from "../../../../atoms/modal/components/ModalEndSection";
 
 interface IProps {
   context: IContext;
@@ -184,7 +185,7 @@ const RoomTypeModal: React.FC<IProps> = ({ modalHook, loading, onSubmit }) => {
               </p>
             </div>
           </div>
-          <div className="JDmodal__endSection">
+          <ModalEndSection>
             <Button
               disabled={!isCreate}
               id="DoCreateBtn"
@@ -218,7 +219,7 @@ const RoomTypeModal: React.FC<IProps> = ({ modalHook, loading, onSubmit }) => {
                 onSubmit(data, "delete");
               }}
             />
-          </div>
+          </ModalEndSection>
           <PriceWarnModal modalHook={priceWarnModal} />
         </Fragment>
       )}

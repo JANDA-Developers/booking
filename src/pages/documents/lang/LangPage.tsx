@@ -12,7 +12,6 @@ const LangPage: React.FC = () => {
   const render = (keySet: any, langType: string, word: any) => {
     // @ts-ignore
     const value = keySet[word];
-    console.log(value);
     // @ts-ignore
     if (!primeLang[word]) return;
 
@@ -21,7 +20,6 @@ const LangPage: React.FC = () => {
     if (typeof value === "string") {
       return <div className="langPage__value">{value}</div>;
     } else if (instanceOfA<JSX.Element>(value, "key")) {
-      console.log("instanceOFA");
       return <div className="langPage__value">{value}</div>;
     } else if (typeof value === "object") {
       const enums = Object.keys(

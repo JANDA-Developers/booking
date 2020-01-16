@@ -173,6 +173,11 @@ export const CardStyleInfo = [
   {
     bg: "#114304",
     logo: "yr"
+  },
+  // shin-han
+  {
+    bg: "#031E69",
+    logo: "shn"
   }
 ];
 
@@ -191,6 +196,7 @@ export const CreaditCardTypesShort = {
   JCB: "jcb",
   CHOHUNG: "jh",
   JEJU_BANK: "jj",
+  SHINHAN: "shn",
   KAKAO_BANK: "kakao",
   KDB: "kdb",
   KB_CARD: "km",

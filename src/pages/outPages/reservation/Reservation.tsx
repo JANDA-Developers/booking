@@ -31,7 +31,8 @@ import {
   queryDataFormater,
   muResult,
   toNumber,
-  mergeObject
+  mergeObject,
+  insideRedirect
 } from "../../../utils/utils";
 import { JDtoastModal } from "../../../atoms/modal/Modal";
 import { IRoomType, IMu } from "../../../types/interface";
@@ -98,8 +99,6 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
 
   const isMobile = windowWidth < WindowSize.PHABLET;
   const dayPickerHook = useDayPicker(null, null);
-  console.log(to4YMMDD(dayPickerHook.from));
-  console.log(to4YMMDD(dayPickerHook.to));
   // 모바일에서만 사용
   const [redirect, setRedirect] = useState("");
   const [step, setStep] = useState<"search" | "select">("search");
@@ -130,14 +129,13 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   };
 
   const openPaymentCompleteModal = () => {
-    console.log("eze");
     const publicKey = sessionStorage.getItem("hpk");
     const { name, password, phoneNumber } = bookerInfo;
 
     confirmModalHook.openModal({
       txt: LANG("reservation_is_completed") + LANG("move_to_check_page"),
       confirmCallBackFn: () => {
-        setRedirect(
+        location.href = insideRedirect(
           `outpage/checkReservation/${publicKey}/${name}/${phoneNumber}/${password}`
         );
       }
@@ -444,7 +442,6 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
       {context && (
         <BookingModalWrap
           startBookingCallBack={result => {
-            console.log("startBookingCallBackACTIVE");
             if (result !== "error") {
               reservationModalHook && reservationModalHook.closeModal();
             }
