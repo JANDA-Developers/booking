@@ -88,7 +88,7 @@ const DashBoard: React.SFC<Iprops> = ({ context }) => {
                   label={LANG("send_sms")}
                 />
               </div>
-              <JDcard toogleCardId="TutorialCard"></JDcard>
+              {/* <JDcard toogleCardId="TutorialCard"></JDcard> */}
               <Card>
                 <Fragment>
                   <div className="JDdisplay-none--wmdUp">

@@ -240,7 +240,7 @@ export const kr = {
   graph_shape: "그래프 형태",
   group_notification: "단체알림",
   guest: "게스트",
-guestHouse: "게스트하우스",
+  guestHouse: "게스트하우스",
   have_a_bright_day_sir: "오늘도 밝은 하루 보내세요",
   heavy_type_layout: "heavy 타입 레이아웃",
   home: "홈",
@@ -1146,5 +1146,9 @@ guestHouse: "게스트하우스",
   un_complete: "미완료",
   room_type_create: "방타입생성",
   room_create: "방생성",
-  sms_config: "SMS 설정"
+  sms_config: "SMS 설정",
+  homepage_request: "홈페이지 신청하기",
+  homepage_request_desc:
+    "홈페이지 무료 개설이 가능합니다. 직접 커스터마이징 가능한 홈페이지를 제공합니다.",
+  breakfast: "조식"
 };

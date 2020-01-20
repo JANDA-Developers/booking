@@ -29,9 +29,9 @@ const guestBlock: React.FC<IProps> = ({
   assigHooks: { setGuestValue }
 }) => {
   const bookingConfig = assigContext.houseConfig.bookingConfig;
-  const newBookingMark = bookingConfig
-    ? bookingConfig.newBookingMark
-    : DEFAULT_HOUSE_CONFIG.bookingConfig.newBookingMark;
+  const newBookingMark =
+    bookingConfig?.newBookingMark ||
+    DEFAULT_HOUSE_CONFIG.bookingConfig.newBookingMark;
   const bookingMarkEnable = newBookingMark && newBookingMark.enable;
 
   const {
@@ -40,6 +40,7 @@ const guestBlock: React.FC<IProps> = ({
     bookingId,
     gender,
     id,
+    breakfast,
     showNewBadge,
     memo,
     isUnpaid
@@ -76,7 +77,11 @@ const guestBlock: React.FC<IProps> = ({
             }}
             className="assigItem__title assigItem__title--guest"
           >
-            <StatusMarker isUnpaid={isUnpaid} memo={memo} />
+            <StatusMarker
+              breakfast={breakfast}
+              isUnpaid={isUnpaid}
+              memo={memo}
+            />
             {item.name}
           </span>
         </span>

@@ -216,6 +216,14 @@ a.JDanchor {
   color: $grey-level1;
 }
 
+.JDbgColor--green {
+  background-color: $green-color;
+}
+
+.JDbgColor--grey {
+  background-color: $grey-level2;
+}
+
 .JDbgColor--point {
   background-color: $point-color;
 }

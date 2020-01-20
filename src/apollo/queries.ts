@@ -475,6 +475,7 @@ export const F_BOOKING = gql`
     name
     bookingNum
     password
+    breakfast
     phoneNumber
     email
     checkInInfo {

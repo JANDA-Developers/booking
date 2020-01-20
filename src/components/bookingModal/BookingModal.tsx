@@ -65,6 +65,7 @@ import JDselect from "../../atoms/forms/selectBox/SelectBox";
 import optionFineder from "../../utils/optionFinder";
 import ModalEndSection from "../../atoms/modal/components/ModalEndSection";
 import RefundModal from "../refundModal/RefundModal";
+import CheckBox from "../../atoms/forms/checkBox/CheckBox";
 
 interface IProps {
   modalHook: IUseModal;
@@ -108,7 +109,8 @@ const BookingModal: React.FC<IProps> = ({
     bookingNum,
     name,
     funnels,
-    guests
+    guests,
+    breakfast: breakfastDefault
   } = bookingData;
   const refundModalHook = useModal(false);
   const { payMethod, status: paymentStatus, totalPrice, tid } = payment;
@@ -118,6 +120,7 @@ const BookingModal: React.FC<IProps> = ({
   const checkInOutHook = useSelect(
     optionFineder(CHECK_IN_OUT_OP, checkInInfo.isIn)
   );
+  const [breakfast, setBreakfast] = useState(breakfastDefault);
   const sendSmsModalHook = useModal<IModalSMSinfo>(false);
   const confirmModalHook = useModal(false);
   const bookingNameHook = useInput(name);
@@ -266,6 +269,7 @@ const BookingModal: React.FC<IProps> = ({
           checkInInfo: {
             isIn: checkInOutHook.selectedOption?.value || false
           },
+          breakfast,
           name: bookingNameHook.value,
           payMethod: payMethodHook.selectedOption!.value,
           paymentStatus: paymentStatusHook.selectedOption!.value,
@@ -448,6 +452,15 @@ const BookingModal: React.FC<IProps> = ({
                   readOnly
                 />
               </div>
+              <div>
+                <CheckBox
+                  label={LANG("breakfast")}
+                  checked={breakfast}
+                  onChange={v => {
+                    setBreakfast(v);
+                  }}
+                />
+              </div>
             </div>
           </div>
           <ModalEndSection>
@@ -479,7 +492,7 @@ const BookingModal: React.FC<IProps> = ({
               thema="error"
               onClick={handleDeletBtnClick}
             />
-            {paymentStatus === PaymentStatus.COMPLETED &&
+            {/* {paymentStatus === PaymentStatus.COMPLETED &&
               payMethod === PayMethod.CARD && (
                 <Button
                   id="BookingModalRefundBtn"
@@ -491,7 +504,7 @@ const BookingModal: React.FC<IProps> = ({
                     refundModalHook.openModal();
                   }}
                 />
-              )}
+              )} */}
           </ModalEndSection>
           <RefundModal
             onRefundClick={handleRefundBtn}

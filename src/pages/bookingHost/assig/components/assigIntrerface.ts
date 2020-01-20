@@ -236,6 +236,7 @@ export interface IAssigItem {
   name: string;
   group: string;
   memo?: string;
+  breakfast: boolean;
   isUnpaid?: boolean;
   temp: boolean;
   loading: boolean;

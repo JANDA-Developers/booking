@@ -63,7 +63,7 @@ const DragItem: React.FC<IProps> = ({ item, place, room, roomType }) => {
         // 방막기가 아닌경우
         if (instanceOfA<IG & IDragItemProp>(item, "booking")) {
           const { booking, checkIn, checkOut, _id } = item;
-          const { checkInInfo, status, name, payment, memo } = booking;
+          const { checkInInfo, name, payment, memo, breakfast } = booking;
           const { status: paymentStatus } = payment;
           const isUnpaid = paymentStatus !== PaymentStatus.COMPLETED;
           const guestBlockClasses = classNames(
@@ -90,7 +90,11 @@ const DragItem: React.FC<IProps> = ({ item, place, room, roomType }) => {
                   <Gender item={item} />
                 </span>
                 <span>
-                  <StatusMarker isUnpaid={isUnpaid} memo={memo || ""} />
+                  <StatusMarker
+                    breakfast={breakfast}
+                    isUnpaid={isUnpaid}
+                    memo={memo || ""}
+                  />
                   {name}
                 </span>
               </span>

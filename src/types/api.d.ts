@@ -1327,6 +1327,7 @@ export interface findBooking_FindBooking_bookings {
   name: any;
   bookingNum: string;
   password: string | null;
+  breakfast: boolean | null;
   phoneNumber: any;
   email: any | null;
   checkInInfo: findBooking_FindBooking_bookings_checkInInfo;
@@ -1467,6 +1468,7 @@ export interface findBookingForBooker_FindBookingForBooker_bookings {
   name: any;
   bookingNum: string;
   password: string | null;
+  breakfast: boolean | null;
   phoneNumber: any;
   email: any | null;
   checkInInfo: findBookingForBooker_FindBookingForBooker_bookings_checkInInfo;
@@ -1715,6 +1717,7 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking 
   name: any;
   bookingNum: string;
   password: string | null;
+  breakfast: boolean | null;
   phoneNumber: any;
   email: any | null;
   checkInInfo: getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_checkInInfo;
@@ -1847,6 +1850,7 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking {
   name: any;
   bookingNum: string;
   password: string | null;
+  breakfast: boolean | null;
   phoneNumber: any;
   email: any | null;
   checkInInfo: getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_checkInInfo;
@@ -2585,6 +2589,7 @@ export interface getBookingForPublic_GetBookingForPublic_booking {
   name: any;
   bookingNum: string;
   password: string | null;
+  breakfast: boolean | null;
   phoneNumber: any;
   email: any | null;
   checkInInfo: getBookingForPublic_GetBookingForPublic_booking_checkInInfo;
@@ -2850,6 +2855,7 @@ export interface getBookings_GetBookings_result_bookings {
   name: any;
   bookingNum: string;
   password: string | null;
+  breakfast: boolean | null;
   phoneNumber: any;
   email: any | null;
   checkInInfo: getBookings_GetBookings_result_bookings_checkInInfo;
@@ -3049,6 +3055,7 @@ export interface getBooking_GetBooking_booking {
   name: any;
   bookingNum: string;
   password: string | null;
+  breakfast: boolean | null;
   phoneNumber: any;
   email: any | null;
   checkInInfo: getBooking_GetBooking_booking_checkInInfo;
@@ -6412,6 +6419,7 @@ export interface Fbooking {
   name: any;
   bookingNum: string;
   password: string | null;
+  breakfast: boolean | null;
   phoneNumber: any;
   email: any | null;
   checkInInfo: Fbooking_checkInInfo;
@@ -7300,6 +7308,7 @@ export interface HMmenuInput {
 
 export interface InitHouseInput {
   createHouseInput: CreateHouseInput;
+  selectedProductType?: string | null;
   createRoomTypesInput?: UpsertRoomTypeInput[] | null;
   cardInfo?: CreateBillKeyInput | null;
 }
@@ -7434,6 +7443,7 @@ export interface StartBookingBookerInput {
   agreePrivacyPolicy: boolean;
   funnels?: Funnels | null;
   nationality?: string | null;
+  breakfast?: boolean | null;
 }
 
 export interface StartBookingDomitoryGuestInput {
@@ -7482,6 +7492,7 @@ export interface UpdateBookingMutationParamsInput {
   bookingStatus?: BookingStatus | null;
   memo?: string | null;
   funnels?: Funnels | null;
+  breakfast?: boolean | null;
 }
 
 export interface UpdateHMparams {

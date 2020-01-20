@@ -2274,6 +2274,18 @@
             "deprecationReason": null
           },
           {
+            "name": "breakfast",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "createdAt",
             "description": "",
             "args": [],
@@ -2634,6 +2646,22 @@
               "ofType": {
                 "kind": "OBJECT",
                 "name": "BookingPayInfo",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "useUpTestintPeriod",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
                 "ofType": null
               }
             },
@@ -19690,6 +19718,16 @@
             "defaultValue": null
           },
           {
+            "name": "selectedProductType",
+            "description": "만약 파라미터가 null or undefined인 경우 Test Product로 가입됨 ㅎ",
+            "type": {
+              "kind": "SCALAR",
+              "name": "ID",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "createRoomTypesInput",
             "description": "",
             "type": {
@@ -22094,6 +22132,16 @@
               "ofType": null
             },
             "defaultValue": null
+          },
+          {
+            "name": "breakfast",
+            "description": "",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "defaultValue": null
           }
         ],
         "interfaces": null,
@@ -22449,6 +22497,16 @@
             "type": {
               "kind": "ENUM",
               "name": "Funnels",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "breakfast",
+            "description": "",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
               "ofType": null
             },
             "defaultValue": null

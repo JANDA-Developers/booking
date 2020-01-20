@@ -67,6 +67,7 @@ export const DEFAULT_ROOMTYPE: IRoomType = {
 export const DEFAULT_BOOKING: GB_booking = {
   __typename: "Booking",
   _id: "default",
+  breakfast: false,
   memo: "",
   bookingNum: "",
   funnels: null,
@@ -200,6 +201,7 @@ export const DEFAULT_BLOCK_OP: IBlockOp = {
 export const DEFAULT_ASSIG_ITEM: IAssigItem = {
   bedIndex: -1,
   bookingId: "",
+  breakfast: false,
   end: 0,
   gender: null,
   group: "",

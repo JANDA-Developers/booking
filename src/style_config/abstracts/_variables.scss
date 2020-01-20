@@ -64,7 +64,7 @@ $new-color-light: lighten($new-color, 15%) !default;
 $new-color-dark: darken($new-color, 15%) !default;
 $new-color-on: $html-color !default;
 
-$green-color: rgb(0, 147, 100) !default;
+$green-color: #009e6c !default;
 
 $error-color: #ff6760 !default;
 $error-color-dark: darken(#ff6760, 5%) !default;

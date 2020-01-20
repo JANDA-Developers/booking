@@ -170,11 +170,11 @@ const JDbookingHost: React.FC<IProps> = ({
       Component: SmsInfo,
       condition: houseExists
     },
-    {
-      path: "/homepageRequest",
-      Component: HomepageRequest,
-      condition: houseExists
-    },
+    // {
+    //   path: "/homepageRequest",
+    //   Component: HomepageRequest,
+    //   condition: houseExists
+    // },
     {
       path: "/signUp",
       Component: SignUp,

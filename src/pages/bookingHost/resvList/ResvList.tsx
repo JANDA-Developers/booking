@@ -299,7 +299,8 @@ const ResvList: React.SFC<IProps> = ({
           _id,
           status,
           payment,
-          checkInInfo
+          checkInInfo,
+          breakfast
         } = original;
         const isCancled = status === BookingStatus.CANCELED;
         const isComplete = status === BookingStatus.COMPLETED;
@@ -315,6 +316,9 @@ const ResvList: React.SFC<IProps> = ({
                 show={isNew && !isConfirm}
                 bookingId={_id}
               />
+            )}
+            {breakfast && (
+              <JDbadge thema={"positive"}>{LANG("breakfast")}</JDbadge>
             )}
             {isCheckIn && <JDbadge thema={"new"}>{LANG("new")}</JDbadge>}
             {isCancled && <JDbadge thema={"error"}>{LANG("cancel")}</JDbadge>}

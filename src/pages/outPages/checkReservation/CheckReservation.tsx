@@ -193,14 +193,14 @@ const CheckReservation: React.FC<Iprops> = ({
         />
       </div>
       <h6>{LANG("reservation_confirm")}</h6>
-      {data?.payment.cardInfo && (
+      {/* {data?.payment.cardInfo && (
         <Button
           onClick={() => {
             if (data) printRecipt(data);
           }}
           label={LANG("bill_print")}
         />
-      )}
+      )} */}
       <CheckTable tableData={data ? [data] : undefined} />
     </div>
   );

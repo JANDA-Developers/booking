@@ -35,7 +35,8 @@ export const guestsDataManufacturer = (allGuestsData: IGuest[]) => {
         checkIn,
         checkOut,
         memo,
-        payment
+        payment,
+        breakfast
       } = booking;
 
       const { status: paymentStatus } = payment;
@@ -49,6 +50,7 @@ export const guestsDataManufacturer = (allGuestsData: IGuest[]) => {
         id: _id,
         itemIndex: index,
         name: name,
+        breakfast: breakfast || false,
         loading: false,
         bookingId: bookingId,
         checkInInfo: checkInInfo.isIn,
