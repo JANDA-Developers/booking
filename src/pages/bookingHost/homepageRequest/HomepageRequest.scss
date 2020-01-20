@@ -1,0 +1,56 @@
+@import "~Styles";
+
+.homepageRequest {
+  &__optionsWrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    place-content: flex-start;
+    height: 180px;
+  }
+}
+
+.homepageRequest {
+  &__topPhoto {
+    padding: 2% 0 0 0;
+    height: 300px;
+    box-sizing: border-box;
+    @include response($desktop) {
+      height: 230px;
+    }
+    @include response($tablet) {
+      padding: 5% 0 0 0;
+      height: 400px;
+    }
+    @include response($mobile) {
+      height: 300px;
+    }
+  }
+}
+
+.bookingHost {
+  &--sideOpen {
+    .homepageRequest {
+      &__topPhoto {
+        padding: 2% 0 0 0;
+        height: 300px;
+        box-sizing: border-box;
+        @include response($desktophd) {
+          padding: 5% 0 0 0;
+          height: 270px;
+        }
+        @include response($desktop) {
+          padding: 5% 0 0 0;
+          height: 430px;
+        }
+        @include response($tablet) {
+          padding: 5% 0 0 0;
+          height: 400px;
+        }
+        @include response($mobile) {
+          height: 300px;
+        }
+      }
+    }
+  }
+}
