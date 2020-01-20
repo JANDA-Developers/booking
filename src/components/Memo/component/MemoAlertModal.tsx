@@ -1,26 +1,28 @@
 import React from "react";
-import {IContext} from "../../../pages/bookingHost/BookingHostRouter";
+import { IContext } from "../../../pages/bookingHost/BookingHostRouter";
 import JDmodal from "../../../atoms/modal/Modal";
-import {IUseModal, LANG} from "../../../hooks/hook";
+import { IUseModal, LANG } from "../../../hooks/hook";
 import Button from "../../../atoms/button/Button";
 import MemoWrap from "../MemoWrap";
-import {MemoType} from "../../../types/enum";
-import {setCookie} from "../../../utils/cookies";
+import { MemoType } from "../../../types/enum";
+import { setCookie } from "../../../utils/cookies";
+import ModalEndSection from "../../../atoms/modal/components/ModalEndSection";
 
 interface Iprops {
   context: IContext;
   modalHook: IUseModal;
 }
 
-const MemoAlertModal: React.FC<Iprops> = ({context, modalHook}) => {
+const MemoAlertModal: React.FC<Iprops> = ({ context, modalHook }) => {
   return (
     <JDmodal visibleOverflow {...modalHook}>
       <h6>{LANG("there_is_an_alarm_set_note")}</h6>
       <div className="modal__section">
         <MemoWrap showOnlyAlert memoType={MemoType.HOST} context={context} />
       </div>
-      <div className="JDmodal__endSection">
+      <ModalEndSection>
         <Button
+          mode="flat"
           onClick={() => {
             sessionStorage.setItem("dontShowMemoAlert", "Y");
             modalHook.closeModal();
@@ -30,6 +32,7 @@ const MemoAlertModal: React.FC<Iprops> = ({context, modalHook}) => {
           label={LANG("keep_noti")}
         />
         <Button
+          mode="flat"
           size="small"
           onClick={() => {
             setCookie("dontShowMemoToday", "Y", 1);
@@ -38,7 +41,7 @@ const MemoAlertModal: React.FC<Iprops> = ({context, modalHook}) => {
           thema="point"
           label={LANG("close_today")}
         />
-      </div>
+      </ModalEndSection>
     </JDmodal>
   );
 };

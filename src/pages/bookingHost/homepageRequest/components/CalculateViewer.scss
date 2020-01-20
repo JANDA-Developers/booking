@@ -1,0 +1,10 @@
+@import "~Styles";
+
+.calculateViewer {
+  &__history {
+    padding: $standard-space;
+    border-top: 2px dashed $outborder-color;
+    border-bottom: 2px dashed $outborder-color;
+    margin-bottom: $standard-margin-bottom;
+  }
+}

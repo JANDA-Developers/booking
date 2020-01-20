@@ -1,0 +1,13 @@
+@import '~Styles';
+
+.memoBox {
+    white-space: pre-wrap;
+    margin-right: 0px;
+    height: $textarea-height;
+    
+    .JDbox__content {
+        display:flex;
+        justify-content: space-between;
+        position: relative;
+    }
+}

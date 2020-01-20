@@ -1,4 +1,4 @@
-import {TEST_PRODUCT_NAME} from "../types/enum";
+import { TEST_PRODUCT_NAME } from "../types/const";
 
 const isTestProduct = (name: string) => name === TEST_PRODUCT_NAME;
 

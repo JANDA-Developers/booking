@@ -1,0 +1,14 @@
+@import "~Styles";
+
+.terminateModal {
+  & > div,
+  .terminateModal__headWrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  &__photoFrame {
+    max-width: 270px;
+    margin-bottom: $standard-largest-space;
+  }
+}

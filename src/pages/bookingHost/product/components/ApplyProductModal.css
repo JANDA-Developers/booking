@@ -1,0 +1,19 @@
+.applyProductModal__cardsWrap {
+  padding: 5px;
+  margin: -5px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  white-space: nowrap;
+}
+
+.applyProductModal__cardsWrap > div {
+  display: inline-block;
+}
+
+.applyProductModal__cardsWrap > div:first-child {
+  margin-left: 0;
+}
+/*# sourceMappingURL=ApplyProductModal.css.map */

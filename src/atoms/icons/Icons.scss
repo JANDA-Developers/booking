@@ -1,22 +1,16 @@
-@import '~Styles/style_config';
+@import '~Styles';
 
 .JDicon__svg {
-
     display: inline-flex;
     align-self: center;
-    // width: 1em;
-    // height: 1em;
     fill: currentColor;
-    top: .125em;
     position: relative;
     text-decoration: inherit;
     
     &--hover:hover {
         cursor: pointer;;
-        color: $grey-level3;
+        color: $grey-level4;
     }
-
-
     &--selected {
         color: $primary-color-light;
         &:hover {
@@ -37,7 +31,11 @@
 }
 
 .JDicon {
+    width: 1em;
+    height: 1em;
+    
     @include colorText--prefixer();   
+    @include iconSize--prefixer();   
 }
 
 .JDicon__dots {

@@ -1,14 +1,16 @@
 import {
   BookingModalMode,
   GB_booking,
-  IGuestCount
+  IGuestCount,
+  IRoomType
 } from "../../types/interface";
 import {
   deleteBooking_DeleteBooking,
   updateBooking_UpdateBooking,
   startBooking_StartBooking,
   getBooking_GetBooking_booking_guests,
-  Funnels
+  Funnels,
+  UpsertRoomTypeInput
 } from "../../types/api";
 import {
   Gender,
@@ -24,6 +26,15 @@ import {
   IUseModal
 } from "../../hooks/hook";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
+
+
+export interface RoomConfigSubmitData {
+  createDatas: UpsertRoomTypeInput[];
+  updateDatas: UpsertRoomTypeInput[];
+  original: IRoomType[];
+  tempData?: IRoomType | undefined;
+  deleteIds: string[];
+}
 
 // (예약/게스트) 정보
 export interface IBookingModal_AssigInfo {

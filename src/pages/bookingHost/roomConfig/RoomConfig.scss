@@ -1,92 +1,80 @@
-@import '~Styles/style_config.scss';
+@import "~Styles";
 
 $roomTypeWidth: 10rem;
 $roomWidth: 10rem;
 
 .roomConfig {
+  &__roomType {
+    margin-right: 0;
+  }
 
+  &__roomCardWrap {
+    margin-bottom: -$standard-margin-bottom !important;
+  }
 
-    &__roomType {
-        margin-right: 0;
-    }
+  &__roomBox {
+    display: flex;
+    // 🔴 이부분은 box에서 내부적으로 처리하는게 낳았을텐데
+    padding: $standard-tiny-space !important;
+    max-width: fit-content;
+  }
 
-    &__roomCardWrap {
-        margin-bottom: -$standard-margin-bottom!important;
-    }
+  &__roomTitle {
+    white-space: nowrap;
+    margin: 0;
+  }
 
-    &__roomBox {
-        max-width: fit-content;
-    }
-
-    &__roomTitle {
-        margin: 0;
-    }
-    
-    .JDdrragable--chosen {
-        .roomConfig__roomType {
-            .roomConfig__iconsWrap {
-                display:none;
-            }
-        }
-    }
+  .JDdrragable--chosen {
     .roomConfig__roomType {
-        margin-right: 0;
-        &:last-child {
-            margin-bottom:0;
-        }
-        .JDdrragable--ghost {
-            .roomConfig__iconsWrap {
-                display:none;
-            }
-        }
+      .roomConfig__iconsWrap {
+        display: none;
+      }
     }
-    .roomConfig__roomType {
-        .JDdrragable--drag {
-            .roomConfig__iconsWrap {
-                display:none;
-            }
-        }
+  }
+  .roomConfig__roomType {
+    margin-right: 0;
+    .JDdrragable--ghost {
+      .roomConfig__iconsWrap {
+        display: none;
+      }
     }
+  }
+  .roomConfig__roomType {
+    .JDdrragable--drag {
+      .roomConfig__iconsWrap {
+        display: none;
+      }
+    }
+  }
 
-    &__addRoomBox {
-        min-width: fit-content;
-        box-sizing: border-box;
-        cursor: pointer!important;
-    }
-    &__roomType_titleAndIcons {
-        display:flex;
-    }
-    &__roomType_titleSection {
-        display:flex;
-        justify-content: space-between;
-    }
-    &__roomsWrap > div {
-        display:flex;
-
-        .rc-draggable-list-draggableRow {
-            min-width: 100px;
-            margin-right: $standard-space;
-            .JDbox {
-                flex: 0 0;
-                white-space: nowrap;
-                margin-bottom: 0!important;
-                .circleIcon {
-                    margin:0;
-                }
-            }
+  &__addRoomBox {
+    min-width: fit-content;
+    margin-bottom: $standard-margin-bottom;
+    box-sizing: border-box;
+    cursor: pointer !important;
+  }
+  &__roomType_titleAndIcons {
+    display: flex;
+  }
+  &__roomType_titleSection {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__roomsWrap > div {
+    display: flex;
+  }
+  &__roomsWrapWrap {
+    display: flex;
+    @extend %JDscrollbar;
+    overflow-y: hidden;
+    @include response($tablet) {
+      flex-wrap: wrap;
+      .JDbox {
+        max-width: clac(33.3% - #{$standard-space});
+        &:nth-child(3n) {
+          margin-right: 0;
         }
+      }
     }
-    &__roomsWrapWrap {
-        display:flex;
-        
-        @include response($tablet) {
-            flex-wrap: wrap;
-            .JDbox {
-                max-width: clac(33.3% - #{$standard-space}) ;
-                &:nth-child(3n) {
-                    margin-right: 0;
-                }
-            }
-        }
-    }
+  }
 }

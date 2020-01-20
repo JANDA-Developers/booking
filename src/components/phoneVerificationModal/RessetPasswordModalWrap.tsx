@@ -4,7 +4,7 @@ import { IUseModal, LANG } from "../../hooks/hook";
 import { useMutation, resetApolloContext } from "@apollo/react-hooks";
 import {
   START_PASSWORD_RESET,
-  COMPLETE_PASSWORD_RESET
+  COMPLETE_PASSWORD_RESETE
 } from "../../apollo/queries";
 import {
   startPasswordReset,
@@ -43,7 +43,7 @@ const RessetPasswordWrap: React.FC<Iprops> = ({ context, modalHook }) => {
     completePasswordResetMu,
     { loading: completePasswordResetLoading }
   ] = useMutation<completePasswordReset, completePasswordResetVariables>(
-    COMPLETE_PASSWORD_RESET,
+    COMPLETE_PASSWORD_RESETE,
     {
       client,
       onCompleted: ({ CompletePasswordReset }) => {
@@ -59,7 +59,6 @@ const RessetPasswordWrap: React.FC<Iprops> = ({ context, modalHook }) => {
 
   return (
     <RessetPasswordModal
-      key={modalHook.isOpen ? "passwordRessetOpen" : "passwordRessetClose"}
       completePasswordResetMu={completePasswordResetMu}
       startPasswordResetMu={startPasswordResetMu}
       context={context}

@@ -1,46 +1,27 @@
 import React from "react";
-import ImageUploader from "../../../atoms/imageUploader/ImageUploader";
 import ProfileCircle from "../../../atoms/profileCircle/ProfileCircle";
-import InputText from "../../../atoms/forms/inputText/InputText";
 import Button from "../../../atoms/button/Button";
 import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
-import JDIcon, { IconSize } from "../../../atoms/icons/Icons";
+import JDIcon from "../../../atoms/icons/Icons";
 import JDmenu, { JDsubMenu } from "../../../atoms/menu/Menu";
 import { Language } from "../../../types/enum";
-import {
-  useModal,
-  IuseImageUploader,
-  IUseModal,
-  LANG
-} from "../../../hooks/hook";
+import { useModal, LANG } from "../../../hooks/hook";
 import { Fragment } from "react";
 import "./HM.scss";
-import {
-  getHM_GetHM_HM_location,
-  getHM_GetHM_HM_menus
-} from "../../../types/api";
+import { getHM_GetHM_HM_location } from "../../../types/api";
 import HMmenu from "./component/HMmenu";
-
 import Preloader from "../../../atoms/preloader/Preloader";
 import { JdFile } from "../../../types/interface";
 import LangViewModal from "../../bookingHost/HMconfig/component/LangViewModal";
+import { IMenusprops } from "../../bookingHost/HMconfig/component/Menus";
+import JDmenuTitle from "../../../atoms/menu/components/MenuTitle";
 
-interface IProps {
-  host?: {
-    setEnableLngList: any;
-    setMenuData: React.Dispatch<React.SetStateAction<getHM_GetHM_HM_menus[]>>;
-    bgImageHook: IuseImageUploader;
-    setTitle: React.Dispatch<Object>;
-    emailModalHook: IUseModal<any>;
-    phoneNumberModalHook: IUseModal<any>;
-  };
-  menuData: getHM_GetHM_HM_menus[];
+interface IProps extends IMenusprops {
   bgData?: JdFile | null;
-  title: any;
   enableLangs: Language[];
   setCurrentLang: React.Dispatch<React.SetStateAction<Language>>;
-  currentLang: Language;
   loading?: boolean;
+  title: any;
   userInfo: {
     email: string | null;
     profileImg?: JdFile | null;
@@ -57,14 +38,10 @@ const HMcompoent: React.FC<IProps> = ({
   userInfo,
   menuData,
   title,
-  enableLangs,
-  host
+  enableLangs
 }) => {
   const languageListModalHook = useModal();
-
-  const visibleMenuData = host
-    ? menuData.filter((menu: any) => menu.isEnable)
-    : menuData;
+  const visibleMenuData = menuData.filter(m => m.isEnable);
 
   if (loading) {
     return <Preloader page size="large" loading={loading} />;
@@ -72,62 +49,35 @@ const HMcompoent: React.FC<IProps> = ({
 
   return (
     <div className="HM">
-      <div className="HM__mocUp" />
       <div className="HM__frame">
         <section className="HM__headerSectiion">
           <div className="docs-section__box">
             <div className="HM__bgSection">
               <Fragment>
-                {!host ? (
-                  <div
-                    style={{
-                      backgroundImage: `url(${bgData ? bgData.url : ""})`
-                    }}
-                    className="HM__bg"
-                  />
-                ) : (
-                  <ImageUploader
-                    className="HM__bg"
-                    mode="noBg"
-                    coverImg
-                    {...host.bgImageHook}
-                    minHeight="150px"
-                    height="150px"
-                  />
-                )}
+                <div
+                  style={{
+                    backgroundImage: `url(${bgData ? bgData.url : ``})`
+                  }}
+                  className="HM__bg"
+                />
                 <ProfileCircle
                   file={userInfo.profileImg}
                   isBordered
                   whiteBorder
-                  size={IconSize.BIG_LARGE}
+                  size={"huge"}
                   className="HM__profilceCricle"
                 />
               </Fragment>
             </div>
           </div>
-          {(!host && !title) || (
+          {!title || (
             <div className="docs-section__box">
               <div className="HM__titleWrap">
-                {!host ? (
-                  <h6>{title[currentLang]}</h6>
-                ) : (
-                  <div>
-                    <InputText
-                      textAlign="center"
-                      value={title[currentLang]}
-                      onChange={value => {
-                        const { setTitle } = host;
-                        title[currentLang] = value;
-                        setTitle({ ...title });
-                      }}
-                      placeholder={LANG("HM_title")}
-                    />
-                  </div>
-                )}
+                <h6 className="THMtitle">{title[currentLang]}</h6>
               </div>
               <div className="HM__languageBtnWrap JDflex--center">
                 <Button
-                  className="JDmargin-bottom0"
+                  className="JDstandard-margin0"
                   onClick={() => {
                     languageListModalHook.openModal();
                   }}
@@ -144,19 +94,15 @@ const HMcompoent: React.FC<IProps> = ({
               darkWave
               thema="greybg"
               onClick={() => {
-                if (!host) {
-                  document.location.href = `tel:${userInfo.phoneNumber}`;
-                } else {
-                  host.phoneNumberModalHook.openModal();
-                }
+                document.location.href = `tel:${userInfo.phoneNumber}`;
               }}
-              size={IconSize.BIG_LARGE}
+              size={"huge"}
             >
               <JDIcon
                 tooltip={`${LANG("current_set_number")}}: ${
                   userInfo.phoneNumber
                 }`}
-                size={IconSize.BIG_LARGE}
+                size={"huge"}
                 icon="call"
               />
             </CircleIcon>
@@ -168,29 +114,25 @@ const HMcompoent: React.FC<IProps> = ({
                 );
               }}
               thema="greybg"
-              size={IconSize.BIG_LARGE}
+              size={"huge"}
             >
               <JDIcon
                 tooltip={LANG("check_location_with_google_map")}
-                size={IconSize.BIG_LARGE}
+                size={"huge"}
                 icon="location"
               />
             </CircleIcon>
             <CircleIcon
               darkWave
               onClick={() => {
-                if (!host) {
-                  window.open(`mailto:${userInfo.email}`);
-                } else {
-                  host.emailModalHook.openModal();
-                }
+                window.open(`mailto:${userInfo.email}`);
               }}
               thema="greybg"
-              size={IconSize.BIG_LARGE}
+              size={"huge"}
             >
               <JDIcon
                 tooltip={LANG("send_text_to_host")}
-                size={IconSize.BIG_LARGE}
+                size={"huge"}
                 icon="sms"
               />
             </CircleIcon>
@@ -205,26 +147,16 @@ const HMcompoent: React.FC<IProps> = ({
                     <JDsubMenu
                       key={menu.id}
                       title={
-                        <div className="JDflex--vCenter">
-                          <JDIcon
-                            className="JDstandard-space"
-                            size={IconSize.MEDEIUM_SMALL}
-                            icon={(menu.icon as any) || undefined}
-                          />
-                          <span>{menu.name[currentLang]}</span>
-                          <span></span>
-                        </div>
+                        <JDmenuTitle
+                          title={menu.name[currentLang]}
+                          icon={(menu.icon as any) || undefined}
+                        />
                       }
                     >
                       <HMmenu
                         menu={menu}
                         currentLang={currentLang}
                         menuData={menuData}
-                        host={host}
-                        onChangeFile={file => {
-                          menu.img = file || null;
-                          host && host.setMenuData([...menuData]);
-                        }}
                       />
                     </JDsubMenu>
                   );

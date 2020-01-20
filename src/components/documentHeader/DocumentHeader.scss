@@ -1,4 +1,4 @@
-@import '~Styles/style_config';
+@import '~Styles';
 
 
 .doc-header {
@@ -16,15 +16,14 @@
 
     .header__link {
 
-        @include on-event() {
-            background-color: lighten($nav-color, 20%);
-        }
-
         &.active {
             background-color: lighten($nav-color, 20%);
         }
 
-    }
+        @include on-event() {
+            background-color: lighten($nav-color, 20%);
+        }
 
+    }
 
 }

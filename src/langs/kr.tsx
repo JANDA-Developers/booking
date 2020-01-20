@@ -1,14 +1,18 @@
 import React from "react";
 import Mbr from "../atoms/mbr/Mbr";
+import TextButton from "../atoms/textButton/TextButton";
+import JDlist from "../atoms/list/List";
+import PhotoFrame from "../atoms/photoFrame/PhotoFrame";
 
 export const kr = {
   Apply: "적용",
   BOTH: "게스트,호스트",
-  BY_DATE: "날자별",
+  BY_DATE: "날짜별",
   BY_DAY_OF_WEEK: "요일별",
   CANCEL: "예약취소",
   CARD: "카드결제",
   CASH: "현금결제",
+  BANK_TRANSFER: " 무통장입금",
   CHANNEL_PAY: "채널페이",
   CHINESE: "중국어",
   COMPLETE: "예약완료",
@@ -23,14 +27,14 @@ export const kr = {
   HOST: "호스트",
   Headcount: "인원수",
   JANDA_provide_free_homepage_for_guest:
-    "잔다 고객분들에게 무료 홈페이지를 제공합니다.",
+    "잔다 고객분 들에게 무료 홈페이지를 제공합니다.",
   JAPANESE: "일본어",
   KOREAN: "한국어",
   MALE: "남",
   FEMALE: "여",
   MONTHLY: "월별",
-  PROGRESSING: "예약진행중",
-  Pricing: "가겨설정",
+  NOT_YET: "예약진행중",
+  Pricing: "가격설정",
   Rooms: "객실",
   DOMITORY: "도미토리",
   ROOM: "룸",
@@ -50,7 +54,7 @@ export const kr = {
   WEEKLY: "주별",
   WEHN_BOOKING_CANCEL: "예약 취소시",
   WHEN_BOOKING_CREATED: "예약 생성시",
-  WHEN_BOOKING_CREATED_PAYMENT_PROGRESSING: "예약생성시(미결제)",
+  WHEN_BOOKING_CREATED_PAYMENT_NOT_YET: "예약생성시(미결제)",
   WHEN_BOOKING_UPDATE: "예약업데이트시",
   YEARLY: "년별",
   accommodation_info: "숙박정보",
@@ -66,7 +70,7 @@ export const kr = {
   allocation_calendar: "배정달력",
   applicant: "신청자",
   applicant_contact: "신청자 연락처",
-  applied_product_type: "적용 상품타입",
+  applied_product_type: "상품타입",
   applied_url: "적용URL",
   appliedby_default_in_periods_with_no_price_set:
     "가격이 설정되어 있지 않은 기간 에서 기본으로 적용됨",
@@ -106,7 +110,7 @@ export const kr = {
   booker_name: "예약자명",
   bookingList: "예약목록",
   booking_status: "예약상태",
-  calender_date: "달력날자",
+  calender_date: "달력날짜",
   can_use_after_phone_auth: "휴대폰 인증후 사용가능",
   cancel: "취소",
   cancelBooking: "예약취소",
@@ -119,31 +123,31 @@ export const kr = {
   certification_number_sent_fail: "인증번호 발송실패",
   change: "변경",
   change_complited: "변경완료",
-  change_date: "날자변경",
+  change_date: "날짜변경",
   change_failed: "변경실패",
   change_house: "숙소변경",
   change_house_fail: "숙소 변경 실패",
   change_profile: "프로필 변경",
   change_statistics: "통계변경",
   changed_current_house: "현재숙소 변경",
-  checkCheckInDate: "체크인 날자를 선택해 주세요.",
+  checkCheckInDate: "체크인 날짜를 선택해 주세요.",
   checkDelete: "개를 삭제하시겠습니까?",
   checkIn: "체크인",
   checkOut: "체크아웃",
   check_location_with_google_map: "구글맵으로 위치 확인하기",
-  check_net_status: "네트워크 연결상태를 확인해주세요!",
+  check_net_status: "인터넷 연결을 확인해주세요.",
   check_our_samples: "샘플들을 살펴보세요.",
   check_password: "비밀번호 확인",
   check_selection: "선택 확인",
   checkin_change_fail: "체크인 변경 실패",
-  checkin_date: "체크인 날자",
+  checkin_date: "체크인 날짜",
   checkin_status: "체크인 현황",
-  checkout_date: "체크아웃 날자",
+  checkout_date: "체크아웃 날짜",
   chnage_priority: "순위변경",
   choose_product: "상품선택",
   choosen_person: "선택 인원",
-  choseCheckInDate: "체크인 날자를 선택해 주세요.",
-  choseCheckOutDate: "체크아웃 날자를 선택해 주세요.",
+  choseCheckInDate: "체크인 날짜를 선택해 주세요.",
+  choseCheckOutDate: "체크아웃 날짜를 선택해 주세요.",
   close: "닫기",
   close_today: "하루동안 알림 중지",
   color_set: "색상설정",
@@ -157,10 +161,10 @@ export const kr = {
   consent_to_collection_of_personal_information: "개인정보 수집 동의",
   contact: "연락처",
   copy_reservation_page_URL: "예약페이지 URL 복사",
-  create_a_new_template: "새로운 템플릿을 생성하세요.",
+  create_a_new_template: "새로운 양식을 생성하세요.",
   create_booking: "예약생성",
   create_house: "숙소생성",
-  create_house_completed: "숙소생성완료",
+  create_house_completed: "숙소생성",
   create_memo_completed: "메모 생성완료",
   create_memo_fail: "메모 생성실패",
   create_new_memo: "새로운 메모 쓰기",
@@ -170,9 +174,9 @@ export const kr = {
   create_season: "시즌생성",
   create_season_complete: "시즌 생성완료",
   create_season_fail: "시즌 생성실패",
-  create_template: "템플릿 생성",
-  create_template_complited: "템플릿 생성완료",
-  create_template_failed: "템플릿 생성실패",
+  create_template: "양식 생성",
+  create_template_complited: "양식 생성완료",
+  create_template_failed: "양식 생성실패",
   created_house: "생성한 숙소",
   current_set_number: "현재 설정된 번호",
   current_status: "현재상태",
@@ -181,7 +185,7 @@ export const kr = {
   daily_refine_price: "상세가격 수정",
   date: "일",
   date_of_creation: "생성일시",
-  date_of_statistics: "통계날자",
+  date_of_statistics: "통계날짜",
   date_of_stay: "숙박일자",
   day_of_week: "요일",
   day_of_week_price: "요일별가격",
@@ -194,12 +198,12 @@ export const kr = {
   delete_failed: "삭제실패",
   delete_season_complete: "시즌 삭제완료",
   delete_season_fail: "시즌 삭제실패",
-  delete_template_completed: "템플릿 삭제완료",
-  delete_template_failed: "템플릿 삭제실패",
+  delete_template_completed: "양식 삭제완료",
+  delete_template_failed: "양식 삭제실패",
   deleted_note_completed: "메모 삭제 완료",
   deleted_note_failed: "메모 삭제 실패",
   detail: "상세",
-  detail_adress: "상세주소",
+  detail_address: "상세주소",
   display_deadline: "표시가한",
   display_related_setting: "배정관련 설정",
   displays_a_new_reservation_within_the_set_time:
@@ -234,7 +238,6 @@ export const kr = {
   goto_create_roomType: "방타입 생성하러가기",
   goto_reservation_list: "예약목록 보기",
   graph_shape: "그래프 형태",
-  group_msg: "단체 메시지",
   group_notification: "단체알림",
   guest: "게스트",
   guestHouse: "게스트하우스",
@@ -249,7 +252,7 @@ export const kr = {
   hostel: "호스텔",
   hotel: "호텔",
   houseName: "숙소명",
-  house_adress: "숙소주소",
+  house_address: "숙소주소",
   house_delete_completed: "숙소삭제 완료",
   house_delete_failed: "숙소삭제 실패",
   house_info: "숙소정보",
@@ -265,8 +268,6 @@ export const kr = {
     "규모에 맞지 않는 숙소를 선택하실 경우에 서비스가 중지 될수 있습니다.",
   if_you_have_problems_with_computer_performance_and_frequent_screen_updates_try_setting_a_higher_pooling_frequency:
     "컴퓨터 성능 및 잦은 화면 업데이트에 문제가 있을경우 풀링주기를 높게 설정해보세요.",
-  if_you_set_up_an_SMS_template_you_can_conveniently_send_the_template_when_you_send_a_message:
-    "SMS 템플릿을 설정해두시면 메세지를 보낼떄 해당 템플릿을 편리하게 보낼수 있습니다.",
   if_you_violate_the_accommodation_policy_your_personal_information_will_be_saved_with_the_violation:
     "숙박 규정을 위반할 시 위반내용과 함께 개인정보가 저장됩니다.",
   index: "번호",
@@ -316,8 +317,6 @@ export const kr = {
   motel: "모텔",
   msg: "메세지",
   msg_content: "문자내용",
-  must_input_text_of_every_lang_you_supporting:
-    "지원하는 모든 언어에 직접 기입 하셔야 합니다.",
   name: "이름",
   name_is_not_valid: "올바른 이름이 아닙니다.",
   new: "new",
@@ -363,9 +362,11 @@ export const kr = {
   password_condition: (special: any, length: any, enAndNumber: any) => (
     <span>
       *{" "}
-      <span className={special && "JDtextColor--point"}>특수문자 1개이상</span>,
-      <span className={length && "JDtextColor--point"}>7~15자리</span>,
-      <span className={enAndNumber && "JDtextColor--point"}>
+      <span className={special ? "JDtextColor--point" : ""}>
+        특수문자 1개이상
+      </span>
+      ,<span className={length ? "JDtextColor--point" : ""}>7~15자리</span>,
+      <span className={enAndNumber ? "JDtextColor--point" : ""}>
         영문 숫자 조합
       </span>
     </span>
@@ -398,13 +399,13 @@ export const kr = {
   please_search_house_location: "숙소위치를 검색해주세요.",
   please_select_a_payment_method: "결제방법을 선택해주세요.",
   please_select_a_payment_status: "결제상태를 선택해주세요.",
-  please_select_checkOut_date: "체크아웃 날자를 선택해주세요.",
-  please_select_date: "날자를 선택해 주세요",
+  please_select_checkOut_date: "체크아웃 날짜를 선택해주세요.",
+  please_select_date: "날짜를 선택해 주세요",
   please_select_reservation_status: "예약상태를 선택해주세요.",
   please_select_the_accommodation_type: "숙소타입을 선택 해주세요.",
   please_select_the_number_of_people: "인원수를 선택해주세요.",
-  please_slect_date_at_calender: "달력에서 날자를 선택해주세요.",
-  please_specify_the_date: "날자를 지정해주세요.",
+  please_slect_date_at_calender: "달력에서 날짜를 선택해주세요.",
+  please_specify_the_date: "날짜를 지정해주세요.",
   polling_period: "풀링주기",
   polling_period_setting: "풀링주기 설정",
   preferences: "환경설정",
@@ -451,8 +452,8 @@ export const kr = {
   product4_short1: "숙박외 서비스 예약 및",
   product4_short2: "다른 예약관리가 필요하신가요?",
   product4_short3: "이상품을 선택하세요.",
-  product_application_completed: "상품 신청 완료",
-  product_application_failed: "상품 신청 실패",
+  product_application_completed: "상품 적용 완료",
+  product_application_failed: "상품 적용 실패",
   product_has_expired: "상품이 만료되었습니다.",
   product_memo: "상품 메모",
   product_price: "상품금액",
@@ -521,7 +522,7 @@ export const kr = {
   season_period: "시즌기간",
   second: "초",
   select: "선택",
-  select_date: "날자선택",
+  select_date: "날짜선택",
   select_house_type: "숙소타입 선택",
   select_roomGender: "방성별 선택",
   select_roomType: "방타입 선택",
@@ -556,7 +557,7 @@ export const kr = {
   smooth_reservation_management: "원활한 예약 관리",
   sms_history: "SMS 내역",
   sms_setting: "SMS설정",
-  sms_template: "문자템플릿",
+  sms_template: "문자 양식",
   someone_is_making_a_reservation: "누군가 예약을 진행중 입니다.",
   start_experience: "체험시작",
   statistical_transformation: "통계 변환",
@@ -568,8 +569,9 @@ export const kr = {
   system_config: "시스템 설정",
   system_related_settings: "시스템 관련 설정",
   take_a_look: "살펴보기",
-  template_msg: "템플릿 메세지",
-  template_title: "템플릿 타이틀",
+  template_msg: "양식 메세지",
+  template_title: "양식 타이틀",
+  template_setting: "양식 설정",
   test_on_two_weeks: "이주일간 테스트 가능",
   thank_you: "감사합니다.",
   the_current_product_has_expired_normal_service_is_not_possible_Please_proceed_with_the_payment:
@@ -582,7 +584,7 @@ export const kr = {
     "서비스 제공을 위해 필요한 최소한의 개인정보이므로 동의를 해주셔야 서비스를 이용하실수 있습니다",
   the_phone_number_set_is_not_valid: "설정된 전화번호가 유효하지 않습니다.",
   there_is_an_alarm_set_note: "알람 설정된 메모가 있습니다.",
-  there_is_no_room_in_selected_date: "해당날자에 예약가능한 방이 없습니다",
+  there_is_no_room_in_selected_date: "해당날짜에 예약가능한 방이 없습니다",
   this_month_sales: "이번달매출",
   this_price_modification_will_be_the_highest_priority_of_all_pricing:
     "해당 가격 수정은 모든 가격설정 중 최우선 적용 됩니다.",
@@ -612,8 +614,8 @@ export const kr = {
   update_profile_fail: "프로필 업데이트 실패",
   update_roomType_completed: "방타입 업데이트 성공",
   update_roomType_fail: "방타입 업데이트 실패",
-  update_template_completed: "템플릿 업데이트 완료",
-  update_template_failed: "템플릿 업데이트 실패",
+  update_template_completed: "양식 업데이트 완료",
+  update_template_failed: "양식 업데이트 실패",
   update_to_recommended_browser_chrome: "권장 브라우저(Chrome)로 업데이트",
   upgrade: "업그레이드",
   url_is_copied: "URL이 복사되었습니다.",
@@ -704,13 +706,6 @@ export const kr = {
       브라우저를 업데이트 해주세요.
     </span>
   ),
-  HM_provides_guests_with_a_comfortable_and_convenient_accommodation_send_the_guide_page: (
-    <span>
-      하우스 메뉴얼은 게스트가 쉽고 편하게 숙소를 이용할 수 있도록 안내 페이지를
-      송신합니다. <br />
-      하우스 메뉴얼이 게스트의 숙소 이용법을 설명하는 수고를 덜어 줄겁니다.
-    </span>
-  ),
   automatically_send_prompts_to_your_guests: (
     <span>
       게스트에게 안내문자를
@@ -742,7 +737,7 @@ export const kr = {
   ),
   try_setting_it_up_different_prices_by_date: (
     <span>
-      날자별로 가격을 다르게
+      날짜별로 가격을 다르게
       <Mbr /> 설정해보세요.
     </span>
   ),
@@ -778,14 +773,14 @@ export const kr = {
   // 1.0.1 add
   un_checkIn: "미입실",
   PaymentStatus: {
-    CANCEL: "미결제",
-    PROGRESSING: "결제 진행중",
-    COMPLETE: "결제완료"
+    CANCELED: "결제취소",
+    NOT_YET: "미결제",
+    COMPLETED: "결제완료"
   },
   SendTarget: {
-    BOTH: "게스트/호스트",
+    BOTH: "게스트&호스트",
     GUEST: "게스트",
-    HOST: "va호스트"
+    HOST: "호스트"
   },
   please_select_pay_status: "결제 상태를 선택해 주세요.",
   exit_house_settings: "숙소설정 끝내기",
@@ -817,7 +812,7 @@ export const kr = {
     YANOLJA: "야놀자",
     YEOGIEOTTAE: "여기어때"
   },
-  goto_today: "오늘 날자로",
+  goto_today: "오늘 날짜로",
   // 1.1.0 패치
   email: "이메일",
   find_email: "이메일 찾기",
@@ -833,11 +828,327 @@ export const kr = {
   change_password_complete: "비밀번호 변경 완료",
   change_password_failed: "비밀번호 변경 실패",
   new_password: "새로운 패스워드",
+  card_resist: "카드등록",
+  card_number: "카드번호",
+  check_product: "상품 확인",
+  regist: "등록 하기",
+  exp_year: "기한/년",
+  exp_month: "기한/월",
+  card_regist_complete_fail: "카드 등록 실패",
+  card_regist_complete: "카드 등록 완료",
+  payment_regist_complete: "결제 등록 완료",
+  registration_confirmation: "등록 확인",
+  input_information: "정보 입력",
+  input_card_information: "카드정보 입력하기",
+  idnumber_6front: "주민등록번호 앞(6자리)",
+  idnumber_or_business_number: "주민번호/사업자번호",
+  card_pasword_front_two_digits: "비밀번호 앞 2자리",
+  completing_this_card_registration_you_agree_to_the:
+    "이 카드정보를 등록함으로서 당신은 다음에 동의합니다.",
   please_rewrite_your_new_password: (
     <span>
       비밀번호를 재발급 받으셨군요
       <br />
       새로운 비밀번호를 설정 해주세요.
     </span>
-  )
+  ),
+  use_conditions: "이용 조건",
+  privacy_policy: "가격 정책",
+  and: "그리고",
+  member_ship: "멤버쉽",
+  create_memo: "메모쓰기",
+  host_memo: "호스트 메모",
+  guest_memo: "게스트 메모",
+  write: "작성",
+  no_guest_notes_after_today: "오늘자 이후로 작성된 게스트 메모가 없습니다.",
+  update: "업데이트",
+  create: "생성하기",
+  house_front_img: "하우스 대표 이미지",
+  house_title: "하우스 타이틀",
+  info_img: "안내 이미지",
+  info_txt: "안내 텍스트",
+  current_config_lang: "현재 설정 언어",
+  solution_usage_guide: "솔루션 이용안내",
+  payment_information: "납부정보",
+  member_name: "회원명",
+  regi_date: "등록일자",
+  product_info: "상품정보",
+  deposit_card_owner: "예금(카드)주명",
+  pay_regist_complete_title: (
+    <span>
+      JANDA SOLUTION <br />
+      정기결제가 등록되었습니다.
+    </span>
+  ),
+  pay_regist_complete_text:
+    "정기결제 정보가 다르거나 결제정보를 변경을 원하시면 잔다솔루션에 Mypage에서 변경을 하시면 됩니다. 만약 해당 결제를 본인이 하신게 아니시면 고객센터(support@stayjanda.com)로 이메일을 보내주세요.",
+  card_regist_complete_message: (
+    <span>
+      카드 정보가 등록 되었습니다.
+      <TextButton color="primary">MYPage</TextButton> 에서 그 내용을 확인하실수
+      있습니다"
+    </span>
+  ),
+  pay_with_this_card: "이카드로 정기결제 등록",
+  static_page_desc:
+    "매출에 관한 통계를 확인할수 있습니다. 표기할 날짜와 기한을 설정하여 그사이에 매출을 확인할 수 있습니다.",
+  assigTimeline__decs: "배정달력에서 게스트들을 원하는 방에 배정할수 있습니다.",
+  JANDA_home: "JANDA 홈",
+  JANDA_home_desc:
+    "현 대쉬보드에서 오늘날짜에 관한 배정 현황을 확인할수 있습니다.",
+  bookingList__desc: "예약에 관한 내용을 날짜순으로 나타냅니다.",
+  price_setting__desc:
+    "날짜별 가격 혹은 기간별 가격을 설정할수 있습니다. 해당날짜에 해당가격이 되도록 조정해보세요.",
+  lang_use_set: "언어 사용설정",
+  HM_set__desc: (
+    <span>
+      하우스 메뉴얼은 게스트가 쉽고 편하게 숙소를 이용할 수 있도록 안내 페이지를
+      송신합니다. <br />
+      하우스 메뉴얼이 게스트의 숙소 이용법을 설명하는 수고를 덜어 줄겁니다.
+    </span>
+  ),
+  user_info: "회원정보",
+  periodicalPay_manage: "정기결제 관리",
+  product_change: "상품변경",
+  periodical_pay_regist_complete: "정기결제 등록 완료",
+  periodical_pay_regist_fail: "정기결제 등록 실패",
+  sign_date: "등록 일자",
+  change_periodical_change: "정기결제 정보 변경",
+  payment_fee: "납부요금",
+  approved: "승인완료",
+  excel_express: "엑셀출력",
+  express_info: "출력정보",
+  express_count: "출력갯수",
+  bill_pay_cancle: "정기 결제 취소",
+  bill_pay_cancle_complete: "정기 결제 취소 완료",
+  bill_pay_cancle_fail: "정기 결제 취소 실패",
+  on_testing: "테스트 사용중",
+  un_registed: "적용안됨",
+  uploade_compelte: "업로드 완료",
+  uploade_fail: "업로드 실패",
+  HM_detail_info: "하우스 메뉴얼 상세정보",
+  ExcelExpress: {
+    SELECT_OP: "현재 선택한 내용으로 출력",
+    COUNT_OP: "최근 생성 갯수로 출력",
+    DATE_OP: "날짜로 출력"
+  },
+  unit: "개",
+  pay_date: "납부일자",
+  bill: "영수증",
+  need_regist: (
+    <TextButton className="JDstandard-margin0" color="error">
+      등록필요
+    </TextButton>
+  ),
+  go_to_sms_template: "SMS 양식 바로가기",
+  how_to_save_sms_template_title: "SMS양식 저장하는 방법",
+  how_to_save_sms_template_doc: (
+    <JDlist
+      marginBottom="long"
+      contents={[
+        <div>
+          1. <b>SMS양식</b> 메뉴에서 <b>[양식생성]</b>을 클릭합니다.
+        </div>,
+        <div>
+          2. 양식생성 화면에서 타이틀과, 메시지를 입력하시고 메시지화면에서 중간
+          중간에 생성할
+          <b>
+            숙박일자/숙박정보/예약자명/가격/결제방법/결제상태/하우스메뉴얼URL
+          </b>
+          문구를 아래에 <b>양식메시지</b>에서 클릭하시면 메시지 발송시에
+          자동으로 정보가 입력됩니다.
+        </div>,
+        <div>
+          <PhotoFrame
+            src={`https://s3.ap-northeast-2.amazonaws.com/booking.stayjanda.files/booking_app/describe/smsinfo_img_01.png`}
+          />
+        </div>,
+        <div>
+          3. 자동발신 상태를{" "}
+          <b>예약취소시/예약생성시/예약생성시(미결제)/예약업데이트시</b> 별로
+          선택하여 설정하고
+        </div>,
+        <div>
+          4. 발신대상을 <b>게스트/호스트/게스트+호스트</b> 별로 지정을 해주시고
+          우측에 <b>자동발신 활설화</b> 여부를 on / oFF 설정해주시면 언제든지
+          고객에게 알림 문자가 발송되게 설정됩니다
+        </div>
+      ]}
+    />
+  ),
+  how_to_send_sms_for_all_title: "단체SMS 보내는 방법",
+  how_to_send_sms_for_all_doc: (
+    <JDlist
+      marginBottom="long"
+      contents={[
+        <span>
+          1. 단체SMS는 솔루션 메인화면과 예약목록 화면에서 가능합니다.
+          <b>메인화면</b>에서는 오늘의 예약리스트 상단에 <b>‘단체메시지’</b>{" "}
+          버튼을 클릭하셔야 보낼 수 있고, <b>예약목록</b> 화면에서는 내가 원하는
+          예약자를 선택하여 리스트 상단에 <b>‘문자전송’</b>버튼을 클릭해서
+          여러명에게 단체문자를 보낼 수 있습니다.
+        </span>,
+        <div>
+          2. 그러나 단체SMS를 보내기 위해서는 <b>SMS양식</b>화면에서 미리 만들어
+          둔 SMS양식이 있어야 합니다. 개성있고 재밌는 SMS양식을 만들어주세요.
+          예시 : 조식알림문자, 저녁 파티이벤트 안내 문자, 공사안내, 분실물안내,
+          긴급대피안내문자
+        </div>
+      ]}
+    />
+  ),
+  sms_usage: "SMS 이용법",
+  sms_service: "SMS 서비스",
+  credit: "신용",
+  expiration_date: "유효기한",
+  add_card: "카드추가",
+  please_input_card_info: "카드정보를 입력해 주세요.",
+  add_card_dec: "빠르고 간편한 결제를 위해 카드를 등록해주세요.",
+  card_info: "카드정보",
+  card_delte_complete: "카드 삭제 성공",
+  card_info_complete_fail: "카드 삭제 실패",
+  periodical_cancel_complete: "정기결제 취소 완료",
+  periodical_cancel_complete_fail: "정기결제 취소 실패",
+  card_regist: "카드 등록",
+  card_delete: "카드 삭제",
+  bill_pay_regist: "정기 결제 등록",
+  bill_pay_regist_width_this_card: "이 카드로 정기결제 등록",
+  bill_pay_regist_change_width_this_card: "이 카드로 정기결제 변경",
+  un_exsist_page: "존재 하지않는 페이지",
+  sms_info: "SMS 안내",
+  sms_info_decs: "SMS 이용에대한 안내 드립니다.",
+  un_exsist_page_decs: (
+    <span>
+      존재 하지않는 페이지 입니다.
+      <br /> 뒤로가기를 눌러주세요.
+    </span>
+  ),
+  mypage: "MY PAGE",
+  solution_specification: "솔루션 명세서",
+  noti_config: "알람설정",
+  memo_manage: "메모관리",
+  house_detail_config: "하우스 세부설정",
+  frequent_questions: "자주하는 질문",
+  mypage_profile_desc: "회원정보를 수정할수 있습니다.",
+  mypage_houses_desc: "보유중인 숙소를 관리할수 있습니다.",
+  show_detail: "자세히보기",
+  basic_config: "기본설정",
+  guestStatus_mark: "게스트 상태 마크",
+  shortkey_config: "키보드 설정",
+  change_pay_method: "결제수단변경",
+  un_validate_card_number: "유효하지 않은 카드번호 입니다.",
+  un_validate_card_expire: "유효 하지 않은 카드 기한입니다.",
+  periodical_paying: "정기결제중",
+  creadit_card_change: "결제 카드 변경",
+  select_this_card: "이 카드로 결제변경",
+  pay_history: "결제 내역",
+  there_is_no_card: "등록된 카드가 존재하지 않습니다.",
+  no_card: "카드 없음",
+  HouseType: {
+    GUEST_HOUSE: "게스트하우스",
+    HOTEL: "호텔",
+    MOTEL: "모텔",
+    PENSION: "펜션",
+    HOSTEL: "호스텔",
+    YOUTH_HOSTEL: "유스호스텔"
+  },
+  please_select_room_gender: "방성별을 선택 해주세요.",
+  please_select_room_type: "방타입을 선택 해주세요.",
+  please_input_max_people_count: "최대인원수를 입력 해주세요.",
+  room_assig_info: "방/배정 정보",
+  else: "기타",
+  check_init: "생성확인",
+  timeline_config: "타임라인설정",
+  mypage_desc:
+    "정기결제에 대한 관리 및 생성한 숙소와 유저 프로필을 확인할 수 있습니다.",
+  room_config_desc:
+    "숙소를 운영하는데 필요한 방타입 및 방을 생성 및 수정하세요.",
+  HouseStatus: {
+    DISALBE: "중지",
+    WAIT: "대기",
+    ENABLE: "사용가능"
+  },
+  update_user_info_complete: "슈퍼 관리자 업데이트 완료",
+  update_user_info_fail: "슈퍼 관리자 업데이트 실패",
+  server_dose_not_respond: "서버가 응답하지 않습니다.",
+  network_connected: "네트워크에 연결되었습니다.",
+  periodical_payment_is_changed: (houseName: string, flag?: boolean) =>
+    `${houseName}의 정기결제가 ${flag ? "중지" : "등록"}되었습니다.`,
+  request_is_failed: "요청이 실패했습니다.",
+  product_regist_complete_message: "상품등록이 완료 되었습니다.",
+  select_product_desc:
+    "상품을 등록할때 카드정보를 입력받습니다. 만료기간이 끝나면 자동적으로 결제를 진행합니다.",
+  please_check_file_has_special_char: "파일에 특수문자가 있는지 검사 해주세요.",
+  room_start_number: "방시작 번호.",
+  assig_info: "배정정보",
+  people_and_room_info: "인원 및 방정보",
+  to_next: "다음으로",
+  payment_completed: "결제가 완료 되었습니다.",
+  payer: "결제자",
+  payment_amt: "결제금액",
+  payment_date: "결제일자",
+  move_to_check_page: "예약 확인 페이지로 이동합니다.",
+  please_upload_image: "이미지를 업로드 해주세요.",
+  check_in_slash_check_out: "체크인/체크아웃",
+  finish: "설정 끝마치기",
+  prev_step: "이전단계",
+  next_step: "다음단계",
+  house_config: "숙소설정",
+  house_config_desc:
+    "선택한 숙소에대한 정보를 한눈에 관리가 가능합니다. 여기에서 입력되는 정보는 홈페이지와 e-mail 등등 여러가지로 발송됩니다.",
+  basic_info: "기본정보",
+  basic_info_desc: "숙소의 기본정보를 수정 하실 수 있습니다.",
+  deposit_info: "입금정보",
+  deposit_info_desc: "숙소의 입금정보를 수정 하실 수 있습니다.",
+  account_number: "계좌번호",
+  depositor: "예금주",
+  bank_name: "은행명",
+  support_payment_method: "지원 결제수단",
+  update_house_completed: "숙소 업데이트 완료",
+  update_house_failed: "숙소 업데이트 실패",
+  sms__decs:
+    "SMS 양식을 설정해두시면 메세지를 보낼떄 해당 양식을 편리하게 보낼수 있습니다.",
+  do_you_want_to_change_periodical_pay:
+    "현재 정기결제가 이루어지고 있습니다. 변경 하시겠습니까?",
+  auto_pay_stop: "중지하기",
+  auto_pay_continue: "정기결재 재사용 하기",
+  BookingStatus: {
+    COMPLETED: "예약완료",
+    CANCELED: "예약취소"
+  },
+  booking_number: "예약번호",
+  bill_print: "영수증 출력",
+  refund_price: "환불금액",
+  refund_complete: "환불완료",
+  refund_fail: "환불실패",
+  refund: "환불하기",
+  do_you_really_want_to_cancel_our_service:
+    "앗 정기결제를 정말로 해지 하시나요?",
+  if_you_cancel_service_please_notice_below_things: (
+    <span>
+      만약 정기결제를 해지하신다면 서비스 기간이 만료되면 더이상 서비스를
+      이용하실수 없습니다. <br />
+      다음과 같은 유의사항이 있습니다.
+    </span>
+  ),
+  service_termination_warn1: "더이상 신규 예약을 받을 수 없습니다.",
+  service_termination_warn2: "SMS 서비스를 이용하실수 없습니다.",
+  service_termination_warn3:
+    "기존 예약을 변경하거나 수정하는 것이 불가능 합니다.",
+  service_termination_warn4: "이용하고 계신 홈페이지에 접속이 불가능 합니다.",
+  basic_info_insert: "기본정보 입력하기.",
+  design_select: "디자인 선택하기",
+  select_addtional_ui: "추가옵션 선택하기",
+  option_select: "옵션선택",
+  free: "무료",
+  homepage: "홈페이지",
+  complete: "완료",
+  un_complete: "미완료",
+  room_type_create: "방타입생성",
+  room_create: "방생성",
+  sms_config: "SMS 설정",
+  homepage_request: "홈페이지 신청하기",
+  homepage_request_desc:
+    "홈페이지 무료 개설이 가능합니다. 직접 커스터마이징 가능한 홈페이지를 제공합니다.",
+  breakfast: "조식"
 };

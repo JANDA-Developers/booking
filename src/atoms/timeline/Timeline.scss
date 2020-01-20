@@ -1,5 +1,5 @@
 
-@import '~Styles/style_config.scss';
+@import '~Styles';
 
 // TODO: BEM 규칙에 맞게 node Modules 변경해야함
 
@@ -7,9 +7,17 @@
 
 // 최상단
 .react-calendar-timeline {
-    overflow: hidden;
+
+    
+    @include response($phablet) {
+        // 모듈버그 픽스용!
+        padding-right: 30rem;
+        margin-right: -30rem;
+    }
+
+    // overflow hidden을 적용시 sticky 헤더는 동작안함
     border-radius: $standard-border-radius;
-    border:2px solid $standard-outborder-color;
+
     div {
         // 🥇 이로서 드레그 끈김을 막을수있다.
         user-select: none;
@@ -53,16 +61,17 @@
             
             &:hover {
                 cursor: pointer;
-                background-color: $grey-level4;
+                background-color: $grey-level5;
             }
         }
     }
 
     .rct-header-root {
         position:sticky!important;
+        overflow: hidden;
     }
     .rct-calendar-header {
-        background-color:$grey-level3;
+        background-color:$grey-level4;
         line-height:100%;
 
         color:white;
@@ -90,7 +99,7 @@
             text-overflow: ellipsis;
             box-sizing: content-box;
             margin: 0;
-            border-bottom: 1px solid $grey-opacity3;
+            border-bottom: 1px solid $grey-opacity2;
 
             &-odd{
             }
@@ -108,8 +117,6 @@
         white-space: nowrap;
 
         .rct-scroll {
-
-            min-width: 96vw;
             display: inline-block;
             white-space: normal;
             vertical-align: top;
@@ -135,17 +142,16 @@
             .rct-horizontal-lines {
                 
                 .rct-hl-even,.rct-hl-odd {
-                    border-bottom: 1px dotted $grey-opacity3;
+                    border-bottom: 1px dotted $grey-opacity2;
                     box-sizing: content-box;
                     z-index: 40;
                 }
                 .rct-hl-even {
-                    border-bottom: 1px dotted $grey-opacity3;
+                    border-bottom: 1px dotted $grey-opacity2;
                 }
 
                 .group {
                     &:hover {
-                        cursor:pointer;
                         position: relative;
                         &:after {
                             position:absolute;

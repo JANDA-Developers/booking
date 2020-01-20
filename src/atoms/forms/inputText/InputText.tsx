@@ -1,25 +1,36 @@
-import React, {useEffect, useRef, useState, FormEvent} from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import "./InputText.scss";
 import "./Textarea.scss";
 import classNames from "classnames";
-import JDicon, {IconSize, IIcons} from "../../icons/Icons";
-import ErrProtecter from "../../../utils/errProtect";
-import autoHyphen, {numberStr, toNumber} from "../../../utils/autoFormat";
-import {NEUTRAL} from "../../../types/enum";
-import {getByteLength} from "../../../utils/elses";
-import {autoComma, s4} from "../../../utils/utils";
+import JDicon from "../../icons/Icons";
+import autoHyphen, {
+  numberStr,
+  toNumber,
+  card_space
+} from "../../../utils/autoFormat";
+import { TMarginSize } from "../../../types/enum";
+import { NEUTRAL } from "../../../types/const";
+import { getByteLength } from "../../../utils/elses";
+import { autoComma, s4 } from "../../../utils/utils";
 import $ from "jquery";
+import JDlabel from "../../label/JDLabel";
+import { JDmrClass, JDmbClass } from "../../../utils/autoClasses";
+import { IIcons, IconConifgProps } from "../../icons/declation";
+import Preloader from "../../preloader/Preloader";
+import userTacking from "../../../utils/userTracking";
 
-interface IProps extends React.HTMLAttributes<HTMLInputElement> {
+// @ts-ignore
+interface IProps extends React.AllHTMLAttributes<HTMLInputElement> {
+  placeholder?: string;
   readOnly?: boolean;
   disabled?: boolean;
   textarea?: boolean;
   scroll?: boolean;
   doubleHeight?: boolean;
   halfHeight?: boolean;
+  overfloweEllipsis?: boolean;
   label?: string;
   size?: "fullWidth" | "fullHeight";
-  textSize?: "h6";
   type?: string;
   textAlign?: "center";
   dataError?: string;
@@ -29,8 +40,6 @@ interface IProps extends React.HTMLAttributes<HTMLInputElement> {
   iconOnClick?: any;
   dataSuccess?: string;
   validation?: any;
-  // 음... 곤란하군 만약에 이벤트 객체를 핸들링할 경우가 생긴다면
-  // onChnage=> onChangeValue로 바꾸어야겠다.
   onChange?(value?: any): void;
   onChangeValid?: any;
   onBlur?(e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>): any;
@@ -38,15 +47,25 @@ interface IProps extends React.HTMLAttributes<HTMLInputElement> {
   isValid?: any;
   value?: string | null | number;
   max?: number;
-  defaultValue?: string;
+  defaultValue?: string | number | string[];
   // 컨트롤 일때만 작동함
   hyphen?: boolean;
   byte?: boolean;
   comma?: boolean;
+  card?: boolean;
+  loading?: boolean;
   returnNumber?: boolean;
   allWaysShowValidMessage?: boolean;
   className?: string;
+  unValidMessage?: string;
   wrapClassName?: string;
+  maxLength?: number;
+  minLength?: number;
+  falseMessage?: string;
+  sizes?: string;
+  mr?: TMarginSize;
+  mb?: TMarginSize;
+  iconProps?: IconConifgProps;
 }
 
 const InputText: React.FC<IProps> = ({
@@ -60,6 +79,7 @@ const InputText: React.FC<IProps> = ({
   className,
   onBlur,
   max,
+  loading,
   isValid,
   onChangeValid,
   refContainer,
@@ -72,17 +92,24 @@ const InputText: React.FC<IProps> = ({
   autoHeight,
   dataError,
   dataSuccess,
+  overfloweEllipsis,
   allWaysShowValidMessage,
   icon,
+  unValidMessage,
   iconOnClick,
   textAlign,
   iconHover,
   hyphen,
   byte,
+  card,
   size,
-  textSize,
   wrapClassName,
   comma,
+  mr,
+  mb,
+  falseMessage,
+  id,
+  iconProps,
   ...props
 }) => {
   const [selfValid, setSelfValid] = useState<boolean | "">("");
@@ -95,6 +122,7 @@ const InputText: React.FC<IProps> = ({
       inInValue = inInValue.toString();
     }
     if (typeof inInValue === "string") {
+      if (card) return card_space(inInValue);
       if (hyphen) return autoHyphen(inInValue);
       if (comma) return autoComma(inInValue);
       return inInValue;
@@ -103,7 +131,7 @@ const InputText: React.FC<IProps> = ({
   };
 
   const inHandleChange = (event: any) => {
-    const {target} = event;
+    const { target } = event;
     const result = validation(target.value, max);
     autoChangeHeight();
     if (onChange) {
@@ -113,6 +141,8 @@ const InputText: React.FC<IProps> = ({
         } else {
           onChange(numberStr(target.value));
         }
+      } else if (card) {
+        onChange(target.value.replace(/ /gi, ""));
       } else onChange(target.value);
     }
 
@@ -125,13 +155,16 @@ const InputText: React.FC<IProps> = ({
 
   const wrapClasses = classNames("JDinput-wrap", wrapClassName, {
     "JDinput-wrap--fullWidth": size === "fullWidth",
-    "JDinput-wrap--fullHeight": size === "fullHeight"
+    "JDinput-wrap--fullHeight": size === "fullHeight",
+    ...JDmrClass(mr),
+    ...JDmbClass(mb)
   });
 
   const classes = classNames(textarea ? "JDtextarea" : "JDinput", className, {
+    "JDinput--overfloweEllipsis": overfloweEllipsis,
     "JDinput--labeled": label && !textarea,
-    "JDinput--h6": textSize === "h6",
     "JDinput--center": textAlign === "center",
+    "JDinput--withIcon": icon,
     "JDinput--valid": (isValid === true || selfValid === true) && !textarea,
     "JDinput--invalid": (isValid === false || selfValid === false) && !textarea,
     "JDinput--allWaysShowValidMessage":
@@ -162,7 +195,7 @@ const InputText: React.FC<IProps> = ({
 
   const autoChangeHeight = () => {
     if (autoHeight) {
-      const target = $(`#JDtextarea${newId}`);
+      const target = $(`.JDtextarea${newId}`);
       target.height("auto").height(target.prop("scrollHeight") + 12);
     }
   };
@@ -171,45 +204,62 @@ const InputText: React.FC<IProps> = ({
     autoChangeHeight();
   });
 
-  const newId = s4();
+  const newId = useMemo(() => s4(), []);
 
   const formatedValue = valueFormat(value);
+
+  const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    event.persist();
+    const {
+      currentTarget: { value }
+    } = event;
+    userTacking(label, value);
+    onBlur && onBlur(event);
+  };
 
   // 인풋 과 텍스트어리어 경계
   return !textarea ? (
     <div className={wrapClasses}>
-      {icon ? (
-        <span className="JDinput-iconWrap">
-          {icon && (
-            <JDicon
-              size={IconSize.MEDIUM}
-              onClick={iconOnClick}
-              hover={iconHover}
-              icon={icon}
-            />
-          )}
-        </span>
-      ) : null}
-      <input
-        onChange={inHandleChange}
-        disabled={disabled}
-        readOnly={readOnly}
-        onBlur={onBlur}
-        type={type}
-        value={formatedValue}
-        ref={refContainer || inRefContainer}
-        data-color="1213"
-        className={classes}
-        {...props}
-      />
-      <label
-        htmlFor="JDinput"
-        data-error={dataError}
-        data-success={dataSuccess}
-        className="JDinput_label"
-      >
-        {label}
-      </label>
+      {label && <JDlabel txt={label} className="JDinput_label" />}
+      <div className="JDinput__inside-wrap">
+        <input
+          onChange={inHandleChange}
+          disabled={disabled}
+          readOnly={readOnly}
+          onBlur={handleBlur}
+          type={type}
+          value={formatedValue}
+          ref={refContainer || inRefContainer}
+          data-color="1213"
+          className={classes}
+          maxLength={card ? 19 : undefined}
+          {...props}
+          id={id}
+        />
+        {
+          <span className="JDinput-iconWrap">
+            {loading ? (
+              <Preloader noAnimation loading={loading} />
+            ) : (
+              icon && (
+                <JDicon
+                  size={"normal"}
+                  onClick={iconOnClick}
+                  hover={iconHover}
+                  icon={icon}
+                  {...iconProps}
+                />
+              )
+            )}
+          </span>
+        }
+        {falseMessage && (
+          <span className="JDinput__falseMessage">
+            <JDicon mr="tiny" mb="no" color="error" icon="info" />{" "}
+            {falseMessage}
+          </span>
+        )}
+      </div>
     </div>
   ) : (
     <div className={wrapClasses}>
@@ -226,10 +276,10 @@ const InputText: React.FC<IProps> = ({
         }}
         onChange={inHandleChange}
         onBlur={onBlur}
-        id={`JDtextarea${newId}`}
-        className={classes}
+        className={classes + ` JDtextarea${newId}`}
         readOnly={readOnly}
         ref={refContainer || inRefContainer}
+        id={id}
       />
       <label htmlFor="JDtextarea" className="JDtextarea_label">
         {label}
@@ -260,4 +310,4 @@ InputText.defaultProps = {
   value: undefined
 };
 
-export default ErrProtecter(InputText);
+export default React.memo(InputText);

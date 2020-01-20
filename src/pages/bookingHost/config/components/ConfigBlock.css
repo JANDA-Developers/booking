@@ -1,0 +1,24 @@
+/* stylelint-disable declaration-block-no-duplicate-properties  */
+.configBlock {
+  position: relative;
+}
+
+.configBlock .JDlarge-text {
+  margin-bottom: 0.6rem;
+}
+
+.configBlock__updateAt {
+  position: absolute;
+  font-size: 10px;
+  right: 0px;
+  top: -8px;
+}
+
+.configBlock__descrition {
+  font-size: 0.825rem;
+}
+
+.additionDetail__HilightPhoto {
+  max-width: 28.8rem;
+}
+/*# sourceMappingURL=ConfigBlock.css.map */

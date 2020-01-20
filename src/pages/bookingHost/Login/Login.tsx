@@ -37,7 +37,11 @@ const Login: React.FC<Iprops> = ({ context }) => {
           {/* 로그인 뮤테이션 (로컬 ) */}
           <Mutation
             mutation={LOG_USER_IN}
+            awaitRefetchQueries
             refetchQueries={[{ query: GET_USER_INFO }]}
+            onCompleted={() => {
+              history.replace("/dashboard");
+            }}
           >
             {(logUserIn: any, { loading: loginMuLoading }: any) => {
               const emailSignIn = (e: any) => {
@@ -69,14 +73,12 @@ const Login: React.FC<Iprops> = ({ context }) => {
                     }) => {
                       if (ok) {
                         if (token) {
+                          localStorage.setItem("lastLogin", emailHook.value);
                           logUserIn({
                             variables: {
                               token
                             }
                           });
-                          localStorage.setItem("lastLogin", emailHook.value);
-                          // toast.success(LANG("login_complete"));
-                          history.replace("/dashboard");
                         }
                       }
                       if (error) {
@@ -93,6 +95,7 @@ const Login: React.FC<Iprops> = ({ context }) => {
                   <PreloaderModal loading={loginMuLoading} />
                   <div>
                     <InputText
+                      id="LoginEmail"
                       {...emailHook}
                       validation={utils.isEmail}
                       label="Email"
@@ -100,6 +103,7 @@ const Login: React.FC<Iprops> = ({ context }) => {
                   </div>
                   <div>
                     <InputText
+                      id="LoginPassword"
                       {...passwordHook}
                       validation={utils.isPassword}
                       type="password"
@@ -107,14 +111,14 @@ const Login: React.FC<Iprops> = ({ context }) => {
                     />
                   </div>
                   <div>
-                    
                     <div>
                       <Button
+                        id="LoginBtn"
                         type="submit"
                         thema="primary"
                         label={LANG("login")}
                       />
-                      <Link to="/signUp">
+                      <Link id="linkToSingUp" to="/signUp">
                         <Button thema="primary" label={LANG("signUp")} />
                       </Link>
                     </div>
@@ -125,7 +129,7 @@ const Login: React.FC<Iprops> = ({ context }) => {
           </Mutation>
         </Card>
 
-         <div>
+        <div>
           <TextButton
             onClick={() => {
               findPasswordModalHook.openModal();
@@ -144,10 +148,7 @@ const Login: React.FC<Iprops> = ({ context }) => {
           </TextButton>
         </div>
       </div>
-      <FindEmailModalWrap
-        context={context}
-        modalHook={findPasswordModalHook}
-      />
+      <FindEmailModalWrap context={context} modalHook={findPasswordModalHook} />
       <RessetPasswordWrap
         context={context}
         modalHook={ressetPasswordModalHook}

@@ -1,13 +1,13 @@
 import React from "react";
-import {IUseDayPicker, LANG} from "../../hooks/hook";
+import { IUseDayPicker, LANG } from "../../hooks/hook";
 import JDdayPicker from "../../atoms/dayPicker/DayPicker";
 import ArrowDayByDay from "../../atoms/dayPicker/component/inputComponent/ArrowDayByDay";
-import {autoComma, isEmpty} from "../../utils/utils";
+import { autoComma } from "../../utils/utils";
 import Preloader from "../../atoms/preloader/Preloader";
-import {Doughnut, ChartData} from "react-chartjs-2";
-import {getSalesStatistic_GetSalesStatistic_data} from "../../types/api";
-import {arraySum} from "../../utils/elses";
-import {getStaticColors} from "../../utils/getStaticColors";
+import { ChartData } from "react-chartjs-2";
+import { getSalesStatistic_GetSalesStatistic_data } from "../../types/api";
+import { arraySum } from "../../utils/elses";
+import { getStaticColors } from "../../utils/getStaticColors";
 import JDgraph from "../../atoms/graph/graph";
 
 export interface IViewConfigProp {
@@ -39,7 +39,7 @@ const DaySales: React.FC<Iprops> = ({
       {
         data: prices,
         backgroundColor: getStaticColors(priceData.length),
-        hoverBackgroundColor: getStaticColors(priceData.length, {light: true})
+        hoverBackgroundColor: getStaticColors(priceData.length, { light: true })
       }
     ]
   };
@@ -49,7 +49,7 @@ const DaySales: React.FC<Iprops> = ({
       {showDayPicker && dayPickerHook && (
         <JDdayPicker
           isRange={false}
-          input
+          mode="input"
           canSelectBeforeDay={false}
           label={LANG("calender_date")}
           {...dayPickerHook}

@@ -28,10 +28,9 @@ const ItemMenuTooltip: React.FC<IProps> = ({
       getContent={(guestId: string) => {
         const targetGuest = guestValue.find(guest => guest.id === guestId);
         if (!targetGuest) return;
-        const isProgressing = targetGuest.status === BookingStatus.PROGRESSING;
         return (
           <ul className="tooltipList__ul">
-            {!isProgressing && (
+            {
               <Fragment>
                 <li>
                   <Button
@@ -56,7 +55,7 @@ const ItemMenuTooltip: React.FC<IProps> = ({
                   />
                 </li>
               </Fragment>
-            )}
+            }
             {houseConfig.assigTimeline!.itemBlockOp!.useColor && (
               <li>
                 <Button

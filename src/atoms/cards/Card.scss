@@ -1,15 +1,20 @@
-@import "~Styles/style_config.scss";
+@import "~Styles";
+@import "./components/cardHeader";
+@import "./components/cardSection";
+
+$card-radius: $standard-border-radius;
+$card-hover-bg: $grey-level1;
 
 .JDcard {
+    @include shadow($card-shadow);
     position: relative;
-    @extend %z-depth-1;
     padding: $card-padding;
     text-align: left;
-    border-radius: $standard-border-radius;
-    background-color: $stadnard-background-color;
+    border-radius: $card-radius;
+    background-color: $card-bg;
 
-    .JDbtn {
-        margin-bottom: 0;
+    @include response($tablet) {
+        padding: $card-padding--md;
     }
 
     &--align {
@@ -42,7 +47,7 @@
     }
 
     &--hover:hover  {
-        background-color: $grey-level1;
+        background-color: $card-hover-bg;
         cursor:pointer;
 
         .JDhelp {
@@ -52,6 +57,10 @@
         * {
             cursor: inherit;
         }
+    }
+
+    .JDbtn {
+        margin-bottom: 0;
     }
 
     & > *:last-child {

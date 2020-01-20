@@ -5,9 +5,12 @@ import "./JDLabel.scss";
 
 interface IProp {
   txt: string | JSX.Element;
+  className?: string;
 }
 
-const JDLabel = ({txt}: IProp) => <span className="JDlabel">{txt}</span>;
+const JDLabel = ({ txt, className }: IProp) => (
+  <span className={`JDlabel ${className}`}>{txt}</span>
+);
 
 JDLabel.propTypes = {
   txt: PropTypes.string.isRequired

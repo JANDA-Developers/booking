@@ -1,15 +1,7 @@
 import gql from "graphql-tag";
 
 /* -------------------------------- client ------------------------------- */
-// 로그인이 되었는지?
-export const IS_LOGGED_IN = gql`
-  {
-    auth @client {
-      isLogIn
-    }
-  }
-`;
-// 로그인 인
+// 로그인 뮤테이션
 export const LOG_USER_IN = gql`
   mutation logUserIn($token: String!) {
     LogUserIn(token: $token) @client
@@ -19,15 +11,6 @@ export const LOG_USER_IN = gql`
 export const LOG_USER_OUT = gql`
   mutation logUserOut {
     LogUserOut @client
-  }
-`;
-// 선택된 집 가져옴
-export const SELECTED_HOUSE = gql`
-  query lastSelectedHouse {
-    lastSelectedHouse @client {
-      label
-      value
-    }
   }
 `;
 

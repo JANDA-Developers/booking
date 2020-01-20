@@ -1,17 +1,20 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import "./MultiBox.scss";
 import classNames from "classnames";
 import Button from "../button/Button";
-import {s4} from "../../utils/utils";
+import { s4, isEmpty } from "../../utils/utils";
 
 interface IProps {
   labels: string[];
   selectedValue: string[];
   value: string[];
   onChange: (value: string[]) => void;
+  reversal?: "onlyFull" | "always";
   withAllToogler?: boolean;
   defaultAllToogle?: boolean;
   withAllTooglerLabel?: string;
+  className?: string;
+  noWrap?: boolean;
 }
 
 const JDmultiBox: React.FC<IProps> = ({
@@ -21,49 +24,72 @@ const JDmultiBox: React.FC<IProps> = ({
   labels,
   onChange,
   withAllToogler,
-  withAllTooglerLabel
+  withAllTooglerLabel,
+  reversal,
+  className,
+  noWrap
 }) => {
   const [onAllToggle, setAllToggle] = useState(defaultAllToogle);
+
   const handleMultiBoxAllChange = () => {
     setAllToggle(!onAllToggle);
     onChange(!onAllToggle ? value : []);
   };
 
-  const handleMultiBoxChange = (inValue: string) => {
-    const index = selectedValue.findIndex(inInValue => inInValue === inValue);
-    if (index === -1) {
-      selectedValue.push(inValue);
+  const handleMultiBoxChange = (text: string) => {
+    const selectedTagrgetIndex = selectedValue.findIndex(
+      inInValue => inInValue === text
+    );
+    const isSelectedValue = selectedTagrgetIndex !== -1;
+
+    if (reversal === "always") {
+      selectedValue = [];
+    } else if (
+      reversal === "onlyFull" &&
+      selectedValue.length === value.length
+    ) {
+      selectedValue = [];
+    }
+
+    if (isEmpty(isSelectedValue)) {
+      selectedValue.push(text);
     } else {
-      selectedValue.splice(index, 1);
+      selectedValue.splice(selectedTagrgetIndex, 1);
     }
     onChange(selectedValue.slice());
   };
 
-  const classes = classNames({
-    JDswitch__input: true
+  const classes = classNames("multiBox", className, {
+    "multiBox--noWrap": noWrap
+  });
+
+  const innerClasses = classNames("multiBox__inner", undefined, {
+    "multiBox__inner--noWrap": noWrap
   });
 
   return (
-    <div className="multiBox">
-      {withAllToogler && (
-        <Button
-          size="small"
-          toggle={onAllToggle}
-          label={withAllTooglerLabel}
-          onClick={handleMultiBoxAllChange}
-        />
-      )}
-      {labels.map((label, index) => (
-        <Button
-          size="small"
-          key={s4()}
-          toggle={selectedValue.includes(value[index])}
-          label={label}
-          onClick={() => handleMultiBoxChange(value[index])}
-        />
-      ))}
+    <div className={`multiBox ${classes}`}>
+      <div className={innerClasses}>
+        {withAllToogler && (
+          <Button
+            size="small"
+            toggle={onAllToggle}
+            label={withAllTooglerLabel}
+            onClick={handleMultiBoxAllChange}
+          />
+        )}
+        {labels.map((label, index) => (
+          <Button
+            size="small"
+            key={s4()}
+            toggle={selectedValue.includes(value[index])}
+            label={label}
+            onClick={() => handleMultiBoxChange(value[index])}
+          />
+        ))}
+      </div>
     </div>
   );
 };
 
-export default JDmultiBox;
+export default React.memo(JDmultiBox);

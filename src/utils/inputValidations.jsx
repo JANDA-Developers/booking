@@ -1,6 +1,28 @@
 // 빈 문자열이면 중립을 반환합니다.
 
-import { NEUTRAL } from "../types/enum";
+import { NEUTRAL } from "../types/const";
+
+const checkBizID = (
+  bizID //사업자등록번호 체크
+) => {
+  // bizID는 숫자만 10자리로 해서 문자열로 넘긴다.
+  var checkID = new Array(1, 3, 7, 1, 3, 7, 1, 3, 5, 1);
+  var tmpBizID,
+    i,
+    chkSum = 0,
+    c2,
+    remander;
+  bizID = bizID.replace(/-/gi, "");
+
+  for (i = 0; i <= 7; i++) chkSum += checkID[i] * bizID.charAt(i);
+  c2 = "0" + checkID[8] * bizID.charAt(8);
+  c2 = c2.substring(c2.length - 2, c2.length);
+  chkSum += Math.floor(c2.charAt(0)) + Math.floor(c2.charAt(1));
+  remander = (10 - (chkSum % 10)) % 10;
+
+  if (Math.floor(bizID.charAt(9)) == remander) return true; // OK!
+  return false;
+};
 
 const isUrl = string => {
   if (string === "") return NEUTRAL;
@@ -25,6 +47,11 @@ const isLengthIn = (string, max, min) => {
   return string.length <= max && min < string.length;
 };
 
+const isIncludeSpecialChar = string => {
+  const regExp = /[!@#$%^&*(),?"{}|<>]/g;
+  return regExp.test(string);
+};
+
 const isName = string => {
   if (string === "") return NEUTRAL;
   const regExp = /[가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9 .'_]+$/gi;
@@ -34,7 +61,6 @@ const isName = string => {
 };
 
 const isYYYYMMDD = string => {
-  if (string === "") return NEUTRAL;
   const regExp = /^(19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/;
   // const regExp2 = /^(19|20)\d{2}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[0-1])$/;
   let validation = regExp.test(string);
@@ -44,7 +70,7 @@ const isYYYYMMDD = string => {
 
 const isEmail = string => {
   if (string === "") return NEUTRAL;
-  const regExp = /^[-$^_=+0-9A-Za-z~]+@[-$%/0-9=?A-Z^_a-z~]+.[0-9A-Za-z~]+\w$/;
+  const regExp = /^[-$.^_=+0-9A-Za-z~]+@[-$%/0-9=?A-Z^_a-z~]+.[0-9A-Za-z~]+\w$/;
   return regExp.test(string);
 };
 
@@ -73,8 +99,13 @@ const isNumberMinMax = (string, min, max) => {
   return regExp.test(string);
 };
 
+const isNumber = value => {
+  return /^\d*$/.test(value);
+};
+
 export {
   isEmail,
+  isNumber,
   isYYYYMMDD,
   isPhone,
   isName,
@@ -84,5 +115,6 @@ export {
   isNumberMinMax,
   isLengthIn,
   isHaveScharacter,
-  isHaveNumber
+  isHaveNumber,
+  isIncludeSpecialChar
 };

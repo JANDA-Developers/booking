@@ -84,19 +84,23 @@ export interface IDailyAssigProp {
   )[];
 }
 
-interface IProps {
+export interface IChainProps {
+  calendarPosition?: "center" | "inside" | "topLeft";
+  onRederCallBack?: () => void;
+}
+
+interface IProps extends IChainProps {
   context: IContext;
   date: Date;
-  isInModal?: boolean;
-  calendarPosition?: "center" | "inside" | "topLeft";
 }
 
 const DailyAssigWrap: React.FC<IProps> = ({
   date,
   context,
-  isInModal,
-  calendarPosition = "topLeft"
+  calendarPosition = "topLeft",
+  ...props
 }) => {
+  const { langHook } = context;
   const { house } = context;
   const dayPickerHook = useDayPicker(date, date);
   const { houseConfig, _id: houseId } = house;
@@ -107,6 +111,7 @@ const DailyAssigWrap: React.FC<IProps> = ({
       .add(1, "day")
       .toDate()
   };
+  moment.lang(langHook.currentLang);
 
   const Result = useMemo(() => {
     return (
@@ -116,7 +121,8 @@ const DailyAssigWrap: React.FC<IProps> = ({
         query={GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM}
         variables={{
           ...updateVariables,
-          bookingStatuses: [BookingStatus.COMPLETE, BookingStatus.PROGRESSING]
+          houseId,
+          bookingStatuses: [BookingStatus.COMPLETED, BookingStatus.CANCELED]
         }}
       >
         {({ data, loading, networkStatus }) => {
@@ -163,7 +169,7 @@ const DailyAssigWrap: React.FC<IProps> = ({
                       allocateMu,
                       loading,
                       blocksData: blocks,
-                      guestsData: guestsData,
+                      guestsData,
                       formatedItemData,
                       dayPickerHook: dayPickerHook,
                       roomTypesData: roomTypesData,
@@ -285,6 +291,7 @@ const DailyAssigWrap: React.FC<IProps> = ({
                                                 dailyAssigDataControl={
                                                   dailyAssigDataControl
                                                 }
+                                                {...props}
                                               />
                                             </Fragment>
                                           );

@@ -1,16 +1,16 @@
-@import '~Styles/style_config.scss';
+@import '~Styles';
 
 .myPage{
     text-align: center;
 
-    &__profileCircle {
-        margin-bottom: $standard-margin-bottom;
-    }
-    
-    &__profileCircle {
-        .profileCircle {
-            margin-bottom: $standard-margin-bottom;
-        }
+    &__profileCircleWrap {
+        display:flex;
+        align-items: center;
+        padding-right: $standard-space;
+        padding-left: $standard-space;
+        @include response ($phablet) {
+            padding-left: 0;
+        }   
     }
     
     &__myHouses {

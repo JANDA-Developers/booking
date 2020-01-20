@@ -2,8 +2,9 @@ import React from "react";
 import classNames from "classnames";
 import ErrProtecter from "../../utils/errProtect";
 import "./CircleIcon.scss";
-import {IconSize} from "../icons/Icons";
 import JDLabel from "../label/JDLabel";
+import { IconSize } from "../../types/enum";
+import { iconSizeClass } from "../../utils/autoClasses";
 
 interface IProps extends React.HTMLAttributes<HTMLButtonElement> {
   children: JSX.Element[] | JSX.Element;
@@ -34,8 +35,6 @@ const CircleIcon: React.FunctionComponent<IProps> = ({
     onClick && onClick();
   };
 
-  const circleSize = parseFloat(size || "1em") * 2 + "em";
-
   const classes = classNames("circleIcon", className, {
     "circleIcon--large": large,
     "circleIcon--noHover": !hover,
@@ -43,26 +42,16 @@ const CircleIcon: React.FunctionComponent<IProps> = ({
     "circleIcon--greybg": thema === "greybg",
     "circleIcon--border": thema === "border",
     "JDwaves-effect": wave || darkWave,
-    "JDwaves-effect-dark": darkWave
+    "JDwaves-effect-dark": darkWave,
+    ...iconSizeClass("circleIcon", size)
   });
-
-  const style = {
-    width: circleSize,
-    height: circleSize
-  };
 
   return (
     <span className="circleIcon-Wrap">
       {label && <JDLabel txt={label} />}
-      <button
-        style={style}
-        {...prop}
-        type="button"
-        onClick={handleOnclick}
-        className={classes}
-      >
+      <span {...prop} onClick={handleOnclick} className={classes}>
         {children}
-      </button>
+      </span>
     </span>
   );
 };

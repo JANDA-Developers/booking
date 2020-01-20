@@ -1,5 +1,5 @@
-import React from "react";
-import Slider, {Settings} from "react-slick";
+import React, { Fragment } from "react";
+import Slider, { Settings } from "react-slick";
 import CircleIcon from "../circleIcon/CircleIcon";
 import Icon from "../icons/Icons";
 import "./Slider.scss";
@@ -8,11 +8,13 @@ import classnames from "classnames";
 interface IProps extends Settings {
   whiteIcon?: boolean;
   displayArrow?: boolean;
+  condition?: boolean;
 }
 
 const JDSlider: React.FC<IProps> = ({
   children,
   whiteIcon,
+  condition,
   displayArrow = true,
   className,
   ...props
@@ -53,13 +55,12 @@ const JDSlider: React.FC<IProps> = ({
   const classes = classnames(JDslideDefaultSettings.className, className, {
     "JDslider--unDisplayArrow": displayArrow === false
   });
+  JDslideDefaultSettings.className = classes;
 
-  const settings = Object.assign(JDslideDefaultSettings, {
-    className: classes
-  });
+  if (!condition) return <Fragment>{children}</Fragment>;
 
   return (
-    <Slider {...settings} {...props}>
+    <Slider {...JDslideDefaultSettings} {...props}>
       {children}
     </Slider>
   );

@@ -1,28 +1,24 @@
-@import "~Styles/style_config.scss";
+@import "~Styles";
 
-.circleIcon {
+html .circleIcon {
     border-radius:50%;
     background: none;
     border: none;
     outline: none;
-    // width: $circle-icon-size;
-    // height: $circle-icon-size;
     align-content: center;
     justify-content:center;
-    display: inline-block;
+    display: flex;
     font-size:inherit;
     line-height: 100%;
     cursor:pointer;
 
-    &-Wrap {
-        display:flex;
-        flex-direction: column;
-        text-align:center;
-    }
     &:hover {
         background-color: $hover-effect-dark;
         transition:0.3s;
     }
+
+    @include iconSize--prefixer(2);
+    
     &--white {
         color:white;
         &:hover{
@@ -45,11 +41,16 @@
         background-color:unset;
     }
 
+    &-Wrap {
+        display:flex;
+        flex-direction: column;
+        text-align:center;
+    }
+
     .JDicon__svg {
         line-height: 100%;
         top:.1em;
     }
-
 
     img {
         width: 100%;

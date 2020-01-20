@@ -41,7 +41,8 @@ import {
   ICreateCreateItem,
   TChangeMarkToGhost,
   TGetInfoesFromMarks,
-  THilightHeader
+  THilightHeader,
+  TGetItemsByType
 } from "../components/assigIntrerface";
 import {
   onCompletedMessage,
@@ -52,7 +53,12 @@ import {
   isEmpty
 } from "../../../../utils/utils";
 import { ReactTooltip } from "../../../../atoms/tooltipList/TooltipList";
-import { RoomGender, Gender, PricingType } from "../../../../types/enum";
+import {
+  RoomGender,
+  Gender,
+  PricingType,
+  TimePerMs
+} from "../../../../types/enum";
 import {
   DEFAULT_ASSIG_ITEM,
   DEFAULT_ROOMTYPE,
@@ -72,17 +78,22 @@ import {
 import { LANG } from "../../../../hooks/hook";
 import { IBookingModalProp } from "../../../../components/bookingModal/declaration";
 
+const TOOLTIP_POSITION = {
+  x: 15,
+  y: 8
+};
+
 export function getAssigUtils(
   {
     setGuestValue,
     guestValue,
     setBlockMenuProps,
     bookingModal,
-    confirmModalHook
+    confirmModalHook,
+    isMultiSelectingMode
   }: IAssigTimelineHooks,
   {
     allocateMu,
-    deleteGuestsMu,
     createBlockMu,
     deleteBlockMu,
     deleteBookingMu,
@@ -94,10 +105,12 @@ export function getAssigUtils(
 ): IAssigTimelineUtils {
   // 마크제거 MARK REMOVE 마커 제거
   const removeMark: TRemoveMark = () => {
-    console.info("removeMark");
-    setGuestValue([
-      ...guestValue.filter(item => item.type !== GuestTypeAdd.MARK)
-    ]);
+    if (!isMultiSelectingMode) {
+      console.info("removeMark");
+      setGuestValue([
+        ...guestValue.filter(item => item.type !== GuestTypeAdd.MARK)
+      ]);
+    }
   };
 
   const deleteGhost: TDleteGhost = () => {
@@ -107,8 +120,11 @@ export function getAssigUtils(
     ]);
   };
 
-  // TODO
-  // const getItemByTypes
+  const getItemsByType: TGetItemsByType = (type: GuestTypeAdd) => {
+    const targetGuests = guestValue.filter(guest => guest.type === type);
+
+    return targetGuests;
+  };
 
   const getItemById: TGetItemById = guestId => {
     const targetGuest = guestValue.find(guest => guest.id === guestId);
@@ -288,6 +304,7 @@ export function getAssigUtils(
       $("#createMenu").removeClass("assig__tooltips--show");
     if (except !== "itemTooltip")
       $("#itemTooltip").removeClass("assig__tooltips--show");
+    ReactTooltip.rebuild();
   };
 
   // 유틸 두게스트의 충돌시간 구해줌 없다면 false를 반환함
@@ -340,8 +357,11 @@ export function getAssigUtils(
       guest => guest.type !== GuestTypeAdd.MARK
     );
 
+    if (end - start < TimePerMs.DAY - TimePerMs.H) return;
+
     groupIds.forEach((id, i) => {
       const group = getGroupById(id);
+
       filteredGuestValue.push({
         ...DEFAULT_ASSIG_ITEM,
         roomTypeId: group.roomTypeId,
@@ -429,14 +449,11 @@ export function getAssigUtils(
     });
 
     // 에러처리
-    const newBlock: any = muResult<createBlock_CreateBlock_block>(
-      result,
-      "CreateBlock",
-      "block"
-    );
-    if (typeof newBlock !== "boolean") {
+    const newBlock = muResult(result, "CreateBlock", "block");
+    if (newBlock) {
       // setGuestValue([...guestValueOriginCopy,]);
     } else {
+      // 복구 처리
       setGuestValue([...guestValueOriginCopy]);
     }
   };
@@ -445,9 +462,14 @@ export function getAssigUtils(
     targetGuest: IAssigItem,
     newGroupOrder: number
   ) => {
+    const targetGroup = getGroupById(targetGuest.group);
+    const moveGroup = groupData[newGroupOrder];
+
+    if (targetGroup.id === moveGroup.id) return;
+
     const guestValueOriginCopy = $.extend(true, [], guestValue);
 
-    targetGuest.group = groupData[newGroupOrder].id;
+    targetGuest.group = moveGroup.id;
     setGuestValue([...guestValue]);
 
     // 배정 뮤테이션을 발생
@@ -462,8 +484,10 @@ export function getAssigUtils(
     guestValueOriginCopy?: IAssigItem[]
   ) => {
     if (JDisNetworkRequestInFlight(networkStatus)) return;
+
     const group = groupData[newGroupOrder];
     const newGroupId = group.roomId;
+
     const result = await allocateMu({
       variables: {
         guestId: itemId,
@@ -473,15 +497,14 @@ export function getAssigUtils(
         }
       }
     });
-    // 실패하면 전부 되돌림
-
-    // 👿 이반복을 함수 if 로 만들면 어떨까?
-    if (!muResult(result, "AllocateGuestToRoom"))
+    // 실패시 복구
+    if (!muResult(result, "AllocateGuestToRoom")) {
       if (guestValueOriginCopy) {
         setGuestValue([...guestValueOriginCopy]);
       } else {
         location.reload();
       }
+    }
   };
 
   // 방막기
@@ -537,13 +560,9 @@ export function getAssigUtils(
         }
       });
 
-      const block = muResult<createBlock_CreateBlock_block>(
-        result,
-        "CreateBlock",
-        "block"
-      );
+      const block = muResult(result, "CreateBlock", "block");
 
-      if (typeof block === "boolean") {
+      if (!block) {
         setGuestValue(guestValueOriginCopy);
       } else {
       }
@@ -606,10 +625,13 @@ export function getAssigUtils(
   const startBookingModalWithMark: TBookingModalOpenWithMark = startBookingCallBack => {
     const createItems = getItems(GuestTypeAdd.MARK);
 
+    if (isEmpty(createItems)) return;
+
     // 아이템들의 그룹들
     const createItemTempGroups = createItems.map(item =>
       getGroupById(item.group)
     );
+
     // 아이템들의 룸타입들
     const roomTypes = groupToRoomType(createItemTempGroups);
 
@@ -707,9 +729,15 @@ export function getAssigUtils(
 
   // canvas 용 메뉴오픈
   const openCanvasMenuTooltip: TOpenCanvasMenuTooltip = location => {
-    $("#canvasMenu")
-      .css("left", location.clientX + 10)
-      .css("top", location.clientY + 5)
+    let fixY = 0;
+    const target = $("#canvasMenu");
+    if (window.innerHeight < location.clientY + 100) {
+      fixY = window.innerHeight - (target.height() || 0) - 20;
+    }
+
+    target
+      .css("left", location.clientX + TOOLTIP_POSITION.x)
+      .css("top", fixY || location.clientY + TOOLTIP_POSITION.y)
       .addClass("assig__tooltips--show");
   };
 
@@ -753,7 +781,9 @@ export function getAssigUtils(
           blockId: id
         }
       });
-      if (!muResult(result, "DeleteBlock ")) {
+
+      // 에러가 아니면 반영
+      if (muResult(result, "DeleteBlock")) {
         setGuestValue([...guestValue.filter(guest => guest.id !== id)]);
       }
     } else {
@@ -858,7 +888,8 @@ export function getAssigUtils(
     hilightHeader,
     deleteGhost,
     createCreateItem,
-    getItems
+    getItems,
+    getItemsByType
   };
 
   return assigUtils;

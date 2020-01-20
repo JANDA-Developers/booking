@@ -1,22 +1,16 @@
 import {
   getBooking_GetBooking_booking_guests,
-  getBooking_GetBooking_booking_guests_GuestDomitory,
   startBookingVariables
 } from "../../types/api";
-import { instanceOfA } from "../../utils/utils";
 import { inOr } from "../../utils/C";
-import {
-  Gender,
-  PaymentStatus,
-  AutoSendWhen,
-  PricingType
-} from "../../types/enum";
+import { Gender, PaymentStatus, AutoSendWhen } from "../../types/enum";
 import { IBookingModal_AssigInfo, IBookingModalContext } from "./declaration";
 import { toast } from "react-toastify";
 import { LANG } from "../../hooks/hook";
 import { IModalSMSinfo } from "../smsModal/SendSmsModalWrap";
 import guestsToInput from "../../utils/typeChanger";
 import { to4YMMDD } from "../../utils/setMidNight";
+import { isDomitoryGuest } from "../../utils/interfaceMatch";
 
 export const bookingModalValidate = (
   bookingModalContext: IBookingModalContext,
@@ -66,35 +60,17 @@ export const bookingModalValidate = (
 export const makeSmsInfoParam = (
   bookingModalContext: IBookingModalContext
 ): IModalSMSinfo => {
-  const {
-    bookingNameHook,
-    bookingPhoneHook,
-    paymentStatusHook,
-    priceHook,
-    resvDateHook,
-    payMethodHook,
-    emailHook
-  } = bookingModalContext;
+  const { bookingPhoneHook, paymentStatusHook } = bookingModalContext;
   return {
     receivers: [bookingPhoneHook.value],
-    smsFormatInfo: {
-      name: bookingNameHook.value,
-      payMethod: inOr(payMethodHook.selectedOption, "label", ""),
-      email: emailHook.value,
-      phoneNumber: bookingPhoneHook.value,
-      end: resvDateHook.to!,
-      start: resvDateHook.from!,
-      paymentStatus: inOr(paymentStatusHook.selectedOption, "label", ""),
-      price: priceHook.value || 0
-    },
     // 페이먼트 에따라서 각 상황에맞는 SMS 를 찾아줌
     autoSendWhen: (() => {
       const { selectedOption } = paymentStatusHook;
       if (selectedOption) {
-        if (selectedOption.value === PaymentStatus.COMPLETE) {
+        if (selectedOption.value === PaymentStatus.COMPLETED) {
           return AutoSendWhen.WHEN_BOOKING_CREATED;
-        } else if (selectedOption.value === PaymentStatus.PROGRESSING) {
-          return AutoSendWhen.WHEN_BOOKING_CREATED_PAYMENT_PROGRESSING;
+        } else if (selectedOption.value === PaymentStatus.NOT_YET) {
+          return AutoSendWhen.WHEN_BOOKING_CREATED_PAYMENT_NOT_YET;
         }
       }
     })()
@@ -107,26 +83,24 @@ export const makeAssigInfo = (
 ): IBookingModal_AssigInfo[] =>
   guests
     ? guests.map(guest => {
-        if (guest.pricingType === PricingType.DOMITORY) {
-          return {
-            _id: guest._id,
-            roomId: inOr(guest.room, "_id", ""),
-            // @ts-ignore
-            gender: guest.gender || Gender.MALE,
-            // @ts-ignore
-            bedIndex: guest.bedIndex,
-            pricingType: guest.pricingType
-          };
-        } else {
-          return {
-            _id: guest._id,
-            roomId: inOr(guest.room, "_id", ""),
-            gender: null,
-            bedIndex: 0,
-            pricingType: guest.pricingType
-          };
-        }
-      })
+      if (isDomitoryGuest(guest)) {
+        return {
+          _id: guest._id,
+          roomId: inOr(guest.room, "_id", ""),
+          gender: guest.gender || Gender.MALE,
+          bedIndex: guest.bedIndex,
+          pricingType: guest.pricingType
+        };
+      } else {
+        return {
+          _id: guest._id,
+          roomId: inOr(guest.room, "_id", ""),
+          gender: null,
+          bedIndex: 0,
+          pricingType: guest.pricingType
+        };
+      }
+    })
     : [];
 
 // 현재 부킹모달 정보들을 토대로 예약생성에 필요한 파라미터를 반환합니다.
@@ -150,35 +124,25 @@ export const bookingModalGetStartBookingVariables = (
 
   // 예약자가 변경한 성별사항을 적용한 임시 게스트정보 생성
   const getGenderChangedGuest = (): getBooking_GetBooking_booking_guests[] => {
+    if (!guests) return [];
+
     if (mode === "CREATE_ASSIG") {
-      if (guests) {
-        return guests.map(guest => {
-          const copyGuest = guest;
-          assigInfo.forEach(info => {
-            if (
-              instanceOfA<getBooking_GetBooking_booking_guests_GuestDomitory>(
-                copyGuest,
-                "gender"
-              )
-            ) {
-              if (copyGuest._id === info._id) {
-                copyGuest.gender = info.gender;
-              }
-            }
-          });
-          return copyGuest;
+      return guests.map(guest => {
+        const copyGuest = guest;
+
+        assigInfo.forEach(info => {
+          if (isDomitoryGuest(copyGuest) && copyGuest._id === info._id)
+            copyGuest.gender = info.gender;
         });
-      }
-    } else if (guests) {
-      return guests;
+        return copyGuest;
+      });
     }
-    return [];
+
+    return guests;
   };
 
   // 게스트들을 룸타입별로 정렬
   const guestsToInputs = guestsToInput(guests ? getGenderChangedGuest() : []);
-
-  console.log(guestsToInputs);
 
   const allocationParams = assigInfo.map(info => ({
     bedIndex: info.bedIndex,
@@ -194,9 +158,7 @@ export const bookingModalGetStartBookingVariables = (
       name: bookingNameHook.value,
       password: "admin",
       phoneNumber: bookingPhoneHook.value,
-      funnels: funnelStatusHook.selectedOption
-        ? funnelStatusHook.selectedOption.value
-        : null
+      funnels: funnelStatusHook.selectedOption?.value || null
     },
     checkInOut: {
       checkIn: to4YMMDD(resvDateHook.from),
@@ -206,7 +168,7 @@ export const bookingModalGetStartBookingVariables = (
     guestRoomParams: guestsToInputs.countInRooms,
     paymentParams: {
       payMethod: payMethodHook.selectedOption!.value,
-      price: priceHook.value,
+      price: parseInt(priceHook.value),
       status: paymentStatusHook.selectedOption!.value
     },
     houseId,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./DailyAssig.scss";
 import {
   getAllRoomTypeWithGuest_GetBlocks_blocks as IB,
@@ -16,25 +16,26 @@ import { DndProvider, DragObjectWithType } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
 import TouchBackend from "react-dnd-touch-backend";
 import GuestTooltip from "./components/GuestTooltip";
-import { IDailyAssigProp } from "./DailyAssigWrap";
+import { IDailyAssigProp, IChainProps } from "./DailyAssigWrap";
 import getDailyAssigUtils from "../../pages/bookingHost/assig/helper/dailyAssigUtils";
 import { JDtoastModal } from "../../atoms/modal/Modal";
 import { ReactTooltip } from "../../atoms/tooltipList/TooltipList";
+import { PricingType } from "../../types/enum";
 import {
-  PricingType,
   FLOATING_PRELOADER_SIZE,
   MODAL_PRELOADER_SIZE
-} from "../../types/enum";
+} from "../../types/const";
 import Tooltip from "../../atoms/tooltip/Tooltip";
 import { isMobile } from "is-mobile";
 import { IDailyAssigDataControl } from "../../pages/bookingHost/assig/components/assigIntrerface";
 import PlaceTooltip from "./components/PlaceTooltip";
 import moment from "moment";
 import BlockTooltip from "./components/BlockTooltip";
-import { isEmpty, instanceOfA, s4 } from "../../utils/utils";
+import { isEmpty, s4 } from "../../utils/utils";
 import ReadyItemTooltip from "../../pages/bookingHost/assig/components/tooltips/ReadyItemTooltip";
 import DayPickerModal from "../dayPickerModal/DayPickerModal";
 import { PortalPreloader } from "../../utils/portalElement";
+import { to4YMMDD } from "../../utils/setMidNight";
 
 export interface IDailyAssigContext extends IDailyAssigProp {
   confirmModalHook: IUseModal<any>;
@@ -42,7 +43,7 @@ export interface IDailyAssigContext extends IDailyAssigProp {
   handleDrop: (item: IG & DragObjectWithType, room: IR, place: number) => void;
 }
 
-interface IProps {
+interface IProps extends IChainProps {
   context: IContext;
   dailyAssigDataControl: IDailyAssigDataControl;
   outDailyAssigContext: IDailyAssigProp;
@@ -51,7 +52,8 @@ interface IProps {
 const DailyAssig: React.FC<IProps> = ({
   context,
   outDailyAssigContext,
-  dailyAssigDataControl
+  dailyAssigDataControl,
+  onRederCallBack
 }) => {
   const { house } = context;
   const {
@@ -135,7 +137,7 @@ const DailyAssig: React.FC<IProps> = ({
     <div className="dailyAssig__dayPicker">
       <JDdayPicker
         isRange={false}
-        input
+        mode="input"
         label={LANG("calender_date")}
         {...dayPickerHook}
         className="JDwaves-effect JDoverflow-visible"
@@ -145,7 +147,7 @@ const DailyAssig: React.FC<IProps> = ({
             onClick={() => {
               dayPickerModalHook.openModal();
             }}
-            format={`MM${LANG("month")} DD${LANG("date")}`}
+            format={`MM/DD`}
             dayPickerHook={dayPickerHook}
           />
         )}
@@ -164,8 +166,14 @@ const DailyAssig: React.FC<IProps> = ({
     </span>
   );
 
+  useEffect(() => {
+    if (loading === false && !isEmpty(dailayAssigContext.formatedItemData)) {
+      onRederCallBack && onRederCallBack();
+    }
+  }, [loading]);
+
   return (
-    <div className="dailyAssigWrap">
+    <div className={`dailyAssigWrap ${loading && "dailyAssigWrap--loading"}`}>
       <div className="dailyAssig__dayPicker--center">
         {calendarPosition === "center" && <DailyAssigDayPicker />}
       </div>
@@ -262,10 +270,12 @@ const DailyAssig: React.FC<IProps> = ({
           createBlockMu({
             variables: {
               bedIndex: infoJson.place,
-              checkIn: dayPickerHook.from,
-              checkOut: moment(dayPickerHook.to!)
-                .add(1, "day")
-                .toDate(),
+              checkIn: to4YMMDD(dayPickerHook.from),
+              checkOut: to4YMMDD(
+                moment(dayPickerHook.to!)
+                  .add(1, "day")
+                  .toDate()
+              ),
               houseId: house._id,
               roomId: infoJson.roomId
             }

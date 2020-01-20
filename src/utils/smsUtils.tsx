@@ -1,7 +1,7 @@
-import {SmsReplaceKeyEnumKeys, SmsReplaceKeyEnumValues} from "../types/enum";
-import {getSmsInfo_GetSmsInfo_smsInfo_smsTemplates} from "../types/api";
-import {IselectedOption} from "../atoms/forms/selectBox/SelectBox";
-import {LANG} from "../hooks/hook";
+import { SmsReplaceKeyEnumKeys, SmsReplaceKeyEnumValues } from "../types/const";
+import { getSmsInfo_GetSmsInfo_smsInfo_smsTemplates } from "../types/api";
+import { IselectedOption } from "../atoms/forms/selectBox/SelectBox";
+import { LANG } from "../hooks/hook";
 
 // 메세지를 [언어] => %템플릿% 으로 변경
 export const smsMessageFormatter = (msg: string): string => {

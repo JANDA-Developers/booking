@@ -3,7 +3,7 @@ import { useQuery } from "@apollo/react-hooks";
 import { GET_MEMO } from "../../../apollo/queries";
 import { getMemos, getMemosVariables } from "../../../types/api";
 import { queryDataFormater, s4 } from "../../../utils/utils";
-import JDIcon, { IconConifgProps } from "../../../atoms/icons/Icons";
+import JDIcon from "../../../atoms/icons/Icons";
 import { IContext } from "../../../pages/bookingHost/BookingHostRouter";
 import { MemoType } from "../../../types/enum";
 import client from "../../../apollo/apolloClient";
@@ -11,14 +11,18 @@ import JDbadge from "../../../atoms/badge/Badge";
 import MemoAlertModal from "./MemoAlertModal";
 import { useModal, LANG } from "../../../hooks/hook";
 import { alertMemo } from "../../../pages/bookingHost/helper";
+import FloatBox from "../../../atoms/floatBox/FloatBox";
+import JDbox from "../../../atoms/box/JDbox";
+import MemoWrap from "../MemoWrap";
+import { IconConifgProps } from "../../../atoms/icons/declation";
 
 interface Iprops extends IconConifgProps {
   context: IContext;
-  onClick: any;
 }
 
 const MemoIcon: React.FC<Iprops> = ({ context, ...props }) => {
   const { house } = context;
+  const memoModalHook = useModal(false);
   const memoAlertModalHook = useModal(false);
   const { data, loading } = useQuery<getMemos, getMemosVariables>(GET_MEMO, {
     client,
@@ -32,6 +36,16 @@ const MemoIcon: React.FC<Iprops> = ({ context, ...props }) => {
 
   const haveEnableAlert = memos.find(memo => memo.enableAlert);
 
+  const dots = haveEnableAlert
+    ? [
+        <JDbadge
+          key={s4()}
+          tooltip={LANG("there_is_an_alarm_set_note")}
+          thema="point"
+        />
+      ]
+    : undefined;
+
   useEffect(() => {
     alertMemo(memoAlertModalHook, memos);
   }, [loading]);
@@ -42,18 +56,19 @@ const MemoIcon: React.FC<Iprops> = ({ context, ...props }) => {
       <JDIcon
         icon="memo"
         {...props}
-        dots={
-          haveEnableAlert
-            ? [
-                <JDbadge
-                  key={s4()}
-                  tooltip={LANG("there_is_an_alarm_set_note")}
-                  thema="point"
-                />
-              ]
-            : undefined
-        }
+        onClick={() => {
+          memoModalHook.openModal();
+        }}
+        dots={dots}
       />
+      <span className="JDz-index-1">
+        <FloatBox
+          modalHook={memoModalHook}
+          direction={{ vertical: "bottom", horizen: "left" }}
+        >
+          <MemoWrap memoType={MemoType.HOST} context={context} />
+        </FloatBox>
+      </span>
     </Fragment>
   );
 };

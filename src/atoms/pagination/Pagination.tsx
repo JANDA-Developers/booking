@@ -1,19 +1,49 @@
-import ReactPaginate, {ReactPaginateProps} from "react-paginate";
+import ReactPaginate, { ReactPaginateProps } from "react-paginate";
 import React from "react";
 import classNames from "classnames";
 import "./Pagination.scss";
-import {LANG} from "../../hooks/hook";
+import { LANG } from "../../hooks/hook";
+import { IPageInfo } from "../../types/interface";
 
-interface IProps extends ReactPaginateProps {
+interface IProps {
   previousDisplay?: boolean;
   textSize?: "large" | "small";
   align?: "center";
+  pageInfo: IPageInfo;
+  setPage: (foo: number) => any;
+  pageRangeDisplayed?: number;
+  marginPagesDisplayed?: number;
+  previousLabel?: React.ReactNode;
+  nextLabel?: React.ReactNode;
+  breakLabel?: string | React.ReactNode;
+  breakClassName?: string;
+  breakLinkClassName?: string;
+  onPageChange?(selectedItem: { selected: number }): void;
+  initialPage?: number;
+  forcePage?: number;
+  disableInitialCallback?: boolean;
+  containerClassName?: string;
+  pageClassName?: string;
+  pageLinkClassName?: string;
+  activeClassName?: string;
+  activeLinkClassName?: string;
+  previousClassName?: string;
+  nextClassName?: string;
+  previousLinkClassName?: string;
+  nextLinkClassName?: string;
+  disabledClassName?: string;
+  hrefBuilder?(pageIndex: number): void;
+  extraAriaContext?: string;
 }
 
 const JDPagination: React.SFC<IProps> = ({
   previousDisplay,
   textSize,
   align,
+  pageRangeDisplayed = 1,
+  marginPagesDisplayed = 4,
+  setPage,
+  pageInfo,
   ...props
 }) => {
   const classes = classNames({
@@ -23,9 +53,19 @@ const JDPagination: React.SFC<IProps> = ({
     "JDpagination-wrap--align-center": align === "center",
     "JDpagination-wrap--prev-hidden": previousDisplay === false
   });
+
+  const pageCount = pageInfo.totalPage;
+  const onPageChange = ({ selected }: any) => {
+    setPage(selected + 1);
+  };
+
   return (
     <div className={classes}>
       <ReactPaginate
+        pageCount={pageCount}
+        onPageChange={onPageChange}
+        pageRangeDisplayed={pageRangeDisplayed}
+        marginPagesDisplayed={marginPagesDisplayed}
         containerClassName="JDpagination" // Ul
         pageClassName="JDpagination__li"
         activeClassName="JDpagination__li--active"

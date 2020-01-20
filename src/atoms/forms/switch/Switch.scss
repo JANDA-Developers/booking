@@ -1,4 +1,4 @@
-@import '~Styles/style_config';
+@import '~Styles';
 
 
 
@@ -14,7 +14,8 @@
 
 
 .JDswitch {
-
+    display: inline-block;
+    
     &-wrapWrap {
         display:inline-block;
     }
@@ -27,7 +28,6 @@
         }
     }
 
-    display: inline-block;
 
     &__lxt,
     &__rtxt {
@@ -133,6 +133,6 @@
 .JDswitch[disabled] {
     .JDswitch__ltxt,
     .JDswitch__ltxt__rtxt {
-        color: $standard-disabled-color;
+        color: $disabled-color;
     }   
 }

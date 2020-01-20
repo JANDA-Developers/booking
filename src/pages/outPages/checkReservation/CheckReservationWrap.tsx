@@ -4,39 +4,50 @@ import "./CheckReservation.scss";
 import { useQuery } from "@apollo/react-hooks";
 import {
   getBookingForPublic,
-  getBookingForPublicVariables
+  getBookingForPublicVariables,
+  getHouseForPublic
 } from "../../../types/api";
+import { queryDataFormater, onCompletedMessage } from "../../../utils/utils";
 import {
-  queryDataFormater,
-  s4,
-  onCompletedMessage
-} from "../../../utils/utils";
-import { GET_BOOKING_FOR_PUBLIC } from "../../../apollo/queries";
-import { RouteComponentProps } from "react-router";
+  GET_BOOKING_FOR_PUBLIC,
+  GET_HOUSE_FOR_PUBLIC
+} from "../../../apollo/queries";
+import { RouteComponentProps } from "react-router-dom";
 import client from "../../../apollo/apolloClient";
 import CheckReservation from "./CheckReservation";
 import JDmodal from "../../../atoms/modal/Modal";
-import JDanimation, { Animation } from "../../../atoms/animation/Animations";
-import JDIcon, { IconSize } from "../../../atoms/icons/Icons";
 import { useModal, LANG } from "../../../hooks/hook";
+import CompleteCircle from "../../../components/completeCircle/CompleteCircle";
 export interface ISetBookingInfo
   extends React.Dispatch<React.SetStateAction<any>> {}
 
 export interface ICheckParams {
   publickey: string;
-  transId?: string;
+  name: string;
+  phoneNumber: string;
+  password: string;
 }
 
 interface IProps extends RouteComponentProps<ICheckParams> {}
 
 const CheckReservationWrap: React.FC<IProps> = ({
   match: {
-    params: { transId, publickey }
+    params: { password, name, phoneNumber, publickey }
   }
 }) => {
   sessionStorage.setItem("hpk", publickey);
+  const infoExist = !name && !password && !phoneNumber;
   const comeplteModalHook = useModal(false);
   const isFirstSender = useState(true);
+
+  const { data: houseData } = useQuery<getHouseForPublic>(
+    GET_HOUSE_FOR_PUBLIC,
+    {
+      client,
+      skip: publickey === undefined
+    }
+  );
+
   const { data, refetch, loading } = useQuery<
     getBookingForPublic,
     getBookingForPublicVariables
@@ -44,9 +55,12 @@ const CheckReservationWrap: React.FC<IProps> = ({
     client: client,
     fetchPolicy: "network-only",
     variables: {
-      transactionId: transId,
-      // @ts-ignore
-      skip: !transId
+      param: {
+        name,
+        password,
+        phoneNumber
+      },
+      skip: !infoExist
     },
     onCompleted: ({ GetBookingForPublic }) => {
       onCompletedMessage(
@@ -65,27 +79,31 @@ const CheckReservationWrap: React.FC<IProps> = ({
   );
 
   // 예약완료 메세지 모달 오픈
-  if (booking && transId && isFirstSender[0]) {
+  if (booking && infoExist && isFirstSender[0]) {
     comeplteModalHook.openModal();
     isFirstSender[1](false);
   }
+
+  const publicHouseInfo =
+    queryDataFormater(houseData, "GetHouseForPublic", "house", undefined) ||
+    undefined;
+
   return (
     <div>
       {/* 예약확인 관련된 뷰 */}
-      <CheckReservation refetch={refetch} data={booking} loading={loading} />
+      <CheckReservation
+        houseData={publicHouseInfo}
+        refetch={refetch}
+        data={booking}
+        loading={loading}
+      />
       <JDmodal center {...comeplteModalHook}>
         <div>
           <div className="JDstandard-margin-bottom">
             {LANG("reservation_is_completed")}
           </div>
           {/* 예약완료 에니메이션 */}
-          <JDanimation animation={[Animation.tada]}>
-            <JDIcon
-              color="positive"
-              size={IconSize.SUPER_LARGE}
-              icon="circleCheckIn"
-            ></JDIcon>
-          </JDanimation>
+          <CompleteCircle />
         </div>
       </JDmodal>
     </div>

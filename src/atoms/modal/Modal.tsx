@@ -6,9 +6,12 @@ import Button from "../button/Button";
 import { IUseModal, LANG } from "../../hooks/hook";
 import { s4 } from "../../utils/utils";
 import JDanimation, { Animation } from "../animation/Animations";
+import { IDiv } from "../../types/interface";
+import ModalEndSection from "./components/ModalEndSection";
 
 interface IProps extends ReactModal.Props, IUseModal {
   center?: boolean;
+  loading?: boolean;
   className?: string;
   isAlert?: boolean;
   isUnderHeader?: boolean;
@@ -21,6 +24,9 @@ interface IProps extends ReactModal.Props, IUseModal {
   visibleOverflow?: boolean;
   falseMessage?: string | any[];
   trueMessage?: string | any[];
+  id?: string;
+  contentClassName?: string;
+  contentWrapStyle?: React.CSSProperties;
   confirmCallBackFn?(flag: boolean, key?: string): any;
 }
 
@@ -39,11 +45,14 @@ const JDmodal: React.SFC<IProps> = ({
   children,
   confirm,
   paddingSize,
-  confirmCallBackFn,
+  confirmCallBackFn = info?.confirmCallBackFn,
   visibleOverflow,
   trueMessage,
   noAnimation = true,
   falseMessage,
+  loading,
+  contentClassName,
+  contentWrapStyle: contentWrapStyleProp,
   appElement = document.getElementById("root") || undefined,
   ...props
 }) => {
@@ -76,7 +85,8 @@ const JDmodal: React.SFC<IProps> = ({
     "JDmodal--alert": isAlert || confirm,
     "JDmodal--alertWaring": info && info.thema === "warn",
     "JDmodal--noAnimation": !shouldAnimation,
-    "JDmodal--paddingLarge": paddingSize === "large"
+    "JDmodal--paddingLarge": paddingSize === "large",
+    "JDmodal--loading": loading
   });
 
   const defualtJDmodalProps = {
@@ -115,15 +125,16 @@ const JDmodal: React.SFC<IProps> = ({
   };
 
   const modalStyle = {
-    minWidth
+    minWidth: loading || minWidth
   };
 
   const modalContentsStyle = {
-    minWidth: minContentsWidth
+    minWidth: minContentsWidth,
+    ...contentWrapStyleProp
   };
 
   const getChildren = () => (
-    <div style={modalContentsStyle}>
+    <div className={contentClassName} style={modalContentsStyle}>
       {children}
       {info && info.children}
       {typeof info === "string" && info}
@@ -132,58 +143,53 @@ const JDmodal: React.SFC<IProps> = ({
   );
 
   return (
-    <JDanimation animation={[Animation.zoomIn, Animation.zoomOut]}>
-      <ReactModal
-        isOpen={isOpen}
-        onRequestClose={misClickPreventCloseModal}
-        appElement={appElement}
-        {...props}
-        {...defualtJDmodalProps}
-        style={{ content: { ...modalStyle } }}
-        overlayClassName={overlayClassNames}
-      >
-        {getChildren()}
-        {confirm && (
-          <Fragment>
-            <div className="JDmodal__endSection JDmodal__endSection--confirm">
-              {inInfo.trueMessage instanceof Array ? (
-                inInfo.trueMessage.map((message: any) => (
-                  <Button
-                    key={s4()}
-                    {...sharedTrueBtnProp}
-                    label={`${message.msg}`}
-                    onClick={() => {
-                      hanldeClickBtn(true, message.callBackKey);
-                    }}
-                  />
-                ))
-              ) : (
-                <Button {...sharedTrueBtnProp} />
-              )}
-              {inInfo.falseMessage instanceof Array ? (
-                inInfo.falseMessage.map((message: any) => (
-                  <Button
-                    key={s4()}
-                    {...sharedFalseBtnProp}
-                    label={`${message}`}
-                    onClick={() => {
-                      hanldeClickBtn(false, message.callBackKey);
-                    }}
-                  />
-                ))
-              ) : (
-                <Button {...sharedFalseBtnProp} />
-              )}
-            </div>
-          </Fragment>
-        )}
-      </ReactModal>
-    </JDanimation>
+    <ReactModal
+      isOpen={isOpen}
+      onRequestClose={misClickPreventCloseModal}
+      appElement={appElement}
+      {...props}
+      {...defualtJDmodalProps}
+      // @ts-ignore
+      style={{ content: { ...modalStyle } }}
+      overlayClassName={overlayClassNames}
+    >
+      {getChildren()}
+      {confirm && (
+        <Fragment>
+          <ModalEndSection className="JDmodal__endSection--confirm">
+            {inInfo.trueMessage instanceof Array ? (
+              inInfo.trueMessage.map((message: any) => (
+                <Button
+                  key={s4()}
+                  {...sharedTrueBtnProp}
+                  label={`${message.msg}`}
+                  onClick={() => {
+                    hanldeClickBtn(true, message.callBackKey);
+                  }}
+                />
+              ))
+            ) : (
+              <Button {...sharedTrueBtnProp} />
+            )}
+            {inInfo.falseMessage instanceof Array ? (
+              inInfo.falseMessage.map((message: any) => (
+                <Button
+                  key={s4()}
+                  {...sharedFalseBtnProp}
+                  label={`${message}`}
+                  onClick={() => {
+                    hanldeClickBtn(false, message.callBackKey);
+                  }}
+                />
+              ))
+            ) : (
+              <Button {...sharedFalseBtnProp} />
+            )}
+          </ModalEndSection>
+        </Fragment>
+      )}
+    </ReactModal>
   );
-};
-
-JDmodal.defaultProps = {
-  center: false
 };
 
 export default JDmodal;

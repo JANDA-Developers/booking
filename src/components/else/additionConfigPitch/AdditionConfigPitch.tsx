@@ -1,22 +1,24 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Button from "../../../atoms/button/Button";
-import {insideRedirect} from "../../../utils/utils";
 import JDbox from "../../../atoms/box/JDbox";
-import {IContext} from "../../../pages/bookingHost/BookingHostRouter";
-import {LANG} from "../../../hooks/hook";
-import {Redirect} from "react-router";
+import { IContext } from "../../../pages/bookingHost/BookingHostRouter";
+import { LANG } from "../../../hooks/hook";
+import { Redirect } from "react-router-dom";
 
 interface Iprops {
   context: IContext;
 }
 
-const AdditionConfigPitch: React.FC<Iprops> = ({context}) => {
+const AdditionConfigPitch: React.FC<Iprops> = ({ context }) => {
   const [redirect, setRedirect] = useState("");
 
-  if (redirect) return <Redirect to={redirect} />;
+  if (redirect) {
+    alert("??2");
+    return <Redirect to={redirect} />;
+  }
 
   return (
-    <p>
+    <div>
       <h3>
         {LANG("default_setting_is")} {LANG("completed")}
       </h3>
@@ -71,7 +73,7 @@ const AdditionConfigPitch: React.FC<Iprops> = ({context}) => {
           />
         </JDbox>
       </div>
-    </p>
+    </div>
   );
 };
 

@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useEffect, Fragment } from "react";
 import { Mutation, Query } from "react-apollo";
-import { Redirect } from "react-router-dom";
 import {
   GET_PRODUCTS_TYPES,
   BUY_PRODUCTS,
@@ -11,11 +10,12 @@ import {
 import {
   ErrProtecter,
   queryDataFormater,
-  onCompletedMessage
+  onCompletedMessage,
+  isTestProduct
 } from "../../../utils/utils";
 import {
-  buyProduct,
-  buyProductVariables,
+  selectProduct,
+  selectProductVariables,
   refundProduct,
   refundProductVariables,
   getAllProductTypes
@@ -23,12 +23,15 @@ import {
 import { ReactTooltip } from "../../../atoms/tooltipList/TooltipList";
 import { LayoutType } from "../../../types/enum";
 import SelectProducts from "./SelectProduct";
-import froductTypeManuFacter from "./froductTypeManuFacter";
+import productTypeGetDesc from "./helper";
 import { IContext } from "../../bookingHost/BookingHostRouter";
 import { LANG } from "../../../hooks/hook";
 
 class GetProductTypes extends Query<getAllProductTypes> {}
-class BuyProductMutation extends Mutation<buyProduct, buyProductVariables> {}
+class BuyProductMutation extends Mutation<
+  selectProduct,
+  selectProductVariables
+> {}
 class RefundProductMutation extends Mutation<
   refundProduct,
   refundProductVariables
@@ -40,17 +43,17 @@ export interface IAdditionHook {
   url: string;
 }
 interface IProps {
+  disabledProducts?: string[];
   context: IContext;
 }
 
 // currentProduct : 현재 적용중인 상품
-const SelectProductWrap: React.FC<IProps> = ({ context }) => {
+const SelectProductWrap: React.FC<IProps> = ({ context, disabledProducts }) => {
   const {
     house: selectedHouse,
     applyedProduct: currentProduct,
     user: { isPhoneVerified }
   } = context;
-  const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
     ReactTooltip.rebuild();
@@ -66,17 +69,21 @@ const SelectProductWrap: React.FC<IProps> = ({ context }) => {
           "productTypes",
           []
         );
-        const productTypeDesc = froductTypeManuFacter(productTypes || []);
+
+        const filteredProductTypes: any =
+          productTypes?.filter(pt => !isTestProduct(pt.name)) || [];
+
+        const productTypeDesc = productTypeGetDesc(filteredProductTypes);
+
         return (
           <BuyProductMutation
             mutation={BUY_PRODUCTS}
-            onCompleted={({ BuyProduct }) => {
+            onCompleted={({ SelectProduct }) => {
               onCompletedMessage(
-                BuyProduct,
+                SelectProduct,
                 LANG("product_application_completed"),
                 LANG("product_application_failed")
               );
-              setRedirect(true);
             }}
             refetchQueries={refetchQueries}
             awaitRefetchQueries
@@ -86,24 +93,22 @@ const SelectProductWrap: React.FC<IProps> = ({ context }) => {
                 mutation={REFUND_PRODUCT}
                 refetchQueries={refetchQueries}
               >
-                {refundMu =>
-                  redirect ? (
-                    <Redirect push to="/ready" />
-                  ) : (
-                    <Fragment>
-                      <SelectProducts
-                        productTypes={productTypeDesc}
-                        refundMu={refundMu}
-                        buyProductMu={buyProductMu}
-                        loading={loading}
-                        mutationLoading={buyProductLoading}
-                        selectedHouse={selectedHouse}
-                        currentProduct={currentProduct}
-                        isPhoneVerified={isPhoneVerified}
-                      />
-                    </Fragment>
-                  )
-                }
+                {refundMu => (
+                  <Fragment>
+                    <SelectProducts
+                      context={context}
+                      productTypeDecs={productTypeDesc}
+                      refundMu={refundMu}
+                      buyProductMu={buyProductMu}
+                      loading={loading}
+                      mutationLoading={buyProductLoading}
+                      selectedHouse={selectedHouse}
+                      currentProduct={currentProduct}
+                      isPhoneVerified={isPhoneVerified}
+                      disableProducts={disabledProducts}
+                    />
+                  </Fragment>
+                )}
               </RefundProductMutation>
             )}
           </BuyProductMutation>

@@ -20,10 +20,8 @@ export interface IProps {
 const CheckTable: React.FC<IProps> = ({ tableData: tableDataProp }) => {
   const [tableData, setTableData] = useState(tableDataProp);
   useEffect(() => {
-    if (tableDataProp) {
-      setTableData([...tableDataProp]);
-    }
-  });
+    if (tableDataProp) setTableData([...tableDataProp]);
+  }, [tableDataProp?.length]);
 
   const TableColumns: JDcolumn<
     getBookingForPublic_GetBookingForPublic_booking
@@ -101,12 +99,14 @@ const CheckTable: React.FC<IProps> = ({ tableData: tableDataProp }) => {
   ];
 
   return (
-    <JDtable
-      {...ReactTableDefaults}
-      data={tableData || []}
-      minRows={1}
-      columns={TableColumns}
-    />
+    <Fragment>
+      <JDtable
+        {...ReactTableDefaults}
+        data={tableData || []}
+        minRows={1}
+        columns={TableColumns}
+      />
+    </Fragment>
   );
 };
 

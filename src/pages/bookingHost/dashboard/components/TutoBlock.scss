@@ -1,0 +1,9 @@
+@import "~Styles";
+
+.TutoBlock {
+  background-color: $grey-level1;
+
+  &--done {
+    background-color: $primary-color;
+  }
+}

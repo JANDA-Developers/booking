@@ -16,7 +16,7 @@ const Zoom = cssTransition({
 
 interface IProps extends ToastContainerProps {}
 
-const JDtoast: React.FC<IProps> = ({...props}) => (
+const JDtoast: React.FC<IProps> = ({ ...props }) => (
   <ToastContainer
     position={"bottom-right"}
     transition={Zoom}

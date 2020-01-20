@@ -4,7 +4,6 @@ import DayPickerInput from "react-day-picker/DayPickerInput";
 import moment from "moment";
 import InputText from "../../../forms/inputText/InputText";
 import "moment/locale/ko";
-import { isEmpty } from "../../../../utils/utils";
 import { LANG } from "../../../../hooks/hook";
 import { DateFormat } from "../../../../types/enum";
 // 데이픽커 인풋은 어레인이지를 지원하지 않을려는것만 같다.
@@ -23,11 +22,10 @@ interface IProps {
   inputClassName?: string;
   displayYear?: boolean;
   dayPickerProps: DayPickerProps;
-  inputComponent?: any;
+  InputComponent?: React.FC;
   disabled?: boolean;
 }
 
-// 👿 이 파일은 전체적으로 타입스크립트 작업이 필요하다.
 const JDdayPickerInput: React.FC<IProps> = ({
   from,
   to,
@@ -40,11 +38,11 @@ const JDdayPickerInput: React.FC<IProps> = ({
   inputClassName,
   placeholder = LANG("please_select_date"),
   format = displayYear ? DateFormat.YYMMDD : DateFormat.MMDD,
-  inputComponent: InputComponent,
+  InputComponent,
   disabled,
   ...props
 }) => {
-  let DayPickerInputRef = useRef<DayPickerInput>(null);
+  let DayPickerInputRef = useRef<DayPickerInput | null>(null);
   const isInitialMount = useRef(true);
 
   const dateForMatter = (
@@ -104,10 +102,11 @@ const JDdayPickerInput: React.FC<IProps> = ({
 
   const MyComponent = React.forwardRef((prop: any, ref) =>
     InputComponent ? (
-      InputComponent(prop)
+      <InputComponent {...props} />
     ) : (
       <InputText
         ref={ref}
+        tabIndex={readOnly ? "-1" : undefined}
         wrapClassName={"DayPicker__inputWrap"}
         className={`DayPicker__input ${inputClassName}`}
         readOnly={readOnly}
@@ -125,7 +124,9 @@ const JDdayPickerInput: React.FC<IProps> = ({
       {/* 😶 REF는 잘 작동하지만 브라우저상 오류를 낸다 이유는... ref가
       그냥 맨껍데기에 적용되서 그렇다는데 아무래도 해결방법은 깃허브에 문의해봐야겠다. */}
       <DayPickerInput
-        ref={DayPickerInputRef}
+        ref={el => {
+          DayPickerInputRef.current = el;
+        }}
         placeholder={placeholder}
         dayPickerProps={{ ...dayPickerProps }}
         format={format}

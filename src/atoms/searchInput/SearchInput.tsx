@@ -1,16 +1,15 @@
 // 참고: https://codepen.io/manpreet/pen/EyXwrE
 import $ from "jquery";
-import PropTypes from "prop-types";
-import React, {useState, useRef, useEffect} from "react";
+import React, { useState, useRef, useEffect } from "react";
 import classNames from "classnames";
 import List from "./list";
 import "./searchInput.scss";
-import Icon from "../icons/Icons";
-import Preloader from "../preloader/Preloader";
 import searchListFormat from "../../utils/searchListFormater";
-import {isEmpty} from "../../utils/utils";
+import JDLabel from "../label/JDLabel";
+import { IInput } from "../../types/interface";
+import InputText from "../forms/inputText/InputText";
 
-interface IProps {
+interface IProps extends IInput {
   dataList: Array<any>;
   onListClick?(value: string | undefined, id: string | undefined): void;
   placeholder?: string;
@@ -31,6 +30,7 @@ interface IProps {
   asId?: string;
   feedBackMessage?: string;
   maxCount?: number;
+  mode?: "fill";
 }
 
 const JDsearchInput: React.FC<IProps> = ({
@@ -53,7 +53,9 @@ const JDsearchInput: React.FC<IProps> = ({
   feedBackMessage,
   maxCount,
   onSearch,
-  asId
+  asId,
+  mode,
+  ...props
 }) => {
   // Naming Format
   const formatDataList: Array<any> = searchListFormat(
@@ -151,10 +153,9 @@ const JDsearchInput: React.FC<IProps> = ({
   };
 
   // Handler - 인풋 : onChange
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    if (filter) setList(e.target.value);
-    onTypeChange && onTypeChange(e.target.value);
+  const handleChange = (v: any) => {
+    if (filter) setList(v);
+    onTypeChange && onTypeChange(v);
   };
 
   // Handler - 인풋 : onFocus
@@ -204,7 +205,9 @@ const JDsearchInput: React.FC<IProps> = ({
   const classes = classNames({
     JDsearchInput: true,
     "JDsearchInput--staticList": staticList === true,
-    "JDsearchInput--labeled": label
+    "JDsearchInput--labeled": label,
+    "JDsearchInput--unFeedBack": !feedBackMessage,
+    "JDsearchInput--fill": mode === "fill"
   });
 
   useEffect(setList, [dataList]); // 유저 리스트가 변할때마다 새롭게 리스트를 찾습니다.
@@ -216,28 +219,38 @@ const JDsearchInput: React.FC<IProps> = ({
 
   return (
     <div className={classes}>
+      {label && (
+        <div className="JDtext-align-left">
+          <JDLabel txt={label} />
+        </div>
+      )}
       <div className="JDsearchInput__input_wrapper">
-        {label && <span className="JDsearchInput__label">{label}</span>}
-        <input
-          onFocus={handleOnFocus}
-          onBlur={handleOnBlur}
-          onKeyDown={handleOnKeyPress}
-          ref={inputRef}
-          className="JDsearchInput__input"
-          onChange={handleChange}
-          placeholder={placeholder}
-          value={onTypeValue}
-        />
-        <span
-          tabIndex={0}
-          role="button"
-          onClick={handleOnSearchClick}
-          onKeyDown={handleOnKeyPress}
-          className="JDsearchInput__icon"
-        >
-          <Preloader noAnimation loading={isLoading || false} />
-          {isLoading || <Icon hover icon="magnifier" />}
-        </span>
+        <div className="JDsearchInput__innerWrap">
+          <InputText
+            {...props}
+            defaultValue={props.defaultValue}
+            onFocus={handleOnFocus}
+            onBlur={handleOnBlur}
+            onKeyDown={handleOnKeyPress}
+            refContainer={inputRef}
+            className="JDsearchInput__input"
+            onChange={handleChange}
+            placeholder={placeholder}
+            value={onTypeValue}
+            icon="magnifier"
+            loading={isLoading || false}
+          />
+          {/* <span
+            tabIndex={0}
+            role="button"
+            onClick={handleOnSearchClick}
+            onKeyDown={handleOnKeyPress}
+            className="JDsearchInput__icon"
+          >
+            <Preloader noAnimation loading={isLoading || false} />
+            {isLoading || <Icon hover icon="magnifier" />}
+          </span> */}
+        </div>
         {feedBackMessage && (
           <span className="JDsearchInput__feedBack">{`${feedBackMessage}`}</span>
         )}

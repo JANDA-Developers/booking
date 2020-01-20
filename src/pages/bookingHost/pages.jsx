@@ -2,6 +2,14 @@ import React from "react";
 import DynamicImport from "../../utils/dynamicComponent";
 import Preloader from "../../atoms/preloader/Preloader";
 
+export const SmsInfo = props => (
+  <DynamicImport load={() => import("./smsInfo/SmsInfo")}>
+    {DNcompoent =>
+      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
+    }
+  </DynamicImport>
+);
+
 export const Expired = props => (
   <DynamicImport load={() => import("./expire/Expired")}>
     {DNcompoent =>
@@ -10,8 +18,10 @@ export const Expired = props => (
   </DynamicImport>
 );
 
-export const Sms = props => (
-  <DynamicImport load={() => import("./sms/SmsWrap")}>
+export const SmsTemplateSetting = props => (
+  <DynamicImport
+    load={() => import("./smsTemplateSetting/SmsTemplateSettingWrap")}
+  >
     {DNcompoent =>
       DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
     }
@@ -99,7 +109,7 @@ export const SelectProducts = props => (
 );
 
 export const SuperMain = props => (
-  <DynamicImport load={() => import("./super/SuperMainWrap")}>
+  <DynamicImport load={() => import("./super/superAdminRouter")}>
     {DNcompoent =>
       DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
     }
@@ -107,7 +117,7 @@ export const SuperMain = props => (
 );
 
 export const CreateHouse = props => (
-  <DynamicImport load={() => import("./createHouse/CreateHouse")}>
+  <DynamicImport load={() => import("./createHouse/CreateHouseWrap")}>
     {DNcompoent =>
       DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
     }
@@ -138,14 +148,6 @@ export const Login = props => (
   </DynamicImport>
 );
 
-export const Ready = props => (
-  <DynamicImport load={() => import("./ready/Ready")}>
-    {DNcompoent =>
-      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
-    }
-  </DynamicImport>
-);
-
 export const AssigTimeline = props => (
   <DynamicImport load={() => import("./assig/AssigTimelineWrap")}>
     {DNcompoent =>
@@ -164,6 +166,22 @@ export const RoomConfig = props => (
 
 export const DailyPrice = props => (
   <DynamicImport load={() => import("./dailyPrice/DailyPriceWrap")}>
+    {DNcompoent =>
+      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
+    }
+  </DynamicImport>
+);
+
+export const HouseConfig = props => (
+  <DynamicImport load={() => import("./houseConfig/HouseConfigWrap")}>
+    {DNcompoent =>
+      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
+    }
+  </DynamicImport>
+);
+
+export const HomepageRequest = props => (
+  <DynamicImport load={() => import("./homepageRequest/HomepageRequestWrap")}>
     {DNcompoent =>
       DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
     }

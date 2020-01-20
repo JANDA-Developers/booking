@@ -1,0 +1,94 @@
+@import "~Styles";
+
+#root,
+.ReactModalPortal {
+  .react-tabs {
+    .JDinput {
+      padding: 0;
+      height: 2rem;
+      line-height: 2rem;
+    }
+
+    &__tab-list {
+      height: $tabs-height;
+      line-height: $tabs-height;
+      border-bottom: 1px solid $tabs-tab-border-color;
+      display: flex;
+      margin-bottom: $tabs-margin-bottom;
+    }
+
+    &__tab {
+      box-sizing: border-box;
+      padding: 0px $tabs-tab-padding;
+      outline: 0;
+
+      // 선택된
+      &--selected {
+        color: $tabs-tab-selected-color;
+        border-bottom: $tabs-tab-selected-border-bottom;
+        border-radius: $tabs-tab-border-radious $tabs-tab-border-radious 0px 0px;
+      }
+
+      &:not(.react-tabs__tab--selected) {
+        .JDinput {
+          border: none;
+          pointer-events: none;
+        }
+      }
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .JDtabs {
+    &--tabsAlign-spaceAround {
+      .react-tabs__tab-list {
+        display: flex;
+        justify-content: space-around;
+      }
+    }
+
+    &--tabsAlign-spaceBetween {
+      .react-tabs__tab-list {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+
+    &--tabsAlign-normal {
+      .react-tabs__tab {
+        margin-right: $standard-space;
+      }
+    }
+
+    &--style_button {
+      $B: ".react-tabs";
+      #{$B}__tab-list {
+        border: none;
+        display: block;
+        height: auto;
+        &:after {
+          clear: both;
+          content: "";
+          display: block;
+        }
+      }
+      #{$B}__tab {
+        border: 1px solid $tabs-tab-border-color;
+        border-radius: $tabs-tab-border-radious;
+        float: left;
+        margin: $standard-margin-bottom / 6 $standard-space / 4;
+        line-height: auto;
+        &--selected {
+          background-color: $grey-level1;
+          border-color: transparent;
+          line-height: unset;
+        }
+      }
+    }
+
+    @include mb--prefixer("&", ".react-tabs__tab-list");
+  }
+}

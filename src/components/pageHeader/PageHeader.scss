@@ -1,0 +1,35 @@
+@import "~Styles";
+
+.PageHeader {
+    text-align: center;
+    background-color: $header-bg-color;
+    border-bottom: 1px solid $grey-level0;
+    padding-top: $docs-padding-top;
+    padding-bottom: $docs-section__padding;
+
+    &__inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        @include response($phablet) {
+            justify-content: center;
+        }
+    }
+
+    &__quotoes {
+        color: $grey-level1;
+
+        @include response($phablet) {
+            display:none;
+        }
+    }
+
+    &__desc {
+        color: $grey-text-color;
+    }
+
+    &__title {
+        margin-top:0;
+    }
+}

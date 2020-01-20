@@ -1,12 +1,8 @@
-@import '~Styles/style_config';
+@import '~Styles';
 
 // TODO : 정리
 .JDradio {
     display: inline-block;
-
-    * {
-        outline: 0;
-    }
 
     &__input:not(:checked),
     &__input:checked {
@@ -128,5 +124,9 @@
     &__input:disabled:checked+&__label:after {
         background-color: $radio-disabled-color;
         border-color: $radio-disabled-color;
+    }
+    
+    * {
+        outline: 0;
     }
 }

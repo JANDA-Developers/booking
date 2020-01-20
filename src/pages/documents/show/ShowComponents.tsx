@@ -1,5 +1,4 @@
-import React, { useRef, useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState, Fragment } from "react";
 import { toast } from "react-toastify";
 import faker from "faker";
 import Tooltip from "../../../atoms/tooltip/Tooltip";
@@ -8,13 +7,11 @@ import Switch from "../../../atoms/forms/switch/Switch";
 import InputText from "../../../atoms/forms/inputText/InputText";
 import Radio from "../../../atoms/forms/radio/Radio";
 import SearchInput from "../../../atoms/searchInput/SearchInput";
-import SideNav from "../../../components/sideNav/SideNav";
 import SelectBox from "../../../atoms/forms/selectBox/SelectBox";
 import JDbadge from "../../../atoms/badge/Badge";
 import DayPicker from "../../../atoms/dayPicker/DayPicker";
 import Pagination from "../../../atoms/pagination/Pagination";
 import ImageUploader from "../../../atoms/imageUploader/ImageUploader";
-import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
 import Button from "../../../atoms/button/Button";
 import Preloader from "../../../atoms/preloader/Preloader";
 import SliderExample from "./examples/example_slider";
@@ -23,9 +20,9 @@ import JDlabel from "../../../atoms/label/JDLabel";
 import JDmodal from "../../../atoms/modal/Modal";
 import JDtable, { ReactTableDefault } from "../../../atoms/table/Table";
 import ProfileCircle from "../../../atoms/profileCircle/ProfileCircle";
-import { Tab, TabList, TabPanel, JDtabs } from "../../../atoms/tabs/tabs_";
+import { Tab, TabList, TabPanel, JDtabs } from "../../../atoms/tabs/Tabs_";
 import utils from "../../../utils/utils";
-import Icon, { icons } from "../../../atoms/icons/Icons";
+import Icon, { JDicons } from "../../../atoms/icons/Icons";
 import {
   useInput,
   useCheckBox,
@@ -38,7 +35,8 @@ import {
   useDayPicker,
   useModal,
   useDrawer,
-  LANG
+  LANG,
+  usePageNation
 } from "../../../hooks/hook";
 import "./ShowComponent.scss";
 import JDcolorPicker from "../../../atoms/colorPicker/ColorPicker";
@@ -51,6 +49,9 @@ import Drawer from "../../../atoms/drawer/Drawer";
 import JDTimer from "../../../atoms/timer/Timer";
 import Timer from "react-compound-timer/build";
 import JDmultiStep from "../../../atoms/multiStep/MultiStep";
+import Vtable from "../../../atoms/vtable/Vtable";
+import JDIcon from "../../../atoms/icons/Icons";
+import ModalEndSection from "../../../atoms/modal/components/ModalEndSection";
 
 function ShowComponents() {
   const defaultColor = faker.commerce.color();
@@ -70,10 +71,10 @@ function ShowComponents() {
   const colorPickerHook3 = useColorPicker(defaultColor3);
   const dayPickerHook = useDayPicker(null, null);
   const switchHook = useSwitch(false);
-  const refContainer = useRef();
   const [SideNavIsOpen, setSideNavIsOpen] = useToggle(false);
   const imageUploaderHook = useImageUploader();
   const drawerHook = useDrawer(false);
+  const { page, setPage } = usePageNation(1);
 
   const searchDummyData = [
     { name: "Manpreet Singh", pic: "" },
@@ -112,7 +113,6 @@ function ShowComponents() {
     }
   ];
 
-  const anyProp: any = {};
   const TableColumns = [
     {
       Header: "번호",
@@ -142,30 +142,49 @@ function ShowComponents() {
     }
   ];
 
+  // const VTableColumns: TVtableColumns[] = [
+  //   {
+  //     label: "example1",
+  //     content: (
+  //       <span>
+  //         <span className="JDstandard-space">Lorem ipsum dolor sit</span>
+  //         <JDIcon icon="addCircle" />
+  //       </span>
+  //     )
+  //   },
+  //   {
+  //     label: "example2",
+  //     content: <span>Lorem ipsum dolor sit</span>
+  //   },
+  //   {
+  //     label: "example3",
+  //     content: (
+  //       <span className="JDflex--vCenter">
+  //         <span className="JDstandard-space">Lorem ipsum dolor sit</span>
+  //         <Button
+  //           className="JDstandard-margin0"
+  //           mode="border"
+  //           label="example"
+  //         />
+  //       </span>
+  //     )
+  //   }
+  // ];
+
   interface ICWProp {
     title: string;
+    className?: string;
   }
-  const ComponentWrap: React.FC<ICWProp> = ({ children, title }) => (
-    <div className="docs-section__box">
+  const ComponentWrap: React.FC<ICWProp> = ({ className, children, title }) => (
+    <Fragment>
       <h6>{title}</h6>
-      {children}
-    </div>
+      <div className={`docs-section__box ${className}`}>{children}</div>
+    </Fragment>
   );
 
   return (
     <div className="container">
       <div className="docs-section showComponent">
-        {/* 더 많은 컴포넌트 보기 */}
-        <div>
-          <h6>
-            <NavLink
-              className="JDanchor showComponent__float-link"
-              to="./showComponents/timeline"
-            >
-              {"NEXT :: Timeline"}
-            </NavLink>
-          </h6>
-        </div>
         {/* 체크박스 */}
         <ComponentWrap title="CheckBox">
           <CheckBox {...checkHook} label="normal" />
@@ -209,11 +228,7 @@ function ShowComponents() {
         <ComponentWrap title="InputText">
           <div className="flex-grid">
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
-              <InputText
-                {...inputVali}
-                refContainer={refContainer}
-                label="noraml"
-              />
+              <InputText {...inputVali} label="noraml" />
             </div>
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
               <InputText
@@ -241,6 +256,13 @@ function ShowComponents() {
             </div>
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
               <InputText label="disabled" disabled />
+            </div>
+            <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
+              <InputText
+                label="disabled"
+                isValid={false}
+                falseMessage="this input is inValid"
+              />
             </div>
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6" />
             <div className="flex-grid__col col--full-3 col--lg-4 col--md-6" />
@@ -275,11 +297,41 @@ function ShowComponents() {
                 onTypeChange={onTypeChange}
                 onFindOne={onTypeChange}
                 feedBackMessage="feedBackMessage"
-                staticList
                 dataList={searchDummyData}
-                filter
                 label="normal"
+                staticList
+                filter
               />
+            </div>
+            <div className="flex-grid__col">
+              <SearchInput
+                mode="fill"
+                onTypeValue={onTypeValue}
+                onTypeChange={onTypeChange}
+                onFindOne={onTypeChange}
+                feedBackMessage="feedBackMessage"
+                dataList={searchDummyData}
+                label="fill"
+                staticList
+                filter
+              />
+            </div>
+          </div>
+        </ComponentWrap>
+        {/* 카드 */}
+        <ComponentWrap title="Card">
+          <div className="flex-grid-grow flex-grid--md ">
+            <div className="flex-grid__col">
+              <Card>
+                <h6>noraml</h6>
+                <Button mode="border" label="Lorem" />
+              </Card>
+            </div>
+            <div className="flex-grid__col">
+              <Card hover selected>
+                <h6>Selected</h6>
+                <Button mode="border" label="Lorem" />
+              </Card>
             </div>
           </div>
         </ComponentWrap>
@@ -306,7 +358,6 @@ function ShowComponents() {
                   <Tab>Title 1</Tab>
                   <Tab>Title 2</Tab>
                 </TabList>
-
                 <TabPanel>
                   <h2>Any content 1</h2>
                 </TabPanel>
@@ -334,8 +385,7 @@ function ShowComponents() {
           </div>
         </ComponentWrap>
         {/* 토스트 알림 */}
-        <h6>Toast</h6>
-        <div className="flex-grid-grow flex-grid--md docs-section__box">
+        <ComponentWrap className="flex-grid-grow flex-grid--md" title="Toast">
           <div className="flex-grid__col">
             <Button
               label="noraml"
@@ -353,10 +403,9 @@ function ShowComponents() {
               onClick={() => toast.success("success")}
             />
           </div>
-        </div>
+        </ComponentWrap>
         {/* 셀렉트박스 */}
-        <h6>SelectBox</h6>
-        <div className="flex-grid-grow docs-section__box">
+        <ComponentWrap className="flex-grid-grow" title="SelectBox">
           <div className="flex-grid__col">
             <SelectBox
               {...useSelect1}
@@ -381,18 +430,16 @@ function ShowComponents() {
               label="multi"
             />
           </div>
-        </div>
-        flex-grid = row flex-gird__col = row
+        </ComponentWrap>
         {/* 달력 */}
-        <h6>DatePicker</h6>
-        <div className="flex-grid docs-section__box">
+        <ComponentWrap className="flex-grid" title="DatePicker">
           <div className="flex-grid__col col--full-4 col--wmd-12">
             <div className="showComponent__container">
               <JDlabel txt="horizen" />
               <DayPicker
                 canSelectBeforeDay={false}
                 {...dayPickerHook}
-                horizen
+                mode="horizen"
               />
             </div>
           </div>
@@ -404,7 +451,7 @@ function ShowComponents() {
             <DayPicker
               {...dayPickerHook}
               canSelectBeforeDay={false}
-              input
+              mode="input"
               label="input"
               isRange
             />
@@ -412,42 +459,41 @@ function ShowComponents() {
           <div className="flex-grid__col col--full-4 col--wmd-12">
             <DayPicker
               {...dayPickerHook}
-              input
+              mode="input"
               label="input"
               canSelectBeforeDay={false}
               isRange={false}
             />
           </div>
-        </div>
+        </ComponentWrap>
         {/* Slider 슬라이더 */}
-        <h6>Slider</h6>
-        <div className="docs-section__box flex-grid">
+        <ComponentWrap className="flex-grid" title="Slider">
           <div className="flex-grid__col col--full-6 col--wmd-12">
             <SliderExample />
           </div>
           <div className="flex-grid__col col--full-6 col--wmd-12">
             <SliderExample2 />
           </div>
-        </div>
+        </ComponentWrap>
         {/* 이미지 업로더 */}
-        <h6>Image Uploader</h6>
-        <div className="docs-section__box flex-grid">
+        <ComponentWrap className="flex-grid" title="Image Uploader">
           <div className="flex-grid__col col--full-4 col--wmd-12">
             <ImageUploader minHeight="200px" {...imageUploaderHook} />
           </div>
-        </div>
+          <div className="flex-grid__col col--full-4 col--wmd-12">
+            <ImageUploader mode="input" {...imageUploaderHook} />
+          </div>
+        </ComponentWrap>
         {/* 뱃지 */}
-        <h6>Badge</h6>
-        <div className="docs-section__box">
+        <ComponentWrap title="Badge">
           <JDbadge thema={"white"}>white</JDbadge>
           <JDbadge thema={"black"}>black</JDbadge>
           <JDbadge thema={"primary"}>primary</JDbadge>
           <JDbadge thema={"point"}>point</JDbadge>
           <JDbadge thema={"new"}>new</JDbadge>
-        </div>
+        </ComponentWrap>
         {/* 테이블 */}
-        <h6>Table</h6>
-        <div className="docs-section__box flex-grid">
+        <ComponentWrap className="flex-grid" title="Table">
           <JDtable
             {...ReactTableDefault}
             columns={TableColumns}
@@ -457,17 +503,26 @@ function ShowComponents() {
             align="center"
             minRows={0}
           />
-        </div>
+        </ComponentWrap>
+        {/* 벌티컬 테이블 */}
+        <ComponentWrap className="flex-grid" title="VTable">
+          {/* <Vtable
+            header={{
+              desc:
+                "Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident magnam beatae nesciunt earum sed in dolores quis, molestiae illo nisi hic amet perspiciatis exercitationem numquam, repellendus a, distinctio nam non!",
+              title: "VTable"
+            }}
+            columns={VTableColumns}
+          /> */}
+        </ComponentWrap>
         {/* 컬러픽커 */}
-        <h6>ColorPikcer</h6>
-        <div className="docs-section__box">
+        <ComponentWrap title="ColorPikcer">
           <JDcolorPicker colorHook={colorPickerHook} />
           <JDcolorPicker colorHook={colorPickerHook2} />
           <JDcolorPicker colorHook={colorPickerHook3} />
-        </div>
+        </ComponentWrap>
         {/* 버튼 */}
-        <h6>Buttons</h6>
-        <div className="docs-section__box">
+        <ComponentWrap title="Buttons">
           <div className="flex-grid__col">
             <Button label="noraml" icon="arrowRight" />
             <Button label="disabled" disabled />
@@ -479,23 +534,19 @@ function ShowComponents() {
             <Button thema="new" label="small" size="small" />
             <Button thema="error" label="small" size="small" />
             <Button thema="black" label="small" size="small" />
-            <Button label="flat" />
+            <Button thema="primary" mode="flat" label="flat" />
+          </div>
+          <div className="flex-grid__col">
+            <Button label="long" size="long" />
           </div>
           <div className="flex-grid__col">
             <Button label="primary" thema="primary" size="large" />
             <Button label="point" thema="point" size="large" />
             <Button hrefOpen="./sss" label="" preloader icon="arrowRight" />
-            <CircleIcon darkWave>
-              <Icon icon="arrowLeft" />
-            </CircleIcon>
-            <CircleIcon wave thema="greybg">
-              <Icon icon="arrowLeft" />
-            </CircleIcon>
           </div>
-        </div>
+        </ComponentWrap>
         {/* 모달 */}
-        <div className="docs-section__box">
-          <h6>Modal & SideNav</h6>
+        <ComponentWrap title="Modal">
           <Button label="Open Modal" onClick={useModalHook.openModal} />
           <Button
             icon="menue"
@@ -504,29 +555,29 @@ function ShowComponents() {
           />
           <JDmodal {...useModalHook}>
             <p>Modal text!</p>
-            <div className="JDmodal__endSection">
-              <Button label="Close Modal" onClick={useModalHook.closeModal} />
-            </div>
+            <ModalEndSection>
+              <Button
+                mode="flat"
+                label="Close Modal"
+                onClick={useModalHook.closeModal}
+              />
+            </ModalEndSection>
           </JDmodal>
-        </div>
+        </ComponentWrap>
         {/* 툴팁 */}
-        <div className="docs-section__box">
-          <h6>Tooltip</h6>
-
+        <ComponentWrap title="Tooltip">
           <Button
             dataTip
             dataFor="tooltip__C"
             label="Some Btn"
             className="JDbtn--small"
           />
-
           <Button
             dataTip
             dataFor="tooltip__D"
             label="Some Btn"
             className="JDbtn--small"
           />
-
           <Button
             dataTip
             dataFor="tooltip__E"
@@ -545,11 +596,10 @@ function ShowComponents() {
           <Tooltip id="tooltip__D" type="dark" effect="solid">
             <span>some txt</span>
           </Tooltip>
-        </div>
+        </ComponentWrap>
         {/* 아이콘들 */}
-        <h6>Icons</h6>
-        <div className=" docs-section__box">
-          {Object.keys(icons).map((key: any) => (
+        <ComponentWrap title="Icons">
+          {Object.keys(JDicons).map((key: any) => (
             <div
               key={`showComponent__${key}`}
               className="showComponent__icon_box"
@@ -557,13 +607,19 @@ function ShowComponents() {
               <Icon label={key} icon={key} />
             </div>
           ))}
-        </div>
+        </ComponentWrap>
+        <ComponentWrap title="Icon Size">
+          <JDIcon label="huge" size={"huge"} icon="product" />
+          <JDIcon label="large" size={"large"} icon="product" />
+          <JDIcon label="normal" size={"normal"} icon="product" />
+          <JDIcon label="small" size={"small"} icon="product" />
+          <JDIcon label="tiny" size={"tiny"} icon="product" />
+        </ComponentWrap>
         <ComponentWrap title="Drawer">
           <Drawer {...drawerHook} />
         </ComponentWrap>
         {/* 타이포그래피  */}
-        <h6>TyphoGraphy</h6>
-        <div className="docs-section__box">
+        <ComponentWrap title="TyphoGraphy">
           <h1>H1: Lorem Text</h1>
           <h2>H2: Lorem Text</h2>
           <h3>H3: Lorem Text</h3>
@@ -574,17 +630,18 @@ function ShowComponents() {
           <p>Normal: Lorem Text</p>
           <JDlabel txt="small: Lorem Text" />
           <p className="showComponent__tiny"> tiny: Lorem Text </p>
-        </div>
+        </ComponentWrap>
         {/* 페이지네이션 */}
-        <h6>Pagination</h6>
-        <div className="docs-section__box clear-fix">
+        <ComponentWrap className="clear-fix" title="Pagination">
           <Pagination
-            pageCount={13}
-            initialPage={0}
-            marginPagesDisplayed={1}
-            pageRangeDisplayed={5}
+            setPage={setPage}
+            pageInfo={{
+              currentPage: page,
+              rowCount: 20,
+              totalPage: 20
+            }}
           />
-        </div>
+        </ComponentWrap>
         {/* 타이머 */}
         <ComponentWrap title="Timer">
           <JDTimer initialTime={TimePerMs.M * 3} direction="backward">
@@ -613,12 +670,12 @@ function ShowComponents() {
           />
         </ComponentWrap>
         {/* JDbox */}
-        <h6>JDbox</h6>
-        <div className="docs-section__box clear-fix">
+        <ComponentWrap className="clear-fix" title="JDbox">
           <JDbox
             label="Photo Frame"
             photo="https://i.pinimg.com/564x/5b/14/a4/5b14a4c5bd301fb27c7360de8bea6227.jpg"
           />
+
           <JDbox label="Box Label">boxContent</JDbox>
           <JDbox label="Table Mode" mode="table">
             <table>
@@ -646,10 +703,9 @@ function ShowComponents() {
           >
             {"boxContent"}
           </JDbox>
-        </div>
+        </ComponentWrap>
         {/* 그외 것들 */}
-        <h6>ElseThings</h6>
-        <div className="docs-section__box clear-fix">
+        <ComponentWrap className="clear-fix" title="ElseThings">
           <Preloader loading={true} />
           <span className="showComponent__elseThings JDtext-blink showComponent__blink JDtext-blink--infinity">
             {"Blink"}
@@ -660,7 +716,7 @@ function ShowComponents() {
           <span className="showComponent__elseThings">
             <ProfileCircle isBordered />
           </span>
-        </div>
+        </ComponentWrap>
       </div>
     </div>
   );

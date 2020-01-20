@@ -15,10 +15,10 @@ export const bookingStatuMerge = (bookings: TProp): BookingStatus | null => {
   }
   bookings &&
     bookings.forEach(booking => {
-      if (booking.bookingStatus === BookingStatus.CANCEL)
-        return BookingStatus.CANCEL;
+      if (booking.bookingStatus === BookingStatus.CANCELED)
+        return BookingStatus.CANCELED;
     });
-  return BookingStatus.COMPLETE;
+  return BookingStatus.COMPLETED;
 };
 
 type TProp2 = {
@@ -52,7 +52,7 @@ export const getAveragePrice = (
 export const bookingPriceMerge = (bookings: TProp2): number =>
   arraySum(
     bookings.map(booking =>
-      booking.bookingStatus === BookingStatus.COMPLETE ? booking.price : 0
+      booking.bookingStatus === BookingStatus.COMPLETED ? booking.price : 0
     )
   );
 

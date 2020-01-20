@@ -7,6 +7,7 @@ import Button from "../../atoms/button/Button";
 import { toast } from "react-toastify";
 import JDpreloader from "../../atoms/preloader/Preloader";
 import { isPhone } from "../../utils/inputValidations";
+import ModalEndSection from "../../atoms/modal/components/ModalEndSection";
 interface Iprops {
   context: IContext;
   modalHook: IUseModal;
@@ -37,7 +38,7 @@ const FindEmailModal: React.FC<Iprops> = ({
         hyphen
         {...phoneNumberHook}
       />
-      <div className="JDmodal__endSection">
+      <ModalEndSection>
         <Button
           thema="primary"
           mode="flat"
@@ -48,7 +49,7 @@ const FindEmailModal: React.FC<Iprops> = ({
             }
           }}
         />
-      </div>
+      </ModalEndSection>
       <JDpreloader loading={muLoading} floating />
     </JDmodal>
   );

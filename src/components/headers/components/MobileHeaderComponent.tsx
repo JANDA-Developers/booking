@@ -1,18 +1,16 @@
 import React from "react";
-import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
-import {IContext} from "../../../pages/bookingHost/BookingHostRouter";
+import JDIcon from "../../../atoms/icons/Icons";
+import { IContext } from "../../../pages/bookingHost/BookingHostRouter";
 interface Iprops {
   context: IContext;
-  logOutMutation: any;
-  phoneVerificationModalHook: any;
 }
 
 // icnlude: 앱아이콘
 const MobileHeaderComponent: React.FC<Iprops> = () => {
   return (
     <div>
-      <span>
-        <span
+      <div>
+        <div
           data-tip
           data-delay-hide={0}
           data-for="tooltip_user"
@@ -21,13 +19,9 @@ const MobileHeaderComponent: React.FC<Iprops> = () => {
           data-place="bottom"
           data-offset="{'top': -5, 'left': 35}"
         >
-          <JDIcon
-            className="header__mobileMenu"
-            size={IconSize.MEDIUM}
-            icon="apps"
-          />
-        </span>
-      </span>
+          <JDIcon className="header__mobileMenu" size={"normal"} icon="apps" />
+        </div>
+      </div>
     </div>
   );
 };

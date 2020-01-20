@@ -56,4 +56,4 @@ const RoomSelectInfoTable: React.FC<IProps> = ({
   );
 };
 
-export default EerrorProtect(RoomSelectInfoTable);
+export default React.memo(RoomSelectInfoTable);

@@ -1,0 +1,47 @@
+@import "~Styles";
+
+.floatBox {
+  @include shadow(3);
+  min-width: 300px;
+  display: none;
+  position: absolute;
+  padding: $modal-content-padding;
+  background-color: white;
+  border-radius: $standard-border-radius;
+  max-height: 80vh;
+  @extend %JDscrollbar;
+  cursor: all-scroll;
+
+  &--open {
+    display: block;
+  }
+
+  &--top {
+    bottom: $standard-margin-bottom;
+  }
+  &--bottom {
+    top: $standard-margin-bottom;
+  }
+  &--right {
+    left: 0;
+  }
+  &--left {
+    right: 0;
+  }
+
+  &__clearIcon {
+    position: absolute;
+    top: $modal-content-padding - ($icon-size-small);
+    right: $modal-content-padding - ($icon-size-small);
+    margin-right: $button-small-padding;
+  }
+
+  &__contentsWrap {
+    cursor: auto;
+  }
+
+  &__endSection {
+    padding-top: $standard-large-space;
+    text-align: right;
+  }
+}

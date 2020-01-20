@@ -1,12 +1,11 @@
 import React from "react";
-import {IContext} from "../../../bookingHost/BookingHostRouter";
+import { IContext } from "../../../bookingHost/BookingHostRouter";
 import StaticController from "./StaticController";
 import JDmodal from "../../../../atoms/modal/Modal";
-import {IUseModal, LANG} from "../../../../hooks/hook";
-import {IStaticsProps} from "../Statistic";
-import {IconSize} from "../../../../atoms/icons/Icons";
+import { IUseModal, LANG } from "../../../../hooks/hook";
+import { IStaticsProps } from "../Statistic";
 import StaticIcons from "./StaticIcons";
-import {MODAL_MIN_WIDTH} from "../../../../types/enum";
+import { MODAL_MIN_WIDTH } from "../../../../types/const";
 
 interface Iprops {
   context: IContext;
@@ -19,7 +18,7 @@ const StaticsControllerModal: React.FC<Iprops> = ({
   context,
   modalHook
 }) => {
-  const {viewMode, setViewMode} = staticsProps;
+  const { viewMode, setViewMode } = staticsProps;
   return (
     <JDmodal visibleOverflow minWidth={MODAL_MIN_WIDTH} {...modalHook}>
       <div>
@@ -29,7 +28,7 @@ const StaticsControllerModal: React.FC<Iprops> = ({
         <h6>{LANG("graph_shape")}</h6>
         <div>
           <StaticIcons
-            iconSize={IconSize.MEDIUM_LARGE}
+            iconSize={"normal"}
             context={context}
             viewMode={viewMode}
             setViewMode={setViewMode}

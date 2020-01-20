@@ -1,34 +1,23 @@
 import React from "react";
 import "./NoMatch.scss";
 import Button from "../../atoms/button/Button";
-import {NavLink} from "react-router-dom";
-import {IContext} from "../bookingHost/BookingHostRouter";
-import {LANG} from "../../hooks/hook";
+import { NavLink } from "react-router-dom";
+import { IContext } from "../bookingHost/BookingHostRouter";
+import { LANG } from "../../hooks/hook";
+import PhotoFrame from "../../atoms/photoFrame/PhotoFrame";
+import { IMG_REPO } from "../../types/const";
 
 interface Iprops {
   context: IContext;
 }
 
-const NoMatch: React.FC<Iprops> = ({context}) => (
+const NoMatch: React.FC<Iprops> = ({ context }) => (
   <div id="NoMatch">
     <div className="container container--centerlize">
-      <div>
-        <h1>
-          <div className="NoMatch__text">{LANG("page_does_not_exist")}</div>
-          <b className="NoMatch__heart">
-            💔
-            <br />
-            <span className="NoMatch__heart404">{" 404 "}</span>
-          </b>
-        </h1>
-        <NavLink to="/dashboard">
-          <Button
-            size="large"
-            mode="border"
-            thema="point"
-            label={LANG("go_back_to_home")}
-          />
-        </NavLink>
+      <div className="JDflex--column">
+        <PhotoFrame unStyle type=".png" src={`${IMG_REPO}infographic/nopage`} />
+        <h3>{LANG("un_exsist_page")}</h3>
+        <h6>{LANG("un_exsist_page_decs")}</h6>
       </div>
     </div>
   </div>

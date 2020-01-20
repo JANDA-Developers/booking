@@ -7,7 +7,7 @@ import ReactTable, {
   ReactTableDefaults,
   RowRenderProps
 } from "react-table";
-import {LANG} from "../../hooks/hook";
+import { LANG } from "../../hooks/hook";
 
 interface JDrowInfo<T> extends RowRenderProps {
   original: T;
@@ -19,7 +19,7 @@ export interface JDcolumn<T> {
   Cell?: (props: JDrowInfo<T>) => string | JSX.Element | JSX.Element[] | void;
 }
 
-interface IProps<D = any> extends TableProps<D> {
+export interface IJDTableProps<D = any> extends TableProps<D> {
   align?: "center";
   inClassNames?: string;
   // 기능은 HOC으로 구현해야하나 다음 boolean은 css 셋팅해줌
@@ -28,7 +28,7 @@ interface IProps<D = any> extends TableProps<D> {
   visibleOver?: boolean;
 }
 
-const JDtable: React.SFC<IProps> = ({
+const JDtable: React.FC<IJDTableProps> = ({
   align,
   children,
   visibleOver,

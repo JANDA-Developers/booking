@@ -1,13 +1,14 @@
-@import "~Styles/style_config.scss";
+@import "~Styles";
 
 .JDtimer {
     display:inline-block;
     padding: $badge-padding;
     border-radius: $standard-border-radius;
-    border: 1px solid $standard-outborder-color;
-    margin-bottom: $standard-margin-bottom /2;
+    border: 1px solid $outborder-color;
+    margin-bottom: $standard-small-space;
+ 
     &__minute {
-        margin-right: $standard-space /3;
+        margin-right: $standard-tiny-space;
     }
     &__second {
     }

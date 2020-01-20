@@ -1,0 +1,27 @@
+@import '~Styles';
+
+.mockUp {
+    overflow: hidden;
+    position: relative;
+    box-sizing: border-box;
+
+    &__img {
+        pointer-events: none;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-size: 100% auto;
+        background-repeat: no-repeat;
+        top: 0;
+        bottom:0;
+        right: 0;
+        left: 0;
+        z-index: $z-index-1;
+    }
+    
+    &__framWrap {
+      height: 100%;
+      padding-bottom: 50px;
+      @extend %JDscrollbar
+    }
+}

@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import $ from "jquery";
 import { PricingType } from "../../../../types/enum";
-import { ASSIG_IMELINE_HEIGHT } from "../../../../atoms/timeline/Timeline";
 import { arraySum } from "../../../../utils/elses";
 import { IAssigGroup, TGetGuestsInGroup } from "../components/assigIntrerface";
+import { ASSIG_IMELINE_HEIGHT } from "../../../../atoms/timeline/config";
 
 let LAST_ROOMTYPE = "unRendered";
 let LAST_ROOM = "unRendered";
@@ -23,7 +23,7 @@ const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({
     return <div />;
   }
   const isDomitory = group.roomType.pricingType === PricingType.DOMITORY;
-  const placeCount = isDomitory ? group.roomType.peopleCount : 1;
+  const placeCount = isDomitory ? group.roomType.peopleCountMax : 1;
 
   // height는 UseEffect 안에 있음
   const roomTypeStyle = {
@@ -78,16 +78,6 @@ const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({
 
     // 여기뒤에 id를 넣음으로서 퍼포먼스를 개선할 여지가 있음 하지만
   });
-
-  if (group.type === "noneGroup") {
-    return (
-      <div>
-        <div className="assigGroups custom-group">
-          <div />
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div>

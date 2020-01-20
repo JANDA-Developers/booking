@@ -6,12 +6,8 @@ import {
   IDailyAssigDataControl
 } from "../../../pages/bookingHost/assig/components/assigIntrerface";
 import { IDailyAssigContext } from "../DailyAssig";
-import {
-  getAllRoomTypeWithGuest_GetGuests_guests as IG,
-  getAllRoomTypeWithGuest_GetBlocks_blocks as IB
-} from "../../../types/api";
+import { getAllRoomTypeWithGuest_GetBlocks_blocks as IB } from "../../../types/api";
 import Button from "../../../atoms/button/Button";
-import { ReactTooltip } from "../../../atoms/tooltip/Tooltip";
 import { LANG } from "../../../hooks/hook";
 
 interface Iprops {

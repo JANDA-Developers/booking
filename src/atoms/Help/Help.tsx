@@ -1,9 +1,9 @@
 import React from "react";
-import {ErrProtecter, s4} from "../../utils/utils";
-import JDIcon, {IIcons, IconSize} from "../icons/Icons";
-import {Fragment} from "react";
+import { ErrProtecter, s4 } from "../../utils/utils";
+import JDIcon from "../icons/Icons";
 import Tooltip from "../tooltip/Tooltip";
 import "./Help.scss";
+import { IconSize } from "../../types/enum";
 
 interface IProps {
   icon?: "info" | "help";
@@ -12,7 +12,12 @@ interface IProps {
   size?: IconSize;
 }
 
-const Help: React.FC<IProps> = ({tooltip, className, size, icon = "help"}) => {
+const Help: React.FC<IProps> = ({
+  tooltip,
+  className,
+  size,
+  icon = "help"
+}) => {
   const newId = s4();
 
   return (

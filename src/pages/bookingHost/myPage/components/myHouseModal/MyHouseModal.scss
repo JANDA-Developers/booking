@@ -1,0 +1,9 @@
+@import "~Styles";
+
+.myHouseModal {
+    min-width: 500px;
+
+    @include response($tablet) {
+        min-width: 80%;
+    }
+}

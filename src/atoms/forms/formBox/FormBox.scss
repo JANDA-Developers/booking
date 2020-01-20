@@ -1,0 +1,40 @@
+@import '~Styles';
+
+$formbox-border: 1px solid $grey-level1;
+
+.formBox {
+    border-radius: $standard-border-radius;
+    overflow: hidden;
+    background-color: white;
+    margin-bottom: $standard-margin-bottom;
+
+    .JDinput-wrap {
+        margin: 0;
+    }
+
+    &__header {
+        background-color: $grey-level4;
+        text-align: center;
+        padding:$standard-tiny-space;
+        color:white;
+    }
+
+    &__row {
+        display: flex;
+        border-bottom: $formbox-border;
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+    &__cell {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1;
+        border-right: $formbox-border;
+        
+        &:last-child {
+            border-right: none;
+        }
+        padding:$standard-tiny-space;
+    }
+}

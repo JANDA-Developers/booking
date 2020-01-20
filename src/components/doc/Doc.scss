@@ -1,0 +1,22 @@
+@import '~Styles';
+
+.JDdoc {
+    background-color:white;
+    padding: $doc-section-space $standard-largest-space;
+    font-size: $typho-large;
+}
+
+.JDdocSection {
+    line-height: 1.5;
+    margin-bottom: $doc-section-space;
+}
+
+.JDdocHeader {
+    border-left: $standard-tiny-space solid $primary-color-dark;
+    padding-left: $standard-tiny-space;
+    margin-bottom: $standard-largest-space;
+
+    h4 {
+        margin-bottom:0;
+    } 
+}

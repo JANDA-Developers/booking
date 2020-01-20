@@ -1,7 +1,12 @@
-import React, {useState, useEffect} from "react";
-import {IUseModal, useDayPicker, useModal, LANG} from "../../../../hooks/hook";
+import React, { useState, useEffect } from "react";
+import {
+  IUseModal,
+  useDayPicker,
+  useModal,
+  LANG
+} from "../../../../hooks/hook";
 import JDmodal from "../../../../atoms/modal/Modal";
-import {s4, autoComma, toNumber} from "../../../../utils/utils";
+import { s4, autoComma, toNumber } from "../../../../utils/utils";
 import Button from "../../../../atoms/button/Button";
 import InputText from "../../../../atoms/forms/inputText/InputText";
 import {
@@ -12,11 +17,12 @@ import {
 } from "../../../../types/api";
 import JDdayPicker from "../../../../atoms/dayPicker/DayPicker";
 import JDbox from "../../../../atoms/box/JDbox";
-import {MutationFn} from "react-apollo";
-import {isName} from "../../../../utils/inputValidations";
+import { MutationFn } from "react-apollo";
+import { isName } from "../../../../utils/inputValidations";
 import PriceWarnModal from "../../../../components/priceWarnModal.tsx/PriceWarnModal";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import moment from "moment";
+import ModalEndSection from "../../../../atoms/modal/components/ModalEndSection";
 
 export interface ICreateSeasonModalInfo {
   applyedDays: number;
@@ -109,7 +115,7 @@ const CreateSeasonModal: React.FC<IProps> = ({
           calenaderPosition="center"
           displayYear={false}
           label={LANG("season_period")}
-          input
+          mode="input"
           isRange
           {...dayPickerHook}
         />
@@ -145,8 +151,9 @@ const CreateSeasonModal: React.FC<IProps> = ({
           </table>
         </JDbox>
       </div>
-      <div className="JDmodal__endSection">
+      <ModalEndSection>
         <Button
+          mode="flat"
           onClick={() => {
             validation() && validation2();
           }}
@@ -154,7 +161,7 @@ const CreateSeasonModal: React.FC<IProps> = ({
           label={LANG("create_season")}
           thema="primary"
         />
-      </div>
+      </ModalEndSection>
       <PriceWarnModal modalHook={priceWarnModal} />
     </JDmodal>
   );

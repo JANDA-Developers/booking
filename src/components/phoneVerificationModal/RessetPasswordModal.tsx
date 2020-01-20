@@ -17,6 +17,7 @@ import { toast } from "react-toastify";
 import PhoneVerificationModal from "./PhoneVerificationModal";
 import { muResult } from "../../utils/utils";
 import copytoClipboard from "../../utils/copyToClipboard";
+import ModalEndSection from "../../atoms/modal/components/ModalEndSection";
 interface Iprops {
   context: IContext;
   modalHook: IUseModal;
@@ -57,15 +58,8 @@ const RessetPasswordModal: React.FC<Iprops> = ({
     const tempResult = await completePasswordResetMu({
       variables: { ...mutationVariable, key }
     });
-    const result = muResult<string>(
-      tempResult,
-      "CompletePasswordReset",
-      "newPassword"
-    );
-    console.log(":result eee result");
-    console.log(result);
-    if (typeof result === "boolean") return;
-    setNewPassword(result);
+    const result = muResult(tempResult, "CompletePasswordReset");
+    if (!result) return;
     setStep("complete");
   };
 
@@ -84,10 +78,7 @@ const RessetPasswordModal: React.FC<Iprops> = ({
     const tempResult = await startPasswordResetMu({
       variables: mutationVariable
     });
-    const result = muResult<boolean>(tempResult, "StartPasswordReset");
-    console.log("result");
-    console.log(result);
-    console.log(tempResult);
+    const result = muResult(tempResult, "StartPasswordReset");
     if (!result) {
       setStep("input");
     }
@@ -95,7 +86,12 @@ const RessetPasswordModal: React.FC<Iprops> = ({
 
   if (step === "input") {
     return (
-      <JDmodal {...modalHook}>
+      <JDmodal
+        onAfterClose={() => {
+          // setStep("input");
+        }}
+        {...modalHook}
+      >
         <h6>{LANG("get_temporary_password")}</h6>
         <div>
           <InputText
@@ -112,8 +108,9 @@ const RessetPasswordModal: React.FC<Iprops> = ({
             label={LANG("eamil")}
           />
         </div>
-        <div className="JDmodal__endSection">
+        <ModalEndSection>
           <Button
+            mode="flat"
             thema="primary"
             onClick={() => {
               if (validate()) {
@@ -121,8 +118,8 @@ const RessetPasswordModal: React.FC<Iprops> = ({
               }
             }}
             label={LANG("get_temporary_password")}
-          ></Button>
-        </div>
+          />
+        </ModalEndSection>
       </JDmodal>
     );
   } else if (step === "verify") {
@@ -149,15 +146,16 @@ const RessetPasswordModal: React.FC<Iprops> = ({
           icon={"copyFile"}
           readOnly
         />
-        <div className="JDmodal__endSection">
+        <ModalEndSection>
           <Button
+            mode="flat"
             thema="primary"
             onClick={() => {
               modalHook.closeModal();
             }}
             label={LANG("close")}
           />
-        </div>
+        </ModalEndSection>
       </JDmodal>
     );
   }

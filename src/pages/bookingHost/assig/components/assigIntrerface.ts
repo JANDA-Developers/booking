@@ -38,13 +38,21 @@ import {
 import { IUseModal } from "../../../../hooks/hook";
 import { string } from "prop-types";
 import { MouseEvent } from "react";
-import { IMoveCount, IDotPoint } from "../../../../atoms/timeline/Timeline";
 import { ApolloQueryResult } from "apollo-client";
+import { IMoveCount, IDotPoint } from "../../../../atoms/timeline/declare";
+import { ExecutionResult } from "graphql";
+import { MutationFunctionOptions } from "@apollo/react-common";
+import { IAssigBaseConfig } from "./AssigTimelineConfigModal/components/BasicConfig";
+
+export interface IUserConfig {
+  basicConfig: IAssigBaseConfig;
+}
 
 export interface IAssigTimelineContext {
   isMobile: boolean;
   windowWidth: number;
   windowHeight: number;
+  networkStatus: number;
   houseConfig: IHouseConfig;
   groupData: IAssigGroup[];
   houseId: string;
@@ -70,6 +78,7 @@ export type TFilterTimeZone = (
 ) => IAssigItem[];
 
 export type TGetItemById = (guestId: string) => IAssigItem;
+export type TGetItemsByType = (type: GuestTypeAdd) => IAssigItem[];
 
 export type TPopUpItemMenuTooltip = (
   location: {
@@ -196,6 +205,7 @@ export interface IAssigGroup {
   id: string;
   title: string;
   roomTypeId: string;
+  stackItems: boolean;
   roomTypeIndex: number;
   roomIndex: number;
   roomType: IRoomType;
@@ -208,7 +218,7 @@ export interface IAssigGroup {
   isLastOfRoom: boolean;
   isLastOfRoomType: boolean;
   bedIndex: number;
-  type: "add" | "normal" | "addRoomType" | "noneGroup";
+  // type: "add" | "normal" | "addRoomType" | "noneGroup";
   roomGender: RoomGender | null;
   pricingType: PricingType;
 }
@@ -226,6 +236,7 @@ export interface IAssigItem {
   name: string;
   group: string;
   memo?: string;
+  breakfast: boolean;
   isUnpaid?: boolean;
   temp: boolean;
   loading: boolean;
@@ -250,13 +261,44 @@ export interface IAssigDataControl {
   refetch: (
     variables?: getAllRoomTypeWithGuestVariables | undefined
   ) => Promise<ApolloQueryResult<getAllRoomTypeWithGuest>>;
-  deleteBookingMu: MutationFn<deleteBooking, deleteBookingVariables>;
-  allocateMu: MutationFn<allocateGuestToRoom, allocateGuestToRoomVariables>;
-  deleteBlockMu: MutationFn<deleteBlock, deleteBlockVariables>;
-  updateBookingMu: MutationFn<updateBooking, updateBookingVariables>;
-  deleteGuestsMu: MutationFn<deleteGuests, deleteGuestsVariables>;
-  createBlockMu: MutationFn<createBlock, createBlockVariables>;
-  updateBlockOpMu: MutationFn<updateBlockOption, updateBlockOptionVariables>;
+  deleteBookingMu: (
+    options?:
+      | MutationFunctionOptions<deleteBooking, deleteBookingVariables>
+      | undefined
+  ) => Promise<ExecutionResult<deleteBooking>>;
+  allocateMu: (
+    options?:
+      | MutationFunctionOptions<
+        allocateGuestToRoom,
+        allocateGuestToRoomVariables
+      >
+      | undefined
+  ) => Promise<ExecutionResult<allocateGuestToRoom>>;
+  deleteBlockMu: (
+    options?:
+      | MutationFunctionOptions<deleteBlock, deleteBlockVariables>
+      | undefined
+  ) => Promise<ExecutionResult<deleteBlock>>;
+  updateBookingMu: (
+    options?:
+      | MutationFunctionOptions<updateBooking, updateBookingVariables>
+      | undefined
+  ) => Promise<ExecutionResult<updateBooking>>;
+  deleteGuestsMu: (
+    options?:
+      | MutationFunctionOptions<deleteGuests, deleteGuestsVariables>
+      | undefined
+  ) => Promise<ExecutionResult<deleteGuests>>;
+  createBlockMu: (
+    options?:
+      | MutationFunctionOptions<createBlock, createBlockVariables>
+      | undefined
+  ) => Promise<ExecutionResult<createBlock>>;
+  updateBlockOpMu: (
+    options?:
+      | MutationFunctionOptions<updateBlockOption, updateBlockOptionVariables>
+      | undefined
+  ) => Promise<ExecutionResult<updateBlockOption>>;
   stopPolling: () => void;
   startPolling: () => void;
   totalMuLoading: boolean;
@@ -322,6 +364,7 @@ export interface IDailyAssigDataControl {
 export interface IAssigTimelineHooks {
   blockOpModal: IUseModal<IAssigItem>;
   bookingModal: IUseModal<any>;
+  isMultiSelectingMode: boolean;
   guestValue: IAssigItem[];
   createMenuProps: ICreateMenuProps;
   blockMenuProps: IDeleteMenuProps;
@@ -348,7 +391,8 @@ export type THandleCanvasContextMenu = (
 ) => void;
 
 export type THandleDraggingEnd = (
-  e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  IS_MOVE: boolean
 ) => void;
 
 export type THandleTimeChange = (
@@ -450,6 +494,7 @@ export interface IAssigHandlers {
 }
 
 export interface IAssigTimelineUtils {
+  getItemsByType: TGetItemsByType;
   hilightHeader: THilightHeader;
   changeMarkToGhost: TChangeMarkToGhost;
   getInfoesFromMarks: TGetInfoesFromMarks;

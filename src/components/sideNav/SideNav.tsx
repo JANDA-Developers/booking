@@ -1,21 +1,25 @@
-import React, {Fragment} from "react";
-import {NavLink, Link} from "react-router-dom";
+import React, { Fragment, useState } from "react";
+import { NavLink, Link } from "react-router-dom";
 import "./SideNav.scss";
 import classNames from "classnames";
 import ErrProtecter from "../../utils/errProtect";
-import Icon, {IIcons, IconSize} from "../../atoms/icons/Icons";
 import Button from "../../atoms/button/Button";
-import JDmenu, {JDmenuItem, JDsubMenu} from "../../atoms/menu/Menu";
+import JDmenu, { JDmenuItem, JDsubMenu } from "../../atoms/menu/Menu";
 import ProfileCircle from "../../atoms/profileCircle/ProfileCircle";
 import SelectHouseWrap from "../selectHouse/SelectHouseWrap";
-import {s4, instanceOfA} from "../../utils/utils";
-import {IContext} from "../../pages/bookingHost/BookingHostRouter";
-import {HouseStatus} from "../../types/enum";
-import {inOr} from "../../utils/C";
+import { instanceOfA } from "../../utils/utils";
+import { IContext } from "../../pages/bookingHost/BookingHostRouter";
+import { HouseStatus } from "../../types/enum";
+import { inOr } from "../../utils/C";
 import Help from "../../atoms/Help/Help";
 import JDlist from "../../atoms/list/List";
-import {to4YMMDD} from "../../utils/setMidNight";
-import {LANG} from "../../hooks/hook";
+import { to4YMMDD } from "../../utils/setMidNight";
+import { LANG } from "../../hooks/hook";
+import { IIcons } from "../../atoms/icons/declation";
+import JDmenuTitle from "../../atoms/menu/components/MenuTitle";
+import JDmenuLinker, {
+  IMenusItem
+} from "../../atoms/menu/components/MenuLiLinker";
 
 interface IProps {
   isOpen: boolean;
@@ -23,23 +27,18 @@ interface IProps {
   context: IContext;
 }
 
-// 네비 메뉴 그룹
-interface IMenusItem {
-  to: string;
-  label: string;
-  icon: IIcons;
-  disabled: boolean;
-}
-
 // 네비 메뉴 2차 그룹
 interface IMenusGroup {
+  icon?: IIcons;
+  key: string;
   disabled: boolean;
   groupTitle: string;
   contents: IMenusItem[];
 }
 
-const SideNav: React.FC<IProps> = ({isOpen, setIsOpen, context}) => {
-  const {applyedProduct, house, user} = context;
+const SideNav: React.FC<IProps> = ({ isOpen, setIsOpen, context }) => {
+  const { applyedProduct, house, user } = context;
+  const [openMenu, setOpenMenu] = useState<string[]>([]);
 
   const classes = classNames({
     JDsideNav: true,
@@ -56,97 +55,138 @@ const SideNav: React.FC<IProps> = ({isOpen, setIsOpen, context}) => {
   const menues: (IMenusItem | IMenusGroup)[] = [
     {
       to: "/dashboard",
+      key: "dashboard",
       icon: "apps",
       label: LANG("home"),
       disabled: false
     },
     {
       to: "/assigTimeline",
+      key: "assigTimeline",
       disabled: disabledFlag,
       icon: "calendar",
       label: LANG("allocation_calendar")
     },
     {
       to: "/statistic",
+      key: "statistic",
       icon: "graphPie",
       label: LANG("statistics"),
       disabled: disabledFlag
     },
     {
       to: "/resvList",
+      key: "resvList",
       disabled: disabledFlag,
       icon: "list",
       label: LANG("bookingList")
     },
     {
+      key: "config",
+      icon: "config",
       groupTitle: LANG("config"),
       disabled: disabledFlag,
       contents: [
         {
+          key: "houseConfig",
+          to: "/houseConfig",
+          icon: "house",
+          label: LANG("house_config"),
+          disabled: disabledFlag
+        },
+        {
+          key: "roomConfig",
           to: "/roomConfig",
           icon: "roomChange",
           label: LANG("room_config"),
           disabled: disabledFlag
         },
         {
+          key: "setPrice",
           to: "/setPrice",
           icon: "money",
           label: LANG("price_setting"),
           disabled: disabledFlag
         },
         {
-          to: "/sms",
-          icon: "sms",
-          label: LANG("sms_setting"),
-          disabled: disabledFlag
-        },
-        {
+          key: "HMconfig",
           to: "/HMconfig",
           disabled: disabledFlag,
           icon: "list",
           label: LANG("HM")
         },
         {
+          key: "config",
           to: "/config",
           icon: "config",
           label: LANG("preferences"),
           disabled: disabledFlag
         }
       ]
-    }
+    },
+    {
+      // sms설정
+      key: "sms_setting",
+      groupTitle: LANG("sms_service"),
+      disabled: disabledFlag,
+      icon: "sms",
+      contents: [
+        {
+          // 템플리설정
+          key: "smsTemplate",
+          to: "/smsTemplate",
+          icon: "sms",
+          label: LANG("template_setting"),
+          disabled: disabledFlag
+        },
+        {
+          key: "sms_usage",
+          to: "/smsInfo",
+          icon: "info",
+          label: LANG("sms_usage"),
+          disabled: disabledFlag
+        },
+        {
+          key: "smsHistory",
+          to: "/smsHistory",
+          icon: "sms",
+          label: LANG("sms_history"),
+          disabled: disabledFlag
+        }
+      ]
+    },
+    // 고객문의
     // {
-    //   to: "/qna",
-    //   icon: "book",
-    //   label: LANG("customer_inquiry"),
-    //   disabled: false
-    // }
+    //   key: "customer_inquiry",
+    //   groupTitle: LANG("customer_inquiry"),
+    //   disabled: disabledFlag,
+    //   icon: "question",
+    //   contents: [
+    //     {
+    //       key: "solution_usage_guide",
+    //       to: "/solution_usage_guide",
+    //       icon: "book",
+    //       label: LANG("solution_usage_guide"),
+    //       disabled: disabledFlag
+    //     },
+    //     {
+    //       key: "frequent_questions",
+    //       to: "/frequent_questions",
+    //       icon: "question",
+    //       label: LANG("frequent_questions"),
+    //       disabled: disabledFlag
+    //     }
+    //   ]
+    // },
+    // MY PAGE
+    {
+      key: "mypage",
+      label: LANG("mypage"),
+      disabled: disabledFlag,
+      icon: "person",
+      to: "/myPage"
+    }
   ];
-
-  // 인터페이스만 존재 내용없음
-  const handleClickNavLInk = (
-    e: React.MouseEvent<HTMLElement>,
-    disabled: boolean
-  ) => {
-    if (disabled) e.preventDefault();
-  };
-
-  const renderLink = (menu: IMenusItem) => {
-    return (
-      <NavLink
-        key={`JDsideMenu${menu.label}`}
-        to={menu.to || "a"}
-        onClick={e => {
-          handleClickNavLInk(e, menu.disabled);
-        }}
-        className={`JDsideNav__navLink ${
-          menu.disabled ? "JDsideNav__navLink--disabled" : ""
-        }`}
-      >
-        <Icon icon={menu.icon} />
-        <span className="JDsideNav__title">{menu.label}</span>
-      </NavLink>
-    );
-  };
 
   // disabled인 것들을 아래로 내려보냄
   const sortedMenus = menues.sort((menu, menu2) => {
@@ -161,11 +201,7 @@ const SideNav: React.FC<IProps> = ({isOpen, setIsOpen, context}) => {
           <div className="JDsideNav__profill">
             <Link to="/myPage">
               <div className="JDsideNav__circle">
-                <ProfileCircle
-                  size={IconSize.MEDIUM_LARGE}
-                  isBordered
-                  file={user.profileImg}
-                />
+                <ProfileCircle size={"large"} file={user.profileImg} />
               </div>
             </Link>
             <span className="JDsideNav__name">{user.name || "비회원"}</span>
@@ -173,16 +209,52 @@ const SideNav: React.FC<IProps> = ({isOpen, setIsOpen, context}) => {
           </div>
           {/* 리스트 컨테이너 */}
           <div className="JDsideNav__listContainer">
-            <JDmenu customMode="sideNav" mode="inline">
+            <JDmenu
+              onOpenChange={(openKeys: string[]) => {
+                setOpenMenu(openKeys);
+              }}
+              openKeys={[...openMenu]}
+              customMode="sideNav"
+              mode="inline"
+            >
               {sortedMenus.map(menu =>
+                // TODO 이부분을 하위 컴포넌트로!
                 instanceOfA<IMenusGroup>(menu, "contents") ? (
-                  <JDsubMenu key={s4()} title={menu.groupTitle}>
-                    <JDmenuItem>
-                      {menu.contents.map(content => renderLink(content))}
+                  <JDsubMenu
+                    key={menu.key}
+                    title={
+                      <JDmenuTitle
+                        title={menu.groupTitle}
+                        className="JDsideNav__menus--pr"
+                        icon={menu.icon}
+                      />
+                    }
+                  >
+                    <JDmenuItem title={menu.groupTitle} key={menu.key}>
+                      <div className="JDsideNav__menus-subItemWrap">
+                        {menu.contents.map(menu => (
+                          <JDmenuLinker
+                            key={menu.key}
+                            className={`JDsideNav__menus JDsideNav__menus--sub ${
+                              menu.disabled
+                                ? "JDsideNav__navLink--disabled"
+                                : ""
+                            }`}
+                            menu={menu}
+                          />
+                        ))}
+                      </div>
                     </JDmenuItem>
                   </JDsubMenu>
                 ) : (
-                  <JDmenuItem key={s4()}>{renderLink(menu)}</JDmenuItem>
+                  <JDmenuItem key={menu.key}>
+                    <JDmenuLinker
+                      className={`JDsideNav__menus JDsideNav__menus--sub ${
+                        menu.disabled ? "JDsideNav__navLink--disabled" : ""
+                      }`}
+                      menu={menu}
+                    />
+                  </JDmenuItem>
                 )
               )}
             </JDmenu>

@@ -5,6 +5,31 @@
 
 //마우스가 위에 올라왔을때 효과
 
+@mixin mb--prefixer($Before: "&", $After: "") {
+    #{$Before}--largest-mb #{$After}{
+        margin-bottom: $standard-largest-space;
+    }   
+    #{$Before}--huge-mb #{$After}{
+        margin-bottom: $standard-huge-space;
+    }
+    #{$Before}--large-mb #{$After}{
+        margin-bottom: $standard-large-space;
+    }
+    #{$Before}--space-mb #{$After}{
+        margin-bottom: $standard-space;
+    }
+    #{$Before}--small-mb #{$After}{
+        margin-bottom: $standard-small-space;
+    }
+    #{$Before}--tiny-mb #{$After}{
+        margin-bottom: $standard-tiny-space;
+
+    }
+    #{$Before}--superTiny-mb #{$After}{
+        margin-bottom: $standard-superTiny-space;
+    }
+}
+
 @mixin sizeText--prefixer() {
     &--h1 {
         @extend %h1;
@@ -69,7 +94,7 @@
         color: $html-color;
 
         &:hover {
-            color: $grey-level4;
+            color: $grey-level5;
         } 
     }
 
@@ -103,12 +128,59 @@
     }
        
     &--warn#{$After} {
-        color: $warn-color;
+        color: $orange-color;
         &:hover {
-            color: $warn-color-dark;
+            color: $orange-color-dark;
+        } 
+    }
+
+    &--blue#{$After} {
+        color: $blue-color;
+        &:hover {
+            color: $blue-color-dark;
         } 
     }
 }
+
+
+@mixin iconSize--prefixer($n: 1, $After: "") {
+
+    &--tiny#{$After} {
+        width: $icon-size-tiny * $n;
+        height: $icon-size-tiny * $n;
+    }
+
+    &--small#{$After} {
+        width: $icon-size-small * $n;
+        height: $icon-size-small * $n;
+    }
+       
+    &--normal#{$After} {
+        width: $icon-size-normal * $n;
+        height: $icon-size-normal * $n;
+    }
+       
+    &--large#{$After} {
+        width: $icon-size-large * $n;
+        height: $icon-size-large * $n;
+    }
+       
+    &--huge#{$After} {
+        width: $icon-size-huge * $n;
+        height: $icon-size-huge * $n;
+    }
+
+    &--largest#{$After} {
+        width: $icon-size-largest * $n;
+        height: $icon-size-largest * $n;
+    }
+    &--largest2#{$After} {
+        width: $icon-size-largest2 * $n;
+        height: $icon-size-largest2 * $n;
+    }
+}
+
+
 
 @mixin colorBorder--prefixer($After:"") { 
     &--primary#{$After} {
@@ -136,7 +208,7 @@
     &--black#{$After} {
         border-color: $html-color;
         &:hover {
-            border-color: $grey-level4;
+            border-color: $grey-level5;
         } 
     }
 
@@ -153,9 +225,9 @@
     }
     
     &--warn#{$After} {
-        border-color: $warn-color;
+        border-color: $orange-color;
         &:hover {
-            border-color: $warn-color-dark;
+            border-color: $orange-color-dark;
         } 
     }
        
@@ -172,7 +244,6 @@
             border-color: $positive-color-dark;
         } 
     }
-
 }
 @mixin colorBg--prefixer($After:"") {
 
@@ -213,8 +284,9 @@
         background-color: $html-color;
         color:white;
 
+        
         &:hover {
-            background-color: $grey-level4;
+            background-color: $grey-level5;
         } 
     }
 
@@ -237,11 +309,11 @@
     }
 
     &--warn#{$After} {
-        background-color: $warn-color;
+        background-color: $orange-color;
         color: white;
 
         &:hover {
-            background-color: $warn-color-dark;
+            background-color: $orange-color-dark;
         } 
     }
        
@@ -284,6 +356,7 @@
     #{$condition}.JDradio,
     #{$condition}.JDselect,
     #{$condition}.JDbtn,
+    #{$condition}.vtable,
     #{$condition}.JDlist,
     #{$condition}.circleIcon-wrap,
     #{$condition}.imageUploader,
@@ -302,6 +375,10 @@
     }
 }
 
+@mixin shadow($depth) {
+    @extend %z-depth-#{$depth}; 
+}
+
 /* stylelint-disable declaration-block-no-duplicate-properties  */
 
 // Components Flex-Grid
@@ -310,8 +387,6 @@
         display: -ms-flexbox;
         display: -webkit-flex;
         display: flex;
-
-
     }
 
     .flex-grid>* {
@@ -446,7 +521,6 @@
 }
 
 // 그리드 생성기
-
 @mixin grid-system-vertical($mode) {
 
     $max:9999px !default;
@@ -491,7 +565,19 @@
     }
 }
 
-@mixin grid-system($mode) {
+
+@mixin grid-system-all($flagFullWidth:false) {
+    @include grid-system(full,$flagFullWidth);
+    @include grid-system(wlg,$flagFullWidth);
+    @include grid-system(lg,$flagFullWidth);
+    @include grid-system(wmd,$flagFullWidth);
+    @include grid-system(wmd,$flagFullWidth);
+    @include grid-system(md,$flagFullWidth);
+    @include grid-system(sm,$flagFullWidth);
+}
+
+
+@mixin grid-system($mode, $flagFullWidth:false) {
 
     $max:9999px !default;
     
@@ -521,17 +607,30 @@
 
             &.col--#{$mode}-1 {
                 display:block;
-                width: flex-grid-column-width(1);
+                @if($flagFullWidth) {
+                    width: flex-grid-column-width-noMargin(1);
+                } @else {
+                    width: flex-grid-column-width(1);
+                }
             }
             
             &.col--#{$mode}-2 {
                 display:block;
-                width: flex-grid-column-width(2);
+                @if($flagFullWidth) {
+                    width: flex-grid-column-width-noMargin(2);
+                } @else {
+                    width: flex-grid-column-width(2);
+                }
             }
             
             &.col--#{$mode}-3 {
                 display:block;
                 width: flex-grid-column-width(3);
+                @if($flagFullWidth) {
+                    width: flex-grid-column-width-noMargin(3);
+                } @else {
+                    width: flex-grid-column-width(3);
+                }
                 &.col--float {
                     &:not(.aaaa) {margin-left: 2%;}
                     &:nth-child(4n + 1) {
@@ -542,7 +641,11 @@
             
             &.col--#{$mode}-4 {
                 display:block;
-                width: flex-grid-column-width(4);
+                @if($flagFullWidth) {
+                    width: flex-grid-column-width-noMargin(4);
+                } @else {
+                    width: flex-grid-column-width(4);
+                }
                 &.col--float {
                     &:not(.aaaa) {margin-left: 2%;}
                     &:nth-child(3n + 1) {
@@ -553,12 +656,20 @@
             
             &.col--#{$mode}-5 {
                 display:block;
-                width: flex-grid-column-width(5);
+                @if($flagFullWidth) {
+                    width: flex-grid-column-width-noMargin(5);
+                } @else {
+                    width: flex-grid-column-width(5);
+                }
             }
             
             &.col--#{$mode}-6 {
                 display:block;
-                width: flex-grid-column-width(6);
+                @if($flagFullWidth) {
+                    width: flex-grid-column-width-noMargin(6);
+                } @else {
+                    width: flex-grid-column-width(6);
+                }
                 &.col--float {
                     &:not(.aaaa) {margin-left: 2%;}
                     &:nth-child(2n + 1) {
@@ -569,32 +680,56 @@
             
             &.col--#{$mode}-7 {
                 display:block;
-                width: flex-grid-column-width(7);
+                @if($flagFullWidth) {
+                    width: flex-grid-column-width-noMargin(7);
+                } @else {
+                    width: flex-grid-column-width(7);
+                }
             }
             
             &.col--#{$mode}-8 {
                 display:block;
-                width: flex-grid-column-width(8);
+                @if($flagFullWidth) {
+                    width: flex-grid-column-width-noMargin(8);
+                } @else {
+                    width: flex-grid-column-width(8);
+                }
             }
             
             &.col--#{$mode}-9 {
                 display:block;
-                width: flex-grid-column-width(9);
+                @if($flagFullWidth) {
+                    width: flex-grid-column-width-noMargin(9);
+                } @else {
+                    width: flex-grid-column-width(9);
+                }
             }
             
             &.col--#{$mode}-10 {
                 display:block;
-                width: flex-grid-column-width(10);
+                @if($flagFullWidth) {
+                    width: flex-grid-column-width-noMargin(10);
+                } @else {
+                    width: flex-grid-column-width(10);
+                }
             }
             
             &.col--#{$mode}-11 {
                 display:block;
-                width: flex-grid-column-width(11);
+                @if($flagFullWidth) {
+                    width: flex-grid-column-width-noMargin(11);
+                } @else {
+                    width: flex-grid-column-width(11);
+                }
             }
             
             &.col--#{$mode}-12 {
                 display:block;
-                width: flex-grid-column-width(12);
+                @if($flagFullWidth) {
+                    width: flex-grid-column-width-noMargin(12);
+                } @else {
+                    width: flex-grid-column-width(12);
+                }
             }
 
             // TODO display 를 통합해서 어딘가로 옮기고 flex명령도 같이 수정자로서 자리를 잡아야하는데.. 여기위치는 너무 애매해
@@ -604,4 +739,88 @@
             }
         }
     }
+}
+
+@mixin grid-system-grow() {
+    .flex-grid-grow {
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+      
+        // 수정자 마진0
+        &--margin0 {
+          & > .flex-grid__col {
+            margin: 0;
+          }
+        }
+      
+        & > * {
+        
+          flex: 1;
+          margin-left: $flex-grid--column-margin;
+          max-width: 100%; //for slider....
+      
+          &.col--grow-1 {
+            flex-grow: 1;
+          }
+          
+          &.col--grow-2 {
+            flex-grow: 2;
+          }
+        
+          &.col--grow-3 {
+            flex-grow: 3;
+          }
+        
+          &.col--grow-4 {
+            flex-grow: 4;
+          }
+        
+          &.col--grow-5 {
+            flex-grow: 5;
+          }
+        
+          &.col--grow-6 {
+            flex-grow: 6;
+          }
+        
+          &.col--grow-7 {
+            flex-grow: 7;
+          }
+        
+          &.col--grow-8 {
+            flex-grow: 8;
+          }
+        
+          &.col--grow-9 {
+            flex-grow: 9;
+          }
+        
+          &.col--grow-10 {
+            flex-grow: 10;
+          }
+        
+          &.col--grow-11 {
+            flex-grow: 11;
+          }
+        
+          &.col--grow-12 {
+            flex-grow: 12;
+          }
+          
+          // fixed-width column (default = 200px)
+          &.flex-grid__col--fixed-width {
+            flex: 0 0 $flex-grid__column--fixed-width;
+          }
+          
+          
+          &:first-child {
+            margin-left: 0rem;
+          }
+        
+          &:last-child {
+            margin-right: 0rem;
+          }
+        }
+      }
 }

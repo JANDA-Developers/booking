@@ -1,26 +1,40 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import CheckTable from "./CheckTable";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import {
   getBookingForPublic_GetBookingForPublic_booking,
   getBookingForPublicVariables,
-  getBookingForPublic
+  getBookingForPublic,
+  getHouseForPublic_GetHouseForPublic_house
 } from "../../../types/api";
 import InputText from "../../../atoms/forms/inputText/InputText";
 import Button from "../../../atoms/button/Button";
-import {ApolloQueryResult} from "apollo-client";
-import {LANG} from "../../../hooks/hook";
+import { ApolloQueryResult } from "apollo-client";
+import { LANG } from "../../../hooks/hook";
+import CardRecipt from "../../../docs/print/CreditCardReceipt";
+import {
+  getRoomSelectInfo,
+  getRoomSelectString
+} from "../../../utils/typeChanger";
+import { openForPrint } from "../../../utils/openForPrint";
+import { DEFAULT_CARD_INFO } from "../../../types/defaults";
 
 interface Iprops {
   loading: boolean;
+  houseData?: getHouseForPublic_GetHouseForPublic_house;
   data: getBookingForPublic_GetBookingForPublic_booking | null | undefined;
   refetch: (
     variables?: getBookingForPublicVariables | undefined
   ) => Promise<ApolloQueryResult<getBookingForPublic>>;
 }
 
-const CheckReservation: React.FC<Iprops> = ({data, refetch, loading}) => {
-  const {name, password, phoneNumber} = data || {
+const CheckReservation: React.FC<Iprops> = ({
+  data,
+  refetch,
+  loading,
+  houseData
+}) => {
+  const { name, password, phoneNumber } = data || {
     name: "",
     password: "",
     phoneNumber: ""
@@ -37,6 +51,88 @@ const CheckReservation: React.FC<Iprops> = ({data, refetch, loading}) => {
   useEffect(() => {
     setSearchInfo(updateInput);
   }, []);
+
+  const printRecipt = (
+    data: getBookingForPublic_GetBookingForPublic_booking
+  ) => {
+    if (!houseData) return;
+    const {
+      location: { address, addressDetail },
+      name: houseName,
+      phoneNumber: houseContact
+    } = houseData;
+    const { name, payment, bookingNum, roomTypes, guests } = data;
+    const {
+      payMethod,
+      status,
+      totalPrice,
+      type,
+      goodsVat,
+      supplyAmt,
+      cardInfo
+    } = payment;
+    if (!cardInfo) return;
+    const { cardName, cardNo, authDate } = cardInfo;
+    if (!roomTypes) return;
+    const selectInfoes = getRoomSelectInfo(guests, roomTypes);
+    const stringBookInfo = getRoomSelectString(selectInfoes);
+
+    const markUp = CardRecipt({
+      resvInfo: {
+        bookingNum: bookingNum,
+        bookerName: name,
+        bookInfo: stringBookInfo
+      },
+      payInfo: {
+        payMethod,
+        payStatus: status,
+        payDate: authDate,
+        cardName,
+        cardNumber: cardNo,
+        price: totalPrice,
+        TAX: supplyAmt,
+        VAT: goodsVat
+      },
+      hostInfo: {
+        address: address + addressDetail,
+        houseName: houseName,
+        bNumber: "",
+        hostName: "",
+        houseContact,
+        hompage: ""
+      }
+    });
+
+    openForPrint(markUp);
+  };
+
+  openForPrint(
+    CardRecipt({
+      resvInfo: {
+        bookingNum: "aor2q5",
+        bookerName: "김민재",
+        bookInfo: "4인실방"
+      },
+      payInfo: {
+        payMethod: "카드결제",
+        payStatus: status,
+        payDate: "",
+        cardName: "신한",
+        cardNumber: "1103 4222 5633 3335",
+        price: "1000",
+        TAX: "500",
+        VAT: "200"
+      },
+      hostInfo: {
+        address: "창원시 서성로23",
+        houseName: "호텔B",
+        bNumber: "111642341",
+        hostName: "김민재",
+        houseContact: "010 5237 4492",
+        hompage: "asdwqwec@naver.com"
+      }
+    })
+  );
 
   const validater = () => {
     if (!searchInfo.name) {
@@ -59,18 +155,20 @@ const CheckReservation: React.FC<Iprops> = ({data, refetch, loading}) => {
       <h6>{LANG("reservation_information")}</h6>
       <div className="flex-grid-grow">
         <InputText
-          onChange={value => setSearchInfo({...searchInfo, name: value})}
+          onChange={value => setSearchInfo({ ...searchInfo, name: value })}
           value={searchInfo.name}
           label={LANG("name")}
         />
         <InputText
-          onChange={value => setSearchInfo({...searchInfo, phoneNumber: value})}
+          onChange={value =>
+            setSearchInfo({ ...searchInfo, phoneNumber: value })
+          }
           hyphen
           value={searchInfo.phoneNumber}
           label={LANG("contact")}
         />
         <InputText
-          onChange={value => setSearchInfo({...searchInfo, password: value})}
+          onChange={value => setSearchInfo({ ...searchInfo, password: value })}
           label={LANG("password")}
           value={searchInfo.password}
           type="password"
@@ -81,8 +179,12 @@ const CheckReservation: React.FC<Iprops> = ({data, refetch, loading}) => {
           onClick={() => {
             if (validater()) {
               refetch({
-                getBookingParam: searchInfo,
-                // @ts-ignore
+                param: {
+                  bookingNum: undefined,
+                  name: searchInfo.name,
+                  password: searchInfo.password,
+                  phoneNumber: searchInfo.phoneNumber
+                },
                 skip: loading
               });
             }
@@ -91,6 +193,14 @@ const CheckReservation: React.FC<Iprops> = ({data, refetch, loading}) => {
         />
       </div>
       <h6>{LANG("reservation_confirm")}</h6>
+      {/* {data?.payment.cardInfo && (
+        <Button
+          onClick={() => {
+            if (data) printRecipt(data);
+          }}
+          label={LANG("bill_print")}
+        />
+      )} */}
       <CheckTable tableData={data ? [data] : undefined} />
     </div>
   );

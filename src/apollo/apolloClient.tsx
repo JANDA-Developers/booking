@@ -3,32 +3,25 @@ import React from "react";
 import dotenv from "dotenv";
 import uri from "./uri";
 import resolvers from "./resolvers";
+import cache from "./cache";
 import { toast } from "react-toastify";
-import {
-  InMemoryCache,
-  IntrospectionFragmentMatcher
-} from "apollo-cache-inmemory";
-import introspectionQueryResultData from "./fragmentTypes.json";
 import ToastError from "../components/toasts/ErrorToast";
 import { JDlang } from "../langs/JDlang";
 import { CURRENT_LANG } from "../hooks/hook";
 import { Observable, ApolloLink } from "apollo-link";
-import { withClientState } from "apollo-link-state";
 import { onError, ErrorResponse } from "apollo-link-error";
 import { createUploadLink } from "apollo-upload-client";
-
-const fragmentMatcher = new IntrospectionFragmentMatcher({
-  introspectionQueryResultData
-});
 
 const request = async (operation: any) => {
   operation.setContext({
     headers: {
+      UTH: localStorage.getItem("UTH") || "",
       "X-JWT": localStorage.getItem("jwt") || "",
       "HP-Key": sessionStorage.getItem("hpk") || "",
       "HM-Key": sessionStorage.getItem("hmk") || ""
     }
   });
+  localStorage.setItem("UTH", "[]");
 };
 
 const requestLink = new ApolloLink(
@@ -45,15 +38,14 @@ const requestLink = new ApolloLink(
           });
         })
         .catch(observer.error.bind(observer));
-
       return () => {
         if (handle) handle.unsubscribe();
       };
     })
 );
 
-const cache = new InMemoryCache({ addTypename: true, fragmentMatcher });
-
+// networkError : 아래 에러는 그래프큐엘 통신이 실패했거나
+// graphQLErrors : 그래프큐엘 통신규약이 맞지않음
 const hanldeError = ({ graphQLErrors, networkError }: ErrorResponse) => {
   if (graphQLErrors) {
     graphQLErrors.map(({ message, locations, path }) => {
@@ -63,11 +55,7 @@ const hanldeError = ({ graphQLErrors, networkError }: ErrorResponse) => {
     });
     toast.warn(<ToastError />);
   } else if (networkError) {
-    console.error(networkError);
-    console.error(`[Network error]: ${networkError}`);
-    toast.warn(JDlang(CURRENT_LANG, "check_net_status"));
-    // 로그아웃 처리
-    // localStorage.removeItem("jwt");
+    toast.warn(JDlang(CURRENT_LANG, "server_dose_not_respond"));
   }
 };
 
@@ -75,8 +63,8 @@ dotenv.config({
   path: "../.env"
 });
 
-const clinetStatuss = {
-  defaults: {
+cache.writeData({
+  data: {
     auth: {
       __typename: "Auth",
       isLogIn: Boolean(localStorage.getItem("jwt"))
@@ -86,16 +74,14 @@ const clinetStatuss = {
       value: localStorage.getItem("selectId"),
       label: localStorage.getItem("selectHouseLabel")
     }
-  },
-  resolvers,
-  cache
-};
+  }
+});
 
 const client = new ApolloClient({
+  resolvers,
   link: ApolloLink.from([
     onError(hanldeError),
     requestLink,
-    withClientState(clinetStatuss),
     createUploadLink({
       uri,
       credentials: "omit"

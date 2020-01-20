@@ -7,7 +7,8 @@ import { useSwitch, useRange, LANG } from "../../../../hooks/hook";
 import { muResult } from "../../../../utils/utils";
 import JDbox from "../../../../atoms/box/JDbox";
 import { DEFAULT_HOUSE_CONFIG } from "../../../../types/defaults";
-import { TimePerMs, IMG_REPO } from "../../../../types/enum";
+import { TimePerMs } from "../../../../types/enum";
+import { IMG_REPO } from "../../../../types/const";
 import JDbadge from "../../../../atoms/badge/Badge";
 
 const NewBookingMark: React.FC<IAddtionProp> = ({
@@ -57,6 +58,8 @@ const NewBookingMark: React.FC<IAddtionProp> = ({
         }
       }
     });
+
+    // 에러처리
     if (!muResult(result, "UpdateHouseConfig")) {
       setUse(!flag);
     }
@@ -91,7 +94,7 @@ const NewBookingMark: React.FC<IAddtionProp> = ({
       />
       <JDbox
         mode="photoFrame"
-        photo={`${IMG_REPO}describe/newBookingBadge.png`}
+        photo={`${IMG_REPO}booking_app/describe/newBookingBadge.png`}
       />
       <div>
         <p>

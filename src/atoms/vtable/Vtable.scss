@@ -1,0 +1,139 @@
+@import "~Styles";
+
+$flex-grid--column-margin: 10%;
+
+.vtable {
+  padding: $standard-large-space;
+  border: 1px solid $grey-level1;
+  border-radius: $standard-border-radius;
+  padding-bottom: 0;
+
+  // @include component-layout(4%, 200px)
+  // This make cell out of Columns;
+  &--cellColumn {
+    .vtable__column {
+      display: block !important;
+    }
+    .vtable__column {
+      &:last-child {
+        padding-top: 0;
+        .vtable__cell {
+          &:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+          }
+        }
+      }
+    }
+
+    .vtable__column {
+      &:first-child {
+        padding-bottom: 0;
+        border-top: none;
+        .vtable__cell {
+          &:fisrt-child {
+            border-bottom: none;
+            padding-bottom: 0;
+          }
+        }
+      }
+    }
+
+    .vtable__cell {
+      margin: 0 !important;
+      display: flex;
+      align-items: center;
+      padding: $standard-space;
+      padding-left: 0;
+      padding-right: 0;
+      border-bottom: 1px solid $grey-level1;
+      justify-content: space-between;
+    }
+  }
+
+  @include grid-system-grow();
+
+  &--unBorder {
+    border: none;
+  }
+
+  &--noHeader {
+    padding-top: 0;
+  }
+
+  &__cell {
+    display: flex;
+    align-self: center;
+    justify-content: space-between;
+  }
+  &--unStyle {
+    border: none;
+    padding: 0;
+  }
+  &:not(.vtable--cellColumn) {
+    .vtable__column {
+      display: flex;
+      align-items: center;
+      padding: $standard-space;
+      padding-left: 0;
+      padding-right: 0;
+      border-bottom: 1px solid $grey-level1;
+      justify-content: space-between;
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+    &.vtable--unStyle {
+      border: none;
+      padding: 0;
+      .vtable__column {
+        &:first-child {
+          padding-top: 0;
+        }
+        &:last-child {
+          padding-bottom: 0;
+        }
+      }
+    }
+  }
+
+  &__content {
+    white-space: nowrap;
+    margin: 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    max-width: 45%;
+    width: 100%;
+
+    & > div {
+      width: 100%;
+    }
+
+    @include baseMargin() {
+      margin: 0;
+    }
+  }
+
+  &__label {
+    margin: 0;
+    display: flex;
+    align-items: center;
+
+    .JDlabel {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0;
+    }
+  }
+
+  &__titleSection {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__title {
+    margin-bottom: 0;
+  }
+}

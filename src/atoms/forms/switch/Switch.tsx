@@ -1,13 +1,13 @@
-import React, {Fragment} from "react";
+import React from "react";
 import "./Switch.scss";
-import PropTypes from "prop-types";
 import classNames from "classnames";
-import ErrProtecter from "../../../utils/errProtect";
 import JDlabel from "../../label/JDLabel";
-import {s4} from "../../../utils/utils";
+import { s4 } from "../../../utils/utils";
 import Tooltip from "../../tooltip/Tooltip";
+import { JDatomExtentionSet, ISpan } from "../../../types/interface";
+import { JDmrClass, JDmbClass } from "../../../utils/autoClasses";
 
-interface IProps {
+interface IProps extends JDatomExtentionSet {
   disabled?: boolean;
   checked?: boolean;
   onChange?(foo: boolean): void;
@@ -15,6 +15,8 @@ interface IProps {
   ltxt?: string;
   rtxt?: string;
   tooltip?: string;
+  id?: string;
+  className?: string;
 }
 
 const JDswitch: React.FC<IProps> = ({
@@ -24,26 +26,36 @@ const JDswitch: React.FC<IProps> = ({
   ltxt,
   tooltip,
   rtxt,
-  label
+  label,
+  mr,
+  mb,
+  className,
+  ...props
 }) => {
   const handleCheckboxChange = () => {
     const flag = disabled ? checked : !checked;
     onChange && onChange(flag);
   };
 
-  const classes = classNames({
+  const classes = classNames(className, undefined, {
     JDswitch__input: true
   });
 
   const newId = s4();
 
+  const wrapClasses = classNames("JDswitch-wrap", undefined, {
+    ...JDmbClass(mb),
+    ...JDmrClass(mr)
+  });
+
   return (
     <span
-      className="JDswitch-wrapWrap"
+      {...props}
+      className={"JDswitch-wrapWrap"}
       data-tip={tooltip}
       data-for={tooltip ? `btnTooltip${newId}` : undefined}
     >
-      <span className="JDswitch-wrap">
+      <span className={wrapClasses}>
         {label && <JDlabel txt={label} />}
         <span
           tabIndex={0}
@@ -53,7 +65,7 @@ const JDswitch: React.FC<IProps> = ({
           onClick={handleCheckboxChange}
         >
           <label htmlFor="JDswitch">
-            {ltxt !== "" && <span className="JDswitch__ltxt">{ltxt}</span>}
+            {ltxt && <span className="JDswitch__ltxt">{ltxt}</span>}
             <input
               onChange={() => {}}
               checked={checked}
@@ -62,7 +74,7 @@ const JDswitch: React.FC<IProps> = ({
               type="checkbox"
             />
             <span className="JDswitch__lever" />
-            {rtxt !== "" && <span className="JDswitch__rtxt">{rtxt}</span>}
+            {rtxt && <span className="JDswitch__rtxt">{rtxt}</span>}
           </label>
         </span>
         {tooltip && (

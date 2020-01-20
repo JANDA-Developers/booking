@@ -1,0 +1,10 @@
+@import '~Styles';
+
+.BillModal {
+    min-width: 410px;
+    max-width: 410px;
+    @include response($tablet) {
+        min-width: 80%;
+        max-width: none;
+    }
+}

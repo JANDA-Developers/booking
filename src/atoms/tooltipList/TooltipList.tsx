@@ -1,6 +1,6 @@
 import OutReactTooltip from "react-tooltip";
 import $ from "jquery";
-import React, {useEffect, useRef} from "react";
+import React, { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import ErrProtecter from "../../utils/errProtect";
@@ -46,9 +46,9 @@ const ToolTipList: React.SFC<IProps> = ({
   return (
     <OutReactTooltip
       className={classes}
-      {...props}
-      effect="solid"
       {...defualtProps}
+      effect="solid"
+      {...props}
     >
       {children}
     </OutReactTooltip>

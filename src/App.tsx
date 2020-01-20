@@ -12,12 +12,16 @@ import BookingHostRouter from "./pages/bookingHost/BookingHostRouter";
 import JDtoast from "./atoms/toast/Toast";
 import "./lib/wave/wave"; // 웨이브 이펙트
 import "./lib/wave/wave.scss";
-import { useLang } from "./hooks/hook";
+import { useLang, LANG } from "./hooks/hook";
 import { globalLanguageSetting } from "./utils/globalLagnSet";
 import $ from "jquery";
+import { toast } from "react-toastify";
+import { FAVI_URL } from "./types/const";
 
 function App() {
-  const langHook = useLang("kr");
+  console.log('localStorage.getItem("LastLang")');
+  console.log(localStorage.getItem("LastLang"));
+  const langHook = useLang((localStorage.getItem("LastLang") as any) || "kr");
 
   globalLanguageSetting();
 
@@ -28,6 +32,12 @@ function App() {
       }
     };
 
+    window.addEventListener("online", () => {
+      toast.success(LANG("network_connected"));
+    });
+    window.addEventListener("offline", () => {
+      toast.warn(LANG("check_net_status"));
+    });
     document.addEventListener("keydown", versionToggle);
     return () => {
       document.removeEventListener("keydown", versionToggle);
@@ -35,11 +45,10 @@ function App() {
   });
 
   <div onKeyDown={e => {}}></div>;
-
   return (
     <div id="JDoutWrapper">
       <ApolloProvider client={client}>
-        <Favicon url="https://res.cloudinary.com/stayjanda-com/image/upload/v1554092565/favicon.ico" />
+        <Favicon url={FAVI_URL} />
         <Router>
           <Switch>
             {/* 상위 컴포넌트 영향에벋어날수 없다. */}
@@ -55,6 +64,7 @@ function App() {
               <Route
                 key={`router${path}`}
                 path={path}
+                // @ts-ignore
                 render={() => <BookingHostRouter langHook={langHook} />}
               />
             ))}
@@ -74,7 +84,20 @@ function App() {
         >
           1.1.2 Last Update 2019.11.22.
         </div>
-        <div id="JDpreloaderPortal" />
+        <div
+          style={{
+            position: "relative",
+            zIndex: 999999
+          }}
+          id="JDpreloaderPortal"
+        />
+        <div
+          style={{
+            position: "fixed",
+            zIndex: 999999 + 1
+          }}
+          id="JDpriorityPortal"
+        />
         {/* for old borwser */}
         <div id="outdated" />
       </ApolloProvider>

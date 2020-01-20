@@ -1,12 +1,12 @@
-import React, {useState} from "react";
-import {Query} from "react-apollo";
-import {getHMforPublic} from "../../../types/api";
-import {SalesStatisticsUnit, Language} from "../../../types/enum";
+import React, { useState } from "react";
+import { Query } from "react-apollo";
+import { getHMforPublic } from "../../../types/api";
+import { SalesStatisticsUnit, Language } from "../../../types/enum";
 import HMcomponent from "./HM";
-import {GET_HOUSE_MENUAL_FOR_PUBLIC} from "../../../apollo/queries";
-import {queryDataFormater} from "../../../utils/utils";
-import {RouteComponentProps} from "react-router";
-import {DEFAULT_HM} from "../../../types/defaults";
+import { GET_HOUSE_MENUAL_FOR_PUBLIC } from "../../../apollo/queries";
+import { queryDataFormater } from "../../../utils/utils";
+import { RouteComponentProps } from "react-router-dom";
+import { DEFAULT_HM } from "../../../types/defaults";
 
 interface IProps extends RouteComponentProps<any> {}
 // refetch 가 Query 컴포넌트 리턴 프로프임
@@ -18,8 +18,8 @@ export interface IQueryOp {
 
 class GetHouseMenuaQu extends Query<getHMforPublic> {}
 
-const HMwrap: React.FC<IProps> = ({match}) => {
-  const {hmKey} = match.params;
+const HMwrap: React.FC<IProps> = ({ match }) => {
+  const { hmKey } = match.params;
   if (!hmKey) {
     alert("접근불가");
   } else {
@@ -36,7 +36,7 @@ const HMwrap: React.FC<IProps> = ({match}) => {
           publicKey: match.params.publickey
         }}
       >
-        {({data: HMData, loading}) => {
+        {({ data: HMData, loading }) => {
           const HM =
             queryDataFormater(HMData, "GetHMforPublic", "HM", DEFAULT_HM) ||
             DEFAULT_HM;

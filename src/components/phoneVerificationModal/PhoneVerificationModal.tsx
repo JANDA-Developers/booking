@@ -5,16 +5,12 @@ import { useInput, IUseModal, LANG } from "../../hooks/hook";
 import { ErrProtecter } from "../../utils/utils";
 import "./PhoneVerification.scss";
 import JDmodal from "../../atoms/modal/Modal";
-import { MutationFn } from "react-apollo";
-import {
-  completePhoneVerification,
-  completePhoneVerificationVariables
-} from "../../types/api";
 import JDTimer from "../../atoms/timer/Timer";
 import { TimePerMs } from "../../types/enum";
 import Timer from "react-compound-timer";
 import { toast } from "react-toastify";
 import PreloaderModal from "../../atoms/preloaderModal/PreloaderModal";
+import ModalEndSection from "../../atoms/modal/components/ModalEndSection";
 
 interface IProps {
   modalHook: IUseModal<any>;
@@ -40,12 +36,9 @@ const PhoneVerification: React.FC<IProps> = ({
     }
   }, [phoneNumber]);
 
-  if (muLoading) {
-    return <PreloaderModal loading={true} />;
-  }
-
   return (
     <JDmodal
+      loading={muLoading}
       {...modalHook}
       className="Modal"
       overlayClassName="Overlay"
@@ -71,9 +64,16 @@ const PhoneVerification: React.FC<IProps> = ({
           );
         }}
       </JDTimer>
-      <InputText {...keyHook} label={LANG("certification_number")} />
-      <div className="JDmodal__endSection">
+      <InputText
+        placeholder={"******"}
+        id="verifiKeyInput"
+        {...keyHook}
+        label={LANG("certification_number")}
+      />
+      <ModalEndSection>
         <Button
+          id="verfiCompleteBtn"
+          mode="flat"
           thema={"primary"}
           label={LANG("authenticate")}
           onClick={() => {
@@ -84,7 +84,7 @@ const PhoneVerification: React.FC<IProps> = ({
             handleCompleteBtnClick(keyHook.value);
           }}
         />
-      </div>
+      </ModalEndSection>
     </JDmodal>
   );
 };

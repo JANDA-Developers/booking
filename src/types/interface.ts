@@ -2,7 +2,7 @@ import {
   getMyProfile_GetMyProfile_user,
   getHouse_GetHouse_house_product,
   getAllRoomType_GetAllRoomType_roomTypes as getAllRoomType_GetAllRoomType_roomType,
-  getBookings_GetBookings_bookings,
+  getBookingMemos_GetBookings_result_bookings,
   getAllRoomTypeWithGuest_GetGuests_guests,
   getAllSeasonTable_GetAllRoomType_roomTypes,
   getBooking_GetBooking_booking,
@@ -14,35 +14,59 @@ import {
   getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory,
   getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom,
   getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_blockOption,
-  singleUpload_SingleUpload_jdFile
+  singleUpload_SingleUpload_jdFile,
+  getPayHistory_GetPayHistory_result_payHistories,
+  getSmsHistory_GetSmsHistory_result_smsHistories,
+  getBookings_GetBookings_result_bookings,
+  getAllRoomType_GetAllRoomType_roomTypes_rooms,
+  getRoomTypeInfo_GetRoomTypeById_roomType_capacity_CapacityRoomType,
+  getRoomTypeInfo_GetRoomTypeById_roomType_capacity_CapacityRoomTypeDomitory,
+  registerBillKey_RegisterBillKey_billInfo,
+  getMyProfile_GetMyProfile_user_paymentInfos,
+  getAllProductTypes_GetAllProductTypes_productTypes
 } from "./api";
 import { IselectedOption } from "../atoms/forms/selectBox/SelectBox";
-import { PricingType } from "./enum";
+import { PricingType, TMarginSize } from "./enum";
 import { MutationFunctionOptions } from "@apollo/react-common";
 import { ExecutionResult } from "graphql";
 import { IStartBookingCallBack } from "../pages/bookingHost/assig/components/assigIntrerface";
-export interface JdFile extends singleUpload_SingleUpload_jdFile {}
-
+export interface JdFile extends singleUpload_SingleUpload_jdFile { }
+export interface IProductType extends getAllProductTypes_GetAllProductTypes_productTypes { }
 export interface GASt_RoomType
-  extends getAllSeasonTable_GetAllRoomType_roomTypes {}
-export interface GB_booking extends getBooking_GetBooking_booking {}
-export interface IProduct extends getHouse_GetHouse_house_product {}
-export interface IUser extends getMyProfile_GetMyProfile_user {}
-export interface IHouse extends getMyProfile_GetMyProfile_user_houses {}
+  extends getAllSeasonTable_GetAllRoomType_roomTypes { }
+export interface GB_booking extends getBooking_GetBooking_booking { }
+export interface IProduct extends getHouse_GetHouse_house_product { }
+export interface IUser extends getMyProfile_GetMyProfile_user { }
+export interface IHouse extends getMyProfile_GetMyProfile_user_houses { }
+export interface IPayHistroy
+  extends getPayHistory_GetPayHistory_result_payHistories { }
 export interface IHouseConfig
-  extends getMyProfile_GetMyProfile_user_houses_houseConfig {}
-export interface IDiv extends React.HTMLAttributes<HTMLDivElement> {}
-export interface ISpan extends React.HTMLAttributes<HTMLSpanElement> {}
-export interface IUl extends React.HTMLAttributes<HTMLUListElement> {}
-export interface IRoomType extends getAllRoomType_GetAllRoomType_roomType {}
-export interface IBooking extends getBookings_GetBookings_bookings {}
+  extends getMyProfile_GetMyProfile_user_houses_houseConfig { }
+export interface IInput extends React.HTMLAttributes<HTMLInputElement> { }
+export interface IDiv extends React.HTMLAttributes<HTMLDivElement> { }
+export interface ISpan extends React.HTMLAttributes<HTMLSpanElement> { }
+export interface IUl extends React.HTMLAttributes<HTMLUListElement> { }
+export interface IRoomType extends getAllRoomType_GetAllRoomType_roomType { }
+export interface IBooking extends getBookings_GetBookings_result_bookings { }
+export interface IRoom extends getAllRoomType_GetAllRoomType_roomTypes_rooms { }
+export type TRef = React.MutableRefObject<any>;
+export type TPayinfoes = getMyProfile_GetMyProfile_user_paymentInfos;
+export type TBillInfo = registerBillKey_RegisterBillKey_billInfo;
 export type IGuest = getAllRoomTypeWithGuest_GetGuests_guests;
 export type IGuestD = getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory;
 export type IGuestR = getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom;
-export interface ISeason extends getAllSeasonTable_GetAllSeason_seasons {}
-export interface IBlock extends getAllRoomTypeWithGuest_GetBlocks_blocks {}
+export type TRoomCapacity = getRoomTypeInfo_GetRoomTypeById_roomType_capacity_CapacityRoomType;
+export type TDomitoryCapacity = getRoomTypeInfo_GetRoomTypeById_roomType_capacity_CapacityRoomTypeDomitory;
+export type ISmsH = getSmsHistory_GetSmsHistory_result_smsHistories;
+export type TElements = string | JSX.Element | JSX.Element[] | string[];
+export interface IBillInfo extends registerBillKey_RegisterBillKey_billInfo { };
+export type TMuFn<m, mv> = (
+  options?: MutationFunctionOptions<m, mv> | undefined
+) => Promise<ExecutionResult<m>>;
+export interface ISeason extends getAllSeasonTable_GetAllSeason_seasons { }
+export interface IBlock extends getAllRoomTypeWithGuest_GetBlocks_blocks { }
 export interface IBlockOp
-  extends getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_blockOption {}
+  extends getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_blockOption { }
 export interface IPageInfo {
   currentPage: number;
   totalPage: number;
@@ -114,6 +138,7 @@ export interface ITimelineContext {
   canvasTimeStart: number;
   canvasTimeEn: number;
 }
+
 export interface IItemContext {
   dimensions: any;
   useResizeHandle: boolean;
@@ -181,7 +206,7 @@ export interface IHolidaysByApi {
   seq: number;
 }
 
-export interface IProductTypeDesc {
+export interface IProductTypeDec {
   _id: string;
   name: string;
   price: number;
@@ -200,5 +225,20 @@ export interface IProductTypeDesc {
   priceText: string;
   disable?: boolean | undefined;
 }
-
+// 일부만 시험적용중
+// 추후에 모든 아톰에 적용할에정
+export interface JDatomExtentionSet {
+  mb?: TMarginSize;
+  mr?: TMarginSize;
+}
 /*  -------------------------------------------------------------------------- */
+
+export interface JDpageInfo {
+  currentPage: number;
+  totalPage: number;
+  rowCount: number;
+}
+
+export interface TP {
+  pageInfo: JDpageInfo;
+}

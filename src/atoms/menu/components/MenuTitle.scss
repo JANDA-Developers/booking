@@ -1,0 +1,12 @@
+@import "~Styles";
+
+#root {
+  .JDmenuTitle {
+    text-transform: capitalize;
+    .JDicon__svg {
+      padding: 0rem $sideNav-list-padding;
+      padding-left: 0;
+      margin-right: 0 !important;
+    }
+  }
+}

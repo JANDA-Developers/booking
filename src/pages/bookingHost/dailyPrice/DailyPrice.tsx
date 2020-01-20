@@ -4,8 +4,7 @@ import { MutationFn } from "react-apollo";
 import Timeline, {
   TimelineHeaders,
   SidebarHeader,
-  DateHeader,
-  SharedSideBarHeader
+  DateHeader
 } from "../../../atoms/timeline/Timeline";
 import ErrProtecter from "../../../utils/errProtect";
 import "./DailyPrice.scss";
@@ -33,6 +32,7 @@ import PriceWarnModal from "../../../components/priceWarnModal.tsx/PriceWarnModa
 import HeaderCellRender from "../assig/helper/HeaderCellRender";
 import DayPickerModal from "../../../components/dayPickerModal/DayPickerModal";
 import moment from "moment";
+import { SharedSideBarHeader } from "../../../atoms/timeline/components/SharedHeader";
 
 interface IProps {
   items: IItem[] | undefined;
@@ -109,6 +109,7 @@ const UpdateTimeline: React.FC<IProps & WindowSizeProps> = ({
         roomTypeId: item.group
       }
     });
+
     if (muResult(result, "DeleteDailyPrice")) priceMap.delete(item.id);
     else {
       // 에러처리
@@ -127,6 +128,7 @@ const UpdateTimeline: React.FC<IProps & WindowSizeProps> = ({
         price: value
       }
     });
+
     if (muResult(result, "CreateDailyPrice")) priceMap.set(item.id, value);
     else {
       // 에러처리

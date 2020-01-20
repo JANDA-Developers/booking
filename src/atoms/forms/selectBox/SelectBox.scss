@@ -1,25 +1,31 @@
-@import '~Styles/style_config';
+@import "~Styles";
+
+$select-font-color: $grey-level4;
 
 .JDselect {
-  text-align:left;
+  text-align: left;
+  font-size: $typho-normal;
 
-
-  &--menuItem-centerlize {
-    .react-select__option {
-      padding: 0px!important;
-      text-align: center;  
+  &--textOverflowVisible {
+    .react-select__placeholder,
+    .react-select__single-value {
+      overflow: visible !important;
     }
   }
 
-  .css-1g6gooi {
-    width: 1px;
+  &--menuItem-centerlize {
+    .react-select__option {
+      padding: 0px !important;
+      text-align: center;
+    }
   }
+
   &--autoSize {
     .react-select__value-container {
       & > div:first-child {
-        position: relative!important;
-        top: 0!important;
-        transform: none!important;
+        position: relative !important;
+        top: 0 !important;
+        transform: none !important;
       }
     }
   }
@@ -40,23 +46,24 @@
 
   &--bg {
     .react-select__control {
-      background-color: white!important;
+      background-color: white !important;
     }
   }
 
-
   &--menuCanOverflow {
     .react-select__menu {
-      width: auto!important;
+      width: auto !important;
     }
+  }
+
+  .css-1g6gooi {
+    width: 1px;
   }
 
   // NO 옵션
   .react-select__menu-Notice--no-options {
     color: $selcet-placeholder-color;
   }
-
-  font-size: $typho-normal;
 
   .JDselect__label {
     font-size: $label-font-size;
@@ -68,7 +75,7 @@
       margin-left: 0;
       margin-right: 0;
       margin-top: 0;
-      vertical-align:top;
+      vertical-align: top;
     }
 
     &--right {
@@ -76,36 +83,37 @@
       padding-left: $standard-small-space;
     }
   }
-  // disabled style 디스에이블 스타일 1
-  &--disabled {
-  .JDselect__label{
-    color:$select-disabled-color;
-  }
-}
-  
-  .react-select-container {
 
+  // disabled style
+  &--disabled {
+    .JDselect__label {
+      color: $select-disabled-color;
+    }
+  }
+
+  .react-select-container {
     .react-select {
-      
       &__placeholder {
-        padding-right: 0!important;
+        padding-right: 0 !important;
       }
 
-      // disabled style 디스에이블 스타일 2
+      // disabled style 2
       &__control--is-disabled.react-select__control {
         border-color: $select-disabled-color;
-        .react-select__placeholder{
+        .react-select__placeholder {
           color: $select-disabled-color;
         }
-        // 화살표 
+        // 화살표
         .react-select__indicator {
-          color: $select-disabled-color;
+          color: $select-font-color;
         }
       }
 
       &__single-value {
         width: 100%;
         margin: 0;
+        // color: $select-font-color;
+        color: $html-color;
       }
 
       &__label {
@@ -113,40 +121,37 @@
         font-size: $typho-small;
       }
 
-      
       &__multi-value {
-        background-color:$select-multi-bgcolor;
+        background-color: $select-multi-bgcolor;
 
-          &__remove {
-            background-color: $select-multi-remove-bgcolor;
-            
-            &:hover {
-              background-color: $select-multi-remove-hover-bgcolor;
-              color: $select-multi-remove-hover-color;
-            }
+        &__remove {
+          background-color: $select-multi-remove-bgcolor;
+
+          &:hover {
+            background-color: $select-multi-remove-hover-bgcolor;
+            color: $select-multi-remove-hover-color;
           }
-          
+        }
       }
 
       &__placeholder {
-        white-space:nowrap;
-        overflow:hidden;
-        text-overflow:ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         color: $selcet-placeholder-color;
         padding-right: $standard-small-space;
         width: calc(100% - #{$standard-small-space});
         margin: 0;
       }
-      
 
       //아이콘 이전 라인
       &__indicator {
-        color: $html-color;
+        color: $select-font-color;
         padding: $select-padding;
       }
 
       &__indicator:hover {
-        color: $grey-level3;
+        color: $select-font-color;
       }
 
       &__indicator-separator {
@@ -157,8 +162,6 @@
         border-radius: $select-radius;
       }
 
-      
-
       &__control {
         flex-wrap: inherit;
         border: $select-border;
@@ -166,15 +169,22 @@
         border-radius: $select-radius;
         min-height: $select-height;
 
-
         &--is-focused {
           border-color: $select-focus-border-color;
+          color: $html-color !important;
           @extend %z-depth-1;
+
+          .react-select__indicator {
+            color: $html-color !important;
+          }
+          .react-select__single-value {
+            color: $html-color;
+          }
         }
       }
 
       &__value-container {
-        padding: $select-padding
+        padding: $select-padding;
       }
 
       //  메뉴 Wrap
@@ -184,16 +194,17 @@
         margin: 0;
         width: 100%;
       }
-      
-      //  메뉴 
+
+      //  메뉴
       &__menu-list {
         padding: 0;
+        max-height: $select-option-height * 4;
         @extend %JDscrollbar;
       }
 
       // this is a li !!! 😆
       &__option {
-        overflow:hidden;
+        overflow: hidden;
         height: $select-option-height;
         padding: $select-option-padding;
         line-height: $select-option-height;
@@ -223,13 +234,13 @@
   }
 
   &--small {
-    display:flex;
+    display: flex;
     font-size: $typho-small;
 
     .react-select-container {
-      width:100%;
-      .react-select__control{
-        padding: 0rem $standard-small-space/2;
+      width: 100%;
+      .react-select__control {
+        padding: 0rem $standard-tiny-space;
       }
       .react-select__value-container {
         padding: 0;
@@ -240,12 +251,12 @@
         }
         &__placeholder {
           width: 100%;
-          overflow:hidden;
+          overflow: hidden;
           text-overflow: clip;
         }
-        
+
         &__indicators {
-          display:none;
+          display: none;
           // .react-select__indicator  {
           //   margin-left: $standard-small-space;
           // }
@@ -254,12 +265,4 @@
       }
     }
   }
-
-  &--textOverflowVisible {
-    .react-select__placeholder,
-    .react-select__single-value {
-      overflow:visible!important;
-    }
-  }
 }
-

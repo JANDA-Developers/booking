@@ -1,11 +1,13 @@
 import React from "react";
 import Select from "react-select";
 import "./SelectBox.scss";
-import PropTypes from "prop-types";
 import classNames from "classnames";
-import {SelectComponentsProps} from "react-select/lib/Select";
-import {isEmpty} from "../../../utils/utils";
-import {LANG} from "../../../hooks/hook";
+import { SelectComponentsProps } from "react-select/lib/Select";
+import { LANG } from "../../../hooks/hook";
+import { JDatomExtentionSet } from "../../../types/interface";
+import { JDmbClass, JDmrClass } from "../../../utils/autoClasses";
+import { ValueType } from "react-select/lib/types";
+import userTacking from "../../../utils/userTracking";
 
 export interface IselectedOption<T = any> {
   label: string;
@@ -25,6 +27,7 @@ interface Iprops extends SelectComponentsProps {
   label?: string | JSX.Element;
   disabled?: boolean;
   selectedOption?: IselectedOption | null;
+  selectedOptions?: ValueType<IselectedOption<any>>;
   options?: IselectedOption[];
   onChange?(foo: IselectedOption): void;
   className?: string;
@@ -42,7 +45,7 @@ interface Iprops extends SelectComponentsProps {
   menuItemCenterlize?: boolean;
 }
 
-const JDselect: React.SFC<Iprops> = ({
+const JDselectTemp: React.SFC<Iprops & JDatomExtentionSet> = ({
   label,
   disabled,
   selectedOption,
@@ -62,7 +65,10 @@ const JDselect: React.SFC<Iprops> = ({
   menuCanOverflow,
   displayArrow,
   borderColor,
+  selectedOptions,
   autoSize,
+  mb,
+  mr,
   // eslint-disable-next-line no-unused-vars
   ...props
 }) => {
@@ -74,6 +80,7 @@ const JDselect: React.SFC<Iprops> = ({
   else validSelectedOption = selectedOption;
 
   const handleChange = (selectOption: any) => {
+    userTacking(label?.toString(), selectOption?.value);
     onChange && onChange(selectOption);
   };
 
@@ -86,7 +93,9 @@ const JDselect: React.SFC<Iprops> = ({
     "JDselect--textOverflowVisible": textOverflow === "visible",
     "JDselect--menuCanOverflow": menuCanOverflow,
     "JDselect--autoSize": autoSize,
-    "JDselect--menuItem-centerlize": menuItemCenterlize
+    "JDselect--menuItem-centerlize": menuItemCenterlize,
+    ...JDmbClass(mb),
+    ...JDmrClass(mr)
   });
 
   const selectStyle: any = {
@@ -103,7 +112,7 @@ const JDselect: React.SFC<Iprops> = ({
       <Select
         {...props}
         options={options}
-        value={validSelectedOption}
+        value={selectedOptions || validSelectedOption}
         defaultValue={defaultValue}
         onChange={handleChange}
         className="react-select-container"
@@ -121,12 +130,14 @@ const JDselect: React.SFC<Iprops> = ({
   );
 };
 
-JDselect.defaultProps = {
+JDselectTemp.defaultProps = {
   disabled: false,
   label: "",
   onChange: () => {},
   selectedOption: undefined,
   props: {}
 };
+
+const JDselect = React.memo(JDselectTemp);
 
 export default JDselect;

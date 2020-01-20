@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useMemo } from "react";
 import moment from "moment";
 import Modal, { JDtoastModal } from "../../atoms/modal/Modal";
 import {
@@ -16,15 +16,20 @@ import Button from "../../atoms/button/Button";
 import RoomSelectInfoTable from "./components/RoomSelectInfoTable";
 import JDdayPicker from "../../atoms/dayPicker/DayPicker";
 import {
-  BOOKING_STATUS_OP,
-  PAYMENT_STATUS_OP,
   PaymentStatus,
   AutoSendWhen,
-  PAYMETHOD_FOR_HOST_OP,
   DateFormat,
   BookingStatus,
-  FUNNELS_OP
+  WindowSize,
+  PayMethod
 } from "../../types/enum";
+import {
+  FUNNELS_OP,
+  BOOKING_STATUS_OP,
+  PAYMETHOD_FOR_HOST_OP,
+  PAYMENT_STATUS_OP,
+  CHECK_IN_OUT_OP
+} from "../../types/const";
 import "./BookingModal.scss";
 import { GB_booking, BookingModalMode } from "../../types/interface";
 import { MutationFn } from "react-apollo";
@@ -35,17 +40,15 @@ import {
   deleteBookingVariables,
   startBooking,
   startBookingVariables,
-  allocateGuestToRoom,
-  allocateGuestToRoomVariables,
-  Funnels
+  Funnels,
+  refundBookingVariables
 } from "../../types/api";
 import SendSMSmodalWrap, { IModalSMSinfo } from "../smsModal/SendSmsModalWrap";
 import Preloader from "../../atoms/preloader/Preloader";
 import { toast } from "react-toastify";
 import { isPhone } from "../../utils/inputValidations";
-import { autoComma } from "../../utils/utils";
+import { autoComma, muResult, toNumber } from "../../utils/utils";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
-import Drawer from "../../atoms/drawer/Drawer";
 import _ from "lodash";
 import C from "../../utils/C";
 import RoomAssigedInfoTable from "./components/RoomAssigedInfoTable";
@@ -57,8 +60,12 @@ import {
 } from "./helper";
 import { getRoomSelectInfo } from "../../utils/typeChanger";
 import { IBookingModalContext } from "./declaration";
-import { IconSize } from "../../atoms/icons/Icons";
 import JDLabel from "../../atoms/label/JDLabel";
+import JDselect from "../../atoms/forms/selectBox/SelectBox";
+import optionFineder from "../../utils/optionFinder";
+import ModalEndSection from "../../atoms/modal/components/ModalEndSection";
+import RefundModal from "../refundModal/RefundModal";
+import CheckBox from "../../atoms/forms/checkBox/CheckBox";
 
 interface IProps {
   modalHook: IUseModal;
@@ -68,6 +75,7 @@ interface IProps {
   updateBookingMu: MutationFn<updateBooking, updateBookingVariables>;
   deleteBookingMu: MutationFn<deleteBooking, deleteBookingVariables>;
   startBookingLoading: boolean;
+  refundFn: (variables: refundBookingVariables) => void;
   context: IContext;
   loading: boolean;
   mode?: BookingModalMode;
@@ -83,6 +91,7 @@ const BookingModal: React.FC<IProps> = ({
   placeHolederPrice,
   loading,
   context,
+  refundFn,
   mode
 }) => {
   const isCreateMode = mode === "CREATE" || mode === "CREATE_ASSIG";
@@ -96,29 +105,41 @@ const BookingModal: React.FC<IProps> = ({
     status: bookingStatus,
     checkIn,
     checkOut,
+    checkInInfo,
+    bookingNum,
     name,
     funnels,
-    guests
+    guests,
+    breakfast: breakfastDefault
   } = bookingData;
-  const { payMethod, status: paymentStatus, totalPrice } = payment;
+  const refundModalHook = useModal(false);
+  const { payMethod, status: paymentStatus, totalPrice, tid } = payment;
+  const [refundAmt, setRefundAmt] = useState<number>(totalPrice);
   const { house } = context;
   const { _id: houseId } = house;
+  const checkInOutHook = useSelect(
+    optionFineder(CHECK_IN_OUT_OP, checkInInfo.isIn)
+  );
+  const [breakfast, setBreakfast] = useState(breakfastDefault);
   const sendSmsModalHook = useModal<IModalSMSinfo>(false);
   const confirmModalHook = useModal(false);
   const bookingNameHook = useInput(name);
   const bookingPhoneHook = useInput(phoneNumber, true);
-  const priceHook = useInput(totalPrice);
+  const priceHook = useInput(totalPrice || placeHolederPrice);
   const memoHook = useInput(memo || "");
   const emailHook = useInput(email);
-  const assigInfoDrawHook = useDrawer(mode === "CREATE_ASSIG");
-  const roomSelectInfo = getRoomSelectInfo(
-    bookingData.guests,
-    bookingData.roomTypes || []
+  // 아래 메모 목적은 인풋이 바뀔떄마다 바뀌는걸 막기위함임
+  const roomSelectInfo = useMemo(
+    () => getRoomSelectInfo(bookingData.guests, bookingData.roomTypes || []),
+    [bookingData]
   );
+  const isPhabletDown = window.innerWidth < WindowSize.TABLET;
   const [assigInfo, setAssigInfo] = useState(makeAssigInfo(guests));
-  const [drawers, setDrawers] = useState({
-    bookerInfo: false
-  });
+  const modalStyle = {
+    content: {
+      maxWidth: "30rem"
+    }
+  };
   const payMethodHook = useSelect(
     C(
       bookingId !== "default",
@@ -127,27 +148,26 @@ const BookingModal: React.FC<IProps> = ({
     )
   );
   const paymentStatusHook = useSelect<PaymentStatus>(
-    C(
-      bookingId !== "default",
-      { value: paymentStatus, label: LANG("PaymentStatus", paymentStatus) },
-      {
-        value: PaymentStatus.COMPLETE,
-        label: LANG("PaymentStatus", PaymentStatus.COMPLETE)
-      }
-    )
+    isCreateMode
+      ? {
+          value: PaymentStatus.COMPLETED,
+          label: LANG("PaymentStatus", PaymentStatus.COMPLETED)
+        }
+      : {
+          value: paymentStatus,
+          label: LANG("PaymentStatus", paymentStatus)
+        }
   );
   const funnelStatusHook = useSelect<Funnels | null>(
     funnels ? { value: funnels, label: LANG("Funnels", funnels) } : null
   );
   const bookingStatusHook = useSelect(
-    C(
-      bookingId !== "default",
-      {
-        value: bookingStatus,
-        label: LANG(bookingStatus)
-      },
-      BOOKING_STATUS_OP[0]
-    )
+    isCreateMode
+      ? BOOKING_STATUS_OP[0]
+      : {
+          value: bookingStatus,
+          label: LANG(bookingStatus)
+        }
   );
   const resvDateHook = useDayPicker(
     moment(checkIn).toDate(),
@@ -165,14 +185,11 @@ const BookingModal: React.FC<IProps> = ({
     payMethodHook,
     emailHook,
     guests,
-    assigInfo,
     memoHook,
+    assigInfo,
     houseId,
     mode
   };
-
-  const isProgressing = bookingStatus === BookingStatus.PROGRESSING;
-  const allReadOnly = isProgressing;
 
   // SMS 발송 모달에 전달할 정보를 생성
   const smsModalInfoTemp = makeSmsInfoParam(bookingModalContext);
@@ -214,14 +231,7 @@ const BookingModal: React.FC<IProps> = ({
       const result = await startBookingMu({
         variables: bookingModalGetStartBookingVariables(bookingModalContext)
       });
-      if (
-        result &&
-        result.data &&
-        result.data.StartBooking.ok &&
-        callBackStartBooking
-      ) {
-        callBackStartBooking();
-      }
+      if (muResult(result, "StartBooking")) callBackStartBooking();
     } catch (error) {
       modalHook.closeModal();
     }
@@ -257,161 +267,216 @@ const BookingModal: React.FC<IProps> = ({
           email: "demo@naver.com",
           memo: memoHook.value,
           checkInInfo: {
-            isIn: bookingData.checkIn.isIn || false
+            isIn: checkInOutHook.selectedOption?.value || false
           },
+          breakfast,
           name: bookingNameHook.value,
           payMethod: payMethodHook.selectedOption!.value,
           paymentStatus: paymentStatusHook.selectedOption!.value,
           bookingStatus: bookingStatusHook.selectedOption!.value,
           phoneNumber: bookingPhoneHook.value,
-          price: priceHook.value,
-          funnels: funnelStatusHook.selectedOption
-            ? funnelStatusHook.selectedOption.value
-            : null
+          price: toNumber(priceHook.value),
+          funnels: funnelStatusHook.selectedOption?.value || null
         }
       }
     });
     modalHook.closeModal();
   };
 
+  const handleRefundBtn = () => {
+    if (!tid) return;
+    refundFn({
+      param: {
+        bookingNum,
+        refundInfo: {
+          cancelAmt: refundAmt,
+          cancelMsg: "HOST-CANCEL",
+          isPartialCancel: refundAmt === totalPrice,
+          tid
+        }
+      }
+    });
+  };
+
   return (
     <Modal
-      style={{
-        content: {
-          maxWidth: "30rem"
-        }
-      }}
+      style={modalStyle}
       paddingSize="large"
       {...modalHook}
-      className={`Modal bookingModal ${(loading || startBookingLoading) && "bookingModal--loading"}`}
+      className={`Modal bookingModal`}
       overlayClassName="Overlay"
+      loading={loading || startBookingLoading}
     >
       <Preloader size={"large"} loading={loading || startBookingLoading} />
       {loading || startBookingLoading || (
         <Fragment>
-          <div className="modal__section">
-            <h5>
-              {LANG("booker_info")}{" "}
-            </h5>
-            <div className="JDflex JDflex--oneone">
-              <InputText
-                disabled={allReadOnly}
-                {...bookingNameHook}
-                label={LANG("booker")}
-              />
-              <InputText
-                disabled={allReadOnly}
-                {...bookingPhoneHook}
-                validation={isPhone}
-                hyphen
-                label={LANG("phoneNumber")}
-                icon="sms"
-                iconHover
-                iconOnClick={handleSmsIconClick}
-              />
-              <SelectBox
-                disabled={allReadOnly}
-                {...funnelStatusHook}
-                options={FUNNELS_OP}
-                label={LANG("funnels")}
-              />
-            </div>
-          </div>
-          <div className="modal__section">
-            <h5>{LANG("payment_info")}</h5>
-            <div className="JDflex JDflex--oneone">
-              <InputText
-                disabled={allReadOnly}
-                {...priceHook}
-                placeholder={`${LANG("normal_price")}:${autoComma(
-                  placeHolederPrice
-                )}`}
-                returnNumber
-                comma
-                label={LANG("total_price")}
-              />
-              <SelectBox
-                disabled={allReadOnly}
-                {...payMethodHook}
-                options={PAYMETHOD_FOR_HOST_OP}
-                label={LANG("method_of_payment")}
-              />
-              <SelectBox
-                disabled={allReadOnly}
-                {...paymentStatusHook}
-                options={PAYMENT_STATUS_OP}
-                label={LANG("payment_status")}
-              />
-            </div>
-          </div>
-          <div>
-            <h5>
-              {LANG("reservation_information")}{" "}
-              <Drawer size={IconSize.MEDEIUM_SMALL} {...assigInfoDrawHook} />
-            </h5>
-            <div className="JDflex JDflex--oneone">
-              <SelectBox
-                disabled={allReadOnly}
-                {...bookingStatusHook}
-                options={BOOKING_STATUS_OP}
-                label={LANG("booking_status")}
-              />
-              <JDdayPicker
-                displayIcon={false}
-                inputDisabled={allReadOnly}
-                canSelectBeforeDay={false}
-                {...resvDateHook}
-                input
-                className="JDstandard-space"
-                readOnly
-                label={LANG("date_of_stay")}
-              />
-              <InputText
-                disabled={allReadOnly}
-                readOnly
-                value={moment(createdAt ? createdAt : undefined)
-                  .local()
-                  .format(DateFormat.WITH_TIME)}
-                label={LANG("reservation_date")}
-              />
-            </div>
-          </div>
-          <div>
-            <JDLabel txt="인원 및 방정보" />
-            <RoomSelectInfoTable roomSelectInfo={roomSelectInfo} />
-          </div>
-          {assigInfoDrawHook.open && (
-            <div>
-              <JDLabel txt="배정정보" />
-              <RoomAssigedInfoTable
-                setAssigInfo={setAssigInfo}
-                assigInfo={assigInfo}
-                guestsData={guests || []}
-              />
-            </div>
-          )}
-          <div className="JDz-index-1 modal__section">
-            <div className="flex-grid">
-              <div className="flex-grid__col col--full-12 col--lg-12 col--md-12">
+          <div className={`JDz-index-1 ${isPhabletDown || "flex-grid-grow"}`}>
+            <div className="modal__section flex-grid__col ">
+              <h5>{LANG("booker_info")}</h5>
+              <div
+                className={`JDflex JDflex--oneone ${isPhabletDown ||
+                  "JDflex--column"}`}
+              >
                 <InputText
-                  disabled={allReadOnly}
+                  id="BookerNameInput"
+                  mr={isPhabletDown ? undefined : "no"}
+                  {...bookingNameHook}
+                  label={LANG("booker")}
+                  placeholder={LANG("booker")}
+                />
+                <InputText
+                  id="BookerPhoneInput"
+                  mr={isPhabletDown ? undefined : "no"}
+                  {...bookingPhoneHook}
+                  validation={isPhone}
+                  hyphen
+                  label={LANG("phoneNumber")}
+                  placeholder={LANG("phoneNumber")}
+                  icon="sms"
+                  iconHover
+                  iconOnClick={handleSmsIconClick}
+                />
+                <SelectBox
+                  id="FunnelSelect"
+                  mr={isPhabletDown ? undefined : "no"}
+                  {...funnelStatusHook}
+                  options={FUNNELS_OP}
+                  label={LANG("funnels")}
+                />
+              </div>
+            </div>
+            <div className="modal__section flex-grid__col  ">
+              <h5>{LANG("payment_info")}</h5>
+              <div
+                className={`JDflex JDflex--oneone ${isPhabletDown ||
+                  "JDflex--column"}`}
+              >
+                <InputText
+                  id="PriceHook"
+                  mr={isPhabletDown ? undefined : "no"}
+                  placeholder={`${LANG("normal_price")}:${autoComma(
+                    placeHolederPrice
+                  )}`}
+                  comma
+                  label={LANG("total_price")}
+                  {...priceHook}
+                  value={toNumber(priceHook.value)}
+                />
+                <SelectBox
+                  id="PayMethodSelect"
+                  mr={isPhabletDown ? undefined : "no"}
+                  {...payMethodHook}
+                  options={PAYMETHOD_FOR_HOST_OP}
+                  label={LANG("method_of_payment")}
+                />
+                <SelectBox
+                  mr={isPhabletDown ? undefined : "no"}
+                  {...paymentStatusHook}
+                  options={PAYMENT_STATUS_OP}
+                  label={LANG("payment_status")}
+                />
+              </div>
+            </div>
+            <div className="flex-grid__col modal__section">
+              <h5>
+                {LANG("reservation_information")}{" "}
+                {/* <Drawer size={"small"} {...assigInfoDrawHook} /> */}
+              </h5>
+              <div
+                className={`JDflex JDflex--oneone ${isPhabletDown ||
+                  "JDflex--column"}`}
+              >
+                <SelectBox
+                  mr={isPhabletDown ? undefined : "no"}
+                  {...bookingStatusHook}
+                  options={BOOKING_STATUS_OP}
+                  label={LANG("booking_status")}
+                />
+                <JDdayPicker
+                  mr={isPhabletDown ? undefined : "no"}
+                  displayIcon={false}
+                  canSelectBeforeDay={false}
+                  {...resvDateHook}
+                  mode="input"
+                  className="JDstandard-space"
+                  readOnly
+                  label={LANG("date_of_stay")}
+                />
+                <InputText
+                  mr={isPhabletDown ? undefined : "no"}
+                  readOnly
+                  value={moment(createdAt || undefined)
+                    .local()
+                    .format(DateFormat.WITH_TIME)}
+                  label={LANG("reservation_date")}
+                  placeholder={LANG("reservation_date")}
+                />
+              </div>
+            </div>
+            <div className="flex-grid__col modal__section">
+              <h5>{LANG("room_assig_info")}</h5>
+              <JDLabel txt={LANG("people_and_room_info")} />
+              <RoomSelectInfoTable roomSelectInfo={roomSelectInfo} />
+              {mode !== "CREATE" && (
+                <Fragment>
+                  <JDLabel txt={LANG("assig_info")} />
+                  <RoomAssigedInfoTable
+                    setAssigInfo={setAssigInfo}
+                    assigInfo={assigInfo}
+                    guestsData={guests || []}
+                  />
+                </Fragment>
+              )}
+            </div>
+            <div className="JDz-index-1 modal__section flex-grid__col  ">
+              <h5>{LANG("else")}</h5>
+              <div>
+                <InputText
                   {...memoHook}
                   halfHeight
                   textarea
                   label={LANG("memo")}
                 />
               </div>
+              <div>
+                <JDselect
+                  options={CHECK_IN_OUT_OP}
+                  label={LANG("check_in_slash_check_out")}
+                  {...checkInOutHook}
+                />
+              </div>
+              <div>
+                <InputText
+                  value={bookingNum}
+                  label={LANG("booking_number")}
+                  readOnly
+                />
+              </div>
+              <div>
+                <CheckBox
+                  label={LANG("breakfast")}
+                  checked={breakfast}
+                  onChange={v => {
+                    setBreakfast(v);
+                  }}
+                />
+              </div>
             </div>
           </div>
-          <div className="JDmodal__endSection">
+          <ModalEndSection>
             <Button
+              id="BookingModalCreateBtn"
               size="small"
               label={LANG("do_create")}
               disabled={!isCreateMode}
               thema="primary"
+              mode="flat"
               onClick={handleCreateBtnClick}
+              tabIndex={0}
             />
             <Button
+              id="BookingModalUpdateBtn"
+              mode="flat"
               size="small"
               disabled={isCreateMode}
               label={LANG("do_modify")}
@@ -419,21 +484,42 @@ const BookingModal: React.FC<IProps> = ({
               onClick={handleUpdateBtnClick}
             />
             <Button
+              id="BookingModalDeleteBtn"
+              mode="flat"
               size="small"
               label={LANG("delete_booking")}
               disabled={isCreateMode}
               thema="error"
               onClick={handleDeletBtnClick}
             />
-          </div>
+            {/* {paymentStatus === PaymentStatus.COMPLETED &&
+              payMethod === PayMethod.CARD && (
+                <Button
+                  id="BookingModalRefundBtn"
+                  mode="flat"
+                  size="small"
+                  label={LANG("refund")}
+                  thema="error"
+                  onClick={() => {
+                    refundModalHook.openModal();
+                  }}
+                />
+              )} */}
+          </ModalEndSection>
+          <RefundModal
+            onRefundClick={handleRefundBtn}
+            setRefundAmt={setRefundAmt}
+            refundAmt={refundAmt}
+            modalHook={refundModalHook}
+          />
+          <SendSMSmodalWrap context={context} modalHook={sendSmsModalHook} />
+          <JDtoastModal
+            confirm
+            confirmCallBackFn={deleteModalCallBackFn}
+            {...confirmModalHook}
+          />
         </Fragment>
       )}
-      <SendSMSmodalWrap context={context} modalHook={sendSmsModalHook} />
-      <JDtoastModal
-        confirm
-        confirmCallBackFn={deleteModalCallBackFn}
-        {...confirmModalHook}
-      />
     </Modal>
   );
 };

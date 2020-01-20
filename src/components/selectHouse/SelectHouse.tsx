@@ -1,8 +1,10 @@
 import React from "react";
-import {MutationFn} from "react-apollo";
-import JDselect, {IselectedOption} from "../../atoms/forms/selectBox/SelectBox";
-import {IUseSelect, LANG} from "../../hooks/hook";
-import {insideRedirect} from "../../utils/utils";
+import { MutationFn } from "react-apollo";
+import JDselect, {
+  IselectedOption
+} from "../../atoms/forms/selectBox/SelectBox";
+import { IUseSelect, LANG } from "../../hooks/hook";
+import { insideRedirect } from "../../utils/utils";
 
 interface IProps {
   options: IselectedOption[];
@@ -20,11 +22,10 @@ const JDSeleteHouse: React.SFC<IProps> = ({
   const handleSelectHouse = (value: IselectedOption) => {
     if (value.value === "add") {
       window.location.href = insideRedirect("createHouse");
-    }
-    selectHouseMu({variables: {selectedHouse: value}});
+    } else selectHouseMu({ variables: { selectedHouse: value } });
   };
 
-  options.push({value: "add", label: `${LANG("create_house")}+`});
+  options.push({ value: "add", label: `${LANG("create_house")}+` });
 
   return (
     <JDselect

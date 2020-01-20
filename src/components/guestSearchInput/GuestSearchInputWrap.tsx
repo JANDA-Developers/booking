@@ -1,11 +1,12 @@
-import React, {useState} from "react";
+import React, { useState, useMemo } from "react";
 import GuestSearchInput from "./GuestSearchInput";
-import {queryDataFormater} from "../../utils/utils";
-import {GET_BOOKINGS} from "../../apollo/queries";
-import {Query} from "react-apollo";
-import {getBookings, getBookingsVariables} from "../../types/api";
-import {isYYYYMMDD, isNumberMinMax} from "../../utils/inputValidations";
-import {IContext} from "../../pages/bookingHost/BookingHostRouter";
+import { queryDataFormater, getFromResult } from "../../utils/utils";
+import { GET_BOOKINGS } from "../../apollo/queries";
+import { Query } from "react-apollo";
+import { getBookings, getBookingsVariables } from "../../types/api";
+import _ from "lodash";
+import { IContext } from "../../pages/bookingHost/BookingHostRouter";
+import { debouncedFilterCreater } from "./helper";
 
 class GetBookingsQuery extends Query<getBookings, getBookingsVariables> {}
 
@@ -13,43 +14,55 @@ interface IProps {
   context: IContext;
 }
 
-const GuestSearchInputWrap: React.FC<IProps> = ({context}) => {
-  const {house} = context;
+const GuestSearchInputWrap: React.FC<IProps> = ({ context }) => {
+  const { house } = context;
   let houseId = "";
-  houseId = house ? house._id : "";
+  houseId = house?._id || "";
 
   const [onTypeValue, setType] = useState<string>("");
 
-  const searchFilterCreater = (value: string) => {
-    const isPhoneNumber = isNumberMinMax(value, 4, 11);
+  const filter = debouncedFilterCreater(onTypeValue) || {};
 
-    return {
-      phoneNumnber: isPhoneNumber && !isYYYYMMDD(value) ? value : undefined,
-      name: !isPhoneNumber && !isYYYYMMDD(value) ? value : undefined,
-      stayDate: isYYYYMMDD(value) ? value : undefined,
-      createdAt: undefined
-    };
-  };
-
-  const filter = searchFilterCreater(onTypeValue);
+  // for GetBookingsQuery
+  const skipValidate = useMemo(() => {
+    if (!houseId) return true;
+    if (!filter.name && !filter.phoneNumnber && !filter.stayDate) return true;
+    return false;
+  }, [
+    (filter.name || "") +
+      filter.bookingNum +
+      filter.name +
+      filter.phoneNumnber +
+      filter.stayDate
+  ]);
 
   return (
     <GetBookingsQuery
-      skip={
-        !houseId || (!filter.name && !filter.phoneNumnber && !filter.stayDate)
-      }
+      skip={skipValidate}
       query={GET_BOOKINGS}
       variables={{
-        houseId: houseId || "",
-        count: 10,
-        page: 1,
-        filter: filter
+        param: {
+          paging: {
+            count: 10,
+            selectedPage: 1
+          },
+          filter: {
+            ...filter,
+            houseId
+          }
+        }
       }}
     >
-      {({data: bookingsData, loading, error}) => {
-        const bookings = queryDataFormater(
+      {({ data: bookingsData, loading, error }) => {
+        const result = queryDataFormater(
           bookingsData,
           "GetBookings",
+          "result",
+          undefined
+        );
+
+        const { data: bookings, pageInfo } = getFromResult(
+          result,
           "bookings",
           undefined
         );

@@ -1,24 +1,37 @@
-/* eslint-disable camelcase */
-/* eslint-disable no-shadow */
-/* ts-ignore */
 import randomColor from "randomcolor";
-import { useState, useEffect, useRef, ChangeEvent } from "react";
+import {
+  useState,
+  useEffect,
+  useRef,
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useCallback
+} from "react";
 import Axios from "axios";
 import { IselectedOption } from "../atoms/forms/selectBox/SelectBox";
 import { IHolidaysByApi, JdFile } from "../types/interface";
 import moment from "moment";
-import { muResult, targetBlink } from "../utils/utils";
+import {
+  muResult,
+  targetBlink,
+  onCompletedMessage,
+  instanceOfA,
+  isIncludeSpecialChar
+} from "../utils/utils";
 import { JDlang as originJDlang } from "../langs/JDlang";
 import { TLanguageShort } from "../types/enum";
 import { useMutation } from "@apollo/react-hooks";
 import { UPLOAD_FILE } from "../apollo/queries";
 import client from "../apollo/apolloClient";
 import { singleUpload, singleUploadVariables } from "../types/api";
-// @ts-ignore
+// @ts-ignore 타입이 존재하지않는 모듈
 import Resizer from "react-image-file-resizer";
-
-// 한방에 패치
-// A X I O S  : (http://codeheaven.io/how-to-use-axios-as-your-http-client/)
+import { ExecutionResult } from "graphql";
+// @ts-ignore
+import omitDeep from "omit-deep";
+import { DEFAULT_IMAGEUP_LOADER_OPTION } from "../types/defaults";
+import { toast } from "react-toastify";
 
 export type IUseFetch = [
   any,
@@ -87,7 +100,6 @@ export interface IuseImageUploader {
   uploading: boolean;
   isError: boolean;
   onChangeFile(event: React.ChangeEvent<HTMLInputElement | undefined>): void;
-  setFile: React.Dispatch<any>;
   option?: IuseImageUploaderOption;
 }
 
@@ -100,109 +112,111 @@ export interface IuseImageUploaderOption {
 //  이미지 업로더
 const useImageUploader = (
   defaultFile?: JdFile | null,
-  propOption?: IuseImageUploaderOption
+  propOption?: IuseImageUploaderOption,
+  onUpload?: (file: JdFile) => void
 ): IuseImageUploader => {
-  if (defaultFile && defaultFile.tags) {
-    defaultFile.tags.forEach((tag: any) => {
-      delete tag.__typename;
-    });
-    delete defaultFile.__typename;
-  }
-
   const [file, setFile] = useState(defaultFile);
-  const [uploading, setUploading] = useState(false);
+  const [uploading, seTUploading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [uploadMutation] = useMutation<singleUpload, singleUploadVariables>(
     UPLOAD_FILE,
-    { client }
+    {
+      client,
+      onCompleted: ({ SingleUpload }) => {
+        onCompletedMessage(
+          SingleUpload,
+          LANG("uploade_compelte"),
+          LANG("uploade_fail")
+        );
+      }
+    }
   );
-
-  const DEFAULT_IMAGEUP_LOADER_OPTION: IuseImageUploaderOption = {
-    quality: 100,
-    resizeMaxHeight: 500,
-    resizeMaxWidth: 500
-  };
 
   let option = propOption || DEFAULT_IMAGEUP_LOADER_OPTION;
 
   // 화면에 나타는 이미지처리
-  const setFileView = (data: any) => {
-    const file = muResult(data, "SingleUpload", "jdFile");
-    if (typeof file === "boolean") {
+  const setFileView = (result: ExecutionResult<singleUpload>) => {
+    const file = muResult(result, "SingleUpload", "jdFile");
+
+    if (!file) {
       setIsError(true);
     } else {
-      // @ts-ignore
-      file.tags.forEach((tag: any) => {
-        delete tag.__typename;
-      });
-      // @ts-ignore
-      delete file.__typename;
-      // @ts-ignore
-      setFile(file);
+      onUpload && onUpload(file);
+      setFile(omitDeep(file, ["__typename"]));
     }
-    setUploading(false);
+
+    seTUploading(false);
   };
 
   // S3로 업로드
   const uploadImg = async (
-    uriOrFile: any,
+    // Blob === video, File === img
+    uriOrFile: File | Blob,
     fileName?: string,
     fileType?: string
   ) => {
-    let file: any;
-    if (typeof uriOrFile === "string") {
-      file = new File([uriOrFile], fileName!, { type: fileType });
+    let file: File;
+    const isVideo = instanceOfA(uriOrFile, "name");
+
+    if (isVideo) file = uriOrFile as File;
+    else file = new File([uriOrFile], fileName!, { type: fileType });
+
+    console.info("upload file parameter");
+    console.info(file);
+    const result = await uploadMutation({ variables: { file } });
+
+    if (muResult(result, "SingleUpload")) setFileView(result);
+  };
+
+
+
+  //  이벤트 객체 => uploadImg(파일객체);
+  const onChangeFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.persist();
+    seTUploading(true);
+    const {
+      target: { files, validity }
+    } = event;
+
+    if (!validity || !files || files.length !== 1 || !files[0]) {
+      seTUploading(false);
+      return
+    };
+
+    const file = files[0];
+    const isVideo = file.type.includes("video");
+    const filteredName = file.name.replace(/!@#$%^&*(),?"{}|<>:/gi, "_");
+
+    if (isVideo) {
+      uploadImg(file);
     } else {
-      file = uriOrFile;
-    }
-    const data = await uploadMutation({ variables: { file: file } });
-    if (data.data) {
-      delete data.data.SingleUpload.__typename;
-      setFileView(data);
+      // 이미지인경우 리사이즈 해서 업로드
+      Resizer.imageFileResizer(
+        file,
+        option.resizeMaxWidth,
+        option.resizeMaxHeight,
+        "JPEG",
+        option.quality,
+        0,
+        async (uri: any) => {
+          uploadImg(uri, filteredName, file.type);
+        },
+        "blob"
+      );
     }
   };
 
-  const onChangeFile = async (
-    event: React.ChangeEvent<HTMLInputElement | undefined>
-  ) => {
-    event.persist();
-    if (event) {
-      setUploading(true);
-      const {
-        target: { name, value, files, validity }
-      }: ChangeEvent<HTMLInputElement> = event as ChangeEvent<HTMLInputElement>;
-      if (validity && files && files.length === 1) {
-        const file = files[0];
-        if (file) {
-          // 이미지인경우 리사이즈 해서 업로드
-          if (!file.type.includes("video")) {
-            Resizer.imageFileResizer(
-              file,
-              option.resizeMaxWidth,
-              option.resizeMaxHeight,
-              "JPEG",
-              option.quality,
-              0,
-              async (uri: any) => {
-                uploadImg(uri, file.name, file.type);
-              },
-              "blob"
-            );
-          } else {
-            // 비디오인경우
-            uploadImg(file);
-          }
-        }
-      }
-    }
-  };
+  useEffect(() => {
+    return () => {
+      seTUploading(false);
+    };
+  }, []);
 
   return {
     file,
     uploading,
-    isError,
     onChangeFile,
-    setFile,
+    isError,
     option: propOption
   };
 };
@@ -228,10 +242,11 @@ function useDebounce(value: any, delay: number) {
 export interface TUseInput<T = string> {
   value: T;
   onChangeValid: (value: boolean | string) => void;
-  onChange: (foo: T) => void;
+  onChange: (foo: any) => any;
   isValid: any;
 }
 
+// @deprecated
 export type TUseRedirect = [boolean, string, (url: string) => void];
 
 function useRedirect(
@@ -252,18 +267,22 @@ function useRedirect(
 // 밸리데이션을 포함한 훅 리턴
 function useInput<T = string>(
   defaultValue: T,
-  defulatValid: boolean | string = ""
+  defulatValid: boolean | string = "",
+  prefix?: any,
+  suffix?: any
 ): TUseInput<T> {
   const [value, setValue] = useState(defaultValue);
   const [isValid, setIsValid] = useState(defulatValid);
 
-  const onChange = (value: T) => {
-    setValue(value);
-  };
+  const onChange = useCallback((value: any) => {
+    let prefixTemp = prefix || "";
+    let suffixTemp = suffix || "";
+    setValue(prefixTemp + value + suffixTemp);
+  }, []);
 
-  const onChangeValid = (value: boolean | string) => {
+  const onChangeValid = useCallback((value: boolean | string) => {
     setIsValid(value);
-  };
+  }, []);
 
   return {
     value,
@@ -312,11 +331,11 @@ function useDayPicker(
   const [entered, setEntered] = useState<Date | null>(toTemp);
   const [to, setTo]: any = useState<Date | null>(toTemp);
 
-  const setDate = (date: Date) => {
+  const setDate = useCallback((date: Date) => {
     setFrom(date);
     setEntered(date);
     setTo(date);
-  };
+  }, []);
 
   return {
     from,
@@ -401,14 +420,14 @@ function useDrawer(defaultValue: boolean) {
 }
 
 // useRange
-function useRange(defaultValue: number) {
+function useRange(defaultValue: number, maxValue?: number, minValue?: number) {
   const [value, setValue] = useState(defaultValue);
 
   const onChange = (value: any) => {
     setValue(value);
   };
 
-  return { value, onChange };
+  return { value, onChange, maxValue, minValue };
 }
 
 export interface IUseSelect<V = any> {
@@ -427,9 +446,9 @@ function useSelect<V = any>(
 ): IUseSelect<V> {
   const [selectedOption, setSelectedOption] = useState(defaultValue);
 
-  const onChange = (value: IselectedOption<V>) => {
+  const onChange = useCallback((value: IselectedOption<V>) => {
     setSelectedOption(value);
-  };
+  }, []);
 
   return { selectedOption, onChange };
 }
@@ -444,30 +463,43 @@ function useToggle(defaultValue: boolean): [boolean, any] {
 
   return [toggle, onClick];
 }
+
+export interface IUseSideNav {
+  sideNavIsOpen: boolean;
+  setSideNavIsOpen: (flag?: boolean | undefined) => void;
+}
+
 // 사이드 네비
-function useSideNav(): [boolean, any] {
+function useSideNav(): IUseSideNav {
   let defaultValue = true;
   const navRecord = localStorage.getItem("JDsideOpen");
   defaultValue = navRecord === "Y";
-  const [isOpen, setOpen] = useState(defaultValue);
+  const [sideNavIsOpen, setOpen] = useState(defaultValue);
 
-  const onClick = () => {
-    localStorage.setItem("JDsideOpen", isOpen ? "N" : "Y");
-    setOpen(!isOpen);
-  };
+  const setSideNavIsOpen = useCallback(
+    (flag?: boolean) => {
+      localStorage.setItem("JDsideOpen", sideNavIsOpen ? "N" : "Y");
+      setOpen(flag ? flag : !sideNavIsOpen);
+    },
+    [sideNavIsOpen]
+  );
 
-  return [isOpen, onClick];
+  return { sideNavIsOpen, setSideNavIsOpen };
 }
 
+export interface IusePageNation {
+  page: number;
+  setPage: (page: number) => void;
+}
 // 투글 훅
-function usePagiNation(defaultValue: number): [number, (page: number) => void] {
+function usePageNation(defaultValue: number): IusePageNation {
   const [page, inSetPage] = useState(defaultValue);
 
   const setPage = (foo: number) => {
     inSetPage(foo);
   };
 
-  return [page, setPage];
+  return { page, setPage };
 }
 
 export interface IUseModal<T = any> {
@@ -552,9 +584,9 @@ const getKoreaSpecificDayHook = (
           "https://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo";
         const queryParams = `?${encodeURIComponent("ServiceKey")}=${
           process.env.REACT_APP_API_SPECIFIC_DAY_KEY
-        }&${encodeURIComponent("solYear")}=${encodeURIComponent(
-          year
-        )}&${encodeURIComponent("solMonth")}=${encodeURIComponent(`0${i}`)}`;
+          }&${encodeURIComponent("solYear")}=${encodeURIComponent(
+            year
+          )}&${encodeURIComponent("solMonth")}=${encodeURIComponent(`0${i}`)}`;
 
         try {
           const { data } = await Axios(url + queryParams);
@@ -590,6 +622,53 @@ const getKoreaSpecificDayHook = (
   return { datas, loading };
 };
 
+export interface IUseCheckBoxTable {
+  onToogleRow: (key: string) => void;
+  checkedIds: string[];
+  setCheckedIds: Dispatch<SetStateAction<string[]>>;
+  selectAll: any;
+  setSelectAll: any;
+  onToogleAllRow: () => void;
+  isSelected: (key: string) => any;
+}
+
+const useCheckBoxTable = (
+  defaultCheckIds: string[] = [],
+  allIds: string[] = []
+): IUseCheckBoxTable => {
+  const [checkedIds, setCheckedIds] = useState<string[]>(defaultCheckIds);
+  const [selectAll, setSelectAll]: any = useState(false);
+
+  //    모든 라인들에대한 아이디를 투글함
+  const onToogleAllRow = () => {
+    const updateSelecetedes = allIds.map(id =>
+      checkedIds.includes(id) ? "" : id
+    );
+    setCheckedIds(updateSelecetedes);
+    setSelectAll(!selectAll);
+  };
+
+  const onToogleRow = (key: string) => {
+    if (checkedIds.includes(key)) {
+      setCheckedIds([...checkedIds.filter(value => value !== key)]);
+    } else {
+      setCheckedIds([...checkedIds, key]);
+    }
+  };
+
+  const isSelected = (key: string) => checkedIds.includes(key);
+
+  return {
+    onToogleRow,
+    onToogleAllRow,
+    checkedIds,
+    setCheckedIds,
+    selectAll,
+    setSelectAll,
+    isSelected
+  };
+};
+
 export {
   useInput,
   useCheckBox,
@@ -609,6 +688,7 @@ export {
   useColorPicker,
   useDayPicker,
   getKoreaSpecificDayHook,
-  usePagiNation,
-  useRedirect
+  usePageNation,
+  useRedirect,
+  useCheckBoxTable
 };

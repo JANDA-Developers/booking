@@ -1,4 +1,4 @@
-@import "~Styles/style_config.scss";
+@import "~Styles";
 
 .showComponent {
     .showComponent__icon_box {
@@ -32,7 +32,7 @@
     }
 
     .showComponent__large {
-        font-size: $typho-large;
+        font-size: $typho-huge;
         margin-top: 0;
     }
     

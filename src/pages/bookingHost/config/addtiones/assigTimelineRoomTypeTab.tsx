@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import JDLabel from "../../../../atoms/label/JDLabel";
-import JDrange from "../../../../atoms/forms/range/Range";
 import { IAddtionProp } from "../components/ConfigBlock";
 import JDswitch from "../../../../atoms/forms/switch/Switch";
-import { useSwitch, LANG } from "../../../../hooks/hook";
+import { LANG } from "../../../../hooks/hook";
 import { muResult } from "../../../../utils/utils";
 import JDbox from "../../../../atoms/box/JDbox";
-import { IMG_REPO } from "../../../../types/enum";
+import { IMG_REPO } from "../../../../types/const";
 
 const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
   updateHouseConfigMu,
@@ -41,6 +39,7 @@ const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
                 }
               }
             });
+            // 에러처리
             if (!muResult(result, "UpdateHouseConfig")) {
               setUse(!flag);
             }
@@ -48,7 +47,10 @@ const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
           label={LANG("use")}
         />
       </div>
-      <JDbox mode="photoFrame" photo={`${IMG_REPO}describe/roomTypeTap.gif`} />
+      <JDbox
+        mode="photoFrame"
+        photo={`${IMG_REPO}booking_app/describe/roomTypeTap.gif`}
+      />
       <div />
     </div>
   );

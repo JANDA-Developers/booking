@@ -1,0 +1,73 @@
+@import '~Styles';
+
+$breakPoint1: $desktop;
+
+#root,.ReactModalPortal {
+
+    .periodicalSignCard {
+        width: 100%;
+        height: 290px;
+        display:flex;
+        flex-direction: column;
+        border: 1px solid $outborder-color;
+        
+        @include response($breakPoint1) {
+            height: auto;
+        }
+
+        &__productBtn {
+            margin-left: -$button-small-padding-side;
+            margin-right: -$button-small-padding-side;
+        }
+
+        &__price {
+            margin:0;
+        }
+
+
+        &__product {
+            display:flex;
+            align-items: center;
+        }
+
+        &__infoTableWrap {
+            padding: $standard-space;
+        }
+
+        &__priceZone {
+            padding-bottom: $standard-largest-space;
+            padding-top: $standard-largest-space;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid $grey-level0;
+            box-sizing: border-box;
+            
+            @include response($breakPoint1) {
+                border-right: 0;
+                border-bottom: 1px solid $grey-level0;
+                height: auto;
+            }
+        }
+
+        &__bodyWrap {
+            width: 100%;
+            flex: 1 1;
+            align-items: center;
+            text-align:center;
+            justify-content: space-between;
+        }
+
+        &__header{
+            padding: 0 $standard-space;
+            display: flex;
+            align-items: center;
+            background-color:$primary-color;
+            justify-content: space-between;
+            color: $primary-color-on;
+            margin-left: -1px;
+        }
+    }
+}

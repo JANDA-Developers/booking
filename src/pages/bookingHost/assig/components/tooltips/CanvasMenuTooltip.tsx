@@ -31,11 +31,9 @@ const CanvasMenuTooltip: React.FC<IProps> = ({
     result: "error" | startBooking_StartBooking
   ) => {
     if (result === "error") return;
-    if (!result.bookingTransaction) return;
-    if (!result.bookingTransaction.booking) return;
     await changeMarkToGhost();
 
-    hilightGuestBlock({ bookingId: result.bookingTransaction.booking._id });
+    hilightGuestBlock({ bookingId: result.booking?._id });
   };
 
   const createBtnHandler = () => {

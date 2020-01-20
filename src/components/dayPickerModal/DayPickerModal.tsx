@@ -1,9 +1,11 @@
-import React, {useEffect} from "react";
-import {IUseModal} from "../../hooks/hook";
+import React from "react";
+import { IUseModal } from "../../hooks/hook";
 import JDmodal from "../../atoms/modal/Modal";
-import JDdayPicker, {IJDdayPickerProps} from "../../atoms/dayPicker/DayPicker";
+import JDdayPicker, {
+  IJDdayPickerProps
+} from "../../atoms/dayPicker/DayPicker";
 import "./DayPickerModal.scss";
-import {MODAL_MIN_WIDTH} from "../../types/enum";
+import { MODAL_MIN_WIDTH } from "../../types/const";
 
 interface Iprops extends IJDdayPickerProps {
   autoClose?: boolean;

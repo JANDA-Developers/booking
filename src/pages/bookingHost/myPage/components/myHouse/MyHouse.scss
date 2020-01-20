@@ -1,0 +1,41 @@
+@import '~Styles';
+
+
+.myHouseCard {
+    width: 100%;
+    box-sizing: border-box;
+    height: 10rem;
+}
+
+.myHouse {
+    font-size: $typho-small; 
+
+    &__title {
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+
+        h6 {
+            overflow:hidden;
+            text-overflow:ellipsis;
+        }
+    }
+
+    &__purchaseProduct {
+        font-size: $typho-normal;
+        display:block;
+    }
+
+    &__infoList {
+        & > li {
+            overflow:hidden;
+            white-space:nowrap;
+            text-overflow:ellipsis;
+        }
+    }
+
+    .JDicon__svg {
+        margin-right: $standard-small-space;
+    }
+    
+}

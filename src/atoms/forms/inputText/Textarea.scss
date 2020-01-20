@@ -1,32 +1,30 @@
-@import '~Styles/style_config';
-
+@import "~Styles";
 
 /* ----------------------------- 코드 최적화가 필요합니다. ----------------------------- */
 /* Text Inputs + Textarea
 /* Text inputs */
 
 .JDtextarea {
-  
+  line-height: 140%;
   // General Styles
   background-color: transparent;
-  border: none;
-  border-bottom: $input-border;
-  border-radius: 0;
+  border: $input-border;
+  border-radius: $standard-border-radius;
   outline: none;
-  height: $input-height;
+  height: $textarea-height;
+  // 오토 height 으로 조절되는 높이중
+  min-height: $textarea-height;
   width: 100%;
   font-size: $input-font-size;
-  margin-top: $textarea-margin-top;
-  // padding: $input-padding;
+  margin-top: calc(#{$textarea-margin-top} - 2px);
   box-shadow: none;
   box-sizing: content-box;
   transition: $input-transition;
-  padding: .8rem 0 1.6rem 0;
+  padding: $standard-small-space;
   resize: none;
-  min-height: $input-height;
-  
+
   //아래에있는 라벨을 위로 끌어올립니다
-  &+.JDtextarea_label {
+  & + .JDtextarea_label {
     font-size: $label-font-size;
     color: $label-font-color;
     position: absolute;
@@ -38,48 +36,45 @@
     color: $placeholder-text-color;
   }
 
-
   &--doubleHeight {
-    height: $input-height *2!important;
+    height: $input-height * 3 !important;
   }
 
   &--halfHeight {
-    min-height: $input-height /2;
-    height: $input-height /2;
+    min-height: $input-height / 2;
+    height: $input-height / 2;
   }
   // Disabled input style
   &:disabled,
   &[readonly="readonly"] {
     color: $input-disabled-color;
-    border-bottom: $input-disabled-border;
+    border: $input-disabled-border;
   }
 
   // Disabled .JDinput_label style
-  &:disabled+.JDtextarea_label,
-  &[readonly="readonly"]+.JDtextarea_label {
+  &:disabled + .JDtextarea_label,
+  &[readonly="readonly"] + .JDtextarea_label {
     color: $input-disabled-color;
   }
 
   // Focused input style
   &:focus:not([readonly]) {
-    border-bottom: 1px solid $input-focus-color;
-    box-shadow: 0 1px 0 0 $input-focus-color;
+    @extend %input-focus-style;
   }
 
   // Focused .JDinput_label style
-  &:focus:not([readonly])+.JDtextarea_label {
+  &:focus:not([readonly]) + .JDtextarea_label {
     color: $input-focus-color;
   }
 
   // Valid Input Style
   &--valid.JDtextarea,
   &--valid.JDtextarea:focus {
-    @extend %valid-input-style;
   }
 
   // Custom Success Message
-  &--valid.JDtextarea+.JDtextarea_label:after,
-  &--valid.JDtextarea:focus+.JDtextarea_label:after {
+  &--valid.JDtextarea + .JDtextarea_label:after,
+  &--valid.JDtextarea:focus + .JDtextarea_label:after {
     @extend %custom-success-message;
   }
 
@@ -90,29 +85,29 @@
   }
 
   // Custom Error message
-  &--invalid.JDtextarea+.JDtextarea_label:after,
-  &--invalid.JDtextarea:focus+.JDtextarea_label:after {
+  &--invalid.JDtextarea + .JDtextarea_label:after,
+  &--invalid.JDtextarea:focus + .JDtextarea_label:after {
     @extend %custom-error-message;
   }
 
   // Full width .JDinput_label when using validate for error messages
-  &--validate.JDtextarea+.JDtextarea_label {
+  &--validate.JDtextarea + .JDtextarea_label {
     width: 100%;
   }
 
   // Form Message Shared Styles
-  &+.JDtextarea_label:after {
+  & + .JDtextarea_label:after {
     @extend %input-after-style;
   }
 
   // TODO: Remove once input fields are reworked to support validation messages better
-  &--invalid.JDtextarea+.JDtextarea_label:after,
-  &--valid.JDtextarea+.JDtextarea_label:after {
+  &--invalid.JDtextarea + .JDtextarea_label:after,
+  &--valid.JDtextarea + .JDtextarea_label:after {
     display: none;
   }
 
-  &--invalid.JDtextarea+.JDtextarea_label--active:after,
-  &--valid.JDtextarea+.JDtextarea_label--active:after {
+  &--invalid.JDtextarea + .JDtextarea_label--active:after,
+  &--valid.JDtextarea + .JDtextarea_label--active:after {
     display: block;
   }
 
@@ -130,16 +125,16 @@
   background-color: transparent;
 
   &:not(.JDtextarea--scroll)::-webkit-scrollbar {
-    width: 0px;  /* remove scrollbar space */
-    background: transparent;  /* optional: just create scrollbar invisible */
+    width: 0px; /* remove scrollbar space */
+    background: transparent; /* optional: just create scrollbar invisible */
   }
   /* optional: show position indicator in red */
   &::-webkit-scrollbar-thumb {
-      background: #FF0000;
+    background: #ff0000;
   }
 
   // Fixes validation messages for dynamic textareas
-  &--validate+.JDinput_label {
+  &--validate + .JDinput_label {
     &::after {
       top: calc(100% - 12px);
     }
@@ -151,24 +146,20 @@
     height: 100%;
   }
 
-
-
-  // 🅱️ 바이트 계산 
+  // 🅱️ 바이트 계산
   &__byte {
-    position:absolute;
+    position: absolute;
     font-size: $typho-tiny;
-    color:$grey-level2;
-    right:0;
-    bottom: calc(#{$standard-margin-bottom} + 8px) ;
+    color: $grey-level2;
+    right: 0;
+    bottom: calc(#{$standard-margin-bottom} + 8px);
   }
 
-  
   &--autoHeight {
-        padding:0px;
-        overflow-y:scroll;
-        height: 1px;
+    padding: 0px;
+    overflow-y: scroll;
+    height: 1px;
   }
-  
 }
 
 // For textarea autoresize
@@ -191,12 +182,11 @@
     height: 100%;
   }
   .JDtextarea {
-    box-sizing:border-box;
+    box-sizing: border-box;
     margin-top: $textarea-margin-top;
-    height: calc(100% - #{$textarea-margin-top});
+    height: $input-height * 3;
     &:not(.JDtextarea--labeled) {
-      margin-top:0px;
+      margin-top: 0px;
     }
-
   }
 }

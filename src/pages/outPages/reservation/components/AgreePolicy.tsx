@@ -28,7 +28,7 @@ const AgreePolicy: React.FC<Iprops> = () => {
             </tr>
           </tbody>
         </table>
-        <p className="JDtiny-text JDtextColor-warring-text">
+        <p className="JDtiny-text JDtextColor--warn">
           {`※ ${LANG(
             "the_minimum_personal_information_required_to_provide_the_service_is_required_to_use_the_service"
           )}`}

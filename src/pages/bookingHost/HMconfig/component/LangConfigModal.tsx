@@ -1,8 +1,8 @@
 import React from "react";
 import { IUseModal, LANG } from "../../../../hooks/hook";
-import LangList from "../../../../components/langList/LangList";
 import JDmodal from "../../../../atoms/modal/Modal";
-import { LANGUAGE_LIST, Language } from "../../../../types/enum";
+import { Language } from "../../../../types/enum";
+import { LANGUAGE_LIST } from "../../../../types/const";
 import JDbox from "../../../../atoms/box/JDbox";
 import CircleIcon from "../../../../atoms/circleIcon/CircleIcon";
 import JDIcon from "../../../../atoms/icons/Icons";
@@ -68,9 +68,6 @@ const LangConfigModal: React.FC<IProps> = ({
         <div className="flex-grid__col col--full-6">{shared(true)}</div>
         <div className="flex-grid__col col--full-6">{shared(false)}</div>
       </div>
-      <p className="JDtextColor--point">
-        * {LANG("must_input_text_of_every_lang_you_supporting")}
-      </p>
     </JDmodal>
   );
 };

@@ -1,110 +1,103 @@
-@import '~Styles/style_config.scss';
-@import './components/applyProductModal';
-
-
-
-
+@import "~Styles";
+@import "./components/applyProductModal";
 
 .selectProducts {
-    overflow: auto;
-    
-    &__productWrap {
-        display: flex;
+  overflow: auto;
 
-        .JDproduct {
-            width: 25%;
-            margin-right: $standard-space;
-            min-width: 190px;
-            &:last-child {
-                margin-right: 0;
-            }
-        }
+  &__productWrap {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: $standard-margin-bottom;
+
+    .JDproduct {
+      min-width: 190px;
+
+      @include response($full, $tablet) {
+        width: 300px;
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
     }
+  }
 }
-
 
 #selectProducts {
+  // 모바일 슬라이더
+  .col--full-0 {
+    margin-left: 0;
+  }
 
-    // 모바일 슬라이더
-    .col--full-0 {
-        margin-left: 0;
+  // with Wmd Mark up in product.jsx
+  @media (max-width: $tablet) {
+    text-align: center;
+  }
+
+  .JDslider {
+    .JDradio {
+      /* Disabled style */
+      &__input--gap:disabled:checked + &__label:before {
+        border: 2px solid $grey-level2;
+      }
+
+      &__input--gap:disabled:checked + &__label:after {
+        border: none;
+        background-color: $grey-level2;
+      }
+
+      /* Disabled style */
+      &__input:disabled:not(:checked) + &__label:before,
+      &__input:disabled:checked + &__label:before {
+        background-color: transparent;
+        border-color: $grey-level2;
+      }
+
+      &__input:disabled + &__label {
+        color: $grey-level2;
+      }
+
+      &__input:disabled:not(:checked) + &__label:before {
+        border-color: $grey-level2;
+      }
+
+      &__input:disabled:checked + &__label:after {
+        background-color: $grey-level2;
+        border-color: $grey-level2;
+      }
     }
-    
-    // with Wmd Mark up in product.jsx
-    @media(max-width:$tablet) {
-        text-align: center;
-    }
-
-
-    .JDslider {
-        .JDradio {
-
-            /* Disabled style */
-            &__input--gap:disabled:checked+&__label:before {
-                border: 2px solid $grey-level2;
-            }
-
-            &__input--gap:disabled:checked+&__label:after {
-                border: none;
-                background-color: $grey-level2;
-            }
-
-            /* Disabled style */
-            &__input:disabled:not(:checked)+&__label:before,
-            &__input:disabled:checked+&__label:before {
-                background-color: transparent;
-                border-color: $grey-level2;
-            }
-
-            &__input:disabled+&__label {
-                color: $grey-level2;
-            }
-
-            &__input:disabled:not(:checked)+&__label:before {
-                border-color: $grey-level2;
-            }
-
-            &__input:disabled:checked+&__label:after {
-                background-color: $grey-level2;
-                border-color: $grey-level2;
-            }
-        }
-    }
+  }
 }
 
-
-
 .downloadBox {
-    border: 1px solid $html-color;
-    padding: $standard-small-space;
-    box-sizing: border-box;
+  border: 1px solid $html-color;
+  padding: $standard-small-space;
+  box-sizing: border-box;
 
-    .circleIcon  {
-        vertical-align: middle;
-    }
+  .circleIcon {
+    vertical-align: middle;
+  }
 
-    .JDbtn  {
-        margin-bottom:0;
-    }
-
+  .JDbtn {
+    margin-bottom: 0;
+  }
 }
 
 .products__experience {
-    width: 380px;
-    height: 280px;
+  width: 380px;
+  height: 280px;
 
-    .circleIcon  {
-        margin: 0;
-    }
+  .circleIcon {
+    margin: 0;
+  }
 }
 
 .products__productWrapWrap {
-    margin-bottom: $standard-margin-bottom;
+  margin-bottom: $standard-margin-bottom;
 }
 
-
 .layoutCard {
-    &__imgBox {
-        height: 9rem;   
-    }
+  &__imgBox {
+    height: 9rem;
+  }
 }

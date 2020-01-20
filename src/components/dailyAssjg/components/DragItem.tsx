@@ -7,7 +7,7 @@ import {
   getAllRoomTypeWithGuest_GetBlocks_blocks as IB
 } from "../../../types/api";
 import { instanceOfA } from "../../../utils/utils";
-import JDIcon, { IconSize } from "../../../atoms/icons/Icons";
+import JDIcon from "../../../atoms/icons/Icons";
 import { ReactTooltip } from "../../../atoms/tooltip/Tooltip";
 import moment from "moment";
 import classNames from "classnames";
@@ -63,30 +63,26 @@ const DragItem: React.FC<IProps> = ({ item, place, room, roomType }) => {
         // 방막기가 아닌경우
         if (instanceOfA<IG & IDragItemProp>(item, "booking")) {
           const { booking, checkIn, checkOut, _id } = item;
-          const { checkInInfo, status, name, payment, memo } = booking;
+          const { checkInInfo, name, payment, memo, breakfast } = booking;
           const { status: paymentStatus } = payment;
-          const isUnpaid = paymentStatus !== PaymentStatus.COMPLETE;
+          const isUnpaid = paymentStatus !== PaymentStatus.COMPLETED;
           const guestBlockClasses = classNames(
             "dailyAssigItem__guest",
             undefined,
             {
               "dailyAssigItem__guest--checkIn": checkInInfo.isIn
-            },
-            {
-              "dailyAssigItem__guest--progressing":
-                status === BookingStatus.PROGRESSING
             }
+            // {
+            //   "dailyAssigItem__guest--progressing":
+            //     status === BookingStatus.NOT_YET
+            // }
           );
           return (
             <div
-              data-tip={`${moment(checkIn).format(
-                `MM-DD${LANG("date")}`
-              )} ~ ${moment(checkOut).format(`MM-DD${LANG("date")}`)}`}
-              data-for={
-                status === BookingStatus.PROGRESSING
-                  ? "tooltipReadyBlock"
-                  : "guestCheckInOutToolTip"
-              }
+              data-tip={`${moment(checkIn).format(`MM/DD`)} ~ ${moment(
+                checkOut
+              ).format(`MM/DD`)}`}
+              data-for={"guestCheckInOutToolTip"}
               className={`dailyAssigItem__itemBlock ${guestBlockClasses}`}
             >
               <span className="dailyAssigItem__itemName">
@@ -94,7 +90,11 @@ const DragItem: React.FC<IProps> = ({ item, place, room, roomType }) => {
                   <Gender item={item} />
                 </span>
                 <span>
-                  <StatusMarker isUnpaid={isUnpaid} memo={memo || ""} />
+                  <StatusMarker
+                    breakfast={breakfast}
+                    isUnpaid={isUnpaid}
+                    memo={memo || ""}
+                  />
                   {name}
                 </span>
               </span>
@@ -106,7 +106,7 @@ const DragItem: React.FC<IProps> = ({ item, place, room, roomType }) => {
                 id={`dailyAssigItem__configIconWrapId${_id}`}
                 className="dailyAssigItem__configIconWrap"
               >
-                <JDIcon icon="dotMenuVertical" size={IconSize.MEDEIUM_SMALL} />
+                <JDIcon icon="dotMenuVertical" size={"small"} />
               </span>
             </div>
           );

@@ -21,9 +21,10 @@ import {
   THandleDraggingEnd
 } from "../components/assigIntrerface";
 import { TimePerMs } from "../../../../types/enum";
-import { setMidNight } from "../../../../utils/utils";
+import { setMidNight, isEmpty } from "../../../../utils/utils";
 import { CLASS_MOVING, CLASS_LINKED } from "../components/items/itemRenderFn";
 import moment from "moment";
+import _ from "lodash";
 import $ from "jquery";
 import {
   ASSIG_DATA_END,
@@ -32,6 +33,9 @@ import {
   ASSIG_DATA_END_LIMITE
 } from "../timelineConfig";
 import { ReactTooltip } from "../../../../atoms/tooltip/Tooltip";
+import Timer from "react-compound-timer/build";
+import { IDotPoint } from "../../../../atoms/timeline/declare";
+import { toast } from "react-toastify";
 
 export function getAssigHandlers(
   {
@@ -46,15 +50,18 @@ export function getAssigHandlers(
     popUpItemMenuTooltip,
     moveLinkedItems,
     removeMark,
-    toogleCheckInOut
+    toogleCheckInOut,
+    getItemsByType,
+    getInfoesFromMarks
   }: IAssigTimelineUtils,
-  { groupData, isMobile }: IAssigTimelineContext,
+  { groupData, isMobile, networkStatus }: IAssigTimelineContext,
   {
     setDataTime,
     dataTime,
     bookingModal,
     guestValue,
-    setGuestValue
+    setGuestValue,
+    isMultiSelectingMode
   }: IAssigTimelineHooks
 ): IAssigHandlers {
   // 단축키
@@ -111,12 +118,11 @@ export function getAssigHandlers(
     time: number,
     e: React.MouseEvent<HTMLElement>
   ) => {
-    console.info("handleCanvasClick");
     if (e && e.persist) {
       e.persist();
+      e.stopPropagation();
     }
 
-    allTooltipsHide();
     if (!e.shiftKey)
       setGuestValue([
         ...guestValue.filter(guest => guest.type !== GuestTypeAdd.MARK)
@@ -177,18 +183,32 @@ export function getAssigHandlers(
   const handleDraggingCell: THandleDraggingCell = (e, moveCounts, dotPoint) => {
     let { timeStart, placeIndex } = dotPoint;
     const { x, y } = moveCounts;
+
     let timeEnd = timeStart + TimePerMs.DAY * x + TimePerMs.DAY;
-    const ids = [];
+    let ids = [];
+
     for (let i = 0; i <= y; i++) {
       if (!groupData[placeIndex + i]) return;
       ids.push(groupData[placeIndex + i].id);
     }
 
-    if (timeEnd < timeStart) {
+    if (isMultiSelectingMode) {
+      const markInfo = getInfoesFromMarks();
+      if (markInfo) {
+        const { start, end } = markInfo;
+        timeStart = start;
+        timeEnd = end;
+        ids = [...ids, ...markInfo.groupIds];
+        ids = _.uniq(ids);
+      }
+    } else if (timeEnd < timeStart) {
       const timeTemp = timeStart;
       timeStart = timeEnd;
       timeEnd = timeTemp;
     }
+
+    if (isEmpty(ids)) return;
+
     createMark(timeStart, timeEnd, ids);
   };
 
@@ -251,8 +271,10 @@ export function getAssigHandlers(
     if (shortKey) await shortKey("guestItem", e, undefined, undefined, itemId);
   };
 
-  const handleDraggingEnd: THandleDraggingEnd = e => {
-    openCanvasMenuTooltip(e);
+  const handleDraggingEnd: THandleDraggingEnd = (e, IS_MOVE: boolean) => {
+    console.info("handleDraggingEnd");
+
+    IS_MOVE && openCanvasMenuTooltip(e);
   };
 
   // 타임라인 이동시
@@ -261,6 +283,7 @@ export function getAssigHandlers(
     visibleTimeEnd: number,
     updateScrollCanvas: any
   ) => {
+    console.count("handleOccured");
     allTooltipsHide();
     const dataLimitEnd = dataTime.end - TimePerMs.DAY * ASSIG_DATA_END_LIMITE;
     const dataLimitStart =
@@ -271,22 +294,28 @@ export function getAssigHandlers(
       const queryStart = visibleTimeStart - TimePerMs.DAY * ASSIG_DATA_START;
       const queryEnd = visibleTimeEnd + TimePerMs.DAY * ASSIG_DATA_END;
 
-      setDataTime({
-        start: setMidNight(queryStart),
-        end: setMidNight(queryEnd)
-      });
+      if (networkStatus >= 7) {
+        console.count("CallhandleTimeChange");
+        setDataTime({
+          start: setMidNight(queryStart),
+          end: setMidNight(queryEnd)
+        });
+      }
     }
 
     //  앞으로 요청
     if (dataLimitEnd < visibleTimeEnd) {
       const queryStart = visibleTimeStart - TimePerMs.DAY * ASSIG_DATA_START;
       const queryEnd = visibleTimeEnd + TimePerMs.DAY * ASSIG_DATA_END;
-
-      setDataTime({
-        start: setMidNight(queryStart),
-        end: setMidNight(queryEnd)
-      });
+      if (networkStatus >= 7) {
+        console.count("CallhandleTimeChange");
+        setDataTime({
+          start: setMidNight(queryStart),
+          end: setMidNight(queryEnd)
+        });
+      }
     }
+
     updateScrollCanvas(visibleTimeStart, visibleTimeEnd);
   };
 
@@ -319,7 +348,10 @@ export function getAssigHandlers(
     }
   };
 
-  const handleMouseDownCanvas: THandleMouseDown = e => {};
+  const handleMouseDownCanvas: THandleMouseDown = e => {
+    allTooltipsHide();
+    removeMark();
+  };
 
   const assigHandler: IAssigHandlers = {
     handleCanvasClick,

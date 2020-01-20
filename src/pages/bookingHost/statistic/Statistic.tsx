@@ -1,25 +1,24 @@
-import React, {useState, Fragment} from "react";
-import {ChartData} from "react-chartjs-2";
+import React, { useState, Fragment } from "react";
+import { ChartData } from "react-chartjs-2";
 import Card from "../../../atoms/cards/Card";
-import {
-  SalesStatisticsUnit,
-  WindowSize,
-  FLOATING_PRELOADER_SIZE
-} from "../../../types/enum";
-import {IQueryOp} from "./StatisticWrap";
-import {IUseDayPicker, useModal, LANG} from "../../../hooks/hook";
+import { SalesStatisticsUnit, WindowSize } from "../../../types/enum";
+import { FLOATING_PRELOADER_SIZE } from "../../../types/const";
+import { IQueryOp } from "./StatisticWrap";
+import { IUseDayPicker, useModal, LANG } from "../../../hooks/hook";
 import Button from "../../../atoms/button/Button";
 import moment from "moment";
 import Preloader from "../../../atoms/preloader/Preloader";
-import {getSalesStatistic_GetSalesStatistic_data} from "../../../types/api";
+import { getSalesStatistic_GetSalesStatistic_data } from "../../../types/api";
 import "./Statistic.scss";
-import {IContext} from "../../bookingHost/BookingHostRouter";
+import { IContext } from "../../bookingHost/BookingHostRouter";
 import StaticController from "./component/StaticController";
-import reactWindowSize, {WindowSizeProps} from "react-window-size";
+import reactWindowSize, { WindowSizeProps } from "react-window-size";
 import StaticIcons from "./component/StaticIcons";
 import StaticsControllerModal from "./component/StaticsControllerModal";
-import {getStaticColors} from "../../../utils/getStaticColors";
+import { getStaticColors } from "../../../utils/getStaticColors";
 import JDgraph from "../../../atoms/graph/graph";
+import PageHeader from "../../../components/pageHeader/PageHeader";
+import PageBody from "../../../components/pageBody/PageBody";
 
 export interface IStaticsWrapProps {
   queryOp: IQueryOp;
@@ -52,7 +51,7 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
   staticsWrapProps,
   windowWidth
 }) => {
-  const {setQueryOp, queryOp, staticData, queryDateHook} = staticsWrapProps;
+  const { setQueryOp, queryOp, staticData, queryDateHook } = staticsWrapProps;
   const [viewMode, setViewMode] = useState<IGraphViewMode>(
     IGraphViewMode.doughnut
   );
@@ -106,7 +105,9 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
         data: staticData.map(data => data.price),
         fill: false,
         backgroundColor: getStaticColors(staticData.length),
-        hoverBackgroundColor: getStaticColors(staticData.length, {light: true})
+        hoverBackgroundColor: getStaticColors(staticData.length, {
+          light: true
+        })
       }
     ]
   };
@@ -187,9 +188,9 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
   };
 
   return (
-    <div className="container statistic">
-      <div className="docs-section">
-        <h3>{LANG("statistics")}</h3>
+    <div className="statistic">
+      <PageHeader title={LANG("statistics")} desc={LANG("static_page_desc")} />
+      <PageBody>
         <div className="statistic__shortBtnsWrap">
           <Button
             onClick={handleTodaySalesStatic}
@@ -211,7 +212,7 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
         </div>
         <div className="flex-grid">
           <div className="flex-grid__col col--full-6 col--wmd-12">
-            <Card className="statistic__graphCard" fullHeight={!isTabletDown}>
+            <Card className="statistic__graphCard">
               {loading ? (
                 <div className="statistic__graphPreloader">
                   <Preloader
@@ -251,7 +252,7 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
           </div>
           {windowWidth > WindowSize.TABLET ? (
             <div className="flex-grid__col col--full-6 col--wmd-12">
-              <Card fullHeight={!isTabletDown}>
+              <Card>
                 <StaticController
                   staticsProps={staticsProps}
                   context={context}
@@ -277,7 +278,7 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
             icon="controller"
           />
         )}
-      </div>
+      </PageBody>
       <Preloader floating size={FLOATING_PRELOADER_SIZE} loading={loading} />
     </div>
   );

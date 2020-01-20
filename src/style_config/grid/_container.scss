@@ -87,6 +87,7 @@ main {
 /* Self Clearing Goodness */
 .container:after,
 .row:after {
+  position: absolute;
   clear: both;
   content: "";
   display: table;

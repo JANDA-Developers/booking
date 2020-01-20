@@ -1,6 +1,5 @@
 import React from "react";
 import classnames from "classnames";
-import { ASSIG_IMELINE_HEIGHT } from "../../../../../atoms/timeline/Timeline";
 import { ITimelineContext, IItemContext } from "../../../../../types/interface";
 import {
   IAssigTimelineUtils,
@@ -13,6 +12,7 @@ import GuestBlock from "./GuestBlock";
 import BlockBlock from "./BlockBlock";
 import GhostBlock from "./GhostBlock";
 import { BookingStatus } from "../../../../../types/enum";
+import { ASSIG_IMELINE_HEIGHT } from "../../../../../atoms/timeline/config";
 
 const CLASS_LINKED = "assigItem--linkedSelected";
 const CLASS_MOVING = "assigItem--moving";
@@ -47,7 +47,7 @@ const itemRendererFn: React.FC<IRenderItemProps> = ({
   const classNames = classnames("assigItem", baseItemCalsses, {
     "assigItem--selected": itemContext.selected,
     "assigItem--checkIn": item.checkInInfo,
-    "assigItem--progressing": item.status === BookingStatus.PROGRESSING,
+    // "assigItem--progressing": item.status === BookingStatus.NOT_YET,
     "assigItem--block": item.type === GuestTypeAdd.BLOCK,
     "assigItem--mark": item.type === GuestTypeAdd.MARK,
     "assigItem--ghost": item.type === GuestTypeAdd.GHOST,

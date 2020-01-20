@@ -13,6 +13,7 @@ interface IProps {
   onChange?(foo?: any): void;
   value?: any;
   checked?: boolean;
+  labelId?: string;
 }
 
 const JDradio: React.FC<IProps> = ({
@@ -23,6 +24,7 @@ const JDradio: React.FC<IProps> = ({
   onChange,
   value,
   selectedValue,
+  labelId,
   checked = false
 }) => {
   const handleRadioChange = () => {
@@ -38,7 +40,7 @@ const JDradio: React.FC<IProps> = ({
 
   return (
     <span className="JDradio">
-      <label tabIndex={0} role="button" htmlFor={id}>
+      <label id={labelId} tabIndex={0} role="button" htmlFor={id}>
         <input
           id={id}
           className={classes}
@@ -48,6 +50,7 @@ const JDradio: React.FC<IProps> = ({
           disabled={disabled}
           checked={checked || selectedValue === value}
           onClick={handleRadioChange}
+          onChange={() => {}}
         />
         <span className="JDradio__label" />
         {label && <span className="JDradio__label-text">{label}</span>}

@@ -1,12 +1,11 @@
 import isEmpty from "./isEmptyData";
-import {IHouse} from "../types/interface";
+import { IHouse } from "../types/interface";
 
-const getCurrentHouse = (
-  houses: IHouse[],
-  tempLastSelectedHouse: any
-): IHouse | undefined => {
+const getCurrentHouse = (houses: IHouse[]): IHouse | undefined => {
+  const tempLastSelectedHouseId = localStorage.getItem("selectHouseId");
+
   const lastSelectedHouse = houses.find(
-    house => house._id === tempLastSelectedHouse.value
+    house => house._id === tempLastSelectedHouseId
   );
 
   // 마지막으로 선택한 하우스 또는 첫번째 하우스

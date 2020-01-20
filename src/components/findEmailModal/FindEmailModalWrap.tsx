@@ -2,15 +2,8 @@ import React from "react";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import { IUseModal, LANG } from "../../hooks/hook";
 import { useMutation } from "@apollo/react-hooks";
-import {
-  START_PASSWORD_RESET,
-  COMPLETE_PASSWORD_RESET
-} from "../../apollo/queries";
-import {
-  startPasswordResetVariables,
-  findMyEmail,
-  findMyEmailVariables
-} from "../../types/api";
+import { START_PASSWORD_RESET } from "../../apollo/queries";
+import { findMyEmail, findMyEmailVariables } from "../../types/api";
 import client from "../../apollo/apolloClient";
 import { onCompletedMessage } from "../../utils/utils";
 import FindEmailModal from "./FindEmailModal";

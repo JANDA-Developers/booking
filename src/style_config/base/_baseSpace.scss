@@ -5,7 +5,7 @@
 // 버튼과 버튼 사이 마진은 작습니다.
 // 버튼과 버튼 사이 마진은 작습니다.
 
-@import '~Styles/style_config';
+@import '~Styles';
 
 @include baseMargin(){
     margin-right: $standard-space;
@@ -63,7 +63,6 @@ div {
         height: 2rem;
         padding: 0;
         box-sizing: content-box;
-        
     }
 }
 

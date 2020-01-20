@@ -14,20 +14,23 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "incremental": true
   },
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
-    "src/pages/documents/show/ShowComponents.tsx",
-    "src/pages/outPages/infoReservation/InfoReservation.jsx",
-    "src/atoms/timeline/Timeline.jsx",
+    "src/types/defaults.tsx",
     "src/components/sendSmsModal",
     "src/pages/documents/pages.jsxver/pages.jsx",
     "src/.queries.ts",
     "src/atoms/toggleNoti",
-    "src/pages/bookingServer/dashboard/components/tempWheel.js",
-    "src/utils/iosScrollUnBounce.js",
-    "src/polyfill/polyfill.js", "src/components/cardResistModal"
-  ]
+    "src/components/cardResistModal",
+    "src/utils/jsdrag.js",
+    "src/pages/bookingHost/resvList/Excel.jsx",
+    "src/pages/outPages/print/CreditCardReceipt.tsx",
+    "src/pages/outPages/print/CreditCardReceipt.js",
+    "src/setup.js"
+  ],
+  "exclude": ["node_modules"]
 }

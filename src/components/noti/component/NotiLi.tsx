@@ -1,19 +1,19 @@
 import React from "react";
-import {getNotis_GetNotis_notis} from "../../../types/api";
-import {NotiType, NotiLevel} from "../../../types/enum";
-import JDIcon, {IconSize} from "../../../atoms/icons/Icons";
+import { getNotis_GetNotis_notis } from "../../../types/api";
+import { NotiType, NotiLevel, IconSize } from "../../../types/enum";
+import JDIcon from "../../../atoms/icons/Icons";
 import classNames from "classnames";
 import JDbadge from "../../../atoms/badge/Badge";
 import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
 import Tooltip from "../../../atoms/tooltip/Tooltip";
 import moment from "moment";
-import {LANG} from "../../../hooks/hook";
+import { LANG } from "../../../hooks/hook";
 
 interface IProps {
   noti: getNotis_GetNotis_notis;
 }
 
-const NotiLi: React.FC<IProps> = ({noti}) => {
+const NotiLi: React.FC<IProps> = ({ noti }) => {
   const classes = classNames("notiLi", undefined, {
     "notiLi--confirmed": noti.isConfirm
   });
@@ -34,10 +34,13 @@ const NotiLi: React.FC<IProps> = ({noti}) => {
       <span className="notiLi__msg">{noti.msg}</span>
     </span>
   );
-
-  const sharedSymbolProp = {
+  
+  const sharedSymbolProp: {
+    className: string;
+    size: IconSize;
+  } = {
     className: "notiLi__symbol",
-    size: IconSize.MEDEIUM_SMALL
+    size: "small"
   };
 
   return (

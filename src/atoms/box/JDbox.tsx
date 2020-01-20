@@ -1,23 +1,29 @@
 import classNames from "classnames";
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import ErrProtecter from "../../utils/errProtect";
 import "./JDbox.scss";
-import JDIcon, {IIcons} from "../icons/Icons";
-import {IDiv} from "../../types/interface";
+import JDIcon from "../icons/Icons";
+import { IDiv, JDatomExtentionSet } from "../../types/interface";
 import JDLabel from "../label/JDLabel";
 import Tooltip from "../tooltip/Tooltip";
-import {s4} from "../../utils/utils";
-import {TextAlign, JDColor} from "../../types/enum";
-import {textAlignClass, colorClass} from "../../utils/autoClasses";
+import { s4 } from "../../utils/utils";
+import { TextAlign, JDColor } from "../../types/enum";
+import {
+  textAlignClass,
+  colorClass,
+  JDmrClass,
+  JDmbClass
+} from "../../utils/autoClasses";
+import { IIcons } from "../icons/declation";
 
-interface IProps extends IDiv {
+interface IProps extends IDiv, JDatomExtentionSet {
   className?: string;
   mode?: "table" | "border" | "photoFrame" | "dashBorder";
   thema?: JDColor | null;
   label?: JSX.Element | string;
   icon?: IIcons;
   photo?: string;
-  topLabel?: string;
+  topLabel?: string | JSX.Element;
   iconHover?: boolean;
   standard?: boolean;
   size?: "small";
@@ -29,6 +35,7 @@ interface IProps extends IDiv {
   align?: "flex" | "flexVcenter";
   textAlign?: TextAlign;
   float?: boolean;
+  space?: string;
 }
 
 const JDbox: React.FC<IProps> = ({
@@ -46,11 +53,14 @@ const JDbox: React.FC<IProps> = ({
   topLabel,
   standard,
   photo,
+  space,
   size,
   align,
   textAlign,
   onClick,
   thema,
+  mr,
+  mb,
   ...props
 }) => {
   const classes = classNames("JDbox", className, {
@@ -67,7 +77,10 @@ const JDbox: React.FC<IProps> = ({
     "JDbox--standard": standard,
     "JDbox--withIcon": typeof icon === "string",
     "JDbox--small": size === "small",
-    "JDbox--float": float
+    "JDbox--float": float,
+    "JDbox--space-tiny": space === "tiny",
+    ...JDmbClass(mb),
+    ...JDmrClass(mr)
   });
 
   const newId = s4();

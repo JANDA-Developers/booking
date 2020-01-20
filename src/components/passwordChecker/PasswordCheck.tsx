@@ -5,6 +5,7 @@ import {
   isHaveScharacter
 } from "../../utils/inputValidations";
 import { LANG } from "../../hooks/hook";
+
 interface Iprops {
   txt: string;
 }

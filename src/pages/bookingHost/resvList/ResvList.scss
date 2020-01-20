@@ -1,26 +1,22 @@
-@import '~Styles/style_config.scss';
+@import '~Styles';
 
 
 .resvList {
 
     &__statusBadgesWrap {
-        margin-bottom: -$standard-height;
+        margin-bottom: -0.25rem;
         .JDbadge {
-            margin-left: $standard-width;
-            margin-bottom: $standard-height;
+            margin-left: 0.4rem;
+            margin-bottom: 0.25rem;
             &:first-child {
                 margin-left: 0;
             }
         }
     }
 
-    @include response($phablet) {
-        font-size: $typho-small;
-    }
-
     &__paymentStatus {
         &--notYet {
-            color: $warn-color;
+            color: $orange-color;
         }
     }
 
@@ -43,5 +39,9 @@
         }
 
         @extend %JDscrollbar;
+    }
+
+    @include response($phablet) {
+        font-size: $typho-small;
     }
 }

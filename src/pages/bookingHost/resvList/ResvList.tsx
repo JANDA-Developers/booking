@@ -1,16 +1,8 @@
 import React, { useState, Fragment } from "react";
-import selectTableHOC, {
-  SelectInputComponentProps,
-  SelectAllInputComponentProps
-} from "react-table/lib/hoc/selectTable";
-import JDtable, {
-  ReactTableDefault,
-  JDcolumn
-} from "../../../atoms/table/Table";
-import CheckBox from "../../../atoms/forms/checkBox/CheckBox";
+import { ReactTableDefault, JDcolumn } from "../../../atoms/table/Table";
 import Button from "../../../atoms/button/Button";
-import JDIcon, { IconSize } from "../../../atoms/icons/Icons";
-import { useModal, LANG } from "../../../hooks/hook";
+import JDIcon from "../../../atoms/icons/Icons";
+import { useModal, LANG, useCheckBoxTable } from "../../../hooks/hook";
 import BookingModalWrap from "../../../components/bookingModal/BookingModalWrap";
 import { IPageInfo, IBooking, IRoomType } from "../../../types/interface";
 import JDbox from "../../../atoms/box/JDbox";
@@ -20,7 +12,10 @@ import {
   deleteBooking,
   deleteBookingVariables,
   updateBookingVariables,
-  updateBooking
+  updateBooking,
+  getBookings,
+  getBookingsVariables,
+  GetBookingsFilterInput
 } from "../../../types/api";
 import autoHyphen from "../../../utils/autoFormat";
 import { JDtoastModal } from "../../../atoms/modal/Modal";
@@ -28,14 +23,14 @@ import {
   PaymentStatus,
   PricingType,
   BookingStatus,
-  FLOATING_PRELOADER_SIZE,
   DateFormat
 } from "../../../types/enum";
+import { FLOATING_PRELOADER_SIZE } from "../../../types/const";
 import moment from "moment";
 import JDbadge from "../../../atoms/badge/Badge";
 import "./ResvList.scss";
 import JDPagination from "../../../atoms/pagination/Pagination";
-import { autoComma } from "../../../utils/utils";
+import { autoComma, queryDataFormater } from "../../../utils/utils";
 import SendSMSmodalWrap, {
   IModalSMSinfo
 } from "../../../components/smsModal/SendSmsModalWrap";
@@ -47,9 +42,19 @@ import { IContext } from "../../bookingHost/BookingHostRouter";
 import { getRoomSelectInfo } from "../../../utils/typeChanger";
 import { inOr } from "../../../utils/C";
 import { toast } from "react-toastify";
+import PageHeader from "../../../components/pageHeader/PageHeader";
+import PageBody from "../../../components/pageBody/PageBody";
+import ExcelModal, {
+  IExcelModalInfo,
+  TExcelGetDataProp
+} from "../../../components/excel/ExcelModal";
+import { resvDatasToExcel } from "./helper";
+import client from "../../../apollo/apolloClient";
+import { GET_BOOKINGS } from "../../../apollo/queries";
+import { JDSelectableJDtable } from "../../../atoms/table/SelectTable";
 
 interface IProps {
-  pageInfo: IPageInfo | undefined;
+  pageInfo: IPageInfo;
   bookingsData: IBooking[];
   loading: boolean;
   updateBookingLoading: boolean;
@@ -72,6 +77,7 @@ const ResvList: React.SFC<IProps> = ({
   context
 }) => {
   const {
+    house: { _id: houseId },
     houseConfig: {
       bookingConfig: {
         newBookingMark: { enable: newBookingMarkEnable }
@@ -79,31 +85,15 @@ const ResvList: React.SFC<IProps> = ({
     },
     JDlang
   } = context;
-
-  const [checkedIds, setCheckedIds] = useState<string[]>([]);
-  const [selectAll, setSelectAll]: any = useState(false);
+  const checkBoxTableHook = useCheckBoxTable(
+    [],
+    bookingsData.map(data => data._id)
+  );
+  const { checkedIds, setCheckedIds } = checkBoxTableHook;
   const bookingModalHook = useModal(false);
   const alertModalHook = useModal(false);
   const sendSmsModalHook = useModal<IModalSMSinfo>(false);
-
-  //   여기에 key가 들어오면 id배열에서 찾아서 넣거나 제거해줌
-  const onToogleRow = (key: string) => {
-    if (checkedIds.includes(key)) {
-      setCheckedIds([...checkedIds.filter(value => value !== key)]);
-    } else {
-      setCheckedIds([...checkedIds, key]);
-    }
-  };
-
-  //    모든 라인들에대한 아이디를 투글함
-  const onToogleAllRow = (flag: boolean) => {
-    const bookingIds = bookingsData.map(booking => booking._id);
-    const updateSelecetedes = bookingIds.map(id =>
-      checkedIds.includes(id) ? "" : id
-    );
-    setCheckedIds(updateSelecetedes);
-    setSelectAll(flag);
-  };
+  const excelModal = useModal<IExcelModalInfo>(false);
 
   const handleDeleteBookingBtnClick = () => {
     alertModalHook.openModal({
@@ -117,7 +107,7 @@ const ResvList: React.SFC<IProps> = ({
         variables: {
           bookingId: id,
           params: {
-            bookingStatus: BookingStatus.CANCEL
+            bookingStatus: BookingStatus.CANCELED
           }
         }
       });
@@ -150,7 +140,7 @@ const ResvList: React.SFC<IProps> = ({
         variables: {
           bookingId: id,
           params: {
-            bookingStatus: BookingStatus.COMPLETE
+            bookingStatus: BookingStatus.COMPLETED
           }
         }
       });
@@ -278,7 +268,7 @@ const ResvList: React.SFC<IProps> = ({
           <br />
           <span
             className={`resvList__paymentStatus ${original.payment.status ===
-              PaymentStatus.PROGRESSING && "resvList__paymentStatus--notYet"}`}
+              PaymentStatus.NOT_YET && "resvList__paymentStatus--notYet"}`}
           >
             {LANG("PaymentStatus", original.payment.status)}
           </span>
@@ -309,13 +299,13 @@ const ResvList: React.SFC<IProps> = ({
           _id,
           status,
           payment,
-          checkInInfo
+          checkInInfo,
+          breakfast
         } = original;
-        const isCancled = status === BookingStatus.CANCEL;
-        const isProgressing = status === BookingStatus.PROGRESSING;
-        const isComplete = status === BookingStatus.COMPLETE;
+        const isCancled = status === BookingStatus.CANCELED;
+        const isComplete = status === BookingStatus.COMPLETED;
         const { status: paymentStatus } = payment;
-        const isPaied = paymentStatus === PaymentStatus.COMPLETE;
+        const isPaied = paymentStatus === PaymentStatus.COMPLETED;
         const isCheckIn = checkInInfo.isIn;
 
         return (
@@ -327,17 +317,15 @@ const ResvList: React.SFC<IProps> = ({
                 bookingId={_id}
               />
             )}
+            {breakfast && (
+              <JDbadge thema={"positive"}>{LANG("breakfast")}</JDbadge>
+            )}
             {isCheckIn && <JDbadge thema={"new"}>{LANG("new")}</JDbadge>}
             {isCancled && <JDbadge thema={"error"}>{LANG("cancel")}</JDbadge>}
-            {isProgressing && (
-              <JDbadge thema={"grey"}>{LANG("proceeding")}</JDbadge>
-            )}
-            {/* {isComplete && (
+            {/* {isComplete &1& (
               <JDbadge thema={"positive"}>{LANG("good_status")}</JDbadge>
             )} */}
-            {isProgressing || isPaied || (
-              <JDbadge thema={"warn"}>{LANG("unPaid")}</JDbadge>
-            )}
+            {isPaied || <JDbadge thema={"warn"}>{LANG("unPaid")}</JDbadge>}
           </div>
         );
       }
@@ -353,7 +341,7 @@ const ResvList: React.SFC<IProps> = ({
               bookingId: value
             });
           }}
-          size={IconSize.MEDIUM}
+          size={"normal"}
           hover
           icon="person"
         />
@@ -361,27 +349,79 @@ const ResvList: React.SFC<IProps> = ({
     }
   ];
 
-  const selectInputCompoent = ({ checked, id }: SelectInputComponentProps) => {
-    const inId = id.replace("select-", "");
-    const onChange = (flag: boolean) => {
-      onToogleRow(inId);
-    };
-
-    return <CheckBox size="small" onChange={onChange} checked={checked} />;
-  };
-
-  const selectAllInputComponentProps = ({
-    checked
-  }: SelectAllInputComponentProps) => (
-    <CheckBox onChange={onToogleAllRow} checked={checked} />
-  );
-
-  const SelectableJDtable = selectTableHOC(JDtable);
   return (
-    <div id="resvList" className="resvList container container--full">
-      <div className="docs-section">
-        <h3>{LANG("bookingList")}</h3>
+    <div id="resvList" className="resvList">
+      <PageHeader
+        desc={LANG("bookingList__desc")}
+        title={LANG("bookingList")}
+      />
+      <PageBody>
         <div>
+          <Button
+            size="small"
+            icon={"download"}
+            label={LANG("excel_express")}
+            onClick={() => {
+              const selectData = bookingsData.filter(booking =>
+                checkedIds.includes(booking._id)
+              );
+
+              const getData = async ({
+                mode,
+                count,
+                date
+              }: TExcelGetDataProp) => {
+                const filter: GetBookingsFilterInput | undefined = date
+                  ? {
+                      stayDate: {
+                        checkIn: to4YMMDD(date.from),
+                        checkOut: to4YMMDD(date.to)
+                      }
+                    }
+                  : undefined;
+
+                const { data, loading } = await client.query<
+                  getBookings,
+                  getBookingsVariables
+                >({
+                  query: GET_BOOKINGS,
+                  variables: {
+                    param: {
+                      filter,
+                      paging: {
+                        count: count || 99999,
+                        selectedPage: 1
+                      }
+                    }
+                  }
+                });
+
+                const result = queryDataFormater(
+                  data,
+                  "GetBookings",
+                  "result",
+                  undefined
+                );
+                const bookings = result?.bookings || [];
+
+                const excelData = resvDatasToExcel(bookings);
+                const excelSelectData = resvDatasToExcel(selectData);
+                excelModal.openModal({
+                  data: excelData,
+                  loading,
+                  getData,
+                  selectData: excelSelectData
+                });
+              };
+
+              const excelSelectData = resvDatasToExcel(selectData);
+              excelModal.openModal({
+                data: [],
+                selectData: excelSelectData,
+                getData
+              });
+            }}
+          ></Button>
           <Button
             size="small"
             onClick={handleCancleBookingBtnClick}
@@ -402,19 +442,14 @@ const ResvList: React.SFC<IProps> = ({
         {networkStatus === 1 && loading ? (
           <Preloader size="large" loading={true} />
         ) : (
-          <SelectableJDtable
+          <JDSelectableJDtable
             {...ReactTableDefault}
+            {...checkBoxTableHook}
             // 아래 숫자는 요청하는 쿼리와 같아야합니다.
             defaultPageSize={20}
-            toggleAll={() => {}}
-            toggleSelection={onToogleRow}
-            SelectAllInputComponent={selectAllInputComponentProps}
-            SelectInputComponent={selectInputCompoent}
             isCheckable
             align="center"
             data={bookingsData}
-            selectAll={selectAll}
-            isSelected={(key: string) => checkedIds.includes(key)}
             columns={TableColumns}
             keyField="_id"
           />
@@ -425,10 +460,8 @@ const ResvList: React.SFC<IProps> = ({
           loading={networkStatus !== 1 && loading}
         />
         <JDPagination
-          onPageChange={({ selected }: { selected: number }) => {
-            setPage(selected + 1);
-          }}
-          pageCount={inOr(pageInfo, "totalPage", 1)}
+          setPage={setPage}
+          pageInfo={pageInfo}
           pageRangeDisplayed={1}
           marginPagesDisplayed={4}
         />
@@ -443,7 +476,8 @@ const ResvList: React.SFC<IProps> = ({
           {...alertModalHook}
         />
         <SendSMSmodalWrap modalHook={sendSmsModalHook} context={context} />
-      </div>
+      </PageBody>
+      <ExcelModal modalHook={excelModal} />
     </div>
   );
 };

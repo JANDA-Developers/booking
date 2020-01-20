@@ -1,6 +1,6 @@
 
 
-@import "~Styles/style_config.scss";
+@import "~Styles";
 
 .JDbtn {
   // border: $button-border;
@@ -24,6 +24,15 @@
   border:none;
 
 
+  // Flot
+  &--left {
+    float: left
+  }
+
+  &--right {
+    float: right;
+  }
+
   &__contents {
     display:flex;
     align-items: center;
@@ -34,14 +43,6 @@
   &.JDwaves-effect {
     overflow:hidden;
   }
-  // Flot
-  &--left {
-    float: left
-  }
-
-  &--right {
-    float: right;
-  }
 
   &.JDbtn--white {
     color:white;
@@ -49,22 +50,24 @@
 
   &.JDbtn--grey {
     background-color: $grey-level1;
-    border: 1px solid $grey-opacity1;
+    border: 1px solid $outborder-color;
+
     &:hover {
-      background-color: $grey-level2;
+      background-color: $grey-level1;
     }
   }
 
   // MODE
 
-
   @include colorBg--prefixer(":not(:disabled)");
 
   &.JDbtn--transparent {
     background-color: transparent;
+    
     &:hover {
       background-color: $grey-opacity1;
     }
+
   }
 
   // Colors
@@ -131,9 +134,24 @@
   }
 
   // Small button
+  &--tiny {
+    font-size: $button-tiny-font-size;
+    padding: 0 $button-tiny-padding-side;
+    height: $buttons-tiny-height;
+    .JDbtn__icon {
+      margin-left: $buttons-tiny-icon-margin;
+    }
+  }
+  
   &--small {
     padding: $button-small-padding;
     font-size: $button-small-font-size;
+    
+    &.JDbtn--cunsumPadding {
+          margin-left: -$button-small-padding-side;
+          margin-right: -$button-small-padding-side!important;
+    }
+
     
     .JDbtn__icon {
       margin-left: $buttons-small-icon-margin;
@@ -158,10 +176,6 @@
       color:white;
     }
     
-    &.JDbtn--primary:not(:disabled) {
-      background-color: $primary-color;
-    }
-    
     &:disabled {
       color: $button-flat-disabled-color;
       cursor: default;
@@ -180,18 +194,24 @@
 
   &--toogleOff.JDbtn {
   }
+  
+  &--cunsumPadding {
+    margin-left: -$button-padding-side;
+    margin-right: -$button-padding-side;
+  }
 }
 
 
 // border
 #root,.ReactModalPortal {
+
   .JDbtn--border {
     background-color: white;
-    border: 1px solid $grey-level1;
+    border: 1px solid $outborder-color;
     box-shadow:none;
 
     &:hover {
-      background-color: $grey-level1;
+      background-color: $outborder-color;
     }
 
     &.JDbtn {

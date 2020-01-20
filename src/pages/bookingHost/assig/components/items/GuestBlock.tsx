@@ -1,6 +1,6 @@
 import React from "react";
 import { Fragment } from "react";
-import JDIcon, { IconSize } from "../../../../../atoms/icons/Icons";
+import JDIcon from "../../../../../atoms/icons/Icons";
 import ConfirmBadgeWrap from "../../../../../components/confirmBadge/ConfirmBadgeWrap";
 import {
   IAssigItem,
@@ -29,9 +29,9 @@ const guestBlock: React.FC<IProps> = ({
   assigHooks: { setGuestValue }
 }) => {
   const bookingConfig = assigContext.houseConfig.bookingConfig;
-  const newBookingMark = bookingConfig
-    ? bookingConfig.newBookingMark
-    : DEFAULT_HOUSE_CONFIG.bookingConfig.newBookingMark;
+  const newBookingMark =
+    bookingConfig?.newBookingMark ||
+    DEFAULT_HOUSE_CONFIG.bookingConfig.newBookingMark;
   const bookingMarkEnable = newBookingMark && newBookingMark.enable;
 
   const {
@@ -40,12 +40,13 @@ const guestBlock: React.FC<IProps> = ({
     bookingId,
     gender,
     id,
+    breakfast,
     showNewBadge,
     memo,
     isUnpaid
   } = item;
 
-  const isReady = status === BookingStatus.PROGRESSING;
+  const isReady = status === BookingStatus.CANCELED;
 
   return (
     <Fragment>
@@ -76,7 +77,11 @@ const guestBlock: React.FC<IProps> = ({
             }}
             className="assigItem__title assigItem__title--guest"
           >
-            <StatusMarker isUnpaid={isUnpaid} memo={memo} />
+            <StatusMarker
+              breakfast={breakfast}
+              isUnpaid={isUnpaid}
+              memo={memo}
+            />
             {item.name}
           </span>
         </span>
@@ -89,10 +94,10 @@ const guestBlock: React.FC<IProps> = ({
         id={`assigItem__configIconWrapId${id}`}
         className="assigItem__configIconWrap"
       >
-        <JDIcon icon="dotMenuVertical" size={IconSize.MEDEIUM_SMALL} />
+        <JDIcon icon="dotMenuVertical" size={"small"} />
       </span>
     </Fragment>
   );
 };
 
-export default guestBlock;
+export default React.memo(guestBlock, () => true);

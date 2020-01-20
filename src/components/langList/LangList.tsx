@@ -3,14 +3,14 @@ import ErrProtecter from "../../utils/errProtect";
 import { IDiv } from "../../types/interface";
 import {
   Language,
-  LANGUAGE_LIST,
   LanguageItSelf,
   LangShortToNational,
-  LanguageResverseShort,
-  IMG_REPO
+  LanguageResverseShort
 } from "../../types/enum";
+import { LANGUAGE_LIST, IMG_REPO } from "../../types/const";
 import JDbox from "../../atoms/box/JDbox";
 import { s4 } from "../../utils/utils";
+import "./LangList.scss";
 
 interface IProps extends IDiv {
   children?: JSX.Element[] | JSX.Element | string | Element[];
@@ -23,9 +23,6 @@ const LangList: React.FC<IProps> = ({ onClickLng, hideList, hilightLangs }) => {
   const LangList = hideList
     ? LANGUAGE_LIST.filter(lang => !hideList.includes(lang))
     : LANGUAGE_LIST;
-
-  console.log("LangList");
-  console.log(LangList);
 
   return (
     <div className={"clear-fix"}>
@@ -45,24 +42,23 @@ const LangList: React.FC<IProps> = ({ onClickLng, hideList, hilightLangs }) => {
             }}
             className="JDflex--center"
             size="small"
+            space="tiny"
             clickable
             float
           >
-            <img
-              style={{
-                width: 20,
-                height: 20
-              }}
-              className="JDstandard-small-space"
-              src={flag}
-            />
-            <span
-              style={{
-                marginLeft: "-1px"
-              }}
-            >
-              {LanguageItSelf[lang]}
-            </span>
+            <div className="JDflex JDflex--vCenter">
+              <img
+                className="LangList__flag JDstandard-small-space"
+                src={flag}
+              />
+              <span
+                style={{
+                  marginLeft: "-1px"
+                }}
+              >
+                {LanguageItSelf[lang]}
+              </span>
+            </div>
           </JDbox>
         );
       })}

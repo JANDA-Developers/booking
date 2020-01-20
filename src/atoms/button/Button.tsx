@@ -1,24 +1,31 @@
 /* eslint-disable react/button-has-type */
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import "./Button.scss";
 import classNames from "classnames";
-import ErrProtecter from "../../utils/errProtect";
-import Icon, {IIcons} from "../icons/Icons";
+import Icon from "../icons/Icons";
 import Preloader from "../preloader/Preloader";
-import {s4, colorClass} from "../../utils/utils";
+import { s4, colorClass } from "../../utils/utils";
 import Tooltip from "../tooltip/Tooltip";
-import {JDColor} from "../../types/enum";
+import { JDColor } from "../../types/enum";
+import { JDmbClass, JDmrClass } from "../../utils/autoClasses";
+import { JDatomExtentionSet } from "../../types/interface";
+import { IIcons } from "../icons/declation";
+import userTacking from "../../utils/userTracking";
 
-interface IProps extends React.HTMLAttributes<HTMLButtonElement> {
+export interface IButtonProps
+  extends React.HTMLAttributes<HTMLButtonElement>,
+    JDatomExtentionSet {
   disabled?: boolean;
   label?: string;
   icon?: IIcons;
+  refContainer?: any;
+  cunsumPadding?: boolean;
   onClick?(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void;
   iconClasses?: string[];
   dataTip?: any;
   dataFor?: any;
   mode?: "flat" | "normal" | "border";
-  size?: "small" | "large" | "long" | "longLarge";
+  size?: "tiny" | "small" | "large" | "long" | "longLarge";
   flat?: boolean;
   float?: string;
   type?: "button" | "submit" | "reset" | undefined;
@@ -35,7 +42,7 @@ interface IProps extends React.HTMLAttributes<HTMLButtonElement> {
   redirect?: string;
 }
 
-const Button: React.FC<IProps> = ({
+const Button: React.FC<IButtonProps> = ({
   disabled,
   label,
   icon,
@@ -46,6 +53,8 @@ const Button: React.FC<IProps> = ({
   dataFor,
   flat,
   mode,
+  cunsumPadding,
+  refContainer,
   float,
   type,
   color,
@@ -57,6 +66,8 @@ const Button: React.FC<IProps> = ({
   className,
   transparent,
   size,
+  mb,
+  mr,
   hrefOpen,
   // 투글은 클래스만 바꾸어 줍니다.
   toggle,
@@ -65,6 +76,7 @@ const Button: React.FC<IProps> = ({
   const classes = classNames("JDbtn", className, {
     "JDbtn--flat": mode === "flat" || flat,
     "JDbtn--small": size === "small",
+    "JDbtn--tiny": size === "tiny",
     "JDbtn--large": size === "large" || size === "longLarge",
     "JDbtn--long": size === "long" || size === "longLarge",
     "JDbtn--border": mode === "border",
@@ -77,7 +89,11 @@ const Button: React.FC<IProps> = ({
     "JDbtn--pulse": pulse,
     "JDbtn--toogleOn": toggle === true,
     "JDbtn--toogle111Off": toggle === false,
-    "JDtext-blink": blink
+    "JDbtn--cunsumPadding": cunsumPadding,
+    "JDtext-blink": blink,
+    "visibility-none": props.hidden,
+    ...JDmbClass(mb),
+    ...JDmrClass(mr)
   });
 
   const handleClickButton = (
@@ -87,6 +103,8 @@ const Button: React.FC<IProps> = ({
     if (redirect) {
       document.location.href = redirect;
     }
+    userTacking(label);
+
     onClick && onClick(event);
   };
 
@@ -98,6 +116,7 @@ const Button: React.FC<IProps> = ({
     <Fragment>
       <button
         {...props}
+        ref={refContainer}
         type={type}
         disabled={disabled}
         className={`JDbtn JDwaves-effect ${classes}`}
@@ -142,4 +161,4 @@ Button.defaultProps = {
   preloader: false
 };
 
-export default ErrProtecter(Button);
+export default Button;

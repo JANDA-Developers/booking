@@ -1,12 +1,11 @@
 import classNames from "classnames";
-import React, { Fragment, useState, useEffect, useMemo } from "react";
+import React, { Fragment, useState, useMemo } from "react";
 import JDselect, {
   IselectedOption
 } from "../../../../../atoms/forms/selectBox/SelectBox";
 import Button from "../../../../../atoms/button/Button";
 import { IRoomType } from "../../../../../types/interface";
-import Preloader from "../../../../../atoms/preloader/Preloader";
-import { isEmpty, autoComma } from "../../../../../utils/utils";
+import { isEmpty, autoComma, toNumber } from "../../../../../utils/utils";
 import { useModal, LANG } from "../../../../../hooks/hook";
 import { Gender, PricingType, RoomGender } from "../../../../../types/enum";
 import { IGuestCount } from "./roomTypeCardsWrap";
@@ -14,8 +13,8 @@ import JDmodal from "../../../../../atoms/modal/Modal";
 import moment from "moment";
 import selectOpCreater from "../../../../../utils/selectOptionCreater";
 import JDbadge from "../../../../../atoms/badge/Badge";
-import { IReservationHooks } from "../../Reservation";
 import { PortalPreloader } from "../../../../../utils/portalElement";
+import { IReservationHooks } from "../../declation";
 
 interface IProps {
   className?: string;
@@ -26,7 +25,6 @@ interface IProps {
   guestCountValue: IGuestCount;
   truePrice: number;
   countLoading: boolean;
-  priceLoading: boolean;
   lastCard: boolean;
   availableCount: {
     maleCount: number;
@@ -38,7 +36,6 @@ interface IProps {
 const RoomTypeCard: React.SFC<IProps> = ({
   className,
   roomTypeData,
-  priceLoading,
   windowWidth,
   setGuestCount,
   guestCountValue,
@@ -147,17 +144,12 @@ const RoomTypeCard: React.SFC<IProps> = ({
       male: flag === Gender.MALE ? selectedValue : guestCountValue.male,
       female: flag === Gender.FEMALE ? selectedValue : guestCountValue.female,
       room: flag === "room" ? selectedValue : guestCountValue.room,
-      get: flag !== "room" ? flag : Gender.FEMALE
+      initGender: flag !== "room" ? flag : Gender.FEMALE
     });
   };
 
   // 방선택하기 클릭시
   const handleRoomSelectClick = () => {
-
-
-    console.log("roomSelectInfo");
-    console.log(roomSelectInfo);
-
     const roomSelectInfoCopy = roomSelectInfo.slice();
 
     const dayDiff =
@@ -180,10 +172,6 @@ const RoomTypeCard: React.SFC<IProps> = ({
       return;
     }
 
-
-    console.log("guestCountValue");
-    console.log(guestCountValue);
-
     // 선택된방이 아닐경우에
     roomSelectInfoCopy.push({
       roomTypeId: roomTypeData._id,
@@ -196,12 +184,11 @@ const RoomTypeCard: React.SFC<IProps> = ({
       }
     });
 
-    console.log("roomSelectInfoCopy");
-    console.log(roomSelectInfoCopy);
-    
     setRoomSelectInfo(roomSelectInfoCopy);
     setDisabled({ female: true, male: true, count: true });
-    priceHook.onChange(priceHook.value + totalRoomTypePrice);
+    priceHook.onChange(
+      toNumber(priceHook.value) + toNumber(totalRoomTypePrice)
+    );
 
     roomInfoHook[1]([...roomInfoHook[0], roomTypeData]);
   };
@@ -209,7 +196,8 @@ const RoomTypeCard: React.SFC<IProps> = ({
   // 방배경사진
   const roomStyle = {
     // TODO :사진정보 여기에
-    backgroundImage: `url(${roomTypeData.img ? roomTypeData.img.url : ""})`
+    backgroundImage: `url(${roomTypeData.img?.url ||
+      "https://s3.ap-northeast-2.amazonaws.com/booking.stayjanda.files/infographic/noimg.png"})`
   };
 
   return (
@@ -237,7 +225,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
                 {roomTypeData.roomGender === RoomGender.FEMALE || (
                   <JDselect
                     menuItemCenterlize
-                    borderColor="primary"
+                    bporderColor="primary"
                     options={maleSeleteOption}
                     autoSize
                     onChange={selectedOp =>
@@ -285,27 +273,21 @@ const RoomTypeCard: React.SFC<IProps> = ({
         </div>
         <div className="flex-grid__col col--grow-1 roomTypeCard__lastSection">
           <div className="roomTypeCard__lastTopSection">
-            {priceLoading ? (
-              <Preloader loading />
-            ) : (
-              <span className="roomTypeCard__price">
-                {autoComma(truePrice)}
-              </span>
-            )}
+            <span className="roomTypeCard__price">{autoComma(truePrice)}</span>
           </div>
           <Button
             onClick={handleRoomSelectClick}
             className="roomTypeCard__selectButton"
             size={"small"}
             thema={isSelectedRoom ? "warn" : "primary"}
-            label={isSelectedRoom ? LANG("cancel") : LANG("select")}
+            label={LANG(isSelectedRoom ? "cancel" : "select")}
           />
         </div>
       </div>
       <JDmodal className="roomImgPop" {...roomImgModalHook}>
         <img
           className="roomImgPop__img"
-          src={roomTypeData.img ? roomTypeData.img.url : ""}
+          src={roomTypeData.img?.url || ""}
           alt="방 이미지"
         />
         <div className="roomImgPop__description">

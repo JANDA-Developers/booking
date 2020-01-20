@@ -1,18 +1,18 @@
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import JDsearchInput from "../../atoms/searchInput/SearchInput";
-import {getBookings_GetBookings_bookings} from "../../types/api";
+import { getBookings_GetBookings_result_bookings } from "../../types/api";
 import BookingModalWrap from "../bookingModal/BookingModalWrap";
-import {useModal} from "../../hooks/hook";
+import { useModal } from "../../hooks/hook";
 import $ from "jquery";
-import {autoHypen} from "../../utils/utils";
-import {IContext} from "../../pages/bookingHost/BookingHostRouter";
+import { autoHypen } from "../../utils/utils";
+import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 
 interface IProps {
   loading: boolean;
   context: IContext;
   onTypeValue: string;
   setType: any;
-  bookings: getBookings_GetBookings_bookings[];
+  bookings: getBookings_GetBookings_result_bookings[];
 }
 
 const GuestSearchInput: React.FC<IProps> = ({
@@ -48,9 +48,9 @@ const GuestSearchInput: React.FC<IProps> = ({
     const scrollTarget = $(`.rct-scroll`).get(0);
     $(target).addClass("assigItem--searched");
     const targetDom = $(target).get(0);
-    window.scrollTo({top: targetDom.offsetTop});
+    window.scrollTo({ top: targetDom.offsetTop });
     const targetWidth = $(scrollTarget).width() || 0;
-    scrollTarget.scrollTo({left: targetDom.offsetLeft - targetWidth / 2});
+    scrollTarget.scrollTo({ left: targetDom.offsetLeft - targetWidth / 2 });
   };
 
   const handleFindOne = (label?: string | null, id?: string) => {
@@ -66,7 +66,7 @@ const GuestSearchInput: React.FC<IProps> = ({
   };
 
   const BookingsDataManufacter = (
-    bookings: getBookings_GetBookings_bookings[]
+    bookings: getBookings_GetBookings_result_bookings[]
   ) => {
     const bookingData = bookings.map(booking => {
       booking.phoneNumber = autoHypen(booking.phoneNumber);
@@ -83,6 +83,8 @@ const GuestSearchInput: React.FC<IProps> = ({
   return (
     <Fragment>
       <JDsearchInput
+        mode="fill"
+        id="JDBookingSearcher"
         isLoading={loading}
         onTypeValue={onTypeValue}
         onTypeChange={handleTypeChange}

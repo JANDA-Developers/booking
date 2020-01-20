@@ -1,4 +1,4 @@
-@import '~Styles/style_config';
+@import '~Styles';
 @import './component/notiLi';
 
 .noti {
@@ -14,7 +14,7 @@
     &__tooltip {
         &_ul {
             @extend %JDscrollbar;
-            max-height: $standard-height *9 * 9;
+            max-height: 0.25rem *9 * 9;
             overflow-y: auto;
             overflow-x: hidden;
 

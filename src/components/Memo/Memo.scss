@@ -1,6 +1,12 @@
-@import '~Styles/style_config';
+@import '~Styles';
 @import './component/memoBox';
+@import './component/guestMemoBox';
 
 .memo {
+    min-width: 360px;
     min-height: fit-content;
+
+    @include response($phablet) {
+        min-width: 80%;
+    }
 }

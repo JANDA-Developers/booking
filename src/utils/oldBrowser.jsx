@@ -22,17 +22,18 @@ const OLD_BROWSER_CONFIG = {
   isUnknownBrowserOK: true,
   messages: {
     en: {
-      outOfDate: LANG("we_recommend_using_the_Chrome_browser_before_using_the_app"),
-      unsupported: LANG("we_recommend_using_the_Chrome_browser_before_using_the_app"),
+      outOfDate: "브라우저가 오래되었습니다. !",
+      unsupported: "원활한 서비스가 지원되지 않을수 있습니다.!",
       update: {
-        web:
-          LANG("this_is_an_old_browser_Problems_may_occur_while_using_the_service_Please_update_your_browser"),
-        googlePlay: LANG("please_update_Chrome_in_googlePlay"),
-        appStore: LANG("please_update_Chrome_in_appStore")
+        web: "서비스 사용전에 브라우저 업데이트를 권장합니다. ",
+        googlePlay: "크롬브라우저를 설치해주세요.",
+        appStore: "Please update iOS from the Settings App"
       },
-      url: "https://www.google.com/chrome/",
-      callToAction: LANG("update_to_recommended_browser_chrome"),
-      close: LANG("close")
+      // You can set the URL to null if you do not want a clickable link or provide
+      // your own markup in the `update.web` message.
+      url: "http://outdatedbrowser.com/",
+      callToAction: "Update my browser now",
+      close: "Close"
     }
   },
   language: "en"

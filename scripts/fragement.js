@@ -1,15 +1,14 @@
 const fetch = require("node-fetch");
 const fs = require("fs");
 
-fetch(
-    `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_SERVER_PORT}/graphql`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        variables: {},
-        query: `
+fetch(`${process.env.REACT_APP_API_SERVER_URI}`, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    variables: {},
+    query: `
       {
         __schema {
           types {
@@ -22,9 +21,8 @@ fetch(
         }
       }
     `
-      })
-    }
-  )
+  })
+})
   .then(result => result.json())
   .then(result => {
     // here we're filtering out any type information unrelated to unions or interfaces

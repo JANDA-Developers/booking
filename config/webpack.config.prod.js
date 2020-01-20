@@ -141,6 +141,7 @@ module.exports = {
             ecma: 8
           },
           compress: {
+            drop_console: true,
             ecma: 5,
             warnings: false,
             // Disabled because of an issue with Uglify breaking seemingly valid code:
@@ -221,7 +222,7 @@ module.exports = {
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       "react-native": "react-native-web",
-      Styles: path.join(__dirname, "../src/style_config"),
+      Styles: path.resolve(__dirname, env.style),
       Img: path.resolve(__dirname, "../src/img")
     },
     plugins: [

@@ -1,5 +1,5 @@
 
-@import '~Styles/style_config.scss';
+@import '~Styles';
 
 .JDpagination {
     display: flex;
@@ -8,7 +8,7 @@
     // ⭐ Modifiers ️
     &-wrap {
         &--text-large {
-            font-size: $typho-large;
+            font-size: $typho-huge;
         }
         &--align-center {
             justify-content: center;
@@ -61,6 +61,13 @@
         }
     }
     & > &__btn {
+        &--disabled {
+            display: none;
+
+            & + li {
+                margin-left: 0;
+            }
+        }
         &-prev{
             margin-left: 0;
             &__a{
@@ -73,13 +80,6 @@
             &__a{
                 color:$html-color;
                 opacity: 1;
-            }
-        }
-        &--disabled {
-            display: none;
-
-            & + li {
-                margin-left: 0;
             }
         }
     }

@@ -1,4 +1,4 @@
-@import '~Styles/style_config';
+@import '~Styles';
 
 .imageUploader {
     position:relative;
@@ -18,8 +18,45 @@
     flex-grow: 1;
     font-size: 2rem;  // prettier
     text-align: center;
+    
+    &--input {
+        font-size:0;
+        display: block;
+        background-image: none;
+        border: none;
+        text-align:left;
 
+        &__viewInput {
+            flex: 1 1;
+        }
 
+        .JDbtn {
+            margin-top:1px;
+        }
+        .imageUploader__input {
+            right:0;
+            left:100%;
+            bottom: 100%;
+            top:0;
+        }
+
+        &__buttonWrap {
+            position: relative;
+        }
+        &__label {
+        }
+        &__wrap {
+            display:flex;
+        }
+    }
+
+    &--error {
+        border-color: $error-color;
+    }
+    &--loading {
+        background-image:none;
+    }
+    
     &--noBg {
         background-image:none;
     }
@@ -78,14 +115,13 @@
         background-position: center center;
         background-repeat:no-repeat;
     }
-
-    &--error {
-        border-color: $error-color;
-    }
-    &--loading {
-        background-image:none;
+    
+    &__image-wrap {
+        padding: $standard-small-space;
+        width: 100%;
     }
 
+    
     &__input {
         position:absolute;
         z-index: $z-index-1;

@@ -34,6 +34,8 @@ import { TimePerMs } from "../../../types/enum";
 import { useDayPicker, LANG } from "../../../hooks/hook";
 import { IContext } from "../../bookingHost/BookingHostRouter";
 
+moment.tz.setDefault("Asia/Seoul");
+
 class GetAllRoomTypePriceQuery extends Query<
   dailyPriceGetPrice,
   dailyPriceGetPriceVariables
@@ -110,20 +112,12 @@ const DailyPriceWrap: React.FC<IProps> = ({ context }) => {
   //  Default 값
   const dayPickerHook = useDayPicker(null, null);
   const defaultTime = {
-    start: dayPickerHook.from
-      ? setMidNight(moment(dayPickerHook.from).valueOf())
-      : setMidNight(moment().valueOf()),
-    end: dayPickerHook.to
-      ? setMidNight(
-          moment(dayPickerHook.to)
-            .add(7, "days")
-            .valueOf()
-        )
-      : setMidNight(
-          moment()
-            .add(7, "days")
-            .valueOf()
-        )
+    start: setMidNight(moment(dayPickerHook.from || new Date()).valueOf()),
+    end: setMidNight(
+      moment(dayPickerHook.to || new Date())
+        .add(7, "days")
+        .valueOf()
+    )
   };
   const [dataTime, setDataTime] = useState({
     start: setMidNight(
@@ -176,13 +170,17 @@ const DailyPriceWrap: React.FC<IProps> = ({ context }) => {
       .toISOString()
       .split("T")[0]
   };
-  moment.tz.setDefault("Asia/Seoul");
 
   return (
     <GetAllRoomTypePriceQuery
       fetchPolicy="network-only"
       query={PRICE_TIMELINE_GET_PRICE}
-      variables={queryVarialbes}
+      variables={{
+        houseId: house._id,
+        checkIn: queryVarialbes.checkIn,
+        checkOut: queryVarialbes.checkOut,
+        param: queryVarialbes
+      }}
     >
       {({ data, loading, error, networkStatus }) => {
         const roomTypesData = queryDataFormater(

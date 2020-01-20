@@ -1,7 +1,8 @@
 import React from "react";
-import {IGraphViewMode} from "../Statistic";
-import {IContext} from "../../../bookingHost/BookingHostRouter";
-import JDIcon, {IconSize} from "../../../../atoms/icons/Icons";
+import { IGraphViewMode } from "../Statistic";
+import { IContext } from "../../../bookingHost/BookingHostRouter";
+import JDIcon from "../../../../atoms/icons/Icons";
+import { IconSize } from "../../../../types/enum";
 
 interface Iprops {
   context: IContext;
@@ -14,7 +15,7 @@ const StaticIcons: React.FC<Iprops> = ({
   context,
   setViewMode,
   viewMode,
-  iconSize = IconSize.DEFAULT
+  iconSize = undefined
 }) => {
   return (
     <div className="statistic__iconsWrap">

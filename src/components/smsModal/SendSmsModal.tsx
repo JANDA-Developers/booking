@@ -5,7 +5,8 @@ import JDbox from "../../atoms/box/JDbox";
 import JDselect, {
   IselectedOption
 } from "../../atoms/forms/selectBox/SelectBox";
-import { GET_SMS_TARGET_OP, GetSmsTarget } from "../../types/enum";
+import { GetSmsTarget } from "../../types/enum";
+import { GET_SMS_TARGET_OP } from "../../types/const";
 import Button from "../../atoms/button/Button";
 import "./SendSmsModal.scss";
 import { MutationFn } from "react-apollo";
@@ -15,7 +16,9 @@ import {
   getSmsInfo_GetSmsInfo_smsInfo,
   getBookings,
   getBookingsVariables,
-  AutoSendWhen
+  AutoSendWhen,
+  getReplacedMessages,
+  getReplacedMessagesVariables
 } from "../../types/api";
 import InputText from "../../atoms/forms/inputText/InputText";
 import {
@@ -25,13 +28,23 @@ import {
 } from "../../utils/smsUtils";
 import moment from "moment";
 import { IModalSMSinfo } from "./SendSmsModalWrap";
-import { autoComma, autoHypen, s4, queryDataFormater } from "../../utils/utils";
+import {
+  autoComma,
+  autoHypen,
+  s4,
+  queryDataFormater,
+  isEmpty
+} from "../../utils/utils";
 import JDLabel from "../../atoms/label/JDLabel";
-import { GET_BOOKINGS_PHONE_NUMBERS } from "../../apollo/queries";
+import {
+  GET_BOOKINGS_PHONE_NUMBERS,
+  GET_REPLACE_MESSAGES
+} from "../../apollo/queries";
 import { useQuery } from "@apollo/react-hooks";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import client from "../../apollo/apolloClient";
 import JDpreloader from "../../atoms/preloader/Preloader";
+import ModalEndSection from "../../atoms/modal/components/ModalEndSection";
 
 interface IProps {
   context: IContext;
@@ -55,59 +68,64 @@ const SendSmsModal: React.FC<IProps> = ({
   mode = "Noraml",
   autoSendWhen
 }) => {
-  const [msg, setMsg] = useState("");
-  const today = new Date();
   const {
     house: { _id: houseId }
   } = context;
+  const today = new Date();
+  const [msg, setMsg] = useState("");
   const templateSelectHook = useSelect(null);
   const smsTargetOpHook = useSelect(GET_SMS_TARGET_OP[0]);
+
+  //
   const { data, loading, refetch } = useQuery<
     getBookings,
     getBookingsVariables
   >(GET_BOOKINGS_PHONE_NUMBERS, {
     client,
     variables: {
-      count: 0,
-      page: 0,
-      houseId,
-      filter: {
-        stayDate: moment(today).format("YYYY-MM-DD")
+      param: {
+        paging: {
+          count: 0,
+          selectedPage: 1
+        },
+        filter: {
+          houseId,
+          stayDate: {
+            checkIn: moment(today).format("YYYY-MM-DD"),
+            checkOut: moment(today).format("YYYY-MM-DD")
+          }
+        }
       }
     }
   });
 
-  const bookings = queryDataFormater(
-    data,
-    "GetBookings",
-    "bookings",
-    undefined
-  );
+  const result = queryDataFormater(data, "GetBookings", "result", undefined);
+  const bookings = result?.bookings || [];
 
   useEffect(() => {
-    if (smsInfo && smsInfo.smsTemplates) {
-      const targetTemplate = smsTemplates.find(template => {
-        if (template.smsSendCase && template.smsSendCase.when) {
-          return template.smsSendCase.when === autoSendWhen;
-        }
-        return false;
-      });
-      if (targetTemplate) {
-        const targetTempOp = smsTemplateOp.find(
-          temp => temp.value === targetTemplate._id
-        );
-        if (targetTempOp) {
-          templateSelectHook.onChange(targetTempOp);
-          handleSelectTemplate(targetTempOp);
+    if (modalHook.isOpen === true) {
+      if (smsInfo && smsInfo.smsTemplates) {
+        const targetTemplate = smsTemplates.find(template => {
+          if (template.smsSendCase && template.smsSendCase.when) {
+            return template.smsSendCase.when === autoSendWhen;
+          }
+          return false;
+        });
+        if (targetTemplate) {
+          const targetTempOp = smsTemplateOp.find(
+            temp => temp.value === targetTemplate._id
+          );
+          if (targetTempOp) {
+            templateSelectHook.onChange(targetTempOp);
+            handleSelectTemplate(targetTempOp);
+          }
         }
       }
     }
   }, [modalHook.isOpen]);
 
-  const phoneNumbers = bookings
-    ? bookings.map(booking => booking.phoneNumber)
-    : undefined;
-  const tempBookingIds = bookings ? bookings.map(booking => booking._id) : [];
+  const phoneNumbers = bookings?.map(booking => booking.phoneNumber);
+  const queryBookingIds = bookings?.map(booking => booking._id) || [];
   const sendTargets =
     smsTargetOpHook.selectedOption!.value === GetSmsTarget.EXSIST_INFO
       ? modalHook.info.receivers
@@ -126,7 +144,7 @@ const SendSmsModal: React.FC<IProps> = ({
         smsInfoId: smsInfo._id,
         msg: smsMessageFormatter(msg),
         receivers: sendTargets,
-        bookingIds: tempBookingIds || bookingIds
+        bookingIds: isEmpty(queryBookingIds) ? bookingIds : queryBookingIds
       }
     });
 
@@ -143,53 +161,53 @@ const SendSmsModal: React.FC<IProps> = ({
     smsTargetOpHook.onChange(v);
     if (v.value === GetSmsTarget.TODAY_STAY) {
       refetch({
-        houseId,
-        count: 99,
-        page: 1,
-        filter: {
-          stayDate: moment(today).toDate()
+        param: {
+          paging: {
+            count: 99,
+            selectedPage: 1
+          },
+          filter: {
+            stayDate: {
+              checkIn: moment(today).toDate(),
+              checkOut: moment(today).toDate()
+            }
+          }
         }
       });
     }
   };
 
   // 예약정보를 기반으로 뷰 변환
-  const handleSelectTemplate = (selectedOp: IselectedOption) => {
+  const handleSelectTemplate = async (selectedOp: IselectedOption) => {
     if (smsInfo && smsInfo.smsTemplates) {
       const targetTemplate = smsInfo.smsTemplates.find(
         template => template._id === selectedOp.value
       );
 
-      if (targetTemplate) {
-        let msg = "";
-        const { smsFormatInfo } = modalHook.info;
-        if (smsFormatInfo) {
-          const {
-            payMethod,
-            end,
-            name,
-            paymentStatus,
-            price,
-            start
-          } = smsFormatInfo;
-          msg = smsMsgParser(targetTemplate.smsFormat, {
-            BOOKERNAME: name,
-            ROOMTYPE_N_COUNT: "",
-            STAYDATE: `${moment(start).format("MM-DD")}~${moment(end).format(
-              "MM-DD"
-            )}`,
-            STAYDATE_YMD: `${moment(start).format("YY-MM-DD")}~${moment(
-              end
-            ).format("YY-MM-DD")}`,
-            TOTALPRICE: `${autoComma(price)}`,
-            PAYMENTSTATUS: `${paymentStatus}`,
-            PAYMETHOD: `${payMethod}`,
-            HM: "[하우스메뉴얼 주소]"
-          });
-        } else {
-          msg = smsMsgParser(targetTemplate.smsFormat, LANG("SmsReplaceKey"));
-        }
-        setMsg(msg);
+      if (!targetTemplate) return;
+
+      // IF have id then get reaplce message
+      if (!isEmpty(bookingIds)) {
+        const { data } = await client.query<
+          getReplacedMessages,
+          getReplacedMessagesVariables
+        >({
+          query: GET_REPLACE_MESSAGES,
+          variables: {
+            param: {
+              smsTemplateId: targetTemplate._id,
+              bookingIds
+            }
+          }
+        });
+
+        const messages =
+          queryDataFormater(data, "GetReplacedMessages", "messages", "") || "";
+
+        setMsg(messages[0]);
+      } else {
+        // Maybe it is not exsist booking show smsFormat
+        setMsg(smsMsgParser(targetTemplate.smsFormat));
       }
     }
   };
@@ -215,9 +233,9 @@ const SendSmsModal: React.FC<IProps> = ({
           )}
           <div>
             <JDLabel txt={LANG("outgoing_destination")} />
-            <JDbox className="clear-fix" mode="border">
-              {sendTargets &&
-                sendTargets.map(receiver => (
+            <JDbox mode="border">
+              <div className="clear-fix sendSmsModal__receiverWrap">
+                {sendTargets?.map(receiver => (
                   <JDbox
                     size={sendTargets.length > 4 ? "small" : undefined}
                     float
@@ -226,6 +244,7 @@ const SendSmsModal: React.FC<IProps> = ({
                     <span>{autoHypen(receiver)}</span>
                   </JDbox>
                 ))}
+              </div>
             </JDbox>
           </div>
           <div className="JDz-index-1">
@@ -249,8 +268,9 @@ const SendSmsModal: React.FC<IProps> = ({
               textarea
             />
           </div>
-          <div className="JDmodal__endSection">
+          <ModalEndSection>
             <Button
+              mode="flat"
               size={"small"}
               thema="primary"
               disabled={!msg}
@@ -261,6 +281,8 @@ const SendSmsModal: React.FC<IProps> = ({
             />
             {callBackFn && (
               <Button
+                id="UnSendSmsBtn"
+                mode="flat"
                 size={"small"}
                 onClick={() => {
                   handleSendSmsBtnClick(false);
@@ -268,7 +290,7 @@ const SendSmsModal: React.FC<IProps> = ({
                 label={LANG("dontSMS")}
               />
             )}
-          </div>
+          </ModalEndSection>
         </Fragment>
       )}
     </JDmodal>

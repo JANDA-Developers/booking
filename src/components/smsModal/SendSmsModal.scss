@@ -1,14 +1,19 @@
-@import "~Styles/style_config.scss";
+@import "~Styles";
 
+.sendSmsModal {
+  min-width: 300px;
 
-.sendSmsModal {    
-    min-width: 300px;
+  &--loading {
+    min-width: 0px;
+  }
 
-    &--loading {
-        min-width: 0px;
+  .JDbox {
+    .sendSmsModal__receiverWrap {
+      margin-bottom: -$standard-margin-bottom;
+
+      & > .JDbox:last-child {
+        margin-bottom: $standard-margin-bottom;
+      }
     }
-
-    .JDbox + .JDbox {
-        margin-top:  -$standard-margin-bottom /2;
-    }
+  }
 }

@@ -1,5 +1,6 @@
-import {RoomGender} from "../types/enum";
-import {IIcons} from "../atoms/icons/Icons";
+import { RoomGender } from "../types/enum";
+import { IIcons } from "../atoms/icons/declation";
+
 // 룸젠더를 받아서 해당에 맞는 icon 이름으로 바꾸어줌
 const getGenderIcon = (roomGneder: RoomGender): IIcons => {
   if (roomGneder === RoomGender.ANY) return "genderBoth";

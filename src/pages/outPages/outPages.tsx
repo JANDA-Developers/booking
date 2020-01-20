@@ -1,4 +1,4 @@
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import DynamicImport from "../../utils/dynamicComponent";
 import Preloader from "../../atoms/preloader/Preloader";
 import "./outPages.scss";
@@ -9,8 +9,8 @@ export const Reservation = (props: any) => (
       DNcompoent === null ? (
         <Preloader loading={true} page />
       ) : (
-        <DNcompoent {...props} />
-      )
+          <DNcompoent {...props} />
+        )
     }
   </DynamicImport>
 );
@@ -23,8 +23,8 @@ export const ReservationCheck = (props: any) => (
       DNcompoent === null ? (
         <Preloader loading={true} page />
       ) : (
-        <DNcompoent {...props} />
-      )
+          <DNcompoent {...props} />
+        )
     }
   </DynamicImport>
 );
@@ -35,8 +35,8 @@ export const HM = (props: any) => (
       DNcompoent === null ? (
         <Preloader loading={true} page />
       ) : (
-        <DNcompoent {...props} />
-      )
+          <DNcompoent {...props} />
+        )
     }
   </DynamicImport>
 );
@@ -49,10 +49,10 @@ export const ReservationInfo = (props: any) => (
       DNcompoent === null ? (
         <Preloader loading={true} page />
       ) : (
-        <DNcompoent {...props} />
-      )
+          <DNcompoent {...props} />
+        )
     }
   </DynamicImport>
 );
 
-export const temp = () => {};
+export const temp = () => { };

@@ -10,11 +10,15 @@ import {
   ROOM_GENDER_OP,
   PRICING_TYPE_OP_EXPEND,
   GENDER_OP,
+  EXCEL_EXPRESS_OP,
   BOOKING_STATUS_OP,
+  OPTIONAL_APPLY_PAYMETHOD,
+  HOUSE_STATUS_OP,
   AUTO_SEND_OP,
   STATISTICS_OP,
+  HOUSE_TYPE_OP,
   FUNNELS_OP
-} from "../types/enum";
+} from "../types/const";
 import { LANG } from "../hooks/hook";
 import { isArray } from "util";
 
@@ -35,10 +39,14 @@ export const globalLanguageSetting = () => {
     { value: PAYMENT_STATUS_OP, enumKey: "PaymentStatus" },
     STATISTICS_TYPE_OP,
     STATISTICS_OP,
+    { value: HOUSE_STATUS_OP, enumKey: "HouseStatus" },
+    { value: EXCEL_EXPRESS_OP, enumKey: "ExcelExpress" },
     { value: SMS_TARGET_OP, enumKey: "SendTarget" },
+    OPTIONAL_APPLY_PAYMETHOD,
     PRODUCT_STATUS_OP,
-    BOOKING_STATUS_OP,
+    { value: BOOKING_STATUS_OP, enumKey: "BookingStatus" },
     PAYMETHOD_FOR_BOOKER_OP,
+    OPTIONAL_APPLY_PAYMETHOD,
     PAYMETHOD_FOR_HOST_OP,
     GET_SMS_TARGET_OP,
     PRICING_TYPE_OP,
@@ -46,7 +54,8 @@ export const globalLanguageSetting = () => {
     { value: ROOM_GENDER_OP, enumKey: "RoomGender" },
     PRICING_TYPE_OP_EXPEND,
     GENDER_OP,
-    AUTO_SEND_OP
+    AUTO_SEND_OP,
+    { value: HOUSE_TYPE_OP, enumKey: "HouseType" }
   ];
   settings.forEach((set: any) => {
     if (!isArray(set)) {

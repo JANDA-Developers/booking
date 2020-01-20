@@ -5,20 +5,17 @@ import PhoneVerificationModal from "./PhoneVerificationModal";
 import {
   completePhoneVerification,
   completePhoneVerificationVariables,
-  startPhoneVerificationWithPhoneNumber,
-  startPhoneVerificationWithPhoneNumberVariables
+  startPhoneVerificationWithPhoneNumber
 } from "../../types/api";
 import {
   COMEPLETE_PHONE_VERIFICATION,
-  GET_USER_INFO,
   START_PHONE_VERIFICATION_WITH_PHONE_NUMBER
 } from "../../apollo/queries";
 import EerrorProtect from "../../utils/errProtect";
 import { IUseModal, LANG } from "../../hooks/hook";
 
 class StartPhoneVerificationMu extends Mutation<
-  startPhoneVerificationWithPhoneNumber,
-  startPhoneVerificationWithPhoneNumberVariables
+  startPhoneVerificationWithPhoneNumber
 > {}
 class CompletePhoneVerification extends Mutation<
   completePhoneVerification,
@@ -27,25 +24,25 @@ class CompletePhoneVerification extends Mutation<
 
 interface IPhoneVerifModalInfo {
   phoneNumber?: string;
-  onPhoneVerified?(): void;
+  callBackPhoneVerified?(): void;
   [foo: string]: any;
 }
 
 interface IProps {
   modalHook: IUseModal<IPhoneVerifModalInfo>;
   phoneNumber?: string;
-  onPhoneVerified?(): void;
+  callBackPhoneVerified?(): void;
 }
 
 const PhoneVerificationModalWrap: React.FC<IProps> = ({
   modalHook,
-  onPhoneVerified = modalHook.info ? modalHook.info.onPhoneVerified : undefined,
-  phoneNumber = modalHook.info ? modalHook.info.phoneNumber : undefined
+  callBackPhoneVerified = modalHook.info?.onPhoneVerified,
+  phoneNumber = modalHook.info?.phoneNumber
 }) => (
   <StartPhoneVerificationMu
     variables={{ phoneNumber }}
     mutation={START_PHONE_VERIFICATION_WITH_PHONE_NUMBER}
-    onCompleted={({ StartPhoneVerification }: any) => {
+    onCompleted={({ StartPhoneVerification }) => {
       onCompletedMessage(
         StartPhoneVerification,
         LANG("certification_number_sent"),
@@ -63,14 +60,10 @@ const PhoneVerificationModalWrap: React.FC<IProps> = ({
               LANG("mobile_phone_verification_completed"),
               LANG("mobile_phone_verification_failed")
             );
-            modalHook.closeModal();
             if (CompletePhoneVerification.ok) {
-              // window.location.reload();
-              // onPhoneVerified && onPhoneVerified();
+              callBackPhoneVerified && callBackPhoneVerified();
             }
           }}
-          awaitRefetchQueries
-          refetchQueries={[{ query: GET_USER_INFO }]}
         >
           {(
             completePhoneVerificationMu,
@@ -84,7 +77,11 @@ const PhoneVerificationModalWrap: React.FC<IProps> = ({
               });
             };
             const modalOpenCallBackFn = () => {
-              startPhoneVerificationMu();
+              startPhoneVerificationMu({
+                variables: {
+                  phoneNumber
+                }
+              });
             };
             return (
               <PhoneVerificationModal

@@ -16,6 +16,7 @@ import {
   arrToApplyDays,
   dayarrEnToBooleanArr
 } from "./dayOfweeks";
+import { cardValidate } from "./validations";
 import {
   isEmail,
   isPhone,
@@ -24,7 +25,8 @@ import {
   isMaxOver,
   isYYYYMMDD,
   isPassword,
-  isNumberMinMax
+  isNumberMinMax,
+  isIncludeSpecialChar
 } from "./inputValidations";
 import insideRedirect from "./insideRedirect";
 import searchHoliday from "./searchHoliday";
@@ -33,7 +35,7 @@ import { textAlignClass, colorClass } from "./autoClasses";
 import searchListFormat from "./searchListFormater";
 import { showError } from "./errorMessage";
 import onCompletedMessage from "./onCompletedMessage";
-import queryDataFormater from "./queryFormater";
+import queryDataFormater, { getFromResult } from "./queryFormater";
 import setMidNight from "./setMidNight";
 import removeNullOfObject from "./removeNullOfObject";
 import s4 from "./keyGen";
@@ -51,6 +53,7 @@ import getRoomCountFromHouse from "./getRoomCountFromHouse";
 const JDutils = {
   isTestProduct,
   ErrProtecter,
+  isIncludeSpecialChar,
   targetBlink,
   isEmpty,
   isEmail,
@@ -91,16 +94,19 @@ const JDutils = {
   insideRedirect,
   instanceOfA,
   mergeObject,
-  s4
+  s4,
+  getFromResult
 };
 
 export default JDutils;
 export {
+  isIncludeSpecialChar,
   onCompletedMessage,
   JDMonthTextChanger,
   insideRedirect,
   instanceOfA,
   jsonString,
+  getFromResult,
   JDWeekChanger,
   isEmpty,
   smsMessageFormatter,
@@ -118,6 +124,7 @@ export {
   smsMsgParser,
   isTestProduct,
   queryDataFormater,
+  cardValidate,
   mergeObject,
   setMidNight,
   JDscrollTo,

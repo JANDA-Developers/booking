@@ -8,7 +8,7 @@ interface IProps {
   checked?: boolean | null;
   label?: string;
   className?: string;
-  size?: "small";
+  size?: "small" | "tiny";
   onChange?(foo: boolean): void;
   id?: string;
 }
@@ -23,7 +23,8 @@ const JDcheckbox: React.FC<IProps> = ({
   ...props
 }) => {
   const warpClasses = classNames("JDcheck_box_wrap", className, {
-    "JDcheck_box_wrap--small": size === "small"
+    "JDcheck_box_wrap--small": size === "small",
+    "JDcheck_box_wrap--tiny": size === "tiny"
   });
   const classes = classNames("JDcheck_box", className, {
     "JDcheck_box--small": size === "small"

@@ -1,97 +1,90 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, {Fragment} from "react";
-import {Query, Mutation} from "react-apollo";
+import React, { Fragment, useMemo } from "react";
 import {
   getAllRoomType,
-  changeIndexForRoomType,
-  changeIndexForRoomTypeVariables
+  getAllRoomTypeVariables,
+  saveRoomTypes,
+  saveRoomTypesVariables
 } from "../../../types/api";
-import {useToggle, LANG} from "../../../hooks/hook";
-import roomTimelineDefaultProps from "./timelineConfig";
-import {GET_ALL_ROOMTYPES, CHANGE_INDEX_FOR_ROOMTYPE} from "../../../apollo/queries";
+import { GET_ALL_ROOMTYPES, SAVE_ROOMTYPES } from "../../../apollo/queries";
 import {
   ErrProtecter,
   queryDataFormater,
-  onCompletedMessage
+  onCompletedMessage,
+  s4
 } from "../../../utils/utils";
-import {IContext} from "../../bookingHost/BookingHostRouter";
+import { IContext } from "../../bookingHost/BookingHostRouter";
+import client from "../../../apollo/apolloClient";
 import RoomConfig from "./RoomConfig";
-import {PureQueryOptions} from "apollo-client";
+import { useQuery, useMutation } from "@apollo/react-hooks";
+import { RoomConfigSubmitData } from "../../../components/bookingModal/declaration";
 import Preloader from "../../../atoms/preloader/Preloader";
-import {FLOATING_PRELOADER_SIZE} from "../../../types/enum";
-
-export enum ADD_ROOM {
-  "ADDROOM" = -1,
-  "ADDROOM_TYPE" = -1
-}
+import { getOperationName } from "apollo-utilities";
+import { arraySum } from "../../../utils/elses";
 
 interface IProps {
   context: IContext;
-  refetchQueries?: (PureQueryOptions | string)[];
 }
 
-class GetAllRoomTypeQuery extends Query<getAllRoomType> {}
-class ChangeIndexForRoomTypeMu extends Mutation<
-  changeIndexForRoomType,
-  changeIndexForRoomTypeVariables
-> {}
+const RoomConfigWrap: React.FC<IProps> = ({ context }) => {
+  const { house } = context;
+  const { data: roomData, loading } = useQuery<
+    getAllRoomType,
+    getAllRoomTypeVariables
+  >(GET_ALL_ROOMTYPES, {
+    client,
+    fetchPolicy: "network-only",
+    variables: { houseId: house._id }
+  });
 
-const RoomConfigWrap: React.FC<IProps> = ({
-  context,
-  refetchQueries = [],
-  ...prop
-}) => {
-  const {house} = context;
-  const [_, setConfigMode] = useToggle(false);
+  const [saveRoomsMu, { loading: saveRoomsLoading }] = useMutation<
+    saveRoomTypes,
+    saveRoomTypesVariables
+  >(SAVE_ROOMTYPES, {
+    client,
+    refetchQueries: [getOperationName(GET_ALL_ROOMTYPES) || ""],
+    awaitRefetchQueries: true,
+    onCompleted: ({ SaveRoomTypes }) => {
+      onCompletedMessage(SaveRoomTypes, "save rooms done", "save rooms fail");
+    }
+  });
 
+  const roomTypesData =
+    queryDataFormater(roomData, "GetAllRoomType", "roomTypes", []) || [];
+
+  const handleSubmit = (data: RoomConfigSubmitData) => {
+    const upsertDatas = [...data.createDatas, ...data.updateDatas];
+
+    saveRoomsMu({
+      variables: {
+        param: {
+          houseId: house._id,
+          deletes: data.deleteIds,
+          upserts: upsertDatas
+        }
+      }
+    });
+  };
+
+  const key = useMemo(() => s4(), [
+    roomTypesData.length,
+    arraySum(roomTypesData.map(rt => rt.rooms.length))
+  ]);
   return (
-    // 모든 방 가져오기
-    <GetAllRoomTypeQuery
-      fetchPolicy="network-only"
-      query={GET_ALL_ROOMTYPES}
-      variables={{houseId: house._id}}
-    >
-      {({data: roomData, loading, error, networkStatus}) => {
-        const roomTypesData =
-          queryDataFormater(roomData, "GetAllRoomType", "roomTypes", []) || []; // 원본데이터
-
-        return (
-          <ChangeIndexForRoomTypeMu
-            refetchQueries={[{query: GET_ALL_ROOMTYPES}]}
-            onCompleted={({ChangeIndexForRoomType}) => {
-              onCompletedMessage(
-                ChangeIndexForRoomType,
-                LANG("priority_changed"),
-                LANG("priority_change_fail")
-              );
-            }}
-            mutation={CHANGE_INDEX_FOR_ROOMTYPE}
-          >
-            {(changeIndexForRoomTypeMu, {loading: chnageIndexMuLoading}) => (
-              <Fragment>
-                <Preloader
-                  floating
-                  size={FLOATING_PRELOADER_SIZE}
-                  loading={
-                    chnageIndexMuLoading || (networkStatus > 1 && loading)
-                  }
-                />
-                <RoomConfig
-                  context={context}
-                  loading={loading}
-                  refetchQueries={refetchQueries}
-                  setConfigMode={setConfigMode}
-                  changeIndexForRoomTypeMu={changeIndexForRoomTypeMu}
-                  defaultProps={roomTimelineDefaultProps}
-                  roomTypesData={roomTypesData}
-                />
-              </Fragment>
-            )}
-          </ChangeIndexForRoomTypeMu>
-        );
-      }}
-    </GetAllRoomTypeQuery>
+    <Fragment>
+      <RoomConfig
+        onSubmit={handleSubmit}
+        context={context}
+        loading={loading}
+        defaultData={{
+          defaultCreateRoomType: [],
+          roomTypesData
+        }}
+        key={key}
+      />
+      <Preloader floating loading={saveRoomsLoading} />
+    </Fragment>
   );
 };
 

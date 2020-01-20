@@ -1,18 +1,18 @@
 import React from "react";
-import {LANG} from "../../../../hooks/hook";
-import {IContext} from "../../../bookingHost/BookingHostRouter";
-import {STATISTICS_OP, STATISTICS_TYPE_OP} from "../../../../types/enum";
+import { LANG } from "../../../../hooks/hook";
+import { IContext } from "../../../bookingHost/BookingHostRouter";
+import { STATISTICS_OP, STATISTICS_TYPE_OP } from "../../../../types/const";
 import JDselect from "../../../../atoms/forms/selectBox/SelectBox";
 import JDdayPicker from "../../../../atoms/dayPicker/DayPicker";
-import {IStaticsProps} from "../Statistic";
+import { IStaticsProps } from "../Statistic";
 
 interface Iprops {
   context: IContext;
   staticsProps: IStaticsProps;
 }
 
-const StaticController: React.FC<Iprops> = ({context, staticsProps}) => {
-  const {queryDateHook, queryOp, setQueryOp} = staticsProps;
+const StaticController: React.FC<Iprops> = ({ context, staticsProps }) => {
+  const { queryDateHook, queryOp, setQueryOp } = staticsProps;
   return (
     <div>
       <h6>{LANG("statistical_transformation")}</h6>
@@ -37,7 +37,7 @@ const StaticController: React.FC<Iprops> = ({context, staticsProps}) => {
           canSelectBeforeDay={true}
           {...queryDateHook}
           label={LANG("date_of_statistics")}
-          input
+          mode="input"
         />
       </div>
       <div>

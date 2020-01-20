@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useMemo } from "react";
 import NotiWrap from "../../noti/NotiWrap";
 import { IContext } from "../../../pages/bookingHost/BookingHostRouter";
 import TooltipList, {
@@ -6,29 +6,25 @@ import TooltipList, {
 } from "../../../atoms/tooltipList/TooltipList";
 import { NavLink } from "react-router-dom";
 import Button from "../../../atoms/button/Button";
-import { IUseModal, useModal, LANG } from "../../../hooks/hook";
+import { useModal, LANG } from "../../../hooks/hook";
 import { insideRedirect, isEmpty } from "../../../utils/utils";
-import { UserRole, MemoType } from "../../../types/enum";
-import { IconSize } from "../../../atoms/icons/Icons";
+import { UserRole } from "../../../types/enum";
 import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
-import MemoModal from "../../Memo/component/MemoModal";
 import MemoIcon from "../../Memo/component/MemoIcon";
 import NotiIcon from "../../noti/component/NotiIcon";
 import LangSelectModal from "../../../atoms/dayPicker/component/langSelectModal";
-interface Iprops {
+
+interface IProps {
   context: IContext;
   logOutMutation: any;
-  phoneVerificationModalHook: IUseModal;
 }
 
-const SharedHeaderComponent: React.FC<Iprops> = ({
+const SharedHeaderComponent: React.FC<IProps> = ({
   context,
-  logOutMutation,
-  phoneVerificationModalHook
+  logOutMutation
 }) => {
-  const { user } = context;
+  const { user, applyedProduct } = context;
   const { isPhoneVerified } = user;
-  const memoModalHook = useModal();
   const langSelectModal = useModal();
 
   // 로그 여부와 상관없이 공유된
@@ -74,23 +70,6 @@ const SharedHeaderComponent: React.FC<Iprops> = ({
           />
         </li>
       )}
-      {user && !isPhoneVerified && (
-        <li>
-          <Button
-            onClick={() => {
-              phoneVerificationModalHook.openModal({
-                phoneNumber: user.phoneNumber
-              });
-              ReactTooltip.hide();
-            }}
-            blink
-            icon="call"
-            label={LANG("authenticate")}
-            mode="flat"
-            id="HeaderPhoneVerificationBtn"
-          />
-        </li>
-      )}
       <li>
         <NavLink to="/myPage">
           <Button icon="person" label="MYpage" mode="flat" />
@@ -133,6 +112,9 @@ const SharedHeaderComponent: React.FC<Iprops> = ({
   );
 
   const { isLogIn } = context;
+  let isPriceAble = applyedProduct ? applyedProduct.price : false;
+  if (isPriceAble === 0) isPriceAble = false;
+
   return (
     <Fragment>
       {/* 알람 */}
@@ -140,12 +122,8 @@ const SharedHeaderComponent: React.FC<Iprops> = ({
         {isEmpty(context.house) || (
           <NotiWrap
             icon={
-              <CircleIcon size={IconSize.MEDIUM}>
-                <NotiIcon
-                  context={context}
-                  color="white"
-                  size={IconSize.MEDIUM}
-                />
+              <CircleIcon size={"normal"}>
+                <NotiIcon context={context} color="white" size={"normal"} />
               </CircleIcon>
             }
             context={context}
@@ -155,15 +133,8 @@ const SharedHeaderComponent: React.FC<Iprops> = ({
       {/* 메모 */}
       <span className="JDstandard-space">
         {isEmpty(context.house) || (
-          <CircleIcon size={IconSize.MEDIUM}>
-            <MemoIcon
-              onClick={() => {
-                memoModalHook.openModal();
-              }}
-              context={context}
-              color="white"
-              size={IconSize.MEDIUM}
-            />
+          <CircleIcon size={"normal"}>
+            <MemoIcon context={context} color="white" size={"normal"} />
           </CircleIcon>
         )}
       </span>
@@ -171,11 +142,6 @@ const SharedHeaderComponent: React.FC<Iprops> = ({
       <TooltipList id="tooltip_user">
         <ul>{isLogIn ? <LoginIconMenu /> : <UnLoginIconMenu />}</ul>
       </TooltipList>
-      <MemoModal
-        memoType={MemoType.HOST}
-        context={context}
-        modalHook={memoModalHook}
-      />
       <LangSelectModal modalHook={langSelectModal} context={context} />
     </Fragment>
   );
