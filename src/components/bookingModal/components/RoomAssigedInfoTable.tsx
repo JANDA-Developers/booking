@@ -10,6 +10,7 @@ import JDselect from "../../../atoms/forms/selectBox/SelectBox";
 import { LANG } from "../../../hooks/hook";
 import "./RoomAssigedInfoTable.scss";
 import { IBookingModal_AssigInfo } from "../declaration";
+import JDIcon from "../../../atoms/icons/Icons";
 
 interface IGuestTableInfo {
   _id: string;
@@ -62,7 +63,26 @@ const RoomAssigedInfoTable: React.FC<Iprops> = ({
       )
     },
     {
-      Header: LANG("gender"),
+      Header: (
+        <div>
+          {LANG("gender")}{" "}
+          {assigInfo.length > 1 && (
+            <JDIcon
+              icon="reverse"
+              hover
+              onClick={() => {
+                setAssigInfo(
+                  assigInfo.map(assig => ({
+                    ...assig,
+                    gender:
+                      assig.gender === Gender.MALE ? Gender.FEMALE : Gender.MALE
+                  }))
+                );
+              }}
+            />
+          )}
+        </div>
+      ),
       accessor: "_id",
       Cell: ({ original }) => (
         <div

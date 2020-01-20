@@ -19,7 +19,7 @@ import { fillCardInfo } from "../pages/bookingHost/myPage/components/cardModal.t
 
 describe("First Process", () => {
   beforeAll(async () => {
-    await testReady(false, undefined, {
+    await testReady(true, undefined, {
       email: "Alyce46@hotmail.com"
     });
   });

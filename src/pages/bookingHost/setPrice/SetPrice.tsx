@@ -22,18 +22,11 @@ import { Link } from "react-router-dom";
 import { priceMapResult } from "./SetPriceWrap";
 import JDtable, { ReactTableDefault } from "../../../atoms/table/Table";
 import { CellInfo } from "react-table";
-import JDIcon from "../../../atoms/icons/Icons";
 import InputText from "../../../atoms/forms/inputText/InputText";
 import { toNumber, muResult } from "../../../utils/utils";
-import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
 import selectOpCreater from "../../../utils/selectOptionCreater";
 import SeasonHeader from "./components/seasonHeader";
-import {
-  useModal,
-  useShouldSave,
-  useDayPicker,
-  LANG
-} from "../../../hooks/hook";
+import { useModal, useShouldSave, LANG } from "../../../hooks/hook";
 import DayOfWeekModal, {
   IDayOfWeekModalInfo
 } from "./components/dayOfWeekModal";

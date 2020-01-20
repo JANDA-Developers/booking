@@ -34,7 +34,7 @@ export const cardValidate = (cardInfo: TCardRegistInfo): {
         };;
     }
     // 카드 넘버 
-    if (cardNumber.length !== 16) {
+    if (cardNumber.length < 12) {
         return {
             result: false,
             msg: LANG("un_validate_card_number")

@@ -5168,10 +5168,31 @@ export interface updateProductBillInfoVariables {
 // GraphQL mutation operation: updateProductBillPayStatus
 // ====================================================
 
+export interface updateProductBillPayStatus_UpdateProductBillPayStatus_product_status {
+  __typename: "ProductStatus";
+  /**
+   * 계속 이용 여부 => false면 더이상 결제 안하고 expireDate 연장 안함
+   */
+  isContinue: boolean;
+  /**
+   * isContinue === false 인경우 생성됨
+   */
+  discontinueDate: any | null;
+}
+
+export interface updateProductBillPayStatus_UpdateProductBillPayStatus_product {
+  __typename: "Product";
+  /**
+   * 상품 정기결제 상태
+   */
+  status: updateProductBillPayStatus_UpdateProductBillPayStatus_product_status;
+}
+
 export interface updateProductBillPayStatus_UpdateProductBillPayStatus {
   __typename: "UpdateProductBillPayStatusResponse";
   ok: boolean;
   error: string | null;
+  product: updateProductBillPayStatus_UpdateProductBillPayStatus_product | null;
 }
 
 export interface updateProductBillPayStatus {

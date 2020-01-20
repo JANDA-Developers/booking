@@ -70,7 +70,7 @@ export const kr = {
   allocation_calendar: "배정달력",
   applicant: "신청자",
   applicant_contact: "신청자 연락처",
-  applied_product_type: "적용 상품타입",
+  applied_product_type: "상품타입",
   applied_url: "적용URL",
   appliedby_default_in_periods_with_no_price_set:
     "가격이 설정되어 있지 않은 기간 에서 기본으로 적용됨",
@@ -240,7 +240,7 @@ export const kr = {
   graph_shape: "그래프 형태",
   group_notification: "단체알림",
   guest: "게스트",
-  guestHouse: "게스트하우스",
+guestHouse: "게스트하우스",
   have_a_bright_day_sir: "오늘도 밝은 하루 보내세요",
   heavy_type_layout: "heavy 타입 레이아웃",
   home: "홈",
@@ -1072,8 +1072,8 @@ export const kr = {
   update_user_info_fail: "슈퍼 관리자 업데이트 실패",
   server_dose_not_respond: "서버가 응답하지 않습니다.",
   network_connected: "네트워크에 연결되었습니다.",
-  periodical_payment_is_stopped: (houseName: string) =>
-    `${houseName}의 정기결제가 중지되었습니다.`,
+  periodical_payment_is_changed: (houseName: string, flag?: boolean) =>
+    `${houseName}의 정기결제가 ${flag ? "중지" : "등록"}되었습니다.`,
   request_is_failed: "요청이 실패했습니다.",
   product_regist_complete_message: "상품등록이 완료 되었습니다.",
   select_product_desc:
@@ -1110,8 +1110,8 @@ export const kr = {
     "SMS 양식을 설정해두시면 메세지를 보낼떄 해당 양식을 편리하게 보낼수 있습니다.",
   do_you_want_to_change_periodical_pay:
     "현재 정기결제가 이루어지고 있습니다. 변경 하시겠습니까?",
-  auto_pay_stop: "자동결제 중지",
-  auto_pay_continue: "자동결제 재사용",
+  auto_pay_stop: "중지하기",
+  auto_pay_continue: "정기결재 재사용 하기",
   BookingStatus: {
     COMPLETED: "예약완료",
     CANCELED: "예약취소"
@@ -1121,5 +1121,30 @@ export const kr = {
   refund_price: "환불금액",
   refund_complete: "환불완료",
   refund_fail: "환불실패",
-  refund: "환불하기"
+  refund: "환불하기",
+  do_you_really_want_to_cancel_our_service:
+    "앗 정기결제를 정말로 해지 하시나요?",
+  if_you_cancel_service_please_notice_below_things: (
+    <span>
+      만약 정기결제를 해지하신다면 서비스 기간이 만료되면 더이상 서비스를
+      이용하실수 없습니다. <br />
+      다음과 같은 유의사항이 있습니다.
+    </span>
+  ),
+  service_termination_warn1: "더이상 신규 예약을 받을 수 없습니다.",
+  service_termination_warn2: "SMS 서비스를 이용하실수 없습니다.",
+  service_termination_warn3:
+    "기존 예약을 변경하거나 수정하는 것이 불가능 합니다.",
+  service_termination_warn4: "이용하고 계신 홈페이지에 접속이 불가능 합니다.",
+  basic_info_insert: "기본정보 입력하기.",
+  design_select: "디자인 선택하기",
+  select_addtional_ui: "추가옵션 선택하기",
+  option_select: "옵션선택",
+  free: "무료",
+  homepage: "홈페이지",
+  complete: "완료",
+  un_complete: "미완료",
+  room_type_create: "방타입생성",
+  room_create: "방생성",
+  sms_config: "SMS 설정"
 };

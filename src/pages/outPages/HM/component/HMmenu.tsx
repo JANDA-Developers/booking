@@ -82,7 +82,7 @@ const MenuContent: React.FC<IProps> = ({
       ) : (
         <img src={menu.img?.url || ""} alt="" />
       )}
-      <p>{menu.content[currentLang]}</p>
+      <p className="TmenuContent">{menu.content[currentLang]}</p>
     </Fragment>
   );
 };

@@ -13,7 +13,6 @@ import JDselect, {
 } from "../../../../atoms/forms/selectBox/SelectBox";
 import InputText from "../../../../atoms/forms/inputText/InputText";
 import moment from "moment";
-import CircleIcon from "../../../../atoms/circleIcon/CircleIcon";
 import TooltipList from "../../../../atoms/tooltipList/TooltipList";
 import Button from "../../../../atoms/button/Button";
 import JDmodal from "../../../../atoms/modal/Modal";

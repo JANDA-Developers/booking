@@ -73,7 +73,7 @@ const HMcompoent: React.FC<IProps> = ({
           {!title || (
             <div className="docs-section__box">
               <div className="HM__titleWrap">
-                <h6>{title[currentLang]}</h6>
+                <h6 className="THMtitle">{title[currentLang]}</h6>
               </div>
               <div className="HM__languageBtnWrap JDflex--center">
                 <Button

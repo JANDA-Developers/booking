@@ -19,6 +19,7 @@ import SendSMSmodalWrap, {
 import moment from "moment";
 import PageHeader from "../../../components/pageHeader/PageHeader";
 import PageBody from "../../../components/pageBody/PageBody";
+import JDcard from "../../../atoms/cards/Card";
 
 interface Iprops {
   context: IContext;
@@ -87,6 +88,7 @@ const DashBoard: React.SFC<Iprops> = ({ context }) => {
                   label={LANG("send_sms")}
                 />
               </div>
+              <JDcard toogleCardId="TutorialCard"></JDcard>
               <Card>
                 <Fragment>
                   <div className="JDdisplay-none--wmdUp">

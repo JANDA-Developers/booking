@@ -25,6 +25,7 @@ const Menus: React.FC<IMenusprops> = ({
       {menuData.map(menu => {
         return (
           <HMmenuTitle
+            className="TmenuTitle"
             key={menu.id}
             title={
               <div className="HM__menuTitle JDflex--between JDflex--vCenter">

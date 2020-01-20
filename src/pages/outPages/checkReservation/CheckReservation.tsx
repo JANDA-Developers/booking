@@ -106,6 +106,34 @@ const CheckReservation: React.FC<Iprops> = ({
     openForPrint(markUp);
   };
 
+  openForPrint(
+    CardRecipt({
+      resvInfo: {
+        bookingNum: "aor2q5",
+        bookerName: "김민재",
+        bookInfo: "4인실방"
+      },
+      payInfo: {
+        payMethod: "카드결제",
+        payStatus: status,
+        payDate: "",
+        cardName: "신한",
+        cardNumber: "1103 4222 5633 3335",
+        price: "1000",
+        TAX: "500",
+        VAT: "200"
+      },
+      hostInfo: {
+        address: "창원시 서성로23",
+        houseName: "호텔B",
+        bNumber: "111642341",
+        hostName: "김민재",
+        houseContact: "010 5237 4492",
+        hompage: "asdwqwec@naver.com"
+      }
+    })
+  );
+
   const validater = () => {
     if (!searchInfo.name) {
       toast.warn(LANG("input_your_name_please"));
@@ -157,7 +185,6 @@ const CheckReservation: React.FC<Iprops> = ({
                   password: searchInfo.password,
                   phoneNumber: searchInfo.phoneNumber
                 },
-                // @ts-ignore
                 skip: loading
               });
             }
@@ -166,12 +193,14 @@ const CheckReservation: React.FC<Iprops> = ({
         />
       </div>
       <h6>{LANG("reservation_confirm")}</h6>
-      <Button
-        onClick={() => {
-          if (data) printRecipt(data);
-        }}
-        label={LANG("bill_print")}
-      />
+      {data?.payment.cardInfo && (
+        <Button
+          onClick={() => {
+            if (data) printRecipt(data);
+          }}
+          label={LANG("bill_print")}
+        />
+      )}
       <CheckTable tableData={data ? [data] : undefined} />
     </div>
   );

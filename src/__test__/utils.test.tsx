@@ -1,4 +1,4 @@
-import puppeteer from "puppeteer";
+import puppeteer, { ElementHandle } from "puppeteer";
 import muResult from "../utils/mutationResultSafty";
 import { ExecutionResult } from "graphql";
 import { WindowSize, WindowSizeHeight, WindowSizeShort } from "../types/enum";
@@ -59,6 +59,9 @@ export const Tselect = async (selecter: string, propSelectIndex?: number) => {
 export const TWait = async (second: number) => {
   await page.waitFor(second * S);
 };
+
+export const TEInnerText = async (el: ElementHandle<Element>) =>
+  await (await el.getProperty("textContent")).jsonValue();
 
 export const TWaitTill = async (second: number, isDone: () => Promise<any>) => {
   const maxTries = 3;

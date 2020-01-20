@@ -2370,6 +2370,12 @@ export const UPDATE_PRODUCT_BILL_PAY_STATUS = gql`
     UpdateProductBillPayStatus(param: $param) {
       ok
       error
+      product {
+        status {
+          isContinue
+          discontinueDate
+        }
+      }
     }
   }
 `;
@@ -2477,3 +2483,4 @@ export const SAVE_ROOMTYPES = gql`
     }
   }
 `
+

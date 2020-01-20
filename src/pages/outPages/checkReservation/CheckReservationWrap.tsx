@@ -36,7 +36,7 @@ const CheckReservationWrap: React.FC<IProps> = ({
   }
 }) => {
   sessionStorage.setItem("hpk", publickey);
-  const isDirect = name + password + phoneNumber === "";
+  const infoExist = !name && !password && !phoneNumber;
   const comeplteModalHook = useModal(false);
   const isFirstSender = useState(true);
 
@@ -60,7 +60,7 @@ const CheckReservationWrap: React.FC<IProps> = ({
         password,
         phoneNumber
       },
-      skip: isDirect
+      skip: !infoExist
     },
     onCompleted: ({ GetBookingForPublic }) => {
       onCompletedMessage(
@@ -79,7 +79,7 @@ const CheckReservationWrap: React.FC<IProps> = ({
   );
 
   // 예약완료 메세지 모달 오픈
-  if (booking && isDirect && isFirstSender[0]) {
+  if (booking && infoExist && isFirstSender[0]) {
     comeplteModalHook.openModal();
     isFirstSender[1](false);
   }

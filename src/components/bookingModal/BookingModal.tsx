@@ -145,28 +145,26 @@ const BookingModal: React.FC<IProps> = ({
     )
   );
   const paymentStatusHook = useSelect<PaymentStatus>(
-    bookingId !== "default"
+    isCreateMode
       ? {
-          value: paymentStatus,
-          label: LANG("PaymentStatus", paymentStatus)
-        }
-      : {
           value: PaymentStatus.COMPLETED,
           label: LANG("PaymentStatus", PaymentStatus.COMPLETED)
+        }
+      : {
+          value: paymentStatus,
+          label: LANG("PaymentStatus", paymentStatus)
         }
   );
   const funnelStatusHook = useSelect<Funnels | null>(
     funnels ? { value: funnels, label: LANG("Funnels", funnels) } : null
   );
   const bookingStatusHook = useSelect(
-    C(
-      bookingId !== "default",
-      {
-        value: bookingStatus,
-        label: LANG(bookingStatus)
-      },
-      BOOKING_STATUS_OP[0]
-    )
+    isCreateMode
+      ? BOOKING_STATUS_OP[0]
+      : {
+          value: bookingStatus,
+          label: LANG(bookingStatus)
+        }
   );
   const resvDateHook = useDayPicker(
     moment(checkIn).toDate(),

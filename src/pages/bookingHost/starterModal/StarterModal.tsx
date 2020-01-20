@@ -24,6 +24,7 @@ import { toast } from "react-toastify";
 import PreloaderModal from "../../../atoms/preloaderModal/PreloaderModal";
 import PhotoFrame from "../../../atoms/photoFrame/PhotoFrame";
 import ModalEndSection from "../../../atoms/modal/components/ModalEndSection";
+import "../../../utils/channelTok";
 
 interface IProps {
   context: IContext;
@@ -104,12 +105,7 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
 
   const Wrap: React.FC = useCallback(
     ({ children }) => (
-      <JDmodal
-        className="staterModal"
-        {...modalHook}
-        isUnderHeader
-        onRequestClose={() => {}}
-      >
+      <JDmodal className="staterModal" {...modalHook} isUnderHeader>
         <div className="staterModal__stepsWrap">
           <JDmultiStep steps={staterSteps} />
         </div>

@@ -1,12 +1,13 @@
 import classNames from "classnames";
 import React, { Fragment } from "react";
 import ErrProtecter from "../../utils/errProtect";
-import { IUl } from "../../types/interface";
+import { IUl, JDatomExtentionSet } from "../../types/interface";
 import { s4, textAlignClass } from "../../utils/utils";
 import "./List.scss";
 import { TextAlign } from "../../types/enum";
+import { JDmbClass, JDmrClass } from "../../utils/autoClasses";
 
-interface IProps extends IUl {
+interface IProps extends IUl, JDatomExtentionSet {
   className?: string;
   border?: boolean;
   stripe?: boolean;
@@ -29,6 +30,8 @@ const JDlist: React.FC<IProps> = ({
   align = "left",
   contents,
   linePoint,
+  mb,
+  mr,
   ...props
 }) => {
   const classes = classNames("JDlist", className, {
@@ -38,7 +41,9 @@ const JDlist: React.FC<IProps> = ({
     "JDlist--mbShort": marginBottom === "short",
     "JDlist--mbNormal": marginBottom === "normal",
     "JDlist--mbLong": marginBottom === "long",
-    "JDlist--whiteSpace": noWrap
+    "JDlist--whiteSpace": noWrap,
+    ...JDmbClass(mb),
+    ...JDmrClass(mr)
   });
 
   return (

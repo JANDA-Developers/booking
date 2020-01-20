@@ -44,6 +44,8 @@ const PeriodicalSignCard: React.FC<Iprops & WindowSizeProps> = ({
     _id: productId,
     status: { isContinue }
   } = applyedProduct!;
+  console.log("isContinue");
+  console.log(isContinue);
 
   const { name } = productType;
   let { paymentInfos } = user;
@@ -61,16 +63,15 @@ const PeriodicalSignCard: React.FC<Iprops & WindowSizeProps> = ({
         <span>{house.name}</span>
         <div>
           <div className=" periodicalSignCard__product">
-            <span className="JDdisplay-none--wmd JDstandard-space periodicalSignCard__product-name">{`${LANG(
-              "applied_product_type"
-            )}:${name}`}</span>
+            <span className="JDdisplay-none--wmd JDstandard-space periodicalSignCard__product-name">
+              {name}
+            </span>
             <Button
               cunsumPadding
               className="periodicalSignCard__productBtn"
               size="small"
               mode="flat"
               thema="primary"
-              icon={"config"}
               label={LANG("product_change")}
             />
           </div>

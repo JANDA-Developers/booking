@@ -12,6 +12,8 @@ import { Redirect } from "react-router-dom";
 import StarterModal from "../starterModal/StarterModal";
 import { onCompletedMessage } from "../../../utils/utils";
 import CreateHouse from "./CreateHouse";
+import PageHeader from "../../../components/pageHeader/PageHeader";
+import PageBody from "../../../components/pageBody/PageBody";
 
 interface IProps {
   context: IContext;
@@ -73,7 +75,13 @@ const CreateHouseWrap: React.FC<IProps> = ({ context }) => {
         onSubmit={handleSubmit}
       />
     );
-  return <CreateHouse context={context} onSubmit={handleSubmit} />;
+  return (
+    <PageHeader title={LANG("create_house")}>
+      <PageBody>
+        <CreateHouse context={context} onSubmit={handleSubmit} />
+      </PageBody>
+    </PageHeader>
+  );
 };
 
 export default CreateHouseWrap;

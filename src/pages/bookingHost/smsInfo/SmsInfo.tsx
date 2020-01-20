@@ -20,8 +20,7 @@ const SmsInfo: React.FC<Iprops> = ({ context }) => {
         <PhotoFrame
           unStyle
           type=".png"
-          context={context}
-          langPic
+          lang={context.langHook.currentLang}
           src={IMG_REPO + `booking_app/describe/smsinfo_img_02`}
         />
         <Doc>

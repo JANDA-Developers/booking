@@ -2,10 +2,8 @@
 import React, { Fragment } from "react";
 import classNames from "classnames";
 import "./Icons.scss";
-import { string } from "prop-types";
 import { s4, colorClass } from "../../utils/utils";
 import Tooltip from "../tooltip/Tooltip";
-import { JDColor, IconSize } from "../../types/enum";
 import { iconSizeClass, JDmbClass, JDmrClass } from "../../utils/autoClasses";
 import { IIcons, IconConifgProps, JDicons } from "./declation";
 import { JDatomExtentionSet } from "../../types/interface";
@@ -16,7 +14,7 @@ export interface IConProps
   icon: IIcons;
 }
 
-const JDIcon: React.FC<IConProps & IconConifgProps> = ({
+const JDicon: React.FC<IConProps & IconConifgProps> = ({
   label,
   icon,
   hover = false,
@@ -80,4 +78,5 @@ const JDIcon: React.FC<IConProps & IconConifgProps> = ({
 
 export { JDicons };
 
-export default React.memo(JDIcon);
+const JDIcon = React.memo(JDicon);
+export default JDIcon;

@@ -1,6 +1,5 @@
 import classNames from "classnames";
 import React from "react";
-import ErrProtecter from "../../utils/errProtect";
 import "./Card.scss";
 import { IDiv, JDatomExtentionSet } from "../../types/interface";
 import { JDmbClass, JDmrClass } from "../../utils/autoClasses";
@@ -8,6 +7,7 @@ import { JDmbClass, JDmrClass } from "../../utils/autoClasses";
 interface IProps extends IDiv {
   children?: JSX.Element[] | JSX.Element | string;
   hover?: boolean;
+  toogleCardId?: string;
   fullHeight?: boolean;
   className?: string;
   selected?: boolean;
@@ -28,6 +28,7 @@ const JDcard: React.FC<IProps & JDatomExtentionSet> = ({
   fullHeight,
   fullWidth,
   selected,
+  toogleCardId,
   noMargin,
   mb,
   mr,
@@ -49,8 +50,15 @@ const JDcard: React.FC<IProps & JDatomExtentionSet> = ({
     onClickCard && onClickCard();
   };
 
+  if (toogleCardId) {
+    localStorage.setItem(toogleCardId, "F");
+  }
+
   return (
     <div onClick={handleClickCard} {...props} className={classes}>
+      {/* <span>
+        <JDIcon  icon="clear" />
+      </span> */}
       {children}
     </div>
   );
