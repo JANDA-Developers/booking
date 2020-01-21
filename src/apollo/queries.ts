@@ -151,16 +151,6 @@ export const F_PRODUCT_TYPE = gql`
   }
 `;
 
-// 상품 관련 프레임
-export const F_APP_INFO_REQUEST = gql`
-  fragment FappInfoRequest on AppInfoRequest {
-    url
-    layoutType
-    requestedDate
-    isDone
-    useHostApp
-  }
-`;
 
 // 상품 관련 프레임
 export const F_PRODUCT = gql`
@@ -179,14 +169,8 @@ export const F_PRODUCT = gql`
     roomCountExtraCharge
     bookingCount
     bookingCountExtraCharge
-    layoutType
-    layoutPrice
-    layoutPricePaid
-    appliedUrl
     expireDate
     isExpired
-    canHaveHostApp
-    existingHostApp
     description
     createdAt
     updatedAt
@@ -530,16 +514,10 @@ export const F_CONTEXT = gql`
         _id
         roomCount
       }
-      appInfo {
-        url
-      }
       product {
         ...Fproduct
         productType {
           ...FproductType
-        }
-        appInfoRequested {
-          ...FappInfoRequest
         }
       }
       location {
@@ -553,7 +531,6 @@ export const F_CONTEXT = gql`
   ${F_HOUSE}
   ${F_USER}
   ${F_PRODUCT}
-  ${F_APP_INFO_REQUEST}
   ${F_HOUSE_CONFIG}
   ${F_PRODUCT_TYPE}
   ${F_CARD_INFO}
@@ -574,14 +551,8 @@ export const GET_HOUSE_SPECIFICATION = gql`
         name
         houseType
         status
-        appInfo {
-          url
-        }
         product {
           ...Fproduct
-          appInfoRequested {
-            ...FappInfoRequest
-          }
           productType {
             _id
             name
@@ -604,7 +575,6 @@ export const GET_HOUSE_SPECIFICATION = gql`
   ${F_USER}
   ${F_CARD_INFO}
   ${F_PRODUCT}
-  ${F_APP_INFO_REQUEST}
 `;
 
 // SMS :: 히스토리 가져오기
@@ -766,9 +736,6 @@ export const GET_HOUSE = gql`
           rooms {
             ...Froom
           }
-        }
-        appInfo {
-          url
         }
         product {
           _id

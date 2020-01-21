@@ -24,7 +24,6 @@ import {
   getSmsInfo_GetSmsInfo_smsInfo_smsTemplates,
   getSmsInfo_GetSmsInfo_smsInfo,
   getSpecification_GetHouse_house_product,
-  getSpecification_GetHouse_house_product_appInfoRequested,
   getMyProfile_GetMyProfile_user_houses_houseConfig_assigTimeline_itemBlockOp,
   getAllRoomType_GetAllRoomType_roomTypes_rooms,
   getMemos_GetMemos_memos,
@@ -142,14 +141,6 @@ export const DEFAULT_SMS_INFO: getSmsInfo_GetSmsInfo_smsInfo = {
   smsTemplates: null
 };
 
-export const DEFAULT_APP_INFO_REQUEST: getSpecification_GetHouse_house_product_appInfoRequested = {
-  __typename: "AppInfoRequest",
-  isDone: false,
-  layoutType: LayoutType.Layout_A,
-  requestedDate: "",
-  url: "",
-  useHostApp: false
-};
 
 // specification에서 사용
 export const DEFAULT_PRODUCT: getSpecification_GetHouse_house_product = {
@@ -163,21 +154,14 @@ export const DEFAULT_PRODUCT: getSpecification_GetHouse_house_product = {
   billKey: null,
   expireDate: new Date(),
   isExpired: false,
-  appliedUrl: "",
-  appInfoRequested: [],
   roomCount: 0,
   roomCountExtraCharge: 0,
   bookingCount: 0,
   bookingCountExtraCharge: 0,
-  canHaveHostApp: false,
   createdAt: "",
   description: "",
   discountedPrice: 0,
-  existingHostApp: false,
-  layoutPrice: null,
   daysLeftToExpire: 0,
-  layoutPricePaid: false,
-  layoutType: LayoutType.Layout_A,
   name: "",
   price: 0,
   productType: {

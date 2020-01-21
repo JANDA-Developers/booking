@@ -6,11 +6,6 @@
 // GraphQL query operation: getSpecification
 // ====================================================
 
-export interface getSpecification_GetHouse_house_appInfo {
-  __typename: "AppInfo";
-  url: any;
-}
-
 export interface getSpecification_GetHouse_house_product_status {
   __typename: "ProductStatus";
   /**
@@ -21,15 +16,6 @@ export interface getSpecification_GetHouse_house_product_status {
    * isContinue === false 인경우 생성됨
    */
   discontinueDate: any | null;
-}
-
-export interface getSpecification_GetHouse_house_product_appInfoRequested {
-  __typename: "AppInfoRequest";
-  url: string;
-  layoutType: LayoutType;
-  requestedDate: any;
-  isDone: boolean;
-  useHostApp: boolean;
 }
 
 export interface getSpecification_GetHouse_house_product_productType {
@@ -85,22 +71,6 @@ export interface getSpecification_GetHouse_house_product {
    */
   bookingCountExtraCharge: number | null;
   /**
-   * Deprecate
-   */
-  layoutType: LayoutType | null;
-  /**
-   * Deprecate
-   */
-  layoutPrice: number | null;
-  /**
-   * Deprecate
-   */
-  layoutPricePaid: boolean | null;
-  /**
-   * Deprecate
-   */
-  appliedUrl: string | null;
-  /**
    * 상품 만료 예정일
    */
   expireDate: any;
@@ -109,23 +79,11 @@ export interface getSpecification_GetHouse_house_product {
    */
   isExpired: boolean;
   /**
-   * Deprecated
-   */
-  canHaveHostApp: boolean;
-  /**
-   * Deprecated
-   */
-  existingHostApp: boolean;
-  /**
    * 상세 설명
    */
   description: string | null;
   createdAt: any;
   updatedAt: any | null;
-  /**
-   * Deprecated
-   */
-  appInfoRequested: getSpecification_GetHouse_house_product_appInfoRequested[] | null;
   /**
    * 상품 만료까지 남은 일수
    */
@@ -189,7 +147,6 @@ export interface getSpecification_GetHouse_house {
   name: string;
   houseType: HouseType;
   status: HouseStatus | null;
-  appInfo: getSpecification_GetHouse_house_appInfo | null;
   product: getSpecification_GetHouse_house_product | null;
   createdAt: any;
   updatedAt: any | null;
@@ -503,11 +460,6 @@ export interface getMyProfile_GetMyProfile_user_houses_roomTypes {
   roomCount: number;
 }
 
-export interface getMyProfile_GetMyProfile_user_houses_appInfo {
-  __typename: "AppInfo";
-  url: any;
-}
-
 export interface getMyProfile_GetMyProfile_user_houses_product_status {
   __typename: "ProductStatus";
   /**
@@ -560,15 +512,6 @@ export interface getMyProfile_GetMyProfile_user_houses_product_productType {
   updatedAt: any | null;
 }
 
-export interface getMyProfile_GetMyProfile_user_houses_product_appInfoRequested {
-  __typename: "AppInfoRequest";
-  url: string;
-  layoutType: LayoutType;
-  requestedDate: any;
-  isDone: boolean;
-  useHostApp: boolean;
-}
-
 export interface getMyProfile_GetMyProfile_user_houses_product {
   __typename: "Product";
   _id: string;
@@ -613,22 +556,6 @@ export interface getMyProfile_GetMyProfile_user_houses_product {
    */
   bookingCountExtraCharge: number | null;
   /**
-   * Deprecate
-   */
-  layoutType: LayoutType | null;
-  /**
-   * Deprecate
-   */
-  layoutPrice: number | null;
-  /**
-   * Deprecate
-   */
-  layoutPricePaid: boolean | null;
-  /**
-   * Deprecate
-   */
-  appliedUrl: string | null;
-  /**
    * 상품 만료 예정일
    */
   expireDate: any;
@@ -636,14 +563,6 @@ export interface getMyProfile_GetMyProfile_user_houses_product {
    * 상품이 만료된 여부
    */
   isExpired: boolean;
-  /**
-   * Deprecated
-   */
-  canHaveHostApp: boolean;
-  /**
-   * Deprecated
-   */
-  existingHostApp: boolean;
   /**
    * 상세 설명
    */
@@ -654,10 +573,6 @@ export interface getMyProfile_GetMyProfile_user_houses_product {
    * 상품 만료까지 남은 일수
    */
   productType: getMyProfile_GetMyProfile_user_houses_product_productType;
-  /**
-   * Deprecated
-   */
-  appInfoRequested: getMyProfile_GetMyProfile_user_houses_product_appInfoRequested[] | null;
 }
 
 export interface getMyProfile_GetMyProfile_user_houses_location {
@@ -681,7 +596,6 @@ export interface getMyProfile_GetMyProfile_user_houses {
   houseConfig: getMyProfile_GetMyProfile_user_houses_houseConfig;
   smsInfo: getMyProfile_GetMyProfile_user_houses_smsInfo;
   roomTypes: getMyProfile_GetMyProfile_user_houses_roomTypes[] | null;
-  appInfo: getMyProfile_GetMyProfile_user_houses_appInfo | null;
   product: getMyProfile_GetMyProfile_user_houses_product | null;
   location: getMyProfile_GetMyProfile_user_houses_location;
 }
@@ -914,11 +828,6 @@ export interface getHouse_GetHouse_house_roomTypes {
   rooms: getHouse_GetHouse_house_roomTypes_rooms[];
 }
 
-export interface getHouse_GetHouse_house_appInfo {
-  __typename: "AppInfo";
-  url: any;
-}
-
 export interface getHouse_GetHouse_house_product_productType {
   __typename: "ProductType";
   _id: string;
@@ -955,7 +864,6 @@ export interface getHouse_GetHouse_house {
   houseType: HouseType;
   smsInfo: getHouse_GetHouse_house_smsInfo;
   roomTypes: getHouse_GetHouse_house_roomTypes[] | null;
-  appInfo: getHouse_GetHouse_house_appInfo | null;
   product: getHouse_GetHouse_house_product | null;
   location: getHouse_GetHouse_house_location;
   HM: getHouse_GetHouse_house_HM | null;
@@ -2093,11 +2001,6 @@ export interface getUserForSU_GetUserForSU_user_houses_roomTypes {
   roomCount: number;
 }
 
-export interface getUserForSU_GetUserForSU_user_houses_appInfo {
-  __typename: "AppInfo";
-  url: any;
-}
-
 export interface getUserForSU_GetUserForSU_user_houses_product_status {
   __typename: "ProductStatus";
   /**
@@ -2150,15 +2053,6 @@ export interface getUserForSU_GetUserForSU_user_houses_product_productType {
   updatedAt: any | null;
 }
 
-export interface getUserForSU_GetUserForSU_user_houses_product_appInfoRequested {
-  __typename: "AppInfoRequest";
-  url: string;
-  layoutType: LayoutType;
-  requestedDate: any;
-  isDone: boolean;
-  useHostApp: boolean;
-}
-
 export interface getUserForSU_GetUserForSU_user_houses_product {
   __typename: "Product";
   _id: string;
@@ -2203,22 +2097,6 @@ export interface getUserForSU_GetUserForSU_user_houses_product {
    */
   bookingCountExtraCharge: number | null;
   /**
-   * Deprecate
-   */
-  layoutType: LayoutType | null;
-  /**
-   * Deprecate
-   */
-  layoutPrice: number | null;
-  /**
-   * Deprecate
-   */
-  layoutPricePaid: boolean | null;
-  /**
-   * Deprecate
-   */
-  appliedUrl: string | null;
-  /**
    * 상품 만료 예정일
    */
   expireDate: any;
@@ -2226,14 +2104,6 @@ export interface getUserForSU_GetUserForSU_user_houses_product {
    * 상품이 만료된 여부
    */
   isExpired: boolean;
-  /**
-   * Deprecated
-   */
-  canHaveHostApp: boolean;
-  /**
-   * Deprecated
-   */
-  existingHostApp: boolean;
   /**
    * 상세 설명
    */
@@ -2244,10 +2114,6 @@ export interface getUserForSU_GetUserForSU_user_houses_product {
    * 상품 만료까지 남은 일수
    */
   productType: getUserForSU_GetUserForSU_user_houses_product_productType;
-  /**
-   * Deprecated
-   */
-  appInfoRequested: getUserForSU_GetUserForSU_user_houses_product_appInfoRequested[] | null;
 }
 
 export interface getUserForSU_GetUserForSU_user_houses_location {
@@ -2271,7 +2137,6 @@ export interface getUserForSU_GetUserForSU_user_houses {
   houseConfig: getUserForSU_GetUserForSU_user_houses_houseConfig;
   smsInfo: getUserForSU_GetUserForSU_user_houses_smsInfo;
   roomTypes: getUserForSU_GetUserForSU_user_houses_roomTypes[] | null;
-  appInfo: getUserForSU_GetUserForSU_user_houses_appInfo | null;
   product: getUserForSU_GetUserForSU_user_houses_product | null;
   location: getUserForSU_GetUserForSU_user_houses_location;
 }
@@ -5742,23 +5607,6 @@ export interface FproductType {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL fragment: FappInfoRequest
-// ====================================================
-
-export interface FappInfoRequest {
-  __typename: "AppInfoRequest";
-  url: string;
-  layoutType: LayoutType;
-  requestedDate: any;
-  isDone: boolean;
-  useHostApp: boolean;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// This file was automatically generated and should not be edited.
-
-// ====================================================
 // GraphQL fragment: Fproduct
 // ====================================================
 
@@ -5818,22 +5666,6 @@ export interface Fproduct {
    */
   bookingCountExtraCharge: number | null;
   /**
-   * Deprecate
-   */
-  layoutType: LayoutType | null;
-  /**
-   * Deprecate
-   */
-  layoutPrice: number | null;
-  /**
-   * Deprecate
-   */
-  layoutPricePaid: boolean | null;
-  /**
-   * Deprecate
-   */
-  appliedUrl: string | null;
-  /**
    * 상품 만료 예정일
    */
   expireDate: any;
@@ -5841,14 +5673,6 @@ export interface Fproduct {
    * 상품이 만료된 여부
    */
   isExpired: boolean;
-  /**
-   * Deprecated
-   */
-  canHaveHostApp: boolean;
-  /**
-   * Deprecated
-   */
-  existingHostApp: boolean;
   /**
    * 상세 설명
    */
@@ -6530,11 +6354,6 @@ export interface Fcontext_houses_roomTypes {
   roomCount: number;
 }
 
-export interface Fcontext_houses_appInfo {
-  __typename: "AppInfo";
-  url: any;
-}
-
 export interface Fcontext_houses_product_status {
   __typename: "ProductStatus";
   /**
@@ -6587,15 +6406,6 @@ export interface Fcontext_houses_product_productType {
   updatedAt: any | null;
 }
 
-export interface Fcontext_houses_product_appInfoRequested {
-  __typename: "AppInfoRequest";
-  url: string;
-  layoutType: LayoutType;
-  requestedDate: any;
-  isDone: boolean;
-  useHostApp: boolean;
-}
-
 export interface Fcontext_houses_product {
   __typename: "Product";
   _id: string;
@@ -6640,22 +6450,6 @@ export interface Fcontext_houses_product {
    */
   bookingCountExtraCharge: number | null;
   /**
-   * Deprecate
-   */
-  layoutType: LayoutType | null;
-  /**
-   * Deprecate
-   */
-  layoutPrice: number | null;
-  /**
-   * Deprecate
-   */
-  layoutPricePaid: boolean | null;
-  /**
-   * Deprecate
-   */
-  appliedUrl: string | null;
-  /**
    * 상품 만료 예정일
    */
   expireDate: any;
@@ -6663,14 +6457,6 @@ export interface Fcontext_houses_product {
    * 상품이 만료된 여부
    */
   isExpired: boolean;
-  /**
-   * Deprecated
-   */
-  canHaveHostApp: boolean;
-  /**
-   * Deprecated
-   */
-  existingHostApp: boolean;
   /**
    * 상세 설명
    */
@@ -6681,10 +6467,6 @@ export interface Fcontext_houses_product {
    * 상품 만료까지 남은 일수
    */
   productType: Fcontext_houses_product_productType;
-  /**
-   * Deprecated
-   */
-  appInfoRequested: Fcontext_houses_product_appInfoRequested[] | null;
 }
 
 export interface Fcontext_houses_location {
@@ -6708,7 +6490,6 @@ export interface Fcontext_houses {
   houseConfig: Fcontext_houses_houseConfig;
   smsInfo: Fcontext_houses_smsInfo;
   roomTypes: Fcontext_houses_roomTypes[] | null;
-  appInfo: Fcontext_houses_appInfo | null;
   product: Fcontext_houses_product | null;
   location: Fcontext_houses_location;
 }
@@ -6967,11 +6748,6 @@ export enum Language {
   ENGLISH = "ENGLISH",
   JAPANESE = "JAPANESE",
   KOREAN = "KOREAN",
-}
-
-export enum LayoutType {
-  Layout_A = "Layout_A",
-  Layout_B = "Layout_B",
 }
 
 export enum MemoType {
@@ -7555,11 +7331,6 @@ export interface UpdateProductForSUInput {
 export interface UpdateProductInput {
   canHaveHostApp?: boolean | null;
   price?: number | null;
-  layoutPrice?: number | null;
-  layoutPricePaid?: boolean | null;
-  appliedUrl?: string | null;
-  layoutType?: LayoutType | null;
-  existingHostApp?: boolean | null;
   description?: string | null;
   expireDate?: any | null;
 }
