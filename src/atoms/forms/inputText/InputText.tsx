@@ -232,7 +232,7 @@ const InputText: React.FC<IProps> = ({
           ref={refContainer || inRefContainer}
           data-color="1213"
           className={classes}
-          maxLength={card ? 19 : undefined}
+          maxLength={max}
           {...props}
           id={id}
         />

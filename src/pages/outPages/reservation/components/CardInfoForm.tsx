@@ -73,7 +73,7 @@ const CardInfoForm: React.FC<IProps> = ({
         <div className={commonClass}>
           <InputText
             label={LANG(
-              forHost ? "idnumber_6front" : "idnumber_or_business_number"
+              forHost ? "idnumber_or_business_number" : "idnumber_6front"
             )}
             placeholder={LANG("idnumber_6front")}
             id="CardModal__IdNum"

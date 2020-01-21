@@ -24,7 +24,6 @@ const userTacking = (label: string = "", value: string = "") => {
       histories = [trakHistory];
     } else {
       try {
-        console.log(hexDecode(UTH));
         const prevHostory = JSON.parse(hexDecode(UTH) || "[]") as UTH[];
         histories = [...prevHostory, trakHistory];
       } catch (e) {

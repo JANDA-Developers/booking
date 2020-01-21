@@ -44,8 +44,6 @@ const PeriodicalSignCard: React.FC<Iprops & WindowSizeProps> = ({
     _id: productId,
     status: { isContinue }
   } = applyedProduct!;
-  console.log("isContinue");
-  console.log(isContinue);
 
   const { name } = productType;
   let { paymentInfos } = user;

@@ -21,23 +21,30 @@ const CanvasMenuTooltip: React.FC<IProps> = ({
     changeMarkToGhost,
     addBlock,
     getInfoesFromMarks,
+    deleteGhost,
     startBookingModalWithMark,
     allTooltipsHide
   }
 }) => {
   const { groupIds, end, start } = getInfoesFromMarks();
 
+  const onStartBookingStart = () => {
+    changeMarkToGhost();
+  };
+
   const bookingCallBack = async (
     result: "error" | startBooking_StartBooking
   ) => {
     if (result === "error") return;
-    await changeMarkToGhost();
 
     hilightGuestBlock({ bookingId: result.booking?._id });
   };
 
   const createBtnHandler = () => {
-    startBookingModalWithMark(bookingCallBack);
+    startBookingModalWithMark({
+      startBookingCallBack: bookingCallBack,
+      onStartBookingStart
+    });
   };
 
   return (

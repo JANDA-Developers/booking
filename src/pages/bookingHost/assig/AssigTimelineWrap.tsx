@@ -123,9 +123,6 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
       pollInterval: houseConfig.pollingPeriod?.period || 100000
     }
   );
-  // 주기 풀링 왜에는 잘 호출되지 않는것 같다.
-  console.count("callingWrapCount");
-
   const roomTypesData =
     queryDataFormater(data, "GetAllRoomType", "roomTypes", []) || []; // 원본데이터
 
@@ -284,6 +281,8 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
     mutationLoadings,
     networkStatus
   };
+
+  console.count("ero");
 
   return (
     <AssigTimeline

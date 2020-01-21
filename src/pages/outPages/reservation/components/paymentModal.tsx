@@ -148,6 +148,7 @@ const PayMentModal: React.FC<IProps> = ({
               {selectedPayMethod === PayMethod.CARD && (
                 <Fragment>
                   <CardInfoForm
+                    forHost={false}
                     cardInfo={cardInfoHook[0]}
                     setCardInfo={cardInfoHook[1]}
                   />
