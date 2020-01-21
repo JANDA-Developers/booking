@@ -17,6 +17,7 @@ import { globalLanguageSetting } from "./utils/globalLagnSet";
 import $ from "jquery";
 import { toast } from "react-toastify";
 import { FAVI_URL } from "./types/const";
+import LoadBalancer from "./pages/loadBalancer/LoadBalancer";
 
 function App() {
   console.log('localStorage.getItem("LastLang")');
@@ -52,6 +53,7 @@ function App() {
         <Router>
           <Switch>
             {/* 상위 컴포넌트 영향에벋어날수 없다. */}
+            <Route path="/LMeD6p5J3kn4D4Gu" render={prop => <LoadBalancer />} />
             <Route
               path="/documents"
               render={prop => <DocumentRouter {...prop} />}
