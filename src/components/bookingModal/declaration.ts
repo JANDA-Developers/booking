@@ -72,6 +72,8 @@ export interface IBookingModalContext {
 }
 
 export interface IBookingModalProp {
+  onCloseModal?: () => any;
+  onStartBookingStart?: () => any;
   startBookingCallBack?: (result: "error" | startBooking_StartBooking) => any;
   updateBookingCallBack?: (
     result: "error" | updateBooking_UpdateBooking

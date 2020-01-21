@@ -23,8 +23,6 @@ export const takeShot = async (name: string) => {
 
   const mode = currentWinSize();
 
-  console.log(`src/pages/documents/pics/testScreenShot/${mode}/${fileName}`);
-  console.log(`src/pages/documents/pics/testScreenShot/${mode}/${fileName}`);
   await page.screenshot({
     path: `src/pages/documents/pics/testScreenShot/${mode}/${fileName}`,
     type: "jpeg",
