@@ -161,13 +161,11 @@ const BookingModal: React.FC<IProps> = ({
   const funnelStatusHook = useSelect<Funnels | null>(
     funnels ? { value: funnels, label: LANG("Funnels", funnels) } : null
   );
+
   const bookingStatusHook = useSelect(
     isCreateMode
       ? BOOKING_STATUS_OP[0]
-      : {
-          value: bookingStatus,
-          label: LANG(bookingStatus)
-        }
+      : optionFineder(BOOKING_STATUS_OP, bookingStatus)
   );
   const resvDateHook = useDayPicker(
     moment(checkIn).toDate(),
