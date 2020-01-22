@@ -1,25 +1,24 @@
-@import '../../../../style_config/style_config.scss';
+@import "../../../../style_config/style_config.scss";
 
 .configBlock {
-    position: relative;
+  position: relative;
 
-    .JDlarge-text {
-        margin-bottom: $standard-margin-bottom /2
-    }
+  .JDhuge-text {
+    margin-bottom: $standard-margin-bottom / 2;
+  }
 
-    &__updateAt {
-        position: absolute;
-        font-size: $typho-tiny;
-        right: 0px;
-        top: -8px;
-    }
+  &__updateAt {
+    position: absolute;
+    font-size: $typho-tiny;
+    right: 0px;
+    top: -8px;
+  }
 
-    &__descrition {
-        font-size: $typho-small;
-    }
+  &__descrition {
+    font-size: $typho-small;
+  }
 }
 
-
 .additionDetail__HilightPhoto {
-    max-width: 0.4rem * 8 * 9;
+  max-width: 0.4rem * 8 * 9;
 }

@@ -3,7 +3,7 @@ import JDmultiStep from "../../../atoms/multiStep/MultiStep";
 import { IContext } from "../../bookingHost/BookingHostRouter";
 import { stepFinder, s4, cardValidate } from "../../../utils/utils";
 import JDmodal from "../../../atoms/modal/Modal";
-import { IMG_REPO } from "../../../types/const";
+import { IMG_REPO, DO_TUTO_KEY } from "../../../types/const";
 import { useModal, LANG } from "../../../hooks/hook";
 import "./StarterModal.scss";
 import {
@@ -267,6 +267,7 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
               thema="primary"
               onClick={() => {
                 if (!InitHouseData) return;
+                localStorage.setItem(DO_TUTO_KEY, "Y");
                 localStorage.setItem("popUpAdditionalConfigModal", "Y");
 
                 const expObj = cardExpToObj(cardInfo.exp);

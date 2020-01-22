@@ -178,8 +178,16 @@ a.JDanchor {
   text-align: right;
 }
 // size
-.JDlarge-text {
+.JDhuge-text {
   font-size: $typho-huge;
+}
+// size
+.JDlarge-text {
+  font-size: $typho-large;
+}
+
+.JDnormal-text {
+  font-size: $typho-normal;
 }
 
 .JDsmall-text {

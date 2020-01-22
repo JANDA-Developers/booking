@@ -4,6 +4,7 @@ import { LANG } from "../../../../hooks/hook";
 import classNames from "classnames";
 import JDToolTip from "../../../../atoms/tooltip/Tooltip";
 import JDlist from "../../../../atoms/list/List";
+import JDLabel from "../../../../atoms/label/JDLabel";
 
 type tutoStep = {
   title: string;
@@ -27,13 +28,16 @@ const TutoBlock: React.FC<IProps> = ({ title, steps, className }) => {
 
   return (
     <div className={classes}>
-      <span>{LANG(isDone ? "complete" : "un_complete")}</span>
-      <h3>
-        {title}
+      <JDLabel
+        className="TutoBlock__label"
+        txt={LANG(isDone ? "complete" : "un_complete")}
+      />
+      <div className="JDlarge-text">
+        <span className="JDstandard-tiny-space">{title}</span>
         <span>
           {doneCount}/{max}
         </span>
-      </h3>
+      </div>
       <JDToolTip type="dark" effect="solid" id={`btnTooltip${id}`}>
         <JDlist
           contents={steps.map(s => (

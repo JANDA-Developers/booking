@@ -22,6 +22,8 @@ import { registerBillKey_RegisterBillKey_billInfo } from "./api";
 import { LANG } from "../hooks/hook";
 import { IselectedOption } from "../atoms/forms/selectBox/SelectBox";
 
+export const DO_TUTO_KEY = "DO_TUTO";
+
 export const LANGUAGE_LIST: Language[] = [
   Language.CHINESE,
   Language.ENGLISH,

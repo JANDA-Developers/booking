@@ -1,13 +1,13 @@
 import React from "react";
 import JDbox from "../../../../atoms/box/JDbox";
-import {LANG} from "../../../../hooks/hook";
+import { LANG } from "../../../../hooks/hook";
 interface Iprops {}
 
 const AgreePolicy: React.FC<Iprops> = () => {
   return (
     <div className="agreePrivacyPolicy" id="agreePrivacyPolicy">
       <JDbox className="paymentModal__JDbox" mode="table">
-        <div className="JDlarge-text JDstandard-margin-bottom">
+        <div className="JDhuge-text JDstandard-margin-bottom">
           {LANG("we_collect_your_personal_information_to_provide_the_service")}
         </div>
         <table>

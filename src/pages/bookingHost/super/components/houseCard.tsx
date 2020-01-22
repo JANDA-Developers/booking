@@ -58,7 +58,7 @@ const HouseCard: React.SFC<IProps> = ({
       />
       <div className="houseCard__contentsWrap">
         <div>
-          <span className="JDlarge-text houseCard__houseName">
+          <span className="JDhuge-text houseCard__houseName">
             {houseData.name}
           </span>
           <JDIcon

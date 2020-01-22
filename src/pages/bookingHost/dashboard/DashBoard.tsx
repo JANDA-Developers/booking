@@ -20,6 +20,8 @@ import moment from "moment";
 import PageHeader from "../../../components/pageHeader/PageHeader";
 import PageBody from "../../../components/pageBody/PageBody";
 import JDcard from "../../../atoms/cards/Card";
+import TutoHelper from "./components/TutoHelper";
+import { DO_TUTO_KEY } from "../../../types/const";
 
 interface Iprops {
   context: IContext;
@@ -58,10 +60,21 @@ const DashBoard: React.SFC<Iprops> = ({ context }) => {
     );
   }, [dailyAssigDateHook.from]);
 
+  const onToogleCardClick = () => {
+    localStorage.removeItem(DO_TUTO_KEY);
+  };
+
   return (
     <div id="dashboard" className="dashboard">
       <PageHeader title={LANG("JANDA_home")} desc={LANG("JANDA_home_desc")} />
       <PageBody>
+        {localStorage.getItem(DO_TUTO_KEY) && (
+          <div>
+            <JDcard onToogleCardClick={onToogleCardClick} toogleCard>
+              <TutoHelper context={context} />
+            </JDcard>
+          </div>
+        )}
         <div className="dashboard__section1">
           <div className="flex-grid">
             <div
@@ -88,7 +101,6 @@ const DashBoard: React.SFC<Iprops> = ({ context }) => {
                   label={LANG("send_sms")}
                 />
               </div>
-              {/* <JDcard toogleCardId="TutorialCard"></JDcard> */}
               <Card>
                 <Fragment>
                   <div className="JDdisplay-none--wmdUp">

@@ -231,6 +231,7 @@ export interface IProductTypeDec {
 export interface JDatomExtentionSet {
   mb?: TMarginSize;
   mr?: TMarginSize;
+  show?: boolean;
 }
 /*  -------------------------------------------------------------------------- */
 
