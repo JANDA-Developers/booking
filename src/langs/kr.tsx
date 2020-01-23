@@ -1151,6 +1151,7 @@ export const kr = {
   homepage_request_desc:
     "홈페이지 무료 개설이 가능합니다. 직접 커스터마이징 가능한 홈페이지를 제공합니다.",
   breakfast: "조식",
+  paidByNice: "잔다페이",
   PayMethod: {
     BILL: "잔다페이",
     VBANK: "가상계좌",

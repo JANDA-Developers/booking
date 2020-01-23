@@ -300,7 +300,8 @@ const ResvList: React.SFC<IProps> = ({
           status,
           payment,
           checkInInfo,
-          breakfast
+          breakfast,
+          paidByNice
         } = original;
         const isJDpay = payment.payMethod === PayMethod.BILL;
         const isCancled = status === BookingStatus.CANCELED;
@@ -320,8 +321,8 @@ const ResvList: React.SFC<IProps> = ({
             {breakfast && (
               <JDbadge thema={"positive"}>{LANG("breakfast")}</JDbadge>
             )}
-            {isJDpay && (
-              <JDbadge thema={"primary"}>{LANG("PayMethod", "BILL")}</JDbadge>
+            {paidByNice && (
+              <JDbadge thema={"primary"}>{LANG("paidByNice")}</JDbadge>
             )}
             {isCheckIn && <JDbadge thema={"new"}>{LANG("new")}</JDbadge>}
             {isCancled && <JDbadge thema={"error"}>{LANG("cancel")}</JDbadge>}

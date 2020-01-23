@@ -1339,6 +1339,7 @@ export interface findBooking_FindBooking_bookings {
   __typename: "Booking";
   _id: string;
   roomTypes: findBooking_FindBooking_bookings_roomTypes[] | null;
+  paidByNice: boolean | null;
   isNew: boolean;
   name: any;
   bookingNum: string;
@@ -1480,6 +1481,7 @@ export interface findBookingForBooker_FindBookingForBooker_bookings {
   __typename: "Booking";
   _id: string;
   roomTypes: findBookingForBooker_FindBookingForBooker_bookings_roomTypes[] | null;
+  paidByNice: boolean | null;
   isNew: boolean;
   name: any;
   bookingNum: string;
@@ -1729,6 +1731,7 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking 
   __typename: "Booking";
   _id: string;
   roomTypes: getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_roomTypes[] | null;
+  paidByNice: boolean | null;
   isNew: boolean;
   name: any;
   bookingNum: string;
@@ -1862,6 +1865,7 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking {
   __typename: "Booking";
   _id: string;
   roomTypes: getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_roomTypes[] | null;
+  paidByNice: boolean | null;
   isNew: boolean;
   name: any;
   bookingNum: string;
@@ -2609,6 +2613,7 @@ export interface getBookingForPublic_GetBookingForPublic_booking {
   __typename: "Booking";
   _id: string;
   roomTypes: getBookingForPublic_GetBookingForPublic_booking_roomTypes[] | null;
+  paidByNice: boolean | null;
   isNew: boolean;
   name: any;
   bookingNum: string;
@@ -2875,6 +2880,7 @@ export interface getBookings_GetBookings_result_bookings {
   __typename: "Booking";
   _id: string;
   roomTypes: getBookings_GetBookings_result_bookings_roomTypes[] | null;
+  paidByNice: boolean | null;
   isNew: boolean;
   name: any;
   bookingNum: string;
@@ -3075,6 +3081,7 @@ export interface getBooking_GetBooking_booking {
   __typename: "Booking";
   _id: string;
   roomTypes: getBooking_GetBooking_booking_roomTypes[] | null;
+  paidByNice: boolean | null;
   isNew: boolean;
   name: any;
   bookingNum: string;
@@ -6448,6 +6455,7 @@ export interface Fbooking {
   __typename: "Booking";
   _id: string;
   roomTypes: Fbooking_roomTypes[] | null;
+  paidByNice: boolean | null;
   isNew: boolean;
   name: any;
   bookingNum: string;

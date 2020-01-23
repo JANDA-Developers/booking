@@ -476,6 +476,7 @@ export const F_BOOKING = gql`
     roomTypes {
       ...FroomType
     }
+    paidByNice
     isNew
     name
     bookingNum
