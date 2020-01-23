@@ -31,6 +31,7 @@ const PasswordCheckModal: React.FC<Iprops> = ({
       <h6>{LANG("change_profile")}</h6>
       <div>
         <InputText
+          id="ChangeUserProfilePWInput"
           {...passwordHook}
           type="password"
           validation={isPassword}
@@ -39,6 +40,7 @@ const PasswordCheckModal: React.FC<Iprops> = ({
       </div>
       <ModalEndSection>
         <Button
+          id="ChangeProfileModalChangeBtn"
           mode="flat"
           thema="primary"
           label={LANG("confirm")}

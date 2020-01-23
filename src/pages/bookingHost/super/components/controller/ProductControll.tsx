@@ -35,6 +35,12 @@ const ProductContoll: React.FC<Iprops> = ({ context, data, updateFn }) => {
 
   const renders = [
     {
+      label: "ExpireDate",
+      Component: () => (
+        <JDdayPicker isRange={false} mode="input" {...expireDateHook} />
+      )
+    },
+    {
       label: "Alias",
       Component: () => <InputText textarea {...descriptionHook} />
     },
@@ -51,12 +57,6 @@ const ProductContoll: React.FC<Iprops> = ({ context, data, updateFn }) => {
     {
       label: "Price",
       Component: () => <InputText {...priceHook} />
-    },
-    {
-      label: "ExpireDate",
-      Component: () => (
-        <JDdayPicker isRange={false} mode="input" {...expireDateHook} />
-      )
     }
   ];
 

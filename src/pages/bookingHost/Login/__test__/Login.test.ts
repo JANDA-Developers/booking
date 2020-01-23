@@ -1,4 +1,3 @@
-import puppeteer from "puppeteer";
 import {
   TType,
   takeShot,

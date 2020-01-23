@@ -1,36 +1,35 @@
-@import '~Styles';
+@import "~Styles";
 
-.myPage{
-    text-align: center;
+.myPage {
+  text-align: center;
 
-    &__profileCircleWrap {
-        display:flex;
-        align-items: center;
-        padding-right: $standard-space;
-        padding-left: $standard-space;
-        @include response ($phablet) {
-            padding-left: 0;
-        }   
+  &__profileCircleWrap {
+    display: flex;
+    max-width: 200px;
+    align-items: center;
+    padding-right: $standard-space;
+    padding-left: $standard-space;
+    @include response($phablet) {
+      padding-left: 0;
     }
-    
-    &__myHouses {
-        min-width: 460px;
-        @include response ($phablet) {
-            min-width: 290px;
-        }
-    }
-    
-    @include response ($full,$phabletUp) {
-        .myPage__myHouses > .col:nth-child(3n + 1){
-            margin-left: 0;
-        }
-    }
+  }
 
-    @include response ($phablet) {
-        .myPage__myHouses > .col:nth-child(2n + 1){
-            margin-left: 0;
-        }
+  &__myHouses {
+    min-width: 460px;
+    @include response($phablet) {
+      min-width: 290px;
     }
+  }
 
-    
+  @include response($full, $phabletUp) {
+    .myPage__myHouses > .col:nth-child(3n + 1) {
+      margin-left: 0;
+    }
+  }
+
+  @include response($phablet) {
+    .myPage__myHouses > .col:nth-child(2n + 1) {
+      margin-left: 0;
+    }
+  }
 }

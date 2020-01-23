@@ -83,22 +83,35 @@ export const VtableCell: React.FC<IVtableCellProp> = ({ label, children }) => (
   </div>
 );
 
+type TData = {
+  label: string;
+  Component: () => JSX.Element;
+};
+
 interface IColumnCellsProps {
-  datas: {
-    label: string;
-    Component: () => JSX.Element;
-  }[];
+  datas: TData[] | TData[][];
 }
 
-export const ColumnCells: React.FC<IColumnCellsProps> = ({ datas }) => (
+export const ColumnCells: React.FC<IColumnCellsProps> = ({ datas }: any) => (
   <Fragment>
-    {datas.map(d => {
-      const { label, Component } = d;
-      return (
-        <VtableColumn key={label}>
-          <VtableCell label={label}>{Component()}</VtableCell>
-        </VtableColumn>
-      );
+    {datas.map((d: any) => {
+      if (!Array.isArray(d)) {
+        const { label, Component } = d;
+        return (
+          <VtableColumn key={label}>
+            <VtableCell label={label}>{Component()}</VtableCell>
+          </VtableColumn>
+        );
+      } else {
+        return (
+          <VtableColumn key={d[0].label + d[1].label}>
+            {d.map((inD: any) => {
+              const { label, Component } = inD;
+              return <VtableCell label={label}>{Component()}</VtableCell>;
+            })}
+          </VtableColumn>
+        );
+      }
     })}
   </Fragment>
 );

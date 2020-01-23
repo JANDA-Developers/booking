@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { Fragment } from "react";
 import { ReactTableDefault, JDcolumn } from "../../../atoms/table/Table";
 import Button from "../../../atoms/button/Button";
 import JDIcon from "../../../atoms/icons/Icons";
@@ -23,7 +23,8 @@ import {
   PaymentStatus,
   PricingType,
   BookingStatus,
-  DateFormat
+  DateFormat,
+  PayMethod
 } from "../../../types/enum";
 import { FLOATING_PRELOADER_SIZE } from "../../../types/const";
 import moment from "moment";
@@ -40,7 +41,6 @@ import textReader from "../../../utils/textReader";
 import { NetworkStatus } from "apollo-client";
 import { IContext } from "../../bookingHost/BookingHostRouter";
 import { getRoomSelectInfo } from "../../../utils/typeChanger";
-import { inOr } from "../../../utils/C";
 import { toast } from "react-toastify";
 import PageHeader from "../../../components/pageHeader/PageHeader";
 import PageBody from "../../../components/pageBody/PageBody";
@@ -302,8 +302,8 @@ const ResvList: React.SFC<IProps> = ({
           checkInInfo,
           breakfast
         } = original;
+        const isJDpay = payment.payMethod === PayMethod.BILL;
         const isCancled = status === BookingStatus.CANCELED;
-        const isComplete = status === BookingStatus.COMPLETED;
         const { status: paymentStatus } = payment;
         const isPaied = paymentStatus === PaymentStatus.COMPLETED;
         const isCheckIn = checkInInfo.isIn;
@@ -319,6 +319,9 @@ const ResvList: React.SFC<IProps> = ({
             )}
             {breakfast && (
               <JDbadge thema={"positive"}>{LANG("breakfast")}</JDbadge>
+            )}
+            {isJDpay && (
+              <JDbadge thema={"primary"}>{LANG("PayMethod", "BILL")}</JDbadge>
             )}
             {isCheckIn && <JDbadge thema={"new"}>{LANG("new")}</JDbadge>}
             {isCancled && <JDbadge thema={"error"}>{LANG("cancel")}</JDbadge>}

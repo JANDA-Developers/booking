@@ -4,15 +4,17 @@ import {
   urlBase,
   takeShot,
   TType,
-  toastCheck
+  toastCheck,
+  TWaitS
 } from "../../../../../../__test__/utils.test";
+import { TestCardNumberSecret, TestCardExpSecret, TestCardPW2Secret, TestCardHolder, TestIdNum } from "../../../../../../../envs/secret";
 
 // Fill Card Info
 export const fillCardInfo = async () => {
-  await TType("#CardModal__CardNumber", "4619541019492956");
-  await TType("#CardModal__ExpireDate", "0824");
-  await TType("#CardModal__CardPW", "41");
-  await TType("#CardModal__IdNum", "950901");
+  await TType("#CardModal__CardNumber", TestCardNumberSecret);
+  await TType("#CardModal__ExpireDate", TestCardExpSecret);
+  await TType("#CardModal__CardPW", TestCardPW2Secret);
+  await TType("#CardModal__IdNum", TestIdNum);
 }
 
 // TODO
@@ -30,14 +32,14 @@ export const cardModalTest = () => {
     }, 20 * S);
 
     test("Open Card Modal", async () => {
-      await page.waitForSelector("#myPage");
+      await TWaitS("#myPage");
       expect(page.url() === `${urlBase}/#/myPage`).toEqual(true);
       await page.waitForSelector(".payTabIn", { timeout: 5 * S });
       await page.click(".payTabIn");
       await page.waitFor(1 * S);
-      await page.waitForSelector("#CreaditCardChangeBtn");
+      await TWaitS("#CreaditCardChangeBtn");
       await page.click("#CreaditCardChangeBtn");
-      await page.waitForSelector("#CardViewr");
+      await TWaitS("#CardViewr");
       await takeShot("cardModal");
     });
 

@@ -1,6 +1,8 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { IContext } from "../../../BookingHostRouter";
 import Card from "../../../../../atoms/cards/Card";
+// @ts-ignore
+import omitDeep from "omit-deep";
 import {
   useInput,
   useModal,
@@ -36,10 +38,7 @@ import { Link } from "react-router-dom";
 import CardHeader from "../../../../../atoms/cards/components/CardHeader";
 import CardSection from "../../../../../atoms/cards/components/CardSection";
 import JDbox from "../../../../../atoms/box/JDbox";
-import Vtable, {
-  VtableColumn,
-  VtableCell
-} from "../../../../../atoms/vtable/Vtable";
+import Vtable, { ColumnCells } from "../../../../../atoms/vtable/Vtable";
 import { WindowSize } from "../../../../../types/enum";
 import ModalEndSection from "../../../../../atoms/modal/components/ModalEndSection";
 
@@ -51,7 +50,7 @@ interface Iprops {
 const UserProfile: React.FC<Iprops> = ({ context, userInfo }) => {
   const { houses } = context;
   const userData = userInfo;
-  const { phoneNumber, email, name, profileImg } = userData;
+  const { phoneNumber, email, name, profileImg, bankAccountInfo } = userData;
 
   const [updateProfileMu, { loading }] = useMutation<
     updateMyProfile,
@@ -68,6 +67,13 @@ const UserProfile: React.FC<Iprops> = ({ context, userInfo }) => {
     client
   });
 
+  const [accountInfo, setAccountInfo] = useState(
+    omitDeep(bankAccountInfo, ["__typename"]) || {
+      bankName: "",
+      accountNum: "",
+      accountHolder: ""
+    }
+  );
   const nameHook = useInput(name);
   const phoneNumberHook = useInput(phoneNumber);
   const emailHook = useInput(email);
@@ -98,7 +104,8 @@ const UserProfile: React.FC<Iprops> = ({ context, userInfo }) => {
         name: nameHook.value,
         password: password,
         phoneNumber: phoneNumberHook.value,
-        profileImg: profileCircleHook.file
+        profileImg: profileCircleHook.file,
+        bankAccountInfo: accountInfo
       }
     });
     return null;
@@ -112,6 +119,88 @@ const UserProfile: React.FC<Iprops> = ({ context, userInfo }) => {
 
   const isPhabletDwon = window.innerWidth < WindowSize.PHABLET;
 
+  const porifleInputs = [
+    [
+      {
+        label: LANG("name"),
+        Component: () => (
+          <InputText
+            id="UserProfileNameInput"
+            mb="no"
+            {...nameHook}
+            validation={isName}
+          />
+        )
+      },
+      {
+        label: LANG("phoneNumber"),
+        Component: () => (
+          <InputText
+            id="UserProfilePhoneNumberInput"
+            mb="no"
+            hyphen
+            {...phoneNumberHook}
+            validation={isPhone}
+          />
+        )
+      }
+    ],
+    [
+      {
+        label: LANG("email"),
+        Component: () => (
+          <InputText
+            id="UserEmailNumberInput"
+            mb="no"
+            {...emailHook}
+            validation={isEmail}
+          />
+        )
+      },
+      {
+        label: LANG("bank_name"),
+        Component: () => (
+          <InputText
+            id="UserBankNameInput"
+            mb="no"
+            value={accountInfo.bankName}
+            onChange={v => {
+              setAccountInfo({ ...accountInfo, bankName: v });
+            }}
+          />
+        )
+      }
+    ],
+    [
+      {
+        label: LANG("account_number"),
+        Component: () => (
+          <InputText
+            id="UserAccountNumberInput"
+            mb="no"
+            value={accountInfo.accountNum}
+            onChange={v => {
+              setAccountInfo({ ...accountInfo, accountNum: v });
+            }}
+          />
+        )
+      },
+      {
+        label: LANG("depositor"),
+        Component: () => (
+          <InputText
+            id="UserDepositorInput"
+            mb="no"
+            value={accountInfo.accountHolder}
+            onChange={v => {
+              setAccountInfo({ ...accountInfo, accountHolder: v });
+            }}
+          />
+        )
+      }
+    ]
+  ];
+
   return (
     <Fragment>
       <Card mr="no">
@@ -121,7 +210,7 @@ const UserProfile: React.FC<Iprops> = ({ context, userInfo }) => {
         />
         <CardSection>
           <div className="flex-grid">
-            <div className="JDstandard-margin-bottom flex-grid__col col--full-10 col--wlg-12">
+            <div className="JDstandard-margin-bottom flex-grid__col col--full-12 col--wlg-12">
               <div className="flex-grid-grow">
                 <div className="myPage__profileCircleWrap">
                   <ProfileCircle
@@ -134,39 +223,16 @@ const UserProfile: React.FC<Iprops> = ({ context, userInfo }) => {
                 </div>
                 <div className="formWrap flex-grid__col ">
                   <Vtable
+                    cellColumn={isPhabletDwon}
                     mode={isPhabletDwon ? "unStyle" : undefined}
                     border={"none"}
                     mb="no"
                   >
-                    <VtableColumn>
-                      <VtableCell label={LANG("name")}>
-                        <InputText mb="no" {...nameHook} validation={isName} />
-                      </VtableCell>
-                    </VtableColumn>
-                    <VtableColumn>
-                      <VtableCell label={LANG("phoneNumber")}>
-                        <InputText
-                          mb="no"
-                          hyphen
-                          {...phoneNumberHook}
-                          validation={isPhone}
-                        />
-                      </VtableCell>
-                    </VtableColumn>
-                    <VtableColumn>
-                      <VtableCell label={LANG("email")}>
-                        <InputText
-                          mb="no"
-                          {...emailHook}
-                          validation={isEmail}
-                        />
-                      </VtableCell>
-                    </VtableColumn>
+                    <ColumnCells datas={porifleInputs} />
                   </Vtable>
                 </div>
               </div>
             </div>
-            <div className="flex-grid__col col--full-2 col--wlg-0"></div>
           </div>
           <ModalEndSection>
             <Button
@@ -174,10 +240,12 @@ const UserProfile: React.FC<Iprops> = ({ context, userInfo }) => {
               thema="primary"
               mode="flat"
               label={LANG("change_profile")}
+              id="ChangeProfileBtn"
             />
             <Button
               onClick={changePasswordModalHook.openModal}
               mode="border"
+              id="ChangePsswordBtn"
               label={LANG("password_rewrite")}
             />
           </ModalEndSection>

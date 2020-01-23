@@ -330,6 +330,7 @@ export const DEFAULT_USER: getMyProfile_GetMyProfile_user = {
   checkPrivacyPolicy: false,
   paymentInfos: null,
   updatedAt: "",
+  bankAccountInfo: null,
   name: "",
   phoneNumber: "",
   email: "",

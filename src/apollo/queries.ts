@@ -396,6 +396,11 @@ export const F_USER = gql`
     profileImg {
       ...Fimg
     }
+    bankAccountInfo {
+      bankName
+      accountNum
+      accountHolder
+    }
     isPhoneVerified
     checkPrivacyPolicy
     userRole
@@ -1822,6 +1827,7 @@ export const UPDATE_MYPROFILE = gql`
     $email: EmailAddress!
     $password: Password!
     $profileImg: JdFileInput
+    $bankAccountInfo: BankAccountInfoInput
   ) {
     UpdateMyProfile(
       name: $name
@@ -1829,6 +1835,7 @@ export const UPDATE_MYPROFILE = gql`
       email: $email
       password: $password
       profileImg: $profileImg
+      bankAccountInfo: $bankAccountInfo
     ) {
       ok
       error
