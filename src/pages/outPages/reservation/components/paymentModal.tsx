@@ -91,9 +91,10 @@ const PayMentModal: React.FC<IProps> = ({
     }
   ];
 
-  const CommonFroPayMethod = () => (
+  const CommonForPayMethod = () => (
     <ModalEndSection>
       <Button
+        id="PayMentBtn"
         mode="flat"
         thema="primary"
         flat
@@ -105,9 +106,13 @@ const PayMentModal: React.FC<IProps> = ({
   );
 
   return (
-    <JDmodal minWidth={"320px"} className={classes} {...modalHook}>
-      <Preloader size={"large"} loading={createLoading} />
-      {createLoading || (
+    <JDmodal
+      minWidth={"320px"}
+      loading={createLoading}
+      className={classes}
+      {...modalHook}
+    >
+      {
         <div>
           {step === "bookerInput" && (
             <div>
@@ -120,9 +125,10 @@ const PayMentModal: React.FC<IProps> = ({
               />
               <ModalEndSection>
                 <Button
+                  flat
+                  id="FinishBookerInfoFillUpBtn"
                   mode="flat"
                   thema="primary"
-                  flat
                   label={LANG("to_next")}
                   onClick={() => {
                     if (bookerInfoValidation(bookerInfo, toastModalHook))
@@ -152,7 +158,7 @@ const PayMentModal: React.FC<IProps> = ({
                     cardInfo={cardInfoHook[0]}
                     setCardInfo={cardInfoHook[1]}
                   />
-                  <CommonFroPayMethod />
+                  <CommonForPayMethod />
                 </Fragment>
               )}
               {selectedPayMethod === PayMethod.BANK_TRANSFER && (
@@ -160,13 +166,13 @@ const PayMentModal: React.FC<IProps> = ({
                   <Vtable mr="no">
                     <ColumnCells datas={renders} />
                   </Vtable>
-                  <CommonFroPayMethod />
+                  <CommonForPayMethod />
                 </div>
               )}
             </div>
           )}
         </div>
-      )}
+      }
     </JDmodal>
   );
 };

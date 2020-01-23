@@ -102,6 +102,10 @@ const JDbookingHost: React.FC<IProps> = ({
   const houseExists = currentHouse !== undefined;
   const superPermission =
     userRole === UserRole.ADMIN || userRole === UserRole.DEVELOPER;
+
+  // 테스트를 위한 퍼블릭키
+  if (currentHouse)
+    localStorage.setItem("pbk-T", currentHouse?.publicKey || "");
   // 지원하지 않는 브라우저로 부터 접속했는지 확인합니다.
   // @ts-ignore
   window.isOldBorwesr && JDoutdatedBrowserRework();
@@ -186,15 +190,15 @@ const JDbookingHost: React.FC<IProps> = ({
       condition: true
     },
     {
-      path: undefined,
-      Component: Expired,
-      condition: isExpired
-    },
-    {
       path: "/superAdmin",
       Component: SuperMain,
       condition: superPermission,
       exact: false
+    },
+    {
+      path: undefined,
+      Component: Expired,
+      condition: isExpired
     },
     {
       Component: AssigTimeline,

@@ -104,6 +104,13 @@ export interface getSpecification_GetHouse_house_user_profileImg {
   tags: getSpecification_GetHouse_house_user_profileImg_tags[] | null;
 }
 
+export interface getSpecification_GetHouse_house_user_bankAccountInfo {
+  __typename: "BankAccountInfo";
+  bankName: string;
+  accountNum: string;
+  accountHolder: string;
+}
+
 export interface getSpecification_GetHouse_house_user_paymentInfos {
   __typename: "PaymentInfo";
   authDate: any;
@@ -128,6 +135,7 @@ export interface getSpecification_GetHouse_house_user {
    */
   email: any;
   profileImg: getSpecification_GetHouse_house_user_profileImg | null;
+  bankAccountInfo: getSpecification_GetHouse_house_user_bankAccountInfo | null;
   isPhoneVerified: boolean;
   checkPrivacyPolicy: boolean;
   userRole: UserRole;
@@ -387,6 +395,13 @@ export interface getMyProfile_GetMyProfile_user_profileImg {
   tags: getMyProfile_GetMyProfile_user_profileImg_tags[] | null;
 }
 
+export interface getMyProfile_GetMyProfile_user_bankAccountInfo {
+  __typename: "BankAccountInfo";
+  bankName: string;
+  accountNum: string;
+  accountHolder: string;
+}
+
 export interface getMyProfile_GetMyProfile_user_houses_bookingPayInfo_bankAccountInfo {
   __typename: "BankAccountInfo";
   bankName: string;
@@ -624,6 +639,7 @@ export interface getMyProfile_GetMyProfile_user {
    */
   email: any;
   profileImg: getMyProfile_GetMyProfile_user_profileImg | null;
+  bankAccountInfo: getMyProfile_GetMyProfile_user_bankAccountInfo | null;
   isPhoneVerified: boolean;
   checkPrivacyPolicy: boolean;
   userRole: UserRole;
@@ -1231,6 +1247,7 @@ export interface findBooking_FindBooking_bookings {
   __typename: "Booking";
   _id: string;
   roomTypes: findBooking_FindBooking_bookings_roomTypes[] | null;
+  paidByNice: boolean | null;
   isNew: boolean;
   name: any;
   bookingNum: string;
@@ -1372,6 +1389,7 @@ export interface findBookingForBooker_FindBookingForBooker_bookings {
   __typename: "Booking";
   _id: string;
   roomTypes: findBookingForBooker_FindBookingForBooker_bookings_roomTypes[] | null;
+  paidByNice: boolean | null;
   isNew: boolean;
   name: any;
   bookingNum: string;
@@ -1621,6 +1639,7 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking 
   __typename: "Booking";
   _id: string;
   roomTypes: getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_roomTypes[] | null;
+  paidByNice: boolean | null;
   isNew: boolean;
   name: any;
   bookingNum: string;
@@ -1754,6 +1773,7 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking {
   __typename: "Booking";
   _id: string;
   roomTypes: getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_roomTypes[] | null;
+  paidByNice: boolean | null;
   isNew: boolean;
   name: any;
   bookingNum: string;
@@ -1926,6 +1946,13 @@ export interface getUserForSU_GetUserForSU_user_profileImg {
   filename: string;
   mimeType: string;
   tags: getUserForSU_GetUserForSU_user_profileImg_tags[] | null;
+}
+
+export interface getUserForSU_GetUserForSU_user_bankAccountInfo {
+  __typename: "BankAccountInfo";
+  bankName: string;
+  accountNum: string;
+  accountHolder: string;
 }
 
 export interface getUserForSU_GetUserForSU_user_houses_bookingPayInfo_bankAccountInfo {
@@ -2165,6 +2192,7 @@ export interface getUserForSU_GetUserForSU_user {
    */
   email: any;
   profileImg: getUserForSU_GetUserForSU_user_profileImg | null;
+  bankAccountInfo: getUserForSU_GetUserForSU_user_bankAccountInfo | null;
   isPhoneVerified: boolean;
   checkPrivacyPolicy: boolean;
   userRole: UserRole;
@@ -2450,6 +2478,7 @@ export interface getBookingForPublic_GetBookingForPublic_booking {
   __typename: "Booking";
   _id: string;
   roomTypes: getBookingForPublic_GetBookingForPublic_booking_roomTypes[] | null;
+  paidByNice: boolean | null;
   isNew: boolean;
   name: any;
   bookingNum: string;
@@ -2716,6 +2745,7 @@ export interface getBookings_GetBookings_result_bookings {
   __typename: "Booking";
   _id: string;
   roomTypes: getBookings_GetBookings_result_bookings_roomTypes[] | null;
+  paidByNice: boolean | null;
   isNew: boolean;
   name: any;
   bookingNum: string;
@@ -2916,6 +2946,7 @@ export interface getBooking_GetBooking_booking {
   __typename: "Booking";
   _id: string;
   roomTypes: getBooking_GetBooking_booking_roomTypes[] | null;
+  paidByNice: boolean | null;
   isNew: boolean;
   name: any;
   bookingNum: string;
@@ -3635,6 +3666,7 @@ export interface updateMyProfileVariables {
   email: any;
   password: any;
   profileImg?: JdFileInput | null;
+  bankAccountInfo?: BankAccountInfoInput | null;
 }
 
 /* tslint:disable */
@@ -6042,6 +6074,13 @@ export interface Fuser_profileImg {
   tags: Fuser_profileImg_tags[] | null;
 }
 
+export interface Fuser_bankAccountInfo {
+  __typename: "BankAccountInfo";
+  bankName: string;
+  accountNum: string;
+  accountHolder: string;
+}
+
 export interface Fuser {
   __typename: "User";
   _id: string;
@@ -6053,6 +6092,7 @@ export interface Fuser {
    */
   email: any;
   profileImg: Fuser_profileImg | null;
+  bankAccountInfo: Fuser_bankAccountInfo | null;
   isPhoneVerified: boolean;
   checkPrivacyPolicy: boolean;
   userRole: UserRole;
@@ -6239,6 +6279,7 @@ export interface Fbooking {
   __typename: "Booking";
   _id: string;
   roomTypes: Fbooking_roomTypes[] | null;
+  paidByNice: boolean | null;
   isNew: boolean;
   name: any;
   bookingNum: string;
@@ -6279,6 +6320,13 @@ export interface Fcontext_profileImg {
   filename: string;
   mimeType: string;
   tags: Fcontext_profileImg_tags[] | null;
+}
+
+export interface Fcontext_bankAccountInfo {
+  __typename: "BankAccountInfo";
+  bankName: string;
+  accountNum: string;
+  accountHolder: string;
 }
 
 export interface Fcontext_houses_bookingPayInfo_bankAccountInfo {
@@ -6518,6 +6566,7 @@ export interface Fcontext {
    */
   email: any;
   profileImg: Fcontext_profileImg | null;
+  bankAccountInfo: Fcontext_bankAccountInfo | null;
   isPhoneVerified: boolean;
   checkPrivacyPolicy: boolean;
   userRole: UserRole;
@@ -6983,6 +7032,7 @@ export interface EmailSignUpInput {
   email: any;
   password: any;
   phoneNumber: any;
+  bankAccountInfo?: BankAccountInfoInput | null;
   timezone?: string | null;
 }
 

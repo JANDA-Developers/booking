@@ -8,6 +8,7 @@ import { s4 } from "../../utils/utils";
 import JDanimation, { Animation } from "../animation/Animations";
 import { IDiv } from "../../types/interface";
 import ModalEndSection from "./components/ModalEndSection";
+import Preloader from "../preloader/Preloader";
 
 interface IProps extends ReactModal.Props, IUseModal {
   center?: boolean;
@@ -153,7 +154,8 @@ const JDmodal: React.SFC<IProps> = ({
       style={{ content: { ...modalStyle } }}
       overlayClassName={overlayClassNames}
     >
-      {getChildren()}
+      {loading && <Preloader size="large" />}
+      {loading || getChildren()}
       {confirm && (
         <Fragment>
           <ModalEndSection className="JDmodal__endSection--confirm">
@@ -162,6 +164,7 @@ const JDmodal: React.SFC<IProps> = ({
                 <Button
                   key={s4()}
                   {...sharedTrueBtnProp}
+                  className="TConfirmTureBtn"
                   label={`${message.msg}`}
                   onClick={() => {
                     hanldeClickBtn(true, message.callBackKey);
@@ -176,6 +179,7 @@ const JDmodal: React.SFC<IProps> = ({
                 <Button
                   key={s4()}
                   {...sharedFalseBtnProp}
+                  className="TConfirmFalseBtn"
                   label={`${message}`}
                   onClick={() => {
                     hanldeClickBtn(false, message.callBackKey);

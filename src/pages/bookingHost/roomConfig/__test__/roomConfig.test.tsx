@@ -8,7 +8,8 @@ import {
   testReady,
   TWaitClick,
   TgetElement,
-  TgetAttr
+  TgetAttr,
+  TWaitS
 } from "../../../../__test__/utils.test";
 import { toNumber } from "../../../../utils/autoFormat";
 const roomBoxSelecter = ".TRoomBox";
@@ -18,7 +19,7 @@ export const createRoomType = async (
   count?: number
 ) => {
   await TWaitClick("#AddRoomTypeBtn");
-  await page.waitForSelector("#RoomTypeName");
+  await TWaitS("#RoomTypeName");
   const roomTypeName = faker.random.word("fruit");
   await TType("#RoomTypeName", roomTypeName);
   await Tselect("#CapacitySelecter", count || 4);
@@ -38,7 +39,7 @@ export const createRoomType = async (
 
 const openRoomTypeUpdateBtn = async () => {
   const cardSelecter = ".TRoomTypeCard";
-  await page.waitForSelector(cardSelecter);
+  await TWaitS(cardSelecter);
   const roomTypeCard = await TgetElement(cardSelecter);
   const updateBtn = await TgetElement(".TRoomTypeUpdateBtn");
   const roomTypeId = await TgetAttr<string>(roomTypeCard, "id");
@@ -87,12 +88,12 @@ export const createRoom = async (roomTypeIndex: number) => {
 };
 
 export const updateRoom = async () => {
-  await page.waitForSelector("#RoomConfig");
+  await TWaitS("#RoomConfig");
   await page.click("#AddRoomTypeBtn");
 };
 
 export const deleteRoom = async () => {
-  await page.waitForSelector(roomBoxSelecter);
+  await TWaitS(roomBoxSelecter);
   const room = await page.$(roomBoxSelecter);
   if (!room) return;
   const roomBoxId = (await (

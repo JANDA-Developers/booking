@@ -4,7 +4,8 @@ import {
   TWaitClick,
   expectOkFromGraphql,
   TWait,
-  takeShot
+  takeShot,
+  TWaitS
 } from "./utils.test";
 import { makeHouse } from "../pages/bookingHost/createHouse/__test__/createHouse.test";
 import { testCreateUser } from "../pages/bookingHost/signUp/__test__/singUp.test";
@@ -81,7 +82,7 @@ describe("First Process", () => {
 
   test("Input card", async () => {
     await TWaitClick("#NextBtnToCard");
-    await page.waitForSelector("#CardModal__CardNumber");
+    await TWaitS("#CardModal__CardNumber");
     await fillCardInfo();
   });
 

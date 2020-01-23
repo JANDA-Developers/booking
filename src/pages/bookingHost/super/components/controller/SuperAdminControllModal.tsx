@@ -86,7 +86,10 @@ const SuperAdminController: React.FC<Iprops> = ({ context, modalHook }) => {
   const specificData =
     queryDataFormater(data, "GetHouse", "house", undefined) || undefined;
 
-  const updateFn: IControllUpdateFn = params => {
+  const updateFn: IControllUpdateFn = ({
+    updateProductParams,
+    updateHouseParams
+  }) => {
     if (!specificData || !specificData.product?._id) return;
     const {
       _id: houseId,
@@ -94,11 +97,11 @@ const SuperAdminController: React.FC<Iprops> = ({ context, modalHook }) => {
     } = specificData;
 
     const defulatParams = {
-      updateHouseParams: {
+      updateHouseParams: updateHouseParams || {
         houseId,
         updateParams: {}
       },
-      productParams: {
+      productParams: updateProductParams || {
         productId,
         updateParams: {}
       }
@@ -106,8 +109,7 @@ const SuperAdminController: React.FC<Iprops> = ({ context, modalHook }) => {
 
     updateUserForSuMu({
       variables: {
-        ...defulatParams,
-        ...params
+        ...defulatParams
       }
     });
   };
