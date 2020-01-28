@@ -30,6 +30,7 @@ import { PricingType, TMarginSize } from "./enum";
 import { MutationFunctionOptions } from "@apollo/react-common";
 import { ExecutionResult } from "graphql";
 import { IStartBookingCallBack } from "../pages/bookingHost/assig/components/assigIntrerface";
+import { IBookingModalProp } from "../components/bookingModal/declaration";
 export interface JdFile extends singleUpload_SingleUpload_jdFile { }
 export interface IProductType extends getAllProductTypes_GetAllProductTypes_productTypes { }
 export interface GASt_RoomType
@@ -115,7 +116,7 @@ export type IMu<M, MV> = (
 ) => Promise<ExecutionResult<M>>;
 
 export type TBookingModalOpenWithMark = (
-  startBookingCallBack: IStartBookingCallBack
+  bookingModalProp: IBookingModalProp
 ) => void;
 
 export interface ITermsOfBookerInput {

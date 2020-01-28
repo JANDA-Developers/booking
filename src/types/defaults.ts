@@ -67,6 +67,7 @@ export const DEFAULT_ROOMTYPE: IRoomType = {
 export const DEFAULT_BOOKING: GB_booking = {
   __typename: "Booking",
   _id: "default",
+  paidByNice: false,
   breakfast: false,
   memo: "",
   bookingNum: "",
@@ -330,6 +331,7 @@ export const DEFAULT_USER: getMyProfile_GetMyProfile_user = {
   checkPrivacyPolicy: false,
   paymentInfos: null,
   updatedAt: "",
+  bankAccountInfo: null,
   name: "",
   phoneNumber: "",
   email: "",

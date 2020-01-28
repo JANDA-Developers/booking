@@ -1,8 +1,27 @@
 import puppeteer, { ElementHandle } from "puppeteer";
 import muResult from "../utils/mutationResultSafty";
+import chalk from "chalk";
 import { ExecutionResult } from "graphql";
 import { WindowSize, WindowSizeHeight, WindowSizeShort } from "../types/enum";
 import { TLogin } from "../pages/bookingHost/Login/__test__/Login.test";
+
+export const getLocalStorage = async () => {
+  console.info(chalk.grey(`getLocalStorage`));
+  const result = await page.evaluate(() => {
+    let json = {};
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      // @ts-ignore
+      json[key] = localStorage.getItem(key);
+    }
+    console.log("json");
+    console.log(json);
+    return json;
+  });
+  console.log("result");
+  console.log(result);
+  return result;
+};
 
 export const currentWinSize = (): WindowSizeShort => {
   const { width } = page.viewport();
@@ -19,12 +38,11 @@ export const S = 1000;
 export const urlBase = "http://localhost:3000";
 
 export const takeShot = async (name: string) => {
+  console.info(chalk.grey(`takeShot ${name}`));
   const fileName = name;
 
   const mode = currentWinSize();
 
-  console.log(`src/pages/documents/pics/testScreenShot/${mode}/${fileName}`);
-  console.log(`src/pages/documents/pics/testScreenShot/${mode}/${fileName}`);
   await page.screenshot({
     path: `src/pages/documents/pics/testScreenShot/${mode}/${fileName}`,
     type: "jpeg",
@@ -35,6 +53,7 @@ export const takeShot = async (name: string) => {
 };
 
 export const TgetElement = async (selecter: string) => {
+  console.info(chalk.grey(`TgetElement ${selecter}`));
   const el = await page.$(selecter);
   if (!el) throw Error(selecter + "is not exist");
   return el;
@@ -44,13 +63,15 @@ export async function TgetAttr<T>(
   puppetEl: puppeteer.ElementHandle<Element>,
   attr: string
 ): Promise<T> {
+  console.info(chalk.grey(`Tselect ${TgetAttr}`));
   return (await (await puppetEl.getProperty("attr")).jsonValue()) as any;
 }
 
 export const Tselect = async (selecter: string, propSelectIndex?: number) => {
+  console.info(chalk.grey(`Tselect ${selecter} ${propSelectIndex}`));
   const selectIndex = propSelectIndex || 1;
   await page.click(selecter);
-  await page.waitForSelector(`${selecter} .react-select__option`);
+  await TWaitS(`${selecter} .react-select__option`);
   await page.click(
     `${selecter} .react-select__option:nth-child(${selectIndex})`
   );
@@ -89,25 +110,39 @@ export const TUpload = async (uploaderSelecter: string, fileUrl: string) => {
 };
 
 export const TType = async (selecter: string, text: string) => {
+  console.info(chalk.grey(`TType ${selecter} ${text}`));
+  await page.waitForSelector(selecter);
+  await page.$eval(selecter, el => {
+    // @ts-ignore
+    if (el.value) el.value = "";
+  });
   await page.click(selecter);
   await page.type(selecter, text);
 };
 
 export const TClick = async (selecter: string) => {
+  console.info(chalk.grey(`TClick ${selecter}`));
   await page.click(selecter);
 };
 
 export const TWaitClick = async (selecter: string) => {
-  await page.waitForSelector(selecter);
+  console.info(chalk.grey(`TWaitClick ${selecter}`));
+  await TWaitS(selecter);
   await page.click(selecter);
 };
 
 // ---------------------------------------------------
 
 export const expectOkFromGraphql = async () => {
+  console.info(chalk.grey(`expectOkFromGraphql`));
   const response = await page.waitForResponse(isResponseFromServer, {
     timeout: 10 * S
   });
+
+  if (!response.ok() && response.json()) {
+    const result = (await response.json()) as any;
+    console.info(chalk.red(JSON.stringify(result)));
+  }
 
   await expect(response.ok() === true);
   return response;
@@ -162,7 +197,7 @@ export const getDefaultViewport = (windowSize: WindowSize) => {
 interface TestLogin {
   email?: string;
   tokenLogin?: boolean;
-  token?: string;
+  token?: boolean;
   shouldLogin?: boolean;
 }
 
@@ -172,8 +207,10 @@ export const testReady = async (
   login: TestLogin | false = {},
   mode: WindowSize = WindowSize.DESKTOP
 ) => {
+  // 기본 타임아웃 시간을 30초로 변경
+  jest.setTimeout(30 * S);
+  console.info(chalk.grey(`testReady login:${login} goto:${goto}`));
   await context.overridePermissions(urlBase, ["geolocation"]);
-  await page.goto(urlBase);
 
   let height: number = 0;
   if (mode === WindowSize.DESKTOPHD) height = WindowSizeHeight.DESKTOPHD;
@@ -186,10 +223,22 @@ export const testReady = async (
     height,
     width: mode
   });
+  await page.goto(urlBase);
 
   if (skip) return;
 
-  if (login) {
+  if (login && login.token) {
+    await page.evaluate(() => {
+      localStorage.setItem(
+        "jwt",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMTQwN2RjMzM0MjExM2YwY2Y0NTZkNyIsImlhdCI6MTU3OTY5Njg4N30.E4ORUYEk8DWZcUirY0Y1FBCGK9kZ6yh1XPuumrbS6Yk"
+      );
+    });
+    await page.goto(urlBase);
+    await TWait(2);
+  }
+
+  if (login && !login.token) {
     if (false) {
       // TODO
       // await page.evaluate(() => {
@@ -197,11 +246,13 @@ export const testReady = async (
       // });
       // await page.reload();
     } else {
+      console.log("login");
+      console.log(login);
       await TLogin(login.email || "crawl123@naver.com");
       await page.waitForNavigation({
         waitUntil: "domcontentloaded"
       });
-      await page.waitForSelector("#dashboard");
+      await TWaitS("#dashboard");
     }
   }
 
@@ -220,6 +271,7 @@ interface TCheckStringOption {
 }
 
 export const TGetStringFrom = async (selecter: string): Promise<string> => {
+  console.info(chalk.grey(`TGetStringFrom ${selecter}`));
   await page.waitForSelector(selecter);
   const element = await page.$$(selecter);
   if (!element) throw new Error("ele is not found");
@@ -235,6 +287,7 @@ export const TGetId = async (
   selecter: string,
   returnAsSelecter: boolean
 ): Promise<string> => {
+  console.info(chalk.grey(`TGetId ${selecter}`));
   await page.waitForSelector(selecter);
   const target = await page.$(selecter);
   if (!target) throw new Error(`Dose not exist ${selecter}`);
@@ -251,6 +304,7 @@ export const TCheckString = async (
   checkString: string,
   options?: TCheckStringOption
 ) => {
+  console.info(chalk.grey(`TCheckString ${selecter} ${checkString}`));
   const defaultOption: TCheckStringOption = {
     shouldFail: false
   };
@@ -263,14 +317,32 @@ export const TCheckString = async (
   }
 };
 
+export const TWaitS = async (selecter: string) => {
+  console.info(chalk.grey(`TWaitS ${selecter}`));
+  await page.waitForSelector(selecter);
+};
+
+export const TCheckValue = async (selecter: string, expectValue: string) => {
+  console.info(chalk.grey(`TCheckValue ${selecter} ${expectValue}`));
+  await page.waitForSelector(selecter);
+  const value = await page.$eval(selecter, el => {
+    if (!("value" in el)) throw Error(`value is not exsist in ${selecter}`);
+    // @ts-ignore
+    return el.value;
+  });
+  expect(value).toEqual(expectValue);
+};
+
 export const TWaitVsible = async (
   selecter: string,
   visible: boolean = false
 ) => {
+  console.info(chalk.grey(`TWaitVsible ${selecter} ${visible}`));
   await page.waitForSelector(selecter, { hidden: visible });
 };
 
 export const TExist = async (selecter: string, expectExsist: boolean) => {
+  console.info(chalk.grey(`TExist ${selecter}`));
   const target = await page.$(selecter);
   if (expectExsist) {
     expect(target).not.toEqual(null);

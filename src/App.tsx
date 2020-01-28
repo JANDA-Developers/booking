@@ -20,8 +20,6 @@ import { FAVI_URL } from "./types/const";
 import LoadBalancer from "./pages/loadBalancer/LoadBalancer";
 
 function App() {
-  console.log('localStorage.getItem("LastLang")');
-  console.log(localStorage.getItem("LastLang"));
   const langHook = useLang((localStorage.getItem("LastLang") as any) || "kr");
 
   globalLanguageSetting();

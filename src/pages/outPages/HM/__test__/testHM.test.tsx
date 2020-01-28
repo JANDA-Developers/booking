@@ -1,7 +1,7 @@
 import { testReady, S } from "../../../../__test__/utils.test";
 import { HmUpdate } from "./HM.test";
 
-describe("HM update", () => {
+describe.skip("HM update", () => {
   beforeAll(async () => {
     await testReady(false, "HMconfig", {});
   });

@@ -59,7 +59,7 @@ import {
   bookingModalGetStartBookingVariables
 } from "./helper";
 import { getRoomSelectInfo } from "../../utils/typeChanger";
-import { IBookingModalContext } from "./declaration";
+import { IBookingModalContext, IBookingModalProp } from "./declaration";
 import JDLabel from "../../atoms/label/JDLabel";
 import JDselect from "../../atoms/forms/selectBox/SelectBox";
 import optionFineder from "../../utils/optionFinder";
@@ -68,7 +68,7 @@ import RefundModal from "../refundModal/RefundModal";
 import CheckBox from "../../atoms/forms/checkBox/CheckBox";
 
 interface IProps {
-  modalHook: IUseModal;
+  modalHook: IUseModal<IBookingModalProp>;
   bookingData: GB_booking;
   placeHolederPrice: number;
   startBookingMu: MutationFn<startBooking, startBookingVariables>;
@@ -161,13 +161,11 @@ const BookingModal: React.FC<IProps> = ({
   const funnelStatusHook = useSelect<Funnels | null>(
     funnels ? { value: funnels, label: LANG("Funnels", funnels) } : null
   );
+
   const bookingStatusHook = useSelect(
     isCreateMode
       ? BOOKING_STATUS_OP[0]
-      : {
-          value: bookingStatus,
-          label: LANG(bookingStatus)
-        }
+      : optionFineder(BOOKING_STATUS_OP, bookingStatus)
   );
   const resvDateHook = useDayPicker(
     moment(checkIn).toDate(),
@@ -199,7 +197,7 @@ const BookingModal: React.FC<IProps> = ({
     if (confirm) {
       deleteBookingMu({
         variables: {
-          bookingId: modalHook.info.bookingId
+          bookingId: modalHook.info.bookingId || ""
         }
       });
     }
@@ -239,6 +237,8 @@ const BookingModal: React.FC<IProps> = ({
 
   // 예약생성 버튼 핸들
   const handleCreateBtnClick = () => {
+    if (modalHook.info.onStartBookingStart)
+      modalHook.info.onStartBookingStart();
     if (!bookingData.roomTypes) return;
 
     const smsCallBackFn = async (flag: boolean, sendSmsMu: any) => {
@@ -262,7 +262,7 @@ const BookingModal: React.FC<IProps> = ({
     // SMS 인포를 꺼내서 발송할 SMS 문자가 있는지 확인해야할것 같다.
     updateBookingMu({
       variables: {
-        bookingId: modalHook.info.bookingId,
+        bookingId: modalHook.info.bookingId!,
         params: {
           email: "demo@naver.com",
           memo: memoHook.value,
@@ -303,6 +303,9 @@ const BookingModal: React.FC<IProps> = ({
       style={modalStyle}
       paddingSize="large"
       {...modalHook}
+      onAfterClose={() => {
+        modalHook.info.onCloseModal && modalHook.info.onCloseModal();
+      }}
       className={`Modal bookingModal`}
       overlayClassName="Overlay"
       loading={loading || startBookingLoading}

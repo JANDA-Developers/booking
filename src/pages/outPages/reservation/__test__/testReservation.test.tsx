@@ -1,14 +1,21 @@
 import { TClick, toastCheck, testReady } from "../../../../__test__/utils.test";
-import { insertResv } from "./reservation.test";
+import {
+  insertResv,
+  gotoResvPage,
+  fillUpBookerInfoForGuest,
+  resvPayWithCard
+} from "./reservation.test";
 import { insertBookingModal } from "../../../../components/bookingModal/__test__/bookingModal.test";
 import { unSendSmsModal } from "../../../../components/smsModal/__test__/sendSmsModal.test";
 
-describe.skip("reservation", () => {
+describe("reservation", () => {
   beforeAll(async () => {
-    await testReady(true, undefined, {});
+    await testReady(false, undefined, {
+      token: true
+    });
   });
 
-  test("Do ReservationProcess With Host", async () => {
+  test.skip("Do ReservationProcess By Host", async () => {
     await TClick("#CreateResvModalUpBtn");
     await insertResv();
     await insertBookingModal();
@@ -16,8 +23,11 @@ describe.skip("reservation", () => {
     await toastCheck("StartBooking");
   });
 
-  test.skip("Do Reservation Process With Guest", async () => {
-    await page.goto("");
+  test("Do ReservationProcess By Guest", async () => {
+    await gotoResvPage();
+    await insertResv();
+    await fillUpBookerInfoForGuest();
+    await resvPayWithCard();
   });
 });
 

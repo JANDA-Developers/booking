@@ -622,7 +622,9 @@ export function getAssigUtils(
   };
 
   // 마크와함께 부킹시작
-  const startBookingModalWithMark: TBookingModalOpenWithMark = startBookingCallBack => {
+  const startBookingModalWithMark: TBookingModalOpenWithMark = (
+    modalInfo: IBookingModalProp
+  ) => {
     const createItems = getItems(GuestTypeAdd.MARK);
 
     if (isEmpty(createItems)) return;
@@ -652,7 +654,7 @@ export function getAssigUtils(
 
     const modalParam: IBookingModalProp = {
       createParam,
-      startBookingCallBack,
+      ...modalInfo,
       mode: "CREATE_ASSIG"
     };
 

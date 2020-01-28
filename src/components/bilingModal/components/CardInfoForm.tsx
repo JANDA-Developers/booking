@@ -31,6 +31,7 @@ export interface IChainProps {
 
 interface Iprops extends IChainProps {
   context: IContext;
+  forGuest?: boolean;
   handleRegistBtn: (cardInfo: TCardRegistInfo) => void;
   handleDeleteBtn: (billKey: string) => Promise<void>;
   currentHouseInfo?: ICardModalTarget;
@@ -132,7 +133,7 @@ const CardInfoForm: React.FC<Iprops> = ({
                 type="password"
               />
             </FormCell>
-            <FormCell label={LANG("idnumber_6front")}>
+            <FormCell label={LANG("idnumber_or_business_number")}>
               {/* 아이디 넘버 */}
               <InputText
                 id="CardModal__IdNum"
