@@ -64,6 +64,7 @@ $new-color-light: lighten($new-color, 15%) !default;
 $new-color-dark: darken($new-color, 15%) !default;
 $new-color-on: $html-color !default;
 
+$pink-color: #f56e7d !default;
 $green-color: #009e6c !default;
 
 $error-color: #ff6760 !default;
@@ -105,6 +106,7 @@ $curtain-color: rgba(
 // 📖 ---- 표준 단위
 $doc-section-space: 0.4rem * 12 !default;
 $standard-largest-space: 0.4rem * 7 !default;
+$standard-huge2-space: 0.4rem * 6 !default;
 $standard-huge-space: 0.4rem * 5 !default;
 $standard-large-space: 0.4rem * 4 !default;
 $standard-space: 0.4rem * 3 !default;

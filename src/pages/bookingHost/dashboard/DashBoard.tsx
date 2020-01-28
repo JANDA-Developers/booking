@@ -20,6 +20,7 @@ import moment from "moment";
 import PageHeader from "../../../components/pageHeader/PageHeader";
 import PageBody from "../../../components/pageBody/PageBody";
 import JDcard from "../../../atoms/cards/Card";
+import JDTimePicker from "../../../atoms/timePicker/TimePicker";
 import TutoHelper from "./components/TutoHelper";
 import { DO_TUTO_KEY } from "../../../types/const";
 
@@ -79,10 +80,11 @@ const DashBoard: React.SFC<Iprops> = ({ context }) => {
           <div className="flex-grid">
             <div
               className={`flex-grid__col col--wmd-12
-                col--full-12`}
+              col--full-12`}
             >
               {/* 상단 버튼 집합 */}
               <div>
+                <JDTimePicker />
                 <Button
                   id="CreateResvModalUpBtn"
                   onClick={() => {

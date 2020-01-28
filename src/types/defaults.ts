@@ -13,7 +13,6 @@ import {
   PayMethod,
   PaymentStatus,
   BookingStatus,
-  LayoutType,
   TimePerMs,
   MemoType,
   UserRole,
