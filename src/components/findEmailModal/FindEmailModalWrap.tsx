@@ -2,7 +2,7 @@ import React from "react";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import { IUseModal, LANG } from "../../hooks/hook";
 import { useMutation } from "@apollo/react-hooks";
-import { START_PASSWORD_RESET } from "../../apollo/queries";
+import { FIND_MY_EMAIL } from "../../apollo/queries";
 import { findMyEmail, findMyEmailVariables } from "../../types/api";
 import client from "../../apollo/apolloClient";
 import { onCompletedMessage } from "../../utils/utils";
@@ -17,7 +17,7 @@ const FindEmailModalWrap: React.FC<Iprops> = ({ context, modalHook }) => {
   const [findMyEmailMu, { loading: findMyEmailLoading }] = useMutation<
     findMyEmail,
     findMyEmailVariables
-  >(START_PASSWORD_RESET, {
+  >(FIND_MY_EMAIL, {
     client,
     onCompleted: ({ FindMyEmail }) => {
       onCompletedMessage(

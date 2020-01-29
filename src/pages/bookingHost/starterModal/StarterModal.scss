@@ -4,6 +4,11 @@
   min-width: 40%;
   text-align: center;
 
+  &__cardNotiList {
+    background-color: $grey-level1;
+    padding: $standard-space;
+  }
+
   .steps__createHouseWrap {
     max-width: 650px; // $phablet
   }
@@ -11,6 +16,11 @@
   &__stepsWrap {
     border-bottom: 1px solid $grey-level1;
     margin-bottom: $standard-margin-bottom;
+    @include response($mobile) {
+      .item-title {
+        font-size: $typho-small;
+      }
+    }
   }
   .pageBody {
     padding: 0;

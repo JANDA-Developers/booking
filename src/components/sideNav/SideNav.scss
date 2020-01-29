@@ -141,6 +141,10 @@
       100vh - #{$sideNav-profile-height} - #{$sideNav-productView-height}
     );
     padding-bottom: 6rem; //스크롤 여유분 포함
+
+    @include response($tablet) {
+      overflow: auto !important;
+    }
   }
   .rc-menu-submenu-arrow {
     right: calc(#{$sideNav-list-padding} + 5px) !important;

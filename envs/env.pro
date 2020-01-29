@@ -1,5 +1,5 @@
-REACT_APP_API_SERVER_URI=https://stayjanda-booking.com:4000/graphql
-REACT_APP_API_CLIENT_URL=https://stayjanda-booking.com
+REACT_APP_API_SERVER_URI=https://api.booking.stayjanda.cloud/graphql
+REACT_APP_API_CLIENT_URL=https://booking.stayjanda.cloud/
 
 SKIP_PREFLIGHT_CHECK=true
 REACT_APP_API_MAP_KEY=AIzaSyCLG8qPORYv6HJIDSgXpLqYDDzIKgSs6FY

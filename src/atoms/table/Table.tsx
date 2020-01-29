@@ -22,7 +22,6 @@ export interface JDcolumn<T> {
 export interface IJDTableProps<D = any> extends TableProps<D> {
   align?: "center";
   inClassNames?: string;
-  // 기능은 HOC으로 구현해야하나 다음 boolean은 css 셋팅해줌
   isCheckable?: boolean;
   marginAtuo?: boolean;
   visibleOver?: boolean;

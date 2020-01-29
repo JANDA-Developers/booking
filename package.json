@@ -14,6 +14,7 @@
     "start:build": "build/index.html",
     "dev:52": "cp ./envs/env.dev ./.env && yarn start",
     "dev:local": "cp ./envs/env.local ./.env && yarn start",
+    "dev:pro": "cp ./envs/env.pro ./.env && yarn start",
     "build": "cp ./envs/env.product ./.env && node scripts/build.js",
     "build:52": "cp ./envs/env.52 ./.env && node scripts/build.js",
     "precodegen": "apollo schema:download --endpoint=http://localhost:4000/graphql",

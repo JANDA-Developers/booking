@@ -1,16 +1,17 @@
-@import '~Styles';
+@import "~Styles";
 
 #loginPage {
-    text-align: center;
+  text-align: center;
 
-    .JDcard {
-        box-sizing:border-box;
-        max-width:360px;
-        margin:0 auto;
-        margin-bottom: $standard-margin-bottom;
-    }
+  .JDcard {
+    box-sizing: border-box;
+    max-width: 360px;
+    margin: 0 auto;
+    margin-bottom: $standard-margin-bottom;
+  }
 }
 
 #loginPage > div {
-    width: calc(100% - #{$container-padding * 2});
+  min-width: 300px;
+  width: calc(100% - #{$container-padding * 2});
 }

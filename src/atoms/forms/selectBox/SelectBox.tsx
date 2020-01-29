@@ -1,3 +1,5 @@
+// TODO
+// 셀렉트박스 Width 값을 오토로 해주기
 import React from "react";
 import Select from "react-select";
 import "./SelectBox.scss";

@@ -19,13 +19,16 @@ interface IProps extends ReactModal.Props, IUseModal {
   confirm?: boolean;
   children?: any;
   minContentsWidth?: string;
+  autoMinContentWidth?: boolean;
   noAnimation?: boolean;
   minWidth?: string;
+  unWrap?: boolean;
   paddingSize?: "large";
   visibleOverflow?: boolean;
   falseMessage?: string | any[];
   trueMessage?: string | any[];
   id?: string;
+  minContentWidth?: boolean;
   contentClassName?: string;
   contentWrapStyle?: React.CSSProperties;
   confirmCallBackFn?(flag: boolean, key?: string): any;
@@ -39,6 +42,7 @@ const JDmodal: React.SFC<IProps> = ({
   className,
   isUnderHeader,
   isOpen,
+  autoMinContentWidth,
   minContentsWidth,
   minWidth,
   closeModal,
@@ -52,11 +56,14 @@ const JDmodal: React.SFC<IProps> = ({
   noAnimation = true,
   falseMessage,
   loading,
+  unWrap,
   contentClassName,
   contentWrapStyle: contentWrapStyleProp,
   appElement = document.getElementById("root") || undefined,
   ...props
 }) => {
+  if (unWrap) return children;
+
   const [shouldAnimation, setShouldAnimation] = useState(!noAnimation);
 
   // 여기에서 info로 들어온것과 openModal 명렁으로 들어온것들 조합함
@@ -81,6 +88,7 @@ const JDmodal: React.SFC<IProps> = ({
   });
 
   const classes = classNames("Modal JDmodal", className, {
+    "JDmodal--autoMinContentWidth": autoMinContentWidth,
     "JDmodal--center": center,
     "JDmodal--visibleOverflow": visibleOverflow,
     "JDmodal--alert": isAlert || confirm,
@@ -126,7 +134,7 @@ const JDmodal: React.SFC<IProps> = ({
   };
 
   const modalStyle = {
-    minWidth: loading || minWidth
+    minWidth: loading ? "8rem" : minWidth
   };
 
   const modalContentsStyle = {
@@ -154,7 +162,7 @@ const JDmodal: React.SFC<IProps> = ({
       style={{ content: { ...modalStyle } }}
       overlayClassName={overlayClassNames}
     >
-      {loading && <Preloader size="large" />}
+      {loading && <Preloader loading={true} size="large" />}
       {loading || getChildren()}
       {confirm && (
         <Fragment>

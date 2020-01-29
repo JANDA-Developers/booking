@@ -1,22 +1,25 @@
-@import '~Styles';
+@import "~Styles";
 
 .JDdoc {
-    background-color:white;
-    padding: $doc-section-space $standard-largest-space;
-    font-size: $typho-large;
+  background-color: white;
+  padding: $doc-section-space $standard-largest-space;
+  font-size: $typho-large;
+  @include response($mobile) {
+    padding: $doc-section-space $standard-huge-space;
+  }
 }
 
 .JDdocSection {
-    line-height: 1.5;
-    margin-bottom: $doc-section-space;
+  line-height: 1.5;
+  margin-bottom: $doc-section-space;
 }
 
 .JDdocHeader {
-    border-left: $standard-tiny-space solid $primary-color-dark;
-    padding-left: $standard-tiny-space;
-    margin-bottom: $standard-largest-space;
+  border-left: $standard-tiny-space solid $primary-color-dark;
+  padding-left: $standard-tiny-space;
+  margin-bottom: $standard-largest-space;
 
-    h4 {
-        margin-bottom:0;
-    } 
+  h4 {
+    margin-bottom: 0;
+  }
 }

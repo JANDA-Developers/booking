@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import { IContext } from "../BookingHostRouter";
 import { INIT_HOUSE, GET_USER_INFO } from "../../../apollo/queries";
 import { toast } from "react-toastify";
@@ -14,6 +14,7 @@ import { onCompletedMessage } from "../../../utils/utils";
 import CreateHouse from "./CreateHouse";
 import PageHeader from "../../../components/pageHeader/PageHeader";
 import PageBody from "../../../components/pageBody/PageBody";
+import { WindowSize } from "../../../types/enum";
 
 interface IProps {
   context: IContext;
@@ -41,7 +42,11 @@ const CreateHouseWrap: React.FC<IProps> = ({ context }) => {
       refetchQueries: [{ query: GET_USER_INFO }],
       awaitRefetchQueries: true,
       onCompleted: ({ InitHouse }) => {
-        onCompletedMessage(InitHouse, "House init done", "House Init fail");
+        onCompletedMessage(
+          InitHouse,
+          LANG("house_init_done_fisrt"),
+          LANG("house_init_failed")
+        );
         if (InitHouse.ok && InitHouse.result?.house) {
           const { house } = InitHouse.result;
           toast.success(LANG("create_house_completed"));
@@ -76,11 +81,15 @@ const CreateHouseWrap: React.FC<IProps> = ({ context }) => {
       />
     );
   return (
-    <PageHeader title={LANG("create_house")}>
-      <PageBody>
+    <Fragment>
+      <PageHeader
+        desc={LANG("createHouse_desc")}
+        title={LANG("create_house")}
+      ></PageHeader>
+      <PageBody size={WindowSize.TABLET}>
         <CreateHouse context={context} onSubmit={handleSubmit} />
       </PageBody>
-    </PageHeader>
+    </Fragment>
   );
 };
 

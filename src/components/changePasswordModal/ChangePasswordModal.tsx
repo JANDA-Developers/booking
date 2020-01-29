@@ -39,7 +39,7 @@ const ChangePasswordModal: React.FC<Iprops> = ({
       return false;
     }
     if (newPasswordHook.value !== newConfimPasswordHook.value) {
-      toast.warn("password_is_not_matched");
+      toast.warn(LANG("password_is_not_matched"));
       return false;
     }
     return true;
@@ -63,16 +63,15 @@ const ChangePasswordModal: React.FC<Iprops> = ({
           {...newPasswordHook}
         />
       </div>
-      <div className="JDsmall-text JDstandard-margin-bottom">
-        <PasswordChecker txt={newPasswordHook.value} />
-      </div>
+      <div className="JDsmall-text JDstandard-margin-bottom"></div>
       <JDpreloader loading={muLoading} floating />
       <InputText
         validation={isPassword}
-        label={LANG("check_password")}
+        label={LANG("check_new_password")}
         type="password"
         {...newConfimPasswordHook}
       />
+      <PasswordChecker txt={newPasswordHook.value} />
       <ModalEndSection>
         <Button
           mode="flat"
