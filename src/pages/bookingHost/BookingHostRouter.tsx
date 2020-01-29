@@ -44,7 +44,7 @@ import MemoAlertModal from "../../components/Memo/component/MemoAlertModal";
 import JDoutdatedBrowserRework from "../../utils/oldBrowser";
 import SideNav from "../../components/sideNav/SideNav";
 import Expired from "../bookingHost/expire/Expired";
-import { AddtionalConfigModal } from "../../components/else/AdditionalConfigModal";
+// import { AddtionalConfigModal } from "../../components/else/AdditionalConfigModal";
 import { greet, houseConfigSetting } from "./helper";
 import SmsInfo from "./smsInfo/SmsInfo";
 import CreateHouseWrap from "./createHouse/CreateHouseWrap";
@@ -95,7 +95,7 @@ const JDbookingHost: React.FC<IProps> = ({
   const applyedProduct = currentHouse?.product;
   const { userRole } = user;
   // 추가적 설정 모달
-  const additionalConfigModal = useModal(false);
+  // const additionalConfigModal = useModal(false);
   const { sideNavIsOpen, setSideNavIsOpen } = useSideNav();
   const houseConfig = houseConfigSetting(currentHouse);
   const isExpired = applyedProduct?.isExpired;
@@ -284,7 +284,7 @@ const JDbookingHost: React.FC<IProps> = ({
       localStorage.getItem("popUpAdditionalConfigModal") === "Y"
     ) {
       // get local storage default setting and
-      additionalConfigModal.openModal();
+      // additionalConfigModal.openModal();
       localStorage.setItem("popUpAdditionalConfigModal", "N");
     }
   });
@@ -312,10 +312,10 @@ const JDbookingHost: React.FC<IProps> = ({
             const propContext = Object.assign(tempContext, props, JDlang);
             return (
               <Fragment>
-                <AddtionalConfigModal
+                {/* <AddtionalConfigModal
                   context={propContext as any}
                   modalHook={additionalConfigModal}
-                />
+                /> */}
                 <MemoAlertModal
                   context={propContext as any}
                   modalHook={memoAlertModal}

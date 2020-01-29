@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PageHeader from "../../../components/pageHeader/PageHeader";
 import { LANG } from "../../../hooks/hook";
 import PageBody from "../../../components/pageBody/PageBody";
@@ -7,12 +7,17 @@ import Button from "../../../atoms/button/Button";
 import PhotoFrame from "../../../atoms/photoFrame/PhotoFrame";
 import { IMG_REPO } from "../../../types/const";
 import { IContext } from "../BookingHostRouter";
+import { Redirect } from "react-router-dom";
 
 interface Iprops {
   context: IContext;
 }
 
 const SmsInfo: React.FC<Iprops> = ({ context }) => {
+  const [redirect, setRedirect] = useState();
+
+  if (redirect) return <Redirect to={redirect} />;
+
   return (
     <div>
       <PageHeader desc={LANG("sms_info_decs")} title={LANG("sms_info")} />
@@ -35,6 +40,9 @@ const SmsInfo: React.FC<Iprops> = ({ context }) => {
           <div className="JDflex--center">
             <Button
               mr="no"
+              onClick={() => {
+                setRedirect("smsTemplate");
+              }}
               thema="primary"
               icon="arrowTo"
               label={LANG("go_to_sms_template")}

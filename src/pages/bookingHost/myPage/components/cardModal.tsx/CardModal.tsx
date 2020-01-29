@@ -28,7 +28,7 @@ const CardModal: React.FC<Iprops> = ({ context, modalHook }) => {
   const { currentHouseInfo, selectCallBack, createCardCallBack } = info;
 
   return (
-    <JDmodal minWidth="400px" className="cardModal" {...modalHook}>
+    <JDmodal className="cardModal" {...modalHook}>
       <CardViewer
         createCardCallBack={createCardCallBack}
         selectCallBack={selectCallBack}

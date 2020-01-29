@@ -50,7 +50,7 @@
     @include response($phablet) {
       width: 100%;
       max-width: 95%;
-      min-width: 90%;
+      min-width: 94%;
       margin: $container-padding;
       padding: $modal-content-padding--wmd;
     }
@@ -101,10 +101,16 @@
   }
 }
 .JDmodal {
+  &--autoMinContentWidth {
+    max-width: min-content !important;
+    min-width: min-content !important;
+    width: min-content !important;
+  }
+
   &--loading {
-    min-width: 0 !important;
-    max-width: fit-content !important;
-    width: fit-content !important;
+    min-width: min-content !important;
+    max-width: min-content !important;
+    width: min-content !important;
   }
 
   &--alert {

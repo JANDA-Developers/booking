@@ -1,22 +1,29 @@
-@import '~Styles';
-@import './components/seasonHeader';
+@import "~Styles";
+@import "./components/seasonHeader";
+@import "./components/createSeasonModal";
 
 #root {
-    .setPrice {
-        &__table {
-            margin-bottom:0;
+  .setPrice {
+    &__table {
+      margin-bottom: 0;
 
-            .rt-th {
-                position: relative;
-                z-index: $z-index-1;
-            }
+      @include response($tablet) {
+        .JDinput {
+          width: 140px;
+        }
+      }
 
-            @include baseMargin {
-                margin-bottom: $standard-margin-bottom /2;
-            }
-        }
-        &__priceCell {
-            display: flex;
-        }
+      .rt-th {
+        position: relative;
+        z-index: $z-index-1;
+      }
+
+      @include baseMargin {
+        margin-bottom: $standard-margin-bottom / 2;
+      }
     }
+    &__priceCell {
+      display: flex;
+    }
+  }
 }

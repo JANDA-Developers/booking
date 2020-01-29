@@ -80,11 +80,13 @@ const SelecterPayStatus: React.FC<Iprops> = ({
             statusChnage(true);
           }
         }}
+        size="small"
         mr="no"
         mb="no"
+        mode="roundBorder"
         color={isContinue ? "error" : "point"}
       >
-        <b>{LANG(isContinue ? "auto_pay_stop" : "auto_pay_continue")}</b>
+        {LANG(isContinue ? "auto_pay_stop" : "auto_pay_continue")}
       </TextButton>
       <TerminateModal
         modalHook={terminateModalHook}

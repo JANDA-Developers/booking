@@ -10,11 +10,13 @@ interface Iprops extends ISpan, JDatomExtentionSet {
   color?: JDColor;
   size?: TextSize;
   anchor?: boolean;
+  mode?: "roundBorder";
 }
 
 const TextButton: React.FC<Iprops> = ({
   anchor,
   size,
+  mode,
   color,
   className,
   mb,
@@ -23,6 +25,7 @@ const TextButton: React.FC<Iprops> = ({
 }) => {
   const classNames = classnames("textButton", className, {
     "textButton--anchor": anchor,
+    "textButton--roundBorder": mode === "roundBorder",
     ...colorClass("textButton", color),
     ...textSizeClass("textButton", size),
     ...JDmbClass(mb),

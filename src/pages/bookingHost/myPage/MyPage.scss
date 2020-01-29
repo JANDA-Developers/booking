@@ -3,6 +3,12 @@
 .myPage {
   text-align: center;
 
+  &__profileSectionWrap {
+    @include response($phablet) {
+      display: block;
+    }
+  }
+
   &__profileCircleWrap {
     display: flex;
     max-width: 200px;
@@ -10,7 +16,10 @@
     padding-right: $standard-space;
     padding-left: $standard-space;
     @include response($phablet) {
-      padding-left: 0;
+      padding: 0;
+      justify-content: center;
+      max-width: none;
+      margin-bottom: $standard-space;
     }
   }
 

@@ -45,6 +45,13 @@ const FloatBox: React.FC<Iprops> = ({
         e.preventDefault();
         e.stopPropagation();
       };
+      refContainerIn.current.ontouchstart = e => {
+        e.stopPropagation();
+      };
+      // refContainerIn.current.ontouchmove = e => {
+      // e.preventDefault();
+      // e.stopPropagation();
+      // };
     }
   }, [refContainer.current]);
 

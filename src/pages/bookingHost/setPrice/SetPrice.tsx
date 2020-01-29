@@ -177,6 +177,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
         houseId={house._id}
       />
     ),
+    minWidth: 160,
     accessor: "index",
     Cell: ({ value, original: roomType, index }: CellInfo) => {
       const targetPrice = priceMap.get(roomType._id + season._id);
@@ -227,6 +228,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
     },
     {
       Header: LANG("basic_price"),
+      minWidth: 160,
       accessor: "defaultPrice",
       Cell: ({ value, original, index }: CellInfo) => {
         return (
@@ -287,9 +289,9 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
           </div>
         ) : (
           <JDtable
-            className="setPrice__table"
             marginAtuo={false}
             {...ReactTableDefault}
+            inClassNames="setPrice__table"
             data={roomTypes}
             columns={tableColumns}
           />

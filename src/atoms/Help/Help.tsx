@@ -24,8 +24,8 @@ const Help: React.FC<IProps> = ({
     <span
       className={`JDhelp ${className}`}
       data-tip={tooltip}
+      >
       data-for={tooltip ? `btnTooltip${newId}` : undefined}
-    >
       <JDIcon size={size} icon={icon} />
       {tooltip && (
         <Tooltip

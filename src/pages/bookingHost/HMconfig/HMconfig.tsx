@@ -43,6 +43,7 @@ import JDLabel from "../../../atoms/label/JDLabel";
 import PageHeader from "../../../components/pageHeader/PageHeader";
 import PageBody from "../../../components/pageBody/PageBody";
 import Menus from "./component/Menus";
+import CardHeader from "../../../atoms/cards/components/CardHeader";
 
 interface IProps {
   context: IContext;
@@ -73,6 +74,7 @@ const HMconfig: React.FC<IProps> = ({
   const phoneNumberModalHook = useModal();
   const phoneNumberHook = useInput(HM.phoneNumber, true);
   const emailModalHook = useModal();
+  const prevModalHook = useModal(false);
   const emailHook = useInput(HM.email, true);
   const languageConfigModalHook = useModal();
   const [title, setTitle] = useState(HM.title);
@@ -171,17 +173,38 @@ const HMconfig: React.FC<IProps> = ({
           <div className="flex-grid__col col--md-12">
             <Card>
               <div className="JDstandard-margin-bottom JDflex--between">
-                <h4>{LANG("HM_detail_info")}</h4>
-                <Button
-                  id="HMsaveBtn"
-                  mode="flat"
-                  className="JDz-index-1"
-                  thema="point"
-                  pulse={shouldSave}
-                  onClick={() => {
-                    handleSaveBtnClick();
-                  }}
-                  label={LANG("save")}
+                <CardHeader
+                  title={LANG("detail_info")}
+                  headerRgiht={
+                    <Fragment>
+                      {isPhabeltDown && (
+                        <Button
+                          id="HMsaveBtn"
+                          mode="flat"
+                          className="JDz-index-1"
+                          thema="black"
+                          size="tiny"
+                          pulse={shouldSave}
+                          onClick={() => {
+                            prevModalHook.openModal();
+                          }}
+                          label={LANG("preview")}
+                        />
+                      )}
+                      <Button
+                        id="HMsaveBtn"
+                        mode="flat"
+                        className="JDz-index-1"
+                        thema="point"
+                        size="tiny"
+                        pulse={shouldSave}
+                        onClick={() => {
+                          handleSaveBtnClick();
+                        }}
+                        label={LANG("save")}
+                      />
+                    </Fragment>
+                  }
                 />
               </div>
               <JDLabel txt={LANG("current_config_lang")} />
@@ -237,11 +260,17 @@ const HMconfig: React.FC<IProps> = ({
             </Card>
           </div>
           {/* 미리보기 */}
-          <div className="HMconfig__preview flex-grid__col col--md-12">
-            <MockUp frame="JDmocUp">
-              <HMcomponent {...sharedProps} />
-            </MockUp>
-          </div>
+          <JDmodal
+            autoMinContentWidth
+            {...prevModalHook}
+            unWrap={!isPhabeltDown}
+          >
+            <div className="HMconfig__preview flex-grid__col col--md-12">
+              <MockUp frame="JDmocUp">
+                <HMcomponent {...sharedProps} />
+              </MockUp>
+            </div>
+          </JDmodal>
         </div>
         {/* 언어 설정 모달 */}
         <LangConfigModal

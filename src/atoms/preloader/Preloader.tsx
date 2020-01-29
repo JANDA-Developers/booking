@@ -23,10 +23,10 @@ const JDpreloader: React.FC<IPreloaderConfigProps> = ({
   className,
   page,
   wrapClassName,
-  loading = false,
   floating,
   noAnimation,
   animation = [Animation.zoomIn, Animation.zoomOut],
+  loading = false,
   ...props
 }) => {
   const wrapClasses = classNames("preloader__wrap", wrapClassName, {
