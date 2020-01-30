@@ -65,7 +65,7 @@ const CheckReservationWrap: React.FC<IProps> = ({
     onCompleted: ({ GetBookingForPublic }) => {
       onCompletedMessage(
         GetBookingForPublic,
-        LANG("reference_sucess"),
+        LANG("reference_success"),
         LANG("reference_fail")
       );
     }

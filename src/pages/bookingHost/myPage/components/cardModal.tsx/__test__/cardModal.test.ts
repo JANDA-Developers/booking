@@ -22,7 +22,7 @@ export const cardDelete = () => { };
 export const cardCeate = () => { };
 
 export const cardModalTest = () => {
-  describe.skip("Card Modal Test regist and delete", () => {
+  describe.skip("Card Modal Test register and delete", () => {
 
     beforeAll(async () => {
       await testReady(true,
@@ -44,7 +44,7 @@ export const cardModalTest = () => {
     });
 
     test(
-      "Card Regist Complete",
+      "Card register Complete",
       async () => {
         await fillCardInfo();
         await page.click("#CardModal__CardRegistBtn");

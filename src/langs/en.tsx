@@ -13,7 +13,7 @@ export const en = {
   CANCEL: "Cancel Reservation",
   CARD: "Payment",
   CASH: "cash payments",
-  BANK_TRANSPER: " Bank Transper",
+  BANK_TRANSPER: " Bank Transfer",
   CHANNEL_PAY: "Channel Pay",
   CHINESE: "Chinese",
   COMPLETE: "booked",
@@ -94,7 +94,7 @@ export const en = {
   authenticate: "authenticate",
   auto_send: "auto-send",
   auto_send_condition: "AutoSend Situation",
-  auto_send_enable: "Enable autodial",
+  auto_send_enable: "Enable send",
   auto_send_target: "auto target",
   auto_send_whether: "auto-send",
   available: "available",
@@ -112,7 +112,7 @@ export const en = {
   block_room_failed: "Block failed",
   booker: "booker",
   booker_info: "reservation information",
-  booker_name: "reserver name",
+  booker_name: "booker name",
   bookingList: "reservation list",
   booking_status: "reservation status",
   calender_date: "calendar date",
@@ -144,7 +144,7 @@ export const en = {
   check_our_samples: "Look at the samples.",
   check_password: "check password",
   check_selection: "check selection",
-  checkin_change_fail: "checkin change failed",
+  checkin_change_fail: "check-in change failed",
   checkin_date: "check-in date",
   checkin_status: "check-in status",
   checkout_date: "checkout date",
@@ -259,9 +259,9 @@ export const en = {
   host: "host",
   hostel: "hostel",
   hotel: "hotel",
-  houseName: "hostname",
+  houseName: "host name",
   house_address: "hosting address",
-  house_delete_completed: "Homestay deleted",
+  house_delete_completed: "house deleted",
   house_delete_failed: "Failed to delete home",
   house_info: "hotel information",
   house_reservation: "booking accommodation",
@@ -435,7 +435,7 @@ export const en = {
   product1_short2: "Try and decide",
   product1_short3: "You can start right now",
   product2_detail1:
-    "Optimized for guest house and small to medium sized accommodations.",
+    "Optimized for guest house and small to medium-sized accommodations.",
   product2_detail3: "You can get a free homepage on the couch.",
   product2_detail4:
     "The expiration date is one month, with a repayment after one month.",
@@ -499,7 +499,7 @@ export const en = {
   room_create_fail: "Failed to create room",
   room_delete_completed: "room deleted",
   room_delete_fail: "Failed to delete room",
-  room_gender: "bangstar",
+  room_gender: "room gender",
   room_info: "room information",
   room_name: "room name",
   room_name_must_be_10_characters_or_less:
@@ -807,7 +807,7 @@ export const en = {
   price_priority:
     "* Priority priority: Room type base price < Seasonal base price < Season day price < Daily price",
   reference_fail: "reference fail",
-  reference_sucess: "reference sucess",
+  reference_success: "reference success",
   funnels: "funnels",
   see_all: "see all",
   Funnels: {
@@ -830,7 +830,7 @@ export const en = {
   find_email: "find email",
   get_temporary_password: "get temp password",
   temp_password: "temp password",
-  copied_to_cliboard: "copied to cliboard",
+  copied_to_clipboard: "copied to clipboard",
   current_password: "current password",
   password_resset: "password reset",
   password_rewrite: "password rewrite",
@@ -843,13 +843,13 @@ export const en = {
   card_resist: "card resist",
   card_number: "card number",
   check_product: "check product",
-  regist: "regist",
+  register: "register",
   exp_year: "exp/year",
   exp_month: "exp/month",
-  card_regist_complete_fail: "card regist fail",
-  card_regist_complete: "card regist complete",
-  payment_regist_complete: "payment regist complete",
-  registration_confirmation: "registration confimation",
+  card_regist_complete_fail: "card register fail",
+  card_regist_complete: "card register complete",
+  payment_regist_complete: "payment register complete",
+  registration_confirmation: "registration confirmation",
   input_information: "input information",
   input_card_information: "input card information",
   idnumber_6front: "id number 6",
@@ -950,7 +950,7 @@ export const en = {
   bill: "bill",
   need_regist: (
     <TextButton className="JDstandard-margin0" color="error">
-      require regist
+      require register
     </TextButton>
   ),
   go_to_sms_template: "go to SMS",
@@ -1032,14 +1032,14 @@ export const en = {
   card_info_complete_fail: "delete card failed",
   periodical_cancel_complete: "Periodical pay cancel completed",
   periodical_cancel_complete_fail: "Periodical pay cancel failed ",
-  card_regist: "card regist",
-  card_delete: "card delte",
-  bill_pay_regist: "Bill pay regist",
+  card_regist: "card register",
+  card_delete: "card delete",
+  bill_pay_regist: "Bill pay register",
   bill_pay_regist_width_this_card: "Periodical pay with this card",
   bill_pay_regist_change_width_this_card: "Change to this card",
-  un_exsist_page: "UN EXSIST PAGE",
+  un_exsist_page: "UN EXIST PAGE",
   sms_info: "SMS info",
-  sms_info_decs: "Here is SMS usage guid",
+  sms_info_decs: "Here is SMS usage guide",
   un_exsist_page_decs: (
     <span>
       UN EXSIST PAGE
@@ -1075,8 +1075,8 @@ export const en = {
     HOSTEL: "Hostel",
     YOUTH_HOSTEL: "Youth Hotel"
   },
-  please_select_room_gender: "please sleect room gender",
-  please_input_max_people_count: "Please enter max count cpacity",
+  please_select_room_gender: "please select room gender",
+  please_input_max_people_count: "Please enter max count capacity",
   please_select_room_type: "Please select room type.",
   room_assig_info: "room/assig info",
   else: "else",
@@ -1098,7 +1098,7 @@ export const en = {
   periodical_payment_is_stopped: (houseName: string) =>
     `${houseName}'s periodical pay is stopped`,
   request_is_failed: "request is failed.",
-  product_regist_complete_message: "product regist complete",
+  product_regist_complete_message: "product register complete",
   select_product_desc:
     "When you register your product, you will receive your card information. After the expiration period ends, payment will be automatically made.",
   please_check_file_has_special_char:

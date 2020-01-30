@@ -796,7 +796,7 @@ export const kr = {
   price_priority:
     "*우선 적용순위: 방타입 기본가격 < 시즌기본가격 < 시즌 요일별가격 < 일별 가격",
   reference_fail: "조회실패",
-  reference_sucess: "조회성공",
+  reference_success: "조회성공",
   funnels: "유입경로",
   see_all: "전체보기",
   Funnels: {
@@ -819,7 +819,7 @@ export const kr = {
   find_email: "이메일 찾기",
   get_temporary_password: "임시 비밀번호 받기",
   temp_password: "임시 비밀번호",
-  copied_to_cliboard: "클립보드에 복사됨",
+  copied_to_clipboard: "클립보드에 복사됨",
   current_password: "기존 패스워드",
   password_resset: "비밀번호 재발급",
   password_rewrite: "비밀번호 재설정",
@@ -832,7 +832,7 @@ export const kr = {
   card_resist: "카드등록",
   card_number: "카드번호",
   check_product: "상품 확인",
-  regist: "등록 하기",
+  register: "등록 하기",
   exp_year: "기한/년",
   exp_month: "기한/월",
   card_regist_complete_fail: "카드 등록 실패",
