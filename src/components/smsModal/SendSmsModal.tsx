@@ -71,6 +71,9 @@ const SendSmsModal: React.FC<IProps> = ({
   const {
     house: { _id: houseId }
   } = context;
+
+  console.log("houseId");
+  console.log(houseId);
   const today = new Date();
   const [msg, setMsg] = useState("");
   const templateSelectHook = useSelect(null);
@@ -89,7 +92,7 @@ const SendSmsModal: React.FC<IProps> = ({
           selectedPage: 1
         },
         filter: {
-          houseId,
+          houseId: houseId,
           stayDate: {
             checkIn: moment(today).format("YYYY-MM-DD"),
             checkOut: moment(today).format("YYYY-MM-DD")
@@ -167,6 +170,7 @@ const SendSmsModal: React.FC<IProps> = ({
             selectedPage: 1
           },
           filter: {
+            houseId,
             stayDate: {
               checkIn: moment(today).toDate(),
               checkOut: moment(today).toDate()
