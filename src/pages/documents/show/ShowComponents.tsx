@@ -52,6 +52,8 @@ import JDmultiStep from "../../../atoms/multiStep/MultiStep";
 import Vtable from "../../../atoms/vtable/Vtable";
 import JDIcon from "../../../atoms/icons/Icons";
 import ModalEndSection from "../../../atoms/modal/components/ModalEndSection";
+import JDlist from "../../../atoms/list/List";
+import { lexicographicSortSchema } from "graphql";
 
 function ShowComponents() {
   const defaultColor = faker.commerce.color();
@@ -264,8 +266,12 @@ function ShowComponents() {
                 falseMessage="this input is inValid"
               />
             </div>
-            <div className="flex-grid__col col--full-3 col--lg-4 col--md-6" />
-            <div className="flex-grid__col col--full-3 col--lg-4 col--md-6" />
+            <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
+              <InputText bg="grey" />
+            </div>
+            <div className="flex-grid__col col--full-3 col--lg-4 col--md-6">
+              <InputText br="round" />
+            </div>
           </div>
         </ComponentWrap>
         {/* 텍스트 어리어 */}
@@ -344,6 +350,22 @@ function ShowComponents() {
                 minValue={0}
                 value={range}
                 onChange={setRange}
+              />
+            </div>
+          </div>
+        </ComponentWrap>
+        {/* 리스트 */}
+        <ComponentWrap title="List">
+          <div className="flex-grid-grow flex-grid--md">
+            <div className="flex-grid__col">
+              <JDlist
+                title="title"
+                linePoint="* "
+                contents={[
+                  "lexicographicSortSchema",
+                  "lexicographicSortSchema",
+                  "lexicographicSortSchema"
+                ]}
               />
             </div>
           </div>
@@ -535,6 +557,7 @@ function ShowComponents() {
             <Button thema="error" label="small" size="small" />
             <Button thema="black" label="small" size="small" />
             <Button thema="primary" mode="flat" label="flat" />
+            <Button br="round" thema="primary" mode="flat" label="round" />
           </div>
           <div className="flex-grid__col">
             <Button label="long" size="long" />

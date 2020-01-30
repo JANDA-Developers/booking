@@ -1,5 +1,6 @@
 import React from "react";
 import DynamicImport from "../../utils/dynamicComponent";
+import Preloader from "../../atoms/preloader/Preloader";
 
 export const SmsInfo = props => (
   <DynamicImport load={() => import("./smsInfo/SmsInfo")}>

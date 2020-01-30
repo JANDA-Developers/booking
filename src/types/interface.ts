@@ -226,6 +226,8 @@ export interface IProductTypeDec {
   priceText: string;
   disable?: boolean | undefined;
 }
+
+type TJDBorderRadius = "round" | "noraml"
 // 일부만 시험적용중
 // 추후에 모든 아톰에 적용할에정
 export interface JDatomExtentionSet {

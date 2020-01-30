@@ -122,6 +122,7 @@ $standard-label-margin: $standard-tiny-space !default;
 // 크기를 규격화 해서 한 라인으로 세울수 있도록 합니다.
 $standard-border-radius: 3px !default;
 $standard-line-height: 0.25rem * 10 !default;
+$standard-round-border-radius: $standard-line-height / 2 !default;
 $standard-input-outborder-color: $outborder-color !default;
 
 // 💔 -- BreackPoints 브레이크 포인트

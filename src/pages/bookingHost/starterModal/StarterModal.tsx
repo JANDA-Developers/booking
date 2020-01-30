@@ -8,13 +8,8 @@ import {
   queryDataFormater
 } from "../../../utils/utils";
 import JDmodal from "../../../atoms/modal/Modal";
-<<<<<<< HEAD
 import { IMG_REPO, DO_TUTO_KEY } from "../../../types/const";
-import { useModal, LANG } from "../../../hooks/hook";
-=======
-import { IMG_REPO } from "../../../types/const";
 import { useModal, LANG, useSelect } from "../../../hooks/hook";
->>>>>>> hotfix/UiFix
 import "./StarterModal.scss";
 import {
   initHouseVariables,

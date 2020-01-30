@@ -6,13 +6,16 @@ import PhotoFrame from "../../../../../atoms/photoFrame/PhotoFrame";
 import { IMG_REPO } from "../../../../../types/const";
 import { DocSection, DocHeader } from "../../../../../components/doc/Doc";
 import Button from "../../../../../atoms/button/Button";
+import { IContext } from "../../../BookingHostRouter";
 
-interface IProps {}
+interface IProps {
+  context: IContext;
+}
 
-const UsageGuide: React.FC<IProps> = () => {
+const UsageGuide: React.FC<IProps> = context => {
   return (
     <div>
-      {/* <PageHeader desc={LANG("sms_info_decs")} title={LANG("sms_info")} />
+      <PageHeader desc={LANG("sms_info_decs")} title={LANG("sms_info")} />
       <PageBody>
         <PhotoFrame
           unStyle
@@ -30,7 +33,7 @@ const UsageGuide: React.FC<IProps> = () => {
             {LANG("how_to_send_sms_for_all_doc")}
           </DocSection>
         </Doc>
-      </PageBody> */}
+      </PageBody>
     </div>
   );
 };

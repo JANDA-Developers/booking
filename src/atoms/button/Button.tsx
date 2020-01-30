@@ -24,6 +24,7 @@ export interface IButtonProps
   iconClasses?: string[];
   dataTip?: any;
   dataFor?: any;
+  br?: "round" | "normal";
   mode?: "flat" | "normal" | "border";
   size?: "tiny" | "small" | "large" | "long" | "longLarge";
   flat?: boolean;
@@ -49,6 +50,7 @@ const Button: React.FC<IButtonProps> = ({
   tooltip,
   onClick,
   iconClasses,
+  br,
   dataTip,
   dataFor,
   flat,
@@ -87,6 +89,7 @@ const Button: React.FC<IButtonProps> = ({
     ...colorClass("JDbtn", thema),
     "JDwaves-effect-dark": mode === "flat" && thema === "normal",
     "JDbtn--pulse": pulse,
+    "JDbtn--round": br === "round",
     "JDbtn--toogleOn": toggle === true,
     "JDbtn--toogle111Off": toggle === false,
     "JDbtn--cunsumPadding": cunsumPadding,

@@ -136,6 +136,7 @@ const JDtimePicker: React.FC<IProps> = ({ timeUnit = TimePerMs.H / 2 }) => {
     const firstSelectedCellLeft = getFisrtSetSelectedCellLeft();
     const selectedBlocks = timeBlocks.filter(tb => tb.isSelected);
     const selectedCount = selectedBlocks.length;
+
     const selectingWidth = cellWidth * selectedCount + diff;
 
     $(".JDtimePicker__selectingMarks").css({
@@ -159,6 +160,8 @@ const JDtimePicker: React.FC<IProps> = ({ timeUnit = TimePerMs.H / 2 }) => {
     e.persist();
     const firstSelectedCellLeft = getFisrtSetSelectedCellLeft();
     const count = Math.floor((e.clientX - firstSelectedCellLeft) / cellWidth);
+    console.log("count");
+    console.log(count);
 
     setDragInfo({
       isDrag: false,
