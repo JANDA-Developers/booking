@@ -231,7 +231,7 @@ const SendSmsModal: React.FC<IProps> = ({
       {loading || (
         <Fragment>
           <h5>{LANG("send_sms")}</h5>
-          {mode === "Noraml" && isInBookingModal && (
+          {mode === "Noraml" && !isInBookingModal && (
             <div className="JDz-index-2">
               <JDselect
                 {...smsTargetOpHook}
