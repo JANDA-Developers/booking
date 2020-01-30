@@ -100,6 +100,7 @@ const JDbookingHost: React.FC<IProps> = ({
   const { sideNavIsOpen, setSideNavIsOpen } = useSideNav();
   const houseConfig = houseConfigSetting(currentHouse);
   const isExpired = applyedProduct?.isExpired;
+  const daysLeftToExpire = applyedProduct?.daysLeftToExpire || 0;
   const houseExists = currentHouse !== undefined;
   const superPermission =
     userRole === UserRole.ADMIN || userRole === UserRole.DEVELOPER;
@@ -202,7 +203,7 @@ const JDbookingHost: React.FC<IProps> = ({
     {
       path: undefined,
       Component: Expired,
-      condition: isExpired
+      condition: daysLeftToExpire < -6
     },
     {
       Component: AssigTimeline,
