@@ -97,6 +97,15 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
     agreePrivacyPolicy: isHost ? true : false
   };
 
+  if (!publicHouseInfo?.bookingPayInfo.payMethods) return <div />;
+  const { payMethods } = publicHouseInfo.bookingPayInfo;
+
+  if (isEmpty(payMethods))
+    return (
+      <div>
+        <h1>현재 숙소는 예약을 받지 않습니다.</h1>
+      </div>
+    );
   const isMobile = windowWidth < WindowSize.PHABLET;
   const dayPickerHook = useDayPicker(null, null);
   // 모바일에서만 사용
@@ -113,7 +122,11 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   const sendSmsHook = useCheckBox(!isHost);
   const priceHook = useInput(0);
   const cardInfoHook = useState<TCardRegistInfo>(DEFAULT_CARD_INFO);
-  const payMethodHook = useSelect(PAYMETHOD_FOR_BOOKER_OP[0]);
+  const filteredPayMethodOp = PAYMETHOD_FOR_BOOKER_OP.filter(op =>
+    payMethods.includes(op.value)
+  );
+
+  const payMethodHook = useSelect(filteredPayMethodOp[0]);
   const reservationHooks: IReservationHooks = {
     priceHook,
     cardInfoHook,

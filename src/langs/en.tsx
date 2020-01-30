@@ -4,6 +4,7 @@ import { LANG } from "../hooks/hook";
 import TextButton from "../atoms/textButton/TextButton";
 import JDlist from "../atoms/list/List";
 import PhotoFrame from "../atoms/photoFrame/PhotoFrame";
+import { autoComma } from "../utils/utils";
 
 export const en = {
   Apply: "Apply",
@@ -1131,7 +1132,102 @@ export const en = {
   update_house_completed: "update house completed",
   update_house_failed: "Update house failed",
   sms__decs:
-    "If you set up an SMS form, you can conveniently send the form when you send a message."
+    "If you set up an SMS form, you can conveniently send the form when you send a message.",
+  do_you_want_to_change_periodical_pay:
+    "Periodic payments are currently taking. Do you want to change it?",
+  auto_pay_stop: "Termination",
+  auto_pay_continue: "Reuse Periodic Payment",
+  BookingStatus: {
+    COMPLETED: "COMPLETED",
+    CANCELED: "CANCLED"
+  },
+  booking_number: "Booking Number",
+  bill_print: "Bill Print",
+  refund_price: "Refund amount",
+  refund_complete: "Refund Completed",
+  refund_fail: "Refund Failure",
+  refund: "Refund",
+  do_you_really_want_to_cancel_our_service:
+    "Do you really cancel your subscription?",
+  if_you_cancel_service_please_notice_below_things: (
+    <span>
+      If you cancel your subscription, you will no longer be able to use the
+      service after your subscription expires. It is not available. <br />
+      Note the following
+    </span>
+  ),
+  service_termination_warn1: "You can no longer accept new reservations.",
+  service_termination_warn2: "SMS service is not available.",
+  service_termination_warn3:
+    "It is not possible to change or modify an existing reservation.",
+  service_termination_warn4: "cannot access JD offer homepage.",
+  basic_info_insert: "Enter basic information.",
+  design_select: "Choose a design",
+  select_addtional_ui: "Select additional options",
+  option_select: "Select option",
+  free: "free",
+  homepage: "homePage",
+  complete: "complete",
+  un_complete: "Incomplete",
+  room_type_create: "Create room type",
+  room_create: "Room Generate",
+  sms_config: "SMS setting",
+  homepage_request: "Homepage Request",
+  homepage_request_desc:
+    "You can open a homepage for free. We provide a customizable homepage.",
+  breakfast: "Breakfast",
+  paidByNice: "Janda Pay",
+  PayMethod: {
+    BILL: "BILL",
+    VBANK: "VBANK",
+    CASH: "CASH",
+    CARD: "CARD",
+    CHANNEL_PAY: "CHANNEL",
+    BANK_TRANSFER: "BANK TRANSFER"
+  },
+  pay_check_1dollor: "Pay $ 1 to verify card info.",
+  dollor1_will_be_refund_immediatly:
+    "One dollar will be refunded immediately after payment.",
+  pay_regist_pay_notice1:
+    "If you do not wish to use the service, you must cancel your subscription within 14 days.",
+  pay_regist_pay_notice2: `
+If you change the current status on the [My Page> Periodic Payment Management] page, the regular payment will not be made.`,
+  pay_regist_pay_notice3:
+    "Please note that it is difficult to use the sleep booking system from the time of canceling the regular payment.",
+  check_new_password: "Enter new password confirmation",
+  detail_info: "More information",
+  roomType_count: "Room type number",
+  createHouse_desc: (
+    <span>
+      You can create additional accommodation in one account.{" "}
+      <span className="JDtextColor--error">
+        * Please note that monthly charges are paid separately per house.{" "}
+      </span>
+    </span>
+  ),
+  solution_usage_guide_desc:
+    "We will guide you to use the book booking system.",
+  pay_doc_title1: "What is periodic payment?",
+  pay_doc_desc1: (price: number) =>
+    `잔다부킹시스템은 '정기결제'는 회원가입과 동시에 14일간의 무료체험 이후에 회원가입시 입력한 카드로 정기적으로 '상품타입 금액 ${autoComma(
+      price
+    )} 만큼 결제를 합니다'`,
+  pay_doc_title2: "정기결제 변경",
+  pay_doc_desc2:
+    "[MY PAGE > 정기결제 관리]에서 '결제카드변경'를 눌러서 카드정보를 변경하시면 됩니다.",
+  pay_doc_title3: "정기결제 취소",
+  pay_doc_desc3:
+    "정기결제 취소를 원하시면 [MYPAGE > 정기결제 관리 > 현재상태]를 변경하시면 정기결제가 되지 않습니다.",
+  product_type_help_txt: () => (
+    <span>
+      방 20개 이상은 JANDA-H (110,000/월) <br /> 그외 JANDA-G (55,000/월) 권장
+    </span>
+  ),
+  product_type_desc: (productTypePrice: number) =>
+    `${autoComma(productTypePrice)} / 월 (14일 무료 취소가능)`,
+  house_init_done_fisrt: "welcome. You have created your hostel.",
+  house_init_done: "숙소가 추가 되었습니다.",
+  house_init_failed: "Failed to create accommodation Please inquire separately."
 };
 
 export default en;
