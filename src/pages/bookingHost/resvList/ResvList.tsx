@@ -377,12 +377,15 @@ const ResvList: React.SFC<IProps> = ({
               }: TExcelGetDataProp) => {
                 const filter: GetBookingsFilterInput | undefined = date
                   ? {
+                      houseId,
                       stayDate: {
                         checkIn: to4YMMDD(date.from),
                         checkOut: to4YMMDD(date.to)
                       }
                     }
-                  : undefined;
+                  : {
+                      houseId
+                    };
 
                 const { data, loading } = await client.query<
                   getBookings,
