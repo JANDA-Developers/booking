@@ -4,36 +4,43 @@ import { LANG } from "../../../../../hooks/hook";
 import PageBody from "../../../../../components/pageBody/PageBody";
 import PhotoFrame from "../../../../../atoms/photoFrame/PhotoFrame";
 import { IMG_REPO } from "../../../../../types/const";
-import { DocSection, DocHeader } from "../../../../../components/doc/Doc";
-import Button from "../../../../../atoms/button/Button";
+import Doc, { DocSection, DocHeader } from "../../../../../components/doc/Doc";
 import { IContext } from "../../../BookingHostRouter";
+import { DEFAULT_PRODUCT } from "../../../../../types/defaults";
+import "./UsageGuide.scss";
 
 interface IProps {
   context: IContext;
 }
 
-const UsageGuide: React.FC<IProps> = context => {
+const UsageGuide: React.FC<IProps> = ({ context }) => {
+  const { applyedProduct } = context;
+  const { price } = applyedProduct || DEFAULT_PRODUCT;
   return (
-    <div>
-      <PageHeader desc={LANG("sms_info_decs")} title={LANG("sms_info")} />
-      <PageBody>
-        <PhotoFrame
-          unStyle
-          type=".png"
-          lang={context.langHook.currentLang}
-          src={IMG_REPO + `booking_app/describe/smsinfo_img_02`}
-        />
-        <Doc>
-          <DocSection>
-            <DocHeader>{LANG("how_to_save_sms_template_title")}</DocHeader>
-            {LANG("how_to_save_sms_template_doc")}
-          </DocSection>
-          <DocSection>
-            <DocHeader>{LANG("how_to_send_sms_for_all_title")}</DocHeader>
-            {LANG("how_to_send_sms_for_all_doc")}
-          </DocSection>
-        </Doc>
-      </PageBody>
+    <div className="usageGuide">
+      <PhotoFrame
+        isBgImg
+        unStyle
+        responseImg
+        type=".png"
+        className="usageGuide__topPhoto"
+        lang={context.langHook.currentLang}
+        src={IMG_REPO + `booking_app/describe/service_usage1`}
+      />
+      <Doc>
+        <DocSection>
+          <DocHeader>{LANG("pay_doc_title1")}</DocHeader>
+          {LANG("pay_doc_desc1")(price)}
+        </DocSection>
+        <DocSection>
+          <DocHeader>{LANG("pay_doc_title2")}</DocHeader>
+          {LANG("pay_doc_desc2")}
+        </DocSection>
+        <DocSection>
+          <DocHeader>{LANG("pay_doc_title3")}</DocHeader>
+          {LANG("pay_doc_desc3")}
+        </DocSection>
+      </Doc>
     </div>
   );
 };

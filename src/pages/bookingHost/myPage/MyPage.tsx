@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./MyPage.scss";
 import { LANG } from "../../../hooks/hook";
 import { IContext } from "../../bookingHost/BookingHostRouter";
@@ -8,6 +8,7 @@ import { JDtabs, TabList, Tab, TabPanel } from "../../../atoms/tabs/Tabs_";
 import UserProfile from "./components/userProfile/UserProfile";
 import PeriodicalPay from "./components/periodicalPay/PeriodicalPay";
 import { getUserForSU_GetUserForSU_user } from "../../../types/api";
+import UsageGuide from "./components/usageGuide/UsageGuide";
 
 interface IProps {
   context: IContext;
@@ -16,27 +17,51 @@ interface IProps {
 }
 
 const Mypage: React.SFC<IProps> = ({ context, userInfo }) => {
+  const [currentTab, setCurrentTab] = useState("userProfile");
+
+  const tabContents = [
+    {
+      key: "userProfile",
+      tab: LANG("user_info"),
+      content: <UserProfile userInfo={userInfo} context={context} />
+    },
+    {
+      key: "PeriodicalPay",
+      tab: <span className="payTabIn">{LANG("periodicalPay_manage")}</span>,
+      content: <PeriodicalPay context={context} />
+    },
+    {
+      key: "UsageGuide",
+      tab: <span>{LANG("solution_usage_guide")}</span>,
+      content: <UsageGuide context={context} />
+    }
+  ];
+
+  const headerProp = {
+    desc:
+      currentTab === "UsageGuide"
+        ? LANG("solution_usage_guide_desc")
+        : LANG("mypage_desc"),
+    title: currentTab === "UsageGuide" ? LANG("solution_usage_guide") : "MyPage"
+  };
+
   return (
     <div id="myPage" className="myPage">
-      <PageHeader desc={LANG("mypage_desc")} title={"MyPage"} />
+      <PageHeader {...headerProp} />
       <PageBody>
-        <JDtabs tabsAlign="spaceAround" mb="large">
+        <JDtabs
+          onSelect={index => setCurrentTab(tabContents[index].key)}
+          tabsAlign="spaceAround"
+          mb="large"
+        >
           <TabList>
-            <Tab>{LANG("user_info")}</Tab>
-            <Tab>
-              <span className="payTabIn">{LANG("periodicalPay_manage")}</span>
-            </Tab>
-            <Tab>
-              <span>{LANG("solution_usage_guide")}</span>
-            </Tab>
+            {tabContents.map(tabC => (
+              <Tab>{tabC.tab}</Tab>
+            ))}
           </TabList>
-          <TabPanel>
-            <UserProfile userInfo={userInfo} context={context} />
-          </TabPanel>
-          <TabPanel>
-            <PeriodicalPay context={context} />
-          </TabPanel>
-          <TabPanel>{/* <UsageGuid context={context} /> */}</TabPanel>
+          {tabContents.map(tabC => (
+            <TabPanel>{tabC.content}</TabPanel>
+          ))}
         </JDtabs>
       </PageBody>
     </div>

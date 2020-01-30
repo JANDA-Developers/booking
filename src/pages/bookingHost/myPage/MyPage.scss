@@ -1,8 +1,6 @@
 @import "~Styles";
 
 .myPage {
-  text-align: center;
-
   &__profileSectionWrap {
     @include response($phablet) {
       display: block;
