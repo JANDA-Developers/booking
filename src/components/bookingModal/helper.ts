@@ -58,10 +58,12 @@ export const bookingModalValidate = (
 
 // SMS 발송 모달에 전달할 정보를 생성
 export const makeSmsInfoParam = (
-  bookingModalContext: IBookingModalContext
+  bookingModalContext: IBookingModalContext,
+  bookingId: string
 ): IModalSMSinfo => {
-  const { bookingPhoneHook, paymentStatusHook } = bookingModalContext;
+  const { bookingPhoneHook, paymentStatusHook, } = bookingModalContext;
   return {
+    bookingIds: [bookingId],
     receivers: [bookingPhoneHook.value],
     // 페이먼트 에따라서 각 상황에맞는 SMS 를 찾아줌
     autoSendWhen: (() => {

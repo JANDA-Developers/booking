@@ -142,6 +142,7 @@ const SendSmsModal: React.FC<IProps> = ({
     if (!smsInfo) {
       throw Error("smsInfo is not exist");
     }
+
     const sendSMSfn = sendSmsMu.bind(sendSmsMu, {
       variables: {
         smsInfoId: smsInfo._id,

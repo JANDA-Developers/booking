@@ -190,7 +190,10 @@ const BookingModal: React.FC<IProps> = ({
   };
 
   // SMS 발송 모달에 전달할 정보를 생성
-  const smsModalInfoTemp = makeSmsInfoParam(bookingModalContext);
+  const smsModalInfoTemp = makeSmsInfoParam(
+    bookingModalContext,
+    modalHook.info.bookingId || bookingId
+  );
 
   // 예약삭제 여부를 물어보는 버튼 컬백함수
   const deleteModalCallBackFn = (confirm: boolean) => {
