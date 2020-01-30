@@ -1,3 +1,5 @@
+console.log("isOn?");
+
 if (!String.prototype.repeat) {
   // @ts-ignore
   window.isOldBorwesr = true;

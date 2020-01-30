@@ -26,9 +26,9 @@ const Mypage: React.SFC<IProps> = ({ context, userInfo }) => {
             <Tab>
               <span className="payTabIn">{LANG("periodicalPay_manage")}</span>
             </Tab>
-            <Tab>
+            {/* <Tab>
               <span>{LANG("solution_usage_guide")}</span>
-            </Tab>
+            </Tab> */}
           </TabList>
           <TabPanel>
             <UserProfile userInfo={userInfo} context={context} />
@@ -36,7 +36,7 @@ const Mypage: React.SFC<IProps> = ({ context, userInfo }) => {
           <TabPanel>
             <PeriodicalPay context={context} />
           </TabPanel>
-          <TabPanel>{/* <UsageGuid context={context} /> */}</TabPanel>
+          {/* <TabPanel><UsageGuid context={context} /></TabPanel> */}
         </JDtabs>
       </PageBody>
     </div>
