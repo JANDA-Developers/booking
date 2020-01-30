@@ -46,16 +46,20 @@ import client from "../../apollo/apolloClient";
 import JDpreloader from "../../atoms/preloader/Preloader";
 import ModalEndSection from "../../atoms/modal/components/ModalEndSection";
 
-interface IProps {
+export interface ISendSmsModalConfigProps {
+  mode?: "Booking" | "Noraml";
+  autoSendWhen?: AutoSendWhen;
+  bookingIds?: string[];
+  isInBookingModal?: boolean;
+}
+
+interface IProps extends ISendSmsModalConfigProps {
   context: IContext;
   modalHook: IUseModal<IModalSMSinfo>;
   sendSmsMu: MutationFn<sendSms, sendSmsVariables>;
   loading: boolean;
-  bookingIds?: string[];
   smsInfo: getSmsInfo_GetSmsInfo_smsInfo | null | undefined;
   callBackFn?(flag: boolean, smsSendFn: any): any;
-  autoSendWhen?: AutoSendWhen;
-  mode?: "Booking" | "Noraml";
 }
 
 const SendSmsModal: React.FC<IProps> = ({
@@ -66,7 +70,8 @@ const SendSmsModal: React.FC<IProps> = ({
   callBackFn,
   bookingIds,
   mode = "Noraml",
-  autoSendWhen
+  autoSendWhen,
+  isInBookingModal
 }) => {
   const {
     house: { _id: houseId }
@@ -226,7 +231,7 @@ const SendSmsModal: React.FC<IProps> = ({
       {loading || (
         <Fragment>
           <h5>{LANG("send_sms")}</h5>
-          {mode === "Noraml" && (
+          {mode === "Noraml" && isInBookingModal && (
             <div className="JDz-index-2">
               <JDselect
                 {...smsTargetOpHook}

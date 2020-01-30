@@ -518,7 +518,11 @@ const BookingModal: React.FC<IProps> = ({
             refundAmt={refundAmt}
             modalHook={refundModalHook}
           />
-          <SendSMSmodalWrap context={context} modalHook={sendSmsModalHook} />
+          <SendSMSmodalWrap
+            isInBookingModal
+            context={context}
+            modalHook={sendSmsModalHook}
+          />
           <JDtoastModal
             confirm
             confirmCallBackFn={deleteModalCallBackFn}
