@@ -64,17 +64,12 @@ $roomWidth: 10rem;
     display: flex;
   }
   &__roomsWrapWrap {
+    margin-right: -$standard-space;
     display: flex;
     @extend %JDscrollbar;
     overflow-y: hidden;
     @include response($tablet) {
       flex-wrap: wrap;
-      .JDbox {
-        max-width: clac(33.3% - #{$standard-space});
-        &:nth-child(3n) {
-          margin-right: 0;
-        }
-      }
     }
   }
 }

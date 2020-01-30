@@ -48,7 +48,7 @@ const LangList: React.FC<IProps> = ({ onClickLng, hideList, hilightLangs }) => {
           >
             <div className="JDflex JDflex--vCenter">
               <img
-                className="LangList__flag JDstandard-small-space"
+                className="LangList__flag JDstandard-tiny-space"
                 src={flag}
               />
               <span

@@ -3,6 +3,7 @@ import Mbr from "../atoms/mbr/Mbr";
 import TextButton from "../atoms/textButton/TextButton";
 import JDlist from "../atoms/list/List";
 import PhotoFrame from "../atoms/photoFrame/PhotoFrame";
+import { autoComma } from "../utils/utils";
 
 export const kr = {
   Apply: "적용",
@@ -21,9 +22,9 @@ export const kr = {
   ENGLISH: "영어",
   FAIL: "예약실패",
   GUEST: "게스트",
-  HM: "하우스 메뉴얼",
-  HM_set: "하우스 메뉴얼 설정",
-  HM_title: "하우스 메뉴얼 타이틀",
+  HM: "AI 무인 솔루션",
+  HM_set: "AI 무인 솔루션 설정",
+  HM_title: "AI 무인 솔루션 타이틀",
   HOST: "호스트",
   Headcount: "인원수",
   JANDA_provide_free_homepage_for_guest:
@@ -46,7 +47,7 @@ export const kr = {
     TOTALPRICE: `[가격]`,
     PAYMETHOD: `[결제방법]`,
     PAYMENTSTATUS: `[결제상태]`,
-    HM: `[하우스메뉴얼URL]`
+    HM: `[AI 무인 솔루션URL]`
   },
   Use_room_specific_tabs: "방타입별 탭을 사용합니다.",
   VBANK: "무통장입금",
@@ -393,7 +394,7 @@ export const kr = {
   please_enter_phone_number: "전화번호를 입력해주세요.",
   please_enter_the_name_of_the_house: "숙소명을 입력해주세요.",
   please_enter_your_phone_number: "전화번호를 입력해주세요.",
-  please_input_HM_title: "하우스메뉴얼 타이틀을 입력해주세요",
+  please_input_HM_title: "AI 무인 솔루션 타이틀을 입력해주세요",
   please_inquire_separately: "별도 문의 바랍니다.",
   please_request_through_helpline: "상담전화를 통해 요청바람니다.",
   please_search_house_location: "숙소위치를 검색해주세요.",
@@ -503,7 +504,7 @@ export const kr = {
   room_name_must_be_10_characters_or_less: "방이름은 10자 이하여야합니다.",
   room_select: "방 선택",
   room_setting: "방설정",
-  room_type_basic_price: "방타입 기본가격",
+  room_type_basic_price: "방 기본가격",
   room_type_desc: "방타입 추가설명",
   room_type_name: "방타입 이름",
   room_type_tab: "방타입별 탭",
@@ -767,9 +768,9 @@ export const kr = {
   february: "2월",
   january: "1월",
 
-  copy_hm_page_URL: "하우스메뉴얼 URL 복사",
-  HM_update: "하우스 메뉴얼 업데이트",
-  HM_update_fail: "하우스 메뉴얼 업데이트 실패",
+  copy_hm_page_URL: "AI 무인 솔루션 URL 복사",
+  HM_update: "AI 무인 솔루션 업데이트",
+  HM_update_fail: "AI 무인 솔루션 업데이트 실패",
   // 1.0.1 add
   un_checkIn: "미입실",
   PaymentStatus: {
@@ -786,8 +787,8 @@ export const kr = {
   exit_house_settings: "숙소설정 끝내기",
   none_data: "no data",
   dontSMS: "전송안함",
-  hm_page_URL: "하우스메뉴얼 URL",
-  move_hm_page: "하우스메뉴얼 페이지로 이동",
+  hm_page_URL: "AI 무인 솔루션 URL",
+  move_hm_page: "AI 무인 솔루션 페이지로 이동",
   reservation_page_URL: "예약페이지 URL",
   move_reservation_page: "예약페이지 이동",
   reservation_creation_complete_for_guest: "예약이 완료 되었습니다.",
@@ -795,7 +796,7 @@ export const kr = {
   price_priority:
     "*우선 적용순위: 방타입 기본가격 < 시즌기본가격 < 시즌 요일별가격 < 일별 가격",
   reference_fail: "조회실패",
-  reference_sucess: "조회성공",
+  reference_success: "조회성공",
   funnels: "유입경로",
   see_all: "전체보기",
   Funnels: {
@@ -818,7 +819,7 @@ export const kr = {
   find_email: "이메일 찾기",
   get_temporary_password: "임시 비밀번호 받기",
   temp_password: "임시 비밀번호",
-  copied_to_cliboard: "클립보드에 복사됨",
+  copied_to_clipboard: "클립보드에 복사됨",
   current_password: "기존 패스워드",
   password_resset: "비밀번호 재발급",
   password_rewrite: "비밀번호 재설정",
@@ -831,7 +832,7 @@ export const kr = {
   card_resist: "카드등록",
   card_number: "카드번호",
   check_product: "상품 확인",
-  regist: "등록 하기",
+  register: "등록 하기",
   exp_year: "기한/년",
   exp_month: "기한/월",
   card_regist_complete_fail: "카드 등록 실패",
@@ -902,9 +903,9 @@ export const kr = {
   lang_use_set: "언어 사용설정",
   HM_set__desc: (
     <span>
-      하우스 메뉴얼은 게스트가 쉽고 편하게 숙소를 이용할 수 있도록 안내 페이지를
-      송신합니다. <br />
-      하우스 메뉴얼이 게스트의 숙소 이용법을 설명하는 수고를 덜어 줄겁니다.
+      AI 무인 솔루션은 게스트가 쉽고 편하게 숙소를 이용할 수 있도록 안내
+      페이지를 송신합니다. <br />
+      AI 무인 솔루션이 게스트의 숙소 이용법을 설명하는 수고를 덜어 줄겁니다.
     </span>
   ),
   user_info: "회원정보",
@@ -926,7 +927,7 @@ export const kr = {
   un_registed: "적용안됨",
   uploade_compelte: "업로드 완료",
   uploade_fail: "업로드 실패",
-  HM_detail_info: "하우스 메뉴얼 상세정보",
+  HM_detail_info: "AI 무인 솔루션 상세정보",
   ExcelExpress: {
     SELECT_OP: "현재 선택한 내용으로 출력",
     COUNT_OP: "최근 생성 갯수로 출력",
@@ -953,7 +954,7 @@ export const kr = {
           2. 양식생성 화면에서 타이틀과, 메시지를 입력하시고 메시지화면에서 중간
           중간에 생성할
           <b>
-            숙박일자/숙박정보/예약자명/가격/결제방법/결제상태/하우스메뉴얼URL
+            숙박일자/숙박정보/예약자명/가격/결제방법/결제상태/AI 무인 솔루션URL
           </b>
           문구를 아래에 <b>양식메시지</b>에서 클릭하시면 메시지 발송시에
           자동으로 정보가 입력됩니다.
@@ -1110,7 +1111,7 @@ export const kr = {
     "SMS 양식을 설정해두시면 메세지를 보낼떄 해당 양식을 편리하게 보낼수 있습니다.",
   do_you_want_to_change_periodical_pay:
     "현재 정기결제가 이루어지고 있습니다. 변경 하시겠습니까?",
-  auto_pay_stop: "중지하기",
+  auto_pay_stop: "해지",
   auto_pay_continue: "정기결재 재사용 하기",
   BookingStatus: {
     COMPLETED: "예약완료",
@@ -1159,5 +1160,46 @@ export const kr = {
     CARD: "카드결제",
     CHANNEL_PAY: "채널결제",
     BANK_TRANSFER: "무통장 입금"
-  }
+  },
+  pay_check_1dollor: "카드정보 확인을 위해 1달러 결제를 진행합니다.",
+  dollor1_will_be_refund_immediatly: "1달러는 결제후 곧바로 환불 처리 됩니다.",
+  pay_regist_pay_notice1:
+    "이용을 원하지 않으시면 14일 이전에 정기결제를 취소 하셔야 합니다.",
+  pay_regist_pay_notice2:
+    "[마이페이지 > 정기결제관리] 페이지에서 현재상태를 변경하시면 정기결제가 되지 않습니다.",
+  pay_regist_pay_notice3:
+    "정기결제를 취소하는 시점부터 잔다부킹시스템 이용이 힘드니 이점 유념하시길 바랍니다.",
+  check_new_password: "새로운 패스워드 확인 입력",
+  detail_info: "상세정보",
+  roomType_count: "방타입 수",
+  createHouse_desc: (
+    <span>
+      한계정에 추가적인 숙소를 생성 하실 수 있습니다.{" "}
+      <span className="JDtextColor--error">
+        * 월별 요금은 숙소당 개별 지불 되니 이점 유의하시길 바랍니다.{" "}
+      </span>
+    </span>
+  ),
+  solution_usage_guide_desc: "잔다부킹시스템 이용안내를 드립니다.",
+  pay_doc_title1: "정기결제란?",
+  pay_doc_desc1: (price: number) =>
+    `잔다부킹시스템은 '정기결제'는 회원가입과 동시에 14일간의 무료체험 이후에 회원가입시 입력한 카드로 정기적으로 '상품타입 금액 ${autoComma(
+      price
+    )} 만큼 결제를 합니다'`,
+  pay_doc_title2: "정기결제 변경",
+  pay_doc_desc2:
+    "[MY PAGE > 정기결제 관리]에서 '결제카드변경'를 눌러서 카드정보를 변경하시면 됩니다.",
+  pay_doc_title3: "정기결제 취소",
+  pay_doc_desc3:
+    "정기결제 취소를 원하시면 [MYPAGE > 정기결제 관리 > 현재상태]를 변경하시면 정기결제가 되지 않습니다.",
+  product_type_help_txt: () => (
+    <span>
+      방 20개 이상은 JANDA-H (110,000/월) <br /> 그외 JANDA-G (55,000/월) 권장
+    </span>
+  ),
+  product_type_desc: (productTypePrice: number) =>
+    `${autoComma(productTypePrice)} / 월 (14일 무료 취소가능)`,
+  house_init_done_fisrt: "환영합니다. 숙소 생성이 완료 되었습니다.",
+  house_init_done: "숙소가 추가 되었습니다.",
+  house_init_failed: "숙소 생성에 실패했습니다. 별도 문의 바랍니다."
 };

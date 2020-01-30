@@ -1,5 +1,12 @@
 .createSeasonModal {
-    &__table {
-        max-height: 0.25rem * 5 * 9;
+  &__table {
+    max-height: 50vh;
+    @extend %JDscrollbar--static;
+
+    @include response($tablet) {
+      .JDinput {
+        width: 160px !important;
+      }
     }
+  }
 }

@@ -853,7 +853,6 @@ export const PRICE_TIMELINE_GET_PRICE = gql`
   ${F_ROOMTYPE}
 `;
 
-
 // 예약 :: 예약자를 위한 예약인원 
 export const GET_ALL_ROOM_TYPE_FOR_BOOKER = gql`
   query getAllRoomTypeForBooker {

@@ -4,8 +4,8 @@ import ErrProtecter from "../../utils/errProtect";
 import { IUl, JDatomExtentionSet } from "../../types/interface";
 import { s4, textAlignClass } from "../../utils/utils";
 import "./List.scss";
-import { TextAlign } from "../../types/enum";
-import { JDmbClass, JDmrClass } from "../../utils/autoClasses";
+import { TextAlign, TextSize } from "../../types/enum";
+import { JDmbClass, JDmrClass, textSizeClass } from "../../utils/autoClasses";
 
 interface IProps extends IUl, JDatomExtentionSet {
   className?: string;
@@ -15,6 +15,7 @@ interface IProps extends IUl, JDatomExtentionSet {
   contents: any[];
   align?: TextAlign;
   noWrap?: boolean;
+  size?: TextSize;
   marginBottom?: "short" | "normal" | "long";
   linePoint?: string;
 }
@@ -32,6 +33,7 @@ const JDlist: React.FC<IProps> = ({
   linePoint,
   mb,
   mr,
+  size,
   ...props
 }) => {
   const classes = classNames("JDlist", className, {
@@ -43,7 +45,8 @@ const JDlist: React.FC<IProps> = ({
     "JDlist--mbLong": marginBottom === "long",
     "JDlist--whiteSpace": noWrap,
     ...JDmbClass(mb),
-    ...JDmrClass(mr)
+    ...JDmrClass(mr),
+    ...textSizeClass("textButton", size)
   });
 
   return (

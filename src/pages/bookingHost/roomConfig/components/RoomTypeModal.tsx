@@ -159,7 +159,7 @@ const RoomTypeModal: React.FC<IProps> = ({ modalHook, loading, onSubmit }) => {
                 minHeight="200px"
               />
             </div>
-            <div className="flex-grid__col col--full-6 col--lg-6 col--md-6">
+            <div className="flex-grid__col col--full-6 col--lg-6 col--md-12">
               <InputText
                 id="RoomTypeDecs"
                 onChange={val => {
@@ -170,7 +170,7 @@ const RoomTypeModal: React.FC<IProps> = ({ modalHook, loading, onSubmit }) => {
                 label={LANG("room_type_desc")}
               />
             </div>
-            <div className="flex-grid__col col--full-6 col--lg-6 col--md-6">
+            <div className="flex-grid__col col--full-6 col--lg-6 col--md-12">
               <InputText
                 id="RoomTypeBasicPrice"
                 onChange={(val: any) => {

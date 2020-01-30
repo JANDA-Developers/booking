@@ -1,17 +1,24 @@
 import React, { useState, useRef, useCallback } from "react";
 import JDmultiStep from "../../../atoms/multiStep/MultiStep";
 import { IContext } from "../../bookingHost/BookingHostRouter";
-import { stepFinder, s4, cardValidate } from "../../../utils/utils";
+import {
+  stepFinder,
+  s4,
+  cardValidate,
+  queryDataFormater
+} from "../../../utils/utils";
 import JDmodal from "../../../atoms/modal/Modal";
 import { IMG_REPO } from "../../../types/const";
-import { useModal, LANG } from "../../../hooks/hook";
+import { useModal, LANG, useSelect } from "../../../hooks/hook";
 import "./StarterModal.scss";
 import {
   initHouseVariables,
   CreateHouseInput,
-  UpsertRoomTypeInput
+  UpsertRoomTypeInput,
+  getAllProductTypes
 } from "../../../types/api";
 import Button from "../../../atoms/button/Button";
+import { SELECT_PRODUCT_TYPE_OP } from "../../../types/const";
 import RoomConfig from "../roomConfig/RoomConfig";
 import PhoneVerificationModalWrap from "../../../components/phoneVerificationModal/PhoneVerificationModalWrap";
 import CreateHouse from "../createHouse/CreateHouse";
@@ -25,6 +32,14 @@ import PreloaderModal from "../../../atoms/preloaderModal/PreloaderModal";
 import PhotoFrame from "../../../atoms/photoFrame/PhotoFrame";
 import ModalEndSection from "../../../atoms/modal/components/ModalEndSection";
 import "../../../utils/channelTok";
+import JDlist from "../../../atoms/list/List";
+import { currentWinSize } from "../../../utils/currentWinSize";
+import { useQuery } from "@apollo/react-hooks";
+import { GET_PRODUCTS_TYPES } from "../../../apollo/queries";
+import client from "../../../apollo/apolloClient";
+import JDselect from "../../../atoms/forms/selectBox/SelectBox";
+import Help from "../../../atoms/Help/Help";
+import { arraySum } from "../../../utils/elses";
 
 interface IProps {
   context: IContext;
@@ -34,6 +49,12 @@ interface IProps {
 
 const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
   const modalHook = useModal(true);
+  const { data: productTypeData, loading } = useQuery<getAllProductTypes>(
+    GET_PRODUCTS_TYPES,
+    {
+      client
+    }
+  );
   const defaultStep = stepFinder(context);
   const [step, setStep] = useState(defaultStep);
   const roomSubmitRef = useRef<any>(null);
@@ -45,6 +66,20 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
     user: { phoneNumber }
   } = context;
   const phoneVerificationModalHook = useModal();
+  const productTypeHook = useSelect(SELECT_PRODUCT_TYPE_OP[0]);
+
+  const productTypes = queryDataFormater(
+    productTypeData,
+    "GetAllProductTypes",
+    "productTypes",
+    undefined
+  );
+
+  const selectedProductType = productTypes?.find(
+    pt => pt.name === productTypeHook.selectedOption?.value
+  );
+
+  const isMobile = currentWinSize() === "sm";
 
   const handleCreateHouseSubmit = (param: initHouseVariables) => {
     setInitHouseData(param.param.createHouseInput);
@@ -52,6 +87,14 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
   };
 
   const handleSubmitCreateRoomTypes = (param: RoomConfigSubmitData) => {
+    const roomCount = arraySum(
+      param.createDatas.map(rt => rt.rooms?.length || 0)
+    );
+    if (roomCount > 20) {
+      productTypeHook.onChange(SELECT_PRODUCT_TYPE_OP[1]);
+    } else {
+      productTypeHook.onChange(SELECT_PRODUCT_TYPE_OP[0]);
+    }
     setRoomsTypeData(param.createDatas);
     setStep("card");
   };
@@ -63,19 +106,19 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
 
   const initInfoDataTable = [
     {
-      label: "houseName",
+      label: LANG("houseName"),
       Component: () => <span>{InitHouseData?.name}</span>
     },
     {
-      label: "houseType",
+      label: LANG("house_type"),
       Component: () => <span>{InitHouseData?.houseType}</span>
     },
     {
-      label: "roomType count",
+      label: LANG("roomType_count"),
       Component: () => <span>{roomTypesData.length}</span>
     },
     {
-      label: "room count",
+      label: LANG("room_count"),
       Component: () => <span>{roomCount}</span>
     }
   ];
@@ -213,9 +256,19 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
       return (
         <Wrap>
           <PhotoFrame
-            mb="normal"
+            mb="no"
             unStyle
             src={`${IMG_REPO}booking_app/describe/jd_booking_free_ex_banner.jpg`}
+          />
+          <JDlist
+            mr="no"
+            className="staterModal__cardNotiList"
+            size="small"
+            linePoint="- "
+            contents={[
+              LANG("pay_regist_pay_notice1"),
+              LANG("pay_regist_pay_notice2")
+            ]}
           />
           <CardInfoForm
             forHost
@@ -250,9 +303,31 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
       return (
         <Wrap>
           <ModalEndSection className="staterModal__createRoom_finish_Btn">
+            <div className="JDstandard-margin-bottom">
+              <JDselect
+                mr="no"
+                mb="small"
+                {...productTypeHook}
+                options={SELECT_PRODUCT_TYPE_OP}
+              />
+              <span>
+                <span className="JDsmall-text">
+                  {LANG("product_type_desc")(selectedProductType?.price)}{" "}
+                </span>
+                <Help tooltip={LANG("product_type_help_txt")} />
+              </span>
+            </div>
             <Vtable>
               <ColumnCells datas={initInfoDataTable} />
             </Vtable>
+            <JDlist
+              size="small"
+              linePoint="*"
+              contents={[
+                LANG("pay_check_1dollor"),
+                LANG("dollor1_will_be_refund_immediatly")
+              ]}
+            />
             <Button
               thema="primary"
               mode="flat"
@@ -273,6 +348,7 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
 
                 onSubmit({
                   param: {
+                    selectedProductType: selectedProductType?._id,
                     cardInfo: {
                       cardNo: cardInfo.cardNumber,
                       cardPw: cardInfo.cardPassword,

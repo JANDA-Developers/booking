@@ -30,6 +30,7 @@ import { initHouseVariables, HouseType } from "../../../types/api";
 import { TRef } from "../../../types/interface";
 import EerrorProtect from "../../../utils/errProtect";
 import optionFineder from "../../../utils/optionFinder";
+import PageBody from "../../../components/pageBody/PageBody";
 
 let map: google.maps.Map | null = null;
 
@@ -217,13 +218,7 @@ const CreateHouse: React.FC<IProps> = ({
     if (submitValidation()) {
       onSubmit({
         param: {
-          cardInfo: {
-            cardNo: "",
-            cardPw: "",
-            expMonth: "",
-            expYear: " ",
-            idNo: ""
-          },
+          cardInfo: null,
           createHouseInput: {
             name: houseNameHoook.value,
             houseType: typeSelectHook.selectedOption!.value,
@@ -236,73 +231,71 @@ const CreateHouse: React.FC<IProps> = ({
   };
 
   return (
-    <div id="createHomePage" className="container container--sm">
-      <div className="docs-section">
-        <PreloaderModal loading={muLoading} />
-        <div className="flex-grid">
-          {/* 숙소명 입력 */}
-          <div className="flex-grid__col col--full-12 col--md-12">
-            <InputText
-              id="HouseName"
-              {...houseNameHoook}
-              validation={utils.isMaxOver}
-              max={20}
-              placeholder={LANG("houseName")}
-              label={LANG("houseName")}
-            />
-          </div>
-          {/* 숙소 타입 선택 */}
-          <div className="flex-grid__col col--full-12 col--md-12">
-            <SelectBox
-              id="HouseType"
-              {...typeSelectHook}
-              options={selectTypeHouse}
-              isOpen
-              label={LANG("select_house_type")}
-            />
-          </div>
-          <div className="flex-grid__col col--full-8 col--md-12">
-            <SearchInput
-              id="Address"
-              maxCount={10}
-              filter={false}
-              feedBackMessage={addressData.results?.common.errorMessage || ""}
-              dataList={addressData.results && addressData.results.juso}
-              label={LANG("house_address")}
-              asId="bdMgtSn"
-              asName="roadAddr"
-              asDetail="jibunAddr"
-              isLoading={addressLoading}
-              onFindOne={handleOnFind}
-              onTypeChange={onTypeChange}
-              onTypeValue={location.address}
-            />
-          </div>
-          <div className="flex-grid__col col--full-4 col--md-12">
-            <InputText
-              onChange={v => {
-                setLocation({ ...location, addressDetail: v });
-              }}
-              value={location.addressDetail}
-              id="AddressDetail"
-              validation={utils.isMaxOver}
-              max={50}
-              placeholder={LANG("detail_address")}
-              label={LANG("detail_address")}
-            />
-          </div>
-          <div className="test__googleMapWrap createHomePage__map flex-grid__col col--full-12 col--md-12">
-            <GoogleMap mapRef={mapRef} />
-          </div>
-          <Button
-            refContainer={submitRef}
-            id="CreateHouseSubmitBtn"
-            thema="primary"
-            label={LANG("create_house")}
-            mode="normal"
-            onClick={createHouseSubmit}
+    <div id="createHomePage">
+      <PreloaderModal loading={muLoading} />
+      <div className="flex-grid">
+        {/* 숙소명 입력 */}
+        <div className="flex-grid__col col--full-12 col--md-12">
+          <InputText
+            id="HouseName"
+            {...houseNameHoook}
+            validation={utils.isMaxOver}
+            max={20}
+            placeholder={LANG("houseName")}
+            label={LANG("houseName")}
           />
         </div>
+        {/* 숙소 타입 선택 */}
+        <div className="flex-grid__col col--full-12 col--md-12">
+          <SelectBox
+            id="HouseType"
+            {...typeSelectHook}
+            options={selectTypeHouse}
+            isOpen
+            label={LANG("select_house_type")}
+          />
+        </div>
+        <div className="flex-grid__col col--full-8 col--md-12">
+          <SearchInput
+            id="Address"
+            maxCount={10}
+            filter={false}
+            feedBackMessage={addressData.results?.common.errorMessage || ""}
+            dataList={addressData.results && addressData.results.juso}
+            label={LANG("house_address")}
+            asId="bdMgtSn"
+            asName="roadAddr"
+            asDetail="jibunAddr"
+            isLoading={addressLoading}
+            onFindOne={handleOnFind}
+            onTypeChange={onTypeChange}
+            onTypeValue={location.address}
+          />
+        </div>
+        <div className="flex-grid__col col--full-4 col--md-12">
+          <InputText
+            onChange={v => {
+              setLocation({ ...location, addressDetail: v });
+            }}
+            value={location.addressDetail}
+            id="AddressDetail"
+            validation={utils.isMaxOver}
+            max={50}
+            placeholder={LANG("detail_address")}
+            label={LANG("detail_address")}
+          />
+        </div>
+        <div className="test__googleMapWrap createHomePage__map flex-grid__col col--full-12 col--md-12">
+          <GoogleMap mapRef={mapRef} />
+        </div>
+        <Button
+          refContainer={submitRef}
+          id="CreateHouseSubmitBtn"
+          thema="primary"
+          label={LANG("create_house")}
+          mode="normal"
+          onClick={createHouseSubmit}
+        />
       </div>
     </div>
   );

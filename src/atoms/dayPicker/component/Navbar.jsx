@@ -3,7 +3,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Button from "../../button/Button";
-import {JDMonthTextChanger} from "../../../utils/utils";
+import { JDMonthTextChanger } from "../../../utils/utils";
 
 const Navbar = ({
   nextMonth,
@@ -20,6 +20,7 @@ const Navbar = ({
   return (
     <div className={className}>
       <Button
+        size="small"
         className={"DayPicker__navbtns--left"}
         label={JDMonthTextChanger(prev)}
         icon="arrowLeft"
@@ -29,6 +30,7 @@ const Navbar = ({
         onClick={() => onPreviousClick()}
       />
       <Button
+        size="small"
         className="DayPicker__navbtns--right"
         label={JDMonthTextChanger(next)}
         icon="arrowRight"

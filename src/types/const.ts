@@ -22,6 +22,7 @@ import { registerBillKey_RegisterBillKey_billInfo } from "./api";
 import { LANG } from "../hooks/hook";
 import { IselectedOption } from "../atoms/forms/selectBox/SelectBox";
 
+
 export const LANGUAGE_LIST: Language[] = [
   Language.CHINESE,
   Language.ENGLISH,
@@ -318,8 +319,6 @@ export const DUMMY_BILL_INFO: registerBillKey_RegisterBillKey_billInfo = {
   resultMsg: ""
 };
 
-
 export const FLOATING_PRELOADER_SIZE = "small";
 export const MODAL_PRELOADER_SIZE = "large";
-
 export const TEST_PRODUCT_NAME = "JANDA-T";

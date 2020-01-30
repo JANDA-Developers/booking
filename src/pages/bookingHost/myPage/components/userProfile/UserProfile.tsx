@@ -211,7 +211,7 @@ const UserProfile: React.FC<Iprops> = ({ context, userInfo }) => {
         <CardSection>
           <div className="flex-grid">
             <div className="JDstandard-margin-bottom flex-grid__col col--full-12 col--wlg-12">
-              <div className="flex-grid-grow">
+              <div className="myPage__profileSectionWrap flex-grid-grow">
                 <div className="myPage__profileCircleWrap">
                   <ProfileCircle
                     {...profileCircleHook}

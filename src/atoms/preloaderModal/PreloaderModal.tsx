@@ -11,12 +11,11 @@ const PreloaderModal: React.FC<Iprops> = ({ loading }) => {
   const modalHook = useModal();
   return createPortal(
     <JDmodal
+      loading={loading}
       portalClassName={"PreloaderModal"}
       {...modalHook}
       isOpen={loading || false}
-    >
-      <JDpreloader loading={true} size="large" />
-    </JDmodal>,
+    />,
     hightPortalElement()
   );
 };

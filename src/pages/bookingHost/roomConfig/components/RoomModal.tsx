@@ -10,7 +10,9 @@ import Button from "../../../../atoms/button/Button";
 import { IRoomModalInfo, TRoomModalSubmit, TMode } from "../declation";
 import { isNumber } from "../../../../utils/inputValidations";
 import { DEFAULT_ROOMTYPE_ROOM } from "../../../../types/defaults";
-import JDselect from "../../../../atoms/forms/selectBox/SelectBox";
+import JDselect, {
+  SelectBoxSize
+} from "../../../../atoms/forms/selectBox/SelectBox";
 import selectOpCreater from "../../../../utils/selectOptionCreater";
 import ModalEndSection from "../../../../atoms/modal/components/ModalEndSection";
 
@@ -101,6 +103,7 @@ const RoomModal: React.FC<IProps> = ({ modalHook, onSubmit }) => {
                 max={10}
               />
               <JDselect
+                size={SelectBoxSize.SIX}
                 id="RoomCountSelect"
                 label={LANG("room_count")}
                 options={countOp}

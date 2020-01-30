@@ -3,7 +3,7 @@
 // Variables
 $base-margin: 2em;
 $base-padding: 1em;
-$base-border-radius: .2em;
+$base-border-radius: 0.2em;
 $screen-xs-max: 786px;
 
 $text-color: $html-color;
@@ -18,256 +18,276 @@ $gray-dark: $html-color;
 $gray-light: $grey-level2;
 $gray-lighter: $grey-level1;
 
-$icon-danger: '!';
-$icon-success: '✓';
+$icon-danger: "!";
+$icon-success: "✓";
 
 $animation-time: 0.5s;
-
 
 // Multi-step code
 
 .multi-step {
-    margin-bottom: $standard-margin-bottom;
+  margin-bottom: $standard-margin-bottom;
 }
 
 // Setting up flexbox for list
 .multi-step-list {
-	position: relative;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	list-style-type: none;
-	padding: 0;
-	.multi-step-item:first-child { margin-left: 0; }
-	.multi-step-item:last-child { margin-right: 0; }
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  list-style-type: none;
+  padding: 0;
+  .multi-step-item:first-child {
+    margin-left: 0;
+  }
+  .multi-step-item:last-child {
+    margin-right: 0;
+  }
 }
 
 // Defaults for each 'step'
 .multi-step-item {
-	position: relative;
-	width: 100%;
-	margin: 0 ($base-margin / 6);
-	@media only screen and (max-width: $screen-xs-max) {
-		margin: 0 ($base-margin / 6);
-	}
-	z-index: 2;
-	border-radius: $base-border-radius;
+  position: relative;
+  width: 100%;
+  margin: 0 ($base-margin / 6);
+  @media only screen and (max-width: $screen-xs-max) {
+    margin: 0 ($base-margin / 8);
+  }
+  z-index: 2;
+  border-radius: $base-border-radius;
 
+  &--clickAble {
+    &:hover {
+      cursor: pointer;
+    }
+  }
 
-	&--clickAble {
-		&:hover {
-			cursor: pointer;
-		}
-	}
-
-	// Step title and subtitle defaults
-	.item-title,
-	.item-subtitle {
-		position: relative;
-		margin: 0;
-		z-index: 2;
-	}
-	@media only screen and (max-width: $screen-xs-max) {
-		.item-subtitle { display: none; }
-	}
-	.item-title {
-		color: $html-color;
-		margin: 0;
-		display: flex;
+  // Step title and subtitle defaults
+  .item-title,
+  .item-subtitle {
+    position: relative;
+    margin: 0;
+    z-index: 2;
+  }
+  @media only screen and (max-width: $screen-xs-max) {
+    .item-subtitle {
+      display: none;
+    }
+  }
+  .item-title {
+    color: $html-color;
+    margin: 0;
+    display: flex;
     align-items: center;
     justify-content: center;
     height: 100%;
-	}
+  }
 
-	// Different step states [ active, current, completed, error]
-	&.active:hover { cursor: pointer; }
-	&.current .item-title,
-	&.current .item-subtitle {
-		color: $text-color-inverted;
-	}
-	&.active.current:hover .item-title,
-	&.active.current:hover .item-subtitle {
-		color: $html-color;
-	}
-	&.error:after {
-		position: absolute;
-		top: 50%;
-		z-index: 2;
-		transform: translateY(-50%);
-		right: .5em;
+  // Different step states [ active, current, completed, error]
+  &.active:hover {
+    cursor: pointer;
+  }
+  &.current .item-title,
+  &.current .item-subtitle {
+    color: $text-color-inverted;
+  }
+  &.active.current:hover .item-title,
+  &.active.current:hover .item-subtitle {
+    color: $html-color;
+  }
+  &.error:after {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    transform: translateY(-50%);
+    right: 0.5em;
 
-		content: $icon-danger;
-		color: $brand-danger;
-	}
+    content: $icon-danger;
+    color: $brand-danger;
+  }
 }
 
 // Creates the 'arrow' effect / background colors
 .item-wrap {
-	padding: $standard-small-space;
-	position: relative;
-	height: 0.25rem * 8;
-	&:before, &:after {
-		position: absolute;
-		left: 0;
-		content: ' ';
-		width: 100%;
-		height: 50%;
-		z-index: 1;
-		background-color: $gray-lighter;
-	}
+  padding: $standard-small-space;
+  position: relative;
+  height: 0.25rem * 8;
+  &:before,
+  &:after {
+    position: absolute;
+    left: 0;
+    content: " ";
+    width: 100%;
+    height: 50%;
+    z-index: 1;
+    background-color: $gray-lighter;
+  }
 
-	// Top of the arrow
-	&:before {
-		height: 50.5%;
-		top: 0;
-		transform: skew(20deg);
-		border-radius: .2em .2em 0 0;
-	}
-	// Bottom of the arrow
-	&:after {
-		height: 50%;
-		bottom: 0;
-		transform: skew(-20deg);
-		border-radius: 0 0 .2em .2em;
-	}
+  // Top of the arrow
+  &:before {
+    height: 50.5%;
+    top: 0;
+    transform: skew(20deg);
+    border-radius: 0.2em 0.2em 0 0;
+  }
+  // Bottom of the arrow
+  &:after {
+    height: 50%;
+    bottom: 0;
+    transform: skew(-20deg);
+    border-radius: 0 0 0.2em 0.2em;
+  }
 }
 
 // Changing arrow colors based on state
 .current .item-wrap:before,
 .current .item-wrap:after {
-	background-color: $brand-primary;
+  background-color: $brand-primary;
 }
 
 .active:hover .item-wrap:before,
 .active:hover .item-wrap:after {
-	background-color: $hover-hover;
+  background-color: $hover-hover;
 }
 
 .multi-step-item.error {
-	.item-title,
-	.item-subtitle {
-		padding-right: ($base-padding * 2);
-	}
+  .item-title,
+  .item-subtitle {
+    padding-right: ($base-padding * 2);
+  }
 }
 
 // Changing step styles based on :first/:last step
 .multi-step-item:first-child .item-wrap,
 .multi-step-item:last-child .item-wrap {
-	border-radius: $base-border-radius;
-	&:before, &:after { width: 50%; }
+  border-radius: $base-border-radius;
+  &:before,
+  &:after {
+    width: 50%;
+  }
 }
 
 // If first step, only point on the right
 .multi-step-item:first-child .item-wrap {
-	background: linear-gradient(to right, $gray-lighter 95%, transparent 5%);
-	&:before, &:after { left: 50%; }
+  background: linear-gradient(to right, $gray-lighter 95%, transparent 5%);
+  &:before,
+  &:after {
+    left: 50%;
+  }
 }
 .active.multi-step-item:first-child:hover .item-wrap {
-	background: linear-gradient(to right, $hover-hover 95%, transparent 5%);
+  background: linear-gradient(to right, $hover-hover 95%, transparent 5%);
 }
 .current.multi-step-item:first-child .item-wrap {
-	background: linear-gradient(to right, $brand-primary 95%, transparent 5%);
+  background: linear-gradient(to right, $brand-primary 95%, transparent 5%);
 }
 
 // If last step, only indent on the left
 .multi-step-item:last-child .item-wrap {
-	background: linear-gradient(to left, $gray-lighter 95%, transparent 5%);
-	&:before, &:after { right: 50%; }
+  background: linear-gradient(to left, $gray-lighter 95%, transparent 5%);
+  &:before,
+  &:after {
+    right: 50%;
+  }
 }
 .active.multi-step-item:last-child:hover .item-wrap {
-	background: linear-gradient(to left, $hover-hover 95%, transparent 5%);
+  background: linear-gradient(to left, $hover-hover 95%, transparent 5%);
 }
 .current.multi-step-item:last-child .item-wrap {
-	background: linear-gradient(to left, $brand-primary 95%, transparent 5%);
+  background: linear-gradient(to left, $brand-primary 95%, transparent 5%);
 }
 
 // MSI Checked & Complete
 .checked .multi-step-item.completed:after {
-	position: absolute;
-	top: 50%;
-	z-index: 2;
-	transform: translateY(-50%);
-	right: .5em;
-	content: $icon-success;
-	color: $brand-success;
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  transform: translateY(-50%);
+  right: 0.5em;
+  content: $icon-success;
+  color: $brand-success;
 }
 
 // MSI Numbered
 .numbered .multi-step-item {
-	counter-increment: step-counter;
-	.item-wrap { padding-left: ($base-padding * 5); }
+  counter-increment: step-counter;
+  .item-wrap {
+    padding-left: ($base-padding * 5);
+  }
 
-	// Adds number to step
-	&:before {
-		content: counter(step-counter);
-		position: absolute;
-		top: 50%;
-		left: .75em;
-		transform: translateY(-50%);
-		min-width: 1.65em;
-		padding: ($base-padding / 2) $base-padding;
-		z-index: 2;
-		font-size: .85em;
-		background-color: $gray-light;
-		color: $text-color-inverted;
-		font-weight: 600;
-		text-align: center;
-		border-radius: $base-border-radius;
-	}
+  // Adds number to step
+  &:before {
+    content: counter(step-counter);
+    position: absolute;
+    top: 50%;
+    left: 0.75em;
+    transform: translateY(-50%);
+    min-width: 1.65em;
+    padding: ($base-padding / 2) $base-padding;
+    z-index: 2;
+    font-size: 0.85em;
+    background-color: $gray-light;
+    color: $text-color-inverted;
+    font-weight: 600;
+    text-align: center;
+    border-radius: $base-border-radius;
+  }
 }
 
 // MSI w/ badge counts
 .item-wrap .badge {
-	position: absolute;
-	right: .5em;
-	top: 50%;
-	transform: translateY(-50%);
-	z-index: 3;
+  position: absolute;
+  right: 0.5em;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
 }
 .error .item-wrap .badge {
-	right: 2em;
-	~ .item-title,
-	~ .item-subtitle {
-		padding-right: 3em;
-	}
+  right: 2em;
+  ~ .item-title,
+  ~ .item-subtitle {
+    padding-right: 3em;
+  }
 }
 
 // MSI CSS Loader
-.multi-step-loading { opacity: .75; }
+.multi-step-loading {
+  opacity: 0.75;
+}
 
 .current.multi-step-loading:before {
-	border-color: $text-color-inverted;
-	border-top-color: transparent;
-	opacity: 1;
+  border-color: $text-color-inverted;
+  border-top-color: transparent;
+  opacity: 1;
 }
 
 .busy-css {
-	z-index: 3;
-	content: '';
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	margin-top: -.5em;
-	margin-left: -.5em;
-	border-radius: 50%;
-	width: 1em;
-	height: 1em;
-	border: .25em solid $gray-dark;
-	border-top-color: transparent;
-	animation: spin ($animation-time * 2) infinite linear;
+  z-index: 3;
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -0.5em;
+  margin-left: -0.5em;
+  border-radius: 50%;
+  width: 1em;
+  height: 1em;
+  border: 0.25em solid $gray-dark;
+  border-top-color: transparent;
+  animation: spin ($animation-time * 2) infinite linear;
 }
 
 @keyframes spin {
-	from {
-		transform: rotate(0deg);
-	}
-	to {
-		transform: rotate(360deg);
-	}
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @include response($phablet) {
-	.item-title {
-		font-size: $typho-small!important;
-	}
+  .item-title {
+    font-size: $typho-small !important;
+  }
 }

@@ -112,7 +112,6 @@
   }
 
   &.JDtextarea--scroll {
-    overflow-y: auto;
     @extend %JDscrollbar;
   }
 }

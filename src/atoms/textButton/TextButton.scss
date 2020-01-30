@@ -1,9 +1,17 @@
 @import "~Styles";
 
+$roundborder-radius: $standard-border-radius * 3;
+
 .textButton {
   margin-right: $standard-small-space;
   margin-bottom: $standard-label-margin;
-  
+
+  &--roundBorder {
+    border-radius: $roundborder-radius;
+    border: 1px solid;
+    padding: 0px $standard-tiny-space;
+  }
+
   &:hover {
     cursor: pointer;
     color: $grey-level4;
@@ -13,6 +21,6 @@
     text-decoration: underline;
   }
 
-  @include colorText--prefixer();   
-  @include sizeText--prefixer();   
+  @include colorText--prefixer();
+  @include sizeText--prefixer();
 }

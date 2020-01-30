@@ -155,6 +155,7 @@
   box-sizing: border-box;
 
   &:hover {
+    overflow: auto;
     overflow: overlay;
     &::-webkit-scrollbar {
       width: $JDscrollbar-width;
@@ -183,6 +184,11 @@
 
 %JDscrollbar {
   @extend %JDscrollbar--common;
+}
+
+%JDscrollbar--static {
+  @extend %JDscrollbar--common;
+  overflow: overlay;
 }
 
 // scrollbar slender form
