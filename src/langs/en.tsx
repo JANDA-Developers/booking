@@ -1209,24 +1209,24 @@ If you change the current status on the [My Page> Periodic Payment Management] p
     "We will guide you to use the book booking system.",
   pay_doc_title1: "What is periodic payment?",
   pay_doc_desc1: (price: number) =>
-    `잔다부킹시스템은 '정기결제'는 회원가입과 동시에 14일간의 무료체험 이후에 회원가입시 입력한 카드로 정기적으로 '상품타입 금액 ${autoComma(
+    `The regular booking system for 'Janda Booking' is a card entered at the time of membership registration after 14 days of free trial at the same time as membership registration. ${autoComma(
       price
-    )} 만큼 결제를 합니다'`,
-  pay_doc_title2: "정기결제 변경",
-  pay_doc_desc2:
-    "[MY PAGE > 정기결제 관리]에서 '결제카드변경'를 눌러서 카드정보를 변경하시면 됩니다.",
-  pay_doc_title3: "정기결제 취소",
+    )} '`,
+  pay_doc_title2: "Periodic payment change",
+  pay_doc_desc2: `[MY PAGE > Periodic payment management] to change the card information by pressing 'change payment card'.`,
+  pay_doc_title3: "Regular payment cancellation",
   pay_doc_desc3:
-    "정기결제 취소를 원하시면 [MYPAGE > 정기결제 관리 > 현재상태]를 변경하시면 정기결제가 되지 않습니다.",
+    "If you want to cancel your subscription, please change [MYPAGE> Subscription Management> Current Status].",
   product_type_help_txt: () => (
     <span>
-      방 20개 이상은 JANDA-H (110,000/월) <br /> 그외 JANDA-G (55,000/월) 권장
+      More than 20 rooms are JANDA-H (110,000 / month) <br /> Other JANDA-G
+      (55,000 / month) recommend
     </span>
   ),
   product_type_desc: (productTypePrice: number) =>
-    `${autoComma(productTypePrice)} / 월 (14일 무료 취소가능)`,
+    `${autoComma(productTypePrice)} / Month (14 days free cancellation)`,
   house_init_done_fisrt: "welcome. You have created your hostel.",
-  house_init_done: "숙소가 추가 되었습니다.",
+  house_init_done: "The accommodation has been added.",
   house_init_failed: "Failed to create accommodation Please inquire separately."
 };
 

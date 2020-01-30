@@ -41,7 +41,8 @@ import { setCookie } from "../../utils/cookies";
 import getCurrentHouse from "../../utils/getLastSelectHouse";
 import { useModal, useSideNav, LANG } from "../../hooks/hook";
 import MemoAlertModal from "../../components/Memo/component/MemoAlertModal";
-import JDoutdatedBrowserRework from "../../utils/oldBrowser";
+// @ts-ignore
+import browserDetect from "../../utils/browserDetect";
 import SideNav from "../../components/sideNav/SideNav";
 import Expired from "../bookingHost/expire/Expired";
 // import { AddtionalConfigModal } from "../../components/else/AdditionalConfigModal";
@@ -107,8 +108,11 @@ const JDbookingHost: React.FC<IProps> = ({
   if (currentHouse)
     localStorage.setItem("pbk-T", currentHouse?.publicKey || "");
   // 지원하지 않는 브라우저로 부터 접속했는지 확인합니다.
-  // @ts-ignore
-  window.isOldBorwesr && JDoutdatedBrowserRework();
+
+  useEffect(() => {
+    browserDetect();
+  }, []);
+
   // 디벨롭
   if (userRole === "DEVELOPER") setCookie("isDeveloper", "Y", 1);
 
