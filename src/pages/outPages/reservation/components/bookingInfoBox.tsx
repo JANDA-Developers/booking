@@ -66,7 +66,7 @@ const BookingInfoBox: React.FC<IBookingInfoBoxProps> = ({
           </div>
         ) : (
           <div>
-            <span>{`${original.count.roomCount}`}</span>
+            <span>{`${original.count.roomCount}${LANG("room_count")}`}</span>
           </div>
         )
     }

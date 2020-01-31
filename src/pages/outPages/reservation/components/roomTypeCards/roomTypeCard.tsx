@@ -90,7 +90,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
       }
       // 방타입 SelectOp 리턴
       if (key === "roomCount") {
-        genderKey = ` ${LANG("room")}`;
+        genderKey = ` ${LANG("room_count")}`;
         if (availableCount.roomCount) {
           return selectOpCreater({
             count: availableCount.roomCount + 1 + guestCountValue.room,
