@@ -201,6 +201,8 @@ export type TToogleCheckIn = (
   itemIndex?: number | undefined
 ) => void;
 
+export type TGetGuestsInside = (groupIds: string[], start: number, end: number, types: GuestTypeAdd[], find?: boolean) => IAssigItem[] | IAssigItem | undefined;
+
 export interface IAssigGroup {
   id: string;
   title: string;
@@ -413,7 +415,7 @@ export type THandleItemMove = (
   newGroupOrder: number
 ) => Promise<void>;
 
-export type TGetGuestsInGroup = (group: IAssigGroup) => IAssigItem[];
+export type TGetGuestsInGroup = (group: string) => IAssigItem[];
 
 export type TGetAssigInfoFromItems = (items: IAssigItem[]) => IAssigInfo[];
 
@@ -452,6 +454,8 @@ interface Ids {
   itemId?: string;
   bookingId?: string;
 }
+
+export type TMarkValidation = () => boolean;
 
 export type TGetItmes = (type: GuestTypeAdd) => IAssigItem[];
 
@@ -494,6 +498,7 @@ export interface IAssigHandlers {
 }
 
 export interface IAssigTimelineUtils {
+  markValidation: TMarkValidation;
   getItemsByType: TGetItemsByType;
   hilightHeader: THilightHeader;
   changeMarkToGhost: TChangeMarkToGhost;
@@ -523,7 +528,7 @@ export interface IAssigTimelineUtils {
   resizeLinkedItems: TResizeLinkedItems;
   moveLinkedItems: TMoveLinkedItems;
   toogleCheckInOut: TToogleCheckIn;
-
+  getGuestsInside: TGetGuestsInside;
   openBlockMenu: TOpenBlockMenu;
   openCanvasMenuTooltip: TOpenCanvasMenuTooltip;
   createMark: TCreateMark;

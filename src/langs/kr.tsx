@@ -1201,5 +1201,6 @@ export const kr = {
     `${autoComma(productTypePrice)} / 월 (14일 무료 취소가능)`,
   house_init_done_fisrt: "환영합니다. 숙소 생성이 완료 되었습니다.",
   house_init_done: "숙소가 추가 되었습니다.",
-  house_init_failed: "숙소 생성에 실패했습니다. 별도 문의 바랍니다."
+  house_init_failed: "숙소 생성에 실패했습니다. 별도 문의 바랍니다.",
+  drag_failed_msg: "선택된 구간은 사용 할 수 없습니다."
 };

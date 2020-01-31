@@ -7,6 +7,7 @@ import {
 } from "../assigIntrerface";
 import { startBooking_StartBooking } from "../../../../../types/api";
 import { LANG } from "../../../../../hooks/hook";
+import { ToastContainer, toast } from "react-toastify";
 
 interface IProps {
   assigHooks: IAssigTimelineHooks;
@@ -21,9 +22,9 @@ const CanvasMenuTooltip: React.FC<IProps> = ({
     changeMarkToGhost,
     addBlock,
     getInfoesFromMarks,
-    deleteGhost,
     startBookingModalWithMark,
-    allTooltipsHide
+    allTooltipsHide,
+    markValidation
   }
 }) => {
   const { groupIds, end, start } = getInfoesFromMarks();
@@ -40,11 +41,21 @@ const CanvasMenuTooltip: React.FC<IProps> = ({
     hilightGuestBlock({ bookingId: result.booking?._id });
   };
 
+  const validater = () => {
+    if (!markValidation()) {
+      toast.error(LANG("drag_failed_msg"));
+      return false;
+    } else {
+      return true;
+    }
+  };
+
   const createBtnHandler = () => {
-    startBookingModalWithMark({
-      startBookingCallBack: bookingCallBack,
-      onStartBookingStart
-    });
+    if (validater())
+      startBookingModalWithMark({
+        startBookingCallBack: bookingCallBack,
+        onStartBookingStart
+      });
   };
 
   return (
@@ -64,7 +75,9 @@ const CanvasMenuTooltip: React.FC<IProps> = ({
           <Button
             onClick={() => {
               allTooltipsHide();
-              addBlock(start, end, groupIds);
+              if (validater()) {
+                addBlock(start, end, groupIds);
+              }
             }}
             label={LANG("block_room")}
           />

@@ -32,9 +32,7 @@ import JDbadge from "../../../atoms/badge/Badge";
 import "./ResvList.scss";
 import JDPagination from "../../../atoms/pagination/Pagination";
 import { autoComma, queryDataFormater } from "../../../utils/utils";
-import SendSMSmodalWrap, {
-  IModalSMSinfo
-} from "../../../components/smsModal/SendSmsModalWrap";
+import SendSMSmodalWrap from "../../../components/smsModal/SendSmsModalWrap";
 import Preloader from "../../../atoms/preloader/Preloader";
 import ConfirmBadgeWrap from "../../../components/confirmBadge/ConfirmBadgeWrap";
 import textReader from "../../../utils/textReader";
@@ -52,6 +50,7 @@ import { resvDatasToExcel } from "./helper";
 import client from "../../../apollo/apolloClient";
 import { GET_BOOKINGS } from "../../../apollo/queries";
 import { JDSelectableJDtable } from "../../../atoms/table/SelectTable";
+import { IModalSMSinfo } from "../../../components/smsModal/SendSmsModal";
 
 interface IProps {
   pageInfo: IPageInfo;

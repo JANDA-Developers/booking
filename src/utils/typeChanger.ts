@@ -13,9 +13,10 @@ import {
 } from "../types/defaults";
 import { Gender } from "../types/enum";
 import _ from "lodash";
-import { IRoomSelectInfo } from "../components/bookingModal/declaration";
+import { IRoomSelectInfo, IBookingModal_AssigInfo } from "../components/bookingModal/declaration";
 import { isDomitoryGuest } from "./interfaceMatch";
 import { LANG } from "../hooks/hook";
+import $ from "jquery";
 
 interface propRoomType {
   _id: string;
@@ -103,27 +104,37 @@ export const divisionRoomSelectInfo = (
   };
 };
 
+// 예약자가 변경한 성별사항을 적용한 임시 게스트정보 생성
+export const getGenderChangedGuest = (guests: getBooking_GetBooking_booking_guests[], assigInfo: IBookingModal_AssigInfo[]): getBooking_GetBooking_booking_guests[] => {
+  return guests.map(guest => {
+    const copyGuest = $.extend({}, guest);
+    assigInfo.forEach(info => {
+      if (isDomitoryGuest(copyGuest) && copyGuest._id === info._id)
+        copyGuest.gender = info.gender;
+    });
+    return copyGuest;
+  });
+}
 
-export const getRoomSelectString = (selectInfoes: IRoomSelectInfo[]) => {
+// 방 선택 정보를 바탕으로 => {방선택 | 인원} String 으로 출력합니다
+export const getRoomSelectString = (selectInfoes: IRoomSelectInfo[]): string =>
   selectInfoes
     .map(info => {
       const { count, roomTypeName } = info;
       const { female, male, roomCount } = count;
       let result = roomTypeName;
       if (female) {
-        result += female + LANG("FEMALE");
+        result += " " + female + LANG("FEMALE");
       }
       if (male) {
-        result += male + LANG("MALE");
+        result += " " + male + LANG("MALE");
       }
       if (roomCount) {
-        result += LANG("room") + roomCount + LANG("MALE");
+        result += " " + roomCount + LANG("unit") + LANG("room");
       }
       return result;
     })
     .join(" | ");
-
-}
 
 // 성별 과 룸타입을 중심으로 분류 하는 용도
 // GetBooking 정보로 예약창에 룸타입별로 정렬된 뷰를 만들떄 사용중
@@ -243,6 +254,7 @@ const guestsToInput = (
     countInDomitorys
   };
 };
+
 
 // FUNC LIST
 //  --
