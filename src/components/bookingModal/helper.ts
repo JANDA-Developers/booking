@@ -91,7 +91,7 @@ export const makeSmsInfoParam = (
       ROOMTYPE_N_COUNT: roomSelectString,
       STAYDATE: `${moment(resvDateHook.from || undefined).format("MM/DD")} ~ ${moment(resvDateHook.to || undefined).format("MM/DD")}`,
       STAYDATE_YMD: `${to4YMMDD(resvDateHook.from || undefined)} ~ ${to4YMMDD(resvDateHook.to || undefined)}`,
-      TOTALPRICE: autoComma(priceHook.value) + LANG("money_unit");
+      TOTALPRICE: autoComma(priceHook.value) + LANG("money_unit")
     }
   };
 };
