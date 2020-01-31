@@ -12,6 +12,34 @@
   @extend %z-depth-1;
 }
 
+@-webkit-keyframes grdAnime {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+@keyframes grdAnime {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+%shining-loading-bg {
+  background-image: linear-gradient(
+    to right,
+    #{$grey-level2} 0%,
+    #fff 50%,
+    #{$grey-level2} 100%
+  );
+  animation: grdAnime 2s infinite linear;
+  background-size: 200% auto;
+}
+
 %custom-success-message {
   content: attr(data-success);
   display: block;

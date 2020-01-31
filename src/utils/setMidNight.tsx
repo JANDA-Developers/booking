@@ -1,5 +1,5 @@
 import moment from "moment";
-import {TimePerMs} from "../types/enum";
+import { TimePerMs } from "../types/enum";
 
 // 밀리세컨드 타임 스탬프를  00:00:00:00 으로 만들어줍니다.
 const parallax = () => new Date().getTimezoneOffset() * 1000 * 60;
@@ -10,13 +10,14 @@ const setMidNight = (time: number) =>
 
 const to4YMMDD = (date: any) => {
   if (!date) {
-    return moment()
+    return moment(new date())
       .toISOString()
-      .split("T")[0];
+      ?.split("T")[0];
+  } else {
+    return moment(date)
+      .toISOString()
+      ?.split("T")[0];
   }
-  return moment(date)
-    .toISOString()
-    .split("T")[0];
 };
 export default setMidNight;
-export {parallax, to4YMMDD};
+export { parallax, to4YMMDD };

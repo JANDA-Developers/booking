@@ -1,5 +1,4 @@
-import React, { Fragment, useMemo, useState, useEffect } from "react";
-
+import React, { Fragment, useMemo, useState } from "react";
 import { ErrProtecter } from "../../../utils/utils";
 import Card from "../../../atoms/cards/Card";
 import DailyAssigWrap from "../../../components/dailyAssjg/DailyAssigWrap";
@@ -13,13 +12,11 @@ import ReservationModal from "../../../components/reservationModala/ReservationM
 import JDIcon from "../../../atoms/icons/Icons";
 import TooltipList from "../../../atoms/tooltipList/TooltipList";
 import DayPickerModal from "../../../components/dayPickerModal/DayPickerModal";
-import SendSMSmodalWrap, {
-  IModalSMSinfo
-} from "../../../components/smsModal/SendSmsModalWrap";
+import SendSMSmodalWrap from "../../../components/smsModal/SendSmsModalWrap";
 import moment from "moment";
 import PageHeader from "../../../components/pageHeader/PageHeader";
 import PageBody from "../../../components/pageBody/PageBody";
-import JDcard from "../../../atoms/cards/Card";
+import { IModalSMSinfo } from "../../../components/smsModal/SendSmsModal";
 
 interface Iprops {
   context: IContext;

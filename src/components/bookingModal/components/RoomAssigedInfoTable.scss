@@ -5,9 +5,7 @@
   z-index: $z-index-4;
 
   .rt-tbody {
-    height: 20vh;
-    min-height: 100px;
-    max-height: 200px;
+    max-height: 20vh;
     overflow: auto;
     @extend %JDscrollbar;
   }

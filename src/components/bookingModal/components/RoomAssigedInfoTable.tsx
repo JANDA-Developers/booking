@@ -11,6 +11,8 @@ import { LANG } from "../../../hooks/hook";
 import "./RoomAssigedInfoTable.scss";
 import { IBookingModal_AssigInfo } from "../declaration";
 import JDIcon from "../../../atoms/icons/Icons";
+import TextButton from "../../../atoms/textButton/TextButton";
+import { reversalGender } from "../../../pages/bookingHost/assig/components/items/Gender";
 
 interface IGuestTableInfo {
   _id: string;
@@ -84,26 +86,31 @@ const RoomAssigedInfoTable: React.FC<Iprops> = ({
         </div>
       ),
       accessor: "_id",
-      Cell: ({ original }) => (
-        <div
-          style={{
-            width: "100%"
-          }}
-        >
-          <JDselect
-            onChange={value => {
-              const targetInfo = assigInfo.find(
-                info => info._id === original._id
-              );
-              if (!targetInfo) return;
-              targetInfo.gender = value.value;
-              setAssigInfo([...assigInfo]);
+      Cell: ({ original }) => {
+        const targetInfo = assigInfo.find(info => info._id === original._id);
+        if (!targetInfo?.gender) return <div />;
+        return (
+          <div
+            style={{
+              width: "100%",
+              textAlign: "center"
             }}
-            selectedOption={getGenderSelectedOption(original._id)}
-            options={GENDER_OP}
-          />
-        </div>
-      )
+          >
+            <TextButton
+              mr="no"
+              mb="no"
+              mode="roundBorder"
+              onClick={() => {
+                if (!targetInfo.gender) return;
+                targetInfo.gender = reversalGender(targetInfo.gender);
+                setAssigInfo([...assigInfo]);
+              }}
+            >
+              {LANG(targetInfo?.gender)}
+            </TextButton>
+          </div>
+        );
+      }
     }
   ];
 

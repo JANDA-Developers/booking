@@ -19,9 +19,7 @@ import {
   PaymentStatus,
   AutoSendWhen,
   DateFormat,
-  BookingStatus,
-  WindowSize,
-  PayMethod
+  WindowSize
 } from "../../types/enum";
 import {
   FUNNELS_OP,
@@ -43,7 +41,7 @@ import {
   Funnels,
   refundBookingVariables
 } from "../../types/api";
-import SendSMSmodalWrap, { IModalSMSinfo } from "../smsModal/SendSmsModalWrap";
+import SendSMSmodalWrap from "../smsModal/SendSmsModalWrap";
 import Preloader from "../../atoms/preloader/Preloader";
 import { toast } from "react-toastify";
 import { isPhone } from "../../utils/inputValidations";
@@ -58,7 +56,10 @@ import {
   bookingModalValidate,
   bookingModalGetStartBookingVariables
 } from "./helper";
-import { getRoomSelectInfo } from "../../utils/typeChanger";
+import {
+  getRoomSelectInfo,
+  getGenderChangedGuest
+} from "../../utils/typeChanger";
 import { IBookingModalContext, IBookingModalProp } from "./declaration";
 import JDLabel from "../../atoms/label/JDLabel";
 import JDselect from "../../atoms/forms/selectBox/SelectBox";
@@ -66,6 +67,7 @@ import optionFineder from "../../utils/optionFinder";
 import ModalEndSection from "../../atoms/modal/components/ModalEndSection";
 import RefundModal from "../refundModal/RefundModal";
 import CheckBox from "../../atoms/forms/checkBox/CheckBox";
+import { IModalSMSinfo } from "../smsModal/SendSmsModal";
 
 interface IProps {
   modalHook: IUseModal<IBookingModalProp>;
@@ -128,11 +130,6 @@ const BookingModal: React.FC<IProps> = ({
   const priceHook = useInput(totalPrice || placeHolederPrice);
   const memoHook = useInput(memo || "");
   const emailHook = useInput(email);
-  // 아래 메모 목적은 인풋이 바뀔떄마다 바뀌는걸 막기위함임
-  const roomSelectInfo = useMemo(
-    () => getRoomSelectInfo(bookingData.guests, bookingData.roomTypes || []),
-    [bookingData]
-  );
   const isPhabletDown = window.innerWidth < WindowSize.TABLET;
   const [assigInfo, setAssigInfo] = useState(makeAssigInfo(guests));
   const modalStyle = {
@@ -141,27 +138,22 @@ const BookingModal: React.FC<IProps> = ({
     }
   };
   const payMethodHook = useSelect(
-    C(
-      bookingId !== "default",
-      { value: payMethod, label: LANG(payMethod) },
-      null
-    )
+    isCreateMode ? null : { value: payMethod, label: LANG(payMethod) }
   );
+  const deafultPayStatusOp = {
+    value: paymentStatus,
+    label: LANG("PaymentStatus", paymentStatus)
+  };
+  const createDefaultPayStatusOp = {
+    value: PaymentStatus.COMPLETED,
+    label: LANG("PaymentStatus", PaymentStatus.COMPLETED)
+  };
   const paymentStatusHook = useSelect<PaymentStatus>(
-    isCreateMode
-      ? {
-          value: PaymentStatus.COMPLETED,
-          label: LANG("PaymentStatus", PaymentStatus.COMPLETED)
-        }
-      : {
-          value: paymentStatus,
-          label: LANG("PaymentStatus", paymentStatus)
-        }
+    isCreateMode ? createDefaultPayStatusOp : deafultPayStatusOp
   );
   const funnelStatusHook = useSelect<Funnels | null>(
     funnels ? { value: funnels, label: LANG("Funnels", funnels) } : null
   );
-
   const bookingStatusHook = useSelect(
     isCreateMode
       ? BOOKING_STATUS_OP[0]
@@ -171,6 +163,15 @@ const BookingModal: React.FC<IProps> = ({
     moment(checkIn).toDate(),
     moment(checkOut).toDate()
   );
+  const updateGuests = useMemo(() => {
+    if (guests && mode === "CREATE_ASSIG")
+      return getGenderChangedGuest(guests, assigInfo);
+    return [];
+  }, [assigInfo]);
+  const roomSelectInfo = useMemo(
+    () => getRoomSelectInfo(updateGuests, bookingData.roomTypes || []),
+    [bookingData, assigInfo]
+  );
 
   const bookingModalContext: IBookingModalContext = {
     bookingStatusHook,
@@ -178,8 +179,10 @@ const BookingModal: React.FC<IProps> = ({
     paymentStatusHook,
     bookingNameHook,
     bookingPhoneHook,
+    updateGuests,
     funnelStatusHook,
     priceHook,
+    roomSelectInfo,
     payMethodHook,
     emailHook,
     guests,
@@ -192,7 +195,8 @@ const BookingModal: React.FC<IProps> = ({
   // SMS 발송 모달에 전달할 정보를 생성
   const smsModalInfoTemp = makeSmsInfoParam(
     bookingModalContext,
-    modalHook.info.bookingId || bookingId
+    modalHook.info.bookingId || bookingId,
+    context
   );
 
   // 예약삭제 여부를 물어보는 버튼 컬백함수
@@ -213,7 +217,8 @@ const BookingModal: React.FC<IProps> = ({
       return;
     }
     sendSmsModalHook.openModal({
-      ...smsModalInfoTemp
+      ...smsModalInfoTemp,
+      mode: isCreateMode ? "CreateBooking" : undefined
     });
   };
 
@@ -244,18 +249,16 @@ const BookingModal: React.FC<IProps> = ({
       modalHook.info.onStartBookingStart();
     if (!bookingData.roomTypes) return;
 
-    const smsCallBackFn = async (flag: boolean, sendSmsMu: any) => {
-      if (flag) {
-        startBooking(sendSmsMu);
-      } else {
-        startBooking();
-      }
+    const smsCallBackFn = async (sendFlag: boolean, sendSmsMu: any) => {
+      if (sendFlag) startBooking(sendSmsMu);
+      else startBooking();
     };
 
     sendSmsModalHook.openModal({
       ...smsModalInfoTemp,
-      autoSendWhen: AutoSendWhen.WHEN_BOOKING_CREATED,
-      callBackFn: smsCallBackFn
+      findSendCase: AutoSendWhen.WHEN_BOOKING_CREATED,
+      callBackFn: smsCallBackFn,
+      mode: "CreateBooking"
     });
   };
 
@@ -338,8 +341,8 @@ const BookingModal: React.FC<IProps> = ({
                   hyphen
                   label={LANG("phoneNumber")}
                   placeholder={LANG("phoneNumber")}
-                  icon="sms"
-                  iconHover
+                  icon={isCreateMode ? undefined : "sms"}
+                  iconHover={!isCreateMode}
                   iconOnClick={handleSmsIconClick}
                 />
                 <SelectBox
