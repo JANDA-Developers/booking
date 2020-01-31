@@ -6,7 +6,6 @@ import JDselect from "../../../../atoms/forms/selectBox/SelectBox";
 import Button from "../../../../atoms/button/Button";
 import BookerInfoBox from "./bookerInfoBox";
 import { PAYMETHOD_FOR_BOOKER_OP } from "../../../../types/const";
-import Preloader from "../../../../atoms/preloader/Preloader";
 import { IReservationHooks } from "../declation";
 import CardInfoForm from "./CardInfoForm";
 import { bookerInfoValidation } from "../validations";

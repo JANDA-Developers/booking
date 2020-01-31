@@ -27,7 +27,6 @@ import {
   smsMessageFormatter
 } from "../../utils/smsUtils";
 import moment from "moment";
-import { IModalSMSinfo } from "./SendSmsModalWrap";
 import {
   autoComma,
   autoHypen,
@@ -45,17 +44,30 @@ import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import client from "../../apollo/apolloClient";
 import JDpreloader from "../../atoms/preloader/Preloader";
 import ModalEndSection from "../../atoms/modal/components/ModalEndSection";
+import { TSendSmsKey } from "../../types/interface";
+import { getByteLength } from "../../utils/elses";
+import optionFineder from "../../utils/optionFinder";
 
-interface IProps {
+export interface ISendSmsModalConfigProps {
+  findSendCase?: AutoSendWhen;
+  bookingIds?: string[];
+  isInBookingModal?: boolean;
+}
+
+export interface IModalSMSinfo extends ISendSmsModalConfigProps {
+  mode?: "CreateBooking" | "Booking" | "Noraml";
+  receivers: string[];
+  smsParser?: TSendSmsKey;
+  callBackFn?(flag: boolean, smsSendFn: any): any;
+}
+
+interface IProps extends ISendSmsModalConfigProps {
   context: IContext;
   modalHook: IUseModal<IModalSMSinfo>;
   sendSmsMu: MutationFn<sendSms, sendSmsVariables>;
   loading: boolean;
-  bookingIds?: string[];
   smsInfo: getSmsInfo_GetSmsInfo_smsInfo | null | undefined;
   callBackFn?(flag: boolean, smsSendFn: any): any;
-  autoSendWhen?: AutoSendWhen;
-  mode?: "Booking" | "Noraml";
 }
 
 const SendSmsModal: React.FC<IProps> = ({
@@ -63,20 +75,24 @@ const SendSmsModal: React.FC<IProps> = ({
   modalHook,
   sendSmsMu,
   smsInfo,
-  callBackFn,
-  bookingIds,
-  mode = "Noraml",
-  autoSendWhen
+  callBackFn = modalHook.info.callBackFn,
+  bookingIds = modalHook.info.bookingIds,
+  findSendCase = modalHook.info.findSendCase,
+  isInBookingModal
 }) => {
   const {
     house: { _id: houseId }
   } = context;
+  const { mode, smsParser, receivers } = modalHook.info;
   const today = new Date();
   const [msg, setMsg] = useState("");
   const templateSelectHook = useSelect(null);
   const smsTargetOpHook = useSelect(GET_SMS_TARGET_OP[0]);
+  const msgLength = getByteLength(msg);
 
-  //
+  console.log("msgLength");
+  console.log(msgLength);
+
   const { data, loading, refetch } = useQuery<
     getBookings,
     getBookingsVariables
@@ -89,7 +105,7 @@ const SendSmsModal: React.FC<IProps> = ({
           selectedPage: 1
         },
         filter: {
-          houseId,
+          houseId: houseId,
           stayDate: {
             checkIn: moment(today).format("YYYY-MM-DD"),
             checkOut: moment(today).format("YYYY-MM-DD")
@@ -101,58 +117,37 @@ const SendSmsModal: React.FC<IProps> = ({
 
   const result = queryDataFormater(data, "GetBookings", "result", undefined);
   const bookings = result?.bookings || [];
-
-  useEffect(() => {
-    if (modalHook.isOpen === true) {
-      if (smsInfo && smsInfo.smsTemplates) {
-        const targetTemplate = smsTemplates.find(template => {
-          if (template.smsSendCase && template.smsSendCase.when) {
-            return template.smsSendCase.when === autoSendWhen;
-          }
-          return false;
-        });
-        if (targetTemplate) {
-          const targetTempOp = smsTemplateOp.find(
-            temp => temp.value === targetTemplate._id
-          );
-          if (targetTempOp) {
-            templateSelectHook.onChange(targetTempOp);
-            handleSelectTemplate(targetTempOp);
-          }
-        }
-      }
-    }
-  }, [modalHook.isOpen]);
-
   const phoneNumbers = bookings?.map(booking => booking.phoneNumber);
   const queryBookingIds = bookings?.map(booking => booking._id) || [];
-  const sendTargets =
-    smsTargetOpHook.selectedOption!.value === GetSmsTarget.EXSIST_INFO
-      ? modalHook.info.receivers
-      : phoneNumbers;
+  const tartgetIsFromList =
+    smsTargetOpHook.selectedOption!.value === GetSmsTarget.EXSIST_INFO;
+  const sendTargets = tartgetIsFromList ? receivers : phoneNumbers;
   const smsTemplates = (smsInfo && smsInfo.smsTemplates) || [];
   const smsTemplateOp = templateOpCreater(smsTemplates);
 
   // 문자전송 버튼 클릭시
   const handleSendSmsBtnClick = (flag: boolean) => {
     modalHook.closeModal();
-    if (!smsInfo) {
-      throw Error("smsInfo is not exist");
-    }
+    if (!smsInfo) throw Error("smsInfo is not exist");
+
+    const tempBookingIds: string[] | undefined =
+      mode === "CreateBooking"
+        ? undefined
+        : isEmpty(queryBookingIds)
+        ? bookingIds
+        : queryBookingIds;
+
     const sendSMSfn = sendSmsMu.bind(sendSmsMu, {
       variables: {
         smsInfoId: smsInfo._id,
         msg: smsMessageFormatter(msg),
         receivers: sendTargets,
-        bookingIds: isEmpty(queryBookingIds) ? bookingIds : queryBookingIds
+        bookingIds: tempBookingIds
       }
     });
 
-    if (callBackFn) {
-      callBackFn(flag, sendSMSfn);
-    } else {
-      sendSMSfn();
-    }
+    if (callBackFn) callBackFn(flag, sendSMSfn);
+    else sendSMSfn();
   };
 
   // 전송 타겟 변경시
@@ -167,6 +162,7 @@ const SendSmsModal: React.FC<IProps> = ({
             selectedPage: 1
           },
           filter: {
+            houseId,
             stayDate: {
               checkIn: moment(today).toDate(),
               checkOut: moment(today).toDate()
@@ -179,38 +175,53 @@ const SendSmsModal: React.FC<IProps> = ({
 
   // 예약정보를 기반으로 뷰 변환
   const handleSelectTemplate = async (selectedOp: IselectedOption) => {
-    if (smsInfo && smsInfo.smsTemplates) {
-      const targetTemplate = smsInfo.smsTemplates.find(
-        template => template._id === selectedOp.value
-      );
+    if (!smsInfo?.smsTemplates) return;
 
-      if (!targetTemplate) return;
+    const targetTemplate = smsInfo.smsTemplates.find(
+      template => template._id === selectedOp.value
+    );
 
-      // IF have id then get reaplce message
-      if (!isEmpty(bookingIds)) {
-        const { data } = await client.query<
-          getReplacedMessages,
-          getReplacedMessagesVariables
-        >({
-          query: GET_REPLACE_MESSAGES,
-          variables: {
-            param: {
-              smsTemplateId: targetTemplate._id,
-              bookingIds
-            }
-          }
-        });
+    if (!targetTemplate) return;
 
-        const messages =
-          queryDataFormater(data, "GetReplacedMessages", "messages", "") || "";
-
-        setMsg(messages[0]);
-      } else {
-        // Maybe it is not exsist booking show smsFormat
-        setMsg(smsMsgParser(targetTemplate.smsFormat));
-      }
+    // 아직 존재하지않는 대상이면
+    if (mode === "CreateBooking") {
+      setMsg(smsMsgParser(targetTemplate.smsFormat, smsParser));
+      return;
     }
+
+    const { data } = await client.query<
+      getReplacedMessages,
+      getReplacedMessagesVariables
+    >({
+      query: GET_REPLACE_MESSAGES,
+      variables: {
+        param: {
+          smsTemplateId: targetTemplate._id,
+          bookingIds
+        }
+      }
+    });
+
+    const messages =
+      queryDataFormater(data, "GetReplacedMessages", "messages", "") || "";
+
+    setMsg(messages[0]);
   };
+
+  useEffect(() => {
+    if (!modalHook.isOpen || !smsInfo?.smsTemplates) return;
+    const targetTemplate = smsTemplates.find(template => {
+      if (!template.smsSendCase?.when) return false;
+      return template.smsSendCase.when === findSendCase;
+    });
+
+    if (!targetTemplate) return;
+    const targetTempOp = optionFineder(smsTemplateOp, targetTemplate._id);
+    if (!targetTempOp) return;
+
+    templateSelectHook.onChange(targetTempOp);
+    handleSelectTemplate(targetTempOp);
+  }, [modalHook.isOpen]);
 
   return (
     <JDmodal
@@ -221,7 +232,7 @@ const SendSmsModal: React.FC<IProps> = ({
       {loading || (
         <Fragment>
           <h5>{LANG("send_sms")}</h5>
-          {mode === "Noraml" && (
+          {!isInBookingModal && (
             <div className="JDz-index-2">
               <JDselect
                 {...smsTargetOpHook}
@@ -259,14 +270,26 @@ const SendSmsModal: React.FC<IProps> = ({
               options={smsTemplateOp}
             />
           </div>
-          <div>
+          <div className="JDstandard-margin-bottom">
             <InputText
               doubleHeight
               onChange={setMsg}
               value={msg}
               label={LANG("msg_content")}
               textarea
+              mb="superTiny"
             />
+            <span className="JDsmall-text JDtextColor--placeHolder">
+              {msgLength < 90 ? (
+                msgLength + "Byte"
+              ) : (
+                <span>
+                  {`${msgLength} Byte`}
+                  <b className="JDtextColor--error">{` LMS`}</b>
+                  {receivers} <b></b>
+                </span>
+              )}
+            </span>
           </div>
           <ModalEndSection>
             <Button

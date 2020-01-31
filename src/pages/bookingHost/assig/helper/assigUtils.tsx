@@ -42,7 +42,9 @@ import {
   TChangeMarkToGhost,
   TGetInfoesFromMarks,
   THilightHeader,
-  TGetItemsByType
+  TGetItemsByType,
+  TGetGuestsInside,
+  TMarkValidation
 } from "../components/assigIntrerface";
 import {
   onCompletedMessage,
@@ -111,6 +113,49 @@ export function getAssigUtils(
         ...guestValue.filter(item => item.type !== GuestTypeAdd.MARK)
       ]);
     }
+  };
+
+  // 제일 이것을 쿼리 형태로 만들면 다른 get 함수들을 사용할 필요가 없습니다.
+  const getGuestsInside: TGetGuestsInside = (
+    groupIds: string[],
+    start: number,
+    end: number,
+    types: GuestTypeAdd[],
+    find?: boolean
+  ) => {
+    if (find) {
+      return guestValue.find(g => {
+        return (
+          groupIds.includes(g.group) &&
+          g.start >= start &&
+          g.end <= end &&
+          types.includes(g.type)
+        );
+      });
+    }
+    return guestValue.filter(g => {
+      groupIds.includes(g.id) &&
+        g.start >= start &&
+        g.end <= end &&
+        types.includes(g.type);
+    });
+  };
+
+  // 마크들이 현재 빈땅에 그어져있는지 체크
+  const markValidation: TMarkValidation = () => {
+    const marks = getItemsByType(GuestTypeAdd.MARK);
+    const first = marks[0];
+    if (first) {
+      const target = getGuestsInside(
+        marks.map(m => m.group),
+        first.start,
+        first.end,
+        [GuestTypeAdd.BLOCK, GuestTypeAdd.GUEST],
+        true
+      );
+      if (target) return false;
+    }
+    return true;
   };
 
   const deleteGhost: TDleteGhost = () => {
@@ -423,8 +468,8 @@ export function getAssigUtils(
     return target.bookingId;
   };
 
-  const getGuestsInGroup: TGetGuestsInGroup = (group: IAssigGroup) =>
-    guestValue.filter(guest => guest.group === group.id);
+  const getGuestsInGroup: TGetGuestsInGroup = (groupId: string) =>
+    guestValue.filter(guest => guest.group === groupId);
 
   // 게스트가 그 시간대에 그 그룹에 괺찮은지 검사함
   // 검사한 결과를 Validation에 기입.
@@ -880,6 +925,7 @@ export function getAssigUtils(
     openBlockMenu,
     openCanvasMenuTooltip,
     createMark,
+    markValidation,
     getAssigInfoFromItems,
     deleteBookingById,
     getGuestsInGroup,
@@ -889,6 +935,7 @@ export function getAssigUtils(
     hilightGuestBlock,
     hilightHeader,
     deleteGhost,
+    getGuestsInside,
     createCreateItem,
     getItems,
     getItemsByType
