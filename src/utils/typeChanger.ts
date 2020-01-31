@@ -130,7 +130,7 @@ export const getRoomSelectString = (selectInfoes: IRoomSelectInfo[]): string =>
         result += " " + male + LANG("MALE");
       }
       if (roomCount) {
-        result += " " + roomCount + LANG("unit") + LANG("room");
+        result += " " + roomCount + LANG("unit") + LANG("room_count");
       }
       return result;
     })

@@ -53,7 +53,6 @@ const RoomTypeCardWrap: React.SFC<IProps> = ({
     room: 0,
     initGender: Gender.MALE
   });
-
   const checkIn = to4YMMDD(dayPickerHook.from);
   const checkOut = to4YMMDD(dayPickerHook.to);
   const initMale = guestCountValue.initGender === Gender.FEMALE;
@@ -61,11 +60,12 @@ const RoomTypeCardWrap: React.SFC<IProps> = ({
   const roomTypeId = roomTypeData._id;
   const shouldSkip = () =>
     checkIn && checkOut && checkIn != checkOut ? false : true;
-  const { data, loading: countLoading } = useQuery<
+  const { data, loading: countLoading, networkStatus } = useQuery<
     getRoomTypeInfo,
     getRoomTypeInfoVariables
   >(GET_ROOM_TYPE_INFO, {
     client,
+    notifyOnNetworkStatusChange: true,
     skip: shouldSkip(),
     variables: {
       roomTypeId,
@@ -99,7 +99,7 @@ const RoomTypeCardWrap: React.SFC<IProps> = ({
     queryDataFormater(data, "GetRoomTypeById", "roomType", undefined) ||
     undefined;
 
-  if (countLoading)
+  if (networkStatus === 1)
     return (
       <Fragment>
         <div className="roomTypeCard roomTypeCard--loadingCard" />

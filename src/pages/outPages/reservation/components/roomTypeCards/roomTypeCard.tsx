@@ -13,7 +13,6 @@ import JDmodal from "../../../../../atoms/modal/Modal";
 import moment from "moment";
 import selectOpCreater from "../../../../../utils/selectOptionCreater";
 import JDbadge from "../../../../../atoms/badge/Badge";
-import { PortalPreloader } from "../../../../../utils/portalElement";
 import { IReservationHooks } from "../../declation";
 
 interface IProps {
