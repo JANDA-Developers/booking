@@ -13,6 +13,7 @@ import { isDomitoryGuest } from "../../utils/interfaceMatch";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import moment from "moment";
 import { IModalSMSinfo } from "../smsModal/SendSmsModal";
+import { autoComma } from "../../utils/utils";
 
 export const bookingModalValidate = (
   bookingModalContext: IBookingModalContext,
@@ -90,7 +91,7 @@ export const makeSmsInfoParam = (
       ROOMTYPE_N_COUNT: roomSelectString,
       STAYDATE: `${moment(resvDateHook.from || undefined).format("MM/DD")} ~ ${moment(resvDateHook.to || undefined).format("MM/DD")}`,
       STAYDATE_YMD: `${to4YMMDD(resvDateHook.from || undefined)} ~ ${to4YMMDD(resvDateHook.to || undefined)}`,
-      TOTALPRICE: priceHook.value
+      TOTALPRICE: autoComma(priceHook.value) + LANG("money_unit");
     }
   };
 };
