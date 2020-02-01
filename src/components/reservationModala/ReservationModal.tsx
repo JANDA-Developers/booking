@@ -1,11 +1,11 @@
-import React from "react";
-import {IUseModal} from "../../hooks/hook";
+import React, { useState, useEffect } from "react";
+import { IUseModal } from "../../hooks/hook";
 import ReservationWrap, {
   IReservationWrapProps
 } from "../../pages/outPages/reservation/ReservationWrap";
 import JDmodal from "../../atoms/modal/Modal";
 import "./ReservationModal.scss";
-import {IContext} from "../../pages/bookingHost/BookingHostRouter";
+import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 
 export interface IReservationModalProps extends IReservationWrapProps {
   modalHook: IUseModal;
@@ -18,7 +18,7 @@ const ReservationModal: React.FC<IReservationModalProps> = ({
   context,
   ...props
 }) => {
-  const {match, location, history} = context;
+  const { match, location, history } = context;
 
   return (
     <JDmodal className="reservationModal" {...modalHook}>
