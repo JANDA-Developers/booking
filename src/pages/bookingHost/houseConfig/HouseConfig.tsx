@@ -26,7 +26,6 @@ import { GoogleApiWrapper, ProvidedProps } from "google-maps-react";
 import { IContext } from "../BookingHostRouter";
 import { UpdateHouseInput } from "../../../types/api";
 import optionFineder from "../../../utils/optionFinder";
-import { string } from "prop-types";
 
 let map: google.maps.Map | null = null;
 

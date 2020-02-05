@@ -10,30 +10,29 @@ import {
 import { Mutation, Query } from "react-apollo";
 import { SEND_SMS, GET_SMS_INFO } from "../../apollo/queries";
 import { queryDataFormater, onCompletedMessage } from "../../utils/utils";
-import SendSmsModal from "./SendSmsModal";
+import SendSmsModal, {
+  ISendSmsModalConfigProps,
+  IModalSMSinfo
+} from "./SendSmsModal";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
+import { TSendSmsKey } from "../../types/interface";
 
 class SendSmsMu extends Mutation<sendSms, sendSmsVariables> {}
 class SmsInfoQu extends Query<getSmsInfo, getSmsInfoVariables> {}
 
-// BOOKING
-export interface IModalSMSinfo {
-  receivers: string[];
-  bookingIds?: string[];
-  autoSendWhen?: AutoSendWhen;
-  callBackFn?(flag: boolean, smsSendFn: any): any;
-}
-
-interface IProps {
+interface IProps extends ISendSmsModalConfigProps {
   modalHook: IUseModal<IModalSMSinfo>;
   context: IContext;
-  mode?: "Booking" | "Noraml";
 }
 
-const SendSMSmodalWrap: React.FC<IProps> = ({ modalHook, context, mode }) => {
+const SendSMSmodalWrap: React.FC<IProps> = ({
+  modalHook,
+  context,
+  ...props
+}) => {
   const { house } = context;
   const { _id: houseId } = house;
-  const { autoSendWhen, callBackFn, bookingIds } = modalHook.info;
+  const { findSendCase, callBackFn, bookingIds } = modalHook.info;
 
   return (
     <SmsInfoQu
@@ -69,10 +68,10 @@ const SendSMSmodalWrap: React.FC<IProps> = ({ modalHook, context, mode }) => {
                 smsInfo={smsInfo}
                 bookingIds={bookingIds}
                 callBackFn={callBackFn}
-                autoSendWhen={autoSendWhen}
+                findSendCase={findSendCase}
                 sendSmsMu={sendSmsMu}
                 modalHook={modalHook}
-                mode={mode}
+                {...props}
               />
             )}
           </SendSmsMu>

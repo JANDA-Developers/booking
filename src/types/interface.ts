@@ -89,6 +89,18 @@ export interface IPageResult {
   data: any;
   pageInfo: IPage;
 }
+
+export type TSendSmsKey = {
+  STAYDATE: string;
+  STAYDATE_YMD: string;
+  ROOMTYPE_N_COUNT: string;
+  BOOKERNAME: string;
+  TOTALPRICE: string;
+  PAYMETHOD: string;
+  PAYMENTSTATUS: string;
+  HM: string;
+}
+
 export type BookingModalMode = "READ_ONLY" | "CREATE" | "CREATE_ASSIG";
 export interface ISelectHouse {
   ok: boolean;

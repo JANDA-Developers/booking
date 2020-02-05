@@ -381,7 +381,7 @@ export const kr = {
   paymethod: "결제방법",
   pension: "펜션",
   person_unit: "명",
-  personnel: "인원",
+  personnel: "인원/객실",
   phoneNum_is_not_valid: "올바른 이름이 아닙니다.",
   phoneNumber: "전화번호",
   phone_authenticate: "휴대폰 인증하기",
@@ -493,7 +493,7 @@ export const kr = {
   room_block_release: "방막기 해제",
   room_block_release_fail: "방막기 해제 실패",
   room_config: "방 설정",
-  room_count: "방갯수",
+  room_count: "객실수",
   room_create_completed: "방 생성완료",
   room_create_fail: "방 생성실패",
   room_delete_completed: "방 삭제완료",
@@ -1201,5 +1201,6 @@ export const kr = {
     `${autoComma(productTypePrice)} / 월 (14일 무료 취소가능)`,
   house_init_done_fisrt: "환영합니다. 숙소 생성이 완료 되었습니다.",
   house_init_done: "숙소가 추가 되었습니다.",
-  house_init_failed: "숙소 생성에 실패했습니다. 별도 문의 바랍니다."
+  house_init_failed: "숙소 생성에 실패했습니다. 별도 문의 바랍니다.",
+  drag_failed_msg: "선택된 구간은 사용 할 수 없습니다."
 };

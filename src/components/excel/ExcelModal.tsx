@@ -33,6 +33,9 @@ const selectOp = selectOpCreater({
 
 const ExcelModal: React.FC<Iprops> = ({ modalHook }) => {
   const { data, selectData, loading, getData } = modalHook.info;
+
+  console.log("data");
+  console.log(data);
   if (!data) return <div />;
   const dateCallDayPicker = useDayPicker(null, null);
   const excelExpressHook = useSelect(EXCEL_EXPRESS_OP[0]);

@@ -204,6 +204,7 @@ export let GET_SMS_TARGET_OP = [
   // {value: "TOMORROW_CHECKIN", label: ""}
 ];
 
+
 export let OPTIONAL_APPLY_PAYMETHOD = [
   { value: PayMethod.CARD, label: "" },
   { value: PayMethod.BANK_TRANSFER, label: "" }

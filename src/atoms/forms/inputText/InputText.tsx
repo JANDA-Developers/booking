@@ -52,7 +52,6 @@ interface IProps extends React.AllHTMLAttributes<HTMLInputElement> {
   defaultValue?: string | number | string[];
   // 컨트롤 일때만 작동함
   hyphen?: boolean;
-  byte?: boolean;
   comma?: boolean;
   card?: boolean;
   loading?: boolean;
@@ -104,7 +103,6 @@ const InputText: React.FC<IProps> = ({
   textAlign,
   iconHover,
   hyphen,
-  byte,
   card,
   size,
   wrapClassName,
@@ -290,11 +288,6 @@ const InputText: React.FC<IProps> = ({
       <label htmlFor="JDtextarea" className="JDtextarea_label">
         {label}
       </label>
-      {byte && (
-        <span className="JDtextarea__byte">
-          {getByteLength(formatedValue || undefined)}
-        </span>
-      )}
     </div>
   );
 };

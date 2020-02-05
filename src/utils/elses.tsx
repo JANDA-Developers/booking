@@ -7,10 +7,10 @@ export const arraySum = (arr: Array<number>): number => {
   return result;
 };
 
-export const getByteLength = (s: string = ''): number => {
+export const getByteLength = (s: string = ""): number => {
   let i;
   let b;
   let c;
-  for (b = i = 0; (c = s.charCodeAt(i++)); b += c >> 11 ? 3 : c >> 7 ? 2 : 1);
+  for (b = i = 0; (c = s.charCodeAt(i++)); b += c >> 11 ? 2 : c >> 7 ? 2 : 1);
   return b;
 };

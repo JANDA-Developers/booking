@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import RoomTypeCard from "./roomTypeCard";
 import {
   ErrProtecter,
@@ -19,6 +19,7 @@ import { getAveragePrice } from "../../../../../utils/booking";
 import { Gender } from "../../../../../types/enum";
 import { useQuery } from "@apollo/react-hooks";
 import { IReservationHooks } from "../../declation";
+import { PortalPreloader } from "../../../../../utils/portalElement";
 
 export interface IGuestCount {
   male: number;
@@ -52,9 +53,6 @@ const RoomTypeCardWrap: React.SFC<IProps> = ({
     room: 0,
     initGender: Gender.MALE
   });
-
-  if (roomTypeData.roomCount === 0) return <div />;
-
   const checkIn = to4YMMDD(dayPickerHook.from);
   const checkOut = to4YMMDD(dayPickerHook.to);
   const initMale = guestCountValue.initGender === Gender.FEMALE;
@@ -62,11 +60,12 @@ const RoomTypeCardWrap: React.SFC<IProps> = ({
   const roomTypeId = roomTypeData._id;
   const shouldSkip = () =>
     checkIn && checkOut && checkIn != checkOut ? false : true;
-  const { data, loading: countLoading } = useQuery<
+  const { data, loading: countLoading, networkStatus } = useQuery<
     getRoomTypeInfo,
     getRoomTypeInfoVariables
   >(GET_ROOM_TYPE_INFO, {
     client,
+    notifyOnNetworkStatusChange: true,
     skip: shouldSkip(),
     variables: {
       roomTypeId,
@@ -100,10 +99,20 @@ const RoomTypeCardWrap: React.SFC<IProps> = ({
     queryDataFormater(data, "GetRoomTypeById", "roomType", undefined) ||
     undefined;
 
+  if (networkStatus === 1)
+    return (
+      <Fragment>
+        <div className="roomTypeCard roomTypeCard--loadingCard" />
+        <PortalPreloader loading={countLoading} />
+      </Fragment>
+    );
+
   if (!roomType) {
     console.error(`can not load roomType with this id ${roomTypeId}`);
     return <div />;
   }
+
+  if (roomTypeData.roomCount === 0) return <div />;
 
   let availableCount = {
     maleCount: 0,
@@ -135,7 +144,6 @@ const RoomTypeCardWrap: React.SFC<IProps> = ({
 
   return (
     <RoomTypeCard
-      countLoading={countLoading}
       roomTypeData={roomTypeData}
       windowWidth={windowWidth}
       availableCount={availableCount}

@@ -13,7 +13,6 @@ import JDmodal from "../../../../../atoms/modal/Modal";
 import moment from "moment";
 import selectOpCreater from "../../../../../utils/selectOptionCreater";
 import JDbadge from "../../../../../atoms/badge/Badge";
-import { PortalPreloader } from "../../../../../utils/portalElement";
 import { IReservationHooks } from "../../declation";
 
 interface IProps {
@@ -24,7 +23,6 @@ interface IProps {
   setGuestCount: React.Dispatch<React.SetStateAction<IGuestCount>>;
   guestCountValue: IGuestCount;
   truePrice: number;
-  countLoading: boolean;
   lastCard: boolean;
   availableCount: {
     maleCount: number;
@@ -40,7 +38,6 @@ const RoomTypeCard: React.SFC<IProps> = ({
   setGuestCount,
   guestCountValue,
   reservationHooks,
-  countLoading,
   truePrice,
   availableCount,
   lastCard
@@ -92,7 +89,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
       }
       // 방타입 SelectOp 리턴
       if (key === "roomCount") {
-        genderKey = ` ${LANG("room")}`;
+        genderKey = ` ${LANG("room_count")}`;
         if (availableCount.roomCount) {
           return selectOpCreater({
             count: availableCount.roomCount + 1 + guestCountValue.room,
@@ -214,7 +211,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
           <div className="roomTypeCard__middleTopSection">
             <h6 className="roomTypeCard__roomTypeTitle">
               {roomTypeData.name}{" "}
-              {totalCan === 0 && !countLoading && (
+              {totalCan === 0 && (
                 <JDbadge thema="error">{LANG("fullRoom")}</JDbadge>
               )}
             </h6>
@@ -252,7 +249,6 @@ const RoomTypeCard: React.SFC<IProps> = ({
                     selectedOption={femaleSeleteOption[guestCountValue.female]}
                   />
                 )}
-                <PortalPreloader loading={countLoading} />
               </Fragment>
             ) : (
               <JDselect

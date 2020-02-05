@@ -7,6 +7,10 @@ $roomCardHeight: 0.25rem * 32;
   position: relative;
   margin-bottom: $standard-margin-bottom;
 
+  &--loadingCard {
+    @extend %shining-loading-bg;
+  }
+
   &--last {
     margin-bottom: 0;
   }

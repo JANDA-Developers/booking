@@ -59,11 +59,13 @@ export interface IBookingModalContext {
   resvDateHook: IUseDayPicker;
   paymentStatusHook: IUseSelect<PaymentStatus>;
   bookingNameHook: TUseInput<any>;
+  roomSelectInfo: IRoomSelectInfo[];
   bookingPhoneHook: TUseInput<any>;
   priceHook: TUseInput<any>;
   payMethodHook: IUseSelect<PayMethod>;
   emailHook: TUseInput<any>;
   guests: getBooking_GetBooking_booking_guests[] | null;
+  updateGuests: getBooking_GetBooking_booking_guests[];
   assigInfo: IBookingModal_AssigInfo[];
   memoHook: TUseInput<string>;
   houseId: string;
