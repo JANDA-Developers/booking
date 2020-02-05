@@ -13,7 +13,6 @@ import JDmodal from "../../../../../atoms/modal/Modal";
 import moment from "moment";
 import selectOpCreater from "../../../../../utils/selectOptionCreater";
 import JDbadge from "../../../../../atoms/badge/Badge";
-import { PortalPreloader } from "../../../../../utils/portalElement";
 import { IReservationHooks } from "../../declation";
 
 interface IProps {
@@ -90,7 +89,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
       }
       // 방타입 SelectOp 리턴
       if (key === "roomCount") {
-        genderKey = ` ${LANG("room")}`;
+        genderKey = ` ${LANG("room_count")}`;
         if (availableCount.roomCount) {
           return selectOpCreater({
             count: availableCount.roomCount + 1 + guestCountValue.room,

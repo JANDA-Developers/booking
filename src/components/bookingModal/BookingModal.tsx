@@ -45,7 +45,7 @@ import SendSMSmodalWrap from "../smsModal/SendSmsModalWrap";
 import Preloader from "../../atoms/preloader/Preloader";
 import { toast } from "react-toastify";
 import { isPhone } from "../../utils/inputValidations";
-import { autoComma, muResult, toNumber } from "../../utils/utils";
+import { autoComma, muResult, toNumber, isEmpty } from "../../utils/utils";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import _ from "lodash";
 import C from "../../utils/C";
@@ -166,12 +166,15 @@ const BookingModal: React.FC<IProps> = ({
   const updateGuests = useMemo(() => {
     if (guests && mode === "CREATE_ASSIG")
       return getGenderChangedGuest(guests, assigInfo);
-    return [];
-  }, [assigInfo]);
+    return guests || [];
+  }, [assigInfo, guests?.length]);
   const roomSelectInfo = useMemo(
     () => getRoomSelectInfo(updateGuests, bookingData.roomTypes || []),
-    [bookingData, assigInfo]
+    [bookingData.roomTypes?.length, assigInfo]
   );
+
+  console.log(bookingData.roomTypes);
+  console.log(roomSelectInfo);
 
   const bookingModalContext: IBookingModalContext = {
     bookingStatusHook,

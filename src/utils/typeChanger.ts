@@ -112,6 +112,8 @@ export const getGenderChangedGuest = (guests: getBooking_GetBooking_booking_gues
       if (isDomitoryGuest(copyGuest) && copyGuest._id === info._id)
         copyGuest.gender = info.gender;
     });
+    console.log("copyGuest");
+    console.log(copyGuest);
     return copyGuest;
   });
 }
@@ -130,7 +132,7 @@ export const getRoomSelectString = (selectInfoes: IRoomSelectInfo[]): string =>
         result += " " + male + LANG("MALE");
       }
       if (roomCount) {
-        result += " " + roomCount + LANG("unit") + LANG("room");
+        result += " " + roomCount + LANG("unit") + LANG("room_count");
       }
       return result;
     })

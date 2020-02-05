@@ -90,9 +90,6 @@ const SendSmsModal: React.FC<IProps> = ({
   const smsTargetOpHook = useSelect(GET_SMS_TARGET_OP[0]);
   const msgLength = getByteLength(msg);
 
-  console.log("msgLength");
-  console.log(msgLength);
-
   const { data, loading, refetch } = useQuery<
     getBookings,
     getBookingsVariables
