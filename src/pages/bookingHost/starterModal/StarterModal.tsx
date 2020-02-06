@@ -88,14 +88,14 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
 
   const handleSubmitCreateRoomTypes = (param: RoomConfigSubmitData) => {
     const roomCount = arraySum(
-      param.createDatas.map(rt => rt.rooms?.length || 0)
+      param.updateCreateDatas.map(rt => rt.rooms?.length || 0)
     );
     if (roomCount > 20) {
       productTypeHook.onChange(SELECT_PRODUCT_TYPE_OP[1]);
     } else {
       productTypeHook.onChange(SELECT_PRODUCT_TYPE_OP[0]);
     }
-    setRoomsTypeData(param.createDatas);
+    setRoomsTypeData(param.updateCreateDatas);
     setStep("card");
   };
 

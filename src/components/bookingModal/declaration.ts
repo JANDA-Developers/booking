@@ -29,8 +29,7 @@ import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 
 
 export interface RoomConfigSubmitData {
-  createDatas: UpsertRoomTypeInput[];
-  updateDatas: UpsertRoomTypeInput[];
+  updateCreateDatas: UpsertRoomTypeInput[];
   original: IRoomType[];
   tempData?: IRoomType | undefined;
   deleteIds: string[];

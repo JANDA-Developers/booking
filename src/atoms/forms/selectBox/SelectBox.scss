@@ -21,11 +21,18 @@ $select-font-color: $grey-level4;
   }
 
   &--autoSize {
+    * {
+      text-overflow: unset !important;
+    }
     .react-select__value-container {
-      & > div:first-child {
+      .react-select__single-value {
+        max-width: none !important;
         position: relative !important;
         top: 0 !important;
         transform: none !important;
+        & + div {
+          position: absolute;
+        }
       }
     }
   }
@@ -167,8 +174,6 @@ $select-font-color: $grey-level4;
         border: $select-border;
         background-color: $select-background;
         border-radius: $select-radius;
-        min-height: $select-height;
-
         &--is-focused {
           border-color: $select-focus-border-color;
           color: $html-color !important;
@@ -240,6 +245,7 @@ $select-font-color: $grey-level4;
     .react-select-container {
       width: 100%;
       .react-select__control {
+        height: auto;
         padding: 0rem $standard-tiny-space;
       }
       .react-select__value-container {

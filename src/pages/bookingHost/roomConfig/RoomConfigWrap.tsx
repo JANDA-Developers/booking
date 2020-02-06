@@ -54,7 +54,7 @@ const RoomConfigWrap: React.FC<IProps> = ({ context }) => {
     queryDataFormater(roomData, "GetAllRoomType", "roomTypes", []) || [];
 
   const handleSubmit = (data: RoomConfigSubmitData) => {
-    const upsertDatas = [...data.createDatas, ...data.updateDatas];
+    const upsertDatas = [...data.updateCreateDatas];
 
     saveRoomsMu({
       variables: {
