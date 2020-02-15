@@ -31,7 +31,6 @@ import { toast } from "react-toastify";
 import PreloaderModal from "../../../atoms/preloaderModal/PreloaderModal";
 import PhotoFrame from "../../../atoms/photoFrame/PhotoFrame";
 import ModalEndSection from "../../../atoms/modal/components/ModalEndSection";
-import "../../../utils/channelTok";
 import JDlist from "../../../atoms/list/List";
 import { currentWinSize } from "../../../utils/currentWinSize";
 import { useQuery } from "@apollo/react-hooks";
