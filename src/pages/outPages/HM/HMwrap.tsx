@@ -9,7 +9,6 @@ import { RouteComponentProps } from "react-router-dom";
 import { DEFAULT_HM } from "../../../types/defaults";
 
 interface IProps extends RouteComponentProps<any> {}
-// refetch 가 Query 컴포넌트 리턴 프로프임
 
 export interface IQueryOp {
   selectStatic: string;
@@ -33,7 +32,7 @@ const HMwrap: React.FC<IProps> = ({ match }) => {
       <GetHouseMenuaQu
         query={GET_HOUSE_MENUAL_FOR_PUBLIC}
         variables={{
-          publicKey: match.params.publickey
+          publicKey: hmKey
         }}
       >
         {({ data: HMData, loading }) => {

@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import Modal from "../../../../atoms/modal/Modal";
 import InputText from "../../../../atoms/forms/inputText/InputText";
 import utils, { toNumber, s4 } from "../../../../utils/utils";
@@ -32,6 +32,12 @@ const RoomModal: React.FC<IProps> = ({ modalHook, onSubmit }) => {
     labelAdd: LANG("unit"),
     start: 1
   });
+  const indexOp = selectOpCreater({
+    count: roomType?.rooms?.length || 1,
+    labelAdd: LANG("index_unit"),
+    start: 1
+  });
+  const indexCountHook = useSelect(indexOp[0]);
   const createCountHook = useSelect(countOp[0]);
   const [createStartNumber, setCreateStartNumber] = useState<number>();
 
@@ -41,7 +47,12 @@ const RoomModal: React.FC<IProps> = ({ modalHook, onSubmit }) => {
       datas = roomDatasGet();
       onSubmit(datas, roomType, mode);
     } else {
-      onSubmit(data, roomType, mode);
+      onSubmit(
+        data,
+        roomType,
+        mode,
+        (indexCountHook.selectedOption?.value || 1) - 1
+      );
     }
   };
 
@@ -79,16 +90,25 @@ const RoomModal: React.FC<IProps> = ({ modalHook, onSubmit }) => {
       <div className="flex-grid">
         <div className="flex-grid__col col--full-12 col--lg-12 col--md-12">
           {mode === "update" && (
-            <InputText
-              onChange={v => {
-                set("name", v);
-              }}
-              value={data[0].name}
-              id="RoomName"
-              label={"RoomNumber"}
-              validation={utils.isMaxOver}
-              max={10}
-            />
+            <div className="JDflex JDz-index-2">
+              <InputText
+                onChange={v => {
+                  set("name", v);
+                }}
+                value={data[0].name}
+                id="RoomName"
+                label={"RoomNumber"}
+                validation={utils.isMaxOver}
+                max={10}
+              />
+              <JDselect
+                size={SelectBoxSize.SIX}
+                id="RoomCountSelect"
+                label={LANG("room_index")}
+                options={indexOp}
+                {...indexCountHook}
+              />
+            </div>
           )}
           {mode === "create" && (
             <div className="JDflex JDz-index-2">

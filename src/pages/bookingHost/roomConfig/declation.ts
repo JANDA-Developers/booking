@@ -1,6 +1,6 @@
 import { IRoomType, IRoom } from "../../../types/interface";
 
-export type TRoomModalSubmit = (room: IRoom[], roomType: IRoomType, mode: TMode) => void;
+export type TRoomModalSubmit = (room: IRoom[], roomType: IRoomType, mode: TMode, index?: number) => void;
 
 export interface IRoomModalInfo {
     mode: TMode;
@@ -12,8 +12,7 @@ export interface IRoomDataSet {
     original: IRoomType[];
     tempData?: IRoomType;
     deleteIds: string[];
-    updateDatas: IRoomType[];
-    createDatas: IRoomType[];
+    updateCreateData: IRoomType[];
 }
 
 export type RoomBoxProp = {

@@ -2,7 +2,7 @@ window.channelPluginSettings = {
   pluginKey: "6cc18626-85d6-4d90-ad97-cbc8a065cf87"
 };
 
-(function() {
+export const openChannelTok = () => {
   var w = window;
 
   if (w.ChannelIO) {
@@ -56,6 +56,6 @@ window.channelPluginSettings = {
 
     window.addEventListener("load", l, false);
   }
-})();
+};
 
 export default "";
