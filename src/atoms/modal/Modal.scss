@@ -1,9 +1,9 @@
 @import "~Styles";
-
+$modal-padding: $standard-large-space !default;
+$modal-header-padding: $modal-padding;
 // ⚠️ JDmodal 로 수정할수없음
 .ReactModal {
   overflow-x: hidden !important;
-
   // 모달 장막
   &__Overlay {
     display: flex;
@@ -25,11 +25,10 @@
     }
   }
 
-  // 모달 내용
+  // 모달 전체 내용
   &__Content {
     background-color: white;
     position: relative;
-    padding: $modal-content-padding;
     outline: none;
     border-radius: $modal-border-radius;
     opacity: 0;
@@ -50,12 +49,11 @@
     @include response($phablet) {
       width: 100%;
       max-width: 95%;
-      min-width: 94%;
+      min-width: 90%;
       margin: $container-padding;
-      padding: $modal-content-padding--wmd;
     }
 
-    max-height: 80vh;
+    max-height: 88vh;
 
     @extend %JDscrollbar;
 
@@ -66,8 +64,8 @@
     }
 
     @include response($phablet) {
-      // padding: $modal-content-padding /2;
-      max-height: 80%;
+      // padding: $modal-padding /2;
+      max-height: 88%;
       margin-bottom: 10%;
     }
   }
@@ -89,7 +87,7 @@
     height: 100vh;
     .ReactModal__Content {
       top: 1.5rem;
-      max-height: calc(85vh - #{$header-height});
+      max-height: calc(88vh - #{$header-height});
     }
   }
 
@@ -100,17 +98,27 @@
     }
   }
 }
+
+// ⭐
 .JDmodal {
-  &--autoMinContentWidth {
-    max-width: min-content !important;
-    min-width: min-content !important;
-    width: min-content !important;
+  &__body {
+    padding: $modal-padding;
   }
 
+  &__closeIcon {
+    position: absolute;
+    top: $modal-header-padding;
+    right: $modal-header-padding;
+  }
+
+  &__head {
+    padding: $modal-header-padding;
+    border-bottom: 1px solid $grey-level1;
+  }
   &--loading {
-    min-width: min-content !important;
-    max-width: min-content !important;
-    width: min-content !important;
+    min-width: 0 !important;
+    max-width: fit-content !important;
+    width: fit-content !important;
   }
 
   &--alert {
@@ -136,6 +144,7 @@
 
   // 엔드섹션
   &__endSection {
+    padding-top: 0;
     &--confirm {
       padding-top: $modal-section-padding;
     }
@@ -144,9 +153,12 @@
       position: absolute;
     }
 
-    bottom: 0 + $modal-content-padding;
-    left: $modal-content-padding;
-    right: $modal-content-padding;
+    bottom: 0 + $modal-padding;
+    left: $modal-padding;
+    right: $modal-padding;
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
     .JDbtn {
       margin-bottom: 0;
     }

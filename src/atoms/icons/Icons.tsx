@@ -42,6 +42,8 @@ const JDicon: React.FC<IConProps & IconConifgProps> = ({
 
   const newId = s4();
 
+  if (icon === "no") return <span />;
+
   return (
     <Fragment>
       <svg

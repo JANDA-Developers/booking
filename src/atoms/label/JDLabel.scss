@@ -1,10 +1,9 @@
 @import "~Styles";
 
 .JDlabel {
-    display: inline-block;
-    font-size: $label-font-size;
-    color: $label-font-color;
-    vertical-align: top;
-
-    margin-bottom: $standard-label-margin;
+  display: inline-block;
+  font-size: $label-font-size;
+  color: $label-font-color;
+  vertical-align: top;
+  margin-bottom: $standard-label-margin;
 }

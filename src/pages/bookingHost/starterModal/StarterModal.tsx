@@ -344,17 +344,19 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
                 localStorage.setItem(DO_TUTO_KEY, "Y");
                 localStorage.setItem("popUpAdditionalConfigModal", "Y");
 
-                const expObj = cardExpToObj(cardInfo.exp);
+                const expObj = cardExpToObj(
+                  cardInfo.expMonth + cardInfo.expYear
+                );
 
                 onSubmit({
                   param: {
                     selectedProductType: selectedProductType?._id,
                     cardInfo: {
-                      cardNo: cardInfo.cardNumber,
-                      cardPw: cardInfo.cardPassword,
+                      cardNo: cardInfo.cardNo,
+                      cardPw: cardInfo.cardPw,
                       expMonth: expObj.month,
                       expYear: expObj.year,
-                      idNo: cardInfo.idNumber
+                      idNo: cardInfo.idNo
                     },
                     createHouseInput: InitHouseData,
                     createRoomTypesInput: roomTypesData as any

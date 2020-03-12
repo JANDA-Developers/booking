@@ -117,7 +117,7 @@ const SignUp: React.FC<Iprops> = ({ context }) => {
           <div className="flex-grid docs-section__box">
             <div className="flex-grid__col col--full-12 col--md-12">
               <InputText
-                id="singupName"
+                id="signupName"
                 {...nameHook}
                 validation={utils.isName}
                 label={LANG("name")}
@@ -125,7 +125,7 @@ const SignUp: React.FC<Iprops> = ({ context }) => {
             </div>
             <div className="flex-grid__col col--full-12 col--md-12">
               <InputText
-                id="singupPassword"
+                id="signupPassword"
                 {...passwordHook}
                 onChange={v => {
                   passwordHook.onChange(v);
@@ -140,7 +140,7 @@ const SignUp: React.FC<Iprops> = ({ context }) => {
             </p>
             <div className="flex-grid__col col--full-12 col--md-12">
               <InputText
-                id="singupPasswordCheck"
+                id="signupPasswordCheck"
                 {...checkPasswordHook}
                 type="password"
                 label={LANG("check_password")}
@@ -148,7 +148,7 @@ const SignUp: React.FC<Iprops> = ({ context }) => {
             </div>
             <div className="flex-grid__col col--full-12 col--md-12">
               <InputText
-                id="singupPhoneNumber"
+                id="signupPhoneNumber"
                 {...phoneNumberHook}
                 hyphen
                 validation={utils.isPhone}
@@ -157,7 +157,7 @@ const SignUp: React.FC<Iprops> = ({ context }) => {
             </div>
             <div className="flex-grid__col col--full-12 col--md-12">
               <InputText
-                id="singupEamil"
+                id="signupEamil"
                 {...emailHook}
                 validation={utils.isEmail}
                 label={LANG("eamil")}
@@ -197,10 +197,10 @@ const SignUp: React.FC<Iprops> = ({ context }) => {
           </div>
           <div>
             <Button
-              id="singupBtn"
+              id="signupBtn"
               thema="primary"
               type="submit"
-              label={LANG("singUp_submit")}
+              label={LANG("signup_submit")}
             />
           </div>
         </form>

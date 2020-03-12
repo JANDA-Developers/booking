@@ -16,10 +16,12 @@ import {
   toNumber
 } from "../../../../../../utils/autoFormat";
 import { DateFormat, WindowSize } from "../../../../../../types/enum";
-import CardModal, { ICardModalInfo } from "../../cardModal.tsx/CardModal";
+import CardModal from "../../../../../../components/cardModal/CardModal";
 import SelecterPayStatus from "./SelecterPayStatus";
 import CreaditCardChangeBtn from "./CreaditCardChangeBtn";
 import reactWindowSize, { WindowSizeProps } from "react-window-size";
+import { ICardModalInfo } from "../../../../../../components/cardModal/declare";
+import CardModalWrap from "../../../../../../components/cardModal/CardModalWrap";
 
 interface Iprops {
   context: IContext;
@@ -117,20 +119,14 @@ const PeriodicalSignCard: React.FC<Iprops & WindowSizeProps> = ({
                   {cardName}:{card_space(cardNo)}
                 </VtableCell>
                 <VtableCell label={""}>
-                  <CreaditCardChangeBtn
-                    currentHouseInfo={{
-                      houseName: house.name,
-                      product: applyedProduct
-                    }}
-                    cardModalHook={cardModalHook}
-                  />
+                  <CreaditCardChangeBtn cardModalHook={cardModalHook} />
                 </VtableCell>
               </VtableColumn>
             </Vtable>
           </div>
         </div>
       </div>
-      <CardModal modalHook={cardModalHook} context={context} />
+      <CardModalWrap modalHook={cardModalHook} context={context} />
     </div>
   );
 };

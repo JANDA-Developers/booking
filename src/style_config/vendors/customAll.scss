@@ -131,6 +131,14 @@ a.JDanchor {
   align-items: center;
   justify-content: center;
 }
+.JDflex--grow {
+  & > div {
+    flex: 1 1;
+  }
+}
+.JDflex--end {
+  justify-content: flex-end;
+}
 
 .JDflex--between {
   display: flex;

@@ -3,12 +3,36 @@ export enum PricingType {
   ROOM = "ROOM"
 }
 
+export enum UserReqeustType {
+  HOMEPAGE = "HOMEPAGE"
+}
+
+export enum UserRequestStatusValue {
+  COMPLETED = "COMPLETED",
+  PENDING = "PENDING",
+  PROCEEDING = "PROCEEDING",
+  REFUSED = "REFUSED"
+}
+
 export enum UserRole {
   ADMIN = "ADMIN",
   GHOST = "GHOST",
   GUEST = "GUEST",
   DEVELOPER = "DEVELOPER",
   HOST = "HOST"
+}
+
+export enum HomepageOptionKey {
+  CS_PAGE = "CS_PAGE",
+  CUSTOM_DESIGN = "CUSTOM_DESIGN",
+  CUSTOM_DEV = "CUSTOM_DEV",
+  INSTA_PAGE = "INSTA_PAGE",
+  NOTI_PAGE = "NOTI_PAGE",
+  PHOTO_PAGE = "PHOTO_PAGE",
+  PRICE_PAGE = "PRICE_PAGE",
+  RESV_API = "RESV_API",
+  RESV_PAGE = "RESV_PAGE",
+  ROOM_INFO_PAGE = "ROOM_INFO_PAGE"
 }
 
 export enum CreaditCardTypes {
@@ -195,6 +219,11 @@ export enum TimePerMs {
   M = 60 * 1000
 }
 
+export enum LayoutDesign {
+  BASIC = "BASIC",
+  RED = "RED"
+}
+
 export enum PaymentStatus {
   CANCELED = "CANCELED",
   COMPLETED = "COMPLETED",
@@ -310,11 +339,6 @@ export enum SendTarget {
   BOTH = "BOTH",
   GUEST = "GUEST",
   HOST = "HOST"
-}
-
-export enum LayoutType {
-  Layout_A = "Layout_A",
-  Layout_B = "Layout_B"
 }
 
 export enum Day {

@@ -13,16 +13,14 @@ import ReservationModal from "../../../components/reservationModala/ReservationM
 import JDIcon from "../../../atoms/icons/Icons";
 import TooltipList from "../../../atoms/tooltipList/TooltipList";
 import DayPickerModal from "../../../components/dayPickerModal/DayPickerModal";
-import SendSMSmodalWrap, {
-  IModalSMSinfo
-} from "../../../components/smsModal/SendSmsModalWrap";
+import SendSMSmodalWrap from "../../../components/smsModal/SendSmsModalWrap";
 import moment from "moment";
 import PageHeader from "../../../components/pageHeader/PageHeader";
 import PageBody from "../../../components/pageBody/PageBody";
 import JDcard from "../../../atoms/cards/Card";
-import JDTimePicker from "../../../atoms/timePicker/TimePicker";
 import TutoHelper from "./components/TutoHelper";
 import { DO_TUTO_KEY } from "../../../types/const";
+import { IModalSMSinfo } from "../../../components/smsModal/SendSmsModal";
 
 interface Iprops {
   context: IContext;
@@ -84,7 +82,6 @@ const DashBoard: React.SFC<Iprops> = ({ context }) => {
             >
               {/* 상단 버튼 집합 */}
               <div>
-                <JDTimePicker />
                 <Button
                   id="CreateResvModalUpBtn"
                   onClick={() => {

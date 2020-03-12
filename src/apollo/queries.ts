@@ -9,6 +9,51 @@ export const F_LOCATION = gql`
   }
 `;
 
+export const F_HOEMPAGE = gql`
+  fragment Fhomepage on Homepage {
+    _id
+    siteName
+    url
+    managerName
+    contact
+    eamil
+    design
+    options
+    requestId
+  }
+`;
+
+const F_HOMEPAGE_REQUEST = gql`
+  fragment FhomepageRequest on RequestHomepageType  {
+    siteName
+    url
+    managerName
+    contact
+    eamil
+    design
+    options {
+      price
+      key
+    }
+    houseId
+}
+`
+
+export const F_USER_REQUEST = gql`
+  fragment FuserRequest on UserRequest {
+    _id
+    type
+    userMsg
+    status {
+      confrim
+      doneAt
+      status
+    }
+    userId
+  }
+  ${F_HOMEPAGE_REQUEST}
+`
+
 export const F_BANK_ACOUNT_INFO = gql`
   fragment FbankAccountInfo on BankAccountInfo {
       bankName
@@ -1557,6 +1602,125 @@ export const CREATE_ROOMTYPE = gql`
     }
   }
 `;
+
+export const CREATE_USER_REQUEST = gql`
+mutation createUserRequest($param:CreateUserRequestInput!) {
+    CreateUserRequest(
+      param:$param 
+    ) {
+      ok
+      error
+    }
+}`;
+
+export const GET_ALL_HOMEPAGE_OPTIONS = gql`
+query getAllHomepageOptions {
+  GetAllHomepageOptions {
+    ok
+    error
+    homepageOptions {
+      price
+      key 
+    }
+  }
+}
+`
+
+export const UPDATE_USER_REQUEST = gql`
+  mutation updateUserRequest($param:UpdateUserRequestInput!) {
+    UpdateUserRequest(
+      param:$param 
+    ) {
+      ok
+      error
+    }
+}`;
+
+export const CREATE_HOMEPAGE = gql`
+  mutation createHomepage($param:CreateHomepageInput!) {
+    CreateHomepage(
+      param:$param 
+    ) {
+      ok
+      error
+    }
+}`;
+
+
+export const UPDATE_HOMEPAGE = gql`
+  mutation updateHomepage($param:UpdateHomepageInput!) {
+    UpdateHomepage(
+      param:$param 
+    ) {
+      ok
+      error
+    }
+}`;
+
+export const DELETE_HOMEPAGE = gql`
+  mutation deleteHomepage($homepageId: ID!) {
+    DeleteHomepage(
+      homepageId:$homepageId
+    ) {
+      ok
+      error
+    }
+}`;
+
+
+export const GET_HOMEPAGES = gql`
+query getHomepages($param: GetHomepagesInput!) {
+    GetHomepages(param:$param) {
+      ok
+      error
+      result {
+        homepages {
+          ...Fhomepage
+          user {
+            _id
+            name
+          }
+          house {
+            _id
+            name
+          }
+        }
+        pageInfo {
+          ...FpageInfo
+        }
+      }
+    }
+  }
+  ${F_PAGE_INFO}
+  ${F_HOEMPAGE}
+`
+
+export const GET_USER_REQUESTS = gql`
+query getUserRequests($param:GetUserRequestsInput!) {
+    GetUserRequests(
+      param:$param 
+    ) {
+      ok
+      error
+      result{
+        pageInfo{
+          currentPage
+          totalPage
+          rowCount
+          totalCount
+        }
+        userRequests {
+          ...FuserRequest
+          homepageInfo {
+              ...FhomepageRequest
+          }
+        }
+      }
+    }
+  ${F_USER_REQUEST}
+  ${F_HOMEPAGE_REQUEST}
+}`;
+
 
 // 방 :: 방생성
 // export const CREATE_ROOM = gql`

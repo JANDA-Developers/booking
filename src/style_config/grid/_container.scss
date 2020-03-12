@@ -1,13 +1,13 @@
-
-body,html {
-    min-height: 100%;
+body,
+html {
+  min-height: 100%;
 }
 
 #root {
-    height: 100%;
+  height: 100%;
 }
 main {
-    height: 100%;
+  height: 100%;
 }
 .container {
   margin: 0 auto;
@@ -16,13 +16,13 @@ main {
   position: relative;
   width: 100%;
   box-sizing: border-box;
-  min-height:90%;
-  
-  @include response ($phablet) {
+  min-height: 90%;
+
+  @include response($phablet) {
     padding: 0 $container-padding--md;
   }
-  @include response ($mobile) {
-    overflow:hidden;
+  @include response($mobile) {
+    overflow: hidden;
   }
 }
 
@@ -48,27 +48,28 @@ main {
 }
 
 .container--center {
-  display:flex;
-  justify-content:center;
-  text-align:center;
+  display: flex;
+  justify-content: center;
+  text-align: center;
 }
 
 // 상하 좌우 가운데로
 .container--centerlize {
   position: fixed;
-  top:0;
+  top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
   max-width: none;
   padding-left: 0;
   padding-right: 0;
   padding-top: $header-height;
-  transition: .3s;
+  padding-bottom: $header-height * 2;
+  transition: 0.3s;
 }
 
 .bookingHost--sideOpen {
@@ -92,4 +93,3 @@ main {
   content: "";
   display: table;
 }
-  

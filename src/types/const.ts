@@ -1,6 +1,5 @@
 import {
   PaymentStatus,
-  LayoutType,
   BookingStatus,
   SalesStatisticsUnit,
   SendTarget,
@@ -15,12 +14,16 @@ import {
   AutoSendWhen,
   Language,
   Day,
+  HomepageOptionKey,
   HouseType
 } from "./enum";
+
 import { isMobile } from "is-mobile";
 import { registerBillKey_RegisterBillKey_billInfo } from "./api";
 import { LANG } from "../hooks/hook";
 import { IselectedOption } from "../atoms/forms/selectBox/SelectBox";
+import { THOMEPAGE } from "./interface";
+
 
 export const DO_TUTO_KEY = "DO_TUTO";
 
@@ -30,6 +33,7 @@ export const LANGUAGE_LIST: Language[] = [
   Language.JAPANESE,
   Language.KOREAN
 ];
+
 
 export const FAVI_URL = "https://res.cloudinary.com/stayjanda-com/image/upload/v1554092565/favicon.ico";
 
@@ -108,11 +112,6 @@ export let BOOKING_STATUS_OP = [
   { value: BookingStatus.CANCELED, label: "" }
 ];
 
-export const LAYOUT_TYPE_OP = [
-  { value: LayoutType.Layout_A, label: LayoutType.Layout_A },
-  { value: LayoutType.Layout_B, label: LayoutType.Layout_B }
-];
-
 // [0]가 진행중이 되도록 고정
 export let PAYMENT_STATUS_OP = [
   { value: PaymentStatus.COMPLETED, label: "" },
@@ -174,6 +173,10 @@ export let PAYMETHOD_FOR_HOST_OP = [
   { value: PayMethod.CARD, label: "" },
   { value: PayMethod.CHANNEL_PAY, label: "" }
   // {value: PayMethod.ELSE, label: "기타"}
+];
+
+export let PAYMETHOD_FOR_JD_OP = [
+  { value: PayMethod.CARD, label: "" }
 ];
 
 export let ROOM_GENDER_OP = [
@@ -324,3 +327,13 @@ export const DUMMY_BILL_INFO: registerBillKey_RegisterBillKey_billInfo = {
 export const FLOATING_PRELOADER_SIZE = "small";
 export const MODAL_PRELOADER_SIZE = "large";
 export const TEST_PRODUCT_NAME = "JANDA-T";
+
+export const DEFAULT_SELECTDS_HOMPAGE_OP = [HomepageOptionKey.RESV_PAGE, HomepageOptionKey.CS_PAGE, HomepageOptionKey.RESV_API];
+
+export const HOMPAGES: THOMEPAGE[] = [{
+  preview: `${IMG_REPO}homepage/sian_hotel_01.png`,
+  sumnail: `${IMG_REPO}homepage/sian_hotel_sumnail_01.png`,
+  url: "",
+  price: 0
+}]
+

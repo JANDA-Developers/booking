@@ -23,7 +23,8 @@ import {
   getRoomTypeInfo_GetRoomTypeById_roomType_capacity_CapacityRoomTypeDomitory,
   registerBillKey_RegisterBillKey_billInfo,
   getMyProfile_GetMyProfile_user_paymentInfos,
-  getAllProductTypes_GetAllProductTypes_productTypes
+  getAllProductTypes_GetAllProductTypes_productTypes,
+  getAllHomepageOptions_GetAllHomepageOptions_homepageOptions
 } from "./api";
 import { IselectedOption } from "../atoms/forms/selectBox/SelectBox";
 import { PricingType, TMarginSize } from "./enum";
@@ -68,6 +69,7 @@ export interface ISeason extends getAllSeasonTable_GetAllSeason_seasons { }
 export interface IBlock extends getAllRoomTypeWithGuest_GetBlocks_blocks { }
 export interface IBlockOp
   extends getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_blockOption { }
+export type HomapgeOp = getAllHomepageOptions_GetAllHomepageOptions_homepageOptions;
 export interface IPageInfo {
   currentPage: number;
   totalPage: number;
@@ -257,4 +259,11 @@ export interface JDpageInfo {
 
 export interface TP {
   pageInfo: JDpageInfo;
+}
+
+export type THOMEPAGE = {
+  preview: string;
+  sumnail: string;
+  url: string;
+  price: number;
 }

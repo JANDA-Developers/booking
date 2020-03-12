@@ -1,0 +1,16 @@
+@import "~Styles";
+
+.HomepageLi {
+  background: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAO0lEQVQoU2NkIAIwElIzc+bM/3gVgRSkp6czEjQJZBNWRTATYE7BUISuAKdJ6J6Bm4TNBBTr8CkAKQQAYwgW1PmOiSwAAAAASUVORK5CYII=";
+  position: relative;
+
+  &__processing {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: $standard-line-height;
+    padding-left: 0px $standard-huge-space;
+  }
+}

@@ -14,10 +14,8 @@ import { IHolidaysByApi, JdFile } from "../types/interface";
 import moment from "moment";
 import {
   muResult,
-  targetBlink,
   onCompletedMessage,
   instanceOfA,
-  isIncludeSpecialChar
 } from "../utils/utils";
 import { JDlang as originJDlang } from "../langs/JDlang";
 import { TLanguageShort } from "../types/enum";
@@ -31,7 +29,6 @@ import { ExecutionResult } from "graphql";
 // @ts-ignore
 import omitDeep from "omit-deep";
 import { DEFAULT_IMAGEUP_LOADER_OPTION } from "../types/defaults";
-import { toast } from "react-toastify";
 
 export type IUseFetch = [
   any,

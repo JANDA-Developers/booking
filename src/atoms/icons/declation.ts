@@ -36,7 +36,7 @@ export type IIcons =
   | "checkIn"
   | "persons"
   | "check"
-| "peopleWithStarts"
+  | "peopleWithStarts"
   | "keyBoard"
   | "board"
   | "addCircle"
@@ -77,9 +77,11 @@ export type IIcons =
   | "quoteLeft"
   | "camera"
   | "reverse"
+  | "no"
   | "copyFile";
 
 export const JDicons: { [s: string]: string } = {
+  no: "",
   note: "M4 22v-20h16v11.543c0 4.107-6 2.457-6 2.457s1.518 6-2.638 6h-7.362zm18-7.614v-14.386h-20v24h10.189c3.163 0 9.811-7.223 9.811-9.614zm-5-1.386h-10v-1h10v1zm0-4h-10v1h10v-1zm0-3h-10v1h10v-1z",
   reverse:
     "M9 12l-4.463 4.969-4.537-4.969h3c0-4.97 4.03-9 9-9 2.395 0 4.565.942 6.179 2.468l-2.004 2.231c-1.081-1.05-2.553-1.699-4.175-1.699-3.309 0-6 2.691-6 6h3zm10.463-4.969l-4.463 4.969h3c0 3.309-2.691 6-6 6-1.623 0-3.094-.65-4.175-1.699l-2.004 2.231c1.613 1.526 3.784 2.468 6.179 2.468 4.97 0 9-4.03 9-9h3l-4.537-4.969z",

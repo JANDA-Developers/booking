@@ -1,0 +1,39 @@
+import React from "react";
+import HomepageLi from "./HomepageLi";
+import {
+  getUserRequests,
+  getUserRequestsVariables
+} from "../../../../../types/api";
+import { GET_USER_REQUESTS } from "../../../../../apollo/queries";
+import client from "../../../../../apollo/apolloClient";
+import { useQuery } from "@apollo/react-hooks";
+
+interface IProps {}
+
+const HomepageListWrap: React.FC<IProps> = () => {
+  const {
+    data,
+    loading,
+    refetch,
+    stopPolling,
+    startPolling,
+    networkStatus
+  } = useQuery<getUserRequests, getUserRequestsVariables>(GET_USER_REQUESTS, {
+    client,
+    variables: {
+      param: {
+        paging: {
+          count: 10,
+          selectedPage: 1
+        }
+      }
+    },
+    notifyOnNetworkStatusChange: true,
+    fetchPolicy: "no-cache",
+    pollInterval: houseConfig.pollingPeriod?.period || 100000
+  });
+
+  return;
+};
+
+export default HomepageListWrap;

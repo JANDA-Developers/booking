@@ -1,4 +1,4 @@
-import { IuseImageUploaderOption, LANG } from "../hooks/hook";
+import { IuseImageUploaderOption, IUseModal } from "../hooks/hook";
 import {
   GB_booking,
   IHouseConfigFull,
@@ -36,6 +36,9 @@ import {
   IAssigGroup,
   GuestTypeAdd
 } from "../pages/bookingHost/assig/components/assigIntrerface";
+import { TCardRegistInfo } from "../components/cardModal/declare";
+import { IContext } from "../pages/bookingHost/BookingHostRouter";
+export const ANY: any = {};
 
 export const DEFAULT_ROOMTYPE_ROOM: getAllRoomType_GetAllRoomType_roomTypes_rooms = {
   __typename: "Room",
@@ -141,6 +144,27 @@ export const DEFAULT_SMS_INFO: getSmsInfo_GetSmsInfo_smsInfo = {
   smsTemplates: null
 };
 
+export const FAKE_MODAL_HOOK: IUseModal = {
+  closeModal: () => { },
+  isOpen: true,
+  info: {},
+  openModal: () => { }
+}
+
+export const FAKE_CONTEXT: IContext = {
+  JDlang: ANY,
+  applyedProduct: ANY,
+  history: ANY,
+  house: ANY,
+  houseConfig: ANY,
+  houses: [],
+  isLogIn: true,
+  langHook: ANY,
+  location: ANY,
+  match: ANY,
+  sideNavIsOpen: ANY,
+  user: ANY,
+}
 
 // specification에서 사용
 export const DEFAULT_PRODUCT: getSpecification_GetHouse_house_product = {
@@ -338,11 +362,12 @@ export const DEFAULT_PAYMENT_INFO: getMyProfile_GetMyProfile_user_paymentInfos =
   isLive: false
 };
 
-export const DEFAULT_CARD_INFO = {
-  cardNumber: "",
-  idNumber: "",
-  exp: "",
-  cardPassword: ""
+export const DEFAULT_CARD_INFO: TCardRegistInfo = {
+  cardNo: "",
+  cardPw: "",
+  expMonth: "",
+  expYear: "",
+  idNo: ""
 };
 
 export const DEFAULT_PAGE_INFO: JDpageInfo = {

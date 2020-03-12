@@ -1,47 +1,48 @@
-@import '~Styles';
-
+@import "~Styles";
 
 .resvList {
+  &__roomSelectWraps {
+    flex-direction: column;
+  }
 
-    &__statusBadgesWrap {
-        margin-bottom: -0.25rem;
-        .JDbadge {
-            margin-left: 0.4rem;
-            margin-bottom: 0.25rem;
-            &:first-child {
-                margin-left: 0;
-            }
-        }
+  &__statusBadgesWrap {
+    margin-bottom: -0.25rem;
+    .JDbadge {
+      margin-left: 0.4rem;
+      margin-bottom: 0.25rem;
+      &:first-child {
+        margin-left: 0;
+      }
+    }
+  }
+
+  &__paymentStatus {
+    &--notYet {
+      color: $orange-color;
+    }
+  }
+
+  &__createdAt {
+    max-width: 100%;
+  }
+
+  &__memo {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    max-width: 100%;
+    max-height: 10rem;
+    overflow: auto;
+    white-space: normal;
+
+    &--full {
+      align-items: baseline;
     }
 
-    &__paymentStatus {
-        &--notYet {
-            color: $orange-color;
-        }
-    }
+    @extend %JDscrollbar;
+  }
 
-    &__createdAt {
-        max-width: 100%;
-        
-    }
-
-    &__memo {
-        height: 100%;
-        display:flex;
-        align-items:center;
-        max-width:  100%;
-        max-height: 10rem;
-        overflow: auto;
-        white-space: normal;
-
-        &--full {
-            align-items: baseline;
-        }
-
-        @extend %JDscrollbar;
-    }
-
-    @include response($phablet) {
-        font-size: $typho-small;
-    }
+  @include response($phablet) {
+    font-size: $typho-small;
+  }
 }

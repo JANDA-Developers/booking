@@ -22,21 +22,26 @@
   }
 
   &__myHouses {
+    justify-content: unset;
     min-width: 460px;
     @include response($phablet) {
       min-width: 290px;
     }
   }
 
+  .myPage__myHouse {
+    margin-right: $column-margin;
+  }
+
   @include response($full, $phabletUp) {
     .myPage__myHouses > .col:nth-child(3n + 1) {
-      margin-left: 0;
+      margin-right: 0;
     }
   }
 
   @include response($phablet) {
     .myPage__myHouses > .col:nth-child(2n + 1) {
-      margin-left: 0;
+      margin-right: 0;
     }
   }
 }

@@ -60,8 +60,8 @@ import {
 } from "../../../components/bookingModal/declaration";
 import JDbox from "../../../atoms/box/JDbox";
 import { IBookerInfo, IReservationHooks } from "./declation";
-import { TCardRegistInfo } from "../../../components/bilingModal/BillingModal";
 import { Redirect } from "react-router-dom";
+import { TCardRegistInfo } from "../../../components/cardModal/declare";
 
 class GetAllAvailRoomQu extends Query<getAllRoomTypeForBooker> {}
 export interface ISetBookingInfo
@@ -199,9 +199,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
     if (!startBookingForPublicMu)
       throw Error("startBookingForPublicMu 가 없음");
 
-    const { cardNumber, idNumber, exp, cardPassword } = cardInfoHook[0];
-
-    const { month, year } = cardExpToObj(exp);
+    const { cardNo, cardPw, expMonth, expYear, idNo } = cardInfoHook[0];
 
     const isCardPay = payMethodHook.selectedOption?.value === PayMethod.CARD;
 
@@ -237,11 +235,11 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
         price: toNumber(priceHook.value),
         cardPayInfo: isCardPay
           ? {
-              cardNo: cardNumber,
-              cardPw: cardPassword,
-              expMonth: month,
-              expYear: year,
-              idNo: idNumber
+              cardNo: cardNo,
+              cardPw: cardPw,
+              expMonth,
+              expYear,
+              idNo
             }
           : undefined
       }

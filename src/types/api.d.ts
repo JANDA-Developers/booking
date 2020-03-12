@@ -3345,6 +3345,300 @@ export interface createRoomTypeVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: createUserRequest
+// ====================================================
+
+export interface createUserRequest_CreateUserRequest {
+  __typename: "CreateUserRequestResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface createUserRequest {
+  CreateUserRequest: createUserRequest_CreateUserRequest;
+}
+
+export interface createUserRequestVariables {
+  param: CreateUserRequestInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: getAllHomepageOptions
+// ====================================================
+
+export interface getAllHomepageOptions_GetAllHomepageOptions_homepageOptions {
+  __typename: "HomepageOption";
+  price: number;
+  key: HomepageOptionKey;
+}
+
+export interface getAllHomepageOptions_GetAllHomepageOptions {
+  __typename: "GetAllHomepageOptionsResponse";
+  ok: boolean;
+  error: string | null;
+  homepageOptions: getAllHomepageOptions_GetAllHomepageOptions_homepageOptions[] | null;
+}
+
+export interface getAllHomepageOptions {
+  GetAllHomepageOptions: getAllHomepageOptions_GetAllHomepageOptions;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: updateUserRequest
+// ====================================================
+
+export interface updateUserRequest_UpdateUserRequest {
+  __typename: "UpdateUserRequestResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface updateUserRequest {
+  UpdateUserRequest: updateUserRequest_UpdateUserRequest;
+}
+
+export interface updateUserRequestVariables {
+  param: UpdateUserRequestInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: createHomepage
+// ====================================================
+
+export interface createHomepage_CreateHomepage {
+  __typename: "CreateHomepageResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface createHomepage {
+  CreateHomepage: createHomepage_CreateHomepage;
+}
+
+export interface createHomepageVariables {
+  param: CreateHomepageInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: updateHomepage
+// ====================================================
+
+export interface updateHomepage_UpdateHomepage {
+  __typename: "UpdateHomepageResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface updateHomepage {
+  UpdateHomepage: updateHomepage_UpdateHomepage;
+}
+
+export interface updateHomepageVariables {
+  param: UpdateHomepageInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: deleteHomepage
+// ====================================================
+
+export interface deleteHomepage_DeleteHomepage {
+  __typename: "DeleteHomepageResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface deleteHomepage {
+  DeleteHomepage: deleteHomepage_DeleteHomepage;
+}
+
+export interface deleteHomepageVariables {
+  homepageId: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: getHomepages
+// ====================================================
+
+export interface getHomepages_GetHomepages_result_homepages_user {
+  __typename: "User";
+  _id: string;
+  name: any;
+}
+
+export interface getHomepages_GetHomepages_result_homepages_house {
+  __typename: "House";
+  _id: string;
+  name: string;
+}
+
+export interface getHomepages_GetHomepages_result_homepages {
+  __typename: "Homepage";
+  _id: string;
+  siteName: string | null;
+  url: string;
+  managerName: string;
+  contact: string;
+  eamil: string;
+  design: LayoutDesign;
+  options: (HomepageOptionKey | null)[] | null;
+  requestId: string;
+  user: getHomepages_GetHomepages_result_homepages_user;
+  house: getHomepages_GetHomepages_result_homepages_house | null;
+}
+
+export interface getHomepages_GetHomepages_result_pageInfo {
+  __typename: "PageInfoOffsetBase";
+  /**
+   * 현제 보고있는 페이지
+   */
+  currentPage: number;
+  /**
+   * 전체 페이지 수
+   */
+  totalPage: number;
+  /**
+   * 현재 페이지 데이터 수
+   */
+  rowCount: number;
+}
+
+export interface getHomepages_GetHomepages_result {
+  __typename: "GetHomepagesResultData";
+  homepages: getHomepages_GetHomepages_result_homepages[] | null;
+  pageInfo: getHomepages_GetHomepages_result_pageInfo;
+}
+
+export interface getHomepages_GetHomepages {
+  __typename: "GetHomepagesResponse";
+  ok: boolean;
+  error: string | null;
+  result: getHomepages_GetHomepages_result | null;
+}
+
+export interface getHomepages {
+  GetHomepages: getHomepages_GetHomepages;
+}
+
+export interface getHomepagesVariables {
+  param: GetHomepagesInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: getUserRequests
+// ====================================================
+
+export interface getUserRequests_GetUserRequests_result_pageInfo {
+  __typename: "PageInfoOffsetBase";
+  /**
+   * 현제 보고있는 페이지
+   */
+  currentPage: number;
+  /**
+   * 전체 페이지 수
+   */
+  totalPage: number;
+  /**
+   * 현재 페이지 데이터 수
+   */
+  rowCount: number;
+  /**
+   * 전체 데이터 수
+   */
+  totalCount: number;
+}
+
+export interface getUserRequests_GetUserRequests_result_userRequests_status {
+  __typename: "UserRequestStatus";
+  /**
+   * 확인한 시간
+   */
+  confrim: any | null;
+  doneAt: any | null;
+  status: UserRequestStatusValue | null;
+}
+
+export interface getUserRequests_GetUserRequests_result_userRequests_homepageInfo_options {
+  __typename: "HomepageOption";
+  price: number;
+  key: HomepageOptionKey;
+}
+
+export interface getUserRequests_GetUserRequests_result_userRequests_homepageInfo {
+  __typename: "RequestHomepageType";
+  siteName: string | null;
+  url: string[] | null;
+  managerName: string;
+  contact: string;
+  eamil: string;
+  design: LayoutDesign;
+  options: (getUserRequests_GetUserRequests_result_userRequests_homepageInfo_options | null)[] | null;
+  houseId: string | null;
+}
+
+export interface getUserRequests_GetUserRequests_result_userRequests {
+  __typename: "UserRequest";
+  _id: string;
+  type: UserReqeustType;
+  userMsg: string | null;
+  status: getUserRequests_GetUserRequests_result_userRequests_status;
+  userId: string;
+  homepageInfo: getUserRequests_GetUserRequests_result_userRequests_homepageInfo | null;
+}
+
+export interface getUserRequests_GetUserRequests_result {
+  __typename: "GetUserRequestsResultData";
+  pageInfo: getUserRequests_GetUserRequests_result_pageInfo;
+  userRequests: getUserRequests_GetUserRequests_result_userRequests[] | null;
+}
+
+export interface getUserRequests_GetUserRequests {
+  __typename: "GetUserRequestsResponse";
+  ok: boolean;
+  error: string | null;
+  result: getUserRequests_GetUserRequests_result | null;
+}
+
+export interface getUserRequests {
+  GetUserRequests: getUserRequests_GetUserRequests;
+}
+
+export interface getUserRequestsVariables {
+  param: GetUserRequestsInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: deleteBlock
 // ====================================================
 
@@ -5347,6 +5641,80 @@ export interface Flocation {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL fragment: Fhomepage
+// ====================================================
+
+export interface Fhomepage {
+  __typename: "Homepage";
+  _id: string;
+  siteName: string | null;
+  url: string;
+  managerName: string;
+  contact: string;
+  eamil: string;
+  design: LayoutDesign;
+  options: (HomepageOptionKey | null)[] | null;
+  requestId: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: FhomepageRequest
+// ====================================================
+
+export interface FhomepageRequest_options {
+  __typename: "HomepageOption";
+  price: number;
+  key: HomepageOptionKey;
+}
+
+export interface FhomepageRequest {
+  __typename: "RequestHomepageType";
+  siteName: string | null;
+  url: string[] | null;
+  managerName: string;
+  contact: string;
+  eamil: string;
+  design: LayoutDesign;
+  options: (FhomepageRequest_options | null)[] | null;
+  houseId: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: FuserRequest
+// ====================================================
+
+export interface FuserRequest_status {
+  __typename: "UserRequestStatus";
+  /**
+   * 확인한 시간
+   */
+  confrim: any | null;
+  doneAt: any | null;
+  status: UserRequestStatusValue | null;
+}
+
+export interface FuserRequest {
+  __typename: "UserRequest";
+  _id: string;
+  type: UserReqeustType;
+  userMsg: string | null;
+  status: FuserRequest_status;
+  userId: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL fragment: FbankAccountInfo
 // ====================================================
 
@@ -6777,6 +7145,19 @@ export enum HMmenuType {
   SAFETY = "SAFETY",
 }
 
+export enum HomepageOptionKey {
+  CS_PAGE = "CS_PAGE",
+  CUSTOM_DESIGN = "CUSTOM_DESIGN",
+  CUSTOM_DEV = "CUSTOM_DEV",
+  INSTA_PAGE = "INSTA_PAGE",
+  NOTI_PAGE = "NOTI_PAGE",
+  PHOTO_PAGE = "PHOTO_PAGE",
+  PRICE_PAGE = "PRICE_PAGE",
+  RESV_API = "RESV_API",
+  RESV_PAGE = "RESV_PAGE",
+  ROOM_INFO_PAGE = "ROOM_INFO_PAGE",
+}
+
 export enum HouseStatus {
   DISALBE = "DISALBE",
   ENABLE = "ENABLE",
@@ -6797,6 +7178,11 @@ export enum Language {
   ENGLISH = "ENGLISH",
   JAPANESE = "JAPANESE",
   KOREAN = "KOREAN",
+}
+
+export enum LayoutDesign {
+  BASIC = "BASIC",
+  RED = "RED",
 }
 
 export enum MemoType {
@@ -6853,6 +7239,7 @@ export enum PayMethod {
 export enum PayTarget {
   BOOKING = "BOOKING",
   EMAIL = "EMAIL",
+  HOMEPAGE = "HOMEPAGE",
   SMS = "SMS",
   USAGE_PLAN = "USAGE_PLAN",
 }
@@ -6900,6 +7287,17 @@ export enum SendTarget {
   BOTH = "BOTH",
   GUEST = "GUEST",
   HOST = "HOST",
+}
+
+export enum UserReqeustType {
+  HOMEPAGE = "HOMEPAGE",
+}
+
+export enum UserRequestStatusValue {
+  COMPLETED = "COMPLETED",
+  PENDING = "PENDING",
+  PROCEEDING = "PROCEEDING",
+  REFUSED = "REFUSED",
 }
 
 export enum UserRole {
@@ -6979,6 +7377,19 @@ export interface CreateBillKeyInput {
   idNo: string;
 }
 
+export interface CreateHomepageInput {
+  userRequestId?: string | null;
+  siteName?: string | null;
+  url: string;
+  managerName: string;
+  contact: string;
+  eamil: string;
+  design: LayoutDesign;
+  options?: (HomepageOptionKey | null)[] | null;
+  userId: string;
+  houseId?: string | null;
+}
+
 export interface CreateHouseInput {
   name: string;
   houseType: HouseType;
@@ -7013,10 +7424,30 @@ export interface CreateRoomTypeInput {
   rooms: string[];
 }
 
+export interface CreateUserRequestInput {
+  userId: string;
+  userMsg?: string | null;
+  relatedId?: string | null;
+  types?: UserReqeustType | null;
+  homepageInfo?: RequestHomepageInput | null;
+  payInfo?: DoBillPayInput | null;
+}
+
 export interface DayOfWeekPriceInput {
   day: Day;
   price: number;
   additionalPrice?: number | null;
+}
+
+export interface DoBillPayInput {
+  billKey?: string | null;
+  amt: number;
+  buyerName: string;
+  buyerEmail: any;
+  moid?: string | null;
+  goodsName: string;
+  cardQuota?: number | null;
+  goodsCnt?: number | null;
 }
 
 export interface DoBillPayProductInput {
@@ -7063,6 +7494,17 @@ export interface GetBookingsInput {
   sort?: any[] | null;
 }
 
+export interface GetHomepagesFilterInput {
+  houseId?: string | null;
+  siteName?: string | null;
+  contact?: string | null;
+}
+
+export interface GetHomepagesInput {
+  paging: OffsetPagingInput;
+  filter?: GetHomepagesFilterInput | null;
+}
+
 export interface GetHousesForSUInput {
   paging: OffsetPagingInput;
 }
@@ -7083,7 +7525,8 @@ export interface GetPayHistoryInput {
 }
 
 export interface GetReplacedMessageInput {
-  bookingNum: string;
+  bookingNum?: string | null;
+  bookingParam?: StartBookingBookerInput | null;
   smsTemplateId: string;
 }
 
@@ -7112,6 +7555,15 @@ export interface GetSmsHistoryInput {
   sort?: any[] | null;
 }
 
+export interface GetUserRequestsFilterInput {
+  userId?: string | null;
+}
+
+export interface GetUserRequestsInput {
+  paging: OffsetPagingInput;
+  filter?: GetUserRequestsFilterInput | null;
+}
+
 export interface GetUsersFilterInput {
   updatedAt?: any | null;
 }
@@ -7130,6 +7582,14 @@ export interface HMmenuInput {
   content?: any | null;
   icon?: string | null;
   isEnable?: boolean | null;
+}
+
+/**
+ * name 으로 조회합니다.
+ */
+export interface HomepageOptionInput {
+  price: number;
+  key: HomepageOptionKey;
 }
 
 export interface InitHouseInput {
@@ -7199,6 +7659,17 @@ export interface PollingPeriodInput {
 export interface RegisterBillKeyInput {
   createBillKeyInput: CreateBillKeyInput;
   addBillInfoToUser: boolean;
+}
+
+export interface RequestHomepageInput {
+  siteName?: string | null;
+  url?: string[] | null;
+  managerName: string;
+  contact: string;
+  eamil: string;
+  design: LayoutDesign;
+  options?: (HomepageOptionInput | null)[] | null;
+  houseId?: string | null;
 }
 
 export interface RoomInput {
@@ -7331,6 +7802,17 @@ export interface UpdateHMparams {
   menus?: (HMmenuInput | null)[] | null;
 }
 
+export interface UpdateHomepageInput {
+  homepageId: string;
+  siteName?: string | null;
+  url?: string | null;
+  managerName?: string | null;
+  contact?: string | null;
+  eamil?: string | null;
+  design?: LayoutDesign | null;
+  options?: (HomepageOptionKey | null)[] | null;
+}
+
 export interface UpdateHouseConfigParams {
   pollingPeriod?: PollingPeriodInput | null;
   assigTimeline?: AssigTimelineInput | null;
@@ -7404,6 +7886,11 @@ export interface UpdateSmsTemplateInput {
   smsSendCase?: UpdateSmsAutoSendInput | null;
 }
 
+export interface UpdateUserRequestInput {
+  requestId: string;
+  status?: UserRequestStatusInput | null;
+}
+
 export interface UpsertRoomTypeInput {
   roomTypeId?: string | null;
   name?: string | null;
@@ -7415,6 +7902,12 @@ export interface UpsertRoomTypeInput {
   defaultPrice?: number | null;
   description?: string | null;
   rooms?: RoomInput[] | null;
+}
+
+export interface UserRequestStatusInput {
+  confrim?: any | null;
+  doneAt?: any | null;
+  status?: UserRequestStatusValue | null;
 }
 
 //==============================================================

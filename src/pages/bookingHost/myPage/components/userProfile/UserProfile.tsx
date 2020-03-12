@@ -254,6 +254,12 @@ const UserProfile: React.FC<Iprops> = ({ context, userInfo }) => {
           desc={LANG("mypage_houses_desc")}
           title={LANG("created_house")}
         />
+        <CardSection></CardSection>
+
+        <CardHeader
+          desc={LANG("mypage_houses_desc")}
+          title={LANG("created_house")}
+        />
         <CardSection>
           {/* 숙소 목록들 */}
           {<JDpreloader loading={loading} />}

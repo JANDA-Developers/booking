@@ -21,7 +21,7 @@ import {
   getAllProductTypes
 } from "../../../types/api";
 import { ReactTooltip } from "../../../atoms/tooltipList/TooltipList";
-import { LayoutType } from "../../../types/enum";
+import { LayoutDesign } from "../../../types/enum";
 import SelectProducts from "./SelectProduct";
 import productTypeGetDesc from "./helper";
 import { IContext } from "../../bookingHost/BookingHostRouter";
@@ -39,14 +39,12 @@ class RefundProductMutation extends Mutation<
 
 export interface IAdditionHook {
   useLayout: boolean;
-  layoutType: LayoutType;
   url: string;
 }
 interface IProps {
   disabledProducts?: string[];
   context: IContext;
 }
-
 // currentProduct : 현재 적용중인 상품
 const SelectProductWrap: React.FC<IProps> = ({ context, disabledProducts }) => {
   const {

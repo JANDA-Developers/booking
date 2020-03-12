@@ -50,7 +50,6 @@ import "./style_config/main.scss";
 import App from "./App";
 // @ts-ignore
 import { registerObserver } from "react-perf-devtool";
-import { toast } from "react-toastify";
 
 dotenv.config({
   path: "../.env"

@@ -18,9 +18,13 @@ import $ from "jquery";
 import { toast } from "react-toastify";
 import { FAVI_URL } from "./types/const";
 import LoadBalancer from "./pages/loadBalancer/LoadBalancer";
+import { getFromUrl } from "./utils/utils";
 
 function App() {
-  const langHook = useLang((localStorage.getItem("LastLang") as any) || "kr");
+  const ln = getFromUrl("ln");
+  const langHook = useLang(
+    ln || (localStorage.getItem("LastLang") as any) || "kr"
+  );
 
   globalLanguageSetting();
 
@@ -104,4 +108,5 @@ function App() {
     </div>
   );
 }
+
 export default App;

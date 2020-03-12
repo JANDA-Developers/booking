@@ -5,7 +5,6 @@
     "target": "es6",
     "module": "esnext",
     "moduleResolution": "node",
-    "noEmit": true,
     "jsx": "preserve",
     "lib": ["dom", "es6", "es2016"],
     "allowJs": true,
@@ -14,8 +13,7 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "incremental": true
+    "isolatedModules": true
   },
   "include": [
     "src/**/*.ts",
@@ -30,7 +28,9 @@
     "src/pages/bookingHost/resvList/Excel.jsx",
     "src/pages/outPages/print/CreditCardReceipt.tsx",
     "src/pages/outPages/print/CreditCardReceipt.js",
-    "src/setup.js"
+    "src/setup.js",
+    "src/components/cardModal",
+    "src/components/bookingModal/stories/bookingModal.storiestsx"
   ],
-  "exclude": ["node_modules", "src/atoms/**/*"]
+  "exclude": ["node_modules", "src/atoms/**/*", "src/**/*.stories.tsx"]
 }

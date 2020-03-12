@@ -1,54 +1,57 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState, useMemo } from "react";
 import ReactModal from "react-modal";
 import "./Modal.scss";
 import classNames from "classnames";
 import Button from "../button/Button";
 import { IUseModal, LANG } from "../../hooks/hook";
 import { s4 } from "../../utils/utils";
-import JDanimation, { Animation } from "../animation/Animations";
-import { IDiv } from "../../types/interface";
 import ModalEndSection from "./components/ModalEndSection";
+import ModalHeadSection, {
+  IPropsModalHeadProps
+} from "./components/ModalHeadSection";
 import Preloader from "../preloader/Preloader";
+import { TElements } from "../../types/interface";
 
-interface IProps extends ReactModal.Props, IUseModal {
+export interface JDmodalConfigProps {
+  head?: IPropsModalHeadProps;
   center?: boolean;
   loading?: boolean;
-  className?: string;
   isAlert?: boolean;
+  foot?: TElements;
   isUnderHeader?: boolean;
   confirm?: boolean;
   children?: any;
-  minContentsWidth?: string;
-  autoMinContentWidth?: boolean;
-  noAnimation?: boolean;
   minWidth?: string;
-  unWrap?: boolean;
+  minContentsWidth?: string;
+  noAnimation?: boolean;
   paddingSize?: "large";
   visibleOverflow?: boolean;
   falseMessage?: string | any[];
   trueMessage?: string | any[];
-  id?: string;
-  minContentWidth?: boolean;
   contentClassName?: string;
+  id?: string;
   contentWrapStyle?: React.CSSProperties;
   confirmCallBackFn?(flag: boolean, key?: string): any;
 }
+
+interface IProps extends ReactModal.Props, IUseModal, JDmodalConfigProps {}
 
 // let CAN_CLOSE_MODAL = false;
 
 const JDmodal: React.SFC<IProps> = ({
   info,
   center,
+  head,
   className,
   isUnderHeader,
   isOpen,
-  autoMinContentWidth,
   minContentsWidth,
   minWidth,
   closeModal,
   isAlert,
   children,
   confirm,
+  foot,
   paddingSize,
   confirmCallBackFn = info?.confirmCallBackFn,
   visibleOverflow,
@@ -56,14 +59,11 @@ const JDmodal: React.SFC<IProps> = ({
   noAnimation = true,
   falseMessage,
   loading,
-  unWrap,
-  contentClassName,
+  contentClassName = "JDmodal__body",
   contentWrapStyle: contentWrapStyleProp,
   appElement = document.getElementById("root") || undefined,
   ...props
 }) => {
-  if (unWrap) return children;
-
   const [shouldAnimation, setShouldAnimation] = useState(!noAnimation);
 
   // 여기에서 info로 들어온것과 openModal 명렁으로 들어온것들 조합함
@@ -88,7 +88,6 @@ const JDmodal: React.SFC<IProps> = ({
   });
 
   const classes = classNames("Modal JDmodal", className, {
-    "JDmodal--autoMinContentWidth": autoMinContentWidth,
     "JDmodal--center": center,
     "JDmodal--visibleOverflow": visibleOverflow,
     "JDmodal--alert": isAlert || confirm,
@@ -105,7 +104,7 @@ const JDmodal: React.SFC<IProps> = ({
 
   const hanldeClickBtn = (flag: boolean, key?: string) => {
     confirmCallBackFn && confirmCallBackFn(flag, key);
-    info.callBack && info.callBack(flag, key);
+    info && info.callBack && info.callBack(flag, key);
     closeModal();
   };
 
@@ -124,7 +123,7 @@ const JDmodal: React.SFC<IProps> = ({
     onClick: () => {
       hanldeClickBtn(false);
     },
-    label: falseMessage || LANG("cancel")
+    label: falseMessage || LANG("close")
   };
 
   const misClickPreventCloseModal = () => {
@@ -134,7 +133,7 @@ const JDmodal: React.SFC<IProps> = ({
   };
 
   const modalStyle = {
-    minWidth: loading ? "8rem" : minWidth
+    minWidth: loading || minWidth
   };
 
   const modalContentsStyle = {
@@ -151,6 +150,19 @@ const JDmodal: React.SFC<IProps> = ({
     </div>
   );
 
+  if (loading) {
+    return (
+      <ReactModal
+        {...defualtJDmodalProps}
+        {...props}
+        overlayClassName={overlayClassNames}
+        isOpen={true}
+      >
+        <Preloader loading={true} size="large" />
+      </ReactModal>
+    );
+  }
+
   return (
     <ReactModal
       isOpen={isOpen}
@@ -162,44 +174,51 @@ const JDmodal: React.SFC<IProps> = ({
       style={{ content: { ...modalStyle } }}
       overlayClassName={overlayClassNames}
     >
-      {loading && <Preloader loading={true} size="large" />}
-      {loading || getChildren()}
-      {confirm && (
-        <Fragment>
-          <ModalEndSection className="JDmodal__endSection--confirm">
-            {inInfo.trueMessage instanceof Array ? (
-              inInfo.trueMessage.map((message: any) => (
-                <Button
-                  key={s4()}
-                  {...sharedTrueBtnProp}
-                  className="TConfirmTureBtn"
-                  label={`${message.msg}`}
-                  onClick={() => {
-                    hanldeClickBtn(true, message.callBackKey);
-                  }}
-                />
-              ))
-            ) : (
-              <Button {...sharedTrueBtnProp} />
-            )}
-            {inInfo.falseMessage instanceof Array ? (
-              inInfo.falseMessage.map((message: any) => (
-                <Button
-                  key={s4()}
-                  {...sharedFalseBtnProp}
-                  className="TConfirmFalseBtn"
-                  label={`${message}`}
-                  onClick={() => {
-                    hanldeClickBtn(false, message.callBackKey);
-                  }}
-                />
-              ))
-            ) : (
-              <Button {...sharedFalseBtnProp} />
-            )}
-          </ModalEndSection>
-        </Fragment>
-      )}
+      <div
+        onClick={e => {
+          e.stopPropagation();
+        }}
+      >
+        {head && <ModalHeadSection closeFn={closeModal} {...head} />}
+        {getChildren()}
+        {foot && <div className="JDmodal__endSection">{foot}</div>}
+        {confirm && (
+          <Fragment>
+            <ModalEndSection className="JDmodal__endSection--confirm">
+              {inInfo.trueMessage instanceof Array ? (
+                inInfo.trueMessage.map((message: any) => (
+                  <Button
+                    key={s4()}
+                    {...sharedTrueBtnProp}
+                    className="TConfirmTureBtn"
+                    label={`${message.msg}`}
+                    onClick={() => {
+                      hanldeClickBtn(true, message.callBackKey);
+                    }}
+                  />
+                ))
+              ) : (
+                <Button {...sharedTrueBtnProp} />
+              )}
+              {inInfo.falseMessage instanceof Array ? (
+                inInfo.falseMessage.map((message: any) => (
+                  <Button
+                    key={s4()}
+                    {...sharedFalseBtnProp}
+                    className="TConfirmFalseBtn"
+                    label={`${message}`}
+                    onClick={() => {
+                      hanldeClickBtn(false, message.callBackKey);
+                    }}
+                  />
+                ))
+              ) : (
+                <Button {...sharedFalseBtnProp} />
+              )}
+            </ModalEndSection>
+          </Fragment>
+        )}
+      </div>
     </ReactModal>
   );
 };
