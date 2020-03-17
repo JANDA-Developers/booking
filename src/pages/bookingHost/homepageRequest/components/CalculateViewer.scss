@@ -2,9 +2,20 @@
 
 .calculateViewer {
   &__history {
-    padding: $standard-space;
-    border-top: 2px dashed $outborder-color;
-    border-bottom: 2px dashed $outborder-color;
+    border-top: 1px solid $outborder-color;
+    border-bottom: 1px solid $outborder-color;
     margin-bottom: $standard-margin-bottom;
+  }
+
+  &__historyInner {
+    padding: $standard-space;
+    margin: 2px 0px;
+    border-top: 1px solid $outborder-color;
+    border-bottom: 1px solid $outborder-color;
+  }
+
+  &__result-title {
+    width: 30%;
+    min-width: 12.5rem;
   }
 }

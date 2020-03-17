@@ -5,6 +5,16 @@ import {
   IconSize,
   TMarginSize
 } from "../types/enum";
+import { JDatomExtentionSet } from "../types/interface";
+
+const JDatomClasses = (configs: JDatomExtentionSet) => {
+  const { mb, mr, show } = configs;
+  return {
+    ...JDmrClass(mr),
+    ...JDdisplayClass(show),
+    ...JDmbClass(mb)
+  };
+};
 
 // 업데이트 => 구성요소에 들어가는 글로벌 css를 이걸로교체
 // 우선은 마진만 시험적용
@@ -22,6 +32,12 @@ const JDmrClass = (size?: TMarginSize | null) => {
   obj[`JDstandard-huge-space`] = size === "huge";
   obj[`JDstandard-largest-space`] = size === "largest";
 
+  return obj;
+};
+
+const JDdisplayClass = (display: boolean = true) => {
+  let obj: any = {};
+  obj[`JDdisplay-none`] = display === false;
   return obj;
 };
 
@@ -113,6 +129,8 @@ export {
   JDmbClass,
   JDmrClass,
   mbClass,
+  JDatomClasses,
+  JDdisplayClass,
   textAlignClass,
   colorClass,
   textSizeClass

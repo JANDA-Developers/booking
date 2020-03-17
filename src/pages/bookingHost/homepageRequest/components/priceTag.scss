@@ -1,0 +1,16 @@
+@import "~Styles";
+
+.priceTag {
+  display: flex;
+  align-items: center;
+  border-radius: 30px;
+  padding: 0 $standard-tiny-space;
+  border: 1px solid $grey-level2;
+  height: $standard-space;
+  font-size: $typho-tiny;
+  color: $grey-level3;
+  background-color: $grey-level0;
+  &--free {
+    height: min-content;
+  }
+}

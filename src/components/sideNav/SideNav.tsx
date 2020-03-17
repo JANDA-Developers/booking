@@ -155,6 +155,39 @@ const SideNav: React.FC<IProps> = ({ isOpen, setIsOpen, context }) => {
         }
       ]
     },
+    {
+      // homepage설정
+      key: "homepage_setting",
+      groupTitle: LANG("homepage"),
+      disabled: disabledFlag,
+      icon: "addCircle",
+      contents: [
+        {
+          // 홈페이지 신청하기
+          key: "smsTemplate",
+          to: "/homepageRequest",
+          icon: "sms",
+          label: LANG("template_setting"),
+          disabled: disabledFlag
+        },
+        {
+          // 홈페이지 관리하기
+          key: "homepage_manage",
+          to: "/smsInfo",
+          icon: "info",
+          label: LANG("sms_usage"),
+          disabled: disabledFlag
+        },
+        // 홈페이지 신청내역
+        {
+          key: "smsHistory",
+          to: "/smsHistory",
+          icon: "sms",
+          label: LANG("sms_history"),
+          disabled: disabledFlag
+        }
+      ]
+    },
     // 고객문의
     // {
     //   key: "customer_inquiry",

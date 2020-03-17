@@ -64,6 +64,7 @@ $new-color-light: lighten($new-color, 15%) !default;
 $new-color-dark: darken($new-color, 15%) !default;
 $new-color-on: $html-color !default;
 
+$pink-color: #f56e7d !default;
 $green-color: #009e6c !default;
 
 $error-color: #ff6760 !default;
@@ -105,6 +106,7 @@ $curtain-color: rgba(
 // 📖 ---- 표준 단위
 $doc-section-space: 0.4rem * 12 !default;
 $standard-largest-space: 0.4rem * 7 !default;
+$standard-huge2-space: 0.4rem * 6 !default;
 $standard-huge-space: 0.4rem * 5 !default;
 $standard-large-space: 0.4rem * 4 !default;
 $standard-space: 0.4rem * 3 !default;
@@ -120,6 +122,7 @@ $standard-label-margin: $standard-tiny-space !default;
 // 크기를 규격화 해서 한 라인으로 세울수 있도록 합니다.
 $standard-border-radius: 3px !default;
 $standard-line-height: 0.25rem * 10 !default;
+$standard-round-border-radius: $standard-line-height / 2 !default;
 $standard-input-outborder-color: $outborder-color !default;
 
 // 💔 -- BreackPoints 브레이크 포인트

@@ -13,7 +13,7 @@ const OutPageRouter: React.SFC<IProps> = ({ match, location }) => {
   return (
     <Fragment>
       {/* 예약페이지 */}
-      {/* http://localhost:3000/#/outpage/reservation?publickey=05dfe136-1f1e-beed-b96d-ea3d68d8b847 */}
+      {/* http://localhost:8000/#/outpage/reservation?publickey=05dfe136-1f1e-beed-b96d-ea3d68d8b847 */}
       <Switch>
         <Route
           path="/outpage/reservation/:publickey/:agencyId?"

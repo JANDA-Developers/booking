@@ -556,7 +556,7 @@ export const en = {
   setting_fail: "setting failed",
   signUp: "sign up",
   signup_complted: "Sign up complete",
-  singUp_submit: "subscribed",
+  signup_submit: "subscribed",
   six_months_after_stay: "6 months after stay",
   smooth_reservation_management: "secure scheduling management",
   sms_history: "SMS history",

@@ -25,6 +25,7 @@ interface IProps extends React.AllHTMLAttributes<HTMLInputElement> {
   readOnly?: boolean;
   disabled?: boolean;
   textarea?: boolean;
+  br?: "round" | "normal";
   scroll?: boolean;
   doubleHeight?: boolean;
   halfHeight?: boolean;
@@ -39,6 +40,7 @@ interface IProps extends React.AllHTMLAttributes<HTMLInputElement> {
   autoHeight?: boolean;
   iconOnClick?: any;
   dataSuccess?: string;
+  bg?: "grey" | "noraml";
   validation?: any;
   onChange?(value?: any): void;
   onChangeValid?: any;
@@ -76,6 +78,7 @@ const InputText: React.FC<IProps> = ({
   validation,
   onChange,
   className,
+  bg,
   onBlur,
   max,
   loading,
@@ -85,6 +88,7 @@ const InputText: React.FC<IProps> = ({
   textarea,
   scroll,
   value,
+  br,
   defaultValue, // UNcontrolled
   doubleHeight,
   halfHeight,
@@ -154,11 +158,13 @@ const InputText: React.FC<IProps> = ({
   const wrapClasses = classNames("JDinput-wrap", wrapClassName, {
     "JDinput-wrap--fullWidth": size === "fullWidth",
     "JDinput-wrap--fullHeight": size === "fullHeight",
+    "JDinput-wrap--round": br === "round",
     ...JDmrClass(mr),
     ...JDmbClass(mb)
   });
 
   const classes = classNames(textarea ? "JDtextarea" : "JDinput", className, {
+    "JDinput--greyBg": bg === "grey",
     "JDinput--overfloweEllipsis": overfloweEllipsis,
     "JDinput--labeled": label && !textarea,
     "JDinput--center": textAlign === "center",

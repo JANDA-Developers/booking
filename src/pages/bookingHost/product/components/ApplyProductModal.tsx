@@ -8,15 +8,14 @@ import {
   IBillInfo,
   TPayinfoes
 } from "../../../../types/interface";
-import CardModal, {
-  ICardModalInfo
-} from "../../myPage/components/cardModal.tsx/CardModal";
 import { IContext } from "../../BookingHostRouter";
 import BillCompleteView from "../../../../components/bilingModal/components/PeriodicPay";
 import { muResult, isEmpty } from "../../../../utils/utils";
 import { selectProduct, selectProductVariables } from "../../../../types/api";
 import PreloaderModal from "../../../../atoms/preloaderModal/PreloaderModal";
 import ModalEndSection from "../../../../atoms/modal/components/ModalEndSection";
+import { ICardModalInfo } from "../../../../components/cardModal/declare";
+import CardModalWrap from "../../../../components/cardModal/CardModalWrap";
 
 export interface applyProductModalInfo {
   productType: IProductTypeDec;
@@ -89,10 +88,7 @@ const ApplyProductModal: React.FC<IProps> = ({
   const openCardModalHook = () => {
     // card가 존재하지 않느지 확인해야한다
     cardModalHook.openModal({
-      currentHouseInfo: {
-        houseName: name
-      },
-      createCardCallBack: async billInfo => {
+      onSubmit: async billInfo => {
         await doBuyProduct(billInfo);
       }
     });
@@ -126,7 +122,7 @@ const ApplyProductModal: React.FC<IProps> = ({
       {step === "complete" && billInfo && (
         <BillCompleteView context={context} billInfo={billInfo} />
       )}
-      <CardModal modalHook={cardModalHook} context={context} />
+      <CardModalWrap modalHook={cardModalHook} context={context} />
     </Modal>
   );
 };

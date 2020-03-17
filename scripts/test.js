@@ -47,4 +47,6 @@ if (
   argv.push(hasSourceControl ? "--watch" : "--watchAll");
 }
 
+argv.push("--runInBand");
+console.log(argv);
 jest.run(argv);

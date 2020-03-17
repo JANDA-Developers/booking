@@ -8,7 +8,7 @@ import {
   queryDataFormater
 } from "../../../utils/utils";
 import JDmodal from "../../../atoms/modal/Modal";
-import { IMG_REPO } from "../../../types/const";
+import { IMG_REPO, DO_TUTO_KEY } from "../../../types/const";
 import { useModal, LANG, useSelect } from "../../../hooks/hook";
 import "./StarterModal.scss";
 import {
@@ -31,7 +31,6 @@ import { toast } from "react-toastify";
 import PreloaderModal from "../../../atoms/preloaderModal/PreloaderModal";
 import PhotoFrame from "../../../atoms/photoFrame/PhotoFrame";
 import ModalEndSection from "../../../atoms/modal/components/ModalEndSection";
-import "../../../utils/channelTok";
 import JDlist from "../../../atoms/list/List";
 import { currentWinSize } from "../../../utils/currentWinSize";
 import { useQuery } from "@apollo/react-hooks";
@@ -342,19 +341,22 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
               thema="primary"
               onClick={() => {
                 if (!InitHouseData) return;
+                localStorage.setItem(DO_TUTO_KEY, "Y");
                 localStorage.setItem("popUpAdditionalConfigModal", "Y");
 
-                const expObj = cardExpToObj(cardInfo.exp);
+                const expObj = cardExpToObj(
+                  cardInfo.expMonth + cardInfo.expYear
+                );
 
                 onSubmit({
                   param: {
                     selectedProductType: selectedProductType?._id,
                     cardInfo: {
-                      cardNo: cardInfo.cardNumber,
-                      cardPw: cardInfo.cardPassword,
+                      cardNo: cardInfo.cardNo,
+                      cardPw: cardInfo.cardPw,
                       expMonth: expObj.month,
                       expYear: expObj.year,
-                      idNo: cardInfo.idNumber
+                      idNo: cardInfo.idNo
                     },
                     createHouseInput: InitHouseData,
                     createRoomTypesInput: roomTypesData as any

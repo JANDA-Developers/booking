@@ -8,21 +8,14 @@ import { onCompletedMessage } from "../../../../../../utils/utils";
 import { LANG, IUseModal } from "../../../../../../hooks/hook";
 import Button from "../../../../../../atoms/button/Button";
 import client from "../../../../../../apollo/apolloClient";
-import {
-  ICardModalInfo,
-  ICardModalTarget
-} from "../../cardModal.tsx/CardModal";
 import { useMutation } from "@apollo/react-hooks";
+import { ICardModalInfo } from "../../../../../../components/cardModal/declare";
 
 interface Iprops {
   cardModalHook: IUseModal<ICardModalInfo>;
-  currentHouseInfo: ICardModalTarget;
 }
 
-const CreaditCardChangeBtn: React.FC<Iprops> = ({
-  cardModalHook,
-  currentHouseInfo
-}) => {
+const CreaditCardChangeBtn: React.FC<Iprops> = ({ cardModalHook }) => {
   // 카드 등록
   const [
     updateProductBillInfoMu,
@@ -48,19 +41,18 @@ const CreaditCardChangeBtn: React.FC<Iprops> = ({
       onClick={() => {
         // 1. 카드 등록이 안된경우
         // 2. 카드 등록은 했지만 결제등록이 안된경우
-        cardModalHook.openModal({
-          currentHouseInfo,
-          selectCallBack: biinInfo => {
-            updateProductBillInfoMu({
-              variables: {
-                param: {
-                  billKey: biinInfo.billKey,
-                  productIds: [currentHouseInfo.product!._id]
-                }
-              }
-            });
-          }
-        });
+        // cardModalHook.openModal({
+        //   selectCallBack: biinInfo => {
+        //     updateProductBillInfoMu({
+        //       variables: {
+        //         param: {
+        //           billKey: biinInfo.billKey,
+        //           productIds: [currentHouseInfo.product!._id]
+        //         }
+        //       }
+        //     });
+        //   }
+        // });
       }}
       label={LANG("creadit_card_change")}
     />

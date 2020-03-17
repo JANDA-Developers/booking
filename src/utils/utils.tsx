@@ -49,9 +49,11 @@ import jsonString from "./jsonString";
 import getGenderIcon from "./getGenderIcon";
 import isLast from "./isLast";
 import getRoomCountFromHouse from "./getRoomCountFromHouse";
+import { getFromUrl } from "./getFromUrl";
 
 const JDutils = {
   isTestProduct,
+  getFromUrl,
   ErrProtecter,
   isIncludeSpecialChar,
   targetBlink,
@@ -121,6 +123,7 @@ export {
   dayarrEnToBooleanArr,
   getGenderIcon,
   showError,
+  getFromUrl,
   smsMsgParser,
   isTestProduct,
   queryDataFormater,

@@ -1,9 +1,9 @@
 import React from "react";
 import { LANG } from "../../../../hooks/hook";
 import InputText from "../../../../atoms/forms/inputText/InputText";
-import { TCardRegistInfo } from "../../../../components/bilingModal/BillingModal";
 import Button from "../../../../atoms/button/Button";
-import { cardExpire } from "../../../../utils/autoFormat";
+import { cardExpire, cardExpToObj } from "../../../../utils/autoFormat";
+import { TCardRegistInfo } from "../../../../components/cardModal/declare";
 
 interface IProps {
   forHost?: boolean;
@@ -11,6 +11,17 @@ interface IProps {
   cardInfo: TCardRegistInfo;
   setCardInfo: React.Dispatch<React.SetStateAction<TCardRegistInfo>>;
 }
+
+const spliter = (str: string) => {
+  if (str) {
+    const frontTwo = str.slice(0, 2);
+    const beforeTwo = str.slice(2, 4);
+    if (beforeTwo) {
+      return frontTwo + "/" + beforeTwo;
+    }
+    return frontTwo;
+  }
+};
 
 const CardInfoForm: React.FC<IProps> = ({
   cardInfo,
@@ -22,7 +33,15 @@ const CardInfoForm: React.FC<IProps> = ({
     key: T,
     value: TCardRegistInfo[T]
   ) {
-    setCardInfo({ ...cardInfo, [key]: value });
+    if (key === "expMonth") {
+      const { month, year } = cardExpToObj(value);
+      cardInfo["expMonth"] = month;
+      cardInfo["expYear"] = year;
+      console.log(cardInfo);
+    } else {
+      cardInfo[key] = value;
+    }
+    setCardInfo({ ...cardInfo });
   }
 
   const classForWrap = column ? "flex-grid" : "";
@@ -36,9 +55,9 @@ const CardInfoForm: React.FC<IProps> = ({
             label={LANG("card_number")}
             id="CardModal__CardNumber"
             card
-            value={cardInfo["cardNumber"]}
+            value={cardInfo["cardNo"]}
             onChange={v => {
-              set("cardNumber", v);
+              set("cardNo", v);
             }}
             placeholder={"**** **** **** ****"}
           />
@@ -49,9 +68,9 @@ const CardInfoForm: React.FC<IProps> = ({
             id="CardModal__ExpireDate"
             placeholder="MM/YY"
             maxLength={5}
-            value={cardInfo.exp}
+            value={spliter(cardInfo.expMonth + cardInfo.expYear)}
             onChange={(v: any) => {
-              set("exp", cardExpire(v));
+              set("expMonth", cardExpire(v));
             }}
           />
         </div>
@@ -63,9 +82,9 @@ const CardInfoForm: React.FC<IProps> = ({
             id="CardModal__CardPW"
             placeholder="**XX"
             maxLength={2}
-            value={cardInfo.cardPassword}
+            value={cardInfo.cardPw}
             onChange={v => {
-              set("cardPassword", v);
+              set("cardPw", v);
             }}
             type="password"
           />
@@ -78,9 +97,9 @@ const CardInfoForm: React.FC<IProps> = ({
             placeholder={LANG("idnumber_6front")}
             id="CardModal__IdNum"
             type="password"
-            value={cardInfo.idNumber}
+            value={cardInfo.idNo}
             onChange={v => {
-              set("idNumber", v);
+              set("idNo", v);
             }}
           />
         </div>

@@ -10,6 +10,7 @@ import { GET_USER_INFO } from "../../apollo/queries";
 import Preloader from "../../atoms/preloader/Preloader";
 import "./BookingHostRouter.scss";
 import classnames from "classnames";
+import { openChannelTok } from "../../utils/channelTok";
 import {
   SelectProducts,
   DashBoard,
@@ -179,11 +180,11 @@ const JDbookingHost: React.FC<IProps> = ({
       Component: SmsInfo,
       condition: houseExists
     },
-    // {
-    //   path: "/homepageRequest",
-    //   Component: HomepageRequest,
-    //   condition: houseExists
-    // },
+    {
+      path: "/homepageRequest",
+      Component: HomepageRequest,
+      condition: houseExists
+    },
     {
       path: "/signUp",
       Component: SignUp,
@@ -314,6 +315,7 @@ const JDbookingHost: React.FC<IProps> = ({
         {/* 헤더 */}
         <Route
           render={props => {
+            openChannelTok();
             const propContext = Object.assign(tempContext, props, JDlang);
             return (
               <Fragment>

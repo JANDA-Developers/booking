@@ -16,6 +16,12 @@
   &--fullWidth {
     width: 100%;
   }
+
+  &--round {
+    .JDinput {
+      border-radius: $standard-round-border-radius;
+    }
+  }
 }
 
 //  😄 인풋라인에 아이콘 맞춰줌
@@ -56,6 +62,10 @@
   &__inside-wrap {
     position: relative;
     height: $input-height;
+  }
+
+  &--greyBg {
+    background-color: $grey-level1;
   }
 
   &--overfloweEllipsis {

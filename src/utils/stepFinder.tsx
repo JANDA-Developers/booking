@@ -1,6 +1,4 @@
 import { IContext } from "../pages/bookingHost/BookingHostRouter";
-import { HouseStatus } from "../types/enum";
-import { phoneVerification } from "../components/phoneVerificationModal/__test__/phoneVerification.test";
 
 export type IStepsStart =
   | "phoneVerification"

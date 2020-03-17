@@ -7,7 +7,9 @@ export const JDlangsSet = {
   en
 };
 
+// 언어 출력함수
 export const JDlang = (lang: TLanguageShort, key: string, key2?: string) => {
+
   // @ts-ignore
   if (!JDlangsSet[lang]) return "";
   // @ts-ignore

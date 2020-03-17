@@ -6,70 +6,79 @@ $card-radius: $standard-border-radius;
 $card-hover-bg: $grey-level1;
 
 .JDcard {
-    @include shadow($card-shadow);
-    position: relative;
-    padding: $card-padding;
-    text-align: left;
-    border-radius: $card-radius;
-    background-color: $card-bg;
+  @include shadow($card-shadow);
+  position: relative;
+  padding: $card-padding;
+  text-align: left;
+  border-radius: $card-radius;
+  background-color: $card-bg;
 
-    @include response($tablet) {
-        padding: $card-padding--md;
+  @include response($tablet) {
+    padding: $card-padding--md;
+  }
+
+  &__clearIcon {
+    position: absolute;
+    top: $standard-tiny-space;
+    right: $standard-tiny-space;
+    &:hover {
+      cursor: pointer;
+      color: $grey-level3;
+    }
+  }
+
+  &--align {
+    text-align: center;
+  }
+
+  &--fullWidth {
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  &--noMargin {
+    margin: 0;
+  }
+
+  // ⭐️ 이거 잘 키워서 좋게만들자
+  &--fullHeight {
+    box-sizing: border-box;
+    min-height: 100%;
+
+    &-wmd {
+      @include response($phablet) {
+        min-height: none;
+      }
+    }
+  }
+
+  &--selected {
+    border: 1px solid $primary-color;
+  }
+
+  &--hover:hover {
+    background-color: $card-hover-bg;
+    cursor: pointer;
+
+    .JDhelp {
+      color: $grey-level2;
     }
 
-    &--align {
-        text-align: center;
+    * {
+      cursor: inherit;
     }
+  }
 
-    &--fullWidth {
-        box-sizing:border-box;
-        width: 100%;
-    }
+  .JDbtn {
+    margin-bottom: 0;
+  }
 
-    &--noMargin {
-        margin: 0;
-    }
+  & > *:last-child {
+    margin-bottom: 0;
+  }
 
-    // ⭐️ 이거 잘 키워서 좋게만들자
-    &--fullHeight {
-        box-sizing: border-box;
-        min-height: 100%;
-
-        &-wmd {
-            @include response($phablet) {
-                min-height: none;
-            }
-        }
-    }
-
-    &--selected {
-        border: 1px solid $primary-color;    
-    }
-
-    &--hover:hover  {
-        background-color: $card-hover-bg;
-        cursor:pointer;
-
-        .JDhelp {
-            color: $grey-level2;
-        }
-
-        * {
-            cursor: inherit;
-        }
-    }
-
-    .JDbtn {
-        margin-bottom: 0;
-    }
-
-    & > *:last-child {
-        margin-bottom: 0;
-    }
-
-    // drragable 을 위해서
-    & > * {
-        cursor:auto;
-    }
-
+  // drragable 을 위해서
+  & > * {
+    cursor: auto;
+  }
 }

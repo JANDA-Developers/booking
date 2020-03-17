@@ -176,6 +176,7 @@ const ResvList: React.SFC<IProps> = ({
     {
       Header: LANG("accommodation_info"),
       accessor: "roomTypes",
+      className: "resvList__roomSelectWraps",
       Cell: ({ value, original }) => {
         const roomTypes: IRoomType[] = value;
         const selectInfoes = getRoomSelectInfo(original.guests, roomTypes);

@@ -131,6 +131,14 @@ a.JDanchor {
   align-items: center;
   justify-content: center;
 }
+.JDflex--grow {
+  & > div {
+    flex: 1 1;
+  }
+}
+.JDflex--end {
+  justify-content: flex-end;
+}
 
 .JDflex--between {
   display: flex;
@@ -178,8 +186,16 @@ a.JDanchor {
   text-align: right;
 }
 // size
-.JDlarge-text {
+.JDhuge-text {
   font-size: $typho-huge;
+}
+// size
+.JDlarge-text {
+  font-size: $typho-large;
+}
+
+.JDnormal-text {
+  font-size: $typho-normal;
 }
 
 .JDsmall-text {

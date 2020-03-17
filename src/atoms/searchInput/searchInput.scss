@@ -113,7 +113,7 @@
     z-index: $z-index-2;
     max-width: 100%;
     overflow-x: auto;
-    top: 100%;
+    top: calc(#{100%} + $typho-small);
 
     &--hide {
       opacity: 0;

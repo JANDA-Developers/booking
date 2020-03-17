@@ -23,7 +23,7 @@ class DocumentRouter extends Component {
           <title> Janda | Document </title>
           <meta HTTP-EQUIV="Imagetoolbar" content="no" />
           <meta name="Publisher" content="잔다/JANDA" />
-          <meta property="og:url" content="http://localhost:3000/#/" />
+          <meta property="og:url" content="http://localhost:8000/#/" />
           <meta property="og:title" content="잔다 숙박전문 솔루션" />
           <meta property="og:type" content="website" />
           <meta

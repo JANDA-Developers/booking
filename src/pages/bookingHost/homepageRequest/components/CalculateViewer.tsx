@@ -1,17 +1,20 @@
 import React from "react";
 import "./CalculateViewer.scss";
 import { arraySum } from "../../../../utils/elses";
-import { toNumber } from "../../../../utils/utils";
+import { toNumber, autoComma } from "../../../../utils/utils";
 import { LANG } from "../../../../hooks/hook";
+import Align from "../../../../atoms/align/Align";
+import JDtypho from "../../../../atoms/typho/Typho";
+import List from "../../../../atoms/searchInput/list";
 
 type SubProduct = {
   title: string;
-  price: string;
+  price: number;
 };
 
 type Product = {
   title: string;
-  price: string;
+  price: number;
   sub: SubProduct[];
 };
 
@@ -20,29 +23,65 @@ interface IProps {
 }
 
 const CalculateViewer: React.FC<IProps> = ({ products }) => {
-  const total = products.map(
-    p => toNumber(p.price) + arraySum(p.sub.map(subp => toNumber(subp.price)))
+  const total = arraySum(
+    products.map(
+      p => toNumber(p.price) + arraySum(p.sub.map(subp => toNumber(subp.price)))
+    )
   );
+
+  console.log("products");
+  console.log(products);
+
   return (
     <div className="calculateViewer">
       {products.map(p => (
         <div className="calculateViewer__history">
-          <h5 className="JDflex">
-            {p.title} <span>{p.price}</span>
-          </h5>
-          {p.sub.map(subp => (
-            <div className="JDflex">
-              <span>└{subp.title}</span>
-              <span>{subp.price}</span>
-            </div>
-          ))}
+          <div className="calculateViewer__historyInner">
+            <JDtypho weight={600} size="h5">
+              <Align
+                flex={{
+                  between: true
+                }}
+              >
+                <span>{p.title}</span> <span>{autoComma(p.price)}</span>
+              </Align>
+            </JDtypho>
+            {p.sub.map(subp => (
+              <Align mb="small" flex={{ between: true }}>
+                <div>└{subp.title}</div>
+                <div>
+                  {subp.price ? (
+                    <Align flex={{}}>
+                      <JDtypho mr="normal">+</JDtypho>
+                      {autoComma(subp.price)}
+                    </Align>
+                  ) : (
+                    LANG("free")
+                  )}
+                </div>
+              </Align>
+            ))}
+          </div>
         </div>
       ))}
-      <div className="calculateViewer__result">
-        <h3>
-          {LANG("total_price")} <span>{total}</span>
-        </h3>
-      </div>
+      <Align
+        flex={{
+          end: true
+        }}
+        className="calculateViewer__result"
+      >
+        <Align
+          flex={{
+            between: true
+          }}
+          className="calculateViewer__result-title"
+        >
+          <JDtypho size="h3">{LANG("sum_price")}</JDtypho>{" "}
+          <JDtypho size="h3">
+            {total === 0 ? LANG("free") : autoComma(total)}
+          </JDtypho>
+        </Align>
+      </Align>
     </div>
   );
 };

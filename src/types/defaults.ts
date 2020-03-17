@@ -1,4 +1,4 @@
-import { IuseImageUploaderOption, LANG } from "../hooks/hook";
+import { IuseImageUploaderOption, IUseModal } from "../hooks/hook";
 import {
   GB_booking,
   IHouseConfigFull,
@@ -13,7 +13,6 @@ import {
   PayMethod,
   PaymentStatus,
   BookingStatus,
-  LayoutType,
   TimePerMs,
   MemoType,
   UserRole,
@@ -24,7 +23,6 @@ import {
   getSmsInfo_GetSmsInfo_smsInfo_smsTemplates,
   getSmsInfo_GetSmsInfo_smsInfo,
   getSpecification_GetHouse_house_product,
-  getSpecification_GetHouse_house_product_appInfoRequested,
   getMyProfile_GetMyProfile_user_houses_houseConfig_assigTimeline_itemBlockOp,
   getAllRoomType_GetAllRoomType_roomTypes_rooms,
   getMemos_GetMemos_memos,
@@ -38,6 +36,9 @@ import {
   IAssigGroup,
   GuestTypeAdd
 } from "../pages/bookingHost/assig/components/assigIntrerface";
+import { TCardRegistInfo } from "../components/cardModal/declare";
+import { IContext } from "../pages/bookingHost/BookingHostRouter";
+export const ANY: any = {};
 
 export const DEFAULT_ROOMTYPE_ROOM: getAllRoomType_GetAllRoomType_roomTypes_rooms = {
   __typename: "Room",
@@ -143,14 +144,27 @@ export const DEFAULT_SMS_INFO: getSmsInfo_GetSmsInfo_smsInfo = {
   smsTemplates: null
 };
 
-export const DEFAULT_APP_INFO_REQUEST: getSpecification_GetHouse_house_product_appInfoRequested = {
-  __typename: "AppInfoRequest",
-  isDone: false,
-  layoutType: LayoutType.Layout_A,
-  requestedDate: "",
-  url: "",
-  useHostApp: false
-};
+export const FAKE_MODAL_HOOK: IUseModal = {
+  closeModal: () => { },
+  isOpen: true,
+  info: {},
+  openModal: () => { }
+}
+
+export const FAKE_CONTEXT: IContext = {
+  JDlang: ANY,
+  applyedProduct: ANY,
+  history: ANY,
+  house: ANY,
+  houseConfig: ANY,
+  houses: [],
+  isLogIn: true,
+  langHook: ANY,
+  location: ANY,
+  match: ANY,
+  sideNavIsOpen: ANY,
+  user: ANY,
+}
 
 // specification에서 사용
 export const DEFAULT_PRODUCT: getSpecification_GetHouse_house_product = {
@@ -164,21 +178,14 @@ export const DEFAULT_PRODUCT: getSpecification_GetHouse_house_product = {
   billKey: null,
   expireDate: new Date(),
   isExpired: false,
-  appliedUrl: "",
-  appInfoRequested: [],
   roomCount: 0,
   roomCountExtraCharge: 0,
   bookingCount: 0,
   bookingCountExtraCharge: 0,
-  canHaveHostApp: false,
   createdAt: "",
   description: "",
   discountedPrice: 0,
-  existingHostApp: false,
-  layoutPrice: null,
   daysLeftToExpire: 0,
-  layoutPricePaid: false,
-  layoutType: LayoutType.Layout_A,
   name: "",
   price: 0,
   productType: {
@@ -355,11 +362,12 @@ export const DEFAULT_PAYMENT_INFO: getMyProfile_GetMyProfile_user_paymentInfos =
   isLive: false
 };
 
-export const DEFAULT_CARD_INFO = {
-  cardNumber: "",
-  idNumber: "",
-  exp: "",
-  cardPassword: ""
+export const DEFAULT_CARD_INFO: TCardRegistInfo = {
+  cardNo: "",
+  cardPw: "",
+  expMonth: "",
+  expYear: "",
+  idNo: ""
 };
 
 export const DEFAULT_PAGE_INFO: JDpageInfo = {

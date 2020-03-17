@@ -260,11 +260,7 @@ const HMconfig: React.FC<IProps> = ({
             </Card>
           </div>
           {/* 미리보기 */}
-          <JDmodal
-            autoMinContentWidth
-            {...prevModalHook}
-            unWrap={!isPhabeltDown}
-          >
+          <JDmodal {...prevModalHook}>
             <div className="HMconfig__preview flex-grid__col col--md-12">
               <MockUp frame="JDmocUp">
                 <HMcomponent {...sharedProps} />

@@ -25,7 +25,7 @@ export enum SelectBoxSize {
 
 // Value === selectedOption
 // defaultValue 는 그 값이 바뀌어도 업데이트 되지않을것임
-interface Iprops extends SelectComponentsProps {
+export interface JDselectProps extends SelectComponentsProps {
   label?: string | JSX.Element;
   disabled?: boolean;
   selectedOption?: IselectedOption | null;
@@ -47,7 +47,7 @@ interface Iprops extends SelectComponentsProps {
   menuItemCenterlize?: boolean;
 }
 
-const JDselectTemp: React.SFC<Iprops & JDatomExtentionSet> = ({
+const JDselectTemp: React.SFC<JDselectProps & JDatomExtentionSet> = ({
   label,
   disabled,
   selectedOption,
